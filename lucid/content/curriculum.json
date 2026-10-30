@@ -1,0 +1,998 @@
+{
+ "version": 1,
+ "levels": [
+  {
+   "id": "PreA1",
+   "unit_en": "Foundations",
+   "unit_he": "יסודות",
+   "final_assessment": {
+    "task": "Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).",
+    "min_words": 25
+   },
+   "lessons": [
+    {
+     "id": "pa1-01",
+     "title_en": "The English alphabet",
+     "title_he": "האלפבית האנגלי",
+     "topics": [
+      "alphabet"
+     ],
+     "can_do": "I can say and recognise the 26 letters and spell my name.",
+     "cover": "Letter names vs sounds; capital and small letters (Hebrew has no capitals); spelling a name aloud; letters Hebrew speakers confuse (b/p/v, e/i, g/j, a/e/i names).",
+     "level": "PreA1",
+     "order": 1
+    },
+    {
+     "id": "pa1-02",
+     "title_en": "Letter sounds",
+     "title_he": "צלילי האותיות",
+     "topics": [
+      "phonics"
+     ],
+     "can_do": "I can read simple short words by their sounds.",
+     "cover": "Short vowels a e i o u in CVC words (cat, bed, sit, hot, cup); consonant sounds absent in Hebrew: th (think/this), w vs v; ship/sheep contrast; silent e (made, time).",
+     "level": "PreA1",
+     "order": 2
+    },
+    {
+     "id": "pa1-03",
+     "title_en": "Hello and goodbye",
+     "title_he": "שלום ולהתראות",
+     "topics": [
+      "greetings"
+     ],
+     "can_do": "I can greet people, say my name and say goodbye.",
+     "cover": "Hi/Hello/Good morning/afternoon/evening; Goodbye/Bye/See you; My name is...; Nice to meet you; How are you? I'm fine, thanks. And you?; Excuse me / Sorry / Thank you / Please.",
+     "level": "PreA1",
+     "order": 3
+    },
+    {
+     "id": "pa1-04",
+     "title_en": "Numbers 0-100",
+     "title_he": "מספרים 0-100",
+     "topics": [
+      "numbers"
+     ],
+     "can_do": "I can understand and say numbers, my age and my phone number.",
+     "cover": "0-20, tens, 21-100; thirteen vs thirty stress; How old are you? I'm 25 (not *I have 25 years / *I am 25 years); phone numbers digit by digit (\"oh\"/\"zero\").",
+     "level": "PreA1",
+     "order": 4
+    },
+    {
+     "id": "pa1-05",
+     "title_en": "I am, you are: the verb be",
+     "title_he": "הפועל be",
+     "topics": [
+      "pronouns-subject",
+      "be-present"
+     ],
+     "can_do": "I can make simple sentences with am, is and are.",
+     "cover": "I, you, he, she, it, we, they; am/is/are and contractions; copula is required (Hebrew omits it: *She teacher); it for things and animals.",
+     "level": "PreA1",
+     "order": 5
+    },
+    {
+     "id": "pa1-06",
+     "title_en": "Questions and negatives with be",
+     "title_he": "שאלות ושלילה עם be",
+     "topics": [
+      "be-negative-questions"
+     ],
+     "can_do": "I can ask and answer yes/no questions with be.",
+     "cover": "Are you...? Is he...? inversion; short answers Yes, I am / No, I'm not; negatives isn't / aren't; question intonation alone is not enough.",
+     "level": "PreA1",
+     "order": 6
+    },
+    {
+     "id": "pa1-07",
+     "title_en": "Colours and things around me",
+     "title_he": "צבעים וחפצים",
+     "topics": [
+      "colors-objects",
+      "articles-a-an",
+      "demonstratives"
+     ],
+     "can_do": "I can name everyday objects and their colours.",
+     "cover": "a vs an (sound-based: an apple, a university); this/that/these/those; colours; adjective before noun (a red car, not *a car red); What is this? It's a...",
+     "level": "PreA1",
+     "order": 7
+    },
+    {
+     "id": "pa1-08",
+     "title_en": "Days, months and time",
+     "title_he": "ימים, חודשים ושעה",
+     "topics": [
+      "time-dates"
+     ],
+     "can_do": "I can say the day, the date and the time.",
+     "cover": "Days and months with capital letters; ordinal numbers for dates; What time is it? It's seven o'clock / half past / quarter to; in/on/at preview kept light.",
+     "level": "PreA1",
+     "order": 8
+    },
+    {
+     "id": "pa1-09",
+     "title_en": "Where are you from?",
+     "title_he": "מאיפה אתה?",
+     "topics": [
+      "personal-info"
+     ],
+     "can_do": "I can talk about my country, nationality and job.",
+     "cover": "Countries and nationalities (Israel/Israeli, capital letters); I'm a student / an engineer (article with jobs!); Where are you from? What do you do?",
+     "level": "PreA1",
+     "order": 9
+    },
+    {
+     "id": "pa1-10",
+     "title_en": "My first sentences",
+     "title_he": "המשפטים הראשונים שלי",
+     "topics": [
+      "word-order-basic"
+     ],
+     "can_do": "I can introduce myself in simple sentences.",
+     "cover": "Subject-verb-object; I like..., I have..., I live in...; capital I; full stop; checkpoint: build a 5-sentence self-introduction.",
+     "final": true,
+     "level": "PreA1",
+     "order": 10
+    }
+   ]
+  },
+  {
+   "id": "A1",
+   "unit_en": "Everyday life",
+   "unit_he": "חיי היום-יום",
+   "final_assessment": {
+    "task": "Write a short introduction about yourself and your daily life (60-80 words).",
+    "min_words": 60
+   },
+   "lessons": [
+    {
+     "id": "a1-01",
+     "title_en": "Present simple: I, you, we, they",
+     "title_he": "הווה פשוט: I, you, we, they",
+     "topics": [
+      "present-simple"
+     ],
+     "can_do": "I can describe habits and facts.",
+     "cover": "Form and use for routines and facts; common verbs (live, work, study, like, eat, drink, go); time expressions every day, on Mondays.",
+     "level": "A1",
+     "order": 1
+    },
+    {
+     "id": "a1-02",
+     "title_en": "Present simple: he, she, it",
+     "title_he": "הווה פשוט: he, she, it",
+     "topics": [
+      "present-simple-third-person"
+     ],
+     "can_do": "I can talk about other people's routines.",
+     "cover": "-s/-es/-ies spelling; has, does, goes; pronunciation /s/ /z/ /ɪz/; the frequent omission of -s.",
+     "level": "A1",
+     "order": 2
+    },
+    {
+     "id": "a1-03",
+     "title_en": "Do you...? I don't...",
+     "title_he": "שאלות ושלילה בהווה פשוט",
+     "topics": [
+      "present-simple-questions-negatives"
+     ],
+     "can_do": "I can ask and answer questions about routines.",
+     "cover": "do/does + base verb; don't/doesn't; *Does she works; short answers; question intonation.",
+     "level": "A1",
+     "order": 3
+    },
+    {
+     "id": "a1-04",
+     "title_en": "My day",
+     "title_he": "היום שלי",
+     "topics": [
+      "adverbs-frequency",
+      "daily-life-vocab"
+     ],
+     "can_do": "I can describe my daily routine.",
+     "cover": "Routine verbs (wake up, get dressed, have breakfast, commute); always/usually/often/sometimes/never and their position (before main verb, after be).",
+     "level": "A1",
+     "order": 4
+    },
+    {
+     "id": "a1-05",
+     "title_en": "Family and possessives",
+     "title_he": "משפחה ושייכות",
+     "topics": [
+      "possessives"
+     ],
+     "can_do": "I can talk about my family.",
+     "cover": "Family words; my/your/his/her/our/their; 's (my brother's car); have got (UK) vs have.",
+     "level": "A1",
+     "order": 5
+    },
+    {
+     "id": "a1-06",
+     "title_en": "One and many: plurals",
+     "title_he": "יחיד ורבים",
+     "topics": [
+      "plurals"
+     ],
+     "can_do": "I can use singular and plural nouns correctly.",
+     "cover": "-s/-es/-ies; irregular (man/men, woman/women, child/children, person/people, foot/feet); people is plural.",
+     "level": "A1",
+     "order": 6
+    },
+    {
+     "id": "a1-07",
+     "title_en": "a, an, the",
+     "title_he": "a, an, the",
+     "topics": [
+      "articles"
+     ],
+     "can_do": "I can choose a, an, the or no article in simple sentences.",
+     "cover": "First mention a/an, known the; jobs take a/an; no article with general plurals and meals; *I am student; the in Hebrew = ה but a/an has no Hebrew word.",
+     "level": "A1",
+     "order": 7
+    },
+    {
+     "id": "a1-08",
+     "title_en": "Food and drink",
+     "title_he": "אוכל ושתייה",
+     "topics": [
+      "there-is-are",
+      "some-any",
+      "daily-life-vocab"
+     ],
+     "can_do": "I can talk about food and what is in my kitchen.",
+     "cover": "Food vocabulary; There is/There are (not *There is three apples / *Have bread); some in positives, any in questions/negatives; I'd like...",
+     "level": "A1",
+     "order": 8
+    },
+    {
+     "id": "a1-09",
+     "title_en": "Places in town",
+     "title_he": "מקומות בעיר",
+     "topics": [
+      "prepositions-place"
+     ],
+     "can_do": "I can say where places are.",
+     "cover": "Town vocabulary; in/on/at/next to/between/opposite/behind/in front of; Where is the bank? It's next to...",
+     "level": "A1",
+     "order": 9
+    },
+    {
+     "id": "a1-10",
+     "title_en": "In, on, at: time",
+     "title_he": "מילות יחס של זמן",
+     "topics": [
+      "prepositions-time"
+     ],
+     "can_do": "I can talk about when things happen.",
+     "cover": "at + clock times, at night, at the weekend (UK); on + days/dates; in + months/years/seasons/parts of day; no preposition with every/next/last.",
+     "level": "A1",
+     "order": 10
+    },
+    {
+     "id": "a1-11",
+     "title_en": "Describing people and things",
+     "title_he": "תיאור אנשים ודברים",
+     "topics": [
+      "adjectives-basic"
+     ],
+     "can_do": "I can describe people, places and things.",
+     "cover": "Common adjectives and opposites; adjective before noun; adjectives don't take plural -s (*greens apples); very/really/quite.",
+     "level": "A1",
+     "order": 11
+    },
+    {
+     "id": "a1-12",
+     "title_en": "Can and can't",
+     "title_he": "can ו-can't",
+     "topics": [
+      "modal-can"
+     ],
+     "can_do": "I can talk about abilities and make simple requests.",
+     "cover": "can + base verb (no to, no -s); can't pronunciation (US/UK); Can you help me? Can I have...? polite requests.",
+     "level": "A1",
+     "order": 12
+    },
+    {
+     "id": "a1-13",
+     "title_en": "Questions, questions",
+     "title_he": "מילות שאלה",
+     "topics": [
+      "wh-questions"
+     ],
+     "can_do": "I can ask for information with question words.",
+     "cover": "what, where, when, who, why, how, how much/many, which, whose; word order wh + do/does + subject + verb; subject questions (Who lives here?).",
+     "level": "A1",
+     "order": 13
+    },
+    {
+     "id": "a1-14",
+     "title_en": "Reading short messages",
+     "title_he": "קריאת הודעות קצרות",
+     "topics": [
+      "pronouns-object"
+     ],
+     "can_do": "I can understand short emails and messages.",
+     "cover": "Object pronouns me/you/him/her/it/us/them; short authentic-style texts (email, text message, notice); scanning for information.",
+     "level": "A1",
+     "order": 14
+    },
+    {
+     "id": "a1-15",
+     "title_en": "Writing about me",
+     "title_he": "כותבים על עצמי",
+     "topics": [
+      "connectors-basic",
+      "sentence-basics"
+     ],
+     "can_do": "I can write a short text about myself and my daily life.",
+     "cover": "and/but/because/so; capital letters and full stops; avoiding run-ons; planning 3 mini-paragraphs; final assessment task.",
+     "final": true,
+     "level": "A1",
+     "order": 15
+    }
+   ]
+  },
+  {
+   "id": "A2",
+   "unit_en": "Experiences and plans",
+   "unit_he": "חוויות ותוכניות",
+   "final_assessment": {
+    "task": "Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.",
+    "min_words": 100
+   },
+   "lessons": [
+    {
+     "id": "a2-01",
+     "title_en": "What are you doing?",
+     "title_he": "מה אתה עושה עכשיו?",
+     "topics": [
+      "present-continuous"
+     ],
+     "can_do": "I can describe what is happening now.",
+     "cover": "am/is/are + -ing; spelling (making, running, lying); now, at the moment, today; questions and negatives.",
+     "level": "A2",
+     "order": 1
+    },
+    {
+     "id": "a2-02",
+     "title_en": "Usually vs right now",
+     "title_he": "בדרך כלל מול עכשיו",
+     "topics": [
+      "present-simple-vs-continuous"
+     ],
+     "can_do": "I can choose between present simple and continuous.",
+     "cover": "Habit vs now; temporary situations; stative verbs (like, want, know, need, believe) not usually in -ing; Hebrew has one present tense.",
+     "level": "A2",
+     "order": 2
+    },
+    {
+     "id": "a2-03",
+     "title_en": "Was and were",
+     "title_he": "was ו-were",
+     "topics": [
+      "past-be"
+     ],
+     "can_do": "I can talk about where I was and how things were.",
+     "cover": "was/were, wasn't/weren't; Where were you yesterday?; born: I was born in...; there was/there were.",
+     "level": "A2",
+     "order": 3
+    },
+    {
+     "id": "a2-04",
+     "title_en": "Past simple: regular verbs",
+     "title_he": "עבר פשוט: פעלים רגילים",
+     "topics": [
+      "past-simple-regular"
+     ],
+     "can_do": "I can talk about finished past actions.",
+     "cover": "-ed spelling; pronunciation /t/ /d/ /ɪd/; time expressions yesterday, last week, two days ago.",
+     "level": "A2",
+     "order": 4
+    },
+    {
+     "id": "a2-05",
+     "title_en": "Past simple: irregular verbs",
+     "title_he": "עבר פשוט: פעלים חריגים",
+     "topics": [
+      "past-simple-irregular"
+     ],
+     "can_do": "I can use the most common irregular past forms.",
+     "cover": "Top ~40 irregular verbs grouped by pattern (go/went, see/saw, buy/bought, take/took...); mnemonic groups; *goed.",
+     "level": "A2",
+     "order": 5
+    },
+    {
+     "id": "a2-06",
+     "title_en": "Did you...?",
+     "title_he": "שאלות ושלילה בעבר",
+     "topics": [
+      "past-simple-questions"
+     ],
+     "can_do": "I can ask and answer questions about the past.",
+     "cover": "did + base verb (*Did you went); didn't; Wh + did; short answers; telling what happened.",
+     "level": "A2",
+     "order": 6
+    },
+    {
+     "id": "a2-07",
+     "title_en": "Going to and will",
+     "title_he": "going to ו-will",
+     "topics": [
+      "future-going-to-will"
+     ],
+     "can_do": "I can talk about plans, predictions and offers.",
+     "cover": "going to for plans/evidence; will for decisions now, offers, promises, predictions; 'll; won't.",
+     "level": "A2",
+     "order": 7
+    },
+    {
+     "id": "a2-08",
+     "title_en": "Plans and arrangements",
+     "title_he": "תוכניות וסידורים",
+     "topics": [
+      "future-arrangements"
+     ],
+     "can_do": "I can talk about my arrangements and make plans.",
+     "cover": "Present continuous for fixed arrangements (I'm meeting Dana at 6); diary language; asking about plans.",
+     "level": "A2",
+     "order": 8
+    },
+    {
+     "id": "a2-09",
+     "title_en": "Bigger, better, more interesting",
+     "title_he": "השוואות",
+     "topics": [
+      "comparatives"
+     ],
+     "can_do": "I can compare people, places and things.",
+     "cover": "-er/more; irregular better/worse/further; than; (not) as...as; *more bigger; much/a bit + comparative.",
+     "level": "A2",
+     "order": 9
+    },
+    {
+     "id": "a2-10",
+     "title_en": "The best and the worst",
+     "title_he": "הכי",
+     "topics": [
+      "superlatives"
+     ],
+     "can_do": "I can talk about extremes.",
+     "cover": "the -est/the most; irregular best/worst; in/of after superlatives; ever with present perfect preview (the best film I've ever seen) as a chunk.",
+     "level": "A2",
+     "order": 10
+    },
+    {
+     "id": "a2-11",
+     "title_en": "How much? How many?",
+     "title_he": "כמה?",
+     "topics": [
+      "countable-uncountable",
+      "quantifiers"
+     ],
+     "can_do": "I can talk about quantities.",
+     "cover": "Countable vs uncountable (information, advice, money, furniture, news); much/many/a lot of/a few/a little/some/any; How much/How many.",
+     "level": "A2",
+     "order": 11
+    },
+    {
+     "id": "a2-12",
+     "title_en": "Must, have to, should",
+     "title_he": "חובה ועצה",
+     "topics": [
+      "modals-obligation-advice"
+     ],
+     "can_do": "I can talk about rules, obligations and give advice.",
+     "cover": "must vs have to; don't have to vs mustn't (critical contrast); should/shouldn't for advice; base verb after modals.",
+     "level": "A2",
+     "order": 12
+    },
+    {
+     "id": "a2-13",
+     "title_en": "Common phrasal verbs",
+     "title_he": "פעלים מורכבים",
+     "topics": [
+      "phrasal-verbs-basic"
+     ],
+     "can_do": "I can understand and use common phrasal verbs.",
+     "cover": "~20 high-frequency phrasal verbs (get up, look for, turn on/off, give up, find out, pick up, put on, take off...); separable vs not, kept simple.",
+     "level": "A2",
+     "order": 13
+    },
+    {
+     "id": "a2-14",
+     "title_en": "Let's...: suggestions and invitations",
+     "title_he": "הצעות והזמנות",
+     "topics": [
+      "functional-suggestions"
+     ],
+     "can_do": "I can make, accept and decline suggestions and invitations.",
+     "cover": "Let's / Why don't we / How about + -ing / Would you like to...?; accepting/declining politely; giving reasons.",
+     "level": "A2",
+     "order": 14
+    },
+    {
+     "id": "a2-15",
+     "title_en": "Telling a story",
+     "title_he": "מספרים סיפור",
+     "topics": [
+      "connectors-sequence",
+      "paragraph-basics"
+     ],
+     "can_do": "I can write a short story about a personal experience.",
+     "cover": "first, then, after that, finally, when; topic sentence; past tense consistency; final assessment task.",
+     "final": true,
+     "level": "A2",
+     "order": 15
+    }
+   ]
+  },
+  {
+   "id": "B1",
+   "unit_en": "Opinions and reasons",
+   "unit_he": "דעות ונימוקים",
+   "final_assessment": {
+    "task": "Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.",
+    "min_words": 250
+   },
+   "lessons": [
+    {
+     "id": "b1-01",
+     "title_en": "Have you ever...?",
+     "title_he": "Have you ever...?",
+     "topics": [
+      "present-perfect"
+     ],
+     "can_do": "I can talk about life experiences.",
+     "cover": "have/has + past participle; ever/never; been vs gone; past participles of common irregulars; Hebrew has no equivalent tense.",
+     "level": "B1",
+     "order": 1
+    },
+    {
+     "id": "b1-02",
+     "title_en": "Present perfect or past simple?",
+     "title_he": "Present perfect או עבר פשוט?",
+     "topics": [
+      "present-perfect-vs-past"
+     ],
+     "can_do": "I can choose correctly between present perfect and past simple.",
+     "cover": "Finished time = past simple (*I have seen him yesterday); unfinished time; for vs since; just/already/yet; How long have you...?",
+     "level": "B1",
+     "order": 2
+    },
+    {
+     "id": "b1-03",
+     "title_en": "While it was raining",
+     "title_he": "עבר מתמשך",
+     "topics": [
+      "past-continuous"
+     ],
+     "can_do": "I can tell stories with background and events.",
+     "cover": "was/were + -ing; when vs while; interrupted actions; setting a scene.",
+     "level": "B1",
+     "order": 3
+    },
+    {
+     "id": "b1-04",
+     "title_en": "If it rains...",
+     "title_he": "אם יירד גשם...",
+     "topics": [
+      "conditionals-0-1"
+     ],
+     "can_do": "I can talk about real possibilities and consequences.",
+     "cover": "Zero conditional for facts; first conditional (if + present, will); *If it will rain; unless, as soon as, when.",
+     "level": "B1",
+     "order": 4
+    },
+    {
+     "id": "b1-05",
+     "title_en": "If I had a million dollars",
+     "title_he": "אילו היה לי",
+     "topics": [
+      "conditionals-2"
+     ],
+     "can_do": "I can talk about imaginary situations.",
+     "cover": "if + past simple, would + base; If I were you (advice); first vs second conditional meaning.",
+     "level": "B1",
+     "order": 5
+    },
+    {
+     "id": "b1-06",
+     "title_en": "It was made in...: the passive",
+     "title_he": "סביל",
+     "topics": [
+      "passive-intro"
+     ],
+     "can_do": "I can describe processes and facts using the passive.",
+     "cover": "be + past participle (present/past); by-agent when needed; when to use passive; *It was build.",
+     "level": "B1",
+     "order": 6
+    },
+    {
+     "id": "b1-07",
+     "title_en": "She said that...",
+     "title_he": "דיבור עקיף",
+     "topics": [
+      "reported-speech-intro"
+     ],
+     "can_do": "I can report what people said.",
+     "cover": "said vs told (told + person); backshift basics; pronoun and time changes (today -> that day); say/tell patterns.",
+     "level": "B1",
+     "order": 7
+    },
+    {
+     "id": "b1-08",
+     "title_en": "The person who...",
+     "title_he": "משפטי זיקה",
+     "topics": [
+      "relative-clauses"
+     ],
+     "can_do": "I can join ideas with relative clauses.",
+     "cover": "who/which/that/where/whose; defining clauses; no resumptive pronoun (*the book that I read it — Hebrew transfer); omitting object relative pronoun.",
+     "level": "B1",
+     "order": 8
+    },
+    {
+     "id": "b1-09",
+     "title_en": "Enjoy doing, want to do",
+     "title_he": "enjoy doing / want to do",
+     "topics": [
+      "gerund-infinitive"
+     ],
+     "can_do": "I can use the correct verb pattern after common verbs.",
+     "cover": "verb + -ing (enjoy, finish, mind, avoid, suggest); verb + to (want, decide, hope, plan, need); after prepositions -ing; like/love/hate both.",
+     "level": "B1",
+     "order": 9
+    },
+    {
+     "id": "b1-10",
+     "title_en": "In my opinion",
+     "title_he": "לדעתי",
+     "topics": [
+      "opinion-language"
+     ],
+     "can_do": "I can give my opinion and support it with reasons.",
+     "cover": "I believe / In my view / It seems to me; because/since/as/therefore/so; giving examples (for example, such as); agreeing and disagreeing politely.",
+     "level": "B1",
+     "order": 10
+    },
+    {
+     "id": "b1-11",
+     "title_en": "Pros and cons",
+     "title_he": "יתרונות וחסרונות",
+     "topics": [
+      "connectors-contrast"
+     ],
+     "can_do": "I can discuss advantages and disadvantages.",
+     "cover": "however/although/but/on the other hand/whereas/despite (preview); punctuation with however; balanced paragraphs.",
+     "level": "B1",
+     "order": 11
+    },
+    {
+     "id": "b1-12",
+     "title_en": "Writing an opinion essay",
+     "title_he": "כתיבת חיבור דעה",
+     "topics": [
+      "essay-structure-basic"
+     ],
+     "can_do": "I can write a structured opinion essay.",
+     "cover": "Read a short article; introduction with clear opinion; body paragraphs (topic sentence, reason, example); conclusion; final assessment.",
+     "final": true,
+     "level": "B1",
+     "order": 12
+    }
+   ]
+  },
+  {
+   "id": "B2",
+   "unit_en": "Arguments and nuance",
+   "unit_he": "טיעונים ודקויות",
+   "final_assessment": {
+    "task": "Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.",
+    "min_words": 450
+   },
+   "lessons": [
+    {
+     "id": "b2-01",
+     "title_en": "Narrative tenses and the past perfect",
+     "title_he": "זמני סיפור ו-past perfect",
+     "topics": [
+      "past-perfect"
+     ],
+     "can_do": "I can sequence past events precisely in a narrative.",
+     "cover": "past perfect simple and continuous; by the time, before, after, already; narrative tense control.",
+     "level": "B2",
+     "order": 1
+    },
+    {
+     "id": "b2-02",
+     "title_en": "If I had known: third and mixed conditionals",
+     "title_he": "תנאי שלישי ומעורב",
+     "topics": [
+      "conditionals-3-mixed"
+     ],
+     "can_do": "I can speculate about the past and its consequences.",
+     "cover": "If + past perfect, would have + pp; mixed conditionals; I wish / If only; regrets and criticism.",
+     "level": "B2",
+     "order": 2
+    },
+    {
+     "id": "b2-03",
+     "title_en": "It is said that...: advanced passive",
+     "title_he": "סביל מתקדם",
+     "topics": [
+      "passive-advanced"
+     ],
+     "can_do": "I can use passive forms for formal and impersonal writing.",
+     "cover": "passive with modals (should be done), continuous/perfect passive, have/get something done, It is believed/said that..., He is thought to...",
+     "level": "B2",
+     "order": 3
+    },
+    {
+     "id": "b2-04",
+     "title_en": "He denied taking it: reporting",
+     "title_he": "פעלי דיווח",
+     "topics": [
+      "reported-speech-advanced"
+     ],
+     "can_do": "I can report questions, commands and attitudes accurately.",
+     "cover": "Reported questions (word order!), commands (told me to), reporting verbs with patterns (suggest -ing / that, deny -ing, admit, warn, refuse to, accuse of).",
+     "level": "B2",
+     "order": 4
+    },
+    {
+     "id": "b2-05",
+     "title_en": "Furthermore, nevertheless, whereas",
+     "title_he": "לכידות",
+     "topics": [
+      "cohesion-devices"
+     ],
+     "can_do": "I can link ideas clearly across sentences and paragraphs.",
+     "cover": "Addition, contrast, concession, cause, result connectors; referencing (this, such, the former/latter); avoiding connector overuse; punctuation.",
+     "level": "B2",
+     "order": 5
+    },
+    {
+     "id": "b2-06",
+     "title_en": "Words that go together",
+     "title_he": "צירופי מילים",
+     "topics": [
+      "collocations"
+     ],
+     "can_do": "I can use natural word combinations.",
+     "cover": "make/do/take/have collocations; adjective+noun (heavy rain, strong coffee); verb+noun (raise a question, reach a decision); Hebrew literal-translation traps.",
+     "level": "B2",
+     "order": 6
+    },
+    {
+     "id": "b2-07",
+     "title_en": "Idioms in context",
+     "title_he": "ניבים בהקשר",
+     "topics": [
+      "idioms"
+     ],
+     "can_do": "I can understand and appropriately use common idioms.",
+     "cover": "~15 high-utility idioms with register notes (a piece of cake, on the fence, the bottom line...); when idioms are inappropriate (academic writing).",
+     "level": "B2",
+     "order": 7
+    },
+    {
+     "id": "b2-08",
+     "title_en": "Formal or informal?",
+     "title_he": "רשמי או לא רשמי?",
+     "topics": [
+      "register"
+     ],
+     "can_do": "I can adapt my language to formal and informal situations.",
+     "cover": "Contractions, phrasal verbs vs Latinate verbs, hedged requests; formal email vs message; rewriting between registers.",
+     "level": "B2",
+     "order": 8
+    },
+    {
+     "id": "b2-09",
+     "title_en": "Reading critically",
+     "title_he": "קריאה ביקורתית",
+     "topics": [
+      "critical-reading"
+     ],
+     "can_do": "I can distinguish fact from opinion and recognise bias.",
+     "cover": "Fact vs opinion; loaded language; selective evidence; comparing two viewpoints on one issue; author purpose.",
+     "level": "B2",
+     "order": 9
+    },
+    {
+     "id": "b2-10",
+     "title_en": "Building an argument",
+     "title_he": "בניית טיעון",
+     "topics": [
+      "argument-structure"
+     ],
+     "can_do": "I can build an argumentative essay with thesis, evidence, counterargument and rebuttal.",
+     "cover": "Thesis statement; PEEL/claim-evidence-reasoning paragraphs; fair counterargument; logical rebuttal; strong conclusion; final assessment.",
+     "final": true,
+     "level": "B2",
+     "order": 10
+    }
+   ]
+  },
+  {
+   "id": "C1",
+   "unit_en": "Academic argument",
+   "unit_he": "טיעון אקדמי",
+   "final_assessment": {
+    "task": "Write an 800-1,000-word analytical argumentative essay.",
+    "min_words": 750
+   },
+   "lessons": [
+    {
+     "id": "c1-01",
+     "title_en": "Academic vocabulary and nominalisation",
+     "title_he": "אוצר מילים אקדמי ונומינליזציה",
+     "topics": [
+      "nominalisation"
+     ],
+     "can_do": "I can use academic vocabulary and nominalisation to write concisely and formally.",
+     "cover": "Academic word families (analyse/analysis/analytical); turning verbs into nouns (decide -> the decision to); avoiding over-nominalisation.",
+     "level": "C1",
+     "order": 1
+    },
+    {
+     "id": "c1-02",
+     "title_en": "Sophisticated sentence structures",
+     "title_he": "מבנים תחביריים מתקדמים",
+     "topics": [
+      "inversion-cleft"
+     ],
+     "can_do": "I can use inversion, cleft sentences and participle clauses for emphasis and flow.",
+     "cover": "Not only... but also, Rarely/Seldom/Only then inversion; It is X that..., What... is...; participle clauses (Having considered...); dangling participles.",
+     "level": "C1",
+     "order": 2
+    },
+    {
+     "id": "c1-03",
+     "title_en": "Hedging and stance",
+     "title_he": "הסתייגות ועמדה",
+     "topics": [
+      "hedging"
+     ],
+     "can_do": "I can express degrees of certainty and my stance precisely.",
+     "cover": "may/might/could, tends to, appears to, arguably, to some extent; boosters (clearly, undeniably) and their risks; over-hedging.",
+     "level": "C1",
+     "order": 3
+    },
+    {
+     "id": "c1-04",
+     "title_en": "A thesis worth arguing",
+     "title_he": "תזה ששווה להתווכח איתה",
+     "topics": [
+      "thesis-advanced"
+     ],
+     "can_do": "I can write a sophisticated, arguable thesis and structure a complex argument.",
+     "cover": "Descriptive vs analytical thesis; qualified claims; thesis that previews structure; outlining complex arguments; paragraph-level logic.",
+     "level": "C1",
+     "order": 4
+    },
+    {
+     "id": "c1-05",
+     "title_en": "Evaluating evidence and sources",
+     "title_he": "הערכת ראיות ומקורות",
+     "topics": [
+      "source-evaluation"
+     ],
+     "can_do": "I can judge how reliable and relevant evidence is.",
+     "cover": "Types of evidence; correlation vs causation; sample size; lateral reading/SIFT; integrating evidence with reasoning (not just dropping quotes).",
+     "level": "C1",
+     "order": 5
+    },
+    {
+     "id": "c1-06",
+     "title_en": "Logical fallacies",
+     "title_he": "כשלים לוגיים",
+     "topics": [
+      "fallacies"
+     ],
+     "can_do": "I can identify fallacies and weaknesses in arguments, including my own.",
+     "cover": "Straw man, ad hominem, false dilemma, slippery slope, hasty generalisation, appeal to authority/popularity, post hoc; repairing a flawed argument.",
+     "level": "C1",
+     "order": 6
+    },
+    {
+     "id": "c1-07",
+     "title_en": "Rhetoric and persuasion",
+     "title_he": "רטוריקה ושכנוע",
+     "topics": [
+      "rhetoric"
+     ],
+     "can_do": "I can use rhetorical techniques deliberately and ethically.",
+     "cover": "Ethos/pathos/logos; tricolon, antithesis, rhetorical questions, concession; tone control; persuasion vs manipulation.",
+     "level": "C1",
+     "order": 7
+    },
+    {
+     "id": "c1-08",
+     "title_en": "Concise, precise, edited",
+     "title_he": "תמציתי, מדויק וערוך",
+     "topics": [
+      "concision-editing"
+     ],
+     "can_do": "I can edit my writing for concision, precision, cohesion and coherence.",
+     "cover": "Cutting redundancy; precise verbs; paragraph unity; given-new information flow; proofreading checklist; final assessment.",
+     "final": true,
+     "level": "C1",
+     "order": 8
+    }
+   ]
+  },
+  {
+   "id": "C2",
+   "unit_en": "Mastery",
+   "unit_he": "שליטה",
+   "final_assessment": {
+    "task": "Produce a 1,500-2,000-word research-based argumentative paper.",
+    "min_words": 1400
+   },
+   "lessons": [
+    {
+     "id": "c2-01",
+     "title_en": "Style and connotation",
+     "title_he": "סגנון וקונוטציה",
+     "topics": [
+      "style-nuance"
+     ],
+     "can_do": "I can make deliberate stylistic choices and control connotation.",
+     "cover": "Near-synonyms with different connotations (frugal/stingy, assertive/aggressive); register shifts for effect; sentence rhythm; voice.",
+     "level": "C2",
+     "order": 1
+    },
+    {
+     "id": "c2-02",
+     "title_en": "Irony and implicature",
+     "title_he": "אירוניה ומשמעות מרומזת",
+     "topics": [
+      "irony-implicature"
+     ],
+     "can_do": "I can recognise and use irony, understatement and implied meaning.",
+     "cover": "Verbal irony, understatement, litotes, implicature; reading between the lines in editorials and essays; risks of irony in academic writing.",
+     "level": "C2",
+     "order": 2
+    },
+    {
+     "id": "c2-03",
+     "title_en": "Synthesising sources",
+     "title_he": "סינתזה של מקורות",
+     "topics": [
+      "synthesis-citation"
+     ],
+     "can_do": "I can synthesise multiple sources into my own argument and cite them properly.",
+     "cover": "Summary vs synthesis; source matrix; integrating quotes/paraphrase; reporting verbs nuance (claims, contends, concedes); citation basics (APA/MLA style awareness); avoiding plagiarism.",
+     "level": "C2",
+     "order": 3
+    },
+    {
+     "id": "c2-04",
+     "title_en": "Argument architecture",
+     "title_he": "ארכיטקטורת טיעון",
+     "topics": [
+      "argument-architecture"
+     ],
+     "can_do": "I can construct and dismantle complex, qualified arguments.",
+     "cover": "Qualified theses; concession-rebuttal chains; steelmanning; anticipating objections; Toulmin warrants and qualifiers.",
+     "level": "C2",
+     "order": 4
+    },
+    {
+     "id": "c2-05",
+     "title_en": "Research-based writing",
+     "title_he": "כתיבה מבוססת מחקר",
+     "topics": [
+      "research-writing"
+     ],
+     "can_do": "I can plan, draft and edit an independent research-based paper.",
+     "cover": "Research question; scope; structure of a research paper; advanced editing passes (argument, paragraph, sentence, word); final assessment.",
+     "final": true,
+     "level": "C2",
+     "order": 5
+    }
+   ]
+  }
+ ]
+}

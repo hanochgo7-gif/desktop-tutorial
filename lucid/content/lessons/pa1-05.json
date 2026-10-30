@@ -1,0 +1,193 @@
+{
+  "id": "pa1-05",
+  "level": "PreA1",
+  "title_en": "I am, you are: the verb be",
+  "title_he": "הפועל be",
+  "topics": ["pronouns-subject", "be-present"],
+  "minutes": 15,
+  "objectives": [
+    { "en": "I can use I, you, he, she, it, we and they.", "he": "אני יודע/ת להשתמש ב-I, you, he, she, it, we, they." },
+    { "en": "I can make simple sentences with am, is and are.", "he": "אני יודע/ת לבנות משפטים פשוטים עם am, is, are." }
+  ],
+  "warmup": { "en": "How do you say 'I am a student' in Hebrew? Count the words.", "he": "איך אומרים 'I am a student' בעברית? ספרו את המילים: 'אני סטודנט' – שתי מילים בלבד. באנגלית יש ארבע. היום נבין למה." },
+  "explanation": [
+    { "type": "p", "en": "English sentences in the present need a verb. When there is no other verb, we use be: am, is or are.", "he": "בעברית אומרים 'אני סטודנט' בלי פועל. באנגלית משפט בהווה חייב פועל, ולכן כשאין פועל אחר משתמשים ב-be, שמופיע בשלוש צורות: am, is, are." },
+    { "type": "table", "headers": ["Pronoun", "be", "Short form", "עברית"], "rows": [
+      ["I", "am", "I'm", "אני"],
+      ["you", "are", "you're", "אתה / את / אתם / אתן"],
+      ["he", "is", "he's", "הוא"],
+      ["she", "is", "she's", "היא"],
+      ["it", "is", "it's", "זה / זו (חפץ או בעל חיים)"],
+      ["we", "are", "we're", "אנחנו"],
+      ["they", "are", "they're", "הם / הן"]
+    ] },
+    { "type": "rule", "en": "I → am. He, she, it (and one person or thing) → is. You, we, they (and two or more) → are.", "he": "I תמיד עם am. אדם או דבר אחד (he, she, it, Dana, my car) עם is. you, we, they ושניים או יותר (Dana and Tom) עם are." },
+    { "type": "warning", "en": "Do not drop the verb: She is a teacher, not 'She teacher'.", "he": "הטעות הנפוצה ביותר של דוברי עברית: להשמיט את הפועל. 'She teacher' שגוי – צריך She is a teacher." },
+    { "type": "tip", "en": "In speaking we usually use the short forms: I'm, you're, she's. In formal writing, use the full forms.", "he": "בדיבור משתמשים בדרך כלל בצורות המקוצרות: I'm, you're, she's. בכתיבה רשמית עדיף את הצורה המלאה." },
+    { "type": "p", "en": "'You' is the same for one person or many people, man or woman.", "he": "ל-you יש צורה אחת: אתה, את, אתם ואתן – כולם you are." }
+  ],
+  "examples": [
+    { "en": "I am Noa.", "he": "אני נועה." },
+    { "en": "You are my friend.", "he": "את/ה חבר/ה שלי." },
+    { "en": "He is a doctor.", "he": "הוא רופא.", "note": "a before a job" },
+    { "en": "It is cold today.", "he": "קר היום.", "note": "English needs 'it' here" },
+    { "en": "We are from Haifa.", "he": "אנחנו מחיפה." },
+    { "en": "They're students.", "he": "הם סטודנטים." },
+    { "en": "My phone is new.", "he": "הטלפון שלי חדש." }
+  ],
+  "vocab": [
+    { "word": "student", "pos": "noun", "he": "סטודנט/ית, תלמיד/ה", "def": "a person who studies", "example": "I am a student.", "ipa": "/ˈstjuːdnt/", "level": "PreA1" },
+    { "word": "teacher", "pos": "noun", "he": "מורה", "def": "a person who teaches", "example": "She is a teacher.", "ipa": "/ˈtiːtʃə(r)/", "level": "PreA1" },
+    { "word": "doctor", "pos": "noun", "he": "רופא/ה", "def": "a person who helps sick people", "example": "He is a doctor.", "ipa": "/ˈdɒktə(r)/", "level": "PreA1" },
+    { "word": "friend", "pos": "noun", "he": "חבר/ה", "def": "a person you like and know well", "example": "You are my friend.", "ipa": "/frend/", "collocations": ["best friend", "good friend"], "level": "PreA1" },
+    { "word": "happy", "pos": "adjective", "he": "שמח/ה", "def": "feeling good", "example": "We are happy.", "ipa": "/ˈhæpi/", "level": "PreA1" },
+    { "word": "tired", "pos": "adjective", "he": "עייף/ה", "def": "needing rest or sleep", "example": "I'm tired.", "ipa": "/ˈtaɪəd/", "level": "PreA1" },
+    { "word": "new", "pos": "adjective", "he": "חדש/ה", "def": "not old; recently made or bought", "example": "My phone is new.", "ipa": "/njuː/", "level": "PreA1" },
+    { "word": "cold", "pos": "adjective", "he": "קר/ה", "def": "having a low temperature", "example": "It is cold today.", "ipa": "/kəʊld/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "Hebrew has no present-tense 'be', so learners drop it: *She teacher.", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט אותו. באנגלית: She is a teacher.", "error_type": "copula-omission" },
+    { "en": "English needs a subject: *Is cold → It is cold.", "he": "באנגלית חייב להיות נושא במשפט: לא 'Is cold' אלא It is cold.", "error_type": "pronoun" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "pronouns-subject",
+      "prompt": { "en": "Match each English pronoun with its Hebrew meaning.", "he": "התאימו כל כינוי גוף באנגלית למשמעות בעברית." },
+      "pairs": [["I", "אני"], ["he", "הוא"], ["she", "היא"], ["we", "אנחנו"], ["they", "הם / הן"], ["you", "אתה / את / אתם"]],
+      "explanation": { "en": "'You' covers one person or many, male or female.", "he": "you משמש לכל הצורות: אתה, את, אתם ואתן." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "She ___ a teacher.",
+      "options": ["am", "is", "are"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "'am' goes only with I.", "he": "am בא רק עם I." },
+        "2": { "en": "'are' goes with you, we and they. She is one person.", "he": "are בא עם you, we, they. she היא אדם אחד, ולכן is." }
+      },
+      "option_errors": { "0": "agreement", "2": "agreement" },
+      "explanation": { "en": "He, she and it take is.", "he": "עם he, she, it משתמשים ב-is." }
+    },
+    {
+      "id": "e3", "type": "gap", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Complete the sentence.", "he": "השלימו את המשפט." },
+      "text": "I ___ from Israel.",
+      "word_bank": ["am", "is", "are"],
+      "answers": [["am"]],
+      "wrong_feedback": [
+        { "match": "is", "feedback": { "en": "With I we always use am.", "he": "עם I תמיד am." }, "error_type": "agreement" },
+        { "match": "are", "feedback": { "en": "With I we always use am.", "he": "עם I תמיד am." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "I am = I'm.", "he": "I am, ובקיצור I'm." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Which form of be goes with each subject?", "he": "איזו צורה של be מתאימה לכל נושא?" },
+      "categories": ["am", "is", "are"],
+      "items": [
+        { "text": "I", "category": "am" },
+        { "text": "he", "category": "is" },
+        { "text": "my mother", "category": "is" },
+        { "text": "the cat", "category": "is" },
+        { "text": "you", "category": "are" },
+        { "text": "we", "category": "are" },
+        { "text": "Dana and Tom", "category": "are" }
+      ],
+      "explanation": { "en": "One person or thing → is. Two or more, and you → are.", "he": "אדם או דבר אחד – is. שניים או יותר, וגם you – are." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Type the missing word.", "he": "הקלידו את המילה החסרה." },
+      "text": "They ___ students. We ___ friends.",
+      "answers": [["are"], ["are"]],
+      "hint": { "en": "Both subjects are plural.", "he": "שני הנושאים ברבים." },
+      "explanation": { "en": "they and we take are.", "he": "they ו-we באים עם are." }
+    },
+    {
+      "id": "e6", "type": "correct", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
+      "sentence": "She teacher.",
+      "answers": ["She is a teacher.", "She's a teacher."],
+      "error_type": "copula-omission",
+      "hint": { "en": "Two words are missing.", "he": "חסרות שתי מילים: הפועל ו-a." },
+      "explanation": { "en": "English needs the verb (is) and a before a job: She is a teacher.", "he": "באנגלית חייב פועל (is), ולפני מקצוע באים a/an: She is a teacher." }
+    },
+    {
+      "id": "e7", "type": "order", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["My", "brother", "is", "a", "doctor"],
+      "explanation": { "en": "Subject (My brother) + be (is) + the rest (a doctor).", "he": "נושא (My brother) + פועל (is) + שאר המשפט (a doctor)." }
+    },
+    {
+      "id": "e8", "type": "listen", "skill": "listening", "topic": "be-present",
+      "prompt": { "en": "Listen and choose what you hear.", "he": "הקשיבו ובחרו מה שמעתם." },
+      "audio_text": "We're tired.",
+      "question": "What did you hear?",
+      "options": ["We're tired.", "We tired.", "Were tired?"],
+      "answer": 0,
+      "explanation": { "en": "We're is the short form of we are.", "he": "We're הוא הקיצור של we are." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Write the short form.", "he": "כתבו בצורה המקוצרת." },
+      "source": "I am Dana.",
+      "answers": ["I'm Dana."],
+      "wrong_feedback": [
+        { "match": "Im Dana.", "feedback": { "en": "Use an apostrophe: I'm.", "he": "צריך גרש (אפוסטרוף): I'm." }, "error_type": "spelling" }
+      ],
+      "explanation": { "en": "I am → I'm. The apostrophe replaces the letter a.", "he": "I am הופך ל-I'm. הגרש מחליף את האות a." }
+    },
+    {
+      "id": "e10", "type": "mcq", "skill": "grammar", "topic": "pronouns-subject",
+      "prompt": { "en": "Choose the best sentence.", "he": "בחרו את המשפט הנכון." },
+      "question": "Your bag looks nice. ___",
+      "options": ["Is new?", "It is new?", "Is it new?", "It new?"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "English questions need a subject: it.", "he": "בשאלה באנגלית חייב נושא: it." },
+        "1": { "en": "In a question, is comes before it.", "he": "בשאלה is בא לפני it." },
+        "3": { "en": "The verb is missing.", "he": "חסר הפועל is." }
+      },
+      "option_errors": { "0": "pronoun", "1": "word-order", "3": "copula-omission" },
+      "explanation": { "en": "Questions with be: Is + it + new?", "he": "שאלה עם be: Is + it + new? (מלמדים זאת לעומק בשיעור הבא)." }
+    },
+    {
+      "id": "e11", "type": "speak", "skill": "speaking", "topic": "be-present",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "I'm a student and I'm happy.",
+      "focus": { "en": "I'm sounds like 'aim'.", "he": "I'm נשמע כמו 'אַיְם'." },
+      "explanation": { "en": "Short forms make your English sound natural.", "he": "צורות מקוצרות נשמעות טבעיות בדיבור." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Dana and I is friends.",
+      "answers": ["Dana and I are friends."],
+      "error_type": "agreement",
+      "explanation": { "en": "Dana and I = we → are.", "he": "Dana and I זה כמו we, ולכן are." }
+    },
+    {
+      "id": "e13", "type": "write", "skill": "writing", "topic": "be-present",
+      "prompt": { "en": "Write about you and a friend.", "he": "כתבו על עצמכם ועל חבר או חברה." },
+      "task": { "en": "Write 3 sentences: your name, where you are from, and one sentence about a friend.", "he": "כתבו 3 משפטים: השם שלכם, מאיפה אתם, ומשפט אחד על חבר או חברה." },
+      "min_words": 9,
+      "max_words": 40,
+      "must_include": ["am", "is"],
+      "model_answer": "I am Yael. I am from Tel Aviv. My friend Omer is a student.",
+      "checklist": [
+        { "en": "Every sentence has a verb (am / is / are).", "he": "בכל משפט יש פועל (am / is / are)." },
+        { "en": "Every sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." },
+        { "en": "I is always a capital letter.", "he": "I תמיד באות גדולה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "I am · he/she/it is · you/we/they are.", "he": "I עם am · he/she/it עם is · you/we/they עם are." },
+      { "en": "Never drop be: She is a teacher.", "he": "אסור להשמיט את be: She is a teacher." },
+      { "en": "Short forms: I'm, you're, he's, she's, it's, we're, they're.", "he": "צורות מקוצרות: I'm, you're, he's, she's, it's, we're, they're." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}
