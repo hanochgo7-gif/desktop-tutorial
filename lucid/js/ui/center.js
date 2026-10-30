@@ -84,7 +84,7 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
   render(el, html`<div class="player">
     <div class="player-top">
       <a class="key ghost small icon-only" href="#/${back}" aria-label="${backLabel}">${icon('x')}</a>
-      <span class="grow small">${legend(lesson.title_en, lesson.title_he)}</span>
+      <h1 class="grow" style="font-size:var(--t-sm);font-weight:500">${legend(lesson.title_en, lesson.title_he)}</h1>
       ${levelTag(lesson.level)}
     </div>
     <div class="player-body"><div id="exroot"></div></div>

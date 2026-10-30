@@ -142,7 +142,7 @@ export function dailyPlan({
   if (next) add({ id: 'learn', minutes: plan.learn + (dueCount ? 0 : plan.review), lesson: next.id, route: `lesson/${next.id}`, why: 'learn' });
   const focus = recurring[0]?.error_type ? { kind: 'error', id: recurring[0].error_type } : weak[0] ? { kind: 'topic', id: weak[0].topic } : null;
   if (focus && (plan.practice || plan.use)) {
-    add({ id: 'practice', minutes: plan.practice || 4, focus, route: focus.kind === 'error' ? `practice?error=${focus.id}` : `practice?topic=${focus.id}`, why: 'practice' });
+    add({ id: 'practice', minutes: plan.practice || 4, focus, route: focus.kind === 'error' ? `drill?error=${focus.id}` : `drill?topic=${focus.id}`, why: 'practice' });
   }
   if (plan.use) {
     const speakDue = !lastSpeakingAt || (lastWritingAt && lastSpeakingAt < lastWritingAt);

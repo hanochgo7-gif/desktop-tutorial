@@ -44,6 +44,7 @@ export default async function progress(el, ctx) {
         <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${days === 7}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${days === 30}">${tt('החודש', 'This month')}</button></div></div>
       <div class="stack-lg">
         <section class="stack" aria-labelledby="rep-h"><h2 id="rep-h">${days === 7 ? tt('דוח שבועי', 'Weekly report') : tt('דוח חודשי', 'Monthly report')}</h2>
+          ${!m.attempts.some((a) => a.source !== 'placement') ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
           <div class="stat-grid">
             <div class="stat"><div class="v num">${r.active_days}</div><div class="k">${tt('ימי לימוד', 'Days studied')}</div>${days === 7 ? html`<div class="d faint">${tt(`יעד: ${week.goal}`, `Goal: ${week.goal}`)}</div>` : ''}</div>
             <div class="stat"><div class="v num">${r.minutes}</div><div class="k">${tt('דקות פעילות', 'Active minutes')}</div></div>
@@ -55,7 +56,7 @@ export default async function progress(el, ctx) {
             <div class="stat"><div class="v num">${r.retention_30d == null ? '—' : pct(r.retention_30d)}</div><div class="k">${tt('זכירה אחרי 30 יום', 'Recall after 30 days')}</div><div class="d faint">${r.retention_30d == null ? tt('מחכה למספיק נתונים', 'Waiting for enough data') : ''}</div></div>
           </div>
           <div class="panel flat"><p class="small faint" style="margin-bottom:var(--s3)">${tt('תרגילים לפי', 'Exercises by')} ${days === 7 ? tt('יום', 'day') : tt('שבוע', 'week')}</p>
-            <div class="bars" role="img" aria-label="${buckets.map((b) => `${b.label}: ${b.n}`).join(', ')}">${buckets.map((b) => html`<div><span style="height:${(b.n / maxN) * 100}%"></span>${b.label}</div>`)}</div></div>
+            <div class="bars" role="img" aria-label="${buckets.map((b) => `${b.label}: ${b.n}`).join(', ')}">${buckets.map((b) => html`<div><span style="height:${(b.n / maxN) * 100}%"></span>${b.label}</div>`)}</div></div>`}
           ${r.improved.length ? html`<div class="panel flat stack-sm"><h3 class="small">${tt('השתפר בתקופה', 'Improved this period')}</h3>${r.improved.map((x) => html`<p class="row small">${icon('check', { size: 16 })}<span class="grow">${name(x.topic)}</span><span class="num faint">${pct(x.from)} → ${pct(x.to)}</span></p>`)}</div>` : ''}
           ${recs.length ? html`<div class="panel flat stack-sm"><h3 class="small">${tt('המלצות לשבוע הבא', 'Recommendations for next week')}</h3><ul class="stack-sm small" style="margin:0;padding-inline-start:1.2rem">${recs.map((x) => html`<li>${x}</li>`)}</ul></div>` : ''}
         </section>

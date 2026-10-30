@@ -53,7 +53,7 @@ function drawShell(route) {
   if (bare) return;
   const p = profile();
   render(deck, html`
-    <a class="brand" href="#/today" aria-label="Lucid">${brandMark()}<span>Lucid</span></a>
+    <a class="brand" href="#/today">${brandMark()}<span>Lucid</span></a>
     <nav aria-label="${tt('ניווט ראשי', 'Main')}">
       ${NAV.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
       <div class="group-label">${tt('מעבדות', 'Labs')}</div>
@@ -65,7 +65,7 @@ function drawShell(route) {
       ${p?.name ? html`<span>${p.name}</span>` : ''}
     </div>`);
   render(tabbar, NAV.map(([href, key, ic]) => html`<a href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span>${t(key)}</span></a>`));
-  render(top, html`<a class="brand" href="#/today" aria-label="Lucid">${brandMark()}</a><span class="title grow" id="top-title"></span><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
+  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
 }
 
 

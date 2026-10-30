@@ -29,7 +29,7 @@ export default async function scenarioView(el, ctx) {
   let chat = null; let busy = false; let report = null; let rpError = '';
 
   const head = () => html`<div class="page-head"><div><p class="small faint"><a href="#/real-life">${tt('אנגלית לחיים', 'Real life')}</a></p><h1>${legend(s.title_en, s.title_he)}</h1><div class="row" style="margin-top:var(--s2)">${levelTag(s.level)}<span class="small muted">${tt('את/ה מדבר/ת עם:', 'You are talking to:')} <span lang="en" dir="ltr">${s.partner_role}</span></span></div></div></div>
-    <div class="seg" role="tablist" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" role="tab" data-tab="${id}" aria-selected="${tab === id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
+    <div class="seg" role="group" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
 
   const prepare = () => html`<div class="stack-lg" style="max-width:52rem">
     <div class="panel stack-sm"><h2 class="small">${tt('המצב', 'The situation')}</h2>${bi(s.situation, { always: true })}<h2 class="small" style="margin-top:var(--s3)">${tt('המטרה שלך', 'Your goal')}</h2>${bi(s.goal, { always: true })}</div>

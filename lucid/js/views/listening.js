@@ -50,7 +50,7 @@ export default async function listening(el, ctx) {
     return html`<div class="panel flat row between">
       <div class="stack-sm"><h2 id="ls-rate" style="font-size:var(--t-md)">${tt('מהירות הדיבור', 'Speaking speed')}</h2><p class="xsmall faint">${tt('חל על כל ההשמעות באפליקציה. כפתור ״לאט״ בכל תרגיל מאט עוד יותר.', 'Applies to all audio in the app. The Slowly button in each item slows it down further.')}</p></div>
       <div class="row">
-        <div class="seg" role="group" aria-labelledby="ls-rate">${RATES.map(([r, he, en]) => html`<button type="button" data-rate="${r}" aria-pressed="${Math.abs(rate - r) < 0.01}">${tt(he, en)} <span class="num faint">${r}×</span></button>`)}</div>
+        <div class="seg" role="group" aria-labelledby="ls-rate">${RATES.map(([r, he, en]) => html`<button type="button" data-rate="${r}" aria-pressed="${Math.abs(rate - r) < 0.01}">${tt(he, en)} <span class="num" dir="ltr">${r}×</span></button>`)}</div>
         ${canSpeak() ? html`<button type="button" class="key ghost small" data-sample>${icon('volume', { size: 18 })} ${tt('לשמוע דוגמה', 'Hear a sample')}</button>` : ''}
       </div>
     </div>`;

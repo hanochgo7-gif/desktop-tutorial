@@ -12,37 +12,39 @@ import { normalize } from '../core/grading.js';
 import { gatherExercises, attemptsOn, itemHref, findItem, runPlayer, missingPlayer, hebrewReveal } from '../ui/center.js';
 
 const W = (w, ipa, he) => ({ w, ipa, he });
+// Isolates a left-to-right run (IPA, English) inside Hebrew text so the bidi algorithm keeps it intact.
+const L = (s) => `\u2066${s}\u2069`;
 // Minimal pairs for contrasts Hebrew does not make (one i-sound, no /æ/ or /ʌ/, no th, w often heard as v).
 export const SOUND_SETS = [
   {
     id: 'ih-ee', label: '/ɪ/ – /iː/',
     pairs: [[W('ship', '/ʃɪp/', 'ספינה'), W('sheep', '/ʃiːp/', 'כבשה')], [W('live', '/lɪv/', 'לגור, לחיות'), W('leave', '/liːv/', 'לעזוב')], [W('fill', '/fɪl/', 'למלא'), W('feel', '/fiːl/', 'להרגיש')], [W('bit', '/bɪt/', 'קצת, חתיכה'), W('beat', '/biːt/', 'לנצח, להכות')]],
-    tip: { en: 'For /iː/ (sheep) spread your lips as if smiling and hold the sound a little longer; for /ɪ/ (ship) relax your lips and keep it short, slightly towards "e".', he: 'ב-/iː/ (sheep) מותחים את השפתיים כמו בחיוך ומאריכים מעט את הצליל; ב-/ɪ/ (ship) השפתיים רפויות והצליל קצר, קצת לכיוון ״אֶ״.' },
+    tip: { en: 'For /iː/ (sheep) spread your lips as if smiling and hold the sound a little longer; for /ɪ/ (ship) relax your lips and keep it short, slightly towards "e".', he: `ב-${L('/iː/ (sheep)')} מותחים את השפתיים כמו בחיוך ומאריכים מעט את הצליל; ב-${L('/ɪ/ (ship)')} השפתיים רפויות והצליל קצר, קצת לכיוון ״אֶ״.` },
   },
   {
     id: 'ae-uh-e', label: '/æ/ – /ʌ/ – /e/',
     pairs: [[W('cat', '/kæt/', 'חתול'), W('cut', '/kʌt/', 'לחתוך')], [W('bad', '/bæd/', 'רע'), W('bed', '/bed/', 'מיטה')], [W('hat', '/hæt/', 'כובע'), W('hut', '/hʌt/', 'בקתה')]],
-    tip: { en: '/æ/ (cat): drop your jaw and spread your lips, between Hebrew "a" and "e". /ʌ/ (cut): a short, relaxed "a" from the middle of the mouth. /e/ (bed): close to Hebrew "e".', he: '/æ/ (cat): מורידים את הלסת ומותחים את השפתיים, צליל שבין ״אַ״ ל״אֶ״. /ʌ/ (cut): ״אַ״ קצרה ורפויה מאמצע הפה. /e/ (bed): קרוב ל״אֶ״ בעברית.' },
+    tip: { en: '/æ/ (cat): drop your jaw and spread your lips, between Hebrew "a" and "e". /ʌ/ (cut): a short, relaxed "a" from the middle of the mouth. /e/ (bed): close to Hebrew "e".', he: `${L('/æ/ (cat)')}: מורידים את הלסת ומותחים את השפתיים, צליל שבין ״אַ״ ל״אֶ״. ${L('/ʌ/ (cut)')}: ״אַ״ קצרה ורפויה מאמצע הפה. ${L('/e/ (bed)')}: קרוב ל״אֶ״ בעברית.` },
   },
   {
     id: 'th-s-t', label: '/θ/ – /s/ – /t/',
     pairs: [[W('think', '/θɪŋk/', 'לחשוב'), W('sink', '/sɪŋk/', 'כיור')], [W('three', '/θriː/', 'שלוש'), W('tree', '/triː/', 'עץ')], [W('thank', '/θæŋk/', 'להודות'), W('tank', '/tæŋk/', 'מכל, טנק')]],
-    tip: { en: 'Put the tip of your tongue lightly between your front teeth and blow out gently, with no voice. If the tongue stays behind the teeth, you get /s/ or /t/.', he: 'מניחים את קצה הלשון בעדינות בין השיניים הקדמיות ונושפים, בלי קול. אם הלשון נשארת מאחורי השיניים, יוצא /s/ או /t/.' },
+    tip: { en: 'Put the tip of your tongue lightly between your front teeth and blow out gently, with no voice. If the tongue stays behind the teeth, you get /s/ or /t/.', he: `מניחים את קצה הלשון בעדינות בין השיניים הקדמיות ונושפים, בלי קול. אם הלשון נשארת מאחורי השיניים, יוצא ${L('/s/')} או ${L('/t/')}.` },
   },
   {
     id: 'dh-d', label: '/ð/ – /d/',
     pairs: [[W('they', '/ðeɪ/', 'הם, הן'), W('day', '/deɪ/', 'יום')], [W('then', '/ðen/', 'אז'), W('den', '/den/', 'מאורה')]],
-    tip: { en: 'Same tongue position as /θ/, between the teeth, but with your voice on: you should feel a buzz. Pressing the tongue behind the teeth gives /d/.', he: 'אותה תנוחת לשון כמו ב-/θ/, בין השיניים, אבל עם קול: מרגישים זמזום. כשהלשון נלחצת מאחורי השיניים, יוצא /d/.' },
+    tip: { en: 'Same tongue position as /θ/, between the teeth, but with your voice on: you should feel a buzz. Pressing the tongue behind the teeth gives /d/.', he: `אותה תנוחת לשון כמו ב-${L('/θ/')}, בין השיניים, אבל עם קול: מרגישים זמזום. כשהלשון נלחצת מאחורי השיניים, יוצא ${L('/d/')}.` },
   },
   {
     id: 'w-v', label: '/w/ – /v/',
     pairs: [[W('wine', '/waɪn/', 'יין'), W('vine', '/vaɪn/', 'גפן')], [W('west', '/west/', 'מערב'), W('vest', '/vest/', 'אפוד')], [W('wet', '/wet/', 'רטוב'), W('vet', '/vet/', 'וטרינר')]],
-    tip: { en: 'For /w/ round your lips as for a short "oo" and keep your teeth off them; for /v/ your top teeth rest lightly on your bottom lip.', he: 'ב-/w/ מעגלים את השפתיים כמו ל״אוּ״ קצרה, בלי שהשיניים ייגעו בהן; ב-/v/ השיניים העליונות נוגעות קלות בשפה התחתונה.' },
+    tip: { en: 'For /w/ round your lips as for a short "oo" and keep your teeth off them; for /v/ your top teeth rest lightly on your bottom lip.', he: `ב-${L('/w/')} מעגלים את השפתיים כמו ל״אוּ״ קצרה, בלי שהשיניים ייגעו בהן; ב-${L('/v/')} השיניים העליונות נוגעות קלות בשפה התחתונה.` },
   },
   {
     id: 'u-uu', label: '/ʊ/ – /uː/',
     pairs: [[W('full', '/fʊl/', 'מלא'), W('fool', '/fuːl/', 'טיפש')], [W('pull', '/pʊl/', 'למשוך'), W('pool', '/puːl/', 'בריכה')]],
-    tip: { en: '/uː/ (fool): round your lips tightly and hold the sound longer. /ʊ/ (full): looser lips, a short and relaxed sound.', he: '/uː/ (fool): מעגלים את השפתיים חזק ומאריכים את הצליל. /ʊ/ (full): שפתיים רפויות יותר, צליל קצר ורגוע.' },
+    tip: { en: '/uː/ (fool): round your lips tightly and hold the sound longer. /ʊ/ (full): looser lips, a short and relaxed sound.', he: `${L('/uː/ (fool)')}: מעגלים את השפתיים חזק ומאריכים את הצליל. ${L('/ʊ/ (full)')}: שפתיים רפויות יותר, צליל קצר ורגוע.` },
   },
 ];
 const ROUND = 8;
@@ -92,7 +94,7 @@ export default async function speaking(el, ctx) {
 
   function drawSet() {
     render($('#sp-set', el), html`<div class="stack">
-      <div class="block-tip row" style="align-items:flex-start">${icon('hint', { size: 18 })}<div class="grow">${bi(set.tip)}</div></div>
+      <div class="block-tip row" style="align-items:flex-start;flex-wrap:nowrap">${icon('hint', { size: 18 })}<div class="grow">${bi(set.tip)}</div></div>
       <div class="table-wrap"><table class="data">
         <caption class="sr-only">${tt('זוגות מילים', 'Word pairs')} <span lang="en" dir="ltr">${set.label}</span></caption>
         <tbody>${set.pairs.map((p) => html`<tr>${p.map((x) => html`<td><div class="row" style="gap:var(--s2)">

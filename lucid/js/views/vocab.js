@@ -147,7 +147,7 @@ export default async function vocab(el, ctx) {
       <div class="list-tools">
         <label class="sr-only" for="vocab-q">${tt('חיפוש מילים', 'Search words')}</label>
         <input class="input" id="vocab-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('חיפוש באנגלית או בעברית', 'Search in English or Hebrew')}">
-        <div class="seg" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${filter === id}">${tt(he, en)} <span class="num faint">${n[id]}</span></button>`)}</div>
+        <div class="seg" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${filter === id}">${tt(he, en)} <span class="num">${n[id]}</span></button>`)}</div>
       </div>
       <p class="small faint" id="vocab-count" aria-live="polite" style="margin-block-end:var(--s3)"></p>
       <div id="vocab-list"></div>

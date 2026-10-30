@@ -23,13 +23,16 @@ export default async function grammar(el, ctx) {
 
   function primary(m) {
     const weak = m.weak.filter((w) => ix.topic.get(w.topic)?.skill === 'grammar');
-    if (weak[0]) { const tp = ix.topic.get(weak[0].topic); return html`<a class="key enter" href="#/drill?topic=${tp.id}">${tt('לתרגל', 'Practise')}: ${nameOf(tp)}</a>`; }
+    if (weak[0]) { const tp = ix.topic.get(weak[0].topic); return html`<a class="key enter" style="white-space:normal" href="#/drill?topic=${tp.id}">${tt('לתרגל', 'Practise')}: ${nameOf(tp)}</a>`; }
     const ci = levelIndex(m.courseLevel);
     const inProgress = topics.filter((tp) => levelIndex(tp.level) <= ci && m.mastery.get(tp.id)?.evidence && m.mastery.get(tp.id).status !== 'mastered')
       .sort((a, b) => String(m.mastery.get(b.id).last).localeCompare(String(m.mastery.get(a.id).last)))[0];
-    if (inProgress) return html`<a class="key enter" href="#/drill?topic=${inProgress.id}">${tt('להמשיך לתרגל', 'Keep practising')}: ${nameOf(inProgress)}</a>`;
+    if (inProgress) return html`<a class="key enter" style="white-space:normal" href="#/drill?topic=${inProgress.id}">${tt('להמשיך לתרגל', 'Keep practising')}: ${nameOf(inProgress)}</a>`;
     const nextTopic = m.next && (m.next.topics || []).map((id) => ix.topic.get(id)).find((tp) => tp?.skill === 'grammar');
-    if (nextTopic) return html`<a class="key enter" href="#/lesson/${m.next.id}">${tt('ללמוד', 'Learn')}: ${nameOf(nextTopic)}</a>`;
+    if (nextTopic) return html`<a class="key enter" style="white-space:normal" href="#/lesson/${m.next.id}">${tt('ללמוד', 'Learn')}: ${nameOf(nextTopic)}</a>`;
+    // Nothing practised yet: the first grammar topic at the learner's level, through its lesson.
+    const fresh = topics.find((tp) => tp.level === m.courseLevel && !m.mastery.get(tp.id)?.evidence && taughtIn.get(tp.id)?.length);
+    if (fresh) return html`<a class="key enter" style="white-space:normal" href="#/lesson/${taughtIn.get(fresh.id)[0].id}">${tt('ללמוד', 'Learn')}: ${nameOf(fresh)}</a>`;
     return '';
   }
 
@@ -82,7 +85,7 @@ export default async function grammar(el, ctx) {
               <summary class="disclosure">
                 <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
                 <h2 class="grow" style="font-size:var(--t-lg)">${LEVEL_LABEL[g.level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</h2>
-                <span class="row small" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} נשלטו`, ` · ${mastered} mastered`) : ''}</span></span>
+                <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} נשלטו`, ` · ${mastered} mastered`) : ''}</span></span>
               </summary>
               <ol class="topic-list" style="margin-block-start:var(--s4)">${g.topics.map((tp) => topicRow(tp, m))}</ol>
             </details>`;

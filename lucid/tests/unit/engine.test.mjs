@@ -85,6 +85,7 @@ test('next lesson skips completed and placed-out lessons; plans scale with time'
   assert.equal(nextLesson(curriculum, new Map([['pa1-01', { status: 'completed' }], ['pa1-02', { status: 'placed_out' }]])).id, 'a1-01');
   const p35 = dailyPlan({ minutes: 35, dueCount: 20, warmupCount: 5, todayNewCount: 6, next: { id: 'a1-01' }, recurring: [{ error_type: 'article' }], level: 'A2' });
   assert.deepEqual(p35.blocks.map((b) => b.id), ['warmup', 'review', 'learn', 'practice', 'use', 'exit']);
+  assert.equal(p35.blocks.find((b) => b.id === 'practice').route, 'drill?error=article');
   const p10 = dailyPlan({ minutes: 10, dueCount: 3, next: { id: 'a1-01' } });
   assert.deepEqual(p10.blocks.map((b) => b.id), ['review', 'learn']);
   assert.ok(p10.minutes <= 12);
