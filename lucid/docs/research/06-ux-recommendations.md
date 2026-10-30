@@ -12,7 +12,7 @@ Prepared 2026-10-30 for Lucid, an English course for Hebrew speakers aged 16 and
 
 **Method.** Every statement about Lucid was checked against the code under `js/`, `css/`, `content/`, `supabase/` and `tests/`. Every statement about users, competitors or research cites a file in `docs/research/`. Where this document gives contrast ratios, they were computed here from the OKLCH tokens in `css/app.css`, by converting them to sRGB and applying the WCAG formula. They are not measurements of rendered pages.
 
-**Snapshot.** Other work is changing content and code in parallel. Counts of lessons and content files are as of 23:03 UTC on 2026-10-30.
+**Snapshot.** Other work is changing content and code in parallel. Counts of lessons and content files are as of 23:03 UTC on 2026-10-30. After that, at 23:10 UTC, commit `94ffd5f` added `content/writing/exercises.json` (20 exercises) and `content/writing/assignments.json` (10 assignments) and extended `content/manifest.json` to 61 lessons. Statements below about those files describe the 23:03 state. Run alone at 23:12 UTC, after that commit, e2e check 13 passed.
 
 ## How to read the status labels
 
@@ -33,9 +33,9 @@ These runs were made for this document. No code was changed.
 |---|---|---|
 | Unit tests | `npm test` (`tests/unit/*.test.mjs`) | 26 of 26 passed |
 | Database tests | `npm run test:db` (`tests/db/schema.test.mjs`, migration run in PGlite) | 4 of 4 passed |
-| Browser acceptance | `node tests/e2e/run.mjs` | 12 of 13 checks passed. Check 13 failed because `content/writing/assignments.json` does not exist yet. Run twice: before and after commit `28a66a0` (22:59 UTC), which changed the essay hint ladder and its check. Same result both times. |
-| Accessibility audit | `node tests/e2e/a11y.mjs` | 0 axe violations across 22 routes × 3 configurations. Run twice: before and after commit `28a66a0`. |
-| Content validation | `npm run validate` | At 23:03 UTC: 53 lesson files checked, 0 errors, 3 warnings. The warnings: 22 curriculum lessons have no file, and `writing/exercises.json` and `writing/assignments.json` are missing. An earlier run at 22:46 UTC found 40 files and 3 errors in `lessons/b1-01.json`. |
+| Browser acceptance | `node tests/e2e/run.mjs` | 12 of 13 checks passed. Check 13 failed because `content/writing/assignments.json` did not exist yet. Run twice: before and after commit `28a66a0` (22:59 UTC), which changed the essay hint ladder and its check. Same result both times. |
+| Accessibility audit | `node tests/e2e/a11y.mjs` | 0 axe violations across 22 route entries × 3 configurations. The `welcome` entry actually renders Today (section 6.1). Run twice: before and after commit `28a66a0`. |
+| Content validation | `npm run validate` | At 23:03 UTC: 53 lesson files checked, 0 errors, 3 warnings. The warnings: 22 curriculum lessons had no file, and `writing/exercises.json` and `writing/assignments.json` were missing. An earlier run at 22:46 UTC found 40 files and 3 errors in `lessons/b1-01.json`. |
 | Edge-function tests | `supabase/functions/lucid-ai/handler_test.ts` (10 `Deno.test` cases) | **Not run.** Deno is not installed in this environment. |
 
 No CI job runs any of these suites. The repository's only workflow, `.github/workflows/pages.yml`, deletes `lucid/tests`, `lucid/tools` and `lucid/supabase` before it deploys.
@@ -61,12 +61,12 @@ The surface brief (`.impeccable/surfaces/index-html.md`, "Direction contract") m
 
 ### 1.2 Why it fits mature learners
 
-The research describes what adult learners reward and punish, and the direction answers it:
+The review analysis describes what learners praise and complain about, and the direction answers it:
 
-- **Learners reward a calm, adult experience.** Users stay for "a calm, adult experience", short sessions, clear explanations and a feeling of real progress (source: 03-user-review-analysis.md, section 8). Babbel's fans praise explanations and an adult tone: "less time wasted on kiddy characters" (source: 03-user-review-analysis.md, section 5).
-- **Learners punish clutter.** One Duolingo reviewer spends "more time clicking and opening chests ... than on the lessons itself" (source: 03-user-review-analysis.md, section 5).
+- **Learners value a calm, adult experience.** Users stay for "a calm, adult experience", short sessions, clear explanations and a feeling of real progress (source: 03-user-review-analysis.md, section 8). Babbel's fans praise explanations and an adult tone: "less time wasted on kiddy characters" (source: 03-user-review-analysis.md, section 5).
+- **Reviewers complain about clutter.** One Duolingo reviewer spends "more time clicking and opening chests ... than on the lessons itself" (source: 03-user-review-analysis.md, section 5).
 - **The direction answers both.** It has no mascot, no reward chests and no confetti. The only decoration is the keyboard metaphor, which is functional: it pairs each English word with its Hebrew scaffold.
-- **The UX evidence points to a calm, focused tool.** Such a tool teaches by doing, gives informative feedback, and uses game elements sparingly, because expected rewards can undermine intrinsic motivation and gamification effects are small and unstable (source: D-ux.md, section 1). A neutral ramp with one action colour applies the "keep chrome quiet" principle directly.
+- **The UX evidence points to a calm, focused tool.** Such a tool teaches by doing, gives informative feedback, and uses game elements sparingly, because expected rewards can undermine intrinsic motivation, gamification benefits are small, and its motivational and behavioural effects are unstable (source: D-ux.md, section 1). A neutral ramp with one action colour applies the "keep chrome quiet" principle directly.
 - **Hebrew-speaking beginners need Hebrew from the start.** Reviews show beginners stopped by apps they cannot read (source: 03-user-review-analysis.md, section 6). L1 support helps most at low levels, and fading it as proficiency rises is supported only indirectly: no study tests a fading schedule (source: C3-hebrew-l1.md, section 6). The fading legend makes that policy visible on every label.
 
 ### 1.3 Token system (from `css/app.css`)
@@ -140,7 +140,7 @@ The research describes what adult learners reward and punish, and the direction 
 
 - **Cool, not warm, neutrals.** D6 asks for "low-saturation warm neutrals" (source: D-ux.md, section "Implementation decisions", D6). The token ramp is a cool grey at hue 250, as the surface brief chose. This is a deliberate visual choice, not an accident, but it departs from D6.
 - **Fourteen links on the desktop rail.** The surface brief names five rail items: Today, Path, Practice, Real-life and Progress. The desktop rail (`drawShell` in `js/app.js`) shows those five plus a "Labs" group of seven, plus Help and Settings: 14 links. The phone tab bar keeps five.
-- **A light keyboard in dark mode.** The brief says dark mode is "a dark keyboard (dark caps, light legends)". The welcome keyboard's caps use the fixed `--n1` and `--n10` tokens, so they stay light in dark mode. There, the cobalt Hebrew legends (dark `--ink-he`) on light caps compute to about 2.0:1. The keyboard is `role="img"`, so axe does not check its text.
+- **A light keyboard in dark mode.** The brief says dark mode is "a dark keyboard (dark caps, light legends)". The welcome keyboard's caps use the fixed `--n1` and `--n10` tokens, so they stay light in dark mode. There, the cobalt Hebrew legends (dark `--ink-he`) on light caps compute to about 2.0:1. The a11y suite never audits the welcome screen (section 6.1). Run directly on the welcome screen in dark mode for this document, axe reported each single-letter Hebrew legend as "incomplete" (too short to judge), not as a violation.
 - **No `DESIGN.md` yet.** The brief's FINISH line requires a `DESIGN.md`. It does not exist in `lucid/`.
 
 ---
@@ -173,9 +173,9 @@ The research describes what adult learners reward and punish, and the direction 
 
 | # | Screen | Route(s) | View file(s) | Status |
 |---|---|---|---|---|
-| 1 | Welcome | `welcome` | `js/views/welcome.js` | Built and tested: `a11y.mjs` route `welcome`, 3 configurations. |
+| 1 | Welcome | `welcome` | `js/views/welcome.js` | Built and tested for rendering only: `a11y.mjs` waits for the welcome screen before it seeds its learner. Not in the axe audit: by the time the audit visits `welcome`, the learner exists, so the router redirects to Today. The typing animation is not tested. |
 | 2 | Registration | `start` (device profile); `account?mode=signup\|signin\|reset` (server account) | `js/views/onboarding.js`, `js/views/account.js` | Device profile: Built and tested, e2e check "1. A new user can register (onboarding creates a profile; under-16 is refused)". Server account: Built, tested with mocks only, e2e checks "11-12" and "17" sign up and sign in against the mocked Supabase. |
-| 3 | Onboarding | `start` (4 steps) | `js/views/onboarding.js` | Built and tested: e2e checks "1" and "3. A learner can start at absolute beginner level". Not in the axe audit. |
+| 3 | Onboarding | `start` (4 steps) | `js/views/onboarding.js` | Built and tested: e2e checks "1" and "3. A learner can start at absolute beginner level (no test, first lesson)". Not in the axe audit. |
 | 4 | Placement test | `placement` | `js/views/placement.js`, `js/core/placement.js` | Built and tested: e2e "2. A new user can complete a placement assessment"; unit tests "placement finds the boundary for learners of known ability" and "placement tolerates an occasional slip (1 in 8)". Not in the axe audit. Cannot be paused or retaken (section 7). |
 | 5 | Dashboard / Today | `today` | `js/views/today.js` | Built and tested: e2e "7. The curriculum adapts: repeated mistakes add targeted practice to the plan"; e2e 14-15; `a11y.mjs`. |
 | 6 | Curriculum map | `path`, `path/:level`, plus `checkpoint/:level` | `js/views/path.js`, `js/views/checkpoint.js` | Built and tested for rendering: e2e 14-15 renders `path`, `path/B2` and `checkpoint/PreA1` at four widths; `a11y.mjs` covers `path`. At 23:03 UTC, 53 of the 75 lessons had content files. The path treats a lesson as available only if `content/manifest.json` lists it: 45 lessons at that time. The others show as dashed rows, and lessons without a file open a "not available" screen. |
@@ -185,7 +185,7 @@ The research describes what adult learners reward and punish, and the direction 
 | 10 | Reading | `reading`; `reading?l=&e=` opens one text | `js/views/reading.js`, `js/ui/center.js` | Built and tested for rendering only: e2e 14-15 and `a11y.mjs`. The single-text player is not tested. |
 | 11 | Listening | `listening`; `listening?l=&e=` | `js/views/listening.js`, `js/ui/center.js` | Built and tested for rendering only, as for Reading. |
 | 12 | Speaking lab | `speaking`; `speaking?l=&e=` (shadowing) | `js/views/speaking.js` | Built and tested for rendering only, as for Reading. Speech recognition cannot be exercised in headless Chromium. |
-| 13 | Writing lab | `writing` | `js/views/writing.js` | Partial. It renders (e2e 14-15, `a11y.mjs`), but `content/writing/exercises.json` and `assignments.json` are missing, so the ten stages show "No exercises in this stage yet", and e2e check 13 fails. |
+| 13 | Writing lab | `writing` | `js/views/writing.js` | Partial at 23:03 UTC. It renders (e2e 14-15, `a11y.mjs`), but `content/writing/exercises.json` and `assignments.json` were missing. The stages held only the seven level final tasks (in stages 1, 2, 3, 6, 8 and 10), stages 4, 5, 7 and 9 showed "No exercises in this stage yet", and e2e check 13 failed. Both files were added at 23:10 UTC (see Snapshot). |
 | 14 | Essay editor | `writing/:id` (for example `writing/free`, `writing/final-B2`) | `js/views/essay.js` | Automatic checks: Built and tested, e2e "11-12" and the unit tests in `tests/unit/writing-analyzer.test.mjs`. AI feedback, hint ladder (the correction opens only after the learner edits the text), revisions and version compare: Built, tested with mocks only, e2e "11-12. Writing can be submitted, evaluated (automatic + mocked AI) and revised with version comparison". |
 | 15 | AI tutor | `tutor` | `js/views/tutor.js` | Built, tested with mocks only: e2e "17. AI features are functional or clearly marked as requiring configuration" sends one message to the mocked AI. The "not configured" notice is Built and tested in the same check. |
 | 16 | Travel English (Real life) | `real-life`, `scenario/:id` | `js/views/reallife.js`, `js/views/scenario.js` | Built and tested: e2e "9. Travel English is functional (scenario: phrases, model dialogue, scripted practice)". |
@@ -193,7 +193,7 @@ The research describes what adult learners reward and punish, and the direction 
 | 18 | Conversation simulations | `conversations`; `scenario/:id?tab=roleplay` | `js/views/simulations.js`, `js/views/scenario.js` | Partial. The list and its "not configured" notice are Built and tested (e2e 17). The AI roleplay chat has code and a mock handler in `run.mjs` (`roleplay_turn`, `roleplay_feedback`), but no check opens the roleplay tab, so it is untested even with mocks. |
 | 19 | Progress | `progress` | `js/views/progress.js` | Built and tested for rendering (e2e 14-15, `a11y.mjs`). The report logic is unit-tested: "period report compares with the previous period and counts retention". |
 | 20 | Profile | `profile` | `js/views/profile.js` | Partial. It renders (e2e 14-15, `a11y.mjs`), but no link anywhere in the app leads to `#/profile`. |
-| 21 | Settings | `settings` | `js/views/settings.js` | Built and tested: e2e "16. User data handled securely (CSP, no secrets in client, export and deletion)"; e2e 14-15; `a11y.mjs`. The theme, text-size and Hebrew-support controls are not functionally tested. |
+| 21 | Settings | `settings` | `js/views/settings.js` | Built and tested: e2e "16. User data handled securely (CSP, no secrets in client, export and deletion)"; e2e 14-15; `a11y.mjs`. The theme, text-size and Hebrew-support controls are not functionally tested. The signed-in account controls (Sync now, Sign out, server account deletion) need Supabase, and no check renders them, even with mocks. |
 
 **Other routes.**
 
@@ -254,7 +254,7 @@ Sources: `js/views/lesson.js`, `js/ui/exercise.js`, `js/ui/player.js`, `js/ui/ce
 | Type | How the learner answers | Direction markup |
 |---|---|---|
 | `mcq`, `listen` | Click an option or press 1 to 6. `listen` adds "Play" and "Slowly" buttons, focuses Play, and shows the transcript after checking. | Options wrap English in `lang="en" dir="ltr"`. |
-| `gap` | Type into inline inputs, or tap word-bank chips that fill the next empty gap. Tapping a filled gap clears it. | The sentence is `lang="en" dir="ltr"`. |
+| `gap` | Type into inline inputs, or tap word-bank chips that fill the next empty gap. In word-bank mode, tapping a filled gap clears it. | The sentence is `lang="en" dir="ltr"`. |
 | `order` | Tap tiles to build the sentence; tap a placed tile to remove it. There is no dragging. | Both tile rows are `lang="en" dir="ltr"`. |
 | `match` | Tap an item on the left, then its pair on the right. A wrong pair shakes briefly. | Each item has `dir="auto"` and a detected `lang`. |
 | `categorize` | Tap an item, then a category bin (`role="button"`, Enter or Space). Tap a placed item to take it back. | Chips are `lang="en" dir="ltr"`. |
@@ -302,8 +302,8 @@ Feedback is produced by `verdictHtml` in `js/ui/exercise.js`. All grading except
 - **Tab and Shift+Tab** move between controls. Every tile, chip, pair item and bin is a `<button>` or `role="button"` with Enter and Space.
 - **Focus.**
   - After checking, focus moves to "Continue".
-  - Typed exercises focus their first input.
-  - Listening exercises focus "Play".
+  - `gap` (without a word bank), `transform` and `correct` focus their first input.
+  - `listen` and `dictation` focus "Play".
 - **Arrow keys** are not implemented for tiles or bins.
 
 **Status: Partial.** The handling is in the code, but no automated test drives an exercise by keyboard.
@@ -356,11 +356,11 @@ Feedback is produced by `verdictHtml` in `js/ui/exercise.js`. All grading except
 
 | Status | Count |
 |---|---|
-| Built and tested | 4 |
-| Partial | 41 |
+| Built and tested | 3 |
+| Partial | 42 |
 | Not built | 9 |
 
-No decision as a whole is "Built, tested with mocks only". Mock-only parts are noted inside rows D11, D19 and D46.
+No decision as a whole is "Built, tested with mocks only". Mock-only parts are noted inside rows D11 and D19. Row D46 notes a server part that no check exercises, even with mocks.
 
 ### A. Focus, structure and tone
 
@@ -378,7 +378,7 @@ No decision as a whole is "Built, tested with mocks only". Mock-only parts are n
 | # | Decision | Research reason | Lucid status | Evidence |
 |---|---|---|---|---|
 | D7 | High-information feedback on every answer: what was right, what to change, the correct form, a rule with "Why?"; never praise alone | Feedback meta-analysis: corrective feedback d = 0.46 (section 1, with the D7 caveat) | **Built and tested** | `verdictHtml` (`exercise.js`); the explanation rule in `tools/validate-content.mjs` (every type except `read` and `write`); e2e check "4-6" asserts corrective feedback. The explanation is shown in full, with no "Why?" expander. The 300 ms target is not measured, but grading is local. The validator does not run in CI. |
-| D8 | Icon, text and colour; an `aria-live` announcement without moving focus; sound off by default | WCAG 1.4.1 and 4.1.3; Apple multi-channel feedback (section 2, section 1) | **Partial** | Icon, text and colour: `verdictHtml` and `.player-foot.ok/.bad/.almost`. The verdict `<div role="status">` is created together with its text, and focus moves to Continue at the same moment (`lesson.js` `doCheck`). Whether screen readers announce it is unverified. Lucid plays no sound and uses no haptics. No unit test checks the live-region text, and no colour-blindness snapshot exists. |
+| D8 | Icon, text and colour; an `aria-live` announcement without moving focus; sound off by default | WCAG 1.4.1 and 4.1.3; Apple multi-channel feedback (section 2, section 1) | **Partial** | Icon, text and colour: `verdictHtml` and `.player-foot.ok/.bad/.almost`. The verdict `<div role="status">` is created together with its text, and focus moves to Continue at the same moment (`lesson.js` `doCheck`). Whether screen readers announce it is unverified. Lucid plays no feedback sound and uses no haptics. No unit test checks the live-region text, and no colour-blindness snapshot exists. |
 | D9 | Rewards that inform: can-do statements mastered, words retained, writing criteria improved; no points for time; no hearts | Deci et al. on rewards; Sailer & Homner on gamification (section 1) | **Partial** | No points, hearts or lives (code search). Mastery requires accuracy, enough evidence and two different days (unit test "mastery needs accuracy, enough evidence and two different days"). Progress shows skill levels, mastered topics, stable words and recall. It does not express progress as can-do statements mastered. It does show activity counts: "Active minutes" and "Exercises" (`progress.js`). |
 | D10 | Light gamification, collaborative before competitive; no public leaderboards | Gamification moderators; ICO; DSA (section 1, section 7, section 9) | **Partial** | No leaderboards, leagues or social features (code search). A personal best per lesson is shown on the path (`path.js` `best_score`). The optional study buddy is not built. |
 | D11 | AI tutor and roleplay use a hint ladder, with one tap to the full answer | Brilliant's "never just gives you the answer"; feedback research (section 1) | **Partial** | The writing feedback ladder is enforced in code (`essay.js`, `rung` and `attempted`): locate, name the error type, clue, correction. Spelling and word-choice errors start at "locate". The correction opens only after the learner has changed the quoted text. This is stricter than D11's "one tap to the full answer". It is Built, tested with mocks only: e2e check "11-12" asserts that the correction stays locked until the text is edited, then opens, and that hint levels are logged. The tutor's hint-first behaviour is a prompt instruction only (`supabase/functions/lucid-ai/prompts.ts`, the tutor system prompt), with no policy test against a model. The roleplay partner does not correct during the scene (`prompts.ts`). |
@@ -395,7 +395,7 @@ No decision as a whole is "Built, tested with mocks only". Mock-only parts are n
 | D17 | Never lose work: answers on submit, drafts within 2 s and on blur, resume at the same step | COGA "Avoid Data Loss"; ICO pause (section 3, section 9) | **Partial** | Lesson answers and position are saved after every check (`saveResume`). Essay drafts save 600 ms after typing stops and again when the view closes (`essay.js` `saveDraft`). e2e "4-6" checks that progress survives a reload after a lesson; no mid-lesson or mid-essay reload test exists. The placement test and onboarding answers live in memory and are lost when the learner leaves. |
 | D18 | Help in the same place on every page; human contact within 2 activations | WCAG 3.2.6 (section 2, section 3) | **Partial** | Help is in the top bar on phones, at the rail foot on desktop and in the lesson top bar. It is absent from the review, drill, checkpoint, placement and single-exercise players, and from onboarding. `help.js` offers no human contact route. No header-order snapshot test exists. |
 | D19 | Passkeys or email link; one-time-code field; paste allowed; no CAPTCHA | WCAG 3.3.8 (section 2) | **Partial** | Email and password with `autocomplete="email"`, `"new-password"` and `"current-password"`; no paste blocking (code search); no CAPTCHA; only an 8-character minimum (`account.js`). This part is Built, tested with mocks only (sign-up and sign-in in e2e 11-12 and 17). Passkeys, email links and one-time codes are not built. |
-| D20 | Information entered once is prefilled later (profile, tutor, checkout) | WCAG 3.3.7 (section 2) | **Partial** | The profile form prefills name and goals (`profile.js`). The tutor sends level, goals, weak topics and recent errors (`tutor.js` `learnerContext`). Account creation copies the device profile to the server (`account.js` `afterSignIn`). No test covers this, and there is no checkout. |
+| D20 | Information entered once is prefilled later (profile, tutor, checkout) | WCAG 3.3.7 (section 2) | **Partial** | The profile form prefills name and goals (`profile.js`). The tutor sends the course level with each turn, plus goals, weak topics, recurring errors and recently completed lessons (`tutor.js`, `learnerContext`). Account creation copies the device profile to the server (`account.js` `afterSignIn`). No test covers this, and there is no checkout. |
 | D21 | `lang` and `dir` on every English block and phrase; a lint for unmarked Latin text | WCAG 3.1.2; W3C i18n (section 2, section 4) | **Partial** | `<html lang="he" dir="rtl">` (`index.html`), updated by `setUiLang`. `legend()`, `bi()` and `en()` mark English, and `isolateLatin()` wraps Latin runs in Hebrew content (unit test "Latin runs inside Hebrew are isolated; punctuation around them stays Hebrew"). Gaps: AI replies and feedback carry `dir="auto"` without `lang` (`tutor.js`, `essay.js`, `scenario.js` report); the Today start button inserts `title_en` without `lang`; no lint exists. |
 | D22 | Reflow at 320px; 200% text; WCAG 1.4.12 spacing | WCAG 1.4.10, 1.4.4, 1.4.12; Apple (section 2) | **Partial** | 320px is Built and tested: e2e "14-15. Mobile (320, 390), tablet and desktop layouts, every route loads without errors or horizontal overflow" covers 24 routes at 4 widths. Not tested: 200% zoom and text-spacing overrides. The in-app text size stops at 150%. |
 | D23 | Conformance target, a Hebrew and English accessibility statement, legal check | WCAG 2.2; the Israel policy register (section 2) | **Not built** | No accessibility statement in `lucid/` (`privacy.html` has none). |
@@ -408,17 +408,17 @@ No decision as a whole is "Built, tested with mocks only". Mock-only parts are n
 | D25 | A persistent Pause that saves; "Resume where you left off" as the first item on Home | ICO pause and save; COGA (section 9, section 3) | **Partial** | Exit saves the place, because saving happens after every check, and Today shows a resume card. That card comes after the "Start" button, not first (`today.js`). There is no separate Pause control and no test. |
 | D26 | No modals, tooltips, upsells, rating prompts or popovers during lessons | COGA "Limit Interruptions"; Apple; FTC nagging (section 3, section 1, section 7) | **Partial** | Absent by code search: `lesson.js` opens no dialog (Exit leaves without one), and no rating or upgrade prompt exists anywhere. No test guards this. |
 | D27 | Reading preferences: text 100 to 200%, line spacing, line length, tint, font | Dyslexia Scotland; the OpenDyslexic study; WCAG 1.4.12 (section 3) | **Partial** | Text size 100, 115, 130 and 150% only (`settings.js`; `:root[data-text]`). No line-spacing, line-length, tint or font settings. |
-| D28 | Every usability round includes people with ADHD, people with dyslexia and a screen-reader user; no "ADHD mode" | COGA testing guidance; Spiel et al. (section 3) | **Not built** | No usability round has taken place. `docs/qa/personas/` is empty. No "ADHD mode" exists (code search). |
+| D28 | Every usability round includes people with ADHD, people with dyslexia and a screen-reader user; no "ADHD mode" | COGA testing guidance; Spiel et al. (section 3) | **Not built** | No usability round with real participants has taken place. `docs/qa/personas/` holds simulated persona reviews, in which an AI played invented personas (one of them with ADHD); the reports state that they are not research with real people. No "ADHD mode" exists (code search). |
 
 ### E. RTL and bidi
 
 | # | Decision | Research reason | Lucid status | Evidence |
 |---|---|---|---|---|
 | D29 | Logical CSS only; a lint and RTL/LTR screenshot pairs | W3C i18n; MDN logical properties (section 4) | **Partial** | A code search finds no physical left or right property, value or `text-align: left/right` in `css/app.css` or in inline styles in `js/`. `.mark.half` has an explicit RTL gradient. No stylelint and no screenshot pairs exist. |
-| D30 | Mirroring map: navigation, progress and breadcrumbs mirror; media, digits and checkmarks do not | Material, Wikimedia, Apple (section 4) | **Partial** | Mirrored correctly: the progress bar fills from the inline start, as does the level rail; the disclosure chevrons flip (`:root[dir='rtl'] .disclosure .chev`); "next" arrows switch icon by language. No media scrubber exists, and the welcome keyboard is `direction: ltr`. Not mirrored: the forward chevron on the Today resume card and the Practice rows points right in Hebrew. The progress chart mirrors (see D34). |
+| D30 | Mirroring map: navigation, progress and breadcrumbs mirror; media, digits and checkmarks do not | Material, Wikimedia, Apple (section 4) | **Partial** | Mirrored correctly: the progress bar fills from the inline start, as does the level rail; the disclosure chevrons flip (`:root[dir='rtl'] .disclosure .chev`); "next" arrows switch icon by language. No media scrubber exists, and the welcome keyboard is `direction: ltr`. Not mirrored: the forward chevron on the Today resume card and on the Practice "Recommended now" rows points right in Hebrew. The progress chart mirrors (see D34). |
 | D31 | English exercise zones are LTR islands; tutor input `dir="auto"` with `dirname` | W3C i18n (section 4) | **Partial** | Tiles, gaps, transcripts, passages, the essay editor and the roleplay transcript and input are `lang="en" dir="ltr"` (`exercise.js`, `essay.js`, `scenario.js`). The tutor input has `dir="auto"` but no `dirname` (`tutor.js`). No test covers this. |
 | D32 | Isolate interpolated values; never RLE/LRE; tests of visual order | W3C bidi (section 4) | **Partial** | `isolateLatin()` uses `<bdi>` and is unit-tested. `speaking.js` uses LRI/PDI isolates, and no RLE or LRE appears (code search). But UI template strings interpolate English titles and numbers without isolation; for example `today.js` builds "להתחיל: {title_en}". Rendered in Chromium for this document: the lesson counter "4 / 12" shows 4 on the right, while the drill, review and checkpoint counters "4/12" show 4 on the left. |
-| D33 | Align paragraphs by language; one alignment per list; avoid all-caps Latin; tune Hebrew size (+2 pt) | Apple RTL guidance (section 4) | **Partial** | Rubik covers both scripts, Hebrew line height is 1.6, and alignment follows each element's `dir`. The Hebrew legend is deliberately smaller (0.82em), the opposite of the +2 pt guidance. All-caps appears only on the welcome keyboard illustration. |
+| D33 | Align paragraphs by language; one alignment per list; avoid all-caps Latin; tune Hebrew size (+2 pt) | Apple RTL guidance (section 4) | **Partial** | Rubik covers both scripts, Hebrew line height is 1.6, and alignment follows each element's `dir`. The Hebrew legend is deliberately smaller (0.82em), the opposite direction to Apple's guidance of about +2 pt for Hebrew next to all-caps Latin. No `text-transform: uppercase` exists; apart from acronyms such as AI, CEFR and JSON, all-caps Latin appears only on the welcome keyboard illustration. |
 | D34 | Time-series charts keep an LTR time axis and carry a text summary; test against an RTL variant | Material, Wikimedia vs Apple (section 4) | **Partial** | The bar chart in `progress.js` is a CSS grid with no `dir="ltr"`, so in Hebrew it runs right to left. It has an `aria-label` listing values but no visible text summary. The open question has not been tested with users. |
 
 ### F. Dark mode and theming
@@ -446,7 +446,7 @@ No decision as a whole is "Built, tested with mocks only". Mock-only parts are n
 | D43 | Symmetric accept and decline; neutral "No thanks"; nothing pre-checked | FTC false hierarchy and confirmshaming; ICO nudges (section 7, section 9) | **Partial** | The AI-consent and terms boxes start unchecked (`onboarding.js`), and decline labels are neutral ("Cancel", "Not now", "I'd rather start from the basics"). But `confirmDialog` styles Cancel as ghost and Confirm as an Enter or danger key (`components.js`). |
 | D44 | Cancellation within 3 activations, on the same surface as purchase | FTC (ROSCA); EU withdrawal button (section 7) | **Not built** | No subscription exists. |
 | D45 | Honest trials and renewals: explicit consent, reminders, full price at checkout | FTC forced continuity (section 7) | **Not built** | No billing exists. |
-| D46 | In-app self-service deletion and export | FTC "immortal accounts"; ICO tools (section 7, section 9) | **Built and tested** | Settings offers "Download all my data (JSON)", "Restore a backup" and delete (`settings.js`). e2e "16" covers export and device deletion. The server functions `lucid_export` and `lucid_delete_account` pass `tests/db/schema.test.mjs` "export returns only the caller; delete removes everything" (PGlite). Deleting while signed in is not exercised through the UI. |
+| D46 | In-app self-service deletion and export | FTC "immortal accounts"; ICO tools (section 7, section 9) | **Partial** | Device export and deletion are Built and tested: Settings offers "Download all my data (JSON)", "Restore a backup" and delete (`settings.js`), and e2e "16" covers export and device deletion. Server account export and deletion need Supabase. Their SQL functions `lucid_export` and `lucid_delete_account` pass `tests/db/schema.test.mjs` "export returns only the caller; delete removes everything" (migration run in PGlite). No check exports or deletes while signed in, even against the mocked Supabase, although `run.mjs` mocks both calls. |
 
 ### I. Notifications
 
@@ -461,9 +461,9 @@ No decision as a whole is "Built, tested with mocks only". Mock-only parts are n
 
 | # | Decision | Research reason | Lucid status | Evidence |
 |---|---|---|---|---|
-| D51 | A neutral birth-year question with nothing preselected; self-declaration; no hard ID | ICO nudges and age assurance (section 9) | **Built and tested** | A birth-year `<select>` with an empty "Choose" option (`onboarding.js`); under-16s are refused. Tests: e2e "1" (a 14-year-old is refused) and the database age gate in `tests/db/schema.test.mjs` "age gate, minors and RLS on profiles". |
+| D51 | A neutral birth-year question with nothing preselected; self-declaration; no hard ID | ICO nudges and age assurance (section 9) | **Built and tested** | A birth-year `<select>` with an empty "Choose" option (`onboarding.js`); under-16s are refused. Tests: e2e "1" (a 14-year-old is refused) and the database age gate in `tests/db/schema.test.mjs` "age gate, minors and RLS on profiles". The database test ran in PGlite with a stub of Supabase's auth schema, not against a Supabase project. |
 | D52 | One high-privacy baseline for everyone; a DPIA for adaptive profiling | ICO standards; DSA (section 9) | **Partial** | No geolocation, public profile or social features (code search). The CSP allows scripts only from `'self'` (asserted in e2e "16"). Progress stays on the device unless the learner signs in. No DPIA exists in `docs/`. |
-| D53 | Extra under-18 defaults: rhythm, reminders and marketing off; break suggestion after 45 min; AI explanations for 16 and 17; age-filtered roleplay | ICO 16-17 guidance; DSA chatbot safeguards (section 9) | **Partial** | Marketing is forced off (database). Onboarding and Profile show an under-18 notice. Reminders do not exist. The weekly goal is still on by default. There is no break suggestion, no age-specific AI explanation and no age filtering of scenarios. |
+| D53 | Extra under-18 defaults: rhythm, reminders and marketing off; break suggestion after 45 min; AI explanations for 16 and 17; age-filtered roleplay | ICO 16-17 guidance; DSA chatbot safeguards (section 9) | **Partial** | Marketing is forced off (database). Onboarding and Profile show an under-18 notice. Reminders do not exist. The weekly goal is still on by default. There is no break suggestion, no age-specific AI explanation and no age filtering of scenarios. The roleplay prompt asks the model to keep every conversation appropriate for a 16-year-old, for all learners (`prompts.ts`). |
 | D54 | Explain AI and data in 2 or 3 Hebrew sentences at first use of the writing lab, tutor and roleplay | ICO transparency (section 9) | **Partial** | The onboarding privacy step and Settings say that texts sent for AI feedback go to Anthropic only to produce feedback. Not built: an explanation at first use, covering what is stored, for how long and how to delete it. The AI screens show only "AI feedback can be wrong". |
 
 ---
@@ -475,7 +475,7 @@ Each item from the "What not to build" list in `D-ux.md` was searched for in `js
 | # | Must not exist | Present? | Evidence |
 |---|---|---|---|
 | 1 | Daily streaks with loss-framed copy; paid streak repair; streak wagers | Absent | "streak" appears only in copy that says there is none (`onboarding.js`, `welcome.js`). |
-| 2 | Virtual currency, lives or hearts that block learning, loot boxes | Absent | No such terms in `js/`. Mistakes never block progress: "I don't know" is available on every graded item, and failed lessons offer "Practise again". |
+| 2 | Virtual currency, lives or hearts that block learning, loot boxes | Absent | No such terms in `js/`. Mistakes never block progress: "I don't know" is available on graded items in lessons, drills, level checks and placement ("I don't remember" in review), and failed lessons offer "Practise again". The single-exercise player of the reading, listening and speaking centres has no "I don't know"; it can be left with Exit. |
 | 3 | Public leaderboards or leagues | Absent | No social or ranking code. |
 | 4 | XP or points for time spent | Absent | No points. Progress does show "Active minutes" and an exercise count as information (`progress.js`), not as rewards. |
 | 5 | Fake urgency or scarcity | Absent | No countdowns, stock, live counters or discounts. No pricing exists. |
@@ -513,7 +513,9 @@ Each item from the "What not to build" list in `D-ux.md` was searched for in `js
 | Hebrew (RTL) | Dark | 1440 × 900 |
 | English (LTR) | Light | 1440 × 900 |
 
-**Routes (22).** `welcome`, `help`, `today`, `path`, `practice`, `vocab`, `grammar`, `reading`, `listening`, `speaking`, `writing`, `writing/free`, `tutor`, `real-life`, `expressions`, `conversations`, `progress`, `profile`, `settings`, `account`, `lesson/pa1-05` (explanation stage only), and `review` (empty state, because the seeded learner has no cards).
+**Route entries (22).** `welcome`, `help`, `today`, `path`, `practice`, `vocab`, `grammar`, `reading`, `listening`, `speaking`, `writing`, `writing/free`, `tutor`, `real-life`, `expressions`, `conversations`, `progress`, `profile`, `settings`, `account`, `lesson/pa1-05` (explanation stage only), and `review` (empty state, because the seeded learner has no cards).
+
+The `welcome` entry does not audit the welcome screen. The learner already exists when the audit visits it, so the router redirects to Today. The audit therefore covers 21 distinct screens, and Today twice.
 
 **Result on 2026-10-30.** 0 violations.
 
@@ -527,6 +529,7 @@ Each item from the "What not to build" list in `D-ux.md` was searched for in `js
 The audit cannot see the following:
 
 - **Routes and states never audited:**
+  - `welcome` (see 6.1);
   - `start` (onboarding);
   - `placement`;
   - `checkpoint/:level`;
@@ -582,7 +585,7 @@ No testing with real assistive-technology users has been done. No screen-reader,
 - **What to check:**
   - The reader switches between the Hebrew and English voices on `lang="en"` phrases, legends and `<bdi>` isolates.
   - Dual legends are read in a sensible order.
-  - The "עב" reveal button is understood. Its accessible name is "Show Hebrew".
+  - The "עב" reveal button is understood. Its accessible name is "הצגת הסבר בעברית" in the Hebrew interface and "Show Hebrew" in the English one.
   - The lesson verdict is announced after Check. It is a `role="status"` element inserted with its text while focus moves to Continue.
   - Progress bars and the "n / N" counter make sense.
   - The level rail and status marks (`role="img"`) are understandable.
@@ -593,7 +596,7 @@ No testing with real assistive-technology users has been done. No screen-reader,
 **2. Voice control.** Voice Control on macOS and iOS, Voice Access on Android, and Dragon:
 
 - Every control can be activated by its visible label. Icon-only buttons use labels such as "Leave lesson" and "Play".
-- The option number badges are hidden from assistive technology (`aria-hidden`).
+- The option number badges in exercises and review are hidden from assistive technology (`aria-hidden`). Those on scenario practice options are not.
 - Saying "1" or "Check" works.
 - The microphone in speaking exercises does not conflict with the voice-control microphone.
 
@@ -627,8 +630,8 @@ Priorities:
 
 **P0-3. The axe audit never sees an exercise.**
 
-- **Issue.** `a11y.mjs` covers 22 routes, but no exercise, verdict, onboarding step, placement item, scenario tab or dialog (section 6.2).
-- **Recommendation.** Extend the audit to walk a lesson through every exercise type and its correct, almost and wrong states, plus `start`, `placement`, `checkpoint`, `drill` and `scenario/:id`. Run it at Hebrew support "minimal" and "off", and in English dark.
+- **Issue.** `a11y.mjs` covers 22 route entries (21 screens, because its `welcome` entry renders Today), but not the welcome screen, and no exercise, verdict, onboarding step, placement item, scenario tab or dialog (section 6.2).
+- **Recommendation.** Extend the audit to walk a lesson through every exercise type and its correct, almost and wrong states, plus `welcome` (before a learner exists), `start`, `placement`, `checkpoint`, `drill` and `scenario/:id`. Run it at Hebrew support "minimal" and "off", and in English dark.
 
 **P0-4. Gap-input focus is nearly invisible.**
 
@@ -637,8 +640,8 @@ Priorities:
 
 **P0-5. The UI promises content the build does not have.**
 
-- **Issue.** At 23:03 UTC, 22 of the 75 curriculum lessons had no file, and the writing exercises and assignments files were missing (`npm run validate` warnings; e2e check 13 fails). Yet the welcome screen says "75 lessons from zero to C2", and the Today screen has a "You have completed all 75 lessons" message. PRODUCT.md forbids implying anything that does not exist.
-- **Research context.** Learners leave over level cliffs and untaught words (source: 03-user-review-analysis.md, section 5).
+- **Issue.** At 23:03 UTC, 22 of the 75 curriculum lessons had no file, and the writing exercises and assignments files were missing (`npm run validate` warnings; e2e check 13 failed). The writing files were added at 23:10 UTC (see Snapshot). Yet the welcome screen says "75 lessons from zero to C2", and the Today screen has a "You have completed all 75 lessons" message. PRODUCT.md lists "75 lessons Pre-A1 to C2" among Lucid's capabilities, so this copy describes the plan, not the build at that time.
+- **Research context.** Reviewers complain about level cliffs and about lessons that assume words they were never taught (source: 03-user-review-analysis.md, section 5).
 - **Recommendation.** Either finish the content before release, or derive counts from `content/manifest.json` and label unavailable lessons and stages plainly.
 
 ### P1
@@ -650,8 +653,8 @@ Priorities:
 
 **P1-2. Speech recognition decides correctness in lesson speaking items.**
 
-- **Issue.** In `speak` exercises, a word accuracy of 0.8 or more counts as correct and lower scores queue a retry (`exercise.js`; `lesson.js`). This contradicts the decision "Recognition never produces a pass/fail on its own" (source: 03-user-review-analysis.md, section 9). Users punish unreliable speech scoring: it is Rosetta Stone's largest coded complaint, 21 of 70 sampled reviews (source: 03-user-review-analysis.md, section 5).
-- **Recommendation.** Show what was heard, as the Speaking lab already does, and let the learner self-rate. Alternatively, make the item ungraded.
+- **Issue.** In `speak` exercises, a word accuracy of 0.8 or more counts as correct and lower scores count as wrong (`exercise.js`). In lessons a wrong answer queues a retry and lowers the lesson score (`lesson.js`), and the Speaking lab's shadowing player records the same verdict (`center.js`). The item does show what was recognised, but recognition still decides pass or fail. This contradicts the decision "Recognition never produces a pass/fail on its own" (source: 03-user-review-analysis.md, section 9). Users punish unreliable speech scoring: it is Rosetta Stone's largest coded complaint, 21 of 70 sampled reviews (source: 03-user-review-analysis.md, section 5).
+- **Recommendation.** Keep showing what was heard, and let the learner self-rate, as the item already does when recognition is unavailable. Alternatively, make the item ungraded. The Speaking lab's minimal-pair check already reports what was heard without recording a scored attempt.
 
 **P1-3. The placement test cannot be paused, resumed or retaken.**
 
@@ -700,7 +703,7 @@ Priorities:
 **P1-12. Onboarding is longer than D5 allows.**
 
 - **Issue.** A complete beginner reaches the first exercise on the 8th screen.
-- **Research context.** Headspace rebuilt its onboarding after a 38% drop-off and moved the first meditation out of it (source: D-ux.md, section 1). In the British Council English app, sign-up and login failures dominate the coded reviews, 19 of 30 (source: 03-user-review-analysis.md, section 5).
+- **Research context.** Headspace rebuilt its onboarding after a 38% drop-off and moved the first meditation out of it (source: D-ux.md, section 1). In the new British Council English app, 19 of 30 sampled reviews are about being unable to sign up or log in (source: 03-user-review-analysis.md, section 5).
 - **Recommendation.**
   - Keep language, birth year and starting point.
   - Move name, daily time and weekly goal to after the first lesson.
@@ -730,7 +733,7 @@ Priorities:
 
 **P2-1. RTL details.**
 
-- **Issue.** The forward chevrons on the Today resume card and Practice rows point right in Hebrew (D30). The step counters disagree: "4 / 12" in lessons reads with 4 on the right, while "4/12" in drills and reviews reads with 4 on the left (D32). The progress chart mirrors and has no text summary (D34).
+- **Issue.** The forward chevrons on the Today resume card and the Practice "Recommended now" rows point right in Hebrew (D30). The step counters disagree: "4 / 12" in lessons reads with 4 on the right, while "4/12" in drills and reviews reads with 4 on the left (D32). The progress chart mirrors and has no text summary (D34).
 - **Recommendation.** Mirror the chevrons, choose one counter convention, add the chart summary, and test the chart's direction with at least 5 Hebrew readers, as D34 asks.
 
 **P2-2. The tutor input lacks `dirname` (D31).**
@@ -775,7 +778,7 @@ Priorities:
 
 **P2-12. The Hebrew legend size needs evidence.**
 
-- **Issue.** It is 0.82em in cobalt, while Apple's guidance is to enlarge Hebrew next to Latin (D33). At Pre-A1 the Hebrew carries the meaning.
+- **Issue.** It is 0.82em in cobalt, while Apple's guidance is to increase Hebrew by about 2 pt next to all-caps Latin (D33). At Pre-A1 the Hebrew carries the meaning.
 - **Recommendation.** Test legibility with beginners before fixing the size.
 
 **P2-13. Mismatched comment in `i18n.js`.**

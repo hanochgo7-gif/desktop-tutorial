@@ -12,7 +12,7 @@ const { chromium } = require('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = join(here, '..', '..', '..');
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
-const PORT = 8772;
+const PORT = Number(process.env.A11Y_PORT) || 8772;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
 const ROUTES = (arg('--routes') || 'welcome,help,today,path,practice,vocab,grammar,reading,listening,speaking,writing,writing/free,tutor,real-life,expressions,conversations,progress,profile,settings,account,lesson/pa1-05,review').split(',');

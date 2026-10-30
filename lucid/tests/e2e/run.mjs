@@ -14,7 +14,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = join(here, '..', '..', '..');
-const PORT = 8771;
+const PORT = Number(process.env.E2E_PORT) || 8771;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
 const ONLY = arg('--only');
