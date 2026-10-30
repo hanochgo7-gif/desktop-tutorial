@@ -67,6 +67,12 @@
     if (!host || !host._k) { btn.hidden = true; return; }
     var api = host._k, fig = btn.closest('figure') || document, say = $('[data-eye-say]', fig), on = false;
     function setSay(t) { if (say) say.textContent = t; }
+    function pick(o, byUser) {
+      api.pins.forEach(function (x) { x.b.classList.toggle('active', x === o); });
+      var f = FIND[o.p.id];
+      if (f) setSay(f[0] + ': ' + f[1]);
+      if (byUser) track('finding_open', { finding: o.p.id });
+    }
     btn.addEventListener('click', function () {
       on = !on;
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -74,15 +80,12 @@
       api.pins.forEach(function (o) { o.b.classList.remove('active'); });
       if (on) api.scan();
       setSay(on ? say.getAttribute('data-on') : say.getAttribute('data-off'));
+      // בטלפון רואים ממצא אחד בכל פעם: הראשון נפתח, והשאר בלחיצה על הנקודות
+      if (on && api.el.classList.contains('compact')) pick(api.pins[0], false);
       track('inspector_view', { on: on });
     });
     api.pins.forEach(function (o) {
-      o.b.addEventListener('click', function () {
-        api.pins.forEach(function (x) { x.b.classList.toggle('active', x === o); });
-        var f = FIND[o.p.id];
-        if (f) setSay(f[0] + ': ' + f[1]);
-        track('finding_open', { finding: o.p.id });
-      });
+      o.b.addEventListener('click', function () { pick(o, true); });
       var f = FIND[o.p.id];
       if (f) o.b.setAttribute('aria-label', f[0] + '. ' + f[1]);
     });
@@ -118,7 +121,7 @@
   if (rep) {
     var frame = $('.report__frame', rep), sheet = $('.sheet', rep), stage = $('.report__stage', rep);
     var targets = { 2: $('[data-target="text"]', sheet), 3: $('[data-target="detail"]', sheet) };
-    var ZOOM = { 1: 1, 2: 1.8, 3: 2.4 }, dist = 0;
+    var ZOOM = { 1: 1, 2: 1.65, 3: 2.4 }, dist = 0;
     var center = function (el) {
       var x = 0, y = 0, n = el;
       while (n && n !== sheet) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
@@ -173,7 +176,7 @@
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var v = function (n) { var el = f.elements[n]; if (!el) return ''; if (el.length && el[0] && el[0].type === 'radio') { for (var i = 0; i < el.length; i++) if (el[i].checked) return el[i].value; return ''; } return (el.value || '').trim(); };
-      var type = v('type'), city = v('city'), size = v('size'), name = v('name'), note = v('note');
+      var type = v('type'), name = v('name'), note = v('note'), data = { type: type, name: name, note: note };
       if (!type && !note) {
         err.textContent = 'בחרו סוג בדיקה, או כתבו בקצרה במה מדובר.';
         var first = f.querySelector('input[name="type"]');
@@ -183,8 +186,12 @@
       err.textContent = '';
       var lines = ['שלום רביד' + (name ? ', כאן ' + name : '') + '.'];
       if (type) lines.push('סוג הבדיקה: ' + type);
-      if (city) lines.push('עיר: ' + city);
-      if (size) lines.push('גודל: ' + size + (/^[\d.,\s]+$/.test(size) ? ' מ״ר' : ''));
+      $$('[data-msg]', f).forEach(function (el) {
+        var x = (el.value || '').trim(), u = el.getAttribute('data-unit');
+        if (!x) return;
+        data[el.name] = x;
+        lines.push(el.getAttribute('data-msg') + ': ' + x + (u && /^[\d.,\s]+$/.test(x) ? ' ' + u : ''));
+      });
       if (note) lines.push(note);
       lines.push('(נשלח מהאתר)');
       var url = 'https://wa.me/972547560711?text=' + encodeURIComponent(lines.join('\n'));
@@ -193,7 +200,7 @@
       var to = f.getAttribute('data-copy-to');
       if (to && window.fetch) {
         fetch(to, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ _subject: 'פנייה מהאתר: ' + (type || 'אחר'), name: name, type: type, city: city, size: size, note: note, _honey: v('_honey') }) }).catch(function () {});
+          body: JSON.stringify(Object.assign({ _subject: 'פנייה מהאתר: ' + (type || 'אחר'), _honey: v('_honey') }, data)) }).catch(function () {});
       }
       var w = window.open(url, '_blank');
       if (w) { try { w.opener = null; } catch (x) { /* */ } } else { location.href = url; }

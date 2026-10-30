@@ -174,7 +174,7 @@ main > section, .sec { position: relative; }
 .lineup__day { padding: 56px 0 12px; font: inherit; font-weight: 500; color: var(--sky); }
 .lineup__day:first-of-type { padding-top: 8px; }
 .row { position: relative; display: grid; grid-template-columns: 34% 30% 1fr 2em; align-items: baseline; min-height: 1.6em; padding: 0.18em 0; color: var(--ink); text-decoration: none; transition: color var(--t-hover) ease, opacity var(--t-hover) ease; }
-.row .c2, .row .c3 { color: var(--ink-soft); line-height: 1.25; padding-inline-end: 1em; }
+.row .c2, .row .c3 { color: var(--ink-soft); font-size: 0.62em; line-height: 1.3; padding-inline-end: 1em; }
 .row .c4 { justify-self: end; color: var(--muted); transition: transform var(--t-ui) var(--ease-out), color var(--t-hover) ease; }
 @media (hover: hover) and (pointer: fine) {
   .lineup__table:has(.row:hover) .row:not(:hover) { opacity: 0.45; }
@@ -253,6 +253,21 @@ main > section, .sec { position: relative; }
 }
 .report__cap .arrow-link, .still figcaption .arrow-link { display: inline-block; margin-top: 12px; }
 /* הדף עצמו: HTML חי, מוקטן לתוך המסגרת */
+.sheet--real { padding: 0; }
+.sheet__band { display: grid; justify-items: center; gap: 8px; padding: 30px 60px 20px; background: #eef2f4; border-bottom: 3px solid #10232d; } /* taste-skill-ignore: the report's own letterhead */
+.sheet__band img { width: 250px; height: auto; }
+.sheet__band p { font-size: 18px; color: #1c4a5e; }
+.sheet__cols { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; padding: 22px 44px 0; }
+.sheet__text { display: grid; gap: 12px; }
+.sheet__box { border: 2px solid #d3dce1; } /* taste-skill-ignore: the report's own boxes */
+.sheet__box h4 { margin: 0; padding: 5px 14px; background: #e2e9ed; font-size: 17px; font-weight: 500; color: #10232d; }
+.sheet__box > p { padding: 9px 16px 11px; font-size: 18px; line-height: 1.42; }
+.sheet__box > .sheet__finding { font-size: 26px; font-weight: 500; line-height: 1.2; }
+.sheet__pics { display: grid; gap: 14px; padding: 12px 14px 14px; }
+.sheet__pics figure { margin: 0; }
+.sheet__pics img { display: block; width: 100%; height: auto; }
+.sheet__pics figcaption { margin-top: 5px; font-size: 14px; line-height: 1.3; color: #4b6371; }
+.sheet--real .sheet__foot { bottom: 18px; inset-inline: 48px; font-size: 14px; }
 .sheet { position: absolute; top: 0; left: 0; width: 960px; height: 1200px; padding: 56px 60px; background: #f6f8f9; color: #10232d; transform-origin: 0 0; font-size: 19px; line-height: 1.45;
   transform: translate(var(--sx, 0px), var(--sy, 0px)) scale(var(--ss, 0.4)); transition: transform 900ms var(--ease-in-out); }
 .sheet__head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 22px; border-bottom: 3px solid var(--accent); }
@@ -329,7 +344,7 @@ main > section, .sec { position: relative; }
 .visit { margin-top: var(--gap); position: relative; min-height: 100svh; }
 .visit__photo { position: absolute; inset: 0; margin: 0; overflow: hidden; }
 .visit__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; filter: brightness(0.6) saturate(0.75) contrast(1.05); }
-.visit__photo figcaption { position: absolute; inset-inline-end: var(--m); bottom: 16px; font-size: var(--step-small); color: rgba(233, 239, 242, 0.82); background: rgba(3, 32, 45, 0.72); padding: 4px 8px; }
+.visit__photo figcaption { position: absolute; inset-inline-end: var(--m); bottom: 16px; max-width: calc(100% - 2 * var(--m)); font-size: var(--step-small); color: rgba(233, 239, 242, 0.82); background: rgba(3, 32, 45, 0.72); padding: 4px 8px; }
 .visit__inner { position: relative; z-index: 2; min-height: 100svh; padding: 60px var(--m); display: flex; justify-content: flex-start; align-items: flex-start; }
 .card { width: min(440px, 100%); background: var(--ink); color: var(--bg); padding: 32px; }
 .card h2 { font: 400 var(--step-sub)/1.1 var(--font); letter-spacing: -0.015em; }
@@ -339,7 +354,7 @@ main > section, .sec { position: relative; }
 .card__alt p { color: #284652; }
 @media (max-width: 860px) {
   .visit { min-height: 0; }
-  .visit__photo { position: relative; height: 70svh; }
+  .visit__photo { position: relative; height: 38svh; min-height: 240px; }
   .visit__inner { min-height: 0; padding: 0 var(--m) 0; margin-top: -80px; }
   .card { width: 100%; padding: 26px 22px; }
 }
@@ -485,6 +500,7 @@ main > section, .sec { position: relative; }
 /* טבלה עם תמונה בצד (לעורכי דין): עמוד הדוח, סטטי */
 .lineup--side { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; }
 .lineup--side .lineup__main { grid-column: 1 / span 7; }
+.lineup--side .lineup__table { font-size: clamp(1.25rem, 2.1vw, 1.875rem); }
 .still { grid-column: 9 / -1; justify-self: end; width: 384px; margin: 0; }
 .still__clip { position: relative; width: 384px; height: 480px; overflow: hidden; background: #f6f8f9; }
 .still__clip .sheet { transform: scale(0.4); transition: none; }
@@ -548,6 +564,25 @@ main > section, .sec { position: relative; }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
   .js .row[data-reveal] { transform: translateY(14px); }
 }
+/* ---------- כך זה נראה בשטח: שלושה צילומים מחוות דעת ---------- */
+.strip { margin-top: var(--gap); padding: 0 var(--m); }
+.strip__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+.strip__head h2 { grid-column: 1 / span 6; font: 400 var(--step-head)/1.02 var(--font); letter-spacing: -0.02em; }
+.strip__head p { grid-column: 8 / -1; max-width: 40ch; color: var(--ink-soft); }
+.strip__grid { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+.strip figure { margin: 0; }
+.strip img { display: block; width: 100%; height: auto; }
+.strip figcaption { display: grid; gap: 6px; margin-top: 16px; }
+.strip figcaption b { font-weight: 500; }
+.strip figcaption span { color: var(--ink-soft); font-size: var(--step-small); line-height: 1.5; }
+.strip__more { margin-top: 36px; }
+@media (max-width: 860px) {
+  .strip__head { display: block; }
+  .strip__head p { margin-top: 16px; }
+  .strip__grid { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+  .strip__grid li:first-child { grid-column: 1 / -1; }
+}
+
 /* ---------- ליקויים מהשטח: צילומים של רביד, שניים בשורה ---------- */
 .field { margin-top: var(--gap); padding: 0 var(--m); }
 .field h2 { font: 400 var(--step-head)/1.02 var(--font); letter-spacing: -0.02em; }
@@ -556,7 +591,8 @@ main > section, .sec { position: relative; }
 .field img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: var(--surface); }
 .field figcaption { display: grid; justify-items: start; gap: 8px; margin-top: 18px; max-width: 56ch; }
 .field figcaption b { font-weight: 500; font-size: var(--step-sub); line-height: 1.3; }
-.field__where, .field__k { color: var(--muted); }
+.field figcaption span { color: var(--ink-soft); }
+.field__k { color: var(--muted); }
 @media (max-width: 700px) { .field__grid { grid-template-columns: 1fr; gap: 48px; } }
 
 @keyframes line-up { to { transform: none; } }
@@ -643,6 +679,10 @@ main > section, .sec { position: relative; }
 .k-pin.flip .k-say::after { left: auto; right: -12px; background: linear-gradient(to top left, transparent calc(50% - 1px), rgba(233, 239, 242, 0.6) 50%, transparent calc(50% + 1px)); } /* taste-skill-ignore: the drawing's own lines */
 .k-pin.active .k-say, .k-pin:focus-visible .k-say { background: var(--ink); color: var(--bg); }
 @media (max-width: 600px) { .k-say { padding: 5px 8px; top: -38px; } }
+/* דגם צר: רק הנקודות, ותווית אחת פתוחה בכל פעם. אזור לחיצה של כ־40 פיקסלים סביב כל נקודה */
+.compact .k-say { display: none; }
+.compact .k-pin.active .k-say, .compact .k-pin:focus-visible .k-say { display: block; }
+.compact .k-dot::before { content: ""; position: absolute; inset: -14px; border-radius: 50%; }
 @media (prefers-reduced-motion: reduce) {
   .k-cam, .k-tilt, .k-world, .sheet { transition: none !important; }
   .swaying .k-world { animation: none; }

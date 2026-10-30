@@ -133,11 +133,11 @@ def bar(pg, current=None):
 def foot(pg, credit=None):
     if pg.lang == 'en':
         return (f'<footer class="foot"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
-                f'<nav class="foot__links" aria-label="Footer"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot">{C.PHONE}</a><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></nav>'
-                f'<p class="foot__end"><span>© {YEAR}</span><a href="{pg.a("accessibility/")}" lang="he">נגישות</a><a href="{pg.a("privacy/")}" lang="he">פרטיות</a></p>'
-                f'<p class="foot__credit">The apartment model and the report page on this site are illustrations.</p></footer>')
-    cr = '<p class="foot__credit">' + (credit + ' ' if credit else '') + 'הדירה התלת־ממדית ועמוד הדוח באתר הם המחשה.</p>'
-    return (f'<footer class="foot"><p>{BRAND} · בדק בית וחוות דעת הנדסית בצפון</p>'
+                f'<nav class="foot__links" aria-label="Footer"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot"><span class="ltr">{C.PHONE_EN}</span></a><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></nav>'
+                f'<p class="foot__end"><span>© {YEAR}</span><a href="{pg.a("accessibility/")}">Accessibility (Hebrew)</a><a href="{pg.a("privacy/")}">Privacy (Hebrew)</a></p>'
+                f'<p class="foot__credit">The apartment model on this site is an illustration.</p></footer>')
+    cr = '<p class="foot__credit">' + (credit + ' ' if credit else '') + ('הדירה התלת־ממדית באתר היא המחשה.' if HAS_FIELD else 'הדירה התלת־ממדית ועמוד הדוח באתר הם המחשה.') + '</p>'
+    return (f'<footer class="foot"><p>{BRAND} · בדק מבנים, איתור ליקויי בנייה ופיקוח הנדסי</p>'
             f'<nav class="foot__links" aria-label="קישורים בתחתית"><a href="{pg.a("") or "./"}#services">שירותים</a><a href="{pg.a("lawyers/")}">לעורכי דין ומתווכים</a><a href="{pg.a("about/")}">על רביד</a>'
             + (f'<a href="{pg.a("field/")}">ליקויים מהשטח</a>' if HAS_FIELD else '') +
             f'<a href="{pg.a("articles/")}">מאמרים</a><a href="{pg.a("checklist/")}">רשימת בדיקה</a><a href="{pg.a("contact/")}">יצירת קשר</a><a href="{pg.a("en/")}" lang="en">English</a></nav>'
@@ -205,12 +205,14 @@ def quote_form(pg, preset=None, lang='he'):
     if lang == 'en':
         return ''
     chips = ''.join(f'<label><input type="radio" name="type" value="{e(s["name"])}"{" checked" if preset == s["slug"] else ""}><span>{e(s["chip"])}</span></label>' for s in C.SERVICES)
+    F = C.FORM.get(preset, C.FORM[None])
     return (f'<form class="quote" data-quote novalidate>'
             f'<fieldset><legend>סוג הבדיקה</legend><div class="chips">{chips}</div></fieldset>'
-            f'<div class="two"><label><span>עיר</span><input type="text" name="city" autocomplete="address-level2" maxlength="40"></label>'
-            f'<label><span>גודל במ״ר</span><input type="text" name="size" inputmode="numeric" maxlength="12"></label></div>'
-            f'<label><span>שם</span><input type="text" name="name" autocomplete="name" maxlength="60"></label>'
-            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="2" maxlength="600" placeholder="מועד מסירה, היקף הבעיה, דוח קיים"></textarea></label>'
+            f'<div class="two"><label><span>עיר</span><input type="text" name="city" autocomplete="address-level2" maxlength="40" data-msg="עיר"></label>'
+            f'<label><span>{e(F["size"][0])}</span><input type="text" name="size" inputmode="numeric" maxlength="12" data-msg="{e(F["size"][1])}" data-unit="{e(F["size"][2])}"></label></div>'
+            f'<div class="two"><label><span>{e(F["date"])}</span><input type="text" name="date" maxlength="40" data-msg="{e(F["date"])}"></label>'
+            f'<label><span>שם</span><input type="text" name="name" autocomplete="name" maxlength="60"></label></div>'
+            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="2" maxlength="600" placeholder="{e(F["note"])}"></textarea></label>'
             f'<p class="quote__err" role="alert"></p>'
             f'<button class="btn btn--accent" type="submit">{ico_wa()}שליחה בוואטסאפ</button>'
             f'<p class="quote__note">ההודעה נפתחת אצלכם בוואטסאפ, ואתם שולחים אותה. האתר לא שומר את הפרטים.</p>'
@@ -234,9 +236,11 @@ def lineup(pg, h2, groups=None, h2_id='services-h', idattr='services', intro='')
     return ''.join(out)
 
 
-def process(items, h2_id='process-h', note2=None):
+def process(items, h2_id='process-h', note2=None, note1=None):
     lis = []
     for i, (line, note) in enumerate(items):
+        if i == 0 and note1:
+            note = note1
         if i == 1 and note2:
             note = note2
         tag = 'h2' if i == 0 else 'p'
@@ -245,9 +249,31 @@ def process(items, h2_id='process-h', note2=None):
     return f'<section class="process" aria-labelledby="{h2_id}"><ol class="stairs">{"".join(lis)}</ol></section>'
 
 
+def field_item(key):
+    return next((x for x in C.FIELD['items'] if x['img'] == key), None)
+
+
+def field_img(pg, x, lazy=True):
+    return (f'<img src="{pg.a("assets/img/field/" + x["img"] + ".webp")}" alt="{e(x["alt"])}" width="576" height="720"'
+            + (' loading="lazy"' if lazy else '') + ' decoding="async">')
+
+
 def sheet(pg):
+    S = C.SAMPLE_PAGE
+    pics = [(field_item(k), cap) for k, cap in S['pics']]
+    if HAS_FIELD and all(x for x, _ in pics):
+        figs = ''.join(f'<figure{" data-target=" + chr(34) + "detail" + chr(34) if i == 0 else ""}>{field_img(pg, x)}<figcaption>{e(cap)}</figcaption></figure>' for i, (x, cap) in enumerate(pics))
+        return (f'<div class="sheet sheet--real" data-ui aria-hidden="true">'
+                f'<div class="sheet__band"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118"><p>בדק מבנים | איתור ליקויי בנייה | פיקוח הנדסי</p></div>'
+                f'<div class="sheet__cols"><div class="sheet__text">'
+                f'<div class="sheet__box"><h4>{e(S["no"])} · ממצא</h4><p class="sheet__finding">{e(S["finding"])}</p></div>'
+                f'<div class="sheet__box" data-target="text"><h4>ממצאים ומסקנות</h4><p>{e(S["text"])}</p></div>'
+                f'<div class="sheet__box"><h4>המלצה</h4><p>{e(S["rec"])}</p></div>'
+                f'<div class="sheet__box"><h4>תמחור</h4><p>{e(S["price"])}</p></div></div>'
+                f'<div class="sheet__box"><h4>תמונות</h4><div class="sheet__pics">{figs}</div></div>'
+                f'</div><div class="sheet__foot"><span>רביד קרודו | {BRAND} | מ.ר {C.REG}</span><span>{e(S["foot"])}</span></div></div>')
     return (f'<div class="sheet" data-ui aria-hidden="true">'
-            f'<div class="sheet__head"><img src="{pg.a("assets/img/brand/logo.svg")}" alt="" width="607" height="154"><p><b>דוח בדק בית</b>דירה לדוגמה · המחשה</p></div>'
+            f'<div class="sheet__head"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118"><p><b>דוח בדק בית</b>דירה לדוגמה · המחשה</p></div>'
             f'<div class="sheet__item"><div class="sheet__shot"><i class="mark" data-target="detail"></i></div><div data-target="text">'
             f'<div class="sheet__no">ממצא: רטיבות בקיר</div>'
             f'<p class="sheet__row"><span>מיקום</span>קיר חדר הרחצה, בצד הפונה לסלון</p>'
@@ -258,7 +284,7 @@ def sheet(pg):
             f'<p class="sheet__row"><span>מיקום</span>קיר הסלון, מהפינה העליונה של החלון</p>'
             f'<p class="sheet__row"><span>מה נמצא</span>סדק אלכסוני שיוצא מפינת החלון.</p>'
             f'<p class="sheet__row"><span>המלצה</span>לבדוק את המקור, ולעקוב אחרי רוחב הסדק לפני תיקון.</p></div></div>'
-            f'<div class="sheet__foot"><span>{BRAND} · רביד קרודו, הנדסאי בניין מוסמך</span><span>המחשה</span></div>'
+            f'<div class="sheet__foot"><span>{BRAND} · רביד קרודו, הנדסאי בניין רשום</span><span>המחשה</span></div>'
             f'</div>')
 
 
@@ -266,6 +292,17 @@ def sample_link(pg):
     if not C.SAMPLE_REPORT:
         return ''
     return f' <a class="arrow-link" href="{pg.a(C.SAMPLE_REPORT)}" download data-sample>דוח אמיתי לדוגמה, PDF <span aria-hidden="true">←</span></a>'
+
+
+def field_strip(pg):
+    if not HAS_FIELD:
+        return ''
+    F = C.FIELD
+    pick = [x for x in F['items'] if x.get('short')][:3]
+    figs = ''.join(f'<li data-reveal><figure>{field_img(pg, x)}<figcaption><b>{e(x["found"])}</b><span>{e(x["short"])}</span></figcaption></figure></li>' for x in pick)
+    return (f'<section class="strip" aria-labelledby="strip-h"><div class="strip__head"><h2 id="strip-h" data-reveal>{e(F["strip_h2"])}</h2><p data-reveal>{e(F["strip_p"])}</p></div>'
+            f'<ul class="strip__grid">{figs}</ul>'
+            f'<p class="strip__more" data-reveal><a class="arrow-link" href="{pg.a("field/")}">עוד ליקויים מהשטח, עם מה שנמדד ומה שהומלץ <span aria-hidden="true">←</span></a></p></section>')
 
 
 def report_section(pg):
@@ -296,7 +333,7 @@ def page_hero(pg, h1, lede, actions, crumbs=None, mdl=None, wide=False, side='',
 
 def actions(pg, text, lang='he'):
     if lang == 'en':
-        return f'<a class="btn btn--accent" href="{wa(text)}" data-wa="hero">{ico_wa()}WhatsApp Ravid</a><a class="tel" href="tel:{C.PHONE_INTL}" data-tel="hero"><span class="ltr">{C.PHONE}</span></a>'
+        return f'<a class="btn btn--accent" href="{wa(text)}" data-wa="hero">{ico_wa()}WhatsApp Ravid</a><a class="tel" href="tel:{C.PHONE_INTL}" data-tel="hero"><span class="ltr">{C.PHONE_EN}</span></a>'
     return f'<a class="btn btn--accent" href="{wa(text)}" data-wa="hero">{ico_wa()}לתיאום בוואטסאפ</a><a class="tel" href="tel:{C.PHONE_INTL}" data-tel="hero"><span class="ltr">{C.PHONE}</span></a>'
 
 
@@ -311,8 +348,9 @@ def list_section(l, h2_id='list-h', pg=None, pic=None):
     rows = ''.join(f'<li data-reveal><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d in l['rows'])
     fig = ''
     if pic and pg:
-        fig = (f'<figure class="list__pic" data-reveal><img src="{pg.a("assets/img/scene/" + pic[0] + ".webp")}" alt="{e(pic[1])}" width="1200" height="900" loading="lazy" decoding="async">'
-               f'<figcaption>{e(pic[1])}</figcaption></figure>')
+        src, cap, w, h, alt = pic
+        fig = (f'<figure class="list__pic" data-reveal><img src="{pg.a(src)}" alt="{e(alt)}" width="{w}" height="{h}" loading="lazy" decoding="async">'
+               f'<figcaption>{e(cap)}</figcaption></figure>')
     return (f'<section class="list{" list--pic" if fig else ""}" aria-labelledby="{h2_id}"><div class="list__main"><h2 id="{h2_id}" data-reveal>{e(l["h2"])}</h2>'
             f'<p class="list__intro" data-reveal>{e(l["intro"])}</p><ul class="list__rows">{rows}</ul></div>{fig}</section>')
 
@@ -323,7 +361,7 @@ VALLEY_CREDIT = 'צילום עמק יזרעאל: Mohammad Hijjawi, <a href="http
 def visit_section(pg, h2, sub, preset=None, h2_id='contact-h', idattr='contact'):
     return (f'<section class="visit" id="{idattr}" aria-labelledby="{h2_id}">'
             f'<figure class="visit__photo"><img src="{pg.a("assets/img/photo/valley-1600.webp")}" srcset="{pg.a("assets/img/photo/valley-900.webp")} 900w, {pg.a("assets/img/photo/valley-1600.webp")} 1600w, {pg.a("assets/img/photo/valley-1920.webp")} 1920w" sizes="100vw" alt="עמק יזרעאל כפי שהוא נראה מהכרמל: שדות, יישובים וגבעות" width="1600" height="900" loading="lazy" decoding="async">'
-            f'<figcaption>עמק יזרעאל מהכרמל. משם יוצאים לכל בדיקה בצפון</figcaption></figure>'
+            f'<figcaption>עמק יזרעאל מהכרמל. אזור העבודה: {e(C.AREA_TOWNS)}</figcaption></figure>'
             f'<div class="visit__inner"><div class="card" data-reveal><h2 id="{h2_id}">{e(h2)}</h2><p class="card__sub">{e(sub)}</p>{quote_form(pg, preset)}'
             f'<div class="card__alt"><a href="tel:{C.PHONE_INTL}" data-tel="card"><span class="ltr">{C.PHONE}</span></a><a href="mailto:{C.EMAIL}">{C.EMAIL}</a><p>{e(C.ADDRESS)} · בודקים {e(C.AREA_IN)}</p></div></div></div></section>')
 
@@ -349,21 +387,21 @@ def org_schema():
         '@type': 'ProfessionalService', '@id': SITE_URL + '/#business', 'name': BRAND, 'alternateName': 'Krudo Engineering',
         'url': SITE_URL + '/', 'logo': SITE_URL + '/assets/img/brand/icon-512.png', 'image': SITE_URL + '/assets/img/og.jpg',
         'description': C.HOME['desc'], 'telephone': '+972-54-756-0711', 'email': C.EMAIL,
-        'address': {'@type': 'PostalAddress', 'streetAddress': 'זבולון 6', 'addressLocality': 'קריית טבעון', 'addressCountry': 'IL'},
+        'address': {'@type': 'PostalAddress', 'streetAddress': 'מעלה אבשלום 65', 'addressLocality': 'קריית טבעון', 'postalCode': '3609464', 'addressCountry': 'IL'},
         'areaServed': [{'@type': 'AdministrativeArea', 'name': 'מחוז הצפון'}, {'@type': 'AdministrativeArea', 'name': 'מחוז חיפה'}] +
                       [{'@type': 'City', 'name': n} for n in ['חיפה', 'קריית טבעון', 'קריית אתא', 'קריית ביאליק', 'קריית מוצקין', 'קריית ים', 'נשר', 'יקנעם עילית', 'מגדל העמק', 'עפולה', 'נצרת', 'נוף הגליל', 'רמת ישי', 'זכרון יעקב', 'עכו']],
         'founder': {'@id': SITE_URL + '/#ravid'}, 'employee': {'@id': SITE_URL + '/#ravid'},
-        'knowsAbout': ['בדק בית', 'חוות דעת הנדסית', 'בדיקה נגדית', 'איתור רטיבות במצלמה תרמית', 'ליקויי בנייה'],
+        'knowsAbout': ['בדק בית', 'בדק מבנים', 'איתור ליקויי בנייה', 'חוות דעת הנדסית', 'בדיקה נגדית', 'פיקוח הנדסי', 'איתור רטיבות'],
         'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': 'שירותים', 'itemListElement': [{'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': s['name'], 'url': f"{SITE_URL}/{s['slug']}/"}} for s in C.SERVICES]},
         'sameAs': [u for u in C.SOCIAL.values() if u],
     }
 
 
 def person_schema():
-    return {'@type': 'Person', '@id': SITE_URL + '/#ravid', 'name': 'רביד קרודו', 'alternateName': 'Ravid Krudo', 'jobTitle': 'הנדסאי בניין מוסמך',
+    return {'@type': 'Person', '@id': SITE_URL + '/#ravid', 'name': 'רביד קרודו', 'alternateName': 'Ravid Krudo', 'jobTitle': 'הנדסאי בניין רשום',
             'worksFor': {'@id': SITE_URL + '/#business'}, 'alumniOf': {'@type': 'CollegeOrUniversity', 'name': 'מכללת אורט'},
-            'hasCredential': [{'@type': 'EducationalOccupationalCredential', 'name': 'הנדסאי בניין מוסמך, מספר רישום 38633308', 'credentialCategory': 'רישום מקצועי'},
-                              {'@type': 'EducationalOccupationalCredential', 'name': 'הסמכה לכתיבת חוות דעת מומחה', 'recognizedBy': {'@type': 'Organization', 'name': 'איגוד המהנדסים לבנייה ולתשתיות'}}]}
+            'hasCredential': [{'@type': 'EducationalOccupationalCredential', 'name': 'הנדסאי בניין רשום בפנקס ההנדסאים, מספר רישום 38633308', 'credentialCategory': 'רישום מקצועי'},
+                              {'@type': 'EducationalOccupationalCredential', 'name': 'מאתר ליקויי בנייה', 'recognizedBy': {'@type': 'Organization', 'name': 'איגוד המהנדסים לבנייה ולתשתיות'}}]}
 
 
 def crumbs_schema(items):
@@ -399,27 +437,27 @@ def build_home():
             f'<div class="tour__steps" data-tour="apt-tour"><header class="tour__head"><h2 id="tour-h" data-reveal>{e(h["tour_h2"])}</h2><p data-reveal>{e(h["tour_intro"])}</p></header>{"".join(steps)}</div></section>')
     names = ', '.join(f'<span class="n">{e(n)}</span>' for n in h['creds'])
     creds = (f'<section class="creds" aria-labelledby="creds-h"><div class="creds__text" data-reveal data-creds><h2 id="creds-h">{e(h["creds_lead"])}</h2> <p>{names}.</p></div>'
-             f'<p class="creds__logo" data-reveal><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111" loading="lazy">הסמכה לכתיבת חוות דעת מומחה מטעם איגוד המהנדסים</p></section>')
+             f'<p class="creds__logo" data-reveal><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111" loading="lazy">מאתר ליקויי בנייה מטעם איגוד המהנדסים לבנייה ולתשתיות</p></section>')
     facts = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in h['about_facts'])
     about = (f'<section class="about" id="about" aria-labelledby="about-h"><div class="about__row"><dl class="facts" data-reveal>{facts}</dl>'
              f'<div class="about__text" data-reveal><h2 id="about-h">רביד קרודו</h2><p class="about__para">{e(h["about_para"])}</p><p class="about__more">{e(h["about_more"])}</p>'
              f'<a class="arrow-link" href="{pg.a("about/")}">עוד על רביד <span aria-hidden="true">←</span></a></div></div></section>')
     visit = visit_section(pg, h['contact_h2'], h['contact_sub'])
     findings = '<script type="application/json" id="k-findings">' + json.dumps(C.FINDINGS, ensure_ascii=False) + '</script>'
-    body = hero + findings + lineup(pg, h['lineup_h2'], intro=h['lineup_intro']) + tour + process(h['process']) + report_section(pg) + creds + about + faq_block(h['faq'], h['faq_h2'], pg) + visit
+    body = hero + findings + lineup(pg, h['lineup_h2'], intro=h['lineup_intro']) + creds + tour + field_strip(pg) + process(h['process']) + report_section(pg) + about + faq_block(h['faq'], h['faq_h2'], pg) + visit
     schema = graph(org_schema(), person_schema(), {'@type': 'WebSite', '@id': SITE_URL + '/#website', 'url': SITE_URL + '/', 'name': BRAND, 'inLanguage': 'he-IL', 'publisher': {'@id': SITE_URL + '/#business'}}, faq_schema(h['faq']))
     page(pg, h['title'], h['desc'], body, schema, model=True, credit=VALLEY_CREDIT, alt_en=True, full_title=f'{BRAND} · {h["title"]}')
 
 
 # ---------- עמודי השירות ----------
-SERVICE_PICS = {
-    'second-hand': ('moisture--moisture', 'המחשה: רטיבות בקיר, כפי שהיא נראית במצלמה תרמית'),
-    'private-house': ('water--moisture-drain', 'המחשה: רטיבות ושיפועי ניקוז'),
-    'new-apartment': ('plans--plans-electric-rail', 'המחשה: מידות מול התוכנית, חשמל ומעקות'),
-    'common-areas': ('structure--cracks-tiles', 'המחשה: סדקים וריצוף'),
-    'after-renovation': ('structure--cracks-tiles', 'המחשה: סדקים וריצוף אחרי עבודות'),
-    'expert-opinion': ('structure--cracks-tiles', 'המחשה: סדק מפינת החלון, ואריחים חלולים'),
-    'counter-inspection': ('moisture--moisture', 'המחשה: ממצא שנבדק מחדש בשטח'),
+SERVICE_PICS = {   # (צילום מהשטח, כיתוב) או None, ותמונת דגם למקרה שאין צילומים
+    'second-hand': (('ceiling-damp', 'רטיבות בתקרת חדר רחצה, כפי שסומנה בחוות דעת. המקור היה איטום לקוי סביב תריס הוונטה בקיר החוץ.'), ('moisture--moisture', 'המחשה: רטיבות בקיר, כפי שהיא נראית במצלמה תרמית')),
+    'private-house': (None, ('water--moisture-drain', 'המחשה: רטיבות ושיפועי ניקוז')),
+    'new-apartment': (('sash-gap', 'חופש של כ־8 מ״מ בכנף ויטרינה סגורה ונעולה. התקן מתיר 4 מ״מ.'), ('plans--plans-electric-rail', 'המחשה: מידות מול התוכנית, חשמל ומעקות')),
+    'common-areas': (None, ('structure--cracks-tiles', 'המחשה: סדקים וריצוף')),
+    'after-renovation': (('tile-lippage', 'הפרש גובה בין אריחים, נמדד בטריז. התקן מתיר עד 1.5 מ״מ.'), ('structure--cracks-tiles', 'המחשה: סדקים וריצוף אחרי עבודות')),
+    'expert-opinion': (('plumb-laser', 'בדיקת אנכיות הטיח: קרן לייזר כקו ייחוס, ומדידה בשלושה גבהים, לפי שיטת הבדיקה בתקן.'), ('structure--cracks-tiles', 'המחשה: סדק מפינת החלון, ואריחים חלולים')),
+    'counter-inspection': (('sliding-door-box', 'ארגז עליון מאולתר בדלת הזזה, כפי שסומן בחוות דעת.'), ('moisture--moisture', 'המחשה: ממצא שנבדק מחדש בשטח')),
 }
 
 def build_service(s):
@@ -429,11 +467,16 @@ def build_service(s):
     mdl = dict(s['model']) if s['model'] else None
     body = page_hero(pg, s['h1'], e(s['lede']), acts, crumbs, mdl)
     body += when_section(s['when'])
-    pic = SERVICE_PICS.get(s['slug'])
-    if pic:
-        POSTERS[pic[0]] = {'cam': pic[0].split('--')[0], 'show': pic[0].split('--')[1].replace('-', ',') if '--' in pic[0] else ''}
+    real, scene = SERVICE_PICS.get(s['slug'], (None, None))
+    pic = None
+    if real and HAS_FIELD and field_item(real[0]):
+        x = field_item(real[0])
+        pic = ('assets/img/field/' + x['img'] + '.webp', real[1], 576, 720, x['alt'])
+    elif scene:
+        POSTERS[scene[0]] = {'cam': scene[0].split('--')[0], 'show': scene[0].split('--')[1].replace('-', ',') if '--' in scene[0] else ''}
+        pic = ('assets/img/scene/' + scene[0] + '.webp', scene[1], 1200, 900, scene[1])
     body += list_section(s['list'], pg=pg, pic=pic)
-    body += process(C.HOME['process'], note2=s['report_note'])
+    body += process(C.HOME['process'], note2=s['report_note'], note1=s.get('visit'))
     body += faq_block(s['faq'], 'שאלות על ' + s['row'], pg)
     body += visit_section(pg, s['close'][0], s['close'][1], preset=s['slug'])
     body += related_nav(pg, s['related'])
@@ -448,15 +491,15 @@ def build_lawyers():
     pg = Page('lawyers/index.html')
     L = C.LAWYERS
     acts = actions(pg, L['wa'])
-    card = (f'<div class="card bizcard"><img class="bizcard__logo" src="{pg.a("assets/img/brand/logo.svg")}" alt="{BRAND}" width="607" height="154">'
-            f'<p class="bizcard__name">רביד קרודו</p><p class="bizcard__title">הנדסאי בניין מוסמך · רישום {C.REG}</p>'
+    card = (f'<div class="card bizcard"><img class="bizcard__logo" src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118">'
+            f'<p class="bizcard__name">רביד קרודו</p><p class="bizcard__title">הנדסאי בניין רשום · מ.ר {C.REG}</p>'
             f'<dl class="bizcard__rows"><div><dt>טלפון</dt><dd><a href="tel:{C.PHONE_INTL}" data-tel="card"><span class="ltr">{C.PHONE}</span></a></dd></div>'
             f'<div><dt>מייל</dt><dd><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div><div><dt>אזור</dt><dd>{e(C.AREA)}</dd></div></dl>'
             f'<a class="btn btn--accent" href="{pg.a("assets/krudo-engineering.vcf")}" download data-vcf>שמירת איש קשר</a></div>')
     body = page_hero(pg, L['h1'], e(L['lede']), acts, [('דף הבית', pg.a('') or './'), ('לעורכי דין ומתווכים', None)], side=card)
     rows = ''.join(row_link(pg.a(h), a, b, c) for h, a, b, c in L['refer'])
     body += (f'<section class="lineup lineup--side" aria-labelledby="refer-h"><div class="lineup__main"><h2 class="lineup__h" id="refer-h" data-reveal>{e(L["refer_h2"])}</h2><div class="lineup__table"><ul>{rows}</ul></div></div>'
-             f'<figure class="still" data-reveal><div class="still__clip">{sheet(pg)}</div><figcaption>מה הלקוח מקבל: לכל ממצא תמונה, מיקום, הסבר והמלצה. המחשה של עמוד מתוך דוח.{sample_link(pg)}</figcaption></figure></section>')
+             f'<figure class="still" data-reveal><div class="still__clip">{sheet(pg)}</div><figcaption>מה הלקוח מקבל: סעיף לכל ממצא, עם מדידה, סעיף התקן, המלצה ותמחור לפי מחירון דקל. {"עמוד מתוך חוות דעת של רביד, בלי פרטים מזהים." if HAS_FIELD else "המחשה של עמוד מתוך דוח."}{sample_link(pg)}</figcaption></figure></section>')
     send = ''.join(f'<li>{e(x)}</li>' for x in L['send'])
     get = ''.join(f'<li>{e(x)}</li>' for x in L['get'])
     body += (f'<section class="when" aria-labelledby="work-h"><div class="when__text" data-reveal><h2 id="work-h">{e(L["statement"].split(".")[0])}.</h2><p class="lead">{e(L["statement"].split(". ", 1)[1])}</p></div>'
@@ -473,7 +516,7 @@ def build_about():
     pg = Page('about/index.html')
     A = C.ABOUT
     sheet_ = ('<div class="factsheet"><dl>' + ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in A['creds']) + '</dl>'
-              f'<p class="creds__logo"><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111">הסמכה לכתיבת חוות דעת מומחה מטעם איגוד המהנדסים</p></div>')
+              f'<p class="creds__logo"><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111">מאתר ליקויי בנייה מטעם איגוד המהנדסים לבנייה ולתשתיות</p></div>')
     # TODO: כשתגיע תמונה של רביד בשטח, היא נכנסת כאן במקום לוח העובדות או לידו
     body = page_hero(pg, A['h1'], e(A['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('על רביד', None)], side=sheet_)
     story = ''.join(f'<p>{e(x)}</p>' for x in A['story'])
@@ -494,7 +537,7 @@ def build_contact():
     side = (f'<div class="factsheet"><dl><div><dt>וואטסאפ וטלפון</dt><dd><a class="link" href="tel:{C.PHONE_INTL}" data-tel="contact"><span class="ltr">{C.PHONE}</span></a></dd></div>'
             f'<div><dt>מייל</dt><dd><a class="link" href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div>'
             f'<div><dt>כתובת</dt><dd>{e(C.ADDRESS)}</dd></div><div><dt>אזור</dt><dd>{e(C.AREA_TOWNS)}, עד כ־50 ק״מ</dd></div></dl>'
-            f'<p class="factsheet__note">לחוות דעת ולנכסים גדולים אפשר לבדוק הגעה גם רחוק יותר.</p></div>')
+            f'<p class="factsheet__note">לחוות דעת ולנכסים גדולים, אפשר לתאם גם רחוק יותר.</p></div>')
     body = page_hero(pg, K['h1'], e(K['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('יצירת קשר', None)], side=side)
     body += visit_section(pg, 'פרטים לוואטסאפ', 'בחרו סוג בדיקה והוסיפו מה שאתם יודעים. תמונות מצרפים בצ׳אט.', h2_id='form-h', idattr='form')
     rows = ''.join(f'<li data-reveal><b>{e(a)}</b><span>{e(b)}</span></li>' for a, b in K['next'])
@@ -509,11 +552,11 @@ def build_checklist():
     K = C.CHECKLIST
     secs = ''.join(f'<section aria-labelledby="cl-{i}"><h2 id="cl-{i}">{e(t)}</h2><ul>{"".join(f"<li>{e(x)}</li>" for x in items)}</ul></section>' for i, (t, items) in enumerate(K['sections']))
     body = (f'<article class="article"><header class="article__head"><nav class="crumbs no-print" aria-label="מיקום באתר"><a href="{pg.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <span aria-current="page">רשימת בדיקה</span></nav>'
-            f'<p class="print-only"><img src="{pg.a("assets/img/brand/logo.svg")}" alt="{BRAND}" width="200" height="51"></p>'
+            f'<p class="print-only"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="200" height="39"></p>'
             f'<h1>{e(K["h1"][0])} {e(K["h1"][1])}</h1><p class="article__meta">{e(K["lede"])}</p>'
             f'<p class="no-print page-hero__actions"><a class="btn btn--accent" href="{pg.a("assets/krudo-checklist.pdf")}" download data-pdf>הורדה כ־PDF</a><button class="btn btn--quiet" type="button" data-print>הדפסה</button></p></header>'
             f'<div class="article__body"><div class="checklist">{secs}</div>'
-            f'<p class="print-only">{e(K["end"])} רביד קרודו, הנדסאי בניין מוסמך · {C.PHONE} · krudoeng.com</p></div>'
+            f'<p class="print-only">{e(K["end"])} רביד קרודו, הנדסאי בניין רשום · {C.PHONE} · krudoeng.com</p></div>'
             f'<aside class="article__aside no-print"><div class="aside-card"><h2>רוצים שרביד יבדוק?</h2><p>{e(K["end"])}</p><a class="btn btn--accent" href="{wa(SVC["new-apartment"]["wa"])}" data-wa="aside">{ico_wa()}לתיאום בוואטסאפ</a></div></aside></article>')
     schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('רשימת בדיקה', 'checklist/')]))
     page(pg, K['title'], K['desc'], body, schema, credit=VALLEY_CREDIT)
@@ -525,16 +568,19 @@ def build_field():
         return
     F = C.FIELD
     pg = Page('field/index.html')
-    body = page_hero(pg, F['h1'], e(F['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('ליקויים מהשטח', None)])
+    side = ('<div class="factsheet"><dl>'
+            '<div><dt>הבדיקה</dt><dd>ויזואלית ולא הורסת, עם ציוד מדידה</dd></div>'
+            '<div><dt>בכל סעיף</dt><dd>ממצא, מסקנות וסעיף התקן, המלצה, תמחור ותמונות</dd></div>'
+            '<div><dt>תמחור</dt><dd>לפי מחירון דקל, לפני מע״מ וכולל מע״מ</dd></div>'
+            '<div><dt>נספחים</dt><dd>סעיפי התקנים שעליהם נשען כל ממצא</dd></div></dl></div>')
+    body = page_hero(pg, F['h1'], e(F['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('ליקויים מהשטח', None)], side=side)
     for key, name in F['groups']:
         items = [x for x in F['items'] if x['group'] == key]
         if not items:
             continue
         figs = ''.join(
-            f'<li data-reveal><figure><img src="{pg.a(x["img"])}" alt="{e(x["found"])}" width="{x["w"]}" height="{x["h"]}" loading="lazy" decoding="async">'
-            f'<figcaption><span class="field__where">{e(x["where"])}</span><b>{e(x["found"])}</b><span><span class="field__k">המלצה:</span> {e(x["rec"])}</span>'
-            + (f'<a class="arrow-link" href="{pg.a(x["service"] + "/")}">{e(SVC[x["service"]]["name"])} <span aria-hidden="true">←</span></a>' if x.get('service') in SVC else '')
-            + '</figcaption></figure></li>' for x in items)
+            f'<li data-reveal><figure>{field_img(pg, x)}'
+            f'<figcaption><b>{e(x["found"])}</b><span>{e(x["note"])}</span><span><span class="field__k">המלצה:</span> {e(x["rec"])}</span></figcaption></figure></li>' for x in items)
         body += f'<section class="field" aria-labelledby="field-{key}"><h2 id="field-{key}" data-reveal>{e(name)}</h2><ul class="field__grid">{figs}</ul></section>'
     body += visit_section(pg, 'מצאתם משהו דומה?', 'שלחו תמונה ופרטים בוואטסאפ, ורביד יגיד אם צריך בדיקה, ואיזו.')
     body += related_nav(pg, ['second-hand', 'new-apartment', 'expert-opinion'])
@@ -555,7 +601,7 @@ def build_articles():
     body = (f'<section class="article" aria-labelledby="h1"><header class="article__head"><nav class="crumbs" aria-label="מיקום באתר"><a href="{idx.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <span aria-current="page">מאמרים</span></nav>'
             f'<h1 id="h1">מאמרים</h1><p class="article__meta">מה שכדאי לדעת לפני שקונים, מקבלים מפתח או נכנסים למחלוקת. כתב רביד קרודו.</p></header>'
             f'<div class="article__body"><ul class="index-list">{items}</ul></div></section>')
-    page(idx, 'מאמרים על בדק בית וליקויי בנייה', 'מאמרים של רביד קרודו, הנדסאי בניין מוסמך: איך לקרוא מפרט טכני, ליקויים נפוצים בדירות חדשות, ואחריות הקבלן לפי חוק המכר.', body,
+    page(idx, 'מאמרים על בדק בית וליקויי בנייה', 'מאמרים של רביד קרודו, הנדסאי בניין רשום: איך לקרוא מפרט טכני, ליקויים נפוצים בדירות חדשות, ואחריות הקבלן לפי חוק המכר.', body,
          graph(org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים', 'articles/')])), current='articles')
     for a in C.ARTICLES:
         pg = Page(f'articles/{a["slug"]}/index.html')
@@ -686,9 +732,9 @@ def build_redirects():
 
 
 def build_vcf():
-    v = ('BEGIN:VCARD\r\nVERSION:3.0\r\nN:קרודו;רביד;;;\r\nFN:רביד קרודו\r\nORG:קרודו הנדסה\r\nTITLE:הנדסאי בניין מוסמך\r\n'
-         f'TEL;TYPE=CELL,VOICE:{C.PHONE_INTL}\r\nEMAIL;TYPE=INTERNET:{C.EMAIL}\r\nADR;TYPE=WORK:;;זבולון 6;קריית טבעון;;;ישראל\r\n'
-         f'URL:{SITE_URL}/\r\nNOTE:בדק בית\\, בדיקה נגדית וחוות דעת הנדסית בצפון\r\nEND:VCARD\r\n')
+    v = ('BEGIN:VCARD\r\nVERSION:3.0\r\nN:קרודו;רביד;;;\r\nFN:רביד קרודו\r\nORG:קרודו הנדסה\r\nTITLE:הנדסאי בניין רשום\\, מ.ר 38633308\r\n'
+         f'TEL;TYPE=CELL,VOICE:{C.PHONE_INTL}\r\nEMAIL;TYPE=INTERNET:{C.EMAIL}\r\nADR;TYPE=WORK:;;מעלה אבשלום 65;קריית טבעון;;3609464;ישראל\r\n'
+         f'URL:{SITE_URL}/\r\nNOTE:בדק מבנים\\, איתור ליקויי בנייה ופיקוח הנדסי. בדק בית\\, בדיקה נגדית וחוות דעת הנדסית בצפון\r\nEND:VCARD\r\n')
     os.makedirs(os.path.join(ROOT, 'assets'), exist_ok=True)
     open(os.path.join(ROOT, 'assets', 'krudo-engineering.vcf'), 'w', encoding='utf-8', newline='').write(v)
 

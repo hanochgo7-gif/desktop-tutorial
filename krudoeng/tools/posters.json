@@ -19,10 +19,6 @@
   "cam": "overview",
   "show": "moisture,cracks,electric,drain"
  },
- "moisture--moisture": {
-  "cam": "moisture",
-  "show": "moisture"
- },
  "water--moisture-drain-cracks": {
   "cam": "water",
   "show": "moisture,drain,cracks"
@@ -34,6 +30,10 @@
  "structure--tiles-moisture-electric": {
   "cam": "structure",
   "show": "tiles,moisture,electric"
+ },
+ "moisture--moisture": {
+  "cam": "moisture",
+  "show": "moisture"
  },
  "structure--cracks-tiles-plans": {
   "cam": "structure",

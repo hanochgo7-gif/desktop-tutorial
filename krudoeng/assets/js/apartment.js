@@ -214,6 +214,8 @@
       b.type = 'button'; b.dataset.f = p.id; b.dataset.step = p.step; b.tabIndex = -1;
       b.innerHTML = '<span class="k-dot" aria-hidden="true"></span><span class="k-say">' + (EN ? EN_PINS[p.id] : p.say) + '</span>';
       layer.appendChild(b);
+      // ממצא אחד פעיל בכל פעם (בטלפון רק התווית שלו מוצגת)
+      b.addEventListener('click', function () { pins.forEach(function (x) { x.b.classList.toggle('active', x.b === b); }); });
       return { p: p, a: a, b: b };
     });
     tilt.appendChild(world); cam.appendChild(tilt); stage.appendChild(cam); stage.appendChild(layer);
@@ -240,6 +242,7 @@
       if (!r.width) return;
       var f = Math.min(r.width / 820, r.height / 540);
       stage.style.setProperty('--fit', f.toFixed(3));
+      stage.classList.toggle('compact', r.width < 560);
       follow(400);
     }
     fit();
@@ -279,6 +282,11 @@
           o.b.tabIndex = on && opts.focusable ? 0 : -1;
           o.b.setAttribute('aria-hidden', on ? 'false' : 'true');
         });
+        // בדגם צר: תווית אחת בכל פעם, כדי שלא יעלו זו על זו. הראשונה נפתחת לבד
+        if (stage.classList.contains('compact')) {
+          var lit = pins.filter(function (o) { return o.b.classList.contains('on'); });
+          if (lit.length && !lit.some(function (o) { return o.b.classList.contains('active'); })) lit[0].b.classList.add('active');
+        }
         follow(REDUCED ? 60 : 1400);
       },
       scan: function () {
