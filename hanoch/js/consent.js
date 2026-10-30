@@ -99,6 +99,9 @@
     if (!el || !el.getBoundingClientRect) return;
     // רק מיקוד מהמקלדת (ושדות טופס): לחיצה בעכבר על קישור לא מזיזה את הדף
     try { if (!el.matches(':focus-visible')) return; } catch (x) { /* דפדפן ישן */ }
+    // בתוך חלון (כמו "שאחזור אליכם") או שכבה קבועה, גלילה של הדף לא מזיזה את האלמנט. רק מזיזה את מה שמאחור
+    if (el.closest('dialog[open], [aria-modal="true"]')) return;
+    for (var p = el; p && p !== document.body; p = p.parentElement) if (getComputedStyle(p).position === 'fixed') return;
     var r = el.getBoundingClientRect(), top = innerHeight;
     [box, document.getElementById('dock')].forEach(function (o) {
       if (!o || o.hidden || o.contains(el)) return;

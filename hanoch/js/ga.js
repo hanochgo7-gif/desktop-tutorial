@@ -17,6 +17,8 @@
   if (!/(^|\.)hgpro\.io$/.test(location.hostname)) return;
   // בלי מנגנון ההסכמה לא נטען בכלל
   if (!window.hgConsent) return;
+  // ההדמיה שמוטמעת בעמוד העבודות (/sim/) לא נספרת כצפייה נפרדת
+  try { if (window.top !== window) return; } catch (e) { return; }
   start();
 
   function start() {
@@ -24,7 +26,8 @@
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
   // ברירת המחדל: הכול חסום, בלי עוגיות. מזהה הקליק מהמודעה עובר בכתובת בין העמודים במקום בעוגייה
-  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+  // בלי wait_for_update: ההסכמה ידועה כבר בטעינה (js/consent.js), והמתנה רק מעכבת את הצפייה. בדף המעבר לוואטסאפ היא גם הייתה מפילה אותה
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
   gtag('set', 'url_passthrough', true);
   gtag('set', 'ads_data_redaction', true);
   window.hgConsent.onGrant(function () { gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted' }); });
@@ -53,6 +56,23 @@
   if (GO) load();
   else if (document.readyState === 'complete') later(); else addEventListener('load', later);
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, load, { once: true, passive: true }); });
+
+  // קישורי הוואטסאפ כפי שהם בעמוד בטעינה. הודעה שנבנית אחר כך ממה שהגולש כתב (שם, טלפון) מזוהה כי הקישור שלה חדש או השתנה
+  var asLoaded = new WeakMap();
+  function snapshot() { [].forEach.call(document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]'), function (a) { if (!asLoaded.has(a)) asLoaded.set(a, a.getAttribute('href')); }); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', snapshot); else snapshot();
+  // טקסט ההודעה בלי קוד המודעה, ש-js/adcode.js מוסיף ברגע הלחיצה: קוד מודעה הוא לא פרט אישי
+  function msg(h) { try { return (new URL(h, location.href).searchParams.get('text') || '').replace(/\s*(?:קוד|Code): [A-Z0-9_-]{1,24}\s*$/, ''); } catch (e) { return String(h); } }
+  // מזהה הקליק של מודעה עובר לעמוד הבא באתר בכתובת עצמה, גם אם התג של גוגל עוד לא נטען. בלי עוגייה ובלי אחסון
+  var AD_KEYS = ['gclid', 'gbraid', 'wbraid', '_gl'];
+  function carry(a) {
+    var q = new URLSearchParams(location.search), u;
+    if (!AD_KEYS.some(function (k) { return q.get(k); })) return;
+    try { u = new URL(a.href); } catch (e) { return; }
+    if (u.origin !== location.origin || /^\/go\//.test(u.pathname) || (u.pathname === location.pathname && u.search === location.search)) return;
+    AD_KEYS.forEach(function (k) { if (q.get(k) && !u.searchParams.get(k)) u.searchParams.set(k, q.get(k)); });
+    a.href = u.href;
+  }
 
   // מאיזה חלק בעמוד הגיעה הלחיצה
   function where(el) {
@@ -84,13 +104,20 @@
         var fromAd = ['gclid', 'gbraid', 'wbraid', '_gl'].some(function (k) { return q.get(k); }) || /(^|;\s*)_gcl_(aw|gb|dc)=/.test(document.cookie);
         if (lead === 'whatsapp' && fromAd) {
           e.preventDefault();
+          e.hgHandoff = true; // js/meta.js: הלחיצה נספרת בדף המעבר
           var go = '/go/wa?u=' + encodeURIComponent(a.href);
           // מזהה הקליק של המודעה (gclid / gbraid / wbraid / fbclid / _gl) עובר הלאה בכתובת, כדי לדעת איזו מודעה הביאה את הפנייה גם בלי עוגיות
           ['gclid', 'gbraid', 'wbraid', 'fbclid', '_gl', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (q.get(k)) go += '&' + k + '=' + encodeURIComponent(q.get(k)); });
           if (a.target === '_blank') window.open(go, '_blank', 'noopener'); else location.href = go;
+        } else if (lead === 'whatsapp' && (!asLoaded.has(a) || msg(asLoaded.get(a)) !== msg(a.getAttribute('href')))) {
+          // הודעה עם מה שהגולש כתב: נפתחת מהקוד ולא כלחיצה רגילה. המדידה האוטומטית של גוגל ללחיצות יוצאות מדלגת על לחיצה כזו,
+          // וכך הכתובת המלאה, עם השם והטלפון, לא נשלחת. הודעות קבועות (בלי פרטים) נפתחות כרגיל, ישר באפליקציה
+          e.preventDefault();
+          if (a.target === '_blank') window.open(a.href, '_blank', 'noopener'); else location.href = a.href;
         }
         return;
       }
+      carry(a);
       // עבודות בדף הבית: איזו עבודה מושכת, ואם נכנסים לסיפור או לאתר החי
       var pf = a.closest('.pf, .card');
       if (pf) {

@@ -140,7 +140,13 @@
     f.addEventListener('submit', function () {
       // מי שהשאיר טלפון יודע שאחזור אליו גם בלי ההודעה. במחשב, שאין בו וואטסאפ, יש גם שיחה חוזרת
       var tel = f.querySelector('input[type=tel]'), left = tel && tel.value.replace(/\D/g, '').length >= 9;
-      note.textContent = 'נפתח לכם וואטסאפ עם ההודעה. ' + (left ? 'השארתם טלפון, אז אחזור אליכם גם אם לא תשלחו אותה.' : 'נשאר רק ללחוץ על שליחה.');
+      // ההבטחה לחזור נכתבת רק אחרי שהטלפון באמת נשמר במערכת הפניות (האירוע hgos:sent מ-js/hgos.js)
+      note.textContent = 'נפתח לכם וואטסאפ עם ההודעה. נשאר רק ללחוץ על שליחה.';
+      if (left) f.addEventListener('hgos:sent', function (ev) {
+        var ok = ev.detail && ev.detail.ok;
+        note.textContent = 'נפתח לכם וואטסאפ עם ההודעה. ' + (ok ? 'השארתם טלפון, אז אחזור אליכם גם אם לא תשלחו אותה.' : 'את הטלפון לא הצלחתי לשמור, אז שלחו את ההודעה או התקשרו: ');
+        if (!ok) { var t = d.createElement('a'); t.href = 'tel:+972545522053'; t.dir = 'ltr'; t.textContent = '054-5522053'; note.append(t); }
+      }, { once: true });
       if (!left && window.HTMLDialogElement && matchMedia('(pointer: fine)').matches) {
         var b = d.createElement('button'); b.type = 'button'; b.className = 'sent-cb'; b.setAttribute('data-callback', ''); b.textContent = 'שאחזור אליכם בשעה נוחה';
         note.append(' אין וואטסאפ במחשב? ', b);

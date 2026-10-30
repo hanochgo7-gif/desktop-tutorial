@@ -776,7 +776,7 @@
   }
   document.addEventListener('keydown', function (e) {
     if (!caseEl) return;
-    if (e.key === 'Escape') closeCase();
+    if (e.key === 'Escape' && !document.querySelector('dialog[open]')) closeCase();
     if (e.key === 'Tab' && !caseEl.hidden) {
       var f = $$('button, a[href]', caseEl).filter(function (el) { return el.offsetParent !== null; });
       if (!f.length) return;

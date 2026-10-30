@@ -10,6 +10,7 @@
   if (!/^\d{10,20}$/.test(PIXEL)) return;
   if (!/(^|\.)hgpro\.io$/.test(location.hostname)) return;
   if (!window.hgConsent) return;
+  try { if (window.top !== window) return; } catch (e) { return; }
   var GO = /^\/go\/wa\/?$/.test(location.pathname);
 
   window.hgConsent.onGrant(function () {
@@ -22,6 +23,8 @@
     s.async = true; s.src = 'https://connect.facebook.net/en_US/fbevents.js';
     s.onerror = function () { window.hgMetaFailed = true; };
     document.head.appendChild(s);
+    // בלי אירועים אוטומטיים של Meta (לחיצות על כפתורים וקישורים): הם עלולים לשלוח את כתובת הוואטסאפ עם תוכן ההודעה
+    fbq('set', 'autoConfig', false, PIXEL);
     fbq('init', PIXEL);
     fbq('track', 'PageView');
     if (GO) {
@@ -47,7 +50,7 @@
     var href = a.getAttribute('href') || '', method = /^tel:/.test(href) ? 'phone' : /^mailto:/.test(href) ? 'email' : /wa\.me|api\.whatsapp\.com/.test(href) ? 'whatsapp' : '';
     if (!method) return;
     // וואטסאפ שעובר דרך דף המעבר (js/ga.js, מבקרים ממודעה בגוגל) נספר שם
-    if (method === 'whatsapp' && e.defaultPrevented) return;
+    if (method === 'whatsapp' && e.hgHandoff) return;
     var c = window.hgAd && window.hgAd.code();
     fbq('track', 'Contact', c ? { content_name: method, ad_code: c } : { content_name: method });
   }, true);

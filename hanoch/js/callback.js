@@ -144,8 +144,10 @@
     var si = +(form.elements.time && form.elements.time.value) || 0;
     if (!d) {
       // "בהקדם": בתוך שעות החזרה זה באמת בהקדם. בערב, בלילה ובשבת זה החלון הקרוב, כדי שהאישור יגיד מתי ושהמשימה ב-HG OS תקבל מועד
-      var nh = israelNow().h, first = list[0];
-      if (!first || (first.today && first.slots.some(function (x) { return nh >= x[1] && nh < x[2]; }))) return { label: 'בהקדם האפשרי' };
+      // נבדק מול החלונות המלאים של היום: גם בשעה האחרונה של חלון (שכבר לא מוצעת לבחירה) מתקשרים בהקדם
+      var n0 = israelNow(), nh = n0.h, first = list[0], wd0 = new Date(Date.UTC(n0.y, n0.m - 1, n0.d)).getUTCDay();
+      var todayAll = wd0 === 6 ? [] : wd0 === 5 ? FRIDAY : SLOTS;
+      if (!first || todayAll.some(function (x) { return nh >= x[1] && nh < x[2]; })) return { label: 'בהקדם האפשרי' };
       d = first; si = 0;
     }
     var s = d.slots[si];

@@ -39,8 +39,8 @@
   q.delete('u');
   var keep = q.toString();
   history.replaceState(null, '', location.pathname + (keep ? '?' + keep : ''));
+  // הקישור לגיבוי נשאר בלי תוכן ההודעה, כדי שהמדידה האוטומטית של לחיצות יוצאות לא תשלח אותו. לחיצה עליו עוברת לאותה כתובת מהקוד
   var go = document.getElementById('go');
-  go.href = u;
   // הודעה מעמוד באנגלית (בלי אותיות עבריות): הדף מדבר אנגלית
   var text = '';
   try { text = new URL(u).searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
@@ -53,14 +53,15 @@
   }
   var done = false;
   function open() { if (done) return; done = true; location.replace(u); }
-  // ממתינים שהתג של גוגל (ואם אושרו עוגיות, גם הפיקסל של Meta) ייטען וישלח את הצפייה בדף, ולכל היותר שנייה וחצי.
+  go.addEventListener('click', function (e) { e.preventDefault(); done = false; open(); });
+  // ממתינים שהתג של גוגל (ואם אושרו עוגיות, גם הפיקסל של Meta) ייטען וישלח את הצפייה בדף, ולכל היותר שתי שניות וחצי (רשת איטית).
   // תג שנחסם (חוסם פרסומות, בלי רשת) לא מעכב: עוברים מיד
   var t0 = Date.now();
   (function wait() {
     var meta = !window.fbq || window.fbq.callMethod || window.hgMetaFailed;
     var tag = window.hgTagFailed || (window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']);
-    if (meta && tag) return setTimeout(open, window.hgTagFailed ? 0 : 300);
-    if (Date.now() - t0 > 1500) return open();
+    if (meta && tag) return setTimeout(open, window.hgTagFailed ? 0 : 400);
+    if (Date.now() - t0 > 2500) return open();
     setTimeout(wait, 80);
   })();
 })();
