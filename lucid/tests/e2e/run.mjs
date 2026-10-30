@@ -309,9 +309,16 @@ try {
     const sent = page.lucidMock.aiBodies.at(-1);
     assert(sent.stage === 0 && sent.draft_number === 1, `stage/draft not sent: ${JSON.stringify({ stage: sent.stage, draft: sent.draft_number })}`);
     assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before the learner asked for it');
-    // Hint ladder: each press reveals one more rung until the correction (research E, 9.5).
-    for (let i = 0; i < 4 && await page.$('[data-rung="0"]'); i++) await page.click('[data-rung="0"]');
-    assert(/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction not revealed at the end of the hint ladder');
+    // Hint ladder (research E, 9.5): hints open on request, the correction only after an attempt in the text.
+    for (let i = 0; i < 3 && await page.$('[data-rung="0"]:not([disabled])'); i++) await page.click('[data-rung="0"]');
+    assert(await page.$('[data-rung="0"][disabled]'), 'correction reachable without any attempt');
+    assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before an attempt');
+    await page.fill('#essay', 'I think public transport is more good than cars. It is cheaper and cleaner for everyone in the city.');
+    await page.waitForSelector('[data-rung="0"]:not([disabled])');
+    await page.click('[data-rung="0"]');
+    assert(/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction not revealed after an attempt');
+    const hints = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'hint-level').map((e) => `${e.level}:${e.after}`));
+    assert(hints.at(-1) === '4:attempt' && hints.length >= 2, `hint levels not logged: ${hints}`);
     assert(!/Estimated level of this text|הערכת רמה של הטקסט/.test(await page.textContent('aside.panel')), 'overall level shown on a first draft');
     await page.fill('#essay', 'I think public transport is better than cars. It is cheaper and cleaner for everyone in the city.');
     await page.click('[data-ai]');

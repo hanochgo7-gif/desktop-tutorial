@@ -16,13 +16,13 @@ Each method below states what the evidence supports, how strong it is, and exact
 | **Retrieval practice and active recall** | Testing effect is robust, larger with feedback and delayed tests (strong). | Every review is a recall attempt; correct answer shown on every error; no "re-read" modes; delayed second recall inside the session (exit check) | `views/review.js`, `adaptive.dailyPlan` (C1-D5, D8) |
 | **Objective grading, not self-rating** | Learners' judgements of their own recall are poorly calibrated (moderate). | Wrong = Again, hinted/slow = Hard, correct = Good, Easy only when fast and proven; no four-button self-rating | `srs.gradeFrom` (C1-D4) |
 | **Retrieval format ladder** | Recall beats recognition; direction of learning matters (moderate). | Recognition on first exposures, then typed meaning recall, then form recall (Hebrew to English) once stable | `review.js`, `srs.unlockedFormCards` (C1-D7) |
-| **Blocked then interleaved practice** | Interleaving helps discrimination between confusable categories after initial learning (moderate for L2 grammar; mixed). | New structures are taught blocked in their lesson; targeted drills mix each topic with its "competitor" (past simple vs present perfect, etc.) | `pool.COMPETITORS`, `drill.js` (C1-D11) |
+| **Blocked then interleaved practice** | Contested for language. Brunmair & Richter (2019) found blocking better for word materials and are reluctant to recommend interleaving for foreign languages; Nakata & Suzuki (2019) found interleaving helped L2 grammar at one week, more so for lower-pretest learners (C1 §4, after verification). Blocked-first is a design choice to A/B test, not an evidence-based rule. | New structures are taught blocked in their lesson; targeted drills mix each topic with its "competitor" (past simple vs present perfect, etc.) | `pool.COMPETITORS`, `drill.js` (C1-D11) |
 | **Worked examples and cognitive load** | Worked examples help novices; the effect reverses for experts (strong for novices). | Example-first explanations at low levels; Hebrew placed next to the English it explains, not in a separate panel; explanations short | lesson schema, `i18n.bi` (C1-D15) |
 | **CEFR as the spine, assessed not assigned** | CEFR Companion Volume (framework; authoritative). Levels must be demonstrated (CV, Manual). | 75 lessons with can-do objectives; per-skill levels from evidence; level checks without hints or AI; "Lucid estimate, aligned to CEFR descriptors", never "certified" | `adaptive.skillLevels`, `checkpoint.js` (C2-D1-D3, D9, D31) |
 | **Explicit instruction plus meaningful use** | Explicit instruction yields larger, durable effects (strong meta-analyses); output and interaction support acquisition (moderate). | Lesson template: input, short explicit focus, controlled practice, free production, feedback, retrieval; validator rejects lessons without input or production | `validate-content.mjs`, lesson schema (C2-D13-D15) |
 | **Task-supported learning** | Task-based teaching shows benefits; "strong TBLT" superiority is contested. | Real-life scenarios end in real tasks (book, complain, negotiate) after explicit phrase support; no "TBLT is proven" claims | `scenario.js` (C2-D16) |
 | **Comprehensible input and extensive reading** | Extensive reading has positive effects (moderate); comprehension needs high lexical coverage. | Graded reading and listening in every lesson and in the centers; texts recommended at or below the learner's level | `reading.js`, `listening.js` (C2-D18, C1-D17 partially) |
-| **Corrective feedback** | Oral and written CF are effective; prompts that push self-repair work well; focused WCF is defensible at lower levels (moderate). | Lessons explain why, with error-specific feedback; AI writing feedback is hint-first and minimal-edit; focused at A2-B1, comprehensive available at B2+; tutor prompts before correcting, at most one correction per turn by default, learner-controlled intensity | `exercise.js`, `lucid-ai/prompts.ts` (C2-D20-D23, D26) |
+| **Corrective feedback** | Oral and written CF are effective; prompts that push self-repair work well (moderate). Showing feedback immediately is a design choice: Rowland (2014) tentatively favours delayed feedback (C1-D8). Focused rather than comprehensive written feedback is also a design choice, since unfocused feedback was effective in some studies (C2 §14). | Lessons explain why, with error-specific feedback; AI writing feedback is hint-first and minimal-edit; focused at A2-B1, comprehensive available at B2+; tutor prompts before correcting, at most one correction per turn by default, learner-controlled intensity | `exercise.js`, `lucid-ai/prompts.ts` (C2-D20-D23, D26) |
 | **Revise and transfer** | Revision with feedback improves the revised text; transfer to new texts needs measuring separately (moderate). | Every submission is a version; the AI reports progress since the previous draft; versions compared word by word | `essay.js`, `diff.js` (C2-D24) |
 | **Pronunciation for intelligibility** | Intelligibility, not nativeness, is the target; perception training generalises better than production training (moderate). | Minimal-pair perception drills for Hebrew-relevant contrasts (tier 1 /ɪ-iː/ and /w-v/); speech recognition shown as "what was heard", never as an accent score; self-assessment fallback | `speaking.js`, `exercise.js` speak (C2-D34-D37, C3-P1, P6) |
 | **Hebrew as a fading scaffold** | L1 support helps beginners most, and its benefit shrinks with proficiency (moderate); higher-level learners expect English-only. | Hebrew UI and explanations at Pre-A1-A1, partial at A2, on tap at B1-B2, off from C1; learner can override; always one tap away | `i18n.SUPPORT_BY_LEVEL` (C3-S1-S2) |
@@ -55,6 +55,31 @@ Each method below states what the evidence supports, how strong it is, and exact
 
 ## 4. Writing development
 
+The hint ladder follows E §9.5: grammar hints start at "name the error type" for A1-A2 and at "locate" above;
+spelling and word choice start at "locate"; "next hint" acts as an explicit "I'm stuck"; the correction (with its
+explanation) opens only after the learner has tried a fix in the text, because Shute (2008) advises against hint
+sequences that always end in the answer. Each step is logged with whether it followed an attempt or a request.
+
 See `E-advanced-writing.md` for the ten-stage writing curriculum, the 12-category rubric with band descriptors and
 the feedback protocol, implemented in `content/writing/*`, `views/writing.js`, `views/essay.js` and the
 `lucid-ai` rubric.
+
+## 5. What changed after source verification
+
+Every research report was checked by an independent fact-checker who opened the sources (logs in each report). The
+checks corrected misquotations and several misread sources. Decisions that lost their evidential support are kept
+only as labelled design choices with a planned A/B test, not as research claims:
+
+| Decision | What the check found | How Lucid treats it now |
+|---|---|---|
+| Shuffling due reviews (C1-D12) | The cited moderator in Rowland (2014) is about list composition, not practice order | Design choice |
+| Immediate feedback (C1-D8) | Rowland (2014) tentatively favours delayed feedback; Pashler (2005) does not test timing | Design choice; immediate vs end-of-block test planned |
+| Blocked-first grammar (C1-D11) | Contested by Brunmair & Richter (2019) and Nakata & Suzuki (2019) | Design choice; three-arm test planned |
+| Objective grading (C1-D4) | FSRS defaults were fitted on self-graded data | Kept; calibration of pass rate against target is required |
+| B2+ indirect feedback for grammar (C2-D14) | The cited study found only direct feedback improved grammar in new texts | Not built; Lucid writing feedback ends in a direct correction with an explanation |
+| "A1+" as a CEFR level (C2-A1) | The Companion Volume has no A1+ band | Not used anywhere in Lucid |
+| Learning streaks and minors (D-D40) | The DSA guidelines name communication streaks, not learning streaks | No streaks are built; the argument is labelled an extrapolation |
+| 20 words or fewer scores 0 (E-14) | IELTS rates such responses Band 1, not 0 | Lucid rubric design choice, not attributed to IELTS |
+| Band 4 rule (E-12) | Cambridge says only "shares features of Bands 3 and 5" | Lucid rubric design choice |
+| Guaranteed correction in the hint ladder (E-23) | Shute (2008) advises against ladders that always end in the answer | The correction now requires an attempt in the text first |
+| Phonetic information in perception training (C3-P3) | The full text of the cited meta-analysis shows a positive effect | Changed from an on/off test to on by default |

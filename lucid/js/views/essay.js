@@ -78,8 +78,15 @@ export default async function essay(el, ctx) {
   let busy = false; let aiError = '';
   let tab = 'checks';
   let compareWith = null;
-  const rung = new Map(); // error index -> hint rung shown (1 locate, 2 name, 3 clue, 4 correction)
-  const startRung = ['PreA1', 'A1', 'A2'].includes(level) ? 2 : 1;
+  // Hint ladder (research E 9.5): 1 locate, 2 name the error type, 3 clue, 4 correction with explanation.
+  // Grammar starts at "name" for A1-A2 and at "locate" above; spelling and word choice always start at "locate".
+  // "Next hint" works as an explicit "I'm stuck", but the correction opens only after a real attempt in the text,
+  // so the ladder cannot be clicked straight through to the answer.
+  const rung = new Map();
+  const attempted = new Set();
+  const LEXICAL = new Set(['spelling', 'word-choice', 'false-friend', 'capitalization', 'punctuation']);
+  const startFor = (er) => (LEXICAL.has(er.type) ? 1 : ['PreA1', 'A1', 'A2'].includes(level) ? 2 : 1);
+  const fixState = (er) => (text.includes(er.quote) ? null : er.correction && text.includes(er.correction) ? 'fixed' : 'changed');
   const MAX_EVALS = 3; // first draft plus at most two AI revision cycles (research E 9.6)
   const SELF = ['argument_strength', 'evidence_quality', 'counterarguments', 'coherence'];
   let selfScores = {};
@@ -122,13 +129,15 @@ export default async function essay(el, ctx) {
       ${evaluatedCount() >= MAX_EVALS ? html`<p class="xsmall faint">${tt('זה היה סבב המשוב האחרון למשימה הזו. כדי לבדוק העברה, נסו משימה חדשה בשלב הזה.', 'That was the last feedback round for this task. To check that it transfers, try a new task at this stage.')}</p>` : ''}
       ${e.revision?.tasks?.length ? html`<div class="stack-sm"><h3 class="small">${tt('לטיוטה הבאה', 'For your next draft')}</h3><ol class="small stack-sm" style="margin:0;padding-inline-start:1.2rem">${e.revision.tasks.map((x) => html`<li dir="auto">${x}</li>`)}</ol></div>` : ''}
       ${e.errors?.length ? html`<div class="stack-sm"><h3 class="small">${tt(`טעויות לתיקון (${e.errors.length})`, `Mistakes to fix (${e.errors.length})`)}</h3><p class="xsmall faint">${tt('נסו לתקן לבד לפי הרמז. את התיקון אפשר לחשוף אם צריך.', 'Try to fix each one from the hint. Reveal the correction only if you need it.')}</p>
-        ${e.errors.map((er, i) => { const sev = SEVERITY[er.severity] || SEVERITY.important; const et = tx.error.get(er.type); const r = rung.get(i) ?? startRung; return html`<div class="error-card ${er.severity === 'style' ? 'style' : ''}">
+        ${e.errors.map((er, i) => { const sev = SEVERITY[er.severity] || SEVERITY.important; const et = tx.error.get(er.type); const r = rung.get(i) ?? startFor(er); if (fixState(er)) attempted.add(i); return html`<div class="error-card ${er.severity === 'style' ? 'style' : ''}">
           <p class="row small"><span class="tag ${sev[2]}">${tt(sev[0], sev[1])}</span>${r >= 2 && et ? html`<span class="tag">${tt(et.name_he, et.name_en)}</span>` : ''}</p>
           <p><span class="quote" lang="en" dir="ltr">${er.quote}</span></p>
           ${r === 1 ? html`<p class="small muted">${tt('יש כאן טעות. נסו למצוא ולתקן אותה בטקסט.', 'There is a mistake here. Try to find and fix it in your text.')}</p>` : ''}
           ${r >= 3 ? html`<p class="small">${icon('hint', { size: 14 })} <span dir="auto">${er.hint}</span></p>` : ''}
+          <p class="xsmall" data-fix="${i}">${fixLabel(er)}</p>
           ${r >= 4 ? html`<p class="small">${tt('תיקון:', 'Correction:')} <strong lang="en" dir="ltr">${er.correction}</strong></p><p class="small" dir="auto">${er.explanation}</p>${er.explanation_he && hebrewSupport() !== 'off' ? html`<p class="small muted" lang="he" dir="rtl">${er.explanation_he}</p>` : ''}`
-            : html`<button type="button" class="key ghost small" data-rung="${i}">${r === 1 ? tt('איזה סוג טעות?', 'What kind of mistake?') : r === 2 ? tt('תקוע/ה: רמז', 'Stuck? A clue') : tt('להציג תיקון והסבר', 'Show correction and why')}</button>`}</div>`; })}</div>` : ''}
+            : r < 3 ? html`<button type="button" class="key ghost small" data-rung="${i}">${r === 1 ? tt('איזה סוג טעות?', 'What kind of mistake?') : tt('תקוע/ה: רמז', 'Stuck? A clue')}</button>`
+            : html`<div class="row small"><button type="button" class="key ghost small" data-rung="${i}" ${attempted.has(i) ? '' : html`disabled aria-describedby="need-${i}"`}>${tt('להשוות לתיקון', 'Compare with the correction')}</button>${attempted.has(i) ? '' : html`<span class="faint" id="need-${i}">${tt('נסו קודם תיקון בטקסט.', 'Try a fix in your text first.')}</span>`}</div>`}</div>`; })}</div>` : ''}
       <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span><span class="band">${e.low_confidence?.includes(c.id) ? html`<span title="${tt('הערכה לא ודאית', 'Low-confidence estimate')}">~</span>` : ''}${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}${e.self?.[c.id] != null ? html` <span class="xsmall faint">(${tt('הערכה עצמית', 'you said')}: ${tt(BAND[e.self[c.id]][0], BAND[e.self[c.id]][1])})</span>` : ''}</span>
         <details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><div class="stack-sm" style="margin-top:var(--s2)"><p dir="auto">${c.explanation}</p>${c.examples.map((x) => html`<p class="small"><span class="quote" lang="en" dir="ltr">${x.quote}</span> <span class="muted" dir="auto">${x.comment}</span></p>`)}<p dir="auto"><strong>${tt('לשפר:', 'Improve:')}</strong> ${c.improvement}</p><p dir="auto" class="muted"><strong>${tt('לתרגל:', 'Practise:')}</strong> ${c.practice}</p></div></details></div>`)}</div>
         <p class="xsmall faint">${tt(`הדירוג ביחס ליעד של רמה ${LEVEL_LABEL[level] || level}. ${t('level.estimate')}.`, `Bands are relative to the ${LEVEL_LABEL[level] || level} target. ${t('level.estimate')}.`)}</p></div>
@@ -136,6 +145,10 @@ export default async function essay(el, ctx) {
       <p class="xsmall faint row">${icon('alert', { size: 14 })} ${t('ai.label')}. <button type="button" class="key ghost small" data-report>${t('ai.report')}</button></p></div>`;
   }
 
+  function fixLabel(er) {
+    const st = fixState(er);
+    return st === 'fixed' ? tt('נראה מתוקן. הטיוטה הבאה תיבדק.', 'Looks fixed. Your next draft will be checked.') : st === 'changed' ? tt('שיניתם את זה. הטיוטה הבאה תיבדק.', 'You changed this. Your next draft will be checked.') : '';
+  }
   function evaluatedCount() { return versions().filter((x) => x.evaluation).length; }
   function cefrLabel(l) { return l === 'below_PreA1' ? '<Pre-A1' : LEVEL_LABEL[l] || l; }
   // From stage 7, learners rate themselves before seeing the AI's bands (research E, decision 31).
@@ -187,6 +200,16 @@ export default async function essay(el, ctx) {
 
   const saveDraft = debounce(() => { store.put('writing', { id: `${sumId}#draft`, kind: 'essay-draft', exercise: task.id, text }); const s = $('[data-saved]', el); if (s) s.textContent = tt('הטיוטה נשמרה', 'Draft saved'); }, 600);
 
+  function markAttempts() {
+    (latestEval()?.evaluation?.errors || []).forEach((er, i) => {
+      const f = $(`[data-fix="${i}"]`, el); if (f) f.textContent = fixLabel(er);
+      if (!fixState(er) || attempted.has(i)) return;
+      attempted.add(i);
+      const b = $(`[data-rung="${i}"]`, el); if (b) { b.disabled = false; b.removeAttribute('aria-describedby'); }
+      $(`#need-${i}`, el)?.remove();
+    });
+  }
+
   function saveVersion(evaluation = null) {
     const vs = versions();
     const last = vs.at(-1);
@@ -213,7 +236,7 @@ export default async function essay(el, ctx) {
       const ev = { ...r.evaluation, self: Object.keys(selfScores).length ? { ...selfScores } : null };
       saveVersion(ev);
       selfScores = {};
-      rung.clear();
+      rung.clear(); attempted.clear();
       // AI-confirmed errors feed the recurring-mistake tracker; one writing attempt records the overall band.
       for (const er of ev.errors || []) if (er.severity !== 'style') recordAttempt({ source: 'writing', exercise: task.id, topic, skill: 'writing', level, correct: false, error_type: er.type, response: er.quote });
       const scored = (ev.categories || []).filter((c) => c.applicable && c.score != null);
@@ -227,15 +250,17 @@ export default async function essay(el, ctx) {
 
   draw();
   const offs = [
-    on(el, 'input', '#essay', (e) => { text = e.target.value; const wc = $('[data-wc]', el); if (wc) wc.textContent = `${countWords(text)} ${tt('מילים', 'words')}`; const ck = $('[data-check]', el); if (ck) ck.disabled = countWords(text) < 3; const ai = $('[data-ai]', el); if (ai && !busy) ai.disabled = evaluatedCount() >= MAX_EVALS || countWords(text) < Math.max(3, Math.floor(minWords * 0.5)); saveDraft(); }),
+    on(el, 'input', '#essay', (e) => { text = e.target.value; const wc = $('[data-wc]', el); if (wc) wc.textContent = `${countWords(text)} ${tt('מילים', 'words')}`; const ck = $('[data-check]', el); if (ck) ck.disabled = countWords(text) < 3; const ai = $('[data-ai]', el); if (ai && !busy) ai.disabled = evaluatedCount() >= MAX_EVALS || countWords(text) < Math.max(3, Math.floor(minWords * 0.5)); markAttempts(); saveDraft(); }),
     on(el, 'click', '[data-check]', () => { analysis = analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7 }); saveVersion(); tab = 'checks'; logEvent({ type: 'writing', exercise: task.id }); draw(); }),
     on(el, 'click', '[data-ai]', (e, b) => { if (!b.disabled) getFeedback(); }),
     on(el, 'click', '[data-tab]', (e, b) => { tab = b.dataset.tab; draw(); }),
     on(el, 'click', '[data-rung]', (e, b) => {
       const i = Number(b.dataset.rung);
-      const next = Math.min(4, (rung.get(i) ?? startRung) + 1);
+      const er = latestEval()?.evaluation?.errors?.[i];
+      if (!er || b.disabled) return;
+      const next = Math.min(4, (rung.get(i) ?? startFor(er)) + 1);
       rung.set(i, next);
-      logEvent({ type: 'hint-level', exercise: task.id, error: latestEval()?.evaluation?.errors?.[i]?.type, level: next });
+      logEvent({ type: 'hint-level', exercise: task.id, error: er.type, level: next, after: attempted.has(i) ? 'attempt' : 'stuck' });
       draw();
     }),
     on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); }),
