@@ -1,0 +1,1109 @@
+{
+  "id": "b2-03",
+  "level": "B2",
+  "title_en": "It is said that...: advanced passive",
+  "title_he": "סביל מתקדם",
+  "topics": [
+    "passive-advanced"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use the passive with continuous and perfect tenses and with modal verbs."
+    },
+    {
+      "en": "I can use have / get something done to talk about services and things that happen to me."
+    },
+    {
+      "en": "I can report beliefs and claims impersonally (It is believed that... / He is thought to...) and judge when a source should be named."
+    }
+  ],
+  "warmup": {
+    "en": "Look at this headline: 'Ancient coins discovered by divers off the coast.' Who discovered the coins? Why does the headline start with the coins, not the divers?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Read this notice: 'The lift is being repaired and should be working again by Friday. The engineers have been told about the noise on the third floor, and residents will be informed if the work is delayed.' Who is repairing the lift? Who told the engineers? It doesn't matter: the passive puts the focus on what is affected. At B1 you used the passive in the present and past simple (is made, was built). Now you can use it with any tense and with modals."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Form",
+        "Structure",
+        "Example"
+      ],
+      "rows": [
+        [
+          "present continuous passive",
+          "am / is / are being + past participle",
+          "The lift is being repaired."
+        ],
+        [
+          "past continuous passive",
+          "was / were being + past participle",
+          "I felt that I was being watched."
+        ],
+        [
+          "present perfect passive",
+          "has / have been + past participle",
+          "The concert has been cancelled."
+        ],
+        [
+          "past perfect passive",
+          "had been + past participle",
+          "The tickets had been sold before we arrived."
+        ],
+        [
+          "future passive",
+          "will be + past participle",
+          "Residents will be informed."
+        ],
+        [
+          "modal passive",
+          "modal + be + past participle",
+          "Forms must be submitted by Friday."
+        ],
+        [
+          "modal perfect passive",
+          "modal + have been + past participle",
+          "The accident could have been prevented."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Build the passive from the active tense: keep the tense in be, then add the past participle. They are repairing it → It is being repaired. They have cancelled it → It has been cancelled. They could have prevented it → It could have been prevented."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Pattern",
+        "Meaning",
+        "Example"
+      ],
+      "rows": [
+        [
+          "have + object + past participle",
+          "someone does a job for you (often a paid service)",
+          "I had my phone screen replaced."
+        ],
+        [
+          "get + object + past participle",
+          "the same, more informal",
+          "We're getting the kitchen painted next week."
+        ],
+        [
+          "have + object + past participle",
+          "something bad happens to you",
+          "Daniel had his laptop stolen at the airport."
+        ],
+        [
+          "It + is said / believed / thought + that-clause",
+          "a general or unnamed source reports something",
+          "It is believed that the bridge was designed by a student."
+        ],
+        [
+          "subject + is said / believed / thought + to + verb",
+          "the same claim, starting with the topic",
+          "The bridge is believed to be the oldest in the region."
+        ],
+        [
+          "... + to have + past participle",
+          "the claim is about an earlier time",
+          "The letters are thought to have been written during the war."
+        ],
+        [
+          "... + to be + -ing",
+          "the claim is about something in progress",
+          "The singer is said to be working on a new album."
+        ]
+      ]
+    },
+    {
+      "type": "tip",
+      "en": "Who says so? Impersonal passives (It is claimed that..., X is thought to...) are useful in formal writing when the source is general or unknown, and they show that you are reporting a claim, not stating a fact. As a reader, ask: claimed by whom? As a writer, name the source when you can: 'Local historians believe that...' is more convincing than 'It is believed that...'."
+    },
+    {
+      "type": "warning",
+      "en": "Don't drop being or be: The road is being widened (not *The road is been widened). After a modal, use be + past participle: It should be done (not *It should done / *It should being done). And keep the object before the past participle: I had my car repaired (not *I had repaired my car, which means I did it myself)."
+    },
+    {
+      "type": "p",
+      "en": "Contrast with Hebrew: Hebrew does not mark progressive or perfect aspect in the verb, so one passive form can cover 'is built' and 'is being built', and another can cover 'was built' and 'has been built'. English always chooses: The stadium is being built (in progress) / has been built (finished).",
+      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל: 'האצטדיון נבנה' יכול להתאים גם ל-is built וגם ל-is being built, ובעבר גם ל-was built וגם ל-has been built. באנגלית חייבים לבחור: The stadium is being built (בתהליך) / has been built (הסתיים)."
+    }
+  ],
+  "examples": [
+    {
+      "en": "The old bus station is being turned into a market.",
+      "note": "present continuous passive: in progress now"
+    },
+    {
+      "en": "All applications must be submitted online by 1 March.",
+      "note": "modal passive: a formal rule"
+    },
+    {
+      "en": "The match has been postponed because of the storm.",
+      "note": "present perfect passive: news with a present result"
+    },
+    {
+      "en": "By the time the firefighters arrived, most residents had been evacuated.",
+      "note": "past perfect passive"
+    },
+    {
+      "en": "The damage could have been avoided if the warnings had been taken seriously.",
+      "note": "modal perfect passive in a third conditional"
+    },
+    {
+      "en": "I'm getting my eyes tested on Thursday.",
+      "note": "get something done: a service"
+    },
+    {
+      "en": "Daniel had his laptop stolen at the airport.",
+      "note": "have something done: something bad that happened to him"
+    },
+    {
+      "en": "It is believed that the bridge was designed by a student.",
+      "note": "impersonal passive: It + passive + that-clause"
+    },
+    {
+      "en": "The singer is said to be working on her third album.",
+      "note": "subject + passive + to be + -ing"
+    },
+    {
+      "en": "The letters are thought to have been written during the war.",
+      "note": "to have been + past participle: earlier time, passive meaning"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "postpone",
+      "pos": "verb",
+      "he": "לדחות (למועד מאוחר יותר)",
+      "def": "to change an event to a later time",
+      "example": "The match has been postponed until next week.",
+      "ipa": "/pəˈspəʊn/",
+      "collocations": [
+        "postpone a meeting",
+        "be postponed until",
+        "postpone indefinitely"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "evacuate",
+      "pos": "verb",
+      "he": "לפנות (אנשים ממקום מסוכן)",
+      "def": "to move people away from a dangerous place",
+      "example": "The building was evacuated after the alarm went off.",
+      "ipa": "/ɪˈvækjueɪt/",
+      "collocations": [
+        "evacuate a building",
+        "be evacuated from",
+        "evacuate residents"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "renovate",
+      "pos": "verb",
+      "he": "לשפץ",
+      "def": "to repair and improve an old building",
+      "example": "The cinema is being renovated.",
+      "ipa": "/ˈrenəveɪt/",
+      "collocations": [
+        "fully renovated",
+        "renovate a building",
+        "newly renovated"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "allegedly",
+      "pos": "adverb",
+      "he": "לכאורה",
+      "def": "according to what people say, although it has not been proved",
+      "example": "The painting was allegedly sold for a very high price.",
+      "ipa": "/əˈledʒɪdli/",
+      "level": "B2"
+    },
+    {
+      "word": "be due to",
+      "pos": "phrase",
+      "he": "אמור/ה ל..., מתוכנן/ת ל...",
+      "def": "to be expected or planned to happen at a certain time",
+      "example": "The new line is due to be opened next year.",
+      "ipa": "/bi ˈdjuː tə/",
+      "collocations": [
+        "be due to be completed",
+        "be due to arrive",
+        "be due to start"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "carry out",
+      "pos": "phrasal verb",
+      "he": "לבצע",
+      "def": "to do a piece of work, a task or a study",
+      "example": "Repairs are being carried out on the main road.",
+      "ipa": "/ˌkæri ˈaʊt/",
+      "collocations": [
+        "carry out research",
+        "carry out repairs",
+        "carry out a survey"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "take into account",
+      "pos": "phrase",
+      "he": "להביא בחשבון",
+      "def": "to consider something when you make a decision",
+      "example": "Students' views should be taken into account.",
+      "ipa": "/ˌteɪk ˌɪntu əˈkaʊnt/",
+      "collocations": [
+        "be taken into account",
+        "take something fully into account"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "widely believed",
+      "pos": "phrase",
+      "he": "מקובל לחשוב, רבים מאמינים",
+      "def": "believed by many people (but not necessarily proved)",
+      "example": "The painting is widely believed to be the work of a local artist.",
+      "ipa": "/ˌwaɪdli bɪˈliːvd/",
+      "collocations": [
+        "it is widely believed that",
+        "widely reported",
+        "widely accepted"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "under construction",
+      "pos": "phrase",
+      "he": "בבנייה",
+      "def": "being built at the moment",
+      "example": "The new library is still under construction.",
+      "ipa": "/ˌʌndə kənˈstrʌkʃn/",
+      "level": "B2"
+    },
+    {
+      "word": "set up",
+      "pos": "phrasal verb",
+      "he": "להקים, לייסד",
+      "def": "to start a company, organisation or system",
+      "example": "The fund was set up by a group of parents.",
+      "ipa": "/ˌset ˈʌp/",
+      "collocations": [
+        "set up a company",
+        "set up a committee",
+        "be set up to"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "attribute (to)",
+      "pos": "verb",
+      "he": "לייחס ל...",
+      "def": "to say that something was written, painted or caused by a particular person or thing",
+      "example": "The poem is attributed to an unknown soldier.",
+      "ipa": "/əˈtrɪbjuːt/",
+      "collocations": [
+        "be attributed to",
+        "attribute success to"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "impersonal",
+      "pos": "adjective",
+      "he": "לא אישי, סתמי",
+      "def": "not showing who is speaking or acting; not personal",
+      "example": "Formal reports often use an impersonal style.",
+      "ipa": "/ɪmˈpɜːsənl/",
+      "collocations": [
+        "an impersonal style",
+        "impersonal passive"
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the progressive and perfect are not marked in the verb. One present passive form covers 'houses are built' (in general) and 'a house is being built' (now), and one past form covers 'was built' and 'has been built'. English must choose: The stadium is being built at the moment (not *The stadium is built at the moment).",
+      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל: 'נבנה' בהווה מתאים גם ל-is built (באופן כללי) וגם ל-is being built (עכשיו), ו'נבנה' בעבר מתאים גם ל-was built וגם ל-has been built. באנגלית חייבים לבחור: The stadium is being built at the moment.",
+      "error_type": "tense-choice"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Sort the sentences by the passive form they use."
+      },
+      "categories": [
+        "Continuous passive",
+        "Perfect passive",
+        "Modal passive",
+        "have / get something done"
+      ],
+      "items": [
+        {
+          "text": "The results are being checked.",
+          "category": "Continuous passive"
+        },
+        {
+          "text": "I felt that I was being followed.",
+          "category": "Continuous passive"
+        },
+        {
+          "text": "Your order has been dispatched.",
+          "category": "Perfect passive"
+        },
+        {
+          "text": "The files had been deleted before the police arrived.",
+          "category": "Perfect passive"
+        },
+        {
+          "text": "Phones must be switched off during the exam.",
+          "category": "Modal passive"
+        },
+        {
+          "text": "The meeting might be cancelled.",
+          "category": "Modal passive"
+        },
+        {
+          "text": "I had my hair cut yesterday.",
+          "category": "have / get something done"
+        },
+        {
+          "text": "We got the kitchen painted last month.",
+          "category": "have / get something done"
+        }
+      ],
+      "explanation": {
+        "en": "being + past participle = continuous; has / had been + past participle = perfect; modal + be + past participle = modal passive; have / get + object + past participle = someone else did the job. Note: 'I had my hair cut' is not the past perfect: the object (my hair) comes between had and the participle."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Read the sentence and answer the question."
+      },
+      "question": "Noa had her car repaired last week. Who repaired the car?",
+      "options": [
+        "Noa repaired it herself.",
+        "Nobody: it is still broken.",
+        "Someone else, for example a mechanic."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "That would be 'Noa repaired her car'. have + object + past participle means someone else did the job for her."
+        },
+        "1": {
+          "en": "Had her car repaired means the job was done."
+        }
+      },
+      "option_errors": {
+        "0": "word-order",
+        "1": "comprehension"
+      },
+      "explanation": {
+        "en": "have + object + past participle = arrange for someone else to do something: Noa had her car repaired (by a mechanic)."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to the station announcement and answer the question."
+      },
+      "audio_text": "Passengers are advised that the ten fifteen service to Westbridge has been cancelled. Replacement buses are being organised and should be available outside the main entrance within thirty minutes. Tickets for the cancelled service will be accepted on all buses.",
+      "question": "What should passengers for Westbridge do?",
+      "options": [
+        "Wait on the platform for the delayed train.",
+        "Buy a new ticket for the replacement bus.",
+        "Take the next train, at ten forty-five.",
+        "Go to the main entrance and take a replacement bus."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "The service has been cancelled, not delayed."
+        },
+        "1": {
+          "en": "'Tickets for the cancelled service will be accepted on all buses', so no new ticket is needed."
+        },
+        "2": {
+          "en": "No other train is mentioned. Replacement buses are being organised."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "has been cancelled (perfect passive: news with a present result), are being organised (in progress now), should be available (modal), will be accepted (future passive). Announcements use the passive because the company doing the action is obvious."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the correct option."
+      },
+      "question": "The new stadium ___ at the moment, so the team is playing at a temporary ground.",
+      "options": [
+        "is built",
+        "is being built",
+        "has been built",
+        "is building"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "The present simple passive describes general facts or processes. 'At the moment' needs the continuous: is being built."
+        },
+        "2": {
+          "en": "Has been built means it is finished, but then the team wouldn't need a temporary ground."
+        },
+        "3": {
+          "en": "This is active: the stadium isn't building anything. It is being built (by someone)."
+        }
+      },
+      "option_errors": {
+        "0": "tense-choice",
+        "2": "tense-choice",
+        "3": "passive-form"
+      },
+      "explanation": {
+        "en": "Work in progress now + passive = is / are being + past participle."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the best option for this news sentence."
+      },
+      "question": "The fire ___ by an electrical fault, but the investigation is still going on.",
+      "options": [
+        "is believed to have been caused",
+        "is believed to cause",
+        "believes to have been caused",
+        "is believed to be caused"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "To cause is active (the fire caused something) and refers to now. The fire was caused, and earlier: to have been caused."
+        },
+        "2": {
+          "en": "The verb needs be: The fire is believed ... A fire cannot believe anything."
+        },
+        "3": {
+          "en": "To be caused refers to the present. The fire happened before now: to have been caused."
+        }
+      },
+      "option_errors": {
+        "1": "passive-form",
+        "2": "passive-form",
+        "3": "tense-choice"
+      },
+      "explanation": {
+        "en": "Subject + is believed + to have been + past participle: the belief is now, the (passive) event was earlier. The fire was caused by a fault, people believe."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the building notice with the passive form of the verbs in brackets."
+      },
+      "text": "Dear residents, the main entrance ___ (repaint) this week, so please use the side door. All the lifts ___ (already / check), and a new intercom ___ (install) next Monday.",
+      "answers": [
+        [
+          "is being repainted"
+        ],
+        [
+          "have already been checked",
+          "have been checked already"
+        ],
+        [
+          "will be installed",
+          "is going to be installed",
+          "is being installed",
+          "is to be installed"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "is repainted",
+          "feedback": {
+            "en": "This week = work in progress: is being repainted."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "is repainting",
+          "feedback": {
+            "en": "The entrance isn't painting anything; it is being repainted (passive)."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "is being repaint",
+          "feedback": {
+            "en": "After being, use the past participle: repainted."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "are being checked",
+          "feedback": {
+            "en": "Already shows that the job is finished: have already been checked."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "has already been checked",
+          "feedback": {
+            "en": "Lifts is plural: have already been checked."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "have already checked",
+          "feedback": {
+            "en": "This is active (as if the lifts checked something). The lifts were checked by someone: have already been checked."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "will install",
+          "feedback": {
+            "en": "The intercom doesn't install anything; it will be installed."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "will be install",
+          "feedback": {
+            "en": "After be, use the past participle: will be installed."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "hint": {
+        "en": "One job is in progress, one is finished, one is in the future."
+      },
+      "explanation": {
+        "en": "is being repainted (in progress this week), have already been checked (finished, result now), will be installed (future). The notice uses the passive because the workers are not important."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the sentence. Both halves are about an unreal past, and both are passive."
+      },
+      "text": "The accident ___ (could / prevent) if the road ___ (light) properly.",
+      "answers": [
+        [
+          "could have been prevented"
+        ],
+        [
+          "had been lit",
+          "had been lighted"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "could be prevented",
+          "feedback": {
+            "en": "The accident is in the past: could have been prevented."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "could have prevented",
+          "feedback": {
+            "en": "The accident didn't prevent anything; it could have been prevented (passive)."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "was lit",
+          "feedback": {
+            "en": "This is an unreal past condition (third conditional): if + had been + past participle."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "had lit",
+          "feedback": {
+            "en": "The road didn't light anything: had been lit (passive)."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "would have been lit",
+          "feedback": {
+            "en": "Would never goes in the if-clause: if the road had been lit."
+          },
+          "error_type": "conditional-form"
+        }
+      ],
+      "explanation": {
+        "en": "Modal perfect passive (could have been prevented) + third conditional passive (if the road had been lit). In reality, the road wasn't lit and the accident happened."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite in the passive, starting with the words given."
+      },
+      "source": "Someone should tell the manager about the leak. → The manager ...",
+      "answers": [
+        "The manager should be told about the leak."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The manager should told about the leak.",
+          "feedback": {
+            "en": "After a modal, the passive needs be: should be told."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The manager should be tell about the leak.",
+          "feedback": {
+            "en": "After be, use the past participle: told."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The manager should being told about the leak.",
+          "feedback": {
+            "en": "After a modal, use the base form be, not being: should be told."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The manager should have been told about the leak.",
+          "feedback": {
+            "en": "That is about the past (a criticism). The original sentence is advice for now: should be told."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "explanation": {
+        "en": "modal + be + past participle: The manager should be told about the leak."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the sentence starting with 'We had'. Keep all the information."
+      },
+      "source": "A professional photographer took our wedding photos.",
+      "answers": [
+        "We had our wedding photos taken by a professional photographer.",
+        "We had a professional photographer take our wedding photos."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "We had taken our wedding photos by a professional photographer.",
+          "feedback": {
+            "en": "Put the object before the past participle: We had our wedding photos taken. 'We had taken our photos' means we took them ourselves."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "We had our wedding photos took by a professional photographer.",
+          "feedback": {
+            "en": "Use the past participle: taken."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "We had our wedding photos taken.",
+          "feedback": {
+            "en": "Good structure, but keep all the information: ... by a professional photographer."
+          },
+          "error_type": "comprehension"
+        }
+      ],
+      "explanation": {
+        "en": "have + object + past participle (+ by ...): We had our wedding photos taken by a professional photographer. Also possible: We had a professional photographer take our wedding photos (have + person + base verb)."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the sentence starting with the words given."
+      },
+      "source": "It is said that the new manager is very strict. → The new manager ...",
+      "answers": [
+        "The new manager is said to be very strict."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The new manager is said that he is very strict.",
+          "feedback": {
+            "en": "After 'subject + is said', use to + infinitive: is said to be very strict."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The new manager is said to being very strict.",
+          "feedback": {
+            "en": "Use the infinitive after to: to be."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The new manager says to be very strict.",
+          "feedback": {
+            "en": "The manager isn't saying anything: other people say it. Use the passive: is said to be."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The new manager is said being very strict.",
+          "feedback": {
+            "en": "After is said, use to + infinitive: is said to be."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "explanation": {
+        "en": "It is said that + clause → subject + is said + to + infinitive. Both report a claim without naming who made it."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the sentence starting with the words given. Think about time: when did the ship sink?"
+      },
+      "source": "People believe that the ship sank in a storm. → The ship ...",
+      "answers": [
+        "The ship is believed to have sunk in a storm."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The ship is believed to sink in a storm.",
+          "feedback": {
+            "en": "The sinking happened before now, so use to have + past participle: to have sunk."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "The ship is believed to have sank in a storm.",
+          "feedback": {
+            "en": "The past participle of sink is sunk: to have sunk."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The ship is believed that it sank in a storm.",
+          "feedback": {
+            "en": "After 'subject + is believed', use to + infinitive, not a that-clause: is believed to have sunk."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The ship believed to have sunk in a storm.",
+          "feedback": {
+            "en": "The verb needs is: The ship is believed ..."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The ship was believed to have sunk in a storm.",
+          "feedback": {
+            "en": "People believe it now, so the belief is in the present: is believed."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "hint": {
+        "en": "The belief is now (is believed); the sinking was earlier (to have + past participle)."
+      },
+      "explanation": {
+        "en": "present belief + earlier event: The ship is believed to have sunk in a storm."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read the local news report and answer the questions. Pay attention to who is the source of each claim."
+      },
+      "title": "Hidden mural found during cinema renovation",
+      "passage": "A large painted mural has been discovered behind a wall of the old Rex Cinema in Harbourne, where renovation work has been taking place since January.\nThe mural, which shows a busy market scene, was found by builders who had been removing damaged plaster from the main hall. It is thought to have been painted in the 1950s, when the cinema first opened, and to have been covered up during a redesign about twenty years later.\nAccording to Dr Leah Navon, an art historian who examined the mural last week, the paint is in surprisingly good condition. 'It must have been protected from light and damp by the wall,' she said. 'Very few works like this have survived.'\nThe artist has not yet been identified. Several names have been suggested by local residents, and the painting is widely believed to be the work of Eli Shemer, a sign painter who worked in the town at the time. However, no signature has been found, and Dr Navon warned that the claim should be treated with caution until the paint has been tested.\nWork on the rest of the building has been paused while the mural is being photographed and cleaned. A decision on its future is expected next month. The mural could be removed and displayed in the town museum, or the hall could be redesigned so that it can be seen by cinema-goers.\nThe renovation was originally due to be completed in September. It is now said to be running at least three months behind schedule, although the council has not confirmed this. Residents who would like to see the mural will be able to visit it on two open days, which will be announced on the council's website.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Who found the mural?",
+          "options": [
+            "builders who were removing old plaster",
+            "an art historian",
+            "local residents",
+            "the town council"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Dr Navon examined the mural after it had been found."
+            },
+            "2": {
+              "en": "Residents suggested names for the artist; they didn't find the mural."
+            },
+            "3": {
+              "en": "The council is mentioned only about the schedule and the open days."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'...was found by builders who had been removing damaged plaster from the main hall.' The agent (by builders) is named because it is new information."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The mural is thought to have been hidden for several decades.",
+          "answer": true,
+          "explanation": {
+            "en": "It is thought to have been painted in the 1950s and covered up about twenty years later, and it has only now been found."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Dr Navon says: 'It must have been protected from light and damp by the wall.' What does she mean?",
+          "options": [
+            "Someone ordered the wall to protect it.",
+            "The wall should protect it in the future.",
+            "She doubts that the wall protected it.",
+            "Based on its condition, she is sure that the wall protected it."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "Must have been is about deduction, not orders."
+            },
+            "1": {
+              "en": "Must have been + past participle refers to the past, not the future."
+            },
+            "2": {
+              "en": "Must have shows strong certainty. Doubt would be: might have been, or can't have been."
+            }
+          },
+          "option_errors": {
+            "0": "modal-use",
+            "1": "modal-use",
+            "2": "modal-use"
+          },
+          "explanation": {
+            "en": "must have been + past participle = a confident conclusion about the past, based on evidence (the paint is in good condition)."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "The mural 'is widely believed to be the work of Eli Shemer'. How strong is this claim, according to the article?",
+          "options": [
+            "It is a confirmed fact.",
+            "It is a popular belief that has not been checked yet.",
+            "It is the art historian's firm conclusion.",
+            "It is based on the artist's signature."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The article says the claim 'should be treated with caution until the paint has been tested'."
+            },
+            "2": {
+              "en": "Dr Navon is the one who warns that the claim should be treated with caution."
+            },
+            "3": {
+              "en": "'No signature has been found.'"
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'Is widely believed' reports what many people think, without proof. A careful reader asks: believed by whom, and on what evidence?"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The council has confirmed that the renovation is three months behind schedule.",
+          "answer": false,
+          "explanation": {
+            "en": "'It is now said to be running at least three months behind schedule, although the council has not confirmed this.' Is said to = an unnamed source."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "One option is for the mural to be removed and displayed in the town ___.",
+          "answers": [
+            [
+              "museum"
+            ]
+          ],
+          "explanation": {
+            "en": "'The mural could be removed and displayed in the town museum.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the error in this sentence from a lab report."
+      },
+      "sentence": "The samples are thought to be contaminated before they reached the laboratory.",
+      "answers": [
+        "The samples are thought to have been contaminated before they reached the laboratory.",
+        "It is thought that the samples were contaminated before they reached the laboratory."
+      ],
+      "error_type": "passive-form",
+      "hint": {
+        "en": "The contamination happened before they reached the lab, so it is earlier than the 'thinking'."
+      },
+      "explanation": {
+        "en": "A past event in a reporting passive needs to have been + past participle: The samples are thought to have been contaminated..."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the error in this sentence from a research report."
+      },
+      "sentence": "Participants were interviewed after the questionnaires had completed.",
+      "answers": [
+        "Participants were interviewed after the questionnaires had been completed.",
+        "Participants were interviewed after the questionnaires were completed.",
+        "Participants were interviewed after they had completed the questionnaires.",
+        "Participants were interviewed after they completed the questionnaires.",
+        "Participants were interviewed after completing the questionnaires.",
+        "Participants were interviewed after having completed the questionnaires."
+      ],
+      "error_type": "passive-form",
+      "explanation": {
+        "en": "The questionnaires didn't complete anything; the participants completed them. Passive: had been completed (or, actively, after they had completed the questionnaires)."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Say the sentence out loud, as if explaining to a colleague."
+      },
+      "target": "I'm getting my phone screen replaced this afternoon, so I might be offline for a while.",
+      "focus": {
+        "en": "Stress the information words: getting, screen, replaced, offline. Replaced ends in /st/: two consonants together, with no extra vowel between them."
+      },
+      "explanation": {
+        "en": "get + object + past participle is the natural, informal way to talk about a service: I'm getting my phone screen replaced (someone else will do it)."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a short news report for a local website."
+      },
+      "task": {
+        "en": "Write a short news report (180-280 words) for your town's or school's website about a change in your area: a building being renovated, an event that has been postponed, a new service being introduced (real or invented). Use a range of passive forms where the doer is unknown or unimportant: continuous, perfect, modal and future passives, and at least one reporting passive (It is believed that... / X is said to...). Name the source of at least one important claim, and don't hide a key source behind 'It is said that...'."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "must_include": [
+        "being",
+        "been"
+      ],
+      "model_answer": "New life for the old library\n\nThe old public library on Herzl Street is being turned into a community centre for young people, and the first part of the building is expected to open in March.\n\nThe library, which was built in the 1960s, had been closed for several years because of damage to the roof. Plans to sell the building were rejected last year after a campaign by local students. Since then, the roof has been repaired and the electrical system has been replaced. At the moment, the main hall is being divided into a study area, a small theatre and a cafe, which will be run by volunteers.\n\nAccording to the project manager, Noa Peretz, most of the original features will be kept. 'The wooden shelves have been cleaned and will be reused,' she explained. The building is also said to contain one of the oldest wall paintings in the town, although this has not been confirmed by historians.\n\nSome neighbours have raised concerns about noise. It has been suggested that the theatre should be closed by ten o'clock on weekdays, and the council has promised that this will be taken into account. Parking is another issue: the car park cannot be extended, so visitors are being encouraged to come by bike or bus.\n\nResidents who would like to get involved can sign up on the centre's website. All volunteers will be trained before the opening.",
+      "checklist": [
+        {
+          "en": "I used the passive where the doer is unknown, obvious or unimportant, and the active where the doer matters."
+        },
+        {
+          "en": "I used at least three different passive forms correctly (e.g. is being + past participle, has been + past participle, should / will / cannot be + past participle)."
+        },
+        {
+          "en": "I used at least one reporting passive (It is believed that... / X is said to...) correctly."
+        },
+        {
+          "en": "I named the source of at least one important claim (According to..., ... explained)."
+        },
+        {
+          "en": "Every passive has be in the right tense + a past participle (no *is been, *should done)."
+        },
+        {
+          "en": "The report has a headline, a clear opening sentence with the main news, and short paragraphs."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Passive = be in the right tense + past participle: is being repaired, has been cancelled, had been sold, will be informed."
+      },
+      {
+        "en": "Modal passive: modal + be + past participle (must be submitted); about the past: modal + have been + past participle (could have been prevented)."
+      },
+      {
+        "en": "have / get + object + past participle = someone else does it for you, or something bad happens to you: I had my laptop repaired; he had his bag stolen."
+      },
+      {
+        "en": "Reporting passives: It is believed that... / He is said to be... / The ship is thought to have sunk... Ask who says so, and name the source when you know it."
+      },
+      {
+        "en": "Hebrew doesn't mark progressive or perfect aspect; English passives do: is being built / has been built.",
+        "he": "בעברית אין סימון של הווה מתמשך או perfect; בסביל באנגלית יש: is being built / has been built."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

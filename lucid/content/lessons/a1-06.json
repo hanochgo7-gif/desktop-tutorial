@@ -1,0 +1,999 @@
+{
+  "id": "a1-06",
+  "level": "A1",
+  "title_en": "One and many: plurals",
+  "title_he": "יחיד ורבים",
+  "topics": [
+    "plurals"
+  ],
+  "minutes": 20,
+  "objectives": [
+    {
+      "en": "I can spell regular plurals: books, buses, cities, knives.",
+      "he": "אני יודע/ת לאיית צורות רבים רגילות: books, buses, cities, knives."
+    },
+    {
+      "en": "I can use common irregular plurals: men, women, children, people, feet, teeth.",
+      "he": "אני מכיר/ה צורות רבים חריגות נפוצות: men, women, children, people, feet, teeth."
+    },
+    {
+      "en": "I can use a plural verb after a plural noun: The children are at school. People are friendly.",
+      "he": "אני יודע/ת להשתמש בפועל ברבים אחרי שם עצם ברבים: The children are at school, People are friendly."
+    }
+  ],
+  "warmup": {
+    "en": "One book, two books. Easy! But what about one child, two...? Think of English words that change completely in the plural.",
+    "he": "ספר אחד, שני ספרים: one book, two books. קל! אבל מה עם one child, two...? חשבו על מילים באנגלית שמשתנות לגמרי ברבים, כמו שבעברית 'איש' הופך ל'אנשים'."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "One book → two books. One bus → three buses. One city → many cities. One child → two children. Most nouns just add -s, some change their spelling, and a few change completely.",
+      "he": "רוב שמות העצם באנגלית מקבלים s ברבים: book → books. יש מילים שהאיות שלהן משתנה (bus → buses, city → cities), ויש כמה שמשתנות לגמרי (child → children)."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "The word ends in",
+        "Rule",
+        "Examples"
+      ],
+      "rows": [
+        [
+          "most nouns",
+          "+ s",
+          "book → books, car → cars, day → days, key → keys"
+        ],
+        [
+          "-s, -ss, -sh, -ch, -x",
+          "+ es",
+          "bus → buses, class → classes, dish → dishes, watch → watches, box → boxes"
+        ],
+        [
+          "consonant + y",
+          "y → ies",
+          "city → cities, baby → babies, party → parties"
+        ],
+        [
+          "-f / -fe",
+          "f → ves",
+          "knife → knives, wife → wives, life → lives"
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Singular",
+        "Plural",
+        "עברית"
+      ],
+      "rows": [
+        [
+          "man",
+          "men",
+          "גבר – גברים"
+        ],
+        [
+          "woman",
+          "women",
+          "אישה – נשים"
+        ],
+        [
+          "child",
+          "children",
+          "ילד/ה – ילדים"
+        ],
+        [
+          "person",
+          "people",
+          "אדם – אנשים"
+        ],
+        [
+          "foot",
+          "feet",
+          "כף רגל – כפות רגליים"
+        ],
+        [
+          "tooth",
+          "teeth",
+          "שן – שיניים"
+        ],
+        [
+          "sheep, fish",
+          "sheep, fish (no change)",
+          "כבשה – כבשים, דג – דגים"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "A plural subject takes a plural verb: The children are at school. My feet hurt. People is already plural: People are friendly here (not 'people is' or 'peoples').",
+      "he": "נושא ברבים מקבל פועל ברבים: The children are at school, My feet hurt. המילה people כבר ברבים: People are friendly here – לא people is ולא peoples."
+    },
+    {
+      "type": "warning",
+      "en": "a/an is only for one: a book, but books (not 'a books'). After two, three... use the plural: two books (not 'two book'). And never add -s to an irregular plural: children, not 'childrens'.",
+      "he": "a/an רק ליחיד: a book, אבל books (לא a books). אחרי two, three וכו' באה צורת הרבים: two books (לא two book). ולא מוסיפים s לרבים חריג: children, לא childrens."
+    },
+    {
+      "type": "tip",
+      "en": "Say it right: -es after s, sh, ch and x adds a syllable /ɪz/: bus-es, box-es. In women the change is in the first part: woman /ˈwʊmən/, women /ˈwɪmɪn/.",
+      "he": "הגייה: es אחרי s, sh, ch, x מוסיפה הברה /ɪz/: bus-es, box-es. ב-women השינוי בחלק הראשון של המילה: woman נשמע 'וּוּמֶן', women נשמע 'וִוִימִן'."
+    }
+  ],
+  "examples": [
+    {
+      "en": "I've got two brothers and one sister.",
+      "he": "יש לי שני אחים ואחות אחת."
+    },
+    {
+      "en": "Big cities are expensive.",
+      "he": "ערים גדולות הן יקרות.",
+      "note": "city → cities"
+    },
+    {
+      "en": "My aunt has three children.",
+      "he": "לדודה שלי יש שלושה ילדים.",
+      "note": "child → children"
+    },
+    {
+      "en": "These women are doctors.",
+      "he": "הנשים האלה רופאות.",
+      "note": "woman → women"
+    },
+    {
+      "en": "People are very friendly here.",
+      "he": "האנשים כאן נחמדים מאוד.",
+      "note": "people + are"
+    },
+    {
+      "en": "My feet are cold.",
+      "he": "כפות הרגליים שלי קרות.",
+      "note": "foot → feet"
+    },
+    {
+      "en": "The knives are in the drawer.",
+      "he": "הסכינים במגירה.",
+      "note": "knife → knives"
+    },
+    {
+      "en": "The buses to Haifa are always full.",
+      "he": "האוטובוסים לחיפה תמיד מלאים.",
+      "note": "bus → buses"
+    },
+    {
+      "en": "Brush your teeth twice a day.",
+      "he": "צחצחו שיניים פעמיים ביום.",
+      "note": "tooth → teeth"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "child",
+      "pos": "noun",
+      "he": "ילד/ה",
+      "def": "a young boy or girl (plural: children /ˈtʃɪldrən/)",
+      "example": "Their children are five and eight.",
+      "ipa": "/tʃaɪld/",
+      "level": "A1"
+    },
+    {
+      "word": "person",
+      "pos": "noun",
+      "he": "אדם",
+      "def": "a man, woman or child (plural: people)",
+      "example": "Four people live in our flat.",
+      "ipa": "/ˈpɜːsn/",
+      "level": "A1"
+    },
+    {
+      "word": "man",
+      "pos": "noun",
+      "he": "גבר",
+      "def": "an adult male person (plural: men /men/)",
+      "example": "Two men work in the shop.",
+      "ipa": "/mæn/",
+      "level": "A1"
+    },
+    {
+      "word": "woman",
+      "pos": "noun",
+      "he": "אישה",
+      "def": "an adult female person (plural: women /ˈwɪmɪn/)",
+      "example": "The women in my team are great.",
+      "ipa": "/ˈwʊmən/",
+      "level": "A1"
+    },
+    {
+      "word": "foot",
+      "pos": "noun",
+      "he": "כף רגל",
+      "def": "the part of your body at the end of your leg (plural: feet)",
+      "example": "My feet hurt after work.",
+      "ipa": "/fʊt/",
+      "level": "A1"
+    },
+    {
+      "word": "tooth",
+      "pos": "noun",
+      "he": "שן",
+      "def": "one of the hard white things in your mouth (plural: teeth)",
+      "example": "Brush your teeth before bed.",
+      "ipa": "/tuːθ/",
+      "level": "A1"
+    },
+    {
+      "word": "knife",
+      "pos": "noun",
+      "he": "סכין",
+      "def": "a thing with a sharp edge for cutting food (plural: knives)",
+      "example": "The knives are in the drawer.",
+      "ipa": "/naɪf/",
+      "level": "A1"
+    },
+    {
+      "word": "city",
+      "pos": "noun",
+      "he": "עיר",
+      "def": "a big and important town (plural: cities)",
+      "example": "Tel Aviv and Haifa are big cities.",
+      "ipa": "/ˈsɪti/",
+      "level": "A1"
+    },
+    {
+      "word": "box",
+      "pos": "noun",
+      "he": "קופסה, ארגז",
+      "def": "a container with flat sides, for keeping or moving things (plural: boxes)",
+      "example": "The boxes are in the car.",
+      "ipa": "/bɒks/",
+      "level": "A1"
+    },
+    {
+      "word": "watch",
+      "pos": "noun",
+      "he": "שעון יד",
+      "def": "a small clock that you wear on your arm (plural: watches)",
+      "example": "My dad has three watches.",
+      "ipa": "/wɒtʃ/",
+      "level": "A1"
+    },
+    {
+      "word": "dish",
+      "pos": "noun",
+      "he": "צלחת, כלי אוכל",
+      "def": "a plate or bowl for food (plural: dishes)",
+      "example": "I wash the dishes after dinner.",
+      "ipa": "/dɪʃ/",
+      "collocations": [
+        "wash the dishes",
+        "do the dishes"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "sheep",
+      "pos": "noun",
+      "he": "כבשה, כבש",
+      "def": "a farm animal with thick white wool (plural: sheep)",
+      "example": "My uncle has fifty sheep.",
+      "ipa": "/ʃiːp/",
+      "level": "A2",
+      "collocations": [
+        "a sheep farm",
+        "a flock of sheep"
+      ]
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "Hebrew works differently here: it has no /æ/ vowel, so man /mæn/ and men /men/ can sound the same. For man, open your mouth wider; men has the short 'e' of pen.",
+      "he": "בעברית אין את התנועה /æ/, ולכן man ו-men עלולות להישמע אותו דבר. ב-man פותחים את הפה רחב (צליל בין 'אַ' ל'אֶ'); ב-men אומרים 'אֶ' קצרה, כמו ב-pen.",
+      "error_type": "pron-vowel"
+    },
+    {
+      "en": "Hebrew works differently: the sound /w/ is rare, and the letter vav is usually /v/. So woman can sound like 'voman'. For /w/, round your lips as for 'oo' and don't touch your teeth: woman /ˈwʊmən/, women /ˈwɪmɪn/.",
+      "he": "בעברית הצליל /w/ נדיר, והאות ו' נהגית בדרך כלל v. לכן woman עלול לצאת 'וֹוֹמֶן' עם v. כדי להגות /w/ מעגלים את השפתיים כמו ל'אוּ', בלי לגעת בשיניים: woman, women.",
+      "error_type": "pron-w-v"
+    },
+    {
+      "en": "In Hebrew there is no present-tense 'be', so 'The children at school' can sound complete. English needs are: The children are at school.",
+      "he": "בעברית אין 'להיות' בהווה ('הילדים בבית הספר'), ולכן The children at school נשמע אולי שלם. באנגלית חייבים are: The children are at school.",
+      "error_type": "copula-omission"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "How do you make the plural? Put each word in the right group.",
+        "he": "איך יוצרים את צורת הרבים? מיינו כל מילה לקבוצה הנכונה."
+      },
+      "categories": [
+        "+ s",
+        "+ es",
+        "y → ies",
+        "f / fe → ves"
+      ],
+      "items": [
+        {
+          "text": "day",
+          "category": "+ s"
+        },
+        {
+          "text": "key",
+          "category": "+ s"
+        },
+        {
+          "text": "class",
+          "category": "+ es"
+        },
+        {
+          "text": "box",
+          "category": "+ es"
+        },
+        {
+          "text": "watch",
+          "category": "+ es"
+        },
+        {
+          "text": "city",
+          "category": "y → ies"
+        },
+        {
+          "text": "party",
+          "category": "y → ies"
+        },
+        {
+          "text": "knife",
+          "category": "f / fe → ves"
+        },
+        {
+          "text": "wife",
+          "category": "f / fe → ves"
+        }
+      ],
+      "explanation": {
+        "en": "Look at the end of the word. day and key end in a vowel + y, so just add -s. class, box, watch → -es. city, party (consonant + y) → -ies. knife, wife → -ves.",
+        "he": "הסתכלו על סוף המילה. day ו-key מסתיימות בתנועה + y, ולכן מוסיפים רק s. class, box, watch → es. city, party (עיצור + y) → ies. knife, wife → ves."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Match each word with its plural.",
+        "he": "התאימו כל מילה לצורת הרבים שלה."
+      },
+      "pairs": [
+        [
+          "man",
+          "men"
+        ],
+        [
+          "woman",
+          "women"
+        ],
+        [
+          "child",
+          "children"
+        ],
+        [
+          "person",
+          "people"
+        ],
+        [
+          "foot",
+          "feet"
+        ],
+        [
+          "tooth",
+          "teeth"
+        ]
+      ],
+      "explanation": {
+        "en": "These plurals don't add -s. Learn them as pairs: man – men, woman – women, child – children, person – people, foot – feet, tooth – teeth.",
+        "he": "צורות הרבים האלה לא מקבלות s. כדאי ללמוד אותן בזוגות: man – men, woman – women, child – children, person – people, foot – feet, tooth – teeth."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Listen and choose the sentence you hear.",
+        "he": "הקשיבו ובחרו את המשפט ששמעתם."
+      },
+      "audio_text": "The women in my class are from Italy.",
+      "question": "What did you hear?",
+      "options": [
+        "The woman in my class is from Italy.",
+        "The women in my class are from Italy.",
+        "The women in my class is from Italy."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Listen to the first part of the word: women /ˈwɪmɪn/ sounds like 'wi-min'. And the verb is are, for more than one.",
+          "he": "הקשיבו לחלק הראשון של המילה: women נשמע 'וִוִימִן'. וגם הפועל הוא are – יותר מאחת."
+        },
+        "2": {
+          "en": "women is plural, so the verb is are, not is.",
+          "he": "women היא צורת רבים, ולכן הפועל הוא are ולא is."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "agreement"
+      },
+      "explanation": {
+        "en": "woman /ˈwʊmən/ – women /ˈwɪmɪn/: the plural changes in the first syllable. A plural subject takes are.",
+        "he": "woman ('וּוּמֶן') – women ('וִוִימִן'): ברבים משתנה ההברה הראשונה. ונושא ברבים מקבל are."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Choose the correct sentence.",
+        "he": "בחרו את המשפט הנכון."
+      },
+      "question": "Which sentence is correct?",
+      "options": [
+        "The childrens are in the garden.",
+        "The children is in the garden.",
+        "The child are in the garden.",
+        "The children are in the garden."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "children is already plural. Don't add -s.",
+          "he": "children כבר ברבים. לא מוסיפים s."
+        },
+        "1": {
+          "en": "children is plural, so the verb is are.",
+          "he": "children ברבים, ולכן הפועל הוא are."
+        },
+        "2": {
+          "en": "child is one person, so it takes is: The child is... For more than one: The children are...",
+          "he": "child הוא ילד אחד, ולכן is: The child is... ליותר מאחד: The children are..."
+        }
+      },
+      "option_errors": {
+        "0": "plural-form",
+        "1": "agreement",
+        "2": "agreement"
+      },
+      "explanation": {
+        "en": "child → children (no -s), and a plural subject takes are: The children are in the garden.",
+        "he": "child → children (בלי s), ונושא ברבים מקבל are: The children are in the garden."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Write the plural of the word in brackets.",
+        "he": "כתבו את צורת הרבים של המילה שבסוגריים."
+      },
+      "text": "I love big ___ (city), but the ___ (bus) there are always full. At the weekend I usually go to ___ (party) with friends, and I always lose my ___ (key)!",
+      "answers": [
+        [
+          "cities"
+        ],
+        [
+          "buses"
+        ],
+        [
+          "parties"
+        ],
+        [
+          "keys"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "citys",
+          "feedback": {
+            "en": "Consonant + y → ies: city → cities.",
+            "he": "עיצור + y → ies: city → cities."
+          },
+          "error_type": "spelling"
+        },
+        {
+          "match": "partys",
+          "feedback": {
+            "en": "Consonant + y → ies: party → parties.",
+            "he": "עיצור + y → ies: party → parties."
+          },
+          "error_type": "spelling"
+        },
+        {
+          "match": "bus",
+          "feedback": {
+            "en": "Words ending in -s add -es: bus → buses.",
+            "he": "מילה שמסתיימת ב-s מקבלת es: bus → buses."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "keies",
+          "feedback": {
+            "en": "Vowel + y just adds -s: key → keys.",
+            "he": "תנועה + y – מוסיפים רק s: key → keys."
+          },
+          "error_type": "spelling"
+        },
+        {
+          "match": "keyes",
+          "feedback": {
+            "en": "Vowel + y just adds -s: key → keys.",
+            "he": "תנועה + y – מוסיפים רק s: key → keys."
+          },
+          "error_type": "spelling"
+        }
+      ],
+      "hint": {
+        "en": "Look at the letter before y: t in city and party, but e in key.",
+        "he": "הסתכלו על האות שלפני ה-y: ב-city וב-party יש t (עיצור), וב-key יש e (תנועה)."
+      },
+      "explanation": {
+        "en": "city → cities, party → parties (consonant + y); bus → buses (+es); key → keys (vowel + y: just -s).",
+        "he": "city → cities, party → parties (עיצור + y); bus → buses (מוסיפים es); key → keys (תנועה + y: רק s)."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Write the plural of the word in brackets. Careful: these are irregular!",
+        "he": "כתבו את צורת הרבים של המילה שבסוגריים. שימו לב: אלה צורות חריגות!"
+      },
+      "text": "My aunt has three ___ (child): two boys and a girl. The boys are ___ (man) now, and the girl is a dentist – she looks at ___ (tooth) all day!",
+      "answers": [
+        [
+          "children"
+        ],
+        [
+          "men"
+        ],
+        [
+          "teeth"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "childs",
+          "feedback": {
+            "en": "child has an irregular plural: children.",
+            "he": "ל-child יש רבים חריג: children."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "mans",
+          "feedback": {
+            "en": "man → men: change the vowel, no -s.",
+            "he": "man → men: משנים את התנועה, בלי s."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "man",
+          "feedback": {
+            "en": "The boys are two people, so use the plural: men.",
+            "he": "הבנים הם שניים, ולכן צורת הרבים: men."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "tooths",
+          "feedback": {
+            "en": "tooth → teeth: the vowel changes, no -s.",
+            "he": "tooth → teeth: התנועה משתנה, בלי s."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "tooth",
+          "feedback": {
+            "en": "She looks at many teeth, so use the plural: teeth.",
+            "he": "היא מסתכלת על הרבה שיניים, ולכן צורת הרבים: teeth."
+          },
+          "error_type": "plural-form"
+        }
+      ],
+      "explanation": {
+        "en": "child → children, man → men, tooth → teeth. These plurals change inside the word and never add -s.",
+        "he": "child → children, man → men, tooth → teeth. ברבים האלה משתנה המילה עצמה, ואף פעם לא מוסיפים s."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Put the words in order.",
+        "he": "סדרו את המילים למשפט."
+      },
+      "tokens": [
+        "Those",
+        "women",
+        "are",
+        "my",
+        "aunts."
+      ],
+      "explanation": {
+        "en": "Plural subject (Those women) + are + the rest (my aunts). those goes with plural nouns.",
+        "he": "נושא ברבים (Those women) + are + שאר המשפט (my aunts). those בא עם שם עצם ברבים."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "My neighbours have three dog.",
+      "answers": [
+        "My neighbours have three dogs."
+      ],
+      "error_type": "plural-form",
+      "hint": {
+        "en": "Look at the word after three.",
+        "he": "הסתכלו על המילה שאחרי three."
+      },
+      "explanation": {
+        "en": "After two, three, four... the noun is plural: three dogs.",
+        "he": "אחרי two, three, four וכו' שם העצם ברבים: three dogs."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "People is very friendly in Eilat.",
+      "answers": [
+        "People are very friendly in Eilat.",
+        "The people are very friendly in Eilat.",
+        "People in Eilat are very friendly.",
+        "The people in Eilat are very friendly."
+      ],
+      "error_type": "agreement",
+      "hint": {
+        "en": "people = more than one person.",
+        "he": "people = יותר מאדם אחד."
+      },
+      "explanation": {
+        "en": "people is the plural of person, so it takes are: People are very friendly.",
+        "he": "people היא צורת הרבים של person, ולכן באה עם are: People are very friendly."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Make the sentence plural.",
+        "he": "העבירו את המשפט לרבים."
+      },
+      "source": "The child is very tired.",
+      "answers": [
+        "The children are very tired."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The childs are very tired.",
+          "feedback": {
+            "en": "child has an irregular plural: children.",
+            "he": "ל-child יש רבים חריג: children."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "The children is very tired.",
+          "feedback": {
+            "en": "children is plural, so change is to are.",
+            "he": "children ברבים, ולכן is הופך ל-are."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "The child are very tired.",
+          "feedback": {
+            "en": "Change both words: child → children, is → are.",
+            "he": "משנים את שתי המילים: child → children, is → are."
+          },
+          "error_type": "plural-form"
+        }
+      ],
+      "hint": {
+        "en": "Two words change.",
+        "he": "שתי מילים משתנות."
+      },
+      "explanation": {
+        "en": "child → children and is → are: The children are very tired. tired doesn't change: adjectives have no plural form.",
+        "he": "child → children ו-is → are: The children are very tired. המילה tired לא משתנה – לשמות תואר באנגלית אין צורת רבים."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Translate into English.",
+        "he": "תרגמו לאנגלית."
+      },
+      "source": "הילדים שלי בבית הספר.",
+      "answers": [
+        "My children are at school.",
+        "My kids are at school.",
+        "My children are in school.",
+        "My kids are in school.",
+        "My children are at the school.",
+        "My kids are at the school.",
+        "My children are in the school.",
+        "My kids are in the school."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "My children at school.",
+          "feedback": {
+            "en": "The Hebrew sentence has no verb, but English needs are: My children are at school.",
+            "he": "במשפט בעברית אין פועל, אבל באנגלית חייבים are: My children are at school."
+          },
+          "error_type": "copula-omission"
+        },
+        {
+          "match": "My children is at school.",
+          "feedback": {
+            "en": "children is plural, so are: My children are at school.",
+            "he": "children ברבים, ולכן are: My children are at school."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "My child are at school.",
+          "feedback": {
+            "en": "The Hebrew word is plural, so use children (one child, two children).",
+            "he": "'ילדים' זה רבים: children (child אחד, שני children)."
+          },
+          "error_type": "plural-form"
+        }
+      ],
+      "hint": {
+        "en": "The plural of child is children. Don't forget are.",
+        "he": "ילדים → children. אל תשכחו are."
+      },
+      "explanation": {
+        "en": "My children are at school. English needs the verb are, and child → children.",
+        "he": "My children are at school. באנגלית צריך את הפועל are, ו-child הופך ל-children."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Read Sara's message to her friend and answer the questions.",
+        "he": "קראו את ההודעה של שרה לחברה שלה וענו על השאלות."
+      },
+      "title": "Message from summer camp",
+      "passage": "Hi Noa!\nMy new job at the summer camp is great. My group has twenty children – eleven boys and nine girls. Two other people work with me, Omer and Kenji. They're both really funny men, and the kids love them. Every morning the children brush their teeth, have breakfast and play games. In the afternoon we take two buses to the beach. The beaches here are beautiful! The only problem? My feet hurt every evening.\nLove,\nSara",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "How many children are in Sara's group?",
+          "options": [
+            "eleven",
+            "nine",
+            "twenty"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "Eleven is the number of boys. Add the girls.",
+              "he": "אחד עשר זה מספר הבנים. הוסיפו את הבנות."
+            },
+            "1": {
+              "en": "Nine is the number of girls. Add the boys.",
+              "he": "תשע זה מספר הבנות. הוסיפו את הבנים."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension"
+          },
+          "explanation": {
+            "en": "'My group has twenty children – eleven boys and nine girls.'",
+            "he": "'My group has twenty children' – בקבוצה עשרים ילדים: אחד עשר בנים ותשע בנות."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Sara works with two women.",
+          "answer": false,
+          "explanation": {
+            "en": "Omer and Kenji are 'really funny men', so Sara works with two men.",
+            "he": "עומר וקנג'י הם 'really funny men' – גברים. כלומר שרה עובדת עם שני גברים."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Every morning the children brush their ___.",
+          "answers": [
+            [
+              "teeth"
+            ]
+          ],
+          "explanation": {
+            "en": "tooth → teeth: 'the children brush their teeth'.",
+            "he": "tooth → teeth: 'the children brush their teeth' – הילדים מצחצחים שיניים."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "How do they get to the beach?",
+          "options": [
+            "by bus",
+            "on foot",
+            "by car"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "on foot = walking. The text says 'we take two buses'.",
+              "he": "on foot = ברגל. בטקסט כתוב 'we take two buses'."
+            },
+            "2": {
+              "en": "There are no cars in the text. Look for 'buses'.",
+              "he": "בטקסט אין מכוניות. חפשו את המילה buses."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'In the afternoon we take two buses to the beach.'",
+            "he": "'we take two buses to the beach' – הם נוסעים לחוף בשני אוטובוסים."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Sara's feet hurt in the evening.",
+          "answer": true,
+          "explanation": {
+            "en": "'My feet hurt every evening.' feet is the plural of foot.",
+            "he": "'My feet hurt every evening' – כואבות לה הרגליים כל ערב. feet היא צורת הרבים של foot."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Listen and type what you hear.",
+        "he": "הקשיבו והקלידו את מה ששמעתם."
+      },
+      "audio_text": "The children are at school, but their parents are at work.",
+      "answers": [
+        "The children are at school, but their parents are at work."
+      ],
+      "hint": {
+        "en": "Two plural nouns, and two times are.",
+        "he": "שני שמות עצם ברבים, ופעמיים are."
+      },
+      "explanation": {
+        "en": "children and parents are plural, so both take are.",
+        "he": "children ו-parents ברבים, ולכן שניהם באים עם are."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Say the sentence out loud.",
+        "he": "אמרו את המשפט בקול."
+      },
+      "target": "Two men and three women work in my office.",
+      "focus": {
+        "en": "men has a short 'e', like pen. women starts with /w/ (round your lips) and sounds like 'wi-min' /ˈwɪmɪn/.",
+        "he": "ב-men יש 'אֶ' קצרה, כמו ב-pen. women מתחיל ב-/w/ (שפתיים מעוגלות) ונשמע 'וִוִימִן'."
+      },
+      "explanation": {
+        "en": "A useful sentence for talking about work. Clear vowels help people hear one or many.",
+        "he": "משפט שימושי לדבר על מקום העבודה. תנועות ברורות עוזרות לשומע להבין אם מדובר באחד או ברבים."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "plurals",
+      "prompt": {
+        "en": "Describe a group photo.",
+        "he": "תארו תמונה קבוצתית."
+      },
+      "task": {
+        "en": "Think of a photo of a group: your family, your class or your team. Write 5-6 sentences about the people and things in it. Use at least five plural nouns, and at least two irregular ones (people, children, men, women, feet, teeth...).",
+        "he": "חשבו על תמונה של קבוצה: המשפחה, הכיתה או הצוות שלכם. כתבו 5-6 משפטים על האנשים והדברים שבה. השתמשו לפחות בחמישה שמות עצם ברבים, ולפחות בשניים חריגים (people, children, men, women, feet, teeth...)."
+      },
+      "min_words": 30,
+      "max_words": 90,
+      "model_answer": "This is a photo of my team at work. We are eight people: five women and three men. Two of the women are engineers, and the men are designers. On the table you can see three laptops, two boxes of pizza and a lot of glasses. Everyone looks happy, because it is Friday!",
+      "checklist": [
+        {
+          "en": "After two, three... the noun is plural: three laptops.",
+          "he": "אחרי two, three וכו' שם העצם ברבים: three laptops."
+        },
+        {
+          "en": "My irregular plurals are right: people, children, men, women (no -s).",
+          "he": "הרבים החריגים נכונים: people, children, men, women (בלי s)."
+        },
+        {
+          "en": "Plural subjects take are or a plural verb: The men are...",
+          "he": "נושא ברבים בא עם are או עם פועל ברבים: The men are..."
+        },
+        {
+          "en": "Spelling: -es after s, sh, ch, x (boxes, glasses); consonant + y → ies.",
+          "he": "איות: es אחרי s, sh, ch, x (boxes, glasses); עיצור + y → ies."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Most nouns + s; -s/-sh/-ch/-x + es; consonant + y → ies; -f/-fe → ves.",
+        "he": "רוב שמות העצם + s; אחרי s/sh/ch/x מוסיפים es; עיצור + y → ies; f/fe → ves."
+      },
+      {
+        "en": "Irregular: men, women, children, people, feet, teeth – never add -s to them.",
+        "he": "חריגים: men, women, children, people, feet, teeth – אף פעם לא מוסיפים להם s."
+      },
+      {
+        "en": "people is plural: People are friendly (not 'people is').",
+        "he": "people זו צורת רבים: People are friendly (ולא people is)."
+      },
+      {
+        "en": "After two, three... use the plural, and a plural subject takes are: The children are at school.",
+        "he": "אחרי two, three וכו' באה צורת הרבים, ונושא ברבים מקבל are: The children are at school."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

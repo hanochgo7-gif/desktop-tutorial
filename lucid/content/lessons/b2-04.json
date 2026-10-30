@@ -1,0 +1,1121 @@
+{
+  "id": "b2-04",
+  "level": "B2",
+  "title_en": "He denied taking it: reporting",
+  "title_he": "פעלי דיווח",
+  "topics": [
+    "reported-speech-advanced"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can report questions with the correct word order: She asked me where I lived."
+    },
+    {
+      "en": "I can report commands, requests and advice: He told us not to touch it."
+    },
+    {
+      "en": "I can choose reporting verbs that show what a speaker was doing (deny, admit, refuse, warn, accuse) and use their patterns correctly."
+    },
+    {
+      "en": "I can report a discussion fairly, attributing each view to the person who held it."
+    }
+  ],
+  "warmup": {
+    "en": "Think of the last argument you saw: online, at home or on TV. How would you tell a friend what each side said, without quoting them word for word?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Direct speech: 'Did you take my charger?' Yael asked. 'No, I didn't,' said Omer. 'But I'll buy you a new one.' Reported: Yael asked Omer whether he had taken her charger. Omer denied taking it, but he offered to buy her a new one. At B1 you reported statements with said and told. Now, one verb (denied, offered) can replace a whole sentence and show what the speaker was doing."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Direct question",
+        "Reported question",
+        "Rule"
+      ],
+      "rows": [
+        [
+          "'Where do you work?'",
+          "She asked me where I worked.",
+          "question word + subject + verb; no do / does / did"
+        ],
+        [
+          "'What time does the film start?'",
+          "He wanted to know what time the film started.",
+          "no inversion, no question mark"
+        ],
+        [
+          "'Have you finished?'",
+          "She asked if / whether I had finished.",
+          "yes/no questions: if or whether"
+        ],
+        [
+          "'Can you help me?'",
+          "He asked if I could help him.",
+          "tenses and pronouns shift as in reported statements"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Reported questions are not questions: use statement word order and no question mark. Commands and requests use tell / ask / warn / remind + person + (not) to + infinitive: 'Don't be late.' → She told us not to be late. 'Could you close the door?' → He asked me to close the door."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Pattern",
+        "Verbs",
+        "Example"
+      ],
+      "rows": [
+        [
+          "verb + to + infinitive",
+          "agree, refuse, offer, promise, threaten",
+          "He refused to apologise."
+        ],
+        [
+          "verb + person + to + infinitive",
+          "advise, warn, remind, encourage, persuade, urge, invite",
+          "She warned me not to sign it."
+        ],
+        [
+          "verb + -ing (or + that-clause)",
+          "deny, admit, suggest, recommend",
+          "He denied taking it. He admitted (that) he had lied."
+        ],
+        [
+          "verb + person + preposition + -ing",
+          "accuse sb of, blame sb for, congratulate sb on, thank sb for",
+          "They accused him of cheating."
+        ],
+        [
+          "verb + preposition + -ing",
+          "apologise for, insist on",
+          "She apologised for being late."
+        ],
+        [
+          "verb + that-clause",
+          "explain, claim, point out, argue, complain",
+          "He explained that the trains were delayed."
+        ]
+      ]
+    },
+    {
+      "type": "warning",
+      "en": "Suggest is never followed by person + to: *She suggested me to apply → She suggested applying / She suggested (that) I (should) apply. Also: *He denied to take it → He denied taking it. *They accused him for lying → accused him of lying."
+    },
+    {
+      "type": "tip",
+      "en": "Reporting verbs carry a judgement. 'She said the plan was too expensive' is neutral; 'she pointed out' suggests you accept the point; 'she claimed' suggests you are not sure it is true; 'she admitted' suggests it was something negative. When you report a view you disagree with in an essay, choose a neutral verb (argue, suggest, maintain) so that you state it fairly: Critics argue that..."
+    },
+    {
+      "type": "tip",
+      "en": "Contrast with Hebrew: Hebrew questions keep the word order of a statement, and so do English reported questions: She asked where I lived. The trap is the English direct-question pattern (do / did and inversion), so switch it off after asked, wondered and wanted to know.",
+      "he": "בעברית שאלה שומרת על סדר המילים של משפט רגיל ('איפה אתה גר?'), וכך גם שאלה מדווחת באנגלית: She asked where I lived. המלכודת היא דווקא מבנה השאלה הישירה באנגלית (do/did והיפוך), ולכן אחרי asked, wondered ו-wanted to know מוותרים עליו."
+    }
+  ],
+  "examples": [
+    {
+      "en": "The interviewer asked me why I wanted the job.",
+      "note": "statement word order after the question word"
+    },
+    {
+      "en": "My neighbour asked whether we had heard the noise during the night.",
+      "note": "yes/no question → whether / if"
+    },
+    {
+      "en": "The doctor advised him to rest for a week.",
+      "note": "advise + person + to"
+    },
+    {
+      "en": "The coach warned the players not to talk to the press.",
+      "note": "negative command: not to"
+    },
+    {
+      "en": "Omer denied breaking the window, but later he admitted that he had kicked the ball.",
+      "note": "deny + -ing; admit + that-clause"
+    },
+    {
+      "en": "Sara suggested taking the earlier train.",
+      "note": "suggest + -ing (no person + to)"
+    },
+    {
+      "en": "They accused the company of hiding the problem.",
+      "note": "accuse + person + of + -ing"
+    },
+    {
+      "en": "Lior apologised for missing the meeting.",
+      "note": "apologise for + -ing"
+    },
+    {
+      "en": "The manager refused to give any details.",
+      "note": "refuse + to"
+    },
+    {
+      "en": "Critics argue that the plan ignores the needs of older residents.",
+      "note": "a neutral reporting verb for an opposing view"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "deny",
+      "pos": "verb",
+      "he": "להכחיש",
+      "def": "to say that something is not true, or that you did not do it",
+      "example": "He denied taking the money.",
+      "ipa": "/dɪˈnaɪ/",
+      "collocations": [
+        "deny doing something",
+        "strongly deny",
+        "deny an accusation"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "admit",
+      "pos": "verb",
+      "he": "להודות (במשהו)",
+      "def": "to agree, often unwillingly, that something bad is true or that you did it",
+      "example": "She admitted that she had made a mistake.",
+      "ipa": "/ədˈmɪt/",
+      "collocations": [
+        "admit doing something",
+        "admit a mistake",
+        "freely admit"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "accuse (someone) of",
+      "pos": "verb",
+      "he": "להאשים (מישהו) ב...",
+      "def": "to say that someone has done something wrong",
+      "example": "They accused him of cheating.",
+      "ipa": "/əˈkjuːz/",
+      "collocations": [
+        "accuse someone of lying",
+        "be accused of",
+        "falsely accused"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "refuse",
+      "pos": "verb",
+      "he": "לסרב",
+      "def": "to say that you will not do something",
+      "example": "The manager refused to give any details.",
+      "ipa": "/rɪˈfjuːz/",
+      "collocations": [
+        "refuse to comment",
+        "flatly refuse",
+        "refuse an offer"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "urge",
+      "pos": "verb",
+      "he": "להפציר, לדחוק ב...",
+      "def": "to strongly advise or encourage someone to do something",
+      "example": "The head teacher urged students to give honest feedback.",
+      "ipa": "/ɜːdʒ/",
+      "collocations": [
+        "urge someone to act",
+        "strongly urge",
+        "urge caution"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "insist on",
+      "pos": "phrasal verb",
+      "he": "להתעקש על",
+      "def": "to say firmly that something must happen or that you will do something",
+      "example": "My grandmother insisted on paying for dinner.",
+      "ipa": "/ɪnˈsɪst ɒn/",
+      "collocations": [
+        "insist on paying",
+        "insist on doing something"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "point out",
+      "pos": "phrasal verb",
+      "he": "לציין, להפנות תשומת לב ל...",
+      "def": "to tell someone a fact they may not have noticed",
+      "example": "He pointed out that many students use their phones to check bus times.",
+      "ipa": "/ˌpɔɪnt ˈaʊt/",
+      "collocations": [
+        "point out that",
+        "as critics point out",
+        "point out a mistake"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "claim",
+      "pos": "verb",
+      "he": "לטעון (בלי הוכחה מלאה)",
+      "def": "to say that something is true, although it has not been proved",
+      "example": "He claimed that the ban would end loneliness overnight.",
+      "ipa": "/kleɪm/",
+      "collocations": [
+        "claim that",
+        "claim to be",
+        "a false claim"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "remind",
+      "pos": "verb",
+      "he": "להזכיר (למישהו)",
+      "def": "to help someone remember something",
+      "example": "She reminded us to bring our passports.",
+      "ipa": "/rɪˈmaɪnd/",
+      "collocations": [
+        "remind someone to do something",
+        "remind someone of something"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "apologise for",
+      "pos": "phrasal verb",
+      "he": "להתנצל על",
+      "def": "to say sorry for something",
+      "example": "Lior apologised for missing the meeting.",
+      "ipa": "/əˈpɒlədʒaɪz fə(r)/",
+      "collocations": [
+        "apologise for being late",
+        "apologise sincerely",
+        "apologise to someone"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "wonder",
+      "pos": "verb",
+      "he": "לתהות",
+      "def": "to ask yourself a question",
+      "example": "Several students wondered how the rule would be enforced.",
+      "ipa": "/ˈwʌndə(r)/",
+      "collocations": [
+        "wonder whether",
+        "wonder why",
+        "I was wondering if"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "turn down",
+      "pos": "phrasal verb",
+      "he": "לדחות (הצעה), לסרב ל...",
+      "def": "to refuse an offer or invitation",
+      "example": "She turned down the job offer and stayed in Haifa.",
+      "ipa": "/ˌtɜːn ˈdaʊn/",
+      "collocations": [
+        "turn down an offer",
+        "turn down an invitation",
+        "turn someone down"
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the correct report."
+      },
+      "question": "'Where did you park the car?' Dana asked me.",
+      "options": [
+        "Dana asked me where did I park the car.",
+        "Dana asked me where had I parked the car.",
+        "Dana asked me where I had parked the car.",
+        "Dana asked me that where I parked the car."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Reported questions don't use did: where I had parked (or where I parked)."
+        },
+        "1": {
+          "en": "No inversion in reported questions: the subject comes before the verb: where I had parked."
+        },
+        "3": {
+          "en": "Don't put that before a question word: asked me where I had parked."
+        }
+      },
+      "option_errors": {
+        "0": "word-order",
+        "1": "word-order",
+        "3": "reported-speech"
+      },
+      "explanation": {
+        "en": "Question word + subject + verb, with the tense shifted back: Dana asked me where I had parked the car. 'Where I parked the car' is also possible, because the order of events is clear."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "match",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Match what each person said with the reporting verb that describes it."
+      },
+      "pairs": [
+        [
+          "'I'll definitely call you tomorrow.'",
+          "promise"
+        ],
+        [
+          "'No, I won't sign it.'",
+          "refuse"
+        ],
+        [
+          "'You should see a doctor.'",
+          "advise"
+        ],
+        [
+          "'Yes, I took the money. I'm sorry.'",
+          "admit"
+        ],
+        [
+          "'I didn't take the money!'",
+          "deny"
+        ],
+        [
+          "'Why don't we leave early?'",
+          "suggest"
+        ]
+      ],
+      "explanation": {
+        "en": "A reporting verb summarises the speaker's purpose: a promise, a refusal, advice, an admission, a denial, a suggestion. Then use its pattern: promised to call, refused to sign, advised me to see, admitted taking, denied taking, suggested leaving."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to Sara talking about her hotel stay and answer the question."
+      },
+      "audio_text": "So I asked the receptionist whether there was a room with a sea view, and she told me to come back after twelve. When I came back, she apologised for keeping me waiting and offered to upgrade us for free.",
+      "question": "What did the receptionist do in the end?",
+      "options": [
+        "She refused to give them a room.",
+        "She offered them a better room at no extra cost.",
+        "She asked them to pay for an upgrade.",
+        "She told them to come back the next day."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "She didn't refuse: she offered to upgrade them."
+        },
+        "2": {
+          "en": "The upgrade was 'for free'."
+        },
+        "3": {
+          "en": "She told them to come back after twelve, on the same day."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "Listen for the patterns: asked whether there was (reported question), told me to come back (command), apologised for keeping (preposition + -ing), offered to upgrade (to + infinitive)."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "categorize",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Which pattern does each reporting verb take?"
+      },
+      "categories": [
+        "verb + to do",
+        "verb + someone + to do",
+        "verb + doing",
+        "verb (+ someone) + preposition + doing"
+      ],
+      "items": [
+        {
+          "text": "refuse",
+          "category": "verb + to do"
+        },
+        {
+          "text": "offer",
+          "category": "verb + to do"
+        },
+        {
+          "text": "promise",
+          "category": "verb + to do"
+        },
+        {
+          "text": "persuade",
+          "category": "verb + someone + to do"
+        },
+        {
+          "text": "remind",
+          "category": "verb + someone + to do"
+        },
+        {
+          "text": "tell",
+          "category": "verb + someone + to do"
+        },
+        {
+          "text": "deny",
+          "category": "verb + doing"
+        },
+        {
+          "text": "suggest",
+          "category": "verb + doing"
+        },
+        {
+          "text": "apologise",
+          "category": "verb (+ someone) + preposition + doing"
+        },
+        {
+          "text": "insist",
+          "category": "verb (+ someone) + preposition + doing"
+        },
+        {
+          "text": "accuse",
+          "category": "verb (+ someone) + preposition + doing"
+        }
+      ],
+      "explanation": {
+        "en": "refused to go, offered to help, promised to call · persuaded me to stay, reminded us to lock, told them to wait · denied taking, suggested leaving · apologised for being late, insisted on paying, accused him of lying."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the correct option."
+      },
+      "question": "My brother suggested ___ a taxi because the last bus had gone.",
+      "options": [
+        "to take",
+        "us to take",
+        "that we taking",
+        "taking"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "Suggest is not followed by to + infinitive: suggested taking (or suggested that we take)."
+        },
+        "1": {
+          "en": "Suggest + person + to is a very common error. Say: suggested taking, or suggested that we (should) take."
+        },
+        "2": {
+          "en": "After that, use a full clause: that we take / that we should take."
+        }
+      },
+      "option_errors": {
+        "0": "gerund-infinitive",
+        "1": "gerund-infinitive",
+        "2": "verb-form"
+      },
+      "explanation": {
+        "en": "suggest + -ing, or suggest + that + subject + (should) + base verb. Never suggest + person + to."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Report Kenji's questions from last summer."
+      },
+      "text": "'Where are you staying in London?' → Last summer, Kenji asked me where ___ in London. 'Did you book the hotel online?' → He also wanted to know ___ the hotel online.",
+      "answers": [
+        [
+          "I was staying"
+        ],
+        [
+          "if I had booked",
+          "whether I had booked",
+          "if I booked",
+          "whether I booked"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "was I staying",
+          "feedback": {
+            "en": "No inversion in a reported question: subject + verb → where I was staying."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "I am staying",
+          "feedback": {
+            "en": "The question was asked last summer, so shift the tense back: where I was staying."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "am I staying",
+          "feedback": {
+            "en": "No inversion, and shift the tense back: where I was staying."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "did I book",
+          "feedback": {
+            "en": "Reported questions have no did and no inversion: if / whether I had booked."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "had I booked",
+          "feedback": {
+            "en": "No inversion: if / whether I had booked."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "I had booked",
+          "feedback": {
+            "en": "A yes/no question needs if or whether: whether I had booked."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "that I had booked",
+          "feedback": {
+            "en": "A yes/no question is reported with if or whether, not that."
+          },
+          "error_type": "reported-speech"
+        }
+      ],
+      "hint": {
+        "en": "A wh-question keeps its question word; a yes/no question needs if or whether. Then subject + verb."
+      },
+      "explanation": {
+        "en": "where + I was staying (statement order, tense shifted back); if / whether + I had booked (yes/no question). 'If I booked' is also accepted: the past simple often stays the same when the order of events is clear."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Report the command, using told."
+      },
+      "source": "'Don't park in front of the gate,' the security guard told us.",
+      "answers": [
+        "The security guard told us not to park in front of the gate.",
+        "The security guard told us to not park in front of the gate."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The security guard told us don't park in front of the gate.",
+          "feedback": {
+            "en": "After told + person, use (not) to + infinitive: told us not to park."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "The security guard told us not park in front of the gate.",
+          "feedback": {
+            "en": "Add to: told us not to park."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The security guard said us not to park in front of the gate.",
+          "feedback": {
+            "en": "Say doesn't take a person directly. For commands, use tell + person: told us not to park."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "The security guard told us to don't park in front of the gate.",
+          "feedback": {
+            "en": "The negative infinitive is not to + verb: told us not to park."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "explanation": {
+        "en": "Negative command: tell + person + not to + infinitive. 'To not park' is also used, but 'not to park' is the standard order."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Report the question, starting with the words given."
+      },
+      "source": "'What time does the museum open?' Priya asked the guide. → Priya asked the guide ...",
+      "answers": [
+        "Priya asked the guide what time the museum opened.",
+        "Priya asked the guide what time the museum opens."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Priya asked the guide what time does the museum open.",
+          "feedback": {
+            "en": "No does in a reported question: what time the museum opened (or opens)."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Priya asked the guide what time did the museum open.",
+          "feedback": {
+            "en": "No did in a reported question: what time the museum opened."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Priya asked the guide what time opened the museum.",
+          "feedback": {
+            "en": "Subject before verb: what time the museum opened."
+          },
+          "error_type": "word-order"
+        }
+      ],
+      "explanation": {
+        "en": "Remove does, put the subject before the verb and shift the tense: what time the museum opened. Opening times are a permanent fact, so 'opens' is also correct."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Report Tom's words, starting with the words given."
+      },
+      "source": "'I didn't copy Maya's homework!' said Tom. → Tom denied ...",
+      "answers": [
+        "Tom denied copying Maya's homework.",
+        "Tom denied having copied Maya's homework.",
+        "Tom denied that he had copied Maya's homework.",
+        "Tom denied that he copied Maya's homework.",
+        "Tom denied he had copied Maya's homework.",
+        "Tom denied he copied Maya's homework."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Tom denied to copy Maya's homework.",
+          "feedback": {
+            "en": "deny is followed by -ing (or a that-clause): Tom denied copying ..."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Tom denied to have copied Maya's homework.",
+          "feedback": {
+            "en": "deny is followed by -ing: Tom denied having copied ... (or simply copying)."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Tom denied not copying Maya's homework.",
+          "feedback": {
+            "en": "deny already contains the 'no'. Tom denied copying = he said he didn't copy it."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Tom denied copy Maya's homework.",
+          "feedback": {
+            "en": "Use the -ing form after deny: denied copying."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "explanation": {
+        "en": "deny + -ing (or + having + past participle, or + that-clause). The negative is already in the verb: 'I didn't do it' → He denied doing it."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Report the teacher's words, starting with the words given."
+      },
+      "source": "'You cheated in the exam, Amir!' said the teacher. → The teacher accused ...",
+      "answers": [
+        "The teacher accused Amir of cheating in the exam.",
+        "The teacher accused Amir of having cheated in the exam."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The teacher accused Amir for cheating in the exam.",
+          "feedback": {
+            "en": "The preposition after accuse is of: accused Amir of cheating. (We blame someone for something.)"
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "The teacher accused Amir of cheat in the exam.",
+          "feedback": {
+            "en": "After a preposition, use -ing: of cheating."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The teacher accused Amir to cheat in the exam.",
+          "feedback": {
+            "en": "accuse + person + of + -ing: accused Amir of cheating."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "The teacher accused Amir that he cheated in the exam.",
+          "feedback": {
+            "en": "accuse doesn't take a that-clause: accused Amir of cheating."
+          },
+          "error_type": "reported-speech"
+        }
+      ],
+      "explanation": {
+        "en": "accuse + person + of + -ing: The teacher accused Amir of cheating in the exam."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read the school news report and answer the questions. Notice how each view is attributed to a person."
+      },
+      "title": "Phones at break time: students split over new proposal",
+      "passage": "A proposal to ban mobile phones during breaks at Northbrook High School divided the student council on Tuesday.\nOpening the debate, head teacher Ruth Adler explained that the school was considering the ban because teachers had noticed students spending their breaks in silence, staring at screens. She stressed that no decision had been made yet and urged students to give honest feedback.\nCouncil member Daniel Cohen, 17, argued that the ban would treat students like children. He pointed out that many students used their phones at break to check bus times or contact their parents, and he asked whether teachers would also be banned from using their phones. Ms Adler admitted that the proposal had not considered staff, and promised to raise the question at the next staff meeting.\nOthers welcomed the idea. Yael Mizrahi, 16, said that she had spent most breaks the previous year scrolling through videos and wished someone had stopped her sooner. She suggested setting up a games corner in the library as an alternative. Her classmate Kenji Sato went further, claiming that the ban would 'end loneliness at school overnight'.\nNot everyone was convinced. Several students wondered how the rule would be enforced, and one accused the council of discussing the issue without asking younger students. The council's chair, Maya Levi, apologised for the short notice and invited all students to complete an online survey before the end of the month.\nMs Adler refused to say which way she was leaning, but she reminded students that the final decision would be made by the school board in June.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "According to the head teacher, why is the school considering the ban?",
+          "options": [
+            "Exam results have fallen.",
+            "Parents have complained about phone bills.",
+            "Teachers had noticed students spending breaks staring at screens.",
+            "Students had been using phones during lessons."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "Exam results are not mentioned."
+            },
+            "1": {
+              "en": "Parents are mentioned only because students contact them at break."
+            },
+            "3": {
+              "en": "The proposal is about breaks, not lessons."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'...explained that the school was considering the ban because teachers had noticed students spending their breaks in silence, staring at screens.'"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Ms Adler said that the decision had already been made.",
+          "answer": false,
+          "explanation": {
+            "en": "'She stressed that no decision had been made yet.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What did Daniel ask?",
+          "options": [
+            "why students needed phones at break",
+            "whether teachers would also be banned from using their phones",
+            "when the school board would make its decision",
+            "if he could check the bus times"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Daniel explained why students need phones; he didn't ask about it."
+            },
+            "2": {
+              "en": "The date of the decision (June) is mentioned by Ms Adler at the end."
+            },
+            "3": {
+              "en": "He pointed out that students check bus times; that is a statement, not his question."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'...he asked whether teachers would also be banned from using their phones.' A yes/no question reported with whether."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "The report says Kenji was 'claiming that the ban would end loneliness at school overnight'. What does the verb 'claiming' suggest?",
+          "options": [
+            "The reporter presents it as Kenji's strong opinion, not as a proven fact.",
+            "The reporter agrees that it is a fact.",
+            "Kenji was apologising for his view.",
+            "Kenji was asking the council a question."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "For a fact the reporter accepts, a verb like 'pointed out' would fit better. 'Claimed' keeps a distance."
+            },
+            "2": {
+              "en": "That would be 'apologised for'. Kenji was making a bold statement."
+            },
+            "3": {
+              "en": "It's a statement (claiming that...), not a question (asking whether...)."
+            }
+          },
+          "option_errors": {
+            "1": "word-choice",
+            "2": "word-choice",
+            "3": "word-choice"
+          },
+          "explanation": {
+            "en": "Claim reports a statement without accepting it as true. Compare 'pointed out' (used for Daniel), which suggests the reporter accepts the point."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Yael suggested setting up a games ___ in the library.",
+          "answers": [
+            [
+              "corner"
+            ]
+          ],
+          "explanation": {
+            "en": "'She suggested setting up a games corner in the library as an alternative.' Notice: suggest + -ing."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Ms Adler admitted that the proposal had a weakness.",
+          "answer": true,
+          "explanation": {
+            "en": "'Ms Adler admitted that the proposal had not considered staff.' Admit = agree that something negative is true."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the error in this sentence from a research summary."
+      },
+      "sentence": "The study asked how often do teenagers check their phones at night.",
+      "answers": [
+        "The study asked how often teenagers check their phones at night.",
+        "The study asked how often teenagers checked their phones at night."
+      ],
+      "error_type": "word-order",
+      "explanation": {
+        "en": "An embedded question uses statement word order: how often teenagers check (no do). In academic summaries, a general finding can stay in the present (check) or shift back (checked)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the sentence."
+      },
+      "sentence": "My teacher suggested me to read more English novels.",
+      "answers": [
+        "My teacher suggested that I read more English novels.",
+        "My teacher suggested I read more English novels.",
+        "My teacher suggested that I should read more English novels.",
+        "My teacher suggested I should read more English novels.",
+        "My teacher suggested reading more English novels.",
+        "My teacher advised me to read more English novels.",
+        "My teacher encouraged me to read more English novels.",
+        "My teacher recommended reading more English novels.",
+        "My teacher recommended that I read more English novels.",
+        "My teacher recommended that I should read more English novels."
+      ],
+      "error_type": "gerund-infinitive",
+      "explanation": {
+        "en": "suggest + -ing, or suggest + that + subject + (should) + verb. If you want the person + to pattern, change the verb: My teacher advised / encouraged me to read more English novels."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "transform",
+      "skill": "writing",
+      "prompt": {
+        "en": "Your friend Noa sent you this message in Hebrew this morning. Your English-speaking flatmate asks what she wanted. Report her request in one sentence, starting 'Noa asked me to ...'."
+      },
+      "source": "נועה: אפשר לקבל בחזרה את המטען שלי מחר?",
+      "answers": [
+        "Noa asked me to give her charger back tomorrow.",
+        "Noa asked me to give back her charger tomorrow.",
+        "Noa asked me to give her charger back to her tomorrow.",
+        "Noa asked me to return her charger tomorrow.",
+        "Noa asked me to return her charger to her tomorrow.",
+        "Noa asked me to bring her charger back tomorrow.",
+        "Noa asked me to bring back her charger tomorrow.",
+        "Noa asked me to bring her charger back to her tomorrow.",
+        "Noa asked me to give the charger back tomorrow.",
+        "Noa asked me to give back the charger tomorrow.",
+        "Noa asked me to give the charger back to her tomorrow.",
+        "Noa asked me to return the charger tomorrow.",
+        "Noa asked me to return the charger to her tomorrow.",
+        "Noa asked me to bring the charger back tomorrow.",
+        "Noa asked me to bring back the charger tomorrow.",
+        "Noa asked me to bring the charger back to her tomorrow."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Noa asked me can she get her charger back tomorrow.",
+          "feedback": {
+            "en": "Reported speech has no question word order. Noa's question is really a request, so report it as one: Noa asked me to give her charger back tomorrow."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Noa asked me is it possible to get her charger back tomorrow.",
+          "feedback": {
+            "en": "This follows the Hebrew question word for word. In English, report the request with asked + person + to + verb: Noa asked me to give her charger back tomorrow."
+          },
+          "error_type": "false-friend"
+        },
+        {
+          "match": "Noa asked me to give her charger back.",
+          "feedback": {
+            "en": "Keep the time from the message: ... tomorrow."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "Noa asked me to return her charger.",
+          "feedback": {
+            "en": "Keep the time from the message: ... tomorrow."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "Noa asked me give her charger back tomorrow.",
+          "feedback": {
+            "en": "asked + person + to + infinitive: asked me to give ..."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "Noa asked me to give my charger back tomorrow.",
+          "feedback": {
+            "en": "Change the pronoun: in Noa's message 'my charger' is her charger."
+          },
+          "error_type": "pronoun"
+        }
+      ],
+      "hint": {
+        "en": "In Hebrew the request is a question. In English, report what she wanted you to do: asked me to + verb ... + her ... + tomorrow."
+      },
+      "explanation": {
+        "en": "Hebrew often makes a request with a question ('Is it possible to get ...?'). When you report it in English, focus on the function: a request → asked + person + to + infinitive, with the pronoun changed (my → her): Noa asked me to give her charger back tomorrow."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Say the sentence out loud. It reports a question, but it is a statement."
+      },
+      "target": "She asked me whether I'd ever been to Japan, and I told her I hadn't.",
+      "focus": {
+        "en": "Use falling intonation at the end of 'whether I'd ever been to Japan': it is a statement, not a question. Stress Japan and hadn't."
+      },
+      "explanation": {
+        "en": "Because a reported question is a statement, it uses statement word order and statement intonation."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a fair report of a discussion."
+      },
+      "task": {
+        "en": "Write a report (180-280 words) for your school or community website about a discussion or debate you took part in or heard: a class debate, a family argument, a meeting (real or invented). Report at least two questions, at least one request or piece of advice, and use at least five different reporting verbs with their correct patterns. Report every side fairly: attribute each view to a person, and use neutral verbs (argued, suggested, pointed out) for views you disagree with."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "must_include": [
+        "asked",
+        "argued"
+      ],
+      "model_answer": "Should school start later? Our class debate\n\nLast Thursday our English class held a debate on whether the school day should start at nine instead of eight.\n\nLior opened the discussion. He argued that teenagers need more sleep and pointed out that many students in our class arrive tired and find it hard to concentrate in the first lesson. He suggested starting at nine for a trial period of one term.\n\nNot everyone agreed. Maya asked what would happen to students who take the bus with younger brothers and sisters, since the primary school would still start at eight. She also warned that a later start would mean finishing later, which could make life harder for students with part-time jobs. Daniel admitted that he had not thought about transport and agreed that this was a serious problem.\n\nOur teacher then asked whether there was a compromise. Sara proposed that the first lesson could become an optional study period, so that students who arrive early would not waste their time. Several students welcomed this idea, although Tom insisted that it would only work if the library opened earlier.\n\nAt the end, the teacher reminded us that the decision belonged to the school management, but she encouraged us to send them a summary of both sides. We agreed to write it together the following week.",
+      "checklist": [
+        {
+          "en": "Reported questions use statement word order, with if / whether for yes/no questions (no do / did, no question mark)."
+        },
+        {
+          "en": "Commands, requests and advice use person + (not) to + infinitive (told us to..., reminded us to...)."
+        },
+        {
+          "en": "I used at least five different reporting verbs, each with its correct pattern (deny + -ing, refuse + to, accuse + of + -ing, suggest + -ing or that...)."
+        },
+        {
+          "en": "Each view is attributed to a person, and views I disagree with are reported fairly with neutral verbs, not loaded ones (claimed, admitted) unless they really fit."
+        },
+        {
+          "en": "Tenses and time words shift back where needed (the following week, that day)."
+        },
+        {
+          "en": "The report is organised in paragraphs: the topic, the main positions, and how the discussion ended."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Reported questions: statement word order, no do / did, no question mark; if / whether for yes/no questions: She asked whether I had finished."
+      },
+      {
+        "en": "Commands and requests: tell / ask / warn / remind + person + (not) to + infinitive: He told us not to park there."
+      },
+      {
+        "en": "Learn each reporting verb with its pattern: refuse to · warn someone to · deny / suggest + -ing · accuse someone of + -ing · apologise for + -ing."
+      },
+      {
+        "en": "Never suggest someone to: suggested taking / suggested that we take."
+      },
+      {
+        "en": "Reporting verbs show attitude (claimed vs pointed out). Use neutral verbs to report opposing views fairly."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

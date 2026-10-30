@@ -1,0 +1,277 @@
+{
+  "id": "a1-07",
+  "level": "A1",
+  "title_en": "a, an, the",
+  "title_he": "a, an, the",
+  "topics": ["articles"],
+  "minutes": 20,
+  "objectives": [
+    { "en": "I can use a/an for one thing that I mention for the first time, and for jobs.", "he": "אני יודע/ת להשתמש ב-a/an לדבר אחד שמוזכר בפעם הראשונה, ולפני מקצועות." },
+    { "en": "I can use the when we both know which thing, or when there is only one.", "he": "אני יודע/ת להשתמש ב-the כששנינו יודעים על איזה דבר מדובר, או כשיש רק אחד כזה." },
+    { "en": "I can leave out the article with plurals in general and with meals: I love dogs. We have lunch at one.", "he": "אני יודע/ת מתי לא שמים תווית: ברבים כשמדברים באופן כללי, ולפני ארוחות: I love dogs, We have lunch at one." }
+  ],
+  "warmup": { "en": "Translate in your head: 'I've got a new job. The job is in Tel Aviv.' Which English word has a Hebrew partner, and which one has none?", "he": "תרגמו בראש: 'יש לי עבודה חדשה. העבודה בתל אביב.' לאיזו מילה באנגלית יש מקבילה בעברית (ה' הידיעה), ולאיזו אין מקבילה בכלל?" },
+  "explanation": [
+    { "type": "p", "en": "I've got a new job. The job is in an office near the sea. The first time we mention the job, we say a job. Now you know which job, so we say the job.", "he": "I've got a new job. The job is in an office near the sea. בפעם הראשונה שמזכירים את העבודה אומרים a job ('עבודה'). בפעם השנייה כבר ברור על איזו עבודה מדובר, ולכן the job ('העבודה'). the מקבילה בערך לה' הידיעה, אבל ל-a/an אין מילה בעברית." },
+    { "type": "table", "headers": ["Article", "When?", "Examples"], "rows": [
+      ["a / an", "one thing, the first time; any one", "I live in a flat. She's got an old car."],
+      ["a / an", "jobs", "I'm a student. He's an engineer."],
+      ["the", "we know which one (we said it before, or it's clear)", "The flat is small. Close the door, please."],
+      ["the", "there is only one", "the sun, the sea, the city centre"],
+      ["no article", "plurals in general", "I love dogs. Children need sleep."],
+      ["no article", "meals", "We have lunch at one. After dinner I read."]
+    ] },
+    { "type": "rule", "en": "One singular thing (book, job, car) can't stand alone. Use a/an, the, or my/your...: I've got a car. The car is red. My car is old. Never just 'I've got car'.", "he": "שם עצם ביחיד שאפשר לספור (book, job, car) לא עומד לבד באנגלית. צריך לפניו a/an, the או my/your: I've got a car, The car is red, My car is old. אף פעם לא I've got car." },
+    { "type": "warning", "en": "Jobs need a/an: I'm a student (not 'I'm student'). And don't use one like an article: A man is at the door. Keep one for counting: one brother and two sisters.", "he": "לפני מקצוע צריך a/an: I'm a student (לא I'm student). ואל תשתמשו ב-one במקום a: A man is at the door. את one שומרים לספירה: one brother and two sisters." },
+    { "type": "tip", "en": "a before a consonant sound, an before a vowel sound: a university, an hour. the changes too: /ðə/ before a consonant sound (the car), usually /ði/ before a vowel sound (the office).", "he": "a לפני צליל עיצור, an לפני צליל תנועה: a university, an hour. גם the משתנה: /ðə/ לפני צליל עיצור (the car), ובדרך כלל /ði/ לפני צליל תנועה (the office)." }
+  ],
+  "examples": [
+    { "en": "I've got a new job. The job is in Herzliya.", "he": "יש לי עבודה חדשה. העבודה בהרצליה.", "note": "first time: a; second time: the" },
+    { "en": "My sister is an engineer.", "he": "אחותי מהנדסת.", "note": "jobs: a / an" },
+    { "en": "Can you close the door, please?", "he": "אפשר לסגור את הדלת, בבקשה?", "note": "we know which door" },
+    { "en": "The sun is very strong today.", "he": "השמש חזקה מאוד היום.", "note": "there is only one sun" },
+    { "en": "I don't like cats, but I love dogs.", "he": "אני לא אוהב/ת חתולים, אבל אני אוהב/ת כלבים.", "note": "in general: no article" },
+    { "en": "We usually have lunch at one.", "he": "בדרך כלל אנחנו אוכלים ארוחת צהריים באחת.", "note": "meals: no article" },
+    { "en": "Kenji lives in a small flat near the station.", "he": "קנג'י גר בדירה קטנה ליד התחנה." },
+    { "en": "The bus to the university takes an hour.", "he": "הנסיעה באוטובוס לאוניברסיטה לוקחת שעה.", "note": "an hour: the h is silent" },
+    { "en": "Children love animals.", "he": "ילדים אוהבים בעלי חיים.", "note": "in general: no article" }
+  ],
+  "vocab": [
+    { "word": "job", "pos": "noun", "he": "עבודה, משרה", "def": "the work you do to get money", "example": "Yael has got a new job.", "ipa": "/dʒɒb/", "collocations": ["a new job", "a part-time job"], "level": "A1" },
+    { "word": "office", "pos": "noun", "he": "משרד", "def": "a room or building where people work at desks", "example": "Her office is near the sea.", "ipa": "/ˈɒfɪs/", "level": "A1" },
+    { "word": "engineer", "pos": "noun", "he": "מהנדס/ת", "def": "a person whose job is to plan and build things like machines, roads or computer systems", "example": "My uncle is an engineer.", "ipa": "/ˌendʒɪˈnɪə(r)/", "collocations": ["software engineer", "civil engineer"], "level": "A2" },
+    { "word": "flat", "pos": "noun", "he": "דירה", "def": "a home on one floor of a bigger building (US: apartment)", "example": "They live in a flat in Ramat Gan.", "ipa": "/flæt/", "level": "A1" },
+    { "word": "neighbour", "pos": "noun", "he": "שכן/ה", "def": "a person who lives next to you or near you (US: neighbor)", "example": "Our neighbours have a big dog.", "ipa": "/ˈneɪbə(r)/", "collocations": ["next-door neighbour", "a good neighbour"], "level": "A2" },
+    { "word": "station", "pos": "noun", "he": "תחנה (של רכבת)", "def": "a place where trains stop for people to get on and off", "example": "Is the station far from here?", "ipa": "/ˈsteɪʃn/", "collocations": ["train station", "bus station"], "level": "A1" },
+    { "word": "sea", "pos": "noun", "he": "ים", "def": "the large area of salt water that covers much of the earth", "example": "The hotel is next to the sea.", "ipa": "/siː/", "level": "A1" },
+    { "word": "sun", "pos": "noun", "he": "שמש", "def": "the star in the sky that gives us light and heat", "example": "The sun is very strong in August.", "ipa": "/sʌn/", "level": "A1" },
+    { "word": "lunch", "pos": "noun", "he": "ארוחת צהריים", "def": "a meal you eat in the middle of the day", "example": "We have lunch at one.", "ipa": "/lʌntʃ/", "collocations": ["have lunch", "lunch break"], "level": "A1" },
+    { "word": "dinner", "pos": "noun", "he": "ארוחת ערב", "def": "the main meal of the day, usually eaten in the evening", "example": "What's for dinner?", "ipa": "/ˈdɪnə(r)/", "collocations": ["have dinner", "cook dinner"], "level": "A1" },
+    { "word": "hour", "pos": "noun", "he": "שעה", "def": "a period of 60 minutes", "example": "The lesson is an hour long.", "ipa": "/ˈaʊə(r)/", "level": "A1" },
+    { "word": "university", "pos": "noun", "he": "אוניברסיטה", "def": "a place where people study for a degree after school", "example": "She studies at a university in Jerusalem.", "ipa": "/ˌjuːnɪˈvɜːsəti/", "level": "A1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no word for a/an, so 'I've got book' or 'I'm student' can sound right. English works differently: one singular thing needs a/an (or the, my...): I've got a book. I'm a student.", "he": "בעברית אין מילה ל-a/an ('יש לי ספר', 'אני סטודנט'), ולכן קל לכתוב I've got book או I'm student. באנגלית דבר אחד ביחיד צריך a/an (או the, my): I've got a book, I'm a student.", "error_type": "article" },
+    { "en": "In Hebrew the word for 'one' sometimes works like an article (as in 'one guy asked me...'). English works differently: use a/an, and keep one for counting. A man is at the door; I've got one brother and two sisters.", "he": "בעברית 'אחד' משמש לפעמים כמו תווית ('בחור אחד שאל אותי...'). באנגלית זה עובד אחרת: אומרים a/an – A man is at the door. את one שומרים לספירה: one brother and two sisters.", "error_type": "article" },
+    { "en": "Hebrew works differently here: it has no /ð/ sound, so the can sound like 'de' or 'ze'. Put the tip of your tongue between your teeth and use your voice: /ðə/.", "he": "בעברית אין את הצליל /ð/, ולכן the עלול לצאת 'דֶה' או 'זֶה'. שימו את קצה הלשון בין השיניים והשמיעו קול: /ðə/.", "error_type": "pron-th" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "a or an? Listen to the first sound, not the first letter.", "he": "a או an? הקשיבו לצליל הראשון, לא לאות הראשונה." },
+      "categories": ["a", "an"],
+      "items": [
+        { "text": "___ hour", "category": "an" },
+        { "text": "___ university", "category": "a" },
+        { "text": "___ office", "category": "an" },
+        { "text": "___ job", "category": "a" },
+        { "text": "___ engineer", "category": "an" },
+        { "text": "___ uniform", "category": "a" },
+        { "text": "___ old car", "category": "an" },
+        { "text": "___ new car", "category": "a" }
+      ],
+      "explanation": { "en": "an before a vowel sound: an hour (silent h), an office, an engineer, an old car. a before a consonant sound: a university and a uniform (they start with a 'y' sound /juː/), a job, a new car.", "he": "an לפני צליל תנועה: an hour (ה-h לא נשמעת), an office, an engineer, an old car. a לפני צליל עיצור: a university ו-a uniform (מתחילות בצליל 'יוּ'), a job, a new car." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "articles",
+      "prompt": { "en": "Listen. Which small words do you hear before flat?", "he": "הקשיבו. אילו מילים קטנות שמעתם לפני flat?" },
+      "audio_text": "I've got a new flat. The flat is small, but I love it.",
+      "question": "What did you hear?",
+      "options": ["a new flat … The flat", "the new flat … A flat", "a new flat … A flat"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "The first time, the speaker says a new flat (we don't know it yet). The second time: The flat.", "he": "בפעם הראשונה נאמר a new flat (עוד לא מכירים אותה). בפעם השנייה: The flat." },
+        "2": { "en": "The second time, the speaker says The flat, because now we know which flat.", "he": "בפעם השנייה נאמר The flat, כי עכשיו כבר יודעים על איזו דירה מדובר." }
+      },
+      "option_errors": { "1": "article", "2": "article" },
+      "explanation": { "en": "First mention: a new flat. Second mention: the flat. In fast speech both are short and weak: /ə/, /ðə/.", "he": "פעם ראשונה: a new flat. פעם שנייה: the flat. בדיבור מהיר שתי המילים קצרות וחלשות: /ə/, /ðə/." }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "I've got a dog and a cat. ___ dog is called Max.",
+      "options": ["A", "The", "An", "(no article)"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "We already know which dog: the one in the first sentence. So: The dog.", "he": "כבר יודעים על איזה כלב מדובר – זה מהמשפט הראשון. לכן The dog." },
+        "2": { "en": "an is for one new thing that starts with a vowel sound. Here we need the: we know the dog.", "he": "an מתאים לדבר חדש שמתחיל בצליל תנועה. כאן צריך the, כי אנחנו כבר מכירים את הכלב." },
+        "3": { "en": "dog is one thing, so it can't stand alone: The dog is called Max.", "he": "dog הוא דבר אחד ביחיד, ולכן לא יכול לעמוד לבד: The dog is called Max." }
+      },
+      "option_errors": { "0": "article", "2": "article", "3": "article" },
+      "explanation": { "en": "First time: a dog. Second time: the dog, because now you know which dog.", "he": "בפעם הראשונה: a dog. בפעם השנייה: the dog, כי עכשיו יודעים על איזה כלב מדובר." }
+    },
+    {
+      "id": "e4", "type": "gap", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Complete with a, an or the.", "he": "השלימו ב-a, an או the." },
+      "text": "Omer has got ___ new job. ___ job is in Tel Aviv, in ___ office near ___ sea.",
+      "word_bank": ["a", "an", "the"],
+      "answers": [["a"], ["The"], ["an"], ["the"]],
+      "wrong_feedback": [
+        { "match": "the", "feedback": { "en": "Is this the first time we hear about it? Then use a/an (an before a vowel sound: an office).", "he": "זו הפעם הראשונה שמזכירים את זה? אז a/an (ו-an לפני צליל תנועה: an office)." }, "error_type": "article" },
+        { "match": "a", "feedback": { "en": "Do we already know which one, or is there only one (the sea)? Then use the. Before a vowel sound, a becomes an: an office.", "he": "האם כבר יודעים על איזה מדובר, או שיש רק אחד כזה (the sea)? אז the. ולפני צליל תנועה a הופך ל-an: an office." }, "error_type": "article" },
+        { "match": "an", "feedback": { "en": "an only goes before a vowel sound (an office). For something we already know, use the.", "he": "an בא רק לפני צליל תנועה (an office). לדבר שכבר מכירים משתמשים ב-the." }, "error_type": "article" }
+      ],
+      "hint": { "en": "First time → a/an. Second time, or only one → the.", "he": "פעם ראשונה → a/an. פעם שנייה, או כשיש רק אחד → the." },
+      "explanation": { "en": "a new job (first time) → The job (now we know it) → an office (first time, vowel sound) → the sea (there's only one sea there).", "he": "a new job (פעם ראשונה) → The job (עכשיו מכירים) → an office (פעם ראשונה, צליל תנועה) → the sea (יש רק ים אחד שם)." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Choose the correct option.", "he": "בחרו את האפשרות הנכונה." },
+      "question": "Maya wants to be a vet because she loves ___ animals.",
+      "options": ["the", "an", "(no article)", "a"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "She loves animals in general, not some animals we know. For plurals in general, use no article.", "he": "היא אוהבת בעלי חיים באופן כללי, לא בעלי חיים מסוימים שאנחנו מכירים. ברבים כשמדברים באופן כללי לא שמים תווית." },
+        "1": { "en": "an is only for one thing. animals is plural.", "he": "an מתאים רק לדבר אחד. animals ברבים." },
+        "3": { "en": "a is only for one thing. animals is plural.", "he": "a מתאים רק לדבר אחד. animals ברבים." }
+      },
+      "option_errors": { "0": "article", "1": "article", "3": "article" },
+      "explanation": { "en": "Plurals in general take no article: She loves animals. I like dogs. Children need sleep.", "he": "ברבים, כשמדברים באופן כללי, אין תווית: She loves animals, I like dogs, Children need sleep." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Complete with a, an, the or — (no article).", "he": "השלימו ב-a, an, the או — (בלי תווית)." },
+      "text": "My brother is ___ engineer. He loves ___ computers, and he usually has ___ lunch at his desk.",
+      "word_bank": ["a", "an", "the", "—"],
+      "answers": [["an"], ["—"], ["—"]],
+      "wrong_feedback": [
+        { "match": "the", "feedback": { "en": "computers here means computers in general, and lunch is a meal. Neither takes an article.", "he": "computers כאן פירושו מחשבים באופן כללי, ו-lunch היא ארוחה. בשניהם אין תווית." }, "error_type": "article" },
+        { "match": "a", "feedback": { "en": "engineer starts with a vowel sound, so an. computers is plural, and meals (lunch) take no article.", "he": "engineer מתחיל בצליל תנועה, ולכן an. computers ברבים, ולפני ארוחות (lunch) אין תווית." }, "error_type": "article" },
+        { "match": "—", "feedback": { "en": "A job needs a/an: He is an engineer.", "he": "לפני מקצוע צריך a/an: He is an engineer." }, "error_type": "article" }
+      ],
+      "hint": { "en": "Job → a/an. Plural in general → —. Meal → —.", "he": "מקצוע → a/an. רבים באופן כללי → —. ארוחה → —." },
+      "explanation": { "en": "an engineer (job, vowel sound); computers in general (no article); have lunch (meal, no article).", "he": "an engineer (מקצוע, צליל תנועה); computers באופן כללי (בלי תווית); have lunch (ארוחה, בלי תווית)." }
+    },
+    {
+      "id": "e7", "type": "correct", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
+      "sentence": "I am student at Tel Aviv University.",
+      "answers": ["I am a student at Tel Aviv University."],
+      "error_type": "article",
+      "hint": { "en": "One small word is missing before the job.", "he": "חסרה מילה קטנה לפני המקצוע." },
+      "explanation": { "en": "One person's job needs a/an: I am a student. (No article before the name of a university: Tel Aviv University.)", "he": "לפני מקצוע או תפקיד של אדם אחד צריך a/an: I am a student. (לפני שם של אוניברסיטה אין תווית: Tel Aviv University.)" }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "We usually have the lunch at one.",
+      "answers": ["We usually have lunch at one."],
+      "error_type": "article",
+      "hint": { "en": "Meals: breakfast, lunch, dinner.", "he": "ארוחות: breakfast, lunch, dinner." },
+      "explanation": { "en": "We don't use an article with meals in general: have breakfast, have lunch, have dinner.", "he": "לפני ארוחות, כשמדברים באופן כללי, אין תווית: have breakfast, have lunch, have dinner." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "היא גרה בדירה קטנה ליד התחנה.",
+      "answers": [
+        "She lives in a small flat near the station.",
+        "She lives in a small apartment near the station.",
+        "She lives in a little flat near the station.",
+        "She lives in a little apartment near the station.",
+        "She lives in a small flat next to the station.",
+        "She lives in a small apartment next to the station.",
+        "She lives in a little flat next to the station.",
+        "She lives in a little apartment next to the station.",
+        "She lives in a small flat close to the station.",
+        "She lives in a small apartment close to the station.",
+        "She lives in a little flat close to the station.",
+        "She lives in a little apartment close to the station.",
+        "She lives in a small flat by the station.",
+        "She lives in a small apartment by the station.",
+        "She lives in a little flat by the station.",
+        "She lives in a little apartment by the station."
+      ],
+      "wrong_feedback": [
+        { "match": "She lives in small flat near the station.", "feedback": { "en": "The Hebrew has no word for a here, but English needs it: in a small flat.", "he": "בעברית אין כאן מילה ל-a, אבל באנגלית חייבים: in a small flat." }, "error_type": "article" },
+        { "match": "She lives in the small flat near the station.", "feedback": { "en": "The Hebrew 'small flat' has no ha- (the), so it is any small flat, mentioned for the first time: a small flat.", "he": "'דירה קטנה' (בלי ה') – דירה כלשהי שמוזכרת בפעם הראשונה: a small flat." }, "error_type": "article" },
+        { "match": "She lives in a small flat near station.", "feedback": { "en": "The Hebrew word for 'station' has ha- (the): we know which station. Use the: near the station.", "he": "ב'התחנה' יש ה' הידיעה – יודעים על איזו תחנה מדובר. לכן the: near the station." }, "error_type": "article" },
+        { "match": "She lives in a flat small near the station.", "feedback": { "en": "Good articles! But in English the adjective comes before the noun: a small flat.", "he": "התוויות נכונות! אבל באנגלית שם התואר בא לפני שם העצם: a small flat." }, "error_type": "word-order" }
+      ],
+      "hint": { "en": "Look for the Hebrew ha- (the): with ha- → the; without it → a.", "he": "חפשו את ה' הידיעה: עם ה' → the; בלי ה' → a." },
+      "explanation": { "en": "a small flat (first mention, no ha- in Hebrew) + the station (ha- in Hebrew: we know which one).", "he": "a small flat (פעם ראשונה, בלי ה') + the station (עם ה' – יודעים על איזו תחנה מדובר)." }
+    },
+    {
+      "id": "e10", "type": "order", "skill": "grammar", "topic": "articles",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["My", "neighbour", "is", "an", "English", "teacher."],
+      "explanation": { "en": "My neighbour + is + an English teacher. an, because English starts with a vowel sound. The article goes with the next word.", "he": "My neighbour + is + an English teacher. an, כי English מתחילה בצליל תנועה. התווית נקבעת לפי המילה שבאה מיד אחריה." }
+    },
+    {
+      "id": "e11", "type": "read", "skill": "reading", "topic": "articles",
+      "prompt": { "en": "Read Yael's email and answer the questions.", "he": "קראו את המייל של יעל וענו על השאלות." },
+      "title": "News from Eilat",
+      "passage": "Hi Daniel,\nGuess what? I've got a new job and a new flat! The job is in a big hotel in Eilat – I'm a receptionist. The hotel is right next to the sea. My flat is small, but it has a balcony, and the balcony has an amazing view of the mountains. I share the flat with a girl from work. She's an engineer at the hotel. In the evenings we have dinner on the balcony. I love it here!\nYael",
+      "questions": [
+        {
+          "type": "mcq", "question": "What is Yael's job?",
+          "options": ["She's an engineer.", "She's a receptionist.", "She's a teacher."],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Her flatmate is an engineer. Yael writes: 'I'm a receptionist.'", "he": "השותפה שלה מהנדסת. יעל כותבת: 'I'm a receptionist'." },
+            "2": { "en": "The text doesn't mention a teacher.", "he": "בטקסט אין מורה." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'The job is in a big hotel in Eilat – I'm a receptionist.'", "he": "'I'm a receptionist' – היא פקידת קבלה במלון." }
+        },
+        {
+          "type": "tf", "statement": "Yael lives alone.", "answer": false,
+          "explanation": { "en": "'I share the flat with a girl from work.'", "he": "'I share the flat with a girl from work' – היא גרה עם בחורה מהעבודה." }
+        },
+        {
+          "type": "gap", "text": "The hotel is next to the ___.", "answers": [["sea"]],
+          "explanation": { "en": "'The hotel is right next to the sea.'", "he": "'The hotel is right next to the sea' – המלון ממש ליד הים." }
+        },
+        {
+          "type": "mcq", "question": "Yael writes 'a balcony' first and then 'the balcony'. Why?",
+          "options": ["Now we know which balcony.", "The balcony is very big.", "Balcony starts with a b."],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The size doesn't matter. the means we already know which balcony: hers.", "he": "הגודל לא משנה. the אומר שכבר יודעים על איזו מרפסת מדובר – המרפסת שלה." },
+            "2": { "en": "The first letter decides a or an, not a or the.", "he": "הצליל הראשון קובע בין a ל-an, לא בין a ל-the." }
+          },
+          "option_errors": { "1": "article", "2": "article" },
+          "explanation": { "en": "First mention: a balcony. Second mention: the balcony. The same happens with a new flat → the flat.", "he": "פעם ראשונה: a balcony. פעם שנייה: the balcony. אותו דבר קורה עם a new flat → the flat." }
+        }
+      ]
+    },
+    {
+      "id": "e12", "type": "dictation", "skill": "listening", "topic": "articles",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "My sister is an engineer. She works in an office near the sea.",
+      "answers": ["My sister is an engineer. She works in an office near the sea."],
+      "hint": { "en": "Listen for three small words: an, an, the.", "he": "הקשיבו לשלוש מילים קטנות: an, an, the." },
+      "explanation": { "en": "an engineer (job, vowel sound), an office (first mention, vowel sound), the sea (only one).", "he": "an engineer (מקצוע, צליל תנועה), an office (פעם ראשונה, צליל תנועה), the sea (יש רק אחד)." }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking", "topic": "articles",
+      "prompt": { "en": "You are new in town. Ask the question out loud.", "he": "אתם חדשים בעיר. שאלו את השאלה בקול." },
+      "target": "Excuse me, is the station near the university?",
+      "focus": { "en": "the /ðə/: put the tip of your tongue between your teeth. Before university we say /ðə/, because university starts with a 'y' sound /juː/.", "he": "ב-the /ðə/ שמים את קצה הלשון בין השיניים. לפני university אומרים /ðə/, כי university מתחילה בצליל 'יוּ' (עיצור)." },
+      "explanation": { "en": "the station, the university: you mean a place in this town that everybody knows.", "he": "the station, the university – מדובר במקום מסוים בעיר שכולם מכירים." }
+    },
+    {
+      "id": "e14", "type": "write", "skill": "writing", "topic": "articles",
+      "prompt": { "en": "Write about where you live.", "he": "כתבו על המקום שבו אתם גרים." },
+      "task": { "en": "Write 5-6 sentences about your home and your neighbours. Mention something for the first time with a/an, and then again with the (I live in a flat. The flat is...). Include one job (She's a nurse) and one sentence about things in general (I love cats).", "he": "כתבו 5-6 משפטים על הבית שלכם ועל השכנים. הזכירו משהו בפעם הראשונה עם a/an, ואחר כך שוב עם the (I live in a flat. The flat is...). כתבו גם מקצוע של מישהו (She's a nurse) ומשפט אחד על משהו באופן כללי (I love cats)." },
+      "min_words": 35,
+      "max_words": 100,
+      "model_answer": "I live in a flat in Ramat Gan. The flat is on the fourth floor, and it has a small balcony. My neighbour, Ruth, is a doctor. She has a cat and a dog. The dog is old and very friendly. I love animals, so I often walk the dog with her in the evening.",
+      "checklist": [
+        { "en": "First mention → a/an; second mention → the.", "he": "פעם ראשונה → a/an; פעם שנייה → the." },
+        { "en": "Every job has a/an: She's a doctor. He's an engineer.", "he": "לפני כל מקצוע יש a/an: She's a doctor, He's an engineer." },
+        { "en": "No article for plurals in general or for meals: I love animals. We have dinner at eight.", "he": "בלי תווית ברבים כלליים ולפני ארוחות: I love animals, We have dinner at eight." },
+        { "en": "No singular noun stands alone: a flat, the flat, my flat.", "he": "אין שם עצם ביחיד שעומד לבד: a flat, the flat, my flat." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "a/an: one thing, first mention, and jobs. the: we know which one, or there is only one.", "he": "a/an: דבר אחד, פעם ראשונה, ולפני מקצוע. the: יודעים על איזה מדובר, או שיש רק אחד." },
+      { "en": "No article for plurals in general (I love dogs) and meals (have lunch).", "he": "בלי תווית ברבים כלליים (I love dogs) ולפני ארוחות (have lunch)." },
+      { "en": "A singular noun never stands alone: a car / the car / my car, not 'I've got car'.", "he": "שם עצם ביחיד אף פעם לא עומד לבד: a car / the car / my car, ולא I've got car." },
+      { "en": "the ≈ the Hebrew ha-, but a/an has no Hebrew word. Use one only for counting.", "he": "the מקבילה בערך לה' הידיעה, אבל ל-a/an אין מילה בעברית. את one שומרים לספירה." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

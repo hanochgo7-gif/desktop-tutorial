@@ -598,7 +598,7 @@
       "prompt": {
         "en": "Complete the report with words from the box. Check what follows each gap: a noun or a full clause?"
       },
-      "text": "___ the heavy rain, the festival went ahead as planned. The atmosphere was fantastic ___ the field was muddy. However, the second day was cancelled ___ a power cut, and many visitors went home early ___ there was nothing to do.",
+      "text": "___ the heavy rain, the festival went ahead as planned. Most visitors stayed until the end ___ their shoes were covered in mud. However, the second day was cancelled ___ a power cut, and many visitors went home early ___ there was nothing to do.",
       "word_bank": [
         "Despite",
         "although",
@@ -639,7 +639,7 @@
         {
           "match": "Despite",
           "feedback": {
-            "en": "Despite is followed by a noun or -ing, not by a clause with a subject and verb. Before 'the field was muddy', use although."
+            "en": "Despite is followed by a noun or -ing, not by a clause with a subject and verb. Before 'their shoes were covered in mud', use although."
           },
           "error_type": "cohesion"
         },
@@ -660,7 +660,7 @@
         {
           "match": "whereas",
           "feedback": {
-            "en": "Whereas compares two different things; none of these sentences compares two things."
+            "en": "Whereas compares two different things. None of these gaps compares two things: they show an unexpected result, a reason or a cause."
           },
           "error_type": "cohesion"
         },
@@ -673,7 +673,7 @@
         }
       ],
       "explanation": {
-        "en": "Despite + noun (the heavy rain) · although + clause (the field was muddy) · due to + noun (a power cut) · because + clause (there was nothing to do)."
+        "en": "Despite + noun (the heavy rain) · although + clause (their shoes were covered in mud) · due to + noun (a power cut) · because + clause (there was nothing to do)."
       }
     },
     {
@@ -693,7 +693,8 @@
         "The bus was twenty minutes late; nevertheless, we still arrived on time.",
         "Although the bus was twenty minutes late, we still arrived on time.",
         "Even though the bus was twenty minutes late, we still arrived on time.",
-        "The bus was twenty minutes late. We still arrived on time, however."
+        "The bus was twenty minutes late. We still arrived on time, however.",
+        "The bus was twenty minutes late, yet we still arrived on time."
       ],
       "error_type": "punctuation",
       "hint": {
@@ -752,7 +753,10 @@
         "Despite the tickets being expensive the concert sold out in an hour.",
         "Despite the fact that the tickets were expensive, the concert sold out in an hour.",
         "Despite the fact that the tickets were expensive the concert sold out in an hour.",
-        "Despite expensive tickets, the concert sold out in an hour."
+        "Despite expensive tickets, the concert sold out in an hour.",
+        "Despite the high prices, the concert sold out in an hour.",
+        "Despite the high price, the concert sold out in an hour.",
+        "Despite how expensive the tickets were, the concert sold out in an hour."
       ],
       "wrong_feedback": [
         {

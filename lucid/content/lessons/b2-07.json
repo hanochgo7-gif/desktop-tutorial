@@ -1,0 +1,308 @@
+{
+  "id": "b2-07",
+  "level": "B2",
+  "title_en": "Idioms in context",
+  "title_he": "ניבים בהקשר",
+  "topics": ["idioms"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can understand 15 common idioms from context." },
+    { "en": "I can use idioms in their exact form: in the same boat, get the hang of it." },
+    { "en": "I can decide when an idiom fits and replace it with neutral language in formal and academic writing." }
+  ],
+  "warmup": { "en": "Think of three Hebrew idioms you use every week. Would an English speaker understand them if you translated them word for word?", "he": "חשבו על שלושה ניבים בעברית שאתם משתמשים בהם כל שבוע, למשל 'קטן עליי', 'לשבת על הגדר' או 'פעם ביובל'. האם דובר אנגלית יבין אותם בתרגום מילה במילה?" },
+  "explanation": [
+    { "type": "p", "en": "Read: 'The exam was a piece of cake, but I'm still on the fence about which course to take next year.' Nobody is eating cake or sitting on a fence. An idiom is a fixed expression whose meaning is not the sum of its words. You work out the meaning from the situation, and you use the idiom as one complete chunk." },
+    { "type": "table", "headers": ["Idiom", "Meaning", "Register"], "rows": [
+      ["a piece of cake", "very easy", "informal"],
+      ["on the fence (about something)", "undecided", "informal"],
+      ["the bottom line", "the most important fact", "neutral, common in business"],
+      ["break the ice", "help people relax when they first meet", "neutral"],
+      ["hit the nail on the head", "describe a problem exactly", "neutral"],
+      ["under the weather", "slightly ill", "informal"],
+      ["cost an arm and a leg", "be very expensive", "informal"],
+      ["once in a blue moon", "very rarely", "informal"],
+      ["get the hang of something", "learn how to do something", "informal"],
+      ["the last straw", "the final problem that makes you lose patience", "neutral"],
+      ["a blessing in disguise", "something bad that turns out to be good", "neutral"],
+      ["in the same boat", "in the same difficult situation", "neutral"],
+      ["call it a day", "stop working for now", "informal"],
+      ["cut corners", "do something cheaply or badly to save time or money", "neutral"],
+      ["the elephant in the room", "an obvious problem nobody wants to discuss", "neutral"]
+    ] },
+    { "type": "rule", "en": "Idioms are fixed. You can change the tense or the pronoun (It cost an arm and a leg; I'm getting the hang of it), but not the words or the prepositions: in the same boat (not *on the same boat), get the hang of it (not *the hang on it), a piece of cake (not *a slice of cake)." },
+    { "type": "warning", "en": "Avoid idioms in academic essays, formal reports and emails to people you do not know. Use precise, neutral language instead: a piece of cake → straightforward; cost an arm and a leg → be extremely expensive; on the fence → undecided; hit the nail on the head → identify the problem precisely. A few neutral idioms (the bottom line, the elephant in the room) appear in journalism and business, but not in academic writing." },
+    { "type": "tip", "en": "One or two idioms make conversation sound natural; five in one paragraph sounds like a textbook. Use an idiom only when you are sure of its exact form and meaning." },
+    { "type": "p", "en": "Some English idioms have a Hebrew twin with the same picture (break the ice, in the same boat, the elephant in the room). Others use a different picture (cut corners, once in a blue moon). And many Hebrew idioms have no English twin at all, so a word-for-word translation means nothing to an English speaker.", "he": "לחלק מהניבים יש תאום עברי עם אותה תמונה: break the ice = לשבור את הקרח, in the same boat = באותה סירה, the elephant in the room = הפיל שבחדר. לאחרים יש תמונה אחרת: בעברית מעגלים פינות, ובאנגלית חותכים אותן (cut corners); פעם ביובל = once in a blue moon. ולניבים רבים בעברית אין תאום באנגלית: 'על הפנים' או 'יצא לי מהאף' בתרגום מילולי לא אומרים כלום לדובר אנגלית. אומרים terrible או I'm sick of it." }
+  ],
+  "examples": [
+    { "en": "Don't worry about the driving test. With your experience, it'll be a piece of cake.", "note": "informal: very easy" },
+    { "en": "I'm still on the fence about moving to Eilat.", "note": "undecided" },
+    { "en": "The bottom line is that we can't afford a new car this year.", "note": "the most important point" },
+    { "en": "Kenji told a funny story about his flight to break the ice.", "note": "help people relax" },
+    { "en": "Renting a flat in central Tel Aviv costs an arm and a leg.", "note": "the verb changes: cost, costs, will cost" },
+    { "en": "Missing that train was a blessing in disguise: I met my future business partner on the next one.", "note": "bad at first, good in the end" },
+    { "en": "When the meeting was cancelled for the third time, that was the last straw.", "note": "the final problem" },
+    { "en": "It's nearly midnight. Shall we call it a day?", "note": "stop working for now" },
+    { "en": "Most participants found the task straightforward.", "note": "academic version of 'The task was a piece of cake.'" }
+  ],
+  "vocab": [
+    { "word": "a piece of cake", "pos": "idiom", "he": "קטן עליי; קל מאוד", "def": "something very easy to do", "example": "The first exam was a piece of cake.", "ipa": "/ə ˌpiːs əv ˈkeɪk/", "collocations": ["be a piece of cake", "it was a piece of cake"], "level": "B2" },
+    { "word": "on the fence", "pos": "idiom", "he": "יושב/ת על הגדר; מתלבט/ת", "def": "not yet decided about something", "example": "I'm still on the fence about the job offer.", "ipa": "/ɒn ðə ˈfens/", "collocations": ["be on the fence about", "sit on the fence"], "level": "B2" },
+    { "word": "the bottom line", "pos": "idiom", "he": "השורה התחתונה", "def": "the most important fact, or the final result", "example": "The bottom line is that we need more volunteers.", "ipa": "/ðə ˌbɒtəm ˈlaɪn/", "collocations": ["the bottom line is (that)"], "level": "B2" },
+    { "word": "break the ice", "pos": "idiom", "he": "לשבור את הקרח", "def": "to help people who have just met feel more relaxed", "example": "A short game helped to break the ice on the first day.", "ipa": "/ˌbreɪk ði ˈaɪs/", "collocations": ["help to break the ice", "an icebreaker"], "level": "B2" },
+    { "word": "hit the nail on the head", "pos": "idiom", "he": "לקלוע בדיוק (למטרה)", "def": "to describe a situation or problem exactly", "example": "You've hit the nail on the head: the real problem is time.", "ipa": "/ˌhɪt ðə ˈneɪl ɒn ðə ˈhed/", "collocations": ["you've hit the nail on the head"], "level": "B2" },
+    { "word": "under the weather", "pos": "idiom", "he": "לא מרגיש/ה טוב", "def": "slightly ill", "example": "Maya's feeling a bit under the weather today.", "ipa": "/ˌʌndə ðə ˈweðə(r)/", "collocations": ["feel under the weather", "a bit under the weather"], "level": "B2" },
+    { "word": "cost an arm and a leg", "pos": "idiom", "he": "עולה הון תועפות", "def": "to be very expensive", "example": "Concert tickets cost an arm and a leg these days.", "ipa": "/ˌkɒst ən ˌɑːm ənd ə ˈleɡ/", "collocations": ["cost someone an arm and a leg", "pay an arm and a leg"], "level": "B2" },
+    { "word": "once in a blue moon", "pos": "idiom", "he": "פעם ביובל", "def": "very rarely", "example": "My cousin calls once in a blue moon.", "ipa": "/ˌwʌns ɪn ə ˌbluː ˈmuːn/", "collocations": ["only once in a blue moon"], "level": "B2" },
+    { "word": "get the hang of something", "pos": "idiom", "he": "לתפוס את העניין; להתרגל", "def": "to learn how to do something, usually after some practice", "example": "Driving on the left was hard, but I soon got the hang of it.", "ipa": "/ˌɡet ðə ˈhæŋ əv/", "collocations": ["get the hang of it", "start to get the hang of"], "level": "B2" },
+    { "word": "a blessing in disguise", "pos": "idiom", "he": "ברכה במסווה", "def": "something that seems bad at first but has a good result", "example": "Losing that job was a blessing in disguise.", "ipa": "/ə ˌblesɪŋ ɪn dɪsˈɡaɪz/", "collocations": ["turn out to be a blessing in disguise"], "level": "B2" },
+    { "word": "in the same boat", "pos": "idiom", "he": "באותה סירה", "def": "in the same difficult situation as other people", "example": "Don't worry, we're all in the same boat.", "ipa": "/ɪn ðə ˌseɪm ˈbəʊt/", "collocations": ["be in the same boat", "all in the same boat"], "level": "B2" },
+    { "word": "cut corners", "pos": "idiom", "he": "לעגל פינות", "def": "to do something cheaply, quickly or badly, often ignoring rules", "example": "The builders cut corners, and the roof started leaking.", "ipa": "/ˌkʌt ˈkɔːnəz/", "collocations": ["cut corners on safety", "avoid cutting corners"], "level": "B2" },
+    { "word": "the last straw", "pos": "idiom", "he": "הקש ששבר את גב הגמל", "def": "the final problem in a series that makes you lose patience", "example": "When the bus didn't come again, that was the last straw.", "ipa": "/ðə ˌlɑːst ˈstrɔː/", "collocations": ["the last straw for someone", "the final straw"], "level": "B2" },
+    { "word": "call it a day", "pos": "idiom", "he": "לסיים להיום", "def": "to stop working on something for now", "example": "We've done enough. Let's call it a day.", "ipa": "/ˌkɔːl ɪt ə ˈdeɪ/", "collocations": ["let's call it a day", "decide to call it a day"], "level": "B2" },
+    { "word": "the elephant in the room", "pos": "idiom", "he": "הפיל שבחדר", "def": "an obvious problem that people avoid talking about", "example": "Nobody mentioned the budget, the elephant in the room.", "ipa": "/ði ˌelɪfənt ɪn ðə ˈruːm/", "collocations": ["address the elephant in the room", "ignore the elephant in the room"], "level": "B2" }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each idiom with its meaning." },
+      "pairs": [
+        ["a piece of cake", "very easy"],
+        ["on the fence", "undecided"],
+        ["under the weather", "slightly ill"],
+        ["once in a blue moon", "very rarely"],
+        ["call it a day", "stop working for now"],
+        ["the last straw", "the final problem before you lose patience"]
+      ],
+      "explanation": { "en": "None of these meanings comes from the individual words: you learn each idiom as a whole chunk, and the situation usually helps you guess it." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "vocabulary",
+      "prompt": { "en": "Choose the idiom that fits the situation." },
+      "question": "I've read both proposals and I can see good arguments on each side, so I'm still ___.",
+      "options": ["under the weather", "in the same boat", "on the fence", "a piece of cake"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Under the weather means slightly ill, not undecided." },
+        "1": { "en": "In the same boat means in the same difficult situation as other people. There's no one else here." },
+        "3": { "en": "A piece of cake means very easy. The speaker is finding the decision hard, not easy." }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-choice", "3": "word-choice" },
+      "explanation": { "en": "Seeing good arguments on both sides means you haven't decided yet: you're on the fence." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to someone talking about a new job and answer the question." },
+      "audio_text": "Honestly, the first two weeks at the new job were tough, because I had to learn a completely new system. But I'm slowly getting the hang of it, and the bottom line is, I'm glad I took it.",
+      "question": "How does the speaker feel about the job now?",
+      "options": ["More confident, and glad to have taken it", "Still overwhelmed, and thinking of leaving", "Undecided about whether to accept it", "Unhappy about the salary"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "'I'm slowly getting the hang of it' means it is getting easier, not that the speaker wants to leave." },
+        "2": { "en": "The speaker has already taken the job: 'I'm glad I took it.'" },
+        "3": { "en": "Pay isn't mentioned at all." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "Getting the hang of it = learning how to do it. The bottom line is ... = the most important point: the speaker is glad to have taken the job." }
+    },
+    {
+      "id": "e4", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each Hebrew idiom with its English equivalent." },
+      "pairs": [
+        ["לשבור את הקרח", "break the ice"],
+        ["לשבת על הגדר", "be on the fence"],
+        ["לעגל פינות", "cut corners"],
+        ["פעם ביובל", "once in a blue moon"],
+        ["עולה הון תועפות", "cost an arm and a leg"],
+        ["קטן עליי", "it's a piece of cake"]
+      ],
+      "explanation": { "en": "The first two keep the same picture in both languages. In the others the picture changes: English cuts corners instead of rounding them, and uses a blue moon, an arm and a leg and a piece of cake where Hebrew uses quite different images.", "he": "שני הראשונים שומרים על אותה תמונה בשתי השפות. באחרים התמונה משתנה: באנגלית חותכים פינות (cut corners) במקום לעגל אותן, ובמקום יובל, הון תועפות ו'קטן עליי' מופיעים ירח כחול, יד ורגל וחתיכת עוגה." }
+    },
+    {
+      "id": "e5", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read Amir's blog post about his first month abroad and answer the questions." },
+      "title": "My first month in Dublin",
+      "passage": "Before I moved to Dublin for my master's degree, everyone warned me that the hardest part would be the weather. They were wrong. The hardest part was understanding what people actually meant.\n\nOn the first day, our course leader asked us to play a name game 'to break the ice'. I had no idea what ice had to do with anything, but after ten minutes of laughing at how badly we remembered each other's names, I understood: the game had turned a room full of strangers into a relaxed group.\n\nSome idioms were easy to guess from context. When my flatmate said that rent in the city centre 'costs an arm and a leg', the look on her face was enough. Others took longer. For a whole week, I thought a classmate who was 'under the weather' was complaining about the rain. In fact, he had a cold.\n\nThe biggest surprise came when I missed the last bus home after a party and had to walk for forty minutes. I was furious. On the way, however, I passed a small music bar with a sign in the window: 'Weekend staff wanted'. I went in the next day and got the job. My manager now says that missing the bus was a blessing in disguise, and she is right: I practise my English with customers every weekend and earn enough to pay for my course books.\n\nA month later, I am finally getting the hang of the local expressions, although I keep them out of my essays. My tutor explained that phrases like 'a piece of cake' make academic writing sound too casual, so I save them for the bar. The bottom line? If you move abroad, listen carefully, ask questions and do not be afraid of sounding a little silly at first.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why did the course leader start with a name game?",
+          "options": ["To test the students' memory", "To help a group of strangers relax", "To find out whose English was best", "To choose a class representative"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "The students laughed at their bad memories, but testing memory wasn't the purpose." },
+            "2": { "en": "Nothing in the post suggests the game was about English level." },
+            "3": { "en": "No representative is mentioned." }
+          },
+          "explanation": { "en": "To break the ice: 'the game had turned a room full of strangers into a relaxed group.'" }
+        },
+        {
+          "type": "tf",
+          "statement": "At first, Amir thought that 'under the weather' was about the rain.",
+          "answer": true,
+          "explanation": { "en": "'For a whole week, I thought a classmate who was under the weather was complaining about the rain. In fact, he had a cold.'" }
+        },
+        {
+          "type": "mcq",
+          "question": "Why was missing the bus 'a blessing in disguise'?",
+          "options": ["The long walk helped him get fit.", "He met his future flatmate on the way.", "It led to a job that helps his English and pays for his books.", "The bar owner gave him a free meal."],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "He was furious about the walk; fitness isn't mentioned." },
+            "1": { "en": "He passed a bar, not a future flatmate." },
+            "3": { "en": "There's no free meal in the post." }
+          },
+          "explanation": { "en": "Something bad (missing the bus) led to something good: a job where he practises English and earns money for his course books." }
+        },
+        {
+          "type": "tf",
+          "statement": "Amir now uses idioms such as 'a piece of cake' in his academic essays.",
+          "answer": false,
+          "explanation": { "en": "He keeps them out of his essays because they 'make academic writing sound too casual'." }
+        },
+        {
+          "type": "gap",
+          "text": "Amir's flatmate said the rent 'costs an arm and a ___'.",
+          "answers": [["leg"]],
+          "wrong_feedback": [
+            { "match": "foot", "feedback": { "en": "The idiom is fixed: cost an arm and a leg." }, "error_type": "word-choice" }
+          ],
+          "explanation": { "en": "Cost an arm and a leg = be very expensive. The words in the idiom never change." }
+        },
+        {
+          "type": "mcq",
+          "question": "What is Amir's main advice for people moving abroad?",
+          "options": ["Learn a list of idioms before you travel.", "Avoid idioms completely while you are abroad.", "Only speak English with people from your course.", "Listen carefully and don't worry about sounding silly at first."],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "He learned idioms from context after he arrived, not from a list." },
+            "1": { "en": "He avoids idioms only in his essays, not in everyday life." },
+            "2": { "en": "He practises with customers at the bar, not only with classmates." }
+          },
+          "explanation": { "en": "'If you move abroad, listen carefully, ask questions and do not be afraid of sounding a little silly at first.'" }
+        }
+      ]
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "vocabulary",
+      "prompt": { "en": "Complete the idioms with words from the box." },
+      "text": "Driving on the left was strange at first, but after a week I got the ___ of it. The first meeting was awkward until Omer told a joke to break the ___. Everyone has three exams next week, so we're all in the same ___. It's nearly midnight and we're exhausted, so let's call it a ___.",
+      "word_bank": ["hang", "ice", "boat", "day", "cake", "fence"],
+      "answers": [["hang"], ["ice"], ["boat"], ["day"]],
+      "wrong_feedback": [
+        { "match": "cake", "feedback": { "en": "Cake belongs to a piece of cake (very easy), which doesn't fit any of these gaps." }, "error_type": "word-choice" },
+        { "match": "fence", "feedback": { "en": "Fence belongs to on the fence (undecided), which doesn't fit any of these gaps." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "get the hang of it · break the ice · in the same boat · call it a day. The words inside an idiom are fixed." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "vocabulary",
+      "prompt": { "en": "Which sentence uses the idiom correctly?" },
+      "question": "Choose the one sentence where the idiom matches the situation.",
+      "options": [
+        "The party was a blessing in disguise, so everyone enjoyed it from the start.",
+        "My grandparents visit us once in a blue moon, every Sunday afternoon.",
+        "I'm on the fence about the trip: I've definitely decided to go.",
+        "Failing my first driving test was a blessing in disguise: it made me a much more careful driver."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "A blessing in disguise must seem bad at first. A party that everyone enjoyed from the start was simply good." },
+        "1": { "en": "Once in a blue moon means very rarely, so it contradicts every Sunday." },
+        "2": { "en": "On the fence means undecided, so it contradicts 'definitely decided'." }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-choice", "2": "word-choice" },
+      "hint": { "en": "Check whether the rest of each sentence matches the meaning of the idiom." },
+      "explanation": { "en": "Failing a test is bad at first, but the result (careful driving) is good: that is exactly a blessing in disguise." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "vocabulary",
+      "prompt": { "en": "The idiom in this sentence is not quite right. Correct it." },
+      "sentence": "I didn't enjoy the course at first, but now I'm getting the hang on it.",
+      "answers": ["I didn't enjoy the course at first, but now I'm getting the hang of it."],
+      "error_type": "preposition",
+      "hint": { "en": "Check the small word after hang." },
+      "explanation": { "en": "The idiom is get the hang of something. The preposition is part of the fixed form." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "Translate into natural English." },
+      "source": "כולנו באותה סירה",
+      "answers": ["We're all in the same boat.", "All of us are in the same boat."],
+      "wrong_feedback": [
+        { "match": "We're all on the same boat.", "feedback": { "en": "The picture is the same as in Hebrew, but the preposition is in: in the same boat." }, "error_type": "preposition" },
+        { "match": "We're all in one boat.", "feedback": { "en": "The idiom is fixed: in the same boat." }, "error_type": "word-choice" },
+        { "match": "We all in the same boat.", "feedback": { "en": "In Hebrew this sentence has no present-tense verb, but English needs are: We're all in the same boat.", "he": "בעברית אין כאן פועל בהווה, ובאנגלית חייבים are: We're all in the same boat." }, "error_type": "copula-omission" }
+      ],
+      "hint": { "en": "This idiom has the same picture in both languages. Watch the preposition.", "he": "לניב הזה יש אותה תמונה בשתי השפות. שימו לב למילת היחס." },
+      "explanation": { "en": "We're all in the same boat. This is one of the idioms Hebrew and English share, so the picture translates directly; only the verb are and the preposition in need care.", "he": "We're all in the same boat. זה אחד הניבים המשותפים לעברית ולאנגלית, ולכן התמונה עוברת כמו שהיא. צריך רק לזכור את are ואת in." }
+    },
+    {
+      "id": "e10", "type": "categorize", "skill": "writing",
+      "prompt": { "en": "Would each sentence be suitable in a formal report?" },
+      "categories": ["Suitable for a formal report", "Too informal for a formal report"],
+      "items": [
+        { "text": "Most participants found the task straightforward.", "category": "Suitable for a formal report" },
+        { "text": "Most participants said the task was a piece of cake.", "category": "Too informal for a formal report" },
+        { "text": "The committee remains undecided.", "category": "Suitable for a formal report" },
+        { "text": "The committee is still sitting on the fence.", "category": "Too informal for a formal report" },
+        { "text": "The renovation was extremely expensive.", "category": "Suitable for a formal report" },
+        { "text": "The renovation cost an arm and a leg.", "category": "Too informal for a formal report" },
+        { "text": "Several staff members are currently unwell.", "category": "Suitable for a formal report" },
+        { "text": "Half the team are under the weather.", "category": "Too informal for a formal report" }
+      ],
+      "explanation": { "en": "Each informal sentence has a formal partner with the same meaning. In reports and essays, replace the idiom with a precise neutral word: straightforward, undecided, extremely expensive, unwell." }
+    },
+    {
+      "id": "e11", "type": "gap", "skill": "writing",
+      "prompt": { "en": "This sentence is for a formal report. Replace each idiom in brackets with neutral, formal words." },
+      "text": "Many residents remain ___ (on the fence) about the proposal, largely because the new bridge is expected to be ___ (cost an arm and a leg).",
+      "answers": [
+        ["undecided", "uncertain", "unsure", "divided", "ambivalent", "unconvinced", "hesitant", "uncommitted"],
+        ["extremely expensive", "very expensive", "extremely costly", "very costly", "prohibitively expensive", "hugely expensive", "enormously expensive", "exceptionally expensive", "expensive", "costly"]
+      ],
+      "wrong_feedback": [
+        { "match": "on the fence", "feedback": { "en": "That is the idiom itself. A formal report needs a neutral word such as undecided." }, "error_type": "register" },
+        { "match": "in two minds", "feedback": { "en": "In two minds is another idiom. A formal report needs a neutral word such as undecided or uncertain." }, "error_type": "register" },
+        { "match": "too expensive", "feedback": { "en": "Too expensive means more than people can or want to pay. The idiom simply means very expensive." }, "error_type": "word-choice" },
+        { "match": "cost an arm and a leg", "feedback": { "en": "That is the idiom itself. Use a neutral phrase such as extremely expensive." }, "error_type": "register" }
+      ],
+      "hint": { "en": "First gap: an adjective meaning 'not yet decided'. Second gap: an adjective phrase meaning 'very expensive'." },
+      "explanation": { "en": "on the fence → undecided (or uncertain); cost an arm and a leg → be extremely expensive (or costly). Formal writing prefers precise, literal words to idioms." }
+    },
+    {
+      "id": "e12", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Tell a colleague you are leaving early. Say it out loud." },
+      "target": "I'm feeling a bit under the weather, so I think I'll call it a day.",
+      "focus": { "en": "'The' and 'weather' have /ð/: tip of the tongue between the teeth. 'Weather' starts with /w/: round your lips and don't touch your teeth.", "he": "ב-the וב-weather יש /ð/: קצה הלשון בין השיניים. weather מתחילה ב-/w/: מעגלים את השפתיים בלי לגעת בשיניים." },
+      "explanation": { "en": "Two idioms in one natural sentence: under the weather (slightly ill) and call it a day (stop working for now). This is exactly where idioms belong: relaxed, everyday conversation." }
+    },
+    {
+      "id": "e13", "type": "write", "skill": "writing",
+      "prompt": { "en": "Write the same news in two registers." },
+      "task": { "en": "Part A (about 70-100 words): write a message to a friend about a recent challenge, such as a new job, course or move. Use three idioms from this lesson naturally. Part B (about 110-150 words): report the same situation in a formal email to your course coordinator or manager, with no idioms at all. Both parts must give the same key information." },
+      "min_words": 180,
+      "max_words": 280,
+      "model_answer": "Part A\nHi Noa! Quick update: my first month at the café has been crazy. The coffee machine was a nightmare at first, but I'm finally getting the hang of it. My manager is lovely, although she's still on the fence about giving me more shifts. The bottom line is, I need more hours, because rent here costs an arm and a leg! Anyway, how are your exams going? Coffee on Friday? Yael\n\nPart B\nDear Ms Sharon,\n\nI am writing to update you on my work placement at Café Lavan. During the first month, I found the equipment challenging, but I have now learned to use it confidently, and I feel increasingly comfortable serving customers. My supervisor has been very supportive; however, she has not yet decided whether to offer me additional shifts.\n\nSince my accommodation costs are considerably higher than I expected, I need to increase my working hours. I would therefore be grateful for any advice on finding further paid work that fits my course timetable. In the meantime, I will make sure that the placement does not affect my attendance or my coursework. I would also welcome the opportunity to discuss this with you at a convenient time.\n\nKind regards,\nYael Levi",
+      "checklist": [
+        { "en": "Part A uses three idioms in their exact form (in the same boat, not on the same boat), and each one fits the situation." },
+        { "en": "Part B contains no idioms: each one is replaced with a precise neutral word or phrase (challenging, undecided, extremely expensive)." },
+        { "en": "Part B is formal: a greeting and closing, full forms (I am, has not), polite requests (I would be grateful ...)." },
+        { "en": "Both parts give the same key information, so the reader of Part B is not missing anything." },
+        { "en": "I did not translate a Hebrew idiom word for word." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Idioms are fixed chunks: change the tense or pronoun, never the words or prepositions (in the same boat, get the hang of it)." },
+      { "en": "Work out an idiom's meaning from the situation: what does the context suggest?" },
+      { "en": "Idioms suit conversation and informal messages. In academic and formal writing use neutral words: undecided, straightforward, extremely expensive." },
+      { "en": "Some idioms share a picture with Hebrew (break the ice), some change it (cut corners), and many Hebrew idioms have no English twin.", "he": "יש ניבים עם אותה תמונה כמו בעברית (לשבור את הקרח = break the ice), יש עם תמונה אחרת (לעגל פינות = cut corners), ולניבים עבריים רבים אין מקבילה באנגלית, אז לא מתרגמים אותם מילה במילה." },
+      { "en": "One or two idioms sound natural; too many sound forced." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

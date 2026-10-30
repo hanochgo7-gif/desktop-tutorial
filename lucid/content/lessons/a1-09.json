@@ -1,0 +1,959 @@
+{
+  "id": "a1-09",
+  "level": "A1",
+  "title_en": "Places in town",
+  "title_he": "מקומות בעיר",
+  "topics": [
+    "prepositions-place"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can name common places in a town.",
+      "he": "אני יכול/ה לקרוא בשם למקומות נפוצים בעיר באנגלית."
+    },
+    {
+      "en": "I can say where places are with next to, between, opposite, behind, in front of and near.",
+      "he": "אני יודע/ת לומר איפה נמצאים מקומות בעזרת next to, between, opposite, behind, in front of ו-near."
+    },
+    {
+      "en": "I can choose in, on or at for a place.",
+      "he": "אני יודע/ת לבחור בין in, on ו-at כשמדברים על מקום."
+    },
+    {
+      "en": "I can ask where a place is and understand a short answer.",
+      "he": "אני יכול/ה לשאול איפה נמצא מקום ולהבין תשובה קצרה."
+    }
+  ],
+  "warmup": {
+    "en": "Think of your street. What is near your home: a shop, a café, a bus stop? Try to say one sentence in English about where it is.",
+    "he": "חשבו על הרחוב שלכם. מה נמצא ליד הבית: חנות, בית קפה, תחנת אוטובוס? נסו לומר משפט אחד באנגלית על המקום שבו זה נמצא."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Excuse me, where's the bank? – It's on Herzl Street, between the café and the pharmacy. The post office is opposite the bank.",
+      "he": "סליחה, איפה הבנק? – ברחוב הרצל, בין בית הקפה לבית המרקחת. הדואר נמצא מול הבנק. באנגלית מילת המקום (between, opposite) באה לפני המקום, ובמשפט תמיד יש is או are."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Preposition",
+        "Meaning",
+        "עברית",
+        "Example"
+      ],
+      "rows": [
+        [
+          "next to",
+          "right beside, on the same side",
+          "ליד, צמוד ל-",
+          "The bank is next to the café."
+        ],
+        [
+          "between ... and ...",
+          "with one place on each side",
+          "בין ... ל...",
+          "The café is between the bank and the pharmacy."
+        ],
+        [
+          "opposite",
+          "on the other side of the street, facing it",
+          "מול (בצד השני)",
+          "The park is opposite the café."
+        ],
+        [
+          "behind",
+          "at the back of",
+          "מאחורי",
+          "The car park is behind the bank."
+        ],
+        [
+          "in front of",
+          "just before it, on the same side",
+          "לפני, ממש מול הכניסה",
+          "The bus stop is in front of the pharmacy."
+        ],
+        [
+          "near",
+          "not far from",
+          "קרוב ל-",
+          "My flat is near the beach."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "in = inside a building or an area: in the kitchen, in the park, in Haifa. on = on a surface or a side: on the table, on the wall, on the left, on the second floor. at = at a point, or a place where you do something: at the bus stop, at home, at work, at school.",
+      "he": "in = בתוך בניין או שטח: in the kitchen, in the park, in Haifa. ‏on = על משטח או בצד: on the table, on the wall, on the left, on the second floor. ‏at = בנקודה מסוימת, או במקום שבו עושים משהו: at the bus stop, at home, at work, at school."
+    },
+    {
+      "type": "warning",
+      "en": "Keep all the small words: next to the bank (not 'next the bank'), in front of the bank (not 'in front the bank'), between the bank and the café (with and). After opposite, add nothing: opposite the bank.",
+      "he": "אל תשמיטו את המילים הקטנות: next to the bank (ולא next the bank), ‏in front of the bank (ולא in front the bank), ‏between the bank and the café (עם and). אחרי opposite לא מוסיפים כלום: opposite the bank."
+    },
+    {
+      "type": "tip",
+      "en": "Asking the way: Excuse me, where's the bank? / Is there a pharmacy near here? Answers: It's next to the café. / Yes, there's one opposite the park.",
+      "he": "כשמבקשים הכוונה שואלים: Excuse me, where's the bank? או Is there a pharmacy near here? ועונים: It's next to the café, או Yes, there's one opposite the park."
+    }
+  ],
+  "examples": [
+    {
+      "en": "The pharmacy is next to the supermarket.",
+      "he": "בית המרקחת ליד הסופרמרקט."
+    },
+    {
+      "en": "The café is between the bank and the post office.",
+      "he": "בית הקפה בין הבנק לדואר.",
+      "note": "between ... and ..."
+    },
+    {
+      "en": "The cinema is opposite the park.",
+      "he": "הקולנוע מול הפארק.",
+      "note": "on the other side of the street"
+    },
+    {
+      "en": "There's a car park behind the hospital.",
+      "he": "יש חניון מאחורי בית החולים."
+    },
+    {
+      "en": "I'm in front of the library. Where are you?",
+      "he": "אני מול הספרייה. איפה אתם?"
+    },
+    {
+      "en": "Excuse me, where's the bus stop? – It's on the corner.",
+      "he": "סליחה, איפה תחנת האוטובוס? – בפינה.",
+      "note": "where's = where is"
+    },
+    {
+      "en": "My keys are on the table, and my phone is in my bag.",
+      "he": "המפתחות שלי על השולחן, והטלפון שלי בתיק."
+    },
+    {
+      "en": "Is there a bank near here?",
+      "he": "יש פה בנק קרוב?",
+      "note": "Is there...? from the last lesson"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "bank",
+      "pos": "noun",
+      "he": "בנק",
+      "def": "a place where people keep and take out money",
+      "example": "The bank is next to the café.",
+      "ipa": "/bæŋk/",
+      "level": "A1"
+    },
+    {
+      "word": "pharmacy",
+      "pos": "noun",
+      "he": "בית מרקחת",
+      "def": "a shop where you can buy medicine (UK also: chemist's; US also: drugstore)",
+      "example": "Is there a pharmacy near here?",
+      "ipa": "/ˈfɑːməsi/",
+      "level": "A1"
+    },
+    {
+      "word": "supermarket",
+      "pos": "noun",
+      "he": "סופרמרקט",
+      "def": "a big shop that sells food and things for the home",
+      "example": "There's a supermarket on the corner.",
+      "ipa": "/ˈsuːpəmɑːkɪt/",
+      "level": "A1"
+    },
+    {
+      "word": "post office",
+      "pos": "noun",
+      "he": "סניף דואר",
+      "def": "a place where you send letters and parcels",
+      "example": "The post office is opposite the bank.",
+      "ipa": "/ˈpəʊst ɒfɪs/",
+      "level": "A1"
+    },
+    {
+      "word": "bus stop",
+      "pos": "noun",
+      "he": "תחנת אוטובוס",
+      "def": "a place in the street where a bus stops for people",
+      "example": "Wait for me at the bus stop.",
+      "ipa": "/ˈbʌs stɒp/",
+      "level": "A1"
+    },
+    {
+      "word": "library",
+      "pos": "noun",
+      "he": "ספרייה",
+      "def": "a building where you can read or borrow books",
+      "example": "The library is quiet in the morning.",
+      "ipa": "/ˈlaɪbrəri/",
+      "level": "A1"
+    },
+    {
+      "word": "cinema",
+      "pos": "noun",
+      "he": "קולנוע",
+      "def": "a place where you watch films (US: movie theater)",
+      "example": "The cinema is in the shopping centre.",
+      "ipa": "/ˈsɪnəmə/",
+      "level": "A1"
+    },
+    {
+      "word": "hospital",
+      "pos": "noun",
+      "he": "בית חולים",
+      "def": "a big building where doctors and nurses help sick people",
+      "example": "There's a car park behind the hospital.",
+      "ipa": "/ˈhɒspɪtl/",
+      "level": "A1"
+    },
+    {
+      "word": "car park",
+      "pos": "noun",
+      "he": "חניון",
+      "def": "a place where you leave your car (US: parking lot)",
+      "example": "The car park is behind the supermarket.",
+      "ipa": "/ˈkɑː pɑːk/",
+      "level": "A1"
+    },
+    {
+      "word": "shopping centre",
+      "pos": "noun",
+      "he": "קניון, מרכז קניות",
+      "def": "a big building with a lot of shops (US: mall)",
+      "example": "Is there a shopping centre near here?",
+      "ipa": "/ˈʃɒpɪŋ sentə(r)/",
+      "level": "A1"
+    },
+    {
+      "word": "corner",
+      "pos": "noun",
+      "he": "פינה",
+      "def": "the place where two streets meet",
+      "example": "There's a café on the corner.",
+      "ipa": "/ˈkɔːnə(r)/",
+      "collocations": [
+        "on the corner",
+        "around the corner"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "opposite",
+      "pos": "preposition",
+      "he": "מול (בצד השני)",
+      "def": "on the other side of a street or room, facing something",
+      "example": "The park is opposite my building.",
+      "ipa": "/ˈɒpəzɪt/",
+      "level": "A1"
+    },
+    {
+      "word": "between",
+      "pos": "preposition",
+      "he": "בין",
+      "def": "with one thing on one side and another thing on the other side",
+      "example": "The café is between the bank and the pharmacy.",
+      "ipa": "/bɪˈtwiːn/",
+      "collocations": [
+        "between ... and ..."
+      ],
+      "level": "A1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew there is no present-tense 'be', so 'The bank next to the café' can sound complete. English works differently: it needs is. The bank is next to the café. Where's (= Where is) the bank?",
+      "he": "בעברית אין 'להיות' בהווה, ולכן 'The bank next to the café' נשמע אולי שלם. באנגלית חייבים is: The bank is next to the café. וגם בשאלה: Where's the bank? (Where is).",
+      "error_type": "copula-omission"
+    },
+    {
+      "en": "In Hebrew a question can keep the word order of a normal sentence. English works differently: is comes before the place. Where is the station? (not 'Where the station is?')",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל. באנגלית is בא לפני המקום: Where is the station? ולא Where the station is?",
+      "error_type": "word-order"
+    },
+    {
+      "en": "In Hebrew the sound /ŋ/ is not a separate sound (it only comes before g or k), so shopping and building can end with an extra g, or with n. In English, -ing ends in /ŋ/ alone: /ˈʃɒpɪŋ/.",
+      "he": "בעברית /ŋ/ אינו צליל נפרד (הוא מופיע רק לפני g או k), ולכן shopping ו-building יוצאות לפעמים עם g נוספת בסוף, או עם n. באנגלית ing מסתיים בצליל /ŋ/ בלבד, בלי g: shopping."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Match the places with their Hebrew meaning.",
+        "he": "התאימו כל מקום באנגלית למשמעות שלו בעברית."
+      },
+      "pairs": [
+        [
+          "pharmacy",
+          "בית מרקחת"
+        ],
+        [
+          "library",
+          "ספרייה"
+        ],
+        [
+          "post office",
+          "סניף דואר"
+        ],
+        [
+          "bus stop",
+          "תחנת אוטובוס"
+        ],
+        [
+          "car park",
+          "חניון"
+        ],
+        [
+          "shopping centre",
+          "קניון"
+        ]
+      ],
+      "explanation": {
+        "en": "These are British words. In the US people often say drugstore (pharmacy), parking lot (car park) and mall (shopping centre).",
+        "he": "אלה המילים הבריטיות. בארה״ב אומרים לרוב drugstore (בית מרקחת), parking lot (חניון) ו-mall (קניון)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "in, on or at? Sort the places.",
+        "he": "in, ‏on או at? מיינו את המקומות."
+      },
+      "categories": [
+        "in",
+        "on",
+        "at"
+      ],
+      "items": [
+        {
+          "text": "Tel Aviv",
+          "category": "in"
+        },
+        {
+          "text": "the kitchen",
+          "category": "in"
+        },
+        {
+          "text": "my pocket",
+          "category": "in"
+        },
+        {
+          "text": "the wall",
+          "category": "on"
+        },
+        {
+          "text": "the left",
+          "category": "on"
+        },
+        {
+          "text": "the second floor",
+          "category": "on"
+        },
+        {
+          "text": "the bus stop",
+          "category": "at"
+        },
+        {
+          "text": "home",
+          "category": "at"
+        },
+        {
+          "text": "work",
+          "category": "at"
+        }
+      ],
+      "hint": {
+        "en": "Inside something? A surface or a side? Or a point / an activity?",
+        "he": "בתוך משהו? על משטח או בצד? או בנקודה, או במקום של פעילות?"
+      },
+      "explanation": {
+        "en": "in = inside (a city, a room, a pocket). on = a surface or a side (the wall, the left, a floor of a building). at = a point or a place for an activity (the bus stop, home, work).",
+        "he": "in = בתוך (עיר, חדר, כיס). ‏on = על משטח או בצד (קיר, שמאל, קומה בבניין). ‏at = בנקודה או במקום של פעילות (תחנת אוטובוס, בית, עבודה)."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Look at the street and choose the correct word.",
+        "he": "הסתכלו על הרחוב ובחרו את המילה הנכונה."
+      },
+      "question": "Street: BANK – CAFÉ – PHARMACY (all on one side). The café is ___ the bank and the pharmacy.",
+      "options": [
+        "opposite",
+        "between",
+        "behind",
+        "in front of"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "opposite = on the other side of the street. The café is on the same side, in the middle.",
+          "he": "opposite = בצד השני של הרחוב. בית הקפה באותו צד, באמצע."
+        },
+        "2": {
+          "en": "behind = at the back of something. The café is in the middle, with a place on each side.",
+          "he": "behind = מאחורי משהו. בית הקפה באמצע, ויש מקום מכל צד שלו."
+        },
+        "3": {
+          "en": "in front of is for one place. Here there are two places and the word and, so use between.",
+          "he": "in front of מתייחס למקום אחד. כאן יש שני מקומות והמילה and, ולכן between."
+        }
+      },
+      "option_errors": {
+        "0": "preposition",
+        "2": "preposition",
+        "3": "preposition"
+      },
+      "explanation": {
+        "en": "between + one place + and + another place: between the bank and the pharmacy.",
+        "he": "between + מקום אחד + and + מקום שני: between the bank and the pharmacy."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Someone asks for the post office. Listen and answer.",
+        "he": "מישהו שואל איפה הדואר. הקשיבו וענו."
+      },
+      "audio_text": "The post office? It's opposite the bank, next to the park.",
+      "question": "Where is the post office?",
+      "options": [
+        "opposite the bank",
+        "next to the bank",
+        "opposite the park"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "The bank is on the other side of the street: 'opposite the bank'. The post office is next to the park.",
+          "he": "הבנק בצד השני של הרחוב: 'opposite the bank'. הדואר נמצא ליד הפארק."
+        },
+        "2": {
+          "en": "The post office is next to the park, not opposite it.",
+          "he": "הדואר ליד הפארק, לא מולו."
+        }
+      },
+      "option_errors": {
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "'It's opposite the bank, next to the park': it faces the bank and is beside the park.",
+        "he": "'It's opposite the bank, next to the park' – הדואר מול הבנק, וליד הפארק."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Complete the message with in, on or at.",
+        "he": "השלימו את ההודעה ב-in, ב-on או ב-at."
+      },
+      "text": "Sorry, I'm ___ work. Your keys are ___ the table ___ the kitchen.",
+      "word_bank": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answers": [
+        [
+          "at"
+        ],
+        [
+          "on"
+        ],
+        [
+          "in"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "in",
+          "feedback": {
+            "en": "in = inside a room or an area: in the kitchen. Work takes at, and the table takes on.",
+            "he": "in = בתוך חדר או שטח: in the kitchen. עם work אומרים at, ועם the table אומרים on."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "on",
+          "feedback": {
+            "en": "on = on a surface: on the table. Say at work and in the kitchen.",
+            "he": "on = על משטח: on the table. אומרים at work ו-in the kitchen."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "at",
+          "feedback": {
+            "en": "at = a point or a place for an activity: at work. Say on the table and in the kitchen.",
+            "he": "at = נקודה או מקום של פעילות: at work. אומרים on the table ו-in the kitchen."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "at work (a place where you do something) · on the table (a surface) · in the kitchen (inside a room).",
+        "he": "at work (מקום שבו עושים משהו) · on the table (משטח) · in the kitchen (בתוך חדר)."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Choose the correct word.",
+        "he": "בחרו את המילה הנכונה."
+      },
+      "question": "The car park is ___ the supermarket, so you can't see it from the street.",
+      "options": [
+        "in front of",
+        "between",
+        "next",
+        "behind"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "in front of = between the street and the supermarket, so you can see it. This car park is at the back.",
+          "he": "in front of = בין הרחוב לסופרמרקט, ולכן רואים אותו. החניון הזה נמצא מאחור."
+        },
+        "1": {
+          "en": "between needs two places: between the bank and the café.",
+          "he": "between צריך שני מקומות: between the bank and the café."
+        },
+        "2": {
+          "en": "next needs to: next to. And here the car park is at the back, so behind.",
+          "he": "אחרי next חייב לבוא to: next to. וחוץ מזה החניון מאחור, ולכן behind."
+        }
+      },
+      "option_errors": {
+        "0": "preposition",
+        "1": "preposition",
+        "2": "preposition"
+      },
+      "explanation": {
+        "en": "behind = at the back of something, so you can't see it from the front.",
+        "he": "behind = מאחורי משהו, ולכן לא רואים אותו מלפנים."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Read the description of the street and complete the sentences.",
+        "he": "קראו את התיאור של הרחוב והשלימו את המשפטים."
+      },
+      "text": "Herzl Street: a bank, then a café, then a pharmacy. On the other side of the street, facing the café: a park. At the back of the bank: a car park. Now complete: The bank is ___ the café. The park is ___ the café. The car park is ___ the bank.",
+      "word_bank": [
+        "next to",
+        "opposite",
+        "behind"
+      ],
+      "answers": [
+        [
+          "next to"
+        ],
+        [
+          "opposite"
+        ],
+        [
+          "behind"
+        ]
+      ],
+      "hint": {
+        "en": "Same side, other side of the street, or at the back?",
+        "he": "באותו צד, בצד השני של הרחוב, או מאחור?"
+      },
+      "wrong_feedback": [
+        {
+          "match": "opposite",
+          "feedback": {
+            "en": "opposite = on the other side of the street, facing it. Only the park is opposite the café.",
+            "he": "opposite = בצד השני של הרחוב, מול. רק הפארק נמצא מול בית הקפה."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "next to",
+          "feedback": {
+            "en": "next to = right beside, on the same side. The park is across the street, and the car park is at the back.",
+            "he": "next to = ממש ליד, באותו צד. הפארק בצד השני של הרחוב, והחניון מאחור."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "behind",
+          "feedback": {
+            "en": "behind = at the back. Only the car park is behind something (the bank).",
+            "he": "behind = מאחור. רק החניון נמצא מאחורי משהו (הבנק)."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "The bank is next to the café (same side). The park is opposite the café (other side, facing it). The car park is behind the bank (at the back).",
+        "he": "הבנק ליד בית הקפה (באותו צד) – next to. הפארק מול בית הקפה (בצד השני) – opposite. החניון מאחורי הבנק – behind."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "The bus stop is in front the pharmacy.",
+      "answers": [
+        "The bus stop is in front of the pharmacy."
+      ],
+      "error_type": "preposition",
+      "hint": {
+        "en": "One small word is missing.",
+        "he": "חסרה מילה קטנה אחת."
+      },
+      "explanation": {
+        "en": "in front of is three words: The bus stop is in front of the pharmacy.",
+        "he": "in front of הוא צירוף של שלוש מילים: The bus stop is in front of the pharmacy."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Fix the question.",
+        "he": "תקנו את השאלה."
+      },
+      "sentence": "Excuse me, where the bank is?",
+      "answers": [
+        "Excuse me, where is the bank?",
+        "Excuse me where is the bank?"
+      ],
+      "error_type": "word-order",
+      "wrong_feedback": [
+        {
+          "match": "Excuse me, where the bank?",
+          "feedback": {
+            "en": "Keep the verb, and put it before the bank: Where is the bank?",
+            "he": "הפועל חייב להישאר, ולבוא לפני the bank: Where is the bank?"
+          },
+          "error_type": "copula-omission"
+        }
+      ],
+      "explanation": {
+        "en": "In a question, is comes before the subject: Where is (Where's) the bank?",
+        "he": "בשאלה is בא לפני הנושא: Where is the bank? (או בקיצור Where's the bank?)"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Translate into English.",
+        "he": "תרגמו לאנגלית."
+      },
+      "source": "בית המרקחת ליד הבנק.",
+      "answers": [
+        "The pharmacy is next to the bank.",
+        "The pharmacy is near the bank.",
+        "The pharmacy is beside the bank.",
+        "The pharmacy is close to the bank.",
+        "The pharmacy's next to the bank.",
+        "The pharmacy's near the bank.",
+        "The pharmacy's beside the bank.",
+        "The pharmacy's close to the bank.",
+        "The chemist's is next to the bank.",
+        "The chemist's is near the bank.",
+        "The drugstore is next to the bank.",
+        "The drugstore is near the bank."
+      ],
+      "hint": {
+        "en": "The Hebrew word can mean next to or near. And remember the verb!",
+        "he": "'ליד' יכול להיות next to או near. ואל תשכחו את הפועל!"
+      },
+      "wrong_feedback": [
+        {
+          "match": "The pharmacy next to the bank.",
+          "feedback": {
+            "en": "The Hebrew sentence has no verb, but English needs is: The pharmacy is next to the bank.",
+            "he": "במשפט בעברית אין פועל, אבל באנגלית חייבים is: The pharmacy is next to the bank."
+          },
+          "error_type": "copula-omission"
+        },
+        {
+          "match": "The pharmacy is next the bank.",
+          "feedback": {
+            "en": "next always has to after it: next to the bank.",
+            "he": "אחרי next תמיד בא to: next to the bank."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "Pharmacy is next to the bank.",
+          "feedback": {
+            "en": "Use the for a place you both know: The pharmacy is next to the bank.",
+            "he": "כשמדברים על מקום ששניכם מכירים, משתמשים ב-the: The pharmacy is next to the bank."
+          },
+          "error_type": "article"
+        }
+      ],
+      "explanation": {
+        "en": "The pharmacy is next to (or near) the bank. English needs is, and next always comes with to.",
+        "he": "The pharmacy is next to (או near) the bank. באנגלית חייבים is, ו-next תמיד בא עם to."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Put the words in order to make a question.",
+        "he": "סדרו את המילים לשאלה."
+      },
+      "tokens": [
+        "Is",
+        "there",
+        "a",
+        "cinema",
+        "near",
+        "your",
+        "flat"
+      ],
+      "explanation": {
+        "en": "Is there + a place + near + somewhere? In the question, Is comes before there.",
+        "he": "Is there + מקום + near + איפה? בשאלה Is בא לפני there."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Read the notice for guests at a hostel and answer the questions.",
+        "he": "קראו את ההודעה לאורחים באכסניה וענו על השאלות."
+      },
+      "title": "Welcome to Palm Tree Hostel",
+      "passage": "Welcome to Palm Tree Hostel! Here are some useful places near us. The bus stop is right in front of the hostel, and the number 5 bus goes to the beach. There's a small supermarket on the corner, next to a pharmacy. The bank is opposite the supermarket. The post office is between the bank and a nice café. Do you need a bike? There's a bike shop behind the hostel. Questions? Ask us at reception. Have a great stay!",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Where is the bus stop?",
+          "options": [
+            "behind the hostel",
+            "opposite the bank",
+            "in front of the hostel"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The bike shop is behind the hostel. The bus stop is in front of it.",
+              "he": "חנות האופניים נמצאת מאחורי האכסניה. תחנת האוטובוס – מלפניה."
+            },
+            "1": {
+              "en": "The supermarket is opposite the bank. The bus stop is 'right in front of the hostel'.",
+              "he": "הסופרמרקט נמצא מול הבנק. תחנת האוטובוס 'right in front of the hostel'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension"
+          },
+          "explanation": {
+            "en": "'The bus stop is right in front of the hostel.'",
+            "he": "'The bus stop is right in front of the hostel' – התחנה ממש מול הכניסה לאכסניה."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The pharmacy is next to the supermarket.",
+          "answer": true,
+          "explanation": {
+            "en": "'There's a small supermarket on the corner, next to a pharmacy.'",
+            "he": "'There's a small supermarket on the corner, next to a pharmacy' – הם זה ליד זה."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The bank is next to the supermarket.",
+          "answer": false,
+          "explanation": {
+            "en": "'The bank is opposite the supermarket' – on the other side of the street.",
+            "he": "'The bank is opposite the supermarket' – הבנק בצד השני של הרחוב, מול הסופרמרקט."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What is between the bank and the café?",
+          "options": [
+            "the post office",
+            "the pharmacy",
+            "the supermarket"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The pharmacy is next to the supermarket, on the corner.",
+              "he": "בית המרקחת ליד הסופרמרקט, בפינה."
+            },
+            "2": {
+              "en": "The supermarket is opposite the bank, not next to it.",
+              "he": "הסופרמרקט מול הבנק, לא לידו."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'The post office is between the bank and a nice café.'",
+            "he": "'The post office is between the bank and a nice café' – הדואר באמצע."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "There's a bike shop ___ the hostel.",
+          "answers": [
+            [
+              "behind"
+            ]
+          ],
+          "explanation": {
+            "en": "'There's a bike shop behind the hostel' – at the back of it.",
+            "he": "'There's a bike shop behind the hostel' – מאחורי האכסניה."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Listen and type what you hear.",
+        "he": "הקשיבו והקלידו את מה ששמעתם."
+      },
+      "audio_text": "The library is opposite the park, next to the cinema.",
+      "answers": [
+        "The library is opposite the park, next to the cinema."
+      ],
+      "hint": {
+        "en": "Two places: one across the street, one beside it.",
+        "he": "שני מקומות: אחד בצד השני של הרחוב, ואחד ממש לידה."
+      },
+      "explanation": {
+        "en": "opposite the park (other side of the street), next to the cinema (beside it). library: three syllables, LI-bra-ry.",
+        "he": "opposite the park – בצד השני של הרחוב; next to the cinema – ממש ליד. ‏library: שלוש הברות, LI-bra-ry."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "You're new in town. Ask a stranger. Say the question out loud.",
+        "he": "אתם חדשים בעיר. שאלו מישהו ברחוב. אמרו את השאלה בקול."
+      },
+      "target": "Excuse me, is there a shopping centre near here?",
+      "focus": {
+        "en": "shopping ends in /ŋ/: no g sound after it. In a yes/no question, your voice goes up at the end.",
+        "he": "shopping מסתיימת בצליל /ŋ/ – בלי g אחריו. בשאלת כן/לא הקול עולה בסוף."
+      },
+      "explanation": {
+        "en": "A useful question in any new town. Answers often start with Yes, there's one... or It's...",
+        "he": "שאלה שימושית בכל עיר חדשה. התשובה מתחילה בדרך כלל ב-Yes, there's one... או ב-It's..."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "prepositions-place",
+      "prompt": {
+        "en": "Describe your area.",
+        "he": "תארו את האזור שלכם."
+      },
+      "task": {
+        "en": "Write 5-6 sentences about the area where you live (or a street you know well). Name at least four places and say where they are. Use next to, opposite and one more (between, behind, in front of or near).",
+        "he": "כתבו 5-6 משפטים על האזור שבו אתם גרים (או על רחוב שאתם מכירים היטב). ציינו לפחות ארבעה מקומות וכתבו איפה הם נמצאים. השתמשו ב-next to, ב-opposite ובעוד מילה אחת (between, behind, in front of או near)."
+      },
+      "min_words": 35,
+      "max_words": 90,
+      "must_include": [
+        "next to",
+        "opposite"
+      ],
+      "model_answer": "I live in a flat on Hagefen Street in Haifa. There's a small supermarket next to my building. Opposite the supermarket, there's a park. The bus stop is in front of the park, so it's easy to get to work. There's a pharmacy on the corner, between a bank and a café. The library is near the café.",
+      "checklist": [
+        {
+          "en": "Every sentence has a verb: The bank is..., There's a...",
+          "he": "בכל משפט יש פועל: The bank is..., There's a..."
+        },
+        {
+          "en": "I kept all the small words: next to, in front of, between ... and ...",
+          "he": "שמרתי על כל המילים הקטנות: next to, in front of, between ... and ..."
+        },
+        {
+          "en": "a/an the first time I mention a place: There's a park.",
+          "he": "a/an כשאני מזכיר/ה מקום בפעם הראשונה: There's a park."
+        },
+        {
+          "en": "Street and city names start with a capital letter.",
+          "he": "שמות של רחובות וערים מתחילים באות גדולה."
+        }
+      ],
+      "explanation": {
+        "en": "The model names six places and uses a different preposition for each one, always with is or there's.",
+        "he": "בתשובה לדוגמה יש שישה מקומות, ולכל אחד מילת מקום אחרת – תמיד עם is או there's."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "next to · between ... and ... · opposite · behind · in front of · near + the place: The bank is next to the café.",
+        "he": "next to · between ... and ... · opposite · behind · in front of · near + המקום: The bank is next to the café."
+      },
+      {
+        "en": "in = inside (in the kitchen) · on = a surface or a side (on the table, on the left) · at = a point (at the bus stop, at home, at work).",
+        "he": "in = בתוך (in the kitchen) · ‏on = על משטח או בצד (on the table, on the left) · ‏at = בנקודה (at the bus stop, at home, at work)."
+      },
+      {
+        "en": "Always use be: The bank is opposite the park. Ask: Where is...? / Is there a ... near here?",
+        "he": "תמיד עם be: The bank is opposite the park. שואלים: Where is...? או Is there a ... near here?"
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

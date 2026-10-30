@@ -1,0 +1,321 @@
+{
+  "id": "a2-15",
+  "level": "A2",
+  "title_en": "Telling a story",
+  "title_he": "מספרים סיפור",
+  "topics": ["connectors-sequence", "paragraph-basics"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can put events in order with first, then, after that, when and in the end.", "he": "אני יודע/ת לסדר אירועים לפי הסדר עם first, ‏then, ‏after that, ‏when ו-in the end." },
+    { "en": "I can start a story with a clear topic sentence and keep it in the past simple.", "he": "אני יודע/ת לפתוח סיפור במשפט נושא ברור ולכתוב את כולו בעבר פשוט." },
+    { "en": "I can write a short story about a personal experience with a beginning, a middle and an end (100-130 words).", "he": "אני יודע/ת לכתוב סיפור קצר על חוויה אישית, עם התחלה, אמצע וסוף (100-130 מילים)." }
+  ],
+  "warmup": { "en": "Think of a day you still remember: a trip, a disaster, a funny moment. What happened first? How did it end?", "he": "חשבו על יום שאתם עדיין זוכרים: טיול, פדיחה, רגע מצחיק. מה קרה קודם? ואיך זה נגמר? בסוף השיעור תכתבו את הסיפור הזה באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "A good story has three parts. Beginning: a topic sentence that says what the story is about, plus when and where (Last summer I had the worst camping trip of my life.). Middle: the events, in order. End: how it finished and how you felt.", "he": "לסיפור טוב יש שלושה חלקים. התחלה: משפט נושא שאומר על מה הסיפור, ומתי ואיפה זה קרה (Last summer I had the worst camping trip of my life.). אמצע: האירועים, לפי הסדר. סוף: איך זה נגמר ומה הרגשתם." },
+    { "type": "table", "headers": ["Part", "Useful words", "Example"], "rows": [
+      ["Beginning", "Last summer · One day · A few years ago", "One day last winter, I went hiking with my brother."],
+      ["Middle", "First, · Then · After that, · Next, · When...,", "First, we got lost. Then it started to rain."],
+      ["End", "Finally, · In the end,", "In the end, we got home at midnight, tired but happy."]
+    ] },
+    { "type": "rule", "en": "At the start of a sentence, put a comma after First, After that, Next, Finally and In the end. Then usually has no comma. When joins two events: When we arrived, the shop was closed. (comma after the when part)", "he": "בתחילת משפט שמים פסיק אחרי First, ‏After that, ‏Next, ‏Finally ו-In the end. אחרי Then בדרך כלל אין פסיק. when מחבר שני אירועים: When we arrived, the shop was closed (פסיק אחרי החלק של when)." },
+    { "type": "warning", "en": "After alone needs something after it: After lunch, we... / After we ate, we... To start a sentence, say After that (not *After, we went home).", "he": "after לבד צריך השלמה אחריו: After lunch, we... או After we ate, we... כדי לפתוח משפט אומרים After that, ולא After, we went home." },
+    { "type": "warning", "en": "Keep the whole story in the past simple. Don't switch to the present in the middle: We went to the beach and swam (not *and swim).", "he": "כתבו את כל הסיפור בעבר פשוט. אל תעברו להווה באמצע: We went to the beach and swam ולא and swim." },
+    { "type": "tip", "en": "Finally = the last event in a list. In the end = how things finished, often after a problem: In the end, a farmer gave us a lift.", "he": "Finally = האירוע האחרון ברשימה. In the end = איך הכול נגמר, לעיתים קרובות אחרי בעיה: In the end, a farmer gave us a lift." }
+  ],
+  "examples": [
+    { "en": "Last summer I had the worst camping trip of my life.", "he": "בקיץ שעבר היה לי טיול הקמפינג הכי גרוע בחיים.", "note": "topic sentence" },
+    { "en": "First, we forgot the tent poles at home.", "he": "קודם כול, שכחנו את מוטות האוהל בבית." },
+    { "en": "Then it started to rain.", "he": "אחר כך התחיל לרדת גשם.", "note": "no comma after Then" },
+    { "en": "After that, we tried to sleep in the car.", "he": "אחרי זה ניסינו לישון באוטו." },
+    { "en": "When we woke up, everything was wet.", "he": "כשהתעוררנו, הכול היה רטוב.", "note": "comma after the when part" },
+    { "en": "In the end, we drove home and ordered pizza.", "he": "בסוף נסענו הביתה והזמנו פיצה." },
+    { "en": "It was a disaster, but now it's one of my favourite memories.", "he": "זה היה אסון, אבל היום זה אחד הזיכרונות האהובים עליי.", "note": "end: how you feel now" }
+  ],
+  "vocab": [
+    { "word": "suddenly", "pos": "adverb", "he": "פתאום", "def": "quickly, when you don't expect it", "example": "Suddenly, the lights went out.", "ipa": "/ˈsʌdənli/", "collocations": ["suddenly realise", "all of a sudden"], "level": "A2" },
+    { "word": "luckily", "pos": "adverb", "he": "למזלי, למרבה המזל", "def": "used to say that something good happened by chance", "example": "Luckily, a taxi was waiting outside.", "ipa": "/ˈlʌkɪli/", "collocations": ["luckily for us", "luckily, nobody was hurt"], "level": "A2" },
+    { "word": "unfortunately", "pos": "adverb", "he": "לצערי, למרבה הצער", "def": "used to say that something bad happened", "example": "Unfortunately, the museum was closed.", "ipa": "/ʌnˈfɔːtʃənətli/", "collocations": ["unfortunately for me", "but unfortunately"], "level": "A2" },
+    { "word": "at first", "pos": "phrase", "he": "בהתחלה", "def": "at the beginning, before things changed", "example": "At first I was scared, but then I relaxed.", "ipa": "/ət ˈfɜːst/", "collocations": ["at first I thought", "love at first sight"], "level": "A2" },
+    { "word": "finally", "pos": "adverb", "he": "סוף סוף; לבסוף", "def": "after a long time; also, as the last thing in a list", "example": "We finally arrived at two in the morning.", "ipa": "/ˈfaɪnəli/", "collocations": ["finally arrive", "finally find", "and finally"], "level": "A2" },
+    { "word": "get lost", "pos": "phrase", "he": "ללכת לאיבוד", "def": "to not know where you are or how to get somewhere", "example": "We got lost in the old city.", "ipa": "/ˌɡet ˈlɒst/", "collocations": ["get lost in the forest", "get completely lost"], "level": "A2" },
+    { "word": "miss", "pos": "verb", "he": "לפספס (אוטובוס, טיסה)", "def": "to be too late for a bus, train or plane", "example": "I missed the last bus home.", "ipa": "/mɪs/", "collocations": ["miss the bus", "miss a flight", "miss the train"], "level": "A2" },
+    { "word": "on the way", "pos": "phrase", "he": "בדרך", "def": "during the journey to a place", "example": "On the way to the airport, we stopped for coffee.", "ipa": "/ˌɒn ðə ˈweɪ/", "collocations": ["on the way home", "on the way to school"], "level": "A2" },
+    { "word": "realise", "pos": "verb", "he": "להבין פתאום, לקלוט", "def": "to suddenly understand or notice something", "example": "At the station, I realised my wallet was at home.", "ipa": "/ˈriːəlaɪz/", "collocations": ["suddenly realise", "realise your mistake"], "level": "B1" },
+    { "word": "decide", "pos": "verb", "he": "להחליט", "def": "to choose what to do after thinking", "example": "We decided to walk back to the hotel.", "ipa": "/dɪˈsaɪd/", "collocations": ["decide to do something", "make a decision"], "level": "A2" },
+    { "word": "break down", "pos": "phrasal verb", "he": "להתקלקל (רכב, מכונה)", "def": "(a car or machine) to stop working", "example": "Our bus broke down in the middle of the desert.", "ipa": "/ˌbreɪk ˈdaʊn/", "collocations": ["the car broke down", "the bus broke down"], "level": "A2" },
+    { "word": "memory", "pos": "noun", "he": "זיכרון", "def": "something you remember from the past", "example": "That trip is one of my best memories.", "ipa": "/ˈmeməri/", "collocations": ["a happy memory", "a great memory", "bring back memories"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there are no capital letters, so they are easy to forget in a story. Use a capital for I, names of people and places, days and months: Last July I went to London with Maya.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן בסיפור. כתבו באות גדולה את I, שמות של אנשים ומקומות, ימים וחודשים: Last July I went to London with Maya.", "error_type": "capitalization" },
+    { "en": "In Hebrew there is no word for a/an, so it can go missing in a story. Use a or an the first time you mention one thing: We stayed in a small hotel (not *in small hotel).", "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה בסיפור. משתמשים ב-a או an כשמזכירים דבר אחד בפעם הראשונה: We stayed in a small hotel ולא in small hotel.", "error_type": "article" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Where does each phrase belong in a story?", "he": "איפה כל ביטוי מתאים בסיפור?" },
+      "categories": ["Beginning", "Middle", "End"],
+      "items": [
+        { "text": "Last summer, ...", "category": "Beginning" },
+        { "text": "A few years ago, ...", "category": "Beginning" },
+        { "text": "One day, ...", "category": "Beginning" },
+        { "text": "Then ...", "category": "Middle" },
+        { "text": "After that, ...", "category": "Middle" },
+        { "text": "Next, ...", "category": "Middle" },
+        { "text": "Finally, ...", "category": "End" },
+        { "text": "In the end, ...", "category": "End" }
+      ],
+      "explanation": { "en": "Beginning words set the time. Middle words move the story forward. End words show how it finished.", "he": "מילות הפתיחה קובעות את הזמן. מילות האמצע מקדמות את הסיפור. מילות הסיום מראות איך הוא נגמר." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Choose the best word or phrase for the gap.", "he": "בחרו את המילה או הביטוי המתאימים ביותר." },
+      "question": "We got to the airport at 5 a.m. ___, we checked in and had breakfast.",
+      "options": ["After", "When", "After that", "In the end"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "After alone needs a noun or a clause: After we got there, ... To start the next step, say After that.", "he": "after לבד צריך שם עצם או משפט: After we got there, ... כדי לפתוח את השלב הבא אומרים After that." },
+        "1": { "en": "When needs a full event after it: When we got there, we checked in.", "he": "אחרי when צריך אירוע שלם: When we got there, we checked in." },
+        "3": { "en": "In the end is for how the story finished. This is just the next step.", "he": "In the end מתאר איך הסיפור נגמר. כאן זה רק השלב הבא." }
+      },
+      "option_errors": { "0": "cohesion", "1": "cohesion", "3": "cohesion" },
+      "explanation": { "en": "After that, = the next event. Remember the comma.", "he": "After that, = האירוע הבא. זכרו את הפסיק." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "connectors-sequence",
+      "prompt": { "en": "Listen to Omer's story and answer the question.", "he": "הקשיבו לסיפור של עומר וענו על השאלה." },
+      "audio_text": "Last Saturday my brother and I went hiking in the Galilee. First we got lost, and then it started to rain. In the end, a farmer gave us a lift back to town.",
+      "question": "How did Omer and his brother get back to town?",
+      "options": ["They walked back in the rain.", "A farmer drove them.", "They took a bus."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "It rained, but they didn't walk back. A farmer gave them a lift.", "he": "ירד גשם, אבל הם לא חזרו ברגל. חקלאי נתן להם טרמפ." },
+        "2": { "en": "There's no bus in the story.", "he": "אין אוטובוס בסיפור." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "In the end tells us how the story finished: a farmer gave us a lift (= drove us in his car).", "he": "In the end מספר איך הסיפור נגמר: a farmer gave us a lift (= חקלאי הסיע אותם ברכב שלו)." }
+    },
+    {
+      "id": "e4", "type": "read", "skill": "reading", "topic": "paragraph-basics",
+      "prompt": { "en": "Read Noa's blog post and answer the questions.", "he": "קראו את הפוסט של נועה בבלוג וענו על השאלות." },
+      "title": "The day I almost missed my flight",
+      "passage": "Last April I had the most stressful morning of my life. My flight to Rome was at 7 a.m., so I set my alarm for 3:30. Unfortunately, I forgot to turn it on! When I woke up, it was already 4:45. First, I jumped out of bed and called a taxi. Then I put on my clothes and ran downstairs. On the way to the airport, there was a lot of traffic, and I was sure I was too late. After that, things got better. The queue at security was short, and the flight was twenty minutes late. In the end, I was the last person on the plane! Now I always check my alarm twice.",
+      "questions": [
+        { "type": "mcq", "question": "Which sentence is the topic sentence?", "options": ["Last April I had the most stressful morning of my life.", "First, I jumped out of bed and called a taxi.", "Now I always check my alarm twice."], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "This is the first event in the middle of the story, not the topic sentence.", "he": "זה האירוע הראשון באמצע הסיפור, לא משפט הנושא." },
+            "2": { "en": "This is the last sentence: it ends the story.", "he": "זה המשפט האחרון: הוא מסיים את הסיפור." }
+          },
+          "explanation": { "en": "The topic sentence comes first and tells us what the story is about: a very stressful morning.", "he": "משפט הנושא בא ראשון ואומר על מה הסיפור: בוקר מלחיץ מאוד." } },
+        { "type": "tf", "statement": "Noa's alarm didn't ring because she forgot to turn it on.", "answer": true,
+          "explanation": { "en": "'I set my alarm for 3:30. Unfortunately, I forgot to turn it on!'", "he": "בפוסט: I set my alarm for 3:30. Unfortunately, I forgot to turn it on!" } },
+        { "type": "mcq", "question": "Which of these did Noa do first?", "options": ["She ran downstairs.", "She called a taxi.", "She got dressed."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "She ran downstairs after she got dressed: 'Then I put on my clothes and ran downstairs.'", "he": "היא רצה למטה אחרי שהתלבשה: Then I put on my clothes and ran downstairs." },
+            "2": { "en": "She got dressed after she called the taxi. Look for First and Then.", "he": "היא התלבשה אחרי שהזמינה מונית. חפשו את First ואת Then." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'First, I jumped out of bed and called a taxi. Then I put on my clothes...' First and Then show the order.", "he": "בפוסט: First, I jumped out of bed and called a taxi. Then I put on my clothes... המילים First ו-Then מראות את הסדר." } },
+        { "type": "tf", "statement": "There was a long queue at security.", "answer": false,
+          "explanation": { "en": "'The queue at security was short.'", "he": "בפוסט: The queue at security was short – התור בבידוק היה קצר." } },
+        { "type": "gap", "text": "In the end, Noa was the ___ person on the plane.", "answers": [["last"]],
+          "explanation": { "en": "'In the end, I was the last person on the plane!'", "he": "בפוסט: In the end, I was the last person on the plane!" } }
+      ]
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "writing", "topic": "paragraph-basics",
+      "prompt": { "en": "Choose the best topic sentence for this story.", "he": "בחרו את משפט הנושא הטוב ביותר לסיפור הזה." },
+      "question": "___ First, our bus broke down on the way to Eilat. Then we waited for three hours in the sun. In the end, we arrived at midnight.",
+      "options": ["Buses are often late.", "I like Eilat very much.", "In the end, we arrived at midnight.", "Our school trip to Eilat started with a disaster."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "This is a general opinion about buses, not the start of your story.", "he": "זו דעה כללית על אוטובוסים, לא פתיחה של הסיפור שלכם." },
+        "1": { "en": "The story is about the journey, not about Eilat.", "he": "הסיפור עוסק בנסיעה, לא באילת." },
+        "2": { "en": "This is the end of the story, not the beginning.", "he": "זה סוף הסיפור, לא ההתחלה." }
+      },
+      "explanation": { "en": "A topic sentence opens the story: it tells the reader what it's about (a trip that started badly) and makes them want to read on.", "he": "משפט נושא פותח את הסיפור: הוא אומר לקורא על מה הסיפור (טיול שהתחיל רע) וגורם לו לרצות להמשיך לקרוא." }
+    },
+    {
+      "id": "e6", "type": "categorize", "skill": "writing", "topic": "paragraph-basics",
+      "prompt": { "en": "Which words need a capital letter in English?", "he": "אילו מילים צריכות אות גדולה באנגלית?" },
+      "categories": ["Capital letter", "Small letter"],
+      "items": [
+        { "text": "july", "category": "Capital letter" },
+        { "text": "monday", "category": "Capital letter" },
+        { "text": "london", "category": "Capital letter" },
+        { "text": "english", "category": "Capital letter" },
+        { "text": "maya", "category": "Capital letter" },
+        { "text": "summer", "category": "Small letter" },
+        { "text": "beach", "category": "Small letter" },
+        { "text": "morning", "category": "Small letter" }
+      ],
+      "hint": { "en": "Seasons and parts of the day are not names.", "he": "עונות השנה וחלקי היום אינם שמות." },
+      "explanation": { "en": "Months, days, people, places and languages always start with a capital letter: July, Monday, London, English, Maya. So does the word I. Seasons and normal nouns don't: summer, beach, morning.", "he": "חודשים, ימים, אנשים, מקומות ושפות תמיד מתחילים באות גדולה: July, Monday, London, English, Maya. וכך גם המילה I. עונות ושמות עצם רגילים לא: summer, beach, morning." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Complete Maya's story with words from the box. Use each one once; one is extra.", "he": "השלימו את הסיפור של מאיה במילים מהמחסן. השתמשו בכל אחת פעם אחת; אחת מיותרת." },
+      "text": "Last month I cooked dinner for my whole family for the first time. ___, I found an easy recipe online. ___ I went to the supermarket and bought everything. ___ I got home, I started cooking, but I burned the rice! ___, we ordered pizza, and everyone laughed.",
+      "word_bank": ["First", "Then", "When", "In the end", "Suddenly"],
+      "answers": [["First"], ["Then", "After that", "Next"], ["When", "After"], ["In the end", "Finally"]],
+      "wrong_feedback": [
+        { "match": "Suddenly", "feedback": { "en": "Suddenly is for something you don't expect. These are planned steps or the result.", "he": "Suddenly מתאים למשהו לא צפוי. כאן יש שלבים מתוכננים או תוצאה." }, "error_type": "cohesion" },
+        { "match": "When", "feedback": { "en": "When needs two events in one sentence, with a comma: When I got home, I started cooking.", "he": "when צריך שני אירועים באותו משפט, עם פסיק: When I got home, I started cooking." }, "error_type": "cohesion" },
+        { "match": "In the end", "feedback": { "en": "In the end is for how the story finished, after the problem.", "he": "In the end מתאר איך הסיפור נגמר, אחרי הבעיה." }, "error_type": "cohesion" },
+        { "match": "First", "feedback": { "en": "First is for step one, before everything else.", "he": "First מתאים לשלב הראשון, לפני כל השאר." }, "error_type": "cohesion" },
+        { "match": "Then", "feedback": { "en": "Then moves the story to the next step, with no comma after it.", "he": "Then מקדם את הסיפור לשלב הבא, ואחריו אין פסיק." }, "error_type": "cohesion" }
+      ],
+      "explanation": { "en": "First, (step 1) → Then (step 2) → When I got home, (two events joined) → In the end, (the result after the problem).", "he": "First, (שלב 1) ← Then (שלב 2) ← When I got home, (שני אירועים מחוברים) ← In the end, (התוצאה אחרי הבעיה)." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar", "topic": "paragraph-basics",
+      "prompt": { "en": "Complete the story with the past simple of the verbs in brackets.", "he": "השלימו את הסיפור בעבר פשוט של הפעלים שבסוגריים." },
+      "text": "Last Friday Kenji ___ (wake) up late. He ___ (run) to the bus stop and ___ (wait) for ten minutes, but the bus didn't come. So he ___ (take) a taxi, and he ___ (get) to work on time!",
+      "answers": [["woke"], ["ran"], ["waited"], ["took"], ["got"]],
+      "wrong_feedback": [
+        { "match": "woke up", "feedback": { "en": "up is already in the sentence. Just write woke.", "he": "המילה up כבר כתובה במשפט. כתבו רק woke." }, "error_type": "verb-form" },
+        { "match": "waked", "feedback": { "en": "wake is irregular: wake – woke.", "he": "wake הוא פועל חריג: wake – woke." }, "error_type": "verb-form" },
+        { "match": "wakes", "feedback": { "en": "The story is in the past: woke.", "he": "הסיפור בעבר: woke." }, "error_type": "tense-choice" },
+        { "match": "wake", "feedback": { "en": "The story is in the past: woke.", "he": "הסיפור בעבר: woke." }, "error_type": "tense-choice" },
+        { "match": "runned", "feedback": { "en": "run is irregular: run – ran.", "he": "run הוא פועל חריג: run – ran." }, "error_type": "verb-form" },
+        { "match": "runs", "feedback": { "en": "The story is in the past: ran.", "he": "הסיפור בעבר: ran." }, "error_type": "tense-choice" },
+        { "match": "run", "feedback": { "en": "run is the present or base form. The past is ran /ræn/.", "he": "run היא צורת ההווה או הבסיס. העבר הוא ran /ræn/." }, "error_type": "tense-choice" },
+        { "match": "waits", "feedback": { "en": "The story is in the past: waited.", "he": "הסיפור בעבר: waited." }, "error_type": "tense-choice" },
+        { "match": "wait", "feedback": { "en": "The story is in the past: waited.", "he": "הסיפור בעבר: waited." }, "error_type": "tense-choice" },
+        { "match": "taked", "feedback": { "en": "take is irregular: take – took.", "he": "take הוא פועל חריג: take – took." }, "error_type": "verb-form" },
+        { "match": "takes", "feedback": { "en": "The story is in the past: took.", "he": "הסיפור בעבר: took." }, "error_type": "tense-choice" },
+        { "match": "take", "feedback": { "en": "The story is in the past: took.", "he": "הסיפור בעבר: took." }, "error_type": "tense-choice" },
+        { "match": "getted", "feedback": { "en": "get is irregular: get – got.", "he": "get הוא פועל חריג: get – got." }, "error_type": "verb-form" },
+        { "match": "gets", "feedback": { "en": "The story is in the past: got.", "he": "הסיפור בעבר: got." }, "error_type": "tense-choice" },
+        { "match": "get", "feedback": { "en": "The story is in the past: got.", "he": "הסיפור בעבר: got." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "All five verbs are in the past simple. Four of them are irregular.", "he": "כל חמשת הפעלים בעבר פשוט. ארבעה מהם חריגים." },
+      "explanation": { "en": "A story stays in the past simple: woke, ran, waited, took, got. Only wait is regular (+ -ed).", "he": "סיפור נשאר בעבר פשוט: woke, ran, waited, took, got. רק wait הוא פועל רגיל (מוסיפים ed)." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "paragraph-basics",
+      "prompt": { "en": "Find and fix the tense mistake.", "he": "מצאו ותקנו את הטעות בזמן." },
+      "sentence": "Last summer we went to Cyprus, and every day we swim in the sea.",
+      "answers": ["Last summer we went to Cyprus, and every day we swam in the sea.", "Last summer we went to Cyprus and every day we swam in the sea."],
+      "error_type": "tense-choice",
+      "explanation": { "en": "The story is in the past (Last summer, went), so keep the past: swam (swim – swam).", "he": "הסיפור בעבר (Last summer, went), ולכן ממשיכים בעבר: swam (swim – swam)." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Find and fix the mistake at the start of the sentence.", "he": "מצאו ותקנו את הטעות בתחילת המשפט." },
+      "sentence": "After, we went back to the hotel and had dinner.",
+      "answers": [
+        "After that, we went back to the hotel and had dinner.",
+        "After that we went back to the hotel and had dinner.",
+        "Then we went back to the hotel and had dinner.",
+        "Then, we went back to the hotel and had dinner.",
+        "Afterwards, we went back to the hotel and had dinner.",
+        "Afterwards we went back to the hotel and had dinner.",
+        "Later, we went back to the hotel and had dinner.",
+        "Later we went back to the hotel and had dinner."
+      ],
+      "error_type": "cohesion",
+      "hint": { "en": "After alone needs something after it. Add one word.", "he": "after לבד צריך השלמה. הוסיפו מילה אחת." },
+      "explanation": { "en": "To start a sentence, use After that, (or Then / Afterwards). After alone needs a noun or a clause: After dinner, we... / After we ate, we...", "he": "כדי לפתוח משפט משתמשים ב-After that, (או Then / Afterwards). after לבד צריך שם עצם או משפט: After dinner, we... או After we ate, we..." }
+    },
+    {
+      "id": "e11", "type": "order", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["When", "we", "arrived,", "the", "museum", "was", "closed"],
+      "answers": ["The museum was closed when we arrived"],
+      "explanation": { "en": "When + event 1, + event 2. The comma comes after the when part.", "he": "When + אירוע 1, + אירוע 2. הפסיק בא אחרי החלק של when." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "writing", "topic": "connectors-sequence",
+      "prompt": { "en": "Join the two sentences into one. Start with When.", "he": "חברו את שני המשפטים למשפט אחד. התחילו ב-When." },
+      "source": "We got to the beach. It started to rain.",
+      "answers": [
+        "When we got to the beach, it started to rain.",
+        "When we got to the beach it started to rain.",
+        "When we got to the beach, it started raining.",
+        "When we got to the beach it started raining."
+      ],
+      "wrong_feedback": [
+        { "match": "When we got to the beach, it starts to rain.", "feedback": { "en": "Keep both events in the past: it started.", "he": "שני האירועים בעבר: it started." }, "error_type": "tense-choice" },
+        { "match": "When we get to the beach, it started to rain.", "feedback": { "en": "Keep both events in the past: When we got...", "he": "שני האירועים בעבר: When we got..." }, "error_type": "tense-choice" },
+        { "match": "When we got to the beach, started to rain.", "feedback": { "en": "An English sentence needs a subject: it started to rain.", "he": "משפט באנגלית צריך נושא: it started to rain." }, "error_type": "pronoun" },
+        { "match": "When we got to the beach. It started to rain.", "feedback": { "en": "Join the two parts with a comma, not a full stop: When we got to the beach, it started to rain.", "he": "מחברים את שני החלקים בפסיק, לא בנקודה: When we got to the beach, it started to rain." }, "error_type": "punctuation" }
+      ],
+      "explanation": { "en": "When + first event, + second event: When we got to the beach, it started to rain.", "he": "When + האירוע הראשון, + האירוע השני: When we got to the beach, it started to rain." }
+    },
+    {
+      "id": "e13", "type": "transform", "skill": "vocabulary", "topic": "connectors-sequence",
+      "prompt": { "en": "Translate the end of the story into English.", "he": "תרגמו לאנגלית את סוף הסיפור." },
+      "source": "בסוף הגענו הביתה בחצות.",
+      "answers": [
+        "In the end, we got home at midnight.",
+        "In the end we got home at midnight.",
+        "In the end, we arrived home at midnight.",
+        "In the end we arrived home at midnight.",
+        "In the end, we came home at midnight.",
+        "In the end we came home at midnight.",
+        "We got home at midnight in the end.",
+        "Finally, we got home at midnight.",
+        "Finally we got home at midnight.",
+        "Finally, we arrived home at midnight.",
+        "Finally we arrived home at midnight.",
+        "Finally, we came home at midnight.",
+        "Finally we came home at midnight.",
+        "We finally got home at midnight.",
+        "We finally arrived home at midnight.",
+        "We finally came home at midnight.",
+        "Eventually, we got home at midnight.",
+        "Eventually we got home at midnight.",
+        "We eventually got home at midnight."
+      ],
+      "wrong_feedback": [
+        { "match": "At the end, we got home at midnight.", "feedback": { "en": "Hebrew uses one word for both, but English splits them: in the end = finally, after everything; at the end of + noun = the last part of something (at the end of the film). Here: In the end, we got home...", "he": "בעברית 'בסוף' משמש לשני המקרים, ובאנגלית יש שני ביטויים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו (at the end of the film). כאן: In the end, we got home..." }, "error_type": "word-choice" },
+        { "match": "At the end we got home at midnight.", "feedback": { "en": "Hebrew uses one word for both, but English splits them: in the end = finally, after everything; at the end of + noun = the last part of something. Here: In the end, we got home...", "he": "בעברית 'בסוף' משמש לשני המקרים, ובאנגלית יש שני ביטויים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו. כאן: In the end, we got home..." }, "error_type": "word-choice" },
+        { "match": "In the end, we got to home at midnight.", "feedback": { "en": "No to before home: get home, go home, arrive home.", "he": "לפני home לא באה to: ‏get home, go home, arrive home." }, "error_type": "preposition" },
+        { "match": "In the end, we arrived to home at midnight.", "feedback": { "en": "No preposition before home: arrive home.", "he": "לפני home אין מילת יחס: ‏arrive home." }, "error_type": "preposition" },
+        { "match": "In the end, we got home in midnight.", "feedback": { "en": "Use at with clock times: at midnight, at six, at night.", "he": "עם שעות משתמשים ב-at: ‏at midnight, at six, at night." }, "error_type": "preposition" },
+        { "match": "In the end, we get home at midnight.", "feedback": { "en": "The story is in the past: we got home.", "he": "הסיפור בעבר: we got home." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "In English, the end of a story and the end of a film use different phrases.", "he": "באנגלית 'בסוף הסיפור' ו'בסוף הסרט' הם ביטויים שונים." },
+      "explanation": { "en": "Hebrew uses one word, but English has two phrases: in the end (= finally, how it all finished) and at the end of + noun (at the end of the day). Also: get home, with no to.", "he": "בעברית יש מילה אחת, ובאנגלית שני ביטויים: in the end (= לבסוף, איך הכול נגמר) ו-at the end of + שם עצם (at the end of the day). ושימו לב: get home, בלי to." }
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "connectors-sequence",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "When we got home, we were tired but happy.",
+      "answers": ["When we got home, we were tired but happy."],
+      "explanation": { "en": "A classic story ending: what happened, then how you felt.", "he": "סיום קלאסי לסיפור: מה קרה, ואז מה הרגשתם." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "connectors-sequence",
+      "prompt": { "en": "Tell the end of a story. Say it out loud.", "he": "ספרו את סוף הסיפור. אמרו את זה בקול." },
+      "target": "We walked for hours, and in the end we found the hotel.",
+      "focus": { "en": "walked is one syllable, /wɔːkt/: it ends in a /t/ sound, with no extra 'ed'. Round your lips for the w.", "he": "walked היא הברה אחת, /wɔːkt/: היא מסתיימת בצליל /t/, בלי 'אֶד' נוסף. עגלו את השפתיים ל-w." },
+      "explanation": { "en": "A past verb + a sequence word (in the end) makes your story easy to follow.", "he": "פועל בעבר + מילת רצף (in the end) הופכים את הסיפור לקל למעקב." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "paragraph-basics",
+      "prompt": { "en": "Final task: write your story.", "he": "משימת סיום: כתבו את הסיפור שלכם." },
+      "task": { "en": "Write a structured description of a personal experience (100-130 words) with a beginning, middle and end. Start with a topic sentence, tell the events in order with sequence words (first, then, after that, when, in the end), keep the past simple, and finish with how you felt. Ideas: a trip, a first day at work or school, a concert, an embarrassing moment.", "he": "כתבו תיאור מובנה של חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף. פתחו במשפט נושא, ספרו את האירועים לפי הסדר בעזרת מילות רצף (first, then, after that, when, in the end), הקפידו על עבר פשוט, וסיימו במה שהרגשתם. רעיונות: טיול, יום ראשון בעבודה או בבית ספר, הופעה, פדיחה." },
+      "min_words": 100,
+      "max_words": 130,
+      "model_answer": "Last summer I had my first job interview, and it started badly. The interview was at a café in Tel Aviv at ten o'clock. First, I missed my bus, so I ran to the train station. Then the train stopped for twenty minutes between stations. When I finally arrived, it was ten past ten, and I was hot and nervous. After that, things got worse: I dropped my phone and spilled coffee on my shirt! Luckily, the manager, Dana, just laughed. She asked me about my studies and my hobbies, and we talked for half an hour. In the end, I got the job. I worked there all summer, and now that terrible morning is one of my favourite memories.",
+      "checklist": [
+        { "en": "My first sentence is a topic sentence: it says what the story is about.", "he": "המשפט הראשון שלי הוא משפט נושא: הוא אומר על מה הסיפור." },
+        { "en": "The events are in order, with sequence words (First, Then, After that, When..., In the end).", "he": "האירועים מסודרים לפי הסדר, עם מילות רצף (First, Then, After that, When..., In the end)." },
+        { "en": "The whole story is in the past simple, with correct irregular forms (went, got, ran).", "he": "כל הסיפור בעבר פשוט, עם צורות נכונות של פעלים חריגים (went, got, ran)." },
+        { "en": "There is a clear beginning, middle and end, and I say how I felt.", "he": "יש התחלה, אמצע וסוף ברורים, וכתבתי מה הרגשתי." },
+        { "en": "Capital letters for I, names, places, days and months; a comma after First, After that and In the end.", "he": "אותיות גדולות ל-I, לשמות, למקומות, לימים ולחודשים; פסיק אחרי First, ‏After that ו-In the end." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Beginning (topic sentence + when and where) → middle (events in order) → end (result + feelings).", "he": "התחלה (משפט נושא + מתי ואיפה) ← אמצע (אירועים לפי הסדר) ← סוף (תוצאה + רגשות)." },
+      { "en": "Sequence words: First, · Then · After that, · Next, · Finally, / In the end,", "he": "מילות רצף: First, · Then · After that, · Next, · Finally, / In the end," },
+      { "en": "When joins two events: When we arrived, the shop was closed.", "he": "when מחבר שני אירועים: When we arrived, the shop was closed." },
+      { "en": "Keep the story in the past simple, and start a sentence with After that (not *After).", "he": "כתבו את הסיפור בעבר פשוט, ופתחו משפט ב-After that ולא ב-After לבד." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

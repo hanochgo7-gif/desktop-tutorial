@@ -1,0 +1,1124 @@
+{
+  "id": "c1-01",
+  "level": "C1",
+  "title_en": "Academic vocabulary and nominalisation",
+  "title_he": "אוצר מילים אקדמי ונומינליזציה",
+  "topics": [
+    "nominalisation"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can move between the members of an academic word family (analyse, analysis, analyst, analytical) and choose the form each slot in a sentence needs."
+    },
+    {
+      "en": "I can turn a clause into a noun phrase (prices rose sharply → a sharp rise in prices) with the right preposition or to-infinitive, so that a whole idea can be the subject of a sentence."
+    },
+    {
+      "en": "I can use nominalisation to link sentences (This decision ..., Such criticism ...) and to write concisely in a formal register."
+    },
+    {
+      "en": "I can spot over-nominalisation (stacked abstract nouns, empty verbs, hidden actors) and rewrite it with clear actors and strong verbs."
+    }
+  ],
+  "warmup": {
+    "en": "Compare: 'Because the council suddenly decided to close the library, many residents were angry.' and 'The council's sudden decision to close the library caused widespread anger.' Which one sounds like a news report or an essay? What happened to the words decided, suddenly and angry?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Compare two versions of the same idea. Spoken: 'Scientists analysed the water and found it was polluted because factories had dumped waste in the river.' Written report: 'Analysis of the water revealed pollution from industrial waste.' The report turns actions and qualities into nouns (analysed → analysis, polluted → pollution): this is nominalisation. It packs a clause into a noun phrase, lets an abstract idea be the subject, and gives the next sentence something to point back to (This pollution ...)."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Verb",
+        "Noun",
+        "Adjective",
+        "Adverb"
+      ],
+      "rows": [
+        [
+          "analyse",
+          "analysis (pl. analyses); analyst (person)",
+          "analytical",
+          "analytically"
+        ],
+        [
+          "interpret",
+          "interpretation",
+          "interpretative / interpretive",
+          "-"
+        ],
+        [
+          "emphasise",
+          "emphasis (pl. emphases)",
+          "emphatic",
+          "emphatically"
+        ],
+        [
+          "hypothesise",
+          "hypothesis (pl. hypotheses)",
+          "hypothetical",
+          "hypothetically"
+        ],
+        [
+          "justify",
+          "justification",
+          "justifiable / justified",
+          "justifiably"
+        ],
+        [
+          "signify",
+          "significance",
+          "significant",
+          "significantly"
+        ],
+        [
+          "decide",
+          "decision",
+          "decisive",
+          "decisively"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "To turn a clause into a noun phrase: the verb becomes a noun (decide → decision, fail → failure, rise → rise); the subject becomes a possessive or an of-phrase (the council's decision / the decision of the council); an adverb becomes an adjective (decided suddenly → a sudden decision); and what followed the verb is linked with a preposition or a to-infinitive (decided to close → the decision to close; prices rose → a rise in prices). The whole idea can now be the subject: The council's sudden decision to close the library angered residents."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Clause",
+        "Noun phrase",
+        "Pattern to learn"
+      ],
+      "rows": [
+        [
+          "Prices rose sharply.",
+          "a sharp rise in prices",
+          "rise / increase / fall / decline in + what changes"
+        ],
+        [
+          "The council failed to act.",
+          "the council's failure to act",
+          "failure / decision / refusal / ability to + verb"
+        ],
+        [
+          "Students rely heavily on phones.",
+          "students' heavy reliance on phones",
+          "reliance / emphasis / impact / effect on"
+        ],
+        [
+          "People are not aware of the risks.",
+          "a lack of awareness of the risks",
+          "awareness / lack / analysis of"
+        ],
+        [
+          "The company responded quickly to complaints.",
+          "the company's rapid response to complaints",
+          "response / approach / solution to + noun"
+        ]
+      ]
+    },
+    {
+      "type": "warning",
+      "en": "Check the slot. After a/the, an adjective or a preposition you need a noun (a careful analysis of, a strong emphasis on); after a subject or a modal you need a verb (we analysed, the report emphasises). The verb emphasise takes a direct object (emphasise the need), while the noun takes on (place emphasis on the need). Learn the irregular plurals: analyses, hypotheses, criteria, phenomena."
+    },
+    {
+      "type": "warning",
+      "en": "Do not nominalise everything. Chains of abstract nouns joined by of, plus an empty verb (take place, be carried out, occur), hide who did what: 'The implementation of a review of the timetable was carried out by the school.' → 'The school reviewed the timetable.' Keep a noun phrase when it makes a useful subject or points back to an idea; otherwise, bring back the actor and the verb."
+    },
+    {
+      "type": "tip",
+      "en": "Nominalisation is also a linking tool: end one sentence with an action and start the next with its noun. 'Last year the school banned phones in lessons. This ban has divided parents.' 'The city cut its night bus services. The cuts hit shift workers hardest.'"
+    }
+  ],
+  "examples": [
+    {
+      "en": "Analysis of the interviews revealed widespread frustration with the booking system.",
+      "note": "analyse → analysis; frustrated → frustration"
+    },
+    {
+      "en": "The committee's decision to postpone the vote surprised many members.",
+      "note": "decided to postpone → the decision to postpone"
+    },
+    {
+      "en": "There has been a sharp rise in rents across the city over the past decade.",
+      "note": "a rise in + what changes"
+    },
+    {
+      "en": "Heavy reliance on a single supplier left the company vulnerable when prices went up.",
+      "note": "rely on → reliance on: the preposition stays"
+    },
+    {
+      "en": "The report places strong emphasis on early intervention.",
+      "note": "place emphasis on; compare: the report emphasises early intervention"
+    },
+    {
+      "en": "Several towns have closed their central streets to cars. This change has reduced noise but hurt some small shops.",
+      "note": "this + noun points back to the whole previous sentence"
+    },
+    {
+      "en": "Failure to submit the form by 1 May will result in a late fee.",
+      "note": "fail to → failure to: typical of formal notices"
+    },
+    {
+      "en": "Too nominal: The making of improvements to the website was undertaken by the team. Better: The team improved the website.",
+      "note": "an empty noun + verb becomes one strong verb, and the actor is back at the front"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "analysis",
+      "pos": "noun",
+      "he": "ניתוח",
+      "def": "a careful study of something in order to understand or explain it (plural: analyses)",
+      "example": "A detailed analysis of the survey data took three weeks.",
+      "ipa": "/əˈnæləsɪs/",
+      "collocations": [
+        "carry out an analysis",
+        "a detailed analysis",
+        "analysis of"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "analytical",
+      "pos": "adjective",
+      "he": "אנליטי; ניתוחי",
+      "def": "using careful, logical thinking to examine something",
+      "example": "The job requires strong analytical skills.",
+      "ipa": "/ˌænəˈlɪtɪkl/",
+      "collocations": [
+        "analytical skills",
+        "an analytical approach",
+        "analytical thinking"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "significant",
+      "pos": "adjective",
+      "he": "משמעותי",
+      "def": "large or important enough to have an effect or to be noticed",
+      "example": "The new law had a significant impact on small businesses.",
+      "ipa": "/sɪɡˈnɪfɪkənt/",
+      "collocations": [
+        "a significant increase",
+        "play a significant role",
+        "statistically significant"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "interpretation",
+      "pos": "noun",
+      "he": "פרשנות",
+      "def": "a particular explanation of what something means",
+      "example": "The data are open to more than one interpretation.",
+      "ipa": "/ɪnˌtɜːprəˈteɪʃn/",
+      "collocations": [
+        "open to interpretation",
+        "a different interpretation of",
+        "offer an interpretation"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "emphasis",
+      "pos": "noun",
+      "he": "דגש",
+      "def": "special importance given to something (plural: emphases)",
+      "example": "The course places strong emphasis on practical skills.",
+      "ipa": "/ˈemfəsɪs/",
+      "collocations": [
+        "place emphasis on",
+        "a strong emphasis on",
+        "shift the emphasis"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "reliance",
+      "pos": "noun",
+      "he": "הסתמכות; תלות",
+      "def": "the state of depending on someone or something",
+      "example": "The town's heavy reliance on tourism made it vulnerable.",
+      "ipa": "/rɪˈlaɪəns/",
+      "collocations": [
+        "reliance on",
+        "heavy reliance",
+        "reduce reliance on"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "implementation",
+      "pos": "noun",
+      "he": "יישום",
+      "def": "the process of putting a plan or decision into action",
+      "example": "The implementation of the new rules was delayed until September.",
+      "ipa": "/ˌɪmplɪmenˈteɪʃn/",
+      "collocations": [
+        "the implementation of a policy",
+        "full implementation",
+        "delay the implementation"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "hypothesis",
+      "pos": "noun",
+      "he": "השערה",
+      "def": "an idea suggested as a possible explanation that still needs to be tested (plural: hypotheses)",
+      "example": "The results support the hypothesis that sleep affects memory.",
+      "ipa": "/haɪˈpɒθəsɪs/",
+      "collocations": [
+        "test a hypothesis",
+        "support a hypothesis",
+        "the hypothesis that"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "undermine",
+      "pos": "verb",
+      "he": "לערער; לפגוע ב...",
+      "def": "to make something gradually weaker or less effective",
+      "example": "Constant changes to the rules undermine public trust.",
+      "ipa": "/ˌʌndəˈmaɪn/",
+      "collocations": [
+        "undermine confidence",
+        "undermine efforts to",
+        "seriously undermine"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "decline",
+      "pos": "noun",
+      "he": "ירידה; דעיכה",
+      "def": "a gradual fall in the amount, quality or importance of something",
+      "example": "There has been a steady decline in the number of students who read for pleasure.",
+      "ipa": "/dɪˈklaɪn/",
+      "collocations": [
+        "a sharp decline in",
+        "a steady decline",
+        "in decline"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "lack of",
+      "pos": "noun phrase",
+      "he": "מחסור ב...; היעדר",
+      "def": "the state of not having something, or not having enough of it",
+      "example": "The project failed because of a lack of funding.",
+      "ipa": "/ˈlæk əv/",
+      "collocations": [
+        "a lack of evidence",
+        "a complete lack of",
+        "due to a lack of"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "give rise to",
+      "pos": "phrase",
+      "he": "לגרום ל...; להוליד",
+      "def": "to cause something to happen or exist (formal)",
+      "example": "The new policy has given rise to a lively debate.",
+      "ipa": "/ˌɡɪv ˈraɪz tə/",
+      "collocations": [
+        "give rise to concern",
+        "give rise to questions",
+        "give rise to problems"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "conduct",
+      "pos": "verb",
+      "he": "לערוך; לבצע (מחקר, סקר)",
+      "def": "to organise and carry out an activity such as research or a survey",
+      "example": "The team conducted interviews with local shop owners.",
+      "ipa": "/kənˈdʌkt/",
+      "collocations": [
+        "conduct research",
+        "conduct a survey",
+        "conduct an investigation"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "vocabulary",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Sort the words by word class. Use the endings to help you."
+      },
+      "categories": [
+        "Verb",
+        "Noun",
+        "Adjective"
+      ],
+      "items": [
+        {
+          "text": "analyse",
+          "category": "Verb"
+        },
+        {
+          "text": "analytical",
+          "category": "Adjective"
+        },
+        {
+          "text": "emphasis",
+          "category": "Noun"
+        },
+        {
+          "text": "emphasise",
+          "category": "Verb"
+        },
+        {
+          "text": "hypothetical",
+          "category": "Adjective"
+        },
+        {
+          "text": "hypotheses",
+          "category": "Noun"
+        },
+        {
+          "text": "justify",
+          "category": "Verb"
+        },
+        {
+          "text": "justification",
+          "category": "Noun"
+        },
+        {
+          "text": "significance",
+          "category": "Noun"
+        },
+        {
+          "text": "significant",
+          "category": "Adjective"
+        },
+        {
+          "text": "interpret",
+          "category": "Verb"
+        },
+        {
+          "text": "interpretative",
+          "category": "Adjective"
+        }
+      ],
+      "explanation": {
+        "en": "Typical noun endings: -sis (analysis, emphasis, hypothesis), -tion (justification), -ance/-ence (significance). Verbs often end in -ise/-ize or -ify. Adjectives often end in -ical, -ant/-ent or -ive. Hypotheses is the plural of hypothesis."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Choose the form that fits the gap."
+      },
+      "question": "A careful ___ of the survey data showed that most participants valued flexibility more than salary.",
+      "options": [
+        "analyse",
+        "analytical",
+        "analysis",
+        "analysed"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Analyse is a verb. After 'A careful' (article + adjective) the sentence needs a noun."
+        },
+        "1": {
+          "en": "Analytical is an adjective (an analytical approach). 'A careful analytical' has no noun for the adjectives to describe."
+        },
+        "3": {
+          "en": "Analysed is a verb form. After an article and an adjective you need a noun."
+        }
+      },
+      "option_errors": {
+        "0": "word-choice",
+        "1": "word-choice",
+        "3": "word-choice"
+      },
+      "explanation": {
+        "en": "Article + adjective + ___ + of is a noun slot: a careful analysis of the data. The noun is also the subject of the verb showed."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Original: 'The council responded slowly to the floods, and many residents lost confidence in it.' Which noun phrase correctly completes the formal version?"
+      },
+      "question": "___ led many residents to lose confidence in it.",
+      "options": [
+        "The council's slow response to the floods",
+        "The council's slowly response to the floods",
+        "The council's slow response for the floods",
+        "The council's slow responding at the floods"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Response is now a noun, so the adverb slowly must become the adjective slow: a slow response."
+        },
+        "2": {
+          "en": "Respond to → a response to. The preposition stays the same when the verb becomes a noun."
+        },
+        "3": {
+          "en": "Use the noun response rather than the -ing form, and keep the preposition to: a response to the floods. 'At the floods' is not possible here."
+        }
+      },
+      "option_errors": {
+        "1": "word-choice",
+        "2": "preposition",
+        "3": "preposition"
+      },
+      "explanation": {
+        "en": "Verb → noun (responded → response), adverb → adjective (slowly → slow), subject → possessive (the council → the council's), and the preposition stays (respond to → response to)."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Match each noun phrase with the words that follow it. Each noun takes its own preposition or a to-infinitive."
+      },
+      "pairs": [
+        [
+          "a significant impact",
+          "on air quality"
+        ],
+        [
+          "a rapid response",
+          "to the complaints"
+        ],
+        [
+          "a sharp increase",
+          "in rents"
+        ],
+        [
+          "the council's failure",
+          "to act sooner"
+        ],
+        [
+          "a growing demand",
+          "for affordable housing"
+        ],
+        [
+          "a lack",
+          "of reliable data"
+        ]
+      ],
+      "explanation": {
+        "en": "impact on · response to + noun · increase in + what changes · failure to + verb · demand for · lack of. Learn the noun together with its pattern, because the preposition often cannot be guessed from meaning."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Listen to part of a lecture about a reading survey and answer the question."
+      },
+      "audio_text": "So what did the survey actually show? The most striking finding was a steady decline in the number of students who read for pleasure. Now, the researchers are careful here: they don't blame phones directly. Their interpretation is that a lack of quiet time at home matters more than screen use itself.",
+      "question": "How do the researchers explain the decline in reading for pleasure?",
+      "options": [
+        "Students spend too much time on their phones.",
+        "Students have less quiet time at home.",
+        "Students have stopped reading altogether.",
+        "The survey asked students the wrong questions."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "The lecturer says the researchers 'don't blame phones directly'; screen use matters less than quiet time."
+        },
+        "2": {
+          "en": "A 'steady decline in the number of students' means fewer students, not that nobody reads any more."
+        },
+        "3": {
+          "en": "The lecturer does not criticise the survey at all."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'Their interpretation is that a lack of quiet time at home matters more than screen use itself.' Notice how the nouns decline, interpretation and lack carry the main ideas of the talk."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "read",
+      "skill": "reading",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Read the opinion column from a local newspaper and answer the questions. Notice where the writer's own noun phrases help and where the council's do not."
+      },
+      "title": "Who did what? In defence of the humble verb",
+      "passage": "Last month our town council sent every household a letter about bin collections. Its key sentence read: 'Following the completion of a review of current collection arrangements, the implementation of a revised schedule will take place in the spring.' I read it three times before I understood that the council had looked at how it collects our rubbish and was going to change the timetable.\n\nThis style has a name: nominalisation, the habit of turning actions into nouns. 'Review' replaces 'we reviewed'; 'implementation' replaces 'we will introduce'. Each noun on its own is perfectly respectable. The trouble starts when they are stacked on top of each other, joined by a chain of 'of' phrases and attached to a verb that says almost nothing, such as 'take place' or 'be carried out'. The result is a sentence full of processes but empty of people. Who reviewed the arrangements? Who will decide the new schedule? The grammar no longer has to say.\n\nTo be fair, nominalisation is not a vice in itself. Academic writing depends on it, and for good reasons. A noun phrase can sum up a whole paragraph in two words, so that the next sentence can build on it: 'This decline', 'Such criticism', 'The council's refusal'. It allows writers to compare abstract ideas and to keep the focus on an issue rather than on the people involved, which is sometimes exactly what a report needs. A sentence such as 'The rise in rents has driven young families out of the centre' is clear precisely because 'the rise in rents' is a familiar idea that readers do not need to have unpacked.\n\nThe real problem, then, is not the noun but the missing actor and the missing verb. Official writing often hides behind abstraction, partly because it sounds careful and partly because it lets writers avoid responsibility. 'Mistakes were made' and 'a delay in the processing of applications has occurred' both leave the reader wondering whose mistake, and whose delay, it was.\n\nMy test is simple. After writing a sentence full of nouns, ask two questions: who is doing something, and what exactly are they doing? If the answers are missing, put them back. The council's letter could have read: 'We have reviewed how we collect your bins, and we will introduce a new timetable in the spring.' It is shorter and clearer, and, not least, it tells residents exactly who to call when the bins are not emptied.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the writer's main argument?",
+          "options": [
+            "Nominalisation should be banned from all official writing.",
+            "Nominalisation becomes a problem when it removes the actor and the action; used with care, it is useful.",
+            "Academic writing is even harder to read than letters from the council.",
+            "The council's new bin collection schedule has been badly planned."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The writer says nominalisation 'is not a vice in itself' and that academic writing depends on it."
+            },
+            "2": {
+              "en": "The writer defends academic uses of nominalisation; there is no comparison of difficulty."
+            },
+            "3": {
+              "en": "The complaint is about the language of the letter, not about the new schedule itself."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Paragraph 3 concedes the value of nominalisation; paragraph 4 names 'the real problem': 'not the noun but the missing actor and the missing verb'."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "In paragraph 3, why does the writer quote 'This decline', 'Such criticism' and 'The council's refusal'?",
+          "options": [
+            "As examples of over-nominalised, unclear writing",
+            "To criticise the council's refusal to change its letter",
+            "To show how a short noun phrase can sum up an earlier idea and link sentences",
+            "As examples of informal phrases that reports should avoid"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "They appear in the paragraph that defends nominalisation, as examples of good use."
+            },
+            "1": {
+              "en": "'The council's refusal' is a model phrase, not a reference to a real refusal in the story."
+            },
+            "3": {
+              "en": "These phrases are formal and typical of reports, not informal."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'A noun phrase can sum up a whole paragraph in two words, so that the next sentence can build on it.' This/such + noun is nominalisation used for cohesion."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer suggests that official writers sometimes hide the actor on purpose.",
+          "answer": true,
+          "explanation": {
+            "en": "Official writing hides behind abstraction partly because 'it lets writers avoid responsibility', as in 'Mistakes were made'."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "According to the writer, 'the rise in rents' would be clearer if it were rewritten with a verb.",
+          "answer": false,
+          "explanation": {
+            "en": "The writer says the sentence 'is clear precisely because' the rise in rents is a familiar idea that does not need unpacking."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which rewrite of 'a delay in the processing of applications has occurred' would the writer prefer?",
+          "options": [
+            "There has been a delay in the processing of applications.",
+            "Application processing delays have occurred.",
+            "We have processed applications more slowly than we planned.",
+            "The processing of applications has been subject to delay."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "Still no actor: who delayed the applications? The writer wants to know who did what."
+            },
+            "1": {
+              "en": "This is even more compressed: four nouns in a row and still no actor."
+            },
+            "3": {
+              "en": "'Has been subject to delay' is another empty verb phrase, and the actor is still hidden."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The writer's test: who is doing something, and what exactly are they doing? Only this option names the actor (We) and uses a clear verb (have processed)."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The writer says that verbs such as 'take place' and 'be carried out' say almost ___.",
+          "answers": [
+            [
+              "nothing"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "everything",
+              "feedback": {
+                "en": "It is the opposite: the writer calls them verbs 'that say almost nothing'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "Paragraph 2: '... attached to a verb that says almost nothing, such as take place or be carried out.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Complete the text with the correct form of the word in brackets."
+      },
+      "text": "The researchers ___ (analyse) the results carefully, but their ___ (interpret) of the data was later challenged. Critics argued that the study placed too much ___ (emphasise) on a small sample and that its conclusions were not fully ___ (justify).",
+      "answers": [
+        [
+          "analysed",
+          "analyzed",
+          "had analysed",
+          "had analyzed"
+        ],
+        [
+          "interpretation"
+        ],
+        [
+          "emphasis"
+        ],
+        [
+          "justified",
+          "justifiable"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "analysis",
+          "feedback": {
+            "en": "After the subject 'The researchers' the sentence needs a past verb: analysed."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "interpret",
+          "feedback": {
+            "en": "After 'their' you need a noun: their interpretation of the data."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "emphasise",
+          "feedback": {
+            "en": "After 'too much' you need a noun: too much emphasis on. (The verb emphasise never takes on.)"
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "emphasize",
+          "feedback": {
+            "en": "After 'too much' you need a noun: too much emphasis on. (The verb emphasise never takes on.)"
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "justify",
+          "feedback": {
+            "en": "After 'were not fully' you need an adjective or past participle: justified."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "justification",
+          "feedback": {
+            "en": "A noun does not fit after 'were not fully'. Use the participle adjective: not fully justified."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "Look at the word before each gap: a subject needs a verb; their or too much needs a noun; were not fully needs an adjective."
+      },
+      "explanation": {
+        "en": "The researchers analysed (verb) · their interpretation (noun) · too much emphasis on (noun) · not fully justified (participle adjective)."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Rewrite as one sentence that begins 'The company's sudden ...' and ends '... shocked the local community.'"
+      },
+      "source": "The company suddenly decided to close the factory, and this shocked the local community.",
+      "answers": [
+        "The company's sudden decision to close the factory shocked the local community.",
+        "The company's sudden decision to shut the factory shocked the local community.",
+        "The company's sudden decision to close down the factory shocked the local community.",
+        "The company's sudden decision to shut down the factory shocked the local community.",
+        "The company's sudden decision to close the factory down shocked the local community.",
+        "The company's sudden decision to shut the factory down shocked the local community.",
+        "The company's sudden closure of the factory shocked the local community."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The company's sudden decision of closing the factory shocked the local community.",
+          "feedback": {
+            "en": "Decision takes a to-infinitive: the decision to close the factory."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "The company's suddenly decision to close the factory shocked the local community.",
+          "feedback": {
+            "en": "Before a noun, use the adjective sudden, not the adverb suddenly."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "The company's sudden decision to close the factory, and this shocked the local community.",
+          "feedback": {
+            "en": "Now the noun phrase is the subject, so you no longer need 'and this'. The noun phrase + shocked is the whole sentence."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "decided → decision; suddenly → sudden; decided to close → the decision to close."
+      },
+      "explanation": {
+        "en": "The clause 'The company suddenly decided to close the factory' becomes the subject noun phrase 'The company's sudden decision to close the factory', so one verb (shocked) can carry the sentence. 'The company's sudden closure of the factory' is also correct."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Rewrite the sentence beginning 'The sharp ...' and using 'led ... to change'."
+      },
+      "source": "Because prices rose sharply, many families changed their shopping habits.",
+      "answers": [
+        "The sharp rise in prices led many families to change their shopping habits.",
+        "The sharp increase in prices led many families to change their shopping habits.",
+        "The sharp price rise led many families to change their shopping habits.",
+        "The sharp price increase led many families to change their shopping habits.",
+        "The sharp rise in the price of goods led many families to change their shopping habits."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The sharp rise of prices led many families to change their shopping habits.",
+          "feedback": {
+            "en": "We talk about a rise in the thing that changes: a rise in prices."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "The sharp rise in prices led many families change their shopping habits.",
+          "feedback": {
+            "en": "The pattern is lead someone to do something: led many families to change."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "The sharp rise in prices led many families to changing their shopping habits.",
+          "feedback": {
+            "en": "Lead someone + to-infinitive: led many families to change (not to changing)."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "explanation": {
+        "en": "Prices rose sharply → the sharp rise in prices (verb → noun, adverb → adjective, subject → in-phrase). The cause is now the subject, and led ... to change states the result."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Find and fix the mistake."
+      },
+      "sentence": "The analyse of the results took much longer than expected.",
+      "answers": [
+        "The analysis of the results took much longer than expected.",
+        "Analysis of the results took much longer than expected.",
+        "Analysing the results took much longer than expected.",
+        "Analyzing the results took much longer than expected."
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "Which word class do you need after 'The' and before 'of'?"
+      },
+      "explanation": {
+        "en": "Analyse is the verb; the noun is analysis. The + noun + of: the analysis of the results."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Find and fix the mistake."
+      },
+      "sentence": "The final report emphasises on the need for better teacher training.",
+      "answers": [
+        "The final report emphasises the need for better teacher training.",
+        "The final report emphasizes the need for better teacher training.",
+        "The final report places emphasis on the need for better teacher training.",
+        "The final report places an emphasis on the need for better teacher training.",
+        "The final report places great emphasis on the need for better teacher training.",
+        "The final report places strong emphasis on the need for better teacher training.",
+        "The final report puts emphasis on the need for better teacher training.",
+        "The final report puts an emphasis on the need for better teacher training.",
+        "The final report puts great emphasis on the need for better teacher training.",
+        "The final report puts strong emphasis on the need for better teacher training.",
+        "The final report lays emphasis on the need for better teacher training.",
+        "The final report lays an emphasis on the need for better teacher training.",
+        "The final report lays great emphasis on the need for better teacher training.",
+        "The final report lays strong emphasis on the need for better teacher training."
+      ],
+      "error_type": "preposition",
+      "hint": {
+        "en": "The verb and the noun have different patterns."
+      },
+      "explanation": {
+        "en": "The verb takes a direct object: emphasise the need. Only the noun takes on: place (an) emphasis on the need."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Which sentence is the most effective formal version of this idea? 'Teachers changed how they marked essays, and after that students complained less.'"
+      },
+      "question": "Choose the best version.",
+      "options": [
+        "The implementation of a change in the marking of essays by teachers resulted in a reduction in the number of complaints of students.",
+        "After teachers changed the way they marked essays, there were way fewer complaints from students.",
+        "The change in how teachers marked essays was followed by a fall in student complaints.",
+        "The changing of marking essays by teachers caused less complainings of students."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Over-nominalised: six abstract nouns, a chain of of-phrases, and 'resulted in' claims a cause that the original never stated."
+        },
+        "1": {
+          "en": "Clear, but 'way fewer' is informal and does not suit a formal report."
+        },
+        "3": {
+          "en": "'The changing of marking essays' is not a natural noun phrase, and complain → complaint (complainings does not exist)."
+        }
+      },
+      "option_errors": {
+        "0": "register",
+        "1": "register",
+        "3": "verb-form"
+      },
+      "hint": {
+        "en": "Check three things in each option: the register, how many abstract nouns are stacked together, and whether it claims more than the original says."
+      },
+      "explanation": {
+        "en": "This version nominalises two ideas (the change, a fall in complaints) without stacking nouns, keeps one clear verb, and, like the original, says only that one thing followed the other, not that it caused it."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "This sentence is over-nominalised. Rewrite it with verbs and clear actors. Begin with 'Because residents' and keep the idea of the council's decision about the library."
+      },
+      "source": "The council's reconsideration of its decision regarding the closure of the library was a consequence of the residents' submission of a petition.",
+      "answers": [
+        "Because residents submitted a petition, the council reconsidered its decision to close the library",
+        "Because residents submitted a petition, the council reconsidered the decision to close the library",
+        "Because residents submitted a petition, the council reconsidered closing the library",
+        "Because residents submitted a petition, the council reconsidered whether to close the library",
+        "Because residents submitted a petition, the council reconsidered its plan to close the library",
+        "Because residents submitted a petition the council reconsidered its decision to close the library",
+        "Because residents submitted a petition the council reconsidered the decision to close the library",
+        "Because residents submitted a petition the council reconsidered closing the library",
+        "Because residents submitted a petition the council reconsidered whether to close the library",
+        "Because residents submitted a petition the council reconsidered its plan to close the library",
+        "Because residents had submitted a petition, the council reconsidered its decision to close the library",
+        "Because residents had submitted a petition, the council reconsidered the decision to close the library",
+        "Because residents had submitted a petition, the council reconsidered closing the library",
+        "Because residents had submitted a petition, the council reconsidered whether to close the library",
+        "Because residents had submitted a petition, the council reconsidered its plan to close the library",
+        "Because residents had submitted a petition the council reconsidered its decision to close the library",
+        "Because residents had submitted a petition the council reconsidered the decision to close the library",
+        "Because residents had submitted a petition the council reconsidered closing the library",
+        "Because residents had submitted a petition the council reconsidered whether to close the library",
+        "Because residents had submitted a petition the council reconsidered its plan to close the library",
+        "Because residents presented a petition, the council reconsidered its decision to close the library",
+        "Because residents presented a petition, the council reconsidered the decision to close the library",
+        "Because residents presented a petition, the council reconsidered closing the library",
+        "Because residents presented a petition, the council reconsidered whether to close the library",
+        "Because residents presented a petition, the council reconsidered its plan to close the library",
+        "Because residents presented a petition the council reconsidered its decision to close the library",
+        "Because residents presented a petition the council reconsidered the decision to close the library",
+        "Because residents presented a petition the council reconsidered closing the library",
+        "Because residents presented a petition the council reconsidered whether to close the library",
+        "Because residents presented a petition the council reconsidered its plan to close the library",
+        "Because residents had presented a petition, the council reconsidered its decision to close the library",
+        "Because residents had presented a petition, the council reconsidered the decision to close the library",
+        "Because residents had presented a petition, the council reconsidered closing the library",
+        "Because residents had presented a petition, the council reconsidered whether to close the library",
+        "Because residents had presented a petition, the council reconsidered its plan to close the library",
+        "Because residents had presented a petition the council reconsidered its decision to close the library",
+        "Because residents had presented a petition the council reconsidered the decision to close the library",
+        "Because residents had presented a petition the council reconsidered closing the library",
+        "Because residents had presented a petition the council reconsidered whether to close the library",
+        "Because residents had presented a petition the council reconsidered its plan to close the library"
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Because residents submitted a petition, the council made a reconsideration of its decision to close the library.",
+          "feedback": {
+            "en": "'Made a reconsideration' is still an empty verb + abstract noun. Use the verb: the council reconsidered."
+          },
+          "error_type": "register"
+        },
+        {
+          "match": "Because of the residents' submission of a petition, the council reconsidered its decision to close the library.",
+          "feedback": {
+            "en": "Better, but 'the residents' submission of a petition' is still a nominalisation. Begin 'Because residents submitted ...'."
+          },
+          "error_type": "register"
+        }
+      ],
+      "hint": {
+        "en": "Find the two actors (the council, residents) and the two actions hidden in nouns (reconsideration, submission). Make each actor the subject of its own verb."
+      },
+      "explanation": {
+        "en": "Model: 'Because residents submitted a petition, the council reconsidered its decision to close the library.' Two actors, two strong verbs, and 'was a consequence of' becomes the simple connector because. Keep the noun 'decision' only if it helps."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "You are summarising a finding in a seminar. Say it out loud."
+      },
+      "target": "Our analysis suggests that the rise in rents has had a significant impact on young families.",
+      "focus": {
+        "en": "Stress moves inside word families: ANalyse but aNALysis and anaLYTical; SIGnify but sigNIFicant. In this sentence, stress aNALysis, RENTS, sigNIFicant and IMpact."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Nominalised sentences are dense, so clear stress on the key nouns helps listeners follow the idea."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "nominalisation",
+      "prompt": {
+        "en": "Write a short argumentative essay that uses nominalisation to write concisely and to link ideas."
+      },
+      "task": {
+        "en": "Your university is considering recording every lecture and putting the recordings online. Write a short argumentative essay (250-350 words) for the student magazine. Argue whether the plan should go ahead and respond to opposing views. Use nominalisation where it helps: at least five noun phrases built from verbs or adjectives (for example the introduction of, a decline in, the decision to), and at least two sentences that begin with this/such + a summary noun. Keep every sentence clear about who does what."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Recording every lecture and publishing it online would be one of the most significant changes to university teaching in years. Despite understandable concerns about attendance, I believe the plan should go ahead, provided that recordings support live teaching rather than replace it.\n\nThe strongest argument for the plan is accessibility. Students who work part-time, care for relatives or have a disability often miss lectures for reasons they cannot control. The availability of recordings would give them access to the same content as everyone else. This change would also benefit students who study in a second language, since the ability to pause and replay a difficult explanation turns a lecture from a single performance into a resource for revision.\n\nCritics argue that recordings will lead to a decline in attendance, and that empty lecture halls will damage both learning and the relationship between students and staff. This concern deserves to be taken seriously: a lecture is not only the transfer of information but also a chance to ask questions and test ideas. However, the risk depends largely on how lectures are designed. If lecturers use class time for discussion, problem-solving and feedback, students will have good reasons to attend, and the recordings will become a supplement rather than a substitute. Such an approach would also discourage the passive note-taking that many lectures currently encourage.\n\nA further objection concerns privacy, particularly the recording of students who speak in class. This problem is real but manageable. The university could record only the lecturer's voice and slides, and staff could pause the recording during discussions.\n\nIn short, the decision to record lectures should not be seen as a threat to campus life. With careful implementation, the plan would make teaching fairer and more flexible while keeping the classroom at the centre of university learning.",
+      "checklist": [
+        {
+          "en": "Thesis: my first paragraph states a clear, arguable position on recording lectures, not just a description of the plan."
+        },
+        {
+          "en": "Support: each body paragraph makes one claim, supports it with a reason or example, and explains how it supports my position (claim, evidence, reasoning)."
+        },
+        {
+          "en": "Counterargument: I state the strongest opposing view fairly and attribute it (Critics argue ...), then answer it by refuting it, conceding and outweighing it, or qualifying my claim."
+        },
+        {
+          "en": "Nominalisation: I used at least five noun phrases built from verbs or adjectives (the availability of, a decline in, the decision to ...), each with the right preposition or to-infinitive."
+        },
+        {
+          "en": "Linking: at least twice, a sentence begins with this/such + a summary noun that clearly points back to the previous idea (This concern ..., Such an approach ...)."
+        },
+        {
+          "en": "Clarity: no sentence hides who did what when the actor matters; there are no chains of three or more abstract nouns and no empty verbs (carry out, take place) where one strong verb would do."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Nominalisation turns actions and qualities into nouns (analyse → analysis, decide → decision, aware → awareness), so a whole idea can become the subject of a sentence."
+      },
+      {
+        "en": "Learn each noun with its pattern: a rise in, reliance on, a response to, failure to + verb, a lack of."
+      },
+      {
+        "en": "Check the slot: a noun after a/the, an adjective or a preposition; a verb after a subject or a modal. Emphasise something, but place emphasis on something."
+      },
+      {
+        "en": "Use this/such + a summary noun to point back to an idea and link sentences."
+      },
+      {
+        "en": "Avoid over-nominalisation: if abstract nouns and an empty verb hide who did what, bring back the actor and a strong verb."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

@@ -651,7 +651,11 @@
         "By the time we got to the stadium, the match had started.",
         "By the time we got to the stadium the match had started.",
         "By the time we got to the stadium, the match had already started.",
-        "By the time we got to the stadium the match had already started."
+        "By the time we got to the stadium the match had already started.",
+        "By the time we reached the stadium, the match had started.",
+        "By the time we reached the stadium the match had started.",
+        "By the time we reached the stadium, the match had already started.",
+        "By the time we reached the stadium the match had already started."
       ],
       "wrong_feedback": [
         {
@@ -736,7 +740,11 @@
         "Before her trip to Manali, Priya had not seen snow before.",
         "Before her trip to Manali Priya had not seen snow before.",
         "Before her trip to Manali, Priya had not ever seen snow.",
-        "Before her trip to Manali Priya had not ever seen snow."
+        "Before her trip to Manali Priya had not ever seen snow.",
+        "Before her trip to Manali, Priya had never seen any snow.",
+        "Before her trip to Manali Priya had never seen any snow.",
+        "Before her trip to Manali, Priya had not seen any snow.",
+        "Before her trip to Manali Priya had not seen any snow."
       ],
       "wrong_feedback": [
         {
@@ -930,7 +938,9 @@
         "I went to Rome last summer and loved it.",
         "I was in Rome last summer, and I loved it.",
         "I was in Rome last summer and I loved it.",
-        "I was in Rome last summer and loved it."
+        "I was in Rome last summer and loved it.",
+        "I went to Rome last summer, and loved it.",
+        "I was in Rome last summer, and loved it."
       ],
       "error_type": "tense-choice",
       "hint": {

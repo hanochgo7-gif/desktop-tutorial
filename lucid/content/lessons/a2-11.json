@@ -1,0 +1,281 @@
+{
+  "id": "a2-11",
+  "level": "A2",
+  "title_en": "How much? How many?",
+  "title_he": "כמה?",
+  "topics": ["countable-uncountable", "quantifiers"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can tell countable and uncountable nouns apart, including information, advice, money, furniture and news.", "he": "אני יודע/ת להבחין בין שמות עצם ספירים ושאינם ספירים, כולל information, advice, money, furniture ו-news." },
+    { "en": "I can use much, many, a lot of, a few and a little correctly.", "he": "אני יודע/ת להשתמש נכון ב-much, many, a lot of, a few ו-a little." },
+    { "en": "I can ask about quantities with How much ...? and How many ...?", "he": "אני יודע/ת לשאול על כמויות בעזרת How much ...? ו-How many ...?" }
+  ],
+  "warmup": { "en": "How many hours do you sleep? How much time do you spend on your phone? Why many with hours, but much with time? Today you'll find out.", "he": "כמה שעות אתם ישנים? כמה זמן אתם מבלים בטלפון? בעברית זו אותה מילה – 'כמה'. באנגלית אומרים How many hours אבל How much time. היום נבין למה." },
+  "explanation": [
+    { "type": "p", "en": "I have three apples and some bread (not *three breads). Apple is countable: one apple, two apples. Bread is uncountable: it has no plural and no a/an. Many words work like bread: water, money, time, music, homework.", "he": "I have three apples and some bread (ולא three breads). המילה apple היא שם עצם ספיר: one apple, two apples. המילה bread אינה ספירה: אין לה רבים ואין לפניה a/an. מילים רבות מתנהגות כמו bread: water, money, time, music, homework." },
+    { "type": "table", "headers": ["Use", "Countable (friend, euro)", "Uncountable (money, time)"], "rows": [
+      ["question", "How many friends?", "How much money?"],
+      ["negative", "not many friends", "not much money"],
+      ["positive (both kinds)", "a lot of friends", "a lot of money"],
+      ["a small number / amount", "a few friends", "a little money"],
+      ["some / any (both kinds)", "some friends, any friends", "some money, any money"],
+      ["a / an", "a friend", "no a/an: some money"]
+    ] },
+    { "type": "rule", "en": "In positive sentences, use a lot of: I drink a lot of water (not *I drink much water). Much and many are most common in questions and negatives: Do you have much homework? There aren't many people here.", "he": "במשפט חיובי משתמשים ב-a lot of: I drink a lot of water (ולא I drink much water). המילים much ו-many נפוצות בעיקר בשאלות ובשלילה: Do you have much homework? There aren't many people here." },
+    { "type": "warning", "en": "These nouns are uncountable in English: information, advice, news, furniture, homework, luggage. No -s and no a/an: some information (not *informations), some advice (not *an advice). News takes is: The news is good.", "he": "שמות העצם האלה אינם ספירים באנגלית: information, advice, news, furniture, homework, luggage. אין להם s ואין לפניהם a/an: some information ולא informations, וגם some advice ולא an advice. אחרי news בא is: The news is good." },
+    { "type": "tip", "en": "To count an uncountable noun, use a word like piece, bottle or cup: a piece of advice, two pieces of furniture, a bottle of water, a cup of coffee.", "he": "כדי לספור שם עצם שאינו ספיר משתמשים במילה כמו piece, bottle או cup: a piece of advice, two pieces of furniture, a bottle of water, a cup of coffee." }
+  ],
+  "examples": [
+    { "en": "How many people are coming tonight?", "he": "כמה אנשים מגיעים הערב?", "note": "people = countable plural" },
+    { "en": "How much money do you need?", "he": "כמה כסף את/ה צריך/ה?", "note": "money = uncountable" },
+    { "en": "We've got a lot of homework this week.", "he": "יש לנו הרבה שיעורי בית השבוע.", "note": "a lot of: positive, both kinds" },
+    { "en": "I don't have much time right now.", "he": "אין לי הרבה זמן עכשיו.", "note": "much: negative + uncountable" },
+    { "en": "There aren't many shops in our street.", "he": "אין הרבה חנויות ברחוב שלנו.", "note": "many: negative + countable" },
+    { "en": "Can I ask you a few questions?", "he": "אפשר לשאול אותך כמה שאלות?", "note": "a few + countable plural" },
+    { "en": "Add a little salt.", "he": "הוסיפו קצת מלח.", "note": "a little + uncountable" },
+    { "en": "Can you give me some advice?", "he": "תוכל/י לתת לי עצה?", "note": "advice: no -s, no a/an" },
+    { "en": "The news is good!", "he": "החדשות טובות!", "note": "news + is" },
+    { "en": "We need two pieces of furniture: a desk and a chair.", "he": "אנחנו צריכים שני רהיטים: שולחן כתיבה וכיסא.", "note": "count furniture with pieces" }
+  ],
+  "vocab": [
+    { "word": "information", "pos": "noun (uncountable)", "he": "מידע", "def": "facts or details about something", "example": "Can I get some information about the course?", "ipa": "/ˌɪnfəˈmeɪʃn/", "collocations": ["some information", "a piece of information", "information about"], "level": "A2" },
+    { "word": "advice", "pos": "noun (uncountable)", "he": "עצה, עצות", "def": "an opinion about what someone should do", "example": "My brother gave me some good advice.", "ipa": "/ədˈvaɪs/", "collocations": ["give advice", "a piece of advice", "ask for advice"], "level": "A2" },
+    { "word": "news", "pos": "noun (uncountable)", "he": "חדשות; חדשה", "def": "new information about something that has happened", "example": "I've got some good news!", "ipa": "/njuːz/", "collocations": ["good news", "the news is", "on the news"], "level": "A2" },
+    { "word": "furniture", "pos": "noun (uncountable)", "he": "רהיטים", "def": "things like chairs, tables, beds and cupboards", "example": "We need some furniture for the new flat.", "ipa": "/ˈfɜːnɪtʃə(r)/", "collocations": ["a piece of furniture", "new furniture", "second-hand furniture"], "level": "A2" },
+    { "word": "luggage", "pos": "noun (uncountable)", "he": "מטען, מזוודות", "def": "the bags and cases you take when you travel", "example": "How much luggage can I take on the plane?", "ipa": "/ˈlʌɡɪdʒ/", "collocations": ["hand luggage", "a piece of luggage", "too much luggage"], "level": "A2" },
+    { "word": "homework", "pos": "noun (uncountable)", "he": "שיעורי בית", "def": "work a teacher gives you to do at home", "example": "We have a lot of homework this weekend.", "ipa": "/ˈhəʊmwɜːk/", "collocations": ["do your homework", "finish your homework", "a lot of homework"], "level": "A2" },
+    { "word": "money", "pos": "noun (uncountable)", "he": "כסף", "def": "coins and notes that you use to buy things", "example": "I don't have much money this month.", "ipa": "/ˈmʌni/", "collocations": ["save money", "spend money on", "not much money"], "level": "A2" },
+    { "word": "traffic", "pos": "noun (uncountable)", "he": "תנועה (של כלי רכב), עומסי תנועה", "def": "the cars, buses and other vehicles on the roads", "example": "There isn't much traffic on Friday afternoon.", "ipa": "/ˈtræfɪk/", "collocations": ["heavy traffic", "stuck in traffic", "a lot of traffic"], "level": "A2" },
+    { "word": "cash", "pos": "noun (uncountable)", "he": "מזומן", "def": "money in coins and notes, not on a card", "example": "Do you have any cash? The kiosk doesn't take cards.", "ipa": "/kæʃ/", "collocations": ["pay in cash", "a little cash", "cash only"], "level": "A2" },
+    { "word": "a piece of", "pos": "phrase", "he": "פריט אחד של..., חתיכה של...", "def": "one item or part of something uncountable", "example": "Can I give you a piece of advice?", "ipa": "/ə ˈpiːs əv/", "collocations": ["a piece of advice", "a piece of furniture", "a piece of cake"], "level": "A2" },
+    { "word": "a few", "pos": "determiner", "he": "כמה, מספר קטן של", "def": "a small number of (with plural countable nouns)", "example": "I'll be there in a few minutes.", "ipa": "/ə ˈfjuː/", "collocations": ["a few minutes", "a few friends", "a few days ago"], "level": "A2" },
+    { "word": "a little", "pos": "determiner", "he": "קצת, מעט", "def": "a small amount of (with uncountable nouns)", "example": "Can I have a little milk in my coffee?", "ipa": "/ə ˈlɪtl/", "collocations": ["a little time", "a little money", "a little bit"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew a question with 'how much' or 'how many' needs no helper verb, so it is easy to say *How much money you have? English needs do or does after the noun: How much money do you have? How many brothers does she have?", "he": "בעברית שאלה עם 'כמה' לא צריכה פועל עזר ('כמה כסף יש לך?'), ולכן קל לומר How much money you have?. באנגלית צריך do או does אחרי שם העצם: How much money do you have? How many brothers does she have?", "error_type": "do-support" },
+    { "en": "In Hebrew there is no /ʌ/ vowel, so money /ˈmʌni/ and many /ˈmeni/ can sound the same. many has /e/, as in pen; money has the short, relaxed /ʌ/, as in cup.", "he": "בעברית אין את התנועה /ʌ/, ולכן money /ˈmʌni/ ו-many /ˈmeni/ עלולים להישמע אותו דבר. ב-many יש /e/ כמו ב-pen, וב-money יש /ʌ/ קצרה ורפויה, כמו ב-cup.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "countable-uncountable",
+      "prompt": { "en": "Countable or uncountable? Sort the words.", "he": "ספיר או לא ספיר? מיינו את המילים." },
+      "categories": ["Countable", "Uncountable"],
+      "items": [
+        { "text": "chair", "category": "Countable" },
+        { "text": "furniture", "category": "Uncountable" },
+        { "text": "suitcase", "category": "Countable" },
+        { "text": "luggage", "category": "Uncountable" },
+        { "text": "coin", "category": "Countable" },
+        { "text": "money", "category": "Uncountable" },
+        { "text": "idea", "category": "Countable" },
+        { "text": "advice", "category": "Uncountable" },
+        { "text": "message", "category": "Countable" },
+        { "text": "news", "category": "Uncountable" }
+      ],
+      "hint": { "en": "Can you put a number before it (two chairs)? Then it's countable.", "he": "אפשר לשים לפניו מספר (two chairs)? אם כן, הוא ספיר." },
+      "explanation": { "en": "The words come in pairs with similar meanings: a chair / furniture, a suitcase / luggage, a coin / money, an idea / advice, a message / news. The first in each pair is countable; the second is not.", "he": "המילים באות בזוגות עם משמעות דומה: a chair / furniture, a suitcase / luggage, a coin / money, an idea / advice, a message / news. המילה הראשונה בכל זוג ספירה, והשנייה לא." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "How ___ people are coming to the party?",
+      "options": ["much", "many", "a lot", "a little"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "people is a countable plural, so use How many.", "he": "people הוא שם עצם ספיר ברבים, ולכן How many." },
+        "2": { "en": "We don't say How a lot. For questions, use How many.", "he": "לא אומרים How a lot. בשאלה משתמשים ב-How many." },
+        "3": { "en": "a little goes with uncountable nouns (a little time), and it doesn't come after How.", "he": "a little בא עם שמות עצם שאינם ספירים (a little time), והוא לא בא אחרי How." }
+      },
+      "option_errors": { "0": "countability", "2": "word-choice", "3": "countability" },
+      "explanation": { "en": "How many + plural countable noun: How many people? How much + uncountable noun: How much time?", "he": "How many + שם עצם ספיר ברבים: How many people? ו-How much + שם עצם שאינו ספיר: How much time?" }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "quantifiers",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "Hurry up! We haven't got much time. Just take a few things – the car is really small.",
+      "question": "What does the speaker say?",
+      "options": ["They have a lot of time.", "The car is very big.", "They should take a lot of things.", "They should take only a few things."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Listen again: 'We haven't got much time.'", "he": "הקשיבו שוב: We haven't got much time – אין להם הרבה זמן." },
+        "1": { "en": "The speaker says the car is really small.", "he": "הדובר/ת אומר/ת שהמכונית קטנה מאוד." },
+        "2": { "en": "'Just take a few things' – not a lot.", "he": "'Just take a few things' – רק כמה דברים, לא הרבה." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "not much time (uncountable) · a few things (countable plural). Both describe a small quantity.", "he": "not much time (לא ספיר) · a few things (ספיר ברבים). שניהם מתארים כמות קטנה." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Choose the most natural word.", "he": "בחרו את המילה הטבעית ביותר." },
+      "question": "I drink ___ water when it's hot.",
+      "options": ["much", "many", "a few", "a lot of"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "In positive sentences, much sounds unnatural. Use a lot of: I drink a lot of water.", "he": "במשפט חיובי much נשמע לא טבעי. משתמשים ב-a lot of: I drink a lot of water." },
+        "1": { "en": "water is uncountable, so not many.", "he": "water אינו ספיר, ולכן לא many." },
+        "2": { "en": "a few goes with countable plurals (a few bottles). water is uncountable.", "he": "a few בא עם שמות עצם ספירים ברבים (a few bottles), ו-water אינו ספיר." }
+      },
+      "option_errors": { "0": "word-choice", "1": "countability", "2": "countability" },
+      "explanation": { "en": "a lot of works with both kinds of noun, and it's the natural choice in positive sentences.", "he": "a lot of מתאים לשני סוגי שמות העצם, והוא הבחירה הטבעית במשפט חיובי." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Complete with much, many, a few or a little. Use each one once.", "he": "השלימו ב-much, many, a few או a little. השתמשו בכל אחת פעם אחת." },
+      "text": "How ___ students are in your class? How ___ homework do you get? I'll be ready in ___ minutes. Can I have ___ milk in my coffee, please?",
+      "word_bank": ["much", "many", "a few", "a little"],
+      "answers": [["many"], ["much"], ["a few"], ["a little"]],
+      "wrong_feedback": [
+        { "match": "much", "feedback": { "en": "much goes with uncountable nouns (much homework, much time), not with plurals like students or minutes.", "he": "much בא עם שמות עצם שאינם ספירים (much homework, much time), ולא עם רבים כמו students או minutes." }, "error_type": "countability" },
+        { "match": "many", "feedback": { "en": "many goes with countable plurals (many students). homework and milk are uncountable.", "he": "many בא עם שמות עצם ספירים ברבים (many students), ואילו homework ו-milk אינם ספירים." }, "error_type": "countability" },
+        { "match": "a few", "feedback": { "en": "a few goes with countable plurals (a few minutes). milk is uncountable: a little milk.", "he": "a few בא עם ספירים ברבים (a few minutes). המילה milk אינה ספירה: a little milk." }, "error_type": "countability" },
+        { "match": "a little", "feedback": { "en": "a little goes with uncountable nouns (a little milk). minutes are countable: a few minutes.", "he": "a little בא עם שמות עצם שאינם ספירים (a little milk). דקות הן ספירות: a few minutes." }, "error_type": "countability" }
+      ],
+      "explanation": { "en": "students, minutes → many / a few (countable). homework, milk → much / a little (uncountable).", "he": "students, minutes → many / a few (ספירים). homework, milk → much / a little (לא ספירים)." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "vocabulary", "topic": "countable-uncountable",
+      "prompt": { "en": "Complete with piece, bottle or cup.", "he": "השלימו ב-piece, ב-bottle או ב-cup." },
+      "text": "Can I give you a ___ of advice? I always carry a ___ of water in my bag. Would you like a ___ of coffee?",
+      "word_bank": ["piece", "bottle", "cup"],
+      "answers": [["piece"], ["bottle"], ["cup"]],
+      "wrong_feedback": [
+        { "match": "cup", "feedback": { "en": "cup is for hot drinks: a cup of coffee or tea.", "he": "cup משמש למשקאות חמים: a cup of coffee או a cup of tea." }, "error_type": "word-choice" },
+        { "match": "bottle", "feedback": { "en": "bottle is for drinks you can carry: a bottle of water.", "he": "bottle משמש למשקה שאפשר לשאת איתך: a bottle of water." }, "error_type": "word-choice" },
+        { "match": "piece", "feedback": { "en": "piece counts things like advice, furniture or cake: a piece of advice.", "he": "piece משמש לספירת דברים כמו advice, furniture או cake: a piece of advice." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "a piece of advice · a bottle of water · a cup of coffee. These words let you count uncountable nouns.", "he": "a piece of advice · a bottle of water · a cup of coffee. המילים האלה מאפשרות לספור שמות עצם שאינם ספירים." }
+    },
+    {
+      "id": "e7", "type": "transform", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Write a question for this answer. Start with How much or How many.", "he": "כתבו שאלה שמתאימה לתשובה. התחילו ב-How much או ב-How many." },
+      "source": "I have 200 shekels.",
+      "answers": ["How much money do you have?", "How much money have you got?", "How many shekels do you have?", "How many shekels have you got?", "How much do you have?"],
+      "wrong_feedback": [
+        { "match": "How much money you have?", "feedback": { "en": "An English question needs do: How much money do you have?", "he": "בשאלה באנגלית צריך do: How much money do you have?" }, "error_type": "do-support" },
+        { "match": "How many money do you have?", "feedback": { "en": "money is uncountable: How much money. (Shekels are countable: How many shekels.)", "he": "money אינו ספיר: How much money. (שקלים הם ספירים: How many shekels.)" }, "error_type": "countability" },
+        { "match": "How much shekels do you have?", "feedback": { "en": "shekels is a countable plural: How many shekels. (Or: How much money.)", "he": "shekels הוא ספיר ברבים: How many shekels. (או: How much money.)" }, "error_type": "countability" },
+        { "match": "How many shekels you have?", "feedback": { "en": "You need do: How many shekels do you have?", "he": "חסר do: How many shekels do you have?" }, "error_type": "do-support" },
+        { "match": "How much money does you have?", "feedback": { "en": "With you, use do: How much money do you have?", "he": "עם you משתמשים ב-do: How much money do you have?" }, "error_type": "agreement" }
+      ],
+      "hint": { "en": "Ask about money (uncountable) or about shekels (countable).", "he": "אפשר לשאול על money (לא ספיר) או על shekels (ספיר)." },
+      "explanation": { "en": "money → How much money ...? shekels → How many shekels ...? Both questions need do + you + have.", "he": "money → How much money ...? ו-shekels → How many shekels ...? בשתי השאלות צריך do + you + have." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "countable-uncountable",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Can you give me an advice?",
+      "answers": ["Can you give me some advice?", "Can you give me a piece of advice?", "Can you give me advice?", "Can you give me a bit of advice?", "Can you give me a little advice?"],
+      "error_type": "countability",
+      "hint": { "en": "advice is uncountable.", "he": "advice אינו ספיר." },
+      "explanation": { "en": "advice has no a/an and no plural. Say some advice or a piece of advice.", "he": "ל-advice אין a/an ואין רבים. אומרים some advice או a piece of advice." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "countable-uncountable",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "The news are really good today.",
+      "answers": ["The news is really good today."],
+      "error_type": "countability",
+      "hint": { "en": "news looks plural, but it isn't.", "he": "news נראה כמו רבים, אבל הוא לא." },
+      "explanation": { "en": "news is uncountable, so it takes a singular verb: The news is really good today.", "he": "news אינו ספיר, ולכן הפועל שאחריו ביחיד: The news is really good today." }
+    },
+    {
+      "id": "e10", "type": "order", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["How", "much", "luggage", "can", "I", "take"],
+      "explanation": { "en": "How much + uncountable noun + can + I + verb: How much luggage can I take?", "he": "How much + שם עצם שאינו ספיר + can + I + פועל: How much luggage can I take?" }
+    },
+    {
+      "id": "e11", "type": "read", "skill": "reading", "topic": "quantifiers",
+      "prompt": { "en": "Read the notice for volunteers and answer the questions.", "he": "קראו את ההודעה למתנדבים וענו על השאלות." },
+      "title": "Volunteer week at Green Valley Farm: what to bring",
+      "passage": "Thanks for joining our volunteer week! Here is some important information before you arrive.\nLuggage: There isn't much space in the rooms, so please bring only one bag. You don't need a lot of clothes – there's a washing machine.\nMoney: There are no shops near the farm. Bring a little cash for the weekend trip. You don't need much: the bus and lunch cost about 60 shekels.\nFood: We cook a lot of vegetables from the farm. There isn't any meat, but there's a lot of cheese and fresh bread.\nFree time: We have a few bikes and some board games. The Wi-Fi is slow, so don't plan to watch many films!\nAny questions? Just email us – we're always happy to give advice.\nDana, Volunteer Coordinator",
+      "questions": [
+        { "type": "tf", "statement": "Volunteers should bring a lot of clothes.", "answer": false,
+          "explanation": { "en": "'You don't need a lot of clothes – there's a washing machine.'", "he": "בהודעה: You don't need a lot of clothes – יש מכונת כביסה, ולכן לא צריך הרבה בגדים." } },
+        { "type": "mcq", "question": "Why do volunteers need a little cash?", "options": ["for the weekend trip", "for the washing machine", "for the Wi-Fi"], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The notice doesn't say the washing machine costs money.", "he": "בהודעה לא כתוב שמכונת הכביסה עולה כסף." },
+            "2": { "en": "The notice says the Wi-Fi is slow, not that it costs money.", "he": "בהודעה כתוב שהאינטרנט איטי, לא שהוא עולה כסף." }
+          },
+          "explanation": { "en": "'Bring a little cash for the weekend trip.'", "he": "בהודעה: Bring a little cash for the weekend trip – קצת מזומן לטיול של סוף השבוע." } },
+        { "type": "mcq", "question": "Which is true about the food?", "options": ["There is a lot of meat.", "There isn't any cheese.", "There are a lot of vegetables from the farm."], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "'There isn't any meat.'", "he": "בהודעה: There isn't any meat – אין בשר בכלל." },
+            "1": { "en": "There's a lot of cheese.", "he": "יש הרבה גבינה: there's a lot of cheese." }
+          },
+          "explanation": { "en": "'We cook a lot of vegetables from the farm.'", "he": "בהודעה: We cook a lot of vegetables from the farm – מבשלים הרבה ירקות מהחווה." } },
+        { "type": "tf", "statement": "The farm has a lot of bikes.", "answer": false,
+          "explanation": { "en": "'We have a few bikes' – a small number, not a lot.", "he": "בהודעה: We have a few bikes – כמה אופניים, מספר קטן, לא הרבה." } },
+        { "type": "gap", "text": "There isn't ___ space in the rooms, so bring only one bag.", "answers": [["much", "a lot of", "lots of"]],
+          "explanation": { "en": "'There isn't much space in the rooms.' space is uncountable, so use much (or a lot of).", "he": "בהודעה: There isn't much space in the rooms. המילה space אינה ספירה, ולכן much (או a lot of)." } }
+      ]
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "כמה כסף יש לך? יש לי רק כמה שקלים.",
+      "answers": [
+        "How much money do you have? I only have a few shekels.",
+        "How much money do you have? I have only a few shekels.",
+        "How much money do you have? I've only got a few shekels.",
+        "How much money do you have? I just have a few shekels.",
+        "How much money do you have? I have just a few shekels.",
+        "How much money have you got? I only have a few shekels.",
+        "How much money have you got? I have only a few shekels.",
+        "How much money have you got? I've only got a few shekels.",
+        "How much money do you have? Only a few shekels.",
+        "How much money have you got? Only a few shekels."
+      ],
+      "wrong_feedback": [
+        { "match": "How much money you have? I only have a few shekels.", "feedback": { "en": "The question needs do: How much money do you have?", "he": "בעברית אין כאן פועל עזר, אבל באנגלית השאלה צריכה do: How much money do you have?" }, "error_type": "do-support" },
+        { "match": "How many money do you have? I only have a few shekels.", "feedback": { "en": "money is uncountable: How much money.", "he": "money אינו ספיר: How much money." }, "error_type": "countability" },
+        { "match": "many", "feedback": { "en": "money is uncountable, so How much money (not How many).", "he": "money אינו ספיר, ולכן How much money ולא How many." }, "error_type": "countability" },
+        { "match": "little", "feedback": { "en": "shekels are countable, so a few shekels. a little is for uncountable nouns (a little money).", "he": "שקלים הם ספירים, ולכן a few shekels. את a little משתמשים עם שמות עצם שאינם ספירים (a little money)." }, "error_type": "countability" },
+        { "match": "some", "feedback": { "en": "With only, say a few: I only have a few shekels.", "he": "כאן 'כמה' פירושו 'מעט', ועם only אומרים a few: I only have a few shekels." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "One Hebrew word appears twice, but it becomes two different English phrases: How much and a few.", "he": "המילה 'כמה' מופיעה פעמיים, אבל באנגלית היא מתורגמת אחרת בכל פעם: How much (שאלה על כסף) ו-a few (מספר קטן של שקלים)." },
+      "explanation": { "en": "How much money (uncountable) do you have? – I only have a few shekels (countable plural).", "he": "'כמה' בשאלה על כסף = How much (כסף אינו ספיר), ו'כמה שקלים' במובן 'מעט שקלים' = a few shekels. ובשאלה צריך do: How much money do you have?" }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "quantifiers",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "There isn't much traffic today, so we'll be there in a few minutes.",
+      "answers": ["There isn't much traffic today, so we'll be there in a few minutes."],
+      "hint": { "en": "Listen for much and a few.", "he": "הקשיבו ל-much ול-a few." },
+      "explanation": { "en": "much traffic (uncountable) · a few minutes (countable).", "he": "much traffic (לא ספיר) · a few minutes (ספיר)." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "quantifiers",
+      "prompt": { "en": "Say the question out loud.", "he": "אמרו את השאלה בקול." },
+      "target": "How many people are coming, and how much money do we need?",
+      "focus": { "en": "many /ˈmeni/ has the vowel of pen; money /ˈmʌni/ has the short vowel of cup. Make the difference clear.", "he": "ב-many /ˈmeni/ יש את התנועה של pen, וב-money /ˈmʌni/ יש את התנועה הקצרה של cup. הקפידו על ההבדל." },
+      "error_type": "pron-vowel",
+      "explanation": { "en": "When you plan a party or a trip, you often need both questions.", "he": "כשמתכננים מסיבה או טיול, צריך בדרך כלל את שתי השאלות." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "quantifiers",
+      "prompt": { "en": "Mediation: pass on a message in English.", "he": "תיווך: העבירו הודעה באנגלית." },
+      "task": { "en": "Daniel, a friend from London, is coming to stay with your family next week. Your mum sent you a message in Hebrew (you can see it in the Hebrew instructions). Write Daniel a message in English (40-80 words) with all her information.", "he": "דניאל, חבר מלונדון, מגיע לגור אצל המשפחה שלכם בשבוע הבא. אמא שלכם שלחה לכם את ההודעה הזאת: „תגידו לדניאל שאין הרבה מקום בארון, אז שיביא רק מזוודה אחת. הוא לא צריך הרבה מזומן – כמעט בכל מקום אפשר לשלם בכרטיס. ושיביא כמה סוודרים, כי בירושלים קר בלילה. אם יש לו שאלות, שישלח לי הודעה.” כתבו לדניאל הודעה באנגלית (40-80 מילים) עם כל המידע." },
+      "min_words": 40,
+      "max_words": 90,
+      "must_include": ["much", "a few"],
+      "model_answer": "Hi Daniel! My mum asked me to send you some information. There isn't much space in the wardrobe, so please bring only one suitcase. You don't need much cash – you can pay by card almost everywhere. But bring a few jumpers, because it's cold in Jerusalem at night. If you have any questions, you can send her a message. See you next week!",
+      "checklist": [
+        { "en": "I passed on all the information: space, one suitcase, cash, jumpers, questions.", "he": "העברתי את כל המידע: מקום בארון, מזוודה אחת, מזומן, סוודרים ושאלות." },
+        { "en": "I used much with uncountable nouns (much space, much cash) and a few with plurals (a few jumpers).", "he": "השתמשתי ב-much עם שמות עצם שאינם ספירים (much space, much cash) וב-a few עם רבים (a few jumpers)." },
+        { "en": "I didn't add -s or a/an to uncountable nouns (information, money, luggage).", "he": "לא הוספתי s או a/an לשמות עצם שאינם ספירים (information, money, luggage)." },
+        { "en": "I wrote natural English for Daniel, not a word-for-word translation.", "he": "כתבתי אנגלית טבעית לדניאל, לא תרגום מילה במילה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Countable nouns have a plural (two friends); uncountable nouns don't (money, time, information).", "he": "לשמות עצם ספירים יש רבים (two friends); לשמות עצם שאינם ספירים אין (money, time, information)." },
+      { "en": "information, advice, news, furniture, homework, luggage: no -s, no a/an. The news is good.", "he": "information, advice, news, furniture, homework, luggage: בלי s ובלי a/an. וגם: The news is good." },
+      { "en": "How many + plural (How many people?) · How much + uncountable (How much time?), then do/does.", "he": "How many + רבים (How many people?) · How much + לא ספיר (How much time?), ואחריהם do/does." },
+      { "en": "a lot of in positive sentences; much and many in questions and negatives.", "he": "a lot of במשפטים חיוביים; much ו-many בשאלות ובשלילה." },
+      { "en": "a few + plural (a few minutes) · a little + uncountable (a little milk).", "he": "a few + רבים (a few minutes) · a little + לא ספיר (a little milk)." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

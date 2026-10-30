@@ -209,11 +209,11 @@
     {
       "id": "e11", "type": "correct", "skill": "grammar", "topic": "present-simple-third-person",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
-      "sentence": "My mum work in a school.",
-      "answers": ["My mum works in a school.", "My mum works at a school."],
+      "sentence": "My mum teach English at a high school.",
+      "answers": ["My mum teaches English at a high school.", "My mum teaches English in a high school."],
       "error_type": "third-person-s",
-      "hint": { "en": "my mum = she.", "he": "my mum = she – אדם אחד." },
-      "explanation": { "en": "my mum = she, so the verb needs -s: works.", "he": "my mum = she, ולכן הפועל צריך s: works." }
+      "hint": { "en": "my mum = she. The verb ends in -ch.", "he": "my mum = she – אדם אחד. והפועל מסתיים ב-ch." },
+      "explanation": { "en": "my mum = she, so the verb needs -es: teach → teaches (an extra syllable: TEACH-iz).", "he": "my mum = she, ולכן הפועל צריך es: teach → teaches (עם הברה נוספת: TEACH-iz)." }
     },
     {
       "id": "e12", "type": "correct", "skill": "writing", "topic": "present-simple-third-person",

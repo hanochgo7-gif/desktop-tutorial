@@ -1,0 +1,291 @@
+{
+  "id": "b1-02",
+  "level": "B1",
+  "title_en": "Present perfect or past simple?",
+  "title_he": "Present perfect או עבר פשוט?",
+  "topics": ["present-perfect-vs-past"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can choose between the present perfect and the past simple: finished time or time up to now.", "he": "אני יודע/ת לבחור בין present perfect לעבר פשוט: זמן שהסתיים או זמן שנמשך עד עכשיו." },
+    { "en": "I can say how long something has lasted with for and since, and ask How long have you...?", "he": "אני יודע/ת לומר כמה זמן משהו נמשך בעזרת for ו-since, ולשאול How long have you...?" },
+    { "en": "I can use just, already and yet to give news and talk about things I haven't done.", "he": "אני יודע/ת להשתמש ב-just, already ו-yet כדי לספר חדשות ולדבר על דברים שעוד לא עשיתי." }
+  ],
+  "warmup": { "en": "Yael says: 'I've lived in Haifa for three years.' Omer says: 'I lived in Haifa for three years.' Who lives in Haifa now?", "he": "יעל אומרת: I've lived in Haifa for three years. עומר אומר: I lived in Haifa for three years. מי מהם גר/ה בחיפה היום? בעברית יעל הייתה אומרת 'אני גרה בחיפה שלוש שנים' – בהווה. היום נבין למה באנגלית זה לא עובד." },
+  "explanation": [
+    { "type": "p", "en": "Amir is asked: 'Have you ever been to London?' He answers: 'Yes, I've been there twice.' (an experience, no time given) Then: 'When did you go?' – 'I went last summer.' (a finished time) As soon as you say or ask when, switch to the past simple.", "he": "שואלים את אמיר: Have you ever been to London? והוא עונה: Yes, I've been there twice – ניסיון, בלי זמן. ואז: When did you go? – I went last summer – זמן שהסתיים. ברגע שאומרים או שואלים מתי בדיוק, עוברים לעבר פשוט." },
+    { "type": "table", "headers": ["Past simple", "Present perfect"], "rows": [
+      ["finished time: yesterday, last year, in 2020, two days ago, when I was ten", "time up to now: this week, so far, ever, never, since"],
+      ["I saw Dana yesterday.", "I've seen Dana twice this week."],
+      ["She lived in Rome for two years. (She doesn't live there now.)", "She's lived in Rome for two years. (She still lives there.)"],
+      ["When did you start?", "How long have you worked here?"]
+    ] },
+    { "type": "rule", "en": "for + a length of time: for ten minutes, for three years, for ages. since + the starting point: since 9 o'clock, since 2019, since I was a child. To ask about the whole period up to now: How long have you known her? – For two years. / Since we were at school.", "he": "for + משך זמן: for ten minutes, for three years, for ages. ‏since + נקודת ההתחלה: since 9 o'clock, since 2019, since I was a child. כדי לשאול על כל התקופה עד עכשיו: How long have you known her? – For two years. / Since we were at school." },
+    { "type": "table", "headers": ["Word", "Meaning", "Position", "Example", "עברית"], "rows": [
+      ["just", "a very short time ago", "between have and the past participle", "I've just seen your message.", "הרגע, בדיוק"],
+      ["already", "earlier than expected", "between have and the past participle, or at the end", "We've already booked the tickets.", "כבר"],
+      ["yet", "up to now (questions and negatives)", "at the end", "Have you replied yet? · I haven't replied yet.", "כבר? (בשאלה) · עוד לא (בשלילה)"]
+    ] },
+    { "type": "warning", "en": "Never use the present perfect with a finished time or in a When...? question: *I have seen him yesterday → I saw him yesterday. *When have you arrived? → When did you arrive?", "he": "אף פעם לא משתמשים ב-present perfect עם זמן שהסתיים או בשאלת When...?: לא I have seen him yesterday אלא I saw him yesterday. לא When have you arrived? אלא When did you arrive?" },
+    { "type": "p", "en": "Contrast with Hebrew: Hebrew uses the present tense for a situation that started in the past and is still true. English uses the present perfect: I've lived here for three years (not *I live here for three years).", "he": "השוואה לעברית: בעברית אומרים 'אני גר/ה כאן שלוש שנים' – בהווה, כי המצב עדיין נמשך. באנגלית מצב שהתחיל בעבר ונמשך עד היום דורש present perfect: I've lived here for three years, ולא I live here for three years." },
+    { "type": "tip", "en": "In American English you will also hear the past simple with just, already and yet: Did you eat yet? I just finished. The present perfect is correct in both British and American English, so it's the safe choice.", "he": "באנגלית אמריקאית שומעים גם עבר פשוט עם just, already ו-yet: Did you eat yet? I just finished. ה-present perfect נכון גם באנגלית בריטית וגם באמריקאית, ולכן הוא הבחירה הבטוחה." }
+  ],
+  "examples": [
+    { "en": "I've lived in Jerusalem since 2019.", "he": "אני גר/ה בירושלים מאז 2019.", "note": "still true now" },
+    { "en": "I lived in Eilat for two years, and then we moved north.", "he": "גרתי באילת שנתיים, ואז עברנו צפונה.", "note": "finished period" },
+    { "en": "Have you seen Maya's new video? – Yes, I watched it last night.", "he": "ראית את הסרטון החדש של מאיה? – כן, צפיתי בו אתמול בלילה.", "note": "question about experience, answer with a finished time" },
+    { "en": "We've known each other for ages.", "he": "אנחנו מכירים כבר המון זמן.", "note": "for + a length of time" },
+    { "en": "I've just seen your message – sorry!", "he": "הרגע ראיתי את ההודעה שלך – סליחה!", "note": "just = a moment ago" },
+    { "en": "Daniel has already booked the tickets.", "he": "דניאל כבר הזמין את הכרטיסים." },
+    { "en": "Have you handed in the essay yet? – No, not yet.", "he": "כבר הגשת את החיבור? – לא, עוד לא.", "note": "yet in questions and negatives" },
+    { "en": "How long have you worked here? – Since March.", "he": "כמה זמן את/ה עובד/ת כאן? – מאז מרץ.", "note": "the period up to now" },
+    { "en": "When did you start? – In March.", "he": "מתי התחלת? – במרץ.", "note": "When...? → past simple" }
+  ],
+  "vocab": [
+    { "word": "so far", "pos": "phrase", "he": "עד עכשיו, עד כה", "def": "up to now", "example": "So far I've visited three new countries this year.", "ipa": "/ˌsəʊ ˈfɑː(r)/", "collocations": ["so far, so good", "so far this year", "the best so far"], "level": "B1" },
+    { "word": "for ages", "pos": "phrase", "he": "המון זמן", "def": "(informal) for a very long time", "example": "I haven't seen Lior for ages.", "ipa": "/fər ˈeɪdʒɪz/", "collocations": ["haven't seen you for ages", "wait for ages", "take ages"], "level": "B1" },
+    { "word": "ever since", "pos": "phrase", "he": "מאז ועד היום", "def": "from a time in the past until now", "example": "We met at school and have been friends ever since.", "ipa": "/ˌevə ˈsɪns/", "collocations": ["ever since then", "ever since I was a child", "ever since we met"], "level": "B1" },
+    { "word": "recently", "pos": "adverb", "he": "לאחרונה", "def": "not long ago", "example": "Have you been to the cinema recently?", "ipa": "/ˈriːsntli/", "collocations": ["until recently", "only recently", "recently moved"], "level": "B1" },
+    { "word": "still", "pos": "adverb", "he": "עדיין", "def": "continuing until now; not finished or changed", "example": "I still haven't heard from the university.", "ipa": "/stɪl/", "collocations": ["still haven't", "still waiting", "still here"], "level": "A2" },
+    { "word": "move in", "pos": "phrasal verb", "he": "לעבור לגור (בדירה חדשה)", "def": "to start living in a new home", "example": "We've just moved in, so the flat is full of boxes.", "ipa": "/ˌmuːv ˈɪn/", "collocations": ["move in with someone", "just moved in", "move in together"], "level": "B1" },
+    { "word": "hand in", "pos": "phrasal verb", "he": "להגיש (עבודה, טופס)", "def": "to give your work to a teacher or an office", "example": "Have you handed in your project yet?", "ipa": "/ˌhænd ˈɪn/", "collocations": ["hand in your homework", "hand in an essay", "hand in a form"], "level": "B1" },
+    { "word": "hear from", "pos": "verb phrase", "he": "לשמוע מ..., לקבל חדשות מ...", "def": "to get news or a message from someone", "example": "Have you heard from Kenji since he moved to Berlin?", "ipa": "/ˈhɪə frɒm/", "collocations": ["haven't heard from", "hear from the university", "look forward to hearing from you"], "level": "B1" },
+    { "word": "catch up", "pos": "phrasal verb", "he": "להתעדכן (עם חבר/ה); להשלים פער", "def": "to talk with someone you haven't seen for a while and hear their news", "example": "Let's meet for coffee and catch up.", "ipa": "/ˌkætʃ ˈʌp/", "collocations": ["catch up with a friend", "catch up on the news", "catch up on sleep"], "level": "B1" },
+    { "word": "graduate", "pos": "verb", "he": "לסיים לימודים (ולקבל תואר או תעודה)", "def": "to finish your studies at a university or school successfully", "example": "Noa graduated in 2023 and has worked as a nurse since then.", "ipa": "/ˈɡrædʒueɪt/", "collocations": ["graduate from university", "graduate in law", "recently graduated"], "level": "B1" },
+    { "word": "homesick", "pos": "adjective", "he": "מתגעגע/ת הביתה", "def": "sad because you are far from your home and family", "example": "I was really homesick in my first week abroad.", "ipa": "/ˈhəʊmsɪk/", "collocations": ["feel homesick", "get homesick", "a bit homesick"], "level": "B1" },
+    { "word": "get used to", "pos": "phrase", "he": "להתרגל ל...", "def": "to become familiar with something new so it doesn't feel strange", "example": "I still haven't got used to the cold weather here.", "ipa": "/ɡet ˈjuːst tə/", "collocations": ["get used to the weather", "get used to a new job", "take time to get used to"], "level": "B1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew the perfect is not marked in the verb, and a situation that started in the past and is still true is described in the present tense. So it is easy to write *I live here for three years. English uses the present perfect: I've lived here for three years.", "he": "בעברית אין צורת פועל מיוחדת ל-present perfect, ומצב שהתחיל בעבר ועדיין נמשך מתואר בהווה ('אני גר/ה כאן שלוש שנים'). לכן קל לכתוב I live here for three years. באנגלית: I've lived here for three years.", "error_type": "tense-choice" },
+    { "en": "In Hebrew one past form covers both 'I saw' and 'I have seen', so choosing between them is new. English decides by the time: with a finished time (yesterday, last week, in 2020) use only the past simple: I saw him yesterday (not *I have seen him yesterday).", "he": "בעברית צורת עבר אחת ('ראיתי') מכסה גם את I saw וגם את I have seen, ולכן הבחירה ביניהן חדשה. באנגלית הזמן מכריע: עם זמן שהסתיים (yesterday, last week, in 2020) רק עבר פשוט: I saw him yesterday, ולא I have seen him yesterday.", "error_type": "tense-choice" },
+    { "en": "In Hebrew a question needs no helper verb and keeps the order of a statement. In English have or has comes before the subject: How long have you lived here? (not *How long you live here?)", "he": "בעברית שאלה לא צריכה פועל עזר ושומרת על סדר המילים של משפט רגיל ('כמה זמן אתה גר כאן?'). באנגלית have או has באים לפני הנושא: How long have you lived here?, ולא How long you live here?", "error_type": "word-order" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Which tense usually goes with each time expression?", "he": "איזה זמן בדרך כלל מתאים לכל ביטוי זמן?" },
+      "categories": ["Past simple (finished time)", "Present perfect (up to now)"],
+      "items": [
+        { "text": "yesterday", "category": "Past simple (finished time)" },
+        { "text": "last summer", "category": "Past simple (finished time)" },
+        { "text": "in 2020", "category": "Past simple (finished time)" },
+        { "text": "two weeks ago", "category": "Past simple (finished time)" },
+        { "text": "when I was a child", "category": "Past simple (finished time)" },
+        { "text": "so far", "category": "Present perfect (up to now)" },
+        { "text": "since Monday", "category": "Present perfect (up to now)" },
+        { "text": "up to now", "category": "Present perfect (up to now)" },
+        { "text": "since I was a child", "category": "Present perfect (up to now)" }
+      ],
+      "hint": { "en": "Does the time period end before now, or does it reach now?", "he": "האם תקופת הזמן נגמרה לפני עכשיו, או שהיא מגיעה עד עכשיו?" },
+      "explanation": { "en": "Yesterday, last summer, in 2020, ago and when I was a child are finished: past simple. So far, up to now and since... reach the present: present perfect. Compare: when I was a child (finished) / since I was a child (up to now).", "he": "yesterday, ‏last summer, ‏in 2020, ‏ago ו-when I was a child הם זמן שהסתיים: עבר פשוט. ‏so far, ‏up to now ו-since... מגיעים עד ההווה: present perfect. השוו: when I was a child (נגמר) מול since I was a child (עד היום)." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Choose the correct option.", "he": "בחרו את האפשרות הנכונה." },
+      "question": "I ___ Omer at the gym yesterday.",
+      "options": ["have seen", "saw", "have saw"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Yesterday is a finished time, so the present perfect is not possible here.", "he": "yesterday הוא זמן שהסתיים, ולכן אי אפשר להשתמש כאן ב-present perfect." },
+        "2": { "en": "Two problems: the present perfect is have + past participle (have seen, not have saw), and yesterday needs the past simple anyway.", "he": "שתי בעיות: present perfect הוא have + V3 (have seen ולא have saw), ובכל מקרה yesterday דורש עבר פשוט." }
+      },
+      "option_errors": { "0": "tense-choice", "2": "verb-form" },
+      "explanation": { "en": "A finished time word (yesterday) → past simple: I saw Omer yesterday.", "he": "מילת זמן שהסתיים (yesterday) → עבר פשוט: I saw Omer yesterday." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Listen to Lior's voice message and answer the question.", "he": "הקשיבו להודעה הקולית של ליאור וענו על השאלה." },
+      "audio_text": "Hi Mum, it's Lior. I've just landed in Rome, but my suitcase hasn't arrived yet. I've already spoken to the airline, and they think it's still in Athens.",
+      "question": "What is Lior's problem?",
+      "options": ["His flight was cancelled.", "He has lost his passport.", "His suitcase hasn't arrived.", "He is still in Athens."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "He has just landed, so the flight wasn't cancelled.", "he": "הוא הרגע נחת, כך שהטיסה לא בוטלה." },
+        "1": { "en": "He doesn't mention his passport. Listen for 'my suitcase hasn't arrived yet'.", "he": "הוא לא מזכיר דרכון. הקשיבו ל-my suitcase hasn't arrived yet." },
+        "3": { "en": "Lior is in Rome. It's his suitcase that is probably still in Athens.", "he": "ליאור ברומא. המזוודה שלו היא שכנראה עדיין באתונה." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "I've just landed (a moment ago) · hasn't arrived yet (not up to now) · I've already spoken (earlier than you might expect). Three present perfect sentences for fresh news, with no finished time.", "he": "I've just landed (הרגע) · hasn't arrived yet (עד עכשיו לא) · I've already spoken (כבר). שלושה משפטי present perfect לחדשות טריות, בלי זמן שהסתיים." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Which sentence tells us that Priya still lives in London?", "he": "איזה משפט מספר לנו שפריה עדיין גרה בלונדון?" },
+      "question": "Choose one sentence.",
+      "options": ["Priya has lived in London for five years.", "Priya lived in London for five years.", "Priya lived in London five years ago."],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "lived + for five years = a finished period. She lived there, but she doesn't live there now.", "he": "lived + for five years = תקופה שהסתיימה. היא גרה שם פעם, אבל לא היום." },
+        "2": { "en": "five years ago points to a finished time in the past. It tells us nothing about now.", "he": "five years ago מצביע על זמן שהסתיים בעבר. הוא לא אומר כלום על ההווה." }
+      },
+      "option_errors": { "1": "tense-choice", "2": "tense-choice" },
+      "explanation": { "en": "has lived + for = it started five years ago and continues now. The present perfect connects the past with now.", "he": "has lived + for = זה התחיל לפני חמש שנים ונמשך עד היום. ה-present perfect מחבר בין העבר להווה." }
+    },
+    {
+      "id": "e5", "type": "categorize", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "for or since? Sort the time expressions. Think: I've been here ___ ...", "he": "for או since? מיינו את ביטויי הזמן. חשבו על המשפט: I've been here ___ ..." },
+      "categories": ["for", "since"],
+      "items": [
+        { "text": "three years", "category": "for" },
+        { "text": "ages", "category": "for" },
+        { "text": "a couple of weeks", "category": "for" },
+        { "text": "ten minutes", "category": "for" },
+        { "text": "2019", "category": "since" },
+        { "text": "last Monday", "category": "since" },
+        { "text": "I was a child", "category": "since" },
+        { "text": "Sunday morning", "category": "since" }
+      ],
+      "explanation": { "en": "for + how long (a length of time: three years, ages). since + when it started (a point in time: 2019, last Monday, I was a child).", "he": "for + כמה זמן (משך: three years, ‏ages). ‏since + מתי זה התחיל (נקודת זמן: 2019, ‏last Monday, ‏I was a child)." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Kenji works at a hotel. You want to know how many years he has worked there. Choose the correct question.", "he": "קנג'י עובד במלון. אתם רוצים לדעת כמה שנים הוא עובד שם. בחרו את השאלה הנכונה." },
+      "question": "Which question do you ask?",
+      "options": ["How long does Kenji work at the hotel?", "How long is Kenji working at the hotel?", "How long Kenji has worked at the hotel?", "How long has Kenji worked at the hotel?"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "This asks about his normal working day (for example, eight hours a day), not how many years up to now.", "he": "השאלה הזאת שואלת על יום העבודה הרגיל שלו (למשל שמונה שעות ביום), לא כמה שנים עד עכשיו." },
+        "1": { "en": "The present continuous is for now or for a temporary situation. For the whole period up to now, use the present perfect.", "he": "הווה מתמשך מתאר עכשיו או מצב זמני. לכל התקופה עד עכשיו משתמשים ב-present perfect." },
+        "2": { "en": "Word order: in a question, has comes before the subject: How long has Kenji worked...?", "he": "סדר מילים: בשאלה has בא לפני הנושא: How long has Kenji worked...?" }
+      },
+      "option_errors": { "0": "tense-choice", "1": "tense-choice", "2": "word-order" },
+      "explanation": { "en": "How long + has/have + subject + past participle asks about a period from the past up to now. Answer with for or since: For six years. / Since 2020.", "he": "How long + has/have + נושא + V3 שואל על תקופה מהעבר עד עכשיו. עונים עם for או since: For six years. / Since 2020." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Complete the conversation with words from the box. Two words are extra.", "he": "השלימו את השיחה במילים מהמחסן. שתי מילים מיותרות." },
+      "text": "Sara: Any news about your application? Kenji: No, not ___. I applied six weeks ago, and I've checked my email every day ___ then. Sara: Six weeks isn't long. My sister waited ___ three months!",
+      "word_bank": ["yet", "since", "for", "already", "ago"],
+      "answers": [["yet"], ["since"], ["for"]],
+      "wrong_feedback": [
+        { "match": "already", "feedback": { "en": "already is for positive sentences (I've already applied). In negatives and questions use yet: Not yet. / I haven't heard yet.", "he": "already מתאים למשפט חיובי (I've already applied). בשלילה ובשאלה משתמשים ב-yet: Not yet. / I haven't heard yet." }, "error_type": "word-choice" },
+        { "match": "for", "feedback": { "en": "for + a length of time (for three months). since + a starting point (since then, since Monday).", "he": "for + משך זמן (for three months). ‏since + נקודת התחלה (since then, ‏since Monday)." }, "error_type": "preposition" },
+        { "match": "since", "feedback": { "en": "since + a starting point (since then). for + a length of time (for three months).", "he": "since + נקודת התחלה (since then). ‏for + משך זמן (for three months)." }, "error_type": "preposition" },
+        { "match": "ago", "feedback": { "en": "ago comes after the time period and goes with the past simple: six weeks ago. It doesn't fit these gaps.", "he": "ago בא אחרי משך הזמן והולך עם עבר פשוט: six weeks ago. הוא לא מתאים לחסרים האלה." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "Not yet = not up to now (a short answer for haven't ... yet). since then = from that starting point until now. waited for three months = a finished period, so for works with the past simple too.", "he": "Not yet = עוד לא, עד עכשיו לא (תשובה קצרה במקום haven't ... yet). ‏since then = מאותה נקודה ועד עכשיו. ‏waited for three months = תקופה שהסתיימה – גם עבר פשוט יכול לבוא עם for." }
+    },
+    {
+      "id": "e8", "type": "read", "skill": "reading", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Read Maya's email and answer the questions.", "he": "קראו את המייל של מאיה וענו על השאלות." },
+      "title": "Finally, some news from Berlin!",
+      "passage": "Hi Noa,\n\nSorry I haven't written for ages. Life here has been crazy! I've lived in Berlin since September, and I still can't believe it. When I arrived, I didn't know a single person and my German was terrible. I cried on the phone to Mum almost every night that first week.\n\nThings have changed a lot since then. I've found a part-time job in a bookshop near my flat, and I've made some good friends there. Last Saturday they took me to a flea market by the river, and I bought an old camera for ten euros. So far I've taken about three hundred photos with it!\n\nMy German has improved too, but I still haven't had a real conversation on the phone. Phone calls are the worst!\n\nThe big news: I've just applied for a place at a photography school here. The deadline was yesterday, so I sent everything at 11:58 p.m. I haven't heard from them yet.\n\nHave you decided about university yet? Write soon and tell me everything.\n\nLove,\nMaya",
+      "questions": [
+        { "type": "tf", "statement": "Maya still lives in Berlin.", "answer": true,
+          "explanation": { "en": "'I've lived in Berlin since September' – present perfect + since: it started in September and is still true.", "he": "בטקסט: I've lived in Berlin since September – present perfect + since: זה התחיל בספטמבר ועדיין נכון." } },
+        { "type": "mcq", "question": "How did Maya feel in her first week?", "options": ["Confident, because her German was good.", "Lonely and homesick.", "Bored, because she had no work."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "She says her German was terrible when she arrived.", "he": "היא כותבת שהגרמנית שלה הייתה נוראית כשהגיעה." },
+            "2": { "en": "She doesn't say she was bored. She cried on the phone to her mum every night.", "he": "היא לא כותבת שהשתעממה. היא בכתה בטלפון לאמא שלה כל ערב." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'I didn't know a single person ... I cried on the phone to Mum almost every night that first week.'", "he": "בטקסט: I didn't know a single person ... I cried on the phone to Mum almost every night – היא הייתה בודדה והתגעגעה הביתה." } },
+        { "type": "mcq", "question": "Why does Maya write 'I bought an old camera' and not 'I've bought an old camera'?", "options": ["Because she doesn't have the camera any more.", "Because it happened a very short time ago.", "Because she says when it happened: last Saturday, a finished time."], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "She still has it: she has taken 300 photos with it. The reason is the finished time.", "he": "המצלמה עדיין אצלה: היא צילמה איתה 300 תמונות. הסיבה היא הזמן שהסתיים." },
+            "1": { "en": "For something that happened a moment ago we use just + present perfect. Here she gives a finished time.", "he": "למשהו שקרה הרגע משתמשים ב-just + present perfect. כאן היא מציינת זמן שהסתיים." }
+          },
+          "option_errors": { "0": "tense-choice", "1": "tense-choice" },
+          "explanation": { "en": "Last Saturday is a finished time, so Maya uses the past simple: they took me ... I bought.", "he": "Last Saturday הוא זמן שהסתיים, ולכן מאיה משתמשת בעבר פשוט: they took me ... I bought." } },
+        { "type": "tf", "statement": "Maya has had a long phone conversation in German.", "answer": false,
+          "explanation": { "en": "'I still haven't had a real conversation on the phone.'", "he": "בטקסט: I still haven't had a real conversation on the phone – עד עכשיו עוד לא." } },
+        { "type": "gap", "text": "So far, Maya has taken about ___ photos with the camera.", "answers": [["300", "three hundred"]],
+          "explanation": { "en": "'So far I've taken about three hundred photos with it!'", "he": "בטקסט: So far I've taken about three hundred photos with it!" } },
+        { "type": "tf", "statement": "The photography school has already replied to Maya.", "answer": false,
+          "explanation": { "en": "'I haven't heard from them yet.' She only applied yesterday.", "he": "בטקסט: I haven't heard from them yet. היא הגישה מועמדות רק אתמול." } }
+      ]
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Maya passed her driving test a few minutes ago. Write the news in one sentence with just and the present perfect.", "he": "מאיה עברה את מבחן הנהיגה לפני כמה דקות. כתבו את החדשה במשפט אחד עם just וב-present perfect." },
+      "source": "Maya / pass / her driving test",
+      "answers": ["Maya has just passed her driving test.", "Maya's just passed her driving test."],
+      "wrong_feedback": [
+        { "match": "Maya has just pass her driving test.", "feedback": { "en": "After has, use the past participle: has just passed.", "he": "אחרי has בא V3: has just passed." }, "error_type": "verb-form" },
+        { "match": "Maya just passed her driving test.", "feedback": { "en": "You'll hear this in American English, but the task asks for the present perfect: Maya has just passed...", "he": "כך אומרים באנגלית אמריקאית, אבל המשימה מבקשת present perfect: Maya has just passed..." }, "error_type": "tense-choice" },
+        { "match": "Maya has passed just her driving test.", "feedback": { "en": "just goes between has and the past participle: has just passed.", "he": "just בא בין has לבין V3: has just passed." }, "error_type": "word-order" },
+        { "match": "Maya just has passed her driving test.", "feedback": { "en": "just goes after has, not before it: Maya has just passed...", "he": "just בא אחרי has ולא לפניו: Maya has just passed..." }, "error_type": "word-order" }
+      ],
+      "hint": { "en": "has + just + past participle", "he": "המבנה: has + just + V3" },
+      "explanation": { "en": "Fresh news with no finished time → has + just + past participle: Maya has just passed her driving test.", "he": "חדשה טרייה בלי זמן שהסתיים → has + just + V3: Maya has just passed her driving test." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Find the mistake and write the sentence correctly.", "he": "מצאו את הטעות וכתבו את המשפט נכון." },
+      "sentence": "I have seen this film last year.",
+      "answers": ["I saw this film last year.", "Last year I saw this film.", "Last year, I saw this film."],
+      "error_type": "tense-choice",
+      "hint": { "en": "Look at the time expression at the end.", "he": "הסתכלו על ביטוי הזמן בסוף המשפט." },
+      "explanation": { "en": "last year is a finished time, so the past simple is the only choice: I saw this film last year. Without the time, I've seen this film is fine.", "he": "last year הוא זמן שהסתיים, ולכן רק עבר פשוט: I saw this film last year. בלי ציון הזמן, I've seen this film תקין." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Find the mistake and write the sentence correctly.", "he": "מצאו את הטעות וכתבו את המשפט נכון." },
+      "sentence": "I live in Tel Aviv since 2020.",
+      "answers": ["I have lived in Tel Aviv since 2020.", "I have been living in Tel Aviv since 2020."],
+      "error_type": "tense-choice",
+      "hint": { "en": "It started in 2020 and it's still true. Which tense connects the past and now?", "he": "זה התחיל ב-2020 ועדיין נכון. איזה זמן מחבר בין העבר להווה?" },
+      "explanation": { "en": "since + a starting point needs the present perfect: I've lived in Tel Aviv since 2020. The present simple (I live) can't go with since.", "he": "since + נקודת התחלה דורש present perfect: I've lived in Tel Aviv since 2020. הווה פשוט (I live) לא יכול לבוא עם since." }
+    },
+    {
+      "id": "e12", "type": "order", "skill": "grammar", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["How", "long", "have", "you", "known", "each", "other"],
+      "explanation": { "en": "How long + have + subject + past participle: How long have you known each other? Answer: For two years. / Since 2022.", "he": "How long + have + נושא + V3: How long have you known each other? תשובה: For two years. / Since 2022." }
+    },
+    {
+      "id": "e13", "type": "transform", "skill": "vocabulary", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Maya is talking about her best friend. Translate into English.", "he": "מאיה מדברת על החברה הכי טובה שלה. תרגמו לאנגלית." },
+      "source": "אני מכירה את נועה כבר עשר שנים.",
+      "answers": ["I have known Noa for ten years.", "I have known Noa for 10 years.", "I have known Noa for ten years now.", "I have known Noa for 10 years now.", "I have known Noa ten years."],
+      "wrong_feedback": [
+        { "match": "I know Noa for ten years.", "feedback": { "en": "Hebrew uses the present here, but English needs the present perfect for a situation that started in the past and continues: I've known Noa for ten years.", "he": "בעברית אומרים 'מכירה' בהווה, אבל באנגלית מצב שהתחיל בעבר ונמשך עד היום דורש present perfect: I've known Noa for ten years." }, "error_type": "tense-choice" },
+        { "match": "I know Noa ten years.", "feedback": { "en": "Two things are missing: the present perfect (I've known) and for before the length of time.", "he": "חסרים שני דברים: present perfect (I've known) ו-for לפני משך הזמן." }, "error_type": "tense-choice" },
+        { "match": "I knew Noa for ten years.", "feedback": { "en": "I knew ... for ten years = a finished period. It sounds as if you don't know her any more!", "he": "I knew ... for ten years = תקופה שהסתיימה. זה נשמע כאילו אתן כבר לא מכירות!" }, "error_type": "tense-choice" },
+        { "match": "I have known Noa since ten years.", "feedback": { "en": "since + a starting point (since 2015). For a length of time use for: for ten years.", "he": "since + נקודת התחלה (since 2015). למשך זמן משתמשים ב-for: for ten years." }, "error_type": "preposition" },
+        { "match": "I have already known Noa for ten years.", "feedback": { "en": "Here the Hebrew word for already only stresses that it's a long time. English doesn't need already: I've known Noa for ten years.", "he": "כאן 'כבר' רק מדגיש שזה הרבה זמן. באנגלית לא צריך already: I've known Noa for ten years." }, "error_type": "false-friend" },
+        { "match": "I am knowing Noa for ten years.", "feedback": { "en": "know is a state verb, so no -ing. Use the present perfect: I've known Noa for ten years.", "he": "know הוא פועל מצב, ולכן בלי ing. משתמשים ב-present perfect: I've known Noa for ten years." }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "It started ten years ago and it's still true. Which tense? And for or since?", "he": "זה התחיל לפני עשר שנים ועדיין נכון. איזה זמן? ו-for או since?" },
+      "explanation": { "en": "Present in Hebrew, present perfect in English: I've known Noa for ten years. for + a length of time; no already needed.", "he": "בעברית הווה, באנגלית present perfect: I've known Noa for ten years. ‏for + משך זמן, ובלי already." }
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "I haven't seen Omer since the summer, but we've talked on the phone a few times.",
+      "answers": ["I haven't seen Omer since the summer, but we've talked on the phone a few times."],
+      "hint": { "en": "Listen for two short forms: haven't and we've.", "he": "הקשיבו לשתי צורות מקוצרות: haven't ו-we've." },
+      "explanation": { "en": "haven't seen ... since the summer = not from the summer up to now. we've talked ... a few times = experience up to now, with no finished time.", "he": "haven't seen ... since the summer = מהקיץ ועד עכשיו לא. ‏we've talked ... a few times = ניסיון עד עכשיו, בלי זמן שהסתיים." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Say it out loud.", "he": "אמרו את זה בקול." },
+      "target": "I've lived here for six years, and I still love it.",
+      "focus": { "en": "I've ends in a clear /v/: /aɪv/. In for six years, for is short and weak: /fə/. lived and still have a short /ɪ/, not a long 'ee' /iː/.", "he": "I've מסתיים ב-/v/ ברורה: /aɪv/. ב-for six years המילה for קצרה וחלשה: /fə/. ב-lived וב-still התנועה קצרה /ɪ/, לא 'אִי' ארוכה /iː/." },
+      "explanation": { "en": "A natural way to talk about where you live: present perfect + for, and still for something that hasn't changed.", "he": "דרך טבעית לדבר על המקום שבו אתם גרים: present perfect + for, ו-still למשהו שלא השתנה." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "present-perfect-vs-past",
+      "prompt": { "en": "Catch up with an old friend.", "he": "התעדכנו עם חבר/ה ותיק/ה." },
+      "task": { "en": "You haven't written to an old friend for a long time. Write an email (80-120 words). Include: how long you've lived, studied or worked where you are now (for or since); two things you've done recently (with just or already); one thing you haven't done yet; and one finished event with a past time (last month, in June...). End with a question to your friend.", "he": "מזמן לא כתבתם לחבר או לחברה ותיקים. כתבו מייל (80-120 מילים). כללו: כמה זמן אתם גרים, לומדים או עובדים במקום הנוכחי (for או since); שני דברים שעשיתם לאחרונה (עם just או already); דבר אחד שעוד לא עשיתם (yet); ואירוע אחד שהסתיים עם ציון זמן בעבר (last month, ‏in June...). סיימו בשאלה לחבר/ה." },
+      "min_words": 80,
+      "max_words": 130,
+      "must_include": ["yet"],
+      "model_answer": "Hi Lior,\n\nSorry I haven't written for ages! Lots of news. I've lived in Jerusalem since March, and I've started a course in graphic design. I've already made some good friends there, and I've just finished my first big project, a poster for a local music festival. Last month I went to Eilat with my classmates. We swam at the coral beach and slept under the stars. Amazing!\n\nI haven't found a part-time job yet, so money is a bit tight. How about you? Have you finished your army service yet? Let's catch up soon!\n\nHugs,\nYael",
+      "checklist": [
+        { "en": "I used for + a length of time or since + a starting point with the present perfect.", "he": "השתמשתי ב-for + משך זמן או ב-since + נקודת התחלה עם present perfect." },
+        { "en": "I used just or already between have and the past participle, and yet at the end of a negative or a question.", "he": "השתמשתי ב-just או already בין have לבין V3, וב-yet בסוף משפט שלילי או שאלה." },
+        { "en": "With a finished time (last month, in June) I used the past simple, not the present perfect.", "he": "עם זמן שהסתיים (last month, ‏in June) השתמשתי בעבר פשוט ולא ב-present perfect." },
+        { "en": "I ended with a question (Have you...yet? / How long have you...?).", "he": "סיימתי בשאלה (Have you...yet? / How long have you...?)." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Finished time (yesterday, last year, ago, When...?) → past simple: I saw him yesterday.", "he": "זמן שהסתיים (yesterday, ‏last year, ‏ago, ‏When...?) → עבר פשוט: I saw him yesterday." },
+      { "en": "Time up to now or no time given → present perfect: I've seen him twice this week.", "he": "זמן שנמשך עד עכשיו, או בלי ציון זמן → present perfect: I've seen him twice this week." },
+      { "en": "for + a length of time, since + a starting point: for six years / since 2020. Ask: How long have you...?", "he": "for + משך זמן, ‏since + נקודת התחלה: for six years / since 2020. שואלים: How long have you...?" },
+      { "en": "just and already go between have and the past participle; yet goes at the end of questions and negatives.", "he": "just ו-already באים בין have לבין V3; ‏yet בא בסוף שאלות ומשפטי שלילה." },
+      { "en": "A situation that started in the past and is still true: present perfect in English, present tense in Hebrew: I've lived here for three years.", "he": "מצב שהתחיל בעבר ועדיין נכון: באנגלית present perfect, בעברית הווה: I've lived here for three years." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

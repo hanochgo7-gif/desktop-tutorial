@@ -1,0 +1,286 @@
+{
+  "id": "a2-12",
+  "level": "A2",
+  "title_en": "Must, have to, should",
+  "title_he": "חובה ועצה",
+  "topics": ["modals-obligation-advice"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can talk about rules and obligations with must and have to.", "he": "אני יודע/ת לדבר על חוקים וחובות בעזרת must ו-have to." },
+    { "en": "I can explain the difference between mustn't (it's not allowed) and don't have to (it's not necessary).", "he": "אני יודע/ת להסביר את ההבדל בין mustn't (אסור) לבין don't have to (לא חייבים)." },
+    { "en": "I can give advice with should and shouldn't.", "he": "אני יודע/ת לתת עצות בעזרת should ו-shouldn't." }
+  ],
+  "warmup": { "en": "Think about your school, army base or workplace. What do you have to do there? What isn't allowed? What isn't necessary? Make a quick list in English or Hebrew.", "he": "חשבו על בית הספר, הבסיס או מקום העבודה שלכם: מה חייבים לעשות שם? מה אסור? ומה לא חובה? בעברית יש לנו 'חייבים', 'אסור' ו'לא חייבים'. היום נלמד את שלושתם באנגלית – וגם איך לתת עצה." },
+  "explanation": [
+    { "type": "p", "en": "Lior has a new job at a café. He has to wear a black T-shirt. He must be on time. He mustn't use his phone behind the counter. He doesn't have to work on Saturdays. His manager's advice: 'You should ask a lot of questions in your first week.'", "he": "ליאור התחיל לעבוד בבית קפה. הוא חייב ללבוש חולצה שחורה (has to), הוא חייב להגיע בזמן (must), אסור לו להשתמש בטלפון מאחורי הדלפק (mustn't), והוא לא חייב לעבוד בשבת (doesn't have to). העצה של המנהלת: 'כדאי לך לשאול הרבה שאלות בשבוע הראשון' (should)." },
+    { "type": "table", "headers": ["Meaning", "English", "Example", "עברית"], "rows": [
+      ["necessary", "must / have to", "You must wear a seat belt. I have to work tomorrow.", "חייבים, צריך"],
+      ["not allowed", "mustn't (or can't)", "You mustn't smoke here.", "אסור"],
+      ["not necessary", "don't have to", "You don't have to come.", "לא חייבים, לא צריך"],
+      ["a good idea", "should", "You should see a doctor.", "כדאי"],
+      ["a bad idea", "shouldn't", "You shouldn't drive tonight.", "לא כדאי"]
+    ] },
+    { "type": "warning", "en": "mustn't and don't have to are NOT the same. You mustn't park here = it's not allowed. You don't have to park here = it's not necessary, but you can if you want.", "he": "mustn't ו-don't have to הם לא אותו דבר! You mustn't park here – אסור לחנות כאן. You don't have to park here – לא חייבים לחנות כאן, אבל מותר אם רוצים." },
+    { "type": "rule", "en": "must, mustn't, should and shouldn't + base verb, with no to and no -s: She must go (not *She must to go or *She musts go). have to changes like a normal verb: I have to, she has to, Do you have to ...?, She doesn't have to ...", "he": "אחרי must, mustn't, should ו-shouldn't בא פועל בסיס, בלי to ובלי s: She must go (ולא She must to go או She musts go). לעומת זאת, have to משתנה כמו פועל רגיל: I have to, she has to, Do you have to ...?, She doesn't have to ..." },
+    { "type": "tip", "en": "In positive sentences, must and have to are very close. must is common in written rules and signs (Visitors must sign in); in conversation, have to is more common. For the past, use had to: I had to wait an hour.", "he": "במשפט חיובי must ו-have to כמעט זהים. must נפוץ בחוקים כתובים ובשלטים (Visitors must sign in), ובשיחה יומיומית have to נפוץ יותר. בעבר משתמשים ב-had to: I had to wait an hour." },
+    { "type": "tip", "en": "Make advice softer with I think or I don't think: I think you should rest. I don't think you should go.", "he": "אפשר לרכך עצה בעזרת I think או I don't think: I think you should rest. I don't think you should go." }
+  ],
+  "examples": [
+    { "en": "You must wear a seat belt.", "he": "חובה לחגור חגורת בטיחות.", "note": "a strong rule" },
+    { "en": "I have to get up at six tomorrow.", "he": "אני צריך/ה לקום מחר בשש.", "note": "necessary" },
+    { "en": "She has to wear a uniform at work.", "he": "היא חייבת ללבוש מדים בעבודה.", "note": "he / she / it → has to" },
+    { "en": "You mustn't take photos in the museum.", "he": "אסור לצלם במוזיאון.", "note": "not allowed" },
+    { "en": "You don't have to bring anything – we have everything.", "he": "לא צריך להביא כלום – יש לנו הכול.", "note": "not necessary" },
+    { "en": "Do we have to book a table?", "he": "אנחנו צריכים להזמין שולחן מראש?", "note": "question with do" },
+    { "en": "You should try the shakshuka here. It's great.", "he": "כדאי לך לטעום פה את השקשוקה. היא מעולה.", "note": "advice" },
+    { "en": "You shouldn't stay up so late before an exam.", "he": "לא כדאי לך להישאר ער/ה עד מאוחר כל כך לפני מבחן.", "note": "negative advice" },
+    { "en": "I had to wait an hour for the bus.", "he": "הייתי צריך/ה לחכות שעה לאוטובוס.", "note": "past: had to" }
+  ],
+  "vocab": [
+    { "word": "rule", "pos": "noun", "he": "חוק, כלל", "def": "something that tells you what you must or mustn't do", "example": "Our school has a lot of rules.", "ipa": "/ruːl/", "collocations": ["follow the rules", "break a rule", "school rules"], "level": "A2" },
+    { "word": "allowed", "pos": "adjective", "he": "מותר", "def": "OK according to the rules; permitted", "example": "Are we allowed to use dictionaries in the exam?", "ipa": "/əˈlaʊd/", "collocations": ["be allowed to", "not allowed", "allowed in"], "level": "A2" },
+    { "word": "necessary", "pos": "adjective", "he": "הכרחי, נחוץ", "def": "needed; something you have to do or have", "example": "It isn't necessary to print the ticket.", "ipa": "/ˈnesəsəri/", "collocations": ["not necessary", "if necessary", "really necessary"], "level": "A2" },
+    { "word": "uniform", "pos": "noun", "he": "מדים, תלבושת אחידה", "def": "special clothes that everyone in a school, team or job wears", "example": "Do you have to wear a uniform at work?", "ipa": "/ˈjuːnɪfɔːm/", "collocations": ["wear a uniform", "school uniform", "in uniform"], "level": "A2" },
+    { "word": "seat belt", "pos": "noun", "he": "חגורת בטיחות", "def": "a belt in a car or plane that keeps you in your seat", "example": "You must wear a seat belt in the back too.", "ipa": "/ˈsiːt belt/", "collocations": ["wear a seat belt", "fasten your seat belt", "put on your seat belt"], "level": "A2" },
+    { "word": "fine", "pos": "noun", "he": "קנס", "def": "money you have to pay when you break a rule or a law", "example": "If you park here, you'll get a fine.", "ipa": "/faɪn/", "collocations": ["get a fine", "pay a fine", "a parking fine"], "level": "A2" },
+    { "word": "permission", "pos": "noun", "he": "רשות, אישור", "def": "when someone says that you can do something", "example": "You have to ask for permission to leave early.", "ipa": "/pəˈmɪʃn/", "collocations": ["ask for permission", "get permission", "without permission"], "level": "B1" },
+    { "word": "ID", "pos": "noun", "he": "תעודה מזהה", "def": "a card or document that shows who you are", "example": "You have to show your ID at the entrance.", "ipa": "/ˌaɪ ˈdiː/", "collocations": ["show your ID", "an ID card", "bring ID"], "level": "A2" },
+    { "word": "form", "pos": "noun", "he": "טופס", "def": "a paper or web page with spaces where you write information", "example": "You must fill in this form before the course starts.", "ipa": "/fɔːm/", "collocations": ["fill in a form", "sign a form", "an online form"], "level": "A2" },
+    { "word": "rest", "pos": "noun", "he": "מנוחה", "def": "a time when you relax or sleep", "example": "You look tired. You should get some rest.", "ipa": "/rest/", "collocations": ["get some rest", "have a rest", "need a rest"], "level": "A2" },
+    { "word": "see a doctor", "pos": "phrase", "he": "ללכת לרופא/ה", "def": "to visit a doctor because you are ill or hurt", "example": "If you still feel bad tomorrow, you should see a doctor.", "ipa": "/ˌsiː ə ˈdɒktə(r)/", "collocations": ["see a doctor about", "you should see a doctor"], "level": "A2" },
+    { "word": "park", "pos": "verb", "he": "לחנות (רכב)", "def": "to leave a car somewhere for a time", "example": "You mustn't park in front of the gate.", "ipa": "/pɑːk/", "collocations": ["park the car", "park outside", "a place to park"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew a question like 'do I have to pay?' keeps statement word order with no helper verb, so it is easy to say *I have to pay? English needs do or does: Do I have to pay? Does she have to work on Friday?", "he": "בעברית שואלים 'אני צריך לשלם?' בלי פועל עזר, ולכן קל לומר I have to pay?. באנגלית צריך do או does: Do I have to pay? Does she have to work on Friday?", "error_type": "do-support" },
+    { "en": "In Hebrew verbs change for gender and number, not for he/she/it, so the English -s is easy to miss or to put in the wrong place. have to changes: she has to (not *she have to). Modals never change: she must, he should (not *she musts).", "he": "בעברית הפועל משתנה לפי מין ומספר, ואין סיומת מיוחדת ל-he/she/it כמו ה-s באנגלית. לכן קל לשכוח אותה או לשים אותה במקום הלא נכון. have to משתנה: she has to (ולא she have to). לעומת זאת must ו-should לא משתנים לעולם: she must, he should (ולא she musts).", "error_type": "third-person-s" },
+    { "en": "In Hebrew there is one 'u' vowel, so should /ʃʊd/ can come out long, like 'shood'. Keep it short, as in good and book, and don't say the l.", "he": "בעברית יש תנועת 'u' אחת, ולכן should /ʃʊd/ עלול לצאת ארוך, כמו 'שוּוּד'. אמרו אותו קצר, כמו ב-good וב-book, ובלי לבטא את ה-l.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Match each English sentence with its meaning in Hebrew.", "he": "התאימו כל משפט באנגלית למשמעות שלו בעברית." },
+      "pairs": [
+        ["You have to show your ID.", "חייבים להציג תעודה מזהה."],
+        ["You mustn't take photos.", "אסור לצלם."],
+        ["You don't have to book.", "לא חייבים להזמין מראש."],
+        ["You should try the soup.", "כדאי לטעום את המרק."],
+        ["You shouldn't drive tonight.", "לא כדאי לנהוג הלילה."],
+        ["You can sit anywhere.", "מותר לשבת איפה שרוצים."]
+      ],
+      "explanation": { "en": "have to = necessary · mustn't = not allowed · don't have to = not necessary · should = a good idea · shouldn't = a bad idea · can = allowed.", "he": "have to = חייבים · mustn't = אסור · don't have to = לא חייבים · should = כדאי · shouldn't = לא כדאי · can = מותר." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Read the sign and choose what it means.", "he": "קראו את השלט ובחרו מה הוא אומר." },
+      "question": "A sign in a museum: NO PHOTOS",
+      "options": ["You don't have to take photos.", "You mustn't take photos.", "You should take photos.", "You have to take photos."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "don't have to = it's not necessary, but it's OK. The sign says it's not allowed: mustn't.", "he": "don't have to פירושו 'לא חייבים' – אבל מותר. השלט אומר שאסור: mustn't." },
+        "2": { "en": "should is advice. A NO sign is a rule: you mustn't.", "he": "should היא עצה. שלט עם NO הוא חוק: mustn't." },
+        "3": { "en": "This means the opposite. NO PHOTOS = taking photos is not allowed.", "he": "זה ההפך. NO PHOTOS פירושו שאסור לצלם." }
+      },
+      "option_errors": { "0": "modal-use", "2": "modal-use", "3": "comprehension" },
+      "explanation": { "en": "NO + something on a sign = you mustn't do it.", "he": "שלט עם NO פירושו שאסור לעשות את הדבר: you mustn't." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "You don't have to bring food – there's a café. But you must bring your student card, or they won't let you in.",
+      "question": "What must the students bring?",
+      "options": ["food", "money for the café", "nothing at all", "their student card"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "'You don't have to bring food' – it's not necessary, because there's a café.", "he": "'You don't have to bring food' – לא צריך להביא אוכל, כי יש בית קפה." },
+        "1": { "en": "The speaker doesn't mention money.", "he": "הדובר/ת לא מזכיר/ה כסף." },
+        "2": { "en": "Listen again: one thing is necessary.", "he": "הקשיבו שוב: יש דבר אחד שחובה להביא." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "'You must bring your student card' = it's necessary. 'You don't have to bring food' = it's not necessary.", "he": "'You must bring your student card' – חובה. 'You don't have to bring food' – לא חובה." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Necessary, not allowed or not necessary? Sort the sentences.", "he": "חובה, אסור או לא חובה? מיינו את המשפטים." },
+      "categories": ["necessary", "not allowed", "not necessary"],
+      "items": [
+        { "text": "You must wear a helmet.", "category": "necessary" },
+        { "text": "We have to leave at six.", "category": "necessary" },
+        { "text": "Visitors must sign in at reception.", "category": "necessary" },
+        { "text": "You mustn't touch the paintings.", "category": "not allowed" },
+        { "text": "You can't park here.", "category": "not allowed" },
+        { "text": "You don't have to wear a tie.", "category": "not necessary" },
+        { "text": "She doesn't have to pay – she's under 12.", "category": "not necessary" }
+      ],
+      "hint": { "en": "Be careful with don't have to: it does NOT mean 'not allowed'.", "he": "שימו לב ל-don't have to: הוא לא אומר 'אסור'." },
+      "explanation": { "en": "must / have to → necessary · mustn't / can't → not allowed · don't have to / doesn't have to → not necessary.", "he": "must / have to → חובה · mustn't / can't → אסור · don't have to / doesn't have to → לא חובה." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Choose the best answer.", "he": "בחרו את התשובה המתאימה." },
+      "question": "Tomorrow is a holiday, so we ___ go to school.",
+      "options": ["mustn't", "shouldn't", "don't have to", "must"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "mustn't means it's not allowed. Going to school isn't forbidden – it just isn't necessary: don't have to.", "he": "mustn't פירושו 'אסור'. ללכת לבית הספר זה לא אסור – פשוט לא צריך: don't have to." },
+        "1": { "en": "shouldn't is advice (a bad idea). Here it's about what is necessary.", "he": "shouldn't היא עצה ('לא כדאי'). כאן מדובר על מה שחובה או לא חובה." },
+        "3": { "en": "must = it's necessary. But tomorrow is a holiday.", "he": "must פירושו 'חובה'. אבל מחר חג." }
+      },
+      "option_errors": { "0": "modal-use", "1": "modal-use", "3": "comprehension" },
+      "explanation": { "en": "No school tomorrow → it's not necessary → we don't have to go.", "he": "אין לימודים מחר → זה לא חובה → we don't have to go." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Complete the advice with should or shouldn't.", "he": "השלימו את העצות ב-should או ב-shouldn't." },
+      "text": "You look really tired. You ___ go to bed so late, and you ___ switch off your phone an hour before you sleep.",
+      "word_bank": ["should", "shouldn't"],
+      "answers": [["shouldn't"], ["should"]],
+      "wrong_feedback": [
+        { "match": "should", "feedback": { "en": "Going to bed late is a bad idea, so: You shouldn't go to bed so late.", "he": "ללכת לישון מאוחר זה רעיון רע, ולכן: You shouldn't go to bed so late." }, "error_type": "modal-use" },
+        { "match": "shouldn't", "feedback": { "en": "Switching off your phone is a good idea, so: You should switch it off.", "he": "לכבות את הטלפון זה רעיון טוב, ולכן: You should switch it off." }, "error_type": "modal-use" }
+      ],
+      "explanation": { "en": "should = a good idea · shouldn't = a bad idea. Both are followed by the base verb: shouldn't go, should switch.", "he": "should = רעיון טוב · shouldn't = רעיון רע. אחרי שניהם בא פועל בסיס: shouldn't go, should switch." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Complete with the correct form of have to. (+) = positive, (–) = negative.", "he": "השלימו בצורה הנכונה של have to. הסימן (+) = חיובי, והסימן (–) = שלילי." },
+      "text": "Amir is a nurse. He ___ (+) work some nights, but he ___ (–) work every weekend.",
+      "answers": [["has to"], ["doesn't have to"]],
+      "wrong_feedback": [
+        { "match": "have to", "feedback": { "en": "Amir = he, so use has to.", "he": "אמיר הוא he, ולכן has to." }, "error_type": "third-person-s" },
+        { "match": "don't have to", "feedback": { "en": "With he, use doesn't: he doesn't have to.", "he": "עם he משתמשים ב-doesn't: he doesn't have to." }, "error_type": "agreement" },
+        { "match": "doesn't has to", "feedback": { "en": "After doesn't, use the base form: doesn't have to.", "he": "אחרי doesn't בא פועל בסיס: doesn't have to." }, "error_type": "verb-form" },
+        { "match": "hasn't to", "feedback": { "en": "The negative of has to is doesn't have to.", "he": "השלילה של has to היא doesn't have to." }, "error_type": "verb-form" },
+        { "match": "mustn't", "feedback": { "en": "mustn't means 'not allowed'. Here the meaning is 'not necessary': doesn't have to.", "he": "mustn't פירושו 'אסור'. כאן הכוונה ל'לא חייב': doesn't have to." }, "error_type": "modal-use" }
+      ],
+      "hint": { "en": "Amir = he. And remember: not necessary is not the same as not allowed.", "he": "אמיר = he. וזכרו: 'לא חייב' זה לא 'אסור'." },
+      "explanation": { "en": "he has to (necessary) · he doesn't have to (not necessary).", "he": "he has to – הוא חייב · he doesn't have to – הוא לא חייב." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "You must to show your ticket at the door.",
+      "answers": ["You must show your ticket at the door.", "You have to show your ticket at the door."],
+      "error_type": "modal-use",
+      "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
+      "explanation": { "en": "After must, use the base verb with no to: must show. (have to does have to: You have to show ...)", "he": "אחרי must בא פועל בסיס בלי to: must show. (ב-have to דווקא יש to: You have to show ...)" }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My brother have to wear a uniform at work.",
+      "answers": ["My brother has to wear a uniform at work.", "My brother must wear a uniform at work."],
+      "error_type": "third-person-s",
+      "hint": { "en": "Who is the subject: I, you, or he?", "he": "מי הנושא: I, you או he?" },
+      "explanation": { "en": "My brother = he, so have → has: My brother has to wear a uniform at work.", "he": "My brother = he, ולכן have הופך ל-has: My brother has to wear a uniform at work." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Make a yes/no question.", "he": "הפכו את המשפט לשאלת כן/לא." },
+      "source": "Students have to pay for the bus.",
+      "answers": ["Do students have to pay for the bus?", "Must students pay for the bus?"],
+      "wrong_feedback": [
+        { "match": "Students have to pay for the bus?", "feedback": { "en": "A question mark is not enough. Start with Do: Do students have to pay for the bus?", "he": "סימן שאלה לא מספיק. מתחילים ב-Do: Do students have to pay for the bus?" }, "error_type": "do-support" },
+        { "match": "Have students to pay for the bus?", "feedback": { "en": "have to makes questions with do: Do students have to pay for the bus?", "he": "have to יוצר שאלה בעזרת do: Do students have to pay for the bus?" }, "error_type": "do-support" },
+        { "match": "Does students have to pay for the bus?", "feedback": { "en": "students is plural, so use Do.", "he": "students ברבים, ולכן Do." }, "error_type": "agreement" },
+        { "match": "Do students has to pay for the bus?", "feedback": { "en": "After do, use the base form: have to.", "he": "אחרי do בא פועל בסיס: have to." }, "error_type": "verb-form" }
+      ],
+      "explanation": { "en": "Do + subject + have to + verb: Do students have to pay for the bus? (Must students pay ...? is also correct, but less common.)", "he": "Do + נושא + have to + פועל: Do students have to pay for the bus? (גם Must students pay ...? נכון, אבל פחות נפוץ.)" }
+    },
+    {
+      "id": "e11", "type": "read", "skill": "reading", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Read the email from Omer's new manager and answer the questions.", "he": "קראו את המייל מהמנהלת החדשה של עומר וענו על השאלות." },
+      "title": "Your first day at Shell Beach Café",
+      "passage": "Hi Omer,\nWelcome to the team! Here are a few things you need to know before Sunday.\nYou have to be here at 7:30, half an hour before we open. You don't have to bring a uniform – we'll give you two T-shirts – but you must wear black trousers and comfortable shoes.\nStaff mustn't use their phones behind the counter, but you can check them on your break. You don't have to pay for coffee or lunch during your shift.\nOne more thing: the first week is always busy, so you should drink a lot of water, and you shouldn't stay up late on Saturday night!\nSee you soon,\nRachel",
+      "questions": [
+        { "type": "mcq", "question": "What time does Omer have to arrive on Sunday?", "options": ["at 7:00", "at 7:30", "at 8:00"], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "The email says 7:30.", "he": "במייל כתוב 7:30." },
+            "2": { "en": "8:00 is when the café opens. Omer has to arrive half an hour before.", "he": "בשעה 8:00 בית הקפה נפתח. עומר צריך להגיע חצי שעה לפני." }
+          },
+          "explanation": { "en": "'You have to be here at 7:30, half an hour before we open.'", "he": "במייל: You have to be here at 7:30 – חצי שעה לפני הפתיחה." } },
+        { "type": "tf", "statement": "Omer has to bring his own T-shirts.", "answer": false,
+          "explanation": { "en": "'You don't have to bring a uniform – we'll give you two T-shirts.'", "he": "במייל: You don't have to bring a uniform – בית הקפה נותן לו שתי חולצות." } },
+        { "type": "tf", "statement": "Omer can use his phone during his break.", "answer": true,
+          "explanation": { "en": "'...you can check them on your break.'", "he": "במייל: you can check them on your break – בהפסקה מותר." } },
+        { "type": "mcq", "question": "Which of these is NOT necessary for Omer?", "options": ["paying for lunch", "wearing black trousers", "arriving before the café opens"], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "'You must wear black trousers' – that's necessary.", "he": "'You must wear black trousers' – זו חובה." },
+            "2": { "en": "He has to arrive at 7:30, before the café opens – that's necessary.", "he": "הוא חייב להגיע ב-7:30, לפני הפתיחה – זו חובה." }
+          },
+          "explanation": { "en": "'You don't have to pay for coffee or lunch during your shift.'", "he": "במייל: You don't have to pay for coffee or lunch – לא צריך לשלם." } },
+        { "type": "gap", "text": "Rachel's advice: Omer ___ stay up late on Saturday night.", "answers": [["shouldn't"]],
+          "explanation": { "en": "'...you shouldn't stay up late on Saturday night!' shouldn't = advice: it's a bad idea.", "he": "במייל: you shouldn't stay up late on Saturday night. המילה shouldn't היא עצה: 'לא כדאי'." } }
+      ]
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "לא חייבים לבוא מוקדם, אבל אסור לאחר.",
+      "answers": [
+        "You don't have to come early, but you mustn't be late.",
+        "You don't have to come early but you mustn't be late.",
+        "You don't have to arrive early, but you mustn't be late.",
+        "You don't have to arrive early but you mustn't be late.",
+        "You don't have to come early, but you can't be late.",
+        "You don't have to come early but you can't be late.",
+        "You don't have to arrive early, but you can't be late.",
+        "You don't have to arrive early but you can't be late.",
+        "You don't need to come early, but you mustn't be late.",
+        "You don't need to come early but you mustn't be late.",
+        "You don't have to come early, but you mustn't arrive late.",
+        "You don't have to come early but you mustn't arrive late."
+      ],
+      "wrong_feedback": [
+        { "match": "You mustn't come early, but you mustn't be late.", "feedback": { "en": "The first part means 'it's not necessary', so use don't have to. mustn't means 'it's not allowed'.", "he": "'לא חייבים' = don't have to (לא חובה). המילה mustn't פירושה 'אסור', והיא מתאימה רק לחלק השני." }, "error_type": "modal-use" },
+        { "match": "You mustn't come early but you mustn't be late.", "feedback": { "en": "The first part means 'it's not necessary', so use don't have to. mustn't means 'it's not allowed'.", "he": "'לא חייבים' = don't have to (לא חובה). המילה mustn't פירושה 'אסור', והיא מתאימה רק לחלק השני." }, "error_type": "modal-use" },
+        { "match": "You don't have to come early, but you don't have to be late.", "feedback": { "en": "The second part means 'it's not allowed', so use mustn't: you mustn't be late.", "he": "'אסור' = mustn't: you mustn't be late." }, "error_type": "modal-use" },
+        { "match": "You don't must come early, but you mustn't be late.", "feedback": { "en": "There is no don't must. For 'not necessary', use don't have to.", "he": "אין don't must באנגלית. ל'לא חייבים' משתמשים ב-don't have to." }, "error_type": "modal-use" },
+        { "match": "You don't have to come early, but you mustn't to be late.", "feedback": { "en": "After mustn't, use the base verb with no to: mustn't be late.", "he": "אחרי mustn't בא פועל בסיס בלי to: mustn't be late." }, "error_type": "modal-use" },
+        { "match": "You don't have to come early, but you mustn't late.", "feedback": { "en": "late is an adjective, so you need be: mustn't be late.", "he": "'לאחר' הוא פועל בעברית, אבל באנגלית late הוא שם תואר, ולכן צריך be: mustn't be late." }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "Start with: You don't have to ...", "he": "התחילו ב-You don't have to ..." },
+      "explanation": { "en": "Not necessary → don't have to. Not allowed → mustn't. And 'to be late' is be late: You don't have to come early, but you mustn't be late.", "he": "'לא חייבים' = don't have to, ו'אסור' = mustn't. הפועל 'לאחר' מתורגם ל-be late: You don't have to come early, but you mustn't be late." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "You mustn't use your phone in the exam room.",
+      "answers": ["You mustn't use your phone in the exam room."],
+      "hint": { "en": "mustn't sounds like /ˈmʌsnt/: the first t is silent.", "he": "mustn't נשמע כמו /ˈmʌsnt/: ה-t הראשונה לא נהגית." },
+      "explanation": { "en": "mustn't = must not: it's not allowed. In speech, the first t disappears: /ˈmʌsnt/.", "he": "mustn't = must not – אסור. בדיבור ה-t הראשונה נעלמת: /ˈmʌsnt/." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Give the advice out loud.", "he": "אמרו את העצה בקול." },
+      "target": "You should take a break. You shouldn't work so late.",
+      "focus": { "en": "should /ʃʊd/ has a short vowel, as in good, and the l is silent. In shouldn't, the second syllable is very short: /ˈʃʊdnt/.", "he": "ב-should /ʃʊd/ התנועה קצרה, כמו ב-good, וה-l לא נהגית. ב-shouldn't ההברה השנייה קצרה מאוד: /ˈʃʊdnt/." },
+      "error_type": "pron-vowel",
+      "explanation": { "en": "Natural, friendly advice: should for a good idea, shouldn't for a bad one.", "he": "עצה טבעית וידידותית: should לרעיון טוב, shouldn't לרעיון רע." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "modals-obligation-advice",
+      "prompt": { "en": "Write a message with rules and advice.", "he": "כתבו הודעה עם חוקים ועצות." },
+      "task": { "en": "A student from abroad is joining your school, course or workplace next week. Write them a message (50-80 words). Include two things they have to / must do, one thing they mustn't do, one thing they don't have to do, and two pieces of advice with should or shouldn't.", "he": "תלמיד או תלמידה מחו״ל מצטרפים בשבוע הבא לבית הספר, לקורס או למקום העבודה שלכם. כתבו להם הודעה (50-80 מילים). כללו שני דברים שחייבים לעשות (have to / must), דבר אחד שאסור (mustn't), דבר אחד שלא חייבים (don't have to), ושתי עצות עם should או shouldn't." },
+      "min_words": 50,
+      "max_words": 100,
+      "must_include": ["have to", "mustn't", "should"],
+      "model_answer": "Hi Priya! I'm so happy you're joining our school. You have to wear the school T-shirt every day, and you must be in class by 8:15. You mustn't use your phone during lessons – the teachers are very strict about that. You don't have to bring lunch, because there's a cafeteria. You should bring a water bottle, because it's hot here, and you shouldn't sit at the back if you want to hear the teacher. See you on Sunday!",
+      "checklist": [
+        { "en": "I used have to or must for two things that are necessary.", "he": "השתמשתי ב-have to או ב-must לשני דברים שחובה לעשות." },
+        { "en": "I used mustn't for something not allowed and don't have to for something not necessary – not the other way round.", "he": "השתמשתי ב-mustn't למשהו אסור וב-don't have to למשהו שלא חובה – ולא להפך." },
+        { "en": "After must, mustn't, should and shouldn't, I used the base verb with no to.", "he": "אחרי must, mustn't, should ו-shouldn't השתמשתי בפועל בסיס, בלי to." },
+        { "en": "I gave two pieces of advice with should or shouldn't.", "he": "נתתי שתי עצות עם should או shouldn't." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "must / have to = necessary. She has to ... Do you have to ...?", "he": "must / have to = חובה. She has to ... Do you have to ...?" },
+      { "en": "mustn't = not allowed. don't have to = not necessary. They are NOT the same.", "he": "mustn't = אסור. don't have to = לא חובה. הם לא אותו דבר!" },
+      { "en": "should / shouldn't = advice: You should rest. You shouldn't worry.", "he": "should / shouldn't = עצה: You should rest. You shouldn't worry." },
+      { "en": "Modal + base verb, with no to and no -s: She must go. He should call.", "he": "פועל מודאלי + פועל בסיס, בלי to ובלי s: She must go. He should call." },
+      { "en": "The past of must / have to is had to: I had to wait.", "he": "העבר של must ושל have to הוא had to: I had to wait." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

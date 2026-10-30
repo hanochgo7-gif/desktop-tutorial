@@ -1,0 +1,961 @@
+{
+  "id": "a1-08",
+  "level": "A1",
+  "title_en": "Food and drink",
+  "title_he": "אוכל ושתייה",
+  "topics": [
+    "there-is-are",
+    "some-any",
+    "daily-life-vocab"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can name common food and drink.",
+      "he": "אני יכול/ה לקרוא בשם למאכלים ולמשקאות נפוצים באנגלית."
+    },
+    {
+      "en": "I can say what is (and isn't) in my kitchen with there is and there are.",
+      "he": "אני יודע/ת לומר מה יש (ומה אין) במטבח שלי בעזרת there is ו-there are."
+    },
+    {
+      "en": "I can use some and any, and order politely with I'd like.",
+      "he": "אני יודע/ת להשתמש ב-some וב-any, ולהזמין בנימוס עם I'd like."
+    }
+  ],
+  "warmup": {
+    "en": "Open your fridge (or imagine it). How do you say 'there is milk' and 'there are no eggs' in Hebrew? Hebrew needs one short word. Let's see what English needs.",
+    "he": "פתחו את המקרר (או דמיינו אותו). איך אומרים 'יש חלב' ו'אין ביצים'? בעברית מספיקה מילה אחת קצרה – יש או אין. היום נראה מה צריך באנגלית."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Noa opens the fridge. There's some milk and there are four eggs, but there isn't any cheese. Is there any bread? Yes, there is. It's in the cupboard.",
+      "he": "נועה פותחת את המקרר: יש חלב ויש ארבע ביצים, אבל אין גבינה. יש לחם? כן, יש – בארון. כדי לומר שמשהו נמצא (או לא נמצא) במקום, באנגלית אומרים There is או There are."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Form",
+        "One thing, or milk / bread / rice",
+        "Two or more"
+      ],
+      "rows": [
+        [
+          "+",
+          "There's an apple. There's some milk.",
+          "There are two apples. There are some eggs."
+        ],
+        [
+          "−",
+          "There isn't a banana. There isn't any milk.",
+          "There aren't any eggs."
+        ],
+        [
+          "?",
+          "Is there a banana? Is there any milk?",
+          "Are there any eggs?"
+        ],
+        [
+          "Short answers",
+          "Yes, there is. / No, there isn't.",
+          "Yes, there are. / No, there aren't."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "There is (There's) + one thing: There's a banana. There are + two or more: There are three bananas. Words like milk, water, bread, rice and cheese have no a/an and no -s, so they take is: There's some bread.",
+      "he": "There is (בקיצור There's) + דבר אחד: There's a banana. עם שניים או יותר – There are: There are three bananas. מילים כמו milk, water, bread, rice ו-cheese באות בלי a/an ובלי s, ולכן הולכות עם is: There's some bread."
+    },
+    {
+      "type": "rule",
+      "en": "some = an amount or a number, but not exactly how much. Use some in positive sentences, and any in negatives and questions: There are some eggs. There aren't any eggs. Are there any eggs?",
+      "he": "some פירושו 'קצת' או 'כמה' – בלי לומר כמה בדיוק. משתמשים ב-some במשפט חיובי, וב-any בשלילה ובשאלה: There are some eggs. There aren't any eggs. Are there any eggs?"
+    },
+    {
+      "type": "warning",
+      "en": "Don't translate the Hebrew word for 'there is' word for word: There's some bread, not 'Have bread' or 'Is bread'. And count: There are three apples, not 'There is three apples'.",
+      "he": "אל תתרגמו את 'יש' מילה במילה: There's some bread, ולא Have bread או Is bread. ושימו לב לכמות: There are three apples, ולא There is three apples."
+    },
+    {
+      "type": "tip",
+      "en": "To ask for food politely, say I'd like (= I would like): I'd like a coffee, please. I'd like some water. (In a café, a coffee = a cup of coffee.) To offer something, use some even in a question: Would you like some tea?",
+      "he": "כדי לבקש אוכל או שתייה בנימוס אומרים I'd like (קיצור של I would like – 'הייתי רוצה'): I'd like a coffee, please. ‏(בבית קפה a coffee פירושו כוס קפה.) כשמציעים משהו, משתמשים ב-some גם בשאלה: Would you like some tea?"
+    }
+  ],
+  "examples": [
+    {
+      "en": "There's some cheese in the fridge.",
+      "he": "יש גבינה במקרר."
+    },
+    {
+      "en": "There are two tomatoes on the table.",
+      "he": "יש שתי עגבניות על השולחן.",
+      "note": "two or more → are"
+    },
+    {
+      "en": "There isn't any milk.",
+      "he": "אין חלב.",
+      "note": "negative → any"
+    },
+    {
+      "en": "There aren't any eggs in the fridge.",
+      "he": "אין ביצים במקרר."
+    },
+    {
+      "en": "Is there any rice? – Yes, there is.",
+      "he": "יש אורז? – כן, יש.",
+      "note": "question → any"
+    },
+    {
+      "en": "Are there any apples? – No, there aren't.",
+      "he": "יש תפוחים? – לא, אין."
+    },
+    {
+      "en": "I'd like a sandwich and some water, please.",
+      "he": "אפשר כריך ומים, בבקשה?",
+      "note": "I'd like = I would like (polite)"
+    },
+    {
+      "en": "Would you like some cake?",
+      "he": "רוצים עוגה?",
+      "note": "an offer → some"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "bread",
+      "pos": "noun",
+      "he": "לחם",
+      "def": "a basic food made from flour and water and baked",
+      "example": "There's some bread in the cupboard.",
+      "ipa": "/bred/",
+      "collocations": [
+        "a slice of bread",
+        "white bread"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "milk",
+      "pos": "noun",
+      "he": "חלב",
+      "def": "the white drink that comes from cows",
+      "example": "Is there any milk for my coffee?",
+      "ipa": "/mɪlk/",
+      "level": "A1"
+    },
+    {
+      "word": "cheese",
+      "pos": "noun",
+      "he": "גבינה",
+      "def": "a food made from milk; it can be soft or hard",
+      "example": "There's some cheese in the fridge.",
+      "ipa": "/tʃiːz/",
+      "collocations": [
+        "cream cheese",
+        "a cheese sandwich"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "egg",
+      "pos": "noun",
+      "he": "ביצה",
+      "def": "a round food from a chicken, with a hard shell",
+      "example": "There are six eggs in the box.",
+      "ipa": "/eɡ/",
+      "collocations": [
+        "a boiled egg",
+        "fried eggs"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "rice",
+      "pos": "noun",
+      "he": "אורז",
+      "def": "small white or brown grains that you cook in water",
+      "example": "We often have rice with chicken.",
+      "ipa": "/raɪs/",
+      "level": "A1"
+    },
+    {
+      "word": "chicken",
+      "pos": "noun",
+      "he": "עוף; תרנגולת",
+      "def": "a bird, or its meat as food",
+      "example": "Is there any chicken for dinner?",
+      "ipa": "/ˈtʃɪkɪn/",
+      "level": "A1"
+    },
+    {
+      "word": "tomato",
+      "pos": "noun",
+      "he": "עגבנייה",
+      "def": "a soft, round, red food that you often eat in a salad (plural: tomatoes)",
+      "example": "There are three tomatoes on the table.",
+      "ipa": "/təˈmɑːtəʊ/",
+      "level": "A1"
+    },
+    {
+      "word": "apple",
+      "pos": "noun",
+      "he": "תפוח",
+      "def": "a round fruit with red, green or yellow skin",
+      "example": "I'd like an apple, please.",
+      "ipa": "/ˈæpl/",
+      "level": "A1"
+    },
+    {
+      "word": "vegetable",
+      "pos": "noun",
+      "he": "ירק",
+      "def": "a plant that we eat, like a carrot or an onion",
+      "example": "There aren't any vegetables in the fridge.",
+      "ipa": "/ˈvedʒtəbl/",
+      "collocations": [
+        "fresh vegetables"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "water",
+      "pos": "noun",
+      "he": "מים",
+      "def": "the clear drink that comes from the tap or a bottle",
+      "example": "I'd like some water, please.",
+      "ipa": "/ˈwɔːtə(r)/",
+      "collocations": [
+        "a glass of water",
+        "a bottle of water"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "fridge",
+      "pos": "noun",
+      "he": "מקרר",
+      "def": "a cold machine in the kitchen that keeps food fresh",
+      "example": "There's some milk in the fridge.",
+      "ipa": "/frɪdʒ/",
+      "level": "A1"
+    },
+    {
+      "word": "cupboard",
+      "pos": "noun",
+      "he": "ארון (במטבח)",
+      "def": "a piece of furniture with doors where you keep food, plates or cups (the p is silent)",
+      "example": "The rice is in the cupboard.",
+      "ipa": "/ˈkʌbəd/",
+      "level": "A1"
+    },
+    {
+      "word": "hungry",
+      "pos": "adjective",
+      "he": "רעב/ה",
+      "def": "wanting to eat",
+      "example": "I'm hungry. Is there any bread?",
+      "ipa": "/ˈhʌŋɡri/",
+      "level": "A1"
+    },
+    {
+      "word": "would like ('d like)",
+      "pos": "phrase",
+      "he": "הייתי רוצה; אשמח ל...",
+      "def": "a polite way to say want",
+      "example": "I'd like a coffee, please.",
+      "ipa": "/wʊd laɪk/",
+      "collocations": [
+        "I'd like ..., please",
+        "Would you like ...?"
+      ],
+      "level": "A1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew, the word for 'there is' is one word, with no verb 'be' and no subject. English works differently: it needs There + is/are. Say There's some bread, not 'Have bread' or 'Is bread'.",
+      "he": "בעברית 'יש' היא מילה אחת, בלי פועל 'להיות' ובלי נושא. באנגלית צריך There + is/are: There's some bread, ולא Have bread או Is bread.",
+      "error_type": "false-friend"
+    },
+    {
+      "en": "In Hebrew there is no word for a/an, so 'There's apple' or 'I'd like sandwich' can sound right. English works differently: There's an apple. I'd like a sandwich. Use one only when the number matters: one apple, not two.",
+      "he": "בעברית אין מילה ל-a/an, ולכן There's apple או I'd like sandwich נשמעים אולי נכון. באנגלית: There's an apple, I'd like a sandwich. את one אומרים רק כשהמספר חשוב: one apple, not two.",
+      "error_type": "article"
+    },
+    {
+      "en": "Hebrew works differently here: it has no /ð/ or /θ/ sound, so there and three can come out as 'dere' and 'tree'. Put the tip of your tongue between your teeth: there /ðeə(r)/ with your voice, three /θriː/ with air only.",
+      "he": "בעברית אין את הצלילים /ð/ ו-/θ/, ולכן there ו-three יוצאות לפעמים 'דֶר' ו'טְרִי' (tree = עץ!). שימו את קצה הלשון בין השיניים: ב-there עם קול, וב-three רק עם אוויר.",
+      "error_type": "pron-th"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "daily-life-vocab",
+      "prompt": {
+        "en": "Match the food words with their Hebrew meaning.",
+        "he": "התאימו כל מילה באנגלית למשמעות שלה בעברית."
+      },
+      "pairs": [
+        [
+          "bread",
+          "לחם"
+        ],
+        [
+          "cheese",
+          "גבינה"
+        ],
+        [
+          "chicken",
+          "עוף"
+        ],
+        [
+          "rice",
+          "אורז"
+        ],
+        [
+          "fridge",
+          "מקרר"
+        ],
+        [
+          "vegetables",
+          "ירקות"
+        ]
+      ],
+      "explanation": {
+        "en": "chicken is the bird and also its meat as food. vegetables is usually plural: There are some vegetables.",
+        "he": "chicken היא גם התרנגולת וגם הבשר שלה – עוף. המילה vegetables באה בדרך כלל ברבים: There are some vegetables."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "There is or there are? Sort the food.",
+        "he": "There is או There are? מיינו את המאכלים."
+      },
+      "categories": [
+        "There is ...",
+        "There are ..."
+      ],
+      "items": [
+        {
+          "text": "a banana",
+          "category": "There is ..."
+        },
+        {
+          "text": "some eggs",
+          "category": "There are ..."
+        },
+        {
+          "text": "some bread",
+          "category": "There is ..."
+        },
+        {
+          "text": "two tomatoes",
+          "category": "There are ..."
+        },
+        {
+          "text": "an apple",
+          "category": "There is ..."
+        },
+        {
+          "text": "some milk",
+          "category": "There is ..."
+        },
+        {
+          "text": "some vegetables",
+          "category": "There are ..."
+        },
+        {
+          "text": "some rice",
+          "category": "There is ..."
+        }
+      ],
+      "hint": {
+        "en": "Look at the end of each food word. Is there an -s?",
+        "he": "הסתכלו על סוף המילה. יש s?"
+      },
+      "explanation": {
+        "en": "One thing (a banana, an apple) and words like milk, bread and rice → There is. Two or more (eggs, tomatoes, vegetables) → There are.",
+        "he": "דבר אחד (a banana, an apple) ומילים כמו milk, bread, rice → There is. שניים או יותר (eggs, tomatoes, vegetables) → There are."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "some-any",
+      "prompt": {
+        "en": "Listen and answer the question.",
+        "he": "הקשיבו וענו על השאלה."
+      },
+      "audio_text": "There's some cheese in the fridge, but there isn't any milk.",
+      "question": "What's in the fridge?",
+      "options": [
+        "milk",
+        "milk and cheese",
+        "cheese"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Listen again: 'there isn't any milk' means there is no milk.",
+          "he": "הקשיבו שוב: there isn't any milk פירושו שאין חלב."
+        },
+        "1": {
+          "en": "Only the cheese is there: '...but there isn't any milk'.",
+          "he": "יש רק גבינה: '...but there isn't any milk' – חלב אין."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension"
+      },
+      "explanation": {
+        "en": "There's some cheese = there is cheese. There isn't any milk = there is no milk.",
+        "he": "There's some cheese = יש גבינה. There isn't any milk = אין חלב."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "some-any",
+      "prompt": {
+        "en": "Complete with some or any.",
+        "he": "השלימו ב-some או ב-any."
+      },
+      "text": "There are ___ tomatoes in the fridge, but there aren't ___ onions.",
+      "word_bank": [
+        "some",
+        "any"
+      ],
+      "answers": [
+        [
+          "some"
+        ],
+        [
+          "any"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "any",
+          "feedback": {
+            "en": "The first part is positive (There are...), so use some. any goes after aren't: there aren't any onions.",
+            "he": "החלק הראשון חיובי (There are...), ולכן some. את any שמים אחרי aren't: there aren't any onions."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "some",
+          "feedback": {
+            "en": "After aren't or isn't, use any: there aren't any onions. some is for the positive part: There are some tomatoes.",
+            "he": "אחרי aren't או isn't משתמשים ב-any: there aren't any onions. את some שמים בחלק החיובי: There are some tomatoes."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "Positive → some (There are some tomatoes). Negative → any (there aren't any onions).",
+        "he": "משפט חיובי → some (There are some tomatoes). שלילה → any (there aren't any onions)."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Choose the correct beginning for the question.",
+        "he": "בחרו את הפתיחה הנכונה לשאלה."
+      },
+      "question": "___ any milk in the fridge?",
+      "options": [
+        "Is there",
+        "There is",
+        "Are there",
+        "Have"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "In a question, is comes first: Is there...?",
+          "he": "בשאלה is בא ראשון: Is there...?"
+        },
+        "2": {
+          "en": "milk has no plural, so use is: Is there any milk?",
+          "he": "ל-milk אין צורת רבים, ולכן is: Is there any milk?"
+        },
+        "3": {
+          "en": "Don't translate the Hebrew 'is there' as have. Ask Is there...?",
+          "he": "כאן 'יש' אינו have. שואלים Is there...?"
+        }
+      },
+      "option_errors": {
+        "1": "word-order",
+        "2": "agreement",
+        "3": "false-friend"
+      },
+      "explanation": {
+        "en": "In Hebrew the question has the same words as the statement. English works differently: There is → Is there? Use Is there with milk, bread or one thing, and Are there with plurals.",
+        "he": "בעברית השאלה בנויה מאותן מילים כמו המשפט ('יש חלב?'). באנגלית מחליפים את הסדר: There is → Is there? ‏Is there עם milk, bread או דבר אחד, ו-Are there עם רבים."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "vocabulary",
+      "topic": "daily-life-vocab",
+      "prompt": {
+        "en": "You're in a café. Choose the best way to order.",
+        "he": "אתם בבית קפה. בחרו את הדרך הטובה ביותר להזמין."
+      },
+      "question": "Waiter: What can I get you?",
+      "options": [
+        "I like a coffee, please.",
+        "I'd like a coffee, please.",
+        "I'm like a coffee."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "I like coffee means you enjoy coffee in general. To order, say I'd like.",
+          "he": "I like coffee פירושו 'אני אוהב/ת קפה' באופן כללי. כדי להזמין אומרים I'd like."
+        },
+        "2": {
+          "en": "Don't add am. I'd like is short for I would like.",
+          "he": "לא מוסיפים am. I'd like הוא קיצור של I would like."
+        }
+      },
+      "option_errors": {
+        "0": "word-choice",
+        "2": "verb-form"
+      },
+      "explanation": {
+        "en": "I'd like (I would like) is the polite way to ask for something: I'd like a coffee, please.",
+        "he": "I'd like (קיצור של I would like) היא הדרך המנומסת לבקש משהו: I'd like a coffee, please."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "some-any",
+      "prompt": {
+        "en": "Make the sentence negative.",
+        "he": "הפכו את המשפט לשלילה."
+      },
+      "source": "There are some onions in the cupboard.",
+      "answers": [
+        "There aren't any onions in the cupboard.",
+        "There are no onions in the cupboard."
+      ],
+      "hint": {
+        "en": "Two words change.",
+        "he": "שתי מילים משתנות: are → aren't, some → any."
+      },
+      "wrong_feedback": [
+        {
+          "match": "There aren't some onions in the cupboard.",
+          "feedback": {
+            "en": "In negatives, some becomes any: There aren't any onions.",
+            "he": "בשלילה some הופך ל-any: There aren't any onions."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "There isn't any onions in the cupboard.",
+          "feedback": {
+            "en": "onions is plural, so use aren't: There aren't any onions.",
+            "he": "onions ברבים, ולכן aren't: There aren't any onions."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "There aren't no onions in the cupboard.",
+          "feedback": {
+            "en": "English uses only one negative word: There aren't any onions, or There are no onions.",
+            "he": "באנגלית יש רק מילת שלילה אחת במשפט: There aren't any onions, או There are no onions."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "Negative: There aren't + any + plural. There are no onions means the same.",
+        "he": "שלילה: There aren't + any + רבים. There are no onions אומר אותו דבר."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Make a question. Use any.",
+        "he": "כתבו שאלה. השתמשו ב-any."
+      },
+      "source": "There is some juice in the fridge.",
+      "answers": [
+        "Is there any juice in the fridge?"
+      ],
+      "hint": {
+        "en": "Start with Is there...",
+        "he": "התחילו ב-Is there..."
+      },
+      "wrong_feedback": [
+        {
+          "match": "There is any juice in the fridge?",
+          "feedback": {
+            "en": "In a question, is comes before there: Is there any juice...?",
+            "he": "בשאלה is בא לפני there: Is there any juice...?"
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Are there any juice in the fridge?",
+          "feedback": {
+            "en": "juice has no plural, so use is: Is there any juice...?",
+            "he": "ל-juice אין צורת רבים, ולכן is: Is there any juice...?"
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "Is there some juice in the fridge?",
+          "feedback": {
+            "en": "That's possible English, but the task asks for any, the usual word in questions.",
+            "he": "זה אפשרי באנגלית, אבל המשימה מבקשת any – המילה הרגילה בשאלות."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "Is there juice in the fridge?",
+          "feedback": {
+            "en": "Good question form! The task asks you to add any: Is there any juice in the fridge?",
+            "he": "מבנה השאלה נכון! המשימה מבקשת להוסיף any: Is there any juice in the fridge?"
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "Question: Is there + any + juice? Short answers: Yes, there is. / No, there isn't.",
+        "he": "שאלה: Is there + any + juice? תשובות קצרות: Yes, there is. / No, there isn't."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "There is three apples on the table.",
+      "answers": [
+        "There are three apples on the table.",
+        "There are 3 apples on the table."
+      ],
+      "error_type": "agreement",
+      "explanation": {
+        "en": "three apples is plural, so use There are.",
+        "he": "three apples ברבים, ולכן There are."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "some-any",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "Sorry, there isn't some milk for your coffee.",
+      "answers": [
+        "Sorry, there isn't any milk for your coffee.",
+        "Sorry there isn't any milk for your coffee.",
+        "Sorry, there's no milk for your coffee.",
+        "Sorry there's no milk for your coffee.",
+        "Sorry, there isn't milk for your coffee.",
+        "Sorry there isn't milk for your coffee."
+      ],
+      "error_type": "word-choice",
+      "explanation": {
+        "en": "After isn't or aren't, use any: there isn't any milk. (there's no milk means the same.)",
+        "he": "אחרי isn't או aren't משתמשים ב-any: there isn't any milk. ‏(there's no milk אומר אותו דבר.)"
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Translate into English. Use there.",
+        "he": "תרגמו לאנגלית. השתמשו ב-there."
+      },
+      "source": "יש ביצים במקרר?",
+      "answers": [
+        "Are there any eggs in the fridge?",
+        "Are there eggs in the fridge?",
+        "Are there some eggs in the fridge?",
+        "Are there any eggs in the refrigerator?",
+        "Are there eggs in the refrigerator?",
+        "Are there some eggs in the refrigerator?"
+      ],
+      "hint": {
+        "en": "Hebrew uses the same words for the statement and the question. English changes the order of two words.",
+        "he": "בעברית המשפט והשאלה בנויים מאותן מילים. באנגלית מחליפים את הסדר של שתי מילים."
+      },
+      "wrong_feedback": [
+        {
+          "match": "There are eggs in the fridge?",
+          "feedback": {
+            "en": "In Hebrew your voice alone makes a question. English works differently: put are first. Are there any eggs in the fridge?",
+            "he": "בעברית הטון לבדו הופך משפט לשאלה. באנגלית מקדימים את are: Are there any eggs in the fridge?"
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Is there any eggs in the fridge?",
+          "feedback": {
+            "en": "eggs is plural, so use are: Are there any eggs...?",
+            "he": "eggs ברבים, ולכן are: Are there any eggs...?"
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "Have eggs in the fridge?",
+          "feedback": {
+            "en": "Here the Hebrew word doesn't mean have. Ask Are there any eggs...?",
+            "he": "כאן 'יש' אינו have. שואלים Are there any eggs...?"
+          },
+          "error_type": "false-friend"
+        }
+      ],
+      "explanation": {
+        "en": "In a question, the Hebrew 'is there / are there' = Is there / Are there...? eggs is plural, so: Are there any eggs in the fridge? (any is the usual word in questions.)",
+        "he": "'יש...?' בשאלה = Is there / Are there...? ‏eggs ברבים, ולכן: Are there any eggs in the fridge? ‏(any היא המילה הרגילה בשאלות.)"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Read Maya's message to her flatmate and answer the questions.",
+        "he": "קראו את ההודעה של מאיה לשותפה שלה לדירה וענו על השאלות."
+      },
+      "title": "Shopping for dinner",
+      "passage": "Hi Priya! I'm at the supermarket now. Dinner with Omer and Daniel is at eight, so what do we need? I think there's some rice in the cupboard, and there are two onions on the table. Is there any chicken in the fridge? Oh, and there isn't any milk for the morning, so I'd like to get some. Are there any tomatoes? Omer is always hungry, so let's make a big salad! Send me a list, please.\nMaya",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Where is Maya?",
+          "options": [
+            "at home",
+            "at the supermarket",
+            "at a restaurant"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Priya is at home. Maya writes: 'I'm at the supermarket now.'",
+              "he": "פְּרִיָּה בבית. מאיה כותבת: 'I'm at the supermarket now'."
+            },
+            "2": {
+              "en": "The dinner is at home. Maya writes: 'I'm at the supermarket now.'",
+              "he": "ארוחת הערב בבית. מאיה כותבת: 'I'm at the supermarket now'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'I'm at the supermarket now.'",
+            "he": "'I'm at the supermarket now' – היא בסופרמרקט."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "There is some rice at home.",
+          "answer": true,
+          "explanation": {
+            "en": "'I think there's some rice in the cupboard.'",
+            "he": "'I think there's some rice in the cupboard' – יש אורז בארון."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Maya knows there is chicken in the fridge.",
+          "answer": false,
+          "explanation": {
+            "en": "She asks: 'Is there any chicken in the fridge?' She doesn't know.",
+            "he": "היא שואלת: 'Is there any chicken in the fridge?' – היא לא יודעת."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What does Maya want to buy for the morning?",
+          "options": [
+            "milk",
+            "rice",
+            "onions"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "They have rice: 'there's some rice in the cupboard'.",
+              "he": "יש להן אורז: 'there's some rice in the cupboard'."
+            },
+            "2": {
+              "en": "They have onions: 'there are two onions on the table'.",
+              "he": "יש להן בצל: 'there are two onions on the table'."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'there isn't any milk for the morning, so I'd like to get some.'",
+            "he": "'there isn't any milk for the morning, so I'd like to get some' – אין חלב, ולכן היא רוצה לקנות."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "There are two ___ on the table.",
+          "answers": [
+            [
+              "onions"
+            ]
+          ],
+          "explanation": {
+            "en": "'there are two onions on the table' – plural, so are.",
+            "he": "'there are two onions on the table' – ברבים, ולכן are."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "some-any",
+      "prompt": {
+        "en": "Listen and type what you hear.",
+        "he": "הקשיבו והקלידו את מה ששמעתם."
+      },
+      "audio_text": "Is there any bread? I'd like a cheese sandwich.",
+      "answers": [
+        "Is there any bread? I'd like a cheese sandwich."
+      ],
+      "hint": {
+        "en": "Two sentences: a question and a polite request.",
+        "he": "שני משפטים: שאלה ובקשה מנומסת."
+      },
+      "explanation": {
+        "en": "Is there any + bread (no -s). I'd = I would.",
+        "he": "Is there any + bread (בלי s). ‏I'd = I would."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Tell a friend what's in the fridge. Say the sentence out loud.",
+        "he": "ספרו לחבר או לחברה מה יש במקרר. אמרו את המשפט בקול."
+      },
+      "target": "There are three eggs and some cheese in the fridge.",
+      "focus": {
+        "en": "there: tongue between your teeth, with your voice. three: tongue between your teeth, air only – not 'tree'.",
+        "he": "there: קצה הלשון בין השיניים, עם קול. three: קצה הלשון בין השיניים, רק אוויר – ולא tree ('עץ')."
+      },
+      "error_type": "pron-th",
+      "explanation": {
+        "en": "There are + plural (three eggs). some cheese has no -s.",
+        "he": "There are + רבים (three eggs). ל-some cheese אין s."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "there-is-are",
+      "prompt": {
+        "en": "Write about your kitchen.",
+        "he": "כתבו על המטבח שלכם."
+      },
+      "task": {
+        "en": "Open your fridge or cupboard (or imagine it). Write 5-6 sentences: what there is, what there isn't, and one question. Finish with one sentence with I'd like.",
+        "he": "פתחו את המקרר או את הארון (או דמיינו אותם). כתבו 5-6 משפטים: מה יש, מה אין, ושאלה אחת. סיימו במשפט אחד עם I'd like."
+      },
+      "min_words": 30,
+      "max_words": 90,
+      "must_include": [
+        "there",
+        "some",
+        "any"
+      ],
+      "model_answer": "There's some milk in my fridge, and there are six eggs. There's some cheese too, but there isn't any chicken. There aren't any vegetables, so I need to go shopping. Is there any bread in the cupboard? Yes, there is. Now I'd like a cheese sandwich and a cup of tea!",
+      "checklist": [
+        {
+          "en": "There is + one thing or milk/bread/rice; There are + two or more.",
+          "he": "There is + דבר אחד או milk/bread/rice; ‏There are + שניים או יותר."
+        },
+        {
+          "en": "some in positive sentences; any in negatives and questions.",
+          "he": "some במשפט חיובי; any בשלילה ובשאלה."
+        },
+        {
+          "en": "a/an before one thing: an apple, a sandwich.",
+          "he": "a/an לפני דבר אחד: an apple, a sandwich."
+        },
+        {
+          "en": "My question starts with Is there or Are there.",
+          "he": "השאלה שלי מתחילה ב-Is there או ב-Are there."
+        }
+      ],
+      "explanation": {
+        "en": "The model uses there is/are for what's in the kitchen, some and any correctly, and I'd like for a polite wish.",
+        "he": "בתשובה לדוגמה יש there is/are כדי לתאר מה יש במטבח, some ו-any במקום הנכון, ו-I'd like לבקשה מנומסת."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "There's + one thing or milk/bread/rice · There are + two or more.",
+        "he": "There's + דבר אחד או milk/bread/rice · ‏There are + שניים או יותר."
+      },
+      {
+        "en": "some in positives · any in negatives and questions: There aren't any eggs. Is there any milk?",
+        "he": "some במשפט חיובי · any בשלילה ובשאלה: There aren't any eggs. Is there any milk?"
+      },
+      {
+        "en": "Questions: Is there...? / Are there...? Short answers: Yes, there is. / No, there aren't.",
+        "he": "שאלות: Is there...? / Are there...? תשובות קצרות: Yes, there is. / No, there aren't."
+      },
+      {
+        "en": "Order politely with I'd like: I'd like a coffee, please.",
+        "he": "מזמינים בנימוס עם I'd like: I'd like a coffee, please."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

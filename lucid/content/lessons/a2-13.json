@@ -1,0 +1,284 @@
+{
+  "id": "a2-13",
+  "level": "A2",
+  "title_en": "Common phrasal verbs",
+  "title_he": "פעלים מורכבים",
+  "topics": ["phrasal-verbs-basic"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can understand and use about 20 everyday phrasal verbs: get up, turn off, look for, give up...", "he": "אני יודע/ת להבין ולהשתמש בכ-20 פעלים מורכבים יומיומיים: get up, turn off, look for, give up..." },
+    { "en": "I can put a pronoun in the right place: turn it off, pick me up, look for it.", "he": "אני יודע/ת לשים כינוי גוף במקום הנכון: turn it off, pick me up, look for it." },
+    { "en": "I can write a short note with instructions using phrasal verbs.", "he": "אני יודע/ת לכתוב פתק קצר עם הוראות בעזרת פעלים מורכבים." }
+  ],
+  "warmup": { "en": "Think about your morning. What do you do first: get up, turn off the alarm or pick up your phone?", "he": "חשבו על הבוקר שלכם. מה אתם עושים קודם: קמים (get up), מכבים את השעון המעורר (turn off the alarm) או מרימים את הטלפון (pick up your phone)? כל אחד מהם הוא פועל מורכב: פועל + מילה קטנה." },
+  "explanation": [
+    { "type": "p", "en": "Look: I get up at seven. I turn on the radio and put on my jacket. A phrasal verb is a verb + a small word (up, on, off, out, for...). Together they have one meaning, often different from the verb alone: get up = leave your bed; give up = stop trying.", "he": "שימו לב: I get up at seven. I turn on the radio and put on my jacket. פועל מורכב (phrasal verb) הוא פועל + מילה קטנה (up, on, off, out, for...). יחד יש להם משמעות אחת, ולעיתים קרובות היא שונה מהפועל לבדו: get up = לקום מהמיטה; give up = לוותר, להפסיק לנסות." },
+    { "type": "table", "headers": ["Phrasal verbs", "עברית", "Example"], "rows": [
+      ["get up · wake up · sit down · stand up · go out · come back", "לקום · להתעורר · לשבת · לקום על הרגליים · לצאת (לבלות) · לחזור", "I usually go out on Thursdays."],
+      ["put on · take off · try on", "ללבוש · להוריד (בגד) · למדוד (בגד)", "Can I try on these shoes?"],
+      ["turn on · turn off · turn up · turn down", "להדליק · לכבות · להגביר · להנמיך", "Turn the music down, please."],
+      ["look for · look after · find out", "לחפש · לשמור על, לטפל ב- · לגלות, לברר", "I'm looking for my keys."],
+      ["pick up · give up · throw away · fill in · get on · get off", "להרים; לאסוף (מישהו) · לוותר · לזרוק · למלא (טופס) · לעלות (לאוטובוס) · לרדת (מהאוטובוס)", "We get off the bus here."]
+    ] },
+    { "type": "rule", "en": "Many phrasal verbs can split. A noun can go before or after the small word: Turn off the TV. / Turn the TV off. But a pronoun (it, them, me, him, her) must go in the middle: Turn it off (not *Turn off it).", "he": "הרבה פעלים מורכבים מתפצלים. שם עצם יכול לבוא לפני המילה הקטנה או אחריה: Turn off the TV וגם Turn the TV off. אבל כינוי גוף (it, them, me, him, her) חייב לבוא באמצע: Turn it off ולא Turn off it." },
+    { "type": "warning", "en": "Some never split: the object always comes after the small word. Learn look for, look after, get on and get off as fixed pairs: look for it, look after them (not *look it for).", "he": "יש פעלים שלא מתפצלים אף פעם: המושא תמיד בא אחרי המילה הקטנה. למדו את look for, ‏look after, ‏get on ו-get off כצמדים קבועים: look for it, look after them ולא look it for." },
+    { "type": "tip", "en": "The -s and -ed go on the verb, not on the small word: She gets up at six. We picked them up. In speech, the small word usually has the stress: turn it OFF, pick me UP.", "he": "הסיומות s ו-ed מתחברות לפועל, לא למילה הקטנה: She gets up at six. ‏We picked them up. בדיבור בדרך כלל מדגישים את המילה הקטנה: turn it OFF, pick me UP." },
+    { "type": "p", "en": "One phrasal verb can have two meanings. Pick up = lift something from the floor, or collect someone by car. The context tells you which one.", "he": "לפועל מורכב אחד יכולות להיות שתי משמעויות. pick up = להרים משהו מהרצפה, או לאסוף מישהו ברכב. ההקשר מגלה לכם איזו מהן." }
+  ],
+  "examples": [
+    { "en": "I get up at 6:30 on weekdays.", "he": "בימי חול אני קם/ה ב-6:30." },
+    { "en": "It's cold. Put on your coat.", "he": "קר. תלבש/י את המעיל." },
+    { "en": "Can you turn the TV off? – Sure, I'll turn it off now.", "he": "את/ה יכול/ה לכבות את הטלוויזיה? – בטח, אני אכבה אותה עכשיו.", "note": "a pronoun goes in the middle" },
+    { "en": "I'm looking for my phone. Can you call it?", "he": "אני מחפש/ת את הטלפון שלי. את/ה יכול/ה להתקשר אליו?", "note": "look for never splits: look for it" },
+    { "en": "My grandmother looks after my little brother on Tuesdays.", "he": "סבתא שלי שומרת על אח שלי הקטן בימי שלישי." },
+    { "en": "Omer gave up sugar for a month.", "he": "עומר ויתר על סוכר למשך חודש.", "note": "give up = stop doing something" },
+    { "en": "Can you pick me up from the station at eight?", "he": "את/ה יכול/ה לאסוף אותי מהתחנה בשמונה?", "note": "pick up = collect someone" },
+    { "en": "I want to find out more about the course.", "he": "אני רוצה לברר עוד פרטים על הקורס." },
+    { "en": "Don't throw away that box! I need it.", "he": "אל תזרקו את הקופסה הזאת! אני צריך/ה אותה." }
+  ],
+  "vocab": [
+    { "word": "look for", "pos": "phrasal verb", "he": "לחפש", "def": "to try to find something or someone", "example": "I'm looking for my keys.", "ipa": "/ˈlʊk fə(r)/", "collocations": ["look for a job", "look for your keys", "look everywhere for"], "level": "A2" },
+    { "word": "look after", "pos": "phrasal verb", "he": "לשמור על, לטפל ב-", "def": "to take care of someone or something", "example": "Can you look after my cat this weekend?", "ipa": "/ˌlʊk ˈɑːftə(r)/", "collocations": ["look after children", "look after yourself", "look after a pet"], "level": "A2" },
+    { "word": "find out", "pos": "phrasal verb", "he": "לגלות, לברר", "def": "to get information about something", "example": "I need to find out what time the shop opens.", "ipa": "/ˌfaɪnd ˈaʊt/", "collocations": ["find out the truth", "find out more", "find out about something"], "level": "A2" },
+    { "word": "give up", "pos": "phrasal verb", "he": "לוותר; להפסיק (הרגל)", "def": "to stop doing something, or to stop trying", "example": "My dad gave up smoking ten years ago.", "ipa": "/ˌɡɪv ˈʌp/", "collocations": ["give up smoking", "give up sugar", "don't give up"], "level": "A2" },
+    { "word": "pick up", "pos": "phrasal verb", "he": "להרים; לאסוף (מישהו)", "def": "to lift something; to collect someone, usually by car", "example": "I'll pick you up at eight.", "ipa": "/ˌpɪk ˈʌp/", "collocations": ["pick up the phone", "pick someone up from school", "pick up your clothes"], "level": "A2" },
+    { "word": "turn on", "pos": "phrasal verb", "he": "להדליק, להפעיל", "def": "to make a light or machine start working", "example": "Can you turn on the light?", "ipa": "/ˌtɜːn ˈɒn/", "collocations": ["turn on the light", "turn on the TV", "turn on the air conditioning"], "level": "A2" },
+    { "word": "turn off", "pos": "phrasal verb", "he": "לכבות", "def": "to make a light or machine stop working", "example": "Please turn off your phone in the cinema.", "ipa": "/ˌtɜːn ˈɒf/", "collocations": ["turn off the light", "turn off your phone", "turn off the alarm"], "level": "A2" },
+    { "word": "put on", "pos": "phrasal verb", "he": "ללבוש, לשים (בגד, משקפיים)", "def": "to start wearing clothes, shoes or glasses", "example": "Put on your coat. It's cold.", "ipa": "/ˌpʊt ˈɒn/", "collocations": ["put on a jacket", "put on your shoes", "put on your glasses"], "level": "A2" },
+    { "word": "take off", "pos": "phrasal verb", "he": "להוריד (בגד); להמריא", "def": "to remove clothes or shoes; (a plane) to leave the ground", "example": "Please take off your shoes at the door.", "ipa": "/ˌteɪk ˈɒf/", "collocations": ["take off your shoes", "take off your coat", "the plane took off"], "level": "A2" },
+    { "word": "try on", "pos": "phrasal verb", "he": "למדוד (בגד)", "def": "to put on clothes in a shop to see if they fit", "example": "Can I try on these jeans?", "ipa": "/ˌtraɪ ˈɒn/", "collocations": ["try on a dress", "try on shoes", "try something on"], "level": "A2" },
+    { "word": "throw away", "pos": "phrasal verb", "he": "לזרוק (לפח)", "def": "to put something in the bin because you don't want it", "example": "Don't throw away the receipt.", "ipa": "/ˌθrəʊ əˈweɪ/", "collocations": ["throw away rubbish", "throw away old clothes", "throw away food"], "level": "A2" },
+    { "word": "fill in", "pos": "phrasal verb", "he": "למלא (טופס)", "def": "to write information in the spaces on a form", "example": "Please fill in this form.", "ipa": "/ˌfɪl ˈɪn/", "collocations": ["fill in a form", "fill in your details", "fill in the gaps"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is one 'u' sound, so look /lʊk/ and put /pʊt/ can come out long, like 'Luke'. In English the vowel is short and relaxed, /ʊ/: look for, look after, put on.", "he": "בעברית יש צליל 'אוּ' אחד, ולכן look /lʊk/ ו-put /pʊt/ עלולים להישמע ארוכים, כמו Luke. באנגלית התנועה בהם קצרה ורפויה, /ʊ/: look for, look after, put on.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew the present-tense verb has the same form for I, you and he, so the English -s for he/she/it is easy to forget. In a phrasal verb, the -s goes on the verb: She gets up at six (not *She get up or *She get ups).", "he": "בעברית לפועל בהווה יש אותה צורה עם אני, אתה והוא ('אני קם', 'אתה קם', 'הוא קם'), ולכן קל לשכוח את ה-s של he/she/it באנגלית. בפועל מורכב ה-s מתחברת לפועל: She gets up at six ולא She get up או She get ups.", "error_type": "third-person-s" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each phrasal verb with its Hebrew meaning.", "he": "התאימו כל פועל מורכב למשמעות שלו בעברית." },
+      "pairs": [
+        ["look for", "לחפש"],
+        ["give up", "לוותר, להפסיק לנסות"],
+        ["find out", "לגלות, לברר"],
+        ["try on", "למדוד (בגד)"],
+        ["turn off", "לכבות"],
+        ["throw away", "לזרוק (לפח)"]
+      ],
+      "explanation": { "en": "Watch the traps: try on is only for clothes (to measure a room is measure), and you turn off a light, you don't close it. Learn the two words together: each phrasal verb is one unit of meaning.", "he": "שימו לב למלכודות: try on הוא רק מדידת בגד (למדוד חדר זה measure), ואת האור מכבים עם turn off, לא close. למדו את שתי המילים יחד: כל פועל מורכב הוא יחידת משמעות אחת." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "vocabulary",
+      "prompt": { "en": "Choose the phrasal verb that fits.", "he": "בחרו את הפועל המורכב המתאים." },
+      "question": "It's freezing outside. ___ your coat before you go.",
+      "options": ["Take off", "Turn on", "Put on", "Give up"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Take off = remove clothes. In the cold you need the opposite: put on.", "he": "take off = להוריד בגד. בקור צריך את ההפך: put on." },
+        "1": { "en": "Turn on is for lights and machines, not clothes.", "he": "turn on מתאים לאורות ולמכשירים, לא לבגדים." },
+        "3": { "en": "Give up = stop trying. It has nothing to do with clothes.", "he": "give up = לוותר, להפסיק לנסות. זה לא קשור לבגדים." }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-choice", "3": "word-choice" },
+      "explanation": { "en": "Put on = start wearing clothes. Its opposite is take off.", "he": "put on = ללבוש בגד. ההפך: take off." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to Noa's voice message and answer the question.", "he": "הקשיבו להודעה הקולית של נועה וענו על השאלה." },
+      "audio_text": "Hi Dad, it's Noa. My phone battery is almost dead, so can you pick me up from the station at nine? Thanks!",
+      "question": "What does Noa want her dad to do?",
+      "options": ["call her at nine", "collect her from the station", "buy her a new phone"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Nine is the time to meet. Her battery is almost dead, so she can't talk on the phone much.", "he": "תשע היא שעת האיסוף. הסוללה שלה כמעט גמורה, ולכן היא לא יכולה לדבר הרבה בטלפון." },
+        "2": { "en": "She talks about her battery, but she doesn't ask for a new phone.", "he": "היא מזכירה את הסוללה, אבל לא מבקשת טלפון חדש." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "Can you pick me up from the station? Here pick up = collect someone, usually by car.", "he": "Can you pick me up from the station? כאן pick up = לאסוף מישהו, בדרך כלל ברכב." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "grammar",
+      "prompt": { "en": "Correct or wrong? Look at where the object goes.", "he": "נכון או שגוי? שימו לב איפה בא המושא." },
+      "categories": ["Correct", "Wrong"],
+      "items": [
+        { "text": "Turn it off.", "category": "Correct" },
+        { "text": "Turn off it.", "category": "Wrong" },
+        { "text": "I'm looking for them.", "category": "Correct" },
+        { "text": "I'm looking them for.", "category": "Wrong" },
+        { "text": "Put your shoes on.", "category": "Correct" },
+        { "text": "Put on them.", "category": "Wrong" },
+        { "text": "Can you pick me up?", "category": "Correct" },
+        { "text": "She looks after her sister.", "category": "Correct" }
+      ],
+      "hint": { "en": "Pronouns (it, them, me) go in the middle, except with look for and look after.", "he": "כינויי גוף (it, them, me) באים באמצע, חוץ מאשר עם look for ו-look after." },
+      "explanation": { "en": "Turn off, put on and pick up can split, and a pronoun must go in the middle: turn it off, put them on, pick me up. Look for and look after never split: looking for them, looks after her sister.", "he": "turn off, ‏put on ו-pick up מתפצלים, וכינוי גוף חייב לבוא באמצע: turn it off, put them on, pick me up. ‏look for ו-look after לא מתפצלים אף פעם: looking for them, looks after her sister." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "vocabulary",
+      "prompt": { "en": "Complete Lior's morning with phrasal verbs from the box.", "he": "השלימו את הבוקר של ליאור בפעלים מורכבים מהמחסן." },
+      "text": "Lior's alarm rings at 6:30. He ___ the alarm and goes back to sleep. At seven he finally ___ and makes coffee. At 7:45 he ___ his jacket and leaves for work.",
+      "word_bank": ["turns off", "gets up", "puts on", "takes off", "turns on"],
+      "answers": [["turns off"], ["gets up"], ["puts on"]],
+      "wrong_feedback": [
+        { "match": "turns on", "feedback": { "en": "The alarm is already ringing. To stop it, he turns it off.", "he": "השעון כבר מצלצל. כדי להפסיק אותו מכבים: turns off." }, "error_type": "word-choice" },
+        { "match": "takes off", "feedback": { "en": "Take off = remove clothes. Before he goes out, he puts his jacket on.", "he": "take off = להוריד בגד. לפני שהוא יוצא הוא לובש את הז'קט: puts on." }, "error_type": "word-choice" },
+        { "match": "puts on", "feedback": { "en": "Put on is for clothes. Check what goes with the alarm and with leaving bed.", "he": "put on מתאים לבגדים. בדקו מה מתאים לשעון המעורר ומה לקימה מהמיטה." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "He turns off the alarm (stops it), gets up (leaves his bed) and puts on his jacket (starts wearing it). With he, the -s goes on the verb: turns, gets, puts.", "he": "הוא מכבה את השעון (turns off), קם מהמיטה (gets up) ולובש את הז'קט (puts on). עם he ה-s מתחברת לפועל: turns, gets, puts." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "Your friend's phone is ringing in the kitchen. What do you say?", "he": "הטלפון של חבר או חברה מצלצל במטבח. מה אומרים?" },
+      "question": "Your phone's ringing! Go and ___!",
+      "options": ["pick up it", "pick it", "it pick up", "pick it up"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "A pronoun can't go after up. Put it in the middle: pick it up.", "he": "כינוי גוף לא בא אחרי up. שמים אותו באמצע: pick it up." },
+        "1": { "en": "Up is part of the meaning. Without it, pick means choose.", "he": "המילה up היא חלק מהמשמעות. בלעדיה pick פירושו 'לבחור'." },
+        "2": { "en": "The verb comes first: pick it up.", "he": "הפועל בא ראשון: pick it up." }
+      },
+      "option_errors": { "0": "word-order", "1": "word-choice", "2": "word-order" },
+      "explanation": { "en": "Pick up the phone = answer it. With a pronoun: pick it up.", "he": "pick up the phone = לענות לטלפון. עם כינוי גוף: pick it up." }
+    },
+    {
+      "id": "e7", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read Yael's blog post and answer the questions.", "he": "קראו את הפוסט של יעל בבלוג וענו על השאלות." },
+      "title": "One week, no phone",
+      "passage": "Last month I decided to try something new: one week without my smartphone. On Sunday morning I turned it off and put it in a drawer. The first day was hard. I kept looking for my phone in my pocket, and I felt bored on the bus. On Tuesday I almost gave up, but my sister helped me. She gave me her old alarm clock, so I could still get up on time.\nBy Thursday I felt calmer. I read two books, and I went out with friends and didn't check messages all evening. I also found out that I can find my way around the city without a map app.\nOn Sunday I picked up my phone again and turned it on: 214 messages! Now I turn it off every evening at ten.\nYael",
+      "questions": [
+        { "type": "mcq", "question": "What did Yael do with her phone on Sunday morning?", "options": ["She gave it to her sister.", "She turned it off and put it in a drawer.", "She threw it away."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Her sister gave her an alarm clock. Yael didn't give her the phone.", "he": "האחות נתנה ליעל שעון מעורר. יעל לא נתנה לה את הטלפון." },
+            "2": { "en": "She didn't throw it away: she turned it off and put it in a drawer.", "he": "היא לא זרקה אותו: היא כיבתה אותו ושמה אותו במגירה." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'On Sunday morning I turned it off and put it in a drawer.'", "he": "בפוסט: On Sunday morning I turned it off and put it in a drawer." } },
+        { "type": "tf", "statement": "Yael stopped the experiment on Tuesday.", "answer": false,
+          "explanation": { "en": "'On Tuesday I almost gave up, but my sister helped me.' Almost gave up = she didn't stop.", "he": "בפוסט: On Tuesday I almost gave up, but my sister helped me. ‏almost gave up = כמעט ויתרה, כלומר היא לא הפסיקה." } },
+        { "type": "gap", "text": "Yael's sister gave her an old alarm clock, so Yael could still get ___ on time.", "answers": [["up"]],
+          "explanation": { "en": "get up = leave your bed in the morning.", "he": "get up = לקום מהמיטה בבוקר." } },
+        { "type": "mcq", "question": "What did Yael find out?", "options": ["She can find her way around the city without a map app.", "Her friends don't check messages in the evening.", "She can't get up without her phone."], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Yael didn't check messages. The post says nothing about her friends' phones.", "he": "יעל לא בדקה הודעות. בפוסט אין מידע על הטלפונים של החברים שלה." },
+            "2": { "en": "She used her sister's alarm clock, so she could get up without her phone.", "he": "היא השתמשה בשעון המעורר של אחותה, ולכן הצליחה לקום בלי הטלפון." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'I also found out that I can find my way around the city without a map app.' find out = discover information.", "he": "בפוסט: I also found out that I can find my way around the city without a map app. ‏find out = לגלות מידע." } },
+        { "type": "tf", "statement": "Now Yael turns her phone off every evening.", "answer": true,
+          "explanation": { "en": "'Now I turn it off every evening at ten.'", "he": "בפוסט: Now I turn it off every evening at ten." } }
+      ]
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar",
+      "prompt": { "en": "Type the missing small word: for, after or out.", "he": "הקלידו את המילה הקטנה החסרה: for, ‏after או out." },
+      "text": "I lost my wallet yesterday, and I'm still looking ___ it. I'm going away for the weekend. Can you look ___ my dog? I want to find ___ more about the summer course.",
+      "answers": [["for"], ["after"], ["out"]],
+      "wrong_feedback": [
+        { "match": "at", "feedback": { "en": "Look at = use your eyes. To try to find something, use look for. To take care of someone, use look after.", "he": "look at = להסתכל. כדי לנסות למצוא משהו: look for. כדי לשמור על מישהו: look after." }, "error_type": "preposition" },
+        { "match": "for", "feedback": { "en": "Look for = try to find. Use it for something lost, like the wallet.", "he": "look for = לחפש. משתמשים בו למשהו שאבד, כמו הארנק." }, "error_type": "preposition" },
+        { "match": "after", "feedback": { "en": "Look after = take care of, like a dog while its owner is away.", "he": "look after = לשמור על, למשל על כלב כשהבעלים לא בבית." }, "error_type": "preposition" },
+        { "match": "about", "feedback": { "en": "Find out is a fixed pair: find out more about the course.", "he": "find out הוא צמד קבוע: find out more about the course." }, "error_type": "preposition" }
+      ],
+      "hint": { "en": "Wallet: try to find it. Dog: take care of it. Course: get information.", "he": "ארנק: מנסים למצוא אותו. כלב: שומרים עליו. קורס: מבררים פרטים." },
+      "explanation": { "en": "looking for it (try to find) · look after my dog (take care of) · find out more (get information).", "he": "looking for it (לחפש) · look after my dog (לשמור על) · find out more (לברר)." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar",
+      "prompt": { "en": "Replace 'the kids' with a pronoun. Write the whole question.", "he": "החליפו את the kids בכינוי גוף. כתבו את כל השאלה." },
+      "source": "Can you pick up the kids at four?",
+      "answers": ["Can you pick them up at four?"],
+      "wrong_feedback": [
+        { "match": "Can you pick up them at four?", "feedback": { "en": "A pronoun goes in the middle: pick them up.", "he": "כינוי גוף בא באמצע: pick them up." }, "error_type": "word-order" },
+        { "match": "Can you pick it up at four?", "feedback": { "en": "The kids are people, and there are more than one: them.", "he": "הילדים הם אנשים, ויש יותר מאחד: them." }, "error_type": "pronoun" },
+        { "match": "Can you pick them at four?", "feedback": { "en": "Keep up: pick them up. Without up, pick means choose.", "he": "אל תשמיטו את up: ‏pick them up. בלי up הפועל pick פירושו 'לבחור'." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "the kids → them, and the pronoun goes in the middle: Can you pick them up at four?", "he": "the kids הופך ל-them, וכינוי הגוף בא באמצע: Can you pick them up at four?" }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "vocabulary",
+      "prompt": { "en": "Maya wants to sleep. Find and fix the mistake in her question.", "he": "מאיה רוצה לישון. מצאו ותקנו את הטעות בשאלה שלה." },
+      "sentence": "Can you close the light?",
+      "answers": [
+        "Can you turn off the light?",
+        "Can you turn the light off?",
+        "Can you switch off the light?",
+        "Can you switch the light off?",
+        "Can you turn off the lights?",
+        "Can you turn the lights off?",
+        "Can you switch off the lights?",
+        "Can you switch the lights off?"
+      ],
+      "error_type": "false-friend",
+      "hint": { "en": "In English, lights and machines don't open or close.", "he": "באנגלית אור ומכשירים לא 'נפתחים' ולא 'נסגרים'." },
+      "explanation": { "en": "In English you turn off (or switch off) a light, the TV or the air conditioning. Close is for doors, windows and books. And the opposite is turn on, not open.", "he": "באנגלית מכבים אור, טלוויזיה או מזגן עם turn off (או switch off). את close משתמשים לדלת, לחלון ולספר. וההפך הוא turn on, לא open." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My dad get up at five every morning.",
+      "answers": ["My dad gets up at five every morning."],
+      "error_type": "third-person-s",
+      "hint": { "en": "My dad = he.", "he": "My dad = הוא (he)." },
+      "explanation": { "en": "My dad = he, so the verb takes -s: gets up. The small word up doesn't change.", "he": "My dad = he, ולכן הפועל מקבל s: ‏gets up. המילה הקטנה up לא משתנה." }
+    },
+    {
+      "id": "e12", "type": "order", "skill": "grammar",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["She", "picks", "her", "brother", "up", "after", "school"],
+      "answers": ["She picks up her brother after school", "After school she picks her brother up", "After school she picks up her brother"],
+      "explanation": { "en": "With a noun, pick up can split (picks her brother up) or stay together (picks up her brother). The -s goes on picks.", "he": "עם שם עצם אפשר לפצל (picks her brother up) או להשאיר יחד (picks up her brother). ה-s מתחברת ל-picks." }
+    },
+    {
+      "id": "e13", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "You can't find your keys right now. Translate into English.", "he": "אתם לא מוצאים את המפתחות שלכם ברגע זה. תרגמו לאנגלית." },
+      "source": "אני מחפש/ת את המפתחות שלי.",
+      "answers": ["I'm looking for my keys.", "I'm searching for my keys.", "I'm trying to find my keys."],
+      "wrong_feedback": [
+        { "match": "I'm looking my keys.", "feedback": { "en": "Look needs for when you mean try to find: I'm looking for my keys.", "he": "כשמתכוונים 'לחפש', אחרי look בא for: ‏I'm looking for my keys." }, "error_type": "preposition" },
+        { "match": "I look for my keys.", "feedback": { "en": "It's happening right now, so use the present continuous: I'm looking for my keys.", "he": "זה קורה עכשיו, ולכן משתמשים בהווה מתמשך: I'm looking for my keys." }, "error_type": "tense-choice" },
+        { "match": "I'm searching my keys.", "feedback": { "en": "Search my bag = look inside my bag. To try to find the keys: I'm looking for my keys (or searching for them).", "he": "search my bag = לחפש בתוך התיק. כדי לומר שמנסים למצוא את המפתחות: I'm looking for my keys (או searching for them)." }, "error_type": "preposition" },
+        { "match": "I'm looking after my keys.", "feedback": { "en": "Look after = take care of. To try to find something, use look for.", "he": "look after = לשמור על. כדי לחפש משהו: look for." }, "error_type": "word-choice" },
+        { "match": "I'm finding my keys.", "feedback": { "en": "Find = succeed. While you're still trying, use look for: I'm looking for my keys.", "he": "find = להצליח למצוא. כל עוד מנסים, משתמשים ב-look for: ‏I'm looking for my keys." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Two small things: the small word after look, and the tense for right now.", "he": "שני דברים קטנים: המילה הקטנה אחרי look, והזמן המתאים ל'עכשיו'." },
+      "explanation": { "en": "The Hebrew verb is one word, but English needs two: look for (try to find). And because it's happening now, use the present continuous: I'm looking for my keys.", "he": "בעברית 'לחפש' היא מילה אחת, ובאנגלית צריך שתיים: look for. ומכיוון שזה קורה עכשיו, משתמשים בהווה מתמשך: I'm looking for my keys." }
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "Don't forget to turn off the lights when you go out.",
+      "answers": ["Don't forget to turn off the lights when you go out."],
+      "explanation": { "en": "Two phrasal verbs: turn off (the lights) and go out (leave the house).", "he": "שני פעלים מורכבים: turn off (לכבות את האורות) ו-go out (לצאת מהבית)." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Your flatmate's music is loud. Say this out loud.", "he": "המוזיקה של השותף או השותפה לדירה רועשת. אמרו את זה בקול." },
+      "target": "Can you turn it off? I'm trying to sleep.",
+      "focus": { "en": "Link the words and stress the small word: turn it OFF sounds like one word, 'tur-ni-TOFF'.", "he": "חברו את המילים והדגישו את המילה הקטנה: turn it OFF נשמע כמו מילה אחת, 'טֶר-נִי-טוֹף'." },
+      "explanation": { "en": "In phrasal verbs the small word usually carries the stress, and the pronoun in the middle is short and weak: turn it OFF.", "he": "בפעלים מורכבים בדרך כלל מדגישים את המילה הקטנה, וכינוי הגוף שבאמצע קצר וחלש: turn it OFF." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing",
+      "prompt": { "en": "Write a note for a friend who is looking after your flat.", "he": "כתבו פתק לחברה שתשמור על הדירה שלכם." },
+      "task": { "en": "You're going away for the weekend, and your friend Priya is looking after your flat and your cat. Write her a note (40-80 words) with instructions. Use at least four phrasal verbs from this lesson (for example look after, turn off, throw away, pick up).", "he": "אתם נוסעים לסוף השבוע, והחברה שלכם פריה שומרת על הדירה ועל החתול שלכם. כתבו לה פתק (40-80 מילים) עם הוראות. השתמשו לפחות בארבעה פעלים מורכבים מהשיעור (למשל look after, ‏turn off, ‏throw away, ‏pick up)." },
+      "min_words": 40,
+      "max_words": 90,
+      "model_answer": "Hi Priya! Thanks for looking after the flat this weekend. Please feed Mitzi twice a day and throw away any food she doesn't eat. When you go out, turn off the lights and the air conditioning. If you can't find something, look for it in the kitchen cupboard. I'm coming back on Sunday evening, so you don't have to pick me up. See you soon!\nLior",
+      "checklist": [
+        { "en": "I used at least four phrasal verbs (look after, turn off, throw away, look for...).", "he": "השתמשתי לפחות בארבעה פעלים מורכבים (look after, turn off, throw away, look for...)." },
+        { "en": "Pronouns are in the right place: turn it off, pick me up, look for it.", "he": "כינויי הגוף במקום הנכון: turn it off, pick me up, look for it." },
+        { "en": "My instructions are clear: Please turn off..., Don't forget to...", "he": "ההוראות שלי ברורות: Please turn off..., Don't forget to..." },
+        { "en": "My note starts with a greeting and ends with my name.", "he": "הפתק שלי מתחיל בפנייה ומסתיים בשם שלי." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "A phrasal verb = verb + small word, with one meaning: get up, give up, find out.", "he": "פועל מורכב = פועל + מילה קטנה, עם משמעות אחת: get up, give up, find out." },
+      { "en": "A pronoun goes in the middle: turn it off, pick me up (not *turn off it).", "he": "כינוי גוף בא באמצע: turn it off, pick me up (ולא turn off it)." },
+      { "en": "Look for and look after never split: look for it, look after them.", "he": "look for ו-look after לא מתפצלים: look for it, look after them." },
+      { "en": "The -s or -ed goes on the verb: She gets up. We picked them up.", "he": "ה-s או ה-ed מתחברות לפועל: She gets up. ‏We picked them up." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

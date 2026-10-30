@@ -1,0 +1,1806 @@
+{
+ "exercises": [
+  {
+   "id": "we-11",
+   "stage": 6,
+   "level": "B2",
+   "kind": "counterargument",
+   "title_en": "Rebuttal moves: refute, concede, qualify",
+   "title_he": "מהלכי הפרכה: לסתור, להודות, לסייג",
+   "instructions": {
+    "en": "An objection can be answered in three ways. Refute it: show that it is mistaken. Concede and outweigh it: accept that it is true, then show why your side still weighs more. Qualify your claim: narrow it so that the objection no longer applies. Whichever move you choose must rest on a reason or evidence; brushing an objection aside is not a rebuttal. Work through the items, then use these moves in your own paragraph in the next task.",
+    "he": "אפשר להשיב להתנגדות בשלוש דרכים. לסתור אותה: להראות שהיא שגויה. להודות ולהכריע: לקבל שהיא נכונה, ולהראות למה הצד שלכם עדיין שוקל יותר. לסייג את הטענה: לצמצם אותה כך שההתנגדות כבר לא חלה עליה. כל מהלך חייב להישען על נימוק או על ראיה; לבטל התנגדות בלי להסביר למה איננו הפרכה. עבדו על הפריטים, ובמשימה הבאה השתמשו במהלכים האלה בפסקה משלכם."
+   },
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "cohesion"
+   ],
+   "scaffold": [
+    {
+     "en": "Refute: \"This objection assumes that X, but in fact Y, because...\"",
+     "he": "לסתור: \"ההתנגדות מניחה ש-X, אבל למעשה Y, כי...\""
+    },
+    {
+     "en": "Concede and outweigh: \"It is true that X; even so, Y matters more, because...\"",
+     "he": "להודות ולהכריע: \"נכון ש-X; ובכל זאת Y חשוב יותר, כי...\""
+    },
+    {
+     "en": "Qualify: \"This is a fair point about X, so the proposal should be limited to Y.\"",
+     "he": "לסייג: \"זו נקודה הוגנת לגבי X, ולכן כדאי להגביל את ההצעה ל-Y.\""
+    },
+    {
+     "en": "Weigh with criteria: how many people are affected, how serious and how lasting the effect is, how likely it is, and whether it can be reduced.",
+     "he": "שקלו לפי קריטריונים: כמה אנשים מושפעים, עד כמה ההשפעה חמורה ולכמה זמן, מה הסיכוי שתתרחש, והאם אפשר לצמצם אותה."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "I can tell refuting (the objection is wrong) from conceding and outweighing (it is right, but my side weighs more) and qualifying (my claim becomes narrower).",
+     "he": "ההבחנה ברורה לי: סתירה (ההתנגדות שגויה), הודאה והכרעה (היא נכונה, אבל הצד שלי שוקל יותר) וסיוג (הטענה שלי מצטמצמת)."
+    },
+    {
+     "en": "Every rebuttal I write gives a reason or evidence; none simply dismisses the objection or attacks the people who raise it.",
+     "he": "בכל הפרכה שלי יש נימוק או ראיה; אף אחת מהן לא מבטלת את ההתנגדות סתם ולא תוקפת את מי שהעלה אותה."
+    },
+    {
+     "en": "When I concede, I say why my side still weighs more, using a criterion such as scale, duration or likelihood.",
+     "he": "כשאני מודה בנקודה, ההסבר שלי מראה למה הצד שלי עדיין שוקל יותר, לפי קריטריון כמו היקף, משך או סבירות."
+    },
+    {
+     "en": "When I qualify, the claim itself changes, not just its wording.",
+     "he": "בסיוג, הטענה עצמה משתנה, ולא רק הניסוח שלה."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: \"The school library should stay open until 20:00 on weekdays.\" Objection: \"Longer hours cost money that could buy books.\" Sort each response by the move it makes.",
+      "he": "טענה: \"ספריית בית הספר צריכה להיות פתוחה עד 20:00 בימי חול.\" התנגדות: \"שעות פתיחה ארוכות עולות כסף שאפשר היה לקנות בו ספרים.\" מיינו כל תגובה לפי המהלך שהיא עושה."
+     },
+     "categories": [
+      "Refute",
+      "Concede and outweigh",
+      "Qualify"
+     ],
+     "items": [
+      {
+       "text": "In fact, the evening hours would cost the book budget nothing, because trained senior students would supervise them as part of their volunteering.",
+       "category": "Refute"
+      },
+      {
+       "text": "This assumes the money would come from the book budget, but the parents' association has offered to fund the extra hours.",
+       "category": "Refute"
+      },
+      {
+       "text": "Longer hours would indeed cost money, but a quiet place to study for students who have none at home is worth more than a few extra books.",
+       "category": "Concede and outweigh"
+      },
+      {
+       "text": "It is true that staff time is not free; even so, the benefit to every student preparing for exams outweighs the price of some new titles.",
+       "category": "Concede and outweigh"
+      },
+      {
+       "text": "The library should stay open late only in the six weeks before exams, when demand is highest.",
+       "category": "Qualify"
+      },
+      {
+       "text": "Late opening should start on two evenings a week, which keeps the cost low while the school checks how many students use it.",
+       "category": "Qualify"
+      }
+     ],
+     "hint": {
+      "en": "Ask of each response: does it say the objection is wrong, admit it is right, or change the claim?",
+      "he": "שאלו על כל תגובה: האם היא אומרת שההתנגדות שגויה, מודה שהיא נכונה, או משנה את הטענה?"
+     },
+     "explanation": {
+      "en": "Refute: the objection is wrong (the money does not come from the book budget). Concede and outweigh: the objection is right (late opening costs money), but the benefit is greater. Qualify: the claim itself shrinks (only before exams, only two evenings), so the cost objection loses most of its force."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Choose the response that answers the objection with a reason.",
+      "he": "בחרו את התגובה שמשיבה להתנגדות בנימוק."
+     },
+     "question": "Claim: \"Secondary schools should start the day at 9:00 instead of 8:00.\" Objection: \"Parents who start work early would have nowhere to leave their children.\" Which response is a rebuttal rather than a dismissal?",
+     "options": [
+      "That objection is not really relevant to the main issue, which is how well teenagers sleep and learn.",
+      "Parents complain about almost every change a school makes, so this objection can safely be ignored.",
+      "Schools could open at 7:30 for supervised quiet study, so parents could still drop children off early.",
+      "Everyone knows that teenagers need more sleep than adults, so the objection about parents simply fails."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This declares the objection irrelevant without saying why. That is a dismissal, not a rebuttal."
+      },
+      "1": {
+       "en": "This attacks the people who object instead of answering their point (ad hominem)."
+      },
+      "3": {
+       "en": "Popularity is not a reason (bandwagon), and the childcare problem is never addressed."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "fallacy",
+      "3": "fallacy"
+     },
+     "explanation": {
+      "en": "A rebuttal meets the objection on its own terms. The supervised early opening accepts that drop-off time matters and shows how the proposal can meet that need, so the objection no longer counts against the claim."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Identify the rebuttal move.",
+      "he": "זהו את מהלך ההפרכה."
+     },
+     "question": "Objection: \"Homework-free weekends would leave students less prepared for exams.\" Response: \"Students might lose some practice, but two days of rest lower stress and sharpen concentration during the week, which matters more for exam results than a few extra exercises.\" Which move does the response make?",
+     "options": [
+      "It refutes the objection by showing that its central factual premise is false.",
+      "It concedes the objection and argues that the benefit outweighs it.",
+      "It qualifies the claim, narrowing it so that the objection no longer applies.",
+      "It ignores the objection and moves on to a different subject entirely."
+     ],
+     "answer": 1,
+     "explanation": {
+      "en": "\"Students might lose some practice\" grants the objection, and \"which matters more\" weighs the two sides. Nothing in the response denies the loss or narrows the claim."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "order",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Build a concede-and-outweigh sentence. Start with the concession.",
+      "he": "בנו משפט שמודה בהתנגדות ומכריע נגדה. התחילו בהודאה."
+     },
+     "tokens": [
+      "Although a later start would complicate some parents' mornings,",
+      "the gain in students' sleep and attention",
+      "outweighs this cost",
+      "because it affects every student on every school day."
+     ],
+     "hint": {
+      "en": "The concession ends with a comma; the reason for the weighing comes last.",
+      "he": "ההודאה מסתיימת בפסיק; הנימוק לשקילה בא בסוף."
+     },
+     "explanation": {
+      "en": "Concession first (Although...), then the writer's point (the gain outweighs this cost), then the weighing criterion (scale: every student, every day). The main clause carries the point you want the reader to remember."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Find the response that qualifies the claim.",
+      "he": "מצאו את התגובה שמסייגת את הטענה."
+     },
+     "question": "Claim: \"Public transport in our city should be free for everyone.\" Objection: \"Free fares for everyone would cost more than the city can afford.\" Which response qualifies the claim?",
+     "options": [
+      "Free fares should start with students, pensioners and people on low incomes, for whom fares are the biggest barrier.",
+      "The city already spends heavily on roads and car parks, so it can clearly afford free public transport as well.",
+      "Even if the cost is high, the cleaner air and quieter streets that free fares would bring are worth paying for.",
+      "People who worry about the cost of free fares do not really care about the environment or about bus users."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "This tries to refute the objection, and weakly: spending on roads does not show that money is left over."
+      },
+      "2": {
+       "en": "This concedes the cost and outweighs it; the claim itself does not change."
+      },
+      "3": {
+       "en": "This attacks the objectors, not their argument (ad hominem)."
+      }
+     },
+     "explanation": {
+      "en": "Qualifying changes the claim itself: \"free for everyone\" becomes \"free first for the groups who need it most\", which costs less and so meets the objection."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Join the two sentences into one concede-and-outweigh sentence. Start with Although and keep all the other words.",
+      "he": "חברו את שני המשפטים למשפט אחד שמודה ומכריע. התחילו ב-Although ושמרו על כל שאר המילים."
+     },
+     "source": "Remote work can leave employees isolated. It gives them back the hours they used to spend commuting.",
+     "answers": [
+      "Although remote work can leave employees isolated, it gives them back the hours they used to spend commuting."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Although remote work can leave employees isolated it gives them back the hours they used to spend commuting.",
+       "feedback": {
+        "en": "Almost: when the Although-clause comes first, put a comma after it."
+       },
+       "error_type": "punctuation"
+      },
+      {
+       "match": "Remote work can leave employees isolated, although it gives them back the hours they used to spend commuting.",
+       "feedback": {
+        "en": "Here \"although\" introduces the benefit, so the benefit becomes the concession and isolation becomes your main point: the opposite weighting. Put Although before the cost you concede."
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "Although remote work gives employees back the hours they used to spend commuting, it can leave them isolated.",
+       "feedback": {
+        "en": "Grammatical, but it reverses the weighing: the benefit is now conceded and the isolation is your main point. Follow the task: start with Although and keep the original words."
+       },
+       "error_type": "cohesion"
+      }
+     ],
+     "explanation": {
+      "en": "Although + the cost you concede, a comma, then your main point. The main clause (\"it gives them back...\") is the one the reader takes away."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Choose the reason that weighs the two sides with clear criteria.",
+      "he": "בחרו את הנימוק ששוקל את שני הצדדים לפי קריטריונים ברורים."
+     },
+     "question": "Claim: \"The town should turn the car park beside the market into a public park.\" Concession: \"This would remove parking spaces near the market.\" Which ending best explains why the benefit outweighs the cost? \"Even so, the park is worth it...\"",
+     "options": [
+      "...because parks are simply nicer places than car parks, and a market among trees is more pleasant to visit.",
+      "...because most people in the town agree that green spaces matter, and the council should follow them.",
+      "...because drivers should stop being lazy and walk to the market, as everyone did before cars took over.",
+      "...because it would serve thousands of residents daily for decades, while drivers can park five minutes away."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "A statement of taste, not a criterion for weighing."
+      },
+      "1": {
+       "en": "Popularity is not a reason here (bandwagon)."
+      },
+      "2": {
+       "en": "This insults the people who bear the cost; it weighs nothing."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "fallacy",
+      "2": "fallacy"
+     },
+     "explanation": {
+      "en": "The strong ending weighs with explicit criteria: scale (thousands of residents), duration (decades) and mitigation (parking five minutes away). A reader can disagree with the weighing, but can see exactly how it was done."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "cohesion-devices",
+     "prompt": {
+      "en": "Complete the concession with words from the bank.",
+      "he": "השלימו את משפט ההודאה במילים ממחסן המילים."
+     },
+     "text": "It is ___ that a four-day school week would shorten teaching time; ___, a rested student may learn more in four days than a tired one does in five.",
+     "word_bank": [
+      "true",
+      "nevertheless",
+      "therefore",
+      "because",
+      "for example"
+     ],
+     "answers": [
+      [
+       "true"
+      ],
+      [
+       "nevertheless"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "therefore",
+       "feedback": {
+        "en": "\"Therefore\" would claim that shorter teaching time causes better learning. You need a word that turns from the concession to your stronger point."
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "for example",
+       "feedback": {
+        "en": "The second half is not an example of the first; it is the writer's counterweight to it."
+       },
+       "error_type": "cohesion"
+      }
+     ],
+     "explanation": {
+      "en": "\"It is true that...\" grants the objection; \"nevertheless\" turns to the writer's stronger point. This pair is the skeleton of every concede-and-outweigh sentence."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-12",
+   "stage": 6,
+   "level": "B2",
+   "kind": "counterargument",
+   "title_en": "Write a rebuttal paragraph",
+   "title_he": "כתיבת פסקת הפרכה",
+   "instructions": {
+    "en": "Argue whether secondary schools should replace some end-of-year exams with long-term projects, and respond to the strongest opposing view. Write one developed paragraph of 200-280 words: open with your claim, support it with your main reason and a specific example, present the strongest objection fairly and attribute it (\"Critics argue that...\"), then answer it with one rebuttal move: refute, concede and outweigh, or qualify. If you concede a point, adjust your claim. Write your paragraph before you open the model, which answers a different question.",
+    "he": "טענו בעד או נגד החלפת חלק ממבחני סוף השנה בתיכון בפרויקטים ארוכי טווח, והשיבו לעמדה הנגדית החזקה ביותר. כתבו פסקה מפותחת אחת של 200–280 מילים: פתחו בטענה שלכם, תמכו בה בנימוק המרכזי ובדוגמה מוחשית, הציגו בהגינות את ההתנגדות החזקה ביותר וייחסו אותה למי שמחזיק בה (\"Critics argue that...\"), ואז השיבו לה באחד ממהלכי ההפרכה: לסתור, להודות ולהכריע, או לסייג. אם הודיתם בנקודה, התאימו את הטענה שלכם. כתבו את הפסקה לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
+   },
+   "min_words": 200,
+   "max_words": 280,
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "evidence_quality",
+    "cohesion"
+   ],
+   "scaffold": [
+    {
+     "en": "Write your claim as one debatable sentence.",
+     "he": "נסחו את הטענה שלכם במשפט אחד שאפשר להתווכח איתו."
+    },
+    {
+     "en": "List two objections and keep the one a fair-minded opponent would choose.",
+     "he": "רשמו שתי התנגדויות, ובחרו את זו שיריב הוגן היה בוחר."
+    },
+    {
+     "en": "Choose your move: refute, concede and outweigh, or qualify.",
+     "he": "בחרו מהלך: לסתור, להודות ולהכריע, או לסייג."
+    },
+    {
+     "en": "Weigh with a criterion: scale, seriousness, duration, likelihood, or whether the cost can be reduced.",
+     "he": "הכריעו לפי קריטריון: היקף, חומרה, משך, סבירות, או האם אפשר לצמצם את המחיר."
+    },
+    {
+     "en": "End with your position, adjusted if you conceded anything.",
+     "he": "סיימו בעמדה שלכם, מותאמת אם הודיתם במשהו."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position is clear and debatable in the first sentence.",
+     "he": "טענה: העמדה שלי ברורה וניתנת לוויכוח כבר במשפט הראשון."
+    },
+    {
+     "en": "Reason and evidence: my main reason has a specific example, and I explain how it supports the claim.",
+     "he": "נימוק וראיה: לנימוק המרכזי שלי יש דוגמה מוחשית, ויש הסבר איך היא תומכת בטענה."
+    },
+    {
+     "en": "Counterargument: the strongest objection is stated fairly and attributed, so no reader could mistake it for my own view.",
+     "he": "טיעון נגדי: ההתנגדות החזקה ביותר מוצגת בהגינות ומיוחסת למי שמחזיק בה, כך שאיש לא יחשוב שזו העמדה שלי."
+    },
+    {
+     "en": "Rebuttal: my answer rests on reasoning or evidence (refute, concede and outweigh, or qualify), not on dismissal.",
+     "he": "הפרכה: התשובה שלי נשענת על נימוק או ראיה (סתירה, הודאה והכרעה או סיוג), ולא על ביטול."
+    },
+    {
+     "en": "Adjusted claim: if I conceded a point, my claim or my weighing reflects it.",
+     "he": "טענה מותאמת: אם הודיתי בנקודה, הטענה שלי או השקילה שלי משקפות זאת."
+    },
+    {
+     "en": "Conclusion: my last sentence restates my position and adds no new argument.",
+     "he": "סיכום: המשפט האחרון חוזר על העמדה שלי ולא מוסיף טיעון חדש."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt (\"Should cities close their historic centres to private cars on Friday mornings?\"). It answers a different question from yours, so study the moves, not the content.\n\nCities should close their historic centres to private cars on Friday mornings. The main reason is safety: old streets were built for people and carts, not traffic, and on a busy Friday a single delivery van can push pedestrians off a pavement barely wide enough for a pushchair. Removing private cars for a few hours would return that space to the people who actually fill the centre on Fridays: shoppers, families and older residents on foot. Shop owners, however, argue that a closure would cost them customers who arrive by car, and this objection deserves a serious answer, because small shops depend on Friday trade. It is true that some drivers may shop elsewhere at first. Even so, the cost can be reduced: a shuttle from the car parks at the edge of the centre would bring drivers to the shop doors, and quieter streets may encourage people to stay longer rather than hurry back to their cars. The closure should also be limited to the hours between 9:00 and 14:00, so that early deliveries and afternoon trade continue as before. Adjusted in this way, the proposal protects every pedestrian in the centre at a modest and manageable cost to a few businesses, and that balance favours the closure.\n\nMoves: claim → reason with a specific example → attributed objection → concession (\"It is true that...\") → the cost reduced → claim qualified (9:00-14:00) → weighed conclusion."
+  },
+  {
+   "id": "we-13",
+   "stage": 7,
+   "level": "C1",
+   "kind": "outlining",
+   "title_en": "From thesis to outline, and back",
+   "title_he": "מתזה למתווה ומתווה הפוך",
+   "instructions": {
+    "en": "A plan should grow out of its thesis. Each body paragraph defends one part of the thesis, in the order the thesis announces; the strongest objection comes after your own case and is answered before the conclusion; the conclusion restates the position and adds nothing new. In these items you map theses to outlines and reverse-outline paragraphs: for each paragraph, ask what it says and what it does.",
+    "he": "תוכנית חיבור צריכה לצמוח מתוך התזה. כל פסקת גוף מגינה על חלק אחד שלה, לפי הסדר שהתזה מכריזה עליו; ההתנגדות החזקה ביותר באה אחרי הטיעונים שלכם ומקבלת תשובה לפני הסיכום; והסיכום חוזר על העמדה בלי להוסיף דבר חדש. בפריטים האלה תתאימו תזות למתווים ותבנו מתווה הפוך לפסקאות: בכל פסקה שאלו מה היא אומרת ומה היא עושה."
+   },
+   "focus": [
+    "coherence",
+    "argument_strength",
+    "counterarguments"
+   ],
+   "scaffold": [
+    {
+     "en": "Essay blueprint: introduction with thesis → one body paragraph per reason → objection and rebuttal → conclusion."
+    },
+    {
+     "en": "Reverse outline: beside each paragraph, write what it says (its point, in a few words) and what it does (its job in the essay)."
+    },
+    {
+     "en": "Check the fit: every part of the thesis has a paragraph, and every paragraph serves a part of the thesis."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Every body paragraph defends one part of my thesis, in the order the thesis announces."
+    },
+    {
+     "en": "The strongest objection comes after my own case and is answered before the conclusion."
+    },
+    {
+     "en": "For each paragraph I can write, in one line each, what it says and what it does."
+    },
+    {
+     "en": "My conclusion restates the position, with any qualification, and adds no new reasons or evidence."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "order",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Thesis: \"Cities should fund free public transport for under-18s, because it widens access to education and work, and its real cost is lower than it first appears.\" Put the outline in order. The body paragraphs follow the order of the thesis, and the objection is answered after the reason it attacks."
+     },
+     "tokens": [
+      "Introduction: teenagers who cannot afford daily travel; thesis",
+      "Point: free travel opens schools, clubs and first jobs",
+      "Point: the real cost once savings on fare collection are counted",
+      "Objection and response: \"the scheme is too expensive\", partly conceded, then outweighed",
+      "Conclusion: the thesis restated with its limits; no new reasons"
+     ],
+     "explanation": {
+      "en": "The thesis announces access first and cost second, so the body follows that order. The cost objection attacks the second reason, so it comes after the cost paragraph and before the conclusion, which adds no new reasons."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Map the thesis to a plan."
+     },
+     "question": "Thesis: \"Although compulsory school uniforms reduce visible differences in family income, schools should make them optional, because they restrict self-expression and cost poorer families more than they save.\" Which body plan matches this thesis?",
+     "options": [
+      "(1) How uniforms reduce bullying over clothes and brands. (2) How they save families time on school mornings. (3) How they build school pride.",
+      "(1) The history of school uniforms since the nineteenth century. (2) How uniform rules differ between countries. (3) What students say about them.",
+      "(1) Why self-expression matters at school. (2) What uniforms really cost poorer families. (3) The income-difference argument, partly conceded and answered.",
+      "(1) Why self-expression matters at school. (2) What uniforms cost low-income families. (3) A further reason: the environmental cost of making uniforms."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This plan argues the opposite of the thesis."
+      },
+      "1": {
+       "en": "This plan describes the topic but argues nothing."
+      },
+      "3": {
+       "en": "Paragraph 3 adds a reason the thesis never announced, and the point conceded in \"Although...\" is never answered."
+      }
+     },
+     "explanation": {
+      "en": "The thesis promises two reasons (self-expression, cost) and concedes one opposing point (income differences). A matching plan gives each reason a paragraph and returns to the concession to answer it."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Choose the thesis you could outline."
+     },
+     "question": "Which thesis gives a clear plan for a short argumentative essay with two reasons and one answered objection?",
+     "options": [
+      "This essay will discuss the main advantages and disadvantages of recorded lectures for students and universities, and then reach a conclusion.",
+      "Universities should record large lectures, because recordings help students review hard material and free halls for seminars, even if attendance falls.",
+      "Recorded lectures are a topic on which students, lecturers and university managers all hold strong and often very different opinions.",
+      "Recorded lectures are good for students in many ways and bad in some others, so universities will need to think about them very carefully."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "An announcement, not a position: nothing here can be argued for or against."
+      },
+      "2": {
+       "en": "A fact about opinions, not a debatable claim."
+      },
+      "3": {
+       "en": "No position: \"think about them very carefully\" cannot be argued for or against, so there is nothing to outline."
+      }
+     },
+     "option_errors": {
+      "0": "weak-thesis",
+      "2": "weak-thesis",
+      "3": "weak-thesis"
+     },
+     "explanation": {
+      "en": "The strong thesis takes a position, names two reasons (review, space) and signals the objection (attendance), so each part becomes a paragraph of the outline."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Reverse-outline this body paragraph from an essay arguing for a later school start. Sort each sentence by the job it does."
+     },
+     "categories": [
+      "Topic sentence",
+      "Support",
+      "Explains the link",
+      "Does not belong"
+     ],
+     "items": [
+      {
+       "text": "A later start would help students learn more in the first lessons of the day.",
+       "category": "Topic sentence"
+      },
+      {
+       "text": "In a fictional district's pilot, moving the start from 8:00 to 9:00 was followed by fewer late arrivals.",
+       "category": "Support"
+      },
+      {
+       "text": "Teachers in the same pilot reported that fewer students fell asleep in first-period lessons.",
+       "category": "Support"
+      },
+      {
+       "text": "This matters because a student who arrives on time and rested can follow the opening lesson instead of spending the morning catching up.",
+       "category": "Explains the link"
+      },
+      {
+       "text": "The district also repainted several of its school buildings that year.",
+       "category": "Does not belong"
+      }
+     ],
+     "explanation": {
+      "en": "A unified body paragraph has one point (the topic sentence), support for it, and a sentence explaining why the support proves the point. The repainting happened during the pilot but has nothing to do with the point, so the reverse outline shows it should be cut."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "match",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Reverse-outline a five-paragraph essay on free entry to national museums. Match each paragraph's opening to what the paragraph does."
+     },
+     "pairs": [
+      [
+       "\"Free entry to national museums is often dismissed as a luxury; this essay argues that it is a sound use of public money, provided that special exhibitions still charge.\"",
+       "Introduces the issue and states a qualified thesis"
+      ],
+      [
+       "\"When fees disappear, the visitors who gain most are those who could least afford to come: school groups, large families and pensioners.\"",
+       "Develops the first reason: wider access"
+      ],
+      [
+       "\"Free entry also changes how people use a museum: a visitor who has paid nothing can stay for twenty minutes and come back next week.\"",
+       "Develops the second reason: shorter, repeated visits"
+      ],
+      [
+       "\"Critics reply that museums would lose income they need for conservation, and they are right to worry.\"",
+       "Presents the strongest objection before answering it"
+      ],
+      [
+       "\"Free entry, then, is less a luxury than a decision about whom museums are for.\"",
+       "Restates the position without new reasons"
+      ]
+     ],
+     "explanation": {
+      "en": "A reverse outline names the job of every paragraph. Here the jobs follow the blueprint: thesis, reason, reason, objection and rebuttal, conclusion. If two paragraphs had the same job, or one had none, the outline would show it at once."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Diagnose the essay from its reverse outline."
+     },
+     "question": "A reverse outline of a student essay reads: P1 says the thesis: social media harms teenagers' sleep and concentration. P2 does: shows how late-night scrolling delays sleep. P3 does: argues that social media helps teenagers keep in touch with friends. P4 does: restates that social media harms sleep and concentration. What is the main structural problem?",
+     "options": [
+      "P3 argues the other side without signalling or answering it, and the promised point about concentration never gets a paragraph.",
+      "The essay has too few paragraphs: an argumentative essay needs at least five, so two more body paragraphs are needed.",
+      "The conclusion simply restates the thesis, which wastes words; a conclusion should end with a final, new reason instead.",
+      "P2 and P3 are in the wrong order: the more positive point about friendship should come first to win the reader over."
+     ],
+     "answer": 0,
+     "explanation": {
+      "en": "The reverse outline exposes two gaps between thesis and body: one promised reason (concentration) has no paragraph, and P3 reads as a contradiction because the opposing view is neither signalled (\"Some argue that...\") nor answered. Restating the thesis in a conclusion is normal."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Choose the conclusion that fits the thesis."
+     },
+     "question": "Thesis: \"Cities should fund free public transport for under-18s, because it widens access to education and work, and its real cost is lower than it first appears.\" Which concluding sentence fits this essay?",
+     "options": [
+      "Free travel for under-18s would also reduce air pollution and traffic around schools, which is another strong reason to support it.",
+      "In the end, everyone has their own opinion on this issue, and each city will have to decide for itself what is best.",
+      "In conclusion, public transport is a topic of great importance in the modern world, and it will only grow more important.",
+      "Free travel for under-18s is thus a modest investment that brings schools, clubs and first jobs within young people's reach."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "A new argument in the conclusion: if pollution matters, it needs its own body paragraph."
+      },
+      "1": {
+       "en": "This abandons the position the essay has argued."
+      },
+      "2": {
+       "en": "Empty: it could end any essay about transport."
+      }
+     },
+     "explanation": {
+      "en": "A conclusion restates the position in fresh words and gathers the reasons already given (cost, access) without adding new ones."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-14",
+   "stage": 7,
+   "level": "C1",
+   "kind": "timed",
+   "title_en": "Timed essay: 40 minutes",
+   "title_he": "חיבור בזמן מוגבל: 40 דקות",
+   "instructions": {
+    "en": "In 40 minutes, write an argumentative essay of 250-350 words on this question: \"Should secondary schools require every student to complete a set number of hours of community volunteering in order to graduate?\" Argue for a clear position and respond to the strongest opposing view. Suggested timing: 5 minutes to plan (a thesis and a four-line outline), 30 minutes to write, 5 minutes to check against the checklist. Start the timer when you start planning, and write before you open the model, which answers a different question.",
+    "he": "תוך 40 דקות כתבו חיבור טיעוני של 250–350 מילים על השאלה: \"Should secondary schools require every student to complete a set number of hours of community volunteering in order to graduate?\" טענו לעמדה ברורה והשיבו לעמדה הנגדית החזקה ביותר. חלוקת זמן מומלצת: 5 דקות לתכנון (תזה ומתווה של ארבע שורות), 30 דקות לכתיבה ו-5 דקות לבדיקה מול רשימת הבדיקה. הפעילו את הטיימר כשאתם מתחילים לתכנן, וכתבו לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
+   },
+   "min_words": 250,
+   "max_words": 350,
+   "time_limit_min": 40,
+   "focus": [
+    "coherence",
+    "cohesion",
+    "argument_strength",
+    "counterarguments",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "Thesis: my introduction ends with a clear, debatable position that previews my reasons."
+    },
+    {
+     "en": "Reasons and evidence: each body paragraph makes one point, supports it with a specific example or reason, and links it back to the thesis."
+    },
+    {
+     "en": "Counterargument: the strongest opposing view is stated fairly, attributed, and placed before my conclusion."
+    },
+    {
+     "en": "Rebuttal: I answer it with reasoning, and I adjust my claim if I concede part of it."
+    },
+    {
+     "en": "Cohesion: linking words and reference show how each paragraph follows from the last, without mechanical overuse."
+    },
+    {
+     "en": "Conclusion: I restate my position and add nothing new, and I left time to check my draft."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt (\"Should secondary schools require every student to play a team sport?\"), written in 40 minutes. It answers a different question from yours: compare its structure with your essay, not its ideas.\n\nFew school requirements divide students as sharply as compulsory sport. Supporters see it as the only regular exercise many teenagers get; opponents see it as a weekly humiliation for the least athletic. Schools should require every student to take part in regular physical activity, but not necessarily in a team sport, because the benefits depend on movement, not on competition.\n\nThe first reason is that exercise matters for every student, not only the sporty ones. A teenager who rarely moves between the school bus and the sofa is precisely the student a requirement is meant to reach, and optional programmes tend to attract those who are already active.\n\nThe second reason is that the form of the activity matters less than its regularity. Dance, swimming, climbing or a well-run fitness class can raise the heart rate as effectively as football, and they spare students who dread being picked last the public judgement that team games can involve. A requirement framed around activity also lets schools build on what students already enjoy.\n\nSupporters of compulsory team sport argue that teams teach cooperation and resilience, and this is a serious point: learning to lose together is a lesson few classrooms offer. Yet cooperation can also be learned in an orchestra, a debating team or a group project, whereas a student who learns to hate exercise at fifteen may avoid it for years. The value of teams is real, but it does not justify making them the only option.\n\nSchools should therefore require activity rather than competition: every student should move every week, and team sport should be one choice among several."
+  },
+  {
+   "id": "we-15",
+   "stage": 8,
+   "level": "C1",
+   "kind": "evidence-evaluation",
+   "title_en": "Spot and fix: fallacies and hidden assumptions",
+   "title_he": "לזהות ולתקן: כשלים לוגיים והנחות סמויות",
+   "instructions": {
+    "en": "The illustrative paragraph below argues for a school phone ban. Its conclusion may be reasonable, but almost every step that leads to it is weak. Each item quotes one sentence from it: find what is wrong with the reasoning, then choose or complete a repair that a careful writer could defend. The aim is to fix the argument, not to collect fallacy names, and the same checks apply to your own drafts."
+   },
+   "input_text": "Illustrative paragraph (invented for this task; the school and the town are fictional).\n\n(1) Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement. (2) Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students. (3) Opponents of the ban are mostly teenagers who simply want to play games in class. (4) If students keep their phones, they will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate on anything. (5) Either we ban phones completely, or we admit that schools have given up on discipline. (6) After all, no one has ever proved that phones help anyone learn. (7) The town's other schools should therefore copy Ardenvale's ban at once.",
+   "focus": [
+    "argument_strength",
+    "precision",
+    "counterarguments"
+   ],
+   "scaffold": [
+    {
+     "en": "Cause: Did anything else change? How exactly would X produce Y?"
+    },
+    {
+     "en": "Sample: How many cases are there, and are they typical of the group the claim is about?"
+    },
+    {
+     "en": "Opponents: Would they accept this description of their view?"
+    },
+    {
+     "en": "Chains and choices: Which step has evidence? Are there really only two options?"
+    },
+    {
+     "en": "Hidden links: What must be true, but is not said, for the conclusion to follow?"
+    }
+   ],
+   "checklist": [
+    {
+     "en": "For every causal claim, I ask what else could explain the result and say how the cause would work."
+    },
+    {
+     "en": "My sample is large and representative enough for the size of my claim, or I narrow the claim."
+    },
+    {
+     "en": "I describe opponents' views in terms they would accept, and I answer their strongest argument."
+    },
+    {
+     "en": "I test every \"either... or\", \"will lead to\", \"no one has proved\" and \"everyone\" in my own drafts."
+    },
+    {
+     "en": "I can name the unstated assumption that links my evidence to my conclusion, and I check that it holds."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Spot the weakness in sentence 1."
+     },
+     "question": "Sentence 1: \"Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement.\" Which question exposes the weakness in this reasoning?",
+     "options": [
+      "How many students at Ardenvale High own a phone, and how many brought it to lessons before March?",
+      "Did anything else change at the school that year, such as staff, timetables or the exams themselves?",
+      "Do the teachers at Ardenvale High support the ban, and would they like other schools to copy it?",
+      "Are exam results the best measure of a school's success, or should well-being count as well?"
+     ],
+     "answer": 1,
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "Results rising after the ban does not show that the ban caused the rise (post hoc, or false cause). The writer would need to rule out other changes and explain how a ban would raise results."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 1."
+     },
+     "question": "Which revision of sentence 1 (\"Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement.\") claims only what the evidence supports?",
+     "options": [
+      "Since Ardenvale High banned phones in March, its results have risen, which proves beyond any reasonable doubt that the ban worked.",
+      "Ardenvale High's results have nothing to do with the phone ban, since exam results go up and down every year anyway.",
+      "Everyone knows that results rise when phones are banned, and Ardenvale High's rise since March is simply the latest example.",
+      "Ardenvale High's results rose after the March ban; the ban may have helped, but other changes that year must be ruled out first."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "Stronger, not better: \"proves beyond doubt\" over-claims even more."
+      },
+      "1": {
+       "en": "This over-corrects: the evidence does not show that there is no link either."
+      },
+      "2": {
+       "en": "Popularity replaces evidence (bandwagon)."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "unsupported-claim",
+      "2": "fallacy"
+     },
+     "explanation": {
+      "en": "The repaired version keeps the observation, offers the causal link only as a possibility (\"may have helped\") and names what would have to be checked."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "match",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Match each sentence from the paragraph to the question that would repair it."
+     },
+     "pairs": [
+      [
+       "(2) Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students.",
+       "How many cases is this, are they typical, and is support for a ban evidence of harm?"
+      ],
+      [
+       "(3) Opponents of the ban are mostly teenagers who simply want to play games in class.",
+       "Would opponents accept this description? What is their strongest argument?"
+      ],
+      [
+       "(4) They will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate.",
+       "Which step in this chain has evidence, and which is only assumed?"
+      ],
+      [
+       "(5) Either we ban phones completely, or we admit that schools have given up on discipline.",
+       "Are there other options, such as limits on when phones may be used?"
+      ],
+      [
+       "(6) After all, no one has ever proved that phones help anyone learn.",
+       "Does a lack of proof that phones help count as proof that they harm?"
+      ]
+     ],
+     "explanation": {
+      "en": "Each repair question targets one weak step: a small, unrepresentative sample of opinions (2), a caricature of the other side (3), a chain of consequences with no evidence for its links (4), a false choice between two options (5), and treating absence of proof as proof of the opposite (6)."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Replace the straw man in sentence 3."
+     },
+     "question": "Sentence 3 dismisses opponents as \"teenagers who simply want to play games in class\". Which objection should the paragraph answer instead, because it is the strongest case the other side could make?",
+     "options": [
+      "Teenagers enjoy games on their phones, and taking the phones away for the school day will make them resentful.",
+      "Phones are expensive and easily lost or broken, so most students would be better off leaving them at home.",
+      "Phones can support learning, through quick research or class apps, and parents may need to reach their children.",
+      "Teachers who support the ban are simply too strict and do not understand how young people communicate today."
+     ],
+     "answer": 2,
+     "error_type": "missing-counterargument",
+     "explanation": {
+      "en": "Answering the strongest version of the opposing view makes the argument more convincing; answering a caricature (a straw man) persuades only readers who already agree. Calling teachers \"too strict\" just attacks the other side in return."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 2."
+     },
+     "question": "Sentence 2: \"Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students.\" Which revision claims only what this evidence can support?",
+     "options": [
+      "The teachers I have spoken to support the ban, which suggests that at least some staff see phones as a distraction in lessons.",
+      "Every teacher in the country supports the ban, which shows clearly that phones are harmful to all students everywhere.",
+      "Most of the teachers I have spoken to support the ban, so phones must be harmful to most of their students.",
+      "Some of the teachers I have spoken to support the ban, which proves that phones harm at least some students."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "This widens the sample without evidence and keeps the leap from opinion to harm."
+      },
+      "2": {
+       "en": "\"Most\" is smaller than \"all\", but teachers' support is still treated as proof of harm."
+      },
+      "3": {
+       "en": "\"Some\" does not repair a sentence that still treats opinion as proof."
+      }
+     },
+     "option_errors": {
+      "1": "fallacy",
+      "2": "unsupported-claim",
+      "3": "unsupported-claim"
+     },
+     "explanation": {
+      "en": "The evidence is the opinions of an unknown number of teachers the writer happens to know. It supports a claim about those teachers' views, not a claim that phones harm every student (hasty generalisation)."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 5."
+     },
+     "question": "Sentence 5 offers only two options: \"Either we ban phones completely, or we admit that schools have given up on discipline.\" Which revision removes the false choice?",
+     "options": [
+      "Either we ban phones completely, or classrooms will descend into chaos and teachers will lose control of lessons.",
+      "Schools could ban phones, allow them only at break, or allow them for set tasks, and should compare the results.",
+      "We must ban phones completely, because there is no other way to protect lessons from constant interruption.",
+      "Either we ban phones completely, or discipline will slowly get worse, year by year, until it is lost altogether."
+     ],
+     "answer": 1,
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "The repair names the options between the two extremes and proposes a way to choose among them. The other versions keep a two-option frame, or simply declare that no other option exists."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Find the unstated assumption in sentence 7."
+     },
+     "question": "Sentence 7: \"The town's other schools should therefore copy Ardenvale's ban at once.\" Which unstated assumption must hold for this conclusion to follow?",
+     "options": [
+      "That the other schools are similar enough to Ardenvale High for a ban to work the same way.",
+      "That the other schools in the town already have some kind of phone ban in place.",
+      "That most teachers at the town's other schools are currently opposed to a ban.",
+      "That Ardenvale High's exam results had been falling steadily in the years before March."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "If they already had a ban, there would be nothing to copy."
+      },
+      "2": {
+       "en": "The conclusion does not depend on what teachers at other schools think."
+      },
+      "3": {
+       "en": "The argument does not need this: it claims only that results rose after March."
+      }
+     },
+     "error_type": "unsupported-claim",
+     "explanation": {
+      "en": "To move from \"it worked here\" to \"do it everywhere\", the writer silently assumes the other schools are alike in the ways that matter: students, rules, and the reasons for their results. Stating the assumption shows what evidence is missing, such as results from comparable schools or a trial before a town-wide rule."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Repair sentence 6 (\"After all, no one has ever proved that phones help anyone learn.\"). Complete the new version with one word so that it no longer treats a lack of proof as proof."
+     },
+     "text": "No study we know of shows that phones help students learn, but that alone does not ___ that phones harm learning.",
+     "answers": [
+      [
+       "prove",
+       "show",
+       "establish",
+       "demonstrate",
+       "mean",
+       "imply",
+       "confirm",
+       "suggest",
+       "indicate"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "disprove",
+       "feedback": {
+        "en": "\"Disprove\" reverses the meaning. The point is that missing evidence for one claim does not establish the opposite claim."
+       },
+       "error_type": "fallacy"
+      }
+     ],
+     "hint": {
+      "en": "Which verb links evidence to a conclusion: \"this does not ___ that...\"?"
+     },
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "Absence of evidence for one claim (phones help) is not evidence for the opposite claim (phones harm). A defensible writer either supplies evidence of harm or limits the conclusion."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-16",
+   "stage": 8,
+   "level": "C1",
+   "kind": "critical-response",
+   "title_en": "Critical response to an opinion piece",
+   "title_he": "תגובה ביקורתית למאמר דעה",
+   "instructions": {
+    "en": "Read the illustrative opinion piece. Then argue whether schools should ban AI homework apps, and respond to opposing views, in a critical response of 300-400 words written for a reader who has not seen the piece. First, summarise the writer's position and main reasons fairly, in two or three sentences. Next, evaluate the reasoning: identify its strongest point and at least two weaknesses (unstated assumptions, weak evidence or fallacies), quoting briefly and explaining what the writer would need to show instead. Finally, state and defend your own position, answering the writer's strongest point. Naming a fallacy is not enough: show why the step fails and how it could be repaired."
+   },
+   "input_text": "Illustrative opinion piece (invented for this task: the newspaper, the town, the class and the survey are fictional, and no figure in it describes the real world).\n\nBan the Homework Apps (The Port Halden Courier, education column)\n\nWalk into any classroom in Port Halden and you will meet students who can no longer think for themselves. The cause is obvious. AI homework apps arrived in our town three years ago, and since then teachers have complained of essays that all sound the same. When I asked my nephew's class how many of them had used an app to write an essay, almost every hand went up.\n\nSupporters of the apps call them \"a modern calculator\". But a calculator does arithmetic; it does not write your opinions for you. Others say that students will use the apps at home whatever schools decide. That is like abolishing speed limits because some drivers speed.\n\nA survey of 40 Port Halden parents found that 31 of them believe the apps harm learning. The experts have spoken. Nobody has shown that the apps improve writing, and until somebody does, we should assume the worst.\n\nSome will call this old-fashioned. Perhaps it is. But if we allow the apps for homework today, students will use them in exams tomorrow, and in ten years we will have a generation of graduates who cannot write a letter. Schools face a simple choice: ban the apps on every school device and network, or admit that they no longer care whether students learn.\n\nThe app enthusiasts are right about one thing. Some students, especially those with learning difficulties, use the apps to plan and check their work, and they deserve support. But that is a case for special arrangements, not a reason to keep the apps for everyone.",
+   "min_words": 300,
+   "max_words": 400,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "precision",
+    "academic_tone"
+   ],
+   "scaffold": [
+    {
+     "en": "Read twice: first for the writer's position, then sentence by sentence for the steps that carry it."
+    },
+    {
+     "en": "Label each step as evidence, assumption or leap, and find the piece's strongest point as well as its weakest."
+    },
+    {
+     "en": "Plan: summary → strongest point → two weaknesses, each with a repair → your position and its defence → conclusion."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Summary: a reader who has not seen the piece learns its position and reasons, stated in terms the writer would accept."
+    },
+    {
+     "en": "Fair evaluation: I identify the piece's strongest point as well as its weaknesses."
+    },
+    {
+     "en": "Each weakness is quoted briefly, explained, and paired with what the writer would need to show instead."
+    },
+    {
+     "en": "Claim and reasons: my own position is clear, and each reason is supported."
+    },
+    {
+     "en": "Rebuttal: I answer the writer's strongest point with reasoning, not dismissal, and I have argued once against my own conclusion to check for myside bias."
+    },
+    {
+     "en": "Conclusion: I end with my position, adjusted if I conceded anything, and add nothing new."
+    }
+   ]
+  },
+  {
+   "id": "we-17",
+   "stage": 9,
+   "level": "C1",
+   "kind": "sentence-transformation",
+   "title_en": "Calibrating claims and paraphrasing a source",
+   "title_he": "כיול טענות ופרפרזה של מקור",
+   "instructions": {
+    "en": "Every item uses the illustrative study summary below, and each item restates the facts it needs. Two skills are practised. Calibration: a claim should be exactly as strong as its evidence, so over-claiming and stacking hedges are both errors. Paraphrase: restating a source in your own words and your own sentence structure, with attribution. Keeping the source's structure and swapping some words (patchwriting) is a normal stage in learning to write from sources, not a sign of dishonesty; the fix is to understand the idea, look away from the source, and rebuild the sentence."
+   },
+   "input_text": "Illustrative source (invented for this task: the authors, the journal, the town and all figures are fictional).\n\nFerrant, L., & Oyelaran, T. (2024). Planted roofs and summer indoor temperatures in Marrowby: a one-summer comparison. Marrowby Urban Review, 3(2), 14-29.\n\nSummary: During one summer in the town of Marrowby, the researchers compared 12 apartment buildings with planted (green) roofs and 12 similar buildings with ordinary roofs. On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs. The difference was smaller on lower floors and almost disappeared on the ground floor. The authors note that the buildings were not randomly assigned, that the planted-roof buildings were on average newer, and that one summer may not be typical. They conclude that planted roofs \"may help to reduce indoor heat on upper floors\" and call for a study over several years.",
+   "focus": [
+    "academic_tone",
+    "precision",
+    "evidence_quality"
+   ],
+   "scaffold": [
+    {
+     "en": "Calibrate to the evidence: large, repeated or controlled studies support \"shows\" and \"demonstrates\"; one small, non-randomised study supports \"suggests\", \"indicates\" and \"may\"."
+    },
+    {
+     "en": "Hedging phrase bank by function: distancing (\"It has been suggested that...\"), cautious interpretation (\"These results suggest that...\"), avoiding over-generalisation (\"on upper floors\", \"in this sample\", \"generally\")."
+    },
+    {
+     "en": "Paraphrase in four steps: read until you understand, look away, write the idea in your own structure, then check the meaning against the source and add the citation."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "My claims are as strong as the evidence: no \"proves\" or \"all\" for one small study, and no pile of hedges either."
+    },
+    {
+     "en": "I use one well-placed hedge per claim (may, suggests, tends to), and I keep the scope precise."
+    },
+    {
+     "en": "My paraphrase changes both the words and the sentence structure, keeps the meaning, and names the source."
+    },
+    {
+     "en": "I quote only when the exact wording matters, and I attribute every idea that comes from a source."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Choose the calibrated claim."
+     },
+     "question": "A fictional study compared 12 planted-roof and 12 ordinary-roof buildings in one town over one summer; the buildings were not randomly assigned, and top-floor flats under planted roofs were on average 1.5 °C cooler on the hottest afternoons. Which sentence reports this with the right strength?",
+     "options": [
+      "Green roofs keep buildings cool in summer, so every new apartment building should have one.",
+      "This study proves that green roofs lower indoor temperatures, and the same result can be expected in every city.",
+      "This small, non-randomised study suggests that planted roofs may reduce heat in top-floor flats on the hottest days.",
+      "It could perhaps be possible that green roofs might possibly have some kind of effect on temperature in certain cases."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "Over-claimed: no scope (which floors? which days?), a possible effect stated as a general fact, and a policy drawn from one small study."
+      },
+      "1": {
+       "en": "Over-claimed: one town and one summer cannot prove anything about every city."
+      },
+      "3": {
+       "en": "Over-hedged: so many hedges that the reader cannot tell what was found."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "unsupported-claim"
+     },
+     "explanation": {
+      "en": "Calibration means scope plus strength. The calibrated sentence keeps the scope (top-floor flats, hottest days), flags the design limit (small, non-randomised), and hedges the interpretation (\"suggests\", \"may\")."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Each sentence describes the fictional green-roof study (24 buildings, one town, one summer, not randomised; top-floor flats under planted roofs were on average 1.5 °C cooler on the hottest afternoons). Sort the sentences."
+     },
+     "categories": [
+      "Over-claimed",
+      "Calibrated",
+      "Over-hedged"
+     ],
+     "items": [
+      {
+       "text": "Planted roofs eliminate summer heat in apartment buildings.",
+       "category": "Over-claimed"
+      },
+      {
+       "text": "The study shows beyond doubt that every city should require planted roofs.",
+       "category": "Over-claimed"
+      },
+      {
+       "text": "On the hottest afternoons, top-floor flats under planted roofs were on average 1.5 °C cooler.",
+       "category": "Calibrated"
+      },
+      {
+       "text": "The authors suggest that planted roofs may reduce indoor heat on upper floors.",
+       "category": "Calibrated"
+      },
+      {
+       "text": "It might perhaps be possible that planted roofs could possibly have some effect.",
+       "category": "Over-hedged"
+      },
+      {
+       "text": "There may possibly be some slight indication that top floors could perhaps be somewhat cooler.",
+       "category": "Over-hedged"
+      }
+     ],
+     "explanation": {
+      "en": "A reported observation needs no hedge when its scope is stated (top floors, hottest afternoons, on average). An interpretation needs one. \"Eliminate\" and \"beyond doubt\" claim more than 24 buildings in one summer can show, while four hedges in one clause claim almost nothing."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Calibrate the claim about the fictional one-summer, 24-building study. Choose from the bank."
+     },
+     "text": "This study ___ that planted roofs ___ reduce heat in top-floor flats on very hot days.",
+     "word_bank": [
+      "proves",
+      "suggests",
+      "shows beyond doubt",
+      "may",
+      "always",
+      "will definitely"
+     ],
+     "answers": [
+      [
+       "suggests"
+      ],
+      [
+       "may"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "proves",
+       "feedback": {
+        "en": "One non-randomised summer cannot prove a general claim. Use a verb that reports evidence without certainty."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "shows beyond doubt",
+       "feedback": {
+        "en": "Nothing about a small, one-summer comparison is beyond doubt."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "always",
+       "feedback": {
+        "en": "\"Always\" claims more than the study measured: it found an average difference on the hottest afternoons."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "will definitely",
+       "feedback": {
+        "en": "\"Will definitely\" turns a possible effect into a certain one."
+       },
+       "error_type": "unsupported-claim"
+      }
+     ],
+     "explanation": {
+      "en": "The reporting verb and the modal do different jobs: \"suggests\" marks the evidence as limited, and \"may\" marks the effect as possible. Two hedges with different jobs are normal academic usage; four in one clause, all doing the same job, are not."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "This sentence stacks four hedges. Rewrite it with exactly one, starting with \"Planted roofs may\"."
+     },
+     "source": "It might perhaps be possible that planted roofs could possibly reduce heat on upper floors.",
+     "answers": [
+      "Planted roofs may reduce heat on upper floors.",
+      "Planted roofs may reduce heat on the upper floors."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Planted roofs may possibly reduce heat on upper floors.",
+       "feedback": {
+        "en": "Still two hedges doing the same job: \"may\" already marks the possibility, so \"possibly\" adds nothing."
+       }
+      },
+      {
+       "match": "Planted roofs may help to reduce heat on upper floors.",
+       "feedback": {
+        "en": "Close, but \"help to\" adds a second softener. The task asks for exactly one hedge: \"may\"."
+       }
+      }
+     ],
+     "explanation": {
+      "en": "\"Might\", \"perhaps\", \"possible\" and \"could possibly\" all mark the same uncertainty. One modal is enough, and the scope (\"on upper floors\") keeps the claim precise."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Choose the acceptable paraphrase."
+     },
+     "question": "Source sentence (fictional study, Ferrant & Oyelaran, 2024): \"On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs.\" Which version is an acceptable paraphrase?",
+     "options": [
+      "On the hottest days of the summer, top-floor flats under green roofs were on average 1.5 °C cooler in the afternoon than those under normal roofs (Ferrant & Oyelaran, 2024).",
+      "Ferrant and Oyelaran (2024) report that on the summer's hottest afternoons, the highest flats in green-roofed blocks averaged 1.5 °C cooler than those in conventional blocks.",
+      "Planted roofs make top-floor apartments 1.5 °C cooler in the afternoon, which shows how effective they are on hot days.",
+      "Top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs on the hottest days of summer."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "Patchwriting: the source's structure with a few words swapped. It is cited, but it is not yet your own sentence. Look away from the source and rebuild it."
+      },
+      "2": {
+       "en": "No attribution, and the scope has slipped (\"on average\" and \"the hottest days\" are gone), so the claim over-generalises."
+      },
+      "3": {
+       "en": "The source's own words, reshuffled, with no attribution. Rebuild the sentence from the idea, and cite it."
+      }
+     },
+     "explanation": {
+      "en": "A paraphrase keeps the meaning (including the figure and its scope), changes the wording and the sentence structure, and names the source. Patchwriting is a normal step on the way; to move past it, write the idea from memory, then check the meaning and add the citation."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Source sentence (fictional study, Ferrant & Oyelaran, 2024): \"The difference was smaller on lower floors and almost disappeared on the ground floor.\" Sort each version."
+     },
+     "categories": [
+      "Acceptable paraphrase",
+      "Patchwriting",
+      "No attribution"
+     ],
+     "items": [
+      {
+       "text": "The difference was smaller on the lower floors and nearly vanished on the ground floor (Ferrant & Oyelaran, 2024).",
+       "category": "Patchwriting"
+      },
+      {
+       "text": "The gap was smaller on lower storeys and almost disappeared at street level (Ferrant & Oyelaran, 2024).",
+       "category": "Patchwriting"
+      },
+      {
+       "text": "Ferrant and Oyelaran (2024) found that the cooling effect weakened on the lower floors until it was barely measurable at ground level.",
+       "category": "Acceptable paraphrase"
+      },
+      {
+       "text": "According to Ferrant and Oyelaran (2024), the benefit was concentrated on the upper storeys and was close to zero on the ground floor.",
+       "category": "Acceptable paraphrase"
+      },
+      {
+       "text": "The cooling effect weakened on the lower floors until it was barely measurable at ground level.",
+       "category": "No attribution"
+      },
+      {
+       "text": "Lower floors gained less from the planted roofs, and ground-floor flats gained almost nothing.",
+       "category": "No attribution"
+      }
+     ],
+     "explanation": {
+      "en": "Patchwriting keeps the source's skeleton (\"the difference was smaller on X and almost disappeared on Y\") and swaps words. A paraphrase rebuilds the sentence around the idea. Either way, an idea from a source needs a citation, even when every word is your own."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Choose the reporting verb that represents the source fairly."
+     },
+     "question": "The fictional authors conclude, cautiously, that planted roofs \"may help to reduce indoor heat on upper floors\". Complete: \"Ferrant and Oyelaran (2024) ___ that planted roofs may help to reduce indoor heat on upper floors.\"",
+     "options": [
+      "prove",
+      "deny",
+      "establish beyond doubt",
+      "suggest"
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "This makes the authors sound far more certain than they are."
+      },
+      "1": {
+       "en": "This reverses the authors' position."
+      },
+      "2": {
+       "en": "This makes the authors sound far more certain than they are."
+      }
+     },
+     "explanation": {
+      "en": "Reporting verbs carry stance. \"Suggest\" matches tentative authors; \"prove\" or \"establish beyond doubt\" would misrepresent the source by making it sound more certain than it is."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Decide when to quote."
+     },
+     "question": "When you write about the fictional green-roof study, when is it better to quote the authors' exact words than to paraphrase them?",
+     "options": [
+      "When the wording itself matters, such as the authors' cautious claim that planted roofs \"may help to reduce indoor heat\".",
+      "Whenever a sentence is difficult to paraphrase, because quoting saves you from working out exactly what it means.",
+      "For every sentence you take from the study, because quoting is always safer and more accurate than paraphrasing.",
+      "Never: academic writing avoids direct quotation and expects every idea from a source to be paraphrased."
+     ],
+     "answer": 0,
+     "explanation": {
+      "en": "Quote when the wording itself is the evidence, such as a hedged conclusion whose caution you want to show. Otherwise paraphrase or summarise. Quotation, paraphrase and summary all need attribution."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-18",
+   "stage": 9,
+   "level": "C1",
+   "kind": "research",
+   "title_en": "Mini-synthesis: three sources on green roofs",
+   "title_he": "סינתזה קצרה: שלושה מקורות על גגות ירוקים",
+   "instructions": {
+    "en": "Argue whether the fictional town of Marrowby should require planted roofs on all new apartment buildings, and respond to opposing views, in a mini-synthesis of 350-500 words that draws on all three illustrative sources. Organise by idea, not source by source: show where the sources agree, conflict or qualify one another. Attribute every source-derived idea (author or organisation, year), paraphrase rather than patchwrite, quote only where the wording matters, and match the strength of each claim to the strength of its source. Say briefly how much weight each source deserves and why. Because the sources are fictional, you cannot check them laterally; instead, say in one sentence per source what you would check before relying on it in real research (who produced it and why, and what independent coverage says)."
+   },
+   "input_text": "All three sources are illustrative: they were invented for this task. The town, the authors, the council, the association and every figure are fictional and describe nothing in the real world.\n\nSource A. Research summary. Ferrant, L., & Oyelaran, T. (2024). Planted roofs and summer indoor temperatures in Marrowby: a one-summer comparison. Marrowby Urban Review, 3(2), 14-29.\n\nDuring one summer in the town of Marrowby, the researchers compared 12 apartment buildings with planted (green) roofs and 12 similar buildings with ordinary roofs. On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs. The difference was smaller on lower floors and almost disappeared on the ground floor. The authors note that the buildings were not randomly assigned, that the planted-roof buildings were on average newer, and that one summer may not be typical. They conclude that planted roofs \"may help to reduce indoor heat on upper floors\" and call for a study over several years.\n\nSource B. Council briefing note. Marrowby Town Council, Planning Department (2025). Roof options for new apartment buildings.\n\nThe department estimates that a planted roof adds between 8% and 12% to the cost of building a roof, and that it needs an inspection twice a year, usually paid for by the residents' committee. Planted roofs hold back part of the rainwater in heavy storms, which can reduce flooding in the streets below. A white reflective coating costs far less; in a trial on two council buildings it lowered top-floor temperatures by about as much as the planted roofs in Source A, but it does nothing for rainwater. The note recommends that the council \"consider a requirement for either option\" and does not choose between them.\n\nSource C. Opinion column. Marrowby Builders' Association newsletter (2025).\n\n\"Green roofs are an expensive fashion. Leaks are common, residents never want the maintenance bills, and buyers do not care what is on the roof. Any requirement will simply push up the price of new flats at a time when young families can barely afford one. The Association represents the town's building firms, and our members know what works.\"",
+   "min_words": 350,
+   "max_words": 500,
+   "focus": [
+    "evidence_quality",
+    "academic_tone",
+    "argument_strength",
+    "counterarguments",
+    "coherence"
+   ],
+   "scaffold": [
+    {
+     "en": "SIFT each source first: Stop; Investigate who produced it and why; Find other coverage; Trace claims back to their origin. Note one question per source."
+    },
+    {
+     "en": "Fill a synthesis grid: rows for ideas (cooling, cost and upkeep, rainwater, alternatives), columns for Sources A, B and C."
+    },
+    {
+     "en": "Plan by idea: thesis → first idea with the sources compared → second idea → strongest objection and rebuttal → conclusion."
+    },
+    {
+     "en": "Match reporting verbs to source strength: \"found\", \"estimates\", \"reports\", \"asserts without evidence\"."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position on the requirement is clear, and qualified if the evidence calls for it."
+    },
+    {
+     "en": "Synthesis: my paragraphs are organised by idea, not one per source, and show where the sources agree, conflict or qualify each other."
+    },
+    {
+     "en": "Source use: every source-derived idea is attributed and paraphrased in my own words and structure; I quote only where the wording matters."
+    },
+    {
+     "en": "Calibration: my claims are no stronger than their sources; small or interested sources get cautious reporting verbs."
+    },
+    {
+     "en": "Source weight: I say what kind of source each one is, how much weight it deserves, and what I would check laterally before relying on it."
+    },
+    {
+     "en": "Counterargument and rebuttal: I state the strongest opposing view fairly and answer it, and my conclusion adds nothing new."
+    }
+   ]
+  },
+  {
+   "id": "we-19",
+   "stage": 10,
+   "level": "C2",
+   "kind": "editing",
+   "title_en": "Editing for concision and precision",
+   "title_he": "עריכה: תמציתיות ודיוק",
+   "instructions": {
+    "en": "The illustrative draft below makes a reasonable point in about twice the words it needs, and its key claims are vague. Each item takes one sentence from it. Cut what repeats or pads, turn noun phrases back into verbs, and replace vague wording with the specific claim the writer can support. Type the full revised sentence."
+   },
+   "input_text": "Illustrative student draft (invented for this task).\n\nIn today's modern society of the present day, many teenagers use their phones late at night, which is something that has a lot of very negative effects on many different aspects of their lives. Due to the fact that teenagers use their phones late at night, they sleep less, and it is the case that tired students find it more difficult to concentrate. In my personal opinion, I think that schools should limit phone use in the evening study hall. It is absolutely essential and of vital importance that schools act on this problem. Schools should make a decision about whether to carry out an investigation into the problem. At this point in time, there are a number of different measures that could potentially be taken, such as, for example, workshops.",
+   "focus": [
+    "precision",
+    "clarity",
+    "vocabulary",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "I replace long connectives with one word (because, today, now) and turn noun phrases back into verbs (decide, investigate)."
+    },
+    {
+     "en": "I cut words that repeat a meaning already given (modern + today, essential + vital, I think + in my opinion)."
+    },
+    {
+     "en": "I replace vague words (a lot of, some kind of, various) with the specific claim or action I mean."
+    },
+    {
+     "en": "My precise version claims no more than my evidence supports."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Replace the four-word phrase \"Due to the fact that\" with one word. Change nothing else."
+     },
+     "sentence": "Due to the fact that teenagers use their phones late at night, they sleep less.",
+     "answers": [
+      "Because teenagers use their phones late at night, they sleep less.",
+      "Since teenagers use their phones late at night, they sleep less.",
+      "As teenagers use their phones late at night, they sleep less."
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "\"Due to the fact that\" means \"because\". A long connective slows the reader down and adds no meaning."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "\"Today's\", \"modern\" and \"of the present day\" all mean \"now\". Replace the whole opening phrase with one word."
+     },
+     "sentence": "In today's modern society of the present day, many teenagers use their phones late at night.",
+     "answers": [
+      "Today, many teenagers use their phones late at night.",
+      "Today many teenagers use their phones late at night.",
+      "Nowadays, many teenagers use their phones late at night.",
+      "Nowadays many teenagers use their phones late at night.",
+      "Now, many teenagers use their phones late at night.",
+      "Currently, many teenagers use their phones late at night."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "In today's society, many teenagers use their phones late at night.",
+       "feedback": {
+        "en": "Shorter, but still padded: \"In today's society\" says no more than \"Today\"."
+       },
+       "error_type": "word-choice"
+      },
+      {
+       "match": "In modern society, many teenagers use their phones late at night.",
+       "feedback": {
+        "en": "Shorter, but still padded: \"In modern society\" says no more than \"Today\"."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "One time word does the work of eight. Redundant pairs (modern + today, present day + today) are the most common source of padding."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Remove the empty opening \"It is the case that\", and replace \"more difficult\" with a one-word comparative."
+     },
+     "source": "It is the case that tired students find it more difficult to concentrate.",
+     "answers": [
+      "Tired students find it harder to concentrate."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Tired students find it more difficult to concentrate.",
+       "feedback": {
+        "en": "Good cut. Now replace \"more difficult\" with the one-word comparative."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "hint": {
+      "en": "difficult → ?er"
+     },
+     "explanation": {
+      "en": "\"It is the case that\" adds nothing, so the sentence should start with its real subject. \"Harder\" says in one word what \"more difficult\" says in two."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "The opening signals \"this is my opinion\" three times. Keep one signal at most."
+     },
+     "sentence": "In my personal opinion, I think that schools should limit phone use in the evening study hall.",
+     "answers": [
+      "Schools should limit phone use in the evening study hall.",
+      "I think that schools should limit phone use in the evening study hall.",
+      "I think schools should limit phone use in the evening study hall.",
+      "In my opinion, schools should limit phone use in the evening study hall.",
+      "In my opinion schools should limit phone use in the evening study hall.",
+      "I believe that schools should limit phone use in the evening study hall.",
+      "I believe schools should limit phone use in the evening study hall."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "In my opinion, I think that schools should limit phone use in the evening study hall.",
+       "feedback": {
+        "en": "Still two signals: \"In my opinion\" and \"I think\" say the same thing."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "\"Personal\", \"my opinion\" and \"I think\" all mark the same thing. In an argument the claim is already yours, so the most concise version, \"Schools should limit...\", is often the strongest."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "\"Essential\" and \"of vital importance\" say the same thing, and \"absolutely\" adds nothing. Keep one adjective."
+     },
+     "sentence": "It is absolutely essential and of vital importance that schools act on this problem.",
+     "answers": [
+      "It is essential that schools act on this problem.",
+      "It is vital that schools act on this problem.",
+      "Schools must act on this problem."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "It is absolutely essential that schools act on this problem.",
+       "feedback": {
+        "en": "Better, but \"absolutely\" adds nothing to \"essential\"."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "Stacked intensifiers weaken a claim: the reader hears insistence instead of reasons. One adjective, or simply \"Schools must act\", is enough."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "nominalisation",
+     "prompt": {
+      "en": "Turn the two noun phrases back into verbs: \"make a decision about\" and \"carry out an investigation into\"."
+     },
+     "sentence": "Schools should make a decision about whether to carry out an investigation into the problem.",
+     "answers": [
+      "Schools should decide whether to investigate the problem.",
+      "Schools should decide whether or not to investigate the problem."
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "Nominalisation is useful when you need to name a process, but \"make a decision\" and \"carry out an investigation\" only hide the verbs \"decide\" and \"investigate\". The sentence goes from fifteen words to eight."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Rewrite in six words or fewer, starting with \"Several measures\"."
+     },
+     "source": "At this point in time, there are a number of different measures that could potentially be taken.",
+     "answers": [
+      "Several measures could be taken.",
+      "Several measures could now be taken.",
+      "Several measures could be taken now.",
+      "Several measures are possible.",
+      "Several measures are now possible.",
+      "Several measures are possible now."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Several measures could potentially be taken.",
+       "feedback": {
+        "en": "\"Could\" already expresses possibility, so \"potentially\" repeats it."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "explanation": {
+      "en": "\"At this point in time\" means \"now\" (and is often unnecessary); \"a number of different\" means \"several\"; \"could potentially\" says \"possible\" twice."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "\"Such as\" and \"for example\" introduce the same example. Keep one of them."
+     },
+     "sentence": "Schools could offer support, such as, for example, workshops on sleep.",
+     "answers": [
+      "Schools could offer support, such as workshops on sleep.",
+      "Schools could offer support, for example workshops on sleep.",
+      "Schools could offer support, for example, workshops on sleep."
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "Two signposts to one example is one too many. \"Such as\" needs no commas around it."
+     }
+    },
+    {
+     "id": "i9",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Make the vague claim precise."
+     },
+     "question": "The draft says late-night phone use \"has a lot of very negative effects on many different aspects of their lives\", but the only effects it discusses are shorter sleep and weaker concentration. Which revision is precise and claims no more than the draft supports?",
+     "options": [
+      "This has extremely negative effects on every single aspect of teenagers' lives, both at school and at home.",
+      "Late-night phone use can shorten teenagers' sleep, which in turn makes it harder for them to concentrate in class.",
+      "This has a range of different effects on various important aspects of teenagers' lives and wellbeing.",
+      "Late-night phone use destroys teenagers' health, their school grades and their relationships with their families."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "More sweeping, not more precise: \"every aspect\" claims far more than the draft supports."
+      },
+      "2": {
+       "en": "Just as vague as the original: which effects, on what?"
+      },
+      "3": {
+       "en": "Specific, but it claims three effects the draft never supports."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "2": "word-choice",
+      "3": "unsupported-claim"
+     },
+     "explanation": {
+      "en": "Precision means naming the actual effects (sleep, concentration), the mechanism linking them, and a strength the evidence allows (\"can\")."
+     }
+    },
+    {
+     "id": "i10",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Make the recommendation precise."
+     },
+     "question": "The draft ends with \"there are a number of different measures that could potentially be taken, such as, for example, workshops\". Which recommendation is the most precise?",
+     "options": [
+      "Schools should take some kind of action to raise students' awareness of the problem and its many effects.",
+      "Schools must act immediately to solve the problem of screens and phones once and for all, whatever it takes.",
+      "Schools should do various things to help students, such as workshops, talks, posters and so on.",
+      "Schools should run short workshops that show students how late-night phone use affects their sleep and concentration."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "\"Some kind of action\" names no action at all."
+      },
+      "1": {
+       "en": "Over-claimed and still vague: what would \"solve once and for all\" involve?"
+      },
+      "2": {
+       "en": "\"Various things\" and \"and so on\" leave the reader to guess."
+      }
+     },
+     "option_errors": {
+      "0": "word-choice",
+      "1": "unsupported-claim",
+      "2": "word-choice"
+     },
+     "explanation": {
+      "en": "A precise recommendation says who should do what, and to what end: here, workshops on the specific link the draft has argued for."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-20",
+   "stage": 10,
+   "level": "C2",
+   "kind": "essay",
+   "title_en": "Independent argument",
+   "title_he": "טיעון עצמאי",
+   "instructions": {
+    "en": "Write an independent argumentative essay of 400-700 words on ONE of these questions. (A) Should universities admit students mainly on the basis of a single standardised entrance examination? (B) Should governments tax foods and drinks that are high in added sugar? Take a clear, qualified position, argue it, and respond to the strongest opposing views. Plan, draft and revise on your own: no frames or phrase banks are provided. Before you ask for feedback, score your draft against the checklist and the focus categories; the gap between your self-assessment and the feedback is part of what this stage trains. Draw on your own knowledge, but do not invent statistics: where a figure would settle a point, say what evidence would be needed."
+   },
+   "min_words": 400,
+   "max_words": 700,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "coherence",
+    "precision",
+    "academic_tone",
+    "overall"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is debatable, precise, and qualified where the evidence demands it."
+    },
+    {
+     "en": "Reasons and evidence: each reason is supported by specific, relevant evidence or reasoning, and its link to the thesis is explicit."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view in terms its supporters would accept."
+    },
+    {
+     "en": "Rebuttal: I refute, concede and outweigh, or qualify, and I adjust my claim wherever I concede."
+    },
+    {
+     "en": "Structure and style: every paragraph has one job, the logic is easy to follow, and no sentence wastes words."
+    },
+    {
+     "en": "Conclusion and self-assessment: my conclusion adds nothing new, and I scored my draft on each focus category before asking for feedback."
+    }
+   ]
+  }
+ ]
+}

@@ -55,7 +55,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew the present-tense verb works differently: it is the same for 'I' and 'he' (both use one form). So it is easy to forget the English -s, especially when a word comes between: She usually gets up at seven (not 'She usually get up').", "he": "בעברית הפועל בהווה זהה ל'אני' ול'הוא' (אני קם, הוא קם), ולכן קל לשכוח את ה-s באנגלית, במיוחד כשיש מילה באמצע: She usually gets up at seven, ולא She usually get up.", "error_type": "third-person-s" },
     { "en": "In Hebrew there is no present-tense 'be', so 'She always tired' can sound right. English needs is, and the frequency word comes after it: She is always tired.", "he": "בעברית אין 'להיות' בהווה ('היא תמיד עייפה'), ולכן She always tired נשמע אולי נכון. באנגלית חייבים is, ומילת התדירות באה אחריו: She is always tired.", "error_type": "copula-omission" },
-    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן leave ו-live עלולות להישמע אותו דבר. I leave home at eight (ארוכה – 'יוצא/ת מהבית') שונה מ-I live at home (קצרה – 'גר/ה בבית').", "error_type": "pron-vowel" }
+    { "en": "Hebrew works differently here: it has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן leave ו-live עלולות להישמע אותו דבר. I leave home at eight (ארוכה – 'יוצא/ת מהבית') שונה מ-I live at home (קצרה – 'גר/ה בבית').", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -175,7 +175,7 @@
       "id": "e11", "type": "transform", "skill": "grammar", "topic": "adverbs-frequency",
       "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
       "source": "היא תמיד עייפה בבוקר.",
-      "answers": ["She is always tired in the morning.", "She is always tired in the mornings.", "In the morning she is always tired.", "In the morning, she is always tired."],
+      "answers": ["She is always tired in the morning.", "She is always tired in the mornings.", "In the morning she is always tired.", "In the morning, she is always tired.", "In the mornings she is always tired.", "In the mornings, she is always tired."],
       "wrong_feedback": [
         { "match": "She always tired in the morning.", "feedback": { "en": "The Hebrew sentence has no verb, but English needs is: She is always tired.", "he": "במשפט בעברית אין פועל, אבל באנגלית חייבים is: She is always tired." }, "error_type": "copula-omission" },
         { "match": "She always is tired in the morning.", "feedback": { "en": "With is, the frequency word comes after it: She is always tired.", "he": "עם is מילת התדירות באה אחריו: She is always tired." }, "error_type": "word-order" },

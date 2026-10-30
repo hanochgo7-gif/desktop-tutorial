@@ -179,6 +179,7 @@
         { "match": "The bus isn't as faster as the train.", "feedback": { "en": "Between as and as, use the normal adjective: as fast as.", "he": "בין as ל-as בא שם התואר הרגיל: as fast as." }, "error_type": "comparison-form" },
         { "match": "The train isn't as fast as the bus.", "feedback": { "en": "This means the opposite. The bus is the slow one, so: The bus isn't as fast as the train.", "he": "המשפט הזה אומר את ההפך. האוטובוס הוא האיטי, ולכן: The bus isn't as fast as the train." }, "error_type": "comprehension" },
         { "match": "The bus isn't faster than the train.", "feedback": { "en": "That's correct English, but the task asks for not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל המשימה היא להשתמש ב-not as ... as: The bus isn't as fast as the train." } },
+        { "match": "The train is faster than the bus.", "feedback": { "en": "That's correct English, but the task asks for not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל המשימה היא להשתמש ב-not as ... as: The bus isn't as fast as the train." } },
         { "match": "than", "feedback": { "en": "With as ... as, don't use than.", "he": "עם as ... as לא משתמשים ב-than." }, "error_type": "comparison-form" }
       ],
       "explanation": { "en": "slower than = not as fast as. The bus is slower than the train → The bus isn't as fast as the train.", "he": "slower than זה כמו not as fast as. לכן: The bus is slower than the train → The bus isn't as fast as the train." }

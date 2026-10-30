@@ -1,0 +1,1026 @@
+{
+  "id": "b2-06",
+  "level": "B2",
+  "title_en": "Words that go together",
+  "title_he": "צירופי מילים",
+  "topics": [
+    "collocations"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can choose the right verb in common make, do, take and have collocations."
+    },
+    {
+      "en": "I can use natural adjective + noun and verb + noun combinations such as heavy traffic and reach a decision."
+    },
+    {
+      "en": "I can spot and fix word-for-word translations from Hebrew that sound unnatural in English."
+    },
+    {
+      "en": "I can use collocations accurately in a formal email."
+    }
+  ],
+  "warmup": {
+    "en": "In Hebrew you use the same verb, 'do', with a party, a mistake, an effort and a shower. Which verb does English use with each one?",
+    "he": "בעברית 'עושים' מסיבה, טעות, מאמץ ומקלחת. באנגלית כל אחד מהם הולך עם פועל אחר. נסו לנחש איזה."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Compare: heavy rain (not strong rain), make a mistake (not do a mistake), a high price (not an expensive price). A collocation is a combination of words that English speakers naturally use together. The 'wrong' version is usually understood, but it makes your English sound translated. The noun usually decides its partner, so learn the whole chunk, not the single word."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Verb",
+        "Typical idea",
+        "Common collocations"
+      ],
+      "rows": [
+        [
+          "make",
+          "create or produce something; decisions and plans",
+          "a decision, a mistake, an effort, progress, a difference, a suggestion, noise, money"
+        ],
+        [
+          "do",
+          "work, tasks and activities",
+          "homework, research, the shopping, the washing-up, a favour, your best, damage"
+        ],
+        [
+          "take",
+          "choose or accept an action",
+          "a risk, a break, a photo, responsibility, part (in)"
+        ],
+        [
+          "have",
+          "experiences, meals and events",
+          "a party, fun, a good time, a shower, a chat, lunch, an argument"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Adjectives and adverbs have partners too: heavy rain / traffic / smoker · strong coffee / argument / evidence · a high price / standard / risk · highly unlikely · fully aware · deeply concerned · bitterly disappointed."
+    },
+    {
+      "type": "rule",
+      "en": "Verb + noun collocations make formal writing precise: raise a concern or a question · reach a decision or an agreement · meet a deadline · pay attention · draw a conclusion · keep or break a promise · make a contribution."
+    },
+    {
+      "type": "warning",
+      "en": "Word-for-word translation from Hebrew can produce unnatural English: *make a party → have (or throw) a party · *put attention → pay attention · *open the light → turn on the light · *an expensive price → a high price (things are expensive; prices are high) · *we made fun → we had fun (make fun of someone means laughing at them unkindly).",
+      "he": "תרגום מילה במילה מעברית יוצר לפעמים אנגלית לא טבעית: עושים מסיבה → have/throw a party (לא make a party) · שמים לב → pay attention (לא put attention) · פותחים את האור → turn on the light (לא open the light) · מחיר יקר → a high price (מוצר הוא expensive, אבל מחיר הוא high) · עשינו כיף → we had fun (make fun of פירושו ללעוג למישהו)."
+    },
+    {
+      "type": "tip",
+      "en": "Some Hebrew collocations do translate directly: make a mistake, take responsibility, reach a conclusion. When you are not sure, look up the noun in a learner's dictionary and read its example sentences: they show which verbs and adjectives go with it.",
+      "he": "חלק מהצירופים כן עובדים מילה במילה: לעשות טעות = make a mistake, לקחת אחריות = take responsibility, להגיע למסקנה = reach a conclusion. כשלא בטוחים, חפשו את שם העצם במילון ללומדים וקראו את משפטי הדוגמה: הם מראים אילו פעלים ותארים מתחברים אליו."
+    }
+  ],
+  "examples": [
+    {
+      "en": "We need to make a decision by Friday.",
+      "note": "make + decision"
+    },
+    {
+      "en": "Could you do me a favour and check my email?",
+      "note": "do + favour"
+    },
+    {
+      "en": "Let's take a ten-minute break.",
+      "note": "take (or have) a break"
+    },
+    {
+      "en": "We had a great time at Lior's party.",
+      "note": "have + experiences and events"
+    },
+    {
+      "en": "Heavy traffic on the coast road delayed our bus by an hour.",
+      "note": "heavy, not strong, traffic"
+    },
+    {
+      "en": "Several students raised concerns about the new timetable.",
+      "note": "raise a concern or a question"
+    },
+    {
+      "en": "It's highly unlikely that the flight will leave on time.",
+      "note": "highly + unlikely"
+    },
+    {
+      "en": "After two days of talks, the two sides reached an agreement.",
+      "note": "reach an agreement or a decision"
+    },
+    {
+      "en": "Please pay attention to the safety instructions.",
+      "note": "pay, not put, attention"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "collocation",
+      "pos": "noun",
+      "he": "צירוף מילים (קבוע)",
+      "def": "a combination of words that are often used together and sound natural",
+      "example": "'Heavy rain' is a very common collocation.",
+      "ipa": "/ˌkɒləˈkeɪʃn/",
+      "collocations": [
+        "a common collocation",
+        "a strong collocation"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "make an effort",
+      "pos": "phrase",
+      "he": "להתאמץ; לעשות מאמץ",
+      "def": "to try hard to do something",
+      "example": "Omer made a real effort to speak only English in London.",
+      "ipa": "/ˌmeɪk ən ˈefət/",
+      "collocations": [
+        "make a real effort",
+        "make every effort"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "make progress",
+      "pos": "phrase",
+      "he": "להתקדם",
+      "def": "to improve or move closer to a goal",
+      "example": "Maya is making good progress with her driving lessons.",
+      "ipa": "/ˌmeɪk ˈprəʊɡres/",
+      "collocations": [
+        "make good progress",
+        "make slow progress",
+        "make little progress"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "do research",
+      "pos": "phrase",
+      "he": "לערוך מחקר",
+      "def": "to study a subject carefully to find new information",
+      "example": "Priya is doing research on sleep and memory.",
+      "ipa": "/ˌduː rɪˈsɜːtʃ/",
+      "collocations": [
+        "do research on",
+        "carry out research"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "take a risk",
+      "pos": "phrase",
+      "he": "לקחת סיכון",
+      "def": "to do something even though it might end badly",
+      "example": "Starting a business at 22 means taking a risk.",
+      "ipa": "/ˌteɪk ə ˈrɪsk/",
+      "collocations": [
+        "take a big risk",
+        "take risks",
+        "a calculated risk"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "take responsibility",
+      "pos": "phrase",
+      "he": "לקחת אחריות",
+      "def": "to accept that something is your job or your fault",
+      "example": "The manager took full responsibility for the mistake.",
+      "ipa": "/ˌteɪk rɪˌspɒnsəˈbɪləti/",
+      "collocations": [
+        "take full responsibility for",
+        "accept responsibility"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "pay attention",
+      "pos": "phrase",
+      "he": "לשים לב; להקשיב",
+      "def": "to watch, listen to or think about something carefully",
+      "example": "Pay attention to the date on the ticket.",
+      "ipa": "/ˌpeɪ əˈtenʃn/",
+      "collocations": [
+        "pay close attention to",
+        "pay more attention"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "heavy traffic",
+      "pos": "phrase",
+      "he": "עומס תנועה כבד",
+      "def": "a lot of cars on the road, moving slowly",
+      "example": "We got stuck in heavy traffic outside Haifa.",
+      "ipa": "/ˌhevi ˈtræfɪk/",
+      "collocations": [
+        "heavy rain",
+        "a heavy smoker",
+        "heavy snow"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "raise a concern",
+      "pos": "phrase",
+      "he": "להעלות חשש",
+      "def": "to say formally that you are worried about something",
+      "example": "Parents raised concerns about the cost of the trip.",
+      "ipa": "/ˌreɪz ə kənˈsɜːn/",
+      "collocations": [
+        "raise a question",
+        "raise awareness",
+        "express concern"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "reach a decision",
+      "pos": "phrase",
+      "he": "להגיע להחלטה",
+      "def": "to decide something, usually after a discussion",
+      "example": "The committee hasn't reached a decision yet.",
+      "ipa": "/ˌriːtʃ ə dɪˈsɪʒn/",
+      "collocations": [
+        "reach an agreement",
+        "reach a conclusion",
+        "make a decision"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "meet a deadline",
+      "pos": "phrase",
+      "he": "לעמוד במועד (דדליין)",
+      "def": "to finish something by the time it must be finished",
+      "example": "We worked all weekend to meet the deadline.",
+      "ipa": "/ˌmiːt ə ˈdedlaɪn/",
+      "collocations": [
+        "miss a deadline",
+        "a tight deadline"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "highly unlikely",
+      "pos": "phrase",
+      "he": "מאוד לא סביר",
+      "def": "almost certainly not going to happen",
+      "example": "It's highly unlikely that the shop will open on Saturday.",
+      "ipa": "/ˌhaɪli ʌnˈlaɪkli/",
+      "collocations": [
+        "highly likely",
+        "highly successful",
+        "highly recommended"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "a high price",
+      "pos": "phrase",
+      "he": "מחיר גבוה",
+      "def": "a large amount of money; prices are high or low, while things are expensive or cheap",
+      "example": "Fresh fish sells at a high price in winter.",
+      "ipa": "/ə ˌhaɪ ˈpraɪs/",
+      "collocations": [
+        "a low price",
+        "pay a high price for"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew there is no indefinite article, so 'a' can drop out of fixed phrases: *make decision, *take break, *have look. When the noun is singular and countable, English collocations keep a/an: make a decision, take a break, have a look.",
+      "he": "בעברית אין מילה ל-a, ולכן קל להשמיט אותה גם בצירופים קבועים: make decision, take break. באנגלית, כששם העצם ביחיד וספיר, ה-a נשארת: make a decision, take a break, have a look.",
+      "error_type": "article"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Which verb do we use for doing each of these: make, do, take or have?"
+      },
+      "categories": [
+        "make",
+        "do",
+        "take",
+        "have"
+      ],
+      "items": [
+        {
+          "text": "a mistake",
+          "category": "make"
+        },
+        {
+          "text": "progress",
+          "category": "make"
+        },
+        {
+          "text": "a difference",
+          "category": "make"
+        },
+        {
+          "text": "research",
+          "category": "do"
+        },
+        {
+          "text": "a favour",
+          "category": "do"
+        },
+        {
+          "text": "the washing-up",
+          "category": "do"
+        },
+        {
+          "text": "a risk",
+          "category": "take"
+        },
+        {
+          "text": "a photo",
+          "category": "take"
+        },
+        {
+          "text": "part (in a race)",
+          "category": "take"
+        },
+        {
+          "text": "fun",
+          "category": "have"
+        },
+        {
+          "text": "a chat",
+          "category": "have"
+        },
+        {
+          "text": "a good time",
+          "category": "have"
+        }
+      ],
+      "explanation": {
+        "en": "make = produce a result (a mistake, progress, a difference) · do = tasks and work (research, a favour, the washing-up) · take = choose an action (a risk, a photo, part in a race) · have = experiences (fun, a chat, a good time). Careful: make fun of someone means laughing at them unkindly."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Which adjective goes with each noun: heavy, strong or high?"
+      },
+      "categories": [
+        "heavy",
+        "strong",
+        "high"
+      ],
+      "items": [
+        {
+          "text": "rain",
+          "category": "heavy"
+        },
+        {
+          "text": "smoker",
+          "category": "heavy"
+        },
+        {
+          "text": "meal",
+          "category": "heavy"
+        },
+        {
+          "text": "coffee",
+          "category": "strong"
+        },
+        {
+          "text": "argument",
+          "category": "strong"
+        },
+        {
+          "text": "evidence",
+          "category": "strong"
+        },
+        {
+          "text": "standards",
+          "category": "high"
+        },
+        {
+          "text": "temperature",
+          "category": "high"
+        },
+        {
+          "text": "speed",
+          "category": "high"
+        }
+      ],
+      "explanation": {
+        "en": "heavy = a large amount or weight (heavy rain, a heavy smoker, a heavy meal) · strong = powerful or convincing (strong coffee, a strong argument, strong evidence) · high = a level on a scale (high standards, a high temperature, high speed)."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Choose the natural collocation."
+      },
+      "question": "Organic vegetables are popular, but they usually sell at a ___ price.",
+      "options": [
+        "expensive",
+        "high",
+        "dear",
+        "costly"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Products are expensive, but a price is high. 'An expensive price' is a word-for-word translation.",
+          "he": "מוצר הוא expensive, אבל מחיר הוא high. 'expensive price' הוא תרגום מילולי של 'מחיר יקר'."
+        },
+        "2": {
+          "en": "Dear can mean expensive in British English (Petrol is dear), but it does not go with price."
+        },
+        "3": {
+          "en": "Costly describes the thing or the action (a costly mistake), not the price itself."
+        }
+      },
+      "option_errors": {
+        "0": "false-friend",
+        "2": "word-choice",
+        "3": "word-choice"
+      },
+      "explanation": {
+        "en": "Price collocates with high and low: a high price, a low price. The product itself is expensive or cheap."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to Priya's voice message and answer the question."
+      },
+      "audio_text": "Hi Omer, it's Priya. I'm afraid we're not going to meet Friday's deadline. The survey results arrived late, so I haven't been able to do the analysis yet. I'll email Dr Levin today and take responsibility for the delay.",
+      "question": "What is Priya going to do today?",
+      "options": [
+        "Finish the analysis of the survey.",
+        "Ask Omer to email Dr Levin.",
+        "Write to Dr Levin and accept responsibility for the delay.",
+        "Send the survey results to Omer."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "She says she hasn't been able to do the analysis yet, because the results arrived late."
+        },
+        "1": {
+          "en": "Priya will email Dr Levin herself."
+        },
+        "3": {
+          "en": "She doesn't mention sending the results to Omer."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'I'll email Dr Levin today and take responsibility for the delay.' Notice the other collocations: meet a deadline, do the analysis."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "match",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Match each Hebrew expression with its natural English collocation."
+      },
+      "pairs": [
+        [
+          "לשים לב",
+          "pay attention"
+        ],
+        [
+          "להדליק את האור",
+          "turn on the light"
+        ],
+        [
+          "לעשות מאמץ",
+          "make an effort"
+        ],
+        [
+          "לקחת סיכון",
+          "take a risk"
+        ],
+        [
+          "לעמוד בדדליין",
+          "meet a deadline"
+        ],
+        [
+          "להעלות חשש",
+          "raise a concern"
+        ]
+      ],
+      "explanation": {
+        "en": "Two of these keep the Hebrew picture (take a risk, raise a concern). The others change it: you pay attention (not put it), turn on a light (not open it), make an effort (not do it) and meet a deadline (not stand in it).",
+        "he": "שניים מהצירופים שומרים על התמונה העברית (take a risk, raise a concern). באחרים היא משתנה: משלמים תשומת לב (pay attention) ולא שמים אותה, מדליקים אור עם turn on ולא open, 'עושים' מאמץ עם make, ו'פוגשים' דדליין (meet a deadline) במקום לעמוד בו."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read Lior's blog post about his year abroad and answer the questions."
+      },
+      "title": "Why my English sounded 'translated'",
+      "passage": "When I arrived in Manchester for a year abroad, I was sure my English was good. I had passed every exam, and I could follow films without subtitles. So I was surprised when my flatmate, Kenji, started smiling every time I spoke.\n\nThe problem was not my grammar. It was the way I combined words. On my first weekend, I invited everyone to 'make a party' in our kitchen. Later that evening, I asked Kenji to 'close the light', and when the heating broke, I complained about the 'strong cold' in my room. People understood me, but they could hear that I was translating from Hebrew in my head.\n\nKenji, who was studying linguistics, explained that English is full of collocations: combinations that simply sound right to native speakers. 'Nobody can tell you why we have a party but make a mistake,' he said. 'You just have to notice them.'\n\nSo I started a 'chunk notebook'. Whenever I read or heard a natural combination, such as 'raise a question' or 'heavy traffic', I wrote down the whole phrase, never just the single word. I also changed the way I used my dictionary. Instead of checking only the meaning of a noun, I read the example sentences to see which verbs and adjectives went with it.\n\nThe results were not immediate. After a few months, however, I noticed that I paused less when I spoke, because I was no longer building every sentence word by word. The best moment came in March, when a new student asked Kenji whether I had grown up in England. I hadn't, of course, but I took it as a sign of real progress.\n\nMy advice is simple: pay attention to the words around the word.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why did Kenji smile when Lior spoke?",
+          "options": [
+            "Lior made many grammar mistakes.",
+            "Lior's word combinations sounded translated.",
+            "Lior spoke with a very strong accent.",
+            "Lior used too many formal words."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Lior says: 'The problem was not my grammar.'"
+            },
+            "2": {
+              "en": "Lior's accent isn't mentioned."
+            },
+            "3": {
+              "en": "His examples are informal phrases translated from Hebrew, not formal words."
+            }
+          },
+          "explanation": {
+            "en": "'It was the way I combined words ... they could hear that I was translating from Hebrew in my head.'"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Kenji told Lior there is a simple rule for choosing between have and make.",
+          "answer": false,
+          "explanation": {
+            "en": "Kenji said: 'Nobody can tell you why we have a party but make a mistake. You just have to notice them.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What did Lior write in his 'chunk notebook'?",
+          "options": [
+            "Single new words with their translations",
+            "Grammar rules he found difficult",
+            "Whole phrases of words that go together",
+            "Mistakes that his flatmate corrected"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "He wrote 'the whole phrase, never just the single word'."
+            },
+            "1": {
+              "en": "The notebook was for word combinations, not grammar rules."
+            },
+            "3": {
+              "en": "He collected natural combinations he read or heard, not corrections."
+            }
+          },
+          "explanation": {
+            "en": "'Whenever I read or heard a natural combination ... I wrote down the whole phrase.'"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Lior's English started to sound more natural within a few days.",
+          "answer": false,
+          "explanation": {
+            "en": "'The results were not immediate. After a few months, however, I noticed that I paused less.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What does the new student's question in March suggest?",
+          "options": [
+            "Lior's English now sounded natural.",
+            "Lior had moved to England as a child.",
+            "Kenji had helped Lior with his exams.",
+            "Lior still translated from Hebrew."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Lior says he hadn't grown up in England: the student only thought so."
+            },
+            "2": {
+              "en": "Exams aren't connected to this moment in the post."
+            },
+            "3": {
+              "en": "The opposite: the student thought Lior might be a native speaker."
+            }
+          },
+          "explanation": {
+            "en": "The student thought Lior might have grown up in England, which is why Lior 'took it as a sign of real progress'."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Lior's final advice is to ___ attention to the words around the word.",
+          "answers": [
+            [
+              "pay"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "put",
+              "feedback": {
+                "en": "In English you pay attention. Put attention is a word-for-word translation."
+              },
+              "error_type": "false-friend"
+            }
+          ],
+          "explanation": {
+            "en": "'My advice is simple: pay attention to the words around the word.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Complete the meeting report with words from the box."
+      },
+      "text": "At yesterday's meeting, several students ___ concerns about the new exam timetable. The head of year promised to ___ attention to their comments, but she warned that the school must ___ the exam board's deadline. She also said it was too early to ___ any conclusions.",
+      "word_bank": [
+        "raised",
+        "pay",
+        "meet",
+        "draw",
+        "made",
+        "put"
+      ],
+      "answers": [
+        [
+          "raised",
+          "expressed",
+          "voiced"
+        ],
+        [
+          "pay"
+        ],
+        [
+          "meet"
+        ],
+        [
+          "draw",
+          "reach"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "made",
+          "feedback": {
+            "en": "Concerns are raised (or expressed), not made."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "put",
+          "feedback": {
+            "en": "English says pay attention, not put attention, which is a word-for-word translation.",
+            "he": "באנגלית אומרים pay attention. 'put attention' הוא תרגום מילולי של 'לשים לב'."
+          },
+          "error_type": "false-friend"
+        },
+        {
+          "match": "meet",
+          "feedback": {
+            "en": "Meet goes with a deadline, a need or a requirement, not with concerns or conclusions."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "draw",
+          "feedback": {
+            "en": "You draw (or reach) a conclusion, but you meet a deadline."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "raised",
+          "feedback": {
+            "en": "You raise a concern or a question, but you pay attention."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "pay",
+          "feedback": {
+            "en": "Pay goes with attention (and with a visit or a compliment), not with concerns or deadlines."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "raise a concern · pay attention to · meet a deadline · draw (or reach) a conclusion."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Choose the adverb that collocates with the adjective."
+      },
+      "question": "It's ___ unlikely that the ferry will sail in this wind.",
+      "options": [
+        "strongly",
+        "heavily",
+        "deeply",
+        "highly"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "Strongly goes with verbs of opinion: strongly agree, strongly recommend, strongly oppose."
+        },
+        "1": {
+          "en": "Heavily goes with things like rain, traffic and dependence: it rained heavily, depend heavily on."
+        },
+        "2": {
+          "en": "Deeply goes with feelings: deeply concerned, deeply moved, deeply disappointed."
+        }
+      },
+      "option_errors": {
+        "0": "word-choice",
+        "1": "word-choice",
+        "2": "word-choice"
+      },
+      "explanation": {
+        "en": "Highly goes with likely and unlikely, and also with successful, recommended and qualified."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Translate into natural English."
+      },
+      "source": "עשינו מסיבה ביום שישי",
+      "answers": [
+        "We had a party on Friday.",
+        "On Friday we had a party.",
+        "On Friday, we had a party.",
+        "We had a party last Friday.",
+        "Last Friday we had a party.",
+        "Last Friday, we had a party.",
+        "We threw a party on Friday.",
+        "On Friday we threw a party.",
+        "On Friday, we threw a party.",
+        "We threw a party last Friday.",
+        "Last Friday we threw a party.",
+        "Last Friday, we threw a party.",
+        "We held a party on Friday.",
+        "On Friday we held a party.",
+        "On Friday, we held a party.",
+        "We held a party last Friday.",
+        "Last Friday we held a party.",
+        "Last Friday, we held a party.",
+        "We hosted a party on Friday.",
+        "On Friday we hosted a party.",
+        "On Friday, we hosted a party.",
+        "We hosted a party last Friday.",
+        "Last Friday we hosted a party.",
+        "Last Friday, we hosted a party.",
+        "We organised a party on Friday.",
+        "On Friday we organised a party.",
+        "On Friday, we organised a party.",
+        "We organised a party last Friday.",
+        "Last Friday we organised a party.",
+        "Last Friday, we organised a party.",
+        "We organized a party on Friday.",
+        "On Friday we organized a party.",
+        "On Friday, we organized a party.",
+        "We organized a party last Friday.",
+        "Last Friday we organized a party.",
+        "Last Friday, we organized a party."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "We made a party on Friday.",
+          "feedback": {
+            "en": "Hebrew uses 'do' with a party, but English uses have, throw or hold: We had a party on Friday.",
+            "he": "בעברית 'עושים' מסיבה, ובאנגלית have, throw או hold: We had a party on Friday."
+          },
+          "error_type": "false-friend"
+        },
+        {
+          "match": "We had party on Friday.",
+          "feedback": {
+            "en": "Party is a singular countable noun here, so it needs a: We had a party.",
+            "he": "party כאן ביחיד וספיר, ולכן צריך a: We had a party."
+          },
+          "error_type": "article"
+        },
+        {
+          "match": "made",
+          "feedback": {
+            "en": "Make doesn't go with party. Use have, throw or hold.",
+            "he": "make לא הולך עם party. השתמשו ב-have, throw או hold."
+          },
+          "error_type": "false-friend"
+        },
+        {
+          "match": "did",
+          "feedback": {
+            "en": "Do doesn't go with party. Use have, throw or hold.",
+            "he": "do לא הולך עם party. השתמשו ב-have, throw או hold."
+          },
+          "error_type": "false-friend"
+        }
+      ],
+      "hint": {
+        "en": "Which verb goes with party: make, have or take?",
+        "he": "איזה פועל הולך עם party: make, have או take?"
+      },
+      "explanation": {
+        "en": "We had (or threw) a party on Friday. Make a party is a word-for-word translation, and the article a must stay.",
+        "he": "We had (או threw) a party on Friday. ‏make a party הוא תרגום מילולי, וה-a חייבת להישאר."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Rewrite the sentence so it means the same, using a collocation with REACH."
+      },
+      "source": "After a long discussion, the two sides finally agreed.",
+      "answers": [
+        "After a long discussion, the two sides finally reached an agreement.",
+        "After a long discussion the two sides finally reached an agreement.",
+        "The two sides finally reached an agreement after a long discussion.",
+        "After a long discussion, the two sides reached an agreement.",
+        "After a long discussion the two sides reached an agreement.",
+        "The two sides reached an agreement after a long discussion.",
+        "After a long discussion, the two sides finally reached agreement."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "After a long discussion, the two sides finally reached to an agreement.",
+          "feedback": {
+            "en": "Reach takes a direct object, with no to: reach an agreement."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "After a long discussion, the two sides finally made an agreement.",
+          "feedback": {
+            "en": "Make an agreement exists, but the task asks for reach: reach an agreement suggests getting there after discussion."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "After a long discussion, the two sides finally reached a decision.",
+          "feedback": {
+            "en": "Reach a decision is a good collocation, but agreed means they reached an agreement."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "Turn the verb agree into a noun.",
+        "he": "הפכו את הפועל agree לשם עצם."
+      },
+      "explanation": {
+        "en": "agree → reach an agreement. Formal writing often turns a verb into a verb + noun collocation: decide → reach a decision, conclude → reach a conclusion."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "This sentence from an academic text has a collocation error. Correct it."
+      },
+      "sentence": "The study does an important contribution to our understanding of teenage sleep.",
+      "answers": [
+        "The study makes an important contribution to our understanding of teenage sleep."
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "Which verb goes with contribution?"
+      },
+      "explanation": {
+        "en": "The collocation is make a contribution to: The study makes an important contribution to ..."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "vocabulary",
+      "prompt": {
+        "en": "Correct the collocation error."
+      },
+      "sentence": "Despite years of effort, scientists have done little progress in treating the disease.",
+      "answers": [
+        "Despite years of effort, scientists have made little progress in treating the disease."
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "Progress is something you produce, not a task."
+      },
+      "explanation": {
+        "en": "Progress goes with make: make progress, make little progress, make good progress."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Say it out loud, keeping each collocation together as one chunk."
+      },
+      "target": "We need to make a decision before we take any more risks.",
+      "focus": {
+        "en": "In collocations the noun usually takes the stress: make a deCIsion, take any more RISKS. Keep the vowel in risks short: /ɪ/.",
+        "he": "בצירופים ההטעמה נופלת בדרך כלל על שם העצם: make a deCIsion, take any more RISKS. התנועה ב-risks קצרה: /ɪ/."
+      },
+      "explanation": {
+        "en": "Saying collocations as single chunks makes your speech faster and more fluent: you are not building the phrase word by word."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a formal email using collocations from the lesson."
+      },
+      "task": {
+        "en": "You are a student representative. During the exam period, the college library has started closing at 6 p.m. instead of 10 p.m. Write an email of about 200-250 words to the college director, Dr Sarah Collins. Describe the problem and its effects, propose a practical solution, and respond to one objection the college is likely to raise (for example, staff costs). Use at least six collocations from this lesson, such as raise a concern, pay attention, meet a deadline, make an effort, take responsibility, reach a decision or a high price."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "model_answer": "Dear Dr Collins,\n\nI am writing on behalf of the second-year students to raise a concern about the library's new opening hours. Since the start of the exam period, the library has closed at 6 p.m. instead of 10 p.m.\n\nThis change has had a serious effect on many students. Those who work part-time during the day can no longer study there, and several project groups are struggling to meet their deadlines because they have nowhere quiet to work together. Many students have also told me that they find it hard to pay attention at home, where there is often noise and little space.\n\nWe understand that keeping the library open in the evening comes at a high price, mainly because of staff costs. However, we would like to suggest a compromise. The library could stay open until 10 p.m. on weekdays during the four exam weeks only, and trained student volunteers could take responsibility for the self-service desk, so that only one member of staff would be needed.\n\nThe student council is ready to make every effort to organise the volunteers. We would be grateful if you could reach a decision before the exam period begins, so that students can plan their revision.\n\nThank you for your attention to this matter.\n\nYours sincerely,\nMaya Cohen\nStudent representative",
+      "checklist": [
+        {
+          "en": "Task: I described the problem, its effects and a concrete solution."
+        },
+        {
+          "en": "Objection: I acknowledged one likely objection fairly (for example, cost) and answered it with a reason or a compromise."
+        },
+        {
+          "en": "Collocations: I used at least six natural collocations with the right verb or adjective (raise a concern, a high price, meet a deadline ...)."
+        },
+        {
+          "en": "No word-for-word translations from Hebrew (put attention, make a party, an expensive price)."
+        },
+        {
+          "en": "Articles: singular countable nouns in collocations keep a/an (make a decision, raise a concern)."
+        },
+        {
+          "en": "Register: formal greeting and closing, full forms (I am, we would), polite requests (We would be grateful if ...)."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "make = produce (a decision, a mistake, progress) · do = tasks (research, a favour) · take = choose an action (a risk, responsibility) · have = experiences and events (a party, fun)."
+      },
+      {
+        "en": "Adjectives and adverbs have partners too: heavy rain, strong coffee, a high price, highly unlikely."
+      },
+      {
+        "en": "Formal verb + noun collocations: raise a concern, reach a decision, meet a deadline, pay attention, draw a conclusion."
+      },
+      {
+        "en": "Check guesses based on Hebrew: have a party, pay attention, turn on the light, a high price.",
+        "he": "בדקו ניחושים שמבוססים על עברית: have a party (לא make), pay attention (לא put), turn on the light (לא open), a high price (לא expensive)."
+      },
+      {
+        "en": "Record whole chunks, including the article: make a decision, take a break."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

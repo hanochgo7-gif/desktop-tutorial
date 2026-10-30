@@ -1,0 +1,357 @@
+{
+  "scale": [
+    {
+      "band": 0,
+      "en": "Not enough to judge, or below Band 1. For example: 20 words or fewer of your own writing, a text that has nothing to do with the task, or text copied from the task or learned by heart.",
+      "he": "אין מספיק כדי לשפוט, או שהטקסט מתחת לדרגה 1. למשל: 20 מילים או פחות שכתבתם בעצמכם, טקסט שלא קשור בכלל למשימה, או טקסט שהועתק מהמשימה או נלמד בעל פה."
+    },
+    {
+      "band": 1,
+      "en": "Your text fits the Band 1 description. This is usually about one CEFR level below what this stage aims for.",
+      "he": "הטקסט מתאים לתיאור של דרגה 1. בדרך כלל זו בערך רמת CEFR אחת מתחת למה שהשלב הזה מכוון אליו."
+    },
+    {
+      "band": 2,
+      "en": "Between Bands 1 and 3: your text has some features of Band 1 and some features of Band 3.",
+      "he": "בין דרגה 1 לדרגה 3: יש בטקסט חלק מהמאפיינים של דרגה 1 וחלק מהמאפיינים של דרגה 3."
+    },
+    {
+      "band": 3,
+      "en": "Meets the target: your text fully fits the Band 3 description, which is what this stage aims for. In the language categories (such as grammar and vocabulary), this means your writing shows the stage's target CEFR level.",
+      "he": "עומד ביעד: הטקסט מתאים במלואו לתיאור של דרגה 3, וזה מה שהשלב הזה מכוון אליו. בקטגוריות של השפה (כמו דקדוק ואוצר מילים) המשמעות היא שהכתיבה מראה את רמת ה-CEFR שהיא היעד של השלב."
+    },
+    {
+      "band": 4,
+      "en": "Between Bands 3 and 5: your text has everything in Band 3 and at least half of the strengths in Band 5.",
+      "he": "בין דרגה 3 לדרגה 5: יש בטקסט כל מה שנדרש בדרגה 3, ולפחות מחצית מהחוזקות של דרגה 5."
+    },
+    {
+      "band": 5,
+      "en": "Your text has every strength in the Band 5 description. This is clearly above what this stage aims for.",
+      "he": "יש בטקסט את כל החוזקות שבתיאור של דרגה 5. זה בבירור מעל מה שהשלב הזה מכוון אליו."
+    }
+  ],
+  "na": {
+    "en": "N/A (not assessed): this category is not judged at this stage or in this task, usually because the stage does not practise it yet. It is left out of every total and average, and it is not the same as 0.",
+    "he": "לא רלוונטי (לא נבדק): הקטגוריה הזאת לא נבדקת בשלב הזה או במשימה הזאת, בדרך כלל כי עוד לא מתרגלים אותה בשלב הזה. היא לא נכנסת לשום סיכום או ממוצע, וזה לא אותו דבר כמו 0."
+  },
+  "categories": [
+    {
+      "id": "grammar",
+      "name_en": "Grammar",
+      "name_he": "דקדוק",
+      "what_en": "How correct and how varied your grammar is (tenses, verb forms, a/an/the, prepositions, punctuation and capital letters); word order and where a sentence starts and ends are judged under Sentence structure, not here.",
+      "what_he": "עד כמה הדקדוק נכון ומגוון (זמנים, צורות פועל, a/an/the, מילות יחס, פיסוק ואותיות גדולות); סדר המילים והמקום שבו משפט מתחיל ונגמר נבדקים ב\"מבנה משפטים\", לא כאן.",
+      "band5_en": "You use a wider range of grammar than this stage expects, with control; any mistakes are small slips that never make the meaning unclear.",
+      "band3_en": "You use the grammar this stage expects with good control. Mistakes are noticeable, but the reader always understands what you mean; complex forms are less accurate than simple ones.",
+      "band1_en": "You use mostly simple or memorised forms, and you make frequent mistakes, some of which make the meaning unclear.",
+      "band3_he": "משתמשים בדקדוק שהשלב הזה מצפה לו בשליטה טובה. יש טעויות שבולטות, אבל תמיד אפשר להבין את הכוונה, ומבנים מורכבים מדויקים פחות ממבנים פשוטים."
+    },
+    {
+      "id": "vocabulary",
+      "name_en": "Vocabulary",
+      "name_he": "אוצר מילים",
+      "what_en": "How wide and correct your vocabulary is: word choice, words that go together (collocations), word forms and spelling; exact claims are judged under Precision, and too-informal words under Academic tone.",
+      "what_he": "עד כמה אוצר המילים רחב ונכון: בחירת מילים, מילים שבאות יחד (קולוקציות), צורות של מילים וכתיב; עד כמה הטענות מדויקות נבדק ב\"דיוק\", ומילים לא רשמיות מדי נבדקות ב\"טון אקדמי\".",
+      "band5_en": "You use a wide range of words, including less common ones, correctly and exactly; your words go together naturally, and spelling mistakes are only slips.",
+      "band3_en": "Your vocabulary is wide enough for the task at this stage's level. Sometimes a word or word combination is not quite right, and spelling or word-form mistakes do not block the meaning.",
+      "band1_en": "Your vocabulary is limited and repetitive; wrong words are frequent and can block the meaning, and you rely on memorised phrases or words copied from the task.",
+      "band3_he": "אוצר המילים מספיק למשימה ברמה של השלב. לפעמים מילה או צירוף מילים לא מתאימים בדיוק, וטעויות כתיב או טעויות בצורת המילה לא מפריעות להבין."
+    },
+    {
+      "id": "sentence_structure",
+      "name_en": "Sentence structure",
+      "name_he": "מבנה משפטים",
+      "what_en": "How you build sentences: where each sentence starts and ends, word order, joining ideas with words like because, when and although, and variety; grammar forms such as tenses are judged under Grammar.",
+      "what_he": "איך בונים משפטים: איפה כל משפט מתחיל ונגמר, סדר המילים, חיבור רעיונות בעזרת מילים כמו because, when ו-although, וגיוון; צורות דקדוקיות כמו זמנים נבדקות ב\"דקדוק\".",
+      "band5_en": "Your sentences are varied and flexible and suit their purpose; there are no broken sentences (fragments) and no sentences that run into each other (run-ons).",
+      "band3_en": "You mix simple and complex sentences at this stage's level; broken or run-on sentences are rare and do not block the meaning.",
+      "band1_en": "Most of your sentences are simple and you rarely join ideas with words like because or when; broken or run-on sentences make the meaning unclear.",
+      "band3_he": "יש שילוב של משפטים פשוטים ומורכבים ברמה של השלב. משפטים קטועים, או משפטים שנמשכים זה לתוך זה בלי הפרדה, נדירים ולא פוגעים בהבנה."
+    },
+    {
+      "id": "coherence",
+      "name_en": "Coherence",
+      "name_he": "קוהרנטיות",
+      "what_en": "Whether your ideas come in a logical order and each paragraph keeps to one main idea; how easy each sentence is to understand is judged under Clarity, and linking words under Cohesion.",
+      "what_he": "האם הרעיונות מופיעים בסדר הגיוני וכל פסקה מתמקדת ברעיון מרכזי אחד; האם משפט בודד מובן נבדק ב\"בהירות\", ומילות קישור נבדקות ב\"לכידות\".",
+      "band5_en": "Your ideas move forward logically from beginning to end, every paragraph has one clear main idea, and the reader can follow you with no effort.",
+      "band3_en": "The order of your ideas is clear overall, and your paragraphs are logical, with a few small lapses.",
+      "band1_en": "Your text is hard to follow: there is no clear order of ideas, and your paragraphs have no clear focus.",
+      "band3_he": "סדר הרעיונות ברור באופן כללי, והחלוקה לפסקאות הגיונית, עם כמה מעידות קטנות.",
+      "stage_note_en": "In Stage 1 this is judged only when you write more than one sentence, and only in a simple form.",
+      "stage_note_he": "בשלב 1 זה נבדק רק כשכותבים יותר ממשפט אחד, ורק בגרסה פשוטה."
+    },
+    {
+      "id": "cohesion",
+      "name_en": "Cohesion",
+      "name_he": "לכידות",
+      "what_en": "How you connect sentences: linking words (however, because, also), words like it, this and they that point back, and words that replace repeated nouns; the logical order of ideas is judged under Coherence.",
+      "what_he": "איך מחברים בין משפטים: מילות קישור (however, because, also), מילים כמו it, this ו-they שמפנות למשהו שכבר נאמר, ומילים שמחליפות שמות עצם שחוזרים; האם הרעיונות בסדר הגיוני נבדק ב\"קוהרנטיות\".",
+      "band5_en": "You use linking words and other connectors so smoothly that the reader hardly notices them, and it is always clear what words like it and this refer to.",
+      "band3_en": "You use a variety of linking words that suits this stage's level; some feel forced or are used wrongly.",
+      "band1_en": "You use few linking words or repeat the same ones, and it is often unclear what words like it or this refer to.",
+      "band3_he": "יש מגוון מילות קישור שמתאים לרמה של השלב. חלקן מרגישות מאולצות או משמשות בצורה לא נכונה.",
+      "stage_note_en": "In Stage 1 only the basic linking words and, but and because are judged, and only from A2 level (not at Pre-A1 or A1).",
+      "stage_note_he": "בשלב 1 נבדקות רק מילות הקישור הבסיסיות and, but ו-because, ורק מרמה A2 (לא ב-Pre-A1 וב-A1)."
+    },
+    {
+      "id": "argument_strength",
+      "name_en": "Argument strength",
+      "name_he": "חוזק הטיעון",
+      "what_en": "The logic of your argument: a clear position people could disagree with, relevant reasons, the link from each reason to your claim, and sensible limits on it; the support itself is judged under Evidence quality.",
+      "what_he": "ההיגיון של הטיעון: עמדה ברורה שאפשר לחלוק עליה, נימוקים רלוונטיים, הסבר של הקשר בין כל נימוק לטענה, והגבלה סבירה של הטענה; העובדות והדוגמאות שתומכות בטענה נבדקות ב\"איכות הראיות\".",
+      "band5_en": "Your position is clear and open to debate. Every reason supports it logically with the link explained, you limit your claim where needed (often, most), and there are no fallacies (errors in reasoning).",
+      "band3_en": "Your position is clear; your reasons are relevant and mostly linked to your claim, with at most one small weakness in the logic.",
+      "band1_en": "Your position is hard to find; your reasons are off the point or just repeat the claim in other words, or there is a serious fallacy (error in reasoning).",
+      "band3_he": "העמדה ברורה. הנימוקים רלוונטיים ורובם קשורים לטענה, עם לכל היותר חולשה קטנה אחת בהיגיון.",
+      "stage_note_en": "Not judged in Stages 1 and 2. In Stage 3 only a simple version is judged: a clear opinion with relevant reasons (your examples count here too).",
+      "stage_note_he": "לא נבדק בשלבים 1 ו-2. בשלב 3 נבדקת רק גרסה פשוטה: דעה ברורה עם נימוקים רלוונטיים (גם הדוגמאות נבדקות כאן)."
+    },
+    {
+      "id": "evidence_quality",
+      "name_en": "Evidence quality",
+      "name_he": "איכות הראיות",
+      "what_en": "The support for your claims, such as facts, data, examples, expert views or experience: is it relevant, enough, specific and trustworthy; whether your reasoning is logical is judged under Argument strength.",
+      "what_he": "התמיכה בטענות, כמו עובדות, נתונים, דוגמאות, דעות של מומחים או ניסיון אישי: האם היא רלוונטית, מספיקה, ספציפית ואמינה; האם ההיגיון של הטיעון תקין נבדק ב\"חוזק הטיעון\".",
+      "band5_en": "Every claim is backed by evidence that is relevant, enough and specific, and your sources are trustworthy and you have checked them.",
+      "band3_en": "Most claims are supported with relevant evidence, but some of the support is general or thin.",
+      "band1_en": "There is no support, the support is off the point, or you only state your view without backing it up.",
+      "band3_he": "לרוב הטענות יש ראיות רלוונטיות, אבל חלק מהתמיכה כללית או דלה.",
+      "stage_note_en": "Not judged in Stages 1 to 3 (in Stage 3 your examples are judged under Argument strength).",
+      "stage_note_he": "לא נבדק בשלבים 1 עד 3 (בשלב 3 הדוגמאות נבדקות ב\"חוזק הטיעון\")."
+    },
+    {
+      "id": "counterarguments",
+      "name_en": "Counterarguments",
+      "name_he": "טיעונים נגדיים",
+      "what_en": "How you deal with the other side: stating a strong opposing view fairly, showing it is not your view, answering it and fitting it into your argument; your own reasons are judged under Argument strength.",
+      "what_he": "איך מתמודדים עם הצד השני: מציגים בהגינות עמדה נגדית חזקה, מבהירים שזו לא העמדה שלכם, עונים לה ומשלבים אותה בטיעון; הנימוקים שלכם בעד העמדה שלכם נבדקים ב\"חוזק הטיעון\".",
+      "band5_en": "You state the strongest objection fairly and say who holds it. You answer it with reasoning or evidence, adjust your claim where you accept part of it, and fit it naturally into your argument.",
+      "band3_en": "There is at least one relevant objection, clearly marked as someone else's view, with a reasoned answer, even if the answer is short.",
+      "band1_en": "The objection is missing where the task needs one, it is a weak version made up only to be knocked down (a straw man), or you reject it without giving reasons.",
+      "band3_he": "יש לפחות התנגדות רלוונטית אחת, שמסומנת בבירור כעמדה של מישהו אחר, ויש לה תשובה מנומקת, גם אם קצרה.",
+      "stage_note_en": "Not judged in Stages 1 to 4. In Stage 5 the focus is stating an objection fairly; from Stage 6 your answer to it (the rebuttal) is judged too.",
+      "stage_note_he": "לא נבדק בשלבים 1 עד 4. בשלב 5 המיקוד הוא הצגה הוגנת של התנגדות; משלב 6 נבדק גם המענה שלכם אליה (ההפרכה)."
+    },
+    {
+      "id": "academic_tone",
+      "name_en": "Academic tone",
+      "name_he": "טון אקדמי",
+      "what_en": "Whether your style suits the text and the reader, your claims are no stronger than your evidence (may, likely), and you say where ideas come from; the quality of sources is judged under Evidence quality.",
+      "what_he": "האם הסגנון מתאים לסוג הטקסט ולקורא, האם הטענות חזקות רק במידה שהראיות מאפשרות (בעזרת מילים כמו may או likely), והאם מציינים מאיפה הרעיונות לקוחים; איכות המקורות נבדקת ב\"איכות הראיות\".",
+      "band5_en": "Your style is always right for the type of text, your claims are exactly as strong as your evidence, and you show where ideas come from in the correct way.",
+      "band3_en": "Your style is generally right, with a few informal slips, and some claims are too strong or too careful.",
+      "band1_en": "Your style does not fit the type of text (for example, chatty in an essay), you make strong claims with no limits, and you do not say where ideas come from.",
+      "band3_he": "הסגנון מתאים בדרך כלל, עם כמה מעידות לסגנון לא רשמי, וחלק מהטענות חזקות מדי או זהירות מדי.",
+      "stage_note_en": "Not judged in Stage 1. In Stages 2 to 6 only a simple version is judged: does your style fit the type of text (for example, an email or a story)? The full description is used from Stage 7, with extra attention to careful claims and citing sources in Stage 9.",
+      "stage_note_he": "לא נבדק בשלב 1. בשלבים 2 עד 6 נבדקת רק גרסה פשוטה: האם הסגנון מתאים לסוג הטקסט (למשל מייל או סיפור)? משלב 7 נבדק התיאור המלא, ובשלב 9 יש דגש מיוחד על ניסוח זהיר של טענות ועל ציון מקורות."
+    },
+    {
+      "id": "clarity",
+      "name_en": "Clarity",
+      "name_he": "בהירות",
+      "what_en": "Whether each sentence can be understood the first time it is read; how your ideas connect and follow each other is judged under Coherence.",
+      "what_he": "האם אפשר להבין כל משפט כבר בקריאה הראשונה; איך הרעיונות מתחברים ובאים זה אחרי זה נבדק ב\"קוהרנטיות\".",
+      "band5_en": "The meaning of every sentence is clear the first time it is read.",
+      "band3_en": "The meaning is clear overall, but a few sentences need to be read twice.",
+      "band1_en": "Many sentences cannot be understood without guessing.",
+      "band3_he": "המשמעות ברורה באופן כללי, אבל כמה משפטים צריך לקרוא פעמיים."
+    },
+    {
+      "id": "precision",
+      "name_en": "Precision",
+      "name_he": "דיוק",
+      "what_en": "How exact your words and claims are: who or what a claim covers, how many (all, most, some) and how specific it is; the range of words you know is judged under Vocabulary.",
+      "what_he": "עד כמה המילים והטענות מדויקות: על מי או על מה הטענה מדברת, על כמה (all, most, some) ועד כמה היא ספציפית; כמה מילים שונות אתם מכירים ומשתמשים בהן נכון נבדק ב\"אוצר מילים\".",
+      "band5_en": "Your words and claims are exact: you say clearly who or what they cover, and nothing is vague or too general.",
+      "band3_en": "Your writing is mostly exact, with some vague words or claims that are too general.",
+      "band1_en": "Vague wording is everywhere, and you make big claims (all, never, everyone) without support.",
+      "band3_he": "הכתיבה מדויקת ברובה, עם כמה מילים עמומות או טענות כלליות מדי.",
+      "stage_note_en": "Not judged in Stage 1. In Stages 2 and 3 only exact word choice is judged; from Stage 4 the exactness of your claims is judged too.",
+      "stage_note_he": "לא נבדק בשלב 1. בשלבים 2 ו-3 נבדקת רק בחירת מילים מדויקת; משלב 4 נבדק גם הדיוק של הטענות."
+    },
+    {
+      "id": "overall",
+      "name_en": "Overall level (CEFR)",
+      "name_he": "הערכה כוללת (CEFR)",
+      "what_en": "Your overall language level across the whole text, given as a CEFR estimate from Pre-A1 to C2; it is one judgement of the whole text, not an average of the other categories.",
+      "what_he": "רמת השפה הכוללת בטקסט כולו, כהערכה לפי מתארי CEFR מ-Pre-A1 עד C2; זו הערכה אחת של הטקסט כולו, ולא ממוצע של שאר הקטגוריות.",
+      "band5_en": "The whole text shows a CEFR level clearly above the one this stage aims for.",
+      "band3_en": "The whole text shows the CEFR level this stage aims for.",
+      "band1_en": "The whole text is typical of about one CEFR level below what this stage aims for.",
+      "band3_he": "הטקסט כולו מראה את רמת ה-CEFR שהשלב הזה מכוון אליה."
+    }
+  ],
+  "applicability": {
+    "grammar": [
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "vocabulary": [
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "sentence_structure": [
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "coherence": [
+      "simplified",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "cohesion": [
+      "simplified",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "argument_strength": [
+      "na",
+      "na",
+      "simplified",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "evidence_quality": [
+      "na",
+      "na",
+      "na",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "counterarguments": [
+      "na",
+      "na",
+      "na",
+      "na",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "academic_tone": [
+      "na",
+      "simplified",
+      "simplified",
+      "simplified",
+      "simplified",
+      "simplified",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "clarity": [
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "precision": [
+      "na",
+      "simplified",
+      "simplified",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ],
+    "overall": [
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full",
+      "full"
+    ]
+  },
+  "gate": {
+    "en": "Before scoring, Lucid checks that you did the task. This check is not a score. If you misunderstood the task or left out a part it asked for, Argument strength, Evidence quality and Counterarguments can get 2 at most. Your overall level estimate is also kept one step lower (for example, B1+ instead of B2). If your text is not about the task at all, every category can get 1 at most, and you are asked to write it again. Words you copy from the task do not count.",
+    "he": "לפני הדירוג Lucid בודק שביצעתם את המשימה. הבדיקה הזאת היא לא ציון. אם המשימה לא הובנה נכון או שחסר חלק שהיא ביקשה, חוזק הטיעון, איכות הראיות והטיעונים הנגדיים יכולים לקבל לכל היותר 2, והערכת הרמה הכוללת יורדת בתת-רמה אחת (למשל B1+ במקום B2). אם הטקסט לא עוסק במשימה בכלל, כל קטגוריה יכולה לקבל לכל היותר 1, ותתבקשו לכתוב אותו מחדש. מילים שמעתיקים מהמשימה לא נספרות."
+  },
+  "severity": [
+    {
+      "id": "critical",
+      "en": "Must fix: the mistake stops the reader from understanding you at first reading. Examples: a sentence nobody can follow, a tense that changes when something happened, or a missing main claim in an argument. These mistakes are always shown.",
+      "he": "חשוב לתקן: הטעות מונעת מהקורא להבין אתכם בקריאה הראשונה, למשל משפט שאי אפשר להבין, זמן דקדוקי שמשנה מתי משהו קרה, או טענה מרכזית שחסרה בחיבור טיעון. טעויות כאלה מוצגות תמיד."
+    },
+    {
+      "id": "important",
+      "en": "Should fix: a rule-based mistake that you repeat, such as the same kind of mistake three or more times in one text. It can also be a mistake in a skill this stage focuses on. It does not block the meaning. In Focused feedback you see at most three types of mistake per draft, chosen first from the stage's focus and then from the mistakes you often repeat.",
+      "he": "כדאי לתקן: טעות שחוזרת על עצמה ונובעת מכלל (למשל אותו סוג טעות שלוש פעמים או יותר באותו טקסט), או טעות במיומנות שהשלב הזה מתמקד בה. היא לא מונעת הבנה. במשוב ממוקד מוצגים עד שלושה סוגי טעויות בכל טיוטה, קודם כול מתחום המיקוד של השלב ואחר כך מהטעויות שחוזרות אצלכם."
+    },
+    {
+      "id": "style",
+      "en": "Style: a one-off slip, or something that could be said in a better way (for example, a better linking word). It is saved but not shown in Focused feedback; choose Comprehensive feedback in Settings to see it (this is the default from B2).",
+      "he": "שיפור סגנון: טעות קטנה ומקרית, או משהו שאפשר לנסח טוב יותר (למשל מילת קישור מתאימה יותר). זה נשמר, אבל לא מוצג במשוב ממוקד; כדי לראות את זה בוחרים משוב מקיף בהגדרות (זו ברירת המחדל מרמה B2)."
+    }
+  ],
+  "overall_note": {
+    "en": "Your overall level is shown as a range (for example, B1+–B2), not as one exact level, because levels that are next to each other are easy to confuse. It is an estimate that compares your text with the CEFR descriptions of each level. It is not an IELTS or Cambridge score, and it does not predict one. You see it on your final draft; while you revise, you see the category bands.",
+    "he": "הרמה הכוללת מוצגת כטווח (למשל B1+–B2) ולא כרמה מדויקת אחת, כי קל לבלבל בין רמות סמוכות. זו הערכה שמשווה את הטקסט למתארי הרמות של CEFR. זה לא ציון IELTS או Cambridge, וזה גם לא ניבוי של ציון כזה. ההערכה מופיעה בטיוטה הסופית; בזמן התיקונים רואים את הדירוג לפי קטגוריות."
+  }
+}

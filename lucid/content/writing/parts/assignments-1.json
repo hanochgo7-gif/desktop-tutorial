@@ -1,0 +1,860 @@
+{
+ "assignments": [
+  {
+   "id": "wa-01",
+   "stage": 5,
+   "level": "B2",
+   "kind": "essay",
+   "title_en": "Phones away all day? Smartphones in secondary schools",
+   "title_he": "טלפונים בצד כל היום? סמארטפונים בבית הספר התיכון",
+   "prompt": "Argue whether secondary schools should require students to lock away their smartphones for the whole school day, including breaks, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an argumentative essay of 450-550 words for a general reader, such as the readers of a school or local news website. State your position clearly in the introduction (your thesis). Develop at least three supporting arguments, each in its own paragraph, with a reason, evidence or a specific example, and an explanation of how it supports your thesis. Evidence can be specific examples, reasoned explanation or your own experience described precisely; do not invent statistics or present guesses as facts. At this stage, focus on the opposing view: choose the strongest objection to your position (not the easiest one to answer), state it fairly, attribute it (for example, \"Some parents argue that...\"), and signal it clearly so that the reader does not mistake it for your own view. Then answer it with reasons. End with a conclusion that restates your thesis in new words and adds no new arguments.",
+    "he": "כתבו חיבור טיעוני באורך 450–550 מילים. הציגו במבוא עמדה ברורה (תזה), ופתחו לפחות שלושה טיעונים תומכים, כל אחד בפסקה נפרדת, עם ראיה או דוגמה והסבר. בשלב הזה הדגש הוא על העמדה הנגדית: בחרו את ההתנגדות החזקה ביותר, הציגו אותה בהגינות, ציינו מי טוען אותה וענו עליה בנימוקים. סיימו בסיכום שאינו מוסיף טיעונים חדשים. אל תמציאו נתונים או סטטיסטיקות."
+   },
+   "required_elements": [
+    "a clear thesis in the introduction",
+    "at least three supporting arguments, each in its own paragraph",
+    "relevant evidence or a specific example for each argument, with the link to the thesis explained",
+    "the strongest opposing view, stated fairly, attributed and clearly signalled",
+    "a rebuttal that answers the opposing view with reasons",
+    "a conclusion that restates the thesis without adding new arguments"
+   ],
+   "word_range": [
+    450,
+    550
+   ],
+   "min_words": 450,
+   "max_words": 550,
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "evidence_quality",
+    "coherence",
+    "cohesion"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis takes a clear, debatable position on locking phones away all day, and it appears in the introduction.",
+     "he": "טענה: התזה שלי מציגה עמדה ברורה שאפשר להתווכח עליה, והיא מופיעה כבר במבוא."
+    },
+    {
+     "en": "Reasons: I give at least three different reasons, one per paragraph, and each one supports my thesis, not a different point.",
+     "he": "נימוקים: יש לי לפחות שלושה נימוקים שונים, כל אחד בפסקה משלו, וכולם תומכים בתזה שלי ולא בנקודה אחרת."
+    },
+    {
+     "en": "Evidence: each reason has specific evidence or an example, and I explain how it supports the reason. I have not invented any numbers.",
+     "he": "ראיות: לכל נימוק יש ראיה או דוגמה ספציפית, והסברתי איך היא תומכת בו. לא המצאתי מספרים."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view fairly, in words the other side would accept, and signal it clearly (\"Critics argue that...\").",
+     "he": "טיעון נגדי: הצגתי את העמדה הנגדית החזקה ביותר בהגינות, כך שגם הצד השני היה מקבל את הניסוח, וסימנתי בבירור שזו לא העמדה שלי."
+    },
+    {
+     "en": "Rebuttal: I answer the objection with reasons or evidence, not with dismissal, and if I accept part of it, my thesis says so.",
+     "he": "הפרכה: עניתי לטיעון הנגדי בנימוקים או בראיות ולא רק דחיתי אותו, ואם קיבלתי חלק ממנו, התזה שלי משקפת את זה."
+    },
+    {
+     "en": "Conclusion: my conclusion restates my thesis in new words and adds no new arguments.",
+     "he": "סיכום: הסיכום מנסח מחדש את התזה במילים אחרות ואינו מוסיף טיעונים חדשים."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Decide your position and write it as one sentence: \"Secondary schools should / should not require ... because ...\".",
+     "he": "החליטו מה עמדתכם ונסחו אותה במשפט אחד: \"Secondary schools should / should not require ... because ...\"."
+    },
+    {
+     "en": "List four or five reasons for your position, then keep the three strongest. Next to each, note one specific example or piece of evidence.",
+     "he": "רשמו ארבעה או חמישה נימוקים לעמדתכם ובחרו את שלושת החזקים ביותר. ליד כל נימוק רשמו דוגמה או ראיה ספציפית."
+    },
+    {
+     "en": "Imagine a reader who disagrees, such as a parent or a student who uses the phone for schoolwork. Write down their best objection, not the weakest one, and ask: would they accept my description of their view?",
+     "he": "דמיינו קורא שלא מסכים איתכם, למשל הורה או תלמיד שמשתמש בטלפון ללימודים. רשמו את ההתנגדות הטובה ביותר שלו, לא את החלשה ביותר, ושאלו את עצמכם: האם הוא היה מסכים לאופן שבו תיארתי את עמדתו?"
+    },
+    {
+     "en": "Plan six paragraphs: introduction with thesis, argument 1, argument 2, argument 3, opposing view and your response, conclusion.",
+     "he": "תכננו שש פסקאות: מבוא עם תזה, טיעון 1, טיעון 2, טיעון 3, עמדה נגדית והתשובה שלכם, סיכום."
+    },
+    {
+     "en": "Phrases for presenting the opposing view: Some parents argue that... / Critics of a full-day ban point out that... / It is often claimed that... / Admittedly, ...",
+     "he": "ביטויים להצגת העמדה הנגדית: Some parents argue that... / Critics of a full-day ban point out that... / It is often claimed that... / Admittedly, ..."
+    },
+    {
+     "en": "Phrases for responding: However, this overlooks... / While this is true in some cases, ... / This concern is valid, but it could be addressed by...",
+     "he": "ביטויים לתשובה: However, this overlooks... / While this is true in some cases, ... / This concern is valid, but it could be addressed by..."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether secondary schools should start the school day one hour later, and respond to opposing views.\n\nThesis: Secondary schools should start one hour later, because students who are less tired are likely to learn more, mornings become safer and calmer, and the practical problems can be solved.\n\n1. Introduction: the familiar picture of a half-asleep first lesson; the proposal in one sentence; thesis.\n2. Argument 1, learning: many teenagers find it hard to fall asleep early, so an early start cuts their sleep. Example: the same student taking a test in the first lesson and in a late-morning lesson.\n3. Argument 2, safety and health: rushed, sleepy journeys in the dark in winter; breakfast skipped.\n4. Argument 3, attitude: fewer late arrivals, so lessons start on time and teachers spend less time dealing with lateness.\n5. Opposing view and response (annotated below): parents who leave for work early need their children to leave early too. Concede that the problem is real; answer with supervised early opening of the library and sports hall.\n6. Conclusion: restate the thesis in new words; suggest a one-year trial in a few schools.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (paragraph 5: opposing view and response)\n\n[1] Many parents, however, raise a serious objection: if school starts later, children whose parents leave for work at 7:30 would either be alone at home or arrive at a closed school. [2] This concern is reasonable, especially for families with younger children and no flexible working hours. [3] Yet it is a problem of supervision, not of learning, and it can be solved without making every student start the day tired. [4] Schools could open the library and sports hall from 7:45 with one member of staff on duty, so that students who need to arrive early have a safe place to read, finish homework or exercise. [5] The cost of this supervision is small compared with the benefit of a full day of lessons taught to students who are awake enough to learn.\n\nNotes\n[1] Signals the opposing view (\"however\") and attributes it to a group (parents), so the reader knows it is not the writer's own view.\n[2] Concedes what is true in the objection. Fairness makes the response more convincing, not weaker.\n[3] Rebuttal move: reframes the problem (supervision, not learning) instead of dismissing it.\n[4] A specific, practical answer: it shows that the objection can be met, not just denied.\n[5] Weighs the two sides and links back to the thesis (learning)."
+   }
+  },
+  {
+   "id": "wa-02",
+   "stage": 6,
+   "level": "B2",
+   "kind": "essay",
+   "title_en": "Fare-free public transport: should cities stop charging?",
+   "title_he": "תחבורה ציבורית בחינם: האם ערים צריכות לוותר על דמי הנסיעה?",
+   "prompt": "Argue whether cities should make local buses and trains free for everyone, paid for from city funds, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an argumentative essay of 450-550 words for a general reader, such as the readers of a city news website. State a clear thesis, develop at least three supporting arguments with evidence, and present the strongest opposing view fairly. At this stage, focus on the rebuttal: answer the objection by refuting it with reasoning, by conceding part of it and showing why your position still outweighs it, or by qualifying your thesis (for example, free travel for some groups or at some times only). A rebuttal must give reasons; dismissing the objection (\"this is not important\") does not count. If you concede a point, adjust your thesis so that the essay stays consistent from introduction to conclusion. Support your points with examples, reasoning and experience you can describe precisely; do not invent statistics.",
+    "he": "כתבו חיבור טיעוני באורך 450–550 מילים: תזה ברורה, לפחות שלושה טיעונים עם ראיות, והטיעון הנגדי החזק ביותר מוצג בהגינות. בשלב הזה הדגש הוא על ההפרכה: אפשר להראות שההתנגדות שגויה, להודות בחלק ממנה ולהראות שהיתרונות שלכם גדולים יותר, או לסייג את התזה. הפרכה חייבת לכלול נימוקים. אם הודיתם בנקודה, התאימו את התזה. אל תמציאו נתונים."
+   },
+   "required_elements": [
+    "a clear, debatable thesis in the introduction",
+    "at least three supporting arguments, each with evidence and an explanation of the link to the thesis",
+    "the strongest opposing view, stated fairly and attributed",
+    "a rebuttal that refutes, concedes and outweighs, or qualifies, using reasons rather than dismissal",
+    "a thesis that is consistent with any point you concede",
+    "a conclusion that adds no new arguments"
+   ],
+   "word_range": [
+    450,
+    550
+   ],
+   "min_words": 450,
+   "max_words": 550,
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "evidence_quality",
+    "coherence",
+    "precision"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis takes a clear position on fare-free public transport and appears in the introduction.",
+     "he": "טענה: התזה שלי מציגה עמדה ברורה לגבי תחבורה ציבורית בחינם, והיא מופיעה במבוא."
+    },
+    {
+     "en": "Reasons: I give at least three reasons, one per paragraph, and each one supports my thesis.",
+     "he": "נימוקים: יש לי לפחות שלושה נימוקים, כל אחד בפסקה משלו, וכל אחד מהם תומך בתזה."
+    },
+    {
+     "en": "Evidence: each reason has a specific example or piece of evidence, and I explain the link to my thesis. I have not invented figures.",
+     "he": "ראיות: לכל נימוק יש דוגמה או ראיה ספציפית, והסברתי את הקשר לתזה. לא המצאתי נתונים."
+    },
+    {
+     "en": "Counterargument: I state the strongest objection (for example, the cost to the city) fairly, attribute it, and signal it clearly.",
+     "he": "טיעון נגדי: הצגתי בהגינות את ההתנגדות החזקה ביותר (למשל העלות לעירייה), ציינתי מי טוען אותה וסימנתי אותה בבירור."
+    },
+    {
+     "en": "Rebuttal: I answer it with a clear move (refute, concede and outweigh, or qualify) and with reasons, and my thesis matches any point I concede.",
+     "he": "הפרכה: עניתי במהלך ברור (הפרכה, הודאה ושקילה, או סייג) ובנימוקים, והתזה שלי מתאימה לכל נקודה שהודיתי בה."
+    },
+    {
+     "en": "Conclusion: my conclusion restates my thesis, in its refined form if I qualified it, and adds no new arguments.",
+     "he": "סיכום: הסיכום מנסח מחדש את התזה, בגרסה המסויגת אם סייגתי אותה, ואינו מוסיף טיעונים חדשים."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Choose your position: free for everyone, free for some groups or at some times only, or keep fares. Write your thesis in one sentence.",
+     "he": "בחרו עמדה: חינם לכולם, חינם רק לקבוצות מסוימות או בשעות מסוימות, או להשאיר את התשלום. נסחו את התזה במשפט אחד."
+    },
+    {
+     "en": "Plan three arguments. For each, note: reason, then evidence or example, then how it supports the thesis.",
+     "he": "תכננו שלושה טיעונים. לכל אחד רשמו: נימוק, ראיה או דוגמה, ואיך הם תומכים בתזה."
+    },
+    {
+     "en": "Find the strongest objection, for example the cost to the city, overcrowded buses, or the idea that people value what they pay for.",
+     "he": "מצאו את ההתנגדות החזקה ביותר, למשל העלות לעירייה, אוטובוסים צפופים מדי, או הטענה שאנשים מעריכים את מה שהם משלמים עליו."
+    },
+    {
+     "en": "Choose a rebuttal move: refute (show the objection is mistaken), concede and outweigh (grant it, then show your benefits are greater), or qualify (narrow your thesis).",
+     "he": "בחרו מהלך הפרכה: להפריך (להראות שההתנגדות שגויה), להודות ולשקול (לקבל אותה ולהראות שהיתרונות שלכם גדולים יותר), או לסייג (לצמצם את התזה)."
+    },
+    {
+     "en": "Weigh with criteria: Who benefits, and how many people? How large is the benefit? How certain is it? Is there a cheaper way to get the same result?",
+     "he": "שקלו לפי קריטריונים: מי מרוויח, וכמה אנשים? כמה גדולה התועלת? עד כמה היא ודאית? האם יש דרך זולה יותר להשיג את אותה תוצאה?"
+    },
+    {
+     "en": "Sentence frames: Although ..., ... because ... / It is true that ...; however, ... / This would be a strong objection if ..., but ...",
+     "he": "תבניות משפט: Although ..., ... because ... / It is true that ...; however, ... / This would be a strong objection if ..., but ..."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether cities should close their central shopping streets to private cars, and respond to opposing views.\n\nThesis: Cities should close central shopping streets to private cars, while keeping delivery bays and short-stay parking at each end, because the change makes streets safer, cleaner and more pleasant, and the main risk to shops can be managed.\n\n1. Introduction: a narrow street shared by cars, buses and pedestrians; thesis.\n2. Argument 1, safety: pedestrians, especially children and older people, can cross without watching for cars. Example: the crossing outside a busy bakery.\n3. Argument 2, air and noise: no engines idling in traffic; cafés can put tables outside.\n4. Argument 3, the street as a public space: people stay longer, meet friends and attend events.\n5. Opposing view and rebuttal (annotated below): shop owners fear losing customers who drive. Concede the risk; refute the assumption that most customers drive; qualify the thesis with delivery bays and short-stay parking.\n6. Conclusion: restate the qualified thesis; propose reviewing shop takings after one year.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (paragraph 5: opposing view and rebuttal)\n\n[1] Shop owners on the street often fear that a car-free centre will drive customers away to out-of-town shopping centres with large car parks. [2] This fear deserves to be taken seriously, because a small shop that loses even a few regular customers may not survive. [3] However, the objection assumes that most customers arrive by car. On a busy central street this is often not the case: many people walk from nearby homes, offices and bus stops, and a quieter, safer street gives them a reason to stay longer. [4] The risk is greatest for shops that sell heavy or bulky goods, which is why the closure should come with delivery bays and short-stay parking at both ends of the street. [5] With these adjustments, the main cost of the change falls on a small number of drivers, while the benefits (cleaner air, safer crossings and a more pleasant place to spend time) are shared by everyone who uses the centre.\n\nNotes\n[1] A fair, specific statement of the objection, attributed to the group that holds it.\n[2] Concession: grants the real risk instead of minimising it.\n[3] Refutes the hidden assumption (most customers drive) with reasoning. Without a source, the writer keeps the claim cautious (\"often\", \"many\"); a writer with data would cite it here.\n[4] Qualifies the thesis: the claim is narrowed exactly where the objection is strongest.\n[5] Concede and outweigh: compares who bears the cost with who gets the benefit, and returns to the thesis."
+   }
+  },
+  {
+   "id": "wa-03",
+   "stage": 6,
+   "level": "B2",
+   "kind": "essay",
+   "title_en": "The four-day week: progress or pressure?",
+   "title_he": "שבוע עבודה של ארבעה ימים: התקדמות או לחץ?",
+   "prompt": "Argue whether employers should move to a four-day working week with no reduction in pay, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an argumentative essay of 450-550 words for a general reader. This time the support is lighter: plan the essay on your own. State a clear thesis; you may limit it to certain kinds of work (for example, office jobs) if your reasoning leads you there, because a qualified thesis is often stronger than a sweeping one. Develop at least three supporting arguments with evidence, and consider the question from the point of view of at least two groups affected, such as employees, employers and customers. Present the strongest opposing view fairly, rebut it with reasons, and finish with a conclusion that adds no new arguments. Use examples, reasoning and clearly described experience (your own or that of people you know); do not invent statistics.",
+    "he": "כתבו חיבור טיעוני באורך 450–550 מילים. הפעם התמיכה מצומצמת יותר: תכננו בעצמכם. מותר ואף רצוי לסייג את התזה (למשל לעבודה משרדית בלבד) אם הנימוקים שלכם מובילים לשם. התייחסו לפחות לשתי קבוצות שמושפעות מהשינוי (עובדים, מעסיקים, לקוחות), הציגו את הטיעון הנגדי החזק ביותר וענו עליו בנימוקים. אל תמציאו נתונים."
+   },
+   "required_elements": [
+    "a clear thesis, qualified if your reasoning requires it",
+    "at least three supporting arguments, each with evidence or a specific example",
+    "consideration of at least two affected groups (e.g. employees, employers, customers)",
+    "the strongest opposing view, stated fairly and attributed",
+    "a reasoned rebuttal (refute, concede and outweigh, or qualify)",
+    "a conclusion that adds no new arguments"
+   ],
+   "word_range": [
+    450,
+    550
+   ],
+   "min_words": 450,
+   "max_words": 550,
+   "focus": [
+    "argument_strength",
+    "counterarguments",
+    "evidence_quality",
+    "precision",
+    "coherence"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is clear and, where my reasoning requires it, limited to the kinds of work or conditions I can defend.",
+     "he": "טענה: התזה שלי ברורה, ובמקרה הצורך מוגבלת לסוגי עבודה או לתנאים שאפשר להגן עליהם בנימוקים."
+    },
+    {
+     "en": "Reasons: I develop at least three reasons and consider at least two groups affected (employees, employers, customers).",
+     "he": "נימוקים: פיתחתי לפחות שלושה נימוקים והתייחסתי לפחות לשתי קבוצות שמושפעות מהשינוי (עובדים, מעסיקים, לקוחות)."
+    },
+    {
+     "en": "Evidence: each reason has a specific example or clearly described experience, and I explain the link. No invented numbers.",
+     "he": "ראיות: לכל נימוק יש דוגמה ספציפית או ניסיון שמתואר בבירור, והסברתי את הקשר. אין מספרים מומצאים."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view fairly and attribute it.",
+     "he": "טיעון נגדי: הצגתי את העמדה הנגדית החזקה ביותר בהגינות וציינתי מי מחזיק בה."
+    },
+    {
+     "en": "Rebuttal: my rebuttal uses reasons or evidence, not dismissal, and it fits my thesis.",
+     "he": "הפרכה: ההפרכה שלי מבוססת על נימוקים או ראיות ולא על ביטול, והיא מתיישבת עם התזה."
+    },
+    {
+     "en": "Conclusion: my conclusion restates the thesis in new words and adds no new arguments.",
+     "he": "סיכום: הסיכום מנסח את התזה במילים חדשות ואינו מוסיף טיעונים חדשים."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Before you write, test your thesis: who exactly does it apply to, and what would make it false?",
+     "he": "לפני הכתיבה, בדקו את התזה: על מי בדיוק היא חלה, ומה היה מוכיח שהיא שגויה?"
+    },
+    {
+     "en": "Plan one line per paragraph, then check that every body paragraph supports the thesis.",
+     "he": "תכננו שורה אחת לכל פסקה, ובדקו שכל פסקת גוף תומכת בתזה."
+    },
+    {
+     "en": "After drafting, reread your objection paragraph as someone who disagrees: is it fair, and is your answer a reason rather than a dismissal?",
+     "he": "אחרי הטיוטה, קראו שוב את פסקת הטיעון הנגדי כאילו אתם חולקים עליה: האם היא הוגנת, והאם התשובה שלכם היא נימוק ולא ביטול?"
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether secondary schools should give students one afternoon a week for independent projects of their own choice, and respond to opposing views.\n\nThesis (qualified): Secondary schools should give older students one afternoon a week for independent projects, provided that each student agrees a plan with a mentor and presents the result at the end of term.\n\n1. Introduction (annotated below): context, the proposal, an early mention of the objection, qualified thesis.\n2. Argument 1, self-direction: planning a project, setting deadlines and solving problems without step-by-step instructions. Example: a student who builds a simple app for a local club.\n3. Argument 2, motivation: choice increases effort; this affects students, and also teachers, who learn what their students care about.\n4. Argument 3, discovering interests: subjects the timetable has no room for. Example: recording interviews with grandparents for a local history project.\n5. Opposing view and rebuttal: many students would waste the time. Concede that unstructured time can be wasted; answer with the mentor plan and the end-of-term presentation; point out that the qualification in the thesis exists because of this objection.\n6. Conclusion: restate the thesis; suggest starting with one year group.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (paragraph 1: introduction)\n\n[1] In most secondary schools, almost every hour of the week is planned by someone other than the student. [2] Some educators now propose giving students one afternoon a week to work on an independent project of their own choice, such as building an app, researching local history or learning an instrument. [3] Critics worry that, without a teacher's structure, many students would simply waste the time. [4] This risk is real, but it is an argument for supervising the afternoon well, not for abandoning the idea. [5] Secondary schools should give older students one afternoon a week for independent projects, provided that each student agrees a plan with a mentor and presents the result at the end of term, because this would build self-direction, increase motivation and let students discover interests that the timetable leaves no room for.\n\nNotes\n[1] Sets the context with a specific observation instead of a cliché such as \"Nowadays...\".\n[2] Explains the proposal precisely, with examples, so the reader knows exactly what is being argued about.\n[3] Mentions the main objection early, which tells the reader the essay will be balanced.\n[4] Previews the rebuttal in one sentence; the full answer comes later in the essay.\n[5] Qualified thesis: \"older students\" and \"provided that...\" limit the claim to what the essay can defend. The three reasons preview the body paragraphs in order."
+   }
+  },
+  {
+   "id": "wa-04",
+   "stage": 7,
+   "level": "C1",
+   "kind": "essay",
+   "title_en": "AI writing assistants and graded schoolwork",
+   "title_he": "עוזרי כתיבה מבוססי בינה מלאכותית ועבודות להגשה",
+   "prompt": "Argue whether secondary schools should allow students to use AI writing assistants when they produce graded written assignments, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an analytical argumentative essay of 800-1000 words for an educated general reader, for example the readers of an education magazine. Define your key terms precisely: \"using an AI assistant\" can mean brainstorming, getting feedback, drafting, rewriting or correcting, and your thesis should say which uses you mean and for which tasks. Your position may be conditional, but it must be clear. Plan before you write: an introduction with context, definitions and thesis; body paragraphs that each develop one point with analysis and support and link back to the thesis; one serious objection discussed in depth (not several listed briefly) and placed before the conclusion; and a conclusion that synthesises without adding new arguments. Consider at least two perspectives, such as learners, teachers and fairness in assessment. Distinguish what is known from what is likely and what is speculation, and calibrate your language accordingly. Draw on your own experience as a learner and on reasoned examples; do not invent studies or statistics. Before you request feedback, score your draft against the rubric yourself."
+   },
+   "required_elements": [
+    "an introduction that defines key terms and states a precise thesis",
+    "at least three body arguments, each developing one point with analysis and support",
+    "consideration of the issue from at least two perspectives (e.g. learners, teachers, fairness in assessment)",
+    "one serious objection discussed in depth, fairly stated, attributed and placed before the conclusion",
+    "a rebuttal based on reasoning or evidence, with the thesis refined if you concede a point",
+    "a conclusion that synthesises the argument and adds no new arguments"
+   ],
+   "word_range": [
+    800,
+    1000
+   ],
+   "min_words": 800,
+   "max_words": 1000,
+   "focus": [
+    "coherence",
+    "argument_strength",
+    "counterarguments",
+    "precision",
+    "cohesion",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is precise and debatable: it says which kinds of AI use I mean, at which stages of writing, and for which tasks."
+    },
+    {
+     "en": "Reasons: each body paragraph develops one reason, opens with a clear topic sentence and links back to the thesis; the order of paragraphs builds the argument."
+    },
+    {
+     "en": "Evidence: each reason is supported by analysis and specific, relevant examples; I distinguish what is known from what is likely, and I have not invented studies or figures."
+    },
+    {
+     "en": "Counterargument: I discuss one serious objection in depth, state it as its supporters would, and place it before the conclusion."
+    },
+    {
+     "en": "Rebuttal: I answer the objection with reasoning or evidence, and if I concede part of it, my thesis is refined accordingly."
+    },
+    {
+     "en": "Conclusion: my conclusion synthesises the argument and its implications without introducing new arguments."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Define the terms: list the different ways a student might use an AI assistant, and decide which of them your thesis covers."
+    },
+    {
+     "en": "Write a working thesis and test it against a hard case, such as a student with dyslexia or a take-home exam."
+    },
+    {
+     "en": "Essay blueprint: introduction (context, definitions, thesis), three body paragraphs (one point each), objection and rebuttal, conclusion. Write one sentence for each section before drafting."
+    },
+    {
+     "en": "Choose the single strongest objection. Decide your rebuttal move and whether it forces you to refine the thesis."
+    },
+    {
+     "en": "After drafting, reverse-outline: write the main point of each paragraph in one line. Does each point support the thesis, and does the order build?"
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether secondary schools should allow students to use online translation tools in foreign-language lessons and homework, and respond to opposing views.\n\nThesis: Translation tools should be allowed in foreign-language learning, but only for tasks whose purpose is understanding or checking rather than producing language, because the tools can support comprehension and noticing, yet they remove the very effort that builds productive skill.\n\nI. Introduction: context (the tools are free and instant; bans are hard to enforce); definitions (translation for comprehension vs. translation for production); thesis.\nII. Body 1, comprehension: tools let learners work with authentic texts above their level; analysis: richer input, provided the learner reads the original first.\nIII. Body 2, noticing: comparing one's own sentence with a machine version can reveal gaps, but only after the learner has made an attempt.\nIV. Body 3, production (annotated below): when the tool writes, the learner skips retrieval and formulation, and marked work no longer shows what the learner can do.\nV. Objection: \"Bans are unenforceable and teach students to hide the tools; schools should teach responsible use instead.\" Rebuttal: concede that enforcement by surveillance fails; refine the thesis so that the line is drawn by task design (in-class writing, oral follow-up questions) rather than by policing.\nVI. Conclusion: the question is not whether but when; restate the conditional thesis; implication for how teachers design tasks.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (section IV: third body paragraph)\n\n[1] The strongest reason for limiting translation tools, however, concerns production rather than comprehension. [2] Speaking and writing in a new language depend on retrieval: searching memory for a word, choosing a structure, and noticing when neither is available. [3] When a student types a sentence in Hebrew and copies the English output, each of those steps is skipped, so the finished homework may be flawless while the student's ability to produce the same sentence unaided remains unchanged. [4] This matters beyond the individual task, because a teacher who marks the homework receives a misleading picture of what the class can do and plans the next lesson accordingly. [5] It is this loss of productive effort, rather than any dishonesty, that justifies keeping the tools out of tasks designed to build or assess writing.\n\nNotes\n[1] Topic sentence: one point only, signalled as the strongest, with a transition (\"however\") that contrasts it with the previous paragraph.\n[2] Analysis begins by explaining the mechanism (retrieval), so the claim does not rest on assertion.\n[3] A concrete illustration of the mechanism. \"May be\" is calibrated: a polished text does not prove that nothing was learned.\n[4] Extends the consequence to a second perspective (the teacher), which adds depth rather than repetition.\n[5] The concluding sentence links back to the thesis and limits its scope precisely (\"tasks designed to build or assess writing\")."
+   }
+  },
+  {
+   "id": "wa-05",
+   "stage": 8,
+   "level": "C1",
+   "kind": "essay",
+   "title_en": "Homes or parkland? Building on urban green space",
+   "title_he": "דיור או פארק? בנייה על שטחים ירוקים בעיר",
+   "prompt": "Argue whether cities facing housing shortages should build homes on part of their urban parkland, using the fictional case of Halvarden, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an analytical argumentative essay of 800-1000 words. The three sources in the source pack are illustrative: the city, the park, the organisations, the columnist and every figure were invented for this task and describe nothing in the real world. Before you take a position, evaluate the sources: what kind of source is each, what does it establish, and what are its limits? The opinion column mixes a genuine point with weak reasoning. Identify at least two reasoning flaws in it (for example, an unsupported chain of consequences, a false choice, or an attack on people rather than their arguments), explain why each is weak, and say what its strongest legitimate point is; naming a fallacy is optional, explaining the weakness is not. Then argue your own position on the general question, apply it to the Halvarden case, cite the sources by author and year (e.g. Halvarden City Planning Office, 2025), and respond to the strongest opposing view. Finally, audit your own draft for the weaknesses you found in the column: sweeping words such as \"all\", \"never\" and \"everyone\", unfair descriptions of the other side, and claims stronger than your evidence. Score your draft against the rubric before you request feedback."
+   },
+   "required_elements": [
+    "a precise thesis on building on urban parkland, applied to the Halvarden case",
+    "an evaluation of all three sources: what each establishes and its main limitation",
+    "at least two reasoning flaws in the opinion column identified, explained and answered",
+    "acknowledgement of the column's strongest legitimate point",
+    "author-year citation for every source-derived idea",
+    "the strongest opposing view stated fairly and rebutted with reasoning or evidence",
+    "a conclusion that adds no new arguments"
+   ],
+   "word_range": [
+    800,
+    1000
+   ],
+   "min_words": 800,
+   "max_words": 1000,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "precision",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis takes a precise position on building on urban parkland and applies it to the Halvarden case, with any conditions stated."
+    },
+    {
+     "en": "Reasons: each reason supports my thesis directly, and I have checked my own reasoning for unsupported chains of consequences, false choices and overgeneralisations."
+    },
+    {
+     "en": "Evidence: I cite each source by author and year, say what it can and cannot show, and explain at least two weaknesses in the column's reasoning."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view fairly, including the column's best point, without caricaturing it or its author."
+    },
+    {
+     "en": "Rebuttal: my response rests on reasoning or evidence, not on attacking the people who disagree, and my thesis changes if I concede a point."
+    },
+    {
+     "en": "Conclusion: my conclusion restates the refined thesis and adds no new arguments."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Read each source and note who produced it, for what purpose, what it claims, and what it does not show."
+    },
+    {
+     "en": "Map the column's argument: list its premises and its conclusion. Mark each step that is unsupported, unfair or a false choice, and write a one-line fix or answer next to it."
+    },
+    {
+     "en": "Decide your thesis, then argue against your own conclusion: write the best paragraph the other side could write."
+    },
+    {
+     "en": "Plan by idea, not by source, and decide where each source supports, qualifies or challenges a point."
+    },
+    {
+     "en": "Bias audit of your draft: circle every \"all\", \"never\" and \"everyone\" and every description of your opponents; qualify or correct where needed."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · City report (fictional): Halvarden City Planning Office (2025), \"Housing and Open Space Review\", summary",
+     "kind": "illustrative",
+     "text": "Halvarden's population has grown faster than its housing supply for ten years, and average rents have risen faster than average incomes over the same period.\nThe review examines building on the northern edge of Orrin Fields, about 15% of the park's area. This part is currently mown grass and a surface car park. The office estimates that it could provide about 900 homes, 40% of them at rents below the market rate. The rest of the park, including the lake, the woodland and the sports pitches, would be protected from future building by a legal designation.\nThe review compares three alternatives: converting empty office buildings (an estimated 300 to 500 homes, more slowly and at a higher cost per home); building higher on existing housing estates; and building at the edge of the city, which would increase commuting by car.\nThe office describes its cost estimates as \"preliminary\" and notes that no independent environmental assessment of the northern edge has yet been carried out."
+    },
+    {
+     "title": "Source B · Opinion column (fictional): Dana Merrow (2025), \"Hands off our park\", Halvarden Evening Courier",
+     "kind": "illustrative",
+     "text": "The planners say they want only \"a corner\" of Orrin Fields. Don't believe it. Once the first block goes up, the next corner will follow, and in twenty years our grandchildren will have no park at all.\nThe choice is simple: either we protect our green spaces, or we accept that Halvarden becomes a concrete jungle. It is also worth asking where the authors of this review live. I would bet that most of them go home to houses with large private gardens. Everyone I have spoken to on my street is against the plan.\nAnd the \"mown grass\" that the review dismisses is not empty. It is where children from the flats on Wren Street play football every evening, and where older residents walk because it is the only flat, open ground within reach. Once a park is built on, it is gone for good; a housing shortage, however serious, can be solved in other ways."
+    },
+    {
+     "title": "Source C · Survey summary (fictional): Halvarden Residents' Panel (2025), \"Views on Orrin Fields\"",
+     "kind": "illustrative",
+     "text": "An online questionnaire was posted on the city council's website for three weeks and answered by 1,240 residents who chose to respond.\n58% opposed building on any part of Orrin Fields, 34% supported building there if most of the homes were affordable, and 8% were unsure. Support was higher among respondents aged 18 to 34 and among people who rent their homes.\nThe panel notes that respondents selected themselves, and that homeowners aged over 55 made up a larger share of respondents than of the city's adult population."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether the fictional town of Rensby should convert its central multi-storey car park into a public square, and respond to opposing views. The exemplar draws on three fictional sources: a council proposal (Rensby Town Council, 2024), a traffic survey (Ostrander, 2024) and an opinion column (Calloway, 2024).\n\nThesis: Rensby should convert the car park into a public square, on condition that accessible parking is kept within a short walk of the main street, because the town centre needs public space more than it needs this particular car park, and the strongest objection can be met.\n\nI. Introduction: the proposal; what is at stake; thesis.\nII. Evaluating the sources: what the council proposal establishes and leaves out; the survey's sample (weekday mornings only); the column's mix of a legitimate concern and weak reasoning.\nIII. Argument 1: the car park is often half empty outside peak hours (Ostrander, 2024), so the land is underused; qualified, because the survey covered weekdays only.\nIV. Argument 2: a square would serve groups who currently have nowhere to meet in the centre.\nV. Argument 3: a square makes the centre a place to stay, not only to pass through.\nVI. Strongest objection and rebuttal (annotated below): the column's unsupported chain of consequences and personal attack answered; its accessibility point conceded and built into the thesis.\nVII. Conclusion: the refined thesis; the further evidence that would settle the remaining doubt (weekend parking data).",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (section VI: objection and rebuttal; all sources are fictional)\n\n[1] The strongest case against the square comes from Calloway's (2024) opinion column, but it needs to be separated from the weaker reasoning that surrounds it. [2] Calloway claims that closing the car park is \"the first step towards banning cars from the town altogether\", yet the column offers no evidence that further closures are planned, and the council's proposal concerns a single site (Rensby Town Council, 2024). [3] Similarly, the suggestion that the plan's supporters \"never shop in the town centre\" attacks the people rather than their reasons. [4] Beneath these weaknesses, however, lies a legitimate concern: residents with limited mobility depend on parking close to the shops, and the proposal says little about where they would park. [5] This point does not defeat the case for a square, but it does refine it: the conversion should go ahead only if accessible parking spaces are kept within a short walk of the main street.\n\nNotes\n[1] Engages the source's strongest version instead of a straw man, and signals that the source will be evaluated, not simply cited.\n[2] Spot and fix: identifies an unsupported chain of consequences and answers it with evidence from a second source.\n[3] Explains the second flaw by what it does (it attacks people, not reasons). The label \"ad hominem\" is optional; the explanation is not.\n[4] Concession: credits the legitimate point, which shows that the evaluation is not one-sided.\n[5] The concession changes the thesis (a condition is added), so the counterargument is integrated rather than dismissed."
+   }
+  },
+  {
+   "id": "wa-06",
+   "stage": 9,
+   "level": "C1",
+   "kind": "research",
+   "title_en": "Holiday rentals and the people who live there",
+   "title_he": "דירות נופש והקהילה המקומית",
+   "prompt": "Argue whether popular tourist cities should strictly limit short-term holiday rentals in residential neighbourhoods, using the fictional case of Port Averly, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an analytical argumentative essay of 800-1000 words that synthesises all three illustrative sources. The city, the organisations, the columnist and every figure were invented for this task and describe nothing in the real world. Organise the essay by idea, not source by source: show where the sources agree, conflict or qualify one another. Attribute every source-derived idea (author, year), paraphrase in your own words and sentence structure, and quote only where the exact wording matters. Match the strength of each claim to its evidence: the observatory's data show an association, not proven cause, so \"holiday rentals caused the rent rises\" would overclaim, while stacking hedges (\"it might possibly be the case that...\") under-commits. Weigh each source: who produced it, why and how. Note interests, such as those of a campaign group or a business owner, without rejecting an argument only because of who makes it. Because the sources are fictional, you cannot read laterally; for each source, state in one sentence what you would check about it before relying on it in real research. Score your draft against the rubric before you request feedback."
+   },
+   "required_elements": [
+    "a precise, calibrated thesis on limiting short-term holiday rentals",
+    "synthesis of all three sources, organised by idea rather than by source",
+    "author-year attribution for every source-derived idea, with paraphrase rather than patchwriting",
+    "an evaluation of each source's reliability and interests, with one lateral-reading check you would make per source",
+    "claims calibrated to the evidence (no causal overclaim from correlational data, no stacked hedges)",
+    "the strongest opposing view stated fairly and rebutted",
+    "a conclusion that adds no new arguments"
+   ],
+   "word_range": [
+    800,
+    1000
+   ],
+   "min_words": 800,
+   "max_words": 1000,
+   "focus": [
+    "evidence_quality",
+    "academic_tone",
+    "argument_strength",
+    "counterarguments",
+    "precision",
+    "coherence"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is precise (what kind of limit, where and for whom) and no stronger than the evidence allows."
+    },
+    {
+     "en": "Reasons: each paragraph is organised around an idea, not a source, and supports my thesis."
+    },
+    {
+     "en": "Evidence: every source-derived idea is attributed (author, year) and paraphrased in my own words; I state what each source can show, its interests, and what I would check laterally."
+    },
+    {
+     "en": "Counterargument: I present the strongest opposing view, including the economic case for holiday rentals, fairly and with attribution."
+    },
+    {
+     "en": "Rebuttal: I answer it with reasoning or evidence, and I do not dismiss an argument only because of who makes it."
+    },
+    {
+     "en": "Conclusion: my conclusion is calibrated, consistent with my thesis, and adds no new arguments."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "SIFT each source: Stop; Investigate who produced it and why; Find other coverage; Trace claims to their origin. Write one question per source that you would check laterally."
+    },
+    {
+     "en": "Separate credibility from truth: for each key claim, ask both \"is this source trustworthy?\" and \"is this particular claim supported?\"."
+    },
+    {
+     "en": "Build a synthesis grid: rows for ideas (housing, the local economy, quality of life, alternatives to a strict limit), columns for Sources A, B and C."
+    },
+    {
+     "en": "Choose reporting verbs that match the evidence: \"found\", \"estimates\", \"reports\", \"claims\", \"asserts without evidence\"."
+    },
+    {
+     "en": "Paraphrase check: cover the source, write the idea from memory, then compare. If your sentence follows the source's structure, rewrite it."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · Research summary (fictional): Port Averly Housing Observatory (2024), \"Short-term rentals in the Old Quarter, 2018-2024\"",
+     "kind": "illustrative",
+     "text": "Between 2018 and 2024, the number of homes in the Old Quarter listed for short-term holiday rental rose from about 300 to about 1,100, out of roughly 4,000 homes in the district.\nOver the same period, average rents for long-term tenancies in the Old Quarter rose by 38%, compared with 21% in the rest of the city.\nThe authors caution that rents rose for several reasons, including new jobs at the port and very little new house-building, and that their data show an association, not how much of the difference holiday rentals caused. They recommend comparing streets with many and few holiday rentals over the next three years."
+    },
+    {
+     "title": "Source B · Survey summary (fictional): Old Quarter Residents' Association (2025), \"Living with holiday rentals\"",
+     "kind": "illustrative",
+     "text": "The association, which campaigns for a limit of 90 rental nights per home per year, sent an online questionnaire to its members. Of the 410 members who replied, 72% said that noise at night had increased in the past five years, and 64% said they knew a neighbour who had moved out because of rising rents.\nThe summary does not say how many members received the questionnaire or how the questions were worded."
+    },
+    {
+     "title": "Source C · Opinion column (fictional): Marco Keel (2025), \"Don't punish the people who welcome visitors\", Averly Business Weekly",
+     "kind": "illustrative",
+     "text": "I run a company that manages holiday flats for 140 local owners, so I see every day who really benefits from short-term rentals. Many of the owners are ordinary families who rent out a second flat, or their own home while they are away, to pay the mortgage. Visitors who stay in the Old Quarter eat in its cafés and shop in its markets, places that the big hotels by the ring road never send anyone to.\nA cap would push visitors into those hotels, most of them owned by international chains, and would hurt the very residents it claims to protect. Rents are rising everywhere in this country. Blaming holiday rentals is simply looking for a scapegoat."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether the fictional island town of Kestrel Bay should charge day visitors a fee during the summer, and respond to opposing views. The exemplar draws on three fictional sources: a study of a neighbouring island (Okafor & Lind, 2023), a council projection (Kestrel Bay Council, 2024) and a statement by local businesses (Island Traders' Guild, 2025).\n\nThesis: Kestrel Bay should introduce a modest summer fee for day visitors, combined with timed entry on the busiest days, because the evidence suggests that a fee alone would reduce crowding only somewhat, while the combination addresses both crowding and the costs that visitors impose.\n\nI. Introduction: the problem of peak-season crowding; what a fee is and is not meant to do; thesis.\nII. Would a fee reduce crowding? (annotated below): the study, the council projection and the traders' claim compared.\nIII. Who pays the costs of crowding now? Residents, and the council's cleaning and transport budget.\nIV. Effects on local businesses: the traders' concern weighed against the study's finding that spending per visitor rose.\nV. Strongest objection and rebuttal: a fee excludes lower-income visitors. Concede; answer with free entry days and discounts for residents of the nearby mainland.\nVI. Note on sources: what I would check laterally for each (who funded the study; how the council's figure was calculated; whom the guild represents).\nVII. Conclusion: calibrated restatement; what the town should measure in the first summer.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (section II; all sources are fictional)\n\n[1] The evidence on whether a visitor fee would reduce crowding is suggestive rather than conclusive. [2] Okafor and Lind (2023) found that day-visitor numbers fell by roughly a tenth in the first summer after a similar fee was introduced on a neighbouring island, although they note that the summer was unusually wet, which may account for part of the fall. [3] The council's own projection assumes a much larger effect (Kestrel Bay Council, 2024), but it does not explain how that figure was reached. [4] The traders' guild, by contrast, argues that any fee would \"empty the harbour cafés\" (Island Traders' Guild, 2025); this is an understandable concern from businesses that depend on day visitors, but the guild offers no evidence for the scale of the loss it predicts. [5] Taken together, the sources suggest that a modest fee is likely to reduce peak crowding somewhat, not dramatically, which is why it should be paired with timed entry on the busiest days rather than relied on alone.\n\nNotes\n[1] The topic sentence states an idea, not a source, and calibrates the claim (\"suggestive rather than conclusive\").\n[2] Paraphrase with attribution. The reporting verb \"found\" fits an empirical study, and the study's own limitation is reported.\n[3] Evaluates a second source's method instead of simply repeating its figure.\n[4] Quotes only the vivid phrase, notes the source's interest without dismissing it, and judges the claim on its evidence.\n[5] Synthesis: combines the sources into one calibrated conclusion (\"likely\", \"somewhat\") and links it to the thesis."
+   }
+  },
+  {
+   "id": "wa-07",
+   "stage": 9,
+   "level": "C1",
+   "kind": "research",
+   "title_en": "Remote by default? The future of office work",
+   "title_he": "עבודה מרחוק כברירת מחדל?",
+   "prompt": "Argue whether companies with office-based jobs should make remote work the default, so that employees come to the office only when there is a specific reason, and respond to opposing views.",
+   "instructions": {
+    "en": "Write an analytical argumentative essay of 800-1000 words that synthesises all three illustrative sources. The researchers, the company, the columnist, the publications and every figure were invented for this task and describe nothing in the real world. Check what each source actually studied: which people, which kind of work and which arrangement. \"Remote by default\" is not the same as hybrid work, so decide how far each source really bears on the question. Organise by idea rather than by source, attribute every source-derived idea (author, year), paraphrase rather than patchwrite, and quote only where the exact wording matters. Calibrate: a claim based on one company or on a self-selected survey cannot support a sweeping conclusion, but hedging every sentence is also a weakness. Consider the question from more than one perspective, for example new and experienced employees, employers, and people with caring responsibilities. Because the sources are fictional, you cannot read laterally; for each source, state in one sentence what you would check about it before relying on it in real research. Score your draft against the rubric before you request feedback."
+   },
+   "required_elements": [
+    "a precise, calibrated thesis on remote work as the default",
+    "synthesis of all three sources, organised by idea rather than by source",
+    "an assessment of each source's relevance to the question (who and what it studied) and of its reliability",
+    "author-year attribution for every source-derived idea, with paraphrase rather than patchwriting",
+    "at least two perspectives considered (e.g. new and experienced employees, employers)",
+    "the strongest opposing view stated fairly and rebutted, with the thesis refined if you concede",
+    "a conclusion that adds no new arguments"
+   ],
+   "word_range": [
+    800,
+    1000
+   ],
+   "min_words": 800,
+   "max_words": 1000,
+   "focus": [
+    "evidence_quality",
+    "academic_tone",
+    "argument_strength",
+    "counterarguments",
+    "precision"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis says precisely what arrangement I support, for which kinds of work, and is no stronger than the evidence allows."
+    },
+    {
+     "en": "Reasons: each paragraph develops one idea, considers more than one group of employees, and supports my thesis."
+    },
+    {
+     "en": "Evidence: I attribute and paraphrase every source-derived idea, say how far each source matches the question, and identify the weakest source and why."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view fairly, including the concern about training and careers, and attribute it."
+    },
+    {
+     "en": "Rebuttal: I answer with reasoning or evidence, and refine my thesis where the objection succeeds."
+    },
+    {
+     "en": "Conclusion: my conclusion is calibrated, consistent with my thesis, and adds no new arguments."
+    }
+   ],
+   "scaffold": [
+    {
+     "en": "Relevance first: for each source, note who was studied, what kind of work, and what arrangement. Mark where it matches the question and where it does not."
+    },
+    {
+     "en": "SIFT: note what you would investigate about each source's producer and purpose, and what other coverage you would look for."
+    },
+    {
+     "en": "Plan by idea (for example productivity, staying in the job, learning and careers, costs to employers) and note which sources speak to each."
+    },
+    {
+     "en": "Before submitting, underline your three strongest claims and check that each is no stronger than its source."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · Research summary (fictional): Ilves, R., & Barata, S. (2024), \"Hybrid work and performance: an 18-month trial at a software company\", Journal of Applied Workplace Trials",
+     "kind": "illustrative",
+     "text": "The authors studied 640 employees at one mid-sized software company for 18 months. Teams were randomly assigned either to work from home three days a week or to stay in the office five days a week.\nPerformance ratings and the amount of work completed did not differ significantly between the two groups. Employees in the hybrid group were less likely to resign during the trial (8% compared with 12%). However, employees in their first year at the company reported receiving less informal help and feedback from colleagues when they worked hybrid.\nThe authors caution that the study covers one company and one kind of work, and that the results may not apply to fully remote arrangements or to jobs that depend on close supervision or physical presence."
+    },
+    {
+     "title": "Source B · Survey report (fictional): Tellivox (2025), \"The Future of Work Report\"",
+     "kind": "illustrative",
+     "text": "Tellivox, a company that sells video-conferencing software, surveyed 2,000 office workers who use its product. 81% said they were \"as productive or more productive\" when working from home, and 69% said they would consider changing jobs if they were required to come to the office five days a week.\nThe report concludes: \"The evidence is clear: remote-first companies win.\" The questionnaire and the method used to select respondents are not published."
+    },
+    {
+     "title": "Source C · Opinion column (fictional): Helen Strand (2025), \"The office is where careers are made\", The Ledgerline Weekly",
+     "kind": "illustrative",
+     "text": "I built my career by watching how senior colleagues handled difficult clients, by being in the room when decisions were made, and by being noticed. None of that happens on a video call.\nYoung employees who work from home are invisible, and invisible people do not get promoted. I have spent thirty years managing teams, and I have never seen a junior employee learn the job properly through a screen. Companies that make remote work the default are not being generous; they are quietly giving up on training the next generation.\nThe author is a retired chief executive of a logistics company."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own essay): Argue whether universities should record all lectures and make them available online, and respond to opposing views. The exemplar draws on three fictional sources: a course comparison (Moreno, 2023), a survey by a company that sells recording software (Lectoria, 2024) and a statement by a students' union (Eastvale Students' Union, 2024).\n\nThesis: Universities should record large lectures by default, but present recordings as a tool for review and access rather than a replacement for attendance, because the evidence supports their value for access and revision but not for improved achievement.\n\nI. Introduction: definitions (a recorded lecture vs. an online course); thesis.\nII. Do recordings help students learn? (annotated below): a weak survey vs. a stronger course comparison; a calibrated conclusion.\nIII. Access: students who work, commute or have caring responsibilities (students' union statement), noting that it is an advocacy source.\nIV. Attendance: the course comparison found lower attendance; why this matters for teaching that depends on discussion.\nV. Strongest objection and rebuttal: lecturers' concern that recording discourages open discussion. Concede for small seminars; refine the thesis to large lectures only.\nVI. Conclusion: calibrated restatement; what a university should measure after introducing recording.",
+    "annotated_paragraph": "From the exemplar essay on the parallel prompt above (section II; all sources are fictional)\n\n[1] Supporters of recorded lectures often cite the finding that \"nine in ten students\" watch recordings when they are available (Lectoria, 2024). [2] This figure deserves caution: it comes from a company that sells recording software, it surveyed only students at universities that already use its product, and it measures whether students open recordings, not whether they learn more from them. [3] A more relevant source is Moreno's (2023) comparison of two first-year statistics courses, which found that students with access to recordings achieved similar exam results to those without, but attended fewer live lectures. [4] Even this study, however, covers a single subject at one university, so it suggests rather than establishes that recordings neither help nor harm achievement. [5] What the evidence supports, then, is a modest claim: recordings appear to be valued and are unlikely to damage results, but on current evidence they are not a reason to expect better learning.\n\nNotes\n[1] Introduces a popular claim with attribution, so the reader knows whose figure it is.\n[2] Evaluates the source on three grounds: interest (who produced it), sample (who was asked) and measure (what was counted). Each is a reason, not a dismissal.\n[3] Turns to a source that addresses the question more directly; \"comparison\" and \"found\" describe an empirical study accurately.\n[4] States the limit of the better source too: calibration applies to sources you agree with.\n[5] Synthesis: a claim exactly as strong as the evidence, with measured hedges (\"appear\", \"unlikely\") that are not stacked."
+   }
+  },
+  {
+   "id": "wa-08",
+   "stage": 10,
+   "level": "C2",
+   "kind": "research",
+   "title_en": "A minimum age for social media",
+   "title_he": "גיל מינימום לרשתות חברתיות",
+   "prompt": "Argue a defensible, original position on whether governments should set a legal minimum age of 16 for social media accounts, drawing on and evaluating the illustrative sources, and respond to opposing views.",
+   "instructions": {
+    "en": "Write a research-based argumentative paper of 1500-2000 words for an educated, non-specialist reader. The four sources concern the fictional country of Teralund; they were invented for this task, and every name, organisation and figure in them is fictional and describes nothing in the real world. Treat them as you would real research: evaluate before you cite. Your thesis should go beyond \"yes\" or \"no\": state which measures you support, for whom and on what conditions, in a form that a thoughtful reader could dispute. Distinguish evidence of association from evidence of cause, and averages from effects on particular groups. At least one source is markedly weaker or more biased than the others: identify it and explain why, using specific features of the text, but ask whether any concern it raises is supported by a stronger source. Synthesise the sources by idea, showing where they agree, conflict or qualify one another. Engage with the strongest counterarguments in their best form, including at least one that partly persuades you, and show how it shapes your thesis. Use formal register, calibrated stance and consistent author-year citation, and paraphrase in your own words and structure. Because the sources are fictional, you cannot read laterally; state briefly, within the paper, what you would check about each source in real research. Plan, draft and revise independently, and score yourself against the rubric before you ask for feedback."
+   },
+   "required_elements": [
+    "a specific, defensible original thesis that goes beyond a yes-or-no answer",
+    "evaluate the reliability of at least two sources",
+    "identification of the weakest or most biased source, with reasons drawn from the text",
+    "synthesis of at least three sources, organised by idea, distinguishing association from cause",
+    "nuanced counterarguments, including at least one partly conceded, with the thesis refined accordingly",
+    "author-year attribution, paraphrase rather than patchwriting, calibrated hedging, and a note of what you would check about each source in real research",
+    "a conclusion that states implications and limits without new arguments"
+   ],
+   "word_range": [
+    1500,
+    2000
+   ],
+   "min_words": 1500,
+   "max_words": 2000,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "academic_tone",
+    "precision",
+    "coherence",
+    "overall"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is specific, original and defensible: it names the measures I support, for whom and on what conditions, and a thoughtful reader could disagree with it."
+    },
+    {
+     "en": "Reasons: the paper is organised by idea; each section advances the argument, and the sequence builds towards the conclusion."
+    },
+    {
+     "en": "Evidence: I synthesise at least three sources, distinguish association from cause, evaluate the reliability of at least two sources, and explain with specific features why the weakest source is weak."
+    },
+    {
+     "en": "Counterargument: I present the strongest objections in their best form, including at least one that partly persuades me."
+    },
+    {
+     "en": "Rebuttal: my responses rest on reasoning and evidence, and my thesis is visibly refined where I concede."
+    },
+    {
+     "en": "Conclusion: I state the implications and limits of my argument without new arguments; register, hedging and citation are consistent throughout."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · Research article summary (fictional): Varga, E., Nandi, P., & Holm, J. (2024), \"Social media use and well-being from age 12 to 16: a four-year cohort study\", Teralund Journal of Adolescent Health",
+     "kind": "illustrative",
+     "text": "The researchers followed 3,100 adolescents in Teralund from age 12 to age 16, measuring social media use and well-being every year with questionnaires.\nHeavier use (more than three hours a day) was associated with slightly lower well-being scores. The association was small: social media use accounted for less than 2% of the differences in well-being between participants. It was stronger for girls aged 12 to 14 than for other groups.\nThe study also found the reverse pattern: participants with lower well-being at age 12 were more likely to increase their use over the following years.\nThe authors conclude that the data \"do not establish that social media use causes lower well-being\", and warn that policies based on average effects may miss the minority of young people for whom effects are larger, in either direction."
+    },
+    {
+     "title": "Source B · Government consultation paper (fictional): Teralund Office for Digital Safety (2025), \"Protecting children online: options for consultation\"",
+     "kind": "illustrative",
+     "text": "The paper sets out four options, which can be combined: (1) a legal minimum age of 16 for social media accounts, enforced by age verification; (2) design rules for users under 18, such as no endless scrolling, no notifications between 22:00 and 07:00, and private accounts by default; (3) stronger parental controls; (4) compulsory digital-literacy lessons in schools.\nThe Office notes that the current minimum age of 13, set by the platforms themselves, is widely ignored: in its own 2024 survey of 1,000 children aged 10 to 12, 55% reported having at least one social media account.\nIt also notes that age verification raises privacy concerns, because it may require users to upload identity documents or have their faces scanned, and that age-estimation software makes more errors for some groups of users than for others. The paper does not recommend a single option."
+    },
+    {
+     "title": "Source C · Company blog post (fictional): Ageworth Systems (2025), \"Age checks work: the science is settled\"",
+     "kind": "illustrative",
+     "text": "Study after study proves that social media causes depression and anxiety in teenagers. Experts agree: the only responsible answer is a strict minimum age, enforced by reliable age verification.\nAgeworth's facial age-estimation technology is 99.8% accurate and takes less than a second. Critics who raise \"privacy concerns\" are simply protecting the profits of the platforms. Every month without a minimum age is another month of harm to our children.\nAgeworth Systems is Teralund's leading provider of age-verification software."
+    },
+    {
+     "title": "Source D · Opinion column (fictional): Noa Feld (2025), \"Don't lock us out, teach us\", Teralund Youth Voice magazine",
+     "kind": "illustrative",
+     "text": "I am seventeen, and I have used social media since I was eleven. Some of it was bad for me: I lost sleep, and I compared myself with people whose lives looked perfect. But social media is also where I found other teenagers with the same rare illness as mine, people I would never have met in my small town.\nA ban until sixteen would not stop my younger cousins from going online; it would push them to apps with no rules at all, where no adult is watching. What would actually have helped me at twelve was a phone that stopped sending notifications at night and a teacher who explained how feeds are designed to keep us scrolling. Ask young people what would help before deciding for us."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own paper): Argue a defensible, original position on whether governments should ban paid \"loot boxes\" (purchases of random in-game rewards) for players under 18, and respond to opposing views. All sources named in this exemplar are fictional: a study of spending and problem-gambling scores (Ardent & Sole, 2023), a regulator's report (Office for Fair Play, 2023), an industry-funded review (Gildercrest Games Council, 2024) and a players' advocacy group (Gamers' Rights League, 2024).\n\nWorking title: Chance, Children and Choice: Why Disclosure Is Not Enough\nThesis: A blanket ban is harder to justify than its supporters assume, but disclosure rules alone fail the players most at risk; governments should therefore require monthly spending caps on random-reward purchases for under-18s, enforced through payment systems and reviewed after three years against agreed measures of harm.\n\n1. Introduction (about 200 words): the mechanism (paying for a chance at a reward); why the question is contested; key terms (loot box, random-reward purchase, harm); thesis; roadmap.\n2. What the evidence shows (about 350 words): an association between spending and problem-gambling scores (Ardent & Sole, 2023); the direction of cause unresolved; a small group of heavy spenders accounting for most revenue (Office for Fair Play, 2023).\n3. Evaluating the sources (about 300 words): the industry-funded review (interest, selective citation, no stated method); the advocacy group (illustrative examples, no systematic sample); how much weight each deserves and what I would check in real research.\n4. The case for intervention (about 300 words): harm concentrated in a vulnerable minority; young players' limited ability to judge probabilities; precedent of age limits on other products that involve chance.\n5. Counterarguments (about 350 words): (a) parental responsibility, partly conceded, since parental controls exist but are rarely used; (b) a ban displaces spending to unregulated sites, conceded in part, which is why the thesis prefers caps to prohibition (annotated below); (c) the evidence is correlational, accepted, hence the review clause.\n6. Conclusion (about 150 words): the refined thesis; the limits of the evidence; what would change my mind.",
+    "annotated_paragraph": "From the exemplar paper on the parallel prompt above (section 5, counterargument b; all sources are fictional)\n\n[1] The most serious objection to any age-based restriction is not that loot boxes are harmless, but that prohibition may displace harm rather than reduce it. [2] Opponents of a ban point out that younger players already bypass age gates with little effort, and that a ban could push spending towards unofficial resale sites where no protection applies at all (Gamers' Rights League, 2024). [3] The League is an advocacy group, and its examples are illustrative rather than systematic; nonetheless, its concern is consistent with the regulator's finding that existing age gates are widely circumvented (Office for Fair Play, 2023), and it would be careless to dismiss it on the basis of who advances it. [4] The objection therefore succeeds against a blanket ban, but not against intervention as such. [5] A cap on monthly spending, enforced through the payment systems that platforms already control, would leave the games themselves accessible while removing the conditions under which the heaviest losses appear to occur: unlimited, rapid and repeated purchases.\n\nNotes\n[1] Frames the objection in its strongest form, distinguishing it from a weaker version (\"loot boxes are harmless\") that would be easy to refute.\n[2] Fair attribution with an author-year citation; the opponents' reasoning is reported, not caricatured.\n[3] Source evaluation without the genetic fallacy: the writer notes the group's interest and method, then corroborates the claim with an independent source instead of rejecting it because of its origin.\n[4] A precise concession that limits the scope of the objection; the thesis is refined, not abandoned.\n[5] The refined position answers the mechanism that the objection identifies; \"appear to occur\" calibrates a causal claim that the evidence cannot fully establish."
+   }
+  },
+  {
+   "id": "wa-09",
+   "stage": 10,
+   "level": "C2",
+   "kind": "research",
+   "title_en": "Public money and crewed space exploration",
+   "title_he": "מימון ציבורי למסעות חלל מאוישים",
+   "prompt": "Argue a defensible, original position on whether public money should fund crewed space exploration while urgent problems on Earth remain unsolved, drawing on and evaluating the illustrative sources, and respond to opposing views.",
+   "instructions": {
+    "en": "Write a research-based argumentative paper of 1500-2000 words for an educated, non-specialist reader. The four sources concern the fictional country of Caldora; they were invented for this task, and every name, organisation and figure in them is fictional and describes nothing in the real world. Treat them as you would real research: evaluate before you cite. Your thesis should go beyond \"yes\" or \"no\"; you might, for example, distinguish between kinds of space spending, set conditions, or propose how such decisions should be judged. Distinguish crewed exploration from satellites and robotic missions, and treat every claim of economic \"return\" with particular care: ask who produced the figure and what it assumes. Note also where a credible author writes outside their own expertise. At least one source is markedly weaker or more biased than the others: identify it and explain why, using specific features of the text, but ask whether any concern it raises is supported by a stronger source. Synthesise the sources by idea, showing where they agree, conflict or qualify one another. Engage with the strongest counterarguments in their best form, including at least one that partly persuades you, and show how it shapes your thesis. Use formal register, calibrated stance and consistent author-year citation, and paraphrase in your own words and structure. Because the sources are fictional, you cannot read laterally; state briefly, within the paper, what you would check about each source in real research. Plan, draft and revise independently, and score yourself against the rubric before you ask for feedback."
+   },
+   "required_elements": [
+    "a specific, defensible original thesis that goes beyond a yes-or-no answer",
+    "evaluate the reliability of at least two sources",
+    "identification of the weakest or most biased source, with reasons drawn from the text",
+    "a distinction between crewed exploration and other space spending",
+    "critical treatment of every figure for economic return: who produced it and what it assumes",
+    "synthesis of at least three sources, organised by idea",
+    "nuanced counterarguments, including at least one partly conceded, with the thesis refined accordingly",
+    "author-year attribution, paraphrase rather than patchwriting, calibrated hedging, and a note of what you would check about each source in real research",
+    "a conclusion that states implications and limits without new arguments"
+   ],
+   "word_range": [
+    1500,
+    2000
+   ],
+   "min_words": 1500,
+   "max_words": 2000,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "academic_tone",
+    "precision",
+    "coherence",
+    "overall"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis takes a specific, original position (for example, distinguishing kinds of space spending or setting conditions) that a thoughtful reader could dispute."
+    },
+    {
+     "en": "Reasons: each section advances one line of argument, and the order builds towards my conclusion."
+    },
+    {
+     "en": "Evidence: I evaluate the reliability of at least two sources, ask what each figure assumes, identify the weakest source and explain why, and never repeat an unverified figure as fact."
+    },
+    {
+     "en": "Counterargument: I engage the strongest opposing arguments, including opportunity cost and the value of inspiration, in their best form."
+    },
+    {
+     "en": "Rebuttal: my responses use reasoning and evidence, avoid the false choices and personal attacks I identified in the sources, and refine my thesis where I concede."
+    },
+    {
+     "en": "Conclusion: I state what follows from my argument and what evidence would change my mind, without new arguments."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · Official review (fictional): Independent Budget Office of Caldora (2025), \"The national space programme: costs and benefits\"",
+     "kind": "illustrative",
+     "text": "Caldora's space programme receives 0.4% of the national budget. About half of this is spent on crewed missions; the rest funds satellites for weather forecasting, navigation and the monitoring of crops and forests, as well as robotic science missions.\nThe Office finds that the satellite programmes produce benefits that can be measured, such as more accurate storm warnings and better harvest forecasts. The benefits of crewed missions are harder to measure: they include scientific results, new technologies that later find other uses, and national prestige.\nPublished estimates of the economic \"return\" on space spending vary widely, from less than one to several units of value for every unit spent, depending mainly on assumptions about what would have happened without the programme. The Office could not verify any single figure, and recommends that future missions publish their expected benefits before funding is approved."
+    },
+    {
+     "title": "Source B · Research article summary (fictional): Tavares, L. (2023), \"Inspiration or illusion? A crewed mission and students' subject choices\", Caldoran Review of Education",
+     "kind": "illustrative",
+     "text": "Tavares compared enrolment in university physics and engineering courses in the three years before and the three years after Caldora's first crewed mission in 2018. Enrolment rose by 6%.\nHowever, enrolment in the same subjects rose by a similar amount over the same period in a neighbouring country with no space programme. Tavares concludes that the mission's effect on subject choices, if there was one, cannot be separated from wider trends, and that surveys in which students say they were \"inspired\" should be read with caution, because people often explain past choices by pointing to memorable events."
+    },
+    {
+     "title": "Source C · Press release (fictional): Caldoran Capsule Works (2025), \"Every coin spent in space returns seven on Earth\"",
+     "kind": "illustrative",
+     "text": "Caldoran Capsule Works today welcomed calls for increased funding for crewed exploration. \"Leading economists agree that every coin invested in crewed space exploration returns seven coins to the economy,\" the company stated. \"The choice is simple: either Caldora leads in space, or we fall behind for ever. Those who want to cut the budget would have kept humanity in the caves.\"\nNotes to editors: Caldoran Capsule Works builds crew capsules for Caldora's space programme. It employs 2,300 people and holds contracts worth 1.1 billion crowns with the national space agency."
+    },
+    {
+     "title": "Source D · Opinion column (fictional): Dr Amira Sallow (2025), \"Fix the roof before buying a telescope\", The Caldora Times",
+     "kind": "illustrative",
+     "text": "I am a public-health researcher, not a space scientist, and I accept that satellites earn their keep: our storm warnings depend on them. My objection is to crewed missions.\nBy my own rough calculation, using the budget figures published by the Independent Budget Office, the cost of one crewed mission would run our rural clinics for about four years. That calculation is crude, and I would welcome a better one. But every budget is a choice, and a choice to send three people into orbit is also a choice not to spend that money elsewhere.\nSupporters say crewed missions inspire young people. Perhaps they do. But inspiration is not a reason to spend without asking what else the same money could achieve."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own paper): Argue a defensible, original position on whether governments should spend public money on bids to host major international sporting events, and respond to opposing views. All sources named in this exemplar are fictional: an independent economic review (Rahn, 2022), a report by a venue-construction company (Vantrell Arenas, 2024), a study of youth sports participation (Ibarra & Kowal, 2023) and a residents' petition (Calder Row Residents' Forum, 2024).\n\nWorking title: Paying for the Spotlight: When Hosting Is Worth It\nThesis: Public money for hosting is justified only when the main facilities are ones the city would need anyway, and when the bid is judged against the same benefits bought directly rather than against doing nothing.\n\n1. Introduction (about 220 words, annotated below): the three promises of hosting; evidence of uneven quality; thesis.\n2. The economic case (about 350 words): the independent review and the company report compared; why their estimates differ (assumptions about visitors who would have come anyway); how much weight each deserves.\n3. The legacy of facilities (about 300 words): when venues serve residents and when they stand empty; the condition in the thesis.\n4. The inspiration argument (about 300 words): the participation study, which found a rise that faded within two years; what this implies for the bid.\n5. Counterarguments (about 400 words): (a) intangible benefits such as national pride cannot be priced, partly conceded, but they can still be compared with alternatives; (b) cities that never host lose international visibility, weighed; (c) residents' fears of displacement (the petition), evaluated as an advocacy source and taken seriously.\n6. Conclusion (about 180 words): the refined thesis; the right comparison; the limits of the evidence and what I would check in real research.",
+    "annotated_paragraph": "From the exemplar paper on the parallel prompt above (section 1: introduction; all sources are fictional)\n\n[1] When a city bids to host a major international sporting event, its case usually rests on three promises: visitors will spend money, new facilities will serve residents for decades, and a generation of young people will be inspired to take up sport. [2] Each promise is plausible; none is guaranteed, and the evidence offered for them is of very uneven quality. [3] In the sources examined here, the independent review finds modest and short-lived economic gains (Rahn, 2022), while the most optimistic estimate comes from a venue-construction company with a direct interest in the bid (Vantrell Arenas, 2024). [4] Yet to conclude that hosting is never worth the cost would be to judge the decision by the wrong measure. [5] This paper argues that public money for hosting is justified only when the main facilities are ones the city would need anyway, and when the bid is assessed against the same benefits bought directly, for example through investment in local sports clubs, rather than against the alternative of doing nothing.\n\nNotes\n[1] Opens with the debate's actual claims rather than a dictionary definition or a cliché.\n[2] Signals the paper's critical stance in two compact clauses: balanced without being vague.\n[3] Previews the source evaluation (independent vs. interested sources) and keeps each claim tied to its source.\n[4] Turns against the easy conclusion, which prepares an original position rather than a yes-or-no answer.\n[5] An original, defensible thesis: conditional, specific, and built on a comparison (the right alternative) that a reader could dispute."
+   }
+  },
+  {
+   "id": "wa-10",
+   "stage": 10,
+   "level": "C2",
+   "kind": "research",
+   "title_en": "Who should pay for a degree?",
+   "title_he": "מי צריך לממן את התואר הראשון?",
+   "prompt": "Argue a defensible, original position on who should pay for undergraduate university education (students, the state or a combination) and on what terms, drawing on and evaluating the illustrative sources, and respond to opposing views.",
+   "instructions": {
+    "en": "Write a research-based argumentative paper of 1500-2000 words for an educated, non-specialist reader. The four sources concern the fictional country of Eskerland; they were invented for this task, and every name, organisation and figure in them is fictional and describes nothing in the real world. Treat them as you would real research: evaluate before you cite. Your thesis should go beyond a choice between \"free\" and \"fees\": say who should pay, how much, when and on what terms, and why. Consider who benefits from a degree and who bears the cost, and how both the design of a funding system and the way it is described may affect who applies. Distinguish correlation from cause in the participation data. At least one source is markedly weaker or more biased than the others: identify it and explain why, using specific features of the text, but ask whether any concern it raises is supported by a stronger source. Synthesise the sources by idea, showing where they agree, conflict or qualify one another. Engage with the strongest counterarguments in their best form, including at least one that partly persuades you, and show how it shapes your thesis. Use formal register, calibrated stance and consistent author-year citation, and paraphrase in your own words and structure. Because the sources are fictional, you cannot read laterally; state briefly, within the paper, what you would check about each source in real research. Plan, draft and revise independently, and score yourself against the rubric before you ask for feedback."
+   },
+   "required_elements": [
+    "a specific, defensible original thesis on who pays and on what terms",
+    "evaluate the reliability of at least two sources",
+    "identification of the weakest or most biased source, with reasons drawn from the text, and of any valid concern it raises",
+    "synthesis of at least three sources, distinguishing correlation from cause in the participation data",
+    "consideration of at least three affected groups (e.g. school leavers from different backgrounds, mature or part-time students, taxpayers who did not attend university)",
+    "nuanced counterarguments, including at least one partly conceded, with the thesis refined accordingly",
+    "author-year attribution, paraphrase rather than patchwriting, calibrated hedging, and a note of what you would check about each source in real research",
+    "a conclusion that states implications and limits without new arguments"
+   ],
+   "word_range": [
+    1500,
+    2000
+   ],
+   "min_words": 1500,
+   "max_words": 2000,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "academic_tone",
+    "precision",
+    "coherence",
+    "overall"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis specifies who should pay, how much and on what terms, and goes beyond the choice between \"free\" and \"fees\"."
+    },
+    {
+     "en": "Reasons: each section advances one line of argument (for example fairness, access, cost to the state, and how the system is described), and the order builds."
+    },
+    {
+     "en": "Evidence: I evaluate the reliability of at least two sources, separate correlation from cause in the participation data, and explain why the weakest source is weak without ignoring any valid concern it raises."
+    },
+    {
+     "en": "Counterargument: I present the strongest opposing positions fairly, including the case for free tuition and the case for full graduate contributions."
+    },
+    {
+     "en": "Rebuttal: my responses rest on reasoning and evidence, and my thesis is refined where an objection succeeds."
+    },
+    {
+     "en": "Conclusion: I state the implications and limits of my position without new arguments; register, hedging and citation are consistent throughout."
+    }
+   ],
+   "source_pack": [
+    {
+     "title": "Source A · Official statistics (fictional): Eskerland Higher Education Statistics Unit (2025), \"Participation and graduate outcomes, 2015-2024\"",
+     "kind": "illustrative",
+     "text": "In 2016, Eskerland replaced free undergraduate tuition with fees of up to 9,000 crowns a year. Students pay nothing upfront: fees are covered by a government loan, repaid at 9% of income above a threshold, and any balance is written off after 30 years.\nBetween 2015 and 2024, the share of 18- to 20-year-olds entering university rose from 41% to 46%. The gap in entry rates between the richest and the poorest fifth of neighbourhoods narrowed slightly, from 31 to 27 percentage points. Enrolment of part-time and mature students (aged 25 and over) fell by about a third.\nThe Unit projects that about 45% of the value of loans will never be repaid, so the state still bears a large part of the cost. It cautions that the reform coincided with an expansion of university places funded by a separate grant, so changes in participation cannot be attributed to the fee system alone."
+    },
+    {
+     "title": "Source B · Research article summary (fictional): Ruiz, M., & Okonjo, D. (2024), \"Debt aversion and university plans: a survey experiment\", Eskerland Journal of Economics",
+     "kind": "illustrative",
+     "text": "In a survey of 2,400 final-year secondary students, half were given a description of the loan system that called it \"student debt\"; the other half read an identical description that called it a \"graduate contribution\". Students who read the \"debt\" version were 7 percentage points less likely to say they planned to apply to university. The difference was largest among students whose parents had not attended university.\nThe authors note that the study measures stated intentions, not actual applications, and conclude that the way a funding system is described may affect who applies, independently of how the system works."
+    },
+    {
+     "title": "Source C · Opinion column (fictional): Petra Vossberg (2025), \"Free tuition is a gift to the well-off\", The Eskerland Courier",
+     "kind": "illustrative",
+     "text": "Free tuition sounds generous, but someone pays. Under the old system, the cost of every degree was met from general taxation, including the taxes of people who never went to university and who, on average, earn less than graduates. Graduates earn around 400,000 crowns more over a working life, so it is only fair that they contribute.\nThe current system already protects those who do not do well: no one repays anything until they earn a decent salary. Calls to abolish fees are, in the end, calls for every bus driver to pay for a lawyer's degree.\nThe author is an economics commentator."
+    },
+    {
+     "title": "Source D · Campaign leaflet (fictional): Fee-Free Eskerland (2025), \"Fees are killing education\"",
+     "kind": "illustrative",
+     "text": "Since fees were introduced, students have been crushed by debt. Everyone knows someone who gave up on university because of the cost. Fees have caused a mental-health crisis on our campuses, and countries with free tuition are happier and more successful.\nThere is only one solution: abolish fees now. Anyone who defends the current system has clearly never had to worry about money."
+    }
+   ],
+   "exemplar": {
+    "outline": "Parallel prompt (not your question; read this only after you have written your own paper): Argue a defensible, original position on who should pay for vocational training (employers, the state, trainees or a combination), and respond to opposing views. All sources named in this exemplar are fictional: training records from the Skills Office of Valmark (2024), a report by the Employers' Training Council (2025), a survey of small firms (Haddad & Mirel, 2023) and a collection of trainees' blog posts (Valmark Apprentice Voices, 2024).\n\nWorking title: Who Pays to Train? Fixing an Incentive Failure\nThesis: Training costs should fall mainly on employers, but the state should fund a targeted subsidy for small firms, because the evidence points to a specific incentive failure (small firms fear losing trained staff to competitors) rather than a general unwillingness to train.\n\n1. Introduction (about 200 words): why the question matters; the three usual answers; thesis.\n2. Evaluating the evidence (about 400 words; annotated below): the employers' report (useful as a statement of position, weak as evidence); the Skills Office records; the small-firm survey; the trainees' blogs as illustration, not proof.\n3. The case for employer responsibility (about 300 words): employers capture much of the benefit of skills specific to their firm.\n4. Where the market fails (about 300 words): the risk of trained staff being hired away, and why it falls hardest on small firms.\n5. Counterarguments (about 400 words): (a) full state funding would guarantee access, conceded in part for disadvantaged trainees; (b) subsidies are captured by firms that would have trained anyway, addressed through conditions; (c) trainees should contribute because they gain transferable skills, weighed against low trainee wages.\n6. Conclusion (about 180 words): the refined thesis; what evidence would change it; what I would check about each source in real research.",
+    "annotated_paragraph": "From the exemplar paper on the parallel prompt above (section 2: evaluating the evidence; all sources are fictional)\n\n[1] The claim that employers will fund training without public support rests largely on the Employers' Training Council (2025), whose report states that its members \"already invest heavily in skills\". [2] The report is useful as a statement of the employers' position, but it is weak as evidence: it gives no figures for how many firms train, it surveys only its own members, and its authors would bear the cost of the alternative it argues against. [3] The Skills Office (2024) offers a firmer basis: its records show that large firms account for most apprenticeships, while small firms, which employ a large share of the workforce, train comparatively few. [4] Read together with Haddad and Mirel's (2023) finding that small firms cite the risk of losing trained staff to competitors as their main reason not to train, these records suggest that the problem is not a general unwillingness among employers but a specific incentive failure among small firms. [5] That diagnosis matters for the argument, because it points towards a targeted subsidy for small employers rather than either full state funding or leaving training entirely to the market.\n\nNotes\n[1] Identifies which source carries which claim, so the reader can judge it.\n[2] Evaluates on three grounds (missing data, sampling, interest) and says what the source IS good for, avoiding a blanket dismissal.\n[3] Moves to the stronger source and reports its findings with precise scope (\"most\", \"comparatively few\") without inventing figures.\n[4] Synthesis: two sources combined into an explanation that neither offers alone; \"suggest\" calibrates the inference.\n[5] Shows how source evaluation changes the argument: the diagnosis leads to a third option and avoids a false choice between two extremes."
+   }
+  }
+ ]
+}

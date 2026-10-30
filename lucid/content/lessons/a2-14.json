@@ -1,0 +1,276 @@
+{
+  "id": "a2-14",
+  "level": "A2",
+  "title_en": "Let's...: suggestions and invitations",
+  "title_he": "הצעות והזמנות",
+  "topics": ["functional-suggestions"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can make suggestions with Let's, Why don't we...? and How about + -ing?", "he": "אני יודע/ת להציע הצעות עם Let's, ‏Why don't we...? ו-How about + ing." },
+    { "en": "I can invite someone with Would you like to...?", "he": "אני יודע/ת להזמין מישהו עם Would you like to...?" },
+    { "en": "I can say yes, or say no politely and give a reason.", "he": "אני יודע/ת להסכים, או לסרב בנימוס ולתת סיבה." }
+  ],
+  "warmup": { "en": "Think of the last time a friend suggested doing something. What did they say? What did you answer?", "he": "חשבו על הפעם האחרונה שחבר או חברה הציעו לכם לעשות משהו. מה הם אמרו? ומה עניתם? בעברית אפשר פשוט לשאול 'בא לך?'. באנגלית יש כמה תבניות קבועות, ולכל אחת צורת פועל משלה." },
+  "explanation": [
+    { "type": "p", "en": "Listen to Maya and Omer: 'Let's do something tonight.' – 'Why don't we go bowling?' – 'How about watching a film instead?' – 'Good idea! Would you like to invite Lior?' Each pattern has its own verb form, and that's where most mistakes happen.", "he": "הנה מאיה ועומר: Let's do something tonight. – Why don't we go bowling? – How about watching a film instead? – Good idea! Would you like to invite Lior? לכל תבנית יש צורת פועל משלה, ושם קורות רוב הטעויות." },
+    { "type": "table", "headers": ["Pattern", "Verb form", "Example"], "rows": [
+      ["Let's ...", "base verb", "Let's order pizza."],
+      ["Why don't we ...?", "base verb", "Why don't we take a taxi?"],
+      ["Shall we ...?", "base verb", "Shall we meet at six?"],
+      ["How about / What about ...?", "-ing, or a noun", "How about going to the beach? How about Friday?"],
+      ["Would you like ...?", "to + verb, or a noun", "Would you like to come? Would you like a coffee?"],
+      ["Do you want to ...?", "to + verb (casual)", "Do you want to join us?"]
+    ] },
+    { "type": "rule", "en": "Base verb after Let's, Why don't we and Shall we. -ing after How about. to + verb after Would you like and Do you want.", "he": "אחרי Let's, ‏Why don't we ו-Shall we בא פועל בסיס. אחרי How about בא פועל עם ing. אחרי Would you like ו-Do you want בא to + פועל." },
+    { "type": "warning", "en": "Would you like to...? is an invitation to one event. Do you like...? asks what you enjoy in general. Do you like jazz? – Yes, I do. / Would you like to come to a jazz concert on Friday? – I'd love to!", "he": "Would you like to...? היא הזמנה לאירוע מסוים. Do you like...? שואלת מה את/ה אוהב/ת באופן כללי. Do you like jazz? – Yes, I do. לעומת Would you like to come to a jazz concert on Friday? – I'd love to!" },
+    { "type": "table", "headers": ["Say yes", "Say no politely"], "rows": [
+      ["Sounds good! / Great idea!", "I'd love to, but I'm busy on Friday."],
+      ["I'd love to!", "Sorry, I can't. I'm working that evening."],
+      ["Sure, why not?", "Thanks, but maybe another time?"]
+    ] },
+    { "type": "tip", "en": "A polite no has three parts: show interest (I'd love to...), give a reason (but I'm visiting my grandparents) and offer another time (How about next week?). A plain 'No.' can sound rude in English.", "he": "סירוב מנומס בנוי משלושה חלקים: הבעת עניין (I'd love to...), סיבה (but I'm visiting my grandparents) והצעה למועד אחר (How about next week?). באנגלית 'No.' לבד עלול להישמע גס." }
+  ],
+  "examples": [
+    { "en": "Let's meet outside the cinema at eight.", "he": "בואו ניפגש מחוץ לקולנוע בשמונה." },
+    { "en": "Why don't we ask Daniel? He knows the area.", "he": "למה שלא נשאל את דניאל? הוא מכיר את האזור.", "note": "a suggestion, not a real 'why' question" },
+    { "en": "How about going to the beach on Saturday?", "he": "מה דעתך ללכת לים בשבת?", "note": "How about + -ing" },
+    { "en": "Would you like to come to my birthday party?", "he": "את/ה רוצה לבוא למסיבת יום ההולדת שלי?", "note": "an invitation: would like + to" },
+    { "en": "Sounds great! What time?", "he": "נשמע מעולה! באיזו שעה?" },
+    { "en": "I'd love to, but I'm working on Friday. Maybe next week?", "he": "הייתי שמח/ה, אבל אני עובד/ת ביום שישי. אולי בשבוע הבא?" },
+    { "en": "Shall we take the bus? It's cheaper.", "he": "ניקח אוטובוס? זה יותר זול." },
+    { "en": "Do you want to join us for dinner?", "he": "בא לך להצטרף אלינו לארוחת ערב?", "note": "casual; join us, with no preposition" }
+  ],
+  "vocab": [
+    { "word": "suggestion", "pos": "noun", "he": "הצעה", "def": "an idea that you give someone about what to do", "example": "Can I make a suggestion? Let's leave early.", "ipa": "/səˈdʒestʃən/", "collocations": ["make a suggestion", "a good suggestion", "have a suggestion"], "level": "A2" },
+    { "word": "invitation", "pos": "noun", "he": "הזמנה (לאירוע)", "def": "a request to come to a party, a meal or an event", "example": "Thanks for the invitation!", "ipa": "/ˌɪnvɪˈteɪʃn/", "collocations": ["accept an invitation", "turn down an invitation", "a wedding invitation"], "level": "A2" },
+    { "word": "invite", "pos": "verb", "he": "להזמין (אנשים)", "def": "to ask someone to come to an event or to your home", "example": "We invited twenty people to the party.", "ipa": "/ɪnˈvaɪt/", "collocations": ["invite someone to a party", "invite someone for dinner", "invite friends over"], "level": "A2" },
+    { "word": "join", "pos": "verb", "he": "להצטרף (ל-)", "def": "to come and do something with people who are already doing it", "example": "We're going for coffee. Do you want to join us?", "ipa": "/dʒɔɪn/", "collocations": ["join us", "join a club", "join a team"], "level": "A2" },
+    { "word": "free", "pos": "adjective", "he": "פנוי/ה", "def": "not busy; with no plans (it can also mean 'costing no money')", "example": "Are you free on Thursday evening?", "ipa": "/friː/", "collocations": ["be free on Friday", "free time", "a free evening"], "level": "A2" },
+    { "word": "hang out", "pos": "phrasal verb", "he": "לבלות (עם חברים)", "def": "to spend time with friends in a relaxed way (informal)", "example": "Do you want to hang out after class?", "ipa": "/ˌhæŋ ˈaʊt/", "collocations": ["hang out with friends", "hang out at the mall", "hang out together"], "level": "B1" },
+    { "word": "sounds good", "pos": "phrase", "he": "נשמע טוב", "def": "a friendly way to say yes to a suggestion", "example": "Pizza tonight? – Sounds good!", "ipa": "/ˌsaʊndz ˈɡʊd/", "collocations": ["sounds great", "sounds fun", "that sounds like a plan"], "level": "A2" },
+    { "word": "I'd love to", "pos": "phrase", "he": "בשמחה; הייתי שמח/ה", "def": "a warm way to accept an invitation, or to start a polite no", "example": "I'd love to, but I can't tonight.", "ipa": "/aɪd ˈlʌv tuː/", "collocations": ["I'd love to come", "I'd love to, but...", "I'd really love to"], "level": "A2" },
+    { "word": "another time", "pos": "phrase", "he": "בפעם אחרת", "def": "on a different day in the future", "example": "Sorry, I can't tonight. Maybe another time?", "ipa": "/əˌnʌðə ˈtaɪm/", "collocations": ["maybe another time", "let's do it another time"], "level": "A2" },
+    { "word": "have plans", "pos": "phrase", "he": "יש לי תוכניות", "def": "to have already arranged to do something", "example": "Sorry, I already have plans on Saturday.", "ipa": "/ˌhæv ˈplænz/", "collocations": ["have plans for the weekend", "make plans", "change your plans"], "level": "A2" },
+    { "word": "go for a walk", "pos": "phrase", "he": "לצאת להליכה", "def": "to walk somewhere for pleasure", "example": "Why don't we go for a walk on the beach?", "ipa": "/ˌɡəʊ fər ə ˈwɔːk/", "collocations": ["go for a coffee", "go for a run", "go for a drink"], "level": "A2" },
+    { "word": "instead", "pos": "adverb", "he": "במקום זאת", "def": "in place of something else", "example": "The cinema is full. How about bowling instead?", "ipa": "/ɪnˈsted/", "collocations": ["instead of", "do something else instead"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew a question can keep the word order of a statement, with no helper verb. In English, don't comes before we in this suggestion: Why don't we go to the beach? (not *Why we don't go to the beach?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל, בלי פועל עזר ('למה שלא נלך לים?'). באנגלית don't בא לפני we: Why don't we go to the beach? ולא Why we don't go to the beach?", "error_type": "word-order" },
+    { "en": "In Hebrew an invitation can be a statement with a rising voice. In English, would comes before you: Would you like to come? (not *You would like to come?)", "he": "בעברית אפשר להזמין במשפט רגיל עם אינטונציה עולה ('את רוצה לבוא?'). באנגלית would בא לפני you: Would you like to come? ולא You would like to come?", "error_type": "word-order" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so why, we and would can come out with a v. Round your lips as for 'oo': Why don't we...? Would you...?", "he": "בעברית w אינו צליל רגיל (האות ו' נהגית v), ולכן why, ‏we ו-would עלולים להישמע עם v. עגלו את השפתיים כמו ב'אוּ': Why don't we...? ‏Would you...?", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "speaking",
+      "prompt": { "en": "Is it a suggestion, a yes or a polite no? Sort the sentences.", "he": "זו הצעה, הסכמה או סירוב מנומס? מיינו את המשפטים." },
+      "categories": ["Suggestion or invitation", "Saying yes", "Saying no politely"],
+      "items": [
+        { "text": "Why don't we take the train?", "category": "Suggestion or invitation" },
+        { "text": "Would you like to come to the party?", "category": "Suggestion or invitation" },
+        { "text": "How about meeting at six?", "category": "Suggestion or invitation" },
+        { "text": "Sounds great!", "category": "Saying yes" },
+        { "text": "Sure, why not?", "category": "Saying yes" },
+        { "text": "I'd love to! What time?", "category": "Saying yes" },
+        { "text": "I'd love to, but I'm busy that day.", "category": "Saying no politely" },
+        { "text": "Thanks, but maybe another time.", "category": "Saying no politely" }
+      ],
+      "hint": { "en": "Read to the end: I'd love to can start a yes or a no.", "he": "קראו עד הסוף: I'd love to יכול לפתוח הסכמה או סירוב." },
+      "explanation": { "en": "Watch the endings: I'd love to! = yes, but I'd love to, but... = a polite no. After Sure, why not? means yes.", "he": "שימו לב לסוף: I'd love to! = כן, אבל ...I'd love to, but = סירוב מנומס. ו-Sure, why not? פירושו כן." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "How about ___ to the beach on Saturday?",
+      "options": ["go", "to go", "going", "goes"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "After How about, use -ing: going.", "he": "אחרי How about בא פועל עם ing: ‏going." },
+        "1": { "en": "to go follows Would you like or Do you want, not How about.", "he": "to go בא אחרי Would you like או Do you want, לא אחרי How about." },
+        "3": { "en": "goes is the he/she/it form. After How about, use -ing: going.", "he": "goes היא הצורה של he/she/it. אחרי How about בא פועל עם ing: ‏going." }
+      },
+      "option_errors": { "0": "verb-form", "1": "verb-form", "3": "verb-form" },
+      "explanation": { "en": "How about / What about + -ing: How about going to the beach?", "he": "אחרי How about או What about בא פועל עם ing: ‏How about going to the beach?" }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to Daniel's voice message and answer the question.", "he": "הקשיבו להודעה הקולית של דניאל וענו על השאלה." },
+      "audio_text": "Hi Maya, it's Daniel. A few of us are going bowling on Thursday evening. Would you like to come?",
+      "question": "Why is Daniel calling Maya?",
+      "options": ["to invite her to go bowling", "to say no to her invitation", "to ask her to book the bowling"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "Daniel isn't saying no to anything. He's asking Maya to come.", "he": "דניאל לא מסרב לשום דבר. הוא מזמין את מאיה לבוא." },
+        "2": { "en": "He doesn't ask her to book anything. Would you like to come? is an invitation.", "he": "הוא לא מבקש ממנה להזמין מקום. Would you like to come? היא הזמנה." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "Would you like to come? = an invitation. A few of us are going bowling = an arrangement (present continuous).", "he": "Would you like to come? = הזמנה. A few of us are going bowling = סידור קבוע (הווה מתמשך)." }
+    },
+    {
+      "id": "e4", "type": "gap", "skill": "grammar",
+      "prompt": { "en": "Complete the chat with words from the box.", "he": "השלימו את הצ'אט במילים מהמחסן." },
+      "text": "Omer: I'm bored. ___ do something tonight. Maya: OK. ___ don't we go bowling? Omer: It's expensive. How ___ watching a film at my place? Maya: Good idea! Would you ___ to invite Lior too?",
+      "word_bank": ["Let's", "Why", "about", "like", "What", "to"],
+      "answers": [["Let's"], ["Why"], ["about"], ["like"]],
+      "wrong_feedback": [
+        { "match": "What", "feedback": { "en": "What goes with about (What about...?). Here you need Let's, Why don't we...? or How about...?", "he": "What בא עם about ‏(What about...?). כאן צריך Let's, ‏Why don't we...? או How about...?" }, "error_type": "word-choice" },
+        { "match": "to", "feedback": { "en": "Let's, Why don't we and How about have no to. In Would you like to invite, to comes after like.", "he": "אחרי Let's, ‏Why don't we ו-How about אין to. ב-Would you like to invite המילה to באה אחרי like." }, "error_type": "verb-form" }
+      ],
+      "explanation": { "en": "Let's + base verb · Why don't we + base verb? · How about + -ing? · Would you like + to + verb?", "he": "Let's + פועל בסיס · Why don't we + פועל בסיס? · How about + ing? · Would you like + to + פועל?" }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "You want to invite Kenji to dinner on Friday. What do you say?", "he": "אתם רוצים להזמין את קנג'י לארוחת ערב ביום שישי. מה אומרים?" },
+      "question": "Choose the best invitation.",
+      "options": ["Do you like to come to dinner on Friday?", "You would like to come to dinner on Friday?", "Would you like coming to dinner on Friday?", "Would you like to come to dinner on Friday?"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Do you like...? asks what someone enjoys in general. For an invitation, use Would you like to...?", "he": "Do you like...? שואל מה מישהו אוהב באופן כללי. להזמנה משתמשים ב-Would you like to...?" },
+        "1": { "en": "In a question, would comes before you: Would you like...?", "he": "בשאלה would בא לפני you: ‏Would you like...?" },
+        "2": { "en": "After would like, use to + verb: Would you like to come?", "he": "אחרי would like בא to + פועל: ‏Would you like to come?" }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-order", "2": "verb-form" },
+      "explanation": { "en": "Invitation = Would you like to + verb? It's polite and works with anyone.", "he": "הזמנה = Would you like to + פועל? זה מנומס ומתאים לכל אחד." }
+    },
+    {
+      "id": "e6", "type": "order", "skill": "grammar",
+      "prompt": { "en": "Put the words in order to make a suggestion.", "he": "סדרו את המילים להצעה." },
+      "tokens": ["Why", "don't", "we", "meet", "at", "the", "station", "at", "seven"],
+      "answers": ["Why don't we meet at seven at the station"],
+      "explanation": { "en": "Why + don't + we + base verb? It looks like a why question, but it's a suggestion.", "he": "Why + don't + we + פועל בסיס? זה נראה כמו שאלת 'למה', אבל זו הצעה." }
+    },
+    {
+      "id": "e7", "type": "transform", "skill": "grammar",
+      "prompt": { "en": "Make the same suggestion with How about...?", "he": "נסחו את אותה הצעה עם How about...?" },
+      "source": "Let's take a taxi.",
+      "answers": ["How about taking a taxi?", "What about taking a taxi?", "How about we take a taxi?"],
+      "wrong_feedback": [
+        { "match": "How about take a taxi?", "feedback": { "en": "After How about, add -ing: taking.", "he": "אחרי How about מוסיפים ing: ‏taking." }, "error_type": "verb-form" },
+        { "match": "How about to take a taxi?", "feedback": { "en": "No to after How about. Use -ing: How about taking a taxi?", "he": "אחרי How about אין to. משתמשים ב-ing: ‏How about taking a taxi?" }, "error_type": "verb-form" },
+        { "match": "How about taking taxi?", "feedback": { "en": "Add a before one taxi: taking a taxi.", "he": "לפני מונית אחת צריך a: ‏taking a taxi." }, "error_type": "article" }
+      ],
+      "explanation": { "en": "How about + -ing: How about taking a taxi? (take → taking: drop the e.) In casual speech you'll also hear How about we take a taxi?", "he": "How about + ing: ‏How about taking a taxi? (ב-taking ה-e נופלת.) בדיבור יומיומי שומעים גם How about we take a taxi?" }
+    },
+    {
+      "id": "e8", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read the group chat and answer the questions.", "he": "קראו את הצ'אט הקבוצתי וענו על השאלות." },
+      "title": "Group chat: Sara's birthday",
+      "passage": "Lior: Sara's birthday is next Saturday! Why don't we organise something for her?\nNoa: Great idea! How about a picnic in the park?\nAmir: Hmm, it's going to be really hot on Saturday. Let's do something inside.\nNoa: OK. What about the escape room near the station? Sara loves puzzles.\nLior: Sounds good! It's 90 shekels each. I can book it for eight o'clock.\nAmir: I'd love to come, but I'm working until eight. Can we make it nine?\nLior: Sure, why not? Nine o'clock, then. And let's have pizza after the game.\nNoa: Perfect. Shall we invite Sara's sister too?\nAmir: Yes! I'll message her tonight. Don't tell Sara. It's a surprise!",
+      "questions": [
+        { "type": "mcq", "question": "Why doesn't Amir want a picnic?", "options": ["He doesn't like parks.", "The weather is going to be very hot.", "He's working all day on Saturday."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "He doesn't say anything about parks. He says it's going to be really hot.", "he": "הוא לא אומר שום דבר על פארקים. הוא אומר שיהיה חם מאוד." },
+            "2": { "en": "He's working until eight, not all day, and that's about the escape room time.", "he": "הוא עובד עד שמונה, לא כל היום, וזה קשור לשעה של חדר הבריחה." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'It's going to be really hot on Saturday. Let's do something inside.'", "he": "בצ'אט: It's going to be really hot on Saturday. Let's do something inside." } },
+        { "type": "tf", "statement": "Amir can't be at the escape room at eight.", "answer": true,
+          "explanation": { "en": "'I'm working until eight. Can we make it nine?'", "he": "בצ'אט: I'm working until eight. Can we make it nine?" } },
+        { "type": "mcq", "question": "Which message says no to a time, gives a reason and suggests a new time?", "options": ["Sounds good! It's 90 shekels each.", "Sure, why not? Nine o'clock, then.", "I'd love to come, but I'm working until eight. Can we make it nine?"], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "This message says yes and gives the price.", "he": "ההודעה הזאת מסכימה ומציינת את המחיר." },
+            "1": { "en": "This message accepts Amir's new time.", "he": "ההודעה הזאת מקבלת את השעה החדשה שאמיר הציע." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension" },
+          "explanation": { "en": "Amir shows interest (I'd love to come), gives a reason (I'm working until eight) and suggests a new time (Can we make it nine?).", "he": "אמיר מביע עניין (I'd love to come), נותן סיבה (I'm working until eight) ומציע שעה אחרת (Can we make it nine?)." } },
+        { "type": "gap", "text": "After the escape room, they're going to have ___.", "answers": [["pizza"]],
+          "explanation": { "en": "'And let's have pizza after the game.'", "he": "בצ'אט: And let's have pizza after the game." } },
+        { "type": "tf", "statement": "Sara knows about the plan.", "answer": false,
+          "explanation": { "en": "'Don't tell Sara. It's a surprise!'", "he": "בצ'אט: Don't tell Sara. It's a surprise! – זו הפתעה." } }
+      ]
+    },
+    {
+      "id": "e9", "type": "mcq", "skill": "speaking",
+      "prompt": { "en": "Noa invites you to her party, but you're busy. Choose the most polite reply.", "he": "נועה מזמינה אתכם למסיבה שלה, אבל אתם עסוקים. בחרו את התשובה המנומסת ביותר." },
+      "question": "Noa: Would you like to come to my party on Saturday?",
+      "options": ["No, I don't want.", "I'd love to, but I'm visiting my grandparents. Have a great time!", "Yes, I'd love.", "No. I'm busy."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "This sounds rude, and want needs to: I don't want to. Show interest first, then give a reason.", "he": "זה נשמע גס, ואחרי want צריך to: ‏I don't want to. קודם מביעים עניין, ואחר כך נותנים סיבה." },
+        "2": { "en": "This says yes, but you're busy. Also, love needs to here: I'd love to.", "he": "זו הסכמה, אבל אתם עסוקים. וחוץ מזה, כאן צריך to אחרי love: ‏I'd love to." },
+        "3": { "en": "Correct English, but very short: it can sound unfriendly. Show interest and give a reason: I'd love to, but...", "he": "אנגלית תקינה, אבל קצר מאוד ועלול להישמע לא ידידותי. הביעו עניין ותנו סיבה: I'd love to, but..." }
+      },
+      "option_errors": { "0": "verb-form", "2": "verb-form" },
+      "explanation": { "en": "A polite no: show interest (I'd love to), give a reason (but I'm visiting my grandparents) and end kindly (Have a great time!).", "he": "סירוב מנומס: הבעת עניין (I'd love to), סיבה (but I'm visiting my grandparents) וסיום חם (Have a great time!)." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Let's to meet outside the cinema at five.",
+      "answers": ["Let's meet outside the cinema at five."],
+      "error_type": "verb-form",
+      "explanation": { "en": "Let's + base verb, with no to: Let's meet.", "he": "אחרי Let's בא פועל בסיס, בלי to: ‏Let's meet." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Find and fix the mistake in this suggestion.", "he": "מצאו ותקנו את הטעות בהצעה." },
+      "sentence": "Why we don't go to the beach tomorrow?",
+      "answers": ["Why don't we go to the beach tomorrow?"],
+      "error_type": "word-order",
+      "hint": { "en": "Look at the order of don't and we.", "he": "שימו לב לסדר של don't ו-we." },
+      "explanation": { "en": "Why + don't + we + base verb? As in other English questions, the helper verb (don't) comes before the subject (we).", "he": "Why + don't + we + פועל בסיס? כמו בשאלות אחרות באנגלית, פועל העזר (don't) בא לפני הנושא (we)." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "Translate into English. Start with Would you like or Do you want.", "he": "תרגמו לאנגלית. התחילו ב-Would you like או ב-Do you want." },
+      "source": "בא לך להצטרף אלינו הערב?",
+      "answers": [
+        "Would you like to join us tonight?",
+        "Do you want to join us tonight?",
+        "Would you like to join us this evening?",
+        "Do you want to join us this evening?",
+        "Would you like to come with us tonight?",
+        "Do you want to come with us tonight?",
+        "Would you like to come with us this evening?",
+        "Do you want to come with us this evening?"
+      ],
+      "wrong_feedback": [
+        { "match": "Would you like to join to us tonight?", "feedback": { "en": "join takes no preposition: join us.", "he": "אחרי join לא באה מילת יחס: ‏join us." }, "error_type": "preposition" },
+        { "match": "Do you want to join to us tonight?", "feedback": { "en": "join takes no preposition: join us.", "he": "אחרי join לא באה מילת יחס: ‏join us." }, "error_type": "preposition" },
+        { "match": "Do you like to join us tonight?", "feedback": { "en": "Do you like...? asks about your taste in general. For an invitation: Would you like to...? or Do you want to...?", "he": "Do you like...? שואל על טעם כללי. להזמנה: Would you like to...? או Do you want to...?" }, "error_type": "word-choice" },
+        { "match": "You want to join us tonight?", "feedback": { "en": "A standard English question needs do before the subject: Do you want to join us tonight?", "he": "שאלה תקנית באנגלית צריכה do לפני הנושא: Do you want to join us tonight?" }, "error_type": "do-support" },
+        { "match": "Would you like join us tonight?", "feedback": { "en": "Add to: Would you like to join us?", "he": "חסר to: ‏Would you like to join us?" }, "error_type": "verb-form" },
+        { "match": "Do you want join us tonight?", "feedback": { "en": "Add to: Do you want to join us?", "he": "חסר to: ‏Do you want to join us?" }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "Don't translate word for word. Think: invitation + to + verb.", "he": "אל תתרגמו מילה במילה. חשבו: הזמנה + to + פועל." },
+      "explanation": { "en": "The Hebrew phrase is a casual invitation, and a word-for-word translation doesn't work. In English: Would you like to...? (polite) or Do you want to...? (casual). And join takes no preposition: join us.", "he": "'בא לך' היא הזמנה יומיומית, ותרגום מילה במילה לא עובד. באנגלית: Would you like to...? (מנומס) או Do you want to...? (יומיומי). ואחרי join לא באה מילת יחס: join us, ולא join to us." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening",
+      "prompt": { "en": "Listen and write the suggestion.", "he": "הקשיבו וכתבו את ההצעה." },
+      "audio_text": "Why don't we meet at the café after class?",
+      "answers": ["Why don't we meet at the café after class?", "Why don't we meet at the cafe after class?"],
+      "explanation": { "en": "Why don't we + base verb? = a suggestion. In fast speech the t in don't almost disappears: 'don' we'.", "he": "Why don't we + פועל בסיס? = הצעה. בדיבור מהיר ה-t ב-don't כמעט נעלמת: 'don' we'." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Say no politely and suggest another day. Say it out loud.", "he": "סרבו בנימוס והציעו יום אחר. אמרו את זה בקול." },
+      "target": "I'd love to, but I'm busy on Friday. Why don't we go on Saturday?",
+      "focus": { "en": "Round your lips for w in why and we, not v. Pause a little before but.", "he": "עגלו את השפתיים ל-w ב-why וב-we, לא v. עצרו לרגע קצר לפני but." },
+      "error_type": "pron-w-v",
+      "explanation": { "en": "Interest + reason + a new idea: this is a friendly way to say no.", "he": "עניין + סיבה + רעיון חדש: כך מסרבים בצורה ידידותית." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing",
+      "prompt": { "en": "Reply to an invitation.", "he": "ענו להזמנה." },
+      "task": { "en": "Your friend Amir sent you this message: 'Hey! I've got two tickets for a concert on Friday night. Would you like to come?' You can't go. Write a reply (40-80 words): thank him, say no politely with a reason, and suggest another plan with Let's, Why don't we or How about.", "he": "החבר שלכם אמיר שלח לכם את ההודעה הזאת: 'Hey! I've got two tickets for a concert on Friday night. Would you like to come?' אתם לא יכולים ללכת. כתבו תשובה (40-80 מילים): הודו לו, סרבו בנימוס ותנו סיבה, והציעו תוכנית אחרת עם Let's, ‏Why don't we או How about." },
+      "min_words": 40,
+      "max_words": 90,
+      "model_answer": "Hi Amir! Thanks so much for the invitation. I'd love to come, but I can't on Friday night. My cousin is getting married in Haifa, and the whole family is going. I'm really sorry! Why don't we do something together next week? How about going to that new burger place near the station on Tuesday? Let me know if you're free. Have a great time at the concert!",
+      "checklist": [
+        { "en": "I thanked Amir and showed interest (Thanks for the invitation / I'd love to...).", "he": "הודיתי לאמיר והבעתי עניין (Thanks for the invitation / I'd love to...)." },
+        { "en": "I said no politely and gave a clear reason.", "he": "סירבתי בנימוס ונתתי סיבה ברורה." },
+        { "en": "I suggested another plan with the right verb form: Let's + verb, Why don't we + verb?, How about + -ing?", "he": "הצעתי תוכנית אחרת עם צורת הפועל הנכונה: Let's + פועל, ‏Why don't we + פועל?, ‏How about + ing?" },
+        { "en": "I ended in a friendly way (Have a great time!).", "he": "סיימתי בצורה ידידותית (Have a great time!)." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Suggest: Let's + verb · Why don't we + verb? · How about + -ing?", "he": "הצעה: Let's + פועל · Why don't we + פועל? · How about + ing?" },
+      { "en": "Invite: Would you like to + verb? (Do you like...? is about your taste in general.)", "he": "הזמנה: Would you like to + פועל? (Do you like...? שואל על טעם כללי.)" },
+      { "en": "Say yes: Sounds good! / I'd love to! Say no politely: I'd love to, but + reason + another idea.", "he": "הסכמה: Sounds good! / I'd love to! סירוב מנומס: I'd love to, but + סיבה + רעיון אחר." },
+      { "en": "In Why don't we...? and Would you like...?, the helper verb comes before the subject.", "he": "ב-Why don't we...? וב-Would you like...? פועל העזר בא לפני הנושא." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

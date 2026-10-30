@@ -1,0 +1,278 @@
+{
+  "id": "a2-10",
+  "level": "A2",
+  "title_en": "The best and the worst",
+  "title_he": "הכי",
+  "topics": ["superlatives"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can pick out one person, place or thing in a group with the ...est or the most: the cheapest, the most popular.", "he": "אני יודע/ת לבחור אדם, מקום או דבר אחד מתוך קבוצה בעזרת the ...est או the most, למשל the cheapest, the most popular." },
+    { "en": "I can use the best, the worst and the furthest, with in or of after them.", "he": "אני יודע/ת להשתמש ב-the best, the worst ו-the furthest, ואחריהם ב-in או ב-of." },
+    { "en": "I can talk about my experiences with the chunk the best ... I've ever ...", "he": "אני יודע/ת לדבר על חוויות שלי בעזרת הצירוף the best ... I've ever ..." }
+  ],
+  "warmup": { "en": "What's the best film you saw this year? What's the most expensive thing you own? Who's the funniest person in your family? Last lesson you compared two things. Today you compare one thing with a whole group.", "he": "מה הסרט הכי טוב שראיתם השנה? מה הדבר הכי יקר שיש לכם? מי האדם הכי מצחיק במשפחה שלכם? בשיעור הקודם השווינו בין שני דברים. היום נשווה דבר אחד לקבוצה שלמה: בעברית אומרים 'הכי', ובאנגלית the ...est או the most." },
+  "explanation": [
+    { "type": "p", "en": "Noa is 16, Maya is 17 and Yael is 19. Yael is older than Maya, and she's the oldest of the three. Use a superlative (the oldest, the most popular) to compare one person or thing with the whole group.", "he": "נועה בת 16, מאיה בת 17 ויעל בת 19. יעל מבוגרת ממאיה (older than), והיא הכי מבוגרת מבין השלוש: the oldest of the three. משתמשים בערך הפלגה (the oldest, the most popular) כדי להשוות אדם או דבר אחד לכל הקבוצה." },
+    { "type": "table", "headers": ["Adjective", "Comparative", "Superlative"], "rows": [
+      ["cheap", "cheaper", "the cheapest"],
+      ["nice", "nicer", "the nicest"],
+      ["big", "bigger", "the biggest"],
+      ["easy", "easier", "the easiest"],
+      ["expensive", "more expensive", "the most expensive"],
+      ["good", "better", "the best"],
+      ["bad", "worse", "the worst"],
+      ["far", "further", "the furthest"]
+    ] },
+    { "type": "rule", "en": "Superlatives follow the same spelling rules as comparatives: -est for short adjectives (the hottest, the easiest) and the most for long ones (the most beautiful). Put the before them.", "he": "ערך ההפלגה נבנה לפי אותם כללי איות של ערך היתרון: est לשמות תואר קצרים (the hottest, the easiest) ו-the most לשמות תואר ארוכים (the most beautiful). לפני ערך ההפלגה בא the." },
+    { "type": "rule", "en": "After a superlative, use in + a place or group (the best café in town, the tallest in the class) and of + a number or a period of time (the oldest of the three, the hottest day of the year).", "he": "אחרי ערך ההפלגה: in + מקום או קבוצה (the best café in town, the tallest in the class), ו-of + מספר או פרק זמן (the oldest of the three, the hottest day of the year)." },
+    { "type": "warning", "en": "Don't mix -est and most: the biggest (not *the most biggest), the best (not *the most best). And don't forget the: She's the best player (not *She's best player).", "he": "לא מערבבים est עם most: the biggest ולא the most biggest, וגם the best ולא the most best. ואל תשכחו את the: She's the best player, ולא She's best player." },
+    { "type": "tip", "en": "A useful chunk for experiences: the best / the worst / the most ... + noun + I've ever + seen / had / visited. It's the best pizza I've ever had. You'll learn this tense (the present perfect) at B1; for now, learn it as a fixed phrase.", "he": "צירוף שימושי לדבר על חוויות: the best / the worst / the most ... + שם עצם + I've ever + seen / had / visited. למשל It's the best pizza I've ever had – זו הפיצה הכי טובה שאכלתי אי פעם. בעברית הפועל כאן בעבר ('שאכלתי'), ובאנגלית אומרים I've ever had. את הזמן הזה (present perfect) נלמד ברמה B1; בינתיים זכרו אותו כצירוף קבוע." }
+  ],
+  "examples": [
+    { "en": "Yael is the oldest of the three sisters.", "he": "יעל היא הכי מבוגרת מבין שלוש האחיות.", "note": "of + a number" },
+    { "en": "This is the cheapest café in town.", "he": "זה בית הקפה הכי זול בעיר.", "note": "in + a place" },
+    { "en": "That was the best day of my life!", "he": "זה היה היום הכי טוב בחיים שלי!", "note": "good → the best" },
+    { "en": "For me, Sunday is the worst day of the week.", "he": "בשבילי, יום ראשון הוא היום הכי גרוע בשבוע.", "note": "bad → the worst" },
+    { "en": "Who's the funniest person in your family?", "he": "מי האדם הכי מצחיק במשפחה שלך?", "note": "funny → the funniest" },
+    { "en": "What's the most expensive thing you own?", "he": "מה הדבר הכי יקר שיש לך?", "note": "long adjective → the most" },
+    { "en": "Which is the easiest way to get to the airport?", "he": "מה הדרך הכי קלה להגיע לשדה התעופה?" },
+    { "en": "It's the best film I've ever seen.", "he": "זה הסרט הכי טוב שראיתי אי פעם.", "note": "fixed chunk: the best ... I've ever ..." },
+    { "en": "This is one of the most beautiful beaches in Israel.", "he": "זה אחד החופים הכי יפים בישראל.", "note": "one of the + plural noun: beaches" }
+  ],
+  "vocab": [
+    { "word": "popular", "pos": "adjective", "he": "פופולרי, אהוד", "def": "liked by a lot of people", "example": "It's the most popular café in our neighbourhood.", "ipa": "/ˈpɒpjələ(r)/", "collocations": ["very popular", "popular with teenagers", "the most popular"], "level": "A2" },
+    { "word": "famous", "pos": "adjective", "he": "מפורסם", "def": "known by a lot of people", "example": "Who's the most famous person from your town?", "ipa": "/ˈfeɪməs/", "collocations": ["famous for", "a famous singer", "world-famous"], "level": "A2" },
+    { "word": "beautiful", "pos": "adjective", "he": "יפה, יפהפה", "def": "very nice to look at or listen to", "example": "It's the most beautiful beach I've ever seen.", "ipa": "/ˈbjuːtɪfl/", "collocations": ["a beautiful view", "a beautiful place", "absolutely beautiful"], "level": "A2" },
+    { "word": "amazing", "pos": "adjective", "he": "מדהים", "def": "very good and surprising", "example": "The concert was amazing!", "ipa": "/əˈmeɪzɪŋ/", "collocations": ["an amazing view", "an amazing experience", "absolutely amazing"], "level": "A2" },
+    { "word": "terrible", "pos": "adjective", "he": "נורא, גרוע מאוד", "def": "very bad", "example": "The weather was terrible all week.", "ipa": "/ˈterəbl/", "collocations": ["a terrible day", "terrible weather", "feel terrible"], "level": "A2" },
+    { "word": "view", "pos": "noun", "he": "נוף", "def": "what you can see from a place", "example": "This room has the best view of the sea.", "ipa": "/vjuː/", "collocations": ["a view of the sea", "a great view", "the best view"], "level": "A2" },
+    { "word": "experience", "pos": "noun", "he": "חוויה", "def": "something that happens to you and that you remember", "example": "Diving in Eilat was the best experience of my summer.", "ipa": "/ɪkˈspɪəriəns/", "collocations": ["an amazing experience", "a bad experience", "the best experience"], "level": "A2" },
+    { "word": "choice", "pos": "noun", "he": "בחירה", "def": "a decision about which thing you want", "example": "The train is the best choice for this trip.", "ipa": "/tʃɔɪs/", "collocations": ["the best choice", "a good choice", "make a choice"], "level": "A2" },
+    { "word": "whole", "pos": "adjective", "he": "כל ה..., שלם", "def": "all of something", "example": "She's the fastest runner in the whole school.", "ipa": "/həʊl/", "collocations": ["the whole world", "the whole day", "the whole class"], "level": "A2" },
+    { "word": "prize", "pos": "noun", "he": "פרס", "def": "something you get when you win", "example": "Kenji won first prize in the photo competition.", "ipa": "/praɪz/", "collocations": ["win a prize", "first prize", "the top prize"], "level": "A2" },
+    { "word": "competition", "pos": "noun", "he": "תחרות", "def": "an event where people try to win something", "example": "It was the hardest competition of the year.", "ipa": "/ˌkɒmpəˈtɪʃn/", "collocations": ["win a competition", "enter a competition", "a cooking competition"], "level": "A2" },
+    { "word": "ever", "pos": "adverb", "he": "אי פעם", "def": "at any time (often after a superlative)", "example": "It's the best pizza I've ever had.", "ipa": "/ˈevə(r)/", "collocations": ["the best ... I've ever seen", "the worst ... ever", "better than ever"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no present-tense 'be', so a sentence like 'she is the fastest' can lose its verb. English needs is or are: She is the fastest in the class (not *She the fastest in the class).", "he": "בעברית אין 'להיות' בהווה ('היא הכי מהירה בכיתה'), ולכן קל להשמיט את הפועל. באנגלית חייבים is או are: She is the fastest in the class.", "error_type": "copula-omission" },
+    { "en": "In Hebrew the perfect is not marked on the verb, so 'the best film I saw' feels natural. With ever after a superlative, English normally uses the present perfect chunk: the best film I've ever seen.", "he": "בעברית אין צורת פועל מיוחדת ל-present perfect, ולכן אומרים בעבר: 'הסרט הכי טוב שראיתי אי פעם'. באנגלית, אחרי ערך הפלגה עם ever, משתמשים בדרך כלל בצירוף I've ever + צורה שלישית: the best film I've ever seen.", "error_type": "tense-choice" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Match each adjective with its superlative.", "he": "התאימו כל שם תואר לערך ההפלגה שלו." },
+      "pairs": [["good", "the best"], ["bad", "the worst"], ["far", "the furthest"], ["big", "the biggest"], ["easy", "the easiest"], ["expensive", "the most expensive"]],
+      "explanation": { "en": "good, bad and far are irregular. big doubles the g, easy changes y to i, and long adjectives like expensive take the most.", "he": "good, bad ו-far הם חריגים. ב-big מכפילים את ה-g, ב-easy ה-y הופך ל-i, ושמות תואר ארוכים כמו expensive מקבלים the most." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Choose the correct words.", "he": "בחרו את התשובה הנכונה." },
+      "question": "This is ___ room in the flat. It has a balcony and two windows.",
+      "options": ["the bigger", "the most big", "the biggest", "biggest"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "bigger is for two things. A flat has more than two rooms, so use the superlative: the biggest.", "he": "bigger משמש להשוואה בין שניים. בדירה יש יותר משני חדרים, ולכן צריך ערך הפלגה: the biggest." },
+        "1": { "en": "big is short: the biggest, not the most big.", "he": "big קצר: the biggest, ולא the most big." },
+        "3": { "en": "Use the before a superlative: the biggest.", "he": "לפני ערך הפלגה בא the: the biggest." }
+      },
+      "option_errors": { "0": "comparison-form", "1": "comparison-form", "3": "article" },
+      "explanation": { "en": "One room compared with all the rooms → the + biggest (double g + -est).", "he": "חדר אחד לעומת כל החדרים → the + biggest (מכפילים g ומוסיפים est)." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "superlatives",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "We tried three pizza places last week. Luigi's was the cheapest and Roma was the closest, but the pizza at Bella Napoli was the best.",
+      "question": "Which place had the best pizza?",
+      "options": ["Bella Napoli", "Luigi's", "Roma", "None of them"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "Luigi's was the cheapest, not the best.", "he": "Luigi's היה המקום הכי זול, לא הכי טוב." },
+        "2": { "en": "Roma was the closest.", "he": "Roma היה המקום הכי קרוב." },
+        "3": { "en": "Listen again: the pizza at one place was the best.", "he": "הקשיבו שוב: באחד המקומות הפיצה הייתה הכי טובה." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "'...but the pizza at Bella Napoli was the best.' Notice three different superlatives: the cheapest, the closest, the best.", "he": "'...but the pizza at Bella Napoli was the best.' שימו לב לשלושה ערכי הפלגה שונים: the cheapest, the closest, the best." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "in or of? Sort the phrases.", "he": "in או of? מיינו את הצירופים." },
+      "categories": ["in", "of"],
+      "items": [
+        { "text": "the best café ___ town", "category": "in" },
+        { "text": "the tallest student ___ the class", "category": "in" },
+        { "text": "the most famous singer ___ the world", "category": "in" },
+        { "text": "the hottest day ___ the year", "category": "of" },
+        { "text": "the youngest ___ the three", "category": "of" },
+        { "text": "the cheapest ___ all the hotels", "category": "of" }
+      ],
+      "hint": { "en": "A place or a group → in. A number, all, or a period of time → of.", "he": "מקום או קבוצה → in. מספר, all או פרק זמן → of." },
+      "explanation": { "en": "in town, in the class, in the world · of the year, of the three, of all the hotels.", "he": "מקום או קבוצה עם in: in town, in the class, in the world. מספר, all או זמן עם of: of the year, of the three, of all the hotels." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Write the superlative of the adjective in brackets.", "he": "כתבו את ערך ההפלגה של שם התואר שבסוגריים." },
+      "text": "Yesterday was the ___ (hot) day of the year. This is the ___ (expensive) hotel in the area, but it has the ___ (good) view.",
+      "answers": [["hottest"], ["most expensive"], ["best"]],
+      "wrong_feedback": [
+        { "match": "most hot", "feedback": { "en": "hot is short: double the t and add -est: hottest.", "he": "hot קצר: מכפילים את ה-t ומוסיפים est: hottest." }, "error_type": "comparison-form" },
+        { "match": "hotter", "feedback": { "en": "hotter compares two days. For one day in the whole year, use hottest.", "he": "hotter משווה בין שני ימים. ליום אחד מתוך כל השנה: hottest." }, "error_type": "comparison-form" },
+        { "match": "expensivest", "feedback": { "en": "expensive is a long adjective: most expensive.", "he": "expensive הוא שם תואר ארוך: most expensive." }, "error_type": "comparison-form" },
+        { "match": "more expensive", "feedback": { "en": "more expensive compares two things. For one hotel in the whole area, use most expensive.", "he": "more expensive משווה בין שני דברים. למלון אחד מכל האזור: most expensive." }, "error_type": "comparison-form" },
+        { "match": "goodest", "feedback": { "en": "good is irregular: good → better → best.", "he": "good הוא חריג: good → better → best." }, "error_type": "comparison-form" },
+        { "match": "most good", "feedback": { "en": "good is irregular: good → better → best.", "he": "good הוא חריג: good → better → best." }, "error_type": "comparison-form" },
+        { "match": "better", "feedback": { "en": "better compares two things. For one view compared with all the others, use best.", "he": "better משווה בין שני דברים. כשמשווים לכל השאר משתמשים ב-best." }, "error_type": "comparison-form" }
+      ],
+      "hint": { "en": "One adjective is short, one is long and one is irregular.", "he": "שם תואר אחד קצר, אחד ארוך ואחד חריג." },
+      "explanation": { "en": "hot → the hottest (double t) · expensive → the most expensive · good → the best.", "he": "hot → the hottest (מכפילים t) · expensive → the most expensive · good → the best." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Choose the correct words.", "he": "בחרו את התשובה הנכונה." },
+      "question": "That was ___ meal I've ever had. I felt sick all night!",
+      "options": ["the worse", "the baddest", "the most bad", "the worst"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "worse compares two things. With I've ever had, you compare one meal with every meal in your life: the worst.", "he": "worse משווה בין שני דברים. עם I've ever had משווים ארוחה אחת לכל הארוחות בחיים: the worst." },
+        "1": { "en": "bad is irregular, and there is no 'baddest': bad → worse → the worst.", "he": "bad הוא חריג, ואין 'baddest': bad → worse → the worst." },
+        "2": { "en": "bad is irregular: the worst, not the most bad.", "he": "bad חריג: the worst, ולא the most bad." }
+      },
+      "option_errors": { "0": "comparison-form", "1": "comparison-form", "2": "comparison-form" },
+      "explanation": { "en": "bad → worse → the worst. The chunk the worst ... I've ever had means 'the worst in my whole life'.", "he": "bad → worse → the worst. הצירוף the worst ... I've ever had פירושו 'הכי גרוע בכל החיים שלי'." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Complete the sentence with words from the box.", "he": "השלימו את המשפט במילים מהמחסן." },
+      "text": "This is the most beautiful place I've ___ ___!",
+      "word_bank": ["ever", "never", "visited", "visit", "visiting"],
+      "answers": [["ever"], ["visited"]],
+      "wrong_feedback": [
+        { "match": "never", "feedback": { "en": "never means 'not at any time'. After a superlative, use ever: the most beautiful place I've ever visited.", "he": "never פירושו 'אף פעם לא'. אחרי ערך הפלגה משתמשים ב-ever: the most beautiful place I've ever visited." }, "error_type": "word-choice" },
+        { "match": "visit", "feedback": { "en": "After I've, use the -ed form (the third form): visited.", "he": "אחרי I've באה הצורה השלישית של הפועל: visited." }, "error_type": "verb-form" },
+        { "match": "visiting", "feedback": { "en": "After I've, use the -ed form (the third form): visited.", "he": "אחרי I've באה הצורה השלישית של הפועל: visited." }, "error_type": "verb-form" }
+      ],
+      "explanation": { "en": "the most + adjective + noun + I've ever + third form: the most beautiful place I've ever visited.", "he": "the most + שם תואר + שם עצם + I've ever + צורה שלישית: the most beautiful place I've ever visited – המקום הכי יפה שביקרתי בו אי פעם." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "She is the most best singer in the competition.",
+      "answers": ["She is the best singer in the competition."],
+      "error_type": "comparison-form",
+      "hint": { "en": "best is already a superlative.", "he": "best הוא כבר ערך הפלגה." },
+      "explanation": { "en": "best = the most good, so don't add most: She is the best singer in the competition.", "he": "best פירושו 'הכי טוב', ולכן לא מוסיפים most: She is the best singer in the competition." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Amir is tallest student in our class.",
+      "answers": ["Amir is the tallest student in our class.", "Amir's the tallest student in our class."],
+      "error_type": "article",
+      "hint": { "en": "One small word is missing.", "he": "חסרה מילה קטנה אחת." },
+      "explanation": { "en": "A superlative needs the: the tallest, the best, the most popular.", "he": "לפני ערך הפלגה צריך the: the tallest, the best, the most popular." }
+    },
+    {
+      "id": "e10", "type": "order", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["It's", "the", "funniest", "film", "I've", "ever", "seen"],
+      "explanation": { "en": "the + superlative + noun + I've ever + seen. Ever goes between I've and the verb.", "he": "the + ערך הפלגה + שם עצם + I've ever + seen. המילה ever באה בין I've לבין הפועל." }
+    },
+    {
+      "id": "e11", "type": "read", "skill": "reading", "topic": "superlatives",
+      "prompt": { "en": "Read Maya's blog post and answer the questions.", "he": "קראו את הפוסט של מאיה בבלוג וענו על השאלות." },
+      "title": "Where to study: my top three cafés",
+      "passage": "Where's the best place to study in town? I tried three cafés last month, and here are my results.\nCafé Lev is the closest to the university – only two minutes on foot. It's also the cheapest: a coffee costs just 9 shekels. But it's the noisiest of the three, so bring headphones!\nThe Reading Room is the most beautiful café in town, with big windows and lots of plants. The cakes are amazing, but it's the most expensive of the three, and it's always crowded at weekends.\nMy favourite is Blue Door. It isn't the nearest or the cheapest, but the chairs are the most comfortable and the Wi-Fi is the fastest. It's the best place I've ever found for long study days.\n– Maya",
+      "questions": [
+        { "type": "mcq", "question": "Which café is the cheapest?", "options": ["The Reading Room", "Blue Door", "Café Lev"], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "The Reading Room is the most expensive of the three.", "he": "The Reading Room הוא הכי יקר מבין השלושה." },
+            "1": { "en": "Maya says Blue Door isn't the cheapest.", "he": "מאיה כותבת ש-Blue Door הוא לא הכי זול." }
+          },
+          "explanation": { "en": "'Café Lev ... It's also the cheapest: a coffee costs just 9 shekels.'", "he": "בפוסט: Café Lev ... It's also the cheapest – קפה עולה שם רק 9 שקלים." } },
+        { "type": "tf", "statement": "The Reading Room is quiet at weekends.", "answer": false,
+          "explanation": { "en": "'It's always crowded at weekends.'", "he": "בפוסט: it's always crowded at weekends – בסופי שבוע הוא תמיד מלא אנשים." } },
+        { "type": "tf", "statement": "Café Lev is the noisiest of the three cafés.", "answer": true,
+          "explanation": { "en": "'But it's the noisiest of the three, so bring headphones!'", "he": "בפוסט: But it's the noisiest of the three – הוא הכי רועש מבין השלושה." } },
+        { "type": "mcq", "question": "Why is Blue Door Maya's favourite?", "options": ["It's the closest to the university.", "It has the most comfortable chairs and the fastest Wi-Fi.", "It has the best cakes in town."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Café Lev is the closest. Blue Door isn't the nearest.", "he": "Café Lev הוא הכי קרוב. Blue Door הוא לא הכי קרוב." },
+            "2": { "en": "The amazing cakes are at The Reading Room.", "he": "העוגות המדהימות נמצאות ב-The Reading Room." }
+          },
+          "explanation": { "en": "'...the chairs are the most comfortable and the Wi-Fi is the fastest.'", "he": "בפוסט: the chairs are the most comfortable and the Wi-Fi is the fastest – הכיסאות הכי נוחים והאינטרנט הכי מהיר." } },
+        { "type": "gap", "text": "Blue Door has the ___ Wi-Fi of the three cafés.", "answers": [["fastest"]],
+          "explanation": { "en": "'...the Wi-Fi is the fastest.' fast → the fastest.", "he": "בפוסט: the Wi-Fi is the fastest. fast → the fastest." } }
+      ]
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "superlatives",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "זאת המסעדה הכי יקרה בעיר.",
+      "answers": [
+        "This is the most expensive restaurant in the city.",
+        "This is the most expensive restaurant in town.",
+        "This is the most expensive restaurant in the town.",
+        "It's the most expensive restaurant in the city.",
+        "It's the most expensive restaurant in town.",
+        "It's the most expensive restaurant in the town.",
+        "That's the most expensive restaurant in the city.",
+        "That's the most expensive restaurant in town.",
+        "This restaurant is the most expensive in the city.",
+        "This restaurant is the most expensive in town.",
+        "This restaurant is the most expensive one in the city.",
+        "This restaurant is the most expensive one in town."
+      ],
+      "wrong_feedback": [
+        { "match": "This is the expensivest restaurant in the city.", "feedback": { "en": "expensive is a long adjective, so use the most: the most expensive.", "he": "expensive הוא שם תואר ארוך, ולכן the most expensive." }, "error_type": "comparison-form" },
+        { "match": "This is most expensive restaurant in the city.", "feedback": { "en": "Use the before a superlative: the most expensive.", "he": "לפני ערך הפלגה בא the: the most expensive." }, "error_type": "article" },
+        { "match": "This is the most expensive restaurant of the city.", "feedback": { "en": "With a place, use in: in the city.", "he": "עם מקום משתמשים ב-in: in the city." }, "error_type": "preposition" },
+        { "match": "This restaurant the most expensive in the city.", "feedback": { "en": "English needs a verb: This restaurant is the most expensive in the city.", "he": "בעברית אין כאן פועל, אבל באנגלית חייב: This restaurant is the most expensive in the city." }, "error_type": "copula-omission" },
+        { "match": "expensivest", "feedback": { "en": "expensive is a long adjective, so use the most: the most expensive.", "he": "expensive הוא שם תואר ארוך, ולכן the most expensive." }, "error_type": "comparison-form" },
+        { "match": "It's the most expensive restaurant of the city.", "feedback": { "en": "With a place, use in: in the city.", "he": "עם מקום משתמשים ב-in: in the city." }, "error_type": "preposition" },
+        { "match": "This restaurant is the most expensive of the city.", "feedback": { "en": "With a place, use in: in the city.", "he": "עם מקום משתמשים ב-in: in the city." }, "error_type": "preposition" },
+        { "match": "more", "feedback": { "en": "more expensive compares two restaurants. For one restaurant in the whole city, use the most expensive.", "he": "more expensive משווה בין שתי מסעדות. למסעדה אחת מכל העיר: the most expensive." }, "error_type": "comparison-form" }
+      ],
+      "hint": { "en": "Start with This is the ...", "he": "התחילו ב-This is the ..." },
+      "explanation": { "en": "A long adjective takes the most: the most expensive. After a superlative, a place takes in: in the city or in town.", "he": "'הכי יקרה' → the most expensive (שם תואר ארוך), ו'בעיר' → in the city או in town. בעברית 'הכי' לא משתנה, ובאנגלית בוחרים בין est ל-most לפי אורך שם התואר." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "superlatives",
+      "prompt": { "en": "Listen and write the question.", "he": "הקשיבו וכתבו את השאלה." },
+      "audio_text": "What's the cheapest way to get to the airport?",
+      "answers": ["What's the cheapest way to get to the airport?"],
+      "hint": { "en": "It starts with What's and has a superlative.", "he": "השאלה מתחילה ב-What's ויש בה ערך הפלגה." },
+      "explanation": { "en": "What's = What is. cheap → the cheapest.", "he": "What's הוא קיצור של What is, ו-cheap הופך ל-the cheapest: מה הדרך הכי זולה להגיע לשדה התעופה?" }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "superlatives",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "This is the best pizza I've ever had!",
+      "focus": { "en": "this and the start with /ð/: tongue between your teeth. Link I've and ever: /aɪv ˈevə/ sounds like one word.", "he": "this ו-the מתחילים ב-/ð/: הלשון בין השיניים. חברו את I've ו-ever: /aɪv ˈevə/ נשמע כמו מילה אחת." },
+      "error_type": "pron-th",
+      "explanation": { "en": "A natural way to give a big compliment, at a restaurant or at a friend's home.", "he": "דרך טבעית לתת מחמאה גדולה, במסעדה או אצל חברים." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "superlatives",
+      "prompt": { "en": "Write tips for a visitor to your town.", "he": "כתבו המלצות למבקרים בעיר שלכם." },
+      "task": { "en": "A friend from abroad is visiting your town or city. Write a short message (50-80 words) with your tips: the best place to eat, the most interesting place to visit, the worst time to go somewhere, and one more tip. Use at least four superlatives and one sentence with I've ever.", "he": "חבר או חברה מחו״ל מגיעים לבקר בעיר שלכם. כתבו הודעה קצרה (50-80 מילים) עם המלצות: המקום הכי טוב לאכול בו, המקום הכי מעניין לבקר בו, הזמן הכי גרוע ללכת למקום מסוים, ועוד טיפ אחד. השתמשו לפחות בארבעה ערכי הפלגה ובמשפט אחד עם I've ever." },
+      "min_words": 50,
+      "max_words": 100,
+      "must_include": ["the best", "ever"],
+      "model_answer": "Welcome to Haifa! In my opinion, the best place to eat is a small hummus restaurant near the port. It's the best hummus I've ever had. The most interesting area to visit is the German Colony, and the view from the top of the Carmel is the most beautiful in the city. The worst time to drive is Sunday morning, because that's when the roads are the busiest. The easiest way to get around is by bus.",
+      "checklist": [
+        { "en": "I used at least four superlatives with the: the best, the most interesting...", "he": "השתמשתי לפחות בארבעה ערכי הפלגה עם the: the best, the most interesting..." },
+        { "en": "I didn't mix -est and most (not *the most biggest).", "he": "לא ערבבתי est ו-most (לא the most biggest)." },
+        { "en": "After superlatives, I used in for places (in the city) and of for numbers or time (of the year).", "he": "אחרי ערכי הפלגה השתמשתי ב-in למקומות (in the city) וב-of למספרים או לזמן (of the year)." },
+        { "en": "I used the chunk I've ever + third form once (I've ever had / seen / visited).", "he": "השתמשתי פעם אחת בצירוף I've ever + צורה שלישית (I've ever had / seen / visited)." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Short adjectives: the + -est: the cheapest, the biggest, the easiest.", "he": "שמות תואר קצרים: the + est, למשל the cheapest, the biggest, the easiest." },
+      { "en": "Long adjectives: the most + adjective: the most expensive. Never *the most biggest.", "he": "שמות תואר ארוכים: the most + שם תואר, למשל the most expensive. אף פעם לא the most biggest." },
+      { "en": "Irregular: good → the best, bad → the worst, far → the furthest.", "he": "צורות חריגות: good → the best, bad → the worst, far → the furthest." },
+      { "en": "After a superlative: in + a place or group (in town), of + a number or time (of the three, of the year).", "he": "אחרי ערך הפלגה: in + מקום או קבוצה (in town), ו-of + מספר או זמן (of the three, of the year)." },
+      { "en": "Useful chunk: the best ... I've ever seen / had / visited.", "he": "צירוף שימושי: the best ... I've ever seen / had / visited." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}
