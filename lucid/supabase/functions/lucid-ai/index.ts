@@ -19,6 +19,7 @@ const handler = createHandler({
     model: env('LUCID_MODEL', 'claude-opus-5-5'),
     hourlyUnits: Number(env('LUCID_HOURLY_UNITS', '40')),
     dailyUnits: Number(env('LUCID_DAILY_UNITS', '200')),
+    evalRuns: Number(env('LUCID_EVAL_RUNS', '1')),
   },
   async authenticate(token) {
     const { data, error } = await admin.auth.getUser(token);

@@ -3,13 +3,13 @@
 import Anthropic from 'npm:@anthropic-ai/sdk@1.3.0';
 import { zodOutputFormat } from 'npm:@anthropic-ai/sdk@1.3.0/helpers/zod';
 import {
-  Request as RequestSchema, UNITS, WritingEvaluation, RoleplayTurn, RoleplayFeedback,
-  clampEvaluation, clampFeedback, type Request,
+  Request as RequestSchema, UNITS, WritingEvaluation, type WritingEvaluation as WritingEvaluationT, RoleplayTurn, RoleplayFeedback,
+  postProcess, clampFeedback, type Request,
 } from './schemas.ts';
-import { writingSystem, roleplaySystem, feedbackSystem, tutorSystem, writingUserMessage, roleplayMessages, tutorMessages } from './prompts.ts';
+import { writingSystem, roleplaySystem, feedbackSystem, tutorSystem, writingUserMessage, roleplayMessages, tutorMessages, applicabilityFor } from './prompts.ts';
 
 export interface Deps {
-  env: { allowedOrigins: string[]; model: string; hourlyUnits: number; dailyUnits: number };
+  env: { allowedOrigins: string[]; model: string; hourlyUnits: number; dailyUnits: number; evalRuns?: number };
   authenticate(token: string): Promise<{ id: string } | null>;
   profile(userId: string): Promise<{ consent_ai_at: string | null } | null>;
   unitsUsedSince(userId: string, since: Date): Promise<number>;
@@ -114,15 +114,20 @@ async function run(deps: Deps, body: Request): Promise<{ result: unknown; usage:
   const claude = deps.claude;
   switch (body.task) {
     case 'evaluate_writing': {
-      const msg = await claude.beta.messages.parse({
+      // Research E 8.6: scoring is repeated (LUCID_EVAL_RUNS, default 1; 3 recommended) and the median taken.
+      const runs = Math.max(1, Math.min(3, deps.env.evalRuns ?? 1));
+      const call = () => claude.beta.messages.parse({
         model, max_tokens: 16000, ...FALLBACK,
         output_config: { effort: 'high', format: zodOutputFormat(WritingEvaluation) },
         system: [{ type: 'text', text: writingSystem(), cache_control: { type: 'ephemeral' } }],
         messages: [{ role: 'user', content: writingUserMessage(body) }],
       });
-      check(msg);
-      if (!msg.parsed_output) throw new Incomplete();
-      return { result: { evaluation: clampEvaluation(msg.parsed_output, body.text) }, usage: msg.usage };
+      const msgs = await Promise.all(Array.from({ length: runs }, call));
+      msgs.forEach(check);
+      const parsed = msgs.map((m) => m.parsed_output).filter(Boolean) as WritingEvaluation[];
+      if (!parsed.length) throw new Incomplete();
+      const usage = msgs.reduce((a, m) => ({ input_tokens: a.input_tokens + (m.usage?.input_tokens ?? 0), output_tokens: a.output_tokens + (m.usage?.output_tokens ?? 0) }), { input_tokens: 0, output_tokens: 0 });
+      return { result: { evaluation: postProcess(parsed, body.text, applicabilityFor(body.stage)) }, usage };
     }
     case 'roleplay_turn': {
       const msg = await claude.beta.messages.parse({

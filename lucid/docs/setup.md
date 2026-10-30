@@ -42,7 +42,8 @@ Browser tests: `npm run test:e2e` (uses the pre-installed Playwright Chromium; s
    supabase functions deploy lucid-ai
    ```
    Optional secrets: `LUCID_MODEL` (default `claude-opus-5-5`), `LUCID_HOURLY_UNITS` (default 40),
-   `LUCID_DAILY_UNITS` (default 200). `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided by Supabase.
+   `LUCID_DAILY_UNITS` (default 200), `LUCID_EVAL_RUNS` (default 1; 2-3 scores each essay that many times and
+   reports the median plus low-confidence flags, at that multiple of the cost). `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided by Supabase.
 3. Set `aiEnabled: true` in `lucid/config.js`.
 4. Learners must sign in and turn on "AI feedback" in Settings (an explicit consent, stored on their profile).
 

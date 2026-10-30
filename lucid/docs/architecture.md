@@ -104,7 +104,7 @@ and cascading deletion.
 
 | Route | Output | Model settings |
 |---|---|---|
-| `evaluate_writing` | structured: CEFR estimate, 12 rubric categories (0-5 bands, applicability), errors (verbatim quote, type, severity, explanation EN/HE, hint, correction), required elements, revision tasks, progress since the previous draft | effort high, 16k max tokens |
+| `evaluate_writing` | structured: task-fulfilment gate, CEFR estimate with a low-high range, 12 rubric categories (0-5 bands relative to the stage target, applicability), errors (verbatim quote, type, severity, explanation EN/HE, hint, correction), required elements, revision tasks, progress since the previous draft | effort high, 16k max tokens |
 | `roleplay_turn` | structured: reply, scene complete, optional Hebrew hint | effort low |
 | `roleplay_feedback` | structured: scores (0-100) for the conversation, grammar, vocabulary, naturalness, better alternatives quoting the learner, practice | effort medium |
 | `tutor_turn` | text | effort low |
@@ -115,6 +115,14 @@ and cascading deletion.
 - Learner text is wrapped in tags and treated strictly as data (prompt-injection resistant framing).
 - Minimal-edit enforcement after the model (research C2, D26-D27): an error whose quote is not verbatim in the
   learner's text, or whose correction is much longer than its span, is dropped and counted.
+- Writing rubric protocol (research E, sections 8-9) enforced in code after the model, not only requested in the
+  prompt: categories that do not apply at the task's stage are forced to N/A (never 0); a "partial" task caps the
+  argument categories at 2 and lowers the estimate one level, "off_topic" caps every category at 1; with
+  `LUCID_EVAL_RUNS` > 1 (max 3) the scores are the median of independent runs and categories whose runs differ by
+  more than one band are flagged low-confidence ("~" in the UI); the CEFR range always contains the estimate.
+- Client side of the same protocol: the overall level range appears only on a final draft (or after the last
+  round), at most three AI rounds per task (draft plus two revisions), a hint ladder (locate, name the error type,
+  clue, correction) that starts one rung higher for A1-A2, and self-assessment before feedback from stage 7.
 - Rate limits by weighted units (writing evaluation 3, feedback 2, turns 1): 40 per hour and 200 per day by
   default (`LUCID_HOURLY_UNITS`, `LUCID_DAILY_UNITS`).
 - Wire format verified against a local mock of the Messages API with the real SDK; handler logic covered by Deno

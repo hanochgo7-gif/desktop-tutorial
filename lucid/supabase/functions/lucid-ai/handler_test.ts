@@ -143,3 +143,48 @@ Deno.test('minimal-edit enforcement drops errors whose quote is not in the learn
   assertEquals(body.evaluation.errors.map((e: { quote: string }) => e.quote), ['social media is bad']);
   assertEquals(body.evaluation.dropped_errors, 2);
 });
+
+import { postProcess } from './schemas.ts';
+import { applicabilityFor } from './prompts.ts';
+
+const cat = (id: string, score: number | null, applicable = true) => ({ id, applicable, score, explanation: '', examples: [], improvement: '', practice: '' });
+const base = (over: Record<string, unknown> = {}) => ({
+  task_fulfilment: { status: 'complete', note: '' }, cefr_estimate: 'B1', cefr_low: 'B1', cefr_high: 'B2', summary: '', summary_he: null, strengths: [], priorities: [],
+  categories: [cat('grammar', 3), cat('argument_strength', 4), cat('evidence_quality', 4), cat('counterarguments', 3), cat('clarity', 3)],
+  errors: [], required_elements: [], revision: { tasks: [], progress_since_previous: null }, ...over,
+}) as never;
+
+Deno.test('research E rubric rules are enforced in code, not only requested', () => {
+  // Stage 2 (paragraphs): argument categories are not applicable whatever the model says.
+  const s2 = postProcess([base()], 'text', applicabilityFor(2));
+  assertEquals(s2.categories.find((c) => c.id === 'argument_strength')!.applicable, false);
+  assertEquals(s2.categories.find((c) => c.id === 'argument_strength')!.score, null);
+  // Partial task fulfilment caps argument categories at 2 and lowers the estimate one level.
+  const partial = postProcess([base({ task_fulfilment: { status: 'partial', note: 'no rebuttal' } })], 'text', applicabilityFor(6));
+  assertEquals(partial.categories.find((c) => c.id === 'argument_strength')!.score, 2);
+  assertEquals(partial.categories.find((c) => c.id === 'grammar')!.score, 3);
+  assertEquals(partial.cefr_estimate, 'A2');
+  // Off topic caps everything at 1.
+  const off = postProcess([base({ task_fulfilment: { status: 'off_topic', note: '' } })], 'text', applicabilityFor(6));
+  assert(off.categories.filter((c) => c.applicable).every((c) => (c.score ?? 0) <= 1));
+  // Three runs: median per category; a spread above one band is flagged low-confidence.
+  const runs = [base(), base({ categories: [cat('grammar', 3), cat('argument_strength', 1), cat('evidence_quality', 4), cat('counterarguments', 3), cat('clarity', 4)] }), base({ categories: [cat('grammar', 4), cat('argument_strength', 2), cat('evidence_quality', 4), cat('counterarguments', 3), cat('clarity', 3)] })];
+  const med = postProcess(runs, 'text', applicabilityFor(7));
+  assertEquals(med.categories.find((c) => c.id === 'argument_strength')!.score, 2);
+  assertEquals(med.categories.find((c) => c.id === 'grammar')!.score, 3);
+  assertEquals(med.low_confidence, ['argument_strength']);
+  assertEquals(med.runs, 3);
+  // The range always contains the estimate.
+  const bad = postProcess([base({ cefr_estimate: 'B2', cefr_low: 'C1', cefr_high: 'A2' })], 'text', applicabilityFor(0));
+  assertEquals([bad.cefr_low, bad.cefr_estimate, bad.cefr_high], ['B2', 'B2', 'B2']);
+});
+
+Deno.test('several scoring runs are made and their usage summed when configured', async () => {
+  const claude = fakeClaude({ parsed: evaluation });
+  const { d, calls } = deps({ env: { allowedOrigins: [ORIGIN], model: 'claude-opus-5-5', hourlyUnits: 10, dailyUnits: 50, evalRuns: 3 } }, claude);
+  const res = await createHandler(d)(post({ ...writingBody, stage: 7, draft_number: 2 }));
+  assertEquals(res.status, 200);
+  assertEquals(calls.length, 3);
+  assert(((calls[0] as { messages: { content: string }[] }).messages[0].content).includes('Writing stage: 7; target: B2+-C1'));
+  assertEquals((await res.json()).evaluation.runs, 3);
+});

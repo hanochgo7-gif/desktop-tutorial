@@ -64,7 +64,11 @@ export default async function essay(el, ctx) {
   let busy = false; let aiError = '';
   let tab = 'checks';
   let compareWith = null;
-  const revealed = new Set();
+  const rung = new Map(); // error index -> hint rung shown (1 locate, 2 name, 3 clue, 4 correction)
+  const startRung = ['PreA1', 'A1', 'A2'].includes(level) ? 2 : 1;
+  const MAX_EVALS = 3; // first draft plus at most two AI revision cycles (research E 9.6)
+  const SELF = ['argument_strength', 'evidence_quality', 'counterarguments', 'coherence'];
+  let selfScores = {};
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
   let timerEnd = null; let timerId = null;
 
@@ -91,26 +95,40 @@ export default async function essay(el, ctx) {
     if (!aiReady) {
       return html`<div class="stack-sm"><p class="banner small">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? t('ai.unavailable') : !auth.signedIn ? tt('כדי לקבל משוב AI צריך להיכנס לחשבון.', 'Sign in to get AI feedback.') : tt('הפעילו ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.')}</span></p></div>`;
     }
-    if (!v) return html`<p class="small muted">${tt('שלחו את הטקסט למשוב כדי לקבל הערכה לפי 12 קטגוריות, טעויות עם רמזים ומשימות לתיקון.', 'Send your text for feedback to get an assessment across 12 categories, mistakes with hints, and revision tasks.')}</p>`;
+    if (!v) return html`<p class="small muted">${tt('שלחו את הטקסט למשוב כדי לקבל הערכה לפי 12 קטגוריות, טעויות עם רמזים ומשימות לתיקון.', 'Send your text for feedback to get an assessment across 12 categories, mistakes with hints, and revision tasks.')}</p>${selfForm()}`;
     const e = v.evaluation;
     return html`<div class="stack">
-      <div class="row between"><span class="small">${tt('הערכת רמה של הטקסט', 'Estimated level of this text')}</span><span class="tag level">${e.cefr_estimate === 'below_PreA1' ? '<Pre-A1' : LEVEL_LABEL[e.cefr_estimate]}</span></div>
+      ${e.task_fulfilment && e.task_fulfilment.status !== 'complete' ? html`<p class="banner warn small">${icon('alert', { size: 16 })}<span dir="auto"><strong>${e.task_fulfilment.status === 'off_topic' ? tt('הטקסט לא עונה על המשימה.', 'The text does not answer the task.') : tt('חלק מהמשימה חסר.', 'Part of the task is missing.')}</strong> ${e.task_fulfilment.note}</span></p>` : ''}
+      ${v.final || evaluatedCount() >= MAX_EVALS ? html`<div class="row between"><span class="small">${tt('הערכת רמה של הטקסט (טווח)', 'Estimated level of this text (range)')}</span><span class="tag level">${cefrLabel(e.cefr_low)}${e.cefr_low !== e.cefr_high ? html`–${cefrLabel(e.cefr_high)}` : ''}</span></div>`
+        : html`<div class="row between small"><span class="muted">${tt('בזמן תיקונים רואים דירוג לפי קטגוריות. הערכת הרמה הכוללת מופיעה בטיוטה הסופית.', 'While you revise you see category bands. The overall level appears on your final draft.')}</span><button type="button" class="key ghost small" data-final>${tt('זו הטיוטה הסופית', 'This is my final draft')}</button></div>`}
       <p dir="auto">${e.summary}</p>${e.summary_he && hebrewSupport() !== 'off' ? html`<p lang="he" dir="rtl" class="muted small">${e.summary_he}</p>` : ''}
       ${e.revision?.progress_since_previous ? html`<div class="banner small">${icon('compare', { size: 16 })}<span dir="auto">${e.revision.progress_since_previous}</span></div>` : ''}
       ${e.strengths?.length ? html`<div class="stack-sm"><h3 class="small">${tt('מה עובד', 'What works')}</h3>${e.strengths.map((s) => html`<p class="row small">${icon('check', { size: 16 })}<span dir="auto">${s}</span></p>`)}</div>` : ''}
+      ${evaluatedCount() < MAX_EVALS && !v.final ? selfForm() : ''}
+      ${evaluatedCount() >= MAX_EVALS ? html`<p class="xsmall faint">${tt('זה היה סבב המשוב האחרון למשימה הזו. כדי לבדוק העברה, נסו משימה חדשה בשלב הזה.', 'That was the last feedback round for this task. To check that it transfers, try a new task at this stage.')}</p>` : ''}
       ${e.revision?.tasks?.length ? html`<div class="stack-sm"><h3 class="small">${tt('לטיוטה הבאה', 'For your next draft')}</h3><ol class="small stack-sm" style="margin:0;padding-inline-start:1.2rem">${e.revision.tasks.map((x) => html`<li dir="auto">${x}</li>`)}</ol></div>` : ''}
       ${e.errors?.length ? html`<div class="stack-sm"><h3 class="small">${tt(`טעויות לתיקון (${e.errors.length})`, `Mistakes to fix (${e.errors.length})`)}</h3><p class="xsmall faint">${tt('נסו לתקן לבד לפי הרמז. את התיקון אפשר לחשוף אם צריך.', 'Try to fix each one from the hint. Reveal the correction only if you need it.')}</p>
-        ${e.errors.map((er, i) => { const sev = SEVERITY[er.severity] || SEVERITY.important; const et = tx.error.get(er.type); return html`<div class="error-card ${er.severity === 'style' ? 'style' : ''}">
-          <p class="row small"><span class="tag ${sev[2]}">${tt(sev[0], sev[1])}</span>${et ? html`<span class="tag">${tt(et.name_he, et.name_en)}</span>` : ''}</p>
+        ${e.errors.map((er, i) => { const sev = SEVERITY[er.severity] || SEVERITY.important; const et = tx.error.get(er.type); const r = rung.get(i) ?? startRung; return html`<div class="error-card ${er.severity === 'style' ? 'style' : ''}">
+          <p class="row small"><span class="tag ${sev[2]}">${tt(sev[0], sev[1])}</span>${r >= 2 && et ? html`<span class="tag">${tt(et.name_he, et.name_en)}</span>` : ''}</p>
           <p><span class="quote" lang="en" dir="ltr">${er.quote}</span></p>
-          <p class="small" dir="auto">${er.explanation}</p>${er.explanation_he && hebrewSupport() !== 'off' ? html`<p class="small muted" lang="he" dir="rtl">${er.explanation_he}</p>` : ''}
-          <p class="small">${icon('hint', { size: 14 })} <span dir="auto">${er.hint}</span></p>
-          ${revealed.has(i) ? html`<p class="small">${tt('תיקון:', 'Correction:')} <strong lang="en" dir="ltr">${er.correction}</strong></p>` : html`<button type="button" class="key ghost small" data-reveal="${i}">${tt('להציג תיקון', 'Show correction')}</button>`}</div>`; })}</div>` : ''}
-      <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span><span class="band">${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}</span>
+          ${r === 1 ? html`<p class="small muted">${tt('יש כאן טעות. נסו למצוא ולתקן אותה בטקסט.', 'There is a mistake here. Try to find and fix it in your text.')}</p>` : ''}
+          ${r >= 3 ? html`<p class="small">${icon('hint', { size: 14 })} <span dir="auto">${er.hint}</span></p>` : ''}
+          ${r >= 4 ? html`<p class="small">${tt('תיקון:', 'Correction:')} <strong lang="en" dir="ltr">${er.correction}</strong></p><p class="small" dir="auto">${er.explanation}</p>${er.explanation_he && hebrewSupport() !== 'off' ? html`<p class="small muted" lang="he" dir="rtl">${er.explanation_he}</p>` : ''}`
+            : html`<button type="button" class="key ghost small" data-rung="${i}">${r === 1 ? tt('איזה סוג טעות?', 'What kind of mistake?') : r === 2 ? tt('תקוע/ה: רמז', 'Stuck? A clue') : tt('להציג תיקון והסבר', 'Show correction and why')}</button>`}</div>`; })}</div>` : ''}
+      <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span><span class="band">${e.low_confidence?.includes(c.id) ? html`<span title="${tt('הערכה לא ודאית', 'Low-confidence estimate')}">~</span>` : ''}${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}${e.self?.[c.id] != null ? html` <span class="xsmall faint">(${tt('הערכה עצמית', 'you said')}: ${tt(BAND[e.self[c.id]][0], BAND[e.self[c.id]][1])})</span>` : ''}</span>
         <details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><div class="stack-sm" style="margin-top:var(--s2)"><p dir="auto">${c.explanation}</p>${c.examples.map((x) => html`<p class="small"><span class="quote" lang="en" dir="ltr">${x.quote}</span> <span class="muted" dir="auto">${x.comment}</span></p>`)}<p dir="auto"><strong>${tt('לשפר:', 'Improve:')}</strong> ${c.improvement}</p><p dir="auto" class="muted"><strong>${tt('לתרגל:', 'Practise:')}</strong> ${c.practice}</p></div></details></div>`)}</div>
         <p class="xsmall faint">${tt(`הדירוג ביחס ליעד של רמה ${LEVEL_LABEL[level] || level}. ${t('level.estimate')}.`, `Bands are relative to the ${LEVEL_LABEL[level] || level} target. ${t('level.estimate')}.`)}</p></div>
       ${e.required_elements?.length ? html`<div class="stack-sm"><h3 class="small">${tt('רכיבי חובה', 'Required elements')}</h3>${e.required_elements.map((r) => html`<p class="row small">${icon(r.present ? 'check' : 'x', { size: 16 })}<span dir="auto"><strong>${r.element}</strong> · ${r.comment}</span></p>`)}</div>` : ''}
       <p class="xsmall faint row">${icon('alert', { size: 14 })} ${t('ai.label')}. <button type="button" class="key ghost small" data-report>${t('ai.report')}</button></p></div>`;
+  }
+
+  function evaluatedCount() { return versions().filter((x) => x.evaluation).length; }
+  function cefrLabel(l) { return l === 'below_PreA1' ? '<Pre-A1' : LEVEL_LABEL[l] || l; }
+  // From stage 7, learners rate themselves before seeing the AI's bands (research E, decision 31).
+  function selfForm() {
+    if ((task.stage || 0) < 7) return '';
+    return html`<div class="panel flat stack-sm"><p class="small">${tt('לפני המשוב: איך הייתם מדרגים את עצמכם?', 'Before the feedback: how would you rate yourself?')}</p>
+      ${SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input" style="width:auto;min-height:2.25rem;padding:0.2rem 0.5rem" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`)}</div>`;
   }
 
   function versionsPanel() {
@@ -140,7 +158,7 @@ export default async function essay(el, ctx) {
           <textarea class="input" id="essay" lang="en" dir="ltr" spellcheck="false" placeholder="${tt('כתבו כאן באנגלית…', 'Write here in English…')}">${text}</textarea>
           <div class="row between"><div class="editor-stats"><span class="num" data-wc>${words} ${tt('מילים', 'words')}</span>${minWords ? html`<span>${tt('יעד', 'target')} ${minWords}${maxWords ? `-${maxWords}` : '+'}</span>` : ''}<span class="faint" data-saved>${draftRec ? tt('הטיוטה נשמרה', 'Draft saved') : ''}</span></div>
             <div class="row"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
-              ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || words < Math.max(3, Math.floor(minWords * 0.5)) ? html`disabled` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
+              ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || evaluatedCount() >= MAX_EVALS || words < Math.max(3, Math.floor(minWords * 0.5)) ? html`disabled` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
           ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('משוב AI לא הוגדר בשרת הזה; הבדיקות האוטומטיות עובדות.', 'AI feedback is not configured on this server; automatic checks work.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
           ${aiError ? html`<p class="error-text" role="alert">${aiError}</p>` : ''}
           ${task.checklist?.length ? html`<details class="panel flat"><summary class="small">${tt('רשימת בדיקה עצמית', 'Self-check list')}</summary><div class="stack-sm" style="margin-top:var(--s2)">${task.checklist.map((c) => html`<label class="row small"><input type="checkbox"> ${bi(c)}</label>`)}</div></details>` : ''}
@@ -173,14 +191,15 @@ export default async function essay(el, ctx) {
     const prev = latestEval();
     try {
       const r = await callAI({
-        task: 'evaluate_writing', level, hebrew_support: hebrewSupport(), feedback_scope: scope(),
+        task: 'evaluate_writing', level, hebrew_support: hebrewSupport(), feedback_scope: scope(), stage: task.stage || 0, draft_number: versions().filter((v) => v.evaluation).length + 1,
         exercise: { title: task.title_en, instructions: (isAssignment ? `${task.prompt}\n` : '') + task.instructions.en, kind: task.kind || 'essay', min_words: minWords || undefined, max_words: maxWords || undefined, focus: task.focus || [], required_elements: task.required_elements || [] },
         text,
         ...(prev ? { previous: { text: prev.text, priorities: prev.evaluation?.priorities || [] } } : {}),
       });
-      const ev = r.evaluation;
+      const ev = { ...r.evaluation, self: Object.keys(selfScores).length ? { ...selfScores } : null };
       saveVersion(ev);
-      revealed.clear();
+      selfScores = {};
+      rung.clear();
       // AI-confirmed errors feed the recurring-mistake tracker; one writing attempt records the overall band.
       for (const er of ev.errors || []) if (er.severity !== 'style') recordAttempt({ source: 'writing', exercise: task.id, topic, skill: 'writing', level, correct: false, error_type: er.type, response: er.quote });
       const scored = (ev.categories || []).filter((c) => c.applicable && c.score != null);
@@ -194,11 +213,19 @@ export default async function essay(el, ctx) {
 
   draw();
   const offs = [
-    on(el, 'input', '#essay', (e) => { text = e.target.value; const wc = $('[data-wc]', el); if (wc) wc.textContent = `${countWords(text)} ${tt('מילים', 'words')}`; const ck = $('[data-check]', el); if (ck) ck.disabled = countWords(text) < 3; const ai = $('[data-ai]', el); if (ai && !busy) ai.disabled = countWords(text) < Math.max(3, Math.floor(minWords * 0.5)); saveDraft(); }),
+    on(el, 'input', '#essay', (e) => { text = e.target.value; const wc = $('[data-wc]', el); if (wc) wc.textContent = `${countWords(text)} ${tt('מילים', 'words')}`; const ck = $('[data-check]', el); if (ck) ck.disabled = countWords(text) < 3; const ai = $('[data-ai]', el); if (ai && !busy) ai.disabled = evaluatedCount() >= MAX_EVALS || countWords(text) < Math.max(3, Math.floor(minWords * 0.5)); saveDraft(); }),
     on(el, 'click', '[data-check]', () => { analysis = analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7 }); saveVersion(); tab = 'checks'; logEvent({ type: 'writing', exercise: task.id }); draw(); }),
     on(el, 'click', '[data-ai]', (e, b) => { if (!b.disabled) getFeedback(); }),
     on(el, 'click', '[data-tab]', (e, b) => { tab = b.dataset.tab; draw(); }),
-    on(el, 'click', '[data-reveal]', (e, b) => { revealed.add(Number(b.dataset.reveal)); draw(); }),
+    on(el, 'click', '[data-rung]', (e, b) => {
+      const i = Number(b.dataset.rung);
+      const next = Math.min(4, (rung.get(i) ?? startRung) + 1);
+      rung.set(i, next);
+      logEvent({ type: 'hint-level', exercise: task.id, error: latestEval()?.evaluation?.errors?.[i]?.type, level: next });
+      draw();
+    }),
+    on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); }),
+    on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { store.put('writing', { ...v, final: true }); draw(); } }),
     on(el, 'click', '[data-compare]', (e, b) => { const n = Number(b.dataset.compare); compareWith = compareWith === n ? null : n; draw(); }),
     on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות המשוב.', 'Thanks. Your report was saved and helps us audit feedback quality.')); }),
     on(el, 'click', '[data-timer]', () => {

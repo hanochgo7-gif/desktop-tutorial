@@ -38,6 +38,9 @@ export const Request = z.discriminatedUnion('task', [
     hebrew_support: z.enum(SUPPORT).default('partial'),
     // focused: at most 3 error categories (default A2-B1); comprehensive: all important errors (research C2, D22).
     feedback_scope: z.enum(['focused', 'comprehensive']).default('focused'),
+    // Writing-lab stage 1-10 (research E); 0 = free writing judged against the learner's level.
+    stage: z.number().int().min(0).max(10).default(0),
+    draft_number: z.number().int().min(1).max(10).default(1),
     exercise: z.object({
       title: text(200),
       instructions: text(2000),
@@ -86,8 +89,12 @@ export type Request = z.infer<typeof Request>;
 // ---------- structured outputs ----------
 // Structured outputs support a subset of JSON Schema, so numeric ranges are checked after parsing
 // (see clampEvaluation) rather than declared here.
+const CEFR = z.enum([...LEVELS, 'below_PreA1']);
 export const WritingEvaluation = z.object({
-  cefr_estimate: z.enum([...LEVELS, 'below_PreA1']),
+  task_fulfilment: z.object({ status: z.enum(['complete', 'partial', 'off_topic']), note: z.string() }),
+  cefr_estimate: CEFR,
+  cefr_low: CEFR,
+  cefr_high: CEFR,
   summary: z.string(),
   summary_he: z.string().nullable(),
   strengths: z.array(z.string()),
@@ -140,25 +147,56 @@ const clampInt = (n: number | null, lo: number, hi: number) => (n == null ? null
 
 // Normalise quotes and spaces so a verbatim quote still matches after typographic differences.
 const loose = (s: string) => s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim().toLowerCase();
+const CEFR_ORDER = ['below_PreA1', ...LEVELS];
 
-// Post-processing (research C2, D26-D27): an error must quote the learner's text verbatim, and a
-// correction may not be much longer than the span it fixes; anything else is dropped as an
-// unverifiable or over-reaching edit. Counts of dropped items are returned for monitoring.
-export function clampEvaluation(e: WritingEvaluation, learnerText = ''): WritingEvaluation & { dropped_errors: number } {
+export type Evaluated = WritingEvaluation & { dropped_errors: number; low_confidence: string[]; runs: number };
+
+// Deterministic post-processing (research C2 D26-D27 and E section 8). Rules that can be checked in code
+// are enforced here rather than trusted to the model:
+//  - errors must quote the learner's text verbatim, and corrections may not be much longer than the span;
+//  - categories outside the stage's applicability are not applicable (never scored as 0);
+//  - the task-fulfilment gate caps argument categories at 2 (partial) or everything at 1 (off topic);
+//  - with several scoring runs, each category takes the median, and a spread above 1 band is low confidence;
+//  - the CEFR range always contains the estimate.
+export function postProcess(runs: WritingEvaluation[], learnerText: string, applicability: Record<string, string>): Evaluated {
+  const e = runs[0];
   const text = loose(learnerText);
+  const quoteOk = (q: string) => !text || text.includes(loose(q));
   const errors = e.errors.filter((err) => {
     const q = loose(err.quote);
-    if (!q || (text && !text.includes(q))) return false;
+    if (!q || !quoteOk(err.quote)) return false;
     return loose(err.correction).length <= Math.max(40, q.length * 2.5);
+  }).slice(0, 15);
+  const gate = e.task_fulfilment?.status || 'complete';
+  const lowConfidence: string[] = [];
+  const categories = e.categories.map((c) => {
+    const applicable = (applicability[c.id] ?? 'full') !== 'na' && c.applicable;
+    if (!applicable) return { ...c, applicable: false, score: null, examples: [] };
+    const scores = runs.map((r) => r.categories.find((x) => x.id === c.id)).filter((x) => x && x.applicable && x.score != null).map((x) => x!.score as number).sort((a, b) => a - b);
+    let score = scores.length ? scores[Math.floor((scores.length - 1) / 2)] : clampInt(c.score, 0, 5);
+    if (scores.length > 1 && scores[scores.length - 1] - scores[0] > 1) lowConfidence.push(c.id);
+    score = clampInt(score, 0, 5);
+    if (gate === 'off_topic') score = Math.min(score ?? 0, 1);
+    else if (gate === 'partial' && ['argument_strength', 'evidence_quality', 'counterarguments'].includes(c.id)) score = Math.min(score ?? 0, 2);
+    return { ...c, applicable: true, score, examples: c.examples.filter((x) => quoteOk(x.quote)) };
   });
-  const quoteOk = (q: string) => !text || text.includes(loose(q));
+  const idx = (l: string) => CEFR_ORDER.indexOf(l);
+  let lo = idx(e.cefr_low), hi = idx(e.cefr_high), est = idx(e.cefr_estimate);
+  if (lo < 0 || lo > est) lo = est;
+  if (hi < est) hi = est;
+  if (gate === 'partial' && est > 0) { est -= 1; lo = Math.min(lo, est); }
   return {
     ...e,
-    categories: e.categories.map((c) => ({ ...c, score: c.applicable ? clampInt(c.score, 0, 5) : null, examples: c.examples.filter((x) => quoteOk(x.quote)) })),
-    errors: errors.slice(0, 15),
-    dropped_errors: e.errors.length - errors.slice(0, 15).length,
+    cefr_estimate: CEFR_ORDER[est] as WritingEvaluation['cefr_estimate'],
+    cefr_low: CEFR_ORDER[lo] as WritingEvaluation['cefr_low'],
+    cefr_high: CEFR_ORDER[hi] as WritingEvaluation['cefr_high'],
+    categories, errors,
+    dropped_errors: e.errors.length - errors.length,
+    low_confidence: lowConfidence,
+    runs: runs.length,
   };
 }
+
 export function clampFeedback(f: z.infer<typeof RoleplayFeedback>) {
   const s = (n: number) => clampInt(n, 0, 100) as number;
   return {

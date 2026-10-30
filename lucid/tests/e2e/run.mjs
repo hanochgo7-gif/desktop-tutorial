@@ -88,11 +88,13 @@ async function answerCurrent(page, { correct = true } = {}) {
 // ---------- mock Supabase + AI ----------
 function installMockServer(page) {
   const user = { id: '11111111-1111-4111-8111-111111111111', email: 'learner@example.com' };
-  const db = { profile: null, records: new Map(), usage: 0 };
+  const db = { profile: null, records: new Map(), usage: 0, aiBodies: [] };
+  page.lucidMock = db;
   const json = (route, body, status = 200) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
   const evaluation = (text, previous) => ({
     evaluation: {
-      cefr_estimate: 'B1', summary: 'A clear opinion with one reason; the argument needs evidence and a counterargument.', summary_he: 'דעה ברורה עם נימוק אחד; חסרות ראיות וטיעון נגדי.',
+      task_fulfilment: { status: 'complete', note: 'Opinion and reasons are both present.' },
+      cefr_estimate: 'B1', cefr_low: 'A2', cefr_high: 'B1', low_confidence: ['coherence'], runs: 1, summary: 'A clear opinion with one reason; the argument needs evidence and a counterargument.', summary_he: 'דעה ברורה עם נימוק אחד; חסרות ראיות וטיעון נגדי.',
       strengths: ['Your opinion is stated clearly in the first sentence.'], priorities: ['Add an example for each reason.'],
       categories: ['grammar', 'vocabulary', 'sentence_structure', 'coherence', 'cohesion', 'argument_strength', 'evidence_quality', 'counterarguments', 'academic_tone', 'clarity', 'precision', 'overall'].map((id, i) => ({ id, applicable: id !== 'academic_tone', score: id === 'academic_tone' ? null : 2 + (i % 3), explanation: `Explanation for ${id}.`, examples: [], improvement: 'Improve this.', practice: 'Practise that.' })),
       errors: text.includes('more better') ? [{ quote: 'more better', type: 'comparison-form', severity: 'important', explanation: 'Use either more or -er.', explanation_he: 'משתמשים או ב-more או ב-er.', hint: 'Look at the comparative.', correction: 'better' }] : [],
@@ -123,6 +125,7 @@ function installMockServer(page) {
     if (url.pathname.startsWith('/rest/v1/rpc/lucid_delete_account')) { db.profile = null; db.records.clear(); return route.fulfill({ status: 204 }); }
     if (url.pathname.startsWith('/functions/v1/lucid-ai')) {
       db.usage++;
+      db.aiBodies.push(body);
       if (body.task === 'evaluate_writing') return json(route, evaluation(body.text, body.previous));
       if (body.task === 'roleplay_turn') return json(route, { reply: 'Sure, let me check that for you. Could you spell your last name?', scene_complete: body.history.length >= 5, hint_he: null });
       if (body.task === 'roleplay_feedback') return json(route, { feedback: { conversation_score: 72, task_completed: true, grammar: { score: 70, comments: ['Mostly accurate.'] }, vocabulary: { score: 75, comments: ['Good range.'] }, naturalness: { score: 68, comments: ['A bit direct.'] }, better_alternatives: [{ you_said: body.history.find((h) => h.role === 'learner')?.text || 'x', more_natural: 'Could you help me with my booking, please?', why: 'Softer and more polite.' }], practice: ['Polite requests'], summary: 'You achieved the goal.', summary_he: 'השגת את המטרה.' } });
@@ -303,11 +306,20 @@ try {
     assert((await page.textContent('aside.panel')).includes('more better'), 'automatic check missed "more better"');
     await page.click('[data-ai]');
     await page.waitForSelector('.error-card .quote');
-    await page.click('[data-reveal="0"]');
-    assert((await page.textContent('aside.panel')).includes('better'), 'correction not revealed');
+    const sent = page.lucidMock.aiBodies.at(-1);
+    assert(sent.stage === 0 && sent.draft_number === 1, `stage/draft not sent: ${JSON.stringify({ stage: sent.stage, draft: sent.draft_number })}`);
+    assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before the learner asked for it');
+    // Hint ladder: each press reveals one more rung until the correction (research E, 9.5).
+    for (let i = 0; i < 4 && await page.$('[data-rung="0"]'); i++) await page.click('[data-rung="0"]');
+    assert(/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction not revealed at the end of the hint ladder');
+    assert(!/Estimated level of this text|הערכת רמה של הטקסט/.test(await page.textContent('aside.panel')), 'overall level shown on a first draft');
     await page.fill('#essay', 'I think public transport is better than cars. It is cheaper and cleaner for everyone in the city.');
     await page.click('[data-ai]');
     await page.waitForFunction(() => document.querySelector('aside.panel')?.textContent.includes('You fixed'));
+    assert(page.lucidMock.aiBodies.at(-1).draft_number === 2, 'second draft number not sent');
+    await page.click('[data-final]');
+    await page.waitForFunction(() => /Estimated level of this text|הערכת רמה של הטקסט/.test(document.querySelector('aside.panel')?.textContent || ''));
+    assert(/A2.B1/.test(await page.textContent('aside.panel .tag.level')), 'CEFR range not shown on the final draft');
     await page.click('[data-tab="versions"]');
     await page.click('[data-compare="1"]');
     assert(await page.$('aside.panel del'), 'no version diff shown');

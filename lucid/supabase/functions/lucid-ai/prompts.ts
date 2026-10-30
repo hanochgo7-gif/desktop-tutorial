@@ -1,7 +1,7 @@
 // System prompts and message builders. System prompts are static (no per-request data) so they
 // stay byte-identical and cacheable; everything about the learner goes in the messages.
 import type { Request } from './schemas.ts';
-import { RUBRIC } from './rubric.ts';
+import { RUBRIC, APPLICABILITY, STAGE_TARGET } from './rubric.ts';
 
 type Of<T extends Request['task']> = Extract<Request, { task: T }>;
 
@@ -34,10 +34,17 @@ Feedback rules:
 ${HEBREW_POLICY}`;
 }
 
+export function applicabilityFor(stage: number): Record<string, string> {
+  return Object.fromEntries(Object.entries(APPLICABILITY).map(([k, v]) => [k, v[stage] ?? 'full']));
+}
+
 export function writingUserMessage(b: Of<'evaluate_writing'>): string {
   const e = b.exercise;
   const lines = [
     `Learner level (current estimate): ${b.level}`,
+    `Writing stage: ${b.stage || 'free writing'}; target: ${b.stage ? STAGE_TARGET[b.stage] : b.level}`,
+    `Applicable categories at this stage: ${Object.entries(applicabilityFor(b.stage)).map(([k, v]) => `${k}=${v}`).join(', ')}`,
+    `Draft number: ${b.draft_number}`,
     `Hebrew support: ${b.hebrew_support}`,
     `Feedback scope: ${b.feedback_scope}`,
     `Task: ${e.title} (${e.kind})`,
