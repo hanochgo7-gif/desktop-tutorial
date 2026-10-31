@@ -84,7 +84,7 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
       ${levelTag(lesson.level)}
     </div>
     <div class="player-body"><div id="exroot"></div></div>
-    <div class="player-foot" id="pfoot"><div class="inner"><span class="grow"></span><button type="button" class="key enter" data-check disabled>${ex.type === 'write' ? tt('שליחה', 'Submit') : tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div></div>
+    <div class="player-foot" id="pfoot"><div class="inner"><span class="grow"></span><button type="button" class="key enter" data-check disabled>${ex.type === 'write' ? tt('שליחה', 'Submit') : ex.type === 'speak' ? tt('סיום', 'Done') : tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div></div>
   </div>`);
   el.focus({ preventScroll: true });
 
@@ -118,7 +118,7 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
     const btn = $('[data-next]', el) || $('[data-check]:not([disabled])', el);
     if (!btn) return;
     if (e.target.tagName === 'TEXTAREA' && !$('[data-next]', el) && ex.type === 'write') return;
-    if ((e.target.tagName === 'BUTTON' || e.target.tagName === 'A') && e.target !== btn) return;
+    if (['BUTTON', 'A', 'SUMMARY'].includes(e.target.tagName) && e.target !== btn) return;
     e.preventDefault();
     btn.click();
   };

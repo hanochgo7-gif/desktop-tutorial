@@ -206,6 +206,12 @@ const lessonFile = async (id) => JSON.parse(await readFile(new URL(`content/less
 test('P-37: a placement that was left is pending, keeps its answers, and clears on a result', async () => {
   assert.equal(L.placementPending(), true);
   assert.equal(L.selfReportLevel(), 'B1');
+  // Choosing a level on the path settles it too (recorded as the learner's own estimate).
+  await L.moveToLevel('A2');
+  assert.equal(L.placementPending(), false);
+  assert.equal(storeMod.store.get('placement', 'latest').skipped, 'self-report');
+  storeMod.store.remove('placement', 'latest');
+  assert.equal(L.placementPending(), true);
   L.savePlacementDraft({ start: 'B1', answers: [{ id: 'x', correct: true, dontKnow: false }] });
   assert.equal(L.placementDraft().answers.length, 1);
   await L.applyPlacement({ demonstrated: 'B2', level: 'B2', start_level: 'C1', items: 16, answers: [], skills: {} });

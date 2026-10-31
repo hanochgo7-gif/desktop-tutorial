@@ -3,20 +3,30 @@
 //   check()        -> Promise<{ correct, almost, score, graded, response, error_type, title, detail }>
 //   hintText()     authored hint (Bilingual) or null
 //   onKey(e)       keyboard shortcuts (1-4 for options); returns true when handled
+//   graded         false for practice that is never scored (speaking, writing)
+//   speak          true for speaking items: the player offers "Can't speak right now" and goes straight on
 // Every typed answer goes through grading.js, so contractions, case and small slips are fair.
+// Speaking is never graded by speech recognition (research C2, D34-D37): the learner sees what was
+// recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
 import { html, render, on, shuffle, $, $$ } from '../core/util.js';
 import { bi, tt, hebrewSupport } from '../core/i18n.js';
 import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize } from '../core/grading.js';
-import { say, canSpeak, canListen, listen, stopSpeaking } from '../core/speech.js';
+import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { icon } from './components.js';
 import { analyzeWriting } from '../core/writing-analyzer.js';
 
 const KEYS = ['1', '2', '3', '4', '5', '6'];
+// Open rewrites from B1 up have many right answers, so the key is "a model answer" and the learner may
+// count an equivalent answer (logged as self-judged; research E, P-77).
+export const OPEN_REWRITE_LEVELS = ['B1', 'B2', 'C1', 'C2'];
+export const isOpenRewrite = (ex, level) => ex?.type === 'transform' && OPEN_REWRITE_LEVELS.includes(level);
+const NIQQUD = /[\u05B0-\u05BC\u05C1\u05C2\u05C7]/;
+const LETTER = /^[A-Za-z]$/;
 const en = (s) => html`<span lang="en" dir="ltr">${s}</span>`;
 const firstAnswer = (a) => (Array.isArray(a) ? a[0] : a);
 
 function listenButtons(text) {
-  if (!canSpeak()) return html`<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא תומך בהקראה. התמליל מוצג במקום.', 'This browser cannot read text aloud, so the transcript is shown instead.')}</span></p><p class="ex-text">${en(text)}</p>`;
+  if (!canSpeak()) return html`<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא תומך בהקראה. התמליל מוצג במקום.', 'This browser cannot read text aloud, so the transcript is shown instead.')}</span></p><p class="ex-text" lang="en" dir="ltr">${text}</p>`;
   return html`<div class="big-listen"><button type="button" class="key" data-say="normal" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 24 })} ${tt('השמעה', 'Play')}</button><button type="button" class="key" data-say="slow" aria-label="${tt('השמעה איטית', 'Play slowly')}">${icon('turtle', { size: 24 })} ${tt('לאט', 'Slowly')}</button></div>`;
 }
 
@@ -41,7 +51,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const order = ex.options.map((_, i) => i);
       render(root, html`${prompt}
         ${ex.type === 'listen' ? listenButtons(ex.audio_text) : ''}
-        <p class="ex-text">${en(ex.question)}</p>
+        <p class="ex-text" lang="en" dir="ltr">${ex.question}</p>
         <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false"><span class="k" aria-hidden="true">${KEYS[n]}</span>${en(ex.options[i])}</button>`)}</div>`);
       if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60); }
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
@@ -117,11 +127,20 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const right = shuffle(ex.pairs.map((p, i) => ({ text: p[1], i })), 0.63);
       let sel = null; let mistakes = 0; const done = new Set();
       const langOf = (s) => (/[֐-׿]/.test(s) ? 'he' : 'en');
+      // Letter names that differ only in their vowel points are shown larger, and a letter tile has its own
+      // play button (P-09), so the learner can hear "A" and "I" instead of telling them apart by niqqud.
+      const tile = (side, x) => {
+        const b = html`<button type="button" class="match-item ${NIQQUD.test(x.text) ? 'pointed' : ''}" ${side === 'l' ? html`data-l="${x.i}"` : html`data-r="${x.i}"`} lang="${langOf(x.text)}" dir="auto">${x.text}</button>`;
+        return canSpeak() && LETTER.test(String(x.text).trim())
+          ? html`<div class="match-cell">${b}<button type="button" class="key ghost small icon-only" data-say-tile="${String(x.text).trim()}" aria-label="${tt('השמעה', 'Play')}: ${x.text}">${icon('volume', { size: 18 })}</button></div>`
+          : b;
+      };
       render(root, html`${prompt}
         <div class="match-grid">
-          <div class="match-col">${left.map((x) => html`<button type="button" class="match-item" data-l="${x.i}" lang="${langOf(x.text)}" dir="auto">${x.text}</button>`)}</div>
-          <div class="match-col">${right.map((x) => html`<button type="button" class="match-item" data-r="${x.i}" lang="${langOf(x.text)}" dir="auto">${x.text}</button>`)}</div>
+          <div class="match-col">${left.map((x) => tile('l', x))}</div>
+          <div class="match-col">${right.map((x) => tile('r', x))}</div>
         </div>`);
+      offs.push(on(root, 'click', '[data-say-tile]', (e, b) => say(b.dataset.sayTile, { variant })));
       const tryPair = (l, r) => {
         const lb = $(`[data-l="${l}"]`, root), rb = $(`[data-r="${r}"]`, root);
         if (l === r) { [lb, rb].forEach((b) => { b.classList.add('paired'); b.disabled = true; b.setAttribute('aria-pressed', 'false'); }); done.add(l); onChange(done.size === ex.pairs.length); }
@@ -139,7 +158,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => done.size === ex.pairs.length;
       ctl.check = async () => {
         const correct = mistakes === 0;
-        return result({ correct, score: Math.max(0, 1 - mistakes / ex.pairs.length), response: `${mistakes} mistakes`, answer: ex.pairs.map((p) => `${p[0]} = ${p[1]}`).join(' · ') });
+        // Every pair is matched on screen by now, so the verdict counts the wrong tries instead of repeating the key.
+        return result({ correct, score: Math.max(0, 1 - mistakes / ex.pairs.length), response: `${mistakes} mistakes`, summary: correct ? null : tt(mistakes === 1 ? 'ניסיון שגוי אחד' : `${mistakes} ניסיונות שגויים`, `${mistakes} wrong ${mistakes === 1 ? 'try' : 'tries'}`) });
       };
       break;
     }
@@ -161,10 +181,16 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.check = async () => {
         root.dataset.locked = '1';
         let right = 0;
-        $$('[data-placed]', root).forEach((b) => { const it = items.find((x) => x.i === Number(b.dataset.placed)); const ok = placed.get(it.i) === it.category; if (ok) right++; b.style.borderColor = ok ? 'var(--ok)' : 'var(--bad)'; });
+        // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
+        $$('[data-placed]', root).forEach((b) => {
+          const it = items.find((x) => x.i === Number(b.dataset.placed));
+          const ok = placed.get(it.i) === it.category;
+          if (ok) right++;
+          b.classList.add(ok ? 'is-right' : 'is-wrong');
+          b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only">${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
+        });
         const correct = right === items.length;
-        const wrongs = items.filter((x) => placed.get(x.i) !== x.category).map((x) => `${x.text} → ${x.category}`);
-        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, answer: wrongs.join(' · ') });
+        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: `${right}/${items.length}`, fixes: categoryFixes(ex, placed) });
       };
       break;
     }
@@ -185,7 +211,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ta.readOnly = true;
         const r = checkTyped(ta.value, ex.answers);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
-        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type });
+        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && isOpenRewrite(ex, level) });
       };
       break;
     }
@@ -211,42 +237,48 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     }
 
     case 'speak': {
-      ctl.graded = canListen();
-      let heard = null; let selfRated = null;
-      const draw = (state = '') => render(root, html`${prompt}
+      // Practice, not a test: nothing here is scored, whether or not the browser can recognise speech.
+      ctl.graded = false;
+      ctl.speak = true;
+      let heard = null; let selfRated = null; let listening = false; let err = '';
+      const recLabel = () => (listening ? tt('מקשיב… לחצו לעצירה', 'Listening… tap to stop') : heard != null ? tt('לנסות שוב', 'Try again') : tt('לומר בקול', 'Say it'));
+      const draw = () => render(root, html`${prompt}
         <p class="ex-text" lang="en" dir="ltr">${ex.target}</p>
-        ${ex.focus ? html`<p class="small muted">${icon('info', { size: 16 })} ${bi(ex.focus)}</p>` : ''}
+        ${ex.focus ? html`<div class="row small muted speak-focus">${icon('info', { size: 16 })}<div class="grow">${bi(ex.focus)}</div></div>` : ''}
         <div class="big-listen">
           ${canSpeak() ? html`<button type="button" class="key" data-say="normal">${icon('volume', { size: 22 })} ${tt('לשמוע', 'Hear it')}</button>` : ''}
-          ${canListen() ? html`<button type="button" class="key ${state === 'listening' ? 'enter' : ''}" data-rec>${icon(state === 'listening' ? 'stop' : 'speaking', { size: 22 })} ${state === 'listening' ? tt('מקשיב…', 'Listening…') : tt('לומר בקול', 'Say it')}</button>` : ''}
+          ${canListen() ? html`<button type="button" class="key ${listening ? 'enter' : ''}" data-rec aria-pressed="${listening}">${icon(listening ? 'stop' : heard != null ? 'refresh' : 'speaking', { size: 22 })} ${recLabel()}</button>` : ''}
         </div>
-        ${heard ? html`<div class="panel sunk"><p class="xsmall faint">${tt('מה שזוהה:', 'What was recognised:')}</p><div class="word-diff" lang="en" dir="ltr">${wordAccuracy(heard, ex.target).words.map((w) => html`<span class="${w.ok ? 'w-ok' : 'w-miss'}">${w.word}</span>`)}</div><p class="xsmall faint" style="margin-top:var(--s2)">${tt('מילים באדום לא זוהו. זה לא ציון מבטא: זיהוי הדיבור יכול לטעות, נסו שוב בקצב רגוע.', 'Words in red were not recognised. This is not an accent score: recognition can be wrong, so try again calmly.')}</p></div>` : ''}
-        ${!canListen() ? html`<div class="stack-sm"><p class="banner warn small">${icon('info', { size: 18 })}<span>${tt('זיהוי דיבור לא זמין בדפדפן הזה (עובד ב-Chrome, Edge ו-Safari). הקשיבו, אמרו בקול, וסמנו בעצמכם:', 'Speech recognition is not available in this browser (it works in Chrome, Edge and Safari). Listen, say it aloud, then mark it yourself:')}</span></p>
-          <div class="row"><button type="button" class="key small" data-self="1" aria-pressed="${selfRated === 1}">${tt('אמרתי את זה בבירור', 'I said it clearly')}</button><button type="button" class="key small" data-self="0" aria-pressed="${selfRated === 0}">${tt('צריך עוד תרגול', 'I need more practice')}</button></div></div>` : ''}
-        ${state === 'error' ? html`<p class="error-text" role="alert">${root.dataset.err}</p>` : ''}`);
+        <div aria-live="polite">${heard != null ? recognised(heard, ex.target) : ''}${err ? html`<p class="error-text" role="alert">${err}</p>` : ''}</div>
+        ${!canListen() ? html`<p class="banner warn small">${icon('info', { size: 18 })}<span>${tt('זיהוי דיבור לא זמין בדפדפן הזה (עובד ב-Chrome, Edge ו-Safari). הקשיבו, אמרו בקול, וסמנו בעצמכם.', 'Speech recognition is not available in this browser (it works in Chrome, Edge and Safari). Listen, say it aloud, then mark it yourself.')}</span></p>` : ''}
+        <div class="stack-sm self-rate" role="group" aria-labelledby="sr-${ex.id}">
+          <p class="small muted" id="sr-${ex.id}">${canListen() ? tt('אפשר גם לומר בקול ולסמן בעצמכם:', 'You can also say it aloud and mark it yourself:') : tt('איך זה הלך?', 'How did it go?')}</p>
+          <div class="row"><button type="button" class="key small" data-self="1" aria-pressed="${selfRated === 1}">${tt('אמרתי את זה בבירור', 'I said it clearly')}</button><button type="button" class="key small" data-self="0" aria-pressed="${selfRated === 0}">${tt('צריך עוד תרגול', 'I need more practice')}</button></div>
+        </div>
+        <p class="xsmall faint">${tt('תרגול דיבור לא מקבל ציון.', 'Speaking practice is not scored.')}</p>`);
+      const refocus = () => root.querySelector('[data-rec]')?.focus();
       draw();
       sayHandler(ex.target);
-      offs.push(on(root, 'click', '[data-self]', (e, b) => { selfRated = Number(b.dataset.self); draw(); onChange(true); }));
+      offs.push(on(root, 'click', '[data-self]', (e, b) => { selfRated = Number(b.dataset.self); draw(); root.querySelector(`[data-self="${selfRated}"]`)?.focus(); onChange(true); }));
       offs.push(on(root, 'click', '[data-rec]', async () => {
-        if (root.dataset.listening) { listen.stop?.(); return; }
+        if (listening) { listen.stop?.(); return; }
         stopSpeaking();
-        root.dataset.listening = '1'; draw('listening');
+        err = '';
+        if (!(await micNotice())) { err = `${speechErrorText({ code: 'declined' })} ${tt('אפשר לומר בקול ולסמן בעצמכם.', 'You can say it aloud and mark it yourself.')}`; draw(); return; }
+        listening = true; draw(); refocus();
         try {
           const r = await listen({ variant });
-          heard = r.alternatives.map((a) => ({ a, acc: wordAccuracy(a, ex.target).accuracy })).sort((x, y) => y.acc - x.acc)[0].a;
-          delete root.dataset.listening; draw(); onChange(true);
-        } catch (err) {
-          delete root.dataset.listening;
-          root.dataset.err = err.code === 'denied' ? tt('אין הרשאה למיקרופון. אפשר לאשר בהגדרות הדפדפן.', 'Microphone access was blocked. You can allow it in your browser settings.') : err.code === 'no-speech' ? tt('לא נשמע דיבור. נסו שוב, קרוב יותר למיקרופון.', 'No speech was heard. Try again, a little closer to the microphone.') : tt('זיהוי הדיבור לא הצליח. נסו שוב.', 'Speech recognition did not work. Please try again.');
-          draw('error');
+          // The alternative closest to the target, so the learner is not shown the recogniser's worst guess.
+          heard = r.alternatives.map((a) => ({ a, acc: wordAccuracy(a, ex.target).accuracy })).sort((x, y) => y.acc - x.acc)[0]?.a ?? r.transcript;
+        } catch (e) {
+          err = speechErrorText(e);
         }
+        listening = false;
+        if (!root.isConnected) return;
+        draw(); refocus(); onChange(ctl.ready());
       }));
       ctl.ready = () => heard != null || selfRated != null;
-      ctl.check = async () => {
-        if (!canListen()) return { graded: false, correct: selfRated === 1, score: null, response: selfRated === 1 ? 'self: clear' : 'self: practise', self: true };
-        const acc = wordAccuracy(heard, ex.target).accuracy;
-        return result({ correct: acc >= 0.8, almost: acc >= 0.6 && acc < 0.8, score: acc, response: heard, answer: ex.target, error_type: ex.error_type || null });
-      };
+      ctl.check = async () => ({ graded: false, speak: true, correct: selfRated === 1, score: null, error_type: null, self: selfRated, heard, response: heard != null ? heard : selfRated === 1 ? 'self: clear' : 'self: practise' });
       ctl.destroy = () => { listen.stop?.(); stopSpeaking(); };
       break;
     }
@@ -328,18 +360,63 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
 
 function normalizeHtml(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
-// The verdict shown in the player footer after checking.
+// What speech recognition heard, next to the target in its own spelling (words it did not find are
+// marked). Information for the learner, never a score.
+export function recognised(heard, target) {
+  return html`<div class="panel sunk stack-sm recognised">
+    <p class="xsmall faint">${tt('מה שזוהה:', 'What was recognised:')} <span lang="en" dir="ltr" class="heard">“${heard || '…'}”</span></p>
+    <div class="word-diff" lang="en" dir="ltr">${wordAccuracy(heard, target).words.map((w) => html`<span class="${w.ok ? 'w-ok' : 'w-miss'}">${w.word}</span>`)}</div>
+    <p class="xsmall faint">${tt('מילים מסומנות באדום לא זוהו. זה לא ציון ולא בדיקת מבטא: זיהוי הדיבור טועה לפעמים. אפשר לנסות שוב או להמשיך.', 'Words marked in red were not recognised. This is not a score or an accent check: recognition is sometimes wrong. Try again or continue.')}</p>
+  </div>`;
+}
+
+// Misplaced items of a categorize exercise, grouped by the category they belong in.
+export function categoryFixes(ex, placed) {
+  return ex.categories
+    .map((category) => ({ category, items: ex.items.filter((x, i) => x.category === category && placed.get(i) !== category).map((x) => x.text) }))
+    .filter((g) => g.items.length);
+}
+
+// The answer for "I don't know": the key, or for sorting every item under its category.
+export function answerFor(ex) {
+  if (ex.type === 'mcq' || ex.type === 'listen') return { answer: ex.options[ex.answer] };
+  if (ex.type === 'gap') return { answer: ex.answers.map(firstAnswer).join(' … ') };
+  if (ex.type === 'order') return { answer: ex.tokens.join(' ') };
+  if (['transform', 'correct', 'dictation'].includes(ex.type)) return { answer: ex.answers[0] };
+  if (ex.type === 'match') return { answer: ex.pairs.map((p) => `${p[0]} = ${p[1]}`).join(' · ') };
+  if (ex.type === 'categorize') return { fixes: categoryFixes(ex, new Map()) };
+  return {};
+}
+
+// A long English answer gets its own left-to-right line; a short one stays in the sentence.
+const answerEl = (a) => html`<span class="answer ${String(a).length > 24 ? 'answer-block' : ''}" lang="en" dir="ltr">${a}</span>`;
+
+// The verdict shown in the player footer after checking: the result and the correct form first, the
+// explanation one tap away behind "Why?" (research D7), so it never covers the exercise on a phone.
 export function verdictHtml(ex, r, errors) {
   if (r.writing) return html`<div class="verdict-title">${icon('check', { size: 18 })} ${tt('נשמר. עברו על הבדיקות והדוגמה.', 'Saved. Go through the checks and the model.')}</div>`;
-  if (r.self) return html`<div class="verdict-title">${icon('check', { size: 18 })} ${tt('תרגול דיבור נרשם', 'Speaking practice recorded')}</div>`;
-  const title = r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : tt('לא בדיוק', 'Not quite');
-  const ico = r.correct ? 'check' : 'x';
+  if (r.speak || r.self != null) {
+    const title = r.self === 1 ? tt('סימנתם: אמרתי בבירור', 'You marked it: said clearly') : r.self === 0 ? tt('נרשם: צריך עוד תרגול', 'Noted: more practice needed') : tt('תרגול דיבור נרשם', 'Speaking practice recorded');
+    return html`<div class="verdict-title">${icon('check', { size: 18 })} ${title}</div><div class="verdict-body"><p class="muted">${tt('תרגול דיבור לא מקבל ציון.', 'Speaking practice is not scored.')}</p></div>`;
+  }
+  const title = r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('לא אחת מהתשובות שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite');
+  const ico = r.correct ? 'check' : r.model ? 'info' : 'x';
+  const note = !r.correct ? errorNote(r.error_type, errors) : '';
+  const why = note || ex.explanation;
   return html`<div class="verdict-title">${icon(ico, { size: 18 })} ${title}${r.summary ? html` <span class="num">· ${r.summary}</span>` : ''}</div>
     <div class="verdict-body stack-sm">
-      ${!r.correct && r.answer ? html`<p>${tt('התשובה הנכונה:', 'Correct answer:')} <span class="answer" lang="en" dir="ltr">${r.answer}</span></p>` : ''}
-      ${r.almost && r.answer && r.correct ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} <span class="answer" lang="en" dir="ltr">${r.answer}</span></p>` : ''}
+      ${!r.correct && r.answer ? html`<p>${r.model ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
+      ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <span class="answer">${g.items.join(', ')}</span></li>`)}</ul></div>` : ''}
+      ${r.almost && r.answer && r.correct ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} ${answerEl(r.answer)}</p>` : ''}
       ${r.specific ? html`<p>${bi(r.specific)}</p>` : ''}
-      ${!r.correct ? errorNote(r.error_type, errors) : ''}
-      ${ex.explanation ? html`<p class="muted">${bi(ex.explanation)}</p>` : ''}
+      ${r.model ? html`<div class="stack-sm self-judge"><p class="small">${tt('אם התשובה שלכם אומרת את אותו הדבר ועושה מה שהמשימה מבקשת, אפשר לספור אותה.', 'If yours says the same thing and does what the task asks, you can count it.')}</p><div><button type="button" class="key small" data-self-judge>${icon('check', { size: 16 })} ${tt('גם התשובה שלי נכונה', 'My answer is also correct')}</button></div></div>` : ''}
+      ${why ? html`<details class="why"><summary>${tt('למה?', 'Why?')}</summary><div class="stack-sm">${note}${ex.explanation ? html`<p>${bi(ex.explanation)}</p>` : ''}</div></details>` : ''}
     </div>`;
+}
+
+// After "My answer is also correct": the verdict says so, keeps the model answer, and the button is gone.
+export function selfJudgedHtml(r) {
+  return html`<div class="verdict-title">${icon('check', { size: 18 })} ${tt('נספר כנכון', 'Counted as correct')}</div>
+    <div class="verdict-body stack-sm">${r?.answer ? html`<p>${tt('תשובה אחת לדוגמה:', 'One model answer:')} ${answerEl(r.answer)}</p>` : ''}
+      <p class="muted small">${tt('סימנתם שהתשובה שלכם נכונה, והיא נשמרת כשיפוט שלכם ולא של Lucid.', 'You marked your answer as correct. It is saved as your own judgement, not Lucid\'s.')}</p></div>`;
 }

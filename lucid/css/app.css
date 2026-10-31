@@ -560,3 +560,70 @@ dialog.sheet > .panel { padding: var(--s5); }
 .skill-row.est .meter > span { background: repeating-linear-gradient(135deg, var(--cobalt) 0 3px, var(--cobalt-tint) 3px 6px); }
 /* Today's main button carries a lesson title: it may wrap on narrow phones instead of overflowing. */
 .start-bar > .key { white-space: normal; max-width: 100%; text-align: start; padding-block: 0.45rem; }
+
+/* writing */
+/* Desktop: the text stays in view beside long feedback and fills the screen height (persona panel P-30, P-84). */
+@media (min-width: 64rem) {
+  .editor { align-items: stretch; }
+  .editor > aside { align-self: start; }
+  .editor-pane { position: sticky; top: var(--s4); }
+  .editor .editor-pane textarea.input { height: calc(100dvh - 12rem); min-height: 22rem; }
+  .fix-strip { display: none; }
+}
+.editor-pane [data-status]:empty, .editor-pane [data-ai-why]:empty { display: none; }
+.fix-strip .row { gap: var(--s2); }
+.fix-strip .chip { min-height: 2.25rem; font-size: var(--t-sm); }
+.essay-side:focus:not(:focus-visible) { outline: none; }
+.note-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; margin: 0; }
+.topic-pick { border: 0; padding: 0; margin: 0; min-width: 0; }
+.topic-pick legend { padding: 0; margin-block-end: var(--s2); }
+.topic-pick .note-row { padding: var(--s2) var(--s3); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); cursor: pointer; }
+.topic-pick .note-row:has(input:checked) { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.topic-pick input { margin-block-start: 0.3rem; }
+.req-list { margin: var(--s2) 0 0; padding-inline-start: 1.2rem; }
+.final-box { padding: var(--s3); border-radius: var(--r-key); background: var(--key-sunk); }
+.input.compact { width: auto; min-height: 2.25rem; padding: 0.2rem 0.5rem; }
+.diff { white-space: pre-wrap; line-height: 1.8; overflow-wrap: anywhere; }
+.diff ins, .xsmall ins { background: var(--ok-tint); text-decoration: none; }
+.diff del, .xsmall del { background: var(--bad-tint); }
+.passage.source { max-width: none; }
+.essay-busy { align-items: center; }
+
+/* player-speaking */
+/* English learning text inside Hebrew screens is its own left-aligned block (research D33; P-32, P-58). */
+.player .bi > .bi-en, :is(.block-rule, .block-tip, .block-warning) .bi > .bi-en { display: block; text-align: start; }
+.player .bi > .he-reveal, :is(.block-rule, .block-tip, .block-warning) .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.25em; }
+/* Objectives and key points: the icon stays on the line of its text, also on phones (P-13). */
+.point-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+.point { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: var(--s2); }
+.point > .icon { margin-block-start: 0.2em; color: var(--cobalt); }
+.block-tip.row, .block-warning.row, .speak-focus { flex-wrap: nowrap; align-items: flex-start; gap: var(--s2); }
+.missing-lesson h1 { font-size: var(--t-lg); }
+/* The verdict: the result and the right form first, the explanation behind "Why?" (research D7). On phones
+   it takes the full width with a full-width Continue below it (P-03, P-39, P-59). */
+.player-foot .verdict { max-height: 45dvh; overflow-y: auto; }
+.verdict .why > summary { cursor: pointer; width: fit-content; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; min-height: 2rem; display: flex; align-items: center; }
+.verdict .why[open] > summary { margin-block-end: var(--s1); }
+.verdict-body .fix-list { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: var(--s1); }
+.verdict-body .fix-cat { color: var(--ink-2); }
+.verdict-body .answer-block { display: block; text-align: start; }
+.verdict .self-judge .key { white-space: normal; }
+@media (max-width: 40rem) {
+  .player-foot .inner > .verdict { flex: 1 1 100%; }
+  .player-foot .inner > .verdict ~ .key, .player-foot .inner > [data-retry] { flex: 1 1 100%; }
+}
+/* Letter tiles: a play button beside the tile; pointed Hebrew (niqqud) larger (P-09). */
+.match-cell { display: flex; gap: var(--s2); align-items: center; }
+.match-cell > .match-item { flex: 1; min-width: 0; }
+.match-item.pointed { font-size: var(--t-lg); line-height: 1.5; }
+/* Sorting: every placed item is marked in place with an icon as well as colour (D8). */
+.cat-bin .chip.is-right, .cat-bin .chip.is-wrong { display: inline-flex; align-items: center; gap: 0.3rem; }
+.cat-bin .chip.is-right { border-color: var(--ok); }
+.cat-bin .chip.is-right .icon { color: var(--ok); }
+.cat-bin .chip.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.cat-bin .chip.is-wrong .icon { color: var(--bad); }
+/* Speaking: what was recognised is information, never a grade. */
+.recognised .heard { color: var(--ink); }
+/* Speaking lab tabs: example words first, the IPA below in small print (P-23). */
+.sound-tabs button { display: inline-grid; justify-items: center; line-height: 1.25; padding-block: 0.3rem; }
+.sound-tabs .tab-ipa { font-size: var(--t-xs); color: var(--ink-3); font-weight: 400; }

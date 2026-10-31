@@ -1,5 +1,7 @@
 // Deterministic writing checks that work without AI. They are signals, not a grade: patterns can
 // miss errors and occasionally flag correct English, so the UI labels them "automatic checks".
+// Rules that often flag correct academic prose (comma splices, if + will) are not run at C1-C2, a/an is
+// decided by sound, and a title line or a closing reference list is not treated as essay text.
 import { countWords } from './grading.js';
 
 const FORMAL_LEVELS = new Set(['B2', 'C1', 'C2']);
@@ -91,8 +93,21 @@ function linesOf(text) {
 const sentencesOf = (text) => linesOf(text).filter((l) => !l.heading).flatMap((l) => l.text.split(/(?<=[.!?])\s+(?=[A-Z"'“])/)).map((s) => s.trim()).filter((s) => /[A-Za-z]/.test(s));
 const sentenceStart = (raw, i) => Math.max(raw.lastIndexOf('.', i - 1), raw.lastIndexOf('!', i - 1), raw.lastIndexOf('?', i - 1), raw.lastIndexOf('\n', i - 1), -1) + 1;
 
+// A reference list at the end ("References", "Bibliography", "Works cited") is not part of the essay: it is
+// not counted toward the word range and not checked (persona panel P-78). Only a heading in the last 60% of
+// the text counts.
+const REF_HEAD = /\n[ \t]*(references|reference list|bibliography|works cited|sources)[ \t]*:?[ \t]*(?=\n)/gi;
+export function splitReferences(text) {
+  const all = String(text || '');
+  let at = -1;
+  for (const m of all.matchAll(REF_HEAD)) at = m.index;
+  return at < 0 || at < all.length * 0.4 ? { body: all, references: '' } : { body: all.slice(0, at), references: all.slice(at + 1) };
+}
+
 export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null } = {}) {
-  const raw = String(text || '');
+  const { body, references } = splitReferences(text);
+  const raw = body;
+  const refWords = references ? countWords(references) : 0;
   const words = countWords(raw);
   const sentences = sentencesOf(raw);
   const headings = new Set(linesOf(raw).filter((l) => l.heading).map((l) => l.text));
@@ -104,7 +119,8 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   const isFormal = formal ?? FORMAL_LEVELS.has(level);
 
   const checks = [];
-  if (minWords) checks.push({ id: 'length', ok: words >= minWords && (!maxWords || words <= maxWords * 1.1), en: maxWords ? `${words} words (target ${minWords}-${maxWords})` : `${words} words (at least ${minWords})`, he: maxWords ? `${words} מילים (יעד ${minWords}-${maxWords})` : `${words} מילים (לפחות ${minWords})` });
+  const refNote = refWords ? { en: `; the reference list (${refWords} words) is not counted`, he: `; רשימת המקורות (${refWords} מילים) לא נספרת` } : { en: '', he: '' };
+  if (minWords) checks.push({ id: 'length', ok: words >= minWords && (!maxWords || words <= maxWords * 1.1), en: maxWords ? `${words} words (target ${minWords}-${maxWords}${refNote.en})` : `${words} words (at least ${minWords}${refNote.en})`, he: maxWords ? `${words} מילים (יעד ${minWords}-${maxWords}${refNote.he})` : `${words} מילים (לפחות ${minWords}${refNote.he})` });
   for (const w of mustInclude) {
     const ok = new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(raw);
     checks.push({ id: `must:${w}`, ok, en: `Uses "${w}"`, he: `משתמש/ת ב-"${w}"` });
@@ -155,7 +171,7 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
 
   return {
     stats: {
-      words, sentences: sentences.length, paragraphs: paragraphs.length,
+      words, reference_words: refWords, sentences: sentences.length, paragraphs: paragraphs.length,
       avg_sentence: sentences.length ? +(words / sentences.length).toFixed(1) : 0,
       longest_sentence: lens.length ? Math.max(...lens) : 0,
       unique_words: types.size,

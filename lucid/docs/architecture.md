@@ -62,11 +62,12 @@ js/core/
   learner.js                    profile, settings, attempts, lesson progress, cards, memoised learner model
   adaptive.js                   topic mastery, recurring errors, per-skill levels, daily plan, reports
   srs.js                        FSRS wrapper, objective grading, retrieval ladder, workload governor
-  placement.js                  adaptive staircase placement
+  placement.js                  adaptive staircase placement with confirmation and resume
   pool.js                       exercise pool, targeted drills (with competing topics), level checks
   grading.js                    answer normalisation, contractions, typo tolerance, word alignment
   writing-analyzer.js           deterministic writing checks (no AI)
-  diff.js                       word-level draft comparison
+  diff.js                       draft comparison (any two versions, paragraph breaks kept); follows a quoted
+                                mistake into the current text by its sentence
   speech.js                     speech synthesis and recognition
   i18n.js                       Hebrew/English UI strings, Hebrew support level, dual legends
   router.js                     hash router, lazy views, onboarding guard
@@ -111,36 +112,82 @@ atomic in-memory ledger instead.
   least 6 answers on at least 2 different days, so one good sitting is not mastery.
 - **Recurring errors** need 3+ occurrences on 2+ days in 30 days; trends compare the last 14 days with the 14
   before.
-- **Per-skill levels** start from placement and move only on evidence: a level is demonstrated at 75% over 6+
-  items at that level; clear failure (under 50% over 8+) lowers it; writing uses assessed texts only. Levels are
-  labelled "Lucid estimate, aligned to CEFR descriptors".
+- **Per-skill levels** need evidence for that skill, at that level (`adaptive.skillLevels`). Practice (lessons,
+  drills, reviews) shows a level at 75%+ over 6+ answers at it, on at least 2 different days. Placement gives only
+  a "first estimate" for grammar, vocabulary, reading and listening, from 2+ placement questions at the level in
+  that skill, and never above B2 (higher answers show as "B2+"): multiple-choice items alone never establish C1 or
+  C2. Writing gets a level only from final drafts assessed by AI feedback, one per task (2+ tasks on 2+ days; the
+  median of the last three, the lower of two); a draft still being revised never counts, and drafts show no level
+  anywhere. Lucid does not assess speaking level, so speaking always reads "not yet assessed", as
+  does any skill without evidence; the overall placement level is never copied into a skill. Clear failure (under
+  50% over 8+) lowers a level one step as a first estimate. Levels are labelled "Lucid estimate, aligned to CEFR
+  descriptors", and each one shows its source and evidence count.
+- **Placement** (`placement.js`) is a staircase over blocks of four. 3 of 4 passes a level for the moment; a
+  level counts only when a second passing block confirms it (6 of 8 at the level, or 3+ of 4 at the level above),
+  so the test asks a confirming block before it ends and never places above the highest confirmed level. Answers
+  are saved after each question (`placement/inprogress`), so a learner who leaves can continue or start again
+  from Today; until there is a result (and while no lesson has been completed), Today shows the test instead of a
+  plan, or lets the learner start at their own onboarding estimate, or from the basics, by choice. Choosing a level
+  on the path also settles it (recorded as the learner's own estimate). Retaking or moving level uses the same
+  rule: lessons below the start are "placed out"; placed-out lessons from the new start up become regular lessons
+  again.
+- **The path** skips lessons that have no file yet (`content/manifest.json`): Today and the path never link to
+  them, the path labels them "In preparation", and Today names the lesson it skipped. Opening a placed-out lesson
+  to revise it leaves it placed out (a pass completes it, a miss records the score), so revision never moves the
+  course level back. Hebrew support is re-applied whenever the course level moves.
 - **The daily plan** follows the research session template (warm-up recall, due reviews, new learning, targeted
-  practice, use it, exit check) scaled to 10, 20, 35 or 50 minutes, and says why each block is there.
+  practice, use it, exit check) scaled to 10, 20, 35 or 50 minutes, and says why each block is there. The lesson
+  gets the time the other blocks leave; when the lesson's real length (from its file) does not fit, the plan
+  takes a part ("up to exercise 9 of 16") and the lesson's saved place carries the rest to the next day, where
+  the main button says "Continue". From A1 and 20 minutes, the learner's goals choose the "use it" block: travel
+  and conversation name a real-life scenario at or below their level (travel: airport, hotel and emergencies
+  first), exams and academic writing alternate reading and a Writing lab task, and work uses workplace scenarios
+  when they exist (there are none yet, which onboarding says).
+- **New words** enter spaced repetition at the daily new-word limit; the rest are queued for the next days.
+  Learners placed above the early levels can add the words of placed-out lessons on request (Today and the path).
+- **Active minutes** in reports include the session that is still open (sessions are logged when the tab is
+  hidden, capped at an hour).
 
 ## 5. AI integration
 
 | Route | Output | Model settings |
 |---|---|---|
 | `evaluate_writing` | structured: task-fulfilment gate, CEFR estimate with a low-high range, 12 rubric categories (0-5 bands relative to the stage target, applicability), errors (verbatim quote, type, severity, explanation EN/HE, hint, correction), required elements, revision tasks, progress since the previous draft | effort high, 16k max tokens |
-| `roleplay_turn` | structured: reply, scene complete, optional Hebrew hint | effort low |
-| `roleplay_feedback` | structured: scores (0-100) for the conversation, grammar, vocabulary, naturalness, better alternatives quoting the learner, practice | effort medium |
+| `roleplay_turn` | structured: reply, scene complete, optional Hebrew hint; follows the learner's correction setting (`off`, `light`, `standard`, `intensive`; only `intensive` lets the partner confirm a meaning with the correct form, at most once per turn) | effort low |
+| `roleplay_feedback` | structured: scores (0-100) for the conversation, grammar, vocabulary, naturalness, strengths quoting the learner (at most 3), better alternatives quoting the learner, practice | effort medium |
 | `tutor_turn` | text | effort low |
 
 - Model: `claude-opus-5-5` by default, configurable with `LUCID_MODEL`. Server-side refusal fallback is enabled
   (`fallbacks: "default"`, beta `server-side-fallback-2026-07-01`); a refusal returns a safe message.
 - System prompts are static and cached (`cache_control`); learner context goes in messages.
-- Learner text is wrapped in tags and treated strictly as data (prompt-injection resistant framing).
+- Learner text, the task instructions and the scene brief are wrapped in tags and treated strictly as data
+  (prompt-injection resistant framing). Our tag names typed inside client text are neutralised (their "<" becomes
+  "‹"), so a learner cannot close a wrapper; other characters are left as typed so quotes still match. The scene
+  brief and roleplay history are still sent by the client (security review S-10: resolving them from content
+  bundled with the function is not done).
+- Size limits: an essay (and its previous draft) up to 24,000 characters each, enough for a 2,200-word paper with
+  its reference list, task instructions up to 4,000, inside the 64 KiB body limit. The client checks length and
+  body size before sending, sends a long paper without its previous draft when both do not fit (and says so), and
+  shows every refusal in plain Hebrew or English, never the server's raw message.
 - Minimal-edit enforcement after the model (research C2, D26-D27): an error whose quote is not verbatim in the
-  learner's text, or whose correction is much longer than its span, is dropped and counted.
+  learner's text, or whose correction is much longer than its span, is dropped and counted. In roleplay feedback,
+  a "better alternative" whose "you said" is not in the learner's lines is dropped, and the number kept follows the
+  correction setting and level (off 0; light 2; standard 4, or 3 at Pre-A1 to A2; intensive 6, or 4).
+- Source-based writing (stages 9-10, research tasks, tasks with sources): the prompt forbids saying a source is
+  real or correctly quoted and asks for a `verification_note` naming what the learner should check; the UI always
+  states that AI feedback does not read sources and cannot check whether they exist, are quoted accurately or say
+  what the learner reports. A closing reference list does not count toward the word range (prompt and client).
 - Writing rubric protocol (research E, sections 8-9) enforced in code after the model, not only requested in the
   prompt: categories that do not apply at the task's stage are forced to N/A (never 0); a "partial" task caps the
   argument categories at 2 and lowers the estimate one level, "off_topic" caps every category at 1; with
   `LUCID_EVAL_RUNS` > 1 (max 3) the scores are the median of independent runs and categories whose runs differ by
   more than one band are flagged low-confidence ("~" in the UI); the CEFR range always contains the estimate.
-- Client side of the same protocol: the overall level range appears only on a final draft (or after the last
-  round), at most three AI rounds per task (draft plus two revisions), a hint ladder (locate, name the error type,
-  clue, correction) that starts one rung higher for A1-A2 grammar and opens the correction only after the learner
-  has tried a fix in the text, and self-assessment before feedback from stage 7.
+- Client side of the same protocol: the overall level range appears only on a final draft, which the learner marks
+  or which the third round sets automatically; at most three AI rounds per task (draft plus two revisions); a hint
+  ladder (locate, name the error type, clue, correction) that starts one rung higher for A1-A2 grammar and opens the
+  correction only after the learner has tried a fix in the text; and self-assessment before feedback from stage 7.
+  "Looks fixed" is said only when the sentence that held the mistake now has the correction in its place (found by
+  the unchanged text around it); any other edit reads "You changed this".
 - Rate limits by weighted units (writing evaluation 3 per scoring run, feedback 2, turns 1): 40 per hour and 200
   per day per learner, at most 2 requests running at once per learner, and 1,000 units per UTC day for the whole
   project, by default (`LUCID_HOURLY_UNITS`, `LUCID_DAILY_UNITS`, `LUCID_MAX_IN_FLIGHT`,
@@ -187,8 +234,10 @@ atomic in-memory ledger instead.
 - **Data rights**: export (device data plus the server export RPC) and deletion (account deletion RPC, then a
   device erase) from Settings. The erase removes only Lucid's data: the `lucid` IndexedDB database, keys starting
   with `lucid-` in local and session storage, and `lucid-…` caches; other apps on the origin are not touched. In the
-  tutor, the learner can delete the conversation on screen and, in one step, all other saved tutor conversations;
-  essays and roleplay chats cannot be deleted one by one yet (only with the whole account or device data).
+  tutor, the learner can delete the conversation on screen and, in one step, all other saved tutor conversations.
+  In the Writing lab, "Delete this text" removes a task's text, versions, draft and feedback, and clears the quoted
+  mistakes from its attempts (scores and mistake types stay). Roleplay chats cannot be deleted one by one yet (only
+  with the whole account or device data).
 - Threat model and review: `docs/qa/security-review.md`.
 
 ## 7. Offline and performance

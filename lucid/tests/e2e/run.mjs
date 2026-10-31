@@ -310,44 +310,145 @@ try {
     await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString() }));
     await page.goto(`${BASE}#/writing/free`);
     await page.waitForSelector('#essay');
-    await page.fill('#essay', 'I think public transport is more better than cars. It is cheaper and cleaner for everyone in the city.');
+    // P-29: a disabled "Get feedback" says why.
+    await page.fill('#essay', 'I think so.');
+    assert(await page.$('[data-ai][disabled]'), 'feedback open for a 3-word text');
+    assert(/15/.test(await page.textContent('[data-ai-why]')), `no reason under the disabled button: "${await page.textContent('[data-ai-why]')}"`);
+    const essay1 = 'I think public transport is more better than cars. It is cheaper and cleaner for everyone in the city.';
+    await page.fill('#essay', essay1);
+    assert((await page.textContent('[data-ai-why]')).trim() === '', 'reason still shown when feedback is available');
     await page.click('[data-check]');
     await page.waitForSelector('.check-item');
     assert((await page.textContent('aside.panel')).includes('more better'), 'automatic check missed "more better"');
+    assert((await page.textContent('[data-status]')).trim(), 'no visible result next to the Check button (P-63)');
+    const checksBefore = await page.$$eval('aside .error-card .quote', (q) => q.map((x) => x.textContent));
     await page.click('[data-ai]');
     await page.waitForSelector('.error-card .quote');
     const sent = page.lucidMock.aiBodies.at(-1);
     assert(sent.stage === 0 && sent.draft_number === 1, `stage/draft not sent: ${JSON.stringify({ stage: sent.stage, draft: sent.draft_number })}`);
     assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before the learner asked for it');
+    // P-30: a mistake can be selected in the text.
+    await page.click('.error-card [data-locate="0"]');
+    assert(await page.evaluate(() => { const ta = document.querySelector('#essay'); return ta.value.slice(ta.selectionStart, ta.selectionEnd); }) === 'more better', 'the quoted mistake is not selected in the text');
     // Hint ladder (research E, 9.5): hints open on request, the correction only after an attempt in the text.
     for (let i = 0; i < 3 && await page.$('[data-rung="0"]:not([disabled])'); i++) await page.click('[data-rung="0"]');
     assert(await page.$('[data-rung="0"][disabled]'), 'correction reachable without any attempt');
     assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before an attempt');
-    await page.fill('#essay', 'I think public transport is more good than cars. It is cheaper and cleaner for everyone in the city.');
+    // P-72: a wrong fix is "changed", never "looks fixed", although "better" is still in the essay.
+    await page.fill('#essay', 'I think public transport is more good than cars. It is cheaper and better for everyone in the city.');
     await page.waitForSelector('[data-rung="0"]:not([disabled])');
+    assert(/You changed this|שיניתם את זה/.test(await page.textContent('[data-fix="0"]')), `wrong fix labelled: "${await page.textContent('[data-fix="0"]')}"`);
     await page.click('[data-rung="0"]');
     assert(/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction not revealed after an attempt');
     const hints = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'hint-level').map((e) => `${e.level}:${e.after}`));
     assert(hints.at(-1) === '4:attempt' && hints.length >= 2, `hint levels not logged: ${hints}`);
     assert(!/Estimated level of this text|הערכת רמה של הטקסט/.test(await page.textContent('aside.panel')), 'overall level shown on a first draft');
+    // P-81: the Checks tab shows the same automatic checks after AI feedback.
+    await page.click('[data-tab="checks"]');
+    assert(JSON.stringify(await page.$$eval('aside .error-card .quote', (q) => q.map((x) => x.textContent))) === JSON.stringify(checksBefore), 'automatic checks changed after AI feedback');
     await page.fill('#essay', 'I think public transport is better than cars. It is cheaper and cleaner for everyone in the city.');
+    await page.waitForSelector('[data-fix="0"]', { state: 'detached' }).catch(() => {});
     await page.click('[data-ai]');
     await page.waitForFunction(() => document.querySelector('aside.panel')?.textContent.includes('You fixed'));
     assert(page.lucidMock.aiBodies.at(-1).draft_number === 2, 'second draft number not sent');
-    await page.click('[data-final]');
-    await page.waitForFunction(() => /Estimated level of this text|הערכת רמה של הטקסט/.test(document.querySelector('aside.panel')?.textContent || ''));
-    assert(/A2.B1/.test(await page.textContent('aside.panel .tag.level')), 'CEFR range not shown on the final draft');
+    // P-71: no level on drafts, in Versions or in My drafts.
     await page.click('[data-tab="versions"]');
-    await page.click('[data-compare="1"]');
-    assert(await page.$('aside.panel del'), 'no version diff shown');
+    assert(!(await page.$('aside.panel .tag.level')), 'a draft shows a level in Versions');
+    // P-73: previous vs latest by default, any two versions on request.
+    assert((await page.textContent('aside .diff del')) === 'more', `default comparison is not v1 -> v2: "${await page.textContent('aside .diff')}"`);
+    // P-80: after the third round the draft is final by itself, the range appears and advice looks forward.
+    await page.fill('#essay', 'I think public transport is better than cars. It is cheaper and cleaner for everyone who lives in the city.');
+    await page.click('[data-ai]');
+    await page.waitForFunction(() => /Estimated level of this text|הערכת רמה של הטקסט/.test(document.querySelector('aside.panel')?.textContent || ''));
+    assert(page.lucidMock.aiBodies.at(-1).draft_number === 3, 'third draft number not sent');
+    assert(/A2.B1/.test(await page.textContent('aside.panel .tag.level')), 'CEFR range not shown on the final draft');
+    assert(!(await page.$('[data-final]')), '"Mark as final" still offered after the last round');
+    assert(/What to carry into your next task|מה לקחת למשימה הבאה/.test(await page.textContent('aside.panel')), 'advice still says "for your next draft"');
+    assert(await page.$('[data-ai][disabled]') && (await page.textContent('[data-ai-why]')).trim(), 'no reason given after the last round');
+    assert(await page.evaluate(() => window.lucid.store.get('writing', 'ess:free').status === 'final'), 'task not marked final after the last round');
+    await page.click('[data-tab="versions"]');
+    assert((await page.$$('aside.panel .tag.level')).length === 1, 'only the final version shows a level range');
+    await page.selectOption('[data-cmp="a"]', '1');
+    await page.selectOption('[data-cmp="b"]', 'now');
+    assert(await page.$('aside .diff ins'), 'no diff between v1 and the current text');
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/essay-feedback.png`, fullPage: true });
+    await page.goto(`${BASE}#/writing`);
+    await page.waitForSelector('.lesson-list');
+    assert(/A2.B1/.test(await page.textContent('section .lesson-list')), 'My drafts does not show the final range');
+    // S-18: an essay can be deleted; its text leaves the device and its quotes leave the progress record.
+    await page.goto(`${BASE}#/writing/free`);
+    await page.waitForSelector('#essay');
+    await page.click('[data-tab="versions"]');
+    await page.click('[data-delete]');
+    await page.click('dialog [value="yes"]');
+    await page.waitForFunction(() => window.lucid.store.all('writing').filter((w) => w.exercise === 'free').length === 0, null, { timeout: 4000 }).catch(() => { throw new Error('essay records still on the device after delete'); });
+    assert((await page.inputValue('#essay')) === '', 'deleted text still in the editor');
+    assert(await page.evaluate(() => window.lucid.store.all('attempts').filter((a) => a.source === 'writing' && a.exercise === 'free').every((a) => !a.response)), 'mistake quotes kept after delete');
+    await page.goto(`${BASE}#/writing`);
+    await page.waitForTimeout(300);
+    assert(await page.evaluate(() => window.lucid.store.all('writing').filter((w) => w.exercise === 'free').length === 0), 'leaving the page brought the deleted draft back');
     await ctx.close();
   });
 
-  await check('13. Advanced argumentative writing is available (assignments B2-C2)', async () => {
+  await check('13. Advanced argumentative writing is available (assignments B2-C2, level final tasks with topics, sources and limits)', async () => {
     const as = JSON.parse(readFileSync(join(repo, 'lucid/content/writing/assignments.json'), 'utf8')).assignments;
     assert(as.length >= 10, `${as.length} assignments`);
     assert(as.some((a) => a.level === 'C2') && as.some((a) => a.level === 'C1'), 'no C1/C2 assignments');
+    // P-75: every level final has a full brief; packs are referenced, not invented.
+    const cur = JSON.parse(readFileSync(join(repo, 'lucid/content/curriculum.json'), 'utf8'));
+    for (const l of cur.levels) {
+      const fa = l.final_assessment;
+      assert(fa.instructions?.en && fa.required_elements?.length >= 3, `${l.id} final has no full brief`);
+      if (['PreA1', 'A1', 'A2', 'B1'].includes(l.id)) assert(fa.instructions.he && fa.required_elements.every((r) => r.he), `${l.id} final has no Hebrew instructions`);
+      if (['B1', 'B2', 'C1', 'C2'].includes(l.id)) assert(fa.topics?.length >= 3, `${l.id} final has no topic choice`);
+      for (const tp of fa.topics || []) if (tp.assignment) assert(as.find((a) => a.id === tp.assignment)?.source_pack?.length, `${l.id} topic points to ${tp.assignment}, which has no source pack`);
+    }
+    assert(/reference list does not count/.test(cur.levels.find((l) => l.id === 'C2').final_assessment.instructions.en), 'C2 final does not say whether references count');
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1440, height: 900 }, mock: true });
+    await onboard(page, { start: 'basics' });
+    await page.goto(`${BASE}#/account?mode=signup`);
+    await page.fill('#em', 'learner@example.com'); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForTimeout(600);
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString() }));
+    await page.goto(`${BASE}#/writing/final-C2`);
+    await page.waitForSelector('#essay');
+    assert(!(await page.$('[data-tab="sources"]')), 'Sources tab before a topic with a pack is chosen');
+    await page.click('input[name=topic][value="0"]');
+    await page.waitForSelector('[data-tab="sources"]');
+    await page.click('aside [data-tab="sources"]');
+    assert((await page.$$('aside .passage.source')).length >= 3, 'source pack not shown beside the text (P-84)');
+    // P-78: a long paper with its references (over the old 16,000-character limit) is accepted and counted
+    // without its references.
+    const para = 'Remote work changes how cities use office space, and the evidence on its effects is mixed and contested. ';
+    const paper = `${Array.from({ length: 10 }, () => para.repeat(13)).join('\n\n')}\n\nReferences\n${'Varga, E., Nandi, P., & Holm, J. (2024). Social media use and well-being from age 12 to 16. Teralund Journal of Adolescent Health.\n'.repeat(24)}`;
+    await page.fill('#essay', paper);
+    assert(/\+\d+/.test(await page.textContent('[data-wc]')), 'reference words not shown apart');
+    await page.click('[data-ai]');
+    await page.waitForSelector('[data-final]');
+    const body = page.lucidMock.aiBodies.at(-1);
+    assert(body.text.length > 16000 && /Topic chosen by the learner: Should governments/.test(body.exercise.instructions) && /Source pack \(fictional/.test(body.exercise.instructions), 'topic or pack titles not sent');
+    // P-79: what AI feedback cannot check, next to the bands.
+    assert(/cannot check whether a source exists|לא יכול לבדוק אם מקור קיים/.test(await page.textContent('aside.panel')), 'no statement of what AI cannot verify');
+    // P-85: the final action is a visible button, phrased as an action.
+    assert(/Mark as final draft|לסמן כטיוטה סופית/.test(await page.textContent('[data-final]')) && !(await page.$('[data-final].ghost')), 'final button looks like a status or plain text');
+    await page.click('[data-final]');
+    await page.waitForFunction(() => /Estimated level of this text|הערכת רמה של הטקסט/.test(document.querySelector('aside.panel')?.textContent || ''));
+    // P-78: too long, refused before sending, in words; a server refusal is never shown raw.
+    await page.goto(`${BASE}#/writing/final-C1`);
+    await page.waitForSelector('#essay');
+    await page.click('input[name=topic][value="0"]');
+    await page.fill('#essay', para.repeat(240));
+    assert(await page.$('[data-ai][disabled]') && /24,000/.test(await page.textContent('[data-ai-why]')), `no length reason: "${await page.textContent('[data-ai-why]')}"`);
+    await page.fill('#essay', para.repeat(80));
+    await page.route(/functions\/v1\/lucid-ai/, (route) => route.fulfill({ status: 400, contentType: 'application/json', body: JSON.stringify({ error: { code: 'invalid_request', message: 'text: String must contain at most 16000 character(s)' } }) }));
+    await page.click('[data-ai]');
+    await page.waitForSelector('.error-text');
+    const err = await page.textContent('.error-text');
+    assert(!/String must contain|text:/.test(err) && /ארוך מדי|too long/.test(err), `raw or unclear error: "${err}"`);
+    await page.unroute(/functions\/v1\/lucid-ai/);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/essay-final-c1-error.png` });
+    await ctx.close();
   });
 
   await check('14-15. Mobile (320, 390), tablet and desktop layouts, every route loads without errors or horizontal overflow', async () => {
@@ -640,26 +741,29 @@ try {
   });
 
   await check('L4. Today and the path never route to a lesson that has no file; unwritten rows say so in words (P-14, P-26, P-61)', async () => {
+    // Simulate a lesson that is still being written: the manifest leaves it out and its file is missing.
     const curriculum = JSON.parse(readFileSync(join(repo, 'lucid/content/curriculum.json'), 'utf8'));
     const order = curriculum.levels.flatMap((l) => l.lessons);
-    const firstMissing = order.findIndex((l) => !has(l.id));
-    if (firstMissing < 0) { console.log('      (every lesson is written; nothing to skip)'); return; }
-    const missing = order[firstMissing];
-    const expected = order.slice(firstMissing).find((l) => has(l.id)) || null;
+    const gap = order.findIndex((l) => l.id === 'b1-05');
+    const missing = order[gap];
+    const expected = order[gap + 1];
     const { ctx, page } = await newPage(browser);
+    await page.route(/content\/manifest\.json$/, (route) => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ...manifest, lessons: manifest.lessons.filter((id) => id !== missing.id) }) }));
+    await page.route(new RegExp(`content/lessons/${missing.id}\\.json$`), (route) => route.fulfill({ status: 404, body: '' }));
     await onboard(page, { start: 'zero' });
-    await page.evaluate((ids) => { for (const id of ids) window.lucid.store.put('progress', { id, status: 'completed', completed_at: '2026-01-01T00:00:00Z' }); }, order.slice(0, firstMissing).map((l) => l.id));
+    await page.evaluate((ids) => { for (const id of ids) window.lucid.store.put('progress', { id, status: 'completed', completed_at: '2026-01-01T00:00:00Z' }); }, order.slice(0, gap).map((l) => l.id));
     await page.goto(`${BASE}#/today`);
-    await page.waitForSelector('.plan, .banner');
+    await page.waitForSelector('.plan');
     const links = await page.$$eval('#view a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href').split('/')[2].split('?')[0]));
-    assert(!links.some((id) => !has(id)), `Today links to an unwritten lesson: ${links}`);
-    if (expected) assert(links.includes(expected.id), `Today does not offer ${expected.id}`);
+    assert(!links.includes(missing.id), `Today links to the unwritten lesson: ${links}`);
+    assert(links.includes(expected.id), `Today does not offer ${expected.id}: ${links}`);
+    assert((await page.textContent('.plan')).includes(missing.title_he), 'Today does not say which lesson is still being written');
     await page.goto(`${BASE}#/path/${missing.level}`);
     await page.waitForSelector('.lesson-list');
     const pathLinks = await page.$$eval('.lesson-list a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href').split('/')[2]));
-    assert(!pathLinks.some((id) => !has(id)), 'the path links to an unwritten lesson');
+    assert(!pathLinks.includes(missing.id), 'the path links to the unwritten lesson');
     const unwritten = await page.$$eval('.lesson-row.unwritten', (x) => x.map((r) => r.textContent));
-    assert(unwritten.length && unwritten.every((t) => /בהכנה|In preparation/.test(t)), 'unwritten rows are not labelled in words');
+    assert(unwritten.length === 1 && /בהכנה|In preparation/.test(unwritten[0]), 'the unwritten row is not labelled in words');
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/path-unwritten.png`, fullPage: true });
     await ctx.close();
   });

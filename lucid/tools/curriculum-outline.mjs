@@ -4,11 +4,72 @@
 import { writeFileSync } from 'node:fs';
 
 const L = (id, title_en, title_he, topics, can_do, cover, extra = {}) => ({ id, title_en, title_he, topics, can_do, cover, ...extra });
+// Bilingual text: Hebrew instructions are given up to B1 (research C3, S1: English-first from B2).
+const B = (en, he) => (he ? { en, he } : { en });
+
+// Level final writing tasks. `task` is the one-line summary shown on the path; `instructions`, `topics` and
+// `required_elements` are the full brief in the Writing lab (persona panel P-75). A topic with `assignment`
+// uses that assignment's labelled, fictional source pack. No topic needs real-world facts the learner has
+// to look up, except a C2 question of the learner's own, whose sources the learner checks.
+const FINALS = {
+  PreA1: {
+    task: 'Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).', task_he: 'הציגו את עצמכם ב-5-6 משפטים פשוטים באנגלית: שם, גיל, ארץ, עבודה או לימודים, ודבר אחד שאתם אוהבים.',
+    min_words: 25, max_words: 70, stage: 1, kind: 'paragraph',
+    instructions: B('Write 5-6 short sentences about yourself for a new friend who speaks English. Start every sentence with a capital letter and end it with a full stop.', 'כתבו 5-6 משפטים קצרים באנגלית על עצמכם, לחבר חדש שמדבר אנגלית. כל משפט מתחיל באות גדולה ונגמר בנקודה.'),
+    required_elements: [B('your name', 'השם שלכם'), B('your age', 'הגיל שלכם'), B('where you are from', 'מאיפה אתם'), B('your job or your studies', 'העבודה או הלימודים שלכם'), B('one thing you like', 'דבר אחד שאתם אוהבים')],
+  },
+  A1: {
+    task: 'Write a short introduction about yourself and your daily life (60-80 words).', task_he: 'כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים).',
+    min_words: 60, max_words: 100, stage: 1, kind: 'paragraph',
+    instructions: B('Write to a new online language partner. Introduce yourself, then describe a normal weekday: your morning, your day and your evening. Use the present simple, and words like always, usually and sometimes.', 'כתבו לשותף חדש ללימוד שפה באינטרנט. הציגו את עצמכם, ואז תארו יום חול רגיל: הבוקר, היום והערב. השתמשו ב-present simple ובמילים כמו always, usually ו-sometimes.'),
+    required_elements: [B('who you are: your name, where you live, your work or studies', 'מי אתם: שם, איפה אתם גרים, עבודה או לימודים'), B('your morning, your day and your evening, in order', 'הבוקר, היום והערב שלכם, לפי הסדר'), B('at least two of always, usually, sometimes, never', 'לפחות שתיים מהמילים always, usually, sometimes, never'), B('and, but or because to join ideas', 'and, but או because כדי לחבר רעיונות')],
+  },
+  A2: {
+    task: 'Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.', task_he: 'תארו באנגלית חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף.',
+    min_words: 100, max_words: 160, stage: 2, kind: 'paragraph',
+    instructions: B('Choose one topic and tell the story in the past simple, for a friend who was not there. Plan three short paragraphs: the beginning (when, where and who), the middle (what happened, in order) and the end (how it finished and how you felt).', 'בחרו נושא אחד וספרו את הסיפור בעבר (past simple), לחבר שלא היה שם. תכננו שלוש פסקאות קצרות: התחלה (מתי, איפה ומי), אמצע (מה קרה, לפי הסדר) וסוף (איך זה נגמר ומה הרגשתם).'),
+    topics: [B('A trip or a day out you remember', 'טיול או יום כיף שאתם זוכרים'), B('Your first day at a new school or job', 'היום הראשון שלכם בבית ספר חדש או בעבודה חדשה'), B('A celebration or a family event', 'חגיגה או אירוע משפחתי')],
+    required_elements: [B('a beginning that says when and where', 'התחלה שאומרת מתי ואיפה'), B('events in order, with first, then, after that or finally', 'אירועים לפי הסדר, עם first, then, after that או finally'), B('verbs in the past simple', 'פעלים ב-past simple'), B('an ending that says how you felt', 'סוף שאומר מה הרגשתם')],
+  },
+  B1: {
+    task: 'Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.', task_he: 'כתבו באנגלית חיבור דעה של כ-300 מילים: פתיחה, נימוקים תומכים וסיכום.',
+    min_words: 250, max_words: 380, stage: 3, kind: 'essay', audience: 'readers of a school or community website',
+    instructions: B('Choose one question and write an opinion essay of about 300 words for the readers of a school or community website. Give your opinion clearly in the introduction, give two or three reasons in separate paragraphs, each with an example, and end with a conclusion that repeats your opinion in new words. Use examples from your own life and experience; do not invent numbers.', 'בחרו שאלה אחת וכתבו חיבור דעה של כ-300 מילים לקוראים של אתר בית ספר או אתר קהילתי. הציגו את הדעה שלכם בבירור בפתיחה, תנו שניים-שלושה נימוקים בפסקאות נפרדות, עם דוגמה לכל נימוק, וסיימו בסיכום שחוזר על הדעה שלכם במילים אחרות. השתמשו בדוגמאות מהחיים ומהניסיון שלכם, ואל תמציאו מספרים.'),
+    topics: [B('Should secondary schools start later in the morning?', 'האם בתי ספר תיכוניים צריכים להתחיל מאוחר יותר בבוקר?'), B('Is it better to live in a big city or in a small town?', 'האם עדיף לגור בעיר גדולה או ביישוב קטן?'), B('Should every student learn to cook at school?', 'האם כל תלמיד צריך ללמוד לבשל בבית הספר?')],
+    required_elements: [B('an introduction that gives your opinion', 'פתיחה שמציגה את הדעה שלכם'), B('two or three reasons, one paragraph each', 'שניים-שלושה נימוקים, כל אחד בפסקה משלו'), B('an example for each reason', 'דוגמה לכל נימוק'), B('linking words such as because, for example and however', 'מילות קישור כמו because, for example ו-however'), B('a conclusion that repeats your opinion in new words', 'סיכום שחוזר על הדעה שלכם במילים אחרות')],
+  },
+  B2: {
+    task: 'Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.',
+    min_words: 450, max_words: 600, stage: 6, kind: 'essay', audience: 'a general reader, such as the readers of a news website',
+    instructions: B('Choose one question and write an argumentative essay of 450-600 words for a general reader, such as the readers of a news website. State a clear, debatable thesis in the introduction. Develop at least three supporting arguments, each with evidence or a precise example and an explanation of how it supports the thesis. Present the strongest opposing view fairly, then answer it with reasons: refute it, concede part of it and show why your position still outweighs it, or qualify your thesis. End with a conclusion that adds no new arguments. Use reasoning and examples you can describe precisely; do not invent statistics.'),
+    topics: [B('Should supermarkets be required to give unsold food to charities instead of throwing it away?'), B('Should zoos still exist?'), B('Should online games show players how much time and money they have spent?')],
+    required_elements: [B('a clear, debatable thesis in the introduction'), B('at least three supporting arguments, each with evidence or an example and its link to the thesis'), B('the strongest opposing view, stated fairly'), B('a rebuttal with reasons: refute, concede and outweigh, or qualify'), B('a conclusion that adds no new arguments')],
+  },
+  C1: {
+    task: 'Write an 800-1,000-word analytical argumentative essay.',
+    min_words: 750, max_words: 1100, stage: 8, kind: 'essay', audience: 'an educated, non-specialist reader',
+    instructions: B('Choose one question and write an analytical argumentative essay of 800-1,000 words for an educated, non-specialist reader. Analyse the question before you answer it: define the key terms, separate the issues, and state a precise, qualified thesis. Support each reason with evidence or a worked example, and explain the reasoning that links them. Engage with the strongest opposing view in its best form, and identify at least one weakness, hidden assumption or logical flaw in a common argument on the issue. Use formal register and calibrated hedging. The first two questions need reasoning and examples, not research. If you use outside facts, name their source in the text: Lucid cannot check outside sources. A reference list, if you add one, does not count toward the word range.'),
+    topics: [B('Is it fair to judge people from the past by today\'s moral standards?'), B('Should employers be allowed to look at job applicants\' social media?'), { en: 'Should cities facing housing shortages build homes on part of their parkland? Use the fictional Halvarden source pack (the same as assignment wa-05; choose another question if you have written that one).', assignment: 'wa-05' }],
+    required_elements: [B('a precise, qualified thesis, with the key terms defined'), B('at least three reasons, each with evidence or a worked example and the reasoning that links them'), B('the strongest opposing view in its best form, answered with reasons'), B('at least one weakness, hidden assumption or logical flaw in a common argument, explained'), B('formal register and calibrated hedging'), B('a conclusion that adds no new arguments')],
+  },
+  C2: {
+    task: 'Produce a 1,500-2,000-word research-based argumentative paper.',
+    min_words: 1400, max_words: 2200, stage: 10, kind: 'research', audience: 'an educated, non-specialist reader',
+    instructions: B('Choose one research question and write a research-based argumentative paper of 1,500-2,000 words for an educated, non-specialist reader. The first three questions come with a source pack of fictional, labelled sources (the same packs as assignments wa-08, wa-09 and wa-10); if you have already written one of those assignments, choose another question. Or research a question of your own with real sources. Evaluate your sources before you cite them, synthesise them by idea, distinguish association from cause, engage with the strongest counterarguments (including one that partly persuades you) and refine your thesis accordingly. Cite by author and year and add a reference list; the reference list does not count toward the word range. With real sources, say briefly in the paper how you checked each one; with the fictional pack, say what you would check in real research. Lucid\'s feedback does not read your sources, so it cannot check whether they exist or say what you report.'),
+    topics: [
+      { en: 'Should governments set a legal minimum age of 16 for social media accounts? (source pack of assignment wa-08)', assignment: 'wa-08' },
+      { en: 'Should public money pay for crewed space exploration? (source pack of assignment wa-09)', assignment: 'wa-09' },
+      { en: 'Who should pay for a university degree? (source pack of assignment wa-10)', assignment: 'wa-10' },
+      B('A research question of your own, with real sources that you check yourself'),
+    ],
+    required_elements: [B('a specific, defensible thesis that goes beyond yes or no'), B('an evaluation of the reliability of at least two sources'), B('a synthesis of at least three sources, organised by idea, that tells association from cause'), B('the strongest counterarguments, at least one partly conceded, with the thesis refined accordingly'), B('author-year citation throughout and a reference list'), B('how you checked each real source, or what you would check about each fictional one'), B('a conclusion that states implications and limits without new arguments')],
+  },
+};
 
 const LEVELS = {
   PreA1: {
     unit_en: 'Foundations', unit_he: 'יסודות',
-    final: { task: 'Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).', task_he: 'הציגו את עצמכם ב-5-6 משפטים פשוטים באנגלית: שם, גיל, ארץ, עבודה או לימודים, ודבר אחד שאתם אוהבים.', min_words: 25, max_words: 70, stage: 1 },
+    final: FINALS.PreA1,
     lessons: [
       L('pa1-01', 'The English alphabet', 'האלפבית האנגלי', ['alphabet'], 'I can say and recognise the 26 letters and spell my name.', 'Letter names vs sounds; capital and small letters (Hebrew has no capitals); spelling a name aloud; letters Hebrew speakers confuse (b/p/v, e/i, g/j, a/e/i names).'),
       L('pa1-02', 'Letter sounds', 'צלילי האותיות', ['phonics'], 'I can read simple short words by their sounds.', 'Short vowels a e i o u in CVC words (cat, bed, sit, hot, cup); consonant sounds absent in Hebrew: th (think/this), w vs v; ship/sheep contrast; silent e (made, time).'),
@@ -24,7 +85,7 @@ const LEVELS = {
   },
   A1: {
     unit_en: 'Everyday life', unit_he: 'חיי היום-יום',
-    final: { task: 'Write a short introduction about yourself and your daily life (60-80 words).', task_he: 'כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים).', min_words: 60, max_words: 100, stage: 1 },
+    final: FINALS.A1,
     lessons: [
       L('a1-01', 'Present simple: I, you, we, they', 'הווה פשוט: I, you, we, they', ['present-simple'], 'I can describe habits and facts.', 'Form and use for routines and facts; common verbs (live, work, study, like, eat, drink, go); time expressions every day, on Mondays.'),
       L('a1-02', 'Present simple: he, she, it', 'הווה פשוט: he, she, it', ['present-simple-third-person'], 'I can talk about other people\'s routines.', '-s/-es/-ies spelling; has, does, goes; pronunciation /s/ /z/ /ɪz/; the frequent omission of -s.'),
@@ -45,7 +106,7 @@ const LEVELS = {
   },
   A2: {
     unit_en: 'Experiences and plans', unit_he: 'חוויות ותוכניות',
-    final: { task: 'Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.', task_he: 'תארו באנגלית חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף.', min_words: 100, max_words: 160, stage: 2 },
+    final: FINALS.A2,
     lessons: [
       L('a2-01', 'What are you doing?', 'מה אתה עושה עכשיו?', ['present-continuous'], 'I can describe what is happening now.', 'am/is/are + -ing; spelling (making, running, lying); now, at the moment, today; questions and negatives.'),
       L('a2-02', 'Usually vs right now', 'בדרך כלל מול עכשיו', ['present-simple-vs-continuous'], 'I can choose between present simple and continuous.', 'Habit vs now; temporary situations; stative verbs (like, want, know, need, believe) not usually in -ing; Hebrew has one present tense.'),
@@ -66,7 +127,7 @@ const LEVELS = {
   },
   B1: {
     unit_en: 'Opinions and reasons', unit_he: 'דעות ונימוקים',
-    final: { task: 'Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.', task_he: 'כתבו באנגלית חיבור דעה של כ-300 מילים: פתיחה, נימוקים תומכים וסיכום.', min_words: 250, max_words: 380, stage: 3 },
+    final: FINALS.B1,
     lessons: [
       L('b1-01', 'Have you ever...?', 'Have you ever...?', ['present-perfect'], 'I can talk about life experiences.', 'have/has + past participle; ever/never; been vs gone; past participles of common irregulars; Hebrew has no equivalent tense.'),
       L('b1-02', 'Present perfect or past simple?', 'Present perfect או עבר פשוט?', ['present-perfect-vs-past'], 'I can choose correctly between present perfect and past simple.', 'Finished time = past simple (*I have seen him yesterday); unfinished time; for vs since; just/already/yet; How long have you...?'),
@@ -84,7 +145,7 @@ const LEVELS = {
   },
   B2: {
     unit_en: 'Arguments and nuance', unit_he: 'טיעונים ודקויות',
-    final: { task: 'Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.', min_words: 450, max_words: 600, stage: 6 },
+    final: FINALS.B2,
     lessons: [
       L('b2-01', 'Narrative tenses and the past perfect', 'זמני סיפור ו-past perfect', ['past-perfect'], 'I can sequence past events precisely in a narrative.', 'past perfect simple and continuous; by the time, before, after, already; narrative tense control.'),
       L('b2-02', 'If I had known: third and mixed conditionals', 'תנאי שלישי ומעורב', ['conditionals-3-mixed'], 'I can speculate about the past and its consequences.', 'If + past perfect, would have + pp; mixed conditionals; I wish / If only; regrets and criticism.'),
@@ -100,7 +161,7 @@ const LEVELS = {
   },
   C1: {
     unit_en: 'Academic argument', unit_he: 'טיעון אקדמי',
-    final: { task: 'Write an 800-1,000-word analytical argumentative essay.', min_words: 750, max_words: 1100, stage: 8 },
+    final: FINALS.C1,
     lessons: [
       L('c1-01', 'Academic vocabulary and nominalisation', 'אוצר מילים אקדמי ונומינליזציה', ['nominalisation'], 'I can use academic vocabulary and nominalisation to write concisely and formally.', 'Academic word families (analyse/analysis/analytical); turning verbs into nouns (decide -> the decision to); avoiding over-nominalisation.'),
       L('c1-02', 'Sophisticated sentence structures', 'מבנים תחביריים מתקדמים', ['inversion-cleft'], 'I can use inversion, cleft sentences and participle clauses for emphasis and flow.', 'Not only... but also, Rarely/Seldom/Only then inversion; It is X that..., What... is...; participle clauses (Having considered...); dangling participles.'),
@@ -114,7 +175,7 @@ const LEVELS = {
   },
   C2: {
     unit_en: 'Mastery', unit_he: 'שליטה',
-    final: { task: 'Produce a 1,500-2,000-word research-based argumentative paper.', min_words: 1400, max_words: 2200, stage: 10 },
+    final: FINALS.C2,
     lessons: [
       L('c2-01', 'Style and connotation', 'סגנון וקונוטציה', ['style-nuance'], 'I can make deliberate stylistic choices and control connotation.', 'Near-synonyms with different connotations (frugal/stingy, assertive/aggressive); register shifts for effect; sentence rhythm; voice.'),
       L('c2-02', 'Irony and implicature', 'אירוניה ומשמעות מרומזת', ['irony-implicature'], 'I can recognise and use irony, understatement and implied meaning.', 'Verbal irony, understatement, litotes, implicature; reading between the lines in editorials and essays; risks of irony in academic writing.'),

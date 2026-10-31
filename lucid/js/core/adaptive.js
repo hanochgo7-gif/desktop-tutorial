@@ -18,7 +18,7 @@ const weight = (at, now) => 0.5 ** (Math.max(0, now - new Date(at).getTime()) / 
 export function topicMastery(attempts, now = Date.now()) {
   const by = new Map();
   for (const a of attempts) {
-    if (!a.topic || a.source === 'placement') continue;
+    if (!a.topic || a.source === 'placement' || a.score === null) continue; // score null: practice, not evidence
     const t = by.get(a.topic) || { a: 0, n: 0, count: 0, days: new Set(), last: null };
     const w = weight(a.at, now);
     t.a += w * (a.score ?? (a.correct ? 1 : 0));
@@ -73,8 +73,8 @@ export function errorProfile(attempts, now = Date.now(), { windowDays = 30 } = {
 // - placement: a first estimate only, from at least 2 placement questions at L in that skill (2 of 2, or
 //   67%+ of more). Multiple-choice placement items never establish C1 or C2: higher estimates are capped
 //   at B2 and shown as "B2+";
-// - writing: only texts assessed by AI feedback, at least 2 tasks on 2 different days (median of the last 3,
-//   the lower of two);
+// - writing: only final drafts of texts assessed by AI feedback (a draft still being revised never counts),
+//   one per task, at least 2 tasks on 2 different days (median of the last 3, the lower of two);
 // - speaking: Lucid does not assess speaking level yet (speech recognition never grades on its own), so it
 //   stays "not yet assessed".
 // Clear failure at the current level (under 50% over 8+ answers) lowers it one step, as a first estimate.
@@ -96,9 +96,10 @@ export function placementSkillEstimate(answers = [], skill) {
 }
 
 function writingLevel(writing) {
-  // One piece of evidence per task: its latest assessed version.
+  // One piece of evidence per task: its latest assessed version, once it is marked final (persona panel P-71).
   const byTask = new Map();
   for (const w of writing) {
+    if (w.kind === 'essay-version' && !w.final) continue;
     const est = w.evaluation?.cefr_estimate;
     if (!est || est === 'below_PreA1' || levelIndex(est) < 0) continue;
     const at = w.at || w.updated || w.updated_at || '';
@@ -121,7 +122,7 @@ export function skillLevels({ attempts = [], placement = null, writing = [] } = 
     if (skill === 'writing') { out[skill] = writingLevel(writing); continue; }
     const perLevel = new Map();
     for (const a of attempts) {
-      if (a.skill !== skill || !a.level || a.source === 'placement') continue;
+      if (a.skill !== skill || !a.level || a.source === 'placement' || a.score === null) continue;
       const p = perLevel.get(a.level) || { right: 0, n: 0, days: new Set() };
       p.right += scoreOf(a);
       p.n++;
@@ -291,7 +292,7 @@ export function periodReport({ attempts = [], cards = [], progress = [], events 
   const inPrev = (iso) => iso && new Date(iso).getTime() >= prevSince && new Date(iso).getTime() < since;
   const att = attempts.filter((a) => inP(a.at) && a.source !== 'placement');
   const prevAtt = attempts.filter((a) => inPrev(a.at) && a.source !== 'placement');
-  const acc = (list) => (list.length ? list.reduce((s, a) => s + (a.score ?? (a.correct ? 1 : 0)), 0) / list.length : null);
+  const acc = (all) => { const list = all.filter((a) => a.score !== null); return list.length ? list.reduce((s, a) => s + (a.score ?? (a.correct ? 1 : 0)), 0) / list.length : null; };
   const reviews = att.filter((a) => a.source === 'review');
   // Retention = share of due reviews answered correctly (what the scheduler is meant to keep near the target).
   const probes = attempts.filter((a) => a.probe && inP(a.at));

@@ -10,7 +10,34 @@
     "task_he": "הציגו את עצמכם ב-5-6 משפטים פשוטים באנגלית: שם, גיל, ארץ, עבודה או לימודים, ודבר אחד שאתם אוהבים.",
     "min_words": 25,
     "max_words": 70,
-    "stage": 1
+    "stage": 1,
+    "kind": "paragraph",
+    "instructions": {
+     "en": "Write 5-6 short sentences about yourself for a new friend who speaks English. Start every sentence with a capital letter and end it with a full stop.",
+     "he": "כתבו 5-6 משפטים קצרים באנגלית על עצמכם, לחבר חדש שמדבר אנגלית. כל משפט מתחיל באות גדולה ונגמר בנקודה."
+    },
+    "required_elements": [
+     {
+      "en": "your name",
+      "he": "השם שלכם"
+     },
+     {
+      "en": "your age",
+      "he": "הגיל שלכם"
+     },
+     {
+      "en": "where you are from",
+      "he": "מאיפה אתם"
+     },
+     {
+      "en": "your job or your studies",
+      "he": "העבודה או הלימודים שלכם"
+     },
+     {
+      "en": "one thing you like",
+      "he": "דבר אחד שאתם אוהבים"
+     }
+    ]
    },
    "lessons": [
     {
@@ -148,7 +175,30 @@
     "task_he": "כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים).",
     "min_words": 60,
     "max_words": 100,
-    "stage": 1
+    "stage": 1,
+    "kind": "paragraph",
+    "instructions": {
+     "en": "Write to a new online language partner. Introduce yourself, then describe a normal weekday: your morning, your day and your evening. Use the present simple, and words like always, usually and sometimes.",
+     "he": "כתבו לשותף חדש ללימוד שפה באינטרנט. הציגו את עצמכם, ואז תארו יום חול רגיל: הבוקר, היום והערב. השתמשו ב-present simple ובמילים כמו always, usually ו-sometimes."
+    },
+    "required_elements": [
+     {
+      "en": "who you are: your name, where you live, your work or studies",
+      "he": "מי אתם: שם, איפה אתם גרים, עבודה או לימודים"
+     },
+     {
+      "en": "your morning, your day and your evening, in order",
+      "he": "הבוקר, היום והערב שלכם, לפי הסדר"
+     },
+     {
+      "en": "at least two of always, usually, sometimes, never",
+      "he": "לפחות שתיים מהמילים always, usually, sometimes, never"
+     },
+     {
+      "en": "and, but or because to join ideas",
+      "he": "and, but או because כדי לחבר רעיונות"
+     }
+    ]
    },
    "lessons": [
     {
@@ -347,7 +397,44 @@
     "task_he": "תארו באנגלית חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף.",
     "min_words": 100,
     "max_words": 160,
-    "stage": 2
+    "stage": 2,
+    "kind": "paragraph",
+    "instructions": {
+     "en": "Choose one topic and tell the story in the past simple, for a friend who was not there. Plan three short paragraphs: the beginning (when, where and who), the middle (what happened, in order) and the end (how it finished and how you felt).",
+     "he": "בחרו נושא אחד וספרו את הסיפור בעבר (past simple), לחבר שלא היה שם. תכננו שלוש פסקאות קצרות: התחלה (מתי, איפה ומי), אמצע (מה קרה, לפי הסדר) וסוף (איך זה נגמר ומה הרגשתם)."
+    },
+    "topics": [
+     {
+      "en": "A trip or a day out you remember",
+      "he": "טיול או יום כיף שאתם זוכרים"
+     },
+     {
+      "en": "Your first day at a new school or job",
+      "he": "היום הראשון שלכם בבית ספר חדש או בעבודה חדשה"
+     },
+     {
+      "en": "A celebration or a family event",
+      "he": "חגיגה או אירוע משפחתי"
+     }
+    ],
+    "required_elements": [
+     {
+      "en": "a beginning that says when and where",
+      "he": "התחלה שאומרת מתי ואיפה"
+     },
+     {
+      "en": "events in order, with first, then, after that or finally",
+      "he": "אירועים לפי הסדר, עם first, then, after that או finally"
+     },
+     {
+      "en": "verbs in the past simple",
+      "he": "פעלים ב-past simple"
+     },
+     {
+      "en": "an ending that says how you felt",
+      "he": "סוף שאומר מה הרגשתם"
+     }
+    ]
    },
    "lessons": [
     {
@@ -544,7 +631,49 @@
     "task_he": "כתבו באנגלית חיבור דעה של כ-300 מילים: פתיחה, נימוקים תומכים וסיכום.",
     "min_words": 250,
     "max_words": 380,
-    "stage": 3
+    "stage": 3,
+    "kind": "essay",
+    "audience": "readers of a school or community website",
+    "instructions": {
+     "en": "Choose one question and write an opinion essay of about 300 words for the readers of a school or community website. Give your opinion clearly in the introduction, give two or three reasons in separate paragraphs, each with an example, and end with a conclusion that repeats your opinion in new words. Use examples from your own life and experience; do not invent numbers.",
+     "he": "בחרו שאלה אחת וכתבו חיבור דעה של כ-300 מילים לקוראים של אתר בית ספר או אתר קהילתי. הציגו את הדעה שלכם בבירור בפתיחה, תנו שניים-שלושה נימוקים בפסקאות נפרדות, עם דוגמה לכל נימוק, וסיימו בסיכום שחוזר על הדעה שלכם במילים אחרות. השתמשו בדוגמאות מהחיים ומהניסיון שלכם, ואל תמציאו מספרים."
+    },
+    "topics": [
+     {
+      "en": "Should secondary schools start later in the morning?",
+      "he": "האם בתי ספר תיכוניים צריכים להתחיל מאוחר יותר בבוקר?"
+     },
+     {
+      "en": "Is it better to live in a big city or in a small town?",
+      "he": "האם עדיף לגור בעיר גדולה או ביישוב קטן?"
+     },
+     {
+      "en": "Should every student learn to cook at school?",
+      "he": "האם כל תלמיד צריך ללמוד לבשל בבית הספר?"
+     }
+    ],
+    "required_elements": [
+     {
+      "en": "an introduction that gives your opinion",
+      "he": "פתיחה שמציגה את הדעה שלכם"
+     },
+     {
+      "en": "two or three reasons, one paragraph each",
+      "he": "שניים-שלושה נימוקים, כל אחד בפסקה משלו"
+     },
+     {
+      "en": "an example for each reason",
+      "he": "דוגמה לכל נימוק"
+     },
+     {
+      "en": "linking words such as because, for example and however",
+      "he": "מילות קישור כמו because, for example ו-however"
+     },
+     {
+      "en": "a conclusion that repeats your opinion in new words",
+      "he": "סיכום שחוזר על הדעה שלכם במילים אחרות"
+     }
+    ]
    },
    "lessons": [
     {
@@ -702,7 +831,40 @@
     "task": "Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.",
     "min_words": 450,
     "max_words": 600,
-    "stage": 6
+    "stage": 6,
+    "kind": "essay",
+    "audience": "a general reader, such as the readers of a news website",
+    "instructions": {
+     "en": "Choose one question and write an argumentative essay of 450-600 words for a general reader, such as the readers of a news website. State a clear, debatable thesis in the introduction. Develop at least three supporting arguments, each with evidence or a precise example and an explanation of how it supports the thesis. Present the strongest opposing view fairly, then answer it with reasons: refute it, concede part of it and show why your position still outweighs it, or qualify your thesis. End with a conclusion that adds no new arguments. Use reasoning and examples you can describe precisely; do not invent statistics."
+    },
+    "topics": [
+     {
+      "en": "Should supermarkets be required to give unsold food to charities instead of throwing it away?"
+     },
+     {
+      "en": "Should zoos still exist?"
+     },
+     {
+      "en": "Should online games show players how much time and money they have spent?"
+     }
+    ],
+    "required_elements": [
+     {
+      "en": "a clear, debatable thesis in the introduction"
+     },
+     {
+      "en": "at least three supporting arguments, each with evidence or an example and its link to the thesis"
+     },
+     {
+      "en": "the strongest opposing view, stated fairly"
+     },
+     {
+      "en": "a rebuttal with reasons: refute, concede and outweigh, or qualify"
+     },
+     {
+      "en": "a conclusion that adds no new arguments"
+     }
+    ]
    },
    "lessons": [
     {
@@ -836,7 +998,44 @@
     "task": "Write an 800-1,000-word analytical argumentative essay.",
     "min_words": 750,
     "max_words": 1100,
-    "stage": 8
+    "stage": 8,
+    "kind": "essay",
+    "audience": "an educated, non-specialist reader",
+    "instructions": {
+     "en": "Choose one question and write an analytical argumentative essay of 800-1,000 words for an educated, non-specialist reader. Analyse the question before you answer it: define the key terms, separate the issues, and state a precise, qualified thesis. Support each reason with evidence or a worked example, and explain the reasoning that links them. Engage with the strongest opposing view in its best form, and identify at least one weakness, hidden assumption or logical flaw in a common argument on the issue. Use formal register and calibrated hedging. The first two questions need reasoning and examples, not research. If you use outside facts, name their source in the text: Lucid cannot check outside sources. A reference list, if you add one, does not count toward the word range."
+    },
+    "topics": [
+     {
+      "en": "Is it fair to judge people from the past by today's moral standards?"
+     },
+     {
+      "en": "Should employers be allowed to look at job applicants' social media?"
+     },
+     {
+      "en": "Should cities facing housing shortages build homes on part of their parkland? Use the fictional Halvarden source pack (the same as assignment wa-05; choose another question if you have written that one).",
+      "assignment": "wa-05"
+     }
+    ],
+    "required_elements": [
+     {
+      "en": "a precise, qualified thesis, with the key terms defined"
+     },
+     {
+      "en": "at least three reasons, each with evidence or a worked example and the reasoning that links them"
+     },
+     {
+      "en": "the strongest opposing view in its best form, answered with reasons"
+     },
+     {
+      "en": "at least one weakness, hidden assumption or logical flaw in a common argument, explained"
+     },
+     {
+      "en": "formal register and calibrated hedging"
+     },
+     {
+      "en": "a conclusion that adds no new arguments"
+     }
+    ]
    },
    "lessons": [
     {
@@ -946,7 +1145,52 @@
     "task": "Produce a 1,500-2,000-word research-based argumentative paper.",
     "min_words": 1400,
     "max_words": 2200,
-    "stage": 10
+    "stage": 10,
+    "kind": "research",
+    "audience": "an educated, non-specialist reader",
+    "instructions": {
+     "en": "Choose one research question and write a research-based argumentative paper of 1,500-2,000 words for an educated, non-specialist reader. The first three questions come with a source pack of fictional, labelled sources (the same packs as assignments wa-08, wa-09 and wa-10); if you have already written one of those assignments, choose another question. Or research a question of your own with real sources. Evaluate your sources before you cite them, synthesise them by idea, distinguish association from cause, engage with the strongest counterarguments (including one that partly persuades you) and refine your thesis accordingly. Cite by author and year and add a reference list; the reference list does not count toward the word range. With real sources, say briefly in the paper how you checked each one; with the fictional pack, say what you would check in real research. Lucid's feedback does not read your sources, so it cannot check whether they exist or say what you report."
+    },
+    "topics": [
+     {
+      "en": "Should governments set a legal minimum age of 16 for social media accounts? (source pack of assignment wa-08)",
+      "assignment": "wa-08"
+     },
+     {
+      "en": "Should public money pay for crewed space exploration? (source pack of assignment wa-09)",
+      "assignment": "wa-09"
+     },
+     {
+      "en": "Who should pay for a university degree? (source pack of assignment wa-10)",
+      "assignment": "wa-10"
+     },
+     {
+      "en": "A research question of your own, with real sources that you check yourself"
+     }
+    ],
+    "required_elements": [
+     {
+      "en": "a specific, defensible thesis that goes beyond yes or no"
+     },
+     {
+      "en": "an evaluation of the reliability of at least two sources"
+     },
+     {
+      "en": "a synthesis of at least three sources, organised by idea, that tells association from cause"
+     },
+     {
+      "en": "the strongest counterarguments, at least one partly conceded, with the thesis refined accordingly"
+     },
+     {
+      "en": "author-year citation throughout and a reference list"
+     },
+     {
+      "en": "how you checked each real source, or what you would check about each fictional one"
+     },
+     {
+      "en": "a conclusion that states implications and limits without new arguments"
+     }
+    ]
    },
    "lessons": [
     {

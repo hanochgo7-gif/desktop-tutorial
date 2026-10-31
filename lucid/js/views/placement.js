@@ -7,6 +7,7 @@ import { content } from '../core/content.js';
 import { icon, LEVEL_LABEL, brandMark, toast } from '../ui/components.js';
 import { mountExercise } from '../ui/exercise.js';
 import { createPlacement, START_FOR, zeroResult } from '../core/placement.js';
+import { LEVELS } from '../core/adaptive.js';
 import { applyPlacement, moveToLevel, recordAttempt, settings, profile, placementDraft, savePlacementDraft, clearPlacementDraft } from '../core/learner.js';
 import { checkTyped } from '../core/grading.js';
 
@@ -80,7 +81,8 @@ export default async function placementView(el, ctx) {
     const r = test.result();
     await applyPlacement(r);
     const L = (l) => LEVEL_LABEL[l];
-    const lower = r.demonstrated && r.demonstrated !== r.start_level ? r.demonstrated : null;
+    // One level lower than the start: the level shown (or, at the top, the one below it).
+    const lower = !r.demonstrated ? null : r.demonstrated !== r.start_level ? r.demonstrated : LEVELS[LEVELS.indexOf(r.start_level) - 1];
     const skillRow = (s, v) => html`<div class="row between small"><span>${t(`skill.${s}`)}</span><span class="faint">${v?.level
       ? html`<bdi dir="ltr">${L(v.level)}${v.capped ? '+' : ''}</bdi> <span class="xsmall">(${tt(`${v.items_at_level} שאלות ברמה הזו`, `${v.items_at_level} items at this level`)})</span>`
       : v?.items ? tt('אין מספיק תשובות', 'not enough answers') : tt('לא נבדק במבחן הזה', 'not measured by this test')}</span></div>`;
@@ -89,7 +91,7 @@ export default async function placementView(el, ctx) {
         <p class="muted">${!r.demonstrated
           ? tt('נתחיל מהבסיס, בקצב שלך. שיעורים שתדעו כבר יעברו מהר.', 'We\'ll start from the basics, at your pace. Lessons you already know will go quickly.')
           : r.top_band
-            ? tt(`התשובות שלך מתאימות לרמה ${L(r.demonstrated)} ומעלה בשאלות של דקדוק, אוצר מילים, קריאה והאזנה. כתיבה ודיבור לא נבדקו: משימת הכתיבה של הרמה היא הדרך להראות אותם. נתחיל ב-${L(r.start_level)}.`, `Your answers fit ${L(r.demonstrated)} or above on grammar, vocabulary, reading and listening questions. Writing and speaking were not measured: the level's writing task is how to show them. We'll start at ${L(r.start_level)}.`)
+            ? tt(`התשובות שלך בשאלות דקדוק, אוצר מילים, קריאה והאזנה מתאימות לרמה גבוהה (C1-C2). שאלות כאלה לבד לא קובעות רמה כזו, וכתיבה ודיבור לא נבדקו: משימת הכתיבה של הרמה היא הדרך להראות אותם. נתחיל ב-${L(r.start_level)}.`, `Your answers to grammar, vocabulary, reading and listening questions are consistent with C1-C2. Questions like these cannot establish that level on their own, and writing and speaking were not measured: the level's writing task is how to show them. We'll start at ${L(r.start_level)}.`)
             : tt(`הראית שליטה עד רמה ${L(r.demonstrated)}, בשתי סדרות של שאלות. נתחיל ב-${L(r.start_level)}, כדי לבנות מכאן הלאה.`, `You showed control up to ${L(r.demonstrated)}, over two sets of questions. We'll start at ${L(r.start_level)} and build from there.`)}</p></div>
       <div class="panel stack">
         <div class="row between"><span>${tt('מתחילים ב-', 'Starting at')}</span><span class="tag level" style="font-size:var(--t-md)">${L(r.start_level)}</span></div>

@@ -156,10 +156,14 @@ export function wordAccuracy(input, target) {
     else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
     else j++;
   }
-  // Report the target's original words (keeps capitals and apostrophes for display).
+  // Report the target's original words (keeps capitals and apostrophes for display). A contraction on
+  // screen ("I'm") stands for its full form ("i am") and counts as found when every part of it was.
+  const accuracy = ok.filter(Boolean).length / b.length;
   const display = String(target).trim().split(/\s+/);
-  const out = display.length === b.length ? display : b;
-  return { accuracy: ok.filter(Boolean).length / b.length, words: out.map((w, k) => ({ word: w, ok: ok[k] })) };
+  const parts = display.map((w) => norm(w).length);
+  if (parts.reduce((x, y) => x + y, 0) !== b.length) return { accuracy, words: b.map((w, k) => ({ word: w, ok: ok[k] })) };
+  let k = 0;
+  return { accuracy, words: display.map((w, d) => { const part = ok.slice(k, k + parts[d]); k += parts[d]; return { word: w, ok: part.every(Boolean) }; }) };
 }
 
 export function countWords(text) {

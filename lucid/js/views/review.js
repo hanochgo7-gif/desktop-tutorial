@@ -4,7 +4,7 @@
 //  - form cards: see the Hebrew meaning and a gapped example, type the English word.
 // Modes: review (due cards), warmup (learned 1-3 days ago), exit (learned today).
 import { html, render, on, $, shuffle, todayKey } from '../core/util.js';
-import { tt } from '../core/i18n.js';
+import { t, tt } from '../core/i18n.js';
 import { icon } from '../ui/components.js';
 import { allCards, due, gradeCard, logEvent, settings } from '../core/learner.js';
 import { checkTyped, levenshtein } from '../core/grading.js';
@@ -51,7 +51,7 @@ export default async function review(el, ctx) {
     render(el, html`<div class="player">
       <div class="player-top"><a class="key ghost small icon-only" href="#/today" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}</a>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${list.length}" aria-valuenow="${i}" aria-label="${title}"><span style="width:${list.length ? (i / list.length) * 100 : 100}%"></span></div>
-        <span class="small faint num">${Math.min(i + 1, list.length)}/${list.length}</span></div>
+        <span class="step-count">${t('of', { a: Math.min(i + 1, list.length), b: list.length })}</span></div>
       <div class="player-body">${body}</div>
       ${foot ? html`<div class="player-foot" id="pfoot">${foot}</div>` : ''}</div>`);
   }
@@ -90,7 +90,9 @@ export default async function review(el, ctx) {
     setTimeout(() => $('#ans', el)?.focus(), 50);
   }
 
-  function grade(correct, given) {
+  // typed: the learner typed the answer. Only a typed meaning can be "what I meant" (P-08); a picked option
+  // is either the right one or not.
+  function grade(correct, given, typed = false) {
     const c = list[i];
     const p = c.payload || {};
     const latency = Math.round(performance.now() - shownAt);
@@ -101,7 +103,7 @@ export default async function review(el, ctx) {
     render(foot, html`<div class="inner"><div class="verdict" role="status">
       <div class="verdict-title">${icon(correct ? 'check' : 'x', { size: 18 })} ${correct ? tt('נכון', 'Correct') : tt('לא בדיוק', 'Not quite')}</div>
       <div class="verdict-body"><span lang="en" dir="ltr" class="answer">${p.word}</span> = <span lang="he" dir="rtl">${p.he}</span>${p.example ? html` · <span lang="en" dir="ltr" class="muted">${p.example}</span>` : ''}</div>
-      ${!correct && given && c.kind === 'meaning' ? html`<button type="button" class="key ghost small" data-override style="margin-top:var(--s2)">${tt('התכוונתי לזה – זה נכון', 'That is what I meant – count it')}</button>` : ''}
+      ${!correct && typed && given && c.kind === 'meaning' ? html`<button type="button" class="key ghost small" data-override style="margin-top:var(--s2)">${tt('התכוונתי לזה – זה נכון', 'That is what I meant – count it')}</button>` : ''}
     </div><button type="button" class="key enter" data-next>${tt('המשך', 'Continue')} <span class="kbd">Enter</span></button></div>`);
     $('[data-next]', el).focus();
     $$disable();
@@ -125,7 +127,7 @@ export default async function review(el, ctx) {
       const c = list[i]; const v = $('#ans', el)?.value || '';
       if (!v.trim()) return;
       const ok = c.kind === 'form' ? checkTyped(v, [c.payload.word]).correct : meaningMatches(v, c.payload.he);
-      grade(ok, v);
+      grade(ok, v, true);
     }),
     on(el, 'click', '[data-idk]', () => grade(false, '')),
     on(el, 'click', '[data-hint]', (e, b) => {
@@ -147,7 +149,8 @@ export default async function review(el, ctx) {
     if (e.key >= '1' && e.key <= '4') { const b = el.querySelectorAll('[data-pick]')[Number(e.key) - 1]; if (b && !b.disabled) { b.click(); e.preventDefault(); } return; }
     if (e.key !== 'Enter' || e.isComposing) return;
     const b = $('[data-next]', el) || $('[data-check]', el);
-    if (b) { e.preventDefault(); b.click(); }
+    if (!b || (['BUTTON', 'A'].includes(e.target.tagName) && e.target !== b)) return; // e.g. Enter on "count it"
+    e.preventDefault(); b.click();
   };
   document.addEventListener('keydown', onKey);
   return () => { offs.forEach((o) => o()); document.removeEventListener('keydown', onKey); };

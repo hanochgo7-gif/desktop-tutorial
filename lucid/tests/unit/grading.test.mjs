@@ -73,3 +73,12 @@ test('slips inside inflectional endings are errors, not typos; other slips still
     assert.ok(r.correct && r.almost, `${typed} should be accepted with a spelling note`);
   }
 });
+
+test('word accuracy shows the target in its own spelling, contractions included (P-15)', () => {
+  const r = wordAccuracy('i am a student', "I'm a student.");
+  assert.deepEqual(r.words.map((w) => w.word), ["I'm", 'a', 'student.']);
+  assert.equal(r.accuracy, 1);
+  const part = wordAccuracy('i a student', "I'm a student.");
+  assert.deepEqual(part.words.map((w) => w.ok), [false, true, true], "half of I'm is not I'm");
+  assert.deepEqual(wordAccuracy('sorry how do you spell it', 'Sorry, how do you spell that?').words.map((w) => w.ok), [true, true, true, true, true, false]);
+});

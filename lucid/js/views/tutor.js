@@ -8,7 +8,7 @@ import { model, settings, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
-import { canListen, listen } from '../core/speech.js';
+import { canListen, listen, speechErrorText } from '../core/speech.js';
 
 export const MODES = [
   ['beginner', 'מתחילים', 'Beginner', 'הסברים פשוטים, הרבה עברית, צעד אחד בכל פעם', 'Simple explanations, plenty of Hebrew, one step at a time'],
@@ -61,6 +61,7 @@ export default async function tutor(el, ctx) {
       <div class="page-head"><div><h1>${t('nav.tutor')}</h1><p>${tt('מורה שמלמד: שואל, נותן רמזים, ומתקן את מה שחשוב. הוא יודע מה הרמה שלכם ובמה כדאי להתמקד.', 'A tutor who teaches: asks, gives hints, and corrects what matters. It knows your level and what to focus on.')}</p></div></div>
       <div class="seg" role="group" aria-label="${tt('מצב המורה', 'Tutor mode')}" style="margin-block-end:var(--s3)">${MODES.map(([id, he, en]) => html`<button type="button" data-mode="${id}" aria-pressed="${mode === id}">${tt(he, en)}</button>`)}</div>
       <p class="small muted" style="margin-block-end:var(--s4)">${(() => { const x = MODES.find((m) => m[0] === mode); return tt(x[3], x[4]); })()}</p>
+      ${mode === 'pronunciation' ? html`<p class="banner small" style="max-width:52rem;margin-block-end:var(--s4)" data-pron-note>${icon('info', { size: 18 })}<span>${tt('המורה קורא טקסט ולא שומע אתכם: גם כשמכתיבים בקול, מגיע אליו רק הטקסט שזוהה. כדי לבדוק איך הצלילים שלכם נשמעים, נסו את', 'The tutor reads text and can\'t hear you: when you dictate, it only gets the recognised text. To check how your sounds come across, use the')} <a href="#/speaking">${t('nav.speaking')}</a>.</span></p>` : ''}
       ${!aiReady ? html`<div class="panel stack" style="max-width:44rem">
           <p class="banner">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? tt('המורה מבוסס AI ופועל רק בשרת שבו הוגדר שירות ה-AI. בשרת הזה הוא עוד לא הוגדר, ולכן הוא לא זמין: אנחנו לא מציגים שיחה מזויפת.', 'The tutor runs on AI and works only on a server where the AI service is configured. It is not configured here, so the tutor is unavailable: we do not show a fake conversation.') : !auth.signedIn ? tt('כדי לדבר עם המורה צריך להיכנס לחשבון.', 'Sign in to talk with the tutor.') : tt('המורה דורש הפעלה של ״משוב AI״ בהגדרות.', 'The tutor needs "AI feedback" turned on in Settings.')}</span></p>
           <p class="small">${tt('בלי AI עדיין יש:', 'Without AI you still have:')}</p>
@@ -125,7 +126,7 @@ export default async function tutor(el, ctx) {
       draw();
       toast(tt('השיחות נמחקו', 'Conversations deleted'));
     }),
-    on(el, 'click', '[data-dictate]', async () => { try { const r = await listen(); $('#tin', el).value = r.transcript; } catch (err) { toast(err.code === 'denied' ? tt('אין הרשאה למיקרופון', 'Microphone blocked') : tt('לא נשמע דיבור', 'No speech heard')); } }),
+    on(el, 'click', '[data-dictate]', async () => { try { const r = await listen(); $('#tin', el).value = r.transcript; } catch (err) { toast(speechErrorText(err)); } }),
   ];
   return () => offs.forEach((o) => o());
 }

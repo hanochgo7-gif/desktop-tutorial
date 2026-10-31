@@ -72,3 +72,14 @@ test('a title line is not merged into the first sentence or counted as a paragra
   assert.ok(!a.issues.some((i) => i.title === 'Very long sentence'));
   assert.equal(a.checks.find((c) => c.id === 'caps').ok, true);
 });
+
+test('a closing reference list is not counted toward the word range or checked', () => {
+  const body = Array.from({ length: 30 }, () => 'Remote work changes how cities use their office space.').join(' ');
+  const text = `${body}\n\nReferences\nVarga, E. (2024). a study , of cities. Journal, 1(2), 3-4.\nHolm, J. (2023). another title. Press.`;
+  const a = analyzeWriting(text, { level: 'C2', minWords: 250, maxWords: 300 });
+  assert.equal(a.stats.words, 270);
+  assert.ok(a.stats.reference_words > 10);
+  assert.match(a.checks.find((c) => c.id === 'length').en, /reference list \(\d+ words\) is not counted/);
+  assert.ok(!a.issues.some((i) => i.type === 'punctuation' || i.type === 'capitalization'), 'reference entries are not checked');
+  assert.equal(analyzeWriting('References are useful. I like them.', {}).stats.reference_words, 0, 'a word, not a heading');
+});

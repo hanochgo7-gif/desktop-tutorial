@@ -4,7 +4,7 @@ import { html, render, on, $, shuffle, uid } from '../core/util.js';
 import { tt, bi, legend, hebrewSupport } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
-import { say, canSpeak, canListen, listen, stopSpeaking } from '../core/speech.js';
+import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
 import { recordAttempt, settings, logEvent, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
@@ -148,13 +148,13 @@ export default async function scenarioView(el, ctx) {
       typedResult = { hits: kw.filter((k) => n.includes(normalize(k))), total: kw.length };
       draw();
     }),
-    on(el, 'click', '[data-dictate]', async () => { try { const r = await listen({ variant }); typed = r.transcript; draw(); $('[data-own-check]', el)?.click(); } catch (e) { toast(e.code === 'denied' ? tt('אין הרשאה למיקרופון', 'Microphone blocked') : tt('לא נשמע דיבור', 'No speech heard')); } }),
+    on(el, 'click', '[data-dictate]', async () => { try { const r = await listen({ variant }); typed = r.transcript; draw(); $('[data-own-check]', el)?.click(); } catch (e) { toast(speechErrorText(e)); } }),
     on(el, 'click', '[data-next-turn]', () => { ti++; picked = null; typed = ''; typedResult = null; if (ti >= turnOrder.length) { store.put('progress', { id: `rl:${s.id}`, status: 'completed', completed_at: new Date().toISOString() }); logEvent({ type: 'speaking', scenario: s.id }); } draw(); }),
     on(el, 'click', '[data-restart]', () => { ti = 0; picked = null; typed = ''; typedResult = null; draw(); }),
     on(el, 'click', '[data-start-rp]', () => { chat = { id: uid('rp'), at: new Date().toISOString(), turns: [{ role: 'partner', text: s.roleplay.opening_line }] }; draw(); if (canSpeak()) say(s.roleplay.opening_line, { variant }); $('#rpin', el)?.focus(); }),
     on(el, 'submit', '[data-rp-send]', (e) => { e.preventDefault(); sendTurn($('#rpin', el).value); }),
     on(el, 'keydown', '#rpin', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); sendTurn(e.target.value); } }),
-    on(el, 'click', '[data-rp-dictate]', async () => { try { const r = await listen({ variant }); $('#rpin', el).value = r.transcript; } catch (e) { toast(e.code === 'denied' ? tt('אין הרשאה למיקרופון', 'Microphone blocked') : tt('לא נשמע דיבור', 'No speech heard')); } }),
+    on(el, 'click', '[data-rp-dictate]', async () => { try { const r = await listen({ variant }); $('#rpin', el).value = r.transcript; } catch (e) { toast(speechErrorText(e)); } }),
     on(el, 'click', '[data-end-rp]', async (e, b) => {
       if (b.disabled) return;
       busy = true; draw();

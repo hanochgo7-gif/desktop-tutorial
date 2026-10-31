@@ -4,10 +4,10 @@
 import { store } from './store.js';
 import { uid, todayKey } from './util.js';
 import { content } from './content.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, pickScenario, pickWritingTask, LEVELS, levelIndex } from './adaptive.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, LEVELS, levelIndex } from './adaptive.js';
 import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
 import { setHebrewSupport } from './i18n.js';
-import { START_FOR } from './placement.js';
+import { START_FOR, selfReportResult } from './placement.js';
 
 export const DEFAULT_SETTINGS = {
   id: 'me',
@@ -58,7 +58,9 @@ export function recordAttempt(a) {
     skill: a.skill || null,
     level: a.level || null,
     correct: Boolean(a.correct),
-    score: a.score ?? (a.correct ? 1 : 0),
+    // score null = practice that is never scored (speaking, writing in lessons): kept as null, so the
+    // learner model leaves it out (adaptive.js). Missing scores default to right/wrong.
+    score: a.score === null ? null : a.score ?? (a.correct ? 1 : 0),
     error_type: a.correct ? null : a.error_type || null,
     hint_used: Boolean(a.hint_used),
     latency_ms: a.latency_ms ?? null,
@@ -166,10 +168,12 @@ export async function importPlacedOutVocab(level) {
 export const placementDraft = () => store.get('placement', 'inprogress');
 export function savePlacementDraft({ start, answers }) { store.put('placement', { id: 'inprogress', start, answers, at: new Date().toISOString() }); }
 export function clearPlacementDraft() { if (placementDraft()) store.remove('placement', 'inprogress'); }
-// Onboarded, chose to take the test, and has no result yet (left before the end, or never began).
+// Onboarded, chose to take the test, has no result yet (left before the end, or never began) and has not
+// completed a lesson since (a learner who is already working through the path is not sent back to the test).
 export function placementPending() {
   const p = profile();
-  return Boolean(p?.onboarded && p.start_choice && p.start_choice !== 'zero' && !store.get('placement', 'latest'));
+  if (!p?.onboarded || !p.start_choice || p.start_choice === 'zero' || store.get('placement', 'latest')) return false;
+  return !store.all('progress').some((x) => isLessonId(x.id) && x.status === 'completed');
 }
 // The level the learner picked in onboarding (their own estimate), e.g. "simple conversations" = A2.
 export const selfReportLevel = () => START_FOR[profile()?.start_choice] || null;
@@ -183,6 +187,8 @@ export async function applyPlacement(result) {
 }
 // Learner-controlled level move (placement is provisional; research C2, D8).
 export async function moveToLevel(level) {
+  // Choosing a level settles an unfinished placement: the choice is recorded as the learner's own estimate.
+  if (!store.get('placement', 'latest')) { store.put('placement', { id: 'latest', ...selfReportResult(level), at: new Date().toISOString() }); clearPlacementDraft(); }
   await setStartLevel(level);
   logEvent({ type: 'level-move', level });
 }
