@@ -32,8 +32,9 @@ async function check(name, fn) {
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
 
 // ---------- helpers ----------
-async function newPage(browser, { viewport = { width: 390, height: 844 }, mock = false } = {}) {
-  const ctx = await browser.newContext({ viewport, reducedMotion: 'reduce', locale: 'he-IL' });
+async function newPage(browser, { viewport = { width: 390, height: 844 }, mock = false, serviceWorkers = 'block' } = {}) {
+  // The service worker is blocked except in the offline check, so page.route mocks see every request.
+  const ctx = await browser.newContext({ viewport, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => pageErrors.push(`${page.url()} :: ${e.message}`));
   page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) pageErrors.push(`${page.url()} :: console ${m.text()}`); });
@@ -1111,6 +1112,29 @@ try {
     await page.waitForSelector(exId ? '#exroot' : '.player h1');
   }
   const lessonJson = (id) => JSON.parse(readFileSync(join(repo, `lucid/content/lessons/${id}.json`), 'utf8'));
+
+  await check('OF1. Offline: screens never opened before, review and saved lessons work without a connection (P-54)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 }, serviceWorkers: 'allow' });
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await page.goto(`${BASE}#/settings`);
+    await page.click('[data-offline]');
+    await page.waitForFunction(() => /75/.test(document.querySelector('[data-offline-status]')?.textContent || '') && !document.querySelector('[data-offline]').disabled, null, { timeout: 60000 });
+    assert(/All 75|כל 75/.test(await page.textContent('[data-offline-status]')), `lessons not all saved: ${await page.textContent('[data-offline-status]')}`);
+    await ctx.setOffline(true);
+    for (const r of ['review', 'conversations', 'real-life', 'expressions', 'scenario/rl-airport-checkin-overweight', 'lesson/b1-03', 'writing', 'progress']) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForTimeout(500);
+      const txt = await page.textContent('#view');
+      assert(!/did not load|לא נטען|Something went wrong|משהו השתבש/.test(txt), `${r} failed offline: ${txt.slice(0, 120)}`);
+    }
+    await page.reload();
+    await page.waitForSelector('#view');
+    assert(!/did not load|לא נטען/.test(await page.textContent('#view')), 'reload failed offline');
+    await ctx.close();
+  });
 
   await check('PS1. Speaking in lessons is practice: what was recognised, no verdict or score, "Can\'t speak right now" skips with no retry, a microphone notice first (P-02, P-27, P-57, P-05)', async () => {
     const { ctx, page } = await newPage(browser);

@@ -8,12 +8,14 @@ import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
 import { signOut } from '../core/session.js';
 import { CONFIG } from '../../config.js';
+import { content } from '../core/content.js';
 
 const seg = (name, value, opts) => html`<div class="seg" role="group" data-seg="${name}">${opts.map(([v, he, en]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}">${tt(he, en)}</button>`)}</div>`;
 
 export default async function settingsView(el, ctx) {
   ctx.setTitle(t('nav.settings'));
   let pwOpen = Boolean(ctx.query.reset);
+  const offline = { busy: false, text: '' };
   let pwMsg = '';
 
   // Changing the password asks for the current one, unless a reset link was just used on this device.
@@ -66,6 +68,10 @@ export default async function settingsView(el, ctx) {
             ${pwOpen && !ctx.query.reset ? passwordForm({ inline: true }) : ''}`
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
+        <section class="panel stack"><h2>${tt('שימוש בלי אינטרנט', 'Offline use')}</h2>
+          <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
+          <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
+        </section>
         <section class="panel stack"><h2>${tt('המידע שלך', 'Your data')}</h2>
           <p class="small muted">${tt('הכול שלך: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
           <div class="row"><button type="button" class="key small" data-export>${icon('download', { size: 16 })} ${tt('הורדת כל המידע (JSON)', 'Download all my data (JSON)')}</button>
@@ -76,8 +82,40 @@ export default async function settingsView(el, ctx) {
       </div>`);
   }
 
+  // How many lesson files are in a Lucid cache (only meaningful once the service worker is running).
+  async function offlineCount() {
+    if (!('caches' in window)) return null;
+    const ids = (await content.manifest())?.lessons || [];
+    const keys = (await caches.keys()).filter((k) => k.startsWith('lucid-'));
+    let n = 0;
+    for (const id of ids) {
+      const url = new URL(`content/lessons/${id}.json`, location.href).href;
+      for (const k of keys) if (await (await caches.open(k)).match(url)) { n++; break; }
+    }
+    return { n, total: ids.length };
+  }
+  function showOfflineCount() {
+    offlineCount().then((c) => { if (!c || offline.busy) return; offline.text = tt(`${c.n} מתוך ${c.total} שיעורים שמורים במכשיר.`, `${c.n} of ${c.total} lessons saved on this device.`); const s = $('[data-offline-status]', el); if (s) s.textContent = offline.text; }).catch(() => {});
+  }
+
   draw();
+  showOfflineCount();
   const offs = [
+    on(el, 'click', '[data-offline]', async (e, b) => {
+      const ids = (await content.manifest())?.lessons || [];
+      offline.busy = true; b.disabled = true;
+      const status = $('[data-offline-status]', el);
+      let ok = 0, failed = 0;
+      for (const id of ids) {
+        // Fetched through the service worker, which keeps a copy; a plain HTTP cache is not reliable offline.
+        try { const r = await fetch(`content/lessons/${id}.json`, { cache: 'no-cache' }); if (r.ok) ok++; else failed++; } catch { failed++; }
+        if (status) status.textContent = tt(`נשמרו ${ok} מתוך ${ids.length}…`, `Saved ${ok} of ${ids.length}…`);
+      }
+      offline.busy = false; b.disabled = false;
+      offline.text = failed ? tt(`נשמרו ${ok} שיעורים; ${failed} לא נשמרו. נסו שוב עם חיבור.`, `Saved ${ok} lessons; ${failed} could not be saved. Try again with a connection.`) : tt(`כל ${ok} השיעורים שמורים. אפשר ללמוד בלי אינטרנט.`, `All ${ok} lessons are saved. You can study offline.`);
+      if (status) status.textContent = offline.text;
+      if (!navigator.serviceWorker?.controller) toast(tt('השמירה תעבוד אחרי טעינה מחדש אחת של Lucid.', 'Saving takes effect after Lucid has been reloaded once.'));
+    }),
     on(el, 'click', '[data-seg] [data-v]', (e, b) => {
       const name = b.closest('[data-seg]').dataset.seg;
       const raw = b.dataset.v;

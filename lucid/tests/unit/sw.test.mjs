@@ -10,7 +10,7 @@ const BASE = 'https://example.org/lucid/';
 const source = readFileSync(new URL('../../sw.js', import.meta.url), 'utf8');
 
 function worker({ network = new Map(), online = true } = {}) {
-  const res = (body, { status = 200, type = 'basic' } = {}) => ({ ok: status < 400, status, type, body, clone() { return res(body, { status, type }); } });
+  const res = (body, { status = 200, type = 'basic' } = {}) => ({ ok: status < 400, status, type, body, clone() { return res(body, { status, type }); }, async json() { return JSON.parse(body); } });
   const key = (r) => new URL(typeof r === 'string' ? r : r.url, BASE).href;
   const stores = new Map();
   const openCache = (name) => {
@@ -21,6 +21,7 @@ function worker({ network = new Map(), online = true } = {}) {
         match: async (r) => m.get(key(r)),
         put: async (r, v) => { m.set(key(r), v); },
         addAll: async (reqs) => { for (const r of reqs) m.set(key(r), res(`precached ${key(r)}`)); },
+        add: async (r) => { if (!env.online) throw new TypeError('offline'); env.fetches.push(key(r)); m.set(key(r), res(`precached ${key(r)}`)); },
       });
     }
     return stores.get(name);
@@ -109,4 +110,22 @@ test('other origins, other apps on the origin and non-GET requests are not touch
   assert.equal((await w.fire('fetch', { url: 'https://abc.supabase.co/rest/v1/lucid_records', mode: 'cors', method: 'GET' })).handled, false);
   assert.equal((await w.fire('fetch', { url: 'https://example.org/crm/js/app.js', mode: 'cors', method: 'GET' })).handled, false);
   assert.equal((await w.fire('fetch', w.req('js/app.js', 'cors', 'POST'))).handled, false);
+});
+
+test('install also precaches every module and the non-lesson content listed in the manifest (P-54)', async () => {
+  const manifest = JSON.parse(readFileSync(new URL('../../content/manifest.json', import.meta.url), 'utf8'));
+  const network = new Map([[new URL('content/manifest.json', BASE).href, JSON.stringify(manifest)]]);
+  const w = worker({ network });
+  await w.fire('install');
+  const cache = w.openCache(w.cacheName());
+  for (const f of ['js/views/review.js', 'js/views/simulations.js', 'js/views/settings.js', 'content/real-life/scenarios.json', 'vendor/ts-fsrs.mjs']) {
+    assert.ok(await cache.match(f), `${f} not precached`);
+  }
+  assert.equal(await cache.match('content/lessons/pa1-01.json'), undefined, 'lessons are saved on request, not on install');
+});
+
+test('install still succeeds when the manifest cannot be fetched', async () => {
+  const w = worker({ online: false });
+  await w.fire('install');
+  assert.ok(w.cacheName());
 });

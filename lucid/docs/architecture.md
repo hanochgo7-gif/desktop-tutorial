@@ -306,7 +306,11 @@ atomic in-memory ledger instead.
 
 ## 7. Offline and performance
 
-A service worker caches the app shell, fonts and content; lessons work offline after first load. Code (pages,
+A service worker (registered in any secure context: https, or localhost in development) caches the app shell and
+fonts, then every module and the non-lesson content listed in `content/manifest.json` (`offline`, written by
+`tools/build-manifest.mjs`), so screens never opened before work offline. Lessons (about 3 MB) are cached when
+opened, or all at once from Settings, "Offline use". AI features and speech recognition need a connection. Covered by
+`tests/unit/offline-manifest.test.mjs` and the e2e check OF1, which goes offline after saving lessons. Code (pages,
 `config.js`, `js/`, `css/`) is fetched network-first, falling back to the cache when offline or after 4 seconds, so a
 fix reaches learners on their next load. Fonts, content and other files are served from the cache and refreshed in
 the background. The cache is named `lucid-<RELEASE>` (the constant at the top of `sw.js`); bumping it on a deploy

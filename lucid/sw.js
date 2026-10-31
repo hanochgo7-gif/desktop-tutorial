@@ -1,10 +1,11 @@
-// Offline support. Code (pages, config.js, js/, css/) is network-first, so a fix reaches learners on the next
+// Offline support. On install the shell, every module and the non-lesson content are cached (lessons are
+// saved on request from Settings). Code (pages, config.js, js/, css/) is network-first, so a fix reaches learners on the next
 // load; when the network is slow or gone, the cached copy is used. Fonts, content and other files are
 // stale-while-revalidate. Server API calls (another origin) are never cached.
 // RELEASE names the cache: bump it with every deploy. A new value makes the browser install a fresh worker,
 // precache the shell again and delete older Lucid caches. Only caches named "lucid-…" are ever deleted,
 // because the origin is shared with other apps.
-const RELEASE = '2026-10-30.2';
+const RELEASE = '2026-10-31.1';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'index.html', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2',
@@ -15,9 +16,19 @@ const NETWORK_TIMEOUT_MS = 4000;
 const isCode = (req, rel) => req.mode === 'navigate' || rel === '' || rel === 'index.html' || rel === 'config.js'
   || rel.startsWith('js/') || rel.startsWith('css/');
 
+// After the shell, every module and the non-lesson content listed in content/manifest.json is cached, so
+// screens never opened before still work offline. Best effort: one missing file does not fail the install.
+async function precacheOffline(cache) {
+  try {
+    const res = await fetch(new Request('content/manifest.json', { cache: 'reload' }));
+    const list = (await res.json()).offline || [];
+    await Promise.all(list.map((u) => cache.add(new Request(u, { cache: 'reload' })).catch(() => null)));
+  } catch { /* offline during install: the shell is enough to start */ }
+}
+
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE)
-    .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))))
+    .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))).then(() => precacheOffline(c)))
     .then(() => self.skipWaiting()));
 });
 
