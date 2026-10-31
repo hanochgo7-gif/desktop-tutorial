@@ -11,31 +11,45 @@
   var N = root.querySelectorAll(".sim-ch").length || 10;
 
   // ---- photo mode (31 Oct 2026): one photoreal illustration per chapter, cross-faded by the scroll; no WebGL needed ----
+  // Each picture fades in as its own chapter card rises into view, so the picture and the card being read always match.
   var phs = [].slice.call(root.querySelectorAll(".sim-ph .ph"));
   if (phs.length) {
-    var pTrack = track, pRail = root.querySelectorAll(".sim-rail button"), pStep = document.getElementById("sim-step"), pBar = document.getElementById("sim-bar"), pCur = -1, pPend = false;
-    function pChH() { var c = root.querySelector(".sim-ch"); return (c && c.offsetHeight) || window.innerHeight; }
-    pRail.forEach(function (b, n) { function go() { var r = pTrack.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * pChH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
-    function want(i) {  // load a chapter's image just before it is needed
+    var pTrack = track, pWrap = root.querySelector(".sim-ph"), pRail = root.querySelectorAll(".sim-rail button"), pStep = document.getElementById("sim-step"), pBar = document.getElementById("sim-bar");
+    var pCards = [].slice.call(root.querySelectorAll(".sim-ch")), tops = [], pCur = -1, pPend = false, loaded = document.readyState === "complete";
+    var PH = "(max-width: 760px) and (orientation: portrait)";  // phones get the 9:16 cut
+    function measure() { var t0 = pTrack.getBoundingClientRect().top; tops = pCards.map(function (c) { var k = c.querySelector(".sim-card") || c; return k.getBoundingClientRect().top - t0; }); }
+    function want(i) {  // load a chapter's picture just before it is needed; it shows only once decoded
       var p = phs[i]; if (!p || p.dataset.on) return; p.dataset.on = "1";
       var im = p.querySelector("img");
-      function src(set, type, media) { var so = document.createElement("source"); if (type) so.type = type; if (media) so.media = media; so.sizes = "100vw"; so.srcset = set; p.insertBefore(so, im); }
-      var PH = "(max-width: 760px) and (orientation: portrait)";  // phones get the 9:16 cut where there is one
+      function src(set, type, media) { var so = document.createElement("source"); if (type) so.type = type; if (media) so.media = media; so.sizes = media ? "100vw" : "100vw"; so.srcset = set; p.insertBefore(so, im); }
       if (p.dataset.mavif) { src(p.dataset.mavif, "image/avif", PH); src(p.dataset.mwebp, "image/webp", PH); src(p.dataset.mjpg, "", PH); }
       ["avif", "webp"].forEach(function (t) { if (p.dataset[t]) src(p.dataset[t], "image/" + t, ""); });
       if (im.dataset.srcset) { im.srcset = im.dataset.srcset; im.src = im.dataset.src; }
+      var done = function () { p.dataset.ready = "1"; kick(); };
+      if (im.decode) im.decode().then(done, done); else if (im.complete) done(); else im.addEventListener("load", done);
     }
+    // a dot goes straight to its chapter: far jumps are instant, so the pictures in between are not downloaded
+    pRail.forEach(function (b, n) { b.addEventListener("click", function () { want(n); want(n + 1); var far = Math.abs(n - pCur) > 2; window.scrollTo({ top: window.scrollY + pTrack.getBoundingClientRect().top + n * (pCards[0] ? pCards[0].offsetHeight : innerHeight) + 4, behavior: reduce || far ? "auto" : "smooth" }); }); });
+    phs.forEach(function (p) { var im = p.querySelector("img"); if (!im.dataset.srcset) want(+p.dataset.i); });  // the first picture is in the HTML
     function frame() {
       pPend = false;
-      var r = pTrack.getBoundingClientRect(), vh = window.innerHeight;
-      var P = Math.max(0, Math.min(N - .001, (-r.top + vh * (window.innerWidth <= 760 ? .35 : .5)) / pChH()));
-      var s = Math.floor(P);
-      want(s); want(s + 1); want(s + 2);
+      var r = pTrack.getBoundingClientRect(), vh = window.innerHeight, s = 0;
+      if (!tops.length) measure();
       phs.forEach(function (p, i) {
-        var o = i === 0 ? 1 : Math.max(0, Math.min(1, (P - i + .35) / .35));  // the next picture fades in over the last third of a chapter
-        p.style.opacity = o;
-        if (!reduce) { var k = Math.max(0, Math.min(1, P - i + .35)); p.style.transform = "scale(" + (1.06 - .06 * k).toFixed(4) + ")"; }  // a slow push-in while it is on screen
+        var t = tops[i] + r.top, f = i === 6 ? .12 : .25;  // into the net house (drone view -> eye level) cuts quicker, so the views don't ghost
+        var o = i === 0 ? 1 : Math.max(0, Math.min(1, (vh * .82 - t) / (vh * f)));  // fades in as its card's top rises from 82% of the screen
+        if (o > 0 && i > 0) want(i);
+        if (o >= .5) s = i;
+        p._o = o;
       });
+      want(s); want(s + 1); if (loaded) want(s + 2);
+      phs.forEach(function (p, i) {
+        var show = p._o * (p.dataset.ready ? 1 : 0);
+        p.style.opacity = show;
+        p.style.visibility = (i < s - 1 || i > s + 1) && show === 0 ? "hidden" : "";  // at most three layers kept on the GPU
+      });
+      var P = Math.max(0, Math.min(N, (-r.top + vh * .5) / ((pCards[0] && pCards[0].offsetHeight) || vh)));
+      if (!reduce && pWrap) pWrap.style.transform = "scale(" + (1 + .05 * P / N).toFixed(4) + ")";  // one slow push-in over the whole story
       if (s !== pCur) {
         pCur = s; pRail.forEach(function (b, n) { if (n === s) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
         if (pStep) pStep.textContent = (s + 1 < 10 ? "0" : "") + (s + 1) + " / " + (N < 10 ? "0" : "") + N;
@@ -43,7 +57,9 @@
       if (pBar) pBar.style.transform = "scaleX(" + (P / N).toFixed(4) + ")";
     }
     function kick() { if (!pPend) { pPend = true; requestAnimationFrame(frame); } }
-    window.addEventListener("scroll", kick, { passive: true }); window.addEventListener("resize", kick);
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", function () { tops = []; kick(); });
+    window.addEventListener("load", function () { loaded = true; tops = []; (window.requestIdleCallback || setTimeout)(kick); });
     root.classList.add("live"); kick();
     return;
   }

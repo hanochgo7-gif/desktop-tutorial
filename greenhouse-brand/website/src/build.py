@@ -281,8 +281,7 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
     if L == "he":  # Hebrew pages still need the Latin file for digits, spaces and punctuation
         pre += f'<link rel="preload" href="{r}assets/fonts/Heebo-var-hebrew.woff2?v={FONTV["Heebo-var-hebrew.woff2"]}" as="font" type="font/woff2" crossorigin>'
     if slug == "how-we-build":  # the still of the 3D scene is this page's largest image
-        pre += (f'<link rel="preload" as="image" href="{r}assets/img/sim-poster-m.jpg" media="(max-width: 760px)">'
-                f'<link rel="preload" as="image" href="{r}assets/img/sim-poster.jpg" media="(min-width: 761px)">')
+        pass  # the first picture carries fetchpriority="high"; a 0.3 KB blurred stand-in is inlined in the CSS
     if slug == "index":
         pre += (f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-portrait-720.avif" imagesrcset="{r}assets/img/hero-portrait-720.avif 720w" imagesizes="100vw" media="(max-width: 720px) and (orientation: portrait)">'
                 f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-1600.avif" imagesrcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" imagesizes="100vw" media="not all and (max-width: 720px) and (orientation: portrait)">')
@@ -427,8 +426,7 @@ def cta_band(L, where, crop="", need=""):
       <div class="actions">
         <a class="btn btn-primary" href="contact.html{qs(crop=crop, need=need)}" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
-      </div>
-      {meta}
+      </div>{meta}
     </div>
   </div>
 </section>"""
@@ -649,21 +647,18 @@ def p_sim(L):
     r = rel(L)
     steps_label = "Steps" if L == "en" else "שלבים"
     # one photoreal illustration per chapter (made with AI from the 3D model's frames, 31 Oct 2026); the first two load with the page, the rest as the visitor scrolls near
-    # where each picture's subject sits (x%), so it survives the phone's centre crop (art-direction review, 31 Oct 2026)
-    pos = ["49%", "51%", "49%", "48%", "53%", "46%", "47%", "46%", "46%", "40%"]
+    # the first picture is in the HTML; the rest are added by build-sim.js as the visitor scrolls near (phones get a 9:16 cut of each)
     def ph(i):
         ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext} {w}w" for w in (960, 1600, 2400))
-        sty = f' style="object-position:{pos[i]} 50%"'
-        if i < 2:
-            return (f'<picture class="ph" data-i="{i}"><source type="image/avif" srcset="{ss("avif")}" sizes="100vw"><source type="image/webp" srcset="{ss("webp")}" sizes="100vw">'
-                    f'<img src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{sty}{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
-        # later chapters: a 1-pixel placeholder until build-sim.js adds the real sources (and a 9:16 cut for phones where one exists)
-        m = (PUB / f"assets/img/sim-r{i + 1:02d}m-720.jpg").exists()
-        mm = (f' data-mavif="{r}assets/img/sim-r{i + 1:02d}m-720.avif 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.avif 1080w"'
-              f' data-mwebp="{r}assets/img/sim-r{i + 1:02d}m-720.webp 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.webp 1080w"'
-              f' data-mjpg="{r}assets/img/sim-r{i + 1:02d}m-720.jpg 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.jpg 1080w"') if m else ""
-        return (f'<picture class="ph{" pm" if m else ""}" data-i="{i}"{mm} data-avif="{ss("avif")}" data-webp="{ss("webp")}"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" '
-                f'data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" sizes="100vw" width="2400" height="1350" alt=""{sty} decoding="async"></picture>')
+        ms = lambda ext: f"{r}assets/img/sim-r{i + 1:02d}m-720.{ext} 720w, {r}assets/img/sim-r{i + 1:02d}m-hd.{ext} 850w"
+        PHQ = "(max-width: 760px) and (orientation: portrait)"
+        if i == 0:
+            return (f'<picture class="ph" data-i="0"><source type="image/avif" media="{PHQ}" srcset="{ms("avif")}" sizes="100vw"><source type="image/webp" media="{PHQ}" srcset="{ms("webp")}" sizes="100vw">'
+                    f'<source media="{PHQ}" srcset="{ms("jpg")}" sizes="100vw"><source type="image/avif" srcset="{ss("avif")}" sizes="100vw"><source type="image/webp" srcset="{ss("webp")}" sizes="100vw">'
+                    f'<img src="{r}assets/img/sim-r01-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt="" fetchpriority="high" decoding="async"></picture>')
+        return (f'<picture class="ph" data-i="{i}" data-mavif="{ms("avif")}" data-mwebp="{ms("webp")}" data-mjpg="{ms("jpg")}" data-avif="{ss("avif")}" data-webp="{ss("webp")}">'
+                f'<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" '
+                f'sizes="100vw" width="2400" height="1350" alt="" decoding="async"></picture>')
     photos = "".join(ph(i) for i in range(n))
     return f"""
 <main id="main">

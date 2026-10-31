@@ -22,14 +22,20 @@ def main():
             ph = im.height; pw = round(ph * 9 / 16); l = (im.width - pw) // 2
             im.crop((l, 0, l + pw, ph)).resize((720, 1280), Image.LANCZOS).save(OUT / "sim-poster-m.jpg", quality=78, optimize=True, progressive=True)
         print(f"ch{i:02d}", im.size)
-    # portrait (9:16) cuts for phones, where the 16:9 picture would lose its subject
-    for f in sorted(SRC.glob("ch*-portrait.png")):
-        i = int(f.name[2:4]); im = Image.open(f).convert("RGB")
-        for wd in (720, 1080):
-            t = im.resize((wd, round(wd * 16 / 9)), Image.LANCZOS); n = OUT / f"sim-r{i:02d}m-{wd}"
-            t.save(f"{n}.avif", quality=50); t.save(f"{n}.webp", quality=74); t.save(f"{n}.jpg", quality=78, optimize=True, progressive=True)
-        print(f.name, im.size)
-
+    # portrait (9:16) cuts for phones: one shared window (full height, centred at 48%) for every chapter, so the fades stay aligned
+    for i in range(1, 11):
+        im = Image.open(SRC / f"ch{i:02d}.png").convert("RGB"); w, h = im.size
+        cw = round(h * 9 / 16); x0 = max(0, min(w - cw, round(w * .48 - cw / 2)))
+        im = im.crop((x0, 0, x0 + cw, h))
+        for wd in (720, cw):
+            t = im.resize((wd, round(wd * 16 / 9)), Image.LANCZOS); n = OUT / f"sim-r{i:02d}m-{720 if wd == 720 else 'hd'}"
+            t.save(f"{n}.avif", quality=52); t.save(f"{n}.webp", quality=76); t.save(f"{n}.jpg", quality=80, optimize=True, progressive=True)
+    # a tiny blurred stand-in for the first picture, shown before it arrives (inlined as CSS)
+    import base64, io, re
+    tiny = Image.open(SRC / "ch01.png").convert("RGB").resize((32, 18), Image.LANCZOS); b = io.BytesIO(); tiny.save(b, "WEBP", quality=60)
+    uri = "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()
+    css = W / "src/assets/site.css"; c = css.read_text(encoding="utf-8")
+    css.write_text(re.sub(r'(\.sim\.photo \.sim-stage \{ background-image: url\(")[^"]*', lambda m: m.group(1) + uri, c), encoding="utf-8")
 
 if __name__ == "__main__":
     main()

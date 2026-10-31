@@ -509,9 +509,10 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 /* ---------- 3D: how a net house is built ---------- */
 .sim { position: relative; background: #DCE6E2; }
 .sim-track { position: relative; }
-.sim-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #E3E7D4 url("img/sim-poster.jpg") center / cover no-repeat; }
+.sim-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #E3E7D4 center / cover no-repeat; }
+/* a 0.3 KB blurred stand-in of the first picture, shown until it arrives (written by tools/sim_images.py) */
+.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRswAAABXRUJQVlA4IMAAAABwBQCdASogABIAPrVQn0ynJKKiKAqo4BaJYwCdM4O3WCTxWNRACH594hlccN3OmxxCZ4mAAP3jngQEGAGBJdh4RVh0Fo5NG4ie/5Z5mQi6QLkfkfvUWSJBMIH27UDVnW8NIVg/5w9+0AiL2IlevfKMFa3FxpgSUo5OBV4wvjJQrYvB64mnB2/4RG9LrUlrGlIztAPCpSu1h2v3jY2O7v6rZXnC5TMSGNfU0LMZ2d8GZ37BCwXZpziTijwoTvoAAAA="); }
 .sim-stage canvas { opacity: 0; transition: opacity .5s; }
-@media (max-width: 760px) { .sim-stage { background-image: url("img/sim-poster-m.jpg"); } }
 .sim.live .sim-stage canvas { opacity: 1; }
 .sim-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .sim-badge { position: absolute; top: 84px; inset-inline-start: 16px; font-size: .8125rem; font-weight: 600; color: var(--forest); background: rgba(255, 255, 255, .88); border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; }
@@ -1272,11 +1273,18 @@ ul.bars { container-type: inline-size; }  /* ul: the menu icon is also called .b
 /* T6: focus rings over photos and the globe: white with a deep-green edge, visible on light and dark pixels (3:1 or more either way) */
 body.top-dark .site-head:not(.solid) :focus-visible, .globe-frame :focus-visible { outline: 2px solid var(--white); outline-offset: 2px; box-shadow: 0 0 0 5px var(--deep); }
 /* the build illustration in photo mode: one picture per chapter, stacked; the script sets opacity and a slow push-in */
-.sim-ph { position: absolute; inset: 0; overflow: hidden; }
-.sim-ph .ph { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
+.sim-ph { position: absolute; inset: 0; overflow: hidden; will-change: transform; }
+.sim-ph .ph { position: absolute; inset: 0; opacity: 0; will-change: opacity; }
 .sim-ph .ph:first-child { opacity: 1; }
 .sim-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sim.photo .sim-fallback { display: none; }
 /* phones: the picture is a little taller than the screen and anchored to its foot, so the crew (about 55-60% down) rises above the chapter card */
 @media (max-width: 760px) { .sim-ph img { position: absolute; left: 0; bottom: 0; height: 120%; } }
-@media (max-width: 760px) and (orientation: portrait) { .sim-ph .pm img { height: 100%; object-position: 50% 50% !important; } }  /* the 9:16 cut is framed for the phone already */
+/* upright phones get a 9:16 cut of every chapter (one shared window, so the fades line up); 118% tall, anchored to the foot, lifts the crew above the card */
+@media (max-width: 760px) and (orientation: portrait) { .sim-ph img { height: 118%; object-position: 50% 100%; } }
+/* the dots read on any picture: a white pill behind them */
+.sim.photo .sim-rail { background: rgba(255, 255, 255, .82); border-radius: 999px; padding-block: 4px; inset-inline-end: 8px; box-shadow: 0 4px 14px rgba(14, 42, 37, .12); }
+.sim.photo .sim-rail button span { background: rgba(14, 66, 57, .55); box-shadow: none; }
+.sim.photo .sim-rail button[aria-current="step"] span { background: var(--forest); }
+/* every card says it is an illustration, on desktop too */
+.sim.photo .k-ill { display: inline; }
