@@ -18,8 +18,9 @@
     pRail.forEach(function (b, n) { function go() { var r = pTrack.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * pChH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
     function want(i) {  // load a chapter's image just before it is needed
       var p = phs[i]; if (!p || p.dataset.on) return; p.dataset.on = "1";
-      p.querySelectorAll("[data-srcset]").forEach(function (e) { e.setAttribute("srcset", e.dataset.srcset); });
-      var im = p.querySelector("img"); if (im.dataset.src) im.src = im.dataset.src;
+      var im = p.querySelector("img");
+      ["avif", "webp"].forEach(function (t) { if (!p.dataset[t]) return; var so = document.createElement("source"); so.type = "image/" + t; so.sizes = "100vw"; so.srcset = p.dataset[t]; p.insertBefore(so, im); });
+      if (im.dataset.srcset) { im.srcset = im.dataset.srcset; im.src = im.dataset.src; }
     }
     function frame() {
       pPend = false;

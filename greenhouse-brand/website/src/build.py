@@ -650,11 +650,13 @@ def p_sim(L):
     steps_label = "Steps" if L == "en" else "שלבים"
     # one photoreal illustration per chapter (made with AI from the 3D model's frames, 31 Oct 2026); the first two load with the page, the rest as the visitor scrolls near
     def ph(i):
-        a = "srcset" if i < 2 else "data-srcset"
         ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext} {w}w" for w in (960, 1600, 2400))
-        src = f'src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg"' if i < 2 else f'data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg"'
-        return (f'<picture class="ph" data-i="{i}"><source type="image/avif" {a}="{ss("avif")}" sizes="100vw"><source type="image/webp" {a}="{ss("webp")}" sizes="100vw">'
-                f'<img {src} {a}="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
+        if i < 2:
+            return (f'<picture class="ph" data-i="{i}"><source type="image/avif" srcset="{ss("avif")}" sizes="100vw"><source type="image/webp" srcset="{ss("webp")}" sizes="100vw">'
+                    f'<img src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
+        # later chapters: a 1-pixel placeholder until build-sim.js adds the real sources
+        return (f'<picture class="ph" data-i="{i}" data-avif="{ss("avif")}" data-webp="{ss("webp")}"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" '
+                f'data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" sizes="100vw" width="2400" height="1350" alt="" decoding="async"></picture>')
     photos = "".join(ph(i) for i in range(n))
     return f"""
 <main id="main">
