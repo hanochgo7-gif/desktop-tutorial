@@ -7,13 +7,10 @@
   .og h1{position:absolute;right:56px;top:150px;font:400 112px/.9 Plex;letter-spacing:-.03em;margin:0}
   .og p{position:absolute;right:58px;top:388px;width:430px;font:400 26px/1.4 Plex;margin:0;color:#c6d4dc}
   .og .logo{position:absolute;right:56px;top:52px;width:250px}
-  #stage{position:absolute;left:-40px;top:0;width:760px;height:630px}
+  #stage{position:absolute;left:0;top:0;width:720px;height:630px;object-fit:cover;object-position:42% 50%}
+  .og .fade{position:absolute;left:520px;top:0;width:200px;height:630px;background:linear-gradient(to right,rgba(3,32,45,0),#03202d)}
 </style></head>
-<body class="dark"><div class="og"><img class="logo" src="../assets/img/brand/wordmark-light.svg" alt=""><h1>בדק בית<br>הנדסי</h1><p>רביד קרודו, הנדסאי בניין רשום. בדיקות וחוות דעת בצפון.</p><div id="stage"></div></div>
-<script src="../assets/js/apartment.js"></script>
+<body class="dark"><div class="og"><img class="logo" src="../assets/img/brand/wordmark-light.svg" alt=""><h1>בדק בית<br>הנדסי</h1><p>רביד קרודו, הנדסאי בניין רשום. בדיקות וחוות דעת בצפון.</p><img id="stage" src="../assets/img/apt/eye-1280.webp" alt=""><i class="fade"></i></div>
 <script>
-  var host = document.getElementById('stage');
-  document.documentElement.style.setProperty('--k-thermal', 'url("' + KrudoApartment.thermal() + '")');
-  var api = KrudoApartment.build(host, { cam: 'overview', show: 'moisture,drain,cracks,tiles' });
-  setTimeout(function () { api.follow(10); document.body.dataset.ready = '1'; }, 1600);
+  document.getElementById('stage').decode().then(function () { document.body.dataset.ready = '1'; });
 </script></body></html>
