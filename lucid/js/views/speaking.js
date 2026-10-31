@@ -3,13 +3,14 @@
 // from the lessons in the focused player; (c) an honest note on what speech recognition can and
 // cannot judge. Nothing here is an accent score: feedback is about being understood.
 import { html, render, on, $, shuffle } from '../core/util.js';
-import { tt, t, bi, hebrewSupport } from '../core/i18n.js';
+import { tt, t, bi, hebrewSupport, legend, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex } from '../core/content.js';
-import { icon, mark, levelTag, emptyState } from '../ui/components.js';
+import { icon, mark, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, logEvent } from '../core/learner.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { normalize } from '../core/grading.js';
-import { gatherExercises, attemptsOn, itemHref, findItem, runPlayer, missingPlayer, hebrewReveal } from '../ui/center.js';
+import { gatherExercises, attemptsOn, itemHref, findItem, runPlayer, missingPlayer, hebrewReveal, groupByLevel, recommendedLevel, nextSuggestion } from '../ui/center.js';
+import { levelIndex } from '../core/adaptive.js';
 
 const W = (w, ipa, he) => ({ w, ipa, he });
 // Isolates a left-to-right run (IPA, English) inside Hebrew text so the bidi algorithm keeps it intact.
@@ -100,7 +101,7 @@ export default async function speaking(el, ctx) {
         <caption class="sr-only">${tt('זוגות מילים', 'Word pairs')} <span lang="en" dir="ltr">${set.label}</span></caption>
         <tbody>${set.pairs.map((p) => html`<tr>${p.map((x) => html`<td><div class="row" style="gap:var(--s2)">
           ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-word="${x.w}" aria-label="${tt('השמעה', 'Play')}: ${x.w}">${icon('volume', { size: 18 })}</button>` : ''}
-          <span lang="en" dir="ltr" style="font-weight:600">${x.w}</span><span class="entry-ipa" lang="en" dir="ltr">${x.ipa}</span><span class="entry-he small" lang="he" dir="rtl">${x.he}</span>
+          <span lang="en" dir="ltr" style="font-weight:600">${x.w}</span><span class="entry-ipa" lang="en" dir="ltr">${x.ipa}</span><span class="entry-he small" lang="he" dir="rtl">${isolateLatin(x.he)}</span>
         </div></td>`)}</tr>`)}</tbody>
       </table></div>
     </div>`);
@@ -185,11 +186,32 @@ export default async function speaking(el, ctx) {
     </a></li>`;
   }
 
+  // Shadowing sentences grouped by level, as in the Reading and Listening centres (R2-05): the learner's level
+  // (or the nearest level below with sentences) is open, the others are folded, and one button picks the next
+  // sentence not practised yet at or below the level.
   function drawShadow() {
     const m = model();
-    render($('#sp-shadow-list', el), items.length
-      ? html`<ol class="lesson-list" style="list-style:none;padding:0;margin:0">${items.map((x) => shadowRow(x, m.attempts))}</ol>`
-      : emptyState({ title: tt('עוד אין משפטים לשאדואינג', 'No shadowing sentences yet'), body: tt('משפטים לחזרה בקול מגיעים עם השיעורים. בינתיים אפשר לתרגל את הצלילים למעלה.', 'Sentences to repeat aloud come with the lessons. Meanwhile, practise the sounds above.') }));
+    if (!items.length) {
+      render($('#sp-shadow-list', el), emptyState({ title: tt('עוד אין משפטים לשאדואינג', 'No shadowing sentences yet'), body: tt('משפטים לחזרה בקול מגיעים עם השיעורים. בינתיים אפשר לתרגל את הצלילים למעלה.', 'Sentences to repeat aloud come with the lessons. Meanwhile, practise the sounds above.') }));
+      return;
+    }
+    const groups = groupByLevel(items);
+    const rec = recommendedLevel(groups, m.courseLevel);
+    const next = nextSuggestion(items, m.attempts, m.courseLevel);
+    const ci = levelIndex(m.courseLevel);
+    const open = new Set([...el.querySelectorAll('#sp-shadow-list details[open]')].map((d) => d.dataset.level));
+    const isOpen = (lv) => (open.size ? open.has(lv) : lv === rec);
+    render($('#sp-shadow-list', el), html`
+      ${next ? html`<div class="row shadow-next"><a class="key enter" href="${itemHref('speaking', next)}" data-next-shadow>${icon('play', { size: 18 })} ${tt('המשפט הבא בשבילך', 'Next sentence for you')}</a><span class="small muted" lang="en" dir="ltr">${next.ex.target}</span></div>` : ''}
+      ${groups.map((g) => {
+        const doneN = g.items.filter((x) => attemptsOn(m.attempts, x).length).length;
+        const meta = ix.level.get(g.level);
+        return html`<details class="level-fold" data-level="${g.level}" ${isOpen(g.level) ? 'open' : ''}>
+          <summary><span class="level-fold-title">${LEVEL_LABEL[g.level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</span>
+            <span class="level-fold-meta small faint">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלך', 'Recommended for your level')}</span> ` : levelIndex(g.level) > ci ? html`<span>${tt('מעל הרמה הנוכחית', 'Above your level')} · </span>` : ''}<span class="num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span></summary>
+          <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${g.items.map((x) => shadowRow(x, m.attempts))}</ol>
+        </details>`;
+      })}`);
   }
 
   render(el, html`

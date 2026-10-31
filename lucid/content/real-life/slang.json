@@ -2659,6 +2659,515 @@
     "For here or to go? (US) / Eat in or take away? (UK)"
    ],
    "level": "A2"
+  },
+  {
+   "id": "ex-touch-base",
+   "term": "Touch base",
+   "meaning_en": "To contact someone briefly to check how things are going or share an update, usually in a short call, message or meeting.",
+   "meaning_he": "ליצור קשר קצר כדי לבדוק מה המצב או לעדכן, בדרך כלל בשיחה, בהודעה או בפגישה קצרה. בערך 'להתעדכן'.",
+   "usage": {
+    "en": "Very common in offices and work emails: 'Let's touch base next week', 'I just wanted to touch base about the launch.' You touch base with someone, about or on a topic. It suggests a short contact, not a long meeting. It comes from American baseball and is normal in British offices too, although some people find it a bit of business jargon.",
+    "he": "נפוץ מאוד במשרדים ובמיילים בעבודה: Let's touch base next week, I just wanted to touch base about the launch. עושים touch base with someone, ועל נושא מסוים אומרים about או on. הכוונה למגע קצר, לא לפגישה ארוכה. הביטוי בא מהבייסבול האמריקאי ורגיל גם במשרדים בבריטניה, אם כי יש מי שרואים בו ז'רגון עסקי."
+   },
+   "formality": "neutral",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Lior",
+     "text": "I haven't heard from the design team about the new screens."
+    },
+    {
+     "speaker": "Kate",
+     "text": "Me neither. Let's touch base with them on Monday morning."
+    },
+    {
+     "speaker": "Lior",
+     "text": "Good idea. I'll send them a quick message now."
+    },
+    {
+     "speaker": "Kate",
+     "text": "Great. And let's touch base again after that, just the two of us."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Changing the fixed phrase: 'touch the base' or 'touch bases'. It's always 'touch base', with no article.",
+     "he": "לשנות את הביטוי הקבוע: touch the base או touch bases. תמיד אומרים touch base, בלי the."
+    },
+    {
+     "en": "Using the wrong preposition: 'touch base to someone'. Say 'touch base with someone'.",
+     "he": "לבחור מילת יחס שגויה: touch base to someone. אומרים touch base with someone."
+    }
+   ],
+   "avoid_when": {
+    "en": "With friends and family, where it sounds like an office, and with people who dislike business jargon. 'Let's catch up' or 'Can we talk on Monday?' is plainer.",
+    "he": "עם חברים ומשפחה, שם זה נשמע כמו במשרד, ועם אנשים שלא אוהבים ז'רגון עסקי. Let's catch up או Can we talk on Monday? פשוטים יותר."
+   },
+   "related": [
+    "Catch up",
+    "Check in",
+    "Circle back",
+    "Hop on a call"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-loop-in",
+   "term": "Loop someone in",
+   "meaning_en": "To include someone in an email, a conversation or a decision so they know what's happening. 'Keep me in the loop' means keep me informed.",
+   "meaning_he": "לצרף מישהו למייל, לשיחה או להחלטה כדי שיהיה מעודכן. keep me in the loop = תעדכנו אותי, תשאירו אותי בתמונה.",
+   "usage": {
+    "en": "Common in emails, meetings and work chat: 'Can you loop me in?' (add me to the email, or tell me what's happening), 'I've looped in Dana' (I've added Dana to the email), 'Keep me in the loop.' The opposite is 'out of the loop': 'Sorry, I'm out of the loop. What did they decide?'",
+    "he": "נפוץ במיילים, בישיבות ובצ'אט בעבודה: Can you loop me in? (תוסיפו אותי למייל, או תעדכנו אותי), I've looped in Dana (הוספתי את דנה למייל), Keep me in the loop (תעדכנו אותי). ההפך הוא out of the loop: Sorry, I'm out of the loop. What did they decide? (סליחה, אני לא מעודכן/ת. מה הם החליטו?)"
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Manager",
+     "text": "The client wants to move the launch to June."
+    },
+    {
+     "speaker": "Yael",
+     "text": "Really? We should loop in the marketing team. They're planning the campaign for May."
+    },
+    {
+     "speaker": "Manager",
+     "text": "Good point. Can you forward them the client's email?"
+    },
+    {
+     "speaker": "Yael",
+     "text": "Sure, I'll do it now. And please keep me in the loop if the date changes again."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Adding 'to': 'loop to Dana' or 'loop in to the email'. Say 'loop Dana in', 'loop in Dana' or 'add Dana to the email'.",
+     "he": "להוסיף to: loop to Dana או loop in to the email. אומרים loop Dana in, loop in Dana או add Dana to the email."
+    },
+    {
+     "en": "Mixing up 'in the loop' (informed) and 'out of the loop' (not informed).",
+     "he": "לבלבל בין in the loop (מעודכן) לבין out of the loop (לא מעודכן)."
+    }
+   ],
+   "avoid_when": {
+    "en": "In formal letters and emails to people outside your company. Write 'I have copied my colleague' or 'I will keep you informed' instead.",
+    "he": "במכתבים רשמיים ובמיילים לאנשים מחוץ לחברה. במקום זה כתבו I have copied my colleague או I will keep you informed."
+   },
+   "related": [
+    "Heads up",
+    "Keep me posted",
+    "FYI (for your information)",
+    "Touch base"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-on-my-plate",
+   "term": "On my plate",
+   "meaning_en": "The work or responsibilities you have at the moment. 'I've got a lot on my plate' means I'm very busy.",
+   "meaning_he": "המשימות או האחריות שיש לך כרגע. I've got a lot on my plate = יש לי הרבה על הראש, אני מאוד עמוס/ה.",
+   "usage": {
+    "en": "Common at work and in everyday life: 'I've got a lot on my plate this week' (I'm very busy), 'What's on your plate today?' (what are you working on?), 'Could you take this off my plate?' (could you do this task instead of me?). It's a friendly, indirect way to say you're busy.",
+    "he": "נפוץ בעבודה ובחיי היומיום: I've got a lot on my plate this week (אני מאוד עמוס/ה השבוע), What's on your plate today? (על מה את/ה עובד/ת היום?), Could you take this off my plate? (תוכל/י לקחת ממני את המשימה הזו?). זו דרך ידידותית ועקיפה לומר שאתם עסוקים."
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Tom",
+     "text": "Could you review my presentation before Thursday?"
+    },
+    {
+     "speaker": "Shira",
+     "text": "I'd love to help, but I've got a lot on my plate this week. Two reports are due."
+    },
+    {
+     "speaker": "Tom",
+     "text": "No worries. Maybe Dan can do it."
+    },
+    {
+     "speaker": "Shira",
+     "text": "Good idea. And if he can't, I can look at it on Monday."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Translating 'yesh li harbe al ha-rosh' word for word as 'I have a lot on my head'. Say 'a lot on my plate' (tasks) or 'a lot on my mind' (worries and thoughts).",
+     "he": "לתרגם 'יש לי הרבה על הראש' מילה במילה ל-I have a lot on my head. אומרים a lot on my plate (משימות) או a lot on my mind (דאגות ומחשבות)."
+    },
+    {
+     "en": "Using the wrong preposition: 'in my plate'. It's always 'on my plate'.",
+     "he": "לבחור מילת יחס שגויה: in my plate. תמיד אומרים on my plate."
+    }
+   ],
+   "avoid_when": {
+    "en": "In formal writing, and as a vague excuse when someone needs a clear answer. Then say what you can do and when: 'I can start on it on Monday.'",
+    "he": "בכתיבה רשמית, וכתירוץ מעורפל כשמישהו צריך תשובה ברורה. אז אומרים מה אפשר לעשות ומתי: I can start on it on Monday."
+   },
+   "related": [
+    "I'm swamped",
+    "Bandwidth",
+    "On my mind",
+    "Snowed under"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-circle-back",
+   "term": "Circle back",
+   "meaning_en": "To return to a topic, or contact someone again, later, usually when you have more information.",
+   "meaning_he": "לחזור לנושא, או לפנות שוב למישהו, מאוחר יותר, בדרך כלל כשיש יותר מידע.",
+   "usage": {
+    "en": "Common in meetings and work emails: 'Let's circle back to this next week', 'I'll circle back once I've spoken to the client.' It's office jargon, very common in American workplaces and used in the UK too. Some people find it annoying when it's overused, and 'I'll circle back' with no date can sound like 'maybe never'.",
+    "he": "נפוץ בישיבות ובמיילים בעבודה: Let's circle back to this next week, I'll circle back once I've spoken to the client. זה ז'רגון משרדי, נפוץ מאוד במקומות עבודה אמריקאיים ונשמע גם בבריטניה. יש מי שזה מעצבן אותם כשמשתמשים בו יותר מדי, ו-I'll circle back בלי תאריך יכול להישמע כמו 'אולי אף פעם'."
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Rachel",
+     "text": "What about the budget for the new office? Any news?"
+    },
+    {
+     "speaker": "Avi",
+     "text": "Not yet. Finance is still checking the numbers."
+    },
+    {
+     "speaker": "Rachel",
+     "text": "OK. Let's circle back to it next Tuesday, then."
+    },
+    {
+     "speaker": "Avi",
+     "text": "Sounds good. I'll circle back to you as soon as I hear from them."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Promising to circle back without a time. Add one: 'I'll circle back by Thursday.'",
+     "he": "להבטיח circle back בלי זמן. כדאי להוסיף מתי: I'll circle back by Thursday."
+    },
+    {
+     "en": "Adding 'again': 'circle back again'. 'Back' already means 'again'.",
+     "he": "להוסיף again: circle back again. המילה back כבר אומרת 'שוב'."
+    }
+   ],
+   "avoid_when": {
+    "en": "With friends, in formal writing, and again and again in one meeting. 'Let's come back to this later' is plainer and works everywhere.",
+    "he": "עם חברים, בכתיבה רשמית, ושוב ושוב באותה ישיבה. Let's come back to this later פשוט יותר ומתאים בכל מקום."
+   },
+   "related": [
+    "Touch base",
+    "Take it offline",
+    "Get back to you",
+    "Follow up"
+   ],
+   "level": "B2"
+  },
+  {
+   "id": "ex-bandwidth",
+   "term": "Bandwidth",
+   "meaning_en": "At work: the time or energy to take on more tasks. 'I don't have the bandwidth' means I'm too busy to do it.",
+   "meaning_he": "בעבודה: זמן או כוח לקחת על עצמך עוד משימות. I don't have the bandwidth = אין לי פניות לזה כרגע.",
+   "usage": {
+    "en": "Office jargon, especially in tech companies: 'Do you have the bandwidth to review this?' (do you have time?), 'I don't have the bandwidth this week.' It's borrowed from technology, where bandwidth is how much data a connection can carry.",
+    "he": "ז'רגון משרדי, במיוחד בחברות טכנולוגיה: Do you have the bandwidth to review this? (יש לך זמן לעבור על זה?), I don't have the bandwidth this week (אין לי פניות השבוע). המילה נלקחה מעולם הטכנולוגיה, שבו bandwidth (רוחב פס) הוא כמות הנתונים שחיבור יכול להעביר."
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Maya",
+     "text": "We need someone to write the user guide. Do you have the bandwidth?"
+    },
+    {
+     "speaker": "Josh",
+     "text": "Not this week, sorry. I'm on two deadlines."
+    },
+    {
+     "speaker": "Maya",
+     "text": "What about next week?"
+    },
+    {
+     "speaker": "Josh",
+     "text": "Next week I'll have more bandwidth. I could start on Monday."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Making it plural: 'I have no bandwidths.' It's uncountable: 'I don't have the bandwidth', 'I don't have much bandwidth.'",
+     "he": "להשתמש ברבים: I have no bandwidths. המילה לא ספירה: I don't have the bandwidth, I don't have much bandwidth."
+    },
+    {
+     "en": "Using it outside work, as in 'I don't have the bandwidth for dinner.' Most people will hear it as a joke.",
+     "he": "להשתמש בזה מחוץ לעבודה, למשל I don't have the bandwidth for dinner. רוב האנשים ישמעו את זה כבדיחה."
+    }
+   ],
+   "avoid_when": {
+    "en": "With people who don't work in offices or tech, in formal writing, and with your manager when you need to be exact. There, say what you're working on and when you could start.",
+    "he": "עם אנשים שלא עובדים במשרד או בהייטק, בכתיבה רשמית, ומול המנהל/ת כשצריך להיות מדויקים. שם אומרים על מה אתם עובדים ומתי תוכלו להתחיל."
+   },
+   "related": [
+    "On my plate",
+    "I'm swamped",
+    "Capacity"
+   ],
+   "level": "B2"
+  },
+  {
+   "id": "ex-ooo",
+   "term": "OOO (out of office)",
+   "meaning_en": "Out of office: not at work (for example on holiday or sick leave) and not answering emails. An 'out-of-office' is also the automatic email reply.",
+   "meaning_he": "Out of office: לא בעבודה (למשל בחופשה או במחלה) ולא עונים למיילים. out-of-office הוא גם המענה האוטומטי במייל.",
+   "usage": {
+    "en": "Mostly written: in calendars, chat statuses and short emails: 'I'll be OOO on Friday.' In speech, people usually say 'out of office' or simply 'off': 'I'm off on Friday.' 'Set up your out-of-office' means turn on the automatic email reply before you go away.",
+    "he": "בעיקר בכתב: ביומנים, בסטטוס בצ'אט ובמיילים קצרים: I'll be OOO on Friday. בדיבור אומרים בדרך כלל out of office או פשוט off: I'm off on Friday. Set up your out-of-office פירושו להפעיל מענה אוטומטי במייל לפני שיוצאים."
+   },
+   "formality": "neutral",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Ben",
+     "text": "Can we meet on Thursday to go over the contract?"
+    },
+    {
+     "speaker": "Noa",
+     "text": "I'm OOO Thursday and Friday, sorry. It's a holiday in Israel."
+    },
+    {
+     "speaker": "Ben",
+     "text": "Oh, right. Wednesday, then?"
+    },
+    {
+     "speaker": "Noa",
+     "text": "Wednesday works. And I'll set up my out-of-office, so clients know when I'm back."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Reading it aloud as one sound, 'ooo'. In speech, say 'out of office', or the letters: 'O-O-O'.",
+     "he": "להקריא את זה כצליל אחד, 'אווו'. בדיבור אומרים out of office או את האותיות: O-O-O."
+    },
+    {
+     "en": "Using it when you're working from home. OOO means you're not working at all; for home, write 'WFH' (working from home).",
+     "he": "להשתמש בזה כשעובדים מהבית. OOO פירושו שלא עובדים בכלל; לעבודה מהבית כותבים WFH (working from home)."
+    }
+   ],
+   "avoid_when": {
+    "en": "In formal emails to people outside your company, who may not know the abbreviation. Write it out: 'I will be out of the office from 3 to 7 June.'",
+    "he": "במיילים רשמיים לאנשים מחוץ לחברה, שאולי לא מכירים את הקיצור. כתבו במלואו: I will be out of the office from 3 to 7 June."
+   },
+   "related": [
+    "WFH (working from home)",
+    "Out-of-office reply",
+    "Day off",
+    "On leave"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-eod",
+   "term": "EOD / EOW (end of day / week)",
+   "meaning_en": "End of day: by the end of today's working day. EOW: by the end of the working week. Common for deadlines in emails and work chat.",
+   "meaning_he": "End of day: עד סוף יום העבודה של היום. EOW: עד סוף שבוע העבודה. נפוץ לדדליינים במיילים ובצ'אט בעבודה.",
+   "usage": {
+    "en": "Mostly written: 'Can you send it by EOD?', 'I'll have it to you EOD tomorrow.' In speech, people usually say 'by the end of the day'. In international teams, add a time and a time zone: your end of day may be the middle of their morning.",
+    "he": "בעיקר בכתב: Can you send it by EOD?, I'll have it to you EOD tomorrow. בדיבור אומרים בדרך כלל by the end of the day. בצוותים בינלאומיים כדאי להוסיף שעה ואזור זמן: סוף היום שלכם יכול להיות אמצע הבוקר שלהם."
+   },
+   "formality": "neutral",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Emma",
+     "text": "Can you send me the final numbers by EOD?"
+    },
+    {
+     "speaker": "Itai",
+     "text": "Sure. Do you mean my end of day or yours? I'm seven hours ahead."
+    },
+    {
+     "speaker": "Emma",
+     "text": "Good question! Mine, so 5 p.m. New York time."
+    },
+    {
+     "speaker": "Itai",
+     "text": "Perfect, that's midnight here. You'll have them well before that."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Using 'until' for a deadline: 'Send it until EOD.' Use 'by': 'Send it by EOD.' 'Until' means something continues up to that time.",
+     "he": "להשתמש ב-until לדדליין: Send it until EOD. אומרים by: Send it by EOD. המילה until מתארת משהו שנמשך עד הזמן הזה."
+    },
+    {
+     "en": "Forgetting that the working week ends on different days: in Israel usually on Thursday, in the US and the UK on Friday. With EOW, name the day: 'by Thursday'.",
+     "he": "לשכוח ששבוע העבודה נגמר בימים שונים: בישראל בדרך כלל ביום חמישי, ובארה״ב ובבריטניה ביום שישי. עם EOW כדאי לציין את היום: by Thursday."
+    }
+   ],
+   "avoid_when": {
+    "en": "In formal emails and with people outside your company. Write 'by the end of the day' or give an exact time: 'by 5 p.m. on Tuesday'.",
+    "he": "במיילים רשמיים ומול אנשים מחוץ לחברה. כתבו by the end of the day או שעה מדויקת: by 5 p.m. on Tuesday."
+   },
+   "related": [
+    "ASAP",
+    "COB (close of business)",
+    "Deadline",
+    "By Friday"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-ping-me",
+   "term": "Ping (me)",
+   "meaning_en": "To send someone a quick message, usually in a work chat app or by email.",
+   "meaning_he": "לשלוח למישהו הודעה קצרה, בדרך כלל בצ'אט של העבודה או במייל. בערך 'תשלח/י לי הודעה'.",
+   "usage": {
+    "en": "Common in offices, especially in tech: 'Ping me when you're free', 'I'll ping Dana and ask', 'I pinged you yesterday about the invoice.' It comes from computing, where a ping checks whether another computer answers. It usually means a written message, not a phone call.",
+    "he": "נפוץ במשרדים, במיוחד בהייטק: Ping me when you're free (שלחו לי הודעה כשתתפנו), I'll ping Dana and ask, I pinged you yesterday about the invoice. המונח בא מעולם המחשבים, שבו ping בודק אם מחשב אחר עונה. בדרך כלל הכוונה להודעה כתובה, לא לשיחת טלפון."
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Gal",
+     "text": "Do you have five minutes to look at this bug?"
+    },
+    {
+     "speaker": "Sarah",
+     "text": "Not right now, I'm about to join a call. Ping me in half an hour?"
+    },
+    {
+     "speaker": "Gal",
+     "text": "Will do."
+    },
+    {
+     "speaker": "Sarah",
+     "text": "Thanks. If I don't answer, ping me again. I won't mind."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Adding 'to': 'Ping to me.' Say 'Ping me' or 'Send me a ping.'",
+     "he": "להוסיף to: Ping to me. אומרים Ping me או Send me a ping."
+    },
+    {
+     "en": "Expecting a phone call. 'I'll ping you' usually means a written message; for a call, people say 'I'll call you.'",
+     "he": "לצפות לשיחת טלפון. I'll ping you פירושו בדרך כלל הודעה כתובה; לשיחה אומרים I'll call you."
+    }
+   ],
+   "avoid_when": {
+    "en": "In formal emails, and with clients or senior people you don't know well, who may find it too casual. Say 'Please send me a message' or 'Feel free to email me.'",
+    "he": "במיילים רשמיים, ומול לקוחות או בכירים שאתם לא מכירים טוב, שעלולים למצוא את זה יומיומי מדי. אמרו Please send me a message או Feel free to email me."
+   },
+   "related": [
+    "Hit me up",
+    "Drop me a line",
+    "Message me",
+    "Hop on a call"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-hop-on-a-call",
+   "term": "Hop on a call",
+   "meaning_en": "To join a quick phone or video call, often at short notice.",
+   "meaning_he": "להצטרף לשיחה קצרה בטלפון או בווידאו, לרוב בהתראה קצרה. בערך 'לקפוץ לשיחה'.",
+   "usage": {
+    "en": "Common at work: 'Can you hop on a call?', 'Let's hop on a quick call and sort it out.' 'Jump on a call' means the same. It sounds quick and relaxed, so it suits colleagues more than formal meetings.",
+    "he": "נפוץ בעבודה: Can you hop on a call?, Let's hop on a quick call and sort it out. גם jump on a call פירושו אותו דבר. זה נשמע מהיר ורגוע, ולכן מתאים יותר לעמיתים מאשר לפגישות רשמיות."
+   },
+   "formality": "informal",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Daniel",
+     "text": "This email thread is getting really long."
+    },
+    {
+     "speaker": "Priya",
+     "text": "I know. Can you hop on a call for ten minutes? It'll be quicker."
+    },
+    {
+     "speaker": "Daniel",
+     "text": "Sure. Send me the link."
+    },
+    {
+     "speaker": "Priya",
+     "text": "Done. See you there in two minutes."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Using the wrong preposition: 'hop in a call' or 'talk in the phone'. In English you're on a call and on the phone.",
+     "he": "לבחור מילת יחס שגויה: hop in a call או talk in the phone. באנגלית אומרים on a call ו-on the phone."
+    },
+    {
+     "en": "Using it for a long, planned meeting. 'Hop on' suggests something short and informal; for a planned meeting, say 'Would you be available for a call on Tuesday at 10?'",
+     "he": "להשתמש בזה לפגישה ארוכה ומתוכננת. hop on מרמז על משהו קצר ולא רשמי; לפגישה מתוכננת אומרים Would you be available for a call on Tuesday at 10?"
+    }
+   ],
+   "avoid_when": {
+    "en": "When you invite a client or someone senior you don't know well to a formal meeting. Ask more formally: 'Would you be available for a call on Tuesday?'",
+    "he": "כשמזמינים לקוח או מישהו בכיר שאתם לא מכירים טוב לפגישה רשמית. שואלים בצורה רשמית יותר: Would you be available for a call on Tuesday?"
+   },
+   "related": [
+    "Jump on a call",
+    "Touch base",
+    "Ping (me)",
+    "Have you got a sec?"
+   ],
+   "level": "B1"
+  },
+  {
+   "id": "ex-take-it-offline",
+   "term": "Take it offline",
+   "meaning_en": "To discuss something later and separately, with only the people involved, instead of in the current meeting.",
+   "meaning_he": "לדבר על משהו מאוחר יותר ובנפרד, רק עם מי שזה נוגע לו, במקום בישיבה הנוכחית.",
+   "usage": {
+    "en": "Used in meetings to keep them short and on topic: 'This is getting detailed. Shall we take it offline?' It has nothing to do with the internet: you can take something offline and then discuss it on a video call.",
+    "he": "משתמשים בזה בישיבות כדי שיישארו קצרות וממוקדות: This is getting detailed. Shall we take it offline? אין לזה קשר לאינטרנט: אפשר take it offline ואז לדבר על זה בשיחת וידאו."
+   },
+   "formality": "neutral",
+   "region": "both",
+   "example_dialogue": [
+    {
+     "speaker": "Mark",
+     "text": "So, about the database settings, I think we should change the first three, and then..."
+    },
+    {
+     "speaker": "Hila",
+     "text": "Sorry, Mark, that's quite technical. Can we take it offline? It only affects the two of us."
+    },
+    {
+     "speaker": "Mark",
+     "text": "Fair enough. Let's talk after the meeting."
+    },
+    {
+     "speaker": "Hila",
+     "text": "Great. I'll send you an invite for three o'clock."
+    }
+   ],
+   "mistakes": [
+    {
+     "en": "Thinking it means 'disconnect' or 'go offline'. In meetings it means 'let's discuss it later, separately'.",
+     "he": "לחשוב שזה אומר 'להתנתק' או 'לצאת מהרשת'. בישיבות הכוונה היא 'נדבר על זה אחר כך, בנפרד'."
+    },
+    {
+     "en": "Using it to avoid a topic for ever. If you say it, follow up: 'Let's take it offline. I'll send you an invite for tomorrow.'",
+     "he": "להשתמש בזה כדי להתחמק מנושא לתמיד. מי שאומר את זה צריך גם להמשיך: Let's take it offline. I'll send you an invite for tomorrow."
+    }
+   ],
+   "avoid_when": {
+    "en": "When the topic matters to everyone in the room, because then it belongs in the meeting. Outside work, 'Let's talk about it later' is more natural.",
+    "he": "כשהנושא חשוב לכל מי שבחדר, כי אז מקומו בישיבה. מחוץ לעבודה Let's talk about it later טבעי יותר."
+   },
+   "related": [
+    "Circle back",
+    "Touch base",
+    "Follow up",
+    "Park it"
+   ],
+   "level": "B2"
   }
  ]
 }

@@ -6,16 +6,31 @@ import { html, render, on } from '../core/util.js';
 import { tt, legend, t } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, mark, LEVEL_LABEL, confirmDialog, toast } from '../ui/components.js';
-import { model, moveToLevel, canImportVocab, importPlacedOutVocab, settings } from '../core/learner.js';
+import { model, moveToLevel, canImportVocab, importPlacedOutVocab, settings, placementDraft } from '../core/learner.js';
 import { store } from '../core/store.js';
+import { placementCard, bindPlacementCard } from './today.js';
 
 export default async function path(el, ctx) {
   ctx.setTitle(t('nav.path'));
   const [curriculum, tx, available] = await Promise.all([content.curriculum(), content.taxonomy(), content.availableLessons()]);
   const levelMeta = new Map(tx.levels.map((l) => [l.id, l]));
 
+  // The level's tab comes into view on a phone, where the tab row scrolls sideways (persona finding R2-23).
+  // Physical coordinates, so it works the same in right-to-left and left-to-right layouts.
+  function revealTab() {
+    const tab = el.querySelector('.level-tab[aria-current="true"]');
+    const row = tab?.parentElement;
+    if (!tab || !row || row.scrollWidth <= row.clientWidth) return;
+    const rt = tab.getBoundingClientRect(); const rr = row.getBoundingClientRect();
+    row.scrollLeft += (rt.left + rt.width / 2) - (rr.left + rr.width / 2);
+  }
+
   function draw() {
     const m = model();
+    // While the placement test is unfinished there is no course level yet: no "current level" and no "Next"
+    // marks, and the test itself comes first (persona findings R2-15, R1-D2).
+    const pending = m.placementPending;
+    const draft = placementDraft();
     const current = ctx.params.level || m.courseLevel;
     const lvl = curriculum.levels.find((l) => l.id === current) || curriculum.levels[0];
     const meta = levelMeta.get(lvl.id);
@@ -27,6 +42,7 @@ export default async function path(el, ctx) {
     const L = LEVEL_LABEL[lvl.id];
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.path')}</h1><p>${tt('75 שיעורים מ-Pre-A1 ועד C2. אפשר לפתוח כל שיעור מוכן; ההמלצה מסומנת. שיעורים שמסומנים ״בהכנה״ עוד נכתבים.', '75 lessons from Pre-A1 to C2. Any lesson that is ready can be opened; the recommended one is marked. Lessons marked "In preparation" are still being written.')}</p></div></div>
+      ${pending ? html`<div style="margin-block-end:var(--s5)">${placementCard()}</div>` : ''}
       <div class="level-tabs" role="tablist" aria-label="${tt('רמות', 'Levels')}">${curriculum.levels.map((l) => {
         const out = countIn(l, 'placed_out');
         return html`<a class="level-tab" role="tab" href="#/path/${l.id}" aria-current="${l.id === lvl.id}" aria-selected="${l.id === lvl.id}">
@@ -35,11 +51,11 @@ export default async function path(el, ctx) {
       <section class="stack">
         <div class="row between">
           <div><h2>${L} · ${legend(meta.name_en, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
-          ${lvl.id === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלך', 'Your current level')}</span>` : ''}
+          ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלך', 'Your current level')}</span>` : ''}
         </div>
         <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${lvl.lessons.map((l) => {
           const p = m.progress.get(l.id);
-          const isNext = m.next?.id === l.id;
+          const isNext = !pending && m.next?.id === l.id;
           const body = html`${mark(p?.status)}<span class="ord">${l.order}</span>
             <span class="grow">${legend(l.title_en, l.title_he)}<span class="meta" style="display:block" lang="en" dir="ltr">${l.can_do}</span></span>`;
           if (available.size && !available.has(l.id)) {
@@ -63,15 +79,20 @@ export default async function path(el, ctx) {
             <div class="row">
               ${lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}">${tt(`להתחיל מ-${L}`, `Start from ${L}`)}</button>` : ''}
               <a class="key small" href="#/checkpoint/${lvl.id}">${tt('לבחון את עצמי', 'Test myself')}</a>
-              <a class="key ghost small" href="#/placement?restart=1">${tt('מבחן מיקום מחדש', 'Retake the placement test')}</a>
+              ${pending && draft?.answers?.length
+                ? html`<a class="key ghost small" href="#/placement?resume=1">${tt('להמשיך את מבחן המיקום', 'Continue the placement test')}</a>`
+                : pending ? html`<a class="key ghost small" href="#/placement">${tt('מבחן המיקום', 'Take the placement test')}</a>`
+                  : html`<a class="key ghost small" href="#/placement?restart=1">${tt('מבחן מיקום מחדש', 'Retake the placement test')}</a>`}
             </div>
           </div>
         </div>
       </section>`);
+    revealTab();
   }
   draw();
-  ctx.watch(['progress', 'writing', 'cards'], draw);
+  ctx.watch(['progress', 'writing', 'cards', 'placement'], draw);
   const offs = [
+    ...bindPlacementCard(el, ctx),
     on(el, 'click', '[data-move]', async (e, b) => {
       const level = b.dataset.move;
       const ok = await confirmDialog({ title: tt(`להתחיל מרמה ${LEVEL_LABEL[level]}?`, `Start from ${LEVEL_LABEL[level]}?`), body: tt('שיעורים מתחת לרמה הזו יסומנו כ״דולגו״ ויישארו פתוחים לחזרה. שיעורים שכבר השלמתם לא ישתנו.', 'Lessons below this level are marked as placed out and stay open for review. Lessons you completed stay completed.'), confirm: tt('כן, להתחיל כאן', 'Yes, start here') });

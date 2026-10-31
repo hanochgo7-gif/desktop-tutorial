@@ -22,8 +22,18 @@ export function toast(message, { ms = 3200 } = {}) {
   el.className = 'toast';
   el.setAttribute('role', 'status');
   el.textContent = message;
+  el.dataset.at = String(Date.now());
   root.append(el);
   setTimeout(() => el.remove(), ms);
+}
+// A toast is about the screen it was shown on: moving to another screen removes it, so it never covers the
+// first exercise of a lesson (persona panel Y13). A toast shown just before a navigation (for example
+// "Restored", then Today) stays.
+if (typeof addEventListener === 'function') {
+  addEventListener('hashchange', () => {
+    const now = Date.now();
+    document.querySelectorAll('#toast-root .toast').forEach((t) => { if (now - Number(t.dataset.at || 0) > 500) t.remove(); });
+  });
 }
 
 // A native <dialog>: focus is trapped and restored by the browser; Esc closes.

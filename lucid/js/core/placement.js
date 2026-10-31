@@ -6,6 +6,10 @@
 // result never claims a level on four answers, and it never places above the highest confirmed level.
 // "I don't know" is always allowed and counts as not known, never as a guess. An interrupted test can be
 // resumed: replaying the saved answers rebuilds the same state.
+// The course starts at the confirmed level itself, not the one above it (persona finding R1-Y2): 75% at a
+// level is control, not mastery, so its lessons are the right next step. C1 and C2 are the academic track
+// (argument, academic vocabulary); a learner whose goals are all non-academic (work, travel, conversation,
+// everyday English) starts at B2 instead, and the result says so and offers the higher start.
 import { LEVELS, placementSkillEstimate } from './adaptive.js';
 
 const SKILL_ROTATION = ['grammar', 'vocabulary', 'reading', 'listening'];
@@ -15,7 +19,17 @@ const BLOCK = 4;
 const PASS = 0.75;
 const idx = (l) => LEVELS.indexOf(l);
 
-export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answers = [] } = {}) {
+// Goals that want the academic track at C1-C2; any other goal (or none) is weighed as non-academic only
+// when the learner chose at least one goal.
+export const ACADEMIC_GOALS = ['studies', 'writing'];
+export function startFor(demonstrated, goals = []) {
+  const start = demonstrated || LEVELS[0];
+  const academic = goals.some((g) => ACADEMIC_GOALS.includes(g));
+  if (idx(start) >= idx('C1') && goals.length && !academic) return { start_level: 'B2', held_for_goals: start };
+  return { start_level: start };
+}
+
+export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answers = [], goals = [] } = {}) {
   const pool = new Map(LEVELS.map((l) => [l, shuffle(items.filter((i) => i.level === l))]));
   const state = {
     level: start,
@@ -100,7 +114,7 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
       if (correct && !dontKnow) p.right++;
       if (item.level === state.level && p.n % BLOCK === 0) decide();
     },
-    result() { return result(state, confirmed); },
+    result() { return result(state, confirmed, goals); },
   };
   // Resume: replay saved answers (items that left the bank are skipped).
   const byId = new Map(items.map((i) => [i.id, i]));
@@ -108,19 +122,20 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
   return api;
 }
 
-function result(state, confirmed) {
+function result(state, confirmed, goals) {
   const confirmedLevels = LEVELS.filter((l) => confirmed(l));
   const demonstrated = confirmedLevels.length ? confirmedLevels[confirmedLevels.length - 1] : null;
-  // Start where the learner has not yet shown they can do the level's material.
-  const di = demonstrated ? idx(demonstrated) : -1;
-  const startLevel = LEVELS[Math.min(LEVELS.length - 1, di + 1)];
   const skills = {};
   for (const s of SKILL_ROTATION) {
-    const est = placementSkillEstimate(state.asked, s);
-    skills[s] = { level: est?.level ?? null, items_at_level: est?.items ?? 0, capped: Boolean(est?.capped), items: state.asked.filter((a) => a.skill === s).length, indicative: true };
+    // A skill's first estimate never goes above the confirmed overall level (persona finding R2-29).
+    const est = placementSkillEstimate(state.asked, s, { confirmed: demonstrated });
+    skills[s] = {
+      level: est?.level ?? null, items_at_level: est?.items ?? 0, capped: Boolean(est?.capped), items: state.asked.filter((a) => a.skill === s).length, indicative: true,
+      ...(est?.from ? { from: est.from, right: est.right } : {}),
+    };
   }
   return {
-    demonstrated, level: demonstrated, start_level: startLevel, items: state.asked.length, answers: state.asked, skills,
+    demonstrated, level: demonstrated, ...startFor(demonstrated, goals), items: state.asked.length, answers: state.asked, skills,
     confirmed: confirmedLevels, top_band: Boolean(demonstrated && idx(demonstrated) >= idx('C1')),
   };
 }

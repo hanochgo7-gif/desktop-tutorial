@@ -108,7 +108,9 @@ test('a wrong sort lists only the misplaced items, grouped by where they belong'
 
 test('open rewrites from B1 call the key a model answer and offer "My answer is also correct"', async () => {
   assert.equal(X.isOpenRewrite({ type: 'transform' }, 'A2'), false);
-  assert.equal(X.isOpenRewrite({ type: 'correct' }, 'C1'), false, 'fixing one error has one answer');
+  // R1-E2: a "Find and fix" answer is a full sentence too, so from B1 it is one model answer.
+  assert.equal(X.isOpenRewrite({ type: 'correct' }, 'C1'), true, 'find and fix from B1');
+  assert.equal(X.isOpenRewrite({ type: 'correct' }, 'A2'), false, 'below B1 a fix has one answer');
   for (const l of ['B1', 'B2', 'C1', 'C2']) assert.equal(X.isOpenRewrite({ type: 'transform' }, l), true, l);
   const lesson = await lessonFile('c1-03');
   const ex = lesson.exercises.find((e) => e.type === 'transform');
@@ -164,4 +166,84 @@ test('an unscored attempt (score null) is stored as null and stays out of master
   const r = A.periodReport({ attempts: [...unscored, scored], now });
   assert.equal(r.accuracy, 1, 'accuracy counts scored answers only');
   assert.equal(r.exercises, 11, 'practice still counts as activity');
+});
+
+// ---------- persona round 2 ----------
+test('R1-E2: a "Find and fix" item from B1 offers "My answer is also correct"; an authored wrong answer never does', async () => {
+  const lesson = await lessonFile('c1-03');
+  const ex = lesson.exercises.find((e) => e.id === 'e11');
+  assert.equal(ex.type, 'correct');
+  const h = text(X.verdictHtml(ex, { correct: false, model: true, answer: ex.answers[0] }, new Map()));
+  assert.match(h, /One model answer/);
+  assert.match(h, /My answer is also correct/);
+  assert.doesNotMatch(h, /Correct answer|Not quite/);
+});
+
+test('R2-04: "Why?" shows the item\'s own explanation, not the general note of its error type', () => {
+  const errors = new Map([['word-choice', { name_en: 'Word choice / collocation', name_he: 'בחירת מילה', why_he: 'יש צירופים קבועים: make a decision, do homework, strong coffee.' }]]);
+  const own = { id: 'e3', type: 'gap', explanation: { en: 'For order, use third (3rd), not three.', he: 'לסדר משתמשים ב-third (3rd), לא ב-three.' } };
+  const h = String(X.verdictHtml(own, { correct: false, answer: 'third', error_type: 'word-choice' }, errors));
+  assert.doesNotMatch(h, /make a decision/, 'the general error-type note is off-topic next to the item\'s own explanation');
+  assert.match(h, /For order, use third/);
+  assert.match(h, /Word choice/, 'the error type still names the mistake');
+  assert.match(h, /<bdi dir="ltr" lang="en">third \(3rd\)<\/bdi>/, 'the Hebrew keeps the bracket pair inside the English');
+  const bare = { id: 'e4', type: 'read' };
+  assert.match(String(X.verdictHtml(bare, { correct: false, error_type: 'word-choice' }, errors)), /make a decision/, 'with nothing of its own, the general note explains');
+  const spec = String(X.verdictHtml({ id: 'e5', type: 'gap' }, { correct: false, error_type: 'word-choice', specific: { en: 'Third, not three.' } }, errors));
+  assert.doesNotMatch(spec, /make a decision/, 'specific feedback counts as the item\'s own');
+});
+
+test('R2-08: words recognition did not catch are "not caught" (grey), not marked like spelling errors', () => {
+  const h = String(X.recognised('my name is maya', 'My name is Maya. M-A-Y-A.'));
+  assert.doesNotMatch(h, /w-miss|marked in red/);
+  assert.match(h, /class="w-uncaught"/);
+  assert.match(text(h), /not caught/);
+  assert.match(text(h), /spelled letters/, 'a target that spells letters says recognition rarely shows them');
+  assert.doesNotMatch(text(X.recognised('I live in Haifa', 'I live in Haifa.')), /not caught|spelled letters/, 'nothing missing, no key');
+  assert.equal(X.spellsLetters('K-O-H-E-N'), true);
+  assert.equal(X.spellsLetters('Have a nice day.'), false);
+});
+
+test('R2-19 and R1-A10: the pronunciation note shows its Hebrew unless support is off, and folds at large text', () => {
+  const focus = { en: 'In the question, have is weak and quick: /həv/.', he: 'בשאלה, have חלש ומהיר: /həv/.' };
+  for (const level of ['full', 'partial', 'minimal']) {
+    I18N.setHebrewSupport(level);
+    const h = String(X.speakFocus(focus));
+    assert.match(h, /class="bi-he[^"]*" lang="he" dir="rtl">/, level);
+    assert.doesNotMatch(h, /dir="rtl" hidden/, `Hebrew hidden at ${level}`);
+  }
+  I18N.setHebrewSupport('off');
+  assert.match(String(X.speakFocus(focus)), /data-reveal-he/, 'off: Hebrew one tap away');
+  I18N.setHebrewSupport('partial');
+  assert.doesNotMatch(String(X.speakFocus(focus)), /<details/, 'open at normal text size');
+  document.documentElement.dataset.text = '150';
+  try {
+    assert.match(String(X.speakFocus(focus)), /<details class="speak-focus-fold[^>]*><summary>.*Pronunciation tip/);
+  } finally { delete document.documentElement.dataset.text; }
+});
+
+test('R2-26: a score under the pass mark is rounded down and never reads as the mark', () => {
+  assert.equal(P.isPass(0.696, 0.7), false);
+  assert.equal(P.scorePercent(0.696, false), 69, '0.696 would round to 70% next to "70% completes"');
+  assert.equal(P.scorePercent(0.69, false), 69, 'no float drift (0.69 * 100 = 68.99…)');
+  assert.equal(P.scorePercent(0.996, true), 100);
+  assert.equal(P.isPass((0.9 + 0.9 + 0.9 + 0.75 + 1 + 0.15) / 6.571428571428571, 0.7), true, 'a sum that is 70% up to rounding passes');
+  assert.deepEqual(P.partialCredit(new Map([['a', 1], ['b', 0.75]])), { hint: true, slip: false });
+  assert.deepEqual(P.partialCredit(new Map([['a', 0.9]])), { hint: false, slip: true });
+  assert.equal(P.missedMinutes({ minutes: 25, exercises: new Array(16) }, 4), 6, '4 of 16 exercises in a 25-minute lesson');
+});
+
+test('R2-28: today\'s part ends once, on the first pass, when exercises are left after it', () => {
+  const q = ['a', 'b', 'c', 'd', 'e'].map((id) => ({ ex: { id }, retry: false }));
+  q.push({ ex: { id: 'b' }, retry: true });
+  const part = { upto: 3, shown: false, done: false };
+  assert.equal(P.firstDone(q, 3), 3);
+  assert.equal(P.partEnds(part, q, 2, q[1]), false, 'not yet');
+  assert.equal(P.partEnds(part, q, 3, q[2]), true, 'after the third exercise');
+  assert.equal(P.partEnds({ ...part, shown: true }, q, 3, q[2]), false, 'only once');
+  assert.equal(P.partEnds({ ...part, done: true }, q, 3, q[2]), false, 'a part already done today');
+  assert.equal(P.partEnds({ ...part, upto: 5 }, q, 5, q[4]), false, 'a part that is the whole first pass has no stop');
+  assert.equal(P.partEnds(null, q, 3, q[2]), false, 'no plan, no part');
+  const withRetry = [q[0], { ex: { id: 'a' }, retry: true }, q[1], q[2], q[3]];
+  assert.equal(P.partEnds({ upto: 2 }, withRetry, 2, withRetry[1]), false, 'a retry never ends the part');
 });

@@ -146,11 +146,15 @@ export const RoleplayFeedback = z.object({
   task_completed: z.boolean(),
   // One to three specific things the learner did well, each quoting their own words (persona panel P-16).
   strengths: z.array(z.string()),
+  // The strengths and practice points in Hebrew, one per item and in the same order, at full or partial Hebrew
+  // support; null at minimal or off (persona panel R2-10).
+  strengths_he: z.array(z.string()).nullable(),
   grammar: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
   vocabulary: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
   naturalness: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
   better_alternatives: z.array(z.object({ you_said: z.string(), more_natural: z.string(), why: z.string() })),
   practice: z.array(z.string()),
+  practice_he: z.array(z.string()).nullable(),
   summary: z.string(),
   summary_he: z.string().nullable(),
 });
@@ -213,21 +217,28 @@ export function postProcess(runs: WritingEvaluation[], learnerText: string, appl
 // at Pre-A1 to A2 (persona panel P-16 and P-21; research C2, decision 13: at most 3 in a post-task summary
 // by default).
 const ALTERNATIVES: Record<typeof CORRECTIONS[number], [number, number]> = { off: [0, 0], light: [2, 2], standard: [3, 4], intensive: [4, 6] };
-type FeedbackContext = { corrections?: typeof CORRECTIONS[number]; scenario?: { level: typeof LEVELS[number] }; history?: { role: string; text: string }[] };
+type FeedbackContext = { corrections?: typeof CORRECTIONS[number]; hebrew_support?: typeof SUPPORT[number]; scenario?: { level: typeof LEVELS[number] }; history?: { role: string; text: string }[] };
 
 // Score ranges, list lengths and quotes are enforced here rather than trusted to the model: an alternative
 // whose "you said" is not in the learner's lines is dropped, and the number kept follows the learner's
-// correction setting and level.
+// correction setting and level. Hebrew lists keep one item per English item, and only at full or partial
+// Hebrew support (persona panel R2-10).
 export function clampFeedback(f: z.infer<typeof RoleplayFeedback>, ctx: FeedbackContext = {}) {
   const s = (n: number) => clampInt(n, 0, 100) as number;
   const learner = loose((ctx.history || []).filter((t) => t.role === 'learner').map((t) => t.text).join('\n'));
   const [low, high] = ALTERNATIVES[ctx.corrections || 'standard'];
   const cap = ['PreA1', 'A1', 'A2'].includes(ctx.scenario?.level || '') ? low : high;
+  const strengths = (f.strengths || []).slice(0, 3);
+  const practice = (f.practice || []).slice(0, 3);
+  const hebrew = ['full', 'partial'].includes(ctx.hebrew_support || 'partial');
+  const he = (list: string[] | null | undefined, en: string[]) => (hebrew && Array.isArray(list) && list.length ? en.map((_, i) => list[i] || '') : null);
   return {
     ...f,
-    strengths: (f.strengths || []).slice(0, 3),
+    strengths,
+    strengths_he: he(f.strengths_he, strengths),
     better_alternatives: f.better_alternatives.filter((a) => !learner || learner.includes(loose(a.you_said))).slice(0, cap),
-    practice: f.practice.slice(0, 3),
+    practice,
+    practice_he: he(f.practice_he, practice),
     conversation_score: s(f.conversation_score),
     grammar: { ...f.grammar, score: s(f.grammar.score) },
     vocabulary: { ...f.vocabulary, score: s(f.vocabulary.score) },

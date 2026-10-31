@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wordDiff, fixStatus, locateSpan, findLoose } from '../../js/core/diff.js';
+import { wordDiff, diffParagraphs, fixStatus, locateSpan, findLoose } from '../../js/core/diff.js';
 
 test('word diff shows changed words inside an edited sentence and keeps the rest', () => {
   const d = wordDiff('I think social media is bad. It wastes time.', 'I believe social media is harmful. It wastes time.');
@@ -42,4 +42,18 @@ test('locating a quote selects it in its sentence, or the sentence it was in', (
   const fixed = 'One. It is much nicer here. Two.';
   assert.equal(fixed.slice(...locateSpan(v, fixed, 'more better')), 'It is much nicer here.');
   assert.deepEqual(findLoose('He said \u201chi\u201d.', '"hi"'), [8, 12]);
+});
+
+// Persona round 2 (R2-40): long drafts are compared by paragraph, and split or joined paragraphs are changes.
+test('paragraph breaks that were added or removed are marked, and the diff splits into paragraphs', () => {
+  const v1 = 'Title\n\nPara one is here. It is long.\n\nPara two stays.\n\nPara three stays.\n\nPara four. Para five.';
+  const v2 = 'Title\n\nPara one is here.\n\nIt is long.\n\nPara two stays.\n\nPara three changed now.\n\nPara four. Para five.';
+  const d = wordDiff(v1, v2);
+  assert.ok(d.some((p) => p.type === 'break' && p.para === 'add'), 'the split is an added paragraph break');
+  const blocks = diffParagraphs(d);
+  assert.deepEqual(blocks.map((b) => b.n), [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(blocks.filter((b) => b.changed).map((b) => b.n), [2, 3, 5]);
+  const joined = wordDiff('A b c.\n\nD e f.', 'A b c. D e f.');
+  assert.deepEqual(joined.filter((p) => p.para), [{ type: 'del', text: '¶', para: 'del' }], 'a joined paragraph shows one removed mark');
+  assert.deepEqual(diffParagraphs(wordDiff('Same.\n\nText.', 'Same.\n\nText.')).map((b) => b.changed), [false, false]);
 });

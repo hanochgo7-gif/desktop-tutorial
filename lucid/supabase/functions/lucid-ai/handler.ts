@@ -199,7 +199,7 @@ function prepare(deps: Deps, body: Request): { units: number; send(): Promise<{ 
           msgs.forEach((m) => check(m, usage));
           const parsed = msgs.map((m) => m.parsed_output).filter(Boolean) as WritingEvaluationT[];
           if (!parsed.length) throw new Incomplete(usage);
-          return { result: { evaluation: postProcess(parsed, body.text, applicabilityFor(body.stage)) }, usage };
+          return { result: { evaluation: postProcess(parsed, body.text, applicabilityFor(body.stage, body.exercise.kind)) }, usage };
         },
       };
     }

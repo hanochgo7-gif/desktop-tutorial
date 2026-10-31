@@ -51,7 +51,7 @@ export default async function writing(el, ctx) {
   function itemRow(x) {
     const s = summaries.find((w) => w.exercise === x.id);
     const tooHard = levelIndex(x.level) > levelIndex(m.courseLevel) + 1;
-    return html`<li><a class="lesson-row" href="#/writing/${x.id}" style="grid-template-columns:auto 1fr auto">
+    return html`<li><a class="lesson-row hub-row" href="#/writing/${x.id}">
       <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
       <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${x.word_range[0]}-${x.word_range[1]} מילים${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${x.word_range[0]}-${x.word_range[1]} words${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
       <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
@@ -70,12 +70,12 @@ export default async function writing(el, ctx) {
       <div class="page-head"><div><h1>${t('nav.writing')}</h1><p>${tt('עשרה שלבים מהמשפט הראשון ועד חיבור טיעוני עצמאי. המשוב מסמן טעויות ונותן רמזים, ואתם מתקנים בעצמכם.', 'Ten stages from the first sentence to an independent argumentative essay. Feedback marks mistakes and gives hints; you fix them yourself.')}</p>${stageNote()}</div>
         <a class="key" href="#/writing/free">${icon('writing', { size: 18 })} ${tt('כתיבה חופשית', 'Free writing')}</a></div>
       ${summaries.length ? html`<section class="stack-sm" style="margin-block-end:var(--s6)"><h2 class="small" style="font-size:var(--t-md)">${tt('הטיוטות שלי', 'My drafts')}</h2>
-        <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${summaries.slice(0, 6).map((s) => html`<li><a class="lesson-row" href="#/writing/${s.exercise}" style="grid-template-columns:1fr auto auto"><span lang="en" dir="ltr">${s.title}</span><span class="small faint">${new Date(s.updated).toLocaleDateString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB')}</span>${draftTag(s)}</a></li>`)}</ul></section>` : ''}
+        <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${summaries.slice(0, 6).map((s) => html`<li><a class="lesson-row draft-row" href="#/writing/${s.exercise}"><span lang="en" dir="ltr">${s.title}</span><span class="small faint">${new Date(s.updated).toLocaleDateString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB')}</span>${draftTag(s)}</a></li>`)}</ul></section>` : ''}
       ${!all.length ? emptyState({ title: tt('התרגילים של מעבדת הכתיבה עוד לא זמינים', 'Writing lab exercises are not available yet'), body: tt('בינתיים אפשר לכתוב חופשי ולקבל בדיקות אוטומטיות.', 'Meanwhile you can write freely and get automatic checks.'), action: html`<a class="key enter" href="#/writing/free">${tt('כתיבה חופשית', 'Free writing')}</a>` }) : html`
       <ol class="stack-sm" style="list-style:none;padding:0;margin:0">${STAGES.map(([n, en, he, den, dhe]) => {
         const items = all.filter((x) => x.stage === n);
         const isOpen = open === n;
-        return html`<li class="panel ${isOpen ? '' : 'flat'}" style="padding:var(--s4) var(--s5)">
+        return html`<li class="panel stage-panel ${isOpen ? '' : 'flat'}">
           <button type="button" class="row" data-stage="${n}" aria-expanded="${isOpen}" style="width:100%;background:none;border:0;padding:0;text-align:start">
             <span class="tag level num">${n}</span><span class="grow">${legend(en, he)}<span class="small muted" style="display:block">${tt(dhe, den)}</span></span>
             ${n === rec ? html`<span class="tag cobalt">${tt('השלב שלכם', 'Your stage')}</span>` : ''}${myFinal?.stage === n ? html`<span class="tag">${tt(`סיום ${L}`, `${L} final`)}</span>` : ''}<span class="small faint">${items.length}</span></button>

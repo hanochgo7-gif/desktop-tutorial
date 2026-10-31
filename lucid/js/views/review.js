@@ -4,7 +4,7 @@
 //  - form cards: see the Hebrew meaning and a gapped example, type the English word.
 // Modes: review (due cards), warmup (learned 1-3 days ago), exit (learned today).
 import { html, render, on, $, shuffle, todayKey } from '../core/util.js';
-import { t, tt } from '../core/i18n.js';
+import { t, tt, isolateLatin } from '../core/i18n.js';
 import { icon } from '../ui/components.js';
 import { allCards, due, gradeCard, logEvent, settings } from '../core/learner.js';
 import { checkTyped, levenshtein } from '../core/grading.js';
@@ -102,7 +102,7 @@ export default async function review(el, ctx) {
     foot.className = `player-foot ${correct ? 'ok' : 'bad'}`;
     render(foot, html`<div class="inner"><div class="verdict" role="status">
       <div class="verdict-title">${icon(correct ? 'check' : 'x', { size: 18 })} ${correct ? tt('נכון', 'Correct') : tt('לא בדיוק', 'Not quite')}</div>
-      <div class="verdict-body"><span lang="en" dir="ltr" class="answer">${p.word}</span> = <span lang="he" dir="rtl">${p.he}</span>${p.example ? html` · <span lang="en" dir="ltr" class="muted">${p.example}</span>` : ''}</div>
+      <div class="verdict-body stack-sm"><p><span lang="en" dir="ltr" class="answer">${p.word}</span> = <span lang="he" dir="rtl">${isolateLatin(p.he)}</span></p>${p.example ? html`<p lang="en" dir="ltr" class="muted en-block review-example">${p.example}</p>` : ''}</div>
       ${!correct && typed && given && c.kind === 'meaning' ? html`<button type="button" class="key ghost small" data-override style="margin-top:var(--s2)">${tt('התכוונתי לזה – זה נכון', 'That is what I meant – count it')}</button>` : ''}
     </div><button type="button" class="key enter" data-next>${tt('המשך', 'Continue')} <span class="kbd">Enter</span></button></div>`);
     $('[data-next]', el).focus();

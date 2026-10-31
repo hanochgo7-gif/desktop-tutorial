@@ -156,7 +156,7 @@ function installMockServer(page) {
       db.aiBodies.push(body);
       if (body.task === 'evaluate_writing') return json(route, evaluation(body.text, body.previous));
       if (body.task === 'roleplay_turn') return json(route, { reply: 'Sure, let me check that for you. Could you spell your last name?', scene_complete: body.history.length >= 5, hint_he: body.history.at(-1)?.text === 'um' ? 'אפשר לאיית: K-O-H-E-N.' : null });
-      if (body.task === 'roleplay_feedback') return json(route, { feedback: { conversation_score: 72, task_completed: true, strengths: ['"Could I check in, please?" was a clear, polite request.'], grammar: { score: 70, comments: ['Mostly accurate.'] }, vocabulary: { score: 75, comments: ['Good range.'] }, naturalness: { score: 68, comments: ['A bit direct.'] }, better_alternatives: [{ you_said: body.history.find((h) => h.role === 'learner')?.text || 'x', more_natural: 'Could you help me with my booking, please?', why: 'Softer and more polite.' }], practice: ['Polite requests'], summary: 'You achieved the goal.', summary_he: 'השגת את המטרה.' } });
+      if (body.task === 'roleplay_feedback') return json(route, { feedback: { conversation_score: 72, task_completed: true, strengths: ['"Could I check in, please?" was a clear, polite request.'], grammar: { score: 70, comments: ['Mostly accurate.'] }, vocabulary: { score: 75, comments: ['Good range.'] }, naturalness: { score: 68, comments: ['A bit direct.'] }, better_alternatives: [{ you_said: body.history.find((h) => h.role === 'learner')?.text || 'x', more_natural: 'Could you help me with my booking, please?', why: 'Softer and more polite.' }], practice: ['Polite requests'], summary: 'You achieved the goal.', summary_he: 'השגת את המטרה.', strengths_he: ['״Could I check in, please?״ היא בקשה ברורה ומנומסת.'], practice_he: ['בקשות מנומסות'] } });
       if (body.task === 'tutor_turn') return json(route, { reply: `Good question. **Present perfect** links the past to now. Try: "I ___ (live) here since 2020."` });
     }
     return json(route, { error: { message: `unmocked ${url.pathname}` } }, 404);
@@ -171,7 +171,7 @@ const manifest = JSON.parse(readFileSync(join(repo, 'lucid/content/manifest.json
 const has = (id) => manifest.lessons.includes(id);
 
 try {
-  await check('1. A new user can register (onboarding creates a profile; under-16 is refused, on its own screen, for the session; P-10)', async () => {
+  await check('1. A new user can register (onboarding creates a profile; under-16 is refused, on its own screen, for 24 hours across tabs; P-10, N10)', async () => {
     const { ctx, page } = await newPage(browser);
     await page.goto(`${BASE}#/start`);
     await page.waitForSelector('#ob-form');
@@ -186,6 +186,16 @@ try {
     await page.waitForSelector('.onboard[role=alert]');
     assert(!(await page.$('#ob-form')), 'a refused learner can try another year in the same session');
     assert(!(await store(page, 'profile')).length, 'something was saved for a refused learner');
+    // N10: a new tab in the same browser is refused too; only the time of the refusal is kept, for 24 hours.
+    const tab2 = await ctx.newPage();
+    await tab2.goto(`${BASE}#/start`);
+    await tab2.waitForSelector('.onboard[role=alert]');
+    const kept = await tab2.evaluate(() => Object.keys(localStorage).filter((k) => k.startsWith('lucid-')).map((k) => [k, localStorage.getItem(k)]));
+    assert(kept.length === 1 && kept[0][0] === 'lucid-age-refused' && /^\d{13}$/.test(kept[0][1]) && Math.abs(Date.now() - Number(kept[0][1])) < 600_000, `refusal storage is not a bare timestamp: ${JSON.stringify(kept)}`);
+    await tab2.evaluate(() => localStorage.setItem('lucid-age-refused', String(Date.now() - 25 * 3600 * 1000)));
+    await tab2.goto(`${BASE}#/welcome`);
+    await tab2.goto(`${BASE}#/start`);
+    await tab2.waitForSelector('#ob-form');
     await ctx.close();
     const fresh = await newPage(browser);
     await onboard(fresh.page, { start: 'zero' });
@@ -320,6 +330,9 @@ try {
     await onboard(page, { start: 'basics' });
     await page.goto(`${BASE}#/expressions`);
     await page.waitForTimeout(700);
+    // D11: grouped by level and folded, like Real life; a search shows every match.
+    assert((await page.$$('#xp-list section h2')).length >= 3 && (await page.$$('#xp-list .entry')).length <= 20 && await page.$('[data-unfold-group]'), 'expressions are one long list, not grouped and folded');
+    await page.fill('#xp-q', 'no worries');
     const text = await page.textContent('#view');
     assert(/No worries/i.test(text), 'expression list missing "No worries"');
     const details = await page.$('details, [aria-expanded]');
@@ -429,7 +442,8 @@ try {
     for (const l of cur.levels) {
       const fa = l.final_assessment;
       assert(fa.instructions?.en && fa.required_elements?.length >= 3, `${l.id} final has no full brief`);
-      if (['PreA1', 'A1', 'A2', 'B1'].includes(l.id)) assert(fa.instructions.he && fa.required_elements.every((r) => r.he), `${l.id} final has no Hebrew instructions`);
+      // T6: every level, B2-C2 included, has Hebrew instructions, topics and "Must include" (shown on request from B2).
+      assert(fa.instructions.he && fa.required_elements.every((r) => r.he) && (fa.topics || []).every((tp) => tp.he), `${l.id} final has no Hebrew instructions`);
       if (['B1', 'B2', 'C1', 'C2'].includes(l.id)) assert(fa.topics?.length >= 3, `${l.id} final has no topic choice`);
       for (const tp of fa.topics || []) if (tp.assignment) assert(as.find((a) => a.id === tp.assignment)?.source_pack?.length, `${l.id} topic points to ${tp.assignment}, which has no source pack`);
     }
@@ -570,7 +584,7 @@ try {
       await page.goto(`${BASE}#/${r}`);
       await page.waitForTimeout(500);
       const txt = await page.textContent('#view');
-      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר)/.test(txt), `${r}: no configuration notice`);
+      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר)/.test(txt), `${r}: no configuration notice`);
     }
     await ctx.close();
     const m = await newPage(browser, { mock: true });
@@ -759,6 +773,11 @@ try {
     });
     assert(r.demonstrated === 'C2' && r.top_band, `unexpected result ${r.demonstrated}`);
     await page.goto(`${BASE}#/today`);
+    // On a phone "Level by skill" is folded to one line (R2-20); it opens on a tap.
+    await page.waitForSelector('details[data-skills] > summary');
+    assert(!(await page.$eval('details[data-skills]', (d) => d.open)), 'the skill panel is not folded on a phone');
+    assert(!/C1|C2/.test(await page.textContent('.skill-fold-sum')), 'the folded summary shows C1/C2 from placement alone');
+    await page.click('details[data-skills] > summary');
     await page.waitForSelector('.skills');
     const levels = await page.$$eval('.skills .skill-level', (x) => x.map((e) => e.textContent.trim()));
     assert(!levels.some((l) => /C1|C2/.test(l)), `a skill shows C1/C2 from placement alone: ${levels}`);
@@ -888,6 +907,156 @@ try {
     await ctx.close();
   });
 
+  // ---------- learner model, plan and progress (persona panel round 2) ----------
+  await check('LP1. Today: after "Nearly there" the main action practises only the missed exercises; a saved run counts like the player; icons and reasons fit the block (R2-02, R2-25, R2-17, R1-N6, R1-D7, R2-22, R2-30, R2-39)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    const ids = JSON.parse(readFileSync(join(repo, 'lucid/content/lessons/a2-01.json'), 'utf8')).exercises.map((e) => e.id);
+    // A saved run: 5 of the first pass done, two retries waiting at the end.
+    await page.evaluate((ids) => window.lucid.store.put('progress', { id: 'a2-01', level: 'A2', status: 'started', resume: { qi: 5, queue: [...ids.map((x) => [x, false]), [ids[1], true], [ids[2], true]], first: [], at: new Date().toISOString() } }), ids);
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.start-bar a[href="#/lesson/a2-01?resume=1"]');
+    const cta = await page.textContent('.start-bar a');
+    const row = await page.textContent('.plan li:has(a[href="#/lesson/a2-01?resume=1"])');
+    assert(cta.includes(`6 מתוך ${ids.length}`) && row.includes(`6 מתוך ${ids.length}`) && row.includes('2 לחזרה'), `Today does not count like the player: ${cta} / ${row}`);
+    assert(![cta, row].some((x) => x.includes(`מתוך ${ids.length + 2}`)), `retries grow the total: ${cta} / ${row}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp1-today-resume-390.png`, fullPage: true });
+    // The run ended "Nearly there" with four missed.
+    await page.evaluate((ids) => window.lucid.store.put('progress', { id: 'a2-01', level: 'A2', status: 'started', best_score: 0.6, last_score: 0.6, missed: { ids: ids.slice(1, 5), first: [], at: new Date().toISOString() } }), ids);
+    await page.waitForSelector('.start-bar a[href="#/lesson/a2-01?stage=missed"]');
+    assert(/לתרגל את 4 הטעויות/.test(await page.textContent('.start-bar a')), `the main action is not "practise the 4 you missed": ${await page.textContent('.start-bar a')}`);
+    assert(/כמעט סיימת/.test(await page.textContent('.plan')), 'the plan does not describe the lesson as nearly done');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp1-today-missed-390.png`, fullPage: true });
+    // No placeholder glyph anywhere in the plan (an unknown icon falls back to the circle).
+    // Icons compared as the browser serialises them.
+    const svgOf = (pg, name) => pg.evaluate(async (n) => { const d = document.createElement('div'); d.innerHTML = (await import('./js/ui/icons.js')).iconSvg(n); return d.innerHTML; }, name);
+    const circle = await svgOf(page, 'circle');
+    assert(!(await page.$$eval('.plan .glyph', (g, c) => g.some((x) => x.innerHTML.trim() === c.trim()), circle)), 'a plan block shows the placeholder circle');
+    await ctx.close();
+    // A reading block from the academic-writing goal: a book icon, and the goal the learner chose.
+    const second = await newPage(browser, { viewport: { width: 1440, height: 900 } });
+    await learnerAt(second.page, 'C1', { goals: ['work', 'writing'] });
+    // Writing and a workplace scenario yesterday, so the goals' rotation comes to reading today.
+    await second.page.evaluate(() => { for (const type of ['writing', 'speaking']) window.lucid.store.put('events', { id: `ev-${type}`, type, at: new Date(Date.now() - 86_400_000).toISOString() }); });
+    await second.page.goto(`${BASE}#/today`);
+    await second.page.waitForSelector('.plan a[href="#/reading"]');
+    const reading = await second.page.$eval('.plan a[href="#/reading"]', (a) => ({ glyph: a.querySelector('.glyph').innerHTML.trim(), text: a.textContent }));
+    assert(reading.glyph === (await svgOf(second.page, 'reading')).trim(), 'the reading block does not show the reading icon');
+    assert(/כתיבה אקדמית/.test(reading.text) && !/בגרות|לימודים/.test(reading.text), `the reading block names a goal the learner did not choose: ${reading.text}`);
+    if (SHOTS) await second.page.screenshot({ path: `${SHOTS}/lp1-today-c1-1440.png`, fullPage: true });
+    await second.ctx.close();
+  });
+
+  await check('LP2. Today: every plan link opens content, weak real-life topics go to their scenario, and only what was done is ticked (R2-24, R2-27)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.evaluate(() => {
+      const now = Date.now();
+      // Yesterday's scripted practice: acceptable ("ok") replies, so the topic is not secure yet.
+      for (let i = 0; i < 4; i++) window.lucid.store.put('attempts', { id: `sc${i}`, at: new Date(now - 86_400_000 + i * 1000).toISOString(), source: 'scenario', exercise: `rl-airport-checkin-overweight:${i}`, topic: 'travel-functional', skill: 'speaking', level: 'A2', correct: false, score: 0.5 });
+    });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    const hrefs = await page.$$eval('.plan a', (x) => x.map((a) => a.getAttribute('href')));
+    assert(hrefs.includes('#/scenario/rl-airport-checkin-overweight?tab=practise'), `the weak travel topic does not go to its scenario: ${hrefs}`);
+    assert(!hrefs.some((h) => /drill\?topic=(travel|social)-functional/.test(h)), `a plan block opens an empty drill: ${hrefs}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp2-today-scenario-practice-390.png`, fullPage: true });
+    for (const h of hrefs) {
+      await page.goto(`${BASE}${h}`);
+      await page.waitForTimeout(700);
+      const txt = await page.textContent('#view');
+      assert(!/אין עדיין תרגילים|No exercises for this/.test(txt) && txt.trim().length > 40, `${h} opens an empty page`);
+    }
+    // Today a different airport scenario was finished: the block shows that one, ticked, not the next one.
+    await page.evaluate(() => {
+      window.lucid.store.put('progress', { id: 'rl:rl-airport-arrival-immigration', status: 'completed', completed_at: new Date().toISOString() });
+      window.lucid.store.put('events', { id: 'ev-sc', type: 'speaking', scenario: 'rl-airport-arrival-immigration', at: new Date().toISOString() });
+    });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    const done = await page.$$eval('.plan a.done', (x) => x.map((a) => a.getAttribute('href')));
+    assert(done.every((h) => !/^#\/scenario\/rl-(?!airport-arrival-immigration)/.test(h)) && done.includes('#/scenario/rl-airport-arrival-immigration'), `ticked blocks: ${done}`);
+    await ctx.close();
+  });
+
+  await check('LP3. Path: while the placement is pending there is no current level or "Next", only the test; the learner\'s level tab is in view (R2-15, R1-D2, R2-23)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'conversations' });
+    await page.click('[data-begin]');
+    for (let i = 0; i < 3; i++) { await page.click('#exroot .option'); await page.click('[data-answer]'); await page.waitForTimeout(60); }
+    await page.click('.player-top a[href="#/today"]');
+    await page.waitForSelector('a[href="#/placement?resume=1"]');
+    await page.goto(`${BASE}#/path`);
+    await page.waitForSelector('.lesson-list');
+    assert(await page.$('#view a[href="#/placement?resume=1"]'), 'the path has no "Continue the test"');
+    assert(!(await page.$('.lesson-row.next')) && !(await page.$('.lesson-row[aria-current="step"]')), 'the path marks a "Next" lesson while the test is pending');
+    assert(!/הרמה הנוכחית שלך|Your current level/.test(await page.textContent('#view')), 'the path names a current level while the test is pending');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp3-path-pending-390.png`, fullPage: true });
+    await ctx.close();
+    const b2 = await newPage(browser);
+    await learnerAt(b2.page, 'B2');
+    await b2.page.goto(`${BASE}#/path`);
+    await b2.page.waitForSelector('.level-tab[aria-current="true"]');
+    await b2.page.waitForTimeout(200);
+    const fit = await b2.page.$eval('.level-tab[aria-current="true"]', (t) => { const r = t.getBoundingClientRect(); const p = t.parentElement.getBoundingClientRect(); return { inView: r.left >= p.left - 1 && r.right <= p.right + 1, name: t.textContent }; });
+    assert(fit.inView && /B2/.test(fit.name), `the B2 tab is off screen: ${JSON.stringify(fit)}`);
+    if (SHOTS) await b2.page.screenshot({ path: `${SHOTS}/lp3-path-b2-390.png` });
+    await b2.ctx.close();
+  });
+
+  await check('LP4. Placement result says only what was confirmed and why it starts where it does; Progress recommends only what this learner can do (R2-29, R2-36, R2-38, R1-Y2, R2-03, R2-20)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'basics' });
+    // Replays a finished run as a saved draft, so the real result screen draws it.
+    const showResult = async (goals, rule, start) => {
+      await page.evaluate(async ({ goals, rule, start }) => {
+        const L = await import('./js/core/learner.js');
+        const P = await import('./js/core/placement.js');
+        const A = await import('./js/core/adaptive.js');
+        const bank = await (await fetch('content/placement.json')).json();
+        if (window.lucid.store.get('placement', 'latest')) window.lucid.store.remove('placement', 'latest');
+        L.saveProfile({ goals, start_choice: { A1: 'basics', B2: 'advanced' }[start] });
+        const knows = (l, item) => A.LEVELS.indexOf(item.level) <= A.LEVELS.indexOf(l);
+        const answer = (item) => (rule === 'moshe' ? (item.level === 'A2' ? ['grammar', 'reading'].includes(item.skill) : knows('A1', item)) : knows('C1', item));
+        const t = P.createPlacement(bank.items, { start, goals });
+        let item;
+        while ((item = t.next())) t.answer(item, { correct: answer(item) });
+        L.savePlacementDraft({ start, answers: t.answers });
+      }, { goals, rule, start });
+      await page.goto(`${BASE}#/placement?t=${Date.now()}`);
+      await page.click('[data-begin]');
+      await page.waitForSelector('.onboard h1');
+      return page.textContent('.onboard');
+    };
+    const moshe = await showResult(['travel'], 'moshe', 'A1');
+    assert(/עד רמה A1/.test(moshe) && /נתחיל ב-A1/.test(moshe), `the start is not the confirmed A1: ${moshe.slice(0, 200)}`);
+    const levels = await page.$$eval('.onboard .panel .row bdi', (x) => x.map((b) => b.textContent.trim()));
+    assert(levels.every((l) => ['Pre-A1', 'A1'].includes(l)), `a skill shows more than the confirmed A1: ${levels}`);
+    assert(!moshe.includes('B2+'), 'the C1/C2 note is shown to an A1 learner');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp4-placement-a1-390.png`, fullPage: true });
+    const eitan = await showResult(['work', 'writing'], 'c1', 'B2');
+    assert(/C1/.test(eitan) && !/C1-C2/.test(eitan), `the headline claims C1-C2: ${eitan.slice(0, 200)}`);
+    assert(/B2\+/.test(eitan) && /נכונות ב-C1/.test(eitan), 'capped skills do not say where their answers were');
+    assert((await store(page, 'placement')).find((p) => p.id === 'latest').start_level === 'C1', 'academic writing chosen: the start should be C1');
+    const yael = await showResult(['work', 'travel'], 'c1', 'B2');
+    assert(/נתחיל ב-B2/.test(yael) && await page.$('[data-start-at="C1"]'), `a work and travel learner is started on the C1 track: ${yael.slice(0, 240)}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp4-placement-work-c1-390.png`, fullPage: true });
+    await ctx.close();
+    // Device only, Pre-A1, AI off: no AI writing advice and no C2 check in view.
+    const noa = await newPage(browser);
+    await onboard(noa.page, { start: 'zero' });
+    await noa.page.evaluate(() => { for (let i = 0; i < 6; i++) window.lucid.store.put('attempts', { id: `n${i}`, at: new Date().toISOString(), source: 'lesson', lesson: 'pa1-01', exercise: `e${i}`, topic: 'alphabet', skill: 'vocabulary', level: 'PreA1', correct: i % 2 === 0, score: i % 2 === 0 ? 1 : 0 }); });
+    await noa.page.goto(`${BASE}#/progress`);
+    await noa.page.waitForSelector('.stat');
+    const recs = await noa.page.$$eval('#view ul.stack-sm a', (x) => x.map((a) => a.getAttribute('href')));
+    assert(!recs.includes('#/writing'), `AI writing feedback is recommended without AI: ${recs}`);
+    const visibleChecks = await noa.page.$$eval('a[href^="#/checkpoint/"]', (x) => x.filter((a) => !a.closest('details:not([open])')).map((a) => a.getAttribute('href')));
+    assert(!visibleChecks.includes('#/checkpoint/C2') && visibleChecks.includes('#/checkpoint/PreA1'), `level checks in view: ${visibleChecks}`);
+    assert(await noa.page.$('details.more-checks'), 'higher level checks are not behind "Show all levels"');
+    if (SHOTS) await noa.page.screenshot({ path: `${SHOTS}/lp4-progress-prea1-390.png`, fullPage: true });
+    await noa.ctx.close();
+  });
+
   // ---------- real life, bidi and privacy (persona panel round 1) ----------
   await check('RL1. Real life and Conversations: a start strip for the level and goals, level guidance, topic and level filters, topics folded to two, no placeholder icons (P-46, P-64)', async () => {
     const { ctx, page } = await newPage(browser);
@@ -896,7 +1065,7 @@ try {
     await page.waitForSelector('.start-here');
     const start = await page.$$eval('.start-here .tag.level', (x) => x.map((t) => t.textContent.trim()));
     assert(start.length === 3 && start.every((l) => ['A1', 'A2'].includes(l)), `start strip is not at the learner's level: ${start}`);
-    assert((await page.textContent('.level-guide')).includes('A2'), 'no level guidance');
+    assert((await page.textContent('.level-guide:not(.offline-note)')).includes('A2'), 'no level guidance');
     const circle = await page.evaluate(async () => (await import('./js/ui/icons.js')).iconSvg('circle'));
     const heads = await page.$$eval('.hub-head', (x) => x.map((h) => ({ id: h.id, svg: h.querySelector('svg').outerHTML })));
     assert(heads.length >= 7 && heads.every((h) => h.svg !== circle), `a topic heading shows the placeholder icon: ${heads.filter((h) => h.svg === circle).map((h) => h.id)}`);
@@ -1366,6 +1535,358 @@ try {
     assert(en.display === 'block' && en.dir === 'ltr' && ['start', 'left'].includes(en.align), `English explanation is not a left-aligned block: ${JSON.stringify(en)}`);
     const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const th = w.querySelector('th').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: th.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
     assert(table.dir === 'ltr' && table.firstLeft < 4 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
+    await ctx.close();
+  });
+
+  // ---------- lesson player, i18n and speaking: persona round 2 ----------
+  const bdiOf = (page, sel) => page.$$eval(`${sel} bdi`, (x) => x.map((b) => b.textContent));
+  await check('PL1. Brackets stay with their English inside Hebrew; "Why?" explains the item, not its error type in general (R2-01, R2-04)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await lessonAt(page, 'pa1-08', 'e5');
+    await page.evaluate(() => { const g = document.querySelectorAll('#exroot .gap-input'); g[0].value = 'first'; g[1].value = 'three'; g.forEach((x) => x.dispatchEvent(new Event('input', { bubbles: true }))); });
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-next]');
+    const iso = await bdiOf(page, '#pfoot');
+    assert(iso.includes('third (3rd)'), `the bracket pair is split: ${JSON.stringify(iso)}`);
+    await page.click('#pfoot details.why > summary').catch(() => {});
+    const why = await page.textContent('#pfoot');
+    assert(!/make a decision|strong coffee/.test(why), `"Why?" shows the general word-choice note: ${why}`);
+    // The summary's key point: "double (A, double N, A)." keeps both brackets in the English.
+    await lessonAt(page, 'pa1-01', null);
+    const kp = await bdiOf(page, '.point-list');
+    assert(kp.includes('double (A, double N, A)'), `key point isolates: ${JSON.stringify(kp)}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl1-keypoint.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('PL2. After "Nearly there" the intro offers only the missed exercises; a near miss never reads as the pass mark (R2-02, R2-25, R2-26)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    const lesson = lessonJson('a2-01');
+    const scored = lesson.exercises.filter((e) => !['speak', 'write'].includes(e.type)).map((e) => e.id);
+    // First tries that average 0.696: one miss, the rest just above 0.75 (Math.round would show 70%).
+    const x = (0.696 * scored.length) / (scored.length - 1);
+    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : x])));
+    const summary = await page.textContent('.player-body');
+    assert(/כמעט שם|Nearly there/.test(summary) && /69%/.test(summary) && !/\b70% (בניסיון|on the first)/.test(summary), `a near miss reads as the pass mark: ${summary.slice(0, 200)}`);
+    await page.click('#pfoot a[href="#/today"]');
+    await page.waitForSelector('.start-bar, .plan, .banner');
+    await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    assert(await page.$('[data-missed-banner]'), 'the intro does not say the lesson is nearly done');
+    const primary = await page.textContent('#pfoot .key.enter');
+    assert(/data-missed/.test(await page.innerHTML('#pfoot')) && /(1 I missed|לתרגל את הטעות)/.test(primary), `the main action is not the missed exercise: ${primary}`);
+    assert(await page.$('#pfoot [data-skip-learn]'), '"Practise everything again" is not offered');
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('#exroot');
+    assert((await page.textContent('.step-count')).trim() === '1 מתוך 1', `not the missed exercise only: ${await page.textContent('.step-count')}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl2-missed-intro.png` });
+    await ctx.close();
+  });
+
+  await check('PL3. Today\'s part: the intro states the real length and the part; the player stops there with "Stop here" or "Keep going" (R2-28, R1-N7, R1-D3)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const P = await import('./js/core/placement.js'); await L.applyPlacement(P.selfReportResult('A2')); });
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', daily_minutes: 10 }));
+    const upto = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const l = await (await fetch('content/lessons/a2-01.json')).json(); return L.todayPlan(10, { lesson: l }).blocks.find((b) => b.id === 'learn').slice.upto; });
+    assert(upto > 1 && upto < 16, `no part planned: ${upto}`);
+    await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    const line = await page.textContent('[data-part-line]');
+    assert(/25/.test(line) && new RegExp(`(עד תרגיל|up to exercise) ${upto} `).test(line), `the intro does not state the length and the part: ${line}`);
+    await page.click('[data-skip-learn]');
+    for (let i = 0; i < upto; i++) {
+      await page.waitForSelector('#exroot');
+      await answerCurrent(page);
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      if (i < upto - 1 || await page.$('[data-next]')) { await page.waitForSelector('[data-next]'); await page.click('[data-next]'); }
+    }
+    await page.waitForSelector('.part-end');
+    assert(/החלק של היום הושלם|Today's part is done/.test(await page.textContent('.part-end h1')), 'no end-of-part screen');
+    assert(await page.getAttribute('[data-part-stop]', 'href') === '#/today' && await page.$('[data-part-go]'), 'no stop/continue choice');
+    assert(await page.evaluate(() => document.activeElement?.tagName === 'H1' && window.scrollY === 0), 'the part screen does not open at its heading');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl3-part-end.png` });
+    await page.click('[data-part-go]');
+    await page.waitForSelector('#exroot');
+    assert((await page.textContent('.step-count')).startsWith(`${upto + 1} `), `keep going does not continue: ${await page.textContent('.step-count')}`);
+    await ctx.close();
+  });
+
+  await check('PL4. Hebrew support follows the level shown at placement; partial support folds long paragraphs; shadowing opens at the level (R2-06, R1-D10, R1-A10, R2-05)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); await L.applyPlacement({ demonstrated: 'A2', level: 'A2', start_level: 'B1', items: 16, answers: [], skills: {} }); });
+    await page.waitForTimeout(300);
+    assert(await page.evaluate(() => document.documentElement.dataset.support) === 'partial', 'placement showed A2 but support is not partial');
+    await page.goto(`${BASE}#/lesson/b1-01?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    assert(await page.$('.lesson-intro .point .bi-he-after:not([hidden])'), 'objectives have no Hebrew at partial support');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn');
+    const folds = await page.$$('.lesson-learn .he-reveal-text');
+    assert(folds.length >= 2, `long paragraphs are not folded (${folds.length})`);
+    await folds[0].click();
+    assert(await folds[0].evaluate((b) => !b.nextElementSibling.hidden && b.getAttribute('aria-expanded') === 'true'), 'the paragraph\'s Hebrew does not open');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl4-partial-learn.png` });
+    await page.goto(`${BASE}#/speaking`);
+    await page.waitForSelector('#sp-shadow-list details');
+    const open = await page.$$eval('#sp-shadow-list details[open]', (d) => d.map((x) => x.dataset.level));
+    assert(open.length === 1 && open[0] === 'B1', `shadowing does not open at the level: ${open}`);
+    const href = await page.getAttribute('[data-next-shadow]', 'href');
+    assert(/speaking\?l=b1-/.test(href), `the next sentence is not at the level: ${href}`);
+    await page.goto(`${BASE}${href}`);
+    await page.waitForSelector('#exroot .speak-focus');
+    assert(await page.$('#exroot .speak-focus .bi-he:not([hidden])'), 'the articulation note has no Hebrew');
+    await ctx.close();
+  });
+
+  await check('PL5. Speaking at 150% text: Hear it and Say it on the first screen; words not caught are grey, not red (R2-19, R2-08)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await fakeRecognition(ctx);
+    await page.addInitScript(() => localStorage.setItem('lucid-mic-notice', '1'));
+    await learnerAt(page, 'PreA1', { text: 150 });
+    await lessonAt(page, 'pa1-01', 'e12');
+    const box = await page.evaluate(() => ({ rec: document.querySelector('#exroot [data-rec]')?.getBoundingClientRect().bottom, foot: document.querySelector('#pfoot')?.getBoundingClientRect().top, fold: Boolean(document.querySelector('#exroot details.speak-focus-fold:not([open])')) }));
+    assert(box.rec && box.rec <= box.foot, `Say it is below the fold at 150%: ${JSON.stringify(box)}`);
+    assert(box.fold, 'the pronunciation tip is not folded at large text');
+    await page.click('#exroot [data-rec]');
+    await page.waitForSelector('#exroot .recognised');
+    const rec = await page.evaluate(() => ({ miss: document.querySelectorAll('#exroot .w-miss').length, uncaught: [...document.querySelectorAll('#exroot .word-diff .w-uncaught')].map((x) => getComputedStyle(x).textDecorationStyle), text: document.querySelector('#exroot .recognised').textContent }));
+    assert(!rec.miss && rec.uncaught.length && rec.uncaught.every((s) => s === 'dotted'), `missed words look like errors: ${JSON.stringify(rec)}`);
+    assert(/לא נקלט|not caught/.test(rec.text) && /מאויתות|spelled letters/.test(rec.text), `no "not caught" key or spelled-letters note: ${rec.text}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl5-speak-150.png` });
+    await ctx.close();
+  });
+
+  await check('PL6. English blocks in Hebrew screens, wide tables say they scroll, find-and-fix counts an equivalent answer, an unsaved lesson offline points to what works (R2-18, R1-M9, R2-32, R1-E2, R2-11)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    // Listening transcript: its own left-to-right block.
+    await lessonAt(page, 'pa1-01', 'e2');
+    await page.click('#exroot [data-opt]');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('#exroot .transcript .en-block');
+    const tr = await page.$eval('#exroot .transcript .en-block', (p) => { const cs = getComputedStyle(p); return { dir: cs.direction, display: cs.display, align: cs.textAlign }; });
+    assert(tr.dir === 'ltr' && tr.display === 'block' && ['start', 'left'].includes(tr.align), `transcript is not an LTR block: ${JSON.stringify(tr)}`);
+    // A wide table at 390 px: hint and fade until the far side.
+    await page.goto(`${BASE}#/lesson/b2-01?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn .table-wrap');
+    const wide = await page.evaluate(() => { const w = [...document.querySelectorAll('.lesson-learn .table-wrap')].find((x) => x.scrollWidth > x.clientWidth + 2); return w ? { cls: w.className, hint: !w.previousElementSibling.hidden, tab: w.tabIndex } : null; });
+    assert(wide && /scrolls/.test(wide.cls) && wide.hint && wide.tab === 0, `a wide table gives no scroll cue: ${JSON.stringify(wide)}`);
+    await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap.scrolls'); w.scrollLeft = w.scrollWidth; w.dispatchEvent(new Event('scroll')); });
+    assert(await page.$('.lesson-learn .table-wrap.scrolls.at-end'), 'the fade stays at the far side');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl6-wide-table.png` });
+    // Find and fix at C1: an equivalent wording can be counted.
+    await lessonAt(page, 'c1-03', 'e11');
+    await page.fill('#exroot textarea', 'To a certain extent, the results support the original hypothesis.');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-self-judge]');
+    assert(/One model answer|תשובה אחת לדוגמה/.test(await page.textContent('#pfoot')), 'find and fix calls the key the correct answer');
+    await page.click('[data-self-judge]');
+    await page.waitForFunction(() => /Counted as correct|נספר כנכון/.test(document.querySelector('#pfoot')?.textContent || ''));
+    // An unsaved lesson that does not load: what works offline, and where to save lessons next time.
+    await page.route(/content\/lessons\/pa1-06\.json/, (route) => route.abort());
+    await page.goto(`${BASE}#/lesson/pa1-06?t=${Date.now()}`);
+    await page.waitForSelector('.missing-lesson');
+    const miss = await page.textContent('.missing-lesson');
+    assert(await page.getAttribute('[data-offline-settings]', 'href') === '#/settings' && /שימוש בלי אינטרנט|Offline use/.test(miss), `no pointer to saving lessons: ${miss}`);
+    await ctx.close();
+  });
+  // ---------- persona round 2: writing, real life, settings and layout ----------
+  const titleWidthsEm = (page) => page.$$eval('.lesson-list .lesson-row > .grow', (els) => els.filter((e) => e.offsetParent).map((e) => e.getBoundingClientRect().width / parseFloat(getComputedStyle(e).fontSize)));
+  const labelsOverlap = (page) => page.evaluate(() => {
+    const boxes = [...document.querySelectorAll('.level-rail-labels > span')].filter((s) => getComputedStyle(s).visibility !== 'hidden').map((s) => { const r = document.createRange(); r.selectNodeContents(s); return [...r.getClientRects()]; });
+    const hit = (a, b) => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5;
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) if (boxes[i].some((a) => boxes[j].some((b) => hit(a, b)))) return true;
+    return false;
+  });
+  await check('RW1. Large text on phones: Path and Real life titles keep at least 8em, rail labels never overlap, skill rows stack, nothing scrolls sideways at 320 (R2-13, R2-14, R2-31, D5)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B2', { text: 150 });
+    for (const [r, ready] of [['path/B2', '.lesson-row.next'], ['real-life', '.start-here .lesson-row'], ['writing', '[data-stage] + .lesson-list .lesson-row']]) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForSelector(ready);
+      const w = await titleWidthsEm(page);
+      assert(w.length && Math.min(...w) >= 8, `${r} at 390/150%: a title box is ${Math.min(...w).toFixed(1)}em wide`);
+    }
+    await page.goto(`${BASE}#/path/B2`);
+    await page.waitForSelector('.lesson-row.next');
+    const tags = await page.evaluate(() => { const row = document.querySelector('.lesson-row.next'); const t = row.querySelector(':scope > .row'); const g = row.querySelector(':scope > .grow'); return t.getBoundingClientRect().top >= g.getBoundingClientRect().bottom - 1; });
+    assert(tags, 'the "Next" tag is not under the title');
+    for (const [width, text] of [[390, 130], [390, 150], [320, 150], [1440, 130]]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.evaluate((t) => window.lucid.store.update('settings', 'me', { text_size: t }), text);
+      await page.goto(`${BASE}#/today`);
+      await page.waitForSelector('.level-rail-labels');
+      assert(!(await labelsOverlap(page)), `rail labels overlap at ${width}px, ${text}%`);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Today scrolls sideways at ${width}px, ${text}%`);
+    }
+    // Skill rows with levels (the component Today and Progress share), at 320px and 150%.
+    await page.setViewportSize({ width: 320, height: 844 });
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('#view h1');
+    const skills = await page.evaluate(async () => {
+      const T = await import('./js/views/today.js'); const U = await import('./js/core/util.js');
+      const host = document.createElement('div'); host.className = 'panel stack'; document.querySelector('#view').prepend(host);
+      U.render(host, T.skillProfile({ grammar: { level: 'B1', source: 'practice', evidence: 12, days: 3 }, vocabulary: { level: 'A2', source: 'placement', evidence: 4, provisional: true }, listening: null, speaking: null, writing: { evidence: 1 } }));
+      const row = host.querySelector('.skill-row .meter').closest('.skill-row');
+      return { meter: host.querySelector('.meter').getBoundingClientRect().width / row.getBoundingClientRect().width, overflow: document.documentElement.scrollWidth - innerWidth };
+    });
+    assert(skills.meter > 0.9 && skills.overflow <= 0, `skill rows do not stack at 320/150%: ${JSON.stringify(skills)}`);
+    await ctx.close();
+  });
+
+  await check('RW2. Scenarios and roleplay: one-line top title and unwrapped tabs at 130%, the chosen reply quoted, both account options, a name slot in help phrases, an LTR goal, a Hebrew report (R2-07, R2-09, R2-10, R2-33, R2-34, R2-35)', async () => {
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await learnerAt(page, 'B1', { text: 130 });
+    await page.goto(`${BASE}#/scenario/rl-emergency-lost-passport`);
+    await page.waitForSelector('.scenario-tabs');
+    const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth }; });
+    assert(head.lines < 1.6 && head.rows === 1 && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
+    await page.click('[data-tab="practise"]');
+    const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); return text; });
+    await page.waitForSelector('.chosen-quote');
+    assert((await page.textContent('.chosen-quote')).includes(picked), 'the chosen reply is not quoted in the explanation');
+    // No account yet: both ways in, sign-up first on a device that was never signed in.
+    await page.click('[data-tab="roleplay"]');
+    const links = await page.$$eval('#view a[href^="#/account"]', (a) => a.map((x) => new URL(x.href).hash));
+    assert(links.length === 2 && /mode=signup/.test(links[0]) && /mode=signin/.test(links[1]) && links.every((h) => h.includes('next=')), `account options: ${links}`);
+    assert(/חשבון|account/i.test(await page.textContent('#view .banner')), 'no reason why an account is needed');
+    await signInWith(page, db.user.email);
+    await page.click('[data-owner-dialog="unowned"] [value="move"]').catch(() => {});
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    await page.waitForTimeout(400);
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString(), text_size: 100 }));
+    await page.goto(`${BASE}#/scenario/rl-hotel-checkin-basics?tab=roleplay`);
+    await page.waitForSelector('[data-start-rp]');
+    await page.click('[data-start-rp]');
+    await page.click('button[data-stuck]');
+    await page.waitForSelector('[data-help] [data-use-phrase]');
+    const help = await page.textContent('[data-help]');
+    assert(!/Dana Cohen|דנה כהן/.test(help) && help.includes('[your name]'), 'a help phrase still carries someone else\'s name');
+    const slot = await page.evaluate(() => { const b = [...document.querySelectorAll('[data-use-phrase]')].find((x) => x.textContent.includes('[your name]')); b.click(); const i = document.querySelector('#rpin'); return i.value.slice(i.selectionStart, i.selectionEnd); });
+    assert(slot === '[your name]', `the name slot is not selected after copying: "${slot}"`);
+    const goal = await page.$eval('.goal-block .bi-en', (e) => { const cs = getComputedStyle(e); return { display: cs.display, dir: cs.direction }; });
+    assert(goal.display === 'block' && goal.dir === 'ltr', `the English goal is not its own LTR block: ${JSON.stringify(goal)}`);
+    await page.fill('#rpin', 'Could I check in, please?');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForFunction(() => !document.querySelector('#rplog .spinner') && document.querySelectorAll('#rplog .msg.me').length === 1);
+    await page.click('[data-end-rp]');
+    await page.waitForSelector('[data-report-head]');
+    const rep = await page.evaluate(() => [...document.querySelectorAll('.report-list')].map((l) => ({ dir: getComputedStyle(l.querySelector('li')).direction, he: l.querySelector('.bi-he')?.textContent || '' })));
+    assert(rep.length === 2 && rep.every((r) => r.dir === 'rtl' && /[א-ת]/.test(r.he)), `report lists without Hebrew or not under their headings: ${JSON.stringify(rep)}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/roleplay-report-he-390.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('RW3. Writing: text type in free writing, paragraph compare, AI note apart, self-rating for the next draft, reopening on AI feedback, Hebrew B2-C2 briefs, LTR topics, the Writing lab highlighted (Y6, R2-21, R2-40, R2-41, R2-42, R2-43, T6, M9)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1440, height: 900 }, mock: true });
+    await learnerAt(page, 'B2');
+    await page.goto(`${BASE}#/account?mode=signup`);
+    await page.fill('#em', 'learner@example.com'); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForTimeout(600);
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString() }));
+    for (const r of ['writing', 'writing/free']) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForSelector('#deck a.nav');
+      const cur = await page.$$eval('#deck a.nav[aria-current="page"]', (a) => a.map((x) => x.getAttribute('href')));
+      assert(cur.length === 1 && cur[0] === '#/writing', `#/${r} highlights ${cur}`);
+    }
+    // Y6: an email is not an argued essay, its sign-off is not a punctuation problem, and AI feedback gets its kind.
+    await page.click('[data-kind="email"]');
+    await page.fill('#essay', 'Hi Tom,\nI am writing about the meeting next week. I have not finished the report yet, but it is nearly done. Could we meet on Tuesday instead?\n\nBest,\nYael');
+    await page.click('[data-check]');
+    await page.waitForSelector('.check-item');
+    const side = await page.textContent('aside.panel');
+    assert(!/Argument structure|מבנה הטיעון/.test(side) && !/run-on|משפט רץ/.test(side), 'an email is checked as an argumentative essay');
+    await page.click('[data-ai]');
+    await page.waitForSelector('[data-final]');
+    assert(page.lucidMock.aiBodies.at(-1).exercise.kind === 'email', `sent as ${page.lucidMock.aiBodies.at(-1).exercise.kind}`);
+    // R2-21: reopening a draft in revision opens on its AI feedback.
+    await page.goto(`${BASE}#/writing`);
+    await page.goto(`${BASE}#/writing/free`);
+    await page.waitForSelector('aside [data-tab="ai"]');
+    assert(await page.getAttribute('aside [data-tab="ai"]', 'aria-pressed') === 'true', 'a draft with AI feedback reopens on the Checks tab');
+    // R2-40: a long draft is compared by paragraph, with the changed ones only and a jump list.
+    const paras = Array.from({ length: 9 }, (_, i) => `Paragraph ${i + 1} says something about public transport. It has two sentences.`);
+    await page.fill('#essay', paras.join('\n\n'));
+    await page.click('[data-check]');
+    const v2 = [...paras]; v2[1] = 'Paragraph 2 says something about public transport.\n\nIt has two sentences.'; v2[6] = 'Paragraph 7 says something new about buses. It has two sentences.';
+    await page.fill('#essay', v2.join('\n\n'));
+    await page.click('[data-check]');
+    await page.click('aside [data-tab="versions"]');
+    await page.waitForSelector('.cmp-para');
+    const cmp = await page.evaluate(() => ({ paras: document.querySelectorAll('.cmp-para').length, jumps: document.querySelectorAll('[data-cmp-jump]').length, marks: document.querySelectorAll('.cmp-para .para-mark').length, gaps: document.querySelectorAll('.cmp-gap').length }));
+    assert(cmp.paras >= 2 && cmp.paras <= 4 && cmp.jumps === cmp.paras && cmp.marks >= 1 && cmp.gaps >= 2, `paragraph compare: ${JSON.stringify(cmp)}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/essay-compare-paragraphs-1440.png` });
+    await page.click('[data-cmp-all="1"]');
+    assert((await page.$$('.cmp-para')).length === 0 && (await page.$$('aside .diff')).length === 1, 'the whole-text comparison is not offered');
+    // R2-41, R2-42: the AI's note is its own labelled block; after feedback the self-rating is for the next draft.
+    await page.goto(`${BASE}#/writing/final-C1`);
+    await page.waitForSelector('#essay');
+    await page.click('aside [data-tab="ai"]');
+    assert(/Before the feedback|לפני המשוב:/.test(await page.textContent('aside .self-rate')), 'no self-rating before the first feedback');
+    await page.click('input[name=topic][value="0"]');
+    await page.fill('#essay', 'Judging the past is hard. '.repeat(120));
+    await page.route(/functions\/v1\/lucid-ai/, async (route) => {
+      const body = JSON.parse(route.request().postData());
+      return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ evaluation: { task_fulfilment: { status: 'complete', note: '' }, cefr_estimate: 'B2', cefr_low: 'B2', cefr_high: 'C1', summary: 'Clear.', summary_he: null, strengths: [], priorities: [], categories: [{ id: 'grammar', applicable: true, score: 3, explanation: 'x', examples: [], improvement: 'y', practice: 'z' }], errors: [], required_elements: [], revision: { tasks: ['Add a source.'], progress_since_previous: null }, verification_note: 'Check the 2019 survey you cite before you rely on it.', dropped_errors: 0, text: body.text.length } }) });
+    });
+    await page.click('[data-ai]');
+    await page.waitForSelector('.source-limits .ai-note');
+    const note = await page.evaluate(() => { const n = document.querySelector('.source-limits .ai-note'); return { label: n.querySelector('strong').textContent, text: n.textContent, lucid: n.previousElementSibling?.textContent || '' }; });
+    assert(/From the AI feedback|מהמשוב של ה-AI/.test(note.label) && note.text.includes('2019 survey') && !note.lucid.includes('2019 survey'), `AI note not apart: ${JSON.stringify(note)}`);
+    const self = await page.textContent('aside .self-rate summary');
+    assert(/next feedback|המשוב הבא/.test(self) && !/^Before the feedback/.test(self), `self-rating label after feedback: "${self}"`);
+    if (SHOTS) { await page.$eval(".source-limits", (e) => e.scrollIntoView({ block: "center" })); await page.screenshot({ path: `${SHOTS}/essay-ai-note-1440.png` }); }
+    await page.unroute(/functions\/v1\/lucid-ai/);
+    // T6, M9: B2-C2 final tasks carry Hebrew (on request), and topics and "Must include" read left to right.
+    await page.goto(`${BASE}#/writing/final-B2`);
+    await page.waitForSelector('.topic-pick');
+    const brief = await page.evaluate(() => ({ he: Boolean(document.querySelector('.task-brief .bi-he, .task-brief [data-reveal-he]')), topic: getComputedStyle(document.querySelector('.topic-pick .note-row')).direction, req: getComputedStyle(document.querySelector('.req-list')).direction }));
+    assert(brief.he && brief.topic === 'ltr' && brief.req === 'ltr', `final B2 brief: ${JSON.stringify(brief)}`);
+    await ctx.close();
+  });
+
+  await check('RW4. Settings at 390: no option alone on a line; "Offline use" is linked from Real life and Help; a phone shows when it is offline; a toast does not follow the learner to the next screen (M10, M1, Y13)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await page.goto(`${BASE}#/settings`);
+    await page.waitForSelector('[data-seg="corrections"]');
+    const alone = await page.$$eval('.settings-view [data-seg]', (segs) => segs.filter((g) => { const tops = [...g.children].map((b) => Math.round(b.getBoundingClientRect().top)); const rows = [...new Set(tops)]; return rows.length > 1 && rows.some((r) => tops.filter((t) => t === r).length === 1); }).map((g) => g.dataset.seg));
+    assert(!alone.length, `an option sits alone on a line: ${alone}`);
+    await page.goto(`${BASE}#/real-life`);
+    await page.waitForSelector('a[href="#/settings?section=offline"]');
+    await page.click('a[href="#/settings?section=offline"]');
+    await page.waitForFunction(() => document.activeElement?.id === 'offline');
+    const top = await page.$eval('#offline', (s) => s.getBoundingClientRect().top);
+    assert(top >= 0 && top < 300, `the Offline use section is not in view: ${top}`);
+    await page.goto(`${BASE}#/help`);
+    await page.waitForSelector('#view details');
+    assert(await page.$('#view a[href="#/settings?section=offline"]'), 'Help does not point to Offline use');
+    await ctx.setOffline(true);
+    await page.evaluate(() => dispatchEvent(new Event('offline')));
+    await page.waitForSelector('#top .net-badge');
+    assert(await page.isVisible('#top .net-badge'), 'no offline indicator on a phone');
+    await ctx.setOffline(false);
+    await page.evaluate(() => dispatchEvent(new Event('online')));
+    await page.waitForSelector('#top .net-badge', { state: 'detached' });
+    // Y13: in the Hebrew UI every English title on the path ends at the same (right) edge, wrapped or not.
+    await page.goto(`${BASE}#/path/B2`);
+    await page.waitForSelector('.lesson-row.next, .lesson-list .lesson-row .l-en');
+    const edges = await page.$$eval('.lesson-list .lesson-row .l-en', (els) => els.map((e) => { const r = document.createRange(); r.selectNodeContents(e); return [...r.getClientRects()].map((x) => Math.round(e.getBoundingClientRect().right - x.right)); }).flat());
+    assert(edges.length > 5 && edges.every((d) => Math.abs(d) <= 2), `path titles are not aligned to one edge: ${edges}`);
+    await page.evaluate(async () => { const C = await import('./js/ui/components.js'); C.toast('Your path was updated'); });
+    await page.waitForTimeout(700);
+    await page.goto(`${BASE}#/path`);
+    await page.waitForTimeout(100);
+    assert(!(await page.$('#toast-root .toast')), 'a toast follows the learner to the next screen');
     await ctx.close();
   });
 } finally {

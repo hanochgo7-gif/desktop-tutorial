@@ -159,7 +159,7 @@ Code reaches learners on their next load either way (it is fetched network-first
 browsers download a fresh app shell and drop the old cache (lessons are cached again as they are opened). That address shares its origin with the repository's other sites. It is fine for trying
 Lucid in device-only mode, but move Lucid to its own origin before turning on accounts (section 2.1).
 
-Before inviting real learners (especially 16-17-year-olds), fill in the two boxes marked "To be filled in before
-public launch" in `privacy.html`, in Hebrew and English: the operator's name and a contact address for privacy
+**Launch blocker.** Before inviting real learners (especially 16-17-year-olds), fill in the two boxes marked "To be
+filled in before public launch" in `privacy.html`, in Hebrew and English: the operator's name and a contact address for privacy
 questions and complaints, and how long Anthropic keeps API data under the terms of the workspace you use. The page
 says until then that there is no operator to contact.

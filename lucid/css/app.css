@@ -706,3 +706,139 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* Hebrew UI: both lines of a dual legend start at the right edge, so English titles line up in lists (P-69). */
 :root[dir='rtl'] .legend { justify-items: start; }
 :root[dir='rtl'] .legend > .l-he { justify-self: start; }
+
+/* writing-reallife-layout r2 */
+/* List rows: the tags move under the title when the list is narrow in text units (phones at 115-150% text,
+   or 320px), so a title is never squeezed to a few letters a line (R2-13). Container units follow the text
+   size, so 20rem is about 390px at 115%. */
+.lesson-row.hub-row, .lesson-row.three { grid-template-columns: auto minmax(0, 1fr) auto; }
+.lesson-row.hub-row.two { grid-template-columns: minmax(0, 1fr) auto; }
+.lesson-row.draft-row { grid-template-columns: minmax(0, 1fr) auto auto; }
+.lesson-list { container-type: inline-size; }
+.lesson-row > .row:empty { display: none; }
+@container (max-width: 20rem) {
+  .lesson-row:not([style], .hub-row, .three, .draft-row) { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto 1fr auto; grid-template-areas: 'mark body' 'ord body' '. tags'; row-gap: var(--s1); align-items: start; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .mark { grid-area: mark; margin-block-start: 0.2em; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .ord { grid-area: ord; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .grow { grid-area: body; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > :last-child:not(.grow, .ord, .mark) { grid-area: tags; justify-self: start; }
+  .lesson-row:is(.hub-row, .three) { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }
+  .lesson-row:is(.hub-row, .three) > :first-child:not(.grow) { margin-block-start: 0.2em; }
+  .lesson-row:is(.hub-row, .three) > :last-child:not(.grow) { grid-column: 2; justify-self: start; }
+  .lesson-row.hub-row.two { grid-template-columns: minmax(0, 1fr); }
+  .lesson-row.hub-row.two > :last-child:not(.grow) { grid-column: 1; }
+  .lesson-row .hub-level { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); justify-items: start; text-align: start; }
+  .lesson-row.draft-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--s1); }
+  .lesson-row.draft-row > :first-child { grid-column: 1 / -1; }
+}
+.stage-panel { padding: var(--s4) var(--s5); }
+@media (max-width: 30rem) { .start-here, .stage-panel { padding: var(--s4) var(--s3); } }
+/* In the Hebrew UI every English title in a list ends at the right edge, with its Hebrew title under it, whether it
+   takes one line or wraps (lists use one alignment, D-ux; Y13). */
+.lesson-row .legend { display: grid; }
+:root[dir='rtl'] .lesson-row .legend > .l-en { justify-self: stretch; text-align: end; }
+
+/* Skill rows at large text or on narrow cards: name and level on one line, a full-width meter under them
+   (R2-14, D5). */
+.skills { container-type: inline-size; }
+@container (max-width: 16rem) {
+  .skill-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .skill-row > .meter { grid-column: 1 / -1; grid-row: 2; }
+  .skill-row > .skill-level { grid-column: 2; grid-row: 1; }
+  .skill-row .skill-wide { grid-column: 2; text-align: end; }
+}
+/* Level rail labels never run into each other: a label wraps at its hyphen ("Pre-" / "A1") and stays inside its
+   own segment; on a rail too narrow for all seven (large text on phones) only the current level is named
+   (R2-14, R2-31). The rail's aria-label carries the full summary. */
+.level-rail-labels { container-type: inline-size; }
+.level-rail-labels > span { white-space: normal; overflow: hidden; line-height: 1.2; }
+@container (max-width: 15rem) {
+  .level-rail-labels > span:not(.current) { visibility: hidden; }
+  .level-rail-labels > span.current { overflow: visible; white-space: nowrap; }
+}
+
+/* The phone top bar keeps its title to one line; the page heading repeats it (R2-35). */
+.top .title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; unicode-bidi: plaintext; text-align: match-parent; }
+.net-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.5rem; border-radius: var(--r-pill); background: var(--warn-tint); color: var(--warn); font-size: var(--t-xs); font-weight: 500; white-space: nowrap; flex: none; }
+.deck .net-badge { justify-self: start; }
+
+/* Scenario: the tabs scroll sideways instead of wrapping, and the header takes less of the first screen (R2-35). */
+.scenario-tabs { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; }
+.scenario-tabs > button { flex: none; white-space: nowrap; }
+.scenario-view .page-head { margin-block-end: var(--s4); }
+@media (max-width: 30rem) { .scenario-view .page-head h1 .l-he { font-size: var(--t-md); } }
+/* English goal and situation text: its own left-to-right block under the Hebrew label (R2-34, M9). */
+.scenario-view .panel .bi > .bi-en, .goal-block .bi > .bi-en { display: block; text-align: start; }
+.chosen-quote { margin-block-start: 0; }
+/* Roleplay report lists follow the screen direction, under their headings: each point is one or two lines,
+   so its English stays an isolate in the line, and the Hebrew line comes under it (R2-10). */
+.report-list .report-item { display: grid; gap: 0.1rem; min-width: 0; }
+.report-list .report-item > .bi-he { font-size: 0.94em; }
+
+/* Settings: each choice group fills its row, so a last option never sits alone on a line (M10). */
+.settings-view .field { container-type: inline-size; }
+.settings-view .seg { display: flex; width: 100%; }
+.settings-view .seg > button { flex: 1 1 auto; padding-inline: 0.55rem; }
+@container (max-width: 17rem) {
+  .settings-view .seg[data-n='4'] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .settings-view .seg[data-n='5'], .settings-view .seg[data-n='6'] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.settings-view section[id] { scroll-margin-block-start: 5rem; }
+
+/* Writing: the topics and "Must include" items are English blocks, left to right (M9, T6). */
+.topic-pick .note-row .tag { margin-inline-start: var(--s2); }
+.topic-pick .bi > .bi-en, .req-list .bi > .bi-en { display: block; text-align: start; }
+.topic-pick .bi > .he-reveal, .req-list .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.2em; }
+/* Draft comparison by paragraph (R2-40). */
+.cmp-jump { gap: var(--s1); }
+.cmp-para { padding-block-start: var(--s2); border-block-start: 1px solid var(--key-edge); scroll-margin-block-start: 5rem; }
+.cmp-para:focus { outline: none; }
+.cmp-gap { font-style: italic; }
+.para-mark { font-weight: 600; padding-inline: 0.15em; border-radius: 3px; }
+/* Lucid's statement about sources and the AI's own note are two blocks (R2-41). */
+.source-limits .ai-note { padding-block-start: var(--s2); border-block-start: 1px solid color-mix(in oklch, var(--cobalt), transparent 70%); }
+.self-rate > summary { cursor: pointer; font-weight: 500; }
+/* learner model, plan and progress r2 */
+/* Today: "Level by skill" folds to one summary line (open beside the plan on wide screens, R2-20). */
+.skill-fold > summary { align-items: flex-start; flex-wrap: nowrap; }
+.skill-fold > summary > .grow { min-width: 0; }
+.skill-fold > summary .chev { margin-block-start: 0.15rem; }
+.skill-fold-h { font-size: var(--t-md); margin: 0; }
+.skill-fold-sum { display: block; margin-block-start: 0.15rem; line-height: 1.4; }
+.skill-fold[open] .skill-fold-sum { display: none; }
+/* Progress: level checks above the learner's level are folded (R2-03). */
+.more-checks { margin-block-start: var(--s2); }
+.more-checks > summary { color: var(--ink-2); min-height: 2rem; }
+/* lesson player, i18n and speaking r2 */
+/* English transcripts, recognised text and review examples: their own left-to-right block (R2-18, M9). */
+.en-block { display: block; text-align: start; margin: 0; }
+.transcript { display: grid; gap: 0.15rem; }
+.transcript > p { margin: 0; }
+/* Speech recognition: words not caught are grey and dotted, never the red of a wrong answer (R2-08). */
+.word-diff .w-uncaught, .recognised-key .w-uncaught { color: var(--ink-2); text-decoration: underline dotted; text-underline-offset: 0.25em; text-decoration-thickness: 2px; }
+.recognised-key { gap: var(--s2); align-items: baseline; flex-wrap: wrap; }
+/* Speaking item: Hear it and Say it under the sentence; the pronunciation note folds at large text (R2-19). */
+.speak-controls { margin-block: var(--s4); }
+.speak-focus-fold > summary { cursor: pointer; display: flex; align-items: center; gap: var(--s2); min-height: 2.75rem; width: fit-content; }
+.speak-focus-fold .speak-focus-body { margin-block-start: var(--s2); }
+.speak-focus-fold .bi > .bi-en { display: block; text-align: start; }
+/* Partial Hebrew support: a "בעברית" button under a long English paragraph (R1-D10). */
+.he-reveal.he-reveal-text { display: inline-flex; align-items: center; margin-block-start: 0.35em; padding: 0.1em 0.7em; font-size: var(--t-xs); }
+/* Wide tables: a fade on the side of the hidden columns until the far side is reached (R2-32). */
+.table-wrap.scrolls:not(.at-end):dir(ltr) { mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); }
+.table-wrap.scrolls:not(.at-end):dir(rtl) { mask-image: linear-gradient(to left, #000 calc(100% - 3rem), transparent); }
+.table-wrap.scrolls:focus-visible { mask-image: none; }
+.table-hint { margin-block-end: calc(var(--s2) * -1); }
+/* Shadowing by level, the learner's level open (R2-05). */
+.level-fold { border-block-start: 1px solid var(--key-edge); padding-block: var(--s2); }
+.level-fold > summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); cursor: pointer; min-height: 2.75rem; font-weight: 600; }
+.level-fold > summary .level-fold-meta { font-weight: 400; display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--s1); }
+.level-fold > .lesson-list { margin-block-start: var(--s2) !important; }
+.shadow-next { margin-block-end: var(--s3); align-items: center; }
+.shadow-next > span { min-width: 0; flex: 1 1 12rem; }
+/* Lesson intro: the "practise only what I missed" choice after "Nearly there" (R2-02). */
+.missed-choice { display: grid; }
+.missed-choice > * { margin: 0; }
+/* At 130-150% text the two speaking buttons share one compact row, so Say it is on the first screen (R2-19). */
+:root:is([data-text='130'], [data-text='150']) .speak-controls { flex-wrap: nowrap; gap: var(--s2); margin-block: var(--s3); }
+:root:is([data-text='130'], [data-text='150']) .speak-controls .key { flex: 1 1 0; min-width: 0; min-height: 3.25rem; padding: var(--s2) var(--s3); font-size: var(--t-md); }

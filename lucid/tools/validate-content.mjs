@@ -229,7 +229,7 @@ function placement(file) {
 
 function scenarios(file) {
   const d = read(file); const f = 'scenarios.json';
-  const MODULES = ['airport', 'hotel', 'restaurant', 'transport', 'shopping', 'social', 'emergency'];
+  const MODULES = ['airport', 'hotel', 'restaurant', 'transport', 'shopping', 'social', 'emergency', 'work'];
   const ids = new Set();
   (d.scenarios || []).forEach((s, i) => {
     const p = `scenarios[${i}](${s.id})`;
@@ -369,6 +369,24 @@ if (want('placement')) opt('placement.json', placement);
 if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
 if (want('slang')) opt('real-life/slang.json', slang);
 if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
+
+// Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
+// js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
+const { isolateLatin, unpaired } = await import('../js/core/i18n.js');
+function bidiBrackets(rel, v, path = '') {
+  if (typeof v === 'string') {
+    if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
+    const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
+    if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
+  } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
+  else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
+}
+const bidiFiles = [
+  ...(want('lessons') && existsSync(join(ROOT, 'lessons')) ? readdirSync(join(ROOT, 'lessons')).filter((n) => n.endsWith('.json')).map((n) => `lessons/${n}`) : []),
+  ...(want('placement') ? ['placement.json'] : []), ...(want('scenarios') ? ['real-life/scenarios.json'] : []), ...(want('slang') ? ['real-life/slang.json'] : []),
+  ...(want('writing') ? ['writing/exercises.json', 'writing/assignments.json', 'writing/rubric.json'] : []), ...(!only ? ['taxonomy.json'] : []),
+];
+for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
 
 for (const w of warnings) console.log('WARN ', w);
 for (const e of errors) console.log('ERROR', e);

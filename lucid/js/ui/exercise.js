@@ -9,7 +9,7 @@
 // Speaking is never graded by speech recognition (research C2, D34-D37): the learner sees what was
 // recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
 import { html, render, on, shuffle, $, $$ } from '../core/util.js';
-import { bi, tt, hebrewSupport } from '../core/i18n.js';
+import { bi, tt, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize } from '../core/grading.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { icon } from './components.js';
@@ -17,9 +17,11 @@ import { analyzeWriting } from '../core/writing-analyzer.js';
 
 const KEYS = ['1', '2', '3', '4', '5', '6'];
 // Open rewrites from B1 up have many right answers, so the key is "a model answer" and the learner may
-// count an equivalent answer (logged as self-judged; research E, P-77).
+// count an equivalent answer (logged as self-judged; research E, P-77). "Find and fix" items are full sentences
+// too: from B1 a fix can be worded another way ("To a certain extent" for "To some extent"), so they get the
+// same treatment (R1-E2). An answer that matches an authored wrong answer is wrong, never "one of many".
 export const OPEN_REWRITE_LEVELS = ['B1', 'B2', 'C1', 'C2'];
-export const isOpenRewrite = (ex, level) => ex?.type === 'transform' && OPEN_REWRITE_LEVELS.includes(level);
+export const isOpenRewrite = (ex, level) => ['transform', 'correct'].includes(ex?.type) && OPEN_REWRITE_LEVELS.includes(level);
 const NIQQUD = /[\u05B0-\u05BC\u05C1\u05C2\u05C7]/;
 const LETTER = /^[A-Za-z]$/;
 const firstAnswer = (a) => (Array.isArray(a) ? a[0] : a);
@@ -30,11 +32,13 @@ function listenButtons(text) {
   return html`<div class="big-listen"><button type="button" class="key" data-say="normal" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 24 })} ${tt('השמעה', 'Play')}</button><button type="button" class="key" data-say="slow" aria-label="${tt('השמעה איטית', 'Play slowly')}">${icon('turtle', { size: 24 })} ${tt('לאט', 'Slowly')}</button></div>`;
 }
 
-// Error label for feedback: "Article (a / an / the)" plus the Hebrew why-note at higher support.
-function errorNote(type, errors) {
+// Error label for feedback: "Article (a / an / the)", plus the error type's general Hebrew note only when the
+// exercise has nothing of its own to say. That note is written for every level and topic ("make a decision, do
+// homework" for any word-choice slip), so next to an item's own explanation it is off-topic noise (R2-04).
+function errorNote(type, errors, { general = true } = {}) {
   const e = type && errors?.get(type);
   if (!e) return '';
-  return html`<p class="small"><span class="tag bad">${tt(e.name_he, e.name_en)}</span>${hebrewSupport() !== 'off' && e.why_he ? html` <span lang="he" dir="rtl" class="faint">${e.why_he}</span>` : ''}</p>`;
+  return html`<p class="small"><span class="tag bad">${tt(e.name_he, e.name_en)}</span>${general && hebrewSupport() !== 'off' && e.why_he ? html` <span lang="he" dir="rtl" class="faint">${isolateLatin(e.why_he)}</span>` : ''}</p>`;
 }
 
 export function mountExercise(root, ex, { onChange = () => {}, errors = null, level = null, variant } = {}) {
@@ -62,7 +66,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         const correct = picked === ex.answer;
         $$('.option', root).forEach((b) => { b.disabled = true; const i = Number(b.dataset.opt); if (i === ex.answer) b.classList.add('is-right'); else if (i === picked) b.classList.add('is-wrong'); });
         const fb = !correct && ex.option_feedback?.[picked];
-        if (ex.type === 'listen') root.insertAdjacentHTML('beforeend', `<p class="small faint" style="margin-top:var(--s4)">${tt('תמליל:', 'Transcript:')} <span lang="en" dir="ltr">${normalizeHtml(ex.audio_text)}</span></p>`);
+        // The transcript is its own left-to-right block under the label, so it wraps as English (R2-18).
+        if (ex.type === 'listen') root.insertAdjacentHTML('beforeend', `<div class="transcript small faint" style="margin-top:var(--s4)"><p>${tt('תמליל:', 'Transcript:')}</p><p class="en-block" lang="en" dir="ltr">${normalizeHtml(ex.audio_text)}</p></div>`);
         return result({ correct, score: correct ? 1 : 0, response: ex.options[picked], error_type: ex.option_errors?.[picked], answer: ex.options[ex.answer], specific: fb || null });
       };
       break;
@@ -213,7 +218,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ta.readOnly = true;
         const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
-        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && isOpenRewrite(ex, level) });
+        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && !f && isOpenRewrite(ex, level) });
       };
       break;
     }
@@ -244,14 +249,15 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.speak = true;
       let heard = null; let selfRated = null; let listening = false; let err = '';
       const recLabel = () => (listening ? tt('מקשיב… לחצו לעצירה', 'Listening… tap to stop') : heard != null ? tt('לנסות שוב', 'Try again') : tt('לומר בקול', 'Say it'));
+      // Hear it and Say it come straight after the sentence, before the pronunciation note (R2-19).
       const draw = () => render(root, html`${prompt}
         <p class="ex-text" lang="en" dir="ltr">${ex.target}</p>
-        ${ex.focus ? html`<div class="row small muted speak-focus">${icon('info', { size: 16 })}<div class="grow">${bi(ex.focus)}</div></div>` : ''}
-        <div class="big-listen">
+        <div class="big-listen speak-controls">
           ${canSpeak() ? html`<button type="button" class="key" data-say="normal">${icon('volume', { size: 22 })} ${tt('לשמוע', 'Hear it')}</button>` : ''}
           ${canListen() ? html`<button type="button" class="key ${listening ? 'enter' : ''}" data-rec aria-pressed="${listening}">${icon(listening ? 'stop' : heard != null ? 'refresh' : 'speaking', { size: 22 })} ${recLabel()}</button>` : ''}
         </div>
         <div aria-live="polite">${heard != null ? recognised(heard, ex.target) : ''}${err ? html`<p class="error-text" role="alert">${err}</p>` : ''}</div>
+        ${ex.focus ? speakFocus(ex.focus) : ''}
         ${!canListen() ? html`<p class="banner warn small">${icon('info', { size: 18 })}<span>${tt('זיהוי דיבור לא זמין בדפדפן הזה (עובד ב-Chrome, Edge ו-Safari). הקשיבו, אמרו בקול, וסמנו בעצמכם.', 'Speech recognition is not available in this browser (it works in Chrome, Edge and Safari). Listen, say it aloud, then mark it yourself.')}</span></p>` : ''}
         <div class="stack-sm self-rate" role="group" aria-labelledby="sr-${ex.id}">
           <p class="small muted" id="sr-${ex.id}">${canListen() ? tt('אפשר גם לומר בקול ולסמן בעצמכם:', 'You can also say it aloud and mark it yourself:') : tt('איך זה הלך?', 'How did it go?')}</p>
@@ -311,7 +317,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           if (ok) right++;
           const box = $(`[data-q="${qi}"] .q-fb`, root);
           const ans = q.type === 'tf' ? String(q.answer) : q.type === 'mcq' ? q.options[q.answer] : q.answers.map(firstAnswer).join(' … ');
-          render(box, html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} <span lang="en" dir="ltr">${ans}</span>`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
+          render(box, html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} ${answerEl(ans)}`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
           if (q.type === 'mcq') $$(`[data-mq="${qi}"]`, root).forEach((b) => { b.disabled = true; if (Number(b.dataset.o) === q.answer) b.classList.add('is-right'); else if (b.getAttribute('aria-pressed') === 'true') b.classList.add('is-wrong'); });
           if (q.type === 'tf') $$(`[data-tf="${qi}"]`, root).forEach((b) => { b.disabled = true; });
         });
@@ -324,7 +330,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     case 'write': {
       ctl.graded = false;
       render(root, html`${prompt}
-        <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en">${w}</span> `)}</p>` : ''}</div>
+        <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en" dir="ltr">${w}</span> `)}</p>` : ''}</div>
         <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלך', 'Your text')}</label>
         <textarea class="input" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4);min-height:10rem" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
         <p class="small faint num" data-wc>0 ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}</p>`);
@@ -360,15 +366,34 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
   return ctl;
 }
 
+// A speaking item's pronunciation note. It is a contrastive note for Hebrew speakers, so its Hebrew shows at
+// every support level except "off", as the Speaking lab's sound tips do (research C3; R1-A10). At 130-150% text
+// it folds behind its info icon, so Hear it and Say it stay on the first screen (R2-19).
+export const largeText = () => Number(globalThis.document?.documentElement?.dataset?.text) >= 130;
+export function speakFocus(focus) {
+  const body = bi(focus, { always: hebrewSupport() !== 'off' });
+  return largeText()
+    ? html`<details class="speak-focus-fold small muted"><summary>${icon('info', { size: 16 })} ${tt('טיפ להגייה', 'Pronunciation tip')}</summary><div class="speak-focus-body">${body}</div></details>`
+    : html`<div class="row small muted speak-focus">${icon('info', { size: 16 })}<div class="grow">${body}</div></div>`;
+}
+
 function normalizeHtml(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
-// What speech recognition heard, next to the target in its own spelling (words it did not find are
-// marked). Information for the learner, never a score.
+// What speech recognition heard, next to the target in its own spelling. Words it did not return are shown
+// grey with a dotted underline ("not caught"), never in the red of a wrong answer (R2-08): this is information
+// for the learner, never a score. Spelled-out letters ("M-A-Y-A") rarely come back from a recogniser, so a
+// target that spells letters says so.
+export const spellsLetters = (target) => /\b[A-Za-z](?:[-.][A-Za-z]){2,}\b/.test(String(target || ''));
 export function recognised(heard, target) {
+  const words = wordAccuracy(heard, target).words;
+  const missing = words.some((w) => !w.ok);
   return html`<div class="panel sunk stack-sm recognised">
-    <p class="xsmall faint">${tt('מה שזוהה:', 'What was recognised:')} <span lang="en" dir="ltr" class="heard">“${heard || '…'}”</span></p>
-    <div class="word-diff" lang="en" dir="ltr">${wordAccuracy(heard, target).words.map((w) => html`<span class="${w.ok ? 'w-ok' : 'w-miss'}">${w.word}</span>`)}</div>
-    <p class="xsmall faint">${tt('מילים מסומנות באדום לא זוהו. זה לא ציון ולא בדיקת מבטא: זיהוי הדיבור טועה לפעמים. אפשר לנסות שוב או להמשיך.', 'Words marked in red were not recognised. This is not a score or an accent check: recognition is sometimes wrong. Try again or continue.')}</p>
+    <p class="xsmall faint">${tt('מה שזוהה:', 'What was recognised:')}</p>
+    <p lang="en" dir="ltr" class="heard en-block">“${heard || '…'}”</p>
+    <div class="word-diff" lang="en" dir="ltr">${words.map((w) => html`<span class="${w.ok ? 'w-ok' : 'w-uncaught'}">${w.word}${w.ok ? '' : html`<span class="sr-only"> (${tt('לא נקלט', 'not caught')})</span>`}</span>`)}</div>
+    ${missing ? html`<p class="xsmall faint row recognised-key"><span class="w-uncaught" lang="en" dir="ltr" aria-hidden="true">word</span> ${tt('= לא נקלט בזיהוי', '= not caught by recognition')}</p>` : ''}
+    ${missing && spellsLetters(target) ? html`<p class="xsmall faint">${tt('זיהוי דיבור כמעט אף פעם לא מחזיר אותיות מאויתות, גם כשאומרים אותן נכון.', 'Recognition often can\'t show spelled letters, even when you say them right.')}</p>` : ''}
+    <p class="xsmall faint">${tt('זה לא ציון ולא בדיקת מבטא: זיהוי הדיבור טועה לפעמים. אפשר לנסות שוב או להמשיך.', 'This is not a score or an accent check: recognition is sometimes wrong. Try again or continue.')}</p>
   </div>`;
 }
 
@@ -403,7 +428,7 @@ export function verdictHtml(ex, r, errors) {
   }
   const title = r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('לא אחת מהתשובות שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite');
   const ico = r.correct ? 'check' : r.model ? 'info' : 'x';
-  const note = !r.correct ? errorNote(r.error_type, errors) : '';
+  const note = !r.correct ? errorNote(r.error_type, errors, { general: !ex.explanation && !r.specific }) : '';
   const why = note || ex.explanation;
   return html`<div class="verdict-title">${icon(ico, { size: 18 })} ${title}${r.summary ? html` <span class="num">· ${r.summary}</span>` : ''}</div>
     <div class="verdict-body stack-sm">

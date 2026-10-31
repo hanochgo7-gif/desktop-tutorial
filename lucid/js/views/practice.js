@@ -24,6 +24,8 @@ export default async function practice(el, ctx) {
   const dueN = due().length;
   const words = allCards().filter((c) => c.kind === 'meaning').length;
   const aiReady = configured() && CONFIG.aiEnabled;
+  // Only topics that can be practised somewhere: a drill, or a scenario for real-life topics (R2-24).
+  const weak = m.weak.filter((w) => w.route !== null);
   const counts = { vocab: words ? tt(`${words} מילים · ${dueN} לחזרה`, `${words} words · ${dueN} due`) : '', tutor: aiReady ? '' : tt('דורש הגדרת AI', 'Needs AI setup') };
 
   render(el, html`
@@ -32,9 +34,9 @@ export default async function practice(el, ctx) {
       <section class="stack-sm" aria-labelledby="now-h">
         <h2 id="now-h" class="small" style="font-size:var(--t-md)">${tt('מומלץ עכשיו', 'Recommended now')}</h2>
         ${dueN ? html`<a class="panel plan-item" href="#/review"><span class="glyph">${icon('layers')}</span><span class="grow"><span style="font-weight:500">${tt(`חזרה מרווחת · ${dueN} מילים`, `Spaced review · ${dueN} words`)}</span><span class="why" style="display:block">${tt('מילים שבדיוק לפני שכחה.', 'Words that are about to fade.')}</span></span>${icon('chevron')}</a>` : ''}
-        ${m.recurring.slice(0, 3).map((e) => { const x = tx.error.get(e.error_type); return html`<a class="panel plan-item" href="#/drill?error=${e.error_type}"><span class="glyph">${icon('target')}</span><span class="grow"><span style="font-weight:500">${tt(x?.name_he, x?.name_en)}</span><span class="why" style="display:block">${tt(`טעות שחזרה ${e.count} פעמים ב-${e.days} ימים`, `Came up ${e.count} times on ${e.days} days`)}</span></span>${icon('chevron')}</a>`; })}
-        ${m.weak.slice(0, 3).map((w) => { const x = tx.topic.get(w.topic); return html`<a class="panel plan-item" href="#/drill?topic=${w.topic}"><span class="glyph">${icon('grammar')}</span><span class="grow"><span style="font-weight:500">${x ? legend(x.name_en, x.name_he) : w.topic}</span><span class="why" style="display:block">${tt(`שליטה ${Math.round(w.mastery * 100)}% לפי ${w.evidence} תשובות`, `${Math.round(w.mastery * 100)}% secure from ${w.evidence} answers`)}</span></span>${icon('chevron')}</a>`; })}
-        ${!dueN && !m.recurring.length && !m.weak.length ? html`<p class="banner small">${icon('info', { size: 18 })}<span>${tt('אחרי כמה שיעורים, כאן יופיעו טעויות שחוזרות ונושאים שכדאי לחזק.', 'After a few lessons, recurring mistakes and topics to strengthen will show up here.')}</span></p>` : ''}
+        ${m.recurring.slice(0, 3).map((e) => { const x = tx.error.get(e.error_type); return html`<a class="panel plan-item" href="#/drill?error=${e.error_type}"><span class="glyph">${icon('practice')}</span><span class="grow"><span style="font-weight:500">${tt(x?.name_he, x?.name_en)}</span><span class="why" style="display:block">${tt(`טעות שחזרה ${e.count} פעמים ב-${e.days} ימים`, `Came up ${e.count} times on ${e.days} days`)}</span></span>${icon('chevron')}</a>`; })}
+        ${weak.slice(0, 3).map((w) => { const x = tx.topic.get(w.topic); return html`<a class="panel plan-item" href="#/${w.route || `drill?topic=${w.topic}`}"><span class="glyph">${icon(w.scenario ? 'reallife' : x?.skill === 'vocabulary' ? 'vocab' : 'grammar')}</span><span class="grow"><span style="font-weight:500">${x ? legend(x.name_en, x.name_he) : w.topic}</span><span class="why" style="display:block">${tt(`שליטה ${Math.round(w.mastery * 100)}% לפי ${w.evidence} תשובות`, `${Math.round(w.mastery * 100)}% secure from ${w.evidence} answers`)}</span></span>${icon('chevron')}</a>`; })}
+        ${!dueN && !m.recurring.length && !weak.length ? html`<p class="banner small">${icon('info', { size: 18 })}<span>${tt('אחרי כמה שיעורים, כאן יופיעו טעויות שחוזרות ונושאים שכדאי לחזק.', 'After a few lessons, recurring mistakes and topics to strengthen will show up here.')}</span></p>` : ''}
       </section>
       <section class="stack-sm" aria-labelledby="labs-h">
         <h2 id="labs-h" class="small" style="font-size:var(--t-md)">${tt('מעבדות', 'Labs')}</h2>

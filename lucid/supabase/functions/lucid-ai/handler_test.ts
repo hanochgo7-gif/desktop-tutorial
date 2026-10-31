@@ -347,3 +347,35 @@ Deno.test('roleplay feedback: strengths kept, alternatives quote the learner and
   assert(((turn.calls[0] as { messages: { content: string }[] }).messages[0].content).includes('Corrections: intensive'));
   assertEquals((await createHandler(deps().d)(post({ task: 'roleplay_turn', corrections: 'loud', scenario, opening_line: 'Hi', history }))).status, 400);
 });
+
+// Persona round 2 (R2-10): the report's strengths and practice points come in Hebrew at full or partial support.
+Deno.test('roleplay feedback: Hebrew strengths and practice, one per item, only at full or partial support', async () => {
+  const scenario = { title: 'Hotel', partner_role: 'receptionist', persona: 'p', complication: 'no booking', goal: 'get a room', level: 'A2', variant: 'any' };
+  const parsed = {
+    conversation_score: 70, task_completed: true, strengths: ['"Could I have a room" is polite.', 'b', 'c', 'd'], strengths_he: ['״Could I have a room״ היא בקשה מנומסת.', 'ב'],
+    grammar: { score: 60, comments: [] }, vocabulary: { score: 60, comments: [] }, naturalness: { score: 70, comments: [] },
+    better_alternatives: [], practice: ['a', 'b'], practice_he: ['א', 'ב', 'ג'], summary: 's', summary_he: 'ס',
+  };
+  const history = [{ role: 'learner', text: 'Could I have a room?' }];
+  const send = async (support: string) => {
+    const { d } = deps({}, fakeClaude({ parsed }));
+    return (await (await createHandler(d)(post({ task: 'roleplay_feedback', hebrew_support: support, scenario, opening_line: 'Hi', history }))).json()).feedback;
+  };
+  const full = await send('full');
+  assertEquals(full.strengths_he, ['״Could I have a room״ היא בקשה מנומסת.', 'ב', ''], 'one Hebrew line per English strength');
+  assertEquals(full.practice_he, ['א', 'ב']);
+  const off = await send('minimal');
+  assertEquals([off.strengths_he, off.practice_he], [null, null]);
+});
+
+// Persona round 2 (Y6): free writing that is an email is not judged as an argued essay.
+Deno.test('free writing: an email or a message has no argument categories, and the model is told the text type', () => {
+  const email = applicabilityFor(0, 'email');
+  assertEquals([email.argument_strength, email.evidence_quality, email.counterarguments, email.academic_tone, email.grammar], ['na', 'na', 'na', 'na', 'full']);
+  assertEquals(applicabilityFor(0, 'essay').argument_strength, 'simplified');
+  assertEquals(applicabilityFor(6, 'email').argument_strength, 'full', 'a task stage keeps its own rules');
+  const msg = writingUserMessage({ ...writingBody, stage: 0, draft_number: 1, feedback_scope: 'focused', exercise: { ...writingBody.exercise, kind: 'message' } } as never);
+  assert(msg.includes('Text type: message') && msg.includes('argument_strength=na'));
+  const pp = postProcess([base()], 'text', applicabilityFor(0, 'email'));
+  assertEquals(pp.categories.find((c) => c.id === 'argument_strength')!.applicable, false);
+});

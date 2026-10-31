@@ -23,7 +23,7 @@ test('placement gives a first estimate only from 2+ answers at the level, never 
   const one = [{ skill: 'vocabulary', level: 'C2', correct: true }];
   assert.equal(placementSkillEstimate(one, 'vocabulary'), null, 'one item names no level');
   const c1 = [{ skill: 'vocabulary', level: 'C1', correct: true }, { skill: 'vocabulary', level: 'C1', correct: true }];
-  assert.deepEqual(placementSkillEstimate(c1, 'vocabulary'), { level: 'B2', items: 2, capped: true });
+  assert.deepEqual(placementSkillEstimate(c1, 'vocabulary'), { level: 'B2', items: 2, capped: true, from: 'C1', right: 2 });
   const half = [{ skill: 'grammar', level: 'B1', correct: true }, { skill: 'grammar', level: 'B1', correct: false }];
   assert.equal(placementSkillEstimate(half, 'grammar'), null, '1 of 2 is not enough');
   const speaking = skillLevels({ placement: { answers: [...c1, { skill: 'speaking', level: 'B1', correct: true }, { skill: 'speaking', level: 'B1', correct: true }] } });
@@ -72,7 +72,7 @@ test('placement never claims a level on one lucky block', () => {
   };
   const r = run(lucky, 'B1').result();
   assert.equal(r.demonstrated, 'B1');
-  assert.equal(r.start_level, 'B2');
+  assert.equal(r.start_level, 'B1', 'the start is the confirmed level, not the one above');
 });
 
 test('every level the placement reports is confirmed by a second block', () => {
@@ -219,7 +219,8 @@ test('P-37: a placement that was left is pending, keeps its answers, and clears 
   assert.equal(L.placementDraft(), null);
   assert.equal(L.progressOf('b2-01').status, 'placed_out');
   assert.equal(L.model().courseLevel, 'C1');
-  assert.equal(docSupport(), 'off', 'Hebrew support follows C1');
+  // R2-06: 'auto' support follows the level the test confirmed (B2), not the course level it starts at (C1).
+  assert.equal(docSupport(), 'minimal', 'Hebrew support follows the confirmed B2');
 });
 
 test('P-48 and P-45: after "Start from B2", a finished lesson is recorded and the plan moves on', async () => {

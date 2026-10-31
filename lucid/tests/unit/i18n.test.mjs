@@ -43,3 +43,56 @@ test('a legend leaves out a "Hebrew" line that is not Hebrew', () => {
   assert.ok(!String(legend('Enjoy doing, want to do', 'enjoy doing / want to do')).includes('l-he'));
   assert.ok(String(legend('The verb be', 'הפועל be')).includes(`הפועל ${B('be')}`));
 });
+
+// Persona round 2, R2-01: a bracket pair is never split by the English isolate (the strings from the report).
+test('bracket pairs stay together: both inside the English, or both with the Hebrew', () => {
+  assert.equal(iso('שתי אותיות זהות ברצף = double (A, double N, A).'), `שתי אותיות זהות ברצף = ${B('double (A, double N, A)')}.`);
+  assert.equal(iso('לסדר משתמשים ב-third (3rd), לא ב-three.'), `לסדר משתמשים ב-${B('third (3rd)')}, לא ב-${B('three')}.`);
+  assert.equal(iso('on + יום (on Monday), at + שעה (at six o\'clock)...'), `${B('on')} + יום ${B('(on Monday), at')} + שעה ${B('(at six o&#39;clock)')}...`);
+  assert.equal(iso('ל-fif (fifteen, fifty)'), `ל-${B('fif (fifteen, fifty)')}`);
+  assert.equal(iso('the book (that) I read (ולא the book that I read it)'), `${B('the book (that) I read')} (ולא ${B('the book that I read it')})`);
+  // A pair that opens in English and closes in Hebrew: both brackets stay outside, so they pair in the Hebrew.
+  assert.equal(iso('I work. They live in Eilat. (he, she, it – בשיעור הבא.)'), `${B('I work. They live in Eilat')}. (${B('he, she, it')} – בשיעור הבא.)`);
+  assert.equal(iso('[my friend, הוא חבר שלי]'), `[${B('my friend')}, הוא חבר שלי]`);
+});
+
+test('no isolate ever holds half of a bracket pair', async () => {
+  const { unpaired } = await import('../../js/core/i18n.js');
+  const strings = ['רוב הפעלים + s (buy → buys, כי לפני ה-y יש תנועה).', 'new ↔ old (לדברים). ‏noisy ↔ quiet (q-u-i-e-t; ‏quite פירושו \'די\').', 'אל תשמיטו את be: ‏The house was built in 1950 (ולא The house built in 1950 – שמשמעו שהבית בנה משהו!).', '(a (b) c) עברית (d [e) f]'];
+  for (const s of strings) {
+    for (const m of iso(s).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)) assert.deepEqual(unpaired(m[1]), [], `${s} -> ${m[1]}`);
+  }
+});
+
+// R2-06: 'auto' support follows the level the learner has shown, never above the course level.
+test('"By level" Hebrew support follows the level shown, not the level the course starts at', async () => {
+  const { supportLevel, setHebrewSupport, hebrewSupport } = await import('../../js/core/i18n.js');
+  globalThis.document ??= { documentElement: { dataset: {} } };
+  assert.equal(supportLevel('B1', 'A2'), 'A2', 'placement showed A2 and starts at B1');
+  assert.equal(supportLevel('B1', 'B1'), 'B1');
+  assert.equal(supportLevel('A2', 'B2'), 'A2', 'never above the course level');
+  assert.equal(supportLevel('B1', null), 'B1', 'nothing shown yet: the course level');
+  setHebrewSupport('auto', 'B1', 'A2');
+  assert.equal(hebrewSupport(), 'partial');
+  setHebrewSupport('auto', 'B1', 'B1');
+  assert.equal(hebrewSupport(), 'minimal');
+  setHebrewSupport('full', 'C1', 'C1');
+  assert.equal(hebrewSupport(), 'full', 'a chosen setting wins');
+});
+
+// R1-D10: at "partial" a long explanation paragraph is not doubled; its Hebrew is one tap away.
+test('partial support folds the Hebrew of a long paragraph behind "בעברית"; short lines stay doubled', async () => {
+  const { bi, setHebrewSupport } = await import('../../js/core/i18n.js');
+  const long = { en: 'We use the present continuous for actions happening now, at the moment of speaking, and for temporary situations that are true around now but not always, such as a project this week.', he: 'משתמשים בהווה מתמשך לפעולות שקורות עכשיו.' };
+  const short = { en: 'Use am, is or are.', he: 'משתמשים ב-am, is או are.' };
+  setHebrewSupport('partial');
+  const folded = String(bi(long, { fold: true }));
+  assert.match(folded, /data-reveal-he aria-expanded="false" lang="he">בעברית/);
+  assert.match(folded, /dir="rtl" hidden>/, 'the Hebrew waits behind the button');
+  assert.doesNotMatch(String(bi(short, { fold: true })), /hidden|data-reveal-he/, 'a short line keeps its Hebrew');
+  assert.doesNotMatch(String(bi(long)), /hidden/, 'only explanation paragraphs fold');
+  setHebrewSupport('full');
+  assert.doesNotMatch(String(bi(long, { fold: true })), /hidden/, 'full support shows it all');
+  setHebrewSupport('minimal');
+  assert.match(String(bi(long, { fold: true })), />עב</, 'minimal keeps its "עב" button');
+});

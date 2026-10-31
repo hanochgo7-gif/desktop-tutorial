@@ -129,7 +129,7 @@ test('placement finds the boundary for learners of known ability', () => {
   for (const [trueLevel, start] of [['B1', 'A1'], ['A2', 'B1'], ['C2', 'B2'], ['PreA1', 'A1'], ['C1', 'A1']]) {
     const r = simulate(trueLevel, start);
     assert.equal(r.demonstrated, trueLevel, `${trueLevel} from ${start}`);
-    assert.equal(r.start_level, LEVELS[Math.min(6, LEVELS.indexOf(trueLevel) + 1)]);
+    assert.equal(r.start_level, trueLevel, 'the course starts at the confirmed level (R1-Y2)');
     assert.ok(r.items <= 28, `${r.items} items`);
   }
   const none = simulate(null, 'A1');

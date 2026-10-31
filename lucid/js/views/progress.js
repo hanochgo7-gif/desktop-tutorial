@@ -4,9 +4,11 @@ import { html, render, on, pct, todayKey } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, mark } from '../ui/components.js';
-import { model, allCards, settings, weekActivity, currentSessionSeconds } from '../core/learner.js';
+import { model, allCards, settings, weekActivity, currentSessionSeconds, due } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { periodReport } from '../core/adaptive.js';
+import { periodReport, levelIndex } from '../core/adaptive.js';
+import { configured, auth } from '../core/api.js';
+import { CONFIG } from '../../config.js';
 import { RETENTION } from '../core/srs.js';
 import { levelRail, skillProfile } from './today.js';
 
@@ -31,11 +33,22 @@ export default async function progress(el, ctx) {
     const practising = [...m.mastery.values()].filter((x) => x.status === 'practising');
     const name = (id) => { const x = tx.topic.get(id); return x ? legend(x.name_en, x.name_he) : id; };
     const week = weekActivity();
+    // Recommend only what this learner can do here (persona finding R2-03): AI writing feedback needs the AI
+    // service, an account and consent, and makes sense from A1; a weak topic needs somewhere to practise it.
+    const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+    const weakToPractise = m.weak.find((w) => w.route !== null);
+    const dueN = due().length;
     const recs = [];
     if (m.recurring[0]) recs.push(html`<a href="#/drill?error=${m.recurring[0].error_type}">${tt('תרגול ממוקד לטעות שחוזרת הכי הרבה', 'Targeted practice for your most frequent mistake')}</a>`);
-    if (m.weak[0]) recs.push(html`<a href="#/drill?topic=${m.weak[0].topic}">${tt('לחזק נושא שעוד לא יושב', 'Strengthen a topic that is not secure yet')}</a>`);
-    if (!m.skills.writing.level) recs.push(html`<a href="#/writing">${tt('לכתוב במעבדת הכתיבה ולקבל משוב: שני טקסטים שהוערכו, בימים שונים, נותנים לכתיבה רמה', 'Write in the Writing lab and get feedback: two assessed texts, on different days, give writing a level')}</a>`);
+    if (weakToPractise) recs.push(html`<a href="#/${weakToPractise.route || `drill?topic=${weakToPractise.topic}`}">${tt('לחזק נושא שעוד לא יושב', 'Strengthen a topic that is not secure yet')}</a>`);
+    if (dueN) recs.push(html`<a href="#/review">${tt(`חזרה מרווחת: ${dueN} מילים מחכות`, `Spaced review: ${dueN} words are waiting`)}</a>`);
+    if (m.next && !m.placementPending) recs.push(html`<a href="#/lesson/${m.next.id}">${tt('השיעור הבא:', 'Your next lesson:')} ${legend(m.next.title_en, m.next.title_he)}</a>`);
+    if (!m.skills.writing.level && aiReady && levelIndex(m.courseLevel) >= levelIndex('A1')) recs.push(html`<a href="#/writing">${tt('לכתוב במעבדת הכתיבה ולקבל משוב: שני טקסטים שהוערכו, בימים שונים, נותנים לכתיבה רמה', 'Write in the Writing lab and get feedback: two assessed texts, on different days, give writing a level')}</a>`);
     if (!events.some((e) => e.type === 'speaking' && Date.now() - new Date(e.at).getTime() < days * 86_400_000)) recs.push(html`<a href="#/speaking">${tt('תרגול דיבור קצר במעבדה', 'A short speaking practice in the lab')}</a>`);
+    // Level checks: the learner's level and the ones below it; higher ones (and those not taken) are folded.
+    const checkRow = (l) => { const c = store.get('progress', `check:${l.id}`); return html`<li class="row small">${mark(c?.status)}<span class="grow">${LEVEL_LABEL[l.id]}</span><span class="faint num">${c?.best_score != null ? pct(c.best_score) : '—'}</span><a href="#/checkpoint/${l.id}" class="xsmall">${c ? tt('שוב', 'Again') : tt('לבדיקה', 'Take it')}</a></li>`; };
+    const nearChecks = curriculum.levels.filter((l) => levelIndex(l.id) <= levelIndex(m.courseLevel) || store.get('progress', `check:${l.id}`));
+    const moreChecks = curriculum.levels.filter((l) => !nearChecks.includes(l));
 
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.progress')}</h1><p>${tt('מה אתם יודעים לעשות עכשיו, לפי ראיות. בלי נקודות ובלי ניקוד על זמן.', 'What you can do now, based on evidence. No points, no scores for time spent.')}</p></div>
@@ -65,7 +78,9 @@ export default async function progress(el, ctx) {
             <p class="xsmall faint">${tt('כתיבה מקבלת רמה רק מטקסטים שהוערכו במשוב AI. Lucid עוד לא מעריך רמת דיבור: זיהוי דיבור לבדו אף פעם לא נותן ציון.', 'Writing gets a level only from texts assessed with AI feedback. Lucid does not assess speaking level yet: speech recognition alone never gives a grade.')}</p></div>
           <div class="panel stack"><h2 class="small" style="font-size:var(--t-md)">${tt('בדיקות רמה', 'Level checks')}</h2>
             ${levelRail(curriculum, m.progress, m.courseLevel)}
-            <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${curriculum.levels.map((l) => { const c = store.get('progress', `check:${l.id}`); return html`<li class="row small">${mark(c?.status)}<span class="grow">${LEVEL_LABEL[l.id]}</span><span class="faint num">${c?.best_score != null ? pct(c.best_score) : '—'}</span><a href="#/checkpoint/${l.id}" class="xsmall">${c ? tt('שוב', 'Again') : tt('לבדיקה', 'Take it')}</a></li>`; })}</ul></div>
+            <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${nearChecks.map(checkRow)}</ul>
+            ${moreChecks.length ? html`<details class="more-checks"><summary class="disclosure small"><span class="chev" aria-hidden="true">${icon('chevron', { size: 16 })}</span><span class="grow">${tt('להציג את כל הרמות', 'Show all levels')}</span></summary>
+              <ul class="lesson-list" style="list-style:none;padding:0;margin:var(--s3) 0 0">${moreChecks.map(checkRow)}</ul></details>` : ''}</div>
         </section>
 
         <section class="grid-2" style="align-items:start">
@@ -74,13 +89,15 @@ export default async function progress(el, ctx) {
           <div class="panel stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('נושאים', 'Topics')}</h2>
             <p class="small"><strong>${mastered.length}</strong> ${tt('בשליטה', 'secure')} · <strong>${practising.length}</strong> ${tt('בתרגול', 'practising')} · <strong>${m.weak.length}</strong> ${tt('דורשים חיזוק', 'need work')}</p>
             ${mastered.slice(0, 8).map((x) => html`<p class="row small">${mark('completed')}<span class="grow">${name(x.topic)}</span></p>`)}
-            ${m.weak.map((x) => html`<a class="row small" href="#/drill?topic=${x.topic}" style="color:inherit;text-decoration:none">${mark('started')}<span class="grow">${name(x.topic)}</span><span class="num faint">${pct(x.mastery)}</span></a>`)}
+            ${m.weak.map((x) => (x.route === null
+              ? html`<p class="row small">${mark('started')}<span class="grow">${name(x.topic)}</span><span class="num faint">${pct(x.mastery)}</span></p>`
+              : html`<a class="row small" href="#/${x.route || `drill?topic=${x.topic}`}" style="color:inherit;text-decoration:none">${mark('started')}<span class="grow">${name(x.topic)}</span><span class="num faint">${pct(x.mastery)}</span></a>`))}
             <p class="xsmall faint">${tt('״בשליטה״ = לפחות 85% לאורך זמן, ב-6 תשובות ומעלה, בשני ימים שונים לפחות.', '"Secure" = at least 85% over time, from 6+ answers, on at least two different days.')}</p></div>
         </section>
         <p class="xsmall faint">${t('level.estimate')}. ${tt('Lucid לא מבטיח שסיום הקורס מקנה רמה מסוימת: הרמה נקבעת רק לפי מה שהראיתם בפועל.', 'Lucid does not promise that finishing the course gives a level: levels come only from what you have actually shown.')}</p>
       </div>`);
   }
   draw();
-  ctx.watch(['attempts', 'progress', 'cards'], draw);
+  ctx.watch(['attempts', 'progress', 'cards', 'settings'], draw);
   return on(el, 'click', '[data-days]', (e, b) => { days = Number(b.dataset.days); draw(); });
 }

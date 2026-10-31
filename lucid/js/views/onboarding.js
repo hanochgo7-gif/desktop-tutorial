@@ -1,7 +1,8 @@
 // Onboarding = registration for device-only use: language, name, age (16+), goals, starting point,
 // daily time, privacy. Then the placement test (or straight to lesson one for complete beginners).
 // The age gate asks for the year neutrally and states the rule only after a refusal, on its own screen;
-// a refusal holds for the rest of the browser session, so another year cannot simply be tried (P-10).
+// a refusal holds for 24 hours in this browser, across tabs, so another year cannot simply be tried (P-10,
+// persona panel N10). Only the time of the refusal is kept (local storage), never the year or anything else.
 // Age is computed from the year alone, because only the year is stored: someone born late in the year
 // counts as a year older from January (a deliberate trade-off, also in privacy.html).
 import { html, render, on, $ } from '../core/util.js';
@@ -41,8 +42,13 @@ export default async function onboarding(el, ctx) {
   let error = '';
   const STEPS = 4;
   const REFUSED = 'lucid-age-refused';
+  const HOLD_MS = 24 * 60 * 60 * 1000;
   let refused = false;
-  try { refused = sessionStorage.getItem(REFUSED) === '1'; } catch { /* storage blocked: this page load only */ }
+  try {
+    const at = Number(localStorage.getItem(REFUSED));
+    refused = at > 0 && Date.now() - at < HOLD_MS && at <= Date.now() + 60_000;
+    if (!refused && localStorage.getItem(REFUSED) != null) localStorage.removeItem(REFUSED);
+  } catch { /* storage blocked: this page load only */ }
 
   const age = () => (data.birth_year ? year - Number(data.birth_year) : null);
   const nextIcon = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
@@ -97,7 +103,7 @@ export default async function onboarding(el, ctx) {
       <a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a>
       <h1 tabindex="-1">${tt('עדיין אי אפשר להירשם', 'You can\'t register yet')}</h1>
       <p>${tt('תודה שרצית ללמוד איתנו. Lucid מיועד לגילאי 16 ומעלה, ולכן עדיין אי אפשר להירשם. נשמח לראות אותך כשתגיע/י לגיל 16.', 'Thank you for wanting to learn with Lucid. Lucid is for learners aged 16 and over, so you can\'t register yet. We\'d be glad to see you when you turn 16.')}</p>
-      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליך.', 'We did not save your year of birth or anything else about you.')}</p>
+      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליך. הדפדפן הזה זוכר רק שההרשמה לא אושרה, ורק למשך 24 שעות.', 'We did not save your year of birth or anything else about you. This browser only remembers that registration was refused, for 24 hours.')}</p>
       <div class="row"><a class="key" href="#/welcome">${tt('לדף הבית', 'Back to the home page')}</a></div>
     </div>`);
     el.querySelector('h1')?.focus();
@@ -166,7 +172,7 @@ export default async function onboarding(el, ctx) {
       error = validate();
       if (error === 'refused') {
         refused = true; error = ''; data.birth_year = '';
-        try { sessionStorage.setItem(REFUSED, '1'); } catch { /* this page load only */ }
+        try { localStorage.setItem(REFUSED, String(Date.now())); } catch { /* this page load only */ }
         draw(); return;
       }
       if (error) { draw(); return; }

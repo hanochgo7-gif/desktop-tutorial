@@ -10,7 +10,7 @@ import { store } from '../core/store.js';
 import { model, profile } from '../core/learner.js';
 import { fitOf, FIT_LABEL, recommendScenarios } from '../core/reallife.js';
 
-// Travel essentials first, in the order a trip needs them; social English last.
+// Travel essentials first, in the order a trip needs them; then social English and work.
 export const MODULES = [
   ['airport', 'reallife', 'שדה תעופה', 'Airports'],
   ['hotel', 'hotel', 'מלונות', 'Hotels'],
@@ -19,6 +19,7 @@ export const MODULES = [
   ['restaurant', 'utensils', 'מסעדות וברים', 'Restaurants and bars'],
   ['shopping', 'bag', 'קניות', 'Shopping'],
   ['social', 'users', 'אנגלית חברתית', 'Social English'],
+  ['work', 'briefcase', 'בעבודה', 'At work'],
 ];
 const FOLDED = 2;
 
@@ -86,7 +87,7 @@ export default async function reallife(el, ctx) {
 
   const row = (s, courseLevel) => {
     const p = store.get('progress', `rl:${s.id}`);
-    return html`<a class="lesson-row" href="#/scenario/${s.id}" style="grid-template-columns:auto minmax(0,1fr) auto">${mark(p?.status)}
+    return html`<a class="lesson-row hub-row" href="#/scenario/${s.id}">${mark(p?.status)}
       <span class="grow">${legend(s.title_en, s.title_he)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span>
       <span class="hub-level">${levelTag(s.level)}${fitNote(s.level, courseLevel)}</span></a>`;
   };
@@ -95,8 +96,9 @@ export default async function reallife(el, ctx) {
     const courseLevel = model().courseLevel;
     const start = recommendScenarios(list, { courseLevel, goals: profile()?.goals || [], done: doneScenarios() });
     render(el, html`
-      <div class="page-head"><div><h1>${t('nav.reallife')}</h1><p>${tt('אנגלית מעשית לטיסה, למלון, למסעדה ולהיכרויות. פתוח בכל רמה, גם אם רק התחלתם.', 'Practical English for flights, hotels, restaurants and meeting people. Open at any level, even if you have just started.')}</p></div></div>
+      <div class="page-head"><div><h1>${t('nav.reallife')}</h1><p>${tt('אנגלית מעשית לטיסה, למלון, למסעדה, להיכרויות ולעבודה. פתוח בכל רמה, גם אם רק התחלתם.', 'Practical English for flights, hotels, restaurants, meeting people and work. Open at any level, even if you have just started.')}</p></div></div>
       <div class="row" style="margin-block-end:var(--s4)"><a class="key small" href="#/expressions">${icon('slang', { size: 18 })} ${t('nav.slang')}</a><a class="key small" href="#/conversations">${icon('tutor', { size: 18 })} ${t('nav.simulations')}</a></div>
+      <p class="small muted level-guide offline-note">${icon('cloud-off', { size: 16 })}<span>${tt('לפני נסיעה: התרחישים והתרגול המובנה עובדים גם בלי אינטרנט. כדי שגם השיעורים יעבדו בלי חיבור, ', 'Before a trip: scenarios and scripted practice work without internet. To have the lessons offline too, ')}<a href="#/settings?section=offline">${tt('שמרו אותם במכשיר', 'save them on this device')}</a>.</span></p>
       ${!list.length ? emptyState({ title: tt('התרחישים עוד לא זמינים', 'Scenarios are not available yet'), body: tt('נסו לרענן בעוד רגע.', 'Try again in a moment.') }) : html`
         ${levelGuide(courseLevel)}
         ${start.length ? html`<section class="panel flat stack-sm start-here" aria-labelledby="rl-start"><h2 id="rl-start" class="small" style="font-size:var(--t-md)">${tt('כדאי להתחיל כאן', 'Start here')}</h2>

@@ -835,34 +835,43 @@
     "kind": "essay",
     "audience": "a general reader, such as the readers of a news website",
     "instructions": {
-     "en": "Choose one question and write an argumentative essay of 450-600 words for a general reader, such as the readers of a news website. State a clear, debatable thesis in the introduction. Develop at least three supporting arguments, each with evidence or a precise example and an explanation of how it supports the thesis. Present the strongest opposing view fairly, then answer it with reasons: refute it, concede part of it and show why your position still outweighs it, or qualify your thesis. End with a conclusion that adds no new arguments. Use reasoning and examples you can describe precisely; do not invent statistics."
+     "en": "Choose one question and write an argumentative essay of 450-600 words for a general reader, such as the readers of a news website. State a clear, debatable thesis in the introduction. Develop at least three supporting arguments, each with evidence or a precise example and an explanation of how it supports the thesis. Present the strongest opposing view fairly, then answer it with reasons: refute it, concede part of it and show why your position still outweighs it, or qualify your thesis. End with a conclusion that adds no new arguments. Use reasoning and examples you can describe precisely; do not invent statistics.",
+     "he": "בחרו שאלה אחת וכתבו חיבור טיעוני של 450-600 מילים לקורא כללי, למשל קוראים של אתר חדשות. הציגו בפתיחה תזה ברורה שאפשר להתווכח איתה. פתחו לפחות שלושה טיעונים תומכים, ולכל אחד ראיה או דוגמה מדויקת והסבר איך היא תומכת בתזה. הציגו בהגינות את העמדה הנגדית החזקה ביותר, ואז השיבו לה בנימוקים: הפריכו אותה, הודו בחלק ממנה והראו למה העמדה שלכם עדיין גוברת, או סייגו את התזה. סיימו בסיכום שלא מוסיף טיעונים חדשים. השתמשו בנימוקים ובדוגמאות שאתם יכולים לתאר במדויק, ואל תמציאו נתונים סטטיסטיים."
     },
     "topics": [
      {
-      "en": "Should supermarkets be required to give unsold food to charities instead of throwing it away?"
+      "en": "Should supermarkets be required to give unsold food to charities instead of throwing it away?",
+      "he": "האם צריך לחייב סופרמרקטים לתת לעמותות מזון שלא נמכר, במקום לזרוק אותו?"
      },
      {
-      "en": "Should zoos still exist?"
+      "en": "Should zoos still exist?",
+      "he": "האם גני חיות צריכים להמשיך להתקיים?"
      },
      {
-      "en": "Should online games show players how much time and money they have spent?"
+      "en": "Should online games show players how much time and money they have spent?",
+      "he": "האם משחקים ברשת צריכים להראות לשחקנים כמה זמן וכסף הם הוציאו?"
      }
     ],
     "required_elements": [
      {
-      "en": "a clear, debatable thesis in the introduction"
+      "en": "a clear, debatable thesis in the introduction",
+      "he": "תזה ברורה שאפשר להתווכח איתה, בפתיחה"
      },
      {
-      "en": "at least three supporting arguments, each with evidence or an example and its link to the thesis"
+      "en": "at least three supporting arguments, each with evidence or an example and its link to the thesis",
+      "he": "לפחות שלושה טיעונים תומכים, ולכל אחד ראיה או דוגמה והקשר שלה לתזה"
      },
      {
-      "en": "the strongest opposing view, stated fairly"
+      "en": "the strongest opposing view, stated fairly",
+      "he": "העמדה הנגדית החזקה ביותר, מוצגת בהגינות"
      },
      {
-      "en": "a rebuttal with reasons: refute, concede and outweigh, or qualify"
+      "en": "a rebuttal with reasons: refute, concede and outweigh, or qualify",
+      "he": "תשובה מנומקת לעמדה הנגדית: להפריך, להודות בחלק ולהראות מה גובר, או לסייג"
      },
      {
-      "en": "a conclusion that adds no new arguments"
+      "en": "a conclusion that adds no new arguments",
+      "he": "סיכום שלא מוסיף טיעונים חדשים"
      }
     ]
    },
@@ -1002,38 +1011,48 @@
     "kind": "essay",
     "audience": "an educated, non-specialist reader",
     "instructions": {
-     "en": "Choose one question and write an analytical argumentative essay of 800-1,000 words for an educated, non-specialist reader. Analyse the question before you answer it: define the key terms, separate the issues, and state a precise, qualified thesis. Support each reason with evidence or a worked example, and explain the reasoning that links them. Engage with the strongest opposing view in its best form, and identify at least one weakness, hidden assumption or logical flaw in a common argument on the issue. Use formal register and calibrated hedging. The first two questions need reasoning and examples, not research. If you use outside facts, name their source in the text: Lucid cannot check outside sources. A reference list, if you add one, does not count toward the word range."
+     "en": "Choose one question and write an analytical argumentative essay of 800-1,000 words for an educated, non-specialist reader. Analyse the question before you answer it: define the key terms, separate the issues, and state a precise, qualified thesis. Support each reason with evidence or a worked example, and explain the reasoning that links them. Engage with the strongest opposing view in its best form, and identify at least one weakness, hidden assumption or logical flaw in a common argument on the issue. Use formal register and calibrated hedging. The first two questions need reasoning and examples, not research. If you use outside facts, name their source in the text: Lucid cannot check outside sources. A reference list, if you add one, does not count toward the word range.",
+     "he": "בחרו שאלה אחת וכתבו חיבור טיעוני ואנליטי של 800-1,000 מילים לקורא משכיל שאינו מומחה. נתחו את השאלה לפני שאתם עונים עליה: הגדירו את המונחים המרכזיים, הפרידו בין הסוגיות והציגו תזה מדויקת ומסויגת. תמכו בכל נימוק בראיה או בדוגמה מפורטת, והסבירו את ההיגיון שמחבר ביניהן. התמודדו עם העמדה הנגדית החזקה ביותר בגרסה הטובה ביותר שלה, וזהו לפחות חולשה אחת, הנחה סמויה או כשל לוגי בטיעון נפוץ בנושא. כתבו במשלב רשמי, עם הסתייגות מדודה (hedging). שתי השאלות הראשונות דורשות נימוקים ודוגמאות, לא מחקר. אם אתם משתמשים בעובדות ממקור חיצוני, ציינו את המקור בטקסט: Lucid לא יכול לבדוק מקורות חיצוניים. רשימת מקורות, אם תוסיפו אחת, לא נספרת במספר המילים."
     },
     "topics": [
      {
-      "en": "Is it fair to judge people from the past by today's moral standards?"
+      "en": "Is it fair to judge people from the past by today's moral standards?",
+      "he": "האם הוגן לשפוט אנשים מהעבר לפי אמות המוסר של היום?"
      },
      {
-      "en": "Should employers be allowed to look at job applicants' social media?"
+      "en": "Should employers be allowed to look at job applicants' social media?",
+      "he": "האם צריך לאפשר למעסיקים לבדוק את הרשתות החברתיות של מועמדים לעבודה?"
      },
      {
       "en": "Should cities facing housing shortages build homes on part of their parkland? Use the fictional Halvarden source pack (the same as assignment wa-05; choose another question if you have written that one).",
+      "he": "האם ערים שיש בהן מחסור בדיור צריכות לבנות בתים על חלק מהפארקים שלהן? השתמשו בחומרי המקור הבדיוניים על Halvarden (אותם חומרים כמו במטלה wa-05; אם כבר כתבתם אותה, בחרו שאלה אחרת).",
       "assignment": "wa-05"
      }
     ],
     "required_elements": [
      {
-      "en": "a precise, qualified thesis, with the key terms defined"
+      "en": "a precise, qualified thesis, with the key terms defined",
+      "he": "תזה מדויקת ומסויגת, עם הגדרה של המונחים המרכזיים"
      },
      {
-      "en": "at least three reasons, each with evidence or a worked example and the reasoning that links them"
+      "en": "at least three reasons, each with evidence or a worked example and the reasoning that links them",
+      "he": "לפחות שלושה נימוקים, ולכל אחד ראיה או דוגמה מפורטת וההיגיון שמחבר ביניהן"
      },
      {
-      "en": "the strongest opposing view in its best form, answered with reasons"
+      "en": "the strongest opposing view in its best form, answered with reasons",
+      "he": "העמדה הנגדית החזקה ביותר בגרסה הטובה ביותר שלה, עם תשובה מנומקת"
      },
      {
-      "en": "at least one weakness, hidden assumption or logical flaw in a common argument, explained"
+      "en": "at least one weakness, hidden assumption or logical flaw in a common argument, explained",
+      "he": "לפחות חולשה אחת, הנחה סמויה או כשל לוגי בטיעון נפוץ, עם הסבר"
      },
      {
-      "en": "formal register and calibrated hedging"
+      "en": "formal register and calibrated hedging",
+      "he": "משלב רשמי והסתייגות מדודה"
      },
      {
-      "en": "a conclusion that adds no new arguments"
+      "en": "a conclusion that adds no new arguments",
+      "he": "סיכום שלא מוסיף טיעונים חדשים"
      }
     ]
    },
@@ -1149,46 +1168,58 @@
     "kind": "research",
     "audience": "an educated, non-specialist reader",
     "instructions": {
-     "en": "Choose one research question and write a research-based argumentative paper of 1,500-2,000 words for an educated, non-specialist reader. The first three questions come with a source pack of fictional, labelled sources (the same packs as assignments wa-08, wa-09 and wa-10); if you have already written one of those assignments, choose another question. Or research a question of your own with real sources. Evaluate your sources before you cite them, synthesise them by idea, distinguish association from cause, engage with the strongest counterarguments (including one that partly persuades you) and refine your thesis accordingly. Cite by author and year and add a reference list; the reference list does not count toward the word range. With real sources, say briefly in the paper how you checked each one; with the fictional pack, say what you would check in real research. Lucid's feedback does not read your sources, so it cannot check whether they exist or say what you report."
+     "en": "Choose one research question and write a research-based argumentative paper of 1,500-2,000 words for an educated, non-specialist reader. The first three questions come with a source pack of fictional, labelled sources (the same packs as assignments wa-08, wa-09 and wa-10); if you have already written one of those assignments, choose another question. Or research a question of your own with real sources. Evaluate your sources before you cite them, synthesise them by idea, distinguish association from cause, engage with the strongest counterarguments (including one that partly persuades you) and refine your thesis accordingly. Cite by author and year and add a reference list; the reference list does not count toward the word range. With real sources, say briefly in the paper how you checked each one; with the fictional pack, say what you would check in real research. Lucid's feedback does not read your sources, so it cannot check whether they exist or say what you report.",
+     "he": "בחרו שאלת מחקר אחת וכתבו מאמר טיעוני מבוסס מחקר של 1,500-2,000 מילים לקורא משכיל שאינו מומחה. לשלוש השאלות הראשונות יש חומרי מקור בדיוניים ומסומנים (אותם חומרים כמו במטלות wa-08, wa-09 ו-wa-10); אם כבר כתבתם אחת מהמטלות האלה, בחרו שאלה אחרת. אפשר גם לחקור שאלה משלכם עם מקורות אמיתיים. העריכו כל מקור לפני שאתם מצטטים אותו, שלבו בין המקורות לפי רעיונות, הבחינו בין מתאם לסיבתיות, התמודדו עם הטיעונים הנגדיים החזקים ביותר (כולל אחד שמשכנע אתכם בחלקו) ודייקו את התזה בהתאם. ציינו מקורות לפי שם המחבר והשנה והוסיפו רשימת מקורות; רשימת המקורות לא נספרת במספר המילים. עם מקורות אמיתיים, כתבו בקצרה במאמר איך בדקתם כל מקור; עם חומרי המקור הבדיוניים, כתבו מה הייתם בודקים במחקר אמיתי. המשוב של Lucid לא קורא את המקורות שלכם, ולכן לא יכול לבדוק אם הם קיימים או אם הם אומרים את מה שאתם מדווחים."
     },
     "topics": [
      {
       "en": "Should governments set a legal minimum age of 16 for social media accounts? (source pack of assignment wa-08)",
+      "he": "האם ממשלות צריכות לקבוע בחוק גיל מינימום של 16 לחשבונות ברשתות חברתיות? (חומרי המקור של מטלה wa-08)",
       "assignment": "wa-08"
      },
      {
       "en": "Should public money pay for crewed space exploration? (source pack of assignment wa-09)",
+      "he": "האם כסף ציבורי צריך לממן מסעות חלל מאוישים? (חומרי המקור של מטלה wa-09)",
       "assignment": "wa-09"
      },
      {
       "en": "Who should pay for a university degree? (source pack of assignment wa-10)",
+      "he": "מי צריך לשלם על תואר אקדמי? (חומרי המקור של מטלה wa-10)",
       "assignment": "wa-10"
      },
      {
-      "en": "A research question of your own, with real sources that you check yourself"
+      "en": "A research question of your own, with real sources that you check yourself",
+      "he": "שאלת מחקר משלכם, עם מקורות אמיתיים שאתם בודקים בעצמכם"
      }
     ],
     "required_elements": [
      {
-      "en": "a specific, defensible thesis that goes beyond yes or no"
+      "en": "a specific, defensible thesis that goes beyond yes or no",
+      "he": "תזה ספציפית שאפשר להגן עליה, שהולכת מעבר ל״כן״ או ״לא״"
      },
      {
-      "en": "an evaluation of the reliability of at least two sources"
+      "en": "an evaluation of the reliability of at least two sources",
+      "he": "הערכה של המהימנות של לפחות שני מקורות"
      },
      {
-      "en": "a synthesis of at least three sources, organised by idea, that tells association from cause"
+      "en": "a synthesis of at least three sources, organised by idea, that tells association from cause",
+      "he": "סינתזה של לפחות שלושה מקורות, מאורגנת לפי רעיונות, שמבחינה בין מתאם לסיבתיות"
      },
      {
-      "en": "the strongest counterarguments, at least one partly conceded, with the thesis refined accordingly"
+      "en": "the strongest counterarguments, at least one partly conceded, with the thesis refined accordingly",
+      "he": "הטיעונים הנגדיים החזקים ביותר, עם הודאה חלקית באחד מהם לפחות ותזה מדויקת יותר בהתאם"
      },
      {
-      "en": "author-year citation throughout and a reference list"
+      "en": "author-year citation throughout and a reference list",
+      "he": "ציון מקורות לפי מחבר ושנה לאורך כל הטקסט, ורשימת מקורות"
      },
      {
-      "en": "how you checked each real source, or what you would check about each fictional one"
+      "en": "how you checked each real source, or what you would check about each fictional one",
+      "he": "איך בדקתם כל מקור אמיתי, או מה הייתם בודקים בכל מקור בדיוני"
      },
      {
-      "en": "a conclusion that states implications and limits without new arguments"
+      "en": "a conclusion that states implications and limits without new arguments",
+      "he": "סיכום שמציג השלכות ומגבלות, בלי טיעונים חדשים"
      }
     ]
    },

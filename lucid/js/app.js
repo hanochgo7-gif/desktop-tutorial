@@ -43,8 +43,16 @@ function navLegend(key) {
   return html`<span class="nav-legend"><span class="l1">${t(key)}</span><span class="l2" lang="${otherLang}" dir="${otherLang === 'he' ? 'rtl' : 'ltr'}">${other}</span></span>`;
 }
 
+// A lab route (writing, writing/:id, vocab...) highlights its own entry on the desktop rail, not Practice as
+// well; the phone tab bar, which has no lab entries, keeps Practice (persona panel R2-43).
+const labOf = (route) => MORE.find(([href]) => route?.path === href || route?.path?.startsWith(`${href}/`))?.[0] || null;
+
+// "Offline" in the top bar on phones and in the rail on desktop, whatever the account state (persona panel M1).
+const netBadge = () => (navigator.onLine === false ? html`<span class="net-badge" role="status" title="${t('offline')}">${icon('cloud-off', { size: 14 })}${tt('אין חיבור', 'Offline')}</span>` : '');
+
 function drawShell(route) {
   const active = route?.extra?.nav || route?.path?.split('/')[0];
+  const lab = labOf(route);
   const bare = route?.extra?.bare;
   document.body.classList.toggle('bare', Boolean(bare));
   const deck = document.getElementById('deck');
@@ -58,18 +66,18 @@ function drawShell(route) {
   render(deck, html`
     <a class="brand" href="#/today">${brandMark()}<span>Lucid</span></a>
     <nav aria-label="${tt('ניווט ראשי', 'Main')}">
-      ${NAV.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
+      ${NAV.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${!lab && (active === ic || active === href) ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
       <div class="group-label">${tt('מעבדות', 'Labs')}</div>
-      ${MORE.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${route?.path === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
+      ${MORE.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${lab === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
     </nav>
     <div class="foot">
       <a class="nav" href="#/help" ${active === 'help' ? html`aria-current="page"` : ''}>${icon('info')}${navLegend('nav.help')}</a>
       <a class="nav" href="#/settings" ${active === 'settings' ? html`aria-current="page"` : ''}>${icon('settings')}${navLegend('nav.settings')}</a>
-      <span id="sync-status" class="xsmall">${syncLabel()}</span>
+      ${netBadge()}<span id="sync-status" class="xsmall">${syncLabel()}</span>
       ${p?.name ? html`<span>${p.name}</span>` : ''}
     </div>`);
   render(tabbar, NAV.map(([href, key, ic]) => html`<a href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span>${t(key)}</span></a>`));
-  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span><a class="key ghost small icon-only" href="#/help" aria-label="${t('nav.help')}">${icon('info')}</a><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
+  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span>${netBadge()}<a class="key ghost small icon-only" href="#/help" aria-label="${t('nav.help')}">${icon('info')}</a><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
 }
 
 
@@ -106,6 +114,10 @@ async function boot() {
     }
   });
   router.onRoute = drawShell;
+  // Keep the title the view set when the shell is redrawn for a connection change.
+  const redrawNet = () => { const title = document.getElementById('top-title')?.textContent; drawShell(router.current); const el = document.getElementById('top-title'); if (el && title) el.textContent = title; };
+  addEventListener('online', redrawNet);
+  addEventListener('offline', redrawNet);
   // "עב" buttons reveal the Hebrew next to English content when Hebrew support is off (one listener for all views).
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-reveal-he]');

@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { analyzeWriting } from '../../js/core/writing-analyzer.js';
+import { countWords } from '../../js/core/grading.js';
 
 const types = (text, opts) => analyzeWriting(text, opts).issues.map((i) => i.type);
 
@@ -83,4 +84,25 @@ test('a closing reference list is not counted toward the word range or checked',
   assert.match(a.checks.find((c) => c.id === 'length').en, /reference list \(\d+ words\) is not counted/);
   assert.ok(!a.issues.some((i) => i.type === 'punctuation' || i.type === 'capitalization'), 'reference entries are not checked');
   assert.equal(analyzeWriting('References are useful. I like them.', {}).stats.reference_words, 0, 'a word, not a heading');
+});
+
+// Persona round 2 (T5): phrase linkers and fronted time phrases take a comma before a full clause.
+test('no run-on flag after phrase linkers such as "To sum up," or "Last year,"', () => {
+  const ok = 'To sum up, I believe it works. To conclude, it is good. All in all, this is fine. First of all, it is cheap. Last year, there were many buses. Put simply, it is fast. Two years ago, I was there. On the whole, it is worth it. That said, it is not cheap.';
+  assert.deepEqual(types(ok, { level: 'B2' }), []);
+  assert.ok(types('The plan is simple, it is cheap.', { level: 'B2' }).includes('punctuation'), 'a real comma splice is still flagged');
+});
+
+// Persona round 2 (Y6): an email is not an argumentative essay.
+test('an email gets no argument signals, no formal-register warnings, and its sign-off is not checked', () => {
+  const email = 'Hi Tom,\nI am writing about the meeting next week. I haven\'t finished the report yet, but it\'s nearly done.\n\nBest,\nYael Cohen';
+  const a = analyzeWriting(email, { level: 'B2', kind: 'email', formal: true });
+  assert.deepEqual(a.structure, {}, 'no thesis or counterargument checklist');
+  assert.equal(a.checks.find((c) => c.id === 'end').ok, true, 'the sign-off does not fail the punctuation check');
+  assert.ok(!a.issues.some((i) => i.type === 'register' || i.type === 'punctuation'), JSON.stringify(a.issues));
+  assert.equal(a.stats.words, countWords(email));
+  assert.ok(!a.connectors.contrast?.includes('yet') && !a.connectors.sequence?.includes('next'), '"yet" and "next" in "not ... yet" and "next week" are not linkers');
+  const b = analyzeWriting('It is cheap, yet it is slow. Next, we test it.', { level: 'B1' });
+  assert.ok(b.connectors.contrast.includes('yet') && b.connectors.sequence.includes('next'), 'linking "yet" and "Next," still count');
+  assert.equal(analyzeWriting(email, { level: 'B2' }).structure.thesis, false, 'an essay still gets the argument signals');
 });

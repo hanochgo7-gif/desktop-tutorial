@@ -3,14 +3,14 @@
 import { html, render, on, download, $ } from '../core/util.js';
 import { tt, t } from '../core/i18n.js';
 import { icon, confirmDialog, toast } from '../ui/components.js';
-import { settings, saveSettings, profile, saveProfile } from '../core/learner.js';
+import { settings, saveSettings, profile, saveProfile, placementPending } from '../core/learner.js';
 import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
 import { signOut } from '../core/session.js';
 import { CONFIG } from '../../config.js';
 import { content } from '../core/content.js';
 
-const seg = (name, value, opts) => html`<div class="seg" role="group" data-seg="${name}">${opts.map(([v, he, en]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}">${tt(he, en)}</button>`)}</div>`;
+const seg = (name, value, opts) => html`<div class="seg" role="group" data-seg="${name}" data-n="${opts.length}">${opts.map(([v, he, en]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}">${tt(he, en)}</button>`)}</div>`;
 
 export default async function settingsView(el, ctx) {
   ctx.setTitle(t('nav.settings'));
@@ -37,7 +37,7 @@ export default async function settingsView(el, ctx) {
     const signedIn = configured() && auth.signedIn;
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
-      <div class="stack-lg" style="max-width:46rem">
+      <div class="stack-lg settings-view" style="max-width:46rem">
         ${signedIn && pwOpen && ctx.query.reset ? passwordForm() : ''}
         <section class="panel stack"><h2>${tt('ממשק', 'Interface')}</h2>
           <div class="field"><span class="label">${tt('שפת הממשק', 'Interface language')}</span>${seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'Hebrew'], ['en', 'אנגלית', 'English']])}<span class="help">${tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.')}</span></div>
@@ -49,15 +49,20 @@ export default async function settingsView(el, ctx) {
           <div class="field"><span class="label">${tt('מהירות הקראה', 'Speech speed')}</span>${seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']])}</div>
         </section>
         <section class="panel stack"><h2>${tt('עומס לימוד', 'Learning load')}</h2>
+          <div class="field"><span class="label">${tt('נקודת התחלה', 'Starting point')}</span><div class="row">${placementPending()
+            ? html`<a class="key small" href="#/placement?resume=1">${tt('להמשיך את מבחן המיקום', 'Continue the placement test')}</a>`
+            : html`<a class="key small ghost" href="#/placement?restart=1">${tt('מבחן מיקום מחדש', 'Retake the placement test')}</a>`}<a class="key small ghost" href="#/path">${tt('לבחור רמה במסלול', 'Choose a level on the path')}</a></div></div>
           <div class="field"><span class="label">${tt('זמן ביום', 'Time per day')}</span>${seg('daily_minutes', s.daily_minutes, [[10, '10 דק׳', '10 min'], [20, '20 דק׳', '20 min'], [35, '35 דק׳', '35 min'], [50, '50 דק׳', '50 min']])}</div>
           <div class="field"><span class="label">${tt('יעד שבועי (ימים)', 'Weekly goal (days)')}</span>${seg('weekly_goal_days', s.weekly_goal_days, [2, 3, 4, 5, 6, 7].map((d) => [d, String(d), String(d)]))}</div>
           <div class="field"><span class="label">${tt('מילים חדשות ביום', 'New words a day')}</span>${seg('new_per_day', s.new_per_day, [[4, '4', '4'], [8, '8', '8'], [12, '12', '12'], [15, '15', '15']])}<span class="help">${tt('ברירת המחדל 8. כשהחזרות מצטברות, Lucid מוריד אוטומטית ל-4 כדי שלא תיווצר עמסה.', 'Default 8. When reviews pile up, Lucid automatically drops to 4 so they never snowball.')}</span></div>
           <div class="field"><span class="label">${tt('יעד זכירה', 'Memory target')}</span>${seg('retention', s.retention, [['light', 'קל (85%)', 'Light (85%)'], ['standard', 'רגיל (90%)', 'Standard (90%)'], ['exam', 'מבחן (95%)', 'Exam (95%)']])}<span class="help">${tt('יעד גבוה יותר = יותר חזרות ביום.', 'A higher target means more reviews a day.')}</span></div>
         </section>
         <section class="panel stack"><h2>${tt('משוב', 'Feedback')}</h2>
-          <div class="field"><span class="label">${tt('כמה תיקונים בשיחה ובמורה', 'How much correction in conversations and the tutor')}</span>${seg('corrections', s.corrections, [['off', 'בלי', 'Off'], ['light', 'רק מה שחוסם הבנה', 'Only what blocks meaning'], ['standard', 'רגיל', 'Standard'], ['intensive', 'הרבה', 'Intensive']])}</div>
-          <div class="field"><span class="label">${tt('משוב על כתיבה', 'Writing feedback')}</span>${seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד (עד 3 סוגי טעויות)', 'Focused (up to 3 error types)'], ['comprehensive', 'מקיף', 'Comprehensive']])}</div>
-          <label class="choice"><input type="checkbox" data-ai ${s.ai_consent ? html`checked` : ''}><span class="grow small"><strong>${tt('משוב AI', 'AI feedback')}</strong><br>${tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.')} ${!(configured() && CONFIG.aiEnabled) ? html`<span class="faint">${tt('(בשרת הזה ה-AI עוד לא הוגדר.)', '(AI is not configured on this server yet.)')}</span>` : ''}</span></label>
+          <div class="field"><span class="label">${tt('כמה תיקונים בשיחה ובמורה', 'How much correction in conversations and the tutor')}</span>${seg('corrections', s.corrections, [['off', 'בלי', 'Off'], ['light', 'קל', 'Light'], ['standard', 'רגיל', 'Standard'], ['intensive', 'הרבה', 'Intensive']])}
+            <span class="help">${tt('קל: רק מה שחוסם הבנה. רגיל: תיקון אחד לכל היותר בכל תשובה של המורה. הרבה: עד שלושה. בשיחה עם AI רוב התיקונים מגיעים במשוב שבסוף.', 'Light: only what blocks meaning. Standard: at most one correction in each tutor reply. Intensive: up to three. In AI conversations most corrections come in the feedback at the end.')}</span></div>
+          <div class="field"><span class="label">${tt('משוב על כתיבה', 'Writing feedback')}</span>${seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד', 'Focused'], ['comprehensive', 'מקיף', 'Comprehensive']])}
+            <span class="help">${tt('ממוקד: עד 3 סוגי טעויות. מקיף: עד 12 טעויות. ״לפי הרמה״: ממוקד עד B1, מקיף מ-B2.', 'Focused: up to 3 kinds of mistake. Comprehensive: up to 12 mistakes. "By level": focused up to B1, comprehensive from B2.')}</span></div>
+          <label class="choice"><input type="checkbox" data-ai ${s.ai_consent ? html`checked` : ''}><span class="grow small"><strong>${tt('משוב AI', 'AI feedback')}</strong><br>${tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.')} ${!(configured() && CONFIG.aiEnabled) ? html`<span class="faint">${tt('(משוב AI עוד לא זמין באתר הזה.)', '(AI feedback is not available on this site yet.)')}</span>` : ''}</span></label>
         </section>
         <section class="panel stack"><h2>${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
@@ -68,7 +73,7 @@ export default async function settingsView(el, ctx) {
             ${pwOpen && !ctx.query.reset ? passwordForm({ inline: true }) : ''}`
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
-        <section class="panel stack"><h2>${tt('שימוש בלי אינטרנט', 'Offline use')}</h2>
+        <section class="panel stack" id="offline" tabindex="-1" aria-labelledby="offline-h"><h2 id="offline-h">${tt('שימוש בלי אינטרנט', 'Offline use')}</h2>
           <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
           <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
         </section>
@@ -100,6 +105,9 @@ export default async function settingsView(el, ctx) {
 
   draw();
   showOfflineCount();
+  // "Offline use" links from Real life and Help open this section (persona panel M1). The router scrolls to the
+  // top after the view is drawn, so this runs after it.
+  if (ctx.query.section === 'offline') setTimeout(() => { const sec = $('#offline', el); sec?.scrollIntoView({ block: 'start' }); sec?.focus({ preventScroll: true }); }, 0);
   const offs = [
     on(el, 'click', '[data-offline]', async (e, b) => {
       const ids = (await content.manifest())?.lessons || [];

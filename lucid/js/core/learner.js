@@ -4,7 +4,7 @@
 import { store } from './store.js';
 import { uid, todayKey } from './util.js';
 import { content } from './content.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, LEVELS, levelIndex } from './adaptive.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, firstTries, introSlots, LEVELS, levelIndex } from './adaptive.js';
 import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
 import { setHebrewSupport } from './i18n.js';
 import { START_FOR, selfReportResult } from './placement.js';
@@ -37,13 +37,23 @@ export function saveSettings(patch) {
   return s;
 }
 
-// Hebrew support follows the course level ('auto'), so it is re-applied whenever the level can move:
-// at boot, on settings changes, after placement or a level move, and when lesson progress changes.
+// Hebrew support ('auto') follows the level the learner has shown, never above the course level (R2-06,
+// i18n supportLevel), so it is re-applied whenever either can move: at boot, on settings changes, after
+// placement or a level move, and when lesson progress changes.
 let supportLevel = null;
 export function applySupport() {
-  supportLevel = currentCourseLevel();
-  setHebrewSupport(settings().hebrew_support, supportLevel);
+  supportLevel = supportKey();
+  setHebrewSupport(settings().hebrew_support, currentCourseLevel(), shownLevel());
 }
+// The level the learner has shown: the placement test's confirmed level (or the level they chose themselves),
+// raised by the highest level of a completed lesson.
+export function shownLevel() {
+  const pl = store.get('placement', 'latest');
+  const done = store.all('progress').filter((p) => isLessonId(p.id) && p.status === 'completed').map((p) => levelIndex(p.level));
+  const i = Math.max(-1, levelIndex(pl?.skipped ? pl.start_level : pl?.demonstrated), ...done);
+  return i >= 0 ? LEVELS[i] : null;
+}
+const supportKey = () => `${currentCourseLevel()}|${shownLevel()}`;
 
 // ---------- attempts ----------
 // One record per answered item. Feeds mastery, recurring errors, skill levels and reports.
@@ -219,9 +229,13 @@ export function gradeCard(card, { correct, hintUsed = false, latencyMs = null, e
   const next = reviewCard(card, rating, { mode: settings().retention, latencyMs, exercise, hintUsed });
   store.put('cards', next);
   for (const f of unlockedFormCards(allCards())) store.put('cards', f);
-  recordAttempt({ source: 'review', exercise: card.id, topic: 'daily-life-vocab', skill: 'vocabulary', level: card.payload?.level || null, correct, hint_used: hintUsed, latency_ms: latencyMs, probe: (card.log?.length || 0) > 0 && daysSince(card.created_at) >= 25 && daysSince(card.created_at) <= 40 });
+  recordAttempt({ source: 'review', exercise: card.id, topic: cardTopic(card), skill: 'vocabulary', level: card.payload?.level || cardLesson(card)?.level || null, correct, hint_used: hintUsed, latency_ms: latencyMs, probe: (card.log?.length || 0) > 0 && daysSince(card.created_at) >= 25 && daysSince(card.created_at) <= 40 });
   return next;
 }
+// A review answer belongs to the topic of the lesson its word came from, or to no topic when the card has no
+// lesson; never to a fixed topic, which made reviews of C1 words look like a weak A1 topic (persona finding R2-37).
+const cardLesson = (card) => (curriculum && card?.ref?.lesson ? lessonOrder(curriculum).find((l) => l.id === card.ref.lesson) : null);
+export const cardTopic = (card) => cardLesson(card)?.topics?.[0] || null;
 const daysSince = (iso) => (Date.now() - new Date(iso).getTime()) / 86_400_000;
 function latencyP80() {
   const xs = store.all('attempts').filter((a) => a.source === 'review' && a.latency_ms).map((a) => a.latency_ms).sort((a, b) => a - b);
@@ -259,12 +273,18 @@ export function weekActivity(now = new Date()) {
 let cached = null;
 let curriculum = null;
 let available = new Set(); // lesson files that exist (content/manifest.json)
+let drillTopics = new Map(); // topic -> the lowest level of an available lesson that teaches it
 export async function initModel() {
   [curriculum, available] = await Promise.all([content.curriculum(), content.availableLessons().catch(() => new Set())]);
+  drillTopics = new Map();
+  for (const l of lessonOrder(curriculum)) {
+    if (!lessonAvailable(l.id)) continue;
+    for (const tp of l.topics || []) if (!drillTopics.has(tp) || levelIndex(l.level) < drillTopics.get(tp)) drillTopics.set(tp, levelIndex(l.level));
+  }
   repairProgress();
   store.on('change', (e) => {
     if (e.colls.some((c) => ['attempts', 'progress', 'cards', 'placement', 'writing', 'settings', 'profile'].includes(c))) cached = null;
-    if ((e.colls.includes('progress') || e.colls.includes('placement')) && currentCourseLevel() !== supportLevel) applySupport();
+    if ((e.colls.includes('progress') || e.colls.includes('placement')) && supportKey() !== supportLevel) applySupport();
   });
 }
 // Data written before deletion marks were cleared on write (persona finding P-48): a lesson opened after
@@ -276,37 +296,118 @@ function repairProgress() {
 function currentCourseLevel() { return curriculum ? courseLevel(curriculum, progressMap(), available) : 'PreA1'; }
 export const lessonAvailable = (id) => !available.size || available.has(id);
 
+// Review answers saved before they carried their word's topic were all filed under "daily-life-vocab"; they
+// are read with the topic of their card's lesson instead (R2-37), so old records do not keep a false weak topic.
+const OLD_REVIEW_TOPIC = 'daily-life-vocab';
+const withCardTopic = (a) => (a.source === 'review' && a.topic === OLD_REVIEW_TOPIC && a.exercise ? { ...a, topic: cardTopic(store.get('cards', a.exercise)) } : a);
+
+// Where a weak topic can be practised (persona finding R2-24). The real-life topics have no lesson exercises:
+// they are practised again in the scenario with the lowest score so far. Other topics need a drill made of
+// lesson exercises at or below one level above the course level (as pool.drillSet builds it). A topic that
+// nothing can fill gets route null, and the plan, Practice and Progress do not send the learner to it.
+export const SCENARIO_TOPICS = new Set(['travel-functional', 'social-functional']);
+function weakestScenario(attempts, topic) {
+  const by = new Map();
+  for (const a of attempts) {
+    if (a.topic !== topic || !a.exercise || a.score == null || !['scenario', 'roleplay'].includes(a.source)) continue;
+    const id = a.source === 'scenario' ? String(a.exercise).replace(/:\d+$/, '') : a.exercise;
+    const x = by.get(id) || { id, sum: 0, n: 0, last: '' };
+    x.sum += a.score; x.n++; if (a.at > x.last) x.last = a.at;
+    by.set(id, x);
+  }
+  return [...by.values()].sort((a, b) => a.sum / a.n - b.sum / b.n || (a.last < b.last ? 1 : -1))[0]?.id || null;
+}
+function practiceRoute(topic, attempts, level) {
+  if (SCENARIO_TOPICS.has(topic)) {
+    const sc = weakestScenario(attempts, topic);
+    return sc ? { route: `scenario/${sc}?tab=practise`, scenario: sc } : { route: null };
+  }
+  const from = drillTopics.get(topic);
+  return from != null && from <= levelIndex(level) + 1 ? { route: `drill?topic=${topic}` } : { route: null };
+}
+
 export function model() {
   if (cached) return cached;
   const now = Date.now();
-  const attempts = store.all('attempts');
+  const attempts = store.all('attempts').map(withCardTopic);
   const progress = progressMap();
   const placement = store.get('placement', 'latest');
   const writing = store.all('writing');
   const mastery = topicMastery(attempts, now);
   const errors = errorProfile(attempts, now);
   const next = curriculum ? nextLesson(curriculum, progress, available) : null;
+  const level = curriculum ? courseLevel(curriculum, progress, available) : 'PreA1';
   cached = {
     attempts, progress, placement, mastery, errors,
-    weak: weakTopics(mastery),
+    weak: weakTopics(mastery).map((w) => ({ ...w, ...practiceRoute(w.topic, attempts, level) })),
     recurring: errors.filter((e) => e.recurring),
     skills: skillLevels({ attempts, placement, writing: writing.map((w) => (w.last_evaluation ? { ...w, evaluation: w.last_evaluation } : w)) }),
     next,
     skipped: curriculum ? unwrittenAhead(curriculum, progress, available, next) : [],
-    courseLevel: curriculum ? courseLevel(curriculum, progress, available) : 'PreA1',
+    courseLevel: level,
     placementPending: placementPending(),
   };
   return cached;
 }
 
-// What the plan needs to know about the next lesson: its real length and the saved place.
+// Where a saved lesson run stands, counted exactly as the player counts it (lesson.js stepInfo, persona
+// findings R2-17, N6, D7): the first pass has a fixed total, and retries are counted on their own.
+// resume = { qi, queue: [[exerciseId, isRetry], ...] }. pos/total/retry/pending describe the next exercise.
+export function resumeStep(resume) {
+  const q = (resume?.queue || []).map(([, retry]) => Boolean(retry));
+  const qi = Math.max(0, Math.min(resume?.qi ?? 0, q.length));
+  const firstTotal = q.filter((x) => !x).length;
+  const firstDone = q.slice(0, qi).filter((x) => !x).length;
+  const revisit = q.slice(qi).filter((x) => x).length;
+  const base = { firstTotal, firstDone, revisit, finished: qi >= q.length };
+  if (q[qi]) return { ...base, retry: true, pos: q.slice(0, qi + 1).filter((x) => x).length, total: q.filter((x) => x).length, pending: 0 };
+  return { ...base, retry: false, pos: Math.min(firstDone + 1, firstTotal), total: firstTotal, pending: q.slice(qi + 1).filter((x) => x).length };
+}
+
+// What the plan needs to know about the next lesson: its real length, the saved place (first pass and
+// retries apart), and the exercises missed on the first try when the last run ended "Nearly there".
 function lessonInfo(next, lesson, attempts, today) {
   if (!next || !lesson || lesson.id !== next.id) return null;
-  const r = progressOf(next.id)?.resume;
+  const p = progressOf(next.id);
+  const r = p?.resume;
   const resumable = Boolean(r && r.qi < r.queue.length);
+  const step = resumable ? resumeStep(r) : null;
+  const intro = introSlots(lesson);
+  const perItem = lesson.minutes / (lesson.exercises.length + intro);
+  const ids = new Set(lesson.exercises.map((e) => e.id));
+  const missedIds = !resumable && p?.status !== 'completed' ? (p?.missed?.ids || []).filter((x) => ids.has(x)) : [];
   return {
-    minutes: lesson.minutes, exercises: resumable ? r.queue.length : lesson.exercises.length, done: resumable ? r.qi : 0, resumable,
-    doneToday: attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today).length,
+    // A run of only the missed exercises is timed by the lesson's own pace, not spread over the full length.
+    minutes: step && r.missed ? Math.max(1, Math.round(perItem * (step.firstTotal + 2))) : lesson.minutes,
+    exercises: step ? step.firstTotal : lesson.exercises.length, intro, done: step ? step.firstDone : 0, revisit: step ? step.revisit : 0, resumable,
+    step, missedRun: Boolean(step && r.missed),
+    missed: missedIds.length ? { count: missedIds.length, minutes: Math.max(1, Math.round(missedIds.length * perItem)) } : null,
+    doneToday: firstTries(attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today)).length,
+  };
+}
+
+// What was already done today, so the plan ticks only what was really done (persona finding R2-27).
+function doneToday(now, { scenarios, writingTasks, attempts }) {
+  const day = todayKey(now);
+  const isToday = (iso) => iso && todayKey(new Date(iso)) === day;
+  const events = store.all('events').filter((e) => isToday(e.at));
+  const scenarioIds = new Set([
+    ...store.all('progress').filter((x) => String(x.id).startsWith('rl:') && isToday(x.completed_at)).map((x) => x.id.slice(3)),
+    ...events.filter((e) => e.type === 'speaking' && (e.scenario || e.roleplay)).map((e) => e.scenario || e.roleplay),
+  ]);
+  const taskIds = new Set(events.filter((e) => e.type === 'writing' && e.exercise).map((e) => e.exercise));
+  // The most recent of today's events that names a scenario or a task.
+  const latest = (pick) => events.map((e) => ({ at: e.at, id: pick(e) })).filter((x) => x.id).sort((a, b) => (a.at < b.at ? 1 : -1))[0]?.id;
+  const scenarioId = latest((e) => e.type === 'speaking' && (e.scenario || e.roleplay)) || [...scenarioIds][0];
+  return {
+    scenarios: scenarioIds,
+    tasks: taskIds,
+    drills: new Set(events.filter((e) => e.type === 'drill').flatMap((e) => [e.topic && `topic:${e.topic}`, e.error && `error:${e.error}`]).filter(Boolean)),
+    scenario: scenarios.find((x) => x.id === scenarioId) || null,
+    writingTask: writingTasks.find((x) => x.id === latest((e) => e.type === 'writing' && e.exercise)) || null,
+    reading: attempts.some((a) => a.source === 'reading' && isToday(a.at)),
+    speaking: events.some((e) => e.type === 'speaking'),
+    writing: events.some((e) => e.type === 'writing'),
   };
 }
 
@@ -322,7 +423,14 @@ export function todayPlan(minutes = settings().daily_minutes, { lesson = null, s
   const lastOf = (type) => store.all('events').filter((e) => e.type === type).map((e) => e.at).sort().pop() || null;
   const goals = profile()?.goals || [];
   const scenariosDone = new Set(store.all('progress').filter((p) => String(p.id).startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
-  const writingDone = new Set(store.all('writing').filter((w) => w.kind === 'essay-summary' && ['evaluated', 'final', 'done'].includes(w.status)).map((w) => w.exercise));
+  // The scenario a weak real-life topic sends the learner back to is not also the "use it" scenario.
+  for (const w of m.weak) if (w.scenario) scenariosDone.add(w.scenario);
+  const writing = store.all('writing');
+  const writingDone = new Set(writing.filter((w) => w.kind === 'essay-summary' && ['evaluated', 'final', 'done'].includes(w.status)).map((w) => w.exercise));
+  const writingStarted = new Set(writing.filter((w) => w.kind === 'essay-draft' && String(w.text || '').trim()).map((w) => w.exercise));
+  const task = pickWritingTask(writingTasks, { level: m.courseLevel, done: writingDone, started: writingStarted });
+  const today = doneToday(now, { scenarios, writingTasks, attempts: m.attempts });
+  if (today.writingTask) today.writingTask = { ...today.writingTask, started: true };
   return dailyPlan({
     minutes, now: now.getTime(), dueCount: dueNow.length, warmupCount: warm.length, todayNewCount: todayNew.length,
     next: m.next, weak: m.weak, recurring: m.recurring, level: m.courseLevel, goals, skipped: m.skipped,
@@ -330,7 +438,8 @@ export function todayPlan(minutes = settings().daily_minutes, { lesson = null, s
     lastReadingAt: m.attempts.filter((a) => a.source === 'reading').map((a) => a.at).sort().pop() || null,
     lesson: lessonInfo(m.next, lesson, m.attempts, todayKey(now)),
     scenario: pickScenario(scenarios, { level: m.courseLevel, goals, done: scenariosDone }),
-    writingTask: pickWritingTask(writingTasks, { level: m.courseLevel, done: writingDone }),
+    writingTask: task && { ...task, started: writingStarted.has(task.id) },
+    today,
   });
 }
 

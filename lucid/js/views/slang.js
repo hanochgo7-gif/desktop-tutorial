@@ -2,14 +2,16 @@
 // Collapsed: the term, its Hebrew meaning, formality, region and level. Expanded in place: meaning in
 // both languages, when people use it, an example conversation, common mistakes, when not to use it,
 // a warning where one is needed, and related expressions. Sorted by level for beginners (alphabetically
-// from B1), with a "for my level" filter; search matches the start of words (persona panel P-68).
+// from B1), with a "for my level" filter; search matches the start of words (persona panel P-68). Like Real
+// life, the list is grouped (by level, or by letter for A-Z) and each group is folded to its first few
+// entries; a search shows every match (persona panel D11).
 import { html, render, on, $, $$ } from '../core/util.js';
 import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
-import { icon, levelTag, emptyState } from '../ui/components.js';
+import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { settings, model } from '../core/learner.js';
 import { levelIndex } from '../core/adaptive.js';
-import { fitOf, searchMatch } from '../core/reallife.js';
+import { fitOf, searchMatch, FIT_LABEL } from '../core/reallife.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { hebrewReveal } from '../ui/center.js';
 
@@ -21,6 +23,10 @@ const REGION_LABEL = { US: ['ארה״ב', 'US'], UK: ['בריטניה', 'UK'], b
 const fold = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-֑ͯ-ׇ]/g, '').trim();
 const domId = (id) => `xp-${String(id).replace(/[^a-z0-9_-]+/gi, '-')}`;
 const voiceFor = (region) => (region === 'UK' ? 'UK' : region === 'US' ? 'US' : undefined);
+const FOLDED = 5; // entries shown per group until "Show all"
+const LETTER_GROUP = 12; // A-Z groups hold about this many entries
+const LEVEL_ORDER = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const initial = (x) => (fold(x.term).match(/[a-z]/)?.[0] || '#').toUpperCase();
 
 function formalityTag(f) {
   const l = FORMALITY.find((x) => x[0] === f);
@@ -61,6 +67,7 @@ export default async function slang(el, ctx) {
   let formality = 'all';
   let region = 'all';
   const open = new Set(ctx.query.open && byKey.has(fold(ctx.query.open)) ? [byKey.get(fold(ctx.query.open)).id] : []);
+  const unfolded = new Set();
 
   const matches = (x) => {
     if (formality !== 'all' && x.formality !== formality) return false;
@@ -93,18 +100,42 @@ export default async function slang(el, ctx) {
           : html`<span class="tag" lang="en" dir="ltr">${r}</span>`))}</div></section>` : ''}`;
   }
 
+  // Groups: by level (with how each level fits the learner) or by letter ranges for A-Z.
+  function groupsOf(shown) {
+    if (sort === 'level') {
+      return LEVEL_ORDER.map((l) => ({ id: l, title: html`${LEVEL_LABEL[l] || l} <span class="fit fit-${fitOf(l, courseLevel)}">${tt(...FIT_LABEL[fitOf(l, courseLevel)])}</span>`, items: shown.filter((x) => x.level === l) })).filter((g) => g.items.length);
+    }
+    const groups = [];
+    for (const x of shown) {
+      const L = initial(x);
+      const cur = groups.at(-1);
+      if (!cur || (cur.items.length >= LETTER_GROUP && L !== cur.last)) groups.push({ first: L, last: L, items: [x] });
+      else { cur.items.push(x); cur.last = L; }
+    }
+    return groups.map((g) => ({ id: `${g.first}-${g.last}`, title: html`<span lang="en" dir="ltr">${g.first === g.last ? g.first : `${g.first}–${g.last}`}</span>`, items: g.items }));
+  }
+
+  function groupSection(g) {
+    const folded = !unfolded.has(g.id) && g.items.length > FOLDED;
+    // An entry opened from a link ("Related expressions", ?open=) stays in view inside a folded group.
+    const keep = folded ? g.items.filter((x, i) => i < FOLDED || open.has(x.id)) : g.items;
+    return html`<section class="stack-sm" aria-labelledby="xg-${g.id}"><h2 class="row hub-head small" style="font-size:var(--t-md)" id="xg-${g.id}">${g.title} <span class="small faint num">${g.items.length}</span></h2>
+      <div class="stack-sm">${keep.map(entry)}</div>
+      ${g.items.length > FOLDED ? html`<button type="button" class="key ghost small" data-unfold-group="${g.id}" aria-expanded="${!folded}">${folded ? tt(`להציג את כל ה-${g.items.length}`, `Show all ${g.items.length}`) : tt('להציג פחות', 'Show fewer')}</button>` : ''}</section>`;
+  }
+
   function entry(x) {
     const isOpen = open.has(x.id);
     const pid = domId(x.id);
     return html`<article class="entry" data-entry="${x.id}">
       <div class="entry-head" style="align-items:center">
-        <h2 class="grow" style="font-size:inherit;font-weight:400">
+        <h3 class="grow" style="font-size:inherit;font-weight:400">
           <button type="button" class="disclosure" data-toggle="${x.id}" aria-expanded="${isOpen}" aria-controls="${pid}">
             <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
             <span class="grow"><span style="display:block"><span class="entry-word" lang="en" dir="ltr">${x.term}</span></span>
               <span style="display:block"><span class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</span></span></span>
           </button>
-        </h2>
+        </h3>
         ${playBtn(x.term, x.region, `${tt('השמעה', 'Play')}: ${x.term}`)}
       </div>
       <div class="entry-foot">${formalityTag(x.formality)}${regionTag(x.region)}${levelTag(x.level)}</div>
@@ -116,7 +147,7 @@ export default async function slang(el, ctx) {
     const shown = entries.filter(matches);
     $('#xp-count', el).textContent = shown.length === entries.length ? tt(`${entries.length} ביטויים`, `${entries.length} expressions`) : tt(`מוצגים ${shown.length} מתוך ${entries.length} ביטויים`, `Showing ${shown.length} of ${entries.length} expressions`);
     render($('#xp-list', el), shown.length
-      ? html`<div class="stack-sm">${shown.map(entry)}</div>`
+      ? (query.trim() ? html`<h2 class="sr-only">${tt('תוצאות החיפוש', 'Search results')}</h2><div class="stack-sm">${shown.map(entry)}</div>` : html`<div class="stack-lg">${groupsOf(shown).map(groupSection)}</div>`)
       : emptyState({
         title: tt('אין ביטויים שמתאימים', 'No expressions match'),
         body: tt('אפשר לחפש ביטוי באנגלית או משמעות בעברית, או לנקות את הסינון.', 'Search for an English expression or a Hebrew meaning, or clear the filters.'),
@@ -168,11 +199,18 @@ export default async function slang(el, ctx) {
     on(el, 'click', '[data-sort]', (e, b) => { sort = b.dataset.sort; entries = [...all].sort(sort === 'level' ? byLevel : byTerm); drawFilters(); drawList(); }),
     on(el, 'click', '[data-clear]', () => { query = ''; formality = 'all'; region = 'all'; scope = 'all'; drawFilters(); drawList(); $('#xp-q', el)?.focus(); }),
     on(el, 'click', '[data-toggle]', (e, b) => toggle(b.dataset.toggle)),
+    on(el, 'click', '[data-unfold-group]', (e, b) => {
+      const id = b.dataset.unfoldGroup;
+      if (unfolded.has(id)) unfolded.delete(id); else unfolded.add(id);
+      drawList();
+      $(`[data-unfold-group="${CSS.escape(id)}"]`, el)?.focus();
+    }),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant: b.dataset.variant || variant })),
     on(el, 'click', '[data-goto]', (e, b) => {
       const id = b.dataset.goto;
       const target = entries.find((x) => x.id === id);
       if (target && !matches(target)) { query = ''; formality = 'all'; region = 'all'; scope = 'all'; drawFilters(); drawList(); }
+      if (!$(`[data-entry="${CSS.escape(id)}"]`, el)) { open.add(id); drawList(); }
       toggle(id, true);
       const art = $(`[data-entry="${CSS.escape(id)}"]`, el);
       art?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });

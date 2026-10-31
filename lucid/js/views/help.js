@@ -27,6 +27,10 @@ const Q = [
   ['משוב AI, שיחות AI והמורה', 'AI feedback, AI conversations and the tutor',
     'אלה דורשים שרת שבו הוגדר שירות AI, חשבון, והסכמה בהגדרות. בלעדיהם כל השאר עובד: שיעורים, חזרה, תרגול מובנה ובדיקות כתיבה אוטומטיות. משוב AI יכול לטעות, ואפשר לדווח על כך.',
     'These need a server with AI configured, an account, and your consent in Settings. Without them everything else works: lessons, review, scripted practice and automatic writing checks. AI feedback can be wrong, and you can report it.'],
+  ['שימוש בלי אינטרנט', 'Using Lucid offline',
+    'אחרי שפתחתם את Lucid פעם אחת עם חיבור, המסכים, החזרה על מילים, התרגול המובנה בתרחישים ומעבדת הכתיבה עובדים גם בלי אינטרנט. את השיעורים (כ-3MB) שומרים מראש בהגדרות, ב״שימוש בלי אינטרנט״. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור. כשאין חיבור, בטלפון מופיע ״אין חיבור״ בראש המסך, ובמחשב בתפריט הצד.',
+    'Once you have opened Lucid with a connection, screens, word review, scripted scenario practice and the Writing lab work without internet. Save the lessons (about 3 MB) beforehand in Settings, under "Offline use". AI feedback, AI conversations and speech recognition need a connection. When you are offline, a phone shows "Offline" at the top of the screen, and a computer shows it in the side menu.',
+    ['#/settings?section=offline', 'לשמירת השיעורים במכשיר', 'Save the lessons on this device']],
   ['קיצורי מקלדת', 'Keyboard shortcuts',
     'Enter: בדיקה והמשך. 1-4: בחירת תשובה. Tab: מעבר בין כפתורים.',
     'Enter: check and continue. 1-4: choose an answer. Tab: move between controls.'],
@@ -43,7 +47,7 @@ export default async function help(el, ctx) {
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.help')}</h1><p>${tt('תשובות קצרות לשאלות הנפוצות.', 'Short answers to common questions.')}</p></div></div>
     <div class="stack-sm" style="max-width:46rem">
-      ${Q.map(([qhe, qen, ahe, aen], i) => html`<details class="panel flat" ${i === 0 ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p></details>`)}
+      ${Q.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon('download', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
       <p class="small faint row" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
     </div>`);
 }

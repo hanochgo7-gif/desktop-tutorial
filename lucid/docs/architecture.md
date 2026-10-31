@@ -148,6 +148,11 @@ atomic in-memory ledger instead.
   explanation and summary move focus to their heading. A link to a
   lesson with no file says it is still being written and offers the next ready lesson; a listed lesson that
   fails to load is treated as a connection problem.
+- **First tries only.** Mastery, skill levels and report accuracy count only the first answer to an item on a
+  day (`adaptive.firstTries`): an end-of-lesson retry and a same-day redo of missed exercises repeat answers just
+  shown, so they are practice, not evidence; the same item on a later day counts. A review answer carries the
+  topic of its word's lesson. Mistakes and bands from AI essay feedback feed recurring errors and the writing
+  level, never a topic.
 - **Topic mastery** is time-weighted accuracy with a neutral prior (half-life 21 days). "Mastered" also needs at
   least 6 answers on at least 2 different days, so one good sitting is not mastery.
 - **Recurring errors** need 3+ occurrences on 2+ days in 30 days; trends compare the last 14 days with the 14
@@ -155,8 +160,8 @@ atomic in-memory ledger instead.
 - **Per-skill levels** need evidence for that skill, at that level (`adaptive.skillLevels`). Practice (lessons,
   drills, reviews) shows a level at 75%+ over 6+ answers at it, on at least 2 different days. Placement gives only
   a "first estimate" for grammar, vocabulary, reading and listening, from 2+ placement questions at the level in
-  that skill, and never above B2 (higher answers show as "B2+"): multiple-choice items alone never establish C1 or
-  C2. Writing gets a level only from final drafts assessed by AI feedback, one per task (2+ tasks on 2+ days; the
+  that skill, never above the overall level the test confirmed, and never above B2 (higher answers show as "B2+",
+  with where they were: "2 of 2 at C1"): multiple-choice items alone never establish C1 or C2. Writing gets a level only from final drafts assessed by AI feedback, one per task (2+ tasks on 2+ days; the
   median of the last three, the lower of two); a draft still being revised never counts, and drafts show no level
   anywhere. Lucid does not assess speaking level, so speaking always reads "not yet assessed", as
   does any skill without evidence; the overall placement level is never copied into a skill. Clear failure (under
@@ -164,10 +169,13 @@ atomic in-memory ledger instead.
   descriptors", and each one shows its source and evidence count.
 - **Placement** (`placement.js`) is a staircase over blocks of four. 3 of 4 passes a level for the moment; a
   level counts only when a second passing block confirms it (6 of 8 at the level, or 3+ of 4 at the level above),
-  so the test asks a confirming block before it ends and never places above the highest confirmed level. Answers
+  so the test asks a confirming block before it ends and never places above the highest confirmed level. The
+  course starts at the confirmed level itself; C1-C2 are the academic track, so a learner whose goals are all
+  non-academic starts at B2 and the result offers the higher start. Answers
   are saved after each question (`placement/inprogress`), so a learner who leaves can continue or start again
   from Today; until there is a result (and while no lesson has been completed), Today shows the test instead of a
-  plan, or lets the learner start at their own onboarding estimate, or from the basics, by choice. Choosing a level
+  plan, or lets the learner start at their own onboarding estimate, or from the basics, by choice, and the path
+  shows the same choice with no current level or "Next" mark. Choosing a level
   on the path also settles it (recorded as the learner's own estimate). Retaking or moving level uses the same
   rule: lessons below the start are "placed out"; placed-out lessons from the new start up become regular lessons
   again.
@@ -179,10 +187,15 @@ atomic in-memory ledger instead.
   practice, use it, exit check) scaled to 10, 20, 35 or 50 minutes, and says why each block is there. The lesson
   gets the time the other blocks leave; when the lesson's real length (from its file) does not fit, the plan
   takes a part ("up to exercise 9 of 16") and the lesson's saved place carries the rest to the next day, where
-  the main button says "Continue". From A1 and 20 minutes, the learner's goals choose the "use it" block: travel
-  and conversation name a real-life scenario at or below their level (travel: airport, hotel and emergencies
-  first), exams and academic writing alternate reading and a Writing lab task, and work uses workplace scenarios
-  when they exist (there are none yet, which onboarding says).
+  the main button says "Continue", counting the first pass and the retries apart as the player does. After
+  "Nearly there" the main button practises only the missed exercises. From A1 and 20 minutes, the learner's goals
+  choose the "use it" block: travel and conversation name a real-life scenario at or below their level (travel:
+  airport, hotel and emergencies first), exams and academic writing alternate reading and a Writing lab task
+  (timed from its word range; a longer text is planned as a start, and its saved draft comes first next time),
+  and work uses the six workplace scenarios (module "work"). Once a goal's kind was practised today, the block shows what
+  was done, ticked. Targeted practice goes to a recurring mistake, or to a weak topic only where it can be
+  practised and not more than one level below the course level: a drill of lesson exercises, or for the real-life
+  topics the scenario with the lowest score.
 - **New words** enter spaced repetition at the daily new-word limit; the rest are queued for the next days.
   Learners placed above the early levels can add the words of placed-out lessons on request (Today and the path).
 - **Active minutes** in reports include the session that is still open (sessions are logged when the tab is
@@ -274,7 +287,8 @@ atomic in-memory ledger instead.
 - **Ages 16+**: enforced in onboarding and by a database trigger; only the birth year is stored, so age is
   computed from the year alone (someone born late in the year counts as a year older from January: a deliberate
   trade-off for storing less). Onboarding asks for the year without stating the threshold, and a refusal is a
-  separate screen that holds for the browser session (`lucid-age-refused` in session storage), so another year
+  separate screen that holds for 24 hours in this browser, across tabs (`lucid-age-refused` in local storage, holding
+  only the time of the refusal), so another year
   cannot simply be tried; nothing about the refused person is stored. The only rule specific to under-18s is the
   database forcing marketing consent off (Lucid sends no marketing to anyone); every other default is the same
   for all ages, and `privacy.html`, onboarding and Profile say exactly that. AI processing requires an explicit

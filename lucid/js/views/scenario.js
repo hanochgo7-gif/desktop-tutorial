@@ -14,6 +14,22 @@ import { checkOwnReply, nextScenario, fitOf, FIT_LABEL } from '../core/reallife.
 const TABS = [['prepare', 'הכנה', 'Prepare'], ['listen', 'שיחה לדוגמה', 'Model dialogue'], ['practise', 'תרגול', 'Practise'], ['roleplay', 'שיחה עם AI', 'AI roleplay']];
 const REGISTER = { polite: ['מנומס', 'polite', 'cobalt'], neutral: ['ניטרלי', 'neutral', ''], casual: ['יום-יומי', 'casual', 'warn'] };
 
+// "I'm stuck" phrases are the learner's own lines, so a name in them ("My name is Dana Cohen") becomes a slot to
+// fill, selected when the phrase is copied (persona panel R2-07). The Hebrew gloss gets the same slot.
+const NAME_SLOT = '[your name]';
+const NAME_EN = /\b([Mm]y name is|I'm|I am|under the name|in the name of|[Nn]ame's)\s+((?:[A-Z][a-z]+)(?:\s+[A-Z][a-z]+)?)\b/;
+const HE_WORD = '[א-ת][א-ת׳\'"-]*';
+function nameSlot(phrase) {
+  const m = NAME_EN.exec(phrase.en || '');
+  if (!m) return { ...phrase, slot: null };
+  const start = m.index + m[1].length + 1;
+  const en = `${phrase.en.slice(0, start)}${NAME_SLOT}${phrase.en.slice(m.index + m[0].length)}`;
+  const n = m[2].split(/\s+/).length;
+  const heName = new RegExp(`(קוראים לי|שמי|אני|על שם|על השם)\\s+${Array(n).fill(HE_WORD).join('\\s+')}`);
+  const he = phrase.he ? phrase.he.replace(heName, '$1 [השם שלך]') : phrase.he;
+  return { ...phrase, en, he, slot: [start, start + NAME_SLOT.length] };
+}
+
 export default async function scenarioView(el, ctx) {
   const data = await content.scenarios();
   const s = data?.scenarios?.find((x) => x.id === ctx.params.id);
@@ -33,10 +49,10 @@ export default async function scenarioView(el, ctx) {
   const done = () => new Set(store.all('progress').filter((p) => p.id.startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
   const after = () => nextScenario(data.scenarios, s, { courseLevel: model().courseLevel, goals: profile()?.goals || [], done: done() });
   const noAiWhy = () => (!configured() || !CONFIG.aiEnabled ? tt('שיחה חופשית עם AI עוד לא זמינה באתר הזה.', 'Free conversation with AI is not available on this site yet.')
-    : !auth.signedIn ? tt('כדי לדבר עם AI צריך להיכנס לחשבון.', 'Sign in to talk with the AI.') : tt('צריך להפעיל ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.'));
+    : !auth.signedIn ? tt('שיחה עם AI דורשת חשבון: ההסכמה שלכם לעיבוד ב-AI נשמרת בחשבון, ולכל חשבון יש מגבלת שימוש יומית ב-AI. אין חשבון? אפשר ליצור אחד עכשיו, וההתקדמות שבמכשיר עוברת אליו.', 'AI conversations need an account: your consent to AI processing is saved in it, and each account has a daily AI limit. No account yet? You can create one now, and the progress on this device moves into it.') : tt('צריך להפעיל ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.'));
 
   const head = () => html`<div class="page-head"><div><p class="small faint"><a href="#/real-life">${tt('אנגלית לחיים', 'Real life')}</a></p><h1>${legend(s.title_en, s.title_he)}</h1><div class="row" style="margin-top:var(--s2)">${levelTag(s.level)}<span class="small faint">${tt(...FIT_LABEL[fitOf(s.level, model().courseLevel)])}</span><span class="small muted">${tt('את/ה מדבר/ת עם:', 'You are talking to:')} <span lang="en" dir="ltr">${s.partner_role}</span></span></div></div></div>
-    <div class="seg" role="group" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
+    <div class="seg scenario-tabs" role="group" aria-label="${tt('חלקי התרחיש', 'Parts of the scenario')}" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
 
   const prepare = () => html`<div class="stack-lg" style="max-width:52rem">
     <div class="panel stack-sm"><h2 class="small">${tt('המצב', 'The situation')}</h2>${bi(s.situation, { always: true })}<h2 class="small" style="margin-top:var(--s3)">${tt('המטרה שלך', 'Your goal')}</h2>${bi(s.goal, { always: true })}</div>
@@ -86,7 +102,7 @@ export default async function scenarioView(el, ctx) {
       <div class="msg them" lang="en" dir="ltr" style="max-width:100%"><span class="who">${s.partner_role}</span>${t.partner} ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${t.partner}" aria-label="${tt('השמעה', 'Play')}" style="vertical-align:middle;min-height:1.8rem;width:1.8rem">${icon('volume', { size: 14 })}</button>` : ''}</div>
       <h2 class="small">${tt('מה הכי טבעי לענות?', 'What is the most natural reply?')}</h2>
       <div class="options">${t.options.map((o, i) => html`<button type="button" class="option ${picked != null && o.verdict === 'best' ? 'is-right' : ''} ${picked === i && o.verdict !== 'best' ? 'is-wrong' : ''}" data-opt="${i}" ${picked != null ? html`disabled` : ''} lang="en" dir="ltr"><span class="k">${i + 1}</span>${o.text}</button>`)}</div>
-      ${chosen ? html`<div class="explain stack-sm" tabindex="-1" data-explain><p><strong>${chosen.verdict === 'best' ? tt('בדיוק', 'Spot on') : chosen.verdict === 'ok' ? tt('עובד, אבל יש טבעי יותר', 'It works, but there is a more natural way') : tt('לא מתאים כאן', 'Not right here')}</strong></p>${bi(chosen.feedback, { always: hebrewSupport() !== 'off' })}
+      ${chosen ? html`<div class="explain stack-sm" tabindex="-1" data-explain><p class="xsmall faint">${tt('התשובה שבחרתם:', 'Your reply:')}</p><p class="alt-quote chosen-quote" lang="en" dir="ltr">“${chosen.text}”</p><p><strong>${chosen.verdict === 'best' ? tt('בדיוק', 'Spot on') : chosen.verdict === 'ok' ? tt('עובד, אבל יש טבעי יותר', 'It works, but there is a more natural way') : tt('לא מתאים כאן', 'Not right here')}</strong></p>${bi(chosen.feedback, { always: hebrewSupport() !== 'off' })}
         <ul class="alt-list">${t.options.filter((o) => o !== chosen).map((o) => html`<li><p class="alt-quote" lang="en" dir="ltr">“${o.text}”</p><div class="xsmall muted">${bi(o.feedback)}</div></li>`)}</ul></div>
         <div class="panel flat stack-sm"><h3 class="small">${tt('עכשיו בניסוח שלכם', 'Now in your own words')}</h3>
           <div class="row"><label class="sr-only" for="own-reply">${tt('התשובה שלכם באנגלית', 'Your reply in English')}</label><input class="input grow" id="own-reply" data-own lang="en" dir="ltr" value="${typed}" placeholder="${tt('כתבו או אמרו תשובה משלכם', 'Type or say your own reply')}" autocomplete="off">${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button type="button" class="key" data-own-check>${tt('השוואה', 'Compare')}</button></div>
@@ -109,15 +125,22 @@ export default async function scenarioView(el, ctx) {
   // On-demand help that needs no AI and costs nothing: the goal and the scenario's phrases, ready to adapt.
   const helpPanel = () => html`<section class="panel flat stack-sm" data-help tabindex="-1" aria-labelledby="rp-help-h">
     <div class="row between"><h3 class="small" id="rp-help-h">${tt('עזרה לשיחה', 'Help with the conversation')}</h3><button type="button" class="key ghost small" data-stuck>${tt('הסתרה', 'Hide')}</button></div>
-    <div class="small">${tt('המטרה:', 'Your goal:')} ${bi(s.goal, { always: hebrewTips })}</div>
-    <p class="small muted">${tt('משפטים שאפשר להתחיל בהם. לחיצה מעתיקה את המשפט לתיבה, ושם אפשר לשנות אותו.', 'Phrases you can start from. Tap one to copy it into the box, then change it as you like.')}</p>
-    <ul class="phrase-help">${s.phrases.map((p, i) => html`<li><button type="button" class="key small" data-use-phrase="${i}"><span lang="en" dir="ltr">${p.en}</span></button>${hebrewTips && p.he ? html`<span class="xsmall l-he" lang="he" dir="rtl">${isolateLatin(p.he)}</span>` : ''}</li>`)}</ul>
+    <div class="small goal-block"><p><strong>${tt('המטרה שלך', 'Your goal')}</strong></p>${bi(s.goal, { always: hebrewTips })}</div>
+    <p class="small muted">${tt('משפטים שאפשר להתחיל בהם. לחיצה מעתיקה את המשפט לתיבה, ושם אפשר לשנות אותו. במקום [your name] כתבו את השם שלכם.', 'Phrases you can start from. Tap one to copy it into the box, then change it as you like. Replace [your name] with your own name.')}</p>
+    <ul class="phrase-help">${s.phrases.map(nameSlot).map((p, i) => html`<li><button type="button" class="key small" data-use-phrase="${i}"><span lang="en" dir="ltr">${p.en}</span></button>${hebrewTips && p.he ? html`<span class="xsmall l-he" lang="he" dir="rtl">${isolateLatin(p.he)}</span>` : ''}</li>`)}</ul>
   </section>`;
 
+  // No account: both ways in, sign-up first on a device that has never been signed in (persona panel R2-09).
+  const accountLinks = () => {
+    const next = encodeURIComponent(`scenario/${s.id}?tab=roleplay`);
+    const up = html`<a class="key" href="#/account?mode=signup&next=${next}">${tt('יצירת חשבון', 'Create an account')}</a>`;
+    const inn = html`<a class="key ${store.owner() ? '' : 'ghost'}" href="#/account?mode=signin&next=${next}">${tt('כניסה לחשבון קיים', 'Sign in')}</a>`;
+    return store.owner() ? html`${inn}${up}` : html`${up}${inn}`;
+  };
   const roleplayTab = () => {
     if (!aiReady) {
       return html`<div class="stack" style="max-width:40rem"><p class="banner">${icon('info', { size: 18 })}<span>${noAiWhy()}</span></p><p class="small muted">${tt('בינתיים, התרגול המובנה עובד במלואו ונותן משוב על כל תשובה.', 'Meanwhile, the scripted practice works fully and gives feedback on every reply.')}</p>
-        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? html`<a class="key" href="#/account?mode=signin&next=${encodeURIComponent(`scenario/${s.id}?tab=roleplay`)}">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
+        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? accountLinks() : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
     }
     if (report) return reportView();
     if (!chat) {
@@ -136,6 +159,9 @@ export default async function scenarioView(el, ctx) {
 
   // The report leads with the outcome in words and what worked; language points follow, and the numbers sit
   // in "Scores" (research C2: task success and language quality reported separately; P-16).
+  // One report point: the English, then its Hebrew when the report has it (persona panel R2-10). The item takes
+  // the screen's direction, so the list lines up under its heading; the English is isolated inside it.
+  const reportItem = (en, he) => html`<span class="report-item"><bdi lang="en" dir="ltr">${en}</bdi>${he && hebrewSupport() !== 'off' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</span>`;
   const reportView = () => {
     const f = report;
     const strengths = Array.isArray(f.strengths) ? f.strengths.filter(Boolean) : [];
@@ -144,9 +170,9 @@ export default async function scenarioView(el, ctx) {
       <div class="stack-sm"><h2 tabindex="-1" data-report-head>${tt('המשוב שלך', 'Your feedback')}</h2>
         <p>${f.task_completed ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השגתם את המטרה', 'You reached the goal')}</span>` : html`<span class="tag warn">${tt('המטרה עוד לא הושגה', 'Goal not reached yet')}</span>`}</p>
         <p dir="auto">${f.summary}</p>${f.summary_he ? html`<p lang="he" dir="rtl" class="muted">${isolateLatin(f.summary_he)}</p>` : ''}</div>
-      ${strengths.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה עבד טוב', 'What worked')}</h3><ul class="check-rows small">${strengths.map((x) => html`<li>${icon('check', { size: 16 })}<span dir="auto">${x}</span></li>`)}</ul></section>` : ''}
+      ${strengths.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה עבד טוב', 'What worked')}</h3><ul class="check-rows small report-list">${strengths.map((x, i) => html`<li>${icon('check', { size: 16 })}${reportItem(x, f.strengths_he?.[i])}</li>`)}</ul></section>` : ''}
       ${f.better_alternatives?.length ? html`<section class="stack-sm"><h3 class="small">${tt('ניסוחים טבעיים יותר', 'More natural ways to say it')}</h3>${f.better_alternatives.map((a) => html`<div class="error-card style"><p class="small"><span class="quote" lang="en" dir="ltr">${a.you_said}</span></p><p lang="en" dir="ltr"><strong>${a.more_natural}</strong></p><p class="small muted" dir="auto">${a.why}</p></div>`)}</section>` : ''}
-      ${f.practice?.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה לתרגל', 'What to practise')}</h3><ul class="small" style="margin:0;padding-inline-start:1.2rem">${f.practice.map((p) => html`<li dir="auto">${p}</li>`)}</ul></section>` : ''}
+      ${f.practice?.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה לתרגל', 'What to practise')}</h3><ul class="check-rows small report-list">${f.practice.map((p, i) => html`<li>${icon('arrow-next', { size: 16 })}${reportItem(p, f.practice_he?.[i])}</li>`)}</ul></section>` : ''}
       <details class="panel flat"><summary class="small">${tt('ציונים', 'Scores')} <span class="faint num">${f.conversation_score}/100</span></summary>
         <div class="stack-sm" style="margin-block-start:var(--s3)"><p class="xsmall faint">${tt('הערכה של AI לשיחה הזו, ביחס למה שמצופה ברמה של התרחיש. היא לא קובעת את הרמה שלכם.', 'An AI estimate for this conversation, relative to what the scenario\'s level expects. It does not set your level.')}</p>
         <div class="rubric">${row('grammar', 'דקדוק', 'Grammar')}${row('vocabulary', 'אוצר מילים', 'Vocabulary')}${row('naturalness', 'טבעיות', 'Naturalness')}</div></div></details>
@@ -156,7 +182,7 @@ export default async function scenarioView(el, ctx) {
 
   function draw() {
     const body = { prepare, listen: listenTab, practise: practiseTab, roleplay: roleplayTab }[tab]();
-    render(el, html`${head()}${body}`);
+    render(el, html`<div class="scenario-view">${head()}${body}</div>`);
     const log = $('#rplog', el); if (log) log.scrollTop = log.scrollHeight;
   }
   // Bring a part of the page into view and move focus to it, so a phone user sees what changed (P-65, P-16).
@@ -220,7 +246,7 @@ export default async function scenarioView(el, ctx) {
       picked = Number(b.dataset.opt);
       const v = turnOrder[ti].options[picked].verdict;
       results[ti] = v;
-      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: s.module === 'social' ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: v === 'best', score: v === 'best' ? 1 : v === 'ok' ? 0.5 : 0, error_type: v === 'best' ? null : turnOrder[ti].options[picked].error_type || null, response: turnOrder[ti].options[picked].text });
+      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: v === 'best', score: v === 'best' ? 1 : v === 'ok' ? 0.5 : 0, error_type: v === 'best' ? null : turnOrder[ti].options[picked].error_type || null, response: turnOrder[ti].options[picked].text });
       draw();
       reveal('[data-explain]');
     }),
@@ -248,11 +274,12 @@ export default async function scenarioView(el, ctx) {
     }),
     on(el, 'click', '[data-use-phrase]', (e, b) => {
       const input = $('#rpin', el);
-      const p = s.phrases[Number(b.dataset.usePhrase)];
-      if (!input || !p) return;
+      const raw = s.phrases[Number(b.dataset.usePhrase)];
+      if (!input || !raw) return;
+      const p = nameSlot(raw);
       input.value = p.en;
       input.focus();
-      input.setSelectionRange(p.en.length, p.en.length);
+      input.setSelectionRange(...(p.slot || [p.en.length, p.en.length]));
     }),
     on(el, 'click', '[data-start-rp]', () => { chat = { id: uid('rp'), at: new Date().toISOString(), turns: [{ role: 'partner', text: s.roleplay.opening_line }] }; draw(); if (canSpeak()) say(s.roleplay.opening_line, { variant }); $('#rpin', el)?.focus(); }),
     on(el, 'submit', '[data-rp-send]', (e) => { e.preventDefault(); sendTurn($('#rpin', el).value); }),
@@ -264,7 +291,7 @@ export default async function scenarioView(el, ctx) {
       try {
         const r = await callAI(rpRequest('roleplay_feedback'));
         report = r.feedback;
-        recordAttempt({ source: 'roleplay', exercise: s.id, topic: s.module === 'social' ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: report.task_completed, score: report.conversation_score / 100 });
+        recordAttempt({ source: 'roleplay', exercise: s.id, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: report.task_completed, score: report.conversation_score / 100 });
         store.put('progress', { id: `rl:${s.id}`, status: 'completed', completed_at: new Date().toISOString() });
         logEvent({ type: 'speaking', roleplay: s.id });
       } catch (err) { rpError = rpErrorText(err); }

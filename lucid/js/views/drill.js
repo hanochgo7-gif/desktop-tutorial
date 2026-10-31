@@ -5,7 +5,7 @@ import { taxonomyIndex } from '../core/content.js';
 import { icon, emptyState } from '../ui/components.js';
 import { runSet } from '../ui/player.js';
 import { drillSet, meanScore } from '../core/pool.js';
-import { model, logEvent } from '../core/learner.js';
+import { model, logEvent, SCENARIO_TOPICS } from '../core/learner.js';
 
 export default async function drill(el, ctx) {
   const { topic, error } = ctx.query;
@@ -16,7 +16,11 @@ export default async function drill(el, ctx) {
   const m = model();
   const items = await drillSet({ topic, error, level: m.courseLevel, attempts: m.attempts });
   if (!items.length) {
-    render(el, html`<div class="view narrow">${emptyState({ title: tt('אין עדיין תרגילים לנושא הזה', 'No exercises for this yet'), body: tt('התרגילים מגיעים מהשיעורים שכבר זמינים. נסו נושא אחר או המשיכו במסלול.', 'Exercises come from the lessons available so far. Try another topic or continue your path.'), action: html`<a class="key enter" href="#/practice">${tt('לתרגול', 'To practice')}</a>` })}</div>`);
+    // Real-life topics are practised in their scenarios, not in drills (persona finding R2-24).
+    const scene = topic && SCENARIO_TOPICS.has(topic);
+    render(el, html`<div class="view narrow">${scene
+      ? emptyState({ title: tt('את זה מתרגלים בתרחישים', 'This is practised in scenarios'), body: tt('למצבים מהחיים אין תרגילים מהשיעורים. בתרחישים של ״מהחיים״ עונים בשיחה ומקבלים הסבר על כל תשובה.', 'Real-life situations have no lesson exercises. In the Real life scenarios you reply in a conversation and get an explanation for each reply.'), action: html`<a class="key enter" href="#/real-life">${tt('לתרחישים מהחיים', 'To Real life scenarios')}</a>` })
+      : emptyState({ title: tt('אין עדיין תרגילים לנושא הזה', 'No exercises for this yet'), body: tt('התרגילים מגיעים מהשיעורים שכבר זמינים. נסו נושא אחר או המשיכו במסלול.', 'Exercises come from the lessons available so far. Try another topic or continue your path.'), action: html`<a class="key enter" href="#/practice">${tt('לתרגול', 'To practice')}</a>` })}</div>`);
     return;
   }
   return runSet(el, items, {

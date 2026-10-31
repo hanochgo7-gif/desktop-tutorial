@@ -132,7 +132,7 @@ learner benefit until the proof points in its section 5 have been measured.
 | Feature | Behaviour | Status |
 |---|---|---|
 | Neutral birth-year question | Step 1 of onboarding asks for the year of birth from a list with an empty "Choose" option. The help text says only the year is stored and does not state the threshold (`js/views/onboarding.js`). | Built and tested: `e2e 1` asserts the threshold is not shown before the answer |
-| Refusal | An age under 16 (computed from the year alone) shows a separate refusal screen. The refusal holds for the browser session (`lucid-age-refused` in session storage), so another year cannot simply be tried. Nothing about the refused person is stored. | Built and tested: `e2e 1` |
+| Refusal | An age under 16 (computed from the year alone) shows a separate refusal screen. The refusal holds for 24 hours in this browser, also in a new tab (`lucid-age-refused` in local storage holds only the time of the refusal), so another year cannot simply be tried. Nothing about the refused person is stored. | Built and tested: `e2e 1` (a new tab, the stored value, the end of the 24 hours) |
 | Server enforcement | The `lucid_profiles_guard` trigger rejects a birth year that makes the person under 16 or over 120 (`supabase/migrations/001_lucid_core.sql`). Learner records need a profile, so a refused account stores nothing. | Built and tested on PGlite: `db: "age gate, minors and RLS on profiles"`, `db: "records need a profile: a refused or missing profile stores nothing (S-05)"` |
 | Age from the year only | Someone born late in the year counts as a year older from 1 January. This is a deliberate trade-off for storing less, stated in `privacy.html`. | Built and tested as part of the age gate: `e2e 1`, `db: "age gate, minors and RLS on profiles"` |
 
@@ -423,7 +423,7 @@ grammar, 4 vocabulary, 2 reading, 2 listening; 10 multiple-choice and 2 listenin
 | Length | At most 28 items ("about 10 minutes" on screen). |
 | During the test | "I don't know" is always allowed and counts as not known. No right or wrong is shown. |
 | Resume | Answers are saved after each question (`placement/inprogress`). Today offers "Continue the test" or "Start again"; until there is a result (and no lesson is completed) Today shows no lesson link. |
-| Result | The highest confirmed level ("demonstrated"); the start level is the level above it. Per-skill first estimates for grammar, vocabulary, reading and listening (section 5.2). A perfect run is reported as the top band, cautiously. |
+| Result | The highest confirmed level ("demonstrated"); the course starts at that level. C1 and C2 are the academic track: a learner whose goals are all non-academic (work, travel, conversation, everyday) starts at B2, and the result says so and offers "Start at C1". The headline names only what was confirmed (C1, or C2 after a confirmed C2). Per-skill first estimates for grammar, vocabulary, reading and listening (section 5.2), never above the confirmed level. A perfect run is reported as the top band, cautiously; the note about C1, C2 and "B2+" appears only when an estimate reaches B2. Tested: `unit learner-evidence` (R1-Y2, R2-29, R2-38), `e2e LP4`. |
 | Learner control | Start lower than the result, start from the basics, move level from the path ("Start from <level>", recorded as the learner's own estimate), or retake. Lessons below the start become "placed out"; moving down returns placed-out lessons to regular lessons. |
 
 Status: **Built and tested**: `e2e 2`, `e2e L1`, `e2e L2`, `e2e L3`; `unit engine: "placement finds the boundary
@@ -458,8 +458,8 @@ mistakes that are not "style". **Built and tested**:
 
 | Skill | Source of a level | Threshold |
 |---|---|---|
-| Grammar, vocabulary, reading, listening | Practice: lessons, drills, reviews, level checks, centre exercises | 6+ answers at the level, 75%+ right, on 2+ different days; the highest such level |
-| Same four | Placement ("first estimate", provisional) | 2+ placement items at the level in that skill, 2 of 2 or 67%+ of more. Capped at B2 and shown as "B2+": multiple-choice items alone never establish C1 or C2. Practice evidence at the same or a higher level replaces it. |
+| Grammar, vocabulary, reading, listening | Practice: lessons, drills, reviews, level checks, centre exercises | 6+ first-try answers at the level (an end-of-lesson retry or a same-day redo does not count; the same item on a later day does), 75%+ right, on 2+ different days; the highest such level |
+| Same four | Placement ("first estimate", provisional) | 2+ placement items at the level in that skill, 2 of 2 or 67%+ of more, never above the overall level the test confirmed. Capped at B2 and shown as "B2+" with where the answers were ("2 of 2 at C1"): multiple-choice items alone never establish C1 or C2. Practice evidence at the same or a higher level replaces it. |
 | Writing | Final drafts assessed by AI feedback, one per task | 2+ tasks on 2+ different days; the median of the last three (the lower of two). A draft still being revised never counts; drafts show no level anywhere. |
 | Speaking | none | Always "not yet assessed": recognition never grades, and scenario choices do not count toward a speaking level |
 | Any skill | Clear failure | Under 50% over 8+ answers at the current level lowers it one step, as a first estimate |
@@ -513,7 +513,8 @@ or 50 minutes (onboarding and Settings). Each block says why it is there.
   at Pre-A1 and A1). Built and tested: `e2e L6`, `unit learner-logic: "goals shape the plan: travel names a
   scenario, studies pick reading and writing"`. **Work goal: Partial**. Lucid has no workplace scenarios, so a
   work goal does not change the plan (onboarding says it only shapes the AI tutor for now).
-- **Targeted practice** links to `drill?error=` or `drill?topic=`. Built and tested: `e2e 7`.
+- **Targeted practice** links to `drill?error=` or `drill?topic=`, for a weak topic only when lessons have exercises for it and it is not more than one level below the course level; weak real-life topics (travel, social) link to the scenario with the lowest score instead. A practice or "use it" block is ticked only for what was done (that drill, that scenario or task). Built and tested: `e2e 7`, `e2e LP2`, `unit learner-evidence`.
+- **After "Nearly there"** the lesson block's main action practises only the missed exercises; a saved run is counted as the player counts it (first pass fixed, retries apart). A Writing lab block is timed from the task's word range, and a longer text is planned as a start. Built and tested: `e2e LP1`, `unit learner-evidence`.
 - **Unwritten lessons** are skipped and named; **pending placement** replaces the plan with the test, or lets the
   learner start at their own estimate. Built and tested: `e2e L4`, `e2e L1`.
 - **Weekly goal**: 2-7 days (default 5), counted Monday to Sunday from days with attempts. "A day off erases

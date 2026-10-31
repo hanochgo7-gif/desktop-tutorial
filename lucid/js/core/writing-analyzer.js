@@ -1,7 +1,8 @@
 // Deterministic writing checks that work without AI. They are signals, not a grade: patterns can
 // miss errors and occasionally flag correct English, so the UI labels them "automatic checks".
 // Rules that often flag correct academic prose (comma splices, if + will) are not run at C1-C2, a/an is
-// decided by sound, and a title line or a closing reference list is not treated as essay text.
+// decided by sound, and a title line or a closing reference list is not treated as essay text. An email or
+// message gets no argument checks, and its sign-off is not checked as a sentence.
 import { countWords } from './grading.js';
 
 const FORMAL_LEVELS = new Set(['B2', 'C1', 'C2']);
@@ -27,7 +28,7 @@ const PATTERNS = [
   { re: /\bif\s+(\w+\s+){1,3}will\s+\w+/gi, type: 'conditional-form', notAfter: /\b(unclear|clear|whether|wonder\w*|know\w*|knew|ask\w*|see|sure|doubt\w*|uncertain|certain|question|decide\w*|check\w*|tell|find out|predict\w*)\s+$/i, lowPrecision: true, title: 'No will after if', he_title: 'בלי will אחרי if', en: 'In real conditions use the present after if: If it rains, we will stay.', he: 'אחרי if משתמשים בהווה: If it rains.' },
   // a or an is decided by sound, not spelling (an MBA, a unanimous vote); see articleFor below.
   { re: /\b(a|an)\s+([A-Za-z][\w'-]*)/gi, type: 'article', article: true },
-  { re: /,\s+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', leadInOk: true, lowPrecision: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
+  { re: /,[ \t]+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', leadInOk: true, lowPrecision: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
   { re: /\s+[,.!?;:](?=\s|$)/g, type: 'punctuation', title: 'Space before punctuation', he_title: 'רווח לפני סימן פיסוק', en: 'No space before a punctuation mark.', he: 'באנגלית אין רווח לפני סימן פיסוק.' },
 ];
 
@@ -37,6 +38,14 @@ const FORMAL_PATTERNS = [
   { re: /\b(I think|I feel|in my opinion)\b/gi, type: 'register', title: 'Personal hedge', he_title: 'ניסוח אישי', en: 'Acceptable, but academic arguments usually state the claim and support it: "This essay argues that…".', he: 'מותר, אבל בטיעון אקדמי מציגים את הטענה ותומכים בה.' },
 ];
 
+// "yet", "next", "first" and "second" are linkers only where they join ideas ("Yet it failed", ", yet it",
+// "Next, ...", "First, ..."), not in "not yet", "next week" or "the first time" (persona panel Y6).
+const LINKER_ONLY_AT = {
+  yet: /(^|[.!?;:]\s+|,\s*|\n\s*|\band\s+)yet\b(?!\s*[.!?]|\s*$)/i,
+  next: /(^|[.!?]\s+|\n\s*)next\s*,/i,
+  first: /(^|[.!?]\s+|\n\s*)first\s*,/i,
+  second: /(^|[.!?]\s+|\n\s*)second\s*,/i,
+};
 const CONNECTORS = {
   addition: ['and', 'also', 'moreover', 'furthermore', 'in addition', 'besides', 'what is more'],
   contrast: ['but', 'however', 'although', 'though', 'whereas', 'while', 'on the other hand', 'nevertheless', 'nonetheless', 'yet', 'despite', 'in spite of', 'conversely'],
@@ -59,7 +68,7 @@ const SIGNALS = {
 const SUBORDINATE = /^(if|when|whenever|although|though|because|while|whilst|after|before|since|unless|as|once|until|even if|even though|whether|where|wherever)\b/i;
 // A comma after a sentence-initial linker, adverb or short prepositional phrase is correct
 // ("However, this does...", "In 2022, there were...", "According to the report, it is...").
-const LINKER = /^(however|moreover|furthermore|therefore|thus|hence|consequently|nevertheless|nonetheless|conversely|meanwhile|instead|otherwise|similarly|likewise|indeed|still|besides|admittedly|ultimately|overall|today|yesterday|now|then|finally|first|second|third|lastly|next|also|in (fact|addition|contrast|short|sum|summary|conclusion|particular|general|practice|theory|turn|other words|the end|my (view|opinion)|this (case|sense|way|respect))|for (example|instance)|as a result|of course|on the other hand|at the same time|by contrast|on balance|\w+ly)$/i;
+const LINKER = /^(however|moreover|furthermore|therefore|thus|hence|consequently|nevertheless|nonetheless|conversely|meanwhile|instead|otherwise|similarly|likewise|indeed|still|besides|admittedly|ultimately|overall|today|yesterday|tomorrow|now|then|finally|first|second|third|lastly|next|also|nowadays|anyway|so|yes|no|well|sadly|in (fact|addition|contrast|short|brief|sum|summary|conclusion|particular|general|practice|theory|turn|other words|the end|the meantime|my (view|opinion|experience)|this (case|sense|way|respect))|for (example|instance)|as a result|of course|on the other hand|on the one hand|at the same time|by contrast|on balance|on the whole|by and large|as a rule|after all|above all|even so|that said|having said that|at (first|last)|first of all|all in all|to (sum up|conclude|summari[sz]e|begin( with)?|start with|be (fair|honest)|my mind|some extent|put it simply)|put (simply|briefly|another way)|simply put|(last|next|this|that|every) (year|month|week|weekend|summer|winter|spring|autumn|time|morning|evening|night)|(a|one|two|three|a few|many|several|\d+) (years?|months?|weeks?|days?) (ago|later)|these days|for (this|that|these|those) reasons?|\w+ly)$/i;
 const PREP_PHRASE = /^(in|on|at|by|for|with|during|after|before|despite|across|among|between|within|without|under|over|from|according to|throughout|unlike|like|compared (to|with)|in the case of)\s/i;
 const FINITE = /\b(am|is|are|was|were|be|been|has|have|had|do|does|did|will|would|can|could|should|must|may|might)\b/i;
 const leadInOk = (lead) => SUBORDINATE.test(lead) || LINKER.test(lead) || (PREP_PHRASE.test(lead) && countWords(lead) <= 7 && !FINITE.test(lead));
@@ -106,11 +115,27 @@ export function splitReferences(text) {
   return at < 0 || at < all.length * 0.4 ? { body: all, references: '' } : { body: all.slice(0, at), references: all.slice(at + 1) };
 }
 
-export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null } = {}) {
+// An email or message ends with a sign-off ("Best,\nDana", "Thanks!\nTal"): it is not a sentence, so it is not
+// checked for punctuation and does not count as the text's last sentence (persona panel Y6).
+const SIGN_OFF = /^(best( wishes| regards)?|kind regards|warm regards|regards|many thanks|thanks( again| a lot| so much)?|thank you( so much)?|cheers|sincerely|yours( sincerely| faithfully| truly)?|all the best|love|take care|see you( soon)?|speak soon|talk soon)\s*[,.!]?$/i;
+export function splitSignOff(text) {
+  const all = String(text || '').replace(/\s+$/, '');
+  const lines = all.split('\n');
+  for (let i = lines.length - 1; i >= Math.max(0, lines.length - 3); i--) {
+    if (!SIGN_OFF.test(lines[i].trim())) continue;
+    const after = lines.slice(i + 1).map((l) => l.trim()).filter(Boolean);
+    if (after.length <= 2 && after.every((l) => countWords(l) <= 4)) return { body: lines.slice(0, i).join('\n'), signOff: lines.slice(i).join('\n').trim() };
+  }
+  return { body: all, signOff: '' };
+}
+// Text types that are not argued: an email or a message gets no argument checks (persona panel Y6).
+export const NOT_ARGUED = new Set(['email', 'message']);
+
+export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null } = {}) {
   const { body, references } = splitReferences(text);
-  const raw = body;
+  const raw = splitSignOff(body).body;
   const refWords = references ? countWords(references) : 0;
-  const words = countWords(raw);
+  const words = countWords(body); // a sign-off is not checked, but its words count
   const sentences = sentencesOf(raw);
   const headings = new Set(linesOf(raw).filter((l) => l.heading).map((l) => l.text));
   const paragraphs = raw.split(/\n\s*\n/).map((p) => p.trim()).filter((p) => p && !headings.has(p.replace(/\s+/g, ' ')));
@@ -118,7 +143,7 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   const lower = (raw.toLowerCase().match(/[a-z']+/g) || []);
   const types = new Set(lower);
   const lens = sentences.map((s) => countWords(s));
-  const isFormal = formal ?? FORMAL_LEVELS.has(level);
+  const isFormal = !NOT_ARGUED.has(kind) && (formal ?? FORMAL_LEVELS.has(level));
 
   const checks = [];
   const refNote = refWords ? { en: `; the reference list (${refWords} words) is not counted`, he: `; רשימת המקורות (${refWords} מילים) לא נספרת` } : { en: '', he: '' };
@@ -166,10 +191,10 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
 
   const connectors = {};
   for (const [cat, list] of Object.entries(CONNECTORS)) {
-    const found = list.filter((c) => new RegExp(`\\b${c}\\b`, 'i').test(raw));
+    const found = list.filter((c) => (LINKER_ONLY_AT[c] || new RegExp(`\\b${c}\\b`, 'i')).test(raw));
     if (found.length) connectors[cat] = found;
   }
-  const structure = Object.fromEntries(Object.entries(SIGNALS).map(([k, re]) => [k, re.test(raw)]));
+  const structure = NOT_ARGUED.has(kind) ? {} : Object.fromEntries(Object.entries(SIGNALS).map(([k, re]) => [k, re.test(raw)]));
 
   return {
     stats: {

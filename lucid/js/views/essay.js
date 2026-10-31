@@ -10,13 +10,13 @@ import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, toast, emptyState, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, recordAttempt, logEvent } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { analyzeWriting, splitReferences } from '../core/writing-analyzer.js';
+import { analyzeWriting, splitReferences, NOT_ARGUED } from '../core/writing-analyzer.js';
 import { countWords } from '../core/grading.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { runSet } from '../ui/player.js';
 import { STAGES } from './writing.js';
-import { wordDiff, fixStatus, locateSpan } from '../core/diff.js';
+import { wordDiff, diffParagraphs, fixStatus, locateSpan } from '../core/diff.js';
 
 const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעל היעד', 'Above target'], ['מעבר ליעד', 'Beyond target']];
 const CATEGORY = {
@@ -49,6 +49,13 @@ function finalTask(cur, level) {
 }
 
 const FREE = { id: 'free', stage: 0, level: null, kind: 'essay', title_en: 'Free writing', title_he: 'כתיבה חופשית', instructions: { en: 'Write about anything you like. Use the checks to improve it.', he: 'כתבו על כל נושא שתרצו, והשתמשו בבדיקות כדי לשפר.' }, min_words: 30, focus: ['grammar', 'vocabulary', 'clarity'], checklist: [] };
+// Free writing says what kind of text it is, so an email or a message is not checked as an argued essay
+// (persona panel Y6). The kind goes to AI feedback too.
+const TEXT_KINDS = [
+  ['essay', 'חיבור או טקסט דעה', 'Essay or opinion', 'בדיקות של מבנה טיעון: עמדה, ראיות, טיעון נגדי וסיכום.', 'Checks for argument structure: a position, evidence, the other side and a conclusion.'],
+  ['email', 'מייל', 'Email', 'בלי בדיקות של טיעון. המשוב מסתכל על מטרת המייל, על הנמען ועל הפתיחה והסיום.', 'No argument checks. Feedback looks at the email\'s purpose, its reader, and how it opens and closes.'],
+  ['message', 'הודעה', 'Message', 'הודעה קצרה לחבר או לקבוצה. בלי בדיקות של טיעון.', 'A short message to a friend or a group. No argument checks.'],
+];
 
 // Every way an AI request can fail, in plain words (persona panel P-78). Server messages are never shown raw.
 const SAVED = ['הטקסט שמור במכשיר.', 'Your text is saved on this device.'];
@@ -113,12 +120,15 @@ export default async function essay(el, ctx) {
   const draftRec = store.get('writing', `${sumId}#draft`);
   let text = draftRec?.text ?? versions().at(-1)?.text ?? '';
   let chosen = Number.isInteger(draftRec?.topic) ? draftRec.topic : versions().at(-1)?.topic ?? null;
+  let textKind = task.id === 'free' ? (draftRec?.text_kind || versions().at(-1)?.text_kind || 'essay') : null;
+  const kindOf = () => textKind || task.kind || 'essay';
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
-  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7 });
+  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf() });
   let analysis = text ? analyze() : null;
   let busy = false; let aiError = ''; let aiNote = ''; let busySince = 0; let busyTimer = null;
-  let tab = 'checks';
+  let tab = 'checks'; // set below: a draft in revision opens on its AI feedback (persona panel R2-21)
   let cmp = null; // { a, b }: version numbers, b may be 'now' (the current text)
+  let cmpAll = false; // compare: changed paragraphs only (default), or the whole text
   let checkedNote = '';
   // Hint ladder (research E 9.5): 1 locate, 2 name the error type, 3 clue, 4 correction with explanation.
   // Grammar starts at "name" for A1-A2 and at "locate" above; spelling and word choice always start at "locate".
@@ -138,6 +148,7 @@ export default async function essay(el, ctx) {
   const latestEval = () => versions().filter((v) => v.evaluation).at(-1) || null;
   const evaluatedCount = () => versions().filter((x) => x.evaluation).length;
   const isFinal = () => Boolean(latestEval()?.final);
+  if (aiReady && latestEval() && !isFinal()) tab = 'ai';
   const roundsLeft = () => !isFinal() && evaluatedCount() < MAX_EVALS;
   const scope = () => { const s = settings().feedback_scope; return s !== 'auto' ? s : ['B2', 'C1', 'C2'].includes(level) ? 'comprehensive' : 'focused'; };
   const sourcePack = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
@@ -161,7 +172,7 @@ export default async function essay(el, ctx) {
   function analysisPanel() {
     if (!analysis) return html`<p class="small muted">${tt('כתבו, ואז לחצו ״בדיקה אוטומטית״. הבדיקות האוטומטיות עובדות גם בלי AI.', 'Write, then press "Check". Automatic checks work without AI.')}</p>`;
     const a = analysis;
-    const argumentative = ARGUMENTATIVE.has(task.kind) || isAssignment;
+    const argumentative = (ARGUMENTATIVE.has(kindOf()) || isAssignment) && !NOT_ARGUED.has(kindOf());
     const sig = [['thesis', 'תזה / עמדה', 'Thesis or position'], ['evidence', 'ראיות או דוגמאות', 'Evidence or examples'], ['counter', 'טיעון נגדי', 'Counterargument'], ['rebuttal', 'הפרכה', 'Rebuttal'], ['conclusion', 'סיכום', 'Conclusion']];
     return html`<div class="stack">
       <div class="check-list">${a.checks.map((c) => html`<div class="check-item">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}</div>
@@ -181,10 +192,12 @@ export default async function essay(el, ctx) {
     return html`<p class="banner small essay-busy" role="status">${html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem;flex:none"></span>`}<span>${tt(`קוראים את הטקסט${long ? ' הארוך' : ''} שלכם. בדרך כלל זה לוקח פחות מדקה${long ? '; טקסט ארוך יכול לקחת כמה דקות' : ''}. שינויים שתעשו עכשיו לא ייכללו במשוב הזה.`, `Reading your ${long ? 'long ' : ''}text. This usually takes under a minute${long ? '; a long paper can take a few minutes' : ''}. Edits you make now are not included in this feedback.`)} <span class="num faint" data-elapsed aria-hidden="true"></span></span></p>`;
   }
 
-  // What AI feedback cannot check on research and source-based tasks (persona panel P-79).
+  // What AI feedback cannot check on research and source-based tasks (persona panel P-79). Lucid's own
+  // statement and the AI's note on what to check are separate, labelled blocks (persona panel R2-41).
   function sourceLimits(e) {
     if (!sourceBased() && !e?.verification_note) return '';
-    return html`<div class="banner small">${icon('info', { size: 16 })}<div class="stack-sm"><span>${tt('משוב ה-AI שופט איך אתם בוחרים, מעריכים ומשלבים ראיות. הוא לא קורא את המקורות, ולכן לא יכול לבדוק אם מקור קיים, אם ציטוט מדויק או אם המקור באמת אומר את מה שאתם מדווחים. את זה צריך לבדוק בעצמכם.', 'AI feedback judges how you choose, evaluate and use evidence. It does not read your sources, so it cannot check whether a source exists, whether a quotation is accurate, or whether a source says what you report. Check those yourself.')}</span>${e?.verification_note ? html`<span dir="auto">${e.verification_note}</span>` : ''}</div></div>`;
+    return html`<div class="banner small source-limits">${icon('info', { size: 16 })}<div class="stack-sm grow"><p>${tt('משוב ה-AI שופט איך אתם בוחרים, מעריכים ומשלבים ראיות. הוא לא קורא את המקורות, ולכן לא יכול לבדוק אם מקור קיים, אם ציטוט מדויק או אם המקור באמת אומר את מה שאתם מדווחים. את זה צריך לבדוק בעצמכם.', 'AI feedback judges how you choose, evaluate and use evidence. It does not read your sources, so it cannot check whether a source exists, whether a quotation is accurate, or whether a source says what you report. Check those yourself.')}</p>
+      ${e?.verification_note ? html`<div class="ai-note"><p class="xsmall"><strong>${tt('מהמשוב של ה-AI: מה לבדוק', 'From the AI feedback: what to check')}</strong></p><p dir="auto">${e.verification_note}</p></div>` : ''}</div></div>`;
   }
 
   function aiPanel() {
@@ -205,9 +218,9 @@ export default async function essay(el, ctx) {
       ${e.revision?.progress_since_previous ? html`<div class="banner small">${icon('compare', { size: 16 })}<span dir="auto">${e.revision.progress_since_previous}</span></div>` : ''}
       ${e.strengths?.length ? html`<div class="stack-sm"><h3 class="small">${tt('מה עובד', 'What works')}</h3>${e.strengths.map((s) => html`<p class="note-row small">${icon('check', { size: 16 })}<span dir="auto">${s}</span></p>`)}</div>` : ''}
       ${sourceLimits(e)}
-      ${!done ? selfForm() : ''}
       ${done ? html`<p class="xsmall faint">${tt('זה היה סבב המשוב האחרון למשימה הזו.', 'That was the last feedback round for this task.')}${otherAtStage ? html` <a href="#/writing?stage=${task.stage}">${tt('כדי לבדוק שזה עובר הלאה, נסו משימה חדשה בשלב הזה.', 'To check that it transfers, try a new task at this stage.')}</a>` : ''}</p>` : ''}
       ${e.revision?.tasks?.length ? html`<div class="stack-sm"><h3 class="small">${done ? tt('מה לקחת למשימה הבאה', 'What to carry into your next task') : tt('לטיוטה הבאה', 'For your next draft')}</h3><ol class="small stack-sm" style="margin:0;padding-inline-start:1.2rem">${e.revision.tasks.map((x) => html`<li dir="auto">${x}</li>`)}</ol></div>` : ''}
+      ${!done ? selfForm({ next: true }) : ''}
       ${errorList(e)}
       <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span><span class="band">${e.low_confidence?.includes(c.id) ? html`<span title="${tt('הערכה לא ודאית', 'Low-confidence estimate')}">~</span>` : ''}${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}${e.self?.[c.id] != null ? html` <span class="xsmall faint">(${tt('הערכה עצמית', 'you said')}: ${tt(BAND[e.self[c.id]][0], BAND[e.self[c.id]][1])})</span>` : ''}</span>
         <details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><div class="stack-sm" style="margin-top:var(--s2)"><p dir="auto">${c.explanation}</p>${c.examples.map((x) => html`<p class="small"><span class="quote" lang="en" dir="ltr">${x.quote}</span> <span class="muted" dir="auto">${x.comment}</span></p>`)}<p dir="auto"><strong>${tt('לשפר:', 'Improve:')}</strong> ${c.improvement}</p><p dir="auto" class="muted"><strong>${tt('לתרגל:', 'Practise:')}</strong> ${c.practice}</p></div></details></div>`)}</div>
@@ -244,11 +257,16 @@ export default async function essay(el, ctx) {
     return st === 'fixed' ? tt('נראה מתוקן. הטיוטה הבאה תיבדק.', 'Looks fixed. Your next draft will be checked.') : st === 'changed' ? tt('שיניתם את זה. הטיוטה הבאה תיבדק.', 'You changed this. Your next draft will be checked.') : '';
   }
   function cefrLabel(l) { return l === 'below_PreA1' ? '<Pre-A1' : LEVEL_LABEL[l] || l; }
-  // From stage 7, learners rate themselves before seeing the AI's bands (research E, decision 31).
-  function selfForm() {
+  // From stage 7, learners rate themselves before seeing the AI's bands (research E, decision 31). Once feedback
+  // is shown, the form is for the next draft, says so, and is folded under the advice (persona panel R2-42).
+  function selfForm({ next = false } = {}) {
     if ((task.stage || 0) < 7) return '';
-    return html`<div class="panel flat stack-sm"><p class="small">${tt('לפני המשוב: איך הייתם מדרגים את עצמכם?', 'Before the feedback: how would you rate yourself?')}</p>
-      ${SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input compact" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`)}</div>`;
+    const rows = SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input compact" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`);
+    if (next) {
+      return html`<details class="panel flat self-rate" ${Object.keys(selfScores).length ? html`open` : ''}><summary class="small">${tt('לפני המשוב הבא: דרגו בעצמכם את הטיוטה המתוקנת (רשות)', 'Before your next feedback: rate your revised draft yourself (optional)')}</summary>
+        <div class="stack-sm" style="margin-top:var(--s2)"><p class="xsmall faint">${tt('הדירוג שלכם נשמר עם המשוב הבא ומוצג ליד הדירוג של ה-AI. הוא לא נשלח ל-AI.', 'Your rating is saved with your next feedback and shown next to the AI\'s bands. It is not sent to the AI.')}</p>${rows}</div></details>`;
+    }
+    return html`<div class="panel flat stack-sm self-rate"><p class="small">${tt('לפני המשוב: איך הייתם מדרגים את הטקסט?', 'Before the feedback: how would you rate your text?')}</p>${rows}</div>`;
   }
 
   // Compare any two versions, or a version with the current text; previous vs latest by default
@@ -265,9 +283,27 @@ export default async function essay(el, ctx) {
     const parts = cmp.a === cmp.b ? null : wordDiff(textOf(cmp.a), textOf(cmp.b));
     return html`<div class="panel flat stack-sm"><div class="row small"><span>${tt('השוואה', 'Compare')}</span>${opt(cmp.a, 'a')}<span aria-hidden="true">${tt('←', '→')}</span>${opt(cmp.b, 'b')}</div>
       ${!parts ? html`<p class="small faint">${tt('בחרו שתי גרסאות שונות.', 'Choose two different versions.')}</p>`
-        : !parts.some((p) => p.type === 'add' || p.type === 'del') ? html`<p class="small faint">${tt('אין הבדלים.', 'No differences.')}</p>`
-        : html`<div class="diff small" lang="en" dir="ltr">${parts.map((p) => (p.type === 'break' ? p.text : p.type === 'same' ? html`<span>${p.text}</span> ` : p.type === 'add' ? html`<ins>${p.text}</ins> ` : html`<del>${p.text}</del> `))}</div>
-          <p class="xsmall faint"><ins>${tt('נוסף', 'added')}</ins> · <del>${tt('נמחק', 'removed')}</del></p>`}</div>`;
+        : !parts.some((p) => p.type === 'add' || p.type === 'del' || p.para) ? html`<p class="small faint">${tt('אין הבדלים.', 'No differences.')}</p>`
+        : diffView(parts)}</div>`;
+  }
+  const diffPart = (p) => (p.para === 'add' ? html`<ins class="para-mark" title="${tt('פסקה חדשה', 'New paragraph')}">¶</ins>${p.text}`
+    : p.para === 'del' ? html`<del class="para-mark" title="${tt('מעבר פסקה נמחק', 'Paragraph break removed')}">¶</del> `
+    : p.type === 'break' ? p.text : p.type === 'same' ? html`<span>${p.text}</span> ` : p.type === 'add' ? html`<ins>${p.text}</ins> ` : html`<del>${p.text}</del> `);
+  // Long drafts: only the changed paragraphs, each with its number in the newer version and a jump list, or
+  // the whole text on request (persona panel R2-40).
+  function diffView(parts) {
+    const blocks = diffParagraphs(parts);
+    const changed = blocks.filter((b) => b.changed);
+    const legendRow = html`<p class="xsmall faint"><ins>${tt('נוסף', 'added')}</ins> · <del>${tt('נמחק', 'removed')}</del> · <ins class="para-mark">¶</ins> ${tt('מעבר פסקה', 'paragraph break')}</p>`;
+    const modes = blocks.length > 1 ? html`<div class="seg" role="group" aria-label="${tt('מה להציג', 'What to show')}"><button type="button" data-cmp-all="0" aria-pressed="${!cmpAll}">${tt('רק מה שהשתנה', 'Changes only')}</button><button type="button" data-cmp-all="1" aria-pressed="${cmpAll}">${tt('כל הטקסט', 'Whole text')}</button></div>` : '';
+    if (cmpAll || blocks.length <= 1) return html`${modes}<div class="diff small" lang="en" dir="ltr">${parts.map(diffPart)}</div>${legendRow}`;
+    let prev = 0;
+    return html`${modes}<p class="small">${tt(`השתנו ${changed.length} מתוך ${blocks.length} פסקאות:`, `${changed.length} of ${blocks.length} paragraphs changed:`)}</p>
+      <nav class="row cmp-jump" aria-label="${tt('מעבר לשינוי', 'Go to a change')}">${changed.map((b) => html`<button type="button" class="key ghost small" data-cmp-jump="${b.n}">${tt(`פסקה ${b.n}`, `Paragraph ${b.n}`)}</button>`)}</nav>
+      ${changed.map((b) => { const gap = b.n - prev - 1; prev = b.n; return html`${gap > 0 ? html`<p class="xsmall faint cmp-gap">${gap === 1 ? tt('פסקה אחת לא השתנתה', '1 paragraph unchanged') : tt(`${gap} פסקאות לא השתנו`, `${gap} paragraphs unchanged`)}</p>` : ''}
+        <section class="cmp-para stack-sm" id="cmp-p${b.n}" tabindex="-1"><p class="xsmall faint">${tt(`פסקה ${b.n}`, `Paragraph ${b.n}`)}</p><div class="diff small" lang="en" dir="ltr">${b.parts.map(diffPart)}</div></section>`; })}
+      ${blocks.length - prev > 0 ? html`<p class="xsmall faint cmp-gap">${blocks.length - prev === 1 ? tt('פסקה אחת לא השתנתה', '1 paragraph unchanged') : tt(`${blocks.length - prev} פסקאות לא השתנו`, `${blocks.length - prev} paragraphs unchanged`)}</p>` : ''}
+      ${legendRow}`;
   }
 
   function versionsPanel() {
@@ -291,10 +327,19 @@ export default async function essay(el, ctx) {
       ${pack.map((s) => html`<div class="passage small source"><p><strong>${s.title}</strong> <span class="tag">${tt('חומר לדוגמה, לא נתונים אמיתיים', 'Illustrative, not real data')}</span></p>${s.text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>`)}</div>`;
   }
 
+  // English topics and "Must include" items are left-to-right blocks, like answer options in lessons (P-32, M9).
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => html`<label class="note-row small"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html` <span class="tag">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}</span></label>`)}</fieldset>`;
+      ${task.topics.map((tp, i) => html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}</span></label>`)}</fieldset>`;
+  }
+
+  function kindPicker() {
+    if (task.id !== 'free') return '';
+    const k = TEXT_KINDS.find((x) => x[0] === kindOf()) || TEXT_KINDS[0];
+    return html`<div class="field"><span class="label small">${tt('מה אתם כותבים?', 'What are you writing?')}</span>
+      <div class="seg" role="group" aria-label="${tt('סוג הטקסט', 'Text type')}">${TEXT_KINDS.map(([id, he, en]) => html`<button type="button" data-kind="${id}" aria-pressed="${kindOf() === id}">${tt(he, en)}</button>`)}</div>
+      <span class="help">${tt(k[3], k[4])}</span></div>`;
   }
 
   function taskPanel() {
@@ -302,8 +347,9 @@ export default async function essay(el, ctx) {
     const req = task.required || task.required_elements || [];
     return html`<div class="panel flat stack-sm">${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${bi(task.instructions)}</div>
       ${task.audience ? html`<p class="small"><strong>${tt('למי כותבים:', 'Audience:')}</strong> <span lang="en" dir="ltr">${task.audience}</span></p>` : ''}
+      ${kindPicker()}
       ${topicPicker()}
-      ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}
+      ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list" dir="ltr">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}
       ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm" style="margin:var(--s2) 0 0;padding-inline-start:1.2rem">${task.scaffold.map((s) => html`<li>${bi(s)}</li>`)}</ol></details>` : ''}
       ${pack?.length ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt(`חומרי מקור (${pack.length}), לדוגמה בלבד`, `Source pack (${pack.length}), illustrative only`)}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}
       ${task.input_text ? html`<div class="passage small" lang="en" dir="ltr">${task.input_text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>` : ''}
@@ -348,7 +394,7 @@ export default async function essay(el, ctx) {
               <div class="row"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
                 ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || why ? html`disabled aria-describedby="ai-why"` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
-            ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('משוב AI לא הוגדר בשרת הזה; הבדיקות האוטומטיות עובדות.', 'AI feedback is not configured on this server; automatic checks work.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
+            ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('משוב AI עוד לא זמין באתר הזה; הבדיקות האוטומטיות עובדות.', 'AI feedback is not available on this site yet; automatic checks work.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
             ${busyStatus()}
             <p class="small" role="status" data-status>${busy ? '' : checkedNote}</p>
             ${aiError ? html`<p class="error-text" role="alert">${aiError}</p>` : ''}
@@ -371,7 +417,7 @@ export default async function essay(el, ctx) {
   // An empty editor with no saved draft (for example right after "Delete this text") writes nothing.
   const saveDraft = debounce(() => {
     if (!text && chosen == null && !store.get('writing', `${sumId}#draft`)) return;
-    store.put('writing', { id: `${sumId}#draft`, kind: 'essay-draft', exercise: task.id, text, topic: chosen });
+    store.put('writing', { id: `${sumId}#draft`, kind: 'essay-draft', exercise: task.id, text, topic: chosen, ...(textKind ? { text_kind: textKind } : {}) });
     const s = $('[data-saved]', el); if (s) s.textContent = tt('הטיוטה נשמרה', 'Draft saved');
   }, 600);
 
@@ -404,7 +450,7 @@ export default async function essay(el, ctx) {
     const last = vs.at(-1);
     if (last && last.text === body && !evaluation) return last;
     const n = last && last.text === body ? last.n : (last?.n || 0) + 1;
-    const rec = { id: `${sumId}#${n}`, kind: 'essay-version', exercise: task.id, n, text: body, words: countWords(splitReferences(body).body), at: new Date().toISOString(), level, topic: chosen, analysis: { stats: analysis?.stats, issues: analysis?.issues?.length || 0 }, evaluation: evaluation || (last?.n === n ? last.evaluation : null) };
+    const rec = { id: `${sumId}#${n}`, kind: 'essay-version', exercise: task.id, n, text: body, words: countWords(splitReferences(body).body), at: new Date().toISOString(), level, topic: chosen, ...(textKind ? { text_kind: textKind } : {}), analysis: { stats: analysis?.stats, issues: analysis?.issues?.length || 0 }, evaluation: evaluation || (last?.n === n ? last.evaluation : null) };
     store.put('writing', rec);
     cmp = null; // back to previous vs latest
     const status = store.get('writing', sumId)?.status;
@@ -422,11 +468,11 @@ export default async function essay(el, ctx) {
   function payload(sent, prev) {
     const tp = task.topics?.[chosen];
     const pack = sourcePack();
-    const instructions = [isAssignment ? task.prompt : '', task.instructions.en, tp ? `Topic chosen by the learner: ${tp.en}` : '',
+    const instructions = [isAssignment ? task.prompt : '', task.instructions.en, textKind ? `Text type chosen by the learner: ${textKind}` : '', tp ? `Topic chosen by the learner: ${tp.en}` : '',
       pack?.length ? `Source pack (fictional, invented for this task; the assessor sees only these titles): ${pack.map((s) => s.title).join(' | ')}` : ''].filter(Boolean).join('\n').slice(0, 4000);
     return {
       task: 'evaluate_writing', level, hebrew_support: hebrewSupport(), feedback_scope: scope(), stage: task.stage || 0, draft_number: evaluatedCount() + 1,
-      exercise: { title: task.title_en, instructions, kind: task.kind || 'essay', min_words: minWords || undefined, max_words: maxWords || undefined, focus: task.focus || [], required_elements: (task.required_elements || []).slice(0, 12) },
+      exercise: { title: task.title_en, instructions, kind: kindOf(), min_words: minWords || undefined, max_words: maxWords || undefined, focus: task.focus || [], required_elements: (task.required_elements || []).slice(0, 12) },
       text: sent,
       ...(prev ? { previous: { text: prev.text, priorities: prev.evaluation?.priorities || [] } } : {}),
     };
@@ -541,6 +587,13 @@ export default async function essay(el, ctx) {
     }),
     on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); }),
     on(el, 'change', '[data-cmp]', (e, sel) => { cmp = { ...cmp, [sel.dataset.cmp]: sel.value === 'now' ? 'now' : Number(sel.value) }; draw(); }),
+    on(el, 'click', '[data-cmp-all]', (e, b) => { cmpAll = b.dataset.cmpAll === '1'; draw(); $(`[data-cmp-all="${b.dataset.cmpAll}"]`, el)?.focus(); }),
+    on(el, 'click', '[data-cmp-jump]', (e, b) => {
+      const target = $(`#cmp-p${b.dataset.cmpJump}`, el);
+      target?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      target?.focus({ preventScroll: true });
+    }),
+    on(el, 'click', '[data-kind]', (e, b) => { textKind = b.dataset.kind; if (analysis) analysis = analyze(); saveDraft(); draw(); $(`[data-kind="${textKind}"]`, el)?.focus(); }),
     on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { markFinal(v); draw(); } }),
     on(el, 'click', '[data-delete]', () => deleteText()),
     on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות המשוב.', 'Thanks. Your report was saved and helps us audit feedback quality.')); }),

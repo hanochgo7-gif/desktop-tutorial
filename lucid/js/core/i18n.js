@@ -90,12 +90,21 @@ export function tOther(key) {
 }
 
 // ---------- Hebrew support for learning content ----------
-// 'auto' follows the learner's level: full support at Pre-A1-A2, partial at B1, minimal at B2, off at C1+.
+// 'auto' (Settings: "By level") follows the level: full at Pre-A1 and A1, partial at A2, minimal at B1 and B2,
+// off at C1 and C2.
 export const SUPPORT_BY_LEVEL = { PreA1: 'full', A1: 'full', A2: 'partial', B1: 'minimal', B2: 'minimal', C1: 'off', C2: 'off' };
+const LEVEL_ORDER = Object.keys(SUPPORT_BY_LEVEL);
+// The level that sets 'auto' support: the level the learner has shown (a placement's confirmed level or the
+// highest level of a completed lesson), never above the course level. A placement that showed A2 and starts the
+// course at B1 keeps A2 support until a B1 lesson is completed (R2-06). With nothing shown yet, the course level.
+export function supportLevel(courseLevel, shownLevel = null) {
+  const c = LEVEL_ORDER.indexOf(courseLevel), s = LEVEL_ORDER.indexOf(shownLevel);
+  return s >= 0 && (c < 0 || s < c) ? shownLevel : courseLevel;
+}
 let support = 'full';
 export const hebrewSupport = () => support;
-export function setHebrewSupport(setting, level) {
-  support = setting && setting !== 'auto' ? setting : SUPPORT_BY_LEVEL[level] || 'full';
+export function setHebrewSupport(setting, level, shown = null) {
+  support = setting && setting !== 'auto' ? setting : SUPPORT_BY_LEVEL[supportLevel(level, shown)] || 'full';
   document.documentElement.dataset.support = support;
 }
 
@@ -132,7 +141,42 @@ function englishSpan(r) {
   const full = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
   // Quote marks or brackets that enclose the English go inside, with all its punctuation.
   while (a > 0 && CLOSER[r[a - 1]] && r[b + full.length] === CLOSER[r[a - 1]]) { a--; b += full.length + 1; tail = ''; }
-  return [a, b + tail.length];
+  return keepPairs(r, a, b + tail.length);
+}
+
+// A bracket pair is never split by the isolate (R2-01): one bracket inside and its partner outside would be
+// mirrored and moved by the bidi algorithm ("double (A, double N, A)." showed as "(double (A, ..."). An opener
+// inside whose closer comes later in the run takes the closer in; a closer inside whose opener comes earlier
+// takes the opener in. A partner beyond the run (in the Hebrew) cannot be reached; the content check flags it.
+const PAIR = { '(': ')', '[': ']', '{': '}', '“': '”' };
+const OPENER = Object.fromEntries(Object.entries(PAIR).map(([o, c]) => [c, o]));
+function partner(r, from, step, c) {
+  const [same, other] = step > 0 ? [c, PAIR[c]] : [c, OPENER[c]];
+  let depth = 0;
+  for (let i = from; i >= 0 && i < r.length; i += step) {
+    if (r[i] === same) depth++;
+    else if (r[i] === other && depth-- === 0) return i;
+  }
+  return -1;
+}
+// The brackets of r[a, b) that have no partner inside it: [index, char].
+export function unpaired(s, a = 0, b = s.length) {
+  const open = [], loose = [];
+  for (let i = a; i < b; i++) {
+    if (PAIR[s[i]]) open.push(i);
+    else if (OPENER[s[i]]) { if (open.length && PAIR[s[open.at(-1)]] === s[i]) open.pop(); else loose.push(i); }
+  }
+  return [...loose, ...open].sort((x, y) => x - y);
+}
+function keepPairs(r, a, b) {
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const i of unpaired(r, a, b)) {
+      const j = PAIR[r[i]] ? partner(r, b, 1, r[i]) : partner(r, a - 1, -1, r[i]);
+      if (j >= b) { b = j + 1; changed = true; } else if (j >= 0 && j < a) { a = j; changed = true; }
+    }
+  }
+  return [a, b];
 }
 
 export function isolateLatin(text) {
@@ -140,18 +184,41 @@ export function isolateLatin(text) {
   if (!/[A-Za-z]/.test(s)) return s;
   let out = '';
   let last = 0;
-  for (const m of s.matchAll(RUN)) {
-    const [a, b] = englishSpan(m[0]);
-    out += esc(s.slice(last, m.index + a)) + `<bdi dir="ltr" lang="en">${esc(m[0].slice(a, b))}</bdi>`;
-    last = m.index + b;
+  for (const [at, r] of englishRuns(s)) {
+    const [a, b] = englishSpan(r);
+    out += esc(s.slice(last, at + a)) + `<bdi dir="ltr" lang="en">${esc(r.slice(a, b))}</bdi>`;
+    last = at + b;
   }
   return raw(out + esc(s.slice(last)));
 }
+// The runs of non-Hebrew text that hold English, as [offset, text]. A bracket whose partner is outside the
+// run (in the Hebrew: "Eilat. (he, she, it – בשיעור הבא.)") splits it, so the bracket stays with the Hebrew
+// and the bidi algorithm pairs it with its partner there.
+function englishRuns(s) {
+  const out = [];
+  const split = (r, at) => {
+    const cuts = unpaired(r);
+    if (!cuts.length) { if (/[A-Za-z]/.test(r)) out.push([at, r]); return; }
+    let from = 0;
+    for (const cut of [...cuts, r.length]) { split(r.slice(from, cut), at + from); from = cut + 1; }
+  };
+  for (const m of s.matchAll(RUN)) split(m[0], m.index);
+  return out;
+}
 
 // Bilingual content text: English always; Hebrew per support level.
-export function bi(obj, { always = false } = {}) {
+// fold: a long explanation paragraph. At "partial" support its Hebrew is one tap away ("בעברית", per paragraph)
+// instead of a full second copy under the English (R1-D10; research C3 S1: A2 gets English with a Hebrew
+// tap-to-reveal). Short lines keep their Hebrew under the English.
+export const FOLD_WORDS = 24;
+const longText = (en) => String(en || '').split(/\s+/).filter(Boolean).length > FOLD_WORDS;
+export function bi(obj, { always = false, fold = false } = {}) {
   if (!obj) return '';
   if (typeof obj === 'string') return html`<span lang="en" dir="ltr">${obj}</span>`;
-  const showHe = obj.he && (always || support === 'full' || support === 'partial');
-  return html`<span class="bi">${showHe && support === 'full' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe && support !== 'full' ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${!showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he lang="he">עב<span class="sr-only"> ${tt('הצגת ההסבר בעברית', 'show the Hebrew explanation')}</span></button><span class="bi-he" lang="he" dir="rtl" hidden>${isolateLatin(obj.he)}</span>` : ''}</span>`;
+  const folded = Boolean(obj.he) && fold && !always && support === 'partial' && longText(obj.en);
+  const showHe = obj.he && !folded && (always || support === 'full' || support === 'partial');
+  const hidden = html`<span class="bi-he bi-he-after" lang="he" dir="rtl" hidden>${isolateLatin(obj.he)}</span>`;
+  return html`<span class="bi">${showHe && support === 'full' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe && support !== 'full' ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${folded
+    ? html`<button type="button" class="he-reveal he-reveal-text" data-reveal-he aria-expanded="false" lang="he">בעברית<span class="sr-only"> ${tt('– להצגת הפסקה בעברית', '– show this paragraph in Hebrew')}</span></button>${hidden}`
+    : !showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he aria-expanded="false" lang="he">עב<span class="sr-only"> ${tt('הצגת ההסבר בעברית', 'show the Hebrew explanation')}</span></button>${hidden}` : ''}</span>`;
 }

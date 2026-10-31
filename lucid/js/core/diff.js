@@ -1,7 +1,9 @@
 // Draft comparison and span tracking.
 // wordDiff: lines and paragraph breaks are kept; sentences are aligned first (LCS over sentences), then each
 // run of changed sentences is compared word by word with the run of new sentences that replaced it, so edits
-// to neighbouring sentences stay aligned and long essays stay cheap to compare.
+// to neighbouring sentences stay aligned and long essays stay cheap to compare. Added and removed paragraph
+// breaks are marked; diffParagraphs splits the result into the newer text's paragraphs, so a long draft can be
+// compared paragraph by paragraph.
 // trackSpan / fixStatus / locateSpan: follow a quote from an assessed draft into the current text by the
 // sentence it was in, so "looks fixed" is judged where the mistake was, not anywhere in the essay.
 const BREAK = '\n';
@@ -35,15 +37,23 @@ function lcs(a, b, eq = (x, y) => x === y) {
   return ops;
 }
 
-// Returns [{type: 'same' | 'add' | 'del' | 'break', text}], adjacent parts of the same type merged.
-// 'break' parts hold the new text's line breaks ('\n' or '\n\n'); a removed break is not shown.
+// Returns [{type: 'same' | 'add' | 'del' | 'break', text, para?}], adjacent parts of the same type merged.
+// 'break' parts hold the new text's line breaks ('\n' or '\n\n'). A paragraph break that was added is a 'break'
+// part with para: 'add'; one that was removed is a 'del' part '¶' with para: 'del', so a split or a joined
+// paragraph shows as a change (persona panel R2-40).
 export function wordDiff(before, after) {
   const out = [];
   const push = (type, text) => {
-    if (text === BREAK) { if (type === 'del') return; type = 'break'; }
+    let para = null;
+    if (text === BREAK) {
+      if (type === 'same') type = 'break';
+      else { para = type; type = type === 'add' ? 'break' : 'del'; text = type === 'del' ? '¶' : BREAK; }
+    }
     const last = out.at(-1);
-    if (last && last.type === type) last.text += type === 'break' ? BREAK : ` ${text}`;
-    else out.push({ type, text });
+    if (para === 'del' && last?.para === 'del') return; // a removed blank line is one mark
+    if (last && last.type === type && !last.para && !para) last.text += type === 'break' ? BREAK : ` ${text}`;
+    else if (last && type === 'break' && last.type === 'break' && last.para === para) last.text += BREAK;
+    else out.push(para ? { type, text, para } : { type, text });
   };
   const ops = lcs(units(before), units(after));
   for (let k = 0; k < ops.length;) {
@@ -56,6 +66,28 @@ export function wordDiff(before, after) {
     for (const [op, x, y] of lcs(a, b)) push(op, op === 'add' ? y : x);
   }
   return out;
+}
+
+// The diff in paragraphs of the newer text, for long drafts (persona panel R2-40): [{ n, parts, changed }], where
+// n is the paragraph's number in the newer text and parts are its wordDiff parts. A paragraph that was split
+// off, or that holds removed text or a removed paragraph break, counts as changed.
+export function diffParagraphs(parts) {
+  const blocks = [];
+  let cur = { n: 1, parts: [], changed: false };
+  const close = () => { if (cur.parts.length) blocks.push(cur); };
+  for (const p of parts) {
+    if (p.type === 'break' && (p.text.length > 1 || p.para === 'add')) {
+      if (p.para === 'add') cur.changed = true; // both halves of a split paragraph
+      close();
+      cur = { n: (blocks.at(-1)?.n ?? 0) + 1, parts: [], changed: p.para === 'add' };
+      if (p.para === 'add') cur.parts.push({ type: 'break', text: '', para: 'add' });
+      continue;
+    }
+    cur.parts.push(p);
+    if (p.type === 'add' || p.type === 'del') cur.changed = true;
+  }
+  close();
+  return blocks;
 }
 
 // ---------- span tracking ----------
