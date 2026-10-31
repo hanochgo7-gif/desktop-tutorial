@@ -7,7 +7,7 @@
   var WA = 'https://wa.me/972545779379';
   var KB = window.KB || [];
   // מאגר הידע נטען רק כשפותחים את הצ'אט (חוסך ~60KB בטעינת כל עמוד)
-  function loadKB(cb) { if (window.KB && window.KB.length) { KB = window.KB; cb(); return; } var sc = document.createElement('script'); sc.src = ROOT + 'js/knowledge.js?v=1'; sc.onload = function () { KB = window.KB || []; cb(); }; sc.onerror = function () { cb(); }; document.head.appendChild(sc); }
+  function loadKB(cb) { if (window.KB && window.KB.length) { KB = window.KB; indexKB(); cb(); return; } var sc = document.createElement('script'); sc.src = ROOT + 'js/knowledge.js?v=1'; sc.onload = function () { KB = window.KB || []; indexKB(); cb(); }; sc.onerror = function () { cb(); }; document.head.appendChild(sc); }
   var LINKS = {
     book: { t: 'קביעת תור', h: ROOT + 'index.html#contact' },
     wa: { t: 'וואטסאפ לרותם', h: WA + '?text=' + encodeURIComponent('היי, יש לי שאלה'), ext: true },
@@ -77,13 +77,15 @@
     });
     return Object.keys(found).map(Number);
   }
-  /* אינדקס המאגר, פעם אחת */
-  KB.forEach(function (p) {
+  /* אינדקס המאגר, פעם אחת (גם אחרי שהמאגר נטען בפתיחת הצ'אט) */
+  indexKB();
+  function indexKB() { KB.forEach(function (p) {
+    if (p._title !== undefined) return;
     p._title = norm(p.title); p._tags = norm(p.tags.join(' ')); p._text = norm(p.text); p._padded = ' ' + p._text + ' ';
     p._words = (p._title + ' ' + p._tags + ' ' + p._text).split(' ').filter(function (w) { return w.length >= 3; });
     p._topics = topics(p.title + ' ' + p.tags.join(' '));
     p._textTopics = topics(p.text);
-  });
+  }); }
   function score(p, toks, tops) {
     var s = 0, exact = 0;
     toks.forEach(function (t) {
