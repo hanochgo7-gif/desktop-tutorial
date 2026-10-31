@@ -96,3 +96,15 @@ test('partial support folds the Hebrew of a long paragraph behind "בעברית"
   setHebrewSupport('minimal');
   assert.match(String(bi(long, { fold: true })), />עב</, 'minimal keeps its "עב" button');
 });
+
+test('straight quote pairs stay together inside the English isolate', async () => {
+  const { isolateLatin, unpairedQuotes } = await import('../../js/core/i18n.js');
+  const isolates = (t) => [...String(isolateLatin(t)).replace(/&#39;/g, "'").matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].map((m) => m[1]);
+  for (const t of [
+    "לשלב אותו בתוך משפט ארוך: 'It was my bad that we were late'. My bad עובד כתגובה קצרה.",
+    "לשכוח את a: 'It's not big deal'. נכון: It's no big deal.",
+    "להשתמש ב-gonna לתנועה: 'I'm gonna the gym'. gonna בא רק לפני פועל.",
+    "כעצה: 'Take it easy this week; you've been sick.' take it easy on someone פירושו להתייחס בעדינות.",
+  ]) for (const i of isolates(t)) assert.equal(unpairedQuotes(i), 0, `half a quote pair in "${i}"`);
+  assert.equal(unpairedQuotes("It's fine"), 0, 'apostrophes are not quotes');
+});

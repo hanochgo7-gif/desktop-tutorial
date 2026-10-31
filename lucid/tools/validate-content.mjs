@@ -376,12 +376,14 @@ if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt(
 
 // Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
 // js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
-const { isolateLatin, unpaired } = await import('../js/core/i18n.js');
+const { isolateLatin, unpaired, unpairedQuotes } = await import('../js/core/i18n.js');
 function bidiBrackets(rel, v, path = '') {
   if (typeof v === 'string') {
     if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
     const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
     if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
+    const halfQuote = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpairedQuotes(m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"')));
+    if (halfQuote) warn(rel, path, `English isolate "${halfQuote[1]}" holds half of a pair of quote marks`);
   } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
   else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
 }

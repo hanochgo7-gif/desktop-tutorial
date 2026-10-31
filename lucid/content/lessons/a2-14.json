@@ -239,7 +239,7 @@
       "prompt": { "en": "Listen and write the suggestion.", "he": "הקשיבו וכתבו את ההצעה." },
       "audio_text": "Why don't we meet at the café after class?",
       "answers": ["Why don't we meet at the café after class?", "Why don't we meet at the cafe after class?"],
-      "explanation": { "en": "Why don't we + base verb? = a suggestion. In fast speech the t in don't almost disappears: 'don' we'.", "he": "Why don't we + פועל בסיס? = הצעה. בדיבור מהיר ה-t ב-don't כמעט נעלמת: 'don' we'." }
+      "explanation": { "en": "Why don't we + base verb? = a suggestion. In fast speech the t in don't almost disappears: 'don' we'.", "he": "Why don't we + פועל בסיס? = הצעה. בדיבור מהיר ה-t ב-don't כמעט נעלמת: “don’ we”." }
     },
     {
       "id": "e14", "type": "speak", "skill": "speaking",

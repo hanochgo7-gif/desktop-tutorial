@@ -141,7 +141,14 @@ function englishSpan(r) {
   const full = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
   // Quote marks or brackets that enclose the English go inside, with all its punctuation.
   while (a > 0 && CLOSER[r[a - 1]] && r[b + full.length] === CLOSER[r[a - 1]]) { a--; b += full.length + 1; tail = ''; }
-  return keepPairs(r, a, b + tail.length);
+  let [x, y] = keepPairs(r, a, b + tail.length);
+  // A straight quote that opens inside and closes just outside ("a: 'It's not big deal'.") takes its partner in.
+  if (unpairedQuotes(r.slice(x, y))) {
+    const after = r.slice(y).search(/['"]/);
+    if (after >= 0) y += after + 1;
+    else { const before = r.slice(0, x).search(/['"][^'"]*$/); if (before >= 0) x = before; }
+  }
+  return [x, y];
 }
 
 // A bracket pair is never split by the isolate (R2-01): one bracket inside and its partner outside would be
@@ -204,6 +211,22 @@ function englishRuns(s) {
   };
   for (const m of s.matchAll(RUN)) split(m[0], m.index);
   return out;
+}
+// Straight quote marks used as quotes (not apostrophes inside a word) that have no partner in s.
+export function unpairedQuotes(s) {
+  const dq = (s.match(/"/g) || []).length % 2;
+  // Read left to right: an apostrophe inside a word (don't) or starting a contraction ('ll, 's = has) is not a
+  // quote; a trailing one after s (parents') closes an open quote, otherwise it is a possessive.
+  let open = false;
+  for (const m of s.matchAll(/'/g)) {
+    const i = m.index, prev = s[i - 1] || '', next = s[i + 1] || '';
+    if (/[A-Za-z]/.test(prev) && /[A-Za-z]/.test(next)) continue;
+    if (!open && !/[A-Za-z]/.test(prev) && /^'(?:ll|s|d|re|ve|m|t)(?![A-Za-z])/i.test(s.slice(i))) continue;
+    if (/s/i.test(prev) && !/[A-Za-z]/.test(next) && !open) continue;
+    open = !open;
+  }
+  const sq = open ? 1 : 0;
+  return dq + sq;
 }
 
 // Bilingual content text: English always; Hebrew per support level.

@@ -11078,7 +11078,7 @@
      "partner": "Welcome! So where were you before this?",
      "options": [
       {
-       "text": "I have worked at a small start-up in Haifa for three years. We build apps for clinics.",
+       "text": "I have worked at a small start-up in Haifa for three years. We build apps for medical clinics.",
        "verdict": "poor",
        "feedback": {
         "en": "This says you still work there: 'I have worked there for three years' and 'we build' are about now. For a job that has ended, use the past: 'I worked there for three years. We built apps...'",
@@ -11198,11 +11198,11 @@
      "partner": "Any questions for us before we start?",
      "options": [
       {
-       "text": "Yes. What is my salary exactly?",
+       "text": "Yes. What is my salary exactly? And how many vacation days do I get?",
        "verdict": "poor",
        "feedback": {
-        "en": "Salary is private, and it isn't a topic for a team meeting. Ask your manager or HR in private.",
-        "he": "משכורת היא נושא פרטי, ולא מדברים עליה בישיבת צוות. שואלים את המנהל/ת או את משאבי האנוש בפרטיות."
+        "en": "Salary and vacation days are questions for HR, not for a team meeting, and asking them in front of everyone sounds as if that's all you care about. Ask your manager or HR in private.",
+        "he": "משכורת וימי חופשה הם שאלות למשאבי אנוש, לא לישיבת צוות, ולשאול עליהן מול כולם נשמע כאילו רק זה מעניין אתכם. שואלים את המנהל/ת או את משאבי האנוש בפרטיות."
        }
       },
       {
@@ -11214,11 +11214,11 @@
        }
       },
       {
-       "text": "No questions.",
+       "text": "No, I don't have any questions at the moment. Everything is clear. Thank you very much.",
        "verdict": "ok",
        "feedback": {
-        "en": "Correct, but it can sound cold. Add something friendly: 'Not right now, thanks. I'm sure I'll have lots later!'",
-        "he": "נכון, אבל עלול להישמע קר. כדאי להוסיף משהו ידידותי: Not right now, thanks. I'm sure I'll have lots later!"
+        "en": "Polite, but long and stiff for a quick team meeting, and 'Everything is clear' on day one sounds a little unlikely. A lighter answer is friendlier: 'Not right now, thanks. I'm sure I'll have lots later!'",
+        "he": "מנומס, אבל ארוך ונוקשה לישיבת צוות קצרה, ו-Everything is clear ביום הראשון נשמע קצת לא סביר. תשובה קלילה יותר נשמעת ידידותית יותר: Not right now, thanks. I'm sure I'll have lots later!"
        }
       }
      ],
@@ -11446,11 +11446,11 @@
      "partner": "Not bad! It's still early here, so I'm on my second coffee.",
      "options": [
       {
-       "text": "You drink too much coffee. It's not healthy.",
+       "text": "You drink too much coffee. It's not healthy, you know. I only drink green tea now.",
        "verdict": "poor",
        "feedback": {
-        "en": "It sounds like criticism of someone you hardly know. Small talk stays light and positive.",
-        "he": "נשמע כמו ביקורת על מישהי שאתם כמעט לא מכירים. סמול טוק נשאר קליל וחיובי."
+        "en": "It sounds like criticism of someone you hardly know, and the green tea part sounds like a lecture. Small talk stays light and positive.",
+        "he": "נשמע כמו ביקורת על מישהי שאתם כמעט לא מכירים, והחלק על התה הירוק נשמע כמו הטפה. סמול טוק נשאר קליל וחיובי."
        }
       },
       {
@@ -11535,11 +11535,11 @@
        "error_type": "comprehension"
       },
       {
-       "text": "Yes, I go to the beach with friends.",
+       "text": "Yes, I go to the beach with my friends on Saturday, and after that we eat at a fish restaurant.",
        "verdict": "ok",
        "feedback": {
-        "en": "Understandable, but the weekend is over, so use the past: 'I went to the beach.' Ask back too: 'How about you?'",
-        "he": "מובן, אבל סוף השבוע כבר עבר, אז משתמשים בעבר: I went to the beach. וכדאי גם לשאול בחזרה: How about you?"
+        "en": "Understandable, and the details are nice, but the weekend is over, so use the past: 'I went to the beach... we ate at a fish restaurant.' Ask back too: 'How about you?'",
+        "he": "מובן, והפרטים נחמדים, אבל סוף השבוע כבר עבר, אז משתמשים בעבר: I went to the beach... we ate at a fish restaurant. וכדאי גם לשאול בחזרה: How about you?"
        },
        "error_type": "tense-choice"
       },
@@ -11900,11 +11900,11 @@
      "partner": "OK, I'll check with Priya. Once you get the data, how long will it take?",
      "options": [
       {
-       "text": "It's impossible to know.",
+       "text": "Honestly, it's impossible to know. Every time we get data from that team there's a new problem, so I can't promise anything.",
        "verdict": "poor",
        "feedback": {
-        "en": "Your manager needs a rough estimate to plan. Give your best guess and say what it depends on.",
-        "he": "המנהל צריך הערכה גסה כדי לתכנן. תנו את ההערכה הכי טובה שלכם ואמרו במה זה תלוי."
+        "en": "Your manager needs a rough estimate to plan, and complaining about the other team doesn't help. Give your best guess and say what it depends on.",
+        "he": "המנהל צריך הערכה גסה כדי לתכנן, ותלונות על הצוות השני לא עוזרות. תנו את ההערכה הכי טובה שלכם ואמרו במה זה תלוי."
        }
       },
       {
@@ -12164,11 +12164,11 @@
        }
       },
       {
-       "text": "Yes.",
+       "text": "Yes, of course, no problem at all. I'll start working on it today and send it to you on Friday.",
        "verdict": "ok",
        "feedback": {
-        "en": "Fine, but if the task isn't clear, now is the moment to ask. A few questions now save time later.",
-        "he": "בסדר, אבל אם המשימה לא ברורה, זה הרגע לשאול. כמה שאלות עכשיו חוסכות זמן אחר כך."
+        "en": "Positive, but you agree to everything before you know what 'short' means or what time on Friday she needs it. If the task isn't clear, now is the moment to ask.",
+        "he": "חיובי, אבל אתם מסכימים להכול לפני שאתם יודעים מה זה 'קצר' או באיזו שעה ביום שישי היא צריכה את זה. אם המשימה לא ברורה, זה הרגע לשאול."
        }
       }
      ],
@@ -12188,19 +12188,19 @@
      "partner": "Of course, go ahead.",
      "options": [
       {
-       "text": "Short like what? This is not clear at all.",
+       "text": "Short like what? This is not clear at all. Next time, please explain exactly what you want.",
        "verdict": "poor",
        "feedback": {
-        "en": "It sounds like a complaint about your manager. Ask about one thing at a time, in a neutral way.",
-        "he": "נשמע כמו תלונה על המנהלת. שואלים על דבר אחד בכל פעם, בטון ניטרלי."
+        "en": "It sounds like a complaint about your manager, and telling her what to do next time is rude. Ask about one thing at a time, in a neutral way.",
+        "he": "נשמע כמו תלונה על המנהלת, ולהגיד לה מה לעשות בפעם הבאה זה גס. שואלים על דבר אחד בכל פעם, בטון ניטרלי."
        }
       },
       {
-       "text": "How much I need to write?",
+       "text": "OK. How much I need to write? I mean, how many pages you want exactly?",
        "verdict": "ok",
        "feedback": {
-        "en": "Understandable, but a question needs 'do': 'How much do I need to write?' 'When you say short, how long do you mean?' is even more natural.",
-        "he": "מובן, אבל בשאלה צריך do: How much do I need to write? וטבעי עוד יותר: When you say short, how long do you mean?"
+        "en": "Understandable, but questions need 'do': 'How much do I need to write?' and 'How many pages do you want?' 'When you say short, how long do you mean?' asks the same thing in one natural question.",
+        "he": "מובן, אבל בשאלות צריך do: How much do I need to write? ו-How many pages do you want? והשאלה When you say short, how long do you mean? שואלת את אותו הדבר בשאלה אחת טבעית."
        },
        "error_type": "do-support"
       },
@@ -12310,11 +12310,11 @@
      "partner": "Morning, please. The meeting's at eleven.",
      "options": [
       {
-       "text": "OK, so I'll send you the full summary on Friday at eleven.",
+       "text": "Great, thanks. So, just to confirm: I'll email you the full summary, with the examples, on Friday at eleven o'clock.",
        "verdict": "poor",
        "feedback": {
-        "en": "Eleven is when the meeting starts, so that's too late: she needs it before then. Summing up the task helps you catch mistakes like this.",
-        "he": "בשעה אחת-עשרה הישיבה מתחילה, אז זה מאוחר מדי: היא צריכה את זה לפני כן. סיכום המשימה עוזר לתפוס טעויות כאלה."
+        "en": "Summing up is a good idea, but you got the key detail wrong: eleven is when the meeting starts, so the summary would arrive too late. She needs it before the meeting, in the morning.",
+        "he": "לסכם זה רעיון טוב, אבל טעיתם בפרט החשוב ביותר: באחת-עשרה הישיבה מתחילה, אז הסיכום יגיע מאוחר מדי. היא צריכה אותו לפני הישיבה, בבוקר."
        },
        "error_type": "comprehension"
       },
@@ -12527,11 +12527,11 @@
        }
       },
       {
-       "text": "Hi James, I'm so sorry, I feel terrible, but I have a big problem with the report and I don't think I can finish it. I'm really sorry.",
+       "text": "Hi James, I'm so sorry, I feel terrible, but I have a big problem with the report and I don't think I can finish it on time. I've been working on it every evening this week. I'm really, really sorry.",
        "verdict": "ok",
        "feedback": {
-        "en": "Polite, but it has too many apologies and no clear request, and it sounds more worrying than it is. One 'sorry' is enough; then explain and suggest a new date.",
-        "he": "מנומס, אבל יש בו יותר מדי התנצלויות ואין בקשה ברורה, והוא נשמע מדאיג יותר ממה שהמצב באמת. 'סליחה' אחת מספיקה, ואחריה מסבירים ומציעים מועד חדש."
+        "en": "Polite, but it has too many apologies and no clear request, and it sounds more worrying than it is. James doesn't need to hear about your evenings. One 'sorry' is enough; then explain the reason and suggest a new date.",
+        "he": "מנומס, אבל יש בו יותר מדי התנצלויות ואין בקשה ברורה, והוא נשמע מדאיג יותר ממה שהמצב באמת. ג'יימס לא צריך לשמוע על הערבים שלכם. 'סליחה' אחת מספיקה, ואחריה מסבירים את הסיבה ומציעים מועד חדש."
        }
       }
      ],
@@ -12672,11 +12672,11 @@
      "partner": "Perfect. Thanks for keeping me in the loop.",
      "options": [
       {
-       "text": "Thank you so so much!!! You are the best boss ever!!!",
+       "text": "Thank you so so much!!! You are the best boss ever!!! I promise it will never happen again!!!",
        "verdict": "poor",
        "feedback": {
-        "en": "Too much for a work email: rows of exclamation marks and big praise sound unprofessional. Keep it warm and simple.",
-        "he": "מוגזם למייל עבודה: שורה של סימני קריאה ומחמאות גדולות נשמעים לא מקצועיים. עדיף חם ופשוט."
+        "en": "Too much for a work email: rows of exclamation marks, big praise and a dramatic promise sound unprofessional. Keep it warm and simple.",
+        "he": "מוגזם למייל עבודה: שורות של סימני קריאה, מחמאות גדולות והבטחה דרמטית נשמעים לא מקצועיים. עדיף חם ופשוט."
        },
        "error_type": "register"
       },
@@ -12923,11 +12923,11 @@
      "partner": "Really? What's the problem?",
      "options": [
       {
-       "text": "There are some problems with it, and I think maybe it's better if we don't launch it yet.",
+       "text": "There are some problems with it, and I think maybe it's better if we don't launch it yet, or at least not on Monday.",
        "verdict": "ok",
        "feedback": {
-        "en": "Polite, but too vague to change anyone's mind. Name the problem and what it affects.",
-        "he": "מנומס, אבל כללי מדי מכדי לשכנע מישהו. אמרו מה הבעיה ועל מה היא משפיעה."
+        "en": "Polite, but too vague to change anyone's mind: 'some problems' could mean anything. Name the problem and what it affects.",
+        "he": "מנומס, אבל כללי מדי מכדי לשכנע מישהו: some problems יכול להיות כל דבר. אמרו מה הבעיה ועל מה היא משפיעה."
        }
       },
       {
@@ -12963,11 +12963,11 @@
      "partner": "But that's only a small group of users, isn't it?",
      "options": [
       {
-       "text": "So you don't care about those users?",
+       "text": "So you don't care about those users? They're paying customers too, you know. I can't believe we're even discussing this.",
        "verdict": "poor",
        "feedback": {
-        "en": "Aggressive, and it puts words in Tom's mouth. Respond to his point with facts.",
-        "he": "תוקפני, ומכניס לטום מילים לפה. ענו לטענה שלו עם עובדות."
+        "en": "Aggressive: it puts words in Tom's mouth, and 'I can't believe we're even discussing this' shuts the discussion down. Respond to his point with facts.",
+        "he": "תוקפני: זה מכניס לטום מילים לפה, ו-I can't believe we're even discussing this סוגר את הדיון. ענו לטענה שלו עם עובדות."
        }
       },
       {
@@ -13011,15 +13011,15 @@
        }
       },
       {
-       "text": "I don't know. That's your job, not mine.",
+       "text": "I don't know. That's your job, not mine. I found the problem, so now someone else can find the solution.",
        "verdict": "poor",
        "feedback": {
-        "en": "Refusing to suggest anything after you've disagreed sounds unhelpful. If you raise a problem, offer at least one idea.",
-        "he": "לסרב להציע משהו אחרי שהבעתם התנגדות נשמע לא משתף פעולה. מי שמעלה בעיה מציע לפחות רעיון אחד."
+        "en": "Refusing to suggest anything after you've disagreed sounds unhelpful, and 'someone else can find the solution' sounds as if the result isn't your problem. If you raise a problem, offer at least one idea.",
+        "he": "לסרב להציע משהו אחרי שהבעתם התנגדות נשמע לא משתף פעולה, ו-someone else can find the solution נשמע כאילו התוצאה לא מעניינת אתכם. מי שמעלה בעיה מציע לפחות רעיון אחד."
        }
       },
       {
-       "text": "I suggest to wait until the developers fix both bugs, and then launch it to everyone.",
+       "text": "I suggest to wait until the developers fix both bugs and test everything again, and then launch it to everyone.",
        "verdict": "ok",
        "feedback": {
         "en": "A clear plan, but 'suggest' doesn't take 'to': say 'I suggest waiting until...' or 'I'd suggest we wait until...'. A compromise that still gives Tom a launch on Monday would also be easier to accept.",
@@ -13060,7 +13060,7 @@
        }
       },
       {
-       "text": "Great. So, just to confirm: ten percent on Monday, and I'll check the timeline for the fixes with the developers by tomorrow.",
+       "text": "Great. So, just to confirm: ten percent on Monday, and I'll check the timeline with the developers by tomorrow.",
        "verdict": "best",
        "feedback": {
         "en": "A clear summary with a next step that you own. It ends the disagreement on a positive, practical note.",
@@ -13069,7 +13069,7 @@
       }
      ],
      "model_replies": [
-      "Great. So, just to confirm: ten percent on Monday, and I'll check the timeline for the fixes with the developers by tomorrow.",
+      "Great. So, just to confirm: ten percent on Monday, and I'll check the timeline with the developers by tomorrow.",
       "Sounds good. I'll talk to the developers today and update everyone tomorrow."
      ],
      "keywords": [
