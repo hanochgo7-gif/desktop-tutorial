@@ -154,7 +154,7 @@ export default async function essay(el, ctx) {
     if (task.topics?.length && chosen == null) return tt('בחרו קודם נושא (למעלה).', 'Choose a topic first (above).');
     const w = bodyWords();
     if (w < minForAi()) return tt(`המשוב נפתח ב-${minForAi()} מילים (כתבתם ${w}).`, `Feedback opens at ${minForAi()} words (you have ${w}).`);
-    if (text.length > AI_TEXT_MAX) return tt(`הטקסט ארוך מדי למשוב: ${text.length.toLocaleString()} תווים, והמגבלה היא ${AI_TEXT_MAX.toLocaleString()} (בערך 2,500 מילים כולל רשימת מקורות). קצרו אותו.`, `This text is too long for feedback: ${text.length.toLocaleString()} characters, and the limit is ${AI_TEXT_MAX.toLocaleString()} (about 2,500 words with a reference list). Shorten it.`);
+    if (text.length > AI_TEXT_MAX) return tt(`הטקסט ארוך מדי למשוב: ${text.length.toLocaleString()} תווים, והמגבלה היא ${AI_TEXT_MAX.toLocaleString()} (בערך 3,000 מילים, כולל רשימת מקורות). קצרו אותו.`, `This text is too long for feedback: ${text.length.toLocaleString()} characters, and the limit is ${AI_TEXT_MAX.toLocaleString()} (about 3,000 words, references included). Shorten it.`);
     return '';
   }
 
@@ -178,12 +178,12 @@ export default async function essay(el, ctx) {
   function busyStatus() {
     if (!busy) return '';
     const long = bodyWords() > 700;
-    return html`<p class="banner small essay-busy" role="status">${html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem;flex:none"></span>`}<span>${tt(`קוראים את הטקסט שלכם${long ? ' הארוך' : ''}. בדרך כלל זה לוקח פחות מדקה${long ? '; טקסט ארוך יכול לקחת כמה דקות' : ''}. שינויים שתעשו עכשיו לא ייכללו במשוב הזה.`, `Reading your ${long ? 'long ' : ''}text. This usually takes under a minute${long ? '; a long paper can take a few minutes' : ''}. Edits you make now are not included in this feedback.`)} <span class="num faint" data-elapsed aria-hidden="true"></span></span></p>`;
+    return html`<p class="banner small essay-busy" role="status">${html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem;flex:none"></span>`}<span>${tt(`קוראים את הטקסט${long ? ' הארוך' : ''} שלכם. בדרך כלל זה לוקח פחות מדקה${long ? '; טקסט ארוך יכול לקחת כמה דקות' : ''}. שינויים שתעשו עכשיו לא ייכללו במשוב הזה.`, `Reading your ${long ? 'long ' : ''}text. This usually takes under a minute${long ? '; a long paper can take a few minutes' : ''}. Edits you make now are not included in this feedback.`)} <span class="num faint" data-elapsed aria-hidden="true"></span></span></p>`;
   }
 
   // What AI feedback cannot check on research and source-based tasks (persona panel P-79).
   function sourceLimits(e) {
-    if (!sourceBased()) return '';
+    if (!sourceBased() && !e?.verification_note) return '';
     return html`<div class="banner small">${icon('info', { size: 16 })}<div class="stack-sm"><span>${tt('משוב ה-AI שופט איך אתם בוחרים, מעריכים ומשלבים ראיות. הוא לא קורא את המקורות, ולכן לא יכול לבדוק אם מקור קיים, אם ציטוט מדויק או אם המקור באמת אומר את מה שאתם מדווחים. את זה צריך לבדוק בעצמכם.', 'AI feedback judges how you choose, evaluate and use evidence. It does not read your sources, so it cannot check whether a source exists, whether a quotation is accurate, or whether a source says what you report. Check those yourself.')}</span>${e?.verification_note ? html`<span dir="auto">${e.verification_note}</span>` : ''}</div></div>`;
   }
 
@@ -200,7 +200,7 @@ export default async function essay(el, ctx) {
       ${v.final ? html`<div class="row between"><span class="small">${tt('הערכת רמה של הטקסט (טווח)', 'Estimated level of this text (range)')}</span><span class="tag level">${rangeOf(e)}</span></div>`
         : html`<div class="stack-sm final-box"><p class="small muted">${tt('בזמן תיקונים רואים דירוג לפי קטגוריות. טווח הרמה הכולל מופיע כשמסמנים טיוטה סופית.', 'While you revise you see category bands. The overall level range appears when you mark a final draft.')}</p>
           <div class="row"><button type="button" class="key small" data-final>${icon('flag', { size: 16 })} ${tt('לסמן כטיוטה סופית', 'Mark as final draft')}</button></div>
-          <p class="xsmall faint">${tt(`זה מסיים את התיקונים במשימה: הטיוטה האחרונה שקיבלה משוב נחשבת לסופית, טווח הרמה מופיע, והמשימה נספרת כגמורה.${evaluatedCount() < MAX_EVALS ? ` אפשר גם להמשיך לתקן (נשארו ${MAX_EVALS - evaluatedCount()} סבבים).` : ''}`, `This ends revising: your last draft with feedback becomes final, its level range appears and the task counts as done.${evaluatedCount() < MAX_EVALS ? ` You can also keep revising (${MAX_EVALS - evaluatedCount()} round${MAX_EVALS - evaluatedCount() === 1 ? '' : 's'} left).` : ''}`)}</p></div>`}
+          <p class="xsmall faint">${tt(`זה מסיים את התיקונים במשימה: הטיוטה האחרונה שקיבלה משוב נחשבת לסופית, טווח הרמה מופיע, והמשימה נספרת כגמורה.${evaluatedCount() < MAX_EVALS ? ` אפשר גם להמשיך לתקן (${MAX_EVALS - evaluatedCount() === 1 ? 'נשאר סבב אחד' : `נשארו ${MAX_EVALS - evaluatedCount()} סבבים`}).` : ''}`, `This ends revising: your last draft with feedback becomes final, its level range appears and the task counts as done.${evaluatedCount() < MAX_EVALS ? ` You can also keep revising (${MAX_EVALS - evaluatedCount()} round${MAX_EVALS - evaluatedCount() === 1 ? '' : 's'} left).` : ''}`)}</p></div>`}
       <p dir="auto">${e.summary}</p>${e.summary_he && hebrewSupport() !== 'off' ? html`<p lang="he" dir="rtl" class="muted small">${e.summary_he}</p>` : ''}
       ${e.revision?.progress_since_previous ? html`<div class="banner small">${icon('compare', { size: 16 })}<span dir="auto">${e.revision.progress_since_previous}</span></div>` : ''}
       ${e.strengths?.length ? html`<div class="stack-sm"><h3 class="small">${tt('מה עובד', 'What works')}</h3>${e.strengths.map((s) => html`<p class="note-row small">${icon('check', { size: 16 })}<span dir="auto">${s}</span></p>`)}</div>` : ''}
@@ -235,7 +235,7 @@ export default async function essay(el, ctx) {
       ${r >= 3 ? html`<p class="small">${icon('hint', { size: 14 })} <span dir="auto">${er.hint}</span></p>` : ''}
       <p class="xsmall" data-fix="${i}">${fixLabel(er)}</p>
       ${r >= 4 ? html`<p class="small">${tt('תיקון:', 'Correction:')} <strong lang="en" dir="ltr">${er.correction}</strong></p><p class="small" dir="auto">${er.explanation}</p>${er.explanation_he && hebrewSupport() !== 'off' ? html`<p class="small muted" lang="he" dir="rtl">${er.explanation_he}</p>` : ''}`
-        : r < 3 ? html`<div class="row"><button type="button" class="key small" data-rung="${i}">${icon('hint', { size: 14 })} ${r === 1 ? tt('איזה סוג טעות?', 'What kind of mistake?') : tt('תקוע/ה? רמז', 'Stuck? A clue')}</button></div>`
+        : r < 3 ? html`<div class="row"><button type="button" class="key small" data-rung="${i}">${icon('hint', { size: 14 })} ${r === 1 ? tt('איזה סוג טעות?', 'What kind of mistake?') : tt('צריכים רמז?', 'Stuck? A clue')}</button></div>`
         : html`<div class="row small"><button type="button" class="key small" data-rung="${i}" ${attempted.has(i) ? '' : html`disabled aria-describedby="need-${i}"`}>${tt('להשוות לתיקון', 'Compare with the correction')}</button>${attempted.has(i) ? '' : html`<span class="faint" id="need-${i}">${tt('נסו קודם תיקון בטקסט.', 'Try a fix in your text first.')}</span>`}</div>`}</div>`;
   }
 
@@ -248,7 +248,7 @@ export default async function essay(el, ctx) {
   function selfForm() {
     if ((task.stage || 0) < 7) return '';
     return html`<div class="panel flat stack-sm"><p class="small">${tt('לפני המשוב: איך הייתם מדרגים את עצמכם?', 'Before the feedback: how would you rate yourself?')}</p>
-      ${SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input" style="width:auto;min-height:2.25rem;padding:0.2rem 0.5rem" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`)}</div>`;
+      ${SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input compact" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`)}</div>`;
   }
 
   // Compare any two versions, or a version with the current text; previous vs latest by default
@@ -300,7 +300,7 @@ export default async function essay(el, ctx) {
   function taskPanel() {
     const pack = sourcePack();
     const req = task.required || task.required_elements || [];
-    return html`<div class="panel flat stack-sm">${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}${bi(task.instructions)}
+    return html`<div class="panel flat stack-sm">${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${bi(task.instructions)}</div>
       ${task.audience ? html`<p class="small"><strong>${tt('למי כותבים:', 'Audience:')}</strong> <span lang="en" dir="ltr">${task.audience}</span></p>` : ''}
       ${topicPicker()}
       ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}

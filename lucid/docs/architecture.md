@@ -43,8 +43,16 @@ structured outputs, and records each call's outcome and token counts.
 (`vendor/ts-fsrs.mjs`). Cards are graded from what the learner did, never by self-rating buttons (research C1).
 
 **ADR-6. Speech uses the browser.** Speech synthesis for every listening item and speech recognition where the
-browser provides it. Recognition never produces a grade on its own (research C2, D34/D37), and there is a
-self-assessment fallback.
+browser provides it. Recognition never produces a grade (research C2, D34/D37): speaking items show what was
+recognised next to the target in its own spelling, with "Try again" and "Continue"; they are stored with no score
+and no mistake type, never come back as retries and are left out of the lesson score and its denominator.
+Self-rating ("I said it clearly", "I need more practice") is always offered, and "Can't speak right now" skips an
+item with no attempt recorded. Shadowing in the Speaking lab uses the same unscored item. Recognition is the
+browser's own service (in Chrome, for example, the audio is sent to the browser maker's servers); Lucid receives
+only the recognised text and keeps no audio. Before the first microphone use in a browser, a notice says so;
+"Use the microphone" is remembered under the `lucid-mic-notice` key in local storage (the device erase removes
+it), and "Not now" keeps the microphone off for that try. The tutor's pronunciation mode says that it reads
+text and cannot hear the learner.
 
 ## 2. Components
 
@@ -65,7 +73,9 @@ js/core/
   placement.js                  adaptive staircase placement with confirmation and resume
   pool.js                       exercise pool, targeted drills (with competing topics), level checks
   grading.js                    answer normalisation, contractions, typo tolerance, word alignment
-  writing-analyzer.js           deterministic writing checks (no AI)
+  writing-analyzer.js           deterministic writing checks (no AI); a/an by sound, no run-on flag after a
+                                linker or short opening phrase, low-precision rules off at C1-C2, a title
+                                line and a closing reference list are not checked or counted
   diff.js                       draft comparison (any two versions, paragraph breaks kept); follows a quoted
                                 mistake into the current text by its sentence
   speech.js                     speech synthesis and recognition
@@ -107,7 +117,19 @@ atomic in-memory ledger instead.
 ## 4. The learner model
 
 - **Attempts** are the source of truth: one record per answered item (topic, skill, level, correctness, error
-  type, hint use, latency, the response truncated to 300 characters).
+  type, hint use, latency, the response truncated to 300 characters). Practice that is never scored (speaking,
+  and writing inside lessons) has `score: null` and stays out of mastery, levels and accuracy. On an open rewrite
+  ("transform") from B1 up, the key is shown as "one model answer" and the learner may mark an equivalent answer
+  as correct: the attempt becomes right with `self_judged: true`, and a `self-judged` event keeps the answer for
+  content review. Lucid does not check that judgement.
+- **The lesson player** counts only the first try of scored exercises toward the score (70% completes a lesson
+  unless the lesson sets its own mark). The step counter keeps the first-pass total fixed and counts retries
+  apart ("3 of 14 · 2 to revisit", written in words so it reads correctly in Hebrew). After "Nearly there" the
+  main action redoes only the exercises missed on the first try; the earlier right answers keep counting, so
+  fixing the misses can complete the lesson. Every stage and exercise opens at the top of the page; the intro,
+  explanation and summary move focus to their heading. A link to a
+  lesson with no file says it is still being written and offers the next ready lesson; a listed lesson that
+  fails to load is treated as a connection problem.
 - **Topic mastery** is time-weighted accuracy with a neutral prior (half-life 21 days). "Mastered" also needs at
   least 6 answers on at least 2 different days, so one good sitting is not mastery.
 - **Recurring errors** need 3+ occurrences on 2+ days in 30 days; trends compare the last 14 days with the 14

@@ -113,6 +113,7 @@ export default async function lessonView(el, ctx) {
   let hintUsed = false;
   let shownAt = 0;
   let missedMode = false;
+  let runSince = new Date().toISOString(); // this run's start: "Worth watching" shows only its mistakes
 
   function frame(body, foot = '') {
     const step = stage === 'practice' ? stepInfo(queue, qi) : null;
@@ -139,7 +140,7 @@ export default async function lessonView(el, ctx) {
       <div class="panel flat stack-sm"><h2 class="small">${tt('בסוף השיעור', 'By the end of this lesson')}</h2>
         <ul class="point-list">${lesson.objectives.map((o) => html`<li class="point">${icon('flag', { size: 16 })}<div class="grow">${bi(o)}</div></li>`)}</ul></div>
       ${lesson.warmup ? html`<div class="block-tip row" style="align-items:flex-start">${icon('sparkle', { size: 18 })}<div class="grow">${bi(lesson.warmup)}</div></div>` : ''}
-      ${p?.resume && p.resume.qi < p.resume.queue.length ? html`<div class="banner row" style="align-items:center"><span class="grow">${tt(`עצרתם בתרגיל ${p.resume.qi + 1} מתוך ${p.resume.queue.length}.`, `You stopped at exercise ${p.resume.qi + 1} of ${p.resume.queue.length}.`)}</span><button type="button" class="key enter small" data-resume>${tt('להמשיך מאיפה שעצרתי', 'Continue where I left off')}</button></div>` : ''}
+      ${p?.resume && p.resume.qi < p.resume.queue.length ? html`<div class="banner row" style="align-items:center"><span class="grow">${tt('עצרתם באמצע:', 'You stopped at:')} <span class="step-count">${stepLabel(stepInfo(p.resume.queue.map(([eid, retry]) => ({ ex: { id: eid }, retry })), p.resume.qi))}</span></span><button type="button" class="key enter small" data-resume>${tt('להמשיך מאיפה שעצרתי', 'Continue where I left off')}</button></div>` : ''}
       ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לחזור עליו.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
     </div>`, html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button></div>`);
   }
@@ -254,7 +255,7 @@ export default async function lessonView(el, ctx) {
   // Leaving mid-lesson keeps the place (research D, D17/D25): the queue, position and first-try scores.
   function saveResume() {
     const cur = progressOf(id) || { id, level: lesson.level, status: 'started' };
-    store.put('progress', { ...cur, resume: { qi: qi + 1, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], at: new Date().toISOString() } });
+    store.put('progress', { ...cur, resume: { qi: qi + 1, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], missed: missedMode, since: runSince, at: new Date().toISOString() } });
   }
   function restoreResume(r) {
     const byId = new Map(lesson.exercises.map((e) => [e.id, e]));
@@ -263,6 +264,8 @@ export default async function lessonView(el, ctx) {
     firstTry.clear();
     for (const [k, v] of r.first) firstTry.set(k, v);
     qi = Math.min(r.qi, queue.length);
+    missedMode = Boolean(r.missed);
+    runSince = r.since || runSince;
   }
   // Only the missed exercises, with the earlier first-try points of the others kept.
   function startMissed(m) {
@@ -289,7 +292,8 @@ export default async function lessonView(el, ctx) {
     // The finished run replaces the saved place; a miss keeps the list of exercises to redo.
     const cur = store.get('progress', id);
     if (cur) { const c = { ...cur }; delete c.resume; delete c.missed; if (missed.length) c.missed = { ids: missed, first: [...firstTry], at: new Date().toISOString() }; store.put('progress', c); }
-    const lessonErrors = model().attempts.filter((a) => a.lesson === id && !a.correct && a.error_type).map((a) => a.error_type);
+    // This run's mistakes on scored exercises only (speaking never has a mistake type; older records might).
+    const lessonErrors = model().attempts.filter((a) => a.lesson === id && !a.correct && a.error_type && a.skill !== 'speaking' && a.score !== null && a.at >= runSince).map((a) => a.error_type);
     const topErr = [...new Set(lessonErrors)].slice(0, 3);
     const perItem = lesson.minutes / (lesson.exercises.length + 2);
     const missedMin = Math.max(1, Math.round(missed.length * perItem));

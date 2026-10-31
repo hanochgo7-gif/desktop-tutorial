@@ -572,7 +572,9 @@ dialog.sheet > .panel { padding: var(--s5); }
 }
 .editor-pane [data-status]:empty, .editor-pane [data-ai-why]:empty { display: none; }
 .fix-strip .row { gap: var(--s2); }
-.fix-strip .chip { min-height: 2.25rem; font-size: var(--t-sm); }
+.fix-strip .chip { font-size: var(--t-sm); }
+/* Compact controls only with a fine pointer; touch keeps the 44 px minimum. */
+@media (pointer: fine) { .fix-strip .chip, .input.compact { min-height: 2.25rem; } }
 .essay-side:focus:not(:focus-visible) { outline: none; }
 .note-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; margin: 0; }
 .topic-pick { border: 0; padding: 0; margin: 0; min-width: 0; }
@@ -582,12 +584,14 @@ dialog.sheet > .panel { padding: var(--s5); }
 .topic-pick input { margin-block-start: 0.3rem; }
 .req-list { margin: var(--s2) 0 0; padding-inline-start: 1.2rem; }
 .final-box { padding: var(--s3); border-radius: var(--r-key); background: var(--key-sunk); }
-.input.compact { width: auto; min-height: 2.25rem; padding: 0.2rem 0.5rem; }
+.input.compact { width: auto; padding: 0.2rem 0.5rem; }
 .diff { white-space: pre-wrap; line-height: 1.8; overflow-wrap: anywhere; }
 .diff ins, .xsmall ins { background: var(--ok-tint); text-decoration: none; }
 .diff del, .xsmall del { background: var(--bad-tint); }
 .passage.source { max-width: none; }
 .essay-busy { align-items: center; }
+/* A long English task brief on a Hebrew screen reads as its own left-aligned block (research D33). */
+.task-brief .bi > .bi-en { display: block; text-align: start; }
 
 /* player-speaking */
 /* English learning text inside Hebrew screens is its own left-aligned block (research D33; P-32, P-58). */
@@ -622,8 +626,67 @@ dialog.sheet > .panel { padding: var(--s5); }
 .cat-bin .chip.is-right .icon { color: var(--ok); }
 .cat-bin .chip.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
 .cat-bin .chip.is-wrong .icon { color: var(--bad); }
-/* Speaking: what was recognised is information, never a grade. */
+/* A bin's name is its button; the bin around the placed chips is not a control itself (no nested controls). */
+.cat-bin > button.label { background: none; border: 0; padding: 0.2rem 0; min-height: 2rem; text-align: start; color: inherit; cursor: pointer; }
+@media (pointer: coarse) { .cat-bin > button.label { min-height: 2.75rem; } }
+/* Speaking: what was recognised is information, never a grade. Recognised words are a darker green on the
+   sunk panel, for contrast in both themes. */
 .recognised .heard { color: var(--ink); }
+.recognised .word-diff .w-ok { color: color-mix(in oklch, var(--ok), var(--ink) 30%); }
 /* Speaking lab tabs: example words first, the IPA below in small print (P-23). */
 .sound-tabs button { display: inline-grid; justify-items: center; line-height: 1.25; padding-block: 0.3rem; }
 .sound-tabs .tab-ipa { font-size: var(--t-xs); color: var(--ink-3); font-weight: 400; }
+/* The ready lesson offered on the "still being written" screen: its title keeps the button's ink. */
+.missing-lesson .key .legend :is(.l-en, .l-he) { color: inherit; }
+
+/* reallife-layout-privacy */
+/* Welcome keyboard: keys are sized from the viewport, so ten keys and their gaps fit a 320px phone (P-01,
+   P-36, P-52). Narrow keys are a little taller than wide, so both legends stay apart. */
+.keyboard { --kgap: 0.45rem; --kpad: var(--s4); --wpad: var(--s5);
+  --kw: min(3.4rem, calc((100vw - 2 * var(--wpad) - 2 * var(--kpad) - 9 * var(--kgap)) / 10));
+  gap: var(--kgap); padding: var(--kpad); max-width: 100%; }
+.keyboard .krow { gap: var(--kgap); }
+.keyboard .kc { width: var(--kw); height: max(var(--kw), 1.85rem); aspect-ratio: auto; }
+.keyboard .kc .kl { inset-block-start: max(2px, calc(var(--kw) * 0.08)); inset-inline-start: max(3px, calc(var(--kw) * 0.12)); font-size: clamp(0.6rem, calc(var(--kw) * 0.3), 1rem); line-height: 1.1; }
+.keyboard .kc .kh { inset-block-end: max(2px, calc(var(--kw) * 0.07)); inset-inline-end: max(3px, calc(var(--kw) * 0.12)); font-size: clamp(0.56rem, calc(var(--kw) * 0.27), 0.9rem); line-height: 1.1; }
+.keyboard .kc.wide { width: auto; height: calc(max(var(--kw), 1.85rem) * 0.75); }
+@media (max-width: 30rem) {
+  .welcome-top { padding-inline: var(--s4); }
+  .welcome-main { padding-inline: var(--s4); }
+  .keyboard { --kgap: 0.25rem; --kpad: 0.6rem; --wpad: var(--s4); border-radius: 0.9rem; }
+}
+/* The skip link hides by its own height, so a two-line label at large text sizes stays off screen. */
+.skip { top: 0; transform: translateY(-120%); }
+.skip:focus { transform: none; }
+/* Large text (130-150%) and narrow phones: nothing may push the page sideways (P-24, P-40, P-51). */
+@media (max-width: 63.99rem) { .today { grid-template-columns: minmax(0, 1fr); } }
+.plan-item > .grow { min-width: 0; overflow-wrap: break-word; }
+.big-listen { flex-wrap: wrap; }
+.big-listen .key { white-space: normal; max-width: 100%; text-align: center; }
+@media (max-width: 30rem) {
+  :root[data-text='130'] .plan-item, :root[data-text='150'] .plan-item { grid-template-columns: auto minmax(0, 1fr); padding: var(--s3) var(--s4); column-gap: var(--s3); row-gap: 0; }
+  :root[data-text='130'] .plan-item .plan-time, :root[data-text='150'] .plan-item .plan-time { grid-column: 2; }
+}
+/* A key's label wraps instead of pushing the page sideways on phones and at large text sizes. */
+@media (max-width: 40rem) { .key { white-space: normal; max-width: 100%; } }
+:root[data-text='130'] .key, :root[data-text='150'] .key { white-space: normal; max-width: 100%; }
+.legend { max-width: 100%; }
+.legend > span, .entry-word { overflow-wrap: anywhere; }
+@media (max-width: 30rem) {
+  .page-head h1 { font-size: var(--t-xl); overflow-wrap: anywhere; }
+  .entry { padding: var(--s3) var(--s4); }
+  .lesson-row { padding: var(--s3); column-gap: var(--s2); }
+}
+/* Scenario practice: each other reply and its feedback are two lines, each with its own direction (P-55). */
+.alt-list { list-style: none; margin: var(--s2) 0 0; padding: 0; display: grid; gap: var(--s3); }
+.alt-list > li { padding-block-start: var(--s2); border-block-start: 1px solid var(--key-edge); }
+.alt-quote { font-size: var(--t-sm); font-weight: 500; text-align: start; }
+/* Roleplay help: phrases to start from, each with its Hebrew meaning under it. */
+.phrase-help { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.phrase-help > li { display: grid; justify-items: start; gap: 0.15rem; }
+.phrase-help .key { text-align: start; white-space: normal; height: auto; padding-block: 0.35rem; }
+.phrase-help .l-he { color: var(--ink-he); padding-inline: 0.2rem; }
+.hint-box > span { min-width: 0; }
+/* A Hebrew placeholder in an English field reads right to left until the learner types (P-69). */
+:root[dir='rtl'] :is(input, textarea)[dir='ltr']:placeholder-shown { direction: rtl; }
+.explain .bi > .bi-en, .alt-list .bi > .bi-en { display: block; text-align: start; }

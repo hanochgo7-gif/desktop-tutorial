@@ -100,26 +100,50 @@ export function setHebrewSupport(setting, level) {
 }
 
 // A dual legend: the English target and the Hebrew scaffold, in two inks.
-// Hebrew is shown according to the support level; 'off' keeps it one tap away.
+// Hebrew is shown according to the support level; 'off' keeps it one tap away. A "Hebrew" line with no
+// Hebrew letters (a title kept in English) is not a translation, so it is left out.
 export function legend(en, he, { tag = 'span', cls = '' } = {}) {
-  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${en}</span>${he ? html`<span class="l-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</${raw(tag)}>`;
+  const showHe = he && HEBREW.test(he) && fold(he) !== fold(en);
+  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${en}</span>${showHe ? html`<span class="l-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</${raw(tag)}>`;
 }
-// Hebrew content often quotes English ("אומרים What's up? כשנפגשים"). Left alone, the bidi algorithm can
-// move punctuation and reorder the English. Each Latin run is wrapped in a <bdi dir="ltr"> isolate at
+const fold = (x) => String(x ?? '').toLowerCase().replace(/[^a-z0-9֐-׿]+/g, '');
+
+// Hebrew content often quotes English ("אומרים What's up? כשנפגשים"). Left alone, the bidi algorithm moves
+// punctuation and can reorder the English. Each English run is wrapped in a <bdi dir="ltr"> isolate at
 // render time, so content files need no invisible control characters (research C3, R2 and R5).
-const LATIN_RUN = /[^\u0590-\u05FF]*[A-Za-z][^\u0590-\u05FF]*/g;
+// The isolate holds the English and what belongs to it: its own ? ! and ... and the quote marks or
+// brackets around it. What joins it to the Hebrew stays outside and follows the Hebrew direction: a
+// prefix hyphen (ב-am), a colon or comma, " = " before a Hebrew translation, and the Hebrew sentence's
+// final full stop.
+const HEBREW = /[֐-׿יִ-ﭏ]/;
+const RUN = /[^֐-׿יִ-ﭏ]*[A-Za-z][^֐-׿יִ-ﭏ]*/g;
+const CLOSER = { '"': '"', "'": "'", '“': '”', '‘': '’', '(': ')', '[': ']' };
+const ABBREV = /(?:\.[A-Za-z]|^(?:Mr|Mrs|Ms|Dr|St|etc|vs|approx))$/i;
+
+// The [start, end) of the English inside one run of non-Hebrew text.
+function englishSpan(r) {
+  let a = r.search(/[A-Za-z]/);
+  while (a > 0 && /[0-9]/.test(r[a - 1])) a--;
+  let b = r.length;
+  while (b > a && !/[A-Za-z0-9]/.test(r[b - 1])) b--;
+  let tail = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
+  const word = r.slice(a, b).match(/[A-Za-z.]+$/)?.[0] || '';
+  if (/[^.]\.$|^\.$/.test(tail) && !ABBREV.test(word)) tail = tail.slice(0, -1);
+  const full = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
+  // Quote marks or brackets that enclose the English go inside, with all its punctuation.
+  while (a > 0 && CLOSER[r[a - 1]] && r[b + full.length] === CLOSER[r[a - 1]]) { a--; b += full.length + 1; tail = ''; }
+  return [a, b + tail.length];
+}
+
 export function isolateLatin(text) {
   const s = String(text ?? '');
-  if (!/[\u0590-\u05FF]/.test(s) || !/[A-Za-z]/.test(s)) return s;
+  if (!/[A-Za-z]/.test(s)) return s;
   let out = '';
   let last = 0;
-  for (const m of s.matchAll(LATIN_RUN)) {
-    const run = m[0];
-    const lead = run.match(/^[\s,;:()\-\u2013\u2014\u05BE]*/)[0];
-    const trail = run.slice(lead.length).match(/[\s,;:()\-\u2013\u2014]*$/)[0];
-    const core = run.slice(lead.length, run.length - trail.length);
-    out += esc(s.slice(last, m.index)) + esc(lead) + (core ? `<bdi dir="ltr" lang="en">${esc(core)}</bdi>` : '') + esc(trail);
-    last = m.index + run.length;
+  for (const m of s.matchAll(RUN)) {
+    const [a, b] = englishSpan(m[0]);
+    out += esc(s.slice(last, m.index + a)) + `<bdi dir="ltr" lang="en">${esc(m[0].slice(a, b))}</bdi>`;
+    last = m.index + b;
   }
   return raw(out + esc(s.slice(last)));
 }

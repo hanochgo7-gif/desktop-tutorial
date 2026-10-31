@@ -46,7 +46,7 @@ export default async function path(el, ctx) {
             return html`<li><div class="lesson-row unwritten">${body}<span class="row small"><span class="tag">${icon('clock', { size: 14 })} ${tt('בהכנה', 'In preparation')}</span></span></div></li>`;
           }
           return html`<li><a class="lesson-row ${isNext ? 'next' : ''}" href="#/lesson/${l.id}" ${isNext ? html`aria-current="step"` : ''}>${body}
-            <span class="row small">${p?.best_score != null ? html`<span class="tag ${p.best_score >= 0.7 ? 'ok' : 'warn'} num">${Math.round(p.best_score * 100)}%</span>` : ''}${isNext ? html`<span class="tag cobalt">${tt('הבא', 'Next')}</span>` : ''}</span></a></li>`;
+            <span class="row small">${p?.status === 'started' && p.best_score != null ? html`<span class="tag">${tt('בתהליך', 'In progress')}</span>` : p?.best_score != null ? html`<span class="tag ${p.best_score >= 0.7 ? 'ok' : 'warn'} num">${Math.round(p.best_score * 100)}%</span>` : ''}${isNext ? html`<span class="tag cobalt">${tt('הבא', 'Next')}</span>` : ''}</span></a></li>`;
         })}
           <li><a class="lesson-row" href="#/checkpoint/${lvl.id}">${mark(checkpoint?.status)}<span class="ord">${icon('flag', { size: 16 })}</span>
             <span class="grow"><span style="font-weight:500">${tt(`בדיקת רמה ${L}`, `${L} level check`)}</span><span class="meta" style="display:block">${tt('מבחן קצר בלי רמזים ובלי AI, מכל נושאי הרמה. כך מראים שהרמה באמת יושבת.', 'A short test with no hints and no AI, across the level\'s topics. This is how a level is demonstrated.')}</span></span>

@@ -54,14 +54,15 @@ export default async function writing(el, ctx) {
     return html`<li><a class="lesson-row" href="#/writing/${x.id}" style="grid-template-columns:auto 1fr auto">
       <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
       <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${x.word_range[0]}-${x.word_range[1]} מילים${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${x.word_range[0]}-${x.word_range[1]} words${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
-      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt(`טיוטה ${s.versions}`, `Draft ${s.versions}`) : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
+      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
   }
 
-  // Only a final draft shows a level, and as a range; drafts show how many versions there are (persona panel P-71).
+  // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).
   function draftTag(s) {
     if (s.status === 'final' && s.final_range) return html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${s.final_range}</span>`;
     if (s.status === 'final') return html`<span class="tag ok">${tt('סופית', 'Final')}</span>`;
-    return html`<span class="tag">${tt(`${s.versions || 0} טיוטות`, `${s.versions || 0} drafts`)}</span>`;
+    const n = s.versions || 0;
+    return html`<span class="tag">${n === 1 ? tt('גרסה אחת', '1 version') : tt(`${n} גרסאות`, `${n} versions`)}</span>`;
   }
 
   function draw() {
@@ -77,7 +78,7 @@ export default async function writing(el, ctx) {
         return html`<li class="panel ${isOpen ? '' : 'flat'}" style="padding:var(--s4) var(--s5)">
           <button type="button" class="row" data-stage="${n}" aria-expanded="${isOpen}" style="width:100%;background:none;border:0;padding:0;text-align:start">
             <span class="tag level num">${n}</span><span class="grow">${legend(en, he)}<span class="small muted" style="display:block">${tt(dhe, den)}</span></span>
-            ${n === rec ? html`<span class="tag cobalt">${tt('השלב שלך', 'Your stage')}</span>` : ''}${myFinal?.stage === n ? html`<span class="tag">${tt(`סיום ${L}`, `${L} final`)}</span>` : ''}<span class="small faint">${items.length}</span></button>
+            ${n === rec ? html`<span class="tag cobalt">${tt('השלב שלכם', 'Your stage')}</span>` : ''}${myFinal?.stage === n ? html`<span class="tag">${tt(`סיום ${L}`, `${L} final`)}</span>` : ''}<span class="small faint">${items.length}</span></button>
           ${isOpen ? html`<ul class="lesson-list" style="list-style:none;padding:0;margin:var(--s4) 0 0">${items.length ? items.map(itemRow) : html`<li class="small faint">${tt('אין עדיין תרגילים בשלב הזה.', 'No exercises in this stage yet.')}</li>`}</ul>` : ''}
         </li>`;
       })}</ol>`}`);

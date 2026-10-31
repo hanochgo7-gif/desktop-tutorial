@@ -86,7 +86,7 @@ export default async function onboarding(el, ctx) {
   function draw() {
     render(el, html`
       <div class="onboard">
-        <div class="row between" style="margin-block-end:var(--s5)"><a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a><span class="small faint num">${step + 1} / ${STEPS}</span></div>
+        <div class="row between" style="margin-block-end:var(--s5)"><a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a><span class="step-count">${tt(`${step + 1} מתוך ${STEPS}`, `${step + 1} of ${STEPS}`)}</span></div>
         <div class="steps-dots" aria-hidden="true">${Array.from({ length: STEPS }, (_, i) => html`<span class="${i <= step ? 'on' : ''}"></span>`)}</div>
         <form class="stack" id="ob-form" novalidate>
           ${body()}

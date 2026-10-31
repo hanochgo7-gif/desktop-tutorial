@@ -207,6 +207,8 @@ try {
     let feedbackSeen = false;
     for (let i = 0; i < 40; i++) {
       if (await page.$('[data-next-lesson], [data-retry]')) break;
+      // Speaking is practice with no verdict (PS1 covers it): skip it here.
+      if (await page.$('[data-skip-speak]')) { await page.click('[data-skip-speak]'); continue; }
       await answerCurrent(page, { correct: i % 3 !== 1 });
       const check = await page.$('[data-check]:not([disabled])');
       if (check) await check.click(); else await page.click('[data-dontknow]').catch(() => {});
@@ -825,6 +827,247 @@ try {
     assert(tallest > 40, `bars do not draw (tallest ${tallest}px)`);
     const minutes = await page.$$eval('.stat', (x) => x.map((s) => s.textContent).find((t) => /דקות פעילות|Active minutes/.test(t)));
     assert(Number(minutes.match(/\d+/)[0]) >= 3, `active minutes ignore the open session: ${minutes}`);
+    await ctx.close();
+  });
+
+  // ---------- player and speaking (persona panel round 1) ----------
+  // A stand-in for the browser's speech recognition that "hears" window.__heard, so recognition paths run.
+  const fakeRecognition = (ctx) => ctx.addInitScript(() => {
+    window.__heard = 'my name is maya maya';
+    class FakeRec { start() { setTimeout(() => { this.onresult?.({ results: [[{ transcript: window.__heard, confidence: 0.8 }]] }); this.onend?.(); }, 100); } stop() {} abort() {} }
+    window.SpeechRecognition = FakeRec; window.webkitSpeechRecognition = FakeRec;
+  });
+  // Opens a lesson at one exercise through the saved place (first tries before it count as right unless given).
+  async function lessonAt(page, lessonId, exId, first = null) {
+    await page.evaluate(async ({ lessonId, exId, first }) => {
+      const l = await (await fetch(`content/lessons/${lessonId}.json`)).json();
+      const ids = l.exercises.map((e) => e.id);
+      const qi = exId ? ids.indexOf(exId) : ids.length;
+      const scored = l.exercises.filter((e) => !['speak', 'write'].includes(e.type)).map((e) => e.id);
+      const done = first ? Object.entries(first) : scored.filter((x) => ids.indexOf(x) < qi).map((x) => [x, 1]);
+      window.lucid.store.put('progress', { id: lessonId, level: l.level, status: 'started', resume: { qi, queue: ids.map((x) => [x, false]), first: done } });
+    }, { lessonId, exId, first });
+    await page.goto(`${BASE}#/lesson/${lessonId}?resume=1&t=${Date.now()}`);
+    await page.waitForSelector(exId ? '#exroot' : '.player h1');
+  }
+  const lessonJson = (id) => JSON.parse(readFileSync(join(repo, `lucid/content/lessons/${id}.json`), 'utf8'));
+
+  await check('PS1. Speaking in lessons is practice: what was recognised, no verdict or score, "Can\'t speak right now" skips with no retry, a microphone notice first (P-02, P-27, P-57, P-05)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await fakeRecognition(ctx);
+    await onboard(page, { start: 'zero' });
+    // A recognition "mistake" saved by an older version must not show under "Worth watching".
+    await page.evaluate(() => window.lucid.store.put('attempts', { id: 'old-speak', at: new Date(Date.now() - 86400000).toISOString(), source: 'lesson', lesson: 'pa1-01', exercise: 'e12', topic: 'alphabet', skill: 'speaking', level: 'PreA1', correct: false, score: 0.4, error_type: 'pron-w-v' }));
+    await lessonAt(page, 'pa1-01', 'e11');
+    assert(await page.$('[data-skip-speak]') && !(await page.$('[data-dontknow]')), 'no "Can\'t speak right now", or "I don\'t know" offered on a speaking item');
+    assert(await page.$('#exroot [data-self="1"]') && await page.$('#exroot [data-self="0"]'), 'self-rating not offered where recognition exists');
+    // The notice comes before the first use; "Not now" keeps the microphone off and the item usable.
+    await page.click('#exroot [data-rec]');
+    await page.waitForSelector('dialog[open]');
+    const notice = await page.textContent('dialog[open]');
+    assert(/הדפדפן|browser/.test(notice) && /לא מקליט ולא שומר|never records or keeps/.test(notice), `notice does not say who processes the voice and that nothing is kept: ${notice}`);
+    await page.click('dialog[open] [value="no"]');
+    await page.waitForSelector('#exroot .error-text');
+    assert(!(await page.$('#exroot .recognised')), 'recognition ran after "Not now"');
+    await page.click('#exroot [data-rec]');
+    await page.waitForSelector('dialog[open]');
+    await page.click('dialog[open] [value="yes"]');
+    await page.waitForSelector('#exroot .recognised');
+    assert((await page.textContent('#exroot .recognised')).includes('my name is maya maya'), 'what was recognised is not shown');
+    assert(!/Not quite|לא בדיוק|Correct answer|התשובה הנכונה/.test(await page.textContent('.player')), 'a speaking item shows a verdict');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForFunction(() => document.querySelector('#exroot')?.textContent.includes('M-A-Y-A'));
+    const a11 = (await store(page, 'attempts')).filter((a) => a.exercise === 'e11');
+    assert(a11.length === 1 && a11[0].score === null && a11[0].error_type === null, `speaking attempt is scored: ${JSON.stringify(a11)}`);
+    // Second use: no notice. Then skip without speaking.
+    await page.click('#exroot [data-rec]');
+    await page.waitForSelector('#exroot .recognised');
+    assert(!(await page.$('dialog[open]')), 'the notice came back');
+    await page.click('[data-skip-speak]');
+    await page.waitForSelector('#exroot textarea');
+    assert(!(await store(page, 'attempts')).some((a) => a.exercise === 'e12' && a.id !== 'old-speak'), 'skipping recorded an attempt');
+    assert(!/לחזרה|to revisit/.test(await page.textContent('.step-count')), `a speaking item came back for a retry: ${await page.textContent('.step-count')}`);
+    await answerCurrent(page);
+    await page.click('[data-check]:not([disabled])');
+    await page.click('[data-next]');
+    await page.waitForSelector('.player h1');
+    const review = await page.textContent('.player-body');
+    assert(/השיעור הושלם|Lesson complete/.test(review) && /100%/.test(review), `speaking changed the score: ${review.slice(0, 160)}`);
+    assert(!/w and v|w ו-v/i.test(review), 'a recognition result produced a mistake type');
+    assert(await page.evaluate(() => localStorage.getItem('lucid-mic-notice')) === '1', 'notice not remembered');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lesson-review-speaking.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('PS2. Feedback on a phone: full-width verdict, Continue below, "Why?" folded, a wrong sort lists only its misplaced items; the counter keeps its total (P-03, P-39, P-59, P-06, P-42, P-12)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await lessonAt(page, 'b2-01', 'e1');
+    const total = lessonJson('b2-01').exercises.length;
+    assert((await page.textContent('.step-count')).trim() === `1 מתוך ${total}`, `counter: ${await page.textContent('.step-count')}`);
+    const wrong = lessonJson('b2-01').exercises[0].options.findIndex((_, i) => i !== lessonJson('b2-01').exercises[0].answer);
+    await page.click(`#exroot [data-opt="${wrong}"]`);
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    const box = await page.evaluate(() => {
+      const r = (s) => document.querySelector(s).getBoundingClientRect();
+      return { inner: r('#pfoot .inner').width, verdict: r('#pfoot .verdict').width, vBottom: r('#pfoot .verdict').bottom, next: r('[data-next]'), why: document.querySelector('#pfoot details.why')?.open };
+    });
+    assert(box.verdict >= box.inner - 2, `verdict is squeezed (${box.verdict} of ${box.inner}px)`);
+    assert(box.next.top >= box.vBottom - 1 && box.next.width >= box.inner - 2, 'Continue is not a full-width button below the verdict');
+    assert(box.why === false, 'the explanation is not folded behind "Why?"');
+    await page.click('[data-next]');
+    await page.waitForSelector('#exroot .cat-bin');
+    assert((await page.textContent('.step-count')).trim() === `2 מתוך ${total} · 1 לחזרה`, `total moved or retries not counted apart: ${await page.textContent('.step-count')}`);
+    await page.evaluate(() => { const root = document.querySelector('#exroot'); for (let i = 0; i < 20; i++) { const it = root.querySelector('[data-item]'); if (!it) break; it.click(); root.querySelector('[data-bin]').click(); } });
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    const ex2 = lessonJson('b2-01').exercises[1];
+    const firstBin = ex2.categories[0];
+    const listed = await page.$$eval('#pfoot .fix-list li', (x) => x.map((li) => li.textContent));
+    assert(listed.length && !listed.some((t) => t.startsWith(`${firstBin}:`)), `items already in the right place are listed: ${listed}`);
+    assert(!(await page.textContent('#pfoot')).includes('→'), 'the answer key is one run-on line');
+    assert((await page.$$('#exroot .chip.is-wrong')).length && (await page.$$('#exroot .chip.is-right')).length, 'items are not marked in place');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/verdict-sort-390.png` });
+    await ctx.close();
+  });
+
+  await check('PS3. "Nearly there" offers only the missed exercises and fixing them completes the lesson; every stage opens at its top (P-41, P-44)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    // Learn opens at the top with focus on its heading.
+    await page.goto(`${BASE}#/lesson/a2-01?t=1`);
+    await page.waitForSelector('.lesson-intro');
+    await page.evaluate(() => window.scrollTo(0, 400));
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn');
+    assert(await page.evaluate(() => window.scrollY === 0 && document.activeElement?.tagName === 'H1'), 'the learn stage does not open at its top');
+    const lesson = lessonJson('a2-01');
+    const missedIds = ['e2', 'e4', 'e5', 'e6', 'e7'];
+    const scored = lesson.exercises.filter((e) => !['speak', 'write'].includes(e.type)).map((e) => e.id);
+    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((x) => [x, missedIds.includes(x) ? 0 : 1])));
+    assert(/כמעט שם|Nearly there/.test(await page.textContent('.player h1')), 'not "Nearly there"');
+    const href = await page.getAttribute('[data-retry]', 'href');
+    assert(href.includes('stage=missed') && /5/.test(await page.textContent('[data-retry]')), `the main action is not "practise the 5 I missed": ${href}`);
+    // P-06: the path says "in progress" until the lesson is passed, not a failing percentage.
+    await page.goto(`${BASE}#/path/A2`);
+    await page.waitForSelector('.lesson-list');
+    const row = await page.textContent('a.lesson-row[href="#/lesson/a2-01"]');
+    assert(/בתהליך|In progress/.test(row) && !/%/.test(row), `the path shows a failing score: ${row}`);
+    await page.goto(`${BASE}${href}`);
+    await page.waitForSelector('#exroot');
+    for (const [n, id] of missedIds.entries()) {
+      assert((await page.textContent('.step-count')).trim() === `${n + 1} מתוך ${missedIds.length}`, `missed-only counter: ${await page.textContent('.step-count')}`);
+      const ex = lesson.exercises.find((e) => e.id === id);
+      if (ex.type === 'gap') await page.evaluate((answers) => document.querySelectorAll('#exroot .gap-input').forEach((g, i) => { g.value = answers[i][0]; g.dispatchEvent(new Event('input', { bubbles: true })); }), ex.answers);
+      else await page.click(`#exroot [data-opt="${ex.answer}"]`);
+      await page.click('[data-check]:not([disabled])');
+      await page.waitForSelector('[data-next]');
+      await page.click('[data-next]');
+    }
+    await page.waitForSelector('.player h1');
+    assert(/השיעור הושלם|Lesson complete/.test(await page.textContent('.player h1')), 'fixing the misses did not complete the lesson');
+    assert((await store(page, 'progress')).find((p) => p.id === 'a2-01')?.status === 'completed', 'progress not completed');
+    await ctx.close();
+  });
+
+  await check('PS4. Open rewrites from B1: the key is "one model answer" and "My answer is also correct" counts it, logged as self-judged (P-77)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1440, height: 900 } });
+    await onboard(page, { start: 'zero' });
+    await lessonAt(page, 'c1-03', 'e8');
+    await page.fill('#exroot textarea, #exroot input', 'The study suggests that the new app could improve sleep quality.');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-self-judge]');
+    const v = await page.textContent('#pfoot');
+    assert(/One model answer|תשובה אחת לדוגמה/.test(v) && !/Correct answer:|התשובה הנכונה:/.test(v), `the key is called the correct answer: ${v}`);
+    await page.click('[data-self-judge]');
+    await page.waitForFunction(() => /Counted as correct|נספר כנכון/.test(document.querySelector('#pfoot')?.textContent || ''));
+    const at = (await store(page, 'attempts')).filter((a) => a.exercise === 'e8' && a.lesson === 'c1-03');
+    assert(at.length === 1 && at[0].correct && at[0].self_judged && at[0].score === 1, `not saved as a self-judged right answer: ${JSON.stringify(at)}`);
+    assert((await store(page, 'events')).some((e) => e.type === 'self-judged' && e.exercise === 'e8'), 'no self-judged event for content review');
+    assert(!/לחזרה|to revisit/.test(await page.textContent('.step-count')), 'a self-judged answer still comes back as a retry');
+    await ctx.close();
+  });
+
+  await check('PS5. A lesson that is still being written says so and links to the next ready lesson, never "try reloading" (P-14, P-26, P-61)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.route(/content\/manifest\.json$/, (route) => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ...manifest, lessons: manifest.lessons.filter((id) => id !== 'b1-05') }) }));
+    await page.route(/content\/lessons\/b1-05\.json$/, (route) => route.fulfill({ status: 404, body: '' }));
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/lesson/b1-05`);
+    await page.waitForSelector('.missing-lesson');
+    const txt = await page.textContent('.missing-lesson');
+    assert(/עוד בכתיבה|still being written/.test(txt) && !/רענ|reload/i.test(txt), `unclear dead end: ${txt}`);
+    assert(await page.getAttribute('[data-alt-lesson]', 'href') === '#/lesson/b1-06', 'no link to the next ready lesson');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lesson-unwritten.png` });
+    await ctx.close();
+  });
+
+  await check('PS6. Speaking lab, tutor, review and letters: shadowing has no verdict, tabs name example words, the tutor says it cannot hear, "count it" only for typed answers, letter tiles play (P-15, P-23, P-20, P-08, P-09)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await fakeRecognition(ctx);
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/speaking`);
+    await page.waitForSelector('.sound-tabs');
+    assert((await page.textContent('.sound-tabs')).includes('ship / sheep'), 'sound tabs are IPA only');
+    const href = await page.getAttribute('a.lesson-row[href*="speaking?l="]', 'href');
+    await page.goto(`${BASE}${href}`);
+    await page.click('#exroot [data-rec]');
+    await page.click('dialog[open] [value="yes"]');
+    await page.waitForSelector('#exroot .recognised');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-next]');
+    const foot = await page.textContent('#pfoot');
+    assert(!/Not quite|לא בדיוק|Correct answer|התשובה הנכונה/.test(foot) && !(await page.$('#pfoot.bad')), `shadowing is graded: ${foot}`);
+    const [, l, e] = href.match(/l=([^&]+)&e=(.+)$/);
+    const sa = (await store(page, 'attempts')).filter((a) => a.lesson === decodeURIComponent(l) && a.exercise === decodeURIComponent(e));
+    assert(sa.length === 1 && sa[0].score === null, `shadowing stored a score: ${JSON.stringify(sa)}`);
+    await page.goto(`${BASE}#/tutor`);
+    await page.click('[data-mode="pronunciation"]');
+    await page.waitForSelector('[data-pron-note] a[href="#/speaking"]');
+    // Review: a picked meaning is right or wrong; only a typed one can be "what I meant".
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
+    await page.goto(`${BASE}#/review?mode=early`);
+    await page.waitForSelector('[data-pick], #ans');
+    for (let n = 0; n < 12 && !(await page.$('[data-pick]')); n++) { await page.click('[data-idk]'); await page.click('[data-next]'); await page.waitForSelector('[data-pick], #ans, .empty'); }
+    const picks = await page.$$('[data-pick]');
+    assert(picks.length, 'no multiple-choice review card');
+    const word = await page.textContent('.prompt-word');
+    const rightHe = await page.evaluate((w) => window.lucid.store.all('cards').find((c) => c.payload?.word === w)?.payload.he, word.trim());
+    for (const b of picks) if ((await b.getAttribute('data-pick')) !== rightHe) { await b.click(); break; }
+    await page.waitForSelector('[data-next]');
+    assert(!(await page.$('[data-override]')), '"count it" offered on a picked option');
+    await page.evaluate(() => { for (const c of window.lucid.store.all('cards')) if (c.kind === 'meaning') window.lucid.store.put('cards', { ...c, fsrs: { ...c.fsrs, reps: 3 } }); });
+    await page.goto(`${BASE}#/review?mode=early&t=2`);
+    for (let n = 0; n < 12; n++) {
+      await page.waitForSelector('#ans');
+      if (/המשמעות|meaning/i.test(await page.textContent('.panel.flash'))) break;
+      await page.click('[data-idk]'); await page.click('[data-next]');
+    }
+    await page.fill('#ans', 'משהו אחר לגמרי');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-override]');
+    // Letter tiles: each letter can be heard, pointed Hebrew is larger.
+    await lessonAt(page, 'pa1-01', 'e1');
+    assert((await page.$$('#exroot [data-say-tile]')).length === lessonJson('pa1-01').exercises[0].pairs.length, 'letter tiles have no play buttons');
+    const sizes = await page.evaluate(() => ['.match-item.pointed', '.match-item:not(.pointed)'].map((s) => parseFloat(getComputedStyle(document.querySelector(s)).fontSize)));
+    assert(sizes[0] > sizes[1], `pointed Hebrew is not larger: ${sizes}`);
+    await ctx.close();
+  });
+
+  await check('PS7. English inside Hebrew screens: left-aligned blocks, tables laid out left to right from their first column, key-point icons on the line (P-32, P-58, P-13)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/lesson/b2-01?t=1`);
+    await page.waitForSelector('.lesson-intro');
+    const objective = await page.evaluate(() => { const p = document.querySelector('.point'); const i = p.querySelector('.icon').getBoundingClientRect(); const t = p.querySelector('.grow').getBoundingClientRect(); return { iconTop: i.top, textTop: t.top, iconBottom: i.bottom }; });
+    assert(objective.iconBottom <= objective.textTop + 40 && Math.abs(objective.iconTop - objective.textTop) < 12, `objective icon is not on the line of its text: ${JSON.stringify(objective)}`);
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn .table-wrap');
+    const en = await page.evaluate(() => { const s = document.querySelector('.lesson-learn .bi-en'); const cs = getComputedStyle(s); return { display: cs.display, dir: cs.direction, align: cs.textAlign }; });
+    assert(en.display === 'block' && en.dir === 'ltr' && ['start', 'left'].includes(en.align), `English explanation is not a left-aligned block: ${JSON.stringify(en)}`);
+    const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const th = w.querySelector('th').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: th.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
+    assert(table.dir === 'ltr' && table.firstLeft < 4 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
     await ctx.close();
   });
 } finally {

@@ -70,6 +70,8 @@ const ADVANCED = new Set(['C1', 'C2']);
 // (a unanimous vote, a utilitarian view, a one-off), silent h takes an. null = not sure, never flagged.
 const AN_LETTER = /^[AEFHILMNORSX]/;
 export function articleFor(word) {
+  // Three capitals with a vowel in the middle may be read as a word (a SIM card, an SAT score): not checked.
+  if (/^[B-DF-HJ-NP-TV-Z][AEIOU][B-DF-HJ-NP-TV-Z]s?$/.test(word)) return null;
   if (/^[A-Z]{2,3}s?$/.test(word)) return AN_LETTER.test(word) ? 'an' : 'a';
   if (/^[A-Z]{4,}/.test(word)) return null; // NATO, UNESCO: read as words or letters; not checked
   const w = word.toLowerCase();
@@ -123,7 +125,7 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   if (minWords) checks.push({ id: 'length', ok: words >= minWords && (!maxWords || words <= maxWords * 1.1), en: maxWords ? `${words} words (target ${minWords}-${maxWords}${refNote.en})` : `${words} words (at least ${minWords}${refNote.en})`, he: maxWords ? `${words} מילים (יעד ${minWords}-${maxWords}${refNote.he})` : `${words} מילים (לפחות ${minWords}${refNote.he})` });
   for (const w of mustInclude) {
     const ok = new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(raw);
-    checks.push({ id: `must:${w}`, ok, en: `Uses "${w}"`, he: `משתמש/ת ב-"${w}"` });
+    checks.push({ id: `must:${w}`, ok, en: `Uses "${w}"`, he: `הטקסט משתמש ב-"${w}"` });
   }
   const capsOk = sentences.length === 0 || sentences.every((s) => /^["'“(]?[A-Z0-9]/.test(s));
   checks.push({ id: 'caps', ok: capsOk, en: 'Every sentence starts with a capital letter', he: 'כל משפט מתחיל באות גדולה' });

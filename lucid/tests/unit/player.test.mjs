@@ -98,7 +98,8 @@ test('a wrong sort lists only the misplaced items, grouped by where they belong'
   const placed = new Map([[0, 'Capital'], [1, 'Capital'], [2, 'small'], [3, 'small']]);
   const fixes = X.categoryFixes(ex, placed);
   assert.deepEqual(fixes, [{ category: 'Capital', items: ['maya'] }, { category: 'small', items: ['phone'] }]);
-  const h = String(X.verdictHtml(ex, { correct: false, fixes, summary: '2/4' }, new Map()));
+  const h = String(X.verdictHtml(ex, { correct: false, fixes, summary: '2 of 4 in place' }, new Map()));
+  assert.match(text(h), /Not quite · 2 of 4 in place/);
   assert.match(h, /class="fix-list" lang="en" dir="ltr"/);
   assert.doesNotMatch(h, /→/, 'no run-on key with arrows');
   assert.doesNotMatch(text(h), /\bi\b.*Capital.*\bi\b/, 'right items are not repeated');
@@ -128,7 +129,10 @@ test('the microphone notice is shown once per browser and says what happens to t
   const h = text(S.micNoticeHtml());
   assert.match(h, /done by your browser, not by Lucid/);
   assert.match(h, /never records or keeps your voice/);
-  assert.match(h, /mark it yourself/);
+  assert.match(h, /mark how it went yourself/);
+  assert.doesNotMatch(h, /every speaking exercise/, 'the Speaking lab sound drill has no self-rating, so the notice does not promise it everywhere');
+  const { LUCID_KEY } = await import('../../js/core/store.js');
+  assert.match(S.MIC_NOTICE_KEY, LUCID_KEY, 'the device erase removes the remembered notice');
   mem.set(S.MIC_NOTICE_KEY, '1');
   assert.equal(S.micNoticeSeen(), true);
   assert.equal(await S.micNotice(), true, 'without recognition (Node) there is nothing to ask');

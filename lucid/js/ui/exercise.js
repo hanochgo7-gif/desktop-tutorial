@@ -22,8 +22,8 @@ export const OPEN_REWRITE_LEVELS = ['B1', 'B2', 'C1', 'C2'];
 export const isOpenRewrite = (ex, level) => ex?.type === 'transform' && OPEN_REWRITE_LEVELS.includes(level);
 const NIQQUD = /[\u05B0-\u05BC\u05C1\u05C2\u05C7]/;
 const LETTER = /^[A-Za-z]$/;
-const en = (s) => html`<span lang="en" dir="ltr">${s}</span>`;
 const firstAnswer = (a) => (Array.isArray(a) ? a[0] : a);
+const playTile = (text) => html`<button type="button" class="key ghost small icon-only" data-say-tile="${String(text).trim()}" aria-label="${tt('השמעה', 'Play')}: ${text}">${icon('volume', { size: 18 })}</button>`;
 
 function listenButtons(text) {
   if (!canSpeak()) return html`<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא תומך בהקראה. התמליל מוצג במקום.', 'This browser cannot read text aloud, so the transcript is shown instead.')}</span></p><p class="ex-text" lang="en" dir="ltr">${text}</p>`;
@@ -52,7 +52,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       render(root, html`${prompt}
         ${ex.type === 'listen' ? listenButtons(ex.audio_text) : ''}
         <p class="ex-text" lang="en" dir="ltr">${ex.question}</p>
-        <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false"><span class="k" aria-hidden="true">${KEYS[n]}</span>${en(ex.options[i])}</button>`)}</div>`);
+        <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false" lang="en" dir="ltr"><span class="k" aria-hidden="true">${KEYS[n]}</span><span>${ex.options[i]}</span></button>`)}</div>`);
       if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60); }
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
       offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled) pick(Number(b.dataset.opt)); }));
@@ -131,8 +131,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       // play button (P-09), so the learner can hear "A" and "I" instead of telling them apart by niqqud.
       const tile = (side, x) => {
         const b = html`<button type="button" class="match-item ${NIQQUD.test(x.text) ? 'pointed' : ''}" ${side === 'l' ? html`data-l="${x.i}"` : html`data-r="${x.i}"`} lang="${langOf(x.text)}" dir="auto">${x.text}</button>`;
+        // The play button sits on the outer side of the tile, away from the other column.
         return canSpeak() && LETTER.test(String(x.text).trim())
-          ? html`<div class="match-cell">${b}<button type="button" class="key ghost small icon-only" data-say-tile="${String(x.text).trim()}" aria-label="${tt('השמעה', 'Play')}: ${x.text}">${icon('volume', { size: 18 })}</button></div>`
+          ? html`<div class="match-cell">${side === 'l' ? playTile(x.text) : ''}${b}${side === 'r' ? playTile(x.text) : ''}</div>`
           : b;
       };
       render(root, html`${prompt}
@@ -170,12 +171,13 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       let sel = null;
       const draw = () => render(root, html`${prompt}
         <div class="chips" lang="en" dir="ltr">${items.filter((x) => !placed.has(x.i)).map((x) => html`<button type="button" class="chip" data-item="${x.i}" aria-pressed="${sel === x.i}">${x.text}</button>`)}</div>
-        <div class="cat-grid">${ex.categories.map((c) => html`<div class="cat-bin" data-bin="${c}" role="button" tabindex="0" aria-label="${c}"><span class="label" lang="en">${c}</span>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`)}</div>
+        <div class="cat-grid" lang="en" dir="ltr">${ex.categories.map((c) => html`<div class="cat-bin" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`)}</div>
         <p class="xsmall faint">${tt('בחרו פריט ואז את הקטגוריה. לחיצה על פריט שהונח מחזירה אותו.', 'Pick an item, then its category. Tap a placed item to take it back.')}</p>`);
       draw();
       offs.push(on(root, 'click', '[data-item]', (e, b) => { if (root.dataset.locked) return; sel = Number(b.dataset.item); draw(); }));
+      // A bin's name is a button (keyboard, screen readers); a tap anywhere in the bin works too. Bins hold the
+      // placed chips, so the bin itself is not a button (no nested controls).
       offs.push(on(root, 'click', '[data-bin]', (e, b) => { if (root.dataset.locked || sel == null || e.target.closest('[data-placed]')) return; placed.set(sel, b.dataset.bin); sel = null; draw(); onChange(placed.size === items.length); }));
-      offs.push(on(root, 'keydown', '[data-bin]', (e, b) => { if ((e.key === 'Enter' || e.key === ' ') && sel != null) { e.preventDefault(); b.click(); } }));
       offs.push(on(root, 'click', '[data-placed]', (e, b) => { if (root.dataset.locked) return; placed.delete(Number(b.dataset.placed)); draw(); onChange(false); }));
       ctl.ready = () => placed.size === items.length;
       ctl.check = async () => {
@@ -190,7 +192,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only">${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
         });
         const correct = right === items.length;
-        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: `${right}/${items.length}`, fixes: categoryFixes(ex, placed) });
+        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: tt(`${right} מתוך ${items.length} במקום`, `${right} of ${items.length} in place`), fixes: categoryFixes(ex, placed) });
       };
       break;
     }
@@ -290,7 +292,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ${canSpeak() ? html`<div class="row" style="margin-top:var(--s3)"><button type="button" class="key small" data-say="normal">${icon('volume', { size: 18 })} ${tt('הקראת הטקסט', 'Read it to me')}</button></div>` : ''}
         <div class="stack" style="margin-top:var(--s5)">${ex.questions.map((q, qi) => html`<fieldset class="panel flat stack-sm" style="margin:0" data-q="${qi}"><legend class="sr-only">${tt('שאלה', 'Question')} ${qi + 1}</legend>
           ${q.type === 'tf' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.statement}</p><div class="row"><button type="button" class="key small" data-tf="${qi}" data-v="true" aria-pressed="false">True</button><button type="button" class="key small" data-tf="${qi}" data-v="false" aria-pressed="false">False</button></div>`
-          : q.type === 'mcq' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.question}</p><div class="options">${q.options.map((o, oi) => html`<button type="button" class="option" data-mq="${qi}" data-o="${oi}" aria-pressed="false">${en(o)}</button>`)}</div>`
+          : q.type === 'mcq' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.question}</p><div class="options">${q.options.map((o, oi) => html`<button type="button" class="option" data-mq="${qi}" data-o="${oi}" aria-pressed="false" lang="en" dir="ltr">${o}</button>`)}</div>`
           : html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.text.split('___').map((p, i, a) => html`${p}${i < a.length - 1 ? html`<input class="gap-input" data-rg="${qi}" data-b="${i}" aria-label="${tt('מילה חסרה', 'Missing word')}" autocomplete="off" spellcheck="false">` : ''}`)}</p>`}
           <div class="q-fb" aria-live="polite"></div></fieldset>`)}</div>`);
       sayHandler(ex.passage);

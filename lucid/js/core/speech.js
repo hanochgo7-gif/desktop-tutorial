@@ -77,7 +77,7 @@ export function micNoticeHtml() {
     <h2>${tt('לפני שמשתמשים במיקרופון', 'Before you use the microphone')}</h2>
     <p>${tt('זיהוי הדיבור נעשה על ידי הדפדפן, לא על ידי Lucid. בחלק מהדפדפנים, למשל Chrome, הקול נשלח לשירות זיהוי הדיבור של יצרן הדפדפן כדי להפוך אותו לטקסט.', 'Speech recognition is done by your browser, not by Lucid. In some browsers, such as Chrome, your voice is sent to the browser maker\'s speech service to turn it into text.')}</p>
     <p>${tt('Lucid מקבל רק את הטקסט שזוהה ומשתמש בו כמו בטקסט שהקלדתם. הוא לא מקליט ולא שומר את הקול שלכם.', 'Lucid gets only the recognised text and uses it like text you typed. It never records or keeps your voice.')}</p>
-    <p class="small muted">${tt('לא חייבים מיקרופון: בכל תרגיל דיבור אפשר לומר בקול ולסמן בעצמכם.', 'You don\'t need the microphone: in every speaking exercise you can say it aloud and mark it yourself.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a></p>
+    <p class="small muted">${tt('לא חייבים מיקרופון: בתרגילי הדיבור שבשיעורים אפשר לומר בקול ולסמן בעצמכם איך הלך.', 'You don\'t need the microphone: in lesson speaking exercises you can say it aloud and mark how it went yourself.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a></p>
     <div class="row" style="justify-content:flex-end">
       <button type="button" class="key ghost" value="no" data-close>${tt('לא עכשיו', 'Not now')}</button>
       <button type="button" class="key enter" value="yes" data-close>${tt('להשתמש במיקרופון', 'Use the microphone')}</button>

@@ -43,7 +43,7 @@ export default async function welcome(el, ctx) {
         </div>
         <div class="keyboard" role="img" aria-label="${tt('מקלדת עם אותיות באנגלית ובעברית על כל מקש', 'A keyboard with an English and a Hebrew letter on every key')}">
           ${ROWS.map((row) => html`<div class="krow">${row.map(([l, h]) => html`<span class="kc" data-k="${l}"><span class="kl">${l}</span><span class="kh">${h}</span></span>`)}</div>`)}
-          <div class="krow"><span class="kc wide" style="height:2.6rem"></span></div>
+          <div class="krow"><span class="kc wide"></span></div>
         </div>
       </div>
       <p class="xsmall faint" style="text-align:center;padding:var(--s4)">${tt('הרמות ב-Lucid הן הערכה לפי מתארי CEFR, לא תעודה רשמית.', 'Lucid levels are estimates aligned to CEFR descriptors, not official certificates.')}</p>

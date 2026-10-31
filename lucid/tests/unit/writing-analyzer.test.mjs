@@ -55,6 +55,7 @@ test('a or an is decided by sound, with initialisms read letter by letter', () =
   assert.deepEqual(types(ok, { level: 'C1' }), []);
   const bad = analyzeWriting('He has a MBA. She ate a apple. It was an useful idea.', { level: 'B1' }).issues.filter((i) => i.type === 'article').map((i) => `${i.match} (${i.title})`);
   assert.deepEqual(bad, ['a MBA (an before a vowel sound)', 'a apple (an before a vowel sound)', 'an useful (a before a consonant sound)']);
+  assert.deepEqual(types('Buy a SIM card. She had an SAT score. It was a FAQ page.', { level: 'B1' }), [], 'three capitals that may be read as a word are not checked');
 });
 
 test('if + will in an indirect question is not flagged; low-precision rules are off above B2', () => {
