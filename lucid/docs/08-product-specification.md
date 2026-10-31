@@ -53,11 +53,11 @@ Each feature carries one status.
 
 | Suite | Command | Result |
 |---|---|---|
-| Browser acceptance tests | `cd lucid && E2E_PORT=8841 node tests/e2e/run.mjs` | E2E_RESULT_PLACEHOLDER |
+| Browser acceptance tests | `cd lucid && E2E_PORT=8841 node tests/e2e/run.mjs` | **52 of 52 checks pass** (run on 2026-10-31 while this document was updated; no page errors reported) |
 | Unit tests | `npm test` | 141 of 141 pass |
 | Database tests | `npm run test:db` | 9 of 9 pass |
 | Content validator | `npm run validate` | 75 lesson files plus the placement, scenario, expression and writing files; 0 errors, 0 warnings |
-| Accessibility audit | `A11Y_PORT=A11Y_PORT_PLACEHOLDER node tests/e2e/a11y.mjs` | A11Y_RESULT_PLACEHOLDER |
+| Accessibility audit | `A11Y_PORT=8846 node tests/e2e/a11y.mjs` | 0 violations across 24 routes, plus Welcome and the first onboarding step, x 5 configurations |
 | Edge-function tests | `deno test ...` | **Not run here**: Deno is not installed in this environment. `docs/qa/fix-log-r2.md` reports 20 of 20 passing on 2026-10-31. |
 | Content inventory | `node tools/inventory.mjs` | Section 14 |
 
@@ -351,8 +351,8 @@ Lesson flow and scoring (`js/views/lesson.js`, `js/ui/player.js`):
   the first-pass total fixed and counts retries apart ("2 of 14 · 1 to revisit", in words in Hebrew). The verdict
   leads with the result and the right form; the explanation waits behind "Why?", which shows the item's own
   explanation and adds the error type's general Hebrew note only when the item has nothing of its own. Built and
-  tested: `e2e PS2`, `e2e PL1`, `unit player` (counter tests; "R2-04: \"Why?\" shows the item's own explanation,
-  not the general note of its error type").
+  tested: `e2e PS2`, `e2e PL1`, `unit player` (counter tests; `"R2-04: \"Why?\" shows the item's own
+  explanation, not the general note of its error type"`).
 - After "Nearly there", the main action redoes only the exercises missed on the first try; earlier right answers
   keep counting, so fixing the misses can complete the lesson. This choice survives leaving: the lesson intro then
   shows a "Nearly there" banner with the last score, and its main action (also on Enter) is "Practise the N I
@@ -468,15 +468,16 @@ grammar, 4 vocabulary, 2 reading, 2 listening; 10 multiple-choice and 2 listenin
 | Confirmation | A level counts only when confirmed: 75% or more over 8 items at that level, or a passing block (3+ of 4) at the level above. Before finishing, the test asks a confirming block at the highest level passed, and it never places above the highest confirmed level. A level that cannot be confirmed is dropped and the level below must stand on its own. |
 | Length | At most 28 items ("about 10 minutes" on screen). |
 | During the test | "I don't know" is always allowed and counts as not known. No right or wrong is shown. |
-| Resume | Answers are saved after each question (`placement/inprogress`). Today offers "Continue the test" or "Start again"; until there is a result (and no lesson is completed) Today shows no lesson link. |
+| Resume | Answers are saved after each question (`placement/inprogress`). Today offers "Continue the test" or "Start again"; until there is a result (and no lesson is completed) Today shows no lesson link. The path shows the same choice, with no current level and no "Next" mark, and its bottom link reads "Continue the placement test" (`e2e LP3`). |
 | Result | The highest confirmed level ("demonstrated"); the course starts at that level. C1 and C2 are the academic track: a learner whose goals are all non-academic (work, travel, conversation, everyday) starts at B2, and the result says so and offers "Start at C1". The headline names only what was confirmed (C1, or C2 after a confirmed C2). Per-skill first estimates for grammar, vocabulary, reading and listening (section 5.2), never above the confirmed level. A perfect run is reported as the top band, cautiously; the note about C1, C2 and "B2+" appears only when an estimate reaches B2. Tested: `unit learner-evidence` (R1-Y2, R2-29, R2-38), `e2e LP4`. |
-| Learner control | Start lower than the result, start from the basics, move level from the path ("Start from <level>", recorded as the learner's own estimate), or retake. Lessons below the start become "placed out"; moving down returns placed-out lessons to regular lessons. |
+| Learner control | Start lower than the result, start from the basics, move level from the path ("Start from <level>", recorded as the learner's own estimate), or retake from the path or Settings. Lessons below the start become "placed out"; moving down returns placed-out lessons to regular lessons. |
 
-Status: **Built and tested**: `e2e 2`, `e2e L1`, `e2e L2`, `e2e L3`; `unit engine: "placement finds the boundary
+Status: **Built and tested**: `e2e 2`, `e2e L1`, `e2e L2`, `e2e L3`, `e2e LP3`, `e2e LP4`; `unit engine: "placement finds the boundary
 for learners of known ability"`, `"placement tolerates an occasional slip (1 in 8)"`; `unit learner-logic:
 "placement never claims a level on one lucky block"`, `"every level the placement reports is confirmed by a second
 block"`, `"an interrupted placement resumes where it stopped and ends the same way"`, `"a perfect score is the top
-band, and skill estimates stay at B2+"`.
+band, and skill estimates stay at B2+"`; `unit learner-evidence: "R1-Y2: the course starts at the confirmed level;
+non-academic goals are not started on the C1 track"`.
 
 Limits: the bank is expert-levelled, not calibrated on real responses (Rasch calibration is deferred,
 `04-methodology.md` section 3). There is no productive (writing or speaking) sample in placement.
@@ -489,9 +490,26 @@ characters). Placement answers and unscored practice (`score: null`) are left ou
 
 **Topic mastery.** Time-weighted accuracy (an attempt's weight halves every 21 days) with a neutral prior:
 `(points + 1) / (n + 2)`, where each answer adds its score (partial credit counts) and `n` is the weighted number
-of answers. Status: "learning" below 0.6; "mastered" at 0.85 or more with at least 6 answers on at
-least 2 different days; otherwise "practising". Weak topics: 3+ answers and mastery below 0.7 (up to 5).
-**Built and tested**: `unit engine: "mastery needs accuracy, enough evidence and two different days"`.
+of answers. Only first tries count: the first answer to an item (source, lesson and exercise) on a given day, so
+end-of-set retries and same-day redos of missed or all exercises are left out, while the same item on a later day
+counts (`firstTries`; the same rule applies to skill levels and report accuracy). Status: "learning" below 0.6;
+"mastered" at 0.85 or more with at least 6 answers on at least 2 different days; otherwise "practising". Weak
+topics: 3+ answers and mastery below 0.7 (up to 5).
+
+**Topic attribution.** A review answer belongs to the topic and level of the lesson its word came from (older
+review records filed under a fixed "daily-life-vocab" topic are re-read that way). Feedback on an essay in the
+Writing lab never moves a topic: its mistakes feed recurring errors and its assessed final drafts feed the writing
+level. Auto-graded writing exercise items still count. Scripted practice and roleplay in the travel modules count
+toward `travel-functional`; social and workplace scenarios toward `social-functional`. Each weak topic carries
+where it can be practised: a drill when an available lesson teaches it no more than one level above the course
+level, the scenario with the lowest score for the two real-life topics, or nowhere, and then Today, Practice and
+Progress do not link to it.
+
+**Built and tested**: `unit engine: "mastery needs accuracy, enough evidence and two different days"`; `unit
+learner-evidence`: "R2-12: first-try accuracy and topic mastery leave retries out", "R2-37: essay feedback never
+moves a topic; auto-graded writing items still count", "R2-37 in the store: a review answer carries the topic of its
+word's lesson; old records are re-read", "R2-24 in the store: weak real-life topics route to the scenario with the
+lowest score; topics with no exercises route nowhere".
 
 **Recurring errors.** An error type is recurring with 3+ occurrences on 2+ different days within 30 days. Trend
 compares the last 14 days with the 14 before: "improving" below 0.6 times, "worsening" above 1.4 times, "new"
@@ -514,7 +532,9 @@ The overall placement level is never copied into a skill. Each level shows its s
 label "Lucid estimate, aligned to CEFR descriptors". The course level (the level of the next lesson) is shown
 separately from skill levels. **Built and tested**: `unit learner-logic` (4 skill-level tests), `unit
 writing-level` (2 tests), `unit engine: "skill levels come from evidence; placement is a starting point that
-evidence can move"`, `e2e L2`. The writing level only receives evidence when AI feedback runs, which was tested
+evidence can move"`, `unit learner-evidence` ("R2-12: retries and same-day redos are not skill evidence; a lesson
+passed only through retries does not raise the level", "R2-29: a skill's placement estimate never goes above the
+confirmed level, and says where its answers were"), `e2e L2`, `e2e LP4`. The writing level only receives evidence when AI feedback runs, which was tested
 with mocks only.
 
 ### 5.3 Spaced repetition
@@ -549,42 +569,86 @@ or 50 minutes (onboarding and Settings). Each block says why it is there.
 
 - **Lesson slice.** The plan uses the lesson's real length from its file. When it does not fit, it takes a part
   ("up to exercise 9 of 16"); the saved place carries the rest to the next day, where the main button says
-  "Continue". Built and tested: `e2e L5`, `unit learner-logic: "the plan shows the real lesson length and splits
-  long lessons across days"`.
+  "Continue". The explanation and examples are sized by their English word count (about 120 words per exercise
+  slot, 1 to 6 slots; a planning heuristic, not a measured rate). The plan counts a saved run as the player does:
+  the first pass has a fixed total and retries are counted apart ("Continue: <title> · 6 of 16"; "exercise 6 of
+  16, and 2 to revisit at the end"). The player marks the end of today's part (section 4.2). Built and tested:
+  `e2e L5`, `e2e LP1`, `e2e PL3`, `unit learner-logic: "the plan shows the real lesson length and splits long
+  lessons across days"`, `unit learner-evidence: "R1-D3: a long explanation takes more of the lesson time than a
+  short one"`, `"R2-17: Today's step counts match the player's counter for every saved state"`.
+- **After "Nearly there"** the lesson block's main action practises only the missed exercises ("Practise the N you
+  missed"; the row says that right answers are kept and that fixing the misses can complete the lesson), unless a
+  run is in progress. A run of only the missed exercises that was left halfway resumes with its own counter.
+  Built and tested: `e2e LP1`, `unit learner-evidence: "R2-02/R2-25: after \"Nearly there\" the plan's lesson is the
+  missed exercises, unless a run is in progress"`.
 - **Goals.** Onboarding offers six goals: travel, work, exams and university, confidence in conversation,
   academic writing, everyday English. From A1 and 20 minutes, goals choose the "use it" block: travel and
   conversation name a real-life scenario at or below the course level, not done yet (travel: airport, hotel and
-  emergencies first); exams and academic writing alternate reading and a Writing lab task at or below the level;
-  the kind practised least recently comes first. Without a usable goal, speaking and writing alternate (speaking
-  at Pre-A1 and A1). Built and tested: `e2e L6`, `unit learner-logic: "goals shape the plan: travel names a
-  scenario, studies pick reading and writing"`. **Work goal: Partial**. Lucid has no workplace scenarios, so a
-  work goal does not change the plan (onboarding says it only shapes the AI tutor for now).
-- **Targeted practice** links to `drill?error=` or `drill?topic=`, for a weak topic only when lessons have exercises for it and it is not more than one level below the course level; weak real-life topics (travel, social) link to the scenario with the lowest score instead. A practice or "use it" block is ticked only for what was done (that drill, that scenario or task). Built and tested: `e2e 7`, `e2e LP2`, `unit learner-evidence`.
-- **After "Nearly there"** the lesson block's main action practises only the missed exercises; a saved run is counted as the player counts it (first pass fixed, retries apart). A Writing lab block is timed from the task's word range, and a longer text is planned as a start. Built and tested: `e2e LP1`, `unit learner-evidence`.
+  emergencies first); work names a workplace scenario at or below the course level, not done yet (the six start at
+  A2, so at A1, or once every workplace scenario at or below the level is done, a work goal alone leaves the
+  default mix);
+  exams and academic writing alternate reading and a Writing lab task at or below the level; the kind practised
+  least recently comes first. Once a goal's kind was practised today, the block shows what was done, ticked,
+  instead of moving on to the next one. A block's reason names only a goal the learner chose, and its icon matches
+  the kind of block. Without a usable goal, speaking and writing alternate (speaking at Pre-A1 and A1). Built and
+  tested: `e2e L6` (travel), `e2e LP1` (reasons and icons), `e2e LP2` (ticks), `unit learner-logic: "goals shape
+  the plan: travel names a scenario, studies pick reading and writing"`, `unit work-content: "a work goal picks a
+  workplace scenario for the plan and for \"Start here\""` (at A2, B1 and B2), `unit learner-evidence` (R2-27,
+  R2-39). No browser check asserts that Today names a workplace scenario (`e2e LP1` uses a work goal only
+  alongside academic writing, and checks the reading block).
+- **Writing blocks** are timed from the task's word range (about 5 words a minute up to A2, 7 at B1-B2 and 9 from
+  C1, or half a minute per item for sentence sets; a heuristic, as the code comment says). A longer text is
+  planned as a start ("The whole text takes about 30 min, so today is a start"), and a task with a saved draft
+  comes first next time. Built and tested: `unit learner-evidence: "R2-16: a writing block is timed from the task's
+  word range and planned as a part when it is longer"`.
+- **Targeted practice** links to `drill?error=` for a recurring error, or for a weak topic to where it can be
+  practised (section 5.2, topic attribution): a drill only when an available lesson teaches the topic no more than
+  one level above the course level, and never for a topic practised only more than one level below the course
+  level; weak real-life topics (travel, social) link to the scenario with the lowest score instead. A topic with
+  nowhere to practise is not planned. A practice or "use it" block is ticked only for what was done (that drill,
+  that scenario or task). Built and tested: `e2e 7`, `e2e LP2` (every plan link opens content), `unit
+  learner-evidence` (R2-24, R2-37).
 - **Unwritten lessons** are skipped and named; **pending placement** replaces the plan with the test, or lets the
   learner start at their own estimate. Built and tested: `e2e L4`, `e2e L1`.
+- **Level by skill** on Today is a fold with a one-line summary: folded on phones, open on wide screens; Progress
+  keeps the full sources. Built and tested: `e2e L2` (folded on a phone, no C1/C2 from placement alone, opens on a
+  tap), `e2e RW1` (rows stack at 320 px and 150% text).
+- **Vocabulary import card** (for placed learners): "Not now" hides it on Today for that level; the path keeps it.
+  The import itself is tested (`e2e L6`); "Not now" has no test.
 - **Weekly goal**: 2-7 days (default 5), counted Monday to Sunday from days with attempts. "A day off erases
   nothing." Partial: built, no test.
 
 ### 5.5 Hebrew support fading
 
-Code: `js/core/i18n.js` (`SUPPORT_BY_LEVEL`, `bi()`, `legend()`), `learner.applySupport()`.
+Code: `js/core/i18n.js` (`SUPPORT_BY_LEVEL`, `supportLevel()`, `bi()`, `legend()`), `learner.applySupport()` and
+`learner.shownLevel()`.
 
-| Course level | Pre-A1, A1 | A2 | B1, B2 | C1, C2 |
+"By level" follows the level the learner has shown, never above the course level: the placement test's confirmed
+level (or the level the learner chose themselves), raised by the highest level of a completed lesson. With
+nothing shown yet, the course level is used. A placement that confirmed A2 and starts the course at B1 therefore
+keeps A2 support until a B1 lesson is completed.
+
+| Level shown (capped at the course level) | Pre-A1, A1 | A2 | B1, B2 | C1, C2 |
 |---|---|---|---|---|
-| "By level" (default) | full: Hebrew before the English | partial: English first, Hebrew after | minimal: English only; Hebrew behind a "עב" button; Hebrew legend lines dimmed | off: English only; Hebrew behind "עב"; legend lines hidden |
+| "By level" (default) | full: Hebrew before the English | partial: English first, Hebrew after; an explanation paragraph of more than 24 English words gets a "בעברית" toggle instead of a second full copy | minimal: English only; Hebrew behind a "עב" button; Hebrew legend lines in a quieter colour | off: English only; Hebrew behind "עב"; legend lines hidden |
 
 - The learner can override in Settings (full, partial, minimal, off). At "off", lesson pitfalls and the Hebrew
-  "why" notes on error labels are hidden.
-- Support is re-applied whenever the course level moves (placement, retake, level move, lesson progress). Built
-  and tested: `unit learner-logic: "P-48 and P-45: after \"Start from B2\", a finished lesson is recorded and the
-  plan moves on"` (asserts the support attribute changes right after the move).
+  "why" notes on error labels are hidden. The articulation note of a speaking item or shadowing sentence shows its
+  Hebrew at every support level except "off".
+- At partial support, short lines (objectives, key points, prompts, feedback) and Hebrew pitfalls stay doubled; the
+  fold applies to the learn stage's paragraph, rule, tip and warning blocks.
+- Support is re-applied whenever the course level or the level shown moves (placement, retake, level move, lesson
+  progress). Built and tested: `unit i18n: "\"By level\" Hebrew support follows the level shown, not the level the
+  course starts at"`, `unit i18n: "partial support folds the Hebrew of a long paragraph behind \"בעברית\"; short
+  lines stay doubled"`, `unit learner-logic: "P-48 and P-45: after \"Start from B2\", a finished lesson is recorded
+  and the plan moves on"` (asserts the support attribute changes right after the move), `e2e PL4` (support partial
+  after a placement that showed A2; long paragraphs folded; the articulation note in Hebrew).
 - The same support level is sent to the AI routes, which follow a Hebrew policy (section 8).
-- The comment above `SUPPORT_BY_LEVEL` describes a different mapping (full to A2, partial at B1); the map above is
-  what runs and what Settings describes.
-- **Not built**: onboarding says "Lucid will suggest switching to English as your level rises" for the interface
-  language. No code makes that suggestion.
-- **Accessibility defect at minimal support**: see section 11.1.
+- The comment above `SUPPORT_BY_LEVEL` now matches the map that runs.
+- The suggestion to switch the interface to English, promised in onboarding, is shown on Today from B1
+  (section 2.3; Partial, no test).
+- Contrast at minimal support: the quieter legend colour (`--ink-he-quiet`) replaced the earlier 0.6 opacity,
+  which failed WCAG 1.4.3; the B1 configuration of the audit now covers it (section 11.1).
 
 ### 5.6 Speech
 
@@ -597,8 +661,12 @@ Code: `js/core/i18n.js` (`SUPPORT_BY_LEVEL`, `bi()`, `legend()`), `learner.apply
   player: "the microphone notice is shown once per browser and says what happens to the voice"`.
 - The Speaking lab has six sound contrasts relevant to Hebrew speakers (/ɪ/-/iː/ *ship/sheep*, /æ/-/ʌ/-/e/,
   /θ/-/s/-/t/, /ð/-/d/, /w/-/v/, /ʊ/-/uː/) with a "Which did you hear?" drill and a "Say it" check, and shadowing
-  of lesson sentences with no verdict. Sound tabs and shadowing: Built and tested, `e2e PS6`. The drill and the
-  "Say it" check: Partial, no test.
+  of lesson sentences with no verdict. Shadowing groups the 79 lesson sentences by level in folds that show done of
+  total; only the recommended level is open, and "Next sentence for you" opens a sentence at that level. Sound tabs
+  and shadowing: Built and tested, `e2e PS6`, `e2e PL4`. The drill and the "Say it" check: Partial, no test.
+- What recognition did not catch is shown in grey with a dotted underline ("not caught"), not in the red used for
+  dictation mistakes (section 4.3). Built and tested: `unit player: "R2-08: words recognition did not catch are \"not
+  caught\" (grey), not marked like spelling errors"`, `e2e PL5`.
 - Nothing is an accent score. Recognition quality on Hebrew-accented English is not validated.
 
 ---
@@ -628,7 +696,9 @@ level.
 Assignments (B2-C2) carry a prompt, 6-9 required elements, a word range (450-550, 800-1,000 or 1,500-2,000) and an
 exemplar (an outline and an annotated paragraph). The six with source packs (3-4 sources each) mark every source
 as "Illustrative, not real data"; the packs are invented and labelled, with no fabricated real-world statistics.
-Exercise items run in the focused player like lesson exercises. Free writing (`writing/free`) is always available.
+Exercise items run in the focused player like lesson exercises. Free writing (`writing/free`) is always available;
+it asks "What are you writing?" (essay or opinion, email, message), and the choice is saved with the draft and its
+versions (sections 6.3 and 6.6).
 
 Status: stages, the lab and the assignment and final-task data **Built and tested** (`e2e 13`, `e2e 11-12`,
 `e2e 14-15`, `npm run validate`). Opening a writing exercise and running its items in the player: **Partial**, no
@@ -639,13 +709,17 @@ test opens any of `we-01` to `we-20`.
 `js/views/essay.js`. The editor shows the task, its required elements ("Must include"), word count against the
 target (a closing reference list is counted apart, as "+N"), an optional timer for timed tasks, the topic choice
 and source pack where they exist, and the tabs Checks, AI feedback, Versions and (only when the task or chosen
-topic has a source pack) Sources. Drafts autosave on the device.
+topic has a source pack) Sources. Drafts autosave on the device. When AI is ready and the task's latest evaluated
+draft is not final, the editor reopens on the AI feedback tab, so the "mistakes to fix" strip shows at once on a
+phone (`e2e RW3`).
 
 ### 6.3 The rubric: 12 categories and stage applicability
 
 Source: `content/writing/rubric.json` (shown to learners) and `supabase/functions/lucid-ai/rubric.ts` (used by
 the assessor). The validator checks that `rubric.json` has exactly the 12 category ids and that its applicability
-matrix for stages 1-10 matches `rubric.ts`; the stage 0 (free writing) column exists only in `rubric.ts`.
+matrix for stages 1-10 matches `rubric.ts`; the stage 0 (free writing) column exists only in `rubric.ts`. For free
+writing marked as an email or a message, argument strength, evidence quality, counterarguments and academic tone
+are not applicable (`applicabilityFor(stage, kind)` in `prompts.ts`); a task stage keeps its own rules.
 
 Scale, relative to the stage target (labels as shown in the editor): 0 not enough to judge (for example 20 words or
 fewer of the learner's own language; a Lucid design choice, not an IELTS rule); 1 about a level below target; 2
@@ -674,7 +748,8 @@ learner's level):
 
 `postProcess` in `supabase/functions/lucid-ai/schemas.ts` applies the protocol in code, not only in the prompt:
 
-- Categories that do not apply at the stage are forced to not applicable with no score (never 0).
+- Categories that do not apply at the stage are forced to not applicable with no score (never 0). For free
+  writing, the text type counts too: an email or a message has no argument categories (section 6.3).
 - Task-fulfilment gate (decided first by the model: complete, partial or off topic): "partial" caps argument
   strength, evidence quality and counterarguments at 2 and lowers the CEFR estimate one level; "off topic" caps
   every category at 1.
@@ -687,7 +762,9 @@ learner's level):
 
 Status: **Built, tested with mocks only**: `deno: "research E rubric rules are enforced in code, not only
 requested"`, `"minimal-edit enforcement drops errors whose quote is not in the learner text"`, `"several scoring
-runs are made, their usage summed and their units reserved"` (not re-run here).
+runs are made, their usage summed and their units reserved"`, `"free writing: an email or a message has no argument
+categories, and the model is told the text type"` (not re-run here). The text type sent with a free-writing
+request is tested with mocks in `e2e RW3` (an email is sent as kind `email`).
 
 ### 6.5 Feedback protocol in the editor
 
@@ -700,8 +777,8 @@ runs are made, their usage summed and their units reserved"` (not re-run here).
 | Feedback scope | "Focused" (every critical error plus at most 3 error types) or "comprehensive" (up to 12 errors); "by level" means focused up to B1 and comprehensive from B2 (Settings) | Partial: built, no test. `e2e 11-12` does not assert the scope it sends, and the `deno` fixtures pass a scope without checking its effect |
 | Hint ladder | Each mistake opens at "locate" (rung 1: "There is a mistake here", with "Show in my text" selecting the span), then "What kind of mistake?" (rung 2: the error type), then "Stuck? A clue" (rung 3: the hint), then "Compare with the correction" (rung 4: correction and explanation, in Hebrew when support allows). Spelling, word choice, false friends, capitals and punctuation always start at rung 1; at course levels Pre-A1 to A2 every other mistake type starts at rung 2. Every step is logged as `hint-level` with whether it followed an attempt or a request ("stuck"). | Built, tested with mocks only: `e2e 11-12` |
 | Attempt rule | Rung 4 is disabled ("Try a fix in your text first") until the learner has changed the sentence that held the mistake. "Looks fixed" appears only when the correction now stands in that sentence's place (found by the unchanged text around it); any other edit reads "You changed this". | Diff logic Built and tested: `unit diff: "a fix is judged in the sentence where the mistake was, not anywhere in the essay"`; in the editor, tested with mocks only (`e2e 11-12`, a wrong fix reads "You changed this") |
-| Self-assessment | From stage 7, before feedback, the learner may rate argument strength, evidence, counterarguments and coherence on the same bands; the ratings are stored with the evaluation and shown next to the AI's bands | Partial: built, no test |
-| Versions and diff | Every "Check" and every AI round saves a version on the device (no server needed). Versions lists them; the default comparison is previous vs latest, and any two versions (or the current text) can be compared word by word with paragraph breaks kept | Built and tested: `unit diff` (3 comparison tests), `e2e 11-12` (comparisons after mocked AI rounds) |
+| Self-assessment | From stage 7, the learner may rate argument strength, evidence, counterarguments and coherence on the same bands: before the first feedback ("Before the feedback: how would you rate your text?"), and after it in a folded "Before your next feedback: rate your revised draft yourself (optional)". The ratings are stored with the next evaluation and shown next to the AI's bands; they are not sent to the AI | Partial: the form and its two labels are tested with mocks (`e2e RW3`); storing the ratings and showing them next to the bands have no test |
+| Versions and diff | Every "Check" and every AI round saves a version on the device (no server needed). Versions lists them; the default comparison is previous vs latest, and any two versions (or the current text) can be compared word by word, with added or removed paragraph breaks marked "¶". The comparison opens on "Changes only": the changed paragraphs with their numbers, the count of unchanged paragraphs between them, and a "Paragraph N" jump list; "Whole text" shows everything | Built and tested: `unit diff` (4 comparison tests, including "paragraph breaks that were added or removed are marked, and the diff splits into paragraphs"), `e2e 11-12` (comparisons after mocked AI rounds), `e2e RW3` (changes only, jump list, whole text) |
 | Progress since the previous draft | Shown on revisions | Built, tested with mocks only: `e2e 11-12` |
 | Automatic checks | Always available; unchanged after AI feedback | Built and tested (section 6.6) |
 | Delete this text | Removes the task's text, versions, draft and feedback from the device (and the server at the next sync), and clears quoted mistakes from its attempts; scores and mistake types stay | Built and tested: `e2e 11-12` (device), `unit store-sync` (tombstones carry no content) |
@@ -720,14 +797,21 @@ runs are made, their usage summed and their units reserved"` (not re-run here).
 - Three formal-register rules (contractions, informal words, personal hedges): in the essay editor for B2-C2
   learners on stage 7+ tasks; in lesson `write` exercises at B2-C2.
 - Low-precision rules (run-ons, *if* + *will*) are off at C1-C2; a run-on is not flagged after a sentence-initial
-  linker or short phrase; *if* + *will* is not flagged in indirect questions.
+  linker, a phrase linker (*to sum up*, *to conclude*, *all in all*, *first of all*, *put simply* and others), a
+  fronted time phrase (*last year*, *these days*) or a short phrase; *if* + *will* is not flagged in indirect
+  questions.
 - Checks: word count against the target (references not counted), required words, capital letters at sentence
   starts, final punctuation, paragraphs (from 150 words, aim for 3), very long sentences (over 40 words, 55 at
   C1-C2), repeated sentence openings.
 - A title line and a closing reference list are not checked or counted.
+- Free writing marked as an email or a message gets no argument checklist and no formal-register warnings; its
+  sign-off ("Best," and a name) is not checked as a sentence, though its words count; *yet*, *next* and *first*
+  count as linkers only where they join ideas (not in "not yet" or "next week").
 
-Status: **Built and tested**: `unit writing-analyzer` (9 tests), `e2e 11-12` ("more better" is flagged; the Check
-button shows a visible result).
+Status: **Built and tested**: `unit writing-analyzer` (11 tests, including `"no run-on flag after phrase linkers
+such as \"To sum up,\" or \"Last year,\""` and `"an email gets no argument signals, no formal-register warnings,
+and its sign-off is not checked"`), `e2e 11-12` ("more better" is flagged; the Check button shows a visible result),
+`e2e RW3` (an email is not checked as an argued essay).
 
 ### 6.7 What AI feedback cannot verify
 
@@ -737,7 +821,10 @@ Stated to the learner in the editor on source-based tasks (`e2e 13` asserts it) 
 - It does not read the sources and cannot check whether a source exists, whether a quotation or figure is accurate,
   or whether a source says what the learner reports. On source-based tasks (stage 9+, research, evidence
   evaluation and critical response, a task with a source pack, or instructions that mention sources, citations or
-  references) it returns a `verification_note` naming what the learner should check.
+  references) it returns a `verification_note` naming what the learner should check. The editor shows Lucid's own
+  statement and the AI's note as separate blocks, the note labelled "From the AI feedback: what to check"; the
+  prompt asks the model to name what to check without repeating that it cannot verify sources (`e2e RW3`, with
+  mocks).
 - It cannot tell whether a text was written with AI or copied, and is told never to claim either.
 - Its scores have not been compared with human raters. 05 section 5 sets the launch gate (agreement of at least
   0.70 QWK on language categories and 0.60 on content categories, on at least 100 held-out essays per stage group);
@@ -750,7 +837,7 @@ Stated to the learner in the editor on source-based tasks (`e2e 13` asserts it) 
 
 ### 7.1 Modules and scenarios
 
-`content/real-life/scenarios.json`: 30 scenarios.
+`content/real-life/scenarios.json`: 36 scenarios.
 
 | Module | Scenarios | Levels |
 |---|---|---|
@@ -761,39 +848,53 @@ Stated to the learner in the editor on source-based tasks (`e2e 13` asserts it) 
 | Shopping | 4 | A2 x2, B1, B2 |
 | Social | 4 | A2 x2, B1 x2 |
 | Emergency | 3 | B1 x3 |
+| At work | 6 | A2 x2, B1 x2, B2 x2 |
 
-By level: A1 3, A2 10, B1 14, B2 3. There are no scenarios above B2 and no workplace module.
+By level: A1 3, A2 12, B1 16, B2 5. There are no scenarios above B2.
 
-The hub (`js/views/reallife.js`) shows the learner's course level in words, marks each scenario "below", "at", "a
-small stretch" (one level up) or "challenging", starts with up to three scenarios not yet done at or below the
-level in goal order (then one level up), and lists each topic folded to two scenarios, with topic and level
-filters. Conversations reuses the same filters. **Built and tested**: `e2e RL1`, `unit reallife` (fit, "Start
-here", next scenario).
+The "At work" module (Hebrew "בעבודה") has: first day, meeting a new team (A2); small talk before a video call
+(A2); a stand-up status update (B1); checking what a task really involves (B1); an email asking for more time
+(B2, written practice: every reply is an email); disagreeing politely in a meeting (B2). Each has 12 phrases, a
+model dialogue, 5 practice turns with exactly one best, one OK and one poor reply, a roleplay brief, culture notes
+and US/UK variants (`unit work-content: "every work practice turn has exactly one best, one ok and one poor reply,
+each explained"`).
+
+The hub (`js/views/reallife.js`) lists the modules in this order: airport, hotel, emergencies, transport,
+restaurants, shopping, social English, at work. It shows the learner's course level in words, marks each scenario
+"below", "at", "a small stretch" (one level up) or "challenging", starts with up to three scenarios not yet done at
+or below the level in goal order (then one level up; a work goal picks workplace scenarios), and lists each topic
+folded to two scenarios, with topic and level filters. A note says that scenarios and scripted practice work
+offline and links to "Offline use" in Settings. Conversations reuses the same filters. **Built and tested**:
+`e2e RL1`, `e2e RW4` (the offline link), `unit reallife` (fit, "Start here", next scenario), `unit work-content`
+("work scenarios exist from A2 to B2, and the hub lists every module with a real icon"; "Start here" for a work
+goal).
 
 ### 7.2 Scenario anatomy
 
 `js/views/scenario.js`, four tabs:
 
-| Tab | Content (totals across the 30) | Works without AI | Status |
+| Tab | Content (totals across the 36) | Works without AI | Status |
 |---|---|---|---|
-| Prepare | Situation and goal (EN and HE); phrases with register (polite, neutral, casual), optional US/UK variant and note (356 phrases); culture notes (all 30); US/UK variants (29) | yes | Built and tested: `e2e 9` |
-| Model dialogue | The partner and "you" lines, read aloud (348 lines) | yes | Built and tested: `e2e 9` |
-| Practise (scripted) | 150 turns (4-6 per scenario). For each partner line the learner picks a reply rated best, OK or poor, with feedback in both languages and the error type of a weaker option; the other replies and their feedback are shown on separate lines. The learner may also type or dictate a reply in their own words, which is checked only for whole key words or a question back and is phrased as a suggestion. Each choice is recorded as a speaking attempt (best 1, OK 0.5, poor 0). The end shows how many times the learner chose the most natural reply, out of the number of turns, and the next scenario | yes | Built and tested: `e2e 9`, `e2e RL2`, `unit reallife: "free replies: whole words, and a question back counts (P-60)"` |
-| AI roleplay | The partner plays a persona with a complication; the learner types or dictates; "I'm stuck: help" shows the goal and the scene's phrases (no AI call; logged as `roleplay-help`); a "Hebrew tips when I get stuck" checkbox; then a report (section 7.4) | no | Built, tested with mocks only: `e2e RL3` |
+| Prepare | Situation and goal (EN and HE); phrases with register (polite, neutral, casual), optional US/UK variant and note (428 phrases); culture notes (all 36); US/UK variants (35) | yes | Built and tested: `e2e 9` |
+| Model dialogue | The partner and "you" lines, read aloud (418 lines) | yes | Built and tested: `e2e 9` |
+| Practise (scripted) | 180 turns (4-6 per scenario). For each partner line the learner picks a reply rated best, OK or poor, with feedback in both languages and, where authored, the error type of a weaker option (13 weaker options carry one); the explanation opens by quoting the chosen reply ("Your reply:"), and the other replies and their feedback are shown on separate lines. The learner may also type or dictate a reply in their own words, which is checked only for whole key words or a question back and is phrased as a suggestion. Each choice is recorded as a speaking attempt (best 1, OK 0.5, poor 0) under `travel-functional` or, for social and workplace scenarios, `social-functional`. The end shows how many times the learner chose the most natural reply, out of the number of turns, and the next scenario | yes | Built and tested: `e2e 9`, `e2e RL2`, `e2e RW2` (the chosen reply quoted), `unit reallife: "free replies: whole words, and a question back counts (P-60)"` |
+| AI roleplay | The partner plays a persona with a complication; the learner types or dictates; "I'm stuck: help" shows the goal (as its own left-to-right block under "Your goal") and the scene's phrases, with a name in a phrase replaced by "[your name]", which is selected when the phrase is copied into the box (no AI call; logged as `roleplay-help`); a "Hebrew tips when I get stuck" checkbox; then a report (section 7.4). Without an account, the tab says why an account is needed (AI consent is saved in it; daily AI limit) and offers "Create an account" and "Sign in", sign-up first on a device that was never signed in | no | Built, tested with mocks only: `e2e RL3`, `e2e RW2` |
 
-When AI is not available, the Practise tab's main action is the next scenario, not the roleplay (`e2e RL2`).
+When AI is not available, the Practise tab's main action is the next scenario, not the roleplay (`e2e RL2`). The
+scenario header keeps the top-bar title on one line and the tabs on one scrolling row at 130% text (`e2e RW2`).
 
 ### 7.3 Expressions and slang
 
-`content/real-life/slang.json` (50 entries), `js/views/slang.js`.
+`content/real-life/slang.json` (60 entries, 10 of them workplace expressions: *touch base*, *loop someone in*,
+*on my plate*, *circle back*, *bandwidth*, *OOO*, *EOD / EOW*, *ping (me)*, *hop on a call*, *take it offline*), `js/views/slang.js`.
 
 | Field | Content |
 |---|---|
 | `term`, `meaning_en`, `meaning_he` | The expression and its meaning in both languages |
 | `usage` | When people use it (EN and HE) |
-| `formality` | very informal 5, informal 37, neutral 8 |
-| `region` | both 30, US 14, UK 6 (the schema also allows AU; no entry uses it) |
-| `level` | A2 20, B1 25, B2 5 |
+| `formality` | very informal 5, informal 43, neutral 12 |
+| `region` | both 40, US 14, UK 6 (the schema also allows AU; no entry uses it) |
+| `level` | A2 20, B1 32, B2 8 |
 | `example_dialogue` | A short conversation |
 | `mistakes` | Common mistakes |
 | `avoid_when` | When not to use it (every entry) |
@@ -801,9 +902,12 @@ When AI is not available, the Practise tab's main action is the next scenario, n
 | `related` | Related expressions |
 
 The list shows the term, Hebrew meaning, formality, region and level; an entry expands in place. It sorts by level
-for learners up to A2 and A-Z from B1, has a "for my level" filter, formality and region filters, and a search that
-matches the start of words in English and Hebrew. **Built and tested**: `e2e 10`, `e2e RL4`, `unit reallife:
-"expression search matches the start of words, in English and Hebrew (P-68)"`.
+for learners up to A2 and A-Z from B1, and is grouped like Real life: by level (with a fit label) or, A-Z, in letter
+ranges of about 12, each group folded to 5 with "Show all N". A search shows every match unfolded. It has a "for my
+level" filter, formality and region filters, and a search that matches the start of words in English and Hebrew.
+**Built and tested**: `e2e 10` (grouped and folded, then a search finds "No worries"), `e2e RL4`, `unit reallife:
+"expression search matches the start of words, in English and Hebrew (P-68)"`, `unit work-content` ("email",
+"meeting", "deadline" and "circle back" each find an entry).
 
 **Offensive-term handling.** The dictionary contains no vulgar, offensive or taboo terms; its warnings are about
 tone and register. There is no mechanism for offensive entries (no content warning, filter or age gating), and no
@@ -824,14 +928,18 @@ Server prompt: `roleplaySystem()` and `feedbackSystem()` in `prompts.ts`; client
   vocabulary and naturalness scores (0-100) with comments; up to 3 strengths quoting the learner; "more natural"
   alternatives that must quote the learner exactly (the server drops any that do not), capped by the correction
   setting and level (off 0; light 2; standard 4, or 3 at Pre-A1-A2; intensive 6, or 4); things to practise; a
-  summary that leads with the outcome. The report opens at its heading, leads with the outcome and strengths, and
-  keeps the scores folded. Recent conversations lead with "Goal reached", not a score.
+  summary that leads with the outcome; at full or partial Hebrew support, one Hebrew line per strength and per
+  practice point (`strengths_he`, `practice_he`; the server keeps them only at those support levels). The report
+  opens at its heading, leads with the outcome and strengths, and keeps the scores folded; the lists follow the
+  screen direction under their headings, with the English isolated. Recent conversations lead with "Goal
+  reached", not a score.
 - The conversation (up to 40 turns) and report are saved on the device as a `chats` record and synced with an
   account. A past conversation can be deleted from Conversations; only its id is kept for sync.
 
-Status: turns and report **Built, tested with mocks only** (`e2e RL3`; `deno: "roleplay transcripts alternate
-roles, start and end with the learner side"`, `"roleplay feedback: strengths kept, alternatives quote the learner
-and follow the correction setting and level"`). Deletion **Built and tested** (`e2e RL7`).
+Status: turns and report **Built, tested with mocks only** (`e2e RL3`, `e2e RW2` (the Hebrew report lines); `deno:
+"roleplay transcripts alternate roles, start and end with the learner side"`, `"roleplay feedback: strengths kept,
+alternatives quote the learner and follow the correction setting and level"`, `"roleplay feedback: Hebrew strengths
+and practice, one per item, only at full or partial support"`). Deletion **Built and tested** (`e2e RL7`).
 
 ---
 
