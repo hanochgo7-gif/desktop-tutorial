@@ -63,7 +63,7 @@ const STRINGS = {
   'stop': ['עצירה', 'Stop'],
   'ai.label': ['משוב AI יכול לטעות', 'AI feedback can be wrong'],
   'ai.report': ['דיווח על טעות', 'Report a mistake'],
-  'ai.unavailable': ['תכונות ה-AI עוד לא הוגדרו בשרת הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not configured on this server. Automatic checks still work without them.'],
+  'ai.unavailable': ['תכונות ה-AI עוד לא זמינות באתר הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not available on this site yet. Automatic checks still work without them.'],
 };
 
 let lang = 'he';

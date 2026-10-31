@@ -15,7 +15,7 @@ const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const PORT = Number(process.env.A11Y_PORT) || 8772;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
-const ROUTES = (arg('--routes') || 'welcome,help,today,path,practice,vocab,grammar,reading,listening,speaking,writing,writing/free,tutor,real-life,expressions,conversations,progress,profile,settings,account,lesson/pa1-05,review').split(',');
+const ROUTES = (arg('--routes') || 'welcome,help,today,path,practice,vocab,grammar,reading,listening,speaking,writing,writing/free,tutor,real-life,expressions,conversations,scenario/rl-airport-checkin-overweight,scenario/rl-social-party-small-talk?tab=practise,progress,profile,settings,account,lesson/pa1-05,review').split(',');
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT)], { cwd: repo, stdio: 'ignore' });
 await sleep(800);
@@ -38,7 +38,7 @@ try {
       await applyPlacement(zeroResult());
     }, lang);
     for (const r of ROUTES) {
-      await page.goto(`${BASE}#/${r}?a11y=${lang}${theme}`);
+      await page.goto(`${BASE}#/${r}${r.includes('?') ? '&' : '?'}a11y=${lang}${theme}`);
       await page.waitForTimeout(500);
       if (r === 'lesson/pa1-05') { await page.click('[data-go="learn"]').catch(() => {}); await page.waitForTimeout(200); }
       await page.addScriptTag({ content: axeSource });

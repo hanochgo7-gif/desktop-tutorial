@@ -79,7 +79,11 @@ js/core/
   diff.js                       draft comparison (any two versions, paragraph breaks kept); follows a quoted
                                 mistake into the current text by its sentence
   speech.js                     speech synthesis and recognition
-  i18n.js                       Hebrew/English UI strings, Hebrew support level, dual legends
+  i18n.js                       Hebrew/English UI strings, Hebrew support level, dual legends, bidi isolation of
+                                English inside Hebrew (isolateLatin, below)
+  reallife.js                   real-life track logic without the DOM: how a scenario fits the learner's level,
+                                "Start here" and next-scenario suggestions, the key-word check on a free reply,
+                                word-start search for expressions
   router.js                     hash router, lazy views, onboarding guard
 js/ui/                          components, icons (Lucide, ISC), exercise renderers, set player
 js/views/                       one module per screen (21 screens)
@@ -89,6 +93,19 @@ supabase/functions/lucid-ai/    AI edge function (handler, prompts, rubric, sche
 tests/unit, tests/db, tests/e2e engine, database and browser tests
 tools/                          content validator, curriculum outline, manifest, research collectors
 ```
+
+**Bidirectional text.** Every Hebrew string that can contain English (legends, `bi()`, glosses, AI hints and
+summaries) goes through `isolateLatin()`, which wraps each English run in `<bdi dir="ltr" lang="en">` at render
+time (research C3, R2 and R5). The isolate holds the English with its own `?`, `!` and `...` and the quote marks or
+brackets around it; what joins it to the Hebrew stays outside and follows the Hebrew direction (a prefix hyphen as
+in `ב-am`, a colon or comma, ` = ` before a translation, the Hebrew sentence's final full stop). A legend's Hebrew
+line is left out when it has no Hebrew letters. Option-and-feedback pairs are two block lines, each with its own
+direction; a Hebrew placeholder in an English field is shown right to left until the learner types (CSS on
+`:placeholder-shown`). Unit tests: `tests/unit/i18n.test.mjs`; rendered positions: e2e RL5.
+
+**Layout.** No screen may scroll sideways at 320-1440px or at 130-150% text (e2e 14-15, which also covers Welcome
+and onboarding before there is a profile). The Welcome keyboard sizes its keys from the viewport, keys wrap their
+labels on phones and at large text sizes, and Today's plan rows put the time under the text at 130-150% on phones.
 
 ## 3. Data model (server)
 
@@ -170,6 +187,19 @@ atomic in-memory ledger instead.
 - **Active minutes** in reports include the session that is still open (sessions are logged when the tab is
   hidden, capped at an hour).
 
+- **Real-life track.** Scenarios are open at every level. Real life and Conversations show the learner's course
+  level in words, mark each scenario "below", "at", "a small stretch" (one level up) or "challenging", start with
+  up to three scenarios not done yet at or below the level, in goal order, then one level up
+  (`reallife.recommendScenarios`), and list each topic folded to two scenarios, with topic and level filters.
+  Scripted practice records each reply as a speaking attempt, ends with how many replies were the most natural and
+  a next scenario (the main action unless AI roleplay can start), and checks a reply in the learner's own words
+  only for whole key words or a question back, said as a suggestion. AI roleplay sends the learner's correction
+  setting, and Hebrew tips follow the scene's level or the learner's choice (a checkbox), not the course level;
+  "I'm stuck" shows the goal and the scene's phrases (no AI call). The report leads with the outcome and the
+  learner's strengths, opens at its heading, and keeps the scores folded. Expressions sort by level up to A2 (A-Z
+  from B1), filter to the learner's level and search word starts; the Reading centre lists the recommended level
+  first, then the levels above, then easier texts.
+
 ## 5. AI integration
 
 | Route | Output | Model settings |
@@ -240,9 +270,21 @@ atomic in-memory ledger instead.
   tokens, IndexedDB, the offline cache) is per origin, and the GitHub Pages address is shared with the repository's
   other sites. It also needs a dedicated Supabase project, because account deletion removes the `auth.users` row and
   sign-up settings are per project (`docs/setup.md` section 2).
-- **Ages 16+**: enforced in onboarding and by a database trigger; only the birth year is stored; under-18s get no
-  marketing and protective defaults. AI processing requires an explicit opt-in, stored with a timestamp on the
-  server profile and checked by the edge function.
+- **Ages 16+**: enforced in onboarding and by a database trigger; only the birth year is stored, so age is
+  computed from the year alone (someone born late in the year counts as a year older from January: a deliberate
+  trade-off for storing less). Onboarding asks for the year without stating the threshold, and a refusal is a
+  separate screen that holds for the browser session (`lucid-age-refused` in session storage), so another year
+  cannot simply be tried; nothing about the refused person is stored. The only rule specific to under-18s is the
+  database forcing marketing consent off (Lucid sends no marketing to anyone); every other default is the same
+  for all ages, and `privacy.html`, onboarding and Profile say exactly that. AI processing requires an explicit
+  opt-in, stored with a timestamp on the server profile and checked by the edge function.
+- **What the privacy page discloses** (`privacy.html`, checked against the code in e2e RL6): speech recognition is
+  the browser's service (in Chrome and Edge the audio goes to the browser maker; Lucid gets only text), and the
+  preferred voices may be online (the text read aloud goes to that service); the fields each AI route sends
+  (writing, roleplay, and the tutor's goals, weak topics, recurring mistake types and last five lessons; never
+  the name, email or birth year); what the server keeps about AI requests (no text); that the download does not
+  yet include the account email and creation date. Two items are marked on the page as to be filled in before
+  public launch: Anthropic's API data retention terms, and the operator's name and contact.
 - **Email links** (confirmation and password reset) return with session tokens in the URL fragment. They are used
   only in the browser that asked for them, within an hour, and only when the account's email matches the one typed
   there; otherwise the tokens are removed from the address bar and ignored. The session's user is then fetched from

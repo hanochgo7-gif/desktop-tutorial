@@ -57,6 +57,23 @@ async function onboard(page, { start = 'zero', year = new Date().getFullYear() -
   await page.waitForTimeout(500);
 }
 const store = (page, coll) => page.evaluate((c) => window.lucid.store.all(c), coll);
+// A learner at a course level, made through the app's store (onboarding itself is check 1).
+async function learnerAt(page, level, { goals = ['travel'], text = 100, lang = 'he', birthYear = 2000 } = {}) {
+  await page.goto(`${BASE}#/welcome`);
+  await page.waitForSelector('.welcome');
+  await page.evaluate(async ({ level, goals, text, lang, birthYear }) => {
+    const L = await import('./js/core/learner.js');
+    const P = await import('./js/core/placement.js');
+    L.saveProfile({ onboarded: true, name: 'Test', birth_year: birthYear, ui_language: lang, goals, created_at: new Date().toISOString() });
+    L.saveSettings({ daily_minutes: 20, text_size: text });
+    await L.applyPlacement(P.selfReportResult(level));
+  }, { level, goals, text, lang, birthYear });
+  await page.waitForTimeout(500);
+  await page.reload();
+  // Wait until the app has booted and drawn its first route, so a following hash change is not lost.
+  await page.waitForSelector('#view > *');
+  await page.waitForTimeout(300);
+}
 async function answerCurrent(page, { correct = true } = {}) {
   // Answers whatever exercise is on screen using the lesson data exposed in the DOM state.
   return page.evaluate(async (ok) => {
@@ -137,8 +154,8 @@ function installMockServer(page) {
       db.usage++;
       db.aiBodies.push(body);
       if (body.task === 'evaluate_writing') return json(route, evaluation(body.text, body.previous));
-      if (body.task === 'roleplay_turn') return json(route, { reply: 'Sure, let me check that for you. Could you spell your last name?', scene_complete: body.history.length >= 5, hint_he: null });
-      if (body.task === 'roleplay_feedback') return json(route, { feedback: { conversation_score: 72, task_completed: true, grammar: { score: 70, comments: ['Mostly accurate.'] }, vocabulary: { score: 75, comments: ['Good range.'] }, naturalness: { score: 68, comments: ['A bit direct.'] }, better_alternatives: [{ you_said: body.history.find((h) => h.role === 'learner')?.text || 'x', more_natural: 'Could you help me with my booking, please?', why: 'Softer and more polite.' }], practice: ['Polite requests'], summary: 'You achieved the goal.', summary_he: 'השגת את המטרה.' } });
+      if (body.task === 'roleplay_turn') return json(route, { reply: 'Sure, let me check that for you. Could you spell your last name?', scene_complete: body.history.length >= 5, hint_he: body.history.at(-1)?.text === 'um' ? 'אפשר לאיית: K-O-H-E-N.' : null });
+      if (body.task === 'roleplay_feedback') return json(route, { feedback: { conversation_score: 72, task_completed: true, strengths: ['"Could I check in, please?" was a clear, polite request.'], grammar: { score: 70, comments: ['Mostly accurate.'] }, vocabulary: { score: 75, comments: ['Good range.'] }, naturalness: { score: 68, comments: ['A bit direct.'] }, better_alternatives: [{ you_said: body.history.find((h) => h.role === 'learner')?.text || 'x', more_natural: 'Could you help me with my booking, please?', why: 'Softer and more polite.' }], practice: ['Polite requests'], summary: 'You achieved the goal.', summary_he: 'השגת את המטרה.' } });
       if (body.task === 'tutor_turn') return json(route, { reply: `Good question. **Present perfect** links the past to now. Try: "I ___ (live) here since 2020."` });
     }
     return json(route, { error: { message: `unmocked ${url.pathname}` } }, 404);
@@ -153,17 +170,27 @@ const manifest = JSON.parse(readFileSync(join(repo, 'lucid/content/manifest.json
 const has = (id) => manifest.lessons.includes(id);
 
 try {
-  await check('1. A new user can register (onboarding creates a profile; under-16 is refused)', async () => {
+  await check('1. A new user can register (onboarding creates a profile; under-16 is refused, on its own screen, for the session; P-10)', async () => {
     const { ctx, page } = await newPage(browser);
     await page.goto(`${BASE}#/start`);
     await page.waitForSelector('#ob-form');
+    assert(!/16/.test(await page.textContent('#ob-year-help')), 'the age threshold is shown before the answer');
     await page.selectOption('#ob-year', String(new Date().getFullYear() - 14));
     await page.click('button[type=submit]');
-    assert(await page.isVisible('[role=alert]'), 'no age-gate error for a 14-year-old');
-    await onboard(page, { start: 'zero' });
-    const p = await store(page, 'profile');
-    assert(p[0]?.onboarded && p[0].birth_year, 'profile not created');
+    await page.waitForSelector('.onboard[role=alert] h1');
+    assert(!(await page.$('#ob-form')) && /16/.test(await page.textContent('.onboard')), 'no refusal screen for a 14-year-old');
+    // The refusal holds for this browser session: another year cannot simply be tried.
+    await page.goto(`${BASE}#/welcome`);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('.onboard[role=alert]');
+    assert(!(await page.$('#ob-form')), 'a refused learner can try another year in the same session');
+    assert(!(await store(page, 'profile')).length, 'something was saved for a refused learner');
     await ctx.close();
+    const fresh = await newPage(browser);
+    await onboard(fresh.page, { start: 'zero' });
+    const p = await store(fresh.page, 'profile');
+    assert(p[0]?.onboarded && p[0].birth_year, 'profile not created');
+    await fresh.ctx.close();
   });
 
   await check('2. A new user can complete a placement assessment', async () => {
@@ -453,7 +480,22 @@ try {
     await ctx.close();
   });
 
-  await check('14-15. Mobile (320, 390), tablet and desktop layouts, every route loads without errors or horizontal overflow', async () => {
+  await check('14-15. Mobile (320, 390), tablet and desktop layouts, every route loads without errors or horizontal overflow; welcome and start before a profile; 130-150% text (P-01, P-24, P-40, P-51)', async () => {
+    // Welcome and onboarding, before there is a profile.
+    for (const vp of [{ width: 320, height: 640 }, { width: 360, height: 780 }, { width: 390, height: 844 }]) {
+      const { ctx, page } = await newPage(browser, { viewport: vp });
+      for (const r of ['welcome', 'start']) {
+        for (const lang of ['he', 'en']) {
+          await page.goto(`${BASE}#/${r}`);
+          await page.waitForSelector('.welcome, #ob-form');
+          if (lang === 'en') await page.click('[data-lang="en"], [data-ui="en"]');
+          await page.waitForTimeout(150);
+          const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+          assert(overflow <= 1, `${r} (${lang}, no profile) overflows horizontally by ${overflow}px at ${vp.width}`);
+        }
+      }
+      await ctx.close();
+    }
     const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
@@ -469,6 +511,21 @@ try {
         if (SHOTS) await page.screenshot({ path: `${SHOTS}/${vp.width}-${r.replace(/\//g, '_')}.png`, fullPage: true });
       }
       assert(pageErrors.length === before, `page errors: ${pageErrors.slice(before).join(' | ')}`);
+      await ctx.close();
+    }
+    // Large text at 390px, with the longest lesson titles on Today's main button (B2 and C1 learners) and a
+    // speaking exercise.
+    const big = ['today', 'path/B2', 'speaking?l=a2-01&e=e15', 'lesson/a2-01', 'real-life', 'expressions', 'conversations', 'reading', 'scenario/rl-airport-checkin-overweight', 'scenario/rl-social-party-small-talk?tab=practise', 'settings', 'profile', 'account'];
+    for (const [level, text, width] of [['B2', 150, 390], ['C1', 130, 390], ['B2', 150, 320]]) {
+      const { ctx, page } = await newPage(browser, { viewport: { width, height: 844 } });
+      await learnerAt(page, level, { text });
+      for (const r of big) {
+        await page.goto(`${BASE}#/${r}`);
+        await page.waitForTimeout(400);
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        assert(overflow <= 1, `${r} overflows horizontally by ${overflow}px at ${width}px and ${text}% text`);
+      }
+      if (SHOTS) { await page.goto(`${BASE}#/today`); await page.waitForTimeout(400); await page.screenshot({ path: `${SHOTS}/today-${level}-${text}-${width}.png` }); }
       await ctx.close();
     }
   });
@@ -512,7 +569,7 @@ try {
       await page.goto(`${BASE}#/${r}`);
       await page.waitForTimeout(500);
       const txt = await page.textContent('#view');
-      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו)/.test(txt), `${r}: no configuration notice`);
+      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר)/.test(txt), `${r}: no configuration notice`);
     }
     await ctx.close();
     const m = await newPage(browser, { mock: true });
@@ -828,6 +885,209 @@ try {
     const minutes = await page.$$eval('.stat', (x) => x.map((s) => s.textContent).find((t) => /דקות פעילות|Active minutes/.test(t)));
     assert(Number(minutes.match(/\d+/)[0]) >= 3, `active minutes ignore the open session: ${minutes}`);
     await ctx.close();
+  });
+
+  // ---------- real life, bidi and privacy (persona panel round 1) ----------
+  await check('RL1. Real life and Conversations: a start strip for the level and goals, level guidance, topic and level filters, topics folded to two, no placeholder icons (P-46, P-64)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { goals: ['travel'] });
+    await page.goto(`${BASE}#/real-life`);
+    await page.waitForSelector('.start-here');
+    const start = await page.$$eval('.start-here .tag.level', (x) => x.map((t) => t.textContent.trim()));
+    assert(start.length === 3 && start.every((l) => ['A1', 'A2'].includes(l)), `start strip is not at the learner's level: ${start}`);
+    assert((await page.textContent('.level-guide')).includes('A2'), 'no level guidance');
+    const circle = await page.evaluate(async () => (await import('./js/ui/icons.js')).iconSvg('circle'));
+    const heads = await page.$$eval('.hub-head', (x) => x.map((h) => ({ id: h.id, svg: h.querySelector('svg').outerHTML })));
+    assert(heads.length >= 7 && heads.every((h) => h.svg !== circle), `a topic heading shows the placeholder icon: ${heads.filter((h) => h.svg === circle).map((h) => h.id)}`);
+    assert(heads.findIndex((h) => h.id === 'hub-emergency') < heads.findIndex((h) => h.id === 'hub-restaurant'), 'emergencies are listed last');
+    const folded = await page.$$eval('section[aria-labelledby^="hub-"]', (x) => x.map((sec) => sec.querySelectorAll('.lesson-row').length));
+    assert(folded.every((n) => n <= 2), `topics are not folded to two: ${folded}`);
+    await page.click('[data-unfold="airport"]');
+    assert((await page.$$('section[aria-labelledby="hub-airport"] .lesson-row')).length > 2 && await page.getAttribute('[data-unfold="airport"]', 'aria-expanded') === 'true', 'Show all does not unfold the topic');
+    await page.click('[data-scope="mine"]');
+    assert(!(await page.$('.hub-filters ~ .stack-lg .fit-hard')), 'the level filter keeps scenarios two levels up');
+    await page.click('[data-m="emergency"]');
+    assert((await page.$$('section[aria-labelledby^="hub-"]')).length === 1, 'the topic filter shows other topics');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/real-life-390.png` });
+    await page.goto(`${BASE}#/conversations`);
+    await page.waitForSelector('.hub-filters');
+    assert(await page.$('.page-head a[href="#/real-life"]') && await page.$('.level-guide'), 'Conversations is not grouped with Real life or has no level guidance');
+    assert((await page.$$eval('section[aria-labelledby^="hub-"]', (x) => x.map((sec) => sec.querySelectorAll('.lesson-row').length))).every((n) => n <= 2), 'Conversations topics are not folded');
+    await ctx.close();
+  });
+
+  await check('RL2. Scenario practice on a phone: the explanation comes into view, each other reply and its feedback are separate LTR/RTL lines, the own-words check is a suggestion, the end shows a summary and the next scenario (P-55, P-60, P-65, P-66)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.goto(`${BASE}#/scenario/rl-social-party-small-talk?tab=practise`);
+    await page.waitForSelector('[data-opt]');
+    const poor = await page.$$eval('[data-opt]', (bs) => bs.findIndex((b) => /Why do you want to know/.test(b.textContent)));
+    await page.click(`[data-opt="${poor}"]`);
+    await page.waitForSelector('[data-explain]');
+    await page.waitForTimeout(200);
+    const seen = await page.evaluate(() => { const e = document.querySelector('[data-explain]'); const r = e.getBoundingClientRect(); return { focused: document.activeElement === e, top: r.top, h: innerHeight }; });
+    assert(seen.focused && seen.top >= 0 && seen.top < seen.h * 0.6, `the explanation is not brought into view: ${JSON.stringify(seen)}`);
+    const alts = await page.$$eval('.alt-list > li', (x) => x.map((li) => ({ q: li.querySelector('.alt-quote')?.getAttribute('dir'), qd: getComputedStyle(li.querySelector('.alt-quote')).display, fb: Boolean(li.querySelector('.bi')) })));
+    assert(alts.length === 2 && alts.every((a) => a.q === 'ltr' && a.qd === 'block' && a.fb), `other replies are not quote and feedback on their own lines: ${JSON.stringify(alts)}`);
+    await page.fill('[data-own]', 'Hi, I work with Dana on the product team. How do you know her?');
+    await page.click('[data-own-check]');
+    const own = await page.textContent('.panel.flat');
+    assert(/שאלה בחזרה|question back/.test(own) && /מחפשת רק מילות מפתח|only looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
+    for (let i = 0; i < 8 && await page.$('[data-next-turn], [data-opt]:not([disabled])'); i++) {
+      if (!(await page.$('[data-next-turn]'))) await page.click('[data-opt]:not([disabled])');
+      await page.click('[data-next-turn]');
+    }
+    await page.waitForSelector('[data-done-head]');
+    const done = await page.textContent('#view');
+    assert(/מתוך 5|out of 5/.test(done), `no summary at the end: ${done.slice(-300)}`);
+    assert(!(await page.$('[data-tab="roleplay"].key.enter')), 'AI roleplay is the main action although AI is not available');
+    const next = await page.getAttribute('a.key.enter[href^="#/scenario/"]', 'href');
+    assert(next && !next.includes('rl-social-party-small-talk'), `no next scenario as the main action: ${next}`);
+    assert((await store(page, 'progress')).some((x) => x.id === 'rl:rl-social-party-small-talk' && x.status === 'completed'), 'practice not recorded');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/scenario-done-390.png` });
+    await ctx.close();
+  });
+
+  await check('RL3. AI roleplay: the correction setting and Hebrew tips are sent, help on request, Hebrew hints isolated, the report leads with the outcome and strengths and opens at its heading (P-16, P-17, P-19, P-21)', async () => {
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await learnerAt(page, 'B1');
+    await signInWith(page, db.user.email);
+    await page.click('[data-owner-dialog="unowned"] [value="move"]').catch(() => {});
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    await page.waitForTimeout(400); // let the sign-in finish its first sync before the settings change
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString(), corrections: 'light' }));
+    await page.waitForTimeout(200);
+    await page.goto(`${BASE}#/scenario/rl-hotel-checkin-basics?tab=roleplay`);
+    await page.waitForSelector('[data-start-rp]');
+    assert(/רק מה שחוסם הבנה|Only what blocks meaning/.test(await page.textContent('#view')), 'the roleplay does not say which correction setting applies');
+    assert(await page.isChecked('[data-tips]'), 'Hebrew tips are off for an A1 scene because the course level is B1');
+    await page.click('[data-start-rp]');
+    await page.fill('#rpin', 'um');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForSelector('.hint-box bdi');
+    let body = db.aiBodies.at(-1);
+    assert(body.corrections === 'light' && ['full', 'partial'].includes(body.hebrew_support), `roleplay request: ${JSON.stringify({ c: body.corrections, h: body.hebrew_support })}`);
+    const hint = await page.evaluate(() => { const b = document.querySelector('.hint-box bdi'); return { iso: b.textContent, after: b.nextSibling?.textContent }; });
+    assert(hint.iso === 'K-O-H-E-N' && hint.after === '.', `Hebrew hint not isolated: ${JSON.stringify(hint)}`);
+    await page.uncheck('[data-tips]');
+    await page.fill('#rpin', 'My name is Kohen.');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForFunction((n) => document.querySelectorAll('#rplog .msg.me').length === n, 2);
+    await page.waitForFunction(() => !document.querySelector('#rplog .spinner'));
+    body = db.aiBodies.at(-1);
+    assert(!['full', 'partial'].includes(body.hebrew_support), `tips off still asks for Hebrew hints: ${body.hebrew_support}`);
+    // Help on request: the goal and the scene's phrases, ready to copy into the reply.
+    await page.click('button[data-stuck]');
+    await page.waitForSelector('[data-help] [data-use-phrase]');
+    const phrase = await page.textContent('[data-help] [data-use-phrase="0"]');
+    await page.click('[data-help] [data-use-phrase="0"]');
+    assert((await page.inputValue('#rpin')) === phrase.trim(), 'a help phrase does not go into the reply box');
+    assert((await store(page, 'events')).some((e) => e.type === 'roleplay-help'), 'help use not logged');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/roleplay-help-390.png`, fullPage: true });
+    await page.click('[data-end-rp]');
+    await page.waitForSelector('[data-report-head]');
+    await page.waitForTimeout(300);
+    const head = await page.evaluate(() => { const h = document.querySelector('[data-report-head]'); const r = h.getBoundingClientRect(); return { focused: document.activeElement === h, top: r.top, h: innerHeight }; });
+    assert(head.focused && head.top >= 0 && head.top < head.h, `the report does not open at its heading: ${JSON.stringify(head)}`);
+    const report = await page.textContent('#view');
+    assert(/מה עבד טוב|What worked/.test(report) && report.includes('Could I check in, please?'), 'strengths are not shown');
+    assert(report.indexOf('Could I check in, please?') < report.search(/ניסוחים טבעיים יותר|More natural ways/), 'strengths do not come before the corrections');
+    assert(!(await page.$eval('details.panel', (d) => d.open)), 'scores are not folded');
+    assert(db.aiBodies.at(-1).task === 'roleplay_feedback' && db.aiBodies.at(-1).corrections === 'light', 'feedback request without the correction setting');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/roleplay-report-390.png` });
+    await page.goto(`${BASE}#/conversations`);
+    await page.waitForSelector('.hub-filters');
+    const recent = await page.textContent('#view');
+    assert(/המטרה הושגה|Goal reached/.test(recent) && !/\d+\/100/.test(recent), 'recent conversations lead with a score');
+    await ctx.close();
+  });
+
+  await check('RL4. Expressions sort by level for beginners and search word starts; the Reading centre opens at the learner\'s level (P-68, P-35)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.goto(`${BASE}#/expressions`);
+    await page.waitForSelector('.entry');
+    assert(await page.getAttribute('[data-sort="level"]', 'aria-pressed') === 'true', 'not sorted by level for an A2 learner');
+    const levels = await page.$$eval('.entry .tag.level', (x) => x.map((t) => t.textContent.trim()));
+    assert(levels[0] === 'A2' && levels.join() === [...levels].sort().join(), `not in level order: ${levels.slice(0, 8)}`);
+    await page.fill('#xp-q', 'mate');
+    assert(!/Ballpark/i.test(await page.textContent('#xp-list')), '"mate" matches inside "estimate"');
+    await page.fill('#xp-q', '');
+    await page.click('[data-scope="mine"]');
+    assert(!(await page.$$eval('.entry .tag.level', (x) => x.map((t) => t.textContent.trim()))).includes('B2'), 'the level filter keeps B2 expressions for an A2 learner');
+    await page.click('[data-sort="az"]');
+    const terms = await page.$$eval('.entry .entry-word', (x) => x.map((t) => t.textContent.trim().toLowerCase()));
+    assert(terms.join('|') === [...terms].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })).join('|'), 'A–Z sort does not sort');
+    await ctx.close();
+    const r = await newPage(browser);
+    await learnerAt(r.page, 'B1');
+    await r.page.goto(`${BASE}#/reading`);
+    await r.page.waitForSelector('section[aria-labelledby^="rd-"]');
+    const first = await r.page.getAttribute('section[aria-labelledby^="rd-"]', 'aria-labelledby');
+    assert(first === 'rd-B1', `the reading list does not start at the learner's level: ${first}`);
+    assert(await r.page.$('.easier-head'), 'easier texts are not marked');
+    await r.ctx.close();
+  });
+
+  await check('RL5. Mixed Hebrew and English render in place: the Hebrew full stop at the Hebrew end, English punctuation with the English, no English "Hebrew" line (P-19, P-47, P-55, P-69)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    const m = await page.evaluate(async () => {
+      const { isolateLatin, legend } = await import('./js/core/i18n.js');
+      const put = (s) => { const p = document.createElement('p'); p.dir = 'rtl'; p.lang = 'he'; p.style.cssText = 'font-size:20px;width:700px'; p.innerHTML = String(s); document.body.append(p); return p; };
+      const charBox = (node, i) => { const r = document.createRange(); r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
+      // "תאייתו: K-O-H-E-N." — the full stop sits left of the English (the end of the Hebrew sentence).
+      const a = put(isolateLatin('תאייתו: K-O-H-E-N.'));
+      const dot = charBox(a.lastChild, a.lastChild.length - 1);
+      // "...: Can I get a coffee? = 'אפשר קפה?'" — the question mark is the right end of the English.
+      const b = put(isolateLatin('להזמין: Can I get a coffee? = \'אפשר קפה?\''));
+      const t = b.querySelector('bdi').firstChild;
+      const q = charBox(t, t.length - 1);
+      const c = charBox(t, 0);
+      // An English-only line in a Hebrew slot: "?" stays at the right end.
+      const d = put(isolateLatin('Have you ever...?'));
+      const dt = d.querySelector('bdi').firstChild;
+      return { dotRight: dot.right, bdiLeft: a.querySelector('bdi').getBoundingClientRect().left, qLeft: q.left, cRight: c.right,
+        qEnd: charBox(dt, dt.length - 1).left > charBox(dt, 0).left,
+        legend: String(legend('Have you ever...?', 'Have you ever...?')).includes('l-he') };
+    });
+    assert(m.dotRight <= m.bdiLeft + 1, `the Hebrew full stop is not at the Hebrew end: ${JSON.stringify(m)}`);
+    assert(m.qLeft > m.cRight && m.qEnd, `English punctuation moved: ${JSON.stringify(m)}`);
+    assert(!m.legend, 'an English title is repeated as its "Hebrew" line');
+    // Placeholders in English fields read right to left in the Hebrew UI until the learner types.
+    await page.goto(`${BASE}#/scenario/rl-social-party-small-talk?tab=practise`);
+    await page.click('[data-opt="0"]');
+    const ph = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
+    await page.fill('[data-own]', 'Hello');
+    const typed = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
+    assert(ph === 'rtl' && typed === 'ltr', `placeholder direction ${ph}, typed ${typed}`);
+    await ctx.close();
+  });
+
+  await check('RL6. Privacy: the policy, onboarding and Profile say only what the code does (microphone, AI context, under-18s, contact placeholder) (P-04, P-05, P-11, S-08)', async () => {
+    const policy = readFileSync(join(repo, 'lucid/privacy.html'), 'utf8');
+    for (const must of ['Microphone and voice', 'מיקרופון וקול', 'Not sent', 'recurring mistake types', 'To be filled in before public launch', 'להשלמה לפני הפעלה ציבורית', 'refuses marketing consent']) assert(policy.includes(must), `privacy.html lacks "${must}"`);
+    assert(!/strictest|מחמירות|none of this leaves the device/.test(policy), 'privacy.html still claims what the code does not do');
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('#ob-form');
+    await page.selectOption('#ob-year', String(new Date().getFullYear() - 17));
+    await page.click('button[type=submit]');
+    await page.click('[data-goal="travel"]');
+    await page.click('button[type=submit]');
+    await page.click('[data-start="basics"]');
+    await page.click('button[type=submit]');
+    const step = await page.textContent('#ob-form');
+    assert(/מיקרופון|microphone/.test(step) && /Anthropic/.test(step) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
+    await ctx.close();
+    const p = await newPage(browser);
+    await learnerAt(p.page, 'A1', { birthYear: new Date().getFullYear() - 17 });
+    await p.page.goto(`${BASE}#/profile`);
+    await p.page.waitForSelector('.page-head');
+    const prof = await p.page.textContent('#view');
+    assert(!/מחמירה|strictest/.test(prof) && /שיווק|marketing/.test(prof), 'Profile still claims stricter settings for under-18s');
+    await p.ctx.close();
   });
 
   // ---------- player and speaking (persona panel round 1) ----------

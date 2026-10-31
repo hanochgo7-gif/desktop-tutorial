@@ -14,50 +14,87 @@
   <p><a class="brand" href="./"><span class="brand-key" aria-hidden="true">L<small lang="he">ל</small></span><span>Lucid</span></a></p>
   <section class="stack">
     <h1>פרטיות ותנאי שימוש</h1>
-    <p class="muted">עודכן: 30 באוקטובר 2026. גרסה באנגלית למטה.</p>
+    <p class="muted">עודכן: 31 באוקטובר 2026. גרסה באנגלית למטה.</p>
     <h2>מה נשמר ואיפה</h2>
     <ul class="stack-sm">
-      <li><strong>במכשיר שלכם</strong> (בדפדפן): הפרופיל (שם לבחירתכם, שנת לידה, מטרות, העדפות), ההתקדמות, התשובות לתרגילים, כרטיסי החזרה, הטקסטים שכתבתם והשיחות. בלי חשבון, שום דבר מזה לא יוצא מהמכשיר.</li>
-      <li><strong>אם פתחתם חשבון</strong>: אותו מידע נשמר גם בשרת (Supabase) כדי לסנכרן בין מכשירים. הגישה מוגבלת לכם בלבד ברמת מסד הנתונים.</li>
+      <li><strong>במכשיר שלכם</strong> (בדפדפן): הפרופיל (שם לבחירתכם, שנת לידה, מטרות, העדפות), ההתקדמות, התשובות לתרגילים, כרטיסי החזרה, הטקסטים שכתבתם והשיחות. בלי חשבון, Lucid לא שולח את המידע הזה לשום שרת. החריגים היחידים הם שירותי הדיבור של הדפדפן ומשוב AI, שמתוארים בהמשך.</li>
+      <li><strong>אם פתחתם חשבון</strong>: אותו מידע נשמר גם בשרת (Supabase) כדי לסנכרן בין מכשירים, יחד עם כתובת הדוא״ל של החשבון. הגישה מוגבלת לכם בלבד ברמת מסד הנתונים.</li>
       <li>נשמרת רק <strong>שנת לידה</strong>, לא תאריך מלא.</li>
     </ul>
+    <h2>מיקרופון וקול</h2>
+    <ul class="stack-sm">
+      <li><strong>זיהוי דיבור</strong> (תרגילי דיבור, מעבדת הדיבור והכתבה בשיחות): את הזיהוי עושה הדפדפן, לא Lucid. ב-Chrome וב-Edge הקול נשלח לשירות מקוון של יצרן הדפדפן (Google או Microsoft) כדי להפוך אותו לטקסט, לפי מדיניות הפרטיות שלהם. Lucid מקבל רק את הטקסט שזוהה. הוא לא מקליט ולא שומר את הקול.</li>
+      <li>לפני השימוש הראשון במיקרופון בדפדפן מופיעה הודעה שמסבירה את זה, ואפשר לבחור ״לא עכשיו״. לא חייבים מיקרופון: בתרגילי הדיבור שבשיעורים אפשר לומר בקול ולסמן בעצמכם איך הלך.</li>
+      <li><strong>השמעה</strong>: Lucid משתמש בקולות שהדפדפן או המכשיר מספקים, ומעדיף קולות איכותיים. בחלק מהדפדפנים (למשל קולות Google ב-Chrome) אלה שירותים מקוונים, ואז הטקסט שמושמע (משפטים מהשיעורים ותשובות של שותף השיחה) נשלח לשירות הזה.</li>
+    </ul>
     <h2>משוב AI</h2>
-    <p>רק אם הפעלתם ״משוב AI״, טקסטים שאתם שולחים למשוב (חיבורים, שיחות, הודעות למורה) נשלחים לעיבוד אצל Anthropic לצורך יצירת המשוב בלבד. אפשר לכבות זאת בהגדרות בכל רגע. משוב AI יכול לטעות.</p>
+    <p>משוב AI כבוי עד שמפעילים אותו, ודורש חשבון. רק אחרי שהפעלתם ״משוב AI״, השרת של Lucid מעביר את הבקשה ל-Anthropic, ספק ה-AI, שמעבד אותה כדי ליצור את התשובה. אפשר לכבות זאת בהגדרות בכל רגע. משוב AI יכול לטעות.</p>
+    <p>מה נשלח, לפי תכונה:</p>
+    <ul class="stack-sm">
+      <li><strong>מעבדת הכתיבה</strong>: הטקסט שלכם (ובטיוטה מתוקנת גם הגרסה הקודמת והנקודות לשיפור ממנה), הוראות המשימה, הרמה, השלב, מספר הטיוטה והגדרת העברית.</li>
+      <li><strong>שיחות עם AI</strong>: השיחה עד עכשיו, תיאור התרחיש, הרמה, האנגלית המועדפת (אמריקאית או בריטית), הגדרת העברית והגדרת התיקונים.</li>
+      <li><strong>מורה AI</strong>: ההודעה שלכם והשיחה עד עכשיו, סוג השיחה, הרמה, הגדרות התיקונים והעברית, המטרות שבחרתם, הנושאים שקשים לכם, סוגי הטעויות שחוזרות אצלכם, ושמות חמשת השיעורים האחרונים שסיימתם.</li>
+      <li><strong>לא נשלחים</strong> ל-Anthropic: השם, כתובת הדוא״ל ושנת הלידה.</li>
+    </ul>
+    <p>במסד הנתונים של Lucid נשמר על כל בקשת AI רק סוג הבקשה, מתי נשלחה, איך הסתיימה וכמה טקסט עובד (מספרי טוקנים), לא הטקסט עצמו. התשובות שקיבלתם נשמרות כמו שאר המידע שלכם (במכשיר, ועם חשבון גם בשרת).</p>
+    <p class="banner warn"><span><strong>להשלמה לפני הפעלה ציבורית:</strong> לכמה זמן Anthropic שומרת נתוני API ומה עוד היא מתחייבת לגביהם, לפי התנאים המסחריים שלה, בתוספת קישור.</span></p>
     <h2>גילאים</h2>
-    <p>Lucid מיועד לגילאי 16 ומעלה. למשתמשים מתחת לגיל 18 אין שיווק, והגדרות הפרטיות המחמירות פעילות כברירת מחדל.</p>
+    <p>Lucid מיועד לגילאי 16 ומעלה. הגיל מחושב משנת הלידה בלבד, כי רק השנה נשמרת: מי שנולד בסוף השנה נחשב שנה מבוגר יותר כבר מינואר. זו פשרה מכוונת לטובת שמירת פחות מידע. מי שגילו מתחת ל-16 לא יכול להירשם, ובאותו חלון דפדפן אי אפשר לנסות שוב עם שנה אחרת. שנת הלידה שלו לא נשמרת.</p>
+    <p>מה שונה מתחת לגיל 18: בחשבון, השרת חוסם הסכמה לקבלת שיווק. בפועל Lucid לא שולח שיווק לאף אחד. כל שאר ברירות המחדל זהות לכל הגילאים: אין פרסומות, משוב AI כבוי עד שמפעילים אותו, ושום מידע לא נמכר.</p>
     <h2>מה לא קורה</h2>
     <p>אין פרסומות, אין מכירת מידע, אין סקריפטים של צד שלישי או מעקב שיווקי.</p>
     <h2>הזכויות שלכם</h2>
-    <p>בהגדרות אפשר להוריד את כל המידע (קובץ JSON), לשחזר מגיבוי, ולמחוק הכול: מהמכשיר, ואם יש חשבון גם מהשרת. המחיקה מהמכשיר מוחקת רק את המידע של Lucid בדפדפן.</p>
+    <p>בהגדרות אפשר להוריד את המידע (קובץ JSON), לשחזר מגיבוי, ולמחוק הכול: מהמכשיר, ואם יש חשבון גם מהשרת. המחיקה מהמכשיר מוחקת רק את המידע של Lucid בדפדפן.</p>
+    <p>מה יש בקובץ: כל מה ש-Lucid שומר במכשיר, ועם חשבון גם הפרופיל בשרת, הרשומות המסונכרנות ויומן בקשות ה-AI. עוד לא נכללים בו כתובת הדוא״ל ותאריך פתיחת החשבון, שנשמרים בשירות הכניסה (Supabase Auth).</p>
     <p>במחשב משותף: ביציאה מהחשבון אפשר לבחור ״יציאה ומחיקת המידע מהמכשיר״. מי שנכנס אחריכם לחשבון אחר באותו דפדפן לא יקבל את המידע שלכם לחשבון שלו: Lucid מבקש ממנו קודם להסיר אותו מהמכשיר.</p>
     <p>שיחות עם המורה אפשר למחוק אחת-אחת. שיחה שנמחקה יוצאת מהמכשיר מיד, ומהשרת בסנכרון הבא.</p>
     <p>גם טקסטים במעבדת הכתיבה אפשר למחוק אחד-אחד (״מחיקת הטקסט״ בלשונית ״גרסאות״). הטקסט, כל הגרסאות שלו והמשוב יוצאים מהמכשיר מיד, ומהשרת בסנכרון הבא. בהתקדמות שלכם נשארים הדירוגים וסוגי הטעויות, בלי ציטוטים מהטקסט.</p>
     <h2>רמות</h2>
     <p>הרמות ב-Lucid הן הערכה המבוססת על מתארי CEFR ועל מה שהראיתם בפועל. הן אינן תעודה רשמית, ו-Lucid אינו מבטיח שסיום הקורס מקנה רמה מסוימת.</p>
-    <p class="small faint">פרטי הקשר של מפעיל האתר יתווספו כאן לפני הפעלה ציבורית.</p>
+    <h2>יצירת קשר</h2>
+    <p class="banner warn"><span><strong>להשלמה לפני הפעלה ציבורית:</strong> שם מפעיל האתר, כתובת דוא״ל לשאלות ולתלונות בנושא פרטיות (גם של לומדים בני 16-17 ושל הורים), והגוף שאפשר להתלונן אליו. עד שזה יושלם, אין לאתר מפעיל שאפשר לפנות אליו, ואין להזמין אליו משתמשים אמיתיים.</span></p>
   </section>
   <section class="stack" lang="en" dir="ltr">
     <h1>Privacy and terms</h1>
+    <p class="muted">Updated: 31 October 2026.</p>
     <h2>What is stored, and where</h2>
     <ul class="stack-sm">
-      <li><strong>On your device</strong> (in the browser): your profile (a name you choose, birth year, goals, preferences), progress, exercise answers, review cards, your writing and conversations. Without an account, none of this leaves the device.</li>
-      <li><strong>If you create an account</strong>: the same data is also stored on the server (Supabase) to sync between devices. Database rules limit access to you alone.</li>
+      <li><strong>On your device</strong> (in the browser): your profile (a name you choose, birth year, goals, preferences), progress, exercise answers, review cards, your writing and conversations. Without an account, Lucid sends none of this to any server. The only exceptions are the browser's speech services and AI feedback, described below.</li>
+      <li><strong>If you create an account</strong>: the same data is also stored on the server (Supabase) to sync between devices, with your account's email address. Database rules limit access to you alone.</li>
       <li>Only your <strong>birth year</strong> is stored, not your full date of birth.</li>
     </ul>
+    <h2>Microphone and voice</h2>
+    <ul class="stack-sm">
+      <li><strong>Speech recognition</strong> (speaking exercises, the Speaking lab and dictation in conversations) is done by your browser, not by Lucid. In Chrome and Edge your voice is sent to the browser maker's online service (Google or Microsoft) to turn it into text, under their privacy policies. Lucid receives only the recognised text. It never records or keeps your voice.</li>
+      <li>Before you first use the microphone in a browser, a notice explains this, and you can choose "Not now". You don't need the microphone: in lesson speaking exercises you can say it aloud and mark how it went yourself.</li>
+      <li><strong>Listening</strong>: Lucid uses voices that your browser or device provides, and prefers higher-quality ones. In some browsers (for example Google voices in Chrome) these are online services; then the text being read aloud (lesson sentences and the conversation partner's replies) is sent to that service.</li>
+    </ul>
     <h2>AI feedback</h2>
-    <p>Only if you turn on "AI feedback", texts you send for feedback (essays, conversations, tutor messages) are processed by Anthropic solely to produce that feedback. You can turn it off in Settings at any time. AI feedback can be wrong.</p>
+    <p>AI feedback is off until you turn it on, and it needs an account. Only after you turn on "AI feedback" does Lucid's server pass a request to Anthropic, the AI provider, which processes it to produce the response. You can turn it off in Settings at any time. AI feedback can be wrong.</p>
+    <p>What is sent, by feature:</p>
+    <ul class="stack-sm">
+      <li><strong>Writing lab</strong>: your text (for a revised draft, also the previous version and its points to improve), the task instructions, your level, the stage, the draft number and your Hebrew support setting.</li>
+      <li><strong>AI conversations</strong>: the conversation so far, the scenario description, your level, your English variant (US or UK), and your Hebrew support and correction settings.</li>
+      <li><strong>AI tutor</strong>: your message and the conversation so far, the tutor mode, your level, your correction and Hebrew support settings, the goals you chose, topics you find hard, your recurring mistake types, and the titles of the last five lessons you completed.</li>
+      <li><strong>Not sent</strong> to Anthropic: your name, email address and birth year.</li>
+    </ul>
+    <p>For each AI request, Lucid's database keeps only the kind of request, when it was sent, how it ended and how much text was processed (token counts), not the text itself. The answers you receive are saved like the rest of your data (on the device, and with an account also on the server).</p>
+    <p class="banner warn"><span><strong>To be filled in before public launch:</strong> how long Anthropic keeps API data and what else it commits to under its commercial terms, with a link.</span></p>
     <h2>Ages</h2>
-    <p>Lucid is for learners aged 16 and over. Learners under 18 receive no marketing and have the strictest privacy settings by default.</p>
+    <p>Lucid is for learners aged 16 and over. Age is worked out from the birth year alone, because only the year is stored: someone born late in the year counts as a year older from January. This is a deliberate trade-off in favour of storing less. Someone under 16 cannot register, and cannot try again with another year in the same browser session. Their birth year is not stored.</p>
+    <p>What is different under 18: for accounts, the server refuses marketing consent. In practice Lucid sends no marketing to anyone. Every other default is the same at every age: no advertising, AI feedback off until you turn it on, and no data is sold.</p>
     <h2>What does not happen</h2>
     <p>No advertising, no selling of data, no third-party scripts or marketing trackers.</p>
     <h2>Your rights</h2>
-    <p>In Settings you can download all your data (a JSON file), restore a backup, and delete everything: from the device, and from the server if you have an account. Deleting from the device removes only Lucid's data in the browser.</p>
+    <p>In Settings you can download your data (a JSON file), restore a backup, and delete everything: from the device, and from the server if you have an account. Deleting from the device removes only Lucid's data in the browser.</p>
+    <p>What the file contains: everything Lucid stores on the device and, with an account, your server profile, synced records and AI request log. It does not yet include your email address or the date your account was created, which the sign-in service (Supabase Auth) holds.</p>
     <p>On a shared computer, choose "Sign out and remove my data from this device" when you sign out. If someone then signs in to another account in the same browser, your data does not go into their account: Lucid first asks them to remove it from the device.</p>
     <p>Tutor conversations can be deleted one by one. A deleted conversation leaves the device at once and the server at the next sync.</p>
     <p>Texts in the Writing lab can be deleted one by one ("Delete this text" in the Versions tab). The text, all its versions and its feedback leave the device at once and the server at the next sync. Your progress keeps the scores and the types of mistakes, without quotes from the text.</p>
     <h2>Levels</h2>
     <p>Lucid levels are estimates aligned to CEFR descriptors and based on what you have demonstrated. They are not official certificates, and Lucid does not promise that finishing the course confers a level.</p>
-    <p class="small faint">The site operator's contact details will be added here before public launch.</p>
+    <h2>Contact</h2>
+    <p class="banner warn"><span><strong>To be filled in before public launch:</strong> the site operator's name, an email address for privacy questions and complaints (including from 16-17-year-old learners and parents), and the authority you can complain to. Until this is filled in, the site has no operator you can contact, and real users must not be invited.</span></p>
   </section>
 </main>
 </body>

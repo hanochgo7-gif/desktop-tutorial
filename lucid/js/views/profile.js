@@ -11,6 +11,7 @@ export default async function profileView(el, ctx) {
   function draw() {
     const p = profile() || {};
     const m = model();
+    // Worked out from the year alone (only the year is stored), so it can be one year more than the real age.
     const age = p.birth_year ? new Date().getFullYear() - p.birth_year : null;
     render(el, html`
       <div class="page-head"><div><h1>${p.name || t('nav.profile')}</h1><p>${tt(`לומד/ת ב-Lucid מאז ${p.created_at ? new Date(p.created_at).toLocaleDateString('he-IL') : '—'}`, `Learning with Lucid since ${p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB') : '—'}`)}</p></div></div>
@@ -24,8 +25,8 @@ export default async function profileView(el, ctx) {
         <div class="panel stack-sm small">
           <p class="row between"><span>${tt('נקודת התחלה', 'Started at')}</span><span>${p.start_level ? LEVEL_LABEL[p.start_level] : '—'}</span></p>
           <p class="row between"><span>${tt('הרמה הנוכחית במסלול', 'Current level on the path')}</span><span>${LEVEL_LABEL[m.courseLevel]}</span></p>
-          <p class="row between"><span>${tt('גיל', 'Age')}</span><span>${age ?? '—'}</span></p>
-          ${age != null && age < 18 ? html`<p class="banner">${icon('info', { size: 16 })}<span>${tt('מתחת לגיל 18: אין שיווק, ופרטיות מחמירה כברירת מחדל.', 'Under 18: no marketing, and the strictest privacy by default.')}</span></p>` : ''}
+          <p class="row between"><span>${tt('שנת לידה', 'Birth year')}</span><span class="num">${p.birth_year || '—'}</span></p>
+          ${age != null && age < 18 ? html`<p class="banner">${icon('info', { size: 16 })}<span>${tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same at every age.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות', 'Privacy')}</a></span></p>` : ''}
         </div>
         <div class="row"><a class="key" href="#/progress">${t('nav.progress')}</a><a class="key ghost" href="#/settings">${t('nav.settings')}</a></div>
       </div>`);

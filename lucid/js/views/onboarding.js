@@ -1,5 +1,9 @@
 // Onboarding = registration for device-only use: language, name, age (16+), goals, starting point,
 // daily time, privacy. Then the placement test (or straight to lesson one for complete beginners).
+// The age gate asks for the year neutrally and states the rule only after a refusal, on its own screen;
+// a refusal holds for the rest of the browser session, so another year cannot simply be tried (P-10).
+// Age is computed from the year alone, because only the year is stored: someone born late in the year
+// counts as a year older from January (a deliberate trade-off, also in privacy.html).
 import { html, render, on, $ } from '../core/util.js';
 import { tt, setUiLang, uiLang } from '../core/i18n.js';
 import { icon, brandMark } from '../ui/components.js';
@@ -36,6 +40,9 @@ export default async function onboarding(el, ctx) {
   let step = 0;
   let error = '';
   const STEPS = 4;
+  const REFUSED = 'lucid-age-refused';
+  let refused = false;
+  try { refused = sessionStorage.getItem(REFUSED) === '1'; } catch { /* storage blocked: this page load only */ }
 
   const age = () => (data.birth_year ? year - Number(data.birth_year) : null);
   const nextIcon = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
@@ -55,7 +62,7 @@ export default async function onboarding(el, ctx) {
             <option value="">${tt('בחירה', 'Choose')}</option>
             ${Array.from({ length: 90 }, (_, i) => year - 10 - i).map((y) => html`<option value="${y}" ${String(y) === String(data.birth_year) ? html`selected` : ''}>${y}</option>`)}
           </select>
-          <span class="help" id="ob-year-help">${tt('Lucid מיועד לגילאי 16 ומעלה. שומרים רק את שנת הלידה.', 'Lucid is for ages 16 and up. Only the year is stored.')}</span></div>`;
+          <span class="help" id="ob-year-help">${tt('שומרים רק את השנה, לא תאריך מלא.', 'Only the year is stored, not the full date.')}</span></div>`;
       case 1: return html`
         <h1>${tt('בשביל מה האנגלית?', 'What do you need English for?')}</h1>
         <p class="muted">${tt('אפשר לבחור כמה. מרמה A1 ומ-20 דקות ביום, התוכנית היומית כוללת תרגול אחד לפי המטרות, ומורה ה-AI מתאים אליהן את הדוגמאות.', 'Choose any. From level A1 and 20 minutes a day, your daily plan includes one practice matched to your goals, and the AI tutor fits its examples to them.')}</p>
@@ -76,14 +83,28 @@ export default async function onboarding(el, ctx) {
           <p>${tt('ההתקדמות שלך נשמרת במכשיר הזה. אין פרסומות ואין מכירת מידע.', 'Your progress is saved on this device. No ads, no selling data.')}</p>
           ${configured() ? html`<p>${tt('אפשר לפתוח חשבון כדי לסנכרן בין מכשירים, עכשיו או אחר כך.', 'You can create an account to sync across devices, now or later.')}</p>` : ''}
           <p>${tt('בכל רגע אפשר להוריד את כל המידע שלך או למחוק אותו בהגדרות.', 'You can download or delete all your data in Settings at any time.')}</p>
-          ${age() != null && age() < 18 ? html`<p class="banner">${icon('info', { size: 18 })}<span>${tt('כי גילך מתחת ל-18: אין שיווק, והגדרות הפרטיות מחמירות כברירת מחדל.', 'Because you are under 18: no marketing, and the strictest privacy settings by default.')}</span></p>` : ''}
+          <p>${tt('בתרגילי דיבור אפשר להשתמש במיקרופון, אבל לא חייבים. את זיהוי הדיבור עושה הדפדפן (ב-Chrome וב-Edge, שירות מקוון של יצרן הדפדפן); Lucid מקבל רק את הטקסט ולא מקליט את הקול.', 'Speaking exercises can use the microphone, but you don\'t have to. Your browser does the speech recognition (in Chrome and Edge, the browser maker\'s online service); Lucid gets only the text and never records your voice.')}</p>
+          ${age() != null && age() < 18 ? html`<p class="banner">${icon('info', { size: 18 })}<span>${tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. כל שאר ברירות המחדל זהות לכולם, למשל משוב AI כבוי עד שמפעילים אותו.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same for everyone; for example, AI feedback stays off until you turn it on.')}</span></p>` : ''}
         </div>
-        <label class="choice"><input type="checkbox" name="ai_consent" ${data.ai_consent ? html`checked` : ''}><span class="grow small">${tt('לאפשר משוב AI (כתיבה, שיחות, מורה). הטקסטים שלך יישלחו לעיבוד אצל ספק ה-AI (Anthropic) לצורך המשוב בלבד. אפשר לשנות בהגדרות.', 'Allow AI feedback (writing, conversations, tutor). Your texts are sent to the AI provider (Anthropic) only to produce feedback. You can change this in Settings.')}</span></label>
+        <label class="choice"><input type="checkbox" name="ai_consent" ${data.ai_consent ? html`checked` : ''}><span class="grow small">${tt('לאפשר משוב AI (כתיבה, שיחות, מורה; צריך חשבון). הטקסטים שתשלחו, עם הרמה וההגדרות שלכם, ובמורה גם המטרות והטעויות החוזרות, יישלחו לספק ה-AI (Anthropic) רק כדי ליצור את התשובה. לא נשלחים שם, דוא״ל או שנת לידה. אפשר לשנות בהגדרות.', 'Allow AI feedback (writing, conversations, tutor; needs an account). The texts you send, with your level and settings, and for the tutor also your goals and recurring mistakes, go to the AI provider (Anthropic) only to produce the response. Your name, email and birth year are not sent. You can change this in Settings.')}</span></label>
         <label class="choice"><input type="checkbox" name="terms" ${data.terms ? html`checked` : ''} required><span class="grow small">${tt('קראתי ואני מסכים/ה לתנאים ולמדיניות הפרטיות.', 'I have read and agree to the terms and privacy policy.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('לקריאה', 'Read')}</a></span></label>`;
     }
   }
 
+  // A refusal is its own screen, not an editable form.
+  function drawRefused() {
+    render(el, html`<div class="onboard stack" role="alert">
+      <a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a>
+      <h1 tabindex="-1">${tt('עדיין אי אפשר להירשם', 'You can\'t register yet')}</h1>
+      <p>${tt('תודה שרצית ללמוד איתנו. Lucid מיועד לגילאי 16 ומעלה, ולכן עדיין אי אפשר להירשם. נשמח לראות אותך כשתגיע/י לגיל 16.', 'Thank you for wanting to learn with Lucid. Lucid is for learners aged 16 and over, so you can\'t register yet. We\'d be glad to see you when you turn 16.')}</p>
+      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליך.', 'We did not save your year of birth or anything else about you.')}</p>
+      <div class="row"><a class="key" href="#/welcome">${tt('לדף הבית', 'Back to the home page')}</a></div>
+    </div>`);
+    el.querySelector('h1')?.focus();
+  }
+
   function draw() {
+    if (refused) { drawRefused(); return; }
     render(el, html`
       <div class="onboard">
         <div class="row between" style="margin-block-end:var(--s5)"><a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a><span class="step-count">${tt(`${step + 1} מתוך ${STEPS}`, `${step + 1} of ${STEPS}`)}</span></div>
@@ -113,7 +134,7 @@ export default async function onboarding(el, ctx) {
   function validate() {
     if (step === 0) {
       if (!data.birth_year) return tt('בחרו שנת לידה.', 'Choose your year of birth.');
-      if (age() < 16) return tt('Lucid מיועד לגילאי 16 ומעלה. מצטערים, עדיין אי אפשר להירשם.', 'Lucid is for learners aged 16 and over, so you can\'t register yet. Sorry.');
+      if (age() < 16) return 'refused';
     }
     if (step === 2 && !data.start) return tt('בחרו נקודת פתיחה.', 'Choose a starting point.');
     if (step === 3 && !data.terms) return tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.');
@@ -143,6 +164,11 @@ export default async function onboarding(el, ctx) {
       e.preventDefault();
       collect();
       error = validate();
+      if (error === 'refused') {
+        refused = true; error = ''; data.birth_year = '';
+        try { sessionStorage.setItem(REFUSED, '1'); } catch { /* this page load only */ }
+        draw(); return;
+      }
       if (error) { draw(); return; }
       if (step < STEPS - 1) { step++; draw(); return; }
       await finish();
