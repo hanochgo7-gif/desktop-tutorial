@@ -646,7 +646,7 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
         (("Planting", "שתילה"), ("Irrigation, then trees", "השקיה, ואז עצים"),
          ("On a turnkey farm, drip lines go in first, then the orchard is planted under the net.", "בחוות מפתח, קווי הטפטוף מותקנים קודם, ואחר כך שותלים את המטע מתחת לרשת.")),  # stages 5, 7
         (("What the net does", "מה הרשת עושה"), ("Hail stops on the net", "הברד נעצר על הרשת"),
-         ("The net catches hail before it reaches the fruit, and breaks the wind.", "הרשת עוצרת את הברד לפני שהוא מגיע לפרי, ושוברת את הרוח.")),  # 2.2, 2.3
+         ("The net catches hail before it reaches the fruit.", "הרשת עוצרת את הברד לפני שהוא מגיע לפרי.")),  # 2.3 (wind: bananas only, 2.2)
         (("Winter", "חורף"), ("Folded, then spread again", "מתקפלת ונפרסת מחדש"),
          ("On orchards the net can fold away in winter and spread again in summer, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ, ידנית או אוטומטית.")),  # 2.3
         (("One team", "צוות אחד"), ("From design to maintenance", "מהתכנון ועד התחזוקה"),
