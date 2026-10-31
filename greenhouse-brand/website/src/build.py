@@ -259,7 +259,7 @@ def jsonld(slug, L, crumbs):
                       "publisher": {"@id": f"{DOMAIN}/#org"}, "inLanguage": L})
     if slug == "how-we-build":
         graph.append({"@type": "CreativeWork", "name": tm(C.PAGES[slug]["h1"], L), "description": tm(C.PAGES[slug]["desc"], L), "creator": {"@id": f"{DOMAIN}/#org"},
-                      "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
+                      "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "Illustration (AI-generated)"})
     if slug in ("contact", "net-houses") or slug in C.CROP_PAGES:
         faq = C.FAQ if slug == "contact" else C.NET_FAQ if slug == "net-houses" else C.CROP_PAGES[slug]["faq"]
         if slug == "net-houses":  # a question shown on a crop page too is marked up only there (Google: one instance per site)
@@ -648,13 +648,21 @@ def p_sim(L):
     fig, legend = drawing(L, animate=False)
     r = rel(L)
     steps_label = "Steps" if L == "en" else "שלבים"
+    # one photoreal illustration per chapter (made with AI from the 3D model's frames, 31 Oct 2026); the first two load with the page, the rest as the visitor scrolls near
+    def ph(i):
+        a = "srcset" if i < 2 else "data-srcset"
+        ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext} {w}w" for w in (960, 1600, 2400))
+        src = f'src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg"' if i < 2 else f'data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg"'
+        return (f'<picture class="ph" data-i="{i}"><source type="image/avif" {a}="{ss("avif")}" sizes="100vw"><source type="image/webp" {a}="{ss("webp")}" sizes="100vw">'
+                f'<img {src} {a}="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
+    photos = "".join(ph(i) for i in range(n))
     return f"""
 <main id="main">
 {page_head("how-we-build", L)}
-<div class="sim" id="sim" data-three="{r}assets/vendor/three.min.js?v={VER["three"]}">
+<div class="sim photo" id="sim">
   <div class="sim-track" id="sim-track">
     <div class="sim-stage" id="sim-stage">
-      <canvas id="sim-cv" role="img" aria-label="{esc(tm(S["aria"], L))}"></canvas>
+      <div class="sim-ph" role="img" aria-label="{esc(tm(S["aria"], L))}">{photos}</div>
       <span class="sim-badge">{esc(t(S["badge"], L))}</span>
       <div class="sim-hud" aria-hidden="true"><span class="num" id="sim-step">01 / {n:02d}</span><span class="sim-barw"><span id="sim-bar"></span></span></div>
       <nav class="sim-rail" aria-label="{steps_label}">{rail}</nav>

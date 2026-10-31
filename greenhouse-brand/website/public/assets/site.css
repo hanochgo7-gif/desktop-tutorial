@@ -1271,3 +1271,9 @@ ul.bars { container-type: inline-size; }  /* ul: the menu icon is also called .b
 .form, .choice, .sheet, .sim-card { border-radius: var(--radius); }
 /* T6: focus rings over photos and the globe: white with a deep-green edge, visible on light and dark pixels (3:1 or more either way) */
 body.top-dark .site-head:not(.solid) :focus-visible, .globe-frame :focus-visible { outline: 2px solid var(--white); outline-offset: 2px; box-shadow: 0 0 0 5px var(--deep); }
+/* the build illustration in photo mode: one picture per chapter, stacked; the script sets opacity and a slow push-in */
+.sim-ph { position: absolute; inset: 0; overflow: hidden; }
+.sim-ph .ph { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
+.sim-ph .ph:first-child { opacity: 1; }
+.sim-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sim.photo .sim-fallback { display: none; }

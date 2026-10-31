@@ -362,8 +362,8 @@ PAGES = {
     },
     "how-we-build": {
         "title": ("How a net house is built, step by step | MIFTAH Projects", "כך בונים בית רשת, שלב אחרי שלב | מיפתח פרויקטים"),
-        "desc": ("Scroll through a 3D illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
-                 "הדמיה תלת-ממדית בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
+        "desc": ("Scroll through an illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
+                 "הדמיה בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
         "h1": ("How a net house is built", "כך בונים בית רשת"),
         "lead": ("Scroll down and watch one go up: from bare soil, through galvanized poles, cables and net, to a protected orchard.",
                  "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך עמודים מגולוונים, כבלים ורשת, ועד מטע מוגן."),
@@ -623,13 +623,13 @@ FORM_BRIEF_KEYS = [  # summary labels, in order
 
 SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
     "badge": ("Illustration", "הדמיה"),
-    "aria": ("3D illustration of a MIFTAH net house being built, step by step", "הדמיה תלת-ממדית של הקמת בית רשת של מיפתח, שלב אחרי שלב"),
+    "aria": ("Photorealistic illustration, made with AI, of a MIFTAH net house being built, step by step", "הדמיה מציאותית, שנוצרה בבינה מלאכותית, של הקמת בית רשת של מיפתח, שלב אחרי שלב"),
     "scroll": ("Scroll to build", "גללו כדי לבנות"),
     "step": ("Step", "שלב"),
-    "note": ("Illustration only. Sizes, spacing and height are not a specification: every project is designed for its crop, soil and wind.",
-             "הדמיה להמחשה בלבד. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, הקרקע והרוח באתר."),
+    "note": ("Illustration made with AI from our 3D model, not a photograph of a real project. Sizes, spacing and height are not a specification: every project is designed for its crop, soil and wind.",
+             "הדמיה שנוצרה בבינה מלאכותית מהמודל התלת-ממדי שלנו, לא צילום של פרויקט אמיתי. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, הקרקע והרוח באתר."),
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
-    "go": ("See how a net house is built, in 3D", "ראו איך בונים בית רשת, בתלת-ממד"),
+    "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [
         (("Design", "תכנון"), ("Designed for the site", "מתוכנן לשטח"),
          ("We map the crop, soil, drainage, access and wind, then design the structure and the bill of quantities.", "ממפים את הגידול, הקרקע, הניקוז, הגישה והרוח, ואז מתכננים את המבנה ואת כתב הכמויות.")),  # 2.8, steps
@@ -729,7 +729,7 @@ HOME3 = {
               "חווה שלמה על הקרקע שלכם, שמיפתח מבצעת יחד עם שותפים חקלאיים, מ-300 דונם."),  # q3, 1.4, 4.2
     "inv_note": ("The most common mistake: trying to set up the farm alone to save money.", "הטעות הנפוצה ביותר: לנסות להקים את החווה לבד כדי לחסוך."),  # 4.7
     "inv_go": ("How a turnkey farm works", "איך עובדת חוות מפתח"),
-    "sim_go": ("Watch one go up, step by step (3D)", "צפו בהקמה, שלב אחרי שלב (תלת-ממד)"),
+    "sim_go": ("Watch one go up, step by step", "צפו בהקמה, שלב אחרי שלב"),
 }
 
 CROPS = [  # the crop selector; every row traces to the ledger

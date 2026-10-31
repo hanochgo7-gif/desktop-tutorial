@@ -1,4 +1,4 @@
-/* MIFTAH: "How a net house is built". A scroll-driven 3D illustration (three.js r128, self-hosted).
+/* MIFTAH: "How a net house is built". Scroll-driven: photoreal illustrations per chapter (photo mode), or the original 3D scene (three.js r128, self-hosted).
    The page supplies the chapter cards; this script builds the scene and maps scroll progress P (0..N) onto it.
    Every steel part is galvanized silver. Sizes are illustrative, not a specification. */
 (function () {
@@ -9,6 +9,40 @@
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var small = window.matchMedia && matchMedia("(max-width: 760px)").matches;
   var N = root.querySelectorAll(".sim-ch").length || 10;
+
+  // ---- photo mode (31 Oct 2026): one photoreal illustration per chapter, cross-faded by the scroll; no WebGL needed ----
+  var phs = [].slice.call(root.querySelectorAll(".sim-ph .ph"));
+  if (phs.length) {
+    var pTrack = track, pRail = root.querySelectorAll(".sim-rail button"), pStep = document.getElementById("sim-step"), pBar = document.getElementById("sim-bar"), pCur = -1, pPend = false;
+    function pChH() { var c = root.querySelector(".sim-ch"); return (c && c.offsetHeight) || window.innerHeight; }
+    pRail.forEach(function (b, n) { function go() { var r = pTrack.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * pChH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
+    function want(i) {  // load a chapter's image just before it is needed
+      var p = phs[i]; if (!p || p.dataset.on) return; p.dataset.on = "1";
+      p.querySelectorAll("[data-srcset]").forEach(function (e) { e.setAttribute("srcset", e.dataset.srcset); });
+      var im = p.querySelector("img"); if (im.dataset.src) im.src = im.dataset.src;
+    }
+    function frame() {
+      pPend = false;
+      var r = pTrack.getBoundingClientRect(), vh = window.innerHeight;
+      var P = Math.max(0, Math.min(N - .001, (-r.top + vh * (window.innerWidth <= 760 ? .35 : .5)) / pChH()));
+      var s = Math.floor(P);
+      want(s); want(s + 1); want(s + 2);
+      phs.forEach(function (p, i) {
+        var o = i === 0 ? 1 : Math.max(0, Math.min(1, (P - i + .35) / .35));  // the next picture fades in over the last third of a chapter
+        p.style.opacity = o;
+        if (!reduce) { var k = Math.max(0, Math.min(1, P - i + .35)); p.style.transform = "scale(" + (1.06 - .06 * k).toFixed(4) + ")"; }  // a slow push-in while it is on screen
+      });
+      if (s !== pCur) {
+        pCur = s; pRail.forEach(function (b, n) { if (n === s) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+        if (pStep) pStep.textContent = (s + 1 < 10 ? "0" : "") + (s + 1) + " / " + (N < 10 ? "0" : "") + N;
+      }
+      if (pBar) pBar.style.transform = "scaleX(" + (P / N).toFixed(4) + ")";
+    }
+    function kick() { if (!pPend) { pPend = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", kick, { passive: true }); window.addEventListener("resize", kick);
+    root.classList.add("live"); kick();
+    return;
+  }
 
   function fail() { root.classList.add("nogl"); }
   if (!window.WebGLRenderingContext) { fail(); return; }
