@@ -689,7 +689,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .hint-box > span { min-width: 0; }
 /* A Hebrew placeholder in an English field reads right to left until the learner types (P-69). */
 :root[dir='rtl'] :is(input, textarea)[dir='ltr']:placeholder-shown { direction: rtl; }
-.explain .bi > .bi-en, .alt-list .bi > .bi-en { display: block; text-align: start; }
+.explain .bi > .bi-en, .alt-list .bi > .bi-en, .expr-usage .bi > .bi-en { display: block; text-align: start; }
 /* Real life and Conversations hubs: level and fit on each row, a level guide, a start strip (P-46, P-64). */
 .hub-level { display: grid; justify-items: end; gap: 0.15rem; text-align: end; }
 .fit { font-size: var(--t-xs); color: var(--ink-3); white-space: nowrap; }

@@ -18,7 +18,7 @@ async function setup() {
   await db.exec(`
     create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;
     create schema auth;
-    create table auth.users (id uuid primary key, email text);
+    create table auth.users (id uuid primary key, email text, created_at timestamptz default now(), last_sign_in_at timestamptz);
     create function auth.uid() returns uuid language sql stable as $$
       select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
     grant usage on schema public, auth to anon, authenticated, service_role;
@@ -209,7 +209,14 @@ test('export returns only the caller; delete removes everything', async () => {
   assert.equal(ex.rows[0].e.profile.id, A);
   assert.equal(ex.rows[0].e.records.length, 3);
   assert.equal(ex.rows[0].e.ai_usage.length, 1, 'only the caller\'s usage');
-  assert.deepEqual([ex.rows[0].e.ai_usage[0].outcome, ex.rows[0].e.ai_usage[0].input_tokens], ['refused', 120]);  await assert.rejects(as(db, 'anon', null, `select lucid_delete_account()`), /permission denied/);
+  assert.deepEqual([ex.rows[0].e.ai_usage[0].outcome, ex.rows[0].e.ai_usage[0].input_tokens], ['refused', 120]);
+  // The export includes the account itself, and only the caller's (S-08 c).
+  assert.equal(ex.rows[0].e.account.email, 'a@example.com');
+  assert.ok(ex.rows[0].e.account.created_at);
+  const other = await as(db, 'authenticated', B, `select lucid_account_info() as a`);
+  assert.equal(other.rows[0].a.email, 'b@example.com');
+  await assert.rejects(as(db, 'anon', null, `select lucid_account_info()`), /permission denied/);
+  await assert.rejects(as(db, 'anon', null, `select lucid_delete_account()`), /permission denied/);
   await as(db, 'authenticated', A, `select lucid_delete_account()`);
   const left = await db.query(`select (select count(*) from auth.users where id = $1) u, (select count(*) from lucid_records where user_id = $1) r,
     (select count(*) from lucid_profiles where id = $1) p, (select count(*) from lucid_storage where user_id = $1) s`, [A]);

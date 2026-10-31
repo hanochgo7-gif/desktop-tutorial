@@ -79,7 +79,7 @@ export default async function slang(el, ctx) {
         <p lang="en" dir="ltr">${x.meaning_en}</p>
         <p class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</p>
       </section>
-      ${x.usage ? html`<section class="stack-sm"><h3 class="small">${tt('מתי משתמשים בזה', 'When people use it')}</h3><p>${bi(x.usage)}</p></section>` : ''}
+      ${x.usage ? html`<section class="stack-sm"><h3 class="small">${tt('מתי משתמשים בזה', 'When people use it')}</h3><p class="expr-usage">${bi(x.usage)}</p></section>` : ''}
       ${x.example_dialogue?.length ? html`<section class="stack-sm"><h3 class="small">${tt('דוגמה לשיחה', 'Example conversation')}</h3>
         <div class="examples" lang="en" dir="ltr">${x.example_dialogue.map((line) => html`<div class="example">${playBtn(line.text, x.region, `${tt('השמעת השורה של', 'Play the line by')} ${line.speaker}`)}
           <div class="grow"><div class="xsmall faint">${line.speaker}</div><div>${line.text}</div></div></div>`)}</div></section>` : ''}

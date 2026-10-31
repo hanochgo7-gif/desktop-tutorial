@@ -1136,6 +1136,20 @@ try {
     await ctx.close();
   });
 
+  await check('RL7. A past AI conversation can be deleted from Conversations; only its id is kept for sync (S-18)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(() => window.lucid.store.put('chats', { id: 'rp-test', kind: 'roleplay', scenario: 'rl-airport-checkin-overweight', turns: [{ role: 'learner', text: 'Hi, I would like to check in.' }], report: { task_completed: true, summary: 'ok' }, done: true, at: new Date().toISOString() }));
+    await page.goto(`${BASE}#/conversations`);
+    await page.waitForSelector('[data-del-chat="rp-test"]');
+    await page.click('[data-del-chat="rp-test"]');
+    await page.click('dialog[open] button[value="yes"]');
+    await page.waitForFunction(() => !document.querySelector('[data-del-chat="rp-test"]'));
+    const raw = await page.evaluate(() => window.lucid.store.all('chats', { includeDeleted: true }).find((c) => c.id === 'rp-test'));
+    assert(!raw || (!raw.turns && !raw.report), `deleted conversation still holds content: ${JSON.stringify(raw).slice(0, 120)}`);
+    await ctx.close();
+  });
+
   await check('PS1. Speaking in lessons is practice: what was recognised, no verdict or score, "Can\'t speak right now" skips with no retry, a microphone notice first (P-02, P-27, P-57, P-05)', async () => {
     const { ctx, page } = await newPage(browser);
     await fakeRecognition(ctx);

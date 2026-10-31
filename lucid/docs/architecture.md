@@ -88,7 +88,8 @@ js/core/
 js/ui/                          components, icons (Lucide, ISC), exercise renderers, set player
 js/views/                       one module per screen (21 screens)
 content/                        taxonomy, curriculum map, lessons, placement, real-life, writing
-supabase/migrations/            001 schema, RLS, age gate, export and deletion; 002 AI metering, storage quota, hardening
+supabase/migrations/            001 schema, RLS, age gate, export and deletion; 002 AI metering, storage quota, hardening;
+                                003 export includes the account (email, sign-up and last sign-in dates)
 supabase/functions/lucid-ai/    AI edge function (handler, prompts, rubric, schemas, tests)
 tests/unit, tests/db, tests/e2e engine, database and browser tests
 tools/                          content validator, curriculum outline, manifest, research collectors
@@ -117,7 +118,7 @@ labels on phones and at large text sizes, and Today's plan rows put the time und
 | `lucid_ai_usage` | route, units, outcome (`pending`, `ok`, `refused`, `incomplete`, `error`), token counts, time | owner can read; only the edge function (service role) writes |
 | `lucid_ai_budget` | units reserved per UTC day across all learners | internal (no learner access); not reduced when an account is deleted |
 | `lucid_ai_reserve()` | checks the learner's hour, day and in-flight limits and the project's daily budget under a per-learner advisory lock, then writes a `pending` usage row, in one transaction | service role only |
-| `lucid_export()` | everything stored about the caller as JSON | caller only |
+| `lucid_export()` | everything stored about the caller as JSON, including the account's email and sign-up/sign-in dates (via `lucid_account_info()`, security definer, caller's row only) | caller only |
 | `lucid_delete_account()` | deletes the auth user; every table cascades | caller only |
 
 `anon` has no table access. `authenticated` has no `TRUNCATE`, `REFERENCES` or `TRIGGER` on any Lucid table
