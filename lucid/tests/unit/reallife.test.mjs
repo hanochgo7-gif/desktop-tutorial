@@ -59,3 +59,11 @@ test('expression search matches the start of words, in English and Hebrew (P-68)
   assert.ok(searchMatch(['להזמין קפה'], 'קפה') && searchMatch(['הקפה שלי'], 'קפה'), 'Hebrew one-letter prefix');
   assert.ok(searchMatch(['anything'], ''));
 });
+
+test('key words match inside contractions ("tip\'s", "where\'s") but not inside other words', () => {
+  assert.ok(hasPhrase("So the tip's already included, right?", 'tip'));
+  assert.ok(hasPhrase("Where's the platform?", 'where'));
+  assert.ok(hasPhrase("Where's the platform?", "where's"));
+  assert.ok(!hasPhrase('The tipping point', 'tip'));
+  assert.ok(!hasPhrase("It's fine", 'is'));
+});

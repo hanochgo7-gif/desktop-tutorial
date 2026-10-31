@@ -262,6 +262,10 @@ function scenarios(file) {
     });
     if (!s.roleplay || !isStr(s.roleplay.persona) || !isStr(s.roleplay.complication) || !isStr(s.roleplay.opening_line)) err(f, `${p}.roleplay`, 'persona, complication, opening_line required');
   });
+  // Test-wiseness: if the best reply is usually the longest option, learners can pick by length.
+  const turns = (d.scenarios || []).flatMap((s) => (Array.isArray(s.practice) ? s.practice : [])).filter((t) => Array.isArray(t.options) && t.options.length >= 3);
+  const bestLongest = turns.filter((t) => { const best = t.options.find((o) => o.verdict === 'best'); return best && t.options.every((o) => o === best || String(o.text).length < String(best.text).length); }).length;
+  if (turns.length >= 10 && bestLongest / turns.length > 0.6) warn(f, 'practice', `the best reply is the longest option in ${bestLongest} of ${turns.length} turns; vary option lengths`);
   const perModule = {};
   (d.scenarios || []).forEach((s) => { perModule[s.module] = (perModule[s.module] || 0) + 1; });
   if (!arg('--file')) for (const m of MODULES) if (!perModule[m]) err(f, 'scenarios', `no scenarios for module ${m}`);

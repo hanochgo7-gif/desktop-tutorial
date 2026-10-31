@@ -52,7 +52,10 @@ export function hasPhrase(text, phrase) {
   const w = words(text);
   const p = words(phrase);
   if (!p.length) return false;
-  for (let i = 0; i + p.length <= w.length; i++) if (p.every((x, j) => w[i + j] === x)) return true;
+  // "tip's" and "where's" contain the key words "tip" and "where": a contraction ending is ignored unless the
+  // key word itself has one.
+  const same = (t, x) => t === x || (!x.includes("'") && t.replace(/'(s|re|ll|ve|d|m)$/, '') === x);
+  for (let i = 0; i + p.length <= w.length; i++) if (p.every((x, j) => same(w[i + j], x))) return true;
   return false;
 }
 
