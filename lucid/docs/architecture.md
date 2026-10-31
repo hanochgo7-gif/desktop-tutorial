@@ -336,6 +336,6 @@ or trackers.
 
 ## 8. Configuration
 
-See `docs/setup.md`: serve Lucid from its own origin, create a dedicated Supabase project, run migrations 001 and
-002, set the Auth options, deploy the edge function with an Anthropic key (and a workspace spend limit), set
+See `docs/setup.md`: serve Lucid from its own origin, create a dedicated Supabase project, run migrations 001, 002
+and 003, set the Auth options, deploy the edge function with an Anthropic key (and a workspace spend limit), set
 `LUCID_ALLOWED_ORIGINS` and the AI limits, and fill `config.js`.

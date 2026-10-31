@@ -73,13 +73,13 @@ export function unlockedFormCards(cards, now = new Date()) {
     .map((id) => newCard({ id, kind: 'form', ref: cards.find((c) => c.id === id.replace(/:form$/, ':meaning')).ref }, now));
 }
 
-// Workload governor (C1, D3): default 8 new lexical items a day; 4 when the coming week's
-// reviews are heavy, up to 15 when light. Estimate ~8 seconds per review.
+// Workload governor (C1, D3): the learner's daily new-word setting (default 8), cut to 4 when the coming week's
+// reviews would take more than 12 minutes a day (about 8 seconds per review). Light weeks keep the setting; the
+// 15-a-day maximum is the highest value the setting offers, not an automatic increase.
 export function newItemsBudget(cards, { base = 8, now = new Date() } = {}) {
   const week = new Date(now.getTime() + 7 * 86_400_000);
   const upcoming = cards.filter((c) => !c._deleted && c.fsrs.state !== State.New && new Date(c.fsrs.due) <= week).length;
   const minutesPerDay = (upcoming * 8) / 60 / 7;
   if (minutesPerDay > 12) return Math.min(base, 4);
-  if (minutesPerDay < 6) return Math.min(15, Math.max(base, base));
   return base;
 }

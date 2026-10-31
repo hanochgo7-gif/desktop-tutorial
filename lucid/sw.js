@@ -5,7 +5,7 @@
 // RELEASE names the cache: bump it with every deploy. A new value makes the browser install a fresh worker,
 // precache the shell again and delete older Lucid caches. Only caches named "lucid-…" are ever deleted,
 // because the origin is shared with other apps.
-const RELEASE = '2026-10-31.1';
+const RELEASE = '2026-10-31.2';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'index.html', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2',

@@ -83,13 +83,13 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 18 files) | 142 of 142 pass |
+| Unit (`npm test`, 18 files) | 144 of 144 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
 | Browser end-to-end (`tests/e2e/run.mjs`) | 52 of 52 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
-| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 24 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English, light and dark, phone and desktop, Pre-A1, B1 and C1) |
-| Content validator | 75 lessons and every content file: 0 errors |
-| Performance (throttled 1.6 Mbps, 150 ms, 4x CPU) | first visit ready in about 2.3 s, 264 KB uncompressed; repeat visits from the service worker |
+| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 24 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
+| Content validator | 75 lessons and every content file: 0 errors, 0 warnings (including the checks for split brackets and quote marks and for answer-length cues) |
+| Performance (throttled 1.6 Mbps, 150 ms, 4x CPU, no compression) | first visit to Welcome ready in about 2.9 s, 374 KB uncompressed (GitHub Pages serves it compressed); repeat visits and offline use come from the service worker |
 
 The mapping from each acceptance criterion to its checks, and which are covered only with mocks, is in section 13 of
 the specification.
@@ -108,7 +108,8 @@ the specification.
   user research.
 - **Content review**: every lesson, scenario, expression and writing task was written by one AI agent and reviewed by
   another that solved each item before reading its key, checked keys against the app's real grader, and corrected
-  English, Hebrew and level. A content-wide test checks that no authored wrong answer is accepted. No human teacher
+  English, Hebrew and level. The real-life practice options were rewritten so the best reply is no longer usually
+  the longest (it was in 77-95% of turns; now about a third), and the validator warns if that cue returns. A content-wide test checks that no authored wrong answer is accepted. No human teacher
   or native Hebrew editor has reviewed the content yet.
 - **Specification review**: writing the specification from the code found 8 further defects (contrast at B1 and C1,
   an unreachable Profile, an unkept promise in onboarding and others), all fixed.
@@ -132,6 +133,8 @@ The brief asked for no questions, so these were decided and are recorded here:
 - AI features have never run against a live model; their quality and cost are unknown until they do.
 - Browser speech synthesis and recognition vary by device and send audio to the browser vendor's service.
 - All content was authored and reviewed by AI agents; it needs a human teacher's and a native Hebrew editor's review.
+- In the workplace scenarios the best reply is still the middle-length option in 16 of 30 turns, and one character
+  name (Priya) is used for two different people in neighbouring scenarios.
 - The remaining partial items are listed in `qa/fix-log.md`, `qa/fix-log-r2.md` and section 15 of the specification.
 
 ## 9. Next phase
