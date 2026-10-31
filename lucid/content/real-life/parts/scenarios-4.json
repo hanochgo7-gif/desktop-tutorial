@@ -203,11 +203,11 @@
           "partner": "We have a team lunch every Thursday, by the way. You should come!",
           "options": [
             {
-              "text": "OK. I will come.",
+              "text": "OK, I will come on Thursday. Thank you for the information.",
               "verdict": "ok",
               "feedback": {
-                "en": "Fine, but a bit flat. When someone invites you, 'I'd love to' sounds warmer.",
-                "he": "בסדר, אבל קצת יבש. כשמזמינים אתכם, I'd love to נשמע חם יותר."
+                "en": "Fine, but flat, and 'Thank you for the information' sounds like a reply to a notice, not to an invitation. 'I'd love to' sounds warmer.",
+                "he": "בסדר, אבל יבש, ו-Thank you for the information נשמע כמו תגובה להודעה, לא להזמנה. I'd love to נשמע חם יותר."
               }
             },
             {
@@ -531,7 +531,7 @@
           "partner": "Oh, it looks like everyone's joining now.",
           "options": [
             {
-              "text": "OK, bye.",
+              "text": "OK, bye then! See you next time, Emma. Take care.",
               "verdict": "ok",
               "feedback": {
                 "en": "It isn't goodbye: you're both staying on the call. A short 'Nice chatting with you' ends the small talk.",
@@ -775,7 +775,7 @@
               }
             },
             {
-              "text": "Priya's team is slow again, as usual.",
+              "text": "Priya's team is slow again, as usual. I asked them for the data twice last week and still nothing.",
               "verdict": "poor",
               "feedback": {
                 "en": "Blaming another team in front of everyone sounds unprofessional. Describe the problem, not the people.",
@@ -1085,11 +1085,11 @@
           "partner": "Mainly the top three complaints, with a couple of examples for each.",
           "options": [
             {
-              "text": "Got it. Until when?",
+              "text": "Got it, thanks. And until when do you need it? Until the end of the day on Friday?",
               "verdict": "ok",
               "feedback": {
-                "en": "'Until when' asks how long something will continue. For a deadline, use 'by': 'When do you need it by?'",
-                "he": "Until when שואל עד מתי משהו יימשך. לדדליין משתמשים ב-by: When do you need it by?"
+                "en": "'Until when' asks how long something will continue. For a deadline, use 'by': 'When do you need it by? By the end of the day on Friday?'",
+                "he": "Until when שואל עד מתי משהו יימשך. לדדליין משתמשים ב-by: When do you need it by? By the end of the day on Friday?"
               },
               "error_type": "preposition"
             },

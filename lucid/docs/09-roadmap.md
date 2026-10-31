@@ -1,8 +1,9 @@
 # Deliverable 9: Prioritised roadmap
 
-Written on 2026-10-31 against commit `ae58048` (branch `claude/lucid-english-platform`). The working tree also held one
-uncommitted content edit from another lane (reply wording in `content/real-life/parts/scenarios-2.json`); every
-suite below ran with it, and it changes no count.
+Written on 2026-10-31 on branch `claude/lucid-english-platform`. The code was first checked at commit `ae58048`;
+while this document was written, other lanes committed reworded real-life reply options (`976f7f3`, `1158f2d`) and
+started a refresh of 08 (`de610dc`, `1158f2d`). The suites in section 1.1 were re-run after those commits; none of
+them changed a count used here.
 
 Four facts frame the whole plan:
 
@@ -52,10 +53,10 @@ No team, budget or dates exist yet, so the plan gives effort sizes and order, no
 
 | Suite | Command | Result |
 |---|---|---|
-| Unit tests | `npm test` | 141 of 141 pass |
+| Unit tests | `npm test` | 143 of 143 pass (141 at `ae58048`; `976f7f3` added real-life tests) |
 | Database tests (migrations on PGlite, Postgres in WASM, one connection) | `npm run test:db` | 9 of 9 pass |
-| Browser acceptance tests (Chromium; accounts and AI against a mock server) | `E2E_PORT=8841 node tests/e2e/run.mjs` | 52 of 52 pass |
-| Accessibility audit (axe-core, WCAG A and AA tags) | `A11Y_PORT=8851 node tests/e2e/a11y.mjs` | 0 violations on 24 routes plus Welcome and onboarding, in 5 configurations (Pre-A1, B1 and C1 learners; Hebrew and English UI; light and dark) |
+| Browser acceptance tests (Chromium; accounts and AI against a mock server) | `E2E_PORT=8861 node tests/e2e/run.mjs` | 52 of 52 pass (also 52 of 52 at `ae58048`) |
+| Accessibility audit (axe-core, WCAG A and AA tags) | `A11Y_PORT=8871 node tests/e2e/a11y.mjs` | 0 violations on 24 routes plus Welcome and onboarding, in 5 configurations (Pre-A1, B1 and C1 learners; Hebrew and English UI; light and dark) |
 | Content validator | `npm run validate` | 75 lesson files, 0 errors, 0 warnings |
 | Edge-function tests | `deno test` in `supabase/functions/lucid-ai/` | **Not run here** (Deno is not installed). `fix-log-r2.md` reports 20 of 20 on 2026-10-31 |
 
@@ -116,12 +117,15 @@ methods in 04 section 3 (Rasch-calibrated placement, productive sample and spell
 lexical-coverage gating, encounter counting, multi-voice perception training, deliberate 1/7/30-day probes, a human
 audit of AI corrections); writing-stage promotion rules; exam modules; teacher or parent views; pricing and billing.
 
-### 1.6 Where 08 is out of date
+### 1.6 Where 08 and the code differ
 
-08 was written before the last two commits' fixes. The code now has: 6 workplace scenarios and 10 workplace
-expressions, and the work goal uses them (08 says none exist); free-writing text types; a link to Profile from
-Progress; the English-interface offer from B1; a placement link in Settings; legend contrast that passes axe at B1
-and C1. This roadmap follows the code. Updating 08 is item P2-12.
+08 was first written at commit `f8a202c`, and a refresh to the current build was still in progress when this roadmap
+was written. Parts of 08 then still described the earlier build: section 7.1 lists 30 scenarios and no workplace
+module, and section 15 lists Profile as unreachable and P-53 (no workplace content) as open. The code has 6 workplace
+scenarios and 10 workplace expressions that the work goal uses, free-writing text types, a link to Profile from
+Progress, the English-interface offer from B1, a placement link in Settings, and Hebrew legends that pass axe's
+contrast rule at B1 and C1. Where the two differ, this roadmap follows the code. Finishing the refresh is part of
+item P2-12.
 
 ---
 
@@ -272,8 +276,9 @@ ranges and the AI-based writing level hidden.
 
 Sorted by score. "Source" names the finding or research decision; "simulated" marks a persona finding. Round 2 of the
 persona panel found 64 items; `fix-log-r2.md` lists all 64 as fixed, each with a test, and the suites pass. None of
-these fixes has been checked by a person yet; the pilot's moderated sessions do that. Items that were already fixed
-when checked for this document (06 P0-5, P1-2, P1-3, P1-4, P1-16 and P2-8, the round 2 major findings) are not listed.
+these fixes has been checked by a person yet; the pilot's moderated sessions do that. Items found already fixed in
+the code while this document was checked (06 P0-5, P1-2, P1-3, P1-4, P1-16 and P2-8, and the round 2 findings) are not
+listed.
 
 | ID | Item | Source | Expected impact | I | C | Effort | Score | Depends on |
 |---|---|---|---|---|---|---|---|---|
@@ -288,7 +293,7 @@ when checked for this document (06 P0-5, P1-2, P1-3, P1-4, P1-16 and P2-8, the r
 | P2-09 | A check on tutor and roleplay replies in code (for example a second, cheap classification pass), with a safe fallback reply | 08 1.2, 8.4 | Unsuitable or off-policy replies stop reaching learners, including 16-17-year-olds | 3 | 2 | M | 3.0 | LB-04; cost measured in LB-10 |
 | P2-10 | The server looks up scenario and exercise text from bundled content by id, and signs returned assistant turns | S-10 | Ends use of the AI routes as a general assistant on the project's key | 2 | 3 | M | 3.0 | none |
 | P2-11 | Confirmed small fixes: one primary key on the lesson intro when resuming (06 P1-5); input border contrast (P1-10); "just before you would forget" copy (P2-9, `help.js`); small targets (P2-10); Help says keys 1-4, code accepts 1-6 (P2-11); "server" wording in `tutor.js` (P-69) | 06; fix log | Fewer small trust and usability gaps | 1 | 3 | S | 3.0 | LB-11 for Hebrew copy |
-| P2-12 | Documentation drift: 08 statuses since `ae58048` (section 1.6), `architecture.md`, comments on `SUPPORT_BY_LEVEL` and `newItemsBudget` | 08 15.4 | Specs stay true for the team and reviewers | 1 | 3 | S | 3.0 | none |
+| P2-12 | Documentation drift: finish the 08 refresh (section 1.6); `architecture.md`; the comments on `SUPPORT_BY_LEVEL` and `newItemsBudget` that disagree with their code | 08 15.4 | Specs stay true for the team and reviewers | 1 | 3 | S | 3.0 | none |
 | P2-13 | Experiment assignment and logging (stable arm per learner, arm stored with attempts, opt-out) | Section 6; no assignment code exists | Unblocks every A/B test in section 6 | 2 | 2 | M | 2.0 | E6 release stamp; legal for disclosure |
 | P2-14 | Mark the language of AI output paragraphs (`dir="auto"` without `lang` in `tutor.js`, `essay.js`, `scenario.js`); add `dirname` to the tutor input | 06 P1-8, P2-2; D21, D31 | Screen readers use the right voice for English | 2 | 2 | M | 2.0 | AI live |
 | P2-15 | Extend the axe audit to exercise states, placement, level check, drill and scenario tabs | 06 P0-3 | Finds defects in the screens learners spend most time on | 2 | 2 | M | 2.0 | LB-09 |
@@ -310,9 +315,12 @@ when checked for this document (06 P0-5, P1-2, P1-3, P1-4, P1-16 and P2-8, the r
 | P2-31 | Fold the seven labs in the desktop rail (14 links today) | 06 P1-6; D1, D3 | Less navigation load on desktop | 1 | 1 | S | 1.0 | Pilot observation |
 | P2-32 | Reminders, only if the pilot shows that learners want them; at most one a day, opt-in, no guilt copy | D47-D49 | Unknown | 1 | 1 | M | 0.5 | Pilot interviews; LB-04 |
 
-**Suggested order of work.** P2-01 to P2-08 together (all S, mostly accessibility and minors) in the first weeks after
-the pilot starts, since several are visible to pilot participants; P2-09, P2-10 and P2-13 next; the L items
-(P2-17, P2-18, P2-25 to P2-27) only once their dependencies exist.
+**Suggested order of work.** Phase 2 work can start while the pilot runs, but changes that participants would see are
+released only at points fixed in advance (for example after week 3), with the release stamped on the data (E6) so
+that measures can be split by build. P2-01 to P2-03 are worth doing before week 0 if there is capacity, because the
+assistive-technology participants would otherwise meet known defects. Then P2-04 to P2-08 (all S, mostly
+accessibility and minors); then P2-09, P2-10 and P2-13; the L items (P2-17, P2-18, P2-25 to P2-27) only once their
+dependencies exist.
 
 ---
 
@@ -347,7 +355,7 @@ These stay out, whatever the phase (from 08 15.5, 04 section 2, 05 section 4, E 
   C2 included.
 - A fixed list of "Hebrew speakers' mistakes" presented as research.
 - Human tutors, social features, public profiles or geolocation.
-- Other first languages than Hebrew; Arabic-L1 error profiles must not be transferred to Hebrew-L1 learners (C3).
+- First languages other than Hebrew; Arabic-L1 error profiles must not be transferred to Hebrew-L1 learners (C3).
 - Pricing and billing until willingness to pay is measured; when they are designed, they follow 06 D41-D45 (real
   prices, symmetric choices, cancellation within three steps, honest trials).
 - Native app-store apps: the installable web app is the delivery channel unless evidence says otherwise (a roadmap
@@ -402,7 +410,7 @@ direction with at least 5 Hebrew readers (06 D34); Hebrew legend size with begin
 | **R3. Minors** | 16-17-year-olds are accepted and only marketing consent differs by age (08 2.2); the weekly goal is preselected; AI conversations are unchecked; no human contact route exists; research with minors has its own consent rules | LB-04 and LB-02 before any user; P2-06, P2-07, P2-08, P2-09, P2-16; guardian consent as legal decides; transcript sampling with consent in the pilot | Legal, engineering | Any unsuitable transcript; complaints |
 | **R4. Content quality** | All content was committed by an AI author, reviewers are not recorded (08 14), and defects were still found late (R2-01: 224 strings; Hebrew in visual order; valid answers rejected, R1-E2) | LB-11 and LB-12; the validator in CI (LB-09); `self-judged` and `ai-report` events feed reviews (P2-21); the same review gate for Phase 3 content | Content | Self-judged rate per item; reviewer error rate |
 | **R5. Reliance on browser speech** | Every voice is a browser voice and varies by device; in Chrome and Edge recognition sends the voice to the browser maker; availability varies; recognition on Hebrew-accented English is not validated; automated tests run in Chromium only with recognition stubbed (08 2.4, 5.6) | Speaking is never graded by recognition (built, `e2e PS1`); disclosure in `privacy.html` and a one-time notice (built); E5 measures availability; P3-01 recorded audio; manual checks in Safari and Firefox | Engineering, content | Low recognition availability; many "Can't speak right now" |
-| **R6. Single origin and static hosting** | Until LB-01, Lucid shares an origin with unrelated sites (S-03); GitHub Pages sends no custom headers, so `frame-ancestors` cannot be set (security review 5); one static host; `RELEASE` in `sw.js` is bumped by hand (08 15.3) | LB-01 to an origin and host of Lucid's own that sends headers; bump or check `RELEASE` in CI (LB-09); device-only mode keeps lessons working if Supabase is unavailable (built) | Operator, engineering | A deploy without a `RELEASE` change; any sibling content on Lucid's origin |
+| **R6. Single origin and static hosting** | Until LB-01, Lucid shares an origin with unrelated sites (S-03); GitHub Pages does not let a site set its own response headers, and a meta CSP cannot set `frame-ancestors` (security review 5); one static host; `RELEASE` in `sw.js` is bumped by hand (08 15.3) | LB-01 to an origin and host of Lucid's own that sends headers; bump or check `RELEASE` in CI (LB-09); device-only mode keeps lessons working if Supabase is unavailable (built) | Operator, engineering | A deploy without a `RELEASE` change; any sibling content on Lucid's origin |
 | **R7. Data loss and sync** | Device-only data is lost if browser storage is cleared before an export; sync keeps the newest write; accounts hit the record limit after about two years of heavy use (08 15.3, 15.4) | Accounts for pilot participants who want them; P2-24; a reminder in Settings to export before clearing data | Engineering | Support reports of lost progress |
 | **R8. Over-reading the pilot** | No control group, self-selection, novelty, small numbers | No outcome claims; thresholds fixed in advance; C2 decision 30 before any efficacy claim; report the pilot as a feasibility study | Product | Pressure to quote pilot numbers publicly |
 | **R9. Demand and positioning** | Demand for writing instruction is unproven, and the Hebrew-interface gap can close (05 section 6, items 3 and 5) | Pilot interviews by group; invest in curriculum depth and writing pedagogy, the parts 05 calls defensible | Product | Groups that do not use the Writing lab |

@@ -60,6 +60,7 @@ Each feature carries one status.
 | Accessibility audit | `A11Y_PORT=8846 node tests/e2e/a11y.mjs` | 0 violations across 24 routes, plus Welcome and the first onboarding step, x 5 configurations |
 | Edge-function tests | `deno test ...` | **Not run here**: Deno is not installed in this environment. `docs/qa/fix-log-r2.md` reports 20 of 20 passing on 2026-10-31. |
 | Content inventory | `node tools/inventory.mjs` | Section 14 |
+| Spot check (not part of any suite) | axe with the audit's tags on 7 routes with Hebrew support set explicitly: minimal (3 configurations), partial and off (a throwaway script) | 0 violations (section 11.1; the suite's own B1 and C1 configurations run at full support) |
 
 ---
 
@@ -648,7 +649,8 @@ keeps A2 support until a B1 lesson is completed.
 - The suggestion to switch the interface to English, promised in onboarding, is shown on Today from B1
   (section 2.3; Partial, no test).
 - Contrast at minimal support: the quieter legend colour (`--ink-he-quiet`) replaced the earlier 0.6 opacity,
-  which failed WCAG 1.4.3; the B1 configuration of the audit now covers it (section 11.1).
+  which failed WCAG 1.4.3. A spot check passes at minimal, partial and off support; the automated audit itself runs
+  only at full support (section 11.1).
 
 ### 5.6 Speech
 
@@ -1003,12 +1005,12 @@ server. Deleting the conversation on screen is tested with mocks only (`e2e 20`)
 
 | Where | What | Status |
 |---|---|---|
-| Today | The plan; the level rail (course level); the skill profile; the weekly goal ("3 of 5 days"); a tag when a lesson was completed today | Plan and the completed-today tag: Built and tested, `e2e 7`, `e2e L3`, `e2e L5`. Level rail, skill profile and weekly goal: Partial, they render (`e2e 14-15`, `axe`) but no test asserts their content |
-| Progress: report | For this week or this month: days studied (with the weekly goal), active minutes (including the open session; sessions are logged when the tab is hidden, capped at an hour), exercises, first-try accuracy with the change from the previous period, recall on reviews against the retention target, stable words (3+ weeks) and new words, lessons completed (curriculum lessons only), recall after 30 days (or "waiting for enough data"), a bar chart of exercises by day or week, topics improved by 10+ points, recommendations for next week | Weekly: Built and tested, `e2e L7`, `e2e L3`, `unit engine: "period report ..."`, `unit learner-logic: "reports count only curriculum lessons and include the open session"`. Monthly view: same function with 30 days; no e2e test opens it (Partial, no test) |
-| Progress: level by skill | Each skill's level with its source (placement first estimate, practice, assessed writing) and evidence count, or "not yet assessed" | Built and tested: `e2e L2` |
-| Progress: level checks | Status and best score per level | Partial: renders (`e2e 14-15`); no test produces a level-check result |
+| Today | The plan; the level rail (course level); the skill profile ("Level by skill", folded on phones, brief rows); the weekly goal ("3 of 5 days"); a tag when a lesson was completed today; from B1, the English-interface offer | Plan and the completed-today tag: Built and tested, `e2e 7`, `e2e L3`, `e2e L5`, `e2e LP1`, `e2e LP2`. Skill profile: Built and tested, `e2e L2` (no C1/C2 from placement alone, speaking and writing "not yet assessed", folded on a phone). Level rail: its labels are tested for layout only (`e2e RW1`: they never overlap); no test asserts which level it marks. Weekly goal and the English-interface offer: Partial, no test |
+| Progress: report | For this week or this month: days studied (with the weekly goal), active minutes (including the open session; sessions are logged when the tab is hidden, capped at an hour), exercises, first-try accuracy (retries, same-day redos and essay feedback left out) with the change from the previous period, recall on reviews against the retention target, stable words (3+ weeks) and new words, lessons completed (curriculum lessons only), recall after 30 days (or "waiting for enough data"), a bar chart of exercises by day or week, topics improved by 10+ points, recommendations for next week (only what this learner can do here: a weak topic with somewhere to practise, due reviews, the next lesson, and AI writing feedback only when AI is configured, the learner is signed in and has consented, from A1), a link to Profile | Weekly: Built and tested, `e2e L7`, `e2e L3`, `e2e LP4` (no AI writing recommendation for a device-only Pre-A1 learner), `unit engine: "period report ..."`, `unit learner-logic: "reports count only curriculum lessons and include the open session"`, `unit learner-evidence: "R2-12: first-try accuracy and topic mastery leave retries out"`. Monthly view: same function with 30 days; no e2e test opens it (Partial, no test) |
+| Progress: level by skill | Each skill's level with its source (placement first estimate, practice from "first-try answers", assessed writing) and evidence count, or "not yet assessed"; a capped placement estimate says where its answers were ("B2+ (2 of 2 right at C1)") | The component is shared with Today: its content is asserted on Today by `e2e L2` and its layout on the Progress page by `e2e RW1`; the placement wording is tested in `unit learner-evidence` (R2-29, R2-38) and on the placement result screen (`e2e LP4`) |
+| Progress: level checks | Status and best score for the learner's level and the levels below it (and any already taken); the rest are folded under "Show all levels" | The list and the fold: Built and tested, `e2e LP4` (a Pre-A1 learner sees the Pre-A1 check, C2 is folded). Partial for results: no test produces a level-check result |
 | Progress: recurring mistakes | Up to 8 error types with counts, recurring marked, trend, each linking to a drill | Built and tested: `unit engine` (trends); rendering in `e2e 14-15` |
-| Progress: topics | Counts of secure, practising and weak topics; weak topics link to drills; "Secure" defined on screen | Built and tested: `unit engine` (mastery) |
+| Progress: topics | Counts of secure, practising and weak topics; a weak topic links to where it can be practised (a drill or a scenario), or is shown without a link when nothing can fill it; "Secure" defined on screen | Built and tested: `unit engine` (mastery), `unit learner-evidence` (R2-24 routes) |
 | Grammar lab | Mastery meter only once there is evidence | Partial: renders (`e2e 14-15`, `axe`); the meter has no test |
 | Vocabulary notebook | New (never reviewed), Learning (stability under 21 days), Known (21+ days) | Listing: Built and tested, `e2e 8` (a reviewed word appears). The three statuses: Partial, no test asserts them |
 
@@ -1016,13 +1018,14 @@ server. Deleting the conversation on screen is tested with mocks only (`e2e 20`)
 
 The thresholds in section 5.2 apply everywhere a level or mastery is shown. Progress states: "What you can do
 now, based on evidence. No points, no scores for time spent", and "Lucid does not promise that finishing the course
-gives a level". Placement and unscored practice never count toward accuracy or levels.
+gives a level". Placement, unscored practice, retries and same-day redos never count toward accuracy or levels; essay feedback never
+moves a topic (section 5.2).
 
 ### 9.3 No meaningless XP
 
 There are no points, XP, streaks, leagues, leaderboards, badges, energy, hearts or chests. Verified by a code
 search of `js/`: these words appear only in copy that says there are none ("no streak to break") and in unrelated
-element ids (`xp-` in `slang.js`); the only "points" are the lesson's first-try points (section 4.2), which are
+names (`xp-` element ids in `slang.js`; the offline indicator's `net-badge` class in `app.js`); the only "points" are the lesson's first-try points (section 4.2), which are
 never shown as a total or a ranking. A day off does not reset anything.
 
 ---
@@ -1035,7 +1038,7 @@ never shown as a total or a ranking. A day off does not reset anything.
 |---|---|---|
 | Where data lives | IndexedDB on the device (memory fallback in private browsing), in nine collections: profile, settings, progress, attempts, cards, writing, chats, placement, events (`js/core/store.js`) | The same, plus `lucid_profiles` and `lucid_records` on the server |
 | What works | Everything except accounts, sync, server export and deletion, and the AI features | Everything, AI after the steps in section 12 |
-| Status | Built and tested (every e2e check without `mock: true`) | Built, tested with mocks only (`e2e 11-13`, `e2e 17`-`20`, `e2e RL3`; `unit auth`, `unit session`, `unit store-sync`; `db` on PGlite) |
+| Status | Built and tested (every e2e check without `mock: true`) | Built, tested with mocks only (`e2e 11-12`, `e2e 13`, `e2e 17`-`20`, `e2e RL3`, `e2e RW2`, `e2e RW3`; `unit auth`, `unit session`, `unit store-sync`; `db` on PGlite) |
 
 ### 10.2 Accounts and sync
 
@@ -1098,7 +1101,7 @@ real Postgres 16 (2 x 30 parallel requests stopped at a budget of 25); that test
 
 | Route | Sent to the edge function (and from there to Anthropic) | Never sent to Anthropic |
 |---|---|---|
-| `evaluate_writing` | Text (up to 24,000 characters); for a revision, the previous text and the priorities given last time, when both fit; task title, kind, instructions (assignment prompt, task instructions, the chosen topic and the titles of a source pack; up to 4,000 characters), word range, focus categories, required elements; course level; stage; draft number; Hebrew support; feedback scope | Name, email, birth year |
+| `evaluate_writing` | Text (up to 24,000 characters); for a revision, the previous text and the priorities given last time, when both fit; task title, kind (for free writing, the text type the learner chose: essay, email or message), instructions (assignment prompt, task instructions, the chosen topic and the titles of a source pack; up to 4,000 characters), word range, focus categories, required elements; course level; stage; draft number; Hebrew support; feedback scope | Name, email, birth year |
 | `roleplay_turn`, `roleplay_feedback` | The conversation so far (up to 40 turns), the opening line, the scenario's title, partner role, persona, complication, goal and level; the English variant; Hebrew support; the correction setting | Name, email, birth year |
 | `tutor_turn` | Section 8.3 | Name, email, birth year |
 
@@ -1115,8 +1118,10 @@ the server does not resolve them from bundled content (security review S-10, ope
 ### 10.7 Security posture
 
 `docs/qa/security-review.md` (a security review of commit `5102e40`; the file calls it independent and does not
-name the reviewer) and `docs/qa/fix-log.md` (102 findings including the simulated persona panel: 95 fixed, 7
-partial). Built protections:
+name the reviewer), `docs/qa/fix-log.md` (102 findings including the simulated persona panel, round 1: 95 fixed,
+7 partial) and `docs/qa/fix-log-r2.md` (persona panel round 2: 64 items, all reported fixed; none comes from the
+security review, and the round 1 security items that were partial are still partial, section 15.2). Built
+protections:
 
 - Content Security Policy (`index.html`): scripts and fonts from the same origin only, images from the same origin
   and `data:` URLs, no inline scripts, network connections only to the same origin and `*.supabase.co`
@@ -1138,25 +1143,45 @@ Open security items are in section 15.
 ### 11.1 WCAG coverage of the automated audit
 
 `tests/e2e/a11y.mjs` runs axe-core 4.14.0 with the tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa` and `wcag22aa`
-(axe's best-practice and AAA rules are not run) on 24 routes: welcome, help, today, path, practice, vocab, grammar, reading,
+(axe's best-practice and AAA rules are not run). In each configuration it first audits Welcome and the first
+onboarding step before a learner exists, then creates a learner through the store (goal travel, 35 minutes) and
+audits 24 routes: welcome (which now redirects to Today), help, today, path, practice, vocab, grammar, reading,
 listening, speaking, writing, writing/free, tutor, real-life, expressions, conversations, two scenario views (one on
-its practice tab), progress, profile, settings, account, lesson/pa1-05 (explanation stage) and review. It runs in 3
-configurations: Hebrew UI light at 390 px, Hebrew UI dark at 1440 px, English UI light at 1440 px. Result on
-2026-10-31: **0 violations**.
+its practice tab), progress, profile, settings, account, lesson/pa1-05 (explanation stage) and review. It runs in 5
+configurations:
+
+| Interface | Theme | Width | Learner's course level | Hebrew support in effect |
+|---|---|---|---|---|
+| Hebrew | light | 390 px | Pre-A1 | full |
+| Hebrew | dark | 1440 px | Pre-A1 | full |
+| English | light | 1440 px | Pre-A1 | full |
+| Hebrew | light | 1440 px | B1 | full (see below) |
+| Hebrew | dark | 390 px | C1 | full (see below) |
+
+Result on 2026-10-31 (`A11Y_PORT=8846`): **0 violations** across the 24 routes plus Welcome and onboarding in all 5
+configurations.
+
+**The B1 and C1 configurations do not audit minimal or off support.** The script's comment says they do, but it
+creates the learner with a "no English yet" placement result and then moves the course level, and "By level" now
+follows the level the learner has shown (section 5.5), which stays Pre-A1. A check made while this document was
+updated (the same setup, reading `data-support` on Today, Path and Real life) found "full" for both. To cover the
+gap, a spot check (not part of any suite; a throwaway script; axe with the same tags) set Hebrew support explicitly
+in Settings and audited Today, Path, Practice, Real life, Expressions, Progress and the learn stage of lesson
+`b1-01`: minimal for a B1 learner (Hebrew light 1440 px, Hebrew dark 390 px, English light 1440 px), partial for an
+A2 learner (Hebrew light 390 px) and off for a C1 learner (Hebrew light 1440 px). Result: **0 violations**.
+
+The colour-contrast failures found by a spot check when this document was first written are fixed: the Hebrew
+legend lines at minimal support used `opacity: 0.6` (2.79-2.86:1) and now use the colour `--ink-he-quiet` (the CSS
+comment gives 5:1 on the light background); the active rail item's English secondary legend (4.37:1 in the Hebrew
+UI, light theme, desktop width) now uses `--n4` (`css/app.css`). The rail fix is inside the audit (Hebrew, light,
+1440 px); the legend fix is shown by the spot check above.
 
 What it does not cover:
 
-- **Hebrew support other than "full".** The audit creates a Pre-A1 learner. A spot check run while writing this
-  document, and run again while checking it (not part of the suite; axe with the same tags, Hebrew UI, light theme,
-  1440 px, Today, Path, Practice and Real life), found colour-contrast failures (WCAG 1.4.3) for a B1 learner: the
-  dimmed Hebrew legend lines at minimal support (`:root[data-support='minimal'] .legend .l-he { opacity: 0.6 }` in
-  `css/app.css`) measure 2.79-2.86:1 (12 nodes on Path, 17 on Real life, 1 on Today). The fix log noted the same
-  contrast under P-45. Separately, in the Hebrew UI with the light theme at desktop width (a combination the audit
-  does not run), the active rail item's English secondary legend measures 4.37:1 against the required 4.5:1 (one
-  node on every page checked, for both the B1 and the C1 learner).
-- Routes not visited: start (onboarding), placement, checkpoint, drill, other path levels, other `writing/:id`
-  tasks, the AI tabs with content, the lesson's practice and summary stages. Welcome is redirected to Today
-  because the learner already exists.
+- Routes not visited: onboarding after its first step, placement, checkpoint, drill, other path levels, other
+  `writing/:id` tasks, the AI tabs with content, the lesson's practice and summary stages, a scenario of the "At
+  work" module.
+- Hebrew support other than "full" (covered only by the spot check above).
 - Automated rules only, in Chromium only. No manual screen-reader testing (NVDA, JAWS, VoiceOver) and no WebKit or
   Gecko runs have been done (`06-ux-recommendations.md`, section 6.4).
 
@@ -1170,7 +1195,7 @@ except the optional timer on timed writing. These have no dedicated keyboard or 
 
 | Feature | Status |
 |---|---|
-| Text size 100, 115, 130 or 150% (Settings; sets `data-text` on the root) | Built and tested at 130% and 150%: `e2e 14-15` (no sideways scroll at 130% at 390 px, and at 150% at 390 and 320 px). 115% has no test |
+| Text size 100, 115, 130 or 150% (Settings; sets `data-text` on the root). When a list is narrow in text units, a container query moves a row's tags under its title; on a narrow rail only the current level is named | Built and tested at 130% and 150%: `e2e 14-15` (no sideways scroll at 130% at 390 px, and at 150% at 390 and 320 px), `e2e RW1` (titles at least 8em wide, rail labels never overlap, skill rows stack), `e2e RW2` (scenario header at 130%), `e2e PL5` (speaking item at 150%). 115% has no test |
 | Light, dark or device theme | Dark via the device setting is audited (`axe`); the theme control itself has no test (Partial) |
 | Reduced motion: animations and transitions cut to 0.001 ms and smooth scrolling off under `prefers-reduced-motion: reduce` (`css/app.css`) | Partial: built (CSS rule), no test asserts it. All browser tests run with reduced motion on. |
 
@@ -1189,20 +1214,28 @@ taxonomy, curriculum and manifest, then every module and every non-lesson conten
 `content/manifest.json` (`offline`, 61 entries). Lessons (about 3.0 MB) are cached when opened, or all at once from
 Settings ("Save all lessons on this device"). Code is network-first with a 4-second fallback to the cache; content
 and fonts are stale-while-revalidate; other origins are never cached; activating a new release deletes only older
-`lucid-` caches. AI features, sync and speech recognition need a connection.
+`lucid-` caches. AI features, sync and speech recognition need a connection. `RELEASE` is still `2026-10-31.1`, the
+value it had at commit `f8a202c`, although Lucid's files have changed since (section 12.4).
+
+Helping the learner prepare: Settings' "Offline use" section has its own address (`#/settings?section=offline`,
+which scrolls to it and focuses it); Real life has a "before a trip" note and Help a "Using Lucid offline" answer
+that both link there; a phone shows "Offline" in the top bar and a computer in the rail; a lesson that cannot load
+offline points to what works (section 4.2).
 
 Status: **Built and tested**: `e2e OF1` (after saving all 75 lessons and going offline: review, Conversations, Real
-life, Expressions, a scenario, a saved lesson, the Writing lab and Progress load, and a reload works), `unit sw` (6
-tests), `unit offline-manifest` (2 tests).
+life, Expressions, a scenario, a saved lesson, the Writing lab and Progress load, and a reload works), `e2e RW4`
+(the links from Real life and Help bring the section into view; the phone badge shows offline and clears online),
+`e2e PL6` (the unsaved lesson's pointer to Settings), `unit sw` (6 tests), `unit offline-manifest` (2 tests).
 
 ### 11.5 Page weight and performance
 
 Measured on the files in this commit (no performance budget is enforced by any test):
 
 - First load: the static module graph, stylesheet, shell and core content (index, CSS, 17 modules including
-  `config.js` and the vendored FSRS library, taxonomy, curriculum, manifest) is about 314 KB uncompressed, about 93 KB if each file is
-  gzip-compressed (actual transfer depends on the host's compression); the two preloaded font subsets add about 45 KB
-  (WOFF2). The first view module adds 3-57 KB uncompressed depending on the screen (Today: 23 KB, 8 KB compressed).
+  `config.js` and the vendored FSRS library, taxonomy, curriculum, manifest) is about 354 KB uncompressed, about 106 KB
+  if each file is gzip-compressed (actual transfer depends on the host's compression); the two preloaded font subsets
+  add about 45 KB (WOFF2). The first view module adds 4-64 KB uncompressed depending on the screen (Today: 33 KB,
+  11 KB compressed). At commit `f8a202c` the same measure gave about 314 KB and 93 KB. (1 KB = 1,000 bytes.)
 - `index.html` preloads the whole static graph (`modulepreload`) so a first visit fetches it in one round trip;
   `js/core/session.js` and `js/core/placement.js` are in the static graph but not in the preload list.
 - Views load on demand (lazy `import()` per route). Lesson files are 14-75 KB each (about 40 KB on average) and
@@ -1219,7 +1252,8 @@ Source: `docs/setup.md`, `config.js`, `supabase/functions/lucid-ai/index.ts`.
 
 With `config.js` as committed (`supabaseUrl: ''`, `supabaseKey: ''`, `aiEnabled: false`), these features need no
 server: onboarding, placement, all 75 lessons, level checks, spaced review, drills, the labs, the Writing lab with
-automatic checks, versions and comparison, real-life scenarios with scripted practice, expressions, progress
+automatic checks, text types in free writing, versions and comparison, real-life scenarios with scripted practice
+(including the "At work" module), expressions, progress
 reports, export, restore and device deletion, and offline use. Their test status is in the sections above (level
 checks, backup restore and several others have no test). The AI screens say that AI is not configured or not
 available on this site (`e2e 17` checks the tutor, free writing and Conversations); the account screen explains
@@ -1236,9 +1270,10 @@ with `npm run test:e2e` (pre-installed Playwright Chromium). Edge-function tests
 2. **Use a dedicated Supabase project**: account deletion removes the `auth.users` row, and sign-up settings,
    limits and database size are per project.
 3. Run the migrations in order: `supabase/migrations/001_lucid_core.sql`, `002_lucid_hardening.sql`, and
-   `003_lucid_export_account.sql` (all can be run again safely). `docs/setup.md` and `docs/architecture.md`
-   section 8 list only 001 and 002; without 003 the export omits the account email and dates that `privacy.html`
-   says it includes.
+   `003_lucid_export_account.sql` (all can be run again safely). `docs/setup.md` now lists all three, and so does
+   the component list in `docs/architecture.md` section 2; `docs/architecture.md` section 8 still says "run
+   migrations 001 and 002". Without 003 the export omits the account email and dates that `privacy.html` says it
+   includes.
 4. Authentication, URL configuration: Site URL = Lucid's own origin, also in the redirect URLs; email and password
    sign-in enabled.
 5. Authentication settings: **Confirm email on**; **Secure password change on** (Lucid's form re-authenticates with
@@ -1272,8 +1307,10 @@ price (one unit allows at most about 6,000 output tokens plus input).
 GitHub Pages deploys `main` (`.github/workflows/pages.yml`), excluding `lucid/tools`, `lucid/tests`,
 `lucid/supabase`, `lucid/docs/research/data`, `lucid/node_modules`, `lucid/package.json`,
 `lucid/package-lock.json` and `lucid/.impeccable`. Bump `RELEASE` in `sw.js` with each deploy
-that changes Lucid's files. Before inviting real learners, fill in the two "To be filled in before public launch"
-boxes in `privacy.html` (operator name and contact; Anthropic's API data retention terms).
+that changes Lucid's files (it has not been bumped since commit `f8a202c`; `origin/main`, as last fetched here, has no `lucid/`
+folder, so this build is not deployed by that workflow). Before inviting real learners, fill in the two "To be filled in before public launch"
+boxes in `privacy.html` (operator name and contact; Anthropic's API data retention terms); `docs/setup.md` marks this
+as a launch blocker.
 
 ---
 
@@ -1281,33 +1318,34 @@ boxes in `privacy.html` (operator name and contact; Anthropic's API data retenti
 
 The brief's criteria are not stored in the repository. `tests/e2e/run.mjs` calls itself the acceptance tests for
 the "Phase 16 criteria" and numbers the criterion checks 1 to 17 (with combined checks "4-6", "11-12" and
-"14-15"); it adds account checks 18 to 20 and lettered checks (L, RL, OF, PS). The wording below is taken from the
-check titles. Results: the run on 2026-10-31 (`E2E_PORT=8811`) and a re-run on the same day while this document was
-checked (`E2E_PORT=8812`) both reported **38 of 38 checks passed**.
+"14-15"); it adds account checks 18 to 20 and lettered checks (L, LP, RL, OF, PS, PL, RW), 52 checks in all. The
+wording below is taken from the check titles. Result: the run on 2026-10-31 while this document was updated
+(`cd lucid && E2E_PORT=8841 node tests/e2e/run.mjs`) reported **52/52 passed**, with no page errors. (At commit
+`f8a202c` the suite had 38 checks; LP1-LP4, PL1-PL6 and RW1-RW4 were added since.)
 
 | # | Criterion | E2E check(s) | Result | Mocks |
 |---|---|---|---|---|
-| 1 | A new user can register | `1` (device onboarding; under-16 refusal); `18`, `19` (server account sign-up and sign-in) | PASS | Device registration: none. Account registration: mocks only |
-| 2 | A new user can complete a placement assessment | `2`, `L1`, `L2` | PASS | none |
+| 1 | A new user can register | `1` (device onboarding; under-16 refusal for 24 hours across tabs); `18`, `19` (server account sign-up and sign-in) | PASS | Device registration: none. Account registration: mocks only |
+| 2 | A new user can complete a placement assessment | `2`, `L1`, `L2`, `LP3` (the path while a test is unfinished), `LP4` (the result screen and the start level) | PASS | none |
 | 3 | A learner can start at absolute beginner level | `3` | PASS | none |
-| 4 | Lessons have real content | `4-6`, `PS7` | PASS | none |
-| 5 | Exercises give feedback | `4-6`, `PS2`, `PS4` | PASS | none |
+| 4 | Lessons have real content | `4-6`, `PS7`, `PL1`, `PL6` | PASS | none |
+| 5 | Exercises give feedback | `4-6`, `PS2`, `PS4`, `PL1` ("Why?"), `PL2` (a near miss), `PL5` (speaking), `PL6` (an equivalent find-and-fix answer) | PASS | none |
 | 6 | Progress is saved across reloads | `4-6`, `L3` | PASS | none |
-| 7 | The curriculum adapts | `7`, `L5`, `L6` | PASS | none |
+| 7 | The curriculum adapts | `7`, `L5`, `L6`, `LP1`, `LP2`, `PL3` (today's part), `PL4` (Hebrew support follows the level shown) | PASS | none |
 | 8 | Vocabulary can be reviewed | `8`, `PS6` | PASS | none |
-| 9 | Travel English is functional | `9`, `RL1`, `RL2`; `RL3` for AI roleplay | PASS | Scripted practice: none. AI roleplay: mocks only |
+| 9 | Travel English is functional | `9`, `RL1`, `RL2`, `RW2`; `RL3` and the roleplay part of `RW2` for AI roleplay | PASS | Scripted practice: none. AI roleplay: mocks only |
 | 10 | Slang explanations include context | `10`, `RL4` | PASS | none |
-| 11 | Writing can be submitted and evaluated | `11-12` | PASS | Automatic checks: none. AI evaluation: mocks only |
-| 12 | Writing can be revised, with version comparison | `11-12` | PASS | Versions and comparison run on the device; the revision rounds in the check use the mocked AI |
-| 13 | Advanced argumentative writing is available | `13` | PASS | Content checks: none. Submitting for AI feedback: mocks only |
-| 14 | Mobile layout | `14-15` (24 routes at 320 and 390 px; Welcome and onboarding also at 360 px; 130-150% text), `PS2`, `RL2` | PASS | none |
-| 15 | Tablet and desktop layout | `14-15` (768, 1440 px) | PASS | none |
+| 11 | Writing can be submitted and evaluated | `11-12`, `RW3` (text types in free writing) | PASS | Automatic checks: none. AI evaluation: mocks only |
+| 12 | Writing can be revised, with version comparison | `11-12`, `RW3` (paragraph comparison) | PASS | Versions and comparison run on the device; the revision rounds in the checks use the mocked AI |
+| 13 | Advanced argumentative writing is available | `13`, `RW3` (Hebrew B2 brief, the AI's verification note) | PASS | Content checks: none. Submitting for AI feedback: mocks only |
+| 14 | Mobile layout | `14-15` (24 routes at 320 and 390 px; Welcome and onboarding also at 360 px; 130-150% text), `PS2`, `RL2`, `RW1`, `RW2`, `RW4`, `PL5` | PASS | `RW2` signs in through the mock for its roleplay part; the layout assertions need no server |
+| 15 | Tablet and desktop layout | `14-15` (768, 1440 px), `RW1` (1440 px at 130%), `RW3` (the rail at 1440 px) | PASS | none for the layout assertions |
 | 16 | User data handled securely | `16` (CSP, secret scan, device export and erase, malformed hash); `18`, `19`, `20` (email links, shared devices, password change, deletions); `RL6`, `RL7` | PASS | `16`, `RL6`, `RL7`: none. `18`-`20`: mocks only |
-| 17 | AI features are functional or clearly marked as requiring configuration | `17` ("not configured" notices; one tutor exchange); `RL3` | PASS | The notices: none. "Functional": mocks only |
+| 17 | AI features are functional or clearly marked as requiring configuration | `17` ("not configured" notices; one tutor exchange); `RL3`, `RW2`, `RW3` | PASS | The notices: none. "Functional": mocks only |
 
 **Criteria covered only with mocks** (in whole or for their server part): account registration (1), AI roleplay
 (9), AI evaluation (11), AI-driven revision rounds (12), AI feedback on advanced tasks (13), account security
-(16, checks 18-20) and AI functionality (17). None of them has run against a live Supabase project or the
+(16, checks 18-20) and AI functionality (17, including `RW2` and `RW3`). None of them has run against a live Supabase project or the
 Anthropic API.
 
 ---
@@ -1333,19 +1371,21 @@ order 51, dictation 51, match 49.
 
 | Content | Count | Required minimum | Met |
 |---|---|---|---|
-| Real-life scenarios | 30 (airport 5, hotel 5, restaurant 5, transport 4, shopping 4, social 4, emergency 3) | 30 | yes |
-| Expressions and slang | 50 | 50 | yes |
+| Real-life scenarios | 36 (airport 5, hotel 5, restaurant 5, transport 4, shopping 4, social 4, emergency 3, work 6) | 30 | yes |
+| Expressions and slang | 60 (10 of them workplace expressions) | 50 | yes |
 | Writing exercises | 20 | 20 | yes |
 | Advanced writing assignments | 10 | 10 | yes |
 | Placement items | 84 (12 per level) | none set (the schema asks for 10+ per level) | - |
 
-Further counts (checked with Node over `content/`): 356 scenario phrases, 348 model-dialogue lines, 150 scripted
+Further counts (checked with Node over `content/`): 428 scenario phrases, 418 model-dialogue lines, 180 scripted
 practice turns; 12 rubric categories, each explained in English and Hebrew (`rubric.json`); 86 taxonomy topics, 35
-error types; 7 level final tasks; 6 source packs (21 illustrative sources). `npm run validate`: 0 errors, 0
-warnings.
+error types; 7 level final tasks, each with Hebrew instructions; 6 source packs (21 illustrative sources).
+`npm run validate`: 0 errors, 0 warnings, including its check that no English isolate in Hebrew text holds half of
+a bracket pair.
 
 The commit history records review rounds for the lessons of each level ("independent review fixes"); the
-repository does not record who the reviewers were. No learner has used the content.
+repository does not record who the reviewers were. The workplace scenarios and expressions were reviewed only by the
+engineer who wrote them (`docs/qa/fix-log-r2.md`, P-53: "As my own reviewer"). No learner has used the content.
 
 ---
 
@@ -1353,23 +1393,36 @@ repository does not record who the reviewers were. No learner has used the conte
 
 ### 15.1 Never tested with people or live services
 
-- No real learner has used Lucid; there is no outcome, retention, usability or willingness-to-pay data. The persona
-  panel was simulated by an AI. 05 section 5 lists the measurements needed before any learner-benefit claim.
+- No real learner has used Lucid; there is no outcome, retention, usability or willingness-to-pay data. Both rounds
+  of the persona panel were simulated by an AI (`docs/qa/persona-panels.md`). 05 section 5 lists the measurements
+  needed before any learner-benefit claim.
 - No live Supabase project or Anthropic API was used. AI feedback quality is unknown: no human-scored calibration
   set, one scoring run by default.
 - Edge-function tests were not re-run for this document (Deno not installed here).
 
-### 15.2 Partial items from the fix log (`docs/qa/fix-log.md`)
+### 15.2 Partial items from the fix logs
+
+`docs/qa/fix-log.md` (round 1) still lists 7 items as partial; `docs/qa/fix-log-r2.md` (round 2) reports all 64 of
+its items fixed, and closes P-53 (workplace content and text types in free writing). The open parts below are
+checked against the current code.
 
 | ID | Open part |
 |---|---|
-| P-11, S-08 (d) | `privacy.html` has no operator name or contact; the box says real users must not be invited until it is filled. Anthropic's API data retention terms are also a placeholder. |
-| P-53 | Lucid has no workplace content; the "Work" goal only shapes the AI tutor. Free writing applies essay checks to any text, including a work email. |
-| P-69 | "Server" wording remains in no-AI notices in `tutor.js`, `essay.js` and `settings.js`; the Hebrew support control can wrap in Settings. |
+| P-11, S-08 (d), R1-N11 | `privacy.html` has no operator name or contact; the box says real users must not be invited until it is filled, and `docs/setup.md` now calls this a launch blocker. Anthropic's API data retention terms are also a placeholder. Round 2 marks R1-N11 fixed because the placeholder is honest, not because a contact exists. |
+| P-69, R1-M10 | The Settings AI notice and the free-writing notice no longer say "server", Settings options no longer wrap alone (`e2e RW4`), and path titles line up (`e2e RW4`). Still open: the tutor's no-AI notice (`js/views/tutor.js`) says the tutor "works only on a server where the AI service is configured". |
 | S-03 | Lucid shares the GitHub Pages origin with other sites. Moving it is an operator action; no code stops anyone setting `supabaseUrl` on the shared origin. |
 | S-09 | CAPTCHA cannot be turned on: the client sends no token. Scripted sign-ups are limited only by email confirmation, Supabase rate limits, the project AI budget and the Anthropic spend limit. |
 | S-10 | The client supplies the scenario brief, exercise instructions and conversation history (including assistant turns); the server does not resolve them from bundled content, and returned turns are not signed. |
-| P-45 (note) | "Hebrew on tap" for long paragraphs and a "short explanations" setting are not built; the dimmed Hebrew legend at minimal support fails contrast (section 11.1). |
+| P-45, R1-D10 (note) | "Hebrew on tap" for long paragraphs is now built at partial support (section 5.5); a "short explanations" setting is not built. |
+
+Remainders that round 2 records inside items it marks fixed:
+
+| ID | Remainder |
+|---|---|
+| R2-11 | The offline "did not load" screen's list of lessons saved in the offline cache needs the service worker; no test covers that list. |
+| R1-D5 | Settings is still long at 150% text. |
+| R1-E2 | "To a certain extent" was not added to the accepted answers of `c1-03` `e11`; the learner can count it with "My answer is also correct". |
+| R1-T6 | The B2-C2 final-task briefs show English first; their Hebrew is one tap away at minimal or off support. |
 
 ### 15.3 From `docs/setup.md` and `docs/architecture.md`
 
@@ -1378,32 +1431,35 @@ repository does not record who the reviewers were. No learner has used the conte
 - Old exercise answers are never tidied: at about 150 answered items a day an account reaches the 100,000-record
   limit in roughly two years, after which sync fails until the limit is raised.
 - Deleting an account does not refund its units from the project's daily AI total.
-- `RELEASE` in `sw.js` must be bumped by hand on each deploy.
+- `RELEASE` in `sw.js` must be bumped by hand on each deploy; it is still `2026-10-31.1`, the value at commit
+  `f8a202c`.
 
-### 15.4 Found in the code while writing this specification
+### 15.4 Found in the code while writing and updating this specification
 
 | Area | Item | Status or kind |
 |---|---|---|
-| Accessibility | Contrast failures at minimal Hebrew support and on the active rail legend (section 11.1); the audit does not cover those configurations | Open defect |
-| Navigation | Profile has no inbound link | Partial |
-| Onboarding | Promises that Lucid will suggest switching the interface to English as the level rises; nothing does | Not built |
-| Minors | `PRODUCT.md` and the migration 001 comment claim protective defaults for 16-17-year-olds; only marketing consent differs | Documentation conflict |
-| Help | "Without an account, nothing leaves this device" (`help.js`), while `privacy.html` names the browser's speech services as exceptions | Copy conflict |
+| Accessibility testing | The automated audit's B1 and C1 configurations run at full Hebrew support, not minimal and off as the script's comment says, because "By level" follows the level shown (section 11.1). A spot check with support set explicitly found 0 violations, but the suite does not cover those support levels | Test gap |
+| Interface language | The English-interface offer on Today (from B1) has no test | Partial |
+| Minors | Only marketing consent differs for 16-17-year-olds; `PRODUCT.md` and the migration 001 comment now say so | Closed since `f8a202c` (was a documentation conflict) |
+| Help | Help now says progress never leaves the device without an account, with the browser's speech service as the one exception, as `privacy.html` does | Closed since `f8a202c` (was a copy conflict) |
+| Navigation | Profile is linked from Progress; no test follows the link or saves the profile | Partial (test) |
 | Writing | No "H0 self-check" rung (E section 9.5); any change to the mistake's sentence counts as an attempt and unlocks the correction | Partial |
-| Writing | Self-assessment (stage 7+), timed writing and "Report a mistake" have no tests; reports are only logged | Partial |
+| Writing | Storing self-assessment ratings with the evaluation, timed writing and "Report a mistake" have no tests; reports are only logged | Partial |
 | Writing | The writing level depends on AI-assessed final drafts, so it never appears without AI | Logic built and tested (`unit writing-level`); its evidence source is tested with mocks only |
 | Speaking | No speaking level is assessed | Not built (a deliberate decision: recognition never grades) |
 | Level checks | No test runs a level check | Partial |
-| Review | Warm-up and exit-check modes, the theme control, backup restore, the monthly report view and server account deletion from Settings have no tests | Partial |
-| Test coverage | Also without a test: the `read` and `dictation` renderers, writing exercise items (`we-01` to `we-20`), the Speaking lab drill and "Say it" check, the lesson hint button and keyboard shortcuts, the feedback-scope setting, the task-fulfilment warning in the editor, the level rail, skill profile and weekly goal on Today, the vocabulary statuses, and adding a passed lesson's words to review | Partial |
+| Review and Settings | Warm-up and exit-check modes, the theme control, backup restore, the placement links in Settings, the monthly report view and server account deletion from Settings have no tests | Partial |
+| Test coverage | Also without a test: the `read` and `dictation` renderers, writing exercise items (`we-01` to `we-20`), the Speaking lab drill and "Say it" check, the lesson hint button and the keyboard shortcuts inside exercises, the feedback-scope setting, the task-fulfilment warning in the editor, which level the level rail marks, the weekly goal, the vocabulary statuses, adding a passed lesson's words to review, "Not now" on the vocabulary import card, and a browser check that Today names a workplace scenario for a work goal | Partial |
 | Expressions | No offensive-term policy or mechanism | Not built |
 | Placement | Only multiple-choice and listening items; not calibrated; no productive sample | Partial (deferred, `04-methodology.md` section 3) |
 | Learning engine | Lexical-coverage gating of texts, encounter counting, deliberate 1/7/30-day probes, multi-voice perception training, human audit of AI corrections | Not built (deferred, `04-methodology.md` section 3) |
+| Learning engine | The reading pace behind lesson slices (about 120 words per exercise slot) and the writing paces behind writing blocks (5, 7 or 9 words a minute) are heuristics, not measured on learners | Known limitation |
 | Notifications | No reminders of any kind | Not built |
 | Data | Device-only data is lost if browser storage is cleared before an export; sync conflicts resolve by newest write | Known limitation |
-| Content | `content/lessons/pa1-05.json` states a predicted transfer error as fact ("Hebrew has no present-tense 'be', so learners drop it"); the research treats such predictions as hypotheses (`C3-hebrew-l1.md`, What not to build) | Open |
-| Real life | No scenarios above B2; no workplace module | Content gap |
-| Documentation drift | `docs/setup.md` and `docs/architecture.md` section 8 omit migration 003; `docs/architecture.md` section 6 still says the export lacks the account email and that roleplay chats cannot be deleted one by one (both now done); `docs/content-schema.md` says `speak` is graded by recognition and lessons take 10-25 minutes; the comments on `SUPPORT_BY_LEVEL` (`i18n.js`) and `newItemsBudget` (`srs.js`) disagree with their code | Open |
+| Content | `content/lessons/pa1-05.json` no longer states the predicted transfer error as fact ("so it is easy to leave it out in English") | Closed since `f8a202c` |
+| Content | The workplace scenarios and expressions were reviewed only by their author (`fix-log-r2.md`, P-53) | Known limitation |
+| Real life | No scenarios above B2; the workplace module starts at A2, so a work goal changes nothing at A1 | Content gap |
+| Documentation drift | `docs/architecture.md` section 8 still lists only migrations 001 and 002 (`setup.md` and architecture section 2 list 003); the comment on `newItemsBudget` (`srs.js`) disagrees with its code; the header comment of `tests/e2e/a11y.mjs` and the summary line of `fix-log-r2.md` describe the B1 and C1 audit configurations as minimal and off support. Fixed since `f8a202c`: `content-schema.md` on `speak` and lesson length, `architecture.md` section 6 on the export and roleplay deletion, `setup.md` on migration 003, and the comment on `SUPPORT_BY_LEVEL` | Open |
 
 ### 15.5 Non-goals
 
@@ -1417,7 +1473,8 @@ section 4; each checked by code search):
 - let the AI write or rewrite the learner's work, or accuse a learner of copying or using AI;
 - show a single overall writing grade while the learner is still revising;
 - claim that AI feedback equals a teacher, or claim learning outcomes;
-- present a fixed list of "Hebrew speakers' mistakes" as research (one lesson note still overstates this; section 15.4);
+- present a fixed list of "Hebrew speakers' mistakes" as research (the one lesson note found overstating this,
+  in `pa1-05`, was reworded after commit `f8a202c`; section 15.4);
 - use a home-made scheduler, SM-2, or "mark as known" without a recall check;
 - offer human tutors, social features, public profiles or geolocation;
 - promise that finishing the course confers any CEFR level, C2 included.
