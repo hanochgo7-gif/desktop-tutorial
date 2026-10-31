@@ -67,3 +67,8 @@ test('key words match inside contractions ("tip\'s", "where\'s") but not inside 
   assert.ok(!hasPhrase('The tipping point', 'tip'));
   assert.ok(!hasPhrase("It's fine", 'is'));
 });
+
+test("quote marks around a word do not hide it from the key-word check", () => {
+  assert.ok(hasPhrase("What do you mean by 'short'?", 'short'));
+  assert.ok(hasPhrase("I don't know", "don't"));
+});

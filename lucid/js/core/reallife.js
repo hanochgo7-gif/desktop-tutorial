@@ -45,7 +45,8 @@ export function nextScenario(list = [], current, { courseLevel = 'A1', goals = [
 }
 
 // ---------- the reply in the learner's own words ----------
-const words = (s) => normalize(s).replace(/[^a-z0-9'֐-׿]+/g, ' ').split(' ').filter(Boolean);
+// Apostrophes inside a word stay (don't, tip's); quote marks around a word ('short') are dropped.
+const words = (s) => normalize(s).replace(/[^a-z0-9'֐-׿]+/g, ' ').split(' ').map((w) => w.replace(/^'+|'+$/g, '')).filter(Boolean);
 
 // True when the phrase's words appear in the text in order, as whole words ("uni" does not match "united").
 export function hasPhrase(text, phrase) {
