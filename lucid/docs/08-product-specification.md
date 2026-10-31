@@ -1,15 +1,22 @@
 # Deliverable 8: Complete product specification
 
-This document specifies Lucid as it is built at commit `f8a202c` (branch `claude/lucid-english-platform`;
-no tracked file is modified; this document and new round-2 persona files in `docs/qa/personas/` are untracked),
-checked on 2026-10-31. It describes the product that exists, not the product that is planned. Every statement
-about Lucid was checked against the code (`js/`, `css/`, `index.html`, `sw.js`, `supabase/`), the content (`content/`) or the tests (`tests/`, `supabase/functions/lucid-ai/handler_test.ts`).
+This document specifies Lucid as it is built at commit `ae58048` (branch `claude/lucid-english-platform`),
+checked on 2026-10-31. It was first written at commit `f8a202c` and has been updated for everything committed
+since then (`git log f8a202c..HEAD`: persona panel round 2 fixes in `docs/qa/fix-log-r2.md`, the "At work"
+module and workplace expressions, text types in free writing, contrast fixes and 14 new browser checks). While it
+was updated, three source files of the scenario content (`content/real-life/parts/scenarios-1.json`, `-2.json`,
+`-3.json`) had uncommitted wording edits made by another lane. They are not merged into
+`content/real-life/scenarios.json`, the file the app loads, which is unchanged from the commit, so they are not
+part of what is described here. It describes the product that exists, not the product that is planned. Every
+statement about Lucid was checked against the code (`js/`, `css/`, `index.html`, `sw.js`, `supabase/`), the
+content (`content/`) or the tests (`tests/`, `supabase/functions/lucid-ai/handler_test.ts`).
 
 Two facts frame everything below:
 
 - **No real learner has used Lucid.** Nothing here is a learning outcome, and no feature is described as
-  helping learners. The findings in `docs/qa/fix-log.md` came from a security review and a simulated persona
-  panel whose personas were played by an AI. They are QA input, not user research.
+  helping learners. The findings in `docs/qa/fix-log.md` and `docs/qa/fix-log-r2.md` came from a security review
+  and two rounds of a simulated persona panel whose personas were played by an AI. They are QA input, not user
+  research.
 - **No live service was used.** This build has no Supabase project and no Anthropic API key
   (`config.js`: `supabaseUrl: ''`, `aiEnabled: false`). Accounts, sync, server export and deletion, AI writing
   feedback, AI roleplay and the AI tutor have only been tested against stand-ins.
@@ -36,24 +43,23 @@ Each feature carries one status.
 
 | Short form | Meaning |
 |---|---|
-| `e2e 7`, `e2e L5`, `e2e PS3` ... | The check with that id in `tests/e2e/run.mjs` (Playwright, Chromium). Accounts and AI run against a mock Supabase and a mock `lucid-ai` function injected by request interception (`installMockServer`). |
-| `unit <file>: "<name>"` | A test in `tests/unit/<file>.test.mjs` (Node test runner). |
+| `e2e 7`, `e2e L5`, `e2e PS3`, `e2e RW2` ... | The check with that id in `tests/e2e/run.mjs` (Playwright, Chromium; 52 checks). Accounts and AI run against a mock Supabase and a mock `lucid-ai` function injected by request interception (`installMockServer`). |
+| `unit <file>: "<name>"` | A test in `tests/unit/<file>.test.mjs` (Node test runner; 141 tests in 18 files). |
 | `db: "<name>"` | A test in `tests/db/schema.test.mjs`: the migrations applied to PGlite (Postgres in WASM) with Supabase roles and default privileges simulated. It is real Postgres, but not a Supabase project, and has one connection. |
-| `deno: "<name>"` | A test in `supabase/functions/lucid-ai/handler_test.ts` (18 tests), with a fake Claude client and fake auth and database functions. **None was run for this document**: Deno is not installed here. `docs/qa/fix-log.md` reports 18 of 18 passing on 2026-10-31. |
-| `axe` | `tests/e2e/a11y.mjs`: axe-core on 24 routes in 3 configurations. |
+| `deno: "<name>"` | A test in `supabase/functions/lucid-ai/handler_test.ts` (20 tests), with a fake Claude client and fake auth and database functions. **None was run for this document**: Deno is not installed here. `docs/qa/fix-log-r2.md` reports 20 of 20 passing on 2026-10-31. |
+| `axe` | `tests/e2e/a11y.mjs`: axe-core on 24 routes, plus Welcome and the first onboarding step before a learner exists, in 5 configurations (section 11.1). |
 
 ### Verification snapshot (2026-10-31)
 
 | Suite | Command | Result |
 |---|---|---|
-| Browser acceptance tests | `cd lucid && E2E_PORT=8812 node tests/e2e/run.mjs` (first run with port 8811; re-run with 8812 while this document was checked) | **38 of 38 checks pass** |
-| Unit tests | `npm test` | 106 of 106 pass |
+| Browser acceptance tests | `cd lucid && E2E_PORT=8841 node tests/e2e/run.mjs` | E2E_RESULT_PLACEHOLDER |
+| Unit tests | `npm test` | 141 of 141 pass |
 | Database tests | `npm run test:db` | 9 of 9 pass |
-| Content validator | `npm run validate` | 75 lesson files, 0 errors, 0 warnings |
-| Accessibility audit | `A11Y_PORT=8813 node tests/e2e/a11y.mjs` | 0 violations across 24 routes x 3 configurations |
-| Edge-function tests | `deno test ...` | **Not run here**: Deno is not installed in this environment. `docs/qa/fix-log.md` reports 18 of 18 passing on 2026-10-31. |
+| Content validator | `npm run validate` | 75 lesson files plus the placement, scenario, expression and writing files; 0 errors, 0 warnings |
+| Accessibility audit | `A11Y_PORT=A11Y_PORT_PLACEHOLDER node tests/e2e/a11y.mjs` | A11Y_RESULT_PLACEHOLDER |
+| Edge-function tests | `deno test ...` | **Not run here**: Deno is not installed in this environment. `docs/qa/fix-log-r2.md` reports 20 of 20 passing on 2026-10-31. |
 | Content inventory | `node tools/inventory.mjs` | Section 14 |
-| Spot check (not part of any suite) | axe on Today, Path, Practice and Real life for a B1 and a C1 learner, Hebrew UI, light theme, 1440 px (a throwaway script; run twice) | **Colour-contrast violations** (section 11.1) |
 
 ---
 
@@ -84,10 +90,11 @@ inferred: the owner did not confirm them, and no learner was interviewed.
 | Track | What it contains | Where |
 |---|---|---|
 | **English Mastery** | A path of 75 lessons from Pre-A1 to C2 in 7 levels, a level check and a final writing task per level, spaced vocabulary review, targeted drills, the practice labs (vocabulary, grammar, reading, listening, speaking), a 10-stage Writing lab with 20 exercises and 10 assignments, and the AI tutor | `#/today`, `#/path`, `#/practice` and the lab routes; `content/curriculum.json`, `content/lessons/`, `content/writing/` |
-| **Real-Life English** | 30 travel and social scenarios in 7 modules, each with phrases, a model dialogue, scripted practice and an optional AI roleplay; 50 expressions (42 informal or very informal, 8 neutral); a Conversations list of every scenario as an AI roleplay | `#/real-life`, `#/scenario/:id`, `#/expressions`, `#/conversations`; `content/real-life/` |
+| **Real-Life English** | 36 scenarios in 8 modules (six travel modules, social, and "At work"), each with phrases, a model dialogue, scripted practice and an optional AI roleplay; 60 expressions (48 informal or very informal, 12 neutral), 10 of them workplace expressions; a Conversations list of every scenario as an AI roleplay | `#/real-life`, `#/scenario/:id`, `#/expressions`, `#/conversations`; `content/real-life/` |
 
 Real-life scenarios are open at every course level (`js/views/reallife.js`). From A1 and a 20-minute plan,
-a travel or conversation goal puts a real-life scenario into the daily plan (section 5.4).
+a travel, conversation or work goal puts a real-life scenario into the daily plan when one fits the course level
+(section 5.4; the workplace scenarios start at A2).
 
 ### 1.4 Principles and how the build reflects them
 
@@ -151,17 +158,18 @@ ask for content "appropriate for a 16-year-old" for every learner (`supabase/fun
 Extra under-18 defaults recommended by the UX research (no weekly goal by default, a break suggestion after
 45 minutes, age-specific AI explanations; `docs/research/06-ux-recommendations.md`, D53) are **Not built**.
 
-`PRODUCT.md` ("16-17-year-olds get protective defaults") and the comment on `lucid_profiles` in migration
-001 ("16-17 year-olds get protective defaults") overstate this. The code, `privacy.html`, onboarding and
-`docs/architecture.md` section 6 agree that marketing consent is the only difference.
+`PRODUCT.md`, the comment on `lucid_profiles` in migration 001, the code, `privacy.html`, onboarding and
+`docs/architecture.md` section 6 now agree that marketing consent is the only difference (the earlier "protective
+defaults" wording in `PRODUCT.md` and the migration comment was corrected after commit `f8a202c`).
 
 ### 2.3 Right-to-left and bidirectional text
 
 | Feature | Behaviour | Status |
 |---|---|---|
 | Interface language | Hebrew (right to left, the default) or English (left to right), chosen in onboarding and Settings. `setUiLang` sets `lang` and `dir` on the document (`js/core/i18n.js`). | Built and tested: `e2e 14-15` checks both languages on Welcome and onboarding |
-| Learning content | The shared renderers (`bi()` and `legend()` in `js/core/i18n.js`, the lesson and exercise views) mark English learning material `lang="en" dir="ltr"` and Hebrew explanations `lang="he" dir="rtl"`. No test checks every screen. | Built and tested for lessons: `e2e PS7` (English blocks left-aligned, tables laid out from their first column) |
-| English inside Hebrew | `isolateLatin()` wraps each English run inside Hebrew text in `<bdi dir="ltr" lang="en">`, keeping the English punctuation with the English and the Hebrew punctuation (a prefix hyphen, a colon, the final full stop) with the Hebrew. | Built and tested: `unit i18n` (3 isolation tests), `e2e RL5` (rendered positions) |
+| Suggestion to switch to an English interface | Onboarding says Lucid will suggest switching to English as the level rises. From course level B1, Today shows a banner to a learner with the Hebrew interface ("An English interface is extra daily practice, and you can switch back in Settings at any time") with "Switch to English" and "Not now". "Not now" hides it until the course level rises again; it is never shown again after the learner switches (`js/views/today.js`, `ui_switch_answered`). | Partial: built, no test |
+| Learning content | The shared renderers (`bi()` and `legend()` in `js/core/i18n.js`, the lesson and exercise views) mark English learning material `lang="en" dir="ltr"` and Hebrew explanations `lang="he" dir="rtl"`. Listening transcripts, review examples, recognised speech, long answers, final-task topics and "Must include" lists are separate left-to-right blocks. No test checks every screen. | Built and tested for lessons and the essay editor: `e2e PS7` (English blocks left-aligned, tables laid out from their first column), `e2e PL6` (the transcript is a left-to-right block), `e2e RW3` (final-task topics and "Must include" read left to right) |
+| English inside Hebrew | `isolateLatin()` wraps each English run inside Hebrew text in `<bdi dir="ltr" lang="en">`, keeping the English punctuation with the English and the Hebrew punctuation (a prefix hyphen, a colon, the final full stop) with the Hebrew. A bracket pair stays together: both brackets inside the English, or both with the Hebrew. Error-type notes and vocabulary glosses also go through it. The content validator warns when an isolate would hold half of a bracket pair (no warning on the current content). | Built and tested: `unit i18n` (5 isolation tests, including "bracket pairs stay together: both inside the English, or both with the Hebrew" and "no isolate ever holds half of a bracket pair"), `e2e RL5` (rendered positions), `e2e PL1` (brackets in a verdict and a key point) |
 | Dual legends | Titles show the English target and the Hebrew scaffold in two inks; a "Hebrew" line with no Hebrew letters is left out. | Built and tested: `unit i18n: "a legend leaves out a \"Hebrew\" line that is not Hebrew"`, `e2e RL5` |
 | Placeholders | A Hebrew placeholder in an English field reads right to left until the learner types (CSS `:placeholder-shown`). | Built and tested: `e2e RL5` |
 | Layout | CSS logical properties; direction-aware chevrons (`css/app.css`). | Built and tested for overflow: `e2e 14-15` |
@@ -170,14 +178,20 @@ Extra under-18 defaults recommended by the UX research (no weekly goal by defaul
 
 - Phone layout below 64rem: a sticky top bar (brand, title, Help, Settings) and a bottom tab bar with five
   items. Desktop layout from 64rem: a side rail with the five items, a "Labs" group, Help, Settings, the sync
-  status and the learner's name (`js/app.js`).
+  status and the learner's name (`js/app.js`). On the rail, a lab route (for example `writing` or `writing/:id`)
+  marks only its own Labs entry as current, not Practice as well (`e2e RW3`). When the browser reports no
+  connection, an "Offline" badge appears in the phone top bar and in the rail, and goes when the connection returns
+  (`e2e RW4`, phone).
 - Touch targets: on coarse pointers the CSS gives small keys, segmented buttons, chips, the Hebrew reveal button
   and sort-bin labels a minimum height of 2.75rem (44 px), and icon-only keys a 44 px width (`css/app.css`,
   `@media (pointer: coarse)`); options and match items are taller by default. No test measures target sizes.
 - Widths checked for sideways scrolling by `e2e 14-15` (**Built and tested**): Welcome and onboarding, before a
   profile exists, at 320, 360 and 390 px in both languages; 24 routes after onboarding at 320, 390, 768 and
-  1440 px; 13 routes at 130% text (390 px) and 150% text (390 and 320 px). No other width (for example 1280 px)
-  is checked for overflow.
+  1440 px; 13 routes at 130% text (390 px) and 150% text (390 and 320 px). `e2e RW1` adds Today at 390 px (130 and
+  150%), 320 px (150%) and 1440 px (130%), with level-rail labels that never overlap, list titles at least 8em
+  wide on Path, Real life and the Writing lab at 390 px and 150%, and skill rows that stack at 320 px; `e2e RW2`
+  checks a scenario header at 390 px and 130%; `e2e RW4` checks that no Settings option sits alone on a line at
+  390 px. No other width (for example 1280 px) is checked for overflow.
 - Browsers: every automated test runs in Chromium only. Speech recognition depends on the browser (the UI names
   Chrome, Edge and Safari); speech synthesis voices vary by device (`js/core/speech.js`).
 - A web app manifest (`manifest.webmanifest`) allows installation as a standalone app. Installation is not tested.
@@ -202,8 +216,8 @@ an unknown or malformed hash goes to Today (or Welcome without a profile).
 | `start` | Onboarding (registration on the device) | `js/views/onboarding.js` | Language, name, birth year, goals, daily time, starting point, privacy; four steps | none | bare, public |
 | `account` | Account | `js/views/account.js` | Sign up, sign in, password reset (with Supabase); in device-only mode, explains that the device profile is the account | none | public |
 | `placement` | Placement test | `js/views/placement.js` | Adaptive placement; resume or restart | none | bare |
-| `today` | Today (dashboard) | `js/views/today.js` | The daily plan, why each block is there, evidence of progress | Today | shell |
-| `path`, `path/:level` | Curriculum map | `js/views/path.js` | All lessons by level, level check, final writing task, level moves, placement retake | Path | shell |
+| `today` | Today (dashboard) | `js/views/today.js` | The daily plan, why each block is there, evidence of progress; from B1, an offer to switch to the English interface | Today | shell |
+| `path`, `path/:level` | Curriculum map | `js/views/path.js` | All lessons by level, level check, final writing task, level moves, placement retake; while a placement is unfinished, the test instead of a current level | Path | shell |
 | `lesson/:id` | Lesson player | `js/views/lesson.js` | Intro, explanation, practice, summary | none | bare |
 | `checkpoint/:level` | Level check | `js/views/checkpoint.js` | An unassisted test across a level | none | bare |
 | `review` | Spaced review | `js/views/review.js` | Due words; also `?mode=warmup`, `exit`, `early` | none | bare |
@@ -215,63 +229,65 @@ an unknown or malformed hash goes to Today (or Welcome without a profile).
 | `listening` | Listening centre | `js/views/listening.js` | Listening items and dictations, with a speed control | Practice (Labs) | shell |
 | `speaking` | Speaking lab | `js/views/speaking.js` | Sound contrasts, shadowing, notes on recognition | Practice (Labs) | shell |
 | `writing` | Writing lab | `js/views/writing.js` | Ten stages, exercises, assignments, final tasks, the learner's drafts | Practice (Labs) | shell |
-| `writing/:id` | Essay editor | `js/views/essay.js` | Write, check, get feedback, revise, compare, delete (`free`, `final-<level>`, an exercise or assignment id) | Practice (Labs) | shell |
+| `writing/:id` | Essay editor | `js/views/essay.js` | Write, check, get feedback, revise, compare, delete (`free`, with a text type: essay or opinion, email, message; `final-<level>`; an exercise or assignment id) | Practice (Labs) | shell |
 | `tutor` | AI tutor | `js/views/tutor.js` | Eight teaching modes | Practice (Labs) | shell |
-| `real-life` | Real-life English hub | `js/views/reallife.js` | Scenarios by topic and level, a start strip for the learner | Real life | shell |
+| `real-life` | Real-life English hub | `js/views/reallife.js` | Scenarios by topic (travel, social, at work) and level, a start strip for the learner, a link to offline use | Real life | shell |
 | `scenario/:id` | Scenario | `js/views/scenario.js` | Prepare, model dialogue, practise, AI roleplay | Real life | shell |
-| `expressions` | Expressions dictionary | `js/views/slang.js` | 50 informal expressions | Real life | shell |
+| `expressions` | Expressions dictionary | `js/views/slang.js` | 60 expressions, grouped by level or by letter and folded | Real life | shell |
 | `conversations` | Conversation simulations | `js/views/simulations.js` | Every scenario as an AI roleplay; past conversations | Real life | shell |
-| `progress` | Progress | `js/views/progress.js` | Weekly or monthly report, skill levels, level checks, mistakes, topics | Progress | shell |
-| `profile` | Profile | `js/views/profile.js` | Name, goals, start level, birth year | Progress (no link reaches it, see below) | shell |
-| `settings` | Settings | `js/views/settings.js` | Interface, learning load, feedback, AI consent, account and sync, offline use, data | Settings | shell |
-| `help` | Help | `js/views/help.js` | How Lucid works, in plain language | Help | public |
+| `progress` | Progress | `js/views/progress.js` | Weekly or monthly report, skill levels, level checks, mistakes, topics, a link to Profile | Progress | shell |
+| `profile` | Profile | `js/views/profile.js` | Name, goals, start level, birth year | Progress ("My profile") | shell |
+| `settings` | Settings | `js/views/settings.js` | Interface, learning load (with placement and level links), feedback, AI consent, account and sync, offline use (`?section=offline` scrolls to it), data | Settings | shell |
+| `help` | Help | `js/views/help.js` | How Lucid works, in plain language, including offline use | Help | public |
 
 Outside the router, `privacy.html` is a static bilingual page (privacy policy and terms) linked from onboarding
 and Settings.
 
 Navigation findings checked in the code:
 
-- **Profile has no inbound link.** No `href` to `#/profile` exists in `js/` (the desktop rail shows the
-  learner's name as plain text). The screen is reachable only by typing the address. Status of the screen:
-  **Partial** (renders and is checked by `e2e 14-15` and `e2e RL6`; no navigation leads to it).
+- **Profile** is reached from Progress ("My profile", the only `href` to `#/profile` in `js/`; the desktop rail
+  shows the learner's name as plain text). No test follows that link.
 - The placement test can be reached again from the path ("Retake the placement test", `#/placement?restart=1`)
-  and from Today while a test is unfinished.
+  and from Settings, under "Learning load" ("Retake the placement test", or "Continue the placement test" while
+  one is unfinished, next to "Choose a level on the path"). While a test is unfinished, Today and the path both
+  offer "Continue the test" (`#/placement?resume=1`). The path part is tested (`e2e LP3`); the Settings links
+  have no test beyond the route loading in `e2e 14-15`.
 
 ### 3.2 The 21 core screens of the brief
 
 | # | Brief screen | Route(s) | Status and tests |
 |---|---|---|---|
-| 1 | Welcome | `welcome` | Built and tested: `e2e 14-15` (no sideways scroll before a profile, both languages, 320-390 px). Not effectively in `axe`: the audit visits `welcome` after creating a learner, and the router then redirects to Today. |
+| 1 | Welcome | `welcome` | Built and tested: `e2e 14-15` (no sideways scroll before a profile, both languages, 320-390 px), `axe` (audited before a learner exists, in all 5 configurations) |
 | 2 | Registration | `start` (device profile); `account?mode=signup` (server account) | Device profile: Built and tested, `e2e 1`. Server account: Built, tested with mocks only, `e2e 18`, `e2e 19`, `unit auth` |
-| 3 | Onboarding | `start` | Built and tested: `e2e 1`, `e2e 3`, `e2e 14-15`. Not in `axe`. |
-| 4 | Placement | `placement` | Built and tested: `e2e 2`, `e2e L1`, `e2e L2`; `unit engine` and `unit learner-logic` placement tests. Not in `axe`. |
-| 5 | Dashboard / Today | `today` | Built and tested: `e2e 7`, `e2e L1`, `e2e L3`-`L6`, `axe` |
-| 6 | Curriculum map | `path`, `path/:level` | Built and tested: `e2e L3`, `e2e L4`, `e2e 14-15`, `axe` |
-| 7 | Lesson player | `lesson/:id` | Built and tested: `e2e 4-6`, `e2e PS1`-`PS5`, `e2e PS7`; `unit player`. `axe` sees only the explanation stage. |
+| 3 | Onboarding | `start` | Built and tested: `e2e 1`, `e2e 3`, `e2e 14-15`, `e2e RL6` (privacy step). `axe` audits the first step only. |
+| 4 | Placement | `placement` | Built and tested: `e2e 2`, `e2e L1`, `e2e L2`, `e2e LP4` (the result screen); `unit engine`, `unit learner-logic` and `unit learner-evidence` placement tests. Not in `axe`. |
+| 5 | Dashboard / Today | `today` | Built and tested: `e2e 7`, `e2e L1`-`L6`, `e2e LP1`, `e2e LP2`, `e2e RW1`, `axe`. The English-interface offer and the weekly goal have no test (Partial for those). |
+| 6 | Curriculum map | `path`, `path/:level` | Built and tested: `e2e L3`, `e2e L4`, `e2e LP3`, `e2e RW1`, `e2e RW4` (titles aligned to one edge), `e2e 14-15`, `axe` |
+| 7 | Lesson player | `lesson/:id` | Built and tested: `e2e 4-6`, `e2e PS1`-`PS5`, `e2e PS7`, `e2e PL1`-`PL3`, `e2e PL5`, `e2e PL6`; `unit player`. `axe` sees only the explanation stage. |
 | 8 | Vocabulary trainer | `vocab`, `review` | Built and tested: `e2e 8`, `e2e PS6`, `e2e OF1`; `unit engine` FSRS tests |
 | 9 | Grammar lab | `grammar` (drills at `drill?topic=`) | Built and tested for rendering: `e2e 14-15`, `axe`. Drills open from the plan in `e2e 7`. No test uses the topic list. |
 | 10 | Reading | `reading` | Built and tested: `e2e RL4` (opens at the learner's level), `e2e 14-15`, `axe` |
 | 11 | Listening | `listening` | Built and tested for rendering only: `e2e 14-15`, `axe` |
-| 12 | Speaking lab | `speaking` | Sound tabs and shadowing: Built and tested, `e2e PS6` (shadowing has no verdict, sound tabs name example words), `axe`. The "Which did you hear?" drill and the "Say it" check: Partial, no test. Live speech recognition cannot run in headless Chromium; `e2e PS1` stubs it. |
-| 13 | Writing lab | `writing` | Built and tested: `e2e 13`, `e2e 11-12` ("My drafts" shows the final range), `axe`. No test opens a writing exercise (`we-01` to `we-20`) or runs its items (Partial for those). |
-| 14 | Essay editor | `writing/:id` | Automatic checks, versions, comparison and deletion: Built and tested, `e2e 11-12`, `unit writing-analyzer`, `unit diff`. AI feedback and its protocol: Built, tested with mocks only, `e2e 11-12`, `e2e 13` |
+| 12 | Speaking lab | `speaking` | Sound tabs and shadowing: Built and tested, `e2e PS6` (shadowing has no verdict, sound tabs name example words), `e2e PL4` (shadowing grouped by level and open at the learner's level, "Next sentence for you"), `axe`. The "Which did you hear?" drill and the "Say it" check: Partial, no test. Live speech recognition cannot run in headless Chromium; `e2e PS1` and `e2e PL5` stub it. |
+| 13 | Writing lab | `writing` | Built and tested: `e2e 13`, `e2e 11-12` ("My drafts" shows the final range), `e2e RW1` (rows at 150% text), `e2e RW3` (rail highlight), `axe`. No test opens a writing exercise (`we-01` to `we-20`) or runs its items (Partial for those). |
+| 14 | Essay editor | `writing/:id` | Automatic checks, text types in free writing, versions, comparison and deletion: Built and tested, `e2e 11-12`, `e2e RW3`, `unit writing-analyzer`, `unit diff`. AI feedback and its protocol: Built, tested with mocks only, `e2e 11-12`, `e2e 13`, `e2e RW3` |
 | 15 | AI tutor | `tutor` | "Not configured" notice: Built and tested, `e2e 17`. Conversation: Built, tested with mocks only, `e2e 17`, `e2e 20` |
-| 16 | Travel English | `real-life`, `scenario/:id` | Built and tested: `e2e 9`, `e2e RL1`, `e2e RL2`, `axe` |
-| 17 | Slang dictionary | `expressions` | Built and tested: `e2e 10`, `e2e RL4`, `axe` |
-| 18 | Conversation simulations | `conversations`, `scenario/:id?tab=roleplay` | List, filters and notice: Built and tested, `e2e RL1`, `e2e 17`. Deleting a past conversation: Built and tested, `e2e RL7`. AI roleplay and report: Built, tested with mocks only, `e2e RL3` |
-| 19 | Progress | `progress` | Built and tested: `e2e L3`, `e2e L7`, `e2e L2`; `unit engine: "period report compares with the previous period and counts retention"` |
-| 20 | Profile | `profile` | Partial: renders (`e2e 14-15`, `e2e RL6`, `axe`), saves name and goals, but no link leads to it |
-| 21 | Settings | `settings` | Built and tested: `e2e 16`, `e2e 20` (with mocks for the account part), `e2e OF1`, `axe`. Theme toggle and backup restore have no test. |
+| 16 | Travel English | `real-life`, `scenario/:id` | Built and tested: `e2e 9`, `e2e RL1`, `e2e RL2`, `e2e RW2`, `e2e LP2`, `axe`; workplace scenarios: `unit work-content` (no browser check opens one) |
+| 17 | Slang dictionary | `expressions` | Built and tested: `e2e 10` (grouped and folded, search), `e2e RL4`, `unit work-content` (workplace searches), `axe` |
+| 18 | Conversation simulations | `conversations`, `scenario/:id?tab=roleplay` | List, filters and notice: Built and tested, `e2e RL1`, `e2e 17`. Deleting a past conversation: Built and tested, `e2e RL7`. Account options on the roleplay tab: tested with mocks only, `e2e RW2`. AI roleplay and report: Built, tested with mocks only, `e2e RL3`, `e2e RW2` |
+| 19 | Progress | `progress` | Built and tested: `e2e L3`, `e2e L7`, `e2e L2`, `e2e LP4` (recommendations and folded level checks); `unit engine: "period report compares with the previous period and counts retention"`, `unit learner-evidence` (first-try accuracy) |
+| 20 | Profile | `profile` | Built and tested for rendering and its privacy wording: `e2e 14-15`, `e2e RL6`, `axe`. Linked from Progress. Saving the name and goals has no test (Partial for that). |
+| 21 | Settings | `settings` | Built and tested: `e2e 16`, `e2e 20` (with mocks for the account part), `e2e OF1`, `e2e RW4` (layout at 390 px, the offline section anchor), `axe`. Theme toggle, backup restore and the placement links have no test. |
 
 ### 3.3 Extra screens
 
 | Screen | Route | Status and tests |
 |---|---|---|
-| Help | `help` | Built and tested for rendering: `e2e 14-15`, `axe` |
+| Help | `help` | Built and tested for rendering: `e2e 14-15`, `axe`; its offline answer links to Settings: `e2e RW4` |
 | Level check | `checkpoint/:level` | Partial: the intro renders (`e2e 14-15`, `checkpoint/PreA1`), but no test runs a level check or checks its 75% rule |
-| Targeted drill | `drill` | Built and tested: opens from the plan, `e2e 7` (the check accepts either an exercise or the empty state). The 70/30 mix with competing topics has no test. |
+| Targeted drill | `drill` | Built and tested: opens from the plan, `e2e 7` (the check accepts either an exercise or the empty state), `e2e LP2` (every plan link opens content). For a real-life topic the empty state points to scenarios. The 70/30 mix with competing topics has no test. |
 | Spaced review | `review` | Built and tested: `e2e 8`, `e2e PS6`, `e2e OF1` |
-| Account | `account` | Device-only explanation: renders in `e2e 14-15`, `axe`. Sign-up, sign-in, return to the previous screen: Built, tested with mocks only, `e2e 18`-`20`, `unit auth` |
+| Account | `account` | Device-only explanation: renders in `e2e 14-15`, `axe`. Sign-up, sign-in, return to the previous screen: Built, tested with mocks only, `e2e 18`-`20`, `e2e RW2`, `e2e RW3`, `unit auth` |
 | Privacy page | `privacy.html` | Built and tested in part: `e2e RL6` checks that it contains named statements (microphone and voice, what is not sent, recurring mistake types, the pre-launch placeholders, refusal of marketing consent) and no longer contains earlier claims ("strictest", "none of this leaves the device"). It does not compare every sentence with the code. Two boxes are placeholders (section 15). |
 
 ---
@@ -327,17 +343,37 @@ Lesson flow and scoring (`js/views/lesson.js`, `js/ui/player.js`):
   first-try points over scored exercises. Speaking and writing are practice: they never enter the score or its
   denominator. Built and tested: `unit player: "speaking and writing never count toward the lesson score or its
   denominator"`, `unit player: "answer points and the missed list"`.
+- Below the pass mark the score is rounded down (0.696 shows 69%, never "70%"), and when partial credit caused the
+  miss a line explains it (a right answer after a hint counts three quarters, one with a spelling slip 90%).
+  "Lesson complete" appears only on a pass. Built and tested: `unit player: "R2-26: a score under the pass mark is
+  rounded down and never reads as the mark"`, `e2e PL2`.
 - A wrong answer shows the right answer at once and comes back once at the end of the set. The step counter keeps
-  the first-pass total fixed and counts retries apart ("2 of 14 · 1 to revisit", in words in Hebrew). Built and
-  tested: `e2e PS2`, `unit player` (counter tests).
+  the first-pass total fixed and counts retries apart ("2 of 14 · 1 to revisit", in words in Hebrew). The verdict
+  leads with the result and the right form; the explanation waits behind "Why?", which shows the item's own
+  explanation and adds the error type's general Hebrew note only when the item has nothing of its own. Built and
+  tested: `e2e PS2`, `e2e PL1`, `unit player` (counter tests; "R2-04: \"Why?\" shows the item's own explanation,
+  not the general note of its error type").
 - After "Nearly there", the main action redoes only the exercises missed on the first try; earlier right answers
-  keep counting, so fixing the misses can complete the lesson. Built and tested: `e2e PS3`.
-- The learner's place is saved; Today's main button says "Continue". Built and tested: `e2e L5`.
+  keep counting, so fixing the misses can complete the lesson. This choice survives leaving: the lesson intro then
+  shows a "Nearly there" banner with the last score, and its main action (also on Enter) is "Practise the N I
+  missed", with "Practise everything again" as a second option. Built and tested: `e2e PS3`, `e2e PL2`.
+- The learner's place is saved; Today's main button says "Continue". Built and tested: `e2e L5`, `e2e LP1`.
+- The intro states the whole lesson length and, when the daily plan takes only a part, today's part ("up to
+  exercise 5 of 16, about 10 min"), or the minutes left when resuming. When the first pass reaches the end of
+  today's part, the player shows "Today's part is done" with "Stop here" (back to Today; the place is saved) or
+  "Keep going". It shows this once, never in a run of only the missed exercises, and never at the end of the first
+  pass. Built and tested: `e2e PL3`, `unit player: "R2-28: today's part ends once, on the first pass, when
+  exercises are left after it"`.
+- A table wider than the screen gets a line saying it scrolls sideways, a fade on the hidden side until the far
+  side is reached, and keyboard focus (`markWideTables`). Built and tested: `e2e PL6`.
 - Every scored exercise offers "I don't know", and a hint when one is authored. Keyboard: Enter checks and
   continues, 1-6 choose an option. "I don't know" is used in `e2e 4-6`; the hint button and the keyboard shortcuts
-  have no test (Partial).
+  inside exercises have no test (Partial).
 - A lesson whose file is missing says it is still being written and links to the next ready lesson. Built and
-  tested: `e2e PS5`, `e2e L4` (all 75 files exist now, so the tests simulate a missing file).
+  tested: `e2e PS5`, `e2e L4` (all 75 files exist now, so the tests simulate a missing file). A lesson that
+  cannot load while offline says what works offline, offers word review when there are cards, lists up to three
+  lessons found in the offline cache, and links to "Offline use" in Settings. The pointer to Settings is tested
+  (`e2e PL6`); the list of cached lessons needs the service worker and has no test.
 
 ### 4.3 The 12 exercise types and how each is graded
 
@@ -358,21 +394,28 @@ correct or as a typo"`.
 | `match` | 49 | Pairs 4-6 items; wrong pairs shake and stay open | Correct only with no wrong tries; letter tiles have a play button | 1 - wrong tries / pairs (minimum 0) |
 | `categorize` | 87 | Sorts items into categories | Per item; the verdict lists only the misplaced items under where they belong | Share of items in the right place |
 | `transform` | 143 | Rewrites a sentence | `checkTyped` against the answers. From B1, the key is shown as "one model answer" and the learner may mark an equivalent answer correct ("My answer is also correct"): the attempt becomes right with `self_judged: true` and a `self-judged` event is logged for content review. Lucid does not check that judgement. | 1 or 0 |
-| `correct` | 130 | Fixes the error in a sentence (pre-filled) | `checkTyped`; Check stays disabled until the text changes | 1 or 0 |
+| `correct` | 130 | Fixes the error in a sentence (pre-filled) | `checkTyped`; Check stays disabled until the text changes. From B1, as for `transform`: "one model answer" and "My answer is also correct" | 1 or 0 |
 | `listen` | 81 | Hears text-to-speech (normal or slow), picks an option | Exact index; the transcript is shown after. Without speech synthesis the transcript is shown instead of audio | 1 or 0 |
 | `dictation` | 51 | Hears a sentence and types it | Exact match, or word accuracy of 0.85 or more by word alignment; missed words are marked | Word accuracy (0-1) |
 | `speak` | 79 | Hears the target, says it, and/or rates themselves | **Never graded.** Recognition (where available) shows what was heard next to the target; the learner can try again, mark "I said it clearly" or "I need more practice", or skip with "Can't speak right now" (no attempt recorded, no retry). Stored with `score: null` and no error type. | none |
 | `read` | 73 | Reads a passage (optionally read aloud) and answers 146 true/false, 186 multiple-choice and 67 gap questions in all | Per question (gap questions by `checkTyped`) | Share right; correct only when all are right |
 | `write` | 79 | Writes a short text with a word target and required words | **Never graded.** Shows automatic checks (section 6.6), a self-check list and a model answer | none |
 
-`tf` exists only inside `read`. The content schema (`docs/content-schema.md`) still says `speak` is graded by
-recognition at 0.8 word accuracy; the code does not do this (research decision C2-D34/D37, `e2e PS1`).
+`tf` exists only inside `read`. An answer that exactly matches an authored wrong answer never gets "one model
+answer" or the self-judgement button (`unit player: "R1-E2: a \"Find and fix\" item from B1 offers \"My answer is
+also correct\"; an authored wrong answer never does"`). For `speak`, words that recognition did not catch are
+grey with a dotted underline and "(not caught)" for screen readers, not marked like errors; a target that spells
+letters adds that recognition often cannot show spelled letters; "Hear it" and "Say it" come straight after the
+target, sharing one row at 130-150% text, where the pronunciation tip is folded. The content schema
+(`docs/content-schema.md`) now also describes `speak` as practice that is never graded (research decision
+C2-D34/D37, `e2e PS1`).
 
 Statuses: `e2e 4-6` answers a whole lesson, `pa1-05`, which has ten of the twelve types (it skips the speaking
 item, which `e2e PS1` covers). `mcq`, `gap`, `order`, `match`, `categorize`, `transform`, `correct`, `listen`,
 `speak` and `write` are therefore **Built and tested**, with specific behaviour in `e2e PS1` (speak), `e2e PS2`
-(categorize verdict), `e2e PS4` (open rewrites), `e2e PS6` (letter tiles in match), `unit player` and
-`unit grading`. `read` and `dictation`: **Partial**. No browser test renders or answers either one; only their
+(categorize verdict), `e2e PS4` (open rewrites), `e2e PS6` (letter tiles in match), `e2e PL5` (speak at 150%
+text, words not caught), `e2e PL6` (an equivalent answer to a C1 `correct` item counted; the listening transcript
+as a left-to-right block), `unit player` and `unit grading`. `read` and `dictation`: **Partial**. No browser test renders or answers either one; only their
 grading functions are unit-tested (`unit grading: "word accuracy aligns dictation and speech to the target"`,
 and `checkTyped` for gap questions).
 
@@ -390,7 +433,10 @@ answers are recorded as attempts with their level, so they also count as practic
 ### 4.5 Each level's final writing task
 
 From `final_assessment` in `content/curriculum.json`. Each opens in the essay editor at `#/writing/final-<level>`
-and is listed on the path and in the Writing lab. Hebrew instructions are present up to B1 (`e2e 13` asserts this).
+and is listed on the path and in the Writing lab. Every level, B2 to C2 included, has Hebrew instructions, Hebrew
+required elements and Hebrew topics (`e2e 13` asserts this). The editor shows the English first; at minimal or off
+Hebrew support (B1 and above by default) the Hebrew is one tap away. Topic options and the "Must include" list read
+left to right (`e2e RW3`).
 
 | Level | Task | Words | Writing stage | Kind | Topic choice | Required elements |
 |---|---|---|---|---|---|---|
@@ -402,8 +448,8 @@ and is listed on the path and in the Writing lab. Hebrew instructions are presen
 | C1 | An 800-1,000-word analytical argumentative essay | 750-1,100 | 8 | essay | 3 questions; one uses the source pack of assignment `wa-05` | 6 |
 | C2 | A 1,500-2,000-word research-based argumentative paper; the reference list does not count | 1,400-2,200 | 10 | research | 4 questions; three use the source packs of `wa-08`, `wa-09`, `wa-10`; the fourth is the learner's own question with real sources | 7 |
 
-Status: briefs and topic choice **Built and tested** (`e2e 13` checks every brief, Hebrew up to B1, topics from
-B1, and that each pack referenced exists). Submitting a final task for AI feedback: **Built, tested with mocks
+Status: briefs and topic choice **Built and tested** (`e2e 13` checks every brief, Hebrew at every level, a topic
+choice from B1, and that each pack referenced exists; `e2e RW3` checks the B2 brief's Hebrew and direction). Submitting a final task for AI feedback: **Built, tested with mocks
 only** (`e2e 13`).
 
 ---
