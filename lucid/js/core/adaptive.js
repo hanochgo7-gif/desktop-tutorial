@@ -78,7 +78,7 @@ export function errorProfile(attempts, now = Date.now(), { windowDays = 30 } = {
 // - speaking: Lucid does not assess speaking level yet (speech recognition never grades on its own), so it
 //   stays "not yet assessed".
 // Clear failure at the current level (under 50% over 8+ answers) lowers it one step, as a first estimate.
-export const EVIDENCE = { items: 6, accuracy: 0.75, days: 2, placementItems: 2, placementAccuracy: 0.67, placementCap: 'B2', writingTasks: 2 };
+export const EVIDENCE = { items: 6, accuracy: 0.75, days: 2, placementItems: 2, placementAccuracy: 2 / 3, placementCap: 'B2', writingTasks: 2 };
 export const RECEPTIVE = ['grammar', 'vocabulary', 'reading', 'listening'];
 const scoreOf = (a) => a.score ?? (a.correct ? 1 : 0);
 
@@ -88,7 +88,7 @@ export function placementSkillEstimate(answers = [], skill) {
   for (const l of LEVELS) {
     const at = answers.filter((a) => a.skill === skill && a.level === l);
     const right = at.filter((a) => a.correct).length;
-    if (at.length >= EVIDENCE.placementItems && right / at.length >= EVIDENCE.placementAccuracy) best = { level: l, items: at.length };
+    if (at.length >= EVIDENCE.placementItems && right / at.length >= EVIDENCE.placementAccuracy - 1e-9) best = { level: l, items: at.length };
   }
   if (!best) return null;
   const capped = levelIndex(best.level) > levelIndex(EVIDENCE.placementCap);

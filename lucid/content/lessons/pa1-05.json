@@ -46,7 +46,7 @@
     { "word": "cold", "pos": "adjective", "he": "קר/ה", "def": "having a low temperature", "example": "It is cold today.", "ipa": "/kəʊld/", "level": "PreA1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "Hebrew has no present-tense 'be', so learners drop it: *She teacher.", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט אותו. באנגלית: She is a teacher.", "error_type": "copula-omission" },
+    { "en": "Hebrew has no present-tense 'be', so it is easy to leave it out in English: *She teacher.", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט אותו. באנגלית: She is a teacher.", "error_type": "copula-omission" },
     { "en": "English needs a subject: *Is cold → It is cold.", "he": "באנגלית חייב להיות נושא במשפט: לא 'Is cold' אלא It is cold.", "error_type": "pronoun" }
   ],
   "exercises": [

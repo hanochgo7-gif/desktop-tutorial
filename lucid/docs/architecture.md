@@ -296,13 +296,14 @@ atomic in-memory ledger instead.
   my data from this device".
 - **Password change** asks for the current password and signs in with it again before sending the new one, except
   within 30 minutes of a password-reset link used in the same tab.
-- **Data rights**: export (device data plus the server export RPC) and deletion (account deletion RPC, then a
-  device erase) from Settings. The erase removes only Lucid's data: the `lucid` IndexedDB database, keys starting
+- **Data rights**: export (device data plus the server export RPC, which since migration 003 also includes the
+  account email and sign-up/last sign-in dates via `lucid_account_info()`) and deletion (account deletion RPC, then
+  a device erase) from Settings. The erase removes only Lucid's data: the `lucid` IndexedDB database, keys starting
   with `lucid-` in local and session storage, and `lucid-…` caches; other apps on the origin are not touched. In the
   tutor, the learner can delete the conversation on screen and, in one step, all other saved tutor conversations.
   In the Writing lab, "Delete this text" removes a task's text, versions, draft and feedback, and clears the quoted
-  mistakes from its attempts (scores and mistake types stay). Roleplay chats cannot be deleted one by one yet (only
-  with the whole account or device data).
+  mistakes from its attempts (scores and mistake types stay). Past AI roleplay conversations can be deleted one by
+  one in Conversations.
 - Threat model and review: `docs/qa/security-review.md`.
 
 ## 7. Offline and performance

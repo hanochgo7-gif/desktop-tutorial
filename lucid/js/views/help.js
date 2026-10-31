@@ -34,8 +34,8 @@ const Q = [
     'בהגדרות: גודל טקסט, מראה בהיר או כהה, כמות העברית, ומהירות ההקראה. Lucid מכבד גם את הגדרת ״הפחתת תנועה״ של המכשיר.',
     'In Settings: text size, light or dark, how much Hebrew, and speech speed. Lucid also respects your device\'s "reduce motion" setting.'],
   ['המידע שלי', 'My data',
-    'בהגדרות אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול. בלי חשבון, המידע לא יוצא מהמכשיר.',
-    'In Settings you can download everything, restore a backup, or delete it all. Without an account, nothing leaves this device.'],
+    'בהגדרות אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול. בלי חשבון, ההתקדמות שלכם לא יוצאת מהמכשיר. חריג אחד: בתרגילי דיבור, הדפדפן עשוי לשלוח את הקול לשירות זיהוי הדיבור שלו (Lucid לא שומר הקלטות).',
+    'In Settings you can download everything, restore a backup, or delete it all. Without an account, your progress never leaves this device. One exception: in speaking exercises your browser may send your voice to its own speech-recognition service (Lucid stores no recordings).'],
 ];
 
 export default async function help(el, ctx) {

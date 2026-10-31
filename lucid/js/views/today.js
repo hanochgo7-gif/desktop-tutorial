@@ -3,7 +3,7 @@ import { html, render, on, todayKey } from '../core/util.js';
 import { tt, legend, t, uiLang } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
-import { profile, settings, saveSettings, todayPlan, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable } from '../core/learner.js';
+import { profile, saveProfile, settings, saveSettings, todayPlan, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
 import { LEVELS, SKILLS, levelIndex, isLessonId, lessonOrder } from '../core/adaptive.js';
@@ -95,6 +95,10 @@ export default async function today(el, ctx) {
     const p = profile();
     const m = model();
     if (m.next?.id !== extras.lesson?.id) loadLesson(m.next?.id);
+    // Onboarding promises to suggest the English interface as the level rises: offered from B1, and again at each
+    // higher level after "Not now", never after the learner chose.
+    const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1')
+      && s.ui_switch_answered !== 'en' && (!s.ui_switch_answered || levelIndex(m.courseLevel) > levelIndex(s.ui_switch_answered));
     const plan = todayPlan(s.daily_minutes, extras);
     const week = weekActivity();
     const dueCount = due().length;
@@ -204,6 +208,8 @@ export default async function today(el, ctx) {
           <p>${tt(`יעד שבועי: ${week.days} מתוך ${week.goal} ימים. יום חופש לא מוחק כלום.`, `Weekly goal: ${week.days} of ${week.goal} days. A day off erases nothing.`)}</p></div>
         <div class="seg" role="group" aria-label="${tt('אורך האימון היום', 'Session length today')}">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${s.daily_minutes === n}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
       </div>
+      ${uiSwitchOffer ? html`<div class="banner row" style="margin-block-end:var(--s5)">${icon('globe', { size: 18 })}<span class="grow">${tt(`את/ה ברמה ${LEVEL_LABEL[m.courseLevel]}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${LEVEL_LABEL[m.courseLevel]}. An English interface is extra daily practice, and you can switch back in Settings at any time.`)}</span>
+        <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
       <div class="today">
         <section class="stack" aria-labelledby="plan-h">
           <div class="row between"><h2 id="plan-h">${tt('התוכנית להיום', 'Today\'s plan')}</h2>${m.placementPending ? '' : html`<span class="small faint num">${tt(`כ-${plan.minutes} דקות`, `about ${plan.minutes} min`)}</span>`}</div>
@@ -228,6 +234,8 @@ export default async function today(el, ctx) {
   ctx.watch(['progress', 'cards', 'attempts', 'settings', 'events', 'placement', 'profile', 'writing'], draw);
   const offs = [
     on(el, 'click', '[data-min]', (e, b) => saveSettings({ daily_minutes: Number(b.dataset.min) })),
+    on(el, 'click', '[data-ui-en]', () => { saveProfile({ ui_language: 'en' }); saveSettings({ ui_switch_answered: 'en' }); }),
+    on(el, 'click', '[data-ui-later]', () => saveSettings({ ui_switch_answered: model().courseLevel })),
     on(el, 'click', '[data-skip-level]', async (e, b) => { await applyPlacement(selfReportResult(b.dataset.skipLevel)); toast(tt(`המסלול מתחיל ב-${L(b.dataset.skipLevel)}`, `Your path starts at ${L(b.dataset.skipLevel)}`)); }),
     on(el, 'click', '[data-basics]', async () => { await applyPlacement(zeroResult()); ctx.navigate('lesson/pa1-01'); }),
     on(el, 'click', '[data-import]', async (e, b) => {

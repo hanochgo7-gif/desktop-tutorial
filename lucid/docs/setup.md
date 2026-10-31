@@ -64,7 +64,8 @@ is prefixed `lucid_`. The prefix only avoids name clashes; it does not isolate a
 
 1. Create the dedicated project (section 2.2).
 2. Run the migrations in order in the SQL editor (or `supabase db push`): `supabase/migrations/001_lucid_core.sql`,
-   then `002_lucid_hardening.sql`. Both can be run again safely.
+   then `002_lucid_hardening.sql`, then `003_lucid_export_account.sql`. All can be run again safely. Without 003
+   the data export lacks the account email and dates that the privacy page says it includes.
 3. Authentication → URL configuration: set the Site URL to Lucid's own origin (section 2.1) and add it to the
    redirect URLs, for confirmation and password-reset links. Email + password sign-in must be enabled.
 4. Authentication settings (dashboard names as of October 2026; they move from time to time):

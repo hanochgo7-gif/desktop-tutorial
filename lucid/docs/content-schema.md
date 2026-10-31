@@ -34,7 +34,7 @@ English learning material (sentences, options, passages, answers) is always plai
 | Field | Type | Notes |
 |---|---|---|
 | `id`, `level`, `title_en`, `title_he`, `topics` | | must match `curriculum.json` |
-| `minutes` | int | realistic time, 10-25 |
+| `minutes` | int | realistic time (current lessons: 15-40); the daily plan splits long lessons across days |
 | `objectives` | Bilingual[] | 2-4 can-do statements |
 | `warmup` | Bilingual | one line that activates prior knowledge |
 | `explanation` | Block[] | see blocks below; concise, example-first |
@@ -69,7 +69,7 @@ after answering: *why* the answer is right), `hint?` (Bilingual, offered before 
 | `correct` | `sentence` (contains the error), `answers[]`, `error_type` (required) | normalised match |
 | `listen` | `audio_text` (spoken by TTS), `question`, `options[]`, `answer` | exact; transcript shown after |
 | `dictation` | `audio_text`, `answers[]` | word accuracy >= 0.85 |
-| `speak` | `target`, `focus?` (Bilingual note), `error_type?` | speech recognition word match >= 0.8, or self-assessment where recognition is unavailable |
+| `speak` | `target`, `focus?` (Bilingual note), `error_type?` | practice, never graded: shows what speech recognition heard (if available), the learner can try again, self-rate or skip ("Can't speak right now"); excluded from the lesson score |
 | `read` | `title?`, `passage`, `questions[]` (each an `mcq`, `tf` or `gap` without its own `skill`) | per question |
 | `write` | `task` (Bilingual), `min_words`, `max_words?`, `must_include?[]`, `model_answer`, `checklist` (Bilingual[]) | submission + automatic checks; AI rubric when configured |
 

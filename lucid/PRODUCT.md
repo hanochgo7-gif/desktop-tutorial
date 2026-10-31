@@ -49,7 +49,8 @@ interface and explanations around English (left-to-right) learning content, fadi
 - AI features (writing evaluation, roleplay, tutor) run only server-side and need an Anthropic API key.
 - Speech uses the browser's speech synthesis and recognition; availability varies by browser.
 - Levels are "Lucid estimates aligned to CEFR descriptors", never certified levels.
-- Users must be 16+. 16-17-year-olds get protective defaults.
+- Users must be 16+. For 16-17-year-olds the database forces marketing consent off; every other protection (no
+  public profile, no social features, AI off until consented, no tracking) applies to all learners alike.
 
 ## Brand Commitments
 

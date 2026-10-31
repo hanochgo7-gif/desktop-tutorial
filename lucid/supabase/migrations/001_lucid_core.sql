@@ -6,8 +6,8 @@
 create table if not exists public.lucid_profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   display_name text check (char_length(display_name) between 1 and 60),
-  -- Only the birth year is stored (data minimisation). Users must be 16+; 16-17 year-olds get
-  -- protective defaults (see lucid_profiles_guard).
+  -- Only the birth year is stored (data minimisation). Users must be 16+; for 16-17 year-olds the
+  -- guard forces marketing_opt_in off (see lucid_profiles_guard).
   birth_year int not null,
   ui_language text not null default 'he' check (ui_language in ('he', 'en')),
   hebrew_support text not null default 'full' check (hebrew_support in ('full', 'partial', 'minimal', 'off')),

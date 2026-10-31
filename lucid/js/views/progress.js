@@ -39,7 +39,8 @@ export default async function progress(el, ctx) {
 
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.progress')}</h1><p>${tt('מה אתם יודעים לעשות עכשיו, לפי ראיות. בלי נקודות ובלי ניקוד על זמן.', 'What you can do now, based on evidence. No points, no scores for time spent.')}</p></div>
-        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${days === 7}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${days === 30}">${tt('החודש', 'This month')}</button></div></div>
+        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${days === 7}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${days === 30}">${tt('החודש', 'This month')}</button></div>
+        <a class="key small ghost" href="#/profile">${icon('user', { size: 16 })} ${tt('הפרופיל שלי', 'My profile')}</a></div>
       <div class="stack-lg">
         <section class="stack" aria-labelledby="rep-h"><h2 id="rep-h">${days === 7 ? tt('דוח שבועי', 'Weekly report') : tt('דוח חודשי', 'Monthly report')}</h2>
           ${!m.attempts.some((a) => a.source !== 'placement') ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
