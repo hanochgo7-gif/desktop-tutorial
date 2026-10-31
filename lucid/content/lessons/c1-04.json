@@ -19,12 +19,12 @@
     }
   ],
   "warmup": {
-    "en": "Two students answer the essay question 'Has remote work been good for cities?'. Lior writes: 'Remote work has changed cities in many ways.' Priya writes: 'Remote work has emptied city-centre offices, but by freeing that space for housing it could make city centres more liveable than they were before.' Which thesis gives its writer something to prove for 1,000 words, and which has nothing left to argue after the first sentence?"
+    "en": "Two students answer the essay question 'Has remote work been good for cities?' Lior writes: 'Remote work has changed cities in many ways.' Priya writes: 'Remote work has emptied city-centre offices, but by freeing that space for housing it could make city centres more liveable than they were before.' Which thesis gives its writer something to prove for 1,000 words, and which has nothing left to argue after the first sentence?"
   },
   "explanation": [
     {
       "type": "p",
-      "en": "A thesis is the one claim your whole essay exists to prove. Compare three answers to 'Should cities limit short-term holiday rentals?'. (1) 'Short-term rentals have both benefits and drawbacks for cities.' True, but nobody could disagree, so there is nothing to argue: a descriptive thesis. (2) 'Short-term rentals are ruining our cities and should be banned.' Arguable, but one counterexample breaks it. (3) 'Cities should cap short-term rentals in neighbourhoods where they are pushing out long-term residents, rather than ban them outright, because a cap protects housing without closing a useful source of income for local hosts.' This analytical thesis is specific, debatable and defensible, and it tells the reader what the essay must show."
+      "en": "A thesis is the one claim your whole essay exists to prove. Compare three answers to 'Should cities limit short-term holiday rentals?' (1) 'Short-term rentals have both benefits and drawbacks for cities.' True, but nobody could disagree, so there is nothing to argue: a descriptive thesis. (2) 'Short-term rentals are ruining our cities and should be banned.' Arguable, but one counterexample breaks it. (3) 'Cities should cap short-term rentals in neighbourhoods where they are pushing out long-term residents, rather than ban them outright, because a cap protects housing without closing a useful source of income for local hosts.' This analytical thesis is specific, debatable and defensible, and it tells the reader what the essay must show."
     },
     {
       "type": "table",
@@ -122,8 +122,8 @@
       "ipa": "/ˈɑːɡjuəbl/",
       "collocations": [
         "an arguable claim",
-        "it is arguable that",
-        "highly arguable"
+        "an arguable thesis",
+        "it is (at least) arguable that"
       ],
       "level": "C1"
     },
@@ -151,7 +151,7 @@
       "collocations": [
         "central contention",
         "the contention that",
-        "a bone of contention"
+        "support the contention that"
       ],
       "level": "C1"
     },
@@ -307,7 +307,7 @@
           "category": "Descriptive"
         },
         {
-          "text": "Streaming has destroyed music as an art form.",
+          "text": "Streaming has killed the album, and no serious musician has gained anything from it.",
           "category": "Over-claimed"
         },
         {
@@ -335,7 +335,7 @@
         "en": "Ask two questions about each sentence: could a reasonable reader disagree with it, and could you defend every word of it?"
       },
       "explanation": {
-        "en": "Descriptive theses report or announce, so nobody could disagree. Over-claimed theses take a side but rely on absolutes (destroyed, useless, every level) that one counterexample can break. Over-hedged theses stack maybes until nothing is claimed. Analytical theses make a specific how or why claim and limit it precisely: easier to reach but harder to make a living from; lectures, but not seminars."
+        "en": "Descriptive theses report or announce, so nobody could disagree. Over-claimed theses take a side but rely on absolutes (killed, no serious musician, useless, every level) that one counterexample can break. Over-hedged theses stack maybes until nothing is claimed. Analytical theses make a specific how or why claim and limit it precisely: easier to reach but harder to make a living from; lectures, but not seminars."
       }
     },
     {
@@ -348,21 +348,21 @@
       },
       "question": "Essay question: 'To what extent should universities replace lectures with recorded videos?'",
       "options": [
-        "Recorded lectures are now common at many universities around the world.",
-        "Universities should record their lectures but use the recordings to support live teaching rather than replace it, because the main value of a lecture lies in the questions and discussion that a recording cannot answer.",
-        "Recorded lectures are the future, and universities that resist them will not survive.",
-        "This essay will look at the arguments for and against recorded lectures and then reach a conclusion."
+        "Recorded lectures are now common at many universities, where students can watch them at any time and as often as they like.",
+        "Universities should record lectures to support live teaching rather than replace it, because the main value of a lecture lies in the questions and discussion that a recording cannot offer.",
+        "Recorded lectures are the future of higher education, and universities that refuse to replace live teaching with them will lose their students to those that do.",
+        "This essay will look at the arguments for and against replacing lectures with recordings, consider the views of both students and staff, and then reach a conclusion."
       ],
       "answer": 1,
       "option_feedback": {
         "0": {
-          "en": "This is a fact, not a position. It does not answer 'to what extent', and nobody would dispute it."
+          "en": "This describes how recorded lectures are used; it is not a position. It does not answer 'to what extent', and nobody would dispute it."
         },
         "2": {
-          "en": "This takes a side, but 'the future' and 'will not survive' are absolute predictions that the essay could not prove, and it ignores what lectures do well."
+          "en": "This takes a side, but 'the future' and 'will lose their students' are absolute predictions that the essay could not prove, and it ignores what live lectures do well."
         },
         "3": {
-          "en": "This announces the essay instead of stating a position. The reader still does not know what you will argue."
+          "en": "This announces the essay instead of stating a position. However much detail it adds about the plan, the reader still does not know what you will argue."
         }
       },
       "option_errors": {
@@ -385,9 +385,9 @@
       "audio_text": "Your thesis says that the museum's free entry policy has had a big impact. That's true, but it doesn't tell me what you're going to argue. Was the impact good or bad, and for whom? Something like 'free entry has brought in more tourists but done little for the local families it was meant to reach' would give you an argument.",
       "question": "What is the tutor's main criticism of the student's thesis?",
       "options": [
-        "It contains a factual error about the museum's visitors.",
-        "It is too critical of the museum's policy.",
-        "It is too long and tries to cover too many points.",
+        "It contains a factual error about the number of people who visit the museum.",
+        "It is too critical of the museum's policy and ignores its benefits.",
+        "It is too long and tries to cover too many different points at once.",
         "It describes an effect without saying what the student will argue about it."
       ],
       "answer": 3,
@@ -455,7 +455,7 @@
       "skill": "reading",
       "topic": "thesis-advanced",
       "prompt": {
-        "en": "Read the opinion column from a local newspaper and analyse how the argument is built."
+        "en": "Read the opinion column from a local newspaper (an invented example) and analyse how the argument is built."
       },
       "title": "More parking will not save our high street",
       "passage": "Every few months another shop on Ashby Vale's high street closes, and every few months the same explanation returns: people cannot park. The council now proposes to answer it with a three-storey car park behind the market square, at a cost that would use most of its regeneration budget for the next five years.\n\nI understand the logic, and I share the frustration. But I believe the plan rests on a mistaken diagnosis. The high street will not be saved by making it easier to reach; it will be saved, if at all, by giving people reasons to come that a website or an out-of-town retail park cannot offer.\n\nConsider why people stopped coming. The retail park on the ring road has plenty of parking, but its real attractions are lower prices and a wider range of goods, and online shops beat it on both. A shopper who now buys her trainers on her phone did not give up the high street because the car park was full; she gave it up because her phone was cheaper and never closed. Building more spaces answers a question that most shoppers are no longer asking.\n\nWhat the internet cannot provide is a place to meet, to be served by someone who knows your name, or to spend an hour without spending much money. The high streets that are holding up in towns like ours tend to be those that have changed what they offer: cafés, repair shops, a weekly food market, a library that runs evening classes. These are reasons to come in person, and they would gain far more from the car park money than from the car park.\n\nShop owners object that their customers complain about parking every day, and they are right to say so. For older and disabled residents in particular, a long walk from the bus stop can be a real barrier. But this is an argument for keeping a number of accessible spaces close to the shops, not for spending five years of investment on a building that will stand half-empty on weekdays.\n\nThe council's question was how to bring people back to the high street. The answer depends on why they left. If they left because they could not park, a car park makes sense. If they left because the street no longer offered anything they could not get more cheaply elsewhere, then it is the street, not the parking, that needs rebuilding.",
@@ -464,18 +464,18 @@
           "type": "mcq",
           "question": "Which sentence states the writer's thesis?",
           "options": [
-            "Every few months another shop on Ashby Vale's high street closes.",
+            "The council now proposes to answer it with a three-storey car park behind the market square, at a cost that would use most of its regeneration budget for the next five years.",
             "The high street will not be saved by making it easier to reach; it will be saved, if at all, by giving people reasons to come that a website or an out-of-town retail park cannot offer.",
-            "Shop owners object that their customers complain about parking every day.",
+            "Shop owners object that their customers complain about parking every day, and they are right to say so.",
             "The council's question was how to bring people back to the high street."
           ],
           "answer": 1,
           "option_feedback": {
             "0": {
-              "en": "This is background: a fact that sets up the problem."
+              "en": "This is background: it describes the council's plan, which the writer goes on to question."
             },
             "2": {
-              "en": "This is the opposing view that the writer answers in paragraph 5."
+              "en": "This is the opposing view, which the writer concedes and then answers in paragraph 5."
             },
             "3": {
               "en": "This restates the question. The thesis is the writer's answer to it."
@@ -517,7 +517,7 @@
             "3": "comprehension"
           },
           "explanation": {
-            "en": "'If at all' is a precise qualification of degree: the writer claims to know the only realistic route, not to guarantee success. This makes the thesis harder to attack."
+            "en": "'If at all' is a precise qualification of certainty: the writer claims to know the only realistic route, not to guarantee that it will work. Admitting this limit makes the thesis harder to attack, not weaker."
           }
         },
         {
@@ -525,14 +525,14 @@
           "question": "What is the main job of paragraph 3 ('Consider why people stopped coming ...')?",
           "options": [
             "It challenges the assumption behind the council's plan by explaining why shoppers really left.",
-            "It describes the history of the retail park.",
-            "It answers an objection from shop owners.",
-            "It proposes what the money should be spent on instead."
+            "It compares prices at the retail park with prices online to show which is cheaper.",
+            "It answers the shop owners' objection that customers cannot find anywhere to park.",
+            "It proposes what the regeneration money should be spent on instead of a car park."
           ],
           "answer": 0,
           "option_feedback": {
             "1": {
-              "en": "The retail park is mentioned only as evidence about prices and range, not for its history."
+              "en": "Prices are mentioned only as evidence for why shoppers left; the paragraph does not set out to compare the retail park with online shops."
             },
             "2": {
               "en": "The shop owners' objection comes in paragraph 5."
@@ -570,21 +570,21 @@
           "type": "mcq",
           "question": "Which outline best matches the structure of the column?",
           "options": [
-            "Thesis → three reasons for the car park → three reasons against it → conclusion",
-            "Problem → objection from shop owners → thesis → history of the town → conclusion",
-            "Thesis → personal story → figures on parking → call to action",
-            "Problem and the council's plan → thesis → why shoppers really left → what would bring them back → objection, conceded and qualified → conclusion that returns to the diagnosis"
+            "Thesis → three reasons why a car park would help → three reasons why it would not → conclusion that weighs the two sides",
+            "Problem → shop owners' objection → thesis → the history of the high street → conclusion that calls for a larger car park",
+            "Thesis → a personal story about shopping → figures on parking use → call to action for readers to visit the high street",
+            "Problem and the council's plan → thesis → why shoppers really left → what would bring them back → objection, conceded and qualified → return to the diagnosis"
           ],
           "answer": 3,
           "option_feedback": {
             "0": {
-              "en": "The column does not list reasons for the car park; it questions the assumption behind it."
+              "en": "The column does not list reasons for the car park; it questions the assumption behind it. It also opens with the problem, not the thesis."
             },
             "1": {
-              "en": "The objection comes near the end, after the writer's own argument, not before the thesis."
+              "en": "The objection comes near the end, after the writer's own argument, not before the thesis, and the writer argues against a larger car park."
             },
             "2": {
-              "en": "There are no parking figures in the column, and the thesis comes in paragraph 2, not first."
+              "en": "There is no personal shopping story and there are no parking figures, and the thesis comes in paragraph 2, not first."
             }
           },
           "option_errors": {
@@ -604,8 +604,7 @@
               "hinges",
               "depends",
               "turns",
-              "rests",
-              "relies"
+              "rests"
             ]
           ],
           "explanation": {
@@ -624,10 +623,10 @@
       },
       "question": "Thesis: 'Although homework can help students practise what they learn in class, schools should replace most of it with supervised practice during the school day, because unsupervised homework widens the gap between students who get help at home and those who do not.'",
       "options": [
-        "1. Homework has a long history. 2. Students in some countries get more homework than others. 3. Many students dislike homework. 4. Conclusion: schools should reduce homework.",
+        "1. Homework has a long history. 2. Students in some countries get more homework than others. 3. Many students dislike homework. 4. Parents disagree about how much is enough. 5. Conclusion: schools should reduce homework.",
         "1. Homework widens the gap between students. 2. Homework is unfair to students without help at home. 3. Some parents cannot help with homework. 4. Conclusion: replace homework.",
         "1. Practice does help students learn. 2. At home, that practice depends on help that some students do not have. 3. Supervised practice gives every student the same support. 4. Objection: students must learn to work alone; answer: keep some independent reading and projects. 5. Conclusion.",
-        "1. Homework helps students practise. 2. Homework teaches responsibility. 3. Teachers use homework to check understanding. 4. Conclusion: homework is valuable."
+        "1. Homework helps students practise. 2. Homework teaches responsibility. 3. Teachers use homework to check understanding. 4. Objection: homework causes stress; answer: set smaller amounts. 5. Conclusion: homework is valuable."
       ],
       "answer": 2,
       "option_feedback": {
@@ -638,7 +637,7 @@
           "en": "Paragraphs 1-3 do the same job three times: a reverse outline would show one point repeated. There is also no concession and no objection."
         },
         "3": {
-          "en": "This outline argues the opposite of the thesis."
+          "en": "This outline argues the opposite of the thesis. Including an objection does not help if the paragraphs defend homework instead of replacing it."
         }
       },
       "option_errors": {
@@ -659,21 +658,21 @@
       "skill": "writing",
       "topic": "thesis-advanced",
       "prompt": {
-        "en": "Thesis: 'Rather than cap visitor numbers, the old city should introduce a nightly tourist tax, because a tax spreads visits more evenly while paying for the damage that crowds cause.' Put the topic sentences of the five body paragraphs in the most logical order."
+        "en": "Thesis: 'Rather than cap visitor numbers, the old city should introduce a tourist tax that is highest in the busiest months, because such a tax spreads visits more evenly while paying for the damage that crowds cause.' Put the topic sentences of the five body paragraphs in the most logical order."
       },
       "tokens": [
         "Few would deny that crowds are damaging the old city: its narrow streets, ancient stonework and residents all pay the price.",
-        "The most popular response to this damage, a cap on visitor numbers, would cut crowds but also the income that many local families depend on.",
-        "A nightly tax, by contrast, discourages the shortest and most crowded visits without turning anyone away.",
+        "The most popular response to this damage, a cap on visitor numbers, would cut the crowds, but it would also cut the income that many local families depend on.",
+        "A tax that is highest in the busiest months, by contrast, would encourage visitors to come when the city is quieter, without turning anyone away.",
         "Its revenue would also pay to repair the streets and buildings that visitors wear down.",
-        "Even critics who accept both of these benefits argue that the tax would hit budget travellers hardest; for this reason, it should be lower in the quiet season and waived for students."
+        "Critics who accept both of these benefits may still object that the tax would hit budget travellers hardest; for this reason, students and school groups should pay a reduced rate."
       ],
       "error_type": "cohesion",
       "hint": {
         "en": "Look for words that depend on an earlier paragraph: this damage, by contrast, Its revenue ... also, both of these benefits."
       },
       "explanation": {
-        "en": "Problem (crowds cause damage) → the rejected alternative (a cap, a response to 'this damage') → the proposal (a tax, 'by contrast' with the cap) → a second benefit ('Its revenue ... also') → the strongest objection, answered with a qualification ('both of these benefits' needs both earlier paragraphs). Each paragraph depends on the one before it: the argument builds instead of listing."
+        "en": "Problem (crowds cause damage) → the rejected alternative (a cap, a response to 'this damage') → the proposal (a seasonal tax, 'by contrast' with the cap) → a second benefit ('Its revenue ... also') → the strongest objection, answered with a qualification ('both of these benefits' needs both earlier paragraphs). Each paragraph depends on the one before it: the argument builds instead of listing."
       }
     },
     {
@@ -806,17 +805,37 @@
       "source": "Concession: exams are a reliable way to compare students. Claim: exams should count for less than half of the final grade. Reason: exams reward speed and memory over the skills students will need later.",
       "answers": [
         "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students, they should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students they should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade because they reward speed and memory over the skills that students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because exams reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because exams reward speed and memory over the skills that students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade because exams reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade because exams reward speed and memory over the skills that students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade, because exams reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade, because exams reward speed and memory over the skills that students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade because exams reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade because exams reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
         "Although exams are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills that students will need later.",
         "Although they are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
         "Although they are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills that students will need later.",
         "Although they are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
-        "Although they are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later."
+        "Although they are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills that students will need later.",
+        "Although they are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills that students will need later."
       ],
       "wrong_feedback": [
         {
@@ -865,9 +884,16 @@
         "The success of the tree-planting scheme should be measured not by the number of trees planted but by the number that survive.",
         "The success of the tree-planting scheme should be measured not by the number of trees planted but by the number that survives.",
         "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number that survive.",
-        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number that survives."
+        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number that survives.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than by the number of trees that survive.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than by how many survive.",
+        "The success of the tree-planting scheme should be measured not by the number of trees planted but by the number of trees that survive.",
+        "The success of the tree-planting scheme should be measured not by the number of trees planted but by how many survive.",
+        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number of trees that survive.",
+        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by how many survive.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than how many survive."
       ],
-      "error_type": "word-choice",
+      "error_type": "comparison-form",
       "hint": {
         "en": "Less ... is completed in the same way as more ..."
       },
@@ -890,7 +916,11 @@
         "What school sport teaches best is not physical fitness but teamwork.",
         "What school sport teaches best is not physical fitness, but teamwork.",
         "What school sport teaches best is teamwork, not fitness.",
-        "What school sport teaches best is teamwork, not physical fitness."
+        "What school sport teaches best is teamwork, not physical fitness.",
+        "What school sport teaches best is not fitness but rather teamwork.",
+        "What school sport teaches best is not fitness, but rather teamwork.",
+        "What school sport teaches best is not physical fitness but rather teamwork.",
+        "What school sport teaches best is not physical fitness, but rather teamwork."
       ],
       "wrong_feedback": [
         {

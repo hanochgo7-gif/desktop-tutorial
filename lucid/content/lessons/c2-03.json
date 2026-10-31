@@ -18,7 +18,7 @@
       ["Levi (2022)", "longer days may reduce concentration", "not discussed", "an argument based on earlier attention research; no new data"],
       ["Brandt (2023)", "not studied", "childcare problems for parents without flexible jobs", "interviews with 40 parents"]
     ] },
-    { "type": "tip", "en": "A source matrix like the one above turns reading into synthesis. Read down each column, not across each row. The first column shows a possible conflict (rest across the week against attention within a day); the second rests on a single source; the third shows that all the evidence is small-scale. Those observations, not the sources' individual findings, are what your paragraph should say." },
+    { "type": "tip", "en": "A source matrix like the one above turns reading into synthesis. Read down each column, not across each row. The 'students' column shows a possible conflict (rest across the week against attention within a day); the 'families' column rests on a single source; the 'method' column shows that all the evidence is limited (one pilot, self-reports, forty interviews, no new data). Those observations, not the sources' individual findings, are what your paragraph should say." },
     { "type": "rule", "en": "Integrate, don't drop. Quote only when the exact wording matters (a definition, a striking phrase, a claim you will challenge), and weave a short quotation into your own sentence: Levi (2022) describes the last hour of a long school day as 'largely lost to fatigue' (p. 41). Otherwise paraphrase, changing both the words and the structure, or summarise. All three need a citation, placed so that the reader can see which idea comes from which source: in a sentence that combines two sources, cite each one beside its own idea. Then comment, so your voice stays in control: This finding should be treated with caution, since ..." },
     { "type": "table", "headers": ["Function", "Reporting verbs", "What the verb tells the reader"], "rows": [
       ["Neutral report", "states, notes, reports, observes, describes", "you are reporting without judging"],
@@ -29,7 +29,7 @@
       ["Your judgement", "claims (doubt); shows, demonstrates, establishes, refutes (agreement)", "claims distances you from the idea; shows, demonstrates and refutes commit you to it"]
     ] },
     { "type": "rule", "en": "Use the citation style your institution or publication requires, and only one. APA (common in the social sciences) cites author and year, plus a page for a quotation: Okafor (2021) found ... or (Okafor, 2021, p. 14). For a source with no page numbers, give a paragraph number: (Lund, 2023, para. 4). APA recommends the past tense or present perfect for reporting research (Okafor found; several studies have found). MLA (common in literature and the humanities) cites author and page, (Okafor 14), and usually reports in the present tense: Levi argues. Every in-text citation must match a full entry in the reference list (APA) or works-cited list (MLA). Check details such as italics and punctuation in the current style guide rather than relying on memory." },
-    { "type": "warning", "en": "Plagiarism is presenting someone else's words or ideas as your own, whether you mean to or not. It includes copying without quotation marks (even with a citation), patchwriting (keeping a source's structure and swapping in synonyms), stitching together phrases from several sources, and using an idea without citing it. Common knowledge (widely known, easily checked facts, such as the year the Second World War ended) needs no citation; specific findings, figures, arguments and memorable phrasing always do. To paraphrase safely: take notes in your own words, close the source, write, then compare with the original and cite. If in doubt, cite." }
+    { "type": "warning", "en": "Plagiarism is presenting someone else's words or ideas as your own, whether you mean to or not. It includes copying without quotation marks (even with a citation), patchwriting (keeping a source's structure and swapping in synonyms), stitching together phrases from several sources, and using an idea without citing it. Patchwriting is usually a stage in learning to write from sources rather than an attempt to deceive, but most institutions still count it as plagiarism, so treat it as a draft to rebuild, not a finished sentence. Common knowledge (widely known, easily checked facts, such as the year the Second World War ended) needs no citation; specific findings, figures, arguments and memorable phrasing always do. To paraphrase safely: take notes in your own words, close the source, write, then compare with the original and cite. If in doubt, cite." }
   ],
   "examples": [
     { "en": "While Okafor (2021) found that students reported less fatigue, Levi (2022) contends that longer school days may cancel out this benefit.", "note": "one sentence, two sources, a stated relationship (contrast) and a citation beside each idea" },
@@ -59,7 +59,7 @@
     { "word": "common knowledge", "pos": "noun", "he": "ידע כללי (שאינו דורש הפניה)", "def": "facts that most educated readers know and can easily check, which do not need a citation", "example": "The date the Second World War ended is common knowledge; a survey result is not.", "ipa": "/ˌkɒmən ˈnɒlɪdʒ/", "collocations": ["a matter of common knowledge", "count as common knowledge"], "level": "B2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew aspect works differently: there is no grammatical present perfect, so the choice between 'found' and 'have found' has no direct equivalent. When you report sources, use the past simple for a particular study or a specific time (Okafor (2021) found ...; In 2021, Okafor found ...) and the present perfect for research up to now with no specific time (Several studies have found ...). A specific past time and the present perfect do not mix: *Okafor has found in 2021 that ...", "he": "בעברית אין present perfect דקדוקי, ולכן לבחירה בין found ל-have found אין מקבילה ישירה. כשמדווחים על מקורות, השתמשו ב-past simple למחקר מסוים או לזמן מוגדר (Okafor (2021) found ...; In 2021, Okafor found ...), וב-present perfect לגוף מחקר עד היום, בלי זמן מוגדר (Several studies have found ...). זמן מוגדר בעבר אינו מתיישב עם present perfect: ‎*Okafor has found in 2021 that ...", "error_type": "tense-choice" }
+    { "en": "Hebrew has no grammatical present perfect, so the choice between 'found' and 'have found' has no direct equivalent. When you report sources, use the past simple for a particular study or a specific time (Okafor (2021) found ...; In 2021, Okafor found ...) and the present perfect for research up to now with no specific time (Several studies have found ...). A specific past time and the present perfect do not mix: *Okafor has found in 2021 that ...", "he": "בעברית אין present perfect דקדוקי, ולכן לבחירה בין found ל-have found אין מקבילה ישירה. כשמדווחים על מקורות, השתמשו ב-past simple למחקר מסוים או לזמן מוגדר (Okafor (2021) found ...; In 2021, Okafor found ...), וב-present perfect לגוף מחקר עד היום, בלי זמן מוגדר (Several studies have found ...). זמן מוגדר בעבר אינו מתיישב עם present perfect: ‎*Okafor has found in 2021 that ...", "error_type": "tense-choice" }
   ],
   "exercises": [
     {
@@ -95,7 +95,7 @@
     {
       "id": "e3", "type": "listen", "skill": "listening", "topic": "synthesis-citation",
       "prompt": { "en": "Listen to a tutor giving feedback on a student's literature review and answer the question." },
-      "audio_text": "You've clearly read a lot, and your summaries are accurate. The problem is the structure: every paragraph is about one author. Try organising by question instead. Put the three studies on childcare side by side, tell me where they agree, and then tell me what you make of the disagreement. And watch your verbs. You say Brandt 'proves' her point, but she interviewed forty parents. That's useful, but it isn't proof.",
+      "audio_text": "You've clearly read a lot, and your summaries are accurate. The problem is the structure: every paragraph is about one author. Try organising by question instead. Put what each study says about childcare side by side, tell me where they agree, and then tell me what you make of the disagreement. And watch your verbs. You say Brandt 'proves' her point, but she interviewed forty parents. That's useful, but it isn't proof.",
       "question": "Which two changes does the tutor recommend?",
       "options": [
         "Add more sources and use more direct quotations.",
@@ -123,7 +123,7 @@
         ["claims", "asserts something the writer may doubt"],
         ["demonstrates", "shows conclusively, so the writer accepts the finding"]
       ],
-      "explanation": { "en": "The pairs that cause most trouble are disputes and refutes (disagreeing is not disproving) and claims and demonstrates (the first distances you, the second commits you). Write 'Lund disputes Mizrahi's conclusion' unless you have shown that Lund is right." }
+      "explanation": { "en": "The pairs that cause most trouble are disputes and refutes (disagreeing is not disproving) and claims and demonstrates (the first distances you, the second commits you). Write 'Lund disputes the claim that closures help businesses', not 'Lund refutes it', unless you have shown that he is right." }
     },
     {
       "id": "e5", "type": "read", "skill": "reading", "topic": "synthesis-citation",
@@ -195,7 +195,7 @@
         {
           "type": "gap",
           "text": "Lund's evidence comes from his own ___, so it cannot show what happened to the town's businesses as a whole. (one word)",
-          "answers": [["shop", "business", "store", "sales", "experience"]],
+          "answers": [["shop", "business", "store", "sales", "experience", "experiences", "observation", "observations", "case"]],
           "explanation": { "en": "'I have sold furniture ... my sales have fallen every quarter.' One shop's sales are a case, not a pattern. Lund's column is useful as a perspective, especially on older and disabled customers, but not as evidence about a whole street." }
         },
         {
@@ -249,10 +249,11 @@
         ["refute", "disprove"]
       ],
       "wrong_feedback": [
-        { "match": "proves", "feedback": { "en": "Proves is far too strong for survey data from one town: no single study proves a general claim. Use a neutral verb such as reports." }, "error_type": "word-choice" },
+        { "match": "proves", "feedback": { "en": "Proves is too strong for any of these sources: neither one town's survey data nor one shop's sales can prove a general claim. Choose the verb that matches what each source actually does." }, "error_type": "word-choice" },
         { "match": "praises", "feedback": { "en": "Praises does not fit any gap: Mizrahi reports a finding and a limitation, and Lund argues against an idea." }, "error_type": "word-choice" },
         { "match": "refutes", "feedback": { "en": "Refutes would mean that Lund has proved the idea wrong, which he cannot do with one shop's sales. Use disputes: he disagrees." }, "error_type": "word-choice" },
-        { "match": "dispute", "feedback": { "en": "People dispute ideas; evidence cannot. The point is that one shop's sales cannot prove the idea wrong: refute." }, "error_type": "word-choice" },
+        { "match": "disputes", "feedback": { "en": "Disputes means disagrees, so it describes what Lund does with the idea (gap 3). It cannot describe Mizrahi's finding or her limitation, and after 'cannot' you need the base form of a verb meaning 'prove wrong': refute." }, "error_type": "word-choice" },
+        { "match": "refute", "feedback": { "en": "Refute (prove wrong) is a base form, so it fits only after 'cannot': one shop's sales cannot refute the idea. Mizrahi reports a finding and acknowledges a limitation; Lund disputes the idea." }, "error_type": "word-choice" },
         { "match": "acknowledges", "feedback": { "en": "Acknowledges introduces a point that weakens the source's own case, so it fits Mizrahi's limitation (her study covered only one town), not her main finding." }, "error_type": "word-choice" },
         { "match": "reports", "feedback": { "en": "Reports is neutral, so it fits Mizrahi's main finding (gap 1). Her limitation needs a verb that accepts a point against her own study (acknowledges), and Lund needs a verb of disagreement (disputes)." }, "error_type": "word-choice" }
       ],
@@ -283,12 +284,17 @@
       "source": "Brandt (2023) describes the fifth day as ...",
       "answers": [
         "Brandt (2023) describes the fifth day as 'a childcare problem disguised as a holiday' (p. 12).",
-        "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (p. 12)."
+        "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (p. 12).",
+        "Brandt (2023) describes the fifth day as 'a childcare problem disguised as a holiday' (p.12).",
+        "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (p.12)."
       ],
       "wrong_feedback": [
         { "match": "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\".", "feedback": { "en": "APA requires a page number for a direct quotation: add (p. 12) after the closing quotation mark." }, "error_type": "punctuation" },
         { "match": "Brandt (2023) describes the fifth day as 'a childcare problem disguised as a holiday'.", "feedback": { "en": "APA requires a page number for a direct quotation: add (p. 12) after the closing quotation mark." }, "error_type": "punctuation" },
         { "match": "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (Brandt, 2023, p. 12).", "feedback": { "en": "The author and year are already in your signal phrase, so the parenthesis at the end needs only the page: (p. 12)." }, "error_type": "punctuation" },
+        { "match": "Brandt (2023) describes the fifth day as 'a childcare problem disguised as a holiday' (page 12).", "feedback": { "en": "APA abbreviates page: (p. 12)." }, "error_type": "punctuation" },
+        { "match": "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (page 12).", "feedback": { "en": "APA abbreviates page: (p. 12)." }, "error_type": "punctuation" },
+        { "match": "Brandt (2023) describes the fifth day as 'a childcare problem disguised as a holiday' (12).", "feedback": { "en": "A bare page number (12) is MLA style. In APA, write (p. 12)." }, "error_type": "punctuation" },
         { "match": "Brandt (2023) describes the fifth day as \"a childcare problem disguised as a holiday\" (12).", "feedback": { "en": "A bare page number (12) is MLA style. In APA, write (p. 12)." }, "error_type": "punctuation" },
         { "match": "Brandt (2023) describes the fifth day as a childcare problem disguised as a holiday (p. 12).", "feedback": { "en": "Without quotation marks, Brandt's exact words look like yours. That is plagiarism even with a citation: put the borrowed words in quotation marks." }, "error_type": "punctuation" }
       ],
@@ -311,21 +317,23 @@
     {
       "id": "e11", "type": "correct", "skill": "vocabulary", "topic": "synthesis-citation",
       "prompt": { "en": "The reporting verb in this sentence misrepresents the strength of Lund's evidence. Replace it and change nothing else." },
-      "sentence": "Lund (2023) refutes Mizrahi's findings by describing the falling sales of his own shop.",
+      "sentence": "Lund (2023) refutes the claim that car-free streets help businesses by describing the falling sales of his own shop.",
       "answers": [
-        "Lund (2023) disputes Mizrahi's findings by describing the falling sales of his own shop.",
-        "Lund (2023) challenges Mizrahi's findings by describing the falling sales of his own shop.",
-        "Lund (2023) questions Mizrahi's findings by describing the falling sales of his own shop.",
-        "Lund (2023) rejects Mizrahi's findings by describing the falling sales of his own shop.",
-        "Lund (2023) contests Mizrahi's findings by describing the falling sales of his own shop."
+        "Lund (2023) disputes the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) challenges the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) questions the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) rejects the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) contests the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) denies the claim that car-free streets help businesses by describing the falling sales of his own shop.",
+        "Lund (2023) doubts the claim that car-free streets help businesses by describing the falling sales of his own shop."
       ],
       "error_type": "word-choice",
       "wrong_feedback": [
-        { "match": "Lund (2023) disproves Mizrahi's findings by describing the falling sales of his own shop.", "feedback": { "en": "Disproves has the same problem as refutes: one shop's sales cannot prove a study wrong. Choose a verb that reports disagreement, such as disputes." }, "error_type": "word-choice" },
-        { "match": "Lund (2023) demonstrates Mizrahi's findings by describing the falling sales of his own shop.", "feedback": { "en": "Demonstrates would mean Lund supports Mizrahi's findings, but he argues against them. Use disputes or challenges." }, "error_type": "word-choice" }
+        { "match": "Lund (2023) disproves the claim that car-free streets help businesses by describing the falling sales of his own shop.", "feedback": { "en": "Disproves has the same problem as refutes: one shop's sales cannot prove a general claim wrong. Choose a verb that reports disagreement, such as disputes." }, "error_type": "word-choice" },
+        { "match": "Lund (2023) demonstrates the claim that car-free streets help businesses by describing the falling sales of his own shop.", "feedback": { "en": "Demonstrates would mean that Lund has shown the claim to be true, but he argues against it. Use disputes or challenges." }, "error_type": "word-choice" }
       ],
-      "hint": { "en": "Has Lund proved Mizrahi wrong, or does he simply disagree?" },
-      "explanation": { "en": "Refutes means proves wrong, so the sentence tells the reader that you accept Lund's case and reject Mizrahi's study. One shop cannot do that. Disputes, challenges or questions report the disagreement without taking sides." }
+      "hint": { "en": "Has Lund proved the claim wrong, or does he simply disagree with it?" },
+      "explanation": { "en": "Refutes means proves wrong, so the sentence tells the reader that you accept Lund's case and consider the claim disproved. One shop's sales cannot do that, especially when two studies report gains. Disputes, challenges or questions report the disagreement without taking sides." }
     },
     {
       "id": "e12", "type": "order", "skill": "writing", "topic": "synthesis-citation",
@@ -360,9 +368,28 @@
       "explanation": { "en": "A specific finding, with a sample (six towns) and a threshold (every fifteen minutes), comes from someone's research, so it must be cited: (Northfield Transport Research Group, 2023). If you are unsure whether something is common knowledge, cite it." }
     },
     {
+      "id": "e16", "type": "mcq", "skill": "writing", "topic": "synthesis-citation",
+      "prompt": { "en": "Source (Mizrahi, 2022): 'Two hardware shops, whose customers typically buy heavy or bulky goods, closed during the study period, and their owners cited the loss of kerbside parking.' Which version uses the source acceptably?" },
+      "question": "Choose the acceptable paraphrase.",
+      "options": [
+        "Two hardware shops, whose customers usually purchase heavy or large goods, shut during the study period, and their owners blamed the loss of kerbside parking (Mizrahi, 2022).",
+        "Mizrahi (2022) reports that the owners of two hardware shops blamed the loss of parking outside for the closure of their businesses during the study; most of their customers buy goods that are heavy or hard to carry.",
+        "Two hardware shops, whose customers typically buy heavy or bulky goods, closed during the study period, and their owners cited the loss of kerbside parking (Mizrahi, 2022).",
+        "Mizrahi (2022) shows that closing a street to cars forces hardware shops out of business."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "This is patchwriting: it keeps the source's structure clause by clause and swaps in synonyms (usually purchase, large, shut, blamed). The citation does not turn it into a paraphrase. Close the source and rebuild the sentence from your notes." },
+        "2": { "en": "This copies the source word for word without quotation marks. The citation shows where the idea came from, but the wording still looks like yours, so it counts as plagiarism." },
+        "3": { "en": "This is in your own words, but it misrepresents the source: two shops closing is not a general rule, and 'shows ... forces' turns the owners' explanation into a proven cause." }
+      },
+      "option_errors": { "2": "punctuation", "3": "unsupported-claim" },
+      "explanation": { "en": "The acceptable version changes both the words and the structure (the owners become the subject, and the point about customers becomes a separate clause), keeps the meaning, including that the parking explanation is the owners' view, and cites the source. A paraphrase must be faithful as well as your own." }
+    },
+    {
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "synthesis-citation",
       "prompt": { "en": "You are summing up the evidence in a seminar. Say the sentence out loud." },
-      "target": "Taken together, these three studies suggest that the benefits depend on public transport, although the evidence is still thin.",
+      "target": "Taken together, these three sources suggest that the benefits depend on public transport, although the evidence is still thin.",
       "focus": { "en": "Practise the two th sounds: voiced /ð/ in together, these and although (tongue between the teeth, with voice), and unvoiced /θ/ in three and thin (tongue between the teeth, just air). Stress the claim: the BENefits dePEND on PUBlic TRANSport." },
       "error_type": "pron-th",
       "explanation": { "en": "'Taken together' signals synthesis: you are drawing a conclusion across sources. The concession at the end ('although the evidence is still thin') calibrates the claim, so listeners know how much weight to give it." }
@@ -373,7 +400,7 @@
       "task": { "en": "Write a synthesis of 350-550 words (not counting the reference list) for the literature-review section of an essay on the question: Should towns close their main shopping streets to private cars? Use all three sources from the reading. Organise your synthesis by idea, not by source, and open and close with your own claim. Show where the sources agree, conflict or answer different questions; evaluate at least two limitations of the evidence; and respond to the strongest opposing view, attributing it fairly. Include one short quotation woven into your own sentence: either Mizrahi's 'we would caution against assuming that the same results would follow in towns without such a service' (p. 7), or Lund's 'a food court with nice paving' (his column is online, without page numbers; the phrase is in paragraph 4). Paraphrase everything else in your own words and sentence structure. Use APA in-text citations and at least three different reporting verbs, each chosen to match the source's stance. End with an APA reference list using these invented details: Mizrahi, H. (2022). Twelve months without cars: Business outcomes after the Easton Vale high street closure. Journal of Town Centre Studies, 8(2), 1–19. | Lund, P. (2023, March 4). A town centre is not a food court. Calder Mills Courier. | Northfield Transport Research Group. (2023). Buses, bikes and business: Retail activity in six car-free town centres." },
       "min_words": 350,
       "max_words": 650,
-      "model_answer": "Closing a town's main shopping street to cars is often presented as a simple choice between businesses and pedestrians. The available evidence suggests a more complicated picture: whether a closure helps local businesses appears to depend on how easily people can reach the street without a car, and on what those businesses sell.\n\nThe most encouraging evidence comes from Easton Vale, where footfall rose throughout the year after the high street closed and most cafés, restaurants and clothing shops reported higher takings (Mizrahi, 2022). On its own, this might suggest that closures benefit retail in general. Mizrahi herself, however, notes that the town has buses to the centre every ten minutes, and she cautions against \"assuming that the same results would follow in towns without such a service\" (p. 7). A comparison of six towns that closed their main streets is in line with her caution: retail activity rose in the three towns with frequent buses and fell in the three without them (Northfield Transport Research Group, 2023). Read together, the two studies point to public transport as a condition for success rather than a side issue.\n\nLund (2023) disputes the idea that closures help businesses. Drawing on the falling sales of his own furniture shop, he argues that a centre that works only for coffee drinkers is not a real town centre. His evidence comes from a single business and cannot show what happened to the street as a whole. Yet his experience is consistent with both studies: two hardware shops closed in Easton Vale, and businesses selling bulky goods did worse in all six towns in the Northfield report. Lund's complaint is therefore less a counterexample than a warning about who bears the costs.\n\nSupporters of closures might reply that these losses are a fair price for safer, busier streets, and that shops which depend on car access can relocate. This argument has some force, but it assumes that relocation is affordable and that the older and disabled customers Lund describes can reach an out-of-town alternative. None of the sources tests either assumption.\n\nThe evidence also has clear limits. Both studies followed the towns for eighteen months or less, so neither can show whether the effects last, and no source measured the experience of older or disabled residents directly. On balance, the sources support closure only in towns with frequent public transport, and only alongside measures for businesses that depend on car access, such as loading bays and short-stay drop-off points.\n\nReferences\nLund, P. (2023, March 4). A town centre is not a food court. Calder Mills Courier.\nMizrahi, H. (2022). Twelve months without cars: Business outcomes after the Easton Vale high street closure. Journal of Town Centre Studies, 8(2), 1–19.\nNorthfield Transport Research Group. (2023). Buses, bikes and business: Retail activity in six car-free town centres.",
+      "model_answer": "Closing a town's main shopping street to cars is often presented as a simple choice between businesses and pedestrians. The available evidence suggests a more complicated picture: whether a closure helps local businesses appears to depend on how easily people can reach the street without a car, and on what those businesses sell.\n\nThe most encouraging evidence comes from Easton Vale, where footfall rose throughout the year after the high street closed and most cafés, restaurants and clothing shops reported higher takings (Mizrahi, 2022). On its own, this might suggest that closures benefit retail in general. Mizrahi herself, however, notes that the town has buses to the centre every ten minutes, and she cautions against \"assuming that the same results would follow in towns without such a service\" (p. 7). A comparison of six towns that closed their main streets is in line with her caution: retail activity rose in the three towns with frequent buses and fell in the three with less frequent services (Northfield Transport Research Group, 2023). Read together, the two studies point to public transport as a condition for success rather than a side issue.\n\nLund (2023) disputes the idea that closures help businesses. Drawing on the falling sales of his own furniture shop, he argues that a centre that works only for coffee drinkers is not a real town centre. His evidence comes from a single business and cannot show what happened to the street as a whole. Yet his experience is consistent with both studies: two hardware shops closed in Easton Vale (Mizrahi, 2022), and businesses selling bulky goods did worse in all six towns (Northfield Transport Research Group, 2023). Lund's complaint is therefore less a counterexample than a warning about who bears the costs.\n\nSupporters of closures might reply that these losses are a fair price for safer, busier streets, and that shops which depend on car access can relocate. This argument has some force, but it assumes that relocation is affordable and that the older and disabled customers Lund describes can reach an out-of-town alternative. None of the sources tests either assumption.\n\nThe evidence also has clear limits. Both studies followed the towns for eighteen months or less, so neither can show whether the effects last, and no source measured the experience of older or disabled residents directly. On balance, the sources support closure only in towns with frequent public transport, and only alongside measures for businesses that depend on car access, such as loading bays and short-stay drop-off points.\n\nReferences\nLund, P. (2023, March 4). A town centre is not a food court. Calder Mills Courier.\nMizrahi, H. (2022). Twelve months without cars: Business outcomes after the Easton Vale high street closure. Journal of Town Centre Studies, 8(2), 1–19.\nNorthfield Transport Research Group. (2023). Buses, bikes and business: Retail activity in six car-free town centres.",
       "checklist": [
         { "en": "Structure: my synthesis is organised by idea, not by source, and each paragraph opens with a claim of my own rather than with a source." },
         { "en": "Relations: I show where the sources agree, conflict or answer different questions (in line with, at odds with, consistent with, taken together)." },

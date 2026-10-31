@@ -123,7 +123,7 @@
   ],
   "examples": [
     {
-      "en": "Topic: single-use coffee cups. Research question: Would a deposit scheme reduce cup waste more fairly than a charge on each cup?",
+      "en": "Topic: single-use coffee cups. Research question: Is a deposit scheme a fairer way to reduce cup waste than a charge on each cup?",
       "note": "focused (two policies), arguable (people disagree) and researchable (both have been tried)"
     },
     {
@@ -340,7 +340,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no indefinite article, so a/an can drop out even in a polished draft, especially before a noun with an adjective (*This paper offers new reading of the evidence; *The study has important limitation). In your word pass, check every singular countable noun: it needs a, an, the or another determiner (this, each, one).",
-      "he": "בעברית אין מילה ל-a/an, ולכן היא עלולה ליפול גם מטיוטה מלוטשת, במיוחד לפני שם עצם עם שם תואר (‎*This paper offers new reading of the evidence). בסבב המילים בדקו כל שם עצם ספיר ביחיד: הוא צריך a, an, the או מילה מיידעת אחרת (this, each, one).",
+      "he": "בעברית אין מילה ל-a/an, ולכן היא עלולה ליפול גם מטיוטה מלוטשת, במיוחד לפני שם עצם עם שם תואר (‎*This paper offers new reading of the evidence). בסבב המילים בדקו כל שם עצם ספיר ביחיד: לפניו צריך לבוא a, an, the או מילה אחרת מסוג determiner (this, each, one).",
       "error_type": "article"
     },
     {
@@ -370,7 +370,7 @@
           "category": "Workable research question"
         },
         {
-          "text": "Would a deposit scheme reduce coffee-cup waste more fairly than a charge on each cup?",
+          "text": "Is a deposit scheme a fairer way to reduce coffee-cup waste than a charge on each cup?",
           "category": "Workable research question"
         },
         {
@@ -399,7 +399,7 @@
         }
       ],
       "explanation": {
-        "en": "Workable questions name a population and compare options, so evidence can be weighed and a reasonable person could disagree with the answer. Questions about the internet or climate change in general are whole libraries, not papers. Questions with a single factual answer can supply evidence but cannot drive an argument. A question about 2100 cannot be answered with evidence that exists now, and 'lazy students' builds a contested judgement into the question itself."
+        "en": "Workable questions compare specific options in a defined setting, so evidence can be weighed and a reasonable person could disagree with the answer. Questions about the internet or climate change in general are whole libraries, not papers. Questions with a single factual answer can supply evidence but cannot drive an argument. A question about 2100 cannot be answered with evidence that exists now, and 'lazy students' builds a contested judgement into the question itself."
       }
     },
     {
@@ -412,18 +412,18 @@
       },
       "question": "Choose the best research question.",
       "options": [
-        "What is remote work?",
-        "Is remote work good or bad?",
+        "What is remote work, and how many employees in different countries now work remotely?",
+        "Is remote work good or bad for employees, for employers and for society as a whole?",
         "Should employers offer remote work to employees in their first year, given its effects on training and mentoring?",
-        "Will remote work have replaced offices completely within fifty years?"
+        "Will remote work have replaced offices completely, in every industry and every country, within the next fifty years?"
       ],
       "answer": 2,
       "option_feedback": {
         "0": {
-          "en": "A definition, not a question to argue. It belongs in the background section of a paper."
+          "en": "A definition and a statistic, not a question to argue. Both belong in the background section, as context or evidence."
         },
         "1": {
-          "en": "Too broad and too blunt: good or bad for whom, in what work, measured how? It invites a list of pros and cons rather than an argument."
+          "en": "Too broad and too blunt: three groups, every kind of work and no criteria for judging 'good'. It invites a list of pros and cons rather than an argument."
         },
         "3": {
           "en": "Unanswerable with evidence that exists now, so any answer would be speculation."
@@ -449,9 +449,9 @@
       "audio_text": "Your question's good, but your scope isn't. You're trying to cover every country and the last fifty years in two thousand words. Pick one setting you can actually find evidence for, say, cities in Israel over the last ten years, and say clearly in your introduction what you're leaving out and why.",
       "question": "What does the supervisor advise?",
       "options": [
-        "Change the research question, because it is not arguable.",
-        "Add more countries so that the paper is more complete.",
-        "Leave the scope out of the introduction and explain it in the conclusion.",
+        "Change the research question, because in its current form it is not arguable enough.",
+        "Add more countries and a longer period, so that the paper covers the whole topic and is more complete.",
+        "Leave the scope out of the introduction and explain it in the conclusion instead.",
         "Narrow the scope to one setting with available evidence, and state the delimitations in the introduction."
       ],
       "answer": 3,
@@ -460,7 +460,7 @@
           "en": "The supervisor says the opposite: 'Your question's good'. The problem is the scope."
         },
         "1": {
-          "en": "The supervisor wants fewer countries, not more: 'Pick one setting'."
+          "en": "The supervisor wants a narrower scope, not a wider one: 'Pick one setting'."
         },
         "2": {
           "en": "The supervisor says 'say clearly in your introduction what you're leaving out and why'."
@@ -490,15 +490,15 @@
           "type": "mcq",
           "question": "Which sentence states the gap that the paper sets out to address?",
           "options": [
-            "Overdue fines are among the oldest features of the public library.",
+            "For generations, a small daily charge has been treated as a fair way to make sure that books come back and that shared resources stay shared.",
             "What remains unclear, then, is not whether fine-free policies are popular, but whether they achieve their main aim, wider access, without the costs their critics predict.",
-            "Supporters describe the change as a matter of access; critics see it as a loss of accountability.",
+            "Supporters describe the change as a matter of access; critics see it as a loss of accountability that will leave shelves emptier and budgets thinner.",
             "It concludes by setting out what libraries considering the change should measure, and what remains unknown."
           ],
           "answer": 1,
           "option_feedback": {
             "0": {
-              "en": "This sets the context. It tells us what fines are, not what the research has failed to answer."
+              "en": "This sets the context: why fines have been used. It does not say what the research has failed to answer."
             },
             "2": {
               "en": "This frames the debate; the gap comes after the writer has evaluated the evidence on each side."
@@ -520,9 +520,9 @@
           "type": "mcq",
           "question": "Why does the writer treat the libraries' own reports with caution?",
           "options": [
-            "Because they are more than ten years old.",
-            "Because they report that return rates collapsed.",
-            "Because they contain no information about borrowers.",
+            "Because they were published more than ten years ago, before most libraries had changed their policies.",
+            "Because they report that return rates collapsed once borrowers no longer faced any penalty.",
+            "Because they contain no information about who borrows, so they cannot say anything about access.",
             "Because the libraries that produced them have an interest in presenting the policy as a success."
           ],
           "answer": 3,
@@ -624,10 +624,10 @@
           "type": "mcq",
           "question": "Which description fits the thesis best?",
           "options": [
-            "Descriptive: it reports what libraries have done without taking a position.",
-            "Unqualified: it claims that fines should be abolished everywhere.",
+            "Descriptive: it reports what libraries have done and what critics fear, without taking a position of its own.",
+            "Unqualified: it claims that fines should be abolished in every public library, whatever the collection.",
             "Qualified: it divides the claim by type of collection and makes the case for adult collections conditional.",
-            "Over-hedged: it avoids committing to any position."
+            "Over-hedged: it qualifies the claim so heavily that it avoids committing to any position."
           ],
           "answer": 2,
           "option_feedback": {
@@ -673,7 +673,8 @@
       },
       "explanation": {
         "en": "The problem (cups that cannot be recycled) comes first, then the responses to it (charges and deposits), then the gap (they are seldom compared). The research question follows from the gap ('therefore'), the thesis answers it with a qualification by setting (city centres versus small towns), and the roadmap previews the steps, including the objection the paper will answer."
-      }
+      },
+      "error_type": "cohesion"
     },
     {
       "id": "e6",
@@ -685,10 +686,10 @@
       },
       "question": "Choose the best limitation statement.",
       "options": [
-        "This paper is probably wrong about many things, so readers should not rely on its conclusions.",
+        "This paper is probably wrong about many things, and so readers should not rely too heavily on any of its conclusions.",
         "Because most of the available studies followed students for less than one school year, the paper cannot say whether the effects last.",
-        "This paper focuses on secondary schools and does not consider primary schools.",
-        "The paper has no limitations, because all the evidence points the same way."
+        "This paper focuses on secondary schools and does not consider primary schools, whose pupils raise different questions.",
+        "The paper has no real limitations, because all of the studies it reviews point clearly in the same direction."
       ],
       "answer": 1,
       "option_feedback": {
@@ -696,7 +697,7 @@
           "en": "Over-apologetic and unspecific: it undermines the whole paper without saying which conclusion is affected or why."
         },
         "2": {
-          "en": "This is a delimitation: a boundary the writer chose. A limitation is a weakness the writer could not control."
+          "en": "This is a delimitation: a boundary the writer chose, with a reason. A limitation is a weakness in the evidence that the writer could not control."
         },
         "3": {
           "en": "Every body of evidence has limits, and agreement between studies does not remove them (they may share the same weakness). This over-claims."
@@ -774,10 +775,10 @@
       },
       "question": "Choose the synthesis.",
       "options": [
-        "Sources A and B both report little change in return rates after fines were abolished, but only Source B, which covered three towns, separates the effect of the policy from that of automatic renewals.",
-        "Source A studied fines in one city. Source B studied fines in three towns. Source C interviewed librarians.",
-        "Sources A, B and C all discuss library fines in interesting and important ways.",
-        "According to Source C, 'fines are an outdated relic', and this is clearly true."
+        "Sources A and B both report little change in returns after fines were abolished, but only Source B, which covered three towns, separates the policy's effect from that of automatic renewals.",
+        "Source A studied fines in one city and found little change in returns. Source B studied fines in three towns. Source C interviewed librarians about the policy.",
+        "Sources A, B and C all discuss library fines in interesting and important ways, and together they provide a great deal of useful information.",
+        "According to Source C, 'fines are an outdated relic of a less generous age', and this is clearly true of every library that still charges them."
       ],
       "answer": 0,
       "option_feedback": {
@@ -797,7 +798,7 @@
         "3": "unsupported-claim"
       },
       "explanation": {
-        "en": "Synthesis makes one claim and uses the sources to build it: where they agree (little change in return rates), where they differ, and which one is stronger on the point that matters (only Source B separates the effect of the policy from the effect of renewals). The sources answer each other inside a single sentence."
+        "en": "Synthesis makes one claim and uses the sources to build it: where they agree (little change in returns), where they differ, and which one is stronger on the point that matters (only Source B separates the effect of the policy from the effect of renewals). The sources answer each other inside a single sentence."
       }
     },
     {
@@ -812,7 +813,10 @@
       "answers": [
         "The survey suggests that fines discourage low-income families from borrowing.",
         "The survey indicates that fines discourage low-income families from borrowing.",
-        "The survey implies that fines discourage low-income families from borrowing."
+        "The survey implies that fines discourage low-income families from borrowing.",
+        "The survey suggested that fines discourage low-income families from borrowing.",
+        "The survey indicated that fines discourage low-income families from borrowing.",
+        "The survey implied that fines discourage low-income families from borrowing."
       ],
       "wrong_feedback": [
         {
@@ -853,13 +857,34 @@
         {
           "match": "hints",
           "feedback": {
-            "en": "Hints is tentative but too informal for academic writing. Use suggests or indicates."
+            "en": "Hints is tentative, but it sounds journalistic rather than academic. Use suggests or indicates."
           },
           "error_type": "register"
+        },
+        {
+          "match": "reveals",
+          "feedback": {
+            "en": "Reveals presents the finding as a fact the survey uncovered, so it is as strong as shows. Choose a tentative verb: suggests or indicates."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "confirms",
+          "feedback": {
+            "en": "Confirms presents the claim as already established and now verified, which one survey cannot do. Choose a tentative verb: suggests or indicates."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "establishes",
+          "feedback": {
+            "en": "Establishes is as strong as proves. For a single survey, choose a tentative verb: suggests or indicates."
+          },
+          "error_type": "unsupported-claim"
         }
       ],
       "explanation": {
-        "en": "Reporting verbs carry a degree of certainty. Proves, demonstrates and shows present a claim as settled; suggests and indicates present it as supported but open. One survey in one city, about a causal claim, supports the tentative version. This is a classic word-pass correction."
+        "en": "Reporting verbs carry a degree of certainty. Proves, demonstrates and shows present a claim as settled; suggests and indicates present it as supported but open. One survey in one city, about a causal claim, supports the tentative version. The past forms (suggested, indicated) are also correct when you report one specific study. This is a classic word-pass correction."
       }
     },
     {
@@ -888,6 +913,13 @@
           "match": "Remote work can reduce commuting time, but this may also weaken mentoring for new employees.",
           "feedback": {
             "en": "This could refer to the reduction in commuting time rather than to remote work. Use it, or repeat remote work."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "Remote work can reduce commuting time, but remote working may also weaken mentoring for new employees.",
+          "feedback": {
+            "en": "Close, but remote working is still a different form of the term. Repeat the exact key term, remote work, or use it."
           },
           "error_type": "word-choice"
         }
@@ -933,6 +965,13 @@
             "en": "Research is uncountable in this sense, so it has no plural. Write further research is needed (or further studies are needed)."
           },
           "error_type": "countability"
+        },
+        {
+          "match": "The finding of the review suggests that further research is needed.",
+          "feedback": {
+            "en": "This sentence is grammatical, but it changes the writer's meaning (one finding instead of several). The task is to correct the verbs: The findings of the review suggest that further research is needed."
+          },
+          "error_type": "agreement"
         }
       ],
       "hint": {

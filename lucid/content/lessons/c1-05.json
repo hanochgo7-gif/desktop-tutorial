@@ -19,7 +19,7 @@
     }
   ],
   "warmup": {
-    "en": "A post in your class group says: 'Study proves coffee makes you smarter! Students who drink coffee get higher grades.' Before you share it, what three questions would you ask, and which of them could you answer without reading the post at all?"
+    "en": "A post in your class group chat says: 'Study proves coffee makes you smarter! Students who drink coffee get higher grades.' Before you share it, what three questions would you ask, and which of them could you answer without reading the post at all?"
   },
   "explanation": [
     {
@@ -63,7 +63,7 @@
     },
     {
       "type": "rule",
-      "en": "Correlation is not causation. When A and B rise and fall together, there are at least four explanations: A causes B; B causes A (reverse causation); a third factor causes both (a confounding variable); or chance, especially in small samples. Students who eat breakfast tend to get better grades, but families who make time for breakfast may also make time for homework. Only a well-designed comparison, such as a randomised trial, can rule the alternatives out."
+      "en": "Correlation is not causation. When A and B rise and fall together, there are at least four explanations: A causes B; B causes A (reverse causation); a third factor causes both (a confounding variable); or chance, especially in small samples. Suppose that students who eat breakfast get better grades: families who make time for breakfast may also make time for homework. Only a well-designed comparison, such as a randomised trial, can rule the alternatives out."
     },
     {
       "type": "rule",
@@ -104,11 +104,11 @@
       "note": "trace the claim to its original context"
     },
     {
-      "en": "Dropped: 'Students who walk to school are more alert.' Integrated: A survey of three local schools found that students who walk to school report feeling more alert in first lessons, which supports the case for safer walking routes, although a survey cannot show that walking itself is the cause.",
+      "en": "Dropped: 'Students who walk to school are more alert.' Integrated: A survey of three local schools found that students who walk to school report feeling more alert in their first lesson of the day, which supports the case for safer walking routes, although a survey cannot show that walking itself is the cause.",
       "note": "introduce, present, explain, limit"
     },
     {
-      "en": "Original: 'Regular exercise is associated with a lower risk of depression in older adults.' Patchwriting: 'Frequent exercise is linked with a smaller risk of depression in older people.' Paraphrase: Among older people, those who exercise often seem less likely to become depressed.",
+      "en": "Original: 'Regular exercise is associated with a lower risk of depression in older adults.' Patchwriting: 'Frequent exercise is linked with a smaller risk of depression in older people.' Paraphrase: Among older people, those who exercise often are less likely to become depressed.",
       "note": "patchwriting keeps the original structure; a paraphrase rebuilds the sentence"
     }
   ],
@@ -144,7 +144,7 @@
     {
       "word": "confounding variable",
       "pos": "noun",
-      "he": "משתנה מתערב (גורם שלישי)",
+      "he": "משתנה מבלבל (מתערב); גורם שלישי",
       "def": "a hidden third factor that affects both things being compared and can create a false link between them",
       "example": "Family income may be a confounding variable in studies of diet and school results.",
       "ipa": "/kənˌfaʊndɪŋ ˈveəriəbl/",
@@ -185,7 +185,7 @@
     {
       "word": "anecdotal",
       "pos": "adjective",
-      "he": "המבוסס על סיפורים אישיים; אנקדוטלי",
+      "he": "מבוסס על סיפורים אישיים; אנקדוטלי",
       "def": "based on personal stories rather than on systematic research",
       "example": "The evidence for the diet is largely anecdotal.",
       "ipa": "/ˌænɪkˈdəʊtl/",
@@ -240,7 +240,7 @@
     {
       "word": "vested interest",
       "pos": "noun",
-      "he": "אינטרס (אישי או כלכלי)",
+      "he": "אינטרס אישי (לרוב כלכלי)",
       "def": "a personal reason, often financial, for wanting something to be true or to happen",
       "example": "The company has a vested interest in the results of the study it paid for.",
       "ipa": "/ˌvestɪd ˈɪntrəst/",
@@ -357,11 +357,11 @@
       "prompt": {
         "en": "Read the finding and choose the conclusion that the evidence supports."
       },
-      "question": "A study of 40 towns found that towns with more cafés per person also have higher average incomes.",
+      "question": "Suppose a study of 40 towns found that towns with more cafés per person also have higher average incomes.",
       "options": [
-        "Opening more cafés would raise a town's average income.",
-        "Higher incomes always lead to more cafés opening.",
-        "The link is probably a coincidence, so it can be ignored.",
+        "Opening more cafés would raise a town's average income, because cafés bring money into the local economy.",
+        "Higher incomes always lead to more cafés opening, since people with more money spend more on eating out.",
+        "The link is probably a coincidence, so it can safely be ignored when deciding how many cafés a town needs.",
         "In these towns, café numbers and income are linked, but the study cannot show which, if either, causes the other."
       ],
       "answer": 3,
@@ -370,7 +370,7 @@
           "en": "This turns a correlation into a cause, and in one direction only. Cafés may open where people already have money to spend."
         },
         "1": {
-          "en": "Reverse causation is one possible explanation, but the study does not show it, and 'always' goes far beyond 40 towns."
+          "en": "Reverse causation is one possible explanation, but the study does not show it, and 'always' goes far beyond 40 towns. The 'since' clause is a guess, not a finding."
         },
         "2": {
           "en": "Chance is possible, but you cannot simply assume it. A third factor, such as tourism or the size of the town, could explain a real link."
@@ -382,7 +382,7 @@
         "2": "unsupported-claim"
       },
       "explanation": {
-        "en": "An observational study shows a correlation. Four explanations remain open: cafés raise incomes, incomes attract cafés, a third factor drives both, or chance. Only the last option reports exactly what was found."
+        "en": "An observational study shows a correlation. Four explanations remain open: cafés raise incomes, incomes attract cafés, a third factor drives both, or chance. Only the cautious answer reports exactly what was found and no more."
       }
     },
     {
@@ -391,7 +391,7 @@
       "skill": "reading",
       "topic": "source-evaluation",
       "prompt": {
-        "en": "A survey finds that teenagers who play more video games report more anxiety. Match each type of explanation with an example."
+        "en": "Suppose a survey finds that teenagers who play more video games report more anxiety. Match each type of explanation with an example."
       },
       "pairs": [
         [
@@ -427,9 +427,9 @@
       "question": "What is the host's main criticism?",
       "options": [
         "The researchers should have measured cholesterol instead of lifespan.",
-        "The diet is probably harmful.",
+        "The diet is probably harmful, so listeners should not try it.",
         "The headline claims far more than a small, short study of one blood test can show.",
-        "Twenty-four people is too many for a six-week study."
+        "Twenty-four people is too many to follow closely in a six-week study."
       ],
       "answer": 2,
       "option_feedback": {
@@ -462,10 +462,10 @@
       },
       "question": "Choose the most representative sample.",
       "options": [
-        "An online poll on a cycling club's website, answered by 3,000 people",
-        "Interviews with 25 students at one school in Haifa",
+        "An online poll on a popular cycling club's website, answered by more than 3,000 people across the country",
+        "Detailed interviews with 25 students of different ages at one large secondary school in Haifa",
         "A survey of 2,000 students chosen at random from schools across the country, in cities, towns and villages",
-        "The travel habits of the writer's friends and family"
+        "Notes on how the writer's friends and classmates travel to school every day for a month"
       ],
       "answer": 2,
       "option_feedback": {
@@ -476,7 +476,7 @@
           "en": "One school in one city cannot show how teenagers travel in rural areas or other cities, and 25 is a small number."
         },
         "3": {
-          "en": "A convenience sample: the writer's circle is not chosen to represent anyone."
+          "en": "A convenience sample: the writer's own circle is not chosen to represent anyone, however carefully it is recorded."
         }
       },
       "option_errors": {
@@ -494,27 +494,27 @@
       "skill": "reading",
       "topic": "source-evaluation",
       "prompt": {
-        "en": "Read the article from a student newspaper and answer the questions."
+        "en": "Read the article from a student newspaper (an invented example) and answer the questions."
       },
       "title": "Three times more likely? How I checked a viral claim",
-      "passage": "Last Tuesday a post appeared in almost every class group at our school. Under a photo of a teenager asleep on a pile of textbooks, it read: 'New study: teens who use their phones after 10 pm are THREE TIMES more likely to fail their exams. Share before it's too late!' Within an hour, my own parents had forwarded it to me twice.\n\nMy first instinct was to read the post carefully. Instead, I tried what professional fact-checkers do: I stopped, and before reading any further I asked who was behind the claim. The post named its source as the Brightwell Institute for Healthy Screens, which sounded official. Its website was impressive, with a logo, a list of 'research partners' and an 'About us' page describing it as 'an independent voice for digital well-being'.\n\nBut a site's description of itself is not evidence that it is reliable, so I opened a new tab and searched for the institute's name. Within five minutes, a business directory and two local news articles told me that the institute is funded by a company that sells an app to block phones at night. That does not make its claim false, but it does mean that the institute has a vested interest in alarming parents.\n\nNext, I looked for better coverage. If a study had really found such a dramatic effect, I would expect established newspapers or health services to have reported it. I could not find a single one that had.\n\nFinally, I traced the claim to its origin. The institute's report turned out to be an online survey of 214 users of the company's own app. They were asked how often they used their phones after 10 pm and whether their last exam results had been 'worse than expected'. The phrase 'three times more likely' did not appear in the report at all. It came from a press release that compared only the heaviest night-time users with the lightest, and nobody in the survey had been asked whether they had actually failed an exam.\n\nSo is the claim false? Not entirely. Other research, published in peer-reviewed journals, suggests that late-night phone use can cut into sleep, and that poor sleep can affect learning. The direction of the post may be reasonable; its number is not supported by anything I could find.\n\nWhat I learnt is that checking a source and checking a claim are two separate jobs. An unreliable source can repeat something true, and a reliable source can get things wrong. Lateral reading tells you whom to trust. It does not tell you what is true.",
+      "passage": "Last Tuesday a post appeared in almost every class group chat at our school. Under a photo of a teenager asleep on a pile of textbooks, it read: 'New study: teens who use their phones after 10 pm are THREE TIMES more likely to fail their exams. Share before it's too late!' Within an hour, my own parents had forwarded it to me twice.\n\nMy first instinct was to read the post carefully. Instead, I tried what professional fact-checkers do: I stopped, and before reading any further I asked who was behind the claim. The post named its source as the Brightwell Institute for Healthy Screens, which sounded official. Its website was impressive, with a logo, a list of 'research partners' and an 'About us' page describing it as 'an independent voice for digital well-being'.\n\nBut a site's description of itself is not evidence that it is reliable, so I opened a new tab and searched for the institute's name. Within five minutes, a business directory and two local news articles told me that the institute is funded by a company that sells an app to block phones at night. That does not make its claim false, but it does mean that the institute has a vested interest in alarming parents.\n\nNext, I looked for better coverage. If a study had really found such a dramatic effect, I would expect established newspapers or health services to have reported it. I could not find a single one that had.\n\nFinally, I traced the claim to its origin. The institute's report turned out to be an online survey of 214 users of the company's own app. They were asked how often they used their phones after 10 pm and whether their last exam results had been 'worse than expected'. The phrase 'three times more likely' did not appear in the report at all. It came from a press release that compared only the heaviest night-time users with the lightest, and nobody in the survey had been asked whether they had actually failed an exam.\n\nSo is the claim false? Not entirely. Other research, published in peer-reviewed journals, suggests that late-night phone use can cut into sleep, and that poor sleep can affect learning. The direction of the post may be reasonable; its number is not supported by anything I could find.\n\nWhat I learnt is that checking a source and checking a claim are two separate jobs. An unreliable source can repeat something true, and a reliable source can get things wrong. Lateral reading tells you whom to trust. It does not tell you what is true.",
       "questions": [
         {
           "type": "mcq",
           "question": "What did the writer do first, instead of reading the post carefully?",
           "options": [
-            "She read the institute's 'About us' page to learn about its research.",
-            "She shared it with a warning that it might be false.",
-            "She stopped and asked who was behind the claim.",
-            "She emailed the researchers to ask for their data."
+            "Read the institute's 'About us' page to learn about its research.",
+            "Shared it with a warning that it might be false.",
+            "Stopped and asked who was behind the claim.",
+            "Emailed the researchers to ask for their data."
           ],
           "answer": 2,
           "option_feedback": {
             "0": {
-              "en": "She looked at the page, but explains that a site's description of itself is not evidence of reliability."
+              "en": "The writer looked at the page, but explains that a site's description of itself is not evidence of reliability."
             },
             "1": {
-              "en": "She did not share it: the first SIFT move is to stop before sharing."
+              "en": "The writer did not share it: the first SIFT move is to stop before sharing."
             },
             "3": {
               "en": "The article does not mention contacting anyone."
@@ -585,18 +585,18 @@
           "type": "mcq",
           "question": "Where did the figure 'three times more likely' come from?",
           "options": [
-            "From a large study published in a medical journal",
-            "From the official exam results of 214 students",
-            "From a survey question about failing exams",
+            "From a large, peer-reviewed study that followed students' phone use for a year",
+            "From comparing the official exam results of the 214 people in the survey",
+            "From a survey question that asked people whether they had failed an exam",
             "From a press release that compared only the heaviest and the lightest night-time users"
           ],
           "answer": 3,
           "option_feedback": {
             "0": {
-              "en": "The report was an online survey of the company's own app users, not a journal study."
+              "en": "The report was an online survey of the company's own app users, not a peer-reviewed study."
             },
             "1": {
-              "en": "No official results were used: students said whether results were 'worse than expected'."
+              "en": "No official results were used: people said only whether their last results had been 'worse than expected'."
             },
             "2": {
               "en": "Nobody was asked whether they had actually failed an exam."
@@ -615,10 +615,10 @@
           "type": "mcq",
           "question": "Which weaknesses of the original survey does the article mention?",
           "options": [
-            "It was too long and too expensive to repeat.",
-            "It asked only the company's own app users, and it asked about results being 'worse than expected', not about failing.",
-            "It was published in a journal that the writer could not access.",
-            "It included too many students from the writer's own school."
+            "It took too long to complete and would be too expensive for anyone else to repeat.",
+            "It surveyed only the company's own app users and asked about results 'worse than expected', not about failing.",
+            "It was published in an expensive journal, so the writer could read only a summary of it.",
+            "It included too many students from the writer's own school and too few from other areas."
           ],
           "answer": 1,
           "option_feedback": {
@@ -653,10 +653,10 @@
           "type": "mcq",
           "question": "What is the writer's main conclusion?",
           "options": [
-            "Fact-checkers are more reliable than scientists.",
-            "Phone use after 10 pm has no effect on exam results.",
+            "Professional fact-checkers are more reliable than scientists when it comes to judging research.",
+            "Phone use after 10 pm has no real effect on exam results, whatever the post claims.",
             "Checking whether a source is reliable and checking whether a claim is true are different jobs.",
-            "Students should never share posts about research."
+            "Students should never share posts about research, because most of them turn out to be false."
           ],
           "answer": 2,
           "option_feedback": {
@@ -667,7 +667,7 @@
               "en": "The writer says the direction of the claim may be reasonable."
             },
             "3": {
-              "en": "The point is to check before sharing, not to stop sharing altogether."
+              "en": "The point is to check before sharing, not to stop sharing altogether; the writer never claims that most posts are false."
             }
           },
           "option_errors": {
@@ -733,12 +733,12 @@
       "skill": "writing",
       "topic": "source-evaluation",
       "prompt": {
-        "en": "Original (from a city transport report): 'Cities that invest in protected cycle lanes tend to see more people cycling, particularly women and older residents, who are more likely to avoid riding in heavy traffic.' Which is an acceptable paraphrase?"
+        "en": "Original (from an invented city transport report): 'Cities that invest in protected cycle lanes tend to see more people cycling, particularly women and older residents, who are more likely to avoid riding in heavy traffic.' Which is an acceptable paraphrase?"
       },
       "question": "Choose the version you could use in an essay.",
       "options": [
         "Cities that put money into protected bike lanes usually see more people cycling, especially women and older residents, who are more likely to avoid cycling in heavy traffic.",
-        "According to the report, separated cycle lanes appear to attract new riders, especially among groups who tend to avoid busy roads, such as women and older people.",
+        "According to the report, more people tend to cycle in cities that have built separated cycle lanes, especially groups who often avoid busy roads, such as women and older people.",
         "The report proves that protected cycle lanes make women and older people start cycling.",
         "Cities that invest in protected cycle lanes tend to see more people cycling, particularly women and older residents."
       ],
@@ -748,7 +748,7 @@
           "en": "Patchwriting: the sentence keeps the original structure and order and only swaps synonyms (put money into, bike lanes, usually, especially). It also has no attribution."
         },
         "2": {
-          "en": "This distorts the source: 'tend to see more people cycling' is a pattern, not proof that the lanes make anyone start cycling."
+          "en": "This distorts the source: 'tend to see more people cycling' describes a pattern, not proof that the lanes make anyone start cycling."
         },
         "3": {
           "en": "This copies the original word for word without quotation marks or attribution. Either quote it and name the source, or genuinely paraphrase it."
@@ -758,7 +758,7 @@
         "2": "unsupported-claim"
       },
       "explanation": {
-        "en": "A real paraphrase is attributed (According to the report), rebuilds the sentence in a new structure, and keeps the original's strength: 'tend to' becomes 'appear to', not 'proves'."
+        "en": "A real paraphrase is attributed (According to the report), rebuilds the sentence (people, not cities, become the subject) and keeps the original's strength: it reports a pattern ('tend to'), not a proven cause."
       }
     },
     {
@@ -767,14 +767,14 @@
       "skill": "writing",
       "topic": "source-evaluation",
       "prompt": {
-        "en": "Claim: 'Schools should limit phone use during lessons.' Which version uses the evidence most effectively?"
+        "en": "Claim: 'Schools should limit phone use during lessons.' Which version uses the evidence most effectively? (The trial is invented for this exercise.)"
       },
       "question": "Choose the best-integrated evidence.",
       "options": [
         "In a trial at four schools, classes that kept phones in a box during lessons reported fewer interruptions than classes that did not. This suggests that keeping phones out of reach removes a constant temptation, which is why a lesson-time limit could protect concentration, although four schools are too few to be sure the effect would hold everywhere.",
-        "Phones are a distraction. 'Classes that kept phones in a box reported fewer interruptions.' Schools must ban phones.",
-        "Everyone knows that phones are distracting, and a study proves it, so there is no need to discuss the issue further.",
-        "In a trial at four schools, classes that kept phones in a box during lessons reported fewer interruptions. Phones have also become much cheaper in recent years."
+        "Phones are a distraction. 'Classes that kept phones in a box reported fewer interruptions.' Schools must ban phones, and the sooner they do so, the better for everyone.",
+        "Everyone knows that phones are distracting, and a study of classes that kept phones in a box proves it beyond doubt, so there is no need to discuss the issue any further.",
+        "In a trial at four schools, classes that kept phones in a box during lessons reported fewer interruptions than classes that did not. Phones have also changed a great deal since the first smartphones appeared."
       ],
       "answer": 0,
       "option_feedback": {
@@ -805,7 +805,7 @@
       "prompt": {
         "en": "Complete the paragraph so that the evidence is introduced, presented, explained and limited. Use words from the box; three are not needed."
       },
-      "text": "Late buses are a major reason why students miss the start of the school day. ___ the town's school board, most late arrivals last year were students who travel by bus. A survey of bus users by the student council also ___ most delays happened on the two routes that cross the old bridge. ___ that improving these two routes would do more for punctuality than any new school rule, ___ the survey covered only one term.",
+      "text": "Late buses are a major reason why students miss the start of the school day. ___ the town's school board, most late arrivals last year were students who travel by bus. A survey of bus users by the student council also ___ most delays happened on the two routes that cross the old bridge. ___ that improving these two routes could do more for punctuality than a stricter school rule, ___ the survey covered only one term.",
       "word_bank": [
         "According to",
         "found that",
@@ -841,7 +841,7 @@
         {
           "match": "proves",
           "feedback": {
-            "en": "Proves over-claims: one survey from one term cannot prove anything, and the gap needs a phrase that can introduce what the evidence means. Use found that to report a result and This suggests to interpret it."
+            "en": "Proves over-claims: a one-term survey of bus users can show a pattern, not prove it. In gap 2, report the result with found that; in gap 3, proves would have no subject, so interpret the evidence with This suggests."
           },
           "error_type": "unsupported-claim"
         },
@@ -892,7 +892,9 @@
         "Living near a park is associated with better mental health but this may be because people living near parks tend to have higher incomes.",
         "Living near a park is associated with better mental health but this may be because people living near parks tend to have a higher income.",
         "Living near a park is associated with better mental health but this may be because people living near parks have higher incomes.",
-        "Living near a park is associated with better mental health but this may be because people living near parks have a higher income."
+        "Living near a park is associated with better mental health but this may be because people living near parks have a higher income.",
+        "Living near a park is associated with better mental health, but this may be because people who live near them tend to have higher incomes.",
+        "Living near a park is associated with better mental health, but this may be because those who live near parks tend to have higher incomes."
       ],
       "wrong_feedback": [
         {
@@ -930,11 +932,17 @@
         "Recent research found that students who read laterally judge websites more accurately.",
         "Recent research has found that students who read laterally judge websites more accurately.",
         "A recent study found that students who read laterally judge websites more accurately.",
+        "A recent study has found that students who read laterally judge websites more accurately.",
         "A recent piece of research found that students who read laterally judge websites more accurately.",
+        "A recent piece of research has found that students who read laterally judge websites more accurately.",
         "A recent research study found that students who read laterally judge websites more accurately.",
+        "A recent research study has found that students who read laterally judge websites more accurately.",
         "A recent research project found that students who read laterally judge websites more accurately.",
+        "A recent research project has found that students who read laterally judge websites more accurately.",
         "A recent survey found that students who read laterally judge websites more accurately.",
+        "A recent survey has found that students who read laterally judge websites more accurately.",
         "A recent paper found that students who read laterally judge websites more accurately.",
+        "A recent paper has found that students who read laterally judge websites more accurately.",
         "Recent studies found that students who read laterally judge websites more accurately.",
         "Recent studies have found that students who read laterally judge websites more accurately."
       ],
@@ -974,7 +982,7 @@
         "en": "Your town council is deciding whether to fund free breakfast clubs in all its secondary schools and has asked young residents for evidence-based recommendations. Illustrative, fictional source pack: (A) a press release from a cereal company: 'Breakfast boosts grades by 20%!', based on an online survey of the company's own customers. (B) A two-year trial by the regional education department: 12 schools were chosen at random to start breakfast clubs and compared with 12 similar schools without clubs; attendance at first lessons rose in the schools with clubs, and test results rose slightly, by too little to rule out chance. (C) A head teacher's blog post describing how the club in her school created a calm start to the day and meant fewer students arrived hungry. (D) A viral post: 'Doctors say skipping breakfast is as bad as smoking!', with no study or doctor named. Write a recommendation of 250-350 words. Argue whether the council should fund the clubs and respond to opposing views. Rely most on the strongest evidence and say why; explain why you set any source aside (type of evidence, sample, correlation or causation, vested interest, traceability); and integrate at least two sources by introducing, presenting and explaining them in your own words."
       },
       "min_words": 250,
-      "max_words": 400,
+      "max_words": 350,
       "model_answer": "Recommendation: the council should fund breakfast clubs as a three-year programme and keep evaluating them as it goes.\n\nThe strongest evidence comes from the regional education department's two-year trial (Source B). Because schools were chosen at random to start clubs, the trial can show cause and effect in a way that a survey cannot. It found that attendance at first lessons rose in the schools with clubs. This matters, since a student who regularly misses the first lesson loses a real part of their education. However, test results rose only slightly, by too little to rule out chance, so the council should not expect breakfast clubs to transform exam results.\n\nThe head teacher's blog (Source C) adds a useful picture of how a club works in practice: a calmer start to the day and fewer hungry students. It describes one school from one person's point of view, so it illustrates the trial's findings rather than proving anything on its own.\n\nI have set aside two sources. The cereal company's claim that breakfast 'boosts grades by 20%' (Source A) comes from an online survey of its own customers: a self-selected sample, collected by a company with a vested interest in the result. The viral post (Source D) names no study and no doctor, so its claim cannot be traced or checked. Neither source proves that breakfast does not matter; they simply add nothing reliable.\n\nSome councillors argue that the money would be better spent on extra teaching, since the trial found no clear effect on results. This is a fair point if the only aim is higher marks. But students cannot learn in lessons they miss, and the trial suggests that clubs improve attendance. On balance, the clubs deserve funding, with attendance and results monitored so that the council can decide, on its own evidence, whether to continue.",
       "checklist": [
         {

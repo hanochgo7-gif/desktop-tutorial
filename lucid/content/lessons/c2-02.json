@@ -43,17 +43,19 @@
     { "word": "implicature", "pos": "noun", "he": "משמעות משתמעת (אימפליקטורה)", "def": "meaning that a speaker or writer suggests without stating it, which the listener or reader works out from the context", "example": "The implicature of 'some students passed' is that not all of them did.", "ipa": "/ɪmˈplɪkətʃə(r)/", "collocations": ["conversational implicature", "cancel an implicature"], "level": "C2" },
     { "word": "imply", "pos": "verb", "he": "לרמוז", "def": "(of a speaker or text) to suggest something without saying it directly", "example": "Are you implying that the data were invented?", "ipa": "/ɪmˈplaɪ/", "collocations": ["imply that", "strongly imply", "clearly implied"], "level": "B2" },
     { "word": "infer", "pos": "verb", "he": "להסיק", "def": "(of a reader or listener) to reach a conclusion from what is said and the context", "example": "From her silence, we inferred that she disagreed.", "ipa": "/ɪnˈfɜː(r)/", "collocations": ["infer from", "infer that", "reasonably infer"], "level": "C1" },
-    { "word": "tongue-in-cheek", "pos": "adjective", "he": "בחיוך; בהומור מוסווה, לא ברצינות", "def": "meant as a joke, although it may sound serious", "example": "His tongue-in-cheek review praised the hotel's 'authentic' cold showers.", "ipa": "/ˌtʌŋ ɪn ˈtʃiːk/", "collocations": ["a tongue-in-cheek remark", "said tongue-in-cheek", "a tongue-in-cheek tone"], "level": "C2" },
+    { "word": "tongue-in-cheek", "pos": "adjective", "he": "בקריצה; בהומור מוסווה, לא ברצינות", "def": "meant as a joke, although it may sound serious", "example": "His tongue-in-cheek review praised the hotel's 'authentic' cold showers.", "ipa": "/ˌtʌŋ ɪn ˈtʃiːk/", "collocations": ["a tongue-in-cheek remark", "said tongue-in-cheek", "a tongue-in-cheek tone"], "level": "C2" },
     { "word": "deadpan", "pos": "adjective", "he": "בפנים חתומות; (הומור) יבש", "def": "pretending to be completely serious when you are joking", "example": "She has a deadpan delivery that makes her jokes even funnier.", "ipa": "/ˈdedpæn/", "collocations": ["deadpan humour", "a deadpan expression", "a deadpan delivery"], "level": "C2" },
-    { "word": "sardonic", "pos": "adjective", "he": "לגלגני; מריר-ציני", "def": "showing that you think you are better than others or that something is foolish, in a mocking way", "example": "He gave a sardonic laugh when the minister promised lower prices.", "ipa": "/sɑːˈdɒnɪk/", "collocations": ["a sardonic smile", "sardonic wit", "a sardonic tone"], "level": "C2" },
+    { "word": "sardonic", "pos": "adjective", "he": "סרדוני; לגלגני ומתנשא", "def": "showing that you think you are better than others or that something is foolish, in a mocking way", "example": "He gave a sardonic laugh when the minister promised lower prices.", "ipa": "/sɑːˈdɒnɪk/", "collocations": ["a sardonic smile", "sardonic wit", "a sardonic tone"], "level": "C2" },
     { "word": "subtext", "pos": "noun", "he": "תת-טקסט; משמעות סמויה", "def": "a meaning that is present in a text or conversation but not stated openly", "example": "The subtext of the editorial is that the mayor should resign.", "ipa": "/ˈsʌbtekst/", "collocations": ["the subtext is clear", "political subtext", "read the subtext"], "level": "C2" },
     { "word": "scare quotes", "pos": "noun (plural)", "he": "מירכאות של הסתייגות ('כביכול')", "def": "quotation marks placed around a word to show that the writer doubts or rejects it", "example": "The scare quotes around 'reform' show that the writer thinks it is nothing of the kind.", "ipa": "/ˈskeə kwəʊts/", "collocations": ["put something in scare quotes", "the use of scare quotes"], "level": "C2" },
     { "word": "read between the lines", "pos": "idiom", "he": "לקרוא בין השורות", "def": "to understand a meaning that is not stated directly", "example": "If you read between the lines, the reference is quite negative.", "ipa": "/ˌriːd bɪˌtwiːn ðə ˈlaɪnz/", "collocations": ["learn to read between the lines", "reading between the lines"], "level": "C1" },
     { "word": "damn with faint praise", "pos": "idiom", "he": "לבקר באמצעות שבח קלוש", "def": "to criticise someone or something by praising them only a little, or for something unimportant", "example": "Calling the novel 'competently typed' damns it with faint praise.", "ipa": "/ˌdæm wɪð ˌfeɪnt ˈpreɪz/", "collocations": ["damned with faint praise"], "level": "C2" },
     { "word": "take something at face value", "pos": "idiom", "he": "לקבל משהו כפשוטו", "def": "to accept that something is what it appears to be, without looking for a hidden meaning", "example": "Don't take the council's statement at face value: read what it leaves out.", "ipa": "/ˌteɪk ˌsʌmθɪŋ ət ˌfeɪs ˈvæljuː/", "collocations": ["take a claim at face value", "accept something at face value"], "level": "C1" },
-    { "word": "be lost on someone", "pos": "idiom", "he": "לא להיקלט אצל מישהו; לא להיות מובן לו", "def": "(of a joke or irony) to not be understood or noticed by someone", "example": "The irony of his remark was completely lost on the examiners.", "ipa": "/bi ˈlɒst ɒn ˌsʌmwʌn/", "collocations": ["the irony was lost on", "completely lost on"], "level": "C2" }
+    { "word": "be lost on someone", "pos": "idiom", "he": "לעבור למישהו מעל הראש; לא להיקלט אצלו", "def": "(of a joke or irony) to not be understood or noticed by someone", "example": "The irony of his remark was completely lost on the examiners.", "ipa": "/bi ˈlɒst ɒn ˌsʌmwʌn/", "collocations": ["the irony was lost on", "completely lost on"], "level": "C2" }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    { "en": "Hebrew 'tsini' (cynical) also covers mocking remarks, so learners write 'cynical' where English needs 'sarcastic' or 'ironic'. English 'cynical' means believing that people act only out of self-interest (a cynical view of politicians): it names an attitude, not the technique of saying the opposite of what you mean. *'Lovely weather,' she said cynically → 'Lovely weather,' she said sarcastically.", "he": "בעברית אומרים 'ציני' גם על הערה עוקצנית שאומרת את ההפך ממה שמתכוונים. באנגלית cynical פירושו חשדנות כלפי המניעים של אנשים (a cynical view of politicians): זו גישה, לא הטכניקה של אמירת ההפך. לכן לא ‎*'Lovely weather,' she said cynically, אלא she said sarcastically.", "error_type": "false-friend" }
+  ],
   "exercises": [
     {
       "id": "e1", "type": "match", "skill": "reading", "topic": "irony-implicature",
@@ -202,9 +204,9 @@
         },
         {
           "type": "tf",
-          "statement": "In the final paragraph, the writer drops the irony and states the paper's demands directly.",
+          "statement": "The final paragraph begins by dropping the irony and stating the paper's demands directly.",
           "answer": true,
-          "explanation": { "en": "'So, plainly:' signals the change. After paragraphs of irony, the explicit demands (commission a review, publish it, give a date and a cost) make the position unmistakable, and only the very last line returns to humour." }
+          "explanation": { "en": "'So, plainly:' signals the change. After paragraphs of irony, the explicit demands (commission a review, publish it, give a date and a cost) make the position unmistakable. Only the closing lines, about the bridge's unofficial name, return to humour." }
         },
         {
           "type": "mcq",
@@ -222,7 +224,7 @@
             "3": { "en": "The photographs are a concession that the bridge has some value, immediately qualified by 'But ...'." }
           },
           "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
-          "explanation": { "en": "By granting what is true (large projects run into problems; the engineers did their job; the bridge has some value), the writer shows fairness, so readers are more likely to accept the central criticism. Note the litotes again: 'not entirely without value' grants very little." }
+          "explanation": { "en": "By granting what is true (large projects run into problems; the engineers did their job; the bridge has some value), the writer shows fairness, so readers are more likely to accept the central criticism. Note the litotes again: 'Nor is the bridge entirely without value' grants very little." }
         }
       ]
     },
@@ -287,11 +289,12 @@
       "id": "e9", "type": "gap", "skill": "writing", "topic": "irony-implicature",
       "prompt": { "en": "Complete the explanation of how implicature works and how a writer can cancel it." },
       "text": "The sentence 'Some of the participants improved' implies, but does not state, that not ___ of them did. A writer who wants to cancel this implication can add: 'Some of the participants improved; ___, all of them did.'",
-      "answers": [["all"], ["in fact", "indeed", "actually", "as it happens", "in actual fact"]],
+      "answers": [["all", "every one"], ["in fact", "indeed", "actually", "as it happens", "in actual fact"]],
       "wrong_feedback": [
         { "match": "however", "feedback": { "en": "However signals contrast, but 'all of them did' does not contrast with 'some improved': it strengthens it. Use in fact or indeed." }, "error_type": "cohesion" },
         { "match": "therefore", "feedback": { "en": "Therefore introduces a result, and 'all of them did' does not follow from 'some improved'. You need a phrase that adds a stronger fact: in fact, indeed." }, "error_type": "cohesion" },
-        { "match": "most", "feedback": { "en": "'Not most of them' is not natural English. The implication of 'some' is that not all of them improved." }, "error_type": "word-choice" }
+        { "match": "most", "feedback": { "en": "'Not most of them' is not natural English. The implication of 'some' is that not all of them improved." }, "error_type": "word-choice" },
+        { "match": "infact", "feedback": { "en": "Right phrase, but it is written as two words: in fact." }, "error_type": "spelling" }
       ],
       "hint": { "en": "Some is weaker than all. The second gap needs a phrase that introduces a stronger, surprising fact." },
       "explanation": { "en": "'Some' implies 'not all' because a cooperative writer who knew that all had improved would say so. Because this is an implication, not part of the logical meaning, it can be cancelled: 'in fact, all of them did' does not contradict the first clause. Logical meaning cannot be cancelled in this way: 'All of them improved; in fact, some did not' is a contradiction." }
@@ -308,6 +311,14 @@
         "The proposal is not wholly without merit.",
         "The proposal is not completely without merit.",
         "The proposal is not entirely without its merits.",
+        "The proposal is not altogether without merit.",
+        "The proposal is not totally without merit.",
+        "The proposal is not without some merit.",
+        "The proposal is not devoid of merit.",
+        "The proposal is not entirely devoid of merit.",
+        "The proposal is not wholly devoid of merit.",
+        "The proposal is not completely devoid of merit.",
+        "The proposal is not lacking in merit.",
         "The proposal is not meritless."
       ],
       "wrong_feedback": [
@@ -321,7 +332,7 @@
       "id": "e11", "type": "gap", "skill": "writing", "topic": "irony-implicature",
       "prompt": { "en": "Turn the ironic sentence into an explicit, calibrated academic sentence by completing the gaps." },
       "text": "Ironic: This 'groundbreaking' study surveyed twelve people. Explicit: With a ___ of only twelve participants, the study ___ support general conclusions.",
-      "answers": [["sample", "sample size"], ["cannot", "does not", "is unable to", "is not able to", "could not"]],
+      "answers": [["sample", "sample size", "cohort", "group", "total"], ["cannot", "can not", "does not", "is unable to", "is not able to", "could not"]],
       "wrong_feedback": [
         { "match": "may not", "feedback": { "en": "Too cautious. Twelve participants clearly cannot support general conclusions, so the claim can be firm. Calibrate your confidence to the evidence: over-hedging is also an error." }, "error_type": "word-choice" },
         { "match": "might not", "feedback": { "en": "Too cautious. With twelve participants the limitation is certain, not possible, so write cannot." }, "error_type": "word-choice" },
@@ -343,6 +354,9 @@
       "wrong_feedback": [
         { "match": "The council's 'consultation' lasted only four days.", "feedback": { "en": "Two signals removed. The scare quotes around consultation are still there, and they still sneer at the council." }, "error_type": "register" },
         { "match": "Needless to say, the council's consultation lasted only four days.", "feedback": { "en": "Two signals removed. 'Needless to say' still implies that the council's failure was obvious; in a formal report, just state the fact." }, "error_type": "register" },
+        { "match": "The council's 'consultation' lasted four days.", "feedback": { "en": "Two signals removed. The scare quotes around consultation are still there, and they still sneer at the council." }, "error_type": "register" },
+        { "match": "The council's 'consultation' lasted just four days.", "feedback": { "en": "Two signals removed. The scare quotes around consultation are still there, and they still sneer at the council." }, "error_type": "register" },
+        { "match": "The council's \"consultation\" lasted only four days.", "feedback": { "en": "Two signals removed. The quotation marks around consultation are still scare quotes, and they still sneer at the council." }, "error_type": "register" },
         { "match": "The council's consultation lasted all of four days.", "feedback": { "en": "Two signals removed. 'All of four days' is ironic: it pretends four days is a lot. Use only or just, or no adverb at all." }, "error_type": "register" }
       ],
       "hint": { "en": "Look at the opening phrase, the punctuation around one word and the phrase before 'four days'." },
@@ -355,9 +369,14 @@
       "answers": [
         "From the minister's silence, journalists inferred that the report was critical of the government.",
         "From the minister's silence, journalists concluded that the report was critical of the government.",
-        "From the minister's silence, journalists deduced that the report was critical of the government."
+        "From the minister's silence, journalists deduced that the report was critical of the government.",
+        "From the minister's silence, journalists gathered that the report was critical of the government.",
+        "From the minister's silence, journalists surmised that the report was critical of the government."
       ],
       "error_type": "word-choice",
+      "wrong_feedback": [
+        { "match": "infered", "feedback": { "en": "Right verb, but check the spelling: infer doubles the r before -ed (inferred, inferring), because the stress falls on the last syllable: in-FER." }, "error_type": "spelling" }
+      ],
       "hint": { "en": "Who sends the hidden message, and who works it out?" },
       "explanation": { "en": "The speaker or text implies; the listener or reader infers. The minister's silence implied something, and the journalists inferred it. Confusing the two is common even among native speakers, but at this level the distinction matters, because it tells the reader who is responsible for the meaning." }
     },
@@ -375,7 +394,7 @@
       "task": { "en": "Read this article from a student magazine:\n\n'Good news, everyone: the school has finally solved the problem of students arriving late. From next term, the gates will be locked at 8:05, so latecomers will no longer be late; they will simply be absent. Punctuality figures will, naturally, look wonderful. A few parents have raised the small matter of the 7:50 bus, which has not arrived on time within living memory. The head has assured them that the new policy is \"not inflexible\". We look forward to finding out what that means.'\n\nWrite a commentary of 350-550 words for the school's governors, a formal audience. (1) Explain plainly what the article implies, and identify at least three devices it uses (for example verbal irony, understatement, litotes, implicature, scare quotes), quoting the words that support each reading. (2) Evaluate how well the irony works for different readers: students, parents and governors. (3) State your own position on the late-gate policy explicitly, with confidence that matches your reasons, and respond to the strongest opposing view, attributing it fairly. Do not use irony yourself, except in quotations." },
       "min_words": 350,
       "max_words": 600,
-      "model_answer": "Commentary on 'Good news, everyone' (student magazine)\n\nThe article presents itself as praise for the new late-gate policy, but its real message is the opposite. It argues that locking the gates at 8:05 will turn late students into absent ones, punish students for a bus they cannot control, and improve the school's figures rather than its students' learning.\n\nThe writer relies on several devices. The claim that the school has 'finally solved the problem' is verbal irony: the writer believes the policy creates a worse problem. The sentence 'latecomers will no longer be late; they will simply be absent' works by implicature. By presenting absence as a solution, it invites readers to notice that absence is a more serious failure than lateness. 'The small matter of the 7:50 bus' is understatement, since an unreliable bus is the central weakness of the policy, not a detail. Finally, the scare quotes around 'not inflexible' distance the writer from the head's assurance, and the litotes itself is revealing: 'not inflexible' promises much less than 'flexible'.\n\nHow well does this irony work? Students, who know the bus and share the writer's frustration, are likely to find it funny and persuasive, and parents who rely on the bus will probably recognise their own complaint. Governors, however, may find it easier to dismiss. Irony states no clear proposal and offers no evidence, so a governor who supports the policy can treat the article as student cynicism without answering its central point. The article is effective as protest but weaker as argument.\n\nIn my view, the policy should not go ahead in its current form. A rule that excludes students for lateness caused by public transport penalises those who already have the longest journeys, and it is likely to reduce learning time rather than increase it. Supporters of the policy argue, fairly, that persistent lateness disrupts lessons and that a clear rule is easier to enforce than case-by-case judgements. I accept that lateness is a real problem and that clarity matters. However, the same goal could be reached with a firm rule that distinguishes between causes: students arriving on the 7:50 bus could be admitted and recorded as delayed by transport, while repeated lateness without such a reason would lead to the existing sanctions. The school could also present its own attendance records to the bus company as evidence for a more reliable timetable.\n\nI therefore recommend that the governors postpone the policy for one term, collect data on how many late arrivals are linked to the 7:50 bus, and publish a revised version that defines what 'not inflexible' means in practice.",
+      "model_answer": "Commentary on 'Good news, everyone' (student magazine)\n\nThe article presents itself as praise for the new late-gate policy, but its real message is the opposite. It argues that locking the gates at 8:05 will turn late students into absent ones, punish students for a bus they cannot control, and improve the school's figures rather than its students' learning.\n\nThe writer relies on several devices. The claim that the school has 'finally solved the problem' is verbal irony: the writer believes the policy creates a worse problem. The sentence 'latecomers will no longer be late; they will simply be absent' works by implicature. By presenting absence as a solution, it invites readers to notice that absence is a more serious failure than lateness. 'The small matter of the 7:50 bus' is understatement, since an unreliable bus is the central weakness of the policy, not a detail. Finally, the writer quotes the head's assurance that the policy is 'not inflexible' and adds only 'We look forward to finding out what that means', which implies that the phrase is empty. The litotes itself is revealing: 'not inflexible' promises much less than 'flexible'.\n\nHow well does this irony work? Students, who know the bus and share the writer's frustration, are likely to find it funny and persuasive, and parents who rely on the bus will probably recognise their own complaint. Governors, however, may find it easier to dismiss. Irony states no clear proposal and offers no evidence, so a governor who supports the policy can treat the article as student cynicism without answering its central point. The article is effective as protest but weaker as argument.\n\nIn my view, the policy should not go ahead in its current form. A rule that excludes students for lateness caused by public transport penalises those who already have the longest journeys, and it is likely to reduce learning time rather than increase it. Supporters of the policy argue, fairly, that persistent lateness disrupts lessons and that a clear rule is easier to enforce than case-by-case judgements. I accept that lateness is a real problem and that clarity matters. However, the same goal could be reached with a firm rule that distinguishes between causes: students arriving on the 7:50 bus could be admitted and recorded as delayed by transport, while repeated lateness without such a reason would lead to the existing sanctions. The school could also present its own attendance records to the bus company as evidence for a more reliable timetable.\n\nI therefore recommend that the governors postpone the policy for one term, collect data on how many late arrivals are linked to the 7:50 bus, and publish a revised version that defines what 'not inflexible' means in practice.",
       "checklist": [
         { "en": "Interpretation: near the start, I state plainly, in my own words, what the article implies." },
         { "en": "Devices: I identify at least three devices correctly and quote the exact words that support each reading." },

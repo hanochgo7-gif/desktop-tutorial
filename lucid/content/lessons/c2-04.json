@@ -75,7 +75,7 @@
     },
     {
       "type": "rule",
-      "en": "Steelman before you rebut. State the opposing view as its most thoughtful supporters would, with their best evidence, their real values and any common ground. The test: would an opponent read your summary and say, 'Yes, that is our case'? Attribute it fairly ('Opponents argue that ...'), and do not invent a better argument than anyone actually makes. A rebuttal of a straw man proves nothing; a rebuttal of a steelman earns the reader's trust."
+      "en": "Steelman before you rebut. State the opposing view as its most thoughtful supporters would, with their best evidence, their real values and any common ground. The test: would an opponent read your summary and say, 'Yes, that is our case'? Attribute it fairly ('Opponents argue that ...'); if you strengthen their case beyond what anyone actually argues, say so ('A stronger version of this objection would be ...') rather than putting words in their mouths. A rebuttal of a straw man proves nothing; a rebuttal of a steelman earns the reader's trust."
     },
     {
       "type": "table",
@@ -187,7 +187,7 @@
     {
       "word": "qualifier",
       "pos": "noun",
-      "he": "מסייג; ביטוי הסתייגות",
+      "he": "סייג; ביטוי מסייג",
       "def": "a word or phrase that limits how strongly or how widely a claim applies",
       "example": "'In most urban schools' is a qualifier that matches the evidence.",
       "ipa": "/ˈkwɒlɪfaɪə(r)/",
@@ -243,7 +243,7 @@
     {
       "word": "tenable",
       "pos": "adjective",
-      "he": "שאפשר להגן עליו (עמדה, טענה)",
+      "he": "בר-הגנה; שאפשר לעמוד מאחוריו (עמדה, טענה)",
       "def": "(of a position or argument) reasonable enough to be defended against criticism",
       "example": "After the second study, the original claim was no longer tenable.",
       "ipa": "/ˈtenəbl/",
@@ -351,7 +351,13 @@
       "level": "C2"
     }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    {
+      "en": "The usual Hebrew concession frame (literally 'admittedly ..., but ...') is often translated with although, which produces a doubled connector even in advanced drafts: *Although the scheme is costly, but the savings outweigh it. The Hebrew word behaves like the adverb admittedly, not like the conjunction although, so the English equivalents are Admittedly, the scheme is costly, but ... or Although the scheme is costly, the savings ... (no but).",
+      "he": "את מבנה הוויתור 'אמנם ..., אבל ...' מתרגמים לעתים קרובות ב-although, וכך נוצרת מילת קישור כפולה גם בטיוטות מתקדמות: ‎*Although the scheme is costly, but the savings outweigh it. 'אמנם' מתנהגת כמו תואר הפועל admittedly ולא כמו מילת החיבור although, ולכן המקבילות באנגלית הן Admittedly, the scheme is costly, but ... או Although the scheme is costly, the savings ... (בלי but).",
+      "error_type": "cohesion"
+    }
+  ],
   "exercises": [
     {
       "id": "e1",
@@ -404,9 +410,9 @@
       },
       "question": "Choose the warrant.",
       "options": [
-        "Bus lanes are cheaper to build than new tram lines.",
+        "Bus lanes are cheaper to build and maintain than new tram lines on the same roads.",
         "What worked on Route 7 will work in a similar way on other major roads.",
-        "Drivers on Route 7 were satisfied with the new lane.",
+        "Most bus passengers and drivers on Route 7 were satisfied with the new lane.",
         "The journey times on Route 7 were measured accurately."
       ],
       "answer": 1,
@@ -423,6 +429,11 @@
       },
       "explanation": {
         "en": "The argument jumps from one road to every major road, so its warrant is that Route 7 is representative. Stating it shows exactly where to push: roads with no room for an extra lane, or with few buses, may not behave like Route 7. A qualified version would read: 'The city should trial bus lanes on other major roads with similar bus frequency and space.'"
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "comprehension",
+        "3": "comprehension"
       }
     },
     {
@@ -436,7 +447,7 @@
       "audio_text": "You've summed up the case for rent caps as 'landlords are greedy'. No serious supporter of rent caps actually argues that. Their best argument is that tenants can't easily move, so landlords have more bargaining power than an ordinary market assumes. Answer that version. If your rebuttal still works against it, your essay will be far more convincing.",
       "question": "What does the tutor want the student to do?",
       "options": [
-        "Add statistics that show how greedy landlords are.",
+        "Add statistics that show how much landlords have raised rents, to prove that they are greedy.",
         "Leave out the opposing view, because it weakens the essay.",
         "Replace a straw man with the strongest version of the opposing case, and rebut that.",
         "Change sides, because the supporters of rent caps have the better argument."
@@ -477,10 +488,10 @@
           "type": "mcq",
           "question": "Which statement best captures the writer's thesis?",
           "options": [
-            "Sixteen-year-olds should be able to vote in all elections immediately.",
-            "The voting age should stay at eighteen until more research is available.",
+            "Sixteen-year-olds should be able to vote in all elections, local and national, from the next election onwards.",
+            "The voting age should stay at eighteen until independent research shows that younger voters understand local issues.",
             "Sixteen-year-olds should vote in local elections, starting with a two-election pilot combined with civic education.",
-            "Each school should decide whether its students may vote."
+            "Each school should decide, after consulting its students, whether they may vote in local elections."
           ],
           "answer": 2,
           "option_feedback": {
@@ -508,9 +519,9 @@
           "question": "Which warrant does the writer's main argument depend on?",
           "options": [
             "The people who will live longest with the consequences of a decision should have a say in it, if they can understand it.",
-            "Teenagers are better informed about politics than most adults.",
-            "Every legal age limit should be lowered to sixteen.",
-            "High turnout is the only sign of a healthy democracy."
+            "Teenagers are better informed about local politics than most adults, so their votes would improve the council's decisions.",
+            "Every legal age limit, including those for signing contracts and serving on juries, should be lowered to sixteen.",
+            "High turnout among young voters is the only reliable sign that a local democracy is healthy."
           ],
           "answer": 0,
           "option_feedback": {
@@ -545,9 +556,9 @@
           "type": "mcq",
           "question": "How does the writer answer the point that eighteen is the age of legal independence?",
           "options": [
-            "By denying that any legal age limits are set at eighteen.",
-            "By arguing that sixteen-year-olds are more mature than most adults.",
-            "By ignoring it and discussing turnout instead.",
+            "By denying that any legal age limits are set at eighteen, and arguing that the law already treats sixteen-year-olds as independent.",
+            "By arguing that sixteen-year-olds are, on the whole, more mature and better informed than many adults who already vote.",
+            "By ignoring it and moving straight on to the evidence that voting is a habit formed early.",
             "By conceding that age limits should be consistent, then arguing that voting differs from the other limits in a relevant way."
           ],
           "answer": 3,
@@ -576,9 +587,9 @@
           "question": "When the writer says that the worry about parental influence 'proves too much', the point is that:",
           "options": [
             "if the worry were a good reason, it would also exclude many adult voters, so it cannot single out sixteen-year-olds.",
-            "research has proved that parents influence their children's votes.",
-            "parents have too much influence over adult voters.",
-            "the worry is too emotional to be answered with reasons."
+            "research has proved that parents influence their children's votes, so the worry is better founded than critics realise.",
+            "parents already have too much influence over the way adults vote, as well as over their teenage children.",
+            "the worry is too emotional to be answered with reasons, so the writer decides to set it aside."
           ],
           "answer": 0,
           "option_feedback": {
@@ -614,8 +625,8 @@
           "question": "Why, according to the writer, does accepting sixteen not commit anyone to fourteen?",
           "options": [
             "Because fourteen-year-olds are not allowed to take part in civic education.",
-            "Because the council has already ruled out fourteen.",
-            "Because nobody has ever suggested a voting age of fourteen.",
+            "Because the council has already voted to rule out any voting age below sixteen in future.",
+            "Because nobody has ever seriously proposed a voting age as low as fourteen, so the worry is purely imaginary.",
             "Because an age limit is set by the reasons for it, and the reasons given support sixteen but not fourteen."
           ],
           "answer": 3,
@@ -636,7 +647,7 @@
             "2": "comprehension"
           },
           "explanation": {
-            "en": "'A threshold is fixed by its reasons, not by the slope beneath it.' The writer anticipates a slippery-slope reply and answers it by returning to the warrant: stake plus supported understanding. This is step 4 and 5 of a concession-rebuttal chain: anticipate, then respond."
+            "en": "'A threshold is fixed by its reasons, not by the slope beneath it.' The writer anticipates a slippery-slope reply and answers it by returning to the warrant: stake plus supported understanding. These are steps 4 and 5 of a concession-rebuttal chain: anticipate, then respond."
           }
         },
         {
@@ -711,7 +722,7 @@
         }
       ],
       "hint": {
-        "en": "Ask what each objection accepts. Accepts nothing about the data? Evidence. Accepts the data but denies the inference? Warrant. Accepts the inference but only for part of the case? Scope. Accepts the case but ranks a different good higher? Values."
+        "en": "Ask what each objection accepts. Disputes the data itself? Evidence. Accepts the data but denies the inference? Warrant. Accepts the inference but only for part of the case? Scope. Accepts the case but ranks a different good higher? Values."
       },
       "explanation": {
         "en": "Evidence objections question the data (a holiday-week count, missing bays). Warrant objections accept the data and deny the inference from 'half full' to 'not needed'. Scope objections accept part of the case and resist its extension (the whole site, every town). Values objections accept the reasoning and argue that another good (access, heritage) should come first. Knowing where an objection strikes tells you how to answer it: with better data, an explicit and backed warrant, a narrower claim, or an argument about priorities."
@@ -727,10 +738,10 @@
       },
       "question": "Choose the steelman.",
       "options": [
-        "Opponents simply love their cars and refuse to change their habits.",
-        "Opponents claim that a ban would destroy the city centre completely within a year.",
-        "Some people say there might be some problems with a ban.",
-        "Opponents accept that traffic is a problem, but argue that a ban would cut off residents who cannot walk far or use buses, such as disabled people and their carers, and push trade towards out-of-town shopping centres."
+        "Opponents simply love their cars and will refuse to change their habits, whatever the cost to the health of the people who live in the centre.",
+        "Opponents claim that a ban would destroy the city centre completely within a year, leaving every shop closed and every resident unable to get home.",
+        "Some people say there might be some problems with a ban for some groups of people, and that the council should perhaps think about these problems again.",
+        "Opponents accept that traffic is a problem, but argue that a ban would cut off residents with limited mobility, and their carers, and push trade to out-of-town shopping centres."
       ],
       "answer": 3,
       "option_feedback": {
@@ -763,10 +774,10 @@
       },
       "question": "Which challenge identifies the load-bearing weakness and gives a sound reason?",
       "options": [
-        "Premise 2, because it assumes the time saved is not spent thinking, when students might use it to plan, revise or check sources.",
-        "Premise 1, because the speed of submission cannot be measured.",
-        "Premise 3, because thinking has no effect on learning.",
-        "The conclusion, because schools never have the right to ban anything."
+        "Premise 2, because it assumes the time saved is not spent thinking, when students might use it to plan or revise.",
+        "Premise 1, because the speed at which students submit their essays cannot be measured in any reliable way.",
+        "Premise 3, because how much students think about a topic has no real effect on how much they learn from it.",
+        "The conclusion, because schools never have the right to ban a tool that students find useful for their work."
       ],
       "answer": 0,
       "option_feedback": {
@@ -777,7 +788,7 @@
           "en": "This over-claims in the other direction. Premise 3 is plausible; denying any link between thinking and learning is not tenable."
         },
         "3": {
-          "en": "The conclusion can be challenged, but not with an absolute like this, which any counterexample breaks (schools rightly ban some things)."
+          "en": "The conclusion can be challenged, but not with an absolute like this, which any counterexample breaks (schools rightly ban some useful tools, such as calculators in certain exams)."
         }
       },
       "option_errors": {
@@ -798,7 +809,7 @@
       "skill": "writing",
       "topic": "argument-architecture",
       "prompt": {
-        "en": "Put the sentences in order to build a concession-rebuttal chain: concede, limit and counter, anticipate a reply, respond, re-qualify."
+        "en": "Put the sentences in order to build a concession-rebuttal chain: state the objection, concede, limit and counter, anticipate a reply, respond, re-qualify."
       },
       "tokens": [
         "Critics of a four-day school week argue that it would leave working parents without childcare on the fifth day.",
@@ -813,7 +824,8 @@
       },
       "explanation": {
         "en": "The objection is stated and attributed (Critics argue), then conceded (This is a serious objection ... largely correct), limited and countered (far less weight for students over sixteen). A likely reply is anticipated (A defender ... might reply) and answered with a test rather than a dismissal (Yet ... a trial could ...). The final sentence re-qualifies the thesis to absorb the concession: the proposal now covers only the final two years of school."
-      }
+      },
+      "error_type": "cohesion"
     },
     {
       "id": "e9",
@@ -825,10 +837,10 @@
       },
       "question": "Choose the best re-qualified thesis.",
       "options": [
-        "Cities should make public transport free, and critics who disagree have simply not understood the benefits.",
-        "Cities should make public transport free, although some people disagree.",
-        "Cities should make fares free for the groups who face the highest barriers to travel, such as young people and job-seekers, and spend the rest of the budget on more frequent services.",
-        "Cities might perhaps consider whether public transport could possibly be made free in certain cases."
+        "Cities should make public transport free for everyone, and the critics who disagree have simply not understood the many benefits it would bring.",
+        "Cities should make public transport free for everyone, although some people disagree and believe the money could be spent in better ways.",
+        "Cities should offer free travel to the groups facing the highest barriers, such as young people and job-seekers, and spend the rest of the budget on more frequent services.",
+        "Cities might perhaps consider whether public transport could possibly be made free for some people in certain cases, if funding allows."
       ],
       "answer": 2,
       "option_feedback": {
@@ -836,10 +848,10 @@
           "en": "This dismisses the objection the writer has just conceded, and attacks the critics instead of answering them."
         },
         "1": {
-          "en": "A token concession: it mentions disagreement but changes nothing. If the objection was accepted, the thesis must reflect it."
+          "en": "A token concession: it mentions the disagreement but changes nothing. If the objection was accepted, the thesis must reflect it."
         },
         "3": {
-          "en": "Over-hedged: four hedges (might, perhaps, possibly, certain cases) leave a claim nobody could disagree with, so it no longer argues anything."
+          "en": "Over-hedged: might, perhaps, consider whether, could possibly, some people, in certain cases, if funding allows. Stacked hedges leave a claim nobody could disagree with, so it no longer argues anything."
         }
       },
       "option_errors": {
@@ -848,7 +860,7 @@
         "3": "weak-thesis"
       },
       "explanation": {
-        "en": "The objection made two points: free fares mostly help existing passengers, and frequency may matter more. The best revision targets free fares where they widen access (groups facing barriers) and moves the rest of the money to frequency. The claim is narrower, but much harder to knock down, and it shows the reader that the writer has listened."
+        "en": "The objection made two points: free fares mostly help existing passengers, and frequency may matter more. The best revision keeps free travel only where it widens access (groups facing the highest barriers) and moves the rest of the money to frequency. The claim is narrower, but much harder to knock down, and it shows the reader that the writer has listened."
       }
     },
     {
@@ -949,13 +961,20 @@
         "For all that it is expensive, the scheme is the only proposal that addresses the cause of the problem.",
         "For all that the scheme is expensive, it is the only proposal that addresses the cause of the problem.",
         "For all the scheme's expense, it is the only proposal that addresses the cause of the problem.",
-        "For all the expense of the scheme, it is the only proposal that addresses the cause of the problem."
+        "For all the expense of the scheme, it is the only proposal that addresses the cause of the problem.",
+        "For all its high cost, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all its high costs, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all its expensiveness, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all the scheme's cost, it is the only proposal that addresses the cause of the problem.",
+        "For all the scheme's costs, it is the only proposal that addresses the cause of the problem.",
+        "For all the cost of the scheme, it is the only proposal that addresses the cause of the problem.",
+        "For all the costs of the scheme, it is the only proposal that addresses the cause of the problem."
       ],
       "wrong_feedback": [
         {
           "match": "For all the scheme is expensive, it is the only proposal that addresses the cause of the problem.",
           "feedback": {
-            "en": "Before a full clause, use For all that: For all that the scheme is expensive, ... Or use a noun phrase: For all its expense, ..."
+            "en": "In formal writing, a full clause after For all needs that: For all that the scheme is expensive, ... Or use a noun phrase: For all its expense, ..."
           },
           "error_type": "word-choice"
         },
@@ -970,6 +989,13 @@
           "match": "For all its expense, but the scheme is the only proposal that addresses the cause of the problem.",
           "feedback": {
             "en": "For all already marks the concession, so adding but doubles the connector. Delete but."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "For all that, the scheme is the only proposal that addresses the cause of the problem.",
+          "feedback": {
+            "en": "For all that, ... points back to something already said, so this sentence no longer says what is being conceded. Name the concession: For all its expense, ..."
           },
           "error_type": "cohesion"
         }
@@ -996,7 +1022,8 @@
         "However strong the objection might be, it does not apply to students over sixteen.",
         "However strong the objection, it does not apply to students over sixteen.",
         "However strong it may be, the objection does not apply to students over sixteen.",
-        "However strong it is, the objection does not apply to students over sixteen."
+        "However strong it is, the objection does not apply to students over sixteen.",
+        "However strong it might be, the objection does not apply to students over sixteen."
       ],
       "wrong_feedback": [
         {
@@ -1019,6 +1046,13 @@
             "en": "In this structure the adjective follows however directly: However strong the objection is, ..."
           },
           "error_type": "word-order"
+        },
+        {
+          "match": "However strong the objection may seem, it does not apply to students over sixteen.",
+          "feedback": {
+            "en": "Seem suggests the objection only looks strong, which quietly withdraws the concession. The original grants that it may really be strong: However strong the objection may be, ..."
+          },
+          "error_type": "word-choice"
         }
       ],
       "hint": {
@@ -1049,6 +1083,27 @@
             "en": "Still doubled: although and however both mark the contrast. Keep only one of them."
           },
           "error_type": "cohesion"
+        },
+        {
+          "match": "Although critics are right that the scheme is costly, however, the long-term savings outweigh the initial outlay.",
+          "feedback": {
+            "en": "Still doubled: although and however both mark the contrast. Keep only one of them."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Although critics are right that the scheme is costly, yet the long-term savings outweigh the initial outlay.",
+          "feedback": {
+            "en": "Still doubled: although and yet both mark the contrast. Delete yet (or delete Although and use but)."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Although critics are right that the scheme is costly the long-term savings outweigh the initial outlay.",
+          "feedback": {
+            "en": "Right connector, but keep the comma: a long although-clause at the start of a sentence is followed by a comma before the main clause."
+          },
+          "error_type": "punctuation"
         }
       ],
       "explanation": {

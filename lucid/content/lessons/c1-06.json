@@ -207,7 +207,7 @@
       "he": "הכללה",
       "def": "a general statement based on only some of the cases it describes",
       "example": "One rude tourist does not justify a generalisation about a whole city.",
-      "ipa": "/ˌdʒenrələˈzeɪʃn/",
+      "ipa": "/ˌdʒenrəlaɪˈzeɪʃn/",
       "collocations": [
         "a sweeping generalisation",
         "a hasty generalisation",
@@ -309,7 +309,7 @@
       "prompt": {
         "en": "Read the argument and choose the best description of its flaw."
       },
-      "question": "'Since the canteen started offering a vegetarian dish, more students have been missing afternoon classes. The new menu is clearly making students tired.'",
+      "question": "'Since the canteen changed its lunch menu in January, more students have been missing afternoon classes. Clearly, the new menu is to blame.'",
       "options": [
         "It assumes that because one thing followed another, the first caused the second.",
         "It attacks the people who chose the menu instead of the menu itself.",
@@ -334,7 +334,7 @@
         "3": "comprehension"
       },
       "explanation": {
-        "en": "This is post hoc reasoning: the absences came after the menu changed, but nothing links the two. Exams, the weather, a timetable change or illness could explain them. A sound version would explain how the food could cause tiredness and check what else changed."
+        "en": "This is post hoc reasoning: the absences rose after the menu changed, but nothing links the two. Winter illness, exams or a timetable change could explain them. A sound version would explain how a menu could affect attendance and check what else changed in January."
       }
     },
     {
@@ -403,10 +403,10 @@
       "audio_text": "My opponent says we should keep the old library building. In other words, she wants us to pour money into a crumbling building forever and ignore what young people actually need. Well, I think our town deserves better than that.",
       "question": "What is the main weakness in the speaker's reply?",
       "options": [
-        "He relies on statistics that may be out of date.",
-        "He agrees with his opponent too quickly.",
-        "He restates his opponent's view as a more extreme one that is easier to reject.",
-        "He quotes an expert from an unrelated field."
+        "It relies on statistics about the library that may be out of date.",
+        "It agrees with the opponent too quickly instead of defending its own position.",
+        "It restates the opponent's view as a more extreme one that is easier to reject.",
+        "It quotes an expert from an unrelated field to support its claim."
       ],
       "answer": 2,
       "option_feedback": {
@@ -414,7 +414,7 @@
           "en": "The speaker gives no statistics at all."
         },
         "1": {
-          "en": "He does not agree with her; he rejects a distorted version of her view."
+          "en": "The reply does not agree with her; it rejects a distorted version of her view."
         },
         "3": {
           "en": "No expert is quoted."
@@ -473,7 +473,7 @@
       "skill": "reading",
       "topic": "fallacies",
       "prompt": {
-        "en": "Read the opinion column from a local newspaper. Some of its reasoning is flawed and some is sound. Answer the questions."
+        "en": "Read the opinion column from a local newspaper (an invented example about a fictional town). Some of its reasoning is flawed and some is sound. Answer the questions."
       },
       "title": "It is time to ban e-scooters from Larkfield",
       "passage": "Two years ago, Larkfield allowed rental e-scooters on its streets. Since then, the number of people treated at Larkfield General Hospital for minor injuries has risen every year, and residents have complained more and more about speeding riders. The connection could not be clearer: the scooters are making our town more dangerous, and the council must ban them before someone is killed.\n\nI have seen the danger myself. Last month my neighbour's son was thrown from a scooter outside the station and broke his wrist, and a week later a rider almost knocked over an elderly woman on Mill Road. Anyone who walks through the town centre knows that scooter riders simply do not care about pedestrians.\n\nThe scooter company, of course, disagrees. Its local manager told this newspaper that most riders use the scooters safely. But what would you expect him to say? He is a twenty-six-year-old who has probably never had to push a pram along a crowded pavement. Supporters of the scheme, meanwhile, seem to believe that our pavements should be turned into racetracks for anyone with an app.\n\nThere is also a practical problem that deserves attention. Scooters are often left lying across pavements, and for wheelchair users or people with poor eyesight, a scooter dropped in the wrong place can block a route completely. Disability groups have been raising this with the council for months, and they have yet to receive a reply. This is not just a matter of opinion: anyone can see scooters lying across the pavement on Station Road on a weekday morning, and the council's own complaints log will show how often the problem has been reported.\n\nSome councillors suggest new rules instead: lower speed limits, parking zones and fines for riding on pavements. But rules like these will only be the beginning. If we accept scooters with speed limits today, tomorrow it will be electric bikes on pavements, then skateboards, and before long no pedestrian in Larkfield will be safe.\n\nThe choice is simple. Either we ban scooters now, or we accept that our pavements will belong to them. In our online poll last week, a large majority of readers voted for a ban. When that many people agree, the council has no excuse to wait.",
@@ -484,8 +484,8 @@
           "options": [
             "It assumes the scooters caused the rise in injuries just because the rise came after they arrived.",
             "It attacks the hospital staff instead of examining their figures.",
-            "It relies on a story about a single accident.",
-            "It quotes an expert from an unrelated field."
+            "It relies on a story about a single accident to support a claim about the whole town.",
+            "It quotes a hospital doctor who is not an expert on road safety."
           ],
           "answer": 0,
           "option_feedback": {
@@ -496,7 +496,7 @@
               "en": "The single accident appears in paragraph 2, not paragraph 1."
             },
             "3": {
-              "en": "No expert is quoted in paragraph 1."
+              "en": "Nobody is quoted in paragraph 1."
             }
           },
           "option_errors": {
@@ -544,7 +544,7 @@
           "options": [
             "By presenting evidence that most riders are unsafe.",
             "By questioning the manager's age and experience instead of his claim.",
-            "By agreeing with the manager and changing her position.",
+            "By agreeing with the manager and dropping the call for a ban.",
             "By noting his vested interest and then checking his figures against independent data."
           ],
           "answer": 1,
@@ -553,10 +553,10 @@
               "en": "No evidence about riders in general is given."
             },
             "2": {
-              "en": "The writer does not change her position."
+              "en": "The writer still calls for a ban at the end of the column."
             },
             "3": {
-              "en": "Noting a vested interest would be fair, but the writer never checks any figures; she dismisses the claim because of who he is."
+              "en": "Noting a vested interest would be fair, but the writer never checks any figures: the claim is dismissed because of who made it."
             }
           },
           "option_errors": {
@@ -610,10 +610,10 @@
           "type": "mcq",
           "question": "What would the writer need in order to make paragraph 5 a sound argument?",
           "options": [
-            "More emotional language about the dangers to pedestrians",
+            "More emotional language about the dangers to pedestrians on crowded pavements",
             "Evidence for each step in the chain, for example from towns that introduced similar rules",
-            "A larger online poll of readers",
-            "A quotation from a famous person who agrees"
+            "A larger online poll showing that even more readers are worried about the change",
+            "A quotation from a well-known local figure who agrees with the column"
           ],
           "answer": 1,
           "option_feedback": {
@@ -640,10 +640,10 @@
           "type": "mcq",
           "question": "Which sentence best repairs the false dilemma in the final paragraph?",
           "options": [
-            "The choice is simple: ban scooters, or lose our pavements forever.",
-            "Most readers want a ban, so a ban is the only option.",
-            "Anyone who does not support a ban does not care about pedestrians.",
-            "The council has three realistic options (a ban, stricter rules with parking zones, or a time-limited trial of those rules), and it should compare them on safety and cost."
+            "The choice is simple: either we ban scooters this year, or we accept that our pavements will soon belong to them for good.",
+            "Most readers who voted in our poll want a ban, so a ban is the only option that the council can now consider.",
+            "Anyone who still does not support a ban, after everything that has happened, simply does not care about pedestrians.",
+            "The council has three realistic options (a ban, stricter rules with parking zones, or a trial of those rules) and should compare them on safety and cost."
           ],
           "answer": 3,
           "option_feedback": {
@@ -677,7 +677,8 @@
               "popular opinion",
               "the crowd",
               "the people",
-              "numbers"
+              "numbers",
+              "the masses"
             ]
           ],
           "explanation": {
@@ -749,15 +750,15 @@
       },
       "question": "Flawed: 'My two older brothers struggled with online university courses, so online degrees are worthless.'",
       "options": [
-        "Online degrees are completely worthless, as everyone knows.",
-        "Since my brothers struggled, online degrees are probably worthless for most students.",
-        "Online degrees are excellent for everyone, so my brothers must simply have been lazy.",
+        "Online degrees are completely worthless, as everyone knows, and employers will never take them seriously.",
+        "Since both of my brothers struggled, online degrees are probably worthless for most of the students who take them.",
+        "Online degrees are excellent for everyone who works hard, so my brothers must simply have been lazy.",
         "My brothers' experience suggests that online courses may not suit students who need a fixed routine; wider evidence would show how common this is."
       ],
       "answer": 3,
       "option_feedback": {
         "0": {
-          "en": "This keeps the sweeping claim and adds an appeal to popularity ('as everyone knows')."
+          "en": "This keeps the sweeping claim, adds an appeal to popularity ('as everyone knows') and makes a second unsupported prediction about employers."
         },
         "1": {
           "en": "A hedge does not repair a hasty generalisation: two cases still cannot support a claim about most students, however cautiously it is worded."
@@ -785,10 +786,10 @@
       },
       "question": "Draft: 'If we do not introduce a sugar tax now, obesity will keep rising until our hospitals collapse, and future generations will never forgive us.'",
       "options": [
-        "A sugar tax is the only way to save our hospitals from collapse.",
-        "A sugar tax would not solve obesity on its own, but by making sugary drinks more expensive it could reduce how much people drink, which is why it deserves a trial.",
-        "Everyone agrees that sugar is bad for us, so the tax should be introduced immediately.",
-        "Without a sugar tax, hospitals will certainly collapse within a decade."
+        "A sugar tax is the only way to save our hospitals from collapse, so we must introduce it now, whatever it costs.",
+        "A sugar tax would not solve obesity on its own, but by raising the price of sugary drinks it could cut how much people drink, so it deserves a trial.",
+        "Everyone agrees that sugar is bad for us, so the tax should be introduced immediately and without any further debate.",
+        "Without a sugar tax, obesity will certainly keep rising year after year, and our hospitals will collapse within a decade."
       ],
       "answer": 1,
       "option_feedback": {
@@ -826,7 +827,21 @@
         "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether the change is the cause.",
         "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the timetable is the cause.",
         "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the new timetable is the cause.",
-        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the change is the cause."
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether or not the timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether or not the timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether or not the new timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether or not the new timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether or not the change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether or not the change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether the timetable change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the timetable change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether or not the timetable change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether or not the timetable change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether this is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether this is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether or not this is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether or not this is the cause."
       ],
       "wrong_feedback": [
         {
@@ -859,7 +874,7 @@
       "prompt": {
         "en": "Complete the peer feedback on a classmate's draft with words from the box. Three words are not needed."
       },
-      "text": "Your second paragraph argues that the new timetable caused the fall in attendance simply because the fall came after it: this is the ___ fallacy. Your counterargument describes opponents as 'people who never want anything to change', which ___ their view, so state it as they would. Your conclusion says the school must 'change everything or accept failure', which is a ___, since there are other options. Your premise about homework is ___, though: the survey you cite is large and randomly sampled.",
+      "text": "Your second paragraph argues that the new timetable caused the fall in attendance simply because the fall came after it: this is the ___ fallacy. Your counterargument describes opponents as 'people who never want anything to change', which ___ their view, so state it as they would. Your conclusion says the school must 'change everything or accept failure', which is a ___, since there are other options. Your premise about homework is ___, though: the survey you cite is large and uses a random sample.",
       "word_bank": [
         "post hoc",
         "misrepresents",
@@ -935,7 +950,9 @@
         "The writer's conclusion does not follow from the evidence, because it is based on a false premise.",
         "The writer's conclusion does not follow from the evidence because it is based on a false premise.",
         "The writer's conclusion does not follow from the evidence, because it rests on a false premise.",
-        "The writer's conclusion does not follow from the evidence because it rests on a false premise."
+        "The writer's conclusion does not follow from the evidence because it rests on a false premise.",
+        "The writer's conclusion does not follow from the evidence, because it is based upon a false premise.",
+        "The writer's conclusion does not follow from the evidence because it is based upon a false premise."
       ],
       "error_type": "preposition",
       "hint": {
@@ -974,7 +991,7 @@
       },
       "min_words": 250,
       "max_words": 400,
-      "model_answer": "Rewritten paragraph\nSince the market square became car-free on Saturdays last spring, the bakery on the corner has closed and some traders say that business has fallen. These concerns deserve attention, but they do not yet show that the scheme is to blame: shops close for many reasons, and one closure cannot reveal a trend. Nor can a handful of conversations tell us what the town as a whole thinks. What the council needs is evidence: a count of Saturday visitors and a survey of takings across the centre, compared with the previous year, would show whether the scheme is hurting trade or simply coinciding with a difficult year. Supporters of the scheme argue that a car-free square makes the market safer and more pleasant, especially for families, and that this could bring in new customers over time; this is a reasonable claim, and the same survey could test it. The choice is also wider than bringing back the cars or letting the centre decline. The council could keep car-free Saturdays while adding short-stay parking nearby or a shuttle bus from the station. For these reasons, the scheme should continue for one more year, with clear measures of its effect on trade, before the council decides its future.\n\nCommentary\nI kept the bakery and the traders' complaints but stopped treating a sequence as a cause, and I said what evidence would test the link. 'Everyone I have spoken to' became a call for a proper survey, because a few conversations cannot show what the whole town thinks. I replaced the attack on students with the supporters' actual argument, stated fairly. I cut the chain from Saturdays to a permanent closure, which had no evidence for any step, and I replaced the either-or ending with realistic options, so my conclusion is smaller but much harder to knock down.",
+      "model_answer": "Rewritten paragraph\nSince the market square became car-free on Saturdays last spring, the bakery on the corner has closed, and several people I have spoken to blame the scheme. These concerns deserve attention, but they do not yet show that the scheme is to blame: shops close for many reasons, and one closure cannot reveal a trend. Nor can a handful of conversations tell us what the town as a whole thinks. What the council needs is evidence: a count of Saturday visitors and a survey of takings across the centre, compared with the previous year, would show whether the scheme is hurting trade or simply coinciding with a difficult year. Supporters of the scheme argue that a car-free square makes the market safer and more pleasant, especially for families, and that this could bring in new customers over time; this is a reasonable claim, and the same survey could test it. The choice is also wider than bringing back the cars or letting the centre decline. The council could keep car-free Saturdays while adding short-stay parking nearby or a shuttle bus from the station. For these reasons, the scheme should continue for one more year, with clear measures of its effect on trade, before the council decides its future.\n\nCommentary\nI kept the bakery's closure and the complaints I had heard, but I stopped treating a sequence as a cause and said what evidence would test the link. 'Everyone I have spoken to' became a call for a proper survey, because a few conversations cannot show what the whole town thinks. I replaced the attack on students with the supporters' actual argument, stated fairly. I cut the chain from Saturdays to a permanent closure, which had no evidence for any step, and I replaced the either-or ending with realistic options, so my conclusion is smaller but much harder to knock down.",
       "checklist": [
         {
           "en": "Repair, not deletion: causal claims are supported by a mechanism or reduced to a link, and the generalisation is narrowed or replaced by a call for wider evidence."
