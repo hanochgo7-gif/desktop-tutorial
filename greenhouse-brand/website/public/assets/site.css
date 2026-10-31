@@ -1288,3 +1288,14 @@ body.top-dark .site-head:not(.solid) :focus-visible, .globe-frame :focus-visible
 .sim.photo .sim-rail button[aria-current="step"] span { background: var(--forest); }
 /* every card says it is an illustration, on desktop too */
 .sim.photo .k-ill { display: inline; }
+/* the crop selector shows an AI illustration of each crop under its net (the tab sets data-crop) */
+.crop-ph { margin: 0; }
+.cp-stack { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); background: #DCE6E2; box-shadow: 0 0 0 1px rgba(27, 110, 98, .2), 0 10px 28px rgba(14, 42, 37, .1); }
+.cp-stack .cp { display: none; }
+.cp-stack .cp img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.crop-ph[data-crop="banana"] .cp[data-crop="banana"], .crop-ph[data-crop="apple"] .cp[data-crop="apple"], .crop-ph[data-crop="cherry"] .cp[data-crop="cherry"],
+.crop-ph[data-crop="kiwi"] .cp[data-crop="kiwi"], .crop-ph[data-crop="avocado"] .cp[data-crop="avocado"], .crop-ph[data-crop="other"] .cp[data-crop="other"] { display: block; }
+.crop-ph .ill-chip { position: absolute; inset-block-start: 12px; inset-inline-start: 12px; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .8); color: var(--white); font-size: .8rem; box-shadow: 0 0 0 1px rgba(255, 255, 255, .35); }
+.crop-ph figcaption { margin-top: 10px; font-size: var(--fs-small); color: var(--ink-2); }
+@keyframes cp-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) { .cp-stack .cp img { animation: cp-in .4s ease-out both; } }

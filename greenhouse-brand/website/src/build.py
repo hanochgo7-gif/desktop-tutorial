@@ -460,8 +460,15 @@ def crop_more(crop, L):
 def crop_selector(L, where="home"):
     """'Which net house for your crop?': tabs that switch the specs, the matching project and the drawing."""
     H = C.HOME3
-    fig, _legend = drawing(L, animate=False, sfx="c")
-    fig = fig.replace('<figure class="drawing"', '<figure class="drawing crop-dw" data-crop="banana"', 1)
+    # one AI illustration per crop (labelled as such); only the shown one is fetched, since the others are display: none
+    r = rel(L)
+    def pic(cr):
+        ss = lambda ext: ", ".join(f"{r}assets/img/crop-{cr['id']}-{w}.{ext} {w}w" for w in (640, 960, 1280))
+        sz = "(max-width: 900px) calc(100vw - 32px), 560px"
+        return (f'<picture class="cp" data-crop="{cr["id"]}"><source type="image/avif" srcset="{ss("avif")}" sizes="{sz}"><source type="image/webp" srcset="{ss("webp")}" sizes="{sz}">'
+                f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
+    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}<span class="ill-chip" aria-hidden="true">{esc(t(H["crop_ill"], L))}</span></div>'
+           f'<figcaption>{esc(t(H["crop_note"], L))}</figcaption></figure>')
     tabs, panels = [], []
     for i, cr in enumerate(C.CROPS):
         sel = i == 0
