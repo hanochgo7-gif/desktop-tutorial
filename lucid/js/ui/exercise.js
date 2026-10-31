@@ -87,7 +87,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         let allRight = true, almost = false, specific = null, err = null;
         const responses = [];
         inputs.forEach((inp, i) => {
-          const r = checkTyped(inp.value, ex.answers[i]);
+          const r = checkTyped(inp.value, ex.answers[i], ex.wrong_feedback);
           responses.push(inp.value);
           inp.readOnly = true;
           inp.classList.add(r.correct ? 'right' : 'wrong');
@@ -211,7 +211,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => Boolean(ta.value.trim()) && (ex.type !== 'correct' || normalize(ta.value) !== normalize(source));
       ctl.check = async () => {
         ta.readOnly = true;
-        const r = checkTyped(ta.value, ex.answers);
+        const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
         return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && isOpenRewrite(ex, level) });
       };
@@ -306,7 +306,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         let right = 0;
         ex.questions.forEach((q, qi) => {
           let ok;
-          if (q.type === 'gap') { const ins = $$(`[data-rg="${qi}"]`, root); ok = ins.every((inp, i) => checkTyped(inp.value, q.answers[i]).correct); ins.forEach((i) => { i.readOnly = true; i.classList.add(ok ? 'right' : 'wrong'); }); }
+          if (q.type === 'gap') { const ins = $$(`[data-rg="${qi}"]`, root); ok = ins.every((inp, i) => checkTyped(inp.value, q.answers[i], q.wrong_feedback).correct); ins.forEach((i) => { i.readOnly = true; i.classList.add(ok ? 'right' : 'wrong'); }); }
           else ok = answers.get(qi) === q.answer;
           if (ok) right++;
           const box = $(`[data-q="${qi}"] .q-fb`, root);
