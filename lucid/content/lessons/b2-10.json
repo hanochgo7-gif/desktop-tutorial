@@ -13,7 +13,7 @@
   ],
   "warmup": { "en": "Think of a disagreement you lost recently. Did you lose because your position was weak, because you had no evidence, or because you never answered what the other person said? A written argument can fail for the same three reasons." },
   "explanation": [
-    { "type": "p", "en": "Read this paragraph: 'Secondary schools should start at 9:00 rather than 8:00. Sleep research suggests that teenagers' body clocks shift later during adolescence, so many sixteen-year-olds find it hard to fall asleep before eleven. An 8:00 start therefore forces them to learn at the time of day when they are least alert. A later start would let students arrive ready to concentrate, which is the purpose of the school day.' Sentence 1 makes a claim, sentence 2 gives evidence, sentence 3 explains how the evidence supports the claim, and sentence 4 links back to the main argument. That is the PEEL pattern: Point, Evidence, Explain, Link." },
+    { "type": "p", "en": "Read this paragraph: 'Secondary schools should start at 9:00 rather than 8:00. Sleep research suggests that teenagers' body clocks shift later during adolescence, so many sixteen-year-olds find it hard to fall asleep before eleven. An 8:00 start therefore forces them to learn at the time of day when they are least alert. A later start would let students arrive ready to concentrate, which is the purpose of the school day.' Sentence 1 makes a claim, sentence 2 gives evidence, sentence 3 explains how the evidence supports the claim, and sentence 4 links back to the main argument. That is the PEEL pattern: Point, Evidence, Explain, Link. You may also meet the label CER (Claim, Evidence, Reasoning). It is the same idea: the claim is your point, and the reasoning explains how the evidence supports it. The reasoning step is the one that weak paragraphs most often leave out." },
     { "type": "table", "headers": ["Part", "Its job", "Useful language"], "rows": [
       ["Thesis (end of the introduction)", "Your clear, debatable position and the main reasons for it", "This essay argues that ... because ... / Although ..., ... should ..."],
       ["Body paragraph (PEEL)", "One point per paragraph: Point, Evidence, Explain how the evidence supports the point, Link back to the thesis", "The main reason is ... / For example, ... / This shows that ... / Therefore, ..."],
@@ -34,7 +34,7 @@
     { "en": "This essay argues that public transport should be free for everyone under 25, because it would cut traffic and make education and jobs easier to reach.", "note": "thesis: a position plus reasons" },
     { "en": "Free public transport has advantages and disadvantages.", "note": "weak thesis: no position to argue" },
     { "en": "For example, after Lior's school banned phones in lessons, teachers noticed that students asked more questions in class.", "note": "evidence: one example; stronger with more support" },
-    { "en": "This suggests that removing the distraction, rather than adding new rules, changed how students behaved.", "note": "explain: links the evidence to the claim" },
+    { "en": "This suggests that without their phones to distract them, students paid closer attention to the lesson.", "note": "explain: links the evidence to the claim" },
     { "en": "Critics argue that a ban treats sixteen-year-olds like children who cannot control themselves.", "note": "counterargument: fair and attributed" },
     { "en": "However, adults also put their phones away in meetings, so the rule reflects normal workplace habits rather than distrust.", "note": "rebuttal: refute" },
     { "en": "It is true that free transport would cost the city money; nevertheless, fewer cars on the road would mean lower spending on repairs and parking.", "note": "rebuttal: concede and outweigh" },
@@ -52,7 +52,7 @@
     { "word": "rebuttal", "pos": "noun", "he": "הפרכה; מענה לטיעון נגדי", "def": "a reasoned answer showing that an opposing argument is wrong or less important", "example": "Her rebuttal relied on evidence, not on insults.", "ipa": "/rɪˈbʌtl/", "collocations": ["a convincing rebuttal", "offer a rebuttal"], "level": "C1" },
     { "word": "refute", "pos": "verb", "he": "להפריך", "def": "to prove that a statement or argument is wrong", "example": "The new evidence refutes the claim that the scheme failed.", "ipa": "/rɪˈfjuːt/", "collocations": ["refute a claim", "refute an argument", "attempt to refute"], "level": "C1" },
     { "word": "concede", "pos": "verb", "he": "להודות (בנקודה); לקבל טענה", "def": "to admit that something is true, often unwillingly", "example": "I concede that the plan is expensive, but it will save money in the long run.", "ipa": "/kənˈsiːd/", "collocations": ["concede a point", "concede that", "be forced to concede"], "level": "C1" },
-    { "word": "outweigh", "pos": "verb", "he": "לעלות על (בחשיבות); להכריע", "def": "to be more important than something else", "example": "The benefits clearly outweigh the costs.", "ipa": "/ˌaʊtˈweɪ/", "collocations": ["the benefits outweigh the costs", "far outweigh"], "level": "C1" },
+    { "word": "outweigh", "pos": "verb", "he": "לעלות על (בחשיבות); לגבור על", "def": "to be more important than something else", "example": "The benefits clearly outweigh the costs.", "ipa": "/ˌaʊtˈweɪ/", "collocations": ["the benefits outweigh the costs", "far outweigh"], "level": "C1" },
     { "word": "qualify", "pos": "verb", "he": "לסייג", "def": "to make a statement less general by adding limits or conditions", "example": "She qualified her claim: the rule should apply only to students over 15.", "ipa": "/ˈkwɒlɪfaɪ/", "collocations": ["qualify a claim", "qualify a statement"], "level": "C1" },
     { "word": "straw man", "pos": "noun", "he": "איש קש", "def": "a weak, exaggerated version of an opposing argument that is easy to defeat", "example": "Don't attack a straw man: describe the other side as its supporters would.", "ipa": "/ˌstrɔː ˈmæn/", "collocations": ["attack a straw man", "a straw man argument"], "level": "C1" }
   ],
@@ -114,7 +114,7 @@
       "prompt": { "en": "Put the sentences in order to make a PEEL paragraph: Point, Evidence, Explain, Link." },
       "tokens": [
         "The main advantage of coursework is that it rewards skills that matter after school.",
-        "For example, in her history project Maya had to plan her time over six weeks, compare several sources and rewrite her first draft after feedback.",
+        "For example, in her history project Maya had to plan her time over six weeks, find and evaluate her own sources and rewrite her first draft after feedback.",
         "None of these skills can be tested in a three-hour exam, yet universities and employers expect all of them.",
         "For this reason, coursework should count for at least part of the final grade."
       ],
@@ -193,6 +193,25 @@
       },
       "option_errors": { "1": "unsupported-claim", "2": "fallacy", "3": "fallacy" },
       "explanation": { "en": "The strongest rebuttal concedes the point fairly ('It is true that the scheme would cost money') and then answers it with reasoning: savings on roads and parking would reduce the real cost. It responds to the objection instead of avoiding it." }
+    },
+    {
+      "id": "e15", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "Choose the strongest conclusion." },
+      "question": "Thesis: 'Public transport should be free for everyone under 25, because it would cut traffic and make education and jobs easier to reach.' Which conclusion works best?",
+      "options": [
+        "In conclusion, public transport should be free for everyone under 25, because it would cut traffic and make education and jobs easier to reach.",
+        "In conclusion, free public transport would cut traffic. Another advantage is that tourists would find it much easier to get around the city.",
+        "In conclusion, free transport for under-25s would ease congestion and put colleges and workplaces within reach of young people who cannot afford to travel. A city that wants its young people to study and work should make it easy for them to get there.",
+        "In conclusion, there are strong arguments on both sides of this debate, so it is difficult to say whether free transport is a good idea."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "This copies the thesis word for word. Restate it in new words, then end with a final thought about why it matters." },
+        "1": { "en": "Tourists are a new argument, and one that has nothing to do with under-25s. A conclusion sums up; it does not start a point that it has no room to support." },
+        "3": { "en": "After arguing for free transport, the writer suddenly sits on the fence. The conclusion should confirm the thesis, not abandon it." }
+      },
+      "option_errors": { "1": "unsupported-claim", "3": "weak-thesis" },
+      "explanation": { "en": "The strongest conclusion restates the thesis in new words (ease congestion, within reach of young people), sums up both reasons and ends with a final implication. It adds no new argument and does not reopen the debate." }
     },
     {
       "id": "e9", "type": "read", "skill": "reading",

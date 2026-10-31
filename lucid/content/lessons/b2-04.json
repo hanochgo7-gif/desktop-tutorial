@@ -113,8 +113,8 @@
     },
     {
       "type": "tip",
-      "en": "Contrast with Hebrew: Hebrew questions keep the word order of a statement, and so do English reported questions: She asked where I lived. The trap is the English direct-question pattern (do / did and inversion), so switch it off after asked, wondered and wanted to know.",
-      "he": "בעברית שאלה שומרת על סדר המילים של משפט רגיל ('איפה אתה גר?'), וכך גם שאלה מדווחת באנגלית: She asked where I lived. המלכודת היא דווקא מבנה השאלה הישירה באנגלית (do/did והיפוך), ולכן אחרי asked, wondered ו-wanted to know מוותרים עליו."
+      "en": "Contrast with Hebrew: a Hebrew question with a pronoun subject keeps statement word order ('where you live?'), and so does an English reported question: She asked where I lived. Watch out for two traps. First, the English direct-question pattern (do / did and inversion): switch it off after asked, wondered and wanted to know. Second, Hebrew often puts the verb before a noun subject in a question ('when opens the museum?'). In English the subject always comes first: She asked when the museum opened (not *when opened the museum).",
+      "he": "בשאלה בעברית עם כינוי גוף, סדר המילים הוא כמו במשפט רגיל ('איפה אתה גר?'), וכך גם בשאלה מדווחת באנגלית: She asked where I lived. שימו לב לשתי מלכודות. הראשונה: מבנה השאלה הישירה באנגלית (do/did והיפוך) – אחרי asked, wondered ו-wanted to know מוותרים עליו. השנייה: בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'), אבל באנגלית הנושא תמיד בא לפני הפועל: She asked when the museum opened, ולא when opened the museum."
     }
   ],
   "examples": [
@@ -232,7 +232,7 @@
     },
     {
       "word": "insist on",
-      "pos": "phrasal verb",
+      "pos": "verb + preposition",
       "he": "להתעקש על",
       "def": "to say firmly that something must happen or that you will do something",
       "example": "My grandmother insisted on paying for dinner.",
@@ -286,7 +286,7 @@
     },
     {
       "word": "apologise for",
-      "pos": "phrasal verb",
+      "pos": "verb + preposition",
       "he": "להתנצל על",
       "def": "to say sorry for something",
       "example": "Lior apologised for missing the meeting.",
@@ -327,7 +327,18 @@
       "level": "B2"
     }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    {
+      "en": "Hebrew reported speech keeps the speaker's original tense (word for word: 'Last summer Kenji asked me where I am staying'). In English, after a past reporting verb the tense usually shifts back: Last summer, Kenji asked me where I was staying.",
+      "he": "בדיבור עקיף בעברית הזמן המקורי נשמר: \"בקיץ שעבר קנג'י שאל אותי איפה אני מתאכסן\". באנגלית, אחרי פועל דיווח בעבר (asked, wanted to know), הזמן בדרך כלל זז אחורה: Last summer, Kenji asked me where I was staying, ולא where I am staying.",
+      "error_type": "reported-speech"
+    },
+    {
+      "en": "In Hebrew questions the verb often comes before a noun subject ('when opens the museum?'), and learners carry this into reported questions: *She asked when opened the museum. In English the subject always comes before the verb: She asked when the museum opened.",
+      "he": "בשאלות בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'), ולכן קל לכתוב בטעות She asked when opened the museum. באנגלית הנושא תמיד בא לפני הפועל: She asked when the museum opened.",
+      "error_type": "word-order"
+    }
+  ],
   "exercises": [
     {
       "id": "e1",
@@ -476,6 +487,10 @@
           "category": "verb + someone + to do"
         },
         {
+          "text": "warn",
+          "category": "verb + someone + to do"
+        },
+        {
           "text": "deny",
           "category": "verb + doing"
         },
@@ -497,7 +512,7 @@
         }
       ],
       "explanation": {
-        "en": "refused to go, offered to help, promised to call · persuaded me to stay, reminded us to lock, told them to wait · denied taking, suggested leaving · apologised for being late, insisted on paying, accused him of lying."
+        "en": "refused to go, offered to help, promised to call · persuaded me to stay, reminded us to lock, told them to wait, warned us not to touch · denied taking, suggested leaving · apologised for being late, insisted on paying, accused him of lying."
       }
     },
     {
@@ -617,7 +632,7 @@
       "type": "transform",
       "skill": "grammar",
       "prompt": {
-        "en": "Report the command, using told."
+        "en": "Report the command with told + person + (not) to."
       },
       "source": "'Don't park in front of the gate,' the security guard told us.",
       "answers": [
@@ -652,6 +667,18 @@
             "en": "The negative infinitive is not to + verb: told us not to park."
           },
           "error_type": "verb-form"
+        },
+        {
+          "match": "The security guard told us that we shouldn't park in front of the gate.",
+          "feedback": {
+            "en": "That is correct English, but this task practises the pattern for commands: told us not to park."
+          }
+        },
+        {
+          "match": "The security guard told us we shouldn't park in front of the gate.",
+          "feedback": {
+            "en": "That is correct English, but this task practises the pattern for commands: told us not to park."
+          }
         }
       ],
       "explanation": {
@@ -668,7 +695,9 @@
       "source": "'What time does the museum open?' Priya asked the guide. → Priya asked the guide ...",
       "answers": [
         "Priya asked the guide what time the museum opened.",
-        "Priya asked the guide what time the museum opens."
+        "Priya asked the guide what time the museum opens.",
+        "Priya asked the guide when the museum opened.",
+        "Priya asked the guide when the museum opens."
       ],
       "wrong_feedback": [
         {
@@ -688,7 +717,7 @@
         {
           "match": "Priya asked the guide what time opened the museum.",
           "feedback": {
-            "en": "Subject before verb: what time the museum opened."
+            "en": "Subject before verb: what time the museum opened. Hebrew can put the verb before the subject in a question ('when opens the museum?'); English can't."
           },
           "error_type": "word-order"
         }
@@ -757,7 +786,9 @@
       "source": "'You cheated in the exam, Amir!' said the teacher. → The teacher accused ...",
       "answers": [
         "The teacher accused Amir of cheating in the exam.",
-        "The teacher accused Amir of having cheated in the exam."
+        "The teacher accused Amir of having cheated in the exam.",
+        "The teacher accused Amir of cheating on the exam.",
+        "The teacher accused Amir of having cheated on the exam."
       ],
       "wrong_feedback": [
         {
@@ -930,15 +961,31 @@
       "prompt": {
         "en": "Correct the error in this sentence from a research summary."
       },
-      "sentence": "The study asked how often do teenagers check their phones at night.",
+      "sentence": "The survey asked how often do teenagers check their phones at night.",
       "answers": [
-        "The study asked how often teenagers check their phones at night.",
-        "The study asked how often teenagers checked their phones at night."
+        "The survey asked how often teenagers check their phones at night.",
+        "The survey asked how often teenagers checked their phones at night."
       ],
       "error_type": "word-order",
       "explanation": {
         "en": "An embedded question uses statement word order: how often teenagers check (no do). In academic summaries, a general finding can stay in the present (check) or shift back (checked)."
-      }
+      },
+      "wrong_feedback": [
+        {
+          "match": "The survey asked how often did teenagers check their phones at night.",
+          "feedback": {
+            "en": "No do / did and no inversion in an embedded question: how often teenagers checked (or check)."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "The survey asked how often teenagers checks their phones at night.",
+          "feedback": {
+            "en": "Teenagers is plural: how often teenagers check (or checked)."
+          },
+          "error_type": "agreement"
+        }
+      ]
     },
     {
       "id": "e13",
@@ -958,19 +1005,36 @@
         "My teacher encouraged me to read more English novels.",
         "My teacher recommended reading more English novels.",
         "My teacher recommended that I read more English novels.",
-        "My teacher recommended that I should read more English novels."
+        "My teacher recommended that I should read more English novels.",
+        "My teacher recommended I read more English novels."
       ],
       "error_type": "gerund-infinitive",
       "explanation": {
         "en": "suggest + -ing, or suggest + that + subject + (should) + verb. If you want the person + to pattern, change the verb: My teacher advised / encouraged me to read more English novels."
-      }
+      },
+      "wrong_feedback": [
+        {
+          "match": "My teacher suggested me reading more English novels.",
+          "feedback": {
+            "en": "Suggest doesn't take a person directly: suggested reading, or suggested (that) I read."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "My teacher suggested to read more English novels.",
+          "feedback": {
+            "en": "Suggest isn't followed by to + infinitive: suggested reading more English novels."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ]
     },
     {
       "id": "e14",
       "type": "transform",
       "skill": "writing",
       "prompt": {
-        "en": "Your friend Noa sent you this message in Hebrew this morning. Your English-speaking flatmate asks what she wanted. Report her request in one sentence, starting 'Noa asked me to ...'."
+        "en": "Your friend Noa sent you this message in Hebrew this morning. Your cousin from London, who doesn't speak Hebrew, asks what she wanted. Report her request in one sentence, starting 'Noa asked me to ...'."
       },
       "source": "נועה: אפשר לקבל בחזרה את המטען שלי מחר?",
       "answers": [
@@ -989,7 +1053,9 @@
         "Noa asked me to return the charger to her tomorrow.",
         "Noa asked me to bring the charger back tomorrow.",
         "Noa asked me to bring back the charger tomorrow.",
-        "Noa asked me to bring the charger back to her tomorrow."
+        "Noa asked me to bring the charger back to her tomorrow.",
+        "Noa asked me to give her her charger back tomorrow.",
+        "Noa asked me to give her back her charger tomorrow."
       ],
       "wrong_feedback": [
         {
@@ -1033,6 +1099,30 @@
             "en": "Change the pronoun: in Noa's message 'my charger' is her charger."
           },
           "error_type": "pronoun"
+        },
+        {
+          "match": "Noa asked me if she could have her charger back tomorrow.",
+          "feedback": {
+            "en": "That is a correct reported question, but the task asks you to report it as a request: Noa asked me to give her charger back tomorrow."
+          }
+        },
+        {
+          "match": "Noa asked me whether she could have her charger back tomorrow.",
+          "feedback": {
+            "en": "That is a correct reported question, but the task asks you to report it as a request: Noa asked me to give her charger back tomorrow."
+          }
+        },
+        {
+          "match": "Noa asked me if she could get her charger back tomorrow.",
+          "feedback": {
+            "en": "That is a correct reported question, but the task asks you to report it as a request: Noa asked me to give her charger back tomorrow."
+          }
+        },
+        {
+          "match": "Noa asked me whether she could get her charger back tomorrow.",
+          "feedback": {
+            "en": "That is a correct reported question, but the task asks you to report it as a request: Noa asked me to give her charger back tomorrow."
+          }
         }
       ],
       "hint": {

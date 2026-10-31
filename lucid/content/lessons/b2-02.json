@@ -91,7 +91,7 @@
     },
     {
       "type": "tip",
-      "en": "Criticism sounds strong in English. You should have told me! can be softened: You could have told me, or It would have been good to know earlier. If it hadn't been for... (= without...) is a useful way to thank someone: If it hadn't been for your help, I would never have finished."
+      "en": "Criticism with should have sounds direct: You should have told me! To soften it, use a hedge: It would have been helpful to know earlier, or Maybe you could have mentioned it. If it hadn't been for... (= without...) is a useful way to thank someone: If it hadn't been for your help, I would never have finished."
     },
     {
       "type": "warning",
@@ -187,7 +187,7 @@
     {
       "word": "make a difference",
       "pos": "phrase",
-      "he": "לשנות, להשפיע",
+      "he": "להשפיע, לחולל שינוי",
       "def": "to have an important effect on a situation",
       "example": "Another week of practice would have made a big difference.",
       "ipa": "/ˌmeɪk ə ˈdɪfrəns/",
@@ -681,6 +681,20 @@
             "en": "Reverse the facts: you did make soup, so in the unreal past you would NOT have made it."
           },
           "error_type": "comprehension"
+        },
+        {
+          "match": "If I had know you were vegetarian, I wouldn't have made chicken soup.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had known."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "If I had know you were vegetarian I wouldn't have made chicken soup.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had known."
+          },
+          "error_type": "verb-form"
         }
       ],
       "explanation": {
@@ -713,7 +727,11 @@
         "If I had taken the job in Eilat, I would now live by the sea.",
         "If I had taken the job in Eilat I would now live by the sea.",
         "If I had taken the job in Eilat, I would now be living by the sea.",
-        "If I had taken the job in Eilat I would now be living by the sea."
+        "If I had taken the job in Eilat I would now be living by the sea.",
+        "If I'd taken the job in Eilat, I'd live by the sea.",
+        "If I'd taken the job in Eilat I'd live by the sea.",
+        "If I'd taken the job in Eilat, I'd be living by the sea.",
+        "If I'd taken the job in Eilat I'd be living by the sea."
       ],
       "wrong_feedback": [
         {
@@ -757,6 +775,20 @@
             "en": "Would never goes in the if-clause: If I had taken."
           },
           "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had take the job in Eilat, I would live by the sea now.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had taken."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "If I had take the job in Eilat, I would be living by the sea now.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had taken."
+          },
+          "error_type": "verb-form"
         }
       ],
       "explanation": {
@@ -771,7 +803,7 @@
         "en": "Read the opinion column and answer the questions."
       },
       "title": "Stop saying 'no regrets'",
-      "passage": "'No regrets' has become a modern motto. People print it on T-shirts and add it to photos of skydiving trips. I understand the appeal, but I think the slogan gets something important wrong.\nConsider my friend Sara. Five years ago she turned down a place on a design course because it meant moving to another city. She often says, 'If I had gone, I would be doing work I love now.' For a long time, that sentence made her miserable. Then one day she changed the question. Instead of asking what would have happened, she asked what the regret was telling her. The answer was simple: she still cared about design. Last year she started an evening course, and she is happier than I have seen her in years. Her regret did not trap her; it pointed her in a direction.\nThat, I believe, is what regret is for. A specific regret ('I wish I had told my grandfather how much he meant to me') can show us what we value. A vague one ('If only my life had been different') just keeps us awake at night.\nCritics of this view argue that dwelling on the past is unhealthy and that we should focus only on what we can control. They have a point: some people replay the same mistake again and again until it damages their confidence. But the answer is not to pretend we have no regrets. It is to ask a better question. 'What would I have done differently?' is only useful if it leads to 'What will I do differently now?'\nSo the next time you catch yourself thinking 'If only...', do not push the thought away. Finish the sentence, and then decide what it means for tomorrow.",
+      "passage": "'No regrets' has become a modern motto. People print it on T-shirts and add it to photos of skydiving trips. I understand the appeal, but I think the slogan gets something important wrong.\nConsider my friend Sara. Five years ago she turned down a place on a design course because it meant moving to another city. She often says, 'If I had gone, I would be doing work I love now.' For a long time, that sentence made her miserable. Then one day she changed the question. Instead of asking what would have happened, she asked what the regret was telling her. The answer was simple: she still cared about design. Last year she started an evening course in design, and she is happier than I have seen her in years. Her regret did not trap her; it pointed her in a direction.\nThat, I believe, is what regret is for. A specific regret ('I wish I had told my grandfather how much he meant to me') can show us what we value. A vague one ('If only my life had been different') just keeps us awake at night.\nCritics of this view argue that dwelling on the past is unhealthy and that we should focus only on what we can control. They have a point: some people replay the same mistake again and again until it damages their confidence. But the answer is not to pretend we have no regrets. It is to ask a better question. 'What would I have done differently?' is only useful if it leads to 'What will I do differently now?'\nSo the next time you catch yourself thinking 'If only...', do not push the thought away. Finish the sentence, and then decide what it means for tomorrow.",
       "questions": [
         {
           "type": "mcq",
@@ -808,7 +840,7 @@
           "statement": "Sara has started studying design again.",
           "answer": true,
           "explanation": {
-            "en": "'Last year she started an evening course.'"
+            "en": "'Last year she started an evening course in design.'"
           }
         },
         {
@@ -957,7 +989,23 @@
       "error_type": "conditional-form",
       "explanation": {
         "en": "No would in the if-clause: If the researchers had used ... Formal writing sometimes drops if and inverts: Had the researchers used a larger sample, ..."
-      }
+      },
+      "wrong_feedback": [
+        {
+          "match": "If the researchers used a larger sample, the results would have been more reliable.",
+          "feedback": {
+            "en": "Used makes the condition sound present or general. The study is finished, so use the past perfect: If the researchers had used a larger sample, ..."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If the researchers used a larger sample the results would have been more reliable.",
+          "feedback": {
+            "en": "Used makes the condition sound present or general. The study is finished, so use the past perfect: If the researchers had used a larger sample, ..."
+          },
+          "error_type": "conditional-form"
+        }
+      ]
     },
     {
       "id": "e13",
@@ -975,8 +1023,31 @@
       ],
       "error_type": "verb-form",
       "explanation": {
-        "en": "should have + past participle (told) criticises something in the past that didn't happen. To sound less sharp: You could have told me..."
-      }
+        "en": "should have + past participle (told) criticises something in the past that didn't happen. To sound less sharp, hedge it: It would have been helpful if you'd told me..."
+      },
+      "wrong_feedback": [
+        {
+          "match": "You should of told me the meeting was cancelled.",
+          "feedback": {
+            "en": "Should have sounds like 'should of' in fast speech, but always write have: should have told."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "You should had told me the meeting was cancelled.",
+          "feedback": {
+            "en": "After a modal, use have (not had) + past participle: should have told."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "You should told me the meeting was cancelled.",
+          "feedback": {
+            "en": "Criticism about the past needs should + have + past participle: should have told."
+          },
+          "error_type": "verb-form"
+        }
+      ]
     },
     {
       "id": "e14",
@@ -1026,7 +1097,19 @@
         "Had I known that you were in the hospital, I would have visited you.",
         "Had I known that you were in the hospital I would have visited you.",
         "Had I known that you were in the hospital, I would have come to visit you.",
-        "Had I known that you were in the hospital I would have come to visit you."
+        "Had I known that you were in the hospital I would have come to visit you.",
+        "If I'd known you were in hospital, I'd have visited you.",
+        "If I'd known you were in hospital I'd have visited you.",
+        "I'd have visited you if I'd known you were in hospital.",
+        "If I'd known you were in hospital, I'd have come to visit you.",
+        "If I'd known you were in hospital I'd have come to visit you.",
+        "I'd have come to visit you if I'd known you were in hospital.",
+        "If I'd known you were in the hospital, I'd have visited you.",
+        "If I'd known you were in the hospital I'd have visited you.",
+        "I'd have visited you if I'd known you were in the hospital.",
+        "If I'd known you were in the hospital, I'd have come to visit you.",
+        "If I'd known you were in the hospital I'd have come to visit you.",
+        "I'd have come to visit you if I'd known you were in the hospital."
       ],
       "wrong_feedback": [
         {
@@ -1084,6 +1167,20 @@
             "en": "The visit didn't happen last week, so the result is in the past too: I would have visited you."
           },
           "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had know you were in hospital, I would have visited you.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had known."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "If I had know you were in hospital I would have visited you.",
+          "feedback": {
+            "en": "After had, use the past participle: If I had known."
+          },
+          "error_type": "verb-form"
         }
       ],
       "hint": {

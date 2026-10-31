@@ -84,7 +84,7 @@
     },
     {
       "type": "rule",
-      "en": "To turn a clause into a noun phrase: the verb becomes a noun (decide → decision, fail → failure, rise → rise); the subject becomes a possessive or an of-phrase (the council's decision / the decision of the council); an adverb becomes an adjective (decided suddenly → a sudden decision); and what followed the verb is linked with a preposition or a to-infinitive (decided to close → the decision to close; prices rose → a rise in prices). The whole idea can now be the subject: The council's sudden decision to close the library angered residents."
+      "en": "To turn a clause into a noun phrase: the verb becomes a noun (decide → decision, fail → failure, rise → rise); the subject becomes a possessive or an of-phrase (the council's decision / the decision of the council); an adverb becomes an adjective (decided suddenly → a sudden decision); and what followed the verb is linked with a preposition or a to-infinitive (decided to close → the decision to close; relied on phones → reliance on phones). With nouns of change, the thing that changes takes in: prices rose → a rise in prices. The whole idea can now be the subject: The council's sudden decision to close the library angered residents."
     },
     {
       "type": "table",
@@ -164,7 +164,7 @@
       "note": "fail to → failure to: typical of formal notices"
     },
     {
-      "en": "Too nominal: The making of improvements to the website was undertaken by the team. Better: The team improved the website.",
+      "en": "Over-nominalised: The making of improvements to the website was undertaken by the team. Better: The team improved the website.",
       "note": "an empty noun + verb becomes one strong verb, and the actor is back at the front"
     }
   ],
@@ -463,9 +463,9 @@
       "skill": "writing",
       "topic": "nominalisation",
       "prompt": {
-        "en": "Original: 'The council responded slowly to the floods, and many residents lost confidence in it.' Which noun phrase correctly completes the formal version?"
+        "en": "Original: 'The council responded slowly to the floods, and many residents lost confidence in the town's emergency planning.' Which noun phrase correctly completes the formal version?"
       },
-      "question": "___ led many residents to lose confidence in it.",
+      "question": "___ led many residents to lose confidence in the town's emergency planning.",
       "options": [
         "The council's slow response to the floods",
         "The council's slowly response to the floods",
@@ -577,7 +577,7 @@
         "en": "Read the opinion column from a local newspaper and answer the questions. Notice where the writer's own noun phrases help and where the council's do not."
       },
       "title": "Who did what? In defence of the humble verb",
-      "passage": "Last month our town council sent every household a letter about bin collections. Its key sentence read: 'Following the completion of a review of current collection arrangements, the implementation of a revised schedule will take place in the spring.' I read it three times before I understood that the council had looked at how it collects our rubbish and was going to change the timetable.\n\nThis style has a name: nominalisation, the habit of turning actions into nouns. 'Review' replaces 'we reviewed'; 'implementation' replaces 'we will introduce'. Each noun on its own is perfectly respectable. The trouble starts when they are stacked on top of each other, joined by a chain of 'of' phrases and attached to a verb that says almost nothing, such as 'take place' or 'be carried out'. The result is a sentence full of processes but empty of people. Who reviewed the arrangements? Who will decide the new schedule? The grammar no longer has to say.\n\nTo be fair, nominalisation is not a vice in itself. Academic writing depends on it, and for good reasons. A noun phrase can sum up a whole paragraph in two words, so that the next sentence can build on it: 'This decline', 'Such criticism', 'The council's refusal'. It allows writers to compare abstract ideas and to keep the focus on an issue rather than on the people involved, which is sometimes exactly what a report needs. A sentence such as 'The rise in rents has driven young families out of the centre' is clear precisely because 'the rise in rents' is a familiar idea that readers do not need to have unpacked.\n\nThe real problem, then, is not the noun but the missing actor and the missing verb. Official writing often hides behind abstraction, partly because it sounds careful and partly because it lets writers avoid responsibility. 'Mistakes were made' and 'a delay in the processing of applications has occurred' both leave the reader wondering whose mistake, and whose delay, it was.\n\nMy test is simple. After writing a sentence full of nouns, ask two questions: who is doing something, and what exactly are they doing? If the answers are missing, put them back. The council's letter could have read: 'We have reviewed how we collect your bins, and we will introduce a new timetable in the spring.' It is shorter and clearer, and, not least, it tells residents exactly who to call when the bins are not emptied.",
+      "passage": "Last month our town council sent every household a letter about bin collections. Its key sentence read: 'Following the completion of a review of current collection arrangements, the implementation of a revised schedule will take place in the spring.' I read it three times before I understood that the council had looked at how it collects our rubbish and was going to change the timetable.\n\nThis style has a name: nominalisation, the habit of turning actions into nouns. 'Review' replaces 'we reviewed'; 'implementation' replaces 'we will introduce'. Each noun on its own is perfectly respectable. The trouble starts when they are stacked on top of each other, joined by a chain of 'of' phrases and attached to a verb that says almost nothing, such as 'take place' or 'be carried out'. The result is a sentence full of processes but empty of people. Who reviewed the arrangements? Who will decide the new schedule? The grammar no longer has to say.\n\nTo be fair, nominalisation is not a vice in itself. Academic writing depends on it, and for good reasons. A noun phrase can sum up a whole paragraph in two words, so that the next sentence can build on it: 'This decline', 'Such criticism', 'The council's refusal'. It allows writers to compare abstract ideas and to keep the focus on an issue rather than on the people involved, which is sometimes exactly what a report needs. A sentence such as 'The rise in rents has driven young families out of the centre' is clear precisely because 'the rise in rents' is a familiar idea that does not need to be unpacked.\n\nThe real problem, then, is not the noun but the missing actor and the missing verb. Official writing often hides behind abstraction, partly because it sounds careful and partly because it lets writers avoid responsibility. 'Mistakes were made' and 'a delay in the processing of applications has occurred' both leave the reader wondering who made the mistakes and who caused the delay.\n\nMy test is simple. After writing a sentence full of nouns, ask two questions: who is doing something, and what exactly are they doing? If the answers are missing, put them back. The council's letter could have read: 'We have reviewed how we collect your bins, and we will introduce a new timetable in the spring.' It is shorter and clearer, and, not least, it tells residents exactly who to call when the bins are not emptied.",
       "questions": [
         {
           "type": "mcq",
@@ -652,7 +652,7 @@
           "statement": "According to the writer, 'the rise in rents' would be clearer if it were rewritten with a verb.",
           "answer": false,
           "explanation": {
-            "en": "The writer says the sentence 'is clear precisely because' the rise in rents is a familiar idea that does not need unpacking."
+            "en": "The writer says the sentence 'is clear precisely because' the rise in rents 'is a familiar idea that does not need to be unpacked'."
           }
         },
         {
@@ -670,7 +670,7 @@
               "en": "Still no actor: who delayed the applications? The writer wants to know who did what."
             },
             "1": {
-              "en": "This is even more compressed: four nouns in a row and still no actor."
+              "en": "This is even more compressed: three nouns in a row (application processing delays), an empty verb (have occurred) and still no actor."
             },
             "3": {
               "en": "'Has been subject to delay' is another empty verb phrase, and the actor is still hidden."
@@ -742,6 +742,13 @@
             "en": "After the subject 'The researchers' the sentence needs a past verb: analysed."
           },
           "error_type": "word-choice"
+        },
+        {
+          "match": "analyse",
+          "feedback": {
+            "en": "The word class is right (a verb), but the tense is not: the interpretation 'was later challenged', so the analysis happened in the past: analysed."
+          },
+          "error_type": "tense-choice"
         },
         {
           "match": "interpret",
@@ -896,6 +903,7 @@
       "answers": [
         "The analysis of the results took much longer than expected.",
         "Analysis of the results took much longer than expected.",
+        "The analyses of the results took much longer than expected.",
         "Analysing the results took much longer than expected.",
         "Analyzing the results took much longer than expected."
       ],

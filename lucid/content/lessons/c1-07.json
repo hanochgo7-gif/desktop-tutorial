@@ -92,11 +92,11 @@
     },
     {
       "type": "rule",
-      "en": "Every device must carry content. A tricolon needs three genuinely parallel items (cheaper, faster and more reliable, not cheaper, faster and it is also more reliable). An antithesis needs a real contrast. A rhetorical question works only if this audience would really give the answer you expect; otherwise it hides a claim you have not supported. In writing, keep question word order: Why should we pay ...? How many more reports do we need?, not *Why we should pay ...?"
+      "en": "Every device must carry content. A tricolon needs three genuinely parallel items (cheaper, faster and more reliable, not cheaper, faster and it is also more reliable). An antithesis needs a real contrast. A rhetorical question works only if this audience would really give the answer you expect; otherwise it hides a claim you have not supported. In writing, keep question word order, with the auxiliary before the subject: Why should we pay ...? How many more reports do we need? (Not *Why we should pay ...?)"
     },
     {
       "type": "warning",
-      "en": "Persuasion or manipulation? Ask four questions. (1) Would each appeal still work if the audience could see exactly what you were doing? (2) Is every emotion in proportion to the facts and tied to a reason? (3) Would your opponents accept your description of their view? (4) Are you inviting the audience to think, or trying to stop them thinking? Fake consensus, loaded labels (so-called experts), invented urgency (Act tonight or lose everything) and the fallacies from the previous lesson (appeal to pity, bandwagon, straw man, ad hominem) are manipulation dressed up as rhetoric."
+      "en": "Persuasion or manipulation? Ask four questions. (1) Would each appeal still work if the audience could see exactly what you were doing? (2) Is every emotion in proportion to the facts and tied to a reason? (3) Would your opponents accept your description of their view? (4) Are you inviting the audience to think, or trying to stop them thinking? Fake consensus, loaded labels (so-called experts), invented urgency (Act tonight or lose everything) and the fallacies from the previous lesson (false dilemma, bandwagon, straw man, ad hominem) are manipulation dressed up as rhetoric."
     },
     {
       "type": "tip",
@@ -366,7 +366,7 @@
           "category": "Ethos (credibility)"
         },
         {
-          "text": "I may be wrong about the exact cost, so I will publish our figures in full for anyone to check.",
+          "text": "I will not pretend this plan is perfect: it will do little for people who live outside the city.",
           "category": "Ethos (credibility)"
         },
         {
@@ -398,7 +398,7 @@
         "en": "Ask what each sentence asks the audience to do: trust the speaker, check a fact or follow a reason, or feel something."
       },
       "explanation": {
-        "en": "Ethos sentences give the audience a reason to trust the speaker: relevant experience, fairness to opponents and transparency about uncertainty. Logos sentences offer facts and reasoning that can be checked. Pathos sentences make the human stakes felt. A strong speech uses all three for the same claim; a manipulative one uses pathos instead of logos."
+        "en": "Ethos sentences give the audience a reason to trust the speaker: relevant experience, fairness to opponents and honesty about the plan's limits. Logos sentences offer facts and reasoning that can be checked. Pathos sentences make the human stakes felt. A strong speech uses all three for the same claim; a manipulative one uses pathos instead of logos."
       }
     },
     {
@@ -450,21 +450,21 @@
       "audio_text": "Some of you have told me that a silent study room is a waste of space, and honestly, I understand why. Most of us revise with friends, not alone. But for students who share a bedroom with two younger brothers, a quiet room isn't a luxury; it's the only place they can think. So I'm not asking you to use it. I'm asking you not to take it away from the people who need it.",
       "question": "How does the speaker deal with the view that the study room is a waste of space?",
       "options": [
-        "She ignores it and talks only about her own plans.",
-        "She suggests that the people who hold it are selfish.",
-        "She accepts part of it, then explains why the room still matters for some students.",
-        "She agrees with it completely and drops her proposal."
+        "The speaker ignores it and talks only about their own plans.",
+        "The speaker suggests that the people who hold it are selfish.",
+        "The speaker accepts part of it, then explains why the room still matters for some students.",
+        "The speaker agrees with it completely and drops the proposal."
       ],
       "answer": 2,
       "option_feedback": {
         "0": {
-          "en": "She deals with it in her very first sentence: 'Some of you have told me ...'."
+          "en": "The speaker deals with it in the very first sentence: 'Some of you have told me ...'."
         },
         "1": {
-          "en": "She never attacks anyone. 'I understand why' is the opposite of an attack."
+          "en": "The speaker never attacks anyone. 'I understand why' is the opposite of an attack."
         },
         "3": {
-          "en": "She concedes that most students revise with friends, but she still asks the council not to remove the room."
+          "en": "The speaker concedes that most students revise with friends, but still asks the council not to remove the room."
         }
       },
       "option_errors": {
@@ -518,10 +518,10 @@
       "skill": "reading",
       "topic": "rhetoric",
       "prompt": {
-        "en": "Read the opinion column from a local newspaper and answer the questions. Notice that the columnist judges how each side argues, not which policy is better."
+        "en": "Read the opinion column from a local newspaper and answer the questions."
       },
       "title": "Two leaflets, one doormat",
-      "passage": "This week two leaflets landed on my doormat, one from each side of the referendum on the old rail yard. Should the land become a public park, or should the council sell it for new homes? I have not made up my mind, and I suspect many readers have not either. So rather than tell you how to vote, I want to look at how each side is trying to win your vote.\n\nThe Yes to the Park leaflet opens with a photograph of a small child staring through a wire fence at the empty yard. Underneath, in large letters, it asks: 'Do you want your grandchildren to grow up surrounded by concrete?' It is an effective question, but it is not a fair one. Nobody is proposing to cover the town in concrete; the housing plan itself includes a garden square. The question works by making you say 'no' to something that is not on the ballot.\n\nTurn the leaflet over, however, and the tone changes. The campaign points out that the nearest park is a forty-minute walk for families on the eastern estates, sets out a costed plan for maintaining the new one, and admits that 'a park will not solve the housing shortage'. That last sentence is the most persuasive thing in the leaflet. A campaign that tells you what its plan cannot do gives you a reason to believe what it says the plan can do.\n\nThe Homes First leaflet has the opposite problem. Its central argument is serious: young couples are leaving the town because they cannot afford the rent, and two hundred new flats would ease the pressure. It even offers a memorable line: 'A park is somewhere to visit; a home is somewhere to live.' That sentence does real work, because it names the choice at the heart of the vote. But the leaflet then claims that 'everyone under thirty supports Homes First' and describes the park campaigners as 'a few retired people with large gardens'. The first claim is impossible to check and almost certainly untrue; the second is a sneer, not an argument. Both will please readers who already agree, and both will put off the undecided voters the campaign most needs.\n\nWhat strikes me is that the strongest parts of each leaflet are the least dramatic: a walking distance, a cost, an honest admission, a clear statement of the trade-off. The weakest parts are the ones that try hardest to make me feel something without giving me a reason to feel it.\n\nI will vote next month, and I still do not know which way. But I know what kind of argument I will be listening for.",
+      "passage": "This week two leaflets landed on my doormat, one from each side of the referendum on the old rail yard. Should the land become a public park, or should the council sell it for new homes? I have not made up my mind, and I suspect many readers have not either. So rather than tell you how to vote, I want to look at how each side is trying to win your vote.\n\nThe Yes to the Park leaflet opens with a photograph of a small child staring through a wire fence at the empty yard. Underneath, in large letters, it asks: 'Do you want your grandchildren to grow up surrounded by concrete?' It is an effective question, but it is not a fair one. Nobody is proposing to cover the town in concrete; the housing plan itself includes a garden square. The question works by making you say 'no' to something that is not on the ballot.\n\nTurn the leaflet over, however, and the tone changes. The campaign points out that the nearest park is a forty-minute walk for families on the eastern estates, sets out a costed plan for maintaining the new one, and admits that 'a park will not solve the housing shortage'. That last sentence is the most persuasive thing in the leaflet. A campaign that tells you what its plan cannot do gives you a reason to believe what it says the plan can do.\n\nThe Homes First leaflet runs the other way: it starts strong and then lets itself down. Its central argument is serious: young couples are leaving the town because they cannot afford the rent, and two hundred new flats would ease the pressure. It even offers a memorable line: 'A park is somewhere to visit; a home is somewhere to live.' That sentence does real work, because it names the choice at the heart of the vote. But the leaflet then claims that 'everyone under thirty supports Homes First' and describes the park campaigners as 'a few retired people with large gardens'. The first claim is impossible to check and almost certainly untrue; the second is a sneer, not an argument. Both will please readers who already agree, and both will put off the undecided voters the campaign most needs.\n\nWhat strikes me is that the strongest parts of each leaflet are the least dramatic: a walking distance, a cost, an honest admission, a clear statement of the trade-off. The weakest parts are the ones that try hardest to make me feel something without giving me a reason to feel it.\n\nI will vote next month, and I still do not know which way. But I know what kind of argument I will be listening for.",
       "questions": [
         {
           "type": "mcq",
@@ -889,6 +889,12 @@
           "error_type": "punctuation"
         },
         {
+          "match": "We do not need more rules. We need better ones.",
+          "feedback": {
+            "en": "A good antithesis, but it is still two sentences, and the task asks you to combine them. Join the two clauses with a semicolon, a colon or a dash, or use not ... but in one clause."
+          }
+        },
+        {
           "match": "We need better rules, not more rules.",
           "feedback": {
             "en": "A good antithesis, but the task asks you to begin with 'We do not need ...', putting the rejected idea first so that the preferred idea gets the final, stronger position."
@@ -920,15 +926,13 @@
           "match": "The new timetable is simpler, cheaper and also more reliable.",
           "feedback": {
             "en": "Closer, but 'also' is an extra word that breaks the rhythm. In a tight tricolon, the three items match: simpler, cheaper and more reliable."
-          },
-          "error_type": "word-order"
+          }
         },
         {
           "match": "The new timetable is simpler, cheaper and more reliable too.",
           "feedback": {
             "en": "Drop 'too': the three items should match exactly, so the last one lands with full weight."
-          },
-          "error_type": "word-order"
+          }
         },
         {
           "match": "The new timetable is simpler, cheaper and reliable.",
@@ -1001,7 +1005,7 @@
       "skill": "grammar",
       "topic": "rhetoric",
       "prompt": {
-        "en": "This rhetorical question from a speech has a word-order mistake. Write it correctly."
+        "en": "This rhetorical question from a speech uses statement word order. Write it as a correct question."
       },
       "sentence": "How many more reports we need before we act?",
       "answers": [
@@ -1104,7 +1108,7 @@
       },
       "min_words": 250,
       "max_words": 400,
-      "model_answer": "Good evening. My name is Noa Peretz, and for the last two years I have revised for every exam at a kitchen table I share with three younger brothers. So let me be honest about my interest: I would use a late-opening library. But I want to argue that the council should approve this plan for the town's sake, not just for mine.\n\nThe proposal is modest. For four weeks a year, the library would stay open until midnight on weekdays, and in return it would close on Sunday afternoons for those same four weeks. According to the library's own figures, the hours moved from Sunday would cover the cost of the extra evenings, so no new money is needed.\n\nPicture a student at eleven o'clock at night, trying to learn chemistry while the television plays through the wall. For many young people in this town, the library is not a convenience; it is the only quiet room they have. And exam results shape which courses they can apply for, which jobs they can do and which towns they can afford to live in.\n\nFamilies who use the library on Sundays have raised a fair objection. Sunday afternoon is when parents bring young children to story time, and losing it, even for four weeks, is a real cost. I take that seriously, which is why I would ask the council to move story time to Saturday mornings during the exam period rather than cancel it. The change is small, temporary and reversible.\n\nWe are not asking the town to choose between children and teenagers. We are asking it to share one building more fairly across the year. Is a quiet desk at eleven o'clock at night too much to ask? I hope you will vote yes.",
+      "model_answer": "Good evening. My name is Noa Peretz, and for the last two years I have revised for every exam at a kitchen table I share with three younger brothers. So let me be honest about my interest: I would use a late-opening library. But I want to argue that the council should approve this plan for the town's sake, not just for mine.\n\nThe proposal is modest. For four weeks a year, the library would stay open until midnight on weekdays, and in return it would close on Sunday afternoons for those same four weeks. As the plan itself sets out, closing on Sunday afternoons would pay for the extra evenings, so no new money is needed.\n\nPicture a student at eleven o'clock at night, trying to learn chemistry while the television plays through the wall. For many young people in this town, the library is not a convenience; it is the only quiet room they have. And exam results shape which courses they can apply for, which jobs they can do and which towns they can afford to live in.\n\nFamilies who use the library on Sundays have raised a fair objection. Sunday afternoon is when parents bring young children to story time, and losing it, even for four weeks, is a real cost. I take that seriously, which is why I would ask the council to move story time to Saturday mornings during the exam period rather than cancel it. The change is small, temporary and reversible.\n\nWe are not asking the town to choose between children and teenagers. We are asking it to share one building more fairly across the year. Is a quiet desk at eleven o'clock at night too much to ask? I hope you will vote yes.",
       "checklist": [
         {
           "en": "Position: I state clearly, early on, whether the council should approve the plan, and I respond to the opposing view."

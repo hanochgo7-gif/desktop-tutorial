@@ -63,7 +63,9 @@
     { "word": "be grateful (if)", "pos": "phrase", "he": "אודה (לך) אם...; להיות אסיר/ת תודה", "def": "to feel thankful; used in formal requests", "example": "I would be grateful if you could reply by Monday.", "ipa": "/bi ˈɡreɪtfl ɪf/", "collocations": ["I would be grateful if you could", "be grateful for something"], "level": "B1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there are no capital letters, and informal English messages often drop them too (hi dana, i'll be late). In a formal email, capitals are required: Dear Ms Cohen, the pronoun I, names, days and months (Monday, March) and the first word of the sign-off (Kind regards).", "he": "בעברית אין אותיות גדולות, וגם בהודעות לא רשמיות באנגלית משמיטים אותן לעיתים קרובות (hi dana, i'll be late). במייל רשמי הן חובה: Dear Ms Cohen, הכינוי I, שמות, ימים וחודשים (Monday, March) והמילה הראשונה בסיום (Kind regards).", "error_type": "capitalization" }
+    { "en": "In Hebrew there are no capital letters, and informal English messages often drop them too (hi dana, i'll be late). In a formal email, capitals are required: Dear Ms Cohen, the pronoun I, names, days and months (Monday, March) and the first word of the sign-off (Kind regards).", "he": "בעברית אין אותיות גדולות, וגם בהודעות לא רשמיות באנגלית משמיטים אותן לעיתים קרובות (hi dana, i'll be late). במייל רשמי הן חובה: Dear Ms Cohen, הכינוי I, שמות, ימים וחודשים (Monday, March) והמילה הראשונה בסיום (Kind regards).", "error_type": "capitalization" },
+    { "en": "In Hebrew, an imperative softened with bevakasha ('please') is polite enough in many situations. Translated word for word, 'Please send me the slides' can sound like an order to someone you don't know or who is doing you a favour. In English, ask a question or hedge: Could you send me the slides? / I was wondering if you could send me the slides.", "he": "בעברית 'תשלח לי בבקשה את המצגת' היא בקשה מנומסת מספיק במצבים רבים. בתרגום מילולי, Please send me the slides עלול להישמע כמו הוראה כשפונים למישהו שאינכם מכירים או למי שעושה לכם טובה. באנגלית שואלים שאלה או מרככים: Could you send me the slides? או I was wondering if you could send me the slides.", "error_type": "register" },
+    { "en": "In Hebrew, ani rotse / ani rotsa ('I want') is a normal, polite way to make a request, even to a company. In an English request, 'I want' sounds demanding. Use I would like or a hedged question: I would like to request a refund, not I want a refund.", "he": "בעברית 'אני רוצה' היא דרך ניטרלית לבקש משהו ('אני רוצה לבקש החזר כספי'), אבל בפנייה באנגלית I want נשמע תובעני. השתמשו ב-I would like או בשאלה מרוככת: I would like to request a refund, ולא I want a refund.", "error_type": "register" }
   ],
   "exercises": [
     {
@@ -104,17 +106,17 @@
     {
       "id": "e3", "type": "listen", "skill": "listening",
       "prompt": { "en": "Listen to the voice message and answer the question." },
-      "audio_text": "Hey, it's me. Listen, I'm not gonna make it to the thing tonight, something's come up at work. Can we push it to Saturday? Text me when you get this.",
+      "audio_text": "Hey, it's me. Listen, I'm not gonna make it to the thing tonight, something's come up at work. Can we push it back to Saturday? Text me when you get this.",
       "question": "Who is the message most likely for?",
       "options": ["A manager the speaker doesn't know well", "A customer who booked a table", "A close friend", "A university lecturer"],
       "answer": 2,
       "option_feedback": {
         "0": { "en": "To a manager, the speaker would give their name and explain politely: 'I'm afraid I won't be able to attend ...'. 'Hey, it's me' assumes the listener knows the voice." },
         "1": { "en": "A business would never call a booking 'the thing tonight' or tell a customer 'Text me when you get this'." },
-        "3": { "en": "With a lecturer you would expect a greeting, your name and a polite request, not 'gonna' and 'push it to Saturday'." }
+        "3": { "en": "With a lecturer you would expect a greeting, your name and a polite request, not 'gonna' and 'push it back to Saturday'." }
       },
       "option_errors": { "0": "register", "1": "register", "3": "register" },
-      "explanation": { "en": "Every clue is informal: 'Hey, it's me' (the listener knows the voice), 'gonna', 'the thing' (both people know what it is), the phrasal verb 'push it to Saturday' (= postpone it) and the direct 'Text me'." }
+      "explanation": { "en": "Every clue is informal: 'Hey, it's me' (the listener knows the voice), 'gonna', 'the thing' (both people know what it is), the phrasal verb 'push it back' (= postpone it) and the direct 'Text me'." }
     },
     {
       "id": "e4", "type": "match", "skill": "vocabulary",
@@ -126,7 +128,7 @@
       "id": "e5", "type": "read", "skill": "reading",
       "prompt": { "en": "Read an email from a language school and the message Maya sent to a friend about it. Then answer the questions." },
       "title": "Same news, two readers",
-      "passage": "EMAIL FROM THE SCHOOL\n\nSubject: Change to your course start date\n\nDear Ms Levi,\n\nWe are writing to inform you that the start of the Advanced English summer course has been postponed from 1 July to 8 July. This is due to essential maintenance work in our main building, which will not be completed until the end of June.\n\nWe appreciate that this change may cause some inconvenience, and we apologise for any disruption to your summer plans. If the new date is not suitable, you are welcome to transfer to the August course at no extra cost, or to request a full refund. Your timetable and classroom details will be sent to you in the week before the course begins.\n\nWe would be grateful if you could confirm whether you will be attending by 15 June. Should you require any further information, please do not hesitate to contact our office.\n\nKind regards,\nDaniel Shapiro\nStudent Services, Brightwater Language School\n\nMAYA'S MESSAGE TO HER FRIEND NOA\n\nHey Noa! Bad news, the summer course has been pushed back a week. They're fixing something in the building, so it starts on the 8th now, not the 1st. If that's no good, I can switch to August for free or just get my money back. Got to let them know by the 15th, and they'll send the timetable the week before. Honestly, I don't mind, it means I'm free for your birthday trip on the 1st! Still on? Let me know what time we're leaving and I'll sort out snacks.",
+      "passage": "EMAIL FROM THE SCHOOL\n\nSubject: Change to your course start date\n\nDear Ms Levi,\n\nWe are writing to inform you that the start of the Advanced English summer course has been postponed from 1 July to 8 July. This is due to essential maintenance work in our main building, which will not be completed until the end of June.\n\nWe appreciate that this change may cause some inconvenience, and we apologise for any disruption to your summer plans. If the new date is not suitable, you are welcome to transfer to the August course at no extra cost, or to request a full refund. Your timetable and classroom details will be sent to you in the week before the course begins.\n\nWe would be grateful if you could confirm by 15 June whether you will be attending. Should you require any further information, please do not hesitate to contact our office.\n\nKind regards,\nDaniel Shapiro\nStudent Services, Brightwater Language School\n\nMAYA'S MESSAGE TO HER FRIEND NOA\n\nHey Noa! Bad news, the summer course has been pushed back a week. They're fixing something in the building, so it starts on the 8th now, not the 1st. If that's no good, I can switch to August for free or just get my money back. Got to let them know by the 15th, and they'll send the timetable the week before. Honestly, I don't mind, it means I'm free for your birthday trip on the 1st! Still on? Let me know what time we're leaving and I'll sort out snacks.",
       "questions": [
         {
           "type": "mcq",
@@ -291,7 +293,7 @@
     },
     {
       "id": "e12", "type": "transform", "skill": "vocabulary",
-      "prompt": { "en": "Now go the other way. Rewrite this formal notice as a message to a friend, using a phrasal verb with 'call'." },
+      "prompt": { "en": "Now go the other way. Rewrite this sentence for a message to a friend: replace 'cancelled' with a phrasal verb with 'call'." },
       "source": "The concert has been cancelled.",
       "answers": [
         "The concert has been called off.",
@@ -327,23 +329,31 @@
     },
     {
       "id": "e14", "type": "correct", "skill": "writing",
-      "prompt": { "en": "This sentence is from a formal email to a company. One expression is too informal. Correct it." },
+      "prompt": { "en": "This sentence is from a formal email to a company. Two expressions in it are too informal. Rewrite it formally." },
       "sentence": "I would be grateful if you could get back to me ASAP.",
       "answers": [
-        "I would be grateful if you could get back to me as soon as possible.",
         "I would be grateful if you could reply as soon as possible.",
         "I would be grateful if you could respond as soon as possible.",
+        "I would be grateful if you could reply to me as soon as possible.",
+        "I would be grateful if you could respond to me as soon as possible.",
         "I would be grateful if you could contact me as soon as possible.",
-        "I would be grateful if you could get back to me at your earliest convenience.",
         "I would be grateful if you could reply at your earliest convenience.",
-        "I would be grateful if you could respond at your earliest convenience."
+        "I would be grateful if you could respond at your earliest convenience.",
+        "I would be grateful if you could reply to me at your earliest convenience.",
+        "I would be grateful if you could respond to me at your earliest convenience.",
+        "I would be grateful if you could contact me at your earliest convenience.",
+        "I would be grateful for a reply as soon as possible.",
+        "I would be grateful for a reply at your earliest convenience.",
+        "I would be grateful for a response as soon as possible.",
+        "I would be grateful for a response at your earliest convenience."
       ],
       "error_type": "register",
       "wrong_feedback": [
-        { "match": "asap", "feedback": { "en": "Writing asap in small letters doesn't change it: it is still an abbreviation. Write it in full: as soon as possible." }, "error_type": "register" }
+        { "match": "asap", "feedback": { "en": "ASAP (or asap) is an abbreviation, so it is still too informal for a formal email. Write it in full: as soon as possible, or use at your earliest convenience." }, "error_type": "register" },
+        { "match": "get", "feedback": { "en": "Get back to (and get in touch) are everyday phrasal verbs. In a formal email, use a single verb: reply, respond or contact." }, "error_type": "register" }
       ],
-      "hint": { "en": "Which abbreviation belongs in a quick message, not a formal email?" },
-      "explanation": { "en": "ASAP is fine between colleagues who know each other, but in a formal email write it in full (as soon as possible) or use the formal phrase at your earliest convenience." }
+      "hint": { "en": "Look for one abbreviation and one informal phrasal verb." },
+      "explanation": { "en": "ASAP is fine between colleagues who know each other, but in a formal email write it in full (as soon as possible) or use the formal phrase at your earliest convenience. Get back to is the everyday phrasal verb; reply or respond is the formal single verb (see the table in the lesson)." }
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking",
@@ -355,7 +365,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing",
       "prompt": { "en": "Pass on the same news to two different readers." },
-      "task": { "en": "Your flatmate Omer sent you this message: 'ugh, the boiler's broken AGAIN. no hot water since Sunday!! that's the 3rd time this month. I texted Mr Walsh on Sunday and he hasn't got back to me. can you email him? we need someone to come and fix it by Thursday. if he can't sort it out, we'll get our own plumber and send him the bill. oh and tell Kenji, he doesn't know yet'. Part A (130-180 words): write a formal email to your landlord, Mr Walsh. Include all the key information: the problem, how long it has lasted, how often it has happened, the earlier message, the deadline and what you will do if it is not repaired. Make at least one hedged request, and avoid contractions and informal phrasal verbs. Part B (50-90 words): write an informal message to your other flatmate, Kenji, explaining what is happening and what you have done. (The automatic checks treat all B2 writing as formal, so you can ignore contraction warnings for Part B.)" },
+      "task": { "en": "Your flatmate Omer sent you this message: 'ugh, the boiler's broken AGAIN. no hot water since Sunday!! that's the 3rd time this month. I texted Mr Walsh on Sunday and he hasn't got back to me. can you email him? we need someone to come and fix it by Thursday. if he can't sort it out, we'll get our own plumber and send him the bill. oh and tell Kenji, he doesn't know yet'. Part A (130-180 words): write a formal email to your landlord, Mr Walsh. Include all the key information: the problem, how long it has lasted, how often it has happened, the earlier message, the deadline and what you will do if it is not repaired. Make at least one hedged request, and avoid contractions and informal phrasal verbs. Part B (50-90 words): write an informal message to your other flatmate, Kenji, explaining what is happening and what you have done. (The automatic checks treat all B2 writing as formal, so you can ignore contraction and informal-word warnings for Part B.)" },
       "min_words": 180,
       "max_words": 280,
       "model_answer": "Part A\nSubject: No hot water at Flat 3, 12 Mill Road\n\nDear Mr Walsh,\n\nI am writing on behalf of the tenants of Flat 3 to report that the boiler has stopped working again. We have had no hot water since Sunday, and this is the third time this month that the boiler has failed.\n\nMy flatmate Omer sent you a text message about the problem on Sunday, but unfortunately we have not yet received a reply. I would therefore be grateful if you could arrange for a qualified engineer to repair the boiler by Thursday at the latest.\n\nIf this is not possible, we will have no choice but to hire a plumber ourselves and forward the invoice to you. We would, of course, prefer to resolve the matter with you directly.\n\nPlease do not hesitate to contact me on 07700 900123 if you require any further information or need access to the flat.\n\nKind regards,\nYael Cohen\n\nPart B\nHey Kenji, heads-up: the boiler's broken again, so no hot water till it's fixed. Omer texted Mr Walsh on Sunday but heard nothing back, so I've just emailed him and asked him to get someone round by Thursday. If he doesn't sort it out, we'll call our own plumber and send him the bill. Fingers crossed! The gym showers are always an option in the meantime. See you later!",

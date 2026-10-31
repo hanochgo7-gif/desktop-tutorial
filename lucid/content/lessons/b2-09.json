@@ -51,7 +51,9 @@
     { "word": "so-called", "pos": "adjective", "he": "מה שמכונה; כביכול", "def": "used to show that you think a name or description is wrong", "example": "The so-called improvements have made the park worse.", "ipa": "/ˌsəʊ ˈkɔːld/", "collocations": ["so-called experts", "the so-called ..."], "level": "B2" },
     { "word": "press release", "pos": "noun", "he": "הודעה לעיתונות", "def": "an official statement that an organisation gives to journalists", "example": "The figures come from the company's own press release.", "ipa": "/ˈpres rɪliːs/", "collocations": ["issue a press release", "according to a press release"], "level": "B2" }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    { "en": "The Hebrew reporting verb to'en / to'enet is everyday and often neutral (the researcher to'enet that ... = the researcher argues that ...), so learners tend to translate it as claim every time. In English, claims suggests that the writer doubts the statement. For neutral reporting use says, states or argues, and keep claims for when you really mean to signal doubt.", "he": "בעברית 'טוען' הוא פועל דיווח שכיח, ולעיתים קרובות ניטרלי ('החוקרת טוענת ש...'), ולכן קל לתרגם אותו תמיד ל-claims. באנגלית claims מרמז שהכותב מפקפק בטענה. לדיווח ניטרלי השתמשו ב-says, states או argues, ושמרו את claims למקרים שבהם אתם באמת רוצים להביע ספק.", "error_type": "word-choice" }
+  ],
   "exercises": [
     {
       "id": "e1", "type": "categorize", "skill": "reading",
@@ -118,7 +120,7 @@
       "question": "What does the reporter suggest about the company's evidence?",
       "options": [
         "It proves that the app works.",
-        "It may be weak, because the company tested its own product with no one to compare.",
+        "It may be weak, because the company ran its own survey and did not compare users with non-users.",
         "It comes from independent researchers.",
         "It shows that most users slept worse."
       ],
@@ -174,7 +176,7 @@
       "id": "e8", "type": "read", "skill": "reading",
       "prompt": { "en": "Read two opinion pieces from a local news website and answer the questions." },
       "title": "Holiday rentals in Port Ellis: two views",
-      "passage": "VIEW 1: Give our streets back to residents\nby Ruth Adler, chair of the Port Ellis Residents' Association\n\nOur town is being swallowed by holiday rentals, and the people who make it a community are being pushed out. Walk down Shell Street on a winter evening and you will count more key boxes than lit windows. Young families who grew up here can no longer afford to rent, because owners can earn more from a weekend of tourists than from a month of local tenants. Last year, the primary school on Shell Street lost two classes. Visitors are welcome in Port Ellis, but a town needs neighbours as well as guests. The council must act now: it should limit holiday rentals to 90 nights a year and give our streets back to the people who actually live in them.\n\nVIEW 2: Build homes, don't ban visitors\nby Eli Navon, who rents out two flats in the town\n\nHoliday rentals are not the villain in this story. Ten years ago, half the shops on the seafront were empty; today, cafés, surf schools and bike shops employ dozens of local young people. Many hosts, like me, are ordinary residents who rent out a spare flat to help pay the mortgage. The real problem is that almost no new homes have been built here in a decade, and blaming hosts is easier than admitting that. A 90-night limit would punish us for the council's own failure to build affordable homes. If the council is serious about housing, it should build, not ban.",
+      "passage": "VIEW 1: Give our streets back to residents\nby Ruth Adler, chair of the Port Ellis Residents' Association\n\nOur town is being swallowed by holiday rentals, and the people who make it a community are being pushed out. Walk down Shell Street on a winter evening and you will count more key boxes than lit windows. Young people who grew up here can no longer afford to rent in the town, because owners can earn more from a weekend of tourists than from a month of local tenants. Last year, the primary school on Shell Street lost two classes. Visitors are welcome in Port Ellis, but a town needs neighbours as well as guests. The council must act now: it should limit holiday rentals to 90 nights a year and give our streets back to the people who actually live in them.\n\nVIEW 2: Build homes, don't ban visitors\nby Eli Navon, who rents out a holiday flat in the town\n\nHoliday rentals are not the villain in this story. Ten years ago, half the shops on the seafront were empty; today, cafés, surf schools and bike shops employ dozens of local young people. Many hosts, like me, are ordinary residents who rent out a spare flat to help pay the mortgage. The real problem is that almost no new homes have been built here in a decade, and blaming hosts is easier than admitting that. A 90-night limit would punish us for the council's own failure to build affordable homes. If the council is serious about housing, it should build, not ban.",
       "questions": [
         {
           "type": "mcq",
@@ -183,11 +185,29 @@
           "answer": 1,
           "option_feedback": {
             "0": { "en": "Neither text is neutral: both writers argue for what the council should do, and no decision has been made yet." },
-            "2": { "en": "Eli Navon rents out flats, but he is arguing about a policy, not advertising them." },
+            "2": { "en": "Eli Navon rents out a holiday flat, but he is arguing about a policy, not advertising it." },
             "3": { "en": "Neither text explains how the council works." }
           },
           "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
           "explanation": { "en": "Both are opinion pieces. Ruth Adler wants a 90-night limit ('The council must act now'); Eli Navon wants new homes instead ('it should build, not ban')." }
+        },
+        {
+          "type": "mcq",
+          "question": "Each writer's name is followed by a short description. Why is this information useful?",
+          "options": [
+            "It shows that both writers are experts, so their claims do not need checking.",
+            "It proves that Eli Navon's argument is false, because he earns money from holiday rentals.",
+            "It shows that both writers have a personal interest in the decision, which may affect what they choose to mention.",
+            "It shows that Ruth Adler is neutral, because she speaks for local residents."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "Knowing who the writers are does not make their claims true. It tells you what interest each of them may have." },
+            "1": { "en": "A personal interest is a reason to check his evidence carefully, not proof that he is wrong. Biased does not mean false." },
+            "3": { "en": "Residents who want fewer rentals are one side in this debate, so she has an interest too." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "Ruth Adler speaks for residents who want fewer rentals; Eli Navon earns money from a holiday flat. Neither fact makes their arguments wrong, but it helps to explain each writer's purpose and what each one leaves out. Read both with the same care." }
         },
         {
           "type": "mcq",
@@ -309,10 +329,10 @@
     {
       "id": "e14", "type": "write", "skill": "writing",
       "prompt": { "en": "Compare two viewpoints critically." },
-      "task": { "en": "Read two short texts about the same proposal. Text A (a post on the student union's page): 'Students are desperate for somewhere quiet to study. Many share bedrooms with siblings, and cafés expect you to keep buying drinks. Last June, library staff turned students away every evening at closing time. Opening the library 24 hours a day during exams is a small price to pay for our future.' Text B (a statement from a town councillor): 'Opening the library all night would mean paying extra staff and security every night of the exam period. When the university library tried night opening two years ago, very few students came after midnight. The council's limited budget would be better spent on longer weekend hours.' Write a critical comparison of the two texts for your class blog (180-250 words). Summarise each writer's position and purpose; identify one factual claim and one opinion in each text; point out at least one example of loaded language and one example of selective evidence (what is missing?); and say which text you find more convincing and why, in neutral language." },
+      "task": { "en": "Read two short texts about the same proposal: opening the town library 24 hours a day during exam periods. Text A (a post on the student union's page): 'Students are desperate for somewhere quiet to study. Many share bedrooms with siblings, and cafés expect you to keep buying drinks. Last June, library staff turned students away every evening at closing time. Opening the library 24 hours a day during exams is a small price to pay for our future.' Text B (a statement from a town councillor): 'Opening the library all night would mean paying extra staff and security every night of the exam period. When the university library tried night opening two years ago, very few students came after midnight. The council's limited budget would be better spent on longer weekend hours.' Write a critical comparison of the two texts for your class blog (180-250 words). Summarise each writer's position and purpose; identify one factual claim and one opinion in each text; point out at least one example of loaded language and one example of selective evidence (what is missing?); and say which text you find more convincing and why, in neutral language." },
       "min_words": 180,
       "max_words": 280,
-      "model_answer": "The two texts take opposite positions on opening the town library 24 hours a day during exam periods. Text A, a post by the student union, aims to persuade readers to support the idea, while Text B, a councillor's statement, argues against it on the grounds of cost.\n\nEach text mixes facts and opinions. In Text A, the claim that staff turned students away at closing time last June is factual, since it could be checked, whereas 'a small price to pay for our future' is an opinion. In Text B, the statement that few students used the university library after midnight is a factual claim, but the view that the money 'would be better spent' on weekend hours is an opinion.\n\nText A relies on loaded language: students are 'desperate', a word that appeals to emotion rather than giving evidence. Both texts are also selective. Text A never mentions the cost, and Text B uses a university library as evidence, although a town library may serve different users, such as school students who have no quiet place to study at home.\n\nOverall, Text B is more convincing, because it gives a specific example and addresses the cost, which Text A ignores. However, its evidence comes from a different kind of library, so a short trial in the town library would provide a fairer test.",
+      "model_answer": "The two texts take opposite positions on opening the town library 24 hours a day during exam periods. Text A, a post by the student union, aims to persuade readers to support the idea, while Text B, a councillor's statement, argues against it on the grounds of cost.\n\nEach text mixes facts and opinions. In Text A, the claim that staff turned students away at closing time last June is a factual claim, since it could be checked, whereas 'a small price to pay for our future' is an opinion. In Text B, the statement that few students used the university library after midnight is a factual claim, but the view that the money 'would be better spent' on weekend hours is an opinion.\n\nText A relies on loaded language: students are 'desperate', a word that appeals to emotion rather than giving evidence. Both texts are also selective. Text A never mentions the cost, and Text B uses a university library as evidence, although a town library may serve different users, such as school students who have no quiet place to study at home.\n\nOverall, Text B is more convincing, because it gives a specific example and addresses the cost, which Text A ignores. However, its evidence comes from a different kind of library, so a short trial in the town library would provide a fairer test.",
       "checklist": [
         { "en": "Summary: I stated each writer's position and purpose accurately, without adding my own opinion at this stage." },
         { "en": "Fact and opinion: I identified one checkable factual claim and one opinion in each text, and explained how I could tell." },

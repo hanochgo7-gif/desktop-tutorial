@@ -415,7 +415,7 @@
         }
       },
       "option_errors": {
-        "0": "word-order",
+        "0": "passive-form",
         "1": "comprehension"
       },
       "explanation": {
@@ -535,7 +535,7 @@
       "prompt": {
         "en": "Complete the building notice with the passive form of the verbs in brackets."
       },
-      "text": "Dear residents, the main entrance ___ (repaint) this week, so please use the side door. All the lifts ___ (already / check), and a new intercom ___ (install) next Monday.",
+      "text": "Dear residents, the main entrance ___ (repaint) at the moment, so please use the side door. All the lifts ___ (already / check), and a new intercom ___ (install) next Monday.",
       "answers": [
         [
           "is being repainted"
@@ -555,7 +555,7 @@
         {
           "match": "is repainted",
           "feedback": {
-            "en": "This week = work in progress: is being repainted."
+            "en": "At the moment = work in progress: is being repainted."
           },
           "error_type": "tense-choice"
         },
@@ -607,13 +607,20 @@
             "en": "After be, use the past participle: will be installed."
           },
           "error_type": "verb-form"
+        },
+        {
+          "match": "were already checked",
+          "feedback": {
+            "en": "The notice is about the situation now (the lifts are safe to use), so use the present perfect passive: have already been checked."
+          },
+          "error_type": "tense-choice"
         }
       ],
       "hint": {
         "en": "One job is in progress, one is finished, one is in the future."
       },
       "explanation": {
-        "en": "is being repainted (in progress this week), have already been checked (finished, result now), will be installed (future). The notice uses the passive because the workers are not important."
+        "en": "is being repainted (in progress at the moment), have already been checked (finished, result now), will be installed (future). The notice uses the passive because the workers are not important."
       }
     },
     {
@@ -752,6 +759,13 @@
             "en": "Good structure, but keep all the information: ... by a professional photographer."
           },
           "error_type": "comprehension"
+        },
+        {
+          "match": "We had our wedding photos take by a professional photographer.",
+          "feedback": {
+            "en": "have + object + past participle: We had our wedding photos taken."
+          },
+          "error_type": "verb-form"
         }
       ],
       "explanation": {
@@ -998,7 +1012,8 @@
       "sentence": "The samples are thought to be contaminated before they reached the laboratory.",
       "answers": [
         "The samples are thought to have been contaminated before they reached the laboratory.",
-        "It is thought that the samples were contaminated before they reached the laboratory."
+        "It is thought that the samples were contaminated before they reached the laboratory.",
+        "It is thought that the samples had been contaminated before they reached the laboratory."
       ],
       "error_type": "passive-form",
       "hint": {
@@ -1006,7 +1021,23 @@
       },
       "explanation": {
         "en": "A past event in a reporting passive needs to have been + past participle: The samples are thought to have been contaminated..."
-      }
+      },
+      "wrong_feedback": [
+        {
+          "match": "The samples are thought to have contaminated before they reached the laboratory.",
+          "feedback": {
+            "en": "The samples didn't contaminate anything; something contaminated them. Keep the passive: to have been contaminated."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The samples are thought to been contaminated before they reached the laboratory.",
+          "feedback": {
+            "en": "Add have: to have been contaminated (to + have + been + past participle)."
+          },
+          "error_type": "passive-form"
+        }
+      ]
     },
     {
       "id": "e14",
@@ -1022,12 +1053,22 @@
         "Participants were interviewed after they had completed the questionnaires.",
         "Participants were interviewed after they completed the questionnaires.",
         "Participants were interviewed after completing the questionnaires.",
-        "Participants were interviewed after having completed the questionnaires."
+        "Participants were interviewed after having completed the questionnaires.",
+        "Participants were interviewed after the questionnaires were complete."
       ],
       "error_type": "passive-form",
       "explanation": {
         "en": "The questionnaires didn't complete anything; the participants completed them. Passive: had been completed (or, actively, after they had completed the questionnaires)."
-      }
+      },
+      "wrong_feedback": [
+        {
+          "match": "Participants were interviewed after the questionnaires have been completed.",
+          "feedback": {
+            "en": "The interviews happened in the past, so the questionnaires had been completed (or were completed), not have been completed."
+          },
+          "error_type": "tense-choice"
+        }
+      ]
     },
     {
       "id": "e15",

@@ -165,7 +165,7 @@
       "word": "under no circumstances",
       "pos": "phrase",
       "he": "בשום פנים ואופן",
-      "def": "not at all, for any reason (very formal and strong)",
+      "def": "never, whatever happens; used for strict rules and warnings (formal and emphatic)",
       "example": "Under no circumstances should the fire doors be locked.",
       "ipa": "/ˌʌndə nəʊ ˈsɜːkəmstənsɪz/",
       "collocations": [
@@ -363,7 +363,7 @@
       "skill": "grammar",
       "topic": "inversion-cleft",
       "prompt": {
-        "en": "Is each sentence correct or incorrect? Check whether the opener comes first and whether the auxiliary is in the right place."
+        "en": "Is each sentence correct or incorrect? Check whether the opener comes first, whether the auxiliary is in the right place, and whether the opener is paired with the right word (than or when)."
       },
       "categories": [
         "Correct",
@@ -496,7 +496,7 @@
         "en": "Read the essay from a travel magazine and answer the questions. Notice how the writer uses inversion, clefts and participle clauses to control emphasis."
       },
       "title": "Why I changed my mind about night trains",
-      "passage": "For years I was the kind of traveller who laughed at night trains. Why spend twelve hours rattling across a continent when a plane could do it in two? Never did I imagine that I would one day write in their defence.\n\nWhat changed my mind was not an argument but an accident. Stranded in Vienna after a cancelled flight, I booked the last free berth on a sleeper to Rome, expecting a long and uncomfortable night. Instead, I woke to sunlight on the hills and arrived in the city centre rested, fed and, crucially, in time for a meeting I had assumed I would miss.\n\nHaving made similar journeys many times since, I can now see why the usual comparison with flying is misleading. Measured from door to door, the difference shrinks dramatically. There is no trip to a distant airport, no security queue, no waiting at the gate. Not only does the train save these hours, but it also turns the remaining ones into sleep, which no airline has yet managed to do. I can read, work or simply watch the landscape change, and I arrive with the day still ahead of me rather than already half spent.\n\nIt is the environmental case, of course, that most supporters emphasise, and it is a serious one. Yet I suspect that it is comfort and convenience, rather than conscience, that will decide whether night trains survive. Travellers who feel virtuous but exhausted rarely make the same choice twice.\n\nThis is where the operators still fall short. Booked months in advance, a sleeper cabin can be reasonably priced; bought a week before departure, it often costs more than a flight and a hotel combined. Seldom is the booking process simple, and only rarely are connections across borders guaranteed. A journey that crosses three countries may require three separate bookings, and a delay on the first train can leave a passenger stranded with a ticket that is no longer valid. Faced with these obstacles, even enthusiasts give up.\n\nNone of this means that the night train is a lost cause. What it needs is not nostalgia but investment: modern carriages, simpler ticketing and fares that reward people for leaving the car or the plane behind. Only when governments treat it as serious transport, rather than a charming relic, will it fulfil its promise.",
+      "passage": "For years I was the kind of traveller who laughed at night trains. Why spend twelve hours rattling across a continent when a plane could do it in two? Never did I imagine that I would one day write in their defence.\n\nWhat changed my mind was not an argument but an accident. Stranded in Vienna after a cancelled flight, I booked the last free berth on a sleeper to Rome, expecting a long and uncomfortable night. Instead, I woke to sunlight on the hills and arrived in the city centre rested, fed and, crucially, in time for a meeting I had assumed I would miss.\n\nHaving made similar journeys many times since, I can now see why the usual comparison with flying is misleading. Measured from door to door, the two journeys are far closer in length than they first appear. There is no trip to a distant airport, no security queue, no waiting at the gate. Not only does the train save these hours, but it also turns the remaining ones into sleep, which no airline has yet managed to do. I can read, work or simply watch the landscape change, and I arrive with the day still ahead of me rather than already half spent.\n\nIt is the environmental case, of course, that most supporters emphasise, and it is a serious one. Yet I suspect that it is comfort and convenience, rather than conscience, that will decide whether night trains survive. Travellers who feel virtuous but exhausted rarely make the same choice twice.\n\nThis is where the operators still fall short. Booked months in advance, a sleeper cabin can be reasonably priced; bought a week before departure, it often costs more than a flight and a hotel combined. Seldom is the booking process simple, and connections across borders are rarely guaranteed. A journey that crosses three countries may require three separate bookings, and a delay on the first train can leave a passenger stranded with a ticket that is no longer valid. Faced with these obstacles, even enthusiasts give up.\n\nNone of this means that the night train is a lost cause. What it needs is not nostalgia but investment: modern carriages, simpler ticketing and fares that reward people for leaving the car or the plane behind. Only when governments treat it as serious transport, rather than a charming relic, will it fulfil its promise.",
       "questions": [
         {
           "type": "mcq",
@@ -540,7 +540,7 @@
           "answer": 0,
           "option_feedback": {
             "1": {
-              "en": "Cars and planes appear only in the final paragraph."
+              "en": "Planes are compared with trains in paragraph 3, and cars appear only in the final paragraph. The clefts in paragraph 4 compare two reasons for supporting night trains."
             },
             "2": {
               "en": "Prices are discussed in paragraph 5, not in the clefts of paragraph 4."
@@ -993,7 +993,7 @@
       },
       "target": "Not only did we finish on time, but we also came in under budget.",
       "focus": {
-        "en": "Stress ONly, FINish and BUDget, and pause briefly before 'but'. 'Did we' is light and quick: the stress falls on the words that carry the news."
+        "en": "Stress ONly, TIME and BUDget, and pause briefly before 'but'. 'Did we' is light and quick: the stress falls on the words that carry the news."
       },
       "error_type": "pron-stress",
       "explanation": {
@@ -1013,7 +1013,7 @@
       },
       "min_words": 250,
       "max_words": 400,
-      "model_answer": "Good evening. Every summer, our historic centre welcomes more visitors than its narrow streets were ever designed to hold. Tonight I want to argue that a daily limit, introduced carefully and reviewed every year, is the best way to protect both the city and the people who live in it.\n\nWhat residents describe most often is not noise or litter, but the feeling that the centre no longer belongs to them. Rents have risen as flats are turned into holiday lets, and the shops that once sold bread and newspapers now sell souvenirs. Not only does overcrowding drive local families out, but it also spoils the experience that visitors have travelled so far to enjoy. Standing in a queue for an hour to cross a square is nobody's idea of a holiday.\n\nOpponents of a limit argue that tourism pays for our museums, our restaurants and many local jobs, and that any cap will simply send that money to other cities. This concern deserves a serious answer, because a policy that empties the centre would hurt the very residents it is meant to protect. However, a limit is not a ban. Spread across the day and the year, the same number of visitors could spend just as much money without crushing the streets at noon in August. It is the timing of visits, not their total number, that creates the worst pressure.\n\nHaving looked at how other historic towns have handled similar problems, I would propose a simple system: free timed entry slots for the busiest streets, booked online, with places kept for residents and local workers. Only when we have tried this for a full season will we know whether the limit should be raised or lowered.\n\nA city that is pleasant to live in is also a city worth visiting. Let us protect it while we still can.",
+      "model_answer": "Good evening. Every summer, our historic centre welcomes more visitors than its narrow streets were ever designed to hold. Tonight I want to argue that a daily limit, introduced carefully and reviewed every year, is the best way to protect both the city and the people who live in it.\n\nWhat residents describe most often is not noise or litter, but the feeling that the centre no longer belongs to them. Rents have risen as flats are turned into holiday lets, and the shops that once sold bread and newspapers now sell souvenirs. Not only does overcrowding drive local families out, but it also spoils the experience that visitors have travelled so far to enjoy. Standing in a queue for an hour to cross a square is nobody's idea of a holiday.\n\nOpponents of a limit argue that tourism pays for our museums, our restaurants and many local jobs, and that any cap will simply send that money to other cities. This concern deserves a serious answer, because a policy that empties the centre would hurt the very residents it is meant to protect. However, a limit is not a ban. Spread across the day and the year, the same number of visitors could spend just as much money without overwhelming the streets at noon in August. It is the timing of visits, not their total number, that creates the worst pressure.\n\nHaving looked at how other historic towns have handled similar problems, I would propose a simple system: free timed entry slots for the busiest streets, booked online, with places kept for residents and local workers. Only when we have tried this for a full season will we know whether the limit should be raised or lowered.\n\nA city that is pleasant to live in is also a city worth visiting. Let us protect it while we still can.",
       "checklist": [
         {
           "en": "Position: my opening states clearly whether I support or oppose a daily limit."

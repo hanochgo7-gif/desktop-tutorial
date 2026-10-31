@@ -148,7 +148,7 @@
     {
       "word": "tend to",
       "pos": "verb phrase",
-      "he": "נוטה ל...",
+      "he": "לנטות ל...",
       "def": "to usually do or be something; to be likely to behave in a particular way",
       "example": "Prices tend to rise in the summer months.",
       "ipa": "/ˈtend tə/",
@@ -204,7 +204,7 @@
     {
       "word": "be associated with",
       "pos": "phrase",
-      "he": "להיות קשור ל...; להימצא בקשר עם",
+      "he": "להיות קשור ל...; להיות במתאם עם",
       "def": "to be connected with something, without showing that one thing causes the other",
       "example": "Long working hours are associated with poorer sleep.",
       "ipa": "/bi əˈsəʊʃieɪtɪd wɪð/",
@@ -261,7 +261,7 @@
       "word": "a degree of",
       "pos": "phrase",
       "he": "מידה מסוימת של",
-      "def": "some, but not a large amount of",
+      "def": "some; a certain amount of something, usually not a large amount (but a high degree of = a lot of)",
       "example": "There is a degree of uncertainty in all long-term forecasts.",
       "ipa": "/ə dɪˈɡriː əv/",
       "collocations": [
@@ -393,7 +393,7 @@
           "en": "Over-claim: 'clearly proves', 'most effective' and 'everywhere' go far beyond a small survey at one college."
         },
         "3": {
-          "en": "Over-hedged: five hedges stacked on one point, so the sentence says nothing, and it even loses what the survey did find."
+          "en": "Over-hedged: seven hedges (might, perhaps, possible, could, possibly, some kind of, in certain cases) are stacked on one point, so the sentence says nothing, and it even loses what the survey did find."
         }
       },
       "option_errors": {
@@ -710,7 +710,7 @@
         {
           "match": "proves",
           "feedback": {
-            "en": "Proves is far too strong for a one-term trial, and it does not fit the grammar of any gap here."
+            "en": "Proves is far too strong for a one-term trial. Even in the third gap, where it fits the grammar (proves to have been = turns out to have been), it states a certainty the writer does not have; the cautious verb there is appears."
           },
           "error_type": "unsupported-claim"
         },
@@ -808,7 +808,8 @@
           "match": "The study suggests that the new app improves sleep.",
           "feedback": {
             "en": "Suggests is a good start, but the task also asks you to soften the claim itself with a modal: the new app may improve sleep."
-          }
+          },
+          "error_type": "unsupported-claim"
         },
         {
           "match": "The study suggests that the new app may possibly improve sleep.",

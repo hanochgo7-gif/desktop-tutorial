@@ -55,10 +55,10 @@
         [
           "Vague words",
           "The policy affected attendance. The report looks at some issues with the system.",
-          "Attendance fell slightly. The report identifies three flaws in the booking system."
+          "The policy reduced attendance slightly. The report identifies three flaws in the booking system."
         ],
         [
-          "Stacked qualifiers",
+          "Stacked hedges and empty intensifiers",
           "might possibly perhaps; very unique; really crucial",
           "may; unique; crucial"
         ]
@@ -66,7 +66,7 @@
     },
     {
       "type": "warning",
-      "en": "Concise does not mean short at any cost. Keep every word that adds meaning: a hedge the evidence needs (may, in this sample, most), a connector that shows your logic (however, therefore) and an example that carries your argument. 'Students prefer online classes' is shorter than 'In this survey, most students preferred online classes', but it is also less true. Cut only what adds nothing."
+      "en": "Concise does not mean short at any cost. Keep every word that adds meaning: a hedge the evidence needs (may, in this sample, most), a connector that shows your logic (however, therefore) and an example that carries your argument. 'Students prefer online classes' is shorter than 'In this survey, most students preferred online classes', but it claims more than the evidence shows. Cut only what adds nothing."
     },
     {
       "type": "rule",
@@ -95,7 +95,7 @@
       "note": "'in this survey' and 'most' are not padding: they keep the claim honest"
     },
     {
-      "en": "Wordy: It is important to note that the bridge was built in 1965. Concise: The bridge was built in 1965, so it predates the current safety code.",
+      "en": "Wordy: It is important to note that the bridge was built in 1965. Better: The bridge was built in 1965, so it predates the current safety code.",
       "note": "instead of announcing that a point matters, show why it matters"
     },
     {
@@ -219,7 +219,7 @@
       "pos": "verb",
       "he": "לייעל; לפשט",
       "def": "to make something simpler and more effective by removing unnecessary parts",
-      "example": "She streamlined the introduction to three sentences.",
+      "example": "The editor streamlined the argument by cutting two weak examples.",
       "ipa": "/ˈstriːmlaɪn/",
       "collocations": [
         "streamline a process",
@@ -314,7 +314,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no word for a/an, so a missing indefinite article is easy to overlook even in advanced writing, especially before an adjective (*This is significant change, *The report proposes new approach). Give articles their own proofreading pass: every singular countable noun needs a, an, the or another determiner (this, my, each).",
-      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר (‎*This is significant change). הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה מיידעת אחרת (this, my, each).",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר (‎*This is significant change). הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה אחרת שבאה לפניו (this, my, each).",
       "error_type": "article"
     },
     {
@@ -411,7 +411,7 @@
           "en": "Too short: 'Students' now suggests all students, and 'now' has disappeared. Concision must not change the scope of a claim."
         },
         "1": {
-          "en": "Only 'at this point in time' has been shortened; 'a large number of', 'are of the opinion that' and 'opening hours' are still padding."
+          "en": "Only 'at this point in time' has been shortened (to 'currently'). 'A large number of' and 'are of the opinion that' are still padding, and 'have longer opening hours' hides the verb open."
         },
         "3": {
           "en": "The meaning has changed: the students want longer hours, not shorter ones."
@@ -423,7 +423,7 @@
         "3": "comprehension"
       },
       "explanation": {
-        "en": "At this point in time → now; there are a large number of students who → many students; are of the opinion that → think; open for longer hours → open for longer. Every piece of meaning survives in about half the words."
+        "en": "At this point in time → now; there are a large number of students who → many students; are of the opinion that → think; open for longer hours → open for longer. Every piece of meaning survives in fewer than half the words (10 instead of 25)."
       }
     },
     {
@@ -733,14 +733,14 @@
       "tokens": [
         "Last year, the town introduced a late-night bus service.",
         "Most of its passengers are hospital and hotel staff on late shifts.",
-        "Before the service began, these workers relied on expensive taxis or long walks home.",
+        "Before the service began, these workers relied on expensive taxis or long walks home in the dark.",
         "For them, the new buses have removed both that cost and that risk."
       ],
       "hint": {
         "en": "Look at the openings: 'its passengers', 'these workers' and 'that cost and that risk' each point back to something."
       },
       "explanation": {
-        "en": "'Its passengers' needs the service; 'these workers' needs the staff; 'that cost and that risk' point back to the expensive taxis and the long walks. Each sentence opens with something given and ends with something new, so the paragraph reads as a chain."
+        "en": "'Its passengers' needs the service; 'these workers' needs the staff; 'that cost and that risk' point back to the expensive taxis and the long walks home in the dark. Each sentence opens with something given and ends with something new, so the paragraph reads as a chain."
       }
     },
     {
@@ -823,7 +823,9 @@
       "source": "The committee carried out an investigation into the causes of the delays.",
       "answers": [
         "The committee investigated the causes of the delays.",
-        "The committee investigated what caused the delays."
+        "The committee investigated what caused the delays.",
+        "The committee investigated why the delays happened.",
+        "The committee investigated why the delays occurred."
       ],
       "wrong_feedback": [
         {
@@ -859,7 +861,8 @@
         "The new timetable cut waiting times.",
         "The new timetable shortened waiting times.",
         "The new timetable lowered waiting times.",
-        "The new timetable decreased waiting times."
+        "The new timetable decreased waiting times.",
+        "The new timetable brought down waiting times."
       ],
       "wrong_feedback": [
         {
@@ -905,12 +908,10 @@
       },
       "sentence": "The end result of the review is that each and every department must submit its report by 9 a.m. in the morning.",
       "answers": [
-        "The result of the review is that every department must submit its report by 9 a.m..",
         "The result of the review is that every department must submit its report by 9am.",
         "The result of the review is that every department must submit its report by 9 am.",
         "The result of the review is that every department must submit its report by 9 a.m.",
         "The result of the review is that every department must submit its report by 9 in the morning.",
-        "The result of the review is that each department must submit its report by 9 a.m..",
         "The result of the review is that each department must submit its report by 9am.",
         "The result of the review is that each department must submit its report by 9 am.",
         "The result of the review is that each department must submit its report by 9 a.m.",
@@ -1043,7 +1044,7 @@
       },
       "target": "Your second paragraph makes two different points, so I'd split it in two and cut the story about the bus company.",
       "focus": {
-        "en": "Stress the words that carry the new information: TWO different POINTS, SPLIT it, CUT the STORy. Keep 'I'd' short and light: /aɪd/."
+        "en": "Stress the words that carry the new information: TWO different POINTS, SPLIT it, CUT the STOry. Keep 'I'd' short and light: /aɪd/."
       },
       "error_type": "pron-stress",
       "explanation": {
@@ -1078,7 +1079,7 @@
           "en": "Unity: the sentence about the architect and the roof is gone, because it does not support the point of the paragraph."
         },
         {
-          "en": "Calibration: no claim goes beyond the survey ('the majority', not 'each and every one'), and the future effect has one hedge (may), not three (could possibly perhaps)."
+          "en": "Calibration: no claim goes beyond the survey ('most' or 'the majority', not 'each and every one'), and the future effect has one hedge (may), not three (could possibly perhaps)."
         },
         {
           "en": "Flow: sentences open with given information where possible (these students, this disruption, this loss of study time)."
@@ -1097,14 +1098,14 @@
         "en": "Final assessment: write, then edit, your analytical argumentative essay."
       },
       "task": {
-        "en": "Write an 800-1,000-word analytical argumentative essay. Choose one question: (a) Should universities choose students by lottery from all applicants who meet a minimum academic standard? (b) Do the benefits of remote work outweigh its costs for people at the start of their careers? (c) Should voting in national elections be compulsory? Argue a qualified, analytical position and respond to opposing views. Your essay needs: an introduction that ends with an arguable thesis and previews your structure; body paragraphs that each develop one claim with evidence and an explanation of how the evidence supports it; the strongest opposing view, stated fairly and attributed, followed by a rebuttal that refutes it, concedes and outweighs it, or qualifies your claim; calibrated hedging; and a conclusion that adds no new argument. Use real examples, careful general knowledge and reasoning, and do not invent statistics. When your draft is complete, edit it in four passes: argument, paragraphs, sentences, proofreading."
+        "en": "Write an 800-1,000-word analytical argumentative essay for an educated, non-specialist reader. Choose one question: (a) Should universities choose students by lottery from all applicants who meet a minimum academic standard? (b) Do the benefits of remote work outweigh its costs for people at the start of their careers? (c) Should voting in national elections be compulsory? Argue a qualified, analytical position and respond to opposing views. Your essay needs: an introduction that defines the key terms and ends with an arguable thesis that previews your structure; body paragraphs that each develop one claim with evidence and an explanation of how the evidence supports it; the strongest opposing view, stated fairly and attributed, followed by a rebuttal that refutes it, concedes and outweighs it, or qualifies your claim; at least one weakness, hidden assumption or logical flaw in a common argument on the issue, explained; formal register and calibrated hedging; and a conclusion that adds no new argument. Use real examples, careful general knowledge and reasoning, and do not invent statistics. When your draft is complete, edit it in four passes: argument, paragraphs, sentences, proofreading."
       },
       "min_words": 750,
       "max_words": 1100,
       "model_answer": "Model answer on a parallel question: Should final school exams be open-book?\n\nEvery summer, students spend weeks memorising formulas, dates and quotations that they will rarely need to recall without help again. Open-book exams, in which candidates may bring a textbook into the exam room, are often proposed as the cure. Supporters argue that they test understanding rather than memory; critics reply that they reward organisation rather than knowledge and give students a reason to stop learning. Both sides have a point, but they are often thinking of different subjects. This essay argues that open-book exams should become the norm in subjects that assess analysis and application, such as history, literature and the advanced sciences. Closed-book testing, however, should remain wherever fluent recall is itself the skill being assessed. It first examines what each format measures, then considers how each shapes the way students learn, and finally answers the two strongest objections: that open-book exams lower standards and that they are unfair.\n\nThe case for open-book exams rests on a simple principle: an exam should measure the skill that the subject values most. In history, that skill is not recalling the date of a treaty but explaining why the treaty failed, weighing two interpretations of it and supporting a judgement with evidence. A closed-book exam measures this skill only indirectly, because a student who has forgotten a key fact cannot show what they would have done with it. Allowing a textbook removes that bottleneck. The same is true in physics, where working scientists look up constants and formulas as a matter of routine; what no reference book can supply is the judgement needed to decide which formula applies to an unfamiliar problem. An exam that permits reference material can therefore ask harder questions, because it no longer spends marks on information that a book could provide.\n\nThe format also changes how students prepare, and arguably for the better. When an exam rewards recall, a sensible student revises by rehearsing answers; when it rewards application, the same student must practise using knowledge in new situations. Anyone who has crammed for a test and forgotten most of the material a week later will recognise the difference. Open-book preparation is not easier. Students must understand their material well enough to find what they need under time pressure, and they must practise questions that cannot be answered by copying. Indeed, weak students may do worse in such exams, not better, because a textbook is of little use to someone who does not understand it.\n\nThere are limits, however, and they mark the boundary of this argument. In some subjects, fluent recall is not an obstacle to the real skill but part of it. A language learner who must look up every word cannot hold a conversation, and a student who has to check every multiplication will struggle with algebra. In these areas, closed-book testing measures something that matters, and it should stay. The question, then, is not whether exams should be open-book, but which ones.\n\nThe strongest objection is that open-book exams lower standards. Critics argue that if students know they can bring a book, many will stop learning the material at all, and marks will rise without any rise in knowledge. This concern deserves a serious answer, because an exam that can be passed by copying would indeed be worthless. However, the objection assumes that open-book exams ask the same questions as closed-book ones. They should not. A question such as 'Which two causes does the textbook identify?' becomes trivial with a book on the desk. A question such as 'Which of these two explanations better accounts for the evidence in the source below, and why?' does not. The risk therefore lies less in the format than in careless question design. It is a real risk, and it suggests that open-book exams should be introduced gradually, with examiners trained to write questions that a book cannot answer. With such questions, an open-book exam sets a higher standard than a closed-book one, because it removes the option of passing on memory alone.\n\nA second objection concerns fairness. Students who can afford private tutors might arrive with better-organised notes, which would turn an exam of understanding into a test of resources. This is a fair point, but it applies with equal force to closed-book exams, where tutoring and a quiet place to study already favour some students over others. Moreover, the problem has a simple remedy: if every candidate receives the same clean copy of a standard textbook, and personal notes are not allowed, the advantage largely disappears.\n\nOpen-book exams are not a cure for everything that is wrong with assessment, and they would be a mistake in subjects where knowing something by heart is the skill itself. In subjects that claim to value analysis, however, they would align what is tested with what is taught, encourage students to practise thinking rather than recall, and push examiners to write better questions. The real choice is not between rigour and leniency, but between testing what students can remember and testing what they can do with what they know.",
       "checklist": [
         {
-          "en": "Thesis: my introduction ends with an arguable, qualified thesis that takes an analytical position and previews the structure of the essay."
+          "en": "Thesis: my introduction defines the key terms and ends with an arguable, qualified thesis that takes an analytical position and previews the structure of the essay."
         },
         {
           "en": "Body: each paragraph develops one claim, with a clear topic sentence, relevant evidence or examples, and reasoning that explains how the evidence supports the claim."
@@ -1114,6 +1115,9 @@
         },
         {
           "en": "Counterargument and rebuttal: I state the strongest opposing view fairly and attribute it (Critics argue ...), then refute it, concede and outweigh it, or qualify my claim, adjusting my position if I concede a point."
+        },
+        {
+          "en": "Critical analysis: I identify and explain at least one weakness, hidden assumption or logical flaw in a common argument on the issue (for example, an objection that assumes something it has not shown)."
         },
         {
           "en": "Calibration and tone: every claim is as strong as its evidence, with no stacked hedges, no unjustified boosters and no manipulative rhetoric; the register is formal throughout."
@@ -1136,7 +1140,7 @@
   "review": {
     "key_points": [
       {
-        "en": "Cut words that add nothing (doubled meanings, empty frames, smothered verbs, stacked qualifiers), but keep every word that adds caution, logic or evidence."
+        "en": "Cut words that add nothing (doubled meanings, empty frames, smothered verbs, stacked hedges, empty intensifiers), but keep every word that adds caution, logic or evidence."
       },
       {
         "en": "Replace vague verbs and nouns (affect, deal with, things, issues) with words that say exactly what happened and in which direction."
