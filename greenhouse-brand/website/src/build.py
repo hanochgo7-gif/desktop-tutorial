@@ -649,14 +649,21 @@ def p_sim(L):
     r = rel(L)
     steps_label = "Steps" if L == "en" else "שלבים"
     # one photoreal illustration per chapter (made with AI from the 3D model's frames, 31 Oct 2026); the first two load with the page, the rest as the visitor scrolls near
+    # where each picture's subject sits (x%), so it survives the phone's centre crop (art-direction review, 31 Oct 2026)
+    pos = ["49%", "51%", "49%", "48%", "53%", "46%", "47%", "46%", "46%", "40%"]
     def ph(i):
         ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext} {w}w" for w in (960, 1600, 2400))
+        sty = f' style="object-position:{pos[i]} 50%"'
         if i < 2:
             return (f'<picture class="ph" data-i="{i}"><source type="image/avif" srcset="{ss("avif")}" sizes="100vw"><source type="image/webp" srcset="{ss("webp")}" sizes="100vw">'
-                    f'<img src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
-        # later chapters: a 1-pixel placeholder until build-sim.js adds the real sources
-        return (f'<picture class="ph" data-i="{i}" data-avif="{ss("avif")}" data-webp="{ss("webp")}"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" '
-                f'data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" sizes="100vw" width="2400" height="1350" alt="" decoding="async"></picture>')
+                    f'<img src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt=""{sty}{" fetchpriority=" + chr(34) + "high" + chr(34) if i == 0 else ""} decoding="async"></picture>')
+        # later chapters: a 1-pixel placeholder until build-sim.js adds the real sources (and a 9:16 cut for phones where one exists)
+        m = (PUB / f"assets/img/sim-r{i + 1:02d}m-720.jpg").exists()
+        mm = (f' data-mavif="{r}assets/img/sim-r{i + 1:02d}m-720.avif 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.avif 1080w"'
+              f' data-mwebp="{r}assets/img/sim-r{i + 1:02d}m-720.webp 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.webp 1080w"'
+              f' data-mjpg="{r}assets/img/sim-r{i + 1:02d}m-720.jpg 720w, {r}assets/img/sim-r{i + 1:02d}m-1080.jpg 1080w"') if m else ""
+        return (f'<picture class="ph{" pm" if m else ""}" data-i="{i}"{mm} data-avif="{ss("avif")}" data-webp="{ss("webp")}"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" '
+                f'data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" sizes="100vw" width="2400" height="1350" alt=""{sty} decoding="async"></picture>')
     photos = "".join(ph(i) for i in range(n))
     return f"""
 <main id="main">

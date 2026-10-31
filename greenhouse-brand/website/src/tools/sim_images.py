@@ -1,5 +1,5 @@
 """Photoreal build illustrations (one per chapter of how-we-build) -> AVIF, WebP and JPEG at 3 widths, 16:9.
-Masters: media-src/sim-real/chNN.png (made with AI from one master site image, 31 Oct 2026; earlier set in v1/).
+Masters: media-src/sim-real/chNN.png (made with AI from one master site image and colour-graded to the real drone photo, 31 Oct 2026; chNN-portrait.png = 9:16 phone cut; ungraded in v3-raw/, earlier sets in v1/ and v2/).
 Run: python3 src/tools/sim_images.py"""
 from pathlib import Path
 from PIL import Image
@@ -22,6 +22,13 @@ def main():
             ph = im.height; pw = round(ph * 9 / 16); l = (im.width - pw) // 2
             im.crop((l, 0, l + pw, ph)).resize((720, 1280), Image.LANCZOS).save(OUT / "sim-poster-m.jpg", quality=78, optimize=True, progressive=True)
         print(f"ch{i:02d}", im.size)
+    # portrait (9:16) cuts for phones, where the 16:9 picture would lose its subject
+    for f in sorted(SRC.glob("ch*-portrait.png")):
+        i = int(f.name[2:4]); im = Image.open(f).convert("RGB")
+        for wd in (720, 1080):
+            t = im.resize((wd, round(wd * 16 / 9)), Image.LANCZOS); n = OUT / f"sim-r{i:02d}m-{wd}"
+            t.save(f"{n}.avif", quality=50); t.save(f"{n}.webp", quality=74); t.save(f"{n}.jpg", quality=78, optimize=True, progressive=True)
+        print(f.name, im.size)
 
 
 if __name__ == "__main__":

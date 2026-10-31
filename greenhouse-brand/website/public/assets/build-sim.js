@@ -19,7 +19,10 @@
     function want(i) {  // load a chapter's image just before it is needed
       var p = phs[i]; if (!p || p.dataset.on) return; p.dataset.on = "1";
       var im = p.querySelector("img");
-      ["avif", "webp"].forEach(function (t) { if (!p.dataset[t]) return; var so = document.createElement("source"); so.type = "image/" + t; so.sizes = "100vw"; so.srcset = p.dataset[t]; p.insertBefore(so, im); });
+      function src(set, type, media) { var so = document.createElement("source"); if (type) so.type = type; if (media) so.media = media; so.sizes = "100vw"; so.srcset = set; p.insertBefore(so, im); }
+      var PH = "(max-width: 760px) and (orientation: portrait)";  // phones get the 9:16 cut where there is one
+      if (p.dataset.mavif) { src(p.dataset.mavif, "image/avif", PH); src(p.dataset.mwebp, "image/webp", PH); src(p.dataset.mjpg, "", PH); }
+      ["avif", "webp"].forEach(function (t) { if (p.dataset[t]) src(p.dataset[t], "image/" + t, ""); });
       if (im.dataset.srcset) { im.srcset = im.dataset.srcset; im.src = im.dataset.src; }
     }
     function frame() {
