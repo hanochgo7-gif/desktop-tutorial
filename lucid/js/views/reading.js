@@ -1,5 +1,6 @@
-// Reading center: every reading passage from the lessons on this device, grouped by level, with the
-// learner's level recommended. A text opens in the focused player (Check, feedback, Continue) and is
+// Reading center: every reading passage from the lessons on this device, grouped by level. The list opens
+// at the learner's level: the recommended level first, then the levels above it, then easier texts, closest
+// first (persona panel P-35). A text opens in the focused player (Check, feedback, Continue) and is
 // recorded as reading practice.
 import { html, render } from '../core/util.js';
 import { tt, t } from '../core/i18n.js';
@@ -61,6 +62,9 @@ export default async function reading(el, ctx) {
     const rec = recommendedLevel(groups, m.courseLevel);
     const next = nextSuggestion(items, m.attempts, m.courseLevel);
     const doneCount = items.filter((x) => attemptsOn(m.attempts, x).length).length;
+    const ri = rec ? levelIndex(rec) : -1;
+    const ordered = [...groups.filter((g) => levelIndex(g.level) >= ri), ...groups.filter((g) => levelIndex(g.level) < ri).reverse()];
+    const firstEasier = ordered.find((g) => levelIndex(g.level) < ri);
     render(el, html`
       <div class="page-head">
         <div><h1>${t('nav.reading')}</h1><p>${intro}</p></div>
@@ -68,7 +72,7 @@ export default async function reading(el, ctx) {
       </div>
       <div class="stack-lg">
         <p class="small faint num">${tt(`קראתם ${doneCount} מתוך ${items.length} טקסטים`, `${doneCount} of ${items.length} texts read`)}</p>
-        ${groups.map((g) => html`<section class="stack-sm" aria-labelledby="rd-${g.level}">
+        ${ordered.map((g) => html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('טקסטים קלים יותר, מהקרוב לרמה שלך', 'Easier texts, closest to your level first')}</h2>` : ''}<section class="stack-sm" aria-labelledby="rd-${g.level}">
           ${levelHeading(g.level, ix.level, { recommended: g.level === rec, above: levelIndex(g.level) > ci, id: `rd-${g.level}` })}
           <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${g.items.map((x) => row(x, m.attempts))}</ol>
         </section>`)}

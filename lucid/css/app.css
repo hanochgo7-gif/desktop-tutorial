@@ -690,3 +690,16 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* A Hebrew placeholder in an English field reads right to left until the learner types (P-69). */
 :root[dir='rtl'] :is(input, textarea)[dir='ltr']:placeholder-shown { direction: rtl; }
 .explain .bi > .bi-en, .alt-list .bi > .bi-en { display: block; text-align: start; }
+/* Real life and Conversations hubs: level and fit on each row, a level guide, a start strip (P-46, P-64). */
+.hub-level { display: grid; justify-items: end; gap: 0.15rem; text-align: end; }
+.fit { font-size: var(--t-xs); color: var(--ink-3); white-space: nowrap; }
+.fit-stretch { color: var(--cobalt); }
+.fit-hard { color: var(--warn); }
+.level-guide { display: flex; gap: var(--s2); align-items: flex-start; margin-block-end: var(--s4); }
+.level-guide .icon { margin-block-start: 0.15em; flex: none; }
+.start-here { margin-block-end: var(--s5); }
+.hub-filters { row-gap: var(--s2); }
+.hub-head .icon { color: var(--ink-2); }
+/* Hebrew UI: both lines of a dual legend start at the right edge, so English titles line up in lists (P-69). */
+:root[dir='rtl'] .legend { justify-items: start; }
+:root[dir='rtl'] .legend > .l-he { justify-self: start; }

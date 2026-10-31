@@ -1,17 +1,22 @@
 // Expressions dictionary (Real-life track): informal English with the same furniture for every entry.
 // Collapsed: the term, its Hebrew meaning, formality, region and level. Expanded in place: meaning in
 // both languages, when people use it, an example conversation, common mistakes, when not to use it,
-// a warning where one is needed, and related expressions.
+// a warning where one is needed, and related expressions. Sorted by level for beginners (alphabetically
+// from B1), with a "for my level" filter; search matches the start of words (persona panel P-68).
 import { html, render, on, $, $$ } from '../core/util.js';
 import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState } from '../ui/components.js';
-import { settings } from '../core/learner.js';
+import { settings, model } from '../core/learner.js';
+import { levelIndex } from '../core/adaptive.js';
+import { fitOf, searchMatch } from '../core/reallife.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { hebrewReveal } from '../ui/center.js';
 
 const FORMALITY = [['all', 'הכול', 'All'], ['very informal', 'לא רשמי מאוד', 'Very informal'], ['informal', 'לא רשמי', 'Informal'], ['neutral', 'ניטרלי', 'Neutral']];
 const REGIONS = [['all', 'הכול', 'All'], ['US', 'ארה״ב', 'US'], ['UK', 'בריטניה', 'UK']];
+const SORTS = [['level', 'לפי רמה', 'By level'], ['az', 'אלפביתי', 'A–Z']];
+const SCOPES = [['all', 'כל הרמות', 'All levels'], ['mine', 'לרמה שלי', 'For my level']];
 const REGION_LABEL = { US: ['ארה״ב', 'US'], UK: ['בריטניה', 'UK'], both: ['ארה״ב ובריטניה', 'US and UK'], AU: ['אוסטרליה', 'Australia'] };
 const fold = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-֑ͯ-ׇ]/g, '').trim();
 const domId = (id) => `xp-${String(id).replace(/[^a-z0-9_-]+/gi, '-')}`;
@@ -30,8 +35,13 @@ function regionTag(r) {
 export default async function slang(el, ctx) {
   ctx.setTitle(t('nav.slang'));
   const data = await content.slang();
-  const entries = (Array.isArray(data?.entries) ? data.entries : []).filter((x) => x?.id && x.term)
-    .sort((a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' }));
+  const all = (Array.isArray(data?.entries) ? data.entries : []).filter((x) => x?.id && x.term);
+  const byTerm = (a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' });
+  const byLevel = (a, b) => levelIndex(a.level) - levelIndex(b.level) || byTerm(a, b);
+  const courseLevel = model().courseLevel;
+  let sort = levelIndex(courseLevel) <= levelIndex('A2') ? 'level' : 'az';
+  let scope = 'all';
+  let entries = [...all].sort(sort === 'level' ? byLevel : byTerm);
   const intro = tt('ביטויים שאנשים באמת אומרים: מה הם אומרים, מתי משתמשים בהם, ומתי עדיף לוותר עליהם.', 'Expressions people actually use: what they mean, when to use them, and when to leave them out.');
 
   if (!entries.length) {
@@ -55,8 +65,8 @@ export default async function slang(el, ctx) {
   const matches = (x) => {
     if (formality !== 'all' && x.formality !== formality) return false;
     if (region !== 'all' && x.region !== region && x.region !== 'both') return false;
-    const q = fold(query);
-    return !q || fold(x.term).includes(q) || fold(x.meaning_he).includes(q) || fold(x.meaning_en).includes(q);
+    if (scope === 'mine' && fitOf(x.level, courseLevel) === 'hard') return false;
+    return searchMatch([x.term, x.meaning_en, x.meaning_he], query);
   };
 
   const playBtn = (text, region, label) => (canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${text}" data-variant="${voiceFor(region) || ''}" aria-label="${label}">${icon('volume', { size: 18 })}</button>` : '');
@@ -117,17 +127,21 @@ export default async function slang(el, ctx) {
   function drawFilters() {
     $$('[data-formality]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.formality === formality)));
     $$('[data-region]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.region === region)));
+    $$('[data-sort]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sort === sort)));
+    $$('[data-scope]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scope === scope)));
     const i = $('#xp-q', el);
     if (i && i.value !== query) i.value = query;
   }
 
   render(el, html`
-    <div class="page-head"><div><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
+    <div class="page-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
     <div class="list-tools">
       <label class="sr-only" for="xp-q">${tt('חיפוש ביטויים', 'Search expressions')}</label>
       <input class="input" id="xp-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('ביטוי באנגלית או משמעות בעברית', 'English expression or Hebrew meaning')}">
       <div class="seg" role="group" aria-label="${tt('רמת רשמיות', 'Formality')}">${FORMALITY.map(([id, he, en]) => html`<button type="button" data-formality="${id}" aria-pressed="${formality === id}">${tt(he, en)}</button>`)}</div>
       <div class="seg" role="group" aria-label="${tt('איפה אומרים את זה', 'Where it is used')}">${REGIONS.map(([id, he, en]) => html`<button type="button" data-region="${id}" aria-pressed="${region === id}">${tt(he, en)}</button>`)}</div>
+      <div class="seg" role="group" aria-label="${tt('רמה', 'Level')}">${SCOPES.map(([id, he, en]) => html`<button type="button" data-scope="${id}" aria-pressed="${scope === id}">${tt(he, en)}</button>`)}</div>
+      <div class="seg" role="group" aria-label="${tt('מיון', 'Sort')}">${SORTS.map(([id, he, en]) => html`<button type="button" data-sort="${id}" aria-pressed="${sort === id}">${tt(he, en)}</button>`)}</div>
     </div>
     <p class="small faint" id="xp-count" aria-live="polite" style="margin-block-end:var(--s3)"></p>
     <div id="xp-list"></div>
@@ -150,13 +164,15 @@ export default async function slang(el, ctx) {
     on(el, 'input', '#xp-q', (e, i) => { query = i.value; drawList(); }),
     on(el, 'click', '[data-formality]', (e, b) => { formality = b.dataset.formality; drawFilters(); drawList(); }),
     on(el, 'click', '[data-region]', (e, b) => { region = b.dataset.region; drawFilters(); drawList(); }),
-    on(el, 'click', '[data-clear]', () => { query = ''; formality = 'all'; region = 'all'; drawFilters(); drawList(); $('#xp-q', el)?.focus(); }),
+    on(el, 'click', '[data-scope]', (e, b) => { scope = b.dataset.scope; drawFilters(); drawList(); }),
+    on(el, 'click', '[data-sort]', (e, b) => { sort = b.dataset.sort; entries = [...all].sort(sort === 'level' ? byLevel : byTerm); drawFilters(); drawList(); }),
+    on(el, 'click', '[data-clear]', () => { query = ''; formality = 'all'; region = 'all'; scope = 'all'; drawFilters(); drawList(); $('#xp-q', el)?.focus(); }),
     on(el, 'click', '[data-toggle]', (e, b) => toggle(b.dataset.toggle)),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant: b.dataset.variant || variant })),
     on(el, 'click', '[data-goto]', (e, b) => {
       const id = b.dataset.goto;
       const target = entries.find((x) => x.id === id);
-      if (target && !matches(target)) { query = ''; formality = 'all'; region = 'all'; drawFilters(); drawList(); }
+      if (target && !matches(target)) { query = ''; formality = 'all'; region = 'all'; scope = 'all'; drawFilters(); drawList(); }
       toggle(id, true);
       const art = $(`[data-entry="${CSS.escape(id)}"]`, el);
       art?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
