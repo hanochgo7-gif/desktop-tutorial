@@ -318,8 +318,8 @@ one-line can-do statement and a "cover" line.
 ### 4.2 Lesson anatomy
 
 Defined in `docs/content-schema.md` and enforced by `tools/validate-content.mjs`. Across the 75 files:
-13-16 exercises, 8-15 vocabulary items and 15-40 authored minutes per lesson. (The schema document says
-10-25 minutes; the validator accepts 5-40, and `b1-11` (30) and `b1-12` (40) exceed 25.) The validator rejects a
+13-16 exercises, 8-15 vocabulary items and 15-40 authored minutes per lesson (the schema document now says
+"current lessons: 15-40"; the validator accepts 5-40; `b1-11` takes 30 and `b1-12` 40). The validator rejects a
 lesson without at least one input exercise (`read`, `listen` or `dictation`) and one free-production exercise
 (`write` or `speak`); every lesson passes.
 
@@ -1306,11 +1306,11 @@ price (one unit allows at most about 6,000 output tokens plus input).
 
 GitHub Pages deploys `main` (`.github/workflows/pages.yml`), excluding `lucid/tools`, `lucid/tests`,
 `lucid/supabase`, `lucid/docs/research/data`, `lucid/node_modules`, `lucid/package.json`,
-`lucid/package-lock.json` and `lucid/.impeccable`. Bump `RELEASE` in `sw.js` with each deploy
-that changes Lucid's files (it has not been bumped since commit `f8a202c`; `origin/main`, as last fetched here, has no `lucid/`
-folder, so this build is not deployed by that workflow). Before inviting real learners, fill in the two "To be filled in before public launch"
-boxes in `privacy.html` (operator name and contact; Anthropic's API data retention terms); `docs/setup.md` marks this
-as a launch blocker.
+`lucid/package-lock.json` and `lucid/.impeccable`. Bump `RELEASE` in `sw.js` with each deploy that changes Lucid's
+files (it has not been bumped since commit `f8a202c`; `origin/main`, as last fetched here, has no `lucid/` folder,
+so this build is not deployed by that workflow). Before inviting real learners, fill in the two "To be filled in
+before public launch" boxes in `privacy.html` (operator name and contact; Anthropic's API data retention terms);
+`docs/setup.md` marks this as a launch blocker.
 
 ---
 
@@ -1459,7 +1459,7 @@ Remainders that round 2 records inside items it marks fixed:
 | Content | `content/lessons/pa1-05.json` no longer states the predicted transfer error as fact ("so it is easy to leave it out in English") | Closed since `f8a202c` |
 | Content | The workplace scenarios and expressions were reviewed only by their author (`fix-log-r2.md`, P-53) | Known limitation |
 | Real life | No scenarios above B2; the workplace module starts at A2, so a work goal changes nothing at A1 | Content gap |
-| Documentation drift | `docs/architecture.md` section 8 still lists only migrations 001 and 002 (`setup.md` and architecture section 2 list 003); the comment on `newItemsBudget` (`srs.js`) disagrees with its code; the header comment of `tests/e2e/a11y.mjs` and the summary line of `fix-log-r2.md` describe the B1 and C1 audit configurations as minimal and off support. Fixed since `f8a202c`: `content-schema.md` on `speak` and lesson length, `architecture.md` section 6 on the export and roleplay deletion, `setup.md` on migration 003, and the comment on `SUPPORT_BY_LEVEL` | Open |
+| Documentation drift | `docs/architecture.md` section 8 still lists only migrations 001 and 002 (`setup.md` and architecture section 2 list 003); the comment on `newItemsBudget` (`srs.js`) disagrees with its code; the comments in `tests/e2e/a11y.mjs` describe its B1 and C1 configurations as minimal and off support. Fixed since `f8a202c`: `content-schema.md` on `speak` and lesson length, `architecture.md` section 6 on the export and roleplay deletion, `setup.md` on migration 003, and the comment on `SUPPORT_BY_LEVEL` | Open |
 
 ### 15.5 Non-goals
 
