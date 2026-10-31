@@ -10906,7 +10906,7 @@
    "id": "rl-work-first-day-intro",
    "module": "work",
    "title_en": "First day: meeting your new team",
-   "title_he": "יום ראשון בעבודה: היכרות עם הצוות",
+   "title_he": "היום הראשון בעבודה: היכרות עם הצוות",
    "level": "A2",
    "situation": {
     "en": "It's your first day at a new job in a tech company in Tel Aviv. Half of your team works in London, so team meetings are in English. At the morning meeting, your team lead, Rachel, asks you to introduce yourself.",
@@ -10937,7 +10937,7 @@
     },
     {
      "en": "I'm really looking forward to working with you all.",
-     "he": "אני ממש מחכה לעבוד עם כולכם.",
+     "he": "אני ממש מצפה לעבוד עם כולכם.",
      "register": "polite",
      "note": "After 'looking forward to', use the -ing form: 'to working', not 'to work'."
     },
@@ -11046,15 +11046,15 @@
        "error_type": "article"
       },
       {
-       "text": "Sure! Hi everyone, it's great to be here. Before this, I worked in testing at a small start-up.",
+       "text": "Sure! Hi everyone, it's great to be here. I'm really happy to join the team.",
        "verdict": "best",
        "feedback": {
-        "en": "Friendly and clear: a warm hello, then one line about your background. That's all a first introduction needs.",
-        "he": "ידידותי וברור: ברכה חמה ואז משפט אחד על הרקע שלכם. זה כל מה שהצגה ראשונה צריכה."
+        "en": "Warm and short: a friendly hello and a positive line about joining. Rachel's questions will give you the chance to say more.",
+        "he": "חם וקצר: ברכה ידידותית ומשפט חיובי על ההצטרפות לצוות. השאלות של רייצ'ל ייתנו לכם הזדמנות לספר עוד."
        }
       },
       {
-       "text": "No, it's OK. Maybe later.",
+       "text": "No, it's OK, thanks. Maybe I can say something later, at the end of the meeting.",
        "verdict": "poor",
        "feedback": {
         "en": "Saying no sounds unfriendly on your first day. A short introduction is expected, and two or three sentences are enough.",
@@ -11063,15 +11063,15 @@
       }
      ],
      "model_replies": [
-      "Sure! Hi everyone, it's great to be here. Before this, I worked in testing at a small start-up.",
-      "Of course. Hi, I'm the new QA engineer. I'm really happy to join the team."
+      "Sure! Hi everyone, it's great to be here. I'm really happy to join the team.",
+      "Of course. Hi everyone, I'm the new QA engineer. I'm really looking forward to working with you all."
      ],
      "keywords": [
       "great to be here",
       "happy",
-      "before this",
-      "worked",
-      "join"
+      "join",
+      "looking forward",
+      "hi everyone"
      ]
     },
     {
@@ -11159,19 +11159,19 @@
      "partner": "We have a team lunch every Thursday, by the way. You should come!",
      "options": [
       {
-       "text": "OK. I will come.",
+       "text": "OK, I will come on Thursday. Thank you for the information.",
        "verdict": "ok",
        "feedback": {
-        "en": "Fine, but a bit flat. When someone invites you, 'I'd love to' sounds warmer.",
-        "he": "בסדר, אבל קצת יבש. כשמזמינים אתכם, I'd love to נשמע חם יותר."
+        "en": "Fine, but flat, and 'Thank you for the information' sounds like a reply to a notice, not to an invitation. 'I'd love to' sounds warmer.",
+        "he": "בסדר, אבל יבש, ו-Thank you for the information נשמע כמו תגובה להודעה, לא להזמנה. I'd love to נשמע חם יותר."
        }
       },
       {
-       "text": "Maybe. Is it free?",
+       "text": "Maybe, it depends. Does the company pay for the food?",
        "verdict": "poor",
        "feedback": {
-        "en": "It sounds as if you only care about the money. Accept warmly first; you can ask about the details later.",
-        "he": "נשמע כאילו רק הכסף מעניין אתכם. קודם מקבלים את ההזמנה בחום, ועל הפרטים אפשר לשאול אחר כך."
+        "en": "It sounds as if your answer depends on who pays. Accept warmly first; you can ask about the details later.",
+        "he": "נשמע כאילו התשובה שלכם תלויה בשאלה מי משלם. קודם מקבלים את ההזמנה בחום, ועל הפרטים אפשר לשאול אחר כך."
        }
       },
       {
@@ -11502,7 +11502,7 @@
        }
       },
       {
-       "text": "I hate weather questions. Let's talk about work.",
+       "text": "Honestly, I hate weather questions. Let's just talk about work until the others come.",
        "verdict": "poor",
        "feedback": {
         "en": "That sounds rude. The weather is the most common small-talk topic in English. A short answer and a question back is all you need.",
@@ -11568,7 +11568,7 @@
      "partner": "Oh, it looks like everyone's joining now.",
      "options": [
       {
-       "text": "OK, bye.",
+       "text": "OK, bye then! See you next time, Emma. Take care.",
        "verdict": "ok",
        "feedback": {
         "en": "It isn't goodbye: you're both staying on the call. A short 'Nice chatting with you' ends the small talk.",
@@ -11677,7 +11677,7 @@
      "en": "No blockers for me.",
      "he": "אצלי אין שום דבר שתוקע.",
      "register": "neutral",
-     "note": "A very common way to say everything is going fine."
+     "note": "A very common way to say nothing is stopping your work."
     },
     {
      "en": "It's taking longer than I expected.",
@@ -11719,7 +11719,7 @@
     },
     {
      "en": "Sorry, you cut out for a second. Could you repeat the question?",
-     "he": "סליחה, נקטעת לשנייה. תוכל לחזור על השאלה?",
+     "he": "סליחה, נקטעת לשנייה. תוכל/י לחזור על השאלה?",
      "register": "polite",
      "note": "'You cut out' = the sound stopped for a moment."
     }
@@ -11876,7 +11876,7 @@
        }
       },
       {
-       "text": "Priya's team is slow again, as usual.",
+       "text": "Priya's team is slow again, as usual. I asked them for the data twice last week and still nothing.",
        "verdict": "poor",
        "feedback": {
         "en": "Blaming another team in front of everyone sounds unprofessional. Describe the problem, not the people.",
@@ -11961,7 +11961,7 @@
        "verdict": "best",
        "feedback": {
         "en": "Polite and efficient: you keep the meeting short and say exactly what you'll do next.",
-        "he": "מנומס ויעיל: הישיבה נשארת קצרה, ואתם אומרים בדיוק מה תעשו עכשיו."
+        "he": "מנומס ויעיל: הישיבה נשארת קצרה, ואתם אומרים בדיוק מה תעשו בהמשך."
        }
       }
      ],
@@ -11980,13 +11980,13 @@
    ],
    "roleplay": {
     "persona": "Mark, a team manager in London. Friendly but always watching the clock: he keeps stand-ups to 15 minutes and gently cuts off long updates.",
-    "complication": "The learner has a blocker. Mark asks for a time estimate, then starts a long technical discussion about the data, and the learner should suggest taking it offline. At one point Mark's sound cuts out and he asks the learner to repeat their last sentence.",
+    "complication": "The learner has a blocker. Mark asks for a time estimate, then starts a long technical discussion about the data, and the learner should suggest taking it offline. At one point Mark's connection drops for a moment and he asks the learner to repeat their last sentence.",
     "opening_line": "Morning, all! Let's keep it quick today. You're up first: what's your update?"
    },
    "culture": [
     {
      "en": "A stand-up update has three parts: what you did, what you're doing next, and anything blocking you. Thirty to sixty seconds is normal; details go to a separate chat.",
-     "he": "לעדכון בסטנד-אפ יש שלושה חלקים: מה עשיתם, מה אתם עושים עכשיו ומה תוקע אתכם. שלושים עד שישים שניות זה הנורמה, והפרטים עוברים לשיחה נפרדת."
+     "he": "לעדכון בסטנד-אפ יש שלושה חלקים: מה עשיתם, מה תעשו בהמשך ומה תוקע אתכם. שלושים עד שישים שניות זה המקובל, והפרטים עוברים לשיחה נפרדת."
     },
     {
      "en": "Saying you're blocked is not a complaint or a failure. It's how the team finds out who needs help, so say it early and clearly.",
@@ -12269,11 +12269,11 @@
      "partner": "Mainly the top three complaints, with a couple of examples for each.",
      "options": [
       {
-       "text": "Got it. Until when?",
+       "text": "Got it, thanks. And until when do you need it? Until the end of the day on Friday?",
        "verdict": "ok",
        "feedback": {
-        "en": "'Until when' asks how long something will continue. For a deadline, use 'by': 'When do you need it by?'",
-        "he": "Until when שואל עד מתי משהו יימשך. לדדליין משתמשים ב-by: When do you need it by?"
+        "en": "'Until when' asks how long something will continue. For a deadline, use 'by': 'When do you need it by? By the end of the day on Friday?'",
+        "he": "Until when שואל עד מתי משהו יימשך. לדדליין משתמשים ב-by: When do you need it by? By the end of the day on Friday?"
        },
        "error_type": "preposition"
       },
@@ -12310,7 +12310,7 @@
      "partner": "Morning, please. The meeting's at eleven.",
      "options": [
       {
-       "text": "Great, thanks. So, just to confirm: I'll email you the full summary, with the examples, on Friday at eleven o'clock.",
+       "text": "Great, thanks. So, just to confirm: I'll email you the summary, with the examples, on Friday at eleven o'clock.",
        "verdict": "poor",
        "feedback": {
         "en": "Summing up is a good idea, but you got the key detail wrong: eleven is when the meeting starts, so the summary would arrive too late. She needs it before the meeting, in the morning.",
@@ -12349,8 +12349,8 @@
     }
    ],
    "roleplay": {
-    "persona": "Priya, a product manager in the New York office. Busy and fast-talking; she gives tasks in one quick sentence and expects people to ask if they need more.",
-    "complication": "Priya's first request is vague ('a quick overview of the feedback, nothing fancy'). She gives details only when asked: who it's for, how long it should be and exactly when it's due. Halfway through, she adds a second request ('oh, and add the numbers from the survey'), and the learner should check whether the deadline changes.",
+    "persona": "Priya, the customer support manager in the New York office. Busy and fast-talking; she gives tasks in one quick sentence and expects people to ask if they need more.",
+    "complication": "Priya's first request is vague ('a quick summary of the feedback, nothing fancy'). She gives details only when asked: who it's for, how long it should be and exactly when it's due. Halfway through, she adds a second request ('oh, and add the numbers from the survey'), and the learner should check whether the deadline changes.",
     "opening_line": "Hi! Got a sec? Could you put together a quick summary of last month's customer feedback for Friday? Nothing fancy."
    },
    "culture": [
@@ -12403,8 +12403,8 @@
      "note": "'Hi' and a first name is normal in most work emails. 'Dear James,' is more formal."
     },
     {
-     "en": "Subject: Market report: new delivery date?",
-     "he": "נושא: דוח השוק – מועד הגשה חדש?",
+     "en": "Subject: New date for the market report?",
+     "he": "נושא: מועד חדש לדוח השוק?",
      "register": "neutral",
      "note": "Say what the email is about in a few words."
     },
@@ -12693,13 +12693,13 @@
        "verdict": "best",
        "feedback": {
         "en": "Warm and professional: a thank-you for his flexibility and a reminder of what happens next.",
-        "he": "חם ומקצועי: תודה על הגמישות ותזכורת למה שקורה עכשיו."
+        "he": "חם ומקצועי: תודה על הגמישות ותזכורת למה שיקרה בהמשך."
        }
       }
      ],
      "model_replies": [
       "Thanks for being flexible. I'll send the first sections on Thursday.",
-      "Thanks, James. Speak soon, and the first sections are coming on Thursday."
+      "Thanks, James. The first sections will be with you on Thursday."
      ],
      "keywords": [
       "thanks",
@@ -12711,7 +12711,7 @@
    ],
    "roleplay": {
     "persona": "James, a team lead in London. Fair and calm, but under pressure from a client; he writes short, friendly emails and expects clear dates.",
-    "complication": "James can't simply move the deadline to Monday, because he presents to the client on Tuesday morning. The learner has to offer a compromise (part of the work earlier, the rest later) and confirm the new dates in writing. James also asks the learner to 'loop in' the data team, and asks what happens if the figures are late again.",
+    "complication": "James can't simply move the deadline to Monday, because he presents to the client on Tuesday morning. The learner has to offer a compromise (part of the work earlier, the rest later) and confirm the new dates in writing. James also asks the learner to 'loop in' Dana, whose team owes the figures, and asks what happens if the figures are late again.",
     "opening_line": "Hi, just checking in on the market report. Are we still on track for Thursday? Thanks, James"
    },
    "culture": [
@@ -13056,7 +13056,7 @@
        "verdict": "poor",
        "feedback": {
         "en": "It sounds like you're celebrating winning an argument. Keep the focus on the plan, so everyone leaves the meeting happy.",
-        "he": "נשמע כאילו אתם חוגגים ניצחון בוויכוח. שמרו על הפוקוס בתוכנית, כדי שכולם ייצאו מהישיבה מרוצים."
+        "he": "נשמע כאילו אתם חוגגים ניצחון בוויכוח. התמקדו בתוכנית, כדי שכולם ייצאו מהישיבה מרוצים."
        }
       },
       {
@@ -13089,7 +13089,7 @@
    "culture": [
     {
      "en": "In many English-speaking workplaces, disagreement is softened: 'I'm not sure that...', 'I see your point, but...'. These still mean 'I disagree', so listen for them.",
-     "he": "במקומות עבודה רבים דוברי אנגלית מרככים אי-הסכמה: I'm not sure that... או I see your point, but... המשמעות עדיין 'אני לא מסכים/ה', אז כדאי לשים לב אליהן."
+     "he": "במקומות עבודה רבים דוברי אנגלית מרככים אי-הסכמה: I'm not sure that... או I see your point, but... המשמעות עדיין 'אני לא מסכים/ה', אז כדאי לשים לב לניסוחים האלה."
     },
     {
      "en": "Disagree with the idea, not the person. 'This plan has a risk' sounds professional; 'You're wrong' sounds personal.",
@@ -13097,7 +13097,7 @@
     },
     {
      "en": "Polite phrases can hide strong views. From some British speakers in particular, 'That's an interesting idea' or 'With respect...' can mean they really disagree.",
-     "he": "ניסוחים מנומסים יכולים להסתיר עמדה חזקה. אצל חלק מהדוברים הבריטים במיוחד, That's an interesting idea או With respect... יכולים לומר שהם ממש לא מסכימים."
+     "he": "ניסוחים מנומסים יכולים להסתיר עמדה חזקה. במיוחד אצל חלק מהדוברים הבריטים, That's an interesting idea או With respect... יכולים לומר שהם ממש לא מסכימים."
     }
    ],
    "variants": [

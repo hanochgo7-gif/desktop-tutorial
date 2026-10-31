@@ -14,7 +14,7 @@ content/
                          source pack the topic uses) and required_elements[] (Bilingual)
   lessons/<id>.json      one file per lesson
   placement.json         placement-test item bank
-  real-life/scenarios.json   travel and social scenarios
+  real-life/scenarios.json   travel, social and workplace scenarios
   real-life/slang.json       expressions dictionary
   writing/exercises.json     writing-lab exercises (stages 1-10)
   writing/assignments.json   advanced argumentative assignments
@@ -87,7 +87,7 @@ correct answer is strong evidence of ability at that level (no trick questions, 
 ## Real-life scenarios (`content/real-life/scenarios.json`)
 
 `{ scenarios: [Scenario] }`:
-`id`, `module` (airport | hotel | restaurant | transport | shopping | social | emergency), `title_en`,
+`id`, `module` (airport | hotel | restaurant | transport | shopping | social | emergency | work), `title_en`,
 `title_he`, `level`, `situation` (Bilingual), `goal` (Bilingual), `partner_role`, `phrases`
 `[{en, he, register: "polite" | "neutral" | "casual", variant?: "US" | "UK", note?}]`,
 `model_dialogue` `[{speaker: "partner" | "you", text}]`,
