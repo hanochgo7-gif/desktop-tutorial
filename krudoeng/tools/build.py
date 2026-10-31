@@ -24,7 +24,7 @@ SITE_URL = 'https://www.krudoeng.com'
 PREVIEW_URL = 'https://hanochgo7-gif.github.io/desktop-tutorial/krudoeng'
 ABS = SITE_URL if LAUNCH else PREVIEW_URL
 YEAR = 2026
-V = '2'  # גרסה לקבצי ה-CSS וה-JS, כדי שדפדפנים יטענו מחדש אחרי עדכון
+V = '3'  # גרסה לקבצי ה-CSS וה-JS, כדי שדפדפנים יטענו מחדש אחרי עדכון
 BRAND = 'קרודו הנדסה'
 
 INLINE_JS = "document.documentElement.classList.add('js')"
@@ -35,7 +35,6 @@ CSP = ("default-src 'self'; script-src 'self' " + JS_HASH + "; style-src 'self';
 e = html.escape
 SVC = {s['slug']: s for s in C.SERVICES}
 HAS_FIELD = bool(C.FIELD['items'])   # דף "ליקויים מהשטח" נוצר רק כשיש צילומים אמיתיים
-POSTERS = {}   # תמונות סטטיות של הדגם, נוצרות ב-tools/render.mjs
 PAGES = []     # לכתובות ב-sitemap
 
 
@@ -149,7 +148,7 @@ def footer(pg, credit=None):
         return (f'<footer class="site-footer site-footer--compact dark"><div class="wrap site-footer__end"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
                 f'<p class="site-footer__legal"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot"><span class="ltr">{C.PHONE_EN}</span></a>'
                 f'<a href="mailto:{C.EMAIL}">{C.EMAIL}</a><a href="{pg.a("accessibility/")}">Accessibility (Hebrew)</a><a href="{pg.a("privacy/")}">Privacy (Hebrew)</a></p></div>'
-                f'<div class="wrap"><p class="site-footer__credit">© {YEAR} Krudo Engineering. The apartment model on this site is an illustration.</p></div></footer>')
+                f'<div class="wrap"><p class="site-footer__credit">© {YEAR} Krudo Engineering. The apartment image on this page is an AI-generated illustration.</p></div></footer>')
     svc = ''.join(f'<li><a href="{pg.a(s["slug"] + "/")}">{e(s["name"])}</a></li>' for s in C.SERVICES)
     site = (''.join(f'<li><a href="{pg.a(h)}">{e(t)}</a></li>' for k, h, t in C.NAV if k != 'services')
             + f'<li><a href="{pg.a("checklist/")}">רשימת בדיקה למקבלי דירה</a></li><li><a href="{pg.a("en/")}" lang="en">English</a></li>')
@@ -168,7 +167,7 @@ def footer(pg, credit=None):
 def scripts(pg, model=False):
     s = ''
     if model:
-        s += f'<script src="{pg.a("assets/js/apartment.js")}?v={V}" defer></script>'
+        s += f'<script src="{pg.a("assets/js/inspect.js")}?v={V}" defer></script>'
     s += f'<script src="{pg.a("assets/js/site.js")}?v={V}" defer></script>'
     return s
 
@@ -190,17 +189,29 @@ def page(pg, title, desc, body, schema=None, current=None, model=False, credit=N
 
 
 # ---------- רכיבים ----------
-def poster_key(cam, show):
-    return (cam or 'overview') + ('--' + show.replace(',', '-') if show else '')
-
-
-def model(pg, cam='overview', show='', label='', focusable=False, idattr=''):
-    key = poster_key(cam, show)
-    POSTERS[key] = {'cam': cam, 'show': show}
-    attrs = f' data-apartment data-cam="{cam}"' + (f' data-show="{show}"' if show else '') + (' data-focusable' if focusable else '') + (f' id="{idattr}"' if idattr else '')
-    alt = label or 'המחשה תלת־ממדית של דירה לדוגמה'
-    return (f'<div class="apt"{attrs} role="group" aria-label="{e(alt)}">'
-            f'<noscript><img class="apt__poster" src="{pg.a("assets/img/scene/" + key + ".webp")}" alt="{e(alt)}" width="1200" height="900"></noscript></div>')
+def apt_view(pg, h):
+    """הדירה בהדמיה: כמו בביקור רגיל, ו"מבט של בודק" (סרטון שעובר ביניהן). כל ממצא: סיכה בתמונה, שורה ברשימה ותקריב להמחשה."""
+    img = lambda n: pg.a('assets/img/apt/' + n)
+    srcset = lambda k: f'{img(k + "-1280.webp")} 1280w, {img(k + "-2048.webp")} 2048w'
+    sizes = '(min-width: 1240px) 700px, (min-width: 901px) 56vw, 100vw'
+    pins, finds = '', ''
+    for i, (k, (t, d)) in enumerate(C.FINDINGS.items(), 1):
+        a = C.APT[k]
+        pins += (f'<button type="button" class="apt__pin" data-f="{k}" data-x="{a["pos"][0]}" data-y="{a["pos"][1]}" data-cam="{" ".join(str(v) for v in a["cam"])}" '
+                 f'data-close="{img("close-" + k + ".webp")}" data-cap="{e(a["cap"])}" data-alt="{e(a["alt"])}" data-say="{i}. {e(t)}: {e(d)}" '
+                 f'aria-label="{i}. {e(t)}" tabindex="-1"><span class="apt__dot" aria-hidden="true">{i}</span><span class="apt__say" aria-hidden="true">{e(t)}</span></button>')
+        finds += (f'<li><button type="button" class="find" data-f="{k}" aria-pressed="false"><span class="find__n" aria-hidden="true">{i}</span>'
+                  f'<span class="find__t">{e(t)}</span><span class="find__d">{e(d)}</span></button></li>')
+    view = (f'<div class="apt" data-apt><div class="apt__stage"><div class="apt__move">'
+            f'<img class="apt__day" src="{img("day-1280.webp")}" srcset="{srcset("day")}" sizes="{sizes}" width="2048" height="1360" loading="lazy" decoding="async" '
+            f'alt="הדמיה של דירה לדוגמה במבט מלמעלה, בלי תקרה: סלון ומטבח, חדר שינה, חדר רחצה, ממ״ד ומרפסת">'
+            f'<img class="apt__eye" src="{img("eye-1280.webp")}" srcset="{srcset("eye")}" sizes="{sizes}" width="2048" height="1360" loading="lazy" decoding="async" alt="">'
+            f'<video class="apt__vid" muted playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="{pg.a("assets/media/reveal-1280.mp4")}" data-src-s="{pg.a("assets/media/reveal-854.mp4")}"></video>'
+            f'<div class="apt__pins">{pins}</div></div><i class="apt__scan" aria-hidden="true"></i></div>'
+            f'<div class="eye"><button class="btn btn--secondary" type="button" aria-pressed="false" data-eye>{ico_eye()}מבט של בודק</button>'
+            f'<p class="eye__say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></div>'
+            f'<div class="apt__close" hidden><p><b>המחשה</b><span></span></p></div></div>')
+    return view, f'<ol class="finds" aria-label="מה רביד בודק בדירה">{finds}</ol>'
 
 
 def crumbs(pg, items):
@@ -391,7 +402,7 @@ def related_section(pg, related, h2='עוד שירותים שיכולים להת
 
 
 VALLEY_CREDIT = 'צילום עמק יזרעאל: Mohammad Hijjawi, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener license" target="_blank">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Jezreel_Valley_3.jpg" rel="noopener" target="_blank">ויקישיתוף</a>.'
-MODEL_NOTE = 'הדירה התלת־ממדית באתר היא המחשה.'
+MODEL_NOTE = 'הדירה, הסרטון והתקריבים באזור "מה בודקים בדירה" הם הדמיה שנוצרה בבינה מלאכותית, ולא צילומים מבדיקה אמיתית.'
 
 
 # ---------- Schema ----------
@@ -436,15 +447,12 @@ def build_home():
     hero = (f'<section class="hero hero--photo dark" aria-labelledby="h1">'
             f'<img class="hero__photo" src="{photo(1600)}" srcset="{photo(900)} 900w, {photo(1600)} 1600w, {photo(2400)} 2400w" sizes="100vw" alt="" width="2400" height="1334" fetchpriority="high">'
             f'<div class="wrap hero__grid"><div class="hero__text"><h1 id="h1">{e(H["h1"])}</h1><p class="lede">{e(h["lede"])}</p>{actions(pg)}</div></div></section>')
-    # הדירה התלת־ממדית: אזור משלה, עם מבט של בודק
+    # הדירה בהדמיה: אזור משלה, עם מבט של בודק ושבעה ממצאים
+    view, finds = apt_view(pg, h)
     inspect = (f'<section class="section dark" id="inspect" aria-labelledby="inspect-h"><div class="wrap inspect">'
                f'<div class="section__head"><h2 id="inspect-h">{e(H["inspect_h2"])}</h2><p>{e(H["inspect_p"])}</p></div>'
-               f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", focusable=True, idattr="apt-home")}</div>'
-               f'<figcaption class="eye"><button class="btn btn--secondary" type="button" aria-pressed="false" aria-controls="apt-home" data-eye="apt-home">{ico_eye()}מבט של בודק</button>'
-               f'<p class="eye__say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></figcaption></figure>'
-               f'</div></section>')
-    findings = '<script type="application/json" id="k-findings">' + json.dumps(C.FINDINGS, ensure_ascii=False) + '</script>'
-    body = hero + findings
+               f'{view}{finds}</div></section>')
+    body = hero
     body += section('services', H['chooser_h2'], chooser(pg).replace('class="chooser"', 'class="chooser chooser--home"', 1), e(H['chooser_p']),
                     more=more_links((pg.a('services/'), 'כל השירותים, עם הפירוט'), (pg.a('lawyers/'), 'לעורכי דין, מתווכים ושמאים')))
     body += section('why', H['why_h2'], why_grid(), cls='section--paper')
@@ -689,7 +697,8 @@ def build_en():
     hero = (f'<section class="hero dark" aria-labelledby="h1"><div class="wrap hero__grid">'
             f'<div class="hero__text"><h1 id="h1">{e(" ".join(E["h1"]))}</h1><p class="lede">{e(E["lede"])}</p>{actions(pg, lang="en")}'
             f'<p class="hero__trust">Reg. 38633308 · Building defects inspector, Israel Association of Construction and Infrastructure Engineers</p></div>'
-            f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "moisture,drain,cracks,tiles,plans,electric,rail", "Illustration: a sample apartment, with what an inspector looks for")}</div>'
+            f'<figure class="hero__visual"><img class="hero__img" src="{pg.a("assets/img/apt/eye-1280.webp")}" srcset="{pg.a("assets/img/apt/eye-1280.webp")} 1280w, {pg.a("assets/img/apt/eye-2048.webp")} 2048w" '
+            f'sizes="(min-width: 901px) 54vw, 100vw" width="2048" height="1360" alt="Illustration: a sample apartment seen from above, with the defects an inspector looks for highlighted">'
             f'<figcaption class="eye"><p class="eye__say">Illustration: what an inspector looks for.</p></figcaption></figure></div></section>')
     cards = ''.join(f'<li class="svc"><h3 class="svc__name">{e(a)}</h3><dl class="svc__facts"><div><dt>When</dt><dd>{e(b)}</dd></div><div><dt>You get</dt><dd>{e(c)}</dd></div></dl></li>' for a, b, c in E['services'])
     body = hero + section('services', E['services_h2'], f'<ul class="svc-list svc-list--row">{cards}</ul>')
@@ -703,7 +712,7 @@ def build_en():
     body += (f'<section class="section" id="contact" aria-labelledby="contact-h"><div class="wrap cta-band"><div><h2 id="contact-h">{e(E["contact_h2"])}</h2>'
              f'<p class="lead">{e(E["contact_p"])} <a class="link-arrow" href="mailto:{C.EMAIL}">{C.EMAIL}</a></p></div>{actions(pg, lang="en")}</div></section>')
     schema = graph({**org_schema(), 'name': 'Krudo Engineering', 'alternateName': BRAND, 'description': E['desc']})
-    page(pg, E['title'], E['desc'], body, schema, model=True, alt_en=True, full_title=E['title'])
+    page(pg, E['title'], E['desc'], body, schema, alt_en=True, full_title=E['title'])
 
 
 # ---------- נגישות ופרטיות ----------
@@ -822,9 +831,7 @@ def main():
     build_headers()
     build_vcf()
     build_seo_files()
-    with open(os.path.join(HERE, 'posters.json'), 'w', encoding='utf-8') as f:
-        json.dump(POSTERS, f, ensure_ascii=False, indent=1)
-    print(f'built {len(PAGES)} pages, {len(POSTERS)} model posters, {len(OLD)} redirects · launch={LAUNCH}')
+    print(f'built {len(PAGES)} pages, {len(OLD)} redirects · launch={LAUNCH}')
 
 
 if __name__ == '__main__':
