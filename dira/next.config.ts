@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+// STATIC_EXPORT=1 builds a server-less copy for static hosting (GitHub Pages): the studio and all
+// public pages work; accounts, AI tools and payments show that they're off. See scripts/build-static.sh.
+const STATIC = process.env.STATIC_EXPORT === "1";
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || undefined;
+
+const staticConfig: NextConfig = {
+  output: "export",
+  basePath: BASE_PATH,
+  trailingSlash: true,
+  images: { unoptimized: true },
+  poweredByHeader: false,
+};
+
+const serverConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [
@@ -37,4 +50,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default STATIC ? staticConfig : serverConfig;

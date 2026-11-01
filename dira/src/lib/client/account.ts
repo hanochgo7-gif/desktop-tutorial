@@ -3,6 +3,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import type { PublicConfig } from "@/lib/server/config";
+import { STATIC_SITE } from "@/lib/site";
 
 export type Me = {
   email: string;
@@ -13,9 +14,14 @@ export type Me = {
   jobs: { id: string; tool: string; status: string; model: string; test: boolean; created_at: string }[];
 };
 
+const OFF: PublicConfig = { accounts: null, ai: null, payments: null, testMode: false, supabase: null };
+
 let configPromise: Promise<PublicConfig> | null = null;
 export function getConfig(): Promise<PublicConfig> {
-  configPromise ??= fetch("/api/config", { cache: "no-store" }).then((r) => r.json());
+  if (STATIC_SITE) return Promise.resolve(OFF);
+  configPromise ??= fetch("/api/config", { cache: "no-store" })
+    .then((r) => (r.ok ? (r.json() as Promise<PublicConfig>) : OFF))
+    .catch(() => OFF);
   return configPromise;
 }
 

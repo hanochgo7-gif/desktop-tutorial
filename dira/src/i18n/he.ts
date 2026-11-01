@@ -275,7 +275,7 @@ const he = {
     ready: "ההורדה מוכנה",
     failed: "ההכנה נכשלה. נסו שוב או בחרו פחות תמונות.",
     share: "שיתוף",
-    manifestName: "שינויים-בתמונות.txt",
+    manifestName: "photo-changes.txt",
     stagedLabel: "הדמיה — ריהוט וירטואלי",
   },
   changes: {

@@ -7,6 +7,7 @@ import type { Dict, Locale } from "@/i18n";
 import demo from "@/lib/demo-data.json";
 import { describeChange } from "@/lib/describe";
 import type { Change } from "@/lib/engine/types";
+import { asset } from "@/lib/site";
 
 type Sample = (typeof demo)[number];
 
@@ -19,8 +20,8 @@ export function HeroDemo({ lang, t, intro, action }: { lang: Locale; t: Dict; in
       <div className="lg:col-start-1 lg:row-start-1 lg:self-end">{intro}</div>
       <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
       <CompareView
-        before={`/demo/${s.id}-before.jpg`}
-        after={`/demo/${s.id}-after.jpg`}
+        before={asset(`/demo/${s.id}-before.jpg`)}
+        after={asset(`/demo/${s.id}-after.jpg`)}
         labels={{ before: t.landing.demoBefore, after: t.landing.demoAfter, slider: t.landing.demoCaption }}
         alt={t.landing.sampleNames[i]}
         dir={dir}

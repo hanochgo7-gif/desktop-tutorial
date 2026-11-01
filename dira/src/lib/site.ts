@@ -5,6 +5,15 @@ export const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "972553340694";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
+/** Set when the site is served from a sub-path (the static GitHub Pages build). */
+export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+
+/** True for the static build: no server, so accounts, AI tools and payments are off. */
+export const STATIC_SITE = process.env.NEXT_PUBLIC_STATIC === "1";
+
+/** A file from /public, with the base path. */
+export const asset = (p: string) => `${BASE_PATH}${p}`;
+
 export function whatsappLink(text?: string) {
   return `https://wa.me/${WHATSAPP}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 }

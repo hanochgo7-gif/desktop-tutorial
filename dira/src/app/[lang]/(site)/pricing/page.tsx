@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BuyButton, PaymentsNotice } from "@/components/account/buy-button";
+import { Suspense } from "react";
+import { BuyButton, CancelledNotice, PaymentsNotice } from "@/components/account/buy-button";
 import { PricingPlans } from "@/components/pricing-plans";
 import { getDict, isLocale } from "@/i18n";
 import { whatsappLink } from "@/lib/site";
@@ -13,17 +14,18 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/pricing">)
   return { title: t.nav.pricing, description: t.pricing.lead, alternates: { canonical: `/${lang}/pricing`, languages: { he: "/he/pricing", en: "/en/pricing" } } };
 }
 
-export default async function Pricing({ params, searchParams }: PageProps<"/[lang]/pricing">) {
+export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = getDict(lang);
-  const sp = await searchParams;
   const heads = [t.pricing.plans.free.name, t.pricing.plans.pack.name, t.pricing.plans.pro.name, t.pricing.plans.business.name];
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 sm:py-20">
       <h1 className="display max-w-3xl text-[40px] sm:text-[54px]">{t.pricing.title}</h1>
       <p className="mt-5 max-w-2xl text-[18px] leading-[1.7] text-ink-2">{t.pricing.lead}</p>
-      {sp.cancelled && <p role="status" className="mt-6 rounded-[10px] bg-line-2 px-4 py-3 text-[14.5px]">{t.checkout.cancelled}</p>}
+      <Suspense>
+        <CancelledNotice t={t} />
+      </Suspense>
       <PaymentsNotice t={t} />
       <div className="mt-10">
         <PricingPlans

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, IBM_Plex_Sans_Hebrew } from "next/font/google";
 import { notFound } from "next/navigation";
 import { LOCALES, dirOf, getDict, isLocale } from "@/i18n";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, asset } from "@/lib/site";
 import "../globals.css";
 
 const frank = Frank_Ruhl_Libre({ subsets: ["hebrew", "latin"], weight: ["500", "700"], variable: "--font-frank", display: "swap" });
@@ -27,9 +27,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       title: t.meta.title,
       description: t.meta.description,
       siteName: t.brand.name,
-      images: [{ url: "/og.jpg", width: 1200, height: 630 }],
+      images: [{ url: asset("/og.jpg"), width: 1200, height: 630 }],
     },
-    icons: { icon: "/icon.svg", apple: "/apple-icon.png" },
+    icons: { icon: asset("/icon.svg"), apple: asset("/apple-icon.png") },
   };
 }
 

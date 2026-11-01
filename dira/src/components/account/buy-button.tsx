@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import type { Dict, Locale } from "@/i18n";
 import { api, useAccount } from "@/lib/client/account";
@@ -51,6 +51,16 @@ export function BuyButton({ product, label, featured, lang, t }: { product: Prod
       </button>
       {error && <p role="alert" className="mt-2 text-[13px] text-err">{t.account.error}</p>}
     </div>
+  );
+}
+
+export function CancelledNotice({ t }: { t: Dict }) {
+  const sp = useSearchParams();
+  if (!sp.get("cancelled")) return null;
+  return (
+    <p role="status" className="mt-6 rounded-[10px] bg-line-2 px-4 py-3 text-[14.5px]">
+      {t.checkout.cancelled}
+    </p>
   );
 }
 

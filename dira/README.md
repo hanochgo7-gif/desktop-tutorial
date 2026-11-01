@@ -13,6 +13,13 @@ Two kinds of work, two clear rules:
 | Cost | Free, unlimited — costs nothing to run | Credits (1 credit = 1 edit; failed edits refund) |
 | Invents pixels? | No. Every filled pixel comes from the same photo | Yes — so results are separate, labelled versions; staging carries a burned-in label |
 
+## Live
+
+**https://hanochgo7-gif.github.io/desktop-tutorial/dira/** — the static build (studio and all public pages),
+published by `.github/workflows/pages.yml` on every push to `main` (`npm run build:static`). It has no
+server, so accounts, AI tools and online payments show that they're off there. For those, deploy the
+full app on Vercel (below).
+
 ## Status: what is live and what needs credentials
 
 | Feature | Works with no configuration | Needs |

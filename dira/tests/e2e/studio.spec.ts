@@ -22,15 +22,17 @@ test("upload → analysis → adjust → ZIP export with change log", async ({ p
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "הורדת ZIP" }).click()]);
   const file = await download.path();
   const entries = readZip(file!);
+  // Latin-only file names: they survive every browser and Windows' built-in unzip.
+  expect(download.suggestedFilename()).toMatch(/^dira-photos-\d{4}-\d{2}-\d{2}\.zip$/);
+  const folder = download.suggestedFilename().replace(/\.zip$/, "");
   const names = [...entries.keys()].sort();
-  expect(names).toEqual(
-    ["פרויקט-חדש/01-portal.jpg", "פרויקט-חדש/01-whatsapp.jpg", "פרויקט-חדש/02-portal.jpg", "פרויקט-חדש/02-whatsapp.jpg", "פרויקט-חדש/שינויים-בתמונות.txt"].sort(),
-  );
-  const manifest = entries.get("פרויקט-חדש/שינויים-בתמונות.txt")!.toString("utf8");
+  expect(names).toEqual([`${folder}/01-portal.jpg`, `${folder}/01-whatsapp.jpg`, `${folder}/02-portal.jpg`, `${folder}/02-whatsapp.jpg`, `${folder}/photo-changes.txt`].sort());
+  const manifest = entries.get(`${folder}/photo-changes.txt`)!.toString("utf8");
+  expect(manifest).toContain("פרויקט חדש");
   expect(manifest).toContain("יישור קירות");
   expect(manifest).toContain("apt1-before.jpg");
   // JPEGs are real images without camera metadata (canvas re-encode strips EXIF/GPS).
-  const jpg = entries.get("פרויקט-חדש/01-portal.jpg")!;
+  const jpg = entries.get(`${folder}/01-portal.jpg`)!;
   expect(jpg.subarray(0, 3).toString("hex")).toBe("ffd8ff");
   expect(jpg.includes(Buffer.from("Exif"))).toBe(false);
 });

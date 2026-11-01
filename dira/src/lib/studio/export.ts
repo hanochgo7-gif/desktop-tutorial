@@ -149,8 +149,23 @@ export async function finalImage(photo: Photo, onProgress?: (f: number) => void)
   return { blob: r.blob, changes: r.changes };
 }
 
+/**
+ * File and folder names are kept to plain Latin characters: some browsers save a download with a
+ * Hebrew name as "download" (no extension), and Windows' built-in unzip garbles non-Latin names.
+ * The project's real name is written inside the change log instead.
+ */
 export function slug(s: string) {
-  return s.trim().replace(/[\\/:*?"<>|]+/g, "").replace(/\s+/g, "-").slice(0, 60) || "photos";
+  const ascii = s
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7e]/g, "")
+    .replace(/[\\/:*?"<>|']+/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase()
+    .slice(0, 60);
+  return ascii || `dira-photos-${new Date().toISOString().slice(0, 10)}`;
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
