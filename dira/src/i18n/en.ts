@@ -41,7 +41,7 @@ const en: Dict = {
     demoBefore: "Before",
     demoAfter: "After",
     bgNote: "Background: AI-generated illustration",
-    sampleNames: { bedroom: "Empty room", living: "Living room at night", kitchen: "Kitchen" },
+    sampleNames: { bedroom: "Empty room", living: "Living room", kitchen: "Kitchen" },
     sampleNotes: {
       bedroom: "The stains and holes in the wall stay. We don't hide damage.",
       living: "The yellow of the bulb is neutralised and the walls are straightened.",

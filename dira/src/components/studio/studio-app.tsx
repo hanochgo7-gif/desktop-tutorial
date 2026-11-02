@@ -221,7 +221,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                     setTab(x.id);
                     if (x.id === "remove") setBrushView("paint");
                   }}
-                  className={`relative min-h-[44px] flex-none px-3 text-[14.5px] font-semibold transition-colors ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
+                  className={`relative min-h-[44px] flex-none px-2.5 text-[14px] font-semibold transition-colors sm:px-3 sm:text-[14.5px] ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
                 >
                   {x.label}
                   {tab === x.id && <span className="absolute inset-x-2 bottom-0 h-[2px] rounded-full bg-prussian" />}
