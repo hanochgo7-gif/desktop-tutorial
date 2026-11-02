@@ -3,7 +3,7 @@
 import { openStore, store } from './core/store.js';
 import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
-import { t, tOther, setUiLang, uiLang, tt } from './core/i18n.js';
+import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
 import { icon, toast, brandMark } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
@@ -38,10 +38,13 @@ function applyTheme() {
   else delete document.documentElement.dataset.theme;
 }
 
+// The rail's second line: English under Hebrew in the Hebrew UI; in the English UI a Hebrew line only while the
+// learner's Hebrew support is full or partial (SC-12).
 function navLegend(key) {
   const other = tOther(key);
   const otherLang = uiLang() === 'he' ? 'en' : 'he';
-  return html`<span class="nav-legend"><span class="l1">${t(key)}</span><span class="l2" lang="${otherLang}" dir="${otherLang === 'he' ? 'rtl' : 'ltr'}">${other}</span></span>`;
+  const show = otherLang === 'en' || ['full', 'partial'].includes(hebrewSupport());
+  return html`<span class="nav-legend"><span class="l1">${t(key)}</span>${show ? html`<span class="l2" lang="${otherLang}" dir="${otherLang === 'he' ? 'rtl' : 'ltr'}">${other}</span>` : ''}</span>`;
 }
 
 // A lab route (writing, writing/:id, vocab...) highlights its own entry on the desktop rail, not Practice as

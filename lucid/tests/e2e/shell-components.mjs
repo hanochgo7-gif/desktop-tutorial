@@ -478,6 +478,23 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-12. English UI: the rail shows Hebrew subtitles only with full or partial Hebrew support; the grammar lab has a book icon, not code braces', async () => {
+    const rail = async (level) => {
+      const { ctx, page } = await newPage(browser, { width: 1440, height: 900, locale: 'en-US' });
+      await learnerAt(page, level, { lang: 'en' });
+      await page.goto(`${BASE}#/today`);
+      await page.waitForSelector('.deck a.nav');
+      const r = await page.evaluate(() => ({ support: document.documentElement.dataset.support, he: document.querySelectorAll('.deck .l2[lang="he"]').length, grammar: document.querySelector('.deck a[href="#/grammar"] svg').innerHTML }));
+      await ctx.close();
+      return r;
+    };
+    const b1 = await rail('B1');
+    assert(b1.support === 'minimal' && b1.he === 0, `English UI with minimal support shows Hebrew subtitles: ${JSON.stringify(b1)}`);
+    assert(/m9 9\.5 2 2 4-4/.test(b1.grammar) && !/M8 3H7a2 2/.test(b1.grammar), 'the grammar lab still shows code braces');
+    const a1 = await rail('A1');
+    assert(a1.support === 'full' && a1.he > 5, `English UI with full support lost its Hebrew subtitles: ${JSON.stringify(a1)}`);
+  });
 } finally {
   await browser.close();
   server.kill();
