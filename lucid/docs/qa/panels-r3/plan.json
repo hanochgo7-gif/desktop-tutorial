@@ -1,0 +1,1546 @@
+{
+ "overview": "Fifteen panels agree that Lucid's foundations are right. The tone is calm, adult and guilt-free; the keycap design system is distinctive; placement and the AI-off states are honest; and teachers trust the Hebrew-speaker teaching content. The problems fall into five groups.\n(1) Mixed Hebrew/English text. isolateLatin splits IPA and multi-sentence runs. Hebrew glosses repeat the English examples. English inside RTL cards takes three different alignments. At Pre-A1/A1 the English line outranks the Hebrew line that a beginner can actually read.\n(2) The lesson player. The learn stage runs 7-14 phone screens. The resume button is hidden while the large buttons restart the lesson. End screens say 'כמעט שם' at 8% and skip past the daily plan. A wrong typed answer shows the key at once with no second try. Matching and the word bank punish single slips, and keyboard focus falls to <body>.\n(3) Pace. All three games auto-advance and pay speed bonuses, against PRODUCT.md. On 10-minute days the lesson shrinks to 1-3 exercises and the learner's goals disappear.\n(4) Large text and touch. There is no text-size choice before lesson 1. The progress bar shrinks to 2px at 150%. 'Enter' keycaps show on phones, the chrome covers inputs, and the scenario Continue button sits behind the tab bar.\n(5) Honesty and fairness. Onboarding asks for AI consent and Settings says 'AI is on' on a site without AI. Review options can be answered by elimination. The writing checks miss errors that Lucid's own lessons teach. A passed level check claims a profile change that does not appear.\nI checked the doubtful claims in the code and confirmed them: no pressed style for .key or .chip; no coarse-pointer rule for .kbd; setTimeout(next, 1100), 2500 ms and BACK_AFTER 1300 in the games; Math.min(0.5, ...) in answerPoints; lang=en dir=ltr on the transform source; fixed shuffle seeds in review.js; the Today minutes chip saving daily_minutes permanently; the lesson exit always going to Today; tables RTL whenever any header is Hebrew; and isolateLatin's output on the reported strings.\nThe work is split into 8 lanes by file ownership: shared controls and shell, lesson flow, exercise renderers, bilingual text and lesson content, first run and Today, review/hubs/settings, games, and real-life plus writing. Two cross-lane contracts are feature-detected, so each lane can merge on its own: ctl.reveal()/ctl.reopen() (from exercises to lesson-flow) and the relaxed_pace/game_speed_challenge settings keys (from practice-hubs to games). Shared CSS selectors are assigned in the lane titles. No lane edits tests/e2e/run.mjs or a11y.mjs; each lane adds its own tests/e2e/<lane>.mjs.",
+ "keep": [
+  "Calm, adult, guilt-free voice ('יום חופש לא מוחק כלום', 'אין רצף שנשבר', 'אין ציון ואין ״נכשל״'), no mascot, no streaks, no confetti. Named by nearly every panel. No fix may add urgency, streak framing or celebratory animation.",
+  "Keycap design system: one orange Enter-key primary action, a 3px skirt press, the graphite deck, OKLCH tokens with at least 5:1 text contrast in light and dark. New states must reuse these tokens (design-visual, design-interaction, ux-accessibility).",
+  "The sticky verdict footer: the right answer first, 'למה?' folded, zero layout shift for a whole lesson (design-interaction, ux-writing-mobile, student-58).",
+  "A way out of every task without failing: 'לא יודע/ת', 'לא יכול/ה לדבר כרגע', and speaking that is never scored and is self-rated (ux-accessibility, student-16, student-44, student-58, student-68, teacher-special-ed).",
+  "Daily lesson parts that end on 'החלק של היום הושלם' with 'לעצור כאן' as the primary key and the place saved, plus Today's resume card with ?resume=1 (ux-research, student-19, student-44, ux-writing-mobile, teacher-special-ed).",
+  "Honest placement: 'לא יודע/ת' is encouraged, results are per skill, 'לא נבדק במבחן הזה' is shown, and the test can be resumed (ux-research, student-16, student-19, student-27, student-44).",
+  "Honest AI-off states in the tutor and the scenario AI tab, each pointing to what still works (design-visual, design-interaction, ux-accessibility, student-19, student-27).",
+  "Hebrew-speaker pitfall content and targeted wrong_feedback, which the teachers called accurate and contrastive. Reading answers quote the evidence line from the text (teacher-bagrut, teacher-adult-efl, student-16, student-44).",
+  "Reduced motion respected everywhere; no horizontal scroll at 320-1440px or at 130-150% text; skip link, focused stage h1, role=status verdicts, and a model focus-handling delete dialog (ux-accessibility, design-visual, student-68).",
+  "Games use one line-icon set with no cartoons. They offer 'play the words I missed' and 'add to review', and the picture game waits for keyboard players (design-visual, student-16, student-58, teacher-special-ed).",
+  "Dictation diff marks only the wrong letter; slow 'לאט' replay; transcript shown after answering (student-58, student-68, teacher-special-ed).",
+  "Bilingual desktop rail labels, the readable level rail with hatched placed-out levels, and Settings segmented controls with one-line help text (design-visual).",
+  "Writing lab: version comparison, parallel-prompt models, rebuttal moves, source packs with deliberate flaws, and the honest 'בדיקות אוטומטיות … יכולות לפספס' (teacher-academic)."
+ ],
+ "lanes": [
+  {
+   "key": "shell-components",
+   "title": "Shell, navigation and shared controls. Owns the global component rules in css/app.css (.key, .chip, .option, .choice, .match-item, .pic-*, .mem-card base, .kbd, .seg, .deck, .tabbar, .top, .player-foot, .verdict, .empty, summary, focus rings, theme tokens). Other lanes do not edit these selectors.",
+   "owns": [
+    "js/app.js",
+    "js/core/router.js",
+    "js/core/speech.js",
+    "js/ui/components.js",
+    "js/ui/icons.js",
+    "js/views/help.js",
+    "index.html",
+    "tests/unit/router.test.mjs",
+    "tests/e2e/shell-components.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "SC-1",
+     "title": "Selected (latched) state on every pressable control",
+     "priority": "P0",
+     "problem": "Tapping True/False, a categorize chip or a speaking self-rating changes nothing on screen. aria-pressed=true is set, but app.css styles the pressed state only for .choice/.option/.match-item/.pic-* (lines 247, 370, 388, 916), not for .key or .chip. Hover, :active and tap-highlight rules are also missing on several skirted controls, and a wrong option keeps its blue keycap.",
+     "fix": "css/app.css: add .key[aria-pressed='true'], .chip[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); } with the skirt held down to 1px (check the dark tokens too). Add one shared 'pressable' rule list for .key, .chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card and .seg button: a hover tint inside @media (hover:hover), a :active:not(:disabled) press, -webkit-tap-highlight-color: transparent, and one :focus-visible ring. In .option.is-right .k and .option.is-wrong .k, reset the keycap to the verdict colour.",
+     "acceptance": "On #/lesson/a1-01 categorize, the tapped chip's computed background differs from the other chips. A tapped reading 'True' key looks latched, and so does the speaking 'אמרתי את זה בבירור' key. At 1440, hovering an .option changes its background. In 390 touch emulation, tapping a match tile shows no square blue halo. A wrong option shows no blue keycap.",
+     "sources": [
+      "design-interaction: True/False keys, categorize chips and the speaking self-rating show no selected state",
+      "design-interaction: Hover, press and tap-highlight are missing on several key-shaped controls",
+      "design-interaction: Options mix 'selected' and 'wrong' states and mark right/wrong by colour only",
+      "student-58: Sort-into-groups: the tapped word shows no selected state"
+     ]
+    },
+    {
+     "id": "SC-2",
+     "title": "No keyboard hints on touch screens",
+     "priority": "P1",
+     "problem": "Every primary key on phones and tablets shows an 'Enter' keycap ('בדיקה Enter', 'לעצור כאן Enter'), and options show 1-4 badges. The .key .kbd rule (css 188) has no coarse-pointer variant.",
+     "fix": "Add @media (hover: none) and (pointer: coarse) { .kbd { display: none } } and give the option number keycaps a quieter style there. In help.js, hide the 'קיצורי מקלדת' item when matchMedia('(hover: none) and (pointer: coarse)') matches.",
+     "acceptance": "In 390x844 touch emulation there is no 'Enter' chip on #/lesson/a1-01 (intro, check, continue, part end), #/placement or #/review. At 1440 with a mouse the chips still show. #/help on touch has no keyboard-shortcuts item.",
+     "sources": [
+      "design-visual: Small inconsistencies (Enter hint on touch phones)",
+      "design-interaction: Keyboard hints ('Enter', 1-4) are shown on touch devices",
+      "ux-research: 'Enter' key hints on touch phones",
+      "ux-writing-mobile: Lesson footer on phones (Enter chips)",
+      "student-16: 'Enter' keyboard chips on buttons on a touch phone",
+      "student-19: 'Enter' keyboard chips on touch-phone buttons",
+      "student-44: 'Enter' keyboard chips on every main button",
+      "student-58: Keyboard hints shown on a touch tablet",
+      "student-68: Keyboard hints shown on a touch phone"
+     ]
+    },
+    {
+     "id": "SC-3",
+     "title": "Secondary actions look like buttons",
+     "priority": "P1",
+     "problem": ".key.ghost (css 182) has no border, fill or skirt. On touch, 'לא יודע/ת', 'רמז', 'לא יכול/ה לדבר כרגע', 'לא זוכר/ת' and 'להיום' read as captions, so the most important escape hatches are the hardest to find.",
+     "fix": "Restyle .key.ghost as a flat key: a 1px solid var(--key-edge) border, var(--key-sunk) background, the same min-height as .key, and no skirt. Keep a separate .link style for real text links. Check that the border reaches 3:1 against the ground in both themes.",
+     "acceptance": "At 390 on #/lesson/a1-01, 'לא יודע/ת' and 'רמז' show a visible border and fill and are as tall as 'בדיקה'. The measured border-to-ground contrast is at least 3:1 in light and dark.",
+     "sources": [
+      "design-interaction: Secondary (ghost) actions look like plain text",
+      "ux-research: The lesson-complete main button skips the daily plan ('להיום' is a ghost button)"
+     ]
+    },
+    {
+     "id": "SC-4",
+     "title": "Settings and Help always visible on the desktop rail",
+     "priority": "P1",
+     "problem": "At 1440x900 the rail lists 5 main links and 8 labs. Help starts at y=904 and Settings at y=965, so both are below the fold, and desktop has no gear icon.",
+     "fix": "app.js and css: make .deck a flex column. nav gets flex:1; min-height:0; overflow-y:auto, and .foot stays pinned at the bottom (flex:none, top border). Optionally render the labs group as <details open> 'מעבדות'.",
+     "acceptance": "On #/today at 1440x900 and at 1366x768, the Help and Settings links are fully visible without scrolling the rail. On a short window the lab list still scrolls.",
+     "sources": [
+      "ux-research: Desktop: Settings and Help are below the fold of the left sidebar"
+     ]
+    },
+    {
+     "id": "SC-5",
+     "title": "On a phone, the chrome never covers what the learner is typing",
+     "priority": "P1",
+     "problem": "There is no focus or visualViewport handling. With the on-screen keyboard open, the sticky top bar (69px) and the fixed tab bar (63px) hide the essay textarea in landscape and overlap gap inputs at 320x568.",
+     "fix": "app.js: on focusin/focusout of input, textarea and [contenteditable] (and on visualViewport resize), toggle body.typing. css: body.typing .tabbar { display:none }; @media (max-height: 500px) { .top { position: static } }; give main a scroll-padding-block-end and padding-bottom equal to the tab-bar height so in-shell content can scroll above the tab bar.",
+     "acceptance": "At 844x390 on #/writing/free, focusing the textarea hides the tab bar and lets the top bar scroll away; blurring restores the tab bar. At 320 wide with the viewport resized to 260px high and a scenario own-words field focused, the field is fully visible.",
+     "sources": [
+      "ux-writing-mobile: Sticky top bar and fixed tab bar cover the text being typed on small and landscape phones",
+      "design-interaction: Scenario practice on a phone hides Continue under the bottom navigation (page padding)"
+     ]
+    },
+    {
+     "id": "SC-6",
+     "title": "Play buttons show when they are playing and say when nothing played",
+     "priority": "P1",
+     "problem": "Pressing 'השמעה' leaves the button unchanged. With no English voice nothing plays and nothing says so, so silent mode and a missing voice look the same. At 150% the microphone notice opens scrolled past its heading. Help has nothing about sound.",
+     "fix": "speech.js: say() dispatches a document event 'lucid:speech' with state start, end, error or silent (silent when no start fires within 1500 ms), and the module exports hasEnglishVoice(). app.js: one document listener sets aria-busy='true' and .is-playing on the [data-say], [data-say-text] or [data-say-tile] button that was clicked, until end. On silent, toast 'לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.'. The mic notice dialog opens scrolled to the top with focus on its heading. help.js: add the items 'לא שומעים את ההקראה' and 'איך מתרגלים דיבור בלי מיקרופון', and give 'נוחות קריאה' a link to #/settings.",
+     "acceptance": "In headless Chrome with 0 voices, pressing 'השמעה' on a #/lesson/pa1-01 listening item shows the toast within 2s. With a voice, the button keeps the playing style while speaking and returns to normal afterwards. At 150%, the mic dialog opens with its heading visible. #/help lists the two new items.",
+     "sources": [
+      "student-68: Play gives no visible feedback, and nothing explains sound",
+      "teacher-adult-efl: Listening items play silently when there is no English voice, and the answers still unlock",
+      "student-68: Microphone notice opens scrolled past its heading at 150%",
+      "student-68: Help misses the beginner's real questions"
+     ]
+    },
+    {
+     "id": "SC-7",
+     "title": "A calm, compact feedback footer",
+     "priority": "P1",
+     "problem": "After a wrong answer the footer is a full-width pink panel with a red heading. At 150% it takes up to 49% of an 844px screen. 'בדיקה' sits bottom-left, then jumps when 'המשך' becomes full width. Options show right and wrong by colour only.",
+     "fix": "CSS only (.player-foot, .verdict, .option.is-right/.is-wrong): use a neutral var(--key) surface with a 4px inline-start accent bar in --bad, --ok or --warn next to the icon. Constrain .inner to the player width. Set .verdict { max-height: 35dvh; overflow: auto }. At 30rem and below, put the primary key full width on its own row with the secondary keys in one compact row above it. Add a check or cross glyph via ::after on .option.is-right and .is-wrong, matching .game-mark.",
+     "acceptance": "After a wrong answer at 1440, the footer surface is not pink, its content is no wider than the player body, and a red accent bar shows. At 390 and 150%, the wrong verdict is at most 35% of the viewport height with 'למה?' closed. 'בדיקה' and 'המשך' sit in the same full-width spot. A wrong option shows a cross glyph.",
+     "sources": [
+      "design-visual: Wrong-answer feedback is loud for a calm brand",
+      "design-interaction: At 150% text the lesson footer takes up to half the phone screen",
+      "ux-writing-mobile: Lesson footer on phones: main button in the hard corner, wraps at 320",
+      "design-interaction: Options mix 'selected' and 'wrong' states and mark right/wrong by colour only",
+      "student-68: At 150% the answer options and bins sit below the fold, under a tall footer"
+     ]
+    },
+    {
+     "id": "SC-8",
+     "title": "Segmented controls with equal segments",
+     "priority": "P2",
+     "problem": "A full-width segmented control leaves an empty grey track behind content-width segments. At 150% the minutes control wraps 3+1.",
+     "fix": "Give .seg a full-width variant using display:grid; grid-auto-flow:column; grid-auto-columns:1fr. Under :root[data-text='130'] and [data-text='150'], wrap to equal cells with grid-template-columns: repeat(2, 1fr).",
+     "acceptance": "The #/start language control has equal-width segments. At 150%, the #/today minutes control shows four equal cells in a 2x2 grid.",
+     "sources": [
+      "design-visual: Segmented controls without structure: empty track, staircase of filters",
+      "design-visual: At 150% text, icons and controls don't scale"
+     ]
+    },
+    {
+     "id": "SC-9",
+     "title": "Chrome that scales with large text and keeps its title",
+     "priority": "P2",
+     "problem": "Icons stay 16-20px next to 26px titles. The tab label 'אנגלית לחיים' wraps, making the tab bar 110px tall. The top bar cuts 'היום' to 'הי…', and the title disappears after any settings change (drawShell re-renders #top). The Hebrew UI shows English content titles in the top bar, and top-bar icons have no visible words.",
+     "fix": "icons.js: when no size is given, size icons in em (1.15em). css: top-bar title gets min-width:0 and a clamp() font size so it shrinks before it truncates; tab labels are nowrap with the short label 'לחיים' at data-text 130 and above. app.js: keep the #top-title text across every drawShell call, not only in redrawNet. In the Hebrew UI, when a title has no Hebrew letters, show the section name from NAV/MORE instead. At 130% and above, show small labels under the top-bar icons.",
+     "acceptance": "At 320x568 and 150%, every tab label fits on one line and the tab bar is at most 80px tall. The top bar shows 'היום' in full and keeps it after tapping a minutes chip on Today. In the Hebrew UI, #/scenario/rl-airport-checkin-overweight shows 'אנגלית לחיים' in the top bar.",
+     "sources": [
+      "design-visual: At 150% text, icons and controls don't scale",
+      "ux-writing-mobile: English titles in the Hebrew top bar; 'היום' truncates at 150%",
+      "ux-research: The Today minutes control … (top-bar title disappeared)",
+      "student-68: Large-text craft details",
+      "student-58: Icon-only controls and an unlabelled minutes control on Today"
+     ]
+    },
+    {
+     "id": "SC-10",
+     "title": "Focus rings, disclosure markers and 44px targets",
+     "priority": "P2",
+     "problem": "A focused .gap-input has outline:none (css 377), so only the caret shows which gap is active. Help and other summaries use the browser's filled triangles. Several targets are under 44px: the summary 'חובה לכלול' (308x23), the top-bar keys (40x44) and the gap inputs (91x41).",
+     "fix": "Replace .gap-input:focus { outline:none } with the standard 2px :focus-visible ring. Give summary list-style:none and the outline chevron used by .disclosure .chev. Add @media (pointer: coarse) { summary, .gap-input { min-height: 2.75rem } .top .key.icon-only { width: 2.75rem } }.",
+     "acceptance": "Tabbing into a gap shows a 2px ring. #/help disclosures show chevrons. In touch emulation the 'חובה לכלול' summary is at least 44px tall and the top-bar keys measure 44x44.",
+     "sources": [
+      "ux-accessibility: A focused gap input has no focus ring, only a slight background change",
+      "design-visual: Small inconsistencies (browser triangles on Help and summaries)",
+      "design-interaction: Several touch targets are below 44 px on the phone"
+     ]
+    },
+    {
+     "id": "SC-11",
+     "title": "Dark mode keeps the graphite deck",
+     "priority": "P2",
+     "problem": "The dark --deck token (oklch 0.12) against the dark ground (0.165) is 1.05:1, so the rail, the tab bar and the welcome keyboard frame melt into the background.",
+     "fix": "Dark tokens (css lines 87 and 110): set --deck to oklch(0.22 0.012 250) and move --deck-key one step lighter (0.28). Add a 1px var(--key-edge) border on .deck (inline end) and .tabbar (block start).",
+     "acceptance": "On #/today in dark mode at 1440 and 390, the rail and the tab bar are clearly separate from the ground, the active tab pill is visible, and deck ink reaches at least 4.5:1 on the deck.",
+     "sources": [
+      "design-visual: Dark mode loses the graphite deck"
+     ]
+    },
+    {
+     "id": "SC-12",
+     "title": "English UI follows the Hebrew-support setting; grammar icon",
+     "priority": "P2",
+     "problem": "In the English UI every rail item shows a Hebrew subtitle whatever the support level. The grammar lab uses code braces '{ }' as its icon.",
+     "fix": "app.js navLegend: in the English UI, show the Hebrew line only when hebrewSupport() is 'full' or 'partial'. icons.js: give grammar a book-check or 'Aa' glyph.",
+     "acceptance": "In the English UI with minimal support, the rail shows no Hebrew subtitles. The grammar entry shows the new icon.",
+     "sources": [
+      "student-27: English UI keeps Hebrew subtitles everywhere; \"1 answers\"",
+      "design-visual: Small inconsistencies (grammar lab code braces)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "lesson-flow",
+   "title": "Lesson player flow, learn stage, end screens, drills and level checks. Owns the CSS rules for .player-top, .progress, the learn stage, part-end and lesson-end screens and checkpoint pages.",
+   "owns": [
+    "js/views/lesson.js",
+    "js/ui/player.js",
+    "js/views/drill.js",
+    "js/views/checkpoint.js",
+    "js/core/pool.js",
+    "tests/unit/player.test.mjs",
+    "tests/e2e/lesson-flow.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "LF-1",
+     "title": "Coming back resumes, never restarts",
+     "priority": "P0",
+     "problem": "When a lesson has a saved place, the intro's primary key is still 'בואו נלמד', and 'ישר לתרגול' calls go('practice') with a fresh queue, so it restarts at exercise 1 (lesson.js 247-251, 467). The resume banner sits at y≈975-1011, under the sticky footer. A restart discards the first-try record, so the end screen can say 100% after earlier mistakes. The plan note at the top is a 37-word paragraph (line 221).",
+     "fix": "In showIntro, when resuming: put the banner first in the body and make the footer primary <button class='key enter' data-resume>להמשיך מתרגיל N מתוך M</button>. Secondary keys are 'להסבר' (data-go='learn') and 'להתחיל מההתחלה', which asks for confirmation through the components dialog. Hide 'ישר לתרגול' while resuming. In onKey, check [data-resume] first. On an explicit restart, copy the earlier first-try entries (r.first) into firstTry so the first try stays the first try. Shorten the plan note to one line under the key: 'היום: עד תרגיל 7 · כ-10 דק׳'.",
+     "acceptance": "Start #/lesson/a2-01, answer 2 exercises, then reopen the lesson from #/path/A2 at 390x844 and at 768x1024 with 130% text. The resume key is the footer primary and is visible without scrolling. Enter resumes at '3 מתוך 16'. 'להתחיל מההתחלה' asks for confirmation. After a restart with all answers right, the end screen still counts the earlier wrong first tries.",
+     "sources": [
+      "student-19: Reopening a lesson hides 'continue' below the fold, and the main button restarts it",
+      "student-27: \"Skip to practice\" silently restarts a lesson in progress and rewrites first tries to 100%",
+      "student-58: Resume button hidden under the footer while the big buttons restart the lesson",
+      "teacher-special-ed: Resume option is below the fold, and Enter restarts the explanation",
+      "ux-research: Pre-A1 lesson 1 is laid out for someone who reads English (37-word plan note)"
+     ]
+    },
+    {
+     "id": "LF-2",
+     "title": "Learn stage in short steps, with the Hebrew-speaker pitfall next to the rule",
+     "priority": "P0",
+     "problem": "The learn page runs 5,800-12,900 CSS px (7-14 phone screens) before the first exercise, yet the footer says 'הסבר קצר'. 'שימו לב (דוברי עברית)' is rendered last (lesson.js 270), styled like an ordinary warning, with no audio.",
+     "fix": "showLearn renders the blocks as 3-5 steps with step dots ('2 מתוך 4') and footer keys 'הבא' / 'לתרגול'. Step 1: the core explanation, the rule table and the matching pitfalls in a new .pitfall style headed 'מלכודת לדוברי עברית', with a play button (data-say-text) for each English word or pair. Step 2: examples. Step 3: the remaining notes. Step 4: vocabulary, or a folded 'להרחבה'. Replace 'הסבר קצר, ועכשיו מתרגלים.' with 'כ-N דק׳ קריאה' computed from the word count. Keep 'ישר לתרגול', and save the current step in resume.",
+     "acceptance": "On #/lesson/pa1-01 and #/lesson/b1-01 at 390 and 100% text, each learn step is at most 2,000px tall. The step indicator shows and Back works. Step 1 contains the pitfall box with play buttons. The words 'הסבר קצר' no longer appear.",
+     "sources": [
+      "ux-research: Pre-A1 lesson 1 is laid out for someone who reads English",
+      "student-16: The 'short explanation' is a 7-screen grammar textbook",
+      "student-19: The 'learn' page is about 7 screens long inside a 10-minute plan",
+      "student-58: The 'short explanation' is a 7,000-8,000 px scroll",
+      "student-68: Lesson times and daily split ignore reading time; explanation called short",
+      "teacher-special-ed: Learn pages are one very long unchunked scroll",
+      "teacher-adult-efl: Hebrew-speaker pitfalls are hidden at the bottom, cannot be heard, and are never linked to mistakes",
+      "student-44: At A1 'full' support, Hebrew is styled as secondary (7,000 px learn page)"
+     ]
+    },
+    {
+     "id": "LF-3",
+     "title": "Learn tables read left to right and fit the screen",
+     "priority": "P0",
+     "problem": "lesson.js 86 sets dir=ltr only when no header is Hebrew. The a1-01 'Who? | Verb | The rest | עברית' table therefore runs right to left and reads 'in a bank. · work · I', and at 150% the Hebrew column scrolls off screen. The 26-row alphabet table has no audio and puts IPA in the middle column.",
+     "fix": "In case 'table': set dir='ltr' lang='en' whenever the first header has no Hebrew letters, and move the Hebrew column(s) last as lang=he dir=rtl cells. Below 30rem, or at :root[data-text] 130 and above, render each row as a stacked card: the English row with its column labels, and the Hebrew under it. For tables whose first column holds single letters, add a play button per row (data-say-text) and a 'A–Z לאט' key. At Pre-A1, hide IPA columns behind 'להצגת IPA'.",
+     "acceptance": "In the #/lesson/a1-01 learn stage the first row reads 'I | work | in a bank.' left to right. At 390 and 150%, the table has no horizontal scroll hint and the Hebrew is visible. On #/lesson/pa1-01 the alphabet table has 26 play buttons and IPA stays hidden until toggled.",
+     "sources": [
+      "student-44: Lesson 1 structure table mirrors English word order and squeezes the Hebrew column",
+      "teacher-special-ed: Sentence-building grammar table renders right to left, so English reads backwards",
+      "student-58: No audio for the letters in the alphabet table",
+      "student-68: Alphabet table: Hebrew sound column clipped, IPA in the middle, no play button for any letter",
+      "teacher-special-ed: First lesson assumes the learner can read Latin script"
+     ]
+    },
+    {
+     "id": "LF-4",
+     "title": "End screens say what is true and lead back to the plan",
+     "priority": "P0",
+     "problem": "Every score under the pass mark is titled 'כמעט שם' (lesson.js 422), even at 8-16%. The pass screen's primary key is 'לשיעור הבא' (436) while Today's next step is due review. The intro banner and Today give different minutes for the retry. The part-end screen shows only text. 'יחזרו בדיוק לפני שתשכחו' (433) overclaims.",
+     "fix": "Choose the title by first-try %: at or above the pass mark 'השיעור הושלם'; from 50% up to the pass mark 'כמעט שם'; below 50% 'השיעור עוד פתוח', with primary 'לקרוא שוב את ההסבר ואז לתרגל' (go to learn, then to the missed items) and secondary 'לתרגל רק את N הטעויות'. When the lesson is passed and todayPlan() (a read-only import from adaptive.js) still has an unfinished block, the primary is 'להמשיך בתוכנית: <block> · N דק׳' (#/today) and 'לשיעור הבא' becomes secondary. One helper computes the missed-items minutes for the intro banner (243) and the end screen. The part-end screen shows 'היום: N מתוך N נכון', today's words, and a secondary 'להמשיך ולסיים · כ-N דק׳'. Replace the overclaim with 'יחזרו בזמן שמתאים לזיכרון'. English title: 'Not complete yet'.",
+     "acceptance": "Finish #/lesson/a2-01 with every answer wrong: the h1 is 'השיעור עוד פתוח' and the primary key re-reads the explanation. At about 60% the h1 is 'כמעט שם'. Pass while reviews are due: the primary is 'להמשיך בתוכנית'. The intro banner and the end screen show the same minutes. A 10-minute part end shows the right-answer count and the minutes to finish.",
+     "sources": [
+      "ux-research: 'כמעט שם' / 'כמעט סיימת' shown after a 16% lesson",
+      "ux-research: The lesson-complete main button skips the daily plan",
+      "ux-writing-mobile: A failed lesson is titled \"כמעט שם\" even at 8%",
+      "ux-research: A 10-minute learner's first lesson ends midway, with 'stop' as the main button",
+      "student-16: A 10-minute day is 3 exercises, and the stop screen shows no achievement",
+      "teacher-bagrut: Path and copy details ('יחזרו בדיוק לפני שתשכחו' overclaims)"
+     ]
+    },
+    {
+     "id": "LF-5",
+     "title": "Focus and Enter work for keyboard and screen-reader learners",
+     "priority": "P0",
+     "problem": "When match, categorize, mcq, gap, order, speak and write exercises open, focus is on <body>. The Enter shown on Check/Continue replays audio when focus is on the auto-focused Play, presses a self-rating again, or re-inserts a word-bank chip, because onKey yields whenever another BUTTON has focus (lesson.js 485-494).",
+     "fix": "showExercise: after mount, focus h2.ex-prompt (tabindex=-1, preventScroll) unless the exercise has already focused an input. onKey: Enter on [data-say*], [data-chip], [data-self] or any [aria-pressed='true'] presses Check or Continue. Ctrl/Cmd+Enter always presses Check or Continue. After 'לא יודע/ת', a self-rating or 'לא יכול/ה לדבר כרגע', focus [data-next]. On desktop, show 'Ctrl+Enter' in the footer hint.",
+     "acceptance": "Go through #/lesson/a1-01 by keyboard only. On each new exercise, document.activeElement is the prompt h2, never BODY. Listen item: press 2 then Enter, and the verdict appears without a replay. Speak item: self-rate then Enter, and the next exercise opens. Word bank: tap the last chip then Enter, and Check runs.",
+     "sources": [
+      "ux-accessibility: Focus falls to the page body when an exercise opens and after every match, categorize and order action, and in Settings",
+      "ux-accessibility: The 'Enter' badge on Check and Continue does nothing when the app has put focus on another button"
+     ]
+    },
+    {
+     "id": "LF-6",
+     "title": "Fix it yourself: a second try on typed answers, and 'לא יודע/ת' keeps the exercise",
+     "priority": "P0",
+     "problem": "A wrong typed answer shows 'התשובה הנכונה' together with the note, so the learner copies instead of fixing. 'רמז' is offered only before the first try. 'לא יודע/ת' calls ctl.destroy() and renders only the prompt (doCheck), so options and audio disappear. A self-credited answer is not shown in the score.",
+     "fix": "doCheck: when ctl.retryable is set and this is the first wrong check of a first-pass item, show an amber footer with only r.specific (or the hint) and two keys: 'לנסות שוב' (calls ctl.reopen() and focuses the field) and 'להציג את התשובה'. Record the attempt and the first-try points from the first answer, and show the key after the second miss. On 'לא יודע/ת': call ctl.reveal() when it exists, so the exercise stays with the answer marked, instead of destroying it; the footer title is a neutral 'הנה התשובה'. On the end screen, add 'כולל N תשובות שסימנתם בעצמכם' when any answer was self_judged. Feature-detect ctl.reveal and ctl.reopen (added by exercises EX-4) so this lane merges on its own.",
+     "acceptance": "#/lesson/a2-05 e10 answered wrong: the targeted note shows without the full answer, and the field stays editable with the learner's text. A second wrong answer shows the answer. On #/lesson/pa1-02 e1, 'לא יודע/ת' keeps the options and the 'השמעה'/'לאט' keys, with the right option marked. On #/lesson/b1-02, after self-credit, the end screen mentions it.",
+     "sources": [
+      "teacher-bagrut: Wrong typed answers reveal the key at once; no second try",
+      "teacher-adult-efl: A wrong correction gets only the model answer: no targeted feedback and no second try",
+      "teacher-bagrut: 'גם התשובה שלי נכונה' turns a wrong sentence into 100%",
+      "student-58: 'לא יודע/ת' removes the question, options and audio",
+      "ux-writing-mobile: \"I don't know\" on a matching board hides the board",
+      "teacher-special-ed: Single attempt in MCQs, and option taps behave differently on different screens"
+     ]
+    },
+    {
+     "id": "LF-7",
+     "title": "Progress stays visible at large text, with no running mistake tally",
+     "priority": "P1",
+     "problem": "The step label takes the bar's width. At 150% the bar is 2px wide, and it shrinks after a mistake even though the percentage rose. '· 3 לחזרה' is a live error tally that learners confuse with word review. The whole player re-renders on every step, so the width transition never plays.",
+     "fix": "At :root[data-text] 130 and 150, or below 30rem, put the counter on its own row under the bar. Set .player-top .progress { min-width: 40% }. In the first pass show only 'N מתוך M'; announce retries only in the retry round ('חוזרים 1 מתוך 3'). Update the existing bar's width instead of re-rendering .player-top, so the transition runs.",
+     "acceptance": "At 390 and 150%, with '11 מתוך 13', the bar is at least 120px wide. The counter shows no 'לחזרה' during the first pass. Without reduced motion, the bar's width differs between 0ms and 200ms after a step.",
+     "sources": [
+      "design-interaction: The lesson progress bar jumps in width, shrinks after a mistake, and never animates",
+      "student-68: Lesson progress bar shrinks to 2px at 150% text",
+      "teacher-special-ed: Lesson progress bar shrinks to 2 px at 150% text",
+      "teacher-special-ed: Running mistake count in the lesson header",
+      "ux-writing-mobile: \"חזרה\" means back, word review and lesson retries",
+      "ux-research: A 10-minute learner's first lesson ends midway ('3 לחזרה' confusion)"
+     ]
+    },
+    {
+     "id": "LF-8",
+     "title": "End-of-lesson notes about the learner's own mistakes",
+     "priority": "P1",
+     "problem": "'כדאי לשים לב' shows generic notes for the error type: 'go – went – gone' at A1 lesson 1, a 'depends on' note after for/since mistakes, and 'איות' for an E/I listening slip. Pitfalls are never linked from a wrong answer.",
+     "fix": "Build the box from the missed items: 'כתבתם: We are go → We go' (the response against answerFor(ex)), plus the item's own explanation or its matched wrong_feedback. Fall back to the error-type note only when the item has neither. In the verdict's 'למה?', append the lesson's hebrew_pitfalls entry whose error_type matches r.error_type.",
+     "acceptance": "Finish #/lesson/a1-01 with the 'are go' mistake: the box shows 'We are go → We go' and no 'go – went – gone'. A pa1-01 E/I miss shows the item's E/I note. A b1-02 since/for miss shows no 'depends on' note.",
+     "sources": [
+      "student-44: Lesson-end 'כדאי לשים לב' shows generic notes about grammar not yet taught (go – went – gone)",
+      "teacher-bagrut: Off-topic generic error notes on the lesson summary",
+      "teacher-adult-efl: The lesson-end 'כדאי לשים לב' box gives the wrong diagnosis",
+      "teacher-adult-efl: Hebrew-speaker pitfalls … are never linked to mistakes"
+     ]
+    },
+    {
+     "id": "LF-9",
+     "title": "Reading texts scored per question",
+     "priority": "P1",
+     "problem": "answerPoints (lesson.js 27, player.js 40) caps every answer that is not fully right at 0.5. A reading text with 5 of 6 right therefore scores 0.5, shows 'לא בדיוק', is listed among the missed exercises and can block the 70% pass.",
+     "fix": "For type 'read' (and 'categorize'), use r.score as the points. Show an amber verdict 'N מתוך M נכונות' when the score is 0.6 or more. Leave reads scoring 0.8 or more out of the missed list. Make the same change in player.js.",
+     "acceptance": "On #/lesson/b1-02 e8 with 5 of 6 right, the verdict is amber '5 מתוך 6 נכונות', the lesson % counts it as 0.83, and the text is not in 'התרגילים שפספסתם'.",
+     "sources": [
+      "teacher-bagrut: A 5/6 reading counts as a mistake and is scored 0.5"
+     ]
+    },
+    {
+     "id": "LF-10",
+     "title": "One switch for all the Hebrew in a lesson",
+     "priority": "P1",
+     "problem": "At B1, each paragraph's Hebrew sits behind its own 'עב' chip (8 on b1-02). The only global switch is buried in Settings, so the present perfect vs past simple contrast is hidden by default for 4-unit students.",
+     "fix": "At support 'partial' or 'minimal', render a toggle 'הכול בעברית' (aria-pressed) in the intro and learn headers. It sets document.documentElement.dataset.heAll and remembers the choice per level in localStorage, wrapped in try/catch. Add the lesson CSS rules :root[data-he-all] .player .bi-he[hidden] { display:block } and :root[data-he-all] .player .he-reveal { display:none }. Clear the attribute when leaving the lesson.",
+     "acceptance": "On #/lesson/b1-02 as a B1 learner, one tap shows every Hebrew paragraph and hides the chips. Another B1 lesson opens with the switch on. Today and other screens are unchanged.",
+     "sources": [
+      "student-16: Hebrew explanations at B1 need 8 separate 'עב' taps",
+      "teacher-bagrut: From B1, Hebrew explanations hide behind tiny 'עב' chips"
+     ]
+    },
+    {
+     "id": "LF-11",
+     "title": "Leaving returns to where the learner came from",
+     "priority": "P2",
+     "problem": "The ✕ always goes to Today (lesson.js 481), even when the lesson was opened from the Path, while leaving a game returns to the games hub.",
+     "fix": "data-exit calls ctx.navigate(ctx.from && !/^(lesson|checkpoint|drill)\\//.test(ctx.from) ? ctx.from : 'today'). Use the same default for runSet's exitHref in player.js when the caller passes none, and for the drill and checkpoint exits.",
+     "acceptance": "#/path/A2 → a lesson → ✕ lands on #/path/A2. A lesson opened from Today returns to Today. A lesson opened by direct URL returns to Today.",
+     "sources": [
+      "ux-research: Leaving a lesson opened from the Path returns to Today, not the Path",
+      "student-19: Reopening a lesson hides 'continue' below the fold (help and back path)"
+     ]
+    },
+    {
+     "id": "LF-12",
+     "title": "Level-check result inside the page, with the learner's answers and an honest claim",
+     "priority": "P2",
+     "problem": "At 1440 the checkpoint result renders with no page frame or margins. Missed items don't show what the learner wrote. 'זה נרשם בפרופיל המיומנויות שלך' claims a change that the profile doesn't show, because skill levels need evidence from 2 days. The intro says 'כ״הוכחה״'.",
+     "fix": "checkpoint.js: wrap the result in the standard page container (max-width, padding, h1). Each missed item shows 'כתבתם: …' with the wrong words marked as diff word spans. Passed copy: 'נרשם כראיה לרמה B2. הרמה לפי מיומנות תתעדכן אחרי יום תרגול נוסף.', plus a 'להמשיך ל-C1' link to #/path/C1. Intro: '75% ומעלה מסמנים את הרמה כ״מוכחת״'.",
+     "acceptance": "#/checkpoint/B2 at 1440: the result has page margins, a missed item shows the learner's answer, the pass text no longer says the profile changed, and a C1 link appears after a pass.",
+     "sources": [
+      "student-27: \"B2: demonstrated… recorded in your skill profile\" but the profile does not change",
+      "student-27: Level check result renders without the app frame",
+      "teacher-bagrut: Level-check results don't show the student's own answer",
+      "ux-writing-mobile: Mastery and level words keep changing; one is ungrammatical"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "exercises",
+   "title": "Exercise renderers and answer checking. Owns the CSS rules for .match-*, .cat-*, .gap-input states, .passage, .word-diff, .answer-line and .self-judge.",
+   "owns": [
+    "js/ui/exercise.js",
+    "js/core/grading.js",
+    "js/core/diff.js",
+    "tests/unit/grading.test.mjs",
+    "tests/unit/diff.test.mjs",
+    "tests/e2e/exercises.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "EX-1",
+     "title": "Matching finishes itself, forgives one slip, and shows the pairs",
+     "priority": "P0",
+     "problem": "After all pairs are matched the learner must still press 'בדיקה', and one slip gives a red 'לא בדיוק · ניסיון שגוי אחד' (match ctl.check is correct only when mistakes===0). A wrong pair is a 0.3s shake with no words and no live region. Matched tiles fade to 45% opacity in their shuffled columns, so the pairs are never seen together.",
+     "fix": "When the last pair locks, call root.closest('.player')?.querySelector('[data-check]:not([disabled])')?.click() to finish automatically. Result: at most 1 mistake → correct:true, almost:true, summary 'כל הזוגות נכונים · ניסיון נוסף אחד'; 2 or more as now, with score 1 - m/pairs. After completion, re-render the board as full-opacity rows ('E — אִי'), each with its play button. A wrong pair keeps a red outline and a cross icon until the next tap. Add a polite sr-only live line ('work – לגור: לא מתאים', 'live = לגור: נמצא'), and label the two columns as groups 'אנגלית' and 'עברית'.",
+     "acceptance": "On #/lesson/a1-01 e1, make one wrong pair and then match all six: the verdict appears without pressing בדיקה, it is amber, and the exercise is not queued again. The pairs show side by side. The live region text changes after every pair. With reduced motion on, the wrong mark stays until the next tap.",
+     "sources": [
+      "design-interaction: Matching repeats feedback it already gave, in red",
+      "student-16: One slip in matching fails the whole exercise",
+      "student-44: One wrong tap in matching makes the whole first exercise red and re-queues it",
+      "student-58: Matching: wrong pair is a 0.3 s shake only; found pairs can't be told apart",
+      "teacher-special-ed: One mis-tap fails a whole matching task, and matched pairs are never shown together",
+      "ux-accessibility: Match and memory results are never announced to screen readers"
+     ]
+    },
+    {
+     "id": "EX-2",
+     "title": "Word bank fills the chosen gap, by touch and keyboard",
+     "priority": "P0",
+     "problem": "A chip always goes into the first empty gap, and once all are full it overwrites the last one (inputs.find(!value) || last). Gaps are readonly, and only a mouse click clears them; Backspace, Delete and Enter do nothing, which fails WCAG 2.1.1 (Level A). Used chips stay active and unmarked, and the chip row runs right to left.",
+     "fix": "Track a target gap: tapping or focusing a gap selects it (.is-target, aria-current='true'). A chip fills the target, then the target moves to the next empty gap. Tapping a filled gap selects it without clearing it and shows a small clear control. Backspace or Delete on a filled gap clears it and re-enables its chip. Mark used chips aria-disabled='true' with .used and skip them. Label each gap 'מילה חסרה 1: plays. Backspace לניקוי'. Give the chip row dir='ltr' lang='en'. After the last gap is filled, focus [data-check].",
+     "acceptance": "On #/lesson/pa1-02 e9, tap gap 2 then 'sit': gap 2 holds 'sit' and gap 1 stays empty. By keyboard: Tab to a filled gap and press Backspace; it empties and its chip is enabled again. A used chip shows the used style and aria-disabled. The chips read left to right.",
+     "sources": [
+      "ux-accessibility: A word placed in a word-bank gap cannot be removed with the keyboard",
+      "student-58: Word bank fills the first empty gap, not the tapped one",
+      "ux-accessibility: Smaller issues: … word-bank chips run right to left"
+     ]
+    },
+    {
+     "id": "EX-3",
+     "title": "Focus never falls to the page inside an exercise",
+     "priority": "P0",
+     "problem": "Match, categorize and order re-render the whole exercise on every tap (render(root, …)), which drops focus to <body>. A keyboard user needed 74 Tabs for 6 pairs, 81 for 8 categorize items and 22 for 5 tokens. After a number-key choice, focus stays on Play.",
+     "fix": "After each draw(), restore focus by a stable selector. Order: the next unused [data-in], or [data-check] when the sentence is complete. Categorize: the first bin label after choosing an item, and the next unplaced chip after placing one. Match: the next enabled tile in the same column (the pattern picturegame.js already uses). After a 1-4 choice in mcq or listen, and after the last T/F answer in read, focus [data-check].",
+     "acceptance": "By keyboard only on #/lesson/a1-01: categorize 8 items in at most 24 Tab presses, order 5 tokens in at most 8, and match 6 pairs in at most 20. tests/e2e/exercises.mjs logs that document.activeElement is never BODY after an action.",
+     "sources": [
+      "ux-accessibility: Focus falls to the page body when an exercise opens and after every match, categorize and order action"
+     ]
+    },
+    {
+     "id": "EX-4",
+     "title": "Reveal and reopen for the player",
+     "priority": "P0",
+     "problem": "The player cannot show the answer on the exercise itself or let the learner edit after a wrong check. The lesson-flow item LF-6 (fix it yourself) needs both.",
+     "fix": "Add ctl.reveal() for mcq, listen, gap, transform, correct, dictation, match, categorize and read: it locks the inputs, marks the right options, tiles or answers in place (.is-right with a check icon), keeps the play buttons, and shows the transcript for listen items. Add ctl.retryable = true and ctl.reopen() for gap, transform, correct and dictation: reopen() unlocks the fields, keeps the learner's text, marks wrong gaps .wrong and focuses the first wrong field.",
+     "acceptance": "A test in tests/e2e/exercises.mjs mounts each exercise type, calls reveal() and reopen(), and checks the DOM. Once LF-6 is merged, 'לא יודע/ת' on pa1-02 e1 keeps the options and the play buttons.",
+     "sources": [
+      "student-58: 'לא יודע/ת' removes the question, options and audio",
+      "teacher-bagrut: Wrong typed answers reveal the key at once; no second try",
+      "ux-writing-mobile: \"I don't know\" on a matching board hides the board and shows a dense one-line key"
+     ]
+    },
+    {
+     "id": "EX-5",
+     "title": "Self-credit only when the answer could be right",
+     "priority": "P1",
+     "problem": "On B1+ rewrites, any answer the key doesn't recognise gets an amber 'לא אחת מהתשובות שלנו' and the one-tap 'גם התשובה שלי נכונה' (exercise.js 439). So the unchanged wrong source plus 'x', or 'I did lived in Tel Aviv since 2020.', can get full credit.",
+     "fix": "In the transform/correct check, offer r.model only when all of these hold: the normalised answer differs from the source, it matches no wrong_feedback pattern, and it passes cheap checks (no 'did/does + V-ed', it contains the key's main verb form, and at least 60% of its tokens overlap the model). Otherwise give a red verdict that names the rule: the wrong_feedback text, or 'המשפט עדיין כמו המקור: …'. In the verdict, show a word diff of the learner's sentence against the model (diff.js word spans).",
+     "acceptance": "b1-01 e11 'You have ever been to Eilat? x': red verdict about question order, no self-credit key. b1-02 e11 'I did lived in Tel Aviv since 2020.': no self-credit key. A valid paraphrase such as 'Have you been to Eilat before?' still offers it.",
+     "sources": [
+      "student-16: Self-credit button accepts an answer that is still wrong",
+      "teacher-bagrut: 'גם התשובה שלי נכונה' turns a wrong sentence into 100%",
+      "teacher-adult-efl: A wrong correction gets only the model answer (highlight changed words)"
+     ]
+    },
+    {
+     "id": "EX-6",
+     "title": "Right language and direction on every mixed line",
+     "priority": "P1",
+     "problem": "The transform/correct source is always rendered as <p lang='en' dir='ltr'> (exercise.js 209). Hebrew sentences to translate are therefore left-aligned, have their full stop on the wrong side, and are read with an English voice. The reading True/False buttons inherit Hebrew RTL ('False | True'), and after Check neither the learner's choice nor the answer is marked ('התשובה: true'). Dialogues run as one paragraph, and passages have no paragraph numbers.",
+     "fix": "Set the source's lang and dir from its script: Hebrew letters → lang=he dir=rtl. Give the T/F row dir='ltr' lang='en'. After Check, mark the chosen key is-right or is-wrong with a check or cross icon, mark the correct key with a check, and write the answer line as 'התשובה: True'. In gap and read texts, start a new line before each 'Name:' speaker turn. Number passage paragraphs with a CSS counter on .passage p.",
+     "acceptance": "a1-01 e9: the Hebrew source is right-aligned, lang=he, with its full stop at the left end. In a reading item 'True' sits left of 'False', and after Check the chosen key is marked. b1-02 e7 shows one speaker per line. #/reading passages show paragraph numbers.",
+     "sources": [
+      "ux-accessibility: Wrong lang and dir on mixed content",
+      "teacher-special-ed: Hebrew source sentence in translate exercises is marked lang=en dir=ltr",
+      "design-interaction: Bidi and layout details inside exercises",
+      "teacher-bagrut: True/False feedback hides what the student chose",
+      "teacher-bagrut: Dialogue gap text is one run-on paragraph",
+      "teacher-special-ed: Dialogue and feedback text run together",
+      "teacher-bagrut: On a phone the text is out of view while answering"
+     ]
+    },
+    {
+     "id": "EX-7",
+     "title": "Typing that forgives slips and explains them",
+     "priority": "P1",
+     "problem": "checkTyped tolerates one edit, and only in words of 5+ letters, so 'dubble' is plain wrong. US spelling ('mom') is marked wrong. A letter code typed without spaces ('BVGE') marks every letter red. A one-letter slip in a dictation sentence ('tenn') counts as 'לא בדיוק'. The 'almost' diff marks nothing.",
+     "fix": "grading.js: in words of 6+ letters, accept 2 edits as 'almost' with the note 'המילה נכונה; האיות: double'. Add a US/UK equivalence list counted as correct: mom/mum, color/colour, favorite/favourite, center/centre, gray/grey, program/programme, and -ize/-ise. Compare spaced letter codes character by character ('כתבתם G, נאמר J'). Treat a one-letter slip in one word of a dictation sentence as 'almost'. diff.js: add character-level marks for 'almost' words, shown in amber.",
+     "acceptance": "Unit tests: checkTyped('dubble', 'double') → almost; 'My mom teaches English at a high school.' against the 'mum' key → correct. pa1-01 e10 'BVGE' marks only J. pa1-02 e10 'tenn' → almost. In the a1-01 dictation, 'thursday' shows the missing letters in amber.",
+     "sources": [
+      "teacher-special-ed: Spelling tolerance rejects typical dyslexic phonetic spellings",
+      "teacher-adult-efl: US spelling is marked wrong ('mom' vs 'mum')",
+      "student-58: Dictation marks every letter wrong when the code is typed without spaces",
+      "student-68: One-letter slip in a dictation counted as fully wrong",
+      "student-44: Dictation 'almost' does not mark what differed"
+     ]
+    },
+    {
+     "id": "EX-8",
+     "title": "Enter moves between gaps",
+     "priority": "P2",
+     "problem": "In a multi-gap item, Enter keeps focus in the current gap and 'בדיקה' stays disabled. Lesson inputs have no enterkeyhint (the word game uses 'go').",
+     "fix": "Set enterkeyhint='next' on every gap except the last and 'done' on the last. Enter moves to the next empty gap; on the last gap, when every gap is filled, it clicks [data-check] if enabled.",
+     "acceptance": "#/lesson/a2-01 exercise 6: type in gap 1 and press Enter → focus moves to gap 2. With every gap filled, Enter shows the verdict.",
+     "sources": [
+      "ux-writing-mobile: Enter in a multi-gap exercise does nothing; no enterkeyhint"
+     ]
+    },
+    {
+     "id": "EX-9",
+     "title": "Categorize: no green tick on wrong English, clearer steps",
+     "priority": "P2",
+     "problem": "Sentences correctly sorted into the 'Wrong' bin get a green tick ('They lives in Eilat.'), which reinforces the wrong form. The instruction is small grey text below the bins, and nothing shows the bins are the next target.",
+     "fix": "In a bin for incorrect sentences, strike through the error and show the fix beside it when items[].fix exists, with a neutral 'במקום' tag instead of a green tick. Move the instruction above the chips at body size. While an item is selected, highlight the bins with .cat-bin.is-target.",
+     "acceptance": "a1-01 e3: 'They lives in Eilat.' in the Wrong bin is struck through and has no green tick. Picking a chip highlights the bins.",
+     "sources": [
+      "teacher-special-ed: Green ticks on ungrammatical sentences in the correct/wrong sort",
+      "student-58: Sort-into-groups: the tapped word shows no selected state (instruction and target highlight)"
+     ]
+    },
+    {
+     "id": "EX-10",
+     "title": "Sound on sound-based questions",
+     "priority": "P2",
+     "problem": "Phonics MCQs such as 'same vowel sound as cup' and 'rhymes with time' have no play buttons, so an absolute beginner can only guess from spelling.",
+     "fix": "For mcq items at Pre-A1/A1 whose options are 1-2 English words, render a separate play button (data-say-text) for the quoted prompt word and beside each option. Keep the play buttons outside the option buttons, so playing doesn't select.",
+     "acceptance": "#/lesson/pa1-02 e6 and e7 have play buttons for 'cup'/'time' and for each option. Tapping a play button doesn't select the option.",
+     "sources": [
+      "student-68: Sound-based questions in Pre-A1 phonics have no audio"
+     ]
+    },
+    {
+     "id": "EX-11",
+     "title": "Lesson writing step: honest label, a minimum and a readable checklist",
+     "priority": "P2",
+     "problem": "The writing step's button says 'שליחה', though nothing is sent. A 7-word answer to a 350-550-word task gets a green 'נשמר' and becomes read-only. Long checklist items leave the checkbox alone on its line.",
+     "fix": "Label the button 'שמירה ובדיקה' ('Save and check'). Keep it disabled, showing 'עוד N מילים', until the text reaches max(10, 25% of the minimum words). Lay the checklist out as a 2-column grid: the box, then an LTR text block (lang=en for English items). Let the textarea grow (field-sizing: content; min-height: 10rem).",
+     "acceptance": "#/lesson/c2-03 writing step with 7 words: the button is disabled and shows the words still needed, and its label reads 'שמירה ובדיקה'. The b2-01 e16 checklist items line up with their boxes at 390.",
+     "sources": [
+      "ux-writing-mobile: \"שליחה\" on a lesson writing task when nothing is sent",
+      "teacher-academic: Lesson writing tasks (discussion section, literature review) are one-shot",
+      "student-27: Write-task self-check list breaks on long items",
+      "design-interaction: Bidi and layout details inside exercises (checklist)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "bilingual-text",
+   "title": "Bilingual text helpers and copy. This lane alone changes the isolateLatin, bi and legend helpers in js/core/i18n.js and the .legend, .l-en, .l-he, .bi, .bi-he, .he-reveal, .en-block and .example rules in css/app.css wherever they appear (BL-4 may delete per-component overrides of these selectors elsewhere in the file).",
+   "owns": [
+    "js/core/i18n.js",
+    "css/app.css",
+    "tests/unit/i18n.test.mjs",
+    "tests/unit/copy.test.mjs",
+    "docs/ux/hebrew-microcopy.md",
+    "tests/e2e/bilingual-text.mjs"
+   ],
+   "items": [
+    {
+     "id": "BL-1",
+     "title": "Isolation that keeps each English piece whole",
+     "priority": "P0",
+     "problem": "Run on the panel strings, isolateLatin turns 'כ-/s/, /z/ או /ɪz/' into '/<bdi>s/, /z</bdi>/ או /ɪ<bdi>z/: works…'. It separates /æ/ from (cat), wraps several English sentences in one isolate that breaks across RTL lines, and pulls list numbers inside the isolate ('<bdi>(My manager is really chill. 3)</bdi>').",
+     "fix": "In i18n.js (RUN and englishSpan), treat '/…/' IPA tokens and IPA letters (ɪ æ ʌ ɒ ə θ ð ʃ ʒ ŋ ː ˈ) as English. Keep a 'symbol (word)' pair in one isolate. Split a run at sentence ends ('. ' followed by a capital), so each sentence gets its own <bdi> with its own full stop. Keep leading or trailing digits, list numbers and unpaired brackets outside the isolate. Add class 'nw' (white-space:nowrap) to isolates of 20 characters or fewer, and turn the hyphens in spelled letter sequences (A-N-N-A) into U+2011. Add every panel string as a unit test.",
+     "acceptance": "tests/unit/i18n.test.mjs covers the IPA, '/æ/ (cat)', multi-sentence, numbered-gloss and spelled-name strings. At 390, the #/lesson/a1-02 intro shows '/s/, /z/ או /ɪz/' in order, the #/lesson/pa1-02 pitfall shows '/æ/ (cat)' together, and on #/expressions the 'Chill' number sits outside the English.",
+     "sources": [
+      "student-44: IPA slashes and English fragments scrambled inside Hebrew lines",
+      "teacher-adult-efl: Bidi breaks the pairing of IPA symbols and example words, and splits spelled letters",
+      "teacher-special-ed: Mixed Hebrew-English lines break into reversed fragments",
+      "design-visual: Expressions glosses: item number swallowed into the English isolate",
+      "ux-research: Mixed Hebrew and English key points break apart on the lesson-complete screen",
+      "student-58: Bidi breaks in a few mixed lines",
+      "student-19: English quoted inside Hebrew option feedback breaks in the wrong order"
+     ]
+    },
+    {
+     "id": "BL-3",
+     "title": "Hebrew leads at full support",
+     "priority": "P0",
+     "problem": "At Pre-A1/A1 ('full' support), bi() renders the Hebrew line smaller (0.94em) in accent blue above a larger black English line, and every explanation paragraph appears twice. The legend's .l-he is 0.82em in cobalt. Nothing hides the English duplicate, so a learner who reads no English faces the dominant line they can't read.",
+     "fix": "bi() at support 'full': render the Hebrew first as the primary line (class 'bi-he primary': color var(--ink), 1em, weight 500) and the English meta-text second in --ink-2 at 0.94em. With fold:true (explanation paragraphs), put the English behind an 'EN' chip, mirroring 'בעברית'. legend() at full: .l-he in --ink-2 at 0.94em. English target content (examples, options, passages, tables) does not go through bi() and stays primary.",
+     "acceptance": "#/lesson/pa1-01 exercise 1 at 390: the Hebrew instruction's computed colour is --ink and its font size is at least the English line's. Learn paragraphs in pa1-01 show the Hebrew plus an 'EN' chip, not both texts. A2 and B1 lessons render as before.",
+     "sources": [
+      "ux-research: Pre-A1 lesson 1 is laid out for someone who reads English",
+      "student-44: At A1 'full' support, Hebrew is styled as secondary and every paragraph is duplicated in English",
+      "teacher-adult-efl: At Pre-A1 the screen favours the English that a zero beginner cannot read",
+      "teacher-special-ed: Hebrew instruction is visually weaker than the English, and all text is doubled",
+      "student-58: English-only text where a Pre-A1 learner needs Hebrew"
+     ]
+    },
+    {
+     "id": "BL-4",
+     "title": "One alignment rule for English inside Hebrew layouts",
+     "priority": "P1",
+     "problem": ".legend is an inline-grid with justify-items:start (css 155, 707-708) plus about eight per-component patches (around lines 597, 601, 695, 738-739, 771, 790 and 824). As a result an English title and its can-do on the same path row sit about 850px apart, scenario phrase cards change alignment with their length, and example lists are ragged.",
+     "fix": "In RTL: .legend is display:grid and .l-en is display:block. Short English lines (titles, outcomes, can-dos) use text-align:right, so they share the Hebrew edge. Dedicated LTR content blocks (.en-block, .example, .passage, tables, sources, checklists) are display:block; direction:ltr; text-align:left. Delete the per-component overrides of these selectors.",
+     "acceptance": "On #/path at 1440, an English title and the can-do on its row share the right edge (less than 8px apart), and #/today plan rows align the same way. #/lesson/b2-01 examples are all left-aligned whatever their length. #/scenario phrase cards align the same way for one-line and two-line phrases.",
+     "sources": [
+      "design-visual: English inside RTL cards has two or three alignments at once",
+      "student-27: Lesson example sentences change alignment in the Hebrew UI",
+      "student-44: Shadowing heading is jargon and its English sentences are right-aligned",
+      "teacher-academic: English sources, explanations, plans and checklists render right-to-left"
+     ]
+    },
+    {
+     "id": "BL-5",
+     "title": "A 'בעברית' chip people can read and hit",
+     "priority": "P1",
+     "problem": "At minimal support the reveal chip says only 'עב' (about 26x18px) and lands mid-sentence in English text; at partial support the same chip says 'בעברית'.",
+     "fix": "bi(): use one label everywhere, 'בעברית' (English UI: 'Hebrew'), with the chip on its own line (display:block; margin-block-start: var(--s2)). Under pointer:coarse set .he-reveal { min-height: 2.75rem; min-width: 2.75rem }.",
+     "acceptance": "On #/lesson/b1-02 and the #/checkpoint/B1 results, the chips read 'בעברית', never sit inside an English sentence, and measure at least 44x44 in touch emulation.",
+     "sources": [
+      "teacher-bagrut: From B1, Hebrew explanations hide behind tiny 'עב' chips",
+      "design-interaction: Several touch targets are below 44 px on the phone (essay 'עב' keys)",
+      "student-16: Hebrew explanations at B1 need 8 separate 'עב' taps"
+     ]
+    },
+    {
+     "id": "BL-8",
+     "title": "Hebrew microcopy glossary and a copy check",
+     "priority": "P2",
+     "problem": "The UI mixes singular, plural and slash forms of address (about 56 'שלך' and 36 'שלכם'). It uses 'חזרה' for 'back', word review and lesson retries, and it names real-life situations and mastery in several different ways.",
+     "fix": "Write docs/ux/hebrew-microcopy.md. Rules: plural for instructions and possessives; slash forms only in first-person learner statements. Glossary: 'חזרה' means word review only; 'הקודם' / 'להיום' for going back; 'מצבים'; 'שיחות מובנות'; 'בשליטה'; 'רמה מוכחת'; 'בדיקת רמה'; and the one AI-off sentence 'AI לא פעיל באתר הזה. כל השאר עובד.'. Add tests/unit/copy.test.mjs, which scans the Hebrew string literals in js/ for 'שלך|אליך|בחרת\\b' and for 'חזרה' used as a back label. Today's hits go in an allowlist, so only new ones fail.",
+     "acceptance": "node --test tests/unit/copy.test.mjs passes and prints the allowlist size. The doc lists the rules and the glossary.",
+     "sources": [
+      "ux-writing-mobile: Three ways of addressing the learner, often on one screen",
+      "ux-writing-mobile: \"חזרה\" means back, word review and lesson retries",
+      "ux-writing-mobile: Mastery and level words keep changing; one is ungrammatical",
+      "ux-writing-mobile: Real-life situations have four names"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "lesson-content",
+   "title": "Lesson content and its validator: Hebrew glosses, pitfalls, wrong_feedback, Hebrew titles, pronunciation notes. Owns content/lessons, taxonomy, curriculum, placement and tools/validate-content.mjs. No CSS or JS view changes.",
+   "owns": [
+    "content/lessons",
+    "content/taxonomy.json",
+    "content/curriculum.json",
+    "content/placement.json",
+    "tools/validate-content.mjs",
+    "tests/unit/content-keys.test.mjs",
+    "tests/e2e/lesson-content.mjs"
+   ],
+   "items": [
+    {
+     "id": "BL-2",
+     "title": "Hebrew glosses translate the claim; English examples appear once",
+     "priority": "P0",
+     "problem": "Hebrew can-do, explanation and hint strings repeat whole English example sentences (a1-03: 'doesn't: I don't eat meat. She doesn't work on Fridays'). These scramble in RTL lines and double the text.",
+     "fix": "Edit content/lessons, Pre-A1 to B2 first. Hebrew 'he' fields keep the claim and at most short English tokens ('אני יודע/ת לבנות שלילה עם don't ו-doesn't'); full English examples live only in the English field or the examples list. Add validator rules to tools/validate-content.mjs: warn when a he string holds more than one English sentence or more than 8 Latin words, and when an en field contains Hebrew letters. Make these warnings fail for Pre-A1 to B1.",
+     "acceptance": "node tools/validate-content.mjs shows 0 gloss warnings for Pre-A1 to B1. The Hebrew lines in the #/lesson/a1-03 intro and explanation contain no full English sentences, and the a1-03 listening hint reads cleanly at 390.",
+     "sources": [
+      "design-visual: Hebrew glosses repeat full English example sentences and come apart in RTL",
+      "ux-research: Mixed Hebrew and English key points break apart on the lesson-complete screen",
+      "ux-accessibility: Wrong lang and dir on mixed content (content-validator rule)",
+      "ux-accessibility: Wrong-answer feedback repeats the same explanation two or three times"
+     ]
+    },
+    {
+     "id": "BL-6",
+     "title": "Lesson content fixes the panels found",
+     "priority": "P1",
+     "problem": "Several content gaps were reported. Pre-A1 example notes and vocabulary examples are English only. b1-01 and b1-09 have no Hebrew title, and Path can-dos are English only. pa1-01 e5 (an E/I letter-name confusion) is tagged 'spelling'. 57 of the 66 Pre-A1 to A2 'correct' items have no wrong_feedback. 'I am agree' first appears at B1, and no lesson has a verb + preposition pitfall. Lesson 1 has a typed gap with no word bank.",
+     "fix": "Add Hebrew to the pa1-01 and pa1-02 example notes and vocabulary examples. Add Hebrew titles and can-do 'he' text for b1-01, b1-09 and any other lesson missing them. Add a 'letter-names' error type to taxonomy.json and use it in pa1-01 e5 option_errors. Add wrong_feedback for the common A1 errors: be + base verb ('is study'), 'the' for a/an, and an adverb after be ('usually is'). Add an 'agree is a verb' pitfall to an A1 lesson, and verb + preposition pitfalls (wait for, listen to, explain to me, arrive at) to a1-04, a2-01, a2-13 and a2-15, each with matching wrong_feedback. Give pa1-01 e8 a word_bank.",
+     "acceptance": "The validator passes. #/lesson/a1-02 e12 answered 'Sara is study English every evening.' shows specific feedback. pa1-01 learn notes show Hebrew. #/path/B1 shows Hebrew titles for b1-01 and b1-09.",
+     "sources": [
+      "teacher-adult-efl: A wrong correction gets only the model answer: no targeted feedback and no second try",
+      "teacher-adult-efl: 'I am agree' and verb + preposition have no pitfall at the beginner levels",
+      "teacher-adult-efl: The lesson-end 'כדאי לשים לב' box gives the wrong diagnosis",
+      "student-58: English-only text where a Pre-A1 learner needs Hebrew",
+      "teacher-bagrut: Path and copy details",
+      "student-68: Day-one typing from memory for an absolute beginner"
+     ]
+    },
+    {
+     "id": "BL-7",
+     "title": "Pronunciation notes lead with Hebrew",
+     "priority": "P2",
+     "problem": "Pitfall and pronunciation notes rely on IPA ('/ɪ/ ו-/iː/', '/æ/ – /ʌ/ – /e/', '/θ/ – /s/ – /t/'), which means nothing to non-linguists.",
+     "fix": "Rewrite the Pre-A1 to A2 pronunciation notes to start with a Hebrew approximation and a mouth instruction ('מותחים את השפתיים כמו בחיוך'), with the IPA after it in brackets, written so BL-1 isolates it correctly.",
+     "acceptance": "In #/lesson/a1-01, the 'שימו לב' live/leave note starts with the Hebrew instruction, and the IPA appears only after it.",
+     "sources": [
+      "student-44: Pronunciation notes rely on IPA symbols, and the lesson's pitfall box has no play buttons",
+      "student-68: Sound-based questions in Pre-A1 phonics have no audio (IPA feedback)",
+      "student-58: No audio for the letters in the alphabet table (IPA column noise)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "first-run-today",
+   "title": "Welcome, onboarding, placement, Today, daily plan, Path and Progress. Owns the CSS rules for those screens, including .start-bar, .plan-item and .lesson-row.",
+   "owns": [
+    "js/views/welcome.js",
+    "js/views/onboarding.js",
+    "js/views/placement.js",
+    "js/core/placement.js",
+    "js/views/today.js",
+    "js/core/adaptive.js",
+    "js/views/path.js",
+    "js/views/progress.js",
+    "js/views/profile.js",
+    "tests/unit/engine.test.mjs",
+    "tests/unit/learner-evidence.test.mjs",
+    "tests/unit/writing-level.test.mjs",
+    "tests/e2e/first-run-today.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "TF-1",
+     "title": "Text size from the first screen",
+     "priority": "P0",
+     "problem": "None of the 4 onboarding steps offers text size. Help lines are 13px, the placement test and lesson 1 run at 100%, and older learners find the control only later, behind the gear icon.",
+     "fix": "Onboarding step 1: add a 'גודל טקסט' segmented control (100/115/130/150) next to the interface language. Apply it live through document.documentElement.dataset.text, keep it in sessionStorage 'lucid-text-size' the way the UI language is kept (try/catch), and save it with saveSettings({ text_size }) on finish. Welcome: add a compact 'א+' control beside the language switch that cycles the sizes.",
+     "acceptance": "On #/start at 390, choosing 130% enlarges the text at once, and a reload keeps it. After finishing onboarding, lesson 1 opens at 130% and #/settings shows 130%.",
+     "sources": [
+      "student-68: No text-size control before or during onboarding; lesson 1 opens at 100%",
+      "student-58: Onboarding: no text-size choice, 13 px helper text, 13x13 px checkboxes",
+      "student-44: No text-size choice before the placement test and first lesson"
+     ]
+    },
+    {
+     "id": "TF-2",
+     "title": "Today can say 'done'",
+     "priority": "P0",
+     "problem": "After a whole 25-minute lesson, Today refills with a new 20-minute plan and an orange start key. The done banner's 'במעבדות' is plain text, not a link. After a failed lesson Today says 'כמעט סיימת'. The done state appears and then disappears as the learner does more.",
+     "fix": "In adaptive's todayPlan and today.js, count the minutes done today (lesson exercises done today × minutes per exercise, plus reviews and scenarios) against the daily minutes. When the target is met or the plan's blocks are done, show the headline 'התוכנית להיום הושלמה (כ-25 דק׳)' with the blocks ticked. List further items under 'רוצים עוד?' as plain rows with no .key.enter, including one goal-matched item and a 2-3 minute game at the learner's level. Link 'בלשונית תרגול' to #/practice. Make the 'כמעט סיימת:' lead follow the lesson banding (below 50%: 'השיעור עוד פתוח').",
+     "acceptance": "Finish #/lesson/a2-01 fully and open #/today: the headline says the plan is complete, there is no orange key for a new lesson, and the extras sit under 'רוצים עוד?'. Finishing only today's part gives the same state. The done text links to #/practice.",
+     "sources": [
+      "ux-research: Today never says 'done' after a whole lesson and refills with a new 20-minute plan",
+      "ux-research: Today refers to 'labs', but the phone navigation has nothing called that",
+      "ux-research: 'כמעט שם' / 'כמעט סיימת' shown after a 16% lesson",
+      "student-19: Today's 'done' banner has no next step and uses jargon",
+      "student-58: Daily plan slices oddly; the 'done' state moves",
+      "student-16: Games are hidden (a quick game after the plan)"
+     ]
+    },
+    {
+     "id": "TF-3",
+     "title": "Short days still move the lesson forward",
+     "priority": "P1",
+     "problem": "With 11 due cards on a 10-minute night, the lesson part is 'עד תרגיל 1 מתוך 16', because BUDGET[10] is review 5 + learn 5 (adaptive.js 229). The review block says 6 minutes for a 1-minute review. The same 11 words lead Today again 40 minutes after the review. New words are described as 'בדיוק לפני שכחה'.",
+     "fix": "lessonSlice: a part is never fewer than 4 exercises; if fewer would be left, the part is the rest of the lesson. On 10-minute days, cap the review at 3 minutes and carry the remaining cards to later days. Estimate review minutes as ceil(cards × 10 s / 60), at least 1. Once today's review is done, show cards due again the same day as an optional 'עוד סבב קצר' under 'רוצים עוד?'. Use separate copy for new cards ('8 מילים חדשות: סבב ראשון') and due cards ('מילים שכדאי לרענן').",
+     "acceptance": "With 10 minutes and 11 due cards, Today shows a review of at most 3 דק׳ and a lesson part 'עד תרגיל' of at least 4. Review minutes match the card count. After a review, Today's main action is not the same review again. After adding the A1 words, the line calls them new.",
+     "sources": [
+      "student-44: On review nights a 10-minute plan gives the lesson only 'exercise 1 of 16'",
+      "student-44: The same 11 words lead Today again 40 minutes after the review",
+      "student-16: A 10-minute day is 3 exercises, and the stop screen shows no achievement",
+      "student-16: Review time estimate is not believable",
+      "student-27: A 10-minute plan gives only 2 lesson exercises",
+      "student-58: Daily plan slices oddly: lesson 2's part was one exercise",
+      "student-68: Lesson times and daily split ignore reading time",
+      "student-19: Review copy calls just-added words 'about to be forgotten'",
+      "ux-writing-mobile: Hebrew errors and awkward phrases (בדיוק לפני שכחה)"
+     ]
+    },
+    {
+     "id": "TF-4",
+     "title": "Goals stay visible on short days",
+     "priority": "P1",
+     "problem": "At 10 minutes the goal block is dropped without a word; it only appears from 20 minutes, so a travel learner never sees travel. Onboarding explains this in one grey line above the minutes choice. The everyday goal's subtitle says 'לא משנה את התוכנית'.",
+     "fix": "today.js: when the 'use it' block doesn't fit, show one optional line under the plan, 'יש עוד 4 דקות? <scenario title>', linking to the item that pickScenario or pickWritingTask chooses by the learner's goals. Onboarding step 2: under the minutes choice, add 'ב-10 דקות: שיעור וחזרה. המטרות מופיעות כהצעה, ומ-20 דקות בתוך התוכנית.'. Change the everyday goal's subtitle to 'דיבור וכתיבה לסירוגין'.",
+     "acceptance": "Onboard with the travel goal and 10 minutes: #/today shows an optional travel scenario line that opens #/scenario/<id>. Onboarding step 2 shows the new line next to the minutes choice.",
+     "sources": [
+      "student-19: With 10 minutes a day the travel goal disappears from Today",
+      "student-44: Goals silently do nothing at 10 minutes a day",
+      "student-16: The Bagrut goal has almost no visible effect",
+      "ux-research: Onboarding step 2 is overloaded, and its goal copy assumes the learner knows CEFR levels",
+      "student-16: Real-life recommendations ignore my goals (everyday goal copy)"
+     ]
+    },
+    {
+     "id": "TF-5",
+     "title": "Today's minutes control: labelled, and for today only",
+     "priority": "P1",
+     "problem": "The 10/20/35/50 row has no visible label; its only name is the aria label 'אורך האימון היום'. Tapping a value silently rewrites Settings > 'זמן ביום' (today.js 323 saves daily_minutes).",
+     "fix": "Add the visible label 'כמה זמן יש לכם היום?', connected with aria-labelledby. Store a per-day override, settings.today_minutes = { date: todayKey(), n }, which todayPlan uses when the date matches; daily_minutes stays unchanged. After a change, show a role=status line 'התוכנית עודכנה ל-10 דקות'.",
+     "acceptance": "Tap 35 on #/today: the label is visible and the status line appears, while #/settings still shows the earlier daily minutes. The next day, the plan uses the default again.",
+     "sources": [
+      "ux-research: The Today minutes control has no visible label and silently changes the permanent setting",
+      "ux-writing-mobile: Today's time chips have no visible label and change the plan silently",
+      "student-58: Icon-only controls and an unlabelled minutes control on Today"
+     ]
+    },
+    {
+     "id": "TF-6",
+     "title": "Onboarding forms that keyboards, screen readers and beginners can use",
+     "priority": "P1",
+     "problem": "Steps 2-4 open with focus on <body>. Validation errors appear above the button, with no aria-invalid, no aria-describedby and no focus move. The radiogroups have no names and ignore the arrow keys. Multi-select goal cards and single-select minutes cards look identical. Profile goals use 13px native checkboxes with different labels.",
+     "fix": "Focus each step's h1 when it opens. On an error, focus the first invalid field, set aria-invalid='true', give it a red border, and put the message directly under it, linked by aria-describedby. Label each radiogroup with its visible question (aria-labelledby) and add roving tabindex with arrow keys. Goal cards get a square check indicator; minutes and start cards get a round radio dot, both aligned to the first text line. profile.js reuses the same cards and labels for goals.",
+     "acceptance": "Go through #/start by keyboard only. Step 2 opens with focus on its h1. ArrowDown moves the minutes selection. Submitting with no year focuses the select, which has aria-invalid=true and the message directly below it. A chosen goal card shows a check. #/profile goals use the same cards.",
+     "sources": [
+      "ux-accessibility: Settings and onboarding option groups have no accessible names; onboarding radios ignore the arrow keys",
+      "ux-accessibility: Onboarding steps and validation errors leave focus on the page body",
+      "design-interaction: Onboarding errors are not attached to their fields",
+      "ux-research: Onboarding errors are not attached to their fields",
+      "design-visual: Selection controls come in four different designs",
+      "ux-research: Onboarding step 2 is overloaded"
+     ]
+    },
+    {
+     "id": "TF-7",
+     "title": "No AI consent where there is no AI",
+     "priority": "P1",
+     "problem": "Step 4 shows a 55-60-word checkbox, 'לאפשר משוב AI … צריך חשבון', on a device-only site with no AI and no accounts. The whole paragraph is also the checkbox's accessible name.",
+     "fix": "When !(configured() && CONFIG.aiEnabled), remove the AI checkbox and show one line instead: 'AI לא פעיל באתר הזה. כל השאר עובד. אם יתווסף, נשאל קודם.'. Give the terms checkbox a short label, move the details to aria-describedby, and use a 24px custom box aligned to the first line.",
+     "acceptance": "Device-only #/start step 4 shows no AI checkbox, only the one line. The terms checkbox's accessible name is 12 words or fewer.",
+     "sources": [
+      "ux-research: Onboarding asks for AI consent on a site where AI cannot work",
+      "ux-writing-mobile: AI consent and AI status contradict each other; Settings says \"משוב AI הופעל\"",
+      "student-16: Onboarding asks consent for AI that this site does not offer",
+      "student-19: Onboarding asks for AI consent that can't be used on this site",
+      "student-44: Onboarding asks for AI consent on a device-only site",
+      "student-68: AI consent offered in device-only mode",
+      "ux-accessibility: Smaller issues: … AI consent name is a 60-word paragraph"
+     ]
+    },
+    {
+     "id": "TF-8",
+     "title": "Progress shows what the evidence is",
+     "priority": "P1",
+     "problem": "Skill rows read 'עוד לא נבדק' after more than 30 grammar answers at 94%. A passed B2 level check doesn't appear in the skill rows, although checkpoint attempts are stored as evidence. The placement row 'A2 (2 מתוך 2 נכונות ב-B1)' reads as a contradiction. The words for mastery differ between screens.",
+     "fix": "adaptive.skillLevels also returns in-progress evidence: answers at the level, % right, and days. progress.js and Today's skill rows show 'אוספים ראיות: 31 תשובות ב-B2, 94% נכון · יום 1 מתוך 2' instead of 'עוד לא נבדק' whenever attempts exist. Level-check results appear in the skill rows they covered ('דקדוק: B2 בבדיקת רמה, 81%'). Placement result row: 'A2 · נראה טוב גם ב-B1 (2 מתוך 2), יאושר בבדיקת רמה'. Use 'בשליטה' for topics everywhere. The evidence rules themselves don't change.",
+     "acceptance": "After a 100% grammar lesson today, the #/progress grammar row shows the evidence count and 'יום 1 מתוך 2'. After passing #/checkpoint/B2, the grammar row mentions it. The placement result row uses the new wording.",
+     "sources": [
+      "student-27: Grammar shows \"Not yet assessed\" after 30+ grammar answers",
+      "student-27: \"B2: demonstrated… recorded in your skill profile\" but the profile does not change",
+      "ux-research: The placement result shows a row that seems to contradict itself",
+      "ux-writing-mobile: Mastery and level words keep changing; one is ungrammatical",
+      "ux-writing-mobile: Hebrew errors and awkward phrases (עוד לא נבדק)"
+     ]
+    },
+    {
+     "id": "TF-9",
+     "title": "Placement: how long, what next, readable items",
+     "priority": "P2",
+     "problem": "The counter shows only the question number. The bar is scaled to 18 questions and looks finished at question 16 of 20. The placement intro and Today offer different 'start from the basics' choices. In reading items the passage and question run together. The result doesn't show where the learner's ceiling was.",
+     "fix": "Show 'שאלה 4 מתוך כ-20', estimated from the remaining blocks in core/placement.js, and drive the bar by the remaining blocks. In both the intro and Today, offer 'להתחיל מהאותיות (Pre-A1)' and 'להתחיל ב-A1'. Put the reading passage in a panel with the question in bold below it. Add a result line such as 'ב-C1: 3 מתוך 8'.",
+     "acceptance": "#/placement shows 'מתוך כ-', and the bar stays below 90% until the last block. The intro shows both buttons with their level names. A reading item shows the passage and the question separately.",
+     "sources": [
+      "ux-research: Placement progress does not show how many questions are left",
+      "student-27: Placement progress bar looks finished from about question 16",
+      "ux-research: The 'start from the basics' escape differs between screens",
+      "teacher-bagrut: Placement reading item runs text and question together",
+      "student-27: Placement result doesn't show the ceiling"
+     ]
+    },
+    {
+     "id": "TF-10",
+     "title": "Today and welcome layout on phone and desktop",
+     "priority": "P2",
+     "problem": "Today's orange start key touches the plan list with no gap, and the welcome CTA touches its list. On a phone, a plan row gives its text 191px of a 358px card, and English outcomes are 13px in --ink-3. At 1440 the welcome h1 is 287px wide and breaks into 5 lines. The A1 main key mixes Hebrew with an English lesson title, and 'להתחיל: חזרה' can be read as 'start: go back'.",
+     "fix": "Give .start-bar and the welcome hero CTA margin-block-end: var(--s5). Below 30rem, put the plan row's time and level chip under the title and let the note span the card. Set English outcome lines at --t-sm in --ink-2. Give the welcome text column at least 30rem at desktop. At Pre-A1/A1, the main key uses the Hebrew lesson title. The review key reads 'להתחיל: חזרה על 8 מילים'.",
+     "acceptance": "At 390 on #/today there is a gap of at least 20px between the start key and the plan, and plan text columns are at least 260px wide. At 1440 the welcome h1 takes at most 3 lines. An A1 learner's start key is in Hebrew.",
+     "sources": [
+      "design-visual: Primary CTAs touch the content below with zero gap",
+      "design-visual: Welcome headline crushed into five lines at desktop",
+      "design-visual: Mobile rows squeeze the text column; English content set smallest and faintest",
+      "student-16: Today's lesson card is cramped",
+      "student-44: Today's main button mixes Hebrew with an English lesson title",
+      "ux-writing-mobile: \"חזרה\" means back, word review and lesson retries (Today button)"
+     ]
+    },
+    {
+     "id": "TF-11",
+     "title": "Path details",
+     "priority": "P2",
+     "problem": "For an A2 learner, 'להתחיל מ-A2' does nothing and gives no feedback. 'לבחון את עצמי' leads to the same place as the 'בדיקת רמה A2' card above it. Links to in-progress lessons have no ?resume=1. The rail labels break as 'Pre-/A1', and the 'בסיסי' subtitle sits 49px off the heading's edge.",
+     "fix": "For the current level, hide 'להתחיל מ-<level>' and show 'זו הרמה הנוכחית שלכם'. Rename the duplicate to 'לבדיקת רמה A2' or remove it. Add ?resume=1 to links of lessons with a saved place. Make rail labels nowrap at 12px or more, and align the subtitle with the h2 edge.",
+     "acceptance": "On #/path/A2 as an A2 learner there is no button that does nothing. A link to an in-progress lesson ends with ?resume=1. 'Pre-A1' stays on one line.",
+     "sources": [
+      "ux-writing-mobile: Path \"wrong level?\" card: a button that does nothing and a duplicate name",
+      "student-19: Reopening a lesson hides 'continue' (the Path link has no resume parameter)",
+      "design-visual: Small inconsistencies (heading subtitle, rail labels)"
+     ]
+    },
+    {
+     "id": "TF-12",
+     "title": "Today's offers come at the right time",
+     "priority": "P2",
+     "problem": "Minutes after the learner chose Hebrew, a large 'לעבור לאנגלית' banner sits above the plan. 'להוסיף את המילים של A1' removes itself, drops focus to <body> and confirms only with a 3.2s toast. Several English UI strings read like translations.",
+     "fix": "Show the English-UI offer below the plan, and only after 3 or more active days. After adding words, leave an inline status 'נוספו 8 מילים לחזרה. עד 8 חדשות ביום.' where the button was, and focus it. Rewrite the English strings, e.g. 'You skipped A1. Add its key words to your reviews? Up to 8 new a day.' and 'Today you'll do part of this 25-minute lesson: up to exercise 9 of 16.'.",
+     "acceptance": "For a new B1 learner, the plan is the first block on Today. After adding words, focus is on the inline status. The English UI shows the rewritten strings.",
+     "sources": [
+      "student-16: Today opens with an English-UI offer minutes after I chose Hebrew",
+      "ux-accessibility: Smaller issues: … the add-words button drops focus",
+      "ux-writing-mobile: English UI strings that read like translations"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "practice-hubs",
+   "title": "Review, practice hubs (listening, reading, vocabulary, grammar, speaking), Practice, tutor, account and Settings. Owns the CSS rules for those screens.",
+   "owns": [
+    "js/views/review.js",
+    "js/core/srs.js",
+    "js/views/settings.js",
+    "js/core/learner.js",
+    "js/views/practice.js",
+    "js/ui/center.js",
+    "js/views/listening.js",
+    "js/views/reading.js",
+    "js/views/vocab.js",
+    "js/views/grammar.js",
+    "js/views/speaking.js",
+    "js/views/tutor.js",
+    "js/views/account.js",
+    "tests/unit/learner-logic.test.mjs",
+    "tests/e2e/practice-hubs.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "PH-1",
+     "title": "Review options that can't be answered by elimination",
+     "priority": "P0",
+     "problem": "Meaning cards build their options with fixed seeds (review.js 81: shuffle(pool…, i + 1) and shuffle(…, i + 7)). The right answer therefore alternates between the same positions, and the same distractors repeat ('בין | סניף דואר | צעיר/ה' for 'cook', 'work' and 'drink'). They come from a tiny pool, mix parts of speech, and include long glosses ('כבשה (ברבים: …)').",
+     "fix": "Seed the shuffle by card id plus the session date, so the right answer's position is uniformly random. Draw 3 distractors from the learner's learned words with the same pos (vocabulary entries carry pos), then from same-level curriculum vocabulary. Use the short gloss: the text before '(' or ';'.",
+     "acceptance": "In two #/review sessions of 8 A1 cards, the right answer's position varies, no distractor set repeats between cards, a verb card shows only verb options (starting with ל-), and no option is longer than 4 words.",
+     "sources": [
+      "ux-accessibility: Review multiple choice follows a fixed pattern of positions and distractors",
+      "ux-writing-mobile: Review distractors repeat and can be eliminated",
+      "teacher-adult-efl: Review distractors come from a tiny pool and reveal the part of speech",
+      "student-68: Review grades on first tap, unlike lessons (long distractor)"
+     ]
+    },
+    {
+     "id": "PH-2",
+     "title": "Review works like a lesson",
+     "priority": "P0",
+     "problem": "In review a tap on an option is graded at once (data-pick handler), while lessons select and then check, so a finger slip counts as wrong. On typed cards Check is enabled on an empty field and does nothing. After 'התכוונתי לזה – זה נכון' the footer stays red. The end screen is a single line. The empty state has only an h3 and looks broken at desktop.",
+     "fix": "Options set aria-pressed and enable 'בדיקה'; Enter, or 1-4 then Enter, commits. Disable Check while the typed field is empty. An override redraws the footer green, 'נספר כנכון', with the meaning still shown. The end screen lists the missed words with play buttons and when they will return, plus 'לשחק במילים האלה' (#/games). The empty state uses the standard empty component in a content-width column, with an h1, a 'להיום' key and, for placed-out learners, 'להוסיף את המילים של A1'.",
+     "acceptance": "On #/review, tapping an option grades nothing until בדיקה. An empty typed field leaves Check disabled. An override turns the footer green. The end screen lists missed words. #/review with nothing due at 1440 shows an h1, the action and an exit in a centred column.",
+     "sources": [
+      "design-interaction: The same option card commits answers in three different ways",
+      "design-interaction: Review feedback states contradict each other and the lesson",
+      "student-58: Review grades on first touch, unlike lessons",
+      "student-68: Review grades on first tap, unlike lessons",
+      "teacher-special-ed: Single attempt in MCQs, and option taps behave differently on different screens",
+      "student-16: Review and lesson end screens are flat",
+      "design-visual: Review empty state drops the app shell",
+      "ux-accessibility: Smaller issues: review empty state has no h1"
+     ]
+    },
+    {
+     "id": "PH-3",
+     "title": "Settings that screen readers can name and keyboards don't lose",
+     "priority": "P1",
+     "problem": "All 13 segmented controls in Settings are unnamed role=group elements (seg() at settings.js 13). draw() re-renders after every change, so focus falls to <body> and it takes 19 Tabs to get back.",
+     "fix": "seg(name, …) gives the visible label an id and points aria-labelledby at it. After a seg click and redraw, focus [data-seg='name'] [data-v='value']. Do the same for checkboxes.",
+     "acceptance": "In the accessibility tree of #/settings, every group has a name. Pressing '150%' keeps focus on that button, and the next Tab moves to the next control.",
+     "sources": [
+      "ux-accessibility: Settings and onboarding option groups have no accessible names",
+      "ux-accessibility: Focus falls to the page body … and in Settings"
+     ]
+    },
+    {
+     "id": "PH-4",
+     "title": "A 'תמיכה בלמידה' section with a relaxed pace by default",
+     "priority": "P1",
+     "problem": "Text size, slow speech, Hebrew support and game sounds are scattered across Settings, and there is no way to turn off timers, auto-advance or speed bonuses.",
+     "fix": "learner.js DEFAULT_SETTINGS: add relaxed_pace: true and game_speed_challenge: false. settings.js: make the first section 'תמיכה בלמידה', holding text size, Hebrew support, speech speed, sounds and 'קצב רגוע (בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים)'. The games lane reads these two keys.",
+     "acceptance": "The first section of #/settings is 'תמיכה בלמידה', with 'קצב רגוע' on by default. Toggling it saves settings().relaxed_pace.",
+     "sources": [
+      "teacher-special-ed: No learning-support controls in Settings",
+      "ux-accessibility: Speed bonuses and auto-advance in all three games, with no way to turn them off",
+      "student-68: Picture game auto-advances after 2.5s and rewards speed (needs a setting)"
+     ]
+    },
+    {
+     "id": "PH-5",
+     "title": "AI-off honesty in Settings, Practice and the tutor",
+     "priority": "P1",
+     "problem": "Settings lets the learner tick the AI checkbox and toasts 'משוב AI הופעל', while the same card says AI isn't available (settings.js 67, 141). The AI-only groups look active. Practice says 'דורש הגדרת AI'. The tutor shows 8 mode chips above its notice. There are also copy errors ('עמסה', 'השרת הזה לא מוגדר לחשבונות', 'Exam (95%)').",
+     "fix": "When AI is not configured: disable the AI checkbox, show 'AI לא פעיל באתר הזה. כל השאר עובד.' and no toast. Grey out the 'תיקונים בשיחה' and 'משוב על כתיבה' groups (aria-disabled) with the same line. The Practice card says 'לא פעיל באתר הזה'. The tutor puts its notice first, hides the mode chips and drops 'אנחנו לא מציגים שיחה מזויפת'. Copy: account 'באתר הזה אין חשבונות.'; 'כדי שלא ייווצר עומס'; the Hebrew-support help text uses 'בלחיצה' to match the option label; retention 'גבוהה (95%)'.",
+     "acceptance": "On device-only #/settings, the AI checkbox is disabled and clicking it shows no toast, and the AI-only groups are greyed out. #/tutor shows no mode chips. The listed strings are updated.",
+     "sources": [
+      "ux-writing-mobile: AI consent and AI status contradict each other; Settings says \"משוב AI הופעל\"",
+      "student-27: AI-only settings look active although AI is off",
+      "ux-writing-mobile: Hebrew errors and awkward phrases",
+      "ux-writing-mobile: English UI strings that read like translations ('Exam (95%)')"
+     ]
+    },
+    {
+     "id": "PH-6",
+     "title": "Listening opens at the learner's level",
+     "priority": "P1",
+     "problem": "#/listening lists all 132 items starting from Pre-A1 (14,486-21,000px at 390), while reading orders its texts by the learner's level. Row titles are English-only questions. 'לתרגיל ההאזנה הבא' opened an item from a lesson the learner hadn't started.",
+     "fix": "listening.js: order the levels the way reading.js does (recommended level, then the levels above, then easier levels), with each level a <details> that is open only at the recommended level (the grammar accordion pattern). Rows show the Hebrew lesson title. center.nextSuggestion prefers items from completed or started lessons.",
+     "acceptance": "For an A2 learner at 390, #/listening is less than 4,000px tall, the first group is 'מומלץ לרמה שלך', and Pre-A1 is collapsed. A B1 learner starts at B1. 'לתרגיל ההאזנה הבא' links to an item from a started lesson.",
+     "sources": [
+      "design-visual: Three level-navigation patterns, and several hubs are endless lists",
+      "student-44: Listening centre opens on 25 Pre-A1 items; the 'next' item is from an unstarted lesson",
+      "teacher-bagrut: Listening centre: short items, and B1 learners start at the alphabet"
+     ]
+    },
+    {
+     "id": "PH-7",
+     "title": "Vocabulary as compact rows",
+     "priority": "P1",
+     "problem": "Vocabulary renders 172 fully expanded cards, 49,121px tall at 390.",
+     "fix": "vocab.js: group words in level accordions opened at the learner's level. Each word is a compact row (word · Hebrew · next review) that expands on tap to show the example, play button and collocations.",
+     "acceptance": "With 172 words at 390, #/vocab is less than 8,000px tall. Tapping a row expands it, and Enter toggles it from the keyboard.",
+     "sources": [
+      "design-visual: Three level-navigation patterns, and several hubs are endless lists (vocab 49,121px)"
+     ]
+    },
+    {
+     "id": "PH-8",
+     "title": "Speaking lab: nothing scored without sound, and plain names",
+     "priority": "P1",
+     "problem": "With no English voice, 'השמעת המילה' plays nothing, yet the bit/beat answers unlock and the result is recorded. 'שאדואינג' is jargon. Shadowing sentences are right-aligned, because only the inner span has dir=ltr. Pronunciation tips lead with IPA.",
+     "fix": "speaking.js: enable the minimal-pair answers only after speech has actually started (listen for the shell's 'lucid:speech' start event, falling back to the onstart of its own utterance). When there is no English voice, show a banner and don't record discrimination results. Rename the heading 'חוזרים אחרי הדובר (shadowing)'. Give the sentence block dir='ltr' and left alignment. Put the Hebrew mouth instruction before the IPA.",
+     "acceptance": "With 0 voices, #/speaking minimal pairs show the banner and the answer keys stay disabled. The heading is renamed. Shadowing sentences are left-aligned.",
+     "sources": [
+      "teacher-adult-efl: Listening items play silently when there is no English voice, and the answers still unlock",
+      "student-44: Shadowing heading is jargon and its English sentences are right-aligned",
+      "ux-writing-mobile: Language switch, button verbs, units and other small wording inconsistencies ('שאדואינג')",
+      "student-44: Pronunciation notes rely on IPA symbols"
+     ]
+    },
+    {
+     "id": "PH-9",
+     "title": "Practice hub useful from day one",
+     "priority": "P2",
+     "problem": "A just-placed learner sees only 'אחרי כמה שיעורים, כאן יופיעו…'. On desktop the hub repeats the rail's 8 labs in the same order. Grammar shows '1 answers' and uses '״נשלט״'.",
+     "fix": "practice.js: recommend a word game and a scenario at the learner's level to new learners. On desktop, put recommendations first and show the labs as a compact 2-column grid. grammar.js: fix the singular ('תשובה אחת' / '1 answer') and use 'בשליטה'.",
+     "acceptance": "For a freshly placed B1 learner, #/practice shows at least 2 linked recommendations. #/grammar uses the correct singular.",
+     "sources": [
+      "ux-research: The Practice hub repeats the sidebar on desktop and is empty for new learners on phones",
+      "student-27: English UI keeps Hebrew subtitles everywhere; \"1 answers\"",
+      "ux-writing-mobile: Mastery and level words keep changing"
+     ]
+    },
+    {
+     "id": "PH-10",
+     "title": "Settings layout and small copy",
+     "priority": "P2",
+     "problem": "Settings shows 'עברית / אנגלית', while welcome and onboarding show 'עברית / English'. The 'המידע שלך' section has three buttons of three widths. The restore error gives no next step.",
+     "fix": "Show each language in its own name. Make the data buttons a stack of equal width. Add a next step to the restore error: 'בחרו את קובץ ה-JSON שהורדתם ב״הורדת כל המידע״.'.",
+     "acceptance": "The #/settings language control reads 'עברית / English', the data buttons have equal widths, and loading a bad file shows the next step.",
+     "sources": [
+      "ux-writing-mobile: Language switch, button verbs, units and other small wording inconsistencies",
+      "design-visual: Segmented controls without structure (Settings 'המידע שלך' buttons)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "games",
+   "title": "Word quiz, picture game and memory game. Owns the CSS rules for the games screens (.game-*, .pic-* layout, .mem-* layout and type).",
+   "owns": [
+    "js/views/wordgame.js",
+    "js/views/picturegame.js",
+    "js/views/memorygame.js",
+    "js/core/wordgame.js",
+    "js/core/picturegame.js",
+    "js/core/memorygame.js",
+    "content/pictures.json",
+    "tests/unit/wordgame.test.mjs",
+    "tests/unit/picturegame.test.mjs",
+    "tests/unit/memorygame.test.mjs",
+    "tests/e2e/games.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "GM-1",
+     "title": "Calm pace by default",
+     "priority": "P0",
+     "problem": "The word quiz replaces a right-answer verdict after 1.1s (wordgame.js 217: setTimeout(next, 1100)). The picture game jumps to the next board after 2.5s (picturegame.js 132). The memory game turns cards back after 1.3s and takes 3 points per slip. All three pay speed bonuses, up to a third of the quiz score. This breaks PRODUCT.md's promise of no time pressure except opt-in timed writing.",
+     "fix": "Read settings().relaxed_pace !== false and settings().game_speed_challenge === true (both keys are added by the practice-hubs lane; a missing key counts as relaxed). Remove the auto-advance timers, so play waits for the next key or 'ללוח הבא'. In memory, keep a mismatch face up until the next tap, with no slip penalty unless challenge mode is on. The speed bonus is 0 unless challenge mode is on. Results show accuracy ('9 מתוך 10 נכונות'), with the bonus line only in challenge mode, and personal bests are kept per mode. Add an 'אתגר מהירות' switch on the games hub that saves the setting with saveSettings.",
+     "acceptance": "#/games/A1/1: after a right answer the verdict stays (wait 10s) until the key is pressed. #/games/pictures/1: a finished board stays on screen. #/games/memory/1: a mismatch stays face up until the next tap. Results show no 'בונוס מהירות' unless the hub switch is on.",
+     "sources": [
+      "design-interaction: Game auto-advance and speed bonuses hurry the learner",
+      "ux-accessibility: Speed bonuses and auto-advance in all three games, with no way to turn them off",
+      "teacher-special-ed: Speed bonuses built into all three games with no way to turn them off",
+      "teacher-special-ed: Games auto-advance before feedback can be read",
+      "teacher-special-ed: Memory game penalises memory slips and gates levels on working memory",
+      "student-68: Picture game auto-advances after 2.5s and rewards speed",
+      "student-44: Words and pictures auto-advances after about 2.5 s and rewards speed",
+      "teacher-adult-efl: The word quiz gives a speed bonus, against the 'no time pressure' commitment",
+      "teacher-bagrut: Games: mostly below level, and a third of the quiz score is speed",
+      "student-19: Game speed bonus adds time pressure",
+      "student-58: Games hub: dense scoring rules and speed bonuses"
+     ]
+    },
+    {
+     "id": "GM-2",
+     "title": "Rules in one line, results that read in order",
+     "priority": "P1",
+     "problem": "Each game opens with scoring maths ('3s +5, 6s +3, 10s +1; בהקלדה: 8s +5…') that wraps into scrambled RTL lines. The result equation renders as '35 ובונוס מהירות ,70 = 10 × 7'.",
+     "fix": "On the hub, describe each game in one line ('10 שאלות. כל תשובה נכונה = 10 נקודות.'). Put the full rules behind 'איך מנקדים?' as a small Hebrew table ('עד 3 שניות · ‎+5'), shown only when challenge mode is on. Wrap the result equations in <bdi dir='ltr'>. The memory result no longer redefines 'פספוס'.",
+     "acceptance": "On #/games at 390 there is no rules paragraph above the first game card. The result equation reads '7 × 10 = 70' left to right.",
+     "sources": [
+      "student-16: Game rules read like a rulebook",
+      "design-visual: Speed-bonus rules read like code and scramble on mobile",
+      "student-16: Game score equation not isolated as LTR",
+      "student-58: Games hub: dense scoring rules and speed bonuses"
+     ]
+    },
+    {
+     "id": "GM-3",
+     "title": "Games start at the learner's level",
+     "priority": "P1",
+     "problem": "The hub lists 7 levels × 3 stages (3,900-4,300px), and the learner's level is the fourth card down. For a B1 learner the picture and memory games start at Pre-A1, and level 2 stays locked. Opening a locked stage's URL silently redirects to the hub.",
+     "fix": "Put the learner's level first on the hub, tagged 'הרמה שלך', with the other levels after it and locked levels collapsed into one line ('נפתחות ב-70% ברמה הקודמת'). Unlock the picture and memory game levels up to the learner's course level. A locked stage URL shows 'השלב הזה עוד נעול' with a link.",
+     "acceptance": "For a B1 learner, the first card on #/games is the B1 quiz and #/games/pictures/3 is playable. The hub is less than 2,000px tall at 390. #/games/B1/3, while locked, shows the message.",
+     "sources": [
+      "student-16: Games are hidden, and the picture and memory games start at Pre-A1 for a B1 learner",
+      "student-19: Game speed bonus adds time pressure; travel game levels are locked for A2",
+      "design-visual: Three level-navigation patterns (games hub mostly locked tiles)",
+      "teacher-bagrut: Games: mostly below level … locked stage URL drops the student on the hub"
+     ]
+    },
+    {
+     "id": "GM-4",
+     "title": "Picture game ends on the English word",
+     "priority": "P2",
+     "problem": "After a match, the tile shows the Hebrew label, so the last word seen next to each picture is Hebrew. Two wrong taps list four words to review, including words the learner knew.",
+     "fix": "A matched tile shows the English word large, with the Hebrew small underneath. 'מילים לחזור עליהן' lists only words whose picture was actually missed.",
+     "acceptance": "A finished board shows English words on the tiles. After 2 wrong taps, only the missed words are listed.",
+     "sources": [
+      "teacher-special-ed: Picture game ends with picture plus Hebrew, not picture plus English",
+      "student-16: One slip in matching fails the whole exercise (picture game review list)"
+     ]
+    },
+    {
+     "id": "GM-5",
+     "title": "Memory game readable and spoken",
+     "priority": "P2",
+     "problem": "Card words are 11-20px on 170px cards (.mem-word is clamped to --t-sm). A mismatch is announced only as 'לא זוג.'. The end screen lists no pairs, and words missed through memory slips are listed as words to study.",
+     "fix": "Set .mem-word to at least var(--t-md), about double. The live region names both cards ('קלף 2: תמונה, דלת. לא זוג.'). The end screen shows every pair with its picture, word and a play button. The words-to-review list includes only real misses. Add a 4-pair board option at level 1.",
+     "acceptance": "At 390 and 100% text, .mem-word's font size is at least 20px. A mismatch's live text names both cards. The end screen lists all pairs.",
+     "sources": [
+      "student-58: Memory game: small word on big cards, no word recap",
+      "ux-accessibility: Match and memory results are never announced to screen readers",
+      "teacher-special-ed: Memory game penalises memory slips (11 px card words, slipped words listed)"
+     ]
+    },
+    {
+     "id": "GM-6",
+     "title": "Word quiz uses the lesson's continue key",
+     "priority": "P2",
+     "problem": "After an answer, the 'next' key is a small white key inside the card. The option cards look like lesson cards but commit on the first tap.",
+     "fix": "After each answer, show a full-width footer 'המשך' key (the .player-foot pattern) that also responds to Enter. Add the line 'הבחירה נבדקת מיד' above the options. Show no 1-4 keycaps on touch.",
+     "acceptance": "After an answer, the footer key is present and focused. In 390 touch emulation the options show no keycaps.",
+     "sources": [
+      "design-interaction: Game auto-advance and speed bonuses hurry the learner (the small 'next' key)",
+      "design-interaction: The same option card commits answers in three different ways"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "real-life-writing",
+   "title": "Real-life scenarios, expressions and the writing lab. Owns the CSS rules for .scenario-*, .chat, expressions, .essay-* and the writing-lab screens.",
+   "owns": [
+    "js/views/scenario.js",
+    "js/views/reallife.js",
+    "js/views/slang.js",
+    "js/views/simulations.js",
+    "js/core/reallife.js",
+    "content/real-life",
+    "js/views/essay.js",
+    "js/views/writing.js",
+    "js/core/writing-analyzer.js",
+    "content/writing",
+    "tests/unit/reallife.test.mjs",
+    "tests/unit/work-content.test.mjs",
+    "tests/unit/writing-analyzer.test.mjs",
+    "tests/e2e/real-life-writing.mjs",
+    "css/app.css",
+    "js/core/i18n.js"
+   ],
+   "items": [
+    {
+     "id": "RW-1",
+     "title": "Scenario practice with the lesson's footer",
+     "priority": "P0",
+     "problem": "On a phone, choosing a reply scrolls the page 635px, and 'המשך' ends up behind the tab bar (top at y=763 with the tab bar starting at 781) or two screens down, under the feedback for every option and the own-words box. The play keys are 29x29 because of an inline 1.8rem size. A tap commits the answer at once.",
+     "fix": "Practise tab: tapping a reply selects it and 'בדיקה' commits, as in lessons. A sticky footer inside the page (the player-foot pattern, offset by the tab-bar height) holds 'בדיקה' and then 'המשך'. The feedback for the other options is folded under 'למה לא האחרות?', and the own-words box is folded under 'לנסות בניסוח שלכם'. Scroll the verdict into view with block:'nearest'. Remove the inline sizes from the play keys so they are at least 44x44 under coarse pointers.",
+     "acceptance": "At 390x844 on #/scenario/rl-airport-checkin-overweight?tab=practise, 'המשך' is fully visible above the tab bar on all 5 turns without scrolling, and the play keys measure at least 44x44.",
+     "sources": [
+      "design-interaction: Scenario practice on a phone hides Continue under the bottom navigation",
+      "student-19: Scenario 'המשך' button is two screens below the feedback on a phone",
+      "design-interaction: Several touch targets are below 44 px on the phone (scenario play keys 29x29)",
+      "student-19: Expressions: … scenario partner and dialogue play buttons are 29x29"
+     ]
+    },
+    {
+     "id": "RW-2",
+     "title": "Automatic writing checks catch Hebrew-speaker errors and stay honest",
+     "priority": "P0",
+     "problem": "With AI off, the analyzer is the only writing feedback. On a B1 text it caught 4 of about 14 errors, and it misses errors that Lucid's own lessons teach: third-person -s, 'people was', 'alot'/'dont', their/there, 'for find', 'Although…, but', 'until' with a deadline, 'I will be happy if', 'has found in 2021', 'Rarely we see', 'Why we should…?', 'very important thing', 'this tools', and lowercase names. It flags the correct 'But by the time…, I had' as a run-on. It says 'לא נמצאו בעיות מוכרות' directly under a length warning.",
+     "fix": "writing-analyzer.js: add level-gated rules, each with a one-line Hebrew explanation, for:\n- a singular subject, or every/each, followed by a base verb\n- 'people was'\n- alot, dont, doesnt, didnt and cant\n- their/there before a noun\n- for + base verb\n- Although/Though … but\n- until + a day, date or time (use 'by')\n- 'I will be happy if' (use 'I'd be grateful if')\n- 'I am writing you'\n- a past time adverb with the present perfect\n- a negative opener without inversion\n- a statement-order wh-question\n- a missing a/an before adjective + singular count noun\n- this/these number agreement\n- a lowercase name after 'my name is' or 'I live in'\nFrom stage 8, add a highlighter for sweeping claims (all, every, never, everyone, nobody, proves). In the run-on test, skip one leading coordinator before the subordinator check, and add 'by the time' to the subordinators. The headline reads 'מצאנו N מהדברים שאנחנו בודקים' and never 'לא נמצאו בעיות' while a length or structure check fails.",
+     "acceptance": "writing-analyzer.test.mjs has one case per rule, built from the panels' sentences. The we-06 sample text flags at least 10 of the 14 listed errors. 'But by the time the meeting started, I had written down every step' is not flagged. The status for a 3-word essay names the missing words instead of 'no problems'.",
+     "sources": [
+      "teacher-bagrut: Automatic writing check misses agreement and article errors",
+      "teacher-academic: Automatic checks miss the Hebrew-L1 errors that Lucid's own C1/C2 lessons teach",
+      "student-27: Email mode … misses until/by",
+      "student-27: Writing task flags the lesson's own target structure as a run-on",
+      "teacher-academic: 'No known problems' shown while the text is far below the word target",
+      "student-58: Lesson 1 writing check misses lowercase names"
+     ]
+    },
+    {
+     "id": "RW-3",
+     "title": "Own-words replies get the same checks",
+     "priority": "P1",
+     "problem": "'I am agree… Nice to know you.' and 'I want room please. I have reservation.' got only neutral keyword messages. Replies that ignored the partner's request were praised ('Your reply has a question back…'). The reply field is a single line.",
+     "fix": "In the scenario own-words box, run the analyzer's L1 rules from RW-2 and show hits as 'אולי טעות נפוצה לדוברי עברית'. When a scenario turn has goal points, show them as a checklist (problem named / new date / offer) instead of praise. Show a positive line only when a goal keyword is present and there is no L1 hit. Make the field a 3-row textarea.",
+     "acceptance": "On #/scenario/rl-work-first-day-intro, the own-words reply 'I am agree to work with you. Nice to know you.' flags both errors, 'fix the bug until Thursday?' flags until → by, and the field is a 3-line textarea.",
+     "sources": [
+      "teacher-adult-efl: 'Now in your own words' in scenarios misses the L1 errors the app already knows",
+      "student-27: Own-words check praises off-topic or wrong replies"
+     ]
+    },
+    {
+     "id": "RW-4",
+     "title": "Essay feedback stays beside the text",
+     "priority": "P1",
+     "problem": "At 1440, after 'בדיקה אוטומטית', the checks panel stays about 1,100px above the view, because .essay-side is not sticky. On phones the save status pushes the Check key around, and the inline summary contradicts the checks. The brief pushes the editor about 1,600px down, texts to respond to sit far above the editor, and the model answer unlocks after a 3-word check.",
+     "fix": "At 64rem and wider: .essay-side { position: sticky; top: var(--s5); max-height: calc(100dvh - 2*var(--s5)); overflow: auto }. On phones, after a check, scroll the results into view (block:'nearest') and focus their heading. Show the save status as a fixed-width icon slot. The inline summary counts what the checks found ('דבר אחד לבדוק: אורך') and links to it. The brief collapses into 'המשימה' once a question is chosen. input_text moves to the Sources tab with 'לפתוח ליד הטקסט'. The model answer unlocks only at 50% or more of the minimum word count.",
+     "acceptance": "At 1440 on #/writing/final-B2, scrolled down to the textarea, a check leaves the panel visible in the viewport. At 390 the Check key doesn't move while typing. On #/writing/we-16 a 3-word check doesn't unlock the model.",
+     "sources": [
+      "design-visual: Essay editor: check results appear about 1,100px above the user's view",
+      "design-interaction: Essay editor: the Check key moves, and the inline summary contradicts the checks",
+      "teacher-academic: The model answer unlocks after a 3-word check",
+      "teacher-academic: The text to respond to sits far above the editor",
+      "teacher-academic: 'No known problems' shown while the text is far below the word target"
+     ]
+    },
+    {
+     "id": "RW-5",
+     "title": "Rubric and self-assessment without AI",
+     "priority": "P1",
+     "problem": "The rubric, the self-rating form and 'לסמן כטיוטה סופית' exist only inside an AI result (essay.js aiPanel returns early when AI is off). wa-05's instruction to score the draft against the rubric can't be followed, and tasks stay 'בכתיבה' forever.",
+     "fix": "Add an always-visible 'מחוון' tab listing the stage's applicable categories with their Band 1, 3 and 5 descriptors from content/writing/rubric.json. Make selfForm work without AI and save it with the version. Add 'לסמן כסופית (הערכה עצמית)', which marks the task done, labelled as self-assessed and never used as a writing level.",
+     "acceptance": "On device-only #/writing/wa-05, the 'מחוון' tab shows the descriptors, a self-rating saves, and marking the task final shows it as done with 'הערכה עצמית' on the lab card. The #/progress writing level is unchanged.",
+     "sources": [
+      "teacher-academic: Without AI there is no rubric, no self-assessment and no way to finish a writing task"
+     ]
+    },
+    {
+     "id": "RW-6",
+     "title": "Source tasks check copying and citations",
+     "priority": "P1",
+     "problem": "Two uncited sentences copied word for word from Source A pass silently. 'Merrow (2025) argues' does not count as a counterargument, and author-year citations do not count as evidence. The structure ticks don't say what they matched.",
+     "fix": "Compare the draft with the task's source pack. Shared sequences of 7 or more words get 'תואם כמעט מילה במילה למקור A: צטטו וציינו מקור, או נסחו מחדש'. List the citations found against the pack ('צוטטו: Merrow (2025). לא צוטטו: …'). Count '(Author, Year)' and 'Author (Year) + reporting verb' as evidence, and attributed positions as counterarguments. Show the matched phrase beside each tick.",
+     "acceptance": "On #/writing/wa-05 with two copied sentences, an overlap flag names Source A, the citation list is correct, and a cited sentence ticks evidence with its phrase shown.",
+     "sources": [
+      "teacher-academic: Source-based tasks: verbatim copying and missing citations pass silently",
+      "teacher-academic: Argument-structure signals misread academic moves"
+     ]
+    },
+    {
+     "id": "RW-7",
+     "title": "English in the writing lab reads left to right",
+     "priority": "P1",
+     "problem": "Source passages, C1 English explanations, plan lists and checklists inherit RTL. Full stops land on the wrong side, numbering shows as '.1', and the checkbox sits alone above a long item.",
+     "fix": "Set lang='en' dir='ltr' and left alignment on source passages, English <li> items, English issue explanations and checklist labels. Lay checklists out as a grid with the box inline at the start.",
+     "acceptance": "In the #/writing/wa-05 Sources tab, passages are left-aligned with full stops at the ends of lines. The #/writing/we-10 plan is numbered '1.' on the left. At 390, checklist items line up with their boxes.",
+     "sources": [
+      "teacher-academic: English sources, explanations, plans and checklists render right-to-left",
+      "design-interaction: Bidi and layout details inside exercises (checklist)"
+     ]
+    },
+    {
+     "id": "RW-8",
+     "title": "Email mode does what it says",
+     "priority": "P1",
+     "problem": "The Email descriptor promises feedback on the email's purpose, its reader, and how it opens and closes, but the checks give none of it. A correct 23-word email gets '⚠ 23 words (at least 30)' and 'No connectors found'.",
+     "fix": "For the email and message kinds: drop the 30-word floor and the connector count. Check that a greeting and a sign-off are present and that there is one clear request (a question, please or could you). Reuse the email rules from RW-2. Add a model email and a self-check list. Reword the descriptor to match the real checks.",
+     "acceptance": "On #/writing/free in Email mode, a correct 23-word email gets no length or connector warning, and an email without a sign-off is flagged.",
+     "sources": [
+      "student-27: Email mode promises email-specific feedback that the automatic checks don't give, and misses until/by"
+     ]
+    },
+    {
+     "id": "RW-9",
+     "title": "Real life follows the learner's goals",
+     "priority": "P1",
+     "problem": "'כדאי להתחיל כאן — לפי הרמה והמטרות שלך' shows travel scenarios to learners with work or studies goals. The 'At work' category always comes last and shows its A2 items first. After a B2 work scenario, the suggested next scenario is an A2 one.",
+     "fix": "core/reallife.js: rank 'start here' by the learner's goals (work → the work module; everyday or conversation → social, with expressions surfaced), then by level fit. Put the category for the learner's goal first. Within a category, sort at-level items first, then just below, then far below. For the next scenario, prefer the same module at the closest level at or below the learner's before lower levels.",
+     "acceptance": "With the work goal at B2, the #/real-life start-here list shows work scenarios, 'בעבודה' is the first category, and its B2 items come first. Finishing rl-work-disagree-politely suggests a B1 or B2 work scenario.",
+     "sources": [
+      "student-58: No phone or supplier English in Real-Life, and recommendations ignore the 'work' goal",
+      "student-27: Real life ignores the learner's goal when ordering categories and items",
+      "student-27: \"Next scenario\" after a B2 work scenario is an A2 one",
+      "student-16: Real-life recommendations ignore my goals"
+     ]
+    },
+    {
+     "id": "RW-10",
+     "title": "Expressions screen: readable glosses, filters out of the way",
+     "priority": "P1",
+     "problem": "Numbered senses run inside one isolate ('(My manager is really chill. 3'), and each gloss is 3-5 lines of cobalt text. Four unlabelled segmented filters fill the first screen, so the first card starts at about 590px. Play buttons are 20x44px and speak their labels too ('Brilliant (UK)', '(ordering)').",
+     "fix": "slang.js: render numbered senses as an <ol>, with each English example on its own LTR line in --ink. Put the filters behind one 'סינון' button that opens labelled rows (register, region, level, sort). Make the play keys at least 44x44. Strip bracketed labels from data-say-text so only the expression or the example is spoken.",
+     "acceptance": "At 390 on #/expressions, the first card's top is under 300px, the 'Chill' senses are list items 1-3, the play keys measure at least 44x44, and the 'Brilliant (UK)' key's data-say-text is 'Brilliant'.",
+     "sources": [
+      "design-visual: Expressions glosses: item number swallowed into the English isolate",
+      "student-19: Expressions: filters fill the first screen; play buttons are 20 px wide",
+      "student-19: Expression play buttons would read their labels aloud",
+      "design-visual: Segmented controls without structure: empty track, staircase of filters"
+     ]
+    },
+    {
+     "id": "RW-11",
+     "title": "Scenario keeps its place and fits large text",
+     "priority": "P2",
+     "problem": "Leaving scenario practice at '3 מתוך 5' and coming back, or reloading, restarts at 1. At 150% the section switcher scrolls 'שיחה עם AI' off screen. The US/UK table runs RTL and squeezes its explanation column.",
+     "fix": "Save progress rl:<id> as { status:'started', turn, answers } after each turn, and on return offer 'להמשיך מתור 3 מתוך 5' and 'להתחיל מחדש'. At 130% and above, let the switcher wrap to two rows. Give the US/UK table dir='ltr', stack its rows below 30rem, and name the third column.",
+     "acceptance": "Answer 2 turns, go to Today and come back, and also reload: the scenario offers '3 מתוך 5'. At 390 and 150%, every switcher tab is visible, and the US/UK table reads without sideways scrolling.",
+     "sources": [
+      "student-19: Scenario practice forgets the turn after an interruption",
+      "ux-accessibility: At 150% text the scenario section switcher hides 'שיחה עם AI' off screen",
+      "design-visual: Small inconsistencies (US/UK table runs RTL)"
+     ]
+    },
+    {
+     "id": "RW-12",
+     "title": "Writing lab cards and task details",
+     "priority": "P2",
+     "problem": "Stage cards show bare counts ('3'), reuse the CEFR chip for the step number, and have no chevron. Stated word ranges differ from the checked ones (1,500-2,000 against 1400-2200). The C2 final names internal ids (wa-08). The bands 'מעל היעד' and 'מעבר ליעד' are near-synonyms, and 'יתרון כפול' is obscure.",
+     "fix": "Show '4 משימות · 1 בוצעה' with a numeral style distinct from the CEFR chip and the outline chevron. Show both ranges: 'יעד 1,500-2,000 (מתקבל 1,400-2,200)'. Name assignments by title and tag already-written ones 'כתבתם את המטלה הזו ב-<date>'. Rename the bands 'מעט מעל היעד' and 'הרבה מעל היעד', rename 'יתרון כפול' to 'השוואה כפולה', and suggest 'cannot' for can't.",
+     "acceptance": "#/writing stage cards show labelled counts and chevrons. #/writing/final-C2 shows assignment titles, not ids, and both word ranges.",
+     "sources": [
+      "design-visual: Writing-lab stage cards: unlabelled counts and two layouts",
+      "teacher-academic: Word ranges disagree between the instructions and the checks",
+      "teacher-academic: Internal assignment IDs in the C2 final, with no memory of what was written",
+      "teacher-academic: Polish: band labels, card wording, stage counts, timer",
+      "teacher-bagrut: Path and copy details ('יתרון כפול')"
+     ]
+    }
+   ]
+  }
+ ],
+ "deferred": [
+  {
+   "title": "Bagrut track: units and exam date, weekly unseen texts with numbered paragraphs, open and closed questions, Bagrut-length writing",
+   "reason": "This is a new content programme. TF-4 makes goals visible now, and EX-6 numbers passage paragraphs. A later Bagrut track can offer an opt-in timer (PRODUCT.md allows opt-in timed writing) but no exam countdown on Today.",
+   "sources": [
+    "student-16: The Bagrut goal has almost no visible effect",
+    "teacher-bagrut: Reading questions are closed and literal; Bagrut question types are rare",
+    "teacher-bagrut: The 'בגרות' goal changes little; level finals don't resemble Bagrut tasks"
+   ]
+  },
+  {
+   "title": "Fresh per-level item bank, with an unseen reading text, for level checks",
+   "reason": "Verified in code: pool.js AUTO_TYPES leaves out 'read', and level checks reuse lesson exercises, so the finding is correct. Fixing it needs new content. LF-12 makes the result screen honest in the meantime.",
+   "sources": [
+    "teacher-bagrut: B1 level check has no reading and reuses lesson items verbatim"
+   ]
+  },
+  {
+   "title": "Work-communication writing strand (emails, messages, stand-up updates) and a work alternative to the B2 final",
+   "reason": "This is a new content programme. RW-8 makes the existing email mode honest and RW-9 ranks the existing work scenarios by goal.",
+   "sources": [
+    "student-27: No work-writing path: the Work goal only adds one scenario a day",
+    "student-27: Email mode promises email-specific feedback that the automatic checks don't give"
+   ]
+  },
+  {
+   "title": "'Speak on the spot' drill: prompt, preparation time, opt-in timer, transcript and filler count",
+   "reason": "This is a new feature. If built, the timer must be opt-in to respect PRODUCT.md's no-time-pressure rule.",
+   "sources": [
+    "student-27: The Speaking lab has nothing for speaking on the spot"
+   ]
+  },
+  {
+   "title": "A1-A2 phone and supplier track (spelling names and order numbers, prices, dates, asking someone to repeat)",
+   "reason": "This is a new content programme. RW-9 already ranks the existing work scenarios first for the work goal.",
+   "sources": [
+    "student-58: No phone or supplier English in Real-Life, and recommendations ignore the 'work' goal"
+   ]
+  },
+  {
+   "title": "University genres in the editor (abstract, data commentary, discussion, literature review) and a bring-your-own-assignment mode",
+   "reason": "This is new content plus a new feature. RW-5, RW-6 and RW-7 improve the existing academic tasks now.",
+   "sources": [
+    "teacher-academic: Coverage stops at the argumentative essay; university genres missing"
+   ]
+  },
+  {
+   "title": "Export an essay with its version history (PDF or .docx), and a printable progress report for teachers",
+   "reason": "This is a new feature. The device-wide JSON export already exists in Settings.",
+   "sources": [
+    "teacher-academic: No export or share of an essay with its versions",
+    "teacher-bagrut: wish for a printable or shareable progress summary"
+   ]
+  },
+  {
+   "title": "Trip phrasebook: save scenario phrases and expressions to review, offline",
+   "reason": "This is a new feature.",
+   "sources": [
+    "student-19: No way to save travel phrases or expressions for the trip"
+   ]
+  },
+  {
+   "title": "Extended listening texts of 1-2 minutes with 4-5 questions from B1",
+   "reason": "This is new content. PH-6 fixes how the existing listening items are browsed.",
+   "sources": [
+    "teacher-bagrut: Listening centre: short items, and B1 learners start at the alphabet"
+   ]
+  },
+  {
+   "title": "Recorded human audio for the core minimal pairs",
+   "reason": "These are new audio assets. SC-6 and PH-8 deal with silent devices now.",
+   "sources": [
+    "teacher-adult-efl: Listening items play silently when there is no English voice"
+   ]
+  },
+  {
+   "title": "Picture-game vocabulary rebuilt around adult survival words and A2-B1 picture sets",
+   "reason": "The sets are limited by the bundled Lucide icons, so this needs a content curation round. GM-3 already opens the games at the learner's level.",
+   "sources": [
+    "teacher-adult-efl: Picture-game vocabulary follows the available icons, not adult needs",
+    "teacher-bagrut: Games: mostly below level"
+   ]
+  },
+  {
+   "title": "Games: a 'words from this lesson' homework mode",
+   "reason": "This is a new feature.",
+   "sources": [
+    "teacher-bagrut: Games: mostly below level … no way to choose a lesson's word set"
+   ]
+  },
+  {
+   "title": "Word-order drill split into sub-types (adjective position, question inversion, adverb position, phrasal-verb object)",
+   "reason": "This needs error sub-type tags across all lesson content, and the lesson-flow lane is full this round. Next round.",
+   "sources": [
+    "teacher-adult-efl: The 'word order' drill is a grab-bag that includes untaught A2 grammar"
+   ]
+  },
+  {
+   "title": "Lesson writing tasks continue in the Writing lab as version 1",
+   "reason": "The change spans the lesson-flow lane (lesson.js) and the real-life-writing lane (essay.js), so it should be done after both merge. EX-11 makes the writing step honest now.",
+   "sources": [
+    "teacher-academic: Lesson writing tasks (discussion section, literature review) are one-shot and never reach the lab"
+   ]
+  },
+  {
+   "title": "Rotate writing-lab topics between consecutive stages",
+   "reason": "This is a content change for a later round.",
+   "sources": [
+    "teacher-academic: Topics repeat across stages, weakening the transfer check"
+   ]
+  },
+  {
+   "title": "One Hebrew form of address across all screens",
+   "reason": "This is a string sweep that touches every view file, which no single lane can own. Run it as one pass after the lanes merge, using the glossary and copy test from BL-8. Until then, lanes apply the glossary to the strings they already change.",
+   "sources": [
+    "ux-writing-mobile: Three ways of addressing the learner, often on one screen",
+    "ux-writing-mobile: \"חזרה\" means back, word review and lesson retries"
+   ]
+  },
+  {
+   "title": "Line and letter spacing, font choice, and a 'don't grade spelling' accommodation",
+   "reason": "These are new settings beyond this round. PH-4 adds the learning-support section with relaxed pace, and EX-7 widens spelling tolerance. Spelling stays graded where it is the learning target, as in dictation.",
+   "sources": [
+    "teacher-special-ed: No learning-support controls in Settings",
+    "teacher-special-ed: Spelling tolerance rejects typical dyslexic phonetic spellings"
+   ]
+  },
+  {
+   "title": "Use the learner's own name in spelling practice",
+   "reason": "This is a personalisation feature with low priority.",
+   "sources": [
+    "teacher-adult-efl: The learner's own name is not used in spelling practice"
+   ]
+  },
+  {
+   "title": "American English choice in onboarding",
+   "reason": "english_variant already exists in Settings, so this is a small step for a later round.",
+   "sources": [
+    "student-68: wish to have American English offered at the start"
+   ]
+  },
+  {
+   "title": "Open Help as an overlay inside the lesson",
+   "reason": "After LF-1, returning from Help shows resume as the primary key, so no progress is lost. An overlay can come later.",
+   "sources": [
+    "student-19: Reopening a lesson hides 'continue' (in-lesson help)",
+    "teacher-special-ed: Resume option is below the fold (open Help as an overlay)"
+   ]
+  },
+  {
+   "title": "'Continue scenario' card on Today",
+   "reason": "RW-11 saves the turn now. Showing it on Today crosses into the first-run-today lane, so it is left for the next round to keep the lanes independent.",
+   "sources": [
+    "student-19: Scenario practice forgets the turn after an interruption (Today card)"
+   ]
+  },
+  {
+   "title": "Dropped: start the birth-year list at the youngest allowed year",
+   "reason": "The list deliberately includes years under 16, so the age gate can refuse under-16s honestly; ux-research praised that refusal screen. Letting users type the year may come later.",
+   "sources": [
+    "student-58: Onboarding: no text-size choice, 13 px helper text … birth-year list starts at 2016"
+   ]
+  },
+  {
+   "title": "Partly dropped: keep the full app shell on the review empty state",
+   "reason": "#/review is a bare player route by design (router.js). PH-2 gives the empty state an h1, the A1-words action and an exit in a content-width column instead.",
+   "sources": [
+    "design-visual: Review empty state drops the app shell"
+   ]
+  },
+  {
+   "title": "Dropped: show a grammar level sooner",
+   "reason": "The rule of 6 or more answers on at least 2 different days is a product principle (architecture §4: demonstrated ability). TF-8 changes only the wording, showing the evidence collected so far.",
+   "sources": [
+    "student-27: Grammar shows \"Not yet assessed\" after 30+ grammar answers"
+   ]
+  },
+  {
+   "title": "Dropped: a second attempt on multiple-choice questions",
+   "reason": "A second try on MCQs mostly rewards guessing and weakens first-try evidence. LF-6 and EX-4 give a second try only on typed answers, where the hint helps the learner fix the answer.",
+   "sources": [
+    "teacher-special-ed: Single attempt in MCQs, and option taps behave differently on different screens"
+   ]
+  }
+ ],
+ "conflicts": [
+  "Speed bonuses: student-16 enjoyed the speed bonus and 'שיא חדש!', but ux-accessibility, teacher-special-ed, student-68, student-44, teacher-adult-efl, teacher-bagrut and student-19 objected to it. PRODUCT.md promises 'no time pressure except opt-in timed writing'. Decision: speed bonuses and auto-advance are off by default. An opt-in 'אתגר מהירות' switch brings the bonus back, and personal bests are kept per mode (GM-1, PH-4).",
+  "When an answer commits: design-interaction offered either 'tap = answer everywhere' or 'select then check everywhere'. student-58, student-68 and teacher-special-ed want select-then-check. Decision: lessons, review and scenario practice all select, then check (PH-2, RW-1). Games keep tap-to-answer as a fast-feedback format, but say 'הבחירה נבדקת מיד' and drop the lesson keycap look on touch (GM-6).",
+  "Hebrew first at Pre-A1/A1 against PRODUCT.md's 'English as the destination': ux-research, student-44, teacher-adult-efl and teacher-special-ed want Hebrew to lead. Decision: only the meta-text (instructions and explanations) switches to Hebrew-primary at full support. English target content (examples, options, passages, tables) stays primary and visible, and the fade by level from A2 upward is unchanged (BL-3).",
+  "10-minute days: student-19 and student-16 want their goal content inside the 10 minutes, while student-44, student-58, student-68 and student-27 want a bigger lesson part. Decision: a lesson part is never fewer than 4 exercises and the review is capped at 3 minutes (TF-3). The goal item is offered as an optional one-tap line outside the budget (TF-4).",
+  "Games for placed learners: student-16 and student-19 want every level open, but the product principle is demonstrated ability. Decision: unlock up to the course level, since placement is evidence; levels above it stay gated by 70% accuracy (GM-3).",
+  "A quick game in the daily plan (student-16) against the research-based session template: the game is offered under 'רוצים עוד?' after the plan, not inside it (TF-2).",
+  "English alignment inside Hebrew cards: design-visual wants short English titles to share the Hebrew right edge, while student-27, teacher-academic and student-44 want English content left-aligned. Both are adopted under one rule: short English lines share the Hebrew edge, and dedicated LTR content blocks (examples, passages, tables, sources, checklists) are left-aligned (BL-4).",
+  "Review empty state: design-visual wants the full shell, but router.js makes #/review a bare player route on purpose. The route stays bare, and the empty state gets a heading, an action and an exit (PH-2).",
+  "Evidence rules: student-27 wants the grammar level to appear sooner, but the 2-day evidence rule is kept because demonstrated ability over activity is a product principle. Only the wording changes (TF-8).",
+  "Spelling accommodation: teacher-special-ed asks that spelling not be graded, but spelling is the learning target in dictation. Decision: wider tolerance (2 edits in words of 6+ letters, US/UK pairs, explained 'almost'), with spelling still graded (EX-7).",
+  "Second attempts: teacher-special-ed wants a second try on MCQs as well as typed answers, but MCQ retries reward guessing. Decision: the second try is for typed answers only (LF-6, EX-4)."
+ ],
+ "split_note": "The coordinator split the synthesis lane 'bilingual-content' into 'bilingual-text' (helpers, CSS, copy) and 'lesson-content' (content files and validator) so the code and the large content edit run in parallel. File ownership stays disjoint."
+}

@@ -65,6 +65,22 @@ const STRINGS = {
   'ai.label': ['משוב AI יכול לטעות', 'AI feedback can be wrong'],
   'ai.report': ['דיווח על טעות', 'Report a mistake'],
   'ai.unavailable': ['תכונות ה-AI עוד לא זמינות באתר הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not available on this site yet. Automatic checks still work without them.'],
+
+  // ---- lane shell-components: new keys go here ----
+
+  // ---- lane lesson-flow: new keys go here ----
+
+  // ---- lane exercises: new keys go here ----
+
+  // ---- lane bilingual-text: new keys go here ----
+
+  // ---- lane first-run-today: new keys go here ----
+
+  // ---- lane practice-hubs: new keys go here ----
+
+  // ---- lane games: new keys go here ----
+
+  // ---- lane real-life-writing: new keys go here ----
 };
 
 let lang = 'he';

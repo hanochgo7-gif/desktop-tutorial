@@ -950,3 +950,40 @@ dialog.sheet > .panel { padding: var(--s5); }
 @media (hover: hover) { .mem-card:not(:disabled, .is-wrong):hover { border-color: var(--cobalt); } }
 @keyframes mem-flip { from { transform: scaleX(0.2); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .mem-card.is-up > :not(.sr-only), .mem-card.is-wrong { animation: none; } }
+
+/* ================================================================
+   UX round 3: one block per work lane. A lane adds its NEW rules only
+   inside its own block, so parallel lanes merge without conflicts.
+   ================================================================ */
+
+/* ---- lane shell-components: start ---- */
+
+/* ---- lane shell-components: end ---- */
+
+/* ---- lane lesson-flow: start ---- */
+
+/* ---- lane lesson-flow: end ---- */
+
+/* ---- lane exercises: start ---- */
+
+/* ---- lane exercises: end ---- */
+
+/* ---- lane bilingual-text: start ---- */
+
+/* ---- lane bilingual-text: end ---- */
+
+/* ---- lane first-run-today: start ---- */
+
+/* ---- lane first-run-today: end ---- */
+
+/* ---- lane practice-hubs: start ---- */
+
+/* ---- lane practice-hubs: end ---- */
+
+/* ---- lane games: start ---- */
+
+/* ---- lane games: end ---- */
+
+/* ---- lane real-life-writing: start ---- */
+
+/* ---- lane real-life-writing: end ---- */
