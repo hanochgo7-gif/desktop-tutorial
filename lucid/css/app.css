@@ -1027,6 +1027,16 @@ dialog.sheet > .panel { padding: var(--s5); }
 .ex-say { display: inline-block; vertical-align: middle; }
 @media (pointer: coarse) { .opt-row > .key.icon-only, .ex-say > .key.icon-only, .match-row .key.icon-only { width: 2.75rem; min-height: 2.75rem; } }
 
+/* The lesson writing step (EX-11): the key names what happens and how many words are still needed; the text
+   area grows with the text; the self-check list is a left-to-right grid, box then text. */
+.check-label { display: inline-grid; justify-items: center; line-height: 1.2; white-space: normal; }
+.check-need { font-size: var(--t-xs); font-weight: 500; }
+.ex-write { min-height: 10rem; field-sizing: content; max-height: 70dvh; }
+.self-check { display: grid; gap: var(--s3); text-align: left; }
+.self-check-item { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: var(--s3); font-size: var(--t-sm); line-height: 1.5; cursor: pointer; }
+.self-check-item input { width: 1.15rem; height: 1.15rem; margin: 0.15em 0 0; }
+@media (pointer: coarse) { .self-check-item { min-height: 2.75rem; } }
+
 /* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
 .word-diff .w-slip { color: var(--ink); }
 .w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }

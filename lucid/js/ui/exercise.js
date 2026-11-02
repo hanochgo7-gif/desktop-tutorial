@@ -689,14 +689,31 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
 
     case 'write': {
       ctl.graded = false;
+      // Nothing is sent, so the key says what happens: "Save and check" (P2 EX-11). It stays off, saying how many
+      // words are still needed, until the text has max(10, 25% of the minimum) words (never more than the minimum).
+      const need = ex.min_words ? Math.min(ex.min_words, Math.max(10, Math.ceil(ex.min_words * 0.25))) : 3;
       render(root, html`${prompt}
         <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en" dir="ltr">${w}</span> `)}</p>` : ''}</div>
         <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלך', 'Your text')}</label>
-        <textarea class="input" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4);min-height:10rem" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
+        <textarea class="input ex-write" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4)" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
         <p class="small faint num" data-wc>0 ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}</p>`);
       const ta = $('textarea', root);
-      offs.push(on(root, 'input', 'textarea', () => { const n = countWords(ta.value); $('[data-wc]', root).textContent = `${n} ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}`; onChange(n >= Math.min(ex.min_words, 3)); }));
-      ctl.ready = () => countWords(ta.value) >= Math.min(ex.min_words, 3);
+      const label = () => {
+        const b = root.closest('.player')?.querySelector('[data-check]');
+        if (!b) return;
+        let l = $('[data-check-label]', b);
+        if (!l) {
+          [...b.childNodes].filter((nd) => nd.nodeType === 3).forEach((nd) => nd.remove());
+          b.insertAdjacentHTML('afterbegin', '<span class="check-label" data-check-label></span>');
+          l = $('[data-check-label]', b);
+        }
+        const left = need - countWords(ta.value);
+        render(l, html`<span>${tt('שמירה ובדיקה', 'Save and check')}</span>${left > 0 ? html`<small class="check-need">${left === 1 ? tt('עוד מילה אחת', '1 more word') : tt(`עוד ${left} מילים`, `${left} more words`)}</small>` : ''}`);
+      };
+      // The player draws its footer after the exercise, so the key is named once it is there.
+      queueMicrotask(label);
+      offs.push(on(root, 'input', 'textarea', () => { const n = countWords(ta.value); $('[data-wc]', root).textContent = `${n} ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}`; onChange(n >= need); label(); }));
+      ctl.ready = () => countWords(ta.value) >= need;
       ctl.check = async () => {
         ta.readOnly = true;
         const text = ta.value;
@@ -708,7 +725,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
             ${a.checks.map((c) => html`<div class="row small">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}
             ${issues.map((i) => html`<div class="small"><span class="tag warn">${tt(i.he_title, i.title)}</span> <span lang="en" dir="ltr">“${i.match}”</span> ${hebrewSupport() !== 'off' ? html`<span class="muted">${tt(i.he, i.en)}</span>` : html`<span class="muted">${i.en}</span>`}</div>`)}
             <p class="xsmall faint">${tt('אלה בדיקות אוטומטיות פשוטות, לא ציון. משוב מלא יש במעבדת הכתיבה.', 'These are simple automatic checks, not a grade. Full feedback is in the Writing lab.')}</p></div>
-          <div class="panel flat stack-sm"><h3 class="small">${tt('בדקו את עצמכם', 'Check yourself')}</h3>${ex.checklist.map((c) => html`<label class="row small"><input type="checkbox"> ${bi(c)}</label>`)}</div>
+          <div class="panel flat stack-sm"><h3 class="small">${tt('בדקו את עצמכם', 'Check yourself')}</h3><div class="self-check" dir="ltr">${ex.checklist.map((c) => html`<label class="self-check-item"><input type="checkbox"><span class="self-check-text">${bi(c)}</span></label>`)}</div></div>
           <details class="panel flat"><summary>${tt('דוגמה לתשובה', 'A model answer')}</summary><p lang="en" dir="ltr" style="margin-top:var(--s3)">${ex.model_answer}</p></details></div>`);
         return { graded: false, correct: a.passedRequired, score: null, response: text, writing: true };
       };
