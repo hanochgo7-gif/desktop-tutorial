@@ -1023,6 +1023,8 @@ dialog.sheet > .panel { padding: var(--s5); }
 .vocab-detail .tag { white-space: normal; max-width: 100%; }
 .vocab-ex { display: flex; align-items: center; gap: var(--s2); }
 .vocab-more { margin-block-start: var(--s3); }
+/* Speaking lab (PH-8): a shadowing sentence is an English block, left to right from the left edge. */
+.shadow-sentence { display: block; font-weight: 500; text-align: left; }
 @container (max-width: 17rem) { .vocab-row-when { grid-column: 2; grid-row: 2; } .vocab-row .chev { grid-row: 1; grid-column: 4; } }
 @container (max-width: 17rem) {
   .lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }

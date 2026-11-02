@@ -13,7 +13,7 @@ const LABS = [
   ['grammar', 'grammar', 'nav.grammar', 'כל נושא דקדוק, כמה הוא יושב, ותרגול ממוקד', 'Every grammar topic, how secure it is, and focused practice'],
   ['reading', 'reading', 'nav.reading', 'טקסטים מדורגים עם שאלות הבנה', 'Graded texts with comprehension questions'],
   ['listening', 'listening', 'nav.listening', 'האזנה, הכתבה ושליטה במהירות', 'Listening, dictation and speed control'],
-  ['speaking', 'speaking', 'nav.speaking', 'צלילים שמשנים משמעות, וחזרה אחרי דובר', 'Sounds that change meaning, and shadowing'],
+  ['speaking', 'speaking', 'nav.speaking', 'צלילים שמשנים משמעות, ומשפטים שאומרים אחרי הדובר', 'Sounds that change meaning, and shadowing'],
   ['writing', 'writing', 'nav.writing', 'מהמשפט הראשון ועד חיבור טיעוני מלא', 'From the first sentence to a full argumentative essay'],
   ['tutor', 'tutor', 'nav.tutor', 'מורה שמסביר, שואל ומתקן, בשמונה מצבים', 'A tutor who explains, asks and corrects, in eight modes'],
 ];

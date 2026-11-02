@@ -3,11 +3,12 @@
 // from the lessons in the focused player; (c) an honest note on what speech recognition can and
 // cannot judge. Nothing here is an accent score: feedback is about being understood.
 import { html, render, on, $, shuffle } from '../core/util.js';
-import { tt, t, bi, hebrewSupport, legend, isolateLatin } from '../core/i18n.js';
+import { tt, t, bi, hebrewSupport, legend, isolateLatin, uiLang } from '../core/i18n.js';
 import { taxonomyIndex } from '../core/content.js';
 import { icon, mark, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, logEvent } from '../core/learner.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
+import * as speechMod from '../core/speech.js';
 import { normalize } from '../core/grading.js';
 import { gatherExercises, attemptsOn, itemHref, findItem, runPlayer, missingPlayer, hebrewReveal, groupByLevel, recommendedLevel, nextSuggestion } from '../ui/center.js';
 import { levelIndex } from '../core/adaptive.js';
@@ -21,32 +22,32 @@ export const SOUND_SETS = [
   {
     id: 'ih-ee', label: '/ɪ/ – /iː/', words: 'ship / sheep',
     pairs: [[W('ship', '/ʃɪp/', 'ספינה'), W('sheep', '/ʃiːp/', 'כבשה')], [W('live', '/lɪv/', 'לגור, לחיות'), W('leave', '/liːv/', 'לעזוב')], [W('fill', '/fɪl/', 'למלא'), W('feel', '/fiːl/', 'להרגיש')], [W('bit', '/bɪt/', 'קצת, חתיכה'), W('beat', '/biːt/', 'לנצח, להכות')]],
-    tip: { en: 'For /iː/ (sheep) spread your lips as if smiling and hold the sound a little longer; for /ɪ/ (ship) relax your lips and keep it short, slightly towards "e".', he: `ב-${L('/iː/ (sheep)')} מותחים את השפתיים כמו בחיוך ומאריכים מעט את הצליל; ב-${L('/ɪ/ (ship)')} השפתיים רפויות והצליל קצר, קצת לכיוון ״אֶ״.` },
+    tip: { en: 'For /iː/ (sheep) spread your lips as if smiling and hold the sound a little longer; for /ɪ/ (ship) relax your lips and keep it short, slightly towards "e".', he: `מותחים את השפתיים כמו בחיוך ומאריכים מעט את הצליל: ${L('sheep /iː/')}. השפתיים רפויות והצליל קצר, קצת לכיוון ״אֶ״: ${L('ship /ɪ/')}.` },
   },
   {
     id: 'ae-uh-e', label: '/æ/ – /ʌ/ – /e/', words: 'cat / cut / bed',
     pairs: [[W('cat', '/kæt/', 'חתול'), W('cut', '/kʌt/', 'לחתוך')], [W('bad', '/bæd/', 'רע'), W('bed', '/bed/', 'מיטה')], [W('hat', '/hæt/', 'כובע'), W('hut', '/hʌt/', 'בקתה')]],
-    tip: { en: '/æ/ (cat): drop your jaw and spread your lips, between Hebrew "a" and "e". /ʌ/ (cut): a short, relaxed "a" from the middle of the mouth. /e/ (bed): close to Hebrew "e".', he: `${L('/æ/ (cat)')}: מורידים את הלסת ומותחים את השפתיים, צליל שבין ״אַ״ ל״אֶ״. ${L('/ʌ/ (cut)')}: ״אַ״ קצרה ורפויה מאמצע הפה. ${L('/e/ (bed)')}: קרוב ל״אֶ״ בעברית.` },
+    tip: { en: '/æ/ (cat): drop your jaw and spread your lips, between Hebrew "a" and "e". /ʌ/ (cut): a short, relaxed "a" from the middle of the mouth. /e/ (bed): close to Hebrew "e".', he: `מורידים את הלסת ומותחים את השפתיים, צליל שבין ״אַ״ ל״אֶ״: ${L('cat /æ/')}. ״אַ״ קצרה ורפויה מאמצע הפה: ${L('cut /ʌ/')}. קרוב ל״אֶ״ בעברית: ${L('bed /e/')}.` },
   },
   {
     id: 'th-s-t', label: '/θ/ – /s/ – /t/', words: 'think / sink / tank',
     pairs: [[W('think', '/θɪŋk/', 'לחשוב'), W('sink', '/sɪŋk/', 'כיור')], [W('three', '/θriː/', 'שלוש'), W('tree', '/triː/', 'עץ')], [W('thank', '/θæŋk/', 'להודות'), W('tank', '/tæŋk/', 'מכל, טנק')]],
-    tip: { en: 'Put the tip of your tongue lightly between your front teeth and blow out gently, with no voice. If the tongue stays behind the teeth, you get /s/ or /t/.', he: `מניחים את קצה הלשון בעדינות בין השיניים הקדמיות ונושפים, בלי קול. אם הלשון נשארת מאחורי השיניים, יוצא ${L('/s/')} או ${L('/t/')}.` },
+    tip: { en: 'Put the tip of your tongue lightly between your front teeth and blow out gently, with no voice. If the tongue stays behind the teeth, you get /s/ or /t/.', he: `מניחים את קצה הלשון בעדינות בין השיניים הקדמיות ונושפים, בלי קול: ${L('think /θ/')}. אם הלשון נשארת מאחורי השיניים, יוצא ${L('sink /s/')} או ${L('tank /t/')}.` },
   },
   {
     id: 'dh-d', label: '/ð/ – /d/', words: 'they / day',
     pairs: [[W('they', '/ðeɪ/', 'הם, הן'), W('day', '/deɪ/', 'יום')], [W('then', '/ðen/', 'אז'), W('den', '/den/', 'מאורה')]],
-    tip: { en: 'Same tongue position as /θ/, between the teeth, but with your voice on: you should feel a buzz. Pressing the tongue behind the teeth gives /d/.', he: `אותה תנוחת לשון כמו ב-${L('/θ/')}, בין השיניים, אבל עם קול: מרגישים זמזום. כשהלשון נלחצת מאחורי השיניים, יוצא ${L('/d/')}.` },
+    tip: { en: 'Same tongue position as /θ/, between the teeth, but with your voice on: you should feel a buzz. Pressing the tongue behind the teeth gives /d/.', he: `הלשון בין השיניים, כמו ב-${L('think')}, אבל עם קול: מרגישים זמזום, ${L('they /ð/')}. כשהלשון נלחצת מאחורי השיניים, יוצא ${L('day /d/')}.` },
   },
   {
     id: 'w-v', label: '/w/ – /v/', words: 'wine / vine',
     pairs: [[W('wine', '/waɪn/', 'יין'), W('vine', '/vaɪn/', 'גפן')], [W('west', '/west/', 'מערב'), W('vest', '/vest/', 'אפוד')], [W('wet', '/wet/', 'רטוב'), W('vet', '/vet/', 'וטרינר')]],
-    tip: { en: 'For /w/ round your lips as for a short "oo" and keep your teeth off them; for /v/ your top teeth rest lightly on your bottom lip.', he: `ב-${L('/w/')} מעגלים את השפתיים כמו ל״אוּ״ קצרה, בלי שהשיניים ייגעו בהן; ב-${L('/v/')} השיניים העליונות נוגעות קלות בשפה התחתונה.` },
+    tip: { en: 'For /w/ round your lips as for a short "oo" and keep your teeth off them; for /v/ your top teeth rest lightly on your bottom lip.', he: `מעגלים את השפתיים כמו ל״אוּ״ קצרה, בלי שהשיניים ייגעו בהן: ${L('wine /w/')}. השיניים העליונות נוגעות קלות בשפה התחתונה: ${L('vine /v/')}.` },
   },
   {
     id: 'u-uu', label: '/ʊ/ – /uː/', words: 'full / fool',
     pairs: [[W('full', '/fʊl/', 'מלא'), W('fool', '/fuːl/', 'טיפש')], [W('pull', '/pʊl/', 'למשוך'), W('pool', '/puːl/', 'בריכה')]],
-    tip: { en: '/uː/ (fool): round your lips tightly and hold the sound longer. /ʊ/ (full): looser lips, a short and relaxed sound.', he: `${L('/uː/ (fool)')}: מעגלים את השפתיים חזק ומאריכים את הצליל. ${L('/ʊ/ (full)')}: שפתיים רפויות יותר, צליל קצר ורגוע.` },
+    tip: { en: '/uː/ (fool): round your lips tightly and hold the sound longer. /ʊ/ (full): looser lips, a short and relaxed sound.', he: `מעגלים את השפתיים חזק ומאריכים את הצליל: ${L('fool /uː/')}. שפתיים רפויות יותר, צליל קצר ורגוע: ${L('full /ʊ/')}.` },
   },
 ];
 const ROUND = 8;
@@ -58,6 +59,42 @@ function newRound(set) {
   let pool = [];
   while (pool.length < ROUND) pool = pool.concat(shuffle(all, Math.random()));
   return { items: pool.slice(0, ROUND), i: 0, right: 0, played: false, picked: null, done: false };
+}
+
+// Whether the device has an English voice (PH-8). speech.js may offer hasEnglishVoice() (the shell lane adds it);
+// otherwise the voice list is read here, once it has loaded.
+async function englishVoice() {
+  if (typeof speechMod.hasEnglishVoice === 'function') return Boolean(await speechMod.hasEnglishVoice());
+  const synth = globalThis.speechSynthesis;
+  if (!synth) return false;
+  let list = synth.getVoices();
+  if (!list.length) {
+    list = await new Promise((resolve) => {
+      const t = setTimeout(() => resolve(synth.getVoices()), 1500);
+      synth.addEventListener?.('voiceschanged', () => { clearTimeout(t); resolve(synth.getVoices()); }, { once: true });
+    });
+  }
+  return list.some((v) => /^en\b/i.test(String(v.lang || '').replace('_', '-')));
+}
+
+// Plays a word and resolves true once speech has actually started: the shell's 'lucid:speech' start event when
+// speech.js sends one, or the browser reporting that it is speaking. False when it failed or stayed silent.
+function playAndConfirm(word, opts) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (ok) => {
+      if (settled) return;
+      settled = true;
+      document.removeEventListener('lucid:speech', onSpeech);
+      clearInterval(poll); clearTimeout(timer);
+      resolve(ok);
+    };
+    const onSpeech = (e) => { const st = e.detail?.state; if (st === 'start') finish(true); else if (st === 'error' || st === 'silent') finish(false); };
+    document.addEventListener('lucid:speech', onSpeech);
+    const poll = setInterval(() => { if (globalThis.speechSynthesis?.speaking) finish(true); }, 80);
+    const timer = setTimeout(() => finish(false), 2000);
+    say(word, opts).then((ok) => finish(Boolean(ok)), () => finish(false));
+  });
 }
 
 // Exact word comparison: the general word matcher forgives one-letter slips in longer words, which
@@ -90,6 +127,7 @@ export default async function speaking(el, ctx) {
   let speak = { target: set.pairs[0][1].w, status: 'idle' };
   let loggedSay = false;
   let alive = true;
+  let voiceOk = null; // null while checking; false: no English voice on this device (PH-8)
   const wordInfo = (w) => set.pairs.flat().find((x) => x.w === w);
   const partnerOf = (w) => { const p = set.pairs.find((x) => x.some((y) => y.w === w)); return p ? p.find((y) => y.w !== w).w : ''; };
   const refocus = (sel) => $(sel, el)?.focus();
@@ -114,6 +152,10 @@ export default async function speaking(el, ctx) {
       render(box, html`${head}<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא יכול להשמיע מילים, ולכן תרגיל ההאזנה לא זמין כאן. הטיפ והזוגות למעלה עדיין רלוונטיים, ואפשר לנסות ב-Chrome, Edge או Safari.', 'This browser cannot play words aloud, so the listening drill is not available here. The tip and pairs above still apply; try Chrome, Edge or Safari.')}</span></p>`);
       return;
     }
+    // No English voice on this device (PH-8): the words would play silently or in another language, so the answers
+    // stay closed and nothing is recorded.
+    const noVoice = voiceOk === false;
+    const voiceBanner = noVoice ? html`<p class="banner warn small" data-no-voice>${icon('alert', { size: 18 })}<span>${isolateLatin(tt('בדפדפן הזה אין קול באנגלית, ולכן המילים לא יושמעו. כפתורי התשובה נשארים סגורים ושום תוצאה לא נשמרת. אפשר להוסיף קול אנגלי בהגדרות השפה של המכשיר, או לנסות ב-Chrome, Edge או Safari.', 'This browser has no English voice, so the words cannot play. The answer buttons stay closed and nothing is recorded. You can add an English voice in your device\'s language settings, or try Chrome, Edge or Safari.'))}</span></p>` : '';
     if (hear.done) {
       const all = hear.right === hear.items.length;
       render(box, html`${head}
@@ -127,20 +169,21 @@ export default async function speaking(el, ctx) {
     const answered = hear.picked != null;
     const said = pair[it.wi];
     const other = pair[1 - it.wi];
-    render(box, html`${head}
+    render(box, html`${head}${voiceBanner}
       <p class="small muted">${tt('לחצו על השמעה ובחרו את המילה ששמעתם.', 'Press play, then choose the word you heard.')}</p>
-      <div class="row">
-        <button type="button" class="key ${hear.played ? '' : 'enter'}" data-hear-play>${icon('volume', { size: 18 })} ${hear.played ? tt('להשמיע שוב', 'Play again') : tt('השמעת המילה', 'Play the word')}</button>
+      ${noVoice ? '' : html`<div class="row">
+        <button type="button" class="key ${hear.played ? '' : 'enter'}" data-hear-play ${hear.starting ? html`aria-busy="true"` : ''}>${icon('volume', { size: 18 })} ${hear.played ? tt('להשמיע שוב', 'Play again') : tt('השמעת המילה', 'Play the word')}</button>
         ${hear.played ? html`<button type="button" class="key ghost small" data-hear-slow>${icon('turtle', { size: 18 })} ${tt('לאט', 'Slowly')}</button>` : ''}
-      </div>
-      <div class="match-grid" role="group" aria-labelledby="sp-hear-h">${pair.map((x, k) => html`<button type="button" class="option ${answered ? (k === it.wi ? 'is-right' : k === hear.picked ? 'is-wrong' : '') : ''}" data-hear-pick="${k}" ${!hear.played || answered ? html`disabled` : ''} style="justify-content:center">
+      </div>`}
+      ${hear.silent && !hear.played ? html`<p class="small error-text" role="status" data-hear-silent>${tt('המילה לא הושמעה. בדקו את עוצמת הקול ומצב שקט, ונסו שוב.', 'The word did not play. Check the volume and silent mode, then try again.')}</p>` : ''}
+      <div class="match-grid" role="group" aria-labelledby="sp-hear-h">${pair.map((x, k) => html`<button type="button" class="option ${answered ? (k === it.wi ? 'is-right' : k === hear.picked ? 'is-wrong' : '') : ''}" data-hear-pick="${k}" ${noVoice || !hear.played || answered ? html`disabled` : ''} style="justify-content:center">
         <span lang="en" dir="ltr" style="font-weight:600;font-size:var(--t-lg)">${x.w}</span></button>`)}</div>
       <div aria-live="polite">${answered
         ? html`<div class="stack-sm"><p class="row small"><span class="tag ${hear.picked === it.wi ? 'ok' : 'bad'}">${icon(hear.picked === it.wi ? 'check' : 'x', { size: 14 })} ${hear.picked === it.wi ? tt('נכון', 'Correct') : tt('לא בדיוק', 'Not quite')}</span>
             <span>${tt('המילה הייתה', 'The word was')} ${enq(said.w)} <span class="entry-ipa" lang="en" dir="ltr">${said.ipa}</span> <span lang="he" dir="rtl" class="entry-he">${said.he}</span>${hear.picked === it.wi ? '' : html`, ${tt('ולא', 'not')} ${enq(other.w)} <span lang="he" dir="rtl" class="entry-he">${other.he}</span>`}.</span></p>
           <div class="row"><span class="xsmall faint">${tt('להשוות:', 'Compare:')}</span>${pair.map((x) => html`<button type="button" class="key ghost small" data-say-word="${x.w}">${icon('volume', { size: 16 })} <span lang="en" dir="ltr">${x.w}</span></button>`)}
             <span class="grow"></span><button type="button" class="key enter" data-hear-next>${hear.i + 1 < hear.items.length ? tt('המילה הבאה', 'Next word') : tt('לתוצאה', 'See the result')}</button></div></div>`
-        : !hear.played ? html`<p class="xsmall faint">${tt('הכפתורים נפתחים אחרי שמקשיבים למילה.', 'The answer buttons open once you have heard the word.')}</p>` : ''}</div>`);
+        : !hear.played && !noVoice ? html`<p class="xsmall faint">${tt('הכפתורים נפתחים אחרי שמקשיבים למילה.', 'The answer buttons open once you have heard the word.')}</p>` : ''}</div>`);
   }
 
   function sayResult() {
@@ -180,8 +223,8 @@ export default async function speaking(el, ctx) {
     const done = attemptsOn(attempts, item).length > 0;
     return html`<li><a class="lesson-row three" href="${itemHref('speaking', item)}">
       ${mark(done ? 'completed' : '')}
-      <span class="grow"><span style="display:block;font-weight:500"><span lang="en" dir="ltr">${item.ex.target}</span></span>
-        <span class="meta" style="display:block"><span lang="en" dir="ltr">${item.lesson.title_en}</span></span></span>
+      <span class="grow"><span class="shadow-sentence" lang="en" dir="ltr">${item.ex.target}</span>
+        <span class="meta" style="display:block">${uiLang() === 'he' && item.lesson.title_he ? isolateLatin(item.lesson.title_he) : html`<span lang="en" dir="ltr">${item.lesson.title_en}</span>`}</span></span>
       ${levelTag(item.lesson.level)}
     </a></li>`;
   }
@@ -192,7 +235,7 @@ export default async function speaking(el, ctx) {
   function drawShadow() {
     const m = model();
     if (!items.length) {
-      render($('#sp-shadow-list', el), emptyState({ title: tt('עוד אין משפטים לשאדואינג', 'No shadowing sentences yet'), body: tt('משפטים לחזרה בקול מגיעים עם השיעורים. בינתיים אפשר לתרגל את הצלילים למעלה.', 'Sentences to repeat aloud come with the lessons. Meanwhile, practise the sounds above.') }));
+      render($('#sp-shadow-list', el), emptyState({ title: tt('עוד אין משפטים לומר אחרי הדובר', 'No shadowing sentences yet'), body: tt('משפטים לומר בקול אחרי הדובר מגיעים עם השיעורים. בינתיים אפשר לתרגל את הצלילים למעלה.', 'Sentences to repeat aloud come with the lessons. Meanwhile, practise the sounds above.') }));
       return;
     }
     const groups = groupByLevel(items);
@@ -215,7 +258,7 @@ export default async function speaking(el, ctx) {
   }
 
   render(el, html`
-    <div class="page-head"><div><h1>${t('nav.speaking')}</h1><p>${tt('צלילים שמשנים משמעות, חזרה בקול אחרי משפטים מהשיעורים, ומשוב על איך שנשמעתם. המטרה: שיבינו אתכם.', 'Sounds that change meaning, repeating sentences from your lessons, and feedback on how you were heard. The goal: being understood.')}</p></div></div>
+    <div class="page-head"><div><h1>${t('nav.speaking')}</h1><p>${tt('צלילים שמשנים משמעות, משפטים מהשיעורים שאומרים בקול אחרי הדובר, ומשוב על איך שנשמעתם. המטרה: שיבינו אתכם.', 'Sounds that change meaning, repeating sentences from your lessons, and feedback on how you were heard. The goal: being understood.')}</p></div></div>
     <div class="stack-lg">
       <section class="stack" aria-labelledby="sp-pairs">
         <div class="stack-sm"><h2 id="sp-pairs">${tt('צלילים שמשנים משמעות', 'Sounds that change meaning')}</h2>
@@ -228,7 +271,7 @@ export default async function speaking(el, ctx) {
         </div>
       </section>
       <section class="stack-sm" aria-labelledby="sp-shadow">
-        <h2 id="sp-shadow">${tt('שאדואינג: חזרה אחרי משפטים', 'Shadowing')}</h2>
+        <h2 id="sp-shadow">${isolateLatin(tt('חוזרים אחרי הדובר (shadowing)', 'Shadowing: repeat after the speaker'))}</h2>
         <p class="small muted">${tt('שומעים משפט מהשיעורים ואומרים אותו מיד אחריו, באותו קצב ובאותה מנגינה.', 'Hear a sentence from your lessons and say it straight after, with the same rhythm and tune.')}</p>
         <div id="sp-shadow-list"></div>
       </section>
@@ -239,6 +282,7 @@ export default async function speaking(el, ctx) {
       </section>
     </div>`);
   drawSet(); drawHear(); drawSay(); drawShadow();
+  if (canSpeak()) englishVoice().then((ok) => { voiceOk = ok; if (alive && !ok) drawHear(); }).catch(() => {});
   ctx.watch(['attempts'], drawShadow);
 
   function chooseSet(id) {
@@ -285,7 +329,19 @@ export default async function speaking(el, ctx) {
   const offs = [
     on(el, 'click', '[data-set]', (e, b) => chooseSet(b.dataset.set)),
     on(el, 'click', '[data-say-word]', (e, b) => say(b.dataset.sayWord, { variant })),
-    on(el, 'click', '[data-hear-play]', () => { const first = !hear.played; hear.played = true; playCurrent(); if (first) { drawHear(); refocus('[data-hear-play]'); } }),
+    // The answers open only once the word has really started playing (PH-8), never on the press alone.
+    on(el, 'click', '[data-hear-play]', async () => {
+      if (hear.starting || voiceOk === false) return;
+      const round = hear; const at = hear.i;
+      const it = hear.items[hear.i];
+      hear.starting = true; hear.silent = false;
+      const ok = await playAndConfirm(set.pairs[it.pi][it.wi].w, { variant });
+      if (!alive || hear !== round || hear.i !== at) return;
+      hear.starting = false;
+      if (ok && hear.played) return;
+      if (ok) hear.played = true; else hear.silent = true;
+      drawHear(); refocus('[data-hear-play]');
+    }),
     on(el, 'click', '[data-hear-slow]', () => playCurrent(true)),
     on(el, 'click', '[data-hear-pick]', (e, b) => {
       if (b.disabled || hear.picked != null) return;
@@ -295,7 +351,7 @@ export default async function speaking(el, ctx) {
       drawHear(); refocus('[data-hear-next]');
     }),
     on(el, 'click', '[data-hear-next]', () => {
-      hear.i++; hear.picked = null; hear.played = false;
+      hear.i++; hear.picked = null; hear.played = false; hear.silent = false;
       if (hear.i >= hear.items.length) {
         hear.done = true;
         logEvent({ type: 'speaking', drill: 'minimal-pairs', sound: set.id, right: hear.right, count: hear.items.length });

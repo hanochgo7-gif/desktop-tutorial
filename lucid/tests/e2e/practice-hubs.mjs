@@ -347,6 +347,55 @@ try {
     await ctx.close();
   });
 
+  // ---------- PH-8 ----------
+  // A fake English voice: 'plays' starts speaking 50 ms after speak(); 'silent' lists a voice but never starts.
+  const fakeVoice = (mode) => `(() => {
+    window.SpeechSynthesisUtterance = class { constructor(text) { this.text = text; } };
+    const synth = { speaking: false, pending: false, paused: false,
+      getVoices: () => [{ lang: 'en-US', name: 'Fake English', default: true }],
+      addEventListener() {}, removeEventListener() {},
+      cancel() { this.speaking = false; },
+      speak(u) { if ('${mode}' === 'silent') return; setTimeout(() => { this.speaking = true; u.onstart?.(); setTimeout(() => { this.speaking = false; u.onend?.(); }, 300); }, 50); } };
+    Object.defineProperty(window, 'speechSynthesis', { value: synth, configurable: true });
+  })();`;
+  await check('PH-8. Speaking lab: with no English voice a banner and closed answers; answers open only once a word really plays; plain heading; shadowing left to right; the mouth before the IPA', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await go(page, 'speaking', '#sp-hear h3');
+    await page.waitForSelector('[data-no-voice]', { timeout: 5000 });
+    const keys = await page.$$eval('[data-hear-pick]', (b) => b.map((x) => x.disabled));
+    assert(keys.length === 2 && keys.every(Boolean), `answer keys with no voice: ${keys}`);
+    assert(!(await page.$('[data-hear-play]')), 'a play key with no English voice');
+    const head = (await page.textContent('#sp-shadow')).trim();
+    assert(head === 'חוזרים אחרי הדובר (shadowing)' && !/שאדואינג/.test(await page.textContent('#view')), `shadowing heading: ${head}`);
+    const sent = await page.$eval('#sp-shadow-list details[open] .shadow-sentence', (s) => { const r = s.getBoundingClientRect(); const range = document.createRange(); range.selectNodeContents(s); const t = range.getClientRects()[0]; return { dir: getComputedStyle(s).direction, align: getComputedStyle(s).textAlign, gap: Math.round(t.left - r.left) }; });
+    assert(sent.dir === 'ltr' && sent.align === 'left' && sent.gap <= 1, `shadowing sentence: ${JSON.stringify(sent)}`);
+    const tip = (await page.textContent('#sp-set .block-tip')).trim();
+    const he = await page.$eval('#sp-set .block-tip', (b) => [...b.querySelectorAll('[lang="he"], .bi-he')].map((x) => x.textContent.trim()).find((x) => /[א-ת]/.test(x)) || '');
+    assert(/^[א-ת]/.test(he) && he.indexOf('מותחים') < he.indexOf('/iː/'), `the Hebrew tip does not lead with the mouth: ${he || tip}`);
+    await shot(page, 'ph8-speaking-novoice-390', false);
+    const events = (await store(page, 'events')).filter((e) => e.drill === 'minimal-pairs').length;
+    assert(events === 0, 'a result was recorded without a voice');
+    await ctx.close();
+
+    const v = await newPage(browser, { init: fakeVoice('plays') });
+    await learnerAt(v.page, 'A2');
+    await go(v.page, 'speaking', '[data-hear-play]');
+    assert(!(await v.page.$('[data-no-voice]')), 'the no-voice banner shows with an English voice');
+    assert(await v.page.$$eval('[data-hear-pick]', (b) => b.every((x) => x.disabled)), 'answers open before playing');
+    await v.page.click('[data-hear-play]');
+    await v.page.waitForFunction(() => [...document.querySelectorAll('[data-hear-pick]')].every((x) => !x.disabled), null, { timeout: 4000 });
+    await v.ctx.close();
+
+    const s = await newPage(browser, { init: fakeVoice('silent') });
+    await learnerAt(s.page, 'A2');
+    await go(s.page, 'speaking', '[data-hear-play]');
+    await s.page.click('[data-hear-play]');
+    await s.page.waitForSelector('[data-hear-silent]', { timeout: 5000 });
+    assert(await s.page.$$eval('[data-hear-pick]', (b) => b.every((x) => x.disabled)), 'answers open although nothing played');
+    await s.ctx.close();
+  });
+
   // ---------- PH-10 ----------
   await check('PH-10. Settings: languages in their own names, equal-width data buttons, and a restore error that says what to choose', async () => {
     for (const viewport of [PHONE, DESKTOP]) {
