@@ -55,7 +55,8 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew the same present form covers habits and what is happening now, so it is easy to use the simple form for an action in progress. In English: I'm working at the moment (not 'I work at the moment').", "he": "בעברית אותה צורה משמשת גם להרגל וגם למה שקורה עכשיו, ולכן קל להשתמש בצורה הפשוטה גם לפעולה שמתרחשת עכשיו. באנגלית: I'm working at the moment.", "error_type": "tense-choice" },
     { "en": "In Hebrew the present tense has no 'be', so it is easy to drop am/is/are before -ing. In English: She is cooking, not 'She cooking'.", "he": "בעברית אין 'להיות' בהווה, ולכן קל לשכוח את am/is/are לפני ing. באנגלית: She is cooking.", "error_type": "copula-omission" },
-    { "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k, as in the Hebrew word for 'English'), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: working /ˈwɜːkɪŋ/.", "he": "בעברית /ŋ/ אינו צליל עצמאי (הוא מופיע רק לפני g או k, כמו ב'אנגלית'), ולכן ing עלול לצאת 'אין' או 'אינג-ג'. באנגלית ing מסתיים ב-/ŋ/ בלבד, בלי g אחריו: working." }
+    { "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k, as in the Hebrew word for 'English'), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: working /ˈwɜːkɪŋ/.", "he": "בעברית /ŋ/ אינו צליל עצמאי (הוא מופיע רק לפני g או k, כמו ב'אנגלית'), ולכן ing עלול לצאת 'אין' או 'אינג-ג'. באנגלית ing מסתיים ב-/ŋ/ בלבד, בלי g אחריו: working." },
+    { "en": "Hebrew waits 'to' something (mechakim le-), so learners write *waiting to the bus or drop the preposition: *waiting the bus. English uses for: I'm waiting for the bus.", "he": "בעברית מחכים ל-, ולכן קל לכתוב to אחרי wait, או לוותר על מילת היחס. באנגלית אחרי wait בא for: waiting for the bus.", "error_type": "preposition" }
   ],
   "exercises": [
     {
@@ -214,7 +215,8 @@
       "wrong_feedback": [
         { "match": "I wait for the bus now.", "feedback": { "en": "In Hebrew one present form covers 'wait' and 'am waiting'. For right now, English needs am + -ing: I'm waiting.", "he": "בעברית 'מחכה' מתאים גם ל-wait וגם ל-am waiting. למה שקורה עכשיו באנגלית צריך am + ing: I'm waiting." }, "error_type": "tense-choice" },
         { "match": "I waiting for the bus now.", "feedback": { "en": "Add am: I am (I'm) waiting.", "he": "הוסיפו am: I am (I'm) waiting." }, "error_type": "copula-omission" },
-        { "match": "I'm waiting to the bus now.", "feedback": { "en": "We wait for something: wait for the bus.", "he": "באנגלית אומרים wait for: wait for the bus." }, "error_type": "preposition" }
+        { "match": "I'm waiting to the bus now.", "feedback": { "en": "We wait for something: wait for the bus.", "he": "באנגלית אומרים wait for: wait for the bus." }, "error_type": "preposition" },
+        { "match": "I'm waiting the bus now.", "feedback": { "en": "wait needs for before the thing you are waiting for: I'm waiting for the bus now.", "he": "אחרי wait בא for לפני מה שמחכים לו: waiting for the bus." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Use am + -ing, add now at the end, and remember: wait for.", "he": "עכשיו = now. השתמשו ב-am + ing, וזכרו: wait for." },
       "explanation": { "en": "Now → present continuous: I'm waiting. Wait takes for: I'm waiting for the bus now.", "he": "עכשיו → הווה מתמשך (I'm waiting), ואחרי wait באה המילה for." }

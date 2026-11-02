@@ -59,7 +59,7 @@ export default async function path(el, ctx) {
           const p = m.progress.get(l.id);
           const isNext = !pending && m.next?.id === l.id;
           const body = html`${mark(p?.status)}<span class="ord">${l.order}</span>
-            <span class="grow">${legend(l.title_en, l.title_he)}<span class="meta" style="display:block" lang="en" dir="ltr">${l.can_do}</span></span>`;
+            <span class="grow">${legend(l.title_en, l.title_he)}<span class="meta" style="display:block" lang="en" dir="ltr">${l.can_do}</span>${l.can_do_he ? html`<span class="meta" style="display:block" lang="he" dir="rtl">${l.can_do_he}</span>` : ''}</span>`;
           if (available.size && !available.has(l.id)) {
             return html`<li><div class="lesson-row unwritten">${body}<span class="row small"><span class="tag">${icon('clock', { size: 14 })} ${tt('בהכנה', 'In preparation')}</span></span></div></li>`;
           }

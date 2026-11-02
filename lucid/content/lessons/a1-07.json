@@ -2,7 +2,7 @@
   "id": "a1-07",
   "level": "A1",
   "title_en": "a, an, the",
-  "title_he": "a, an, the",
+  "title_he": "המילים a, an, the",
   "topics": ["articles"],
   "minutes": 20,
   "objectives": [
@@ -149,6 +149,10 @@
       "answers": ["I am a student at Tel Aviv University."],
       "error_type": "article",
       "hint": { "en": "One small word is missing before the job.", "he": "חסרה מילה קטנה לפני המקצוע." },
+      "wrong_feedback": [
+        { "match": "I am the student at Tel Aviv University.", "feedback": { "en": "the student means one particular student we already know about. To say what you are (a job or a role), use a: I am a student at Tel Aviv University.", "he": "the student פירושו סטודנט מסוים שכבר מוכר לנו. כשאומרים מה אתם (מקצוע או תפקיד), משתמשים ב-a: I am a student." }, "error_type": "article" },
+        { "match": "I am an student at Tel Aviv University.", "feedback": { "en": "student starts with a consonant sound, so use a, not an: a student.", "he": "student מתחילה בצליל עיצור, ולכן a ולא an." }, "error_type": "article" }
+      ],
       "explanation": { "en": "One person's job needs a/an: I am a student. (Tel Aviv University is a name, so it has no article here.)", "he": "לפני מקצוע או תפקיד של אדם אחד צריך a/an: I am a student. לפני שם של מקום, כמו שם האוניברסיטה, אין כאן תווית." }
     },
     {
@@ -158,6 +162,9 @@
       "answers": ["We usually have lunch at one."],
       "error_type": "article",
       "hint": { "en": "Meals: breakfast, lunch, dinner.", "he": "ארוחות: breakfast, lunch, dinner." },
+      "wrong_feedback": [
+        { "match": "We usually have a lunch at one.", "feedback": { "en": "Meals in general take no article: have lunch, have dinner.", "he": "לפני ארוחות, כשמדברים באופן כללי, אין תווית בכלל: have lunch." }, "error_type": "article" }
+      ],
       "explanation": { "en": "We don't use an article with meals in general: have breakfast, have lunch, have dinner.", "he": "לפני ארוחות, כשמדברים באופן כללי, אין תווית: have breakfast, have lunch, have dinner." }
     },
     {

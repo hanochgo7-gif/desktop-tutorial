@@ -213,6 +213,9 @@
       "answers": ["My mum teaches English at a high school.", "My mum teaches English in a high school."],
       "error_type": "third-person-s",
       "hint": { "en": "my mum = she. The verb ends in -ch.", "he": "my mum = she – אדם אחד. והפועל מסתיים ב-ch." },
+      "wrong_feedback": [
+        { "match": "My mum is teach English at a high school.", "feedback": { "en": "Don't add is before the verb. teach is the verb, and with she it takes -es: My mum teaches English.", "he": "לא מוסיפים is לפני הפועל: teach הוא הפועל, ועם she הוא מקבל es – My mum teaches." }, "error_type": "verb-form" }
+      ],
       "explanation": { "en": "my mum = she, so the verb needs -es: teach → teaches (an extra syllable: TEACH-iz).", "he": "my mum = she, ולכן הפועל צריך es: teach → teaches (עם הברה נוספת: TEACH-iz)." }
     },
     {
@@ -221,6 +224,11 @@
       "sentence": "Sara studys English every evening.",
       "answers": ["Sara studies English every evening."],
       "error_type": "spelling",
+      "wrong_feedback": [
+        { "match": "Sara is study English every evening.", "feedback": { "en": "Don't add is before the verb. In the present simple the verb itself takes the ending: Sara studies English every evening.", "he": "לא מוסיפים is לפני הפועל: בהווה פשוט הפועל עצמו מקבל את הסיומת – Sara studies." }, "error_type": "verb-form" },
+        { "match": "Sara is studying English every evening.", "feedback": { "en": "every evening = a habit, so use the present simple, not the present continuous: Sara studies English every evening.", "he": "every evening מתאר הרגל, ולכן הווה פשוט ולא הווה מתמשך: Sara studies." }, "error_type": "tense-choice" },
+        { "match": "Sara study English every evening.", "feedback": { "en": "With she (Sara) the verb needs an ending, and consonant + y becomes -ies: studies.", "he": "עם she ‏(Sara) הפועל מקבל סיומת, ועיצור + y הופך ל-ies: studies." }, "error_type": "third-person-s" }
+      ],
       "explanation": { "en": "Consonant + y → ies: study → studies. (But vowel + y → s: play → plays.)", "he": "עיצור + y → ies: study → studies. (אבל תנועה + y → s: play → plays.)" }
     },
     {

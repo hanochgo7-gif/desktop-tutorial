@@ -38,7 +38,7 @@ English learning material (sentences, options, passages, answers) is always plai
 | `objectives` | Bilingual[] | 2-4 can-do statements |
 | `warmup` | Bilingual | one line that activates prior knowledge |
 | `explanation` | Block[] | see blocks below; concise, example-first |
-| `examples` | `{en, he?, note?}[]` | 5-10 model sentences |
+| `examples` | `{en, he?, note?, note_he?}[]` | 5-10 model sentences; `note_he` is the note in Hebrew (shown under it while Hebrew support is on) |
 | `vocab` | Vocab[] | 6-15 items added to the learner's notebook |
 | `hebrew_pitfalls` | `{en, he, error_type}[]` | L1-transfer traps relevant to this lesson |
 | `exercises` | Exercise[] | 10-16, easy to hard, mixing types and skills. Must include at least one input exercise (`read`, `listen` or `dictation`) and one free-production exercise (`write` or `speak`): input, brief explicit focus, controlled practice, free production, feedback (research C2, D13-D15). |
@@ -48,7 +48,11 @@ English learning material (sentences, options, passages, answers) is always plai
 Blocks: `{type: "p" | "rule" | "tip" | "warning", en, he?}`, `{type: "table", headers: string[], rows: string[][]}`,
 `{type: "examples", items: [{en, he?, note?}]}`.
 
-Vocab: `{word, pos, he, def, example, ipa?, collocations?: string[], level}`.
+Vocab: `{word, pos, he, def, example, example_he?, ipa?, collocations?: string[], level}`.
+
+Hebrew glosses state the claim (validator rule, UX round 3 BL-2): a `he` or `*_he` string may quote short English
+tokens but not more than one English sentence or more than 8 English words, and an `en` string has no Hebrew. Errors
+at Pre-A1 to B1, warnings above.
 
 ## Exercises
 

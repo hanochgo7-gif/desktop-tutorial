@@ -305,7 +305,7 @@ export function markWideTables(root) {
 }
 
 export function exampleRow(x) {
-  return html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${x.en}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}<div class="grow">${legend(x.en, hebrewSupport() === 'off' ? null : x.he)}${x.note ? html`<div class="note" lang="en" dir="ltr">${x.note}</div>` : ''}</div></div>`;
+  return html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${x.en}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}<div class="grow">${legend(x.en, hebrewSupport() === 'off' ? null : x.he)}${x.note ? html`<div class="note" lang="en" dir="ltr">${x.note}</div>` : ''}${x.note_he && hebrewSupport() !== 'off' ? html`<div class="note" lang="he" dir="rtl">${isolateLatin(x.note_he)}</div>` : ''}</div></div>`;
 }
 
 // A Hebrew-speaker pitfall: its own box, next to the rule it belongs to, with the English it is about to hear.
@@ -548,7 +548,7 @@ export default async function lessonView(el, ctx) {
   const wordRow = (v) => html`<div class="word-row">
     <div class="word-line">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}: ${v.word}">${icon('volume', { size: 18 })}</button>` : ''}<span class="entry-word" lang="en" dir="ltr">${v.word}</span><span class="faint small" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
     <div class="entry-he" lang="he" dir="rtl">${isolateLatin(v.he)}</div>
-    <div class="entry-ex" lang="en" dir="ltr">${v.example}</div></div>`;
+    <div class="entry-ex" lang="en" dir="ltr">${v.example}</div>${v.example_he && hebrewSupport() !== 'off' ? html`<div class="entry-ex" lang="he" dir="rtl">${isolateLatin(v.example_he)}</div>` : ''}</div>`;
   const blockOf = (u) => {
     const b = lesson.explanation[u.i];
     return u.rows ? { ...b, rows: b.rows.slice(...u.rows) } : b;

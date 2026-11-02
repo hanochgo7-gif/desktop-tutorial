@@ -189,6 +189,11 @@
       "answers": ["Omer usually goes to the gym after work.", "Usually Omer goes to the gym after work.", "Usually, Omer goes to the gym after work."],
       "error_type": "tense-choice",
       "hint": { "en": "Usually tells you it's a habit.", "he": "המילה usually מראה שזה הרגל." },
+      "wrong_feedback": [
+        { "match": "Omer usually is going to the gym after work.", "feedback": { "en": "A habit needs the present simple, with usually before the main verb: Omer usually goes to the gym after work.", "he": "להרגל משתמשים בהווה פשוט, ו-usually בא לפני הפועל הראשי: Omer usually goes." }, "error_type": "word-order" },
+        { "match": "Omer usually going to the gym after work.", "feedback": { "en": "A habit uses the present simple, with no -ing: Omer usually goes to the gym after work.", "he": "להרגל משתמשים בהווה פשוט, בלי ing: Omer usually goes." }, "error_type": "tense-choice" },
+        { "match": "Omer usually go to the gym after work.", "feedback": { "en": "With he (Omer) the present simple needs -es: Omer usually goes.", "he": "עם he ‏(Omer) בהווה פשוט מוסיפים es: goes." }, "error_type": "third-person-s" }
+      ],
       "explanation": { "en": "Usually = a habit → present simple: Omer usually goes. Usually comes before the main verb.", "he": "usually = הרגל → הווה פשוט: Omer usually goes. המילה usually באה לפני הפועל." }
     },
     {

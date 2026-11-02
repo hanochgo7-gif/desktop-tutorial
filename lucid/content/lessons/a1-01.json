@@ -50,7 +50,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live התנועה קצרה /lɪv/, וב-eat היא ארוכה /iːt/.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" },
+    { "en": "In Hebrew 'I agree' (ani maskim / maskima) has no 'be', and agree is a verb in English too, just like live or work. Learners often add am out of habit: say I agree, not *I am agree.", "he": "agree הוא פועל, בדיוק כמו live או work, ולכן אומרים I agree – בלי am. גם בעברית אין כאן 'להיות' ('אני מסכים'), אבל קל להוסיף am מתוך הרגל.", "error_type": "verb-form" }
   ],
   "exercises": [
     {

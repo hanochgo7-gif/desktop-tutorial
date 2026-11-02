@@ -55,7 +55,8 @@
   "hebrew_pitfalls": [
     { "en": "In the Hebrew present tense, 'I' and 'he' use the same verb form. So it is easy to forget the English -s, especially when a word comes between the subject and the verb: She usually gets up at seven (not 'She usually get up').", "he": "בעברית הפועל בהווה זהה ל'אני' ול'הוא' (אני קם, הוא קם), ולכן קל לשכוח את ה-s באנגלית, במיוחד כשיש מילה באמצע: She usually gets up.", "error_type": "third-person-s" },
     { "en": "In Hebrew there is no present-tense 'be', so 'She always tired' can sound right. English needs is, and the frequency word comes after it: She is always tired.", "he": "בעברית אין 'להיות' בהווה ('היא תמיד עייפה'), ולכן קל להשמיט את is. באנגלית חייבים is, ומילת התדירות באה אחריו: She is always tired.", "error_type": "copula-omission" },
-    { "en": "Hebrew works differently here: it has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "מותחים את השפתיים כמו בחיוך ומאריכים את ה'אִי' ב-leave ('לצאת', /iː/). ב-live ('לגור') ה'אִי' קצרה ורפויה, קרובה ל'אֶ' (/ɪ/). בעברית יש רק 'אִי' אחת, ולכן leave ו-live עלולות להישמע אותו דבר.", "error_type": "pron-vowel" }
+    { "en": "Hebrew works differently here: it has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "מותחים את השפתיים כמו בחיוך ומאריכים את ה'אִי' ב-leave ('לצאת', /iː/). ב-live ('לגור') ה'אִי' קצרה ורפויה, קרובה ל'אֶ' (/ɪ/). בעברית יש רק 'אִי' אחת, ולכן leave ו-live עלולות להישמע אותו דבר.", "error_type": "pron-vowel" },
+    { "en": "Hebrew listens 'to' something (makshivim le-), and so does English: I listen to music on the bus, not *I listen music. Only hear takes no to: I can hear music.", "he": "גם בעברית מקשיבים ל-, ובאנגלית אחרי listen חייב לבוא to: I listen to music. בלי to אפשר רק עם hear.", "error_type": "preposition" }
   ],
   "exercises": [
     {
@@ -170,6 +171,20 @@
       "error_type": "third-person-s",
       "hint": { "en": "My brother = he.", "he": "My brother הוא he." },
       "explanation": { "en": "My brother = he, so the verb takes -es: goes. The frequency word in the middle doesn't change that.", "he": "My brother הוא he, ולכן הפועל מקבל es: goes. מילת התדירות באמצע לא משנה את זה." }
+    },
+    {
+      "id": "e16", "type": "correct", "skill": "grammar", "topic": "daily-life-vocab",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "I always listen music on the bus.",
+      "answers": ["I always listen to music on the bus."],
+      "error_type": "preposition",
+      "hint": { "en": "One small word is missing after listen.", "he": "חסרה מילה קטנה אחת אחרי listen." },
+      "wrong_feedback": [
+        { "match": "I always listen the music on the bus.", "feedback": { "en": "listen needs to before what you hear: listen to music. (And music in general has no the.)", "he": "אחרי listen בא to לפני מה ששומעים: listen to music. ולמוזיקה באופן כללי אין the." }, "error_type": "preposition" },
+        { "match": "I always listen for music on the bus.", "feedback": { "en": "listen goes with to, not for: I always listen to music on the bus.", "he": "אחרי listen בא to, לא for: listen to music." }, "error_type": "preposition" },
+        { "match": "I always listening to music on the bus.", "feedback": { "en": "A habit uses the present simple, with no -ing: I always listen to music.", "he": "להרגל משתמשים בהווה פשוט, בלי ing: I always listen to music." }, "error_type": "tense-choice" }
+      ],
+      "explanation": { "en": "listen + to + what you hear: I always listen to music on the bus.", "he": "listen + to + מה ששומעים: listen to music." }
     },
     {
       "id": "e11", "type": "transform", "skill": "grammar", "topic": "adverbs-frequency",

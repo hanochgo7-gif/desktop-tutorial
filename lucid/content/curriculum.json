@@ -49,6 +49,7 @@
      ],
      "can_do": "I can say and recognise the 26 letters and spell my name.",
      "cover": "Letter names vs sounds; capital and small letters (Hebrew has no capitals); spelling a name aloud; letters Hebrew speakers confuse (b/p/v, e/i, g/j, a/e/i names).",
+     "can_do_he": "אני יודע/ת לומר ולזהות את 26 האותיות ולאיית את השם שלי.",
      "level": "PreA1",
      "order": 1
     },
@@ -61,6 +62,7 @@
      ],
      "can_do": "I can read simple short words by their sounds.",
      "cover": "Short vowels a e i o u in CVC words (cat, bed, sit, hot, cup); consonant sounds absent in Hebrew: th (think/this), w vs v; ship/sheep contrast; silent e (made, time).",
+     "can_do_he": "אני יודע/ת לקרוא מילים קצרות ופשוטות לפי הצלילים שלהן.",
      "level": "PreA1",
      "order": 2
     },
@@ -73,6 +75,7 @@
      ],
      "can_do": "I can greet people, say my name and say goodbye.",
      "cover": "Hi/Hello/Good morning/afternoon/evening; Goodbye/Bye/See you; My name is...; Nice to meet you; How are you? I'm fine, thanks. And you?; Excuse me / Sorry / Thank you / Please.",
+     "can_do_he": "אני יודע/ת לברך לשלום, לומר את השם שלי ולהיפרד.",
      "level": "PreA1",
      "order": 3
     },
@@ -85,6 +88,7 @@
      ],
      "can_do": "I can understand and say numbers, my age and my phone number.",
      "cover": "0-20, tens, 21-100; thirteen vs thirty stress; How old are you? I'm 25 (not *I have 25 years / *I am 25 years); phone numbers digit by digit (\"oh\"/\"zero\").",
+     "can_do_he": "אני מבין/ה ויודע/ת לומר מספרים, את הגיל שלי ואת מספר הטלפון שלי.",
      "level": "PreA1",
      "order": 4
     },
@@ -98,6 +102,7 @@
      ],
      "can_do": "I can make simple sentences with am, is and are.",
      "cover": "I, you, he, she, it, we, they; am/is/are and contractions; copula is required (Hebrew omits it: *She teacher); it for things and animals.",
+     "can_do_he": "אני יודע/ת לבנות משפטים פשוטים עם am, is ו-are.",
      "level": "PreA1",
      "order": 5
     },
@@ -110,6 +115,7 @@
      ],
      "can_do": "I can ask and answer yes/no questions with be.",
      "cover": "Are you...? Is he...? inversion; short answers Yes, I am / No, I'm not; negatives isn't / aren't; question intonation alone is not enough.",
+     "can_do_he": "אני יודע/ת לשאול ולענות על שאלות כן/לא עם be.",
      "level": "PreA1",
      "order": 6
     },
@@ -124,6 +130,7 @@
      ],
      "can_do": "I can name everyday objects and their colours.",
      "cover": "a vs an (sound-based: an apple, a university); this/that/these/those; colours; adjective before noun (a red car, not *a car red); What is this? It's a...",
+     "can_do_he": "אני יודע/ת לקרוא בשם לחפצים יומיומיים ולצבעים שלהם.",
      "level": "PreA1",
      "order": 7
     },
@@ -136,6 +143,7 @@
      ],
      "can_do": "I can say the day, the date and the time.",
      "cover": "Days and months with capital letters; ordinal numbers for dates; What time is it? It's seven o'clock / half past / quarter to; in/on/at preview kept light.",
+     "can_do_he": "אני יודע/ת לומר את היום, את התאריך ואת השעה.",
      "level": "PreA1",
      "order": 8
     },
@@ -148,6 +156,7 @@
      ],
      "can_do": "I can talk about my country, nationality and job.",
      "cover": "Countries and nationalities (Israel/Israeli, capital letters); I'm a student / an engineer (article with jobs!); Where are you from? What do you do?",
+     "can_do_he": "אני יודע/ת לספר על הארץ שלי, על הלאום שלי ועל העבודה שלי.",
      "level": "PreA1",
      "order": 9
     },
@@ -161,6 +170,7 @@
      "can_do": "I can introduce myself in simple sentences.",
      "cover": "Subject-verb-object; I like..., I have..., I live in...; capital I; full stop; checkpoint: build a 5-sentence self-introduction.",
      "final": true,
+     "can_do_he": "אני יודע/ת להציג את עצמי במשפטים פשוטים.",
      "level": "PreA1",
      "order": 10
     }
@@ -210,6 +220,7 @@
      ],
      "can_do": "I can describe habits and facts.",
      "cover": "Form and use for routines and facts; common verbs (live, work, study, like, eat, drink, go); time expressions every day, on Mondays.",
+     "can_do_he": "אני יודע/ת לתאר הרגלים ועובדות.",
      "level": "A1",
      "order": 1
     },
@@ -222,6 +233,7 @@
      ],
      "can_do": "I can talk about other people's routines.",
      "cover": "-s/-es/-ies spelling; has, does, goes; pronunciation /s/ /z/ /ɪz/; the frequent omission of -s.",
+     "can_do_he": "אני יודע/ת לדבר על סדר היום של אנשים אחרים.",
      "level": "A1",
      "order": 2
     },
@@ -234,6 +246,7 @@
      ],
      "can_do": "I can ask and answer questions about routines.",
      "cover": "do/does + base verb; don't/doesn't; *Does she works; short answers; question intonation.",
+     "can_do_he": "אני יודע/ת לשאול ולענות על שאלות על סדר היום.",
      "level": "A1",
      "order": 3
     },
@@ -247,6 +260,7 @@
      ],
      "can_do": "I can describe my daily routine.",
      "cover": "Routine verbs (wake up, get dressed, have breakfast, commute); always/usually/often/sometimes/never and their position (before main verb, after be).",
+     "can_do_he": "אני יודע/ת לתאר את סדר היום שלי.",
      "level": "A1",
      "order": 4
     },
@@ -259,6 +273,7 @@
      ],
      "can_do": "I can talk about my family.",
      "cover": "Family words; my/your/his/her/our/their; 's (my brother's car); have got (UK) vs have.",
+     "can_do_he": "אני יודע/ת לדבר על המשפחה שלי.",
      "level": "A1",
      "order": 5
     },
@@ -271,18 +286,20 @@
      ],
      "can_do": "I can use singular and plural nouns correctly.",
      "cover": "-s/-es/-ies; irregular (man/men, woman/women, child/children, person/people, foot/feet); people is plural.",
+     "can_do_he": "אני יודע/ת להשתמש נכון בשמות עצם ביחיד וברבים.",
      "level": "A1",
      "order": 6
     },
     {
      "id": "a1-07",
      "title_en": "a, an, the",
-     "title_he": "a, an, the",
+     "title_he": "המילים a, an, the",
      "topics": [
       "articles"
      ],
      "can_do": "I can choose a, an, the or no article in simple sentences.",
      "cover": "First mention a/an, known the; jobs take a/an; no article with general plurals and meals; *I am student; the in Hebrew = ה but a/an has no Hebrew word.",
+     "can_do_he": "אני יודע/ת לבחור במשפטים פשוטים בין a, an, the לבין משפט בלי תווית.",
      "level": "A1",
      "order": 7
     },
@@ -297,6 +314,7 @@
      ],
      "can_do": "I can talk about food and what is in my kitchen.",
      "cover": "Food vocabulary; There is/There are (not *There is three apples / *Have bread); some in positives, any in questions/negatives; I'd like...",
+     "can_do_he": "אני יודע/ת לדבר על אוכל ועל מה שיש במטבח שלי.",
      "level": "A1",
      "order": 8
     },
@@ -309,6 +327,7 @@
      ],
      "can_do": "I can say where places are.",
      "cover": "Town vocabulary; in/on/at/next to/between/opposite/behind/in front of; Where is the bank? It's next to...",
+     "can_do_he": "אני יודע/ת לומר איפה נמצאים מקומות.",
      "level": "A1",
      "order": 9
     },
@@ -321,6 +340,7 @@
      ],
      "can_do": "I can talk about when things happen.",
      "cover": "at + clock times, at night, at the weekend (UK); on + days/dates; in + months/years/seasons/parts of day; no preposition with every/next/last.",
+     "can_do_he": "אני יודע/ת לומר מתי דברים קורים.",
      "level": "A1",
      "order": 10
     },
@@ -333,6 +353,7 @@
      ],
      "can_do": "I can describe people, places and things.",
      "cover": "Common adjectives and opposites; adjective before noun; adjectives don't take plural -s (*greens apples); very/really/quite.",
+     "can_do_he": "אני יודע/ת לתאר אנשים, מקומות ודברים.",
      "level": "A1",
      "order": 11
     },
@@ -345,6 +366,7 @@
      ],
      "can_do": "I can talk about abilities and make simple requests.",
      "cover": "can + base verb (no to, no -s); can't pronunciation (US/UK); Can you help me? Can I have...? polite requests.",
+     "can_do_he": "אני יודע/ת לדבר על יכולות ולבקש בקשות פשוטות.",
      "level": "A1",
      "order": 12
     },
@@ -357,6 +379,7 @@
      ],
      "can_do": "I can ask for information with question words.",
      "cover": "what, where, when, who, why, how, how much/many, which, whose; word order wh + do/does + subject + verb; subject questions (Who lives here?).",
+     "can_do_he": "אני יודע/ת לבקש מידע בעזרת מילות שאלה.",
      "level": "A1",
      "order": 13
     },
@@ -369,6 +392,7 @@
      ],
      "can_do": "I can understand short emails and messages.",
      "cover": "Object pronouns me/you/him/her/it/us/them; short authentic-style texts (email, text message, notice); scanning for information.",
+     "can_do_he": "אני מבין/ה מיילים והודעות קצרים.",
      "level": "A1",
      "order": 14
     },
@@ -383,6 +407,7 @@
      "can_do": "I can write a short text about myself and my daily life.",
      "cover": "and/but/because/so; capital letters and full stops; avoiding run-ons; planning 3 mini-paragraphs; final assessment task.",
      "final": true,
+     "can_do_he": "אני יודע/ת לכתוב טקסט קצר על עצמי ועל חיי היום-יום שלי.",
      "level": "A1",
      "order": 15
     }
@@ -446,6 +471,7 @@
      ],
      "can_do": "I can describe what is happening now.",
      "cover": "am/is/are + -ing; spelling (making, running, lying); now, at the moment, today; questions and negatives.",
+     "can_do_he": "אני יודע/ת לתאר מה קורה עכשיו.",
      "level": "A2",
      "order": 1
     },
@@ -458,6 +484,7 @@
      ],
      "can_do": "I can choose between present simple and continuous.",
      "cover": "Habit vs now; temporary situations; stative verbs (like, want, know, need, believe) not usually in -ing; Hebrew has one present tense.",
+     "can_do_he": "אני יודע/ת לבחור בין הווה פשוט להווה מתמשך.",
      "level": "A2",
      "order": 2
     },
@@ -470,6 +497,7 @@
      ],
      "can_do": "I can talk about where I was and how things were.",
      "cover": "was/were, wasn't/weren't; Where were you yesterday?; born: I was born in...; there was/there were.",
+     "can_do_he": "אני יודע/ת לספר איפה הייתי ואיך היה.",
      "level": "A2",
      "order": 3
     },
@@ -482,6 +510,7 @@
      ],
      "can_do": "I can talk about finished past actions.",
      "cover": "-ed spelling; pronunciation /t/ /d/ /ɪd/; time expressions yesterday, last week, two days ago.",
+     "can_do_he": "אני יודע/ת לספר על פעולות שהסתיימו בעבר.",
      "level": "A2",
      "order": 4
     },
@@ -494,6 +523,7 @@
      ],
      "can_do": "I can use the most common irregular past forms.",
      "cover": "Top ~40 irregular verbs grouped by pattern (go/went, see/saw, buy/bought, take/took...); mnemonic groups; *goed.",
+     "can_do_he": "אני יודע/ת להשתמש בצורות העבר החריגות הנפוצות ביותר.",
      "level": "A2",
      "order": 5
     },
@@ -506,6 +536,7 @@
      ],
      "can_do": "I can ask and answer questions about the past.",
      "cover": "did + base verb (*Did you went); didn't; Wh + did; short answers; telling what happened.",
+     "can_do_he": "אני יודע/ת לשאול ולענות על שאלות על העבר.",
      "level": "A2",
      "order": 6
     },
@@ -518,6 +549,7 @@
      ],
      "can_do": "I can talk about plans, predictions and offers.",
      "cover": "going to for plans/evidence; will for decisions now, offers, promises, predictions; 'll; won't.",
+     "can_do_he": "אני יודע/ת לדבר על תוכניות, על תחזיות ועל הצעות עזרה.",
      "level": "A2",
      "order": 7
     },
@@ -530,6 +562,7 @@
      ],
      "can_do": "I can talk about my arrangements and make plans.",
      "cover": "Present continuous for fixed arrangements (I'm meeting Dana at 6); diary language; asking about plans.",
+     "can_do_he": "אני יודע/ת לדבר על הסידורים שלי ולקבוע תוכניות.",
      "level": "A2",
      "order": 8
     },
@@ -542,6 +575,7 @@
      ],
      "can_do": "I can compare people, places and things.",
      "cover": "-er/more; irregular better/worse/further; than; (not) as...as; *more bigger; much/a bit + comparative.",
+     "can_do_he": "אני יודע/ת להשוות בין אנשים, מקומות ודברים.",
      "level": "A2",
      "order": 9
     },
@@ -554,6 +588,7 @@
      ],
      "can_do": "I can talk about extremes.",
      "cover": "the -est/the most; irregular best/worst; in/of after superlatives; ever with present perfect preview (the best film I've ever seen) as a chunk.",
+     "can_do_he": "אני יודע/ת לדבר על מה שהכי: הכי טוב, הכי גרוע, הכי רחוק.",
      "level": "A2",
      "order": 10
     },
@@ -567,6 +602,7 @@
      ],
      "can_do": "I can talk about quantities.",
      "cover": "Countable vs uncountable (information, advice, money, furniture, news); much/many/a lot of/a few/a little/some/any; How much/How many.",
+     "can_do_he": "אני יודע/ת לדבר על כמויות.",
      "level": "A2",
      "order": 11
     },
@@ -579,6 +615,7 @@
      ],
      "can_do": "I can talk about rules, obligations and give advice.",
      "cover": "must vs have to; don't have to vs mustn't (critical contrast); should/shouldn't for advice; base verb after modals.",
+     "can_do_he": "אני יודע/ת לדבר על חוקים וחובות ולתת עצות.",
      "level": "A2",
      "order": 12
     },
@@ -591,6 +628,7 @@
      ],
      "can_do": "I can understand and use common phrasal verbs.",
      "cover": "~20 high-frequency phrasal verbs (get up, look for, turn on/off, give up, find out, pick up, put on, take off...); separable vs not, kept simple.",
+     "can_do_he": "אני מבין/ה ומשתמש/ת בפעלים מורכבים נפוצים.",
      "level": "A2",
      "order": 13
     },
@@ -603,6 +641,7 @@
      ],
      "can_do": "I can make, accept and decline suggestions and invitations.",
      "cover": "Let's / Why don't we / How about + -ing / Would you like to...?; accepting/declining politely; giving reasons.",
+     "can_do_he": "אני יודע/ת להציע, לקבל ולדחות הצעות והזמנות.",
      "level": "A2",
      "order": 14
     },
@@ -617,6 +656,7 @@
      "can_do": "I can write a short story about a personal experience.",
      "cover": "first, then, after that, finally, when; topic sentence; past tense consistency; final assessment task.",
      "final": true,
+     "can_do_he": "אני יודע/ת לכתוב סיפור קצר על חוויה אישית.",
      "level": "A2",
      "order": 15
     }
@@ -679,12 +719,13 @@
     {
      "id": "b1-01",
      "title_en": "Have you ever...?",
-     "title_he": "Have you ever...?",
+     "title_he": "חוויות בחיים: present perfect",
      "topics": [
       "present-perfect"
      ],
      "can_do": "I can talk about life experiences.",
      "cover": "have/has + past participle; ever/never; been vs gone; past participles of common irregulars; Hebrew has no equivalent tense.",
+     "can_do_he": "אני יודע/ת לדבר על חוויות בחיים.",
      "level": "B1",
      "order": 1
     },
@@ -697,6 +738,7 @@
      ],
      "can_do": "I can choose correctly between present perfect and past simple.",
      "cover": "Finished time = past simple (*I have seen him yesterday); unfinished time; for vs since; just/already/yet; How long have you...?",
+     "can_do_he": "אני יודע/ת לבחור נכון בין present perfect לבין עבר פשוט.",
      "level": "B1",
      "order": 2
     },
@@ -709,6 +751,7 @@
      ],
      "can_do": "I can tell stories with background and events.",
      "cover": "was/were + -ing; when vs while; interrupted actions; setting a scene.",
+     "can_do_he": "אני יודע/ת לספר סיפורים עם רקע ואירועים.",
      "level": "B1",
      "order": 3
     },
@@ -721,6 +764,7 @@
      ],
      "can_do": "I can talk about real possibilities and consequences.",
      "cover": "Zero conditional for facts; first conditional (if + present, will); *If it will rain; unless, as soon as, when.",
+     "can_do_he": "אני יודע/ת לדבר על אפשרויות אמיתיות ועל התוצאות שלהן.",
      "level": "B1",
      "order": 4
     },
@@ -733,6 +777,7 @@
      ],
      "can_do": "I can talk about imaginary situations.",
      "cover": "if + past simple, would + base; If I were you (advice); first vs second conditional meaning.",
+     "can_do_he": "אני יודע/ת לדבר על מצבים דמיוניים.",
      "level": "B1",
      "order": 5
     },
@@ -745,6 +790,7 @@
      ],
      "can_do": "I can describe processes and facts using the passive.",
      "cover": "be + past participle (present/past); by-agent when needed; when to use passive; *It was build.",
+     "can_do_he": "אני יודע/ת לתאר תהליכים ועובדות בעזרת הסביל.",
      "level": "B1",
      "order": 6
     },
@@ -757,6 +803,7 @@
      ],
      "can_do": "I can report what people said.",
      "cover": "said vs told (told + person); backshift basics; pronoun and time changes (today -> that day); say/tell patterns.",
+     "can_do_he": "אני יודע/ת לדווח מה אנשים אמרו.",
      "level": "B1",
      "order": 7
     },
@@ -769,18 +816,20 @@
      ],
      "can_do": "I can join ideas with relative clauses.",
      "cover": "who/which/that/where/whose; defining clauses; no resumptive pronoun (*the book that I read it — Hebrew transfer); omitting object relative pronoun.",
+     "can_do_he": "אני יודע/ת לחבר רעיונות בעזרת משפטי זיקה.",
      "level": "B1",
      "order": 8
     },
     {
      "id": "b1-09",
      "title_en": "Enjoy doing, want to do",
-     "title_he": "enjoy doing / want to do",
+     "title_he": "פועל + ing או פועל + to",
      "topics": [
       "gerund-infinitive"
      ],
      "can_do": "I can use the correct verb pattern after common verbs.",
      "cover": "verb + -ing (enjoy, finish, mind, avoid, suggest); verb + to (want, decide, hope, plan, need); after prepositions -ing; like/love/hate both.",
+     "can_do_he": "אני יודע/ת לבחור את דפוס הפועל הנכון אחרי פעלים נפוצים.",
      "level": "B1",
      "order": 9
     },
@@ -793,6 +842,7 @@
      ],
      "can_do": "I can give my opinion and support it with reasons.",
      "cover": "I believe / In my view / It seems to me; because/since/as/therefore/so; giving examples (for example, such as); agreeing and disagreeing politely.",
+     "can_do_he": "אני יודע/ת להביע דעה ולתמוך בה בנימוקים.",
      "level": "B1",
      "order": 10
     },
@@ -805,6 +855,7 @@
      ],
      "can_do": "I can discuss advantages and disadvantages.",
      "cover": "however/although/but/on the other hand/whereas/despite (preview); punctuation with however; balanced paragraphs.",
+     "can_do_he": "אני יודע/ת לדון ביתרונות ובחסרונות.",
      "level": "B1",
      "order": 11
     },
@@ -818,6 +869,7 @@
      "can_do": "I can write a structured opinion essay.",
      "cover": "Read a short article; introduction with clear opinion; body paragraphs (topic sentence, reason, example); conclusion; final assessment.",
      "final": true,
+     "can_do_he": "אני יודע/ת לכתוב חיבור דעה מובנה.",
      "level": "B1",
      "order": 12
     }
@@ -885,6 +937,7 @@
      ],
      "can_do": "I can sequence past events precisely in a narrative.",
      "cover": "past perfect simple and continuous; by the time, before, after, already; narrative tense control.",
+     "can_do_he": "אני יודע/ת לסדר בדיוק אירועים בעבר בתוך סיפור.",
      "level": "B2",
      "order": 1
     },
@@ -897,6 +950,7 @@
      ],
      "can_do": "I can speculate about the past and its consequences.",
      "cover": "If + past perfect, would have + pp; mixed conditionals; I wish / If only; regrets and criticism.",
+     "can_do_he": "אני יודע/ת לשער מה היה קורה בעבר ומה היו התוצאות.",
      "level": "B2",
      "order": 2
     },
@@ -909,6 +963,7 @@
      ],
      "can_do": "I can use passive forms for formal and impersonal writing.",
      "cover": "passive with modals (should be done), continuous/perfect passive, have/get something done, It is believed/said that..., He is thought to...",
+     "can_do_he": "אני יודע/ת להשתמש בסביל בכתיבה רשמית ולא אישית.",
      "level": "B2",
      "order": 3
     },
@@ -921,6 +976,7 @@
      ],
      "can_do": "I can report questions, commands and attitudes accurately.",
      "cover": "Reported questions (word order!), commands (told me to), reporting verbs with patterns (suggest -ing / that, deny -ing, admit, warn, refuse to, accuse of).",
+     "can_do_he": "אני יודע/ת לדווח במדויק על שאלות, הוראות ועמדות.",
      "level": "B2",
      "order": 4
     },
@@ -933,6 +989,7 @@
      ],
      "can_do": "I can link ideas clearly across sentences and paragraphs.",
      "cover": "Addition, contrast, concession, cause, result connectors; referencing (this, such, the former/latter); avoiding connector overuse; punctuation.",
+     "can_do_he": "אני יודע/ת לקשר רעיונות בבהירות בין משפטים ופסקאות.",
      "level": "B2",
      "order": 5
     },
@@ -945,6 +1002,7 @@
      ],
      "can_do": "I can use natural word combinations.",
      "cover": "make/do/take/have collocations; adjective+noun (heavy rain, strong coffee); verb+noun (raise a question, reach a decision); Hebrew literal-translation traps.",
+     "can_do_he": "אני יודע/ת להשתמש בצירופי מילים טבעיים.",
      "level": "B2",
      "order": 6
     },
@@ -957,6 +1015,7 @@
      ],
      "can_do": "I can understand and appropriately use common idioms.",
      "cover": "~15 high-utility idioms with register notes (a piece of cake, on the fence, the bottom line...); when idioms are inappropriate (academic writing).",
+     "can_do_he": "אני מבין/ה ניבים נפוצים ומשתמש/ת בהם במקום המתאים.",
      "level": "B2",
      "order": 7
     },
@@ -969,6 +1028,7 @@
      ],
      "can_do": "I can adapt my language to formal and informal situations.",
      "cover": "Contractions, phrasal verbs vs Latinate verbs, hedged requests; formal email vs message; rewriting between registers.",
+     "can_do_he": "אני יודע/ת להתאים את השפה שלי למצבים רשמיים ולא רשמיים.",
      "level": "B2",
      "order": 8
     },
@@ -981,6 +1041,7 @@
      ],
      "can_do": "I can distinguish fact from opinion and recognise bias.",
      "cover": "Fact vs opinion; loaded language; selective evidence; comparing two viewpoints on one issue; author purpose.",
+     "can_do_he": "אני יודע/ת להבחין בין עובדה לדעה ולזהות הטיה.",
      "level": "B2",
      "order": 9
     },
@@ -994,6 +1055,7 @@
      "can_do": "I can build an argumentative essay with thesis, evidence, counterargument and rebuttal.",
      "cover": "Thesis statement; PEEL/claim-evidence-reasoning paragraphs; fair counterargument; logical rebuttal; strong conclusion; final assessment.",
      "final": true,
+     "can_do_he": "אני יודע/ת לבנות חיבור טיעון עם תזה, ראיות, טיעון נגדי והפרכה.",
      "level": "B2",
      "order": 10
     }
@@ -1066,6 +1128,7 @@
      ],
      "can_do": "I can use academic vocabulary and nominalisation to write concisely and formally.",
      "cover": "Academic word families (analyse/analysis/analytical); turning verbs into nouns (decide -> the decision to); avoiding over-nominalisation.",
+     "can_do_he": "אני יודע/ת להשתמש באוצר מילים אקדמי ובנומינליזציה כדי לכתוב בתמציתיות וברשמיות.",
      "level": "C1",
      "order": 1
     },
@@ -1078,6 +1141,7 @@
      ],
      "can_do": "I can use inversion, cleft sentences and participle clauses for emphasis and flow.",
      "cover": "Not only... but also, Rarely/Seldom/Only then inversion; It is X that..., What... is...; participle clauses (Having considered...); dangling participles.",
+     "can_do_he": "אני יודע/ת להשתמש בהיפוך, במשפטי הדגשה ובפסוקיות בינוני כדי להדגיש וליצור רצף.",
      "level": "C1",
      "order": 2
     },
@@ -1090,6 +1154,7 @@
      ],
      "can_do": "I can express degrees of certainty and my stance precisely.",
      "cover": "may/might/could, tends to, appears to, arguably, to some extent; boosters (clearly, undeniably) and their risks; over-hedging.",
+     "can_do_he": "אני יודע/ת להביע במדויק את מידת הוודאות ואת העמדה שלי.",
      "level": "C1",
      "order": 3
     },
@@ -1102,6 +1167,7 @@
      ],
      "can_do": "I can write a sophisticated, arguable thesis and structure a complex argument.",
      "cover": "Descriptive vs analytical thesis; qualified claims; thesis that previews structure; outlining complex arguments; paragraph-level logic.",
+     "can_do_he": "אני יודע/ת לנסח תזה מתוחכמת שאפשר להתווכח איתה ולבנות טיעון מורכב.",
      "level": "C1",
      "order": 4
     },
@@ -1114,6 +1180,7 @@
      ],
      "can_do": "I can judge how reliable and relevant evidence is.",
      "cover": "Types of evidence; correlation vs causation; sample size; lateral reading/SIFT; integrating evidence with reasoning (not just dropping quotes).",
+     "can_do_he": "אני יודע/ת להעריך עד כמה ראיות אמינות ורלוונטיות.",
      "level": "C1",
      "order": 5
     },
@@ -1126,6 +1193,7 @@
      ],
      "can_do": "I can identify fallacies and weaknesses in arguments, including my own.",
      "cover": "Straw man, ad hominem, false dilemma, slippery slope, hasty generalisation, appeal to authority/popularity, post hoc; repairing a flawed argument.",
+     "can_do_he": "אני יודע/ת לזהות כשלים וחולשות בטיעונים, גם בטיעונים שלי.",
      "level": "C1",
      "order": 6
     },
@@ -1138,6 +1206,7 @@
      ],
      "can_do": "I can use rhetorical techniques deliberately and ethically.",
      "cover": "Ethos/pathos/logos; tricolon, antithesis, rhetorical questions, concession; tone control; persuasion vs manipulation.",
+     "can_do_he": "אני יודע/ת להשתמש בטכניקות רטוריות בכוונה ובאופן הוגן.",
      "level": "C1",
      "order": 7
     },
@@ -1151,6 +1220,7 @@
      "can_do": "I can edit my writing for concision, precision, cohesion and coherence.",
      "cover": "Cutting redundancy; precise verbs; paragraph unity; given-new information flow; proofreading checklist; final assessment.",
      "final": true,
+     "can_do_he": "אני יודע/ת לערוך את הכתיבה שלי לתמציתיות, לדיוק, ללכידות ולקוהרנטיות.",
      "level": "C1",
      "order": 8
     }
@@ -1233,6 +1303,7 @@
      ],
      "can_do": "I can make deliberate stylistic choices and control connotation.",
      "cover": "Near-synonyms with different connotations (frugal/stingy, assertive/aggressive); register shifts for effect; sentence rhythm; voice.",
+     "can_do_he": "אני יודע/ת לבחור סגנון בכוונה ולשלוט בקונוטציה.",
      "level": "C2",
      "order": 1
     },
@@ -1245,6 +1316,7 @@
      ],
      "can_do": "I can recognise and use irony, understatement and implied meaning.",
      "cover": "Verbal irony, understatement, litotes, implicature; reading between the lines in editorials and essays; risks of irony in academic writing.",
+     "can_do_he": "אני מזהה ומשתמש/ת באירוניה, בלשון המעטה ובמשמעות מרומזת.",
      "level": "C2",
      "order": 2
     },
@@ -1257,6 +1329,7 @@
      ],
      "can_do": "I can synthesise multiple sources into my own argument and cite them properly.",
      "cover": "Summary vs synthesis; source matrix; integrating quotes/paraphrase; reporting verbs nuance (claims, contends, concedes); citation basics (APA/MLA style awareness); avoiding plagiarism.",
+     "can_do_he": "אני יודע/ת לשלב כמה מקורות בטיעון שלי ולצטט אותם כראוי.",
      "level": "C2",
      "order": 3
     },
@@ -1269,6 +1342,7 @@
      ],
      "can_do": "I can construct and dismantle complex, qualified arguments.",
      "cover": "Qualified theses; concession-rebuttal chains; steelmanning; anticipating objections; Toulmin warrants and qualifiers.",
+     "can_do_he": "אני יודע/ת לבנות ולפרק טיעונים מורכבים ומסויגים.",
      "level": "C2",
      "order": 4
     },
@@ -1282,6 +1356,7 @@
      "can_do": "I can plan, draft and edit an independent research-based paper.",
      "cover": "Research question; scope; structure of a research paper; advanced editing passes (argument, paragraph, sentence, word); final assessment.",
      "final": true,
+     "can_do_he": "אני יודע/ת לתכנן, לנסח ולערוך עבודת מחקר עצמאית.",
      "level": "C2",
      "order": 5
     }

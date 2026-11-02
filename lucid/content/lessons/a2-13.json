@@ -52,7 +52,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is one 'u' sound, so look /lʊk/ and put /pʊt/ can come out long, like 'Luke'. In English the vowel is short and relaxed, /ʊ/: look for, look after, put on.", "he": "אומרים 'אוּ' קצר ורפוי, בלי למתוח ובלי לעגל הרבה את השפתיים, ב-look וב-put (/ʊ/). בעברית יש רק 'אוּ' אחד, ולכן הן עלולות לצאת ארוכות, כמו Luke.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew the present-tense verb changes for gender and number, but not for person, so the English -s for he/she/it is easy to forget. In a phrasal verb, the -s goes on the verb: She gets up at six (not *She get up or *She get ups).", "he": "בעברית הפועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף ('אני קם', 'אתה קם', 'הוא קם'), ולכן קל לשכוח את ה-s של he/she/it באנגלית. בפועל מורכב ה-s מתחברת לפועל: She gets up.", "error_type": "third-person-s" }
+    { "en": "In Hebrew the present-tense verb changes for gender and number, but not for person, so the English -s for he/she/it is easy to forget. In a phrasal verb, the -s goes on the verb: She gets up at six (not *She get up or *She get ups).", "he": "בעברית הפועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף ('אני קם', 'אתה קם', 'הוא קם'), ולכן קל לשכוח את ה-s של he/she/it באנגלית. בפועל מורכב ה-s מתחברת לפועל: She gets up.", "error_type": "third-person-s" },
+    { "en": "Hebrew says 'explain to me' with the person straight after the verb (tasbir li), so learners write *Can you explain me this word? In English the thing comes first and the person comes after to: Can you explain this word to me? (or: explain it to me).", "he": "בעברית אומרים 'תסביר לי', ולכן קל לכתוב explain me. באנגלית מה שמסבירים בא קודם, והאדם בא אחרי to: explain it to me.", "error_type": "preposition" }
   ],
   "exercises": [
     {
@@ -220,6 +221,19 @@
       "error_type": "third-person-s",
       "hint": { "en": "My dad = he.", "he": "My dad = הוא (he)." },
       "explanation": { "en": "My dad = he, so the verb takes -s: gets up. The small word up doesn't change.", "he": "My dad = he, ולכן הפועל מקבל s: ‏gets up. המילה הקטנה up לא משתנה." }
+    },
+    {
+      "id": "e17", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Can you explain me this word?",
+      "answers": ["Can you explain this word to me?", "Could you explain this word to me?"],
+      "error_type": "preposition",
+      "hint": { "en": "The person comes at the end, after a small word.", "he": "האדם בא בסוף, אחרי מילה קטנה." },
+      "wrong_feedback": [
+        { "match": "Can you explain this word me?", "feedback": { "en": "Put to before the person: explain this word to me.", "he": "לפני האדם בא to: explain this word to me." }, "error_type": "preposition" },
+        { "match": "Can you explain for me this word?", "feedback": { "en": "explain takes to, not for, and the person comes last: explain this word to me.", "he": "אחרי explain בא to, לא for, והאדם בא בסוף: explain this word to me." }, "error_type": "preposition" }
+      ],
+      "explanation": { "en": "explain + the thing + to + the person: Can you explain this word to me?", "he": "explain + מה שמסבירים + to + האדם: explain this word to me." }
     },
     {
       "id": "e12", "type": "order", "skill": "grammar",

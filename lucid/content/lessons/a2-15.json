@@ -48,7 +48,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there are no capital letters, so they are easy to forget in a story. Use a capital for I, names of people and places, days and months: Last July I went to London with Maya.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן בסיפור. כתבו באות גדולה את I, שמות של אנשים ומקומות, ימים וחודשים: Last July I went to London with Maya.", "error_type": "capitalization" },
-    { "en": "In Hebrew there is no word for a/an, so it can go missing in a story. Use a or an the first time you mention one thing: We stayed in a small hotel (not *in small hotel).", "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה בסיפור. משתמשים ב-a או an כשמזכירים דבר אחד בפעם הראשונה: We stayed in a small hotel.", "error_type": "article" }
+    { "en": "In Hebrew there is no word for a/an, so it can go missing in a story. Use a or an the first time you mention one thing: We stayed in a small hotel (not *in small hotel).", "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה בסיפור. משתמשים ב-a או an כשמזכירים דבר אחד בפעם הראשונה: We stayed in a small hotel.", "error_type": "article" },
+    { "en": "Hebrew says 'arrived to' (higanu le-), so learners write *we arrived to the hotel. English uses arrive at for a building or a point (arrive at the hotel, at the station) and arrive in for a city or a country (arrive in Eilat). With home there is no preposition: we arrived home.", "he": "בעברית מגיעים ל-, ולכן קל לכתוב arrived to. באנגלית arrive at לבניין או לנקודה, arrive in לעיר או לארץ, ועם home בלי מילת יחס.", "error_type": "preposition" }
   ],
   "exercises": [
     {
@@ -234,13 +235,16 @@
         "When we got to the beach, it started to rain.",
         "When we got to the beach it started to rain.",
         "When we got to the beach, it started raining.",
-        "When we got to the beach it started raining."
+        "When we got to the beach it started raining.",
+        "When we arrived at the beach, it started to rain.",
+        "When we arrived at the beach it started to rain."
       ],
       "wrong_feedback": [
         { "match": "When we got to the beach, it starts to rain.", "feedback": { "en": "Keep both events in the past: it started.", "he": "שני האירועים בעבר: it started." }, "error_type": "tense-choice" },
         { "match": "When we get to the beach, it started to rain.", "feedback": { "en": "Keep both events in the past: When we got...", "he": "שני האירועים בעבר: When we got..." }, "error_type": "tense-choice" },
         { "match": "When we got to the beach, started to rain.", "feedback": { "en": "An English sentence needs a subject: it started to rain.", "he": "משפט באנגלית צריך נושא: it started to rain." }, "error_type": "pronoun" },
-        { "match": "When we got to the beach. It started to rain.", "feedback": { "en": "Join the two parts with a comma, not a full stop: When we got to the beach, it started to rain.", "he": "מחברים את שני החלקים בפסיק, לא בנקודה: When we got to the beach, ..." }, "error_type": "punctuation" }
+        { "match": "When we got to the beach. It started to rain.", "feedback": { "en": "Join the two parts with a comma, not a full stop: When we got to the beach, it started to rain.", "he": "מחברים את שני החלקים בפסיק, לא בנקודה: When we got to the beach, ..." }, "error_type": "punctuation" },
+        { "match": "When we arrived to the beach, it started to rain.", "feedback": { "en": "arrive takes at (a building or a place) or in (a city or a country), never to: When we arrived at the beach, ... (or: When we got to the beach, ...)", "he": "אחרי arrive בא at (מקום או בניין) או in (עיר או ארץ), אף פעם לא to: arrived at the beach." }, "error_type": "preposition" }
       ],
       "explanation": { "en": "When + first event, + second event: When we got to the beach, it started to rain.", "he": "When + האירוע הראשון, פסיק, ואז האירוע השני." }
     },
