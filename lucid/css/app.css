@@ -969,6 +969,9 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane exercises: end ---- */
 
 /* ---- lane bilingual-text: start ---- */
+/* BL-1: an English piece of 20 characters or fewer inside Hebrew text never breaks across lines, so its words and
+   punctuation keep their order ("/s/, /z/", "/æ/ (cat)", "Yes, I am."). isolateLatin() sets the class. */
+bdi.nw { white-space: nowrap; }
 
 /* ---- lane bilingual-text: end ---- */
 

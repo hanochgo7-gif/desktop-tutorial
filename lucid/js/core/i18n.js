@@ -141,17 +141,40 @@ const fold = (x) => String(x ?? '').toLowerCase().replace(/[^a-z0-9֐-׿]+/g, ''
 // brackets around it. What joins it to the Hebrew stays outside and follows the Hebrew direction: a
 // prefix hyphen (ב-am), a colon or comma, " = " before a Hebrew translation, and the Hebrew sentence's
 // final full stop.
+// Round 3 (BL-1): IPA is English too, so "/ɪz/" is one token and never "/ɪ" + "z/"; a sound and its example word
+// ("/æ/ (cat)") stay in one isolate; a run of several English sentences gets one isolate per sentence, each with
+// its own full stop, so no isolate carries two sentences across a line end; a Hebrew list number after an English
+// sentence ("chill. 3) Chill!") stays with the Hebrew; and short isolates do not wrap (class "nw").
 const HEBREW = /[֐-׿יִ-ﭏ]/;
-const RUN = /[^֐-׿יִ-ﭏ]*[A-Za-z][^֐-׿יִ-ﭏ]*/g;
+// English letters: the Latin script (with é and the IPA letters ɪ æ ʌ ɒ ə ʃ ʒ ŋ ð), the Greek θ used in IPA,
+// and the IPA length and stress marks ː ˈ ˌ.
+const L = '\\p{Script=Latin}θːˈˌ';
+const LETTER = new RegExp(`[${L}]`, 'u');
+const WORD_CHAR = new RegExp(`[${L}0-9\\p{M}]`, 'u');
+// A run of text that holds English: no Hebrew letters and no right-to-left mark. Content puts U+200F between two
+// English runs that belong to different parts of the Hebrew sentence ("/æ/ (cat), ‏/ʌ/ (cut)").
+const NOT_HE = '[^\\u0590-\\u05FF\\uFB1D-\\uFB4F\\u200F]';
+const RUN = new RegExp(`${NOT_HE}*[${L}]${NOT_HE}*`, 'gu');
 const CLOSER = { '"': '"', "'": "'", '“': '”', '‘': '’', '(': ')', '[': ']' };
 const ABBREV = /(?:\.[A-Za-z]|^(?:Mr|Mrs|Ms|Dr|St|etc|vs|approx))$/i;
+// Isolates of this many characters or fewer never wrap (class "nw" in app.css).
+export const NOWRAP_MAX = 20;
 
 // The [start, end) of the English inside one run of non-Hebrew text.
 function englishSpan(r) {
-  let a = r.search(/[A-Za-z]/);
+  let a = r.search(LETTER);
   while (a > 0 && /[0-9]/.test(r[a - 1])) a--;
+  // The opening slash of an IPA token ("ב-/æ/", "/aɪ kən ˈswɪm/") belongs to it; the Hebrew prefix hyphen does not.
+  if (r[a - 1] === '/' && r.indexOf('/', a) > a) a--;
   let b = r.length;
-  while (b > a && !/[A-Za-z0-9]/.test(r[b - 1])) b--;
+  while (b > a && !WORD_CHAR.test(r[b - 1])) b--;
+  // ...and so does its closing slash, after a bracket if there is one ("/weə(r)/").
+  const close = r.slice(b).match(/^[)\]]?\//);
+  if (close && (r.slice(a, b).match(/\//g) || []).length % 2) b += close[0].length;
+  // A list number after an English sentence is the Hebrew list's ("chill. 3) Chill!"): it stays outside, and
+  // the sentence keeps its own full stop.
+  const num = r.slice(a, b).match(/[.!?…]["'”’]?(\s+[0-9]+)$/);
+  if (num) b -= num[1].length;
   let tail = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
   const word = r.slice(a, b).match(/[A-Za-z.]+$/)?.[0] || '';
   if (/[^.]\.$|^\.$/.test(tail) && !ABBREV.test(word)) tail = tail.slice(0, -1);
@@ -203,14 +226,48 @@ function keepPairs(r, a, b) {
   return [a, b];
 }
 
+// The sentences of one English span, as [start, end) pairs: a break after . ! ? or … (with a closing quote) and
+// before a capital, optionally across " / " or " – " ("Yes, I am. / No, she isn't"). Never after an
+// abbreviation (Mr., a.m.), and never where a bracket or quote pair would be split.
+// A single full stop before a small letter ends a sentence too: in Hebrew text that is a new Hebrew sentence
+// that starts with an English word ("on Fridays. on + יום"). An ellipsis before a small letter does not
+// ("We live... and work...").
+const SENTENCE_END = /[.!?…]+["'”’]?(?=(\s+(?:[/–—]\s+)?)["'“‘]?\p{Lu})|(?<![.…])\.["'”’]?(?=(\s+)\p{Ll})/gu;
+export function sentenceSpans(t) {
+  const out = [];
+  let from = 0;
+  for (const m of t.matchAll(SENTENCE_END)) {
+    const end = m.index + m[0].length;
+    const word = t.slice(from, m.index).match(/[A-Za-z.]+$/)?.[0] || '';
+    if (/^\.(?!\.)/.test(m[0]) && ABBREV.test(word)) continue;
+    const piece = t.slice(from, end);
+    if (unpaired(piece).length || unpairedQuotes(piece)) continue;
+    out.push([from, end]);
+    from = end + (m[1] ?? m[2]).length;
+  }
+  out.push([from, t.length]);
+  return out;
+}
+// A spelled word stays in one piece: the hyphens of "A-N-N-A" become non-breaking hyphens (U+2011), and
+// "A, double N, A" takes no-break spaces, as does a short "letter = word" pair ("U = you", "Noa = N-O-A").
+export const keepSpelled = (t) => t
+  .replace(/(?<![A-Za-z])[A-Za-z](?:-[A-Za-z])+(?![A-Za-z])/g, (m) => m.replace(/-/g, '\u2011'))
+  .replace(/(?<![A-Za-z])[A-Z](?:, (?:double )?[A-Z])+(?![A-Za-z])/g, (m) => m.replace(/ /g, '\u00a0'))
+  .replace(/(?<![A-Za-z])([A-Za-z]{1,4}) = ([A-Za-z]{1,5})(?![A-Za-z])/g, '$1\u00a0=\u00a0$2');
+const bdi = (t) => `<bdi dir="ltr" lang="en"${[...t].length <= NOWRAP_MAX ? ' class="nw"' : ''}>${esc(keepSpelled(t))}</bdi>`;
+
 export function isolateLatin(text) {
   const s = String(text ?? '');
-  if (!/[A-Za-z]/.test(s)) return s;
+  if (!LETTER.test(s)) return s;
+  // English with no Hebrew in a Hebrew slot is one isolate, sentence order and full stop included.
+  if (!HEBREW.test(s)) return raw(bdi(s));
   let out = '';
   let last = 0;
   for (const [at, r] of englishRuns(s)) {
     const [a, b] = englishSpan(r);
-    out += esc(s.slice(last, at + a)) + `<bdi dir="ltr" lang="en">${esc(r.slice(a, b))}</bdi>`;
+    const t = r.slice(a, b);
+    const parts = sentenceSpans(t);
+    out += esc(s.slice(last, at + a)) + parts.map(([x, y], i) => bdi(t.slice(x, y)) + (i < parts.length - 1 ? esc(t.slice(y, parts[i + 1][0])) : '')).join('');
     last = at + b;
   }
   return raw(out + esc(s.slice(last)));
@@ -222,7 +279,7 @@ function englishRuns(s) {
   const out = [];
   const split = (r, at) => {
     const cuts = unpaired(r);
-    if (!cuts.length) { if (/[A-Za-z]/.test(r)) out.push([at, r]); return; }
+    if (!cuts.length) { if (LETTER.test(r)) out.push([at, r]); return; }
     let from = 0;
     for (const cut of [...cuts, r.length]) { split(r.slice(from, cut), at + from); from = cut + 1; }
   };

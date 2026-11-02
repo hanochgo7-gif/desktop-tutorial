@@ -186,7 +186,7 @@ test('R2-04: "Why?" shows the item\'s own explanation, not the general note of i
   assert.doesNotMatch(h, /make a decision/, 'the general error-type note is off-topic next to the item\'s own explanation');
   assert.match(h, /For order, use third/);
   assert.match(h, /Word choice/, 'the error type still names the mistake');
-  assert.match(h, /<bdi dir="ltr" lang="en">third \(3rd\)<\/bdi>/, 'the Hebrew keeps the bracket pair inside the English');
+  assert.match(h, /<bdi dir="ltr" lang="en"(?: class="nw")?>third \(3rd\)<\/bdi>/, 'the Hebrew keeps the bracket pair inside the English');
   const bare = { id: 'e4', type: 'read' };
   assert.match(String(X.verdictHtml(bare, { correct: false, error_type: 'word-choice' }, errors)), /make a decision/, 'with nothing of its own, the general note explains');
   const spec = String(X.verdictHtml({ id: 'e5', type: 'gap' }, { correct: false, error_type: 'word-choice', specific: { en: 'Third, not three.' } }, errors));
