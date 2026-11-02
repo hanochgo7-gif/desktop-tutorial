@@ -25,7 +25,7 @@ const STRINGS = {
   'nav.help': ['עזרה', 'Help'],
   'skip': ['דילוג לתוכן', 'Skip to content'],
   'loading': ['טוען…', 'Loading…'],
-  'back': ['חזרה', 'Back'],
+  'back': ['הקודם', 'Back'],
   'close': ['סגירה', 'Close'],
   'continue': ['המשך', 'Continue'],
   'check': ['בדיקה', 'Check'],
