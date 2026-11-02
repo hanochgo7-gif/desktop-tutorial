@@ -313,3 +313,19 @@ test('RW-6: a quoted and cited passage is not flagged; a paraphrase is not flagg
   assert.equal(analyzeWriting('Ferrant and Oyelaran (2024) suggest that roofs help.', { level: 'C1' }).structure.evidence, true, 'author-year citation is evidence');
   assert.equal(analyzeWriting('A plain text with no sources.', { level: 'C1' }).sources, null);
 });
+
+// ---------- RW-8: email mode ----------
+test('RW-8: an email is checked for a greeting, one clear request and a sign-off, with no length or connector demands', () => {
+  const ok = 'Hi Tom,\nCould you send me the sales figures by Friday? I need them for the report.\n\nThanks,\nYael';
+  const a = analyzeWriting(ok, { level: 'B1', kind: 'email' });
+  assert.deepEqual(a.checks.filter((c) => !c.ok).map((c) => c.id), [], JSON.stringify(a.checks));
+  assert.ok(['greeting', 'request', 'signoff'].every((id) => a.checks.some((c) => c.id === id)));
+  assert.ok(countWords(ok) < 30 && !a.checks.some((c) => c.id === 'length'), 'no word floor without minWords');
+  const noSign = analyzeWriting('Hi Tom,\nCould you send me the sales figures by Friday? I need them for the report.', { level: 'B1', kind: 'email' });
+  assert.equal(noSign.checks.find((c) => c.id === 'signoff').ok, false);
+  const noAsk = analyzeWriting('Dear Ms Levi,\nThe report is attached.\n\nBest,\nYael', { level: 'B1', kind: 'email' });
+  assert.equal(noAsk.checks.find((c) => c.id === 'request').ok, false);
+  assert.equal(noAsk.checks.find((c) => c.id === 'greeting').ok, true);
+  assert.ok(!analyzeWriting(ok, { level: 'B1', kind: 'message' }).checks.some((c) => c.id === 'signoff'), 'a message has no email structure checks');
+  assert.ok(analyzeWriting('Hi James,\nI will be happy if we can move the deadline. I will send the first part until Wednesday.\n\nBest,\nYael', { level: 'B1', kind: 'email' }).issues.filter((i) => i.l1).length >= 2, 'the email rules from RW-2 run');
+});

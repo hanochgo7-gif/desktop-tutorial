@@ -53,8 +53,17 @@ const FREE = { id: 'free', stage: 0, level: null, kind: 'essay', title_en: 'Free
 // (persona panel Y6). The kind goes to AI feedback too.
 const TEXT_KINDS = [
   ['essay', 'חיבור או טקסט דעה', 'Essay or opinion', 'בדיקות של מבנה טיעון: עמדה, ראיות, טיעון נגדי וסיכום.', 'Checks for argument structure: a position, evidence, the other side and a conclusion.'],
-  ['email', 'מייל', 'Email', 'בלי בדיקות של טיעון. המשוב מסתכל על מטרת המייל, על הנמען ועל הפתיחה והסיום.', 'No argument checks. Feedback looks at the email\'s purpose, its reader, and how it opens and closes.'],
-  ['message', 'הודעה', 'Message', 'הודעה קצרה לחבר או לקבוצה. בלי בדיקות של טיעון.', 'A short message to a friend or a group. No argument checks.'],
+  ['email', 'מייל', 'Email', 'בלי בדיקות של טיעון ובלי מינימום מילים. הבדיקות מחפשות פנייה בהתחלה, בקשה ברורה וברכת סיום, וגם טעויות נפוצות במיילים, כמו until במקום by.', 'No argument checks and no word minimum. The checks look for a greeting, one clear request and a sign-off, and for common email mistakes, such as until for by.'],
+  ['message', 'הודעה', 'Message', 'הודעה קצרה לחבר או לקבוצה. בלי בדיקות של טיעון ובלי מינימום מילים.', 'A short message to a friend or a group. No argument checks and no word minimum.'],
+];
+// Email mode has its own model and self-check list (RW-8).
+const EMAIL_MODEL = 'Hi James,\n\nThanks for checking in. Unfortunately, I\'m still waiting for the sales figures, so the report may be a few days late. Would it be possible to move the deadline to Monday? I can send you the first three sections by Thursday.\n\nBest,\nYael';
+const EMAIL_CHECKLIST = [
+  { en: 'The first line greets the reader by name.', he: 'השורה הראשונה פונה לקורא בשמו.' },
+  { en: 'The first sentence says why you are writing.', he: 'המשפט הראשון אומר למה אתם כותבים.' },
+  { en: 'There is one clear request, with a date if there is a deadline (by Friday, not until Friday).', he: 'יש בקשה אחת ברורה, עם תאריך אם יש מועד (by Friday, לא until Friday).' },
+  { en: 'The tone fits the reader: a manager, a colleague or a friend.', he: 'הטון מתאים לקורא: מנהל, עמית או חבר.' },
+  { en: 'It ends with a sign-off and your name.', he: 'יש ברכת סיום והשם שלכם.' },
 ];
 
 // Every way an AI request can fail, in plain words (persona panel P-78). Server messages are never shown raw.
@@ -93,7 +102,9 @@ export default async function essay(el, ctx) {
   const m = model();
   const level = task.level || m.courseLevel;
   const isAssignment = Boolean(task.prompt);
-  const minWords = task.word_range?.[0] ?? task.min_words ?? 0;
+  const baseMin = task.word_range?.[0] ?? task.min_words ?? 0;
+  // An email or a message has no word minimum (RW-8); set again when the learner changes the text type.
+  let minWords = baseMin;
   const maxWords = task.word_range?.[1] ?? task.max_words ?? null;
   const topic = { 1: 'sentence-basics', 2: 'paragraph-basics', 3: 'opinion-language', 4: 'argument-structure', 5: 'argument-structure', 6: 'argument-structure', 7: 'essay-structure-basic', 8: 'fallacies', 9: 'hedging', 10: 'argument-architecture' }[task.stage] || 'sentence-basics';
   // Other essay tasks at this stage, for "try a new task" advice (persona panel P-80).
@@ -122,6 +133,8 @@ export default async function essay(el, ctx) {
   let chosen = Number.isInteger(draftRec?.topic) ? draftRec.topic : versions().at(-1)?.topic ?? null;
   let textKind = task.id === 'free' ? (draftRec?.text_kind || versions().at(-1)?.text_kind || 'essay') : null;
   const kindOf = () => textKind || task.kind || 'essay';
+  const syncMin = () => { minWords = task.id === 'free' && NOT_ARGUED.has(kindOf()) ? 0 : baseMin; };
+  syncMin();
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
   // The task's source pack, or the pack of the chosen topic's assignment: drafts are compared with it (RW-6).
   const packOf = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
@@ -184,11 +197,11 @@ export default async function essay(el, ctx) {
     // The heading says how many of the things checked came up, never "no problems" (RW-2).
     return html`<div class="stack">
       <h3 class="small checks-head" tabindex="-1" data-checks-head>${tt(sum.head_he, sum.head_en)}</h3>
-      <div class="check-list">${a.checks.map((c) => html`<div class="check-item ${c.ok ? 'ok' : 'bad'}">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}</div>
+      <div class="check-list">${a.checks.map((c) => html`<div class="check-item ${c.ok ? 'ok' : 'bad'}">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${uiLang() === 'he' ? isolateLatin(c.he) : c.en}</span></div>`)}</div>
       ${argumentative ? html`<div class="stack-sm"><h3 class="small">${tt('מבנה הטיעון (סימנים בטקסט)', 'Argument structure (signals in the text)')}</h3>${sig.map(([k, he, en]) => html`<p class="row small sig-row">${icon(a.structure[k] ? 'check' : 'circle', { size: 16 })}<span class="${a.structure[k] ? '' : 'faint'}">${tt(he, en)}</span>${a.structureMatch?.[k] ? html`<span class="sig-found"><span class="sr-only">${tt('נמצא:', 'found:')} </span><bdi lang="en" dir="ltr">“${a.structureMatch[k]}”</bdi></span>` : ''}</p>`)}
         <p class="xsmall faint">${uiLang() === 'he' ? isolateLatin('הבדיקה מחפשת ביטויים אופייניים, כמו However או For example, ומראה מה נמצא. היא לא שופטת את איכות הטיעון.') : 'This looks for typical phrases, such as "However" or "For example", and shows what it found. It does not judge how good the argument is.'}</p></div>` : ''}
       ${a.sources ? sourceSection(a.sources) : ''}
-      <div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small"><span class="tag">${k}</span> <span lang="en" dir="ltr" class="muted">${v.join(', ')}</span></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>
+      ${NOT_ARGUED.has(kindOf()) ? '' : html`<div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small"><span class="tag">${k}</span> <span lang="en" dir="ltr" class="muted">${v.join(', ')}</span></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>`}
       <p class="small muted">${tt(`${a.stats.sentences} משפטים · אורך ממוצע ${a.stats.avg_sentence} מילים · ${a.stats.paragraphs} פסקאות`, `${a.stats.sentences} sentences · average ${a.stats.avg_sentence} words · ${a.stats.paragraphs} paragraphs`)}</p>
       ${errs.length ? html`<div class="stack-sm"><h3 class="small">${tt('כדאי לבדוק', 'Worth checking')}</h3>${errs.slice(0, 20).map(issueCard)}</div>` : ''}
       ${notes.length ? html`<div class="stack-sm"><h3 class="small">${tt('מילים גורפות: האם זה נכון בכל מקרה?', 'Sweeping words: is it true in every case?')}</h3>${notes.map(issueCard)}</div>` : ''}
@@ -420,7 +433,7 @@ export default async function essay(el, ctx) {
     const k = TEXT_KINDS.find((x) => x[0] === kindOf()) || TEXT_KINDS[0];
     return html`<div class="field"><span class="label small">${tt('מה אתם כותבים?', 'What are you writing?')}</span>
       <div class="seg" role="group" aria-label="${tt('סוג הטקסט', 'Text type')}">${TEXT_KINDS.map(([id, he, en]) => html`<button type="button" data-kind="${id}" aria-pressed="${kindOf() === id}">${tt(he, en)}</button>`)}</div>
-      <span class="help">${tt(k[3], k[4])}</span></div>`;
+      <span class="help">${uiLang() === 'he' ? isolateLatin(k[3]) : k[4]}</span></div>`;
   }
 
   function taskPanel() {
@@ -444,13 +457,15 @@ export default async function essay(el, ctx) {
 
   // Self-check list and model answer: task material, kept above the editor so nothing hides behind it.
   function taskExtras() {
-    const model = task.model_answer || task.exemplar;
+    const email = task.id === 'free' && kindOf() === 'email';
+    const model = email ? EMAIL_MODEL : task.model_answer || task.exemplar;
+    const checklist = email ? EMAIL_CHECKLIST : task.checklist;
     // The model opens after a checked draft of at least half the minimum length, not after a 3-word check (RW-4).
     const half = Math.max(1, Math.ceil(minWords * 0.5));
     const open = versions().some((v) => (v.words || 0) >= half);
-    return html`${task.checklist?.length ? html`<details class="panel flat"><summary class="small">${tt('רשימת בדיקה עצמית', 'Self-check list')}</summary><div class="stack-sm check-labels" style="margin-top:var(--s2)">${task.checklist.map((c) => html`<label class="check-label small" dir="ltr"><input type="checkbox"><span>${bi(c)}</span></label>`)}</div></details>` : ''}
+    return html`${checklist?.length ? html`<details class="panel flat"><summary class="small">${tt(email ? 'רשימת בדיקה עצמית למייל' : 'רשימת בדיקה עצמית', email ? 'Self-check list for an email' : 'Self-check list')}</summary><div class="stack-sm check-labels" style="margin-top:var(--s2)">${checklist.map((c) => html`<label class="check-label small" dir="ltr"><input type="checkbox"><span>${bi(c)}</span></label>`)}</div></details>` : ''}
       ${model && !open ? html`<p class="small faint row">${icon('lock', { size: 14 })} ${minWords ? tt(`דוגמה לתשובה תיפתח אחרי בדיקה של טיוטה עם ${half} מילים לפחות (חצי מהמינימום), כדי שתכתבו קודם בעצמכם.`, `A model answer opens after you check a draft of at least ${half} words (half the minimum), so you write it yourself first.`) : tt('דוגמה לתשובה תיפתח אחרי הבדיקה הראשונה, כדי שתכתבו קודם בעצמכם.', 'A model answer opens after your first check, so you write it yourself first.')}</p>` : ''}
-      ${model && open ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
+      ${model && open ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${email ? html`<p style="white-space:pre-line">${EMAIL_MODEL}</p>` : task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
   }
 
   // On phones the feedback column is below the editor, so the mistakes are also listed right under it,
@@ -485,7 +500,7 @@ export default async function essay(el, ctx) {
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
             ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
             ${busyStatus()}
-            <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : tt(checkedNote.he, checkedNote.en)}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
+            <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : uiLang() === 'he' ? isolateLatin(checkedNote.he) : checkedNote.en}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
             ${aiError ? html`<p class="error-text" role="alert">${aiError}</p>` : ''}
             ${aiNote ? html`<p class="xsmall faint">${aiNote}</p>` : ''}
             ${fixStrip()}
@@ -701,7 +716,7 @@ export default async function essay(el, ctx) {
       target?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       target?.focus({ preventScroll: true });
     }),
-    on(el, 'click', '[data-kind]', (e, b) => { textKind = b.dataset.kind; if (analysis) analysis = analyze(); saveDraft(); draw(); $(`[data-kind="${textKind}"]`, el)?.focus(); }),
+    on(el, 'click', '[data-kind]', (e, b) => { textKind = b.dataset.kind; syncMin(); if (analysis) analysis = analyze(); saveDraft(); draw(); $(`[data-kind="${textKind}"]`, el)?.focus(); }),
     on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { markFinal(v); draw(); } }),
     on(el, 'click', '[data-delete]', () => deleteText()),
     on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות המשוב.', 'Thanks. Your report was saved and helps us audit feedback quality.')); }),

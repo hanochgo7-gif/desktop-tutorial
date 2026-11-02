@@ -244,6 +244,8 @@ export function splitSignOff(text) {
   }
   return { body: all, signOff: '' };
 }
+const GREETING = /^(hi|hello|hey|dear|good (morning|afternoon|evening)|greetings|to whom it may concern)\b/i;
+const REQUEST = /\?|\b(please|could you|would you|can you|could we|can we|would it be possible|I would be grateful|I'd be grateful|I would appreciate|I'd appreciate|let me know|I would like to ask|may I ask)\b/i;
 // Text types that are not argued: an email or a message gets no argument checks (persona panel Y6).
 export const NOT_ARGUED = new Set(['email', 'message']);
 
@@ -320,6 +322,14 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   checks.push({ id: 'caps', ok: capsOk, en: 'Every sentence starts with a capital letter', he: 'כל משפט מתחיל באות גדולה' });
   const endOk = !raw.trim() || /[.!?"”)]$/.test(raw.trim());
   checks.push({ id: 'end', ok: endOk, en: 'The text ends with punctuation', he: 'הטקסט מסתיים בסימן פיסוק' });
+  // An email opens with a greeting, makes one clear request and ends with a sign-off (RW-8). The sign-off is the
+  // closing line before the name ("Best,", "Thanks,"), found by splitSignOff.
+  if (kind === 'email' && raw.trim()) {
+    const first = String(body).trim().split('\n')[0].trim();
+    checks.push({ id: 'greeting', ok: GREETING.test(first), en: 'Opens with a greeting, such as "Hi Tom" or "Dear Ms Levi"', he: 'פותחים בפנייה, כמו Hi Tom או Dear Ms Levi' });
+    checks.push({ id: 'request', ok: REQUEST.test(raw), en: 'Makes a clear request: a question, or "please" or "could you"', he: 'יש בקשה ברורה: שאלה, או please או could you' });
+    checks.push({ id: 'signoff', ok: Boolean(splitSignOff(body).signOff), en: 'Ends with a sign-off and your name, such as "Best" or "Kind regards"', he: 'מסיימים בברכת סיום ובשם, כמו Best או Kind regards' });
+  }
   if (words >= 150) checks.push({ id: 'paragraphs', ok: paragraphs.length >= 3, en: `${paragraphs.length} paragraph(s) (aim for 3 or more)`, he: `${paragraphs.length} פסקאות (כדאי 3 לפחות)` });
 
   const issues = findIssues(raw, [...PATTERNS, ...L1_PATTERNS, ...(isFormal ? FORMAL_PATTERNS : []), ...(stage >= 8 ? [CLAIMS] : [])], { level });
@@ -372,6 +382,9 @@ export function checkSummary(a, { minWords = 0, maxWords = null } = {}) {
     caps: ['אות גדולה בתחילת משפט', 'capital letters'],
     end: ['סימן פיסוק בסוף', 'final punctuation'],
     paragraphs: ['פסקאות', 'paragraphs'],
+    greeting: ['פנייה בהתחלה', 'a greeting'],
+    request: ['בקשה ברורה', 'a clear request'],
+    signoff: ['ברכת סיום', 'a sign-off'],
   };
   const failed = a.checks.filter((c) => !c.ok).map((c) => ({ id: c.id, label: LABEL[c.id] || (c.id.startsWith('must:') ? [`חובה לכלול ${c.id.slice(5)}`, `must include ${c.id.slice(5)}`] : [c.he, c.en]) }));
   const errors = a.issues.filter((i) => !i.soft);
