@@ -1,14 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Frank_Ruhl_Libre, IBM_Plex_Sans_Hebrew } from "next/font/google";
 import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import { LOCALES, dirOf, getDict, isLocale } from "@/i18n";
 import { Analytics } from "@/components/analytics";
+import { firstPaintFiles, fontCss } from "@/lib/fonts";
 import { pageMeta } from "@/lib/seo";
 import { SITE_URL, asset } from "@/lib/site";
 import "../globals.css";
 
-const frank = Frank_Ruhl_Libre({ subsets: ["hebrew"], weight: ["500", "700"], variable: "--font-frank", display: "swap" });
-const plex = IBM_Plex_Sans_Hebrew({ subsets: ["hebrew"], weight: ["400", "600", "700"], variable: "--font-plex", display: "swap" });
+// Fonts are self-hosted so each language preloads only its own subset (see lib/fonts.ts).
+const FONT_CSS = fontCss(asset);
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
@@ -38,8 +39,12 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
+  for (const file of firstPaintFiles(lang)) preload(asset(file), { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
   return (
-    <html lang={lang} dir={dirOf(lang)} className={`${frank.variable} ${plex.variable}`}>
+    <html lang={lang} dir={dirOf(lang)}>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: FONT_CSS }} />
+      </head>
       <body className="min-h-dvh">
         {children}
         <Analytics />

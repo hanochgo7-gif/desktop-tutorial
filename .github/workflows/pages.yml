@@ -47,10 +47,31 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           bash scripts/build-static.sh
+      # Pages caches HTML for 10 minutes: a page cached just before a deploy still asks for the
+      # previous build's hashed files. Ship them alongside the new ones (one build back).
+      - name: Restore the previous Dira build's static files
+        if: steps.dira.outcome == 'success'
+        uses: actions/cache/restore@v4
+        with:
+          path: .dira-prev-static
+          key: dira-static-${{ github.sha }}
+          restore-keys: dira-static-
+      - name: Merge the previous build's static files into this one
+        if: steps.dira.outcome == 'success'
+        run: |
+          mkdir -p .dira-cur && cp -r dira/out/_next/static .dira-cur/static
+          if [ -d .dira-prev-static ]; then cp -rn .dira-prev-static/. dira/out/_next/static/; fi
+          rm -rf .dira-prev-static && mv .dira-cur/static .dira-prev-static && rm -rf .dira-cur
+      - name: Remember this build's static files for the next deploy
+        if: steps.dira.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: .dira-prev-static
+          key: dira-static-${{ github.sha }}
       - name: Publish the built Dira site instead of its source
         run: |
           if [ "${{ steps.dira.outcome }}" = "success" ] && [ -f dira/out/index.html ]; then mv dira/out _dira_site; fi
-          rm -rf dira
+          rm -rf dira .dira-prev-static
           if [ -d _dira_site ]; then mv _dira_site dira; fi
       # קבצי הבנייה, ההערות הפנימיות והגדרות הפיתוח לא צריכים להיות באתר הציבורי
       - name: Exclude build tools and internal notes (AMS, Mizrahi, Krudo)

@@ -55,6 +55,16 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
     () => false,
   );
 
+  // A pull-down on the panel must not reload the page (and drop an unsaved stroke).
+  useEffect(() => {
+    const el = document.documentElement;
+    const prev = el.style.overscrollBehaviorY;
+    el.style.overscrollBehaviorY = "none";
+    return () => {
+      el.style.overscrollBehaviorY = prev;
+    };
+  }, []);
+
   // Keep the project in the address so a refresh or a bookmark reopens it.
   useEffect(() => {
     if (s.project && search.get("p") !== s.project.id) router.replace(`/${lang}/studio?p=${s.project.id}`, { scroll: false });
@@ -134,7 +144,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
     <div className="flex min-h-dvh flex-col tall:h-dvh tall:overflow-hidden land:h-dvh land:overflow-hidden lg:h-dvh lg:overflow-hidden">
       {/* App bar */}
       <header className="flex h-14 flex-none items-center gap-3 border-b border-line-2 bg-paper px-3 sm:px-4">
-        <Link href={`/${lang}`} aria-label={t.brand.name} className="flex-none">
+        <Link prefetch={false} href={`/${lang}`} aria-label={t.brand.name} className="flex-none">
           <LogoMark />
         </Link>
         {s.project ? (
@@ -171,16 +181,16 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
               <span className="sr-only sm:not-sr-only">{t.studio.newProject}</span>
             </button>
           )}
-          <Link href={`/${lang}/projects`} className="hidden min-h-[40px] items-center rounded-md px-2.5 text-[14px] text-ink-2 hover:text-ink sm:flex">
+          <Link prefetch={false} href={`/${lang}/projects`} className="hidden min-h-[40px] items-center rounded-md px-2.5 text-[14px] text-ink-2 hover:text-ink sm:flex">
             {t.nav.projects}
           </Link>
           <LanguageLink lang={lang} t={t} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink md:inline-block" />
           {AI_LIVE && (
-            <Link href={`/${lang}/account`} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink sm:inline-block">
+            <Link prefetch={false} href={`/${lang}/account`} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink sm:inline-block">
               {t.nav.account}
             </Link>
           )}
-          <Link href={`/${lang}/projects`} aria-label={t.nav.projects} className="flex h-10 w-10 items-center justify-center rounded-md text-ink-2 hover:text-ink sm:hidden">
+          <Link prefetch={false} href={`/${lang}/projects`} aria-label={t.nav.projects} className="flex h-10 w-10 items-center justify-center rounded-md text-ink-2 hover:text-ink sm:hidden">
             <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
               <rect x="3" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
               <rect x="11" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
@@ -225,9 +235,13 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
         </main>
       ) : (
         <main
+          aria-labelledby="studio-title"
           id="main"
           className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] land:grid-cols-[minmax(0,1.1fr)_minmax(330px,1fr)] land:grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]"
         >
+          <h1 id="studio-title" className="sr-only">
+            {s.project?.name ?? t.studio.title}
+          </h1>
           {/* Filmstrip: a column on desktop, a row on phones (below the stage). */}
           <div className="on-stage order-2 min-h-0 min-w-0 border-stage-line bg-stage land:col-start-1 land:row-start-2 lg:order-none lg:border-e">
             <Filmstrip s={s} t={t} onAdd={onAdd} onRemove={onRemove} />
@@ -275,6 +289,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   aria-selected={tab === x.id}
                   aria-controls={`panel-${x.id}`}
                   tabIndex={tab === x.id ? 0 : -1}
+                  aria-label={x.label}
                   onClick={() => {
                     if (tab === "remove" && x.id !== "remove") setViewMode("split");
                     setTab(x.id);
@@ -282,7 +297,14 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   }}
                   className={`relative min-h-[44px] flex-none px-2.5 text-[14px] font-semibold transition-colors max-[359px]:px-2 max-[359px]:text-[13px] sm:px-3 sm:text-[14.5px] ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
                 >
-                  {x.label}
+                  {x.id === "export" ? (
+                    <>
+                      <span className="sm:hidden">{t.studio.tabs.exportShort}</span>
+                      <span className="hidden sm:inline">{x.label}</span>
+                    </>
+                  ) : (
+                    x.label
+                  )}
                   {tab === x.id && <span className="absolute inset-x-2 bottom-0 h-[2px] rounded-full bg-prussian" />}
                 </button>
               ))}

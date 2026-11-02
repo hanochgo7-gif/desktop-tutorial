@@ -38,7 +38,6 @@ export function useCoarsePointer() {
 }
 
 export function DropZone({ onFiles, labels, variant = "panel" }: Props) {
-  const coarse = useCoarsePointer();
   const input = useRef<HTMLInputElement>(null);
   const camera = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
@@ -86,7 +85,16 @@ export function DropZone({ onFiles, labels, variant = "panel" }: Props) {
         <path d="m4 24 8-7 6 5 5-4 9 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
         <circle cx="24" cy="14" r="2.4" fill="currentColor" />
       </svg>
-      <p className={`mt-3 text-[17px] font-semibold ${dark ? "text-white" : "text-ink"}`}>{coarse && labels.dropTouch ? labels.dropTouch : labels.drop}</p>
+      <p className={`mt-3 text-[17px] font-semibold ${dark ? "text-white" : "text-ink"}`}>
+        {labels.dropTouch ? (
+          <>
+            <span className="[@media(pointer:coarse)]:hidden">{labels.drop}</span>
+            <span className="hidden [@media(pointer:coarse)]:inline">{labels.dropTouch}</span>
+          </>
+        ) : (
+          labels.drop
+        )}
+      </p>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
         <button type="button" className="btn btn-primary" onClick={() => input.current?.click()}>
           {labels.choose}

@@ -18,6 +18,7 @@ export function LanguageLink({ lang, t, className }: { lang: Locale; t: Dict; cl
   const other: Locale = lang === "he" ? "en" : "he";
   return (
     <Link
+      prefetch={false}
       href={swapLocalePath(pathname, other)}
       hrefLang={other}
       lang={other}

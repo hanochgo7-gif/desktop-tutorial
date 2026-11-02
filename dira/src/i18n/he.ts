@@ -200,7 +200,7 @@ const he = {
     viewSplit: "השוואה",
     viewAfter: "תוצאה",
     viewBefore: "מקור",
-    tabs: { fix: "תיקון", adjust: "בהירות וצבע", remove: "מחיקת חפץ", ai: "AI", export: "שמירה ושליחה" },
+    tabs: { fix: "תיקון", adjust: "בהירות וצבע", remove: "מחיקת חפץ", ai: "AI", export: "שמירה ושליחה", exportShort: "שמירה" },
     found: "מה מצאנו",
     nothingFound: "התמונה במצב טוב. הסטודיו יחדד ויאזן קלות.",
     profile: "סוג צילום",

@@ -13,16 +13,17 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
   const dragId = useRef<string | null>(null);
   const [over, setOver] = useState<number | null>(null);
   return (
-    <div className="flex min-h-0 gap-2.5 overflow-x-auto px-3 pb-2 pt-3 lg:h-full lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden" role="listbox" aria-label={t.studio.photos}>
+    <div className="flex min-h-0 gap-2.5 overflow-x-auto px-3 pb-2 pt-3 lg:h-full lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
+      <ul className="contents" aria-label={t.studio.photos}>
       {s.photos.map((p, i) => {
         const thumb = s.url(p.thumb);
         const selected = p.id === s.selectedId;
         const busy = p.status === "new" || p.status === "analyzing";
         const staged = p.versions.find((v) => v.id === p.activeVersion)?.tool === "stage";
         return (
-          <div
+          <li
             key={p.id}
-            className={`group relative flex-none rounded-[8px] ${over === i ? "outline-2 outline-offset-2 outline-dashed outline-[#9db4ee]" : ""}`}
+            className={`group relative flex-none list-none rounded-[8px] ${over === i ? "outline-2 outline-offset-2 outline-dashed outline-[#9db4ee]" : ""}`}
             draggable={s.photos.length > 1}
             onDragStart={(e) => {
               dragId.current = p.id;
@@ -49,8 +50,7 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
           >
             <button
               type="button"
-              role="option"
-              aria-selected={selected}
+              aria-pressed={selected}
               aria-label={`${i + 1}. ${p.name}${p.status === "error" ? ` — ${t.studio.failed}` : busy ? ` — ${t.studio.analyzing}` : ""}`}
               onClick={() => s.setSelectedId(p.id)}
               className={`relative block h-[52px] w-[70px] overflow-hidden sm:h-[64px] sm:w-[86px] rounded-[6px] bg-stage-2 outline-offset-2 lg:h-[72px] lg:w-[96px] ${selected ? "ring-2 ring-[#9db4ee]" : "opacity-80 hover:opacity-100"}`}
@@ -89,9 +89,10 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
                 ★
               </button>
             )}
-          </div>
+          </li>
         );
       })}
+      </ul>
       <button
         type="button"
         onClick={() => input.current?.click()}

@@ -13,6 +13,10 @@ export async function uploadToStudio(page: Page, files: string[], lang = "he") {
   await expect(page.locator("[role=slider][aria-valuenow]").first()).toBeVisible({ timeout: 45_000 });
 }
 
+/** The photo strip's items, and each item's select button (named "1. file.jpg"). */
+export const photoItems = (page: Page) => page.getByRole("list", { name: "תמונות" }).getByRole("listitem");
+export const photoButton = (page: Page, i: number) => photoItems(page).nth(i).getByRole("button", { name: /^\d+\. / });
+
 /** Reads entry names and text files from a stored (uncompressed) ZIP. */
 export function readZip(file: string): Map<string, Buffer> {
   const buf = readFileSync(file);

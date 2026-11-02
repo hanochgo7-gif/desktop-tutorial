@@ -43,7 +43,7 @@ export function LandingPage({ lang, t, variant = "home" }: { lang: Locale; t: Di
           </picture>
           <div className="hero-scrim absolute inset-0" />
         </div>
-        <p className="absolute end-2 top-2 rounded bg-paper/80 px-1.5 py-0.5 text-[11px] text-ink-3 sm:end-3 sm:top-3 sm:text-[11.5px]">{L.bgNote}</p>
+        <p className="absolute end-2 top-2 rounded bg-paper/90 px-1.5 py-0.5 text-[11.5px] text-ink-2 sm:end-3 sm:top-3 sm:text-[12px]">{L.bgNote}</p>
         <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)] gap-7 px-4 pb-14 pt-7 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-x-14 lg:gap-y-7 lg:pb-20 lg:pt-14">
           <HeroDemo
             lang={lang}
@@ -59,7 +59,7 @@ export function LandingPage({ lang, t, variant = "home" }: { lang: Locale; t: Di
                   {(["before", "after"] as const).map((k) => (
                     <div key={k} className="relative aspect-[4/3]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={asset(`/demo/living-${k}.jpg`)} alt="" className="absolute inset-0 h-full w-full object-cover" decoding="async" />
+                      <img src={asset(`/demo/living-${k}-480.webp`)} alt="" width={480} height={360} className="absolute inset-0 h-full w-full object-cover" decoding="async" />
                       <span className={`absolute start-1.5 top-1.5 rounded px-1.5 py-0.5 text-[12px] font-semibold text-white ${k === "after" ? "bg-prussian" : "bg-black/60"}`}>
                         {k === "after" ? L.demoAfter : L.demoBefore}
                       </span>

@@ -304,10 +304,12 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
                 {fmt(E.shareAllDone, { n: batches }, lang)}
               </button>
             )}
-            <p className="text-[12.5px] leading-snug text-ink-3">{ios ? E.hintIos : E.hintAndroid}</p>
-            <button type="button" className="justify-self-center py-1 text-[13.5px] font-semibold text-prussian underline underline-offset-4" onClick={() => deliver(result!, "download")}>
-              {E.downloadInstead}
-            </button>
+            <p className="text-[12.5px] leading-snug text-ink-3">
+              {ios ? E.hintIos : E.hintAndroid}{" "}
+              <button type="button" className="inline font-semibold text-prussian underline underline-offset-2" onClick={() => deliver(result!, "download")}>
+                {E.downloadInstead}
+              </button>
+            </p>
           </>
         ) : fresh ? (
           <>

@@ -15,7 +15,8 @@ export function MobileCta({ lang, t }: { lang: Locale; t: Dict }) {
   const start = useStartStudio(lang);
 
   useEffect(() => {
-    const hero = document.getElementById("hero-action");
+    // The upload button itself: on short phones the hero block peeks in while its button doesn't.
+    const hero = document.querySelector("#hero-action .btn-primary") ?? document.getElementById("hero-action");
     const final = document.getElementById("final-cta");
     if (!hero || !final) return;
     const seen = { hero: true, final: false };

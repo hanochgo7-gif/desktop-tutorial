@@ -200,7 +200,7 @@ const en: Dict = {
     viewSplit: "Compare",
     viewAfter: "Result",
     viewBefore: "Original",
-    tabs: { fix: "Fix", adjust: "Light & colour", remove: "Erase", ai: "AI", export: "Save & send" },
+    tabs: { fix: "Fix", adjust: "Light & colour", remove: "Erase", ai: "AI", export: "Save & send", exportShort: "Save" },
     found: "What we found",
     nothingFound: "This photo is in good shape. The studio will sharpen and balance it lightly.",
     profile: "Shot type",

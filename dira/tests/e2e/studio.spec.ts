@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { readZip, sample, uploadToStudio } from "./helpers";
+import { photoButton, photoItems, readZip, sample, uploadToStudio } from "./helpers";
 
 test("upload → plain findings → adjust → ZIP with a folder per destination and a change log", async ({ page }) => {
   await uploadToStudio(page, [sample(1), sample(3)]);
   // The studio says what it found and fixed in plain words.
   await expect(page.getByText("התמונה כבר תוקנה")).toBeVisible();
   await expect(page.getByText("התמונה צהובה מהנורות", { exact: true })).toBeVisible();
-  await expect(page.getByRole("option")).toHaveCount(2);
+  await expect(photoItems(page)).toHaveCount(2);
   await expect(page.getByText("נשמר במכשיר")).toBeVisible({ timeout: 30_000 });
 
   // Adjust brightness; the exact numbers are one tap away.
@@ -73,7 +73,7 @@ test("a broker's licence is remembered for the next sale listing", async ({ page
   await expect(page.getByRole("heading", { level: 1, name: "מתחילים מהתמונות" })).toBeVisible();
   await page.locator("input[type=file]").first().setInputFiles([sample(1)]);
   await expect(page.locator("[role=slider][aria-valuenow]").first()).toBeVisible({ timeout: 45_000 });
-  await expect(page.getByRole("option")).toHaveCount(1);
+  await expect(photoItems(page)).toHaveCount(1);
   // The next property starts as a sale, like the last one.
   await expect(page.getByRole("button", { name: "מכירה" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
@@ -82,11 +82,11 @@ test("a broker's licence is remembered for the next sale listing", async ({ page
 
 test("any photo can be made the cover, and the order is kept", async ({ page }) => {
   await uploadToStudio(page, [sample(1), sample(3)]);
-  await page.getByRole("option").nth(1).click();
+  await photoButton(page, 1).click();
   await page.getByRole("button", { name: /להפוך לתמונה הראשית במודעה/ }).click();
-  await expect(page.getByRole("option").first()).toHaveAccessibleName(/apt3-before\.jpg/);
+  await expect(photoButton(page, 0)).toHaveAccessibleName(/apt3-before\.jpg/);
   await page.reload();
-  await expect(page.getByRole("option").first()).toHaveAccessibleName(/apt3-before\.jpg/, { timeout: 30_000 });
+  await expect(photoButton(page, 0)).toHaveAccessibleName(/apt3-before\.jpg/, { timeout: 30_000 });
 });
 
 test("projects persist on the device and can be reopened", async ({ page }) => {
