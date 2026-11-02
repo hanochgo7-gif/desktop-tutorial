@@ -249,7 +249,7 @@ try {
       if (await page.$('[data-skip-speak]')) { await page.click('[data-skip-speak]'); continue; }
       await answerCurrent(page, { correct: i % 3 !== 1 });
       const check = await page.$('[data-check]:not([disabled])');
-      if (check) await check.click(); else await page.click('[data-dontknow]').catch(() => {});
+      if (check) await check.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]').catch(() => {}); // a finished matching board checks itself (EX-1)
       await page.waitForSelector('[data-next]', { timeout: 3000 });
       const verdict = await page.textContent('.verdict');
       if (/Correct answer|התשובה הנכונה|Not quite|לא בדיוק/.test(verdict)) feedbackSeen = true;
@@ -863,7 +863,7 @@ try {
     await page.click('[data-skip-learn]');
     for (let i = 0; i < 3; i++) {
       await answerCurrent(page);
-      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]'); // a finished matching board checks itself (EX-1)
       await page.waitForSelector('[data-next]'); await page.click('[data-next]');
     }
     await page.click('[data-exit]');
@@ -1848,7 +1848,7 @@ try {
     for (let i = 0; i < upto; i++) {
       await page.waitForSelector('#exroot');
       await answerCurrent(page);
-      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]'); // a finished matching board checks itself (EX-1)
       if (i < upto - 1 || await page.$('[data-next]')) { await page.waitForSelector('[data-next]'); await page.click('[data-next]'); }
     }
     await page.waitForSelector('.part-end');

@@ -5,11 +5,17 @@
 //   onKey(e)       keyboard shortcuts (1-4 for options); returns true when handled
 //   graded         false for practice that is never scored (speaking, writing)
 //   speak          true for speaking items: the player offers "Can't speak right now" and goes straight on
+//   reveal()       "I don't know": the exercise stays on screen, locked, with the answer marked in place and the
+//                  play buttons kept (mcq, listen, gap, order, transform, correct, dictation, match, categorize, read)
+//   retryable      true for typed answers (gap, transform, correct, dictation): after a wrong check the player may
+//   reopen()       unlock the fields with the learner's text kept, wrong fields marked, focus on the first one
+// Focus never falls to the page: every action that redraws or disables the focused control moves focus to the
+// next useful one (the next tile, chip or bin, or Check once the exercise is complete).
 // Every typed answer goes through grading.js, so contractions, case and small slips are fair.
 // Speaking is never graded by speech recognition (research C2, D34-D37): the learner sees what was
 // recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
-import { html, render, on, shuffle, $, $$ } from '../core/util.js';
-import { bi, tt, hebrewSupport, isolateLatin } from '../core/i18n.js';
+import { html, raw, render, on, shuffle, $, $$ } from '../core/util.js';
+import { bi, tt, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize } from '../core/grading.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { icon } from './components.js';
@@ -26,6 +32,11 @@ const NIQQUD = /[\u05B0-\u05BC\u05C1\u05C2\u05C7]/;
 const LETTER = /^[A-Za-z]$/;
 const firstAnswer = (a) => (Array.isArray(a) ? a[0] : a);
 const playTile = (text) => html`<button type="button" class="key ghost small icon-only" data-say-tile="${String(text).trim()}" aria-label="${tt('השמעה', 'Play')}: ${text}">${icon('volume', { size: 18 })}</button>`;
+// lang and dir of the interface, for UI words inside an English element (screen-reader notes).
+const uiAttrs = () => raw(`lang="${uiLang()}" dir="${uiLang() === 'he' ? 'rtl' : 'ltr'}"`);
+const HEBREW = /[֐-׿]/;
+const langOf = (s) => (HEBREW.test(String(s)) ? 'he' : 'en');
+const tick = (ok = true) => html`<span class="ex-mark ${ok ? 'ok' : 'bad'}" aria-hidden="true">${icon(ok ? 'check' : 'x', { size: 16 })}</span>`;
 
 function listenButtons(text) {
   if (!canSpeak()) return html`<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא תומך בהקראה. התמליל מוצג במקום.', 'This browser cannot read text aloud, so the transcript is shown instead.')}</span></p><p class="ex-text" lang="en" dir="ltr">${text}</p>`;
@@ -42,11 +53,22 @@ function errorNote(type, errors, { general = true } = {}) {
 }
 
 export function mountExercise(root, ex, { onChange = () => {}, errors = null, level = null, variant } = {}) {
-  const prompt = html`<h2 class="ex-prompt">${bi(ex.prompt)}</h2>`;
+  const prompt = html`<h2 class="ex-prompt" tabindex="-1">${bi(ex.prompt)}</h2>`;
   const ctl = { graded: true, ready: () => false, check: async () => ({}), hintText: () => ex.hint || null, onKey: () => false, destroy: () => {} };
   const offs = [];
   const sayHandler = (text) => offs.push(on(root, 'click', '[data-say]', (e, b) => say(text, { slow: b.dataset.say === 'slow', variant })));
   const result = (r) => ({ graded: true, error_type: r.correct ? null : r.error_type || ex.error_type || null, ...r });
+  // The player's Check key (the placement test calls it Next). A click from the keyboard (detail 0) may scroll
+  // the new focus into view; after a tap the page stays where it is.
+  const checkKey = () => root.closest('.player')?.querySelector('[data-check]:not([disabled]), [data-answer]:not([disabled])');
+  const focusOn = (el, e) => { if (el && root.isConnected) el.focus({ preventScroll: Boolean(e) && e.detail !== 0 }); };
+  const announce = (h) => { const live = $('[data-live]', root); if (live) render(live, h); };
+  const liveRegion = html`<p class="sr-only" aria-live="polite" data-live></p>`;
+  // Typed answers (transform, correct, dictation): a wrong field is marked; "I don't know" shows the key under
+  // the learner's own text; a second try unlocks the field with the text kept.
+  const setInvalid = (el, bad) => { el.classList.toggle('wrong', bad); if (bad) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid'); };
+  const revealAnswer = (a) => { const box = $('[data-reveal]', root); if (box) render(box, html`<p class="reveal-answer">${tick()}<span class="sr-only" ${uiAttrs()}>${tt('התשובה:', 'Answer:')} </span><span lang="en" dir="ltr">${a}</span></p>`); };
+  const reopenField = (el) => { el.readOnly = false; onChange(ctl.ready()); el.focus(); el.setSelectionRange?.(el.value.length, el.value.length); };
 
   switch (ex.type) {
     case 'mcq':
@@ -61,40 +83,115 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
       offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled) pick(Number(b.dataset.opt)); }));
       ctl.ready = () => picked != null;
-      ctl.onKey = (e) => { const n = KEYS.indexOf(e.key); if (n >= 0 && n < order.length && !$('.option', root).disabled) { pick(order[n]); return true; } return false; };
+      // A number key chooses, and focus goes to Check, so Enter checks (it used to stay on Play).
+      ctl.onKey = (e) => { const n = KEYS.indexOf(e.key); if (n >= 0 && n < order.length && !$('.option', root).disabled) { pick(order[n]); focusOn(checkKey()); return true; } return false; };
+      // The right option is marked in place (and named for screen readers); a wrong choice too.
+      const mark = (chosen) => $$('.option', root).forEach((b) => {
+        b.disabled = true;
+        const i = Number(b.dataset.opt);
+        const cls = i === ex.answer ? 'is-right' : i === chosen ? 'is-wrong' : null;
+        if (!cls || b.classList.contains(cls)) return;
+        b.classList.add(cls);
+        b.insertAdjacentHTML('beforeend', String(html`<span class="sr-only" ${uiAttrs()}> (${cls === 'is-right' ? tt('התשובה הנכונה', 'right answer') : tt('הבחירה שלכם', 'your choice')})</span>`));
+      });
+      // The transcript is its own left-to-right block under the label, so it wraps as English (R2-18).
+      const transcript = () => { if (ex.type === 'listen' && !$('.transcript', root)) root.insertAdjacentHTML('beforeend', `<div class="transcript small faint" style="margin-top:var(--s4)"><p>${tt('תמליל:', 'Transcript:')}</p><p class="en-block" lang="en" dir="ltr">${normalizeHtml(ex.audio_text)}</p></div>`); };
       ctl.check = async () => {
         const correct = picked === ex.answer;
-        $$('.option', root).forEach((b) => { b.disabled = true; const i = Number(b.dataset.opt); if (i === ex.answer) b.classList.add('is-right'); else if (i === picked) b.classList.add('is-wrong'); });
+        mark(picked);
         const fb = !correct && ex.option_feedback?.[picked];
-        // The transcript is its own left-to-right block under the label, so it wraps as English (R2-18).
-        if (ex.type === 'listen') root.insertAdjacentHTML('beforeend', `<div class="transcript small faint" style="margin-top:var(--s4)"><p>${tt('תמליל:', 'Transcript:')}</p><p class="en-block" lang="en" dir="ltr">${normalizeHtml(ex.audio_text)}</p></div>`);
+        transcript();
         return result({ correct, score: correct ? 1 : 0, response: ex.options[picked], error_type: ex.option_errors?.[picked], answer: ex.options[ex.answer], specific: fb || null });
       };
+      ctl.reveal = () => { mark(null); transcript(); };
       break;
     }
 
     case 'gap': {
       const parts = ex.text.split('___');
       const bank = ex.word_bank ? shuffle(ex.word_bank, 0.42) : null;
+      const n = parts.length - 1;
+      const gapName = (i) => `${tt('מילה חסרה', 'Missing word')} ${i + 1}`;
       render(root, html`${prompt}
-        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${p}${i < parts.length - 1 ? html`<input class="gap-input" data-gap="${i}" aria-label="${tt('מילה חסרה', 'Missing word')} ${i + 1}" autocomplete="off" autocapitalize="off" spellcheck="false" ${bank ? html`readonly` : ''}>` : ''}`)}</p>
-        ${bank ? html`<div class="chips" style="margin-top:var(--s5)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}">${bank.map((w) => html`<button type="button" class="chip" data-chip="${w}" lang="en">${w}</button>`)}</div>` : ''}`);
+        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${p}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
+        ${bank ? html`<div class="gap-tools" data-gap-tools hidden><button type="button" class="key ghost small" data-gap-clear>${icon('x', { size: 16 })} <span data-gap-clear-label></span></button></div>
+          <div class="chips gap-bank" data-bank style="margin-top:var(--s4)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}" lang="en" dir="ltr">${bank.map((w, ci) => html`<button type="button" class="chip" data-chip="${w}" data-ci="${ci}" aria-disabled="false">${w}</button>`)}</div>` : ''}
+        ${liveRegion}`);
       const inputs = $$('.gap-input', root);
       const update = () => onChange(inputs.every((i) => i.value.trim()));
       offs.push(on(root, 'input', '.gap-input', update));
+      // Word bank (P0 EX-2): a chip fills the chosen gap (the target), then the target moves to the next empty
+      // gap. Tapping or focusing a gap chooses it without clearing it; Backspace or Delete, or the clear key,
+      // empties it and gives its word back. Used words stay visible, marked and skipped.
+      const filled = new Array(n).fill(null); // chip index in each gap
+      const locked = new Set(); // gaps already right when the player reopens the item
+      let target = bank ? 0 : null;
+      const chipEl = (ci) => $(`[data-ci="${ci}"]`, root);
+      const setChip = (ci, used) => { const c = chipEl(ci); if (!c) return; c.classList.toggle('used', used); c.setAttribute('aria-disabled', String(used)); c.tabIndex = used ? -1 : 0; };
+      const nextEmpty = (from) => { for (let k = 1; k <= n; k++) { const j = (from + k) % n; if (!filled[j] && !locked.has(j)) return j; } return null; };
+      const drawTarget = () => {
+        inputs.forEach((inp, i) => {
+          const on_ = i === target;
+          inp.classList.toggle('is-target', on_);
+          if (on_) inp.setAttribute('aria-current', 'true'); else inp.removeAttribute('aria-current');
+          inp.setAttribute('aria-label', inp.value ? `${gapName(i)}: ${inp.value}. ${tt('Backspace לניקוי', 'Backspace clears it')}` : gapName(i));
+        });
+        const tools = $('[data-gap-tools]', root);
+        if (!tools) return;
+        tools.hidden = target == null || !filled[target] || root.dataset.locked === '1';
+        if (!tools.hidden) $('[data-gap-clear-label]', root).textContent = tt(`לנקות את רווח ${target + 1}`, `Clear gap ${target + 1}`);
+      };
+      const clearGap = (i) => {
+        if (filled[i] == null || locked.has(i)) return;
+        setChip(filled[i], false);
+        filled[i] = null;
+        inputs[i].value = '';
+        inputs[i].classList.remove('wrong');
+        target = i;
+        drawTarget(); update();
+        announce(html`${gapName(i)}: ${tt('ריק', 'empty')}`);
+      };
+      const fill = (ci, e) => {
+        const t = target ?? nextEmpty(n - 1);
+        if (t == null) return;
+        if (filled[t] != null) setChip(filled[t], false);
+        filled[t] = ci;
+        inputs[t].value = bank[ci];
+        inputs[t].classList.remove('wrong');
+        setChip(ci, true);
+        target = nextEmpty(t);
+        drawTarget(); update();
+        announce(html`${gapName(t)}: <span lang="en" dir="ltr">${bank[ci]}</span>`);
+        // The last gap filled: Check is next. Otherwise the keyboard stays in the word bank.
+        if (inputs.every((i) => i.value.trim())) focusOn(checkKey(), e);
+        else focusOn($$('[data-ci]', root).find((c) => c.getAttribute('aria-disabled') !== 'true' && Number(c.dataset.ci) > ci) || $('[data-ci][aria-disabled="false"]', root), e);
+      };
       if (bank) {
-        offs.push(on(root, 'click', '[data-chip]', (e, b) => { const target = inputs.find((i) => !i.value) || inputs[inputs.length - 1]; target.value = b.dataset.chip; update(); }));
-        offs.push(on(root, 'click', '.gap-input', (e, i) => { i.value = ''; update(); }));
+        drawTarget();
+        offs.push(on(root, 'click', '[data-chip]', (e, b) => { if (root.dataset.locked === '1' || b.getAttribute('aria-disabled') === 'true') return; fill(Number(b.dataset.ci), e); }));
+        offs.push(on(root, 'focusin', '.gap-input', (e, i) => { if (root.dataset.locked === '1' || locked.has(Number(i.dataset.gap))) return; target = Number(i.dataset.gap); drawTarget(); }));
+        offs.push(on(root, 'click', '.gap-input', (e, i) => { if (root.dataset.locked === '1' || locked.has(Number(i.dataset.gap))) return; target = Number(i.dataset.gap); drawTarget(); }));
+        offs.push(on(root, 'keydown', '.gap-input', (e, i) => {
+          if (root.dataset.locked === '1' || !['Backspace', 'Delete'].includes(e.key)) return;
+          e.preventDefault();
+          clearGap(Number(i.dataset.gap));
+        }));
+        offs.push(on(root, 'click', '[data-gap-clear]', (e) => { const t = target; if (t == null) return; clearGap(t); focusOn(inputs[t], e); }));
       }
       setTimeout(() => !bank && inputs[0]?.focus(), 50);
       ctl.ready = () => inputs.every((i) => i.value.trim());
       ctl.check = async () => {
         let allRight = true, almost = false, specific = null, err = null;
         const responses = [];
+        root.dataset.locked = '1';
+        $$('.gap-mark', root).forEach((m) => m.remove());
         inputs.forEach((inp, i) => {
           const r = checkTyped(inp.value, ex.answers[i], ex.wrong_feedback);
           responses.push(inp.value);
           inp.readOnly = true;
+          inp.classList.remove('right', 'wrong', 'is-target');
+          inp.removeAttribute('aria-current');
+          setInvalid(inp, !r.correct);
           inp.classList.add(r.correct ? 'right' : 'wrong');
           if (!r.correct) {
             allRight = false;
@@ -103,7 +200,40 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           } else if (r.almost) almost = true;
         });
         $$('.chip', root).forEach((c) => { c.disabled = true; });
+        target = null; drawTarget();
         return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific });
+      };
+      ctl.reveal = () => {
+        root.dataset.locked = '1';
+        $$('.gap-mark', root).forEach((m) => m.remove());
+        inputs.forEach((inp, i) => {
+          inp.value = firstAnswer(ex.answers[i]);
+          inp.readOnly = true;
+          inp.classList.remove('wrong', 'right', 'is-target');
+          inp.classList.add('is-right');
+          inp.removeAttribute('aria-current');
+          inp.removeAttribute('aria-invalid');
+          inp.setAttribute('aria-label', `${gapName(i)}: ${inp.value}`);
+          inp.insertAdjacentHTML('afterend', String(html`<span class="gap-mark">${tick()}</span>`));
+        });
+        $$('.chip', root).forEach((c) => { c.disabled = true; });
+        target = null; drawTarget();
+      };
+      // A second try (P0 EX-4): the gaps that were right stay as they are; the wrong ones open with the
+      // learner's words in them, marked, and the first of them takes the focus.
+      ctl.retryable = true;
+      ctl.reopen = () => {
+        delete root.dataset.locked;
+        const wrong = inputs.filter((inp) => inp.classList.contains('wrong'));
+        locked.clear();
+        inputs.forEach((inp, i) => { if (inp.classList.contains('right')) locked.add(i); else if (!bank) inp.readOnly = false; });
+        if (bank) $$('.chip', root).forEach((c) => { c.disabled = false; });
+        target = bank && wrong.length ? Number(wrong[0].dataset.gap) : null;
+        drawTarget();
+        onChange(ctl.ready());
+        const first = wrong[0];
+        first?.focus();
+        if (first && !bank) first.setSelectionRange?.(first.value.length, first.value.length);
       };
       break;
     }
@@ -112,17 +242,47 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const pool = shuffle(ex.tokens.map((t, i) => ({ t, i })), 0.77);
       if (pool.every((p, k) => p.i === k)) pool.reverse();
       const chosen = [];
-      const draw = () => render(root, html`${prompt}
-        <div class="answer-line" aria-label="${tt('המשפט שלך', 'Your sentence')}" lang="en" dir="ltr">${chosen.map((p, k) => html`<button type="button" class="chip" data-out="${k}">${p.t}</button>`)}</div>
-        <div class="chips" lang="en" dir="ltr">${pool.map((p) => html`<button type="button" class="chip ${chosen.includes(p) ? 'used' : ''}" data-in="${p.i}" ${chosen.includes(p) ? html`tabindex="-1" aria-hidden="true"` : ''}>${p.t}</button>`)}</div>`);
+      // The prompt is drawn once; a tap redraws only the sentence and the word pool, then puts the focus back.
+      render(root, html`${prompt}
+        <div class="answer-line" role="group" aria-label="${tt('המשפט שלכם', 'Your sentence')}" lang="en" dir="ltr" data-line></div>
+        <div class="chips" role="group" aria-label="${tt('המילים', 'The words')}" lang="en" dir="ltr" data-pool></div>`);
+      const draw = (revealed = false) => {
+        render($('[data-line]', root), chosen.map((p, k) => html`<button type="button" class="chip${revealed ? ' is-right' : ''}" data-out="${k}" ${revealed ? html`disabled` : ''}>${p.t}</button>`));
+        render($('[data-pool]', root), pool.map((p) => html`<button type="button" class="chip ${chosen.includes(p) ? 'used' : ''}" data-in="${p.i}" ${chosen.includes(p) ? html`tabindex="-1" aria-hidden="true"` : ''}>${p.t}</button>`));
+      };
       draw();
-      offs.push(on(root, 'click', '[data-in]', (e, b) => { if (root.dataset.locked) return; const p = pool.find((x) => x.i === Number(b.dataset.in)); if (!chosen.includes(p)) chosen.push(p); draw(); onChange(chosen.length === pool.length); }));
-      offs.push(on(root, 'click', '[data-out]', (e, b) => { if (root.dataset.locked) return; chosen.splice(Number(b.dataset.out), 1); draw(); onChange(false); }));
+      offs.push(on(root, 'click', '[data-in]', (e, b) => {
+        if (root.dataset.locked) return;
+        const at = pool.findIndex((x) => x.i === Number(b.dataset.in));
+        if (!chosen.includes(pool[at])) chosen.push(pool[at]);
+        draw();
+        const done = chosen.length === pool.length;
+        onChange(done);
+        // Next: the next unused word after this one, or Check when the sentence is complete.
+        const next = [...pool.slice(at + 1), ...pool.slice(0, at)].find((p) => !chosen.includes(p));
+        focusOn(done ? checkKey() : next && $(`[data-in="${next.i}"]`, root), e);
+      }));
+      offs.push(on(root, 'click', '[data-out]', (e, b) => {
+        if (root.dataset.locked) return;
+        const k = Number(b.dataset.out);
+        chosen.splice(k, 1);
+        draw();
+        onChange(false);
+        focusOn($(`[data-out="${Math.min(k, chosen.length - 1)}"]`, root) || $('[data-in]:not(.used)', root), e);
+      }));
       ctl.ready = () => chosen.length === pool.length;
       ctl.check = async () => {
         root.dataset.locked = '1';
         const r = checkOrder(chosen.map((p) => p.t), ex.tokens, ex.answers || []);
         return result({ correct: r.correct, score: r.correct ? 1 : 0, response: chosen.map((p) => p.t).join(' '), answer: ex.tokens.join(' '), error_type: ex.error_type || 'word-order' });
+      };
+      // "I don't know": the sentence in its right order, marked, in the answer line.
+      ctl.reveal = () => {
+        root.dataset.locked = '1';
+        chosen.length = 0;
+        ex.tokens.forEach((t, i) => chosen.push(pool.find((p) => p.i === i)));
+        draw(true);
+        $$('[data-in]', root).forEach((b) => { b.disabled = true; });
       };
       break;
     }
@@ -130,43 +290,92 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     case 'match': {
       const left = shuffle(ex.pairs.map((p, i) => ({ text: p[0], i })), 0.31);
       const right = shuffle(ex.pairs.map((p, i) => ({ text: p[1], i })), 0.63);
-      let sel = null; let mistakes = 0; const done = new Set();
-      const langOf = (s) => (/[֐-׿]/.test(s) ? 'he' : 'en');
+      let sel = null; let mistakes = 0; const done = new Set(); let marked = [];
       // Letter names that differ only in their vowel points are shown larger, and a letter tile has its own
       // play button (P-09), so the learner can hear "A" and "I" instead of telling them apart by niqqud.
       const tile = (side, x) => {
-        const b = html`<button type="button" class="match-item ${NIQQUD.test(x.text) ? 'pointed' : ''}" ${side === 'l' ? html`data-l="${x.i}"` : html`data-r="${x.i}"`} lang="${langOf(x.text)}" dir="auto">${x.text}</button>`;
+        const b = html`<button type="button" class="match-item ${NIQQUD.test(x.text) ? 'pointed' : ''}" ${side === 'l' ? html`data-l="${x.i}"` : html`data-r="${x.i}"`} aria-pressed="false" lang="${langOf(x.text)}" dir="auto"><span class="match-mark" aria-hidden="true"></span>${x.text}</button>`;
         // The play button sits on the outer side of the tile, away from the other column.
         return canSpeak() && LETTER.test(String(x.text).trim())
           ? html`<div class="match-cell">${side === 'l' ? playTile(x.text) : ''}${b}${side === 'r' ? playTile(x.text) : ''}</div>`
           : b;
       };
+      // Each column is a named group: by language when the columns differ ("English", "Hebrew"), else by place.
+      const colLang = (side) => { const ls = new Set(ex.pairs.map((p) => langOf(p[side === 'l' ? 0 : 1]))); return ls.size === 1 ? [...ls][0] : null; };
+      const [ll, rl] = [colLang('l'), colLang('r')];
+      const colName = (side) => (ll && rl && ll !== rl
+        ? ((side === 'l' ? ll : rl) === 'he' ? tt('עברית', 'Hebrew') : tt('אנגלית', 'English'))
+        : side === 'l' ? tt('עמודה ראשונה', 'First column') : tt('עמודה שנייה', 'Second column'));
       render(root, html`${prompt}
-        <div class="match-grid">
-          <div class="match-col">${left.map((x) => tile('l', x))}</div>
-          <div class="match-col">${right.map((x) => tile('r', x))}</div>
-        </div>`);
+        <div class="match-grid" data-board>
+          <div class="match-col" role="group" aria-label="${colName('l')}">${left.map((x) => tile('l', x))}</div>
+          <div class="match-col" role="group" aria-label="${colName('r')}">${right.map((x) => tile('r', x))}</div>
+        </div>
+        ${liveRegion}`);
       offs.push(on(root, 'click', '[data-say-tile]', (e, b) => say(b.dataset.sayTile, { variant })));
-      const tryPair = (l, r) => {
+      const pairText = (l, r) => html`<span lang="${langOf(ex.pairs[l][0])}" dir="auto">${ex.pairs[l][0]}</span> – <span lang="${langOf(ex.pairs[r][1])}" dir="auto">${ex.pairs[r][1]}</span>`;
+      // A wrong pair keeps its red outline and cross until the next tap (with reduced motion too: no shake needed).
+      const clearMarks = () => { marked.forEach((b) => { b.classList.remove('is-wrong', 'shake'); render($('.match-mark', b), ''); }); marked = []; };
+      const tryPair = (l, r, origin, e) => {
         const lb = $(`[data-l="${l}"]`, root), rb = $(`[data-r="${r}"]`, root);
-        if (l === r) { [lb, rb].forEach((b) => { b.classList.add('paired'); b.disabled = true; b.setAttribute('aria-pressed', 'false'); }); done.add(l); onChange(done.size === ex.pairs.length); }
-        else { mistakes++; [lb, rb].forEach((b) => { b.classList.add('shake'); setTimeout(() => b.classList.remove('shake'), 320); b.setAttribute('aria-pressed', 'false'); }); }
+        [lb, rb].forEach((b) => b.setAttribute('aria-pressed', 'false'));
         sel = null;
+        if (l === r) {
+          done.add(l);
+          [lb, rb].forEach((b) => { b.classList.add('paired'); b.disabled = true; render($('.match-mark', b), html`<span class="match-n">${done.size}</span>`); });
+          announce(html`${pairText(l, r)}: ${tt('נמצא', 'found')}`);
+          const complete = done.size === ex.pairs.length;
+          onChange(complete);
+          // The last pair finishes the exercise by itself: there is nothing left to check (P0 EX-1).
+          if (complete) { checkKey()?.click(); return; }
+          // The keyboard stays on the board: the next open tile in the column the pair started from.
+          const col = $$(`[data-${origin.side}]`, root);
+          const at = col.findIndex((b) => Number(b.dataset[origin.side]) === origin.id);
+          focusOn([...col.slice(at + 1), ...col.slice(0, at)].find((b) => !b.disabled), e);
+        } else {
+          mistakes++;
+          [lb, rb].forEach((b) => { b.classList.add('is-wrong', 'shake'); render($('.match-mark', b), icon('x', { size: 16 })); });
+          marked = [lb, rb];
+          announce(html`${pairText(l, r)}: ${tt('לא מתאים', 'not a match')}`);
+          focusOn($(`[data-${origin.side}="${origin.id}"]`, root), e);
+        }
       };
       offs.push(on(root, 'click', '[data-l],[data-r]', (e, b) => {
+        if (b.disabled || root.dataset.locked) return;
+        clearMarks();
         const side = b.dataset.l != null ? 'l' : 'r';
         const id = Number(b.dataset[side]);
-        if (sel && sel.side !== side) return tryPair(side === 'l' ? id : sel.id, side === 'r' ? id : sel.id);
+        if (sel && sel.side !== side) return tryPair(side === 'l' ? id : sel.id, side === 'r' ? id : sel.id, sel, e);
         $$('.match-item', root).forEach((x) => x.setAttribute('aria-pressed', 'false'));
         b.setAttribute('aria-pressed', 'true');
         sel = { side, id };
+        // Next: the other column, where its partner is.
+        focusOn($(`[data-${side === 'l' ? 'r' : 'l'}]:not(:disabled)`, root), e);
       }));
+      // After the board: the pairs side by side, one row each, with the English word's play button.
+      const rows = (revealed) => {
+        const allEn = ll === 'en' && rl === 'en';
+        return html`<ul class="match-rows" aria-label="${tt('הזוגות', 'The pairs')}" ${allEn ? html`dir="ltr"` : ''}>${ex.pairs.map(([a, b]) => {
+          // The play button sits beside the English side of the row.
+          const playA = canSpeak() && langOf(a) === 'en', playB = canSpeak() && !playA && langOf(b) === 'en';
+          return html`<li class="match-row${revealed ? ' is-right' : ''}"><span class="match-lead">${revealed ? tick() : ''}${playA ? playTile(a) : ''}</span><span class="match-a" lang="${langOf(a)}"><bdi dir="${langOf(a) === 'he' ? 'rtl' : 'ltr'}">${a}</bdi></span><span class="match-sep"><span aria-hidden="true">—</span><span class="sr-only">=</span></span><span class="match-b" lang="${langOf(b)}"><bdi dir="${langOf(b) === 'he' ? 'rtl' : 'ltr'}">${b}</bdi></span><span class="match-trail">${playB ? playTile(b) : ''}</span></li>`;
+        })}</ul>`;
+      };
+      const showRows = (revealed) => { root.dataset.locked = '1'; sel = null; const old = $('[data-board], .match-rows', root); if (old) old.outerHTML = String(rows(revealed)); };
       ctl.ready = () => done.size === ex.pairs.length;
       ctl.check = async () => {
-        const correct = mistakes === 0;
-        // Every pair is matched on screen by now, so the verdict counts the wrong tries instead of repeating the key.
-        return result({ correct, score: Math.max(0, 1 - mistakes / ex.pairs.length), response: `${mistakes} mistakes`, summary: correct ? null : tt(mistakes === 1 ? 'ניסיון שגוי אחד' : `${mistakes} ניסיונות שגויים`, `${mistakes} wrong ${mistakes === 1 ? 'try' : 'tries'}`) });
+        // One slip on a finished board is forgiven: every pair is right on screen, so it is "almost" (amber) and
+        // is not queued again. Two or more count against the score as before.
+        const correct = mistakes <= 1;
+        const r = result({
+          correct, almost: mistakes === 1, score: Math.max(0, 1 - mistakes / ex.pairs.length), response: `${mistakes} mistakes`,
+          title: mistakes === 1 ? tt('כל הזוגות נכונים', 'All pairs right') : null,
+          summary: mistakes === 0 ? null : mistakes === 1 ? tt('ניסיון נוסף אחד', 'one extra try') : tt(`${mistakes} ניסיונות שגויים`, `${mistakes} wrong tries`),
+        });
+        showRows(false);
+        return r;
       };
+      ctl.reveal = () => showRows(true);
       break;
     }
 
@@ -174,30 +383,56 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const items = shuffle(ex.items.map((x, i) => ({ ...x, i })), 0.5);
       const placed = new Map();
       let sel = null;
-      const draw = () => render(root, html`${prompt}
-        <div class="chips" lang="en" dir="ltr">${items.filter((x) => !placed.has(x.i)).map((x) => html`<button type="button" class="chip" data-item="${x.i}" aria-pressed="${sel === x.i}">${x.text}</button>`)}</div>
-        <div class="cat-grid" lang="en" dir="ltr">${ex.categories.map((c) => html`<div class="cat-bin" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`)}</div>
+      // The prompt and the instruction are drawn once; a tap redraws the words and the bins, then puts the focus
+      // back: on a bin after choosing a word, on the next word after placing one, on Check when all are placed.
+      render(root, html`${prompt}
+        <div class="chips" role="group" aria-label="${tt('פריטים למיון', 'Items to sort')}" lang="en" dir="ltr" data-pool></div>
+        <div class="cat-grid" lang="en" dir="ltr" data-bins></div>
         <p class="xsmall faint">${tt('בחרו פריט ואז את הקטגוריה. לחיצה על פריט שהונח מחזירה אותו.', 'Pick an item, then its category. Tap a placed item to take it back.')}</p>`);
+      const draw = () => {
+        render($('[data-pool]', root), items.filter((x) => !placed.has(x.i)).map((x) => html`<button type="button" class="chip" data-item="${x.i}" aria-pressed="${sel === x.i}">${x.text}</button>`));
+        render($('[data-bins]', root), ex.categories.map((c) => html`<div class="cat-bin" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`));
+      };
       draw();
-      offs.push(on(root, 'click', '[data-item]', (e, b) => { if (root.dataset.locked) return; sel = Number(b.dataset.item); draw(); }));
+      offs.push(on(root, 'click', '[data-item]', (e, b) => { if (root.dataset.locked) return; sel = Number(b.dataset.item); draw(); focusOn($('[data-bin] > .label', root), e); }));
       // A bin's name is a button (keyboard, screen readers); a tap anywhere in the bin works too. Bins hold the
       // placed chips, so the bin itself is not a button (no nested controls).
-      offs.push(on(root, 'click', '[data-bin]', (e, b) => { if (root.dataset.locked || sel == null || e.target.closest('[data-placed]')) return; placed.set(sel, b.dataset.bin); sel = null; draw(); onChange(placed.size === items.length); }));
-      offs.push(on(root, 'click', '[data-placed]', (e, b) => { if (root.dataset.locked) return; placed.delete(Number(b.dataset.placed)); draw(); onChange(false); }));
+      offs.push(on(root, 'click', '[data-bin]', (e, b) => {
+        if (root.dataset.locked || sel == null || e.target.closest('[data-placed]')) return;
+        const at = items.findIndex((x) => x.i === sel);
+        placed.set(sel, b.dataset.bin); sel = null; draw();
+        const complete = placed.size === items.length;
+        onChange(complete);
+        const next = [...items.slice(at + 1), ...items.slice(0, at)].find((x) => !placed.has(x.i));
+        focusOn(complete ? checkKey() : next && $(`[data-item="${next.i}"]`, root), e);
+      }));
+      offs.push(on(root, 'click', '[data-placed]', (e, b) => { if (root.dataset.locked) return; const i = Number(b.dataset.placed); placed.delete(i); draw(); onChange(false); focusOn($(`[data-item="${i}"]`, root), e); }));
       ctl.ready = () => placed.size === items.length;
-      ctl.check = async () => {
-        root.dataset.locked = '1';
+      // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
+      const markPlaced = () => {
         let right = 0;
-        // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
         $$('[data-placed]', root).forEach((b) => {
           const it = items.find((x) => x.i === Number(b.dataset.placed));
           const ok = placed.get(it.i) === it.category;
           if (ok) right++;
           b.classList.add(ok ? 'is-right' : 'is-wrong');
-          b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only">${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
+          b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only" ${uiAttrs()}>${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
         });
+        return right;
+      };
+      ctl.check = async () => {
+        root.dataset.locked = '1';
+        const right = markPlaced();
         const correct = right === items.length;
         return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: tt(`${right} מתוך ${items.length} במקום`, `${right} of ${items.length} in place`), fixes: categoryFixes(ex, placed) });
+      };
+      // "I don't know": every item sorted into its own bin and marked.
+      ctl.reveal = () => {
+        root.dataset.locked = '1';
+        sel = null;
+        items.forEach((x) => placed.set(x.i, x.category));
+        draw();
+        markPlaced();
       };
       break;
     }
@@ -208,7 +443,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       render(root, html`${prompt}
         <p class="ex-text" lang="en" dir="ltr">${ex.type === 'correct' ? html`<span style="text-decoration:underline wavy var(--bad);text-underline-offset:.3em">${source}</span>` : source}</p>
         <label class="sr-only" for="tx-${ex.id}">${tt('התשובה שלך', 'Your answer')}</label>
-        <textarea class="input" id="tx-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו כאן את המשפט המלא', 'Type the full sentence here')}">${ex.type === 'correct' ? source : ''}</textarea>`);
+        <textarea class="input ex-field" id="tx-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו כאן את המשפט המלא', 'Type the full sentence here')}">${ex.type === 'correct' ? source : ''}</textarea>
+        <div data-reveal></div>`);
       const ta = $('textarea', root);
       setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 50);
       offs.push(on(root, 'input', 'textarea', () => onChange(Boolean(ta.value.trim()) && normalize(ta.value) !== normalize(ex.type === 'correct' ? source : ''))));
@@ -218,15 +454,20 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ta.readOnly = true;
         const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
+        setInvalid(ta, !r.correct);
         return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && !f && isOpenRewrite(ex, level) });
       };
+      ctl.reveal = () => { ta.readOnly = true; revealAnswer(ex.answers[0]); };
+      ctl.retryable = true;
+      ctl.reopen = () => reopenField(ta);
       break;
     }
 
     case 'dictation': {
       render(root, html`${prompt}${listenButtons(ex.audio_text)}
         <label class="sr-only" for="dc-${ex.id}">${tt('מה שמעתם', 'What you heard')}</label>
-        <textarea class="input" id="dc-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו מה ששמעתם', 'Type what you hear')}"></textarea>`);
+        <textarea class="input ex-field" id="dc-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו מה ששמעתם', 'Type what you hear')}"></textarea>
+        <div data-reveal></div>`);
       sayHandler(ex.audio_text);
       setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60);
       const ta = $('textarea', root);
@@ -234,12 +475,18 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => Boolean(ta.value.trim());
       ctl.check = async () => {
         ta.readOnly = true;
+        $('.word-diff', root)?.remove();
         const exact = checkTyped(ta.value, ex.answers);
         const acc = exact.correct ? { accuracy: 1, words: [] } : wordAccuracy(ta.value, ex.answers[0]);
         const correct = exact.correct || acc.accuracy >= 0.85;
         if (!exact.correct) root.insertAdjacentHTML('beforeend', `<div class="word-diff" lang="en" dir="ltr" style="margin-top:var(--s4)">${acc.words.map((w) => `<span class="${w.ok ? 'w-ok' : 'w-miss'}">${normalizeHtml(w.word)}</span>`).join(' ')}</div>`);
+        setInvalid(ta, !correct);
         return result({ correct, almost: correct && !exact.correct, score: acc.accuracy, response: ta.value, answer: ex.answers[0], error_type: 'spelling' });
       };
+      ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); revealAnswer(ex.answers[0]); };
+      ctl.retryable = true;
+      // The marked sentence shows the key's words, so it goes away while the learner tries again.
+      ctl.reopen = () => { $('.word-diff', root)?.remove(); reopenField(ta); };
       break;
     }
 
@@ -297,16 +544,31 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         <article class="passage" lang="en" dir="ltr">${ex.title ? html`<h3 style="margin-bottom:var(--s3)">${ex.title}</h3>` : ''}${ex.passage.split(/\n\s*\n|\n/).map((p) => html`<p>${p}</p>`)}</article>
         ${canSpeak() ? html`<div class="row" style="margin-top:var(--s3)"><button type="button" class="key small" data-say="normal">${icon('volume', { size: 18 })} ${tt('הקראת הטקסט', 'Read it to me')}</button></div>` : ''}
         <div class="stack" style="margin-top:var(--s5)">${ex.questions.map((q, qi) => html`<fieldset class="panel flat stack-sm" style="margin:0" data-q="${qi}"><legend class="sr-only">${tt('שאלה', 'Question')} ${qi + 1}</legend>
-          ${q.type === 'tf' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.statement}</p><div class="row"><button type="button" class="key small" data-tf="${qi}" data-v="true" aria-pressed="false">True</button><button type="button" class="key small" data-tf="${qi}" data-v="false" aria-pressed="false">False</button></div>`
+          ${q.type === 'tf' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.statement}</p><div class="row tf-row" dir="ltr" lang="en"><button type="button" class="key small" data-tf="${qi}" data-v="true" aria-pressed="false">True</button><button type="button" class="key small" data-tf="${qi}" data-v="false" aria-pressed="false">False</button></div>`
           : q.type === 'mcq' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.question}</p><div class="options">${q.options.map((o, oi) => html`<button type="button" class="option" data-mq="${qi}" data-o="${oi}" aria-pressed="false" lang="en" dir="ltr">${o}</button>`)}</div>`
           : html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.text.split('___').map((p, i, a) => html`${p}${i < a.length - 1 ? html`<input class="gap-input" data-rg="${qi}" data-b="${i}" aria-label="${tt('מילה חסרה', 'Missing word')}" autocomplete="off" spellcheck="false">` : ''}`)}</p>`}
           <div class="q-fb" aria-live="polite"></div></fieldset>`)}</div>`);
       sayHandler(ex.passage);
       const done = () => ex.questions.every((q, qi) => (q.type === 'gap' ? $$(`[data-rg="${qi}"]`, root).every((i) => i.value.trim()) : answers.has(qi)));
-      offs.push(on(root, 'click', '[data-tf]', (e, b) => { if (root.dataset.locked) return; const qi = Number(b.dataset.tf); answers.set(qi, b.dataset.v === 'true'); $$(`[data-tf="${qi}"]`, root).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); onChange(done()); }));
-      offs.push(on(root, 'click', '[data-mq]', (e, b) => { if (root.dataset.locked) return; const qi = Number(b.dataset.mq); answers.set(qi, Number(b.dataset.o)); $$(`[data-mq="${qi}"]`, root).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); onChange(done()); }));
+      // The answer that completes the set sends the focus to Check.
+      const answered = (qi, value, e) => { const was = done(); answers.set(qi, value); const now = done(); onChange(now); if (now && !was) focusOn(checkKey(), e); };
+      offs.push(on(root, 'click', '[data-tf]', (e, b) => { if (root.dataset.locked) return; const qi = Number(b.dataset.tf); $$(`[data-tf="${qi}"]`, root).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); answered(qi, b.dataset.v === 'true', e); }));
+      offs.push(on(root, 'click', '[data-mq]', (e, b) => { if (root.dataset.locked) return; const qi = Number(b.dataset.mq); $$(`[data-mq="${qi}"]`, root).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); answered(qi, Number(b.dataset.o), e); }));
       offs.push(on(root, 'input', '[data-rg]', () => onChange(done())));
       ctl.ready = done;
+      const keyText = (q) => (q.type === 'tf' ? (q.answer ? 'True' : 'False') : q.type === 'mcq' ? q.options[q.answer] : q.answers.map(firstAnswer).join(' … '));
+      // A key or option is marked in place: the right one with a check, a wrong choice with a cross (and words for
+      // screen readers), so the learner sees both what they chose and the answer.
+      const markKey = (b, ok) => {
+        b.classList.add(ok ? 'is-right' : 'is-wrong');
+        if (b.classList.contains('key')) b.insertAdjacentHTML('afterbegin', String(tick(ok)));
+        b.insertAdjacentHTML('beforeend', String(html`<span class="sr-only" ${uiAttrs()}> (${ok ? tt('התשובה הנכונה', 'right answer') : tt('הבחירה שלכם', 'your choice')})</span>`));
+      };
+      // chosen: the learner's answer to mark, or undefined to show only the key ("I don't know").
+      const markQuestion = (q, qi, chosen) => {
+        if (q.type === 'tf') $$(`[data-tf="${qi}"]`, root).forEach((b) => { b.disabled = true; const v = b.dataset.v === 'true'; if (v === q.answer) markKey(b, true); else if (v === chosen) markKey(b, false); });
+        if (q.type === 'mcq') $$(`[data-mq="${qi}"]`, root).forEach((b) => { b.disabled = true; const o = Number(b.dataset.o); if (o === q.answer) markKey(b, true); else if (o === chosen) markKey(b, false); });
+      };
       ctl.check = async () => {
         root.dataset.locked = '1';
         let right = 0;
@@ -315,14 +577,20 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           if (q.type === 'gap') { const ins = $$(`[data-rg="${qi}"]`, root); ok = ins.every((inp, i) => checkTyped(inp.value, q.answers[i], q.wrong_feedback).correct); ins.forEach((i) => { i.readOnly = true; i.classList.add(ok ? 'right' : 'wrong'); }); }
           else ok = answers.get(qi) === q.answer;
           if (ok) right++;
-          const box = $(`[data-q="${qi}"] .q-fb`, root);
-          const ans = q.type === 'tf' ? String(q.answer) : q.type === 'mcq' ? q.options[q.answer] : q.answers.map(firstAnswer).join(' … ');
-          render(box, html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} ${answerEl(ans)}`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
-          if (q.type === 'mcq') $$(`[data-mq="${qi}"]`, root).forEach((b) => { b.disabled = true; if (Number(b.dataset.o) === q.answer) b.classList.add('is-right'); else if (b.getAttribute('aria-pressed') === 'true') b.classList.add('is-wrong'); });
-          if (q.type === 'tf') $$(`[data-tf="${qi}"]`, root).forEach((b) => { b.disabled = true; });
+          markQuestion(q, qi, answers.get(qi));
+          render($(`[data-q="${qi}"] .q-fb`, root), html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} ${answerEl(keyText(q))}`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
         });
         const score = right / ex.questions.length;
         return result({ correct: score >= 0.99, almost: score >= 0.5 && score < 0.99, score, response: `${right}/${ex.questions.length}`, error_type: 'comprehension', summary: `${right}/${ex.questions.length}` });
+      };
+      // "I don't know": every answer marked in place, with its explanation; the text and "Read it to me" stay.
+      ctl.reveal = () => {
+        root.dataset.locked = '1';
+        ex.questions.forEach((q, qi) => {
+          if (q.type === 'gap') $$(`[data-rg="${qi}"]`, root).forEach((inp, i) => { inp.value = firstAnswer(q.answers[i]); inp.readOnly = true; inp.classList.add('is-right'); });
+          markQuestion(q, qi, undefined);
+          render($(`[data-q="${qi}"] .q-fb`, root), html`<p class="small">${tt('התשובה:', 'Answer:')} ${answerEl(keyText(q))}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
+        });
       };
       break;
     }
@@ -426,7 +694,8 @@ export function verdictHtml(ex, r, errors) {
     const title = r.self === 1 ? tt('סימנתם: אמרתי בבירור', 'You marked it: said clearly') : r.self === 0 ? tt('נרשם: צריך עוד תרגול', 'Noted: more practice needed') : tt('תרגול דיבור נרשם', 'Speaking practice recorded');
     return html`<div class="verdict-title">${icon('check', { size: 18 })} ${title}</div><div class="verdict-body"><p class="muted">${tt('תרגול דיבור לא מקבל ציון.', 'Speaking practice is not scored.')}</p></div>`;
   }
-  const title = r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('לא אחת מהתשובות שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite');
+  // An exercise may name its own result (a finished matching board: "All pairs right · one extra try").
+  const title = r.title || (r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('לא אחת מהתשובות שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite'));
   const ico = r.correct ? 'check' : r.model ? 'info' : 'x';
   const note = !r.correct ? errorNote(r.error_type, errors, { general: !ex.explanation && !r.specific }) : '';
   const why = note || ex.explanation;

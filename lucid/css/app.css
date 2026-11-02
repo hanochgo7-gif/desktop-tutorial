@@ -965,6 +965,44 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane lesson-flow: end ---- */
 
 /* ---- lane exercises: start ---- */
+.ex-prompt:focus { outline: none; }
+.ex-mark { display: inline-grid; place-items: center; flex: none; vertical-align: -0.2em; }
+.ex-mark.ok { color: var(--ok); }
+.ex-mark.bad { color: var(--bad); }
+
+/* Matching (EX-1): a wrong pair stays marked until the next tap; found pairs keep full contrast and a pair
+   number; the finished board becomes rows of pairs, side by side. */
+.match-grid .match-item { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; }
+.match-grid .match-item.paired { opacity: 1; border-color: var(--ok); background: var(--ok-tint); color: var(--ink); cursor: default; }
+.match-grid .match-item.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.match-grid .match-item.is-wrong .match-mark { color: var(--bad); }
+.match-mark:empty { display: none; }
+.match-mark { display: inline-grid; place-items: center; flex: none; }
+.match-n { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; padding: 0 0.25rem; border-radius: var(--r-pill); background: var(--ok); color: var(--key); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
+.match-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.match-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--s2); min-height: 3rem; padding: var(--s1) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.match-row.is-right { border-color: var(--ok); }
+.match-row .match-a { text-align: end; font-weight: 500; }
+.match-row .match-b { text-align: start; }
+.match-row .match-sep { color: var(--ink-3); }
+.match-lead, .match-trail { display: inline-flex; align-items: center; gap: var(--s1); }
+.match-lead:empty, .match-trail:empty { width: 0; }
+
+/* Word bank (EX-2): the chosen gap is marked; used words stay visible, flat and skipped. */
+.gap-input.is-target { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+.gap-input.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.gap-mark { display: inline-grid; vertical-align: -0.15em; margin-inline-end: 0.15rem; }
+.gap-tools { margin-block-start: var(--s3); }
+.gap-bank .chip.used { visibility: visible; border-style: dashed; border-block-end-width: 1px; background: var(--key-sunk); color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--ink-3); cursor: default; }
+.gap-bank .chip.used:active { transform: none; }
+
+/* Reveal and second tries (EX-4). */
+.ex-field.wrong, .ex-field[aria-invalid='true'] { border-color: var(--bad); }
+.reveal-answer { display: flex; align-items: baseline; gap: var(--s2); margin-block-start: var(--s3); padding: var(--s2) var(--s3); border-radius: var(--r-key); background: var(--ok-tint); font-size: var(--t-lg); }
+.answer-line .chip.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ink); opacity: 1; }
+.tf-row .key:disabled { opacity: 1; cursor: default; }
+.tf-row .key.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.tf-row .key.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
 
 /* ---- lane exercises: end ---- */
 
