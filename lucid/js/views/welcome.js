@@ -49,8 +49,8 @@ export default async function welcome(el, ctx) {
           <button type="button" class="key ghost small text-cycle" data-text-cycle>${sizeLabel(currentTextSize())}</button>
           <span class="sr-only" role="status" data-size-status></span>
           <div class="seg" role="group" aria-label="${tt('שפת הממשק', 'Interface language')}">
-            <button type="button" data-lang="he" aria-pressed="${uiLang() === 'he'}" lang="he">עברית</button>
-            <button type="button" data-lang="en" aria-pressed="${uiLang() === 'en'}" lang="en">English</button>
+            <button type="button" data-lang="he" aria-pressed="${String(uiLang() === 'he')}" lang="he">עברית</button>
+            <button type="button" data-lang="en" aria-pressed="${String(uiLang() === 'en')}" lang="en">English</button>
           </div>
         </div>
       </div>

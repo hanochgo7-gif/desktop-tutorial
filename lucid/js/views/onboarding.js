@@ -111,10 +111,10 @@ export default async function onboarding(el, ctx) {
         <p class="muted">${tt('כמה שאלות קצרות כדי להתאים את Lucid אליכם. אפשר לשנות הכול אחר כך.', 'A few quick questions to fit Lucid to you. You can change everything later.')}</p>
         <div class="ob-prefs">
           <div class="field"><span class="label" id="ob-ui-l">${tt('שפת הממשק', 'Interface language')}</span>
-            <div class="seg" role="group" aria-labelledby="ob-ui-l"><button type="button" data-ui="he" aria-pressed="${data.ui_language === 'he'}" lang="he">עברית</button><button type="button" data-ui="en" aria-pressed="${data.ui_language === 'en'}" lang="en">English</button></div>
+            <div class="seg" role="group" aria-labelledby="ob-ui-l"><button type="button" data-ui="he" aria-pressed="${String(data.ui_language === 'he')}" lang="he">עברית</button><button type="button" data-ui="en" aria-pressed="${String(data.ui_language === 'en')}" lang="en">English</button></div>
             <span class="help">${tt('ממליצים על עברית בהתחלה. כשהרמה עולה, Lucid יציע לעבור לאנגלית.', 'Hebrew is recommended at first; Lucid will suggest switching to English as your level rises.')}</span></div>
           <div class="field"><span class="label" id="ob-size-l">${tt('גודל טקסט', 'Text size')}</span>
-            <div class="seg" role="group" aria-labelledby="ob-size-l">${TEXT_SIZES.map((n) => html`<button type="button" data-size="${n}" aria-pressed="${data.text_size === n}"><span class="num">${n}%</span></button>`)}</div>
+            <div class="seg" role="group" aria-labelledby="ob-size-l">${TEXT_SIZES.map((n) => html`<button type="button" data-size="${n}" aria-pressed="${String(data.text_size === n)}"><span class="num">${n}%</span></button>`)}</div>
             <span class="help">${tt('משתנה מיד. אפשר לשנות גם אחר כך בהגדרות.', 'Changes at once. You can also change it later in Settings.')}</span></div>
         </div>
         <div class="field"><label for="ob-name">${tt('איך לקרוא לכם? (לא חובה)', 'What should we call you? (optional)')}</label>
@@ -134,7 +134,7 @@ export default async function onboarding(el, ctx) {
         ${goalCards(data.goals, { hasWork, labelledby: 'ob-h' })}
         <h2 id="ob-min-h" class="ob-h2">${tt('כמה זמן ביום?', 'How much time a day?')}</h2>
         <p class="muted">${tt('תוכנית היום תתאים את עצמה לזמן הזה. ימים קצרים זה בסדר גמור.', 'Your daily plan fits this time. Short days are completely fine.')}</p>
-        <div class="choice-list ob-choices" role="radiogroup" aria-labelledby="ob-min-h" aria-describedby="ob-min-note">${MINUTES.map(([m, he, en], i) => html`<button type="button" class="choice" role="radio" data-min="${m}" aria-checked="${data.daily_minutes === m}" tabindex="${tabFor(data.daily_minutes === m, i, anyMin)}">${radioMark()}<span class="grow">${tt(he, en)}</span><span class="num faint">${m} ${tt('דק׳', 'min')}</span></button>`)}</div>
+        <div class="choice-list ob-choices" role="radiogroup" aria-labelledby="ob-min-h" aria-describedby="ob-min-note">${MINUTES.map(([m, he, en], i) => html`<button type="button" class="choice" role="radio" data-min="${m}" aria-checked="${String(data.daily_minutes === m)}" tabindex="${tabFor(data.daily_minutes === m, i, anyMin)}">${radioMark()}<span class="grow">${tt(he, en)}</span><span class="num faint">${m} ${tt('דק׳', 'min')}</span></button>`)}</div>
         <p class="help ob-note" id="ob-min-note">${isolateLatin(tt('ב-10 דקות: שיעור וחזרה. המטרות מופיעות כהצעה, ומ-20 דקות בתוך התוכנית.', 'In 10 minutes: a lesson and a review. Your goals appear as a suggestion, and from 20 minutes inside the plan.'))}</p>
         <div class="field"><label for="ob-days">${tt('יעד שבועי: כמה ימים בשבוע?', 'Weekly goal: how many days a week?')}</label>
           <select class="input" id="ob-days" name="weekly_goal_days" aria-describedby="ob-days-help">${[2, 3, 4, 5, 6, 7].map((d) => html`<option value="${d}" ${d === data.weekly_goal_days ? html`selected` : ''}>${d}</option>`)}</select>
@@ -145,7 +145,7 @@ export default async function onboarding(el, ctx) {
         return html`
         <h1 id="ob-h" tabindex="-1">${tt('מאיפה מתחילים?', 'Where are you starting from?')}</h1>
         <p class="muted" id="ob-start-help">${tt('זו רק נקודת פתיחה. מבחן מיקום קצר (כ-10 דקות) יבדוק בפועל.', 'This is only a starting point; a short placement test (about 10 minutes) checks it for real.')}</p>
-        <div class="choice-list ob-choices" role="radiogroup" aria-labelledby="ob-h" aria-describedby="${described('start', 'ob-start-help')}" ${invalid('start')}>${START.map(([id, he, en, nhe, nen], i) => html`<button type="button" class="choice" role="radio" data-start="${id}" aria-checked="${data.start === id}" tabindex="${tabFor(data.start === id, i, anyStart)}">${radioMark()}<span class="grow"><span>${tt(he, en)}</span>${nhe ? html`<span class="choice-note">${tt(nhe, nen)}</span>` : ''}</span></button>`)}</div>
+        <div class="choice-list ob-choices" role="radiogroup" aria-labelledby="ob-h" aria-describedby="${described('start', 'ob-start-help')}" ${invalid('start')}>${START.map(([id, he, en, nhe, nen], i) => html`<button type="button" class="choice" role="radio" data-start="${id}" aria-checked="${String(data.start === id)}" tabindex="${tabFor(data.start === id, i, anyStart)}">${radioMark()}<span class="grow"><span>${tt(he, en)}</span>${nhe ? html`<span class="choice-note">${tt(nhe, nen)}</span>` : ''}</span></button>`)}</div>
         ${errFor('start')}`;
       }
       default: return html`

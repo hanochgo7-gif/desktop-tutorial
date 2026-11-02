@@ -52,7 +52,7 @@ export default async function progress(el, ctx) {
 
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.progress')}</h1><p>${tt('מה אתם יודעים לעשות עכשיו, לפי ראיות. בלי נקודות ובלי ניקוד על זמן.', 'What you can do now, based on evidence. No points, no scores for time spent.')}</p></div>
-        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${days === 7}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${days === 30}">${tt('החודש', 'This month')}</button></div>
+        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${String(days === 7)}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${String(days === 30)}">${tt('החודש', 'This month')}</button></div>
         <a class="key small ghost" href="#/profile">${icon('user', { size: 16 })} ${tt('הפרופיל שלי', 'My profile')}</a></div>
       <div class="stack-lg">
         <section class="stack" aria-labelledby="rep-h"><h2 id="rep-h">${days === 7 ? tt('דוח שבועי', 'Weekly report') : tt('דוח חודשי', 'Monthly report')}</h2>

@@ -427,7 +427,7 @@ export default async function today(el, ctx) {
         <div><h1>${hello}${p?.name ? `, ${p.name}` : ''}</h1>
           <p>${tt(`יעד שבועי: ${week.days} מתוך ${week.goal} ימים. יום חופש לא מוחק כלום.`, `Weekly goal: ${week.days} of ${week.goal} days. A day off erases nothing.`)}</p></div>
         <div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>
-          <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${target === n}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
+          <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${String(target === n)}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
           <p class="today-min-status small" role="status" data-min-status>${minutesNote}</p></div>
       </div>
       <div class="today">
