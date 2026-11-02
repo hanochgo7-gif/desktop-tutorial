@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "In Hebrew you can ask 'You saw the film?' with the same words as a statement, just with a rising voice. Is that the normal way to ask in English? What small word is missing at the start?", "he": "בעברית אפשר להפוך 'ראית את הסרט' לשאלה רק בעזרת הטון: 'ראית את הסרט?'. באנגלית זה לא מספיק. איזו מילה קטנה חסרה בהתחלה?" },
   "explanation": [
-    { "type": "p", "en": "Look: She went home. → Did she go home? → She didn't go home. In questions and negatives, did shows the past, so the main verb goes back to its base form: go, not went.", "he": "שימו לב: She went home. בשאלה: Did she go home? בשלילה: She didn't go home. המילה did מסמנת את העבר, ולכן הפועל הראשי חוזר לצורת הבסיס: go ולא went." },
+    { "type": "p", "en": "Look: She went home. → Did she go home? → She didn't go home. In questions and negatives, did shows the past, so the main verb goes back to its base form: go, not went.", "he": "המילה did מסמנת את העבר בשאלה ובשלילה, ולכן הפועל הראשי חוזר לצורת הבסיס: Did she go home? (go ולא went)" },
     { "type": "table", "headers": ["Sentence type", "Form", "Example"], "rows": [
       ["Positive", "subject + past form", "Kenji called me."],
       ["Negative", "subject + didn't + base verb", "Kenji didn't call me."],
@@ -20,10 +20,10 @@
       ["Short answer", "Yes, + subject + did. / No, + subject + didn't.", "Yes, he did. / No, he didn't."],
       ["Wh- question", "Wh- word + did + subject + base verb?", "When did Kenji call?"]
     ] },
-    { "type": "rule", "en": "Use only one past marker: did or the past form, never both. Did you go? (not *Did you went?) · I didn't buy it (not *I didn't bought it).", "he": "סימן עבר אחד בלבד: did או צורת העבר, אף פעם לא שניהם. Did you go? ולא Did you went?. וגם I didn't buy it ולא I didn't bought it." },
-    { "type": "warning", "en": "A rising voice is not enough for a normal question. A past question starts with did: Did you see the film? (You saw the film? only works when you are surprised or checking.)", "he": "בעברית אפשר לשאול רק בעזרת הטון. באנגלית שאלה רגילה על העבר מתחילה ב-did: Did you see the film? (You saw the film? מתאים רק כשמופתעים או מוודאים.)" },
-    { "type": "tip", "en": "There is no did with was/were, or when who or what is the subject (the one who did the action): Were you tired? · Who called you? · What happened?", "he": "אין did עם was/were, ואין did כש-who או what הם הנושא (מי שעשה את הפעולה): Were you tired? · Who called you? · What happened?" },
-    { "type": "tip", "en": "Answer with a short answer, not just yes or no: Did you like it? – Yes, I did. It sounds friendlier.", "he": "עונים בתשובה קצרה ולא רק yes או no: Did you like it? – Yes, I did. זה נשמע טבעי וידידותי יותר." }
+    { "type": "rule", "en": "Use only one past marker: did or the past form, never both. Did you go? (not *Did you went?) · I didn't buy it (not *I didn't bought it).", "he": "סימן עבר אחד בלבד: did או צורת העבר, אף פעם לא שניהם: Did you go? (ולא went)" },
+    { "type": "warning", "en": "A rising voice is not enough for a normal question. A past question starts with did: Did you see the film? (You saw the film? only works when you are surprised or checking.)", "he": "בעברית אפשר לשאול רק בעזרת הטון. באנגלית שאלה רגילה על העבר מתחילה ב-did: Did you see the film? שאלה בלי did מתאימה רק כשמופתעים או מוודאים." },
+    { "type": "tip", "en": "There is no did with was/were, or when who or what is the subject (the one who did the action): Were you tired? · Who called you? · What happened?", "he": "אין did עם was/were, ואין did כש-who או what הם הנושא (מי שעשה את הפעולה), כמו ב-Who called?" },
+    { "type": "tip", "en": "Answer with a short answer, not just yes or no: Did you like it? – Yes, I did. It sounds friendlier.", "he": "עונים בתשובה קצרה ולא רק yes או no: Yes, I did. זה נשמע טבעי וידידותי יותר." }
   ],
   "examples": [
     { "en": "Did you see the match last night?", "he": "ראית את המשחק אתמול בלילה?" },
@@ -49,7 +49,7 @@
     { "word": "answer", "pos": "verb", "he": "לענות", "def": "to reply to a question, a phone call or a message", "example": "Why didn't you answer the phone?", "ipa": "/ˈɑːnsə(r)/", "collocations": ["answer the phone", "answer a message", "answer a question"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew a question can use exactly the same words as a statement, with a rising tone. English past questions need did: Did you see him? (You saw him? with a rising voice sounds surprised, not like a normal question.)", "he": "בעברית שאלה יכולה להיות זהה למשפט רגיל, רק עם טון עולה ('ראית אותו?'). באנגלית שאלה רגילה בעבר צריכה did: Did you see him? (You saw him? עם טון עולה נשמע כמו הפתעה, לא כמו שאלה רגילה.)", "error_type": "do-support" },
+    { "en": "In Hebrew a question can use exactly the same words as a statement, with a rising tone. English past questions need did: Did you see him? (You saw him? with a rising voice sounds surprised, not like a normal question.)", "he": "בעברית שאלה יכולה להיות זהה למשפט רגיל, רק עם טון עולה ('ראית אותו?'). באנגלית שאלה רגילה בעבר צריכה did: Did you see him? בלי did, השאלה נשמעת כמו הפתעה.", "error_type": "do-support" },
     { "en": "In Hebrew the verb can come straight after the question word. In English, did and then the subject come first: When did you arrive? (not *When you arrived?)", "he": "בעברית הפועל יכול לבוא מיד אחרי מילת השאלה ('מתי הגעת?'). באנגלית קודם באים did והנושא: When did you arrive?", "error_type": "word-order" }
   ],
   "exercises": [
@@ -61,7 +61,7 @@
       "answer": 2,
       "option_feedback": {
         "0": { "en": "Do is for the present. 'Last night' is past, so use Did.", "he": "Do משמש בהווה. last night זה עבר, ולכן Did." },
-        "1": { "en": "Were goes with adjectives and places (Were you tired? Were you at home?). With a main verb like enjoy, use Did.", "he": "Were בא עם שם תואר או מקום (Were you tired? Were you at home?). עם פועל רגיל כמו enjoy משתמשים ב-Did." },
+        "1": { "en": "Were goes with adjectives and places (Were you tired? Were you at home?). With a main verb like enjoy, use Did.", "he": "Were בא עם שם תואר או מקום (Were you tired?). עם פועל רגיל כמו enjoy משתמשים ב-Did." },
         "3": { "en": "Are is present and doesn't go with enjoy here. For the past, use Did.", "he": "Are הוא הווה ולא מתאים כאן ל-enjoy. בעבר משתמשים ב-Did." }
       },
       "option_errors": { "0": "tense-choice", "1": "do-support", "3": "do-support" },
@@ -82,7 +82,7 @@
         { "text": "She didn't came to class.", "category": "Has a mistake" }
       ],
       "hint": { "en": "Look at the verb after did or didn't. Is it the base form?", "he": "הסתכלו על הפועל שבא אחרי did או didn't. האם הוא בצורת הבסיס?" },
-      "explanation": { "en": "After did and didn't, use the base form (see, like, come). Wh- questions need did before the subject: Where did you buy it?", "he": "אחרי did ו-didn't באה צורת הבסיס (see, like, come). בשאלה עם מילת שאלה צריך did לפני הנושא: Where did you buy it?" }
+      "explanation": { "en": "After did and didn't, use the base form (see, like, come). Wh- questions need did before the subject: Where did you buy it?", "he": "אחרי did ו-didn't באה צורת הבסיס, וגם בשאלה עם מילת שאלה did בא לפני הנושא: Where did you buy it?" }
     },
     {
       "id": "e3", "type": "listen", "skill": "listening",
@@ -110,7 +110,7 @@
         { "match": "don't", "feedback": { "en": "This is about yesterday, so use the past: didn't.", "he": "מדובר על אתמול, ולכן צריך עבר: didn't." }, "error_type": "tense-choice" },
         { "match": "wasn't", "feedback": { "en": "The question uses did, so the answer uses did too: No, I didn't. And before have, use didn't.", "he": "השאלה היא עם did, ולכן גם התשובה: No, I didn't. וגם לפני have צריך didn't." }, "error_type": "do-support" }
       ],
-      "explanation": { "en": "Did you call...? – No, I didn't. I didn't have time. The verb after didn't stays in the base form: have. (Didn't you call...? is also correct: it shows A expected a yes.)", "he": "Did you call...? – No, I didn't. I didn't have time. הפועל שאחרי didn't נשאר בצורת הבסיס: have. (גם Didn't you call...? נכון: כך שואלים כשמצפים לתשובה 'כן'.)" }
+      "explanation": { "en": "Did you call...? – No, I didn't. I didn't have time. The verb after didn't stays in the base form: have. (Didn't you call...? is also correct: it shows A expected a yes.)", "he": "הפועל שאחרי didn't נשאר בצורת הבסיס: have. גם השאלה בשלילה (Didn't you call?) נכונה: כך שואלים כשמצפים לתשובה 'כן'." }
     },
     {
       "id": "e5", "type": "gap", "skill": "grammar",
@@ -123,7 +123,7 @@
         { "match": "goes", "feedback": { "en": "After did, use the base form with no -s: go.", "he": "אחרי did באה צורת הבסיס, בלי s: go." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "did already tells us it's the past.", "he": "did כבר מראה שמדובר בעבר." },
-      "explanation": { "en": "did / didn't + base verb: Where did you go? I didn't buy anything.", "he": "did או didn't + צורת הבסיס: Where did you go? I didn't buy anything." }
+      "explanation": { "en": "did / didn't + base verb: Where did you go? I didn't buy anything.", "he": "did או didn't + צורת הבסיס: Where did you go?" }
     },
     {
       "id": "e6", "type": "mcq", "skill": "grammar",
@@ -137,7 +137,7 @@
       },
       "option_errors": { "1": "do-support", "2": "word-order" },
       "hint": { "en": "Who did the action: you, or the other person?", "he": "מי עשה את הפעולה: אתם או האדם השני?" },
-      "explanation": { "en": "When who or what is the subject (the one who did the action), there is no did: Who called you? What happened?", "he": "כש-who או what הם הנושא (מי שעשה את הפעולה), אין did: Who called you? What happened?" }
+      "explanation": { "en": "When who or what is the subject (the one who did the action), there is no did: Who called you? What happened?", "he": "כש-who או what הם הנושא (מי שעשה את הפעולה), אין did: What happened?" }
     },
     {
       "id": "e7", "type": "mcq", "skill": "grammar",
@@ -160,7 +160,7 @@
       "passage": "Hi Tom,\nHow was the trip home? Did you get to the airport on time? I hope you didn't miss your flight because of me!\nThanks again for coming to Tel Aviv. My family loved you, especially my grandmother. She asked about you this morning. Did you really like her soup, or did you just say that? :)\nBy the way, you left your sunglasses in my car. I didn't notice them until yesterday. I can send them to you, or you can get them next time.\nOne more question: what did you think of the beach in Jaffa? You didn't say much about it. My sister says you didn't swim because the water was too cold. Is that true?\nWrite soon,\nLior",
       "questions": [
         { "type": "tf", "statement": "Lior is worried that Tom missed his flight.", "answer": true,
-          "explanation": { "en": "'I hope you didn't miss your flight because of me!'", "he": "ליאור כותב: I hope you didn't miss your flight because of me – הוא מקווה שטום לא פספס את הטיסה." } },
+          "explanation": { "en": "'I hope you didn't miss your flight because of me!'", "he": "ליאור כותב שהוא מקווה שטום לא פספס את הטיסה בגללו (I hope you didn't miss your flight)." } },
         { "type": "mcq", "question": "What did Tom leave in Lior's car?", "options": ["his phone", "his sunglasses", "his jacket"], "answer": 1,
           "option_feedback": {
             "0": { "en": "The message doesn't mention a phone.", "he": "בהודעה אין אזכור של טלפון." },
@@ -174,7 +174,7 @@
             "0": { "en": "The message doesn't say the beach was closed.", "he": "בהודעה לא כתוב שהחוף היה סגור." },
             "1": { "en": "The message doesn't say he was tired.", "he": "בהודעה לא כתוב שהוא היה עייף." }
           },
-          "explanation": { "en": "'...you didn't swim because the water was too cold.'", "he": "בהודעה: you didn't swim because the water was too cold – המים היו קרים מדי." } },
+          "explanation": { "en": "'...you didn't swim because the water was too cold.'", "he": "בהודעה כתוב שהוא לא שחה כי המים היו קרים מדי (too cold)." } },
         { "type": "gap", "text": "Lior's grandmother ___ about Tom this morning.", "answers": [["asked"]],
           "explanation": { "en": "'She asked about you this morning.' A positive sentence, so use the past form: asked.", "he": "בהודעה: She asked about you this morning. זה משפט חיובי, ולכן צורת העבר: asked." } }
       ]
@@ -199,7 +199,7 @@
       "answers": ["Did you go to the gym yesterday?", "Were you at the gym yesterday?"],
       "error_type": "do-support",
       "hint": { "en": "go is an action verb.", "he": "go הוא פועל של פעולה." },
-      "explanation": { "en": "With an action verb like go, use did: Did you go to the gym yesterday? (Were you at the gym yesterday? is also correct: were + a place.)", "he": "עם פועל של פעולה כמו go משתמשים ב-did: Did you go to the gym yesterday? (גם Were you at the gym yesterday? נכון: were + מקום.)" }
+      "explanation": { "en": "With an action verb like go, use did: Did you go to the gym yesterday? (Were you at the gym yesterday? is also correct: were + a place.)", "he": "עם פועל של פעולה משתמשים ב-did: Did you go to the gym? גם were ומקום נכון." }
     },
     {
       "id": "e11", "type": "order", "skill": "grammar",
@@ -230,7 +230,7 @@
         "Where did you get those shoes?"
       ],
       "wrong_feedback": [
-        { "match": "bought", "feedback": { "en": "In English the past goes into did, and the verb stays in the base form: Where did you buy...? (not *Where you bought...? or *Where did you bought...?)", "he": "בעברית הזמן נמצא בתוך הפועל (קנית). באנגלית העבר עובר ל-did, והפועל נשאר בצורת הבסיס: Where did you buy...? ולא Where you bought...?" }, "error_type": "do-support" },
+        { "match": "bought", "feedback": { "en": "In English the past goes into did, and the verb stays in the base form: Where did you buy...? (not *Where you bought...? or *Where did you bought...?)", "he": "בעברית הזמן נמצא בתוך הפועל (קנית). באנגלית העבר עובר ל-did, והפועל נשאר בצורת הבסיס: Where did you buy...?" }, "error_type": "do-support" },
         { "match": "do", "feedback": { "en": "The question is about the past, so use did, not do.", "he": "השאלה היא על העבר, ולכן did ולא do." }, "error_type": "tense-choice" },
         { "match": "Where you buy the shoes?", "feedback": { "en": "You need did after Where: Where did you buy the shoes?", "he": "חסר did אחרי Where: Where did you buy the shoes?" }, "error_type": "do-support" }
       ],
@@ -256,7 +256,7 @@
         { "en": "I asked 3 questions with did, and after did I used the base form (Did you go?).", "he": "שאלתי 3 שאלות עם did, ואחרי did השתמשתי בצורת הבסיס (Did you go?)." },
         { "en": "I used didn't + base verb at least once (I didn't eat).", "he": "השתמשתי לפחות פעם אחת ב-didn't + צורת הבסיס (I didn't eat)." },
         { "en": "Positive sentences use the past form (went, ate, stayed).", "he": "במשפטים החיוביים יש צורת עבר (went, ate, stayed)." },
-        { "en": "I answered yes/no questions with short answers (Yes, I did. / No, I didn't.).", "he": "עניתי על שאלות כן/לא בתשובות קצרות (Yes, I did. / No, I didn't.)." }
+        { "en": "I answered yes/no questions with short answers (Yes, I did. / No, I didn't.).", "he": "עניתי על שאלות כן/לא בתשובות קצרות, עם did או didn't." }
       ]
     }
   ],
@@ -265,8 +265,8 @@
       { "en": "Questions: Did + subject + base verb: Did you see it?", "he": "שאלה: Did + נושא + צורת הבסיס: Did you see it?" },
       { "en": "Negatives: didn't + base verb: I didn't see it.", "he": "שלילה: didn't + צורת הבסיס: I didn't see it." },
       { "en": "Wh- questions: Where / When / Why + did + subject + base verb.", "he": "שאלה עם מילת שאלה: Where / When / Why + did + נושא + צורת הבסיס." },
-      { "en": "One past marker only: not *Did you went? or *I didn't bought.", "he": "סימן עבר אחד בלבד: לא Did you went? ולא I didn't bought." },
-      { "en": "No did with was/were, or when who/what is the subject: Who called? What happened?", "he": "אין did עם was/were, וגם לא כש-who או what הם הנושא: Who called? What happened?" }
+      { "en": "One past marker only: not *Did you went? or *I didn't bought.", "he": "סימן עבר אחד בלבד: did או צורת העבר, לא שניהם." },
+      { "en": "No did with was/were, or when who/what is the subject: Who called? What happened?", "he": "אין did עם was/were, וגם לא כש-who או what הם הנושא: What happened?" }
     ]
   },
   "completion": { "pass_score": 0.7 }

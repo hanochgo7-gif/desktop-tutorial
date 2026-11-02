@@ -14,8 +14,8 @@
   "warmup": { "en": "Think about yesterday evening: three things you watched, cooked, studied or played. Try to say them in English.", "he": "חשבו על אתמול בערב: שלושה דברים שצפיתם בהם, בישלתם, למדתם או שיחקתם. נסו לומר אותם באנגלית." },
   "explanation": [
     { "type": "p", "en": "Yesterday I walked to school, studied for two hours and watched a series. All three verbs end in -ed: this is the past simple of regular verbs.", "he": "אתמול הלכתי ברגל לבית הספר, למדתי שעתיים וצפיתי בסדרה. שלושת הפעלים מסתיימים ב-ed: זה עבר פשוט של פעלים רגילים." },
-    { "type": "rule", "en": "Past simple = a finished action at a finished time: yesterday, last week, in 2020, two days ago. Regular verbs add -ed, and the form is the same for every subject: I worked, she worked, they worked (no -s).", "he": "עבר פשוט = פעולה שהסתיימה, בזמן שכבר עבר: yesterday, last week, in 2020, two days ago. פעלים רגילים מקבלים ed, והצורה זהה לכל הגופים: I worked, she worked, they worked (בלי s)." },
-    { "type": "rule", "en": "Spelling -ed: most verbs add -ed. Verbs ending in -e add only -d (live → lived). Consonant + y → -ied (study → studied), but vowel + y keeps the y (play → played). Short verbs with one vowel + one consonant double the last letter (stop → stopped).", "he": "איות ed: ברוב הפעלים מוסיפים ed. פועל שמסתיים ב-e מקבל רק d (live → lived). עיצור + y הופך ל-ied (study → studied), אבל תנועה + y – ה-y נשארת (play → played). בפועל קצר עם תנועה אחת + עיצור אחד מכפילים את האות האחרונה (stop → stopped), אבל לא w, x, y." },
+    { "type": "rule", "en": "Past simple = a finished action at a finished time: yesterday, last week, in 2020, two days ago. Regular verbs add -ed, and the form is the same for every subject: I worked, she worked, they worked (no -s).", "he": "עבר פשוט = פעולה שהסתיימה, בזמן שכבר עבר (yesterday, last week). פעלים רגילים מקבלים ed, והצורה זהה לכל הגופים, בלי s: she worked." },
+    { "type": "rule", "en": "Spelling -ed: most verbs add -ed. Verbs ending in -e add only -d (live → lived). Consonant + y → -ied (study → studied), but vowel + y keeps the y (play → played). Short verbs with one vowel + one consonant double the last letter (stop → stopped).", "he": "איות ed: ברוב הפעלים מוסיפים ed. פועל שמסתיים ב-e מקבל רק d (lived). עיצור + y הופך ל-ied (studied), אבל אחרי תנועה ה-y נשארת (played). בפועל קצר עם תנועה אחת + עיצור אחד מכפילים את האות האחרונה (stopped), אבל לא w, x, y." },
     { "type": "table", "headers": ["Verb", "Rule", "Examples"], "rows": [
       ["most verbs", "+ -ed", "work → worked, play → played, stay → stayed"],
       ["ends in -e", "+ -d", "live → lived, dance → danced"],
@@ -29,7 +29,7 @@
       ["/ɪd/ (extra syllable)", "after t or d", "wanted, visited, needed, decided"]
     ] },
     { "type": "warning", "en": "Only verbs ending in a t or d sound get an extra syllable: wanted /ˈwɒntɪd/ has two syllables, but walked /wɔːkt/ has one (not 'walk-ed').", "he": "רק פעלים שמסתיימים בצליל t או d מקבלים הברה נוספת: ל-wanted /ˈwɒntɪd/ יש שתי הברות, אבל walked /wɔːkt/ היא הברה אחת (לא 'ווֹק-אֶד')." },
-    { "type": "tip", "en": "Time expressions: yesterday, last night, last week, two days ago, in 2019. Ago comes after the time: three years ago. Don't put in or on before last: last Friday (not 'on last Friday').", "he": "ביטויי זמן: yesterday, last night, last week, two days ago, in 2019. המילה ago באה אחרי פרק הזמן: three years ago = לפני שלוש שנים. לפני last לא שמים in או on: last Friday (ולא on last Friday)." },
+    { "type": "tip", "en": "Time expressions: yesterday, last night, last week, two days ago, in 2019. Ago comes after the time: three years ago. Don't put in or on before last: last Friday (not 'on last Friday').", "he": "המילה ago באה אחרי פרק הזמן ('לפני שלוש שנים' = three years ago). לפני last לא שמים in או on." },
     { "type": "p", "en": "Irregular verbs (go → went) come in the next lesson, and questions with did in lesson 6.", "he": "את הפעלים החריגים (go → went) נלמד בשיעור הבא, ואת השאלות עם did – בשיעור 6." }
   ],
   "examples": [
@@ -58,7 +58,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "Hebrew has only five full vowels and no short, relaxed /ɪ/, so the ending of wanted or needed often comes out as a full Hebrew 'ed' (want-ED). Keep it short and weak: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "בעברית יש חמש תנועות מלאות בלבד, ואין /ɪ/ קצרה ורפויה, ולכן הסיומת של wanted או needed יוצאת לעיתים קרובות 'אֶד' מלא (וונט-אֶד). אמרו אותה קצרה וחלשה: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew one verb (lehazmin) covers inviting people, ordering food and booking a room or a table, so it is easy to use invite for all three. English has three verbs: I invited my friends, we ordered pizza, we booked a room.", "he": "בעברית הפועל 'להזמין' משמש גם לאנשים, גם לאוכל וגם לחדר או לשולחן, ולכן קל להשתמש ב-invite לכולם. באנגלית יש שלושה פעלים: I invited my friends (אנשים), we ordered pizza (אוכל), we booked a room (מקום).", "error_type": "word-choice" }
+    { "en": "In Hebrew one verb (lehazmin) covers inviting people, ordering food and booking a room or a table, so it is easy to use invite for all three. English has three verbs: I invited my friends, we ordered pizza, we booked a room.", "he": "בעברית הפועל 'להזמין' משמש גם לאנשים, גם לאוכל וגם לחדר או לשולחן, ולכן קל להשתמש ב-invite לכולם. באנגלית יש שלושה פעלים: invite לאנשים, order לאוכל ו-book למקום (we booked a room).", "error_type": "word-choice" }
   ],
   "exercises": [
     {
@@ -78,7 +78,7 @@
         { "text": "chat", "category": "double + -ed" }
       ],
       "hint": { "en": "Look at the last letters. Is there a vowel or a consonant before the y?", "he": "הסתכלו על האותיות האחרונות. יש תנועה או עיצור לפני ה-y?" },
-      "explanation": { "en": "worked, played, stayed (vowel + y: keep the y) · lived, danced · studied, tried (consonant + y → ied) · stopped, planned, chatted.", "he": "worked, played, stayed (תנועה + y: ה-y נשארת) · lived, danced · studied, tried (עיצור + y → ied) · stopped, planned, chatted (מכפילים את האות האחרונה)." }
+      "explanation": { "en": "worked, played, stayed (vowel + y: keep the y) · lived, danced · studied, tried (consonant + y → ied) · stopped, planned, chatted.", "he": "תנועה + y: ה-y נשארת (played) · עיצור + y → ied (studied) · מכפילים את האות האחרונה (stopped)." }
     },
     {
       "id": "e2", "type": "categorize", "skill": "speaking", "topic": "past-simple-regular",
@@ -96,7 +96,7 @@
         { "text": "visited", "category": "/ɪd/" }
       ],
       "hint": { "en": "Only verbs that end in a t or d sound get the extra syllable /ɪd/.", "he": "רק פעלים שמסתיימים בצליל t או d מקבלים הברה נוספת: /ɪd/." },
-      "explanation": { "en": "/t/ after k, ch, p (walked, watched, stopped). /d/ after vowels and sounds like l, v (played, called, lived). /ɪd/ after t and d (wanted, needed, visited).", "he": "/t/ אחרי k, ch, p (walked, watched, stopped). /d/ אחרי תנועות וצלילים כמו l, v (played, called, lived). /ɪd/ אחרי t ו-d (wanted, needed, visited)." }
+      "explanation": { "en": "/t/ after k, ch, p (walked, watched, stopped). /d/ after vowels and sounds like l, v (played, called, lived). /ɪd/ after t and d (wanted, needed, visited).", "he": "שלוש הגיות לסיומת ed: 'ט' אחרי k, ch ו-p (walked, ‏/t/); 'ד' אחרי תנועות ואחרי צלילים כמו l ו-v (played, ‏/d/); והברה נוספת, 'איד', אחרי t ו-d (wanted, ‏/ɪd/)." }
     },
     {
       "id": "e3", "type": "mcq", "skill": "grammar", "topic": "past-simple-regular",
@@ -162,7 +162,7 @@
       "wrong_feedback": [
         { "match": "arrived", "feedback": { "en": "Arrive = get to a place (arrive in Haifa). For a new home, use moved to.", "he": "arrive = להגיע למקום (arrive in Haifa). כשעוברים לגור במקום חדש אומרים moved to." }, "error_type": "word-choice" }
       ],
-      "explanation": { "en": "moved to Haifa (new home) · missed my friends (felt sad without them) · decided to try · joined a team (became a member).", "he": "moved to Haifa – עברו לגור · missed my friends – התגעגעתי · decided to try – החלטתי לנסות · joined a team – הצטרפתי לקבוצה." }
+      "explanation": { "en": "moved to Haifa (new home) · missed my friends (felt sad without them) · decided to try · joined a team (became a member).", "he": "moved – עברו לגור · missed – התגעגעתי · decided – החלטתי · joined – הצטרפתי." }
     },
     {
       "id": "e8", "type": "correct", "skill": "grammar", "topic": "past-simple-regular",
@@ -189,7 +189,7 @@
       "answers": ["She cleaned her room last Sunday.", "Last Sunday she cleaned her room.", "Last Sunday, she cleaned her room."],
       "error_type": "preposition",
       "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
-      "explanation": { "en": "No in, on or at before last: last Sunday, last week, last year.", "he": "לפני last לא שמים in, on או at: last Sunday, last week, last year." }
+      "explanation": { "en": "No in, on or at before last: last Sunday, last week, last year.", "he": "לפני last לא שמים in, on או at: last Sunday." }
     },
     {
       "id": "e11", "type": "transform", "skill": "grammar", "topic": "past-simple-regular",
@@ -289,7 +289,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "past-simple-regular",
       "prompt": { "en": "Write about last weekend.", "he": "כתבו על סוף השבוע האחרון." },
-      "task": { "en": "Write 50-80 words about last weekend. Use at least six regular verbs in the past simple (for example: watched, played, cooked, visited, stayed, tried) and at least two time expressions (on Friday evening, on Saturday morning, last weekend).", "he": "כתבו 50-80 מילים על סוף השבוע האחרון. השתמשו לפחות בשישה פעלים רגילים בעבר פשוט (למשל watched, played, cooked, visited, stayed, tried) ולפחות בשני ביטויי זמן (on Friday evening, on Saturday morning, last weekend)." },
+      "task": { "en": "Write 50-80 words about last weekend. Use at least six regular verbs in the past simple (for example: watched, played, cooked, visited, stayed, tried) and at least two time expressions (on Friday evening, on Saturday morning, last weekend).", "he": "כתבו 50-80 מילים על סוף השבוע האחרון. השתמשו לפחות בשישה פעלים רגילים בעבר פשוט (למשל watched, played, visited) ולפחות בשני ביטויי זמן (למשל last weekend)." },
       "min_words": 50,
       "max_words": 80,
       "model_answer": "Last weekend was quiet but nice. On Friday evening I stayed at home with my family. We cooked dinner together and watched an old film. On Saturday morning I walked to the park and played basketball with Omer and Lior. In the afternoon I visited my grandmother. She showed me photos from her childhood, and we laughed a lot. In the evening I studied for my English test.",
