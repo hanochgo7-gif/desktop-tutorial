@@ -114,10 +114,11 @@ export function sentenceDiff(typed, key) {
 }
 
 // One word against the word it should be, letter by letter (P1 EX-7): [{type: 'same' | 'del' | 'add', text}],
-// where 'del' letters were typed but are not in the word and 'add' letters are missing. Case is ignored.
+// where 'del' letters were typed but are not in the word and 'add' letters are missing. Case is ignored and
+// a same letter is shown as the word has it.
 export function letterDiff(typed, expected) {
   const a = [...String(typed || '')], b = [...String(expected || '')];
-  return merged(lcs(a, b, (x, y) => x.toLowerCase() === y.toLowerCase()).map(([op, x, y]) => [op, op === 'add' ? y : x]), '');
+  return merged(lcs(a, b, (x, y) => x.toLowerCase() === y.toLowerCase()).map(([op, x, y]) => [op, op === 'del' ? x : y]), '');
 }
 
 // ---------- span tracking ----------

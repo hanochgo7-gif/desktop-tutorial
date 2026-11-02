@@ -16,7 +16,7 @@
 // recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
 import { html, raw, render, on, shuffle, $, $$ } from '../core/util.js';
 import { bi, tt, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
-import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyVerbForms } from '../core/grading.js';
+import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyVerbForms, usSpelling, oneSlip, letterCode } from '../core/grading.js';
 import { sentenceDiff, letterDiff } from '../core/diff.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { icon } from './components.js';
@@ -209,7 +209,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => inputs.every((i) => i.value.trim());
       ctl.check = async () => {
         let allRight = true, almost = false, specific = null, err = null;
-        const responses = [];
+        const responses = [], typos = [];
         root.dataset.locked = '1';
         $$('.gap-mark', root).forEach((m) => m.remove());
         inputs.forEach((inp, i) => {
@@ -224,11 +224,11 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
             allRight = false;
             const f = findWrongFeedback(inp.value, ex.wrong_feedback);
             if (f && !specific) { specific = f.feedback; err = f.error_type; }
-          } else if (r.almost) almost = true;
+          } else if (r.almost) { almost = true; if (r.typo) typos.push(r.typo); }
         });
         $$('.chip', root).forEach((c) => { c.disabled = true; });
         target = null; drawTarget();
-        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific });
+        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific, typos });
       };
       ctl.reveal = () => {
         root.dataset.locked = '1';
@@ -489,7 +489,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         // (P1 EX-5); otherwise the verdict is red and names the rule it breaks.
         const could = !r.correct && !f && open ? couldBeRight(ta.value, { source, answers: ex.answers, wrong_feedback: ex.wrong_feedback }) : null;
         const specific = f?.feedback || (could && !could.ok ? ruleNote(could, source, ex) : null);
-        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, error_type: f?.error_type, model: Boolean(could?.ok), open });
+        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, error_type: f?.error_type, model: Boolean(could?.ok), open, typos: r.typo ? [r.typo] : [] });
       };
       ctl.reveal = () => { ta.readOnly = true; revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
@@ -510,12 +510,31 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.check = async () => {
         ta.readOnly = true;
         $('.word-diff', root)?.remove();
-        const exact = checkTyped(ta.value, ex.answers);
-        const acc = exact.correct ? { accuracy: 1, words: [] } : wordAccuracy(ta.value, ex.answers[0]);
-        const correct = exact.correct || acc.accuracy >= 0.85;
-        if (!exact.correct) root.insertAdjacentHTML('beforeend', `<div class="word-diff" lang="en" dir="ltr" style="margin-top:var(--s4)">${acc.words.map((w) => `<span class="${w.ok ? 'w-ok' : 'w-miss'}">${normalizeHtml(w.word)}</span>`).join(' ')}</div>`);
+        const typed = ta.value;
+        const exact = checkTyped(typed, ex.answers);
+        // A letter code is compared letter by letter, so "BVGE" for "B, V, J, E" marks only the J (P1 EX-7).
+        const code = exact.correct ? null : letterCode(typed, ex.answers[0]);
+        let correct, almost, score, words = [], specific = null, typos = [];
+        if (code) {
+          correct = code.accuracy === 1; almost = false; score = code.accuracy; words = code.words;
+          if (code.misses.length) specific = { he: code.misses.map((m) => (m.typed ? `כתבתם ${m.typed}, נאמר ${m.expected}` : `חסרה האות ${m.expected}`)).join('; '), en: code.misses.map((m) => (m.typed ? `You wrote ${m.typed}; it was ${m.expected}` : `${m.expected} is missing`)).join('; ') };
+        } else {
+          const acc = wordAccuracy(typed, ex.answers[0]);
+          // One slip of one letter in one word is "almost", even in a short word ("tenn" for "ten").
+          const slip = exact.correct ? exact.typo : oneSlip(typed, ex.answers);
+          if (slip) typos = [slip];
+          words = acc.words;
+          // The word with the slip is marked letter by letter, and the note spells it as the sentence has it.
+          typos = typos.map((t) => { const w = words.find((x) => bareWord(x.word) === t.expected && (!x.ok || !x.typed || x.typed === t.typed)); if (!w) return t; Object.assign(w, { ok: true, typed: t.typed }); return { typed: t.typed, expected: w.word.replace(/[^A-Za-z0-9']+$/, '') }; });
+          // A word the alignment already found with a slip ("thursday" for "Thursdays") is named in the note too.
+          if (!typos.length) typos = words.filter((w) => w.ok && w.typed && bareWord(w.typed) !== bareWord(w.word)).map((w) => ({ typed: w.typed, expected: w.word.replace(/[^A-Za-z0-9']+$/, '') }));
+          correct = exact.correct || Boolean(slip) || acc.accuracy >= 0.85;
+          almost = correct && !(exact.correct && !exact.almost);
+          score = exact.correct ? 1 : acc.accuracy;
+        }
+        if (!(exact.correct && !exact.almost)) root.insertAdjacentHTML('beforeend', String(dictationDiff(words)));
         setInvalid(ta, !correct);
-        return result({ correct, almost: correct && !exact.correct, score: acc.accuracy, response: ta.value, answer: ex.answers[0], error_type: 'spelling' });
+        return result({ correct, almost, score, response: typed, answer: ex.answers[0], error_type: 'spelling', specific, typos });
       };
       ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
@@ -735,6 +754,19 @@ export function ruleNote(could, source, ex) {
   return null;
 }
 
+// A word as the grader reads it: lower case, US spelling, no marks around it.
+const bareWord = (w) => usSpelling(String(w).toLowerCase().replace(/[‘’]/g, "'").replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, ''));
+// A word typed with a slip, letter by letter: the word as it should be, missing letters added and extra ones
+// struck, in amber (P1 EX-7), with what was typed for screen readers.
+export function slipHtml(typed, word) {
+  const [, core, tail] = /^(.*?)([^A-Za-z0-9']*)$/.exec(String(word));
+  return html`<span class="w-slip">${letterDiff(typed, core).map((p) => (p.type === 'same' ? p.text : p.type === 'add' ? html`<span class="l-add">${p.text}</span>` : html`<span class="l-del">${p.text}</span>`))}${tail}<span class="sr-only" ${uiAttrs()}> (${tt('כתבתם', 'you wrote')}: </span><span class="sr-only">${typed}</span><span class="sr-only" ${uiAttrs()}>)</span></span>`;
+}
+// The dictation diff: found words, missing words, and words found with a slip.
+function dictationDiff(words) {
+  return html`<div class="word-diff" lang="en" dir="ltr" style="margin-top:var(--s4)">${words.map((w) => (w.ok && w.typed && bareWord(w.typed) !== bareWord(w.word) ? slipHtml(w.typed, w.word) : html`<span class="${w.ok ? 'w-ok' : 'w-miss'}">${w.word}</span>`))}</div>`;
+}
+
 // The learner's sentence against the model answer: their extra words struck through, the model's words added.
 export function sentenceDiffHtml(typed, key) {
   return html`<div class="word-diff answer-diff" lang="en" dir="ltr">${sentenceDiff(typed, key).map((p) => (p.type === 'same' ? html`<span>${p.text}</span>` : p.type === 'del' ? html`<del class="w-del">${p.text}</del>` : html`<ins class="w-add">${p.text}</ins>`))}</div>`;
@@ -758,7 +790,8 @@ export function verdictHtml(ex, r, errors) {
       ${!r.correct && r.answer ? html`<p>${r.model || r.open ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
       ${!r.correct && r.answer && r.typed && normalize(r.typed) !== normalize(r.answer) ? html`<div class="stack-sm"><p class="small">${tt('בתשובה שלכם:', 'In your answer:')}</p>${sentenceDiffHtml(r.typed, r.answer)}</div>` : ''}
       ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <span class="answer">${g.items.join(', ')}</span></li>`)}</ul></div>` : ''}
-      ${r.almost && r.answer && r.correct ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} ${answerEl(r.answer)}</p>` : ''}
+      ${r.almost && r.correct && r.typos?.length ? html`<p>${tt('המילה נכונה; האיות:', 'Right word; the spelling:')} ${r.typos.map((t, k) => html`${k ? ', ' : ''}<span class="spell" lang="en" dir="ltr">${t.expected}</span>`)}</p>` : ''}
+      ${r.almost && r.answer && r.correct && !(r.typos?.length && !/\s/.test(String(r.answer).trim())) ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} ${answerEl(r.answer)}</p>` : ''}
       ${r.specific ? html`<p>${bi(r.specific)}</p>` : ''}
       ${r.model ? html`<div class="stack-sm self-judge"><p class="small">${tt('אם התשובה שלכם אומרת את אותו הדבר ועושה מה שהמשימה מבקשת, אפשר לספור אותה.', 'If yours says the same thing and does what the task asks, you can count it.')}</p><div><button type="button" class="key small" data-self-judge>${icon('check', { size: 16 })} ${tt('גם התשובה שלי נכונה', 'My answer is also correct')}</button></div></div>` : ''}
       ${why ? html`<details class="why"><summary>${tt('למה?', 'Why?')}</summary><div class="stack-sm">${note}${ex.explanation ? html`<p>${bi(ex.explanation)}</p>` : ''}</div></details>` : ''}

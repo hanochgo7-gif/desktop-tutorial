@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { normalize, variants, checkTyped, findWrongFeedback, wordAccuracy, countWords, checkOrder, levenshtein, couldBeRight, sameAsSource, didPlusPast, keepsVerbForm } from '../../js/core/grading.js';
+import { normalize, variants, checkTyped, findWrongFeedback, wordAccuracy, countWords, checkOrder, levenshtein, couldBeRight, sameAsSource, didPlusPast, keepsVerbForm, usSpelling, letterCode, oneSlip } from '../../js/core/grading.js';
 
 test('normalisation ignores case, spacing, final punctuation and apostrophe style', () => {
   assert.equal(normalize('  She’s   a TEACHER. '), "she's a teacher");
@@ -115,6 +115,38 @@ test('EX-5: the cheap checks behind self-credit', () => {
   const h = 'It could perhaps be suggested that the timetable might possibly have contributed to the fall.';
   assert.ok(keepsVerbForm('The timetable might have contributed to the fall.', h, ['The timetable may have contributed to the fall.']));
   assert.ok(keepsVerbForm('Any translation at all.', 'אף פעם לא אכלתי סושי.', ['I have never eaten sushi.']), 'no verb rule for a translation from Hebrew');
+});
+
+test('EX-7: two slips in a word of 6+ letters are "almost"; shorter words and endings stay strict', () => {
+  const r = checkTyped('dubble', 'double');
+  assert.ok(r.correct && r.almost);
+  assert.deepEqual(r.typo, { typed: 'dubble', expected: 'double' });
+  assert.ok(checkTyped('She is beutifull', ['She is beautiful']).almost, 'two slips in a long word');
+  assert.ok(!checkTyped('haase', ['house']).correct, 'a 5-letter word forgives one slip only');
+  assert.ok(!checkTyped('allwayss', ['always']).correct, 'two extra letters are not a slip');
+  assert.ok(!checkTyped('teh cat', ['the cat']).correct);
+  assert.ok(!checkTyped('I am swiming', ['I am swimming']).correct, 'still no forgiveness inside an ending');
+});
+
+test('EX-7: US and UK spellings are both right', () => {
+  assert.equal(checkTyped('My mom teaches English at a high school.', ['My mum teaches English at a high school.']).correct, true);
+  assert.equal(checkTyped('My mom teaches English at a high school.', ['My mum teaches English at a high school.']).almost, false, 'not a slip: correct');
+  for (const [us, uk] of [['my favorite color', 'my favourite colour'], ['the city center', 'the city centre'], ['a gray coat', 'a grey coat'], ['a TV program', 'a TV programme'], ['I realized', 'I realised'], ['the organization', 'the organisation'], ['we analyzed it', 'we analysed it'], ['they traveled', 'they travelled'], ['the theater', 'the theatre']]) {
+    assert.ok(checkTyped(us, [uk]).correct && checkTyped(uk, [us]).correct, `${us} / ${uk}`);
+  }
+  for (const w of ['promise', 'exercise', 'surprised', 'your', 'hours', 'four', 'pouring', 'tour', 'rise', 'advertising']) assert.equal(usSpelling(w), w, w);
+});
+
+test('EX-7: a letter code is compared letter by letter; one slip in a dictation word is "almost"', () => {
+  const c = letterCode('BVGE', 'B V J E');
+  assert.deepEqual(c.words.map((w) => w.ok), [true, true, false, true], 'only the J is marked');
+  assert.deepEqual(c.misses, [{ typed: 'G', expected: 'J' }]);
+  assert.deepEqual(letterCode('B V E', 'B, V, J, E').misses, [{ typed: null, expected: 'J' }], 'a missing letter does not shift the rest');
+  assert.equal(letterCode('anything', 'Get on the bus at ten.'), null, 'not a letter code');
+  assert.deepEqual(oneSlip('Get on the bus at tenn.', ['Get on the bus at ten.']), { typed: 'tenn', expected: 'ten' });
+  assert.equal(oneSlip('Get on a bus at tenn.', ['Get on the bus at ten.']), null, 'two words differ');
+  const w = wordAccuracy('We go to the gym on Mondays and thursday.', 'We go to the gym on Mondays and Thursdays.').words.at(-1);
+  assert.deepEqual(w, { word: 'Thursdays.', ok: true, typed: 'thursday' }, 'a word found with a slip carries what was typed');
 });
 
 test('EX-5: authored alternative keys are never called unchanged, and the source plus junk never passes', () => {

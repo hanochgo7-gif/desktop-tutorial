@@ -32,9 +32,33 @@ export function normalize(s) {
     .trim();
 }
 
+// US and UK spellings are both right (P1 EX-7): each word is read in one spelling (the US one) before answers
+// are compared. Word pairs, -our/-or, -re/-er, -ise/-ize (-yse/-yze) on the stems that have both, and the
+// doubled l of travelled/traveled.
+const US_UK = new Map([['mum', 'mom'], ['mums', 'moms'], ['grey', 'gray'], ['programme', 'program'], ['programmes', 'programs'],
+  ['practise', 'practice'], ['practised', 'practiced'], ['practising', 'practicing'], ['licence', 'license'], ['defence', 'defense'], ['offence', 'offense'],
+  ['catalogue', 'catalog'], ['enrol', 'enroll'], ['fulfil', 'fulfill'], ['skilful', 'skillful'], ['jewellery', 'jewelry'], ['mould', 'mold'], ['cheque', 'check']]);
+const OUR_KEEP = new Set(['four', 'hour', 'your', 'tour', 'pour', 'flour', 'sour', 'devour', 'detour', 'contour', 'amour', 'dour', 'scour']);
+const RE_STEMS = /^(cent|theat|met|lit|fib|kilomet|centimet|millimet|somb|meag|calib|spect|lust)re(s|d)?$/;
+const ISE_KEEP = new Set(['advise', 'advertise', 'compromise', 'exercise', 'surprise', 'supervise', 'revise', 'televise', 'improvise', 'despise', 'devise', 'disguise', 'enterprise', 'merchandise', 'premise', 'promise', 'expertise', 'franchise', 'otherwise', 'likewise', 'clockwise', 'noise', 'raise', 'praise', 'poise', 'concise', 'precise', 'paradise', 'rise', 'arise', 'wise', 'demise', 'chastise', 'excise', 'incise', 'treatise', 'mortise', 'reprise', 'comprise', 'apprise', 'circumcise', 'tortoise', 'porpoise', 'turquoise', 'cruise', 'bruise', 'guise', 'anise']);
+const LL_STEMS = /^(travel|cancel|model|label|level|signal|fuel|dial|counsel|marvel|quarrel|total|channel|tunnel|jewel|equal|label|panel|pedal|rival|shovel|snorkel|tunnel)l(ed|ing|er|ers)$/;
+export function usSpelling(w) {
+  if (US_UK.has(w)) return US_UK.get(w);
+  let m = /^(\w+?)our(s|ed|ing|ite|ites|able|ably|ful|fully|less|er|ers|hood)?$/.exec(w);
+  if (m && w.length >= 5 && !OUR_KEEP.has(`${m[1]}our`)) return `${m[1]}or${m[2] || ''}`;
+  m = RE_STEMS.exec(w);
+  if (m) return `${m[1]}er${m[2] || ''}`;
+  m = /^(\w{3,})(is|ys)(e|es|ed|ing|ation|ations|er|ers)$/.exec(w);
+  if (m && !ISE_KEEP.has(`${m[1]}${m[2]}e`)) return `${m[1]}${m[2] === 'is' ? 'iz' : 'yz'}${m[3]}`;
+  m = LL_STEMS.exec(w);
+  if (m) return `${m[1]}${m[2]}`;
+  return w;
+}
+const usSentence = (s) => s.replace(/[a-z]+/g, usSpelling);
+
 // All full-form readings of a normalised string (bounded, so pathological input stays cheap).
 export function variants(s, limit = 16) {
-  let out = new Set([normalize(s)]);
+  let out = new Set([usSentence(normalize(s))]);
   for (const [re, rep] of CONTRACTIONS) {
     const options = (m, ...groups) => (typeof rep === 'function' ? rep(m, ...groups) : rep);
     const next = new Set();
@@ -73,7 +97,8 @@ export function levenshtein(a, b) {
 
 const words = (s) => normalize(s).replace(/[,.!?;:"]/g, ' ').split(/\s+/).filter(Boolean);
 
-// One word differs by one edit (insert/delete/substitute/transposition), and that word has 5+ letters.
+// One word differs by one edit (insert/delete/substitute/transposition), and that word has 5+ letters; or by
+// two edits in a word of 6+ letters.
 // A slip inside an inflectional ending (wants/want, swimming/swiming, studied/studyed) is a grammar or
 // spelling-rule error that lessons teach, so it is never forgiven as a typo.
 const ENDINGS = ['ing', 'ied', 'ies', 'ed', 'es', 's'];
@@ -99,7 +124,9 @@ function typoOnly(input, target) {
   const d = levenshtein(diff.typed, diff.expected);
   const transposition = d === 2 && diff.typed.length === diff.expected.length &&
     [...diff.typed].sort().join('') === [...diff.expected].sort().join('');
-  return d === 1 || transposition ? diff : null;
+  // Words of 6+ letters forgive two slips (P1 EX-7: "dubble" for "double", "beutifull", typical phonetic
+  // spellings) when the length is about right; two extra letters ("allwayss") are not a slip.
+  return d === 1 || transposition || (d === 2 && diff.expected.length >= 6 && Math.abs(diff.typed.length - diff.expected.length) <= 1) ? diff : null;
 }
 
 // Returns { correct, almost, matched, typo? }. almost=true means accepted with a spelling note.
@@ -245,20 +272,58 @@ export function wordAccuracy(input, target) {
     dp[i][j] = same(a[i], b[j]) ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
   }
   const ok = new Array(b.length).fill(false);
+  const near = new Array(b.length).fill(null); // what was typed for a word found with a slip
   let i = 0, j = 0;
   while (i < a.length && j < b.length) {
-    if (same(a[i], b[j])) { ok[j] = true; i++; j++; }
+    if (same(a[i], b[j])) { ok[j] = true; if (a[i] !== b[j]) near[j] = a[i]; i++; j++; }
     else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
     else j++;
   }
   // Report the target's original words (keeps capitals and apostrophes for display). A contraction on
-  // screen ("I'm") stands for its full form ("i am") and counts as found when every part of it was.
+  // screen ("I'm") stands for its full form ("i am") and counts as found when every part of it was. A word
+  // found with a slip also carries what was typed (`typed`), so the slip can be shown letter by letter.
   const accuracy = ok.filter(Boolean).length / b.length;
   const display = String(target).trim().split(/\s+/);
   const parts = display.map((w) => norm(w).length);
-  if (parts.reduce((x, y) => x + y, 0) !== b.length) return { accuracy, words: b.map((w, k) => ({ word: w, ok: ok[k] })) };
+  const withTyped = (o, t) => (t ? { ...o, typed: t } : o);
+  if (parts.reduce((x, y) => x + y, 0) !== b.length) return { accuracy, words: b.map((w, k) => withTyped({ word: w, ok: ok[k] }, near[k])) };
   let k = 0;
-  return { accuracy, words: display.map((w, d) => { const part = ok.slice(k, k + parts[d]); k += parts[d]; return { word: w, ok: part.every(Boolean) }; }) };
+  return { accuracy, words: display.map((w, d) => { const part = ok.slice(k, k + parts[d]); const t = parts[d] === 1 ? near[k] : null; k += parts[d]; return withTyped({ word: w, ok: part.every(Boolean) }, t); }) };
+}
+
+// A dictation sentence with one slip of one letter in one word (P1 EX-7: "tenn" for "ten"): every other word
+// as in an accepted answer. Returns { typed, expected } or null.
+export function oneSlip(input, accepted) {
+  const a = (variants(input)[0] || '').replace(/[,.!?;:"]/g, ' ').split(/\s+/).filter(Boolean);
+  for (const key of (Array.isArray(accepted) ? accepted : [accepted])) {
+    const b = (variants(key)[0] || '').replace(/[,.!?;:"]/g, ' ').split(/\s+/).filter(Boolean);
+    if (a.length !== b.length) continue;
+    const diffs = a.map((x, k) => [x, b[k]]).filter(([x, y]) => x !== y);
+    if (diffs.length === 1 && levenshtein(diffs[0][0], diffs[0][1]) === 1) return { typed: diffs[0][0], expected: diffs[0][1] };
+  }
+  return null;
+}
+
+// A spoken letter code ("B, V, J, E"), compared letter by letter whatever the spacing (P1 EX-7: "BVGE" marks
+// only the J). Returns null when the key is not a letter code, else { accuracy, words: [{word, ok, typed}],
+// misses: [{typed, expected}] }.
+export function letterCode(input, key) {
+  if (!/^[A-Za-z](?:[\s,.\-–]+[A-Za-z])+[.!]?$/.test(String(key || '').trim())) return null;
+  const want = String(key).replace(/[^A-Za-z]/g, '').split('');
+  const got = String(input || '').replace(/[^A-Za-z]/g, '').split('');
+  const words = want.map((w, k) => ({ word: w, ok: got[k]?.toUpperCase() === w.toUpperCase(), typed: got[k] ?? null }));
+  if (got.length !== want.length) {
+    // Letters missing or extra: line them up, so one missing letter does not mark every later one.
+    const dp = Array.from({ length: got.length + 1 }, () => new Array(want.length + 1).fill(0));
+    for (let i = got.length - 1; i >= 0; i--) for (let j = want.length - 1; j >= 0; j--) dp[i][j] = got[i].toUpperCase() === want[j].toUpperCase() ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+    words.forEach((w) => { w.ok = false; w.typed = null; });
+    let i = 0, j = 0;
+    while (i < got.length && j < want.length) {
+      if (got[i].toUpperCase() === want[j].toUpperCase()) { words[j].ok = true; i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+    }
+  }
+  const misses = words.filter((w) => !w.ok).map((w) => ({ typed: w.typed ? w.typed.toUpperCase() : null, expected: w.word.toUpperCase() }));
+  return { accuracy: words.filter((w) => w.ok).length / want.length, words: words.map((w) => ({ ...w, word: w.word.toUpperCase() })), misses };
 }
 
 export function countWords(text) {

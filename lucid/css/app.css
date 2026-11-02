@@ -1012,6 +1012,12 @@ dialog.sheet > .panel { padding: var(--s5); }
 .ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
 .ex-source[dir='rtl'] { text-align: right; }
 
+/* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
+.word-diff .w-slip { color: var(--ink); }
+.w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }
+.w-slip .l-del { color: var(--warn); text-decoration: line-through; text-decoration-thickness: 2px; }
+.spell { font-weight: 600; }
+
 /* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
 .answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
 .answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }

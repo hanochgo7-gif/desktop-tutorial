@@ -65,3 +65,9 @@ test('EX-5: a typed sentence against the model, word by word, ignoring case and 
   assert.deepEqual(sentenceDiff('have you ever been to eilat', 'Have you ever been to Eilat?'), [{ type: 'same', text: 'have you ever been to eilat' }]);
   assert.equal(sentenceDiff('You have ever been to Eilat?', 'Have you ever been to Eilat?').filter((p) => p.type !== 'same').length, 2, 'a moved word is one out and one in');
 });
+
+test('EX-7: a word with a slip, letter by letter, shown as the word should be', () => {
+  assert.deepEqual(letterDiff('thursday', 'Thursdays'), [{ type: 'same', text: 'Thursday' }, { type: 'add', text: 's' }]);
+  assert.deepEqual(letterDiff('dubble', 'double').map((p) => `${p.type}:${p.text}`), ['same:d', 'add:o', 'same:ub', 'del:b', 'same:le']);
+  assert.deepEqual(letterDiff('ten', 'ten'), [{ type: 'same', text: 'ten' }]);
+});
