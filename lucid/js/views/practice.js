@@ -27,7 +27,7 @@ export default async function practice(el, ctx) {
   const aiReady = configured() && CONFIG.aiEnabled;
   // Only topics that can be practised somewhere: a drill, or a scenario for real-life topics (R2-24).
   const weak = m.weak.filter((w) => w.route !== null);
-  const counts = { vocab: words ? tt(`${words} מילים · ${dueN} לחזרה`, `${words} words · ${dueN} due`) : '', tutor: aiReady ? '' : tt('דורש הגדרת AI', 'Needs AI setup') };
+  const counts = { vocab: words ? tt(`${words} מילים · ${dueN} לחזרה`, `${words} words · ${dueN} due`) : '', tutor: aiReady ? '' : tt('לא פעיל באתר הזה', 'Not active on this site') };
 
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.practice')}</h1><p>${tt('מה כדאי לתרגל עכשיו, ומעבדות לכל מיומנות.', 'What to practise now, and a lab for every skill.')}</p></div></div>

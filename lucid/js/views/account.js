@@ -25,7 +25,7 @@ export default async function account(el, ctx) {
 
   if (!configured()) {
     render(el, html`<div class="onboard stack"><h1>${tt('מצב מכשיר בלבד', 'Device-only mode')}</h1>
-      <p class="muted">${tt('השרת הזה לא מוגדר לחשבונות. הפרופיל וההתקדמות נשמרים בדפדפן הזה, ואפשר להוריד גיבוי ולשחזר אותו בכל מכשיר.', 'This server is not set up for accounts. Your profile and progress are saved in this browser, and you can download a backup and restore it on any device.')}</p>
+      <p class="muted">${tt('באתר הזה אין חשבונות. הפרופיל וההתקדמות נשמרים בדפדפן הזה, ואפשר להוריד גיבוי ולשחזר אותו בכל מכשיר.', 'This site has no accounts. Your profile and progress are saved in this browser, and you can download a backup and restore it on any device.')}</p>
       <div class="row"><a class="key enter" href="${hasProfile() ? '#/settings' : '#/start'}">${hasProfile() ? tt('להגדרות ולגיבוי', 'To settings and backup') : tt('להתחיל', 'Get started')}</a></div></div>`);
     return;
   }

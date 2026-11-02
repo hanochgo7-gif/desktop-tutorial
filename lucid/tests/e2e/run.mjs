@@ -584,7 +584,7 @@ try {
       await page.goto(`${BASE}#/${r}`);
       await page.waitForTimeout(500);
       const txt = await page.textContent('#view');
-      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר)/.test(txt), `${r}: no configuration notice`);
+      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר|לא פעיל באתר הזה|not active on this site)/.test(txt), `${r}: no configuration notice`);
     }
     await ctx.close();
     const m = await newPage(browser, { mock: true });
@@ -1737,8 +1737,7 @@ try {
     const [, l, e] = href.match(/l=([^&]+)&e=(.+)$/);
     const sa = (await store(page, 'attempts')).filter((a) => a.lesson === decodeURIComponent(l) && a.exercise === decodeURIComponent(e));
     assert(sa.length === 1 && sa[0].score === null, `shadowing stored a score: ${JSON.stringify(sa)}`);
-    await page.goto(`${BASE}#/tutor`);
-    await page.click('[data-mode="pronunciation"]');
+    await page.goto(`${BASE}#/tutor?mode=pronunciation`); // PH-5: without AI on the site the mode chips are hidden
     await page.waitForSelector('[data-pron-note] a[href="#/speaking"]');
     // Review: a picked meaning is right or wrong; only a typed one can be "what I meant".
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });

@@ -194,6 +194,122 @@ try {
     await d.page.waitForSelector('.flash');
     await d.ctx.close();
   });
+  // ---------- PH-3 ----------
+  await check('PH-3. Settings: every group is named by its label; the pressed control keeps the focus and Tab moves on', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await go(page, 'settings', '[data-seg="text_size"]');
+    const groups = (await page.locator('#view').ariaSnapshot()).split('\n').map((l) => l.trim()).filter((l) => l.startsWith('- group'));
+    assert(groups.length >= 13 && groups.every((l) => /^- group "[^"]+"/.test(l)), `unnamed groups: ${groups.filter((l) => !/^- group "/.test(l)).join(' | ')}`);
+    assert(groups.some((l) => l.startsWith('- group "גודל טקסט"')), 'the text-size group is not named "גודל טקסט"');
+    await page.focus('[data-seg="text_size"] [data-v="150"]');
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => document.documentElement.dataset.text === '150');
+    const after = await page.evaluate(() => { const a = document.activeElement; return `${a.closest('[data-seg]')?.dataset.seg}:${a.dataset.v}:${a.getAttribute('aria-pressed')}`; });
+    assert(after === 'text_size:150:true', `focus after 150%: ${after}`);
+    await page.keyboard.press('Tab');
+    const next = await page.evaluate(() => document.activeElement.closest('[data-seg]')?.dataset.seg);
+    assert(next === 'hebrew_support', `Tab went to ${next}`);
+    await page.focus('[data-relaxed]');
+    await page.keyboard.press('Space');
+    assert(await page.evaluate(() => document.activeElement.matches('[data-relaxed]')), 'the checkbox lost the focus');
+    await shot(page, 'ph3-settings-150-390');
+    await ctx.close();
+  });
+
+  // ---------- PH-4 ----------
+  await check('PH-4. Settings opens with "תמיכה בלמידה": text size, Hebrew support, speech speed, sounds and a relaxed pace that is on by default and saved', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await go(page, 'settings', '[data-relaxed]');
+    const first = await page.$eval('.settings-view > section', (s) => ({ h: s.querySelector('h2').textContent.trim(), segs: [...s.querySelectorAll('[data-seg]')].map((g) => g.dataset.seg), relaxed: Boolean(s.querySelector('[data-relaxed]')), text: s.textContent }));
+    assert(first.h === 'תמיכה בלמידה', `first section: ${first.h}`);
+    for (const k of ['text_size', 'hebrew_support', 'speech_rate', 'sound']) assert(first.segs.includes(k), `${k} is not in the first section`);
+    assert(first.relaxed && /קצב רגוע/.test(first.text) && /בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים/.test(first.text), 'no relaxed pace in the first section');
+    const defaults = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); return [L.DEFAULT_SETTINGS.relaxed_pace, L.DEFAULT_SETTINGS.game_speed_challenge, L.settings().relaxed_pace]; });
+    assert(defaults[0] === true && defaults[1] === false && defaults[2] === true, `defaults: ${defaults}`);
+    assert(await page.isChecked('[data-relaxed]'), 'relaxed pace is not on by default');
+    await page.click('[data-relaxed]');
+    assert(await page.evaluate(async () => (await import('./js/core/learner.js')).settings().relaxed_pace) === false, 'turning it off was not saved');
+    await page.evaluate(async () => (await import('./js/core/learner.js')).saveSettings({ game_speed_challenge: true }));
+    await page.click('[data-relaxed]');
+    const s = await page.evaluate(async () => { const x = (await import('./js/core/learner.js')).settings(); return [x.relaxed_pace, x.game_speed_challenge]; });
+    assert(s[0] === true && s[1] === false, `turning it on saved ${s}`);
+    await page.reload();
+    await page.waitForSelector('[data-relaxed]');
+    assert(await page.isChecked('[data-relaxed]'), 'not kept after a reload');
+    await ctx.close();
+  });
+
+  // ---------- PH-5 ----------
+  await check('PH-5. Without AI: the Settings checkbox is off and silent, the AI groups are greyed, the tutor shows no mode chips, Practice and the copy say so', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await go(page, 'settings', '[data-ai]');
+    assert(await page.$eval('[data-ai]', (c) => c.disabled && !c.checked), 'the AI checkbox is enabled or ticked');
+    await page.click('[data-ai]', { force: true });
+    await page.waitForTimeout(300);
+    assert(!(await page.$('.toast')), `a toast appeared: ${await page.textContent('.toast').catch(() => '')}`);
+    assert((await page.textContent('#ai-off')).trim() === 'AI לא פעיל באתר הזה. כל השאר עובד.', 'the AI-off sentence is missing');
+    const off = await page.$$eval('[data-seg][aria-disabled="true"]', (x) => x.map((g) => g.dataset.seg).sort().join(','));
+    assert(off === 'corrections,feedback_scope', `greyed groups: ${off}`);
+    const before = await page.evaluate(async () => (await import('./js/core/learner.js')).settings().corrections);
+    await page.click('[data-seg="corrections"] [data-v="intensive"]', { force: true });
+    assert(await page.evaluate(async () => (await import('./js/core/learner.js')).settings().corrections) === before, 'a greyed group still changes the setting');
+    const opacity = await page.$eval('[data-seg="corrections"]', (g) => Number(getComputedStyle(g).opacity));
+    assert(opacity < 1, 'the AI groups are not greyed');
+    const text = await page.textContent('.settings-view');
+    assert(/כדי שלא ייווצר עומס/.test(text) && !/עמסה/.test(text) && /גבוה \(95%\)/.test(text) && !/מבחן \(95%\)/.test(text), 'Settings copy not updated');
+    assert(await page.$eval('[data-seg="hebrew_support"] [data-v="minimal"]', (b) => b.textContent.trim()) === 'בלחיצה', 'the Hebrew-support option does not match its help text');
+    await go(page, 'tutor', '[data-ai-notice]');
+    assert(!(await page.$('[data-mode]')), 'the tutor shows its mode chips');
+    const order = await page.evaluate(() => { const n = document.querySelector('[data-ai-notice]'); const h = document.querySelector('#view .page-head'); return [...document.querySelectorAll('#view .page-head ~ *')][0]?.contains(n) && Boolean(h); });
+    assert(order, 'the notice is not the first thing after the heading');
+    const tut = await page.textContent('#view');
+    assert(/AI לא פעיל באתר הזה. כל השאר עובד./.test(tut) && !/מזויפת/.test(tut), `tutor notice: ${tut.slice(0, 200)}`);
+    await go(page, 'practice', 'a.lesson-row[href="#/tutor"]');
+    assert(/לא פעיל באתר הזה/.test(await page.textContent('a.lesson-row[href="#/tutor"]')), 'the Practice tutor row does not say AI is off');
+    await go(page, 'account', '#view h1');
+    assert(/באתר הזה אין חשבונות\./.test(await page.textContent('#view')), 'account copy not updated');
+    await ctx.close();
+    // With AI on the site the checkbox and the groups work as before.
+    const a = await newPage(browser, { init: null });
+    await a.page.route(/config\.js$/, (r) => r.fulfill({ contentType: 'text/javascript', body: "export const CONFIG = { supabaseUrl: 'https://mock.supabase.co', supabaseKey: 'sb_publishable_test', aiEnabled: true, aiFunction: 'lucid-ai' };" }));
+    await a.page.route(/mock\.supabase\.co/, (r) => r.fulfill({ status: 401, contentType: 'application/json', body: '{}' }));
+    await learnerAt(a.page, 'B1');
+    await go(a.page, 'settings', '[data-ai]');
+    assert(!(await a.page.$('#ai-off')) && !(await a.page.$('[data-seg][aria-disabled]')) && !(await a.page.$eval('[data-ai]', (c) => c.disabled)), 'AI settings are off on a site with AI');
+    await a.page.click('[data-ai]');
+    assert(await a.page.evaluate(async () => (await import('./js/core/learner.js')).settings().ai_consent) === true, 'consent not saved with AI on');
+    await go(a.page, 'tutor', '[data-mode]');
+    await a.ctx.close();
+  });
+
+  // ---------- PH-10 ----------
+  await check('PH-10. Settings: languages in their own names, equal-width data buttons, and a restore error that says what to choose', async () => {
+    for (const viewport of [PHONE, DESKTOP]) {
+      const { ctx, page } = await newPage(browser, { viewport });
+      await learnerAt(page, 'B1');
+      await go(page, 'settings', '.settings-data');
+      const langs = await page.$$eval('[data-seg="ui_language"] button', (x) => x.map((b) => `${b.textContent.trim()}/${b.lang}`));
+      assert(langs.join(',') === 'עברית/he,English/en', `language control: ${langs}`);
+      const widths = await page.$$eval('.settings-data > *', (x) => x.map((b) => Math.round(b.getBoundingClientRect().width)));
+      assert(widths.length === 3 && new Set(widths).size === 1, `data buttons: ${widths}`);
+      await page.setInputFiles('[data-import]', { name: 'notes.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
+      await page.waitForFunction(() => document.querySelector('[data-restore-msg]')?.textContent.trim());
+      const msg = await page.textContent('[data-restore-msg]');
+      assert(/בחרו את קובץ ה-JSON שהורדתם ב״הורדת כל המידע״\./.test(msg), `restore error: ${msg}`);
+      await shot(page, `ph10-settings-data-${viewport.width}`, false);
+      // The language switch works both ways and keeps the focus on the chosen language.
+      await page.click('[data-seg="ui_language"] [data-v="en"]');
+      await page.waitForFunction(() => document.documentElement.lang === 'en');
+      assert(await page.evaluate(() => document.activeElement.dataset.v === 'en'), 'focus lost after switching language');
+      assert(/Learning support/.test(await page.textContent('.settings-view h2')), 'English UI first section');
+      await page.click('[data-seg="ui_language"] [data-v="he"]');
+      await page.waitForFunction(() => document.documentElement.lang === 'he');
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

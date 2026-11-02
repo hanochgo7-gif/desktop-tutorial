@@ -24,6 +24,10 @@ export const DEFAULT_SETTINGS = {
   weekly_goal_days: 5,
   ai_consent: false,
   sound: true,
+  // UX r3 PH-4: the games read these two. Relaxed pace (the default) means no auto-advance; the speed bonus is
+  // an opt-in challenge (PRODUCT.md: no time pressure except opt-in timed writing).
+  relaxed_pace: true,
+  game_speed_challenge: false,
 };
 
 export const profile = () => store.get('profile', 'me');
