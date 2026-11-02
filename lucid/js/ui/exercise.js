@@ -423,13 +423,20 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       let sel = null;
       // The prompt and the instruction are drawn once; a tap redraws the words and the bins, then puts the focus
       // back: on a bin after choosing a word, on the next word after placing one, on Check when all are placed.
+      // The instruction comes first, at body size, and says what to do next (P2 EX-9); while an item is chosen
+      // the bins are marked as the next target.
+      const helpText = () => (sel == null
+        ? tt('בחרו פריט ואז את הקבוצה שלו. לחיצה על פריט שהונח מחזירה אותו.', 'Pick an item, then its group. Tap a placed item to take it back.')
+        : tt('עכשיו בחרו את הקבוצה שלו.', 'Now choose its group.'));
       render(root, html`${prompt}
+        <p class="cat-help" aria-live="polite" data-cat-help>${helpText()}</p>
         <div class="chips" role="group" aria-label="${tt('פריטים למיון', 'Items to sort')}" lang="en" dir="ltr" data-pool></div>
-        <div class="cat-grid" lang="en" dir="ltr" data-bins></div>
-        <p class="xsmall faint">${tt('בחרו פריט ואז את הקטגוריה. לחיצה על פריט שהונח מחזירה אותו.', 'Pick an item, then its category. Tap a placed item to take it back.')}</p>`);
+        <div class="cat-grid" lang="en" dir="ltr" data-bins></div>`);
       const draw = () => {
         render($('[data-pool]', root), items.filter((x) => !placed.has(x.i)).map((x) => html`<button type="button" class="chip" data-item="${x.i}" aria-pressed="${sel === x.i}">${x.text}</button>`));
-        render($('[data-bins]', root), ex.categories.map((c) => html`<div class="cat-bin" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`));
+        render($('[data-bins]', root), ex.categories.map((c) => html`<div class="cat-bin${sel != null ? ' is-target' : ''}" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`));
+        const help = $('[data-cat-help]', root);
+        if (help && help.textContent !== helpText()) help.textContent = helpText();
       };
       draw();
       offs.push(on(root, 'click', '[data-item]', (e, b) => { if (root.dataset.locked) return; sel = Number(b.dataset.item); draw(); focusOn($('[data-bin] > .label', root), e); }));
@@ -447,12 +454,22 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       offs.push(on(root, 'click', '[data-placed]', (e, b) => { if (root.dataset.locked) return; const i = Number(b.dataset.placed); placed.delete(i); draw(); onChange(false); focusOn($(`[data-item="${i}"]`, root), e); }));
       ctl.ready = () => placed.size === items.length;
       // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
+      // A wrong sentence sorted rightly into the "wrong" bin gets no green tick: it is struck through, with its
+      // fix beside it when the item has one, and a neutral "in place" tag (P2 EX-9).
+      const wrongBin = (c) => ex.categories.length === 2 && ex.categories.some((x) => /^correct$/i.test(x)) && !/^correct$/i.test(c);
       const markPlaced = () => {
         let right = 0;
         $$('[data-placed]', root).forEach((b) => {
           const it = items.find((x) => x.i === Number(b.dataset.placed));
           const ok = placed.get(it.i) === it.category;
           if (ok) right++;
+          if (ok && wrongBin(it.category)) {
+            b.classList.add('is-struck');
+            render(b, html`<span class="sr-only" ${uiAttrs()}>${tt('במקום הנכון:', 'Right:')} </span>${it.fix
+              ? sentenceDiff(it.text, it.fix).map((p) => (p.type === 'same' ? html`<span>${p.text}</span> ` : p.type === 'del' ? html`<del>${p.text}</del> ` : html`<ins>${p.text}</ins> `))
+              : html`<s>${it.text}</s>`}<span class="tag cat-tag" ${uiAttrs()}>${tt('במקום', 'In place')}</span>`);
+            return;
+          }
           b.classList.add(ok ? 'is-right' : 'is-wrong');
           b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only" ${uiAttrs()}>${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
         });

@@ -1012,6 +1012,15 @@ dialog.sheet > .panel { padding: var(--s5); }
 .ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
 .ex-source[dir='rtl'] { text-align: right; }
 
+/* Sorting (EX-9): the instruction first, the bins marked while an item is chosen, and a wrong sentence in the
+   "wrong" bin struck through with a neutral tag instead of a green tick. */
+.cat-help { font-size: var(--t-md); color: var(--ink-2); margin-block-end: var(--s3); }
+.cat-bin.is-target { border-style: solid; border-color: var(--cobalt); background: var(--cobalt-tint); }
+.cat-bin .chip.is-struck { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; border-color: var(--key-edge); border-style: dashed; color: var(--ink-2); text-align: start; }
+.cat-bin .chip.is-struck s, .cat-bin .chip.is-struck del { text-decoration: line-through; text-decoration-color: var(--bad); text-decoration-thickness: 2px; }
+.cat-bin .chip.is-struck ins { text-decoration: none; color: var(--ink); font-weight: 600; }
+.cat-tag { font-weight: 500; }
+
 /* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
 .word-diff .w-slip { color: var(--ink); }
 .w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }
