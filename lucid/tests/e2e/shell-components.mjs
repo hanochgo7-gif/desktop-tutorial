@@ -427,6 +427,33 @@ try {
     assert((await page.textContent('#top-title')) === 'אנגלית לחיים', `scenario top bar: "${await page.textContent('#top-title')}"`);
     await ctx.close();
   });
+
+  await check('SC-10. A tabbed-into gap shows a ring of at least 2px; Help summaries show the outline chevron; on touch the "Must include" summary is at least 44px tall and the top-bar keys are 44x44', async () => {
+    {
+      const { ctx, page } = await newPage(browser, { width: 1440, height: 900 });
+      await learnerAt(page, 'A1');
+      await lessonAt(page, 'a1-01', 'e7');
+      for (let i = 0; i < 15 && !(await page.evaluate(() => document.activeElement?.classList.contains('gap-input'))); i++) await page.keyboard.press('Tab');
+      const ring = await page.evaluate(() => { const s = getComputedStyle(document.activeElement); return { cls: document.activeElement.className, style: s.outlineStyle, w: parseFloat(s.outlineWidth) }; });
+      assert(ring.cls === 'gap-input' && ring.style !== 'none' && ring.w >= 2, `a focused gap has no ring: ${JSON.stringify(ring)}`);
+      await page.goto(`${BASE}#/help`);
+      await page.waitForSelector('#view details > summary');
+      const marks = await page.$$eval('#view details > summary', (ss) => ss.map((s) => { const b = getComputedStyle(s, '::before'); return { list: getComputedStyle(s).listStyleType, mask: b.maskImage || b.webkitMaskImage, w: parseFloat(b.width) }; }));
+      assert(marks.length > 5 && marks.every((m) => m.list === 'none' && /svg/.test(m.mask) && m.w > 8), `Help summaries do not show the chevron: ${JSON.stringify(marks[0])}`);
+      await ctx.close();
+    }
+    {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'B2');
+      await page.goto(`${BASE}#/writing/final-B2`);
+      await page.waitForSelector('.topic-pick');
+      const must = await page.$$eval('summary', (ss) => ss.filter((s) => /חובה לכלול/.test(s.textContent)).map((s) => s.getBoundingClientRect().height));
+      assert(must.length && must.every((h) => h >= 44), `"Must include" is under 44px: ${must}`);
+      const keys = await page.$$eval('#top .key', (ks) => ks.map((k) => { const r = k.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; }));
+      assert(keys.length === 2 && keys.every(([w, h]) => w >= 44 && h >= 44), `top-bar keys: ${JSON.stringify(keys)}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();
