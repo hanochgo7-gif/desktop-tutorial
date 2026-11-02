@@ -3,7 +3,7 @@ import { html, render } from '../core/util.js';
 import { tt, bi, hebrewSupport } from '../core/i18n.js';
 import { taxonomyIndex } from '../core/content.js';
 import { icon, emptyState } from '../ui/components.js';
-import { runSet } from '../ui/player.js';
+import { runSet, exitTarget } from '../ui/player.js';
 import { drillSet, meanScore } from '../core/pool.js';
 import { model, logEvent, SCENARIO_TOPICS } from '../core/learner.js';
 
@@ -13,12 +13,14 @@ export default async function drill(el, ctx) {
   const label = error ? tx.error.get(error) : tx.topic.get(topic);
   const name = label ? tt(label.name_he, label.name_en) : tt('תרגול', 'Practice');
   ctx.setTitle(name);
+  // Leaving returns to where the learner came from (Today, Practice, a lab), Today otherwise (LF-11).
+  const exitHref = exitTarget(ctx.from, 'today');
   const m = model();
   const items = await drillSet({ topic, error, level: m.courseLevel, attempts: m.attempts });
   if (!items.length) {
     // Real-life topics are practised in their scenarios, not in drills (persona finding R2-24).
     const scene = topic && SCENARIO_TOPICS.has(topic);
-    render(el, html`<div class="view narrow">${scene
+    render(el, html`<div class="onboard">${scene
       ? emptyState({ title: tt('את זה מתרגלים בתרחישים', 'This is practised in scenarios'), body: tt('למצבים מהחיים אין תרגילים מהשיעורים. בתרחישים של ״מהחיים״ עונים בשיחה ומקבלים הסבר על כל תשובה.', 'Real-life situations have no lesson exercises. In the Real life scenarios you reply in a conversation and get an explanation for each reply.'), action: html`<a class="key enter" href="#/real-life">${tt('לתרחישים מהחיים', 'To Real life scenarios')}</a>` })
       : emptyState({ title: tt('אין עדיין תרגילים לנושא הזה', 'No exercises for this yet'), body: tt('התרגילים מגיעים מהשיעורים שכבר זמינים. נסו נושא אחר או המשיכו במסלול.', 'Exercises come from the lessons available so far. Try another topic or continue your path.'), action: html`<a class="key enter" href="#/practice">${tt('לתרגול', 'To practice')}</a>` })}</div>`);
     return;
@@ -27,17 +29,21 @@ export default async function drill(el, ctx) {
     title: tt(`תרגול ממוקד: ${name}`, `Targeted practice: ${name}`),
     source: 'drill',
     errors: tx.error,
+    exitHref,
     onDone(results) {
       const score = meanScore(results);
       logEvent({ type: 'drill', topic: topic || null, error: error || null, score });
       const missed = results.filter((x) => !x.correct);
-      render(el, html`<div class="view narrow stack-lg">
-        <div class="stack-sm"><h1>${tt('סיימתם את התרגול', 'Practice done')}</h1>
+      // The result sits in the page frame (margins, a heading that takes focus), as the level check does (LF-12).
+      render(el, html`<div class="onboard stack-lg check-result">
+        <div class="stack-sm"><h1 tabindex="-1">${tt('סיימתם את התרגול', 'Practice done')}</h1>
           <p class="muted">${tt(`${results.filter((x) => x.correct).length} מתוך ${results.length} נכון.`, `${results.filter((x) => x.correct).length} of ${results.length} correct.`)} ${score >= 0.8 ? tt('זה נראה יציב יותר. Lucid יבדוק שוב בעוד כמה ימים, כדי לוודא שזה נשאר.', 'This looks steadier. Lucid will check again in a few days to make sure it stays.') : tt('עוד לא יציב, וזה בסדר. הנושא יחזור לתוכנית בימים הקרובים.', 'Not steady yet, and that is fine. It will come back in your plan over the next days.')}</p></div>
         ${label?.why_he && hebrewSupport() !== 'off' ? html`<div class="block-tip row" style="align-items:flex-start">${icon('hint', { size: 18 })}<p lang="he" dir="rtl">${label.why_he}</p></div>` : ''}
         ${missed.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('לעבור עליהם שוב', 'Worth another look')}</h2>${missed.map((x) => html`<div class="small">${bi(x.item.ex.prompt)}${x.item.ex.explanation ? html`<p class="muted">${bi(x.item.ex.explanation)}</p>` : ''}</div>`)}</div>` : ''}
-        <div class="row"><a class="key enter" href="#/today">${tt('חזרה להיום', 'Back to Today')}</a><a class="key" href="#/drill?${topic ? `topic=${topic}` : `error=${error}`}&again=${Date.now()}">${tt('סט נוסף', 'Another set')}</a></div>
+        <div class="row"><a class="key enter" href="#/today">${tt('להיום', 'To Today')}</a><a class="key" href="#/drill?${topic ? `topic=${topic}` : `error=${error}`}&again=${Date.now()}">${tt('סט נוסף', 'Another set')}</a></div>
       </div>`);
+      window.scrollTo?.(0, 0);
+      el.querySelector('h1[tabindex]')?.focus({ preventScroll: true });
     },
   });
 }

@@ -6,9 +6,20 @@ import { icon, levelTag } from './components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from './exercise.js';
 import { recordAttempt, settings, logEvent } from '../core/learner.js';
 import { store } from '../core/store.js';
+import { answerPoints } from '../core/pool.js';
 
-export function runSet(el, items, { title, source, unassisted = false, exitHref = '#/practice', errors = null, onDone }) {
-  let i = 0; let ctl = null; let shownAt = 0; let hintUsed = false; let checked = null; let lastAttempt = null;
+// Leaving a lesson, drill or level check returns to the screen the learner came from (LF-11): the path, a
+// practice hub, Progress. Another player screen, onboarding or nothing at all (a link opened directly) falls
+// back to the given screen. from is the router's ctx.from ("#/path/A2").
+const PLAYERS = /^(?:lesson|checkpoint|drill|review|placement|start|welcome)(?:\/|\?|$)/;
+export function exitTarget(from, fallback = 'today') {
+  const path = String(from || '').replace(/^#?\/?/, '');
+  const back = path && !PLAYERS.test(path) ? `#/${path}` : null;
+  return back || (String(fallback).startsWith('#') ? fallback : `#/${fallback}`);
+}
+
+export function runSet(el, items, { title, source, unassisted = false, exitHref = '#/today', errors = null, onDone }) {
+  let i = 0; let ctl = null; let shownAt = 0; let hintUsed = false; let checked = null; let lastAttempt = null; let token = 0;
   const results = [];
   const variant = settings().english_variant;
 
@@ -16,9 +27,18 @@ export function runSet(el, items, { title, source, unassisted = false, exitHref 
     render(el, html`<div class="player">
       <div class="player-top"><a class="key ghost small icon-only" href="${exitHref}" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}</a>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${i}" aria-label="${title}"><span style="width:${(i / items.length) * 100}%"></span></div>
-        <span class="step-count">${t('of', { a: Math.min(i + 1, items.length), b: items.length })}</span></div>
+        <span class="top-meta is-count"><span class="step-count">${t('of', { a: Math.min(i + 1, items.length), b: items.length })}</span></span></div>
       <div class="player-body">${body}</div>
       ${foot ? html`<div class="player-foot" id="pfoot">${foot}</div>` : ''}</div>`);
+  }
+
+  // A new item puts focus on its prompt unless it focused its own answer field (LF-5).
+  function focusPrompt(k) {
+    if (k !== token) return;
+    const a = document.activeElement;
+    if (a && $('#exroot', el)?.contains(a) && ['INPUT', 'TEXTAREA'].includes(a.tagName)) return;
+    const h = $('#exroot .ex-prompt', el);
+    if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); }
   }
 
   function show() {
@@ -26,23 +46,27 @@ export function runSet(el, items, { title, source, unassisted = false, exitHref 
     if (i >= items.length) { onDone(results); return; }
     const it = items[i];
     hintUsed = false; checked = null; lastAttempt = null;
+    const k = ++token;
     frame(html`<p class="small faint row" style="margin-bottom:var(--s4)">${title} ${levelTag(it.level)}</p><div id="exroot"></div><div id="hintroot"></div>`,
       html`<div class="inner">${!unassisted && it.ex.hint ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}<button type="button" class="key ghost small" data-idk>${tt('לא יודע/ת', 'I don\'t know')}</button><span class="grow"></span><button type="button" class="key enter" data-check disabled>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
     ctl = mountExercise($('#exroot', el), it.ex, { errors, level: it.level, variant, onChange: (r) => { const b = $('[data-check]', el); if (b) b.disabled = !r; } });
     window.scrollTo?.(0, 0);
     shownAt = performance.now();
+    setTimeout(() => focusPrompt(k), 90);
   }
 
   async function check(dontKnow) {
     const it = items[i];
     const r = dontKnow ? { graded: true, correct: false, score: 0, response: '(I don\'t know)', ...answerFor(it.ex) } : await ctl.check();
     checked = r;
-    const points = r.correct ? (hintUsed ? 0.75 : r.almost ? 0.9 : 1) : Math.min(0.5, r.score || 0);
+    // The same points as in lessons: a reading text or a sort counts per question (LF-9).
+    const points = answerPoints(r, hintUsed, it.ex.type);
     results.push({ item: it, r, points, correct: r.correct });
     lastAttempt = recordAttempt({ source, lesson: it.lesson, exercise: it.ex.id, topic: it.topic, skill: it.ex.skill, level: it.level, correct: r.correct, score: r.score ?? (r.correct ? 1 : 0), error_type: r.error_type, hint_used: hintUsed, latency_ms: Math.round(performance.now() - shownAt), response: r.response });
     if (unassisted) { i++; show(); return; }
     const foot = $('#pfoot', el);
-    foot.className = `player-foot ${r.correct ? (r.almost ? 'almost' : 'ok') : r.model ? 'almost' : 'bad'}`;
+    const perQ = !r.correct && ['read', 'categorize'].includes(it.ex.type) && (r.score ?? 0) >= 0.6 - 1e-9;
+    foot.className = `player-foot ${r.correct ? (r.almost ? 'almost' : 'ok') : (r.model || perQ) ? 'almost' : 'bad'}`;
     render(foot, html`<div class="inner"><div class="verdict" role="status">${verdictHtml(it.ex, r, errors)}</div><button type="button" class="key enter" data-next>${t('continue')} <span class="kbd">Enter</span></button></div>`);
     $('[data-next]', el).focus();
   }
@@ -68,7 +92,7 @@ export function runSet(el, items, { title, source, unassisted = false, exitHref 
     on(el, 'click', '[data-idk]', () => check(true)),
     on(el, 'click', '[data-next]', () => { i++; show(); }),
     on(el, 'click', '[data-self-judge]', () => selfJudge()),
-    on(el, 'click', '[data-hint]', (e, b) => { hintUsed = true; b.remove(); render($('#hintroot', el), html`<div class="hint-box">${icon('hint', { size: 18 })}<div>${bi(items[i].ex.hint)}</div></div>`); }),
+    on(el, 'click', '[data-hint]', (e, b) => { hintUsed = true; b.remove(); render($('#hintroot', el), html`<div class="hint-box">${icon('hint', { size: 18 })}<div>${bi(items[i].ex.hint)}</div></div>`); const f = $('#exroot :is(input, textarea):not([readonly])', el); if (f) f.focus(); else focusPrompt(token); }),
   ];
   const onKey = (e) => {
     if (e.target.closest?.('dialog')) return;

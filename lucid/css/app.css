@@ -961,6 +961,87 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane shell-components: end ---- */
 
 /* ---- lane lesson-flow: start ---- */
+/* Player top: the bar keeps a real width; on phones and at large text the counter has its own row (LF-7). */
+.player-top .progress { min-width: 40%; }
+.player-top .top-meta { display: inline-flex; align-items: center; flex: none; }
+@media (max-width: 30rem) {
+  .player-top { flex-wrap: wrap; row-gap: var(--s1); }
+  .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
+}
+:root:is([data-text='130'], [data-text='150']) .player-top { flex-wrap: wrap; row-gap: var(--s1); }
+:root:is([data-text='130'], [data-text='150']) .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
+/* Intro: where the learner stopped comes first; one short plan line under the main key (LF-1). */
+.resume-banner { align-items: center; font-size: var(--t-md); }
+.resume-banner .icon { color: var(--cobalt); flex: none; }
+.player-foot .foot-note { flex-basis: 100%; margin: 0; color: var(--ink-2); text-align: end; }
+.intro-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); }
+/* Typed answers: Ctrl+Enter checks from anywhere; said only where there is a keyboard (LF-5). */
+.foot-hint { display: none; font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (pointer: fine) { .foot-hint { display: inline; } }
+/* "I don't know": a neutral footer, neither right nor wrong (LF-6). */
+.player-foot.shown { background: var(--key-sunk); }
+/* The explanation in steps: dots, "2 of 4" and the reading time, then the step's own heading (LF-2). */
+.learn-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
+.learn-steps { display: inline-flex; gap: 0.35rem; align-items: center; }
+.learn-steps .dot { width: 0.55rem; height: 0.55rem; border-radius: var(--r-pill); background: var(--key-edge); border: 1px solid var(--key-skirt); }
+.learn-steps .dot.done { background: color-mix(in oklch, var(--cobalt), var(--key) 55%); border-color: transparent; }
+.learn-steps .dot.on { width: 1.4rem; background: var(--cobalt); border-color: var(--cobalt); }
+.learn-step-label { font-variant-numeric: tabular-nums; flex: 1 1 auto; }
+.learn-h { font-size: var(--t-lg); }
+.learn-h:focus { outline: none; }
+.learn-units > .word-row + .word-row { margin-block-start: 0; }
+.word-row { display: grid; gap: 0.1rem; padding-block: var(--s3); border-block-end: 1px solid var(--key-edge); }
+.word-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s2); }
+.word-line .entry-ipa { font-size: var(--t-xs); }
+.he-all { flex: none; }
+.he-all[aria-pressed='true'] { background: var(--cobalt-tint); color: var(--cobalt); border-color: var(--cobalt); }
+/* "All in Hebrew": every folded Hebrew paragraph shows and the per-paragraph chips go (LF-10). */
+:root[data-he-all] .player .bi-he[hidden] { display: block !important; }
+:root[data-he-all] .player .he-reveal { display: none; }
+/* A trap for Hebrew speakers: its own box in the Hebrew ink, with the English to hear (LF-2, LF-8). */
+.pitfall { display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); border-inline-start: 4px solid var(--cobalt); }
+.pitfall-head { display: flex; align-items: center; gap: var(--s2); margin: 0; font-size: var(--t-sm); font-weight: 600; color: var(--ink-he); }
+.pitfall-head .icon { flex: none; }
+.pitfall-say { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.pitfall-say .say-chip { gap: var(--s2); border: 1px solid var(--key-edge); background: var(--key-sunk); max-width: 100%; white-space: normal; text-align: start; height: auto; padding-block: 0.3rem; }
+.pitfall-say .say-chip .icon { flex: none; color: var(--cobalt); }
+.pitfall-why { margin-block-start: var(--s2); padding-block-start: var(--s2); border-block-start: 1px solid color-mix(in oklch, var(--ink-3), transparent 70%); }
+/* Tables (LF-3): a play key per letter row, the IPA column behind its key at Pre-A1, rows as cards on phones. */
+.table-tools { gap: var(--s2); margin-block-end: calc(var(--s2) * -1); }
+.table-wrap.ipa-hidden .col-ipa { display: none; }
+table.data td .row-say { vertical-align: middle; margin-inline-end: var(--s2); }
+table.data td:has(> .row-say) { white-space: nowrap; }
+@media (max-width: 30rem) {
+  .tstack table, .tstack tbody { display: block; }
+  .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
+  .tstack table.data tr:last-child { border-block-end: 0; }
+  .tstack table.data td { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; overflow-wrap: anywhere; }
+  .tstack table.data td.c-en::before { content: attr(data-label); font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+  .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
+}
+:root:is([data-text='130'], [data-text='150']) .tstack table, :root:is([data-text='130'], [data-text='150']) .tstack tbody { display: block; }
+:root:is([data-text='130'], [data-text='150']) .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data tr:last-child { border-block-end: 0; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; overflow-wrap: anywhere; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-en::before { content: attr(data-label); font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
+/* Part end and lesson end (LF-4, LF-8). Under 50%, "practise only the mistakes" is the second choice and keeps
+   its own width, so the end screen's keys take two rows on a phone, not three. */
+@media (max-width: 40rem) { .player-foot .inner > a.ghost[data-retry] { flex: 0 1 auto; } }
+.part-score { font-size: var(--t-lg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.part-words { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.part-words .tag { font-size: var(--t-sm); color: var(--ink-en); }
+.mistake-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); }
+.mistake-list > li + li { padding-block-start: var(--s3); border-block-start: 1px solid var(--key-edge); }
+.mistake-pair { display: inline-block; max-width: 100%; text-align: start; }
+.mistake-pair .m-wrong { color: var(--ink-2); text-decoration: line-through; text-decoration-color: color-mix(in oklch, var(--bad), transparent 30%); }
+.mistake-pair .m-right { color: var(--ok); font-weight: 600; }
+/* Level check and drill results: in the page frame (LF-12); the learner's words not in the answer marked. */
+.check-result { padding-block-start: var(--s6); }
+.answer-diff .w-x { color: var(--bad); text-decoration: underline wavy; text-underline-offset: 0.25em; }
+.answer-diff .w-ok { color: var(--ink); }
 
 /* ---- lane lesson-flow: end ---- */
 
