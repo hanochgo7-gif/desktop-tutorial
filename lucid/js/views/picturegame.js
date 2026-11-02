@@ -5,13 +5,13 @@
 import { html, raw, render, on, $, $$ } from '../core/util.js';
 import { tt, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
-import { icon, toast } from '../ui/components.js';
+import { icon } from '../ui/components.js';
 import { store } from '../core/store.js';
-import { logEvent, settings } from '../core/learner.js';
+import { logEvent, settings, model } from '../core/learner.js';
 import { playTone, soundOn } from '../ui/sound.js';
 import { say, canSpeak } from '../core/speech.js';
 import { PICTURES } from '../ui/picture-icons.js';
-import { BOARDS, UNLOCK, MATCH, MISTAKE, maxFor, makeBoards, roundScore, boardBonus, accuracyOf, bests, isBetter, unlocked, recentWords } from '../core/picturegame.js';
+import { BOARDS, UNLOCK, MATCH, MISTAKE, maxFor, makeBoards, roundScore, boardBonus, accuracyOf, bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
 import { paceOf } from '../core/wordgame.js';
 
 export const picture = (name, size = 44) => html`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${raw(PICTURES[name] || '')}</svg>`;
@@ -19,6 +19,26 @@ const pctText = (x) => `${Math.round(x * 100)}%`;
 // The word as the learner's English is set: American where it differs ("flashlight"), otherwise the word itself.
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
 const otherForm = (w) => (w.us ? (shown(w) === w.us ? `UK: ${w.word}` : `US: ${w.us}`) : '');
+
+// The page a locked stage or level's address shows (instead of dropping the learner on the games page).
+export function lockedPage(el, { title, text, next }) {
+  render(el, html`<div class="player"><div class="player-top"><a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a></div><div class="player-body"><div class="empty stack game-locked-page">
+    <span class="faint">${icon('lock', { size: 28 })}</span>
+    <h1 tabindex="-1">${title}</h1>
+    <p>${text}</p>
+    <div class="row">${next ? html`<a class="key enter" href="${next.href}">${next.label}</a>` : ''}<a class="key" href="#/games">${tt('לכל המשחקים', 'All games')}</a></div></div></div></div>`);
+  setTimeout(() => $('.game-locked-page h1', el)?.focus({ preventScroll: true }), 30);
+}
+
+// A locked picture or memory level: what opens it, and the way to the highest open level below it.
+export function lockedLevel(el, route, level, isOpen) {
+  const below = Array.from({ length: level - 1 }, (_, k) => level - 1 - k).find(isOpen);
+  lockedPage(el, {
+    title: tt('הרמה הזו עוד נעולה', 'This level is still locked'),
+    text: tt(`רמה ${level} נפתחת ב-${pctText(UNLOCK)} דיוק ברמה ${level - 1}.`, `Level ${level} opens at ${pctText(UNLOCK)} accuracy in level ${level - 1}.`),
+    next: below && { href: `#/games/${route}/${below}`, label: tt(`לרמה ${below}`, `To level ${below}`) },
+  });
+}
 
 // The round's points as one left-to-right sum ("12 × 10 − 1 × 3 = 117"); the speed bonus only in the challenge.
 // bonusName: what the bonus is for (the speed bonus by default; few turns in memory).
@@ -53,7 +73,8 @@ export default async function picturegame(el, ctx) {
   if (!set) { ctx.navigate('games', { replace: true }); return null; }
   let before = bests(store.all('events'));
   let pace = paceOf(settings()), mineBefore = {};
-  if (!unlocked(before, level)) { toast(tt(`הרמה הזו נפתחת ב-${pctText(UNLOCK)} דיוק ברמה הקודמת`, `This level opens at ${pctText(UNLOCK)} accuracy in the level before`)); ctx.navigate('games', { replace: true }); return null; }
+  const openTo = openUpTo(data.sets, model().courseLevel);
+  if (!unlocked(before, level, openTo)) { lockedLevel(el, 'pictures', level, (l) => unlocked(before, l, openTo)); return null; }
   try { sessionStorage.setItem('lucid-game-level', 'pictures'); } catch { /* storage blocked */ }
   ctx.setTitle(`${tt('התאמת מילים לתמונות', 'Words and pictures')} · ${level}`);
 
@@ -171,7 +192,7 @@ export default async function picturegame(el, ctx) {
     logEvent({ type: 'picture-round', level, score: score(), accuracy, matches, mistakes, total: total(), mode: pace.mode, words: boards.flatMap((x) => x.pictures.map((w) => w.word)) });
     const nowBest = bests(store.all('events'));
     const nextSet = data.sets.find((s) => s.level === level + 1);
-    const opened = nextSet && !unlocked(before, nextSet.level) && unlocked(nowBest, nextSet.level);
+    const opened = nextSet && !unlocked(before, nextSet.level, openTo) && unlocked(nowBest, nextSet.level, openTo);
     const words = [...missed.values()];
     const pointsLine = () => sumLine({ terms: [[matches, MATCH, 1], ...(mistakes ? [[mistakes, MISTAKE, -1]] : [])], total: score(), bonus: bonusTotal, challenge: pace.challenge });
     render(el, html`<div class="player">${top()}<div class="player-body stack-lg">
@@ -182,7 +203,7 @@ export default async function picturegame(el, ctx) {
         <p class="small faint">${tt('הניקוד:', 'Points:')} ${pointsLine()}</p>
         ${bestLine(prev, record, pace.challenge)}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתחה רמה ${nextSet.level}: ${nextSet.name_he}`, `Level ${nextSet.level} is open: ${nextSet.name_en}`)}</span></p>` : ''}
-        ${nextSet && !unlocked(nowBest, nextSet.level) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
+        ${nextSet && !unlocked(nowBest, nextSet.level, openTo) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
       </div>
       ${words.length ? html`<section class="stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('מילים לחזור עליהן', 'Words to go over')}</h2>
         <ul class="pic-missed">${words.map((w) => html`<li class="panel flat row">${picture(w.icon, 32)}<span><strong lang="en" dir="ltr">${shown(w)}</strong>${otherForm(w) ? html` <span class="xsmall faint" lang="en" dir="ltr">(${otherForm(w)})</span>` : ''} = <span lang="he" dir="rtl">${isolateLatin(w.he)}</span></span>${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say="${shown(w)}" aria-label="${tt(`השמעה: ${shown(w)}`, `Play: ${shown(w)}`)}">${icon('volume', { size: 16 })}</button>` : ''}</li>`)}</ul>
@@ -190,7 +211,7 @@ export default async function picturegame(el, ctx) {
         : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל ההתאמות בלי טעויות!', 'Every pair without a mistake!')}</span></p>`}
       <div class="row">
         <button type="button" class="key enter" data-again>${tt('עוד סיבוב', 'Play again')}</button>
-        ${nextSet && unlocked(nowBest, nextSet.level) ? html`<a class="key" href="#/games/pictures/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
+        ${nextSet && unlocked(nowBest, nextSet.level, openTo) ? html`<a class="key" href="#/games/pictures/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
         <a class="key ghost" href="#/games">${tt('לכל המשחקים', 'All games')}</a>
       </div></div></div>`);
     window.scrollTo?.(0, 0);

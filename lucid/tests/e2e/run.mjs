@@ -1409,7 +1409,7 @@ try {
     await ctx.close();
   });
 
-  await check('PG1. Words and pictures: shown first on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
+  await check('PG1. Words and pictures: listed after the learner\'s level on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1418,7 +1418,8 @@ try {
     await page.waitForSelector('a.game-stage[href="#/games/pictures/1"]');
     await page.waitForTimeout(200);
     const inView = () => page.$eval('#lvl-pictures', (x) => { const r = x.getBoundingClientRect(); return r.top >= -1 && r.top < innerHeight / 2; });
-    assert(await inView(), 'the picture game is scrolled out of view on a first visit');
+    // UX r3 GM-3: the learner's own level comes first on a first visit; the picture game follows it.
+    assert(await page.$eval('#lvl-pictures', (x) => x.getBoundingClientRect().top > document.querySelector('.game-mine').getBoundingClientRect().top), 'the learner\'s level is not first');
     assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
     await page.click('a.game-stage[href="#/games/pictures/1"]');
     const wordOf = async (k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));

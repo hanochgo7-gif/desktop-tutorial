@@ -205,6 +205,85 @@ try {
     assert(ch.mode === 'challenge' && ch.score > 100, `challenge round not saved with its bonus: ${JSON.stringify(ch)}`);
     await ctx.close();
   });
+
+  await check('GM-2a. Games hub at 390: one line per game and no rules paragraph above the first game card; the scoring table only with the speed challenge on', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A1');
+    await go(page, 'games', '.game-stage');
+    const before = await page.evaluate(() => {
+      const first = document.querySelector('.game-stage');
+      const walker = document.createTreeWalker(document.querySelector('#view'), NodeFilter.SHOW_TEXT);
+      let text = '';
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) { if (first.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING) break; text += n.data; }
+      return text;
+    });
+    assert(!/בונוס|פספוס|\d+s\b|\+\d/.test(before), `scoring rules above the first card: ${before.replace(/\s+/g, ' ').slice(0, 200)}`);
+    assert(!(await page.$('.game-scoring, .game-rules')), 'the scoring rules show with the challenge off');
+    const lines = await page.$$eval('.game-section > p.muted', (ps) => ps.map((p) => Math.round(p.getBoundingClientRect().height / parseFloat(getComputedStyle(p).lineHeight))));
+    assert(lines.length === 3 && lines.every((n) => n <= 2), `game descriptions are not short: ${lines} lines`);
+    await page.check('[data-challenge]');
+    await page.waitForSelector('.game-scoring');
+    await page.click('.game-scoring > summary');
+    const table = await page.textContent('.game-scoring-table');
+    assert(/עד 3 שניות/.test(table) && !/\d+s\b/.test(table), `the scoring table is not in Hebrew words: ${table.slice(0, 120)}`);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth);
+    assert(sw <= 390, `the hub scrolls sideways: ${sw}`);
+    await shot(page, 'gm2-hub-challenge-390', { fullPage: true });
+    await ctx.close();
+  });
+
+  await check('GM-2b. The result sum reads "7 × 10 = 70" left to right', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A1');
+    await go(page, 'games/A1/1', '[data-opt]');
+    await playQuiz(page, 'A1', 1, (q) => q < 7);
+    const order = await page.evaluate(() => {
+      const b = document.querySelector('.game-result bdi.num');
+      const t = b.firstChild; const out = [];
+      for (let i = 0; i < t.length; i++) { if (!t.data[i].trim()) continue; const r = document.createRange(); r.setStart(t, i); r.setEnd(t, i + 1); out.push([t.data[i], r.getBoundingClientRect().x]); }
+      return out.sort((a, c) => a[1] - c[1]).map((x) => x[0]).join('');
+    });
+    assert(order === '7×10=70', `the sum reads "${order}" from left to right`);
+    await shot(page, 'gm2-quiz-result-390', { fullPage: true });
+    await ctx.close();
+  });
+
+  await check('GM-3a. A B1 learner: the B1 quiz is the first card, the hub is under 2,000 px at 390, and picture level 3 and memory level 3 are playable', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'B1');
+    await go(page, 'games', '.game-stage');
+    await page.waitForTimeout(200);
+    assert((await page.getAttribute('.game-stage', 'href')) === '#/games/B1/1', `first card: ${await page.getAttribute('.game-stage', 'href')}`);
+    assert(/הרמה שלך/.test(await page.textContent('.game-mine')), 'the learner\'s level is not tagged');
+    const h = await page.evaluate(() => document.documentElement.scrollHeight);
+    assert(h < 2000, `the hub is ${h} px tall`);
+    assert(await page.$('a.game-stage[href="#/games/pictures/3"]') && await page.$('a.game-stage[href="#/games/memory/3"]'), 'level 3 is not open on the hub');
+    assert(await page.$('a.game-stage[href="#/games/C1/1"]') && !(await page.$('a.game-stage[href="#/games/C1/2"]')), 'other levels do not keep their stage locks');
+    await shot(page, 'gm3-hub-B1-390', { fullPage: true });
+    await go(page, 'games/pictures/3', '.pic-tile');
+    await go(page, 'games/memory/3', '.mem-card');
+    await ctx.close();
+  });
+
+  await check('GM-3b. A locked stage or level address shows "still locked" with a way on, not a silent jump to the hub', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'B1');
+    await go(page, 'games/B1/3', '.game-locked-page');
+    assert(/השלב הזה עוד נעול/.test(await page.textContent('.game-locked-page h1')), 'no locked message');
+    assert(/#\/games\/B1\/3$/.test(page.url()), `the address moved: ${page.url()}`);
+    assert(await page.$('.game-locked-page a[href="#/games/B1/1"]') && await page.$('.game-locked-page a[href="#/games"]'), 'no link to the open stage or the hub');
+    await page.waitForTimeout(100);
+    assert(await page.evaluate(() => document.activeElement?.matches('.game-locked-page h1')), 'focus is not on the message');
+    await shot(page, 'gm3-locked-B1-3-390');
+    await ctx.close();
+    const a2 = await newPage(browser, { touch: true });
+    await learnerAt(a2.page, 'A2');
+    await go(a2.page, 'games/pictures/2', '.pic-tile');
+    await go(a2.page, 'games/memory/3', '.game-locked-page');
+    assert(/הרמה הזו עוד נעולה/.test(await a2.page.textContent('.game-locked-page h1')), 'no locked message for a level');
+    assert(await a2.page.$('.game-locked-page a[href="#/games/memory/2"]'), 'no link to the highest open level');
+    await a2.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

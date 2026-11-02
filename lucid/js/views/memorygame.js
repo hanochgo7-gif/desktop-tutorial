@@ -4,15 +4,15 @@
 import { html, render, on, $, $$ } from '../core/util.js';
 import { tt, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
-import { icon, toast } from '../ui/components.js';
+import { icon } from '../ui/components.js';
 import { store } from '../core/store.js';
-import { logEvent, settings } from '../core/learner.js';
+import { logEvent, settings, model } from '../core/learner.js';
 import { playTone, soundOn } from '../ui/sound.js';
 import { say, canSpeak } from '../core/speech.js';
-import { bests, isBetter, unlocked, recentWords } from '../core/picturegame.js';
+import { bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
 import { UNLOCK, MATCH, SLIP, TYPE, maxFor, turnBonus, roundScore, accuracyOf, makeDeck, judgeTurn } from '../core/memorygame.js';
 import { paceOf } from '../core/wordgame.js';
-import { picture, sumLine, bestLine } from './picturegame.js';
+import { picture, sumLine, bestLine, lockedLevel } from './picturegame.js';
 
 const pctText = (x) => `${Math.round(x * 100)}%`;
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
@@ -38,7 +38,8 @@ export default async function memorygame(el, ctx) {
   const pairs = set.memory_pairs || 6;
   let before = bests(store.all('events'), TYPE);
   let pace = paceOf(settings()), mineBefore = {};
-  if (!unlocked(before, level)) { toast(tt(`הרמה הזו נפתחת ב-${pctText(UNLOCK)} דיוק ברמה הקודמת`, `This level opens at ${pctText(UNLOCK)} accuracy in the level before`)); ctx.navigate('games', { replace: true }); return null; }
+  const openTo = openUpTo(data.sets, model().courseLevel);
+  if (!unlocked(before, level, openTo)) { lockedLevel(el, 'memory', level, (l) => unlocked(before, l, openTo)); return null; }
   try { sessionStorage.setItem('lucid-game-level', 'memory'); } catch { /* storage blocked */ }
   ctx.setTitle(`${tt('משחק זיכרון', 'Memory game')} · ${level}`);
 
@@ -176,7 +177,7 @@ export default async function memorygame(el, ctx) {
     logEvent({ type: TYPE, level, score: total, accuracy, matches, slips, turns, total: pairs, mode: pace.mode, words: [...new Set(cards.map((x) => x.w.word))] });
     const nowBest = bests(store.all('events'), TYPE);
     const nextSet = data.sets.find((s) => s.level === level + 1);
-    const opened = nextSet && !unlocked(before, nextSet.level) && unlocked(nowBest, nextSet.level);
+    const opened = nextSet && !unlocked(before, nextSet.level, openTo) && unlocked(nowBest, nextSet.level, openTo);
     const words = [...missed.values()];
     render(el, html`<div class="player"><div class="player-top">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
@@ -193,7 +194,7 @@ export default async function memorygame(el, ctx) {
         ${slips ? html`<p class="small faint">${slips === 1 ? tt('פעם אחת נבחר קלף אחר אף שהזוג כבר נראה.', 'Once, another card was chosen although the pair had been seen.') : tt(`${slips} פעמים נבחר קלף אחר אף שהזוג כבר נראה.`, `${slips} times, another card was chosen although the pair had been seen.`)}</p>` : ''}
         ${bestLine(prev, record, pace.challenge)}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתחה רמה ${nextSet.level}: ${nextSet.name_he}`, `Level ${nextSet.level} is open: ${nextSet.name_en}`)}</span></p>` : ''}
-        ${nextSet && !unlocked(nowBest, nextSet.level) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
+        ${nextSet && !unlocked(nowBest, nextSet.level, openTo) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
       </div>
       ${words.length ? html`<section class="stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('מילים לחזור עליהן', 'Words to go over')}</h2>
         <ul class="pic-missed">${words.map((w) => html`<li class="panel flat row">${picture(w.icon, 32)}<span><strong lang="en" dir="ltr">${shown(w)}</strong>${otherForm(w) ? html` <span class="xsmall faint" lang="en" dir="ltr">(${otherForm(w)})</span>` : ''} = <span lang="he" dir="rtl">${isolateLatin(w.he)}</span></span>${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say="${shown(w)}" aria-label="${tt(`השמעה: ${shown(w)}`, `Play: ${shown(w)}`)}">${icon('volume', { size: 16 })}</button>` : ''}</li>`)}</ul>
@@ -201,7 +202,7 @@ export default async function memorygame(el, ctx) {
         : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל זוג שכבר נראה נמצא מיד.', 'Every pair already seen was found at once.')}</span></p>`}
       <div class="row">
         <button type="button" class="key enter" data-again>${tt('עוד סיבוב', 'Play again')}</button>
-        ${nextSet && unlocked(nowBest, nextSet.level) ? html`<a class="key" href="#/games/memory/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
+        ${nextSet && unlocked(nowBest, nextSet.level, openTo) ? html`<a class="key" href="#/games/memory/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
         <a class="key ghost" href="#/games">${tt('לכל המשחקים', 'All games')}</a>
       </div></div></div>`);
     window.scrollTo?.(0, 0);

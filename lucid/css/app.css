@@ -873,9 +873,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-total { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--ink-en); }
 @media (prefers-reduced-motion: reduce) { .game-plus { animation: none; } }
 #gbody:focus { outline: none; }
-.game-rules { align-items: flex-start; flex-wrap: nowrap; margin-block-end: var(--s5); }
-.game-rules > svg { flex: none; margin-block-start: 0.15rem; }
-.game-rules > div { min-width: 0; }
 .option, .game-stage { -webkit-tap-highlight-color: transparent; }
 .option .game-opt { flex: 1; min-width: 0; }
 .option .game-opt[dir='rtl'] { text-align: right; }
@@ -888,7 +885,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-mask .slot.shown { border-color: var(--cobalt); }
 
 /* picture matching */
-.game-section { margin-block-end: var(--s6); }
+.game-section { margin-block-end: var(--s5); }
 .pic-level-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: none; border-radius: 0.55rem; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
 .pic-grid, .pic-words { display: flex; flex-wrap: wrap; justify-content: center; }
 /* Phones: two pictures a row for 4 pairs, three for 5 and 6; desktop: all pictures in one row. Words: two a row on
@@ -981,6 +978,33 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane practice-hubs: end ---- */
 
 /* ---- lane games: start ---- */
+/* Games hub (GM-1 to GM-3): the speed-challenge switch, the scoring table shown only in the challenge, the
+   learner's level first and the other levels as one row each, and locked levels folded into one line. */
+.game-pace { margin-block-end: var(--s5); }
+.game-challenge strong { font-size: var(--t-md); }
+.game-scoring > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; }
+.game-scoring-table { width: 100%; max-width: 30rem; border-collapse: collapse; font-size: var(--t-sm); }
+.game-scoring-table th { text-align: start; font-weight: 600; padding: var(--s3) 0 var(--s1); color: var(--ink); }
+.game-scoring-table td { padding: var(--s1) 0; border-block-end: 1px solid var(--key-edge); color: var(--ink-2); }
+.game-scoring-table td:last-child { text-align: end; padding-inline-start: var(--s4); white-space: nowrap; color: var(--ink); font-weight: 500; }
+.game-stage-sub { display: block; }
+.game-levels { gap: var(--s2); }
+.game-levels > .game-mine { margin-block-end: var(--s3); padding: var(--s4); }
+/* Hub cards a little tighter than lesson cards, so the whole hub stays short on a phone. */
+.game-stages > .game-stage:not(.game-chip) { padding-block: var(--s2); min-height: 3.5rem; }
+.game-levels > .game-level-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); padding-block: var(--s2); border-block-end: 1px solid var(--key-edge); }
+.game-levels > .game-level-row:last-child { border-block-end: 0; }
+.game-level-row .game-level-name { min-width: 0; flex: 1 1 9rem; max-width: 20rem; flex-wrap: nowrap; }
+.game-chips { display: flex; gap: var(--s2); flex: none; }
+.game-chip { position: relative; justify-content: center; width: 2.75rem; height: 2.75rem; padding: 0; font-weight: 600; }
+.game-chip-mark { position: absolute; inset-block-start: -0.35rem; inset-inline-end: -0.35rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-3); }
+.game-chip.is-done .game-chip-mark { background: var(--ok-tint); border-color: var(--ok); color: var(--ok); }
+.game-chip.is-locked { border-style: dashed; }
+.game-locked { display: flex; align-items: flex-start; gap: var(--s2); margin-block-start: var(--s1); }
+.game-locked > svg { flex: none; margin-block-start: 0.15rem; }
+.game-locked-page { max-width: 30rem; margin-inline: auto; }
+.game-locked-page h1 { font-size: var(--t-xl); }
+.game-locked-page .row { justify-content: center; }
 
 /* ---- lane games: end ---- */
 

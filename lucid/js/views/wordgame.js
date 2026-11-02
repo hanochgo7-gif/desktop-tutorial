@@ -14,7 +14,7 @@ import { say, canSpeak } from '../core/speech.js';
 import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf } from '../core/wordgame.js';
 import * as pics from '../core/picturegame.js';
 import * as mem from '../core/memorygame.js';
-import { picture } from './picturegame.js';
+import { picture, lockedPage } from './picturegame.js';
 
 const LAST = 'lucid-game-level';
 const remember = (level) => { try { sessionStorage.setItem(LAST, level); } catch { /* storage blocked */ } };
@@ -26,7 +26,19 @@ const levelLessons = async (level) => {
 };
 const stageName = (s) => tt(s.he, s.en);
 const pctText = (x) => `${Math.round(x * 100)}%`;
-const bonusText = (type) => BONUS[type].map(([ms, b]) => `${ms / 1000}s +${b}`).join(', ');
+const plus = (n) => html`<bdi dir="ltr" class="num">${n < 0 ? `−${-n}` : `+${n}`}</bdi>`;
+const secs = (ms) => tt(`עד ${ms / 1000} שניות`, `up to ${ms / 1000} s`);
+
+// "How points are counted", shown only with the speed challenge on: one small table per game, in words.
+function scoringTable() {
+  const group = (he, en, rows) => html`<tbody><tr><th colspan="2" scope="colgroup">${tt(he, en)}</th></tr>${rows.map(([what, n]) => html`<tr><td>${what}</td><td>${plus(n)}</td></tr>`)}</tbody>`;
+  return html`<details class="game-scoring"><summary>${tt('איך מנקדים?', 'How are points counted?')}</summary>
+    <table class="game-scoring-table">
+      ${group('בשאלון', 'Quiz', [[tt('תשובה נכונה', 'A right answer'), POINTS], ...BONUS.choice.map(([ms, b]) => [tt(`בונוס: בחירה ${secs(ms)}`, `Bonus: choosing in ${secs(ms)}`), b]), ...BONUS.typed.map(([ms, b]) => [tt(`בונוס: הקלדה ${secs(ms)}`, `Bonus: typing in ${secs(ms)}`), b])])}
+      ${group('בהתאמת מילים לתמונות', 'Words and pictures', [[tt('זוג נכון', 'A right pair'), pics.MATCH], [tt('טעות', 'A mistake'), -pics.MISTAKE], ...pics.BOARD_BONUS.map(([ms, b]) => [tt(`בונוס: לוח שלם ${secs(ms)} לזוג`, `Bonus: a whole board in ${secs(ms)} a pair`), b])])}
+      ${group('במשחק הזיכרון', 'Memory', [[tt('זוג', 'A pair'), mem.MATCH], [tt('קלף אחר אחרי שהזוג כבר נראה', 'Another card after the pair was seen'), -mem.SLIP], ...mem.TURN_BONUS.map(([n, b]) => [tt(`בונוס: עד ${n} תורות לזוג`, `Bonus: up to ${n} turns a pair`), b])])}
+    </table></details>`;
+}
 
 export default async function wordgame(el, ctx) {
   const { level, stage } = ctx.params;
@@ -35,76 +47,110 @@ export default async function wordgame(el, ctx) {
 }
 
 // ---------- levels and stages ----------
+// The learner's level first, with its three stages; the other levels as one compact row each. The picture and
+// memory games list their open levels; locked ones are folded into one line. Levels up to the course level are
+// open in those two games (placement is evidence); above it, 70% in the level before opens the next.
 async function hub(el, ctx) {
   ctx.setTitle(t('nav.games'));
   const here = location.hash;
   const [tx, pictureData] = await Promise.all([content.taxonomy(), content.pictures()]);
   if (location.hash !== here) return null;
-  const mine = model().courseLevel;
+  const course = model().courseLevel;
+  const mine = LEVELS.includes(course) ? course : LEVELS[0];
   // The two picture games share the levels of content/pictures.json; each has its own bests and unlocking.
   const sets = pictureData?.sets || [];
+  const openTo = pics.openUpTo(sets, mine);
   const pictureGames = [
-    { id: 'pictures', route: 'pictures', type: 'picture-round', he: 'התאמת מילים לתמונות', en: 'Words and pictures', pairs: (s) => s.pairs,
-      introHe: `מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`,
-      introEn: `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`,
+    { id: 'pictures', route: 'pictures', type: 'picture-round', he: 'התאמת מילים לתמונות', en: 'Words and pictures',
+      lineHe: `${pics.BOARDS} לוחות בסיבוב. כל זוג נכון = ${pics.MATCH} נקודות, וטעות מורידה ${pics.MISTAKE}.`,
+      lineEn: `${pics.BOARDS} boards a round. Each right pair = ${pics.MATCH} points; a mistake takes off ${pics.MISTAKE}.`,
       sizeHe: (s) => `${s.pairs} זוגות בלוח`, sizeEn: (s) => `${s.pairs} pairs a board`, iconOf: (s) => s.words[0].icon },
-    { id: 'memory', route: 'memory', type: mem.TYPE, he: 'משחק זיכרון', en: 'Memory game', pairs: (s) => s.memory_pairs,
-      introHe: `הקלפים הפוכים: הופכים שניים בכל תור ומחפשים תמונה והמילה שלה באנגלית. כל זוג שווה ${mem.MATCH} נקודות; ״פספוס״ (כשהזוג כבר נראה ונבחר קלף אחר) מוריד ${mem.SLIP}, ויש בונוס על מעט תורות. הרמה הבאה נפתחת ב-${pctText(mem.UNLOCK)} דיוק.`,
-      introEn: `The cards are face down: turn two each turn to find a picture and its English word. Each pair is worth ${mem.MATCH} points; a "slip" (the pair had been seen, but another card was chosen) takes off ${mem.SLIP}, and few turns earn a bonus. The next level opens at ${pctText(mem.UNLOCK)} accuracy.`,
+    { id: 'memory', route: 'memory', type: mem.TYPE, he: 'משחק זיכרון', en: 'Memory game',
+      lineHe: `הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה. כל זוג = ${mem.MATCH} נקודות.`,
+      lineEn: `Turn two cards each turn to find a picture and its word. Each pair = ${mem.MATCH} points.`,
       sizeHe: (s) => `${s.memory_pairs * 2} קלפים`, sizeEn: (s) => `${s.memory_pairs * 2} cards`, iconOf: (s) => s.words[1].icon },
   ];
-  const pictureSection = (g) => {
+  const doneMark = () => html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>`;
+  const pictureSection = (g, mode) => {
     const best = pics.bests(store.all('events'), g.type);
-    const shownBest = pics.bests(store.all('events'), g.type, paceOf(settings()).mode);
+    const shownBest = pics.bests(store.all('events'), g.type, mode);
+    const open = sets.filter((s) => pics.unlocked(best, s.level, openTo));
+    const locked = sets.filter((s) => !open.includes(s)).map((s) => s.level);
     return html`<section class="stack-sm game-section" id="lvl-${g.id}" aria-labelledby="${g.id}-h">
       <h2 id="${g.id}-h">${tt(g.he, g.en)}</h2>
-      <p class="small muted">${tt(g.introHe, g.introEn)}</p>
+      <p class="small muted">${tt(g.lineHe, g.lineEn)}</p>
       ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
-      <div class="game-stages">${sets.map((set) => {
+      <div class="game-stages">${open.map((set) => {
         const b = shownBest[set.level];
-        const open = pics.unlocked(best, set.level);
-        const inner = html`<span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
-          <span class="xsmall faint" style="display:block">${!open ? tt(`נפתחת ב-${pctText(pics.UNLOCK)} ברמה ${set.level - 1}`, `Opens at ${pctText(pics.UNLOCK)} in level ${set.level - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>
-          ${open ? ((best[set.level]?.accuracy || 0) >= pics.UNLOCK ? html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>` : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
-        return open ? html`<a class="game-stage" href="#/games/${g.route}/${set.level}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
-      })}</div></section>`;
+        const passed = (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
+        return html`<a class="game-stage" href="#/games/${g.route}/${set.level}"><span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
+          <span class="xsmall faint game-stage-sub">${b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>${passed ? doneMark() : ''}</a>`;
+      })}</div>
+      ${locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
+        ? tt(`רמה ${locked[0]} נפתחת ב-${pctText(pics.UNLOCK)} דיוק ברמה ${locked[0] - 1}.`, `Level ${locked[0]} opens at ${pctText(pics.UNLOCK)} accuracy in level ${locked[0] - 1}.`)
+        : tt(`רמות ${locked.slice(0, -1).join(', ')} ו-${locked.at(-1)} נפתחות ב-${pctText(pics.UNLOCK)} דיוק ברמה הקודמת.`, `Levels ${locked.slice(0, -1).join(', ')} and ${locked.at(-1)} open at ${pctText(pics.UNLOCK)} accuracy in the level before.`)}</span></p>` : ''}
+    </section>`;
   };
+  const stageCard = (best, shownBest, lvl, s) => {
+    const b = shownBest[`${lvl}:${s.id}`];
+    const open = unlocked(best, lvl, s.id);
+    const passed = (best[`${lvl}:${s.id}`]?.accuracy || 0) >= UNLOCK;
+    const inner = html`<span class="game-stage-num num">${s.id}</span><span class="grow"><span class="game-stage-name">${stageName(s)}</span>
+      <span class="xsmall faint game-stage-sub">${!open ? tt(`נפתח ב-${pctText(UNLOCK)} בשלב ${s.id - 1}`, `Opens at ${pctText(UNLOCK)} in stage ${s.id - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${b.correct} מתוך ${b.total}`, `Best: ${b.score} points · ${b.correct} of ${b.total}`) : tt(s.hintHe, s.hintEn)}</span></span>
+      ${open ? (passed ? doneMark() : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
+    return open ? html`<a class="game-stage" href="#/games/${lvl}/${s.id}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
+  };
+  // Another level: its name and three numbered stage keys (a lock on a stage not open yet).
+  const stageChip = (best, lvl, s) => {
+    const open = unlocked(best, lvl, s.id);
+    const passed = (best[`${lvl}:${s.id}`]?.accuracy || 0) >= UNLOCK;
+    const name = tt(`${LEVEL_LABEL[lvl]}, שלב ${s.id}: ${s.he}`, `${LEVEL_LABEL[lvl]}, stage ${s.id}: ${s.en}`);
+    return open
+      ? html`<a class="game-stage game-chip${passed ? ' is-done' : ''}" href="#/games/${lvl}/${s.id}" title="${name}"><span class="num" aria-hidden="true">${s.id}</span><span class="sr-only">${name}${passed ? tt(', עבר', ', passed') : ''}</span>${passed ? html`<span class="game-chip-mark" aria-hidden="true">${icon('check', { size: 12 })}</span>` : ''}</a>`
+      : html`<span class="game-stage game-chip is-locked" title="${tt(`שלב ${s.id}: נעול`, `Stage ${s.id}: locked`)}"><span class="num" aria-hidden="true">${s.id}</span><span class="sr-only">${tt(`${LEVEL_LABEL[lvl]}, שלב ${s.id}: נעול`, `${LEVEL_LABEL[lvl]}, stage ${s.id}: locked`)}</span><span class="game-chip-mark" aria-hidden="true">${icon('lock', { size: 12 })}</span></span>`;
+  };
+  // The learner's level: its locked stages folded into one line, with their names.
+  const lockedStages = (best, lvl) => {
+    const locked = STAGES.filter((s) => !unlocked(best, lvl, s.id));
+    if (!locked.length) return '';
+    const named = (s) => tt(`שלב ${s.id} (${s.he})`, `stage ${s.id} (${s.en})`);
+    return html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
+      ? tt(`${named(locked[0])} נפתח ב-${pctText(UNLOCK)} תשובות נכונות בשלב ${locked[0].id - 1}.`, `Stage ${locked[0].id} (${locked[0].en}) opens at ${pctText(UNLOCK)} right in stage ${locked[0].id - 1}.`)
+      : tt(`${named(locked[0])} ו${named(locked[1])} נפתחים ב-${pctText(UNLOCK)} תשובות נכונות בשלב שלפניהם.`, `Stage ${locked[0].id} (${locked[0].en}) and ${named(locked[1])} open at ${pctText(UNLOCK)} right in the stage before each.`)}</span></p>`;
+  };
+  const levelName = (lvl) => { const meta = tx.levels.find((x) => x.id === lvl); return legend(meta?.name_en || lvl, meta?.name_he || lvl); };
 
   function draw() {
-    const best = bests(store.all('events'));
+    const all = store.all('events');
+    const best = bests(all);
     const { challenge, mode } = paceOf(settings());
-    const shownBest = bests(store.all('events'), mode);
+    const shownBest = bests(all, mode);
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${t('nav.games')}</h1>
-        <p>${tt('שלושה משחקים, ובכולם כל תשובה מסומנת נכונה או לא נכונה מיד, עם רמות וניקוד.', 'Three games. In each, every answer is marked right or wrong at once, with levels and scores.')}</p>
-        <p class="small faint">${tt('המשחקים הם תרגול: הם לא משנים את הרמה שלך במסלול.', 'The games are practice: they do not change your level on the path.')}</p></div></div>
-      <label class="choice game-challenge"><input type="checkbox" data-challenge ${challenge ? html`checked` : ''}><span class="grow small"><strong>${tt('אתגר מהירות', 'Speed challenge')}</strong><br>${tt('כשהאתגר פועל, תשובה מהירה מוסיפה נקודות, והשיאים נשמרים בנפרד. כשהוא כבוי אין שעון: המשחק מחכה לכם.', 'When it is on, a quick answer earns extra points, and its bests are kept apart. When it is off there is no clock: the game waits for you.')}</span></label>
-      ${pictureGames.map(pictureSection)}
-      <section class="stack-sm" aria-labelledby="quiz-h">
-      <h2 id="quiz-h">${tt('שאלון אוצר מילים והשלמת מילים', 'Vocabulary quiz and word completion')}</h2>
-      <p class="small muted">${tt(`${ROUND} שאלות בסיבוב מתוך המילים של כל רמה. כל תשובה נכונה שווה ${POINTS} נקודות, ועוד בונוס על מהירות.`, `${ROUND} questions a round from each level's words. Each right answer is worth ${POINTS} points, plus a bonus for speed.`)}</p>
-      <div class="banner small game-rules">${icon('info', { size: 16 })}<div class="stack-sm">
-        <p>${tt(`בכל רמה שלושה שלבים. השלב הבא נפתח ב-${pctText(UNLOCK)} תשובות נכונות בשלב הקודם.`, `Each level has three stages. The next stage opens at ${pctText(UNLOCK)} right in the one before.`)}</p>
-        ${challenge ? html`<p>${tt('בונוס מהירות לכל תשובה נכונה: ', 'Speed bonus for each right answer: ')}<span lang="en" dir="ltr">${bonusText('choice')}</span>${tt('; בהקלדה: ', '; typing: ')}<span lang="en" dir="ltr">${bonusText('typed')}</span>.</p>` : ''}</div></div>
-      <ol class="game-levels">${LEVELS.map((lvl) => {
-        const meta = tx.levels.find((x) => x.id === lvl);
-        return html`<li class="panel ${lvl === mine ? 'game-mine' : 'flat'}" id="lvl-${lvl}">
-          <div class="row between"><h3 class="game-level-name"><span class="tag level">${LEVEL_LABEL[lvl]}</span> ${legend(meta?.name_en || lvl, meta?.name_he || lvl)}</h3>
-            ${lvl === mine ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}</div>
-          <div class="game-stages">${STAGES.map((s) => {
-            const b = shownBest[`${lvl}:${s.id}`];
-            const open = unlocked(best, lvl, s.id);
-            const passed = (best[`${lvl}:${s.id}`]?.accuracy || 0) >= UNLOCK;
-            const inner = html`<span class="game-stage-num num">${s.id}</span><span class="grow"><span class="game-stage-name">${stageName(s)}</span>
-              <span class="xsmall faint" style="display:block">${!open ? tt(`נפתח ב-${pctText(UNLOCK)} בשלב ${s.id - 1}`, `Opens at ${pctText(UNLOCK)} in stage ${s.id - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${b.correct} מתוך ${b.total}`, `Best: ${b.score} points · ${b.correct} of ${b.total}`) : tt(s.hintHe, s.hintEn)}</span></span>
-              ${open ? (passed ? html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>` : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
-            return open ? html`<a class="game-stage" href="#/games/${lvl}/${s.id}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
-          })}</div></li>`;
-      })}</ol></section>`);
+        <p>${tt('שלושה משחקים לתרגול מילים. הם לא משנים את הרמה שלכם במסלול.', 'Three games to practise words. They do not change your level on the path.')}</p></div></div>
+      <div class="stack-sm game-pace">
+        <label class="choice game-challenge"><input type="checkbox" data-challenge ${challenge ? html`checked` : ''}><span class="grow small"><strong>${tt('אתגר מהירות', 'Speed challenge')}</strong><br>${tt('כבוי: אין שעון, והמשחק מחכה לכם. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock, and the game waits for you. On: a quick answer earns extra points, with bests of its own.')}</span></label>
+        ${challenge ? scoringTable() : ''}
+      </div>
+      <section class="stack-sm game-section" id="lvl-quiz" aria-labelledby="quiz-h">
+        <h2 id="quiz-h">${tt('שאלון אוצר מילים והשלמת מילים', 'Vocabulary quiz and word completion')}</h2>
+        <p class="small muted">${tt(`${ROUND} שאלות. כל תשובה נכונה = ${POINTS} נקודות.`, `${ROUND} questions. Each right answer = ${POINTS} points.`)}</p>
+        <ul class="game-levels">
+          <li class="panel game-mine" id="lvl-${mine}">
+            <div class="row between"><h3 class="game-level-name"><span class="tag level">${LEVEL_LABEL[mine]}</span> ${levelName(mine)}</h3>
+              <span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span></div>
+            <div class="game-stages">${STAGES.filter((s) => unlocked(best, mine, s.id)).map((s) => stageCard(best, shownBest, mine, s))}</div>
+            ${lockedStages(best, mine)}</li>
+          ${LEVELS.filter((l) => l !== mine).map((lvl) => html`<li class="game-level-row" id="lvl-${lvl}">
+            <h3 class="game-level-name"><span class="tag level">${LEVEL_LABEL[lvl]}</span> ${levelName(lvl)}</h3>
+            <div class="game-chips" role="group" aria-label="${tt(`השלבים של ${LEVEL_LABEL[lvl]}`, `${LEVEL_LABEL[lvl]} stages`)}">${STAGES.map((s) => stageChip(best, lvl, s))}</div></li>`)}
+        </ul>
+      </section>
+      ${pictureGames.map((g) => pictureSection(g, mode))}`);
   }
   draw();
   // Back from a game (after the router's scroll to the top): show the level played last. Coming from anywhere else,
-  // the page stays at the top, where both games are introduced.
+  // the page stays at the top, where the learner's own level comes first.
   const last = /^#\/games\/./.test(ctx.from || '') && lastLevel();
   if (last) setTimeout(() => document.getElementById(`lvl-${last}`)?.scrollIntoView({ block: 'start' }), 0);
   ctx.watch(['events'], draw);
@@ -125,7 +171,15 @@ async function play(el, ctx, level, stageId) {
   let before = bests(store.all('events'));
   let pace = paceOf(settings());
   let mineBefore = bests(store.all('events'), pace.mode);
-  if (!unlocked(before, level, stageId)) { toast(tt(`השלב הזה נפתח ב-${pctText(UNLOCK)} בשלב הקודם`, `This stage opens at ${pctText(UNLOCK)} in the stage before`)); ctx.navigate('games', { replace: true }); return null; }
+  if (!unlocked(before, level, stageId)) {
+    const reach = [...STAGES].reverse().find((s) => s.id < stageId && unlocked(before, level, s.id));
+    lockedPage(el, {
+      title: tt('השלב הזה עוד נעול', 'This stage is still locked'),
+      text: tt(`שלב ${stageId} של ${LEVEL_LABEL[level]} נפתח ב-${pctText(UNLOCK)} תשובות נכונות בשלב ${stageId - 1}.`, `Stage ${stageId} of ${LEVEL_LABEL[level]} opens at ${pctText(UNLOCK)} right in stage ${stageId - 1}.`),
+      next: reach && { href: `#/games/${level}/${reach.id}`, label: tt(`לשלב ${reach.id}: ${reach.he}`, `To stage ${reach.id}: ${reach.en}`) },
+    });
+    return null;
+  }
   remember(level);
   const here = location.hash;
   const pool = wordPool(await levelLessons(level), level);
