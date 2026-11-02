@@ -19,6 +19,7 @@ test('three levels; every word has a Hebrew meaning and a picture; no word or pi
       assert.ok(PICTURES[w.icon], `${w.word}: no picture "${w.icon}"`);
       assert.ok(/^<(path|circle|rect|line|polyline|polygon|ellipse)\b/.test(PICTURES[w.icon].trim()), `${w.icon}: not SVG shapes`);
       assert.ok(!/<script|on\w+=|href=/i.test(PICTURES[w.icon]), `${w.icon}: unsafe markup`);
+      if (w.us) assert.ok(/^[a-z][a-z '-]*$/.test(w.us) && w.us !== w.word, `${w.word}: US form "${w.us}"`);
       assert.ok(!words.has(w.word), `word used twice: ${w.word}`);
       assert.ok(!icons.has(w.icon), `picture used twice: ${w.icon}`);
       words.add(w.word); icons.add(w.icon);
@@ -36,6 +37,25 @@ test('a round is three boards of the level\'s pair count, ten words never repeat
       assert.equal(b.pictures.length, set.pairs);
       assert.deepEqual([...b.pictures].sort((x, y) => x.word.localeCompare(y.word)), [...b.words].sort((x, y) => x.word.localeCompare(y.word)), 'words and pictures differ');
       assert.ok(b.pictures.every((w, k) => b.words[k] !== w), 'a word is in the same place as its picture');
+    }
+  }
+});
+
+test('pictures that look alike never share a board, even when both were missed last time', () => {
+  for (const set of data.sets) {
+    const names = new Set(set.words.map((w) => w.word));
+    for (const pair of set.apart || []) assert.ok(pair.length === 2 && pair.every((w) => names.has(w)), `level ${set.level}: apart ${pair}`);
+    for (let r = 0; r < 40; r++) {
+      const focus = (set.apart || []).flat();
+      for (const opts of [{ seed: r / 40 + 0.017 }, { seed: r / 40 + 0.017, focus }]) {
+        const boards = makeBoards(set.words, set.pairs, { ...opts, apart: set.apart });
+        assert.equal(boards.length, BOARDS);
+        for (const b of boards) {
+          const on = new Set(b.pictures.map((w) => w.word));
+          for (const [x, y] of set.apart || []) assert.ok(!(on.has(x) && on.has(y)), `level ${set.level}: ${x} and ${y} on one board`);
+        }
+        if (opts.focus) for (const w of focus) assert.ok(boards.some((b) => b.pictures.some((p) => p.word === w)), `${w} missing from a focus round`);
+      }
     }
   }
 });

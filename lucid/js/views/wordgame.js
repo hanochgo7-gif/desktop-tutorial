@@ -45,6 +45,7 @@ async function hub(el, ctx) {
     return html`<section class="stack-sm game-section" id="lvl-pictures" aria-labelledby="pics-h">
       <h2 id="pics-h">${tt('התאמת מילים לתמונות', 'Words and pictures')}</h2>
       <p class="small muted">${tt(`מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`, `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`)}</p>
+      ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.")}</span></p>`}
       <div class="game-stages">${sets.map((set) => {
         const b = best[set.level];
         const open = pics.unlocked(best, set.level);
@@ -71,7 +72,7 @@ async function hub(el, ctx) {
       <ol class="game-levels">${LEVELS.map((lvl) => {
         const meta = tx.levels.find((x) => x.id === lvl);
         return html`<li class="panel ${lvl === mine ? 'game-mine' : 'flat'}" id="lvl-${lvl}">
-          <div class="row between"><h2 class="game-level-name"><span class="tag level">${LEVEL_LABEL[lvl]}</span> ${legend(meta?.name_en || lvl, meta?.name_he || lvl)}</h2>
+          <div class="row between"><h3 class="game-level-name"><span class="tag level">${LEVEL_LABEL[lvl]}</span> ${legend(meta?.name_en || lvl, meta?.name_he || lvl)}</h3>
             ${lvl === mine ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}</div>
           <div class="game-stages">${STAGES.map((s) => {
             const b = best[`${lvl}:${s.id}`];
@@ -85,8 +86,10 @@ async function hub(el, ctx) {
       })}</ol></section>`);
   }
   draw();
-  // After the router's scroll to the top: show the level played last, or the learner's own level.
-  setTimeout(() => document.getElementById(`lvl-${lastLevel() || mine}`)?.scrollIntoView({ block: 'start' }), 0);
+  // Back from a game (after the router's scroll to the top): show the level played last. A first visit stays at the
+  // top, where both games are introduced.
+  const last = lastLevel();
+  if (last) setTimeout(() => document.getElementById(`lvl-${last}`)?.scrollIntoView({ block: 'start' }), 0);
   ctx.watch(['events'], draw);
   return null;
 }

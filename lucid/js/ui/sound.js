@@ -1,5 +1,5 @@
 // Short tones for right and wrong answers in the games (Web Audio, no files), when sound is on in Settings
-// ("Sounds in the word game"). One audio context for the whole app.
+// ("Sounds in the games"). One audio context for the whole app.
 import { settings } from '../core/learner.js';
 
 export const soundOn = () => { const s = settings().sound; return !(s === false || s === 'off'); };
@@ -8,6 +8,7 @@ export function playTone(ok) {
   if (!soundOn()) return;
   try {
     ctx ||= new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume(); // iOS suspends it when the app goes to the background
     (ok ? [660, 880] : [220]).forEach((f, k) => {
       const o = ctx.createOscillator(), g = ctx.createGain();
       o.frequency.value = f; o.type = 'sine';

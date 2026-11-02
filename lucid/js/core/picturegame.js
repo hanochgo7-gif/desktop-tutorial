@@ -25,15 +25,27 @@ export const roundScore = (matches, mistakes, bonus = 0) => Math.max(0, matches 
 export const accuracyOf = (matches, mistakes) => (matches + mistakes ? matches / (matches + mistakes) : 0);
 
 // The boards of a round. Words missed last time (focus) fill the first boards; words seen in recent rounds come last.
-export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS, focus = [], recent = [] } = {}) {
+// `apart` lists pairs of words whose pictures look alike: they never share a board (when there is any way to avoid it).
+export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS, focus = [], recent = [], apart = [] } = {}) {
   const lower = (w) => w.word.toLowerCase();
-  const first = focus.map((f) => words.find((w) => lower(w) === f.toLowerCase())).filter(Boolean);
+  const first = [...new Set(focus.map((f) => words.find((w) => lower(w) === f.toLowerCase())).filter(Boolean))];
   const seen = new Set(recent.map((r) => r.toLowerCase()));
   const rest = shuffle(words.filter((w) => !first.includes(w)), seed);
-  const ordered = [...shuffle(first, seed + 0.21), ...rest.filter((w) => !seen.has(lower(w))), ...rest.filter((w) => seen.has(lower(w)))].slice(0, pairs * boards);
+  const ordered = [...shuffle(first, seed + 0.21), ...rest.filter((w) => !seen.has(lower(w))), ...rest.filter((w) => seen.has(lower(w)))];
+  const clash = new Map();
+  for (const [x, y] of apart) for (const [p, q] of [[x, y], [y, x]]) (clash.get(p) || clash.set(p, new Set()).get(p)).add(q);
+  // Fill the boards in order; a word that would sit next to its look-alike waits, and is used only if nothing else is left.
+  const groups = Array.from({ length: Math.min(boards, Math.floor(ordered.length / pairs)) }, () => []);
+  const room = (g) => g.length < pairs;
+  const waiting = [];
+  for (const w of ordered) {
+    if (!groups.some(room)) break;
+    const g = groups.find((x) => room(x) && !x.some((o) => clash.get(o.word)?.has(w.word)));
+    if (g) g.push(w); else waiting.push(w);
+  }
+  for (const w of waiting) groups.find(room)?.push(w);
   const out = [];
-  for (let b = 0; b < boards && (b + 1) * pairs <= ordered.length; b++) {
-    const set = ordered.slice(b * pairs, (b + 1) * pairs);
+  for (const [b, set] of groups.entries()) {
     // Pictures and words in two different orders, with no word in the same place as its picture: a word that
     // landed there swaps with its neighbour (one pass is enough, since the words are all different).
     const picOrder = shuffle(set, seed + b / 7 + 0.9);

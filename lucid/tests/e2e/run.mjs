@@ -1409,16 +1409,19 @@ try {
     await ctx.close();
   });
 
-  await check('PG1. Words and pictures: level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a 3-board round is logged once and opens level 2', async () => {
+  await check('PG1. Words and pictures: shown first on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
     await onboard(page, { start: 'zero' });
     await page.goto(`${BASE}#/games`);
     await page.waitForSelector('a.game-stage[href="#/games/pictures/1"]');
+    await page.waitForTimeout(200);
+    const inView = () => page.$eval('#lvl-pictures', (x) => { const r = x.getBoundingClientRect(); return r.top >= -1 && r.top < innerHeight / 2; });
+    assert(await inView(), 'the picture game is scrolled out of view on a first visit');
     assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
     await page.click('a.game-stage[href="#/games/pictures/1"]');
-    const wordOf = async (k) => byHe.get((await page.getAttribute(`[data-pic="${k}"]`, 'aria-label')).replace(/^[^:]+:\s*/, ''));
+    const wordOf = async (k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
     let wrongDone = false;
     for (let bd = 0; bd < 3; bd++) {
       await page.waitForSelector('.pic-tile:not([disabled])');
@@ -1437,19 +1440,35 @@ try {
         assert((await page.textContent('.game-score')).match(/-?\d+/)[0] === '0', 'a mistake before any pair took the score below 0');
         wrongDone = true;
       }
+      const keyboard = bd === 1;
       for (let k = 0; k < n; k++) {
         const w = await wordOf(k);
         const idx = words.indexOf(w);
         assert(idx >= 0, `no word for picture ${k}`);
         const before = (await page.$$('.pic-tile.is-right')).length;
-        // Word first, then picture: either order works.
-        await page.click(`[data-word="${idx}"]`);
-        await page.click(`[data-pic="${k}"]`);
+        if (keyboard) {
+          await page.focus(`[data-pic="${k}"]`); await page.keyboard.press('Enter');
+          await page.focus(`[data-word="${idx}"]`); await page.keyboard.press('Space');
+        } else {
+          // Word first, then picture: either order works.
+          await page.click(`[data-word="${idx}"]`);
+          await page.click(`[data-pic="${k}"]`);
+        }
         assert((await page.$$('.pic-tile.is-right')).length === before + 1, 'a right pair was not marked at once');
-        assert(await page.$eval(`[data-pic="${k}"]`, (x) => x.disabled && x.querySelector('.pic-he').textContent.length > 0), 'a matched picture is not locked with its Hebrew');
+        assert(await page.$eval(`[data-pic="${k}"]`, (x) => x.disabled && x.querySelector('.pic-he').textContent.length > 0 && /matched|הותאמה/.test(x.textContent)), 'a matched picture is not locked with its Hebrew and "matched"');
+        if (keyboard && k < n - 1) assert(await page.evaluate(() => document.activeElement?.matches('.pic-tile:not(:disabled)')), 'focus left the board after a match');
       }
       await page.waitForSelector('[data-nextboard]');
-      await page.click('[data-nextboard]', { timeout: 400 }).catch(() => {}); // it also moves on by itself
+      if (keyboard) {
+        await page.waitForTimeout(2800);
+        assert(await page.evaluate(() => document.activeElement?.matches('[data-nextboard]')), 'a board finished with the keyboard moved on by itself');
+        await page.keyboard.press('Enter');
+      } else if (bd === 2) {
+        // A double tap on "See results": the second tap must not press what appears under it.
+        await page.dblclick('[data-nextboard]');
+        await page.waitForTimeout(300);
+        assert(/pictures\/1$/.test(page.url()) && await page.$('.game-total'), `a double tap skipped the results (${page.url()})`);
+      } else await page.click('[data-nextboard]', { timeout: 400 }).catch(() => {}); // it also moves on by itself
     }
     await page.waitForSelector('.game-total');
     const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
@@ -1458,9 +1477,8 @@ try {
     assert(total >= 12 * 10 - 3 && total <= 12 * 10 - 3 + 15, `score ${total} does not follow the rules`);
     assert((await page.$$('.pic-missed li')).length === 2, 'the wrong pair did not list both words to go over');
     assert(await page.$('a[href="#/games/pictures/2"]'), 'level 2 did not open at 92% accuracy');
-    await page.keyboard.press('Enter');
     await page.waitForTimeout(300);
-    assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'Enter on the results counted the round again');
+    assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'the round was counted twice');
     // Missed words come first in the next round.
     const missed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
     await page.click('[data-missed]');
@@ -1471,6 +1489,8 @@ try {
     // The hub shows the best and the open level.
     await page.goto(`${BASE}#/games`);
     await page.waitForSelector('a.game-stage[href="#/games/pictures/2"]');
+    await page.waitForTimeout(200);
+    assert(await inView(), 'back from the picture game, the games page is not at the picture levels');
     assert(/92%/.test(await page.textContent('a.game-stage[href="#/games/pictures/1"]')), 'the best accuracy is not on the hub');
     await ctx.close();
   });

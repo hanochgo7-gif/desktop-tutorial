@@ -862,7 +862,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-input { display: inline-block; width: auto; min-height: 2.4rem; margin-inline: 0.25rem; padding: 0.1rem 0.5rem; font-size: var(--t-lg); vertical-align: baseline; }
 .game-input.right { border-color: var(--ok); background: var(--ok-tint); }
 .game-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
-.game-feedback:empty { display: none; }
 .game-verdict { display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); border: 1px solid transparent; }
 .game-verdict.ok { background: var(--ok-tint); border-color: var(--ok); }
 .game-verdict.ok > p:first-child { color: var(--ok); }
@@ -890,7 +889,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 
 /* picture matching */
 .game-section { margin-block-end: var(--s6); }
-.game-section-title { margin-block: var(--s2) var(--s3); }
 .pic-level-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: none; border-radius: 0.55rem; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
 .pic-grid, .pic-words { display: flex; flex-wrap: wrap; justify-content: center; }
 /* Phones: two pictures a row for 4 pairs, three for 5 and 6; desktop: all pictures in one row. Words: two a row on
@@ -913,9 +911,9 @@ dialog.sheet > .panel { padding: var(--s5); }
 .pic-he { position: absolute; inset-inline: var(--s1); inset-block-end: var(--s2); font-size: var(--t-xs); line-height: 1.2; text-align: center; color: var(--ink-he); }
 .pic-tile.is-right .pic-he { color: inherit; }
 .pic-word { min-height: 3rem; overflow-wrap: anywhere; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); font-size: var(--t-md); font-weight: 500; -webkit-tap-highlight-color: transparent; }
-.pic-tile[aria-pressed='true'], .pic-word[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
 .pic-tile.is-right, .pic-word.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
 .pic-tile.is-wrong, .pic-word.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
+.pic-tile[aria-pressed='true'], .pic-word[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
 .pic-tile:disabled, .pic-word:disabled { cursor: default; }
 @keyframes pic-shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
 @media (prefers-reduced-motion: reduce) { .pic-tile.is-wrong, .pic-word.is-wrong { animation: none; } }
