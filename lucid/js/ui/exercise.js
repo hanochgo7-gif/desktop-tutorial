@@ -140,7 +140,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const dialogue = isDialogue(ex.text);
       const gapName = (i) => `${tt('מילה חסרה', 'Missing word')} ${i + 1}`;
       render(root, html`${prompt}
-        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${turns(p, dialogue, i === 0)}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
+        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${turns(p, dialogue, i === 0)}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="${i < n - 1 ? 'next' : 'done'}" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
         ${bank ? html`<div class="gap-tools" data-gap-tools hidden><button type="button" class="key ghost small" data-gap-clear>${icon('x', { size: 16 })} <span data-gap-clear-label></span></button></div>
           <div class="chips gap-bank" data-bank style="margin-top:var(--s4)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}" lang="en" dir="ltr">${bank.map((w, ci) => html`<button type="button" class="chip" data-chip="${w}" data-ci="${ci}" aria-disabled="false">${w}</button>`)}</div>` : ''}
         ${liveRegion}`);
@@ -207,6 +207,17 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       }
       setTimeout(() => !bank && inputs[0]?.focus(), 50);
       ctl.ready = () => inputs.every((i) => i.value.trim());
+      // Enter in a gap goes to the next empty gap (P2 EX-8); once every gap is filled the player's Enter checks.
+      ctl.onKey = (e) => {
+        if (e.key !== 'Enter' || e.shiftKey || e.isComposing || root.dataset.locked === '1') return false;
+        const inp = e.target?.closest?.('.gap-input');
+        if (!inp || !root.contains(inp) || inputs.every((x) => x.value.trim())) return false;
+        const i = Number(inp.dataset.gap);
+        const next = [...inputs.slice(i + 1), ...inputs.slice(0, i)].find((x) => !x.value.trim() && !locked.has(Number(x.dataset.gap)));
+        if (!next) return false;
+        next.focus();
+        return true;
+      };
       ctl.check = async () => {
         let allRight = true, almost = false, specific = null, err = null;
         const responses = [], typos = [];
