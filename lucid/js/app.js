@@ -106,7 +106,6 @@ function shownTitle(route) {
   return topTitle(route?.title, { lang: uiLang(), section: section ? t(section[1]) : '' });
 }
 
-
 // On a phone the chrome never covers what the learner types (SC-5). While a text field has focus the body is
 // marked "typing" (CSS hides the tab bar and lets the top bar scroll away on touch screens), and when the visible
 // area shrinks (an on-screen keyboard) the field is scrolled out from under any bar that still covers it.

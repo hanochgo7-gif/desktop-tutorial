@@ -497,7 +497,7 @@ dialog.sheet::backdrop { background: oklch(0.15 0.01 250 / 0.5); backdrop-filter
 dialog.sheet > .panel { padding: var(--s5); }
 #toast-root { position: fixed; inset-inline: 0; bottom: calc(5.5rem + env(safe-area-inset-bottom)); display: grid; justify-items: center; gap: var(--s2); pointer-events: none; z-index: 60; }
 @media (min-width: 64rem) { #toast-root { bottom: var(--s5); } }
-.toast { pointer-events: none; background: var(--n10); color: var(--n1); padding: 0.7rem 1rem; border-radius: var(--r-key); box-shadow: var(--shadow-lift); font-size: var(--t-sm); max-width: calc(100vw - 2rem); animation: toast-in 0.35s var(--ease-out); }
+.toast { pointer-events: auto; background: var(--n10); color: var(--n1); padding: 0.7rem 1rem; border-radius: var(--r-key); box-shadow: var(--shadow-lift); font-size: var(--t-sm); max-width: calc(100vw - 2rem); animation: toast-in 0.35s var(--ease-out); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
 .banner { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s3) var(--s4); border-radius: var(--r-key); font-size: var(--t-sm); background: var(--cobalt-tint); }
 .banner.warn { background: var(--warn-tint); }
@@ -1045,6 +1045,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 :root:is([data-text='130'], [data-text='150']) .top .top-label { display: block; font-size: min(0.62rem, 3.6vw); font-weight: 500; }
 
 /* A note never blocks a tap on what is under it; in a player it sits just above the footer (components.js). */
+#toast-root .toast { pointer-events: none; }
 
 /* Disclosures (SC-10): every summary that is not already a .disclosure row gets the outline chevron instead of
    the browser's filled triangle; it points to the reading direction and turns down when open. The chevron is
