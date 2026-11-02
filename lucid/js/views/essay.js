@@ -18,7 +18,7 @@ import { runSet } from '../ui/player.js';
 import { STAGES } from './writing.js';
 import { wordDiff, diffParagraphs, fixStatus, locateSpan } from '../core/diff.js';
 
-const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעל היעד', 'Above target'], ['מעבר ליעד', 'Beyond target']];
+const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעט מעל היעד', 'A little above target'], ['הרבה מעל היעד', 'Well above target']];
 const CATEGORY = {
   grammar: ['דקדוק', 'Grammar'], vocabulary: ['אוצר מילים', 'Vocabulary'], sentence_structure: ['מבנה משפטים', 'Sentence structure'],
   coherence: ['קוהרנטיות', 'Coherence'], cohesion: ['לכידות', 'Cohesion'], argument_strength: ['חוזק הטיעון', 'Argument strength'],
@@ -36,13 +36,25 @@ const MAX_EVALS = 3; // first draft plus at most two AI revision cycles (researc
 const AI_TEXT_MAX = 24000;
 const AI_BODY_MAX = 62 * 1024;
 
-function finalTask(cur, level) {
+// The range the instructions state ("1,500-2,000 words"), when it differs from the range the checks accept (RW-12).
+export function statedRange(text) {
+  const m = String(text || '').match(/(\d[\d,]*)\s*[-–]\s*(\d[\d,]*)\s*words/);
+  return m ? [Number(m[1].replace(/,/g, '')), Number(m[2].replace(/,/g, ''))] : null;
+}
+// Assignment ids in a brief ("wa-08") become their titles (RW-12).
+export function namedAssignments(text, assignments, lang = 'en') {
+  return String(text || '').replace(/\bwa-\d\d\b/g, (id) => { const a = assignments.find((x) => x.id === id); return a ? (lang === 'he' ? `״${a.title_he || a.title_en}״` : `“${a.title_en}”`) : id; });
+}
+function finalTask(cur, level, assignments = []) {
   const fa = cur?.levels?.find((l) => l.id === level)?.final_assessment;
   if (!fa) return null;
+  const named = (x) => (x && typeof x === 'object' ? { ...x, en: namedAssignments(x.en, assignments), he: x.he ? namedAssignments(x.he, assignments, 'he') : x.he } : x);
+  const instructions = named(fa.instructions || { en: fa.task, he: fa.task_he || null });
   return {
+    stated_range: statedRange(instructions.en),
     id: `final-${level}`, final_task: true, stage: fa.stage || 0, level, kind: fa.kind || 'essay',
     title_en: `Final writing task: ${LEVEL_LABEL[level]}`, title_he: `משימת הסיום של ${LEVEL_LABEL[level]}`,
-    instructions: fa.instructions || { en: fa.task, he: fa.task_he || null }, audience: fa.audience || null, topics: fa.topics || [],
+    instructions, audience: fa.audience || null, topics: (fa.topics || []).map(named),
     required: fa.required_elements || [], required_elements: (fa.required_elements || []).map((r) => r.en ?? r),
     min_words: fa.min_words, max_words: fa.max_words || null, focus: FINAL_FOCUS[fa.stage] || FREE.focus, checklist: [],
   };
@@ -96,7 +108,7 @@ export default async function essay(el, ctx) {
   const id = ctx.params.id;
   const [ex, as, tx, cur, rubric] = await Promise.all([content.writingExercises(), content.assignments(), taxonomyIndex(), content.curriculum(), content.rubric()]);
   const assignments = as?.assignments || [];
-  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6)) : (ex?.exercises || []).find((x) => x.id === id) || assignments.find((x) => x.id === id);
+  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6), as?.assignments || []) : (ex?.exercises || []).find((x) => x.id === id) || assignments.find((x) => x.id === id);
   if (!task) { render(el, emptyState({ title: tt('התרגיל לא נמצא', 'Exercise not found'), action: html`<a class="key enter" href="#/writing">${t('nav.writing')}</a>` })); return; }
   ctx.setTitle(task.title_en);
   const m = model();
@@ -425,7 +437,12 @@ export default async function essay(el, ctx) {
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}</span></label>`)}</fieldset>`;
+      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${tt(`כתבתם את המטלה הזו ב-${wrote}`, `You wrote this assignment on ${wrote}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
+  }
+  // The date of a text already written for an assignment, from its summary (RW-12).
+  function writtenOn(id) {
+    const sum = store.get('writing', `ess:${id}`);
+    return sum?.versions ? new Date(sum.updated).toLocaleDateString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB') : null;
   }
 
   function kindPicker() {
@@ -513,8 +530,12 @@ export default async function essay(el, ctx) {
       </div>`);
     tickElapsed();
   }
+  // "target 1,500-2,000 (accepted 1,400-2,200)" when the stated range differs from the checked one (RW-12).
   function targetLabel() {
-    return `${tt('יעד', 'target')} ${minWords}${maxWords ? `-${maxWords}` : '+'}`;
+    const n = (x) => x.toLocaleString('en-US');
+    const st = task.stated_range;
+    if (st && maxWords && (st[0] !== minWords || st[1] !== maxWords)) return tt(`יעד ${n(st[0])}-${n(st[1])} (מתקבל ${n(minWords)}-${n(maxWords)})`, `target ${n(st[0])}-${n(st[1])} (accepted ${n(minWords)}-${n(maxWords)})`);
+    return `${tt('יעד', 'target')} ${n(minWords)}${maxWords ? `-${n(maxWords)}` : '+'}`;
   }
   function wordLabel(words, refs) {
     const r = refs ? countWords(refs) : 0;

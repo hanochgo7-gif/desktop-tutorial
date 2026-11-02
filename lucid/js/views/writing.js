@@ -8,6 +8,14 @@ import { model } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { levelIndex } from '../core/adaptive.js';
 
+// The stated word range ("1,500-2,000"), as the brief says it, with the accepted one when they differ (RW-12).
+function statedRange(text) {
+  const m = String(text || '').match(/(\d[\d,]*)\s*[-–]\s*(\d[\d,]*)\s*words/);
+  return m ? [Number(m[1].replace(/,/g, '')), Number(m[2].replace(/,/g, ''))] : null;
+}
+const fmt = (x) => x.toLocaleString('en-US');
+const rangeText = (x) => (x.stated && (x.stated[0] !== x.word_range[0] || x.stated[1] !== x.word_range[1]) ? tt(`${fmt(x.stated[0])}-${fmt(x.stated[1])} מילים (מתקבל ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`, `${fmt(x.stated[0])}-${fmt(x.stated[1])} words (accepted ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`) : tt(`${fmt(x.word_range[0])}-${fmt(x.word_range[1])} מילים`, `${fmt(x.word_range[0])}-${fmt(x.word_range[1])} words`));
+
 export const STAGES = [
   [1, 'Sentence construction', 'בניית משפטים', 'Correct, complete sentences: subject, verb, word order, punctuation.', 'משפטים שלמים ונכונים: נושא, פועל, סדר מילים ופיסוק.'],
   [2, 'Paragraph development', 'בניית פסקה', 'Topic sentence, supporting sentences, transitions.', 'משפט נושא, משפטים תומכים ומעברים.'],
@@ -33,7 +41,7 @@ export function openStage(rec, counts) {
 export default async function writing(el, ctx) {
   ctx.setTitle(t('nav.writing'));
   const [ex, as, cur] = await Promise.all([content.writingExercises(), content.assignments(), content.curriculum()]);
-  const finals = (cur?.levels || []).filter((l) => l.final_assessment?.stage).map((l) => ({ id: `final-${l.id}`, _type: 'final', stage: l.final_assessment.stage, level: l.id, word_range: [l.final_assessment.min_words, l.final_assessment.max_words], topics: l.final_assessment.topics?.length || 0, title_en: `${LEVEL_LABEL[l.id]} final writing task`, title_he: `משימת הסיום של ${LEVEL_LABEL[l.id]}` }));
+  const finals = (cur?.levels || []).filter((l) => l.final_assessment?.stage).map((l) => ({ id: `final-${l.id}`, _type: 'final', stage: l.final_assessment.stage, level: l.id, word_range: [l.final_assessment.min_words, l.final_assessment.max_words], stated: statedRange(l.final_assessment.instructions?.en), topics: l.final_assessment.topics?.length || 0, title_en: `${LEVEL_LABEL[l.id]} final writing task`, title_he: `משימת הסיום של ${LEVEL_LABEL[l.id]}` }));
   const exercises = ex?.exercises || [];
   const assignments = as?.assignments || [];
   const m = model();
@@ -53,8 +61,15 @@ export default async function writing(el, ctx) {
     const tooHard = levelIndex(x.level) > levelIndex(m.courseLevel) + 1;
     return html`<li><a class="lesson-row hub-row" href="#/writing/${x.id}">
       <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
-      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${x.word_range[0]}-${x.word_range[1]} מילים${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${x.word_range[0]}-${x.word_range[1]} words${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
+      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${rangeText(x)}${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${rangeText(x)}${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
       <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' && s.self_assessed ? tt('בוצעה · הערכה עצמית', 'Done · self-assessed') : s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
+  }
+
+  // "4 tasks · 1 done" for a stage card (RW-12): done is a finished set of exercises or a final draft.
+  function countLabel(items) {
+    const done = items.filter((x) => ['done', 'final'].includes(summaries.find((w) => w.exercise === x.id)?.status)).length;
+    const n = items.length;
+    return tt(`${n === 1 ? 'משימה אחת' : `${n} משימות`}${done ? ` · ${done === 1 ? 'אחת בוצעה' : `${done} בוצעו`}` : ''}`, `${n} task${n === 1 ? '' : 's'}${done ? ` · ${done} done` : ''}`);
   }
 
   // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).
@@ -76,9 +91,9 @@ export default async function writing(el, ctx) {
         const items = all.filter((x) => x.stage === n);
         const isOpen = open === n;
         return html`<li class="panel stage-panel ${isOpen ? '' : 'flat'}">
-          <button type="button" class="row" data-stage="${n}" aria-expanded="${isOpen}" style="width:100%;background:none;border:0;padding:0;text-align:start">
-            <span class="tag level num">${n}</span><span class="grow">${legend(en, he)}<span class="small muted" style="display:block">${tt(dhe, den)}</span></span>
-            ${n === rec ? html`<span class="tag cobalt">${tt('השלב שלכם', 'Your stage')}</span>` : ''}${myFinal?.stage === n ? html`<span class="tag">${tt(`סיום ${L}`, `${L} final`)}</span>` : ''}<span class="small faint">${items.length}</span></button>
+          <button type="button" class="disclosure stage-head" data-stage="${n}" aria-expanded="${isOpen}">
+            <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span><span class="stage-num num" aria-hidden="true">${n}</span><span class="grow"><span class="sr-only">${tt(`שלב ${n}:`, `Stage ${n}:`)} </span>${legend(en, he)}<span class="small muted" style="display:block">${tt(dhe, den)}</span>
+            <span class="stage-meta">${n === rec ? html`<span class="tag cobalt">${tt('השלב שלכם', 'Your stage')}</span>` : ''}${myFinal?.stage === n ? html`<span class="tag">${tt(`סיום ${L}`, `${L} final`)}</span>` : ''}<span class="small faint num">${countLabel(items)}</span></span></span></button>
           ${isOpen ? html`<ul class="lesson-list" style="list-style:none;padding:0;margin:var(--s4) 0 0">${items.length ? items.map(itemRow) : html`<li class="small faint">${tt('אין עדיין תרגילים בשלב הזה.', 'No exercises in this stage yet.')}</li>`}</ul>` : ''}
         </li>`;
       })}</ol>`}`);

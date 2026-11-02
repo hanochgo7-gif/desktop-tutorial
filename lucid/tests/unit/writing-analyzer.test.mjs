@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeWriting, checkSummary, l1Issues, parseSources } from '../../js/core/writing-analyzer.js';
+import { analyzeWriting, checkSummary, l1Issues, parseSources, fullForm } from '../../js/core/writing-analyzer.js';
 import { readFileSync } from 'node:fs';
 import { countWords } from '../../js/core/grading.js';
 
@@ -328,4 +328,13 @@ test('RW-8: an email is checked for a greeting, one clear request and a sign-off
   assert.equal(noAsk.checks.find((c) => c.id === 'greeting').ok, true);
   assert.ok(!analyzeWriting(ok, { level: 'B1', kind: 'message' }).checks.some((c) => c.id === 'signoff'), 'a message has no email structure checks');
   assert.ok(analyzeWriting('Hi James,\nI will be happy if we can move the deadline. I will send the first part until Wednesday.\n\nBest,\nYael', { level: 'B1', kind: 'email' }).issues.filter((i) => i.l1).length >= 2, 'the email rules from RW-2 run');
+});
+
+// RW-12: a contraction in formal writing gets its own full form ("cannot", not a general example).
+test('RW-12: the full form for each flagged contraction', () => {
+  assert.equal(fullForm("can't"), 'cannot');
+  assert.equal(fullForm("Won't"), 'Will not');
+  assert.equal(fullForm("I'm"), 'I am');
+  const i = analyzeWriting("This essay argues that we can't wait.", { level: 'C1' }).issues.find((x) => x.type === 'register' && /can't/.test(x.match));
+  assert.equal(i.ex, 'cannot');
 });
