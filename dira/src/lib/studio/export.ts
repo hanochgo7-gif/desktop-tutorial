@@ -10,15 +10,20 @@ import { buildZip, type ZipEntry } from "./zip";
 
 export type PresetId = "full" | "portal" | "whatsapp" | "instagram" | "story";
 
-type Preset = { id: PresetId; kind: "fit" | "cover" | "story" | "none"; long?: number; w?: number; h?: number; quality: number };
+type Preset = { id: PresetId; kind: "fit" | "backdrop" | "none"; long?: number; w?: number; h?: number; quality: number; folder: string; safeY?: number };
 
+/**
+ * Social formats never crop: the whole room sits on a blurred copy of itself, so no wall or window
+ * is cut off. The story keeps its labels inside the safe zone that Instagram's own UI leaves clear.
+ */
 export const PRESETS: Record<PresetId, Preset> = {
-  full: { id: "full", kind: "none", quality: 0.92 },
-  portal: { id: "portal", kind: "fit", long: 2048, quality: 0.86 },
-  whatsapp: { id: "whatsapp", kind: "fit", long: 1600, quality: 0.86 },
-  instagram: { id: "instagram", kind: "cover", w: 1080, h: 1350, quality: 0.9 },
-  story: { id: "story", kind: "story", w: 1080, h: 1920, quality: 0.9 },
+  portal: { id: "portal", kind: "fit", long: 2048, quality: 0.86, folder: "yad2-madlan" },
+  whatsapp: { id: "whatsapp", kind: "fit", long: 1600, quality: 0.86, folder: "whatsapp" },
+  instagram: { id: "instagram", kind: "backdrop", w: 1080, h: 1350, quality: 0.9, folder: "instagram" },
+  story: { id: "story", kind: "backdrop", w: 1080, h: 1920, quality: 0.9, folder: "story", safeY: 0.13 },
+  full: { id: "full", kind: "none", quality: 0.92, folder: "full-size" },
 };
+export const PRESET_ORDER = Object.keys(PRESETS) as PresetId[];
 
 export type Overlay = {
   staged?: string; // label text, mandatory for staged images
@@ -32,7 +37,12 @@ export type ExportOptions = {
   manifest: { include: boolean; filename: string; build: (items: ManifestItem[]) => string };
   overlay: { stagedLabel: string; aiLabel: string; broker?: { name: string; license: string; licenseLabel: string } };
   onProgress?: (done: number, total: number) => void;
+  untitled?: string; // the default project name, left out of file names
 };
+
+/** One output file: `path` inside the ZIP folder, `name` when it is saved or shared on its own. */
+export type ExportFile = { path: string; name: string; blob: Blob; image: boolean; duplicate?: boolean };
+export type ExportResult = { folder: string; files: ExportFile[] };
 
 export type ManifestItem = { index: number; name: string; changes: Change[]; version?: AiVersion; files: string[] };
 
@@ -67,8 +77,9 @@ function drawScaled(src: CanvasImageSource & { width: number; height: number }, 
   return { c, ctx };
 }
 
-function drawOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, o: Overlay, rtl: boolean) {
+function drawOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, o: Overlay, rtl: boolean, safeY = 0) {
   const unit = Math.max(12, Math.round(Math.min(w, h) * 0.028));
+  const inset = Math.round(h * safeY);
   ctx.save();
   ctx.direction = rtl ? "rtl" : "ltr";
   ctx.textBaseline = "middle";
@@ -91,35 +102,37 @@ function drawOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, o: Ove
   const m = unit;
   // Staging / AI label: top, reading-start corner, on every derived image.
   const top = o.staged ?? o.aiEdited;
-  if (top) pill(top, rtl ? w - m : m, m, rtl, o.staged ? "rgba(26,58,140,0.92)" : "rgba(20,25,34,0.78)");
+  if (top) pill(top, rtl ? w - m : m, inset + m, rtl, o.staged ? "rgba(26,58,140,0.92)" : "rgba(20,25,34,0.78)");
   if (o.broker && (o.broker.name || o.broker.license)) {
     const text = [o.broker.name, o.broker.license ? `${o.broker.licenseLabel} ${o.broker.license}` : ""].filter(Boolean).join(" · ");
-    pill(text, rtl ? m : w - m, h - m - unit * 2, !rtl, "rgba(20,25,34,0.72)");
+    pill(text, rtl ? m : w - m, h - inset - m - unit * 2, !rtl, "rgba(20,25,34,0.72)");
   }
   ctx.restore();
+}
+
+/** Output size of a preset for a W×H photo — equal sizes mean identical files. */
+function outSize(p: Preset, W: number, H: number) {
+  if (p.kind === "none") return { w: W, h: H };
+  if (p.kind === "fit") {
+    const s = Math.min(1, p.long! / Math.max(W, H));
+    return { w: Math.round(W * s), h: Math.round(H * s) };
+  }
+  return { w: p.w!, h: p.h! };
 }
 
 async function derive(base: ImageBitmap, p: Preset, overlay: Overlay, rtl: boolean): Promise<Blob> {
   let out: { c: HTMLCanvasElement; ctx: CanvasRenderingContext2D };
   const W = base.width;
   const H = base.height;
+  const size = outSize(p, W, H);
   if (p.kind === "none") {
     out = canvas(W, H);
     out.ctx.drawImage(base, 0, 0);
   } else if (p.kind === "fit") {
-    const s = Math.min(1, p.long! / Math.max(W, H));
-    out = drawScaled(base, Math.round(W * s), Math.round(H * s));
-  } else if (p.kind === "cover") {
-    const tw = p.w!, th = p.h!;
-    const s = Math.max(tw / W, th / H);
-    const sw = tw / s, sh = th / s;
-    const sx = (W - sw) / 2, sy = (H - sh) / 2;
-    const tmp = canvas(Math.round(sw), Math.round(sh));
-    tmp.ctx.drawImage(base, sx, sy, sw, sh, 0, 0, tmp.c.width, tmp.c.height);
-    out = drawScaled(tmp.c, tw, th);
+    out = drawScaled(base, size.w, size.h);
   } else {
-    // Story: the whole photo, centred, on a blurred and darkened copy of itself.
-    const tw = p.w!, th = p.h!;
+    // The whole photo, centred, on a blurred and darkened copy of itself.
+    const tw = size.w, th = size.h;
     out = canvas(tw, th);
     const bs = Math.max(tw / W, th / H);
     out.ctx.filter = "blur(36px) brightness(0.55)";
@@ -130,7 +143,7 @@ async function derive(base: ImageBitmap, p: Preset, overlay: Overlay, rtl: boole
     const fitted = drawScaled(base, fw, fh);
     out.ctx.drawImage(fitted.c, (tw - fw) / 2, (th - fh) / 2);
   }
-  drawOverlay(out.ctx, out.c.width, out.c.height, overlay, rtl);
+  drawOverlay(out.ctx, out.c.width, out.c.height, overlay, rtl, p.safeY);
   return new Promise((resolve, reject) =>
     out.c.toBlob((b) => (b ? resolve(b) : reject(new Error("encode failed"))), "image/jpeg", p.quality),
   );
@@ -149,33 +162,51 @@ export async function finalImage(photo: Photo, onProgress?: (f: number) => void)
   return { blob: r.blob, changes: r.changes };
 }
 
+// Hebrew letters to Latin, so "הרצל 12" still tells two downloads apart ("hrtzl-12").
+const HE: Record<string, string> = {
+  א: "a", ב: "b", ג: "g", ד: "d", ה: "h", ו: "v", ז: "z", ח: "ch", ט: "t", י: "y", כ: "k", ך: "k", ל: "l", מ: "m", ם: "m",
+  נ: "n", ן: "n", ס: "s", ע: "a", פ: "p", ף: "f", צ: "tz", ץ: "tz", ק: "k", ר: "r", ש: "sh", ת: "t",
+};
+
 /**
  * File and folder names are kept to plain Latin characters: some browsers save a download with a
  * Hebrew name as "download" (no extension), and Windows' built-in unzip garbles non-Latin names.
- * The project's real name is written inside the change log instead.
+ * Hebrew is transliterated; the project's real name is written inside the change log.
  */
 export function slug(s: string) {
   const ascii = s
+    .replace(/[\u05d0-\u05ea]/g, (c) => HE[c] ?? "")
     .normalize("NFKD")
     .replace(/[^\x20-\x7e]/g, "")
-    .replace(/[\\/:*?"<>|']+/g, "")
+    .replace(/[^A-Za-z0-9 _-]+/g, " ")
     .trim()
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "")
     .toLowerCase()
     .slice(0, 60);
-  return ascii || `dira-photos-${new Date().toISOString().slice(0, 10)}`;
+  // A Hebrew name leaves little or nothing in Latin letters; a dated name beats "a" or "3".
+  return ascii.replace(/[-_]/g, "").length >= 3 ? ascii : `dira-photos-${new Date().toISOString().slice(0, 10)}`;
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export async function exportPhotos(project: Project, photos: Photo[], opts: ExportOptions, rtl: boolean): Promise<{ blob: Blob; filename: string }> {
-  const folder = slug(project.name);
-  const entries: ZipEntry[] = [];
+/** "2026-11-02-sale-hrtzl-12": sorts by date, says rent or sale, then the property. */
+export function folderName(project: Project, untitled?: string) {
+  const date = new Date().toISOString().slice(0, 10);
+  const name = project.name.trim() && project.name.trim() !== untitled ? slug(project.name) : "";
+  const named = name && !name.startsWith("dira-photos-") ? `-${name}` : "-dira-photos";
+  return `${date}-${project.listing}${named}`.slice(0, 80);
+}
+
+export async function exportPhotos(project: Project, photos: Photo[], opts: ExportOptions, rtl: boolean): Promise<ExportResult> {
+  const folder = folderName(project, opts.untitled);
+  const files: ExportFile[] = [];
   const manifest: ManifestItem[] = [];
+  const presets = PRESET_ORDER.filter((p) => opts.presets.includes(p));
+  // One format: files sit at the top of the folder. Several: a folder per format, ready to upload.
+  const sub = (p: Preset) => (presets.length > 1 ? `${p.folder}/` : "");
   const total = photos.length;
-  let done = 0;
   opts.onProgress?.(0, total);
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
@@ -186,32 +217,48 @@ export async function exportPhotos(project: Project, photos: Photo[], opts: Expo
       aiEdited: version && version.tool !== "stage" && version.tool !== "upscale" ? opts.overlay.aiLabel : undefined,
       broker: opts.overlay.broker,
     };
-    const files: string[] = [];
-    for (const pid of opts.presets) {
-      const out = await derive(base, PRESETS[pid], overlay, rtl);
-      const name = `${pad(i + 1)}-${pid}.jpg`;
-      entries.push({ name: `${folder}/${name}`, data: new Uint8Array(await out.arrayBuffer()) });
-      files.push(name);
+    const names: string[] = [];
+    // A small photo comes out the same size for portal, WhatsApp and full: render it once.
+    const made = new Map<string, Blob>();
+    for (const pid of presets) {
+      const p = PRESETS[pid];
+      const size = outSize(p, base.width, base.height);
+      const key = p.kind === "backdrop" ? pid : `${size.w}x${size.h}`;
+      const known = made.get(key);
+      const out = known ?? (await derive(base, p, overlay, rtl));
+      made.set(key, out);
+      const path = `${sub(p)}${pad(i + 1)}.jpg`;
+      files.push({ path, name: `${folder}-${presets.length > 1 ? `${p.folder}-` : ""}${pad(i + 1)}.jpg`, blob: out, image: true, duplicate: Boolean(known) });
+      names.push(path);
     }
     base.close();
     if (opts.includeOriginals) {
       const ext = (photo.name.match(/\.[a-z0-9]+$/i)?.[0] ?? ".jpg").toLowerCase();
-      const name = `originals/${pad(i + 1)}-original${ext}`;
-      entries.push({ name: `${folder}/${name}`, data: new Uint8Array(await photo.original.arrayBuffer()) });
-      files.push(name);
+      const path = `originals/${pad(i + 1)}-original${ext}`;
+      files.push({ path, name: `${folder}-original-${pad(i + 1)}${ext}`, blob: photo.original, image: true });
+      names.push(path);
     }
-    manifest.push({ index: i + 1, name: photo.name, changes, version, files });
-    done++;
-    opts.onProgress?.(done, total);
+    manifest.push({ index: i + 1, name: photo.name, changes, version, files: names });
+    opts.onProgress?.(i + 1, total);
   }
   if (opts.manifest.include) {
-    entries.push({ name: `${folder}/${opts.manifest.filename}`, data: new TextEncoder().encode(opts.manifest.build(manifest)) });
+    const text = new Blob([opts.manifest.build(manifest)], { type: "text/plain;charset=utf-8" });
+    files.push({ path: opts.manifest.filename, name: opts.manifest.filename, blob: text, image: false });
   }
-  // One photo in one format and nothing else: hand over the JPEG itself, no ZIP.
-  if (entries.length === 1) {
-    return { blob: new Blob([entries[0].data as BlobPart], { type: "image/jpeg" }), filename: `${folder}-${entries[0].name.split("/").pop()}` };
-  }
-  return { blob: buildZip(entries), filename: `${folder}.zip` };
+  return { folder, files };
+}
+
+/** One file is handed over as itself; more than one as a ZIP with the folder layout. */
+export async function packResult(r: ExportResult): Promise<{ blob: Blob; filename: string }> {
+  if (r.files.length === 1) return { blob: r.files[0].blob, filename: r.files[0].name };
+  const entries: ZipEntry[] = [];
+  for (const f of r.files) entries.push({ name: `${r.folder}/${f.path}`, data: new Uint8Array(await f.blob.arrayBuffer()) });
+  return { blob: buildZip(entries), filename: `${r.folder}.zip` };
+}
+
+/** The images to put in the phone's share sheet: each picture once, no change log. */
+export function shareable(r: ExportResult): File[] {
+  return r.files.filter((f) => f.image && !f.duplicate).map((f) => new File([f.blob], f.name, { type: f.blob.type || "image/jpeg" }));
 }
 
 export function download(blob: Blob, filename: string) {
@@ -225,16 +272,23 @@ export function download(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }
 
-/** Share sheet on phones (save to Photos, send on WhatsApp). */
-export async function shareFiles(blob: Blob, filename: string): Promise<boolean> {
-  const file = new File([blob], filename, { type: blob.type });
-  if (typeof navigator !== "undefined" && navigator.canShare?.({ files: [file] })) {
-    try {
-      await navigator.share({ files: [file] });
-      return true;
-    } catch {
-      return false;
-    }
+/** True where the browser can hand image files to the system share sheet (phones, mostly). */
+export function canShareFiles(): boolean {
+  try {
+    if (typeof navigator === "undefined" || !navigator.canShare) return false;
+    return navigator.canShare({ files: [new File([new Uint8Array(1)], "x.jpg", { type: "image/jpeg" })] });
+  } catch {
+    return false;
   }
-  return false;
+}
+
+/** Share sheet on phones (save to Photos, send on WhatsApp). "cancel" when the person closed it. */
+export async function shareFiles(files: File[], title?: string): Promise<"shared" | "cancel" | "failed"> {
+  if (!files.length || !navigator.canShare?.({ files })) return "failed";
+  try {
+    await navigator.share({ files, title });
+    return "shared";
+  } catch (e) {
+    return e instanceof DOMException && e.name === "AbortError" ? "cancel" : "failed";
+  }
 }

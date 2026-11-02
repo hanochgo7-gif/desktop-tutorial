@@ -11,7 +11,7 @@
   --color-surface: #ffffff;
   --color-ink: #141922;
   --color-ink-2: #4a5361;
-  --color-ink-3: #6f7886;
+  --color-ink-3: #5f6876; /* 5.1:1 on paper, 4.8:1 on tints */
   --color-line: #d7dbe0;
   --color-line-2: #e8eaed;
   --color-prussian: #093484; /* the logo blue (Canva design) */
@@ -39,10 +39,19 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+@custom-variant tall (@media (min-height: 560px));
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    /* In-page links land below the sticky header. */
+    scroll-padding-top: 80px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   body {
     background: var(--color-paper);
@@ -193,6 +202,11 @@
       background-color 160ms var(--ease-out),
       color 160ms var(--ease-out);
   }
+  .segmented-sm > button {
+    min-height: 32px;
+    padding: 0 0.6rem;
+    font-size: 13.5px;
+  }
   .segmented > button[aria-pressed="true"],
   .segmented > button[aria-selected="true"] {
     background: var(--color-surface);
@@ -282,21 +296,40 @@
     background: currentColor;
     opacity: 0.55;
   }
-  .skeleton {
-    background: linear-gradient(90deg, var(--color-line-2) 0%, #f6f7f8 50%, var(--color-line-2) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s linear infinite;
+  /* Loading shimmer: a moving highlight (transform only, so it never repaints the page), and it
+     stops after a few passes in case something is slow — a still placeholder is fine. */
+  .skeleton,
+  .stage-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-line-2);
   }
   .stage-skeleton {
-    background: linear-gradient(90deg, #26292e 0%, #30343a 50%, #26292e 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s linear infinite;
+    background: #26292e;
+  }
+  .skeleton::after,
+  .stage-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.4s ease-in-out 6;
+  }
+  .stage-skeleton::after {
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.06), transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after,
+    .stage-skeleton::after {
+      animation: none;
+    }
   }
 }
 
 @keyframes shimmer {
   to {
-    background-position: -200% 0;
+    transform: translateX(100%);
   }
 }
 
@@ -332,7 +365,7 @@
 @media (max-width: 1023px) {
   .hero-scrim,
   [dir="ltr"] .hero-scrim {
-    background: linear-gradient(to bottom, rgb(243 244 245 / 0.5) 0%, rgb(243 244 245 / 0.72) 45%, var(--color-paper) 100%);
+    background: linear-gradient(to bottom, rgb(243 244 245 / 0.7) 0%, rgb(243 244 245 / 0.8) 45%, var(--color-paper) 100%);
   }
 }
 .dusk-scrim {

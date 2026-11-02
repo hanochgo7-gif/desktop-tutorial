@@ -8,7 +8,7 @@ import { LogoMark } from "@/components/logo";
 import { LanguageLink } from "@/components/site-header";
 import { ToastProvider, useToast } from "@/components/toast";
 import { fmt, type Dict, type Locale } from "@/i18n";
-import { MAX_PHOTOS } from "@/lib/site";
+import { AI_LIVE, MAX_PHOTOS, asset } from "@/lib/site";
 import { takeHandoff } from "@/lib/studio/db";
 import { useStudio } from "@/lib/studio/use-studio";
 import { countBucket, track } from "@/lib/track";
@@ -35,10 +35,12 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   const router = useRouter();
   const toast = useToast();
   // Files handed over from the landing page, and which project to open.
-  const [initial] = useState(() => ({ files: search.get("new") ? takeHandoff() : null, projectId: search.get("p") }));
-  const s = useStudio({ projectId: initial.projectId, newProjectName: t.studio.untitled, initialFiles: initial.files });
+  const [initial] = useState(() => ({ fresh: !!search.get("new"), files: search.get("new") ? takeHandoff() : null, projectId: search.get("p") }));
+  const s = useStudio({ projectId: initial.projectId, newProjectName: t.studio.untitled, initialFiles: initial.files, fresh: initial.fresh });
   const [tab, setTab] = useState<Tab>("fix");
   const [radius, setRadius] = useState(0.018);
+  // Erase tab: paint on the original, then look at the result.
+  const [brushView, setBrushView] = useState<"paint" | "result">("paint");
   const unsupported = useSyncExternalStore(
     noop,
     () => typeof Worker === "undefined" || typeof OffscreenCanvas === "undefined" || typeof indexedDB === "undefined",
@@ -80,24 +82,38 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
 
   const photo = s.selected;
   const ready = photo?.status === "ready" && photo.recipe && photo.analysis;
-  const brush = tab === "remove" && ready ? {
+  const brush = tab === "remove" && ready && brushView === "paint" ? {
     active: true,
     radius,
-    onStroke: (st: Parameters<typeof s.setRecipe>[1]["removals"][number]) => s.setRecipe(photo!.id, { ...photo!.recipe!, removals: [...photo!.recipe!.removals, st] }),
+    onStroke: (st: Parameters<typeof s.setRecipe>[1]["removals"][number]) => {
+      s.setRecipe(photo!.id, { ...photo!.recipe!, removals: [...photo!.recipe!.removals, st] });
+      setBrushView("result");
+    },
   } : null;
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "fix", label: t.studio.tabs.fix },
     { id: "adjust", label: t.studio.tabs.adjust },
     { id: "remove", label: t.studio.tabs.remove },
-    { id: "ai", label: t.studio.tabs.ai },
+    // The AI tab appears once those tools are switched on.
+    ...(AI_LIVE ? [{ id: "ai" as const, label: t.studio.tabs.ai }] : []),
     { id: "export", label: t.studio.tabs.export },
   ];
+  const panelRef = useRef<HTMLDivElement>(null);
+  const goSave = () => {
+    setTab("export");
+    // On phones the panel is below the photo: bring it into view.
+    requestAnimationFrame(() => panelRef.current?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
+  };
+  // A new property starts in a fresh project (full load, so nothing from this one carries over).
+  const newProject = () => window.location.assign(asset(`/${lang}/studio/?new=1`));
 
   const empty = s.loaded && s.photos.length === 0;
 
   return (
-    <div className="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
+    // Phones held upright: the app fills the screen and only the panel scrolls, so the photo stays
+    // in view while it is being adjusted. Short screens (a phone on its side) scroll as a page.
+    <div className="flex min-h-dvh flex-col tall:h-dvh tall:overflow-hidden lg:h-dvh lg:overflow-hidden">
       {/* App bar */}
       <header className="flex h-14 flex-none items-center gap-3 border-b border-line-2 bg-paper px-3 sm:px-4">
         <Link href={`/${lang}`} aria-label={t.brand.name} className="flex-none">
@@ -117,7 +133,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
           <span className="skeleton h-6 w-36 rounded" />
         )}
         {s.project && (
-          <div className="segmented hidden sm:inline-flex" role="group" aria-label={t.studio.listing}>
+          <div className="segmented segmented-sm flex-none" role="group" aria-label={t.studio.listing}>
             {(["rent", "sale"] as const).map((l) => (
               <button key={l} type="button" aria-pressed={s.project!.listing === l} onClick={() => s.setListing(l)}>
                 {l === "rent" ? t.studio.rent : t.studio.sale}
@@ -128,13 +144,31 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
         <span className="hidden text-[13px] text-ink-3 md:inline" aria-live="polite">
           {s.counts.busy ? fmt(t.studio.batch, { done: s.counts.ready, total: s.counts.total }, lang) : s.saving ? t.studio.saving : s.loaded ? t.studio.saved : ""}
         </span>
-        <nav className="ms-auto flex items-center gap-1">
-          <Link href={`/${lang}/projects`} className="rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink">
+        <nav className="ms-auto flex items-center gap-0.5">
+          {!empty && s.loaded && (
+            <button type="button" onClick={newProject} className="flex min-h-[40px] items-center gap-1.5 rounded-md px-2 text-[14px] text-ink-2 hover:text-ink sm:px-2.5" title={t.studio.newProject}>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+              <span className="sr-only sm:not-sr-only">{t.studio.newProject}</span>
+            </button>
+          )}
+          <Link href={`/${lang}/projects`} className="hidden min-h-[40px] items-center rounded-md px-2.5 text-[14px] text-ink-2 hover:text-ink sm:flex">
             {t.nav.projects}
           </Link>
-          <LanguageLink lang={lang} t={t} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink sm:inline-block" />
-          <Link href={`/${lang}/account`} className="rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink">
-            {t.nav.account}
+          <LanguageLink lang={lang} t={t} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink md:inline-block" />
+          {AI_LIVE && (
+            <Link href={`/${lang}/account`} className="hidden rounded-md px-2.5 py-2 text-[14px] text-ink-2 hover:text-ink sm:inline-block">
+              {t.nav.account}
+            </Link>
+          )}
+          <Link href={`/${lang}/projects`} aria-label={t.nav.projects} className="flex h-10 w-10 items-center justify-center rounded-md text-ink-2 hover:text-ink sm:hidden">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+              <rect x="3" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+              <rect x="11" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+              <rect x="3" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+              <rect x="11" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+            </svg>
           </Link>
         </nav>
       </header>
@@ -162,17 +196,18 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
           </div>
         </main>
       ) : (
-        <main id="main" className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]">
+        <main id="main" className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]">
           {/* Filmstrip: a column on desktop, a row on phones (below the stage). */}
           <div className="on-stage order-2 min-h-0 min-w-0 border-stage-line bg-stage lg:order-none lg:border-e">
             <Filmstrip s={s} t={t} onAdd={onAdd} onRemove={onRemove} />
           </div>
 
-          <div className="order-1 h-[58vh] min-h-[320px] min-w-0 lg:order-none lg:h-full lg:min-h-0">
+          {/* Phones: sized for a landscape room photo plus the toolbar, not a tall black box. */}
+          <div className="order-1 h-[min(40svh,calc(75vw+52px))] min-h-[210px] min-w-0 lg:order-none lg:h-full lg:min-h-0">
             <Stage s={s} t={t} lang={lang} brush={brush} />
           </div>
 
-          <aside className="order-3 flex min-h-0 min-w-0 flex-col border-line-2 bg-surface lg:order-none lg:border-s" aria-label={t.studio.title}>
+          <aside ref={panelRef} className="order-3 flex min-h-0 min-w-0 scroll-mt-14 flex-col border-line-2 bg-surface lg:order-none lg:border-s" aria-label={t.studio.title}>
             <div role="tablist" aria-label={t.studio.title} className="sticky top-0 z-10 flex flex-none gap-1 overflow-x-auto border-b border-line-2 bg-surface px-2 pt-2">
               {tabs.map((x) => (
                 <button
@@ -182,7 +217,10 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   type="button"
                   aria-selected={tab === x.id}
                   aria-controls={`panel-${x.id}`}
-                  onClick={() => setTab(x.id)}
+                  onClick={() => {
+                    setTab(x.id);
+                    if (x.id === "remove") setBrushView("paint");
+                  }}
                   className={`relative min-h-[44px] flex-none px-3 text-[14.5px] font-semibold transition-colors ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
                 >
                   {x.label}
@@ -190,7 +228,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                 </button>
               ))}
             </div>
-            <div id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`} className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+            <div key={tab} id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 sm:p-5">
               {!s.loaded || !photo ? (
                 <div className="grid gap-3">
                   <div className="skeleton h-5 w-1/3 rounded" />
@@ -215,15 +253,23 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   </div>
                 )
               ) : tab === "fix" ? (
-                <FixPanel s={s} t={t} lang={lang} photo={photo} />
+                <FixPanel s={s} t={t} lang={lang} photo={photo} onSave={goSave} />
               ) : tab === "adjust" ? (
                 <AdjustPanel s={s} t={t} lang={lang} photo={photo} />
               ) : tab === "remove" ? (
-                <RemovePanel s={s} t={t} lang={lang} photo={photo} radius={radius} setRadius={setRadius} />
+                <RemovePanel s={s} t={t} lang={lang} photo={photo} radius={radius} setRadius={setRadius} view={brushView} setView={setBrushView} />
               ) : (
                 <AiPanel s={s} t={t} lang={lang} photo={photo} />
               )}
             </div>
+            {/* Phones: the way out is always one tap away. */}
+            {tab !== "export" && s.counts.ready > 0 && (
+              <div className="sticky bottom-0 z-10 flex-none border-t border-line-2 bg-surface px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 lg:hidden">
+                <button type="button" className="btn btn-primary w-full" onClick={goSave}>
+                  {s.counts.ready > 1 ? fmt(t.studio.saveAll, { n: s.counts.ready }, lang) : t.studio.saveNow}
+                </button>
+              </div>
+            )}
           </aside>
         </main>
       )}

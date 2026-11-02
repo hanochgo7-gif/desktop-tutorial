@@ -193,11 +193,16 @@ export function findings(a: Analysis): Finding[] {
   const out: Finding[] = [];
   if (a.lightness.p50 < 45) out.push({ id: "dark", value: a.lightness.p50 });
   else if (a.lightness.p50 > 78) out.push({ id: "bright", value: a.lightness.p50 });
+  // Only a cast people would notice: clearly outside daylight, or strongly tinted when the
+  // colour temperature can't be measured. "Warm" follows the measured temperature when there is one.
   const castStrength = Math.hypot(a.cast.a, a.cast.b);
-  if (castStrength > 6 || (a.kelvin !== null && (a.kelvin < 4200 || a.kelvin > 7800))) {
-    out.push({ id: "cast", kelvin: a.kelvin, warm: a.cast.b > 0 });
+  const offDaylight = a.kelvin !== null && (a.kelvin < 4300 || a.kelvin > 7500);
+  if (offDaylight || (a.kelvin === null ? castStrength > 7 : castStrength > 10)) {
+    out.push({ id: "cast", kelvin: a.kelvin, warm: a.kelvin !== null ? a.kelvin < 5500 : a.cast.b > 0 });
   }
-  if (a.verticals?.confident) out.push({ id: "lean", degrees: a.verticals.leanBefore });
+  // A lean is reported only if it is visible (half a degree) and the correction really reduces it.
+  const v = a.verticals;
+  if (v?.confident && v.leanBefore >= 0.5 && v.leanBefore - v.leanAfter >= 0.3) out.push({ id: "lean", degrees: v.leanBefore });
   if (a.noise > 3.2) out.push({ id: "noise", value: a.noise });
   if (a.clippedHighlights > 0.04) out.push({ id: "blown", share: a.clippedHighlights });
   if (a.lightness.p95 - a.lightness.p05 < 55) out.push({ id: "flat", range: a.lightness.p95 - a.lightness.p05 });

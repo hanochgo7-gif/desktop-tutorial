@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { MAX_FILE_BYTES } from "@/lib/site";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif";
@@ -21,11 +21,24 @@ export function validateFiles(list: FileList | File[]): { ok: File[]; rejected: 
 
 type Props = {
   onFiles: (files: File[], rejected: Rejected[]) => void;
-  labels: { drop: string; or: string; choose: string; camera: string; hint: string };
+  labels: { drop: string; dropTouch?: string; or: string; choose: string; camera: string; hint: string };
   variant?: "hero" | "panel" | "stage";
 };
 
+const coarseQuery = "(pointer: coarse)";
+const subscribeCoarse = (cb: () => void) => {
+  const m = window.matchMedia(coarseQuery);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+
+/** True on touch-first devices, where "drag here" makes no sense. */
+export function useCoarsePointer() {
+  return useSyncExternalStore(subscribeCoarse, () => window.matchMedia(coarseQuery).matches, () => false);
+}
+
 export function DropZone({ onFiles, labels, variant = "panel" }: Props) {
+  const coarse = useCoarsePointer();
   const input = useRef<HTMLInputElement>(null);
   const camera = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
@@ -73,7 +86,7 @@ export function DropZone({ onFiles, labels, variant = "panel" }: Props) {
         <path d="m4 24 8-7 6 5 5-4 9 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
         <circle cx="24" cy="14" r="2.4" fill="currentColor" />
       </svg>
-      <p className={`mt-3 text-[17px] font-semibold ${dark ? "text-white" : "text-ink"}`}>{labels.drop}</p>
+      <p className={`mt-3 text-[17px] font-semibold ${dark ? "text-white" : "text-ink"}`}>{coarse && labels.dropTouch ? labels.dropTouch : labels.drop}</p>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
         <button type="button" className="btn btn-primary" onClick={() => input.current?.click()}>
           {labels.choose}

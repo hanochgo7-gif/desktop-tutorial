@@ -6,7 +6,7 @@ import { BuyButton, CancelledNotice, PaymentsNotice } from "@/components/account
 import { PricingPlans } from "@/components/pricing-plans";
 import { getDict, isLocale } from "@/i18n";
 import { pageMeta } from "@/lib/seo";
-import { whatsappLink } from "@/lib/site";
+import { AI_LIVE, whatsappLink } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/pricing">): Promise<Metadata> {
   const { lang } = await params;
@@ -32,14 +32,15 @@ export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) 
         <PricingPlans
           lang={lang}
           t={t}
+          soon={!AI_LIVE}
           cta={(k) =>
             k === "free" ? (
-              <Link href={`/${lang}/studio`} className="btn btn-quiet w-full">
+              <Link href={`/${lang}/studio?new=1`} className="btn btn-primary w-full">
                 {t.pricing.plans.free.cta}
               </Link>
             ) : k === "business" ? (
-              <a href={whatsappLink(t.pricing.plans.business.name)} className="btn btn-quiet w-full" target="_blank" rel="noopener noreferrer">
-                {t.pricing.plans.business.cta}
+              <a href={whatsappLink(AI_LIVE ? t.pricing.plans.business.name : t.landing.aiSoonMessage)} className="btn btn-quiet w-full" target="_blank" rel="noopener noreferrer">
+                {AI_LIVE ? t.pricing.plans.business.cta : t.pricing.whatsapp}
               </a>
             ) : (
               <BuyButton product={k === "pack" ? "pack10" : "pro30"} label={t.pricing.plans[k].cta} featured={k === "pack"} lang={lang} t={t} />

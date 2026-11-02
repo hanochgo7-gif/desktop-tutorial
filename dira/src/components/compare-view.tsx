@@ -26,6 +26,8 @@ type Props = {
   /** When true, pointer input goes to the overlay instead of moving the divider or panning. */
   overlayActive?: boolean;
   priority?: boolean;
+  /** Glide the divider once when it first comes into view, to show it can be dragged. */
+  hint?: boolean;
 };
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -45,6 +47,7 @@ export function CompareView({
   overlay,
   overlayActive = false,
   priority = false,
+  hint = false,
 }: Props) {
   const box = useRef<HTMLDivElement>(null);
   // Divider position, % from the left edge. "Before" sits on the reading-start side.
@@ -53,10 +56,15 @@ export function CompareView({
   const view = useRef({ z: 1, x: 0, y: 0 });
   const [zoomLevel, setZoomLevel] = useState(1);
   const pointers = useRef(new Map<number, { x: number; y: number }>());
-  const gesture = useRef<{ kind: "divider" | "pan" | "pinch" | null; startDist?: number; startZ?: number; lastX?: number; lastY?: number }>({ kind: null });
+  // "pending": a finger is down but hasn't shown whether it means to scroll or to drag the divider.
+  const gesture = useRef<{ kind: "divider" | "pending" | "pan" | "pinch" | null; startDist?: number; startZ?: number; lastX?: number; lastY?: number }>({ kind: null });
   const raf = useRef(0);
   const [loadedUrls, setLoadedUrls] = useState<Record<string, true>>({});
   const markLoaded = (url: string) => setLoadedUrls((m) => (m[url] ? m : { ...m, [url]: true }));
+  // Images can finish loading before React attaches onLoad (cached, or server-rendered): check on mount.
+  const loadedRef = (url: string) => (el: HTMLImageElement | null) => {
+    if (el?.complete && el.naturalWidth > 0) markLoaded(url);
+  };
 
   const apply = useCallback(() => {
     cancelAnimationFrame(raf.current);
@@ -109,12 +117,45 @@ export function CompareView({
     return () => cancelAnimationFrame(raf.current);
   }, [apply]);
 
+  // One gentle glide (50 → 36 → 50%) the first time the slider is seen; skipped for reduced motion
+  // and as soon as the visitor touches it.
+  const touched = useRef(false);
+  useEffect(() => {
+    const el = box.current;
+    if (!hint || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || touched.current) return;
+        io.disconnect();
+        const t0 = performance.now() + 500;
+        const step = (now: number) => {
+          if (touched.current) return;
+          const k = Math.min(1, Math.max(0, (now - t0) / 1400));
+          const ease = Math.sin(k * Math.PI) * (1 - k * 0.15);
+          pos.current = 50 - 14 * ease;
+          apply();
+          if (k < 1) frame = requestAnimationFrame(step);
+          else pos.current = 50;
+        };
+        frame = requestAnimationFrame(step);
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [hint, apply]);
+
   const posFromClient = (clientX: number) => {
     const r = box.current!.getBoundingClientRect();
     return clamp(((clientX - r.left) / r.width) * 100, 0, 100);
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
+    touched.current = true;
     if (overlayActive) return;
     if (e.button !== 0 && e.pointerType === "mouse") return;
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -130,6 +171,11 @@ export function CompareView({
       return;
     }
     if (mode !== "split") return;
+    // Touch: wait to see the direction — a vertical swipe is the page scrolling, not a drag.
+    if (e.pointerType === "touch" && !onHandle) {
+      gesture.current = { kind: "pending", lastX: e.clientX, lastY: e.clientY };
+      return;
+    }
     gesture.current = { kind: "divider" };
     pos.current = posFromClient(e.clientX);
     apply();
@@ -139,6 +185,13 @@ export function CompareView({
     if (!pointers.current.has(e.pointerId)) return;
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     const g = gesture.current;
+    if (g.kind === "pending") {
+      const dx = e.clientX - (g.lastX ?? e.clientX);
+      const dy = e.clientY - (g.lastY ?? e.clientY);
+      if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) gesture.current = { kind: "divider" };
+      else if (Math.abs(dy) > 8) gesture.current = { kind: null };
+      return;
+    }
     if (g.kind === "divider") {
       pos.current = posFromClient(e.clientX);
       apply();
@@ -161,6 +214,12 @@ export function CompareView({
 
   const onPointerUp = (e: React.PointerEvent) => {
     pointers.current.delete(e.pointerId);
+    // A tap (no swipe) moves the divider to where the finger touched.
+    if (gesture.current.kind === "pending" && e.type === "pointerup") {
+      pos.current = posFromClient(e.clientX);
+      gesture.current = { kind: "divider" };
+      apply();
+    }
     if (gesture.current.kind === "divider") setPosState(Math.round(pos.current));
     if (pointers.current.size === 0) gesture.current = { kind: null };
   };
@@ -186,6 +245,11 @@ export function CompareView({
   };
 
   const onKey = (e: React.KeyboardEvent) => {
+    // Keyboard use ends the intro glide and starts from where the slider officially is.
+    if (!touched.current) {
+      touched.current = true;
+      pos.current = posState;
+    }
     const step = e.shiftKey ? 10 : 2;
     let p = pos.current;
     if (e.key === "ArrowLeft") p -= step;
@@ -210,8 +274,10 @@ export function CompareView({
   return (
     <div
       ref={box}
-      className={`overflow-hidden touch-none select-none ${className.includes("absolute") ? "" : "relative"} ${className}`}
-      style={{ ["--pos" as string]: "50%", ["--tf" as string]: "none" }}
+      className={`overflow-hidden select-none ${className.includes("absolute") ? "" : "relative"} ${className}`}
+      // Vertical swipes scroll the page; sideways drags move the divider. Zoomed in or painting,
+      // every gesture belongs to the photo.
+      style={{ ["--pos" as string]: "50%", ["--tf" as string]: "none", touchAction: zoomed || overlayActive ? "none" : "pan-y" }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -228,6 +294,7 @@ export function CompareView({
           alt={alt}
           draggable={false}
           className={imgClass}
+          ref={loadedRef(after)}
           onLoad={() => markLoaded(after)}
           fetchPriority={priority ? "high" : "auto"}
           decoding="async"
@@ -241,6 +308,7 @@ export function CompareView({
             alt=""
             draggable={false}
             className={imgClass}
+            ref={loadedRef(before)}
             onLoad={() => markLoaded(before)}
             fetchPriority={priority ? "high" : "auto"}
             decoding="async"

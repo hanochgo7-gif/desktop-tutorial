@@ -1,13 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { useCoarsePointer } from "@/components/drop-zone";
 import { useToast } from "@/components/toast";
 import { fmt, type Dict, type Locale } from "@/i18n";
 import { describeChange } from "@/lib/describe";
-import { PRESETS, download, exportPhotos, shareFiles, type ManifestItem, type PresetId } from "@/lib/studio/export";
+import { loadBroker, saveBroker } from "@/lib/studio/broker";
+import {
+  PRESET_ORDER,
+  canShareFiles,
+  download,
+  exportPhotos,
+  packResult,
+  shareFiles,
+  shareable,
+  type ExportResult,
+  type ManifestItem,
+  type PresetId,
+} from "@/lib/studio/export";
 import type { Studio } from "@/lib/studio/use-studio";
-import { Switch } from "./panels";
 import { track } from "@/lib/track";
+import { Switch } from "./panels";
 
 function buildManifest(items: ManifestItem[], t: Dict, lang: Locale, projectName: string) {
   const lines: string[] = [];
@@ -29,132 +42,214 @@ function buildManifest(items: ManifestItem[], t: Dict, lang: Locale, projectName
   return lines.join("\r\n");
 }
 
+const noop = () => () => {};
+
 export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }) {
   const toast = useToast();
-  const [presets, setPresets] = useState<PresetId[]>(s.project?.listing === "sale" ? ["full", "portal"] : ["portal", "whatsapp"]);
-  const [scope, setScope] = useState<"current" | "all">(s.photos.length > 1 ? "all" : "current");
-  const [originals, setOriginals] = useState(false);
-  const [manifest, setManifest] = useState(true);
-  const [broker, setBroker] = useState(Boolean(s.project?.broker?.license));
-  const [bName, setBName] = useState(s.project?.broker?.name ?? "");
-  const [bLicense, setBLicense] = useState(s.project?.broker?.license ?? "");
-  const [busy, setBusy] = useState<{ done: number; total: number } | null>(null);
-  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
+  const E = t.export;
+  const sale = s.project?.listing === "sale";
+  const coarse = useCoarsePointer();
+  const shareOk = useSyncExternalStore(noop, canShareFiles, () => false);
+  // Phones get the share sheet (gallery, WhatsApp); computers get a download.
+  const phone = coarse && shareOk;
 
   const ready = s.photos.filter((p) => p.status === "ready");
+  const anyAi = ready.some((p) => p.activeVersion);
+  const [presets, setPresets] = useState<PresetId[]>(sale ? ["portal", "full"] : ["portal"]);
+  const [scope, setScope] = useState<"current" | "all">(s.photos.length > 1 ? "all" : "current");
+  const [originals, setOriginals] = useState(false);
+  const [manifest, setManifest] = useState(sale || anyAi);
+  const [broker, setBroker] = useState(() => {
+    const saved = loadBroker();
+    const p = s.project?.broker;
+    return { name: p?.name || saved?.name || "", license: p?.license || saved?.license || "", on: Boolean(saved?.on || p?.license) };
+  });
+  const [busy, setBusy] = useState<{ done: number; total: number } | null>(null);
+  const [result, setResult] = useState<ExportResult | null>(null);
+
+  // Any change to the choices makes the prepared files stale.
+  // The broker line belongs to sale listings only.
+  const brokerOn = sale && broker.on;
+  const key = `${presets.join()}|${scope}|${originals}|${manifest}|${brokerOn}|${broker.name}|${broker.license}|${s.selected?.id}|${ready.length}`;
+  const [preparedFor, setPreparedFor] = useState("");
+  const fresh = result && preparedFor === key;
+
   const targets = scope === "all" ? ready : s.selected && s.selected.status === "ready" ? [s.selected] : [];
   const toggle = (id: PresetId) => setPresets((l) => (l.includes(id) ? l.filter((x) => x !== id) : [...l, id]));
+  const imageCount = targets.length * presets.length + (originals ? targets.length : 0);
+
+  const deliver = async (r: ExportResult, how: "download" | "share") => {
+    if (how === "share") {
+      const files = shareable(r);
+      const res = await shareFiles(files, s.project?.name);
+      track("share", { photos: files.length > 1 ? "many" : "one" });
+      if (res === "failed") toast.show({ text: E.shareFailed, tone: "error" }, 7000);
+      return;
+    }
+    const out = await packResult(r);
+    download(out.blob, out.filename);
+    track("download", { presets: presets.join("+"), zip: out.filename.endsWith(".zip"), photos: targets.length > 1 ? "many" : "one" });
+  };
 
   const run = async () => {
     if (!s.project || targets.length === 0 || presets.length === 0) return;
     setResult(null);
     setBusy({ done: 0, total: targets.length });
     try {
-      if (broker) await s.saveProject({ broker: { name: bName.trim(), license: bLicense.trim() } });
-      const ordered = (Object.keys(PRESETS) as PresetId[]).filter((p) => presets.includes(p));
+      const b = { name: broker.name.trim(), license: broker.license.trim() };
+      if (sale) {
+        saveBroker({ ...b, on: broker.on });
+        if (brokerOn) await s.saveProject({ broker: b });
+      }
       const out = await exportPhotos(
         s.project,
         targets,
         {
-          presets: ordered,
+          presets,
           includeOriginals: originals,
-          manifest: { include: manifest, filename: t.export.manifestName, build: (items) => buildManifest(items, t, lang, s.project!.name) },
+          manifest: { include: manifest, filename: E.manifestName, build: (items) => buildManifest(items, t, lang, s.project!.name) },
           overlay: {
-            stagedLabel: t.export.stagedLabel,
+            stagedLabel: E.stagedLabel,
             aiLabel: t.ai.aiEdited,
-            broker: broker && (bName.trim() || bLicense.trim()) ? { name: bName.trim(), license: bLicense.trim(), licenseLabel: lang === "he" ? "רישיון" : "Licence" } : undefined,
+            broker: brokerOn && (b.name || b.license) ? { ...b, licenseLabel: lang === "he" ? "רישיון" : "Licence" } : undefined,
           },
           onProgress: (done, total) => setBusy({ done, total }),
+          untitled: t.studio.untitled,
         },
         lang === "he",
       );
       await s.saveProject({ exports: (s.project.exports ?? 0) + 1 });
       setResult(out);
-      download(out.blob, out.filename);
-      track("download", { presets: ordered.join("+"), zip: out.filename.endsWith(".zip"), photos: targets.length > 1 ? "many" : "one" });
-      toast.show({ text: t.export.ready });
+      setPreparedFor(key);
+      // A download can start on its own; the share sheet needs a fresh tap, so phones get a button.
+      if (!phone) {
+        await deliver(out, "download");
+        toast.show({ text: E.ready });
+      }
     } catch (e) {
       console.error(e);
-      toast.show({ text: t.export.failed, tone: "error" });
+      toast.show({ text: E.failed, tone: "error" });
     } finally {
       setBusy(null);
     }
   };
 
-  const canShare = typeof navigator !== "undefined" && "canShare" in navigator;
+  const shareCount = fresh ? shareable(result!).length : 0;
 
   return (
     <div className="grid gap-6">
-      <p className="text-[14px] text-ink-2">{t.export.lead}</p>
       <fieldset>
-        <legend className="text-[13px] font-semibold text-ink-3">{t.export.title}</legend>
-        <div className="mt-2 grid gap-1.5">
-          {(Object.keys(PRESETS) as PresetId[]).map((id) => (
-            <label key={id} className={`flex cursor-pointer items-start gap-3 rounded-[10px] border p-3 transition-colors ${presets.includes(id) ? "border-prussian bg-prussian-tint" : "border-line-2 bg-surface hover:border-line"}`}>
-              <input type="checkbox" className="mt-1 h-4 w-4 accent-[var(--color-prussian)]" checked={presets.includes(id)} onChange={() => toggle(id)} />
-              <span>
-                <span className="block text-[15px] font-semibold">{t.export.presets[id].t}</span>
-                <span className="block text-[13px] text-ink-3">{t.export.presets[id].d}</span>
+        <legend className="text-[15px] font-semibold">{E.where}</legend>
+        <div className="mt-3 grid gap-1.5">
+          {PRESET_ORDER.map((id) => (
+            <label
+              key={id}
+              className={`flex min-h-[52px] cursor-pointer items-center gap-3 rounded-[10px] border px-3 py-2.5 transition-colors ${presets.includes(id) ? "border-prussian bg-prussian-tint" : "border-line-2 bg-surface hover:border-line"}`}
+            >
+              <input type="checkbox" className="h-[18px] w-[18px] flex-none accent-[var(--color-prussian)]" checked={presets.includes(id)} onChange={() => toggle(id)} />
+              <span className="min-w-0">
+                <span className="block text-[15px] font-semibold">{E.presets[id].t}</span>
+                <span className="block text-[13px] text-ink-3">{E.presets[id].d}</span>
               </span>
             </label>
           ))}
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="text-[13px] font-semibold text-ink-3">{t.export.which}</legend>
-        <div className="segmented mt-2" role="group">
-          <button type="button" aria-pressed={scope === "current"} onClick={() => setScope("current")}>
-            {t.export.current}
-          </button>
-          <button type="button" aria-pressed={scope === "all"} onClick={() => setScope("all")}>
-            {fmt(t.export.all, { n: ready.length }, lang)}
-          </button>
-        </div>
-      </fieldset>
+      {ready.length > 1 && (
+        <fieldset>
+          <legend className="text-[15px] font-semibold">{E.which}</legend>
+          <div className="segmented mt-3" role="group">
+            <button type="button" aria-pressed={scope === "all"} onClick={() => setScope("all")}>
+              {fmt(E.all, { n: ready.length }, lang)}
+            </button>
+            <button type="button" aria-pressed={scope === "current"} onClick={() => setScope("current")}>
+              {E.current}
+            </button>
+          </div>
+        </fieldset>
+      )}
 
-      <div className="divide-y divide-line-2">
-        <Switch label={t.export.includeManifest} checked={manifest} onChange={setManifest} />
-        <Switch label={t.export.includeOriginals} checked={originals} onChange={setOriginals} />
-        <Switch label={t.export.broker} hint={t.export.brokerHint} checked={broker} onChange={setBroker} />
-      </div>
-      {broker && (
-        <div className="grid gap-3">
-          <div>
-            <label className="label" htmlFor="b-name">
-              {t.export.brokerName}
-            </label>
-            <input id="b-name" className="field" value={bName} onChange={(e) => setBName(e.target.value)} maxLength={60} autoComplete="organization" />
-          </div>
-          <div>
-            <label className="label" htmlFor="b-lic">
-              {t.export.brokerLicense}
-            </label>
-            <input id="b-lic" className="field ltr" inputMode="numeric" value={bLicense} onChange={(e) => setBLicense(e.target.value.replace(/[^\d-]/g, ""))} maxLength={12} />
-          </div>
+      {sale && (
+        <div className="rounded-[10px] border border-line-2 p-3">
+          <p className="text-[12.5px] font-semibold text-prussian">{E.brokerFor}</p>
+          <Switch label={E.broker} hint={E.brokerHint} checked={brokerOn} onChange={(on) => setBroker((b) => ({ ...b, on }))} />
+          {brokerOn && (
+            <div className="grid gap-3 pb-1 sm:grid-cols-2 lg:grid-cols-1">
+              <div>
+                <label className="label" htmlFor="b-name">
+                  {E.brokerName}
+                </label>
+                <input id="b-name" className="field" value={broker.name} onChange={(e) => setBroker((b) => ({ ...b, name: e.target.value }))} maxLength={60} autoComplete="organization" />
+              </div>
+              <div>
+                <label className="label" htmlFor="b-lic">
+                  {E.brokerLicense}
+                </label>
+                <input id="b-lic" className="field ltr" inputMode="numeric" value={broker.license} onChange={(e) => setBroker((b) => ({ ...b, license: e.target.value.replace(/[^\d-]/g, "") }))} maxLength={12} />
+              </div>
+              <p className="text-[12.5px] text-ink-3 sm:col-span-2 lg:col-span-1">{E.brokerSaved}</p>
+            </div>
+          )}
         </div>
       )}
 
-      <div className="grid gap-2">
-        <button type="button" className="btn btn-primary w-full" disabled={busy !== null || targets.length === 0 || presets.length === 0} onClick={run}>
-          {busy
-            ? fmt(t.export.preparing, { done: busy.done, total: busy.total }, lang)
-            : targets.length * presets.length + (originals ? targets.length : 0) + (manifest ? 1 : 0) > 1
-              ? t.export.downloadZip
-              : t.export.download}
-        </button>
+      <details className="group rounded-[10px] border border-line-2 px-3">
+        <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between text-[14.5px] font-semibold [&::-webkit-details-marker]:hidden">
+          {E.more}
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" className="transition-transform group-open:rotate-180">
+            <path d="m3 5 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </summary>
+        <div className="divide-y divide-line-2 pb-1">
+          <Switch label={E.includeManifest} hint={E.manifestHint} checked={manifest} onChange={setManifest} />
+          <Switch label={E.includeOriginals} checked={originals} onChange={setOriginals} />
+        </div>
+      </details>
+
+      {/* The action stays in reach at the bottom of the panel while the options scroll. */}
+      <div className="sticky -bottom-4 z-10 -mx-4 grid gap-2 border-t border-line-2 bg-surface px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:-bottom-5 sm:-mx-5 sm:px-5">
+        {fresh && phone ? (
+          <>
+            <button type="button" className="btn btn-primary w-full" onClick={() => deliver(result!, "share")}>
+              {fmt(shareCount > 1 ? E.saveShareMany : E.saveShare, { n: shareCount }, lang)}
+            </button>
+            <p className="text-[13px] text-ink-3">{E.saveShareHint}</p>
+            <button type="button" className="btn btn-quiet btn-sm w-full" onClick={() => deliver(result!, "download")}>
+              {E.downloadInstead}
+            </button>
+          </>
+        ) : fresh ? (
+          <>
+            <p className="flex items-center gap-2 text-[14.5px] font-semibold text-ok" role="status">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="m3 8.5 3 3 7-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {E.downloaded}
+            </p>
+            <button type="button" className="btn btn-quiet w-full" onClick={() => deliver(result!, "download")}>
+              {E.again}
+            </button>
+          </>
+        ) : (
+          <button type="button" className="btn btn-primary w-full" disabled={busy !== null || targets.length === 0 || presets.length === 0} onClick={run}>
+            {busy
+              ? fmt(E.preparing, { done: busy.done, total: busy.total }, lang)
+              : phone
+                ? fmt(imageCount > 1 ? E.prepareMany : E.prepareOne, { n: imageCount }, lang)
+                : imageCount + (manifest ? 1 : 0) > 1
+                  ? E.downloadZip
+                  : E.download}
+          </button>
+        )}
+        {presets.length === 0 && <p className="text-[13px] text-err">{E.pickOne}</p>}
         {busy && (
-          <div className="h-1.5 overflow-hidden rounded-full bg-line-2" role="progressbar" aria-valuemin={0} aria-valuemax={busy.total} aria-valuenow={busy.done}>
+          <div className="h-1.5 overflow-hidden rounded-full bg-line-2" role="progressbar" aria-label={E.preparingLabel} aria-valuemin={0} aria-valuemax={busy.total} aria-valuenow={busy.done}>
             <div className="h-full bg-prussian transition-[width] duration-300" style={{ width: `${Math.max(4, (busy.done / busy.total) * 100)}%` }} />
           </div>
         )}
-        {result && canShare && (
-          <button type="button" className="btn btn-quiet w-full sm:hidden" onClick={() => {
-              track("share");
-              shareFiles(result.blob, result.filename);
-            }}>
-            {t.export.share}
-          </button>
+        {!phone && !fresh && imageCount + (manifest ? 1 : 0) > 1 && (
+          <p className="text-[13px] text-ink-3">{coarse ? E.noShare : presets.length > 1 ? E.zipFolders : E.zipFlat}</p>
         )}
       </div>
     </div>

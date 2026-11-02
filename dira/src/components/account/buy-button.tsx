@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { Dict, Locale } from "@/i18n";
 import { api, useAccount } from "@/lib/client/account";
 import type { ProductId } from "@/lib/plans";
-import { whatsappLink } from "@/lib/site";
+import { AI_LIVE, whatsappLink } from "@/lib/site";
 
 export function BuyButton({ product, label, featured, lang, t }: { product: ProductId; label: string; featured?: boolean; lang: Locale; t: Dict }) {
   const { config, me, loading } = useAccount();
@@ -14,11 +14,18 @@ export function BuyButton({ product, label, featured, lang, t }: { product: Prod
   const [error, setError] = useState(false);
   const cls = `btn w-full ${featured ? "btn-primary" : "btn-quiet"}`;
 
+  // Nothing is sold before the AI tools it pays for are live: offer a launch message instead.
+  if (!AI_LIVE) {
+    return (
+      <a className="btn btn-quiet w-full" href={whatsappLink(t.landing.aiSoonMessage)} target="_blank" rel="noopener noreferrer">
+        {t.pricing.whatsapp}
+      </a>
+    );
+  }
   if (loading || !config) return <span className={`${cls} skeleton`} aria-hidden="true" />;
-  // No online payments here yet: say so and offer the manual route that works today.
   if (!config.payments) {
     return (
-      <a className={cls} href={whatsappLink(`${label} — ${product}`)} target="_blank" rel="noopener noreferrer">
+      <a className={cls} href={whatsappLink(t.landing.aiSoonMessage)} target="_blank" rel="noopener noreferrer">
         {t.pricing.whatsapp}
       </a>
     );
@@ -66,6 +73,6 @@ export function CancelledNotice({ t }: { t: Dict }) {
 
 export function PaymentsNotice({ t }: { t: Dict }) {
   const { config } = useAccount();
-  if (!config || config.payments) return null;
+  if (AI_LIVE && (!config || config.payments)) return null;
   return <p className="mt-6 rounded-[10px] bg-warn-tint px-4 py-3 text-[14.5px] text-warn">{t.pricing.paymentsOff}</p>;
 }

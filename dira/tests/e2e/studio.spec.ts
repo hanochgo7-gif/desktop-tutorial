@@ -1,45 +1,47 @@
 import { expect, test } from "@playwright/test";
 import { readZip, sample, uploadToStudio } from "./helpers";
 
-test("upload → analysis → adjust → ZIP export with change log", async ({ page }) => {
+test("upload → plain findings → adjust → ZIP with a folder per destination and a change log", async ({ page }) => {
   await uploadToStudio(page, [sample(1), sample(3)]);
-  // Findings come from the on-device analysis of the selected photo.
-  await expect(page.getByText("גוון צהוב מתאורת נורות")).toBeVisible();
-  await expect(page.getByText("הקירות נוטים")).toBeVisible();
-  // Both photos analysed.
+  // The studio says what it found and fixed in plain words.
+  await expect(page.getByText("התמונה כבר תוקנה")).toBeVisible();
+  await expect(page.getByText("התמונה צהובה מהנורות", { exact: true })).toBeVisible();
   await expect(page.getByRole("option")).toHaveCount(2);
   await expect(page.getByText("נשמר במכשיר")).toBeVisible({ timeout: 30_000 });
 
-  // Adjust brightness; the preview re-renders and the change log records it.
-  await page.getByRole("tab", { name: "כיוון" }).click();
-  await page.getByLabel("בהירות").fill("40");
+  // Adjust brightness; the exact numbers are one tap away.
+  await page.getByRole("tab", { name: "בהירות וצבע" }).click();
+  await page.getByLabel("בהירות", { exact: true }).fill("40");
   await page.getByRole("tab", { name: "תיקון" }).click();
-  await expect(page.getByText(/חשיפה \+1\.5 סטופ/)).toBeVisible({ timeout: 20_000 });
+  await page.getByText("פרטים מספריים").click();
+  await expect(page.getByText(/חשיפה .*1\.5.*סטופ/)).toBeVisible({ timeout: 20_000 });
 
-  // Export both photos for portals and WhatsApp, with the change log.
-  await page.getByRole("tab", { name: "הורדה" }).click();
-  await page.getByRole("button", { name: /כל 2 התמונות/ }).click();
-  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "הורדת ZIP" }).click()]);
-  const file = await download.path();
-  const entries = readZip(file!);
-  // Latin-only file names: they survive every browser and Windows' built-in unzip.
-  expect(download.suggestedFilename()).toMatch(/^dira-photos-\d{4}-\d{2}-\d{2}\.zip$/);
+  // Export both photos for Yad2 and WhatsApp, with the change log.
+  await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
+  await page.getByText("וואטסאפ", { exact: true }).click();
+  await page.getByText("אפשרויות נוספות").click();
+  await page.getByRole("switch", { name: "לצרף רשימת שינויים" }).click();
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "הורדה כקובץ ZIP" }).click()]);
+  const entries = readZip((await download.path())!);
+  // Latin-only names survive every browser and Windows' built-in unzip.
+  expect(download.suggestedFilename()).toMatch(/^\d{4}-\d{2}-\d{2}-rent-dira-photos\.zip$/);
   const folder = download.suggestedFilename().replace(/\.zip$/, "");
-  const names = [...entries.keys()].sort();
-  expect(names).toEqual([`${folder}/01-portal.jpg`, `${folder}/01-whatsapp.jpg`, `${folder}/02-portal.jpg`, `${folder}/02-whatsapp.jpg`, `${folder}/photo-changes.txt`].sort());
+  expect([...entries.keys()].sort()).toEqual(
+    [`${folder}/yad2-madlan/01.jpg`, `${folder}/yad2-madlan/02.jpg`, `${folder}/whatsapp/01.jpg`, `${folder}/whatsapp/02.jpg`, `${folder}/photo-changes.txt`].sort(),
+  );
   const manifest = entries.get(`${folder}/photo-changes.txt`)!.toString("utf8");
   expect(manifest).toContain("פרויקט חדש");
-  expect(manifest).toContain("יישור קירות");
   expect(manifest).toContain("apt1-before.jpg");
   // JPEGs are real images without camera metadata (canvas re-encode strips EXIF/GPS).
-  const jpg = entries.get(`${folder}/01-portal.jpg`)!;
+  const jpg = entries.get(`${folder}/yad2-madlan/01.jpg`)!;
   expect(jpg.subarray(0, 3).toString("hex")).toBe("ffd8ff");
   expect(jpg.includes(Buffer.from("Exif"))).toBe(false);
+  await expect(page.getByText("התמונות ירדו לתיקיית ההורדות")).toBeVisible();
 });
 
-test("classic removal records brush strokes and lists the change", async ({ page }) => {
+test("erasing: paint a mark, see the result, the change is listed", async ({ page }) => {
   await uploadToStudio(page, [sample(3)]);
-  await page.getByRole("tab", { name: "הסרה" }).click();
+  await page.getByRole("tab", { name: "מחיקת חפץ" }).click();
   const canvas = page.locator("canvas.cursor-crosshair");
   await expect(canvas).toBeVisible();
   const box = (await canvas.boundingBox())!;
@@ -47,9 +49,40 @@ test("classic removal records brush strokes and lists the change", async ({ page
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.21, box.y + box.height * 0.68, { steps: 6 });
   await page.mouse.up();
-  await expect(page.getByText("1 סימונים")).toBeVisible();
+  // After the stroke the result is shown, not the brush.
+  await expect(page.getByRole("tabpanel").getByRole("button", { name: "תוצאה" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByText(/^נמחק\./)).toBeVisible({ timeout: 30_000 });
   await page.getByRole("tab", { name: "תיקון" }).click();
-  await expect(page.getByText(/הסרת 1 חפצים קטנים/)).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText("מחקנו 1 חפצים קטנים")).toBeVisible();
+});
+
+test("a broker's licence is remembered for the next sale listing", async ({ page }) => {
+  await uploadToStudio(page, [sample(2)]);
+  await page.getByRole("button", { name: "מכירה" }).click();
+  await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
+  await page.getByRole("switch", { name: "שם ומספר רישיון על התמונות" }).click();
+  await page.getByLabel("שם המשרד או המתווך").fill("נדל״ן כהן");
+  await page.getByLabel("מספר רישיון תיווך").fill("31234567");
+  await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /הורדה/ }).click()]);
+
+  // A new property starts clean, and the broker details are already filled in.
+  await page.goto("/he/studio?new=1");
+  await expect(page.getByRole("heading", { level: 1, name: "מתחילים מהתמונות" })).toBeVisible();
+  await page.locator("input[type=file]").first().setInputFiles([sample(1)]);
+  await expect(page.locator("[role=slider][aria-valuenow]").first()).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByRole("option")).toHaveCount(1);
+  await page.getByRole("button", { name: "מכירה" }).click();
+  await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
+  await expect(page.getByLabel("מספר רישיון תיווך")).toHaveValue("31234567");
+});
+
+test("any photo can be made the cover, and the order is kept", async ({ page }) => {
+  await uploadToStudio(page, [sample(1), sample(3)]);
+  await page.getByRole("option").nth(1).click();
+  await page.getByRole("button", { name: /להפוך לתמונה הראשית במודעה/ }).click();
+  await expect(page.getByRole("option").first()).toHaveAccessibleName(/apt3-before\.jpg/);
+  await page.reload();
+  await expect(page.getByRole("option").first()).toHaveAccessibleName(/apt3-before\.jpg/, { timeout: 30_000 });
 });
 
 test("projects persist on the device and can be reopened", async ({ page }) => {

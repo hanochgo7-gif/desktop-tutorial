@@ -21,3 +21,9 @@ export function whatsappLink(text?: string) {
 /** Max photos per project and max file size, shared by the client and the server. */
 export const MAX_PHOTOS = 60;
 export const MAX_FILE_BYTES = 40 * 1024 * 1024;
+
+/**
+ * AI tools and paid plans are shown as live only when this is set at build time (together with the
+ * server keys). Until then the site says "coming soon" and sells nothing.
+ */
+export const AI_LIVE = process.env.NEXT_PUBLIC_AI_LIVE === "1";

@@ -3,26 +3,28 @@ import { expect, test } from "@playwright/test";
 test.describe("Hebrew browser", () => {
   test.use({ locale: "he-IL" });
   test("root redirects to Hebrew and the hero explains the product", async ({ page }) => {
-  await page.goto("/");
-  await expect(page).toHaveURL(/\/he$/);
-  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("תמונות שמביאות טלפונים");
-  // The demo is real engine output with measured changes listed.
-  await expect(page.getByText(/איזון לבן: 3,800K/)).toBeVisible();
+    await page.goto("/");
+    await expect(page).toHaveURL(/\/he\/?$/);
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("תמונות לדירה שמביאות טלפונים");
+    // The demo is real engine output: plain words first, the measured numbers on request.
+    await expect(page.getByText("הבהרנו את התמונה").first()).toBeVisible();
+    await page.getByText("מה בדיוק תוקן, במספרים").click();
+    await expect(page.getByText(/איזון לבן: מ-/)).toBeVisible();
   });
 });
 
 test("an English-speaking browser lands on English", async ({ page }) => {
   await page.goto("/");
-  await expect(page).toHaveURL(/\/en$/);
+  await expect(page).toHaveURL(/\/en\/?$/);
 });
 
 test("English version, language switch keeps the page", async ({ page }) => {
   await page.goto("/en/pricing");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Priced by what things actually cost");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Editing is free");
   await page.getByRole("link", { name: "לעברית" }).first().click();
-  await expect(page).toHaveURL(/\/he\/pricing$/);
+  await expect(page).toHaveURL(/\/he\/pricing\/?$/);
 });
 
 test("before/after slider works with the keyboard", async ({ page }) => {
@@ -37,11 +39,22 @@ test("before/after slider works with the keyboard", async ({ page }) => {
   await expect(slider).toHaveAttribute("aria-valuenow", "100");
 });
 
-test("sample switcher swaps the demo photo and its numbers", async ({ page }) => {
+test("sample tabs switch the demo with clicks and arrow keys", async ({ page }) => {
   await page.goto("/en");
-  await page.getByRole("tab", { name: "Empty bedroom" }).click();
+  await page.getByRole("tab", { name: "Kitchen" }).click();
+  await expect(page.locator('img[src="/demo/kitchen-after.jpg"]')).toBeVisible();
+  await page.keyboard.press("Home");
+  await expect(page.getByRole("tab", { name: "Empty room" })).toBeFocused();
+  await expect(page.getByRole("tab", { name: "Empty room" })).toHaveAttribute("aria-selected", "true");
   await expect(page.locator('img[src="/demo/bedroom-after.jpg"]')).toBeVisible();
-  await expect(page.getByText(/Exposure \+2 EV/)).toBeVisible();
+});
+
+test("in-page links land below the sticky header", async ({ page }) => {
+  await page.goto("/en");
+  await page.getByRole("navigation").first().getByRole("link", { name: "How it works" }).click();
+  await page.waitForTimeout(900);
+  const top = await page.locator("#how h2").evaluate((el) => el.getBoundingClientRect().top);
+  expect(top).toBeGreaterThan(64);
 });
 
 test("trust page lists what is never done", async ({ page }) => {

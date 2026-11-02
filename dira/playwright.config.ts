@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import { existsSync } from "node:fs";
 
 // End-to-end tests against a production build with development stand-ins switched on
-// (local accounts, mock AI, mock checkout). Run `npm run build` first.
+// (local accounts, mock AI, mock checkout) and the AI tools switched on. Run `npm run build:e2e` first.
 const PORT = 3200;
 const preinstalled = "/opt/pw-browsers/chromium";
 const launchOptions = existsSync(preinstalled) ? { executablePath: preinstalled } : {};

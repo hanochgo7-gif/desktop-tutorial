@@ -18,8 +18,9 @@ test("sign-up bonus, AI job (test provider), labelled version, staged export", a
   // The stage labels the AI version as staging.
   await expect(page.getByText("הדמיה — ריהוט וירטואלי").first()).toBeVisible();
 
-  await page.getByRole("tab", { name: "הורדה" }).click();
-  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "הורדת ZIP" }).click()]);
+  // With an AI version in the set, the change log is included by default.
+  await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "הורדה כקובץ ZIP" }).click()]);
   const entries = readZip((await download.path())!);
   const manifest = [...entries.entries()].find(([n]) => n.endsWith(".txt"))![1].toString("utf8");
   expect(manifest).toContain("הלבשה וירטואלית");
@@ -32,7 +33,7 @@ test("checkout credits the account exactly once", async ({ page }) => {
   await page.getByRole("button", { name: "לקנות חבילה" }).click();
   await expect(page).toHaveURL(/\/he\/pay\/mock\//);
   await page.getByRole("button", { name: "אישור תשלום בדיקה" }).click();
-  await expect(page).toHaveURL(/\/he\/account\?paid=/);
+  await expect(page).toHaveURL(/\/he\/account\/?\?paid=/);
   await expect(page.getByText(/^13$/)).toBeVisible();
   await expect(page.getByText("רכישה")).toBeVisible();
 });

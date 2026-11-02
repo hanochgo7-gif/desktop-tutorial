@@ -54,7 +54,7 @@ function useBlobUrls() {
   return { get, drop };
 }
 
-export function useStudio(opts: { projectId?: string | null; newProjectName: string; initialFiles?: File[] | null }) {
+export function useStudio(opts: { projectId?: string | null; newProjectName: string; initialFiles?: File[] | null; fresh?: boolean }) {
   const [project, setProject] = useState<Project | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -146,7 +146,12 @@ export function useStudio(opts: { projectId?: string | null; newProjectName: str
       requestPersistence();
       let proj: Project | undefined;
       if (opts.projectId) proj = await getProject(opts.projectId);
-      if (!proj && !opts.initialFiles?.length) proj = (await listProjects())[0];
+      if (!proj) {
+        // "Start" opens a clean property; an empty one left over from last time is reused, not duplicated.
+        const latest = (await listProjects())[0];
+        const fresh = opts.fresh || !!opts.initialFiles?.length;
+        if (latest && (!fresh || latest.photoIds.length === 0)) proj = latest;
+      }
       if (!proj) proj = await createProject(opts.newProjectName);
       if (cancelled) return;
       const stored = await getPhotos(proj.id);
@@ -232,6 +237,22 @@ export function useStudio(opts: { projectId?: string | null; newProjectName: str
         return copy;
       });
       setSelectedId(photo.id);
+    },
+    [project],
+  );
+
+  /** Reorders photos; the first one is the listing's cover and is exported first. */
+  const movePhoto = useCallback(
+    async (id: string, to: number) => {
+      if (!project) return;
+      const list = [...photosRef.current];
+      const from = list.findIndex((p) => p.id === id);
+      if (from < 0 || from === to) return;
+      const [p] = list.splice(from, 1);
+      list.splice(Math.max(0, Math.min(to, list.length)), 0, p);
+      setPhotos(list);
+      const next = await updateProject(project.id, { photoIds: list.map((x) => x.id) });
+      if (next) setProject(next);
     },
     [project],
   );
@@ -411,6 +432,7 @@ export function useStudio(opts: { projectId?: string | null; newProjectName: str
     retry,
     removePhoto,
     restorePhoto,
+    movePhoto,
     setRecipe,
     applyRecipeToAll,
     renameProject,

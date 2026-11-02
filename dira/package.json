@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "build:e2e": "NEXT_PUBLIC_AI_LIVE=1 next build",
     "build:static": "bash scripts/build-static.sh"
   },
   "dependencies": {

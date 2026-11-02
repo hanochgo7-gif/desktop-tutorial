@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Dict, Locale } from "@/i18n";
+import { AI_LIVE } from "@/lib/site";
 import { Logo } from "./logo";
 
 export function swapLocalePath(pathname: string, to: Locale) {
@@ -37,6 +38,13 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn !== null && openOn === pathname;
   const setOpen = (fn: (o: boolean) => boolean) => setOpenOn(fn(open) ? pathname : null);
+  const close = () => setOpenOn(null);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenOn(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   const links = [
     { href: `/${lang}#how`, label: t.nav.how },
@@ -46,7 +54,7 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line-2 bg-paper/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-line-2 bg-paper/95 lg:bg-paper/90 lg:backdrop-blur-md">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2">
         {t.nav.skip}
       </a>
@@ -54,7 +62,7 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
         <Link href={`/${lang}`} className="shrink-0" aria-label={t.brand.name}>
           <Logo name={t.brand.name} />
         </Link>
-        <nav aria-label={t.nav.menu} className="hidden flex-1 items-center gap-1 md:flex">
+        <nav aria-label={t.nav.menu} className="hidden flex-1 items-center gap-1 lg:flex">
           {links.map((l) => (
             <Link key={l.href} href={l.href} className="rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink">
               {l.label}
@@ -63,15 +71,18 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
         </nav>
         <div className="ms-auto flex items-center gap-2">
           <LanguageLink lang={lang} t={t} className="hidden rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink sm:inline-block" />
-          <Link href={`/${lang}/account`} className="hidden rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink md:inline-block">
-            {t.nav.account}
-          </Link>
-          <Link href={`/${lang}/studio`} className="btn btn-primary btn-sm hidden sm:inline-flex">
-            {t.nav.open}
+          {AI_LIVE && (
+            <Link href={`/${lang}/account`} className="hidden rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink lg:inline-block">
+              {t.nav.account}
+            </Link>
+          )}
+          <Link href={`/${lang}/studio?new=1`} className="btn btn-primary btn-sm !px-3 sm:!px-[0.8rem]">
+            <span className="sm:hidden">{t.nav.openShort}</span>
+            <span className="hidden sm:inline">{t.nav.open}</span>
           </Link>
           <button
             type="button"
-            className="icon-btn md:hidden hover:bg-line-2"
+            className="icon-btn lg:hidden hover:bg-line-2"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t.nav.close : t.nav.menu}
@@ -88,16 +99,16 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
         </div>
       </div>
       {open && (
-        <div id="mobile-menu" className="border-t border-line-2 bg-paper px-4 pb-5 pt-2 md:hidden">
+        <div id="mobile-menu" className="border-t border-line-2 bg-paper px-4 pb-5 pt-2 lg:hidden">
           <nav aria-label={t.nav.menu} className="flex flex-col">
-            {[...links, { href: `/${lang}/account`, label: t.nav.account }].map((l) => (
-              <Link key={l.href} href={l.href} className="border-b border-line-2 py-3.5 text-[17px]">
+            {[...links, ...(AI_LIVE ? [{ href: `/${lang}/account`, label: t.nav.account }] : [])].map((l) => (
+              <Link key={l.href} href={l.href} onClick={close} className="border-b border-line-2 py-3.5 text-[17px]">
                 {l.label}
               </Link>
             ))}
             <LanguageLink lang={lang} t={t} className="py-3.5 text-[17px] text-ink-2" />
           </nav>
-          <Link href={`/${lang}/studio`} className="btn btn-primary mt-3 w-full">
+          <Link href={`/${lang}/studio?new=1`} onClick={close} className="btn btn-primary mt-3 w-full">
             {t.nav.open}
           </Link>
         </div>
