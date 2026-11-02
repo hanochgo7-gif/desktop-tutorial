@@ -6,7 +6,8 @@ const B = (s) => `<bdi dir="ltr" lang="en">${s}</bdi>`;
 // The checks below are about where an isolate starts and ends; the no-wrap class and the no-break characters of
 // spelled words have their own checks (round 3, BL-1), so they are folded away here.
 const NBH = String.fromCodePoint(0x2011), NBSP = String.fromCodePoint(0xa0);
-const plain = (h) => h.replaceAll(' class="nw"', '').replaceAll(NBH, '-').replaceAll(NBSP, ' ');
+const unwrap = (h) => h.replace(/<span class="nw">(.*?)<\/span>/g, '$1');
+const plain = (h) => unwrap(h).replaceAll(NBH, '-').replaceAll(NBSP, ' ');
 const iso = (s) => plain(String(isolateLatin(s)));
 
 test('Latin runs inside Hebrew are isolated; punctuation around them stays Hebrew', () => {
@@ -97,7 +98,7 @@ test('partial support folds the Hebrew of a long paragraph behind "בעברית"
   assert.doesNotMatch(String(bi(short, { fold: true })), /hidden|data-reveal-he/, 'a short line keeps its Hebrew');
   assert.doesNotMatch(String(bi(long)), /hidden/, 'only explanation paragraphs fold');
   setHebrewSupport('full');
-  assert.doesNotMatch(String(bi(long, { fold: true })), /hidden/, 'full support shows it all');
+  assert.doesNotMatch(String(bi(long, { fold: true })), /dir="rtl" hidden/, 'full support never hides the Hebrew (BL-3 folds the English instead)');
   setHebrewSupport('minimal');
   assert.match(String(bi(long, { fold: true })), />עב</, 'minimal keeps its "עב" button');
 });
@@ -115,10 +116,11 @@ test('straight quote pairs stay together inside the English isolate', async () =
 });
 
 // ---------- Round 3, BL-1: the panel strings, one isolate per English piece ----------
-// The exact markup: N() is an isolate that does not wrap (20 characters or fewer), W() one that may.
-const N = (s) => `<bdi dir="ltr" lang="en" class="nw">${s}</bdi>`;
-const W = (s) => `<bdi dir="ltr" lang="en">${s}</bdi>`;
-const exact = (s) => String(isolateLatin(s));
+// Where each isolate starts and ends, with the no-break characters of spelled words kept. N() marks an isolate of
+// 20 characters or fewer (kept on one line by its "nw" unit, checked on its own below), W() a longer one.
+const N = (s) => `<bdi dir="ltr" lang="en">${s}</bdi>`;
+const W = N;
+const exact = (s) => unwrap(String(isolateLatin(s)));
 
 test('BL-1: IPA tokens are English, slashes included (student-44, teacher-special-ed)', () => {
   assert.equal(exact('אני יודע/ת להגות את הסיומת כ-/s/, /z/ או /ɪz/: works, lives, watches.'),
@@ -182,9 +184,17 @@ test('BL-1: a spelled name stays in one piece (teacher-adult-efl, student-58)', 
   assert.equal(exact('אומרים e-mail ו-T-shirt.'), `אומרים ${N('e-mail')} ו-${N('T-shirt')}.`);
 });
 
-test('BL-1: short isolates do not wrap, long ones may (20 characters)', () => {
-  assert.equal(exact('אומרים Twenty characters ok.'), `אומרים ${N('Twenty characters ok')}.`);
-  assert.equal(exact('אומרים Twenty-one characters.'), `אומרים ${W('Twenty-one characters')}.`);
+test('BL-1: a short isolate is one unit with what is attached to it; a long one may wrap (20 characters)', () => {
+  const U = (lead, t, trail) => `<span class="nw">${lead}<bdi dir="ltr" lang="en">${t}</bdi>${trail}</span>`;
+  const raw = (s) => String(isolateLatin(s));
+  assert.equal(raw('אומרים Twenty characters ok.'), `אומרים ${U('', 'Twenty characters ok', '.')}`);
+  assert.equal(raw('אומרים Twenty-one characters.'), `אומרים <bdi dir="ltr" lang="en">Twenty-one characters</bdi>.`);
+  // The Hebrew prefix, an opening bracket and the punctuation after it go into the unit, so no line starts with them.
+  assert.equal(raw('הסיומת כ-/s/, /z/ או /ɪz/.'), `הסיומת ${U('כ-', '/s/, /z/', '')} או ${U('', '/ɪz/', '.')}`);
+  assert.equal(raw('בסלנג (I\'m low-key nervous = לחוץ/ה).'), `בסלנג ${U('(', 'I&#39;m low-key nervous', '')} = לחוץ/ה).`);
+  assert.equal(raw('תשובה קצרה: Yes, I am. / No, she isn\'t.'), `תשובה קצרה: ${U('', 'Yes, I am.', '')} / ${U('', 'No, she isn&#39;t', '.')}`);
+  // English alone in a Hebrew slot.
+  assert.equal(raw('Have you ever...?'), U('', 'Have you ever...?', ''));
 });
 
 test('BL-1: the warning and feedback lines from the panels read in order', () => {
@@ -195,4 +205,33 @@ test('BL-1: the warning and feedback lines from the panels read in order', () =>
   assert.equal(exact('אל תשמיטו את be: He is cooking, ולא He cooking.'), `אל תשמיטו את ${N('be: He is cooking')}, ולא ${N('He cooking')}.`);
   assert.equal(exact('אומרים I\'m 30 או I\'m 30 years old. \u200Fyears בלי old – שגוי.'),
     `אומרים ${N('I&#39;m 30')} או ${N('I&#39;m 30 years old')}. \u200F${N('years')} בלי ${N('old')} – שגוי.`);
+});
+
+// ---------- Round 3, BL-3: at full support the Hebrew meta-text leads ----------
+test('BL-3: at full support the Hebrew line comes first as the primary line, the English follows', async () => {
+  const { bi, setHebrewSupport } = await import('../../js/core/i18n.js');
+  const prompt = { en: 'Match each letter to its name, written in Hebrew letters.', he: 'התאימו כל אות לשם שלה, כתוב באותיות עבריות.' };
+  setHebrewSupport('full');
+  const h = String(bi(prompt));
+  assert.match(h, /^<span class="bi he-first"><span class="bi-he primary" lang="he" dir="rtl">התאימו/, 'Hebrew first, marked primary');
+  assert.ok(h.indexOf('bi-he primary') < h.indexOf('class="bi-en"'), 'the English comes second');
+  assert.doesNotMatch(h, /hidden|data-reveal-he/, 'a short instruction shows both lines');
+  // An explanation paragraph shows the Hebrew and an "EN" chip, not both texts.
+  const para = String(bi(prompt, { fold: true }));
+  assert.match(para, /<button type="button" class="he-reveal[^"]*en-reveal" data-reveal-he aria-expanded="false" lang="en">EN<span class="sr-only"/);
+  assert.match(para, /<span class="bi-en" lang="en" dir="ltr" hidden>Match each letter/, 'the English waits behind "EN"');
+  assert.doesNotMatch(para, /class="bi-he[^"]*"[^>]*hidden/, 'the Hebrew is never hidden at full');
+  // Without Hebrew there is nothing to lead with: English only, as before.
+  assert.equal(String(bi({ en: 'Listen.' })), '<span class="bi"><span class="bi-en" lang="en" dir="ltr">Listen.</span></span>');
+});
+
+test('BL-3: A2 (partial) and B1 (minimal) render as before', async () => {
+  const { bi, setHebrewSupport } = await import('../../js/core/i18n.js');
+  const x = { en: 'Use am, is or are.', he: 'משתמשים ב-am, is או are.' };
+  setHebrewSupport('partial');
+  assert.match(String(bi(x)), /^<span class="bi"><span class="bi-en" lang="en" dir="ltr">Use am, is or are.<\/span><span class="bi-he bi-he-after" lang="he" dir="rtl">/);
+  setHebrewSupport('minimal');
+  assert.match(String(bi(x)), /^<span class="bi"><span class="bi-en" lang="en" dir="ltr">Use am, is or are.<\/span><button type="button" class="he-reveal/);
+  assert.doesNotMatch(String(bi(x)), /he-first|primary/);
+  setHebrewSupport('full');
 });

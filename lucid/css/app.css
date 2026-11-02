@@ -969,9 +969,18 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane exercises: end ---- */
 
 /* ---- lane bilingual-text: start ---- */
-/* BL-1: an English piece of 20 characters or fewer inside Hebrew text never breaks across lines, so its words and
-   punctuation keep their order ("/s/, /z/", "/æ/ (cat)", "Yes, I am."). isolateLatin() sets the class. */
-bdi.nw { white-space: nowrap; }
+/* BL-1: an English piece of 20 characters or fewer inside Hebrew text, with the punctuation attached to it, is one
+   unit that moves to the next line whole ("/s/, /z/", "/æ/ (cat)", "Yes, I am."). A unit wider than the whole line
+   still wraps inside itself, so nothing scrolls sideways at 150% text. isolateLatin() writes the unit. */
+.nw { display: inline-block; max-width: 100%; }
+/* BL-3: at full Hebrew support (Pre-A1, A1) the Hebrew instruction or explanation is the primary line and the English
+   meta-text follows in the quieter ink. In an exercise prompt the Hebrew takes the prompt's own size and weight.
+   The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
+.bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
+.bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
+.ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
+.ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
+:where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
 
 /* ---- lane bilingual-text: end ---- */
 
