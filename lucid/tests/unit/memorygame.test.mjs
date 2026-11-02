@@ -1,0 +1,73 @@
+// Memory game: the deck, how a turn is judged (a match, a mismatch, a slip), scores, bests and unlocking.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { makeDeck, judgeTurn, partnerOf, roundScore, turnBonus, maxFor, accuracyOf, TYPE, UNLOCK } from '../../js/core/memorygame.js';
+import { bests, unlocked, recentWords } from '../../js/core/picturegame.js';
+
+const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
+
+test('each level deals 12, 16 or 20 cards: every word once as a picture and once as a word, look-alikes never together', () => {
+  assert.deepEqual(data.sets.map((s) => s.memory_pairs), [6, 8, 10]);
+  for (const set of data.sets) for (let r = 0; r < 40; r++) {
+    const deck = makeDeck(set.words, set.memory_pairs, { seed: r / 40 + 0.009, apart: set.apart });
+    assert.equal(deck.length, set.memory_pairs * 2);
+    const words = new Map();
+    for (const c of deck) words.set(c.w.word, [...(words.get(c.w.word) || []), c.kind]);
+    assert.equal(words.size, set.memory_pairs);
+    for (const [w, kinds] of words) assert.deepEqual(kinds.sort(), ['pic', 'word'], `${w}: ${kinds}`);
+    for (const [x, y] of set.apart) assert.ok(!(words.has(x) && words.has(y)), `level ${set.level}: ${x} and ${y} in one round`);
+  }
+});
+
+test('a deck is reproducible, can start with missed words and prefers words not seen lately', () => {
+  const set = data.sets[1];
+  const a = makeDeck(set.words, 8, { seed: 0.42 }), b = makeDeck(set.words, 8, { seed: 0.42 });
+  assert.deepEqual(a.map((c) => c.kind + c.w.word), b.map((c) => c.kind + c.w.word));
+  const recent = [...new Set(a.map((c) => c.w.word))];
+  assert.ok(makeDeck(set.words, 8, { seed: 0.42, recent }).every((c) => !recent.includes(c.w.word)));
+  const focus = ['truck', 'ambulance', 'soup'];
+  const f = new Set(makeDeck(set.words, 8, { seed: 0.7, focus, apart: set.apart }).map((c) => c.w.word));
+  assert.ok(f.has('soup') && (f.has('truck') || f.has('ambulance')), 'missed words left out');
+  assert.ok(!(f.has('truck') && f.has('ambulance')), 'look-alikes together in a focus round');
+});
+
+test('a turn: a match; a mismatch with nothing seen before is not a slip; a mismatch when the pair had been seen is', () => {
+  const w = (word) => ({ word });
+  const cat = w('cat'), dog = w('dog'), sun = w('sun');
+  const cards = [{ kind: 'pic', w: cat }, { kind: 'word', w: dog }, { kind: 'word', w: cat }, { kind: 'pic', w: dog }, { kind: 'pic', w: sun }, { kind: 'word', w: sun }];
+  assert.equal(partnerOf(cards, 0), 2);
+  assert.deepEqual(judgeTurn(cards, 0, 2, new Set()), { match: true, slip: false });
+  assert.deepEqual(judgeTurn(cards, 0, 1, new Set()), { match: false, slip: false }, 'exploring is not a mistake');
+  assert.deepEqual(judgeTurn(cards, 2, 4, new Set([0, 1])), { match: false, slip: true }, 'cat word: the cat picture had been seen');
+  assert.deepEqual(judgeTurn(cards, 4, 3, new Set([0, 1])), { match: false, slip: false }, 'sun: its pair was never seen');
+});
+
+test('score: 10 a pair, 3 off a slip (never below 0), a bonus for few turns; accuracy is pairs over pairs and slips', () => {
+  assert.equal(roundScore(6, 0, 10), 70);
+  assert.equal(roundScore(6, 2, 0), 54);
+  assert.equal(roundScore(1, 9, 5), 5);
+  assert.equal(turnBonus(9, 6), 10);
+  assert.equal(turnBonus(12, 6), 5);
+  assert.equal(turnBonus(13, 6), 0);
+  assert.equal(turnBonus(15, 10), 10);
+  assert.equal(maxFor(6), 70);
+  assert.equal(accuracyOf(6, 2), 0.75);
+  assert.equal(accuracyOf(0, 0), 0);
+});
+
+test('memory rounds have their own bests, unlocking and recent words, apart from the picture game', () => {
+  const ev = [
+    { type: TYPE, level: 1, score: 60, accuracy: 0.75, at: '2026-11-01', words: ['a'] },
+    { type: TYPE, level: 1, score: 50, accuracy: 0.6, at: '2026-11-02', words: ['b'] },
+    { type: 'picture-round', level: 1, score: 100, accuracy: 1, at: '2026-11-02', words: ['z'] },
+  ];
+  const b = bests(ev, TYPE);
+  assert.equal(b[1].score, 60);
+  assert.equal(b[1].rounds, 2);
+  assert.ok(unlocked(b, 2) && !unlocked(b, 3));
+  assert.ok(!unlocked(bests(ev.slice(1), TYPE), 2), '60% is not enough');
+  assert.equal(bests(ev)[1].score, 100, 'the picture game keeps its own');
+  assert.ok(UNLOCK === 0.7);
+  assert.deepEqual(recentWords(ev, 1, 2, TYPE), ['b', 'a']);
+});

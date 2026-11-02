@@ -21,6 +21,7 @@ const ROUTES = [
   ['vocab', () => import('../views/vocab.js'), { nav: 'practice' }],
   ['games', () => import('../views/wordgame.js'), { nav: 'practice' }],
   ['games/pictures/:level', () => import('../views/picturegame.js'), { bare: true }],
+  ['games/memory/:level', () => import('../views/memorygame.js'), { bare: true }],
   ['games/:level/:stage', () => import('../views/wordgame.js'), { bare: true }],
   ['grammar', () => import('../views/grammar.js'), { nav: 'practice' }],
   ['reading', () => import('../views/reading.js'), { nav: 'practice' }],

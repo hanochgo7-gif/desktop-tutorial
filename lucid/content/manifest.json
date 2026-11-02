@@ -1,5 +1,5 @@
 {
- "version": "c6d94b5254b1",
+ "version": "517447622e28",
  "lessons": [
   "a1-01",
   "a1-02",
@@ -95,6 +95,7 @@
   "js/core/grading.js",
   "js/core/i18n.js",
   "js/core/learner.js",
+  "js/core/memorygame.js",
   "js/core/picturegame.js",
   "js/core/placement.js",
   "js/core/pool.js",
@@ -123,6 +124,7 @@
   "js/views/help.js",
   "js/views/lesson.js",
   "js/views/listening.js",
+  "js/views/memorygame.js",
   "js/views/onboarding.js",
   "js/views/path.js",
   "js/views/picturegame.js",

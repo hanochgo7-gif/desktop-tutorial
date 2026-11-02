@@ -39,6 +39,7 @@ Hebrew-L1 claims are framed as hypotheses where the evidence is indirect.
 | Spaced repetition | FSRS (ts-fsrs), objective grading instead of self-rating, recognition-to-recall ladder, workload governor | `js/core/srs.js`, `js/views/review.js` |
 | Word game | Vocabulary quiz and word completion per level in three stages (meaning, English word, typed completion); every answer is marked right or wrong at once; 10 points per right answer plus a speed bonus, a best round per stage, the next stage opening at 70%; missed words can be replayed or added to review. Practice only: it does not change the learner's level | `js/core/wordgame.js`, `js/views/wordgame.js` |
 | Words and pictures | A second game on the same page: English words matched to pictures, 3 boards a round of 4, 5 or 6 pairs; each pair is marked right or wrong the moment it is chosen; 10 points a pair, 3 off a mistake, a speed bonus per board; three levels (150 everyday, home and travel, tools and nature words with Hebrew meanings), each opening at 70% accuracy in the one before; missed words can be replayed. The pictures are Lucide icons (ISC licence) chosen to be unambiguous; for screen readers each picture is announced by its Hebrew meaning. Practice only | `content/pictures.json`, `js/core/picturegame.js`, `js/views/picturegame.js`, `tools/build-picture-icons.mjs` |
+| Memory game | Cards face down: turn two at a time to find each picture and its English word; 12, 16 or 20 cards over the same three levels; every turn is marked at once and a mismatch turns back over. Only a "slip" counts as a mistake (a mismatch when the first card's pair had already been seen); 10 points a pair, 3 off a slip, a bonus for few turns; levels open at 70% accuracy; slipped words can be replayed. Practice only | `js/core/memorygame.js`, `js/views/memorygame.js` |
 | Daily plan | 10, 20, 35 or 50 minutes; warm-up, review, lesson (split into parts when long), targeted practice, a goal-shaped "use it" block; each block says why | `js/core/adaptive.js`, `js/views/today.js` |
 | Writing lab | Ten stages, 20 exercises, 10 advanced assignments with invented source packs, free writing as essay, email or message; automatic checks; AI feedback on a 12-category rubric with a task-fulfilment gate, a hint ladder that needs an attempt before the correction, at most three rounds, a CEFR range only on the final draft, version comparison | `js/views/essay.js`, `js/core/writing-analyzer.js`, `supabase/functions/lucid-ai/` |
 | Real-Life English | 36 scenarios in 8 modules (airport, hotel, restaurant, transport, shopping, social, emergency, work) with phrases, a model dialogue, scripted practice and AI roleplay; 60 expressions with meaning, formality, region, examples, mistakes and when not to use them | `content/real-life/`, `js/views/scenario.js`, `js/views/slang.js` |
@@ -85,7 +86,7 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 20 files) | 162 of 162 pass |
+| Unit (`npm test`, 21 files) | 167 of 167 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
 | Browser end-to-end (`tests/e2e/run.mjs`) | 55 of 55 checks pass, covering the brief's 17 acceptance criteria and the QA findings |

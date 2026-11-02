@@ -1,7 +1,7 @@
 {
  "note": "Pictures are Lucide icons (ISC License; some derived from Feather, MIT), generated into js/ui/picture-icons.js by tools/build-picture-icons.mjs. 'us' is the American word where it differs; 'apart' lists words whose pictures look alike, kept off the same board.",
  "sets": [
-  {"level": 1, "name_en": "Everyday basics", "name_he": "בסיס יומיומי", "cefr": "Pre-A1–A1", "pairs": 4, "apart": [["cat", "dog"]], "words": [
+  {"level": 1, "name_en": "Everyday basics", "name_he": "בסיס יומיומי", "cefr": "Pre-A1–A1", "pairs": 4, "memory_pairs": 6, "apart": [["cat", "dog"]], "words": [
    {"word": "apple", "he": "תפוח", "icon": "apple"},
    {"word": "banana", "he": "בננה", "icon": "banana"},
    {"word": "carrot", "he": "גזר", "icon": "carrot"},
@@ -53,7 +53,7 @@
    {"word": "rain", "he": "גשם", "icon": "cloud-rain"},
    {"word": "snow", "he": "שלג", "icon": "snowflake"}
   ]},
-  {"level": 2, "name_en": "Home, town and travel", "name_he": "בית, עיר ונסיעות", "cefr": "A1–A2", "pairs": 5, "apart": [["wallet", "credit card"], ["hospital", "school"], ["soup", "salad"], ["pot", "soup"], ["truck", "ambulance"]], "words": [
+  {"level": 2, "name_en": "Home, town and travel", "name_he": "בית, עיר ונסיעות", "cefr": "A1–A2", "pairs": 5, "memory_pairs": 8, "apart": [["wallet", "credit card"], ["hospital", "school"], ["soup", "salad"], ["pot", "soup"], ["truck", "ambulance"]], "words": [
    {"word": "laptop", "he": "מחשב נייד", "icon": "laptop"},
    {"word": "camera", "he": "מצלמה", "icon": "camera"},
    {"word": "headphones", "he": "אוזניות", "icon": "headphones"},
@@ -105,7 +105,7 @@
    {"word": "fire", "he": "אש", "icon": "flame"},
    {"word": "keyboard", "he": "מקלדת", "icon": "keyboard"}
   ]},
-  {"level": 3, "name_en": "Tools, nature and the wider world", "name_he": "כלים, טבע והעולם הרחב", "cefr": "A2–B1", "pairs": 6, "apart": [["dice", "battery"]], "words": [
+  {"level": 3, "name_en": "Tools, nature and the wider world", "name_he": "כלים, טבע והעולם הרחב", "cefr": "A2–B1", "pairs": 6, "memory_pairs": 10, "apart": [["dice", "battery"]], "words": [
    {"word": "anchor", "he": "עוגן", "icon": "anchor"},
    {"word": "compass", "he": "מצפן", "icon": "compass"},
    {"word": "telescope", "he": "טלסקופ", "icon": "telescope"},

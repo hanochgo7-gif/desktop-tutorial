@@ -12,6 +12,7 @@ import { LEVELS } from '../core/adaptive.js';
 import { say, canSpeak } from '../core/speech.js';
 import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords } from '../core/wordgame.js';
 import * as pics from '../core/picturegame.js';
+import * as mem from '../core/memorygame.js';
 import { picture } from './picturegame.js';
 
 const LAST = 'lucid-game-level';
@@ -39,20 +40,31 @@ async function hub(el, ctx) {
   const [tx, pictureData] = await Promise.all([content.taxonomy(), content.pictures()]);
   if (location.hash !== here) return null;
   const mine = model().courseLevel;
-  const picturesSection = () => {
-    const best = pics.bests(store.all('events'));
-    const sets = pictureData?.sets || [];
-    return html`<section class="stack-sm game-section" id="lvl-pictures" aria-labelledby="pics-h">
-      <h2 id="pics-h">${tt('התאמת מילים לתמונות', 'Words and pictures')}</h2>
-      <p class="small muted">${tt(`מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`, `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`)}</p>
+  // The two picture games share the levels of content/pictures.json; each has its own bests and unlocking.
+  const sets = pictureData?.sets || [];
+  const pictureGames = [
+    { id: 'pictures', route: 'pictures', type: 'picture-round', he: 'התאמת מילים לתמונות', en: 'Words and pictures', pairs: (s) => s.pairs,
+      introHe: `מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`,
+      introEn: `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`,
+      sizeHe: (s) => `${s.pairs} זוגות בלוח`, sizeEn: (s) => `${s.pairs} pairs a board`, iconOf: (s) => s.words[0].icon },
+    { id: 'memory', route: 'memory', type: mem.TYPE, he: 'משחק זיכרון', en: 'Memory game', pairs: (s) => s.memory_pairs,
+      introHe: `הקלפים הפוכים: הופכים שניים בכל תור ומחפשים תמונה והמילה שלה באנגלית. כל זוג שווה ${mem.MATCH} נקודות; ״פספוס״ (כשהזוג כבר נראה ונבחר קלף אחר) מוריד ${mem.SLIP}, ויש בונוס על מעט תורות. הרמה הבאה נפתחת ב-${pctText(mem.UNLOCK)} דיוק.`,
+      introEn: `The cards are face down: turn two each turn to find a picture and its English word. Each pair is worth ${mem.MATCH} points; a "slip" (the pair had been seen, but another card was chosen) takes off ${mem.SLIP}, and few turns earn a bonus. The next level opens at ${pctText(mem.UNLOCK)} accuracy.`,
+      sizeHe: (s) => `${s.memory_pairs * 2} קלפים`, sizeEn: (s) => `${s.memory_pairs * 2} cards`, iconOf: (s) => s.words[1].icon },
+  ];
+  const pictureSection = (g) => {
+    const best = pics.bests(store.all('events'), g.type);
+    return html`<section class="stack-sm game-section" id="lvl-${g.id}" aria-labelledby="${g.id}-h">
+      <h2 id="${g.id}-h">${tt(g.he, g.en)}</h2>
+      <p class="small muted">${tt(g.introHe, g.introEn)}</p>
       ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
       <div class="game-stages">${sets.map((set) => {
         const b = best[set.level];
         const open = pics.unlocked(best, set.level);
-        const inner = html`<span class="pic-level-icon">${picture(set.words[0].icon, 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
-          <span class="xsmall faint" style="display:block">${!open ? tt(`נפתחת ב-${pctText(pics.UNLOCK)} ברמה ${set.level - 1}`, `Opens at ${pctText(pics.UNLOCK)} in level ${set.level - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${set.pairs} זוגות בלוח · ${set.cefr}`, `${set.pairs} pairs a board · ${set.cefr}`)}</span></span>
+        const inner = html`<span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
+          <span class="xsmall faint" style="display:block">${!open ? tt(`נפתחת ב-${pctText(pics.UNLOCK)} ברמה ${set.level - 1}`, `Opens at ${pctText(pics.UNLOCK)} in level ${set.level - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>
           ${open ? (b && b.accuracy >= pics.UNLOCK ? html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>` : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
-        return open ? html`<a class="game-stage" href="#/games/pictures/${set.level}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
+        return open ? html`<a class="game-stage" href="#/games/${g.route}/${set.level}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
       })}</div></section>`;
   };
 
@@ -60,9 +72,9 @@ async function hub(el, ctx) {
     const best = bests(store.all('events'));
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${t('nav.games')}</h1>
-        <p>${tt('שני משחקים, ובשניהם כל תשובה מסומנת נכונה או לא נכונה מיד, עם רמות וניקוד.', 'Two games. In both, every answer is marked right or wrong at once, with levels and scores.')}</p>
+        <p>${tt('שלושה משחקים, ובכולם כל תשובה מסומנת נכונה או לא נכונה מיד, עם רמות וניקוד.', 'Three games. In each, every answer is marked right or wrong at once, with levels and scores.')}</p>
         <p class="small faint">${tt('המשחקים הם תרגול: הם לא משנים את הרמה שלך במסלול.', 'The games are practice: they do not change your level on the path.')}</p></div></div>
-      ${picturesSection()}
+      ${pictureGames.map(pictureSection)}
       <section class="stack-sm" aria-labelledby="quiz-h">
       <h2 id="quiz-h">${tt('שאלון אוצר מילים והשלמת מילים', 'Vocabulary quiz and word completion')}</h2>
       <p class="small muted">${tt(`${ROUND} שאלות בסיבוב מתוך המילים של כל רמה. כל תשובה נכונה שווה ${POINTS} נקודות, ועוד בונוס על מהירות.`, `${ROUND} questions a round from each level's words. Each right answer is worth ${POINTS} points, plus a bonus for speed.`)}</p>

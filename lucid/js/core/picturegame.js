@@ -39,16 +39,17 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
   const room = (g) => g.length < pairs;
   const clashes = (g, w) => g.some((o) => clash.get(o.word)?.has(w.word));
   // Missed words first, and every one of them is used: when the only board with room holds a missed word's
-  // look-alike, a word from a full board where it fits moves over to make space.
+  // look-alike, a word from a full board where it fits moves over to make space. (With a single board there is
+  // nowhere to move: the look-alike waits for a later round.)
+  const waiting = [];
   for (const w of focusFirst.slice(0, pairs * groups.length)) {
     const g = groups.find((x) => room(x) && !clashes(x, w));
     if (g) { g.push(w); continue; }
     const r = groups.find(room);
     const swap = groups.flatMap((x) => (x === r ? [] : x.map((y, i) => [x, i, y]))).find(([x, i, y]) => !clashes(x.filter((_, j) => j !== i), w) && !clashes(r, y));
-    if (swap) { const [x, i, y] = swap; x[i] = w; r.push(y); } else r.push(w);
+    if (swap) { const [x, i, y] = swap; x[i] = w; r.push(y); } else waiting.push(w);
   }
   // Then the other words in order; one that would sit next to its look-alike waits, used only if nothing else is left.
-  const waiting = [];
   for (const w of others) {
     if (!groups.some(room)) break;
     const g = groups.find((x) => room(x) && !clashes(x, w));
@@ -71,11 +72,12 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
   return out;
 }
 
-// The best round per level from the "picture-round" events: higher accuracy first, then the score.
-export function bests(events) {
+// The best round per level from the "picture-round" events (or another game's, by type): higher accuracy first,
+// then the score.
+export function bests(events, type = 'picture-round') {
   const out = {};
   for (const e of events) {
-    if (e.type !== 'picture-round') continue;
+    if (e.type !== type) continue;
     const b = out[e.level];
     const better = !b || e.accuracy > b.accuracy || (e.accuracy === b.accuracy && e.score > b.score);
     const rounds = (b?.rounds || 0) + 1;
@@ -86,6 +88,6 @@ export function bests(events) {
 export const isBetter = (prev, round) => !prev || round.accuracy > prev.accuracy || (round.accuracy === prev.accuracy && round.score > prev.score);
 export const unlocked = (best, level) => level === 1 || (best[level - 1]?.accuracy || 0) >= UNLOCK;
 
-export const recentWords = (events, level, rounds = 2) => events
-  .filter((e) => e.type === 'picture-round' && e.level === level && Array.isArray(e.words))
+export const recentWords = (events, level, rounds = 2, type = 'picture-round') => events
+  .filter((e) => e.type === type && e.level === level && Array.isArray(e.words))
   .sort((a, b) => (a.at < b.at ? 1 : -1)).slice(0, rounds).flatMap((e) => e.words);

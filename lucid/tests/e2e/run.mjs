@@ -511,7 +511,7 @@ try {
       }
       await ctx.close();
     }
-    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'games/pictures/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'games/pictures/1', 'games/memory/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });
@@ -1495,6 +1495,73 @@ try {
     await page.waitForTimeout(200);
     assert(await inView(), 'back from the picture game, the games page is not at the picture levels');
     assert(/92%/.test(await page.textContent('a.game-stage[href="#/games/pictures/1"]')), 'the best accuracy is not on the hub');
+    await ctx.close();
+  });
+
+  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch turns back; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
+    const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
+    const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/memory/1"]');
+    assert(!(await page.$('a.game-stage[href="#/games/memory/2"]')), 'memory level 2 open before level 1 was played');
+    await page.click('a.game-stage[href="#/games/memory/1"]');
+    await page.waitForSelector('.mem-card');
+    await page.waitForTimeout(500);
+    const n = (await page.$$('.mem-card')).length;
+    assert(n === 12, `level 1 has ${n} cards`);
+    assert(!(await page.$('.mem-card [data-he], .mem-card [data-word]')), 'a face-down card shows what it is');
+    const idOf = async (i) => { const he = await page.$(`[data-card="${i}"] [data-he]`); return he ? byHe.get(await he.textContent()) : (await page.textContent(`[data-card="${i}"] [data-word]`)).trim(); };
+    const known = new Map();
+    const found = () => page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card)));
+    let slipped = false, sawMismatch = false, keyboardTurns = 0;
+    const flip = async (i) => {
+      if (keyboardTurns < 2) { await page.focus(`[data-card="${i}"]`); await page.keyboard.press('Enter'); } else await page.click(`[data-card="${i}"]`);
+      known.set(i, await idOf(i));
+    };
+    for (let guard = 0; guard < 40; guard++) {
+      const done = new Set(await found());
+      if (done.size === n) break;
+      let pair = null;
+      for (const [i, wi] of known) for (const [j, wj] of known) if (i < j && wi === wj && !done.has(i)) pair = [i, j];
+      if (pair) { await flip(pair[0]); await flip(pair[1]); keyboardTurns++; await page.waitForTimeout(150); continue; }
+      const fresh = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i));
+      await flip(fresh);
+      const partner = [...known].find(([j, wj]) => j !== fresh && wj === known.get(fresh) && !done.has(j))?.[0];
+      let second = partner;
+      if (partner !== undefined && !slipped) {
+        // One deliberate slip: the pair was seen, another card is chosen.
+        second = [...Array(n).keys()].find((i) => i !== fresh && i !== partner && !done.has(i));
+        slipped = true;
+      } else if (partner === undefined) second = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i) && i !== fresh);
+      const t0 = Date.now();
+      await flip(second);
+      keyboardTurns++;
+      if (known.get(second) !== known.get(fresh)) {
+        await page.waitForSelector('.mem-card.is-wrong');
+        assert(Date.now() - t0 < 1500, 'a mismatch was not marked at once');
+        if (!sawMismatch) {
+          sawMismatch = true;
+          await page.waitForTimeout(1600);
+          assert(!(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`)), 'a mismatched card did not turn back over');
+        }
+      } else assert(await page.$eval(`[data-card="${second}"]`, (x) => x.disabled && x.classList.contains('is-right')), 'a match was not kept face up');
+    }
+    assert(slipped, 'the test never had the chance to slip');
+    await page.waitForSelector('.game-total');
+    const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
+    const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round'));
+    assert(ev.length === 1 && ev[0].matches === 6 && ev[0].slips === 1 && ev[0].score === total && Math.abs(ev[0].accuracy - 6 / 7) < 1e-9, `round not logged once and right: ${JSON.stringify(ev)}`);
+    assert((await page.$$('.pic-missed li')).length === 2, 'the slip did not list both words to go over');
+    assert(await page.$('a[href="#/games/memory/2"]'), 'memory level 2 did not open at 86%');
+    await page.waitForTimeout(500);
+    await page.click('[data-again]');
+    await page.waitForSelector('.mem-card');
+    assert((await page.$$('.mem-card')).length === 12 && !(await page.$('.mem-card:disabled')), '"Play again" did not deal a fresh board');
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/memory/2"]');
+    assert(/86%/.test(await page.textContent('a.game-stage[href="#/games/memory/1"]')), 'the memory best is not on the games page');
     await ctx.close();
   });
 
