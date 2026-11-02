@@ -123,7 +123,9 @@ export default async function essay(el, ctx) {
   let textKind = task.id === 'free' ? (draftRec?.text_kind || versions().at(-1)?.text_kind || 'essay') : null;
   const kindOf = () => textKind || task.kind || 'essay';
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
-  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf(), stage: task.stage || 0 });
+  // The task's source pack, or the pack of the chosen topic's assignment: drafts are compared with it (RW-6).
+  const packOf = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
+  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf(), stage: task.stage || 0, sources: packOf() });
   let analysis = text ? analyze() : null;
   let busy = false; let aiError = ''; let aiNote = ''; let busySince = 0; let busyTimer = null;
   let tab = 'checks'; // set below: a draft in revision opens on its AI feedback (persona panel R2-21)
@@ -153,7 +155,7 @@ export default async function essay(el, ctx) {
   if (aiReady && latestEval() && !isFinal()) tab = 'ai';
   const roundsLeft = () => !isFinal() && evaluatedCount() < MAX_EVALS;
   const scope = () => { const s = settings().feedback_scope; return s !== 'auto' ? s : ['B2', 'C1', 'C2'].includes(level) ? 'comprehensive' : 'focused'; };
-  const sourcePack = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
+  const sourcePack = packOf;
   const sourceBased = () => (task.stage || 0) >= 9 || SOURCE_KINDS.has(task.kind) || Boolean(sourcePack());
   const bodyWords = () => countWords(splitReferences(text).body);
   const minForAi = () => Math.max(3, Math.floor(minWords * 0.5));
@@ -175,7 +177,7 @@ export default async function essay(el, ctx) {
     if (!analysis) return html`<p class="small muted">${tt('כתבו, ואז לחצו ״בדיקה אוטומטית״. הבדיקות האוטומטיות עובדות גם בלי AI.', 'Write, then press "Check". Automatic checks work without AI.')}</p>`;
     const a = analysis;
     const argumentative = (ARGUMENTATIVE.has(kindOf()) || isAssignment) && !NOT_ARGUED.has(kindOf());
-    const sig = [['thesis', 'תזה / עמדה', 'Thesis or position'], ['evidence', 'ראיות או דוגמאות', 'Evidence or examples'], ['counter', 'טיעון נגדי', 'Counterargument'], ['rebuttal', 'הפרכה', 'Rebuttal'], ['conclusion', 'סיכום', 'Conclusion']];
+    const sig = [['thesis', 'תזה / עמדה', 'Thesis or position'], ['evidence', 'ראיות או דוגמאות', 'Evidence or examples'], ['counter', 'טיעון נגדי', 'Counterargument'], ['rebuttal', 'הפרכה', 'Rebuttal'], ['conclusion', 'סיכום', 'Conclusion'], ...((task.stage || 0) >= 7 ? [['hedging', 'הסתייגות (hedging)', 'Hedging']] : [])];
     const sum = checkSummary(a, { minWords, maxWords });
     const errs = a.issues.filter((i) => !i.soft);
     const notes = a.issues.filter((i) => i.soft);
@@ -183,13 +185,26 @@ export default async function essay(el, ctx) {
     return html`<div class="stack">
       <h3 class="small checks-head" tabindex="-1" data-checks-head>${tt(sum.head_he, sum.head_en)}</h3>
       <div class="check-list">${a.checks.map((c) => html`<div class="check-item ${c.ok ? 'ok' : 'bad'}">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}</div>
-      ${argumentative ? html`<div class="stack-sm"><h3 class="small">${tt('מבנה הטיעון (סימנים בטקסט)', 'Argument structure (signals in the text)')}</h3>${sig.map(([k, he, en]) => html`<p class="row small">${icon(a.structure[k] ? 'check' : 'circle', { size: 16 })}<span class="${a.structure[k] ? '' : 'faint'}">${tt(he, en)}</span></p>`)}
-        <p class="xsmall faint">${tt('הבדיקה מחפשת ביטויים אופייניים (למשל ״However״, ״For example״). היא לא שופטת את איכות הטיעון.', 'This looks for typical phrases (e.g. "However", "For example"). It does not judge how good the argument is.')}</p></div>` : ''}
+      ${argumentative ? html`<div class="stack-sm"><h3 class="small">${tt('מבנה הטיעון (סימנים בטקסט)', 'Argument structure (signals in the text)')}</h3>${sig.map(([k, he, en]) => html`<p class="row small sig-row">${icon(a.structure[k] ? 'check' : 'circle', { size: 16 })}<span class="${a.structure[k] ? '' : 'faint'}">${tt(he, en)}</span>${a.structureMatch?.[k] ? html`<span class="sig-found"><span class="sr-only">${tt('נמצא:', 'found:')} </span><bdi lang="en" dir="ltr">“${a.structureMatch[k]}”</bdi></span>` : ''}</p>`)}
+        <p class="xsmall faint">${uiLang() === 'he' ? isolateLatin('הבדיקה מחפשת ביטויים אופייניים, כמו However או For example, ומראה מה נמצא. היא לא שופטת את איכות הטיעון.') : 'This looks for typical phrases, such as "However" or "For example", and shows what it found. It does not judge how good the argument is.'}</p></div>` : ''}
+      ${a.sources ? sourceSection(a.sources) : ''}
       <div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small"><span class="tag">${k}</span> <span lang="en" dir="ltr" class="muted">${v.join(', ')}</span></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>
       <p class="small muted">${tt(`${a.stats.sentences} משפטים · אורך ממוצע ${a.stats.avg_sentence} מילים · ${a.stats.paragraphs} פסקאות`, `${a.stats.sentences} sentences · average ${a.stats.avg_sentence} words · ${a.stats.paragraphs} paragraphs`)}</p>
       ${errs.length ? html`<div class="stack-sm"><h3 class="small">${tt('כדאי לבדוק', 'Worth checking')}</h3>${errs.slice(0, 20).map(issueCard)}</div>` : ''}
       ${notes.length ? html`<div class="stack-sm"><h3 class="small">${tt('מילים גורפות: האם זה נכון בכל מקרה?', 'Sweeping words: is it true in every case?')}</h3>${notes.map(issueCard)}</div>` : ''}
       <p class="xsmall faint">${tt('בדיקות אוטומטיות פשוטות: הן יכולות לפספס טעויות ולפעמים לסמן משהו תקין.', 'Simple automatic checks: they can miss mistakes and occasionally flag correct English.')}</p></div>`;
+  }
+  // Which sources of the pack the draft cites, by author and year (RW-6). Copied runs are listed with the issues.
+  function sourceSection(src) {
+    const names = (list) => html`<bdi lang="en" dir="ltr">${list.map((x) => x.name || x).join(', ')}</bdi>`;
+    return html`<div class="stack-sm source-use"><h3 class="small">${tt('שימוש במקורות', 'Use of sources')}</h3>
+      <ul class="check-rows small source-list">
+        <li class="${src.cited.length ? 'ok' : 'todo'}">${icon(src.cited.length ? 'check' : 'circle', { size: 16 })}<span><strong>${tt('צוטטו:', 'Cited:')}</strong> ${src.cited.length ? names(src.cited) : tt('אף מקור עדיין.', 'no source yet.')}</span></li>
+        ${src.uncited.length ? html`<li class="bad">${icon('alert', { size: 16 })}<span><strong>${tt('לא צוטטו:', 'Not cited:')}</strong> ${names(src.uncited)}</span></li>` : ''}
+        ${src.other.length ? html`<li class="todo">${icon('info', { size: 16 })}<span><strong>${tt('ציטוטים שלא מחומרי המקור:', 'Citations not from the source pack:')}</strong> ${names(src.other)}</span></li>` : ''}
+        ${src.overlaps ? html`<li class="bad">${icon('alert', { size: 16 })}<span>${tt(src.overlaps === 1 ? 'קטע אחד תואם מקור כמעט מילה במילה (ברשימה למטה).' : `${src.overlaps} קטעים תואמים מקור כמעט מילה במילה (ברשימה למטה).`, src.overlaps === 1 ? 'One passage matches a source almost word for word (listed below).' : `${src.overlaps} passages match a source almost word for word (listed below).`)}</span></li>` : ''}
+      </ul>
+      <p class="xsmall faint">${tt('הבדיקה מזהה ציטוט לפי שם המחבר והשנה, ומחפשת רצפים של 7 מילים או יותר מתוך המקורות. היא לא בודקת אם הציטוט מדויק.', 'The check finds a citation by its author and year, and looks for runs of 7 or more words from the sources. It does not check whether a quotation is accurate.')}</p></div>`;
   }
   // One automatic finding: its name, the words it found, and one line on the right form. A Hebrew line keeps its
   // English in order (isolateLatin); an English line is its own left-to-right block (RW-2, RW-7).

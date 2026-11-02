@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeWriting, checkSummary, l1Issues } from '../../js/core/writing-analyzer.js';
+import { analyzeWriting, checkSummary, l1Issues, parseSources } from '../../js/core/writing-analyzer.js';
+import { readFileSync } from 'node:fs';
 import { countWords } from '../../js/core/grading.js';
 
 const types = (text, opts) => analyzeWriting(text, opts).issues.map((i) => i.type);
@@ -275,4 +276,40 @@ test('RW-2: l1Issues runs only the Hebrew-speaker rules on a short reply', () =>
   const got = l1Issues('Hi, I am Miri. I am agree to work with you. Nice to know you.', { level: 'A2' }).map((i) => i.match);
   assert.ok(got.some((m) => /am agree/i.test(m)), JSON.stringify(got));
   assert.deepEqual(l1Issues('Sure, I will send it by Thursday', { level: 'B2' }), [], 'no punctuation or capital checks on a reply');
+});
+
+// ---------- RW-6: source-based tasks ----------
+const wa05 = JSON.parse(readFileSync(new URL('../../content/writing/assignments.json', import.meta.url), 'utf8')).assignments.find((a) => a.id === 'wa-05').source_pack;
+
+test('RW-6: each source is known by its label, author, year and the words that identify it', () => {
+  assert.deepEqual(parseSources(wa05).map((s) => [s.label, s.name, s.keys.join('/')]), [
+    ['Source A', 'Halvarden City Planning Office (2025)', 'City/Planning/Office'],
+    ['Source B', 'Dana Merrow (2025)', 'Merrow'],
+    ['Source C', "Halvarden Residents' Panel (2025)", 'Residents/Panel'],
+  ]);
+});
+
+test('RW-6: copied sentences name their source; citations are listed against the pack; citations count as evidence', () => {
+  const draft = "Halvarden's population has grown faster than its housing supply for ten years, and average rents have risen faster than average incomes over the same period. The office estimates that it could provide about 900 homes, 40% of them at rents below the market rate.\n\nI think the city should build on the northern edge. Merrow (2025) argues that the park will disappear. The survey shows that 58% opposed building (Halvarden Residents' Panel, 2025).";
+  const a = analyzeWriting(draft, { level: 'C1', stage: 8, sources: wa05 });
+  const copied = a.issues.filter((i) => i.type === 'source');
+  assert.equal(copied.length, 2);
+  assert.ok(copied.every((i) => /למקור A: צטטו וציינו מקור, או נסחו מחדש/.test(i.he) && i.source === 'Source A'), JSON.stringify(copied));
+  assert.deepEqual(a.sources.cited.map((c) => c.name), ['Dana Merrow (2025)', "Halvarden Residents' Panel (2025)"]);
+  assert.deepEqual(a.sources.uncited.map((c) => c.name), ['Halvarden City Planning Office (2025)']);
+  assert.equal(a.structureMatch.evidence, 'Merrow (2025)');
+  assert.equal(a.structureMatch.counter, 'Merrow (2025) argues', 'an attributed position counts as a counterargument');
+  assert.equal(a.structureMatch.thesis, 'I think');
+  assert.ok(checkSummary(a).n >= 2, 'copied passages count in the summary');
+});
+
+test('RW-6: a quoted and cited passage is not flagged; a paraphrase is not flagged', () => {
+  const quoted = 'The city report says that "the rest of the park, including the lake, the woodland and the sports pitches, would be protected" (Halvarden City Planning Office, 2025).';
+  const a = analyzeWriting(quoted, { level: 'C1', sources: wa05 });
+  assert.deepEqual(a.issues.filter((i) => i.type === 'source'), []);
+  assert.deepEqual(a.sources.cited.map((c) => c.label), ['Source A']);
+  const para = 'For ten years the number of people in Halvarden grew more quickly than the number of homes (Halvarden City Planning Office, 2025).';
+  assert.deepEqual(analyzeWriting(para, { level: 'C1', sources: wa05 }).issues.filter((i) => i.type === 'source'), []);
+  assert.equal(analyzeWriting('Ferrant and Oyelaran (2024) suggest that roofs help.', { level: 'C1' }).structure.evidence, true, 'author-year citation is evidence');
+  assert.equal(analyzeWriting('A plain text with no sources.', { level: 'C1' }).sources, null);
 });

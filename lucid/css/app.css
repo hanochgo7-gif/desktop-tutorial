@@ -839,6 +839,12 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .band-row dd { margin: 0; min-width: 0; }
 .band-row .bi > .bi-en { display: block; text-align: start; }
 .self-row select { max-width: 60%; }
+/* Source-based tasks (RW-6): the phrase behind each structure tick; cited and uncited sources. */
+.sig-row { flex-wrap: wrap; row-gap: 0; }
+.sig-found { font-size: var(--t-xs); color: var(--ink-2); min-width: 0; overflow-wrap: anywhere; }
+.source-list li.ok > .icon { color: var(--ok); }
+.source-list li.bad > .icon { color: var(--warn); }
+.source-list li.todo > .icon { color: var(--ink-3); }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

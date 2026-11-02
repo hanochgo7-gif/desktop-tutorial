@@ -170,10 +170,11 @@ const CONNECTORS = {
 };
 
 const SIGNALS = {
-  thesis: /\b(I (strongly )?(believe|argue|maintain|contend) that|in my (view|opinion)|this (essay|paper) (will )?(argue|argues|contend|contends|maintain|maintains|demonstrate|demonstrates|show|shows)|I would argue|the (central|main) (argument|claim) (of this|here) is)\b/i,
-  counter: /\b(some (people )?(argue|claim|believe|say|maintain)|opponents|critics|supporters of|it (could|might|may) be argued|admittedly|one (could|might) object|proponents|others (argue|believe|claim))\b/i,
+  thesis: /\b(I (strongly )?(believe|argue|maintain|contend|think)( that)?|in my (view|opinion)|this (essay|paper) (will )?(argue|argues|contend|contends|maintain|maintains|demonstrate|demonstrates|show|shows)|I would argue|the (central|main) (argument|claim) (of this|here) is)\b/i,
+  counter: /\b(some (people )?(argue|claim|believe|say|maintain)|opponents|critics|supporters of|it (could|might|may) be argued|admittedly|one (could|might) object|proponents|others (argue|believe|claim))\b|\b[A-Z][\w'’-]+(?: (?:and|&) [A-Z][\w'’-]+| et al\.)? \((?:19|20)\d{2}\) (argues|argue|claims|claim|insists|maintains|contends|believes|objects)\b/i,
   rebuttal: /\b(however|nevertheless|nonetheless|yet this|this (view|argument|claim) (overlooks|ignores|fails|neglects)|while this (may|might) be true|but this|on closer (inspection|examination))\b/i,
-  evidence: /\b(for (example|instance)|such as|according to|research|stud(y|ies)|survey|data|statistics|evidence|\d+(\.\d+)?\s?(%|per ?cent)|in \d{4})\b/i,
+  // An author-year citation is evidence too: "(Merrow, 2025)", "Ferrant and Oyelaran (2024) suggest" (RW-6).
+  evidence: /\b(for (example|instance)|such as|according to|research|stud(y|ies)|survey|data|statistics|evidence|\d+(\.\d+)?\s?(%|per ?cent)|in \d{4})\b|\([A-Z][^()]{1,100}?,? (?:19|20)\d{2}[a-z]?\)|\b[A-Z][\w'’-]+(?: (?:and|&) [A-Z][\w'’-]+| et al\.)? \((?:19|20)\d{2}\)/,
   conclusion: /\b(in conclusion|to conclude|to sum up|in summary|overall|all in all|ultimately)\b/i,
   hedging: /\b(may|might|could|arguably|tends? to|likely|unlikely|suggests?|appears? to|seems? to|to some extent|in some cases)\b/i,
 };
@@ -294,7 +295,7 @@ export function l1Issues(text, { level = 'B1' } = {}) {
   return findIssues(String(text || ''), [...PATTERNS.filter((p) => !p.lowPrecision && !p.article && p.type !== 'punctuation'), ...L1_PATTERNS], { level }).sort((a, b) => a.index - b.index);
 }
 
-export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null, stage = 0 } = {}) {
+export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null, stage = 0, sources = null } = {}) {
   const { body, references } = splitReferences(text);
   const raw = splitSignOff(body).body;
   const refWords = references ? countWords(references) : 0;
@@ -333,7 +334,12 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
     const found = list.filter((c) => (LINKER_ONLY_AT[c] || new RegExp(`\\b${c}\\b`, 'i')).test(raw));
     if (found.length) connectors[cat] = found;
   }
-  const structure = NOT_ARGUED.has(kind) ? {} : Object.fromEntries(Object.entries(SIGNALS).map(([k, re]) => [k, re.test(raw)]));
+  const found = NOT_ARGUED.has(kind) ? {} : Object.fromEntries(Object.entries(SIGNALS).map(([k, re]) => [k, re.exec(raw)?.[0] || null]));
+  const structure = Object.fromEntries(Object.entries(found).map(([k, v]) => [k, Boolean(v)]));
+  // The phrase behind each tick, so the learner can judge it (RW-6).
+  const structureMatch = Object.fromEntries(Object.entries(found).filter(([, v]) => v));
+  const sourceUse = sources?.length ? checkSources(raw, sources) : null;
+  if (sourceUse) issues.push(...sourceUse.issues);
 
   return {
     stats: {
@@ -347,6 +353,8 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
     issues: issues.sort((a, b) => (a.index ?? 1e9) - (b.index ?? 1e9)),
     connectors,
     structure,
+    structureMatch,
+    sources: sourceUse ? { cited: sourceUse.cited, uncited: sourceUse.uncited, other: sourceUse.other, overlaps: sourceUse.issues.length } : null,
     passedRequired: checks.filter((c) => c.id === 'length' || c.id.startsWith('must:')).every((c) => c.ok),
   };
 }
@@ -382,4 +390,72 @@ export function checkSummary(a, { minWords = 0, maxWords = null } = {}) {
     head_he: n ? `מצאנו ${n === 1 ? 'דבר אחד' : n} מהדברים שאנחנו בודקים` : 'לא מצאנו אף אחד מהדברים שאנחנו בודקים',
     head_en: n ? `We found ${n} of the things we check for` : 'None of the things we check for came up',
   };
+}
+
+// ---------- source-based tasks (RW-6) ----------
+// A source in a task's pack: its label ("Source A"), author and year, from its title ("Source B · Opinion column
+// (fictional): Dana Merrow (2025), ..."), and the words that identify it in a citation: a person's surname, or the
+// words of an organisation's name that no other source in the pack shares.
+const ORG_END = /(Office|Panel|Unit|Works|Systems|Association|Observatory|Weekly|Times|Courier|Council|Agency|Institute|Ministry|Bureau)$/;
+export function parseSources(pack = []) {
+  const parsed = pack.map((src, i) => {
+    const title = String(src.title || '');
+    const label = (title.split(' · ')[0] || `Source ${String.fromCharCode(65 + i)}`).trim();
+    const m = title.match(/:\s*(.+?)\s*\(((?:19|20)\d{2})\)/);
+    const author = m ? m[1].trim() : '';
+    const year = m ? m[2] : '';
+    const listed = /^[A-Z][\w'’-]+,\s*[A-Z]\./.test(author) ? author.split(',')[0] : null; // "Varga, E., Nandi, P., & Holm, J."
+    const person = !listed && /^(Dr\s+)?[A-Z][a-z]+(\s+[A-Z][a-z]+)?$/.test(author) && !ORG_END.test(author) ? author.split(/\s+/).pop() : null;
+    const words = author.split(/\s+/).map((w) => w.replace(/['’]s?$/, '')).filter((w) => /^[A-Z]/.test(w) && w.length >= 4);
+    return { label, letter: label.slice(-1), author, year, name: author ? `${author} (${year})` : label, keys: listed || person ? [listed || person] : words, org: !listed && !person, text: String(src.text || '') };
+  });
+  const all = parsed.map((p) => p.keys);
+  parsed.forEach((p, i) => { if (!p.org) return; const others = new Set(all.filter((k, j) => j !== i).flat()); const own = p.keys.filter((k) => !others.has(k)); if (own.length) p.keys = own; });
+  return parsed;
+}
+// Citations in the draft: "(Merrow, 2025)", "(Halvarden City Planning Office 2025)", "Merrow (2025)".
+const CITE_PAREN = /\(([^()]{2,120}?),?\s+((?:19|20)\d{2})[a-z]?(?:,\s*pp?\.\s*\d+(?:-\d+)?)?\)/g;
+const CITE_NARR = /\b([A-Z][\w'’-]+(?:\s+(?:[A-Z][\w'’-]+|of|for|and|&|et al\.))*)\s+\(((?:19|20)\d{2})[a-z]?\)/g;
+export function citationsIn(text) {
+  const out = [];
+  for (const re of [CITE_PAREN, CITE_NARR]) for (const m of String(text).matchAll(re)) out.push({ author: m[1], year: m[2], text: m[0], index: m.index });
+  return out;
+}
+const tokensOf = (t) => [...String(t).matchAll(/[A-Za-z0-9%]+(?:['’][A-Za-z]+)?/g)].map((m) => ({ w: m[0].toLowerCase().replace('’', "'"), i: m.index, e: m.index + m[0].length }));
+const COPY_N = 7;
+// Which sources are cited, which are not, and every run of 7 or more words that matches a source word for word,
+// unless it is in quotation marks with that source cited in the same sentence.
+export function checkSources(raw, pack) {
+  const srcs = parseSources(pack);
+  const cites = citationsIn(raw);
+  const citedBy = (src, list = cites) => list.some((c) => c.year === src.year && src.keys.some((k) => new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(c.author)));
+  const cited = srcs.filter((x) => citedBy(x)).map((x) => ({ label: x.label, name: x.name }));
+  const uncited = srcs.filter((x) => !citedBy(x)).map((x) => ({ label: x.label, name: x.name }));
+  const other = cites.filter((c) => !srcs.some((x) => citedBy(x, [c]))).map((c) => c.text);
+  const draft = tokensOf(raw);
+  const issues = [];
+  for (const src of srcs) {
+    const grams = new Set();
+    const st = tokensOf(src.text).map((t) => t.w);
+    for (let i = 0; i + COPY_N <= st.length; i++) grams.add(st.slice(i, i + COPY_N).join(' '));
+    const covered = new Array(draft.length).fill(false);
+    for (let i = 0; i + COPY_N <= draft.length; i++) if (grams.has(draft.slice(i, i + COPY_N).map((t) => t.w).join(' '))) for (let j = i; j < i + COPY_N; j++) covered[j] = true;
+    for (let i = 0; i < draft.length; i++) {
+      if (!covered[i]) continue;
+      // A run stops at the end of a sentence, so each copied sentence is named on its own.
+      let j = i; while (j + 1 < draft.length && covered[j + 1] && !/[.!?\n]/.test(raw.slice(draft[j].e, draft[j + 1].i))) j++;
+      const from = draft[i].i; const to = draft[j].e;
+      const start = sentenceStart(raw, from);
+      const endM = /[.!?\n]/.exec(raw.slice(to)); const end = endM ? to + endM.index + 1 : raw.length;
+      const sentence = raw.slice(start, end);
+      const quoted = ((raw.slice(start, from).match(/["“”]/g) || []).length % 2) === 1;
+      if (!(quoted && citedBy(src, citationsIn(sentence)))) {
+        const phrase = raw.slice(from, to);
+        const words = phrase.split(/\s+/);
+        issues.push({ type: 'source', source: src.label, title: `Matches ${src.label} almost word for word`, he_title: `תואם ל${src.label.replace(/^Source\b/, 'מקור')}`, en: `This matches ${src.label} almost word for word: quote it and name the source, or put it in your own words.`, he: `תואם כמעט מילה במילה ל${src.label.replace(/^Source\b/, 'מקור')}: צטטו וציינו מקור, או נסחו מחדש.`, match: words.length > 14 ? `${words.slice(0, 12).join(' ')} …` : phrase, index: from });
+      }
+      i = j;
+    }
+  }
+  return { cited, uncited, other: [...new Set(other)], issues };
 }
