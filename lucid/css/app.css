@@ -858,6 +858,33 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .check-label .bi-he { text-align: right; }
 /* Real life (RW-9): for everyday and conversation goals, Expressions sits in the start strip. */
 .start-here .start-expr { margin-block-start: var(--s2); }
+/* Expressions (RW-10): filters behind one key in labelled rows; numbered senses as a list, each English example
+   on its own left-to-right line in ink; play keys keep their size. */
+.xp-head { margin-block-end: var(--s4); }
+.xp-head p:not(.small) { margin-block-start: var(--s1); }
+.xp-tools { flex-wrap: nowrap; margin-block-end: var(--s2); }
+.xp-tools .input { flex: 1 1 auto; max-width: 28rem; min-width: 0; }
+.xp-count { margin-block-end: var(--s2); }
+.list-tools .xp-filter-key { flex: none; }
+.xp-filter-count { color: var(--ink-3); font-weight: 400; }
+.xp-filters { display: grid; gap: var(--s3); margin-block-end: var(--s4); padding: var(--s4); }
+.xp-filter-row { display: grid; gap: var(--s1); }
+.xp-filter-row .seg { display: flex; flex-wrap: nowrap; width: 100%; }
+.xp-filter-row .seg > button { flex: 1 1 0; min-width: 0; white-space: normal; padding-inline: 0.4rem; line-height: 1.25; }
+.say-key { flex: none; }
+.entry-head > .say-key { align-self: center; }
+/* At large text sizes on phones, the play key moves under the term instead of squeezing it. */
+.entry[data-entry] > .entry-head { flex-wrap: wrap; row-gap: 0; }
+.entry[data-entry] > .entry-head > h3 { flex: 1 1 12rem; }
+.entry[data-entry] > .entry-head > .say-key { margin-inline-start: auto; }
+.senses { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: var(--s1); }
+.senses > li::marker { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.senses-short { font-size: var(--t-sm); }
+.sense-def, .sense-ex, .sense-after { display: block; }
+.sense-ex { color: var(--ink); text-align: left; font-size: var(--t-sm); margin-block-start: 0.1rem; }
+.sense-after { color: var(--ink-2); font-size: var(--t-xs); }
+.senses[dir='ltr'] { text-align: left; }
+.entry-more .sense-one .sense-ex { margin-block-start: var(--s1); }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

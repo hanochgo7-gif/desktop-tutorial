@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch, moduleOrder, byFit, fitRank } from '../../js/core/reallife.js';
+import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch, moduleOrder, byFit, fitRank, spoken, senses } from '../../js/core/reallife.js';
 
 const scenarios = JSON.parse(readFileSync(new URL('../../content/real-life/scenarios.json', import.meta.url), 'utf8')).scenarios;
 const slang = JSON.parse(readFileSync(new URL('../../content/real-life/slang.json', import.meta.url), 'utf8')).entries;
@@ -113,4 +113,22 @@ test('the next scenario after a B2 work scenario is a B2 or B1 work scenario (RW
   assert.ok(['B1', 'B2'].includes(next.level), next.id);
   const all = new Set(scenarios.filter((s) => s.module === 'work' && s.level !== 'A2').map((s) => s.id));
   assert.equal(nextScenario(scenarios, dis, { courseLevel: 'B2', goals: ['work'], done: all }).level, 'A2', 'lower levels only when the closer ones are done');
+});
+
+// RW-10: expressions speak only the expression, and numbered senses become a list with the examples apart.
+test('expressions: spoken text and numbered senses (RW-10)', () => {
+  assert.equal(spoken('Brilliant (UK)'), 'Brilliant');
+  assert.equal(spoken('Can I get...? (ordering)'), 'Can I get...?');
+  assert.equal(spoken('No worries'), 'No worries');
+  const chill = slang.find((x) => x.id === 'ex-chill');
+  const he = senses(chill.meaning_he);
+  assert.equal(he.length, 3);
+  assert.deepEqual([he[0].def, he[0].en, he[0].after], ['(פועל) לנוח, להירגע', 'We just chilled at home', "(סתם עשינו צ'יל בבית)."]);
+  assert.equal(he[1].en, 'My manager is really chill.');
+  assert.ok(!/\d$/.test(he[1].en), 'the next number is not swallowed into the English');
+  const en = senses(chill.meaning_en);
+  assert.deepEqual([en.length, en[0].def, en[0].en], [3, '(verb) To relax', 'We just chilled at home.']);
+  const bummer = senses(slang.find((x) => x.id === 'ex-bummer').meaning_he);
+  assert.deepEqual([bummer.length, bummer[0].def, bummer[0].en], [1, 'משהו מאכזב או מבאס.', 'What a bummer!']);
+  for (const x of slang) for (const s of [...senses(x.meaning_he), ...senses(x.meaning_en)]) assert.ok(s.def, `${x.id}: a sense without a definition`);
 });

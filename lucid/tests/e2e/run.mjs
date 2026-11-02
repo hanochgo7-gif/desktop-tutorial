@@ -337,7 +337,7 @@ try {
     await page.fill('#xp-q', 'no worries');
     const text = await page.textContent('#view');
     assert(/No worries/i.test(text), 'expression list missing "No worries"');
-    const details = await page.$('details, [aria-expanded]');
+    const details = await page.$('details, [data-toggle]'); // RW-10: the filter key is the first [aria-expanded] now
     if (details) await details.click();
     await page.waitForTimeout(300);
     const after = await page.textContent('#view');
@@ -1191,6 +1191,7 @@ try {
     await page.fill('#xp-q', 'mate');
     assert(!/Ballpark/i.test(await page.textContent('#xp-list')), '"mate" matches inside "estimate"');
     await page.fill('#xp-q', '');
+    await page.click('[data-filters]'); // RW-10: the filters sit behind one key
     await page.click('[data-scope="mine"]');
     assert(!(await page.$$eval('.entry .tag.level', (x) => x.map((t) => t.textContent.trim()))).includes('B2'), 'the level filter keeps B2 expressions for an A2 learner');
     await page.click('[data-sort="az"]');

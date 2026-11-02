@@ -109,3 +109,28 @@ export function searchMatch(fields, query) {
   const starts = ws.flatMap((w) => (HEBREW_PREFIX.test(w) ? [w, w.slice(1)] : [w]));
   return q.every((x) => starts.some((w) => w.startsWith(x)));
 }
+
+// ---------- expressions (RW-10) ----------
+// Only the expression is spoken, never its label: "Brilliant (UK)" says "Brilliant" (RW-10).
+export const spoken = (term) => String(term || '').replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+
+// A gloss with numbered senses ("1) ... 2) ...") becomes a list; in each sense, the definition comes first and
+// an English example after "definition: " goes on its own left-to-right line, with any Hebrew after it on
+// a line of its own (RW-10).
+export function senses(text) {
+  const t = String(text || '').trim();
+  const parts = /^1\)\s/.test(t) ? t.split(/(?:^|\s)\d\)\s+/).filter(Boolean) : [t];
+  return parts.map((p) => {
+    // Hebrew: the definition ends at the first ":" or "." before English; English: at the first ": '".
+    const hebrew = /[א-ת]/.test(p);
+    const at = hebrew ? p.search(/[א-ת][^:.]*[:.]\s+(?=['"‘“]?[A-Z])/) : p.search(/:\s+(?=['"‘“]?[A-Z])/);
+    const sep = at < 0 ? -1 : hebrew ? p.slice(at).search(/[:.]\s+(?=['"‘“]?[A-Z])/) + at : at;
+    if (sep < 0) return { def: p.trim(), en: '', after: '' };
+    const def = p.slice(0, sep + 1).replace(/:$/, '').trim();
+    const rest = p.slice(sep + 1).trim();
+    const he = rest.search(/[א-ת]/);
+    if (he < 0) return { def, en: rest.replace(/^['‘“"]|['’”"]$/g, ''), after: '' };
+    const en = rest.slice(0, he).replace(/[\s(=('"“‘]+$/, '');
+    return { def, en: en.replace(/^['‘“"]|['’”"]$/g, ''), after: rest.slice(en.length).replace(/^[\s=]+/, '').trim() };
+  });
+}

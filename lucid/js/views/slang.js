@@ -11,7 +11,7 @@ import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { settings, model } from '../core/learner.js';
 import { levelIndex } from '../core/adaptive.js';
-import { fitOf, searchMatch, FIT_LABEL } from '../core/reallife.js';
+import { fitOf, searchMatch, FIT_LABEL, spoken, senses } from '../core/reallife.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { hebrewReveal } from '../ui/center.js';
 
@@ -48,7 +48,7 @@ export default async function slang(el, ctx) {
   let sort = levelIndex(courseLevel) <= levelIndex('A2') ? 'level' : 'az';
   let scope = 'all';
   let entries = [...all].sort(sort === 'level' ? byLevel : byTerm);
-  const intro = tt('ביטויים שאנשים באמת אומרים: מה הם אומרים, מתי משתמשים בהם, ומתי עדיף לוותר עליהם.', 'Expressions people actually use: what they mean, when to use them, and when to leave them out.');
+  const intro = tt('מה אומרים, מתי משתמשים, ומתי עדיף לוותר.', 'What people say, when to use it, and when not to.');
 
   if (!entries.length) {
     render(el, html`<div class="page-head"><div><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
@@ -76,15 +76,31 @@ export default async function slang(el, ctx) {
     return searchMatch([x.term, x.meaning_en, x.meaning_he], query);
   };
 
-  const playBtn = (text, region, label) => (canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${text}" data-variant="${voiceFor(region) || ''}" aria-label="${label}">${icon('volume', { size: 18 })}</button>` : '');
+  const playBtn = (text, region, label) => (canSpeak() ? html`<button type="button" class="key ghost small icon-only say-key" data-say-text="${spoken(text)}" data-variant="${voiceFor(region) || ''}" aria-label="${label}">${icon('volume', { size: 18 })}</button>` : '');
+  // Under the term: the Hebrew definitions only, as a list when there are several senses; the examples are in the
+  // details (RW-10).
+  const glossShort = (he) => {
+    const list = senses(he);
+    return list.length > 1
+      ? html`<ol class="senses senses-short entry-he" lang="he" dir="rtl">${list.map((x) => html`<li>${isolateLatin(x.def)}</li>`)}</ol>`
+      : html`<span style="display:block"><span class="entry-he" lang="he" dir="rtl">${isolateLatin(list[0].def)}</span></span>`;
+  };
+  // In the details: each sense with its definition, its English example on its own line in ink, then the Hebrew.
+  const glossFull = (text, lang) => {
+    const list = senses(text);
+    const item = (x) => html`<span class="sense-def">${lang === 'he' ? isolateLatin(x.def) : x.def}</span>${x.en ? html`<span class="sense-ex" lang="en" dir="ltr">${x.en}</span>` : ''}${x.after ? html`<span class="sense-after" lang="he" dir="rtl">${isolateLatin(x.after)}</span>` : ''}`;
+    return list.length > 1
+      ? html`<ol class="senses ${lang === 'he' ? 'entry-he' : ''}" lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}">${list.map((x) => html`<li>${item(x)}</li>`)}</ol>`
+      : html`<p class="sense-one ${lang === 'he' ? 'entry-he' : ''}" lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}">${item(list[0])}</p>`;
+  };
 
   function details(x) {
     const related = (x.related || []).map((r) => ({ r, hit: byKey.get(fold(r)) })).filter((o) => o.hit?.id !== x.id);
     return html`
       <section class="stack-sm">
         <h3 class="small">${tt('משמעות', 'Meaning')}</h3>
-        <p lang="en" dir="ltr">${x.meaning_en}</p>
-        <p class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</p>
+        ${glossFull(x.meaning_en, 'en')}
+        ${glossFull(x.meaning_he, 'he')}
       </section>
       ${x.usage ? html`<section class="stack-sm"><h3 class="small">${tt('מתי משתמשים בזה', 'When people use it')}</h3><p class="expr-usage">${bi(x.usage)}</p></section>` : ''}
       ${x.example_dialogue?.length ? html`<section class="stack-sm"><h3 class="small">${tt('דוגמה לשיחה', 'Example conversation')}</h3>
@@ -133,7 +149,7 @@ export default async function slang(el, ctx) {
           <button type="button" class="disclosure" data-toggle="${x.id}" aria-expanded="${isOpen}" aria-controls="${pid}">
             <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
             <span class="grow"><span style="display:block"><span class="entry-word" lang="en" dir="ltr">${x.term}</span></span>
-              <span style="display:block"><span class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</span></span></span>
+              ${glossShort(x.meaning_he)}</span>
           </button>
         </h3>
         ${playBtn(x.term, x.region, `${tt('השמעה', 'Play')}: ${x.term}`)}
@@ -145,6 +161,8 @@ export default async function slang(el, ctx) {
 
   function drawList() {
     const shown = entries.filter(matches);
+    // The count shows when a search or a filter hides some entries; otherwise only screen readers hear it.
+    $('#xp-count', el).classList.toggle('sr-only', shown.length === entries.length);
     $('#xp-count', el).textContent = shown.length === entries.length ? tt(`${entries.length} ביטויים`, `${entries.length} expressions`) : tt(`מוצגים ${shown.length} מתוך ${entries.length} ביטויים`, `Showing ${shown.length} of ${entries.length} expressions`);
     render($('#xp-list', el), shown.length
       ? (query.trim() ? html`<h2 class="sr-only">${tt('תוצאות החיפוש', 'Search results')}</h2><div class="stack-sm">${shown.map(entry)}</div>` : html`<div class="stack-lg">${groupsOf(shown).map(groupSection)}</div>`)
@@ -155,6 +173,15 @@ export default async function slang(el, ctx) {
       }));
   }
 
+  function filterRow(id, label, control) {
+    return html`<div class="xp-filter-row"><span class="label small" id="${id}">${label}</span>${control}</div>`;
+  }
+  // The filter key says how many filters differ from the default (RW-10).
+  function filterCount() {
+    const n = [formality !== 'all', region !== 'all', scope !== 'all'].filter(Boolean).length;
+    const c = $('[data-filter-count]', el);
+    if (c) c.textContent = n ? `(${n})` : '';
+  }
   function drawFilters() {
     $$('[data-formality]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.formality === formality)));
     $$('[data-region]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.region === region)));
@@ -162,22 +189,27 @@ export default async function slang(el, ctx) {
     $$('[data-scope]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scope === scope)));
     const i = $('#xp-q', el);
     if (i && i.value !== query) i.value = query;
+    filterCount();
   }
 
   render(el, html`
-    <div class="page-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
-    <div class="list-tools">
+    <div class="page-head xp-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
+    <div class="list-tools xp-tools">
       <label class="sr-only" for="xp-q">${tt('חיפוש ביטויים', 'Search expressions')}</label>
-      <input class="input" id="xp-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('ביטוי באנגלית או משמעות בעברית', 'English expression or Hebrew meaning')}">
-      <div class="seg" role="group" aria-label="${tt('רמת רשמיות', 'Formality')}">${FORMALITY.map(([id, he, en]) => html`<button type="button" data-formality="${id}" aria-pressed="${formality === id}">${tt(he, en)}</button>`)}</div>
-      <div class="seg" role="group" aria-label="${tt('איפה אומרים את זה', 'Where it is used')}">${REGIONS.map(([id, he, en]) => html`<button type="button" data-region="${id}" aria-pressed="${region === id}">${tt(he, en)}</button>`)}</div>
-      <div class="seg" role="group" aria-label="${tt('רמה', 'Level')}">${SCOPES.map(([id, he, en]) => html`<button type="button" data-scope="${id}" aria-pressed="${scope === id}">${tt(he, en)}</button>`)}</div>
-      <div class="seg" role="group" aria-label="${tt('מיון', 'Sort')}">${SORTS.map(([id, he, en]) => html`<button type="button" data-sort="${id}" aria-pressed="${sort === id}">${tt(he, en)}</button>`)}</div>
+      <input class="input" id="xp-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('חיפוש ביטוי או משמעות', 'Search an expression or a meaning')}">
+      <button type="button" class="key small xp-filter-key" data-filters aria-expanded="false" aria-controls="xp-filters">${icon('list', { size: 18 })}<span>${tt('סינון', 'Filter')}</span><span class="xp-filter-count num" data-filter-count></span></button>
     </div>
-    <p class="small faint" id="xp-count" aria-live="polite" style="margin-block-end:var(--s3)"></p>
+    <div class="panel flat xp-filters" id="xp-filters" hidden>
+      ${filterRow('xf-formality', tt('רשמיות', 'Formality'), html`<div class="seg" role="group" aria-labelledby="xf-formality">${FORMALITY.map(([id, he, en]) => html`<button type="button" data-formality="${id}" aria-pressed="${formality === id}">${tt(he, en)}</button>`)}</div>`)}
+      ${filterRow('xf-region', tt('איפה אומרים את זה', 'Where it is used'), html`<div class="seg" role="group" aria-labelledby="xf-region">${REGIONS.map(([id, he, en]) => html`<button type="button" data-region="${id}" aria-pressed="${region === id}">${tt(he, en)}</button>`)}</div>`)}
+      ${filterRow('xf-scope', tt('רמה', 'Level'), html`<div class="seg" role="group" aria-labelledby="xf-scope">${SCOPES.map(([id, he, en]) => html`<button type="button" data-scope="${id}" aria-pressed="${scope === id}">${tt(he, en)}</button>`)}</div>`)}
+      ${filterRow('xf-sort', tt('מיון', 'Sort'), html`<div class="seg" role="group" aria-labelledby="xf-sort">${SORTS.map(([id, he, en]) => html`<button type="button" data-sort="${id}" aria-pressed="${sort === id}">${tt(he, en)}</button>`)}</div>`)}
+    </div>
+    <p class="xsmall faint xp-count" id="xp-count" aria-live="polite"></p>
     <div id="xp-list"></div>
     <p class="xsmall faint" style="margin-block-start:var(--s5)">${tt('״לא רשמי מאוד״ מתאים לחברים קרובים בלבד. כשלא בטוחים, עדיף ניסוח ניטרלי.', '"Very informal" is for close friends only. When in doubt, a neutral phrasing is safer.')}</p>`);
   drawList();
+  filterCount();
 
   function toggle(id, force) {
     const x = entries.find((e) => e.id === id);
@@ -199,6 +231,7 @@ export default async function slang(el, ctx) {
     on(el, 'click', '[data-sort]', (e, b) => { sort = b.dataset.sort; entries = [...all].sort(sort === 'level' ? byLevel : byTerm); drawFilters(); drawList(); }),
     on(el, 'click', '[data-clear]', () => { query = ''; formality = 'all'; region = 'all'; scope = 'all'; drawFilters(); drawList(); $('#xp-q', el)?.focus(); }),
     on(el, 'click', '[data-toggle]', (e, b) => toggle(b.dataset.toggle)),
+    on(el, 'click', '[data-filters]', (e, b) => { const box = $('#xp-filters', el); const open = box.hidden; box.hidden = !open; b.setAttribute('aria-expanded', String(open)); }),
     on(el, 'click', '[data-unfold-group]', (e, b) => {
       const id = b.dataset.unfoldGroup;
       if (unfolded.has(id)) unfolded.delete(id); else unfolded.add(id);
