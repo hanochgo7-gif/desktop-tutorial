@@ -26,7 +26,7 @@ const pageErrors = [];
 async function check(name, fn) {
   if (ONLY && !name.toLowerCase().includes(ONLY.toLowerCase())) return;
   try { await fn(); results.push({ name, ok: true }); console.log(`PASS  ${name}`); }
-  catch (e) { results.push({ name, ok: false }); console.log(`FAIL  ${name}\n      ${String(e.message).split('\n')[0]}`); }
+  catch (e) { results.push({ name, ok: false }); const at = String(e.stack).split('\n').find((l) => l.includes('shell-components.mjs'))?.trim() || ''; console.log(`FAIL  ${name}\n      ${String(e.message).split('\n')[0]} ${at}`); }
 }
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
 
@@ -114,6 +114,54 @@ try {
     await d.page.waitForTimeout(250);
     const after = await o.evaluate((x) => getComputedStyle(x).backgroundColor);
     assert(before !== after, `hovering an option changes nothing: ${before}`);
+    await d.ctx.close();
+  });
+
+  await check('SC-2. Touch screens show no "Enter" keycaps (lesson intro, check, continue, part end, placement, review) and Help has no keyboard item; a mouse still shows them', async () => {
+    const visibleKbd = (page) => page.$$eval('.kbd', (els) => els.filter((e) => e.getBoundingClientRect().width > 0).length);
+    const all = [];
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', daily_minutes: 10 }));
+    await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    assert(await page.$('.kbd'), 'the intro has no keycap to hide (markup changed?)');
+    all.push(['intro', await visibleKbd(page)]);
+    const upto = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const l = await (await fetch('content/lessons/a2-01.json')).json(); return L.todayPlan(10, { lesson: l }).blocks.find((b) => b.id === 'learn').slice.upto; });
+    await page.tap('[data-skip-learn]');
+    for (let i = 0; i < upto; i++) {
+      await page.waitForSelector('[data-dontknow]');
+      if (i === 0) all.push(['check', await visibleKbd(page)]);
+      await page.tap('[data-dontknow]');
+      await page.waitForSelector('[data-next]');
+      if (i === 0) all.push(['continue', await visibleKbd(page)]);
+      await page.tap('[data-next]');
+    }
+    await page.waitForSelector('[data-part-stop]');
+    all.push(['part end', await visibleKbd(page)]);
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
+    await page.goto(`${BASE}#/review`);
+    await page.waitForSelector('.flash');
+    if (await page.$('[data-pick]')) await page.tap('[data-pick]'); else await page.tap('[data-idk]');
+    await page.waitForSelector('[data-next]');
+    all.push(['review', await visibleKbd(page)]);
+    await page.goto(`${BASE}#/placement`);
+    await page.waitForSelector('[data-begin]');
+    await page.tap('[data-begin]');
+    await page.waitForSelector('[data-answer]');
+    all.push(['placement', await visibleKbd(page)]);
+    assert(all.every(([, n]) => n === 0), `"Enter" keycaps on a touch screen: ${JSON.stringify(all)}`);
+    await page.goto(`${BASE}#/help`);
+    await page.waitForSelector('#view details');
+    assert(!/קיצורי מקלדת/.test(await page.textContent('#view')), 'Help on a touch screen lists keyboard shortcuts');
+    await ctx.close();
+    const d = await newPage(browser, { width: 1440, height: 900 });
+    await learnerAt(d.page, 'A1');
+    await lessonAt(d.page, 'a1-01', 'e4');
+    assert(await visibleKbd(d.page) > 0, 'a mouse and keyboard no longer see the "Enter" keycap');
+    await d.page.goto(`${BASE}#/help`);
+    await d.page.waitForSelector('#view details');
+    assert(/קיצורי מקלדת/.test(await d.page.textContent('#view')), 'Help on a desktop lost the keyboard shortcuts');
     await d.ctx.close();
   });
 } finally {

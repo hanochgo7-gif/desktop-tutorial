@@ -980,6 +980,12 @@ dialog.sheet > .panel { padding: var(--s5); }
 .option.is-right .k { color: var(--ok); border-color: var(--ok); background: var(--key); }
 .option.is-wrong .k { color: var(--bad); border-color: var(--bad); background: var(--key); }
 
+/* Touch screens (SC-2): no keyboard hints. "Enter" keycaps go; option numbers stay as quiet labels, not keys. */
+@media (hover: none) and (pointer: coarse) {
+  .kbd { display: none; }
+  .option .k, .option[aria-pressed='true'] .k, .option.is-right .k, .option.is-wrong .k { width: auto; min-width: 1.1rem; border-color: transparent; background: none; font-weight: 500; }
+}
+
 /* ---- lane shell-components: end ---- */
 
 /* ---- lane lesson-flow: start ---- */

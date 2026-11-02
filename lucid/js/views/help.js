@@ -42,12 +42,16 @@ const Q = [
     'In Settings you can download everything, restore a backup, or delete it all. Without an account, your progress never leaves this device. One exception: in speaking exercises your browser may send your voice to its own speech-recognition service (Lucid stores no recordings).'],
 ];
 
+// A touch screen with no hover has no keyboard to speak of: its help leaves the keyboard shortcuts out (SC-2).
+const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: none) and (pointer: coarse)').matches;
+
 export default async function help(el, ctx) {
   ctx.setTitle(t('nav.help'));
+  const items = touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q;
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.help')}</h1><p>${tt('תשובות קצרות לשאלות הנפוצות.', 'Short answers to common questions.')}</p></div></div>
     <div class="stack-sm" style="max-width:46rem">
-      ${Q.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon('download', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
+      ${items.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon('download', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
       <p class="small faint row" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
     </div>`);
 }
