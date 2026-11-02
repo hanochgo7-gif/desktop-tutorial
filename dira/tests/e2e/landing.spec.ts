@@ -42,11 +42,11 @@ test("before/after slider works with the keyboard", async ({ page }) => {
 test("sample tabs switch the demo with clicks and arrow keys", async ({ page }) => {
   await page.goto("/en");
   await page.getByRole("tab", { name: "Kitchen" }).click();
-  await expect(page.locator('img[src="/demo/kitchen-after.jpg"]')).toBeVisible();
+  await expect(page.locator('#hero-sample img[src="/demo/kitchen-after.jpg"]')).toBeVisible();
   await page.keyboard.press("Home");
   await expect(page.getByRole("tab", { name: "Living room" })).toBeFocused();
   await expect(page.getByRole("tab", { name: "Living room" })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator('img[src="/demo/living-after.jpg"]')).toBeVisible();
+  await expect(page.locator('#hero-sample img[src="/demo/living-after.jpg"]')).toBeVisible();
 });
 
 test("in-page links land below the sticky header", async ({ page }) => {
@@ -72,4 +72,24 @@ test("in Hebrew the slider handle sits on its line", async ({ page }) => {
     return Math.abs(r.left + r.width / 2 - (line.left + line.width / 2));
   });
   expect(pos).toBeLessThan(2);
+});
+
+test("'try a sample' opens the photo the hero is showing, without a 'small photo' warning", async ({ page }) => {
+  await page.goto("/he");
+  await page.getByRole("tab", { name: "מטבח" }).click();
+  const [req] = await Promise.all([page.waitForRequest(/\/demo\/kitchen-before\.jpg/), page.getByRole("button", { name: /נסו עם תמונת דוגמה/ }).first().click()]);
+  expect(req.url()).toContain("kitchen-before");
+  await expect(page.locator("[role=slider][aria-valuenow]").first()).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByText("התמונה כבר תוקנה")).toBeVisible();
+  await expect(page.getByText("התמונה קטנה", { exact: true })).toHaveCount(0);
+});
+
+test("ad landing pages for rent and sale lead with their own promise and are in the sitemap", async ({ page, request }) => {
+  await page.goto("/he/rent");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("מודעת השכרה");
+  await page.goto("/he/sale");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("מספר הרישיון");
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  expect(sitemap).toContain("/he/rent/");
+  expect(sitemap).toContain("/he/sale/");
 });

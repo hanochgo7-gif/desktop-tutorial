@@ -37,6 +37,9 @@ test("upload → plain findings → adjust → ZIP with a folder per destination
   expect(jpg.subarray(0, 3).toString("hex")).toBe("ffd8ff");
   expect(jpg.includes(Buffer.from("Exif"))).toBe(false);
   await expect(page.getByText("התמונות ירדו לתיקיית ההורדות")).toBeVisible();
+  // After the first download: pass it on, with campaign tags on the link.
+  await expect(page.getByText("התמונות מוכנות ✓")).toBeVisible();
+  await expect(page.getByRole("link", { name: "שליחת הקישור בוואטסאפ" })).toHaveAttribute("href", /utm_source%3Dwhatsapp/);
 });
 
 test("erasing: paint a mark, see the result, the change is listed", async ({ page }) => {

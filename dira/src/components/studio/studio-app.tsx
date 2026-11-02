@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { CompareMode } from "@/components/compare-view";
-import { DropZone, type Rejected } from "@/components/drop-zone";
+import { DropZone, useCoarsePointer, type Rejected } from "@/components/drop-zone";
 import { LogoMark } from "@/components/logo";
 import { LanguageLink } from "@/components/site-header";
 import { ToastProvider, useToast } from "@/components/toast";
@@ -12,6 +12,7 @@ import { fmt, type Dict, type Locale } from "@/i18n";
 import { AI_LIVE, MAX_PHOTOS, asset } from "@/lib/site";
 import { takeHandoff } from "@/lib/studio/db";
 import { useStudio } from "@/lib/studio/use-studio";
+import { sampleFile } from "@/lib/sample";
 import { countBucket, track } from "@/lib/track";
 import { AiPanel } from "./ai-panel";
 import { ExportPanel } from "./export-panel";
@@ -39,6 +40,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   const [initial] = useState(() => ({ fresh: !!search.get("new"), files: search.get("new") ? takeHandoff() : null, projectId: search.get("p") }));
   const s = useStudio({ projectId: initial.projectId, newProjectName: t.studio.untitled, initialFiles: initial.files, fresh: initial.fresh });
   const [tab, setTab] = useState<Tab>("fix");
+  const coarse = useCoarsePointer();
   // A thin brush by default: a tight mark leaves the cleanest fill.
   const [radius, setRadius] = useState(0.012);
   const [viewMode, setViewMode] = useState<CompareMode>("split");
@@ -197,14 +199,24 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
         <main id="main" className="on-stage flex flex-1 items-center justify-center bg-stage p-4">
           <div className="w-full max-w-xl text-center">
             <h1 className="display text-[34px] text-white sm:text-[42px]">{t.studio.emptyTitle}</h1>
-            <p className="mx-auto mt-3 max-w-md text-[16px] text-white/70">{t.studio.emptyLead}</p>
+            <p className="mx-auto mt-3 max-w-md text-[16px] text-white/70">{coarse ? t.studio.emptyLeadTouch : t.studio.emptyLead}</p>
             <div className="mt-8">
               <DropZone
                 variant="stage"
-                labels={{ drop: t.landing.drop, or: t.landing.dropOr, choose: t.landing.choose, camera: t.landing.camera, hint: t.landing.dropHint }}
+                labels={{ drop: t.landing.drop, dropTouch: t.landing.dropTouch, or: t.landing.dropOr, choose: t.landing.choose, camera: t.landing.camera, hint: t.landing.dropHint }}
                 onFiles={onAdd}
               />
             </div>
+            <button
+              type="button"
+              className="mt-4 text-[14.5px] font-semibold text-white/85 underline underline-offset-4 hover:no-underline"
+              onClick={async () => {
+                track("upload_start", { count: "1", source: "sample-studio" });
+                await s.addFiles([await sampleFile(asset, t.landing.sampleBadge)]);
+              }}
+            >
+              {t.landing.trySample}
+            </button>
             <p className="mt-6 text-[13px] text-white/50">{t.studio.storageWarning}</p>
           </div>
         </main>

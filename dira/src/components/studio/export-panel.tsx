@@ -19,6 +19,7 @@ import {
   type PresetId,
 } from "@/lib/studio/export";
 import type { Studio } from "@/lib/studio/use-studio";
+import { AI_LIVE, SITE_URL, whatsappLink } from "@/lib/site";
 import { track } from "@/lib/track";
 import { Switch } from "./panels";
 
@@ -239,6 +240,28 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
         </div>
         {!brokerProminent && <div className="pb-3">{brokerBlock}</div>}
       </details>
+
+      {/* The happiest moment of the visit: offer to pass the studio on, and to hear about staging. */}
+      {fresh && (!phone || sharedBatches.length > 0) && (
+        <section className="rounded-[12px] bg-ok-tint p-4" aria-live="polite">
+          <p className="text-[16px] font-semibold text-ok">{E.doneTitle}</p>
+          <p className="mt-1 text-[14.5px] text-ink-2">{E.referLine}</p>
+          <a
+            className="btn btn-quiet btn-sm mt-3"
+            data-track="referral"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://wa.me/?text=${encodeURIComponent(`${E.referText} ${SITE_URL}/${lang}/?utm_source=whatsapp&utm_medium=referral&utm_campaign=post_download`)}`}
+          >
+            {E.referButton}
+          </a>
+          {!AI_LIVE && (
+            <a className="mt-3 block text-[14px] font-semibold text-prussian underline underline-offset-4" data-track="notify" target="_blank" rel="noopener noreferrer" href={whatsappLink(t.landing.aiSoonMessage)}>
+              {E.notifyStaging}
+            </a>
+          )}
+        </section>
+      )}
 
       {/* Explanations sit above the bar, so the bar itself stays slim on short phones. */}
       {fresh && phone && <p className="-mb-3 text-[13px] text-ink-3">{E.saveShareHint}</p>}

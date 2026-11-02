@@ -27,7 +27,7 @@ export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) 
       <Suspense>
         <CancelledNotice t={t} />
       </Suspense>
-      <PaymentsNotice t={t} />
+      {AI_LIVE && <PaymentsNotice t={t} />}
       <div className="mt-10">
         <PricingPlans
           lang={lang}
@@ -52,10 +52,11 @@ export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) 
         {t.pricing.vat}. {t.pricing.note}
       </p>
 
-      <h2 className="display mt-16 text-[30px]">{t.pricing.compareTitle}</h2>
       {!AI_LIVE ? (
-        <p className="mt-4 text-[16px] text-ink-2">{t.pricing.compareSoon}</p>
+        <p className="mt-2 text-[13.5px] text-ink-3">{t.pricing.compareSoon}</p>
       ) : (
+      <>
+      <h2 className="display mt-16 text-[30px]">{t.pricing.compareTitle}</h2>
       <div className="mt-6 overflow-x-auto rounded-[var(--radius-panel)] border border-line-2 bg-surface">
         <table className="w-full min-w-[640px] border-collapse text-[15px]">
           <thead>
@@ -84,6 +85,7 @@ export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) 
           </tbody>
         </table>
       </div>
+      </>
       )}
     </div>
   );

@@ -12,8 +12,11 @@ export function Analytics() {
   // Every WhatsApp link (contact, "tell me when AI opens") counts as a lead, wherever it is.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement | null)?.closest?.('a[href^="https://wa.me/"]');
-      if (a) track("whatsapp_click", { where: location.pathname.split("/").filter(Boolean).slice(-1)[0] ?? "home" });
+      const a = (e.target as HTMLElement | null)?.closest?.<HTMLAnchorElement>('a[href^="https://wa.me/"]');
+      if (!a) return;
+      const seg = location.pathname.split("/").filter(Boolean).slice(-1)[0] ?? "";
+      const kind = a.dataset.track ?? (a.href.includes("text=") ? "notify" : "contact");
+      track("whatsapp_click", { where: !seg || /^(he|en)$/.test(seg) ? "home" : seg, kind });
     };
     document.addEventListener("click", onClick, { capture: true });
     return () => document.removeEventListener("click", onClick, { capture: true });

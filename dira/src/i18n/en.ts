@@ -35,6 +35,21 @@ const en: Dict = {
     camera: "Take a photo",
     dropHint: "Several at once · JPEG and PNG, iPhone photos too",
     trySample: "No photos right now? Try a sample photo",
+    leadShort: "Pick photos on your phone and within seconds they're ready for Yad2, Madlan and WhatsApp.",
+    pages: {
+      rent: {
+        title: "Photos for a rental listing — free | Dira Ready",
+        eyebrow: "For landlords · free",
+        h1: "Rental listing photos — ready in a minute, free.",
+        lead: "Pick the photos of the flat on your phone, and the studio brightens, straightens and balances the colour. Save to your gallery and upload to Yad2.",
+      },
+      sale: {
+        title: "A sale listing gallery, with your licence number — free | Dira Ready",
+        eyebrow: "For sellers and brokers · free",
+        h1: "One consistent gallery, with your office name and licence number — free.",
+        lead: "Every photo of the property with one look, and your office name and licence number on the photos in one tap. The regulations require your licence number in every ad.",
+      },
+    },
     sampleBadge: "Sample photo",
     facts: ["Free, unlimited, no watermark", "Your photos stay on your device", "No sign-up"],
     demoCaption: "A real photo — before, and after the studio's automatic fix. No manual editing. Drag the line.",
@@ -132,7 +147,7 @@ const en: Dict = {
       },
       {
         q: "What quality do I get?",
-        a: "Original resolution, with no unnecessary compression. You can also save ready-made sizes for Yad2, WhatsApp, Instagram and stories.",
+        a: "By default, at the size Yad2 and Madlan show best (2048 pixels on the long side), sharp and without a watermark. You can also choose original size, or sizes for WhatsApp, Instagram and stories.",
       },
       {
         q: "Does it work on a phone?",
@@ -159,6 +174,7 @@ const en: Dict = {
     camera: "Camera",
     emptyTitle: "Start with your photos",
     emptyLead: "Drop all the photos of the property here, or choose them from your device. They're stored only with you.",
+    emptyLeadTouch: "Pick all the photos of the flat from your gallery, or take them now. They're stored only with you.",
     photos: "Photos",
     analyzing: "Analysing…",
     processing: "Processing…",
@@ -321,6 +337,11 @@ const en: Dict = {
     downloadInstead: "Download as a file instead",
     shareFailed: "The share menu didn't open. Tap \"Download as a file instead\".",
     pickOne: "Choose at least one destination.",
+    doneTitle: "Your photos are ready ✓",
+    referLine: "Know someone else listing a flat? Send them the studio — free, no sign-up.",
+    referButton: "Send the link on WhatsApp",
+    referText: "This is how I prepared the photos for my listing — free, no sign-up:",
+    notifyStaging: "Want a message when virtual staging opens?",
     shareBatches: "{n} photos — phones pass on up to 10 at a time:",
     shareBatch: "Save or send photos {from}–{to}",
     shareBatchOne: "Save or send photo {from}",
@@ -466,7 +487,7 @@ const en: Dict = {
     ],
     lawTitle: "Why it matters",
     law:
-      "Israel's Consumer Protection Law prohibits misleading advertising, and the 2025 broker regulations require a licence number on every listing. In California, since 2026, edited real-estate photos must be labelled and linked to the original. We build to the stricter standard.",
+      "Israel's Consumer Protection Law prohibits misleading advertising, and the 2025 broker regulations require a licence number on every listing. In California, since 2026, a broker who advertises a photo with elements added, removed or changed must disclose it and give access to the original. Fixing light, colour, straightness and cropping — what the studio does automatically — doesn't count. And every erase you mark is recorded in the change list.",
     lawNote: "This isn't legal advice. Responsibility for listing content lies with the advertiser.",
   },
   projects: {
@@ -547,19 +568,24 @@ const en: Dict = {
     privacyTitle: "Privacy",
     privacy: [
       "Photo correction runs in your browser. Photos and projects are stored only on your device and are never sent to us.",
-      "When you use an AI tool, the selected photo (and your brush mask, if any) is sent to our server and to our model provider, Replicate, for processing. Files are deleted from our server after 30 days.",
-      "Your account stores: email, credit balance, purchase and processing history. Payment happens at the payment provider; we never see card details.",
       "On download, GPS location and other camera metadata are removed from photos.",
       "We count visits and actions on the site with Plausible — no cookies and no identifying data. File names, photos and locations are never sent.",
+    ],
+    laterTitle: "Once the AI tools and accounts open:",
+    privacyAi: [
+      "When you use an AI tool, the selected photo (and your brush mask, if any) is sent to our server and to our model provider, Replicate, for processing. Files are deleted from our server after 30 days.",
+      "Your account stores: email, credit balance, purchase and processing history. Payment happens at the payment provider; we never see card details.",
       "You can delete your account and all files at any time from the account page. Purchase records are kept after deletion, unlinked from you, for bookkeeping.",
     ],
     termsTitle: "Terms of use",
     terms: [
       "The service improves property photos. Responsibility for the accuracy of a listing and its photos lies with the advertiser.",
       "You may not use the service to hide defects, change structure or size, or show amenities and views that don't exist.",
+      "Only upload photos you have the right to use.",
+    ],
+    termsAi: [
       "Virtually staged photos must be published with the label the service adds.",
       "Credits don't expire. A failed edit refunds its credit automatically. Unused credits can be refunded within 14 days of purchase.",
-      "Only upload photos you have the right to use.",
     ],
   },
 };

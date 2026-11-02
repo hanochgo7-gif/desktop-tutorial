@@ -87,7 +87,9 @@ function ApplyAll({ s, t, lang, recipe }: { s: Studio; t: Dict; lang: Locale; re
 export function FixPanel({ s, t, lang, photo, onSave }: PanelProps & { onSave: () => void }) {
   const a = photo.analysis!;
   const r = photo.recipe!;
-  const list = findings(a);
+  // Our sample is a small demo file: "your photo is small" would be about our file, not theirs.
+  const isSample = photo.name === `${t.landing.sampleBadge}.jpg`;
+  const list = findings(a).filter((f) => !(isSample && f.id === "lowres"));
   const set = (patch: Partial<Recipe>) => s.setRecipe(photo.id, { ...r, ...patch });
   const steps = r.steps;
   const preview = s.previewOf(photo);

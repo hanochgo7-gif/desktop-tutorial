@@ -7,6 +7,7 @@ import type { Dict, Locale } from "@/i18n";
 import demoData from "@/lib/demo-data.json";
 import { describeChange, describeChangePlain } from "@/lib/describe";
 import type { Change } from "@/lib/engine/types";
+import { setActiveSample } from "@/lib/sample";
 import { asset } from "@/lib/site";
 
 type Sample = (typeof demoData)[number];
@@ -22,7 +23,11 @@ const demo = ORDER.map((id) => demoData.find((d) => d.id === id)!).filter(Boolea
  * The proof under the photo is in plain words; the measured numbers are one tap away.
  */
 export function HeroDemo({ lang, t, intro, action }: { lang: Locale; t: Dict; intro: ReactNode; action: ReactNode }) {
-  const [i, setI] = useState(0);
+  const [i, setIndex] = useState(0);
+  const setI = (k: number) => {
+    setIndex(k);
+    setActiveSample(demo[k].id as SampleId);
+  };
   const s = demo[i];
   const id = s.id as SampleId;
   const dir = lang === "he" ? "rtl" : "ltr";

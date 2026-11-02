@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DropZone, type Rejected } from "@/components/drop-zone";
 import { fmt, type Dict, type Locale } from "@/i18n";
+import { sampleFile } from "@/lib/sample";
 import { asset } from "@/lib/site";
 import { setHandoff } from "@/lib/studio/db";
 import { countBucket, track } from "@/lib/track";
@@ -17,7 +18,7 @@ export function useStartStudio(lang: Locale) {
   };
 }
 
-/** Opens the studio with one of our real sample photos, for visitors whose photos are elsewhere. */
+/** Opens the studio with the real sample photo the hero is showing, for visitors whose photos are elsewhere. */
 export function SampleButton({ lang, t, dark = false }: { lang: Locale; t: Dict; dark?: boolean }) {
   const start = useStartStudio(lang);
   const [busy, setBusy] = useState(false);
@@ -29,9 +30,7 @@ export function SampleButton({ lang, t, dark = false }: { lang: Locale; t: Dict;
       onClick={async () => {
         setBusy(true);
         try {
-          const res = await fetch(asset("/demo/bedroom-before.jpg"));
-          const blob = await res.blob();
-          start([new File([blob], `${t.landing.sampleBadge}.jpg`, { type: "image/jpeg" })], "sample");
+          start([await sampleFile(asset, t.landing.sampleBadge)], "sample");
         } finally {
           setBusy(false);
         }
