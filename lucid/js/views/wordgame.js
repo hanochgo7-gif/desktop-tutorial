@@ -222,7 +222,7 @@ async function play(el, ctx, level, stageId) {
       $('[data-after]', el).textContent = q.after;
       render($('[data-hint]', el), html`<span class="faint">${tt('רמז:', 'Hint:')}</span> <span lang="he" dir="rtl">${isolateLatin(q.word.meaning || q.word.he)}</span> · ${mask(q)}`);
       inp.value = ''; inp.readOnly = false; inp.className = 'input game-input'; inp.size = Math.max(4, q.answer.length + 1); inp.maxLength = q.answer.length + 6;
-      $$('[data-check], [data-skip]', el).forEach((b) => { b.disabled = false; });
+      setFoot('typed');
       render($('#gfb', el), '');
       inp.focus({ preventScroll: true });
       return;
@@ -232,19 +232,29 @@ async function play(el, ctx, level, stageId) {
       const prompt = stageId === 1
         ? html`<div class="game-prompt"><span lang="en" dir="ltr" class="game-word">${q.prompt}</span>${q.word.ipa ? html`<span class="small faint" lang="en" dir="ltr">${q.word.ipa}</span>` : ''}${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}</div>`
         : html`<div class="game-prompt"><span lang="he" dir="rtl" class="game-word">${isolateLatin(q.prompt)}</span></div>`;
-      body = html`${prompt}<div class="options" role="group" aria-label="${tt('תשובות', 'Answers')}">${q.options.map((o, k) => html`<button type="button" class="option" data-opt="${k}"><span class="k" aria-hidden="true">${k + 1}</span><span class="game-opt" ${stageId === 1 ? html`lang="he" dir="rtl"` : html`lang="en" dir="ltr"`}>${stageId === 1 ? isolateLatin(o) : o}</span><span class="game-mark" aria-hidden="true"></span></button>`)}</div>`;
+      body = html`${prompt}<p class="small faint game-instant">${tt('הבחירה נבדקת מיד.', 'Your choice is checked at once.')}</p><div class="options game-options" role="group" aria-label="${tt('תשובות', 'Answers')}">${q.options.map((o, k) => html`<button type="button" class="option" data-opt="${k}"><span class="k" aria-hidden="true">${k + 1}</span><span class="game-opt" ${stageId === 1 ? html`lang="he" dir="rtl"` : html`lang="en" dir="ltr"`}>${stageId === 1 ? isolateLatin(o) : o}</span><span class="game-mark" aria-hidden="true"></span></button>`)}</div>`;
     } else {
       body = html`<div class="game-prompt stack-sm"><p class="game-sentence" lang="en" dir="ltr"><span data-before>${q.before}</span><input class="input game-input" id="gw" aria-label="${tt('המילה החסרה', 'The missing word')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" lang="en" dir="ltr" size="${Math.max(4, q.answer.length + 1)}" maxlength="${q.answer.length + 6}"><span data-after>${q.after}</span></p>
-        <p class="small" data-hint><span class="faint">${tt('רמז:', 'Hint:')}</span> <span lang="he" dir="rtl">${isolateLatin(q.word.meaning || q.word.he)}</span> · ${mask(q)}</p></div>
-        <div class="row"><button type="button" class="key enter" data-check>${t('check')}</button><button type="button" class="key ghost" data-skip>${tt('לא יודע/ת', "I don't know")}</button></div>`;
+        <p class="small" data-hint><span class="faint">${tt('רמז:', 'Hint:')}</span> <span lang="he" dir="rtl">${isolateLatin(q.word.meaning || q.word.he)}</span> · ${mask(q)}</p></div>`;
     }
     render(el, html`<div class="player">${top()}<div class="player-body stack" id="gbody" tabindex="-1"><div data-head>${head()}</div>${body}<div id="gfb" class="game-feedback" aria-live="assertive"></div></div></div>`);
+    if (q.type === 'typed') setFoot('typed');
     if (q.type === 'typed') setTimeout(() => $('#gw', el)?.focus(), 30);
     else setTimeout(() => $('#gbody', el)?.focus({ preventScroll: true }), 30); // keys 1-4 answer; no option looks pre-selected
   }
 
+  // The footer, as in the lesson player: while typing, "I don't know" and Check; after any answer, one full-width
+  // Continue key (Enter). A choice question has no footer until it is answered: the tap is the answer.
+  function setFoot(kind) {
+    let foot = $('#pfoot', el);
+    if (!foot) { $('.player', el).insertAdjacentHTML('beforeend', '<div class="player-foot game-foot" id="pfoot"></div>'); foot = $('#pfoot', el); }
+    render(foot, kind === 'next'
+      ? html`<div class="inner"><span class="grow"></span><button type="button" class="key enter" data-next>${i + 1 < questions.length ? t('continue') : tt('לתוצאות', 'See results')} <span class="kbd">Enter</span></button></div>`
+      : html`<div class="inner"><button type="button" class="key ghost" data-skip>${tt('לא יודע/ת', "I don't know")}</button><span class="grow"></span><button type="button" class="key enter" data-check>${t('check')} <span class="kbd">Enter</span></button></div>`);
+  }
+
   // Marks the answer at once and shows the right answer. The game then waits, so the feedback can be read
-  // (Enter or "Next"); only with the calm pace turned off in Settings does a right answer move on by itself.
+  // (Enter or Continue); only with the calm pace turned off in Settings does a right answer move on by itself.
   function answer(result, given) {
     if (answered) return;
     answered = true;
@@ -268,8 +278,10 @@ async function play(el, ctx, level, stageId) {
       const inp = $('#gw', el);
       inp.readOnly = true;
       inp.classList.add(correct ? 'right' : 'wrong');
-      $$('[data-check], [data-skip]', el).forEach((b) => { b.disabled = true; });
     }
+    // Typing: when the answer came from the input, the focus stays there (Enter moves on), so a phone keyboard
+    // stays open for the next sentence. Otherwise the Continue key takes the focus.
+    const fromInput = document.activeElement?.id === 'gw';
     const pair = html`<span lang="en" dir="ltr"><strong>${q.word.word}</strong></span> = <span lang="he" dir="rtl">${isolateLatin(q.word.he)}</span>`;
     const plus = (n) => html`<bdi dir="ltr">+${n}</bdi>`;
     const pointsLine = !correct ? '' : result.almost && pace.challenge ? html`${plus(POINTS)} ${tt('(בלי בונוס, בגלל האיות)', '(no bonus for the spelling)')}` : bonus ? html`${plus(POINTS)} ${tt(`ובונוס מהירות ${bonus}`, `and a speed bonus of ${bonus}`)}` : plus(POINTS);
@@ -278,10 +290,11 @@ async function play(el, ctx, level, stageId) {
       ${result.almost ? html`<p class="small">${tt('כמעט מושלם. האיות הנכון:', 'Nearly perfect. The spelling is:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
       ${result.variant ? html`<p class="small">${tt('נכון באיות האמריקאי או הבריטי. במשפט הזה:', 'Right in US or UK spelling. In this sentence:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
       ${!correct && q.type === 'typed' ? html`<p>${tt('התשובה:', 'Answer:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
-      <p class="small">${pair}</p>${q.word.example ? html`<p class="small faint" lang="en" dir="ltr">${q.word.example}</p>` : ''}
-      <button type="button" class="key small" data-next>${i + 1 < questions.length ? tt('לשאלה הבאה', 'Next question') : tt('לתוצאות', 'See results')}</button></div>`);
+      <p class="small">${pair}</p>${q.word.example ? html`<p class="small faint" lang="en" dir="ltr">${q.word.example}</p>` : ''}</div>`);
     $('.player-top', el).outerHTML = String(top());
-    if (q.type === 'choice' && !correct) $('[data-next]', el)?.focus({ preventScroll: true });
+    setFoot('next');
+    if (!fromInput) $('[data-next]', el)?.focus({ preventScroll: true });
+    $('#gfb .game-verdict', el)?.scrollIntoView?.({ block: 'nearest' });
     if (correct && !pace.relaxed) timer = setTimeout(next, 1100);
   }
 

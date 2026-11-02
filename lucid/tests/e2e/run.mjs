@@ -1398,7 +1398,8 @@ try {
     await page.type('#gw', answer, { delay: 20 });
     await page.waitForSelector('.game-verdict.ok', { timeout: 2000 });
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'focus left the input, which would close a phone keyboard');
-    assert(!(await page.$eval('[data-check]', (b) => !b.disabled)), 'check still active after an accepted answer');
+    // UX r3 GM-6: after an answer the footer holds Continue, so no active Check remains.
+    assert(!(await page.$('[data-check]:not([disabled])')) && await page.$('#pfoot [data-next]'), 'check still active, or no Continue key, after an accepted answer');
     await page.click('[data-next]', { timeout: 400 }).catch(() => {});
     await page.waitForSelector('#gw:not([readonly])');
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'the next question did not keep the input focused');

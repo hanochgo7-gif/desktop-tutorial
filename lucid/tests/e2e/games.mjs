@@ -408,6 +408,55 @@ try {
     await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 12);
     await ctx.close();
   });
+
+  await check('GM-6a. Word quiz on a touch phone: "הבחירה נבדקת מיד" above the options, no 1-4 keycaps; after an answer the footer Continue key is present, full width and focused', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A1');
+    await go(page, 'games/A1/1', '[data-opt]');
+    await page.waitForTimeout(300);
+    const before = await page.evaluate(() => {
+      const line = document.querySelector('.game-instant');
+      const opts = document.querySelector('.game-options');
+      return { line: line?.textContent.trim(), above: Boolean(line && opts && (line.compareDocumentPosition(opts) & Node.DOCUMENT_POSITION_FOLLOWING)), keycaps: [...document.querySelectorAll('.game-options .option .k')].filter((k) => k.getBoundingClientRect().width > 0).length, foot: Boolean(document.querySelector('#pfoot')) };
+    });
+    assert(before.line === 'הבחירה נבדקת מיד.' && before.above, `no instant-check line above the options: ${JSON.stringify(before)}`);
+    assert(before.keycaps === 0, `${before.keycaps} keycaps show on touch`);
+    assert(!before.foot, 'a footer shows before the answer');
+    await shot(page, 'gm6-question-390-touch');
+    await page.tap('[data-opt="2"]');
+    await page.waitForSelector('#pfoot [data-next]');
+    await page.waitForTimeout(100);
+    const after = await page.evaluate(() => {
+      const b = document.querySelector('#pfoot [data-next]');
+      const foot = document.querySelector('#pfoot');
+      return { focused: document.activeElement === b, text: b.textContent.trim(), sticky: getComputedStyle(foot).position, wide: b.getBoundingClientRect().width / foot.querySelector('.inner').getBoundingClientRect().width, inView: b.getBoundingClientRect().bottom <= innerHeight };
+    });
+    assert(after.focused && /^המשך/.test(after.text), `the footer key is not focused Continue: ${JSON.stringify(after)}`);
+    assert(after.sticky === 'sticky' && after.wide > 0.95 && after.inView, `the footer key is not a full-width sticky key: ${JSON.stringify(after)}`);
+    await shot(page, 'gm6-answered-390-touch');
+    await page.tap('#pfoot [data-next]');
+    await page.waitForFunction(() => /שאלה 2 מתוך 10/.test(document.querySelector('.step-count')?.textContent));
+    assert(!(await page.$('#pfoot')), 'the footer stays on the next question');
+    await ctx.close();
+  });
+
+  await check('GM-6b. Word quiz with a keyboard (1440): keys 1-4 answer, the keycaps show, Enter on the focused Continue key moves on once', async () => {
+    const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
+    await learnerAt(page, 'A1');
+    await go(page, 'games/A1/1', '[data-opt]');
+    await page.waitForTimeout(300);
+    const caps = await page.$$eval('.game-options .option .k', (ks) => ks.filter((k) => k.getBoundingClientRect().width > 0).length);
+    assert(caps === 4, `keycaps on a desktop: ${caps}`);
+    await page.keyboard.press('3');
+    await page.waitForSelector('#pfoot [data-next]');
+    assert(await page.evaluate(() => document.activeElement?.matches('#pfoot [data-next]')), 'Continue is not focused');
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => /שאלה 2 מתוך 10/.test(document.querySelector('.step-count')?.textContent));
+    await page.waitForTimeout(200);
+    assert(/שאלה 2 מתוך 10/.test(await page.textContent('.step-count')) && !(await page.$('.game-verdict')), 'Enter did not move on exactly once');
+    await shot(page, 'gm6-question-1440');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

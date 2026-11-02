@@ -1026,6 +1026,14 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
 .mem-size { display: inline-block; padding-block: var(--s1); }
 @media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
+/* Word quiz (GM-6): the lesson's footer Continue key, full width on phones; a tap on an option is the answer, so
+   touch shows no 1-4 keycaps (keys 1-4 still answer on a keyboard). The verdict scrolls clear of the footer. */
+@media (max-width: 40rem) { .game-foot .inner > .key { flex: 1 1 auto; } .game-foot .inner > [data-next] { flex-basis: 100%; } }
+.game-instant { margin-block-end: calc(-1 * var(--s2)); }
+/* The completion stage: the hint under the sentence at every width (the prompt row is for a word and its key). */
+.game-prompt.stack-sm { display: grid; justify-items: stretch; }
+.game-feedback .game-verdict { scroll-margin-block-end: 6rem; }
+@media (hover: none) and (pointer: coarse) { .game-options .option .k, .game-foot .kbd { display: none; } }
 /* ---- lane games: end ---- */
 
 /* ---- lane real-life-writing: start ---- */
