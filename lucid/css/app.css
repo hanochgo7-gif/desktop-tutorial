@@ -972,7 +972,8 @@ dialog.sheet > .panel { padding: var(--s5); }
 
 /* Matching (EX-1): a wrong pair stays marked until the next tap; found pairs keep full contrast and a pair
    number; the finished board becomes rows of pairs, side by side. */
-.match-grid .match-item { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; }
+.match-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.match-grid .match-item { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.25rem 0.35rem; min-width: 0; }
 .match-grid .match-item.paired { opacity: 1; border-color: var(--ok); background: var(--ok-tint); color: var(--ink); cursor: default; }
 .match-grid .match-item.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
 .match-grid .match-item.is-wrong .match-mark { color: var(--bad); }

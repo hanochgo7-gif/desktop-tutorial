@@ -106,6 +106,32 @@ try {
     await ctx.close();
   });
 
+  await check('EX-1/EX-2/EX-10 layout: at 320px with 150% text, the letter board with pair numbers, the pair rows, the word bank and the sound options never scroll sideways', async () => {
+    const ctx = await browser.newContext({ viewport: { width: 320, height: 800 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers: 'block' });
+    const page = await ctx.newPage();
+    page.on('pageerror', (e) => pageErrors.push(`${page.url()} :: ${e.message}`));
+    await learnerAt(page, 'PreA1');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.saveSettings({ text_size: 150 }); });
+    await page.reload();
+    await page.waitForSelector('#view > *');
+    // A phone widens its layout viewport to fit what overflows, so compare with the 320px screen itself.
+    const wide = () => page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.documentElement.clientWidth, ...[...document.querySelectorAll('#exroot *')].map((e) => Math.ceil(e.getBoundingClientRect().right))) - 320);
+    const over = [];
+    await openExercise(page, 'pa1-01', 3);
+    const ids = await page.$$eval('[data-l]', (b) => b.map((x) => x.dataset.l));
+    for (const id of ids.slice(0, 3)) { await page.click(`[data-l="${id}"]`); await page.click(`[data-r="${id}"]`); }
+    if (await wide() > 1) over.push(`letter board ${await wide()}px`);
+    for (const id of ids.slice(3)) { await page.click(`[data-l="${id}"]`); await page.click(`[data-r="${id}"]`); }
+    await page.waitForSelector('.match-row');
+    if (await wide() > 1) over.push(`pair rows ${await wide()}px`);
+    await openExercise(page, 'pa1-02', 9);
+    if (await wide() > 1) over.push(`word bank ${await wide()}px`);
+    await openExercise(page, 'pa1-02', 6);
+    if (await wide() > 1) over.push(`sound options ${await wide()}px`);
+    assert(!over.length, over.join(', '));
+    await ctx.close();
+  });
+
   // ---------- EX-2 ----------
   await check('EX-2 word bank: a chip fills the tapped gap; Backspace on a filled gap empties it and frees its chip; used chips are marked aria-disabled; chips read left to right', async () => {
     const { ctx, page } = await newPage(browser);
