@@ -296,7 +296,7 @@ try {
     await page.goto(`${BASE}#/review`);
     await page.waitForSelector('.flash');
     const before = (await store(page, 'cards'))[0].fsrs.reps;
-    if (await page.$('[data-pick]')) await page.click('[data-pick]'); else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); }
+    if (await page.$('[data-pick]')) { await page.click('[data-pick]'); await page.click('[data-check]'); } else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); } // PH-2: a tap selects, Check commits
     await page.waitForSelector('[data-next]');
     const cards = await store(page, 'cards');
     assert(cards.some((c) => c.fsrs.reps > before), 'card was not rescheduled');
@@ -584,7 +584,7 @@ try {
       await page.goto(`${BASE}#/${r}`);
       await page.waitForTimeout(500);
       const txt = await page.textContent('#view');
-      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר)/.test(txt), `${r}: no configuration notice`);
+      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר|לא פעיל באתר הזה|not active on this site)/.test(txt), `${r}: no configuration notice`);
     }
     await ctx.close();
     const m = await newPage(browser, { mock: true });
@@ -1741,8 +1741,7 @@ try {
     const [, l, e] = href.match(/l=([^&]+)&e=(.+)$/);
     const sa = (await store(page, 'attempts')).filter((a) => a.lesson === decodeURIComponent(l) && a.exercise === decodeURIComponent(e));
     assert(sa.length === 1 && sa[0].score === null, `shadowing stored a score: ${JSON.stringify(sa)}`);
-    await page.goto(`${BASE}#/tutor`);
-    await page.click('[data-mode="pronunciation"]');
+    await page.goto(`${BASE}#/tutor?mode=pronunciation`); // PH-5: without AI on the site the mode chips are hidden
     await page.waitForSelector('[data-pron-note] a[href="#/speaking"]');
     // Review: a picked meaning is right or wrong; only a typed one can be "what I meant".
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
@@ -1753,7 +1752,9 @@ try {
     assert(picks.length, 'no multiple-choice review card');
     const word = await page.textContent('.prompt-word');
     const rightHe = await page.evaluate((w) => window.lucid.store.all('cards').find((c) => c.payload?.word === w)?.payload.he, word.trim());
-    for (const b of picks) if ((await b.getAttribute('data-pick')) !== rightHe) { await b.click(); break; }
+    // PH-1/PH-2: options show the short gloss and a tap selects; Check commits.
+    for (const b of picks) if (!rightHe.startsWith((await b.$eval('span:not(.k)', (s) => s.textContent)).trim())) { await b.click(); break; }
+    await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
     assert(!(await page.$('[data-override]')), '"count it" offered on a picked option');
     await page.evaluate(() => { for (const c of window.lucid.store.all('cards')) if (c.kind === 'meaning') window.lucid.store.put('cards', { ...c, fsrs: { ...c.fsrs, reps: 3 } }); });

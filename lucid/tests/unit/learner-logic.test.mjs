@@ -8,6 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { skillLevels, placementSkillEstimate, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonSlice, pickScenario, periodReport, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, MAX_ITEMS } from '../../js/core/placement.js';
+import { meaningOptions, seedOf, shortGloss, cardLevel } from '../../js/core/srs.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
 const at = (days, h = 0) => new Date(T0.getTime() + days * 86_400_000 + h * 3_600_000).toISOString();
@@ -181,6 +182,67 @@ test('reports count only curriculum lessons and include the open session', () =>
   const r = periodReport({ progress, now, events: [{ type: 'session', seconds: 120, at: at(2) }], extraSeconds: 300 });
   assert.equal(r.lessons_completed, 1);
   assert.equal(r.minutes, 7);
+});
+
+// ---------- review options (UX r3 PH-1) ----------
+const lessonVocab = async (prefix) => {
+  const { readdir } = await import('node:fs/promises');
+  const dir = new URL('../../content/lessons/', import.meta.url);
+  const files = (await readdir(dir)).filter((f) => f.startsWith(prefix)).sort();
+  return (await Promise.all(files.map(async (f) => JSON.parse(await readFile(new URL(f, dir), 'utf8'))))).flatMap((l) => l.vocab || []);
+};
+const heWordCount = (s) => s.split(/\s+/).filter((w) => /[א-ת]/.test(w)).length;
+
+test('PH-1: the option shows a short gloss of at most four words', () => {
+  assert.equal(shortGloss('כבשה (ברבים: sheep)'), 'כבשה');
+  assert.equal(shortGloss('לשחק; לנגן'), 'לשחק');
+  assert.equal(shortGloss('(ב)משרה חלקית'), 'משרה חלקית');
+  assert.equal(shortGloss('לנסוע ב- (אוטובוס, רכבת); לקחת'), 'לנסוע ב-');
+  assert.equal(shortGloss('כל כמה זמן, באיזו תדירות'), 'כל כמה זמן');
+  assert.equal(shortGloss('בן דוד / בת דודה'), 'בן דוד / בת דודה');
+  assert.ok(heWordCount(shortGloss('לנסוע כל יום לעבודה או ללימודים (ובחזרה)')) <= 4);
+  // A card's level: its word's level, else its lesson's (pa1- is Pre-A1).
+  assert.equal(cardLevel({ payload: { level: 'A2' }, ref: { lesson: 'a1-03' } }), 'A2');
+  assert.equal(cardLevel({ ref: { lesson: 'pa1-05' } }), 'PreA1');
+  assert.equal(cardLevel({ ref: { lesson: 'b2-01' } }), 'B2');
+  assert.equal(cardLevel({ ref: {} }), null);
+});
+
+test('PH-1: review options vary by card, never repeat a distractor set, and match the part of speech', async () => {
+  const a1 = await lessonVocab('a1-');
+  const learned = a1.slice(0, 60);
+  const used = new Map(); const sets = new Set();
+  const positions = new Set(); const seen = [];
+  // Two sessions of eight A1 cards on the same day, as the acceptance check runs them.
+  const cards = [...a1.filter((v) => v.pos === 'verb').slice(0, 8), ...a1.filter((v) => v.pos !== 'verb').slice(0, 8)];
+  for (const v of cards) {
+    const o = meaningOptions(v, { learned, level: a1, seed: seedOf(`v:${v.word}:meaning|2026-11-02`), used, sets });
+    assert.equal(o.options.length, 4, v.word);
+    assert.equal(o.options[o.answer], shortGloss(v.he));
+    assert.equal(new Set(o.options).size, 4, `duplicate option for ${v.word}`);
+    positions.add(o.answer);
+    for (const x of o.options) assert.ok(heWordCount(x) <= 4 && !/[A-Za-z]/.test(x), `${v.word}: "${x}"`);
+    if (v.pos === 'verb' && shortGloss(v.he).startsWith('ל')) for (const x of o.options) assert.ok(x.startsWith('ל'), `verb ${v.word} has a non-verb option "${x}"`);
+    const key = o.options.filter((_, k) => k !== o.answer).sort().join('|');
+    assert.ok(!seen.includes(key), `distractor set repeats for ${v.word}: ${key}`);
+    seen.push(key);
+  }
+  assert.ok(positions.size >= 3, `the right answer sits in only ${[...positions]}`);
+  // The same card on the same day keeps its order; on another day it changes.
+  const v = a1.find((x) => x.word === 'cook');
+  const day = (d) => meaningOptions(v, { learned, level: a1, seed: seedOf(`v:cook:meaning|${d}`) });
+  assert.deepEqual(day('2026-11-02'), day('2026-11-02'));
+  const other = ['2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06'].map((d) => JSON.stringify(day(d)));
+  assert.ok(new Set(other).size > 1, 'options never change between days');
+});
+
+test('PH-1: a noun card shows no infinitives; with too few words there are fewer options', async () => {
+  const a1 = await lessonVocab('a1-');
+  const noun = a1.find((v) => v.word === 'language');
+  const o = meaningOptions(noun, { learned: [], level: a1, seed: 0.42 });
+  for (const x of o.options) if (x !== shortGloss(noun.he)) assert.ok(!(x.startsWith('ל') && a1.find((v) => shortGloss(v.he) === x)?.pos === 'verb'), `infinitive "${x}" for a noun`);
+  const tiny = meaningOptions(noun, { learned: [a1.find((v) => v.word === 'flat')], level: [], seed: 0.1 });
+  assert.equal(tiny.options.length, 2);
 });
 
 // ---------- learner store flows ----------

@@ -1372,6 +1372,63 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane first-run-today: end ---- */
 
 /* ---- lane practice-hubs: start ---- */
+/* Review with nothing due (bare route): a centred column with a heading, the next step and a way out (PH-2). */
+.review-empty { min-height: 100dvh; display: grid; place-items: center; padding: var(--s5) var(--s4); }
+.review-empty .empty { width: 100%; max-width: 34rem; padding-block: var(--s6); }
+.review-empty .empty h1 { color: var(--ink); font-size: var(--t-xl); }
+.review-empty .empty h1:focus { outline: none; }
+.review-empty .empty p { max-width: 30rem; }
+.review-empty-key { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); color: var(--ink-2); }
+.review-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s3); margin-block-start: var(--s2); }
+/* Review end: the words missed, each with play and when it comes back. */
+#rv-done:focus, .flash .prompt-word[tabindex='-1']:focus { outline: none; }
+.review-missed-h { font-size: var(--t-md); }
+.review-missed { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.review-miss { display: flex; align-items: center; gap: var(--s3); min-height: 3.5rem; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.review-miss > .grow { min-width: 0; display: grid; gap: 0.125rem; }
+.review-miss-word { overflow-wrap: anywhere; }
+/* Settings: AI-only settings on a site without AI are greyed and inert (PH-5); the data actions are one stack of
+   equal widths (PH-10). */
+/* Only the inert controls are greyed; their label and help stay readable (5:1). */
+.settings-view .is-off .seg, .settings-view .is-off .choice { opacity: 0.6; }
+.settings-view .is-off .seg button, .settings-view .is-off .choice { cursor: not-allowed; }
+.settings-view .is-off .choice:hover { background: var(--key); }
+.settings-data { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s2); width: fit-content; max-width: 100%; }
+.settings-data > .key { width: 100%; justify-content: center; }
+.settings-view .error-text:empty { display: none; }
+/* Listening: rows named by their lesson and compact, so a level of 30 items stays short (PH-6); the touch target
+   stays above 44px. The row's inline style opts it out of the shared narrow-row layout: it keeps its three columns
+   on a phone at 100% text and stacks its tag only when large text leaves little room. */
+.lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr) auto; padding-block: var(--s2); min-height: 3.25rem; }
+/* Vocabulary (PH-7): one compact row per word (word · Hebrew · next review) that opens in place. */
+.vocab-rows { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; container-type: inline-size; }
+.vocab-item { min-width: 0; }
+.vocab-item + .vocab-item { border-block-start: 1px solid var(--key-edge); }
+.vocab-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--s3); width: 100%; min-height: 2.75rem; padding: var(--s1) var(--s2); border: 0; border-radius: var(--r-key); background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+@media (hover: hover) { .vocab-row:hover { background: var(--key-sunk); } }
+.vocab-row-text { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s2); min-width: 0; }
+.vocab-row-word { font-weight: 600; overflow-wrap: anywhere; }
+.vocab-row-he { color: var(--ink-he); font-size: var(--t-sm); }
+.vocab-row-when { white-space: nowrap; }
+.vocab-row .chev { display: inline-grid; place-items: center; color: var(--ink-3); transition: transform 0.2s var(--ease-out); }
+:root[dir='rtl'] .vocab-row .chev { transform: scaleX(-1); }
+.vocab-row[aria-expanded='true'] .chev, :root[dir='rtl'] .vocab-row[aria-expanded='true'] .chev { transform: rotate(90deg); }
+.vocab-detail { display: grid; gap: var(--s2); padding-block: 0 var(--s3); padding-inline: calc(1.125rem + var(--s3) + var(--s2)) var(--s2); }
+.vocab-detail[hidden] { display: none; }
+.vocab-detail > * { min-width: 0; overflow-wrap: anywhere; }
+.vocab-detail .tag { white-space: normal; max-width: 100%; }
+.vocab-ex { display: flex; align-items: center; gap: var(--s2); }
+.vocab-more { margin-block-start: var(--s3); }
+/* Practice (PH-9): on a wide screen the labs are a compact two-column grid under the recommendations. */
+@media (min-width: 64rem) { .practice-labs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Speaking lab (PH-8): a shadowing sentence is an English block, left to right from the left edge. */
+.shadow-sentence { display: block; font-weight: 500; text-align: left; }
+@container (max-width: 17rem) { .vocab-row-when { grid-column: 2; grid-row: 2; } .vocab-row .chev { grid-row: 1; grid-column: 4; } }
+@container (max-width: 17rem) {
+  .lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }
+  .lesson-row.ls-row > .mark { margin-block-start: 0.2em; }
+  .lesson-row.ls-row > :last-child:not(.grow) { grid-column: 2; justify-self: start; }
+}
 
 /* ---- lane practice-hubs: end ---- */
 

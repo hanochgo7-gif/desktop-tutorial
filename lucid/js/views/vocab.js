@@ -1,11 +1,15 @@
-// Vocabulary notebook: every word from completed lessons, with the same entry furniture each time
-// (word, IPA, part of speech, Hebrew, definition, example, collocations, level) and its review status
-// from the scheduler: New (never reviewed), Learning (memory stable for under 21 days), Known (21+).
+// Vocabulary notebook: every word from completed lessons, by level, one compact row each (word, Hebrew, next
+// review) that opens to the same entry furniture each time (IPA, part of speech, Hebrew, definition, example,
+// collocations, level) and its review status from the scheduler: New (never reviewed), Learning (memory stable for
+// under 21 days), Known (21+).
 import { html, render, on, $, $$ } from '../core/util.js';
-import { tt, t, uiLang } from '../core/i18n.js';
-import { icon, levelTag, emptyState } from '../ui/components.js';
-import { allCards, due, settings } from '../core/learner.js';
+import { tt, t, uiLang, isolateLatin } from '../core/i18n.js';
+import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
+import { allCards, due, settings, model } from '../core/learner.js';
 import { say, canSpeak } from '../core/speech.js';
+import { taxonomyIndex } from '../core/content.js';
+import { shortGloss, cardLevel } from '../core/srs.js';
+import { LEVELS, levelIndex } from '../core/adaptive.js';
 
 const KNOWN_DAYS = 21;
 const FILTERS = [['all', 'הכול', 'All'], ['due', 'לחזרה עכשיו', 'Due now'], ['learning', 'בלמידה', 'Learning'], ['known', 'ידועות', 'Known']];
@@ -23,13 +27,15 @@ export function relativeDue(iso, now = new Date()) {
   const ms = new Date(iso) - now;
   if (!(ms > 0)) return null;
   const rtf = new Intl.RelativeTimeFormat(uiLang() === 'he' ? 'he' : 'en', { numeric: 'auto' });
+  // Some browsers' Hebrew data write "בעוד דקה (1)"; the number in brackets repeats the word.
+  const fmt = (n, unit) => rtf.format(n, unit).replace(/\s*\(\d+\)$/, '');
   const hours = ms / 3_600_000;
-  if (hours < 1) return rtf.format(Math.max(1, Math.round(ms / 60_000)), 'minute');
-  if (hours < 24) return rtf.format(Math.round(hours), 'hour');
+  if (hours < 1) return fmt(Math.max(1, Math.round(ms / 60_000)), 'minute');
+  if (hours < 24) return fmt(Math.round(hours), 'hour');
   const days = Math.round(hours / 24);
-  if (days < 45) return rtf.format(days, 'day');
-  if (days < 365) return rtf.format(Math.round(days / 30), 'month');
-  return rtf.format(Math.round(days / 365), 'year');
+  if (days < 45) return fmt(days, 'day');
+  if (days < 365) return fmt(Math.round(days / 30), 'month');
+  return fmt(Math.round(days / 365), 'year');
 }
 
 const STATUS = {
@@ -44,6 +50,10 @@ export default async function vocab(el, ctx) {
   let query = '';
   const variant = settings().english_variant;
   let words = [];
+  const ix = await taxonomyIndex().catch(() => null);
+  const opened = new Set(); // words opened in place
+  const levelOpen = new Map(); // level -> open, as the learner leaves it during this visit
+  const showAll = new Set(); // levels showing every word
 
   function collect() {
     const now = new Date();
@@ -58,7 +68,7 @@ export default async function vocab(el, ctx) {
     words = cards.filter((c) => c.kind === 'meaning').map((c) => {
       const p = { word: c.ref?.word || '', ...(c.payload || {}) };
       const d = nextDue.get(wordKey(c.id)) || c.fsrs?.due;
-      return { id: c.id, p, status: wordStatus(c), due: d, isDue: !d || new Date(d) <= now };
+      return { id: c.id, p, level: cardLevel(c), status: wordStatus(c), due: d, isDue: !d || new Date(d) <= now };
     }).filter((w) => w.p.word).sort((a, b) => a.p.word.localeCompare(b.p.word, 'en', { sensitivity: 'base' }));
     return { dueCount: due(now).length, now };
   }
@@ -81,28 +91,46 @@ export default async function vocab(el, ctx) {
     return next ? html`<p class="small muted">${tt('אין כרגע מילים לחזרה. החזרה הבאה', 'Nothing to review right now. Next review')} ${relativeDue(next, now)}.</p>` : '';
   }
 
+  // UX r3 PH-7: a word is one compact row (word · Hebrew · next review) that opens in place to show the rest of its
+  // entry: IPA, part of speech, the full meaning, the definition, the example with a play key, and collocations.
+  const domId = (w) => `vw-${w.id.replace(/[^a-z0-9]+/gi, '-')}`;
   function entry(w) {
     const { p } = w;
     const s = STATUS[w.status];
     const next = w.isDue ? null : relativeDue(w.due);
-    const hid = `w-${w.id.replace(/[^a-z0-9]+/gi, '-')}`;
-    return html`<article class="entry" aria-labelledby="${hid}">
-      <div class="entry-head">
-        <div class="row" style="align-items:baseline;gap:var(--s2)">
-          <h2 class="entry-word" id="${hid}" lang="en" dir="ltr">${p.word}</h2>
-          ${p.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${p.ipa}</span>` : ''}
-        </div>
-        ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.word}" aria-label="${tt('השמעה', 'Play')}: ${p.word}">${icon('volume', { size: 18 })}</button>` : ''}
+    const id = domId(w);
+    const isOpen = opened.has(w.id);
+    return html`<li class="vocab-item">
+      <button type="button" class="vocab-row" data-word="${w.id}" aria-expanded="${String(isOpen)}" aria-controls="${id}">
+        <span class="mark ${s.cls}" aria-hidden="true">${w.status === 'known' ? icon('check', { size: 12 }) : ''}</span>
+        <span class="vocab-row-text"><span class="vocab-row-word" lang="en" dir="ltr">${p.word}</span>${p.he ? html`<span class="vocab-row-he" lang="he" dir="rtl">${isolateLatin(shortGloss(p.he))}</span>` : ''}</span>
+        <span class="vocab-row-when small faint">${next || tt('לחזרה עכשיו', 'Due now')}</span>
+        <span class="chev" aria-hidden="true">${icon('chevron', { size: 16 })}</span>
+      </button>
+      <div class="vocab-detail" id="${id}" ${isOpen ? '' : html`hidden`}>
+        <div class="row small" style="gap:var(--s2)">${p.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${p.ipa}</span>` : ''}${p.pos ? html`<span class="faint" lang="en" dir="ltr">${p.pos}</span>` : ''}${levelTag(p.level)}<span class="faint">${tt(s.he, s.en)}</span></div>
+        ${p.he ? html`<div class="entry-he" lang="he" dir="rtl">${isolateLatin(p.he)}</div>` : ''}
+        ${p.def ? html`<p class="small en-block" lang="en" dir="ltr">${p.def}</p>` : ''}
+        ${p.example || canSpeak() ? html`<div class="vocab-ex">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.example || p.word}" aria-label="${tt('השמעה', 'Play')}: ${p.word}">${icon('volume', { size: 18 })}</button>` : ''}${p.example ? html`<p class="entry-ex en-block" lang="en" dir="ltr">${p.example}</p>` : ''}</div>` : ''}
+        ${p.collocations?.length ? html`<div class="entry-foot"><span class="xsmall faint">${tt('צירופים נפוצים:', 'Common collocations:')}</span>${p.collocations.map((c) => html`<span class="tag" lang="en" dir="ltr">${c}</span>`)}</div>` : ''}
       </div>
-      <div class="row small">${p.pos ? html`<span class="faint" lang="en" dir="ltr">${p.pos}</span>` : ''}${levelTag(p.level)}</div>
-      ${p.he ? html`<div class="entry-he" lang="he" dir="rtl">${p.he}</div>` : ''}
-      ${p.def ? html`<p class="small" lang="en" dir="ltr">${p.def}</p>` : ''}
-      ${p.example ? html`<p class="entry-ex" lang="en" dir="ltr">${p.example}</p>` : ''}
-      ${p.collocations?.length ? html`<div class="entry-foot"><span class="xsmall faint">${tt('צירופים נפוצים:', 'Common collocations:')}</span>${p.collocations.map((c) => html`<span class="tag" lang="en" dir="ltr">${c}</span>`)}</div>` : ''}
-      <div class="entry-foot small"><span class="mark ${s.cls}" aria-hidden="true">${w.status === 'known' ? icon('check', { size: 12 }) : ''}</span><span>${tt(s.he, s.en)}</span>
-        <span class="faint">· ${next ? html`${tt('חזרה הבאה', 'Next review')} ${next}` : tt('לחזרה עכשיו', 'Due for review now')}</span></div>
-    </article>`;
+    </li>`;
   }
+
+  // Words by level, in folds: the learner's level (or the nearest level below it that has words) first and open,
+  // then the levels above, then the easier ones. While searching, every level with a match is open.
+  function levelGroups(shown) {
+    const groups = LEVELS.map((level) => ({ level, words: shown.filter((w) => w.level === level) })).filter((g) => g.words.length);
+    const other = shown.filter((w) => !LEVELS.includes(w.level));
+    if (other.length) groups.push({ level: 'other', words: other });
+    const ci = levelIndex(model().courseLevel);
+    const below = groups.filter((g) => g.level !== 'other' && levelIndex(g.level) <= ci);
+    const rec = below.length ? below[below.length - 1].level : groups[0]?.level;
+    const ri = rec && rec !== 'other' ? levelIndex(rec) : -1;
+    const rank = (g) => (g.level === 'other' ? 99 : levelIndex(g.level) >= ri ? levelIndex(g.level) - ri : 50 + ri - levelIndex(g.level));
+    return { groups: groups.sort((a, b) => rank(a) - rank(b)), rec };
+  }
+  const BATCH = 60;
 
   function drawFilters() {
     const n = counts();
@@ -117,8 +145,24 @@ export default async function vocab(el, ctx) {
     const shown = words.filter((w) => passes(w) && matches(w));
     const countEl = $('#vocab-count', el);
     if (countEl) countEl.textContent = shown.length === words.length ? tt(`${words.length} מילים`, `${words.length} words`) : tt(`מוצגות ${shown.length} מתוך ${words.length} מילים`, `Showing ${shown.length} of ${words.length} words`);
+    const { groups, rec } = levelGroups(shown);
     render($('#vocab-list', el), shown.length
-      ? html`<div class="grid-2">${shown.map(entry)}</div>`
+      ? html`<div class="stack-sm">${groups.map((g) => {
+        const isOpen = query ? true : levelOpen.has(g.level) ? levelOpen.get(g.level) : g.level === rec;
+        const meta = g.level === 'other' ? null : ix?.level.get(g.level);
+        const dueN = g.words.filter((w) => w.isDue).length;
+        // A long level shows its first words, and the rest on request, so the page stays short (PH-7).
+        const limit = query || showAll.has(g.level) ? g.words.length : BATCH;
+        return html`<details class="panel flat vocab-level" data-level="${g.level}" ${isOpen ? html`open` : ''}>
+          <summary class="disclosure">
+            <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
+            <h2 class="grow" id="vl-${g.level}" style="font-size:var(--t-lg)">${g.level === 'other' ? tt('מילים נוספות', 'Other words') : html`${LEVEL_LABEL[g.level]}${meta ? html` · ${tt(meta.name_he, meta.name_en)}` : ''}`}</h2>
+            <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec && !query ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${g.words.length} מילים`, `${g.words.length} ${g.words.length === 1 ? 'word' : 'words'}`)}${dueN ? tt(` · ${dueN} לחזרה עכשיו`, ` · ${dueN} due now`) : ''}</span></span>
+          </summary>
+          <ul class="vocab-rows" aria-labelledby="vl-${g.level}">${g.words.slice(0, limit).map(entry)}</ul>
+          ${limit < g.words.length ? html`<button type="button" class="key small ghost vocab-more" data-more="${g.level}">${tt(`הצגת עוד ${g.words.length - limit} מילים`, `Show ${g.words.length - limit} more words`)}</button>` : ''}
+        </details>`;
+      })}</div>`
       : emptyState({
         title: query ? tt('אין מילים שמתאימות לחיפוש', 'No words match your search') : tt('אין מילים בקבוצה הזו כרגע', 'No words in this group right now'),
         body: query ? tt('אפשר לחפש מילה באנגלית או את התרגום שלה בעברית.', 'Search for an English word or its Hebrew translation.') : '',
@@ -147,7 +191,7 @@ export default async function vocab(el, ctx) {
       <div class="list-tools">
         <label class="sr-only" for="vocab-q">${tt('חיפוש מילים', 'Search words')}</label>
         <input class="input" id="vocab-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('חיפוש באנגלית או בעברית', 'Search in English or Hebrew')}">
-        <div class="seg" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${filter === id}">${tt(he, en)} <span class="num">${n[id]}</span></button>`)}</div>
+        <div class="seg" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${String(filter === id)}">${tt(he, en)} <span class="num">${n[id]}</span></button>`)}</div>
       </div>
       <p class="small faint" id="vocab-count" aria-live="polite" style="margin-block-end:var(--s3)"></p>
       <div id="vocab-list"></div>
@@ -162,6 +206,21 @@ export default async function vocab(el, ctx) {
     on(el, 'click', '[data-filter]', (e, b) => { filter = b.dataset.filter; drawFilters(); drawList(); }),
     on(el, 'click', '[data-clear]', () => { query = ''; filter = 'all'; const i = $('#vocab-q', el); if (i) { i.value = ''; i.focus(); } drawFilters(); drawList(); }),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant })),
+    // A row opens and closes in place (a button, so Enter and Space toggle it too); the focus stays on it.
+    on(el, 'click', '[data-word]', (e, b) => {
+      const open = b.getAttribute('aria-expanded') !== 'true';
+      if (open) opened.add(b.dataset.word); else opened.delete(b.dataset.word);
+      b.setAttribute('aria-expanded', String(open));
+      const d = document.getElementById(b.getAttribute('aria-controls'));
+      if (d) d.hidden = !open;
+    }),
+    on(el, 'click', '[data-more]', (e, b) => {
+      const level = b.dataset.more;
+      const before = $$(`details[data-level="${level}"] .vocab-row`, el).length;
+      showAll.add(level); drawList();
+      $$(`details[data-level="${level}"] .vocab-row`, el)[before]?.focus();
+    }),
+    on(el, 'toggle', 'details[data-level]', (e, d) => { if (e.target === d && !query) levelOpen.set(d.dataset.level, d.open); }, true),
   ];
   return () => offs.forEach((o) => o());
 }
