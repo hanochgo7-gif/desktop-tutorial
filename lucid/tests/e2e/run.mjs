@@ -1498,7 +1498,7 @@ try {
     await ctx.close();
   });
 
-  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch turns back; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
+  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch stays up until the next card; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1544,8 +1544,9 @@ try {
         assert(Date.now() - t0 < 1500, 'a mismatch was not marked at once');
         if (!sawMismatch) {
           sawMismatch = true;
+          // Calm pace (the default): the mismatch stays face up until the next card is chosen (UX r3 GM-1).
           await page.waitForTimeout(1600);
-          assert(!(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`)), 'a mismatched card did not turn back over');
+          assert(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`), 'a mismatched card turned back by itself');
         }
       } else assert(await page.$eval(`[data-card="${second}"]`, (x) => x.disabled && x.classList.contains('is-right')), 'a match was not kept face up');
     }

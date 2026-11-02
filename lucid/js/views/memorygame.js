@@ -11,12 +11,15 @@ import { playTone, soundOn } from '../ui/sound.js';
 import { say, canSpeak } from '../core/speech.js';
 import { bests, isBetter, unlocked, recentWords } from '../core/picturegame.js';
 import { UNLOCK, MATCH, SLIP, TYPE, maxFor, turnBonus, roundScore, accuracyOf, makeDeck, judgeTurn } from '../core/memorygame.js';
-import { picture } from './picturegame.js';
+import { paceOf } from '../core/wordgame.js';
+import { picture, sumLine, bestLine } from './picturegame.js';
 
 const pctText = (x) => `${Math.round(x * 100)}%`;
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
 const otherForm = (w) => (w.us ? (shown(w) === w.us ? `UK: ${w.word}` : `US: ${w.us}`) : '');
-const BACK_AFTER = 1300; // a mismatched pair stays face up this long (or until the next card is chosen)
+// A mismatched pair stays face up until the next card is chosen. Only with the calm pace turned off in Settings
+// does it also turn back by itself, after this long.
+const BACK_AFTER = 1300;
 
 export default async function memorygame(el, ctx) {
   const level = Number(ctx.params.level);
@@ -34,6 +37,7 @@ export default async function memorygame(el, ctx) {
   if (!set) { ctx.navigate('games', { replace: true }); return null; }
   const pairs = set.memory_pairs || 6;
   let before = bests(store.all('events'), TYPE);
+  let pace = paceOf(settings()), mineBefore = {};
   if (!unlocked(before, level)) { toast(tt(`הרמה הזו נפתחת ב-${pctText(UNLOCK)} דיוק ברמה הקודמת`, `This level opens at ${pctText(UNLOCK)} accuracy in the level before`)); ctx.navigate('games', { replace: true }); return null; }
   try { sessionStorage.setItem('lucid-game-level', 'memory'); } catch { /* storage blocked */ }
   ctx.setTitle(`${tt('משחק זיכרון', 'Memory game')} · ${level}`);
@@ -41,11 +45,13 @@ export default async function memorygame(el, ctx) {
   let cards = [], up = new Set(), matched = new Set(), seen = new Set(), first = null, back = null, backTimer = null;
   let turns = 0, matches = 0, slips = 0, done = false, quietUntil = 0, backAt = 0;
   const missed = new Map();
-  const score = (bonus = 0) => roundScore(matches, slips, bonus);
+  const score = (bonus = 0) => roundScore(matches, slips, bonus, pace.challenge ? SLIP : 0);
 
   function start(focus = []) {
     clearTimeout(backTimer);
     before = bests(store.all('events'), TYPE);
+    pace = paceOf(settings());
+    mineBefore = bests(store.all('events'), TYPE, pace.mode);
     cards = makeDeck(set.words, pairs, { focus, recent: recentWords(store.all('events'), level, 2, TYPE), apart: set.apart || [] });
     up = new Set(); matched = new Set(); seen = new Set(); first = null; back = null;
     turns = 0; matches = 0; slips = 0; done = false; missed.clear();
@@ -148,9 +154,9 @@ export default async function memorygame(el, ctx) {
       [a, i].forEach((x) => $(`[data-card="${x}"]`, el)?.classList.add('is-wrong'));
       back = [a, i];
       backAt = performance.now();
-      backTimer = setTimeout(turnBack, BACK_AFTER);
+      if (!pace.relaxed) backTimer = setTimeout(turnBack, BACK_AFTER);
       // The second card is named too: it is part of what a learner has to remember.
-      render($('#gfb', el), html`<span class="bad-text">${icon('x', { size: 16 })} ${tt('לא זוג.', 'Not a pair.')}</span> <span>${named(c)}</span>${slip ? html` <span class="faint">${tt(`הזוג של הקלף הראשון כבר נראה (פחות ${SLIP} נקודות)`, `The first card's pair had been seen already (${SLIP} points off)`)}</span>` : ''}`);
+      render($('#gfb', el), html`<span class="bad-text">${icon('x', { size: 16 })} ${tt('לא זוג.', 'Not a pair.')}</span> <span>${named(c)}</span>${slip && pace.challenge ? html` <span class="faint">${tt(`הזוג של הקלף הראשון כבר נראה (פחות ${SLIP} נקודות)`, `The first card's pair had been seen already (${SLIP} points off)`)}</span>` : ''}`);
       playTone(false);
     }
     refreshTop();
@@ -162,13 +168,12 @@ export default async function memorygame(el, ctx) {
     done = true;
     clearTimeout(backTimer);
     quietUntil = performance.now() + 450; // a double tap on the last card must not press what appears under it
-    const bonus = turnBonus(turns, pairs);
+    const bonus = pace.challenge ? turnBonus(turns, pairs) : 0;
     const total = score(bonus);
-    const floored = matches * MATCH < slips * SLIP;
     const accuracy = accuracyOf(matches, slips);
-    const prev = before[level];
+    const prev = mineBefore[level];
     const record = isBetter(prev, { accuracy, score: total });
-    logEvent({ type: TYPE, level, score: total, accuracy, matches, slips, turns, total: pairs, words: [...new Set(cards.map((x) => x.w.word))] });
+    logEvent({ type: TYPE, level, score: total, accuracy, matches, slips, turns, total: pairs, mode: pace.mode, words: [...new Set(cards.map((x) => x.w.word))] });
     const nowBest = bests(store.all('events'), TYPE);
     const nextSet = data.sets.find((s) => s.level === level + 1);
     const opened = nextSet && !unlocked(before, nextSet.level) && unlocked(nowBest, nextSet.level);
@@ -180,17 +185,20 @@ export default async function memorygame(el, ctx) {
       <div class="player-body stack-lg">
       <div class="game-result stack-sm">
         <p class="small faint">${tt(`משחק זיכרון · רמה ${level}: ${set.name_he}`, `Memory game · Level ${level}: ${set.name_en}`)}</p>
-        <h1 class="game-total num" tabindex="-1">${tt(`${total} נקודות`, `${total} points`)}<span class="small faint"> <bdi dir="ltr">/ ${maxFor(pairs)}</bdi></span></h1>
-        <p>${tt(`${matches} זוגות ב-${turns} תורות, ${slips === 1 ? 'פספוס אחד' : `${slips} פספוסים`} (${pctText(accuracy)} דיוק)`, `${matches} pairs in ${turns} turns, ${slips} ${slips === 1 ? 'slip' : 'slips'} (${pctText(accuracy)} accuracy)`)}</p>
-        <p class="small faint">${tt(`פספוס: תור שבו הזוג של הקלף הראשון כבר נראה, ובכל זאת נבחר קלף אחר. ${matches} × ${MATCH}${slips ? `, פחות ${slips} × ${SLIP}` : ''}${floored ? ' (לא פחות מ-0)' : ''}${bonus ? `, ובונוס ${bonus} על מעט תורות` : ''}.`, `A slip: a turn where the first card's pair had already been seen, but another card was chosen. ${matches} × ${MATCH}${slips ? `, minus ${slips} × ${SLIP}` : ''}${floored ? ' (not below 0)' : ''}${bonus ? `, plus a bonus of ${bonus} for few turns` : ''}.`)}</p>
-        ${record ? html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש! הקודם: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `New best! Previous: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`) : tt('השיא הראשון שלך ברמה הזו', 'Your first best at this level')}</p>` : html`<p class="small faint">${tt(`השיא שלך: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `Your best: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`)}</p>`}
+        <h1 class="game-total num" tabindex="-1">${tt(`${total} נקודות`, `${total} points`)}<span class="small faint"> <bdi dir="ltr">/ ${maxFor(pairs, pace.challenge)}</bdi></span></h1>
+        <p>${tt(`${matches} זוגות ב-${turns} תורות (${pctText(accuracy)} דיוק)`, `${matches} pairs in ${turns} turns (${pctText(accuracy)} accuracy)`)}</p>
+        <p class="small faint">${tt('הניקוד:', 'Points:')} ${pace.challenge
+          ? sumLine({ terms: [[matches, MATCH, 1], ...(slips ? [[slips, SLIP, -1]] : [])], total, bonus, challenge: true, bonusName: tt('בונוס על מעט תורות', 'bonus for few turns') })
+          : sumLine({ terms: [[matches, MATCH, 1]], total })}</p>
+        ${slips ? html`<p class="small faint">${slips === 1 ? tt('פעם אחת נבחר קלף אחר אף שהזוג כבר נראה.', 'Once, another card was chosen although the pair had been seen.') : tt(`${slips} פעמים נבחר קלף אחר אף שהזוג כבר נראה.`, `${slips} times, another card was chosen although the pair had been seen.`)}</p>` : ''}
+        ${bestLine(prev, record, pace.challenge)}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתחה רמה ${nextSet.level}: ${nextSet.name_he}`, `Level ${nextSet.level} is open: ${nextSet.name_en}`)}</span></p>` : ''}
         ${nextSet && !unlocked(nowBest, nextSet.level) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
       </div>
       ${words.length ? html`<section class="stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('מילים לחזור עליהן', 'Words to go over')}</h2>
         <ul class="pic-missed">${words.map((w) => html`<li class="panel flat row">${picture(w.icon, 32)}<span><strong lang="en" dir="ltr">${shown(w)}</strong>${otherForm(w) ? html` <span class="xsmall faint" lang="en" dir="ltr">(${otherForm(w)})</span>` : ''} = <span lang="he" dir="rtl">${isolateLatin(w.he)}</span></span>${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say="${shown(w)}" aria-label="${tt(`השמעה: ${shown(w)}`, `Play: ${shown(w)}`)}">${icon('volume', { size: 16 })}</button>` : ''}</li>`)}</ul>
         <button type="button" class="key" data-missed>${tt('סיבוב שמתחיל במילים האלה', 'A round with these words first')}</button></section>`
-        : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('בלי פספוסים: כל זוג שכבר ראית נמצא מיד.', 'No slips: every pair you had seen, you found at once.')}</span></p>`}
+        : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל זוג שכבר נראה נמצא מיד.', 'Every pair already seen was found at once.')}</span></p>`}
       <div class="row">
         <button type="button" class="key enter" data-again>${tt('עוד סיבוב', 'Play again')}</button>
         ${nextSet && unlocked(nowBest, nextSet.level) ? html`<a class="key" href="#/games/memory/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}

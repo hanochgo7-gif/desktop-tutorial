@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PICTURES } from '../../js/ui/picture-icons.js';
-import { BOARDS, UNLOCK, makeBoards, roundScore, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords } from '../../js/core/picturegame.js';
+import { BOARDS, UNLOCK, makeBoards, roundScore, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords, openUpTo, topCefr } from '../../js/core/picturegame.js';
 
 const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
 
@@ -88,7 +88,7 @@ test('boards are reproducible, prefer words not seen lately and can start with m
   for (const w of focus) assert.ok(f.includes(w), `${w} missing from the first board of a focus round`);
 });
 
-test('score: 10 a pair, 3 off a mistake (never below 0), a bonus for a quick board; accuracy is pairs over attempts', () => {
+test('score: 10 a pair, 3 off a mistake (never below 0), a bonus for a quick board in the speed challenge; accuracy is pairs over attempts', () => {
   assert.equal(roundScore(12, 0, 15), 135);
   assert.equal(roundScore(12, 2, 0), 114);
   assert.equal(roundScore(1, 5, 2), 2, 'pairs less mistakes stops at 0');
@@ -96,8 +96,9 @@ test('score: 10 a pair, 3 off a mistake (never below 0), a bonus for a quick boa
   assert.equal(boardBonus(25000, 4), 2);
   assert.equal(boardBonus(40000, 4), 0);
   assert.equal(boardBonus(20000, 6), 5, 'bigger boards get more time');
-  assert.equal(maxFor(4), 135);
-  assert.equal(maxFor(6), 195);
+  assert.equal(maxFor(4), 120, 'no bonus in the calm default');
+  assert.equal(maxFor(4, BOARDS, true), 135);
+  assert.equal(maxFor(6, BOARDS, true), 195);
   assert.equal(accuracyOf(12, 4), 0.75);
   assert.equal(accuracyOf(0, 0), 0);
 });
@@ -115,6 +116,22 @@ test('the best round ranks accuracy first; the next level opens at 70%', () => {
   assert.ok(unlocked(b, 1) && unlocked(b, 2) && !unlocked(b, 3));
   assert.ok(!unlocked(bests(ev.slice(2)), 2), '50% is not enough');
   assert.ok(unlocked(bests([{ type: 'picture-round', level: 1, score: 1, accuracy: UNLOCK }]), 2), 'exactly 70% is enough');
+});
+
+test('levels up to the course level are open from the start: a set opens when the course level reaches the top of its range', () => {
+  assert.deepEqual(data.sets.map((s) => topCefr(s.cefr)), ['A1', 'A2', 'B1']);
+  assert.equal(openUpTo(data.sets, 'PreA1'), 1);
+  assert.equal(openUpTo(data.sets, 'A1'), 1);
+  assert.equal(openUpTo(data.sets, 'A2'), 2);
+  assert.equal(openUpTo(data.sets, 'B1'), 3);
+  assert.equal(openUpTo(data.sets, 'C2'), 3);
+  assert.equal(openUpTo(data.sets, undefined), 1);
+  assert.ok(unlocked({}, 3, openUpTo(data.sets, 'B1')), 'a B1 learner plays level 3 at once');
+  assert.ok(!unlocked({}, 3, openUpTo(data.sets, 'A2')), 'above the course level, 70% still opens a level');
+  assert.ok(unlocked({ 2: { accuracy: 0.7 } }, 3, 2));
+  const ev = [{ type: 'picture-round', level: 1, score: 120, accuracy: 1 }, { type: 'picture-round', level: 1, score: 90, accuracy: 0.8, mode: 'calm' }];
+  assert.equal(bests(ev, 'picture-round', 'calm')[1].score, 90);
+  assert.equal(bests(ev, 'picture-round', 'challenge')[1].score, 120);
 });
 
 test('recent words come from the last two rounds of that level', () => {

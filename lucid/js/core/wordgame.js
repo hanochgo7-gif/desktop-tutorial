@@ -6,7 +6,8 @@
 //   1 meaning    English word -> choose the Hebrew meaning
 //   2 english    Hebrew meaning -> choose the English word
 //   3 complete   a sentence with the word missing -> type it (first letter of each word and length shown)
-// A round is 10 questions. A right answer scores 10 points plus a small speed bonus; a wrong one scores 0.
+// A round is 10 questions. A right answer scores 10 points; a wrong one scores 0. In the opt-in speed challenge a
+// quick right answer also earns a small bonus.
 // Every level's first stage is open; the next stage opens at 70% or better in the one before.
 // The game is practice: it does not change the learner's level (skill levels need lesson evidence).
 import { shuffle } from './util.js';
@@ -20,10 +21,24 @@ export const STAGES = [
 export const ROUND = 10;
 export const UNLOCK = 0.7;
 export const POINTS = 10;
-// Speed bonus by the time taken to answer: choosing is quicker than typing.
+// Speed bonus (challenge mode only) by the time taken to answer: choosing is quicker than typing.
 export const BONUS = { choice: [[3000, 5], [6000, 3], [10000, 1]], typed: [[8000, 5], [15000, 3], [25000, 1]] };
-export const maxFor = (n) => n * (POINTS + 5);
+export const maxFor = (n, challenge = false) => n * (POINTS + (challenge ? BONUS.choice[0][1] : 0));
 export const MAX_SCORE = maxFor(ROUND);
+
+// How the three games are paced (PRODUCT.md: no time pressure except opt-in timed writing). Shared by the word
+// quiz, the picture game and the memory game.
+//   relaxed   Settings, "calm pace" (relaxed_pace; on unless set to false): nothing moves on by itself, and a
+//             memory mismatch stays face up until the next card is chosen.
+//   challenge the games page's "speed challenge" switch (game_speed_challenge; off unless set to true): quick
+//             answers earn a bonus, and in memory few turns earn a bonus and a slip costs points.
+// Each round is saved with its mode, and bests are kept apart for each mode.
+export function paceOf(s = {}) {
+  const challenge = s.game_speed_challenge === true;
+  return { relaxed: s.relaxed_pace !== false, challenge, mode: challenge ? 'challenge' : 'calm' };
+}
+// Rounds saved before the calm default were all scored with the speed bonus.
+export const modeOf = (e) => (e?.mode === 'calm' ? 'calm' : 'challenge');
 
 const LATIN = /[A-Za-z]/;
 const escapeRe = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -153,18 +168,20 @@ export function checkAnswer(input, answer) {
 }
 export const typedCorrect = (input, answer) => checkAnswer(input, answer).correct;
 
-export function scoreFor(correct, ms, type = 'choice') {
+// The points for one answer. The speed bonus counts only in challenge mode.
+export function scoreFor(correct, ms, type = 'choice', challenge = false) {
   if (!correct) return { points: 0, bonus: 0 };
-  const bonus = (BONUS[type] || BONUS.choice).find(([limit]) => ms <= limit)?.[1] || 0;
+  const bonus = challenge ? (BONUS[type] || BONUS.choice).find(([limit]) => ms <= limit)?.[1] || 0 : 0;
   return { points: POINTS + bonus, bonus };
 }
 
 // The best round per level and stage, from the "game-round" events logged at the end of each round: more right
-// answers rank higher, then the score, so a perfect slow round beats a fast one with mistakes.
-export function bests(events) {
+// answers rank higher, then the score, so a perfect slow round beats a fast one with mistakes. With a mode, only
+// the rounds played in that mode count (the bests shown); without one, every round counts (unlocking).
+export function bests(events, mode = null) {
   const out = {};
   for (const e of events) {
-    if (e.type !== 'game-round') continue;
+    if (e.type !== 'game-round' || (mode && modeOf(e) !== mode)) continue;
     const k = `${e.level}:${e.stage}`;
     const b = out[k];
     const better = !b || (e.correct ?? 0) > b.correct || ((e.correct ?? 0) === b.correct && (e.score || 0) > b.score);

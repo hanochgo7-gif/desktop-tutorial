@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { wordPool, completable, makeRound, maskWord, gameMeaning, senses, posKey, checkAnswer, typedCorrect, scoreFor, bests, isBetter, unlocked, recentWords, ROUND, MAX_SCORE } from '../../js/core/wordgame.js';
+import { wordPool, completable, makeRound, maskWord, gameMeaning, senses, posKey, checkAnswer, typedCorrect, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, modeOf, maxFor, ROUND, MAX_SCORE } from '../../js/core/wordgame.js';
 
 const dir = new URL('../../content/lessons/', import.meta.url);
 const lessons = readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')));
@@ -85,14 +85,41 @@ test('typed answers are checked like the lessons, with UK and US spelling both r
   assert.equal(checkAnswer('evidense', 'evidence').variant, false, 'no invented UK/US pairs');
 });
 
-test('scores: 10 for a right answer plus a speed bonus; 0 for a wrong one', () => {
+test('scores: 10 for a right answer, 0 for a wrong one; a speed bonus only in the speed challenge', () => {
   assert.deepEqual(scoreFor(false, 500), { points: 0, bonus: 0 });
-  assert.deepEqual(scoreFor(true, 2000), { points: 15, bonus: 5 });
-  assert.equal(scoreFor(true, 5000).points, 13);
-  assert.equal(scoreFor(true, 9000).points, 11);
-  assert.equal(scoreFor(true, 20000).points, 10);
-  assert.equal(scoreFor(true, 7000, 'typed').points, 15, 'typing gets more time for the bonus');
-  assert.equal(MAX_SCORE, 150);
+  assert.deepEqual(scoreFor(true, 2000), { points: 10, bonus: 0 }, 'no bonus by default, however quick');
+  assert.deepEqual(scoreFor(true, 2000, 'choice', true), { points: 15, bonus: 5 });
+  assert.equal(scoreFor(true, 5000, 'choice', true).points, 13);
+  assert.equal(scoreFor(true, 9000, 'choice', true).points, 11);
+  assert.equal(scoreFor(true, 20000, 'choice', true).points, 10);
+  assert.equal(scoreFor(true, 7000, 'typed', true).points, 15, 'typing gets more time for the bonus');
+  assert.deepEqual(scoreFor(false, 500, 'choice', true), { points: 0, bonus: 0 });
+  assert.equal(MAX_SCORE, 100);
+  assert.equal(maxFor(ROUND, true), 150);
+});
+
+test('pace: calm by default (a missing key counts as relaxed, the challenge as off); rounds keep their mode', () => {
+  assert.deepEqual(paceOf({}), { relaxed: true, challenge: false, mode: 'calm' });
+  assert.deepEqual(paceOf(), { relaxed: true, challenge: false, mode: 'calm' });
+  assert.deepEqual(paceOf({ relaxed_pace: false }), { relaxed: false, challenge: false, mode: 'calm' });
+  assert.deepEqual(paceOf({ game_speed_challenge: true }), { relaxed: true, challenge: true, mode: 'challenge' });
+  assert.equal(paceOf({ game_speed_challenge: 'yes' }).challenge, false, 'only true turns the challenge on');
+  assert.equal(modeOf({ mode: 'calm' }), 'calm');
+  assert.equal(modeOf({}), 'challenge', 'rounds from before the calm default were scored with the bonus');
+});
+
+test('bests are kept per mode; unlocking counts every round', () => {
+  const ev = [
+    { type: 'game-round', level: 'A1', stage: 1, score: 140, correct: 9, total: 10, accuracy: 0.9 },
+    { type: 'game-round', level: 'A1', stage: 1, score: 80, correct: 8, total: 10, accuracy: 0.8, mode: 'calm' },
+    { type: 'game-round', level: 'A1', stage: 1, score: 120, correct: 9, total: 10, accuracy: 0.9, mode: 'challenge' },
+  ];
+  assert.equal(bests(ev, 'calm')['A1:1'].score, 80);
+  assert.equal(bests(ev, 'calm')['A1:1'].rounds, 1);
+  assert.equal(bests(ev, 'challenge')['A1:1'].score, 140);
+  assert.equal(bests(ev)['A1:1'].rounds, 3);
+  assert.ok(unlocked(bests(ev), 'A1', 2));
+  assert.ok(!bests(ev, 'calm')['A1:2']);
 });
 
 test('the best round ranks right answers first; the next stage opens at 70%', () => {
