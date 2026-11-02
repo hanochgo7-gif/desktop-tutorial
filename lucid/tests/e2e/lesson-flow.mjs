@@ -291,6 +291,22 @@ try {
     await ctx.close();
   });
 
+  await check('LF-3 A table still wider than its frame keeps its scroll cue (pa1-01 with IPA shown, at 150%)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1', { text: 150 });
+    await page.goto(`${BASE}#/lesson/pa1-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < 6 && !(await page.$('.lesson-learn .table-wrap')); s++) await page.click('[data-learn-next]');
+    await page.click('[data-ipa-toggle]');
+    const w = await page.evaluate(() => { const x = document.querySelector('.lesson-learn .table-wrap'); return { scrolls: x.classList.contains('scrolls'), hint: !x.previousElementSibling.hidden, tab: x.tabIndex, page: document.documentElement.scrollWidth <= innerWidth }; });
+    assert(w.scrolls && w.hint && w.tab === 0 && w.page, `no scroll cue on a wide table: ${JSON.stringify(w)}`);
+    await page.evaluate(() => { const x = document.querySelector('.lesson-learn .table-wrap.scrolls'); x.scrollLeft = x.scrollWidth; x.dispatchEvent(new Event('scroll')); });
+    assert(await page.$('.lesson-learn .table-wrap.scrolls.at-end'), 'the fade stays at the far side');
+    await ctx.close();
+  });
+
   // ---------- LF-4 ----------
   await check('LF-4 End titles: all wrong is "not complete yet" with re-reading first; about 60% is "nearly there"', async () => {
     const { ctx, page } = await newPage(browser);
