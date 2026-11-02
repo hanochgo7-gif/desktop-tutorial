@@ -75,7 +75,7 @@ export default async function writing(el, ctx) {
   // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).
   function draftTag(s) {
     if (s.status === 'final' && s.final_range) return html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${s.final_range}</span>`;
-    if (s.status === 'final') return html`<span class="tag ok">${s.self_assessed ? tt('סופית · הערכה עצמית', 'Final · self-assessed') : tt('סופית', 'Final')}</span>`;
+    if (s.status === 'final') return s.self_assessed ? html`<span class="tag ok" title="${tt('סופית, לפי הערכה עצמית', 'Final, self-assessed')}">${tt('הערכה עצמית', 'Self-assessed')}</span>` : html`<span class="tag ok">${tt('סופית', 'Final')}</span>`;
     const n = s.versions || 0;
     return html`<span class="tag">${n === 1 ? tt('גרסה אחת', '1 version') : tt(`${n} גרסאות`, `${n} versions`)}</span>`;
   }
