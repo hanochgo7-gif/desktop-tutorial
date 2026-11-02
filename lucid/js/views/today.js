@@ -122,6 +122,8 @@ export function bindPlacementCard(el, ctx) {
 }
 
 const wide = () => globalThis.matchMedia?.('(min-width: 64rem)').matches ?? true;
+// The minutes for today: a choice made on Today counts only for the day it was made (TF-5).
+export const todayMinutes = (s = settings()) => (s.today_minutes?.date === todayKey() && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes);
 
 export default async function today(el, ctx) {
   ctx.setTitle(t('nav.today'));
@@ -130,6 +132,8 @@ export default async function today(el, ctx) {
   const lessons = new Map(lessonOrder(curriculum).map((l) => [l.id, l]));
   // The skill panel is folded on phones and open beside the plan on wide screens, until the learner toggles it.
   let skillsOpen = null;
+  // The line that says the plan now fits the minutes chosen for today (TF-5).
+  let minutesNote = '';
   // The plan shows the next lesson's real length, so it needs the lesson file (cached after the first load).
   let loadingLesson = null;
   async function loadLesson(id) {
@@ -162,7 +166,8 @@ export default async function today(el, ctx) {
     // higher level after "Not now", never after the learner chose.
     const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1')
       && s.ui_switch_answered !== 'en' && (!s.ui_switch_answered || levelIndex(m.courseLevel) > levelIndex(s.ui_switch_answered));
-    const target = s.daily_minutes;
+    // Today's minutes: the learner's choice for today, or the daily default from Settings (TF-5).
+    const target = todayMinutes(s);
     const plan = todayPlan(target, extras);
     const week = weekActivity();
     const dueList = due();
@@ -376,7 +381,9 @@ export default async function today(el, ctx) {
       <div class="page-head">
         <div><h1>${hello}${p?.name ? `, ${p.name}` : ''}</h1>
           <p>${tt(`יעד שבועי: ${week.days} מתוך ${week.goal} ימים. יום חופש לא מוחק כלום.`, `Weekly goal: ${week.days} of ${week.goal} days. A day off erases nothing.`)}</p></div>
-        <div class="seg" role="group" aria-label="${tt('אורך האימון היום', 'Session length today')}">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${s.daily_minutes === n}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
+        <div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>
+          <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${target === n}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
+          <p class="today-min-status small" role="status" data-min-status>${minutesNote}</p></div>
       </div>
       ${uiSwitchOffer ? html`<div class="banner row" style="margin-block-end:var(--s5)">${icon('globe', { size: 18 })}<span class="grow">${tt(`את/ה ברמה ${LEVEL_LABEL[m.courseLevel]}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${LEVEL_LABEL[m.courseLevel]}. An English interface is extra daily practice, and you can switch back in Settings at any time.`)}</span>
         <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
@@ -404,7 +411,18 @@ export default async function today(el, ctx) {
   draw();
   ctx.watch(['progress', 'cards', 'attempts', 'settings', 'events', 'placement', 'profile', 'writing'], draw);
   const offs = [
-    on(el, 'click', '[data-min]', (e, b) => saveSettings({ daily_minutes: Number(b.dataset.min) })),
+    // Today only: Settings keeps the daily default (TF-5). The choice is announced, and focus stays on it.
+    on(el, 'click', '[data-min]', (e, b) => {
+      const n = Number(b.dataset.min);
+      minutesNote = '';
+      saveSettings({ today_minutes: n === settings().daily_minutes ? null : { date: todayKey(), n } });
+      el.querySelector(`[data-min="${n}"]`)?.focus();
+      setTimeout(() => {
+        minutesNote = tt(`התוכנית עודכנה ל-${n} דקות`, `The plan now fits ${n} minutes`);
+        const status = el.querySelector('[data-min-status]');
+        if (status) status.textContent = minutesNote;
+      }, 60);
+    }),
     on(el, 'click', '[data-ui-en]', () => { saveProfile({ ui_language: 'en' }); saveSettings({ ui_switch_answered: 'en' }); }),
     on(el, 'click', '[data-ui-later]', () => saveSettings({ ui_switch_answered: model().courseLevel })),
     ...bindPlacementCard(el, ctx),

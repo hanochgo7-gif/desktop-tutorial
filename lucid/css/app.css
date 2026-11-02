@@ -1013,6 +1013,10 @@ dialog.sheet > .panel { padding: var(--s5); }
 .ob-check input[type='checkbox']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
 .ob-ai-off { display: flex; align-items: flex-start; gap: var(--s2); color: var(--ink-2); }
 .ob-ai-off > .icon { flex: none; margin-block-start: 0.2em; }
+/* Today's minutes: a visible question over the choice, and a status line when it changes (TF-5). */
+.today-minutes { display: grid; gap: var(--s2); justify-items: start; }
+.today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }
+.today-min-status { margin: 0; min-height: 1.5em; color: var(--ink-2); }
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }

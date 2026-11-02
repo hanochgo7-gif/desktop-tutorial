@@ -264,6 +264,32 @@ try {
     await ctx.close();
   });
 
+  // ---------- TF-5: today's minutes, labelled and for today only ----------
+  await check('TF-5 tapping 35 on #/today: a visible label names the control, a status line appears, #/settings keeps the daily minutes, and the next day the default is back', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { minutes: 20 });
+    await today(page);
+    const named = await page.$eval('#view .seg:has([data-min])', (g) => { const l = document.getElementById(g.getAttribute('aria-labelledby')); return l && l.offsetParent ? l.textContent.trim() : null; });
+    assert(named === 'כמה זמן יש לכם היום?', `the minutes control is named ${named}`);
+    await page.click('[data-min="35"]');
+    await page.waitForTimeout(300);
+    const status = await page.$eval('[data-min-status]', (s) => ({ role: s.getAttribute('role'), text: s.textContent.trim() }));
+    assert(status.role === 'status' && status.text === 'התוכנית עודכנה ל-35 דקות', `status: ${JSON.stringify(status)}`);
+    assert(await page.evaluate(() => document.activeElement?.dataset.min === '35'), 'focus left the minutes control');
+    await shot(page, 'tf5-today-35-390', false);
+    await page.goto(`${BASE}#/settings`);
+    await page.waitForTimeout(500);
+    const pressed = (await page.$$eval('button[aria-pressed="true"]', (x) => x.map((b) => b.textContent.trim()))).filter((t) => /דק׳/.test(t));
+    assert(pressed.length === 1 && pressed[0] === '20 דק׳', `Settings shows ${pressed}`);
+    assert(await page.evaluate(() => window.lucid.store.get('settings', 'me').daily_minutes) === 20, 'the daily minutes changed');
+    await page.evaluate(() => window.lucid.store.update('settings', 'me', { today_minutes: { date: new Date(Date.now() - 86_400_000).toISOString().slice(0, 10), n: 35 } }));
+    await today(page);
+    assert(await page.$eval('[data-min][aria-pressed="true"]', (b) => b.dataset.min) === '20', 'yesterday\'s choice still counts today');
+    const plan = await page.evaluate(async () => (await import('./js/core/learner.js')).todayPlan().minutes);
+    assert(plan <= 22, `the next day plans ${plan} minutes`);
+    await ctx.close();
+  });
+
   // ---------- TF-6: onboarding by keyboard and screen reader ----------
   await check('TF-6 #/start by keyboard: steps open on their h1, ArrowDown moves the minutes choice, a missing year focuses the select (aria-invalid, message under it), goal cards show a check; #/profile uses the same cards', async () => {
     const { ctx, page } = await newPage(browser);
