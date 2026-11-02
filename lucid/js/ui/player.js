@@ -25,7 +25,7 @@ export function runSet(el, items, { title, source, unassisted = false, exitHref 
 
   function frame(body, foot) {
     render(el, html`<div class="player">
-      <div class="player-top"><a class="key ghost small icon-only" href="${exitHref}" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}</a>
+      <div class="player-top counting"><a class="key ghost small icon-only" href="${exitHref}" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}</a>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${i}" aria-label="${title}"><span style="width:${(i / items.length) * 100}%"></span></div>
         <span class="top-meta is-count"><span class="step-count">${t('of', { a: Math.min(i + 1, items.length), b: items.length })}</span></span></div>
       <div class="player-body">${body}</div>

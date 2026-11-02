@@ -446,6 +446,7 @@ export default async function lessonView(el, ctx) {
     bar.firstElementChild.style.width = `${pct}%`;
     const meta = $('.player-top .top-meta', el);
     meta.classList.toggle('is-count', Boolean(step));
+    meta.parentElement.classList.toggle('counting', Boolean(step));
     render(meta, step ? html`<span class="step-count">${stepLabel(step)}</span>` : levelTag(lesson.level));
     render($('#pbody', el), body);
     $('#pfoot', el)?.remove();
@@ -496,7 +497,7 @@ export default async function lessonView(el, ctx) {
       ${lesson.warmup ? html`<div class="block-tip row" style="align-items:flex-start">${icon('sparkle', { size: 18 })}<div class="grow">${bi(lesson.warmup)}</div></div>` : ''}
       ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לעבור עליו שוב.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
     </div>`, resuming
-      ? html`<div class="inner"><button type="button" class="key ghost" data-go="learn">${tt('להסבר', 'To the explanation')}</button><button type="button" class="key ghost" data-restart>${tt('להתחיל מההתחלה', 'Start again')}</button><span class="grow"></span><button type="button" class="key enter" data-resume>${resumeLabel(rs)} <span class="kbd">Enter</span></button>${noteLine}</div>`
+      ? html`<div class="inner"><button type="button" class="key ghost small" data-go="learn">${tt('להסבר', 'To the explanation')}</button><button type="button" class="key ghost small" data-restart>${tt('להתחיל מההתחלה', 'Start again')}</button><span class="grow"></span><button type="button" class="key enter" data-resume>${resumeLabel(rs)} <span class="kbd">Enter</span></button>${noteLine}</div>`
       : mi
         ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button><span class="grow"></span><button type="button" class="key enter" data-missed>${tt(`${mi.n === 1 ? 'לתרגל את הטעות' : `לתרגל את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)} <span class="kbd">Enter</span></button>${noteLine}</div>`
         : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);

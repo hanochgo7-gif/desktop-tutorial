@@ -962,13 +962,13 @@ dialog.sheet > .panel { padding: var(--s5); }
 
 /* ---- lane lesson-flow: start ---- */
 /* Player top: the bar keeps a real width; on phones and at large text the counter has its own row (LF-7). */
-.player-top .progress { min-width: 40%; }
+.player-top.counting .progress { min-width: 40%; }
 .player-top .top-meta { display: inline-flex; align-items: center; flex: none; }
 @media (max-width: 30rem) {
-  .player-top { flex-wrap: wrap; row-gap: var(--s1); }
+  .player-top.counting { flex-wrap: wrap; row-gap: var(--s1); }
   .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
 }
-:root:is([data-text='130'], [data-text='150']) .player-top { flex-wrap: wrap; row-gap: var(--s1); }
+:root:is([data-text='130'], [data-text='150']) .player-top.counting { flex-wrap: wrap; row-gap: var(--s1); }
 :root:is([data-text='130'], [data-text='150']) .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
 /* Intro: where the learner stopped comes first; one short plan line under the main key (LF-1). */
 .resume-banner { align-items: center; font-size: var(--t-md); }
