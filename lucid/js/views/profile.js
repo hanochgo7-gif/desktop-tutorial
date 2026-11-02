@@ -9,7 +9,8 @@ import { goalCards } from './onboarding.js';
 
 export default async function profileView(el, ctx) {
   ctx.setTitle(t('nav.profile'));
-  const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
+  // Drawn at once; the work goal's note changes only if no workplace scenarios turn out to exist.
+  let hasWork = true;
   let goals = [...(profile()?.goals || [])];
   function draw() {
     const p = profile() || {};
@@ -35,6 +36,10 @@ export default async function profileView(el, ctx) {
       </div>`);
   }
   draw();
+  content.scenarios().catch(() => null).then((d) => {
+    const work = Boolean(d?.scenarios?.some((x) => x.module === 'work'));
+    if (work !== hasWork && el.isConnected) { hasWork = work; draw(); }
+  });
   const offs = [
     on(el, 'click', '[data-goal]', (e, b) => {
       const g = b.dataset.goal;
