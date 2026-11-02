@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lucid</title>
+<meta name="description" content="Lucid: English for Hebrew speakers, from the alphabet to academic argument. Lessons, spaced review, real-life English and a writing lab with feedback that teaches.">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#2a2f38" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<!-- The whole static import graph, so a first visit fetches it in one round trip instead of five. -->
+<link rel="modulepreload" href="js/app.js">
+<link rel="modulepreload" href="js/core/store.js">
+<link rel="modulepreload" href="js/core/router.js">
+<link rel="modulepreload" href="js/ui/components.js">
+<link rel="modulepreload" href="js/core/api.js">
+<link rel="modulepreload" href="js/core/sync.js">
+<link rel="modulepreload" href="js/core/learner.js">
+<link rel="modulepreload" href="js/ui/icons.js">
+<link rel="modulepreload" href="config.js">
+<link rel="modulepreload" href="js/core/util.js">
+<link rel="modulepreload" href="js/core/content.js">
+<link rel="modulepreload" href="js/core/adaptive.js">
+<link rel="modulepreload" href="js/core/srs.js">
+<link rel="modulepreload" href="js/core/i18n.js">
+<link rel="modulepreload" href="vendor/ts-fsrs.mjs">
+</head>
+<body>
+<a class="skip" href="#view">דילוג לתוכן · Skip to content</a>
+<div class="app">
+  <aside class="deck" id="deck" hidden></aside>
+  <div class="main">
+    <header class="top" id="top" hidden></header>
+    <main class="view" id="view" tabindex="-1">
+      <div class="boot"><span class="spinner" role="status" aria-label="Loading"></span></div>
+    </main>
+  </div>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="ניווט" hidden></nav>
+<div id="overlay-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<noscript><p style="padding:2rem;font-family:sans-serif">Lucid needs JavaScript. · כדי להשתמש ב-Lucid יש להפעיל JavaScript.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

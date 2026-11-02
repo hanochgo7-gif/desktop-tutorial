@@ -6,3 +6,6 @@ crm/.impeccable/
 
 # design-skill working files (screenshots, direction sheet), never published
 .taste-skill/
+
+# Lucid: dev dependencies (tests and research tools only)
+lucid/node_modules/
