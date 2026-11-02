@@ -53,7 +53,7 @@ export default async function path(el, ctx) {
       <section class="stack">
         <div class="row between">
           <div><h2 class="path-level-h">${legend(`${L} · ${meta.name_en}`, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
-          ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלך', 'Your current level')}</span>` : ''}
+          ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלכם', 'Your current level')}</span>` : ''}
         </div>
         <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${lvl.lessons.map((l) => {
           const p = m.progress.get(l.id);
@@ -78,7 +78,7 @@ export default async function path(el, ctx) {
           : canImportVocab(lvl.id) ? html`<div class="panel flat stack-sm"><p class="small">${isolateLatin(tt(`דילגתם על שיעורי ${L}, ולכן המילים שלהם עוד לא בחזרה המרווחת. אפשר להוסיף אותן: הן ייכנסו בהדרגה, עד ${settings().new_per_day} מילים חדשות ביום.`, `You skipped ${L}, so its words are not in your reviews yet. Add them? They come in gradually, up to ${settings().new_per_day} new a day.`))}</p>
           <div class="row"><button type="button" class="key small" data-import="${lvl.id}"><span>${isolateLatin(tt(`להוסיף את המילים של ${L}`, `Add the ${L} words`))}</span></button></div></div>` : ''}
         <div class="panel flat stack-sm">
-          ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגת עליהם וחזרת אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
+          ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגתם עליהם וחזרתם אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
           <div class="row between">
             <p class="small muted grow">${tt('מרגישים שהרמה לא מתאימה? מיקום הוא הערכה התחלתית, ואתם מחליטים.', 'Does this level feel wrong? Placement is a first estimate, and you decide.')}</p>
             <div class="row">

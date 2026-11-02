@@ -120,12 +120,12 @@ export function skillSummary(skills) {
 // The unfinished placement test, on Today and on the path (persona findings P-37, R2-15, R1-D2).
 export function placementCard({ heading = 'h2' } = {}) {
   const n = placementDraft()?.answers?.length || 0;
-  const title = n ? tt('להמשיך את מבחן המיקום', 'Finish your placement test') : tt('מבחן המיקום מחכה לך', 'Your placement test is waiting');
+  const title = n ? tt('להמשיך את מבחן המיקום', 'Finish your placement test') : tt('מבחן המיקום מחכה לכם', 'Your placement test is waiting');
   return html`<section class="panel stack" aria-labelledby="pl-h">
     ${heading === 'h1' ? html`<h1 id="pl-h" class="h3">${title}</h1>` : html`<h2 id="pl-h">${title}</h2>`}
     <p class="small muted">${n
-      ? tt(`ענית על ${n} שאלות, והן נשמרו. עוד כמה דקות, והתוכנית היומית תתחיל ברמה שמתאימה לך.`, `You've answered ${n} questions, and they're saved. A few more minutes and your daily plan starts at the level that fits you.`)
-      : tt('כ-10 דקות. אחריו התוכנית היומית תתחיל ברמה שמתאימה לך.', 'About 10 minutes. After it, your daily plan starts at the level that fits you.')}</p>
+      ? tt(`עניתם על ${n} שאלות, והן נשמרו. עוד כמה דקות, והתוכנית היומית תתחיל ברמה שמתאימה לכם.`, `You've answered ${n} questions, and they're saved. A few more minutes and your daily plan starts at the level that fits you.`)
+      : tt('כ-10 דקות. אחריו התוכנית היומית תתחיל ברמה שמתאימה לכם.', 'About 10 minutes. After it, your daily plan starts at the level that fits you.')}</p>
     <div class="row"><a class="key enter" href="#/placement${n ? '?resume=1' : ''}">${n ? tt('להמשיך את המבחן', 'Continue the test') : tt('להתחיל את המבחן', 'Start the test')} ${arrow()}</a>
       ${n ? html`<a class="key ghost" href="#/placement?restart=1">${tt('להתחיל מחדש', 'Start again')}</a>` : ''}</div>
     ${noTestChoices()}
@@ -277,7 +277,7 @@ export default async function today(el, ctx) {
           }
           if (sc) return html`${tt('מהחיים:', 'Real life:')} ${legend(sc.title_en, sc.title_he)}`;
           if (tk) return html`${b.started && !b.done ? tt('כתיבה, להמשיך:', 'Writing, continue:') : tt('כתיבה:', 'Writing:')} ${legend(tk.title_en, tk.title_he)}`;
-          if (b.kind === 'reading') return tt('קריאה: טקסט קצר ברמה שלך', 'Reading: a short text at your level');
+          if (b.kind === 'reading') return tt('קריאה: טקסט קצר ברמה שלכם', 'Reading: a short text at your level');
           return b.kind === 'speaking' ? tt('דיבור: להשתמש במה שלמדתם', 'Speaking: use what you learned') : tt('כתיבה: טקסט קצר משלכם', 'Writing: a short text of your own');
         }
         case 'exit': return tt('בדיקת יציאה: המילים של היום', 'Exit check: today\'s words');
@@ -309,14 +309,14 @@ export default async function today(el, ctx) {
     };
     // The reason names only a goal the learner chose (persona finding R2-39).
     const goalWhy = (b) => {
-      if (b.goal === 'travel') return tt('בחרת טיולים: מצב אחד מנסיעה, ברמה שלך.', 'You chose travel: one real situation from a trip, at your level.');
-      if (b.goal === 'conversation') return tt('בחרת ביטחון בשיחה: שיחה אחת מהחיים, ברמה שלך.', 'You chose confidence in conversation: one real conversation, at your level.');
-      if (b.goal === 'work') return tt('בחרת עבודה: מצב אחד מהעבודה, ברמה שלך.', 'You chose work: one workplace situation, at your level.');
-      if (b.goal === 'studies' && b.kind === 'reading') return tt('בחרת בגרות ולימודים: קריאה של טקסטים קצרים בונה את ההבנה שהמבחנים האלה בודקים.', 'You chose exams and university: reading short texts builds the comprehension these exams test.');
-      if (b.goal === 'writing' && b.kind === 'reading') return tt('בחרת כתיבה אקדמית: קריאה של טקסטים עם טיעון טוב בונה את השפה שכותבים בה.', 'You chose academic writing: reading well-argued texts builds the language you write with.');
-      if (b.goal === 'studies' && b.kind === 'writing') return tt('בחרת בגרות ולימודים: משימה אחת ממעבדת הכתיבה, ברמה שלך.', 'You chose exams and university: one Writing lab task at your level.');
-      if (b.goal === 'writing' && b.kind === 'writing') return tt('בחרת כתיבה אקדמית: משימה אחת ממעבדת הכתיבה, ברמה שלך.', 'You chose academic writing: one Writing lab task at your level.');
-      return b.kind === 'speaking' ? tt('להגיד דברים בקול הופך ידע למיומנות.', 'Saying things out loud turns knowledge into skill.') : b.kind === 'reading' ? tt('קריאה ברמה שלך מרחיבה מילים ומבנים.', 'Reading at your level widens your words and structures.') : tt('כתיבה מחייבת לבחור מילים ומבנים בעצמכם.', 'Writing makes you choose words and structures yourself.');
+      if (b.goal === 'travel') return tt('בחרתם טיולים: מצב אחד מנסיעה, ברמה שלכם.', 'You chose travel: one real situation from a trip, at your level.');
+      if (b.goal === 'conversation') return tt('בחרתם ביטחון בשיחה: שיחה אחת מהחיים, ברמה שלכם.', 'You chose confidence in conversation: one real conversation, at your level.');
+      if (b.goal === 'work') return tt('בחרתם עבודה: מצב אחד מהעבודה, ברמה שלכם.', 'You chose work: one workplace situation, at your level.');
+      if (b.goal === 'studies' && b.kind === 'reading') return tt('בחרתם בגרות ולימודים: קריאה של טקסטים קצרים בונה את ההבנה שהמבחנים האלה בודקים.', 'You chose exams and university: reading short texts builds the comprehension these exams test.');
+      if (b.goal === 'writing' && b.kind === 'reading') return tt('בחרתם כתיבה אקדמית: קריאה של טקסטים עם טיעון טוב בונה את השפה שכותבים בה.', 'You chose academic writing: reading well-argued texts builds the language you write with.');
+      if (b.goal === 'studies' && b.kind === 'writing') return tt('בחרתם בגרות ולימודים: משימה אחת ממעבדת הכתיבה, ברמה שלכם.', 'You chose exams and university: one Writing lab task at your level.');
+      if (b.goal === 'writing' && b.kind === 'writing') return tt('בחרתם כתיבה אקדמית: משימה אחת ממעבדת הכתיבה, ברמה שלכם.', 'You chose academic writing: one Writing lab task at your level.');
+      return b.kind === 'speaking' ? tt('להגיד דברים בקול הופך ידע למיומנות.', 'Saying things out loud turns knowledge into skill.') : b.kind === 'reading' ? tt('קריאה ברמה שלכם מרחיבה מילים ומבנים.', 'Reading at your level widens your words and structures.') : tt('כתיבה מחייבת לבחור מילים ומבנים בעצמכם.', 'Writing makes you choose words and structures yourself.');
     };
     // A text longer than the block: the plan says how long the whole text takes and that today is a part
     // (persona finding R2-16). The editor saves the draft as the learner types.
@@ -346,7 +346,7 @@ export default async function today(el, ctx) {
         case 'learn': return lessonWhy(b);
         case 'game': return tt('10 שאלות קצרות על המילים של הרמה שלכם.', '10 quick questions on the words of your level.');
         case 'practice': {
-          if (b.focus.kind === 'scenario') return tt('בחלק מהתשובות שלך כאן הייתה דרך טבעית יותר. עוד סבב יעזור לזכור אותה.', 'Some of your replies here had a more natural option. Another round helps it stick.');
+          if (b.focus.kind === 'scenario') return tt('בחלק מהתשובות שלכם כאן הייתה דרך טבעית יותר. עוד סבב יעזור לזכור אותה.', 'Some of your replies here had a more natural option. Another round helps it stick.');
           const e = b.focus.kind === 'error' ? m.recurring.find((x) => x.error_type === b.focus.id) : null;
           return e ? tt(`חזר ${e.count} פעמים ב-${e.days} ימים שונים בחודש האחרון.`, `It came up ${e.count} times on ${e.days} different days this month.`) : tt('נושא שעוד לא בשליטה.', 'A topic that is not secure yet.');
         }
@@ -403,7 +403,7 @@ export default async function today(el, ctx) {
       ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
 
     const planSection = m.placementPending
-      ? html`${placementCard()}<p class="small muted">${tt('התוכנית היומית תופיע אחרי מבחן המיקום, כדי שתתחיל ברמה הנכונה.', 'Your daily plan appears after the placement test, so it starts at the right level.')}</p>`
+      ? html`${placementCard()}<p class="small muted">${tt('התוכנית היומית תופיע אחרי מבחן המיקום, כדי שתתחילו ברמה הנכונה.', 'Your daily plan appears after the placement test, so it starts at the right level.')}</p>`
       : html`
           ${first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
             ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : doneBanner}

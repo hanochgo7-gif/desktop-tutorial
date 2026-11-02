@@ -34,10 +34,10 @@ export default async function placementView(el, ctx) {
     render(el, html`<div class="onboard stack-lg">
       <a class="brand" href="#/today">${brandMark()}<span>Lucid</span></a>
       ${done ? html`<div class="stack-sm"><h1>${tt('להמשיך את מבחן המיקום', 'Continue your placement test')}</h1>
-        <p class="muted">${tt(`ענית על ${done} שאלות, והתשובות נשמרו. אפשר להמשיך מאותה נקודה או להתחיל מחדש.`, `You've answered ${done} questions, and your answers are saved. Continue from there or start again.`)}</p></div>
+        <p class="muted">${tt(`עניתם על ${done} שאלות, והתשובות נשמרו. אפשר להמשיך מאותה נקודה או להתחיל מחדש.`, `You've answered ${done} questions, and your answers are saved. Continue from there or start again.`)}</p></div>
       <div class="row"><button type="button" class="key enter" data-begin>${tt('להמשיך', 'Continue')} ${arrow()}</button><a class="key ghost" href="#/placement?restart=1">${tt('להתחיל מחדש', 'Start again')}</a></div>`
       : html`<div class="stack-sm"><h1>${tt('מבחן מיקום קצר', 'A short placement test')}</h1>
-        <p class="muted">${tt('כ-10 דקות. השאלות נעשות קלות או קשות לפי התשובות שלך, כדי למצוא את נקודת ההתחלה הנכונה.', 'About 10 minutes. Questions get easier or harder based on your answers, to find the right starting point.')}</p></div>
+        <p class="muted">${tt('כ-10 דקות. השאלות נעשות קלות או קשות לפי התשובות שלכם, כדי למצוא את נקודת ההתחלה הנכונה.', 'About 10 minutes. Questions get easier or harder based on your answers, to find the right starting point.')}</p></div>
       <ul class="stack-sm small" style="padding-inline-start:1.2rem;margin:0">
         <li>${tt('אין ציון ואין ״נכשל״. זו רק נקודת פתיחה.', 'There is no score and no failing. It is only a starting point.')}</li>
         <li>${tt('לא בטוחים? ״לא יודע/ת״ עדיף על ניחוש: כך המיקום מדויק יותר.', 'Not sure? "I don\'t know" beats guessing: it makes the placement more accurate.')}</li>
@@ -111,15 +111,15 @@ export default async function placementView(el, ctx) {
     // The headline says only what was confirmed (persona finding R2-38): C1, or C2 after a confirmed C2.
     const band = r.demonstrated === 'C2' ? 'C2' : 'C1';
     const headline = !r.demonstrated
-      ? tt('נתחיל מהבסיס, בקצב שלך. שיעורים שתדעו כבר יעברו מהר.', 'We\'ll start from the basics, at your pace. Lessons you already know will go quickly.')
+      ? tt('נתחיל מהבסיס, בקצב שלכם. שיעורים שתדעו כבר יעברו מהר.', 'We\'ll start from the basics, at your pace. Lessons you already know will go quickly.')
       : r.top_band
-        ? tt(`התשובות שלך בשאלות דקדוק, אוצר מילים, קריאה והאזנה מתאימות לרמה ${band}. שאלות כאלה לבד לא קובעות רמה כזו, וכתיבה ודיבור לא נבדקו: משימת הכתיבה של הרמה היא הדרך להראות אותם.`, `Your answers to grammar, vocabulary, reading and listening questions are consistent with ${band}. Questions like these cannot establish that level on their own, and writing and speaking were not measured: the level's writing task is how to show them.`)
-        : tt(`הראית שליטה עד רמה ${L(r.demonstrated)}, בשתי סדרות של שאלות.`, `You showed control up to ${L(r.demonstrated)}, over two sets of questions.`);
+        ? tt(`התשובות שלכם בשאלות דקדוק, אוצר מילים, קריאה והאזנה מתאימות לרמה ${band}. שאלות כאלה לבד לא קובעות רמה כזו, וכתיבה ודיבור לא נבדקו: משימת הכתיבה של הרמה היא הדרך להראות אותם.`, `Your answers to grammar, vocabulary, reading and listening questions are consistent with ${band}. Questions like these cannot establish that level on their own, and writing and speaking were not measured: the level's writing task is how to show them.`)
+        : tt(`הראיתם שליטה עד רמה ${L(r.demonstrated)}, בשתי סדרות של שאלות.`, `You showed control up to ${L(r.demonstrated)}, over two sets of questions.`);
     // The start, and why (R1-Y2): the confirmed level itself, or B2 for non-academic goals.
     const startWhy = !r.demonstrated ? ''
       : r.held_for_goals
-        ? tt(`השיעורים של C1 ו-C2 עוסקים בטיעון ובאוצר מילים אקדמיים. בין המטרות שבחרת אין בגרות, לימודים או כתיבה אקדמית, אז נתחיל ב-B2: טיעונים ודקויות.`, `C1 and C2 lessons are about academic argument and academic vocabulary. You did not choose exams, university or academic writing, so we'll start at B2: arguments and nuance.`)
-        : tt(`נתחיל ב-${L(r.start_level)}, הרמה שהראית, כדי לבסס אותה ולבנות ממנה.`, `We'll start at ${L(r.start_level)}, the level you showed, to make it solid and build from there.`);
+        ? tt(`השיעורים של C1 ו-C2 עוסקים בטיעון ובאוצר מילים אקדמיים. בין המטרות שבחרתם אין בגרות, לימודים או כתיבה אקדמית, אז נתחיל ב-B2: טיעונים ודקויות.`, `C1 and C2 lessons are about academic argument and academic vocabulary. You did not choose exams, university or academic writing, so we'll start at B2: arguments and nuance.`)
+        : tt(`נתחיל ב-${L(r.start_level)}, הרמה שהראיתם, כדי לבסס אותה ולבנות ממנה.`, `We'll start at ${L(r.start_level)}, the level you showed, to make it solid and build from there.`);
     // Where the ceiling was (TF-9; student-27 F11): the first level above the confirmed one that was asked, and
     // how many of its questions were right, so a learner sees why the start is where it is.
     const above = (() => {
@@ -132,7 +132,7 @@ export default async function placementView(el, ctx) {
     // The C1/C2 note is shown only when an estimate reaches B2 or above (persona finding R2-36).
     const highNote = at(r.demonstrated) >= at('B2') || Object.values(r.skills || {}).some((v) => v?.level && at(v.level) >= at('B2'));
     render(el, html`<div class="onboard stack-lg">
-      <div class="stack-sm"><h1>${tt('נקודת ההתחלה שלך', 'Your starting point')}</h1>
+      <div class="stack-sm"><h1>${tt('נקודת ההתחלה שלכם', 'Your starting point')}</h1>
         <p class="muted">${headline}</p>${startWhy ? html`<p class="muted">${startWhy}</p>` : ''}</div>
       <div class="panel stack">
         <div class="row between"><span>${tt('מתחילים ב-', 'Starting at')}</span><span class="tag level" style="font-size:var(--t-md)">${L(r.start_level)}</span></div>

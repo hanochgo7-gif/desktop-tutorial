@@ -57,9 +57,9 @@ export default async function welcome(el, ctx) {
       <div class="welcome-main">
         <div class="stack-lg">
           <div>
-            <h1>${tt('אנגלית, מהאות הראשונה ועד הטיעון הכי טוב שלך.', 'English, from your first letter to your best argument.')}</h1>
+            <h1>${tt('אנגלית, מהאות הראשונה ועד הטיעון הכי טוב שלכם.', 'English, from your first letter to your best argument.')}</h1>
             <p class="lede">${tt(
-              'שיעורים שנבנו לדוברי עברית, תרגול שמתאים את עצמו לטעויות שלך, אנגלית לטיול הבא, ומעבדת כתיבה שמלמדת אותך לתקן בעצמך.',
+              'שיעורים שנבנו לדוברי עברית, תרגול שמתאים את עצמו לטעויות שלכם, אנגלית לטיול הבא, ומעבדת כתיבה שמלמדת אתכם לתקן בעצמכם.',
               'Lessons built for Hebrew speakers, practice that adapts to your mistakes, English for your next trip, and a writing lab that teaches you to fix your own writing.')}</p>
           </div>
           <div class="start-bar">

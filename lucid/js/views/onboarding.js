@@ -175,8 +175,8 @@ export default async function onboarding(el, ctx) {
     render(el, html`<div class="onboard stack" role="alert">
       <a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a>
       <h1 tabindex="-1">${tt('עדיין אי אפשר להירשם', 'You can\'t register yet')}</h1>
-      <p>${tt('תודה שרצית ללמוד איתנו. Lucid מיועד לגילאי 16 ומעלה, ולכן עדיין אי אפשר להירשם. נשמח לראות אותך כשתגיע/י לגיל 16.', 'Thank you for wanting to learn with Lucid. Lucid is for learners aged 16 and over, so you can\'t register yet. We\'d be glad to see you when you turn 16.')}</p>
-      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליך. הדפדפן הזה זוכר רק שההרשמה לא אושרה, ורק למשך 24 שעות.', 'We did not save your year of birth or anything else about you. This browser only remembers that registration was refused, for 24 hours.')}</p>
+      <p>${tt('תודה שרציתם ללמוד איתנו. Lucid מיועד לגילאי 16 ומעלה, ולכן עדיין אי אפשר להירשם. נשמח לראות אתכם כשתגיעו לגיל 16.', 'Thank you for wanting to learn with Lucid. Lucid is for learners aged 16 and over, so you can\'t register yet. We\'d be glad to see you when you turn 16.')}</p>
+      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליכם. הדפדפן הזה זוכר רק שההרשמה לא אושרה, ורק למשך 24 שעות.', 'We did not save your year of birth or anything else about you. This browser only remembers that registration was refused, for 24 hours.')}</p>
       <div class="row"><a class="key" href="#/welcome">${tt('לדף הבית', 'Back to the home page')}</a></div>
     </div>`);
     el.querySelector('h1')?.focus();
