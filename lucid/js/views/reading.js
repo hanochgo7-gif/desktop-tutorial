@@ -9,7 +9,7 @@ import { mark, emptyState } from '../ui/components.js';
 import { model } from '../core/learner.js';
 import { countWords } from '../core/grading.js';
 import { levelIndex } from '../core/adaptive.js';
-import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, attemptsOn, bestScore, itemHref, findItem, levelHeading, runPlayer, missingPlayer } from '../ui/center.js';
+import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, orderedGroups, attemptsOn, bestScore, itemHref, findItem, levelHeading, runPlayer, missingPlayer } from '../ui/center.js';
 
 export function passageTitle(ex) {
   if (ex.title) return ex.title;
@@ -20,7 +20,7 @@ export function passageTitle(ex) {
 export default async function reading(el, ctx) {
   ctx.setTitle(t('nav.reading'));
   const [items, ix] = await Promise.all([gatherExercises(['read']), taxonomyIndex()]);
-  const backLabel = tt('חזרה לרשימת הטקסטים', 'Back to the reading list');
+  const backLabel = tt('לרשימת הטקסטים', 'Back to the reading list');
 
   if (ctx.query.l && ctx.query.e) {
     const item = findItem(items, ctx.query);
@@ -60,10 +60,10 @@ export default async function reading(el, ctx) {
     }
     const ci = levelIndex(m.courseLevel);
     const rec = recommendedLevel(groups, m.courseLevel);
-    const next = nextSuggestion(items, m.attempts, m.courseLevel);
+    const next = nextSuggestion(items, m.attempts, m.courseLevel, m.progress);
     const doneCount = items.filter((x) => attemptsOn(m.attempts, x).length).length;
     const ri = rec ? levelIndex(rec) : -1;
-    const ordered = [...groups.filter((g) => levelIndex(g.level) >= ri), ...groups.filter((g) => levelIndex(g.level) < ri).reverse()];
+    const ordered = orderedGroups(groups, rec);
     const firstEasier = ordered.find((g) => levelIndex(g.level) < ri);
     render(el, html`
       <div class="page-head">

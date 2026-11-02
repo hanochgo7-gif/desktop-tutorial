@@ -74,7 +74,7 @@ function judge({ transcript = '', alternatives = [] }, target, partner) {
 export default async function speaking(el, ctx) {
   ctx.setTitle(t('nav.speaking'));
   const [items, ix] = await Promise.all([gatherExercises(['speak']), taxonomyIndex()]);
-  const backLabel = tt('חזרה למעבדת הדיבור', 'Back to the Speaking lab');
+  const backLabel = tt('למעבדת הדיבור', 'Back to the Speaking lab');
 
   if (ctx.query.l && ctx.query.e) {
     const item = findItem(items, ctx.query);
@@ -197,7 +197,7 @@ export default async function speaking(el, ctx) {
     }
     const groups = groupByLevel(items);
     const rec = recommendedLevel(groups, m.courseLevel);
-    const next = nextSuggestion(items, m.attempts, m.courseLevel);
+    const next = nextSuggestion(items, m.attempts, m.courseLevel, m.progress);
     const ci = levelIndex(m.courseLevel);
     const open = new Set([...el.querySelectorAll('#sp-shadow-list details[open]')].map((d) => d.dataset.level));
     const isOpen = (lv) => (open.size ? open.has(lv) : lv === rec);

@@ -285,6 +285,34 @@ try {
     await a.ctx.close();
   });
 
+  // ---------- PH-6 ----------
+  await check('PH-6. Listening opens at the learner\'s level: under 4,000px for A2 at 390, the recommended group first and open, Pre-A1 folded, rows by Hebrew lesson title, "next" from a started lesson', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.startLesson(await (await fetch('content/lessons/a2-05.json')).json()); });
+    await go(page, 'listening', '#view details');
+    const info = await page.evaluate(() => {
+      const ds = [...document.querySelectorAll('#view details[data-level]')];
+      return { h: document.documentElement.scrollHeight, order: ds.map((d) => d.dataset.level), open: ds.filter((d) => d.open).map((d) => d.dataset.level), firstTag: ds[0]?.querySelector('summary .tag')?.textContent.trim(), titles: [...ds[0].querySelectorAll('.lesson-row .grow > span:first-child')].map((s) => s.textContent.trim()).slice(0, 4), next: document.querySelector('.page-head a.key.enter')?.getAttribute('href') };
+    });
+    await shot(page, 'ph6-listening-A2-390');
+    assert(info.h < 4000, `#/listening is ${info.h}px tall`);
+    assert(info.order[0] === 'A2' && info.firstTag === 'מומלץ לרמה שלך', `first group: ${info.order[0]} "${info.firstTag}"`);
+    assert(info.open.join() === 'A2' && info.order.includes('PreA1'), `open groups: ${info.open}`);
+    assert(info.order.join() === 'A2,B1,B2,C1,C2,A1,PreA1', `group order: ${info.order}`);
+    assert(info.titles.length && info.titles.every((x) => /[א-ת]/.test(x)), `rows are not named by the Hebrew lesson title: ${info.titles}`);
+    assert(/l=a2-05&/.test(info.next || ''), `"next" is not from the started lesson: ${info.next}`);
+    await page.click('#view details[data-level="PreA1"] > summary');
+    assert(await page.$eval('#view details[data-level="PreA1"]', (d) => d.open), 'a folded level does not open');
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'B1');
+    await go(b.page, 'listening', '#view details');
+    const first = await b.page.$eval('#view details[data-level]', (d) => [d.dataset.level, d.open]);
+    assert(first[0] === 'B1' && first[1], `a B1 learner starts at ${first}`);
+    await b.ctx.close();
+  });
+
   // ---------- PH-10 ----------
   await check('PH-10. Settings: languages in their own names, equal-width data buttons, and a restore error that says what to choose', async () => {
     for (const viewport of [PHONE, DESKTOP]) {

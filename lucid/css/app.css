@@ -1000,6 +1000,15 @@ dialog.sheet > .panel { padding: var(--s5); }
 .settings-data { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s2); width: fit-content; max-width: 100%; }
 .settings-data > .key { width: 100%; justify-content: center; }
 .settings-view .error-text:empty { display: none; }
+/* Listening: rows named by their lesson and compact, so a level of 30 items stays short (PH-6); the touch target
+   stays above 44px. The row's inline style opts it out of the shared narrow-row layout: it keeps its three columns
+   on a phone at 100% text and stacks its tag only when large text leaves little room. */
+.lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr) auto; padding-block: var(--s2); min-height: 3.25rem; }
+@container (max-width: 17rem) {
+  .lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }
+  .lesson-row.ls-row > .mark { margin-block-start: 0.2em; }
+  .lesson-row.ls-row > :last-child:not(.grow) { grid-column: 2; justify-self: start; }
+}
 
 /* ---- lane practice-hubs: end ---- */
 

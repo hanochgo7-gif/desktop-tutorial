@@ -44,12 +44,21 @@ export function recommendedLevel(groups, courseLevel) {
   const below = groups.filter((g) => levelIndex(g.level) <= levelIndex(courseLevel));
   return below.length ? below[below.length - 1].level : null;
 }
-// Next suggestion: not done yet, at or below the course level, closest to it first.
-export function nextSuggestion(items, attempts, courseLevel) {
+// Next suggestion: not done yet, at or below the course level, closest to it first. Items from lessons the learner
+// has started or completed come first (UX r3 PH-6), so "next" is never a lesson they have not met while one they
+// have met still has something to practise. progress: the learner model's Map of lesson progress.
+export function nextSuggestion(items, attempts, courseLevel, progress = new Map()) {
   const ci = levelIndex(courseLevel);
+  const met = (x) => ['started', 'completed'].includes(progress.get(x.lesson.id)?.status);
   return items
     .filter((x) => levelIndex(x.lesson.level) <= ci && !attemptsOn(attempts, x).length)
-    .sort((a, b) => levelIndex(b.lesson.level) - levelIndex(a.lesson.level) || a.rank - b.rank)[0] || null;
+    .sort((a, b) => met(b) - met(a) || levelIndex(b.lesson.level) - levelIndex(a.lesson.level) || a.rank - b.rank)[0] || null;
+}
+// The level groups in the order a hub shows them (PH-6, as the Reading centre does): the recommended level, the
+// levels above it, then the easier ones, closest first.
+export function orderedGroups(groups, recommended) {
+  const ri = recommended ? levelIndex(recommended) : -1;
+  return [...groups.filter((g) => levelIndex(g.level) >= ri), ...groups.filter((g) => levelIndex(g.level) < ri).reverse()];
 }
 
 // Level heading for a group, with the recommended marker.
