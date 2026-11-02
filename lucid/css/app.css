@@ -801,6 +801,13 @@ dialog.sheet > .panel { padding: var(--s5); }
 .alt-quote .tag { vertical-align: 0.1em; margin-inline-start: var(--s1); }
 /* Play keys inside chat bubbles keep the key's own size (44 x 44 px under a coarse pointer). */
 .msg .say-key { vertical-align: middle; margin-inline-start: var(--s1); margin-block: -0.4rem; }
+/* A reply in the learner's own words: a three-line field, possible Hebrew-speaker errors, the turn's goal points
+   as a checklist (RW-3). */
+textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); resize: vertical; }
+.own-l1-h { display: flex; align-items: center; gap: var(--s2); color: var(--warn); font-size: var(--t-sm); }
+.goal-points li.ok > .icon { color: var(--ok); }
+.goal-points li.todo > .icon { color: var(--ink-3); }
+.model-replies { margin: 0; padding-inline-start: 1.2rem; text-align: start; }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

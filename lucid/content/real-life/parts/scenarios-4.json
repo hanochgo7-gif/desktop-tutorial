@@ -1305,7 +1305,8 @@
             "Hi James, thanks for checking in. Unfortunately, the sales figures from Dana's team are three days late, and I need them for the main section. Would it be possible to move the deadline to Monday?",
             "Hi James, I wanted to give you a heads-up: I'm still waiting for the sales figures, so the report may be late. Could we move the deadline to Monday?"
           ],
-          "keywords": ["unfortunately", "late", "would it be possible", "deadline", "Monday"]
+          "keywords": ["unfortunately", "late", "would it be possible", "deadline", "Monday"],
+          "points": [{"en": "Greet or thank James", "he": "פונים לג׳יימס או מודים לו", "any": ["hi james", "hello james", "dear james", "thanks", "thank you"]}, {"en": "Name the problem: the figures are late", "he": "מציינים את הבעיה: הנתונים מתעכבים", "any": ["late", "waiting", "delay", "delayed", "haven't arrived", "not arrived", "missing"]}, {"en": "Ask for a new date", "he": "מבקשים מועד חדש", "any": ["move the deadline", "new deadline", "would it be possible", "could we", "extension", "more time", "monday"]}]
         },
         {
           "partner": "Thanks for flagging this early. Monday is tight, because I'm presenting to the client on Tuesday morning. What can you send me by Thursday?",
@@ -1339,7 +1340,8 @@
             "I can send you the other three sections on Thursday, and the full report by noon on Monday. That gives you Monday afternoon to review it. Would that work?",
             "By Thursday I can send everything except the sales section. Would it help if I sent the full report first thing on Monday?"
           ],
-          "keywords": ["send", "sections", "Thursday", "Monday", "would that work"]
+          "keywords": ["send", "sections", "Thursday", "Monday", "would that work"],
+          "points": [{"en": "Say what you can send by Thursday", "he": "אומרים מה אפשר לשלוח עד יום חמישי", "any": ["thursday"]}, {"en": "Give a date for the rest", "he": "נותנים מועד לשאר", "any": ["monday", "noon", "first thing", "tomorrow", "friday"]}, {"en": "Check that it works for James", "he": "בודקים שזה מתאים לג׳יימס", "any": ["would that work", "would that help", "would it help", "does that work", "is that ok", "is that okay", "works for you"]}]
         },
         {
           "partner": "That works. Can you loop Dana in, so she knows the figures are now urgent?",
@@ -1373,7 +1375,8 @@
             "Will do. I've copied Dana. Dana, could you send the sales figures by Friday, please?",
             "Sure, I've added Dana to this email. Dana, would Friday be possible for the figures?"
           ],
-          "keywords": ["copied", "added", "Dana", "Friday", "could you"]
+          "keywords": ["copied", "added", "Dana", "Friday", "could you"],
+          "points": [{"en": "Confirm that you added Dana", "he": "מאשרים שהוספתם את דנה", "any": ["copied", "added", "cc", "cc'd", "looped", "loop"]}, {"en": "Ask Dana for the figures, with a date", "he": "מבקשים מדנה את הנתונים, עם מועד", "any": ["by friday", "by thursday", "by monday", "by tomorrow", "friday", "tomorrow"]}, {"en": "Ask politely", "he": "מבקשים בנימוס", "any": ["could you", "would", "please", "possible"]}]
         },
         {
           "partner": "Thanks. And if the figures are late again, what's the plan?",
@@ -1408,7 +1411,8 @@
             "If they haven't arrived by Friday, I'll use last quarter's figures and mark them clearly as estimates. I'll keep you posted either way.",
             "If they're late again, I'll let you know on Friday and we can decide together."
           ],
-          "keywords": ["if", "by Friday", "estimates", "keep you posted", "let you know"]
+          "keywords": ["if", "by Friday", "estimates", "keep you posted", "let you know"],
+          "points": [{"en": "Say what you will do if they are late again", "he": "אומרים מה תעשו אם יתעכבו שוב", "any": ["i'll use", "i will use", "estimates", "last quarter", "i'll send", "i will send"]}, {"en": "Promise to keep James informed", "he": "מבטיחים לעדכן את ג׳יימס", "any": ["keep you posted", "let you know", "update you", "keep you updated", "keep you in the loop"]}]
         },
         {
           "partner": "Perfect. Thanks for keeping me in the loop.",
@@ -1443,7 +1447,8 @@
             "Thanks for being flexible. I'll send the first sections on Thursday.",
             "Thanks, James. The first sections will be with you on Thursday."
           ],
-          "keywords": ["thanks", "flexible", "Thursday", "send"]
+          "keywords": ["thanks", "flexible", "Thursday", "send"],
+          "points": [{"en": "Thank James", "he": "מודים לג׳יימס", "any": ["thanks", "thank you", "appreciate"]}, {"en": "Confirm the next step", "he": "מאשרים את הצעד הבא", "any": ["thursday", "i'll send", "i will send", "first sections"]}]
         }
       ],
       "roleplay": {
@@ -1601,7 +1606,8 @@
             "I see where you're coming from, but I'm not sure we're ready yet. Can I explain why?",
             "I have a slightly different view. Could I share a concern first?"
           ],
-          "keywords": ["see where you're coming from", "not sure", "different view", "concern", "explain"]
+          "keywords": ["see where you're coming from", "not sure", "different view", "concern", "explain"],
+          "points": [{"en": "Show that you heard the idea", "he": "מראים ששמעתם את הרעיון", "any": ["see where you're coming from", "i see", "i understand", "good idea", "i get"]}, {"en": "Say politely that you see it differently", "he": "אומרים בנימוס שאתם רואים את זה אחרת", "any": ["not sure", "different view", "concern", "worried", "slightly"]}, {"en": "Ask to explain", "he": "מבקשים להסביר", "any": ["explain", "share", "can i", "could i"]}]
         },
         {
           "partner": "Really? What's the problem?",
@@ -1635,7 +1641,8 @@
             "My concern is the two bugs we found on older phones. The app crashes when people try to pay.",
             "In my testing, the payment screen crashed on older phones. That worries me."
           ],
-          "keywords": ["concern", "bugs", "crashes", "older phones", "testing"]
+          "keywords": ["concern", "bugs", "crashes", "older phones", "testing"],
+          "points": [{"en": "Name the problem", "he": "מציינים את הבעיה", "any": ["bug", "bugs", "crash", "crashes", "crashed", "problem"]}, {"en": "Give the facts: where it happens", "he": "נותנים עובדות: איפה זה קורה", "any": ["older phones", "phones", "payment", "testing"]}]
         },
         {
           "partner": "But that's only a small group of users, isn't it?",
@@ -1669,7 +1676,8 @@
             "That's a fair point. It's about eight percent of users, though, and a crash during payment could really hurt trust.",
             "True, it's a small group. But a payment crash is the worst kind of bug for them."
           ],
-          "keywords": ["fair point", "percent", "though", "trust", "payment"]
+          "keywords": ["fair point", "percent", "though", "trust", "payment"],
+          "points": [{"en": "Accept the fair part", "he": "מקבלים את מה שנכון בטענה", "any": ["fair point", "true", "that's right", "you're right", "i agree", "good point"]}, {"en": "Give a number or a fact", "he": "נותנים מספר או עובדה", "any": ["percent", "eight", "per cent"]}, {"en": "Say why it still matters", "he": "אומרים למה זה עדיין חשוב", "any": ["trust", "payment", "worst", "hurt", "though"]}]
         },
         {
           "partner": "OK, so what would you suggest?",
@@ -1704,7 +1712,8 @@
             "What if we launched it to ten percent of users first, and fixed the bugs in the meantime?",
             "I'd suggest we wait one more week, until the payment bugs are fixed."
           ],
-          "keywords": ["what if", "suggest", "first", "percent", "wait"]
+          "keywords": ["what if", "suggest", "first", "percent", "wait"],
+          "points": [{"en": "Suggest an alternative", "he": "מציעים חלופה", "any": ["what if", "suggest", "how about", "could we", "maybe we"]}, {"en": "Say when or how much", "he": "אומרים מתי או כמה", "any": ["percent", "first", "week", "until", "monday"]}]
         },
         {
           "partner": "That could work. Let's do a small launch on Monday, then.",
@@ -1738,7 +1747,8 @@
             "Great. So, just to confirm: ten percent on Monday, and I'll check the timeline with the developers by tomorrow.",
             "Sounds good. I'll talk to the developers today and update everyone tomorrow."
           ],
-          "keywords": ["confirm", "Monday", "I'll check", "developers", "tomorrow"]
+          "keywords": ["confirm", "Monday", "I'll check", "developers", "tomorrow"],
+          "points": [{"en": "Agree", "he": "מסכימים", "any": ["great", "sounds good", "ok", "okay", "perfect", "agreed"]}, {"en": "Confirm what you agreed", "he": "מאשרים על מה הסכמתם", "any": ["confirm", "to confirm", "monday", "ten percent", "small launch"]}, {"en": "Say your next step", "he": "אומרים מה הצעד הבא שלכם", "any": ["i'll check", "i'll talk", "i will", "developers", "tomorrow", "update"]}]
         }
       ],
       "roleplay": {

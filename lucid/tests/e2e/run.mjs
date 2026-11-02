@@ -1108,7 +1108,8 @@ try {
     await page.fill('[data-own]', 'Hi, I work with Dana on the product team. How do you know her?');
     await page.click('[data-own-check]');
     const own = await page.textContent('.panel.flat');
-    assert(/שאלה בחזרה|question back/.test(own) && /מחפשת רק מילות מפתח|only looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
+    // RW-3: a question back alone is not praised; the check says what it looks for.
+    assert(/לא מצאנו את המילים|did not find the words/.test(own) && /מחפשת מילות מפתח|looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
     for (let i = 0; i < 8 && await page.$('[data-next-turn], [data-opt]:not([disabled])'); i++) {
       if (!(await page.$('[data-next-turn]'))) { await page.click('[data-opt]:not([disabled])'); await page.click('[data-check-turn]'); }
       await page.click('[data-next-turn]');

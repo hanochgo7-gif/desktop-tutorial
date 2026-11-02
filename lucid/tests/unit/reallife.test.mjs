@@ -72,3 +72,19 @@ test("quote marks around a word do not hide it from the key-word check", () => {
   assert.ok(hasPhrase("What do you mean by 'short'?", 'short'));
   assert.ok(hasPhrase("I don't know", "don't"));
 });
+
+// RW-3: the own-words check runs the Hebrew-speaker rules and ticks the turn's goal points.
+test('own replies: Hebrew-speaker errors are named, goal points are ticked (RW-3)', () => {
+  const intro = scenarios.find((s) => s.id === 'rl-work-first-day-intro').practice[0];
+  const r = checkOwnReply('I am agree to work with you. Nice to know you.', intro, { level: 'A2' });
+  assert.deepEqual(r.l1.map((i) => i.ex), ['I agree', 'Nice to meet you']);
+  assert.deepEqual(checkOwnReply('Can I fix the bug until Thursday?', intro, { level: 'B1' }).l1.map((i) => i.ex), ['by Thursday']);
+  assert.deepEqual(checkOwnReply('Hi everyone, it is great to be here.', intro, { level: 'A2' }).l1, [], 'a correct reply has no flags');
+  const email = scenarios.find((s) => s.id === 'rl-work-email-extension').practice[0];
+  assert.ok(email.points.length === 3, 'the email turn has goal points');
+  const off = checkOwnReply('Hi Dana, the report will be late. I will send the first part until Wednesday, is it ok?', email, { level: 'B2' });
+  assert.deepEqual(off.points.map((p) => p.ok), [false, true, false], 'a reply to the wrong person that asks for no new date');
+  const good = checkOwnReply(email.model_replies[0], email, { level: 'B2' });
+  assert.ok(good.points.every((p) => p.ok) && !good.l1.length, 'the model reply meets every point');
+  for (const s of scenarios) for (const t of s.practice) for (const p of t.points || []) assert.ok(p.en && /[א-ת]/.test(p.he) && p.any?.length, `${s.id}: a point without words or phrases`);
+});

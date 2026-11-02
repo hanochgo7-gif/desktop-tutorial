@@ -2,6 +2,7 @@
 // suggest, the key-word check for a reply in the learner's own words, and expression search.
 import { levelIndex, SCENARIO_MODULES } from './adaptive.js';
 import { normalize } from './grading.js';
+import { l1Issues } from './writing-analyzer.js';
 
 // ---------- levels ----------
 // How a scenario's level relates to the learner's course level.
@@ -61,12 +62,16 @@ export function hasPhrase(text, phrase) {
 }
 
 // A key-word check, not a judgement: which of the turn's key words the reply uses, and whether it asks a
-// question back where the model replies do (a follow-up question keeps a conversation going).
-export function checkOwnReply(text, turn = {}) {
+// question back where the model replies do (a follow-up question keeps a conversation going). It also runs the
+// writing analyzer's Hebrew-speaker rules (l1), and ticks the turn's goal points (what a good reply does: name
+// the problem, give a new date ...) when one of each point's phrases is there (RW-3).
+export function checkOwnReply(text, turn = {}, { level = 'B1' } = {}) {
   const keywords = turn.keywords || [];
   const hits = keywords.filter((k) => hasPhrase(text, k));
   const asked = /\?/.test(String(text)) && (turn.model_replies || []).some((r) => r.includes('?'));
-  return { hits, asked, total: keywords.length, empty: !words(text).length };
+  const points = (turn.points || []).map((p) => ({ en: p.en, he: p.he, ok: (p.any || []).some((a) => hasPhrase(text, a)) }));
+  const empty = !words(text).length;
+  return { hits, asked, total: keywords.length, empty, points, l1: empty ? [] : l1Issues(text, { level }) };
 }
 
 // ---------- expression search ----------

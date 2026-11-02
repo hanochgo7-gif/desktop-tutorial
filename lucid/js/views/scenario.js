@@ -1,7 +1,7 @@
 // One real-life scenario: prepare (phrases), listen (model dialogue), practise (scripted turns that
 // work with no AI), and roleplay with an AI partner plus an end-of-conversation report.
 import { html, render, on, $, $$, shuffle, uid } from '../core/util.js';
-import { tt, bi, legend, hebrewSupport, isolateLatin, SUPPORT_BY_LEVEL } from '../core/i18n.js';
+import { tt, bi, legend, hebrewSupport, isolateLatin, uiLang, SUPPORT_BY_LEVEL } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
@@ -84,17 +84,24 @@ export default async function scenarioView(el, ctx) {
       <div class="row">${aiReady ? html`<button type="button" class="key enter" data-tab="roleplay">${tt('לשיחה עם AI', 'To AI roleplay')}</button>` : ''}${nextLink}<button type="button" class="key ghost" data-restart>${tt('לתרגל שוב', 'Practise again')}</button></div></div>`;
   };
 
-  // The key-word check on a reply in the learner's own words is a suggestion, never a verdict (P-60).
+  // The check on a reply in the learner's own words is a suggestion, never a verdict (P-60). It names possible
+  // Hebrew-speaker errors first, then the turn's goal points as a checklist; it praises key words only when they
+  // are there and no such error was found (RW-3).
   const ownResult = (t) => {
     const r = typedResult;
     if (r.empty) return html`<p class="small muted">${tt('כתבו או אמרו תשובה, ואז ״השוואה״.', 'Type or say a reply, then "Compare".')}</p>`;
-    const found = r.hits.length || r.asked;
-    return html`<div class="stack-sm small" aria-live="polite">
-      ${found ? html`<p>${tt('בתשובה שלכם יש', 'Your reply has')} ${r.hits.length ? html`${tt('מילים שמתאימות למצב:', 'words that fit this situation:')} <bdi lang="en" dir="ltr">${r.hits.join(', ')}</bdi>${r.asked ? tt(', וגם שאלה בחזרה, שמשאירה את השיחה פתוחה.', ', and a question back, which keeps the conversation going.') : '.'}` : tt('שאלה בחזרה, שמשאירה את השיחה פתוחה.', 'a question back, which keeps the conversation going.')}</p>`
-        : html`<p>${tt('לא מצאנו את המילים שציפינו להן, אבל זה לא אומר שהתשובה לא טובה. השוו לדוגמאות:', 'We did not find the words we expected, but that does not mean your reply is wrong. Compare with these examples:')}</p>`}
-      ${found ? html`<p>${tt('השוו לדוגמאות:', 'Compare with these examples:')}</p>` : ''}
-      <ul lang="en" dir="ltr" style="margin:0;padding-inline-start:1.2rem">${t.model_replies.map((m) => html`<li>${m}</li>`)}</ul>
-      <p class="xsmall faint">${tt('הבדיקה הזו מחפשת רק מילות מפתח. היא לא בודקת דקדוק או אם הניסוח טבעי.', 'This check only looks for key words. It does not check grammar or whether the wording is natural.')}</p></div>`;
+    const he = hebrewSupport() !== 'off' && uiLang() === 'he';
+    const praise = !r.points.length && r.hits.length && !r.l1.length;
+    return html`<div class="stack-sm small own-result" aria-live="polite">
+      ${r.l1.length ? html`<section class="stack-sm" aria-labelledby="own-l1-h"><h4 class="small own-l1-h" id="own-l1-h">${icon('alert', { size: 16 })}<span>${tt('אולי טעות נפוצה לדוברי עברית', 'Maybe a common mistake for Hebrew speakers')}</span></h4>
+        ${r.l1.map((i) => html`<div class="error-card"><p class="small issue-head"><span class="tag warn">${tt(i.he_title, i.title)}</span> <span class="quote" lang="en" dir="ltr">${i.match}</span></p>${he ? html`<p class="small muted" lang="he" dir="rtl">${isolateLatin(i.he)}</p>` : html`<p class="small muted en-line" lang="en" dir="ltr">${i.en}</p>`}${i.ex ? html`<p class="small en-line issue-ex" lang="en" dir="ltr"><span aria-hidden="true">→ </span><span class="sr-only">${tt('אפשר לומר:', 'You could say:')} </span>${i.ex}</p>` : ''}</div>`)}</section>` : ''}
+      ${r.points.length ? html`<section class="stack-sm"><h4 class="small">${tt('מה כדאי שיהיה בתשובה', 'What a good reply does here')}</h4>
+        <ul class="check-rows goal-points">${r.points.map((p) => html`<li class="${p.ok ? 'ok' : 'todo'}">${icon(p.ok ? 'check' : 'circle', { size: 16 })}<span>${tt(p.he, p.en)}<span class="sr-only"> ${p.ok ? tt('(נמצא)', '(found)') : tt('(לא נמצא)', '(not found)')}</span></span></li>`)}</ul></section>`
+        : praise ? html`<p>${tt('בתשובה שלכם יש מילים שמתאימות למצב:', 'Your reply has words that fit this situation:')} <bdi lang="en" dir="ltr">${r.hits.join(', ')}</bdi>${r.asked ? tt(', וגם שאלה בחזרה, שמשאירה את השיחה פתוחה.', ', and a question back, which keeps the conversation going.') : '.'}</p>`
+        : !r.hits.length ? html`<p>${tt('לא מצאנו את המילים שציפינו להן, אבל זה לא אומר שהתשובה לא טובה.', 'We did not find the words we expected, but that does not mean your reply is wrong.')}</p>` : ''}
+      <p>${tt('השוו לדוגמאות:', 'Compare with these examples:')}</p>
+      <ul lang="en" dir="ltr" class="model-replies">${t.model_replies.map((m) => html`<li>${m}</li>`)}</ul>
+      <p class="xsmall faint">${tt('הבדיקה הזו מחפשת מילות מפתח וכמה טעויות נפוצות של דוברי עברית. היא לא בודקת את כל הדקדוק, ולא אם הניסוח טבעי.', 'This check looks for key words and a few common mistakes of Hebrew speakers. It does not check all the grammar, or whether the wording is natural.')}</p></div>`;
   };
 
   // The verdict for a checked reply: the words, the footer tint and the icon, as in the lesson player.
@@ -128,7 +135,8 @@ export default async function scenarioView(el, ctx) {
           <ul class="alt-list">${others.map((o) => html`<li><p class="alt-quote" lang="en" dir="ltr">“${o.text}”${o.verdict === 'best' ? html` <span class="tag ok" lang="he" dir="rtl">${tt('הטבעית ביותר', 'Most natural')}</span>` : ''}</p><div class="xsmall muted">${bi(o.feedback)}</div></li>`)}</ul></details></div>
         <details class="panel flat own-words" data-own-box ${ownOpen ? html`open` : ''}><summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span><span>${tt('לנסות בניסוח שלכם', 'Try it in your own words')}</span></summary>
           <div class="stack-sm own-words-body">
-          <div class="row"><label class="sr-only" for="own-reply">${tt('התשובה שלכם באנגלית', 'Your reply in English')}</label><input class="input grow" id="own-reply" data-own lang="en" dir="ltr" value="${typed}" placeholder="${tt('כתבו או אמרו תשובה משלכם', 'Type or say your own reply')}" autocomplete="off">${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button type="button" class="key" data-own-check>${tt('השוואה', 'Compare')}</button></div>
+          <label class="sr-only" for="own-reply">${tt('התשובה שלכם באנגלית', 'Your reply in English')}</label><textarea class="input own-input" id="own-reply" data-own rows="3" lang="en" dir="ltr" placeholder="${tt('כתבו או אמרו תשובה משלכם', 'Type or say your own reply')}" autocomplete="off" spellcheck="false">${typed}</textarea>
+          <div class="row">${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button type="button" class="key" data-own-check>${tt('השוואה', 'Compare')}</button></div>
           ${typedResult ? ownResult(t) : ''}
         </div></details>` : ''}
       ${practiseFoot(chosen)}
@@ -295,7 +303,7 @@ export default async function scenarioView(el, ctx) {
     on(el, 'toggle', 'details[data-why-others]', (e, d) => { othersOpen = d.open; }, true),
     on(el, 'click', '[data-own-check]', () => {
       typed = $('[data-own]', el).value;
-      typedResult = checkOwnReply(typed, turnOrder[ti]);
+      typedResult = checkOwnReply(typed, turnOrder[ti], { level: s.level });
       draw();
     }),
     on(el, 'click', '[data-dictate]', async () => { try { const r = await listen({ variant }); typed = r.transcript; draw(); $('[data-own-check]', el)?.click(); } catch (e) { toast(speechErrorText(e)); } }),

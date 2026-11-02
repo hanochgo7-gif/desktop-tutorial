@@ -12545,6 +12545,45 @@
       "would it be possible",
       "deadline",
       "Monday"
+     ],
+     "points": [
+      {
+       "en": "Greet or thank James",
+       "he": "פונים לג׳יימס או מודים לו",
+       "any": [
+        "hi james",
+        "hello james",
+        "dear james",
+        "thanks",
+        "thank you"
+       ]
+      },
+      {
+       "en": "Name the problem: the figures are late",
+       "he": "מציינים את הבעיה: הנתונים מתעכבים",
+       "any": [
+        "late",
+        "waiting",
+        "delay",
+        "delayed",
+        "haven't arrived",
+        "not arrived",
+        "missing"
+       ]
+      },
+      {
+       "en": "Ask for a new date",
+       "he": "מבקשים מועד חדש",
+       "any": [
+        "move the deadline",
+        "new deadline",
+        "would it be possible",
+        "could we",
+        "extension",
+        "more time",
+        "monday"
+       ]
+      }
      ]
     },
     {
@@ -12585,6 +12624,39 @@
       "Thursday",
       "Monday",
       "would that work"
+     ],
+     "points": [
+      {
+       "en": "Say what you can send by Thursday",
+       "he": "אומרים מה אפשר לשלוח עד יום חמישי",
+       "any": [
+        "thursday"
+       ]
+      },
+      {
+       "en": "Give a date for the rest",
+       "he": "נותנים מועד לשאר",
+       "any": [
+        "monday",
+        "noon",
+        "first thing",
+        "tomorrow",
+        "friday"
+       ]
+      },
+      {
+       "en": "Check that it works for James",
+       "he": "בודקים שזה מתאים לג׳יימס",
+       "any": [
+        "would that work",
+        "would that help",
+        "would it help",
+        "does that work",
+        "is that ok",
+        "is that okay",
+        "works for you"
+       ]
+      }
      ]
     },
     {
@@ -12625,6 +12697,42 @@
       "Dana",
       "Friday",
       "could you"
+     ],
+     "points": [
+      {
+       "en": "Confirm that you added Dana",
+       "he": "מאשרים שהוספתם את דנה",
+       "any": [
+        "copied",
+        "added",
+        "cc",
+        "cc'd",
+        "looped",
+        "loop"
+       ]
+      },
+      {
+       "en": "Ask Dana for the figures, with a date",
+       "he": "מבקשים מדנה את הנתונים, עם מועד",
+       "any": [
+        "by friday",
+        "by thursday",
+        "by monday",
+        "by tomorrow",
+        "friday",
+        "tomorrow"
+       ]
+      },
+      {
+       "en": "Ask politely",
+       "he": "מבקשים בנימוס",
+       "any": [
+        "could you",
+        "would",
+        "please",
+        "possible"
+       ]
+      }
      ]
     },
     {
@@ -12666,6 +12774,31 @@
       "estimates",
       "keep you posted",
       "let you know"
+     ],
+     "points": [
+      {
+       "en": "Say what you will do if they are late again",
+       "he": "אומרים מה תעשו אם יתעכבו שוב",
+       "any": [
+        "i'll use",
+        "i will use",
+        "estimates",
+        "last quarter",
+        "i'll send",
+        "i will send"
+       ]
+      },
+      {
+       "en": "Promise to keep James informed",
+       "he": "מבטיחים לעדכן את ג׳יימס",
+       "any": [
+        "keep you posted",
+        "let you know",
+        "update you",
+        "keep you updated",
+        "keep you in the loop"
+       ]
+      }
      ]
     },
     {
@@ -12706,6 +12839,27 @@
       "flexible",
       "Thursday",
       "send"
+     ],
+     "points": [
+      {
+       "en": "Thank James",
+       "he": "מודים לג׳יימס",
+       "any": [
+        "thanks",
+        "thank you",
+        "appreciate"
+       ]
+      },
+      {
+       "en": "Confirm the next step",
+       "he": "מאשרים את הצעד הבא",
+       "any": [
+        "thursday",
+        "i'll send",
+        "i will send",
+        "first sections"
+       ]
+      }
      ]
     }
    ],
@@ -12917,6 +13071,40 @@
       "different view",
       "concern",
       "explain"
+     ],
+     "points": [
+      {
+       "en": "Show that you heard the idea",
+       "he": "מראים ששמעתם את הרעיון",
+       "any": [
+        "see where you're coming from",
+        "i see",
+        "i understand",
+        "good idea",
+        "i get"
+       ]
+      },
+      {
+       "en": "Say politely that you see it differently",
+       "he": "אומרים בנימוס שאתם רואים את זה אחרת",
+       "any": [
+        "not sure",
+        "different view",
+        "concern",
+        "worried",
+        "slightly"
+       ]
+      },
+      {
+       "en": "Ask to explain",
+       "he": "מבקשים להסביר",
+       "any": [
+        "explain",
+        "share",
+        "can i",
+        "could i"
+       ]
+      }
      ]
     },
     {
@@ -12957,6 +13145,30 @@
       "crashes",
       "older phones",
       "testing"
+     ],
+     "points": [
+      {
+       "en": "Name the problem",
+       "he": "מציינים את הבעיה",
+       "any": [
+        "bug",
+        "bugs",
+        "crash",
+        "crashes",
+        "crashed",
+        "problem"
+       ]
+      },
+      {
+       "en": "Give the facts: where it happens",
+       "he": "נותנים עובדות: איפה זה קורה",
+       "any": [
+        "older phones",
+        "phones",
+        "payment",
+        "testing"
+       ]
+      }
      ]
     },
     {
@@ -12997,6 +13209,40 @@
       "though",
       "trust",
       "payment"
+     ],
+     "points": [
+      {
+       "en": "Accept the fair part",
+       "he": "מקבלים את מה שנכון בטענה",
+       "any": [
+        "fair point",
+        "true",
+        "that's right",
+        "you're right",
+        "i agree",
+        "good point"
+       ]
+      },
+      {
+       "en": "Give a number or a fact",
+       "he": "נותנים מספר או עובדה",
+       "any": [
+        "percent",
+        "eight",
+        "per cent"
+       ]
+      },
+      {
+       "en": "Say why it still matters",
+       "he": "אומרים למה זה עדיין חשוב",
+       "any": [
+        "trust",
+        "payment",
+        "worst",
+        "hurt",
+        "though"
+       ]
+      }
      ]
     },
     {
@@ -13038,6 +13284,30 @@
       "first",
       "percent",
       "wait"
+     ],
+     "points": [
+      {
+       "en": "Suggest an alternative",
+       "he": "מציעים חלופה",
+       "any": [
+        "what if",
+        "suggest",
+        "how about",
+        "could we",
+        "maybe we"
+       ]
+      },
+      {
+       "en": "Say when or how much",
+       "he": "אומרים מתי או כמה",
+       "any": [
+        "percent",
+        "first",
+        "week",
+        "until",
+        "monday"
+       ]
+      }
      ]
     },
     {
@@ -13078,6 +13348,43 @@
       "I'll check",
       "developers",
       "tomorrow"
+     ],
+     "points": [
+      {
+       "en": "Agree",
+       "he": "מסכימים",
+       "any": [
+        "great",
+        "sounds good",
+        "ok",
+        "okay",
+        "perfect",
+        "agreed"
+       ]
+      },
+      {
+       "en": "Confirm what you agreed",
+       "he": "מאשרים על מה הסכמתם",
+       "any": [
+        "confirm",
+        "to confirm",
+        "monday",
+        "ten percent",
+        "small launch"
+       ]
+      },
+      {
+       "en": "Say your next step",
+       "he": "אומרים מה הצעד הבא שלכם",
+       "any": [
+        "i'll check",
+        "i'll talk",
+        "i will",
+        "developers",
+        "tomorrow",
+        "update"
+       ]
+      }
      ]
     }
    ],
