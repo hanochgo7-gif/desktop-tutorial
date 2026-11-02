@@ -30,24 +30,37 @@ const Q = [
   ['שימוש בלי אינטרנט', 'Using Lucid offline',
     'אחרי שפתחתם את Lucid פעם אחת עם חיבור, המסכים, החזרה על מילים, התרגול המובנה בתרחישים ומעבדת הכתיבה עובדים גם בלי אינטרנט. את השיעורים (כ-3MB) שומרים מראש בהגדרות, ב״שימוש בלי אינטרנט״. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור. כשאין חיבור, בטלפון מופיע ״אין חיבור״ בראש המסך, ובמחשב בתפריט הצד.',
     'Once you have opened Lucid with a connection, screens, word review, scripted scenario practice and the Writing lab work without internet. Save the lessons (about 3 MB) beforehand in Settings, under "Offline use". AI feedback, AI conversations and speech recognition need a connection. When you are offline, a phone shows "Offline" at the top of the screen, and a computer shows it in the side menu.',
-    ['#/settings?section=offline', 'לשמירת השיעורים במכשיר', 'Save the lessons on this device']],
+    ['#/settings?section=offline', 'לשמירת השיעורים במכשיר', 'Save the lessons on this device', 'download']],
   ['קיצורי מקלדת', 'Keyboard shortcuts',
     'Enter: בדיקה והמשך. 1-4: בחירת תשובה. Tab: מעבר בין כפתורים.',
     'Enter: check and continue. 1-4: choose an answer. Tab: move between controls.'],
+  ['לא שומעים את ההקראה', 'I can\'t hear the audio',
+    'בדקו את עוצמת הקול ושהמכשיר לא במצב שקט. Lucid מקריא בעזרת הקול באנגלית של הדפדפן. אם בדפדפן אין קול באנגלית, לא יושמע כלום ותופיע הודעה. אפשר לנסות דפדפן אחר, ובמחשב אפשר להוסיף קול באנגלית בהגדרות השפה של מערכת ההפעלה. בתרגילי האזנה התמליל מוצג אחרי הבדיקה.',
+    'Check the volume and that the device is not on silent. Lucid reads aloud with your browser\'s English voice. If the browser has no English voice, nothing plays and a note says so. You can try another browser, and on a computer you can add an English voice in the operating system\'s language settings. In listening exercises the transcript is shown after you check.',
+    ['#/settings', 'למהירות ההקראה בהגדרות', 'Speech speed in Settings', 'settings']],
+  ['איך מתרגלים דיבור בלי מיקרופון', 'How do I practise speaking without a microphone?',
+    'בתרגילי הדיבור שבשיעורים אומרים את המשפט בקול ומסמנים בעצמכם: ״אמרתי את זה בבירור״ או ״צריך עוד תרגול״. דיבור לא מקבל ציון. כשאי אפשר לדבר, ״לא יכול/ה לדבר כרגע״ מדלג על התרגיל בלי שום הפסד. במעבדת הדיבור אפשר להקשיב ולחזור בקול גם בלי מיקרופון.',
+    'In lesson speaking exercises, say the sentence aloud and mark it yourself: "I said it clearly" or "I need more practice". Speaking is never scored. When you can\'t speak, "Can\'t speak right now" skips the exercise with nothing lost. In the Speaking lab you can listen and repeat aloud without a microphone too.',
+    ['#/speaking', 'למעבדת הדיבור', 'To the Speaking lab', 'speaking']],
   ['נוחות קריאה', 'Comfortable reading',
     'בהגדרות: גודל טקסט, מראה בהיר או כהה, כמות העברית, ומהירות ההקראה. Lucid מכבד גם את הגדרת ״הפחתת תנועה״ של המכשיר.',
-    'In Settings: text size, light or dark, how much Hebrew, and speech speed. Lucid also respects your device\'s "reduce motion" setting.'],
+    'In Settings: text size, light or dark, how much Hebrew, and speech speed. Lucid also respects your device\'s "reduce motion" setting.',
+    ['#/settings', 'להגדרות', 'To Settings', 'settings']],
   ['המידע שלי', 'My data',
     'בהגדרות אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול. בלי חשבון, ההתקדמות שלכם לא יוצאת מהמכשיר. חריג אחד: בתרגילי דיבור, הדפדפן עשוי לשלוח את הקול לשירות זיהוי הדיבור שלו (Lucid לא שומר הקלטות).',
     'In Settings you can download everything, restore a backup, or delete it all. Without an account, your progress never leaves this device. One exception: in speaking exercises your browser may send your voice to its own speech-recognition service (Lucid stores no recordings).'],
 ];
 
+// A touch screen with no hover has no keyboard to speak of: its help leaves the keyboard shortcuts out (SC-2).
+const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: none) and (pointer: coarse)').matches;
+
 export default async function help(el, ctx) {
   ctx.setTitle(t('nav.help'));
+  const items = touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q;
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.help')}</h1><p>${tt('תשובות קצרות לשאלות הנפוצות.', 'Short answers to common questions.')}</p></div></div>
     <div class="stack-sm" style="max-width:46rem">
-      ${Q.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon('download', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
+      ${items.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link?.[0].includes('offline') && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon(link[3] || 'chevron', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
       <p class="small faint row" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
     </div>`);
 }

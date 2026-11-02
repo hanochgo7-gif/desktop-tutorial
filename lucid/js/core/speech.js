@@ -36,9 +36,27 @@ async function pickVoice(lang) {
   return exact.find((v) => /natural|enhanced|premium|google/i.test(v.name)) || exact[0] || list.find((v) => v.lang?.startsWith('en')) || null;
 }
 
-// Speak English text. Resolves when finished (or immediately when speech is unavailable).
+// Whether the browser has an English voice at all (without one, speech is silent).
+export async function hasEnglishVoice() {
+  return (await voices()).some((v) => /^en\b|^en[-_]/i.test(v.lang || ''));
+}
+
+// Every utterance reports what happened on the document, as a 'lucid:speech' event with detail { state, id,
+// text }: 'start' when sound starts, then 'end' (finished, or cut off by the next one) or 'error' (failed while
+// playing); 'silent' when nothing played: no start within 1.5 s, or it ended or failed before starting. The shell
+// shows the playing button and explains a silent device (SC-6); other screens can wait for 'start'.
+export const SPEECH_EVENT = 'lucid:speech';
+export const SILENT_AFTER_MS = 1500;
+let utteranceSeq = 0;
+function emit(state, id, text) {
+  try { document.dispatchEvent(new CustomEvent(SPEECH_EVENT, { detail: { state, id, text } })); } catch { /* no DOM */ }
+}
+
+// Speak English text. Resolves true when it finished, false when nothing (or not all of it) played.
 export async function say(text, { slow = false, variant } = {}) {
-  if (!synth || !text) return false;
+  if (!text) return false;
+  const id = ++utteranceSeq;
+  if (!synth) { emit('silent', id, text); return false; }
   synth.cancel();
   const s = settings();
   const lang = langFor(variant || s.english_variant);
@@ -48,8 +66,21 @@ export async function say(text, { slow = false, variant } = {}) {
   if (v) u.voice = v;
   u.rate = (slow ? 0.7 : 1) * (s.speech_rate || 0.95);
   return new Promise((resolve) => {
-    u.onend = () => resolve(true);
-    u.onerror = () => resolve(false);
+    let started = false;
+    let silent = false;
+    let done = false;
+    const finish = (state, ok) => { if (done) return; done = true; clearTimeout(quiet); clearTimeout(giveUp); if (state) emit(state, id, text); resolve(ok); };
+    // 'silent' is said once; a slow (online) voice that starts after it still reports 'start' and 'end'. With no
+    // start at all the promise settles after 8 s, so a caller waiting for it never hangs.
+    const quiet = setTimeout(() => { if (!started && !done) { silent = true; emit('silent', id, text); } }, SILENT_AFTER_MS);
+    const giveUp = setTimeout(() => { if (!started) finish(null, false); }, 8000);
+    u.onstart = () => { if (done) return; started = true; clearTimeout(quiet); clearTimeout(giveUp); emit('start', id, text); };
+    u.onend = () => finish(started ? 'end' : silent ? null : 'silent', started);
+    // Cut off by the next utterance (or a stop) is an ordinary end, not a failure.
+    u.onerror = (e) => {
+      const cut = /interrupted|canceled/.test(e?.error || '');
+      finish(started ? (cut ? 'end' : 'error') : silent ? null : cut ? 'end' : 'silent', false);
+    };
     synth.speak(u);
   });
 }
@@ -91,7 +122,10 @@ export function micNotice() {
   noticeOpen ||= import('../ui/components.js').then(({ openDialog }) => new Promise((resolve) => {
     const d = openDialog(String(micNoticeHtml()), { label: tt('לפני שמשתמשים במיקרופון', 'Before you use the microphone'), onClose: (v) => { if (v === 'yes') rememberNotice(); resolve(v === 'yes'); } });
     d.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => d.close(b.value)));
-    d.querySelector('[value="yes"]')?.focus();
+    // The notice opens at its top, with focus on its heading, also when large text makes it scroll (SC-6).
+    const h = d.querySelector('h2');
+    if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); }
+    d.scrollTop = 0;
   })).finally(() => { noticeOpen = null; });
   return noticeOpen;
 }

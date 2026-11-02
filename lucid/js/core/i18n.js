@@ -67,6 +67,7 @@ const STRINGS = {
   'ai.unavailable': ['תכונות ה-AI עוד לא זמינות באתר הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not available on this site yet. Automatic checks still work without them.'],
 
   // ---- lane shell-components: new keys go here ----
+  'nav.reallife.short': ['לחיים', 'Real life'], // the phone tab at 130-150% text (SC-9)
 
   // ---- lane lesson-flow: new keys go here ----
 

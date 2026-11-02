@@ -1,9 +1,9 @@
 // Boot: open the local store, load the curriculum, apply settings, draw the shell, start routing
 // and (when an account is connected) sync.
 import { openStore, store } from './core/store.js';
-import { router, navigate } from './core/router.js';
+import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
-import { t, tOther, setUiLang, uiLang, tt } from './core/i18n.js';
+import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
 import { icon, toast, brandMark } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
@@ -38,10 +38,13 @@ function applyTheme() {
   else delete document.documentElement.dataset.theme;
 }
 
+// The rail's second line: English under Hebrew in the Hebrew UI; in the English UI a Hebrew line only while the
+// learner's Hebrew support is full or partial (SC-12).
 function navLegend(key) {
   const other = tOther(key);
   const otherLang = uiLang() === 'he' ? 'en' : 'he';
-  return html`<span class="nav-legend"><span class="l1">${t(key)}</span><span class="l2" lang="${otherLang}" dir="${otherLang === 'he' ? 'rtl' : 'ltr'}">${other}</span></span>`;
+  const show = otherLang === 'en' || ['full', 'partial'].includes(hebrewSupport());
+  return html`<span class="nav-legend"><span class="l1">${t(key)}</span>${show ? html`<span class="l2" lang="${otherLang}" dir="${otherLang === 'he' ? 'rtl' : 'ltr'}">${other}</span>` : ''}</span>`;
 }
 
 // A lab route (writing, writing/:id, vocab...) highlights its own entry on the desktop rail, not Practice as
@@ -77,10 +80,106 @@ function drawShell(route) {
       ${netBadge()}<span id="sync-status" class="xsmall">${syncLabel()}</span>
       ${p?.name ? html`<span>${p.name}</span>` : ''}
     </div>`);
-  render(tabbar, NAV.map(([href, key, ic]) => html`<a href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span>${t(key)}</span></a>`));
-  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span>${netBadge()}<a class="key ghost small icon-only" href="#/help" aria-label="${t('nav.help')}">${icon('info')}</a><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
+  // Tab labels stay on one line; at 130-150% text a long label gives way to its short form (SC-9).
+  render(tabbar, NAV.map(([href, key, ic]) => {
+    const short = SHORT_TAB[key] && t(SHORT_TAB[key]) !== t(key) ? t(SHORT_TAB[key]) : '';
+    return html`<a href="#/${href}" ${short ? html`aria-label="${t(key)}"` : ''} ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span class="tab-l${short ? ' has-short' : ''}">${t(key)}</span>${short ? html`<span class="tab-l tab-short" aria-hidden="true">${short}</span>` : ''}</a>`;
+  }));
+  // The top-bar keys carry their names as small labels at 130-150% text (SC-9); the title survives every redraw.
+  const topKey = (href, key, ic) => html`<a class="key ghost small icon-only top-key" href="${href}" aria-label="${t(key)}">${icon(ic)}<span class="top-label" aria-hidden="true">${t(key)}</span></a>`;
+  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title">${shownTitle(route)}</span>${netBadge()}${topKey('#/help', 'nav.help', 'info')}${topKey('#/settings', 'nav.settings', 'settings')}`);
+  fitTitle();
+}
+const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
+// A title too long for the top bar steps down in size, to 14px, before it is cut with an ellipsis (SC-9).
+function fitTitle() {
+  const el = document.getElementById('top-title');
+  if (!el || el.closest('[hidden]') || !el.getClientRects().length) return;
+  el.style.fontSize = '';
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollWidth > el.clientWidth + 1 && size > 14) { size -= 1; el.style.fontSize = `${size}px`; }
+}
+// What the top bar shows for a route: the view's title, or in the Hebrew UI its section's name when the title is
+// English only.
+function shownTitle(route) {
+  const section = sectionOf(route, NAV, MORE);
+  return topTitle(route?.title, { lang: uiLang(), section: section ? t(section[1]) : '' });
 }
 
+// On a phone the chrome never covers what the learner types (SC-5). While a text field has focus the body is
+// marked "typing" (CSS hides the tab bar and lets the top bar scroll away on touch screens), and when the visible
+// area shrinks (an on-screen keyboard) the field is scrolled out from under any bar that still covers it.
+const TEXT_FIELD = 'textarea, [contenteditable=""], [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], input[type="url"]';
+const isTextField = (el) => Boolean(el?.matches?.(TEXT_FIELD)) && !el.readOnly && !el.disabled;
+// The band of the screen that no bar covers, in viewport coordinates.
+function freeBand() {
+  const vv = window.visualViewport;
+  let top = vv ? vv.offsetTop : 0;
+  let bottom = vv ? vv.offsetTop + vv.height : innerHeight;
+  const covers = (el) => el && !el.hidden && getComputedStyle(el).display !== 'none' && /fixed|sticky/.test(getComputedStyle(el).position);
+  const bar = document.getElementById('top');
+  if (covers(bar)) top = Math.max(top, bar.getBoundingClientRect().bottom);
+  for (const el of [document.getElementById('tabbar'), document.querySelector('.player-foot')]) {
+    if (covers(el)) bottom = Math.min(bottom, el.getBoundingClientRect().top);
+  }
+  return { top, bottom };
+}
+function keepFieldInView(el) {
+  if (!el?.getBoundingClientRect) return;
+  const { top, bottom } = freeBand();
+  const r = el.getBoundingClientRect();
+  const pad = 8;
+  if (r.height > bottom - top - 2 * pad) {
+    // Taller than the free band (a long textarea): the browser keeps the caret in view; only a field that is
+    // wholly out of the band is brought back, by its top.
+    if (r.bottom < top + pad || r.top > bottom - pad) window.scrollBy(0, r.top - (top + pad));
+  } else if (r.top < top + pad) window.scrollBy(0, r.top - (top + pad));
+  else if (r.bottom > bottom - pad) window.scrollBy(0, r.bottom - (bottom - pad));
+}
+function watchTyping() {
+  let timer = 0;
+  const sync = () => {
+    const el = document.activeElement;
+    const on = isTextField(el);
+    document.body.classList.toggle('typing', on);
+    if (on) keepFieldInView(el);
+  };
+  document.addEventListener('focusin', () => { clearTimeout(timer); sync(); timer = setTimeout(sync, 350); });
+  // The next field's focusin follows a focusout at once, so moving between fields does not flash the tab bar.
+  document.addEventListener('focusout', () => { clearTimeout(timer); timer = setTimeout(sync, 0); });
+  (window.visualViewport || window).addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(sync, 60); });
+}
+
+// Play buttons say what they are doing (SC-6): the button that was pressed shows a playing state from the first
+// sound to the end, and when nothing plays (no English voice, or a muted device) a short note says what to check.
+const PLAY_BUTTON = '[data-say], [data-say-text], [data-say-tile]';
+function watchSpeech() {
+  let pressed = null; // { el, at }: the last play button pressed
+  let silentNoted = 0;
+  const playing = new Map(); // utterance id -> its button
+  const recent = () => (pressed && Date.now() - pressed.at < 4000 && pressed.el.isConnected ? pressed.el : null);
+  const clear = (b) => { b?.classList.remove('is-playing'); b?.removeAttribute('aria-busy'); };
+  document.addEventListener('click', (e) => { const b = e.target.closest?.(PLAY_BUTTON); if (b) pressed = { el: b, at: Date.now() }; }, true);
+  document.addEventListener('lucid:speech', (e) => {
+    const { state, id } = e.detail || {};
+    if (state === 'start') {
+      const b = recent();
+      pressed = null;
+      playing.forEach((x) => clear(x));
+      playing.clear();
+      if (b) { playing.set(id, b); b.classList.add('is-playing'); b.setAttribute('aria-busy', 'true'); }
+    } else if (state === 'end' || state === 'error') {
+      clear(playing.get(id));
+      playing.delete(id);
+    } else if (state === 'silent') {
+      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet.
+      if (recent() && Date.now() - silentNoted > 4000) {
+        silentNoted = Date.now();
+        toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.', 'Can\'t hear it? Check the volume and silent mode. If your browser has no English voice, the transcript is shown after you check.'), { ms: 7000 });
+      }
+    }
+  });
+}
 
 function syncLabel() {
   if (!configured() || !auth.signedIn) return t('device.only');
@@ -115,10 +214,12 @@ async function boot() {
     }
   });
   router.onRoute = drawShell;
-  // Keep the title the view set when the shell is redrawn for a connection change.
-  const redrawNet = () => { const title = document.getElementById('top-title')?.textContent; drawShell(router.current); const el = document.getElementById('top-title'); if (el && title) el.textContent = title; };
-  addEventListener('online', redrawNet);
-  addEventListener('offline', redrawNet);
+  router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitle(); } };
+  let fitTimer = 0;
+  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitTitle, 100); });
+  // The title lives on the route, so a redraw for a connection change keeps it.
+  addEventListener('online', () => drawShell(router.current));
+  addEventListener('offline', () => drawShell(router.current));
   // "עב" buttons reveal the Hebrew next to English content when Hebrew support is off (one listener for all views).
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-reveal-he]');
@@ -130,6 +231,8 @@ async function boot() {
     if (document.visibilityState === 'hidden') { store.flush(); if (auth.signedIn) sync?.run().catch(() => {}); }
   });
   sessionTick();
+  watchTyping();
+  watchSpeech();
   await router.start();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.lucid = { store, navigate, hasProfile };

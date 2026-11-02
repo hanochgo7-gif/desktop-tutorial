@@ -18,6 +18,10 @@ export const levelTag = (l) => (l ? html`<span class="tag level">${LEVEL_LABEL[l
 export function toast(message, { ms = 3200 } = {}) {
   const root = document.getElementById('toast-root');
   if (!root) return;
+  // In a player the note sits just above the answer footer, so it never covers the keys (SC-6).
+  const foot = document.querySelector('.player-foot');
+  const top = foot && !foot.hidden ? foot.getBoundingClientRect().top : 0;
+  root.style.bottom = top > 0 && top < innerHeight ? `${Math.round(innerHeight - top + 8)}px` : '';
   const el = document.createElement('div');
   el.className = 'toast';
   el.setAttribute('role', 'status');
