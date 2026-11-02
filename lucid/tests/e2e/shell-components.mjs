@@ -66,6 +66,16 @@ async function lessonAt(page, lessonId, eid) {
   await page.waitForSelector('#exroot');
   await page.waitForTimeout(200);
 }
+// WCAG contrast in the page: any CSS colour (oklch, color-mix) is drawn on a canvas and read back as sRGB.
+const CONTRAST_FN = `(() => {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 1; const c = cv.getContext('2d', { willReadFrequently: true });
+  const rgb = (col) => { c.clearRect(0, 0, 1, 1); c.fillStyle = '#000'; c.fillStyle = col; c.fillRect(0, 0, 1, 1); return [...c.getImageData(0, 0, 1, 1).data]; };
+  const lum = (col) => { const [r, g, b] = rgb(col).slice(0, 3).map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  // The colour behind an element: the first ancestor with a background.
+  const behind = (el) => { for (let e = el.parentElement; e; e = e.parentElement) { const bg = getComputedStyle(e).backgroundColor; if (rgb(bg)[3] === 255) return bg; } return getComputedStyle(document.body).backgroundColor; };
+  return { rgb, ratio, behind };
+})()`;
 const style = (page, sel, props) => page.$eval(sel, (e, props) => Object.fromEntries(props.map((p) => [p, getComputedStyle(e)[p]])), props);
 const shot = (page, name) => (SHOTS ? page.screenshot({ path: `${SHOTS}/${name}.png` }) : null);
 
@@ -163,6 +173,25 @@ try {
     await d.page.waitForSelector('#view details');
     assert(/קיצורי מקלדת/.test(await d.page.textContent('#view')), 'Help on a desktop lost the keyboard shortcuts');
     await d.ctx.close();
+  });
+
+  await check('SC-3. Secondary keys ("I don\'t know", "Hint") have a border and fill, are as tall as Check, and their outline reaches 3:1 in light and dark', async () => {
+    for (const dark of [false, true]) {
+      const { ctx, page } = await newPage(browser, { dark });
+      await learnerAt(page, 'A1');
+      await lessonAt(page, 'a1-01', 'e7');
+      const m = await page.evaluate((fn) => {
+        const C = eval(fn);
+        const box = (s) => document.querySelector(s).getBoundingClientRect().height;
+        return ['[data-hint]', '[data-dontknow]'].map((s) => {
+          const e = document.querySelector(s), cs = getComputedStyle(e);
+          return { s, h: box(s), check: box('[data-check]'), bw: parseFloat(cs.borderTopWidth), fill: C.rgb(cs.backgroundColor)[3], line: C.ratio(cs.borderTopColor, C.behind(e)) };
+        });
+      }, CONTRAST_FN);
+      for (const k of m) assert(k.bw >= 1 && k.fill === 255 && Math.abs(k.h - k.check) <= 1 && k.line >= 3, `${dark ? 'dark' : 'light'} ${k.s}: ${JSON.stringify(k)}`);
+      await shot(page, `sc3-${dark ? 'dark' : 'light'}`);
+      await ctx.close();
+    }
   });
 } finally {
   await browser.close();

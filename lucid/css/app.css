@@ -179,8 +179,12 @@ input, textarea { caret-color: var(--cobalt); }
 .key.enter { --key-bg: var(--enter); --key-fg: var(--enter-ink); --key-sk: var(--enter-skirt); border-color: var(--enter-skirt); font-weight: 600; }
 @media (hover: hover) { .key.enter:not(:disabled, [aria-disabled='true']):hover { background: var(--enter-hi); } }
 .key.enter:disabled { --key-bg: var(--key-sunk); --key-fg: var(--ink-3); --key-sk: var(--key-edge); border-color: var(--key-edge); }
-.key.ghost { background: transparent; border-color: transparent; box-shadow: none; border-block-end-width: 1px; }
-@media (hover: hover) { .key.ghost:hover { background: var(--key-sunk); } }
+/* A secondary action is a flat key (SC-3): a sunk fill and a 1px outline that reaches 3:1 on the ground, no skirt.
+   Icon-only secondary keys (close, help, play beside a word) stay bare: the icon says they are buttons. */
+.key.ghost { --key-bg: var(--key-sunk); --key-sk: var(--key-line); border-color: var(--key-line); box-shadow: none; border-block-end-width: 1px; }
+.key.ghost.icon-only { --key-bg: transparent; border-color: transparent; }
+.key.ghost:active:not(:disabled) { transform: none; background: color-mix(in oklch, var(--key-sunk), var(--ink) 9%); }
+@media (hover: hover) { .key.ghost:not(:disabled, [aria-disabled='true']):hover { background: color-mix(in oklch, var(--key-sunk), var(--ink) 5%); } .key.ghost.icon-only:not(:disabled):hover { background: var(--key-sunk); } }
 .key.small { min-height: 2.25rem; padding: 0 0.8rem; font-size: var(--t-sm); border-radius: 0.6rem; }
 .key.wide { width: 100%; }
 .key.icon-only { padding: 0; width: var(--u); }
@@ -957,6 +961,13 @@ dialog.sheet > .panel { padding: var(--s5); }
    ================================================================ */
 
 /* ---- lane shell-components: start ---- */
+/* A control outline that reaches 3:1 against the ground, the paper and the sunk fill, in both themes (SC-3). */
+:root { --key-line: color-mix(in oklch, var(--n5), var(--n6) 55%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) { --key-line: oklch(0.56 0.012 250); } }
+:root[data-theme='dark'] { --key-line: oklch(0.56 0.012 250); }
+/* The secondary keys in a player footer are as tall as the main key beside them (SC-3). */
+.player-foot .key.ghost:not(.icon-only) { min-height: var(--u); }
+
 /* Pressable controls (SC-1): every key-shaped control shares one set of states. A tap never shows the browser's
    square highlight; a hover tint only where there is a real pointer (so a tapped key does not stay tinted on a
    phone); the press pushes the skirt down; one focus ring. */
