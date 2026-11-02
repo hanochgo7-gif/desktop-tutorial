@@ -126,6 +126,38 @@ function watchTyping() {
   (window.visualViewport || window).addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(sync, 60); });
 }
 
+// Play buttons say what they are doing (SC-6): the button that was pressed shows a playing state from the first
+// sound to the end, and when nothing plays (no English voice, or a muted device) a short note says what to check.
+const PLAY_BUTTON = '[data-say], [data-say-text], [data-say-tile]';
+function watchSpeech() {
+  let pressed = null; // { el, at }: the last play button pressed
+  let silentNoted = 0;
+  const playing = new Map(); // utterance id -> its button
+  const recent = () => (pressed && Date.now() - pressed.at < 4000 && pressed.el.isConnected ? pressed.el : null);
+  const clear = (b) => { b?.classList.remove('is-playing'); b?.removeAttribute('aria-busy'); };
+  document.addEventListener('click', (e) => { const b = e.target.closest?.(PLAY_BUTTON); if (b) pressed = { el: b, at: Date.now() }; }, true);
+  document.addEventListener('lucid:speech', (e) => {
+    const { state, id } = e.detail || {};
+    if (state === 'start') {
+      const b = recent();
+      pressed = null;
+      playing.forEach((x) => clear(x));
+      playing.clear();
+      if (b) { playing.set(id, b); b.classList.add('is-playing'); b.setAttribute('aria-busy', 'true'); }
+    } else if (state === 'end' || state === 'error') {
+      clear(playing.get(id));
+      playing.delete(id);
+    } else if (state === 'silent') {
+      // A pressed button always gets the note (a few seconds apart); sound that starts by itself, once a visit.
+      const asked = Boolean(recent());
+      if ((asked && Date.now() - silentNoted > 4000) || !silentNoted) {
+        silentNoted = Date.now();
+        toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.', 'Can\'t hear it? Check the volume and silent mode. If your browser has no English voice, the transcript is shown after you check.'), { ms: 7000 });
+      }
+    }
+  });
+}
+
 function syncLabel() {
   if (!configured() || !auth.signedIn) return t('device.only');
   const s = sync?.status();
@@ -175,6 +207,7 @@ async function boot() {
   });
   sessionTick();
   watchTyping();
+  watchSpeech();
   await router.start();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.lucid = { store, navigate, hasProfile };

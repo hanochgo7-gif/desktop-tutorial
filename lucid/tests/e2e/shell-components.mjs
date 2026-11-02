@@ -270,6 +270,71 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-6. Play: with no voice a note appears within 2 s; with a voice the key shows it is playing until the end; the microphone notice opens at its heading at 150%; Help covers sound and speaking without a microphone', async () => {
+    {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'PreA1');
+      assert(await page.evaluate(() => speechSynthesis.getVoices().length) === 0, 'this browser has voices; the silent check needs none');
+      await lessonAt(page, 'pa1-01', 'e2');
+      const t0 = Date.now();
+      await page.tap('#exroot [data-say="normal"]');
+      await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
+      assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      await shot(page, 'sc6-silent');
+      await ctx.close();
+    }
+    {
+      // A browser with one English voice that speaks for 900 ms.
+      const { ctx, page } = await newPage(browser);
+      await ctx.addInitScript(() => {
+        const voice = { lang: 'en-US', name: 'Test voice', default: true, localService: true, voiceURI: 'test' };
+        class Utterance { constructor(text) { this.text = text; } }
+        let current = null;
+        const synth = {
+          getVoices: () => [voice], addEventListener() {}, removeEventListener() {}, speaking: false, pending: false, paused: false,
+          speak(u) { current = u; setTimeout(() => { if (current === u) u.onstart?.({}); }, 60); setTimeout(() => { if (current === u) { current = null; u.onend?.({}); } }, 900); },
+          cancel() { const u = current; current = null; u?.onerror?.({ error: 'interrupted' }); },
+        };
+        Object.defineProperty(window, 'speechSynthesis', { value: synth, configurable: true });
+        window.SpeechSynthesisUtterance = Utterance;
+      });
+      await learnerAt(page, 'PreA1');
+      await lessonAt(page, 'pa1-01', 'e2');
+      await page.tap('#exroot [data-say="normal"]');
+      await page.waitForSelector('#exroot [data-say="normal"].is-playing[aria-busy="true"]', { timeout: 2500 });
+      const other = await page.$eval('#exroot [data-say="slow"]', (b) => b.classList.contains('is-playing'));
+      assert(!other, 'the other play key shows as playing');
+      await shot(page, 'sc6-playing');
+      await page.waitForSelector('#exroot [data-say="normal"]:not(.is-playing):not([aria-busy])', { timeout: 3000 });
+      assert(!(await page.$('#toast-root .toast')), 'a voice that plays still shows the "can\'t hear" note');
+      await ctx.close();
+    }
+    {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'A1', { text: 150 });
+      assert(await page.evaluate(() => Boolean(window.SpeechRecognition || window.webkitSpeechRecognition)), 'no speech recognition in this browser');
+      await lessonAt(page, 'a1-01', 'e14');
+      await page.tap('#exroot [data-rec]');
+      await page.waitForSelector('dialog.sheet .mic-notice');
+      await page.waitForTimeout(150);
+      const d = await page.evaluate(() => { const h = document.querySelector('dialog.sheet h2'), dlg = document.querySelector('dialog.sheet'); const r = h.getBoundingClientRect(), dr = dlg.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, dTop: Math.max(0, dr.top), vh: innerHeight, focus: document.activeElement === h, scroll: dlg.scrollTop, tall: dlg.scrollHeight > dlg.clientHeight }; });
+      assert(d.focus && d.top >= d.dTop - 1 && d.bottom <= d.vh && d.scroll === 0, `the microphone notice does not open at its heading: ${JSON.stringify(d)}`);
+      await shot(page, 'sc6-mic-150');
+      await ctx.close();
+    }
+    {
+      const { ctx, page } = await newPage(browser, { width: 1440, height: 900 });
+      await learnerAt(page, 'A1');
+      await page.goto(`${BASE}#/help`);
+      await page.waitForSelector('#view details');
+      const text = await page.textContent('#view');
+      assert(text.includes('לא שומעים את ההקראה') && text.includes('איך מתרגלים דיבור בלי מיקרופון'), 'Help lacks the sound and no-microphone items');
+      const reading = await page.$$eval('#view details', (ds) => ds.find((x) => x.querySelector('summary').textContent.includes('נוחות קריאה'))?.querySelector('a[href="#/settings"]') != null);
+      assert(reading, '"Comfortable reading" does not link to Settings');
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

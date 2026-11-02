@@ -999,6 +999,12 @@ dialog.sheet > .panel { padding: var(--s5); }
 }
 @media (max-height: 500px) { .top { position: static; } }
 
+/* A play key while its sound plays (SC-6): the selection colour, and a quiet pulse on the speaker icon. */
+.key.is-playing, .key.ghost.is-playing { --key-bg: var(--cobalt-tint); border-color: var(--cobalt); color: var(--cobalt); }
+.key.is-playing .icon { animation: play-pulse 1.1s ease-in-out infinite; }
+@keyframes play-pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .key.is-playing .icon { animation: none; } }
+
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {
   .deck { overflow: hidden; }
