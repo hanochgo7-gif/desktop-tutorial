@@ -38,14 +38,15 @@ function bilingual(file, path, v, { he = false, required = true } = {}) {
 // the English field, the examples list or a table. An 'en' string never holds Hebrew letters. Both are errors
 // where Hebrew is shown by default (Pre-A1 to B1) and warnings above. IPA in slashes (/ðə/) is not counted.
 export const GLOSS_MAX_WORDS = 8;
-export const GLOSS_STRICT = new Set([]);
+export const GLOSS_STRICT = new Set(['PreA1']);
 const glossChecked = new Set();
 const NOT_HEBREW_RUN = /[^֐-׿יִ-ﭏ]*[A-Za-z][^֐-׿יִ-ﭏ]*/g;
 const IPA_TOKEN = /(?<![A-Za-z])\/[^/\s]{1,24}\/(?![A-Za-z])/g;
 const LATIN_WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*/g;
 const NOT_A_SENTENCE_END = /(?:\b(?:Mr|Mrs|Ms|Dr|St|etc|vs|e\.g|i\.e|a\.m|p\.m)|\b[A-Za-z])\.$/i;
 // English words (two letters or more; single letters are letter names) and English sentences in a Hebrew
-// string. A sentence starts with a capital letter and either ends with . ? ! or runs to three words or more.
+// string. A sentence starts with a capital letter, has a word of two letters or more (N-O-A is a spelling)
+// and either ends with . ? ! or runs to three words or more.
 export function glossStats(text) {
   const s = String(text ?? '').replace(IPA_TOKEN, ' ');
   const latinWords = (s.match(LATIN_WORD) || []).filter((w) => w.length > 1).length;
@@ -61,7 +62,7 @@ export function glossStats(text) {
     for (const p of pieces) {
       const words = p.match(LATIN_WORD) || [];
       const closed = /[.?!…]['")\]]*\s*$/.test(p.trim());
-      if (/^[^A-Za-z]*[A-Z]/.test(p) && words.length >= 2 && (closed || words.length >= 3)) sentences.push(p.trim().replace(/^[^A-Za-z'"‘“(]+/, ''));
+      if (/^[^A-Za-z]*[A-Z]/.test(p) && words.length >= 2 && words.some((w) => w.length > 1) && (closed || words.length >= 3)) sentences.push(p.trim().replace(/^[^A-Za-z'"‘“(]+/, ''));
     }
   }
   return { latinWords, sentences };

@@ -13,7 +13,7 @@
   ],
   "warmup": { "en": "Say three things about yourself in Hebrew: where you live, something you like and something you have. Today you will say them in English.", "he": "אמרו בעברית שלושה דברים על עצמכם: איפה אתם גרים, משהו שאתם אוהבים ומשהו שיש לכם. היום תלמדו לומר אותם באנגלית, ובסוף השיעור תכתבו הצגה עצמית קצרה." },
   "explanation": [
-    { "type": "p", "en": "I live in Haifa. I like music. I have a dog. Each sentence starts with who (I), then the verb (live, like, have), then the rest.", "he": "I live in Haifa. I like music. I have a dog. כל משפט מתחיל במי שעושה (I), אחריו בא הפועל (live, like, have), ואז שאר המשפט." },
+    { "type": "p", "en": "I live in Haifa. I like music. I have a dog. Each sentence starts with who (I), then the verb (live, like, have), then the rest.", "he": "כל משפט מתחיל במי שעושה (I), אחריו בא הפועל (live, like, have), ואז שאר המשפט." },
     { "type": "table", "headers": ["Who?", "Verb", "The rest", "עברית"], "rows": [
       ["I", "live", "in Haifa.", "אני גר/ה בחיפה."],
       ["I", "like", "music.", "אני אוהב/ת מוזיקה."],
@@ -22,8 +22,8 @@
       ["My name", "is", "Maya.", "קוראים לי מאיה."],
       ["My friends", "are", "students.", "החברים שלי סטודנטים."]
     ] },
-    { "type": "rule", "en": "Who + verb + the rest. Use am/is/are for your name, age, country and job: I'm 17. I'm a student. For actions and likes, use another verb. One verb is enough: I live in Haifa (not 'I'm live in Haifa').", "he": "מי + פועל + שאר המשפט. את am/is/are משתמשים לשם, לגיל, למדינה ולמקצוע: I'm 17. I'm a student. לפעולות ולדברים שאוהבים יש פועל אחר – ופועל אחד מספיק: I live in Haifa, לא I'm live in Haifa." },
-    { "type": "warning", "en": "Keep the verb and the thing after it together: I like pizza very much (not 'I like very much pizza').", "he": "הפועל ומה שבא אחריו נשארים צמודים: I like pizza very much. לא I like very much pizza – very much עובר לסוף." },
+    { "type": "rule", "en": "Who + verb + the rest. Use am/is/are for your name, age, country and job: I'm 17. I'm a student. For actions and likes, use another verb. One verb is enough: I live in Haifa (not 'I'm live in Haifa').", "he": "מי + פועל + שאר המשפט. את am/is/are משתמשים לשם, לגיל, למדינה ולמקצוע. לפעולות ולדברים שאוהבים יש פועל אחר, ופועל אחד מספיק: I live in Haifa, בלי am." },
+    { "type": "warning", "en": "Keep the verb and the thing after it together: I like pizza very much (not 'I like very much pizza').", "he": "הפועל ומה שבא אחריו נשארים צמודים, ו-very much עובר לסוף: I like pizza very much." },
     { "type": "tip", "en": "Check before you send: I is always a capital letter. Every sentence starts with a capital letter and ends with a full stop (.): My name is Noa and I live in Holon.", "he": "בדיקה לפני שליחה: I תמיד באות גדולה, גם באמצע משפט. כל משפט מתחיל באות גדולה ומסתיים בנקודה (.): My name is Noa and I live in Holon." }
   ],
   "examples": [
@@ -84,7 +84,7 @@
         "1": { "en": "Listen again for the animal: cat, not dog.", "he": "הקשיבו שוב לבעל החיים: cat (חתול), לא dog." }
       },
       "option_errors": { "0": "comprehension", "1": "comprehension" },
-      "explanation": { "en": "I live in Jerusalem = where his home is. I have a cat = what he has.", "he": "I live in Jerusalem – איפה הבית שלו. I have a cat – מה יש לו." }
+      "explanation": { "en": "I live in Jerusalem = where his home is. I have a cat = what he has.", "he": "אמיר אומר שהוא גר בירושלים (live) ושיש לו חתול (have)." }
     },
     {
       "id": "e3", "type": "mcq", "skill": "grammar", "topic": "word-order-basic",
@@ -206,7 +206,7 @@
           },
           "explanation": { "en": "I live in Holon with my family.", "he": "דניאל כותב: I live in Holon with my family." } },
         { "type": "tf", "statement": "Bamba is Daniel's cat.", "answer": false,
-          "explanation": { "en": "Bamba is his dog: I have a dog. His name is Bamba!", "he": "במבה הוא הכלב שלו: I have a dog. His name is Bamba!" } },
+          "explanation": { "en": "Bamba is his dog: I have a dog. His name is Bamba!", "he": "במבה הוא הכלב שלו: הוא כותב שיש לו כלב (I have a dog) ושזה השם שלו." } },
         { "type": "gap", "text": "Daniel: I like football and ___.", "answers": [["music"]],
           "explanation": { "en": "I like football and music very much.", "he": "דניאל כותב: I like football and music very much." } }
       ],
@@ -218,7 +218,7 @@
       "audio_text": "My name is Maya. I live in Haifa.",
       "answers": ["My name is Maya. I live in Haifa."],
       "hint": { "en": "Two short sentences. Remember the capital letters.", "he": "שני משפטים קצרים. זכרו את האותיות הגדולות." },
-      "explanation": { "en": "Two sentences, each with who + verb: My name is... / I live in...", "he": "שני משפטים, ובכל אחד מי + פועל: My name is... / I live in..." }
+      "explanation": { "en": "Two sentences, each with who + verb: My name is... / I live in...", "he": "שני משפטים, ובכל אחד מי + פועל: בראשון השם שלכם עם is, ובשני המקום עם live." }
     },
     {
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "word-order-basic",
@@ -247,8 +247,8 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Who + verb + the rest: I live in Haifa. I like music. I have a dog.", "he": "מי + פועל + שאר המשפט: I live in Haifa. I like music. I have a dog." },
-      { "en": "One verb is enough: I live in Haifa, not 'I'm live'. Use am for age and jobs: I'm 17. I'm a student.", "he": "פועל אחד מספיק: I live in Haifa, לא I'm live. את am משתמשים לגיל ולמקצוע: I'm 17. I'm a student." },
+      { "en": "Who + verb + the rest: I live in Haifa. I like music. I have a dog.", "he": "מי + פועל + שאר המשפט: I live in Haifa." },
+      { "en": "One verb is enough: I live in Haifa, not 'I'm live'. Use am for age and jobs: I'm 17. I'm a student.", "he": "פועל אחד מספיק: I live, בלי am. את am משתמשים לגיל ולמקצוע: I'm 17." },
       { "en": "Very much goes at the end: I like football very much.", "he": "very much בא בסוף: I like football very much." },
       { "en": "Capital I, a capital letter at the start, a full stop at the end.", "he": "I באות גדולה, אות גדולה בתחילת המשפט ונקודה בסופו." }
     ]

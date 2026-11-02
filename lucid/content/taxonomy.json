@@ -124,19 +124,19 @@
     { "id": "plural-form", "name_en": "Plural form", "name_he": "צורת רבים", "why_he": "יש רבים חריגים: child – children, person – people." },
     { "id": "countability", "name_en": "Countable / uncountable", "name_he": "ספיר / לא ספיר", "why_he": "מילים כמו information ו-advice אינן ספירות באנגלית (אין informations)." },
     { "id": "preposition", "name_en": "Preposition", "name_he": "מילת יחס", "why_he": "מילות היחס לא מתורגמות אחד לאחד: 'תלוי ב' = depends on, לא depends in." },
-    { "id": "pronoun", "name_en": "Pronoun", "name_he": "כינוי גוף", "why_he": "באנגלית אין השמטת נושא: It is raining, לא Is raining." },
+    { "id": "pronoun", "name_en": "Pronoun", "name_he": "כינוי גוף", "why_he": "באנגלית אין השמטת נושא: גם כשאין מי שעושה, כותבים It בהתחלה – It is raining." },
     { "id": "spelling", "name_en": "Spelling", "name_he": "איות", "why_he": "האיות באנגלית לא תמיד תואם את ההגייה, ולכן כדאי לתרגל מילים נפוצות." },
     { "id": "capitalization", "name_en": "Capital letters", "name_he": "אותיות גדולות", "why_he": "בעברית אין אותיות גדולות; באנגלית: תחילת משפט, I, שמות, ימים וחודשים." },
     { "id": "punctuation", "name_en": "Punctuation and run-on sentences", "name_he": "פיסוק ומשפטים רצים", "why_he": "באנגלית לא מחברים שני משפטים שלמים בפסיק בלבד; משתמשים בנקודה או במילת קישור." },
     { "id": "word-choice", "name_en": "Word choice / collocation", "name_he": "בחירת מילה / צירוף", "why_he": "יש צירופים קבועים: make a decision, do homework, strong coffee." },
-    { "id": "false-friend", "name_en": "False friend / literal translation", "name_he": "תרגום מילולי", "why_he": "תרגום מילה במילה מעברית יוצר לפעמים משפט לא טבעי: 'I am 20 years' במקום I am 20 (years old)." },
+    { "id": "false-friend", "name_en": "False friend / literal translation", "name_he": "תרגום מילולי", "why_he": "תרגום מילה במילה מעברית יוצר לפעמים משפט לא טבעי. למשל, בגיל אומרים I am 20 או I am 20 years old, ולא רק years." },
     { "id": "register", "name_en": "Register (too formal / too informal)", "name_he": "משלב", "why_he": "באנגלית מקפידים על משלב לפי ההקשר: אין קיצורים וסלנג בחיבור אקדמי." },
     { "id": "modal-use", "name_en": "Modal verbs", "name_he": "פעלים מודאליים", "why_he": "אחרי can, must, should בא פועל בסיס בלי to: You should go." },
     { "id": "conditional-form", "name_en": "Conditional form", "name_he": "מבנה משפט תנאי", "why_he": "לא משתמשים ב-will אחרי if בתנאי ראשון: If it rains, we will stay." },
     { "id": "passive-form", "name_en": "Passive form", "name_he": "מבנה סביל", "why_he": "סביל = be + past participle: The car was repaired." },
     { "id": "reported-speech", "name_en": "Reported speech", "name_he": "דיבור עקיף", "why_he": "בדיבור עקיף הזמן לרוב 'זז אחורה': She said she was tired." },
     { "id": "gerund-infinitive", "name_en": "Gerund or infinitive", "name_he": "שם פעולה או מקור", "why_he": "חלק מהפעלים מקבלים -ing (enjoy doing) וחלק to (want to do)." },
-    { "id": "relative-clause", "name_en": "Relative clause", "name_he": "משפט זיקה", "why_he": "באנגלית לא חוזרים על הכינוי: the book that I read, לא the book that I read it." },
+    { "id": "relative-clause", "name_en": "Relative clause", "name_he": "משפט זיקה", "why_he": "באנגלית לא חוזרים על הכינוי בסוף משפט הזיקה: the book that I read, בלי it." },
     { "id": "comparison-form", "name_en": "Comparative / superlative form", "name_he": "ערך יתרון והפלגה", "why_he": "לא משלבים more עם -er: bigger, לא more bigger." },
     { "id": "cohesion", "name_en": "Connector / cohesion", "name_he": "קישוריות", "why_he": "מילת קישור צריכה להתאים לקשר הלוגי: however לניגוד, therefore לתוצאה." },
     { "id": "pron-vowel", "name_en": "Vowel sound (e.g. ship / sheep)", "name_he": "הגיית תנועות", "why_he": "בעברית יש חמש תנועות; באנגלית יותר, וההבדל משנה משמעות: ship / sheep." },
@@ -147,6 +147,7 @@
     { "id": "weak-thesis", "name_en": "Unclear or weak thesis", "name_he": "תזה לא ברורה", "why_he": "התזה צריכה להיות עמדה ברורה שאפשר להתווכח איתה." },
     { "id": "missing-counterargument", "name_en": "No counterargument", "name_he": "חסר טיעון נגדי", "why_he": "חיבור טיעוני חזק מציג את הצד השני בהגינות ומשיב לו." },
     { "id": "fallacy", "name_en": "Logical fallacy", "name_he": "כשל לוגי", "why_he": "טיעון שנראה משכנע אך פגום לוגית (למשל הכללה נחפזת) מחליש את החיבור." },
-    { "id": "comprehension", "name_en": "Comprehension", "name_he": "הבנה", "why_he": "שאלת הבנה: חזרו לטקסט וחפשו את המשפט שעונה על השאלה." }
+    { "id": "comprehension", "name_en": "Comprehension", "name_he": "הבנה", "why_he": "שאלת הבנה: חזרו לטקסט וחפשו את המשפט שעונה על השאלה." },
+    { "id": "letter-names", "name_en": "Letter names (e.g. E and I)", "name_he": "שמות האותיות", "why_he": "כמה שמות של אותיות נשמעים דומה, וחלקם מתחלפים בין עברית לאנגלית: E נקראת 'אִי', ו-I נקראת 'אַיי'. כדאי להקשיב שוב לאלפבית ולומר את האותיות בקול." }
   ]
 }

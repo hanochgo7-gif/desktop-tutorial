@@ -20,7 +20,7 @@
       ["o", "/ɒ/", "hot, dog, stop", "'אוֹ' קצרה, עם פה פתוח"],
       ["u", "/ʌ/", "cup, bus, sun", "'אַ' קצרה ורפויה"]
     ] },
-    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: mad – made, ‏kit – kite, ‏hop – hope, ‏cut – cute. כמה מילים נפוצות מאוד לא עובדות לפי הכלל: come, some, have, give, love." },
+    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: kit – kite, ‏hop – hope. כמה מילים נפוצות לא עובדות לפי הכלל, כמו come ו-have." },
     { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "rows": [
       ["th /θ/", "think, three, thanks", "קצה הלשון בין השיניים, ונושפים אוויר בלי קול"],
       ["th /ð/", "this, the, mother", "אותה תנוחה, אבל עם קול (מרגישים רטט בגרון)"],
@@ -174,7 +174,7 @@
         { "type": "tf", "statement": "Kate says: 'Come at nine.'", "answer": false, "explanation": { "en": "She says 'Come at five.' five and nine both have i + consonant + silent e, so read them carefully.", "he": "היא כותבת Come at five. גם five וגם nine בנויות מ-i + עיצור + e שקטה, אז קראו בעיון." } },
         { "type": "gap", "text": "Kate is in ___ with a cold.", "answers": [["bed"]], "explanation": { "en": "'I'm at home in bed with a cold.' bed has a short e: /e/.", "he": "כתוב: in bed with a cold. ב-bed יש e קצרה." } }
       ],
-      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate). Two words break the silent-e rule: come and some have /ʌ/, like cup.", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועות קצרות (bed, get, milk, shop, bus, stop) ו-e שקטה (home, five, Kate). שתי מילים לא עובדות לפי כלל ה-e השקטה: ב-come וב-some שומעים /ʌ/, כמו ב-cup." }
+      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate). Two words break the silent-e rule: come and some have /ʌ/, like cup.", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועה קצרה (כמו ב-bed וב-shop) ו-e שקטה (כמו ב-home וב-five). רק come ו-some לא עובדות לפי כלל ה-e השקטה: שומעים בהן /ʌ/, כמו ב-cup." }
     },
     {
       "id": "e9", "type": "gap", "skill": "vocabulary", "topic": "phonics",
@@ -186,7 +186,7 @@
         { "match": "sit", "feedback": { "en": "sit (short /ɪ/) is the action. The place is a seat (long /iː/): Is this seat free?", "he": "sit (עם /ɪ/ קצרה) היא הפעולה – לשבת. המקום עצמו הוא seat (עם /iː/ ארוכה): Is this seat free?" }, "error_type": "word-choice" },
         { "match": "seat", "feedback": { "en": "seat (long /iː/) is the place. The action is sit (short /ɪ/): please sit down.", "he": "seat (עם /iː/ ארוכה) הוא המקום – מושב. הפעולה היא sit (עם /ɪ/ קצרה): please sit down." }, "error_type": "word-choice" }
       ],
-      "explanation": { "en": "Is this seat free? asks about the place. Please sit down is the action. One vowel sound changes the word.", "he": "Is this seat free שואל על המקום. Please sit down היא הפעולה – בבקשה שבו. צליל תנועה אחד משנה את המילה." }
+      "explanation": { "en": "Is this seat free? asks about the place. Please sit down is the action. One vowel sound changes the word.", "he": "seat הוא המקום (מושב), ו-sit היא הפעולה (לשבת). בשאלה אם המקום פנוי צריך seat, ובבקשה לשבת צריך sit. צליל תנועה אחד משנה את המילה." }
     },
     {
       "id": "e10", "type": "dictation", "skill": "listening", "topic": "phonics",

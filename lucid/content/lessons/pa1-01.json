@@ -43,7 +43,7 @@
     ] },
     { "type": "warning", "en": "Some names sound alike. E = 'ee' (like see) and I = 'eye' (like my). G = 'jee' and J = 'jay'. B, P and V all end in 'ee', so listen to the first sound.", "he": "חלק מהשמות דומים מאוד. E נקראת 'אִי' (כמו see), ו-I נקראת 'אַיי' (כמו my). G נקראת 'ג'י', ו-J נקראת 'ג'יי'. B, P ו-V נגמרות כולן ב'אִי', אז הקשיבו לצליל הראשון." },
     { "type": "rule", "en": "Capital letters (A, B, C) are for: the first word of a sentence, names of people and places (Noa, Haifa), and the word I. Most other words use small letters (a, b, c). A few more words take a capital, like English and Monday: you will meet them later.", "he": "אות גדולה (A, B, C) כותבים בשלושה מקרים: בתחילת משפט, בשמות של אנשים ומקומות (Noa, Haifa), ובמילה I (אני). ברוב המילים האחרות כותבים באותיות קטנות (a, b, c). יש עוד כמה מילים שמתחילות באות גדולה, כמו English ו-Monday – נפגוש אותן בהמשך. בעברית אין אותיות גדולות, אז זה הרגל חדש שכדאי לבנות מההתחלה." },
-    { "type": "tip", "en": "To spell a name, say the letters one by one: Noa = N-O-A. For two of the same letter together, say 'double': Anna = A, double N, A. To ask, say: How do you spell that?", "he": "כדי לאיית שם, אומרים את שמות האותיות אחת אחרי השנייה: Noa = N-O-A. כשיש שתי אותיות זהות ברצף אומרים double: Anna = A, double N, A. כדי לשאול איך מאייתים, אומרים: How do you spell that?" }
+    { "type": "tip", "en": "To spell a name, say the letters one by one: Noa = N-O-A. For two of the same letter together, say 'double': Anna = A, double N, A. To ask, say: How do you spell that?", "he": "כדי לאיית שם, אומרים את שמות האותיות אחת אחרי השנייה: N-O-A. כשיש שתי אותיות זהות ברצף, אומרים double ואחריו את שם האות: double N. כדי לשאול איך מאייתים, שואלים: How do you spell that?" }
   ],
   "examples": [
     { "en": "My name is Noa. N-O-A.", "he": "קוראים לי נועה. N-O-A." },
@@ -160,11 +160,11 @@
       "text": "Ella: My name is Ella. Tom: Sorry, how do you ___ that? Ella: E, ___ L, A.",
       "answers": [["spell", "write"], ["double"]],
       "wrong_feedback": [
-        { "match": "say", "feedback": { "en": "'How do you say that?' asks how to pronounce a word. To ask for the letters, use spell.", "he": "How do you say that שואל איך מבטאים מילה. כדי לבקש את האותיות שואלים How do you spell that." }, "error_type": "word-choice" },
+        { "match": "say", "feedback": { "en": "'How do you say that?' asks how to pronounce a word. To ask for the letters, use spell.", "he": "השאלה עם say שואלת איך מבטאים מילה. כדי לבקש את האותיות, שואלים עם spell: How do you spell that?" }, "error_type": "word-choice" },
         { "match": "two", "feedback": { "en": "For two of the same letter together, we say double: double L.", "he": "כשיש שתי אותיות זהות ברצף אומרים double: double L." }, "error_type": "word-choice" }
       ],
       "hint": { "en": "The second word means 'two of the same letter'.", "he": "המילה השנייה פירושה 'שתי אותיות זהות ברצף'." },
-      "explanation": { "en": "How do you spell that? is the question when you want the letters. double L = LL, so Ella = E, double L, A.", "he": "How do you spell that היא השאלה כשרוצים לשמוע את האותיות. double L פירושו LL, ולכן Ella = E, double L, A." }
+      "explanation": { "en": "How do you spell that? is the question when you want the letters. double L = LL, so Ella = E, double L, A.", "he": "How do you spell that? היא השאלה כשרוצים לשמוע את האותיות. double L פירושו שתי אותיות L ברצף." }
     },
     {
       "id": "e9", "type": "order", "skill": "vocabulary", "topic": "alphabet",

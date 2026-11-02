@@ -456,7 +456,7 @@
       "question": "If it ___ tomorrow, we'll stay at home.",
       "options": ["rains", "will rain", "rained", "would rain"],
       "answer": 0,
-      "explanation": { "en": "In the first conditional the if-clause uses the present simple, even for the future: If it rains, we'll stay at home. Hebrew uses the future here, which is why 'will rain' is tempting.", "he": "במשפט תנאי מסוג ראשון, אחרי if משתמשים בהווה פשוט גם כשמדובר בעתיד: If it rains, we'll stay at home. בעברית אומרים כאן עתיד (\"אם ירד גשם\"), ולכן קל לבחור ב-will rain." }
+      "explanation": { "en": "In the first conditional the if-clause uses the present simple, even for the future: If it rains, we'll stay at home. Hebrew uses the future here, which is why 'will rain' is tempting.", "he": "במשפט תנאי מסוג ראשון, אחרי if משתמשים בהווה פשוט גם כשמדובר בעתיד: if it rains. בעברית אומרים כאן עתיד (\"אם ירד גשם\"), ולכן קל לבחור ב-will rain." }
     },
     {
       "id": "pl-B1-3",
@@ -502,7 +502,7 @@
       "question": "Please ___ me to call the dentist tomorrow. I always forget.",
       "options": ["remember", "repeat", "notice", "remind"],
       "answer": 3,
-      "explanation": { "en": "'Remind someone to do something' means help them remember. You remember something yourself; you can't 'remember someone to do' something.", "he": "remind someone to do something פירושו להזכיר למישהו לעשות משהו. remember פירושו לזכור בעצמך, ואי אפשר לומר remember someone to do something." }
+      "explanation": { "en": "'Remind someone to do something' means help them remember. You remember something yourself; you can't 'remember someone to do' something.", "he": "remind פירושו להזכיר למישהו לעשות משהו (remind me to call), ו-remember פירושו לזכור בעצמך." }
     },
     {
       "id": "pl-B1-7",
