@@ -7,6 +7,7 @@ import { profile, saveProfile, settings, saveSettings, todayPlan, model, weekAct
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
 import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, planStatus, minutesToday, introSlots } from '../core/adaptive.js';
+import { router } from '../core/router.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
 // its own icon, never the placeholder circle of a missing icon).
@@ -157,6 +158,9 @@ export const todayMinutes = (s = settings()) => (s.today_minutes?.date === today
 
 export default async function today(el, ctx) {
   ctx.setTitle(t('nav.today'));
+  // This view draws only while its route is the current one: a draw that finishes loading after the learner has
+  // moved on (lesson files load asynchronously) must never paint Today over the next screen.
+  const route = router.current;
   const [curriculum, tx, scenarios, writing] = await Promise.all([content.curriculum(), taxonomyIndex(), content.scenarios().catch(() => null), content.writingExercises().catch(() => null)]);
   const extras = { lesson: null, scenarios: scenarios?.scenarios || [], writingTasks: writing?.exercises || [] };
   const lessons = new Map(lessonOrder(curriculum).map((l) => [l.id, l]));
@@ -190,6 +194,7 @@ export default async function today(el, ctx) {
   await loadLesson(model().next?.id);
 
   function draw() {
+    if (route && router.current !== route) return;
     const s = settings();
     const p = profile();
     const m = model();

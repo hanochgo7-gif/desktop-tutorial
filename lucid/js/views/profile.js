@@ -4,14 +4,19 @@ import { tt, t } from '../core/i18n.js';
 import { icon, toast, LEVEL_LABEL } from '../ui/components.js';
 import { profile, saveProfile, model } from '../core/learner.js';
 import { content } from '../core/content.js';
-// The goals use the same cards and labels as onboarding (TF-6), not a second set of native checkboxes.
-import { goalCards } from './onboarding.js';
 
 export default async function profileView(el, ctx) {
   ctx.setTitle(t('nav.profile'));
-  // Drawn at once; the work goal's note changes only if no workplace scenarios turn out to exist.
-  let hasWork = true;
   let goals = [...(profile()?.goals || [])];
+  // The goals use the same cards and labels as onboarding (TF-6), not a second set of native checkboxes. The
+  // page draws at once; the cards fill their place when onboarding's module has loaded, and the work goal's note
+  // follows whether workplace scenarios exist.
+  let goalCards = null;
+  let hasWork = true;
+  const drawGoals = () => {
+    const slot = el.querySelector('[data-goals-slot]');
+    if (slot && goalCards) render(slot, goalCards(goals, { hasWork, labelledby: 'pf-goals' }));
+  };
   function draw() {
     const p = profile() || {};
     const m = model();
@@ -23,7 +28,7 @@ export default async function profileView(el, ctx) {
         <form class="panel stack" data-form>
           <div class="field"><label for="pn">${tt('שם', 'Name')}</label><input class="input" id="pn" maxlength="40" value="${p.name || ''}" autocomplete="given-name"></div>
           <div class="field"><span class="label" id="pf-goals">${tt('מטרות', 'Goals')}</span>
-            ${goalCards(goals, { hasWork, labelledby: 'pf-goals' })}</div>
+            <div data-goals-slot></div></div>
           <div class="row"><button class="key enter" type="submit">${t('save')}</button></div>
         </form>
         <div class="panel stack-sm small">
@@ -34,11 +39,13 @@ export default async function profileView(el, ctx) {
         </div>
         <div class="row"><a class="key" href="#/progress">${t('nav.progress')}</a><a class="key ghost" href="#/settings">${t('nav.settings')}</a></div>
       </div>`);
+    drawGoals();
   }
   draw();
+  import('./onboarding.js').then((mod) => { goalCards = mod.goalCards; drawGoals(); }).catch(() => {});
   content.scenarios().catch(() => null).then((d) => {
     const work = Boolean(d?.scenarios?.some((x) => x.module === 'work'));
-    if (work !== hasWork && el.isConnected) { hasWork = work; draw(); }
+    if (work !== hasWork) { hasWork = work; drawGoals(); }
   });
   const offs = [
     on(el, 'click', '[data-goal]', (e, b) => {
