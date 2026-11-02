@@ -991,6 +991,14 @@ dialog.sheet > .panel { padding: var(--s5); }
 .option.is-right .k { color: var(--ok); border-color: var(--ok); background: var(--key); }
 .option.is-wrong .k { color: var(--bad); border-color: var(--bad); background: var(--key); }
 
+/* Phones (SC-5): while the learner types, the tab bar steps aside and the top bar scrolls with the page; on a short
+   (landscape) screen the top bar always scrolls away. app.js marks body.typing and keeps the field clear of bars. */
+@media (pointer: coarse) {
+  body.typing .tabbar { display: none; }
+  body.typing .top { position: static; }
+}
+@media (max-height: 500px) { .top { position: static; } }
+
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {
   .deck { overflow: hidden; }

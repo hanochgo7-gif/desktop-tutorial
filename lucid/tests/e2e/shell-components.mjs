@@ -216,6 +216,60 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-5. Phones: typing hides the tab bar and lets the top bar scroll away (844x390 essay); a scenario own-words field stays fully visible at 320x260', async () => {
+    const bars = (page, sel) => page.evaluate((sel) => {
+      const shown = (e) => e && !e.hidden && getComputedStyle(e).display !== 'none';
+      const top = document.getElementById('top'), tab = document.getElementById('tabbar'), f = document.querySelector(sel).getBoundingClientRect();
+      return { tab: shown(tab), tabTop: shown(tab) ? tab.getBoundingClientRect().top : Infinity, topPos: getComputedStyle(top).position, topBottom: top.getBoundingClientRect().bottom, field: [f.top, f.bottom], vh: innerHeight };
+    }, sel);
+    {
+      const { ctx, page } = await newPage(browser, { width: 844, height: 390 });
+      await learnerAt(page, 'B1');
+      await page.goto(`${BASE}#/writing/free`);
+      await page.waitForSelector('textarea');
+      const before = await bars(page, 'textarea');
+      assert(before.tab && before.topPos === 'static', `landscape before typing: ${JSON.stringify(before)}`);
+      await page.tap('textarea');
+      await page.waitForTimeout(450);
+      const typing = await bars(page, 'textarea');
+      assert(!typing.tab && typing.topPos === 'static' && typing.topBottom <= 0, `landscape while typing: ${JSON.stringify(typing)}`);
+      await page.setViewportSize({ width: 844, height: 190 });
+      await page.waitForTimeout(300);
+      const kbd = await bars(page, 'textarea');
+      assert(!kbd.tab && kbd.topBottom <= kbd.field[0] && kbd.field[0] >= 0 && kbd.field[0] < kbd.vh, `landscape with a keyboard: ${JSON.stringify(kbd)}`);
+      await shot(page, 'sc5-land-typing');
+      await page.setViewportSize({ width: 844, height: 390 });
+      await page.evaluate(() => document.activeElement.blur());
+      await page.waitForTimeout(150);
+      assert((await bars(page, 'textarea')).tab, 'the tab bar does not come back after typing');
+      await ctx.close();
+    }
+    {
+      const { ctx, page } = await newPage(browser, { width: 320, height: 568 });
+      await learnerAt(page, 'A2');
+      await page.goto(`${BASE}#/scenario/rl-airport-checkin-overweight`);
+      await page.tap('[data-tab="practise"]');
+      await page.waitForSelector('[data-opt]');
+      await page.tap('[data-opt="0"]');
+      await page.waitForSelector('#own-reply');
+      await page.waitForTimeout(300);
+      await page.tap('#own-reply');
+      await page.setViewportSize({ width: 320, height: 260 });
+      await page.waitForTimeout(500);
+      const r = await bars(page, '#own-reply');
+      const clear = r.field[0] >= Math.max(0, r.topPos === 'static' ? 0 : r.topBottom) && r.field[1] <= Math.min(r.vh, r.tabTop);
+      assert(clear, `the own-words field is covered or off screen at 320x260: ${JSON.stringify(r)}`);
+      await shot(page, 'sc5-320-own-words');
+      // Without the keyboard, the last control of the step can scroll fully above the tab bar.
+      await page.setViewportSize({ width: 320, height: 568 });
+      await page.evaluate(() => { document.activeElement.blur(); window.scrollTo(0, document.documentElement.scrollHeight); });
+      await page.waitForTimeout(200);
+      const last = await bars(page, '[data-next-turn]');
+      assert(last.field[1] <= last.tabTop, `Continue cannot scroll above the tab bar: ${JSON.stringify(last)}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

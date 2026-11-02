@@ -82,6 +82,50 @@ function drawShell(route) {
 }
 
 
+// On a phone the chrome never covers what the learner types (SC-5). While a text field has focus the body is
+// marked "typing" (CSS hides the tab bar and lets the top bar scroll away on touch screens), and when the visible
+// area shrinks (an on-screen keyboard) the field is scrolled out from under any bar that still covers it.
+const TEXT_FIELD = 'textarea, [contenteditable=""], [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], input[type="url"]';
+const isTextField = (el) => Boolean(el?.matches?.(TEXT_FIELD)) && !el.readOnly && !el.disabled;
+// The band of the screen that no bar covers, in viewport coordinates.
+function freeBand() {
+  const vv = window.visualViewport;
+  let top = vv ? vv.offsetTop : 0;
+  let bottom = vv ? vv.offsetTop + vv.height : innerHeight;
+  const covers = (el) => el && !el.hidden && getComputedStyle(el).display !== 'none' && /fixed|sticky/.test(getComputedStyle(el).position);
+  const bar = document.getElementById('top');
+  if (covers(bar)) top = Math.max(top, bar.getBoundingClientRect().bottom);
+  for (const el of [document.getElementById('tabbar'), document.querySelector('.player-foot')]) {
+    if (covers(el)) bottom = Math.min(bottom, el.getBoundingClientRect().top);
+  }
+  return { top, bottom };
+}
+function keepFieldInView(el) {
+  if (!el?.getBoundingClientRect) return;
+  const { top, bottom } = freeBand();
+  const r = el.getBoundingClientRect();
+  const pad = 8;
+  if (r.height > bottom - top - 2 * pad) {
+    // Taller than the free band (a long textarea): the browser keeps the caret in view; only a field that is
+    // wholly out of the band is brought back, by its top.
+    if (r.bottom < top + pad || r.top > bottom - pad) window.scrollBy(0, r.top - (top + pad));
+  } else if (r.top < top + pad) window.scrollBy(0, r.top - (top + pad));
+  else if (r.bottom > bottom - pad) window.scrollBy(0, r.bottom - (bottom - pad));
+}
+function watchTyping() {
+  let timer = 0;
+  const sync = () => {
+    const el = document.activeElement;
+    const on = isTextField(el);
+    document.body.classList.toggle('typing', on);
+    if (on) keepFieldInView(el);
+  };
+  document.addEventListener('focusin', () => { clearTimeout(timer); sync(); timer = setTimeout(sync, 350); });
+  // The next field's focusin follows a focusout at once, so moving between fields does not flash the tab bar.
+  document.addEventListener('focusout', () => { clearTimeout(timer); timer = setTimeout(sync, 0); });
+  (window.visualViewport || window).addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(sync, 60); });
+}
+
 function syncLabel() {
   if (!configured() || !auth.signedIn) return t('device.only');
   const s = sync?.status();
@@ -130,6 +174,7 @@ async function boot() {
     if (document.visibilityState === 'hidden') { store.flush(); if (auth.signedIn) sync?.run().catch(() => {}); }
   });
   sessionTick();
+  watchTyping();
   await router.start();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.lucid = { store, navigate, hasProfile };
