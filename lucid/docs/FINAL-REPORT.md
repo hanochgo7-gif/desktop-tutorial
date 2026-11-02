@@ -85,7 +85,7 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 20 files) | 161 of 161 pass |
+| Unit (`npm test`, 20 files) | 162 of 162 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
 | Browser end-to-end (`tests/e2e/run.mjs`) | 55 of 55 checks pass, covering the brief's 17 acceptance criteria and the QA findings |

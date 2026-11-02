@@ -1425,6 +1425,8 @@ try {
     let wrongDone = false;
     for (let bd = 0; bd < 3; bd++) {
       await page.waitForSelector('.pic-tile:not([disabled])');
+      assert(!(await page.$('.pic-tile[aria-pressed="true"], .pic-word[aria-pressed="true"]')), 'a card was chosen by the tap that opened the board');
+      await page.waitForTimeout(500); // taps in the first moment of a board are dropped (a double tap on the button before)
       const n = (await page.$$('.pic-tile')).length;
       assert(n === 4, `level 1 board has ${n} pictures`);
       const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
@@ -1468,7 +1470,7 @@ try {
         await page.dblclick('[data-nextboard]');
         await page.waitForTimeout(300);
         assert(/pictures\/1$/.test(page.url()) && await page.$('.game-total'), `a double tap skipped the results (${page.url()})`);
-      } else await page.click('[data-nextboard]', { timeout: 400 }).catch(() => {}); // it also moves on by itself
+      } else await page.dblclick('[data-nextboard]', { timeout: 400 }).catch(() => {}); // a double tap; it also moves on by itself
     }
     await page.waitForSelector('.game-total');
     const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
@@ -1483,6 +1485,7 @@ try {
     const missed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
     await page.click('[data-missed]');
     await page.waitForSelector('.pic-tile:not([disabled])');
+    await page.waitForTimeout(500);
     const seen = [];
     for (let k = 0; k < (await page.$$('.pic-tile')).length; k++) seen.push(await wordOf(k));
     assert(missed.every((m) => seen.includes(m)), `missed words ${missed} are not on the first board of a focus round (${seen})`);

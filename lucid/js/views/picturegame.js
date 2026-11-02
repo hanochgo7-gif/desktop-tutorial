@@ -26,7 +26,7 @@ export default async function picturegame(el, ctx) {
   if (!data?.sets?.length) {
     render(el, html`<div class="player"><div class="player-top"><a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a></div><div class="player-body"><div class="empty stack">
       <h1>${tt('התמונות של המשחק לא נטענו', "The game's pictures did not load")}</h1>
-      <p>${navigator.onLine ? tt('נסו שוב בעוד רגע.', 'Try again in a moment.') : tt('אין חיבור לאינטרנט. כדי לשחק בלי חיבור, שמרו את השיעורים בהגדרות, "שימוש בלי אינטרנט".', 'You are offline. To play offline, save the lessons in Settings, "Offline use".')}</p>
+      <p>${navigator.onLine ? tt('נסו שוב בעוד רגע.', 'Try again in a moment.') : tt('אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', 'You are offline. Open Lucid once with a connection, and after that the game works without one.')}</p>
       <a class="key" href="#/games">${tt('לכל המשחקים', 'All games')}</a></div></div></div>`);
     return null;
   }
@@ -65,12 +65,14 @@ export default async function picturegame(el, ctx) {
     matched = new Set();
     boardMistakes = 0;
     started = performance.now();
+    quietUntil = started + 450; // a double tap on the button that opened this board must not choose a card
     render(el, html`<div class="player">${top()}<div class="player-body stack" id="gbody" tabindex="-1">
       <h1 class="sr-only">${tt('התאמת מילים לתמונות', 'Words and pictures')}, ${tt(`רמה ${level}`, `level ${level}`)}</h1>
       <p class="small faint">${tt(`רמה ${level}: ${set.name_he}. בוחרים תמונה ומילה (בכל סדר).`, `Level ${level}: ${set.name_en}. Choose a picture and a word, in either order.`)}</p>
       <div class="pic-grid" data-pairs="${set.pairs}" role="group" aria-label="${tt('תמונות', 'Pictures')}">${bd.pictures.map((w, k) => html`<button type="button" class="pic-tile" data-pic="${k}" aria-pressed="false">${picture(w.icon)}<span class="sr-only">${tt('תמונה', 'Picture')} ${k + 1}: <span lang="he" dir="rtl" data-he>${w.he}</span><span data-matched></span></span><span class="pic-he" lang="he" dir="rtl" aria-hidden="true"></span></button>`)}</div>
       <div class="pic-words" data-pairs="${set.pairs}" role="group" aria-label="${tt('מילים', 'Words')}">${bd.words.map((w, k) => html`<button type="button" class="pic-word" data-word="${k}" aria-pressed="false" lang="en" dir="ltr">${shown(w)}</button>`)}</div>
       <div id="gfb" class="game-feedback small" aria-live="polite"></div></div></div>`);
+    window.scrollTo?.(0, 0); // "Next board" may have been scrolled into view on a short screen
     setTimeout(() => $('#gbody', el)?.focus({ preventScroll: true }), 30);
   }
 
@@ -167,6 +169,7 @@ export default async function picturegame(el, ctx) {
         ${nextSet && unlocked(nowBest, nextSet.level) ? html`<a class="key" href="#/games/pictures/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
         <a class="key ghost" href="#/games">${tt('לכל המשחקים', 'All games')}</a>
       </div></div></div>`);
+    window.scrollTo?.(0, 0);
     $('.game-total', el)?.focus({ preventScroll: true });
   }
 

@@ -53,7 +53,7 @@
    {"word": "rain", "he": "גשם", "icon": "cloud-rain"},
    {"word": "snow", "he": "שלג", "icon": "snowflake"}
   ]},
-  {"level": 2, "name_en": "Home, town and travel", "name_he": "בית, עיר ונסיעות", "cefr": "A1–A2", "pairs": 5, "apart": [["wallet", "credit card"], ["hospital", "school"], ["soup", "salad"], ["pot", "soup"]], "words": [
+  {"level": 2, "name_en": "Home, town and travel", "name_he": "בית, עיר ונסיעות", "cefr": "A1–A2", "pairs": 5, "apart": [["wallet", "credit card"], ["hospital", "school"], ["soup", "salad"], ["pot", "soup"], ["truck", "ambulance"]], "words": [
    {"word": "laptop", "he": "מחשב נייד", "icon": "laptop"},
    {"word": "camera", "he": "מצלמה", "icon": "camera"},
    {"word": "headphones", "he": "אוזניות", "icon": "headphones"},

@@ -60,6 +60,22 @@ test('pictures that look alike never share a board, even when both were missed l
   }
 });
 
+test('a round of missed words keeps every one of them, even with look-alikes among them', () => {
+  for (const set of data.sets) for (let r = 0; r < 300; r++) {
+    // A whole previous round missed, look-alikes included (as after "Play with these words").
+    const [x, y] = set.apart[r % set.apart.length];
+    const others = makeBoards(set.words.filter((w) => w.word !== x && w.word !== y), set.pairs, { seed: r / 300 + 0.003 }).flatMap((b) => b.pictures.map((w) => w.word));
+    const focus = [x, y, ...others].slice(0, set.pairs * BOARDS);
+    const boards = makeBoards(set.words, set.pairs, { seed: (r * 7 % 300) / 300 + 0.001, focus, apart: set.apart });
+    const got = boards.flatMap((b) => b.pictures.map((w) => w.word));
+    assert.deepEqual([...got].sort(), [...focus].sort(), `level ${set.level}: a missed word was left out`);
+    for (const b of boards) {
+      const on = new Set(b.pictures.map((w) => w.word));
+      for (const [p, q] of set.apart) assert.ok(!(on.has(p) && on.has(q)), `level ${set.level}: ${p} and ${q} on one board`);
+    }
+  }
+});
+
 test('boards are reproducible, prefer words not seen lately and can start with missed words', () => {
   const set = data.sets[0];
   const a = makeBoards(set.words, set.pairs, { seed: 0.4 }), b = makeBoards(set.words, set.pairs, { seed: 0.4 });

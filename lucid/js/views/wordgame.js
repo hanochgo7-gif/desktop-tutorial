@@ -45,7 +45,7 @@ async function hub(el, ctx) {
     return html`<section class="stack-sm game-section" id="lvl-pictures" aria-labelledby="pics-h">
       <h2 id="pics-h">${tt('התאמת מילים לתמונות', 'Words and pictures')}</h2>
       <p class="small muted">${tt(`מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`, `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`)}</p>
-      ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.")}</span></p>`}
+      ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
       <div class="game-stages">${sets.map((set) => {
         const b = best[set.level];
         const open = pics.unlocked(best, set.level);
@@ -86,9 +86,9 @@ async function hub(el, ctx) {
       })}</ol></section>`);
   }
   draw();
-  // Back from a game (after the router's scroll to the top): show the level played last. A first visit stays at the
-  // top, where both games are introduced.
-  const last = lastLevel();
+  // Back from a game (after the router's scroll to the top): show the level played last. Coming from anywhere else,
+  // the page stays at the top, where both games are introduced.
+  const last = /^#\/games\/./.test(ctx.from || '') && lastLevel();
   if (last) setTimeout(() => document.getElementById(`lvl-${last}`)?.scrollIntoView({ block: 'start' }), 0);
   ctx.watch(['events'], draw);
   return null;

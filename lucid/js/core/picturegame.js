@@ -31,16 +31,27 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
   const first = [...new Set(focus.map((f) => words.find((w) => lower(w) === f.toLowerCase())).filter(Boolean))];
   const seen = new Set(recent.map((r) => r.toLowerCase()));
   const rest = shuffle(words.filter((w) => !first.includes(w)), seed);
-  const ordered = [...shuffle(first, seed + 0.21), ...rest.filter((w) => !seen.has(lower(w))), ...rest.filter((w) => seen.has(lower(w)))];
+  const focusFirst = shuffle(first, seed + 0.21);
+  const others = [...rest.filter((w) => !seen.has(lower(w))), ...rest.filter((w) => seen.has(lower(w)))];
   const clash = new Map();
   for (const [x, y] of apart) for (const [p, q] of [[x, y], [y, x]]) (clash.get(p) || clash.set(p, new Set()).get(p)).add(q);
-  // Fill the boards in order; a word that would sit next to its look-alike waits, and is used only if nothing else is left.
-  const groups = Array.from({ length: Math.min(boards, Math.floor(ordered.length / pairs)) }, () => []);
+  const groups = Array.from({ length: Math.min(boards, Math.floor((first.length + others.length) / pairs)) }, () => []);
   const room = (g) => g.length < pairs;
+  const clashes = (g, w) => g.some((o) => clash.get(o.word)?.has(w.word));
+  // Missed words first, and every one of them is used: when the only board with room holds a missed word's
+  // look-alike, a word from a full board where it fits moves over to make space.
+  for (const w of focusFirst.slice(0, pairs * groups.length)) {
+    const g = groups.find((x) => room(x) && !clashes(x, w));
+    if (g) { g.push(w); continue; }
+    const r = groups.find(room);
+    const swap = groups.flatMap((x) => (x === r ? [] : x.map((y, i) => [x, i, y]))).find(([x, i, y]) => !clashes(x.filter((_, j) => j !== i), w) && !clashes(r, y));
+    if (swap) { const [x, i, y] = swap; x[i] = w; r.push(y); } else r.push(w);
+  }
+  // Then the other words in order; one that would sit next to its look-alike waits, used only if nothing else is left.
   const waiting = [];
-  for (const w of ordered) {
+  for (const w of others) {
     if (!groups.some(room)) break;
-    const g = groups.find((x) => room(x) && !x.some((o) => clash.get(o.word)?.has(w.word)));
+    const g = groups.find((x) => room(x) && !clashes(x, w));
     if (g) g.push(w); else waiting.push(w);
   }
   for (const w of waiting) groups.find(room)?.push(w);
