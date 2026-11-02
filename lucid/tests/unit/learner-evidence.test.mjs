@@ -283,3 +283,52 @@ test('R1-D3: a long explanation takes more of the lesson time than a short one',
   const a = lessonSlice({ ...base, intro: 1 }, 10), b = lessonSlice({ ...base, intro: 6 }, 10);
   assert.ok(a.split && b.split && b.upto < a.upto, `a longer explanation leaves fewer exercises for today (${a.upto} vs ${b.upto})`);
 });
+
+// ---------- UX round 3, first run and Today (docs/qa/panels-r3/plan.json, lane first-run-today) ----------
+test('TF-2: a lesson completed today ticks the lesson block; the next lesson is a whole-lesson extra, never a new plan', async () => {
+  const { dailyPlan, planStatus } = await import('../../js/core/adaptive.js');
+  const base = { minutes: 20, next: { id: 'a2-02' }, level: 'A2', lesson: { minutes: 25, exercises: 16, done: 0, doneToday: 0, intro: 3 } };
+  const plan = dailyPlan({ ...base, today: { lesson: 'a2-01' } });
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.deepEqual([learn.lesson, learn.completed, learn.done, learn.route], ['a2-01', true, true, 'lesson/a2-01']);
+  const next = plan.extras.find((b) => b.next);
+  assert.deepEqual([next.lesson, next.route, next.minutes, next.done], ['a2-02', 'lesson/a2-02', 25, false]);
+  // Once the next lesson is begun today, it is the plan's lesson again.
+  const begun = dailyPlan({ ...base, lesson: { ...base.lesson, done: 3, doneToday: 3, resumable: true }, today: { lesson: 'a2-01' } });
+  assert.equal(begun.blocks.find((b) => b.id === 'learn').lesson, 'a2-02');
+  // Every block done: the plan is done. A whole lesson's minutes on a 20-minute day: done too, with the rest open.
+  const only = dailyPlan({ minutes: 10, next: { id: 'a2-02' }, level: 'A2', lesson: base.lesson, today: { lesson: 'a2-01' } });
+  assert.equal(planStatus(only).complete, true);
+  const withUse = dailyPlan({ ...base, scenario: { id: 'rl-airport-a2', module: 'airport', level: 'A2' }, goals: ['travel'], today: { lesson: 'a2-01' } });
+  assert.equal(planStatus(withUse, { minutesDone: 12, target: 20 }).complete, false, 'the scenario is still to do');
+  const st = planStatus(withUse, { minutesDone: 25, target: 20 });
+  assert.equal(st.complete, true);
+  assert.deepEqual(st.open.map((b) => b.id), ['use']);
+});
+
+test('TF-2: today\'s part done ticks the lesson and offers the rest of it; a review done today is ticked, and cards due again are an extra', async () => {
+  const { dailyPlan } = await import('../../js/core/adaptive.js');
+  const lesson = { minutes: 25, exercises: 16, done: 6, doneToday: 6, intro: 2, resumable: true };
+  const plan = dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', lesson });
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.equal(learn.done, true);
+  const beyond = plan.extras.find((b) => b.beyond);
+  assert.deepEqual([beyond.route, beyond.done], ['lesson/a2-01?resume=1', false]);
+  const reviewed = dailyPlan({ minutes: 20, next: { id: 'a2-01' }, level: 'A2', dueCount: 11, today: { reviews: { review: 11 } } });
+  const rev = reviewed.blocks.find((b) => b.id === 'review');
+  assert.deepEqual([rev.done, rev.count], [true, 11]);
+  assert.equal(reviewed.extras.find((b) => b.id === 'review')?.more, true, 'cards due again are another short round, optional');
+  const warm = dailyPlan({ minutes: 35, next: { id: 'a2-01' }, level: 'A2', warmupCount: 4, todayNewCount: 3, today: { reviews: { warmup: 4, exit: 3 } } });
+  assert.deepEqual(warm.blocks.filter((b) => ['warmup', 'exit'].includes(b.id)).map((b) => b.done), [true, true]);
+});
+
+test('TF-2: minutes done today follow the records: lesson answers at the lesson\'s pace, reviews at 10 seconds, scenarios a minute a reply', async () => {
+  const { minutesToday } = await import('../../js/core/adaptive.js');
+  const lessons = new Map([['a2-01', { minutes: 25, exercises: 16, intro: 4 }]]);
+  const answers = Array.from({ length: 16 }, (_, i) => ({ source: 'lesson', lesson: 'a2-01', exercise: `e${i}` }));
+  assert.equal(minutesToday({ attempts: answers, whole: ['a2-01'], lessons }), 25, 'a whole lesson begun and completed today is its length');
+  assert.equal(minutesToday({ attempts: answers.slice(0, 5), lessons }), 6, 'a part is its share, without the explanation it may have skipped');
+  const reviews = Array.from({ length: 12 }, () => ({ source: 'review' }));
+  assert.equal(minutesToday({ attempts: reviews }), 2);
+  assert.equal(minutesToday({ attempts: [{ source: 'scenario' }, { source: 'scenario' }, { source: 'placement' }], events: [{ type: 'game-round' }] }), 4);
+});

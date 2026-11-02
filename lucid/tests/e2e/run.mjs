@@ -802,8 +802,10 @@ try {
     await page.reload();
     await page.goto(`${BASE}#/today`);
     await page.waitForSelector('.plan a[href^="#/lesson/"]');
-    const href = await page.getAttribute('.plan a[href^="#/lesson/"]', 'href');
-    assert(href.startsWith('#/lesson/b2-02'), `Today's lesson is still ${href}`);
+    // The lesson finished today is ticked in the plan and the next one is offered beyond it (UX r3 TF-2).
+    const hrefs = await page.$$eval('#view .plan a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href')));
+    assert(hrefs.some((h) => h.startsWith('#/lesson/b2-02')), `Today's lesson is still ${hrefs}`);
+    assert(await page.$('.plan a.done[href="#/lesson/b2-01"]'), 'the lesson finished today is not ticked');
     assert(await page.$('.start-bar .tag.ok'), 'no "lesson completed today" tag after a finished lesson');
     const rec = await page.evaluate(() => window.lucid.store.get('progress', 'b2-01', { includeDeleted: true }));
     assert(rec.status === 'completed' && !rec._deleted, `b2-01 stored as ${JSON.stringify(rec)}`);

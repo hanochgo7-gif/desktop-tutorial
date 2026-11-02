@@ -409,6 +409,9 @@ function doneToday(now, { scenarios, writingTasks, attempts }) {
     reading: attempts.some((a) => a.source === 'reading' && isToday(a.at)),
     speaking: events.some((e) => e.type === 'speaking'),
     writing: events.some((e) => e.type === 'writing'),
+    // Cards reviewed today per review mode, and the curriculum lesson completed most recently today (TF-2).
+    reviews: events.filter((e) => e.type === 'review' && e.count > 0).reduce((o, e) => ({ ...o, [e.mode || 'review']: (o[e.mode || 'review'] || 0) + e.count }), {}),
+    lesson: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.completed_at)).sort((a, b) => (a.completed_at < b.completed_at ? 1 : -1))[0]?.id || null,
   };
 }
 

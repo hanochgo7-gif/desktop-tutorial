@@ -6,11 +6,11 @@ import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, todayPlan, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
-import { LEVELS, SKILLS, levelIndex, isLessonId, lessonOrder } from '../core/adaptive.js';
+import { LEVELS, SKILLS, levelIndex, isLessonId, lessonOrder, planStatus, minutesToday, introSlots } from '../core/adaptive.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
 // its own icon, never the placeholder circle of a missing icon).
-const GLYPH = { warmup: 'sparkle', review: 'layers', learn: 'path', practice: 'practice', use: 'speaking', exit: 'check' };
+const GLYPH = { warmup: 'sparkle', review: 'layers', learn: 'path', practice: 'practice', use: 'speaking', exit: 'check', game: 'sparkle' };
 const USE_GLYPH = { writing: 'writing', reading: 'reading', speaking: 'speaking' };
 export function glyphFor(b, done = false) {
   if (done) return 'check';
@@ -139,6 +139,18 @@ export default async function today(el, ctx) {
     loadingLesson = null;
     if (lesson && model().next?.id === id) { extras.lesson = lesson; draw(); }
   }
+  // The pace of each lesson answered today, from its file, for the minutes done today (TF-2). Loaded once each.
+  const paces = new Map();
+  async function loadPaces(ids) {
+    const missing = ids.filter((id) => !paces.has(id));
+    if (!missing.length) return;
+    missing.forEach((id) => paces.set(id, null));
+    await Promise.all(missing.map(async (id) => {
+      const l = await content.lesson(id).catch(() => null);
+      if (l) paces.set(id, { minutes: l.minutes, exercises: l.exercises.length, intro: introSlots(l) });
+    }));
+    draw();
+  }
   await loadLesson(model().next?.id);
 
   function draw() {
@@ -150,15 +162,27 @@ export default async function today(el, ctx) {
     // higher level after "Not now", never after the learner chose.
     const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1')
       && s.ui_switch_answered !== 'en' && (!s.ui_switch_answered || levelIndex(m.courseLevel) > levelIndex(s.ui_switch_answered));
-    const plan = todayPlan(s.daily_minutes, extras);
+    const target = s.daily_minutes;
+    const plan = todayPlan(target, extras);
     const week = weekActivity();
     const dueCount = due().length;
     const today = todayKey();
+    const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === today;
     // Only curriculum lessons count here: a finished scenario or level check is not a lesson.
-    const lessonDoneToday = store.all('progress').some((x) => isLessonId(x.id) && x.status === 'completed' && x.completed_at && todayKey(new Date(x.completed_at)) === today);
-    // A block is ticked only for what was really done: the plan marks practice and "use it" blocks itself.
-    const isDone = (b) => (b.id === 'review' && dueCount === 0) || ((b.id === 'use' || b.id === 'practice') && Boolean(b.done)) || (b.id === 'learn' && Boolean(b.slice?.partDone));
-    const first = plan.blocks.find((b) => !isDone(b));
+    const lessonDoneToday = store.all('progress').some((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.completed_at));
+    // A block is ticked only for what was really done: the plan marks each block itself (adaptive.dailyPlan).
+    const isDone = (b) => Boolean(b.done);
+    // Today is done when every block is done or today's work adds up to the day's minutes (TF-2): then the plan
+    // shows what was done, ticked, and anything else is an optional extra, never a new plan.
+    const attemptsToday = m.attempts.filter((a) => isToday(a.at));
+    loadPaces([...new Set(attemptsToday.filter((a) => a.source === 'lesson' && a.lesson).map((a) => a.lesson))]);
+    const minutesDone = minutesToday({
+      attempts: attemptsToday, events: store.all('events').filter((e) => isToday(e.at)), lessons: paces,
+      whole: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
+    });
+    const status = planStatus(plan, { minutesDone, target });
+    const complete = !m.placementPending && status.complete;
+    const first = complete ? null : plan.blocks.find((b) => !isDone(b));
     const hour = new Date().getHours();
     const hello = hour < 12 ? tt('בוקר טוב', 'Good morning') : hour < 18 ? tt('צהריים טובים', 'Good afternoon') : tt('ערב טוב', 'Good evening');
     const scenario = (id) => extras.scenarios.find((x) => x.id === id);
@@ -169,12 +193,21 @@ export default async function today(el, ctx) {
     const title = (b) => {
       switch (b.id) {
         case 'warmup': return tt('חימום: מילים מהימים האחרונים', 'Warm-up: words from the last few days');
-        case 'review': return tt(`חזרה מרווחת · ${b.count} מילים`, `Spaced review · ${b.count} words`);
+        case 'review': return b.more ? tt(`עוד סבב קצר · ${b.count} מילים`, `Another short round · ${b.count} words`) : tt(`חזרה מרווחת · ${b.count} מילים`, `Spaced review · ${b.count} words`);
         case 'learn': {
+          // A lesson completed today: the plan shows that lesson, ticked (TF-2).
+          const done = b.completed ? lessons.get(b.lesson) : null;
+          if (done) return html`<span class="small faint">${tt('השיעור של היום הושלם:', 'Today\'s lesson is done:')}</span> ${legend(done.title_en, done.title_he)}`;
           if (!m.next) return tt('השיעור הבא', 'Next lesson');
-          const lead = b.missed ? tt('כמעט סיימת:', 'Nearly done:') : b.resume ? tt('המשך:', 'Continue:') : '';
+          // After a run that ended under the pass mark, the lead follows the lesson's own banding: "nearly done"
+          // from 50% up, and below 50% the lesson is still open (TF-2; ux-research F3).
+          const last = m.progress.get(m.next.id)?.last_score;
+          const lead = b.next ? tt('השיעור הבא:', 'Next lesson:') : b.beyond ? tt('להמשיך את השיעור:', 'Keep going in the lesson:')
+            : b.missed ? (last != null && last < 0.5 ? tt('השיעור עוד פתוח:', 'Not complete yet:') : tt('כמעט סיימת:', 'Nearly done:'))
+              : b.resume ? tt('המשך:', 'Continue:') : '';
           return html`${lead ? html`<span class="small faint">${lead}</span> ` : ''}${legend(m.next.title_en, m.next.title_he)}`;
         }
+        case 'game': return tt(`משחק מילים · ${L(b.level)}`, `Word game · ${L(b.level)}`);
         case 'practice': {
           if (b.focus.kind === 'scenario') {
             const sc = scenario(b.focus.scenario);
@@ -196,7 +229,14 @@ export default async function today(el, ctx) {
       }
     };
     const lessonWhy = (b) => {
+      if (b.completed) {
+        const done = lessons.get(b.lesson);
+        return html`${done?.can_do ? html`<span lang="en" dir="ltr" style="display:block">${done.can_do}</span>` : ''}<span style="display:block">${tt('אפשר לפתוח אותו שוב בכל זמן.', 'You can open it again any time.')}</span>`;
+      }
       const sl = b.slice || {};
+      if (b.beyond) return html`<span style="display:block">${tt(`מעבר לחלק של היום: נשארו כ-${b.minutes} דקות, והמקום נשמר.`, `Beyond today's part: about ${b.minutes} min left, and your place is saved.`)}</span>`;
+      // The next lesson, beyond today's plan: the whole lesson, with no part of it planned for today.
+      if (b.next) return html`${m.next?.can_do ? html`<span lang="en" dir="ltr" style="display:block">${m.next.can_do}</span>` : ''}<span style="display:block">${tt(`שיעור של כ-${b.minutes} דקות. המקום נשמר בכל יציאה.`, `A lesson of about ${b.minutes} min. Your place is saved whenever you leave.`)}</span>`;
       const lines = [];
       if (b.skipped?.length) {
         const sk = lessons.get(b.skipped[0]);
@@ -236,8 +276,12 @@ export default async function today(el, ctx) {
     const why = (b) => {
       switch (b.id) {
         case 'warmup': return tt('להיזכר במילה יום-יומיים אחרי שלמדתם אותה זה מה שמקבע אותה.', 'Recalling a word a day or two after learning it is what makes it stick.');
-        case 'review': return tt('המילים האלה בדיוק לפני שכחה. חזרה עכשיו מאריכה את הזיכרון.', 'These words are about to fade. Reviewing now makes the memory last longer.');
+        case 'review':
+          if (b.done) return tt(`עברתם היום על ${b.count} מילים.`, `You reviewed ${b.count} words today.`);
+          if (b.more) return tt('מילים שכבר עברתם עליהן היום חוזרות לסבב נוסף. לא חובה: הן יחכו גם למחר.', 'Words you already reviewed today come back for another round. Optional: they will wait for tomorrow too.');
+          return tt('המילים האלה בדיוק לפני שכחה. חזרה עכשיו מאריכה את הזיכרון.', 'These words are about to fade. Reviewing now makes the memory last longer.');
         case 'learn': return lessonWhy(b);
+        case 'game': return tt('10 שאלות קצרות על המילים של הרמה שלכם.', '10 quick questions on the words of your level.');
         case 'practice': {
           if (b.focus.kind === 'scenario') return tt('בחלק מהתשובות שלך כאן הייתה דרך טבעית יותר. עוד סבב יעזור לזכור אותה.', 'Some of your replies here had a more natural option. Another round helps it stick.');
           const e = b.focus.kind === 'error' ? m.recurring.find((x) => x.error_type === b.focus.id) : null;
@@ -269,22 +313,35 @@ export default async function today(el, ctx) {
     const importLevel = !m.placementPending && !dueCount ? vocabImportLevel() : null;
     // "Not now" hides the offer on Today for that level; the path keeps it (persona finding R2-20).
     const showImport = importLevel && s.vocab_import_hidden !== importLevel;
-    const done = !m.next;
+    const courseDone = !m.next;
     const open = skillsOpen ?? wide();
+    // One row of the plan or of the extras. Extras are plain rows: no Enter key, nothing that reads as required.
+    const row = (b, { extra = false } = {}) => html`<li><a class="panel plan-item ${extra ? 'flat more-item' : ''} ${isDone(b) ? 'done' : ''}" href="#/${b.route}">
+      <span class="glyph">${icon(glyphFor(b, isDone(b)))}</span>
+      <span class="grow"><span style="font-weight:500">${title(b)}</span><span class="why" style="display:block">${why(b)}</span></span>
+      <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span></a></li>`;
+    // "Want more?" once the day is done (TF-2): the blocks not done, another review round, the next lesson or the
+    // rest of today's lesson, and a quick word game at the learner's level.
+    const more = complete ? [...status.open, ...plan.extras, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])] : [];
+    // Before the day is done, only the lesson's own continuation is offered, as one quiet line under the plan.
+    const lessonMore = complete ? [] : plan.extras.filter((b) => b.id === 'learn');
+    const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt(`התוכנית להיום הושלמה${minutesDone ? ` (כ-${minutesDone} דק׳)` : ''}`, `Today's plan is done${minutesDone ? ` (about ${minutesDone} min)` : ''}`)}</strong>
+      ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
 
     const planSection = m.placementPending
       ? html`${placementCard()}<p class="small muted">${tt('התוכנית היומית תופיע אחרי מבחן המיקום, כדי שתתחיל ברמה הנכונה.', 'Your daily plan appears after the placement test, so it starts at the right level.')}</p>`
       : html`
           ${first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
-            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : html`<p class="banner">${icon('check', { size: 18 })}<span>${tt('סיימתם את התוכנית להיום. אפשר להמשיך בחופשיות במעבדות.', 'You\'ve finished today\'s plan. Carry on freely in the labs.')}</span></p>`}
+            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : doneBanner}
           ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="grow"><span style="font-weight:500;display:block">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="why" style="display:block">${legend(otherPlan.title_en, otherPlan.title_he)}</span><span class="why" style="display:block">${stepText(resumeStep(other.resume))}</span></span>${icon('chevron')}</a>` : ''}
-          <ol class="plan" style="list-style:none;padding:0;margin:0">${plan.blocks.map((b) => html`<li><a class="panel plan-item ${isDone(b) ? 'done' : ''}" href="#/${b.route}">
-            <span class="glyph">${icon(glyphFor(b, isDone(b)))}</span>
-            <span class="grow"><span style="font-weight:500">${title(b)}</span><span class="why" style="display:block">${why(b)}</span></span>
-            <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span></a></li>`)}</ol>
+          <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
+          ${lessonMore.length ? html`<ul class="plan more-list" style="list-style:none;padding:0;margin:0" aria-label="${tt('אפשר גם', 'Also possible')}">${lessonMore.map((b) => row(b, { extra: true }))}</ul>` : ''}
+          ${more.length ? html`<section class="more-today stack-sm" aria-labelledby="more-h"><h3 id="more-h">${tt('רוצים עוד?', 'Want more?')}</h3>
+            <p class="small muted">${tt('לא חובה. כל אחד מאלה עומד בפני עצמו.', 'Optional. Each of these stands on its own.')}</p>
+            <ul class="plan more-list" style="list-style:none;padding:0;margin:0">${more.map((b) => row(b, { extra: true }))}</ul></section>` : ''}
           ${showImport ? html`<div class="panel flat stack-sm"><p class="small">${tt(`להוסיף לחזרה המרווחת את מילות המפתח של שיעורי ${L(importLevel)} שדילגת עליהם? הן ייכנסו בהדרגה, עד ${s.new_per_day} ביום.`, `Add the key words of the ${L(importLevel)} lessons you placed out of to your spaced review? They come in gradually, up to ${s.new_per_day} a day.`)}</p>
             <div class="row"><button type="button" class="key small" data-import="${importLevel}">${tt(`להוסיף את המילים של ${L(importLevel)}`, `Add the ${L(importLevel)} words`)}</button><button type="button" class="key ghost small" data-import-later="${importLevel}">${tt('לא עכשיו', 'Not now')}</button></div></div>` : ''}
-          ${done ? html`<p class="banner">${m.skipped.length
+          ${courseDone ? html`<p class="banner">${m.skipped.length
             ? tt('עשית את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
             : tt('השלמתם את כל 75 השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You have completed all 75 lessons. The Writing lab and advanced assignments are waiting.')}</p>` : ''}`;
 
@@ -298,7 +355,7 @@ export default async function today(el, ctx) {
         <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
       <div class="today">
         <section class="stack" aria-labelledby="plan-h">
-          <div class="row between"><h2 id="plan-h">${tt('התוכנית להיום', 'Today\'s plan')}</h2>${m.placementPending ? '' : html`<span class="small faint num">${tt(`כ-${plan.minutes} דקות`, `about ${plan.minutes} min`)}</span>`}</div>
+          <div class="row between"><h2 id="plan-h">${tt('התוכנית להיום', 'Today\'s plan')}</h2>${m.placementPending || complete ? '' : html`<span class="small faint num">${tt(`כ-${plan.minutes} דקות`, `about ${plan.minutes} min`)}</span>`}</div>
           ${planSection}
         </section>
         <aside class="stack">

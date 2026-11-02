@@ -350,17 +350,29 @@ function practiceFocus({ recurring, weak, level }) {
   return { kind: 'topic', id: w.topic, route: w.route || `drill?topic=${w.topic}` };
 }
 
+// Every block says whether it was done today (`done`), so the plan can say when the day is done (TF-2). What
+// counts: a warm-up, review or exit check taken today (today.reviews: cards per review mode), today's part of
+// the lesson, a lesson completed today, and the practice and "use it" blocks below. Once today's review is
+// done, cards that come due again later the same day are an optional extra, never the review again.
+// extras: optional items beyond the plan (shown under "Want more?"): another short review round, the next
+// lesson after one was completed today, or the rest of a lesson after today's part.
 export function dailyPlan({
   minutes = 35, now = Date.now(), dueCount = 0, warmupCount = 0, todayNewCount = 0,
   next = null, weak = [], recurring = [], lastSpeakingAt = null, lastWritingAt = null, lastReadingAt = null, level = 'PreA1',
   goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {},
 } = {}) {
   const blocks = [];
+  const extras = [];
   const add = (b) => blocks.push(b);
   const plan = BUDGET[[10, 20, 35, 50].reduce((best, m) => (Math.abs(m - minutes) < Math.abs(best - minutes) ? m : best), 35)];
+  const reviews = today.reviews || {};
 
-  if (plan.warm && warmupCount > 0) add({ id: 'warmup', minutes: plan.warm, count: Math.min(warmupCount, 8), route: 'review?mode=warmup', why: 'warmup' });
-  if (dueCount > 0) add({ id: 'review', minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review' });
+  if (plan.warm && warmupCount > 0) add({ id: 'warmup', minutes: plan.warm, count: Math.min(warmupCount, 8), route: 'review?mode=warmup', why: 'warmup', done: Boolean(reviews.warmup) });
+  if (reviews.review) {
+    add({ id: 'review', minutes: plan.review, count: reviews.review, route: 'review', why: 'review', done: true });
+    if (dueCount > 0) extras.push({ id: 'review', more: true, minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review' });
+  } else if (dueCount > 0) add({ id: 'review', minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review', done: false });
+  const reviewPlanned = blocks.some((b) => b.id === 'review');
   const learnAt = blocks.length; // the lesson goes here; its time is what the other blocks leave
   const focus = practiceFocus({ recurring, weak, level });
   if (focus && (plan.practice || plan.use)) {
@@ -369,10 +381,10 @@ export function dailyPlan({
     add({ id: 'practice', minutes: plan.practice || 4, focus: f, route, why: 'practice', done });
   }
   if (plan.use) add(useBlock({ minutes: plan.use, level, goals, last: { speaking: lastSpeakingAt, writing: lastWritingAt, reading: lastReadingAt }, scenario, writingTask, today }));
-  if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit' });
+  if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
   if (next) {
     const others = blocks.reduce((a, b) => a + b.minutes, 0);
-    const budget = Math.max(5, Math.min(plan.learn + (dueCount ? 0 : plan.review), minutes - others));
+    const budget = Math.max(5, Math.min(plan.learn + (reviewPlanned ? 0 : plan.review), minutes - others));
     // A lesson that ended "Nearly there" is finished by redoing only the missed exercises (persona findings
     // R2-02, R2-25), unless a run of it is in progress.
     const missed = !lesson?.resumable && lesson?.missed?.count ? lesson.missed : null;
@@ -380,13 +392,63 @@ export function dailyPlan({
       ? { today: Math.max(1, missed.minutes), total: lesson.minutes || null, split: false, done: 0, of: lesson.exercises || 0, revisit: 0, missed: missed.count }
       : lessonSlice(lesson, budget);
     const route = lesson?.resumable ? `lesson/${next.id}?resume=1` : missed ? `lesson/${next.id}?stage=missed` : `lesson/${next.id}`;
-    blocks.splice(learnAt, 0, {
+    const learn = {
       id: 'learn', minutes: slice.today, lesson: next.id, route, why: 'learn', resume: Boolean(lesson?.resumable), missed: missed?.count || 0,
-      step: lesson?.step || null, missedRun: Boolean(lesson?.missedRun), slice, skipped: skipped.map((l) => l.id),
-    });
+      step: lesson?.step || null, missedRun: Boolean(lesson?.missedRun), slice, skipped: skipped.map((l) => l.id), done: Boolean(slice.partDone),
+    };
+    if (today.lesson && today.lesson !== next.id && !(lesson?.doneToday > 0)) {
+      // A lesson was completed today and the next one was not begun today: today's lesson is done, and the
+      // next lesson is an extra, never a new plan (TF-2; ux-research F1).
+      blocks.splice(learnAt, 0, { id: 'learn', minutes: budget, lesson: today.lesson, route: `lesson/${today.lesson}`, why: 'learn', completed: true, skipped: [], done: true });
+      // Chosen beyond the plan, it is the whole lesson (or the rest of a saved run), not a part of it.
+      extras.push({ ...learn, done: false, next: true, minutes: (learn.resume ? slice.remaining : slice.total) || slice.today });
+    } else {
+      blocks.splice(learnAt, 0, learn);
+      // Today's part is done: the rest of the lesson is there for a learner who wants to keep going.
+      if (learn.done) extras.push({ ...learn, done: false, beyond: true, minutes: slice.remaining, route: `lesson/${next.id}?resume=1` });
+    }
   }
-  if (!blocks.length) add({ id: 'learn', minutes, route: next ? `lesson/${next.id}` : 'writing', lesson: next?.id, why: next ? 'learn' : 'write' });
-  return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks };
+  if (!blocks.length) add({ id: 'learn', minutes, route: next ? `lesson/${next.id}` : 'writing', lesson: next?.id, why: next ? 'learn' : 'write', done: false });
+  return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks, extras };
+}
+
+// Today's plan is done when each of its blocks is done, or when today's records already add up to the day's
+// minutes (TF-2; ux-research F1: a learner who did a whole 25-minute lesson on a 20-minute day is done, and the
+// plan does not refill). Blocks not done then become optional extras (`open`).
+export function planStatus(plan, { minutesDone = 0, target = 0 } = {}) {
+  const blocks = plan?.blocks || [];
+  const allDone = blocks.length > 0 && blocks.every((b) => b.done);
+  const complete = allDone || (target > 0 && minutesDone >= target);
+  return { complete, allDone, open: complete ? blocks.filter((b) => !b.done) : [] };
+}
+
+// ---------- minutes done today ----------
+// About how many minutes today's records show, to tell when the day's plan is done (TF-2). Lesson answers count
+// at their lesson's pace (its length over its exercises and explanation slots), and a whole lesson (begun and
+// completed today) adds its explanation; a lesson only opened today does not, since its explanation may have
+// been skipped. Review answers count 10 seconds a card; scripted scenario replies a minute each and an AI
+// roleplay 5; other practice answers half a minute; a game round 2 minutes; an essay worked on today 5. A
+// cautious planning estimate from what was done, not measured time (Progress reports measured active minutes).
+// attempts and events: today's only. whole: ids of lessons begun and completed today. lessons: id -> { minutes,
+// exercises, intro } for the lessons whose pace is known.
+export const REVIEW_SECONDS = 10;
+export const ITEM_MINUTES = 1.5;
+const GAME_EVENTS = ['game-round', 'picture-round', 'memory-round'];
+export function minutesToday({ attempts = [], events = [], whole = [], lessons = new Map() } = {}) {
+  const info = (id) => lessons.get(id);
+  const pace = (id) => { const l = info(id); return l?.minutes && l.exercises ? l.minutes / (l.exercises + (l.intro ?? 2)) : ITEM_MINUTES; };
+  let m = 0;
+  for (const a of attempts) {
+    if (a.source === 'lesson') m += pace(a.lesson);
+    else if (a.source === 'review') m += REVIEW_SECONDS / 60;
+    else if (a.source === 'scenario') m += 1;
+    else if (a.source === 'roleplay') m += 5;
+    else if (a.source !== 'placement' && !essayFeedback(a)) m += 0.5;
+  }
+  for (const id of new Set(whole)) m += pace(id) * (info(id)?.intro ?? 2);
+  m += events.filter((e) => GAME_EVENTS.includes(e.type)).length * 2;
+  m += new Set(events.filter((e) => e.type === 'writing' && e.exercise).map((e) => e.exercise)).size * 5;
+  return Math.round(m);
 }
 
 // ---------- reports ----------
