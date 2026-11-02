@@ -152,15 +152,29 @@ textarea::placeholder, input::placeholder { color: var(--ink-3); opacity: 1; }
 input, textarea { caret-color: var(--cobalt); }
 
 /* ---------- dual legend (the signature) ---------- */
-.legend { display: inline-grid; grid-template-rows: auto auto; gap: 0.1rem; text-align: start; }
+.legend { display: inline-grid; grid-template-rows: auto auto; justify-items: stretch; gap: 0.1rem; max-width: 100%; }
+/* One alignment rule (BL-4): both lines are blocks aligned to the screen's reading edge. In the Hebrew UI a short
+   English title or can-do shares the Hebrew (right) edge, one line or wrapped; inside a left-to-right block (an
+   example, a phrase card) both lines share the left edge. (text-align: start would align each line by its own
+   direction, which is what split a card into two edges.) */
+.legend > :is(.l-en, .l-he) { display: block; text-align: left; overflow-wrap: anywhere; }
+:root[dir='rtl'] .legend > :is(.l-en, .l-he) { text-align: right; }
+:root[dir='rtl'] .example .legend > :is(.l-en, .l-he) { text-align: left; }
+.example .legend { display: grid; }
+.example > :not(.grow) { flex: none; }
+/* BL-5: the chip is a full touch target on touch screens. */
+@media (pointer: coarse) { .he-reveal { min-height: 2.75rem; min-width: 2.75rem; } }
 .legend .l-en { color: var(--ink-en); font-weight: 500; }
-.legend .l-he { color: var(--ink-he); font-size: 0.82em; justify-self: end; font-weight: 400; transition: opacity 0.3s var(--ease-out); }
+.legend .l-he { color: var(--ink-he); font-size: 0.82em; font-weight: 400; transition: opacity 0.3s var(--ease-out); }
 :root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
 :root[data-support='off'] .legend .l-he { display: none; }
 .bi { display: inline; }
+/* English meta-text from bi() (instructions, explanations, goals, task briefs) is its own left-to-right block. */
+.bi > .bi-en { display: block; text-align: start; }
 .bi-he { display: block; color: var(--ink-he); font-size: 0.94em; }
 .bi-he-after { margin-block-start: 0.15em; font-size: 0.88em; }
-.he-reveal { margin-inline-start: 0.4em; padding: 0 0.4em; border: 1px solid var(--key-edge); border-radius: 6px; background: var(--key-sunk); color: var(--ink-he); font-size: var(--t-xs); line-height: 1.5; vertical-align: 0.1em; }
+/* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
+.he-reveal { display: flex; align-items: center; justify-content: center; width: fit-content; margin: var(--s2) 0 0; padding: 0.1em 0.7em; border: 1px solid var(--key-edge); border-radius: 6px; background: var(--key-sunk); color: var(--ink-he); font-size: var(--t-xs); line-height: 1.5; }
 [lang='en'] { font-feature-settings: 'kern' 1; }
 
 /* ---------- keys (buttons) ---------- */
@@ -420,7 +434,7 @@ table.data th, table.data td { padding: 0.55rem 0.8rem; text-align: start; borde
 table.data th { font-weight: 600; background: var(--key-sunk); }
 table.data tr:last-child td { border-block-end: 0; }
 .examples { display: grid; gap: var(--s2); }
-.example { display: flex; align-items: flex-start; gap: var(--s3); padding: var(--s3) var(--s4); background: var(--key); border: 1px solid var(--key-edge); border-radius: var(--r-key); }
+.example { display: flex; align-items: flex-start; gap: var(--s3); padding: var(--s3) var(--s4); background: var(--key); border: 1px solid var(--key-edge); border-radius: var(--r-key); direction: ltr; text-align: left; }
 .example .note { font-size: var(--t-xs); color: var(--ink-3); }
 
 /* ---------- welcome / onboarding ---------- */
@@ -600,12 +614,9 @@ dialog.sheet > .panel { padding: var(--s5); }
 .passage.source { max-width: none; }
 .essay-busy { align-items: center; }
 /* A long English task brief on a Hebrew screen reads as its own left-aligned block (research D33). */
-.task-brief .bi > .bi-en { display: block; text-align: start; }
 
 /* player-speaking */
 /* English learning text inside Hebrew screens is its own left-aligned block (research D33; P-32, P-58). */
-.player .bi > .bi-en, :is(.block-rule, .block-tip, .block-warning) .bi > .bi-en { display: block; text-align: start; }
-.player .bi > .he-reveal, :is(.block-rule, .block-tip, .block-warning) .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.25em; }
 /* Objectives and key points: the icon stays on the line of its text, also on phones (P-13). */
 .point-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
 .point { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: var(--s2); }
@@ -679,8 +690,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* A key's label wraps instead of pushing the page sideways on phones and at large text sizes. */
 @media (max-width: 40rem) { .key { white-space: normal; max-width: 100%; } }
 :root[data-text='130'] .key, :root[data-text='150'] .key { white-space: normal; max-width: 100%; }
-.legend { max-width: 100%; }
-.legend > span, .entry-word { overflow-wrap: anywhere; }
+.entry-word { overflow-wrap: anywhere; }
 @media (max-width: 30rem) {
   .page-head h1 { font-size: var(--t-xl); overflow-wrap: anywhere; }
   .entry { padding: var(--s3) var(--s4); }
@@ -698,7 +708,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .hint-box > span { min-width: 0; }
 /* A Hebrew placeholder in an English field reads right to left until the learner types (P-69). */
 :root[dir='rtl'] :is(input, textarea)[dir='ltr']:placeholder-shown { direction: rtl; }
-.explain .bi > .bi-en, .alt-list .bi > .bi-en, .expr-usage .bi > .bi-en { display: block; text-align: start; }
 /* Real life and Conversations hubs: level and fit on each row, a level guide, a start strip (P-46, P-64). */
 .hub-level { display: grid; justify-items: end; gap: 0.15rem; text-align: end; }
 .fit { font-size: var(--t-xs); color: var(--ink-3); white-space: nowrap; }
@@ -709,9 +718,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .start-here { margin-block-end: var(--s5); }
 .hub-filters { row-gap: var(--s2); }
 .hub-head .icon { color: var(--ink-2); }
-/* Hebrew UI: both lines of a dual legend start at the right edge, so English titles line up in lists (P-69). */
-:root[dir='rtl'] .legend { justify-items: start; }
-:root[dir='rtl'] .legend > .l-he { justify-self: start; }
 
 /* writing-reallife-layout r2 */
 /* List rows: the tags move under the title when the list is narrow in text units (phones at 115-150% text,
@@ -739,10 +745,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 }
 .stage-panel { padding: var(--s4) var(--s5); }
 @media (max-width: 30rem) { .start-here, .stage-panel { padding: var(--s4) var(--s3); } }
-/* In the Hebrew UI every English title in a list ends at the right edge, with its Hebrew title under it, whether it
-   takes one line or wraps (lists use one alignment, D-ux; Y13). */
-.lesson-row .legend { display: grid; }
-:root[dir='rtl'] .lesson-row .legend > .l-en { justify-self: stretch; text-align: end; }
 
 /* Skill rows at large text or on narrow cards: name and level on one line, a full-width meter under them
    (R2-14, D5). */
@@ -774,7 +776,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .scenario-view .page-head { margin-block-end: var(--s4); }
 @media (max-width: 30rem) { .scenario-view .page-head h1 .l-he { font-size: var(--t-md); } }
 /* English goal and situation text: its own left-to-right block under the Hebrew label (R2-34, M9). */
-.scenario-view .panel .bi > .bi-en, .goal-block .bi > .bi-en { display: block; text-align: start; }
 .chosen-quote { margin-block-start: 0; }
 /* Roleplay report lists follow the screen direction, under their headings: each point is one or two lines,
    so its English stays an isolate in the line, and the Hebrew line comes under it (R2-10). */
@@ -934,8 +935,6 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 
 /* Writing: the topics and "Must include" items are English blocks, left to right (M9, T6). */
 .topic-pick .note-row .tag { margin-inline-start: var(--s2); }
-.topic-pick .bi > .bi-en, .req-list .bi > .bi-en { display: block; text-align: start; }
-.topic-pick .bi > .he-reveal, .req-list .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.2em; }
 /* Draft comparison by paragraph (R2-40). */
 .cmp-jump { gap: var(--s1); }
 .cmp-para { padding-block-start: var(--s2); border-block-start: 1px solid var(--key-edge); scroll-margin-block-start: 5rem; }
@@ -958,7 +957,7 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .more-checks > summary { color: var(--ink-2); min-height: 2rem; }
 /* lesson player, i18n and speaking r2 */
 /* English transcripts, recognised text and review examples: their own left-to-right block (R2-18, M9). */
-.en-block { display: block; text-align: start; margin: 0; }
+.en-block { display: block; direction: ltr; text-align: left; margin: 0; }
 .transcript { display: grid; gap: 0.15rem; }
 .transcript > p { margin: 0; }
 /* Speech recognition: words not caught are grey and dotted, never the red of a wrong answer (R2-08). */
@@ -968,9 +967,7 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .speak-controls { margin-block: var(--s4); }
 .speak-focus-fold > summary { cursor: pointer; display: flex; align-items: center; gap: var(--s2); min-height: 2.75rem; width: fit-content; }
 .speak-focus-fold .speak-focus-body { margin-block-start: var(--s2); }
-.speak-focus-fold .bi > .bi-en { display: block; text-align: start; }
 /* Partial Hebrew support: a "בעברית" button under a long English paragraph (R1-D10). */
-.he-reveal.he-reveal-text { display: inline-flex; align-items: center; margin-block-start: 0.35em; padding: 0.1em 0.7em; font-size: var(--t-xs); }
 /* Wide tables: a fade on the side of the hidden columns until the far side is reached (R2-32). */
 .table-wrap.scrolls:not(.at-end):dir(ltr) { mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); }
 .table-wrap.scrolls:not(.at-end):dir(rtl) { mask-image: linear-gradient(to left, #000 calc(100% - 3rem), transparent); }
@@ -1402,6 +1399,23 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane exercises: end ---- */
 
 /* ---- lane bilingual-text: start ---- */
+/* BL-1: an English piece of 20 characters or fewer inside Hebrew text, with the punctuation attached to it, is one
+   unit that moves to the next line whole ("/s/, /z/", "/æ/ (cat)", "Yes, I am."). A unit wider than the whole line
+   still wraps inside itself, so nothing scrolls sideways at 150% text. isolateLatin() writes the unit. */
+.nw { display: inline-block; max-width: 100%; }
+/* BL-3: at full Hebrew support (Pre-A1, A1) the Hebrew instruction or explanation is the primary line and the English
+   meta-text follows in the quieter ink. In an exercise prompt the Hebrew takes the prompt's own size and weight.
+   The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
+.bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
+.bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
+/* The English line right under the Hebrew is a short meta line: it shares the Hebrew edge (BL-4). Opened from "EN",
+   an explanation paragraph stays a left-to-right block. */
+:root[dir='rtl'] .bi.he-first > .bi-he.primary + .bi-en { text-align: right; }
+.ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
+.ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
+:where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
+/* BL-4: a can-do or outcome line under a title is a short English line too, so it shares the title's edge. */
+:root[dir='rtl'] :is(.lesson-row .meta[dir='ltr'], .plan-item [lang='en'][dir='ltr']) { text-align: right; }
 
 /* ---- lane bilingual-text: end ---- */
 

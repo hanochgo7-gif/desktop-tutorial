@@ -1146,7 +1146,7 @@ try {
     await page.waitForSelector('.hint-box bdi');
     let body = db.aiBodies.at(-1);
     assert(body.corrections === 'light' && ['full', 'partial'].includes(body.hebrew_support), `roleplay request: ${JSON.stringify({ c: body.corrections, h: body.hebrew_support })}`);
-    const hint = await page.evaluate(() => { const b = document.querySelector('.hint-box bdi'); return { iso: b.textContent, after: b.nextSibling?.textContent }; });
+    const hint = await page.evaluate(() => { const b = document.querySelector('.hint-box bdi'); return { iso: b.textContent.replace(/[\u2011]/g, '-').replace(/\u00a0/g, ' '), after: b.nextSibling?.textContent }; });
     assert(hint.iso === 'K-O-H-E-N' && hint.after === '.', `Hebrew hint not isolated: ${JSON.stringify(hint)}`);
     await page.uncheck('[data-tips]');
     await page.fill('#rpin', 'My name is Kohen.');
@@ -1218,7 +1218,8 @@ try {
       const charBox = (node, i) => { const r = document.createRange(); r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
       // "תאייתו: K-O-H-E-N." — the full stop sits left of the English (the end of the Hebrew sentence).
       const a = put(isolateLatin('תאייתו: K-O-H-E-N.'));
-      const dot = charBox(a.lastChild, a.lastChild.length - 1);
+      const dotNode = a.querySelector('bdi').nextSibling;
+      const dot = charBox(dotNode, dotNode.length - 1);
       // "...: Can I get a coffee? = 'אפשר קפה?'" — the question mark is the right end of the English.
       const b = put(isolateLatin('להזמין: Can I get a coffee? = \'אפשר קפה?\''));
       const t = b.querySelector('bdi').firstChild;
@@ -1811,7 +1812,7 @@ try {
   });
 
   // ---------- lesson player, i18n and speaking: persona round 2 ----------
-  const bdiOf = (page, sel) => page.$$eval(`${sel} bdi`, (x) => x.map((b) => b.textContent));
+  const bdiOf = (page, sel) => page.$$eval(`${sel} bdi`, (x) => x.map((b) => b.textContent.replace(/[\u2011]/g, '-').replace(/\u00a0/g, ' ')));
   await check('PL1. Brackets stay with their English inside Hebrew; "Why?" explains the item, not its error type in general (R2-01, R2-04)', async () => {
     const { ctx, page } = await newPage(browser);
     await onboard(page, { start: 'zero' });

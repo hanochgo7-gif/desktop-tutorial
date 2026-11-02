@@ -25,7 +25,7 @@ const STRINGS = {
   'nav.help': ['עזרה', 'Help'],
   'skip': ['דילוג לתוכן', 'Skip to content'],
   'loading': ['טוען…', 'Loading…'],
-  'back': ['חזרה', 'Back'],
+  'back': ['הקודם', 'Back'],
   'close': ['סגירה', 'Close'],
   'continue': ['המשך', 'Continue'],
   'check': ['בדיקה', 'Check'],
@@ -142,17 +142,40 @@ const fold = (x) => String(x ?? '').toLowerCase().replace(/[^a-z0-9֐-׿]+/g, ''
 // brackets around it. What joins it to the Hebrew stays outside and follows the Hebrew direction: a
 // prefix hyphen (ב-am), a colon or comma, " = " before a Hebrew translation, and the Hebrew sentence's
 // final full stop.
+// Round 3 (BL-1): IPA is English too, so "/ɪz/" is one token and never "/ɪ" + "z/"; a sound and its example word
+// ("/æ/ (cat)") stay in one isolate; a run of several English sentences gets one isolate per sentence, each with
+// its own full stop, so no isolate carries two sentences across a line end; a Hebrew list number after an English
+// sentence ("chill. 3) Chill!") stays with the Hebrew; and short isolates do not wrap (class "nw").
 const HEBREW = /[֐-׿יִ-ﭏ]/;
-const RUN = /[^֐-׿יִ-ﭏ]*[A-Za-z][^֐-׿יִ-ﭏ]*/g;
+// English letters: the Latin script (with é and the IPA letters ɪ æ ʌ ɒ ə ʃ ʒ ŋ ð), the Greek θ used in IPA,
+// and the IPA length and stress marks ː ˈ ˌ.
+const L = '\\p{Script=Latin}θːˈˌ';
+const LETTER = new RegExp(`[${L}]`, 'u');
+const WORD_CHAR = new RegExp(`[${L}0-9\\p{M}]`, 'u');
+// A run of text that holds English: no Hebrew letters and no right-to-left mark. Content puts U+200F between two
+// English runs that belong to different parts of the Hebrew sentence ("/æ/ (cat), ‏/ʌ/ (cut)").
+const NOT_HE = '[^\\u0590-\\u05FF\\uFB1D-\\uFB4F\\u200F]';
+const RUN = new RegExp(`${NOT_HE}*[${L}]${NOT_HE}*`, 'gu');
 const CLOSER = { '"': '"', "'": "'", '“': '”', '‘': '’', '(': ')', '[': ']' };
 const ABBREV = /(?:\.[A-Za-z]|^(?:Mr|Mrs|Ms|Dr|St|etc|vs|approx))$/i;
+// English pieces of this many characters or fewer are kept on one line (the "nw" unit below).
+export const NOWRAP_MAX = 20;
 
 // The [start, end) of the English inside one run of non-Hebrew text.
 function englishSpan(r) {
-  let a = r.search(/[A-Za-z]/);
+  let a = r.search(LETTER);
   while (a > 0 && /[0-9]/.test(r[a - 1])) a--;
+  // The opening slash of an IPA token ("ב-/æ/", "/aɪ kən ˈswɪm/") belongs to it; the Hebrew prefix hyphen does not.
+  if (r[a - 1] === '/' && r.indexOf('/', a) > a) a--;
   let b = r.length;
-  while (b > a && !/[A-Za-z0-9]/.test(r[b - 1])) b--;
+  while (b > a && !WORD_CHAR.test(r[b - 1])) b--;
+  // ...and so does its closing slash, after a bracket if there is one ("/weə(r)/").
+  const close = r.slice(b).match(/^[)\]]?\//);
+  if (close && (r.slice(a, b).match(/\//g) || []).length % 2) b += close[0].length;
+  // A list number after an English sentence is the Hebrew list's ("chill. 3) Chill!"): it stays outside, and
+  // the sentence keeps its own full stop.
+  const num = r.slice(a, b).match(/[.!?…]["'”’]?(\s+[0-9]+)$/);
+  if (num) b -= num[1].length;
   let tail = r.slice(b).match(/^[?!.…]+/)?.[0] || '';
   const word = r.slice(a, b).match(/[A-Za-z.]+$/)?.[0] || '';
   if (/[^.]\.$|^\.$/.test(tail) && !ABBREV.test(word)) tail = tail.slice(0, -1);
@@ -204,17 +227,67 @@ function keepPairs(r, a, b) {
   return [a, b];
 }
 
+// The sentences of one English span, as [start, end) pairs: a break after . ! ? or … (with a closing quote) and
+// before a capital, optionally across " / " or " – " ("Yes, I am. / No, she isn't"). Never after an
+// abbreviation (Mr., a.m.), and never where a bracket or quote pair would be split.
+// A single full stop before a small letter ends a sentence too: in Hebrew text that is a new Hebrew sentence
+// that starts with an English word ("on Fridays. on + יום"). An ellipsis before a small letter does not
+// ("We live... and work...").
+const SENTENCE_END = /[.!?…]+["'”’]?(?=(\s+(?:[/–—]\s+)?)["'“‘]?\p{Lu})|(?<![.…])\.["'”’]?(?=(\s+)\p{Ll})/gu;
+export function sentenceSpans(t) {
+  const out = [];
+  let from = 0;
+  for (const m of t.matchAll(SENTENCE_END)) {
+    const end = m.index + m[0].length;
+    const word = t.slice(from, m.index).match(/[A-Za-z.]+$/)?.[0] || '';
+    if (/^\.(?!\.)/.test(m[0]) && ABBREV.test(word)) continue;
+    const piece = t.slice(from, end);
+    if (unpaired(piece).length || unpairedQuotes(piece)) continue;
+    out.push([from, end]);
+    from = end + (m[1] ?? m[2]).length;
+  }
+  out.push([from, t.length]);
+  return out;
+}
+// A spelled word stays in one piece: the hyphens of "A-N-N-A" become non-breaking hyphens (U+2011), and
+// "A, double N, A" takes no-break spaces, as does a short "letter = word" pair ("U = you", "Noa = N-O-A").
+export const keepSpelled = (t) => t
+  .replace(/(?<![A-Za-z])[A-Za-z](?:-[A-Za-z])+(?![A-Za-z])/g, (m) => m.replace(/-/g, '\u2011'))
+  .replace(/(?<![A-Za-z])[A-Z](?:, (?:double )?[A-Z])+(?![A-Za-z])/g, (m) => m.replace(/ /g, '\u00a0'))
+  .replace(/(?<![A-Za-z])([A-Za-z]{1,4}) = ([A-Za-z]{1,5})(?![A-Za-z])/g, '$1\u00a0=\u00a0$2');
+const bdi = (t) => `<bdi dir="ltr" lang="en">${esc(keepSpelled(t))}</bdi>`;
+// A short English piece (NOWRAP_MAX characters or fewer) is kept on one line by a unit (class "nw", an inline-block
+// in app.css) that also holds what is attached to it with no space between: a Hebrew prefix ("ב-"), an opening
+// bracket, the Hebrew full stop or comma after it. So the line never breaks inside the English or between the English
+// and its punctuation, and a piece wider than the whole line still wraps inside its unit instead of pushing the
+// page sideways at 150% text. (A plain white-space: nowrap did push narrow cards sideways.)
+const unit = (lead, t, trail) => `<span class="nw">${esc(lead)}${bdi(t)}${esc(trail)}</span>`;
+const short = (t) => [...t].length <= NOWRAP_MAX;
+
 export function isolateLatin(text) {
   const s = String(text ?? '');
-  if (!/[A-Za-z]/.test(s)) return s;
-  let out = '';
+  if (!LETTER.test(s)) return s;
+  // English with no Hebrew in a Hebrew slot is one isolate, sentence order and full stop included.
+  if (!HEBREW.test(s)) return raw(short(s) ? unit('', s, '') : bdi(s));
+  // The text as plain pieces (strings) and English pieces ({ t }).
+  const parts = [];
   let last = 0;
   for (const [at, r] of englishRuns(s)) {
     const [a, b] = englishSpan(r);
-    out += esc(s.slice(last, at + a)) + `<bdi dir="ltr" lang="en">${esc(r.slice(a, b))}</bdi>`;
+    const t = r.slice(a, b);
+    parts.push(s.slice(last, at + a));
+    sentenceSpans(t).forEach(([x, y], i, all) => { parts.push({ t: t.slice(x, y) }); if (i < all.length - 1) parts.push(t.slice(y, all[i + 1][0])); });
     last = at + b;
   }
-  return raw(out + esc(s.slice(last)));
+  parts.push(s.slice(last));
+  // A short piece takes in the characters attached to it on both sides.
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    if (typeof p === 'string' || !short(p.t)) continue;
+    if (typeof parts[i - 1] === 'string') { p.lead = parts[i - 1].match(/\S*$/)[0]; parts[i - 1] = parts[i - 1].slice(0, parts[i - 1].length - p.lead.length); }
+    if (typeof parts[i + 1] === 'string') { p.trail = parts[i + 1].match(/^\S*/)[0]; parts[i + 1] = parts[i + 1].slice(p.trail.length); }
+  }
+  return raw(parts.map((p) => (typeof p === 'string' ? esc(p) : short(p.t) ? unit(p.lead || '', p.t, p.trail || '') : bdi(p.t))).join(''));
 }
 // The runs of non-Hebrew text that hold English, as [offset, text]. A bracket whose partner is outside the
 // run (in the Hebrew: "Eilat. (he, she, it – בשיעור הבא.)") splits it, so the bracket stays with the Hebrew
@@ -223,7 +296,7 @@ function englishRuns(s) {
   const out = [];
   const split = (r, at) => {
     const cuts = unpaired(r);
-    if (!cuts.length) { if (/[A-Za-z]/.test(r)) out.push([at, r]); return; }
+    if (!cuts.length) { if (LETTER.test(r)) out.push([at, r]); return; }
     let from = 0;
     for (const cut of [...cuts, r.length]) { split(r.slice(from, cut), at + from); from = cut + 1; }
   };
@@ -251,15 +324,28 @@ export function unpairedQuotes(s) {
 // fold: a long explanation paragraph. At "partial" support its Hebrew is one tap away ("בעברית", per paragraph)
 // instead of a full second copy under the English (R1-D10; research C3 S1: A2 gets English with a Hebrew
 // tap-to-reveal). Short lines keep their Hebrew under the English.
+// Round 3 (BL-3): at "full" support (Pre-A1 and A1) the Hebrew leads. Instructions and explanations are meta-text,
+// so their Hebrew is the first and primary line ("bi-he primary") and the English follows in a quieter ink. An
+// explanation paragraph (fold) shows its Hebrew only, with the English one tap away ("EN", the mirror of "בעברית"
+// at partial). English target content (examples, options, passages, tables) does not go through bi() and stays
+// primary at every level. The app's one reveal listener (app.js, [data-reveal-he]) opens the next sibling.
 export const FOLD_WORDS = 24;
 const longText = (en) => String(en || '').split(/\s+/).filter(Boolean).length > FOLD_WORDS;
 export function bi(obj, { always = false, fold = false } = {}) {
   if (!obj) return '';
   if (typeof obj === 'string') return html`<span lang="en" dir="ltr">${obj}</span>`;
+  if (support === 'full' && obj.he) {
+    const he = html`<span class="bi-he primary" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>`;
+    return fold
+      ? html`<span class="bi he-first">${he}<button type="button" class="he-reveal he-reveal-text en-reveal" data-reveal-he aria-expanded="false" lang="en">EN<span class="sr-only" lang="${lang}"> ${tt('– להצגת הפסקה באנגלית', '– show this paragraph in English')}</span></button><span class="bi-en" lang="en" dir="ltr" hidden>${obj.en}</span></span>`
+      : html`<span class="bi he-first">${he}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span></span>`;
+  }
   const folded = Boolean(obj.he) && fold && !always && support === 'partial' && longText(obj.en);
-  const showHe = obj.he && !folded && (always || support === 'full' || support === 'partial');
+  const showHe = obj.he && !folded && (always || support === 'partial');
   const hidden = html`<span class="bi-he bi-he-after" lang="he" dir="rtl" hidden>${isolateLatin(obj.he)}</span>`;
-  return html`<span class="bi">${showHe && support === 'full' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe && support !== 'full' ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${folded
-    ? html`<button type="button" class="he-reveal he-reveal-text" data-reveal-he aria-expanded="false" lang="he">בעברית<span class="sr-only"> ${tt('– להצגת הפסקה בעברית', '– show this paragraph in Hebrew')}</span></button>${hidden}`
-    : !showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he aria-expanded="false" lang="he">עב<span class="sr-only"> ${tt('הצגת ההסבר בעברית', 'show the Hebrew explanation')}</span></button>${hidden}` : ''}</span>`;
+  // One label for every Hebrew chip, on its own line under the English (BL-5): "בעברית" ("Hebrew" in the English UI).
+  const chip = (cls, sr) => html`<button type="button" class="${cls}" data-reveal-he aria-expanded="false" lang="${lang}">${tt('בעברית', 'Hebrew')}<span class="sr-only"> ${sr}</span></button>${hidden}`;
+  return html`<span class="bi"><span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${folded
+    ? chip('he-reveal he-reveal-text', tt('– להצגת הפסקה בעברית', '– show this paragraph in Hebrew'))
+    : !showHe && obj.he ? chip('he-reveal', tt('– להצגת ההסבר בעברית', '– show the explanation in Hebrew')) : ''}</span>`;
 }
