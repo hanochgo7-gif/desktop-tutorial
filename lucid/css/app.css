@@ -975,6 +975,9 @@ dialog.sheet > .panel { padding: var(--s5); }
    The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
 .bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
 .bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
+/* The English line right under the Hebrew is a short meta line: it shares the Hebrew edge (BL-4). Opened from "EN",
+   an explanation paragraph stays a left-to-right block. */
+:root[dir='rtl'] .bi.he-first > .bi-he.primary + .bi-en { text-align: right; }
 .ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
 .ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
 :where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
