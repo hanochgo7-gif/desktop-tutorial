@@ -1013,6 +1013,13 @@ dialog.sheet > .panel { padding: var(--s5); }
 .ob-check input[type='checkbox']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
 .ob-ai-off { display: flex; align-items: flex-start; gap: var(--s2); color: var(--ink-2); }
 .ob-ai-off > .icon { flex: none; margin-block-start: 0.2em; }
+/* Placement: "question 4 of about 20" beside the bar; a reading passage in its own panel, the question under it
+   (TF-9). */
+.player-top .pl-count { white-space: nowrap; }
+.pl-reading .passage { padding: var(--s4); max-width: none; }
+.pl-reading .pl-question { font-size: var(--t-lg); line-height: 1.5; text-align: start; }
+.pl-ceiling { color: var(--ink-2); }
+.no-test { row-gap: var(--s2); }
 /* Today's minutes: a visible question over the choice, and a status line when it changes (TF-5). */
 .today-minutes { display: grid; gap: var(--s2); justify-items: start; }
 .today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }

@@ -120,7 +120,6 @@ export function skillSummary(skills) {
 // The unfinished placement test, on Today and on the path (persona findings P-37, R2-15, R1-D2).
 export function placementCard({ heading = 'h2' } = {}) {
   const n = placementDraft()?.answers?.length || 0;
-  const own = selfReportLevel();
   const title = n ? tt('להמשיך את מבחן המיקום', 'Finish your placement test') : tt('מבחן המיקום מחכה לך', 'Your placement test is waiting');
   return html`<section class="panel stack" aria-labelledby="pl-h">
     ${heading === 'h1' ? html`<h1 id="pl-h" class="h3">${title}</h1>` : html`<h2 id="pl-h">${title}</h2>`}
@@ -129,14 +128,25 @@ export function placementCard({ heading = 'h2' } = {}) {
       : tt('כ-10 דקות. אחריו התוכנית היומית תתחיל ברמה שמתאימה לך.', 'About 10 minutes. After it, your daily plan starts at the level that fits you.')}</p>
     <div class="row"><a class="key enter" href="#/placement${n ? '?resume=1' : ''}">${n ? tt('להמשיך את המבחן', 'Continue the test') : tt('להתחיל את המבחן', 'Start the test')} ${arrow()}</a>
       ${n ? html`<a class="key ghost" href="#/placement?restart=1">${tt('להתחיל מחדש', 'Start again')}</a>` : ''}</div>
-    <div class="row small"><span class="muted">${tt('או בלי מבחן:', 'Or without the test:')}</span>
-      ${own ? html`<button type="button" class="key ghost small" data-skip-level="${own}">${tt(`להתחיל ב-${L(own)} (ההערכה שלך)`, `Start at ${L(own)} (your own estimate)`)}</button>` : ''}
-      <button type="button" class="key ghost small" data-basics>${tt('להתחיל מהבסיס', 'Start from the basics')}</button></div>
+    ${noTestChoices()}
   </section>`;
+}
+// Starting without the test: the same choices on Today, the path and the placement intro, each naming its level
+// (TF-9; ux-research F9): the letters (Pre-A1), A1, and the learner's own estimate when it is higher.
+export function noTestChoices() {
+  const own = selfReportLevel();
+  return html`<div class="row small no-test"><span class="muted">${tt('או בלי מבחן:', 'Or without the test:')}</span>
+    <button type="button" class="key ghost small" data-basics><span>${isolateLatin(tt('להתחיל מהאותיות (Pre-A1)', 'Start with the letters (Pre-A1)'))}</span></button>
+    <button type="button" class="key ghost small" data-skip-level="A1"><span>${isolateLatin(tt('להתחיל ב-A1', 'Start at A1'))}</span></button>
+    ${own && levelIndex(own) > levelIndex('A1') ? html`<button type="button" class="key ghost small" data-skip-level="${own}"><span>${isolateLatin(tt(`להתחיל ב-${L(own)} (ההערכה שלכם)`, `Start at ${L(own)} (your own estimate)`))}</span></button>` : ''}</div>`;
 }
 export function bindPlacementCard(el, ctx) {
   return [
-    on(el, 'click', '[data-skip-level]', async (e, b) => { await applyPlacement(selfReportResult(b.dataset.skipLevel)); toast(tt(`המסלול מתחיל ב-${L(b.dataset.skipLevel)}`, `Your path starts at ${L(b.dataset.skipLevel)}`)); }),
+    on(el, 'click', '[data-skip-level]', async (e, b) => {
+      await applyPlacement(selfReportResult(b.dataset.skipLevel));
+      toast(tt(`המסלול מתחיל ב-${L(b.dataset.skipLevel)}`, `Your path starts at ${L(b.dataset.skipLevel)}`));
+      if (ctx.path === 'placement') ctx.navigate('today');
+    }),
     on(el, 'click', '[data-basics]', async () => { await applyPlacement(zeroResult()); ctx.navigate('lesson/pa1-01'); }),
   ];
 }

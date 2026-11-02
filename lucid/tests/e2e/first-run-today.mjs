@@ -408,6 +408,40 @@ try {
     await shot(page, 'tf8-placement-result-390');
     await ctx.close();
   });
+  // ---------- TF-9: placement: how long, what next, readable items ----------
+  await check('TF-9 #/placement: the intro offers "להתחיל מהאותיות (Pre-A1)" and "להתחיל ב-A1"; the counter says "מתוך כ-"; the bar stays under 90% until the last block; a reading item has its passage and question apart; the result names the level above', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'basics' });
+    await page.waitForSelector('[data-begin]');
+    const offers = await page.$$eval('.no-test button', (x) => x.map((b) => b.textContent.trim()));
+    assert(offers.includes('להתחיל מהאותיות (Pre-A1)') && offers.includes('להתחיל ב-A1'), `intro offers: ${offers}`);
+    await page.click('[data-begin]');
+    const bank = await page.evaluate(async () => (await (await fetch('content/placement.json')).json()).items);
+    const order = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+    const seen = [];
+    let reading = null;
+    for (let i = 0; i < 40 && await page.$('#exroot'); i++) {
+      const s = await page.evaluate(() => ({ counter: document.querySelector('.pl-count')?.textContent.trim(), bar: parseFloat(document.querySelector('.player-top .progress > span').style.width), opts: [...document.querySelectorAll('#exroot .option')].map((o) => o.textContent.trim().replace(/^\d\s*/, '')) }));
+      seen.push(s);
+      if (!reading && await page.$('.pl-reading')) {
+        reading = await page.evaluate(() => ({ passage: document.querySelector('.pl-reading .passage')?.textContent.trim(), question: document.querySelector('.pl-reading .pl-question strong')?.textContent.trim() }));
+        await shot(page, 'tf9-reading-390', false);
+      }
+      // A B1 learner: right up to B1, "I don't know" above it.
+      const item = bank.find((it) => it.options?.length === s.opts.length && it.options.every((o, k) => o === s.opts[k]));
+      if (item && order.indexOf(item.level) <= order.indexOf('B1') && item.type !== 'gap') { await page.click(`#exroot .option[data-opt="${item.answer}"]`); await page.click('[data-answer]'); } else await page.click('[data-idk]');
+      await page.waitForTimeout(40);
+    }
+    await page.waitForSelector('.onboard h1');
+    assert(seen.length >= 8 && seen.every((s) => /^שאלה \d+ מתוך כ-\d+$/.test(s.counter)), `counters: ${seen.map((s) => s.counter)}`);
+    const early = seen.slice(0, Math.max(0, seen.length - 4));
+    assert(early.every((s) => s.bar < 90), `the bar passed 90% before the last block: ${seen.map((s) => Math.round(s.bar))}`);
+    assert(reading && reading.passage.length > 40 && reading.question.endsWith('?') && !reading.passage.includes(reading.question), `reading item: ${JSON.stringify(reading)}`);
+    const ceiling = await page.textContent('.pl-ceiling').catch(() => '');
+    assert(/^ב-B2, הרמה שמעל: \d+ מתוך \d+ נכונות\.$/.test(ceiling.trim()), `the result does not name the level above: ${ceiling}`);
+    await shot(page, 'tf9-result-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

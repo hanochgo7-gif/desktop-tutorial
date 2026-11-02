@@ -10,6 +10,7 @@ import { createPlacement, START_FOR, zeroResult } from '../core/placement.js';
 import { LEVELS } from '../core/adaptive.js';
 import { applyPlacement, moveToLevel, recordAttempt, settings, profile, saveProfile, placementDraft, savePlacementDraft, clearPlacementDraft } from '../core/learner.js';
 import { checkTyped } from '../core/grading.js';
+import { noTestChoices, bindPlacementCard } from './today.js';
 
 export default async function placementView(el, ctx) {
   ctx.setTitle(tt('מבחן מיקום', 'Placement'));
@@ -44,7 +45,7 @@ export default async function placementView(el, ctx) {
         <li>${tt('אפשר לעצור באמצע: התשובות נשמרות, וממשיכים מהמסך ״היום״.', 'You can stop at any point: your answers are saved, and you continue from Today.')}</li>
       </ul>
       <div class="row"><button type="button" class="key enter" data-begin>${tt('להתחיל', 'Begin')} ${arrow()}</button></div>`}
-      <div class="row"><button type="button" class="key ghost small" data-zero>${tt('אני מעדיף/ה להתחיל מהבסיס', 'I\'d rather start from the basics')}</button></div>
+      ${noTestChoices()}
     </div>`);
   }
 
@@ -52,16 +53,29 @@ export default async function placementView(el, ctx) {
     ctl?.destroy?.();
     item = test.next();
     if (!item) return results();
-    const asked = test.progress.asked + 1;
+    // "Question 4 of about 20" and a bar for the answers so far, both from the test's own estimate (TF-9).
+    const { asked: before, estimate } = test.progress;
+    const asked = before + 1;
+    const counter = tt(`שאלה ${asked} מתוך כ-${estimate}`, `Question ${asked} of about ${estimate}`);
     render(el, html`<div class="player">
       <div class="player-top"><a class="key ghost small icon-only" href="#/today" aria-label="${tt('שמירה ויציאה', 'Save and leave')}">${icon('x')}</a>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="18" aria-valuenow="${asked}" aria-label="${tt('התקדמות במבחן', 'Test progress')}"><span style="width:${Math.min(95, (asked / 18) * 100)}%"></span></div>
-        <span class="small faint num">${asked}</span></div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${estimate}" aria-valuenow="${before}" aria-valuetext="${counter}" aria-label="${tt('התקדמות במבחן', 'Test progress')}"><span style="width:${(before / estimate) * 100}%"></span></div>
+        <span class="small faint pl-count">${tt('שאלה ', 'Question ')}<span class="num">${asked}</span>${tt(` מתוך כ-${estimate}`, ` of about ${estimate}`)}</span></div>
       <div class="player-body"><div id="exroot"></div></div>
       <div class="player-foot"><div class="inner"><button type="button" class="key ghost" data-idk>${tt('לא יודע/ת', 'I don\'t know')}</button><span class="grow"></span><button type="button" class="key enter" data-answer disabled>${tt('הבא', 'Next')} <span class="kbd">Enter</span></button></div></div>
     </div>`);
     const ex = { ...item, prompt: item.prompt || { en: 'Choose the best answer.', he: 'בחרו את התשובה הנכונה.' } };
     ctl = mountExercise($('#exroot', el), ex, { onChange: (r) => { $('[data-answer]', el).disabled = !r; }, variant: settings().english_variant });
+    // A reading item: the passage in its own panel and the question in bold under it, never one run of text (TF-9).
+    const parts = item.skill === 'reading' ? String(item.question || '').split(/\n\s*\n/) : [];
+    const text = $('#exroot .ex-text', el);
+    if (parts.length > 1 && text) {
+      const question = parts.pop();
+      const box = document.createElement('div');
+      render(box, html`<div class="pl-reading stack-sm"><div class="passage" lang="en" dir="ltr">${parts.map((p) => html`<p>${p}</p>`)}</div>
+        <p class="pl-question" lang="en" dir="ltr"><strong>${question}</strong></p></div>`);
+      text.replaceWith(box.firstElementChild);
+    }
   }
 
   function answer(dontKnow) {
@@ -106,6 +120,15 @@ export default async function placementView(el, ctx) {
       : r.held_for_goals
         ? tt(`השיעורים של C1 ו-C2 עוסקים בטיעון ובאוצר מילים אקדמיים. בין המטרות שבחרת אין בגרות, לימודים או כתיבה אקדמית, אז נתחיל ב-B2: טיעונים ודקויות.`, `C1 and C2 lessons are about academic argument and academic vocabulary. You did not choose exams, university or academic writing, so we'll start at B2: arguments and nuance.`)
         : tt(`נתחיל ב-${L(r.start_level)}, הרמה שהראית, כדי לבסס אותה ולבנות ממנה.`, `We'll start at ${L(r.start_level)}, the level you showed, to make it solid and build from there.`);
+    // Where the ceiling was (TF-9; student-27 F11): the first level above the confirmed one that was asked, and
+    // how many of its questions were right, so a learner sees why the start is where it is.
+    const above = (() => {
+      const from = r.demonstrated ? at(r.demonstrated) : -1;
+      const l = LEVELS.find((x, i) => i > from && (r.answers || []).some((a) => a.level === x));
+      if (!l) return null;
+      const xs = r.answers.filter((a) => a.level === l);
+      return { level: l, right: xs.filter((a) => a.correct).length, n: xs.length };
+    })();
     // The C1/C2 note is shown only when an estimate reaches B2 or above (persona finding R2-36).
     const highNote = at(r.demonstrated) >= at('B2') || Object.values(r.skills || {}).some((v) => v?.level && at(v.level) >= at('B2'));
     render(el, html`<div class="onboard stack-lg">
@@ -114,6 +137,7 @@ export default async function placementView(el, ctx) {
       <div class="panel stack">
         <div class="row between"><span>${tt('מתחילים ב-', 'Starting at')}</span><span class="tag level" style="font-size:var(--t-md)">${L(r.start_level)}</span></div>
         ${r.items ? html`<div class="stack-sm">${['grammar', 'vocabulary', 'reading', 'listening', 'speaking', 'writing'].map((s) => skillRow(s, r.skills[s]))}</div>` : ''}
+        ${above ? html`<p class="small pl-ceiling">${tt('ב-', 'At ')}${lv(above.level)}${tt(r.demonstrated ? ', הרמה שמעל: ' : ', הרמה הראשונה שנבדקה: ', r.demonstrated ? ', the level above: ' : ', the first level asked: ')}${tt(`${above.right} מתוך ${above.n} נכונות.`, `${above.right} of ${above.n} right.`)}</p>` : ''}
         <p class="xsmall faint">${t('level.estimate')}. ${tt('זו הערכה ראשונית: רמה לכל מיומנות מופיעה רק אחרי שתי שאלות לפחות ברמה, ולא מעל הרמה שהמבחן אישר.', 'This is a first estimate: a skill gets a level only from at least two questions at that level, and never above the level the test confirmed.')}
           ${highNote ? html`${tt(' מבחן כזה לבד לא קובע C1 או C2, ולכן הן מוצגות כ-', ' A test like this never sets C1 or C2 on its own, so they show as ')}<bdi dir="ltr">B2+</bdi>.` : ''}
           ${tt(' ההערכה תתעדכן לפי מה שתעשו, ותמיד אפשר לשנות רמה במסלול.', ' It updates from what you do, and you can always change level on your path.')}</p>
@@ -129,7 +153,8 @@ export default async function placementView(el, ctx) {
   if (ctx.query.resume && test.progress.asked && !test.done) nextItem(); else intro();
   const offs = [
     on(el, 'click', '[data-begin]', () => nextItem()),
-    on(el, 'click', '[data-zero]', async () => { await applyPlacement(zeroResult()); ctx.navigate('lesson/pa1-01'); }),
+    // The same choices without the test as on Today: the letters (Pre-A1), A1, or the learner's own estimate (TF-9).
+    ...bindPlacementCard(el, ctx),
     on(el, 'click', '[data-start-at]', async (e, b) => { const l = b.dataset.startAt; await moveToLevel(l); saveProfile({ start_level: l }); toast(tt(`המסלול מתחיל עכשיו ב-${LEVEL_LABEL[l]}`, `Your path now starts at ${LEVEL_LABEL[l]}`)); ctx.navigate('today'); }),
     on(el, 'click', '[data-answer]', (e, b) => { if (!b.disabled) answer(false); }),
     on(el, 'click', '[data-idk]', () => answer(true)),

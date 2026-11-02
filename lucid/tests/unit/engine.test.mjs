@@ -139,6 +139,28 @@ test('placement finds the boundary for learners of known ability', () => {
   assert.equal(zeroResult().start_level, 'PreA1');
 });
 
+test('TF-9: placement says about how many questions are left; the bar stays under 90% until the last block', () => {
+  for (const [trueLevel, start, noise] of [['B1', 'A1', 0], ['A2', 'B1', 0], ['C2', 'B2', 0], ['PreA1', 'A1', 0], ['C1', 'A1', 0], [null, 'A1', 0], ['B2', 'A1', 0.125]]) {
+    const p = createPlacement(bank, { start });
+    const seen = [];
+    let item, n = 0;
+    while ((item = p.next())) {
+      // What the screen shows for this question: its number, and the bar for the answers before it.
+      const { asked, estimate } = p.progress;
+      seen.push({ q: asked + 1, estimate, bar: asked / estimate });
+      const knows = trueLevel != null && LEVELS.indexOf(item.level) <= LEVELS.indexOf(trueLevel);
+      const flip = Boolean(noise) && n++ % Math.round(1 / noise) === 0;
+      p.answer(item, knows !== flip ? { correct: true } : { correct: false, dontKnow: !knows });
+    }
+    const total = p.progress.asked;
+    for (const s of seen) {
+      assert.ok(s.estimate >= s.q, `${trueLevel}: question ${s.q} of about ${s.estimate}`);
+      if (s.q <= total - 4) assert.ok(s.bar < 0.9, `${trueLevel}: the bar is at ${Math.round(s.bar * 100)}% at question ${s.q} of ${total}`);
+    }
+    assert.equal(p.progress.estimate, total, 'at the end the estimate is the real count');
+  }
+});
+
 test('placement tolerates an occasional slip (1 in 8)', () => {
   const r = simulate('B2', 'A1', { noise: 0.125 });
   assert.ok(['B1', 'B2'].includes(r.demonstrated), `got ${r.demonstrated}`);
