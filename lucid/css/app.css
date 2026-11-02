@@ -1023,11 +1023,36 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* Today's minutes: a visible question over the choice, and a status line when it changes (TF-5). */
 .today-minutes { display: grid; gap: var(--s2); justify-items: start; }
 .today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }
-.today-min-status { margin: 0; min-height: 1.5em; color: var(--ink-2); }
+.today-min-status { margin: 0; color: var(--ink-2); }
 /* Skill rows: the evidence still being collected reads as a sentence from the start edge (TF-8). */
 .skill-row .skill-level.collecting { grid-column: 1 / -1; text-align: start; font-weight: 400; color: var(--ink-2); line-height: 1.4; text-wrap: pretty; }
 .skill-row .skill-src { color: var(--ink-2); }
 .skill-row .nowrap { white-space: nowrap; }
+/* Primary keys never touch what follows them: Today's start key and Welcome's hero CTA (TF-10). */
+.start-bar { margin-block-end: var(--s5); }
+/* Plan rows: title, time and reason are grid cells. On phones the time goes under the title and the reason spans
+   the card, so the text column is not squeezed beside the icon and the time (TF-10). */
+.plan-item { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'glyph title time' 'glyph why time'; column-gap: var(--s4); row-gap: 0.15rem; }
+.plan-item > .glyph { grid-area: glyph; align-self: center; }
+.plan-item > .pi-title { grid-area: title; min-width: 0; font-weight: 500; overflow-wrap: break-word; }
+.plan-item > .plan-time { grid-area: time; align-self: center; }
+.plan-item > .why { grid-area: why; display: block; min-width: 0; margin-block-start: 0; overflow-wrap: break-word; }
+.plan-item > .why > * { display: block; }
+.plan-item > .why > .legend { display: inline-grid; }
+@media (max-width: 30rem) {
+  .plan-item, :root[data-text] .plan-item { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'glyph title' 'glyph time' 'why why'; column-gap: var(--s3); row-gap: 0.15rem; padding: var(--s3) var(--s4); }
+  .plan-item > .glyph { align-self: start; }
+  .plan-item > .plan-time, :root[data-text] .plan-item .plan-time { grid-area: time; justify-self: start; align-self: start; }
+  .plan-item > .why { margin-block-start: var(--s2); }
+}
+/* English outcomes on path rows: the target language is not the smallest, faintest text (TF-10). */
+.lesson-row .meta[lang='en'] { font-size: var(--t-sm); color: var(--ink-2); }
+/* Welcome at desktop: the text column keeps at least 30rem, so the headline takes about three lines (TF-10). */
+@media (min-width: 64rem) {
+  .welcome-main { max-width: 76rem; grid-template-columns: minmax(30rem, 1fr) auto; }
+  .welcome h1 { max-width: 20ch; }
+  .keyboard { --kw: min(2.9rem, 3.2vw); }
+}
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }

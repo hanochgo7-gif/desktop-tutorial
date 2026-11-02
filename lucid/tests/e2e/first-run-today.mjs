@@ -442,6 +442,38 @@ try {
     await shot(page, 'tf9-result-390');
     await ctx.close();
   });
+  // ---------- TF-10: Today and Welcome layout ----------
+  await check('TF-10 at 390 on #/today the start key is 20px or more above the plan and plan text runs 260px or wider; at 1440 the Welcome h1 takes 3 lines at most; an A1 start key is in Hebrew; the review key names its words', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await today(page);
+    const m = await page.evaluate(() => {
+      const a = document.querySelector('.start-bar').getBoundingClientRect(); const b = document.querySelector('ol.plan').getBoundingClientRect();
+      return { gap: b.top - a.bottom, cols: [...document.querySelectorAll('ol.plan .plan-item > .why')].map((e) => e.getBoundingClientRect().width), key: document.querySelector('.start-bar a').textContent.trim() };
+    });
+    assert(m.gap >= 20, `gap ${m.gap}`);
+    assert(m.cols.length && m.cols.every((w) => w >= 260), `text columns ${m.cols}`);
+    assert(/^להתחיל: הווה פשוט/.test(m.key), `the A1 key: ${m.key}`);
+    await shot(page, 'tf10-today-a1-390');
+    await page.evaluate(async () => {
+      const S = await import('./js/core/srs.js');
+      const lesson = await (await fetch('content/lessons/pa1-03.json')).json();
+      for (const c of S.vocabCardsFor(lesson, [], new Date()).slice(0, 8)) window.lucid.store.put('cards', c);
+    });
+    await today(page);
+    const review = (await page.textContent('.start-bar a')).trim();
+    assert(review === 'להתחיל: חזרה על 8 מילים', `review key: ${review}`);
+    await ctx.close();
+    const d = await newPage(browser, { viewport: DESKTOP });
+    await d.page.goto(`${BASE}#/welcome`);
+    await d.page.waitForSelector('.welcome h1');
+    const h1 = await d.page.$eval('.welcome h1', (e) => Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)));
+    assert(h1 <= 3, `the welcome h1 takes ${h1} lines at 1440`);
+    const cta = await d.page.evaluate(() => document.querySelector('.check-rows').getBoundingClientRect().top - document.querySelector('.welcome .start-bar').getBoundingClientRect().bottom);
+    assert(cta >= 20, `the welcome CTA is ${cta}px from its list`);
+    await shot(d.page, 'tf10-welcome-1440', false);
+    await d.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

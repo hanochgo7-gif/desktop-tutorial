@@ -355,10 +355,15 @@ export default async function today(el, ctx) {
       if (b.id === 'learn' && m.next) {
         // After "Nearly there", the main action redoes only the missed exercises (persona findings R2-02, R2-25).
         if (b.missed) return html`<span>${missedLabel(b.missed)} · ${tt(`כ-${b.minutes} דק׳`, `about ${b.minutes} min`)}</span>`;
+        // At Pre-A1 and A1 in the Hebrew UI the key names the lesson in Hebrew, which a beginner can read (TF-10).
+        const name = uiLang() === 'he' && levelIndex(m.next.level) <= levelIndex('A1') && m.next.title_he
+          ? html`<span lang="he">${isolateLatin(m.next.title_he)}</span>` : html`<bdi lang="en" dir="ltr">${m.next.title_en}</bdi>`;
         return b.resume
-          ? html`<span>${tt('להמשיך', 'Continue')}: <bdi lang="en" dir="ltr">${m.next.title_en}</bdi> · <span style="white-space:nowrap">${stepText(b.step, { short: true })}</span></span>`
-          : html`<span>${tt('להתחיל', 'Start')}: <bdi lang="en" dir="ltr">${m.next.title_en}</bdi></span>`;
+          ? html`<span>${tt('להמשיך', 'Continue')}: ${name} · <span style="white-space:nowrap">${stepText(b.step, { short: true })}</span></span>`
+          : html`<span>${tt('להתחיל', 'Start')}: ${name}</span>`;
       }
+      // "Review" alone could read as "go back": the key says what is reviewed (TF-10).
+      if (b.id === 'review') return html`<span>${tt(`להתחיל: חזרה על ${b.count} מילים`, `Start: review ${b.count} words`)}</span>`;
       if (b.id === 'use') {
         const kind = b.scenario ? tt('מהחיים', 'Real life') : { writing: tt('כתיבה', 'Writing'), reading: tt('קריאה', 'Reading') }[b.kind] || tt('דיבור', 'Speaking');
         return html`${tt('להתחיל', 'Start')}: ${kind}`;
@@ -375,10 +380,13 @@ export default async function today(el, ctx) {
     const courseDone = !m.next;
     const open = skillsOpen ?? wide();
     // One row of the plan or of the extras. Extras are plain rows: no Enter key, nothing that reads as required.
+    // Title, time and reason are grid cells of their own, so on a phone the time moves under the title and the
+    // reason takes the card's full width (TF-10).
     const row = (b, { extra = false } = {}) => html`<li><a class="panel plan-item ${extra ? 'flat more-item' : ''} ${isDone(b) ? 'done' : ''}" href="#/${b.route}">
       <span class="glyph">${icon(glyphFor(b, isDone(b)))}</span>
-      <span class="grow"><span style="font-weight:500">${title(b)}</span><span class="why" style="display:block">${why(b)}</span></span>
-      <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span></a></li>`;
+      <span class="pi-title">${title(b)}</span>
+      <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span>
+      <span class="why">${why(b)}</span></a></li>`;
     // "Want more?" once the day is done (TF-2): the blocks not done, another review round, the next lesson or the
     // rest of today's lesson, and a quick word game at the learner's level.
     // The goal item (TF-4) is listed once, not beside an open "use it" block with the same route.
@@ -395,7 +403,7 @@ export default async function today(el, ctx) {
       : html`
           ${first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
             ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : doneBanner}
-          ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="grow"><span style="font-weight:500;display:block">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="why" style="display:block">${legend(otherPlan.title_en, otherPlan.title_he)}</span><span class="why" style="display:block">${stepText(resumeStep(other.resume))}</span></span>${icon('chevron')}</a>` : ''}
+          ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="pi-title">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="plan-time">${icon('chevron')}</span><span class="why">${legend(otherPlan.title_en, otherPlan.title_he)}<span style="display:block">${stepText(resumeStep(other.resume))}</span></span></a>` : ''}
           <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
           ${lessonMore.length ? html`<ul class="plan more-list" style="list-style:none;padding:0;margin:0" aria-label="${tt('אפשר גם', 'Also possible')}">${lessonMore.map((b) => row(b, { extra: true }))}</ul>` : ''}
           ${more.length ? html`<section class="more-today stack-sm" aria-labelledby="more-h"><h3 id="more-h">${tt('רוצים עוד?', 'Want more?')}</h3>
