@@ -845,6 +845,17 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .source-list li.ok > .icon { color: var(--ok); }
 .source-list li.bad > .icon { color: var(--warn); }
 .source-list li.todo > .icon { color: var(--ink-3); }
+/* English in the writing lab reads left to right (RW-7): sources, plans, checklists. A Hebrew help line under an
+   English item keeps its own direction. */
+.passage.source .en-block-lab, .passage.source .en-block-lab p { text-align: left; }
+.passage.source .source-tag { margin-block-end: var(--s2); }
+.lab-list { margin: var(--s2) 0 0; padding-inline-start: 1.4rem; text-align: left; }
+.lab-list > li::marker { color: var(--ink-3); }
+.lab-list .bi > .bi-en, .lab-points .bi > .bi-en, .check-label .bi > .bi-en { display: block; text-align: left; }
+.lab-list .bi > .he-reveal, .check-label .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.2em; }
+.check-label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; text-align: left; cursor: pointer; }
+.check-label > input { margin: 0.3em 0 0; inline-size: 1.1rem; block-size: 1.1rem; accent-color: var(--cobalt); }
+.check-label .bi-he { text-align: right; }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

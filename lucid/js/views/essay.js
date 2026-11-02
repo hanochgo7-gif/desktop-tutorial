@@ -109,7 +109,7 @@ export default async function essay(el, ctx) {
         store.put('writing', { id: `ess:${task.id}`, kind: 'essay-summary', exercise: task.id, title: task.title_en, status: 'done', versions: 1, score: right / results.length, updated: new Date().toISOString() });
         logEvent({ type: 'writing', exercise: task.id });
         render(el, html`<div class="view narrow stack-lg"><h1>${tt('סיימתם', 'Done')}</h1><p class="muted">${tt(`${right} מתוך ${results.length} נכון.`, `${right} of ${results.length} correct.`)}</p>
-          ${task.checklist?.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('מה לקחת מכאן', 'Take-aways')}</h2>${task.checklist.map((c) => html`<p class="row small">${icon('check', { size: 16 })} ${bi(c)}</p>`)}</div>` : ''}
+          ${task.checklist?.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('מה לקחת מכאן', 'Take-aways')}</h2><ul class="check-rows small lab-points" dir="ltr" lang="en">${task.checklist.map((c) => html`<li>${icon('check', { size: 16 })}<span>${bi(c)}</span></li>`)}</ul></div>` : ''}
           <div class="row"><a class="key enter" href="#/writing">${t('nav.writing')}</a></div></div>`);
       },
     });
@@ -405,7 +405,7 @@ export default async function essay(el, ctx) {
   function sourcesPanel() {
     const pack = sourcePack() || [];
     return html`<div class="stack-sm">${task.input_text ? html`<h3 class="small">${tt('הטקסט שעליו עונים', 'The text you respond to')}</h3><div class="passage small source" lang="en" dir="ltr">${task.input_text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>` : ''}${task.topics?.[chosen]?.assignment ? html`<p class="xsmall faint">${tt('חומרי המקור של הנושא שבחרתם.', 'The source pack for the topic you chose.')}</p>` : ''}
-      ${pack.map((s) => html`<div class="passage small source"><p><strong>${s.title}</strong> <span class="tag">${tt('חומר לדוגמה, לא נתונים אמיתיים', 'Illustrative, not real data')}</span></p>${s.text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>`)}</div>`;
+      ${pack.map((s) => html`<div class="passage small source"><p class="source-tag"><span class="tag">${tt('חומר לדוגמה, לא נתונים אמיתיים', 'Illustrative, not real data')}</span></p><div lang="en" dir="ltr" class="en-block-lab"><p><strong>${s.title}</strong></p>${s.text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div></div>`)}</div>`;
   }
 
   // English topics and "Must include" items are left-to-right blocks, like answer options in lessons (P-32, M9).
@@ -431,7 +431,7 @@ export default async function essay(el, ctx) {
       ${kindPicker()}
       ${topicPicker()}
       ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list" dir="ltr">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}
-      ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm" style="margin:var(--s2) 0 0;padding-inline-start:1.2rem">${task.scaffold.map((s) => html`<li>${bi(s)}</li>`)}</ol></details>` : ''}
+      ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm lab-list" dir="ltr" lang="en">${task.scaffold.map((s) => html`<li>${bi(s)}</li>`)}</ol></details>` : ''}
       ${pack?.length ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt(`חומרי מקור (${pack.length}), לדוגמה בלבד`, `Source pack (${pack.length}), illustrative only`)}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}
       ${task.input_text ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt('הטקסט שעליו עונים נמצא בלשונית ״מקורות״.', 'The text you respond to is in the Sources tab.')}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}`;
     // Once a topic is chosen, the brief folds into "The task", so the editor comes up the page (RW-4).
@@ -448,7 +448,7 @@ export default async function essay(el, ctx) {
     // The model opens after a checked draft of at least half the minimum length, not after a 3-word check (RW-4).
     const half = Math.max(1, Math.ceil(minWords * 0.5));
     const open = versions().some((v) => (v.words || 0) >= half);
-    return html`${task.checklist?.length ? html`<details class="panel flat"><summary class="small">${tt('רשימת בדיקה עצמית', 'Self-check list')}</summary><div class="stack-sm" style="margin-top:var(--s2)">${task.checklist.map((c) => html`<label class="row small"><input type="checkbox"> ${bi(c)}</label>`)}</div></details>` : ''}
+    return html`${task.checklist?.length ? html`<details class="panel flat"><summary class="small">${tt('רשימת בדיקה עצמית', 'Self-check list')}</summary><div class="stack-sm check-labels" style="margin-top:var(--s2)">${task.checklist.map((c) => html`<label class="check-label small" dir="ltr"><input type="checkbox"><span>${bi(c)}</span></label>`)}</div></details>` : ''}
       ${model && !open ? html`<p class="small faint row">${icon('lock', { size: 14 })} ${minWords ? tt(`דוגמה לתשובה תיפתח אחרי בדיקה של טיוטה עם ${half} מילים לפחות (חצי מהמינימום), כדי שתכתבו קודם בעצמכם.`, `A model answer opens after you check a draft of at least ${half} words (half the minimum), so you write it yourself first.`) : tt('דוגמה לתשובה תיפתח אחרי הבדיקה הראשונה, כדי שתכתבו קודם בעצמכם.', 'A model answer opens after your first check, so you write it yourself first.')}</p>` : ''}
       ${model && open ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
   }
