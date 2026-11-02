@@ -3,6 +3,7 @@
 import { content } from './content.js';
 import { shuffle, sum } from './util.js';
 import { LEVELS, levelIndex } from './adaptive.js';
+import { findWrongFeedback } from './grading.js';
 
 export const AUTO_TYPES = new Set(['mcq', 'gap', 'order', 'match', 'categorize', 'transform', 'correct', 'listen', 'dictation']);
 
@@ -107,3 +108,53 @@ export async function checkpointSet(level, size = 16) {
 }
 
 export const meanScore = (rs) => (rs.length ? sum(rs, (r) => r.points) / rs.length : 0);
+
+// Points for one answer, the same in lessons, drills and level checks: right 1, right after a hint 0.75, right
+// with a spelling slip 0.9, wrong up to 0.5. A reading text or a sort is scored per question (LF-9): 5 of 6
+// right is 0.83, not "wrong".
+export const PER_QUESTION = new Set(['read', 'categorize']);
+export function answerPoints(r, hintUsed, type) {
+  if (r.correct) return hintUsed ? 0.75 : r.almost ? 0.9 : 1;
+  const s = Math.max(0, Math.min(1, Number(r.score) || 0));
+  return PER_QUESTION.has(type) ? s : Math.min(0.5, s);
+}
+// Missed on the first try: a wrong answer (0.5 or less), or a reading text or sort under 80%.
+export const isMissed = (points, type) => (PER_QUESTION.has(type) ? (points ?? 0) < 0.8 - 1e-9 : (points ?? 0) <= 0.5);
+
+// ---------- the learner's own mistakes (LF-8, LF-12) ----------
+// A short clip around a single gap ("We are go" / "We go"), or the whole text with every gap filled.
+export function fillGaps(text, fills) {
+  const parts = String(text || '').split('___');
+  if (parts.length < 2) return null;
+  if (parts.length === 2) {
+    const before = parts[0].trim().split(/\s+/).filter(Boolean).slice(-3).join(' ');
+    const after = before ? '' : parts[1].trim().split(/\s+/).filter(Boolean).slice(0, 3).join(' ');
+    return [before, fills[0], after].filter(Boolean).join(' ').replace(/\s+([.,?!])/g, '$1');
+  }
+  return parts.map((p, i) => `${p}${i < parts.length - 1 ? (fills[i] ?? '…') : ''}`).join('').replace(/\s+/g, ' ').trim();
+}
+const firstOf = (a) => (Array.isArray(a) ? a[0] : a);
+// What the learner wrote next to the right form, and the item's own note for it: the matched wrong answer's
+// feedback, the chosen option's feedback, or the item's explanation. null pair: nothing worth quoting.
+export function mistakeNote(ex, response) {
+  const said = String(response ?? '');
+  const idk = !said || said === '(I don\'t know)';
+  let pair = null;
+  let note = null;
+  if (['mcq', 'listen'].includes(ex.type)) {
+    const k = ex.options.indexOf(said);
+    note = k >= 0 ? ex.option_feedback?.[k] || null : null;
+    if (!idk) pair = ex.question?.includes('___') ? [fillGaps(ex.question, [said]), fillGaps(ex.question, [ex.options[ex.answer]])] : [said, ex.options[ex.answer]];
+  } else if (ex.type === 'gap') {
+    const got = said.split(' | ');
+    const f = got.map((g) => findWrongFeedback(g, ex.wrong_feedback)).find(Boolean);
+    note = f?.feedback || null;
+    if (!idk) pair = [fillGaps(ex.text, got), fillGaps(ex.text, ex.answers.map(firstOf))];
+  } else if (['transform', 'correct', 'dictation'].includes(ex.type)) {
+    note = findWrongFeedback(said, ex.wrong_feedback)?.feedback || null;
+    if (!idk) pair = [said, ex.answers[0]];
+  } else if (ex.type === 'order') {
+    if (!idk) pair = [said, ex.tokens.join(' ')];
+  }
+  return { pair, note: note || ex.explanation || null, own: Boolean(note || ex.explanation) };
+}

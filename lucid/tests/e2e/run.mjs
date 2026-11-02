@@ -1633,7 +1633,8 @@ try {
     assert(box.why === false, 'the explanation is not folded behind "Why?"');
     await page.click('[data-next]');
     await page.waitForSelector('#exroot .cat-bin');
-    assert((await page.textContent('.step-count')).trim() === `2 מתוך ${total} · 1 לחזרה`, `total moved or retries not counted apart: ${await page.textContent('.step-count')}`);
+    // LF-7: the first pass shows no running tally of mistakes; the retry comes later, in its own round.
+    assert((await page.textContent('.step-count')).trim() === `2 מתוך ${total}`, `total moved or a running tally shown: ${await page.textContent('.step-count')}`);
     await page.evaluate(() => { const root = document.querySelector('#exroot'); for (let i = 0; i < 20; i++) { const it = root.querySelector('[data-item]'); if (!it) break; it.click(); root.querySelector('[data-bin]').click(); } });
     await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
@@ -1778,11 +1779,14 @@ try {
     const objective = await page.evaluate(() => { const p = document.querySelector('.point'); const i = p.querySelector('.icon').getBoundingClientRect(); const t = p.querySelector('.grow').getBoundingClientRect(); return { iconTop: i.top, textTop: t.top, iconBottom: i.bottom }; });
     assert(objective.iconBottom <= objective.textTop + 40 && Math.abs(objective.iconTop - objective.textTop) < 12, `objective icon is not on the line of its text: ${JSON.stringify(objective)}`);
     await page.click('[data-go="learn"]');
-    await page.waitForSelector('.lesson-learn .table-wrap');
+    // LF-2: the explanation comes in steps; go on to the step with the first table.
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < 6 && !(await page.$('.lesson-learn .table-wrap')); s++) await page.click('[data-learn-next]');
     const en = await page.evaluate(() => { const s = document.querySelector('.lesson-learn .bi-en'); const cs = getComputedStyle(s); return { display: cs.display, dir: cs.direction, align: cs.textAlign }; });
     assert(en.display === 'block' && en.dir === 'ltr' && ['start', 'left'].includes(en.align), `English explanation is not a left-aligned block: ${JSON.stringify(en)}`);
-    const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const th = w.querySelector('th').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: th.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
-    assert(table.dir === 'ltr' && table.firstLeft < 4 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
+    // LF-3: on a phone the rows are cards, so the first cell starts after the card's own padding (1rem).
+    const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const td = w.querySelector('tbody td').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: td.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
+    assert(table.dir === 'ltr' && table.firstLeft < 24 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
     await ctx.close();
   });
 
@@ -1813,9 +1817,11 @@ try {
     await onboard(page, { start: 'zero' });
     const lesson = lessonJson('a2-01');
     const scored = lesson.exercises.filter((e) => !['speak', 'write'].includes(e.type)).map((e) => e.id);
-    // First tries that average 0.696: one miss, the rest just above 0.75 (Math.round would show 70%).
-    const x = (0.696 * scored.length) / (scored.length - 1);
-    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : x])));
+    // First tries that average 0.696: one miss, the rest right enough not to count as missed (Math.round would
+    // show 70%). A reading text or a sort is scored per question and missed under 0.8 (LF-9), so those two are 1.
+    const perQ = new Set(lesson.exercises.filter((e) => ['read', 'categorize'].includes(e.type)).map((e) => e.id));
+    const x = (0.696 * scored.length - perQ.size) / (scored.length - 1 - perQ.size);
+    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : perQ.has(id) ? 1 : x])));
     const summary = await page.textContent('.player-body');
     assert(/כמעט שם|Nearly there/.test(summary) && /69%/.test(summary) && !/\b70% (בניסיון|on the first)/.test(summary), `a near miss reads as the pass mark: ${summary.slice(0, 200)}`);
     await page.click('#pfoot a[href="#/today"]');
@@ -1843,7 +1849,8 @@ try {
     await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');
     const line = await page.textContent('[data-part-line]');
-    assert(/25/.test(line) && new RegExp(`(עד תרגיל|up to exercise) ${upto} `).test(line), `the intro does not state the length and the part: ${line}`);
+    // LF-1: the part is one short line under the main key; the lesson's length is in the line above the title.
+    assert(/25/.test(await page.textContent('.lesson-intro')) && new RegExp(`(עד תרגיל|up to exercise) ${upto} `).test(line), `the intro does not state the length and the part: ${line}`);
     await page.click('[data-skip-learn]');
     for (let i = 0; i < upto; i++) {
       await page.waitForSelector('#exroot');
@@ -1918,15 +1925,15 @@ try {
     await page.waitForSelector('#exroot .transcript .en-block');
     const tr = await page.$eval('#exroot .transcript .en-block', (p) => { const cs = getComputedStyle(p); return { dir: cs.direction, display: cs.display, align: cs.textAlign }; });
     assert(tr.dir === 'ltr' && tr.display === 'block' && ['start', 'left'].includes(tr.align), `transcript is not an LTR block: ${JSON.stringify(tr)}`);
-    // A wide table at 390 px: hint and fade until the far side.
+    // LF-3 (replacing R2-32's cue at this width): at 390 px a table of three or more columns is a stack of
+    // cards with nothing to scroll sideways. The cue stays for a table still wider than its frame (lane e2e).
     await page.goto(`${BASE}#/lesson/b2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');
     await page.click('[data-go="learn"]');
-    await page.waitForSelector('.lesson-learn .table-wrap');
-    const wide = await page.evaluate(() => { const w = [...document.querySelectorAll('.lesson-learn .table-wrap')].find((x) => x.scrollWidth > x.clientWidth + 2); return w ? { cls: w.className, hint: !w.previousElementSibling.hidden, tab: w.tabIndex } : null; });
-    assert(wide && /scrolls/.test(wide.cls) && wide.hint && wide.tab === 0, `a wide table gives no scroll cue: ${JSON.stringify(wide)}`);
-    await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap.scrolls'); w.scrollLeft = w.scrollWidth; w.dispatchEvent(new Event('scroll')); });
-    assert(await page.$('.lesson-learn .table-wrap.scrolls.at-end'), 'the fade stays at the far side');
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < 6 && !(await page.$('.lesson-learn .table-wrap')); s++) await page.click('[data-learn-next]');
+    const wide = await page.evaluate(() => [...document.querySelectorAll('.lesson-learn .table-wrap')].map((w) => ({ over: w.scrollWidth > w.clientWidth + 2, hint: !w.previousElementSibling.hidden, cards: w.classList.contains('tstack') })));
+    assert(wide.length && wide.every((w) => !w.over && !w.hint && w.cards), `a table still scrolls sideways at 390 px: ${JSON.stringify(wide)}`);
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl6-wide-table.png` });
     // Find and fix at C1: an equivalent wording can be counted.
     await lessonAt(page, 'c1-03', 'e11');

@@ -51,9 +51,9 @@ test('the first-pass total stays fixed; retries are counted on their own; the ba
   q.push({ ex: { id: 'a' }, retry: true });
   const s1 = P.stepInfo(q, 1);
   assert.deepEqual(s1, { retry: false, pos: 2, total: 4, pending: 1 });
-  assert.equal(P.stepLabel(s1), '2 of 4 · 1 to revisit');
+  assert.equal(P.stepLabel(s1), '2 of 4', 'LF-7: no running tally of mistakes in the first pass');
   q.push({ ex: { id: 'c' }, retry: true });
-  assert.equal(P.stepLabel(P.stepInfo(q, 3)), '4 of 4 · 2 to revisit');
+  assert.equal(P.stepLabel(P.stepInfo(q, 3)), '4 of 4');
   assert.equal(P.stepLabel(P.stepInfo(q, 4)), 'Revisit 1 of 2');
   const pcts = q.map((_, i) => P.stepPct(P.stepInfo(q, i)));
   assert.deepEqual([...pcts].sort((a, b) => a - b), pcts, `not monotonic: ${pcts}`);
@@ -64,7 +64,7 @@ test('in Hebrew the counter is written in words, so the numbers cannot read back
   I18N.setUiLang('he');
   try {
     const q = [{ ex: { id: 'a' }, retry: false }, { ex: { id: 'b' }, retry: false }, { ex: { id: 'a' }, retry: true }];
-    assert.equal(P.stepLabel(P.stepInfo(q, 0)), '1 מתוך 2 · 1 לחזרה');
+    assert.equal(P.stepLabel(P.stepInfo(q, 0)), '1 מתוך 2', 'no "לחזרה" (word review) in the first pass');
     assert.equal(P.stepLabel(P.stepInfo(q, 2)), 'חוזרים 1 מתוך 1');
   } finally { I18N.setUiLang('en'); }
 });
@@ -246,4 +246,121 @@ test('R2-28: today\'s part ends once, on the first pass, when exercises are left
   assert.equal(P.partEnds(null, q, 3, q[2]), false, 'no plan, no part');
   const withRetry = [q[0], { ex: { id: 'a' }, retry: true }, q[1], q[2], q[3]];
   assert.equal(P.partEnds({ upto: 2 }, withRetry, 2, withRetry[1]), false, 'a retry never ends the part');
+});
+
+// ---------- UX round 3, lane lesson-flow ----------
+test('LF-4: the end title says what is true; the missed minutes match Today', async () => {
+  assert.equal(P.reviewTitle(0.08), 'open', '8% is not "nearly there"');
+  assert.equal(P.reviewTitle(0.49), 'open');
+  assert.equal(P.reviewTitle(0.5), 'nearly');
+  assert.equal(P.reviewTitle(0.69), 'nearly');
+  assert.equal(P.reviewTitle(0.7), 'complete');
+  assert.equal(P.reviewTitle(0.75, 0.8), 'nearly', 'the lesson\'s own pass mark');
+  const lesson = await lessonFile('a2-01');
+  const A = await import('../../js/core/adaptive.js');
+  const perItem = lesson.minutes / (lesson.exercises.length + A.introSlots(lesson));
+  for (const n of [1, 3, 6, 14]) assert.equal(P.missedMinutes(lesson, n), Math.max(1, Math.round(n * perItem)), `Today's formula for ${n}`);
+});
+
+test('LF-9: a reading text or a sort is scored per question; under 80% it is missed', async () => {
+  const Pool = await import('../../js/core/pool.js');
+  assert.equal(P.answerPoints({ correct: false, score: 5 / 6 }, false, 'read'), 5 / 6);
+  assert.equal(P.answerPoints({ correct: false, score: 0.8 }, false, 'categorize'), 0.8);
+  assert.equal(P.answerPoints({ correct: false, score: 0.8 }, false, 'gap'), 0.5, 'other types still cap a wrong answer at 0.5');
+  assert.equal(P.answerPoints({ correct: true }, false, 'read'), 1);
+  const lesson = { exercises: [{ id: 'r1', type: 'read' }, { id: 'r2', type: 'read' }, { id: 'c', type: 'categorize' }, { id: 'm', type: 'mcq' }] };
+  const first = new Map([['r1', 5 / 6], ['r2', 0.67], ['c', 0.8], ['m', 0.5]]);
+  assert.deepEqual(P.missedIds(first, lesson), ['r2', 'm']);
+  assert.equal(Pool.isMissed(0.79, 'read'), true);
+  assert.equal(Pool.isMissed(0.75, 'mcq'), false, 'a right answer after a hint is not missed');
+});
+
+test('LF-2: the explanation is grouped, paginated by height, and the first pitfall stays in step 1', async () => {
+  const lesson = await lessonFile('b1-02');
+  const groups = P.learnPlan(lesson, 'minimal');
+  assert.deepEqual(groups.map((g) => g.id), ['core', 'examples', 'notes', 'words']);
+  assert.ok(groups[0].units.some((u) => u.kind === 'pit'), 'grammar pitfalls sit with the explanation');
+  assert.ok(groups[0].units.every((u) => u.kind === 'pit' || ['p', 'rule', 'table'].includes(lesson.explanation[u.i].type)));
+  assert.ok(groups[2].units.every((u) => ['warning', 'tip'].includes(lesson.explanation[u.i].type)));
+  assert.equal(P.learnPlan(lesson, 'off')[0].units.filter((u) => u.kind === 'pit').length, 0, 'no pitfalls at support "off"');
+  // Every unit 500 px: no step passes the budget, nothing is lost, and step 1 holds a pitfall.
+  const pages = P.paginate(groups, () => 500, 1450);
+  const total = groups.reduce((a, g) => a + g.units.length, 0);
+  assert.equal(pages.reduce((a, p) => a + p.items.length, 0), total);
+  for (const p of pages) {
+    const h = p.items.reduce((a, x, j) => a + 500 + (x.first || j === 0 ? P.HEAD : 0), 0);
+    assert.ok(p.items.length === 1 || h <= 1450, `a step of ${h}px`);
+  }
+  assert.ok(pages[0].items.some((x) => x.u.kind === 'pit'), 'the first pitfall is in step 1');
+  // A lesson with only pronunciation pitfalls keeps them in the core group.
+  const pa = await lessonFile('pa1-02');
+  const sound = P.learnPlan({ ...pa, hebrew_pitfalls: pa.hebrew_pitfalls.filter((x) => /^pron-/.test(x.error_type)) }, 'full');
+  assert.ok(sound[0].units.some((u) => u.kind === 'pit'));
+  assert.ok(P.readingMinutes(lesson, 'minimal') >= 3, 'a B1 explanation is several minutes of reading');
+});
+
+test('LF-2: a table taller than a step splits into runs of rows; a tiny last step joins the one before', () => {
+  const lesson = { explanation: [{ type: 'table', headers: ['A', 'B', 'C'], rows: Array.from({ length: 10 }, (_, i) => [`a${i}`, `b${i}`, `c${i}`]) }, { type: 'p', en: 'x' }] };
+  const groups = [{ id: 'core', units: [{ kind: 'block', i: 0 }, { kind: 'block', i: 1 }] }];
+  const split = P.splitTall(groups, lesson, (u) => (u.i === 0 ? 3000 : 100), 1275);
+  const rows = split[0].units.filter((u) => u.i === 0).map((u) => u.rows);
+  assert.ok(rows.length >= 3 && rows[0][0] === 0 && rows.at(-1)[1] === 10, JSON.stringify(rows));
+  assert.ok(rows.every((r, k) => !k || r[0] === rows[k - 1][1]), 'the runs follow each other with no row lost');
+  assert.equal(P.splitTall(groups, lesson, () => 500, 1275)[0].units.length, 2, 'a table that fits is left whole');
+  const g2 = [{ id: 'words', units: Array.from({ length: 13 }, (_, i) => ({ kind: 'word', i })) }];
+  const pages = P.paginate(g2, () => 120, 1500);
+  assert.equal(pages.length, 1, `13 words of 120 px make one step, not a step with one word left: ${pages.map((p) => p.items.length)}`);
+});
+
+test('LF-2: a pitfall plays the English it is about, never a starred or "not" wrong form', () => {
+  const pron = { error_type: 'pron-vowel', en: 'Keep live short and make eat long.', he: 'בעברית יש תנועה אחת. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live /lɪv/ התנועה קצרה.' };
+  assert.deepEqual(P.pitfallSayables(pron), ['live', 'leave', 'it', 'eat']);
+  const grammar = { error_type: 'tense-choice', en: "In Hebrew it is easy to write *I live here for three years. English uses the present perfect: I've lived here for three years.", he: "קל לכתוב I live here for three years. באנגלית: I've lived here for three years." };
+  assert.deepEqual(P.pitfallSayables(grammar), ["I've lived here for three years."]);
+  const not = { error_type: 'copula-omission', en: "Hebrew has no 'is' here: She is cooking, not 'She cooking'.", he: 'אומרים She is cooking, ולא She cooking.' };
+  assert.deepEqual(P.pitfallSayables(not), ['She is cooking.']);
+  const wrongSound = { error_type: 'pron-th', en: 'th', he: 'אומרים thought, ולא tought.' };
+  assert.deepEqual(P.pitfallSayables(wrongSound), ['thought'], 'a word after "לא" is the wrong sound');
+});
+
+test('LF-3: English tables read left to right with Hebrew last; letter rows play; IPA waits at Pre-A1', async () => {
+  const a1 = (await lessonFile('a1-01')).explanation.find((b) => b.type === 'table');
+  const s = P.tableShape(a1, 'A1');
+  assert.equal(s.english, true);
+  assert.deepEqual(s.order.map((c) => a1.headers[c.i]), ['Who?', 'Verb', 'The rest', 'עברית']);
+  assert.equal(s.stack, true, 'four columns become cards on phones');
+  const abc = (await lessonFile('pa1-01')).explanation.find((b) => b.type === 'table');
+  const t = P.tableShape(abc, 'PreA1');
+  assert.ok(t.letters && t.alphabet && t.hideIpa);
+  assert.equal(t.stack, false, 'letter and Hebrew fit as a table once IPA is hidden');
+  assert.equal(P.tableShape(abc, 'A1').hideIpa, false, 'IPA shows above Pre-A1');
+  const out = String(P.renderBlocks([abc], { level: 'PreA1' }));
+  assert.match(out, /data-ipa-toggle/);
+  assert.match(out, /<td class="c-he" data-label="נשמע כמו" lang="he" dir="rtl">/);
+});
+
+test('LF-8: a mistake note quotes what the learner wrote next to the right form, with the item\'s own note', async () => {
+  const a1 = await lessonFile('a1-01');
+  const e4 = a1.exercises.find((e) => e.id === 'e4');
+  const m = P.mistakeNote(e4, 'are go');
+  assert.deepEqual(m.pair, ['We are go', 'We go']);
+  assert.match(m.note.en, /Don't add are/);
+  const b1 = await lessonFile('b1-02');
+  const gap = b1.exercises.find((e) => e.id === 'e7');
+  const g = P.mistakeNote(gap, 'yet | for | since');
+  assert.ok(g.pair[0].includes('every day for then') && g.pair[1].includes('every day since then'), JSON.stringify(g.pair));
+  assert.ok(g.note && !/depends/.test(g.note.en), 'the item\'s own feedback, not the general preposition note');
+  assert.equal(P.mistakeNote(e4, '(I don\'t know)').pair, null, '"I don\'t know" is not quoted as an answer');
+  assert.equal(P.fillGaps('I ___ in Haifa.', ['lives']), 'I lives');
+  assert.equal(P.fillGaps('___ you like tea?', ['Do']), 'Do you like tea?');
+});
+
+test('LF-11: leaving goes back to where the learner came from, Today otherwise', async () => {
+  const { exitTarget } = await import('../../js/ui/player.js');
+  assert.equal(exitTarget('#/path/A2'), '#/path/A2');
+  assert.equal(exitTarget('#/progress', '#/path/B2'), '#/progress');
+  assert.equal(exitTarget(null), '#/today', 'a link opened directly');
+  assert.equal(exitTarget('#/lesson/a2-01?stage=missed'), '#/today', 'never back into another player');
+  assert.equal(exitTarget('#/start'), '#/today', 'never back into onboarding');
+  assert.equal(exitTarget('', '#/path/B2'), '#/path/B2');
 });

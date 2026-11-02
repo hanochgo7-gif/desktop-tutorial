@@ -1,18 +1,23 @@
-// Lesson player: intro -> explanation -> practice -> review.
-// Wrong answers show the right answer at once and come back once at the end of the set
-// (retrieval after a delay). Only the first attempt counts toward the lesson score, and only scored
-// exercises count: speaking and writing are practice, never part of the score or its denominator.
-// After "Nearly there" the learner can redo only the exercises missed on the first try; their earlier
-// right answers keep counting, so fixing the misses can complete the lesson.
-import { html, render, on, $ } from '../core/util.js';
+// Lesson player: intro -> explanation (in short steps) -> practice -> review.
+// Wrong answers show the right answer and come back once at the end of the set (retrieval after a delay); a
+// wrong typed answer first gets a targeted note and a second try where the exercise allows it (LF-6). Only the
+// first attempt counts toward the lesson score, and only scored exercises count: speaking and writing are
+// practice, never part of the score or its denominator. After "Nearly there" the learner can redo only the
+// exercises missed on the first try; their earlier right answers keep counting, so fixing the misses can
+// complete the lesson.
+import { html, render, on, $, todayKey } from '../core/util.js';
 import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
-import { icon, levelTag } from '../ui/components.js';
+import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
-import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards } from '../core/learner.js';
+import { exitTarget } from '../ui/player.js';
+import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
-import { lessonOrder } from '../core/adaptive.js';
+import { lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
+import { answerPoints, isMissed, fillGaps, mistakeNote } from '../core/pool.js';
+
+export { answerPoints };
 
 // ---------- scoring and counting (pure, unit-tested) ----------
 export const UNSCORED = new Set(['write', 'speak']);
@@ -23,22 +28,47 @@ export function lessonScore(firstTry, lesson) {
   if (!scored.length) return 1;
   return scored.reduce((a, e) => a + (firstTry.get(e.id) || 0), 0) / scored.length;
 }
-// Points for one answer: right 1, right after a hint 0.75, right with a spelling slip 0.9, wrong up to 0.5.
-export const answerPoints = (r, hintUsed) => (r.correct ? (hintUsed ? 0.75 : r.almost ? 0.9 : 1) : Math.min(0.5, r.score || 0));
 // A pass is 70% of first-try points (or the lesson's own mark). The small margin keeps a sum of 0.75 and 0.9
 // points that should be exactly 70% from falling short by a rounding error.
 export const isPass = (score, pass = 0.7) => score >= pass - 1e-9;
 // The score in words: below the pass mark it is rounded down, so a 69.6% miss never reads "70%" next to
 // "70% completes the lesson" (R2-26).
 export const scorePercent = (score, passed) => (passed ? Math.round(score * 100) : Math.floor(score * 100 + 1e-6));
+// The end screen's title says what is true (LF-4): complete at the pass mark, "Nearly there" from 50%, and
+// "Not complete yet" below that, never "Nearly there" at 8%.
+export function reviewTitle(score, pass = 0.7) {
+  if (isPass(score, pass)) return 'complete';
+  return score >= 0.5 - 1e-9 ? 'nearly' : 'open';
+}
 // Why a score is lower than the number of right answers suggests: a right answer after a hint counts 0.75 and
 // one with a spelling slip 0.9.
 export function partialCredit(firstTry) {
   const v = [...firstTry.values()];
   return { hint: v.some((x) => x === 0.75), slip: v.some((x) => x === 0.9) };
 }
-// About how long redoing n exercises takes, at the lesson's own pace (the explanation counts as two).
-export const missedMinutes = (lesson, n) => Math.max(1, Math.round(n * (lesson.minutes / (lesson.exercises.length + 2))));
+// About how long redoing n exercises takes, at the lesson's own pace, counted exactly as Today counts it
+// (learner.js lessonInfo): the explanation takes introSlots(lesson) exercise-sized slots. One helper for the
+// intro banner and the end screen, so they never disagree (LF-4).
+export const missedMinutes = (lesson, n) => Math.max(1, Math.round(n * (lesson.minutes / (lesson.exercises.length + introSlots(lesson)))));
+// About how long the rest of a run takes from position qi (first pass and retries alike).
+export const restMinutes = (lesson, queue, qi) => Math.max(1, Math.round((queue.length - qi) * (lesson.minutes / (lesson.exercises.length + introSlots(lesson)))));
+// About how long the explanation takes to read: English at about 90 words a minute (a learner reading
+// carefully), the Hebrew around it at about 180 (LF-2). Shown instead of the old "short explanation".
+export function readingMinutes(lesson, support = 'full') {
+  const count = (s, re) => (String(s || '').match(re) || []).length;
+  const EN = /[A-Za-z][A-Za-z'’-]*/g;
+  const HE = /[֐-׿]+/g;
+  let en = 0, he = 0;
+  const add = (o) => { if (!o) return; if (typeof o === 'string') { en += count(o, EN); return; } en += count(o.en, EN); if (support !== 'off') he += count(o.he, HE); };
+  for (const b of lesson.explanation || []) {
+    if (b.type === 'table') { for (const r of [b.headers, ...b.rows]) for (const c of r) { en += count(c, EN); he += count(c, HE); } }
+    else if (b.type === 'examples') b.items.forEach(add);
+    else add(b);
+  }
+  (lesson.examples || []).forEach(add);
+  (lesson.hebrew_pitfalls || []).forEach(add);
+  return Math.max(1, Math.round(en / 90 + he / 180));
+}
 // First-pass exercises before position qi (retries are counted apart, as on the step counter).
 export const firstDone = (queue, qi) => queue.slice(0, qi).filter((q) => !q.retry).length;
 // Today's part ends once the first pass reaches the plan's "up to exercise N" (R2-28): only on the first pass,
@@ -48,9 +78,9 @@ export function partEnds(part, queue, qi, finished) {
   return part.upto < queue.filter((q) => !q.retry).length && firstDone(queue, qi) === part.upto;
 }
 
-// Scored exercises whose first try was wrong (or never answered).
+// Scored exercises whose first try was wrong (or never answered); a reading text or sort under 80% (LF-9).
 export function missedIds(firstTry, lesson) {
-  return scoredExercises(lesson).filter((e) => (firstTry.get(e.id) ?? 0) <= 0.5).map((e) => e.id);
+  return scoredExercises(lesson).filter((e) => isMissed(firstTry.get(e.id), e.type)).map((e) => e.id);
 }
 // Where the learner is: the first pass has a fixed total; retries are counted on their own.
 export function stepInfo(queue, qi) {
@@ -60,12 +90,12 @@ export function stepInfo(queue, qi) {
   if (cur.retry) return { retry: true, pos: upTo.filter((q) => q.retry).length, total: queue.filter((q) => q.retry).length, pending: 0 };
   return { retry: false, pos: upTo.filter((q) => !q.retry).length, total: queue.filter((q) => !q.retry).length, pending: queue.slice(qi + 1).filter((q) => q.retry).length };
 }
-// "3 מתוך 14" / "3 of 14": words, so the numbers never read backwards in Hebrew (P-12).
+// "3 מתוך 14" / "3 of 14": words, so the numbers never read backwards in Hebrew (P-12). The first pass shows no
+// running tally of mistakes; retries are announced only in the retry round itself (LF-7).
 export function stepLabel(s) {
   if (!s) return '';
   const of = t('of', { a: s.pos, b: s.total });
-  if (s.retry) return `${tt('חוזרים', 'Revisit')} ${of}`;
-  return s.pending ? `${of} · ${tt(`${s.pending} לחזרה`, `${s.pending} to revisit`)}` : of;
+  return s.retry ? `${tt('חוזרים', 'Revisit')} ${of}` : of;
 }
 // Progress bar: moves forward only, the first pass up to 94%, retries the rest.
 export function stepPct(s) {
@@ -74,16 +104,180 @@ export function stepPct(s) {
 }
 const HEBREW = /[֐-׿]/;
 
-export function renderBlocks(blocks) {
+// ---------- the explanation in short steps (LF-2) ----------
+// The explanation is grouped by what it is: the core (paragraphs, rules and tables) with the Hebrew-speaker
+// pitfalls about grammar next to it; the examples, with the pronunciation pitfalls (a lesson with only those
+// keeps them in the core); the remaining notes (warnings and tips); the new words. Empty groups are left out.
+// Each unit is { kind: 'block' | 'pit' | 'ex' | 'word', i }.
+export function learnPlan(lesson, support = 'full') {
+  const pits = support === 'off' ? [] : (lesson.hebrew_pitfalls || []).map((p, i) => ({ p, i }));
+  const sound = (x) => /^pron-/.test(x.p.error_type || '');
+  const grammarPits = pits.filter((x) => !sound(x));
+  const firstPits = grammarPits.length ? grammarPits : pits;
+  const laterPits = grammarPits.length ? pits.filter(sound) : [];
+  const ex = lesson.explanation || [];
+  const isCore = (b) => ['p', 'rule', 'table'].includes(b.type);
+  const groups = [
+    { id: 'core', units: [...ex.flatMap((b, i) => (isCore(b) ? [{ kind: 'block', i }] : [])), ...firstPits.map((x) => ({ kind: 'pit', i: x.i }))] },
+    { id: 'examples', units: [...(lesson.examples || []).map((_, i) => ({ kind: 'ex', i })), ...laterPits.map((x) => ({ kind: 'pit', i: x.i }))] },
+    { id: 'notes', units: ex.flatMap((b, i) => (isCore(b) ? [] : [{ kind: 'block', i }])) },
+    { id: 'words', units: (lesson.vocab || []).map((_, i) => ({ kind: 'word', i })) },
+  ];
+  return groups.filter((g) => g.units.length);
+}
+// The steps: all units in reading order, with a new step when the next unit would pass the height budget, so
+// no step is a long scroll at any text size (heights are measured on the learner's screen). A group that starts
+// inside a step gets its own heading there (HEAD px). The core's first pitfall stays in step 1, right after
+// the explanation it belongs to. Each unit is marked with its group (g) and whether it starts it (first).
+export const HEAD = 56;
+export function paginate(groups, heightOf, budget = 1450) {
+  const seq = [];
+  for (const g of groups) {
+    let order = g.units;
+    if (g.id === 'core') {
+      const blocks = g.units.filter((u) => u.kind === 'block');
+      const pits = g.units.filter((u) => u.kind === 'pit');
+      if (pits.length && blocks.length) {
+        const room = budget - HEAD - heightOf(pits[0]);
+        let k = 0, sum = 0;
+        while (k < blocks.length && (k === 0 || sum + heightOf(blocks[k]) <= room)) { sum += heightOf(blocks[k]); k++; }
+        order = [...blocks.slice(0, k), pits[0], ...blocks.slice(k), ...pits.slice(1)];
+      }
+    }
+    order.forEach((u, k) => seq.push({ u, g: g.id, first: k === 0 }));
+  }
+  const pages = [];
+  const heights = [];
+  let page = [], h = 0;
+  for (const x of seq) {
+    const uh = heightOf(x.u) + (x.first ? HEAD : 0);
+    if (page.length && h + uh > budget) { pages.push(page); heights.push(h); page = []; h = 0; }
+    if (!page.length && !x.first) h += HEAD; // a continued group repeats its heading
+    page.push(x); h += uh;
+  }
+  if (page.length) { pages.push(page); heights.push(h); }
+  // A last step with only a little left (two or three words) joins the step before it when both still fit.
+  const n = pages.length;
+  if (n > 1 && heights[n - 1] < budget * 0.3 && heights[n - 2] + heights[n - 1] - (pages[n - 1][0].first ? 0 : HEAD) <= budget * 1.08) {
+    pages[n - 2].push(...pages.pop());
+  }
+  return pages.map((items) => ({ id: items[0].g, items }));
+}
+// A table taller than most of a step is split into runs of rows (its rows are cards on a phone, each one
+// complete with its column names), so it can spread over two steps.
+export function splitTall(groups, lesson, heightOf, limit) {
+  return groups.map((g) => ({ ...g, units: g.units.flatMap((u) => {
+    const b = u.kind === 'block' && !u.rows && lesson.explanation[u.i];
+    const h = heightOf(u);
+    // A letter table (the alphabet) stays whole, with its A-Z key, unless it is taller than a whole step.
+    if (!b || b.type !== 'table' || b.rows.length < 4 || h <= (tableShape(b, lesson.level).letters ? limit / 0.85 : limit)) return [u];
+    const parts = Math.min(b.rows.length, Math.ceil(h / (limit * 0.8)));
+    const size = Math.ceil(b.rows.length / parts);
+    const out = [];
+    for (let s = 0; s < b.rows.length; s += size) out.push({ kind: 'block', i: u.i, rows: [s, Math.min(b.rows.length, s + size)] });
+    return out;
+  }) }));
+}
+
+// The English a pitfall talks about, to be heard (LF-2): for a pronunciation pitfall the contrast words its
+// Hebrew text quotes (a word right after "לא" is the wrong sound and is left out); for a grammar pitfall the
+// right example after its last colon, without "(not …)", "not '…'" and starred wrong forms, kept only where the
+// Hebrew text quotes it too, so an English explanation clause is never read out as an example.
+const RUN = /[^֐-׿]*[A-Za-z][^֐-׿]*/g;
+const IPA = /[/ːɪəʊæɒʌθðŋʃʒɜɔˈ]/;
+const NOT_HE = /(?:^|[\s(])ו?לא\s*$/;
+const TERMS = /^(?:ing|es|ed|th|present|past|future|perfect|simple|continuous|passive|present perfect|past simple|present simple)$/i;
+const plain = (s) => String(s).toLowerCase().replace(/[^a-z']+/g, ' ').trim();
+function heRuns(p, { single = false } = {}) {
+  const out = [];
+  const he = String(p.he || '');
+  for (const m of he.matchAll(RUN)) {
+    if (NOT_HE.test(he.slice(0, m.index))) continue;
+    for (let part of m[0].split(/[,:;()=]|\s[–-]\s/)) {
+      part = part.replace(/^[\s\-–'"‘’“”.*‏]+|[\s\-–'"‘’“”.(‏]+$/g, '');
+      if (!/^[A-Za-z][A-Za-z' ]*$/.test(part) || IPA.test(part) || part.split(' ').length > 3 || TERMS.test(part)) continue;
+      if (part.length < 2 && !(single && /^[A-Z]$/.test(part))) continue;
+      if (out.some((x) => x.toLowerCase() === part.toLowerCase())) continue;
+      out.push(part);
+    }
+  }
+  return out;
+}
+function rightExample(p) {
+  const en = String(p.en || '');
+  const i = en.lastIndexOf(':');
+  if (i < 0) return [];
+  const heLatin = ` ${plain([...String(p.he || '').matchAll(RUN)].map((m) => m[0]).join(' '))} `;
+  const quoted = (s) => heLatin.includes(` ${plain(s)} `);
+  const tail = en.slice(i + 1)
+    .replace(/\((?:and |or )?(?:not|never)\b[^)]*\)?/gi, '')
+    .replace(/\(([A-Za-z]+)\)/g, '$1')
+    .replace(/\([^)]*\)?/g, '')
+    .replace(/,?\s*(?:and |or )?not\s+(?:\*|['‘"“])[^'’"”.;]*['’"”]?/gi, '')
+    .replace(/,?\s*or\s+['‘"“][^'’"”]*['’"”]/gi, '')
+    .replace(/\*[^.;,()]*[.;,]?/g, '')
+    .replace(/\s+/g, ' ').replace(/\s+([.,;?!])/g, '$1').replace(/([?!])\./g, '$1').trim();
+  const out = [];
+  for (const s of tail.split(/(?<=[.?!;])\s+/).map((x) => x.replace(/[;,]$/, '').trim())) {
+    if (!/[A-Za-z]{2}/.test(s) || IPA.test(s)) continue;
+    if (quoted(s)) { out.push(s); continue; }
+    for (const c of s.split(/,\s+/).map((x) => x.replace(/^(?:but|and|or)\s+/i, '').replace(/[.;]$/, ''))) if (/[A-Za-z]{2}/.test(c) && quoted(c)) out.push(c);
+  }
+  return out;
+}
+export function pitfallSayables(p) {
+  if (/^pron-/.test(p?.error_type || '')) {
+    const words = heRuns(p);
+    if (words.length) return words.slice(0, 4);
+    return [...String(p?.en || '').matchAll(/\bthe letter ([A-Z])\b/g)].map((m) => m[1]).slice(0, 2);
+  }
+  const ex = rightExample(p || {});
+  return ex.length ? ex.slice(0, 2) : heRuns(p || {}, { single: true }).slice(0, 4);
+}
+
+// ---------- tables (LF-3) ----------
+// A table whose first header is English reads left to right; its Hebrew columns (a Hebrew header) move to the
+// end as right-to-left cells. On phones and at 130-150% text each row becomes a card (CSS): the English cells
+// in a line with their column names, the Hebrew under them. IPA columns, at Pre-A1, wait behind "Show IPA".
+export function tableShape(b, level) {
+  const english = !HEBREW.test(b.headers[0] || '');
+  const cols = b.headers.map((h, i) => ({ i, he: english && HEBREW.test(h), ipa: /IPA/i.test(h) || (b.rows.length > 0 && b.rows.every((r) => /^\/[^/]+\/$/.test(String(r[i] || '').trim()))) }));
+  const order = english ? [...cols.filter((c) => !c.he), ...cols.filter((c) => c.he)] : cols;
+  const letters = english && b.rows.length > 0 && b.rows.every((r) => /^[A-Za-z](?:\s?[A-Za-z])?$/.test(String(r[0] || '').trim()));
+  const examples = b.headers.findIndex((h) => /^examples?$/i.test(h.trim()));
+  const hideIpa = level === 'PreA1' && cols.some((c) => c.ipa);
+  // Rows become cards (CSS, on phones and at large text) when three or more columns show; two fit as a table.
+  const stack = order.filter((c) => !(hideIpa && c.ipa)).length >= 3;
+  return { english, order, letters, examples, alphabet: letters && b.rows.length >= 20, hideIpa, stack };
+}
+function tableBlock(b, level, continued = false) {
+  const s = tableShape(b, level);
+  const sayOf = (r) => (s.examples >= 0 ? r[s.examples] : String(r[0]).trim().charAt(0));
+  // k: the row, for the first cell of a row (its play key); -1 for the other cells.
+  const cell = (c, v, k) => {
+    const cls = [c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ');
+    const play = k >= 0 && s.letters && canSpeak() ? html`<button type="button" class="key ghost small icon-only row-say" data-say-text="${sayOf(b.rows[k])}" aria-label="${tt('השמעה', 'Play')}: ${sayOf(b.rows[k])}">${icon('volume', { size: 18 })}</button>` : '';
+    return c.he
+      ? html`<td class="${cls}" data-label="${b.headers[c.i]}" lang="he" dir="rtl">${isolateLatin(v)}</td>`
+      : html`<td class="${cls}" data-label="${b.headers[c.i]}" dir="auto">${play}${v}</td>`;
+  };
+  const tools = !continued && ((s.alphabet && canSpeak()) || s.hideIpa)
+    ? html`<div class="table-tools row">${s.alphabet && canSpeak() ? html`<button type="button" class="key small" data-say-text="${b.rows.map((r) => String(r[0]).trim().charAt(0)).join(', ')}" data-say-slow>${icon('turtle', { size: 18 })} <span dir="ltr" lang="en">A–Z</span> ${tt('לאט', 'slowly')}</button>` : ''}${s.hideIpa ? html`<button type="button" class="key ghost small" data-ipa-toggle aria-expanded="false">${isolateLatin(tt('להצגת IPA', 'Show IPA'))}</button>` : ''}</div>`
+    : '';
+  const attrs = s.english ? html`dir="ltr" lang="en"` : '';
+  return html`${tools}${tableHint()}<div class="table-wrap ${s.stack ? 'tstack' : ''} ${s.letters ? 'letters' : ''} ${s.hideIpa ? 'ipa-hidden' : ''}" ${attrs}><table class="data"><thead><tr>${s.order.map((c) => html`<th class="${[c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ')}" ${c.he ? html`lang="he" dir="rtl"` : html`dir="auto"`}>${b.headers[c.i]}</th>`)}</tr></thead>
+    <tbody>${b.rows.map((r, k) => html`<tr>${s.order.map((c, n) => cell(c, r[c.i] ?? '', n === 0 ? k : -1))}</tr>`)}</tbody></table></div>`;
+}
+
+export function renderBlocks(blocks, { level = null, continued = false } = {}) {
   return blocks.map((b) => {
     switch (b.type) {
       // Explanation paragraphs fold their Hebrew at "partial" support (a tap per paragraph, R1-D10).
       case 'rule': return html`<div class="block-rule">${bi(b, { fold: true })}</div>`;
       case 'tip': return html`<div class="block-tip row" style="align-items:flex-start">${icon('hint', { size: 18 })}<div class="grow">${bi(b, { fold: true })}</div></div>`;
       case 'warning': return html`<div class="block-warning row" style="align-items:flex-start">${icon('alert', { size: 18 })}<div class="grow">${bi(b, { fold: true })}</div></div>`;
-      // A table with English headers lays out left to right, so it starts (and scrolls) from its first column.
-      // When it is wider than the screen, a line above it and a fade say that it scrolls (markWideTables).
-      case 'table': return html`${tableHint()}<div class="table-wrap" ${b.headers.some((h) => HEBREW.test(h)) ? '' : html`dir="ltr" lang="en"`}><table class="data"><thead><tr>${b.headers.map((h) => html`<th dir="auto">${h}</th>`)}</tr></thead><tbody>${b.rows.map((r) => html`<tr>${r.map((c) => html`<td dir="auto">${c}</td>`)}</tr>`)}</tbody></table></div>`;
+      // When a table is still wider than the screen, a line above it and a fade say that it scrolls (markWideTables).
+      case 'table': return tableBlock(b, level, continued);
       case 'examples': return html`<div class="examples">${b.items.map((x) => exampleRow(x))}</div>`;
       default: return html`<p>${bi(b, { fold: true })}</p>`;
     }
@@ -103,8 +297,9 @@ export function markWideTables(root) {
       w.classList.toggle('at-end', wide && Math.abs(w.scrollLeft) >= max - 2);
       if (hint) hint.hidden = !wide;
       if (wide) { w.tabIndex = 0; w.setAttribute('role', 'region'); w.setAttribute('aria-label', tt('טבלה שאפשר לגלול הצידה', 'Table that scrolls sideways')); }
+      else if (w.getAttribute('role') === 'region') { w.removeAttribute('tabindex'); w.removeAttribute('role'); w.removeAttribute('aria-label'); }
     };
-    w.addEventListener('scroll', update, { passive: true });
+    if (!w.dataset.marked) { w.dataset.marked = '1'; w.addEventListener('scroll', update, { passive: true }); }
     update();
   }
 }
@@ -112,6 +307,32 @@ export function markWideTables(root) {
 export function exampleRow(x) {
   return html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${x.en}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}<div class="grow">${legend(x.en, hebrewSupport() === 'off' ? null : x.he)}${x.note ? html`<div class="note" lang="en" dir="ltr">${x.note}</div>` : ''}</div></div>`;
 }
+
+// A Hebrew-speaker pitfall: its own box, next to the rule it belongs to, with the English it is about to hear.
+export function pitfallBox(p) {
+  const say = canSpeak() ? pitfallSayables(p) : [];
+  return html`<div class="pitfall">
+    <p class="pitfall-head">${icon('flag', { size: 16 })} ${tt('מלכודת לדוברי עברית', 'A trap for Hebrew speakers')}</p>
+    <div>${bi(p, { fold: true })}</div>
+    ${say.length ? html`<div class="pitfall-say">${say.map((s) => html`<button type="button" class="key small ghost say-chip" data-say-text="${s}" aria-label="${tt('השמעה', 'Play')}: ${s}">${icon('volume', { size: 16 })}<span lang="en" dir="ltr">${s}</span></button>`)}</div>` : ''}
+  </div>`;
+}
+
+// ---------- the learner's own mistakes (LF-8): fillGaps and mistakeNote live in core/pool.js ----------
+export { fillGaps, mistakeNote };
+
+// ---------- the "all Hebrew" switch (LF-10) ----------
+const HE_ALL = 'lucid-he-all';
+function heAllSaved(level) { try { return JSON.parse(localStorage.getItem(HE_ALL) || '{}')[level] === true; } catch { return false; } }
+function heAllSave(level, value) {
+  try { const m = JSON.parse(localStorage.getItem(HE_ALL) || '{}'); m[level] = value; localStorage.setItem(HE_ALL, JSON.stringify(m)); } catch { /* storage off: the switch still works for this lesson */ }
+}
+function heAllApply(value) {
+  const d = globalThis.document?.documentElement;
+  if (!d) return;
+  if (value) d.dataset.heAll = '1'; else delete d.dataset.heAll;
+}
+const heAllOffered = () => ['partial', 'minimal'].includes(hebrewSupport());
 
 // A link to a lesson whose file does not exist: say it is still being written and point to the next
 // lesson that is ready (P-14, P-26, P-61). A lesson that exists but did not load is a connection problem.
@@ -169,6 +390,24 @@ function planSlice(id, lesson) {
     return todayPlan(settings().daily_minutes, { lesson }).blocks.find((b) => b.id === 'learn' && b.lesson === id)?.slice || null;
   } catch { return null; }
 }
+// What is left in today's plan after this lesson (LF-4): the first block not done yet, as Today marks it.
+// The lesson block itself (now the next lesson) leaves the main action as "Next lesson".
+function planLeft() {
+  try {
+    if (model().placementPending) return null;
+    const dueCount = due().length;
+    const isDone = (b) => (b.id === 'review' && dueCount === 0) || ((b.id === 'use' || b.id === 'practice') && Boolean(b.done)) || (b.id === 'learn' && Boolean(b.slice?.partDone));
+    const first = todayPlan(settings().daily_minutes).blocks.find((b) => !isDone(b));
+    return first && first.id !== 'learn' ? first : null;
+  } catch { return null; }
+}
+const blockName = (b) => ({
+  warmup: tt('חימום', 'Warm-up'),
+  review: tt('חזרה על מילים', 'Word review'),
+  practice: tt('תרגול ממוקד', 'Targeted practice'),
+  use: b.scenario ? tt('מהחיים', 'Real life') : b.kind === 'reading' ? tt('קריאה', 'Reading') : b.kind === 'speaking' ? tt('דיבור', 'Speaking') : tt('כתיבה', 'Writing'),
+  exit: tt('בדיקת יציאה', 'Exit check'),
+}[b.id] || tt('התוכנית', 'Your plan'));
 
 export default async function lessonView(el, ctx) {
   const id = ctx.params.id;
@@ -183,99 +422,234 @@ export default async function lessonView(el, ctx) {
   // The next lesson that has been written (an unwritten one would be a dead end).
   const idx = order.findIndex((l) => l.id === id);
   const nextPlan = order.slice(idx + 1).find((l) => !available.size || available.has(l.id)) || null;
+  // Leaving returns to where the learner came from (LF-11).
+  const exitTo = exitTarget(ctx.from, 'today');
 
   let stage = ctx.query.stage === 'practice' || ctx.query.stage === 'missed' ? 'practice' : 'intro';
   const queue = lesson.exercises.map((ex) => ({ ex, retry: false }));
   let qi = 0;
   const firstTry = new Map(); // exercise id -> points (0..1) on first attempt
+  const judged = new Set(); // exercises the learner counted as right themselves ("My answer is also correct")
   let ctl = null;
   let checked = null; // last check result
   let lastAttempt = null; // the attempt record of the last check (for "My answer is also correct")
   let hintUsed = false;
+  let secondTry = false; // the learner is fixing a wrong typed answer (LF-6)
   let shownAt = 0;
   let missedMode = false;
   let runSince = new Date().toISOString(); // this run's start: "Worth watching" shows only its mistakes
+  let learnStep = 0;
+  let exToken = 0;
   const slice = planSlice(id, lesson);
   // Today's part of a long lesson, as the daily plan set it (R2-28, R1-N7, R1-D3): shown on the intro and marked
   // in the player when the first pass reaches it.
   const part = slice?.split ? { upto: slice.upto, of: slice.of, total: slice.total, today: slice.today, done: Boolean(slice.partDone), shown: false } : null;
+  heAllApply(heAllOffered() && heAllSaved(lesson.level));
 
+  // The top bar stays on screen for the whole lesson: only its width and counter change, so the bar's width
+  // moves smoothly from step to step (LF-7).
   function frame(body, foot = '') {
     const step = stage === 'practice' || stage === 'part' ? stepInfo(queue, qi) : null;
     const pct = stage === 'intro' ? 0 : stage === 'learn' ? 6 : stage === 'review' ? 100 : stepPct(step);
-    render(el, html`<div class="player">
-      <div class="player-top">
-        <button type="button" class="key ghost small icon-only" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}</button>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בשיעור', 'Lesson progress')}"><span style="width:${pct}%"></span></div>
-        ${step ? html`<span class="step-count">${stepLabel(step)}</span>` : levelTag(lesson.level)}
-        <a class="key ghost small icon-only" href="#/help" aria-label="${tt('עזרה', 'Help')}">${icon('info', { size: 18 })}</a>
-      </div>
-      <div class="player-body" id="pbody">${body}</div>
-      ${foot ? html`<div class="player-foot" id="pfoot">${foot}</div>` : ''}
-    </div>`);
+    if (!$('.player > .player-top', el)) {
+      render(el, html`<div class="player">
+        <div class="player-top">
+          <button type="button" class="key ghost small icon-only" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}</button>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="${tt('התקדמות בשיעור', 'Lesson progress')}"><span style="width:0%"></span></div>
+          <span class="top-meta"></span>
+          <a class="key ghost small icon-only" href="#/help" aria-label="${tt('עזרה', 'Help')}">${icon('info', { size: 18 })}</a>
+        </div>
+        <div class="player-body" id="pbody"></div>
+      </div>`);
+    }
+    const bar = $('.player-top .progress', el);
+    bar.setAttribute('aria-valuenow', String(pct));
+    bar.firstElementChild.style.width = `${pct}%`;
+    const meta = $('.player-top .top-meta', el);
+    meta.classList.toggle('is-count', Boolean(step));
+    meta.parentElement.classList.toggle('counting', Boolean(step));
+    render(meta, step ? html`<span class="step-count">${stepLabel(step)}</span>` : levelTag(lesson.level));
+    render($('#pbody', el), body);
+    $('#pfoot', el)?.remove();
+    if (foot) $('.player', el).insertAdjacentHTML('beforeend', `<div class="player-foot" id="pfoot">${foot}</div>`);
   }
 
-  // The lesson's real length and, when the daily plan splits it, today's part (R1-D3).
-  function lengthLine(resuming) {
-    if (part?.done) return tt('החלק של היום בשיעור הזה כבר הושלם. אפשר להמשיך עכשיו, והמקום יישמר.', 'Today\'s part of this lesson is already done. You can keep going now; your place is saved.');
-    if (part) return tt(`השיעור כולו כ-${part.total} דקות, ולכן התוכנית היומית שלך לוקחת היום חלק ממנו: עד תרגיל ${part.upto} מתוך ${part.of}, כ-${part.today} דקות. כשהחלק נגמר, השיעור אומר את זה.`, `The whole lesson takes about ${part.total} min, so your daily plan takes a part of it today: up to exercise ${part.upto} of ${part.of}, about ${part.today} min. The lesson tells you when that part is done.`);
-    if (resuming && slice?.total && slice.remaining) return tt(`נשארו כ-${slice.remaining} דקות.`, `About ${slice.remaining} min left.`);
+  const heAllKey = () => (heAllOffered() ? html`<button type="button" class="key ghost small he-all" data-he-switch aria-pressed="${document.documentElement.dataset.heAll ? 'true' : 'false'}">${icon('globe', { size: 16 })} ${tt('הכול בעברית', 'All in Hebrew')}</button>` : '');
+
+  // Today's plan note, one line under the main key (LF-1).
+  function partNote(resuming) {
+    if (part?.done) return tt('החלק של היום כבר הושלם · אפשר להמשיך, והמקום יישמר', 'Today\'s part is done · you can keep going; your place is saved');
+    if (part) return tt(`היום: עד תרגיל ${part.upto} · כ-${part.today} דק׳`, `Today: up to exercise ${part.upto} · about ${part.today} min`);
+    if (resuming && slice?.total && slice.remaining) return tt(`נשארו כ-${slice.remaining} דק׳`, `About ${slice.remaining} min left`);
     return '';
   }
   // After "Nearly there": the exercises missed on the first try are what is left (R2-02, R2-25).
   function missedInfo(p) {
     if (!p?.missed?.ids?.length || p.status === 'completed') return null;
     const ids = p.missed.ids.filter((x) => lesson.exercises.some((e) => e.id === x));
-    return ids.length ? { n: ids.length, min: missedMinutes(lesson, ids.length), pct: scorePercent(p.last_score ?? 0, false) } : null;
+    return ids.length ? { n: ids.length, min: missedMinutes(lesson, ids.length), pct: scorePercent(p.last_score ?? 0, false), score: p.last_score ?? 0 } : null;
   }
+  const resumeStepOf = (r) => stepInfo(r.queue.map(([eid, retry]) => ({ ex: { id: eid }, retry })), r.qi);
+  const resumeLabel = (s) => (s.retry
+    ? tt(`להמשיך: תרגיל חוזר ${s.pos} מתוך ${s.total}`, `Continue: revisit ${s.pos} of ${s.total}`)
+    : tt(`להמשיך מתרגיל ${s.pos} מתוך ${s.total}`, `Continue from exercise ${s.pos} of ${s.total}`));
 
   function showIntro() {
     const p = progressOf(id);
     const resuming = Boolean(p?.resume && p.resume.qi < p.resume.queue.length);
+    // Coming back resumes, never restarts (LF-1): the saved place is loaded now, so "To the explanation" and then
+    // "Start practice" continue from it too.
+    if (resuming) restoreResume(p.resume);
+    const rs = resuming ? resumeStepOf(p.resume) : null;
     const mi = resuming ? null : missedInfo(p);
-    const len = lengthLine(resuming);
+    const note = partNote(resuming);
+    const noteLine = note ? html`<p class="foot-note xsmall" data-part-line>${note}</p>` : '';
     frame(html`<div class="lesson-intro stack-lg">
+      ${resuming ? html`<div class="banner resume-banner" data-resume-banner>${icon('play', { size: 18 })}<span>${rs.retry
+        ? tt(`עצרתם בתרגילים החוזרים (${rs.pos} מתוך ${rs.total}). התשובות שכבר נתתם שמורות.`, `You stopped in the exercises to revisit (${rs.pos} of ${rs.total}). Your answers so far are saved.`)
+        : tt(`עצרתם בתרגיל ${rs.pos} מתוך ${rs.total}. התשובות שכבר נתתם שמורות.`, `You stopped at exercise ${rs.pos} of ${rs.total}. Your answers so far are saved.`)}</span></div>` : ''}
       <div class="stack-sm">
-        <p class="small faint">${plan ? tt(`${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · שיעור ${plan.order}`, `${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · Lesson ${plan.order}`) : ''} · ${tt(`כ-${lesson.minutes} דקות`, `about ${lesson.minutes} min`)}</p>
+        <div class="intro-meta"><p class="small faint">${plan ? tt(`${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · שיעור ${plan.order}`, `${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · Lesson ${plan.order}`) : ''} · ${tt(`כ-${lesson.minutes} דקות`, `about ${lesson.minutes} min`)}</p>${heAllKey()}</div>
         <h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>
-        ${len ? html`<p class="small muted" data-part-line>${len}</p>` : ''}
       </div>
-      ${mi ? html`<div class="banner stack-sm missed-choice" data-missed-banner><h2 class="small">${tt('כמעט שם', 'Nearly there')}</h2><p class="small">${tt(`בפעם הקודמת: ${mi.pct}% בניסיון הראשון. התשובות הנכונות נשמרו, אז כדי להשלים את השיעור נשאר לתקן רק את ${mi.n === 1 ? 'התרגיל שפספסתם' : `${mi.n} התרגילים שפספסתם`} (כ-${mi.min} דק׳).`, `Last time: ${mi.pct}% on the first try. Your right answers are kept, so to complete the lesson only the ${mi.n === 1 ? 'one exercise' : `${mi.n} exercises`} you missed are left (about ${mi.min} min).`)}</p><div class="row"><button type="button" class="key ghost small" data-go="learn">${tt('לקרוא שוב את ההסבר קודם', 'Read the explanation first')}</button></div></div>` : ''}
+      ${mi ? html`<div class="banner stack-sm missed-choice" data-missed-banner><h2 class="small">${mi.score >= 0.5 ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h2><p class="small">${tt(`בפעם הקודמת: ${mi.pct}% בניסיון הראשון. התשובות הנכונות נשמרו, אז כדי להשלים את השיעור נשאר לתקן רק את ${mi.n === 1 ? 'התרגיל שפספסתם' : `${mi.n} התרגילים שפספסתם`} (כ-${mi.min} דק׳).`, `Last time: ${mi.pct}% on the first try. Your right answers are kept, so to complete the lesson only the ${mi.n === 1 ? 'one exercise' : `${mi.n} exercises`} you missed are left (about ${mi.min} min).`)}</p><div class="row"><button type="button" class="key ghost small" data-go="learn">${tt('לקרוא שוב את ההסבר קודם', 'Read the explanation first')}</button></div></div>` : ''}
       <div class="panel flat stack-sm"><h2 class="small">${tt('בסוף השיעור', 'By the end of this lesson')}</h2>
         <ul class="point-list">${lesson.objectives.map((o) => html`<li class="point">${icon('flag', { size: 16 })}<div class="grow">${bi(o)}</div></li>`)}</ul></div>
       ${lesson.warmup ? html`<div class="block-tip row" style="align-items:flex-start">${icon('sparkle', { size: 18 })}<div class="grow">${bi(lesson.warmup)}</div></div>` : ''}
-      ${resuming ? html`<div class="banner row" style="align-items:center"><span class="grow">${tt('עצרתם באמצע:', 'You stopped at:')} <span class="step-count">${stepLabel(stepInfo(p.resume.queue.map(([eid, retry]) => ({ ex: { id: eid }, retry })), p.resume.qi))}</span></span><button type="button" class="key enter small" data-resume>${tt('להמשיך מאיפה שעצרתי', 'Continue where I left off')}</button></div>` : ''}
-      ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לחזור עליו.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
-    </div>`, mi
-      ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button><span class="grow"></span><button type="button" class="key enter" data-missed>${tt(`${mi.n === 1 ? 'לתרגל את הטעות' : `לתרגל את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)} <span class="kbd">Enter</span></button></div>`
-      : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button></div>`);
+      ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לעבור עליו שוב.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
+    </div>`, resuming
+      ? html`<div class="inner"><button type="button" class="key ghost small" data-go="learn">${tt('להסבר', 'To the explanation')}</button><button type="button" class="key ghost small" data-restart>${tt('להתחיל מההתחלה', 'Start again')}</button><span class="grow"></span><button type="button" class="key enter" data-resume>${resumeLabel(rs)} <span class="kbd">Enter</span></button>${noteLine}</div>`
+      : mi
+        ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button><span class="grow"></span><button type="button" class="key enter" data-missed>${tt(`${mi.n === 1 ? 'לתרגל את הטעות' : `לתרגל את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)} <span class="kbd">Enter</span></button>${noteLine}</div>`
+        : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);
   }
 
-  // The end of today's part: stop with the place saved, or keep going (R2-28).
+  // The end of today's part: what was done today, stop with the place saved, or finish now (R2-28, LF-4).
   function showPartEnd() {
     const s = stepInfo(queue, qi);
-    const from = s.retry ? tt(`חזרה ${s.pos} מתוך ${s.total}`, `revisit ${s.pos} of ${s.total}`) : tt(`תרגיל ${s.pos} מתוך ${s.total}`, `exercise ${s.pos} of ${s.total}`);
+    const from = s.retry ? tt(`תרגיל חוזר ${s.pos} מתוך ${s.total}`, `revisit ${s.pos} of ${s.total}`) : tt(`תרגיל ${s.pos} מתוך ${s.total}`, `exercise ${s.pos} of ${s.total}`);
+    const today = todayKey();
+    const mine = firstTries(model().attempts.filter((a) => a.lesson === id && a.source === 'lesson' && a.score !== null && a.skill !== 'speaking' && todayKey(new Date(a.at)) === today));
+    const right = mine.filter((a) => a.correct).length;
+    const rest = restMinutes(lesson, queue, qi);
     frame(html`<div class="stack-lg part-end">
       <div class="stack-sm"><h1 tabindex="-1">${tt('החלק של היום הושלם', 'Today\'s part is done')}</h1>
+        ${mine.length ? html`<p class="part-score" data-part-score>${tt(`היום: ${right} מתוך ${mine.length} נכונות בניסיון הראשון`, `Today: ${right} of ${mine.length} right on the first try`)}</p>` : ''}
         <p>${tt(`עשיתם את החלק שהתוכנית היומית קבעה לשיעור הזה היום (עד תרגיל ${part.upto}, כ-${part.today} דקות).`, `You've done the part of this lesson your daily plan set for today (up to exercise ${part.upto}, about ${part.today} min).`)}</p>
         <p class="muted">${tt(`המקום שלכם נשמר: בפעם הבאה ממשיכים מ${from}. אפשר לעצור כאן, או להמשיך עכשיו אם יש זמן.`, `Your place is saved: next time you continue from ${from}. Stop here, or keep going now if you have time.`)}</p></div>
-    </div>`, html`<div class="inner"><button type="button" class="key ghost" data-part-go>${tt('להמשיך עכשיו', 'Keep going')}</button><span class="grow"></span><a class="key enter" href="#/today" data-part-stop>${tt('לעצור כאן', 'Stop here')} <span class="kbd">Enter</span></a></div>`);
+      ${lesson.vocab?.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('המילים של השיעור', 'This lesson\'s words')}</h2><p class="part-words" lang="en" dir="ltr">${lesson.vocab.map((v) => html`<span class="tag">${v.word}</span> `)}</p></div>` : ''}
+    </div>`, html`<div class="inner"><button type="button" class="key ghost" data-part-go>${tt(`להמשיך ולסיים · כ-${rest} דק׳`, `Keep going to the end · about ${rest} min`)}</button><span class="grow"></span><a class="key enter" href="#/today" data-part-stop>${tt('לעצור כאן', 'Stop here')} <span class="kbd">Enter</span></a></div>`);
   }
 
+  // The explanation in short steps, with dots, Back and Next (LF-2). The step is kept, so leaving and coming
+  // back opens the same step.
+  const STEP_TITLE = { core: ['ההסבר', 'The explanation'], examples: ['דוגמאות', 'Examples'], notes: ['כדאי לדעת', 'Good to know'], words: ['מילים חדשות', 'New words'] };
+  const STEP_MORE = { core: ['עוד מההסבר', 'More of the explanation'], examples: ['עוד דוגמאות', 'More examples'], notes: ['עוד דברים שכדאי לדעת', 'More good to know'], words: ['עוד מילים חדשות', 'More new words'] };
+  const wordRow = (v) => html`<div class="word-row">
+    <div class="word-line">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}: ${v.word}">${icon('volume', { size: 18 })}</button>` : ''}<span class="entry-word" lang="en" dir="ltr">${v.word}</span><span class="faint small" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
+    <div class="entry-he" lang="he" dir="rtl">${isolateLatin(v.he)}</div>
+    <div class="entry-ex" lang="en" dir="ltr">${v.example}</div></div>`;
+  const blockOf = (u) => {
+    const b = lesson.explanation[u.i];
+    return u.rows ? { ...b, rows: b.rows.slice(...u.rows) } : b;
+  };
+  const unitHtml = (u) => (u.kind === 'block' ? html`<div class="learn-unit">${renderBlocks([blockOf(u)], { level: lesson.level, continued: Boolean(u.rows?.[0]) })}</div>`
+    : u.kind === 'pit' ? pitfallBox(lesson.hebrew_pitfalls[u.i])
+      : u.kind === 'ex' ? exampleRow(lesson.examples[u.i])
+        : wordRow(lesson.vocab[u.i]));
+  // Steps for this screen and text size: every unit is drawn once out of sight and measured, then paginated.
+  let learnPages = null;
+  function measure(groups) {
+    const units = groups.flatMap((g) => g.units);
+    const body = $('#pbody', el);
+    render(body, html`<div class="lesson-learn learn-measure" aria-hidden="true"><div class="stack learn-units">${units.map(unitHtml)}</div></div>`);
+    const kids = [...body.querySelectorAll('.learn-measure .learn-units > *')];
+    const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const hs = new Map(units.map((u, k) => [u, (kids[k]?.getBoundingClientRect().height || 0) + gap]));
+    render(body, '');
+    return (u) => hs.get(u) || 0;
+  }
+  function pagesFor() {
+    if (learnPages) return learnPages;
+    // About 1,500 px of content leaves the whole step, with its title and keys (about 400 px), under 2,000 px
+    // on a phone.
+    const budget = Math.max(1500, Math.round(innerHeight * 1.6));
+    let groups = learnPlan(lesson, hebrewSupport());
+    let heightOf = measure(groups);
+    const split = splitTall(groups, lesson, heightOf, budget * 0.85);
+    if (split.some((g, k) => g.units.length !== groups[k].units.length)) { groups = split; heightOf = measure(groups); }
+    learnPages = paginate(groups, heightOf, budget);
+    return learnPages;
+  }
+  // A step's content: a heading wherever a group starts (or continues at the top of the step), then its units.
+  function stepContent(s, k, n) {
+    const out = [];
+    s.items.forEach((x, j) => {
+      if (j === 0 || x.first) {
+        const title = x.first ? STEP_TITLE[x.g] : STEP_MORE[x.g];
+        out.push(j === 0
+          ? html`<h2 class="learn-h" id="learn-h" tabindex="-1"><span class="sr-only">${tt(`שלב ${k + 1} מתוך ${n}: `, `Step ${k + 1} of ${n}: `)}</span>${tt(...title)}</h2>`
+          : html`<h2 class="learn-h">${tt(...title)}</h2>`);
+      }
+      out.push(unitHtml(x.u));
+    });
+    return out;
+  }
   function showLearn() {
-    frame(html`<div class="stack-lg lesson-learn">
-      <h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>
-      <div class="stack">${renderBlocks(lesson.explanation)}</div>
-      <section class="stack-sm"><h2 class="small">${tt('דוגמאות', 'Examples')}</h2><div class="examples">${lesson.examples.map(exampleRow)}</div></section>
-      ${lesson.hebrew_pitfalls?.length && hebrewSupport() !== 'off' ? html`<section class="stack-sm"><h2 class="small">${tt('שימו לב (דוברי עברית)', 'Watch out (Hebrew speakers)')}</h2>${lesson.hebrew_pitfalls.map((h) => html`<div class="block-warning">${bi(h)}</div>`)}</section>` : ''}
-      <section class="stack-sm"><h2 class="small">${tt('מילים חדשות', 'New words')}</h2>
-        <div class="grid-2">${lesson.vocab.map((v) => html`<div class="entry">
-          <div class="entry-head"><span class="entry-word" lang="en" dir="ltr">${v.word}</span>${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}</div>
-          <div class="row small"><span class="faint" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
-          <div class="entry-he" lang="he" dir="rtl">${isolateLatin(v.he)}</div>
-          <div class="entry-ex" lang="en" dir="ltr">${v.example}</div></div>`)}</div></section>
-    </div>`, html`<div class="inner"><span class="grow small faint">${tt('הסבר קצר, ועכשיו מתרגלים.', 'Short explanation, now practice.')}</span><button type="button" class="key enter" data-go="practice">${tt('לתרגול', 'Start practice')} <span class="kbd">Enter</span></button></div>`);
-    markWideTables(el);
+    frame(html`<div class="lesson-learn"></div>`);
+    const steps = pagesFor();
+    const saved = progressOf(id)?.learn_step;
+    if (Number.isInteger(saved) && learnStep === 0 && saved > 0) learnStep = saved;
+    learnStep = Math.max(0, Math.min(learnStep, steps.length - 1));
+    drawLearn(steps, { heading: 'h1' });
+    // Measured before the font arrived, the steps are measured again once it has, at the same step and focus.
+    const fonts = globalThis.document?.fonts;
+    if (fonts && fonts.status !== 'loaded') {
+      const at = learnPages;
+      fonts.ready.then(() => { if (stage === 'learn' && learnPages === at) remeasure(); });
+    }
+  }
+  // The steps again, after something changed their heights (the font, the "all in Hebrew" switch).
+  function remeasure() {
+    const focusId = document.activeElement?.closest?.('[data-he-switch]') ? 'he' : document.activeElement?.matches?.('h1[tabindex]') ? 'h1' : document.activeElement?.id === 'learn-h' ? 'step' : null;
+    learnPages = null;
+    frame(html`<div class="lesson-learn"></div>`);
+    const steps = pagesFor();
+    learnStep = Math.min(learnStep, steps.length - 1);
+    drawLearn(steps, { heading: 'none' });
+    if (focusId === 'he') $('[data-he-switch]', el)?.focus();
+    else if (focusId === 'h1') $('h1[tabindex]', el)?.focus({ preventScroll: true });
+    else if (focusId === 'step') $('#learn-h', el)?.focus({ preventScroll: true });
+  }
+  function drawLearn(steps, { heading = 'step' } = {}) {
+    const n = steps.length;
+    const k = learnStep;
+    const s = steps[k];
+    const last = k === n - 1;
+    const minutes = readingMinutes(lesson, hebrewSupport());
+    frame(html`<div class="stack-lg lesson-learn" data-step="${s.id}">
+      <div class="stack-sm">
+        <div class="learn-head">
+          ${n > 1 ? html`<span class="learn-steps" aria-hidden="true">${steps.map((_, i) => html`<span class="dot ${i === k ? 'on' : i < k ? 'done' : ''}"></span>`)}</span>` : ''}
+          <span class="learn-step-label small faint" data-step-label>${n > 1 ? `${t('of', { a: k + 1, b: n })} · ` : ''}${tt(`כ-${minutes} דק׳ קריאה`, `about ${minutes} min reading`)}</span>
+          ${heAllKey()}
+        </div>
+        <h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>
+      </div>
+      <section class="stack learn-units" aria-labelledby="learn-h">${stepContent(s, k, n)}</section>
+    </div>`, html`<div class="inner">${k > 0 ? html`<button type="button" class="key ghost" data-learn-prev>${tt('הקודם', 'Back')}</button>` : ''}<span class="grow"></span>${last
+      ? html`<button type="button" class="key enter" data-go="practice">${tt('לתרגול', 'Start practice')} <span class="kbd">Enter</span></button>`
+      : html`<button type="button" class="key ghost" data-go="practice">${tt('לתרגול', 'Start practice')}</button><button type="button" class="key enter" data-learn-next>${tt('הבא', 'Next')} <span class="kbd">Enter</span></button>`}</div>`);
+    markWideTables($('#pbody', el));
+    if (heading === 'step') { window.scrollTo?.(0, 0); $('#learn-h', el)?.focus({ preventScroll: true }); }
+  }
+  function learnMove(d) {
+    const steps = pagesFor();
+    learnStep = Math.max(0, Math.min(learnStep + d, steps.length - 1));
+    const cur = progressOf(id);
+    if (cur) store.put('progress', { ...cur, learn_step: learnStep });
+    stopSpeaking();
+    drawLearn(steps);
   }
 
   function footer(state) {
@@ -288,19 +662,34 @@ export default async function lessonView(el, ctx) {
           <span class="grow"></span>
           <button type="button" class="key enter" data-check disabled>${t('continue')} <span class="kbd">Enter</span></button></div>`;
       }
+      const typed = ['transform', 'correct', 'dictation', 'write'].includes(item.ex.type);
       return html`<div class="inner">
-        ${item.ex.hint && !hintUsed ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}
-        ${ctl?.graded !== false ? html`<button type="button" class="key ghost small" data-dontknow>${tt('לא יודע/ת', 'I don\'t know')}</button>` : ''}
+        ${item.ex.hint && !hintUsed && !secondTry ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}
+        ${ctl?.graded !== false && !secondTry ? html`<button type="button" class="key ghost small" data-dontknow>${tt('לא יודע/ת', 'I don\'t know')}</button>` : ''}
         <span class="grow"></span>
-        <button type="button" class="key enter" data-check disabled>${item.ex.type === 'write' ? tt('שליחה', 'Submit') : tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`;
+        ${typed && item.ex.type !== 'write' ? html`<span class="foot-hint xsmall faint" aria-hidden="true" dir="ltr">Ctrl+Enter</span>` : ''}
+        <button type="button" class="key enter" data-check disabled>${item.ex.type === 'write' ? tt('שליחה', 'Submit') : tt('בדיקה', 'Check')} <span class="kbd">${item.ex.type === 'write' ? 'Ctrl+Enter' : 'Enter'}</span></button></div>`;
     }
     return html`<div class="inner"><div class="verdict" role="status">${verdictHtml(item.ex, checked, errors)}</div><button type="button" class="key enter" data-next>${t('continue')} <span class="kbd">Enter</span></button></div>`;
   }
 
+  // Each new exercise puts focus on its prompt, unless it put focus in its own answer field (LF-5).
+  function focusPrompt(token) {
+    if (token !== exToken || stage !== 'practice') return;
+    const a = document.activeElement;
+    const root = $('#exroot', el);
+    if (root && a && root.contains(a) && ['INPUT', 'TEXTAREA'].includes(a.tagName)) return;
+    const h = $('#exroot .ex-prompt', el);
+    if (!h) return;
+    h.tabIndex = -1;
+    h.focus({ preventScroll: true });
+  }
+
   function showExercise() {
     const item = queue[qi];
-    hintUsed = false; checked = null; lastAttempt = null;
-    frame(html`<div id="exroot"></div>${item.retry ? html`<p class="xsmall faint" style="margin-top:var(--s5)">${icon('refresh', { size: 14 })} ${tt('חוזרים על זה שוב, כדי שיישאר', 'Once more, so it sticks')}</p>` : ''}<div id="hintroot"></div>`);
+    hintUsed = false; checked = null; lastAttempt = null; secondTry = false;
+    const token = ++exToken;
+    frame(html`<div id="exroot"></div>${item.retry ? html`<p class="xsmall faint" style="margin-top:var(--s5)">${icon('refresh', { size: 14 })} ${tt('עוד פעם אחת, כדי שיישאר', 'Once more, so it sticks')}</p>` : ''}<div id="hintroot"></div>`);
     ctl = mountExercise($('#exroot', el), item.ex, {
       errors, level: lesson.level, variant,
       onChange: (ready) => { const b = $('[data-check]', el); if (b) b.disabled = !ready; },
@@ -309,25 +698,40 @@ export default async function lessonView(el, ctx) {
     $('.player', el).insertAdjacentHTML('beforeend', `<div class="player-foot" id="pfoot">${footer('answer')}</div>`);
     if (ctl.ready()) $('[data-check]', el).disabled = false;
     shownAt = performance.now();
+    // After the exercise's own focus (an answer field at 50 ms, a play key at 60 ms).
+    setTimeout(() => focusPrompt(token), 90);
   }
 
   const attemptBase = (item) => ({ source: 'lesson', lesson: id, exercise: item.ex.id, topic: item.ex.topic || lesson.topics[0], skill: item.ex.skill, level: lesson.level });
+  const canRetry = () => Boolean(ctl && ctl.retryable && typeof ctl.reopen === 'function');
 
   async function doCheck({ dontKnow = false } = {}) {
     const item = queue[qi];
     let r;
     if (dontKnow) {
-      r = { graded: true, correct: false, score: 0, response: '(I don\'t know)', error_type: null, ...answerFor(item.ex) };
-      ctl.destroy();
-      render($('#exroot', el), html`<div class="stack"><h2 class="ex-prompt">${bi(item.ex.prompt)}</h2></div>`);
+      r = { graded: true, correct: false, score: 0, response: '(I don\'t know)', error_type: null, ...answerFor(item.ex), dontKnow: true };
+      // The exercise stays, with the answer marked in it, when the exercise can show it (LF-6, EX-4).
+      if (typeof ctl.reveal === 'function') ctl.reveal();
+      else {
+        ctl.destroy();
+        render($('#exroot', el), html`<div class="stack"><h2 class="ex-prompt">${bi(item.ex.prompt)}</h2></div>`);
+      }
     } else {
       r = await ctl.check();
     }
+    const wasSecond = secondTry;
+    secondTry = false;
     checked = r;
     const latency = Math.round(performance.now() - shownAt);
     if (r.graded !== false) {
-      if (!item.retry && !firstTry.has(item.ex.id)) firstTry.set(item.ex.id, answerPoints(r, hintUsed));
+      if (!item.retry && !firstTry.has(item.ex.id)) firstTry.set(item.ex.id, answerPoints(r, hintUsed, item.ex.type));
       lastAttempt = recordAttempt({ ...attemptBase(item), correct: r.correct, score: r.score ?? (r.correct ? 1 : 0), error_type: r.error_type, hint_used: hintUsed, latency_ms: latency, response: r.response });
+      // A wrong typed answer on the first pass: a targeted note and a second try before the answer (LF-6).
+      if (!dontKnow && !r.correct && !r.model && !item.retry && !wasSecond && canRetry()) {
+        saveResume(qi);
+        showSecondTry(r);
+        return;
+      }
       if (!r.correct && !item.retry && !['match', 'categorize', 'read'].includes(item.ex.type)) queue.push({ ex: item.ex, retry: true });
     } else {
       // Practice with no score (speaking, writing): stored as done, never as right or wrong.
@@ -341,10 +745,65 @@ export default async function lessonView(el, ctx) {
     saveResume();
     // Speaking goes straight on: what was recognised is already on screen and there is nothing to grade.
     if (ctl.speak) { next(); return; }
+    showResult(r);
+  }
+
+  // The result footer: the verdict, with the reading score per question (LF-9), a neutral title after "I don't
+  // know" (LF-6) and the lesson's Hebrew-speaker pitfall for this kind of mistake under "Why?" (LF-8).
+  function showResult(r) {
+    const item = queue[qi];
     const foot = $('#pfoot', el);
-    foot.className = `player-foot ${r.graded === false ? 'ok' : r.correct ? (r.almost ? 'almost' : 'ok') : r.model ? 'almost' : 'bad'}`;
+    const perQ = !r.correct && ['read', 'categorize'].includes(item.ex.type) && (r.score ?? 0) >= 0.6 - 1e-9;
+    foot.className = `player-foot ${r.graded === false ? 'ok' : r.correct ? (r.almost ? 'almost' : 'ok') : r.dontKnow ? 'shown' : (r.model || perQ) ? 'almost' : 'bad'}`;
     render(foot, footer('result'));
+    const title = $('.verdict-title', foot);
+    if (title && r.dontKnow) render(title, html`${icon('info', { size: 18 })} ${tt('הנה התשובה', 'Here is the answer')}`);
+    if (title && perQ) {
+      const [right, total] = String(r.response || '').split('/').map(Number);
+      if (right >= 0 && total > 0) render(title, html`${icon('info', { size: 18 })} ${item.ex.type === 'read' ? tt(`${right} מתוך ${total} נכונות`, `${right} of ${total} right`) : tt(`${right} מתוך ${total} במקום הנכון`, `${right} of ${total} in the right place`)}`);
+    }
+    if (!r.correct && r.error_type) addPitfallWhy(foot, r.error_type);
     $('[data-next]', el)?.focus();
+  }
+  function addPitfallWhy(foot, type) {
+    if (hebrewSupport() === 'off') return;
+    const p = (lesson.hebrew_pitfalls || []).find((x) => x.error_type === type);
+    if (!p) return;
+    let why = $('details.why > div', foot);
+    if (!why) {
+      $('.verdict-body', foot)?.insertAdjacentHTML('beforeend', String(html`<details class="why"><summary>${tt('למה?', 'Why?')}</summary><div class="stack-sm"></div></details>`));
+      why = $('details.why > div', foot);
+    }
+    why?.insertAdjacentHTML('beforeend', String(html`<div class="pitfall-why"><p class="pitfall-head small">${icon('flag', { size: 14 })} ${tt('מלכודת לדוברי עברית', 'A trap for Hebrew speakers')}</p>${bi(p)}</div>`));
+  }
+
+  // Fix it yourself (LF-6): only the targeted note (or the hint), the learner's text kept, and two ways on.
+  function showSecondTry(r) {
+    const item = queue[qi];
+    const foot = $('#pfoot', el);
+    const e = r.error_type && errors?.get(r.error_type);
+    const note = r.specific ? bi(r.specific) : item.ex.hint ? bi(item.ex.hint) : e ? tt(e.name_he, e.name_en) : tt('בדקו שוב את התשובה.', 'Check your answer again.');
+    foot.className = 'player-foot almost';
+    render(foot, html`<div class="inner"><div class="verdict" role="status"><div class="verdict-title">${icon('info', { size: 18 })} ${tt('עוד לא. אפשר לתקן בעצמכם', 'Not yet. You can fix it yourself')}</div><div class="verdict-body"><p>${note}</p></div></div>
+      <button type="button" class="key ghost" data-show-answer>${tt('להציג את התשובה', 'Show the answer')}</button><button type="button" class="key enter" data-try-again>${tt('לנסות שוב', 'Try again')} <span class="kbd">Enter</span></button></div>`);
+    $('[data-try-again]', el)?.focus();
+  }
+  function tryAgain() {
+    secondTry = true;
+    ctl.reopen();
+    const foot = $('#pfoot', el);
+    foot.className = 'player-foot';
+    render(foot, footer('answer'));
+    if (ctl.ready()) $('[data-check]', el).disabled = false;
+    const a = document.activeElement;
+    if (!a || a === document.body || !$('#exroot', el).contains(a)) $('#exroot :is(input, textarea):not([readonly])', el)?.focus();
+  }
+  function showAnswer() {
+    const item = queue[qi];
+    if (!item.retry) queue.push({ ex: item.ex, retry: true });
+    saveResume();
+    showResult(checked);
+    frameCounter();
   }
 
   // "My answer is also correct" on an open rewrite (B1+): counts as right, logged as self-judged, no retry.
@@ -352,7 +811,7 @@ export default async function lessonView(el, ctx) {
     const item = queue[qi];
     if (!checked?.model || checked.correct) return;
     checked = { ...checked, correct: true, self_judged: true };
-    if (!item.retry && firstTry.has(item.ex.id)) firstTry.set(item.ex.id, answerPoints({ correct: true }, hintUsed));
+    if (!item.retry && firstTry.has(item.ex.id)) { firstTry.set(item.ex.id, answerPoints({ correct: true }, hintUsed, item.ex.type)); judged.add(item.ex.id); }
     if (lastAttempt) store.put('attempts', { ...lastAttempt, correct: true, score: 1, error_type: null, self_judged: true });
     const retryAt = queue.findIndex((q, k) => k > qi && q.retry && q.ex.id === item.ex.id);
     if (retryAt > qi) queue.splice(retryAt, 1);
@@ -371,9 +830,11 @@ export default async function lessonView(el, ctx) {
   }
 
   // Leaving mid-lesson keeps the place (research D, D17/D25): the queue, position and first-try scores.
-  function saveResume() {
+  function saveResume(at = qi + 1) {
     const cur = progressOf(id) || { id, level: lesson.level, status: 'started' };
-    store.put('progress', { ...cur, resume: { qi: qi + 1, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], missed: missedMode, since: runSince, at: new Date().toISOString() } });
+    const c = { ...cur, resume: { qi: at, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], judged: [...judged], missed: missedMode, since: runSince, at: new Date().toISOString() } };
+    delete c.learn_step;
+    store.put('progress', c);
   }
   function restoreResume(r) {
     const byId = new Map(lesson.exercises.map((e) => [e.id, e]));
@@ -381,9 +842,21 @@ export default async function lessonView(el, ctx) {
     for (const [eid, retry] of r.queue) if (byId.has(eid)) queue.push({ ex: byId.get(eid), retry });
     firstTry.clear();
     for (const [k, v] of r.first) firstTry.set(k, v);
+    judged.clear();
+    for (const k of r.judged || []) judged.add(k);
     qi = Math.min(r.qi, queue.length);
     missedMode = Boolean(r.missed);
     runSince = r.since || runSince;
+  }
+  // Start again from the first exercise; the first tries already given stay first tries (LF-1).
+  function restart() {
+    queue.length = 0;
+    for (const ex of lesson.exercises) queue.push({ ex, retry: false });
+    qi = 0;
+    missedMode = false;
+    saveResume(0);
+    learnStep = 0;
+    go('learn');
   }
   // Only the missed exercises, with the earlier first-try points of the others kept.
   function startMissed(m) {
@@ -399,10 +872,32 @@ export default async function lessonView(el, ctx) {
     return true;
   }
 
+  // The learner's own mistakes in this run, each with what they wrote and the item's own note (LF-8).
+  function mistakesBox() {
+    const seen = new Map();
+    for (const a of model().attempts) {
+      if (a.lesson !== id || a.source !== 'lesson' || a.correct || a.score === null || a.skill === 'speaking' || a.at < runSince) continue;
+      if (!seen.has(a.exercise)) seen.set(a.exercise, a);
+    }
+    const items = lesson.exercises.filter((e) => seen.has(e.id)).map((e) => ({ e, a: seen.get(e.id), m: mistakeNote(e, seen.get(e.id).response) }));
+    if (!items.length) return '';
+    const shown = items.slice(0, 4);
+    const verb = (e) => (['mcq', 'listen'].includes(e.type) ? tt('בחרתם:', 'You chose:') : e.type === 'order' ? tt('סידרתם:', 'You built:') : tt('כתבתם:', 'You wrote:'));
+    const general = (a) => { const x = a.error_type && errors.get(a.error_type); return x && hebrewSupport() !== 'off' ? html`<p class="small"><span class="tag warn">${tt(x.name_he, x.name_en)}</span> <span lang="he" dir="rtl" class="muted">${isolateLatin(x.why_he)}</span></p>` : x ? html`<p class="small"><span class="tag warn">${tt(x.name_he, x.name_en)}</span></p>` : ''; };
+    return html`<div class="panel flat stack-sm" data-mistakes><h2 class="small">${tt('כדאי לשים לב', 'Worth watching')}</h2>
+      <ul class="mistake-list">${shown.map(({ e, a, m }) => html`<li class="stack-sm">
+        ${m.pair ? html`<p class="small mistake-line">${verb(e)} <span class="mistake-pair" lang="en" dir="ltr"><span class="m-wrong">${m.pair[0]}</span> <span aria-hidden="true">→</span><span class="sr-only">${tt(', ובצורה הנכונה: ', ', and correctly: ')}</span> <span class="m-right">${m.pair[1]}</span></span></p>` : html`<div class="small">${bi(e.prompt)}</div>`}
+        ${m.note ? html`<div class="small muted">${bi(m.note)}</div>` : general(a)}
+      </li>`)}</ul>
+      ${items.length > shown.length ? html`<p class="xsmall faint">${tt(`ועוד ${items.length - shown.length} בתרגול של הטעויות.`, `And ${items.length - shown.length} more in the practice of your mistakes.`)}</p>` : ''}
+      <p class="xsmall faint">${tt('אם זה יחזור, Lucid יוסיף תרגול ממוקד לתוכנית היומית.', 'If this keeps happening, Lucid adds a short targeted drill to your daily plan.')}</p></div>`;
+  }
+
   function showReview() {
     const score = lessonScore(firstTry, lesson);
     const pass = lesson.completion?.pass_score ?? 0.7;
     const passed = isPass(score, pass);
+    const kind = reviewTitle(score, pass);
     const credit = partialCredit(firstTry);
     const wasDone = progressOf(id)?.status === 'completed';
     const budgetBefore = newBudgetToday();
@@ -410,42 +905,51 @@ export default async function lessonView(el, ctx) {
     const missed = passed ? [] : missedIds(firstTry, lesson);
     // The finished run replaces the saved place; a miss keeps the list of exercises to redo.
     const cur = store.get('progress', id);
-    if (cur) { const c = { ...cur }; delete c.resume; delete c.missed; if (missed.length) c.missed = { ids: missed, first: [...firstTry], at: new Date().toISOString() }; store.put('progress', c); }
-    // This run's mistakes on scored exercises only (speaking never has a mistake type; older records might).
-    const lessonErrors = model().attempts.filter((a) => a.lesson === id && !a.correct && a.error_type && a.skill !== 'speaking' && a.score !== null && a.at >= runSince).map((a) => a.error_type);
-    const topErr = [...new Set(lessonErrors)].slice(0, 3);
+    if (cur) { const c = { ...cur }; delete c.resume; delete c.missed; delete c.learn_step; if (missed.length) c.missed = { ids: missed, first: [...firstTry], at: new Date().toISOString() }; store.put('progress', c); }
     const missedMin = missedMinutes(lesson, missed.length);
     const pctText = scorePercent(score, passed);
+    const nJudged = [...judged].filter((x) => firstTry.has(x)).length;
+    const left = passed ? planLeft() : null;
     stage = 'review';
+    const missedKey = (cls) => html`<a class="key ${cls}" href="#/lesson/${id}?stage=missed&t=${Date.now()}" data-retry>${tt(`${missed.length === 1 ? 'לתרגל רק את הטעות' : `לתרגל רק את ${missed.length} הטעויות`} · כ-${missedMin} דק׳`, `Practise just the ${missed.length === 1 ? 'one' : missed.length} I missed · about ${missedMin} min`)}${cls === 'enter' ? html` <span class="kbd">Enter</span>` : ''}</a>`;
     frame(html`<div class="stack-lg">
       <div class="stack-sm">
-        <h1 tabindex="-1">${passed ? tt('השיעור הושלם', 'Lesson complete') : tt('כמעט שם', 'Nearly there')}</h1>
+        <h1 tabindex="-1">${kind === 'complete' ? tt('השיעור הושלם', 'Lesson complete') : kind === 'nearly' ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h1>
         <p class="muted">${missedMode
           ? tt(`עכשיו ${pctText}% מהתרגילים נכונים: התשובות הנכונות מהפעם הקודמת ועוד מה שתרגלתם עכשיו.`, `${pctText}% of the exercises are now right: your earlier right answers plus the ones you just redid.`)
           : passed
             ? tt(`ענית נכון בניסיון הראשון על ${pctText}% מהתרגילים.`, `You got ${pctText}% right on the first try.`)
             : tt(`${pctText}% בניסיון הראשון. צריך ${Math.round(pass * 100)}% כדי להשלים.`, `${pctText}% on the first try. ${Math.round(pass * 100)}% completes the lesson.`)}
-          ${passed ? '' : missed.length ? tt(` אפשר לתרגל רק את ${missed.length === 1 ? 'התרגיל שפספסתם' : `${missed.length} התרגילים שפספסתם`}, והתשובות הנכונות נשארות.`, ` You can practise just the ${missed.length === 1 ? 'one' : missed.length} you missed; your right answers still count.`) : ''}</p>
+          ${passed ? '' : missed.length ? (kind === 'open'
+            ? tt(' כדאי לקרוא שוב את ההסבר ואז לתרגל רק את מה שפספסתם. התשובות הנכונות נשארות.', ' It helps to read the explanation again, then practise only what you missed. Your right answers still count.')
+            : tt(` אפשר לתרגל רק את ${missed.length === 1 ? 'התרגיל שפספסתם' : `${missed.length} התרגילים שפספסתם`}, והתשובות הנכונות נשארות.`, ` You can practise just the ${missed.length === 1 ? 'one' : missed.length} you missed; your right answers still count.`)) : ''}</p>
+        ${nJudged ? html`<p class="xsmall faint" data-judged-note>${nJudged === 1 ? tt('כולל תשובה אחת שסימנתם בעצמכם כנכונה.', 'Including one answer you marked as correct yourself.') : tt(`כולל ${nJudged} תשובות שסימנתם בעצמכם כנכונות.`, `Including ${nJudged} answers you marked as correct yourself.`)}</p>` : ''}
         ${!passed && (credit.hint || credit.slip) ? html`<p class="xsmall faint" data-credit-note>${[credit.hint && tt('תשובה נכונה אחרי רמז נספרת כשלושה רבעים.', 'A right answer after a hint counts as three quarters.'), credit.slip && tt('תשובה נכונה עם טעות כתיב קטנה נספרת כ-90%.', 'A right answer with a small spelling slip counts as 90%.')].filter(Boolean).join(' ')}</p>` : ''}
         ${scoredExercises(lesson).length < lesson.exercises.length ? html`<p class="xsmall faint">${tt('תרגילי דיבור וכתיבה הם תרגול ולא נספרים בציון.', 'Speaking and writing exercises are practice and do not count toward the score.')}</p>` : ''}
       </div>
       <div class="panel flat stack-sm"><h2 class="small">${tt('מה לזכור', 'Key points')}</h2><ul class="point-list">${lesson.review.key_points.map((k) => html`<li class="point">${icon('check', { size: 18 })}<div class="grow">${bi(k)}</div></li>`)}</ul></div>
-      ${passed && !wasDone ? html`<p class="banner small">${icon('layers', { size: 18 })}<span>${tt(`${lesson.vocab.length} מילים מהשיעור נכנסו לחזרה המרווחת. הן יחזרו בדיוק לפני שתשכחו.`, `${lesson.vocab.length} words from this lesson joined your spaced review. They'll come back just before you'd forget them.`)}${budgetBefore <= 0 ? tt(' (המכסה היומית מלאה, אז חלקן יופיעו מחר.)', ' (Today\'s quota is full, so some will start tomorrow.)') : ''}</span></p>` : ''}
-      ${topErr.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('כדאי לשים לב', 'Worth watching')}</h2>${topErr.map((x) => { const e = errors.get(x); return e ? html`<p class="small"><span class="tag warn">${tt(e.name_he, e.name_en)}</span> ${hebrewSupport() !== 'off' ? html`<span lang="he" dir="rtl" class="muted">${isolateLatin(e.why_he)}</span>` : ''}</p>` : ''; })}<p class="xsmall faint">${tt('אם זה יחזור, Lucid יוסיף תרגול ממוקד לתוכנית היומית.', 'If this keeps happening, Lucid adds a short targeted drill to your daily plan.')}</p></div>` : ''}
+      ${passed && !wasDone ? html`<p class="banner small">${icon('layers', { size: 18 })}<span>${tt(`${lesson.vocab.length} מילים מהשיעור נכנסו לחזרה המרווחת. הן יחזרו בזמן שמתאים לזיכרון.`, `${lesson.vocab.length} words from this lesson joined your spaced review. They come back when the timing suits your memory.`)}${budgetBefore <= 0 ? tt(' (המכסה היומית מלאה, אז חלקן יופיעו מחר.)', ' (Today\'s quota is full, so some will start tomorrow.)') : ''}</span></p>` : ''}
+      ${mistakesBox()}
     </div>`, html`<div class="inner">
-      ${passed ? html`<a class="key ghost" href="#/today">${tt('להיום', 'To Today')}</a><span class="grow"></span>${nextPlan ? html`<a class="key enter" href="#/lesson/${nextPlan.id}" data-next-lesson>${tt('לשיעור הבא', 'Next lesson')} <span class="kbd">Enter</span></a>` : html`<a class="key enter" href="#/path">${tt('למסלול', 'To the path')}</a>`}`
-      : missed.length
-        ? html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key ghost" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry-all>${tt('את כל התרגול מחדש', 'Practise everything again')}</a><a class="key enter" href="#/lesson/${id}?stage=missed&t=${Date.now()}" data-retry>${tt(`${missed.length === 1 ? 'לתרגל את הטעות' : `לתרגל את ${missed.length} הטעויות`} · כ-${missedMin} דק׳`, `Practise the ${missed.length === 1 ? 'one' : missed.length} I missed · about ${missedMin} min`)} <span class="kbd">Enter</span></a>`
-        : html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key enter" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry>${tt('לתרגל שוב', 'Practise again')} <span class="kbd">Enter</span></a>`}</div>`);
+      ${passed
+        ? left
+          ? html`<a class="key ghost" href="${nextPlan ? `#/lesson/${nextPlan.id}` : '#/path'}" data-next-lesson>${nextPlan ? tt('לשיעור הבא', 'Next lesson') : tt('למסלול', 'To the path')}</a><span class="grow"></span><a class="key enter" href="#/today" data-plan-next>${tt(`להמשיך בתוכנית: ${blockName(left)} · ${left.minutes} דק׳`, `Continue your plan: ${blockName(left)} · ${left.minutes} min`)} <span class="kbd">Enter</span></a>`
+          : html`<a class="key ghost" href="#/today">${tt('להיום', 'To Today')}</a><span class="grow"></span>${nextPlan ? html`<a class="key enter" href="#/lesson/${nextPlan.id}" data-next-lesson>${tt('לשיעור הבא', 'Next lesson')} <span class="kbd">Enter</span></a>` : html`<a class="key enter" href="#/path">${tt('למסלול', 'To the path')}</a>`}`
+        : missed.length
+          ? kind === 'open'
+            ? html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span>${missedKey('ghost')}<a class="key enter" href="#/lesson/${id}?stage=relearn&t=${Date.now()}" data-relearn>${tt('לקרוא שוב את ההסבר ואז לתרגל', 'Read the explanation again, then practise')} <span class="kbd">Enter</span></a>`
+            : html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key ghost" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry-all>${tt('את כל התרגול מחדש', 'Practise everything again')}</a>${missedKey('enter')}`
+          : html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key enter" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry>${tt('לתרגל שוב', 'Practise again')} <span class="kbd">Enter</span></a>`}</div>`);
   }
 
   // Every stage opens at its top, with focus on its heading (P-44); each exercise opens at the top too.
   function go(target) {
     stopSpeaking();
     ctl?.destroy?.(); ctl = null;
+    const from = stage;
     stage = target;
     if (target === 'intro') showIntro();
-    else if (target === 'learn') showLearn();
+    else if (target === 'learn') { if (from !== 'learn') learnStep = 0; showLearn(); }
     else if (target === 'part') showPartEnd();
     else if (target === 'practice') { if (qi >= queue.length) showReview(); else showExercise(); }
     window.scrollTo?.(0, 0);
@@ -460,6 +964,7 @@ export default async function lessonView(el, ctx) {
 
   if (ctx.query.resume && progressOf(id)?.resume) { restoreResume(progressOf(id).resume); stage = 'practice'; }
   else if (ctx.query.stage === 'missed' && progressOf(id)?.missed) startMissed(progressOf(id).missed); // else: the whole practice
+  else if (ctx.query.stage === 'relearn' && progressOf(id)?.missed && startMissed(progressOf(id).missed)) stage = 'learn';
   go(stage);
 
   const offs = [
@@ -467,33 +972,66 @@ export default async function lessonView(el, ctx) {
     on(el, 'click', '[data-skip-learn]', () => go('practice')),
     on(el, 'click', '[data-missed]', () => { startMissed(progressOf(id).missed); go('practice'); }),
     on(el, 'click', '[data-part-go]', () => go('practice')),
-    on(el, 'click', '[data-resume]', () => { restoreResume(progressOf(id).resume); go('practice'); }),
+    on(el, 'click', '[data-resume]', () => go('practice')),
+    on(el, 'click', '[data-restart]', async () => {
+      const ok = await confirmDialog({ title: tt('להתחיל את השיעור מההתחלה?', 'Start the lesson again?'), body: tt('התרגילים יתחילו מהראשון. התשובות שכבר נתתם בניסיון הראשון נשמרות ונספרות בציון.', 'The exercises start again from the first one. The first-try answers you already gave are kept and still count.'), confirm: tt('להתחיל מההתחלה', 'Start again') });
+      if (ok) restart(); else $('[data-restart]', el)?.focus();
+    }),
+    on(el, 'click', '[data-learn-next]', () => learnMove(1)),
+    on(el, 'click', '[data-learn-prev]', () => learnMove(-1)),
+    on(el, 'click', '[data-ipa-toggle]', (e, b) => {
+      const w = b.closest('.table-tools')?.nextElementSibling?.nextElementSibling;
+      const show = b.getAttribute('aria-expanded') !== 'true';
+      w?.classList.toggle('ipa-hidden', !show);
+      b.setAttribute('aria-expanded', String(show));
+      render(b, isolateLatin(show ? tt('להסתרת IPA', 'Hide IPA') : tt('להצגת IPA', 'Show IPA')));
+      if (w) markWideTables(w.parentElement);
+    }),
+    on(el, 'click', '[data-he-switch]', () => {
+      const value = !document.documentElement.dataset.heAll;
+      heAllApply(value);
+      heAllSave(lesson.level, value);
+      el.querySelectorAll('[data-he-switch]').forEach((b) => b.setAttribute('aria-pressed', String(value)));
+      // The Hebrew changes the explanation's length, so its steps are measured again.
+      if (stage === 'learn') remeasure();
+    }),
     on(el, 'click', '[data-check]', (e, b) => { if (!b.disabled) doCheck(); }),
     on(el, 'click', '[data-dontknow]', () => doCheck({ dontKnow: true })),
+    on(el, 'click', '[data-try-again]', () => tryAgain()),
+    on(el, 'click', '[data-show-answer]', () => showAnswer()),
     on(el, 'click', '[data-skip-speak]', () => { logEvent({ type: 'speaking-skipped', lesson: id, exercise: queue[qi].ex.id }); saveResume(); next(); }),
     on(el, 'click', '[data-self-judge]', () => selfJudge()),
     on(el, 'click', '[data-hint]', (e, b) => {
       hintUsed = true; b.remove();
       render($('#hintroot', el), html`<div class="hint-box">${icon('hint', { size: 18 })}<div>${bi(queue[qi].ex.hint)}</div></div>`);
+      // The hint key is gone: focus goes back to the answer field, or to the prompt, never to the page.
+      const field = $('#exroot :is(input, textarea):not([readonly])', el);
+      if (field) field.focus(); else focusPrompt(exToken);
     }),
     on(el, 'click', '[data-next]', () => next()),
-    on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant })),
-    on(el, 'click', '[data-exit]', async () => {
-      ctx.navigate('today');
-    }),
+    on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant, slow: 'saySlow' in b.dataset })),
+    on(el, 'click', '[data-exit]', () => { ctx.navigate(exitTo); }),
   ];
+  // Enter presses the footer's main key: Check, Continue, Next. On a play key, a word-bank chip, a self-rating
+  // or a chosen option it does that too, instead of replaying or re-inserting (LF-5); on any other control it
+  // does that control's own job. Ctrl/Cmd+Enter always presses the main key, also inside free writing.
+  const PASS = '[data-say], [data-say-text], [data-say-tile], [data-chip], [data-self], [aria-pressed="true"]';
+  const primaryKey = () => $('#pfoot [data-resume]', el) || $('#pfoot .key.enter:not([disabled])', el);
   const onKey = (e) => {
-    if (e.target.closest('dialog')) return;
-    if (stage === 'practice' && ctl?.onKey(e)) { e.preventDefault(); return; }
-    if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
-    const inTextarea = e.target.tagName === 'TEXTAREA';
-    const btn = $('[data-next]', el) || $('[data-check]:not([disabled])', el) || $('[data-missed]', el) || $('[data-part-stop]', el) || $('[data-go]', el) || $('[data-next-lesson]', el) || $('[data-retry]', el);
-    if (!btn || (inTextarea && queue[qi]?.ex.type === 'write' && !$('[data-next]', el))) return;
-    // Enter on another control (a button, a link, the "Why?" toggle) does that control's own job.
-    if (['BUTTON', 'A', 'SUMMARY'].includes(e.target.tagName) && e.target !== btn) return;
+    if (e.target.closest?.('dialog')) return;
+    if (stage === 'practice' && ctl?.onKey?.(e)) { e.preventDefault(); return; }
+    if (e.key !== 'Enter' || e.shiftKey || e.altKey || e.isComposing) return;
+    const btn = primaryKey();
+    if (!btn) return;
+    if (!(e.ctrlKey || e.metaKey)) {
+      // A new line in free writing.
+      if (e.target.tagName === 'TEXTAREA' && queue[qi]?.ex.type === 'write' && stage === 'practice' && !$('[data-next]', el)) return;
+      const inExercise = stage === 'practice' && $('#exroot', el)?.contains(e.target);
+      if (['BUTTON', 'A', 'SUMMARY'].includes(e.target.tagName) && e.target !== btn && !(inExercise && e.target.matches?.(PASS))) return;
+    }
     e.preventDefault();
     btn.click();
   };
   document.addEventListener('keydown', onKey);
-  return () => { offs.forEach((o) => o()); document.removeEventListener('keydown', onKey); ctl?.destroy?.(); stopSpeaking(); };
+  return () => { offs.forEach((o) => o()); document.removeEventListener('keydown', onKey); ctl?.destroy?.(); stopSpeaking(); heAllApply(false); };
 }
