@@ -91,6 +91,14 @@ export function newItemsBudget(cards, { base = 8, now = new Date() } = {}) {
 // same places and the same three distractors came back on every card. Now each card is seeded by its id and the day,
 // the distractors share the word's part of speech, and every option is a short gloss.
 
+// The CEFR level of a card's word: its vocabulary entry's level, else the level of the lesson it came from
+// (lesson ids start with their level: pa1- is Pre-A1).
+export function cardLevel(card) {
+  if (card?.payload?.level) return card.payload.level;
+  const m = /^(pa1|a1|a2|b1|b2|c1|c2)-/i.exec(String(card?.ref?.lesson || ''));
+  return m ? (m[1].toLowerCase() === 'pa1' ? 'PreA1' : m[1].toUpperCase()) : null;
+}
+
 // A seed in [0, 1) from a string (FNV-1a): the same card shows the same options all day, other cards and days differ.
 export function seedOf(text) {
   let h = 0x811c9dc5;

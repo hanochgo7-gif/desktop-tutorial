@@ -9,7 +9,7 @@ import { t, tt, isolateLatin } from '../core/i18n.js';
 import { icon, toast, LEVEL_LABEL } from '../ui/components.js';
 import { content } from '../core/content.js';
 import { allCards, due, gradeCard, logEvent, settings, vocabImportLevel, importPlacedOutVocab } from '../core/learner.js';
-import { meaningOptions, seedOf } from '../core/srs.js';
+import { meaningOptions, seedOf, cardLevel } from '../core/srs.js';
 import { checkTyped, levenshtein } from '../core/grading.js';
 import { say, canSpeak } from '../core/speech.js';
 import { relativeDue } from './vocab.js';
@@ -48,8 +48,6 @@ async function levelVocab(levels) {
   } catch { /* the learner's own words are enough */ }
   return out;
 }
-const lessonLevel = (id) => { const m = /^(pa1|a1|a2|b1|b2|c1|c2)-/i.exec(String(id || '')); return m ? { pa1: 'PreA1' }[m[1].toLowerCase()] || m[1].toUpperCase() : null; };
-const levelOf = (card) => card.payload?.level || lessonLevel(card.ref?.lesson);
 
 export default async function review(el, ctx) {
   const mode = ctx.query.mode || 'review';
@@ -74,7 +72,7 @@ export default async function review(el, ctx) {
     list = shuffle(list, Math.random());
     const seen = new Set();
     learned = cards.map((c) => c.payload).filter((p) => p?.he && !seen.has(p.word) && seen.add(p.word));
-    const needs = new Set(list.filter((c) => c.kind === 'meaning' && (c.fsrs.reps || 0) < 2).map(levelOf).filter(Boolean));
+    const needs = new Set(list.filter((c) => c.kind === 'meaning' && (c.fsrs.reps || 0) < 2).map(cardLevel).filter(Boolean));
     vocabAt = await levelVocab(needs);
     i = 0; right = 0; missed = [];
   }
@@ -117,7 +115,7 @@ export default async function review(el, ctx) {
     shownAt = performance.now();
     if (c.kind === 'meaning' && (c.fsrs.reps || 0) < 2 && p.he) {
       // Seeded by the card and the day: the right answer's place and the distractors differ from card to card (PH-1).
-      const o = meaningOptions(p, { learned, level: vocabAt.get(levelOf(c)) || [], seed: seedOf(`${c.id}|${todayKey(now)}`), used, sets });
+      const o = meaningOptions(p, { learned, level: vocabAt.get(cardLevel(c)) || [], seed: seedOf(`${c.id}|${todayKey(now)}`), used, sets });
       if (o.options.length >= 3) opts = o;
     }
     let body;
@@ -160,7 +158,7 @@ export default async function review(el, ctx) {
     const next = gradeCard(c, { correct, hintUsed: hint, latencyMs: latency, exercise: c.kind });
     answered = true;
     if (correct) right++;
-    else missed.push({ id: c.id, p: c.payload || { word: c.ref?.word, he: '' }, level: levelOf(c), due: next.fsrs.due });
+    else missed.push({ id: c.id, p: c.payload || { word: c.ref?.word, he: '' }, level: cardLevel(c), due: next.fsrs.due });
     verdict({ correct, typed, given });
     el.querySelectorAll('.option, #ans').forEach((x) => { x.disabled = true; });
     $('[data-next]', el).focus();

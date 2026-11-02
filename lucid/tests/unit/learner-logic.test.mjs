@@ -8,7 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { skillLevels, placementSkillEstimate, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonSlice, pickScenario, periodReport, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, MAX_ITEMS } from '../../js/core/placement.js';
-import { meaningOptions, seedOf, shortGloss } from '../../js/core/srs.js';
+import { meaningOptions, seedOf, shortGloss, cardLevel } from '../../js/core/srs.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
 const at = (days, h = 0) => new Date(T0.getTime() + days * 86_400_000 + h * 3_600_000).toISOString();
@@ -201,6 +201,11 @@ test('PH-1: the option shows a short gloss of at most four words', () => {
   assert.equal(shortGloss('כל כמה זמן, באיזו תדירות'), 'כל כמה זמן');
   assert.equal(shortGloss('בן דוד / בת דודה'), 'בן דוד / בת דודה');
   assert.ok(heWordCount(shortGloss('לנסוע כל יום לעבודה או ללימודים (ובחזרה)')) <= 4);
+  // A card's level: its word's level, else its lesson's (pa1- is Pre-A1).
+  assert.equal(cardLevel({ payload: { level: 'A2' }, ref: { lesson: 'a1-03' } }), 'A2');
+  assert.equal(cardLevel({ ref: { lesson: 'pa1-05' } }), 'PreA1');
+  assert.equal(cardLevel({ ref: { lesson: 'b2-01' } }), 'B2');
+  assert.equal(cardLevel({ ref: {} }), null);
 });
 
 test('PH-1: review options vary by card, never repeat a distractor set, and match the part of speech', async () => {

@@ -8,10 +8,8 @@ import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { allCards, due, settings, model } from '../core/learner.js';
 import { say, canSpeak } from '../core/speech.js';
 import { taxonomyIndex } from '../core/content.js';
-import { shortGloss } from '../core/srs.js';
+import { shortGloss, cardLevel } from '../core/srs.js';
 import { LEVELS, levelIndex } from '../core/adaptive.js';
-
-const lessonLevel = (id) => { const m = /^(pa1|a1|a2|b1|b2|c1|c2)-/i.exec(String(id || '')); return m ? { pa1: 'PreA1' }[m[1].toLowerCase()] || m[1].toUpperCase() : null; };
 
 const KNOWN_DAYS = 21;
 const FILTERS = [['all', 'הכול', 'All'], ['due', 'לחזרה עכשיו', 'Due now'], ['learning', 'בלמידה', 'Learning'], ['known', 'ידועות', 'Known']];
@@ -70,7 +68,7 @@ export default async function vocab(el, ctx) {
     words = cards.filter((c) => c.kind === 'meaning').map((c) => {
       const p = { word: c.ref?.word || '', ...(c.payload || {}) };
       const d = nextDue.get(wordKey(c.id)) || c.fsrs?.due;
-      return { id: c.id, p, level: p.level || lessonLevel(c.ref?.lesson), status: wordStatus(c), due: d, isDue: !d || new Date(d) <= now };
+      return { id: c.id, p, level: cardLevel(c), status: wordStatus(c), due: d, isDue: !d || new Date(d) <= now };
     }).filter((w) => w.p.word).sort((a, b) => a.p.word.localeCompare(b.p.word, 'en', { sensitivity: 'base' }));
     return { dueCount: due(now).length, now };
   }
