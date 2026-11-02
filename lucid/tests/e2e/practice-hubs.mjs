@@ -313,6 +313,40 @@ try {
     await b.ctx.close();
   });
 
+  // ---------- PH-7 ----------
+  await check('PH-7. Vocabulary as compact rows: 172 words at 390 stay under 8,000px, a tap opens a row, Enter toggles it', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    const words = (await a1Words(page)).length;
+    await go(page, 'vocab', '.vocab-row');
+    const h = await page.evaluate(() => document.documentElement.scrollHeight);
+    await shot(page, 'ph7-vocab-390');
+    assert(words === 172 && h < 8000, `${words} words, ${h}px`);
+    const open = await page.$$eval('details[data-level][open]', (d) => d.map((x) => x.dataset.level));
+    assert(open.length === 1, `open levels: ${open}`);
+    const row = page.locator('details[open] .vocab-row').first();
+    assert(await row.getAttribute('aria-expanded') === 'false', 'a row starts open');
+    await row.tap();
+    const detail = page.locator(`#${await row.getAttribute('aria-controls')}`);
+    assert(await row.getAttribute('aria-expanded') === 'true' && await detail.isVisible(), 'a tap does not open the row');
+    assert(/[A-Za-z]/.test(await detail.textContent()), 'the opened row shows no example or definition');
+    await row.focus();
+    await page.keyboard.press('Enter');
+    assert(await row.getAttribute('aria-expanded') === 'false' && !(await detail.isVisible()), 'Enter does not close the row');
+    await page.keyboard.press('Enter');
+    assert(await row.getAttribute('aria-expanded') === 'true', 'Enter does not open the row');
+    // Every level opens; a long level shows the rest on request.
+    const big = await page.$$eval('details[data-level]', (d) => d.find((x) => x.querySelector('[data-more]'))?.dataset.level);
+    if (big) {
+      await page.click(`details[data-level="${big}"] > summary`);
+      const before = await page.locator(`details[data-level="${big}"] .vocab-row`).count();
+      await page.click(`details[data-level="${big}"] [data-more]`);
+      assert(await page.locator(`details[data-level="${big}"] .vocab-row`).count() > before, '"show more" shows nothing');
+    }
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'the page scrolls sideways');
+    await ctx.close();
+  });
+
   // ---------- PH-10 ----------
   await check('PH-10. Settings: languages in their own names, equal-width data buttons, and a restore error that says what to choose', async () => {
     for (const viewport of [PHONE, DESKTOP]) {

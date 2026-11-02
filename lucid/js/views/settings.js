@@ -15,7 +15,7 @@ import { content } from '../core/content.js';
 // opts: [value, Hebrew, English, lang?]; with a lang the option is shown in its own language ("English" in Hebrew).
 function seg(name, value, opts, { off = false, help = false } = {}) {
   const described = [help && `help-${name}`, off && 'ai-off'].filter(Boolean).join(' ');
-  return html`<div class="seg" role="group" data-seg="${name}" data-n="${opts.length}" aria-labelledby="lbl-${name}" ${described ? html`aria-describedby="${described}"` : ''} ${off ? html`aria-disabled="true"` : ''}>${opts.map(([v, he, en, lang]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}" ${off ? html`aria-disabled="true"` : ''} ${lang ? html`lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}"` : ''}>${lang ? (lang === 'he' ? he : en) : tt(he, en)}</button>`)}</div>`;
+  return html`<div class="seg" role="group" data-seg="${name}" data-n="${opts.length}" aria-labelledby="lbl-${name}" ${described ? html`aria-describedby="${described}"` : ''} ${off ? html`aria-disabled="true"` : ''}>${opts.map(([v, he, en, lang]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v) ? 'true' : 'false'}" ${off ? html`aria-disabled="true"` : ''} ${lang ? html`lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}"` : ''}>${lang ? (lang === 'he' ? he : en) : tt(he, en)}</button>`)}</div>`;
 }
 // One labelled field: the visible label (the group's name), the control and an optional help line.
 const field = (name, label, control, help = '', { off = false } = {}) => html`<div class="field${off ? ' is-off' : ''}"><span class="label" id="lbl-${name}">${label}</span>${control}${help ? html`<span class="help" id="help-${name}">${isolateLatin(help)}</span>` : ''}</div>`;

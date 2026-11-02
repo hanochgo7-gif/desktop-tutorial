@@ -59,7 +59,7 @@ export default async function tutor(el, ctx) {
     const msgs = session?.messages || [];
     // On a site without AI the tutor cannot run: its notice comes first and the mode chips are hidden (UX r3 PH-5).
     const siteAI = configured() && CONFIG.aiEnabled;
-    const modes = html`<div class="seg" role="group" aria-label="${tt('מצב המורה', 'Tutor mode')}" style="margin-block-end:var(--s3)">${MODES.map(([id, he, en]) => html`<button type="button" data-mode="${id}" aria-pressed="${mode === id}">${tt(he, en)}</button>`)}</div>
+    const modes = html`<div class="seg" role="group" aria-label="${tt('מצב המורה', 'Tutor mode')}" style="margin-block-end:var(--s3)">${MODES.map(([id, he, en]) => html`<button type="button" data-mode="${id}" aria-pressed="${String(mode === id)}">${tt(he, en)}</button>`)}</div>
       <p class="small muted" style="margin-block-end:var(--s4)">${(() => { const x = MODES.find((m) => m[0] === mode); return tt(x[3], x[4]); })()}</p>`;
     const pron = mode === 'pronunciation' ? html`<p class="banner small" style="max-width:52rem;margin-block:var(--s4)" data-pron-note>${icon('info', { size: 18 })}<span>${tt('המורה קורא טקסט ולא שומע אתכם: גם כשמכתיבים בקול, מגיע אליו רק הטקסט שזוהה. כדי לבדוק איך הצלילים שלכם נשמעים:', 'The tutor reads text and can\'t hear you: when you dictate, it only gets the recognised text. To check how your sounds come across:')} <a href="#/speaking">${t('nav.speaking')}</a></span></p>` : '';
     render(el, html`

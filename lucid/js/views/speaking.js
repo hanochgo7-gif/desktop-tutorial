@@ -168,10 +168,10 @@ export default async function speaking(el, ctx) {
       <h3 id="sp-say-h">${tt('אמרו את זה', 'Say it')}</h3>
       <p class="small muted">${canListen() ? tt('בחרו מילה, לחצו על ״לומר״ ואמרו אותה פעם אחת. תראו איך היא נשמעה.', 'Choose a word, press Say and say it once. You will see how it was heard.') : tt('בחרו מילה, הקשיבו לה ואמרו אותה בקול.', 'Choose a word, listen to it and say it aloud.')}</p>
       ${!canListen() ? html`<p class="banner warn small">${icon('info', { size: 18 })}<span>${tt('זיהוי דיבור לא זמין בדפדפן הזה (הוא עובד ב-Chrome, Edge ו-Safari), ולכן אין כאן בדיקה של מה שנשמע. תרגיל ההאזנה עובד כרגיל.', 'Speech recognition is not available in this browser (it works in Chrome, Edge and Safari), so there is no check of what was heard here. The listening drill works as usual.')}</span></p>` : ''}
-      <div class="seg" role="group" aria-labelledby="sp-say-h">${set.pairs.flat().map((x) => html`<button type="button" data-target="${x.w}" aria-pressed="${x.w === speak.target}" lang="en" dir="ltr">${x.w}</button>`)}</div>
+      <div class="seg" role="group" aria-labelledby="sp-say-h">${set.pairs.flat().map((x) => html`<button type="button" data-target="${x.w}" aria-pressed="${String(x.w === speak.target)}" lang="en" dir="ltr">${x.w}</button>`)}</div>
       <div class="row">
         ${canSpeak() ? html`<button type="button" class="key" data-say-word="${speak.target}">${icon('volume', { size: 18 })} ${tt('לשמוע', 'Hear')} ${enq(speak.target)}</button>` : ''}
-        ${canListen() ? html`<button type="button" class="key" data-rec aria-pressed="${listening}">${icon(listening ? 'stop' : 'speaking', { size: 18 })} ${listening ? tt('מקשיב… לחצו לעצירה', 'Listening… tap to stop') : html`${tt('לומר', 'Say')} ${enq(speak.target)}`}</button>` : ''}
+        ${canListen() ? html`<button type="button" class="key" data-rec aria-pressed="${String(listening)}">${icon(listening ? 'stop' : 'speaking', { size: 18 })} ${listening ? tt('מקשיב… לחצו לעצירה', 'Listening… tap to stop') : html`${tt('לומר', 'Say')} ${enq(speak.target)}`}</button>` : ''}
       </div>
       <div aria-live="polite">${sayResult()}</div>`);
   }
@@ -220,7 +220,7 @@ export default async function speaking(el, ctx) {
       <section class="stack" aria-labelledby="sp-pairs">
         <div class="stack-sm"><h2 id="sp-pairs">${tt('צלילים שמשנים משמעות', 'Sounds that change meaning')}</h2>
           <p class="small muted">${tt('זוגות מילים שנשמעים כמעט אותו דבר לאוזן של דוברי עברית, אבל הם מילים שונות לגמרי.', 'Word pairs that sound almost the same to a Hebrew speaker\'s ear, but are completely different words.')}</p></div>
-        <div class="seg sound-tabs" role="group" aria-label="${tt('צליל לתרגול', 'Sound to practise')}">${SOUND_SETS.map((s) => html`<button type="button" data-set="${s.id}" aria-pressed="${s.id === set.id}"><span lang="en" dir="ltr" class="tab-words">${s.words}</span><span lang="en" dir="ltr" class="tab-ipa">${s.label}</span></button>`)}</div>
+        <div class="seg sound-tabs" role="group" aria-label="${tt('צליל לתרגול', 'Sound to practise')}">${SOUND_SETS.map((s) => html`<button type="button" data-set="${s.id}" aria-pressed="${String(s.id === set.id)}"><span lang="en" dir="ltr" class="tab-words">${s.words}</span><span lang="en" dir="ltr" class="tab-ipa">${s.label}</span></button>`)}</div>
         <div id="sp-set"></div>
         <div class="grid-2" style="align-items:start">
           <div class="panel stack" id="sp-hear"></div>
