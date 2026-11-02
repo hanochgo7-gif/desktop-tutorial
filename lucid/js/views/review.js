@@ -126,7 +126,7 @@ export default async function review(el, ctx) {
       body = html`<div class="panel flash"><p class="small faint">${tt('כתבו את המילה באנגלית', 'Type the English word')}</p><p class="prompt-word" lang="he" dir="rtl">${p.he}</p><p class="ex-text" lang="en" dir="ltr" style="font-size:var(--t-lg)">${gapped}</p></div>
         <label class="sr-only" for="ans">${tt('המילה באנגלית', 'The English word')}</label><input class="input" id="ans" lang="en" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" style="font-size:var(--t-lg);margin-top:var(--s4)">`;
     } else if (opts) {
-      body = html`<div class="panel flash"><p class="small faint" id="rv-q">${tt('מה המשמעות?', 'What does it mean?')}</p><p class="prompt-word" lang="en" dir="ltr">${p.word}</p>${canSpeak() ? html`<button type="button" class="key small" data-say>${icon('volume', { size: 18 })} ${tt('השמעה', 'Play')}</button>` : ''}</div>
+      body = html`<div class="panel flash"><p class="small faint" id="rv-q">${tt('מה המשמעות?', 'What does it mean?')}</p><p class="prompt-word" lang="en" dir="ltr" tabindex="-1">${p.word}</p>${canSpeak() ? html`<button type="button" class="key small" data-say>${icon('volume', { size: 18 })} ${tt('השמעה', 'Play')}</button>` : ''}</div>
         <div class="options" role="group" aria-labelledby="rv-q" style="margin-top:var(--s4)">${opts.options.map((o, k) => html`<button type="button" class="option" data-pick="${k}" aria-pressed="false" lang="he" dir="rtl"><span class="k" aria-hidden="true">${k + 1}</span><span>${o}</span></button>`)}</div>`;
     } else {
       body = html`<div class="panel flash"><p class="small faint">${tt('כתבו את המשמעות בעברית', 'Type the meaning in Hebrew')}</p><p class="prompt-word" lang="en" dir="ltr">${p.word}</p>${p.example ? html`<p class="muted" lang="en" dir="ltr">${p.example}</p>` : ''}${canSpeak() ? html`<button type="button" class="key small" data-say>${icon('volume', { size: 18 })} ${tt('השמעה', 'Play')}</button>` : ''}</div>
@@ -135,7 +135,9 @@ export default async function review(el, ctx) {
     // Check opens once there is an answer: an option chosen or something typed.
     shell(html`<h1 class="small faint" style="margin-bottom:var(--s4)">${title}</h1>${body}`,
       html`<div class="inner">${!opts ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}<button type="button" class="key ghost small" data-idk>${tt('לא זוכר/ת', 'I don\'t remember')}</button><span class="grow"></span><button type="button" class="key enter" data-check disabled>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
-    setTimeout(() => $('#ans', el)?.focus(), 50);
+    // The keyboard starts in the answer field, or on the word for an options card (1-4 then Enter answer it), so
+    // focus never falls to the page between cards.
+    setTimeout(() => ($('#ans', el) || $('.flash .prompt-word', el))?.focus({ preventScroll: true }), 50);
   }
 
   // The verdict in the footer. typed: the learner typed the answer; only a typed meaning can be "what I meant" (P-08).
