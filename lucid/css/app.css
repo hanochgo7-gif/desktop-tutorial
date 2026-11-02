@@ -1267,6 +1267,107 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane bilingual-text: end ---- */
 
 /* ---- lane first-run-today: start ---- */
+/* Welcome: text size beside the language switch, before there is a profile (TF-1). */
+.welcome-top { flex-wrap: wrap; row-gap: var(--s3); }
+.welcome-tools { display: flex; align-items: center; gap: var(--s2); margin-inline-start: auto; }
+.text-cycle { gap: 0.3rem; padding-inline: 0.7rem; }
+.text-cycle [aria-hidden] { font-weight: 700; }
+.text-cycle .num { font-size: var(--t-xs); color: var(--ink-2); }
+/* Onboarding step 1: language and text size side by side where they fit; help lines readable at 100% (TF-1). */
+.ob-prefs { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); align-items: start; }
+.onboard .field .help { font-size: var(--t-sm); color: var(--ink-2); }
+.ob-prefs .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+.ob-prefs .seg > button { padding-inline: var(--s1); white-space: nowrap; }
+/* Onboarding and Profile choice cards: a square check for several choices, a round dot for one, on the first line
+   of the card (TF-6). The cards keep their keycap look; the mark says which kind of choice it is. */
+.ob-choices .choice { align-items: flex-start; min-height: 3rem; }
+.ob-choices .choice > .num { margin-block-start: 0.1em; }
+.ob-mark { flex: none; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; margin-block-start: 0.1em; border: 2px solid var(--n5); background: var(--key); color: transparent; }
+.ob-mark.check { border-radius: 0.35rem; }
+.ob-mark.radio { border-radius: 50%; }
+.choice[aria-pressed='true'] > .ob-mark.check { background: var(--cobalt); border-color: var(--cobalt); color: var(--key); }
+.choice[aria-pressed='true'] > .ob-mark.check .icon { stroke-width: 3; }
+.choice[aria-checked='true'] > .ob-mark.radio { border-color: var(--cobalt); box-shadow: inset 0 0 0 0.25rem var(--key); background: var(--cobalt); }
+.choice-note { display: block; font-size: var(--t-sm); color: var(--ink-2); line-height: 1.4; margin-block-start: 0.1rem; }
+.ob-h2 { font-size: var(--t-lg); margin-block-start: var(--s5); }
+.ob-note { margin-block-start: var(--s2); }
+.onboard .ob-note { font-size: var(--t-sm); color: var(--ink-2); }
+/* An error sits under its field, with an icon as well as colour (TF-6). */
+.field-error { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }
+.field-error > .icon { flex: none; margin-block-start: 0.2em; }
+.onboard [role='radiogroup'][aria-invalid='true'] .choice { border-color: var(--bad); }
+/* Consent: a 24px box on the first line of a short label; details are a separate line (TF-7). */
+.ob-check { display: grid; gap: var(--s2); }
+.ob-check .choice { align-items: flex-start; }
+.ob-check .help { padding-inline-start: calc(1.5rem + var(--s3) + var(--s4)); }
+.ob-check input[type='checkbox'] { appearance: none; -webkit-appearance: none; flex: none; position: relative; width: 1.5rem; height: 1.5rem; margin: 0; border: 2px solid var(--n6); border-radius: 0.35rem; background: var(--key); cursor: pointer; }
+.ob-check input[type='checkbox']:checked { background: var(--cobalt); border-color: var(--cobalt); }
+.ob-check input[type='checkbox']:checked::after { content: ''; position: absolute; left: 0.4rem; top: 0.1rem; width: 0.4rem; height: 0.8rem; border: solid var(--key); border-width: 0 0.18rem 0.18rem 0; transform: rotate(45deg); }
+.ob-check input[type='checkbox'][aria-invalid='true'] { border-color: var(--bad); }
+.ob-check input[type='checkbox']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.ob-ai-off { display: flex; align-items: flex-start; gap: var(--s2); color: var(--ink-2); }
+.ob-ai-off > .icon { flex: none; margin-block-start: 0.2em; }
+/* Placement: "question 4 of about 20" beside the bar; a reading passage in its own panel, the question under it
+   (TF-9). */
+.player-top .pl-count { white-space: nowrap; }
+.pl-reading .passage { padding: var(--s4); max-width: none; }
+.pl-reading .pl-question { font-size: var(--t-lg); line-height: 1.5; text-align: start; }
+.pl-ceiling { color: var(--ink-2); }
+.no-test { row-gap: var(--s2); }
+/* Today's minutes: a visible question over the choice, and a status line when it changes (TF-5). */
+.today-minutes { display: grid; gap: var(--s2); justify-items: start; }
+.today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }
+.today-min-status { margin: 0; color: var(--ink-2); }
+/* Skill rows: the evidence still being collected reads as a sentence from the start edge (TF-8). */
+.skill-row .skill-level.collecting { grid-column: 1 / -1; text-align: start; font-weight: 400; color: var(--ink-2); line-height: 1.4; text-wrap: pretty; }
+.skill-row .skill-src { color: var(--ink-2); }
+.skill-row .nowrap { white-space: nowrap; }
+/* Primary keys never touch what follows them: Today's start key and Welcome's hero CTA (TF-10). */
+.start-bar { margin-block-end: var(--s5); }
+/* Plan rows: title, time and reason are grid cells. On phones the time goes under the title and the reason spans
+   the card, so the text column is not squeezed beside the icon and the time (TF-10). */
+.plan-item { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'glyph title time' 'glyph why time'; column-gap: var(--s4); row-gap: 0.15rem; }
+.plan-item > .glyph { grid-area: glyph; align-self: center; }
+.plan-item > .pi-title { grid-area: title; min-width: 0; font-weight: 500; overflow-wrap: break-word; }
+.plan-item > .plan-time { grid-area: time; align-self: center; }
+.plan-item > .why { grid-area: why; display: block; min-width: 0; margin-block-start: 0; overflow-wrap: break-word; }
+.plan-item > .why > * { display: block; }
+.plan-item > .why > .legend { display: inline-grid; }
+@media (max-width: 30rem) {
+  .plan-item, :root[data-text] .plan-item { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'glyph title' 'glyph time' 'why why'; column-gap: var(--s3); row-gap: 0.15rem; padding: var(--s3) var(--s4); }
+  .plan-item > .glyph { align-self: start; }
+  .plan-item > .plan-time, :root[data-text] .plan-item .plan-time { grid-area: time; justify-self: start; align-self: start; }
+  .plan-item > .why { margin-block-start: var(--s2); }
+}
+/* English outcomes on path rows: the target language is not the smallest, faintest text (TF-10). */
+.lesson-row .meta[lang='en'] { font-size: var(--t-sm); color: var(--ink-2); }
+/* Welcome at desktop: the text column keeps at least 30rem, so the headline takes about three lines (TF-10). */
+@media (min-width: 64rem) {
+  .welcome-main { max-width: 76rem; grid-template-columns: minmax(30rem, 1fr) auto; }
+  .welcome h1 { max-width: 20ch; }
+  .keyboard { --kw: min(2.9rem, 3.2vw); }
+}
+/* Level rail labels: one line each at 12px; the Pre-A1 segment is as wide as its label in both rows, so "Pre-A1"
+   never breaks into "Pre-" / "A1" and never runs into the next label (TF-11). */
+.level-rail-labels { font-size: 0.75rem; }
+.level-rail-labels > span { white-space: nowrap; overflow: visible; }
+.level-rail > [data-l='PreA1'], .level-rail-labels > [data-l='PreA1'] { min-width: 2.5rem; }
+/* Path: the level's Hebrew name sits under its heading's own edge; the current level says so in words (TF-11). */
+.path-level-h .legend { display: grid; }
+.path-level-h .legend > .l-he { font-size: var(--t-md); font-weight: 500; justify-self: start; }
+.path-current { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ok); font-weight: 500; min-height: 2.25rem; }
+/* Today's offers after the plan: the import result in place of its button, the English-UI offer (TF-12). */
+.import-status { display: flex; align-items: flex-start; gap: var(--s2); }
+.import-status > .icon { flex: none; margin-block-start: 0.2em; color: var(--ok); }
+.ui-offer { flex-wrap: wrap; }
+/* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
+.done-banner { align-items: flex-start; font-size: var(--t-md); }
+.done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }
+.done-banner strong { display: block; font-weight: 600; }
+.more-today { margin-block-start: var(--s5); }
+.more-today > h3 { font-size: var(--t-md); }
+.more-list { display: grid; gap: var(--s2); }
+.plan-item.more-item { padding-block: var(--s3); border-style: dashed; border-block-end-width: 1px; box-shadow: none; }.plan-item.more-item .glyph { background: transparent; }
 
 /* ---- lane first-run-today: end ---- */
 

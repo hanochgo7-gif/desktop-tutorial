@@ -802,8 +802,10 @@ try {
     await page.reload();
     await page.goto(`${BASE}#/today`);
     await page.waitForSelector('.plan a[href^="#/lesson/"]');
-    const href = await page.getAttribute('.plan a[href^="#/lesson/"]', 'href');
-    assert(href.startsWith('#/lesson/b2-02'), `Today's lesson is still ${href}`);
+    // The lesson finished today is ticked in the plan and the next one is offered beyond it (UX r3 TF-2).
+    const hrefs = await page.$$eval('#view .plan a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href')));
+    assert(hrefs.some((h) => h.startsWith('#/lesson/b2-02')), `Today's lesson is still ${hrefs}`);
+    assert(await page.$('.plan a.done[href="#/lesson/b2-01"]'), 'the lesson finished today is not ticked');
     assert(await page.$('.start-bar .tag.ok'), 'no "lesson completed today" tag after a finished lesson');
     const rec = await page.evaluate(() => window.lucid.store.get('progress', 'b2-01', { includeDeleted: true }));
     assert(rec.status === 'completed' && !rec._deleted, `b2-01 stored as ${JSON.stringify(rec)}`);
@@ -1036,7 +1038,7 @@ try {
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp4-placement-a1-390.png`, fullPage: true });
     const eitan = await showResult(['work', 'writing'], 'c1', 'B2');
     assert(/C1/.test(eitan) && !/C1-C2/.test(eitan), `the headline claims C1-C2: ${eitan.slice(0, 200)}`);
-    assert(/B2\+/.test(eitan) && /נכונות ב-C1/.test(eitan), 'capped skills do not say where their answers were');
+    assert(/B2\+/.test(eitan) && /נראה טוב גם ב-C1/.test(eitan), 'capped skills do not say where their answers were');
     assert((await store(page, 'placement')).find((p) => p.id === 'latest').start_level === 'C1', 'academic writing chosen: the start should be C1');
     const yael = await showResult(['work', 'travel'], 'c1', 'B2');
     assert(/נתחיל ב-B2/.test(yael) && await page.$('[data-start-at="C1"]'), `a work and travel learner is started on the C1 track: ${yael.slice(0, 240)}`);
@@ -1249,7 +1251,8 @@ try {
     await page.click('[data-start="basics"]');
     await page.click('button[type=submit]');
     const step = await page.textContent('#ob-form');
-    assert(/מיקרופון|microphone/.test(step) && /Anthropic/.test(step) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
+    // Device only: no AI consent, one honest line instead (UX r3 TF-7); the AI details show only where AI works.
+    assert(/מיקרופון|microphone/.test(step) && /AI לא פעיל באתר הזה/.test(step) && !(await page.$('input[name=ai_consent]')) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
     await ctx.close();
     const p = await newPage(browser);
     await learnerAt(p.page, 'A1', { birthYear: new Date().getFullYear() - 17 });

@@ -15,6 +15,7 @@ import { LEVELS, placementSkillEstimate } from './adaptive.js';
 const SKILL_ROTATION = ['grammar', 'vocabulary', 'reading', 'listening'];
 export const START_FOR = { zero: null, basics: 'A1', conversations: 'A2', comfortable: 'B1', advanced: 'B2' };
 export const MAX_ITEMS = 28;
+export const TYPICAL_ITEMS = 20;
 const BLOCK = 4;
 const PASS = 0.75;
 const idx = (l) => LEVELS.indexOf(l);
@@ -95,9 +96,23 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
 
   function finish() { state.done = true; }
 
+  // About how many questions the whole test takes (TF-9): those asked, the rest of the current block and, unless
+  // this block is the confirming block at the highest level passed (which can end the test), one more block;
+  // never fewer than a typical run, never more than the cap. An estimate for "question 4 of about 20" and the
+  // bar, which therefore stays well short of full until the last block.
+  function estimate() {
+    const asked = state.asked.length;
+    if (api.done) return asked;
+    const n = stats(state.level).n;
+    const left = BLOCK - (n % BLOCK);
+    const confirming = state.passed.has(state.level) && n >= BLOCK;
+    const est = asked + left + (confirming ? 0 : BLOCK);
+    return Math.min(MAX_ITEMS, confirming ? est : Math.max(TYPICAL_ITEMS, est));
+  }
+
   const api = {
     get done() { return state.done || state.asked.length >= MAX_ITEMS; },
-    get progress() { return { asked: state.asked.length, level: state.level }; },
+    get progress() { return { asked: state.asked.length, level: state.level, estimate: estimate() }; },
     // The answers so far, in a form that can be saved and replayed.
     get answers() { return state.asked.map(({ id, correct, dontKnow }) => ({ id, correct, dontKnow })); },
     next() {

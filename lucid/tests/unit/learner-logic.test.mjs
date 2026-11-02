@@ -275,7 +275,8 @@ test('P-82: placed learners can add placed-out words; new words are queued at th
 test('the plan for the store: the next lesson file gives its real length', async () => {
   const next = L.model().next;
   const plan = L.todayPlan(10, { lesson: await lessonFile(next.id) });
-  const learn = plan.blocks.find((b) => b.id === 'learn');
+  // Earlier tests completed a lesson today, so the next one is offered beyond the plan (TF-2).
+  const learn = [...plan.blocks, ...plan.extras].find((b) => b.id === 'learn' && b.lesson === next.id);
   assert.ok(learn.slice.total >= 15);
   assert.ok(plan.minutes <= 12, `${plan.minutes} min`);
 });

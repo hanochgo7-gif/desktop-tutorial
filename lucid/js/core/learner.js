@@ -409,6 +409,9 @@ function doneToday(now, { scenarios, writingTasks, attempts }) {
     reading: attempts.some((a) => a.source === 'reading' && isToday(a.at)),
     speaking: events.some((e) => e.type === 'speaking'),
     writing: events.some((e) => e.type === 'writing'),
+    // Cards reviewed today per review mode, and the curriculum lesson completed most recently today (TF-2).
+    reviews: events.filter((e) => e.type === 'review' && e.count > 0).reduce((o, e) => ({ ...o, [e.mode || 'review']: (o[e.mode || 'review'] || 0) + e.count }), {}),
+    lesson: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.completed_at)).sort((a, b) => (a.completed_at < b.completed_at ? 1 : -1))[0]?.id || null,
   };
 }
 
@@ -416,6 +419,10 @@ function doneToday(now, { scenarios, writingTasks, attempts }) {
 export function todayPlan(minutes = settings().daily_minutes, { lesson = null, scenarios = [], writingTasks = [] } = {}) {
   const m = model();
   const now = new Date();
+  // Minutes chosen on Today count for that day only (TF-5) and win over the daily default every caller passes,
+  // so Today and the lesson player plan the same part; Settings keeps daily_minutes.
+  const chosen = settings().today_minutes;
+  if (chosen?.date === todayKey(now) && chosen.n) minutes = chosen.n;
   const cards = allCards();
   const dueNow = dueCards(cards, now, settings().retention);
   const dayAgo = (d) => now.getTime() - d * 86_400_000;

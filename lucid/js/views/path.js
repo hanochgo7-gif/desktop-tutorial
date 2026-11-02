@@ -3,7 +3,7 @@
 // are still being written are labelled in words and are not links; placed-out lessons are counted apart
 // from completed ones.
 import { html, render, on } from '../core/util.js';
-import { tt, legend, t } from '../core/i18n.js';
+import { tt, legend, t, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, mark, LEVEL_LABEL, confirmDialog, toast } from '../ui/components.js';
 import { model, moveToLevel, canImportVocab, importPlacedOutVocab, settings, placementDraft } from '../core/learner.js';
@@ -14,6 +14,8 @@ export default async function path(el, ctx) {
   ctx.setTitle(t('nav.path'));
   const [curriculum, tx, available] = await Promise.all([content.curriculum(), content.taxonomy(), content.availableLessons()]);
   const levelMeta = new Map(tx.levels.map((l) => [l.id, l]));
+  // What adding a skipped level's words did, shown where its button was (TF-12).
+  let importNote = null;
 
   // The level's tab comes into view on a phone, where the tab row scrolls sideways (persona finding R2-23).
   // Physical coordinates, so it works the same in right-to-left and left-to-right layouts.
@@ -50,8 +52,8 @@ export default async function path(el, ctx) {
       })}</div>
       <section class="stack">
         <div class="row between">
-          <div><h2>${L} · ${legend(meta.name_en, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
-          ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלך', 'Your current level')}</span>` : ''}
+          <div><h2 class="path-level-h">${legend(`${L} · ${meta.name_en}`, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
+          ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלכם', 'Your current level')}</span>` : ''}
         </div>
         <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${lvl.lessons.map((l) => {
           const p = m.progress.get(l.id);
@@ -61,24 +63,29 @@ export default async function path(el, ctx) {
           if (available.size && !available.has(l.id)) {
             return html`<li><div class="lesson-row unwritten">${body}<span class="row small"><span class="tag">${icon('clock', { size: 14 })} ${tt('בהכנה', 'In preparation')}</span></span></div></li>`;
           }
-          return html`<li><a class="lesson-row ${isNext ? 'next' : ''}" href="#/lesson/${l.id}" ${isNext ? html`aria-current="step"` : ''}>${body}
+          // A lesson with a saved place opens there, as Today's "Continue" does (TF-11; student-19 F2).
+          const saved = p?.resume && p.resume.qi < (p.resume.queue?.length || 0) && p.status !== 'completed';
+          return html`<li><a class="lesson-row ${isNext ? 'next' : ''}" href="#/lesson/${l.id}${saved ? '?resume=1' : ''}" ${isNext ? html`aria-current="step"` : ''}>${body}
             <span class="row small">${p?.status === 'started' && p.best_score != null ? html`<span class="tag">${tt('בתהליך', 'In progress')}</span>` : p?.best_score != null ? html`<span class="tag ${p.best_score >= 0.7 ? 'ok' : 'warn'} num">${Math.round(p.best_score * 100)}%</span>` : ''}${isNext ? html`<span class="tag cobalt">${tt('הבא', 'Next')}</span>` : ''}</span></a></li>`;
         })}
           <li><a class="lesson-row" href="#/checkpoint/${lvl.id}">${mark(checkpoint?.status)}<span class="ord">${icon('flag', { size: 16 })}</span>
-            <span class="grow"><span style="font-weight:500">${tt(`בדיקת רמה ${L}`, `${L} level check`)}</span><span class="meta" style="display:block">${tt('מבחן קצר בלי רמזים ובלי AI, מכל נושאי הרמה. כך מראים שהרמה באמת יושבת.', 'A short test with no hints and no AI, across the level\'s topics. This is how a level is demonstrated.')}</span></span>
+            <span class="grow"><span style="font-weight:500">${tt(`בדיקת רמה ${L}`, `${L} level check`)}</span><span class="meta" style="display:block">${isolateLatin(tt('מבחן קצר בלי רמזים ובלי AI, מכל נושאי הרמה. 75% ומעלה מסמנים את הרמה כמוכחת.', 'A short test with no hints and no AI, across the level\'s topics. 75% or more marks the level as demonstrated.'))}</span></span>
             ${checkpoint?.best_score != null ? html`<span class="tag ${checkpoint.status === 'completed' ? 'ok' : 'warn'} num">${Math.round(checkpoint.best_score * 100)}%</span>` : ''}</a></li>
           <li><a class="lesson-row" href="#/writing/final-${lvl.id}">${mark(finalDraft ? (finalDraft.status === 'final' ? 'completed' : 'started') : null)}<span class="ord">${icon('writing', { size: 16 })}</span>
             <span class="grow"><span style="font-weight:500">${tt(`משימת הכתיבה של ${L}`, `${L} writing task`)}</span><span class="meta" style="display:block" lang="en" dir="ltr">${lvl.final_assessment.task}</span></span></a></li>
         </ol>
-        ${canImportVocab(lvl.id) ? html`<div class="panel flat stack-sm"><p class="small">${tt(`דילגת על שיעורי ${L}, ולכן המילים שלהם עוד לא בחזרה המרווחת. אפשר להוסיף אותן: הן ייכנסו בהדרגה, עד ${settings().new_per_day} מילים חדשות ביום.`, `You placed out of the ${L} lessons, so their words are not in your spaced review yet. You can add them: they come in gradually, up to ${settings().new_per_day} new words a day.`)}</p>
-          <div class="row"><button type="button" class="key small" data-import="${lvl.id}">${tt(`להוסיף את המילים של ${L}`, `Add the ${L} words`)}</button></div></div>` : ''}
+        ${importNote?.level === lvl.id ? html`<p class="panel flat small import-status" role="status" tabindex="-1" data-import-status>${icon('check', { size: 16 })}<span>${importNote.text}</span></p>`
+          : canImportVocab(lvl.id) ? html`<div class="panel flat stack-sm"><p class="small">${isolateLatin(tt(`דילגתם על שיעורי ${L}, ולכן המילים שלהם עוד לא בחזרה המרווחת. אפשר להוסיף אותן: הן ייכנסו בהדרגה, עד ${settings().new_per_day} מילים חדשות ביום.`, `You skipped ${L}, so its words are not in your reviews yet. Add them? They come in gradually, up to ${settings().new_per_day} new a day.`))}</p>
+          <div class="row"><button type="button" class="key small" data-import="${lvl.id}"><span>${isolateLatin(tt(`להוסיף את המילים של ${L}`, `Add the ${L} words`))}</span></button></div></div>` : ''}
         <div class="panel flat stack-sm">
-          ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגת עליהם וחזרת אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
+          ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגתם עליהם וחזרתם אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
           <div class="row between">
             <p class="small muted grow">${tt('מרגישים שהרמה לא מתאימה? מיקום הוא הערכה התחלתית, ואתם מחליטים.', 'Does this level feel wrong? Placement is a first estimate, and you decide.')}</p>
             <div class="row">
-              ${lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}">${tt(`להתחיל מ-${L}`, `Start from ${L}`)}</button>` : ''}
-              <a class="key small" href="#/checkpoint/${lvl.id}">${tt('לבחון את עצמי', 'Test myself')}</a>
+              ${lvl.id === m.courseLevel && !pending
+                ? html`<span class="small path-current">${icon('check', { size: 16 })}<span>${tt('זו הרמה הנוכחית שלכם', 'This is your current level')}</span></span>`
+                : lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}"><span>${isolateLatin(tt(`להתחיל מ-${L}`, `Start from ${L}`))}</span></button>` : ''}
+              <a class="key small" href="#/checkpoint/${lvl.id}"><span>${isolateLatin(tt(`לבדיקת רמה ${L}`, `To the ${L} level check`))}</span></a>
               ${pending && draft?.answers?.length
                 ? html`<a class="key ghost small" href="#/placement?resume=1">${tt('להמשיך את מבחן המיקום', 'Continue the placement test')}</a>`
                 : pending ? html`<a class="key ghost small" href="#/placement">${tt('מבחן המיקום', 'Take the placement test')}</a>`
@@ -100,10 +107,15 @@ export default async function path(el, ctx) {
       await moveToLevel(level);
       toast(tt('המסלול עודכן', 'Your path was updated'));
     }),
+    // The result stays where the button was and takes the focus (TF-12).
     on(el, 'click', '[data-import]', async (e, b) => {
       b.disabled = true;
-      const n = await importPlacedOutVocab(b.dataset.import);
-      toast(n ? tt(`${n} מילים נוספו לחזרה. הן ייכנסו בהדרגה.`, `${n} words added to review. They come in gradually.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in review.'));
+      const level = b.dataset.import;
+      const n = await importPlacedOutVocab(level);
+      const per = settings().new_per_day;
+      importNote = { level, text: n ? tt(`נוספו ${n} מילים לחזרה. עד ${per} חדשות ביום.`, `${n} words added to your reviews. Up to ${per} new a day.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in your reviews.') };
+      draw();
+      el.querySelector('[data-import-status]')?.focus();
     }),
   ];
   return () => offs.forEach((o) => o());
