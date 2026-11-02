@@ -41,6 +41,21 @@ export default async function scenarioView(el, ctx) {
   // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
   let ti = 0; let picked = null; let checked = false; let typed = ''; let typedResult = null; let results = [];
   let ownOpen = false; let othersOpen = false;
+  // Practice keeps its place (RW-11): after each checked reply the next turn and the answers so far are saved in
+  // progress rl:<id>; coming back offers to continue from there or start again.
+  const progressId = `rl:${s.id}`;
+  const savedTurn = () => { const p = store.get('progress', progressId); return Number.isInteger(p?.turn) && p.turn > 0 && p.turn < s.practice.length ? p : null; };
+  let resume = savedTurn();
+  const savePlace = () => {
+    const prev = store.get('progress', progressId) || {};
+    store.put('progress', { ...prev, id: progressId, status: prev.status === 'completed' ? 'completed' : 'started', turn: ti + 1, answers: results.slice(0, ti + 1), updated_at: new Date().toISOString() });
+  };
+  const clearPlace = () => {
+    const prev = store.get('progress', progressId);
+    if (!prev || prev.turn == null) return;
+    const { turn, answers, ...rest } = prev;
+    if (rest.status === 'completed') store.put('progress', rest); else store.remove('progress', progressId);
+  };
   const turnOrder = s.practice.map((t) => ({ ...t, options: shuffle(t.options, t.partner.length / 100) }));
   // roleplay state
   let chat = null; let busy = false; let report = null; let rpError = ''; let stuck = false;
@@ -61,7 +76,7 @@ export default async function scenarioView(el, ctx) {
       <div class="examples">${s.phrases.map((p) => html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.en}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}
         <div class="grow stack-sm">${legend(p.en, p.he)}${p.note ? html`<div class="note" dir="auto">${p.note}</div>` : ''}
         ${REGISTER[p.register] || p.variant ? html`<span class="row" style="gap:var(--s2)">${REGISTER[p.register] ? html`<span class="tag ${REGISTER[p.register][2]}">${tt(REGISTER[p.register][0], REGISTER[p.register][1])}</span>` : ''}${p.variant ? html`<span class="tag">${p.variant}</span>` : ''}</span>` : ''}</div></div>`)}</div></section>
-    ${s.variants?.length ? html`<section class="stack-sm"><h2 class="small">${tt('אמריקאית מול בריטית', 'American vs British')}</h2><div class="table-wrap"><table class="data"><thead><tr><th>US</th><th>UK</th><th></th></tr></thead><tbody>${s.variants.map((v) => html`<tr><td lang="en">${v.us}</td><td lang="en">${v.uk}</td><td dir="auto" class="faint">${v.note || ''}</td></tr>`)}</tbody></table></div></section>` : ''}
+    ${s.variants?.length ? html`<section class="stack-sm"><h2 class="small">${tt('אמריקאית מול בריטית', 'American vs British')}</h2><div class="table-wrap variants-wrap" dir="ltr"><table class="data variants-table" lang="en"><thead><tr><th>US</th><th>UK</th><th lang="${tt('he', 'en')}" dir="auto">${tt('הסבר', 'Note')}</th></tr></thead><tbody>${s.variants.map((v) => html`<tr><td data-label="US">${v.us}</td><td data-label="UK">${v.uk}</td><td dir="auto" class="faint">${v.note || ''}</td></tr>`)}</tbody></table></div></section>` : ''}
     ${s.culture?.length ? html`<section class="stack-sm"><h2 class="small">${tt('טיפים תרבותיים', 'Culture tips')}</h2>${s.culture.map((c) => html`<div class="block-tip">${bi(c, { always: hebrewSupport() !== 'off' })}</div>`)}</section>` : ''}
     <div class="row"><button type="button" class="key enter" data-tab="listen">${tt('לשיחה לדוגמה', 'To the model dialogue')}</button></div></div>`;
 
@@ -120,7 +135,11 @@ export default async function scenarioView(el, ctx) {
     return html`<div class="player-foot scenario-foot ${cls}" id="pfoot"><div class="inner"><div class="verdict" role="status"><p class="verdict-title">${icon(ic, { size: 18 })}<span>${tt(he, en)}</span></p></div><button type="button" class="key enter" data-next-turn>${tt('המשך', 'Continue')}</button></div></div>`;
   };
 
+  const resumeOffer = () => html`<div class="panel flat stack-sm resume-turn" style="max-width:46rem"><h2 class="small" tabindex="-1" data-resume-head>${tt(`עצרתם אחרי ${resume.turn === 1 ? 'תור אחד' : `${resume.turn} תורות`} מתוך ${turnOrder.length}.`, `You stopped after ${resume.turn} of ${turnOrder.length} turns.`)}</h2>
+    <div class="row"><button type="button" class="key enter" data-resume>${tt(`להמשיך מתור ${resume.turn + 1} מתוך ${turnOrder.length}`, `Continue from turn ${resume.turn + 1} of ${turnOrder.length}`)}</button><button type="button" class="key" data-start-over>${tt('להתחיל מחדש', 'Start again')}</button></div></div>`;
+
   const practiseTab = () => {
+    if (resume && ti === 0 && !checked) return resumeOffer();
     if (ti >= turnOrder.length) return practiseDone();
     const t = turnOrder[ti];
     const chosen = checked && picked != null ? t.options[picked] : null;
@@ -295,6 +314,7 @@ export default async function scenarioView(el, ctx) {
       checked = true;
       const o = turnOrder[ti].options[picked];
       results[ti] = o.verdict;
+      if (ti + 1 < turnOrder.length) savePlace();
       recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: o.verdict === 'best', score: o.verdict === 'best' ? 1 : o.verdict === 'ok' ? 0.5 : 0, error_type: o.verdict === 'best' ? null : o.error_type || null, response: o.text });
       draw();
       reveal('[data-explain]', { block: 'nearest', always: true });
@@ -313,7 +333,9 @@ export default async function scenarioView(el, ctx) {
       draw();
       reveal(ti >= turnOrder.length ? '[data-done-head]' : '[data-step]');
     }),
-    on(el, 'click', '[data-restart]', () => { ti = 0; picked = null; checked = false; typed = ''; typedResult = null; ownOpen = false; othersOpen = false; results = []; turnOrder.forEach((x) => { x.options = shuffle(x.options); }); draw(); }),
+    on(el, 'click', '[data-resume]', () => { ti = resume.turn; results = [...(resume.answers || [])]; resume = null; picked = null; checked = false; draw(); reveal('[data-step]'); }),
+    on(el, 'click', '[data-start-over]', () => { resume = null; clearPlace(); draw(); reveal('[data-step]'); }),
+    on(el, 'click', '[data-restart]', () => { clearPlace(); ti = 0; picked = null; checked = false; typed = ''; typedResult = null; ownOpen = false; othersOpen = false; results = []; turnOrder.forEach((x) => { x.options = shuffle(x.options); }); draw(); }),
     on(el, 'change', '[data-tips]', (e, i) => { hebrewTips = i.checked; if (stuck) draw(); }),
     on(el, 'click', '[data-stuck]', () => {
       const draft = $('#rpin', el)?.value || '';

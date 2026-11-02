@@ -885,6 +885,26 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .sense-after { color: var(--ink-2); font-size: var(--t-xs); }
 .senses[dir='ltr'] { text-align: left; }
 .entry-more .sense-one .sense-ex { margin-block-start: var(--s1); }
+/* Scenario at large text (RW-11): the four parts wrap to two rows, so none is off screen; the US/UK table reads
+   left to right and stacks its rows on phones. */
+:root:is([data-text='130'], [data-text='150']) .scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+@media (max-width: 22.5rem) { .scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; } }
+:root:is([data-text='130'], [data-text='150']) .scenario-tabs > button, .scenario-tabs > button { white-space: normal; }
+.variants-table { text-align: left; }
+.variants-table th, .variants-table td { text-align: left; }
+.variants-table td[dir='auto'] { text-align: start; }
+@media (max-width: 30rem) {
+  .variants-wrap { border: 0; background: none; overflow: visible; }
+  .variants-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .variants-table, .variants-table tbody { display: block; }
+  .variants-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s3); padding: var(--s3); margin-block-end: var(--s2); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+  table.data.variants-table td { border: 0; padding: 0; }
+  .variants-table td[data-label]::before { content: attr(data-label); display: block; font-size: var(--t-xs); color: var(--ink-3); font-weight: 600; }
+  .variants-table td:nth-child(3) { grid-column: 1 / -1; margin-block-start: var(--s2); }
+  .variants-table td:nth-child(3):empty { display: none; }
+}
+.resume-turn { margin-block-end: var(--s4); }
+.resume-turn h2:focus { outline: none; }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

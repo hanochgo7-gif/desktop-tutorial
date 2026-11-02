@@ -2020,8 +2020,9 @@ try {
     await learnerAt(page, 'B1', { text: 130 });
     await page.goto(`${BASE}#/scenario/rl-emergency-lost-passport`);
     await page.waitForSelector('.scenario-tabs');
-    const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth }; });
-    assert(head.lines < 1.6 && head.rows === 1 && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
+    const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth, inView: tabs.every((b) => { const r = b.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth; }) }; });
+    // RW-11: at 130% and above the four parts wrap to two rows, so every one is on screen.
+    assert(head.lines < 1.6 && head.rows <= 2 && head.inView && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
     await page.click('[data-tab="practise"]');
     const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); document.querySelector('[data-check-turn]').click(); return text; });
     await page.waitForSelector('.chosen-quote');
