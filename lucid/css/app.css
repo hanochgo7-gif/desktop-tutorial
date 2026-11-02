@@ -349,17 +349,18 @@ body.bare .view { max-width: none; padding: 0; }
 .progress > span { display: block; height: 100%; background: var(--cobalt); transition: width 0.4s var(--ease-out); border-radius: inherit; }
 .player-body { width: 100%; max-width: 46rem; margin-inline: auto; padding: var(--s5) var(--s4) var(--s7); }
 .player-foot { position: sticky; bottom: 0; border-block-start: 1px solid var(--key-edge); background: var(--ground); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom)); }
-.player-foot .inner { max-width: 46rem; margin-inline: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.player-foot .inner { max-width: calc(46rem - 2 * var(--s4)); margin-inline: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
 .player-foot .inner > .key { min-width: 0; }
 @media (max-width: 22rem) { .player-foot .inner > .key { white-space: normal; text-align: center; } }
-.player-foot.ok { background: var(--ok-tint); border-color: transparent; }
-.player-foot.bad { background: var(--bad-tint); border-color: transparent; }
-.player-foot.almost { background: var(--warn-tint); border-color: transparent; }
+/* The verdict sits on a calm, neutral surface; its colour is a 4px bar at the start and the icon (SC-7). */
+.player-foot.ok, .player-foot.bad, .player-foot.almost { background: var(--key); border-color: var(--key-edge); }
+.player-foot.ok { --verdict: var(--ok); }
+.player-foot.bad { --verdict: var(--bad); }
+.player-foot.almost { --verdict: var(--warn); }
 .verdict { flex: 1; min-width: 0; }
+.player-foot .verdict { border-inline-start: 4px solid var(--verdict, transparent); padding-inline-start: var(--s3); }
 .verdict-title { font-weight: 600; display: flex; align-items: center; gap: var(--s2); }
-.player-foot.ok .verdict-title { color: var(--ok); }
-.player-foot.bad .verdict-title { color: var(--bad); }
-.player-foot.almost .verdict-title { color: var(--warn); }
+.player-foot .verdict-title .icon { color: var(--verdict, currentColor); }
 .verdict-body { font-size: var(--t-sm); margin-block-start: 0.2rem; }
 .verdict-body .answer { font-weight: 600; }
 
@@ -612,7 +613,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .missing-lesson h1 { font-size: var(--t-lg); }
 /* The verdict: the result and the right form first, the explanation behind "Why?" (research D7). On phones
    it takes the full width with a full-width Continue below it (P-03, P-39, P-59). */
-.player-foot .verdict { max-height: 45dvh; overflow-y: auto; }
+.player-foot .verdict { max-height: 35dvh; overflow-y: auto; }
 .verdict .why > summary { cursor: pointer; width: fit-content; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; min-height: 2rem; display: flex; align-items: center; }
 .verdict .why[open] > summary { margin-block-end: var(--s1); }
 .verdict-body .fix-list { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: var(--s1); }
@@ -1004,6 +1005,24 @@ dialog.sheet > .panel { padding: var(--s5); }
 .key.is-playing .icon { animation: play-pulse 1.1s ease-in-out infinite; }
 @keyframes play-pulse { 50% { opacity: 0.45; } }
 @media (prefers-reduced-motion: reduce) { .key.is-playing .icon { animation: none; } }
+
+/* Phones (SC-7): the main key fills its own row at the bottom, where "Continue" will be, so it never moves; the
+   secondary keys share one row above it. Right and wrong options also carry a mark, not only a colour. */
+@media (max-width: 30rem) {
+  .player-foot .inner { gap: var(--s2); }
+  .player-foot .inner > .grow:empty { display: none; }
+  .player-foot .inner > .grow:not(:empty) { flex: 1 1 100%; }
+  .player-foot .inner > .key.enter { flex: 1 1 100%; }
+  .player-foot .inner > .key.ghost { flex: 0 1 auto; }
+}
+.option:not(:has(.game-mark)):is(.is-right, .is-wrong)::after {
+  content: ''; flex: none; width: 1.25rem; height: 1.25rem; margin-inline-start: auto; background: currentColor;
+  -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat;
+}
+.option.is-right { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.option.is-wrong { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E"); }
+.option.is-right::after { color: var(--ok); }
+.option.is-wrong::after { color: var(--bad); }
 
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {

@@ -335,6 +335,51 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-7. Feedback footer: a neutral surface with a red bar after a wrong answer, no wider than the player body; at 390/150% the verdict is at most 35% of the screen; Check and Continue share one full-width spot; a wrong option shows a cross', async () => {
+    const tokens = (page) => page.evaluate(() => { const d = document.createElement('i'); document.body.append(d); const v = (x) => { d.style.color = `var(${x})`; return getComputedStyle(d).color; }; const out = { bad: v('--bad'), badTint: v('--bad-tint'), key: v('--key') }; d.remove(); return out; });
+    {
+      const { ctx, page } = await newPage(browser, { width: 1440, height: 900 });
+      await learnerAt(page, 'A1');
+      await lessonAt(page, 'a1-01', 'e7');
+      for (const g of await page.$$('#exroot .gap-input')) await g.fill('zzz');
+      await page.click('[data-check]');
+      await page.waitForSelector('[data-next]');
+      const t = await tokens(page);
+      const m = await page.evaluate(() => {
+        const foot = document.getElementById('pfoot'), body = document.getElementById('pbody'), inner = foot.querySelector('.inner'), v = foot.querySelector('.verdict');
+        const bs = getComputedStyle(body), vs = getComputedStyle(v);
+        return { bg: getComputedStyle(foot).backgroundColor, inner: inner.getBoundingClientRect().width, body: body.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight), bar: vs.borderInlineStartWidth, barColor: vs.borderInlineStartColor };
+      });
+      assert(m.bg !== t.badTint && m.bg === t.key, `the footer is still tinted: ${m.bg}`);
+      assert(m.inner <= m.body + 1, `the footer content (${m.inner}px) is wider than the player body (${m.body}px)`);
+      assert(m.bar === '4px' && m.barColor === t.bad, `no red accent bar: ${m.bar} ${m.barColor}`);
+      await shot(page, 'sc7-wrong-1440');
+      await ctx.close();
+    }
+    {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'A1', { text: 150 });
+      await lessonAt(page, 'a1-01', 'e4');
+      const ex = await page.evaluate(async () => { const { content } = await import('./js/core/content.js'); return (await content.lesson('a1-01')).exercises.find((e) => e.id === 'e4'); });
+      const wrong = ex.options.findIndex((_, i) => i !== ex.answer);
+      await page.tap(`#exroot [data-opt="${wrong}"]`);
+      const box = (s) => page.$eval(s, (e) => { const r = e.getBoundingClientRect(); return { x: Math.round(r.left), w: Math.round(r.width), bottom: Math.round(innerHeight - r.bottom) }; });
+      const check = await box('[data-check]');
+      await page.tap('[data-check]');
+      await page.waitForSelector('[data-next]');
+      const next = await box('[data-next]');
+      assert(Math.abs(check.x - next.x) <= 1 && Math.abs(check.w - next.w) <= 1 && Math.abs(check.bottom - next.bottom) <= 1, `Check and Continue are in different places: ${JSON.stringify({ check, next })}`);
+      const vw = await page.evaluate(() => ({ inner: document.querySelector('#pfoot .inner').getBoundingClientRect().width }));
+      assert(next.w >= vw.inner - 2, `Continue is not full width: ${next.w} of ${vw.inner}`);
+      const v = await page.evaluate(() => ({ h: document.querySelector('#pfoot .verdict').getBoundingClientRect().height, vh: innerHeight, why: document.querySelector('#pfoot details.why')?.open }));
+      assert(v.why === false && v.h <= v.vh * 0.35 + 1, `the verdict takes ${Math.round((100 * v.h) / v.vh)}% of the screen: ${JSON.stringify(v)}`);
+      const mark = await page.$eval('#exroot .option.is-wrong', (o) => { const a = getComputedStyle(o, '::after'); return { content: a.content, mask: a.maskImage || a.webkitMaskImage, w: a.width }; });
+      assert(mark.content !== 'none' && /svg/.test(mark.mask) && parseFloat(mark.w) > 10, `a wrong option has no cross: ${JSON.stringify(mark)}`);
+      await shot(page, 'sc7-wrong-390-150');
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();
