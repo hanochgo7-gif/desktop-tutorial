@@ -400,6 +400,33 @@ try {
     await shot(page, 'sc8-today-150');
     await ctx.close();
   });
+
+  await check('SC-9. Chrome at 320x568 and 150%: tab labels on one line, a tab bar at most 80px, "היום" whole in the top bar and kept after a minutes tap; icons grow with the text; a scenario shows "אנגלית לחיים" in the Hebrew top bar', async () => {
+    const { ctx, page } = await newPage(browser, { width: 320, height: 568 });
+    await learnerAt(page, 'A1', { text: 150 });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('[data-min]');
+    const chrome = () => page.evaluate(() => {
+      const tabs = [...document.querySelectorAll('#tabbar a')].map((a) => { const l = [...a.querySelectorAll('.tab-l')].find((s) => getComputedStyle(s).display !== 'none'); const lh = parseFloat(getComputedStyle(l).lineHeight); return { text: l.textContent, lines: Math.round(l.getBoundingClientRect().height / lh), clipped: l.scrollWidth > l.clientWidth + 1 }; });
+      const t = document.getElementById('top-title');
+      return { tabs, tabH: document.getElementById('tabbar').getBoundingClientRect().height, title: t.textContent, cut: t.scrollWidth > t.clientWidth + 1, icon: document.querySelector('#top .top-key svg').getBoundingClientRect().width, label: getComputedStyle(document.querySelector('#top .top-label')).display, overflow: document.documentElement.scrollWidth - innerWidth };
+    });
+    const a = await chrome();
+    assert(a.tabs.every((x) => x.lines === 1 && !x.clipped) && a.tabH <= 80, `tab bar at 320/150%: ${JSON.stringify({ tabs: a.tabs, h: a.tabH })}`);
+    assert(a.tabs.some((x) => x.text === 'לחיים'), `the short tab label is not used: ${a.tabs.map((x) => x.text)}`);
+    assert(a.title === 'היום' && !a.cut, `the top bar title is cut or missing: ${JSON.stringify(a)}`);
+    assert(a.icon > 22 && a.label !== 'none' && a.overflow <= 0, `top-bar icons do not grow or have no labels: ${JSON.stringify(a)}`);
+    await shot(page, 'sc9-today-320-150');
+    await page.tap('[data-min="10"]');
+    await page.waitForTimeout(400);
+    const b = await chrome();
+    assert(b.title === 'היום' && !b.cut, `the top bar lost its title after a minutes tap: "${b.title}"`);
+    await page.goto(`${BASE}#/scenario/rl-airport-checkin-overweight`);
+    await page.waitForSelector('.scenario-tabs');
+    await page.waitForTimeout(200);
+    assert((await page.textContent('#top-title')) === 'אנגלית לחיים', `scenario top bar: "${await page.textContent('#top-title')}"`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

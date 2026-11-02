@@ -108,8 +108,12 @@ export const ICONS = {
 };
 
 // Decorative by default (aria-hidden); pass a label to make the icon meaningful on its own.
-export function iconSvg(name, { size = 20, label = '' } = {}) {
+// Without a size the icon follows the text around it (1.15em), so it grows with the learner's text size (SC-9);
+// a number is a fixed size in pixels.
+export const ICON_EM = '1.15em';
+export function iconSvg(name, { size, label = '' } = {}) {
   const body = ICONS[name] || ICONS.circle;
   const a11y = label ? `role="img" aria-label="${label.replace(/"/g, '&quot;')}"` : 'aria-hidden="true" focusable="false"';
-  return `<svg class="icon" ${a11y} width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  const s = size == null ? ICON_EM : size;
+  return `<svg class="icon" ${a11y} width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
 }

@@ -69,9 +69,27 @@ export function navigate(href, { replace = false } = {}) {
   router.go();
 }
 
+// The top bar of the Hebrew UI speaks Hebrew (SC-9): a content title with no Hebrew letters ("Free writing", a
+// scenario's English name) gives way to the name of its section; the page heading below still carries it.
+const HEBREW = /[֐-׿]/;
+export function topTitle(title, { lang = 'he', section = '' } = {}) {
+  const text = String(title || '');
+  return lang === 'he' && text && !HEBREW.test(text) && section ? section : text;
+}
+// The section a route belongs to, as [href, label key] from the shell's lists: a lab first (its own entry), then the
+// main entry the route lights up, then Settings and Help.
+export function sectionOf(route, nav = [], labs = []) {
+  const path = route?.path || '';
+  const lab = labs.find(([href]) => path === href || path.startsWith(`${href}/`));
+  if (lab) return lab;
+  const key = route?.extra?.nav || path.split('/')[0];
+  return nav.find(([href, , ic]) => ic === key || href === key) || ({ settings: ['settings', 'nav.settings'], help: ['help', 'nav.help'] })[key] || null;
+}
+
 export const router = {
   current: null,
   onRoute: null, // set by app: (route) => void
+  onTitle: null, // set by app: (route) => void, when a view sets its title
   async go() {
     let { path, query, malformed } = parse();
     if (malformed) { navigate(hasProfile() ? 'today' : 'welcome', { replace: true }); return; }
@@ -104,7 +122,15 @@ export const router = {
         const set = new Set(colls);
         state.unwatch.push(store.on('change', (ev) => { if (this.current === state && ev.colls?.some((c) => set.has(c))) fn(ev); }));
       },
-      setTitle: (text) => { document.title = text ? `${text} · Lucid` : 'Lucid'; const el = document.getElementById('top-title'); if (el) el.textContent = text || ''; },
+      // The title belongs to the route, so the shell can redraw without losing it (SC-9); the shell decides how
+      // it shows in the top bar (onTitle).
+      setTitle: (text) => {
+        document.title = text ? `${text} · Lucid` : 'Lucid';
+        state.title = text || '';
+        if (this.current !== state) return;
+        if (this.onTitle) this.onTitle(state);
+        else { const el = document.getElementById('top-title'); if (el) el.textContent = state.title; }
+      },
     };
     root.innerHTML = '<div class="boot"><span class="spinner" role="status" aria-label="…"></span></div>';
     try {

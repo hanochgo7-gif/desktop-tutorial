@@ -1,7 +1,7 @@
 // Boot: open the local store, load the curriculum, apply settings, draw the shell, start routing
 // and (when an account is connected) sync.
 import { openStore, store } from './core/store.js';
-import { router, navigate } from './core/router.js';
+import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
@@ -77,8 +77,30 @@ function drawShell(route) {
       ${netBadge()}<span id="sync-status" class="xsmall">${syncLabel()}</span>
       ${p?.name ? html`<span>${p.name}</span>` : ''}
     </div>`);
-  render(tabbar, NAV.map(([href, key, ic]) => html`<a href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span>${t(key)}</span></a>`));
-  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span>${netBadge()}<a class="key ghost small icon-only" href="#/help" aria-label="${t('nav.help')}">${icon('info')}</a><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
+  // Tab labels stay on one line; at 130-150% text a long label gives way to its short form (SC-9).
+  render(tabbar, NAV.map(([href, key, ic]) => {
+    const short = SHORT_TAB[key] && t(SHORT_TAB[key]) !== t(key) ? t(SHORT_TAB[key]) : '';
+    return html`<a href="#/${href}" ${short ? html`aria-label="${t(key)}"` : ''} ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span class="tab-l${short ? ' has-short' : ''}">${t(key)}</span>${short ? html`<span class="tab-l tab-short" aria-hidden="true">${short}</span>` : ''}</a>`;
+  }));
+  // The top-bar keys carry their names as small labels at 130-150% text (SC-9); the title survives every redraw.
+  const topKey = (href, key, ic) => html`<a class="key ghost small icon-only top-key" href="${href}" aria-label="${t(key)}">${icon(ic)}<span class="top-label" aria-hidden="true">${t(key)}</span></a>`;
+  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title">${shownTitle(route)}</span>${netBadge()}${topKey('#/help', 'nav.help', 'info')}${topKey('#/settings', 'nav.settings', 'settings')}`);
+  fitTitle();
+}
+const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
+// A title too long for the top bar steps down in size, to 14px, before it is cut with an ellipsis (SC-9).
+function fitTitle() {
+  const el = document.getElementById('top-title');
+  if (!el || el.closest('[hidden]') || !el.getClientRects().length) return;
+  el.style.fontSize = '';
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollWidth > el.clientWidth + 1 && size > 14) { size -= 1; el.style.fontSize = `${size}px`; }
+}
+// What the top bar shows for a route: the view's title, or in the Hebrew UI its section's name when the title is
+// English only.
+function shownTitle(route) {
+  const section = sectionOf(route, NAV, MORE);
+  return topTitle(route?.title, { lang: uiLang(), section: section ? t(section[1]) : '' });
 }
 
 
@@ -148,9 +170,8 @@ function watchSpeech() {
       clear(playing.get(id));
       playing.delete(id);
     } else if (state === 'silent') {
-      // A pressed button always gets the note (a few seconds apart); sound that starts by itself, once a visit.
-      const asked = Boolean(recent());
-      if ((asked && Date.now() - silentNoted > 4000) || !silentNoted) {
+      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet.
+      if (recent() && Date.now() - silentNoted > 4000) {
         silentNoted = Date.now();
         toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.', 'Can\'t hear it? Check the volume and silent mode. If your browser has no English voice, the transcript is shown after you check.'), { ms: 7000 });
       }
@@ -191,10 +212,12 @@ async function boot() {
     }
   });
   router.onRoute = drawShell;
-  // Keep the title the view set when the shell is redrawn for a connection change.
-  const redrawNet = () => { const title = document.getElementById('top-title')?.textContent; drawShell(router.current); const el = document.getElementById('top-title'); if (el && title) el.textContent = title; };
-  addEventListener('online', redrawNet);
-  addEventListener('offline', redrawNet);
+  router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitle(); } };
+  let fitTimer = 0;
+  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitTitle, 100); });
+  // The title lives on the route, so a redraw for a connection change keeps it.
+  addEventListener('online', () => drawShell(router.current));
+  addEventListener('offline', () => drawShell(router.current));
   // "עב" buttons reveal the Hebrew next to English content when Hebrew support is off (one listener for all views).
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-reveal-he]');

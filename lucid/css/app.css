@@ -496,7 +496,7 @@ dialog.sheet::backdrop { background: oklch(0.15 0.01 250 / 0.5); backdrop-filter
 dialog.sheet > .panel { padding: var(--s5); }
 #toast-root { position: fixed; inset-inline: 0; bottom: calc(5.5rem + env(safe-area-inset-bottom)); display: grid; justify-items: center; gap: var(--s2); pointer-events: none; z-index: 60; }
 @media (min-width: 64rem) { #toast-root { bottom: var(--s5); } }
-.toast { pointer-events: auto; background: var(--n10); color: var(--n1); padding: 0.7rem 1rem; border-radius: var(--r-key); box-shadow: var(--shadow-lift); font-size: var(--t-sm); max-width: calc(100vw - 2rem); animation: toast-in 0.35s var(--ease-out); }
+.toast { pointer-events: none; background: var(--n10); color: var(--n1); padding: 0.7rem 1rem; border-radius: var(--r-key); box-shadow: var(--shadow-lift); font-size: var(--t-sm); max-width: calc(100vw - 2rem); animation: toast-in 0.35s var(--ease-out); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
 .banner { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s3) var(--s4); border-radius: var(--r-key); font-size: var(--t-sm); background: var(--cobalt-tint); }
 .banner.warn { background: var(--warn-tint); }
@@ -1030,12 +1030,28 @@ dialog.sheet > .panel { padding: var(--s5); }
 :root:is([data-text='130'], [data-text='150']) :is(.seg.full, .field > .seg, .page-head > .seg):has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 40rem) { .page-head > .seg { flex: 1 1 100%; } }
 
+/* Large text on a phone (SC-9): the top-bar title shrinks before it truncates (app.js fits it); tab labels keep to
+   one line (the long one has a short form at 130-150%); the top-bar keys show their names under the icons. */
+.tabbar a { min-width: 0; white-space: nowrap; }
+.tabbar .tab-l { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: min(0.72rem, 3.9vw); }
+.tabbar .tab-short, .top .top-label { display: none; }
+:root:is([data-text='130'], [data-text='150']) .tabbar { gap: 2px; padding-inline: 4px; }
+:root:is([data-text='130'], [data-text='150']) .tabbar a { padding: 6px 2px 5px; }
+:root:is([data-text='130'], [data-text='150']) .tabbar .tab-l.has-short { display: none; }
+:root:is([data-text='130'], [data-text='150']) .tabbar .tab-short { display: block; }
+:root:is([data-text='130'], [data-text='150']) .top { gap: var(--s2); }
+:root:is([data-text='130'], [data-text='150']) .top .top-key { flex-direction: column; gap: 0; width: auto; min-width: 44px; padding-inline: 0.2rem; line-height: 1.15; }
+:root:is([data-text='130'], [data-text='150']) .top .top-label { display: block; font-size: min(0.62rem, 3.6vw); font-weight: 500; }
+
+/* A note never blocks a tap on what is under it; in a player it sits just above the footer (components.js). */
+
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {
   .deck { overflow: hidden; }
   .deck nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; align-content: start; overscroll-behavior: contain; margin-inline: calc(var(--s1) * -1); padding-inline: var(--s1); padding-block-end: var(--s3); }
   .deck .foot { flex: none; margin-top: 0; padding-block-start: var(--s3); border-block-start: 1px solid oklch(1 0 0 / 0.1); }
   .deck .foot a.nav { padding-block: 0.4rem; }
+  .deck a.nav > .icon { font-size: var(--t-md); }
 }
 
 /* Touch screens (SC-2): no keyboard hints. "Enter" keycaps go; option numbers stay as quiet labels, not keys. */
