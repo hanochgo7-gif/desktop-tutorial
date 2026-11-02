@@ -120,6 +120,17 @@ try {
     assert(used.cls && used.aria === 'true' && used.bg !== free, `the used chip is not marked: ${JSON.stringify(used)}`);
     const row = await page.$eval('[data-bank]', (c) => ({ dir: c.getAttribute('dir'), lang: c.getAttribute('lang'), xs: [...c.children].map((b) => b.getBoundingClientRect().x) }));
     assert(row.dir === 'ltr' && row.lang === 'en' && row.xs.every((x, k) => k === 0 || x > row.xs[k - 1]), `the chip row does not read left to right: ${JSON.stringify(row)}`);
+    // Tapping a filled gap chooses it without clearing it and shows the clear key; every chip index works.
+    for (const [gap, word] of [[0, 'seat'], [1, 'sit']]) {
+      await page.click(`.gap-input[data-gap="${gap}"]`);
+      if (!(await page.$eval(`.gap-input[data-gap="${gap}"]`, (i) => i.value))) await page.click(`[data-chip="${word}"]`);
+      await page.click(`.gap-input[data-gap="${gap}"]`);
+      const tools = await page.evaluate((g) => ({ shown: !document.querySelector('[data-gap-tools]').hidden, label: document.querySelector('[data-gap-clear]').textContent.trim(), value: document.querySelector(`.gap-input[data-gap="${g}"]`).value, target: document.querySelector(`.gap-input[data-gap="${g}"]`).getAttribute('aria-current') }), gap);
+      assert(tools.shown && tools.label.includes(`רווח ${gap + 1}`) && tools.value === word && tools.target === 'true', `tapping filled gap ${gap + 1}: ${JSON.stringify(tools)}`);
+    }
+    await page.click('[data-gap-clear]');
+    const cleared = await page.evaluate(() => ({ v: document.querySelector('.gap-input[data-gap="1"]').value, aria: document.querySelector('[data-chip="sit"]').getAttribute('aria-disabled') }));
+    assert(cleared.v === '' && cleared.aria === 'false', `the clear key did not empty gap 2: ${JSON.stringify(cleared)}`);
     await ctx.close();
     const d = await newPage(browser, { desktop: true });
     await learnerAt(d.page, 'PreA1');

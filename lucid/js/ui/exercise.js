@@ -163,7 +163,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       let target = bank ? 0 : null;
       const chipEl = (ci) => $(`[data-ci="${ci}"]`, root);
       const setChip = (ci, used) => { const c = chipEl(ci); if (!c) return; c.classList.toggle('used', used); c.setAttribute('aria-disabled', String(used)); c.tabIndex = used ? -1 : 0; };
-      const nextEmpty = (from) => { for (let k = 1; k <= n; k++) { const j = (from + k) % n; if (!filled[j] && !locked.has(j)) return j; } return null; };
+      const nextEmpty = (from) => { for (let k = 1; k <= n; k++) { const j = (from + k) % n; if (filled[j] == null && !locked.has(j)) return j; } return null; };
       const drawTarget = () => {
         inputs.forEach((inp, i) => {
           const on_ = i === target;
@@ -173,7 +173,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         });
         const tools = $('[data-gap-tools]', root);
         if (!tools) return;
-        tools.hidden = target == null || !filled[target] || root.dataset.locked === '1';
+        tools.hidden = target == null || filled[target] == null || root.dataset.locked === '1';
         if (!tools.hidden) $('[data-gap-clear-label]', root).textContent = tt(`לנקות את רווח ${target + 1}`, `Clear gap ${target + 1}`);
       };
       const clearGap = (i) => {
