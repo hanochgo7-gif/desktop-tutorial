@@ -2,7 +2,7 @@
 // Usage: node tools/validate-content.mjs [--only lessons|placement|scenarios|slang|writing] [files...]
 // Exit code 1 when any error is found. Warnings flag quality issues that do not block.
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'content');
@@ -29,7 +29,61 @@ function bilingual(file, path, v, { he = false, required = true } = {}) {
   if (typeof v !== 'object' || !isStr(v.en)) { err(file, path, 'must be {en, he?} with non-empty en'); return; }
   if (he && !isStr(v.he)) err(file, path, 'Hebrew (he) required at this level');
   if (v.he != null && !hebrew.test(v.he)) err(file, path, 'he must be Hebrew text');
-  if (hebrew.test(v.en)) warn(file, path, 'en contains Hebrew characters');
+  if (hebrew.test(v.en) && !glossChecked.has(file)) warn(file, path, 'en contains Hebrew characters');
+}
+
+// Hebrew glosses translate the claim (BL-2). A Hebrew line that repeats whole English examples doubles the
+// text and comes apart in right-to-left lines, so a 'he' string may quote short English tokens ("עם don't
+// ו-doesn't") but not more than one English sentence or more than 8 English words; full examples belong in
+// the English field, the examples list or a table. An 'en' string never holds Hebrew letters. Both are errors
+// where Hebrew is shown by default (Pre-A1 to B1) and warnings above. IPA in slashes (/ðə/) is not counted.
+export const GLOSS_MAX_WORDS = 8;
+export const GLOSS_STRICT = new Set([]);
+const glossChecked = new Set();
+const NOT_HEBREW_RUN = /[^֐-׿יִ-ﭏ]*[A-Za-z][^֐-׿יִ-ﭏ]*/g;
+const IPA_TOKEN = /(?<![A-Za-z])\/[^/\s]{1,24}\/(?![A-Za-z])/g;
+const LATIN_WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*/g;
+const NOT_A_SENTENCE_END = /(?:\b(?:Mr|Mrs|Ms|Dr|St|etc|vs|e\.g|i\.e|a\.m|p\.m)|\b[A-Za-z])\.$/i;
+// English words (two letters or more; single letters are letter names) and English sentences in a Hebrew
+// string. A sentence starts with a capital letter and either ends with . ? ! or runs to three words or more.
+export function glossStats(text) {
+  const s = String(text ?? '').replace(IPA_TOKEN, ' ');
+  const latinWords = (s.match(LATIN_WORD) || []).filter((w) => w.length > 1).length;
+  const sentences = [];
+  for (const [run] of s.matchAll(NOT_HEBREW_RUN)) {
+    const pieces = [];
+    let cur = '';
+    for (const part of run.split(/(?<=[.?!…:;])\s+/)) {
+      cur += (cur ? ' ' : '') + part;
+      if (!NOT_A_SENTENCE_END.test(cur.trim())) { pieces.push(cur); cur = ''; }
+    }
+    if (cur) pieces.push(cur);
+    for (const p of pieces) {
+      const words = p.match(LATIN_WORD) || [];
+      const closed = /[.?!…]['")\]]*\s*$/.test(p.trim());
+      if (/^[^A-Za-z]*[A-Z]/.test(p) && words.length >= 2 && (closed || words.length >= 3)) sentences.push(p.trim().replace(/^[^A-Za-z'"‘“(]+/, ''));
+    }
+  }
+  return { latinWords, sentences };
+}
+export function glossProblem(he) {
+  const { latinWords, sentences } = glossStats(he);
+  if (sentences.length > 1) return `Hebrew gloss repeats ${sentences.length} English sentences ("${sentences[0]}" ...); state the claim and leave the examples to the English`;
+  if (latinWords > GLOSS_MAX_WORDS) return `Hebrew gloss holds ${latinWords} English words (max ${GLOSS_MAX_WORDS}); state the claim and leave the examples to the English`;
+  return null;
+}
+// Every he / *_he string and every en / *_en string in a content object, judged at the given level.
+function glossCheck(file, v, level, path = '') {
+  glossChecked.add(file);
+  if (Array.isArray(v)) return v.forEach((x, i) => glossCheck(file, x, level, `${path}[${i}]`));
+  if (!v || typeof v !== 'object') return;
+  const report = (p, msg) => (GLOSS_STRICT.has(level) ? err : warn)(file, p, msg);
+  for (const [k, x] of Object.entries(v)) {
+    const p = path ? `${path}.${k}` : k;
+    if (typeof x === 'string' && (k === 'he' || k.endsWith('_he'))) { const m = glossProblem(x); if (m) report(p, m); }
+    else if (typeof x === 'string' && (k === 'en' || k.endsWith('_en')) && hebrew.test(x)) report(p, 'en contains Hebrew letters');
+    else if (x && typeof x === 'object') glossCheck(file, x, level, p);
+  }
 }
 const strArr = (file, path, v, min = 1) => {
   if (!Array.isArray(v) || v.length < min || !v.every(isStr)) err(file, path, `must be an array of >= ${min} non-empty strings`);
@@ -158,6 +212,7 @@ function lesson(file) {
   let d;
   try { d = read(file); } catch (e) { return err(file, '', `invalid JSON: ${e.message}`); }
   const f = file.replace(ROOT + '/', '');
+  glossChecked.add(f);
   const plan = LESSONS.get(d.id);
   if (!plan) return err(f, 'id', `not in curriculum.json: ${d.id}`);
   if (d.level !== plan.level) err(f, 'level', `expected ${plan.level}`);
@@ -210,11 +265,14 @@ function lesson(file) {
   if (!d.review || !Array.isArray(d.review.key_points) || d.review.key_points.length < 2) err(f, 'review.key_points', 'needs at least 2');
   else d.review.key_points.forEach((k, i) => bilingual(f, `review.key_points[${i}]`, k, { he }));
   if (d.completion && (typeof d.completion.pass_score !== 'number' || d.completion.pass_score < 0.5 || d.completion.pass_score > 1)) err(f, 'completion.pass_score', '0.5-1');
+  glossCheck(f, d, d.level);
 }
 
 function placement(file) {
   const d = read(file); const f = 'placement.json';
   if (!Array.isArray(d.items)) return err(f, 'items', 'missing');
+  glossChecked.add(f);
+  d.items.forEach((it, i) => glossCheck(f, it, it.level, `items[${i}]`));
   const ids = new Set();
   const per = {};
   d.items.forEach((it, i) => {
@@ -347,54 +405,64 @@ function rubric(file) {
 }
 
 // ---- run ----
+// The checks run when this file is the command (node tools/validate-content.mjs); importing it (the unit tests
+// import glossStats) runs nothing.
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
-// Single-file mode for authors: --file <path> --kind lesson|placement|scenarios|slang|writing-exercises|writing-assignments
-if (arg('--file')) {
-  const file = arg('--file'), kind = arg('--kind');
-  const run = { lesson, placement, scenarios, slang, rubric, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
-  if (!run) { console.log('ERROR unknown --kind'); process.exit(2); }
-  try { run(file); } catch (e) { err(file, '', `invalid JSON or crash: ${e.message}`); }
+async function main() {
+  // Single-file mode for authors: --file <path> --kind lesson|placement|scenarios|slang|writing-exercises|writing-assignments
+  if (arg('--file')) {
+    const file = arg('--file'), kind = arg('--kind');
+    const run = { lesson, placement, scenarios, slang, rubric, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
+    if (!run) { console.log('ERROR unknown --kind'); process.exit(2); }
+    try { run(file); } catch (e) { err(file, '', `invalid JSON or crash: ${e.message}`); }
+    for (const w of warnings) console.log('WARN ', w);
+    for (const e of errors) console.log('ERROR', e);
+    console.log(`\n${file}: ${errors.length} errors, ${warnings.length} warnings`);
+    process.exit(errors.length ? 1 : 0);
+  }
+  const only = arg('--only');
+  const want = (k) => !only || only === k;
+  let lessonCount = 0;
+  if (want('lessons')) {
+    const dir = join(ROOT, 'lessons');
+    if (existsSync(dir)) for (const name of readdirSync(dir).filter((n) => n.endsWith('.json')).sort()) { lesson(join(dir, name)); lessonCount++; }
+    const missing = [...LESSONS.keys()].filter((id) => !existsSync(join(dir, `${id}.json`)));
+    if (missing.length) warn('lessons', '', `${missing.length} curriculum lessons have no file yet: ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? '...' : ''}`);
+  }
+  const opt = (rel, fn, ...a) => { const p = join(ROOT, rel); if (existsSync(p)) { try { fn(p, ...a); } catch (e) { err(rel, '', `invalid JSON or crash: ${e.message}`); } } else warn(rel, '', 'not present yet'); };
+  if (want('placement')) opt('placement.json', placement);
+  if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
+  if (want('slang')) opt('real-life/slang.json', slang);
+  if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
+  // The taxonomy's notes are shown after lessons at every level; the curriculum's per level.
+  if (!only) {
+    glossCheck('taxonomy.json', taxonomy, 'PreA1');
+    curriculum.levels.forEach((l, i) => glossCheck('curriculum.json', l, l.id, `levels[${i}]`));
+  }
+
+  // Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
+  // js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
+  const { isolateLatin, unpaired, unpairedQuotes } = await import('../js/core/i18n.js');
+  function bidiBrackets(rel, v, path = '') {
+    if (typeof v === 'string') {
+      if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
+      const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
+      if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
+      const halfQuote = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpairedQuotes(m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"')));
+      if (halfQuote) warn(rel, path, `English isolate "${halfQuote[1]}" holds half of a pair of quote marks`);
+    } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
+  }
+  const bidiFiles = [
+    ...(want('lessons') && existsSync(join(ROOT, 'lessons')) ? readdirSync(join(ROOT, 'lessons')).filter((n) => n.endsWith('.json')).map((n) => `lessons/${n}`) : []),
+    ...(want('placement') ? ['placement.json'] : []), ...(want('scenarios') ? ['real-life/scenarios.json'] : []), ...(want('slang') ? ['real-life/slang.json'] : []),
+    ...(want('writing') ? ['writing/exercises.json', 'writing/assignments.json', 'writing/rubric.json'] : []), ...(!only ? ['taxonomy.json'] : []),
+  ];
+  for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
+
   for (const w of warnings) console.log('WARN ', w);
   for (const e of errors) console.log('ERROR', e);
-  console.log(`\n${file}: ${errors.length} errors, ${warnings.length} warnings`);
+  console.log(`\n${lessonCount} lesson files checked; ${errors.length} errors, ${warnings.length} warnings`);
   process.exit(errors.length ? 1 : 0);
 }
-const only = arg('--only');
-const want = (k) => !only || only === k;
-let lessonCount = 0;
-if (want('lessons')) {
-  const dir = join(ROOT, 'lessons');
-  if (existsSync(dir)) for (const name of readdirSync(dir).filter((n) => n.endsWith('.json')).sort()) { lesson(join(dir, name)); lessonCount++; }
-  const missing = [...LESSONS.keys()].filter((id) => !existsSync(join(dir, `${id}.json`)));
-  if (missing.length) warn('lessons', '', `${missing.length} curriculum lessons have no file yet: ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? '...' : ''}`);
-}
-const opt = (rel, fn, ...a) => { const p = join(ROOT, rel); if (existsSync(p)) { try { fn(p, ...a); } catch (e) { err(rel, '', `invalid JSON or crash: ${e.message}`); } } else warn(rel, '', 'not present yet'); };
-if (want('placement')) opt('placement.json', placement);
-if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
-if (want('slang')) opt('real-life/slang.json', slang);
-if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
-
-// Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
-// js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
-const { isolateLatin, unpaired, unpairedQuotes } = await import('../js/core/i18n.js');
-function bidiBrackets(rel, v, path = '') {
-  if (typeof v === 'string') {
-    if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
-    const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
-    if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
-    const halfQuote = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpairedQuotes(m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"')));
-    if (halfQuote) warn(rel, path, `English isolate "${halfQuote[1]}" holds half of a pair of quote marks`);
-  } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
-  else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
-}
-const bidiFiles = [
-  ...(want('lessons') && existsSync(join(ROOT, 'lessons')) ? readdirSync(join(ROOT, 'lessons')).filter((n) => n.endsWith('.json')).map((n) => `lessons/${n}`) : []),
-  ...(want('placement') ? ['placement.json'] : []), ...(want('scenarios') ? ['real-life/scenarios.json'] : []), ...(want('slang') ? ['real-life/slang.json'] : []),
-  ...(want('writing') ? ['writing/exercises.json', 'writing/assignments.json', 'writing/rubric.json'] : []), ...(!only ? ['taxonomy.json'] : []),
-];
-for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
-
-for (const w of warnings) console.log('WARN ', w);
-for (const e of errors) console.log('ERROR', e);
-console.log(`\n${lessonCount} lesson files checked; ${errors.length} errors, ${warnings.length} warnings`);
-process.exit(errors.length ? 1 : 0);
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) await main();
