@@ -977,6 +977,21 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane first-run-today: end ---- */
 
 /* ---- lane practice-hubs: start ---- */
+/* Review with nothing due (bare route): a centred column with a heading, the next step and a way out (PH-2). */
+.review-empty { min-height: 100dvh; display: grid; place-items: center; padding: var(--s5) var(--s4); }
+.review-empty .empty { width: 100%; max-width: 34rem; padding-block: var(--s6); }
+.review-empty .empty h1 { color: var(--ink); font-size: var(--t-xl); }
+.review-empty .empty h1:focus { outline: none; }
+.review-empty .empty p { max-width: 30rem; }
+.review-empty-key { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); color: var(--ink-2); }
+.review-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s3); margin-block-start: var(--s2); }
+/* Review end: the words missed, each with play and when it comes back. */
+#rv-done:focus { outline: none; }
+.review-missed-h { font-size: var(--t-md); }
+.review-missed { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.review-miss { display: flex; align-items: center; gap: var(--s3); min-height: 3.5rem; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.review-miss > .grow { min-width: 0; display: grid; gap: 0.125rem; }
+.review-miss-word { overflow-wrap: anywhere; }
 
 /* ---- lane practice-hubs: end ---- */
 

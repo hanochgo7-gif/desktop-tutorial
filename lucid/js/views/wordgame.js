@@ -118,7 +118,7 @@ async function play(el, ctx, level, stageId) {
   const pool = wordPool(await levelLessons(level), level);
   if (location.hash !== here) return null; // the learner left while the words were loading
   const newRound = (focus = []) => makeRound(pool, stageId, { focus, recent: recentWords(store.all('events'), level, stageId) });
-  let questions = newRound();
+  let questions = newRound(String(ctx.query.focus || '').split('|').filter(Boolean)); // ?focus=: the words missed in review come first
   if (!questions.length) {
     render(el, html`<div class="player"><div class="player-top"><a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a></div><div class="player-body"><div class="empty stack">
       <h1>${tt('המילים של הרמה הזו לא נטענו', "This level's words did not load")}</h1>

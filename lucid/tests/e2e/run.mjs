@@ -296,7 +296,7 @@ try {
     await page.goto(`${BASE}#/review`);
     await page.waitForSelector('.flash');
     const before = (await store(page, 'cards'))[0].fsrs.reps;
-    if (await page.$('[data-pick]')) await page.click('[data-pick]'); else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); }
+    if (await page.$('[data-pick]')) { await page.click('[data-pick]'); await page.click('[data-check]'); } else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); } // PH-2: a tap selects, Check commits
     await page.waitForSelector('[data-next]');
     const cards = await store(page, 'cards');
     assert(cards.some((c) => c.fsrs.reps > before), 'card was not rescheduled');
@@ -1749,7 +1749,9 @@ try {
     assert(picks.length, 'no multiple-choice review card');
     const word = await page.textContent('.prompt-word');
     const rightHe = await page.evaluate((w) => window.lucid.store.all('cards').find((c) => c.payload?.word === w)?.payload.he, word.trim());
-    for (const b of picks) if ((await b.getAttribute('data-pick')) !== rightHe) { await b.click(); break; }
+    // PH-1/PH-2: options show the short gloss and a tap selects; Check commits.
+    for (const b of picks) if (!rightHe.startsWith((await b.$eval('span:not(.k)', (s) => s.textContent)).trim())) { await b.click(); break; }
+    await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
     assert(!(await page.$('[data-override]')), '"count it" offered on a picked option');
     await page.evaluate(() => { for (const c of window.lucid.store.all('cards')) if (c.kind === 'meaning') window.lucid.store.put('cards', { ...c, fsrs: { ...c.fsrs, reps: 3 } }); });

@@ -23,13 +23,15 @@ export function relativeDue(iso, now = new Date()) {
   const ms = new Date(iso) - now;
   if (!(ms > 0)) return null;
   const rtf = new Intl.RelativeTimeFormat(uiLang() === 'he' ? 'he' : 'en', { numeric: 'auto' });
+  // Some browsers' Hebrew data write "בעוד דקה (1)"; the number in brackets repeats the word.
+  const fmt = (n, unit) => rtf.format(n, unit).replace(/\s*\(\d+\)$/, '');
   const hours = ms / 3_600_000;
-  if (hours < 1) return rtf.format(Math.max(1, Math.round(ms / 60_000)), 'minute');
-  if (hours < 24) return rtf.format(Math.round(hours), 'hour');
+  if (hours < 1) return fmt(Math.max(1, Math.round(ms / 60_000)), 'minute');
+  if (hours < 24) return fmt(Math.round(hours), 'hour');
   const days = Math.round(hours / 24);
-  if (days < 45) return rtf.format(days, 'day');
-  if (days < 365) return rtf.format(Math.round(days / 30), 'month');
-  return rtf.format(Math.round(days / 365), 'year');
+  if (days < 45) return fmt(days, 'day');
+  if (days < 365) return fmt(Math.round(days / 30), 'month');
+  return fmt(Math.round(days / 365), 'year');
 }
 
 const STATUS = {
