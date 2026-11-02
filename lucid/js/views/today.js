@@ -44,9 +44,9 @@ export function levelRail(curriculum, progress, current) {
     <div class="level-rail" role="img" aria-label="${tt('ההתקדמות לאורך הרמות', 'Progress across levels')}: ${summary}">${curriculum.levels.map((l) => {
       const done = (count(l, 'completed') / l.lessons.length) * 100;
       const out = (count(l, 'placed_out') / l.lessons.length) * 100;
-      return html`<div class="${l.id === current ? 'current' : ''}" style="--n:${l.lessons.length}"><span style="width:${done}%"></span>${out ? html`<span class="out" style="inset-inline-start:${done}%;width:${out}%"></span>` : ''}</div>`;
+      return html`<div class="${l.id === current ? 'current' : ''}" data-l="${l.id}" style="--n:${l.lessons.length}"><span style="width:${done}%"></span>${out ? html`<span class="out" style="inset-inline-start:${done}%;width:${out}%"></span>` : ''}</div>`;
     })}</div>
-    <div class="level-rail-labels" aria-hidden="true">${curriculum.levels.map((l) => html`<span class="${l.id === current ? 'current' : ''}" style="--n:${l.lessons.length}">${L(l.id)}</span>`)}</div>
+    <div class="level-rail-labels" aria-hidden="true">${curriculum.levels.map((l) => html`<span class="${l.id === current ? 'current' : ''}" data-l="${l.id}" style="--n:${l.lessons.length}">${L(l.id)}</span>`)}</div>
   </div>`;
 }
 

@@ -50,7 +50,7 @@ export default async function path(el, ctx) {
       })}</div>
       <section class="stack">
         <div class="row between">
-          <div><h2>${L} · ${legend(meta.name_en, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
+          <div><h2 class="path-level-h">${legend(`${L} · ${meta.name_en}`, meta.name_he)}</h2><p class="small muted" style="margin-top:var(--s1)">${tt(lvl.unit_he, lvl.unit_en)}</p></div>
           ${lvl.id === m.courseLevel && !pending ? html`<span class="tag cobalt">${tt('הרמה הנוכחית שלך', 'Your current level')}</span>` : ''}
         </div>
         <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${lvl.lessons.map((l) => {
@@ -61,7 +61,9 @@ export default async function path(el, ctx) {
           if (available.size && !available.has(l.id)) {
             return html`<li><div class="lesson-row unwritten">${body}<span class="row small"><span class="tag">${icon('clock', { size: 14 })} ${tt('בהכנה', 'In preparation')}</span></span></div></li>`;
           }
-          return html`<li><a class="lesson-row ${isNext ? 'next' : ''}" href="#/lesson/${l.id}" ${isNext ? html`aria-current="step"` : ''}>${body}
+          // A lesson with a saved place opens there, as Today's "Continue" does (TF-11; student-19 F2).
+          const saved = p?.resume && p.resume.qi < (p.resume.queue?.length || 0) && p.status !== 'completed';
+          return html`<li><a class="lesson-row ${isNext ? 'next' : ''}" href="#/lesson/${l.id}${saved ? '?resume=1' : ''}" ${isNext ? html`aria-current="step"` : ''}>${body}
             <span class="row small">${p?.status === 'started' && p.best_score != null ? html`<span class="tag">${tt('בתהליך', 'In progress')}</span>` : p?.best_score != null ? html`<span class="tag ${p.best_score >= 0.7 ? 'ok' : 'warn'} num">${Math.round(p.best_score * 100)}%</span>` : ''}${isNext ? html`<span class="tag cobalt">${tt('הבא', 'Next')}</span>` : ''}</span></a></li>`;
         })}
           <li><a class="lesson-row" href="#/checkpoint/${lvl.id}">${mark(checkpoint?.status)}<span class="ord">${icon('flag', { size: 16 })}</span>
@@ -77,8 +79,10 @@ export default async function path(el, ctx) {
           <div class="row between">
             <p class="small muted grow">${tt('מרגישים שהרמה לא מתאימה? מיקום הוא הערכה התחלתית, ואתם מחליטים.', 'Does this level feel wrong? Placement is a first estimate, and you decide.')}</p>
             <div class="row">
-              ${lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}">${tt(`להתחיל מ-${L}`, `Start from ${L}`)}</button>` : ''}
-              <a class="key small" href="#/checkpoint/${lvl.id}">${tt('לבחון את עצמי', 'Test myself')}</a>
+              ${lvl.id === m.courseLevel && !pending
+                ? html`<span class="small path-current">${icon('check', { size: 16 })}<span>${tt('זו הרמה הנוכחית שלכם', 'This is your current level')}</span></span>`
+                : lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}"><span>${isolateLatin(tt(`להתחיל מ-${L}`, `Start from ${L}`))}</span></button>` : ''}
+              <a class="key small" href="#/checkpoint/${lvl.id}"><span>${isolateLatin(tt(`לבדיקת רמה ${L}`, `To the ${L} level check`))}</span></a>
               ${pending && draft?.answers?.length
                 ? html`<a class="key ghost small" href="#/placement?resume=1">${tt('להמשיך את מבחן המיקום', 'Continue the placement test')}</a>`
                 : pending ? html`<a class="key ghost small" href="#/placement">${tt('מבחן המיקום', 'Take the placement test')}</a>`

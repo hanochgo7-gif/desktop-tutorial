@@ -1053,6 +1053,15 @@ dialog.sheet > .panel { padding: var(--s5); }
   .welcome h1 { max-width: 20ch; }
   .keyboard { --kw: min(2.9rem, 3.2vw); }
 }
+/* Level rail labels: one line each at 12px; the Pre-A1 segment is as wide as its label in both rows, so "Pre-A1"
+   never breaks into "Pre-" / "A1" and never runs into the next label (TF-11). */
+.level-rail-labels { font-size: 0.75rem; }
+.level-rail-labels > span { white-space: nowrap; overflow: visible; }
+.level-rail > [data-l='PreA1'], .level-rail-labels > [data-l='PreA1'] { min-width: 2.5rem; }
+/* Path: the level's Hebrew name sits under its heading's own edge; the current level says so in words (TF-11). */
+.path-level-h .legend { display: grid; }
+.path-level-h .legend > .l-he { font-size: var(--t-md); font-weight: 500; justify-self: start; }
+.path-current { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ok); font-weight: 500; min-height: 2.25rem; }
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }

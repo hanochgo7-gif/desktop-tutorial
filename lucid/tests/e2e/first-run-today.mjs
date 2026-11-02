@@ -474,6 +474,34 @@ try {
     await shot(d.page, 'tf10-welcome-1440', false);
     await d.ctx.close();
   });
+  // ---------- TF-11: path details ----------
+  await check('TF-11 #/path/A2 as an A2 learner has no button that does nothing; an in-progress lesson link ends with ?resume=1; "Pre-A1" stays on one line on the rail; the level\'s Hebrew name starts at the heading\'s edge', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await page.evaluate(async () => {
+      const l = await (await fetch('content/lessons/a2-03.json')).json();
+      window.lucid.store.put('progress', { id: 'a2-03', level: 'A2', status: 'started', resume: { qi: 3, queue: l.exercises.map((e) => [e.id, false]), first: [], at: new Date().toISOString() } });
+    });
+    await page.goto(`${BASE}#/path/A2`);
+    await page.waitForSelector('.lesson-list');
+    assert(!(await page.$('[data-move="A2"]')), 'the current level still offers "Start from A2"');
+    assert(/זו הרמה הנוכחית שלכם/.test(await page.textContent('.path-current')), 'the current level is not named in words');
+    const checks = await page.$$eval('#view a[href="#/checkpoint/A2"]', (x) => x.map((a) => a.textContent.trim()));
+    assert(checks.includes('לבדיקת רמה A2') && !checks.some((t) => /לבחון את עצמי/.test(t)), `checkpoint links: ${checks}`);
+    assert(await page.getAttribute('a[href^="#/lesson/a2-03"]', 'href') === '#/lesson/a2-03?resume=1', 'the in-progress lesson link does not resume');
+    const edge = await page.$eval('.path-level-h', (h) => Math.abs(h.querySelector('.l-en').getBoundingClientRect().right - h.querySelector('.l-he').getBoundingClientRect().right));
+    assert(edge <= 1, `the Hebrew level name is ${edge}px off the heading's edge`);
+    await shot(page, 'tf11-path-a2-390');
+    for (const viewport of [PHONE, DESKTOP]) {
+      const p = viewport === PHONE ? page : (await newPage(browser, { viewport })).page;
+      if (p !== page) await learnerAt(p, 'A2');
+      await today(p);
+      const pre = await p.$eval('.level-rail-labels [data-l="PreA1"]', (s) => { const r = document.createRange(); r.selectNodeContents(s); return { lines: r.getClientRects().length, size: parseFloat(getComputedStyle(s).fontSize), text: s.textContent }; });
+      assert(pre.text === 'Pre-A1' && pre.lines === 1 && pre.size >= 12, `Pre-A1 label at ${viewport.width}: ${JSON.stringify(pre)}`);
+      if (p !== page) await p.context().close();
+    }
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
