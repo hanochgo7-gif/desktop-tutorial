@@ -1094,6 +1094,89 @@ details[open] > summary:not(.disclosure)::before, :root[dir='rtl'] details[open]
 /* ---- lane lesson-flow: end ---- */
 
 /* ---- lane exercises: start ---- */
+.ex-prompt:focus { outline: none; }
+.ex-mark { display: inline-grid; place-items: center; flex: none; vertical-align: -0.2em; }
+.ex-mark.ok { color: var(--ok); }
+.ex-mark.bad { color: var(--bad); }
+
+/* Matching (EX-1): a wrong pair stays marked until the next tap; found pairs keep full contrast and a pair
+   number; the finished board becomes rows of pairs, side by side. */
+.match-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.match-grid .match-item { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.25rem 0.35rem; min-width: 0; }
+.match-grid .match-item.paired { opacity: 1; border-color: var(--ok); background: var(--ok-tint); color: var(--ink); cursor: default; }
+.match-grid .match-item.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.match-grid .match-item.is-wrong .match-mark { color: var(--bad); }
+.match-mark:empty { display: none; }
+.match-mark { display: inline-grid; place-items: center; flex: none; }
+.match-n { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; padding: 0 0.25rem; border-radius: var(--r-pill); background: var(--ok); color: var(--key); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
+.match-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.match-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--s2); min-height: 3rem; padding: var(--s1) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.match-row.is-right { border-color: var(--ok); }
+.match-row .match-a { text-align: end; font-weight: 500; }
+.match-row .match-b { text-align: start; }
+.match-row .match-sep { color: var(--ink-3); }
+.match-lead, .match-trail { display: inline-flex; align-items: center; gap: var(--s1); }
+.match-lead:empty, .match-trail:empty { width: 0; }
+
+/* Word bank (EX-2): the chosen gap is marked; used words stay visible, flat and skipped. */
+.gap-input.is-target { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+.gap-input.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.gap-mark { display: inline-grid; vertical-align: -0.15em; margin-inline-end: 0.15rem; }
+.gap-tools { margin-block-start: var(--s3); }
+.gap-bank .chip.used { visibility: visible; border-style: dashed; border-block-end-width: 1px; background: var(--key-sunk); color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--ink-3); cursor: default; }
+.gap-bank .chip.used:active { transform: none; }
+
+/* Reveal and second tries (EX-4). */
+.ex-field.wrong, .ex-field[aria-invalid='true'] { border-color: var(--bad); }
+.reveal-answer { display: flex; align-items: baseline; gap: var(--s2); margin-block-start: var(--s3); padding: var(--s2) var(--s3); border-radius: var(--r-key); background: var(--ok-tint); font-size: var(--t-lg); }
+.answer-line .chip.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ink); opacity: 1; }
+.tf-row .key:disabled { opacity: 1; cursor: default; }
+.tf-row .key.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.tf-row .key.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+
+/* Mixed lines (EX-6): numbered passage paragraphs, one speaker per line. */
+.passage[data-numbered] { counter-reset: para; }
+.passage[data-numbered] > p { counter-increment: para; position: relative; padding-inline-start: 2rem; }
+.passage[data-numbered] > p::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+.ex-text .speaker, .passage .speaker { font-weight: 600; }
+.ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
+.ex-source[dir='rtl'] { text-align: right; }
+
+/* Sorting (EX-9): the instruction first, the bins marked while an item is chosen, and a wrong sentence in the
+   "wrong" bin struck through with a neutral tag instead of a green tick. */
+.cat-help { font-size: var(--t-md); color: var(--ink-2); margin-block-end: var(--s3); }
+.cat-bin.is-target { border-style: solid; border-color: var(--cobalt); background: var(--cobalt-tint); }
+.cat-bin .chip.is-struck { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; border-color: var(--key-edge); border-style: dashed; color: var(--ink-2); text-align: start; }
+.cat-bin .chip.is-struck s, .cat-bin .chip.is-struck del { text-decoration: line-through; text-decoration-color: var(--bad); text-decoration-thickness: 2px; }
+.cat-bin .chip.is-struck ins { text-decoration: none; color: var(--ink); font-weight: 600; }
+.cat-tag { font-weight: 500; }
+
+/* Sound questions (EX-10): a play key beside each option, outside it. */
+.opt-row { display: flex; align-items: center; gap: var(--s2); }
+.opt-row > .option { flex: 1; min-width: 0; }
+.ex-say { display: inline-block; vertical-align: middle; }
+@media (pointer: coarse) { .opt-row > .key.icon-only, .ex-say > .key.icon-only, .match-row .key.icon-only { width: 2.75rem; min-height: 2.75rem; } }
+
+/* The lesson writing step (EX-11): the key names what happens and how many words are still needed; the text
+   area grows with the text; the self-check list is a left-to-right grid, box then text. */
+.check-label { display: inline-grid; justify-items: center; line-height: 1.2; white-space: normal; }
+.check-need { font-size: var(--t-xs); font-weight: 500; }
+.ex-write { min-height: 10rem; field-sizing: content; max-height: 70dvh; }
+.self-check { display: grid; gap: var(--s3); text-align: left; }
+.self-check-item { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: var(--s3); font-size: var(--t-sm); line-height: 1.5; cursor: pointer; }
+.self-check-item input { width: 1.15rem; height: 1.15rem; margin: 0.15em 0 0; }
+@media (pointer: coarse) { .self-check-item { min-height: 2.75rem; } }
+
+/* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
+.word-diff .w-slip { color: var(--ink); }
+.w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }
+.w-slip .l-del { color: var(--warn); text-decoration: line-through; text-decoration-thickness: 2px; }
+.spell { font-weight: 600; }
+
+/* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
+.answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
+.answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.answer-diff .w-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; }
 
 /* ---- lane exercises: end ---- */
 
