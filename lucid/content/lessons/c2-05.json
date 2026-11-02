@@ -340,7 +340,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no indefinite article, so a/an can drop out even in a polished draft, especially before a noun with an adjective (*This paper offers new reading of the evidence; *The study has important limitation). In your word pass, check every singular countable noun: it needs a, an, the or another determiner (this, each, one).",
-      "he": "בעברית אין מילה ל-a/an, ולכן היא עלולה ליפול גם מטיוטה מלוטשת, במיוחד לפני שם עצם עם שם תואר (‎*This paper offers new reading of the evidence). בסבב המילים בדקו כל שם עצם ספיר ביחיד: לפניו צריך לבוא a, an, the או מילה אחרת מסוג determiner (this, each, one).",
+      "he": "בעברית אין מילה ל-a/an, ולכן היא עלולה ליפול גם מטיוטה מלוטשת, במיוחד לפני שם עצם עם שם תואר. בסבב המילים בדקו כל שם עצם ספיר ביחיד: לפניו צריך לבוא a, an, the או מילה אחרת מסוג determiner (כמו this).",
       "error_type": "article"
     },
     {

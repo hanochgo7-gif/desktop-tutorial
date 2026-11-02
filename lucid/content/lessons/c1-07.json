@@ -338,7 +338,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew a question can keep the word order of a statement, so it is easy to write a rhetorical question such as *Why we should pay for this? or *How many more reports we need? A written English question still needs question order: the auxiliary before the subject, with do, does or did when there is no other auxiliary: Why should we pay for this? How many more reports do we need?",
-      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('למה אנחנו צריכים לשלם על זה?'), ולכן קל לכתוב באנגלית שאלה רטורית כמו ‎*Why we should pay for this? גם בשאלה רטורית כתובה צריך באנגלית סדר של שאלה: פועל העזר לפני הנושא, ואם אין פועל עזר – do/does/did: Why should we pay for this? How many more reports do we need?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('למה אנחנו צריכים לשלם על זה?'). גם בשאלה רטורית כתובה צריך באנגלית סדר של שאלה: פועל העזר לפני הנושא, ואם אין פועל עזר – do: Why should we pay for this?",
       "error_type": "do-support"
     }
   ],

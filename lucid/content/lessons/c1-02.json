@@ -316,7 +316,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew, questions and sentences that start with an adverb need no auxiliary like do, so it is easy to write *Rarely we see ... or *Not only it saves money. English inversion borrows the question pattern, auxiliary before subject: Rarely do we see ..., Not only does it save money ...",
-      "he": "בעברית שאלה או משפט שמתחיל בתואר פועל לא דורשים פועל עזר כמו do, ולכן קל לכתוב בטעות ‎*Rarely we see. באנגלית ההיפוך אחרי Rarely, Never, Not only בנוי בדיוק כמו שאלה, עם פועל עזר לפני הנושא: Rarely do we see..., Not only does it save money...",
+      "he": "בעברית שאלה או משפט שמתחיל בתואר פועל לא דורשים פועל עזר כמו do. באנגלית ההיפוך אחרי Rarely או Not only בנוי בדיוק כמו שאלה, עם פועל עזר לפני הנושא: Rarely do we see...",
       "error_type": "do-support"
     }
   ],

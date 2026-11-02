@@ -354,7 +354,7 @@
   "hebrew_pitfalls": [
     {
       "en": "The usual Hebrew concession frame (literally 'admittedly ..., but ...') is often translated with although, which produces a doubled connector even in advanced drafts: *Although the scheme is costly, but the savings outweigh it. The Hebrew word behaves like the adverb admittedly, not like the conjunction although, so the English equivalents are Admittedly, the scheme is costly, but ... or Although the scheme is costly, the savings ... (no but).",
-      "he": "את מבנה הוויתור 'אמנם ..., אבל ...' מתרגמים לעתים קרובות ב-although, וכך נוצרת מילת קישור כפולה גם בטיוטות מתקדמות: ‎*Although the scheme is costly, but the savings outweigh it. 'אמנם' מתנהגת כמו תואר הפועל admittedly ולא כמו מילת החיבור although, ולכן המקבילות באנגלית הן Admittedly, the scheme is costly, but ... או Although the scheme is costly, the savings ... (בלי but).",
+      "he": "את מבנה הוויתור 'אמנם ..., אבל ...' מתרגמים לעתים קרובות ב-although, וכך נוצרת מילת קישור כפולה גם בטיוטות מתקדמות. 'אמנם' מתנהגת כמו תואר הפועל admittedly ולא כמו מילת החיבור although, ולכן אפשר לכתוב Admittedly ..., but, או although בלי but.",
       "error_type": "cohesion"
     }
   ],

@@ -314,7 +314,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no word for a/an, so a missing indefinite article is easy to overlook even in advanced writing, especially before an adjective (*This is significant change, *The report proposes new approach). Give articles their own proofreading pass: every singular countable noun needs a, an, the or another determiner (this, my, each).",
-      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר (‎*This is significant change). הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה אחרת שבאה לפניו (this, my, each).",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר. הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה אחרת שבאה לפניו (כמו this).",
       "error_type": "article"
     },
     {

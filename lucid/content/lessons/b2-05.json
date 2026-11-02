@@ -81,7 +81,7 @@
     {
       "type": "tip",
       "en": "Hebrew keeps the same word and simply adds a prefix before a clause (the same Hebrew word means both 'despite' and 'although', and both 'because of' and 'because'). English changes the word: despite the rain / although it rained; because of the traffic / because there was traffic.",
-      "he": "בעברית אותה מילה משמשת לשני המבנים, ומוסיפים ש- לפני פסוקית: למרות הגשם / למרות שירד גשם; בגלל העומס / בגלל שהיה עומס. באנגלית מחליפים מילה: despite the rain / although it rained; because of the traffic / because there was traffic."
+      "he": "בעברית אותה מילה משמשת לשני המבנים, ומוסיפים ש- לפני פסוקית: למרות הגשם / למרות שירד גשם. באנגלית מחליפים מילה: despite לפני שם עצם, ו-although לפני פסוקית; because of לפני שם עצם, ו-because לפני פסוקית."
     },
     {
       "type": "p",
@@ -298,7 +298,7 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew often links the two halves of a sentence with a pair of words (literally 'admittedly ..., but ...'), so learners write *Although the course was expensive, but it was worth it. English uses one connector only: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it.",
-      "he": "בעברית מקובל לחבר את שני חלקי המשפט בשתי מילות קישור ('אמנם הקורס יקר, אבל...'), ולכן קל לכתוב Although the course was expensive, but it was worth it. באנגלית משתמשים במילת קישור אחת בלבד: Although the course was expensive, it was worth it. או: The course was expensive, but it was worth it.",
+      "he": "בעברית מקובל לחבר את שני חלקי המשפט בשתי מילות קישור ('אמנם הקורס יקר, אבל...'). באנגלית משתמשים במילת קישור אחת בלבד: although או but, לא שתיהן.",
       "error_type": "cohesion"
     }
   ],

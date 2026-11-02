@@ -71,7 +71,7 @@
     {
       "type": "warning",
       "en": "Word-for-word translation from Hebrew can produce unnatural English: *make a party → have (or throw) a party · *put attention → pay attention · *close the light → turn off the light · *open the TV → turn on the TV · *an expensive price → a high price (things are expensive; prices are high) · *we made fun → we had fun (make fun of someone means laughing at them unkindly).",
-      "he": "תרגום מילה במילה מעברית יוצר לפעמים אנגלית לא טבעית: עושים מסיבה → have/throw a party (לא make a party) · שמים לב / שמים תשומת לב → pay attention (לא put attention) · סוגרים את האור → turn off the light (לא close the light) · פותחים את הטלוויזיה → turn on the TV (לא open the TV) · מחיר יקר → a high price (מוצר הוא expensive, אבל מחיר הוא high) · עשינו כיף → we had fun (make fun of פירושו ללעוג למישהו)."
+      "he": "תרגום מילה במילה מעברית יוצר לפעמים אנגלית לא טבעית: עושים מסיבה עם have, שמים לב עם pay, סוגרים את האור עם turn off, ומחיר הוא high, לא expensive."
     },
     {
       "type": "tip",
@@ -297,17 +297,17 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no indefinite article, so 'a' can drop out of fixed phrases: *make decision, *take break, *have look. When the noun is singular and countable, English collocations keep a/an: make a decision, take a break, have a look.",
-      "he": "בעברית אין מילה ל-a, ולכן קל להשמיט אותה גם בצירופים קבועים: make decision, take break. באנגלית, כששם העצם ביחיד וספיר, ה-a נשארת: make a decision, take a break, have a look.",
+      "he": "בעברית אין מילה ל-a, ולכן קל להשמיט אותה גם בצירופים קבועים. באנגלית, כששם העצם ביחיד וספיר, ה-a נשארת: make a decision, take a break.",
       "error_type": "article"
     },
     {
       "en": "Hebrew has one verb, 'do', where English has two, make and do, so learners often say *do a mistake or *do an effort. English uses make for these: make a mistake, make an effort, make progress. Do is for tasks and work: do homework, do research.",
-      "he": "בעברית יש פועל אחד, 'לעשות', ובאנגלית יש שניים: make ו-do. לכן קל לומר do a mistake או do an effort. באנגלית אומרים make a mistake, make an effort, make progress, ואת do שומרים למשימות ולעבודה: do homework, do research.",
+      "he": "בעברית יש פועל אחד, 'לעשות', ובאנגלית יש שניים: make ו-do. טעויות ומאמץ 'עושים' עם make (make a mistake), ואת do שומרים למשימות ולעבודה (do homework).",
       "error_type": "word-choice"
     },
     {
       "en": "Hebrew uses 'strong' with rain, cold and pain, so learners write *strong rain or *strong cold. English chooses a different adjective for each noun: heavy rain, bitter (or freezing) cold, severe pain.",
-      "he": "בעברית אומרים גשם חזק, קור חזק וכאב חזק, ולכן קל לכתוב strong rain או strong cold. באנגלית לכל שם עצם יש שם תואר משלו: heavy rain, ‏bitter cold (או freezing cold), ‏severe pain.",
+      "he": "בעברית אומרים גשם חזק, קור חזק וכאב חזק, אבל באנגלית strong לא מתאים לכולם: לכל שם עצם יש שם תואר משלו, כמו heavy rain ו-severe pain.",
       "error_type": "word-choice"
     }
   ],
@@ -540,7 +540,7 @@
       ],
       "explanation": {
         "en": "Two of these keep the Hebrew picture (take a risk, raise a concern). The others change it: you pay attention (not put it), turn on (or switch on) a light (in English you light only a candle or a fire), make an effort (not do it) and meet a deadline (not stand in it).",
-        "he": "שניים מהצירופים שומרים על התמונה העברית (take a risk, raise a concern). באחרים היא משתנה: משלמים תשומת לב (pay attention) ולא שמים אותה, את האור לא 'מדליקים' אלא turn on או switch on (את המילה light משתמשים רק לנר או לאש), 'עושים' מאמץ עם make, ו'פוגשים' דדליין (meet a deadline) במקום לעמוד בו."
+        "he": "שניים מהצירופים שומרים על התמונה העברית (כמו take a risk). באחרים היא משתנה: 'משלמים' תשומת לב (pay), 'מסובבים' את האור (turn on), 'עושים' מאמץ עם make, ו'פוגשים' דדליין (meet)."
       }
     },
     {
@@ -1023,7 +1023,7 @@
       },
       {
         "en": "Check guesses based on Hebrew: have a party, pay attention, turn off the light, a high price.",
-        "he": "בדקו ניחושים שמבוססים על עברית: have a party (לא make), pay attention (לא put), turn off the light (לא close), a high price (לא expensive)."
+        "he": "בדקו ניחושים שמבוססים על עברית: עושים מסיבה עם have, שמים לב עם pay, ומחיר הוא high."
       },
       {
         "en": "Record whole chunks, including the article: make a decision, take a break."
