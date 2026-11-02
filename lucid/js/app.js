@@ -19,6 +19,7 @@ const NAV = [
 ];
 const MORE = [
   ['vocab', 'nav.vocab', 'vocab'],
+  ['games', 'nav.games', 'sparkle'],
   ['grammar', 'nav.grammar', 'grammar'],
   ['reading', 'nav.reading', 'reading'],
   ['listening', 'nav.listening', 'listening'],

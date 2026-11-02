@@ -511,7 +511,7 @@ try {
       }
       await ctx.close();
     }
-    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });
@@ -1316,6 +1316,72 @@ try {
     await page.waitForFunction(() => !document.querySelector('[data-del-chat="rp-test"]'));
     const raw = await page.evaluate(() => window.lucid.store.all('chats', { includeDeleted: true }).find((c) => c.id === 'rp-test'));
     assert(!raw || (!raw.turns && !raw.report), `deleted conversation still holds content: ${JSON.stringify(raw).slice(0, 120)}`);
+    await ctx.close();
+  });
+
+  await check('WG1. Word game: levels and stages; an answer is marked right or wrong at once; a 10-question round ends with a score, a best and words to review', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/practice`);
+    await page.click('main a[href="#/games"]');
+    await page.waitForSelector('.game-levels');
+    assert((await page.$$('.game-levels > li')).length === 7, 'not seven levels');
+    assert(await page.$('a.game-stage[href="#/games/A1/1"]'), 'stage 1 not open');
+    assert(!(await page.$('a.game-stage[href="#/games/A1/2"]')), 'stage 2 open before stage 1 was played');
+    await page.click('a.game-stage[href="#/games/PreA1/1"]');
+    for (let q = 0; q < 10; q++) {
+      await page.waitForSelector('[data-opt]:not([disabled])');
+      assert(!(await page.$('[data-check]')), 'a check button appeared for a choice question');
+      const t0 = Date.now();
+      await page.click(`[data-opt="${q % 4}"]`);
+      await page.waitForSelector('.game-verdict');
+      assert(Date.now() - t0 < 1500, 'feedback was not immediate');
+      assert(await page.$('.option.is-right'), 'the right answer is not shown');
+      await page.click('[data-next]', { timeout: 400 }).catch(() => {}); // it also moves on by itself
+    }
+    await page.waitForSelector('.game-total');
+    const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
+    const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round'));
+    assert(ev.length === 1 && ev[0].score === total && ev[0].total === 10, `round not logged once: ${JSON.stringify(ev)}`);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(300);
+    assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round').length)) === 1, 'Enter on the results counted the round again');
+    if (await page.$('[data-add]')) {
+      await page.click('[data-add]');
+      assert((await page.evaluate(() => window.lucid.store.all('cards').length)) > 0, 'missed words not added to review');
+    }
+    await ctx.close();
+  });
+
+  await check('WG2. Word game completion: a right spelling is accepted as it is typed; a wrong one is marked on Enter with the answer shown; stages open at 70%', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1280, height: 860 } });
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(() => { for (const stage of [1, 2]) window.lucid.store.put('events', { id: `ev-g${stage}`, at: new Date().toISOString(), type: 'game-round', level: 'A1', stage, score: 120, correct: 8, total: 10, accuracy: 0.8 }); });
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/A1/3"]');
+    await page.click('a.game-stage[href="#/games/A1/3"]');
+    await page.waitForSelector('#gw');
+    // Find the hidden word from the lesson data, as a learner who knows it would.
+    const answer = await page.evaluate(async () => {
+      const { content } = await import('./js/core/content.js');
+      const { wordPool } = await import('./js/core/wordgame.js');
+      const cur = await content.curriculum();
+      const ids = cur.levels.find((l) => l.id === 'A1').lessons.map((l) => l.id);
+      const pool = wordPool((await Promise.all(ids.map((id) => content.lesson(id)))).filter(Boolean), 'A1');
+      const text = document.querySelector('.game-sentence').textContent;
+      const w = pool.find((x) => { const m = x.example.match(new RegExp(`(?<![A-Za-z])${x.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![A-Za-z])`, 'i')); return m && x.example.slice(0, m.index) + x.example.slice(m.index + m[0].length) === text; });
+      return w ? w.example.match(new RegExp(w.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'))[0] : null;
+    });
+    assert(answer, 'could not find the hidden word');
+    await page.type('#gw', answer, { delay: 20 });
+    await page.waitForSelector('.game-verdict.ok', { timeout: 2000 });
+    assert(!(await page.$eval('[data-check]', (b) => !b.disabled)), 'check still active after an accepted answer');
+    await page.click('[data-next]', { timeout: 400 }).catch(() => {});
+    await page.waitForSelector('#gw:not([readonly])');
+    await page.type('#gw', 'qqqqqq');
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('.game-verdict.bad');
+    assert(/Answer:|התשובה:/.test(await page.textContent('.game-verdict')), 'the right answer is not shown after a wrong one');
     await ctx.close();
   });
 

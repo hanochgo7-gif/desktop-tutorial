@@ -1,5 +1,5 @@
 {
- "version": "2876ed8776fb",
+ "version": "5f80041776e3",
  "lessons": [
   "a1-01",
   "a1-02",
@@ -104,6 +104,7 @@
   "js/core/store.js",
   "js/core/sync.js",
   "js/core/util.js",
+  "js/core/wordgame.js",
   "js/core/writing-analyzer.js",
   "js/ui/center.js",
   "js/ui/components.js",
@@ -136,6 +137,7 @@
   "js/views/tutor.js",
   "js/views/vocab.js",
   "js/views/welcome.js",
+  "js/views/wordgame.js",
   "js/views/writing.js",
   "privacy.html",
   "vendor/ts-fsrs.mjs"
