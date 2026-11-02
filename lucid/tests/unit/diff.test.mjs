@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wordDiff, diffParagraphs, fixStatus, locateSpan, findLoose } from '../../js/core/diff.js';
+import { wordDiff, diffParagraphs, fixStatus, locateSpan, findLoose, sentenceDiff, letterDiff } from '../../js/core/diff.js';
 
 test('word diff shows changed words inside an edited sentence and keeps the rest', () => {
   const d = wordDiff('I think social media is bad. It wastes time.', 'I believe social media is harmful. It wastes time.');
@@ -56,4 +56,12 @@ test('paragraph breaks that were added or removed are marked, and the diff split
   const joined = wordDiff('A b c.\n\nD e f.', 'A b c. D e f.');
   assert.deepEqual(joined.filter((p) => p.para), [{ type: 'del', text: '¶', para: 'del' }], 'a joined paragraph shows one removed mark');
   assert.deepEqual(diffParagraphs(wordDiff('Same.\n\nText.', 'Same.\n\nText.')).map((b) => b.changed), [false, false]);
+});
+
+// ---------- UX round 3 (exercises lane) ----------
+test('EX-5: a typed sentence against the model, word by word, ignoring case and marks', () => {
+  const d = sentenceDiff('I did lived in Tel Aviv since 2020.', 'I have lived in Tel Aviv since 2020.');
+  assert.deepEqual(d.filter((p) => p.type !== 'same').map((p) => `${p.type}:${p.text}`), ['del:did', 'add:have']);
+  assert.deepEqual(sentenceDiff('have you ever been to eilat', 'Have you ever been to Eilat?'), [{ type: 'same', text: 'have you ever been to eilat' }]);
+  assert.equal(sentenceDiff('You have ever been to Eilat?', 'Have you ever been to Eilat?').filter((p) => p.type !== 'same').length, 2, 'a moved word is one out and one in');
 });

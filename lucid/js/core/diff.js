@@ -90,6 +90,36 @@ export function diffParagraphs(parts) {
   return blocks;
 }
 
+// ---------- one typed answer against its key ----------
+// Merge neighbouring parts of the same type; words are joined with a space, letters with nothing.
+function merged(ops, sep) {
+  const out = [];
+  for (const [type, text] of ops) {
+    const last = out.at(-1);
+    if (last && last.type === type) last.text += `${sep}${text}`;
+    else out.push({ type, text });
+  }
+  return out;
+}
+
+// A typed sentence against a model answer, word by word (P1 EX-5): [{type: 'same' | 'del' | 'add', text}].
+// Words are lined up ignoring case and the marks around them, and a same word is shown as the learner typed it;
+// 'del' is a word of the learner's that the model does not have, 'add' a word of the model's.
+const bare = (w) => w.toLowerCase().replace(/[‘’ʼ`´]/g, "'").replace(/^[^\p{L}\p{N}']+|[^\p{L}\p{N}']+$/gu, '');
+export function sentenceDiff(typed, key) {
+  const a = String(typed || '').trim().split(/\s+/).filter(Boolean);
+  const b = String(key || '').trim().split(/\s+/).filter(Boolean);
+  if (a.length * b.length > MAX_CELLS) return [{ type: 'del', text: a.join(' ') }, { type: 'add', text: b.join(' ') }].filter((p) => p.text);
+  return merged(lcs(a, b, (x, y) => bare(x) === bare(y)).map(([op, x, y]) => [op, op === 'add' ? y : x]), ' ');
+}
+
+// One word against the word it should be, letter by letter (P1 EX-7): [{type: 'same' | 'del' | 'add', text}],
+// where 'del' letters were typed but are not in the word and 'add' letters are missing. Case is ignored.
+export function letterDiff(typed, expected) {
+  const a = [...String(typed || '')], b = [...String(expected || '')];
+  return merged(lcs(a, b, (x, y) => x.toLowerCase() === y.toLowerCase()).map(([op, x, y]) => [op, op === 'add' ? y : x]), '');
+}
+
 // ---------- span tracking ----------
 // Loose form used for matching, as on the server: case, curly quotes and runs of white space are ignored.
 // map[i] is the index in the original string of normalised character i.

@@ -1004,6 +1004,11 @@ dialog.sheet > .panel { padding: var(--s5); }
 .tf-row .key.is-right { border-color: var(--ok); background: var(--ok-tint); }
 .tf-row .key.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
 
+/* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
+.answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
+.answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.answer-diff .w-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; }
+
 /* ---- lane exercises: end ---- */
 
 /* ---- lane bilingual-text: start ---- */

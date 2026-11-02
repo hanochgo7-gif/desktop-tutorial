@@ -137,6 +137,101 @@ export function findWrongFeedback(input, list) {
   return null;
 }
 
+// ---------- open rewrites: could an unlisted answer be right? ----------
+// From B1 a rewrite has many right answers, so an answer the key does not list may be counted by the learner
+// ("My answer is also correct"). That offer is only made when the answer could be right (P1 EX-5): it is not
+// the source left as it was (plus a stray letter), it is not an authored wrong answer, it has no "did/does +
+// past form", it keeps the key's main verb form, and at least 60% of its words are the key's words.
+const fullWords = (s) => (variants(s)[0] || '').replace(/[,.!?;:"()]/g, ' ').split(/\s+/).filter(Boolean);
+const LATIN = /[a-z]/;
+const AUX = new Set(['am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'shall', 'should', 'can', 'could', 'may', 'might', 'must']);
+// Simple-past forms that are not also base forms (so "did went" is caught but "did put" is not).
+const PAST = new Set(['went', 'saw', 'took', 'got', 'came', 'ate', 'gave', 'knew', 'wrote', 'spoke', 'broke', 'chose', 'drove', 'began', 'drank', 'swam', 'sang', 'ran', 'thought', 'bought', 'brought', 'taught', 'caught', 'found', 'left', 'felt', 'kept', 'slept', 'met', 'sent', 'spent', 'built', 'lost', 'paid', 'said', 'told', 'sold', 'stood', 'heard', 'held', 'meant', 'made', 'had', 'was', 'were', 'did', 'flew', 'grew', 'drew', 'threw', 'wore', 'won', 'forgot', 'understood', 'became']);
+const PARTICIPLE = new Set(['been', 'gone', 'seen', 'taken', 'gotten', 'eaten', 'given', 'known', 'written', 'spoken', 'broken', 'chosen', 'driven', 'begun', 'drunk', 'swum', 'sung', 'done', 'flown', 'grown', 'drawn', 'thrown', 'worn', 'forgotten', 'fallen', 'hidden', 'ridden', 'risen', 'shown', 'stolen']);
+const PRONOUNS = new Set(['i', 'you', 'he', 'she', 'it', 'we', 'they']);
+const BASE_ED = new Set(['shed', 'bed', 'wed', 'embed', 'red', 'bred', 'fled']);
+const pastForm = (w) => PAST.has(w) || (w.length > 3 && w.endsWith('ed') && !w.endsWith('eed') && !BASE_ED.has(w));
+const verbish = (w) => AUX.has(w) || PAST.has(w) || PARTICIPLE.has(w) || (w.length > 4 && /(ed|en|ing)$/.test(w));
+
+// Indices of a and b that a longest common subsequence pairs up.
+function lcsIndex(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const ia = new Set(), ib = new Set();
+  let i = 0, j = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { ia.add(i); ib.add(j); i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+  }
+  return { ia, ib };
+}
+
+// "did lived", "does goes", "Did you saw …": did/does/do (+ not) (+ a pronoun) + a past form.
+export function didPlusPast(text) {
+  const w = fullWords(text);
+  for (let i = 0; i < w.length - 1; i++) {
+    if (!['did', 'does', 'do'].includes(w[i])) continue;
+    let j = i + 1;
+    if (w[j] === 'not') j++;
+    if (PRONOUNS.has(w[j])) j++;
+    if (w[j] && pastForm(w[j]) && w[j] !== 'did') return true;
+  }
+  return false;
+}
+
+// Words with their punctuation marks as tokens of their own, for fixes that are only punctuation.
+const markedWords = (s) => (variants(s)[0] || '').replace(/([,.!?;:])/g, ' $1 ').replace(/["()]/g, ' ').split(/\s+/).filter(Boolean);
+// A stray addition: one letter (not "a" or "I"), a run with no vowel ("x", "zzz", "sdf"), or a mark.
+const junk = (w) => (w.length === 1 && !['a', 'i'].includes(w)) || !/[aeiouy]/.test(w);
+
+// The answer is the source left as it was: every source word still there, in order, with nothing added but
+// stray letters. When a key differs from the source only in punctuation, the marks count as words.
+export function sameAsSource(answer, source, keys) {
+  if (normalize(answer) === normalize(source)) return true;
+  if (!fullWords(source).some((x) => LATIN.test(x))) return false;
+  const punctFix = keys.some((k) => fullWords(k).join(' ') === fullWords(source).join(' '));
+  const tok = punctFix ? markedWords : fullWords;
+  const src = tok(source), ans = tok(answer);
+  const { ia, ib } = lcsIndex(src, ans);
+  return ia.size === src.length && ans.every((x, j) => ib.has(j) || junk(x));
+}
+
+// The verb forms a key brings in: the verb-like words it adds to the source (every verb-like word of the key
+// when the source is Hebrew), e.g. "have" and "lived" in "I have lived …" for "I live …".
+export function keyVerbForms(source, key) {
+  const src = fullWords(source || '');
+  const kw = fullWords(key);
+  const { ib } = src.some((x) => LATIN.test(x)) ? lcsIndex(src, kw) : { ib: new Set() };
+  return kw.filter((x, j) => !ib.has(j) && verbish(x));
+}
+// The answer keeps the key's verb form: it has a verb form one of the keys brings in, or its verb forms are not
+// the source's any more (changed, added or removed: "was held" for "took place", one hedge instead of three).
+// A key that brings in no verb asks for nothing here, and neither does a translation from Hebrew.
+export function keepsVerbForm(answer, source, keys) {
+  const srcWords = fullWords(source || '');
+  if (!srcWords.some((x) => LATIN.test(x))) return true;
+  const forms = keys.map((k) => keyVerbForms(source, k));
+  if (forms.some((f) => !f.length)) return true;
+  const ans = fullWords(answer);
+  if (forms.some((f) => f.some((v) => ans.includes(v)))) return true;
+  return ans.filter(verbish).join(' ') !== srcWords.filter(verbish).join(' ');
+}
+
+// { ok, reason, feedback }: reason is 'unchanged', 'known' (an authored wrong answer: feedback is its entry),
+// 'did-past', 'verb' or 'overlap'.
+export function couldBeRight(answer, { source = '', answers = [], wrong_feedback = null } = {}) {
+  const keys = (Array.isArray(answers) ? answers : [answers]).filter(Boolean);
+  if (!normalize(answer) || !keys.length) return { ok: false, reason: 'unchanged' };
+  if (sameAsSource(answer, source, keys)) return { ok: false, reason: 'unchanged' };
+  const known = findWrongFeedback(answer, wrong_feedback);
+  if (known) return { ok: false, reason: 'known', feedback: known };
+  if (didPlusPast(answer)) return { ok: false, reason: 'did-past' };
+  const ans = fullWords(answer);
+  if (!keepsVerbForm(answer, source, keys)) return { ok: false, reason: 'verb' };
+  const overlap = Math.max(...keys.map((k) => { const kw = new Set(fullWords(k)); return ans.filter((x) => kw.has(x)).length / ans.length; }));
+  if (overlap < 0.6) return { ok: false, reason: 'overlap' };
+  return { ok: true, reason: null };
+}
+
 // Word-level alignment for dictation and speech: which target words were produced, in order.
 // Returns { accuracy (0-1 of target words matched), words: [{word, ok}] }.
 export function wordAccuracy(input, target) {

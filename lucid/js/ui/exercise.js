@@ -16,7 +16,8 @@
 // recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
 import { html, raw, render, on, shuffle, $, $$ } from '../core/util.js';
 import { bi, tt, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
-import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize } from '../core/grading.js';
+import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyVerbForms } from '../core/grading.js';
+import { sentenceDiff, letterDiff } from '../core/diff.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
 import { icon } from './components.js';
 import { analyzeWriting } from '../core/writing-analyzer.js';
@@ -455,7 +456,12 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
         setInvalid(ta, !r.correct);
-        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, answer: ex.answers[0], specific: f?.feedback || null, error_type: f?.error_type, model: !r.correct && !f && isOpenRewrite(ex, level) });
+        const open = isOpenRewrite(ex, level);
+        // From B1 an answer the key does not list may be counted by the learner, but only when it could be right
+        // (P1 EX-5); otherwise the verdict is red and names the rule it breaks.
+        const could = !r.correct && !f && open ? couldBeRight(ta.value, { source, answers: ex.answers, wrong_feedback: ex.wrong_feedback }) : null;
+        const specific = f?.feedback || (could && !could.ok ? ruleNote(could, source, ex) : null);
+        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, error_type: f?.error_type, model: Boolean(could?.ok), open });
       };
       ctl.reveal = () => { ta.readOnly = true; revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
@@ -686,6 +692,23 @@ export function answerFor(ex) {
 // A long English answer gets its own left-to-right line; a short one stays in the sentence.
 const answerEl = (a) => html`<span class="answer ${String(a).length > 24 ? 'answer-block' : ''}" lang="en" dir="ltr">${a}</span>`;
 
+// The rule an open rewrite breaks when it cannot be counted (P1 EX-5), as Bilingual feedback.
+export function ruleNote(could, source, ex) {
+  if (could.reason === 'unchanged') return { he: `המשפט עדיין כמו המקור: ${source}`, en: `The sentence is still the same as the original: ${source}` };
+  if (could.reason === 'did-past') return { he: 'אחרי did, does או do הפועל בא בצורת הבסיס: did live, ולא did lived.', en: 'After did, does or do the verb is in its base form: did live, not did lived.' };
+  if (could.reason === 'verb') {
+    const forms = keyVerbForms(source, firstAnswer(ex.answers)).join(' ');
+    return forms ? { he: `חסרה צורת הפועל שהמשימה מבקשת: ${forms}.`, en: `The verb form the task asks for is missing: ${forms}.` } : null;
+  }
+  if (could.reason === 'overlap') return { he: 'התשובה רחוקה מהמשפט שהמשימה מבקשת. השוו אותה לתשובה לדוגמה.', en: 'Your answer is far from the sentence the task asks for. Compare it with the model answer.' };
+  return null;
+}
+
+// The learner's sentence against the model answer: their extra words struck through, the model's words added.
+export function sentenceDiffHtml(typed, key) {
+  return html`<div class="word-diff answer-diff" lang="en" dir="ltr">${sentenceDiff(typed, key).map((p) => (p.type === 'same' ? html`<span>${p.text}</span>` : p.type === 'del' ? html`<del class="w-del">${p.text}</del>` : html`<ins class="w-add">${p.text}</ins>`))}</div>`;
+}
+
 // The verdict shown in the player footer after checking: the result and the correct form first, the
 // explanation one tap away behind "Why?" (research D7), so it never covers the exercise on a phone.
 export function verdictHtml(ex, r, errors) {
@@ -701,7 +724,8 @@ export function verdictHtml(ex, r, errors) {
   const why = note || ex.explanation;
   return html`<div class="verdict-title">${icon(ico, { size: 18 })} ${title}${r.summary ? html` <span class="num">· ${r.summary}</span>` : ''}</div>
     <div class="verdict-body stack-sm">
-      ${!r.correct && r.answer ? html`<p>${r.model ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
+      ${!r.correct && r.answer ? html`<p>${r.model || r.open ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
+      ${!r.correct && r.answer && r.typed && normalize(r.typed) !== normalize(r.answer) ? html`<div class="stack-sm"><p class="small">${tt('בתשובה שלכם:', 'In your answer:')}</p>${sentenceDiffHtml(r.typed, r.answer)}</div>` : ''}
       ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <span class="answer">${g.items.join(', ')}</span></li>`)}</ul></div>` : ''}
       ${r.almost && r.answer && r.correct ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} ${answerEl(r.answer)}</p>` : ''}
       ${r.specific ? html`<p>${bi(r.specific)}</p>` : ''}
