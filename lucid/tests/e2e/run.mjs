@@ -250,7 +250,8 @@ try {
       await answerCurrent(page, { correct: i % 3 !== 1 });
       const check = await page.$('[data-check]:not([disabled])');
       if (check) await check.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]').catch(() => {}); // a finished matching board checks itself (EX-1)
-      await page.waitForSelector('[data-next]', { timeout: 3000 });
+      await page.waitForSelector('[data-next], [data-show-answer]', { timeout: 3000 });
+      if (await page.$('[data-show-answer]')) { await page.click('[data-show-answer]'); await page.waitForSelector('[data-next]', { timeout: 3000 }); } // LF-6: a second try first
       const verdict = await page.textContent('.verdict');
       if (/Correct answer|התשובה הנכונה|Not quite|לא בדיוק/.test(verdict)) feedbackSeen = true;
       await page.click('[data-next]');
@@ -1817,7 +1818,8 @@ try {
     await lessonAt(page, 'pa1-08', 'e5');
     await page.evaluate(() => { const g = document.querySelectorAll('#exroot .gap-input'); g[0].value = 'first'; g[1].value = 'three'; g.forEach((x) => x.dispatchEvent(new Event('input', { bubbles: true }))); });
     await page.click('[data-check]:not([disabled])');
-    await page.waitForSelector('[data-next]');
+    await page.waitForSelector('[data-next], [data-show-answer]');
+    if (await page.$('[data-show-answer]')) { await page.click('[data-show-answer]'); await page.waitForSelector('[data-next]'); } // LF-6: a second try first
     const iso = await bdiOf(page, '#pfoot');
     assert(iso.includes('third (3rd)'), `the bracket pair is split: ${JSON.stringify(iso)}`);
     await page.click('#pfoot details.why > summary').catch(() => {});
