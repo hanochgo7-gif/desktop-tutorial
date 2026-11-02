@@ -38,16 +38,16 @@ async function newPage(browser, { desktop = false, dark = false } = {}) {
   return { ctx, page };
 }
 // A learner at a course level, made through the app's own modules.
-async function learnerAt(page, level) {
+async function learnerAt(page, level, { text = 100 } = {}) {
   await page.goto(`${BASE}#/welcome`);
   await page.waitForSelector('.welcome');
-  await page.evaluate(async (lv) => {
+  await page.evaluate(async ({ lv, size }) => {
     const L = await import('./js/core/learner.js');
     const P = await import('./js/core/placement.js');
     L.saveProfile({ onboarded: true, name: 'Test', birth_year: 2000, ui_language: 'he', goals: ['travel'], created_at: new Date().toISOString() });
-    L.saveSettings({ daily_minutes: 50, text_size: 100 });
+    L.saveSettings({ daily_minutes: 50, text_size: size });
     await L.applyPlacement(P.selfReportResult(lv));
-  }, level);
+  }, { lv: level, size: text });
   await page.waitForTimeout(400);
   await page.reload();
   await page.waitForSelector('#view > *');
@@ -110,10 +110,8 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 320, height: 800 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers: 'block' });
     const page = await ctx.newPage();
     page.on('pageerror', (e) => pageErrors.push(`${page.url()} :: ${e.message}`));
-    await learnerAt(page, 'PreA1');
-    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.saveSettings({ text_size: 150 }); });
-    await page.reload();
-    await page.waitForSelector('#view > *');
+    await learnerAt(page, 'PreA1', { text: 150 });
+    assert(await page.evaluate(() => document.documentElement.dataset.text) === '150', 'the text size is not 150%');
     // A phone widens its layout viewport to fit what overflows, so compare with the 320px screen itself.
     const wide = () => page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.documentElement.clientWidth, ...[...document.querySelectorAll('#exroot *')].map((e) => Math.ceil(e.getBoundingClientRect().right))) - 320);
     const over = [];
