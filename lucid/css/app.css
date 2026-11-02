@@ -173,14 +173,14 @@ input, textarea { caret-color: var(--cobalt); }
   transition: transform 0.08s ease, border-block-end-width 0.08s ease, background-color 0.15s ease;
   user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
 }
-.key:hover { background: color-mix(in oklch, var(--key-bg), var(--ink) 3%); }
+@media (hover: hover) { .key:not(:disabled, [aria-disabled='true']):hover { background: color-mix(in oklch, var(--key-bg), var(--ink) 3%); } }
 .key:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
 .key:disabled, .key[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
 .key.enter { --key-bg: var(--enter); --key-fg: var(--enter-ink); --key-sk: var(--enter-skirt); border-color: var(--enter-skirt); font-weight: 600; }
-.key.enter:hover { background: var(--enter-hi); }
+@media (hover: hover) { .key.enter:not(:disabled, [aria-disabled='true']):hover { background: var(--enter-hi); } }
 .key.enter:disabled { --key-bg: var(--key-sunk); --key-fg: var(--ink-3); --key-sk: var(--key-edge); border-color: var(--key-edge); }
 .key.ghost { background: transparent; border-color: transparent; box-shadow: none; border-block-end-width: 1px; }
-.key.ghost:hover { background: var(--key-sunk); }
+@media (hover: hover) { .key.ghost:hover { background: var(--key-sunk); } }
 .key.small { min-height: 2.25rem; padding: 0 0.8rem; font-size: var(--t-sm); border-radius: 0.6rem; }
 .key.wide { width: 100%; }
 .key.icon-only { padding: 0; width: var(--u); }
@@ -243,7 +243,7 @@ textarea.input { min-height: 8rem; line-height: 1.6; resize: vertical; }
 .error-text { color: var(--bad); font-size: var(--t-sm); }
 .choice-list { display: grid; gap: var(--s2); }
 .choice { display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); cursor: pointer; text-align: start; width: 100%; }
-.choice:hover { background: color-mix(in oklch, var(--key), var(--ink) 3%); }
+@media (hover: hover) { .choice:hover { background: color-mix(in oklch, var(--key), var(--ink) 3%); } }
 .choice[aria-checked='true'], .choice[aria-pressed='true'], .choice:has(input:checked) { border-color: var(--cobalt); background: var(--cobalt-tint); }
 .choice input { accent-color: var(--cobalt); }
 .seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: calc(var(--r-key) + 3px); background: var(--key-sunk); border: 1px solid var(--key-edge); flex-wrap: wrap; }
@@ -379,7 +379,7 @@ body.bare .view { max-width: none; padding: 0; }
 .gap-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
 .chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .chip { min-height: 2.75rem; padding: 0.35rem 0.85rem; border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: 0.65rem; background: var(--key); font-size: var(--t-md); }
-.chip:active { transform: translateY(2px); border-block-end-width: 1px; }
+.chip:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
 .chip.used { visibility: hidden; }
 .answer-line { min-height: 4rem; display: flex; flex-wrap: wrap; gap: var(--s2); align-content: flex-start; padding: var(--s3); border-radius: var(--r-key); border: 1px dashed var(--n5); background: var(--key-sunk); margin-block-end: var(--s4); }
 .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
@@ -957,6 +957,28 @@ dialog.sheet > .panel { padding: var(--s5); }
    ================================================================ */
 
 /* ---- lane shell-components: start ---- */
+/* Pressable controls (SC-1): every key-shaped control shares one set of states. A tap never shows the browser's
+   square highlight; a hover tint only where there is a real pointer (so a tapped key does not stay tinted on a
+   phone); the press pushes the skirt down; one focus ring. */
+:is(.key, .chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card, .seg button) { -webkit-tap-highlight-color: transparent; }
+:is(.key, .chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card, .seg button):focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+@media (hover: hover) {
+  :is(.chip, .option, .choice, .match-item, .pic-tile, .pic-word):not(:disabled, [aria-pressed='true'], [aria-disabled='true'], .is-right, .is-wrong, .paired):hover { background: color-mix(in oklch, var(--key), var(--ink) 4%); border-color: var(--n5); }
+  .seg button:not([aria-pressed='true']):hover { color: var(--ink); background: color-mix(in oklch, var(--key-sunk), var(--ink) 5%); }
+}
+:is(.chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card):active:not(:disabled, [aria-disabled='true']) { transform: translateY(2px); border-block-end-width: 1px; }
+:is(.chip, .choice, .match-item, .pic-tile, .pic-word, .mem-card) { transition: transform 0.08s ease, background-color 0.15s ease, border-color 0.15s ease; }
+/* The latched key: a toggle key or chip that is on (True/False, a self-rating, a picked item to sort) stays
+   down, in the selection colour. Its outer box keeps its height, so nothing under it moves. The primary key
+   (recording) keeps its own colour. */
+.key:not(.enter)[aria-pressed='true'], .chip[aria-pressed='true'] {
+  border-color: var(--cobalt); background: var(--cobalt-tint); color: var(--ink);
+  border-block-end-width: 1px; margin-block-end: 2px; transform: translateY(2px); box-shadow: none;
+}
+.key:not(.enter)[aria-pressed='true']:disabled { opacity: 0.8; }
+/* An answered option: its number keycap takes the verdict colour, never the blue of "selected". */
+.option.is-right .k { color: var(--ok); border-color: var(--ok); background: var(--key); }
+.option.is-wrong .k { color: var(--bad); border-color: var(--bad); background: var(--key); }
 
 /* ---- lane shell-components: end ---- */
 
