@@ -11,7 +11,7 @@ const STRINGS = {
   'nav.progress': ['התקדמות', 'Progress'],
   'nav.more': ['עוד', 'More'],
   'nav.vocab': ['אוצר מילים', 'Vocabulary'],
-  'nav.games': ['משחק מילים', 'Word game'],
+  'nav.games': ['משחקי מילים', 'Word games'],
   'nav.grammar': ['מעבדת דקדוק', 'Grammar lab'],
   'nav.reading': ['מרכז קריאה', 'Reading'],
   'nav.listening': ['מרכז האזנה', 'Listening'],

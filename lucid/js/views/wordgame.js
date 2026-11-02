@@ -6,10 +6,13 @@ import { tt, t, legend, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { store } from '../core/store.js';
-import { model, settings, logEvent, addVocabCards } from '../core/learner.js';
+import { model, logEvent, addVocabCards } from '../core/learner.js';
+import { playTone } from '../ui/sound.js';
 import { LEVELS } from '../core/adaptive.js';
 import { say, canSpeak } from '../core/speech.js';
 import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords } from '../core/wordgame.js';
+import * as pics from '../core/picturegame.js';
+import { picture } from './picturegame.js';
 
 const LAST = 'lucid-game-level';
 const remember = (level) => { try { sessionStorage.setItem(LAST, level); } catch { /* storage blocked */ } };
@@ -31,21 +34,40 @@ export default async function wordgame(el, ctx) {
 
 // ---------- levels and stages ----------
 async function hub(el, ctx) {
-  ctx.setTitle(tt('משחק מילים', 'Word game'));
+  ctx.setTitle(t('nav.games'));
   const here = location.hash;
-  const tx = await content.taxonomy();
+  const [tx, pictureData] = await Promise.all([content.taxonomy(), content.pictures()]);
   if (location.hash !== here) return null;
   const mine = model().courseLevel;
+  const picturesSection = () => {
+    const best = pics.bests(store.all('events'));
+    const sets = pictureData?.sets || [];
+    return html`<section class="stack-sm game-section" id="lvl-pictures" aria-labelledby="pics-h">
+      <h2 id="pics-h">${tt('התאמת מילים לתמונות', 'Words and pictures')}</h2>
+      <p class="small muted">${tt(`מתאימים מילה באנגלית לתמונה. ${pics.BOARDS} לוחות בסיבוב; כל זוג נכון שווה ${pics.MATCH} נקודות, כל טעות מורידה ${pics.MISTAKE}, ויש בונוס על לוח שנגמר מהר. הרמה הבאה נפתחת ב-${pctText(pics.UNLOCK)} דיוק.`, `Match English words to pictures. ${pics.BOARDS} boards a round; each right pair is worth ${pics.MATCH} points, each mistake takes off ${pics.MISTAKE}, and a quick board earns a bonus. The next level opens at ${pctText(pics.UNLOCK)} accuracy.`)}</p>
+      <div class="game-stages">${sets.map((set) => {
+        const b = best[set.level];
+        const open = pics.unlocked(best, set.level);
+        const inner = html`<span class="pic-level-icon">${picture(set.words[0].icon, 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
+          <span class="xsmall faint" style="display:block">${!open ? tt(`נפתחת ב-${pctText(pics.UNLOCK)} ברמה ${set.level - 1}`, `Opens at ${pctText(pics.UNLOCK)} in level ${set.level - 1}`) : b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${set.pairs} זוגות בלוח · ${set.cefr}`, `${set.pairs} pairs a board · ${set.cefr}`)}</span></span>
+          ${open ? (b && b.accuracy >= pics.UNLOCK ? html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>` : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
+        return open ? html`<a class="game-stage" href="#/games/pictures/${set.level}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
+      })}</div></section>`;
+  };
 
   function draw() {
     const best = bests(store.all('events'));
     render(el, html`
-      <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${tt('משחק מילים', 'Word game')}</h1>
-        <p>${tt(`שאלון אוצר מילים והשלמת מילים: ${ROUND} שאלות בסיבוב, ותשובה נכונה או לא נכונה מיד. כל תשובה נכונה שווה ${POINTS} נקודות, ועוד בונוס על מהירות.`, `A vocabulary quiz and word completion: ${ROUND} questions a round, marked right or wrong at once. Each right answer is worth ${POINTS} points, plus a bonus for speed.`)}</p></div></div>
+      <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${t('nav.games')}</h1>
+        <p>${tt('שני משחקים, ובשניהם כל תשובה מסומנת נכונה או לא נכונה מיד, עם רמות וניקוד.', 'Two games. In both, every answer is marked right or wrong at once, with levels and scores.')}</p>
+        <p class="small faint">${tt('המשחקים הם תרגול: הם לא משנים את הרמה שלך במסלול.', 'The games are practice: they do not change your level on the path.')}</p></div></div>
+      ${picturesSection()}
+      <section class="stack-sm" aria-labelledby="quiz-h">
+      <h2 id="quiz-h">${tt('שאלון אוצר מילים והשלמת מילים', 'Vocabulary quiz and word completion')}</h2>
+      <p class="small muted">${tt(`${ROUND} שאלות בסיבוב מתוך המילים של כל רמה. כל תשובה נכונה שווה ${POINTS} נקודות, ועוד בונוס על מהירות.`, `${ROUND} questions a round from each level's words. Each right answer is worth ${POINTS} points, plus a bonus for speed.`)}</p>
       <div class="banner small game-rules">${icon('info', { size: 16 })}<div class="stack-sm">
         <p>${tt(`בכל רמה שלושה שלבים. השלב הבא נפתח ב-${pctText(UNLOCK)} תשובות נכונות בשלב הקודם.`, `Each level has three stages. The next stage opens at ${pctText(UNLOCK)} right in the one before.`)}</p>
-        <p>${tt('בונוס מהירות לכל תשובה נכונה: ', 'Speed bonus for each right answer: ')}<span lang="en" dir="ltr">${bonusText('choice')}</span>${tt('; בהקלדה: ', '; typing: ')}<span lang="en" dir="ltr">${bonusText('typed')}</span>.</p>
-        <p class="faint">${tt('המשחק הוא תרגול: הוא לא משנה את הרמה שלך במסלול.', 'The game is practice: it does not change your level on the path.')}</p></div></div>
+        <p>${tt('בונוס מהירות לכל תשובה נכונה: ', 'Speed bonus for each right answer: ')}<span lang="en" dir="ltr">${bonusText('choice')}</span>${tt('; בהקלדה: ', '; typing: ')}<span lang="en" dir="ltr">${bonusText('typed')}</span>.</p></div></div>
       <ol class="game-levels">${LEVELS.map((lvl) => {
         const meta = tx.levels.find((x) => x.id === lvl);
         return html`<li class="panel ${lvl === mine ? 'game-mine' : 'flat'}" id="lvl-${lvl}">
@@ -60,7 +82,7 @@ async function hub(el, ctx) {
               ${open ? (passed ? html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>` : '') : html`<span class="faint">${icon('lock', { size: 16 })}</span>`}`;
             return open ? html`<a class="game-stage" href="#/games/${lvl}/${s.id}">${inner}</a>` : html`<div class="game-stage is-locked">${inner}</div>`;
           })}</div></li>`;
-      })}</ol>`);
+      })}</ol></section>`);
   }
   draw();
   // After the router's scroll to the top: show the level played last, or the learner's own level.
@@ -277,21 +299,4 @@ async function play(el, ctx, level, stageId) {
   };
   document.addEventListener('keydown', onKey);
   return () => { clearTimeout(timer); document.removeEventListener('keydown', onKey); offs.forEach((o) => o()); };
-}
-
-// Two short tones for right and wrong (Settings, "Sounds in the word game"). One audio context for the app.
-let audioCtx = null;
-function playTone(ok) {
-  const s = settings().sound;
-  if (s === false || s === 'off') return;
-  try {
-    audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
-    (ok ? [660, 880] : [220]).forEach((f, k) => {
-      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-      o.frequency.value = f; o.type = 'sine';
-      const t0 = audioCtx.currentTime + k * 0.09;
-      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.12, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.18);
-      o.connect(g).connect(audioCtx.destination); o.start(t0); o.stop(t0 + 0.2);
-    });
-  } catch { /* no audio: the colours, icons and text still say right or wrong */ }
 }

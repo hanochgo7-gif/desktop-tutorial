@@ -511,7 +511,7 @@ try {
       }
       await ctx.close();
     }
-    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'games/pictures/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });
@@ -1406,6 +1406,72 @@ try {
     await page.keyboard.press('Enter');
     await page.waitForSelector('.game-verdict.bad');
     assert(/Answer:|התשובה:/.test(await page.textContent('.game-verdict')), 'the right answer is not shown after a wrong one');
+    await ctx.close();
+  });
+
+  await check('PG1. Words and pictures: level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a 3-board round is logged once and opens level 2', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
+    const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
+    const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/pictures/1"]');
+    assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
+    await page.click('a.game-stage[href="#/games/pictures/1"]');
+    const wordOf = async (k) => byHe.get((await page.getAttribute(`[data-pic="${k}"]`, 'aria-label')).replace(/^[^:]+:\s*/, ''));
+    let wrongDone = false;
+    for (let bd = 0; bd < 3; bd++) {
+      await page.waitForSelector('.pic-tile:not([disabled])');
+      const n = (await page.$$('.pic-tile')).length;
+      assert(n === 4, `level 1 board has ${n} pictures`);
+      const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
+      if (!wrongDone) {
+        const right = await wordOf(0);
+        const other = words.findIndex((w) => w !== right);
+        const t0 = Date.now();
+        await page.click('[data-pic="0"]');
+        assert((await page.getAttribute('[data-pic="0"]', 'aria-pressed')) === 'true', 'the chosen picture is not marked as chosen');
+        await page.click(`[data-word="${other}"]`);
+        await page.waitForSelector('.pic-tile.is-wrong, #gfb .bad-text');
+        assert(Date.now() - t0 < 1500, 'a wrong pair was not marked at once');
+        assert((await page.textContent('.game-score')).match(/-?\d+/)[0] === '0', 'a mistake before any pair took the score below 0');
+        wrongDone = true;
+      }
+      for (let k = 0; k < n; k++) {
+        const w = await wordOf(k);
+        const idx = words.indexOf(w);
+        assert(idx >= 0, `no word for picture ${k}`);
+        const before = (await page.$$('.pic-tile.is-right')).length;
+        // Word first, then picture: either order works.
+        await page.click(`[data-word="${idx}"]`);
+        await page.click(`[data-pic="${k}"]`);
+        assert((await page.$$('.pic-tile.is-right')).length === before + 1, 'a right pair was not marked at once');
+        assert(await page.$eval(`[data-pic="${k}"]`, (x) => x.disabled && x.querySelector('.pic-he').textContent.length > 0), 'a matched picture is not locked with its Hebrew');
+      }
+      await page.waitForSelector('[data-nextboard]');
+      await page.click('[data-nextboard]', { timeout: 400 }).catch(() => {}); // it also moves on by itself
+    }
+    await page.waitForSelector('.game-total');
+    const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
+    const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round'));
+    assert(ev.length === 1 && ev[0].matches === 12 && ev[0].mistakes === 1 && ev[0].score === total && ev[0].level === 1, `round not logged once and right: ${JSON.stringify(ev)}`);
+    assert(total >= 12 * 10 - 3 && total <= 12 * 10 - 3 + 15, `score ${total} does not follow the rules`);
+    assert((await page.$$('.pic-missed li')).length === 2, 'the wrong pair did not list both words to go over');
+    assert(await page.$('a[href="#/games/pictures/2"]'), 'level 2 did not open at 92% accuracy');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(300);
+    assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'Enter on the results counted the round again');
+    // Missed words come first in the next round.
+    const missed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    await page.click('[data-missed]');
+    await page.waitForSelector('.pic-tile:not([disabled])');
+    const seen = [];
+    for (let k = 0; k < (await page.$$('.pic-tile')).length; k++) seen.push(await wordOf(k));
+    assert(missed.every((m) => seen.includes(m)), `missed words ${missed} are not on the first board of a focus round (${seen})`);
+    // The hub shows the best and the open level.
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/pictures/2"]');
+    assert(/92%/.test(await page.textContent('a.game-stage[href="#/games/pictures/1"]')), 'the best accuracy is not on the hub');
     await ctx.close();
   });
 

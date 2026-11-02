@@ -887,3 +887,40 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-mask-word { display: inline-flex; gap: 0.18em; }
 .game-mask .slot { display: inline-block; width: 0.75em; min-height: 1.2em; border-block-end: 2px solid var(--ink-3); text-align: center; font-weight: 600; line-height: 1.1; }
 .game-mask .slot.shown { border-color: var(--cobalt); }
+
+/* picture matching */
+.game-section { margin-block-end: var(--s6); }
+.game-section-title { margin-block: var(--s2) var(--s3); }
+.pic-level-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: none; border-radius: 0.55rem; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
+.pic-grid, .pic-words { display: flex; flex-wrap: wrap; justify-content: center; }
+/* Phones: two pictures a row for 4 pairs, three for 5 and 6; desktop: all pictures in one row. Words: two a row on
+   phones; four or three a row on wider screens. An odd last row is centred. */
+.pic-grid { --gap: var(--s3); gap: var(--gap); }
+.pic-grid > * { flex: 0 0 calc((100% - 2 * var(--gap)) / 3); }
+.pic-grid[data-pairs='4'] > * { flex-basis: calc((100% - var(--gap)) / 2); }
+.pic-words { --gap: var(--s2); gap: var(--gap); }
+.pic-words > * { flex: 0 0 calc((100% - var(--gap)) / 2); min-width: 0; }
+@media (min-width: 40rem) {
+  .pic-grid { --n: 6; }
+  .pic-grid[data-pairs='4'] { --n: 4; }
+  .pic-grid[data-pairs='5'] { --n: 5; }
+  .pic-grid > *, .pic-grid[data-pairs='4'] > * { flex: 0 0 min(9rem, calc((100% - (var(--n) - 1) * var(--gap)) / var(--n))); }
+  .pic-words > * { flex-basis: calc((100% - 2 * var(--gap)) / 3); }
+  .pic-words[data-pairs='4'] > * { flex-basis: calc((100% - 3 * var(--gap)) / 4); }
+}
+.pic-tile { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; }
+.pic-tile svg { width: min(3.4rem, 60%); height: auto; }
+.pic-he { position: absolute; inset-inline: var(--s1); inset-block-end: var(--s2); font-size: var(--t-xs); line-height: 1.2; text-align: center; color: var(--ink-he); }
+.pic-tile.is-right .pic-he { color: inherit; }
+.pic-word { min-height: 3rem; overflow-wrap: anywhere; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); font-size: var(--t-md); font-weight: 500; -webkit-tap-highlight-color: transparent; }
+.pic-tile[aria-pressed='true'], .pic-word[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.pic-tile.is-right, .pic-word.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
+.pic-tile.is-wrong, .pic-word.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
+.pic-tile:disabled, .pic-word:disabled { cursor: default; }
+@keyframes pic-shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .pic-tile.is-wrong, .pic-word.is-wrong { animation: none; } }
+.ok-text, .bad-text { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--s1); }
+.ok-text { color: var(--ok); }
+.bad-text { color: var(--bad); }
+.pic-missed { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+.pic-missed li { align-items: center; color: var(--ink-en); }

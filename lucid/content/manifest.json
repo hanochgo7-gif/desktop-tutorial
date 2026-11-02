@@ -1,5 +1,5 @@
 {
- "version": "5f80041776e3",
+ "version": "db8f3fd39a3a",
  "lessons": [
   "a1-01",
   "a1-02",
@@ -79,6 +79,7 @@
  ],
  "offline": [
   "content/curriculum.json",
+  "content/pictures.json",
   "content/placement.json",
   "content/real-life/scenarios.json",
   "content/real-life/slang.json",
@@ -94,6 +95,7 @@
   "js/core/grading.js",
   "js/core/i18n.js",
   "js/core/learner.js",
+  "js/core/picturegame.js",
   "js/core/placement.js",
   "js/core/pool.js",
   "js/core/reallife.js",
@@ -110,7 +112,9 @@
   "js/ui/components.js",
   "js/ui/exercise.js",
   "js/ui/icons.js",
+  "js/ui/picture-icons.js",
   "js/ui/player.js",
+  "js/ui/sound.js",
   "js/views/account.js",
   "js/views/checkpoint.js",
   "js/views/drill.js",
@@ -121,6 +125,7 @@
   "js/views/listening.js",
   "js/views/onboarding.js",
   "js/views/path.js",
+  "js/views/picturegame.js",
   "js/views/placement.js",
   "js/views/practice.js",
   "js/views/profile.js",

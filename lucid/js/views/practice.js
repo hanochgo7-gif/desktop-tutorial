@@ -9,7 +9,7 @@ import { CONFIG } from '../../config.js';
 
 const LABS = [
   ['vocab', 'vocab', 'nav.vocab', 'מילים שלמדתם, עם הגייה, דוגמאות ומתי הן חוזרות', 'Words you learned, with pronunciation, examples and when they come back'],
-  ['games', 'sparkle', 'nav.games', 'שאלון אוצר מילים והשלמת מילים: תשובה מיידית, רמות וניקוד', 'Vocabulary quiz and word completion: instant answers, levels and scores'],
+  ['games', 'sparkle', 'nav.games', 'שאלון אוצר מילים, השלמת מילים והתאמת מילים לתמונות: תשובה מיידית, רמות וניקוד', 'Vocabulary quiz, word completion and matching words to pictures: instant answers, levels and scores'],
   ['grammar', 'grammar', 'nav.grammar', 'כל נושא דקדוק, כמה הוא יושב, ותרגול ממוקד', 'Every grammar topic, how secure it is, and focused practice'],
   ['reading', 'reading', 'nav.reading', 'טקסטים מדורגים עם שאלות הבנה', 'Graded texts with comprehension questions'],
   ['listening', 'listening', 'nav.listening', 'האזנה, הכתבה ושליטה במהירות', 'Listening, dictation and speed control'],

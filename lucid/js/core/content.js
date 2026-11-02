@@ -27,6 +27,7 @@ export const content = {
   writingExercises: () => get('writing/exercises.json', { optional: true }),
   assignments: () => get('writing/assignments.json', { optional: true }),
   rubric: () => get('writing/rubric.json', { optional: true }),
+  pictures: () => get('pictures.json', { optional: true }),
   // All lessons that exist (manifest lists them; falls back to probing nothing).
   async availableLessons() {
     const m = await this.manifest();
