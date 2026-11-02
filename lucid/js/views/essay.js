@@ -142,7 +142,8 @@ export default async function essay(el, ctx) {
   // Judged in the sentence the mistake was in, not anywhere in the essay (persona panel P-72).
   const fixState = (er) => { const v = latestEval(); return v ? fixStatus(v.text, text, er.quote, er.correction) : null; };
   const SELF = ['argument_strength', 'evidence_quality', 'counterarguments', 'coherence'];
-  let selfScores = {};
+  // A self-rating saved with the latest version is shown again (RW-5).
+  let selfScores = { ...(store.all('writing').filter((w) => w.kind === 'essay-version' && w.exercise === task.id && w.self).sort((a, b) => a.n - b.n).at(-1)?.self || {}) };
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
   let timerEnd = null; let timerId = null;
 
@@ -272,6 +273,56 @@ export default async function essay(el, ctx) {
   function cefrLabel(l) { return l === 'below_PreA1' ? '<Pre-A1' : LEVEL_LABEL[l] || l; }
   // From stage 7, learners rate themselves before seeing the AI's bands (research E, decision 31). Once feedback
   // is shown, the form is for the next draft, says so, and is folded under the advice (persona panel R2-42).
+  // The rubric, always there, with or without AI (RW-5): the stage's categories with their Band 5, 3 and 1
+  // descriptors, a self-rating saved with the version, and "mark as final (self-assessed)", which counts the task
+  // as done but never as a writing level (only AI-assessed final drafts are, adaptive.writingLevel).
+  const rubricStage = () => Math.min(10, Math.max(1, task.stage || 1));
+  const rubricCats = () => (rubric?.categories || []).filter((c) => c.id !== 'overall' && (rubric.applicability?.[c.id]?.[rubricStage() - 1] || 'full') !== 'na');
+  const selfFinal = () => versions().find((v) => v.self_final) || null;
+  let selfNote = '';
+  function rubricPanel() {
+    if (!rubric?.categories) return html`<p class="small muted">${tt('המחוון לא נטען. נסו לרענן את הדף.', 'The rubric did not load. Try reloading the page.')}</p>`;
+    const done = selfFinal();
+    const aiFinal = isFinal();
+    const half = Math.max(1, Math.ceil(minWords * 0.5));
+    const enough = bodyWords() >= half;
+    const band = (c, n) => html`<div class="band-row"><dt><span class="tag num">${n}</span></dt><dd>${uiLang() === 'he' ? html`<span lang="he">${isolateLatin(c[`band${n}_he`])}</span>` : html`<span lang="en">${c[`band${n}_en`]}</span>`}</dd></div>`;
+    return html`<div class="stack rubric-tab">
+      <h3 class="small checks-head" tabindex="-1" data-rubric-head>${tt(`המחוון לשלב ${rubricStage()}`, `The rubric for stage ${rubricStage()}`)}</h3>
+      ${rubric.rule ? html`<p class="small muted">${uiLang() === 'he' ? isolateLatin(rubric.rule.he) : rubric.rule.en}</p>` : ''}
+      <p class="xsmall faint">${tt('אפשר לדרג את הטקסט בעצמכם לפי התיאורים. הדירוג נשמר עם הגרסה. הוא הערכה עצמית, ולא נחשב לרמת כתיבה.', 'You can rate your text yourself against the descriptions. Your rating is saved with the version. It is a self-assessment and never counts as a writing level.')}</p>
+      ${rubricCats().map((c) => html`<section class="rubric-cat stack-sm" aria-labelledby="rc-${c.id}"><h4 class="small" id="rc-${c.id}">${tt(c.name_he, c.name_en)}</h4>
+        <p class="xsmall muted">${uiLang() === 'he' ? isolateLatin(c.what_he) : c.what_en}</p>
+        <dl class="band-list">${band(c, 5)}${band(c, 3)}${band(c, 1)}</dl>
+        <label class="row small self-row"><span class="grow">${tt('הדירוג שלכם', 'Your rating')}</span><select class="input compact" data-self="${c.id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[c.id] === n ? html`selected` : ''}>${n} · ${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label></section>`)}
+      <div class="row"><button type="button" class="key" data-save-self ${Object.keys(selfScores).length && text.trim() ? '' : html`disabled`}>${tt('שמירת הדירוג עם הגרסה', 'Save my rating with this version')}</button></div>
+      <p class="small" role="status" data-self-status>${selfNote}</p>
+      <div class="final-box stack-sm">${aiFinal ? html`<p class="small">${icon('check', { size: 16 })} ${tt('הטיוטה סומנה כסופית עם משוב AI.', 'This draft is marked final with AI feedback.')}</p>`
+        : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
+        : html`<p class="small muted">${tt('כשהטקסט מוכן, אפשר לסמן אותו כסופי לפי ההערכה שלכם. המשימה תיחשב כגמורה, עם התווית ״הערכה עצמית״, ולא תשפיע על רמת הכתיבה שלכם.', 'When your text is ready, you can mark it final on your own judgement. The task then counts as done, labelled "self-assessed", and it does not change your writing level.')}</p>
+          <div class="row"><button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button></div>
+          ${enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${half} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${half} words (you have ${bodyWords()}).`)}</p>`}`}</div>
+    </div>`;
+  }
+  // The self-rating goes on the version of the current text (a new version when the text changed).
+  function saveSelf() {
+    if (!Object.keys(selfScores).length || !text.trim()) return;
+    analysis = analyze();
+    const v = saveVersion();
+    store.put('writing', { ...store.get('writing', v.id), self: { ...selfScores }, self_at: new Date().toISOString() });
+    selfNote = tt(`הדירוג נשמר עם גרסה ${v.n}.`, `Your rating is saved with version ${v.n}.`);
+    logEvent({ type: 'writing-self-rating', exercise: task.id, version: v.n });
+  }
+  function markSelfFinal() {
+    if (bodyWords() < Math.max(1, Math.ceil(minWords * 0.5)) || isFinal()) return;
+    analysis = analyze();
+    const v = saveVersion();
+    store.put('writing', { ...store.get('writing', v.id), self_final: true, ...(Object.keys(selfScores).length ? { self: { ...selfScores } } : {}) });
+    putSummary({ status: 'final', self_assessed: true, final_range: null });
+    logEvent({ type: 'writing-final', exercise: task.id, self_assessed: true });
+    selfNote = '';
+  }
+
   function selfForm({ next = false } = {}) {
     if ((task.stage || 0) < 7) return '';
     const rows = SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input compact" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`);
@@ -324,7 +375,7 @@ export default async function essay(el, ctx) {
     if (!vs.length) return html`<p class="small muted">${tt('כל בדיקה או שליחה שומרת גרסה. כך אפשר לראות מה השתנה.', 'Every check or submission saves a version, so you can see what changed.')}</p>${deleteRow()}`;
     // Only a final draft shows a level, and as a range (persona panel P-71).
     return html`<div class="stack">
-      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.final ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}</li>`)}</ul>
+      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.final ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}${v.self_final ? html`<span class="tag ok">${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span>` : v.self ? html`<span class="tag">${tt('דירוג עצמי', 'Self-rated')}</span>` : ''}</li>`)}</ul>
       ${compareView(vs)}${deleteRow()}</div>`;
   }
 
@@ -401,7 +452,7 @@ export default async function essay(el, ctx) {
     const refs = splitReferences(text).references;
     const stage = STAGES.find((s) => s[0] === task.stage);
     const why = aiReady ? aiWhy() : '';
-    const tabs = [['checks', 'בדיקות', 'Checks'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
+    const tabs = [['checks', 'בדיקות', 'Checks'], ['rubric', 'מחוון', 'Rubric'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
     if (tab === 'sources' && !hasSources()) tab = 'checks';
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/writing">${t('nav.writing')}</a>${stage ? html` · ${tt(`שלב ${stage[0]}: ${stage[2]}`, `Stage ${stage[0]}: ${stage[1]}`)}` : ''}</p><h1>${legend(task.title_en, task.title_he)}</h1></div>${task.level ? levelTag(task.level) : ''}</div>
@@ -427,7 +478,7 @@ export default async function essay(el, ctx) {
         </div>
         <aside class="panel stack essay-side" aria-label="${tt('משוב', 'Feedback')}" tabindex="-1">
           <div class="seg" role="group">${tabs.map(([k, he, en]) => html`<button type="button" data-tab="${k}" aria-pressed="${tab === k}">${tt(he, en)}</button>`)}</div>
-          ${tab === 'checks' ? analysisPanel() : tab === 'ai' ? aiPanel() : tab === 'sources' ? sourcesPanel() : versionsPanel()}
+          ${tab === 'checks' ? analysisPanel() : tab === 'rubric' ? rubricPanel() : tab === 'ai' ? aiPanel() : tab === 'sources' ? sourcesPanel() : versionsPanel()}
         </aside>
       </div>`);
     tickElapsed();
@@ -625,7 +676,9 @@ export default async function essay(el, ctx) {
       logEvent({ type: 'hint-level', exercise: task.id, error: er.type, level: next, after: attempted.has(i) ? 'attempt' : 'stuck' });
       draw();
     }),
-    on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); }),
+    on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); const b = $('[data-save-self]', el); if (b) b.disabled = !Object.keys(selfScores).length || !text.trim(); }),
+    on(el, 'click', '[data-save-self]', (e, b) => { if (b.disabled) return; saveSelf(); draw(); $('[data-self-status]', el)?.focus?.(); }),
+    on(el, 'click', '[data-self-final]', (e, b) => { if (b.disabled) return; markSelfFinal(); draw(); $('[data-rubric-head]', el)?.focus({ preventScroll: true }); }),
     on(el, 'change', '[data-cmp]', (e, sel) => { cmp = { ...cmp, [sel.dataset.cmp]: sel.value === 'now' ? 'now' : Number(sel.value) }; draw(); }),
     on(el, 'click', '[data-cmp-all]', (e, b) => { cmpAll = b.dataset.cmpAll === '1'; draw(); $(`[data-cmp-all="${b.dataset.cmpAll}"]`, el)?.focus(); }),
     on(el, 'click', '[data-cmp-jump]', (e, b) => {

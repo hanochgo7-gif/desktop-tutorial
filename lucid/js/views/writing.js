@@ -54,13 +54,13 @@ export default async function writing(el, ctx) {
     return html`<li><a class="lesson-row hub-row" href="#/writing/${x.id}">
       <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
       <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${x.word_range[0]}-${x.word_range[1]} מילים${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${x.word_range[0]}-${x.word_range[1]} words${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
-      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
+      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' && s.self_assessed ? tt('בוצעה · הערכה עצמית', 'Done · self-assessed') : s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
   }
 
   // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).
   function draftTag(s) {
     if (s.status === 'final' && s.final_range) return html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${s.final_range}</span>`;
-    if (s.status === 'final') return html`<span class="tag ok">${tt('סופית', 'Final')}</span>`;
+    if (s.status === 'final') return html`<span class="tag ok">${s.self_assessed ? tt('סופית · הערכה עצמית', 'Final · self-assessed') : tt('סופית', 'Final')}</span>`;
     const n = s.versions || 0;
     return html`<span class="tag">${n === 1 ? tt('גרסה אחת', '1 version') : tt(`${n} גרסאות`, `${n} versions`)}</span>`;
   }

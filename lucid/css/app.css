@@ -832,6 +832,13 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
   aside.essay-side { padding: var(--s4) var(--s3); }
   aside.essay-side .passage.source { padding: var(--s3); }
 }
+/* The rubric tab (RW-5): each category with its Band 5, 3 and 1 descriptors and the learner's own rating. */
+.rubric-cat { padding-block-start: var(--s3); border-block-start: 1px solid var(--key-edge); }
+.band-list { display: grid; gap: var(--s2); margin: 0; }
+.band-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; font-size: var(--t-sm); }
+.band-row dd { margin: 0; min-width: 0; }
+.band-row .bi > .bi-en { display: block; text-align: start; }
+.self-row select { max-width: 60%; }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }
