@@ -4,8 +4,11 @@
 // A round is 3 boards. Each board shows a level's number of pictures (4, 5 or 6) and the same number of
 // words in another order; the learner picks a picture and a word (either first). A right pair stays matched;
 // a wrong pair is marked at once and counts as a mistake.
-// Score: 10 points per pair, minus 3 per mistake (the two together never below 0), plus a bonus for finishing a board quickly.
-// Accuracy is pairs / (pairs + mistakes); level 2 opens at 70% in level 1, level 3 at 70% in level 2.
+// Score: 10 points per pair, minus 3 per mistake (the two together never below 0); in the opt-in speed challenge,
+// plus a bonus for finishing a board quickly.
+// Accuracy is pairs / (pairs + mistakes); level 2 opens at 70% in level 1, level 3 at 70% in level 2. Levels up to
+// the learner's course level are open from the start (placement is evidence): a set opens when the course level
+// reaches the top of its CEFR range (level 3, "A2–B1", for a B1 learner).
 // The game is practice: it does not change the learner's level.
 import { shuffle } from './util.js';
 
@@ -13,9 +16,9 @@ export const BOARDS = 3;
 export const UNLOCK = 0.7;
 export const MATCH = 10;
 export const MISTAKE = 3;
-// Board bonus by time per pair: up to 4 s a pair +5, up to 7 s a pair +2.
+// Board bonus (challenge mode only) by time per pair: up to 4 s a pair +5, up to 7 s a pair +2.
 export const BOARD_BONUS = [[4000, 5], [7000, 2]];
-export const maxFor = (pairs, boards = BOARDS) => boards * (pairs * MATCH + BOARD_BONUS[0][1]);
+export const maxFor = (pairs, boards = BOARDS, challenge = false) => boards * (pairs * MATCH + (challenge ? BOARD_BONUS[0][1] : 0));
 
 export function boardBonus(ms, pairs) {
   return BOARD_BONUS.find(([perPair]) => ms <= perPair * pairs)?.[1] || 0;
@@ -73,11 +76,12 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
 }
 
 // The best round per level from the "picture-round" events (or another game's, by type): higher accuracy first,
-// then the score.
-export function bests(events, type = 'picture-round') {
+// then the score. With a mode ('calm' or 'challenge'), only the rounds played in that mode count; rounds saved
+// before modes existed were played with the bonus, so they count as 'challenge'.
+export function bests(events, type = 'picture-round', mode = null) {
   const out = {};
   for (const e of events) {
-    if (e.type !== type) continue;
+    if (e.type !== type || (mode && (e.mode === 'calm' ? 'calm' : 'challenge') !== mode)) continue;
     const b = out[e.level];
     const better = !b || e.accuracy > b.accuracy || (e.accuracy === b.accuracy && e.score > b.score);
     const rounds = (b?.rounds || 0) + 1;
@@ -86,7 +90,18 @@ export function bests(events, type = 'picture-round') {
   return out;
 }
 export const isBetter = (prev, round) => !prev || round.accuracy > prev.accuracy || (round.accuracy === prev.accuracy && round.score > prev.score);
-export const unlocked = (best, level) => level === 1 || (best[level - 1]?.accuracy || 0) >= UNLOCK;
+// openTo: the highest level open without a round before it (openUpTo, from the course level).
+export const unlocked = (best, level, openTo = 1) => level <= Math.max(1, openTo) || (best[level - 1]?.accuracy || 0) >= UNLOCK;
+
+// CEFR levels in order, as the course names them; a set's range is written "Pre-A1–A1".
+const CEFR = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const cefrIndex = (x) => CEFR.indexOf(String(x || '').trim().replace(/^Pre-?A1$/i, 'PreA1'));
+export const topCefr = (range) => String(range || '').split('–').pop().trim().replace(/^Pre-?A1$/i, 'PreA1');
+// The highest set level whose whole range is at or below the course level (1 when none is).
+export function openUpTo(sets, courseLevel) {
+  const c = cefrIndex(courseLevel);
+  return Math.max(1, ...(sets || []).filter((s) => c >= 0 && cefrIndex(topCefr(s.cefr)) >= 0 && cefrIndex(topCefr(s.cefr)) <= c).map((s) => s.level));
+}
 
 export const recentWords = (events, level, rounds = 2, type = 'picture-round') => events
   .filter((e) => e.type === type && e.level === level && Array.isArray(e.words))

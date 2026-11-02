@@ -879,9 +879,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-total { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--ink-en); }
 @media (prefers-reduced-motion: reduce) { .game-plus { animation: none; } }
 #gbody:focus { outline: none; }
-.game-rules { align-items: flex-start; flex-wrap: nowrap; margin-block-end: var(--s5); }
-.game-rules > svg { flex: none; margin-block-start: 0.15rem; }
-.game-rules > div { min-width: 0; }
 .option, .game-stage { -webkit-tap-highlight-color: transparent; }
 .option .game-opt { flex: 1; min-width: 0; }
 .option .game-opt[dir='rtl'] { text-align: right; }
@@ -894,7 +891,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-mask .slot.shown { border-color: var(--cobalt); }
 
 /* picture matching */
-.game-section { margin-block-end: var(--s6); }
+.game-section { margin-block-end: var(--s5); }
 .pic-level-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: none; border-radius: 0.55rem; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
 .pic-grid, .pic-words { display: flex; flex-wrap: wrap; justify-content: center; }
 /* Phones: two pictures a row for 4 pairs, three for 5 and 6; desktop: all pictures in one row. Words: two a row on
@@ -948,7 +945,8 @@ dialog.sheet > .panel { padding: var(--s5); }
 .mem-card:not(.is-up) { background: var(--cobalt-tint); border-color: color-mix(in oklab, var(--cobalt) 45%, var(--key-edge)); }
 .mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); opacity: 0.35;
   background: repeating-linear-gradient(135deg, var(--cobalt) 0 2px, transparent 2px 9px); }
-.mem-word { font-size: clamp(0.6875rem, 15cqi, var(--t-sm)); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
+/* The word fills the card: sized to the card's width and the word's longest word (--len), at most --t-xl (GM-5). */
+.mem-word { font-size: min(var(--t-xl), max(0.6875rem, calc(160cqi / var(--len, 6)))); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
 .mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
 .mem-card.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
 .mem-card.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
@@ -1433,7 +1431,61 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane practice-hubs: end ---- */
 
 /* ---- lane games: start ---- */
+/* Games hub (GM-1 to GM-3): the speed-challenge switch, the scoring table shown only in the challenge, the
+   learner's level first and the other levels as one row each, and locked levels folded into one line. */
+.game-pace { margin-block-end: var(--s5); }
+.game-challenge strong { font-size: var(--t-md); }
+.game-scoring > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; }
+.game-scoring-table { width: 100%; max-width: 30rem; border-collapse: collapse; font-size: var(--t-sm); }
+.game-scoring-table th { text-align: start; font-weight: 600; padding: var(--s3) 0 var(--s1); color: var(--ink); }
+.game-scoring-table td { padding: var(--s1) 0; border-block-end: 1px solid var(--key-edge); color: var(--ink-2); }
+.game-scoring-table td:last-child { text-align: end; padding-inline-start: var(--s4); white-space: nowrap; color: var(--ink); font-weight: 500; }
+.game-stage-sub { display: block; }
+.game-levels { gap: var(--s2); }
+.game-levels > .game-mine { margin-block-end: var(--s3); padding: var(--s4); }
+/* Hub cards a little tighter than lesson cards, so the whole hub stays short on a phone. */
+.game-stages > .game-stage:not(.game-chip) { padding-block: var(--s2); min-height: 3.5rem; }
+.game-levels > .game-level-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); padding-block: var(--s2); border-block-end: 1px solid var(--key-edge); }
+.game-levels > .game-level-row:last-child { border-block-end: 0; }
+.game-level-row .game-level-name { min-width: 0; flex: 1 1 9rem; max-width: 20rem; flex-wrap: nowrap; }
+.game-chips { display: flex; gap: var(--s2); flex: none; }
+.game-chip { position: relative; justify-content: center; width: 2.75rem; height: 2.75rem; padding: 0; font-weight: 600; }
+.game-chip-mark { position: absolute; inset-block-start: -0.35rem; inset-inline-end: -0.35rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-3); }
+.game-chip.is-done .game-chip-mark { background: var(--ok-tint); border-color: var(--ok); color: var(--ok); }
+.game-chip.is-locked { border-style: dashed; }
+.game-locked { display: flex; align-items: flex-start; gap: var(--s2); margin-block-start: var(--s1); }
+.game-locked > svg { flex: none; margin-block-start: 0.15rem; }
+.game-locked-page { max-width: 30rem; margin-inline: auto; }
+.game-locked-page h1 { font-size: var(--t-xl); }
+.game-locked-page .row { justify-content: center; }
 
+/* Picture game (GM-4): a matched tile ends on the English word, large under the picture, with the Hebrew small
+   below it. The word's size follows the tile's width and its longest word (--len), so the tile never grows. */
+.pic-tile.is-right { container-type: inline-size; grid-template-rows: minmax(0, 1fr) auto; row-gap: var(--s1); min-height: 0; overflow: hidden; }
+.pic-tile.is-right svg { width: min(2.75rem, 38cqi); }
+.pic-cap:empty { display: none; }
+.pic-cap { display: grid; gap: 0.1rem; justify-items: center; text-align: center; max-width: 100%; line-height: 1.15; }
+.pic-cap .pic-en { font-size: min(var(--t-lg), max(0.75rem, calc(150cqi / var(--len, 6)))); font-weight: 600; color: var(--ink-en); overflow-wrap: normal; hyphens: auto; }
+.pic-tile .pic-cap .pic-he { position: static; font-size: var(--t-xs); color: var(--ink-he); }
+/* A long word on a word key breaks at a hyphenation point, not between any two letters. */
+.pic-word { hyphens: auto; }
+/* Large text on a phone: two pictures a row, so a matched tile's word and its Hebrew stay readable. */
+@media (max-width: 39.99rem) {
+  :root:is([data-text='130'], [data-text='150']) .pic-grid > * { flex-basis: calc((100% - var(--gap)) / 2); }
+}
+/* Memory (GM-5): every pair on the end screen; the small board at level 1. */
+.game-pairs { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
+.mem-size { display: inline-block; padding-block: var(--s1); }
+@media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
+/* Word quiz (GM-6): the lesson's footer Continue key, full width on phones; a tap on an option is the answer, so
+   touch shows no 1-4 keycaps (keys 1-4 still answer on a keyboard). The verdict scrolls clear of the footer. */
+@media (max-width: 40rem) { .game-foot .inner > .key { flex: 1 1 auto; } .game-foot .inner > [data-next] { flex-basis: 100%; } }
+.game-instant { margin-block-end: calc(-1 * var(--s2)); }
+/* The completion stage: the hint under the sentence at every width (the prompt row is for a word and its key). */
+.game-prompt.stack-sm { display: grid; justify-items: stretch; }
+.game-feedback .game-verdict { scroll-margin-block-end: 6rem; }
+@media (hover: none) and (pointer: coarse) { .game-options .option .k, .game-foot .kbd { display: none; } }
 /* ---- lane games: end ---- */
 
 /* ---- lane real-life-writing: start ---- */

@@ -1401,7 +1401,8 @@ try {
     await page.type('#gw', answer, { delay: 20 });
     await page.waitForSelector('.game-verdict.ok', { timeout: 2000 });
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'focus left the input, which would close a phone keyboard');
-    assert(!(await page.$eval('[data-check]', (b) => !b.disabled)), 'check still active after an accepted answer');
+    // UX r3 GM-6: after an answer the footer holds Continue, so no active Check remains.
+    assert(!(await page.$('[data-check]:not([disabled])')) && await page.$('#pfoot [data-next]'), 'check still active, or no Continue key, after an accepted answer');
     await page.click('[data-next]', { timeout: 400 }).catch(() => {});
     await page.waitForSelector('#gw:not([readonly])');
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'the next question did not keep the input focused');
@@ -1412,7 +1413,7 @@ try {
     await ctx.close();
   });
 
-  await check('PG1. Words and pictures: shown first on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
+  await check('PG1. Words and pictures: listed after the learner\'s level on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists the picture\'s word; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1421,11 +1422,12 @@ try {
     await page.waitForSelector('a.game-stage[href="#/games/pictures/1"]');
     await page.waitForTimeout(200);
     const inView = () => page.$eval('#lvl-pictures', (x) => { const r = x.getBoundingClientRect(); return r.top >= -1 && r.top < innerHeight / 2; });
-    assert(await inView(), 'the picture game is scrolled out of view on a first visit');
+    // UX r3 GM-3: the learner's own level comes first on a first visit; the picture game follows it.
+    assert(await page.$eval('#lvl-pictures', (x) => x.getBoundingClientRect().top > document.querySelector('.game-mine').getBoundingClientRect().top), 'the learner\'s level is not first');
     assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
     await page.click('a.game-stage[href="#/games/pictures/1"]');
     const wordOf = async (k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
-    let wrongDone = false;
+    let wrongDone = false, wrongPic = null;
     for (let bd = 0; bd < 3; bd++) {
       await page.waitForSelector('.pic-tile:not([disabled])');
       assert(!(await page.$('.pic-tile[aria-pressed="true"], .pic-word[aria-pressed="true"]')), 'a card was chosen by the tap that opened the board');
@@ -1435,6 +1437,7 @@ try {
       const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
       if (!wrongDone) {
         const right = await wordOf(0);
+        wrongPic = right;
         const other = words.findIndex((w) => w !== right);
         const t0 = Date.now();
         await page.click('[data-pic="0"]');
@@ -1480,7 +1483,9 @@ try {
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round'));
     assert(ev.length === 1 && ev[0].matches === 12 && ev[0].mistakes === 1 && ev[0].score === total && ev[0].level === 1, `round not logged once and right: ${JSON.stringify(ev)}`);
     assert(total >= 12 * 10 - 3 && total <= 12 * 10 - 3 + 15, `score ${total} does not follow the rules`);
-    assert((await page.$$('.pic-missed li')).length === 2, 'the wrong pair did not list both words to go over');
+    // UX r3 GM-4: only the picture that was given a wrong word is listed, not the word chosen for it.
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    assert(listed.length === 1 && listed[0] === wrongPic, `the wrong pair did not list just the picture's word: ${listed} (${wrongPic})`);
     assert(await page.$('a[href="#/games/pictures/2"]'), 'level 2 did not open at 92% accuracy');
     await page.waitForTimeout(300);
     assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'the round was counted twice');
@@ -1501,7 +1506,7 @@ try {
     await ctx.close();
   });
 
-  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch turns back; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
+  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch stays up until the next card; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1547,8 +1552,9 @@ try {
         assert(Date.now() - t0 < 1500, 'a mismatch was not marked at once');
         if (!sawMismatch) {
           sawMismatch = true;
+          // Calm pace (the default): the mismatch stays face up until the next card is chosen (UX r3 GM-1).
           await page.waitForTimeout(1600);
-          assert(!(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`)), 'a mismatched card did not turn back over');
+          assert(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`), 'a mismatched card turned back by itself');
         }
       } else assert(await page.$eval(`[data-card="${second}"]`, (x) => x.disabled && x.classList.contains('is-right')), 'a match was not kept face up');
     }
@@ -1558,7 +1564,8 @@ try {
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round'));
     assert(ev.length === 1 && ev[0].matches === 6 && ev[0].slips === 1 && ev[0].score === total && Math.abs(ev[0].accuracy - 6 / 7) < 1e-9, `round not logged once and right: ${JSON.stringify(ev)}`);
     const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
-    assert(listed.includes(slipWord) && listed.length <= 2, `the slip's word is not on the list to go over (${listed}; ${slipWord})`);
+    // UX r3 GM-5: a slip of place is not a word to go over; only a picture paired with a word card already seen is.
+    assert(listed.length <= 1, `more words listed to go over than the one turn that could be a miss (${listed}; ${slipWord})`);
     assert(await page.$('a[href="#/games/memory/2"]'), 'memory level 2 did not open at 86%');
     await page.waitForTimeout(500);
     await page.click('[data-again]');

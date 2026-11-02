@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { makeDeck, judgeTurn, partnerOf, roundScore, turnBonus, maxFor, accuracyOf, TYPE, UNLOCK } from '../../js/core/memorygame.js';
+import { makeDeck, judgeTurn, partnerOf, roundScore, turnBonus, maxFor, accuracyOf, longestWord, TYPE, UNLOCK, SMALL } from '../../js/core/memorygame.js';
 import { bests, unlocked, recentWords } from '../../js/core/picturegame.js';
 
 const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
@@ -37,23 +37,45 @@ test('a turn: a match; a mismatch with nothing seen before is not a slip; a mism
   const cat = w('cat'), dog = w('dog'), sun = w('sun');
   const cards = [{ kind: 'pic', w: cat }, { kind: 'word', w: dog }, { kind: 'word', w: cat }, { kind: 'pic', w: dog }, { kind: 'pic', w: sun }, { kind: 'word', w: sun }];
   assert.equal(partnerOf(cards, 0), 2);
-  assert.deepEqual(judgeTurn(cards, 0, 2, new Set()), { match: true, slip: false });
-  assert.deepEqual(judgeTurn(cards, 0, 1, new Set()), { match: false, slip: false }, 'exploring is not a mistake');
-  assert.deepEqual(judgeTurn(cards, 2, 4, new Set([0, 1])), { match: false, slip: true }, 'cat word: the cat picture had been seen');
-  assert.deepEqual(judgeTurn(cards, 4, 3, new Set([0, 1])), { match: false, slip: false }, 'sun: its pair was never seen');
+  assert.deepEqual(judgeTurn(cards, 0, 2, new Set()), { match: true, slip: false, miss: null });
+  assert.deepEqual(judgeTurn(cards, 0, 1, new Set()), { match: false, slip: false, miss: null }, 'exploring is not a mistake');
+  assert.deepEqual(judgeTurn(cards, 2, 4, new Set([0, 1])), { match: false, slip: true, miss: null }, 'cat word: the cat picture had been seen; the sun card was new');
+  assert.deepEqual(judgeTurn(cards, 4, 3, new Set([0, 1])), { match: false, slip: false, miss: null }, 'sun: its pair was never seen');
 });
 
-test('score: 10 a pair, 3 off a slip (never below 0), a bonus for few turns; accuracy is pairs over pairs and slips', () => {
+test('a miss (a word to go over) is a picture paired with a word card already seen; a slip by place is not one', () => {
+  const w = (word) => ({ word });
+  const cat = w('cat'), dog = w('dog'), sun = w('sun');
+  const cards = [{ kind: 'pic', w: cat }, { kind: 'word', w: dog }, { kind: 'word', w: cat }, { kind: 'pic', w: dog }, { kind: 'pic', w: sun }, { kind: 'word', w: sun }];
+  assert.equal(judgeTurn(cards, 0, 1, new Set([1])).miss, cat, 'the cat picture was given the word dog, seen before');
+  assert.equal(judgeTurn(cards, 1, 0, new Set([0])).miss, cat, 'word first: still the picture that got the wrong word');
+  assert.equal(judgeTurn(cards, 0, 1, new Set()).miss, null, 'the word card was new: exploring');
+  assert.equal(judgeTurn(cards, 0, 3, new Set([2, 3])).miss, null, 'two pictures: a slip of place, not of meaning');
+  assert.equal(judgeTurn(cards, 0, 3, new Set([2, 3])).slip, true);
+});
+
+test('score: 10 a pair; in the speed challenge 3 off a slip (never below 0) and a bonus for few turns; accuracy is pairs over pairs and slips', () => {
   assert.equal(roundScore(6, 0, 10), 70);
   assert.equal(roundScore(6, 2, 0), 54);
   assert.equal(roundScore(1, 9, 5), 5);
+  assert.equal(roundScore(6, 2, 0, 0), 60, 'calm: a slip costs nothing');
   assert.equal(turnBonus(9, 6), 10);
   assert.equal(turnBonus(12, 6), 5);
   assert.equal(turnBonus(13, 6), 0);
   assert.equal(turnBonus(15, 10), 10);
-  assert.equal(maxFor(6), 70);
+  assert.equal(maxFor(6), 60);
+  assert.equal(maxFor(6, true), 70);
+  assert.equal(maxFor(SMALL), 40);
   assert.equal(accuracyOf(6, 2), 0.75);
   assert.equal(accuracyOf(0, 0), 0);
+});
+
+test('the small board deals 8 cards at level 1; word cards know their longest word', () => {
+  const deck = makeDeck(data.sets[0].words, SMALL, { seed: 0.5, apart: data.sets[0].apart });
+  assert.equal(deck.length, 8);
+  assert.equal(longestWord('cat'), 3);
+  assert.equal(longestWord('fire extinguisher'), 12);
+  assert.equal(longestWord(''), 1);
 });
 
 test('memory rounds have their own bests, unlocking and recent words, apart from the picture game', () => {
@@ -68,6 +90,9 @@ test('memory rounds have their own bests, unlocking and recent words, apart from
   assert.ok(unlocked(b, 2) && !unlocked(b, 3));
   assert.ok(!unlocked(bests(ev.slice(1), TYPE), 2), '60% is not enough');
   assert.equal(bests(ev)[1].score, 100, 'the picture game keeps its own');
+  const modes = [...ev, { type: TYPE, level: 1, score: 40, accuracy: 0.8, mode: 'calm' }];
+  assert.equal(bests(modes, TYPE, 'calm')[1].score, 40, 'calm rounds have their own best');
+  assert.equal(bests(modes, TYPE, 'challenge')[1].score, 60, 'older rounds count as the challenge');
   assert.ok(UNLOCK === 0.7);
   assert.deepEqual(recentWords(ev, 1, 2, TYPE), ['b', 'a']);
 });
