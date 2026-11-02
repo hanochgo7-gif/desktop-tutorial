@@ -1628,7 +1628,3 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .game-feedback .game-verdict { scroll-margin-block-end: 6rem; }
 @media (hover: none) and (pointer: coarse) { .game-options .option .k, .game-foot .kbd { display: none; } }
 /* ---- lane games: end ---- */
-
-/* ---- lane real-life-writing: start ---- */
-
-/* ---- lane real-life-writing: end ---- */
