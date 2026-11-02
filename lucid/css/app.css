@@ -1021,6 +1021,12 @@ dialog.sheet > .panel { padding: var(--s5); }
 .cat-bin .chip.is-struck ins { text-decoration: none; color: var(--ink); font-weight: 600; }
 .cat-tag { font-weight: 500; }
 
+/* Sound questions (EX-10): a play key beside each option, outside it. */
+.opt-row { display: flex; align-items: center; gap: var(--s2); }
+.opt-row > .option { flex: 1; min-width: 0; }
+.ex-say { display: inline-block; vertical-align: middle; }
+@media (pointer: coarse) { .opt-row > .key.icon-only, .ex-say > .key.icon-only, .match-row .key.icon-only { width: 2.75rem; min-height: 2.75rem; } }
+
 /* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
 .word-diff .w-slip { color: var(--ink); }
 .w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }

@@ -36,6 +36,7 @@ const playTile = (text) => html`<button type="button" class="key ghost small ico
 // lang and dir of the interface, for UI words inside an English element (screen-reader notes).
 const uiAttrs = () => raw(`lang="${uiLang()}" dir="${uiLang() === 'he' ? 'rtl' : 'ltr'}"`);
 const HEBREW = /[֐-׿]/;
+const SHORT_EN = /^[A-Za-z][A-Za-z'’-]*(?: [A-Za-z][A-Za-z'’-]*)?[.!?]?$/; // one or two English words
 const langOf = (s) => (HEBREW.test(String(s)) ? 'he' : 'en');
 const tick = (ok = true) => html`<span class="ex-mark ${ok ? 'ok' : 'bad'}" aria-hidden="true">${icon(ok ? 'check' : 'x', { size: 16 })}</span>`;
 
@@ -101,10 +102,17 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     case 'listen': {
       let picked = null;
       const order = ex.options.map((_, i) => i);
+      // Sound questions for beginners (P2 EX-10): at Pre-A1 and A1, when every option is one or two English
+      // words, the quoted word in the question and each option get a play button of their own, outside the
+      // option, so playing never chooses.
+      const sounds = ex.type === 'mcq' && ['PreA1', 'A1'].includes(level) && canSpeak() && ex.options.every((o) => SHORT_EN.test(String(o).trim()));
+      const quoted = sounds ? [...String(ex.question).matchAll(/['‘“"]([A-Za-z][A-Za-z ’'-]{0,30}?)['’”"]/g)].map((m) => m[1]) : [];
+      const option = (i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false" lang="en" dir="ltr"><span class="k" aria-hidden="true">${KEYS[n]}</span><span>${ex.options[i]}</span></button>`;
       render(root, html`${prompt}
         ${ex.type === 'listen' ? listenButtons(ex.audio_text) : ''}
-        <p class="ex-text" lang="en" dir="ltr">${ex.question}</p>
-        <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false" lang="en" dir="ltr"><span class="k" aria-hidden="true">${KEYS[n]}</span><span>${ex.options[i]}</span></button>`)}</div>`);
+        <p class="ex-text" lang="en" dir="ltr">${ex.question}${quoted.map((w) => html` <span class="ex-say">${playTile(w)}</span>`)}</p>
+        <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => (sounds ? html`<div class="opt-row">${option(i, n)}${playTile(ex.options[i])}</div>` : option(i, n)))}</div>`);
+      if (sounds) offs.push(on(root, 'click', '[data-say-tile]', (e, b) => say(b.dataset.sayTile, { variant })));
       if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60); }
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
       offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled) pick(Number(b.dataset.opt)); }));
