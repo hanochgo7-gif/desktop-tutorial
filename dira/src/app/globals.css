@@ -39,7 +39,9 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-@custom-variant tall (@media (min-height: 560px));
+@custom-variant tall (@media (min-height: 500px));
+/* Phones on their side: photo and panel side by side. */
+@custom-variant land (@media (orientation: landscape) and (max-height: 560px) and (max-width: 1023.98px));
 
 @layer base {
   html {
@@ -47,6 +49,12 @@
     text-rendering: optimizeLegibility;
     /* In-page links land below the sticky header. */
     scroll-padding-top: 80px;
+  }
+  @media (max-width: 767.98px) {
+    html {
+      /* Keyboard focus is never hidden behind the phone's bottom start bar. */
+      scroll-padding-bottom: 88px;
+    }
   }
   @media (prefers-reduced-motion: no-preference) {
     html {

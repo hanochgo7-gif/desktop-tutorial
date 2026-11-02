@@ -84,7 +84,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       </section>
 
       {/* 3. How it works — a real sequence, so it is numbered. */}
-      <section id="how" className="scroll-mt-20">
+      <section id="how">
         <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 sm:py-20">
           <h2 className="display max-w-2xl text-[34px] sm:text-[42px]">{L.howTitle}</h2>
           <ol className="mt-10 grid gap-8 md:grid-cols-3">

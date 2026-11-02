@@ -99,7 +99,8 @@ export function FixPanel({ s, t, lang, photo, onSave }: PanelProps & { onSave: (
       <section className="rounded-[12px] bg-ok-tint p-4">
         <p className="text-[16px] font-semibold text-ok">{t.studio.readyTitle}</p>
         <p className="mt-1 text-[14.5px] text-ink-2">{t.studio.readyLead}</p>
-        <button type="button" className="btn btn-primary btn-sm mt-3" onClick={onSave}>
+        {/* Phones have the same button pinned under the panel. */}
+        <button type="button" className="btn btn-primary btn-sm mt-3 hidden lg:inline-flex" onClick={onSave}>
           {t.studio.saveNow}
         </button>
       </section>

@@ -61,3 +61,15 @@ test("trust page lists what is never done", async ({ page }) => {
   await page.goto("/en/trust");
   await expect(page.getByText("Hiding damp, mould, cracks or damage")).toBeVisible();
 });
+
+test("in Hebrew the slider handle sits on its line", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/he");
+  const handle = page.getByRole("slider").first();
+  const pos = await handle.evaluate((el) => {
+    const line = el.previousElementSibling!.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    return Math.abs(r.left + r.width / 2 - (line.left + line.width / 2));
+  });
+  expect(pos).toBeLessThan(2);
+});

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Dict, Locale } from "@/i18n";
 import { AI_LIVE } from "@/lib/site";
 import { Logo } from "./logo";
@@ -39,9 +39,14 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
   const open = openOn !== null && openOn === pathname;
   const setOpen = (fn: (o: boolean) => boolean) => setOpenOn(fn(open) ? pathname : null);
   const close = () => setOpenOn(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenOn(null);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpenOn(null);
+      menuButton.current?.focus();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -58,13 +63,13 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2">
         {t.nav.skip}
       </a>
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-6 px-4 sm:px-6">
-        <Link href={`/${lang}`} className="shrink-0" aria-label={t.brand.name}>
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-3 px-4 sm:gap-6 sm:px-6">
+        <Link prefetch={false} href={`/${lang}`} className="shrink-0" aria-label={t.brand.name}>
           <Logo name={t.brand.name} />
         </Link>
         <nav aria-label={t.nav.menu} className="hidden flex-1 items-center gap-1 lg:flex">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink">
+            <Link prefetch={false} key={l.href} href={l.href} className="rounded-md px-3 py-2 text-[15px] text-ink-2 hover:text-ink">
               {l.label}
             </Link>
           ))}
@@ -76,12 +81,13 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
               {t.nav.account}
             </Link>
           )}
-          <Link href={`/${lang}/studio?new=1`} className="btn btn-primary btn-sm !px-3 sm:!px-[0.8rem]">
+          <Link prefetch={false} href={`/${lang}/studio?new=1`} className="btn btn-primary btn-sm !px-3 sm:!px-[0.8rem]">
             <span className="sm:hidden">{t.nav.openShort}</span>
             <span className="hidden sm:inline">{t.nav.open}</span>
           </Link>
           <button
             type="button"
+            ref={menuButton}
             className="icon-btn lg:hidden hover:bg-line-2"
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -102,13 +108,13 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Dict }) {
         <div id="mobile-menu" className="border-t border-line-2 bg-paper px-4 pb-5 pt-2 lg:hidden">
           <nav aria-label={t.nav.menu} className="flex flex-col">
             {[...links, ...(AI_LIVE ? [{ href: `/${lang}/account`, label: t.nav.account }] : [])].map((l) => (
-              <Link key={l.href} href={l.href} onClick={close} className="border-b border-line-2 py-3.5 text-[17px]">
+              <Link prefetch={false} key={l.href} href={l.href} onClick={close} className="border-b border-line-2 py-3.5 text-[17px]">
                 {l.label}
               </Link>
             ))}
             <LanguageLink lang={lang} t={t} className="py-3.5 text-[17px] text-ink-2" />
           </nav>
-          <Link href={`/${lang}/studio?new=1`} onClick={close} className="btn btn-primary mt-3 w-full">
+          <Link prefetch={false} href={`/${lang}/studio?new=1`} onClick={close} className="btn btn-primary mt-3 w-full">
             {t.nav.open}
           </Link>
         </div>

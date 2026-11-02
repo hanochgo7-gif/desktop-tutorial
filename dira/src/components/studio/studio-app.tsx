@@ -126,7 +126,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   return (
     // Phones held upright: the app fills the screen and only the panel scrolls, so the photo stays
     // in view while it is being adjusted. Short screens (a phone on its side) scroll as a page.
-    <div className="flex min-h-dvh flex-col tall:h-dvh tall:overflow-hidden lg:h-dvh lg:overflow-hidden">
+    <div className="flex min-h-dvh flex-col tall:h-dvh tall:overflow-hidden land:h-dvh land:overflow-hidden lg:h-dvh lg:overflow-hidden">
       {/* App bar */}
       <header className="flex h-14 flex-none items-center gap-3 border-b border-line-2 bg-paper px-3 sm:px-4">
         <Link href={`/${lang}`} aria-label={t.brand.name} className="flex-none">
@@ -209,19 +209,47 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
           </div>
         </main>
       ) : (
-        <main id="main" className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]">
+        <main
+          id="main"
+          className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] land:grid-cols-[minmax(0,1.25fr)_minmax(280px,1fr)] land:grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]"
+        >
           {/* Filmstrip: a column on desktop, a row on phones (below the stage). */}
-          <div className="on-stage order-2 min-h-0 min-w-0 border-stage-line bg-stage lg:order-none lg:border-e">
+          <div className="on-stage order-2 min-h-0 min-w-0 border-stage-line bg-stage land:col-start-1 land:row-start-2 lg:order-none lg:border-e">
             <Filmstrip s={s} t={t} onAdd={onAdd} onRemove={onRemove} />
           </div>
 
           {/* Phones: sized for a landscape room photo plus the toolbar, not a tall black box. */}
-          <div className="order-1 h-[min(40svh,calc(75vw+52px))] min-h-[210px] min-w-0 lg:order-none lg:h-full lg:min-h-0">
+          <div className="order-1 h-[clamp(190px,38svh,calc(75vw+52px))] min-w-0 land:col-start-1 land:row-start-1 land:h-full land:min-h-0 lg:order-none lg:h-full lg:min-h-0">
             <Stage s={s} t={t} lang={lang} brush={brush} mode={viewMode} setMode={setViewMode} />
           </div>
 
-          <aside ref={panelRef} className="order-3 flex min-h-0 min-w-0 scroll-mt-14 flex-col border-line-2 bg-surface lg:order-none lg:border-s" aria-label={t.studio.title}>
-            <div role="tablist" aria-label={t.studio.title} className="sticky top-0 z-10 flex flex-none gap-1 overflow-x-auto border-b border-line-2 bg-surface px-2 pt-2">
+          <aside
+            ref={panelRef}
+            className="order-3 flex min-h-0 min-w-0 scroll-mt-14 flex-col border-line-2 bg-surface land:col-start-2 land:row-span-2 land:row-start-1 land:border-s lg:order-none lg:border-s"
+            aria-label={t.studio.title}
+          >
+            <div
+              role="tablist"
+              aria-label={t.studio.title}
+              className="sticky top-0 z-10 flex flex-none gap-1 overflow-x-auto border-b border-line-2 bg-surface px-2 pt-2"
+              onKeyDown={(e) => {
+                // Arrow keys move between tabs in reading direction; Home/End jump to the ends.
+                const ids = tabs.map((x) => x.id);
+                const k = ids.indexOf(tab);
+                const next = lang === "he" ? "ArrowLeft" : "ArrowRight";
+                const prev = lang === "he" ? "ArrowRight" : "ArrowLeft";
+                let j = k;
+                if (e.key === next) j = (k + 1) % ids.length;
+                else if (e.key === prev) j = (k - 1 + ids.length) % ids.length;
+                else if (e.key === "Home") j = 0;
+                else if (e.key === "End") j = ids.length - 1;
+                else return;
+                e.preventDefault();
+                setTab(ids[j]);
+                if (ids[j] === "remove") setBrushView("paint");
+                document.getElementById(`tab-${ids[j]}`)?.focus();
+              }}
+            >
               {tabs.map((x) => (
                 <button
                   key={x.id}
@@ -230,6 +258,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   type="button"
                   aria-selected={tab === x.id}
                   aria-controls={`panel-${x.id}`}
+                  tabIndex={tab === x.id ? 0 : -1}
                   onClick={() => {
                     setTab(x.id);
                     if (x.id === "remove") setBrushView("paint");
@@ -277,7 +306,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
             </div>
             {/* Phones: the way out is always one tap away. */}
             {tab !== "export" && s.counts.ready > 0 && (
-              <div className="sticky bottom-0 z-10 flex-none border-t border-line-2 bg-surface px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 lg:hidden">
+              <div className="sticky bottom-0 z-10 flex-none border-t border-line-2 bg-surface px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 lg:hidden">
                 <button type="button" className="btn btn-primary w-full" onClick={goSave}>
                   {s.counts.ready > 1 ? fmt(t.studio.saveAll, { n: s.counts.ready }, lang) : t.studio.saveNow}
                 </button>

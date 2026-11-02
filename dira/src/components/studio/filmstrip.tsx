@@ -13,7 +13,7 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
   const dragId = useRef<string | null>(null);
   const [over, setOver] = useState<number | null>(null);
   return (
-    <div className="flex min-h-0 gap-2 overflow-x-auto p-2 lg:h-full lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden" role="listbox" aria-label={t.studio.photos}>
+    <div className="flex min-h-0 gap-2.5 overflow-x-auto px-3 pb-2 pt-3 lg:h-full lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden" role="listbox" aria-label={t.studio.photos}>
       {s.photos.map((p, i) => {
         const thumb = s.url(p.thumb);
         const selected = p.id === s.selectedId;
@@ -72,7 +72,7 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
               type="button"
               aria-label={`${t.studio.remove}: ${p.name}`}
               onClick={() => onRemove(p.id)}
-              className="absolute -end-1.5 -top-1.5 grid h-6 w-6 place-items-center rounded-full bg-ink text-white opacity-100 shadow after:absolute after:-inset-2.5 after:content-[''] sm:opacity-0 sm:focus:opacity-100 sm:group-hover:opacity-100"
+              className="absolute -end-2.5 -top-2.5 grid h-6 w-6 place-items-center rounded-full bg-ink text-white opacity-100 shadow ring-2 ring-stage after:absolute after:-inset-1.5 after:content-[''] [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:focus:opacity-100 [@media(hover:hover)]:group-hover:opacity-100"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
                 <path d="M3 3l6 6M9 3 3 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -84,7 +84,7 @@ export function Filmstrip({ s, t, onAdd, onRemove }: Props) {
                 aria-label={`${t.studio.makeCover}: ${p.name}`}
                 title={t.studio.makeCover}
                 onClick={() => s.movePhoto(p.id, 0)}
-                className="absolute -bottom-1.5 -end-1.5 grid h-6 w-6 place-items-center rounded-full bg-daylight text-[13px] leading-none text-ink shadow after:absolute after:-inset-2.5 after:content-['']"
+                className="absolute -bottom-2.5 -end-2.5 grid h-6 w-6 place-items-center rounded-full bg-daylight text-[13px] leading-none text-ink shadow ring-2 ring-stage after:absolute after:-inset-1.5 after:content-['']"
               >
                 ★
               </button>

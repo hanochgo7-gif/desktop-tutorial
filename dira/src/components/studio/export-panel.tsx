@@ -240,8 +240,14 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
         {!brokerProminent && <div className="pb-3">{brokerBlock}</div>}
       </details>
 
+      {/* Explanations sit above the bar, so the bar itself stays slim on short phones. */}
+      {fresh && phone && <p className="-mb-3 text-[13px] text-ink-3">{E.saveShareHint}</p>}
+      {!phone && !fresh && imageCount + (manifest ? 1 : 0) > 1 && (
+        <p className="-mb-3 text-[13px] text-ink-3">{coarse ? E.noShare : presets.length > 1 ? E.zipFolders : E.zipFlat}</p>
+      )}
+
       {/* The action stays in reach at the bottom of the panel while the options scroll. */}
-      <div className="sticky -bottom-4 z-10 -mx-4 grid gap-2 border-t border-line-2 bg-surface px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:-bottom-5 sm:-mx-5 sm:px-5">
+      <div className="sticky -bottom-4 z-10 -mx-4 grid gap-2 border-t border-line-2 bg-surface px-4 pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5 sm:-bottom-5 sm:-mx-5 sm:px-5">
         {fresh && phone ? (
           <>
             {batches <= 1 ? (
@@ -264,8 +270,7 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
                 })}
               </>
             )}
-            <p className="text-[13px] text-ink-3">{E.saveShareHint}</p>
-            <button type="button" className="btn btn-quiet btn-sm w-full" onClick={() => deliver(result!, "download")}>
+            <button type="button" className="justify-self-center py-1 text-[13.5px] font-semibold text-prussian underline underline-offset-4" onClick={() => deliver(result!, "download")}>
               {E.downloadInstead}
             </button>
           </>
@@ -297,9 +302,6 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
           <div className="h-1.5 overflow-hidden rounded-full bg-line-2" role="progressbar" aria-label={E.preparingLabel} aria-valuemin={0} aria-valuemax={busy.total} aria-valuenow={busy.done}>
             <div className="h-full bg-prussian transition-[width] duration-300" style={{ width: `${Math.max(4, (busy.done / busy.total) * 100)}%` }} />
           </div>
-        )}
-        {!phone && !fresh && imageCount + (manifest ? 1 : 0) > 1 && (
-          <p className="text-[13px] text-ink-3">{coarse ? E.noShare : presets.length > 1 ? E.zipFolders : E.zipFlat}</p>
         )}
       </div>
     </div>

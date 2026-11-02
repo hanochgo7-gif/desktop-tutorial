@@ -16,7 +16,16 @@ export default async function StudioPage({ params }: PageProps<"/[lang]/studio">
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <Suspense fallback={<div className="h-dvh bg-stage" />}>
+    <Suspense
+      fallback={
+        <div className="flex h-dvh flex-col" aria-busy="true">
+          <div className="h-14 flex-none border-b border-line-2 bg-paper" />
+          <div className="flex flex-1 items-center justify-center bg-stage">
+            <div className="stage-skeleton h-2 w-40 rounded-full" />
+          </div>
+        </div>
+      }
+    >
       <StudioApp lang={lang} t={getDict(lang)} />
     </Suspense>
   );

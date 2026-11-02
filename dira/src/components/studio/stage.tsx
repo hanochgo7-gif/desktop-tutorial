@@ -71,6 +71,7 @@ export function Stage({ s, t, lang, brush, mode, setMode }: Props) {
       <div className="relative min-h-0 flex-1">
         {photo && before && after ? (
           <CompareView
+            priority
             before={before}
             after={after}
             dir={dir}

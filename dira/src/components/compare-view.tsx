@@ -172,13 +172,16 @@ export function CompareView({
     }
     if (mode !== "split") return;
     // Touch: wait to see the direction — a vertical swipe is the page scrolling, not a drag.
-    if (e.pointerType === "touch" && !onHandle) {
+    if (e.pointerType === "touch") {
       gesture.current = { kind: "pending", lastX: e.clientX, lastY: e.clientY };
       return;
     }
     gesture.current = { kind: "divider" };
-    pos.current = posFromClient(e.clientX);
-    apply();
+    // Grabbing the handle never jumps the line; a click elsewhere moves it there.
+    if (!onHandle) {
+      pos.current = posFromClient(e.clientX);
+      apply();
+    }
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -297,6 +300,7 @@ export function CompareView({
           ref={loadedRef(after)}
           onLoad={() => markLoaded(after)}
           fetchPriority={priority ? "high" : "auto"}
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
       </div>
@@ -311,6 +315,7 @@ export function CompareView({
             ref={loadedRef(before)}
             onLoad={() => markLoaded(before)}
             fetchPriority={priority ? "high" : "auto"}
+            loading={priority ? "eager" : "lazy"}
             decoding="async"
           />
         </div>
@@ -323,7 +328,8 @@ export function CompareView({
 
       {mode === "split" && (
         <div className="pointer-events-none absolute inset-y-0" style={{ left: "var(--pos)" }}>
-          <div className="absolute inset-y-0 -ms-px w-[2px] bg-white/95 shadow-[0_0_0_1px_rgb(0_0_0/0.18)]" />
+          {/* Physical left: in RTL an unanchored child would sit on the other side of the line. */}
+          <div className="absolute inset-y-0 left-0 -ml-px w-[2px] bg-white/95 shadow-[0_0_0_1px_rgb(0_0_0/0.18)]" />
           <div
             data-handle
             role="slider"
@@ -334,7 +340,7 @@ export function CompareView({
             aria-valuenow={posState}
             aria-valuetext={`${posState}%`}
             onKeyDown={onKey}
-            className="pointer-events-auto absolute top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize place-items-center rounded-full bg-white text-ink shadow-[0_2px_10px_rgb(0_0_0/0.35)]"
+            className="pointer-events-auto absolute left-0 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize place-items-center rounded-full bg-white text-ink shadow-[0_2px_10px_rgb(0_0_0/0.35)]"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
               <path d="M7 5 2 10l5 5M13 5l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
