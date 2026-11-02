@@ -1409,7 +1409,7 @@ try {
     await ctx.close();
   });
 
-  await check('PG1. Words and pictures: listed after the learner\'s level on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
+  await check('PG1. Words and pictures: listed after the learner\'s level on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists the picture\'s word; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1423,7 +1423,7 @@ try {
     assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
     await page.click('a.game-stage[href="#/games/pictures/1"]');
     const wordOf = async (k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
-    let wrongDone = false;
+    let wrongDone = false, wrongPic = null;
     for (let bd = 0; bd < 3; bd++) {
       await page.waitForSelector('.pic-tile:not([disabled])');
       assert(!(await page.$('.pic-tile[aria-pressed="true"], .pic-word[aria-pressed="true"]')), 'a card was chosen by the tap that opened the board');
@@ -1433,6 +1433,7 @@ try {
       const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
       if (!wrongDone) {
         const right = await wordOf(0);
+        wrongPic = right;
         const other = words.findIndex((w) => w !== right);
         const t0 = Date.now();
         await page.click('[data-pic="0"]');
@@ -1478,7 +1479,9 @@ try {
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round'));
     assert(ev.length === 1 && ev[0].matches === 12 && ev[0].mistakes === 1 && ev[0].score === total && ev[0].level === 1, `round not logged once and right: ${JSON.stringify(ev)}`);
     assert(total >= 12 * 10 - 3 && total <= 12 * 10 - 3 + 15, `score ${total} does not follow the rules`);
-    assert((await page.$$('.pic-missed li')).length === 2, 'the wrong pair did not list both words to go over');
+    // UX r3 GM-4: only the picture that was given a wrong word is listed, not the word chosen for it.
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    assert(listed.length === 1 && listed[0] === wrongPic, `the wrong pair did not list just the picture's word: ${listed} (${wrongPic})`);
     assert(await page.$('a[href="#/games/pictures/2"]'), 'level 2 did not open at 92% accuracy');
     await page.waitForTimeout(300);
     assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'the round was counted twice');

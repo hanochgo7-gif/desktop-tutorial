@@ -13,6 +13,7 @@ import { say, canSpeak } from '../core/speech.js';
 import { PICTURES } from '../ui/picture-icons.js';
 import { BOARDS, UNLOCK, MATCH, MISTAKE, maxFor, makeBoards, roundScore, boardBonus, accuracyOf, bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
 import { paceOf } from '../core/wordgame.js';
+import { longestWord } from '../core/memorygame.js';
 
 export const picture = (name, size = 44) => html`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${raw(PICTURES[name] || '')}</svg>`;
 const pctText = (x) => `${Math.round(x * 100)}%`;
@@ -112,7 +113,7 @@ export default async function picturegame(el, ctx) {
     render(el, html`<div class="player">${top()}<div class="player-body stack" id="gbody" tabindex="-1">
       <h1 class="sr-only">${tt('התאמת מילים לתמונות', 'Words and pictures')}, ${tt(`רמה ${level}`, `level ${level}`)}</h1>
       <p class="small faint">${tt(`רמה ${level}: ${set.name_he}. בוחרים תמונה ומילה (בכל סדר).`, `Level ${level}: ${set.name_en}. Choose a picture and a word, in either order.`)}</p>
-      <div class="pic-grid" data-pairs="${set.pairs}" role="group" aria-label="${tt('תמונות', 'Pictures')}">${bd.pictures.map((w, k) => html`<button type="button" class="pic-tile" data-pic="${k}" aria-pressed="false">${picture(w.icon)}<span class="sr-only">${tt('תמונה', 'Picture')} ${k + 1}: <span lang="he" dir="rtl" data-he>${w.he}</span><span data-matched></span></span><span class="pic-he" lang="he" dir="rtl" aria-hidden="true"></span></button>`)}</div>
+      <div class="pic-grid" data-pairs="${set.pairs}" role="group" aria-label="${tt('תמונות', 'Pictures')}">${bd.pictures.map((w, k) => html`<button type="button" class="pic-tile" data-pic="${k}" aria-pressed="false">${picture(w.icon)}<span class="sr-only">${tt('תמונה', 'Picture')} ${k + 1}: <span lang="he" dir="rtl" data-he>${w.he}</span><span data-matched></span></span><span class="pic-cap" aria-hidden="true"></span></button>`)}</div>
       <div class="pic-words" data-pairs="${set.pairs}" role="group" aria-label="${tt('מילים', 'Words')}">${bd.words.map((w, k) => html`<button type="button" class="pic-word" data-word="${k}" aria-pressed="false" lang="en" dir="ltr">${shown(w)}</button>`)}</div>
       <div id="gfb" class="game-feedback small" aria-live="polite"></div></div></div>`);
     window.scrollTo?.(0, 0); // "Next board" may have been scrolled into view on a short screen
@@ -140,16 +141,19 @@ export default async function picturegame(el, ctx) {
       render($('[data-matched]', pb), html`${tt(', הותאמה למילה ', ', matched with ')}<span lang="en" dir="ltr">${shown(pic)}</span>`);
       // A matched card is disabled; keep the keyboard on the board instead of losing focus to the page.
       if (hadFocus) $('.pic-tile:not(:disabled)', el)?.focus({ preventScroll: true });
-      render($('.pic-he', pb), isolateLatin(pic.he));
+      // The board ends on the English word: large under the picture, with its Hebrew small below it.
+      const cap = $('.pic-cap', pb);
+      cap.style.setProperty('--len', longestWord(shown(pic)));
+      render(cap, html`<span class="pic-en" lang="en" dir="ltr">${shown(pic)}</span><span class="pic-he" lang="he" dir="rtl">${isolateLatin(pic.he)}</span>`);
       render($('#gfb', el), html`<span class="ok-text">${icon('check', { size: 16 })} <strong lang="en" dir="ltr">${shown(pic)}</strong> = <span lang="he" dir="rtl">${isolateLatin(pic.he)}</span></span>`);
       playTone(true);
       if (canSpeak() && soundOn()) say(shown(pic));
     } else {
       mistakes++;
       boardMistakes++;
-      // Either word may be the one not known: both go on the list to go over.
+      // The picture was given a wrong word: its word goes on the list to go over (the word chosen for it may
+      // well be known, so it does not).
       missed.set(pic.word, pic);
-      missed.set(word.word, word);
       [pb, wb].forEach((x) => x.classList.add('is-wrong'));
       setTimeout(() => [pb, wb].forEach((x) => x.classList.remove('is-wrong')), 700);
       render($('#gfb', el), html`<span class="bad-text">${icon('x', { size: 16 })} ${tt('לא מתאים. נסו שוב.', 'Not a match. Try again.')} <span class="faint">${tt(`(פחות ${MISTAKE} נקודות)`, `(${MISTAKE} points off)`)}</span></span>`);

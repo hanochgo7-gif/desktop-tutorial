@@ -83,16 +83,19 @@ async function playQuiz(page, level, stage, right = () => true) {
 }
 // The English word of picture-game tile k (named by its Hebrew word for screen readers).
 const picWord = async (page, k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
-// Matches every pair on the current picture board (pointer), after one deliberate wrong pair when `wrong` is set.
-async function playBoard(page, { wrong = false } = {}) {
+// Matches every pair on the current picture board (pointer), after `wrong` deliberate wrong pairs on the first
+// pictures. Returns the words of the pictures that were given a wrong word.
+async function playBoard(page, { wrong = 0 } = {}) {
   await page.waitForSelector('.pic-tile:not([disabled])');
   await page.waitForTimeout(500);
   const n = (await page.$$('.pic-tile')).length;
   const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
-  if (wrong) {
-    const w0 = await picWord(page, 0);
-    await page.click('[data-pic="0"]');
-    await page.click(`[data-word="${words.findIndex((w) => w !== w0)}"]`);
+  const missed = [];
+  for (let k = 0; k < wrong; k++) {
+    const wk = await picWord(page, k);
+    await page.click(`[data-pic="${k}"]`);
+    await page.click(`[data-word="${words.findIndex((w) => w !== wk)}"]`);
+    missed.push(wk);
     await page.waitForTimeout(100);
   }
   for (let k = 0; k < n; k++) {
@@ -100,6 +103,7 @@ async function playBoard(page, { wrong = false } = {}) {
     await page.click(`[data-pic="${k}"]`);
   }
   await page.waitForSelector('[data-nextboard]');
+  return missed;
 }
 // What memory card i is (its English word), once it is face up.
 const cardWord = async (page, i) => {
@@ -283,6 +287,34 @@ try {
     assert(/הרמה הזו עוד נעולה/.test(await a2.page.textContent('.game-locked-page h1')), 'no locked message for a level');
     assert(await a2.page.$('.game-locked-page a[href="#/games/memory/2"]'), 'no link to the highest open level');
     await a2.ctx.close();
+  });
+
+  await check('GM-4. Words and pictures: a finished board shows the English word large on each tile (Hebrew small under it); after 2 wrong taps only the 2 missed pictures are listed', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games/pictures/1', '.pic-tile');
+    const missed = await playBoard(page, { wrong: 2 });
+    const tiles = await page.$$eval('.pic-tile', (xs) => xs.map((x) => {
+      const en = x.querySelector('.pic-cap .pic-en'), he = x.querySelector('.pic-cap .pic-he');
+      return { en: en?.textContent.trim(), lang: en?.lang, enSize: en ? parseFloat(getComputedStyle(en).fontSize) : 0, heSize: he ? parseFloat(getComputedStyle(he).fontSize) : 0, he: x.querySelector('[data-he]').textContent };
+    }));
+    for (const t of tiles) {
+      assert(t.en === byHe.get(t.he) && t.lang === 'en', `a matched tile does not show its English word: ${JSON.stringify(t)}`);
+      assert(t.enSize >= 18 && t.enSize > t.heSize, `the English word is not the large one: ${JSON.stringify(t)}`);
+    }
+    await shot(page, 'gm4-board-done-390');
+    await page.click('[data-nextboard]');
+    await playBoard(page);
+    await page.click('[data-nextboard]');
+    await playBoard(page);
+    await page.click('[data-nextboard]');
+    await page.waitForSelector('.game-total');
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent.trim()));
+    assert(listed.length === 2 && missed.every((m) => listed.includes(m)), `listed ${listed}, missed ${missed}`);
+    const ev = (await events(page, 'picture-round'))[0];
+    assert(ev.mistakes === 2, `mistakes: ${ev.mistakes}`);
+    await shot(page, 'gm4-results-390', { fullPage: true });
+    await ctx.close();
   });
 } finally {
   await browser.close();

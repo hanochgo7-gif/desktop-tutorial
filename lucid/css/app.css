@@ -1006,6 +1006,20 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-locked-page h1 { font-size: var(--t-xl); }
 .game-locked-page .row { justify-content: center; }
 
+/* Picture game (GM-4): a matched tile ends on the English word, large under the picture, with the Hebrew small
+   below it. The word's size follows the tile's width and its longest word (--len), so the tile never grows. */
+.pic-tile.is-right { container-type: inline-size; grid-template-rows: minmax(0, 1fr) auto; row-gap: var(--s1); min-height: 0; overflow: hidden; }
+.pic-tile.is-right svg { width: min(2.75rem, 38cqi); }
+.pic-cap:empty { display: none; }
+.pic-cap { display: grid; gap: 0.1rem; justify-items: center; text-align: center; max-width: 100%; line-height: 1.15; }
+.pic-cap .pic-en { font-size: min(var(--t-lg), max(0.75rem, calc(150cqi / var(--len, 6)))); font-weight: 600; color: var(--ink-en); overflow-wrap: normal; hyphens: auto; }
+.pic-tile .pic-cap .pic-he { position: static; font-size: var(--t-xs); color: var(--ink-he); }
+/* A long word on a word key breaks at a hyphenation point, not between any two letters. */
+.pic-word { hyphens: auto; }
+/* Large text on a phone: two pictures a row, so a matched tile's word and its Hebrew stay readable. */
+@media (max-width: 39.99rem) {
+  :root:is([data-text='130'], [data-text='150']) .pic-grid > * { flex-basis: calc((100% - var(--gap)) / 2); }
+}
 /* ---- lane games: end ---- */
 
 /* ---- lane real-life-writing: start ---- */
