@@ -8,8 +8,10 @@ import { icon, LEVEL_LABEL } from '../ui/components.js';
 import { model } from '../core/learner.js';
 import { LEVELS, levelIndex, lessonOrder } from '../core/adaptive.js';
 
-const STATUS = { learning: ['בלמידה', 'Learning'], practising: ['בתרגול', 'Practising'], mastered: ['נשלט', 'Mastered'] };
+const STATUS = { learning: ['בלמידה', 'Learning'], practising: ['בתרגול', 'Practising'], mastered: ['בשליטה', 'Mastered'] };
 const pctText = (x) => `${Math.round(x * 100)}%`;
+// "1 answer", never "1 answers" (UX r3 PH-9).
+const answers = (n) => tt(n === 1 ? 'תשובה אחת' : `${n} תשובות`, n === 1 ? '1 answer' : `${n} answers`);
 
 export default async function grammar(el, ctx) {
   ctx.setTitle(t('nav.grammar'));
@@ -40,7 +42,7 @@ export default async function grammar(el, ctx) {
     if (!mm?.evidence) return html`<p class="small faint">${tt('עוד לא תרגלתם', 'Not practised yet')}</p>`;
     const [he, en] = STATUS[mm.status] || STATUS.learning;
     return html`<div class="stack-sm">
-      <div class="row between small"><span>${tt(he, en)}</span><span class="faint num">${tt(`${mm.evidence} תשובות`, `${mm.evidence} answers`)}</span></div>
+      <div class="row between small"><span>${tt(he, en)}</span><span class="faint num">${answers(mm.evidence)}</span></div>
       <div class="meter ${mm.status === 'mastered' ? 'ok' : ''}" role="img" aria-label="${tt('שליטה', 'Mastery')} ${pctText(mm.mastery)}"><span style="width:${Math.round(mm.mastery * 100)}%"></span></div>
     </div>`;
   }
@@ -85,13 +87,13 @@ export default async function grammar(el, ctx) {
               <summary class="disclosure">
                 <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
                 <h2 class="grow" style="font-size:var(--t-lg)">${LEVEL_LABEL[g.level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</h2>
-                <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} נשלטו`, ` · ${mastered} mastered`) : ''}</span></span>
+                <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} בשליטה`, ` · ${mastered} mastered`) : ''}</span></span>
               </summary>
               <ol class="topic-list" style="margin-block-start:var(--s4)">${g.topics.map((tp) => topicRow(tp, m))}</ol>
             </details>`;
           })}
         </section>
-        <p class="xsmall faint">${tt('השליטה מחושבת מהתשובות שלכם, ותשובות מהזמן האחרון שוקלות יותר. ״נשלט״ דורש 85% לפחות, 6 תשובות ומעלה, ובשני ימים שונים לפחות.', 'Mastery is computed from your answers, with recent answers counting more. Mastered needs at least 85%, 6 or more answers, on at least two different days.')}</p>
+        <p class="xsmall faint">${tt('השליטה מחושבת מהתשובות שלכם, ותשובות מהזמן האחרון שוקלות יותר. ״בשליטה״ דורש 85% לפחות, 6 תשובות ומעלה, ובשני ימים שונים לפחות.', 'Mastery is computed from your answers, with recent answers counting more. Mastered needs at least 85%, 6 or more answers, on at least two different days.')}</p>
       </div>`);
   }
 

@@ -60,7 +60,7 @@ async function learnerAt(page, level, { goals = ['travel'], text = 100, lang = '
 }
 async function go(page, hash, sel = '#view > *') {
   await page.goto(`${BASE}#/${hash}`);
-  await page.waitForSelector(sel);
+  await page.waitForSelector(sel, { state: 'attached' });
   await page.waitForTimeout(250);
 }
 const store = (page, coll) => page.evaluate((c) => window.lucid.store.all(c), coll);
@@ -394,6 +394,38 @@ try {
     await s.page.waitForSelector('[data-hear-silent]', { timeout: 5000 });
     assert(await s.page.$$eval('[data-hear-pick]', (b) => b.every((x) => x.disabled)), 'answers open although nothing played');
     await s.ctx.close();
+  });
+
+  // ---------- PH-9 ----------
+  await check('PH-9. Practice is useful from day one: a word game and a scenario for a freshly placed B1 learner, labs in two columns on desktop; Grammar says "1 answer" and "בשליטה"', async () => {
+    for (const viewport of [PHONE, DESKTOP]) {
+      const { ctx, page } = await newPage(browser, { viewport });
+      await learnerAt(page, 'B1');
+      await go(page, 'practice', '#now-h');
+      const recs = await page.$$eval('section[aria-labelledby="now-h"] a.plan-item', (x) => x.map((a) => a.getAttribute('href')));
+      assert(recs.length >= 2 && recs.includes('#/games/B1/1') && recs.some((h) => h.startsWith('#/scenario/')), `recommendations: ${recs}`);
+      await shot(page, `ph9-practice-${viewport.width}`, false);
+      if (viewport === DESKTOP) {
+        const cols = await page.$eval('.practice-labs', (u) => getComputedStyle(u).gridTemplateColumns.split(' ').length);
+        assert(cols === 2, `labs grid has ${cols} columns at 1440`);
+      }
+      const sc = recs.find((h) => h.startsWith('#/scenario/'));
+      await go(page, sc.slice(2), '#view h1');
+      assert(!/לא נמצא|not found/i.test(await page.textContent('#view')), `the recommended scenario does not open: ${sc}`);
+      await ctx.close();
+    }
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    const topic = await page.evaluate(async () => { const tx = await (await fetch('content/taxonomy.json')).json(); const tp = tx.topics.find((x) => x.skill === 'grammar' && x.level === 'B1'); window.lucid.store.put('attempts', { id: 'one', at: new Date().toISOString(), source: 'lesson', topic: tp.id, skill: 'grammar', level: 'B1', correct: true, score: 1 }); return tp.id; });
+    await go(page, 'grammar', '.topic-row');
+    const text = await page.textContent('#view');
+    assert(/תשובה אחת/.test(text) && !/\b1 תשובות/.test(text) && !/נשלט/.test(text) && /בשליטה/.test(text), `grammar copy for ${topic}`);
+    await page.evaluate(async () => (await import('./js/core/learner.js')).saveProfile({ ui_language: 'en' }));
+    await go(page, 'practice', '#now-h');
+    await go(page, 'grammar', '.topic-row');
+    const en = await page.textContent('#view');
+    assert(/(^|[^0-9])1 answer\b/.test(en) && !/(^|[^0-9])1 answers/.test(en), `English grammar: ${en.match(/.{30}answer.{10}/g)?.slice(0, 3)}`);
+    await ctx.close();
   });
 
   // ---------- PH-10 ----------
