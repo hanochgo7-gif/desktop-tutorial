@@ -1004,6 +1004,14 @@ dialog.sheet > .panel { padding: var(--s5); }
 .tf-row .key.is-right { border-color: var(--ok); background: var(--ok-tint); }
 .tf-row .key.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
 
+/* Mixed lines (EX-6): numbered passage paragraphs, one speaker per line. */
+.passage[data-numbered] { counter-reset: para; }
+.passage[data-numbered] > p { counter-increment: para; position: relative; padding-inline-start: 2rem; }
+.passage[data-numbered] > p::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+.ex-text .speaker, .passage .speaker { font-weight: 600; }
+.ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
+.ex-source[dir='rtl'] { text-align: right; }
+
 /* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
 .answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
 .answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }

@@ -39,6 +39,31 @@ const HEBREW = /[֐-׿]/;
 const langOf = (s) => (HEBREW.test(String(s)) ? 'he' : 'en');
 const tick = (ok = true) => html`<span class="ex-mark ${ok ? 'ok' : 'bad'}" aria-hidden="true">${icon(ok ? 'check' : 'x', { size: 16 })}</span>`;
 
+// Dialogues (P1 EX-6): a text with two or more "Name:" turns starts each turn on a new line, name in bold.
+const TURN = /(^|\s)([A-Z][A-Za-z]+:)(?=\s)/g;
+export const isDialogue = (text) => (String(text || '').match(TURN) || []).length >= 2;
+export function splitTurns(text) {
+  const t = String(text);
+  const starts = [...t.matchAll(TURN)].map((m) => m.index + m[1].length).filter((i) => i > 0);
+  return [0, ...starts].map((s, k, all) => t.slice(s, all[k + 1] ?? t.length).trim()).filter(Boolean);
+}
+// The text with a line break before each turn (none at the very start when `first`) and the names in bold.
+function turns(text, on_, first) {
+  const t = String(text ?? '');
+  if (!on_) return t;
+  const out = [];
+  let last = 0;
+  for (const m of t.matchAll(TURN)) {
+    const at = m.index + m[1].length;
+    out.push(t.slice(last, at));
+    if (!(first && at === 0)) out.push(html`<br>`);
+    out.push(html`<b class="speaker">${m[2]}</b>`);
+    last = at + m[2].length;
+  }
+  out.push(t.slice(last));
+  return out;
+}
+
 function listenButtons(text) {
   if (!canSpeak()) return html`<p class="banner warn small">${icon('alert', { size: 18 })}<span>${tt('הדפדפן הזה לא תומך בהקראה. התמליל מוצג במקום.', 'This browser cannot read text aloud, so the transcript is shown instead.')}</span></p><p class="ex-text" lang="en" dir="ltr">${text}</p>`;
   return html`<div class="big-listen"><button type="button" class="key" data-say="normal" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 24 })} ${tt('השמעה', 'Play')}</button><button type="button" class="key" data-say="slow" aria-label="${tt('השמעה איטית', 'Play slowly')}">${icon('turtle', { size: 24 })} ${tt('לאט', 'Slowly')}</button></div>`;
@@ -112,9 +137,10 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const parts = ex.text.split('___');
       const bank = ex.word_bank ? shuffle(ex.word_bank, 0.42) : null;
       const n = parts.length - 1;
+      const dialogue = isDialogue(ex.text);
       const gapName = (i) => `${tt('מילה חסרה', 'Missing word')} ${i + 1}`;
       render(root, html`${prompt}
-        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${p}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
+        <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${turns(p, dialogue, i === 0)}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
         ${bank ? html`<div class="gap-tools" data-gap-tools hidden><button type="button" class="key ghost small" data-gap-clear>${icon('x', { size: 16 })} <span data-gap-clear-label></span></button></div>
           <div class="chips gap-bank" data-bank style="margin-top:var(--s4)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}" lang="en" dir="ltr">${bank.map((w, ci) => html`<button type="button" class="chip" data-chip="${w}" data-ci="${ci}" aria-disabled="false">${w}</button>`)}</div>` : ''}
         ${liveRegion}`);
@@ -441,8 +467,10 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     case 'transform':
     case 'correct': {
       const source = ex.type === 'transform' ? ex.source : ex.sentence;
+      // A Hebrew sentence to translate reads right to left, in Hebrew (P1 EX-6); an English one left to right.
+      const srcLang = langOf(source);
       render(root, html`${prompt}
-        <p class="ex-text" lang="en" dir="ltr">${ex.type === 'correct' ? html`<span style="text-decoration:underline wavy var(--bad);text-underline-offset:.3em">${source}</span>` : source}</p>
+        <p class="ex-text ex-source" lang="${srcLang}" dir="${srcLang === 'he' ? 'rtl' : 'ltr'}">${ex.type === 'correct' ? html`<span style="text-decoration:underline wavy var(--bad);text-underline-offset:.3em">${source}</span>` : source}</p>
         <label class="sr-only" for="tx-${ex.id}">${tt('התשובה שלך', 'Your answer')}</label>
         <textarea class="input ex-field" id="tx-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו כאן את המשפט המלא', 'Type the full sentence here')}">${ex.type === 'correct' ? source : ''}</textarea>
         <div data-reveal></div>`);
@@ -546,8 +574,11 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
 
     case 'read': {
       const answers = new Map();
+      // Paragraphs are numbered (P1 EX-6); in a dialogue each speaker's turn is a paragraph of its own.
+      const dialogue = isDialogue(ex.passage);
+      const paras = ex.passage.split(/\n\s*\n|\n/).flatMap((p) => (dialogue ? splitTurns(p) : [p])).filter((p) => p.trim());
       render(root, html`${prompt}
-        <article class="passage" lang="en" dir="ltr">${ex.title ? html`<h3 style="margin-bottom:var(--s3)">${ex.title}</h3>` : ''}${ex.passage.split(/\n\s*\n|\n/).map((p) => html`<p>${p}</p>`)}</article>
+        <article class="passage" lang="en" dir="ltr" ${paras.length > 1 ? html`data-numbered` : ''}>${ex.title ? html`<h3 style="margin-bottom:var(--s3)">${ex.title}</h3>` : ''}${paras.map((p) => html`<p>${turns(p, dialogue, true)}</p>`)}</article>
         ${canSpeak() ? html`<div class="row" style="margin-top:var(--s3)"><button type="button" class="key small" data-say="normal">${icon('volume', { size: 18 })} ${tt('הקראת הטקסט', 'Read it to me')}</button></div>` : ''}
         <div class="stack" style="margin-top:var(--s5)">${ex.questions.map((q, qi) => html`<fieldset class="panel flat stack-sm" style="margin:0" data-q="${qi}"><legend class="sr-only">${tt('שאלה', 'Question')} ${qi + 1}</legend>
           ${q.type === 'tf' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.statement}</p><div class="row tf-row" dir="ltr" lang="en"><button type="button" class="key small" data-tf="${qi}" data-v="true" aria-pressed="false">True</button><button type="button" class="key small" data-tf="${qi}" data-v="false" aria-pressed="false">False</button></div>`
