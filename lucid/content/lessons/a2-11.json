@@ -53,7 +53,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question with 'how much' or 'how many' needs no helper verb, so it is easy to say *How much money you have? English needs do or does after the noun: How much money do you have? How many brothers does she have?", "he": "בעברית שאלה עם 'כמה' לא צריכה פועל עזר ('כמה כסף יש לך?'). באנגלית צריך do או does אחרי שם העצם: How much money do you have?", "error_type": "do-support" },
-    { "en": "Hebrew has no /ʌ/ vowel, so money /ˈmʌni/ often comes out as 'mani'. many is spelled with a, so it can come out as 'mani' too, and then the two words sound the same. many has /e/, as in pen; money has the short, relaxed /ʌ/, as in cup.", "he": "בעברית אין את התנועה /ʌ/, ולכן money /ˈmʌni/ יוצא לעיתים קרובות 'מָאנִי'. גם many, שנכתב עם a, יוצא לפעמים 'מָאנִי', ואז שתי המילים נשמעות אותו דבר. ב-many יש /e/ כמו ב-pen ('מֶנִי'), וב-money יש /ʌ/ קצרה ורפויה, כמו ב-cup.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has no /ʌ/ vowel, so money /ˈmʌni/ often comes out as 'mani'. many is spelled with a, so it can come out as 'mani' too, and then the two words sound the same. many has /e/, as in pen; money has the short, relaxed /ʌ/, as in cup.", "he": "אומרים 'אַ' קצרה ורפויה, כמו ב-cup, ב-money ('מַנִי', /ˈmʌni/), ו'אֶ', כמו ב-pen, ב-many ('מֶנִי', /ˈmeni/). בעברית אין את התנועה הראשונה, ולכן שתי המילים יוצאות לפעמים 'מָאנִי'.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -262,7 +262,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "quantifiers",
       "prompt": { "en": "Say the question out loud.", "he": "אמרו את השאלה בקול." },
       "target": "How many people are coming, and how much money do we need?",
-      "focus": { "en": "many /ˈmeni/ has the vowel of pen; money /ˈmʌni/ has the short vowel of cup. Make the difference clear.", "he": "ב-many /ˈmeni/ יש את התנועה של pen, וב-money /ˈmʌni/ יש את התנועה הקצרה של cup. הקפידו על ההבדל." },
+      "focus": { "en": "many /ˈmeni/ has the vowel of pen; money /ˈmʌni/ has the short vowel of cup. Make the difference clear.", "he": "אומרים 'אֶ', כמו ב-pen, ב-many (/ˈmeni/), ו'אַ' קצרה, כמו ב-cup, ב-money (/ˈmʌni/). הקפידו על ההבדל." },
       "error_type": "pron-vowel",
       "explanation": { "en": "When you plan a party or a trip, you often need both questions.", "he": "כשמתכננים מסיבה או טיול, צריך בדרך כלל את שתי השאלות." }
     },

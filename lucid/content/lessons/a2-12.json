@@ -53,7 +53,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question like 'do I have to pay?' keeps statement word order with no helper verb, so it is easy to say *I have to pay? English needs do or does: Do I have to pay? Does she have to work on Friday?", "he": "בעברית שואלים 'אני צריך לשלם?' בלי פועל עזר. באנגלית צריך do או does: Do I have to pay?", "error_type": "do-support" },
     { "en": "Hebrew present-tense verbs change for gender and number, not for person (I have to and he has to are the same Hebrew verb form). So the English he/she/it form is easy to miss: she has to (not *she have to). Modals never change: she must, he should (not *she musts).", "he": "בהווה בעברית הפועל משתנה לפי מין ומספר, אבל לא לפי גוף: 'אני צריך' ו'הוא צריך' – אותה צורה. לכן קל לשכוח את הצורה המיוחדת של he/she/it באנגלית: she has to. לעומת זאת must ו-should לא משתנים לעולם.", "error_type": "third-person-s" },
-    { "en": "In Hebrew there is one 'u' vowel, so should /ʃʊd/ can come out long, like 'shood'. Keep it short, as in good and book, and don't say the l.", "he": "בעברית יש תנועת 'u' אחת, ולכן should /ʃʊd/ עלול לצאת ארוך, כמו 'שוּוּד'. אמרו אותו קצר, כמו ב-good וב-book, ובלי לבטא את ה-l.", "error_type": "pron-vowel" }
+    { "en": "In Hebrew there is one 'u' vowel, so should /ʃʊd/ can come out long, like 'shood'. Keep it short, as in good and book, and don't say the l.", "he": "אומרים את should קצר, כמו ב-good וב-book, ובלי להשמיע את ה-l: 'שֻד' (/ʃʊd/). בעברית יש רק 'אוּ' אחת, ולכן should יוצא לפעמים ארוך, 'שוּוּד'.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -261,7 +261,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "modals-obligation-advice",
       "prompt": { "en": "Give the advice out loud.", "he": "אמרו את העצה בקול." },
       "target": "You should take a break. You shouldn't work so late.",
-      "focus": { "en": "should /ʃʊd/ has a short vowel, as in good, and the l is silent. In shouldn't, the second syllable is very short: /ˈʃʊdnt/.", "he": "ב-should /ʃʊd/ התנועה קצרה, כמו ב-good, וה-l לא נהגית. ב-shouldn't ההברה השנייה קצרה מאוד: /ˈʃʊdnt/." },
+      "focus": { "en": "should /ʃʊd/ has a short vowel, as in good, and the l is silent. In shouldn't, the second syllable is very short: /ˈʃʊdnt/.", "he": "אומרים should קצר, כמו good, בלי להשמיע את ה-l (/ʃʊd/). ב-shouldn't ההברה השנייה קצרה מאוד (/ˈʃʊdnt/)." },
       "error_type": "pron-vowel",
       "explanation": { "en": "Natural, friendly advice: should for a good idea, shouldn't for a bad one.", "he": "עצה טבעית וידידותית: should לרעיון טוב, shouldn't לרעיון רע." }
     },

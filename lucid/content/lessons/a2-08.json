@@ -242,7 +242,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say no politely. Say it out loud.", "he": "סרבו בנימוס. אמרו את זה בקול." },
       "target": "Sorry, I can't make it on Friday. I'm working late.",
-      "focus": { "en": "working ends in /ŋ/: no hard g at the end.", "he": "working מסתיים ב-/ŋ/, בלי g חזקה בסוף." },
+      "focus": { "en": "working ends in /ŋ/: no hard g at the end.", "he": "מסיימים את working באף, בלי g חזקה בסוף (/ŋ/)." },
       "explanation": { "en": "I can't make it = I can't come. Giving your arrangement as a reason sounds polite and natural.", "he": "I can't make it = אני לא אוכל להגיע. כשמסבירים מה הסידור שלכם, הסירוב נשמע מנומס וטבעי." }
     },
     {

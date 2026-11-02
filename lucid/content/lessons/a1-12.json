@@ -49,7 +49,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, yes/no questions work differently: they can keep the word order of a normal sentence, with only the voice going up. So 'You can help me?' may feel natural. In English, can comes before the subject: Can you help me?", "he": "בעברית שאלת כן/לא בנויה אחרת: אפשר לשמור על סדר המילים של משפט רגיל, ורק הקול עולה ('אתה יכול לעזור לי?'). באנגלית can בא לפני הנושא: Can you help me?", "error_type": "word-order" },
-    { "en": "In Hebrew there is only one 'a' vowel, so can and can't may sound almost the same. In English the difference is in the vowel and the stress: in a sentence can is weak /kən/, and can't is strong and stressed: /kɑːnt/ (UK), /kænt/ (US).", "he": "בעברית יש תנועת 'a' אחת בלבד, ולכן can ו-can't עלולים להישמע כמעט אותו דבר. באנגלית ההבדל הוא בתנועה ובהטעמה: בתוך משפט can חלש /kən/, ו-can't חזק ומוטעם: /kɑːnt/ (בריטית), /kænt/ (אמריקאית).", "error_type": "pron-vowel" }
+    { "en": "In Hebrew there is only one 'a' vowel, so can and can't may sound almost the same. In English the difference is in the vowel and the stress: in a sentence can is weak /kən/, and can't is strong and stressed: /kɑːnt/ (UK), /kænt/ (US).", "he": "בתוך משפט אומרים can חלש וקצר, כמעט 'קֶן' (/kən/), ואת can't חזק ומוטעם: 'קָאנְט' בבריטית (/kɑːnt/) ו'קֶאנְט' באמריקאית (/kænt/). בעברית יש רק 'אַ' אחת, ולכן קל לבלבל ביניהם.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -247,7 +247,7 @@
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "modal-can",
       "prompt": { "en": "You're lost in a new city. Ask someone for help, out loud.", "he": "הלכתם לאיבוד בעיר חדשה. בקשו ממישהו עזרה, בקול." },
       "target": "Excuse me, can you help me? I can't find the station.",
-      "focus": { "en": "can is weak and quick: /kən/ (can you help me). can't is strong and long: I CAN'T find. Stress the word that matters.", "he": "can חלש ומהיר: /kən/ (can you help me). ‏can't חזק וארוך: I CAN'T find. הדגישו את המילה החשובה." },
+      "focus": { "en": "can is weak and quick: /kən/ (can you help me). can't is strong and long: I CAN'T find. Stress the word that matters.", "he": "אומרים can חלש ומהיר, כמעט 'קֶן' (/kən/), ואת can't חזק וארוך. הדגישו את המילה החשובה." },
       "explanation": { "en": "Excuse me + Can you help me? is a polite way to start talking to someone you don't know.", "he": "Excuse me ואחריו Can you help me? היא דרך מנומסת לפנות לאדם שאתם לא מכירים." }
     },
     {

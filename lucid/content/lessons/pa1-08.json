@@ -72,7 +72,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "Hebrew writing works differently: it has no capital letters, so they are easy to forget. In English, days and months always start with a capital letter: Monday, May (not monday, may).", "he": "בכתב העברי אין אותיות גדולות, ולכן קל לשכוח אותן. באנגלית ימים וחודשים תמיד מתחילים באות גדולה: Monday, May – לא monday, may.", "error_type": "capitalization" },
-    { "en": "Hebrew has no /θ/ sound, so Thursday, third, fourth and month can come out with t or s. Put the tip of your tongue between your teeth and blow gently: /θ/.", "he": "בעברית אין את הצליל /θ/, ולכן Thursday, third, fourth ו-month עלולים לצאת עם t או s ('טֶרְזְדֵיי', 'סֶרְד'). שימו את קצה הלשון בין השיניים ונשפו בעדינות: /θ/.", "error_type": "pron-th" },
+    { "en": "Hebrew has no /θ/ sound, so Thursday, third, fourth and month can come out with t or s. Put the tip of your tongue between your teeth and blow gently: /θ/.", "he": "שמים את קצה הלשון בין השיניים ונושפים בעדינות, בלי קול, ב-Thursday, ‏third ו-month (/θ/). בעברית אין את הצליל הזה, ולכן הוא יוצא לפעמים t או s ('טֶרְזְדֵיי', 'סֶרְד').", "error_type": "pron-th" },
     { "en": "In Hebrew the time needs no verb (literally 'the hour seven'). English works differently, so start with It's: It's seven o'clock.", "he": "בעברית אומרים 'השעה שבע' בלי פועל. באנגלית זה עובד אחרת, ומתחילים ב-It's: It's seven o'clock.", "error_type": "copula-omission" }
   ],
   "exercises": [

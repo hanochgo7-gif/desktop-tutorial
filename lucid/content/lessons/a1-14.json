@@ -50,8 +50,8 @@
     { "word": "neighbour", "pos": "noun", "he": "שכן/ה", "def": "a person who lives next to you or near you", "example": "My neighbour has a key to my flat.", "ipa": "/ˈneɪbə(r)/", "collocations": ["next-door neighbour", "a friendly neighbour"], "level": "A1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is no /ð/ sound, so them can come out as 'dem' or 'zem'. Put the tip of your tongue between your teeth and use your voice: them /ðəm/, with them.", "he": "בעברית אין את הצליל /ð/, ולכן them עלול לצאת 'דֶם' או 'זֶם'. שימו את קצה הלשון בין השיניים והשמיעו קול: them /ðəm/, with them.", "error_type": "pron-th" },
-    { "en": "In Hebrew there is one 'i' sound, so him and it can come out long, like 'heem' and 'eet' (= eat). In English they are short: him /hɪm/, it /ɪt/. The long sound is in he /hiː/.", "he": "בעברית יש צליל 'i' אחד, ולכן him ו-it עלולים לצאת ארוכים, כמו 'הִים' ו'אִיט' (כמו eat). באנגלית הם קצרים: him /hɪm/, it /ɪt/. הצליל הארוך הוא ב-he /hiː/.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no /ð/ sound, so them can come out as 'dem' or 'zem'. Put the tip of your tongue between your teeth and use your voice: them /ðəm/, with them.", "he": "שמים את קצה הלשון בין השיניים ומשמיעים קול ב-them (/ðəm/). בעברית אין את הצליל הזה, ולכן them יוצא לפעמים 'דֶם' או 'זֶם'.", "error_type": "pron-th" },
+    { "en": "In Hebrew there is one 'i' sound, so him and it can come out long, like 'heem' and 'eet' (= eat). In English they are short: him /hɪm/, it /ɪt/. The long sound is in he /hiː/.", "he": "אומרים 'אִי' קצרה ורפויה, קרובה ל'אֶ', ב-him וב-it (/ɪ/), ומאריכים רק ב-he (/iː/). בעברית יש צליל 'אִי' אחד, ולכן קל לומר 'הִים' ו'אִיט' (כמו eat).", "error_type": "pron-vowel" },
     { "en": "In Hebrew you can often leave the object out when it is clear. Word for word, the Hebrew answer is 'Do you know Dana? – Yes, I know.' In English the object pronoun must be there: Yes, I know her. Do you like my shoes? – Yes, I like them.", "he": "בעברית אפשר לעיתים קרובות להשמיט את המושא כשברור במה מדובר: 'אתה מכיר את דנה? – כן, אני מכיר.' באנגלית כינוי המושא חייב להופיע: Yes, I know her.", "error_type": "pronoun" }
   ],
   "exercises": [
@@ -308,7 +308,7 @@
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "pronouns-object",
       "prompt": { "en": "You're planning a party with a friend. Say this out loud.", "he": "אתם מתכננים מסיבה עם חבר/ה. אמרו את המשפט בקול." },
       "target": "Please tell them about the party, and invite him too.",
-      "focus": { "en": "them /ðəm/: tongue between your teeth, and use your voice. him /hɪm/ is short – not 'heem'.", "he": "them /ðəm/: הלשון בין השיניים, והשמיעו קול. ‏him /hɪm/ קצר – לא 'הִים'." },
+      "focus": { "en": "them /ðəm/: tongue between your teeth, and use your voice. him /hɪm/ is short – not 'heem'.", "he": "שמים את הלשון בין השיניים ומשמיעים קול ב-them (/ðəm/). ‏him קצר, לא 'הִים' (/hɪm/)." },
       "explanation": { "en": "tell them, invite him: the object pronoun comes right after the verb.", "he": "tell them, invite him: כינוי המושא בא מיד אחרי הפועל." }
     },
     {

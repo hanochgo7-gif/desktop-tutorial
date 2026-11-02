@@ -68,7 +68,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there are no capital letters, so they are easy to forget in English. Write I, Noa and Haifa with a capital, and start every sentence with one.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן באנגלית. כותבים I, Noa, Haifa באות גדולה, וכל משפט מתחיל באות גדולה.", "error_type": "capitalization" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so the letter Y ('why') can come out as 'vai'. For w, round your lips as for 'oo'.", "he": "בעברית w אינו צליל רגיל (האות ו נהגית v), ולכן שם האות Y עלול לצאת עם v. ב-w מעגלים את השפתיים כמו ב'אוּ', והשיניים לא נוגעות בשפה.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so the letter Y ('why') can come out as 'vai'. For w, round your lips as for 'oo'.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, כשאומרים את שם האות Y, כמו המילה why (/w/). בעברית ו' נהגית v, ולכן Y יוצאת לפעמים עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {

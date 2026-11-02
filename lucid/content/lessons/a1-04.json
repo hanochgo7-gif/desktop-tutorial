@@ -254,7 +254,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "daily-life-vocab",
       "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
       "target": "I usually leave home at eight, and I never get home before six.",
-      "focus": { "en": "leave has a long vowel /iː/, like 'leeeve'. With a short vowel it becomes live (= to have your home somewhere).", "he": "ב-leave התנועה ארוכה /iː/ ('לִייב'). בתנועה קצרה היא הופכת ל-live ('לגור')." },
+      "focus": { "en": "leave has a long vowel /iː/, like 'leeeve'. With a short vowel it becomes live (= to have your home somewhere).", "he": "מותחים את השפתיים ומאריכים את ה'אִי' ב-leave ('לִייב', /iː/). כשה'אִי' קצרה, המילה הופכת ל-live ('לגור')." },
       "explanation": { "en": "This is a sentence you can really use to describe your day. Long /iː/ in leave keeps your meaning clear.", "he": "זה משפט שאפשר באמת להשתמש בו כדי לתאר את היום שלכם. בזכות התנועה הארוכה ב-leave ברור למה התכוונתם." }
     },
     {

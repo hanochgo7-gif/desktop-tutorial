@@ -59,8 +59,8 @@
     { "word": "only child", "pos": "noun", "he": "בן יחיד / בת יחידה", "def": "a person who has no brothers or sisters", "example": "I'm an only child.", "ipa": "/ˌəʊnli ˈtʃaɪld/", "collocations": ["an only child"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "Hebrew works differently here: it has no /ð/ sound, so mother, brother and their can come out with a /d/ or /z/ ('mader', 'zeir'). In English, put the tip of your tongue between your teeth and use your voice: /ˈmʌðə(r)/, /ðeə(r)/.", "he": "בעברית אין את הצליל /ð/, ולכן mother, brother ו-their יוצאות לפעמים עם ד' או ז' ('מָאדֶר', 'זֵייר'). באנגלית מוציאים מעט את קצה הלשון בין השיניים ומשמיעים קול: mother, their.", "error_type": "pron-th" },
-    { "en": "Hebrew works differently: it has one 'i' vowel, while English has a short /ɪ/ and a long /iː/. So his /hɪz/ and he's /hiːz/ can sound the same. His (short) = belongs to him; he's (long) = he is.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן his ו-he's עלולות להישמע אותו דבר. his (קצרה) = 'שלו'; he's (ארוכה) = 'הוא'.", "error_type": "pron-vowel" },
+    { "en": "Hebrew works differently here: it has no /ð/ sound, so mother, brother and their can come out with a /d/ or /z/ ('mader', 'zeir'). In English, put the tip of your tongue between your teeth and use your voice: /ˈmʌðə(r)/, /ðeə(r)/.", "he": "מוציאים מעט את קצה הלשון בין השיניים ומשמיעים קול ב-mother, ‏brother ו-their (/ð/). בעברית אין את הצליל הזה, ולכן הוא יוצא לפעמים ד' או ז' ('מָאדֶר', 'זֵייר').", "error_type": "pron-th" },
+    { "en": "Hebrew works differently: it has one 'i' vowel, while English has a short /ɪ/ and a long /iː/. So his /hɪz/ and he's /hiːz/ can sound the same. His (short) = belongs to him; he's (long) = he is.", "he": "אומרים 'אִי' קצרה ורפויה ב-his ('שלו', /ɪ/), ומותחים את השפתיים ומאריכים ב-he's ('הוא', /iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
     { "en": "In Hebrew there is no word for a/an, so 'I have brother' can sound right. English works differently: I have a brother / I've got a brother. Use one only when you count: one brother and two sisters.", "he": "בעברית אין מילה ל-a/an ('יש לי אח'), ולכן קל לשכוח אותה. באנגלית חייבים: I have a brother. את one משתמשים רק כשסופרים.", "error_type": "article" },
     { "en": "In Hebrew, 'have' works differently: one word is used for everyone (for me, for her, for them). In English the verb changes: I have, but she has (she's got), not 'she have'.", "he": "בעברית 'יש' זהה לכולם (יש לי, יש לה, יש להם). באנגלית הפועל משתנה: I have, אבל she has (או she's got), ולא she have.", "error_type": "third-person-s" }
   ],
@@ -261,7 +261,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "possessives",
       "prompt": { "en": "You are showing a family photo. Say the sentence out loud.", "he": "אתם מראים תמונה משפחתית. אמרו את המשפט בקול." },
       "target": "This is my brother and his wife, and these are their kids.",
-      "focus": { "en": "The sound /ð/ in this, brother, these and their: put the tip of your tongue between your teeth and use your voice. his is short /hɪz/.", "he": "הצליל /ð/ ב-this, brother, these ו-their: קצה הלשון בין השיניים, עם קול. ב-his התנועה קצרה /hɪz/." },
+      "focus": { "en": "The sound /ð/ in this, brother, these and their: put the tip of your tongue between your teeth and use your voice. his is short /hɪz/.", "he": "שמים את קצה הלשון בין השיניים ומשמיעים קול ב-this, ‏brother, ‏these ו-their (/ð/). ב-his ה'אִי' קצרה (/hɪz/)." },
       "explanation": { "en": "You can use this sentence with any photo. It has his (one owner, a man) and their (two owners).", "he": "אפשר להשתמש במשפט הזה עם כל תמונה. יש בו his (בעלים אחד, גבר) ו-their (שני בעלים)." }
     },
     {

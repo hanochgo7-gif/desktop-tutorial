@@ -55,7 +55,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew the present-tense verb changes for gender and number but not for person: 'I work' and 'he works' use the same Hebrew word. English works differently, so he, she and it need -s: I work, but he works.", "he": "בעברית הפועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף: 'אני עובד' ו'הוא עובד' – אותה מילה בדיוק. באנגלית זה עובד אחרת: עם he, she, it מוסיפים s – I work, אבל he works.", "error_type": "third-person-s" },
-    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/. So she lives /lɪvz/ (her home is there) can sound like she leaves /liːvz/ (she goes away). Keep lives short.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש קצרה /ɪ/ וארוכה /iː/. לכן she lives /lɪvz/ (היא גרה) עלול להישמע כמו she leaves /liːvz/ (היא עוזבת). ב-lives התנועה קצרה.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/. So she lives /lɪvz/ (her home is there) can sound like she leaves /liːvz/ (she goes away). Keep lives short.", "he": "אומרים 'אִי' קצרה ורפויה, קרובה ל'אֶ', ב-lives ('גרה', /ɪ/), ומותחים את השפתיים ומאריכים ב-leaves ('עוזבת', /iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {

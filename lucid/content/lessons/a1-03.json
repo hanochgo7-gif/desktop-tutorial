@@ -47,7 +47,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, a yes/no question can be the same as a statement, with the voice going up at the end, and a negative just puts 'not' before the verb. English works differently, so present simple questions and negatives need do or does: Do you live here? I don't live here.", "he": "בעברית שאלת כן/לא יכולה להיות משפט רגיל עם טון עולה ('את גרה פה?'), ובשלילה פשוט מוסיפים 'לא' לפני הפועל. באנגלית זה עובד אחרת: בהווה פשוט, שאלה ושלילה צריכות do או does – Do you live here?", "error_type": "do-support" },
-    { "en": "Hebrew has no /ʌ/ vowel, so does and doesn't can come out as 'doz' and 'doznt', following the spelling. In English they have the short 'uh' sound of cup: does /dʌz/, doesn't /ˈdʌznt/.", "he": "בעברית אין את התנועה /ʌ/, ולכן does ו-doesn't עלולות לצאת 'דוֹז' ו'דוֹזנט' לפי הכתיב. באנגלית התנועה קצרה, כמו ב-cup: does /dʌz/, doesn't /ˈdʌznt/.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has no /ʌ/ vowel, so does and doesn't can come out as 'doz' and 'doznt', following the spelling. In English they have the short 'uh' sound of cup: does /dʌz/, doesn't /ˈdʌznt/.", "he": "אומרים 'אַ' קצרה ורפויה, כמו ב-cup, ב-does וב-doesn't: 'דַז', 'דַזְנְט' (/dʌz/, /ˈdʌznt/). בעברית אין את התנועה הזאת, ולכן קל לומר 'דוֹז' לפי הכתיב.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {

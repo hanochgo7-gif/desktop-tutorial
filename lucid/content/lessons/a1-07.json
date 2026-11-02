@@ -53,7 +53,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no word for a/an, so 'I've got book' or 'I'm student' can sound right. English works differently: one singular thing needs a/an (or the, my...): I've got a book. I'm a student.", "he": "בעברית אין מילה ל-a/an ('יש לי ספר', 'אני סטודנט'), ולכן קל לשכוח אותה. באנגלית דבר אחד ביחיד צריך a/an (או the, my): I'm a student.", "error_type": "article" },
     { "en": "In Hebrew the word for 'one' sometimes works like an article (as in 'one guy asked me...'). English works differently: use a/an, and keep one for counting. A man wants to talk to you; I've got one brother and two sisters.", "he": "בעברית 'אחד' משמש לפעמים כמו תווית ('בחור אחד שאל אותי...'). באנגלית זה עובד אחרת: אומרים a/an, ואת one שומרים לספירה.", "error_type": "article" },
-    { "en": "Hebrew works differently here: it has no /ð/ sound, so the can sound like 'de' or 'ze'. Put the tip of your tongue between your teeth and use your voice: /ðə/.", "he": "בעברית אין את הצליל /ð/, ולכן the עלול לצאת 'דֶה' או 'זֶה'. שימו את קצה הלשון בין השיניים והשמיעו קול: /ðə/.", "error_type": "pron-th" }
+    { "en": "Hebrew works differently here: it has no /ð/ sound, so the can sound like 'de' or 'ze'. Put the tip of your tongue between your teeth and use your voice: /ðə/.", "he": "שמים את קצה הלשון בין השיניים ומשמיעים קול ב-the (/ðə/). בעברית אין את הצליל הזה, ולכן the יוצא לפעמים 'דֶה' או 'זֶה'.", "error_type": "pron-th" }
   ],
   "exercises": [
     {
@@ -254,7 +254,7 @@
       "id": "e13", "type": "speak", "skill": "speaking", "topic": "articles",
       "prompt": { "en": "You are new in town. Ask the question out loud.", "he": "אתם חדשים בעיר. שאלו את השאלה בקול." },
       "target": "Excuse me, is the station near the university?",
-      "focus": { "en": "the /ðə/: put the tip of your tongue between your teeth. Before university we say /ðə/, because university starts with a 'y' sound /juː/.", "he": "ב-the /ðə/ שמים את קצה הלשון בין השיניים. לפני university אומרים /ðə/, כי university מתחילה בצליל 'יוּ' (עיצור)." },
+      "focus": { "en": "the /ðə/: put the tip of your tongue between your teeth. Before university we say /ðə/, because university starts with a 'y' sound /juː/.", "he": "שמים את קצה הלשון בין השיניים ב-the ואומרים 'דְה' קצר (/ðə/), גם לפני university, שמתחילה בצליל 'יוּ'." },
       "explanation": { "en": "the station, the university: you mean a place in this town that everybody knows.", "he": "the station, the university – מדובר במקום מסוים בעיר שכולם מכירים." }
     },
     {

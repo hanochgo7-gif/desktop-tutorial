@@ -224,7 +224,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "word-order-basic",
       "prompt": { "en": "Say it out loud.", "he": "אמרו בקול." },
       "target": "Hi, I'm Omer. I'm 17 and I live in Tel Aviv. I like basketball.",
-      "focus": { "en": "live has a short i: /lɪv/. Don't make it long like leave /liːv/, which means 'go away'.", "he": "ב-live התנועה קצרה: /lɪv/. אל תאריכו אותה כמו ב-leave /liːv/, שפירושה 'לעזוב'." },
+      "focus": { "en": "live has a short i: /lɪv/. Don't make it long like leave /liːv/, which means 'go away'.", "he": "אומרים 'אִי' קצרה ורפויה ב-live (/lɪv/), ולא מאריכים כמו ב-leave (/liːv/), שפירושה 'לעזוב'." },
       "error_type": "pron-vowel",
       "explanation": { "en": "Name, age, home and something you like: four facts in short, clear sentences.", "he": "שם, גיל, מקום מגורים ומשהו שאוהבים – ארבעה פרטים במשפטים קצרים וברורים." }
     },

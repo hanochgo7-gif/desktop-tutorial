@@ -59,10 +59,10 @@
     { "word": "home", "pos": "noun", "he": "בית", "def": "the place where you live", "example": "I'm at home.", "example_he": "אני בבית.", "ipa": "/həʊm/", "collocations": ["at home", "go home"], "level": "PreA1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "בעברית יש רק צליל 'אִי' אחד, ולכן ship ו-sheep, או sit ו-seat, עלולים להישמע אותו דבר. את /ɪ/ אומרים קצר ורפוי, ואת /iː/ ארוך, עם חיוך קטן.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no th sound, so think can come out as 'tink' or 'sink', and this as 'dis' or 'zis'. Put the tip of your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן think עלול לצאת 'טינק' או 'סינק', ו-this – 'דיס' או 'זיס'. שימו את קצה הלשון בין השיניים.", "error_type": "pron-th" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so wet and vet can sound the same. For w, round your lips; for v, put your top teeth on your bottom lip.", "he": "בעברית w אינו צליל רגיל (האות ו נהגית v), ולכן wet ו-vet עלולות להישמע אותו דבר. ב-w מעגלים את השפתיים; ב-v השיניים העליונות נוגעות בשפה התחתונה.", "error_type": "pron-w-v" },
-    { "en": "In Hebrew there is one 'a' sound and one 'e' sound, but English has /æ/ (cat), /ʌ/ (cut) and /e/ (bet). Open your mouth wide for /æ/, and keep /ʌ/ short and relaxed.", "he": "בעברית יש צליל 'אַ' אחד וצליל 'אֶ' אחד, אבל באנגלית יש /æ/ (cat), ‏/ʌ/ (cut) ו-/e/ (bet). ב-/æ/ פותחים את הפה לרווחה, ואת /ʌ/ אומרים קצר ורפוי.", "error_type": "pron-vowel" }
+    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "אומרים 'אִי' קצרה ורפויה, קרובה ל'אֶ', ב-ship וב-sit (/ɪ/), ומותחים את השפתיים בחיוך קטן ומאריכים ב-sheep וב-seat (/iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no th sound, so think can come out as 'tink' or 'sink', and this as 'dis' or 'zis'. Put the tip of your tongue between your teeth.", "he": "שמים את קצה הלשון בין השיניים: ב-think בלי קול, וב-this עם קול (/θ/, /ð/). בעברית אין את הצליל th, ולכן הוא יוצא לפעמים 'טינק' או 'דיס'.", "error_type": "pron-th" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so wet and vet can sound the same. For w, round your lips; for v, put your top teeth on your bottom lip.", "he": "מעגלים את השפתיים ל-w, ונוגעים בשיניים העליונות בשפה התחתונה ל-v (/w/, /v/). בעברית ו' נהגית v, ולכן wet ו-vet עלולות להישמע אותו דבר.", "error_type": "pron-w-v" },
+    { "en": "In Hebrew there is one 'a' sound and one 'e' sound, but English has /æ/ (cat), /ʌ/ (cut) and /e/ (bet). Open your mouth wide for /æ/, and keep /ʌ/ short and relaxed.", "he": "פותחים את הפה לרווחה ב-cat (/æ/), אומרים 'אַ' קצרה ורפויה ב-cut (/ʌ/) ו'אֶ' רגילה ב-bet (/e/). בעברית יש רק 'אַ' אחת ו'אֶ' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -217,7 +217,7 @@
       "id": "e13", "type": "speak", "skill": "speaking", "topic": "phonics",
       "prompt": { "en": "Say it out loud. You are on a busy train.", "he": "אמרו בקול. אתם ברכבת מלאה." },
       "target": "Excuse me, is this seat free?",
-      "focus": { "en": "seat and free have a long /iː/. this has th /ð/, with voice.", "he": "ב-seat וב-free יש /iː/ ארוכה. ב-this יש th עם קול (רטט בגרון)." },
+      "focus": { "en": "seat and free have a long /iː/. this has th /ð/, with voice.", "he": "מותחים את השפתיים ומאריכים את ה'אִי' ב-seat וב-free (/iː/). ב-this הלשון בין השיניים, עם קול (רטט בגרון)." },
       "error_type": "pron-vowel",
       "explanation": { "en": "A real question on a bus or a train. Make seat long, so it does not sound like sit.", "he": "שאלה אמיתית באוטובוס או ברכבת. האריכו את seat כדי שלא יישמע כמו sit." }
     },

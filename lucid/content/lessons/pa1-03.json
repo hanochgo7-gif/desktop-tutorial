@@ -59,7 +59,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, 'how are you' and 'I'm fine' need no verb in the present, so it is easy to drop it in English. Say How are you? and I'm fine, not 'How you?' or 'I fine'.", "he": "בעברית 'מה שלומך?' ו'אני בסדר' הם משפטים בלי פועל, ולכן קל לשכוח את הפועל באנגלית. באנגלית הוא חובה: are בשאלה, ו-am בתשובה (בקיצור I'm).", "error_type": "copula-omission" },
-    { "en": "In Hebrew there is no th sound, so thank you can sound like 'tank you' or 'sank you'. For th, put your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן thank you עלול להישמע 'טנק יו' או 'סנק יו'. ב-th שמים את קצה הלשון בין השיניים.", "error_type": "pron-th" },
+    { "en": "In Hebrew there is no th sound, so thank you can sound like 'tank you' or 'sank you'. For th, put your tongue between your teeth.", "he": "שמים את קצה הלשון בין השיניים ונושפים ב-th של thank you (/θ/). בעברית אין את הצליל הזה, ולכן thank you נשמע לפעמים 'טנק יו' או 'סנק יו'.", "error_type": "pron-th" },
     { "en": "In Hebrew, 'bevakasha' is used both to ask and to answer 'toda'. In English, please is only for asking. The answer to Thank you is You're welcome.", "he": "בעברית 'בבקשה' משמשת גם כשמבקשים וגם כתשובה ל'תודה'. באנגלית please רק כשמבקשים, ועל Thank you עונים You're welcome.", "error_type": "false-friend" },
     { "en": "In Hebrew, 'slicha' is used for two things. In English, Excuse me comes before you ask someone something, and Sorry comes after a mistake.", "he": "בעברית 'סליחה' משמשת לשני דברים. באנגלית Excuse me אומרים לפני שפונים למישהו, ו-Sorry אומרים אחרי טעות.", "error_type": "word-choice" },
     { "en": "The Hebrew 'na'im lehakir' uses the verb 'to know', but English says Nice to meet you, not 'Nice to know you'.", "he": "ב'נעים להכיר' יש את הפועל 'להכיר', אבל באנגלית אומרים Nice to meet you – עם meet ולא עם know.", "error_type": "false-friend" }
@@ -195,7 +195,7 @@
       "id": "e12", "type": "speak", "skill": "speaking", "topic": "greetings",
       "prompt": { "en": "Say it out loud. You are meeting someone for the first time.", "he": "אמרו בקול. אתם פוגשים מישהו בפעם הראשונה." },
       "target": "Hi, I'm Noa. Nice to meet you.",
-      "focus": { "en": "meet has a long /iː/, like sheep. Say it smoothly: nice-to-MEET-you.", "he": "ב-meet יש /iː/ ארוכה, כמו ב-sheep. אמרו ברצף: nice-to-MEET-you." },
+      "focus": { "en": "meet has a long /iː/, like sheep. Say it smoothly: nice-to-MEET-you.", "he": "מותחים את השפתיים ומאריכים את ה'אִי' ב-meet, כמו ב-sheep (/iː/). אמרו ברצף: nice-to-MEET-you." },
       "error_type": "pron-vowel",
       "explanation": { "en": "In real life, use your own name. Nice to meet you is one smooth phrase.", "he": "בפגישה אמיתית אמרו את השם שלכם. Nice to meet you נאמר ברצף, כמו מילה אחת ארוכה." }
     },

@@ -57,7 +57,7 @@
     { "word": "miss", "pos": "verb", "he": "לפספס; גם: להתגעגע", "def": "to be too late for something, for example a bus", "example": "I missed the bus this morning.", "ipa": "/mɪs/", "collocations": ["miss the bus", "miss a lesson"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "Hebrew has only five full vowels and no short, relaxed /ɪ/, so the ending of wanted or needed often comes out as a full Hebrew 'ed' (want-ED). Keep it short and weak: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "בעברית יש חמש תנועות מלאות בלבד, ואין /ɪ/ קצרה ורפויה, ולכן הסיומת של wanted או needed יוצאת לעיתים קרובות 'אֶד' מלא (וונט-אֶד). אמרו אותה קצרה וחלשה: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "error_type": "pron-vowel" },
+    { "en": "Hebrew has only five full vowels and no short, relaxed /ɪ/, so the ending of wanted or needed often comes out as a full Hebrew 'ed' (want-ED). Keep it short and weak: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "אומרים את הסיומת של wanted ו-needed קצרה וחלשה, כמעט 'אִד' (/ɪd/), ולא 'אֶד' מלא. בעברית אין תנועה קצרה ורפויה כזאת, ולכן היא יוצאת לעיתים קרובות 'וונט-אֶד'.", "error_type": "pron-vowel" },
     { "en": "In Hebrew one verb (lehazmin) covers inviting people, ordering food and booking a room or a table, so it is easy to use invite for all three. English has three verbs: I invited my friends, we ordered pizza, we booked a room.", "he": "בעברית הפועל 'להזמין' משמש גם לאנשים, גם לאוכל וגם לחדר או לשולחן, ולכן קל להשתמש ב-invite לכולם. באנגלית יש שלושה פעלים: invite לאנשים, order לאוכל ו-book למקום (we booked a room).", "error_type": "word-choice" }
   ],
   "exercises": [

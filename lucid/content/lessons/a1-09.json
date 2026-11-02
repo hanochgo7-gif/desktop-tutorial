@@ -275,7 +275,7 @@
     },
     {
       "en": "In Hebrew the sound /ŋ/ is not a separate sound (it only comes before g or k), so shopping and building can end with an extra g, or with n. In English, -ing ends in /ŋ/ alone: /ˈʃɒpɪŋ/.",
-      "he": "בעברית /ŋ/ אינו צליל נפרד (הוא מופיע רק לפני g או k), ולכן shopping ו-building יוצאות לפעמים עם g נוספת בסוף, או עם n. באנגלית ing מסתיים בצליל /ŋ/ בלבד, בלי g: shopping."
+      "he": "מסיימים את ing באף, כמו ה-נ שב'אנגלית' לפני ה-ג, בלי להשמיע g בסוף (/ŋ/): shopping. בעברית הצליל הזה לא עומד לבד, ולכן קל להוסיף g או לומר n."
     }
   ],
   "exercises": [
@@ -888,7 +888,7 @@
       "target": "Excuse me, is there a shopping centre near here?",
       "focus": {
         "en": "shopping ends in /ŋ/: no g sound after it. In a yes/no question, your voice goes up at the end.",
-        "he": "shopping מסתיימת בצליל /ŋ/ – בלי g אחריו. בשאלת כן/לא הקול עולה בסוף."
+        "he": "מסיימים את shopping באף, בלי להשמיע g אחרי ה-ng (/ŋ/). בשאלת כן/לא הקול עולה בסוף."
       },
       "explanation": {
         "en": "A useful question in any new town. Answers often start with Yes, there's one... or It's...",

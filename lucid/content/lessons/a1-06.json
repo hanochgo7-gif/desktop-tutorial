@@ -289,12 +289,12 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew works differently here: it has no /æ/ vowel, so man /mæn/ and men /men/ can sound the same. For man, open your mouth wider; men has the short 'e' of pen.",
-      "he": "בעברית אין את התנועה /æ/, ולכן man ו-men עלולות להישמע אותו דבר. ב-man פותחים את הפה רחב (צליל בין 'אַ' ל'אֶ'); ב-men אומרים 'אֶ' קצרה, כמו ב-pen.",
+      "he": "פותחים את הפה רחב, לצליל שבין 'אַ' ל'אֶ', ב-man (/æ/); ב-men אומרים 'אֶ' קצרה, כמו ב-pen (/e/). בעברית אין את התנועה הראשונה, ולכן man ו-men עלולות להישמע אותו דבר.",
       "error_type": "pron-vowel"
     },
     {
       "en": "Hebrew works differently: the sound /w/ is rare, and the letter vav is usually /v/. So woman can sound like 'voman'. For /w/, round your lips as for 'oo' and don't touch your teeth: woman /ˈwʊmən/, women /ˈwɪmɪn/.",
-      "he": "בעברית הצליל /w/ נדיר, והאות ו' נהגית בדרך כלל v. לכן woman עלול לצאת 'וֹוֹמֶן' עם v. כדי להגות /w/ מעגלים את השפתיים כמו ל'אוּ', בלי לגעת בשיניים: woman, women.",
+      "he": "מעגלים את השפתיים כמו ל'אוּ', בלי לגעת בשיניים, בתחילת woman ו-women (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר 'וֹמֶן' עם v.",
       "error_type": "pron-w-v"
     },
     {

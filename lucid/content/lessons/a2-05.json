@@ -54,8 +54,8 @@
     { "word": "found", "pos": "verb (past of find)", "he": "מצא (עבר של find)", "def": "the past of find: discovered something you were looking for", "example": "Maya found her phone under the sofa.", "ipa": "/faʊnd/", "collocations": ["found a seat", "found a job"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is one 'a' sound, so English /æ/ and /ʌ/ can sound the same. In the past this changes the meaning: ran /ræn/ is past, run /rʌn/ is not. Open your mouth wider for /æ/: ran, swam, drank, sat.", "he": "בעברית יש צליל 'a' אחד, ולכן /æ/ ו-/ʌ/ באנגלית עלולים להישמע אותו דבר. בעבר זה משנה את המשמעות: ran /ræn/ הוא עבר, ו-run /rʌn/ לא. פתחו את הפה רחב יותר ב-/æ/: ran, swam, drank, sat.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no /θ/ sound, so thought can come out as 'sought' or 'tought'. Put the tip of your tongue between your teeth: /θɔːt/.", "he": "בעברית אין את הצליל /θ/, ולכן thought עלול לצאת sought או tought. שימו את קצה הלשון בין השיניים: /θɔːt/.", "error_type": "pron-th" }
+    { "en": "In Hebrew there is one 'a' sound, so English /æ/ and /ʌ/ can sound the same. In the past this changes the meaning: ran /ræn/ is past, run /rʌn/ is not. Open your mouth wider for /æ/: ran, swam, drank, sat.", "he": "פותחים את הפה רחב ב-ran, ‏swam ו-sat (/æ/), ואומרים 'אַ' קצרה ורפויה ב-run (/ʌ/). בעברית יש רק 'אַ' אחת, ולכן העבר (ran) וההווה (run) עלולים להישמע אותו דבר.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no /θ/ sound, so thought can come out as 'sought' or 'tought'. Put the tip of your tongue between your teeth: /θɔːt/.", "he": "שמים את קצה הלשון בין השיניים ונושפים, בלי קול, ב-thought (/θɔːt/). בעברית אין את הצליל הזה, ולכן thought יוצא לפעמים sought או tought.", "error_type": "pron-th" }
   ],
   "exercises": [
     {
@@ -254,7 +254,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
       "target": "I bought a ticket and caught the last train home.",
-      "focus": { "en": "bought and caught rhyme: /bɔːt/, /kɔːt/. The gh is silent.", "he": "bought ו-caught מתחרזים: /bɔːt/, /kɔːt/. האותיות gh לא נהגות." },
+      "focus": { "en": "bought and caught rhyme: /bɔːt/, /kɔːt/. The gh is silent.", "he": "אומרים 'אוֹ' ארוכה ב-bought וב-caught, והן מתחרזות; האותיות gh לא נהגות (/bɔːt/, /kɔːt/)." },
       "explanation": { "en": "All the -ought/-aught verbs end in the same sound, which makes them easier to remember.", "he": "כל הפעלים בקבוצת ought/aught מסתיימים באותו צליל, וזה עוזר לזכור אותם." }
     },
     {

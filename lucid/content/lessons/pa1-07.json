@@ -53,7 +53,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no word for a/an, and 'one' is sometimes used like an article. English works differently, so put a or an before one thing: It's a pen (not 'It's pen' or 'It's one pen'). Use one only for counting.", "he": "בעברית אין מילה שמקבילה ל-a/an ('זה עט'), ולפעמים משתמשים ב'אחד' או 'אחת' במקומה ('בחור אחד שאל אותי'). באנגלית זה עובד אחרת: לפני דבר אחד באים a או an (It's a pen), ואת one שומרים לספירה.", "error_type": "article" },
     { "en": "In Hebrew the adjective comes after the noun. English works differently, so the colour comes first: a red car (not 'a car red').", "he": "בעברית שם התואר בא אחרי שם העצם ('מכונית אדומה'). באנגלית הסדר הפוך: a red car, לא a car red.", "error_type": "word-order" },
-    { "en": "Hebrew has one 'ee' vowel, but English has a short /ɪ/ and a long /iː/, so this and these can sound the same. Make these long: /ðiːz/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן this ו-these עלולות להישמע אותו דבר. ב-these מאריכים: /ðiːz/.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has one 'ee' vowel, but English has a short /ɪ/ and a long /iː/, so this and these can sound the same. Make these long: /ðiːz/.", "he": "מותחים את השפתיים ומאריכים את ה'אִי' ב-these (/ðiːz/), ואומרים אותה קצרה ב-this (/ðɪs/). בעברית יש רק 'אִי' אחת, ולכן this ו-these עלולות להישמע אותו דבר.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -229,7 +229,7 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "demonstratives",
       "prompt": { "en": "Say it out loud.", "he": "אמרו בקול." },
       "target": "This is my bag, and these are my keys.",
-      "focus": { "en": "this has a short /ɪ/ (like sit); these has a long /iː/ (like see). For th /ð/, put your tongue between your teeth.", "he": "ב-this התנועה קצרה /ɪ/ (כמו ב-sit), וב-these ארוכה /iː/ (כמו ב-see). ל-th /ð/ שימו את קצה הלשון בין השיניים." },
+      "focus": { "en": "this has a short /ɪ/ (like sit); these has a long /iː/ (like see). For th /ð/, put your tongue between your teeth.", "he": "אומרים 'אִי' קצרה ב-this, כמו ב-sit (/ɪ/), ומאריכים ב-these, כמו ב-see (/iː/). ב-th שמים את קצה הלשון בין השיניים (/ð/)." },
       "explanation": { "en": "this /ðɪs/ vs these /ðiːz/: the long vowel tells the listener you mean more than one.", "he": "this /ðɪs/ מול these /ðiːz/: התנועה הארוכה מראה לשומע שמדובר ביותר מדבר אחד." }
     },
     {

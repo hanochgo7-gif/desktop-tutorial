@@ -248,7 +248,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say it out loud.", "he": "אמרו את זה בקול." },
       "target": "I'm going to call her tonight. I'll tell you what she says.",
-      "focus": { "en": "going ends in /ŋ/: no hard g at the end. I'll sounds like /aɪl/.", "he": "going מסתיים ב-/ŋ/, בלי g חזקה בסוף. ‏I'll נשמע /aɪl/." },
+      "focus": { "en": "going ends in /ŋ/: no hard g at the end. I'll sounds like /aɪl/.", "he": "מסיימים את going באף, בלי g חזקה בסוף (/ŋ/). ‏I'll נשמע 'אַייל' (/aɪl/)." },
       "explanation": { "en": "A plan (going to) and a promise (will) together: very natural in everyday conversation.", "he": "תוכנית (going to) והבטחה (will) ביחד – שילוב טבעי מאוד בשיחה יומיומית." }
     },
     {

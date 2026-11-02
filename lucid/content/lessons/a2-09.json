@@ -53,7 +53,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no present-tense 'be', so a comparison can have no verb at all. English needs is or are: The train is faster than the bus (not *The train faster than the bus).", "he": "בעברית אין 'להיות' בהווה, ולכן משפט השוואה יכול להיות בלי פועל ('הרכבת מהירה יותר מהאוטובוס'). באנגלית חייבים is או are: The train is faster.", "error_type": "copula-omission" },
-    { "en": "In Hebrew there is no /ð/ sound, so than can come out as 'dan' or 'zan'. Put the tip of your tongue between your teeth and keep the word short and weak: /ðən/.", "he": "בעברית אין את הצליל /ð/, ולכן than עלול לצאת 'דֶן' או 'זֶן'. שימו את קצה הלשון בין השיניים, ואמרו את המילה קצר ובלי הדגשה: /ðən/.", "error_type": "pron-th" }
+    { "en": "In Hebrew there is no /ð/ sound, so than can come out as 'dan' or 'zan'. Put the tip of your tongue between your teeth and keep the word short and weak: /ðən/.", "he": "שמים את קצה הלשון בין השיניים, משמיעים קול ואומרים את than קצר ובלי הדגשה (/ðən/). בעברית אין את הצליל הזה, ולכן than יוצא לפעמים 'דֶן' או 'זֶן'.", "error_type": "pron-th" }
   ],
   "exercises": [
     {

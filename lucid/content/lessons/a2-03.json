@@ -49,7 +49,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew a yes/no question can keep the word order of a statement, so it is easy to write 'You were at home?' in English. In a normal English question, was/were comes before the subject: Were you at home?", "he": "בעברית שאלת כן/לא יכולה להישאר בסדר של משפט רגיל ('היית בבית?'). בשאלה רגילה באנגלית was/were באים לפני הנושא: Were you at home?", "error_type": "word-order" },
     { "en": "In Hebrew 'I was born' is a single verb (nolad-ti), so it is easy to translate it as 'I born'. English needs be + born: I was born in 2010. My parents were born in Ukraine.", "he": "בעברית 'נולדתי' היא מילה אחת, פועל אחד, ולכן קל לתרגם אותה ל-born בלבד. באנגלית צריך be + born: I was born in 2010.", "error_type": "verb-form" },
-    { "en": "In Hebrew /w/ is not a regular sound (it appears only in a few borrowed words), so was and were can come out as 'vas' and 'ver'. Start with rounded lips, as in 'oo': /wɒz/, /wɜː(r)/.", "he": "בעברית /w/ אינו צליל רגיל (הוא מופיע רק בכמה מילים שאולות), ולכן was ו-were עלולים לצאת 'וָאס' ו'וֶר'. התחילו בשפתיים מעוגלות, כמו ב'אוּ': /wɒz/, /wɜː(r)/.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew /w/ is not a regular sound (it appears only in a few borrowed words), so was and were can come out as 'vas' and 'ver'. Start with rounded lips, as in 'oo': /wɒz/, /wɜː(r)/.", "he": "מתחילים בשפתיים מעוגלות, כמו ב'אוּ', את was ואת were (/wɒz/, /wɜː/). בעברית w אינו צליל רגיל, ולכן הן יוצאות לפעמים 'וָאס' ו'וֶר'.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
