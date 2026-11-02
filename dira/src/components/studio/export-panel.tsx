@@ -117,6 +117,16 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
       if (res === "failed") toast.show({ text: E.shareFailed, tone: "error" }, 7000);
       return;
     }
+    // Phones: separate JPEGs (a portal's photo picker can't open a ZIP). Computers: one ZIP.
+    if (coarse) {
+      const files = shareable(r);
+      for (let k = 0; k < files.length; k++) {
+        download(files[k], files[k].name);
+        if (k < files.length - 1) await new Promise((res) => setTimeout(res, 350));
+      }
+      track("download", { presets: presets.join("+"), zip: false, photos: files.length > 1 ? "many" : "one" });
+      return;
+    }
     const out = await packResult(r);
     download(out.blob, out.filename);
     track("download", { presets: presets.join("+"), zip: out.filename.endsWith(".zip"), photos: targets.length > 1 ? "many" : "one" });
@@ -124,6 +134,8 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
 
   const run = async () => {
     if (!s.project || targets.length === 0 || presets.length === 0) return;
+    // A broker with a saved licence who turned it off is asked once, not silently left without it.
+    if (saved?.license && !brokerOn && !window.confirm(E.noLicenceConfirm)) return;
     setResult(null);
     setBusy({ done: 0, total: targets.length });
     try {
@@ -190,6 +202,8 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
 
   const shareCount = fresh ? shareable(result!).length : 0;
   const batches = Math.ceil(shareCount / SHARE_BATCH);
+  const nextBatch = Array.from({ length: batches }, (_, b) => b).find((b) => !sharedBatches.includes(b)) ?? batches;
+  const ios = typeof navigator !== "undefined" && /iPhone|iPad|iPod/.test(navigator.userAgent);
 
   return (
     <div className="grid gap-6">
@@ -264,7 +278,6 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
       )}
 
       {/* Explanations sit above the bar, so the bar itself stays slim on short phones. */}
-      {fresh && phone && <p className="-mb-3 text-[13px] text-ink-3">{E.saveShareHint}</p>}
       {!phone && !fresh && imageCount + (manifest ? 1 : 0) > 1 && (
         <p className="-mb-3 text-[13px] text-ink-3">{coarse ? E.noShare : presets.length > 1 ? E.zipFolders : E.zipFlat}</p>
       )}
@@ -277,22 +290,21 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
               <button type="button" className="btn btn-primary w-full" onClick={() => deliver(result!, "share")}>
                 {fmt(shareCount > 1 ? E.saveShareMany : E.saveShare, { n: shareCount }, lang)}
               </button>
+            ) : nextBatch < batches ? (
+              // One button that walks through the groups of 10: fits any phone, however many photos.
+              <button type="button" className="btn btn-primary w-full" onClick={() => deliver(result!, "share", nextBatch)}>
+                {(() => {
+                  const from = nextBatch * SHARE_BATCH + 1;
+                  const to = Math.min(shareCount, (nextBatch + 1) * SHARE_BATCH);
+                  return fmt(from === to ? E.shareGroupOne : E.shareGroup, { k: nextBatch + 1, n: batches, from, to }, lang);
+                })()}
+              </button>
             ) : (
-              <>
-                <p className="text-[13.5px] font-semibold">{fmt(E.shareBatches, { n: shareCount }, lang)}</p>
-                {Array.from({ length: batches }, (_, b) => {
-                  const from = b * SHARE_BATCH + 1;
-                  const to = Math.min(shareCount, (b + 1) * SHARE_BATCH);
-                  const done = sharedBatches.includes(b);
-                  return (
-                    <button key={b} type="button" className={`btn w-full ${done ? "btn-quiet" : "btn-primary"}`} onClick={() => deliver(result!, "share", b)}>
-                      {done ? "✓ " : ""}
-                      {fmt(from === to ? E.shareBatchOne : E.shareBatch, { from, to }, lang)}
-                    </button>
-                  );
-                })}
-              </>
+              <button type="button" className="btn btn-quiet w-full" onClick={() => setSharedBatches([])}>
+                {fmt(E.shareAllDone, { n: batches }, lang)}
+              </button>
             )}
+            <p className="text-[12.5px] leading-snug text-ink-3">{ios ? E.hintIos : E.hintAndroid}</p>
             <button type="button" className="justify-self-center py-1 text-[13.5px] font-semibold text-prussian underline underline-offset-4" onClick={() => deliver(result!, "download")}>
               {E.downloadInstead}
             </button>

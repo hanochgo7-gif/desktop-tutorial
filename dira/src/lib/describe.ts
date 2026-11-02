@@ -83,7 +83,7 @@ export function describeFinding(f: Finding, t: Dict, lang: Locale): { title: str
       return pick(F.bright, { v: Math.round(f.value) });
     case "cast": {
       if (f.kelvin === null) return pick(F.castUnknown);
-      return pick(f.warm ? F.castWarm : F.castCool, { k: f.kelvin.toLocaleString("en-US") });
+      return pick(f.warm ? (f.kelvin < 4300 ? F.castWarm : F.castWarmSoft) : F.castCool, { k: f.kelvin.toLocaleString("en-US") });
     }
     case "lean":
       return pick(F.lean, { v: f.degrees });

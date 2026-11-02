@@ -78,7 +78,9 @@ function drawScaled(src: CanvasImageSource & { width: number; height: number }, 
 }
 
 function drawOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, o: Overlay, rtl: boolean, safeY = 0) {
-  const unit = Math.max(12, Math.round(Math.min(w, h) * 0.028));
+  // Sized from the width too, so labels stay legible when a portal shows the photo phone-size
+  // (a 2048 px photo shown 390 px wide: about 11 px text).
+  const unit = Math.max(12, Math.round(Math.min(w, h) * 0.028), Math.round(w * 0.03));
   const inset = Math.round(h * safeY);
   ctx.save();
   ctx.direction = rtl ? "rtl" : "ltr";

@@ -79,7 +79,8 @@ test("phone export hands plain JPEGs to the share sheet, at most 10 per tap", as
   await page.locator("input[type=file]").first().setInputFiles(Array.from({ length: 11 }, (_, i) => sample((i % 3) + 1)));
   await page.getByRole("button", { name: "לשמירה ושליחה של 11 תמונות" }).click({ timeout: 80_000 });
   await page.getByRole("button", { name: "הכנת 11 תמונות" }).click();
-  await page.getByRole("button", { name: "שמירה או שליחה של תמונות 1–10" }).click({ timeout: 60_000 });
-  await page.getByRole("button", { name: "שמירה או שליחה של תמונה 11" }).click();
+  await page.getByRole("button", { name: /קבוצה 1 מתוך 2 \(תמונות 1–10\)/ }).click({ timeout: 60_000 });
+  await page.getByRole("button", { name: /קבוצה 2 מתוך 2 \(תמונה 11\)/ }).click();
+  await expect(page.getByRole("button", { name: /כל 2 הקבוצות נשלחו/ })).toBeVisible();
   expect(await page.evaluate(() => (window as unknown as { __shared: number[] }).__shared)).toEqual([10, 1]);
 });

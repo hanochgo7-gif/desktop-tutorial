@@ -74,7 +74,8 @@ test("a broker's licence is remembered for the next sale listing", async ({ page
   await page.locator("input[type=file]").first().setInputFiles([sample(1)]);
   await expect(page.locator("[role=slider][aria-valuenow]").first()).toBeVisible({ timeout: 45_000 });
   await expect(page.getByRole("option")).toHaveCount(1);
-  await page.getByRole("button", { name: "מכירה" }).click();
+  // The next property starts as a sale, like the last one.
+  await expect(page.getByRole("button", { name: "מכירה" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("tab", { name: "שמירה ושליחה" }).click();
   await expect(page.getByLabel("מספר רישיון תיווך")).toHaveValue("31234567");
 });

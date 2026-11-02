@@ -42,8 +42,11 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   const [tab, setTab] = useState<Tab>("fix");
   const coarse = useCoarsePointer();
   // A thin brush by default: a tight mark leaves the cleanest fill.
-  const [radius, setRadius] = useState(0.012);
-  const [viewMode, setViewMode] = useState<CompareMode>("split");
+  const [radius, setRadius] = useState(0.006);
+  // The erase tool switches one photo to "after"; every other photo (and any return) starts split.
+  const [view, setView] = useState<{ id: string | null; mode: CompareMode }>({ id: null, mode: "split" });
+  const viewMode: CompareMode = view.id === s.selectedId ? view.mode : "split";
+  const setViewMode = (mode: CompareMode) => setView({ id: s.selectedId, mode });
   // Erase tab: paint on the original, then look at the result.
   const [brushView, setBrushView] = useState<"paint" | "result">("paint");
   const unsupported = useSyncExternalStore(
@@ -223,7 +226,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
       ) : (
         <main
           id="main"
-          className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] land:grid-cols-[minmax(0,1.25fr)_minmax(280px,1fr)] land:grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]"
+          className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)] land:grid-cols-[minmax(0,1.1fr)_minmax(330px,1fr)] land:grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[120px_minmax(0,1fr)_392px] lg:grid-rows-[minmax(0,1fr)]"
         >
           {/* Filmstrip: a column on desktop, a row on phones (below the stage). */}
           <div className="on-stage order-2 min-h-0 min-w-0 border-stage-line bg-stage land:col-start-1 land:row-start-2 lg:order-none lg:border-e">
@@ -257,6 +260,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                 else if (e.key === "End") j = ids.length - 1;
                 else return;
                 e.preventDefault();
+                if (tab === "remove" && ids[j] !== "remove") setViewMode("split");
                 setTab(ids[j]);
                 if (ids[j] === "remove") setBrushView("paint");
                 document.getElementById(`tab-${ids[j]}`)?.focus();
@@ -272,10 +276,11 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   aria-controls={`panel-${x.id}`}
                   tabIndex={tab === x.id ? 0 : -1}
                   onClick={() => {
+                    if (tab === "remove" && x.id !== "remove") setViewMode("split");
                     setTab(x.id);
                     if (x.id === "remove") setBrushView("paint");
                   }}
-                  className={`relative min-h-[44px] flex-none px-2.5 text-[14px] font-semibold transition-colors sm:px-3 sm:text-[14.5px] ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
+                  className={`relative min-h-[44px] flex-none px-2.5 text-[14px] font-semibold transition-colors max-[359px]:px-2 max-[359px]:text-[13px] sm:px-3 sm:text-[14.5px] ${tab === x.id ? "text-ink" : "text-ink-3 hover:text-ink-2"}`}
                 >
                   {x.label}
                   {tab === x.id && <span className="absolute inset-x-2 bottom-0 h-[2px] rounded-full bg-prussian" />}
@@ -290,7 +295,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
                   <div className="skeleton h-16 rounded-[10px]" />
                 </div>
               ) : tab === "export" ? (
-                <ExportPanel s={s} t={t} lang={lang} />
+                <ExportPanel key={s.project?.listing} s={s} t={t} lang={lang} />
               ) : !ready ? (
                 photo.status === "error" ? (
                   <div className="grid gap-3">

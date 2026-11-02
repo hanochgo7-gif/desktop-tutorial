@@ -54,6 +54,15 @@ function useBlobUrls() {
   return { get, drop };
 }
 
+/** Brokers mostly list sales, landlords rentals: a new property starts as the type used last. */
+function lastListing(): Listing {
+  try {
+    return localStorage.getItem("dira.listing") === "sale" ? "sale" : "rent";
+  } catch {
+    return "rent";
+  }
+}
+
 export function useStudio(opts: { projectId?: string | null; newProjectName: string; initialFiles?: File[] | null; fresh?: boolean }) {
   const [project, setProject] = useState<Project | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -152,7 +161,7 @@ export function useStudio(opts: { projectId?: string | null; newProjectName: str
         const fresh = opts.fresh || !!opts.initialFiles?.length;
         if (latest && (!fresh || latest.photoIds.length === 0)) proj = latest;
       }
-      if (!proj) proj = await createProject(opts.newProjectName);
+      if (!proj) proj = await createProject(opts.newProjectName, lastListing());
       if (cancelled) return;
       const stored = await getPhotos(proj.id);
       const order = new Map(proj.photoIds.map((id, i) => [id, i]));
@@ -375,6 +384,11 @@ export function useStudio(opts: { projectId?: string | null; newProjectName: str
       if (!project) return;
       const next = await updateProject(project.id, { listing });
       if (next) setProject(next);
+      try {
+        localStorage.setItem("dira.listing", listing);
+      } catch {
+        /* not remembered */
+      }
     },
     [project],
   );

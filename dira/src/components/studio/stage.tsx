@@ -133,7 +133,7 @@ export function Stage({ s, t, lang, brush, mode, setMode }: Props) {
         </div>
         <div className="ms-auto flex items-center">
           {/* Zoom buttons on larger screens; phones pinch or double-tap. */}
-          <div className="hidden items-center sm:flex">
+          <div className="hidden items-center sm:flex land:hidden">
           <button type="button" className="icon-btn hover:bg-white/10" aria-label={t.studio.zoomOut} onClick={() => setZoom((z) => Math.max(1, z / 1.5))} disabled={zoom <= 1}>
             <Icon d="M5 12h14" />
           </button>
