@@ -212,6 +212,28 @@ try {
     await ctx.close();
   });
 
+  await check('GM-1e. Picture and memory games: calm rounds show no bonus; with the speed challenge on, the bonus line and the challenge mode come back', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    for (const challenge of [false, true]) {
+      await page.evaluate(async (on) => (await import('./js/core/learner.js')).saveSettings({ game_speed_challenge: on }), challenge);
+      await go(page, 'games/pictures/1', '.pic-tile');
+      for (let bd = 0; bd < 3; bd++) { await playBoard(page); await page.click('[data-nextboard]'); }
+      await page.waitForSelector('.game-total');
+      const pt = await page.textContent('.game-result');
+      assert(/בונוס מהירות/.test(pt) === challenge, `picture result, challenge ${challenge}: ${pt.replace(/\s+/g, ' ').slice(0, 200)}`);
+      await go(page, 'games/memory/1', '.mem-card');
+      await page.waitForTimeout(500);
+      await playMemory(page);
+      const mt = await page.textContent('.game-result');
+      assert(/בונוס/.test(mt) === challenge, `memory result, challenge ${challenge}: ${mt.replace(/\s+/g, ' ').slice(0, 200)}`);
+      if (challenge) await shot(page, 'gm1-memory-challenge-result', { fullPage: true });
+    }
+    const modes = (await page.evaluate(() => window.lucid.store.all('events').filter((e) => /picture-round|memory-round/.test(e.type)).map((e) => `${e.type}:${e.mode}`)));
+    assert(modes.join() === 'picture-round:calm,memory-round:calm,picture-round:challenge,memory-round:challenge', `modes: ${modes}`);
+    await ctx.close();
+  });
+
   await check('GM-2a. Games hub at 390: one line per game and no rules paragraph above the first game card; the scoring table only with the speed challenge on', async () => {
     const { ctx, page } = await newPage(browser, { touch: true });
     await learnerAt(page, 'A1');
