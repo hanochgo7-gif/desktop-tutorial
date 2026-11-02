@@ -3,7 +3,7 @@
 // are still being written are labelled in words and are not links; placed-out lessons are counted apart
 // from completed ones.
 import { html, render, on } from '../core/util.js';
-import { tt, legend, t } from '../core/i18n.js';
+import { tt, legend, t, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, mark, LEVEL_LABEL, confirmDialog, toast } from '../ui/components.js';
 import { model, moveToLevel, canImportVocab, importPlacedOutVocab, settings, placementDraft } from '../core/learner.js';
@@ -65,7 +65,7 @@ export default async function path(el, ctx) {
             <span class="row small">${p?.status === 'started' && p.best_score != null ? html`<span class="tag">${tt('בתהליך', 'In progress')}</span>` : p?.best_score != null ? html`<span class="tag ${p.best_score >= 0.7 ? 'ok' : 'warn'} num">${Math.round(p.best_score * 100)}%</span>` : ''}${isNext ? html`<span class="tag cobalt">${tt('הבא', 'Next')}</span>` : ''}</span></a></li>`;
         })}
           <li><a class="lesson-row" href="#/checkpoint/${lvl.id}">${mark(checkpoint?.status)}<span class="ord">${icon('flag', { size: 16 })}</span>
-            <span class="grow"><span style="font-weight:500">${tt(`בדיקת רמה ${L}`, `${L} level check`)}</span><span class="meta" style="display:block">${tt('מבחן קצר בלי רמזים ובלי AI, מכל נושאי הרמה. כך מראים שהרמה באמת יושבת.', 'A short test with no hints and no AI, across the level\'s topics. This is how a level is demonstrated.')}</span></span>
+            <span class="grow"><span style="font-weight:500">${tt(`בדיקת רמה ${L}`, `${L} level check`)}</span><span class="meta" style="display:block">${isolateLatin(tt('מבחן קצר בלי רמזים ובלי AI, מכל נושאי הרמה. 75% ומעלה מסמנים את הרמה כמוכחת.', 'A short test with no hints and no AI, across the level\'s topics. 75% or more marks the level as demonstrated.'))}</span></span>
             ${checkpoint?.best_score != null ? html`<span class="tag ${checkpoint.status === 'completed' ? 'ok' : 'warn'} num">${Math.round(checkpoint.best_score * 100)}%</span>` : ''}</a></li>
           <li><a class="lesson-row" href="#/writing/final-${lvl.id}">${mark(finalDraft ? (finalDraft.status === 'final' ? 'completed' : 'started') : null)}<span class="ord">${icon('writing', { size: 16 })}</span>
             <span class="grow"><span style="font-weight:500">${tt(`משימת הכתיבה של ${L}`, `${L} writing task`)}</span><span class="meta" style="display:block" lang="en" dir="ltr">${lvl.final_assessment.task}</span></span></a></li>

@@ -1038,7 +1038,7 @@ try {
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp4-placement-a1-390.png`, fullPage: true });
     const eitan = await showResult(['work', 'writing'], 'c1', 'B2');
     assert(/C1/.test(eitan) && !/C1-C2/.test(eitan), `the headline claims C1-C2: ${eitan.slice(0, 200)}`);
-    assert(/B2\+/.test(eitan) && /נכונות ב-C1/.test(eitan), 'capped skills do not say where their answers were');
+    assert(/B2\+/.test(eitan) && /נראה טוב גם ב-C1/.test(eitan), 'capped skills do not say where their answers were');
     assert((await store(page, 'placement')).find((p) => p.id === 'latest').start_level === 'C1', 'academic writing chosen: the start should be C1');
     const yael = await showResult(['work', 'travel'], 'c1', 'B2');
     assert(/נתחיל ב-B2/.test(yael) && await page.$('[data-start-at="C1"]'), `a work and travel learner is started on the C1 track: ${yael.slice(0, 240)}`);

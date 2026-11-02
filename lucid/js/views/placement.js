@@ -85,11 +85,14 @@ export default async function placementView(el, ctx) {
     const at = (l) => LEVELS.indexOf(l);
     // The other start on offer: the level the goals held back from (C1-C2), or one level above the confirmed one.
     const higher = r.held_for_goals || (r.demonstrated && r.start_level !== 'C2' ? LEVELS[at(r.start_level) + 1] : null);
-    // A capped estimate says where its answers were: "B2+ (2 of 2 at C1)", "A1 (2 of 2 at A2)" (R2-29, R2-38).
+    // A capped estimate says where its answers were, as something to confirm rather than a contradiction:
+    // "A2 · looks good at B1 too (2 of 2), to be confirmed in a level check" (R2-29, R2-38; TF-8). The higher
+    // level is a dir="ltr" span (an isolate), not a <bdi>, so the row's own level stays its only <bdi>.
+    const lv = (l) => html`<span dir="ltr" lang="en">${L(l)}</span>`;
     const skillRow = (s, v) => html`<div class="row between small"><span>${t(`skill.${s}`)}</span><span class="faint">${v?.level
-      ? html`<bdi dir="ltr">${L(v.level)}${v.capped ? '+' : ''}</bdi> <span class="xsmall">(${v.from
-        ? tt(`${v.right} מתוך ${v.items_at_level} נכונות ב-${L(v.from)}`, `${v.right} of ${v.items_at_level} right at ${L(v.from)}`)
-        : tt(`${v.items_at_level} שאלות ברמה הזו`, `${v.items_at_level} items at this level`)})</span>`
+      ? html`<bdi dir="ltr">${L(v.level)}${v.capped ? '+' : ''}</bdi> <span class="xsmall">${v.from
+        ? html`· ${tt('נראה טוב גם ב-', 'looks good at ')}${lv(v.from)}${tt('', ' too')} (${tt(`${v.right} מתוך ${v.items_at_level}`, `${v.right} of ${v.items_at_level}`)}), ${tt('יאושר בבדיקת רמה', 'to be confirmed in a level check')}`
+        : `(${tt(`${v.items_at_level} שאלות ברמה הזו`, `${v.items_at_level} items at this level`)})`}</span>`
       : v?.items ? tt('אין מספיק תשובות', 'not enough answers') : tt('לא נבדק במבחן הזה', 'not measured by this test')}</span></div>`;
     // The headline says only what was confirmed (persona finding R2-38): C1, or C2 after a confirmed C2.
     const band = r.demonstrated === 'C2' ? 'C2' : 'C1';

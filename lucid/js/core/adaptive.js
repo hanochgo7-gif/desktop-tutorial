@@ -185,6 +185,26 @@ export function skillLevels({ attempts = [], placement = null, writing = [] } = 
           : { level: LEVELS[levelIndex(r.level) - 1], source: 'practice', evidence: p.n, days: p.days.size, provisional: true, notYet: r.level };
       }
     }
+    // What is still being collected (TF-8): the highest level above the one shown (or at a first estimate's own
+    // level) with first-try answers that do not meet the rule yet, so a row never says "not assessed" after 30
+    // answers. The rule itself does not change.
+    for (const l of [...LEVELS].reverse()) {
+      const p = perLevel.get(l);
+      if (!p || (r.level && !(levelIndex(l) > levelIndex(r.level) || (l === r.level && r.provisional)))) continue;
+      if (p.n >= EVIDENCE.items && p.right / p.n >= EVIDENCE.accuracy && p.days.size >= EVIDENCE.days) continue;
+      r = { ...r, collecting: { level: l, answers: p.n, right: p.right, pct: Math.round((p.right / p.n) * 100), days: p.days.size } };
+      break;
+    }
+    // The highest level check that asked about this skill, from its latest day (TF-8): the view says whether the
+    // check was passed. Its answers already count as practice evidence above.
+    const checks = byTime(attempts).filter((a) => a.source === 'checkpoint' && a.skill === skill && a.level && a.score !== null);
+    const top = checks.reduce((best, a) => (levelIndex(a.level) > levelIndex(best) ? a.level : best), null);
+    if (top) {
+      const at = checks.filter((a) => a.level === top);
+      const day = dayKey(at[at.length - 1].at);
+      const last = at.filter((a) => dayKey(a.at) === day);
+      r = { ...r, check: { level: top, answers: last.length, pct: Math.round((last.reduce((s, a) => s + scoreOf(a), 0) / last.length) * 100), day } };
+    }
     out[skill] = r;
   }
   return out;

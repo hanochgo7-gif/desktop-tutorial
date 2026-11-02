@@ -40,7 +40,7 @@ export default async function progress(el, ctx) {
     const dueN = due().length;
     const recs = [];
     if (m.recurring[0]) recs.push(html`<a href="#/drill?error=${m.recurring[0].error_type}">${tt('תרגול ממוקד לטעות שחוזרת הכי הרבה', 'Targeted practice for your most frequent mistake')}</a>`);
-    if (weakToPractise) recs.push(html`<a href="#/${weakToPractise.route || `drill?topic=${weakToPractise.topic}`}">${tt('לחזק נושא שעוד לא יושב', 'Strengthen a topic that is not secure yet')}</a>`);
+    if (weakToPractise) recs.push(html`<a href="#/${weakToPractise.route || `drill?topic=${weakToPractise.topic}`}">${tt('לחזק נושא שעוד לא בשליטה', 'Strengthen a topic that is not secure yet')}</a>`);
     if (dueN) recs.push(html`<a href="#/review">${tt(`חזרה מרווחת: ${dueN} מילים מחכות`, `Spaced review: ${dueN} words are waiting`)}</a>`);
     if (m.next && !m.placementPending) recs.push(html`<a href="#/lesson/${m.next.id}">${tt('השיעור הבא:', 'Your next lesson:')} ${legend(m.next.title_en, m.next.title_he)}</a>`);
     if (!m.skills.writing.level && aiReady && levelIndex(m.courseLevel) >= levelIndex('A1')) recs.push(html`<a href="#/writing">${tt('לכתוב במעבדת הכתיבה ולקבל משוב: שני טקסטים שהוערכו, בימים שונים, נותנים לכתיבה רמה', 'Write in the Writing lab and get feedback: two assessed texts, on different days, give writing a level')}</a>`);

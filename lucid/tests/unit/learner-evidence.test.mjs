@@ -371,6 +371,23 @@ test('TF-4: on a 10-minute day the goal item is offered outside the budget; once
   assert.equal(p20.offer.route, 'scenario/rl-airport-a2');
 });
 
+test('TF-8: a skill reports the evidence it is collecting and the level check that covered it; the rule does not change', async () => {
+  const { skillLevels } = await import('../../js/core/adaptive.js');
+  const answer = (i, ok, day, extra = {}) => ({ source: 'lesson', lesson: 'b2-01', exercise: `e${i}`, skill: 'grammar', level: 'B2', correct: ok, score: ok ? 1 : 0, at: at(day, i / 60), ...extra });
+  const oneDay = Array.from({ length: 31 }, (_, i) => answer(i, i !== 3 && i !== 7, 0));
+  const g = skillLevels({ attempts: oneDay }).grammar;
+  assert.equal(g.level, null, 'one day is still not a level');
+  assert.deepEqual(g.collecting, { level: 'B2', answers: 31, right: 29, pct: 94, days: 1 });
+  assert.equal(skillLevels({ attempts: [] }).grammar.collecting, undefined);
+  // Above a shown level, the next level's answers are collected too.
+  const b1 = [0, 1].flatMap((d) => Array.from({ length: 4 }, (_, i) => ({ ...answer(i, true, d), level: 'B1', lesson: 'b1-01' })));
+  const both = skillLevels({ attempts: [...b1, ...oneDay.slice(0, 5)] }).grammar;
+  assert.deepEqual([both.level, both.collecting.level, both.collecting.answers], ['B1', 'B2', 5]);
+  // A level check: the latest day's answers at its highest level, per skill.
+  const check = Array.from({ length: 8 }, (_, i) => ({ source: 'checkpoint', lesson: 'b2-02', exercise: `c${i}`, skill: 'grammar', level: 'B2', correct: i < 6, score: i < 6 ? 1 : 0, at: at(2, i / 60) }));
+  assert.deepEqual(skillLevels({ attempts: check }).grammar.check, { level: 'B2', answers: 8, pct: 75, day: at(2).slice(0, 10) });
+});
+
 test('TF-3: a lesson part is never fewer than 4 exercises; when fewer would be left after it, the part is the rest', async () => {
   const { lessonSlice } = await import('../../js/core/adaptive.js');
   const tiny = lessonSlice({ minutes: 25, exercises: 16, done: 0, intro: 6 }, 5);

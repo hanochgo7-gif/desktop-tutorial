@@ -363,6 +363,51 @@ try {
     await shot(page, 'tf7-step4-390');
     await ctx.close();
   });
+  // ---------- TF-8: Progress shows what the evidence is ----------
+  await check('TF-8 after a 100% grammar lesson today, the #/progress grammar row shows the evidence and "יום 1 מתוך 2"; after a passed B2 level check the row mentions it; the placement row says "נראה טוב גם ב-"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B2');
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const lesson = await (await fetch('content/lessons/b2-01.json')).json();
+      for (const e of lesson.exercises) L.recordAttempt({ source: 'lesson', lesson: 'b2-01', exercise: e.id, topic: lesson.topics[0], skill: 'grammar', level: 'B2', correct: true });
+    });
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('.skills');
+    const grammar = async () => (await page.$$eval('.skills .skill-row', (x) => x.map((r) => r.textContent.replace(/\s+/g, ' ').trim()))).find((t) => t.startsWith('דקדוק'));
+    const row = await grammar();
+    assert(/אוספים ראיות: \d+ תשובות ב-B2, 100% נכון/.test(row) && /יום 1 מתוך 2/.test(row) && !/עוד לא נבדק/.test(row), `grammar row: ${row}`);
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      for (let i = 0; i < 16; i++) L.recordAttempt({ source: 'checkpoint', lesson: `b2-0${1 + (i % 5)}`, exercise: `c${i}`, topic: 'x', skill: i % 2 ? 'grammar' : 'vocabulary', level: 'B2', correct: i !== 3 && i !== 8 });
+      window.lucid.store.put('progress', { id: 'check:B2', level: 'B2', kind: 'checkpoint', status: 'completed', best_score: 0.88, last_score: 0.88, attempts: 1, completed_at: new Date().toISOString() });
+    });
+    await page.goto(`${BASE}#/progress?t=${Date.now()}`);
+    await page.waitForSelector('.skills');
+    const after = await grammar();
+    assert(/B2 בבדיקת רמה, 88%/.test(after), `the grammar row does not mention the level check: ${after}`);
+    await shot(page, 'tf8-progress-390');
+    // The placement result: a capped skill reads as something to confirm, not a contradiction.
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const P = await import('./js/core/placement.js');
+      const A = await import('./js/core/adaptive.js');
+      const bank = await (await fetch('content/placement.json')).json();
+      window.lucid.store.remove('placement', 'latest');
+      L.saveProfile({ start_choice: 'basics', goals: ['travel'] });
+      const t = P.createPlacement(bank.items, { start: 'A1' });
+      let item;
+      while ((item = t.next())) t.answer(item, { correct: item.level === 'A2' ? ['grammar', 'reading'].includes(item.skill) : A.LEVELS.indexOf(item.level) <= 1 });
+      L.savePlacementDraft({ start: 'A1', answers: t.answers });
+    });
+    await page.goto(`${BASE}#/placement?t=${Date.now()}`);
+    await page.click('[data-begin]');
+    await page.waitForSelector('.onboard h1');
+    const result = await page.textContent('.onboard .panel');
+    assert(/נראה טוב גם ב-A2 \(\d מתוך \d\), יאושר בבדיקת רמה/.test(result.replace(/\s+/g, ' ')) && !/נכונות ב-A2/.test(result), `placement rows: ${result.replace(/\s+/g, ' ')}`);
+    await shot(page, 'tf8-placement-result-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

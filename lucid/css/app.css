@@ -1017,6 +1017,10 @@ dialog.sheet > .panel { padding: var(--s5); }
 .today-minutes { display: grid; gap: var(--s2); justify-items: start; }
 .today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }
 .today-min-status { margin: 0; min-height: 1.5em; color: var(--ink-2); }
+/* Skill rows: the evidence still being collected reads as a sentence from the start edge (TF-8). */
+.skill-row .skill-level.collecting { grid-column: 1 / -1; text-align: start; font-weight: 400; color: var(--ink-2); line-height: 1.4; text-wrap: pretty; }
+.skill-row .skill-src { color: var(--ink-2); }
+.skill-row .nowrap { white-space: nowrap; }
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }

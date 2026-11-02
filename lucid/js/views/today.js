@@ -1,12 +1,12 @@
 // Today: the plan for this session, why each part is there, and honest evidence of progress.
 import { html, render, on, todayKey } from '../core/util.js';
-import { tt, legend, t, uiLang } from '../core/i18n.js';
+import { tt, legend, t, uiLang, isolateLatin } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, todayPlan, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
-import { LEVELS, SKILLS, levelIndex, isLessonId, lessonOrder, planStatus, minutesToday, introSlots } from '../core/adaptive.js';
+import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, planStatus, minutesToday, introSlots } from '../core/adaptive.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
 // its own icon, never the placeholder circle of a missing icon).
@@ -50,14 +50,33 @@ export function levelRail(curriculum, progress, current) {
   </div>`;
 }
 
+// The evidence a skill is still collecting (TF-8), in the words of the rule: answers at the level, % right, and
+// the day out of the two the rule needs, plus what is still missing.
+export function collectingText(c) {
+  if (!c) return '';
+  const day = Math.min(c.days, EVIDENCE.days);
+  const more = [c.answers < EVIDENCE.items ? tt(`צריך ${EVIDENCE.items} תשובות`, `${EVIDENCE.items} answers needed`) : '', c.pct < EVIDENCE.accuracy * 100 ? tt(`צריך ${EVIDENCE.accuracy * 100}% נכון`, `${EVIDENCE.accuracy * 100}% right needed`) : ''].filter(Boolean);
+  // Only the level is an isolate, so "94%" keeps its sign beside its number inside the Hebrew line.
+  const lv = html`<bdi dir="ltr">${L(c.level)}</bdi>`;
+  return html`${tt(`אוספים ראיות: ${c.answers} תשובות ב-`, `Collecting evidence: ${c.answers} answers at `)}${lv}, ${tt(`${c.pct}% נכון`, `${c.pct}% right`)} · <span class="nowrap">${tt(`יום ${day} מתוך ${EVIDENCE.days}`, `day ${day} of ${EVIDENCE.days}`)}</span>${more.length ? ` · ${more.join(', ')}` : ''}`;
+}
+// A level check that asked about this skill (TF-8): "B2 shown in a level check, 81%" once the check was passed.
+function checkText(c) {
+  if (!c) return '';
+  const passed = store.get('progress', `check:${c.level}`)?.status === 'completed';
+  const lv = html`<bdi dir="ltr">${L(c.level)}</bdi>`;
+  return passed ? html`${lv} ${tt(`בבדיקת רמה, ${c.pct}%`, `in a level check, ${c.pct}%`)}` : html`${tt('בבדיקת רמה ', '')}${lv}${tt(`: ${c.pct}%`, ` level check: ${c.pct}%`)}`;
+}
+
 // Where a skill's level comes from, in a few words (shown under the skill's name).
 function skillSource(s, k) {
   if (k?.level) {
     if (k.source === 'placement') {
-      // The answers behind a capped estimate were at a higher level: say where (persona findings R2-29, R2-38).
-      return k.from
-        ? tt(`הערכה ראשונה: ${k.right} מתוך ${k.evidence} נכונות ברמה ${L(k.from)} במבחן המיקום`, `First estimate: ${k.right} of ${k.evidence} placement questions right at ${L(k.from)}`)
-        : tt(`הערכה ראשונה: ${k.evidence} שאלות במבחן המיקום`, `First estimate: ${k.evidence} placement questions`);
+      // The answers behind a capped estimate were at a higher level: say where, as a promise to confirm, not a
+      // contradiction (persona findings R2-29, R2-38; TF-8).
+      return isolateLatin(k.from
+        ? tt(`הערכה ראשונה ממבחן המיקום · נראה טוב גם ב-${L(k.from)} (${k.right} מתוך ${k.evidence}), יאושר בבדיקת רמה`, `First estimate from placement · looks good at ${L(k.from)} too (${k.right} of ${k.evidence}), to be confirmed in a level check`)
+        : tt(`הערכה ראשונה: ${k.evidence} שאלות במבחן המיקום`, `First estimate: ${k.evidence} placement questions`));
     }
     if (k.notYet) return tt(`עוד לא ${L(k.notYet)} בתרגול (${k.evidence} תשובות בניסיון ראשון)`, `Not yet ${L(k.notYet)} in practice (${k.evidence} first-try answers)`);
     if (k.source === 'assessed-writing') return tt(`${k.evidence} טקסטים שהוערכו, ב-${k.days} ימים`, `${k.evidence} assessed texts, on ${k.days} days`);
@@ -68,17 +87,18 @@ function skillSource(s, k) {
   return '';
 }
 
-// brief (Today): the rows without their source lines and a one-line note; Progress shows everything.
+// brief (Today): the rows without their source lines and a one-line note; Progress shows everything. A skill with
+// answers but no level yet shows what it is collecting, never "not assessed" (TF-8).
 export function skillProfile(skills, { brief = false } = {}) {
-  if (!SKILLS.some((s) => skills[s]?.level)) {
+  if (!SKILLS.some((s) => skills[s]?.level || skills[s]?.collecting || skills[s]?.check)) {
     return html`<p class="small muted">${tt('הפרופיל לפי מיומנות יופיע אחרי השיעורים הראשונים: כל מיומנות מקבלת רמה רק כשיש לה ראיות.', 'Your skill profile appears after your first lessons: each skill gets a level only once there is evidence for it.')}</p>`;
   }
   return html`<div class="skills">${SKILLS.map((s) => {
     const k = skills[s];
-    const src = brief ? '' : skillSource(s, k);
+    const lines = brief ? [] : [skillSource(s, k), k?.level ? collectingText(k.collecting) : '', checkText(k?.check)].filter(Boolean);
     const name = html`<span>${t(`skill.${s}`)}</span>`;
-    const note = src ? html`<span class="skill-src">${src}</span>` : '';
-    if (!k?.level) return html`<div class="skill-row">${name}<span class="skill-level none skill-wide">${tt('עוד לא נבדק', 'Not yet assessed')}</span>${note}</div>`;
+    const note = lines.length ? html`<span class="skill-src">${lines.map((x, i) => html`${i ? html`<br>` : ''}${x}`)}</span>` : '';
+    if (!k?.level) return html`<div class="skill-row">${name}<span class="skill-level none skill-wide ${k?.collecting ? 'collecting' : ''}">${k?.collecting ? collectingText(k.collecting) : tt('עוד לא נבדקה', 'Not yet assessed')}</span>${note}</div>`;
     const label = html`<bdi dir="ltr">${L(k.level)}${k.capped ? '+' : ''}</bdi>`;
     return html`<div class="skill-row ${k.provisional ? 'est' : ''}">${name}<div class="meter" aria-hidden="true"><span style="width:${((levelIndex(k.level) + 1) / LEVELS.length) * 100}%"></span></div><span class="skill-level">${label}</span>${note}</div>`;
   })}</div>${brief
@@ -90,7 +110,7 @@ export function skillProfile(skills, { brief = false } = {}) {
 // span and each level an isolate, so "A2 · 3" never joins into one left-to-right run inside Hebrew.
 export function skillSummary(skills) {
   const shown = SKILLS.filter((s) => skills[s]?.level);
-  if (!shown.length) return tt('עוד לא נבדק', 'Not yet assessed');
+  if (!shown.length) return SKILLS.some((s) => skills[s]?.collecting) ? tt('אוספים ראיות', 'Collecting evidence') : t('level.none');
   const rest = SKILLS.length - shown.length;
   const parts = shown.map((s) => html`<span>${t(`skill.${s}`)} <bdi dir="ltr">${L(skills[s].level)}${skills[s].capped ? '+' : ''}</bdi></span>`);
   if (rest) parts.push(html`<span>${rest === 1 ? tt('מיומנות אחת עוד לא נבדקה', '1 not yet assessed') : tt(`${rest} מיומנויות עוד לא נבדקו`, `${rest} not yet assessed`)}</span>`);
@@ -314,7 +334,7 @@ export default async function today(el, ctx) {
         case 'practice': {
           if (b.focus.kind === 'scenario') return tt('בחלק מהתשובות שלך כאן הייתה דרך טבעית יותר. עוד סבב יעזור לזכור אותה.', 'Some of your replies here had a more natural option. Another round helps it stick.');
           const e = b.focus.kind === 'error' ? m.recurring.find((x) => x.error_type === b.focus.id) : null;
-          return e ? tt(`חזר ${e.count} פעמים ב-${e.days} ימים שונים בחודש האחרון.`, `It came up ${e.count} times on ${e.days} different days this month.`) : tt('נושא שעוד לא יושב טוב.', 'A topic that is not secure yet.');
+          return e ? tt(`חזר ${e.count} פעמים ב-${e.days} ימים שונים בחודש האחרון.`, `It came up ${e.count} times on ${e.days} different days this month.`) : tt('נושא שעוד לא בשליטה.', 'A topic that is not secure yet.');
         }
         case 'use': return useWhy(b);
         case 'exit': return tt('היזכרות אחרונה במילים החדשות, אחרי הפסקה קצרה.', 'One last recall of the new words, after a short break.');
