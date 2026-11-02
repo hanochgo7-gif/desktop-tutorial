@@ -299,6 +299,19 @@ test('LF-2: the explanation is grouped, paginated by height, and the first pitfa
   assert.ok(P.readingMinutes(lesson, 'minimal') >= 3, 'a B1 explanation is several minutes of reading');
 });
 
+test('LF-2: a table taller than a step splits into runs of rows; a tiny last step joins the one before', () => {
+  const lesson = { explanation: [{ type: 'table', headers: ['A', 'B', 'C'], rows: Array.from({ length: 10 }, (_, i) => [`a${i}`, `b${i}`, `c${i}`]) }, { type: 'p', en: 'x' }] };
+  const groups = [{ id: 'core', units: [{ kind: 'block', i: 0 }, { kind: 'block', i: 1 }] }];
+  const split = P.splitTall(groups, lesson, (u) => (u.i === 0 ? 3000 : 100), 1275);
+  const rows = split[0].units.filter((u) => u.i === 0).map((u) => u.rows);
+  assert.ok(rows.length >= 3 && rows[0][0] === 0 && rows.at(-1)[1] === 10, JSON.stringify(rows));
+  assert.ok(rows.every((r, k) => !k || r[0] === rows[k - 1][1]), 'the runs follow each other with no row lost');
+  assert.equal(P.splitTall(groups, lesson, () => 500, 1275)[0].units.length, 2, 'a table that fits is left whole');
+  const g2 = [{ id: 'words', units: Array.from({ length: 13 }, (_, i) => ({ kind: 'word', i })) }];
+  const pages = P.paginate(g2, () => 120, 1500);
+  assert.equal(pages.length, 1, `13 words of 120 px make one step, not a step with one word left: ${pages.map((p) => p.items.length)}`);
+});
+
 test('LF-2: a pitfall plays the English it is about, never a starred or "not" wrong form', () => {
   const pron = { error_type: 'pron-vowel', en: 'Keep live short and make eat long.', he: 'בעברית יש תנועה אחת. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live /lɪv/ התנועה קצרה.' };
   assert.deepEqual(P.pitfallSayables(pron), ['live', 'leave', 'it', 'eat']);

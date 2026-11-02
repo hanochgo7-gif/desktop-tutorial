@@ -225,6 +225,9 @@ try {
       await page.waitForSelector('.lesson-intro');
       await page.click('[data-go="learn"]');
       await page.waitForSelector('.lesson-learn');
+      // Steps are measured again once the font has loaded; read them after that.
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(50);
       assert(await page.evaluate(() => document.activeElement?.tagName === 'H1' && scrollY === 0), 'the learn stage does not open at its heading');
       const one = await page.evaluate(() => ({ pit: document.querySelectorAll('.lesson-learn .pitfall').length, say: document.querySelectorAll('.lesson-learn .pitfall [data-say-text]').length, head: document.querySelector('.lesson-learn .pitfall-head')?.textContent }));
       assert(one.pit >= 1 && one.say >= 1 && /מלכודת לדוברי עברית/.test(one.head), `step 1 has no pitfall box with play keys: ${JSON.stringify(one)}`);

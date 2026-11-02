@@ -1011,21 +1011,22 @@ dialog.sheet > .panel { padding: var(--s5); }
 .table-wrap.ipa-hidden .col-ipa { display: none; }
 table.data td .row-say { vertical-align: middle; margin-inline-end: var(--s2); }
 table.data td:has(> .row-say) { white-space: nowrap; }
+.table-wrap.letters table.data td { padding-block: 0.15rem; }
 @media (max-width: 30rem) {
   .tstack table, .tstack tbody { display: block; }
   .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
   .tstack table.data tr:last-child { border-block-end: 0; }
-  .tstack table.data td { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; overflow-wrap: anywhere; }
-  .tstack table.data td.c-en::before { content: attr(data-label); font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+  .tstack table.data td { display: block; min-width: 0; padding: 0; border: 0; overflow-wrap: break-word; }
+  .tstack table.data td.c-en::before { content: attr(data-label); display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
   .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
 }
 :root:is([data-text='130'], [data-text='150']) .tstack table, :root:is([data-text='130'], [data-text='150']) .tstack tbody { display: block; }
 :root:is([data-text='130'], [data-text='150']) .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 :root:is([data-text='130'], [data-text='150']) .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
 :root:is([data-text='130'], [data-text='150']) .tstack table.data tr:last-child { border-block-end: 0; }
-:root:is([data-text='130'], [data-text='150']) .tstack table.data td { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; overflow-wrap: anywhere; }
-:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-en::before { content: attr(data-label); font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td { display: block; min-width: 0; padding: 0; border: 0; overflow-wrap: break-word; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-en::before { content: attr(data-label); display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
 :root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
 /* Part end and lesson end (LF-4, LF-8). Under 50%, "practise only the mistakes" is the second choice and keeps
    its own width, so the end screen's keys take two rows on a phone, not three. */

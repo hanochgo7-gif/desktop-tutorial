@@ -147,15 +147,35 @@ export function paginate(groups, heightOf, budget = 1450) {
     order.forEach((u, k) => seq.push({ u, g: g.id, first: k === 0 }));
   }
   const pages = [];
+  const heights = [];
   let page = [], h = 0;
   for (const x of seq) {
     const uh = heightOf(x.u) + (x.first ? HEAD : 0);
-    if (page.length && h + uh > budget) { pages.push(page); page = []; h = 0; }
+    if (page.length && h + uh > budget) { pages.push(page); heights.push(h); page = []; h = 0; }
     if (!page.length && !x.first) h += HEAD; // a continued group repeats its heading
     page.push(x); h += uh;
   }
-  if (page.length) pages.push(page);
+  if (page.length) { pages.push(page); heights.push(h); }
+  // A last step with only a little left (two or three words) joins the step before it when both still fit.
+  const n = pages.length;
+  if (n > 1 && heights[n - 1] < budget * 0.3 && heights[n - 2] + heights[n - 1] - (pages[n - 1][0].first ? 0 : HEAD) <= budget * 1.08) {
+    pages[n - 2].push(...pages.pop());
+  }
   return pages.map((items) => ({ id: items[0].g, items }));
+}
+// A table taller than most of a step is split into runs of rows (its rows are cards on a phone, each one
+// complete with its column names), so it can spread over two steps.
+export function splitTall(groups, lesson, heightOf, limit) {
+  return groups.map((g) => ({ ...g, units: g.units.flatMap((u) => {
+    const b = u.kind === 'block' && !u.rows && lesson.explanation[u.i];
+    const h = heightOf(u);
+    if (!b || b.type !== 'table' || h <= limit || b.rows.length < 4) return [u];
+    const parts = Math.min(b.rows.length, Math.ceil(h / (limit * 0.8)));
+    const size = Math.ceil(b.rows.length / parts);
+    const out = [];
+    for (let s = 0; s < b.rows.length; s += size) out.push({ kind: 'block', i: u.i, rows: [s, Math.min(b.rows.length, s + size)] });
+    return out;
+  }) }));
 }
 
 // The English a pitfall talks about, to be heard (LF-2): for a pronunciation pitfall the contrast words its
@@ -229,7 +249,7 @@ export function tableShape(b, level) {
   const stack = order.filter((c) => !(hideIpa && c.ipa)).length >= 3;
   return { english, order, letters, examples, alphabet: letters && b.rows.length >= 20, hideIpa, stack };
 }
-function tableBlock(b, level) {
+function tableBlock(b, level, continued = false) {
   const s = tableShape(b, level);
   const sayOf = (r) => (s.examples >= 0 ? r[s.examples] : String(r[0]).trim().charAt(0));
   // k: the row, for the first cell of a row (its play key); -1 for the other cells.
@@ -240,15 +260,15 @@ function tableBlock(b, level) {
       ? html`<td class="${cls}" data-label="${b.headers[c.i]}" lang="he" dir="rtl">${isolateLatin(v)}</td>`
       : html`<td class="${cls}" data-label="${b.headers[c.i]}" dir="auto">${play}${v}</td>`;
   };
-  const tools = (s.alphabet && canSpeak()) || s.hideIpa
+  const tools = !continued && ((s.alphabet && canSpeak()) || s.hideIpa)
     ? html`<div class="table-tools row">${s.alphabet && canSpeak() ? html`<button type="button" class="key small" data-say-text="${b.rows.map((r) => String(r[0]).trim().charAt(0)).join(', ')}" data-say-slow>${icon('turtle', { size: 18 })} <span dir="ltr" lang="en">A–Z</span> ${tt('לאט', 'slowly')}</button>` : ''}${s.hideIpa ? html`<button type="button" class="key ghost small" data-ipa-toggle aria-expanded="false">${isolateLatin(tt('להצגת IPA', 'Show IPA'))}</button>` : ''}</div>`
     : '';
   const attrs = s.english ? html`dir="ltr" lang="en"` : '';
-  return html`${tools}${tableHint()}<div class="table-wrap ${s.stack ? 'tstack' : ''} ${s.hideIpa ? 'ipa-hidden' : ''}" ${attrs}><table class="data"><thead><tr>${s.order.map((c) => html`<th class="${[c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ')}" ${c.he ? html`lang="he" dir="rtl"` : html`dir="auto"`}>${b.headers[c.i]}</th>`)}</tr></thead>
+  return html`${tools}${tableHint()}<div class="table-wrap ${s.stack ? 'tstack' : ''} ${s.letters ? 'letters' : ''} ${s.hideIpa ? 'ipa-hidden' : ''}" ${attrs}><table class="data"><thead><tr>${s.order.map((c) => html`<th class="${[c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ')}" ${c.he ? html`lang="he" dir="rtl"` : html`dir="auto"`}>${b.headers[c.i]}</th>`)}</tr></thead>
     <tbody>${b.rows.map((r, k) => html`<tr>${s.order.map((c, n) => cell(c, r[c.i] ?? '', n === 0 ? k : -1))}</tr>`)}</tbody></table></div>`;
 }
 
-export function renderBlocks(blocks, { level = null } = {}) {
+export function renderBlocks(blocks, { level = null, continued = false } = {}) {
   return blocks.map((b) => {
     switch (b.type) {
       // Explanation paragraphs fold their Hebrew at "partial" support (a tap per paragraph, R1-D10).
@@ -256,7 +276,7 @@ export function renderBlocks(blocks, { level = null } = {}) {
       case 'tip': return html`<div class="block-tip row" style="align-items:flex-start">${icon('hint', { size: 18 })}<div class="grow">${bi(b, { fold: true })}</div></div>`;
       case 'warning': return html`<div class="block-warning row" style="align-items:flex-start">${icon('alert', { size: 18 })}<div class="grow">${bi(b, { fold: true })}</div></div>`;
       // When a table is still wider than the screen, a line above it and a fade say that it scrolls (markWideTables).
-      case 'table': return tableBlock(b, level);
+      case 'table': return tableBlock(b, level, continued);
       case 'examples': return html`<div class="examples">${b.items.map((x) => exampleRow(x))}</div>`;
       default: return html`<p>${bi(b, { fold: true })}</p>`;
     }
@@ -528,15 +548,17 @@ export default async function lessonView(el, ctx) {
     <div class="word-line">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}: ${v.word}">${icon('volume', { size: 18 })}</button>` : ''}<span class="entry-word" lang="en" dir="ltr">${v.word}</span><span class="faint small" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
     <div class="entry-he" lang="he" dir="rtl">${isolateLatin(v.he)}</div>
     <div class="entry-ex" lang="en" dir="ltr">${v.example}</div></div>`;
-  const unitHtml = (u) => (u.kind === 'block' ? html`<div class="learn-unit">${renderBlocks([lesson.explanation[u.i]], { level: lesson.level })}</div>`
+  const blockOf = (u) => {
+    const b = lesson.explanation[u.i];
+    return u.rows ? { ...b, rows: b.rows.slice(...u.rows) } : b;
+  };
+  const unitHtml = (u) => (u.kind === 'block' ? html`<div class="learn-unit">${renderBlocks([blockOf(u)], { level: lesson.level, continued: Boolean(u.rows?.[0]) })}</div>`
     : u.kind === 'pit' ? pitfallBox(lesson.hebrew_pitfalls[u.i])
       : u.kind === 'ex' ? exampleRow(lesson.examples[u.i])
         : wordRow(lesson.vocab[u.i]));
   // Steps for this screen and text size: every unit is drawn once out of sight and measured, then paginated.
   let learnPages = null;
-  function pagesFor() {
-    if (learnPages) return learnPages;
-    const groups = learnPlan(lesson, hebrewSupport());
+  function measure(groups) {
     const units = groups.flatMap((g) => g.units);
     const body = $('#pbody', el);
     render(body, html`<div class="lesson-learn learn-measure" aria-hidden="true"><div class="stack learn-units">${units.map(unitHtml)}</div></div>`);
@@ -544,8 +566,18 @@ export default async function lessonView(el, ctx) {
     const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const hs = new Map(units.map((u, k) => [u, (kids[k]?.getBoundingClientRect().height || 0) + gap]));
     render(body, '');
-    // About 1,450 px of content leaves the whole step, with its title and keys, under 2,000 px on a phone.
-    learnPages = paginate(groups, (u) => hs.get(u) || 0, Math.max(1450, Math.round(innerHeight * 1.6)));
+    return (u) => hs.get(u) || 0;
+  }
+  function pagesFor() {
+    if (learnPages) return learnPages;
+    // About 1,500 px of content leaves the whole step, with its title and keys (about 400 px), under 2,000 px
+    // on a phone.
+    const budget = Math.max(1500, Math.round(innerHeight * 1.6));
+    let groups = learnPlan(lesson, hebrewSupport());
+    let heightOf = measure(groups);
+    const split = splitTall(groups, lesson, heightOf, budget * 0.85);
+    if (split.some((g, k) => g.units.length !== groups[k].units.length)) { groups = split; heightOf = measure(groups); }
+    learnPages = paginate(groups, heightOf, budget);
     return learnPages;
   }
   // A step's content: a heading wherever a group starts (or continues at the top of the step), then its units.
@@ -569,6 +601,24 @@ export default async function lessonView(el, ctx) {
     if (Number.isInteger(saved) && learnStep === 0 && saved > 0) learnStep = saved;
     learnStep = Math.max(0, Math.min(learnStep, steps.length - 1));
     drawLearn(steps, { heading: 'h1' });
+    // Measured before the font arrived, the steps are measured again once it has, at the same step and focus.
+    const fonts = globalThis.document?.fonts;
+    if (fonts && fonts.status !== 'loaded') {
+      const at = learnPages;
+      fonts.ready.then(() => { if (stage === 'learn' && learnPages === at) remeasure(); });
+    }
+  }
+  // The steps again, after something changed their heights (the font, the "all in Hebrew" switch).
+  function remeasure() {
+    const focusId = document.activeElement?.closest?.('[data-he-switch]') ? 'he' : document.activeElement?.matches?.('h1[tabindex]') ? 'h1' : document.activeElement?.id === 'learn-h' ? 'step' : null;
+    learnPages = null;
+    frame(html`<div class="lesson-learn"></div>`);
+    const steps = pagesFor();
+    learnStep = Math.min(learnStep, steps.length - 1);
+    drawLearn(steps, { heading: 'none' });
+    if (focusId === 'he') $('[data-he-switch]', el)?.focus();
+    else if (focusId === 'h1') $('h1[tabindex]', el)?.focus({ preventScroll: true });
+    else if (focusId === 'step') $('#learn-h', el)?.focus({ preventScroll: true });
   }
   function drawLearn(steps, { heading = 'step' } = {}) {
     const n = steps.length;
@@ -942,14 +992,7 @@ export default async function lessonView(el, ctx) {
       heAllSave(lesson.level, value);
       el.querySelectorAll('[data-he-switch]').forEach((b) => b.setAttribute('aria-pressed', String(value)));
       // The Hebrew changes the explanation's length, so its steps are measured again.
-      if (stage === 'learn') {
-        learnPages = null;
-        frame(html`<div class="lesson-learn"></div>`);
-        const steps = pagesFor();
-        learnStep = Math.min(learnStep, steps.length - 1);
-        drawLearn(steps, { heading: 'none' });
-        $('[data-he-switch]', el)?.focus();
-      }
+      if (stage === 'learn') remeasure();
     }),
     on(el, 'click', '[data-check]', (e, b) => { if (!b.disabled) doCheck(); }),
     on(el, 'click', '[data-dontknow]', () => doCheck({ dontKnow: true })),
