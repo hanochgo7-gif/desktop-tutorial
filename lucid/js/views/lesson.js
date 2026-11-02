@@ -169,7 +169,8 @@ export function splitTall(groups, lesson, heightOf, limit) {
   return groups.map((g) => ({ ...g, units: g.units.flatMap((u) => {
     const b = u.kind === 'block' && !u.rows && lesson.explanation[u.i];
     const h = heightOf(u);
-    if (!b || b.type !== 'table' || h <= limit || b.rows.length < 4) return [u];
+    // A letter table (the alphabet) stays whole, with its A-Z key, unless it is taller than a whole step.
+    if (!b || b.type !== 'table' || b.rows.length < 4 || h <= (tableShape(b, lesson.level).letters ? limit / 0.85 : limit)) return [u];
     const parts = Math.min(b.rows.length, Math.ceil(h / (limit * 0.8)));
     const size = Math.ceil(b.rows.length / parts);
     const out = [];
