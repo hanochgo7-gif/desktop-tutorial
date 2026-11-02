@@ -1560,7 +1560,8 @@ try {
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round'));
     assert(ev.length === 1 && ev[0].matches === 6 && ev[0].slips === 1 && ev[0].score === total && Math.abs(ev[0].accuracy - 6 / 7) < 1e-9, `round not logged once and right: ${JSON.stringify(ev)}`);
     const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
-    assert(listed.includes(slipWord) && listed.length <= 2, `the slip's word is not on the list to go over (${listed}; ${slipWord})`);
+    // UX r3 GM-5: a slip of place is not a word to go over; only a picture paired with a word card already seen is.
+    assert(listed.length <= 1, `more words listed to go over than the one turn that could be a miss (${listed}; ${slipWord})`);
     assert(await page.$('a[href="#/games/memory/2"]'), 'memory level 2 did not open at 86%');
     await page.waitForTimeout(500);
     await page.click('[data-again]');

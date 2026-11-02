@@ -939,7 +939,8 @@ dialog.sheet > .panel { padding: var(--s5); }
 .mem-card:not(.is-up) { background: var(--cobalt-tint); border-color: color-mix(in oklab, var(--cobalt) 45%, var(--key-edge)); }
 .mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); opacity: 0.35;
   background: repeating-linear-gradient(135deg, var(--cobalt) 0 2px, transparent 2px 9px); }
-.mem-word { font-size: clamp(0.6875rem, 15cqi, var(--t-sm)); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
+/* The word fills the card: sized to the card's width and the word's longest word (--len), at most --t-xl (GM-5). */
+.mem-word { font-size: min(var(--t-xl), max(0.6875rem, calc(160cqi / var(--len, 6)))); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
 .mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
 .mem-card.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
 .mem-card.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
@@ -1020,6 +1021,11 @@ dialog.sheet > .panel { padding: var(--s5); }
 @media (max-width: 39.99rem) {
   :root:is([data-text='130'], [data-text='150']) .pic-grid > * { flex-basis: calc((100% - var(--gap)) / 2); }
 }
+/* Memory (GM-5): every pair on the end screen; the small board at level 1. */
+.game-pairs { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
+.mem-size { display: inline-block; padding-block: var(--s1); }
+@media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
 /* ---- lane games: end ---- */
 
 /* ---- lane real-life-writing: start ---- */

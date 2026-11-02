@@ -110,26 +110,28 @@ const cardWord = async (page, i) => {
   const he = await page.$(`[data-card="${i}"] [data-he]`);
   return he ? byHe.get(await he.textContent()) : (await page.textContent(`[data-card="${i}"] [data-word]`)).trim();
 };
-// Plays a memory board to the end with a perfect memory (no slips).
-async function playMemory(page) {
+// Plays a memory board to the end with a perfect memory (no slips, no misses). `known` maps cards already seen
+// to their word (a string, or { word }).
+async function playMemoryFrom(page, known = new Map()) {
   const n = (await page.$$('.mem-card')).length;
-  const known = new Map();
+  const word = (i) => (typeof known.get(i) === 'string' ? known.get(i) : known.get(i)?.word);
+  const see = async (i) => { await page.click(`[data-card="${i}"]`); known.set(i, await cardWord(page, i)); };
   for (let guard = 0; guard < 60; guard++) {
     const done = new Set(await page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card))));
     if (done.size === n) break;
     let pair = null;
-    for (const [i, a] of known) for (const [j, b] of known) if (i < j && a === b && !done.has(i)) pair = [i, j];
+    for (const i of known.keys()) for (const j of known.keys()) if (i < j && word(i) === word(j) && !done.has(i)) pair = [i, j];
+    await page.waitForTimeout(460); // a tap on a card of the last mismatch is ignored for 450 ms (a double tap)
     if (pair) { for (const i of pair) await page.click(`[data-card="${i}"]`); continue; }
     const fresh = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i));
-    await page.click(`[data-card="${fresh}"]`);
-    known.set(fresh, await cardWord(page, fresh));
-    const partner = [...known].find(([j, w]) => j !== fresh && w === known.get(fresh) && !done.has(j))?.[0];
+    await see(fresh);
+    const partner = [...known.keys()].find((j) => j !== fresh && word(j) === word(fresh) && !done.has(j));
     const second = partner ?? [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i) && i !== fresh);
-    await page.click(`[data-card="${second}"]`);
-    known.set(second, await cardWord(page, second));
+    await see(second);
   }
   await page.waitForSelector('.game-total');
 }
+const playMemory = (page) => playMemoryFrom(page);
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', root], { stdio: 'ignore' });
 await sleep(700);
@@ -314,6 +316,96 @@ try {
     const ev = (await events(page, 'picture-round'))[0];
     assert(ev.mistakes === 2, `mistakes: ${ev.mistakes}`);
     await shot(page, 'gm4-results-390', { fullPage: true });
+    await ctx.close();
+  });
+
+  await check('GM-5a. Memory at 390 and 100%: card words are at least 20 px; a mismatch names both cards in the live line', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games/memory/1', '.mem-card');
+    await page.waitForTimeout(500);
+    const n = (await page.$$('.mem-card')).length;
+    const sizes = [];
+    let named = null;
+    for (let a = 0; a + 1 < n; a += 2) {
+      await page.click(`[data-card="${a}"]`);
+      await page.click(`[data-card="${a + 1}"]`);
+      sizes.push(...await page.$$eval('.mem-card .mem-word', (xs) => xs.map((x) => [x.textContent, parseFloat(getComputedStyle(x).fontSize), x.scrollWidth <= x.closest('.mem-card').clientWidth])));
+      if (!named && await page.$('.mem-card.is-wrong')) {
+        named = await page.evaluate(() => ({ live: document.querySelector('#gfb').getAttribute('aria-live'), text: document.querySelector('#gfb').textContent.replace(/\s+/g, ' ').trim() }));
+        await shot(page, 'gm5-mismatch-390');
+      }
+    }
+    assert(sizes.length, 'no word card was turned');
+    const small = sizes.filter(([, px]) => px < 20);
+    assert(!small.length, `card words under 20 px: ${JSON.stringify(small)}`);
+    const wide = sizes.filter(([, , fits]) => !fits);
+    assert(!wide.length, `card words wider than their card: ${JSON.stringify(wide)}`);
+    assert(named && named.live, 'no mismatch, or no live region');
+    assert(/קלף \d+: (תמונה|מילה), .+\. קלף \d+: (תמונה|מילה), .+\. לא זוג\./.test(named.text), `the live line does not name both cards: "${named.text}"`);
+    await ctx.close();
+  });
+
+  await check('GM-5b. Memory end screen: every pair with its picture, word and play key; only real misses (a picture paired with a word card already seen) are words to go over; a slip costs no points by default', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games/memory/1', '.mem-card');
+    await page.waitForTimeout(500);
+    const n = (await page.$$('.mem-card')).length;
+    const known = new Map(); // card -> { word, pic }
+    // A pause before each turn: a tap on a card of the mismatch just made is ignored for 450 ms (a double tap).
+    const flip = async (i, turnStart = false) => { if (turnStart) await page.waitForTimeout(500); await page.click(`[data-card="${i}"]`); known.set(i, { word: await cardWord(page, i), pic: Boolean(await page.$(`[data-card="${i}"] [data-he]`)) }); };
+    const doneSet = async () => new Set(await page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card))));
+    // Look at the first half of the board, two cards a turn (exploring: never a miss).
+    for (let a = 0; a + 1 < n / 2; a += 2) { await flip(a, true); await flip(a + 1); }
+    let done = await doneSet();
+    const open = [...known].filter(([i]) => !done.has(i));
+    // A miss: a picture, then a word card already seen that is not its word.
+    const pic = open.find(([, v]) => v.pic && open.some(([, w]) => !w.pic && w.word !== v.word));
+    assert(pic, 'the board gave no chance of a miss');
+    const wrongWord = open.find(([, w]) => !w.pic && w.word !== pic[1].word);
+    await flip(pic[0], true); await flip(wrongWord[0]);
+    const missWord = pic[1].word;
+    // A slip of place: a card whose pair has been seen, then an unseen card instead (not a miss).
+    done = await doneSet();
+    const pairSeen = [...known].find(([i, v]) => !done.has(i) && [...known].some(([j, w]) => j !== i && w.word === v.word && !done.has(j)));
+    const unseen = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i));
+    let slipWord = null;
+    if (pairSeen && unseen !== undefined) {
+      const partnerUnseen = [...Array(n).keys()].filter((i) => !known.has(i) && !done.has(i));
+      await flip(pairSeen[0], true);
+      const second = partnerUnseen.find((i) => i !== pairSeen[0]);
+      await flip(second);
+      if (known.get(second).word !== pairSeen[1].word) slipWord = pairSeen[1].word;
+    }
+    await playMemoryFrom(page, known);
+    const ev = (await events(page, 'memory-round'))[0];
+    assert(ev.score === ev.matches * 10, `slips cost points by default: ${JSON.stringify(ev)}`);
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent.trim()));
+    assert(listed.length === 1 && listed[0] === missWord, `words to go over: ${listed} (the miss was ${missWord}${slipWord ? `, the slip ${slipWord}` : ''})`);
+    const pairs = await page.$$eval('.game-pairs li', (xs) => xs.map((x) => ({ word: x.querySelector('strong')?.textContent, svg: Boolean(x.querySelector('svg')), say: Boolean(x.querySelector('[data-say]')) })));
+    assert(pairs.length === n / 2 && pairs.every((x) => x.word && x.svg), `not every pair is listed: ${JSON.stringify(pairs)}`);
+    await shot(page, 'gm5-results-390', { fullPage: true });
+    await ctx.close();
+  });
+
+  await check('GM-5c. Memory level 1 offers a small board: 4 pairs, 8 cards, and back to the full board', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games/memory/1', '.mem-card');
+    await page.waitForTimeout(500);
+    await page.click('a.mem-size');
+    await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 8);
+    await page.waitForTimeout(500);
+    await playMemory(page);
+    const ev = (await events(page, 'memory-round'))[0];
+    assert(ev.total === 4 && ev.matches === 4, `small round not logged: ${JSON.stringify(ev)}`);
+    await page.waitForTimeout(500);
+    await page.click('[data-again]');
+    await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 8);
+    await page.waitForTimeout(500);
+    await page.click('a.mem-size');
+    await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 12);
     await ctx.close();
   });
 } finally {
