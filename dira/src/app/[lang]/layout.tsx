@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, IBM_Plex_Sans_Hebrew } from "next/font/google";
 import { notFound } from "next/navigation";
 import { LOCALES, dirOf, getDict, isLocale } from "@/i18n";
+import { Analytics } from "@/components/analytics";
+import { pageMeta } from "@/lib/seo";
 import { SITE_URL, asset } from "@/lib/site";
 import "../globals.css";
 
@@ -16,25 +18,19 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const t = getDict(lang);
+  const home = pageMeta(lang, "", t.meta.title, t.meta.description);
   return {
-    metadataBase: new URL(SITE_URL),
+    ...home,
+    metadataBase: new URL(`${SITE_URL}/`),
     title: { default: t.meta.title, template: `%s · ${t.brand.name}` },
-    description: t.meta.description,
-    alternates: { canonical: `/${lang}`, languages: { he: "/he", en: "/en" } },
-    openGraph: {
-      type: "website",
-      locale: lang === "he" ? "he_IL" : "en_GB",
-      title: t.meta.title,
-      description: t.meta.description,
-      siteName: t.brand.name,
-      images: [{ url: asset("/og.jpg"), width: 1200, height: 630 }],
-    },
+    applicationName: t.brand.name,
+    openGraph: { ...home.openGraph, siteName: t.brand.name },
     icons: { icon: asset("/icon.svg"), apple: asset("/apple-icon.png") },
   };
 }
 
 export const viewport: Viewport = {
-  themeColor: "#f3f4f5",
+  themeColor: "#093484",
   width: "device-width",
   initialScale: 1,
 };
@@ -44,7 +40,10 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   if (!isLocale(lang)) notFound();
   return (
     <html lang={lang} dir={dirOf(lang)} className={`${frank.variable} ${plex.variable}`}>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

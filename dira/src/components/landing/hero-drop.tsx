@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DropZone, type Rejected } from "@/components/drop-zone";
 import { fmt, type Dict, type Locale } from "@/i18n";
 import { setHandoff } from "@/lib/studio/db";
+import { countBucket, track } from "@/lib/track";
 
 export function HeroDrop({ lang, t, variant = "hero" }: { lang: Locale; t: Dict; variant?: "hero" | "panel" }) {
   const router = useRouter();
@@ -17,6 +18,7 @@ export function HeroDrop({ lang, t, variant = "hero" }: { lang: Locale; t: Dict;
         onFiles={(files, rej) => {
           setRejected(rej);
           if (files.length) {
+            track("upload_start", { count: countBucket(files.length), source: "landing" });
             setHandoff(files);
             router.push(`/${lang}/studio?new=1`);
           }

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/i18n";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/legal">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const t = getDict(lang);
-  return { title: `${t.legal.privacyTitle} · ${t.legal.termsTitle}` };
+  return pageMeta(lang, "legal", `${t.legal.privacyTitle} · ${t.legal.termsTitle}`, t.legal.privacy[0]);
 }
 
 export default async function Legal({ params }: PageProps<"/[lang]/legal">) {

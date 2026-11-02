@@ -1,7 +1,6 @@
 // Builds the landing-page demo from real engine output: the "after" images and every number shown
 // next to them are produced here by the same code that runs in the browser. Re-run after engine changes:
 //   npx tsx scripts/build-demo.ts
-import sharp from "sharp";
 import { writeFileSync } from "node:fs";
 import { analyze, findings } from "../src/lib/engine/analyze";
 import { autoRecipe, render } from "../src/lib/engine/pipeline";
@@ -38,21 +37,7 @@ async function main() {
   }
   writeFileSync("src/lib/demo-data.json", JSON.stringify(out, null, 1) + "\n");
 
-  // Social preview: before | after of the first sample with the brand line.
-  const w = 1200, h = 630;
-  const half = await Promise.all(
-    ["before", "after"].map((k) => sharp(`public/demo/living-${k}.jpg`).resize(600, 630, { fit: "cover" }).toBuffer()),
-  );
-  const label = (text: string, x: number) =>
-    `<g><rect x="${x}" y="24" rx="6" width="${text.length * 13 + 28}" height="38" fill="rgba(20,25,34,.78)"/><text x="${x + 14}" y="50" font-family="sans-serif" font-size="20" font-weight="600" fill="#fff">${text}</text></g>`;
-  const overlay = Buffer.from(
-    `<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg"><rect x="598" y="0" width="4" height="${h}" fill="#fff"/>${label("Before", 24)}${label("After", 624)}</svg>`,
-  );
-  await sharp({ create: { width: w, height: h, channels: 3, background: "#1d1f23" } })
-    .composite([{ input: half[0], left: 0, top: 0 }, { input: half[1], left: 600, top: 0 }, { input: overlay, left: 0, top: 0 }])
-    .jpeg({ quality: 84, mozjpeg: true })
-    .toFile("public/og.jpg");
-
+  // Link-preview cards: node scripts/build-og.cjs
   // App icons come from scripts/build-icons.ts (the Canva logo mark).
   console.log(JSON.stringify(out.map((o) => ({ id: o.id, changes: o.changes })), null, 0));
 }

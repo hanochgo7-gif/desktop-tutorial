@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/i18n";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/trust">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const t = getDict(lang);
-  return { title: t.trust.title, description: t.trust.lead, alternates: { canonical: `/${lang}/trust`, languages: { he: "/he/trust", en: "/en/trust" } } };
+  return pageMeta(lang, "trust", t.trust.title, t.trust.lead);
 }
 
 function Block({ title, items, tone }: { title: string; items: string[]; tone: "ok" | "label" | "no" }) {

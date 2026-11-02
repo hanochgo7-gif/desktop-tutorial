@@ -7,6 +7,7 @@ import { describeChange } from "@/lib/describe";
 import { PRESETS, download, exportPhotos, shareFiles, type ManifestItem, type PresetId } from "@/lib/studio/export";
 import type { Studio } from "@/lib/studio/use-studio";
 import { Switch } from "./panels";
+import { track } from "@/lib/track";
 
 function buildManifest(items: ManifestItem[], t: Dict, lang: Locale, projectName: string) {
   const lines: string[] = [];
@@ -70,6 +71,7 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
       await s.saveProject({ exports: (s.project.exports ?? 0) + 1 });
       setResult(out);
       download(out.blob, out.filename);
+      track("download", { presets: ordered.join("+"), zip: out.filename.endsWith(".zip"), photos: targets.length > 1 ? "many" : "one" });
       toast.show({ text: t.export.ready });
     } catch (e) {
       console.error(e);
@@ -147,7 +149,10 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
           </div>
         )}
         {result && canShare && (
-          <button type="button" className="btn btn-quiet w-full sm:hidden" onClick={() => shareFiles(result.blob, result.filename)}>
+          <button type="button" className="btn btn-quiet w-full sm:hidden" onClick={() => {
+              track("share");
+              shareFiles(result.blob, result.filename);
+            }}>
             {t.export.share}
           </button>
         )}

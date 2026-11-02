@@ -2,10 +2,11 @@ import type { Dict } from "./he";
 
 const en: Dict = {
   meta: {
-    title: "Dira Ready — professional listing photos from your phone",
+    title: "Free listing-photo editor for flats in Israel | Dira Ready",
     description:
-      "Upload phone photos of your property and get bright, straight, clean listing photos in seconds, processed on your own device. Virtual staging is always labelled.",
+      "Turn phone photos of your flat into bright, straight, clean listing photos sized for Yad2, Madlan and WhatsApp. Free, no sign-up, and your photos never leave your device.",
   },
+  seo: { pricingTitle: "Pricing: free photo correction, credits for AI" },
   brand: { name: "Dira Ready", tagline: "Listing photo studio" },
   nav: {
     studio: "Studio",

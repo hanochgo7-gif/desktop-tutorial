@@ -11,6 +11,7 @@ import { fmt, type Dict, type Locale } from "@/i18n";
 import { MAX_PHOTOS } from "@/lib/site";
 import { takeHandoff } from "@/lib/studio/db";
 import { useStudio } from "@/lib/studio/use-studio";
+import { countBucket, track } from "@/lib/track";
 import { AiPanel } from "./ai-panel";
 import { ExportPanel } from "./export-panel";
 import { Filmstrip } from "./filmstrip";
@@ -55,6 +56,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   };
 
   const onAdd = async (files: File[], rej: Rejected[]) => {
+    if (files.length) track("upload_start", { count: countBucket(files.length), source: "studio" });
     const added = await s.addFiles(files);
     reportRejected(rej, added ?? 0, files.length);
   };

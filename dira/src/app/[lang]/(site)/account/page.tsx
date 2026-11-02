@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AccountView } from "@/components/account/account-view";
 import { getDict, isLocale } from "@/i18n";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/account">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  return { title: getDict(lang).account.title, robots: { index: false } };
+  const t = getDict(lang);
+  return pageMeta(lang, "account", t.account.title, t.account.signInLead, { noindex: true });
 }
 
 export default async function Account({ params }: PageProps<"/[lang]/account">) {

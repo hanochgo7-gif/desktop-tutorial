@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectsList } from "@/components/account/projects-list";
 import { getDict, isLocale } from "@/i18n";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/projects">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  return { title: getDict(lang).projects.title, robots: { index: false } };
+  const t = getDict(lang);
+  return pageMeta(lang, "projects", t.projects.title, t.projects.lead, { noindex: true });
 }
 
 export default async function Projects({ params }: PageProps<"/[lang]/projects">) {

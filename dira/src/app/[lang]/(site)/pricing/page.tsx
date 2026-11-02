@@ -5,13 +5,14 @@ import { Suspense } from "react";
 import { BuyButton, CancelledNotice, PaymentsNotice } from "@/components/account/buy-button";
 import { PricingPlans } from "@/components/pricing-plans";
 import { getDict, isLocale } from "@/i18n";
+import { pageMeta } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/pricing">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const t = getDict(lang);
-  return { title: t.nav.pricing, description: t.pricing.lead, alternates: { canonical: `/${lang}/pricing`, languages: { he: "/he/pricing", en: "/en/pricing" } } };
+  return pageMeta(lang, "pricing", t.seo.pricingTitle, t.pricing.lead);
 }
 
 export default async function Pricing({ params }: PageProps<"/[lang]/pricing">) {
