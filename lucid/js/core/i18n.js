@@ -342,7 +342,9 @@ export function bi(obj, { always = false, fold = false } = {}) {
   const folded = Boolean(obj.he) && fold && !always && support === 'partial' && longText(obj.en);
   const showHe = obj.he && !folded && (always || support === 'partial');
   const hidden = html`<span class="bi-he bi-he-after" lang="he" dir="rtl" hidden>${isolateLatin(obj.he)}</span>`;
+  // One label for every Hebrew chip, on its own line under the English (BL-5): "בעברית" ("Hebrew" in the English UI).
+  const chip = (cls, sr) => html`<button type="button" class="${cls}" data-reveal-he aria-expanded="false" lang="${lang}">${tt('בעברית', 'Hebrew')}<span class="sr-only"> ${sr}</span></button>${hidden}`;
   return html`<span class="bi"><span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${folded
-    ? html`<button type="button" class="he-reveal he-reveal-text" data-reveal-he aria-expanded="false" lang="he">בעברית<span class="sr-only"> ${tt('– להצגת הפסקה בעברית', '– show this paragraph in Hebrew')}</span></button>${hidden}`
-    : !showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he aria-expanded="false" lang="he">עב<span class="sr-only"> ${tt('הצגת ההסבר בעברית', 'show the Hebrew explanation')}</span></button>${hidden}` : ''}</span>`;
+    ? chip('he-reveal he-reveal-text', tt('– להצגת הפסקה בעברית', '– show this paragraph in Hebrew'))
+    : !showHe && obj.he ? chip('he-reveal', tt('– להצגת ההסבר בעברית', '– show the explanation in Hebrew')) : ''}</span>`;
 }

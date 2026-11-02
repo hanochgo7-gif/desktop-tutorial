@@ -100,7 +100,8 @@ test('partial support folds the Hebrew of a long paragraph behind "בעברית"
   setHebrewSupport('full');
   assert.doesNotMatch(String(bi(long, { fold: true })), /dir="rtl" hidden/, 'full support never hides the Hebrew (BL-3 folds the English instead)');
   setHebrewSupport('minimal');
-  assert.match(String(bi(long, { fold: true })), />עב</, 'minimal keeps its "עב" button');
+  assert.match(String(bi(long, { fold: true })), />בעברית<span class="sr-only">/, 'minimal keeps a Hebrew button, with the same label as partial (BL-5)');
+  assert.doesNotMatch(String(bi(long, { fold: true })), />עב</, 'no "עב" label any more');
 });
 
 test('straight quote pairs stay together inside the English isolate', async () => {
