@@ -46,6 +46,7 @@ export default async function settingsView(el, ctx) {
           <div class="field"><span class="label">${tt('הסברים בעברית', 'Hebrew support')}</span>${seg('hebrew_support', s.hebrew_support, [['auto', 'לפי הרמה', 'By level'], ['full', 'מלא', 'Full'], ['partial', 'חלקי', 'Partial'], ['minimal', 'מינימלי', 'Minimal'], ['off', 'כבוי', 'Off']])}
             <span class="help">${tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״עב״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "עב".')}</span></div>
           <div class="field"><span class="label">${tt('אנגלית בהגייה', 'English for listening and roleplay')}</span>${seg('english_variant', s.english_variant, [['any', 'בינלאומית', 'International'], ['US', 'אמריקאית', 'American'], ['UK', 'בריטית', 'British']])}</div>
+          <div class="field"><span class="label">${tt('צלילים במשחק המילים', 'Sounds in the word game')}</span>${seg('sound', s.sound === false || s.sound === 'off' ? 'off' : 'on', [['on', 'פועל', 'On'], ['off', 'כבוי', 'Off']])}</div>
           <div class="field"><span class="label">${tt('מהירות הקראה', 'Speech speed')}</span>${seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']])}</div>
         </section>
         <section class="panel stack"><h2>${tt('עומס לימוד', 'Learning load')}</h2>

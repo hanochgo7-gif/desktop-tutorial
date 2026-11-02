@@ -55,12 +55,13 @@ export function dueCards(cards, now = new Date(), mode = 'standard') {
 }
 
 // Cards to create when a lesson's vocabulary is learned, and form cards that have unlocked.
-export function vocabCardsFor(lesson, existing, now = new Date()) {
+// via names where a card came from when it was not a finished lesson (e.g. 'game' for a word missed in the game).
+export function vocabCardsFor(lesson, existing, now = new Date(), via = null) {
   const have = new Set(existing.map((c) => c.id));
   const out = [];
   for (const v of lesson.vocab || []) {
     const id = `v:${v.word.toLowerCase()}:meaning`;
-    if (!have.has(id)) out.push(newCard({ id, kind: 'meaning', ref: { word: v.word, lesson: lesson.id } }, now));
+    if (!have.has(id)) out.push(newCard({ id, kind: 'meaning', ref: { word: v.word, lesson: lesson.id, ...(via ? { via } : {}) } }, now));
   }
   return out;
 }

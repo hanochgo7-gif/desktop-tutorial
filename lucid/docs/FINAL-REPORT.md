@@ -37,6 +37,7 @@ Hebrew-L1 claims are framed as hypotheses where the evidence is indirect.
 | Placement | Adaptive staircase over 84 items; a level counts only when confirmed by a second block; resumable | `js/core/placement.js`, `js/views/placement.js` |
 | Learner model | Topic mastery, recurring errors, per-skill levels from first-try evidence on at least two days; skills without evidence say "not yet assessed" | `js/core/adaptive.js`, `js/core/learner.js` |
 | Spaced repetition | FSRS (ts-fsrs), objective grading instead of self-rating, recognition-to-recall ladder, workload governor | `js/core/srs.js`, `js/views/review.js` |
+| Word game | Vocabulary quiz and word completion per level in three stages (meaning, English word, typed completion); every answer is marked right or wrong at once; 10 points per right answer plus a speed bonus, a best round per stage, the next stage opening at 70%; missed words can be replayed or added to review. Practice only: it does not change the learner's level | `js/core/wordgame.js`, `js/views/wordgame.js` |
 | Daily plan | 10, 20, 35 or 50 minutes; warm-up, review, lesson (split into parts when long), targeted practice, a goal-shaped "use it" block; each block says why | `js/core/adaptive.js`, `js/views/today.js` |
 | Writing lab | Ten stages, 20 exercises, 10 advanced assignments with invented source packs, free writing as essay, email or message; automatic checks; AI feedback on a 12-category rubric with a task-fulfilment gate, a hint ladder that needs an attempt before the correction, at most three rounds, a CEFR range only on the final draft, version comparison | `js/views/essay.js`, `js/core/writing-analyzer.js`, `supabase/functions/lucid-ai/` |
 | Real-Life English | 36 scenarios in 8 modules (airport, hotel, restaurant, transport, shopping, social, emergency, work) with phrases, a model dialogue, scripted practice and AI roleplay; 60 expressions with meaning, formality, region, examples, mistakes and when not to use them | `content/real-life/`, `js/views/scenario.js`, `js/views/slang.js` |
@@ -83,11 +84,11 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 18 files) | 144 of 144 pass |
+| Unit (`npm test`, 19 files) | 154 of 154 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
-| Browser end-to-end (`tests/e2e/run.mjs`) | 52 of 52 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
-| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 24 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
+| Browser end-to-end (`tests/e2e/run.mjs`) | 54 of 54 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
+| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 27 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
 | Content validator | 75 lessons and every content file: 0 errors, 0 warnings (including the checks for split brackets and quote marks and for answer-length cues) |
 | Performance (throttled 1.6 Mbps, 150 ms, 4x CPU, no compression) | first visit to Welcome ready in about 2.9 s, 374 KB uncompressed (GitHub Pages serves it compressed); repeat visits and offline use come from the service worker |
 

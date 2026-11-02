@@ -1348,8 +1348,30 @@ try {
     assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round').length)) === 1, 'Enter on the results counted the round again');
     if (await page.$('[data-add]')) {
       await page.click('[data-add]');
-      assert((await page.evaluate(() => window.lucid.store.all('cards').length)) > 0, 'missed words not added to review');
+      const cards = await page.evaluate(() => window.lucid.store.all('cards'));
+      assert(cards.length > 0 && cards.every((c) => /^v:.+:meaning$/.test(c.id) && c.ref?.via === 'game' && c.payload?.word), `missed words not added as review cards: ${JSON.stringify(cards[0]).slice(0, 160)}`);
     }
+    // Play again: the new result is compared with the best so far, not with the bests from before the first round.
+    const first = await page.evaluate(() => window.lucid.store.all('events').find((e) => e.type === 'game-round'));
+    await page.click('[data-again]');
+    for (let q = 0; q < 10; q++) {
+      await page.waitForSelector('[data-opt]:not([disabled])');
+      await page.click('[data-opt="0"]');
+      await page.waitForSelector('.game-verdict');
+      await page.click('[data-next]', { timeout: 400 }).catch(() => {});
+    }
+    await page.waitForSelector('.game-total');
+    const second = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round').at(-1));
+    const resultText = await page.textContent('.game-result');
+    const better = second.correct > first.correct || (second.correct === first.correct && second.score > first.score);
+    assert(better ? /New best|שיא חדש/.test(resultText) : /Your best|השיא שלך/.test(resultText), `second round compared with the wrong best: ${resultText.slice(0, 160)}`);
+    assert(!/first best|השיא הראשון/.test(resultText), 'second round called the first best');
+    // Enter on the exit link leaves the game.
+    await page.click('[data-again]');
+    await page.waitForSelector('[data-opt]');
+    await page.focus('.player-top a[href="#/games"]');
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('.game-levels');
     await ctx.close();
   });
 
@@ -1375,9 +1397,11 @@ try {
     assert(answer, 'could not find the hidden word');
     await page.type('#gw', answer, { delay: 20 });
     await page.waitForSelector('.game-verdict.ok', { timeout: 2000 });
+    assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'focus left the input, which would close a phone keyboard');
     assert(!(await page.$eval('[data-check]', (b) => !b.disabled)), 'check still active after an accepted answer');
     await page.click('[data-next]', { timeout: 400 }).catch(() => {});
     await page.waitForSelector('#gw:not([readonly])');
+    assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'the next question did not keep the input focused');
     await page.type('#gw', 'qqqqqq');
     await page.keyboard.press('Enter');
     await page.waitForSelector('.game-verdict.bad');

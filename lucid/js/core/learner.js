@@ -135,9 +135,9 @@ function introductionDates(n, cards, now) {
   return out;
 }
 
-export function addVocabCards(lesson, now = new Date()) {
+export function addVocabCards(lesson, now = new Date(), via = null) {
   const cards = store.all('cards', { includeDeleted: true });
-  const fresh = vocabCardsFor(lesson, cards, now);
+  const fresh = vocabCardsFor(lesson, cards, now, via);
   const dates = introductionDates(fresh.length, cards, now);
   fresh.forEach((c, i) => {
     const card = !dates[i] || dates[i] === now ? c : newCard({ id: c.id, kind: c.kind, ref: c.ref }, dates[i]);
@@ -154,7 +154,8 @@ export function placedOutLessons(level) {
 }
 export function canImportVocab(level) {
   const ids = new Set(placedOutLessons(level).map((l) => l.id));
-  return ids.size > 0 && !store.all('cards', { includeDeleted: true }).some((c) => ids.has(c.ref?.lesson));
+  // Words added one by one from the word game do not count as the level's words being imported.
+  return ids.size > 0 && !store.all('cards', { includeDeleted: true }).some((c) => ids.has(c.ref?.lesson) && c.ref?.via !== 'game');
 }
 // The highest level the learner placed out of, when its words are not in review yet.
 export function vocabImportLevel() {

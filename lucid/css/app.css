@@ -862,7 +862,6 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-input { display: inline-block; width: auto; min-height: 2.4rem; margin-inline: 0.25rem; padding: 0.1rem 0.5rem; font-size: var(--t-lg); vertical-align: baseline; }
 .game-input.right { border-color: var(--ok); background: var(--ok-tint); }
 .game-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
-.game-mask { letter-spacing: 0.05em; font-variant-numeric: tabular-nums; }
 .game-feedback:empty { display: none; }
 .game-verdict { display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); border: 1px solid transparent; }
 .game-verdict.ok { background: var(--ok-tint); border-color: var(--ok); }
@@ -875,3 +874,16 @@ dialog.sheet > .panel { padding: var(--s5); }
 .game-total { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--ink-en); }
 @media (prefers-reduced-motion: reduce) { .game-plus { animation: none; } }
 #gbody:focus { outline: none; }
+.game-rules { align-items: flex-start; flex-wrap: nowrap; margin-block-end: var(--s5); }
+.game-rules > svg { flex: none; margin-block-start: 0.15rem; }
+.game-rules > div { min-width: 0; }
+.option, .game-stage { -webkit-tap-highlight-color: transparent; }
+.option .game-opt { flex: 1; min-width: 0; }
+.option .game-opt[dir='rtl'] { text-align: right; }
+.option .game-mark { flex: none; display: inline-grid; }
+.option.is-right .game-mark { color: var(--ok); }
+.option.is-wrong .game-mark { color: var(--bad); }
+.game-mask { display: inline-flex; flex-wrap: wrap; gap: 0.2em 0.9em; vertical-align: middle; }
+.game-mask-word { display: inline-flex; gap: 0.18em; }
+.game-mask .slot { display: inline-block; width: 0.75em; min-height: 1.2em; border-block-end: 2px solid var(--ink-3); text-align: center; font-weight: 600; line-height: 1.1; }
+.game-mask .slot.shown { border-color: var(--cobalt); }
