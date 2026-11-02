@@ -332,3 +332,35 @@ test('TF-2: minutes done today follow the records: lesson answers at the lesson\
   assert.equal(minutesToday({ attempts: reviews }), 2);
   assert.equal(minutesToday({ attempts: [{ source: 'scenario' }, { source: 'scenario' }, { source: 'placement' }], events: [{ type: 'game-round' }] }), 4);
 });
+
+test('TF-3: a 10-minute night with 11 due words: a review timed from its cards, capped at 3 minutes, and a lesson part of at least 4', async () => {
+  const { dailyPlan, reviewMinutes, planStatus } = await import('../../js/core/adaptive.js');
+  const lesson = { minutes: 22, exercises: 16, done: 0, doneToday: 0, intro: 3 };
+  const plan = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 11, lesson });
+  const review = plan.blocks.find((b) => b.id === 'review');
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.deepEqual([review.count, review.minutes, review.route, review.later], [11, reviewMinutes(11), 'review', 0]);
+  assert.equal(reviewMinutes(11), 2, 'about 10 seconds a card');
+  assert.ok(learn.slice.split && learn.slice.upto >= 4, `the part is up to exercise ${learn.slice.upto}`);
+  // A big backlog: 3 minutes of it, the rest for the next days, and the review route takes only those cards.
+  const many = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 40, lesson }).blocks.find((b) => b.id === 'review');
+  assert.deepEqual([many.minutes, many.count, many.later, many.route], [3, 18, 22, 'review?n=18']);
+  // At 20 minutes, 2 words take a minute, and the lesson gets the rest of the review's time.
+  const p20 = dailyPlan({ minutes: 20, next: { id: 'a1-02' }, level: 'A1', dueCount: 2, lesson });
+  assert.equal(p20.blocks.find((b) => b.id === 'review').minutes, 1);
+  // After today's review the main action is not the same review again.
+  const after = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 10, lesson, today: { reviews: { review: 11 } } });
+  assert.equal(after.blocks.find((b) => !b.done).id, 'learn');
+  assert.equal(planStatus(after).complete, false);
+});
+
+test('TF-3: a lesson part is never fewer than 4 exercises; when fewer would be left after it, the part is the rest', async () => {
+  const { lessonSlice } = await import('../../js/core/adaptive.js');
+  const tiny = lessonSlice({ minutes: 25, exercises: 16, done: 0, intro: 6 }, 5);
+  assert.ok(tiny.split && tiny.upto === 4, `upto ${tiny.upto}`);
+  assert.ok(tiny.today >= 5, 'the part says its own time');
+  const tail = lessonSlice({ minutes: 25, exercises: 16, done: 10, doneToday: 0, intro: 2 }, 5);
+  assert.equal(tail.split, false, 'six left: four today would leave two, so today is the rest');
+  const near = lessonSlice({ minutes: 25, exercises: 16, done: 13, doneToday: 0, intro: 2 }, 5);
+  assert.equal(near.split, false);
+});

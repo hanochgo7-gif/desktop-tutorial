@@ -165,7 +165,11 @@ export default async function today(el, ctx) {
     const target = s.daily_minutes;
     const plan = todayPlan(target, extras);
     const week = weekActivity();
-    const dueCount = due().length;
+    const dueList = due();
+    const dueCount = dueList.length;
+    // How many of the review's cards have never been reviewed (TF-3): new words get their own words, never
+    // "about to fade". The review takes the first cards of the due list, as review.js does.
+    const newIn = (n) => dueList.slice(0, n).filter((c) => !c.log?.length && !c.fsrs?.reps).length;
     const today = todayKey();
     const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === today;
     // Only curriculum lessons count here: a finished scenario or level check is not a lesson.
@@ -193,7 +197,14 @@ export default async function today(el, ctx) {
     const title = (b) => {
       switch (b.id) {
         case 'warmup': return tt('חימום: מילים מהימים האחרונים', 'Warm-up: words from the last few days');
-        case 'review': return b.more ? tt(`עוד סבב קצר · ${b.count} מילים`, `Another short round · ${b.count} words`) : tt(`חזרה מרווחת · ${b.count} מילים`, `Spaced review · ${b.count} words`);
+        case 'review': {
+          if (b.more) return tt(`עוד סבב קצר · ${b.count} מילים`, `Another short round · ${b.count} words`);
+          if (b.done) return tt(`חזרה מרווחת · ${b.count} מילים`, `Spaced review · ${b.count} words`);
+          const k = newIn(b.count), n = b.count;
+          if (k === n) return n === 1 ? tt('מילה חדשה אחת: סבב ראשון', 'One new word: first round') : tt(`${n} מילים חדשות: סבב ראשון`, `${n} new words: first round`);
+          if (!k) return n === 1 ? tt('מילה אחת שכדאי לרענן', 'One word to refresh') : tt(`מילים שכדאי לרענן · ${n}`, `Words to refresh · ${n}`);
+          return tt(`${n} מילים לחזרה: ${k} חדשות, ${n - k} לרענון`, `${n} words to review: ${k} new, ${n - k} to refresh`);
+        }
         case 'learn': {
           // A lesson completed today: the plan shows that lesson, ticked (TF-2).
           const done = b.completed ? lessons.get(b.lesson) : null;
@@ -279,7 +290,14 @@ export default async function today(el, ctx) {
         case 'review':
           if (b.done) return tt(`עברתם היום על ${b.count} מילים.`, `You reviewed ${b.count} words today.`);
           if (b.more) return tt('מילים שכבר עברתם עליהן היום חוזרות לסבב נוסף. לא חובה: הן יחכו גם למחר.', 'Words you already reviewed today come back for another round. Optional: they will wait for tomorrow too.');
-          return tt('המילים האלה בדיוק לפני שכחה. חזרה עכשיו מאריכה את הזיכרון.', 'These words are about to fade. Reviewing now makes the memory last longer.');
+          {
+            const k = newIn(b.count);
+            const base = k === b.count
+              ? tt('פעם ראשונה בחזרה המרווחת: כל היזכרות מחזקת את הזיכרון.', 'Their first time in spaced review: every recall makes the memory stronger.')
+              : !k ? tt('עבר זמן מאז הפעם הקודמת, והיזכרות עכשיו מאריכה את הזיכרון.', 'Some time has passed since last time, and recalling them now makes the memory last longer.')
+                : tt('מילים חדשות לצד מילים שעבר זמן מאז שראיתם אותן. כל היזכרות מחזקת את הזיכרון.', 'New words next to words you have not seen for a while. Every recall makes the memory stronger.');
+            return b.later ? `${base} ${tt(`עוד ${b.later} יחכו לימים הבאים.`, `${b.later} more will wait for the next days.`)}` : base;
+          }
         case 'learn': return lessonWhy(b);
         case 'game': return tt('10 שאלות קצרות על המילים של הרמה שלכם.', '10 quick questions on the words of your level.');
         case 'practice': {

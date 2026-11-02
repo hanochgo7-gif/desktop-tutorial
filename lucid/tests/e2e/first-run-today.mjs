@@ -196,6 +196,47 @@ try {
     assert(/השיעור עוד פתוח/.test(lead) && !/כמעט סיימת/.test(lead), 'a 30% run still reads "nearly done"');
     await ctx.close();
   });
+  // ---------- TF-3: short days still move the lesson forward ----------
+  await check('TF-3 10 minutes and 11 due words: review at most 3 דק׳ and timed from the cards, a part of at least 4; after the review it is not the main action; imported words are called new', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1', { minutes: 10 });
+    await page.evaluate(async () => {
+      const S = await import('./js/core/srs.js');
+      const lesson = await (await fetch('content/lessons/pa1-03.json')).json();
+      const before = new Date(Date.now() - 2 * 86_400_000);
+      for (const c of S.vocabCardsFor(lesson, [], before).slice(0, 11)) {
+        const card = S.review(c, S.Rating.Good, { now: before });
+        window.lucid.store.put('cards', { ...card, fsrs: { ...card.fsrs, due: new Date(Date.now() - 3_600_000).toISOString() } });
+      }
+    });
+    await today(page);
+    const review = await page.$eval('.plan a[href^="#/review"]', (a) => a.textContent.replace(/\s+/g, ' '));
+    const min = Number(review.match(/(\d+) דק׳/)[1]);
+    assert(/11/.test(review) && min <= 3 && min === Math.ceil((11 * 10) / 60), `review row: ${review}`);
+    assert(/לרענן/.test(review) && !/בדיוק לפני שכחה/.test(review), `due words are not called words to refresh: ${review}`);
+    const learn = await page.$eval('.plan a[href^="#/lesson/"]', (a) => a.textContent);
+    const upto = Number((learn.match(/עד תרגיל (\d+)/) || [])[1]);
+    assert(upto >= 4, `lesson part: ${learn.replace(/\s+/g, ' ')}`);
+    await shot(page, 'tf3-10min-390');
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const list = L.due();
+      for (const c of list) L.gradeCard(c, { correct: c !== list[0] });
+      L.logEvent({ type: 'review', mode: 'review', count: list.length, right: list.length - 1 });
+    });
+    await today(page);
+    const key = await page.getAttribute('.start-bar a.key.enter', 'href');
+    assert(key && !key.startsWith('#/review'), `after the review the main action is ${key}`);
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'B1', { minutes: 20 });
+    await today(b.page);
+    await b.page.click('[data-import]');
+    await b.page.waitForTimeout(800);
+    const row = await b.page.$eval('.plan a[href^="#/review"]', (a) => a.textContent);
+    assert(/מילים חדשות: סבב ראשון/.test(row), `imported words are not called new: ${row.replace(/\s+/g, ' ')}`);
+    await b.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

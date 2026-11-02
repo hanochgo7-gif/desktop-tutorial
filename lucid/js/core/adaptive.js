@@ -227,7 +227,15 @@ export function courseLevel(curriculum, progressById, available = null) {
 // Blocks follow research C1 §10 (warm-up recall, due reviews, new learning, use it, exit check),
 // scaled to the minutes the learner has today. Each block says why it is there. The lesson gets the time
 // the other blocks leave (at least 5 minutes), so the plan fits the day; a long lesson is split.
-const BUDGET = { 10: { review: 5, learn: 5 }, 20: { review: 6, learn: 10, use: 4 }, 35: { warm: 3, review: 10, learn: 10, use: 8, exit: 4 }, 50: { warm: 3, review: 12, learn: 15, practice: 6, use: 10, exit: 4 } };
+// A review is timed from its cards, at about 10 seconds a card (TF-3; a believable estimate), and capped by the
+// budget's review minutes: 3 on a 10-minute day, so a night with many due words still moves the lesson on. The
+// cards over the cap wait for the next days (the review route takes only the planned number).
+const BUDGET = { 10: { review: 3, learn: 7 }, 20: { review: 6, learn: 10, use: 4 }, 35: { warm: 3, review: 10, learn: 10, use: 8, exit: 4 }, 50: { warm: 3, review: 12, learn: 15, practice: 6, use: 10, exit: 4 } };
+export const REVIEW_SECONDS = 10;
+export const reviewMinutes = (cards) => Math.max(1, Math.ceil((cards * REVIEW_SECONDS) / 60));
+const reviewCap = (budget) => Math.floor((budget.review * 60) / REVIEW_SECONDS);
+// A lesson part is never fewer than 4 exercises (TF-3; persona findings: parts of 1-3 exercises on short days).
+export const MIN_PART = 4;
 
 // How much of a lesson fits today. Lessons take 15-25 minutes; when one does not fit, today's plan takes
 // a part of it and the lesson's saved place (resume) carries the rest to the next day. The explanation
@@ -253,11 +261,15 @@ export function lessonSlice(lesson, budget) {
   const start = Math.max(0, done - (lesson.doneToday || 0)); // the position when today began
   const left = (from) => (from > 0 ? per * (n - from + revisit) : lesson.minutes);
   const remaining = Math.max(1, Math.round(left(done)));
-  const k = Math.max(1, Math.floor((start > 0 ? budget : budget - intro * per) / per));
-  const upto = Math.min(n, start + k);
-  // It fits, or only the retries at the end would be left over: today is the rest of the lesson.
-  if (left(start) <= budget + 2 || (start > 0 && upto >= n)) return { today: Math.max(1, Math.round(left(start))), total: lesson.minutes, remaining, split: false, done, of: n, revisit };
-  return { today: budget, total: lesson.minutes, remaining, split: true, done, of: n, revisit, upto, partDone: done >= upto && done < n };
+  // A part is at least MIN_PART exercises; when fewer than that would be left after it, it is the rest (TF-3).
+  const k = Math.max(MIN_PART, Math.floor((start > 0 ? budget : budget - intro * per) / per));
+  let upto = Math.min(n, start + k);
+  if (n - upto < MIN_PART) upto = n;
+  // It fits, or the part reaches the end: today is the rest of the lesson.
+  if (left(start) <= budget + 2 || upto >= n) return { today: Math.max(1, Math.round(left(start))), total: lesson.minutes, remaining, split: false, done, of: n, revisit };
+  // The part's own time, which may be over the budget when the 4-exercise minimum applies.
+  const part = Math.round((start > 0 ? 0 : intro * per) + (upto - start) * per);
+  return { today: Math.max(budget, part), total: lesson.minutes, remaining, split: true, done, of: n, revisit, upto, partDone: done >= upto && done < n };
 }
 
 // About how long a Writing lab task takes, so a plan never budgets a 250-word text as 4 minutes (persona
@@ -368,11 +380,14 @@ export function dailyPlan({
   const reviews = today.reviews || {};
 
   if (plan.warm && warmupCount > 0) add({ id: 'warmup', minutes: plan.warm, count: Math.min(warmupCount, 8), route: 'review?mode=warmup', why: 'warmup', done: Boolean(reviews.warmup) });
+  // The review: timed from its cards and capped (TF-3). `later` counts the due cards left for the next days.
+  const cap = reviewCap(plan);
+  const reviewOf = (n) => ({ id: 'review', minutes: reviewMinutes(Math.min(n, cap)), count: Math.min(n, cap), route: n > cap ? `review?n=${cap}` : 'review', why: 'review', later: Math.max(0, n - cap) });
   if (reviews.review) {
-    add({ id: 'review', minutes: plan.review, count: reviews.review, route: 'review', why: 'review', done: true });
-    if (dueCount > 0) extras.push({ id: 'review', more: true, minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review' });
-  } else if (dueCount > 0) add({ id: 'review', minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review', done: false });
-  const reviewPlanned = blocks.some((b) => b.id === 'review');
+    add({ ...reviewOf(reviews.review), count: reviews.review, route: 'review', later: 0, done: true });
+    if (dueCount > 0) extras.push({ ...reviewOf(dueCount), more: true, done: false });
+  } else if (dueCount > 0) add({ ...reviewOf(dueCount), done: false });
+  const reviewMin = blocks.find((b) => b.id === 'review')?.minutes || 0;
   const learnAt = blocks.length; // the lesson goes here; its time is what the other blocks leave
   const focus = practiceFocus({ recurring, weak, level });
   if (focus && (plan.practice || plan.use)) {
@@ -384,7 +399,8 @@ export function dailyPlan({
   if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
   if (next) {
     const others = blocks.reduce((a, b) => a + b.minutes, 0);
-    const budget = Math.max(5, Math.min(plan.learn + (reviewPlanned ? 0 : plan.review), minutes - others));
+    // The lesson also gets what the review does not use of its minutes.
+    const budget = Math.max(5, Math.min(plan.learn + plan.review - reviewMin, minutes - others));
     // A lesson that ended "Nearly there" is finished by redoing only the missed exercises (persona findings
     // R2-02, R2-25), unless a run of it is in progress.
     const missed = !lesson?.resumable && lesson?.missed?.count ? lesson.missed : null;
@@ -431,7 +447,6 @@ export function planStatus(plan, { minutesDone = 0, target = 0 } = {}) {
 // cautious planning estimate from what was done, not measured time (Progress reports measured active minutes).
 // attempts and events: today's only. whole: ids of lessons begun and completed today. lessons: id -> { minutes,
 // exercises, intro } for the lessons whose pace is known.
-export const REVIEW_SECONDS = 10;
 export const ITEM_MINUTES = 1.5;
 const GAME_EVENTS = ['game-round', 'picture-round', 'memory-round'];
 export function minutesToday({ attempts = [], events = [], whole = [], lessons = new Map() } = {}) {

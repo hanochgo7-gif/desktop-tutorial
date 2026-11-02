@@ -39,7 +39,7 @@ export default async function review(el, ctx) {
   if (mode === 'warmup') list = cards.filter((c) => c.kind === 'meaning' && now - new Date(c.created_at) >= dayMs && now - new Date(c.created_at) <= 3 * dayMs).slice(0, 8);
   else if (mode === 'exit') list = cards.filter((c) => todayKey(new Date(c.created_at)) === todayKey(now)).slice(0, 12);
   else if (mode === 'early') list = cards.slice().sort((a, b) => new Date(a.fsrs.due) - new Date(b.fsrs.due)).slice(0, 20);
-  else list = due(now).slice(0, 60);
+  else list = due(now).slice(0, Math.min(60, Number(ctx.query.n) || 60)); // ?n=: the daily plan's share (TF-3)
   list = shuffle(list, Math.random());
   const pool = cards.map((c) => c.payload).filter((p) => p?.he);
   let i = 0; let right = 0; let shownAt = 0; let hint = false;
