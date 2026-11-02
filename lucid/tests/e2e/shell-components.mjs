@@ -454,6 +454,30 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-11. Dark mode: the rail (1440) and the tab bar (390) stand apart from the ground with an edge, the active tab pill shows, and deck ink reaches 4.5:1', async () => {
+    for (const [width, height, sel] of [[1440, 900, '.deck'], [390, 844, '.tabbar']]) {
+      const { ctx, page } = await newPage(browser, { width, height, dark: true });
+      await learnerAt(page, 'A1');
+      await page.goto(`${BASE}#/today`);
+      await page.waitForSelector(`${sel} a[aria-current="page"]`);
+      const m = await page.evaluate(([fn, sel]) => {
+        const C = eval(fn);
+        const deck = document.querySelector(sel), cs = getComputedStyle(deck);
+        const ground = getComputedStyle(document.body).backgroundColor;
+        const active = deck.querySelector('a[aria-current="page"]'), idle = deck.querySelector('a:not([aria-current])');
+        const edge = sel === '.deck' ? [cs.borderInlineEndWidth, cs.borderInlineEndColor] : [cs.borderBlockStartWidth, cs.borderBlockStartColor];
+        return {
+          deckVsGround: C.ratio(cs.backgroundColor, ground), edge: edge[0], edgeVsGround: C.ratio(edge[1], ground),
+          pill: C.ratio(getComputedStyle(active).backgroundColor, cs.backgroundColor) > 1.1,
+          inkActive: C.ratio(getComputedStyle(active).color, getComputedStyle(active).backgroundColor), inkIdle: C.ratio(getComputedStyle(idle).color, cs.backgroundColor),
+        };
+      }, [CONTRAST_FN, sel]);
+      assert(m.deckVsGround > 1.08 && m.edge === '1px' && m.edgeVsGround > 1.2 && m.pill && m.inkActive >= 4.5 && m.inkIdle >= 4.5, `${sel} in dark mode: ${JSON.stringify(m)}`);
+      await shot(page, `sc11-dark-${width}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

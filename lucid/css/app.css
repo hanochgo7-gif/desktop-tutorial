@@ -84,10 +84,10 @@
     --key-sunk: oklch(0.2 0.011 250);
     --key-edge: oklch(0.3 0.012 250);
     --key-skirt: oklch(0.13 0.010 250);
-    --deck: oklch(0.12 0.009 250);
+    --deck: oklch(0.22 0.012 250);
     --deck-ink: var(--n3);
     --deck-ink-dim: var(--n5);
-    --deck-key: oklch(0.21 0.012 250);
+    --deck-key: oklch(0.28 0.012 250);
     --ink: oklch(0.95 0.005 250);
     --ink-2: oklch(0.80 0.008 250);
     --ink-3: oklch(0.70 0.010 250);
@@ -107,8 +107,8 @@
 }
 :root[data-theme='dark'] {
   --ground: oklch(0.165 0.010 250); --key: oklch(0.235 0.012 250); --key-sunk: oklch(0.2 0.011 250);
-  --key-edge: oklch(0.3 0.012 250); --key-skirt: oklch(0.13 0.010 250); --deck: oklch(0.12 0.009 250);
-  --deck-ink: var(--n3); --deck-ink-dim: var(--n5); --deck-key: oklch(0.21 0.012 250);
+  --key-edge: oklch(0.3 0.012 250); --key-skirt: oklch(0.13 0.010 250); --deck: oklch(0.22 0.012 250);
+  --deck-ink: var(--n3); --deck-ink-dim: var(--n5); --deck-key: oklch(0.28 0.012 250);
   --ink: oklch(0.95 0.005 250); --ink-2: oklch(0.80 0.008 250); --ink-3: oklch(0.70 0.010 250);
   --ink-en: oklch(0.96 0.004 250); --ink-he: oklch(0.76 0.11 263); --ink-he-quiet: oklch(0.72 0.07 263); --cobalt: oklch(0.72 0.13 263); --cobalt-tint: oklch(0.27 0.06 263);
   --ok: oklch(0.74 0.13 152); --ok-tint: oklch(0.26 0.05 152); --warn: oklch(0.80 0.12 80); --warn-tint: oklch(0.28 0.05 80);
@@ -269,7 +269,7 @@ textarea.input { min-height: 8rem; line-height: 1.6; resize: vertical; }
 
 .tabbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--deck); padding: 0.35rem 0.35rem calc(0.35rem + env(safe-area-inset-bottom)); gap: 0.3rem; }
 .tabbar a { display: grid; justify-items: center; gap: 0.1rem; padding: 0.35rem 0.1rem 0.3rem; border-radius: 0.6rem; color: var(--deck-ink-dim); text-decoration: none; font-size: 0.72rem; font-weight: 500; }
-.tabbar a[aria-current='page'] { color: var(--deck-ink); background: var(--deck-key); box-shadow: inset 0 -2px 0 oklch(0 0 0 / 0.35); }
+.tabbar a[aria-current='page'] { color: var(--deck-ink); background: var(--deck-key); box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.07), inset 0 -2px 0 oklch(0 0 0 / 0.35); }
 .tabbar .l2 { display: none; }
 
 @media (min-width: 64rem) {
@@ -1065,6 +1065,11 @@ details[open] > summary:not(.disclosure)::before, :root[dir='rtl'] details[open]
   .gap-input { min-height: 2.75rem; }
   .top .key.icon-only { flex: none; width: 2.75rem; height: 2.75rem; }
 }
+
+/* The graphite deck keeps its edge (SC-11): in dark mode the deck is lighter than the ground, and the rail and the
+   tab bar are set off by a hairline. */
+.deck { border-inline-end: 1px solid var(--key-edge); }
+.tabbar { border-block-start: 1px solid var(--key-edge); }
 
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {
