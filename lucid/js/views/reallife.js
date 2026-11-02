@@ -8,7 +8,7 @@ import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, mark, LEVEL_LABEL } from '../ui/components.js';
 import { store } from '../core/store.js';
 import { model, profile } from '../core/learner.js';
-import { fitOf, FIT_LABEL, recommendScenarios } from '../core/reallife.js';
+import { fitOf, FIT_LABEL, recommendScenarios, moduleOrder, byFit, modulesFor } from '../core/reallife.js';
 
 // Travel essentials first, in the order a trip needs them; then social English and work.
 export const MODULES = [
@@ -53,8 +53,10 @@ export function hubFilters(state) {
 // Topic sections. With every topic shown, each is folded to its first two scenarios with "Show all".
 export function hubSections(list, state, courseLevel, row) {
   const keep = (s) => state.scope === 'all' || ['below', 'at', 'stretch'].includes(fitOf(s.level, courseLevel));
-  const sections = MODULES.filter(([id]) => state.module === 'all' || id === state.module).map(([id, ic, he, en]) => {
-    const items = list.filter((s) => s.module === id && keep(s));
+  // The learner's goal topics come first, and in each topic the scenarios closest to their level (RW-9).
+  const ids = moduleOrder(MODULES.map(([id]) => id), state.goals || []);
+  const sections = ids.map((mid) => MODULES.find(([id]) => id === mid)).filter(([id]) => state.module === 'all' || id === state.module).map(([id, ic, he, en]) => {
+    const items = byFit(list.filter((s) => s.module === id && keep(s)), courseLevel);
     if (!items.length) return '';
     const folded = state.module === 'all' && !state.open.has(id) && items.length > FOLDED;
     return html`<section class="stack-sm" aria-labelledby="hub-${id}"><h2 class="row hub-head" id="hub-${id}">${icon(ic)} ${tt(he, en)} <span class="small faint num">${items.length}</span></h2>
@@ -83,7 +85,7 @@ export default async function reallife(el, ctx) {
   ctx.setTitle(t('nav.reallife'));
   const data = await content.scenarios();
   const list = data?.scenarios || [];
-  const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set() };
+  const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };
 
   const row = (s, courseLevel) => {
     const p = store.get('progress', `rl:${s.id}`);
@@ -103,7 +105,8 @@ export default async function reallife(el, ctx) {
         ${levelGuide(courseLevel)}
         ${start.length ? html`<section class="panel flat stack-sm start-here" aria-labelledby="rl-start"><h2 id="rl-start" class="small" style="font-size:var(--t-md)">${tt('כדאי להתחיל כאן', 'Start here')}</h2>
           <p class="xsmall faint">${tt('תרחישים שעוד לא עשית, לפי הרמה והמטרות שלך.', 'Scenarios you have not done yet, for your level and goals.')}</p>
-          <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${start.map((s) => html`<li>${row(s, courseLevel)}</li>`)}</ul></section>` : ''}
+          <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${start.map((s) => html`<li>${row(s, courseLevel)}</li>`)}</ul>
+          ${modulesFor(state.goals).includes('social') ? html`<a class="key small start-expr" href="#/expressions">${icon('slang', { size: 18 })} ${tt('ביטויים שאנשים באמת אומרים', 'Expressions people actually use')}</a>` : ''}</section>` : ''}
         ${hubFilters(state)}
         ${hubSections(list, state, courseLevel, (s) => row(s, courseLevel))}`}`);
   }

@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch } from '../../js/core/reallife.js';
+import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch, moduleOrder, byFit, fitRank } from '../../js/core/reallife.js';
 
 const scenarios = JSON.parse(readFileSync(new URL('../../content/real-life/scenarios.json', import.meta.url), 'utf8')).scenarios;
 const slang = JSON.parse(readFileSync(new URL('../../content/real-life/slang.json', import.meta.url), 'utf8')).entries;
@@ -87,4 +87,30 @@ test('own replies: Hebrew-speaker errors are named, goal points are ticked (RW-3
   const good = checkOwnReply(email.model_replies[0], email, { level: 'B2' });
   assert.ok(good.points.every((p) => p.ok) && !good.l1.length, 'the model reply meets every point');
   for (const s of scenarios) for (const t of s.practice) for (const p of t.points || []) assert.ok(p.en && /[א-ת]/.test(p.he) && p.any?.length, `${s.id}: a point without words or phrases`);
+});
+
+// RW-9: Real life follows the learner's goals.
+test('Start here, topic order and topic lists follow the goals, then the level (RW-9)', () => {
+  const start = recommendScenarios(scenarios, { courseLevel: 'B2', goals: ['work'] });
+  assert.ok(start.length === 3 && start.every((s) => s.module === 'work'), start.map((s) => s.id).join());
+  assert.equal(start[0].level, 'B2', 'the closest level first');
+  // A1 with a work goal: the work scenarios (a small stretch) before travel ones that fit (student-58).
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A1', goals: ['work'] })[0].module, 'work');
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['everyday'] })[0].module, 'social');
+  const ids = ['airport', 'hotel', 'emergency', 'transport', 'restaurant', 'shopping', 'social', 'work'];
+  assert.deepEqual(moduleOrder(ids, ['work']).slice(0, 2), ['work', 'airport']);
+  assert.deepEqual(moduleOrder(ids, ['conversation', 'work']).slice(0, 3), ['social', 'work', 'airport']);
+  assert.deepEqual(moduleOrder(ids, []), ids);
+  const work = byFit(scenarios.filter((s) => s.module === 'work'), 'B2').map((s) => s.level);
+  assert.deepEqual(work, ['B2', 'B2', 'B1', 'B1', 'A2', 'A2'], 'at the level, then just below, then far below');
+  assert.ok(fitRank('B2', 'B2') < fitRank('B1', 'B2') && fitRank('B1', 'B2') < fitRank('A2', 'B2') && fitRank('A2', 'B2') < fitRank('C1', 'B2'));
+});
+
+test('the next scenario after a B2 work scenario is a B2 or B1 work scenario (RW-9)', () => {
+  const dis = scenarios.find((s) => s.id === 'rl-work-disagree-politely');
+  const next = nextScenario(scenarios, dis, { courseLevel: 'B2', goals: ['work'], done: new Set([dis.id]) });
+  assert.equal(next.module, 'work');
+  assert.ok(['B1', 'B2'].includes(next.level), next.id);
+  const all = new Set(scenarios.filter((s) => s.module === 'work' && s.level !== 'A2').map((s) => s.id));
+  assert.equal(nextScenario(scenarios, dis, { courseLevel: 'B2', goals: ['work'], done: all }).level, 'A2', 'lower levels only when the closer ones are done');
 });

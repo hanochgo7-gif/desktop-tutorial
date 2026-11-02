@@ -856,6 +856,8 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .check-label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; text-align: left; cursor: pointer; }
 .check-label > input { margin: 0.3em 0 0; inline-size: 1.1rem; block-size: 1.1rem; accent-color: var(--cobalt); }
 .check-label .bi-he { text-align: right; }
+/* Real life (RW-9): for everyday and conversation goals, Expressions sits in the start strip. */
+.start-here .start-expr { margin-block-start: var(--s2); }
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }
