@@ -85,11 +85,11 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 19 files) | 154 of 154 pass |
+| Unit (`npm test`, 20 files) | 160 of 160 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
-| Browser end-to-end (`tests/e2e/run.mjs`) | 54 of 54 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
-| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 27 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
+| Browser end-to-end (`tests/e2e/run.mjs`) | 55 of 55 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
+| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 28 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
 | Content validator | 75 lessons and every content file: 0 errors, 0 warnings (including the checks for split brackets and quote marks and for answer-length cues) |
 | Performance (throttled 1.6 Mbps, 150 ms, 4x CPU, no compression) | first visit to Welcome ready in about 2.9 s, 374 KB uncompressed (GitHub Pages serves it compressed); repeat visits and offline use come from the service worker |
 
