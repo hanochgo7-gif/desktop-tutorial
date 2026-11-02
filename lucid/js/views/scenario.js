@@ -1,6 +1,6 @@
 // One real-life scenario: prepare (phrases), listen (model dialogue), practise (scripted turns that
 // work with no AI), and roleplay with an AI partner plus an end-of-conversation report.
-import { html, render, on, $, shuffle, uid } from '../core/util.js';
+import { html, render, on, $, $$, shuffle, uid } from '../core/util.js';
 import { tt, bi, legend, hebrewSupport, isolateLatin, SUPPORT_BY_LEVEL } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
@@ -38,8 +38,9 @@ export default async function scenarioView(el, ctx) {
   let tab = ctx.query.tab || 'prepare';
   const variant = settings().english_variant === 'any' ? undefined : settings().english_variant;
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
-  // practise state
-  let ti = 0; let picked = null; let typed = ''; let typedResult = null; let results = [];
+  // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
+  let ti = 0; let picked = null; let checked = false; let typed = ''; let typedResult = null; let results = [];
+  let ownOpen = false; let othersOpen = false;
   const turnOrder = s.practice.map((t) => ({ ...t, options: shuffle(t.options, t.partner.length / 100) }));
   // roleplay state
   let chat = null; let busy = false; let report = null; let rpError = ''; let stuck = false;
@@ -64,9 +65,12 @@ export default async function scenarioView(el, ctx) {
     ${s.culture?.length ? html`<section class="stack-sm"><h2 class="small">${tt('טיפים תרבותיים', 'Culture tips')}</h2>${s.culture.map((c) => html`<div class="block-tip">${bi(c, { always: hebrewSupport() !== 'off' })}</div>`)}</section>` : ''}
     <div class="row"><button type="button" class="key enter" data-tab="listen">${tt('לשיחה לדוגמה', 'To the model dialogue')}</button></div></div>`;
 
+  // A play key inside a chat bubble: the shared icon key, at least 44 x 44 px under a coarse pointer (RW-1).
+  const sayKey = (text) => html`<button type="button" class="key ghost small icon-only say-key" data-say-text="${text}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 16 })}</button>`;
+
   const listenTab = () => html`<div class="stack" style="max-width:46rem">
     ${canSpeak() ? html`<div class="row"><button type="button" class="key" data-play-all>${icon('play', { size: 18 })} ${tt('להשמיע את כל השיחה', 'Play the whole conversation')}</button></div>` : ''}
-    <div class="chat" style="height:auto;min-height:0"><div class="chat-log">${s.model_dialogue.map((l) => html`<div class="msg ${l.speaker === 'you' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${l.speaker === 'you' ? tt('את/ה', 'You') : s.partner_role}</span>${l.text}${canSpeak() ? html` <button type="button" class="key ghost small icon-only" data-say-text="${l.text}" aria-label="${tt('השמעה', 'Play')}" style="vertical-align:middle;min-height:1.8rem;width:1.8rem">${icon('volume', { size: 14 })}</button>` : ''}</div>`)}</div></div>
+    <div class="chat" style="height:auto;min-height:0"><div class="chat-log">${s.model_dialogue.map((l) => html`<div class="msg ${l.speaker === 'you' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${l.speaker === 'you' ? tt('את/ה', 'You') : s.partner_role}</span>${l.text}${canSpeak() ? html` ${sayKey(l.text)}` : ''}</div>`)}</div></div>
     <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגל את זה', 'Practise it')}</button></div></div>`;
 
   // After the last turn: how it went, and where to go next. AI roleplay leads only when it can start (P-66).
@@ -93,22 +97,41 @@ export default async function scenarioView(el, ctx) {
       <p class="xsmall faint">${tt('הבדיקה הזו מחפשת רק מילות מפתח. היא לא בודקת דקדוק או אם הניסוח טבעי.', 'This check only looks for key words. It does not check grammar or whether the wording is natural.')}</p></div>`;
   };
 
+  // The verdict for a checked reply: the words, the footer tint and the icon, as in the lesson player.
+  const VERDICT = {
+    best: ['בדיוק', 'Spot on', 'ok', 'check'],
+    ok: ['עובד, אבל יש טבעי יותר', 'It works, but there is a more natural way', 'almost', 'alert'],
+    poor: ['לא מתאים כאן', 'Not right here', 'bad', 'x'],
+  };
+  // The footer is the lesson player's (.player-foot > .inner, a .verdict with role=status, one Enter key), sticky
+  // inside the page and lifted above the phone tab bar by --rw-tabbar-h (RW-1): "Check" before, "Continue" after.
+  const practiseFoot = (chosen) => {
+    if (!chosen) {
+      return html`<div class="player-foot scenario-foot" id="pfoot"><div class="inner"><span class="grow small faint">${picked == null ? tt('בחרו תשובה, ואז ״בדיקה״.', 'Choose a reply, then "Check".') : ''}</span><button type="button" class="key enter" data-check-turn ${picked == null ? html`disabled` : ''}>${tt('בדיקה', 'Check')}</button></div></div>`;
+    }
+    const [he, en, cls, ic] = VERDICT[chosen.verdict] || VERDICT.poor;
+    return html`<div class="player-foot scenario-foot ${cls}" id="pfoot"><div class="inner"><div class="verdict" role="status"><p class="verdict-title">${icon(ic, { size: 18 })}<span>${tt(he, en)}</span></p></div><button type="button" class="key enter" data-next-turn>${tt('המשך', 'Continue')}</button></div></div>`;
+  };
+
   const practiseTab = () => {
     if (ti >= turnOrder.length) return practiseDone();
     const t = turnOrder[ti];
-    const chosen = picked != null ? t.options[picked] : null;
-    return html`<div class="stack" style="max-width:46rem">
-      <p class="step-count">${tt(`${ti + 1} מתוך ${turnOrder.length}`, `${ti + 1} of ${turnOrder.length}`)}</p>
-      <div class="msg them" lang="en" dir="ltr" style="max-width:100%"><span class="who">${s.partner_role}</span>${t.partner} ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${t.partner}" aria-label="${tt('השמעה', 'Play')}" style="vertical-align:middle;min-height:1.8rem;width:1.8rem">${icon('volume', { size: 14 })}</button>` : ''}</div>
-      <h2 class="small">${tt('מה הכי טבעי לענות?', 'What is the most natural reply?')}</h2>
-      <div class="options">${t.options.map((o, i) => html`<button type="button" class="option ${picked != null && o.verdict === 'best' ? 'is-right' : ''} ${picked === i && o.verdict !== 'best' ? 'is-wrong' : ''}" data-opt="${i}" ${picked != null ? html`disabled` : ''} lang="en" dir="ltr"><span class="k">${i + 1}</span>${o.text}</button>`)}</div>
-      ${chosen ? html`<div class="explain stack-sm" tabindex="-1" data-explain><p class="xsmall faint">${tt('התשובה שבחרתם:', 'Your reply:')}</p><p class="alt-quote chosen-quote" lang="en" dir="ltr">“${chosen.text}”</p><p><strong>${chosen.verdict === 'best' ? tt('בדיוק', 'Spot on') : chosen.verdict === 'ok' ? tt('עובד, אבל יש טבעי יותר', 'It works, but there is a more natural way') : tt('לא מתאים כאן', 'Not right here')}</strong></p>${bi(chosen.feedback, { always: hebrewSupport() !== 'off' })}
-        <ul class="alt-list">${t.options.filter((o) => o !== chosen).map((o) => html`<li><p class="alt-quote" lang="en" dir="ltr">“${o.text}”</p><div class="xsmall muted">${bi(o.feedback)}</div></li>`)}</ul></div>
-        <div class="panel flat stack-sm"><h3 class="small">${tt('עכשיו בניסוח שלכם', 'Now in your own words')}</h3>
+    const chosen = checked && picked != null ? t.options[picked] : null;
+    const others = chosen ? t.options.filter((o) => o !== chosen) : [];
+    return html`<div class="stack scenario-practise" style="max-width:46rem">
+      <p class="step-count" tabindex="-1" data-step>${tt(`${ti + 1} מתוך ${turnOrder.length}`, `${ti + 1} of ${turnOrder.length}`)}</p>
+      <div class="msg them" lang="en" dir="ltr" style="max-width:100%"><span class="who">${s.partner_role}</span>${t.partner}${canSpeak() ? html` ${sayKey(t.partner)}` : ''}</div>
+      <h2 class="small" id="turn-q">${tt('מה הכי טבעי לענות?', 'What is the most natural reply?')}</h2>
+      <div class="options" role="group" aria-labelledby="turn-q">${t.options.map((o, i) => html`<button type="button" class="option ${chosen && o.verdict === 'best' ? 'is-right' : ''} ${chosen && picked === i && o.verdict !== 'best' ? 'is-wrong' : ''}" data-opt="${i}" aria-pressed="${picked === i}" ${chosen ? html`disabled` : ''} lang="en" dir="ltr"><span class="k">${i + 1}</span>${o.text}</button>`)}</div>
+      ${chosen ? html`<div class="explain stack-sm" tabindex="-1" data-explain><p class="xsmall faint">${tt('התשובה שבחרתם:', 'Your reply:')}</p><p class="alt-quote chosen-quote" lang="en" dir="ltr">“${chosen.text}”</p>${bi(chosen.feedback, { always: hebrewSupport() !== 'off' })}
+        <details class="why-others" data-why-others ${othersOpen ? html`open` : ''}><summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 16 })}</span><span>${chosen.verdict === 'best' ? tt('למה לא האחרות?', 'Why not the others?') : tt('מה עם התשובות האחרות?', 'What about the other replies?')}</span></summary>
+          <ul class="alt-list">${others.map((o) => html`<li><p class="alt-quote" lang="en" dir="ltr">“${o.text}”${o.verdict === 'best' ? html` <span class="tag ok" lang="he" dir="rtl">${tt('הטבעית ביותר', 'Most natural')}</span>` : ''}</p><div class="xsmall muted">${bi(o.feedback)}</div></li>`)}</ul></details></div>
+        <details class="panel flat own-words" data-own-box ${ownOpen ? html`open` : ''}><summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span><span>${tt('לנסות בניסוח שלכם', 'Try it in your own words')}</span></summary>
+          <div class="stack-sm own-words-body">
           <div class="row"><label class="sr-only" for="own-reply">${tt('התשובה שלכם באנגלית', 'Your reply in English')}</label><input class="input grow" id="own-reply" data-own lang="en" dir="ltr" value="${typed}" placeholder="${tt('כתבו או אמרו תשובה משלכם', 'Type or say your own reply')}" autocomplete="off">${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button type="button" class="key" data-own-check>${tt('השוואה', 'Compare')}</button></div>
           ${typedResult ? ownResult(t) : ''}
-        </div>
-        <div class="row"><span class="grow"></span><button type="button" class="key enter" data-next-turn>${tt('המשך', 'Continue')}</button></div>` : ''}
+        </div></details>` : ''}
+      ${practiseFoot(chosen)}
     </div>`;
   };
 
@@ -186,13 +209,22 @@ export default async function scenarioView(el, ctx) {
     const log = $('#rplog', el); if (log) log.scrollTop = log.scrollHeight;
   }
   // Bring a part of the page into view and move focus to it, so a phone user sees what changed (P-65, P-16).
-  const reveal = (sel, { block = 'start' } = {}) => {
+  // always: scroll even when the top is in view (block 'nearest' then moves only as far as needed, RW-1).
+  const reveal = (sel, { block = 'start', always = false } = {}) => {
     const target = $(sel, el);
     if (!target) return;
     target.focus({ preventScroll: true });
     const r = target.getBoundingClientRect();
-    if (r.top < 64 || r.top > innerHeight * 0.55) target.scrollIntoView({ block, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    if (always || r.top < 64 || r.top > innerHeight * 0.55) target.scrollIntoView({ block, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
+  // The practice footer sits above the phone tab bar: its height (it changes with the text size, and is 0 when
+  // the bar is hidden on wide screens) is kept in --rw-tabbar-h (RW-1).
+  const tabbar = document.querySelector('.tabbar');
+  const setTabbarH = () => el.style.setProperty('--rw-tabbar-h', `${tabbar && getComputedStyle(tabbar).display !== 'none' ? tabbar.getBoundingClientRect().height : 0}px`);
+  const tabbarRO = tabbar && typeof ResizeObserver === 'function' ? new ResizeObserver(setTabbarH) : null;
+  tabbarRO?.observe(tabbar);
+  setTabbarH();
+  addEventListener('resize', setTabbarH);
 
   const scenarioPayload = () => ({ title: s.title_en, partner_role: s.partner_role, persona: s.roleplay.persona, complication: s.roleplay.complication, goal: s.goal.en, level: s.level, variant: settings().english_variant });
   const history = () => chat.turns.slice(1).map((t) => ({ role: t.role, text: t.text }));
@@ -241,15 +273,26 @@ export default async function scenarioView(el, ctx) {
     on(el, 'click', '[data-tab]', (e, b) => { stopSpeaking(); tab = b.dataset.tab; draw(); }),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant })),
     on(el, 'click', '[data-play-all]', async () => { for (const l of s.model_dialogue) { const ok = await say(l.text, { variant }); if (!ok) break; } }),
+    // A tap selects (and can change) the reply without grading it; the selection is updated in place, so focus
+    // stays on the tapped option (RW-1).
     on(el, 'click', '[data-opt]', (e, b) => {
-      if (picked != null) return;
+      if (checked) return;
       picked = Number(b.dataset.opt);
-      const v = turnOrder[ti].options[picked].verdict;
-      results[ti] = v;
-      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: v === 'best', score: v === 'best' ? 1 : v === 'ok' ? 0.5 : 0, error_type: v === 'best' ? null : turnOrder[ti].options[picked].error_type || null, response: turnOrder[ti].options[picked].text });
-      draw();
-      reveal('[data-explain]');
+      $$('[data-opt]', el).forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+      const key = $('[data-check-turn]', el); if (key) key.disabled = false;
+      const help = $('#pfoot .grow', el); if (help) help.textContent = '';
     }),
+    on(el, 'click', '[data-check-turn]', (e, b) => {
+      if (b.disabled || checked || picked == null) return;
+      checked = true;
+      const o = turnOrder[ti].options[picked];
+      results[ti] = o.verdict;
+      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: o.verdict === 'best', score: o.verdict === 'best' ? 1 : o.verdict === 'ok' ? 0.5 : 0, error_type: o.verdict === 'best' ? null : o.error_type || null, response: o.text });
+      draw();
+      reveal('[data-explain]', { block: 'nearest', always: true });
+    }),
+    on(el, 'toggle', 'details[data-own-box]', (e, d) => { ownOpen = d.open; if (d.open) $('[data-own]', d)?.focus({ preventScroll: true }); }, true),
+    on(el, 'toggle', 'details[data-why-others]', (e, d) => { othersOpen = d.open; }, true),
     on(el, 'click', '[data-own-check]', () => {
       typed = $('[data-own]', el).value;
       typedResult = checkOwnReply(typed, turnOrder[ti]);
@@ -257,12 +300,12 @@ export default async function scenarioView(el, ctx) {
     }),
     on(el, 'click', '[data-dictate]', async () => { try { const r = await listen({ variant }); typed = r.transcript; draw(); $('[data-own-check]', el)?.click(); } catch (e) { toast(speechErrorText(e)); } }),
     on(el, 'click', '[data-next-turn]', () => {
-      ti++; picked = null; typed = ''; typedResult = null;
+      ti++; picked = null; checked = false; typed = ''; typedResult = null; ownOpen = false; othersOpen = false;
       if (ti >= turnOrder.length) { store.put('progress', { id: `rl:${s.id}`, status: 'completed', completed_at: new Date().toISOString() }); logEvent({ type: 'speaking', scenario: s.id }); }
       draw();
-      reveal(ti >= turnOrder.length ? '[data-done-head]' : '.step-count');
+      reveal(ti >= turnOrder.length ? '[data-done-head]' : '[data-step]');
     }),
-    on(el, 'click', '[data-restart]', () => { ti = 0; picked = null; typed = ''; typedResult = null; results = []; turnOrder.forEach((x) => { x.options = shuffle(x.options); }); draw(); }),
+    on(el, 'click', '[data-restart]', () => { ti = 0; picked = null; checked = false; typed = ''; typedResult = null; ownOpen = false; othersOpen = false; results = []; turnOrder.forEach((x) => { x.options = shuffle(x.options); }); draw(); }),
     on(el, 'change', '[data-tips]', (e, i) => { hebrewTips = i.checked; if (stuck) draw(); }),
     on(el, 'click', '[data-stuck]', () => {
       const draft = $('#rpin', el)?.value || '';
@@ -300,5 +343,5 @@ export default async function scenarioView(el, ctx) {
     }),
     on(el, 'click', '[data-new-rp]', () => { chat = null; report = null; stuck = false; draw(); }),
   ];
-  return () => { offs.forEach((o) => o()); stopSpeaking(); };
+  return () => { offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); };
 }

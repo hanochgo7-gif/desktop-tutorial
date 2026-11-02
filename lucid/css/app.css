@@ -781,6 +781,28 @@ dialog.sheet > .panel { padding: var(--s5); }
 .report-list .report-item { display: grid; gap: 0.1rem; min-width: 0; }
 .report-list .report-item > .bi-he { font-size: 0.94em; }
 
+/* ---- lane real-life-writing: start ---- */
+/* Scenario practice: the lesson player's footer, sticky inside the page and lifted above the phone tab bar
+   (--rw-tabbar-h is measured by scenario.js), with the verdict and one key on one row (RW-1). */
+.scenario-view .scenario-foot { z-index: 5; bottom: var(--rw-tabbar-h, 0px); margin-block-start: var(--s5); }
+.scenario-view .scenario-foot .inner { flex-wrap: nowrap; }
+.scenario-view .scenario-foot .inner > .verdict { flex: 1 1 auto; }
+.scenario-view .scenario-foot .inner > .key { flex: none; }
+@media (max-width: 63.99rem) {
+  .scenario-view .scenario-foot { margin-inline: calc(-1 * var(--s4)); padding-block-end: var(--s3); }
+}
+@media (min-width: 64rem) { .scenario-view .scenario-foot { border-radius: var(--r-key) var(--r-key) 0 0; } }
+.scenario-view [data-explain] { scroll-margin-block-end: 3rem; }
+.scenario-view [data-step]:focus { outline: none; }
+.why-others > summary, .own-words > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-weight: 500; }
+.own-words > summary { color: var(--ink); }
+.own-words[open] > summary { margin-block-end: var(--s2); }
+.why-others[open] > summary { margin-block-end: var(--s1); }
+.alt-quote .tag { vertical-align: 0.1em; margin-inline-start: var(--s1); }
+/* Play keys inside chat bubbles keep the key's own size (44 x 44 px under a coarse pointer). */
+.msg .say-key { vertical-align: middle; margin-inline-start: var(--s1); margin-block: -0.4rem; }
+/* ---- lane real-life-writing: end ---- */
+
 /* Settings: each choice group fills its row, so a last option never sits alone on a line (M10). */
 .settings-view .field { container-type: inline-size; }
 .settings-view .seg { display: flex; width: 100%; }

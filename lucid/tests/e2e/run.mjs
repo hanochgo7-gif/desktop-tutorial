@@ -317,7 +317,9 @@ try {
     await page.waitForSelector('.chat-log .msg');
     await page.click('[data-tab="practise"]');
     await page.click('[data-opt="0"]');
+    await page.click('[data-check-turn]'); // RW-1: a tap selects, "Check" commits
     await page.waitForSelector('.explain');
+    await page.click('[data-own-box] > summary');
     await page.fill('[data-own]', 'Could you help me, please?');
     await page.click('[data-own-check]');
     assert(await page.isVisible('[data-next-turn]'), 'cannot continue the scripted practice');
@@ -1095,18 +1097,20 @@ try {
     await page.waitForSelector('[data-opt]');
     const poor = await page.$$eval('[data-opt]', (bs) => bs.findIndex((b) => /Why do you want to know/.test(b.textContent)));
     await page.click(`[data-opt="${poor}"]`);
+    await page.click('[data-check-turn]'); // RW-1: a tap selects, "Check" commits
     await page.waitForSelector('[data-explain]');
     await page.waitForTimeout(200);
     const seen = await page.evaluate(() => { const e = document.querySelector('[data-explain]'); const r = e.getBoundingClientRect(); return { focused: document.activeElement === e, top: r.top, h: innerHeight }; });
     assert(seen.focused && seen.top >= 0 && seen.top < seen.h * 0.6, `the explanation is not brought into view: ${JSON.stringify(seen)}`);
     const alts = await page.$$eval('.alt-list > li', (x) => x.map((li) => ({ q: li.querySelector('.alt-quote')?.getAttribute('dir'), qd: getComputedStyle(li.querySelector('.alt-quote')).display, fb: Boolean(li.querySelector('.bi')) })));
     assert(alts.length === 2 && alts.every((a) => a.q === 'ltr' && a.qd === 'block' && a.fb), `other replies are not quote and feedback on their own lines: ${JSON.stringify(alts)}`);
+    await page.click('[data-own-box] > summary');
     await page.fill('[data-own]', 'Hi, I work with Dana on the product team. How do you know her?');
     await page.click('[data-own-check]');
     const own = await page.textContent('.panel.flat');
     assert(/שאלה בחזרה|question back/.test(own) && /מחפשת רק מילות מפתח|only looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
     for (let i = 0; i < 8 && await page.$('[data-next-turn], [data-opt]:not([disabled])'); i++) {
-      if (!(await page.$('[data-next-turn]'))) await page.click('[data-opt]:not([disabled])');
+      if (!(await page.$('[data-next-turn]'))) { await page.click('[data-opt]:not([disabled])'); await page.click('[data-check-turn]'); }
       await page.click('[data-next-turn]');
     }
     await page.waitForSelector('[data-done-head]');
@@ -1230,6 +1234,8 @@ try {
     // Placeholders in English fields read right to left in the Hebrew UI until the learner types.
     await page.goto(`${BASE}#/scenario/rl-social-party-small-talk?tab=practise`);
     await page.click('[data-opt="0"]');
+    await page.click('[data-check-turn]');
+    await page.click('[data-own-box] > summary');
     const ph = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
     await page.fill('[data-own]', 'Hello');
     const typed = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
@@ -2015,7 +2021,7 @@ try {
     const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth }; });
     assert(head.lines < 1.6 && head.rows === 1 && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
     await page.click('[data-tab="practise"]');
-    const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); return text; });
+    const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); document.querySelector('[data-check-turn]').click(); return text; });
     await page.waitForSelector('.chosen-quote');
     assert((await page.textContent('.chosen-quote')).includes(picked), 'the chosen reply is not quoted in the explanation');
     // No account yet: both ways in, sign-up first on a device that was never signed in.
