@@ -1,20 +1,28 @@
-// The mark: a house with two windows, one lit and one not — the same room before and after.
-export function LogoMark({ size = 28, className }: { size?: number; className?: string }) {
+import { BRAND, HOUSE_PATH, MARK_BOX, WINDOW_DARK, WINDOW_LIT } from "@/lib/brand";
+
+// The mark from the Canva logo: a house with one lit and one dark window — before and after.
+export function LogoMark({ size = 30, className, onDark = false }: { size?: number; className?: string; onDark?: boolean }) {
+  const blue = onDark ? "#ffffff" : BRAND.blue;
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" className={className}>
-      <rect width="32" height="32" rx="7" fill="var(--color-prussian)" />
-      <path d="M16 6.2 26.2 14.6v10.6H5.8V14.6Z" fill="none" stroke="#fff" strokeWidth="2.1" strokeLinejoin="round" />
-      <rect x="9" y="16.6" width="5.9" height="4.8" rx="1" fill="#fff" />
-      <rect x="17.1" y="16.6" width="5.9" height="4.8" rx="1" fill="#fff" opacity=".38" />
+    <svg
+      width={(size * MARK_BOX.w) / MARK_BOX.h}
+      height={size}
+      viewBox={`0 0 ${MARK_BOX.w} ${MARK_BOX.h}`}
+      aria-hidden="true"
+      className={className}
+    >
+      <path d={HOUSE_PATH} fill={blue} fillRule="evenodd" />
+      <rect x={WINDOW_LIT.x} y={WINDOW_LIT.y} width={WINDOW_LIT.w} height={WINDOW_LIT.h} fill={BRAND.yellow} />
+      <rect x={WINDOW_DARK.x} y={WINDOW_DARK.y} width={WINDOW_DARK.w} height={WINDOW_DARK.h} fill={blue} />
     </svg>
   );
 }
 
-export function Logo({ name }: { name: string }) {
+export function Logo({ name, onDark = false }: { name: string; onDark?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2.5">
-      <LogoMark />
-      <span className="display text-[21px] leading-none font-medium tracking-tight">{name}</span>
+      <LogoMark onDark={onDark} />
+      <span className={`text-[20px] font-bold leading-none tracking-tight ${onDark ? "text-white" : "text-[#093484]"}`}>{name}</span>
     </span>
   );
 }

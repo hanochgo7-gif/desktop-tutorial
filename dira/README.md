@@ -34,6 +34,16 @@ full app on Vercel (below).
 Nothing pretends to work: without credentials, the AI panel, account page and buy buttons say plainly
 that the feature isn't switched on (purchases fall back to WhatsApp, which works today).
 
+## Brand assets
+
+- **Logo** — designed in Canva (design `DAHZvssYAkE`): a house with one lit and one dark window, the same room
+  before and after. The full lockup is `public/brand/dira-ready-logo.png`; the mark is rebuilt as a vector from
+  the Canva geometry in `src/lib/brand.ts` (header, favicon, app icons — regenerate with `npx tsx scripts/build-icons.ts`).
+  Colours: blue `#093484`, daylight yellow `#F9C23A`.
+- **Home-page backgrounds** — `public/bg/hero-*.webp` (sunlit apartment) and `public/bg/dusk-*.webp` (stone
+  building at blue hour), generated with Higgsfield (GPT Image 2.5). They are decorative illustrations and the
+  footer says so; they are never presented as customer results.
+
 ## Run
 
 ```bash

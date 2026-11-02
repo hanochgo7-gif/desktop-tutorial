@@ -14,8 +14,9 @@
   --color-ink-3: #6f7886;
   --color-line: #d7dbe0;
   --color-line-2: #e8eaed;
-  --color-prussian: #1a3a8c;
-  --color-prussian-2: #132c6c;
+  --color-prussian: #093484; /* the logo blue (Canva design) */
+  --color-prussian-2: #07276a;
+  --color-daylight: #f9c23a; /* the lit window in the logo */
   --color-prussian-tint: #e7ecf7;
   --color-stage: #1d1f23;
   --color-stage-2: #2a2d32;
@@ -308,6 +309,38 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Home-page backgrounds (AI-generated illustrations, see the footer note). The bright wall of the
+   room sits behind the headline: in Hebrew the text is on the right, so English mirrors the photo. */
+.hero-photo {
+  object-position: 22% 45%;
+}
+[dir="ltr"] .hero-photo {
+  transform: scaleX(-1);
+}
+.hero-scrim {
+  background:
+    linear-gradient(to bottom, rgb(243 244 245 / 0) 50%, var(--color-paper) 96%),
+    linear-gradient(to left, rgb(243 244 245 / 0.78) 0%, rgb(243 244 245 / 0.5) 42%, rgb(243 244 245 / 0.12) 100%);
+}
+[dir="ltr"] .hero-scrim {
+  background:
+    linear-gradient(to bottom, rgb(243 244 245 / 0) 50%, var(--color-paper) 96%),
+    linear-gradient(to right, rgb(243 244 245 / 0.78) 0%, rgb(243 244 245 / 0.5) 42%, rgb(243 244 245 / 0.12) 100%);
+}
+@media (max-width: 1023px) {
+  .hero-scrim,
+  [dir="ltr"] .hero-scrim {
+    background: linear-gradient(to bottom, rgb(243 244 245 / 0.5) 0%, rgb(243 244 245 / 0.72) 45%, var(--color-paper) 100%);
+  }
+}
+.dusk-scrim {
+  background:
+    linear-gradient(to left, rgb(13 17 26 / 0.82) 0%, rgb(13 17 26 / 0.45) 55%, rgb(13 17 26 / 0.6) 100%);
+}
+[dir="ltr"] .dusk-scrim {
+  background: linear-gradient(to right, rgb(13 17 26 / 0.82) 0%, rgb(13 17 26 / 0.45) 55%, rgb(13 17 26 / 0.6) 100%);
 }
 
 .toast-enter {

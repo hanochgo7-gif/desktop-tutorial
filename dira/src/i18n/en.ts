@@ -441,6 +441,7 @@ const en: Dict = {
   footer: {
     line: "A listing photo studio. Photo correction on your device, AI with labels.",
     notBroker: "We are not real-estate brokers and do not broker property.",
+    bgNote: "Background images on the home page are AI-generated illustrations, not customer work.",
     privacy: "Privacy",
     terms: "Terms",
     contact: "WhatsApp",

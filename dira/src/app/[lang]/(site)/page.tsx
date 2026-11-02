@@ -4,6 +4,7 @@ import { HeroDemo } from "@/components/landing/hero-demo";
 import { HeroDrop } from "@/components/landing/hero-drop";
 import { PricingPlans } from "@/components/pricing-plans";
 import { getDict, isLocale } from "@/i18n";
+import { asset } from "@/lib/site";
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
@@ -14,7 +15,15 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   return (
     <>
       {/* Hero: the product itself — drop a photo, or look at real output. */}
-      <section className="mx-auto grid max-w-[1200px] gap-8 px-4 pb-16 pt-8 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-x-14 lg:gap-y-8 lg:pt-14">
+      <section className="relative isolate overflow-hidden">
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 h-[560px] lg:h-[min(100%,1000px)]">
+          <picture>
+            <source media="(min-width: 900px)" srcSet={asset("/bg/hero-2400.webp")} />
+            <img src={asset("/bg/hero-1280.webp")} alt="" className="hero-photo absolute inset-0 h-full w-full object-cover" fetchPriority="high" decoding="async" />
+          </picture>
+          <div className="hero-scrim absolute inset-0" />
+        </div>
+        <div className="mx-auto grid max-w-[1200px] gap-8 px-4 pb-16 pt-8 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-x-14 lg:gap-y-8 lg:pt-14">
         <HeroDemo
           lang={lang}
           t={t}
@@ -42,6 +51,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </>
           }
         />
+        </div>
       </section>
 
       {/* How it works — a real sequence, so it is numbered. */}
@@ -154,7 +164,14 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       </section>
 
       {/* Final call to action: the same drop zone. */}
-      <section className="bg-stage text-white">
+      <section className="relative isolate overflow-hidden bg-stage text-white">
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <picture>
+            <source media="(min-width: 900px)" srcSet={asset("/bg/dusk-2400.webp")} />
+            <img src={asset("/bg/dusk-1280.webp")} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
+          </picture>
+          <div className="dusk-scrim absolute inset-0" />
+        </div>
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-2">
           <div>
             <h2 className="display text-[38px] sm:text-[48px]">{L.finalTitle}</h2>

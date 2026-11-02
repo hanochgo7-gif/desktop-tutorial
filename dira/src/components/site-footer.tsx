@@ -11,6 +11,7 @@ export function SiteFooter({ lang, t }: { lang: Locale; t: Dict }) {
           <Logo name={t.brand.name} />
           <p className="mt-4 text-[15px] text-ink-2">{t.footer.line}</p>
           <p className="mt-2 text-[13px] text-ink-3">{t.footer.notBroker}</p>
+          <p className="mt-1 text-[13px] text-ink-3">{t.footer.bgNote}</p>
         </div>
         <nav className="flex flex-wrap content-start gap-x-6 gap-y-3 text-[15px] text-ink-2 md:justify-end" aria-label="footer">
           <Link href={`/${lang}/studio`} className="hover:text-ink">{t.nav.studio}</Link>

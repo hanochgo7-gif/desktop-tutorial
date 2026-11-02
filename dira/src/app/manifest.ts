@@ -10,7 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: asset("/he/studio/"),
     display: "standalone",
     background_color: "#f3f4f5",
-    theme_color: "#1a3a8c",
+    theme_color: "#093484",
     lang: "he",
     dir: "rtl",
     icons: [

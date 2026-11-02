@@ -27,11 +27,11 @@ export function HeroDemo({ lang, t, intro, action }: { lang: Locale; t: Dict; in
         dir={dir}
         fit="cover"
         priority
-        className="aspect-[4/3] w-full rounded-[var(--radius-photo)] bg-stage shadow-[var(--shadow-lift)]"
+        className="aspect-[4/3] w-full rounded-[var(--radius-photo)] bg-stage shadow-[0_2px_6px_rgb(20_25_34/0.12),0_24px_60px_-20px_rgb(20_25_34/0.45)] ring-1 ring-white/70"
       />
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[13.5px] text-ink-3">{t.landing.demoCaption}</p>
-        <div className="segmented" role="tablist" aria-label={t.landing.samples}>
+        <p className="rounded-md bg-paper/85 px-2 py-1 text-[13.5px] text-ink-2 backdrop-blur-sm">{t.landing.demoCaption}</p>
+        <div className="segmented max-w-full overflow-x-auto shadow-[0_1px_2px_rgb(20_25_34/0.08)] [&>button]:whitespace-nowrap" role="tablist" aria-label={t.landing.samples}>
           {demo.map((d, k) => (
             <button key={d.id} type="button" role="tab" aria-selected={k === i} onClick={() => setI(k)}>
               {t.landing.sampleNames[k]}

@@ -53,11 +53,7 @@ async function main() {
     .jpeg({ quality: 84, mozjpeg: true })
     .toFile("public/og.jpg");
 
-  const mark = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1a3a8c"/><path d="M16 6.2 26.2 14.6v10.6H5.8V14.6Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/><rect x="9" y="16.6" width="5.9" height="4.8" rx="1" fill="#fff"/><rect x="17.1" y="16.6" width="5.9" height="4.8" rx="1" fill="#fff" opacity=".38"/></svg>`;
-  writeFileSync("public/icon.svg", mark);
-  await sharp(Buffer.from(mark)).resize(180, 180).png().toFile("public/apple-icon.png");
-  await sharp(Buffer.from(mark)).resize(512, 512).png().toFile("public/icon-512.png");
-  await sharp(Buffer.from(mark)).resize(192, 192).png().toFile("public/icon-192.png");
+  // App icons come from scripts/build-icons.ts (the Canva logo mark).
   console.log(JSON.stringify(out.map((o) => ({ id: o.id, changes: o.changes })), null, 0));
 }
 main();
