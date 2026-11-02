@@ -9,15 +9,17 @@ const FORMAL_LEVELS = new Set(['B2', 'C1', 'C2']);
 
 // Common learner errors. Each: pattern, error type, short title and why (EN/HE), and a suggestion.
 const PATTERNS = [
-  { re: /(^|[.!?]\s+|\s)i(?=\s|'m|'ve|'ll|'d)/g, type: 'capitalization', title: 'Capital I', he_title: 'I גדולה', en: 'The pronoun I is always a capital letter.', he: 'הכינוי I נכתב תמיד באות גדולה.', fix: (m) => m.replace(/i$/, 'I') },
+  // Only the "i" is quoted, not the full stop and space before it (RW-2, student-58).
+  { re: /(?<=^|[.!?]\s+|\s)i(?=\s|'m|'ve|'ll|'d)/g, type: 'capitalization', title: 'Capital I', he_title: 'I גדולה', en: 'The pronoun I is always a capital letter.', he: 'הכינוי I נכתב תמיד באות גדולה.' },
   { re: /\b(I|we|they|you)\s+(am|are|'m|'re)\s+agree\b/gi, type: 'word-choice', title: 'agree is a verb', he_title: 'agree הוא פועל', en: 'Say "I agree", not "I am agree".', he: 'אומרים I agree, בלי am.' },
   { re: /\b(informations|advices|furnitures|equipments|homeworks|knowledges|evidences|feedbacks|luggages|baggages)\b/gi, type: 'countability', title: 'Uncountable noun', he_title: 'שם עצם לא ספיר', en: 'This noun is uncountable in English: no -s.', he: 'שם העצם הזה לא ספיר באנגלית, ולכן אין לו s.' },
-  { re: /\bmore\s+(better|worse|bigger|smaller|easier|harder|faster|cheaper|older|younger|happier|larger|higher|lower)\b/gi, type: 'comparison-form', title: 'Double comparative', he_title: 'יתרון כפול', en: 'Use either more or -er, not both.', he: 'משתמשים או ב-more או בסיומת -er, לא בשניהם.' },
+  { re: /\bmore\s+(better|worse|bigger|smaller|easier|harder|faster|cheaper|older|younger|happier|larger|higher|lower)\b/gi, type: 'comparison-form', title: 'Double comparative', he_title: 'השוואה כפולה', en: 'Use either more or -er, not both.', he: 'משתמשים או ב-more או בסיומת er, לא בשניהם.' },
   { re: /\bdepends?\s+(in|of|from)\b/gi, type: 'preposition', title: 'depend on', he_title: 'depend on', en: 'The preposition is on: depends on.', he: 'אחרי depend באה on.' },
   { re: /\bdiscuss(es|ed|ing)?\s+about\b/gi, type: 'preposition', title: 'discuss (no about)', he_title: 'discuss בלי about', en: 'discuss takes a direct object: discuss the problem.', he: 'אחרי discuss לא באה about.' },
   { re: /\bexplain(s|ed)?\s+(me|him|her|us|them)\b/gi, type: 'word-order', title: 'explain to someone', he_title: 'explain to', en: 'Say "explain it to me", not "explain me".', he: 'אומרים explain to me.' },
   { re: /\b(I|he|she|we|they)\s+(have|has)\s+\d+\s+years\b/gi, type: 'false-friend', title: 'Age with be', he_title: 'גיל עם be', en: 'Age uses be: I am 20 (years old).', he: 'גיל מבטאים עם be: I am 20.' },
-  { re: /\bthe\s+people\s+is\b/gi, type: 'agreement', title: 'people is plural', he_title: 'people ברבים', en: 'people is plural: the people are.', he: 'people היא מילה ברבים: the people are.' },
+  // "people was", "the old people is" (RW-2, teacher-bagrut).
+  { re: /\bpeople\s+(is|was|has|does|doesn't|wasn't|isn't)\b/gi, type: 'agreement', title: 'people is plural', he_title: 'people ברבים', en: (m) => `people is plural: people ${PLURAL_BE[m[1].toLowerCase()]}.`, he: (m) => `people היא מילה ברבים: people ${PLURAL_BE[m[1].toLowerCase()]}.` },
   { re: /\bin the other hand\b/gi, type: 'word-choice', title: 'on the other hand', he_title: 'on the other hand', en: 'The expression is "on the other hand".', he: 'הביטוי הוא on the other hand.' },
   { re: /\bon my opinion\b/gi, type: 'preposition', title: 'in my opinion', he_title: 'in my opinion', en: 'The expression is "in my opinion".', he: 'הביטוי הוא in my opinion.' },
   { re: /\bvery much\s+(people|things|cars|time|money|places)\b/gi, type: 'word-choice', title: 'many / a lot of', he_title: 'many / a lot of', en: 'Use many or a lot of before a noun.', he: 'לפני שם עצם משתמשים ב-many או a lot of.' },
@@ -31,6 +33,115 @@ const PATTERNS = [
   { re: /,[ \t]+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', leadInOk: true, lowPrecision: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
   { re: /\s+[,.!?;:](?=\s|$)/g, type: 'punctuation', title: 'Space before punctuation', he_title: 'רווח לפני סימן פיסוק', en: 'No space before a punctuation mark.', he: 'באנגלית אין רווח לפני סימן פיסוק.' },
 ];
+
+// ---------- errors typical of Hebrew speakers (RW-2) ----------
+// Each rule names the error and the right form in one line, in both languages. Rules are deliberately narrow
+// (word lists, a look at the words around the match), so correct English is rarely flagged: every rule has
+// false-positive cases in tests/unit/writing-analyzer.test.mjs. minLevel: not run below that course level.
+const LEVELS = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const PLURAL_BE = { is: 'are', was: 'were', has: 'have', does: 'do', "doesn't": "don't", "wasn't": "weren't", "isn't": "aren't" };
+// Base verbs that are wrong after he / she / it, a singular noun or every / each. Verbs whose past form is the
+// same (cost, put, let, read, cut, set, hit, hurt, quit, shut, spread) are left out: "it cost" can be right.
+const BASE = 'need|want|like|love|hate|know|think|believe|feel|seem|look|sound|mean|make|take|give|get|go|come|do|don\'t|have|say|tell|ask|help|work|live|study|play|try|use|show|include|require|become|depend|keep|pay|run|send|write|leave|bring|offer|provide|create|allow|lose|win|support|teach|learn|spend|grow|deserve|matter|agree|understand|start|finish|change|affect|cause|reduce|increase|improve|prefer|enjoy|remember|forget|speak|talk|call|buy|sell|cook|eat|drink|sleep|drive|walk|travel|visit|watch|see|hear|find|happen|exist|contain|involve|explain|prove|suggest|argue|claim|lead|stay|wait|open|close|plan|hope|wish|carry|fly|cry|apply|worry|study';
+const s3 = (v) => {
+  const w = v.toLowerCase();
+  if (w === "don't") return "doesn't";
+  if (w === 'have') return 'has';
+  if (/(s|x|z|ch|sh|o)$/.test(w)) return `${w}es`;
+  if (/[^aeiou]y$/.test(w)) return `${w.slice(0, -1)}ies`;
+  return `${w}s`;
+};
+// What stops a pronoun + base verb from being an error: a question or negative auxiliary, a modal, a causative
+// or perception verb ("make it work", "let her go", "saw it happen"), "to", a joined subject ("he and she
+// need"), or a subjunctive ("I suggest that he go").
+const NOT_3SG = /(\b(do|does|did|don't|doesn't|didn't|can|can't|cannot|could|couldn't|will|won't|would|wouldn't|should|shouldn't|must|mustn't|may|might|shall|let|lets|let's|make|makes|made|making|help|helps|helped|helping|watch|watched|watching|see|saw|seen|seeing|hear|heard|feel|felt|have|has|had|having|to|not|and|or|nor|than|as|beside|besides|with|for|about|from|of|on|in|at|by|without|into|onto|like|behind|after|before|around|near|under|over|through|against|between|among)\s+$)|(\b(suggest\w*|recommend\w*|insist\w*|demand\w*|requir\w*|request\w*|propos\w*|essential|important|vital|necessary|crucial|urge\w*|ask\w*)\s+(that\s+)?$)/i;
+const AUX_AFTER = '(?!\\s+(is|are|was|were|has|have|had|will|would|can|could|should|must|may|might)\\b)';
+const COMPOUND_AFTER = `${AUX_AFTER}(?!\\s*[,.;:!?)]|\\s+(?:with|of|for|in|on|at|about|from|by|into|than|and|or)\\b)`;
+// Before "every" / "each" or a noun subject: a question auxiliary, a causative, or a preposition (the noun then
+// belongs to a phrase: "Many cities around the world have ...").
+const NOT_SUBJECT = /\b(do|does|did|will|would|can|could|should|must|may|might|make|makes|made|making|let|lets|help|helps|helped|have|has|had|to|in|around|of|from|at|across|throughout|on|for|with|by|near|over|under|between|among|than|like|about|into|without|within|beside|behind)\s+$/i;
+const SING_NOUN = 'student|teacher|person|child|man|woman|school|city|country|study|report|paper|article|author|writer|researcher|friend|boss|manager|user|worker|employee|doctor|parent|system|app|website|book|survey|society|world|internet|technology|program|programme|company';
+const SING_PRONOUN = 'everyone|everybody|someone|somebody|nobody|no one|anyone|everything|something|nothing';
+const DEADLINE = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|tomorrow|tonight|noon|midday|midnight|the end of (?:the )?(?:day|week|month|year)|next (?:week|month|Monday|Tuesday|Wednesday|Thursday|Friday)|\\d{1,2}(?::\\d\\d)?\\s?(?:am|pm|a\\.m\\.|p\\.m\\.|o\'clock)|(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s\\d{1,2})?|the \\d{1,2}(?:st|nd|rd|th)';
+const PARTICIPLE = '\\w+ed|found|made|seen|been|done|gone|written|taken|given|shown|known|said|told|got|gotten|bought|built|come|become|begun|left|lost|met|paid|run|sent|spent|won|had|grown|risen|fallen|chosen|spoken|broken|driven|eaten|drunk|thought|brought|taught|caught|felt|kept|heard|held|sold';
+const PAST_TIME = '(?<!since\\s|until\\s|till\\s)(?:yesterday|(?<!the\\s)last (?:year|week|month|night|summer|winter|spring|autumn|weekend|Monday|Tuesday|Wednesday|Thursday|Friday)|in (?:19|20)\\d\\d|(?:\\d+|two|three|four|five|six|seven|eight|nine|ten|a few|several|many) (?:years?|months?|weeks?|days?|hours?) ago|an? (?:year|month|week|day|hour) ago)';
+const ADJ = 'important|good|great|big|small|new|nice|bad|serious|clear|strong|interesting|difficult|easy|simple|useful|long|short|different|real|major|huge|common|key|central|special|beautiful|old|young|hard|high|low|excellent|wonderful|terrible|perfect|fair|valid|convincing|novel|original|fresh|careful|detailed|critical|essential|significant|popular|famous|modern|safe|dangerous|cheap|expensive|healthy|quick|slow|positive|negative|better|true|bright|smart|honest|hard-working|friendly';
+const COUNT_NOUN = 'thing|problem|idea|question|way|place|job|reading|issue|result|example|solution|decision|step|point|role|part|choice|chance|opportunity|mistake|car|house|city|country|person|man|woman|student|teacher|friend|book|day|change|difference|impact|effect|opinion|argument|claim|goal|plan|story|film|movie|game|test|exam|trip|meeting|factor|answer|method|source|view|approach|conclusion';
+const JOB = 'student|teacher|doctor|engineer|nurse|volunteer|manager|developer|designer|programmer|lawyer|soldier|waiter|waitress|driver|tourist|farmer|singer|writer|cook|chef|pilot|scientist|researcher|journalist|accountant|secretary|cashier|mechanic|electrician|plumber|photographer|architect|dentist|pharmacist';
+// The noun ends its phrase: punctuation or a small word follows ("an important thing to do", "a new reading of").
+const PHRASE_END = '(?=\\s*$|\\s*[.,;:!?)]|\\s+(?:of|for|to|and|but|that|which|who|because|in|on|at|with|about|from|than|if|when|so|or|please|I|we|you|they|he|she|it|the|a|an|this|is|are|was|were|now|today|here|there)\\b)';
+const withArticle = (phrase) => { const first = phrase.split(/\s+/)[0]; return `${articleFor(first) || 'a'} ${phrase}`; };
+const cap = (w) => w.replace(/(^|\s)([a-z])/g, (x, sp, c) => sp + c.toUpperCase());
+// Words that end in -s but are singular, and verbs that often follow "this" ("this shows that ...").
+const SINGULAR_S = new Set(['news', 'means', 'series', 'species', 'perhaps', 'always', 'yes', 'whereas', 'thus', 'has', 'was', 'does', 'is', 'sometimes', 'nowadays', 'afterwards', 'towards', 'besides', 'unless', 'chaos', 'bias', 'gas', 'bus', 'lens', 'canvas', 'atlas', 'christmas', 'plus', 'versus', 'us', 'its', 'his', 'hers', 'ours', 'yours', 'theirs', 'this', 'less']);
+const VERB_S = new Set(['means', 'shows', 'seems', 'makes', 'helps', 'gives', 'leads', 'explains', 'proves', 'depends', 'requires', 'includes', 'allows', 'creates', 'raises', 'reflects', 'affects', 'happens', 'matters', 'works', 'looks', 'sounds', 'feels', 'applies', 'implies', 'indicates', 'demonstrates', 'illustrates', 'highlights', 'remains', 'becomes', 'comes', 'goes', 'takes', 'needs', 'costs', 'saves', 'causes', 'changes', 'puts', 'gets', 'keeps', 'lets', 'says', 'tells', 'brings', 'continues', 'contains', 'involves', 'reduces', 'increases', 'improves', 'supports', 'provides', 'offers', 'ensures', 'presents', 'represents', 'describes', 'argues', 'claims', 'states', 'concludes', 'suggests', 'sets', 'turns', 'starts', 'ends', 'runs', 'follows', 'opens', 'closes', 'moves', 'uses', 'wants', 'lasts', 'fits', 'holds', 'hurts', 'leaves', 'lacks', 'limits', 'adds', 'appears', 'assumes', 'belongs', 'calls', 'counts', 'deserves', 'differs', 'enables', 'explores', 'focuses', 'gains', 'happens', 'ignores', 'lowers', 'misses', 'needs', 'occurs', 'overlooks', 'points', 'produces', 'questions', 'reads', 'reveals', 'risks', 'serves', 'solves', 'stands', 'stays', 'stems', 'strikes', 'tends', 'tests', 'touches', 'treats', 'undermines', 'weakens', 'strengthens', 'contradicts', 'reinforces', 'answers', 'asks', 'builds', 'catches', 'charges', 'cuts', 'deals', 'drives', 'earns', 'feeds', 'finds', 'grows', 'hides', 'invites', 'joins', 'kills', 'knows', 'learns', 'lies', 'lives', 'loses', 'meets', 'pays', 'plays', 'pulls', 'pushes', 'raises', 'reaches', 'rests', 'rises', 'sends', 'shapes', 'shifts', 'signals', 'speaks', 'spends', 'stops', 'teaches', 'thinks', 'tries', 'wins', 'works', 'writes']);
+const PLURAL_NEXT = new Set(['are', 'were', 'have', 'do', "don't", 'can', 'could', 'will', 'would', 'should', 'must', 'may', 'might', 'help', 'make', 'give', 'show', 'need', 'cost', 'allow', 'let', 'mean', 'seem', 'look', 'work', 'take', 'cause', 'become']);
+const NOT_AFTER_THIS_S = new Set(['that', 'the', 'a', 'an', 'to', 'us', 'me', 'you', 'him', 'her', 'them', 'it', 'our', 'their', 'his', 'its', 'my', 'your', 'this', 'these', 'those', 'some', 'many', 'more', 'less', 'no', 'not', 'up', 'out', 'on', 'in', 'for', 'with', 'about', 'into', 'from', 'how', 'why', 'what', 'whether', 'if', 'as', 'by', 'at', 'so', 'clear', 'possible', 'sense', 'people', 'students', 'everyone']);
+// Words that are not names after "I live in" or "my name is" ("I live in peace", "my name is not ...").
+const NOT_NAME = new Set(['a', 'an', 'the', 'my', 'our', 'his', 'her', 'their', 'this', 'that', 'these', 'those', 'here', 'there', 'peace', 'fear', 'hope', 'poverty', 'comfort', 'it', 'home', 'work', 'school', 'town', 'one', 'two', 'not', 'also', 'still', 'just', 'written', 'spelled', 'spelt', 'on', 'in', 'very', 'same', 'different', 'nowhere', 'everywhere', 'harmony', 'debt', 'luxury', 'isolation', 'danger', 'hiding', 'apartment', 'apartments', 'flat', 'flats', 'house', 'houses', 'village', 'city', 'country', 'building', 'dorm', 'dorms', 'dormitory', 'kibbutz', 'moshav', 'north', 'south', 'east', 'west', 'centre', 'center', 'suburbs', 'area', 'neighbourhood', 'neighborhood', 'street', 'place', 'what', 'which', 'where', 'and', 'but', 'so', 'too', 'now', 'today', 'abroad', 'downtown', 'rented', 'student', 'shared', 'big', 'small', 'old', 'new', 'nice', 'quiet', 'such', 'both', 'two', 'all', 'is', 'was', 'unknown', 'far', 'away', 'overseas', 'another', 'other', 'out', 'over', 'outside', 'inside', 'near', 'around', 'tents', 'tent', 'rent', 'hotels', 'hotel']);
+
+const PAST = { seen: 'saw', been: 'was', done: 'did', gone: 'went', written: 'wrote', taken: 'took', given: 'gave', shown: 'showed', known: 'knew', gotten: 'got', begun: 'began', become: 'became', come: 'came', run: 'ran', grown: 'grew', risen: 'rose', fallen: 'fell', chosen: 'chose', spoken: 'spoke', broken: 'broke', driven: 'drove', eaten: 'ate', drunk: 'drank' };
+const pastOf = (participle) => PAST[participle.toLowerCase()] || participle;
+const PLURAL = { child: 'children', man: 'men', woman: 'women', person: 'people', study: 'studies' };
+const AUX_WORDS = new Set(['am', 'is', 'are', 'was', 'were', 'have', 'has', 'had', 'will', 'would', 'can', 'could', 'should', 'must', 'may', 'might', 'shall']);
+const PAST_VERB = new Set(['went', 'did', 'saw', 'had', 'made', 'took', 'came', 'got', 'said', 'felt', 'thought', 'knew']);
+// The opener (a negative word or a question word), then the auxiliary, then the subject: "Rarely do we …",
+// "Never have I …", "Why should we …", "Where did you …".
+function inverted(opener, subj, next = '') {
+  const s = subj === 'I' ? 'I' : subj.toLowerCase();
+  const n = next.toLowerCase();
+  if (AUX_WORDS.has(n)) return `${opener} ${n} ${s} …`;
+  if (PAST_VERB.has(n) || /ed$/.test(n)) return `${opener} did ${s} …`;
+  const aux = n === 'does' || /^(he|she|it|this|the government)$/.test(s) ? 'does' : 'do';
+  return `${opener} ${aux} ${s}${n && !['do', 'does'].includes(n) ? ` ${n}` : ''} …`;
+}
+
+// Each rule has a one-line explanation in both languages and, in ex, the right form for the words it found, which
+// the UI shows on its own left-to-right line (so an English example never splits a Hebrew sentence).
+export const L1_PATTERNS = [
+  // Third person -s: "it need", "she want", "every school need", "the study show", "everyone know".
+  { re: new RegExp(`\\b(he|she|it)\\s+(${BASE})\\b${AUX_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_3SG, skipPair: /^it like$/i, title: 'Verb after he / she / it', he_title: 'פועל אחרי he / she / it', en: 'After he, she or it, the verb takes -s.', he: 'אחרי he, she או it מוסיפים s לפועל.', ex: (m) => `${m[1]} ${s3(m[2])}` },
+  { re: new RegExp(`\\b(every|each)\\s+([a-z]+)\\s+(${BASE})\\b${COMPOUND_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_SUBJECT, title: 'every / each + verb with -s', he_title: 'every / each ופועל עם s', en: 'every and each take a singular verb, with -s.', he: 'אחרי every או each הפועל ביחיד, עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
+  { re: new RegExp(`\\b(a|an|the|this|that|my|his|her|our|your|one)\\s+(${SING_NOUN})\\s+(${BASE})\\b${COMPOUND_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_SUBJECT, title: 'Singular subject, verb with -s', he_title: 'נושא ביחיד, פועל עם s', en: 'A singular subject takes a verb with -s.', he: 'נושא ביחיד מקבל פועל עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
+  { re: new RegExp(`\\b(${SING_PRONOUN})\\s+(${BASE})\\b${AUX_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_3SG, skipPair: / like$/i, title: 'everyone + verb with -s', he_title: 'everyone ופועל עם s', en: 'Words like everyone and nobody are singular in English, so the verb takes -s.', he: 'מילים כמו everyone ו-nobody הן ביחיד באנגלית, ולכן הפועל מקבל s.', ex: (m) => `${m[1]} ${s3(m[2])}` },
+  { re: /(?<=^|[.!?]\s+|\n)([A-Z][a-z]+ing)\s+(give|make|take|mean|cause|allow|teach|require|become|keep|bring|provide|create|improve|reduce|seem|lead|let)\b/g, type: 'agreement', l1: true, skipWord: /^(During|Being|Having|Including|Regarding|Concerning|According|Following|Considering|Something|Nothing|Everything|Anything|Morning|Evening|Spring|King|Thing|Building|Notwithstanding|Pending|Excluding)$/, title: 'An -ing subject is singular', he_title: 'נושא עם ing הוא ביחיד', en: 'An -ing subject is singular, so the verb takes -s.', he: 'נושא שהוא פעולה (ing) נחשב ליחיד, ולכן הפועל מקבל s.', ex: (m) => `${m[1]} ${s3(m[2])}` },
+  // Spelling Hebrew speakers carry over from chat: alot, dont, doesnt, didnt, cant.
+  { re: /\b(alot|dont|doesnt|didnt|cant|isnt|arent|wasnt|werent|havent|hasnt|couldnt|wouldnt|shouldnt)\b/gi, type: 'spelling', l1: true, title: 'Spelling', he_title: 'כתיב', en: (m) => (/^alot$/i.test(m[1]) ? 'Two words.' : 'With an apostrophe.'), he: (m) => (/^alot$/i.test(m[1]) ? 'כותבים בשתי מילים.' : 'כותבים עם אפוסטרוף.'), ex: (m) => (/^alot$/i.test(m[1]) ? 'a lot' : m[1].replace(/nt$/i, "n't")) },
+  // their / there before a noun ("there CV", "on there own"); "their is" for "there is".
+  { re: /\bthere\s+(CV|cv|house|home|car|cars|family|friends?|parents|children|kids|job|jobs|lives|own|money|phones?|homework|teachers?|names?|room|rooms|opinions?|country|city|company|boss|team|ideas?|dog|mother|father|mom|mum|dad|work)\b/g, type: 'word-choice', l1: true, notAfter: /\b(is|are|was|were|isn't|aren't|wasn't|weren't|be|been|being|will|would|could|might|may|can|not|any|no|'s)\s+$/i, title: 'their or there', he_title: 'their או there', en: 'their means belonging to them; there is a place, or there is / there are.', he: 'their פירושו ״שלהם״. there פירושו ״שם״, או ״יש״ ב-there is / there are.', ex: (m) => `their ${m[1]}` },
+  { re: /\btheir\s+(is|are|was|were)\b/gi, type: 'word-choice', l1: true, title: 'there is / there are', he_title: 'there is / there are', en: '"There is" and "there are" say that something exists; their means belonging to them.', he: '״יש״ באנגלית הוא there is / there are. their פירושו ״שלהם״.', ex: (m) => `there ${m[1]}` },
+  // for + base verb for a purpose: "for find a job" (כדי למצוא).
+  { re: /\bfor\s+(find|get|buy|make|learn|see|do|go|have|improve|meet|save|earn|keep|take|build|read|write|understand|know|become|visit|practise|say|tell|give|bring|spend|choose|prepare|check|finish|ask|apply|pass|reach|feel|avoid|reduce|increase|protect|stay|live|speak)\b(?!\s*[-'])/gi, type: 'verb-form', l1: true, title: 'to + verb for a purpose', he_title: 'כדי ל... = to', en: 'To say why (in order to), use to + verb, not for.', he: 'כדי להגיד ״כדי ל...״ כותבים to ואחריו פועל, לא for.', ex: (m) => `to ${m[1].toLowerCase()}` },
+  // Although ..., but ... (אף על פי ש... אבל).
+  { re: /\b(although|even though|though)\s+[^.!?;,]{3,},\s*but\b/gi, type: 'conjunction', l1: true, minLevel: 'A2', pick: (m) => `${m[1]} …, but`, title: 'Although … but', he_title: 'Although בלי but', en: 'Use although or but, not both.', he: 'באנגלית בוחרים אחד: although או but, לא את שניהם.', ex: 'Although it is cheap, it is slow.' },
+  // until for a deadline (עד = by): "fix the bug until Thursday".
+  // "won't be ready until Friday" and "can't finish until Thursday" (not before) are right, so a negative is skipped.
+  { re: new RegExp(`\\b(finish(?:ed)?|send|sent|submit|fix|deliver|complete|return|pay|hand in|prepare|done|ready|reply|answer|confirm|decide|book|order)\\b(?:(?!n't|\\bnot\\b|\\bnever\\b)[^.!?\\n]){0,40}?\\buntil\\s+(${DEADLINE})\\b`, 'gi'), type: 'preposition', l1: true, minLevel: 'A2', notAfter: /(n't|\bnot|\bnever|\bno)\s+(?:be\s+|been\s+|get\s+)?$/i, pick: (m) => `until ${m[2]}`, title: 'by for a deadline', he_title: 'by למועד אחרון', en: 'For a deadline (no later than), use by. until means the whole time up to then.', he: 'למועד אחרון (לא יאוחר מ-) כותבים by. until פירושו כל הזמן עד אז.', ex: (m) => `by ${m[2]}` },
+  // Email formulas translated word for word.
+  { re: /\bI(?:\s+will|'ll)\s+be\s+(happy|glad)\s+if\s+(you|we)\b/gi, type: 'word-choice', l1: true, minLevel: 'A2', title: "I'd be grateful if", he_title: 'אשמח אם', en: '"I will be happy if" is a word-for-word translation from Hebrew. A polite request:', he: 'זה תרגום מילולי של ״אשמח אם״. כך מבקשים בנימוס:', ex: "I'd be grateful if you could… / Could you…?" },
+  { re: /\b(I am|I'm)\s+writ(ing|e)\s+you\b/gi, type: 'preposition', l1: true, minLevel: 'A2', title: 'writing to you', he_title: 'writing to you', en: 'write takes to before the person.', he: 'אחרי write באה to לפני האדם.', ex: (m) => `${m[1]} writing to you` },
+  // A finished past time with the present perfect: "has found in 2021", "In 2021, Okafor has found".
+  { re: new RegExp(`\\b(have|has|'ve)\\s+(${PARTICIPLE})\\b([^.!?;,()\\n]{0,40}?\\b${PAST_TIME})`, 'gi'), type: 'tense', l1: true, minLevel: 'A2', notAfter: /\b(would|could|should|might|must|may|will|to)\s+(not\s+)?$/i, title: 'Past time: past simple', he_title: 'זמן שהסתיים: past simple', en: 'With a finished time (yesterday, in 2021, two years ago), use the past simple.', he: 'עם זמן שהסתיים (yesterday, in 2021, two years ago) משתמשים ב-past simple.', ex: (m) => `${pastOf(m[2])}${m[3]}` },
+  { re: new RegExp(`(?<=^|[.!?]\\s+|\\n)((?:In (?:19|20)\\d\\d|Yesterday|Last (?:year|week|month|night)|\\d+ (?:years?|months?|weeks?|days?) ago),?\\s+[^.!?;\\n]{0,40}?)\\b(?:have|has)\\s+(${PARTICIPLE})\\b`, 'g'), type: 'tense', l1: true, minLevel: 'A2', title: 'Past time: past simple', he_title: 'זמן שהסתיים: past simple', en: 'With a finished time (yesterday, in 2021, two years ago), use the past simple.', he: 'עם זמן שהסתיים (yesterday, in 2021, two years ago) משתמשים ב-past simple.', ex: (m) => `${m[1]}${pastOf(m[2])}` },
+  // A negative opener without inversion: "Rarely we see" (Rarely do we see), "Never I have seen" (Never have I seen).
+  { re: /(?<=^|[.!?]\s+|\n)(Rarely|Seldom|Never|Hardly ever|Only then|Under no circumstances|Nowhere|Not once|At no time)\s+(we|I|you|they|he|she|it|people|this|the|students|governments?)\b(?!\s*,)(?:\s+([a-z']+))?/g, type: 'word-order', l1: true, minLevel: 'B1', pick: (m) => `${m[1]} ${m[2]}`, title: 'Inversion after Rarely / Never', he_title: 'היפוך אחרי Rarely / Never', en: 'After a negative opener, the auxiliary comes before the subject.', he: 'אחרי מילת שלילה בפתיחת משפט, פועל העזר בא לפני הנושא.', ex: (m) => inverted(m[1], m[2], m[3]) },
+  // A question in statement order: "Why we should pay for this?".
+  { re: /(?<=^|[.!?]\s+|\n|["“])(Why|What|Where|When|How|Who|Which)\s+(we|I|you|they|he|she|it|people|this|the government|students)\s+(should|can|could|will|would|must|are|is|have|has|need|want|think|go|went|do|did|does)\b[^.!?\n]*\?/g, type: 'word-order', l1: true, pick: (m) => `${m[1]} ${m[2]} ${m[3]}…?`, title: 'Question word order', he_title: 'סדר מילים בשאלה', en: 'In a question, the auxiliary (or do / does / did) comes before the subject.', he: 'בשאלה, פועל העזר (או do / does / did) בא לפני הנושא.', ex: (m) => `${inverted(m[1], m[2], m[3])}?` },
+  // A missing a / an: "it is very important thing", "offers new reading of", "I am student", "I have reservation".
+  { re: new RegExp(`\\b(?:is|was|am|are|be|been|have|has|had|want|wants|need|needs|offer|offers|offered|make|makes|made|get|gets|got|became|become|becomes|found|take|takes|took|give|gives|gave|it's|that's|there's|what's|such)\\s+((?:very\\s+|really\\s+|quite\\s+|so\\s+)?(?:${ADJ})\\s+(?:${COUNT_NOUN}))\\b${PHRASE_END}`, 'gi'), type: 'article', l1: true, pick: (m) => m[1], title: 'a / an before a singular noun', he_title: 'a / an לפני שם עצם ביחיד', en: 'A singular countable noun needs a, an or the.', he: 'שם עצם ספיר ביחיד צריך a, an או the לפניו.', ex: (m) => withArticle(m[1]) },
+  { re: new RegExp(`\\b(?:I am|I'm|I was|he is|she is|he's|she's|he was|she was|you are|you're|my (?:mother|father|sister|brother|friend|wife|husband|partner) is)\\s+(${JOB})\\b${PHRASE_END}`, 'gi'), type: 'article', l1: true, pick: (m) => m[0].trim(), title: 'a / an before a job', he_title: 'a / an לפני מקצוע', en: 'Jobs and roles take a or an.', he: 'לפני מקצוע או תפקיד כותבים a או an.', ex: (m) => m[0].trim().replace(new RegExp(`${m[1]}$`), withArticle(m[1])) },
+  { re: /\b(?:I|we)\s+(?:have|want|need|had|booked|made|would like|'d like)\s+(reservation|booking|ticket|question|problem|appointment|suggestion|request|complaint)\b(?=\s*[.,!?]|\s*$|\s+(?:please|for|from|about|with|under|on|in|at)\b)/gi, type: 'article', l1: true, pick: (m) => m[0].trim(), title: 'a / an before a singular noun', he_title: 'a / an לפני שם עצם ביחיד', en: 'A singular countable noun needs a, an or the.', he: 'שם עצם ספיר ביחיד צריך a, an או the לפניו.', ex: (m) => m[0].trim().replace(new RegExp(`${m[1]}$`), withArticle(m[1])) },
+  // "I want room, please" (but "We have room for two" is right: room = space).
+  { re: /\b(?:I|we)\s+(?:want|need|would like|'d like|booked)\s+(room)\b(?=\s*[.,!?]|\s*$|\s+please\b)/gi, type: 'article', l1: true, pick: (m) => m[0].trim(), title: 'a / an before a singular noun', he_title: 'a / an לפני שם עצם ביחיד', en: 'A singular countable noun needs a, an or the.', he: 'שם עצם ספיר ביחיד צריך a, an או the לפניו.', ex: (m) => m[0].trim().replace(/room$/, 'a room') },
+  // this / these with the wrong number: "this tools", "these kind of".
+  { re: /\bthis\s+([a-z]+s)\b(?:\s+([a-z']+))?/gi, type: 'agreement', l1: true, thisPlural: true, pick: (m) => m[0].split(/\s+/).slice(0, 2).join(' '), title: 'this / these', he_title: 'this / these', en: 'this goes with a singular noun, these with a plural one.', he: 'this בא עם שם עצם ביחיד, ו-these עם רבים.', ex: (m) => `these ${m[1]}` },
+  { re: /\b(these|those)\s+(tool|problem|idea|thing|book|person|kind|type|sort|way|reason|example|question|issue|app|rule|result|study|change|word|day|year|student|child|man|woman|method|source|argument|claim|factor|point)\b(?!['’-])(?!\s+[a-z]+s\b)/gi, type: 'agreement', l1: true, title: 'this / these', he_title: 'this / these', en: 'these and those go with a plural noun.', he: 'these ו-those באים עם שם עצם ברבים.', ex: (m) => `${m[1]} ${PLURAL[m[2].toLowerCase()] || `${m[2]}s`}${/^(kind|type|sort)$/i.test(m[2]) ? ' of' : ''}` },
+  // A name in lower case after "my name is" or "I live in": "my name is yosef", "i live in holon".
+  { re: /\b(?:[Mm]y name is|[Mm]y name's|[Ii] live in|[Ii]'m from|[Ii] am from|[Ii] come from|[Ii] was born in|[Ww]e live in)\s+([a-z][a-z'-]+)(?:\s+([a-z][a-z'-]+)(?=\s*[.,!?]|\s*$))?/g, type: 'capitalization', l1: true, name: true, pick: (m) => [m[1], m[2]].filter(Boolean).join(' '), title: 'Capital letter for names', he_title: 'אות גדולה בשמות', en: 'Names of people and places start with a capital letter.', he: 'שמות של אנשים ומקומות מתחילים באות גדולה.', ex: (m) => cap([m[1], m[2]].filter(Boolean).join(' ')) },
+];
+
+// From stage 8 (critical thinking), sweeping claims are highlighted for the learner to check, not as errors.
+const CLAIMS = { re: /\b(all|every|never|always|everyone|everybody|nobody|no one|nothing|everything|proves?|proved|proven)\b/gi, type: 'claim', soft: true, max: 6, notAfter: /\b(not|almost|nearly|virtually|hardly|at|after|above|of|for|all in)\s+$/i, notBefore: /^all\s+in\s+all\b/i, title: 'Sweeping claim?', he_title: 'טענה גורפת?', en: 'A sweeping word: is it true in every case? Support it with evidence, or limit it (most, often, in this study).', he: 'מילה גורפת: האם זה נכון בכל מקרה? תמכו בראיות, או סייגו (most, often, in this study).' };
 
 const FORMAL_PATTERNS = [
   { re: /\b(don't|doesn't|didn't|can't|won't|isn't|aren't|wasn't|weren't|it's|I'm|we're|they're|you're|I've|we've|I'd|that's|there's|let's|wouldn't|shouldn't|couldn't)\b/gi, type: 'register', title: 'Contraction in formal writing', he_title: 'קיצור בכתיבה רשמית', en: 'In formal essays write the full form: do not, it is.', he: 'בחיבור רשמי כותבים את הצורה המלאה: do not, it is.' },
@@ -65,7 +176,9 @@ const SIGNALS = {
   hedging: /\b(may|might|could|arguably|tends? to|likely|unlikely|suggests?|appears? to|seems? to|to some extent|in some cases)\b/i,
 };
 
-const SUBORDINATE = /^(if|when|whenever|although|though|because|while|whilst|after|before|since|unless|as|once|until|even if|even though|whether|where|wherever)\b/i;
+// "by the time" and the other multi-word subordinators open a clause too ("By the time it started, I had ...");
+// one leading coordinator is skipped first ("But by the time ..., I had", RW-2, student-27).
+const SUBORDINATE = /^(?:(?:and|but|so|or|yet)\s+)?(if|when|whenever|although|though|because|while|whilst|after|before|since|unless|as|once|until|even if|even though|whether|where|wherever|by the time|as soon as|as long as|now that|so that|in case|given that|provided that|the moment|every time)\b/i;
 // A comma after a sentence-initial linker, adverb or short prepositional phrase is correct
 // ("However, this does...", "In 2022, there were...", "According to the report, it is...").
 const LINKER = /^(however|moreover|furthermore|therefore|thus|hence|consequently|nevertheless|nonetheless|conversely|meanwhile|instead|otherwise|similarly|likewise|indeed|still|besides|admittedly|ultimately|overall|today|yesterday|tomorrow|now|then|finally|first|second|third|lastly|next|also|nowadays|anyway|so|yes|no|well|sadly|in (fact|addition|contrast|short|brief|sum|summary|conclusion|particular|general|practice|theory|turn|other words|the end|the meantime|my (view|opinion|experience)|this (case|sense|way|respect))|for (example|instance)|as a result|of course|on the other hand|on the one hand|at the same time|by contrast|on balance|on the whole|by and large|as a rule|after all|above all|even so|that said|having said that|at (first|last)|first of all|all in all|to (sum up|conclude|summari[sz]e|begin( with)?|start with|be (fair|honest)|my mind|some extent|put it simply)|put (simply|briefly|another way)|simply put|(last|next|this|that|every) (year|month|week|weekend|summer|winter|spring|autumn|time|morning|evening|night)|(a|one|two|three|a few|many|several|\d+) (years?|months?|weeks?|days?) (ago|later)|these days|for (this|that|these|those) reasons?|\w+ly)$/i;
@@ -131,7 +244,55 @@ export function splitSignOff(text) {
 // Text types that are not argued: an email or a message gets no argument checks (persona panel Y6).
 export const NOT_ARGUED = new Set(['email', 'message']);
 
-export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null } = {}) {
+// Runs the pattern rules over the text. A match is skipped when it is a known false alarm: a comma after a
+// fronted clause or linker ("If it rains, we will stay"), if + will in an indirect question ("It is unclear if
+// this will last"), the right article, or a word around it that makes it correct (notAfter, notBefore).
+function findIssues(raw, patterns, { level = 'B1' } = {}) {
+  const advanced = ADVANCED.has(level);
+  const li = Math.max(0, LEVELS.indexOf(level));
+  const issues = [];
+  const seen = new Set();
+  const skip = (p, m) => {
+    if (p.leadInOk && leadInOk(raw.slice(sentenceStart(raw, m.index), m.index).trim())) return true;
+    if (p.notAfter && p.notAfter.test(raw.slice(Math.max(0, m.index - 30), m.index))) return true;
+    if (p.notBefore && p.notBefore.test(raw.slice(m.index))) return true;
+    if (p.skipWord && p.skipWord.test(m[1])) return true;
+    if (p.skipPair && p.skipPair.test(`${m[1]} ${m[2]}`)) return true;
+    if (p.article) { const want = articleFor(m[2]); return !want || want === m[1].toLowerCase(); }
+    if (p.thisPlural) {
+      const w = m[1].toLowerCase();
+      // Flagged only when what follows shows a plural ("this tools are", "this tools.").
+      return SINGULAR_S.has(w) || VERB_S.has(w) || /(ss|us|is|ics|ous|'s)$/.test(w) || (m[2] ? !PLURAL_NEXT.has(m[2].toLowerCase()) : !/^\s*([.,;:!?)]|$)/.test(raw.slice(m.index + m[0].length)));
+    }
+    if (p.name) return NOT_NAME.has(m[1].toLowerCase()) || (m[2] && NOT_NAME.has(m[2].toLowerCase()));
+    return false;
+  };
+  for (const p of patterns) {
+    if (p.lowPrecision && advanced) continue;
+    if (p.minLevel && li < LEVELS.indexOf(p.minLevel)) continue;
+    p.re.lastIndex = 0;
+    let m;
+    let count = 0;
+    while ((m = p.re.exec(raw)) && count < (p.max || 3)) {
+      if (m.index === p.re.lastIndex) p.re.lastIndex++;
+      if (skip(p, m)) continue;
+      const match = (p.pick ? p.pick(m) : m[0]).trim();
+      const msg = p.article ? ARTICLE[articleFor(m[2])] : p;
+      const key = `${p.type}:${match.toLowerCase()}`;
+      const say = (x) => (typeof x === 'function' ? x(m) : x);
+      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: msg.title, he_title: msg.he_title, en: say(msg.en), he: say(msg.he), ...(p.ex ? { ex: say(p.ex) } : {}), match, index: m.index, ...(p.l1 ? { l1: true } : {}), ...(p.soft ? { soft: true } : {}) }); }
+      count++;
+    }
+  }
+  return issues;
+}
+
+// The Hebrew-speaker rules alone, for a short reply in a learner's own words (a scenario turn, RW-3).
+export function l1Issues(text, { level = 'B1' } = {}) {
+  return findIssues(String(text || ''), [...PATTERNS.filter((p) => !p.lowPrecision && !p.article && p.type !== 'punctuation'), ...L1_PATTERNS], { level }).sort((a, b) => a.index - b.index);
+}
+
+export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null, stage = 0 } = {}) {
   const { body, references } = splitReferences(text);
   const raw = splitSignOff(body).body;
   const refWords = references ? countWords(references) : 0;
@@ -158,31 +319,7 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   checks.push({ id: 'end', ok: endOk, en: 'The text ends with punctuation', he: 'הטקסט מסתיים בסימן פיסוק' });
   if (words >= 150) checks.push({ id: 'paragraphs', ok: paragraphs.length >= 3, en: `${paragraphs.length} paragraph(s) (aim for 3 or more)`, he: `${paragraphs.length} פסקאות (כדאי 3 לפחות)` });
 
-  const issues = [];
-  const seen = new Set();
-  // Whether a match is a false alarm: a comma after a fronted clause or linker ("If it rains, we will
-  // stay"), if + will in an indirect question ("It is unclear if this will last"), or the right article.
-  const skip = (p, m) => {
-    if (p.leadInOk && leadInOk(raw.slice(sentenceStart(raw, m.index), m.index).trim())) return true;
-    if (p.notAfter && p.notAfter.test(raw.slice(Math.max(0, m.index - 30), m.index))) return true;
-    if (p.article) { const want = articleFor(m[2]); return !want || want === m[1].toLowerCase(); }
-    return false;
-  };
-  for (const p of [...PATTERNS, ...(isFormal ? FORMAL_PATTERNS : [])]) {
-    if (p.lowPrecision && advanced) continue;
-    p.re.lastIndex = 0;
-    let m;
-    let count = 0;
-    while ((m = p.re.exec(raw)) && count < 3) {
-      if (m.index === p.re.lastIndex) p.re.lastIndex++;
-      if (skip(p, m)) continue;
-      const match = m[0].trim();
-      const msg = p.article ? ARTICLE[articleFor(m[2])] : p;
-      const key = `${p.type}:${match.toLowerCase()}`;
-      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: msg.title, he_title: msg.he_title, en: msg.en, he: msg.he, match, index: m.index }); }
-      count++;
-    }
-  }
+  const issues = findIssues(raw, [...PATTERNS, ...L1_PATTERNS, ...(isFormal ? FORMAL_PATTERNS : []), ...(stage >= 8 ? [CLAIMS] : [])], { level });
   const longest = advanced ? 55 : 40;
   lens.forEach((n, i) => { if (n > longest) issues.push({ type: 'punctuation', title: 'Very long sentence', he_title: 'משפט ארוך מאוד', en: `A ${n}-word sentence: consider splitting it for clarity.`, he: `משפט של ${n} מילים: שקלו לפצל אותו.`, match: sentences[i].slice(0, 60) + '…' }); });
   const starts = sentences.map((s) => (s.match(/^[A-Za-z']+/) || [''])[0].toLowerCase()).filter(Boolean);
@@ -209,5 +346,38 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
     connectors,
     structure,
     passedRequired: checks.filter((c) => c.id === 'length' || c.id.startsWith('must:')).every((c) => c.ok),
+  };
+}
+
+// What the automatic checks found, for the status line under the editor and the heading of the checks panel
+// (RW-2, RW-4): failed checks (length first, with the missing words counted) and pattern issues together. It never
+// says "no problems" while a check fails, and it says what is checked, not that the text is correct.
+export function checkSummary(a, { minWords = 0, maxWords = null } = {}) {
+  if (!a) return null;
+  const words = a.stats.words;
+  const short = minWords && words < minWords ? minWords - words : 0;
+  const over = maxWords && words > maxWords * 1.1 ? words - maxWords : 0;
+  const LABEL = {
+    length: short ? [`אורך (חסרות ${short === 1 ? 'מילה אחת' : `${short} מילים`})`, `length (${short} word${short === 1 ? '' : 's'} short)`] : [`אורך (${over} מילים מעל היעד)`, `length (${over} words over)`],
+    caps: ['אות גדולה בתחילת משפט', 'capital letters'],
+    end: ['סימן פיסוק בסוף', 'final punctuation'],
+    paragraphs: ['פסקאות', 'paragraphs'],
+  };
+  const failed = a.checks.filter((c) => !c.ok).map((c) => ({ id: c.id, label: LABEL[c.id] || (c.id.startsWith('must:') ? [`חובה לכלול ${c.id.slice(5)}`, `must include ${c.id.slice(5)}`] : [c.he, c.en]) }));
+  const errors = a.issues.filter((i) => !i.soft);
+  const notes = a.issues.length - errors.length;
+  const titles = [...new Map(errors.map((i) => [i.title, [i.he_title, i.title]])).values()];
+  const items = [...failed.map((f) => f.label), ...titles];
+  const n = failed.length + errors.length;
+  const shown = items.slice(0, 3);
+  const more = items.length - shown.length;
+  const noteHe = notes ? ` ${notes === 1 ? 'מילה גורפת אחת' : `${notes} מילים גורפות`} לבדיקה.` : '';
+  const noteEn = notes ? ` ${notes} sweeping word${notes === 1 ? '' : 's'} to look at.` : '';
+  return {
+    n, short, over, failed: failed.map((f) => f.id), errors: errors.length, notes,
+    he: n ? `${n === 1 ? 'דבר אחד' : `${n} דברים`} לבדוק: ${shown.map((x) => x[0]).join(', ')}${more ? ` ועוד ${more}` : ''}.${noteHe}` : `לא מצאנו אף אחד מהדברים שאנחנו בודקים.${noteHe}`,
+    en: n ? `${n} thing${n === 1 ? '' : 's'} to check: ${shown.map((x) => x[1]).join(', ')}${more ? ` and ${more} more` : ''}.${noteEn}` : `None of the things we check for came up.${noteEn}`,
+    head_he: n ? `מצאנו ${n === 1 ? 'דבר אחד' : n} מהדברים שאנחנו בודקים` : 'לא מצאנו אף אחד מהדברים שאנחנו בודקים',
+    head_en: n ? `We found ${n} of the things we check for` : 'None of the things we check for came up',
   };
 }

@@ -801,6 +801,15 @@ dialog.sheet > .panel { padding: var(--s5); }
 .alt-quote .tag { vertical-align: 0.1em; margin-inline-start: var(--s1); }
 /* Play keys inside chat bubbles keep the key's own size (44 x 44 px under a coarse pointer). */
 .msg .say-key { vertical-align: middle; margin-inline-start: var(--s1); margin-block: -0.4rem; }
+/* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
+.check-item.ok > .icon { color: var(--ok); }
+.check-item.bad { background: var(--warn-tint); }
+.check-item.bad > .icon { color: var(--warn); }
+.checks-head { font-size: var(--t-md); }
+.checks-head:focus:not(:focus-visible) { outline: none; }
+.error-card .en-line { text-align: start; }
+.error-card .issue-ex { font-weight: 500; color: var(--ink); }
+.error-card .issue-head .quote { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
 /* ---- lane real-life-writing: end ---- */
 
 /* Settings: each choice group fills its row, so a last option never sits alone on a line (M10). */

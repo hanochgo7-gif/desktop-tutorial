@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeWriting } from '../../js/core/writing-analyzer.js';
+import { analyzeWriting, checkSummary, l1Issues } from '../../js/core/writing-analyzer.js';
 import { countWords } from '../../js/core/grading.js';
 
 const types = (text, opts) => analyzeWriting(text, opts).issues.map((i) => i.type);
@@ -105,4 +105,174 @@ test('an email gets no argument signals, no formal-register warnings, and its si
   const b = analyzeWriting('It is cheap, yet it is slow. Next, we test it.', { level: 'B1' });
   assert.ok(b.connectors.contrast.includes('yet') && b.connectors.sequence.includes('next'), 'linking "yet" and "Next," still count');
   assert.equal(analyzeWriting(email, { level: 'B2' }).structure.thesis, false, 'an essay still gets the argument signals');
+});
+
+// ---------- RW-2: errors typical of Hebrew speakers, each with false-positive cases ----------
+// Sentences come from the round-3 panels (teacher-bagrut, teacher-academic, student-27, student-58).
+const issuesOf = (text, opts = { level: 'B1' }) => analyzeWriting(text, opts).issues;
+const flags = (text, opts) => issuesOf(text, opts).map((i) => i.match);
+const flagged = (text, want, opts) => { const got = flags(text, opts); assert.ok(got.some((m) => m.toLowerCase().includes(want.toLowerCase())), `"${want}" not flagged in "${text}": ${JSON.stringify(got)}`); };
+// Many short test sentences in a row start the same way: the repeated-opening note is not what is tested here.
+const clean = (text, opts = { level: 'B1' }) => assert.deepEqual(issuesOf(text, opts).filter((i) => i.type !== 'cohesion').map((i) => `${i.type}: ${i.match}`), [], text);
+
+test('RW-2: a singular subject or every / each with a base verb', () => {
+  flagged('I think every school need a volunteering program.', 'every school need');
+  flagged('Each student want a break.', 'each student want');
+  flagged('He work in a bank.', 'he work');
+  flagged('It need more time.', 'it need');
+  flagged('Everyone know the answer.', 'everyone know');
+  flagged('In my class a student write two essays a week.', 'student write');
+  flagged('The study show that it works.', 'study show');
+  flagged('Volunteering give young people a chance.', 'volunteering give');
+  assert.equal(issuesOf('Every school need money.')[0].ex, 'Every school needs');
+  clean('Does she need help? Let it go. Make it work. He and she need rest. Did it happen? We saw it happen. She needs it.');
+  clean('I suggest that he go home. It is essential that she take the test. It cost me ten dollars yesterday. He read the book last week.');
+  clean('The student work is on the wall. My family live in Haifa. Every day students need water. Can it work? Why does he need it?');
+  clean('During work hours we stay inside. Being honest helps. Having a plan is good.');
+});
+
+test('RW-2: people was', () => {
+  flagged('The old people was very kind.', 'people was');
+  flagged('People is friendly here.', 'people is');
+  assert.match(issuesOf('The old people was kind.').find((i) => i.type === 'agreement').en, /people were/);
+  clean('The old people were very kind. Many people\'s homes are small. People have time.');
+});
+
+test('RW-2: alot, dont, doesnt, didnt and cant', () => {
+  for (const [w, fix] of [['alot', 'a lot'], ['dont', "don't"], ['doesnt', "doesn't"], ['didnt', "didn't"], ['cant', "can't"]]) {
+    const i = issuesOf(`I ${w} know.`).find((x) => x.type === 'spelling');
+    assert.ok(i && i.ex === fix, `${w}: ${JSON.stringify(i)}`);
+  }
+  clean("I learned a lot. I don't know. She doesn't care. We didn't go. I can't swim. Dontae is my friend.");
+});
+
+test('RW-2: their / there before a noun, and "their is"', () => {
+  flagged('Volunteering can improve there CV.', 'there CV');
+  flagged('They did it on there own.', 'there own');
+  flagged('Their is a problem.', 'their is');
+  clean('Is there homework today? There is a problem. Are there friends here? Their CV is good. I went there yesterday. Was there money left?');
+});
+
+test('RW-2: for + base verb for a purpose', () => {
+  flagged('They need the time for find a job.', 'for find');
+  flagged('I came here for learn English.', 'for learn');
+  clean('Thanks for your help. I asked for help. It is for you. We waited for hours. For example, it is free. It was just for show. This is good for practice.');
+});
+
+test('RW-2: Although / Though ... but', () => {
+  flagged('Although the scheme is costly, but the savings outweigh it.', 'although');
+  flagged('Even though I was tired, but I went out.', 'even though');
+  clean('Although it rained, we went out. It is cheap, but it is slow. It was good, though, and we stayed.');
+  clean('Although the scheme is costly, the savings outweigh it.', { level: 'C2' });
+});
+
+test('RW-2: until with a deadline (use by)', () => {
+  flagged('Could you fix the bug until Thursday?', 'until Thursday');
+  flagged('I will send you the first part until Wednesday.', 'until Wednesday');
+  flagged('Please submit it until 5 pm.', 'until 5 pm');
+  assert.equal(issuesOf('Could you fix the bug until Thursday?')[0].ex, 'by Thursday');
+  clean("The shop is closed until Monday. I will stay in London until Friday. We waited until 5 pm. I will finish it by Thursday. It won't be ready until Friday. I can't finish the report until Thursday.");
+});
+
+test('RW-2: "I will be happy if" and "I am writing you" in requests', () => {
+  flagged('I will be happy if we can move the deadline.', 'I will be happy if we');
+  flagged("I'll be glad if you could call me.", "I'll be glad if you");
+  flagged('I am writing you about the invoice.', 'I am writing you');
+  clean("I will be happy if it is sunny. I'd be grateful if you could help. I am writing to you about the invoice. I am writing a letter.");
+});
+
+test('RW-2: a finished past time with the present perfect', () => {
+  flagged('Okafor has found in 2021 that green roofs help.', 'has found');
+  flagged('I have visited Rome two years ago.', 'have visited');
+  flagged('In 2021, Okafor has found that green roofs help.', 'In 2021');
+  clean('I have lived here for two years. Prices have risen in the last year. She has worked here since 2021. I found it in 2021. It has been raining since yesterday. I have been to Paris twice.');
+});
+
+test('RW-2: a negative opener without inversion', () => {
+  flagged('Rarely we see such a clear result.', 'Rarely we');
+  flagged('Never I have seen this before.', 'Never I');
+  assert.equal(issuesOf('Rarely we see such a clear result.')[0].ex, 'Rarely do we see …');
+  assert.equal(issuesOf('Never I have seen this before.')[0].ex, 'Never have I …');
+  clean('Rarely do we see such a clear result. Never have I seen this. Never mind. Only then did we understand.');
+  assert.ok(!flags('Rarely we see such a clear result.', { level: 'A2' }).length, 'not run below B1');
+});
+
+test('RW-2: a question in statement order', () => {
+  flagged('Why we should pay for this?', 'Why we should');
+  flagged('Where you went yesterday?', 'Where you went');
+  assert.equal(issuesOf('Why we should pay for this?')[0].ex, 'Why should we …?');
+  assert.equal(issuesOf('Where you went yesterday?')[0].ex, 'Where did you …?');
+  assert.equal(issuesOf('Okafor has found in 2021 that it helps.')[0].ex, 'found in 2021');
+  clean('Why should we pay for this? I asked why we should pay. Why we should pay is clear. How do you know?');
+});
+
+test('RW-2: a missing a / an before an adjective and a singular noun, a job or a request', () => {
+  flagged('It is very important thing for teenagers.', 'very important thing');
+  flagged('This paper offers new reading of the evidence.', 'new reading');
+  flagged('Last year I was volunteer in a hospital.', 'I was volunteer');
+  flagged('I am student.', 'I am student');
+  flagged('I have reservation.', 'I have reservation');
+  flagged('I want room, please.', 'I want room');
+  assert.equal(issuesOf('It is very important thing.')[0].ex, 'a very important thing');
+  assert.equal(issuesOf('It is important thing.')[0].ex, 'an important thing');
+  clean('It is an important thing. This is important information. He is a student. We have room for two more people. It is good news. It makes a big difference. We have good reason to believe it. That is clear evidence. It was great fun.');
+});
+
+test('RW-2: this / these with the wrong number', () => {
+  flagged('This tools are useful.', 'This tools');
+  flagged('I like this shoes.', 'this shoes');
+  flagged('These kind of problems are common.', 'These kind');
+  clean('This shows that it works. This means students learn. This helps us. This process is long. This analysis is clear. This series is good. This works. This bus is late. This boosts sales. These student loans are high. In those days we walked.');
+});
+
+test('RW-2: a name in lower case after "my name is" or "I live in"', () => {
+  const got = flags('my name is yosef cohen. Y-O-S-E-F, C-O-H-E-N. i live in holon.', { level: 'PreA1' });
+  assert.ok(got.includes('yosef cohen') && got.includes('holon'), JSON.stringify(got));
+  assert.match(issuesOf('i live in holon.', { level: 'PreA1' }).find((i) => i.match === 'holon').ex, /^Holon$/);
+  clean('My name is Yosef. My name is not important. I live in a small flat. I live in peace. I am from here. I come from far away. I live in Holon.', { level: 'A1' });
+});
+
+test('RW-2: from stage 8, sweeping claims are highlighted as notes, not errors', () => {
+  const a = analyzeWriting('The study proves that green roofs reduce heat in all buildings. Everyone agrees that this is the best solution.', { level: 'C1', stage: 8 });
+  const notes = a.issues.filter((i) => i.soft).map((i) => i.match.toLowerCase());
+  assert.ok(['proves', 'all', 'everyone'].every((w) => notes.includes(w)), JSON.stringify(notes));
+  assert.ok(!analyzeWriting('Everyone agrees.', { level: 'C1', stage: 7 }).issues.some((i) => i.soft), 'no highlighter before stage 8');
+  assert.ok(!analyzeWriting('Not all buildings benefit. All in all, it helps. It does not help at all.', { level: 'C1', stage: 9 }).issues.some((i) => i.soft), 'hedged or idiomatic words are not highlighted');
+});
+
+test('RW-2: the lesson\'s own "by the time" sentence is not a run-on; a leading coordinator is skipped', () => {
+  clean('But by the time the meeting started, I had written down every step.', { level: 'B2' });
+  clean('By the time we arrived, it was late. And when it rained, we stayed in.', { level: 'B2' });
+  assert.ok(types('The plan is simple, it is cheap.', { level: 'B2' }).includes('punctuation'), 'a real comma splice is still flagged');
+});
+
+test('RW-2: the we-06 sample text (B1) flags at least 10 of its 14 errors, and nothing else', () => {
+  const text = 'Volunteering give young people a chance to grow. I think every school need a volunteering program for teenagers. Last year I was volunteer in a old people\'s home near my house. The old people was very kind to me, and I learned alot from them about life and about patience. It is very important thing for teenagers, because they dont know much about the real world. Volunteering is also more better than sitting at home with a phone all day. In the other hand, some students say that they need the time for find a job and earn money. I am agree that money is important, but volunteering can improve there CV and help them later. I worked there one hour in week, and it was enough for me. I hope that more schools will try it next year.';
+  const errors = ['volunteering give', 'every school need', 'I was volunteer', 'a old', 'people was', 'alot', 'very important thing', 'dont', 'more better', 'In the other hand', 'for find', 'I am agree', 'there CV', 'one hour in week'];
+  const same = (m, e) => m.includes(e.toLowerCase()) || e.toLowerCase().includes(m);
+  const got = issuesOf(text, { level: 'B1' }).map((i) => i.match.toLowerCase());
+  const found = errors.filter((e) => got.some((m) => same(m, e)));
+  assert.ok(found.length >= 10, `only ${found.length} of 14: ${found}`);
+  assert.deepEqual(got.filter((m) => !errors.some((e) => same(m, e))), [], 'flags that are not errors');
+});
+
+test('RW-2: the summary counts failed checks with the issues and never says "no problems"', () => {
+  const a = analyzeWriting('This is short.', { level: 'C1', minWords: 300, maxWords: 400 });
+  const s = checkSummary(a, { minWords: 300, maxWords: 400 });
+  assert.equal(s.n, 1);
+  assert.match(s.he, /חסרות 297 מילים/);
+  assert.match(s.en, /297 words short/);
+  assert.match(s.head_he, /^מצאנו דבר אחד מהדברים שאנחנו בודקים/);
+  assert.ok(!/בעיות/.test(`${s.he} ${s.head_he}`), 'says "problems"');
+  const ok = checkSummary(analyzeWriting('I study at a university. It took an hour.', { level: 'B1' }));
+  assert.equal(ok.n, 0);
+  assert.match(ok.head_he, /לא מצאנו אף אחד מהדברים שאנחנו בודקים/);
+  const many = checkSummary(analyzeWriting('i dont know alot. He work here', { level: 'B1', minWords: 10 }), { minWords: 10 });
+  assert.ok(many.n >= 5 && /ועוד \d+/.test(many.he), many.he);
+});
+
+test('RW-2: l1Issues runs only the Hebrew-speaker rules on a short reply', () => {
+  const got = l1Issues('Hi, I am Miri. I am agree to work with you. Nice to know you.', { level: 'A2' }).map((i) => i.match);
+  assert.ok(got.some((m) => /am agree/i.test(m)), JSON.stringify(got));
+  assert.deepEqual(l1Issues('Sure, I will send it by Thursday', { level: 'B2' }), [], 'no punctuation or capital checks on a reply');
 });

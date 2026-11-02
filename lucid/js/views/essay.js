@@ -5,12 +5,12 @@
 // bands, a hint ladder whose correction opens only after an attempt, the overall level range only on a
 // final draft, and at most three AI rounds per task.
 import { html, render, on, $, debounce } from '../core/util.js';
-import { tt, t, bi, legend, hebrewSupport } from '../core/i18n.js';
+import { tt, t, bi, legend, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, toast, emptyState, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, recordAttempt, logEvent } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { analyzeWriting, splitReferences, NOT_ARGUED } from '../core/writing-analyzer.js';
+import { analyzeWriting, splitReferences, NOT_ARGUED, checkSummary } from '../core/writing-analyzer.js';
 import { countWords } from '../core/grading.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
@@ -123,7 +123,7 @@ export default async function essay(el, ctx) {
   let textKind = task.id === 'free' ? (draftRec?.text_kind || versions().at(-1)?.text_kind || 'essay') : null;
   const kindOf = () => textKind || task.kind || 'essay';
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
-  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf() });
+  const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf(), stage: task.stage || 0 });
   let analysis = text ? analyze() : null;
   let busy = false; let aiError = ''; let aiNote = ''; let busySince = 0; let busyTimer = null;
   let tab = 'checks'; // set below: a draft in revision opens on its AI feedback (persona panel R2-21)
@@ -174,14 +174,26 @@ export default async function essay(el, ctx) {
     const a = analysis;
     const argumentative = (ARGUMENTATIVE.has(kindOf()) || isAssignment) && !NOT_ARGUED.has(kindOf());
     const sig = [['thesis', 'תזה / עמדה', 'Thesis or position'], ['evidence', 'ראיות או דוגמאות', 'Evidence or examples'], ['counter', 'טיעון נגדי', 'Counterargument'], ['rebuttal', 'הפרכה', 'Rebuttal'], ['conclusion', 'סיכום', 'Conclusion']];
+    const sum = checkSummary(a, { minWords, maxWords });
+    const errs = a.issues.filter((i) => !i.soft);
+    const notes = a.issues.filter((i) => i.soft);
+    // The heading says how many of the things checked came up, never "no problems" (RW-2).
     return html`<div class="stack">
-      <div class="check-list">${a.checks.map((c) => html`<div class="check-item">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}</div>
+      <h3 class="small checks-head" tabindex="-1" data-checks-head>${tt(sum.head_he, sum.head_en)}</h3>
+      <div class="check-list">${a.checks.map((c) => html`<div class="check-item ${c.ok ? 'ok' : 'bad'}">${icon(c.ok ? 'check' : 'alert', { size: 16 })}<span>${tt(c.he, c.en)}</span></div>`)}</div>
       ${argumentative ? html`<div class="stack-sm"><h3 class="small">${tt('מבנה הטיעון (סימנים בטקסט)', 'Argument structure (signals in the text)')}</h3>${sig.map(([k, he, en]) => html`<p class="row small">${icon(a.structure[k] ? 'check' : 'circle', { size: 16 })}<span class="${a.structure[k] ? '' : 'faint'}">${tt(he, en)}</span></p>`)}
         <p class="xsmall faint">${tt('הבדיקה מחפשת ביטויים אופייניים (למשל ״However״, ״For example״). היא לא שופטת את איכות הטיעון.', 'This looks for typical phrases (e.g. "However", "For example"). It does not judge how good the argument is.')}</p></div>` : ''}
       <div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small"><span class="tag">${k}</span> <span lang="en" dir="ltr" class="muted">${v.join(', ')}</span></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>
       <p class="small muted">${tt(`${a.stats.sentences} משפטים · אורך ממוצע ${a.stats.avg_sentence} מילים · ${a.stats.paragraphs} פסקאות`, `${a.stats.sentences} sentences · average ${a.stats.avg_sentence} words · ${a.stats.paragraphs} paragraphs`)}</p>
-      ${a.issues.length ? html`<div class="stack-sm"><h3 class="small">${tt('כדאי לבדוק', 'Worth checking')}</h3>${a.issues.slice(0, 12).map((i) => html`<div class="error-card"><p class="small"><span class="tag warn">${tt(i.he_title, i.title)}</span> <span class="quote" lang="en" dir="ltr">${i.match}</span></p><p class="small muted">${hebrewSupport() === 'off' ? i.en : tt(i.he, i.en)}</p></div>`)}</div>` : html`<p class="small">${icon('check', { size: 16 })} ${tt('הבדיקות האוטומטיות לא מצאו בעיות מוכרות.', 'The automatic checks found no known problems.')}</p>`}
+      ${errs.length ? html`<div class="stack-sm"><h3 class="small">${tt('כדאי לבדוק', 'Worth checking')}</h3>${errs.slice(0, 20).map(issueCard)}</div>` : ''}
+      ${notes.length ? html`<div class="stack-sm"><h3 class="small">${tt('מילים גורפות: האם זה נכון בכל מקרה?', 'Sweeping words: is it true in every case?')}</h3>${notes.map(issueCard)}</div>` : ''}
       <p class="xsmall faint">${tt('בדיקות אוטומטיות פשוטות: הן יכולות לפספס טעויות ולפעמים לסמן משהו תקין.', 'Simple automatic checks: they can miss mistakes and occasionally flag correct English.')}</p></div>`;
+  }
+  // One automatic finding: its name, the words it found, and one line on the right form. A Hebrew line keeps its
+  // English in order (isolateLatin); an English line is its own left-to-right block (RW-2, RW-7).
+  function issueCard(i) {
+    const he = uiLang() === 'he' && hebrewSupport() !== 'off';
+    return html`<div class="error-card ${i.soft ? 'style' : ''}"><p class="small issue-head"><span class="tag ${i.soft ? 'cobalt' : 'warn'}">${tt(i.he_title, i.title)}</span> <span class="quote" lang="en" dir="ltr">${i.match}</span></p>${he ? html`<p class="small muted" lang="he" dir="rtl">${isolateLatin(i.he)}</p>` : html`<p class="small muted en-line" lang="en" dir="ltr">${i.en}</p>`}${i.ex ? html`<p class="small en-line issue-ex" lang="en" dir="ltr"><span aria-hidden="true">→ </span><span class="sr-only">${tt('אפשר לכתוב:', 'You could write:')} </span>${i.ex}</p>` : ''}</div>`;
   }
 
   // While a text is being assessed (persona panel P-83): shown under the editor, which stays in view on
@@ -569,8 +581,9 @@ export default async function essay(el, ctx) {
     on(el, 'change', 'input[name=topic]', (e, r) => { chosen = Number(r.value); saveDraft(); draw(); }),
     on(el, 'click', '[data-check]', () => {
       analysis = analyze(); saveVersion(); tab = 'checks'; logEvent({ type: 'writing', exercise: task.id });
-      const n = analysis.issues.length;
-      checkedNote = n ? tt(`הבדיקה מצאה ${n === 1 ? 'דבר אחד' : `${n} דברים`} לבדוק.`, `The check found ${n} thing${n === 1 ? '' : 's'} to look at.`) : tt('הבדיקה לא מצאה בעיות מוכרות.', 'The check found no known problems.');
+      // What the checks found, failed checks first: never "no problems" under a length warning (RW-2).
+      const sum = checkSummary(analysis, { minWords, maxWords });
+      checkedNote = tt(sum.he, sum.en);
       draw(); revealPanel();
     }),
     on(el, 'click', '[data-ai]', (e, b) => { if (!b.disabled) getFeedback(); }),
