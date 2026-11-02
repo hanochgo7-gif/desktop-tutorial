@@ -39,7 +39,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </picture>
           <div className="hero-scrim absolute inset-0" />
         </div>
-        <p className="absolute end-3 top-3 hidden rounded bg-paper/70 px-1.5 py-0.5 text-[11.5px] text-ink-3 backdrop-blur-sm sm:block">{L.bgNote}</p>
+        <p className="absolute end-2 top-2 rounded bg-paper/80 px-1.5 py-0.5 text-[11px] text-ink-3 sm:end-3 sm:top-3 sm:text-[11.5px]">{L.bgNote}</p>
         <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)] gap-7 px-4 pb-14 pt-7 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-x-14 lg:gap-y-7 lg:pb-20 lg:pt-14">
           <HeroDemo
             lang={lang}

@@ -12,6 +12,8 @@ type Props = {
   t: Dict;
   lang: Locale;
   brush: { active: boolean; radius: number; onStroke: (st: Stroke) => void } | null;
+  mode: CompareMode;
+  setMode: (m: CompareMode) => void;
 };
 
 const Icon = ({ d, size = 20 }: { d: string; size?: number }) => (
@@ -20,8 +22,7 @@ const Icon = ({ d, size = 20 }: { d: string; size?: number }) => (
   </svg>
 );
 
-export function Stage({ s, t, lang, brush }: Props) {
-  const [mode, setMode] = useState<CompareMode>("split");
+export function Stage({ s, t, lang, brush, mode, setMode }: Props) {
   const [zoom, setZoom] = useState(1);
   const [full, setFull] = useState(false);
   const photo = s.selected;

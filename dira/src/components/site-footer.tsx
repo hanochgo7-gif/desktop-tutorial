@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Dict, Locale } from "@/i18n";
-import { whatsappLink } from "@/lib/site";
+import { AI_LIVE, whatsappLink } from "@/lib/site";
 import { Logo } from "./logo";
 
 export function SiteFooter({ lang, t }: { lang: Locale; t: Dict }) {
@@ -9,7 +9,7 @@ export function SiteFooter({ lang, t }: { lang: Locale; t: Dict }) {
       <div className="mx-auto grid max-w-[1200px] gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr]">
         <div className="max-w-md">
           <Logo name={t.brand.name} />
-          <p className="mt-4 text-[15px] text-ink-2">{t.footer.line}</p>
+          <p className="mt-4 text-[15px] text-ink-2">{AI_LIVE ? t.footer.line : t.footer.lineSoon}</p>
           <p className="mt-2 text-[13px] text-ink-3">{t.footer.notBroker}</p>
           <p className="mt-1 text-[13px] text-ink-3">{t.footer.bgNote}</p>
         </div>

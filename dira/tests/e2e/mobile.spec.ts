@@ -60,3 +60,26 @@ test("studio on a phone: the photo stays on screen while the panel scrolls", asy
   const tab = (await page.getByRole("tab", { name: "תיקון" }).boundingBox())!;
   expect(tab.height).toBeGreaterThanOrEqual(44);
 });
+
+test("phone export hands plain JPEGs to the share sheet, at most 10 per tap", async ({ page }) => {
+  // Headless Chromium has no share sheet: record what the page would hand to it.
+  await page.addInitScript(() => {
+    const w = window as unknown as { __shared: number[] };
+    w.__shared = [];
+    Object.defineProperty(navigator, "canShare", { value: () => true, configurable: true });
+    Object.defineProperty(navigator, "share", {
+      value: async (d: ShareData) => {
+        w.__shared.push(d.files?.filter((f) => f.type === "image/jpeg").length ?? 0);
+      },
+      configurable: true,
+    });
+  });
+  await page.goto("/he/studio");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await page.locator("input[type=file]").first().setInputFiles(Array.from({ length: 11 }, (_, i) => sample((i % 3) + 1)));
+  await page.getByRole("button", { name: "לשמירה ושליחה של 11 תמונות" }).click({ timeout: 80_000 });
+  await page.getByRole("button", { name: "הכנת 11 תמונות" }).click();
+  await page.getByRole("button", { name: "שמירה או שליחה של תמונות 1–10" }).click({ timeout: 60_000 });
+  await page.getByRole("button", { name: "שמירה או שליחה של תמונה 11" }).click();
+  expect(await page.evaluate(() => (window as unknown as { __shared: number[] }).__shared)).toEqual([10, 1]);
+});

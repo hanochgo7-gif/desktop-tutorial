@@ -254,8 +254,9 @@ export function RemovePanel({
   setView,
 }: PanelProps & { radius: number; setRadius: (r: number) => void; view: "paint" | "result"; setView: (v: "paint" | "result") => void }) {
   const r = photo.recipe!;
-  const working = s.rendering[photo.id] !== undefined;
   const strokes = r.removals;
+  const applied = s.previewOf(photo)?.changes.find((c) => c.kind === "removal")?.count ?? 0;
+  const working = s.rendering[photo.id] !== undefined || (strokes.length > 0 && applied !== strokes.length);
   // Rough area check: brushed length × width relative to the photo.
   const area = strokes.reduce((acc, st) => {
     let len = 0;

@@ -42,6 +42,8 @@ jobs:
           BASE_PATH: /desktop-tutorial/dira
           SITE_URL: https://hanochgo7-gif.github.io/desktop-tutorial/dira
           NEXT_TELEMETRY_DISABLED: "1"
+          # Cookieless analytics switch on once the repository variable PLAUSIBLE_DOMAIN is set.
+          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PLAUSIBLE_DOMAIN }}
         run: |
           npm ci --no-audit --no-fund
           bash scripts/build-static.sh

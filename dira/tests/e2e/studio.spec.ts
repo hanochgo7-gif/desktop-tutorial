@@ -51,7 +51,7 @@ test("erasing: paint a mark, see the result, the change is listed", async ({ pag
   await page.mouse.up();
   // After the stroke the result is shown, not the brush.
   await expect(page.getByRole("tabpanel").getByRole("button", { name: "תוצאה" })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByText(/^נמחק\./)).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText(/^נמחק ✓/)).toBeVisible({ timeout: 30_000 });
   await page.getByRole("tab", { name: "תיקון" }).click();
   await expect(page.getByText("מחקנו 1 חפצים קטנים")).toBeVisible();
 });

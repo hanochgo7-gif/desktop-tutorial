@@ -12,8 +12,9 @@ import { asset } from "@/lib/site";
 type Sample = (typeof demoData)[number];
 type SampleId = "bedroom" | "living" | "kitchen";
 
-// The empty bedroom leads: the most visible change, and it shows the stains we leave in place.
-const ORDER: SampleId[] = ["bedroom", "living", "kitchen"];
+// The living room at night leads (the biggest real change: bulb light, darkness, leaning walls);
+// the empty bedroom follows and shows the stains we leave in place.
+const ORDER: SampleId[] = ["living", "bedroom", "kitchen"];
 const demo = ORDER.map((id) => demoData.find((d) => d.id === id)!).filter(Boolean);
 
 /**

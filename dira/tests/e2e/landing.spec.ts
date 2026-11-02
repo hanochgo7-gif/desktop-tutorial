@@ -44,9 +44,9 @@ test("sample tabs switch the demo with clicks and arrow keys", async ({ page }) 
   await page.getByRole("tab", { name: "Kitchen" }).click();
   await expect(page.locator('img[src="/demo/kitchen-after.jpg"]')).toBeVisible();
   await page.keyboard.press("Home");
-  await expect(page.getByRole("tab", { name: "Empty room" })).toBeFocused();
-  await expect(page.getByRole("tab", { name: "Empty room" })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator('img[src="/demo/bedroom-after.jpg"]')).toBeVisible();
+  await expect(page.getByRole("tab", { name: "Living room" })).toBeFocused();
+  await expect(page.getByRole("tab", { name: "Living room" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator('img[src="/demo/living-after.jpg"]')).toBeVisible();
 });
 
 test("in-page links land below the sticky header", async ({ page }) => {

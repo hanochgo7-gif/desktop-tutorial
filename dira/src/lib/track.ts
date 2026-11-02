@@ -35,10 +35,16 @@ function campaign(): Props {
 }
 
 export function track(event: "upload_start" | "correction_ready" | "download" | "share" | "whatsapp_click", props: Props = {}) {
-  if (typeof window === "undefined") return;
-  const p = (window as unknown as { plausible?: Plausible }).plausible;
-  if (!p) return;
-  p(event, { props: { ...campaign(), ...props, lang: document.documentElement.lang } });
+  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN) return;
+  const w = window as unknown as { plausible?: Plausible & { q?: unknown[] } };
+  // Events fired before the deferred script arrives wait in Plausible's own queue.
+  if (!w.plausible) {
+    const queue: Plausible & { q?: unknown[] } = (...args) => {
+      (queue.q = queue.q || []).push(args);
+    };
+    w.plausible = queue;
+  }
+  w.plausible(event, { props: { ...campaign(), ...props, lang: document.documentElement.lang } });
 }
 
 export const countBucket = (n: number) => (n <= 1 ? "1" : n <= 5 ? "2-5" : n <= 20 ? "6-20" : "21+");

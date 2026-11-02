@@ -18,7 +18,8 @@ export function pageMeta(
   const url = `/${lang}/${p}`;
   const image = { url: `/og-${lang}.jpg`, width: 1200, height: 630, alt: title };
   if (opts.noindex) {
-    return { title, description, robots: { index: false, follow: true } };
+    // Not for search, but their own canonical and share URL — not the home page's (inherited).
+    return { title, description, robots: { index: false, follow: true }, alternates: { canonical: url, languages: {} }, openGraph: { url, title, description, images: [image] } };
   }
   return {
     title: opts.absoluteTitle ? { absolute: title } : title,

@@ -150,12 +150,12 @@ async function derive(base: ImageBitmap, p: Preset, overlay: Overlay, rtl: boole
 }
 
 /** The final full-resolution image of a photo: its active AI version, or the studio correction. */
-export async function finalImage(photo: Photo, onProgress?: (f: number) => void): Promise<{ blob: Blob; changes: Change[]; version?: AiVersion }> {
+export async function finalImage(photo: Photo, onProgress?: (f: number) => void, maxEdge = 8192): Promise<{ blob: Blob; changes: Change[]; version?: AiVersion }> {
   const version = photo.versions.find((v) => v.id === photo.activeVersion);
   if (version) return { blob: version.blob, changes: [], version };
   if (!photo.analysis || !photo.recipe) throw new Error("photo not analysed");
   const r = await renderPhoto(photo.original, photo.analysis, photo.recipe, {
-    maxEdge: 8192,
+    maxEdge,
     quality: 0.95,
     onProgress: (f) => onProgress?.(f),
   });
@@ -207,10 +207,12 @@ export async function exportPhotos(project: Project, photos: Photo[], opts: Expo
   // One format: files sit at the top of the folder. Several: a folder per format, ready to upload.
   const sub = (p: Preset) => (presets.length > 1 ? `${p.folder}/` : "");
   const total = photos.length;
+  // Rendering at full resolution is the slow part; portal or social sizes don't need it.
+  const need = presets.includes("full") ? 8192 : Math.max(...presets.map((id) => PRESETS[id].long ?? Math.max(PRESETS[id].w!, PRESETS[id].h!)));
   opts.onProgress?.(0, total);
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
-    const { blob, changes, version } = await finalImage(photo);
+    const { blob, changes, version } = await finalImage(photo, undefined, need);
     const base = await bitmapOf(blob);
     const overlay: Overlay = {
       staged: version?.tool === "stage" ? opts.overlay.stagedLabel : undefined,

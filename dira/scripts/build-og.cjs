@@ -7,8 +7,8 @@ const path = require("node:path");
 
 const root = path.join(__dirname, "..");
 const b64 = (p) => readFileSync(path.join(root, p)).toString("base64");
-const before = `data:image/jpeg;base64,${b64("public/demo/bedroom-before.jpg")}`;
-const after = `data:image/jpeg;base64,${b64("public/demo/bedroom-after.jpg")}`;
+const before = `data:image/jpeg;base64,${b64("public/demo/living-before.jpg")}`;
+const after = `data:image/jpeg;base64,${b64("public/demo/living-after.jpg")}`;
 const icon = `data:image/svg+xml;base64,${b64("public/icon.svg")}`;
 
 const COPY = {

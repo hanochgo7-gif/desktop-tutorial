@@ -42,7 +42,9 @@ cat > out/index.html <<HTML
 <script>
   (function () {
     var m = document.cookie.match(/(?:^|; )lang=(he|en)/);
-    var lang = m ? m[1] : /^en/i.test(navigator.language || "") ? "en" : "he";
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var lang = m ? m[1] : tz === "Asia/Jerusalem" || /^(he|iw)/i.test(navigator.language || "") ? "he" : /^en/i.test(navigator.language || "") ? "en" : "he";
     location.replace("$BASE_PATH/" + lang + "/" + location.search);
   })();
 </script>

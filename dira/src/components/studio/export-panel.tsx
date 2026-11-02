@@ -43,6 +43,25 @@ function buildManifest(items: ManifestItem[], t: Dict, lang: Locale, projectName
 }
 
 const noop = () => () => {};
+// Chrome on Android hands at most 10 files to the share sheet per tap.
+const SHARE_BATCH = 10;
+
+const presetKey = (listing: string, phone: boolean) => `dira.presets.${listing}.${phone ? "phone" : "computer"}`;
+function loadPresets(listing: string, phone: boolean): PresetId[] | null {
+  try {
+    const v = JSON.parse(localStorage.getItem(presetKey(listing, phone)) ?? "null");
+    return Array.isArray(v) ? v.filter((x): x is PresetId => PRESET_ORDER.includes(x)) : null;
+  } catch {
+    return null;
+  }
+}
+function savePresets(listing: string, phone: boolean, v: PresetId[]) {
+  try {
+    localStorage.setItem(presetKey(listing, phone), JSON.stringify(v));
+  } catch {
+    /* storage blocked: the choice just isn't remembered */
+  }
+}
 
 export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }) {
   const toast = useToast();
@@ -55,34 +74,45 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
 
   const ready = s.photos.filter((p) => p.status === "ready");
   const anyAi = ready.some((p) => p.activeVersion);
-  const [presets, setPresets] = useState<PresetId[]>(sale ? ["portal", "full"] : ["portal"]);
+  // Last time's choice for this kind of listing on this kind of device; otherwise Yad2 only on a
+  // phone (one copy of each photo in the gallery), Yad2 and full size on a computer for sales.
+  const listing = s.project?.listing ?? "rent";
+  const [presets, setPresets] = useState<PresetId[]>(() => loadPresets(listing, phone) ?? (sale && !phone ? ["portal", "full"] : ["portal"]));
   const [scope, setScope] = useState<"current" | "all">(s.photos.length > 1 ? "all" : "current");
   const [originals, setOriginals] = useState(false);
-  const [manifest, setManifest] = useState(sale || anyAi);
+  const [manifest, setManifest] = useState(anyAi);
+  const [saved] = useState(loadBroker);
   const [broker, setBroker] = useState(() => {
-    const saved = loadBroker();
     const p = s.project?.broker;
     return { name: p?.name || saved?.name || "", license: p?.license || saved?.license || "", on: Boolean(saved?.on || p?.license) };
   });
+  // Brokers advertise rentals too: once a licence is saved, the block shows on every listing.
+  const brokerProminent = sale || Boolean(saved?.license);
+  const [sharedBatches, setSharedBatches] = useState<number[]>([]);
   const [busy, setBusy] = useState<{ done: number; total: number } | null>(null);
   const [result, setResult] = useState<ExportResult | null>(null);
 
   // Any change to the choices makes the prepared files stale.
-  // The broker line belongs to sale listings only.
-  const brokerOn = sale && broker.on;
+  const brokerOn = broker.on;
   const key = `${presets.join()}|${scope}|${originals}|${manifest}|${brokerOn}|${broker.name}|${broker.license}|${s.selected?.id}|${ready.length}`;
   const [preparedFor, setPreparedFor] = useState("");
   const fresh = result && preparedFor === key;
 
   const targets = scope === "all" ? ready : s.selected && s.selected.status === "ready" ? [s.selected] : [];
-  const toggle = (id: PresetId) => setPresets((l) => (l.includes(id) ? l.filter((x) => x !== id) : [...l, id]));
+  const toggle = (id: PresetId) =>
+    setPresets((l) => {
+      const next = l.includes(id) ? l.filter((x) => x !== id) : [...l, id];
+      savePresets(listing, phone, next);
+      return next;
+    });
   const imageCount = targets.length * presets.length + (originals ? targets.length : 0);
 
-  const deliver = async (r: ExportResult, how: "download" | "share") => {
+  const deliver = async (r: ExportResult, how: "download" | "share", batch = 0) => {
     if (how === "share") {
-      const files = shareable(r);
+      const files = shareable(r).slice(batch * SHARE_BATCH, (batch + 1) * SHARE_BATCH);
       const res = await shareFiles(files, s.project?.name);
-      track("share", { photos: files.length > 1 ? "many" : "one" });
+      if (res === "shared") setSharedBatches((l) => (l.includes(batch) ? l : [...l, batch]));
+      if (res === "shared") track("share", { photos: files.length > 1 ? "many" : "one" });
       if (res === "failed") toast.show({ text: E.shareFailed, tone: "error" }, 7000);
       return;
     }
@@ -97,10 +127,8 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
     setBusy({ done: 0, total: targets.length });
     try {
       const b = { name: broker.name.trim(), license: broker.license.trim() };
-      if (sale) {
-        saveBroker({ ...b, on: broker.on });
-        if (brokerOn) await s.saveProject({ broker: b });
-      }
+      if (brokerOn || saved) saveBroker({ ...b, on: broker.on });
+      if (brokerOn) await s.saveProject({ broker: b });
       const out = await exportPhotos(
         s.project,
         targets,
@@ -121,6 +149,7 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
       await s.saveProject({ exports: (s.project.exports ?? 0) + 1 });
       setResult(out);
       setPreparedFor(key);
+      setSharedBatches([]);
       // A download can start on its own; the share sheet needs a fresh tap, so phones get a button.
       if (!phone) {
         await deliver(out, "download");
@@ -134,7 +163,32 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
     }
   };
 
+  const brokerBlock = (
+        <div className="rounded-[10px] border border-line-2 p-3">
+          <p className="text-[12.5px] font-semibold text-prussian">{E.brokerFor}</p>
+          <Switch label={E.broker} hint={E.brokerHint} checked={brokerOn} onChange={(on) => setBroker((b) => ({ ...b, on }))} />
+          {brokerOn && (
+            <div className="grid gap-3 pb-1 sm:grid-cols-2 lg:grid-cols-1">
+              <div>
+                <label className="label" htmlFor="b-name">
+                  {E.brokerName}
+                </label>
+                <input id="b-name" className="field" value={broker.name} onChange={(e) => setBroker((b) => ({ ...b, name: e.target.value }))} maxLength={60} autoComplete="organization" />
+              </div>
+              <div>
+                <label className="label" htmlFor="b-lic">
+                  {E.brokerLicense}
+                </label>
+                <input id="b-lic" className="field ltr" inputMode="numeric" value={broker.license} onChange={(e) => setBroker((b) => ({ ...b, license: e.target.value.replace(/[^\d-]/g, "") }))} maxLength={12} />
+              </div>
+              <p className="text-[12.5px] text-ink-3 sm:col-span-2 lg:col-span-1">{E.brokerSaved}</p>
+            </div>
+          )}
+        </div>
+  );
+
   const shareCount = fresh ? shareable(result!).length : 0;
+  const batches = Math.ceil(shareCount / SHARE_BATCH);
 
   return (
     <div className="grid gap-6">
@@ -170,29 +224,7 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
         </fieldset>
       )}
 
-      {sale && (
-        <div className="rounded-[10px] border border-line-2 p-3">
-          <p className="text-[12.5px] font-semibold text-prussian">{E.brokerFor}</p>
-          <Switch label={E.broker} hint={E.brokerHint} checked={brokerOn} onChange={(on) => setBroker((b) => ({ ...b, on }))} />
-          {brokerOn && (
-            <div className="grid gap-3 pb-1 sm:grid-cols-2 lg:grid-cols-1">
-              <div>
-                <label className="label" htmlFor="b-name">
-                  {E.brokerName}
-                </label>
-                <input id="b-name" className="field" value={broker.name} onChange={(e) => setBroker((b) => ({ ...b, name: e.target.value }))} maxLength={60} autoComplete="organization" />
-              </div>
-              <div>
-                <label className="label" htmlFor="b-lic">
-                  {E.brokerLicense}
-                </label>
-                <input id="b-lic" className="field ltr" inputMode="numeric" value={broker.license} onChange={(e) => setBroker((b) => ({ ...b, license: e.target.value.replace(/[^\d-]/g, "") }))} maxLength={12} />
-              </div>
-              <p className="text-[12.5px] text-ink-3 sm:col-span-2 lg:col-span-1">{E.brokerSaved}</p>
-            </div>
-          )}
-        </div>
-      )}
+      {brokerProminent && brokerBlock}
 
       <details className="group rounded-[10px] border border-line-2 px-3">
         <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between text-[14.5px] font-semibold [&::-webkit-details-marker]:hidden">
@@ -205,15 +237,33 @@ export function ExportPanel({ s, t, lang }: { s: Studio; t: Dict; lang: Locale }
           <Switch label={E.includeManifest} hint={E.manifestHint} checked={manifest} onChange={setManifest} />
           <Switch label={E.includeOriginals} checked={originals} onChange={setOriginals} />
         </div>
+        {!brokerProminent && <div className="pb-3">{brokerBlock}</div>}
       </details>
 
       {/* The action stays in reach at the bottom of the panel while the options scroll. */}
       <div className="sticky -bottom-4 z-10 -mx-4 grid gap-2 border-t border-line-2 bg-surface px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:-bottom-5 sm:-mx-5 sm:px-5">
         {fresh && phone ? (
           <>
-            <button type="button" className="btn btn-primary w-full" onClick={() => deliver(result!, "share")}>
-              {fmt(shareCount > 1 ? E.saveShareMany : E.saveShare, { n: shareCount }, lang)}
-            </button>
+            {batches <= 1 ? (
+              <button type="button" className="btn btn-primary w-full" onClick={() => deliver(result!, "share")}>
+                {fmt(shareCount > 1 ? E.saveShareMany : E.saveShare, { n: shareCount }, lang)}
+              </button>
+            ) : (
+              <>
+                <p className="text-[13.5px] font-semibold">{fmt(E.shareBatches, { n: shareCount }, lang)}</p>
+                {Array.from({ length: batches }, (_, b) => {
+                  const from = b * SHARE_BATCH + 1;
+                  const to = Math.min(shareCount, (b + 1) * SHARE_BATCH);
+                  const done = sharedBatches.includes(b);
+                  return (
+                    <button key={b} type="button" className={`btn w-full ${done ? "btn-quiet" : "btn-primary"}`} onClick={() => deliver(result!, "share", b)}>
+                      {done ? "✓ " : ""}
+                      {fmt(from === to ? E.shareBatchOne : E.shareBatch, { from, to }, lang)}
+                    </button>
+                  );
+                })}
+              </>
+            )}
             <p className="text-[13px] text-ink-3">{E.saveShareHint}</p>
             <button type="button" className="btn btn-quiet btn-sm w-full" onClick={() => deliver(result!, "download")}>
               {E.downloadInstead}

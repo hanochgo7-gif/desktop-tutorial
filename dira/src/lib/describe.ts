@@ -46,7 +46,8 @@ export function describeChangePlain(c: Change, t: Dict, lang: Locale): string {
     case "exposure":
       return (c.value ?? 0) >= 0 ? D.exposureUp : D.exposureDown;
     case "whiteBalance":
-      return (c.to ?? 0) > (c.from ?? 0) ? D.whiteBalance : D.whiteBalanceCool;
+      // "Removed the yellow of the bulbs" only when the light really was warm bulb light.
+      return (c.from ?? 0) < 4300 && (c.to ?? 0) > (c.from ?? 0) ? D.whiteBalance : D.whiteBalanceCool;
     case "toneMap":
       return D.toneMap;
     case "contrast":
@@ -56,7 +57,7 @@ export function describeChangePlain(c: Change, t: Dict, lang: Locale): string {
     case "verticals":
       return D.verticals;
     case "crop":
-      return D.crop;
+      return (c.value ?? 0) > 6 ? fmt(D.cropBig, { v: c.value ?? 0 }, lang) : D.crop;
     case "denoise":
       return D.denoise;
     case "sharpen":

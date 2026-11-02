@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/i18n";
 import { pageMeta } from "@/lib/seo";
+import { AI_LIVE } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/trust">): Promise<Metadata> {
   const { lang } = await params;
@@ -48,12 +49,13 @@ export default async function Trust({ params }: PageProps<"/[lang]/trust">) {
       <p className="mt-5 max-w-2xl text-[18px] leading-[1.7] text-ink-2">{T.lead}</p>
       <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
         <Block title={T.allowedTitle} items={T.allowed} tone="ok" />
-        <Block title={T.labeledTitle} items={T.labeled} tone="label" />
+        <Block title={AI_LIVE ? T.labeledTitle : T.labeledTitleSoon} items={T.labeled} tone="label" />
         <Block title={T.forbiddenTitle} items={T.forbidden} tone="no" />
       </div>
       <section className="mt-16 grid gap-8 md:grid-cols-[1fr_1.4fr]">
         <h2 className="display text-[30px]">{T.howTitle}</h2>
         <ol className="grid gap-4">
+          {!AI_LIVE && <li className="text-[16px] font-semibold text-ink-2">{T.howSoon}</li>}
           {T.how.map((x, i) => (
             <li key={x} className="flex gap-4 text-[16.5px] leading-[1.6]">
               <span className="tnum mt-0.5 font-semibold text-prussian">{i + 1}</span>

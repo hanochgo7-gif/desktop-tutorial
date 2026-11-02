@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import type { CompareMode } from "@/components/compare-view";
 import { DropZone, type Rejected } from "@/components/drop-zone";
 import { LogoMark } from "@/components/logo";
 import { LanguageLink } from "@/components/site-header";
@@ -38,7 +39,9 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
   const [initial] = useState(() => ({ fresh: !!search.get("new"), files: search.get("new") ? takeHandoff() : null, projectId: search.get("p") }));
   const s = useStudio({ projectId: initial.projectId, newProjectName: t.studio.untitled, initialFiles: initial.files, fresh: initial.fresh });
   const [tab, setTab] = useState<Tab>("fix");
-  const [radius, setRadius] = useState(0.018);
+  // A thin brush by default: a tight mark leaves the cleanest fill.
+  const [radius, setRadius] = useState(0.012);
+  const [viewMode, setViewMode] = useState<CompareMode>("split");
   // Erase tab: paint on the original, then look at the result.
   const [brushView, setBrushView] = useState<"paint" | "result">("paint");
   const unsupported = useSyncExternalStore(
@@ -68,6 +71,14 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
     if (removed) toast.show({ text: t.studio.undoRemoved, action: { label: t.studio.undo, run: () => s.restorePhoto(removed.photo, removed.index) } }, 7000);
   };
 
+  // The moment the product delivers: the first corrected photo of the visit (counted once).
+  const readySent = useRef(false);
+  useEffect(() => {
+    if (readySent.current || s.counts.ready === 0) return;
+    readySent.current = true;
+    track("correction_ready", { count: countBucket(s.counts.total) });
+  }, [s.counts.ready, s.counts.total]);
+
   // Surface failed photos once, with the reason.
   const errorShown = useRef(new Set<string>());
   useEffect(() => {
@@ -87,7 +98,9 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
     radius,
     onStroke: (st: Parameters<typeof s.setRecipe>[1]["removals"][number]) => {
       s.setRecipe(photo!.id, { ...photo!.recipe!, removals: [...photo!.recipe!.removals, st] });
+      // Show the whole result: on a split view the erased spot often sits on the "before" half.
       setBrushView("result");
+      setViewMode("after");
     },
   } : null;
 
@@ -204,7 +217,7 @@ function StudioInner({ lang, t }: { lang: Locale; t: Dict }) {
 
           {/* Phones: sized for a landscape room photo plus the toolbar, not a tall black box. */}
           <div className="order-1 h-[min(40svh,calc(75vw+52px))] min-h-[210px] min-w-0 lg:order-none lg:h-full lg:min-h-0">
-            <Stage s={s} t={t} lang={lang} brush={brush} />
+            <Stage s={s} t={t} lang={lang} brush={brush} mode={viewMode} setMode={setViewMode} />
           </div>
 
           <aside ref={panelRef} className="order-3 flex min-h-0 min-w-0 scroll-mt-14 flex-col border-line-2 bg-surface lg:order-none lg:border-s" aria-label={t.studio.title}>
