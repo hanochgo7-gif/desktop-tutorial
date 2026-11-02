@@ -1062,6 +1062,10 @@ dialog.sheet > .panel { padding: var(--s5); }
 .path-level-h .legend { display: grid; }
 .path-level-h .legend > .l-he { font-size: var(--t-md); font-weight: 500; justify-self: start; }
 .path-current { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ok); font-weight: 500; min-height: 2.25rem; }
+/* Today's offers after the plan: the import result in place of its button, the English-UI offer (TF-12). */
+.import-status { display: flex; align-items: flex-start; gap: var(--s2); }
+.import-status > .icon { flex: none; margin-block-start: 0.2em; color: var(--ok); }
+.ui-offer { flex-wrap: wrap; }
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }

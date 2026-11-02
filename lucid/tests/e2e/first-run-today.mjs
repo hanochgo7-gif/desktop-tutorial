@@ -502,6 +502,33 @@ try {
     }
     await ctx.close();
   });
+  // ---------- TF-12: Today's offers come at the right time ----------
+  await check('TF-12 a new B1 learner sees the plan first (the English-UI offer waits for 3 active days, below the plan); adding words leaves a focused inline status; the English UI shows the rewritten strings', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1', { minutes: 10 });
+    await today(page);
+    const first = await page.evaluate(() => document.querySelector('.page-head').nextElementSibling?.className);
+    assert(first === 'today', `the first block after the header is ${first}`);
+    assert(!(await page.$('[data-ui-en]')), 'the English-UI offer greets a learner who just chose Hebrew');
+    await page.click('[data-import]');
+    await page.waitForSelector('[data-import-status]');
+    const status = await page.evaluate(() => ({ focus: document.activeElement?.matches('[data-import-status]'), text: document.querySelector('[data-import-status]').textContent.trim(), role: document.querySelector('[data-import-status]').getAttribute('role') }));
+    assert(status.focus && status.role === 'status' && /^נוספו \d+ מילים לחזרה\. עד 8 חדשות ביום\.$/.test(status.text), `import status: ${JSON.stringify(status)}`);
+    await shot(page, 'tf12-import-390');
+    // Three active days: the offer appears, after the plan.
+    await page.evaluate(() => { for (let d = 1; d <= 3; d++) window.lucid.store.put('attempts', { id: `day${d}`, at: new Date(Date.now() - d * 86_400_000).toISOString(), source: 'lesson', lesson: 'b1-01', exercise: `x${d}`, skill: 'grammar', level: 'B1', correct: true, score: 1 }); });
+    await today(page);
+    const order = await page.evaluate(() => { const offer = document.querySelector('[data-ui-en]'); const plan = document.querySelector('ol.plan'); return offer && plan ? Boolean(plan.compareDocumentPosition(offer) & Node.DOCUMENT_POSITION_FOLLOWING) : null; });
+    assert(order === true, `the English-UI offer is not below the plan (${order})`);
+    await ctx.close();
+    const en = await newPage(browser);
+    await learnerAt(en.page, 'B1', { minutes: 10, lang: 'en' });
+    await today(en.page);
+    const txt = await en.page.textContent(planSection);
+    assert(/You skipped A2\. Add its key words to your reviews\? Up to 8 new a day\./.test(txt), 'the English import offer is not rewritten');
+    assert(/Today you'll do part of this \d+-minute lesson: up to exercise \d+ of \d+\./.test(txt), 'the English lesson part line is not rewritten');
+    await en.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

@@ -14,6 +14,8 @@ export default async function path(el, ctx) {
   ctx.setTitle(t('nav.path'));
   const [curriculum, tx, available] = await Promise.all([content.curriculum(), content.taxonomy(), content.availableLessons()]);
   const levelMeta = new Map(tx.levels.map((l) => [l.id, l]));
+  // What adding a skipped level's words did, shown where its button was (TF-12).
+  let importNote = null;
 
   // The level's tab comes into view on a phone, where the tab row scrolls sideways (persona finding R2-23).
   // Physical coordinates, so it works the same in right-to-left and left-to-right layouts.
@@ -72,8 +74,9 @@ export default async function path(el, ctx) {
           <li><a class="lesson-row" href="#/writing/final-${lvl.id}">${mark(finalDraft ? (finalDraft.status === 'final' ? 'completed' : 'started') : null)}<span class="ord">${icon('writing', { size: 16 })}</span>
             <span class="grow"><span style="font-weight:500">${tt(`משימת הכתיבה של ${L}`, `${L} writing task`)}</span><span class="meta" style="display:block" lang="en" dir="ltr">${lvl.final_assessment.task}</span></span></a></li>
         </ol>
-        ${canImportVocab(lvl.id) ? html`<div class="panel flat stack-sm"><p class="small">${tt(`דילגת על שיעורי ${L}, ולכן המילים שלהם עוד לא בחזרה המרווחת. אפשר להוסיף אותן: הן ייכנסו בהדרגה, עד ${settings().new_per_day} מילים חדשות ביום.`, `You placed out of the ${L} lessons, so their words are not in your spaced review yet. You can add them: they come in gradually, up to ${settings().new_per_day} new words a day.`)}</p>
-          <div class="row"><button type="button" class="key small" data-import="${lvl.id}">${tt(`להוסיף את המילים של ${L}`, `Add the ${L} words`)}</button></div></div>` : ''}
+        ${importNote?.level === lvl.id ? html`<p class="panel flat small import-status" role="status" tabindex="-1" data-import-status>${icon('check', { size: 16 })}<span>${importNote.text}</span></p>`
+          : canImportVocab(lvl.id) ? html`<div class="panel flat stack-sm"><p class="small">${isolateLatin(tt(`דילגתם על שיעורי ${L}, ולכן המילים שלהם עוד לא בחזרה המרווחת. אפשר להוסיף אותן: הן ייכנסו בהדרגה, עד ${settings().new_per_day} מילים חדשות ביום.`, `You skipped ${L}, so its words are not in your reviews yet. Add them? They come in gradually, up to ${settings().new_per_day} new a day.`))}</p>
+          <div class="row"><button type="button" class="key small" data-import="${lvl.id}"><span>${isolateLatin(tt(`להוסיף את המילים של ${L}`, `Add the ${L} words`))}</span></button></div></div>` : ''}
         <div class="panel flat stack-sm">
           ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגת עליהם וחזרת אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
           <div class="row between">
@@ -104,10 +107,15 @@ export default async function path(el, ctx) {
       await moveToLevel(level);
       toast(tt('המסלול עודכן', 'Your path was updated'));
     }),
+    // The result stays where the button was and takes the focus (TF-12).
     on(el, 'click', '[data-import]', async (e, b) => {
       b.disabled = true;
-      const n = await importPlacedOutVocab(b.dataset.import);
-      toast(n ? tt(`${n} מילים נוספו לחזרה. הן ייכנסו בהדרגה.`, `${n} words added to review. They come in gradually.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in review.'));
+      const level = b.dataset.import;
+      const n = await importPlacedOutVocab(level);
+      const per = settings().new_per_day;
+      importNote = { level, text: n ? tt(`נוספו ${n} מילים לחזרה. עד ${per} חדשות ביום.`, `${n} words added to your reviews. Up to ${per} new a day.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in your reviews.') };
+      draw();
+      el.querySelector('[data-import-status]')?.focus();
     }),
   ];
   return () => offs.forEach((o) => o());

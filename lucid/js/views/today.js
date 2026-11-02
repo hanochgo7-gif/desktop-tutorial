@@ -164,6 +164,8 @@ export default async function today(el, ctx) {
   let skillsOpen = null;
   // The line that says the plan now fits the minutes chosen for today (TF-5).
   let minutesNote = '';
+  // What adding a skipped level's words did, shown where the button was (TF-12).
+  let importNote = '';
   // The plan shows the next lesson's real length, so it needs the lesson file (cached after the first load).
   let loadingLesson = null;
   async function loadLesson(id) {
@@ -193,8 +195,10 @@ export default async function today(el, ctx) {
     const m = model();
     if (m.next?.id !== extras.lesson?.id) loadLesson(m.next?.id);
     // Onboarding promises to suggest the English interface as the level rises: offered from B1, and again at each
-    // higher level after "Not now", never after the learner chose.
-    const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1')
+    // higher level after "Not now", never after the learner chose. It waits until the learner has studied on 3
+    // days or more, so it never greets someone who chose Hebrew minutes ago, and it sits below the plan (TF-12).
+    const activeDays = new Set(m.attempts.filter((a) => a.source !== 'placement').map((a) => String(a.at).slice(0, 10))).size;
+    const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1') && activeDays >= 3
       && s.ui_switch_answered !== 'en' && (!s.ui_switch_answered || levelIndex(m.courseLevel) > levelIndex(s.ui_switch_answered));
     // Today's minutes: the learner's choice for today, or the daily default from Settings (TF-5).
     const target = todayMinutes(s);
@@ -298,7 +302,7 @@ export default async function today(el, ctx) {
       if (b.missed) lines.push(tt(`${b.missed === 1 ? 'נשאר תרגיל אחד שפספסתם' : `נשארו ${b.missed} תרגילים שפספסתם`}, כ-${sl.today} דק׳. התשובות הנכונות נשמרו, ותיקון הטעויות יכול להשלים את השיעור.`, `${b.missed === 1 ? 'One exercise you missed is left' : `${b.missed} exercises you missed are left`}, about ${sl.today} min. Your right answers are kept, and fixing these can complete the lesson.`));
       else if (b.missedRun && b.step) lines.push(tt(`מתקנים את מה שפספסתם: ${stepText(b.step)}.`, `Fixing the ones you missed: ${stepText(b.step)}.`));
       else if (sl.partDone) lines.push(tt(`החלק של היום הושלם. מחר ממשיכים מ${pos(sl)}.`, `Today's part is done. Tomorrow continues from ${pos(sl)}.`));
-      else if (sl.split) lines.push(tt(`השיעור כולו כ-${sl.total} דקות, אז היום עושים חלק: עד תרגיל ${sl.upto} מתוך ${sl.of}. המקום נשמר בכל יציאה.`, `The whole lesson takes about ${sl.total} min, so today is a part: up to exercise ${sl.upto} of ${sl.of}. Your place is saved whenever you leave.`));
+      else if (sl.split) lines.push(tt(`השיעור כולו כ-${sl.total} דקות, אז היום עושים חלק: עד תרגיל ${sl.upto} מתוך ${sl.of}. המקום נשמר בכל יציאה.`, `Today you'll do part of this ${sl.total}-minute lesson: up to exercise ${sl.upto} of ${sl.of}. Your place is saved whenever you leave.`));
       else if (sl.total && b.resume) lines.push(tt(`נשארו כ-${sl.remaining} דקות: ${stepText(b.step) || pos(sl)}.`, `About ${sl.remaining} min left: ${stepText(b.step) || pos(sl)}.`));
       else if (sl.total) lines.push(tt(`שיעור של כ-${sl.total} דקות.`, `A lesson of about ${sl.total} min.`));
       return html`${m.next?.can_do && !b.missed ? html`<span lang="en" dir="ltr" style="display:block">${m.next.can_do}</span>` : ''}${lines.map((x) => html`<span style="display:block">${x}</span>`)}`;
@@ -409,8 +413,11 @@ export default async function today(el, ctx) {
           ${more.length ? html`<section class="more-today stack-sm" aria-labelledby="more-h"><h3 id="more-h">${tt('רוצים עוד?', 'Want more?')}</h3>
             <p class="small muted">${tt('לא חובה. כל אחד מאלה עומד בפני עצמו.', 'Optional. Each of these stands on its own.')}</p>
             <ul class="plan more-list" style="list-style:none;padding:0;margin:0">${more.map((b) => row(b, { extra: true }))}</ul></section>` : ''}
-          ${showImport ? html`<div class="panel flat stack-sm"><p class="small">${tt(`להוסיף לחזרה המרווחת את מילות המפתח של שיעורי ${L(importLevel)} שדילגת עליהם? הן ייכנסו בהדרגה, עד ${s.new_per_day} ביום.`, `Add the key words of the ${L(importLevel)} lessons you placed out of to your spaced review? They come in gradually, up to ${s.new_per_day} a day.`)}</p>
-            <div class="row"><button type="button" class="key small" data-import="${importLevel}">${tt(`להוסיף את המילים של ${L(importLevel)}`, `Add the ${L(importLevel)} words`)}</button><button type="button" class="key ghost small" data-import-later="${importLevel}">${tt('לא עכשיו', 'Not now')}</button></div></div>` : ''}
+          ${importNote ? html`<p class="panel flat small import-status" role="status" tabindex="-1" data-import-status>${icon('check', { size: 16 })}<span>${importNote}</span></p>`
+            : showImport ? html`<div class="panel flat stack-sm"><p class="small">${isolateLatin(tt(`להוסיף לחזרה המרווחת את מילות המפתח של שיעורי ${L(importLevel)} שדילגתם עליהם? הן ייכנסו בהדרגה, עד ${s.new_per_day} חדשות ביום.`, `You skipped ${L(importLevel)}. Add its key words to your reviews? Up to ${s.new_per_day} new a day.`))}</p>
+            <div class="row"><button type="button" class="key small" data-import="${importLevel}"><span>${isolateLatin(tt(`להוסיף את המילים של ${L(importLevel)}`, `Add the ${L(importLevel)} words`))}</span></button><button type="button" class="key ghost small" data-import-later="${importLevel}">${tt('לא עכשיו', 'Not now')}</button></div></div>` : ''}
+          ${uiSwitchOffer ? html`<div class="banner row ui-offer">${icon('globe', { size: 18 })}<span class="grow">${isolateLatin(tt(`הרמה שלכם היא ${L(m.courseLevel)}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${L(m.courseLevel)}. An English interface is extra daily practice, and you can switch back in Settings at any time.`))}</span>
+            <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
           ${courseDone ? html`<p class="banner">${m.skipped.length
             ? tt('עשית את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
             : tt('השלמתם את כל 75 השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You have completed all 75 lessons. The Writing lab and advanced assignments are waiting.')}</p>` : ''}`;
@@ -423,8 +430,6 @@ export default async function today(el, ctx) {
           <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${target === n}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
           <p class="today-min-status small" role="status" data-min-status>${minutesNote}</p></div>
       </div>
-      ${uiSwitchOffer ? html`<div class="banner row" style="margin-block-end:var(--s5)">${icon('globe', { size: 18 })}<span class="grow">${tt(`את/ה ברמה ${LEVEL_LABEL[m.courseLevel]}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${LEVEL_LABEL[m.courseLevel]}. An English interface is extra daily practice, and you can switch back in Settings at any time.`)}</span>
-        <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
       <div class="today">
         <section class="stack" aria-labelledby="plan-h">
           <div class="row between"><h2 id="plan-h">${tt('התוכנית להיום', 'Today\'s plan')}</h2>${m.placementPending || complete ? '' : html`<span class="small faint num">${tt(`כ-${plan.minutes} דקות`, `about ${plan.minutes} min`)}</span>`}</div>
@@ -464,11 +469,15 @@ export default async function today(el, ctx) {
     on(el, 'click', '[data-ui-en]', () => { saveProfile({ ui_language: 'en' }); saveSettings({ ui_switch_answered: 'en' }); }),
     on(el, 'click', '[data-ui-later]', () => saveSettings({ ui_switch_answered: model().courseLevel })),
     ...bindPlacementCard(el, ctx),
+    // The result stays where the button was, as a status that takes the focus, instead of a toast that leaves
+    // focus on the page (TF-12).
     on(el, 'click', '[data-import]', async (e, b) => {
       b.disabled = true;
       const n = await importPlacedOutVocab(b.dataset.import);
-      toast(n ? tt(`${n} מילים נוספו לחזרה. הן ייכנסו בהדרגה.`, `${n} words added to review. They come in gradually.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in review.'));
+      const per = settings().new_per_day;
+      importNote = n ? tt(`נוספו ${n} מילים לחזרה. עד ${per} חדשות ביום.`, `${n} words added to your reviews. Up to ${per} new a day.`) : tt('המילים האלה כבר בחזרה.', 'These words are already in your reviews.');
       draw();
+      el.querySelector('[data-import-status]')?.focus();
     }),
     on(el, 'click', '[data-import-later]', (e, b) => { saveSettings({ vocab_import_hidden: b.dataset.importLater }); toast(tt('אפשר להוסיף אותן בכל זמן מהמסלול.', 'You can add them any time from the path.')); }),
     on(el, 'toggle', 'details[data-skills]', (e, d) => { if (e.target === d) skillsOpen = d.open; }, true),
