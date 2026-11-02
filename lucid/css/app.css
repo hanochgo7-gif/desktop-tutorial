@@ -973,6 +973,17 @@ dialog.sheet > .panel { padding: var(--s5); }
 /* ---- lane bilingual-text: end ---- */
 
 /* ---- lane first-run-today: start ---- */
+/* Welcome: text size beside the language switch, before there is a profile (TF-1). */
+.welcome-top { flex-wrap: wrap; row-gap: var(--s3); }
+.welcome-tools { display: flex; align-items: center; gap: var(--s2); margin-inline-start: auto; }
+.text-cycle { gap: 0.3rem; padding-inline: 0.7rem; }
+.text-cycle [aria-hidden] { font-weight: 700; }
+.text-cycle .num { font-size: var(--t-xs); color: var(--ink-2); }
+/* Onboarding step 1: language and text size side by side where they fit; help lines readable at 100% (TF-1). */
+.ob-prefs { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); align-items: start; }
+.onboard .field .help { font-size: var(--t-sm); color: var(--ink-2); }
+.ob-prefs .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+.ob-prefs .seg > button { padding-inline: var(--s1); white-space: nowrap; }
 
 /* ---- lane first-run-today: end ---- */
 

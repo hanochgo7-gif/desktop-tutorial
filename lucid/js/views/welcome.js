@@ -3,6 +3,30 @@ import { html, render, on } from '../core/util.js';
 import { tt, setUiLang, uiLang } from '../core/i18n.js';
 import { icon, brandMark } from '../ui/components.js';
 import { configured } from '../core/api.js';
+import { hasProfile, settings, saveSettings } from '../core/learner.js';
+
+// Text size before there is a profile (TF-1): the same 100-150% setting as Settings (:root[data-text]). Until
+// onboarding ends it is kept for this browser session, like the interface language, and onboarding saves it
+// with the other settings. With a profile, it is the saved setting itself.
+export const TEXT_SIZES = [100, 115, 130, 150];
+const TEXT_KEY = 'lucid-text-size';
+export function sessionTextSize() {
+  try { const n = Number(sessionStorage.getItem(TEXT_KEY)); return TEXT_SIZES.includes(n) ? n : null; } catch { return null; }
+}
+export function applyTextSize(n) {
+  const root = document.documentElement;
+  if (n && n !== 100) root.dataset.text = String(n); else delete root.dataset.text;
+}
+export function chooseTextSize(n) {
+  if (hasProfile()) { saveSettings({ text_size: n }); return; }
+  applyTextSize(n);
+  try { sessionStorage.setItem(TEXT_KEY, String(n)); } catch { /* storage blocked: this page only */ }
+}
+export const currentTextSize = () => (hasProfile() ? settings().text_size : sessionTextSize()) || 100;
+// The compact control cycles through the sizes. Its name says what it is and the size now; the change is also
+// announced, since a button's new name is not always read out.
+const sizeName = (n) => tt(`גודל טקסט: ${n}%`, `Text size: ${n}%`);
+const sizeLabel = (n) => html`<span class="sr-only">${tt('גודל טקסט:', 'Text size:')} </span><span aria-hidden="true" lang="${uiLang()}">${tt('א+', 'A+')}</span> <span class="num">${n}%</span>`;
 
 // Israeli keyboard (SI-1452): Latin legend and Hebrew legend on each key.
 const ROWS = [
@@ -14,13 +38,20 @@ const WORD = 'LUCID';
 
 export default async function welcome(el, ctx) {
   ctx.setTitle('');
+  // The language and text size chosen earlier in this session (a reload keeps them).
+  try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l && !hasProfile()) setUiLang(l); } catch { /* ignore */ }
+  if (!hasProfile()) applyTextSize(currentTextSize());
   const draw = () => render(el, html`
     <div class="welcome">
       <div class="welcome-top">
         <span class="brand">${brandMark()}<span>Lucid</span></span>
-        <div class="seg" role="group" aria-label="${tt('שפת הממשק', 'Interface language')}">
-          <button type="button" data-lang="he" aria-pressed="${uiLang() === 'he'}" lang="he">עברית</button>
-          <button type="button" data-lang="en" aria-pressed="${uiLang() === 'en'}" lang="en">English</button>
+        <div class="welcome-tools">
+          <button type="button" class="key ghost small text-cycle" data-text-cycle>${sizeLabel(currentTextSize())}</button>
+          <span class="sr-only" role="status" data-size-status></span>
+          <div class="seg" role="group" aria-label="${tt('שפת הממשק', 'Interface language')}">
+            <button type="button" data-lang="he" aria-pressed="${uiLang() === 'he'}" lang="he">עברית</button>
+            <button type="button" data-lang="en" aria-pressed="${uiLang() === 'en'}" lang="en">English</button>
+          </div>
         </div>
       </div>
       <div class="welcome-main">
@@ -65,11 +96,22 @@ export default async function welcome(el, ctx) {
   };
   setTimeout(type, 500);
 
-  const off = on(el, 'click', '[data-lang]', (e, b) => {
-    setUiLang(b.dataset.lang);
-    try { sessionStorage.setItem('lucid-ui-lang', b.dataset.lang); } catch { /* ignore */ }
-    clearInterval(timer);
-    draw();
-  });
-  return () => { off(); clearInterval(timer); };
+  const offs = [
+    on(el, 'click', '[data-lang]', (e, b) => {
+      setUiLang(b.dataset.lang);
+      try { sessionStorage.setItem('lucid-ui-lang', b.dataset.lang); } catch { /* ignore */ }
+      clearInterval(timer);
+      draw();
+      el.querySelector(`[data-lang="${b.dataset.lang}"]`)?.focus();
+    }),
+    // Updated in place, so focus stays on the control and the keyboard animation does not restart.
+    on(el, 'click', '[data-text-cycle]', (e, b) => {
+      const n = TEXT_SIZES[(TEXT_SIZES.indexOf(currentTextSize()) + 1) % TEXT_SIZES.length];
+      chooseTextSize(n);
+      render(b, sizeLabel(n));
+      const status = el.querySelector('[data-size-status]');
+      if (status) status.textContent = sizeName(n);
+    }),
+  ];
+  return () => { offs.forEach((o) => o()); clearInterval(timer); };
 }

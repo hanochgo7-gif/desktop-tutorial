@@ -12,6 +12,7 @@ import { saveProfile, saveSettings, applyPlacement } from '../core/learner.js';
 import { zeroResult } from '../core/placement.js';
 import { configured } from '../core/api.js';
 import { content } from '../core/content.js';
+import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './welcome.js';
 
 // Each goal says what it changes today (adaptive.dailyPlan: GOAL_KINDS, SCENARIO_MODULES). The work note
 // depends on whether workplace scenarios exist yet.
@@ -36,8 +37,10 @@ export default async function onboarding(el, ctx) {
   ctx.setTitle(tt('התחלה', 'Getting started'));
   const year = new Date().getFullYear();
   const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
-  const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, terms: false };
-  try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l) data.ui_language = l; } catch { /* ignore */ }
+  const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, terms: false, text_size: currentTextSize() };
+  // The language and text size chosen on Welcome or earlier in this session (a reload keeps both, TF-1).
+  try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l) { data.ui_language = l; setUiLang(l); } } catch { /* ignore */ }
+  applyTextSize(data.text_size);
   let step = 0;
   let error = '';
   const STEPS = 4;
@@ -58,9 +61,14 @@ export default async function onboarding(el, ctx) {
       case 0: return html`
         <h1>${tt('נעים להכיר', 'Nice to meet you')}</h1>
         <p class="muted">${tt('כמה שאלות קצרות כדי להתאים את Lucid אליך. אפשר לשנות הכול אחר כך.', 'A few quick questions to fit Lucid to you. You can change everything later.')}</p>
-        <div class="field"><span class="label">${tt('שפת הממשק', 'Interface language')}</span>
-          <div class="seg" role="group"><button type="button" data-ui="he" aria-pressed="${data.ui_language === 'he'}" lang="he">עברית</button><button type="button" data-ui="en" aria-pressed="${data.ui_language === 'en'}" lang="en">English</button></div>
-          <span class="help">${tt('ממליצים על עברית בהתחלה. כשהרמה עולה, Lucid יציע לעבור לאנגלית.', 'Hebrew is recommended at first; Lucid will suggest switching to English as your level rises.')}</span></div>
+        <div class="ob-prefs">
+          <div class="field"><span class="label" id="ob-ui-l">${tt('שפת הממשק', 'Interface language')}</span>
+            <div class="seg" role="group" aria-labelledby="ob-ui-l"><button type="button" data-ui="he" aria-pressed="${data.ui_language === 'he'}" lang="he">עברית</button><button type="button" data-ui="en" aria-pressed="${data.ui_language === 'en'}" lang="en">English</button></div>
+            <span class="help">${tt('ממליצים על עברית בהתחלה. כשהרמה עולה, Lucid יציע לעבור לאנגלית.', 'Hebrew is recommended at first; Lucid will suggest switching to English as your level rises.')}</span></div>
+          <div class="field"><span class="label" id="ob-size-l">${tt('גודל טקסט', 'Text size')}</span>
+            <div class="seg" role="group" aria-labelledby="ob-size-l">${TEXT_SIZES.map((n) => html`<button type="button" data-size="${n}" aria-pressed="${data.text_size === n}"><span class="num">${n}%</span></button>`)}</div>
+            <span class="help">${tt('משתנה מיד. אפשר לשנות גם אחר כך בהגדרות.', 'Changes at once. You can also change it later in Settings.')}</span></div>
+        </div>
         <div class="field"><label for="ob-name">${tt('איך לקרוא לך? (לא חובה)', 'What should we call you? (optional)')}</label>
           <input class="input" id="ob-name" name="name" maxlength="40" autocomplete="given-name" value="${data.name}"></div>
         <div class="field"><label for="ob-year">${tt('שנת לידה', 'Year of birth')}</label>
@@ -150,7 +158,7 @@ export default async function onboarding(el, ctx) {
   async function finish() {
     const minor = age() < 18;
     saveProfile({ onboarded: true, created_at: new Date().toISOString(), name: data.name, birth_year: Number(data.birth_year), minor, ui_language: data.ui_language, goals: data.goals, start_choice: data.start, consent_terms_at: new Date().toISOString() });
-    saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, ai_consent: data.ai_consent, ai_consent_at: data.ai_consent ? new Date().toISOString() : null, marketing: false });
+    saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, text_size: data.text_size, ai_consent: data.ai_consent, ai_consent_at: data.ai_consent ? new Date().toISOString() : null, marketing: false });
     if (data.start === 'zero') {
       await applyPlacement(zeroResult());
       ctx.navigate('lesson/pa1-01');
@@ -161,7 +169,17 @@ export default async function onboarding(el, ctx) {
 
   draw();
   const offs = [
-    on(el, 'click', '[data-ui]', (e, b) => { collect(); data.ui_language = b.dataset.ui; setUiLang(b.dataset.ui); draw(); }),
+    on(el, 'click', '[data-ui]', (e, b) => {
+      collect(); data.ui_language = b.dataset.ui; setUiLang(b.dataset.ui);
+      try { sessionStorage.setItem('lucid-ui-lang', b.dataset.ui); } catch { /* ignore */ }
+      draw(); el.querySelector(`[data-ui="${b.dataset.ui}"]`)?.focus();
+    }),
+    // Text size applies at once, without redrawing the form, and is kept for this session (TF-1).
+    on(el, 'click', '[data-size]', (e, b) => {
+      data.text_size = Number(b.dataset.size);
+      chooseTextSize(data.text_size);
+      el.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    }),
     on(el, 'click', '[data-goal]', (e, b) => { const g = b.dataset.goal; data.goals = data.goals.includes(g) ? data.goals.filter((x) => x !== g) : [...data.goals, g]; b.setAttribute('aria-pressed', String(data.goals.includes(g))); }),
     on(el, 'click', '[data-start]', (e, b) => { data.start = b.dataset.start; el.querySelectorAll('[data-start]').forEach((x) => x.setAttribute('aria-checked', String(x === b))); }),
     on(el, 'click', '[data-min]', (e, b) => { data.daily_minutes = Number(b.dataset.min); el.querySelectorAll('[data-min]').forEach((x) => x.setAttribute('aria-checked', String(x === b))); }),
