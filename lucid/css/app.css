@@ -924,22 +924,29 @@ dialog.sheet > .panel { padding: var(--s5); }
 .pic-missed li { align-items: center; color: var(--ink-en); }
 
 /* memory game */
-.mem-grid { --gap: var(--s2); --cols: 3; display: grid; gap: var(--gap); grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); max-width: 40rem; margin-inline: auto; width: 100%; }
+.mem-grid { --gap: var(--s2); --cols: 3; --rows: 4; display: grid; gap: var(--gap); grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); max-width: 40rem; margin-inline: auto; width: 100%; }
 .mem-grid[data-pairs='8'], .mem-grid[data-pairs='10'] { --cols: 4; }
+.mem-grid[data-pairs='10'] { --rows: 5; }
+/* Large text on a phone: three cards a row, so the words stay readable. */
+:root[data-text='130'] .mem-grid, :root[data-text='150'] .mem-grid { --cols: 3; }
 @media (min-width: 40rem) {
-  .mem-grid { --gap: var(--s3); --cols: 4; }
-  .mem-grid[data-pairs='10'] { --cols: 5; }
+  .mem-grid, :root[data-text='130'] .mem-grid, :root[data-text='150'] .mem-grid { --gap: var(--s3); --cols: 4; --rows: 3; }
+  .mem-grid[data-pairs='8'] { --rows: 4; }
+  .mem-grid[data-pairs='10'] { --cols: 5; --rows: 4; }
+  /* The whole board in view: its width follows the height left under the top bar and the feedback line. */
+  .mem-grid { max-width: min(40rem, calc((100dvh - 13rem) * var(--cols) / var(--rows))); }
 }
-.mem-card { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s1); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; overflow: hidden; }
+.mem-feedback { min-height: 2lh; }
+.mem-card { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s1); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; container-type: inline-size; }
 .mem-card svg { width: min(2.75rem, 62%); height: auto; }
 .mem-card:not(.is-up) { background: var(--cobalt-tint); border-color: color-mix(in oklab, var(--cobalt) 45%, var(--key-edge)); }
 .mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); opacity: 0.35;
   background: repeating-linear-gradient(135deg, var(--cobalt) 0 2px, transparent 2px 9px); }
-.mem-word { font-size: clamp(0.75rem, 3.6vw, var(--t-sm)); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: break-word; max-width: 100%; }
+.mem-word { font-size: clamp(0.6875rem, 15cqi, var(--t-sm)); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
 .mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
 .mem-card.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
 .mem-card.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
 .mem-card:disabled { cursor: default; }
-.mem-card:not(:disabled):hover { border-color: var(--cobalt); }
+@media (hover: hover) { .mem-card:not(:disabled, .is-wrong):hover { border-color: var(--cobalt); } }
 @keyframes mem-flip { from { transform: scaleX(0.2); opacity: 0; } to { transform: none; opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .mem-card.is-up > *, .mem-card.is-wrong { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .mem-card.is-up > :not(.sr-only), .mem-card.is-wrong { animation: none; } }

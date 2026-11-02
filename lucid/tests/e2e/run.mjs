@@ -1515,7 +1515,7 @@ try {
     const idOf = async (i) => { const he = await page.$(`[data-card="${i}"] [data-he]`); return he ? byHe.get(await he.textContent()) : (await page.textContent(`[data-card="${i}"] [data-word]`)).trim(); };
     const known = new Map();
     const found = () => page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card)));
-    let slipped = false, sawMismatch = false, keyboardTurns = 0;
+    let slipped = false, sawMismatch = false, keyboardTurns = 0, slipWord = null;
     const flip = async (i) => {
       if (keyboardTurns < 2) { await page.focus(`[data-card="${i}"]`); await page.keyboard.press('Enter'); } else await page.click(`[data-card="${i}"]`);
       known.set(i, await idOf(i));
@@ -1534,6 +1534,7 @@ try {
         // One deliberate slip: the pair was seen, another card is chosen.
         second = [...Array(n).keys()].find((i) => i !== fresh && i !== partner && !done.has(i));
         slipped = true;
+        slipWord = known.get(fresh);
       } else if (partner === undefined) second = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i) && i !== fresh);
       const t0 = Date.now();
       await flip(second);
@@ -1553,7 +1554,8 @@ try {
     const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round'));
     assert(ev.length === 1 && ev[0].matches === 6 && ev[0].slips === 1 && ev[0].score === total && Math.abs(ev[0].accuracy - 6 / 7) < 1e-9, `round not logged once and right: ${JSON.stringify(ev)}`);
-    assert((await page.$$('.pic-missed li')).length === 2, 'the slip did not list both words to go over');
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    assert(listed.includes(slipWord) && listed.length <= 2, `the slip's word is not on the list to go over (${listed}; ${slipWord})`);
     assert(await page.$('a[href="#/games/memory/2"]'), 'memory level 2 did not open at 86%');
     await page.waitForTimeout(500);
     await page.click('[data-again]');
