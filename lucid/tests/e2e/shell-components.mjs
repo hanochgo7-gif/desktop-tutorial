@@ -380,6 +380,26 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-8. Segmented controls: the #/start language control has equal segments that fill it; at 150% the Today minutes control is a 2x2 grid of equal cells', async () => {
+    const cells = (page, sel) => page.$$eval(sel, (bs) => ({ cells: bs.map((b) => { const r = b.getBoundingClientRect(); return { x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width) }; }), track: (() => { const p = bs[0].parentElement, cs = getComputedStyle(p); return p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); })() }));
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('[data-ui]');
+    const lang = await cells(page, '[data-ui]');
+    const ws = lang.cells.map((c) => c.w);
+    const used = ws.reduce((a, b) => a + b, 0) + 3 * (ws.length - 1);
+    assert(Math.max(...ws) - Math.min(...ws) <= 1 && used >= lang.track - 2, `language segments are unequal or leave an empty track: ${JSON.stringify(lang)}`);
+    await learnerAt(page, 'A1', { text: 150 });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('[data-min]');
+    const min = await cells(page, '[data-min]');
+    const rows = [...new Set(min.cells.map((c) => c.y))], cols = [...new Set(min.cells.map((c) => c.x))];
+    const mw = min.cells.map((c) => c.w);
+    assert(min.cells.length === 4 && rows.length === 2 && cols.length === 2 && Math.max(...mw) - Math.min(...mw) <= 1, `the minutes control at 150% is not a 2x2 grid of equal cells: ${JSON.stringify(min.cells)}`);
+    await shot(page, 'sc8-today-150');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

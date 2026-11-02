@@ -1024,6 +1024,12 @@ dialog.sheet > .panel { padding: var(--s5); }
 .option.is-right::after { color: var(--ok); }
 .option.is-wrong::after { color: var(--bad); }
 
+/* Segmented controls (SC-8): a control that fills its row (a form field, a page header, or .seg.full) has equal
+   segments and no empty track; at 130-150% text four options become two equal rows of two. */
+.seg.full, .field > .seg, .page-head > .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+:root:is([data-text='130'], [data-text='150']) :is(.seg.full, .field > .seg, .page-head > .seg):has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 40rem) { .page-head > .seg { flex: 1 1 100%; } }
+
 /* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
 @media (min-width: 64rem) {
   .deck { overflow: hidden; }
