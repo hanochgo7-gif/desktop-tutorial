@@ -395,7 +395,15 @@ export function dailyPlan({
     const done = focus.kind === 'scenario' ? Boolean(today.scenarios?.has(focus.scenario)) : Boolean(today.drills?.has(`${focus.kind}:${focus.id}`));
     add({ id: 'practice', minutes: plan.practice || 4, focus: f, route, why: 'practice', done });
   }
-  if (plan.use) add(useBlock({ minutes: plan.use, level, goals, last: { speaking: lastSpeakingAt, writing: lastWritingAt, reading: lastReadingAt }, scenario, writingTask, today }));
+  const last = { speaking: lastSpeakingAt, writing: lastWritingAt, reading: lastReadingAt };
+  if (plan.use) add(useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask, today }));
+  // The goals stay visible on short days (TF-4): when no "use it" block fits, the item the goals would choose is
+  // offered outside the budget, as one optional line. When the day's goal item is done, the next one is the
+  // goal-matched extra under "Want more?". Only an item that comes from a goal the learner chose is offered.
+  const used = blocks.find((b) => b.id === 'use');
+  const offer = !used ? useBlock({ minutes: BUDGET[20].use, level, goals, last, scenario, writingTask, today })
+    : used.done ? useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask }) : null;
+  const goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
   if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
   if (next) {
     const others = blocks.reduce((a, b) => a + b.minutes, 0);
@@ -425,7 +433,7 @@ export function dailyPlan({
     }
   }
   if (!blocks.length) add({ id: 'learn', minutes, route: next ? `lesson/${next.id}` : 'writing', lesson: next?.id, why: next ? 'learn' : 'write', done: false });
-  return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks, extras };
+  return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks, extras, offer: goalOffer };
 }
 
 // Today's plan is done when each of its blocks is done, or when today's records already add up to the day's

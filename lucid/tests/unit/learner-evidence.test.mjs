@@ -354,6 +354,23 @@ test('TF-3: a 10-minute night with 11 due words: a review timed from its cards, 
   assert.equal(planStatus(after).complete, false);
 });
 
+test('TF-4: on a 10-minute day the goal item is offered outside the budget; once done, the next one is the goal-matched extra', async () => {
+  const { dailyPlan } = await import('../../js/core/adaptive.js');
+  const airport = { id: 'rl-airport-a2', module: 'airport', level: 'A2' };
+  const short = dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport });
+  assert.equal(short.blocks.find((b) => b.id === 'use'), undefined, 'no "use it" block in 10 minutes');
+  assert.deepEqual([short.offer.route, short.offer.goal, short.offer.minutes, short.offer.offer], ['scenario/rl-airport-a2', 'travel', 4, true]);
+  assert.equal(short.minutes, short.blocks.reduce((a, b) => a + b.minutes, 0), 'the offer is outside the plan\'s minutes');
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: [], scenario: null }).offer, null, 'no goal, no offer');
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'pa1-01' }, level: 'PreA1', goals: ['travel'], scenario: airport }).offer, null, 'not at Pre-A1');
+  // The goal item was done today: no offer on a short day; on a 20-minute day the next scenario is the extra.
+  const doneToday = { scenario: { id: 'rl-hotel-a1', module: 'hotel', level: 'A1' }, scenarios: new Set(['rl-hotel-a1']), speaking: true };
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport, today: doneToday }).offer, null);
+  const p20 = dailyPlan({ minutes: 20, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport, today: doneToday });
+  assert.equal(p20.blocks.find((b) => b.id === 'use').done, true);
+  assert.equal(p20.offer.route, 'scenario/rl-airport-a2');
+});
+
 test('TF-3: a lesson part is never fewer than 4 exercises; when fewer would be left after it, the part is the rest', async () => {
   const { lessonSlice } = await import('../../js/core/adaptive.js');
   const tiny = lessonSlice({ minutes: 25, exercises: 16, done: 0, intro: 6 }, 5);

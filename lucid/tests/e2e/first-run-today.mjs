@@ -237,6 +237,106 @@ try {
     assert(/מילים חדשות: סבב ראשון/.test(row), `imported words are not called new: ${row.replace(/\s+/g, ' ')}`);
     await b.ctx.close();
   });
+  // ---------- TF-4: goals stay visible on short days ----------
+  await check('TF-4 travel goal and 10 minutes: Today offers an optional travel scenario line that opens #/scenario/<id>; step 2 explains 10 minutes under the time choice', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'basics', goals: ['travel'], minutes: 10 });
+    await page.waitForSelector('[data-begin]');
+    // The placement test places this learner at A2 (their own estimate stands in for the test here).
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const P = await import('./js/core/placement.js'); await L.applyPlacement(P.selfReportResult('A2')); });
+    await today(page);
+    const offer = await page.$('.more-list a[href^="#/scenario/"]');
+    assert(offer, 'no optional scenario line under the 10-minute plan');
+    assert(/יש עוד 4 דקות\?/.test(await offer.textContent()), `the line does not ask for 4 more minutes: ${await offer.textContent()}`);
+    assert(!(await page.$('.plan a[href^="#/scenario/"].plan-item:not(.more-item)')), 'the scenario was put inside the 10-minute plan');
+    await shot(page, 'tf4-today-10-travel-390');
+    await offer.click();
+    await page.waitForURL(/#\/scenario\/rl-/);
+    await page.goto(`${BASE}#/start?again=1`);
+    await page.waitForSelector('#ob-form');
+    await page.selectOption('#ob-year', '1990');
+    await page.click('button[type=submit]');
+    const note = await page.textContent('#ob-min-note');
+    assert(/ב-10 דקות: שיעור וחזרה\. המטרות מופיעות כהצעה, ומ-20 דקות בתוך התוכנית\./.test(note), `step 2 note: ${note}`);
+    const below = await page.evaluate(() => { const g = document.querySelector('[role="radiogroup"][aria-labelledby="ob-min-h"]'); return g.nextElementSibling?.id; });
+    assert(below === 'ob-min-note', 'the note is not right under the minutes choice');
+    assert(/דיבור וכתיבה לסירוגין/.test(await page.textContent('[data-goal="everyday"]')) && !/לא משנה את התוכנית/.test(await page.textContent('#ob-form')), 'the everyday goal still says it changes nothing');
+    await ctx.close();
+  });
+
+  // ---------- TF-6: onboarding by keyboard and screen reader ----------
+  await check('TF-6 #/start by keyboard: steps open on their h1, ArrowDown moves the minutes choice, a missing year focuses the select (aria-invalid, message under it), goal cards show a check; #/profile uses the same cards', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('#ob-form');
+    await page.focus('button[type=submit]');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(100);
+    const err = await page.evaluate(() => { const a = document.activeElement; const msg = document.getElementById('ob-err'); return { id: a.id, invalid: a.getAttribute('aria-invalid'), desc: a.getAttribute('aria-describedby'), next: a.nextElementSibling?.id, msg: msg?.textContent.trim() }; });
+    assert(err.id === 'ob-year' && err.invalid === 'true' && err.desc.split(' ').includes('ob-err') && err.next === 'ob-err' && /שנת לידה/.test(err.msg), `missing year: ${JSON.stringify(err)}`);
+    await shot(page, 'tf6-year-error-390');
+    await page.selectOption('#ob-year', '1990');
+    await page.focus('button[type=submit]');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(100);
+    assert(await page.evaluate(() => document.activeElement?.tagName === 'H1' && document.activeElement.id === 'ob-h'), 'step 2 does not open with focus on its h1');
+    assert(await page.$eval('[role="radiogroup"][aria-labelledby="ob-min-h"]', (g) => document.getElementById(g.getAttribute('aria-labelledby'))?.textContent.trim().length > 0), 'the minutes group has no name');
+    await page.focus('[data-goal="travel"]');
+    await page.keyboard.press('Enter');
+    const check = await page.$eval('[data-goal="travel"] .ob-mark.check', (m) => ({ pressed: m.parentElement.getAttribute('aria-pressed'), bg: getComputedStyle(m).backgroundColor, icon: Boolean(m.querySelector('svg')) }));
+    assert(check.pressed === 'true' && check.icon && check.bg !== 'rgba(0, 0, 0, 0)', `the chosen goal shows no check: ${JSON.stringify(check)}`);
+    assert(await page.$('[data-min] .ob-mark.radio'), 'minutes cards have no round dot');
+    await page.focus('[data-min][tabindex="0"]');
+    const before = await page.evaluate(() => document.activeElement.dataset.min);
+    await page.keyboard.press('ArrowDown');
+    const after = await page.evaluate(() => ({ focus: document.activeElement.dataset.min, checked: document.querySelector('[data-min][aria-checked="true"]')?.dataset.min, stops: document.querySelectorAll('[data-min][tabindex="0"]').length }));
+    assert(before === '20' && after.focus === '35' && after.checked === '35' && after.stops === 1, `ArrowDown: ${before} -> ${JSON.stringify(after)}`);
+    await shot(page, 'tf6-step2-390');
+    await page.focus('button[type=submit]');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(100);
+    assert(await page.evaluate(() => document.activeElement?.id === 'ob-h'), 'step 3 does not open on its h1');
+    await page.focus('button[type=submit]');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(100);
+    assert(await page.evaluate(() => document.activeElement?.matches('[data-start]') && document.activeElement.closest('[role=radiogroup]').getAttribute('aria-invalid') === 'true'), 'a missing start point does not focus its group');
+    await ctx.close();
+    const p = await newPage(browser);
+    await learnerAt(p.page, 'A2', { goals: ['travel'] });
+    await p.page.goto(`${BASE}#/profile`);
+    await p.page.waitForSelector('[data-goal="travel"]');
+    assert(!(await p.page.$('#view input[type=checkbox]')), 'Profile still uses native checkboxes for goals');
+    assert(await p.page.getAttribute('[data-goal="travel"]', 'aria-pressed') === 'true' && /טיולים ונסיעות לחו״ל/.test(await p.page.textContent('[data-goal="travel"]')), 'Profile goals do not use the onboarding cards and labels');
+    await p.page.click('[data-goal="studies"]');
+    await p.page.click('[data-form] button[type=submit]');
+    await p.page.waitForTimeout(300);
+    const goals = await p.page.evaluate(() => window.lucid.store.get('profile', 'me').goals);
+    assert(goals.includes('travel') && goals.includes('studies'), `Profile did not save the goals: ${goals}`);
+    await shot(p.page, 'tf6-profile-390');
+    await p.ctx.close();
+  });
+
+  // ---------- TF-7: no AI consent where there is no AI ----------
+  await check('TF-7 device-only #/start step 4: no AI checkbox, only the one line; the terms checkbox\'s name is 12 words or fewer', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('#ob-form');
+    await page.selectOption('#ob-year', '1990');
+    await page.click('button[type=submit]');
+    await page.click('button[type=submit]');
+    await page.click('[data-start="basics"]');
+    await page.click('button[type=submit]');
+    await page.waitForSelector('input[name=terms]');
+    assert(!(await page.$('input[name=ai_consent]')), 'an AI checkbox is still there');
+    const line = (await page.textContent('.ob-ai-off')).trim();
+    assert(line === 'AI לא פעיל באתר הזה. כל השאר עובד. אם יתווסף, נשאל קודם.', `AI line: ${line}`);
+    const name = await page.evaluate(() => { const i = document.querySelector('input[name=terms]'); return [...i.labels].map((l) => l.textContent).join(' ').trim(); });
+    assert(name.split(/\s+/).length <= 12, `the terms name has ${name.split(/\s+/).length} words`);
+    const box = await page.$eval('input[name=terms]', (i) => { const r = i.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; });
+    assert(box[0] >= 24 && box[1] >= 24, `the box is ${box}`);
+    await shot(page, 'tf7-step4-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

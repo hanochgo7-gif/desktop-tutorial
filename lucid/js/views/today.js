@@ -230,6 +230,12 @@ export default async function today(el, ctx) {
         case 'use': {
           const sc = b.scenario && scenario(b.scenario);
           const tk = b.task && task(b.task);
+          // The goal item offered outside a short day's budget (TF-4).
+          if (b.offer && !complete) {
+            const what = sc ? legend(sc.title_en, sc.title_he) : tk ? legend(tk.title_en, tk.title_he)
+              : { reading: tt('קריאה ברמה שלכם', 'Reading at your level'), writing: tt('כתיבה קצרה', 'A short text') }[b.kind] || tt('דיבור', 'Speaking');
+            return html`<span class="small faint">${tt(`יש עוד ${b.minutes} דקות?`, `Have ${b.minutes} more minutes?`)}</span> ${what}`;
+          }
           if (sc) return html`${tt('מהחיים:', 'Real life:')} ${legend(sc.title_en, sc.title_he)}`;
           if (tk) return html`${b.started && !b.done ? tt('כתיבה, להמשיך:', 'Writing, continue:') : tt('כתיבה:', 'Writing:')} ${legend(tk.title_en, tk.title_he)}`;
           if (b.kind === 'reading') return tt('קריאה: טקסט קצר ברמה שלך', 'Reading: a short text at your level');
@@ -340,9 +346,12 @@ export default async function today(el, ctx) {
       <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span></a></li>`;
     // "Want more?" once the day is done (TF-2): the blocks not done, another review round, the next lesson or the
     // rest of today's lesson, and a quick word game at the learner's level.
-    const more = complete ? [...status.open, ...plan.extras, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])] : [];
-    // Before the day is done, only the lesson's own continuation is offered, as one quiet line under the plan.
-    const lessonMore = complete ? [] : plan.extras.filter((b) => b.id === 'learn');
+    // The goal item (TF-4) is listed once, not beside an open "use it" block with the same route.
+    const goalItem = plan.offer && !status.open.some((b) => b.route === plan.offer.route) ? [plan.offer] : [];
+    const more = complete ? [...status.open, ...plan.extras, ...goalItem, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])] : [];
+    // Before the day is done, only the lesson's own continuation and, on a short day, the goal item are offered:
+    // quiet rows under the plan, outside its minutes.
+    const lessonMore = complete ? [] : [...plan.extras.filter((b) => b.id === 'learn'), ...(plan.blocks.some((b) => b.id === 'use') ? [] : goalItem)];
     const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt(`התוכנית להיום הושלמה${minutesDone ? ` (כ-${minutesDone} דק׳)` : ''}`, `Today's plan is done${minutesDone ? ` (about ${minutesDone} min)` : ''}`)}</strong>
       ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
 

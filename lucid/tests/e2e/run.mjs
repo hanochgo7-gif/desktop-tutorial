@@ -1251,7 +1251,8 @@ try {
     await page.click('[data-start="basics"]');
     await page.click('button[type=submit]');
     const step = await page.textContent('#ob-form');
-    assert(/מיקרופון|microphone/.test(step) && /Anthropic/.test(step) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
+    // Device only: no AI consent, one honest line instead (UX r3 TF-7); the AI details show only where AI works.
+    assert(/מיקרופון|microphone/.test(step) && /AI לא פעיל באתר הזה/.test(step) && !(await page.$('input[name=ai_consent]')) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
     await ctx.close();
     const p = await newPage(browser);
     await learnerAt(p.page, 'A1', { birthYear: new Date().getFullYear() - 17 });

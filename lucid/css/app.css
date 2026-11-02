@@ -984,6 +984,35 @@ dialog.sheet > .panel { padding: var(--s5); }
 .onboard .field .help { font-size: var(--t-sm); color: var(--ink-2); }
 .ob-prefs .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
 .ob-prefs .seg > button { padding-inline: var(--s1); white-space: nowrap; }
+/* Onboarding and Profile choice cards: a square check for several choices, a round dot for one, on the first line
+   of the card (TF-6). The cards keep their keycap look; the mark says which kind of choice it is. */
+.ob-choices .choice { align-items: flex-start; min-height: 3rem; }
+.ob-choices .choice > .num { margin-block-start: 0.1em; }
+.ob-mark { flex: none; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; margin-block-start: 0.1em; border: 2px solid var(--n5); background: var(--key); color: transparent; }
+.ob-mark.check { border-radius: 0.35rem; }
+.ob-mark.radio { border-radius: 50%; }
+.choice[aria-pressed='true'] > .ob-mark.check { background: var(--cobalt); border-color: var(--cobalt); color: var(--key); }
+.choice[aria-pressed='true'] > .ob-mark.check .icon { stroke-width: 3; }
+.choice[aria-checked='true'] > .ob-mark.radio { border-color: var(--cobalt); box-shadow: inset 0 0 0 0.25rem var(--key); background: var(--cobalt); }
+.choice-note { display: block; font-size: var(--t-sm); color: var(--ink-2); line-height: 1.4; margin-block-start: 0.1rem; }
+.ob-h2 { font-size: var(--t-lg); margin-block-start: var(--s5); }
+.ob-note { margin-block-start: var(--s2); }
+.onboard .ob-note { font-size: var(--t-sm); color: var(--ink-2); }
+/* An error sits under its field, with an icon as well as colour (TF-6). */
+.field-error { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }
+.field-error > .icon { flex: none; margin-block-start: 0.2em; }
+.onboard [role='radiogroup'][aria-invalid='true'] .choice { border-color: var(--bad); }
+/* Consent: a 24px box on the first line of a short label; details are a separate line (TF-7). */
+.ob-check { display: grid; gap: var(--s2); }
+.ob-check .choice { align-items: flex-start; }
+.ob-check .help { padding-inline-start: calc(1.5rem + var(--s3) + var(--s4)); }
+.ob-check input[type='checkbox'] { appearance: none; -webkit-appearance: none; flex: none; position: relative; width: 1.5rem; height: 1.5rem; margin: 0; border: 2px solid var(--n6); border-radius: 0.35rem; background: var(--key); cursor: pointer; }
+.ob-check input[type='checkbox']:checked { background: var(--cobalt); border-color: var(--cobalt); }
+.ob-check input[type='checkbox']:checked::after { content: ''; position: absolute; left: 0.4rem; top: 0.1rem; width: 0.4rem; height: 0.8rem; border: solid var(--key); border-width: 0 0.18rem 0.18rem 0; transform: rotate(45deg); }
+.ob-check input[type='checkbox'][aria-invalid='true'] { border-color: var(--bad); }
+.ob-check input[type='checkbox']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.ob-ai-off { display: flex; align-items: flex-start; gap: var(--s2); color: var(--ink-2); }
+.ob-ai-off > .icon { flex: none; margin-block-start: 0.2em; }
 /* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
 .done-banner { align-items: flex-start; font-size: var(--t-md); }
 .done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }
@@ -991,8 +1020,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .more-today { margin-block-start: var(--s5); }
 .more-today > h3 { font-size: var(--t-md); }
 .more-list { display: grid; gap: var(--s2); }
-.plan-item.more-item { padding-block: var(--s3); }
-.plan-item.more-item .glyph { background: transparent; }
+.plan-item.more-item { padding-block: var(--s3); border-style: dashed; border-block-end-width: 1px; box-shadow: none; }.plan-item.more-item .glyph { background: transparent; }
 
 /* ---- lane first-run-today: end ---- */
 
