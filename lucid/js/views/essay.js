@@ -129,7 +129,8 @@ export default async function essay(el, ctx) {
   let tab = 'checks'; // set below: a draft in revision opens on its AI feedback (persona panel R2-21)
   let cmp = null; // { a, b }: version numbers, b may be 'now' (the current text)
   let cmpAll = false; // compare: changed paragraphs only (default), or the whole text
-  let checkedNote = '';
+  let checkedNote = null; // { he, en }: what the last check found, under the editor (RW-4)
+  let briefOpen = false; // the brief folds into "The task" once a topic is chosen (RW-4)
   // Hint ladder (research E 9.5): 1 locate, 2 name the error type, 3 clue, 4 correction with explanation.
   // Grammar starts at "name" for A1-A2 and at "locate" above; spelling and word choice always start at "locate".
   // "Next hint" works as an explicit "I'm stuck", but the correction opens only after a real attempt in the text,
@@ -215,7 +216,7 @@ export default async function essay(el, ctx) {
   function aiPanel() {
     const v = latestEval();
     if (!aiReady) {
-      return html`<div class="stack-sm"><p class="banner small">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? t('ai.unavailable') : !auth.signedIn ? tt('כדי לקבל משוב AI צריך להיכנס לחשבון.', 'Sign in to get AI feedback.') : tt('הפעילו ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.')}</span></p></div>`;
+      return html`<div class="stack-sm"><p class="banner small">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('כדי לקבל משוב AI צריך להיכנס לחשבון.', 'Sign in to get AI feedback.') : tt('הפעילו ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.')}</span></p></div>`;
     }
     if (!v) return html`<div class="stack"><p class="small muted">${busy ? '' : tt('שלחו את הטקסט למשוב כדי לקבל הערכה לפי 12 קטגוריות, טעויות עם רמזים ומשימות לתיקון.', 'Send your text for feedback to get an assessment across 12 categories, mistakes with hints, and revision tasks.')}</p>${sourceLimits(null)}${selfForm()}</div>`;
     const e = v.evaluation;
@@ -333,9 +334,11 @@ export default async function essay(el, ctx) {
     return html`<p class="xsmall faint row">${tt('הטקסט והגרסאות שמורים במכשיר, ואם יש לכם חשבון, גם בשרת.', 'The text and its versions are saved on this device and, if you have an account, on the server.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקת הטקסט', 'Delete this text')}</button></p>`;
   }
 
+  // The text to respond to (input_text) and the source pack, beside the editor (RW-4).
+  const hasSources = () => Boolean(sourcePack()?.length || task.input_text);
   function sourcesPanel() {
     const pack = sourcePack() || [];
-    return html`<div class="stack-sm">${task.topics?.[chosen]?.assignment ? html`<p class="xsmall faint">${tt('חומרי המקור של הנושא שבחרתם.', 'The source pack for the topic you chose.')}</p>` : ''}
+    return html`<div class="stack-sm">${task.input_text ? html`<h3 class="small">${tt('הטקסט שעליו עונים', 'The text you respond to')}</h3><div class="passage small source" lang="en" dir="ltr">${task.input_text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>` : ''}${task.topics?.[chosen]?.assignment ? html`<p class="xsmall faint">${tt('חומרי המקור של הנושא שבחרתם.', 'The source pack for the topic you chose.')}</p>` : ''}
       ${pack.map((s) => html`<div class="passage small source"><p><strong>${s.title}</strong> <span class="tag">${tt('חומר לדוגמה, לא נתונים אמיתיים', 'Illustrative, not real data')}</span></p>${s.text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>`)}</div>`;
   }
 
@@ -357,23 +360,31 @@ export default async function essay(el, ctx) {
   function taskPanel() {
     const pack = sourcePack();
     const req = task.required || task.required_elements || [];
-    return html`<div class="panel flat stack-sm">${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${bi(task.instructions)}</div>
+    const body = html`${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${bi(task.instructions)}</div>
       ${task.audience ? html`<p class="small"><strong>${tt('למי כותבים:', 'Audience:')}</strong> <span lang="en" dir="ltr">${task.audience}</span></p>` : ''}
       ${kindPicker()}
       ${topicPicker()}
       ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list" dir="ltr">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}
       ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm" style="margin:var(--s2) 0 0;padding-inline-start:1.2rem">${task.scaffold.map((s) => html`<li>${bi(s)}</li>`)}</ol></details>` : ''}
       ${pack?.length ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt(`חומרי מקור (${pack.length}), לדוגמה בלבד`, `Source pack (${pack.length}), illustrative only`)}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}
-      ${task.input_text ? html`<div class="passage small" lang="en" dir="ltr">${task.input_text.split(/\n+/).map((p) => html`<p>${p}</p>`)}</div>` : ''}
-    </div>`;
+      ${task.input_text ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt('הטקסט שעליו עונים נמצא בלשונית ״מקורות״.', 'The text you respond to is in the Sources tab.')}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}`;
+    // Once a topic is chosen, the brief folds into "The task", so the editor comes up the page (RW-4).
+    if (task.topics?.length && chosen != null) {
+      const tp = task.topics[chosen];
+      return html`<details class="panel flat task-fold" data-task-fold ${briefOpen ? html`open` : ''}><summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span><span class="grow"><strong>${tt('המשימה', 'The task')}</strong><span class="task-fold-topic" lang="en" dir="ltr">${tp?.en || ''}</span></span></summary><div class="stack-sm task-fold-body">${body}</div></details>`;
+    }
+    return html`<div class="panel flat stack-sm">${body}</div>`;
   }
 
   // Self-check list and model answer: task material, kept above the editor so nothing hides behind it.
   function taskExtras() {
     const model = task.model_answer || task.exemplar;
+    // The model opens after a checked draft of at least half the minimum length, not after a 3-word check (RW-4).
+    const half = Math.max(1, Math.ceil(minWords * 0.5));
+    const open = versions().some((v) => (v.words || 0) >= half);
     return html`${task.checklist?.length ? html`<details class="panel flat"><summary class="small">${tt('רשימת בדיקה עצמית', 'Self-check list')}</summary><div class="stack-sm" style="margin-top:var(--s2)">${task.checklist.map((c) => html`<label class="row small"><input type="checkbox"> ${bi(c)}</label>`)}</div></details>` : ''}
-      ${model && !versions().length ? html`<p class="small faint row">${icon('lock', { size: 14 })} ${tt('דוגמה לתשובה תיפתח אחרי הבדיקה או המשוב הראשונים, כדי שתכתבו קודם בעצמכם.', 'A model answer opens after your first check or feedback, so you write it yourself first.')}</p>` : ''}
-      ${model && versions().length ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
+      ${model && !open ? html`<p class="small faint row">${icon('lock', { size: 14 })} ${minWords ? tt(`דוגמה לתשובה תיפתח אחרי בדיקה של טיוטה עם ${half} מילים לפחות (חצי מהמינימום), כדי שתכתבו קודם בעצמכם.`, `A model answer opens after you check a draft of at least ${half} words (half the minimum), so you write it yourself first.`) : tt('דוגמה לתשובה תיפתח אחרי הבדיקה הראשונה, כדי שתכתבו קודם בעצמכם.', 'A model answer opens after your first check, so you write it yourself first.')}</p>` : ''}
+      ${model && open ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
   }
 
   // On phones the feedback column is below the editor, so the mistakes are also listed right under it,
@@ -390,8 +401,8 @@ export default async function essay(el, ctx) {
     const refs = splitReferences(text).references;
     const stage = STAGES.find((s) => s[0] === task.stage);
     const why = aiReady ? aiWhy() : '';
-    const tabs = [['checks', 'בדיקות', 'Checks'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(sourcePack()?.length ? [['sources', 'מקורות', 'Sources']] : [])];
-    if (tab === 'sources' && !sourcePack()?.length) tab = 'checks';
+    const tabs = [['checks', 'בדיקות', 'Checks'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
+    if (tab === 'sources' && !hasSources()) tab = 'checks';
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/writing">${t('nav.writing')}</a>${stage ? html` · ${tt(`שלב ${stage[0]}: ${stage[2]}`, `Stage ${stage[0]}: ${stage[1]}`)}` : ''}</p><h1>${legend(task.title_en, task.title_he)}</h1></div>${task.level ? levelTag(task.level) : ''}</div>
       <div class="editor">
@@ -402,13 +413,13 @@ export default async function essay(el, ctx) {
           <div class="editor-pane stack-sm">
             <label class="sr-only" for="essay">${tt('הטקסט שלך', 'Your text')}</label>
             <textarea class="input" id="essay" lang="en" dir="ltr" spellcheck="false" placeholder="${tt('כתבו כאן באנגלית…', 'Write here in English…')}">${text}</textarea>
-            <div class="row between"><div class="editor-stats"><span class="num" data-wc>${wordLabel(words, refs)}</span>${minWords ? html`<span>${tt('יעד', 'target')} ${minWords}${maxWords ? `-${maxWords}` : '+'}</span>` : ''}<span class="faint" data-saved>${draftRec ? tt('הטיוטה נשמרה', 'Draft saved') : ''}</span></div>
-              <div class="row"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
+            <div class="editor-bar"><div class="editor-stats"><span class="num" data-wc>${wordLabel(words, refs)}</span>${minWords ? html`<span>${targetLabel()}</span>` : ''}<span class="save-slot" data-saved title="${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}" ${draftRec ? '' : html`data-off`}>${icon('check', { size: 14 })}<span class="sr-only">${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}</span></span></div>
+              <div class="row editor-keys"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
                 ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || why ? html`disabled aria-describedby="ai-why"` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
-            ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('משוב AI עוד לא זמין באתר הזה; הבדיקות האוטומטיות עובדות.', 'AI feedback is not available on this site yet; automatic checks work.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
+            ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
             ${busyStatus()}
-            <p class="small" role="status" data-status>${busy ? '' : checkedNote}</p>
+            <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : tt(checkedNote.he, checkedNote.en)}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
             ${aiError ? html`<p class="error-text" role="alert">${aiError}</p>` : ''}
             ${aiNote ? html`<p class="xsmall faint">${aiNote}</p>` : ''}
             ${fixStrip()}
@@ -421,6 +432,9 @@ export default async function essay(el, ctx) {
       </div>`);
     tickElapsed();
   }
+  function targetLabel() {
+    return `${tt('יעד', 'target')} ${minWords}${maxWords ? `-${maxWords}` : '+'}`;
+  }
   function wordLabel(words, refs) {
     const r = refs ? countWords(refs) : 0;
     return r ? tt(`${words} מילים (+${r} ברשימת המקורות)`, `${words} words (+${r} in references)`) : `${words} ${tt('מילים', 'words')}`;
@@ -430,7 +444,7 @@ export default async function essay(el, ctx) {
   const saveDraft = debounce(() => {
     if (!text && chosen == null && !store.get('writing', `${sumId}#draft`)) return;
     store.put('writing', { id: `${sumId}#draft`, kind: 'essay-draft', exercise: task.id, text, topic: chosen, ...(textKind ? { text_kind: textKind } : {}) });
-    const s = $('[data-saved]', el); if (s) s.textContent = tt('הטיוטה נשמרה', 'Draft saved');
+    $('[data-saved]', el)?.removeAttribute('data-off');
   }, 600);
 
   // Live updates while typing, without redrawing (the textarea keeps focus).
@@ -534,6 +548,17 @@ export default async function essay(el, ctx) {
     side.focus({ preventScroll: true });
   }
 
+  // After a check, the results come into view and their heading takes focus (RW-4). On wide screens the panel is
+  // sticky beside the text, so only its own scroll goes back to the top.
+  function revealChecks() {
+    const side = $('aside.essay-side', el);
+    const head = $('[data-checks-head]', el);
+    if (!side || !head) return;
+    side.scrollTop = 0;
+    head.focus({ preventScroll: true });
+    if (getComputedStyle(side).position !== 'sticky') side.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+
   // Select a quoted mistake in the textarea, at the place it was in the assessed draft (persona panel P-30).
   function selectInEditor(i) {
     const v = latestEval();
@@ -570,7 +595,7 @@ export default async function essay(el, ctx) {
     for (const w of store.all('writing').filter((x) => x.exercise === task.id)) store.remove('writing', w.id);
     for (const a of store.all('attempts').filter((x) => x.source === 'writing' && x.exercise === task.id && x.response)) store.update('attempts', a.id, { response: null });
     logEvent({ type: 'writing-deleted', exercise: task.id });
-    text = ''; chosen = null; analysis = null; cmp = null; aiError = ''; aiNote = ''; checkedNote = ''; rung.clear(); attempted.clear(); tab = 'checks';
+    text = ''; chosen = null; analysis = null; cmp = null; aiError = ''; aiNote = ''; checkedNote = null; rung.clear(); attempted.clear(); tab = 'checks';
     draw();
     toast(tt('הטקסט נמחק.', 'The text was deleted.'));
   }
@@ -578,13 +603,15 @@ export default async function essay(el, ctx) {
   draw();
   const offs = [
     on(el, 'input', '#essay', (e) => { text = e.target.value; refreshLive(); markAttempts(); saveDraft(); }),
-    on(el, 'change', 'input[name=topic]', (e, r) => { chosen = Number(r.value); saveDraft(); draw(); }),
+    on(el, 'change', 'input[name=topic]', (e, r) => { chosen = Number(r.value); briefOpen = false; saveDraft(); draw(); $('[data-task-fold] > summary', el)?.focus(); }),
+    on(el, 'toggle', 'details[data-task-fold]', (e, d) => { briefOpen = d.open; }, true),
+    on(el, 'click', '[data-goto-checks]', () => revealChecks()),
     on(el, 'click', '[data-check]', () => {
       analysis = analyze(); saveVersion(); tab = 'checks'; logEvent({ type: 'writing', exercise: task.id });
       // What the checks found, failed checks first: never "no problems" under a length warning (RW-2).
       const sum = checkSummary(analysis, { minWords, maxWords });
-      checkedNote = tt(sum.he, sum.en);
-      draw(); revealPanel();
+      checkedNote = { he: sum.he, en: sum.en };
+      draw(); revealChecks();
     }),
     on(el, 'click', '[data-ai]', (e, b) => { if (!b.disabled) getFeedback(); }),
     on(el, 'click', '[data-tab]', (e, b) => { tab = b.dataset.tab; draw(); if (b.hasAttribute('data-reveal')) revealPanel(); }),

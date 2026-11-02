@@ -808,6 +808,30 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .goal-points li.ok > .icon { color: var(--ok); }
 .goal-points li.todo > .icon { color: var(--ink-3); }
 .model-replies { margin: 0; padding-inline-start: 1.2rem; text-align: start; }
+/* Essay editor (RW-4): the feedback panel stays beside the text on wide screens; under the text the counter and
+   the keys sit in a grid, so typing never moves the Check key; the save status is a fixed icon slot. */
+@media (min-width: 64rem) {
+  .editor > aside.essay-side { position: sticky; top: var(--s5); max-height: calc(100dvh - 2 * var(--s5)); overflow: auto; overscroll-behavior: contain; }
+}
+.editor-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: var(--s2) var(--s3); }
+.editor-bar .editor-stats { align-items: center; row-gap: 0; padding-block-start: 0.7rem; }
+.editor-keys { justify-content: flex-end; }
+.save-slot { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: 1.25rem; color: var(--ok); }
+.save-slot[data-off] { visibility: hidden; }
+@media (max-width: 30rem) {
+  .editor-bar { grid-template-columns: minmax(0, 1fr); }
+  .editor-keys { justify-content: flex-start; }
+}
+.check-status { gap: var(--s2); }
+.check-status:has([data-status]:empty) { display: none; }
+.task-fold > summary { min-height: 2.75rem; }
+.task-fold-topic { display: block; font-size: var(--t-sm); color: var(--ink-2); text-align: start; }
+.task-fold-body { margin-block-start: var(--s3); }
+/* Phones: less padding around sources inside the feedback panel, so a passage keeps a readable line length. */
+@media (max-width: 30rem) {
+  aside.essay-side { padding: var(--s4) var(--s3); }
+  aside.essay-side .passage.source { padding: var(--s3); }
+}
 /* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
 .check-item.ok > .icon { color: var(--ok); }
 .check-item.bad { background: var(--warn-tint); }

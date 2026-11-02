@@ -461,7 +461,7 @@ try {
     await page.waitForSelector('#essay');
     assert(!(await page.$('[data-tab="sources"]')), 'Sources tab before a topic with a pack is chosen');
     await page.click('input[name=topic][value="0"]');
-    await page.waitForSelector('[data-tab="sources"]');
+    await page.waitForSelector('aside [data-tab="sources"]'); // RW-4: the brief (and its own Sources key) folds once a topic is chosen
     await page.click('aside [data-tab="sources"]');
     assert((await page.$$('aside .passage.source')).length >= 3, 'source pack not shown beside the text (P-84)');
     // P-78: a long paper with its references (over the old 16,000-character limit) is accepted and counted
