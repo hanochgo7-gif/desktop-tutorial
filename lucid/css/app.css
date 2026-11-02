@@ -991,6 +991,14 @@ dialog.sheet > .panel { padding: var(--s5); }
 .option.is-right .k { color: var(--ok); border-color: var(--ok); background: var(--key); }
 .option.is-wrong .k { color: var(--bad); border-color: var(--bad); background: var(--key); }
 
+/* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
+@media (min-width: 64rem) {
+  .deck { overflow: hidden; }
+  .deck nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; align-content: start; overscroll-behavior: contain; margin-inline: calc(var(--s1) * -1); padding-inline: var(--s1); padding-block-end: var(--s3); }
+  .deck .foot { flex: none; margin-top: 0; padding-block-start: var(--s3); border-block-start: 1px solid oklch(1 0 0 / 0.1); }
+  .deck .foot a.nav { padding-block: 0.4rem; }
+}
+
 /* Touch screens (SC-2): no keyboard hints. "Enter" keycaps go; option numbers stay as quiet labels, not keys. */
 @media (hover: none) and (pointer: coarse) {
   .kbd { display: none; }

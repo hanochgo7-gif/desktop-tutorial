@@ -193,6 +193,29 @@ try {
       await ctx.close();
     }
   });
+
+  await check('SC-4. Desktop rail: Help and Settings are fully in view at 1440x900 and 1366x768 without scrolling; on a short window the labs scroll', async () => {
+    for (const [width, height] of [[1440, 900], [1366, 768], [1280, 560]]) {
+      const { ctx, page } = await newPage(browser, { width, height });
+      await learnerAt(page, 'A1');
+      await page.goto(`${BASE}#/today`);
+      await page.waitForSelector('.deck a[href="#/settings"]');
+      const r = await page.evaluate(() => {
+        const box = (s) => document.querySelector(s).getBoundingClientRect();
+        const nav = document.querySelector('.deck nav');
+        const inView = (s) => { const b = box(s); return b.top >= 0 && b.bottom <= innerHeight; };
+        const out = { help: inView('.deck a[href="#/help"]'), settings: inView('.deck a[href="#/settings"]'), deckScrolls: document.querySelector('.deck').scrollHeight > document.querySelector('.deck').clientHeight + 1, navScrolls: nav.scrollHeight > nav.clientHeight + 1 };
+        nav.scrollTop = nav.scrollHeight;
+        const last = [...nav.querySelectorAll('a.nav')].at(-1).getBoundingClientRect(), nb = nav.getBoundingClientRect();
+        out.lastReachable = last.bottom <= nb.bottom + 1 && last.top >= nb.top - 1;
+        return out;
+      });
+      assert(r.help && r.settings && !r.deckScrolls, `${width}x${height}: Help/Settings not in view: ${JSON.stringify(r)}`);
+      if (height < 700) assert(r.navScrolls && r.lastReachable, `${width}x${height}: the labs do not scroll: ${JSON.stringify(r)}`);
+      await shot(page, `sc4-${width}x${height}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();
