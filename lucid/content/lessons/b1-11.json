@@ -29,7 +29,7 @@
     {
       "type": "p",
       "en": "Look: Big cities are exciting, but they are expensive. / Big cities are exciting. However, they are expensive. / Although big cities are exciting, they are expensive. All three sentences say the same thing. The difference is grammar: where the connector goes and how you punctuate it.",
-      "he": "שימו לב: Big cities are exciting, but they are expensive. / Big cities are exciting. However, they are expensive. / Although big cities are exciting, they are expensive. שלושת המשפטים אומרים אותו דבר. ההבדל הוא דקדוקי: איפה מילת הקישור נמצאת ואיך מפסקים אותה."
+      "he": "שלושה משפטים יכולים לומר אותו דבר עם but, ‏However או Although. ההבדל הוא דקדוקי: איפה מילת הקישור נמצאת ואיך מפסקים אותה."
     },
     {
       "type": "table",
@@ -74,17 +74,17 @@
     {
       "type": "rule",
       "en": "however is not a joining word like but: it links two separate sentences. The bus is cheap. However, it is slow. You can also use a semicolon: The bus is cheap; however, it is slow. A comma alone is not enough: *The bus is cheap, however it is slow.",
-      "he": "however היא לא מילת חיבור כמו but: היא מקשרת בין שני משפטים נפרדים. ‏The bus is cheap. However, it is slow. אפשר גם נקודה-פסיק: The bus is cheap; however, it is slow. פסיק לבד לא מספיק: לא The bus is cheap, however it is slow."
+      "he": "however היא לא מילת חיבור כמו but: היא מקשרת בין שני משפטים נפרדים, עם נקודה (או נקודה-פסיק) לפניה ופסיק אחריה. פסיק לבד לפניה לא מספיק."
     },
     {
       "type": "warning",
       "en": "One connector is enough: *Although it was late, but we stayed → Although it was late, we stayed / It was late, but we stayed. despite needs a noun or -ing, not a full clause: *Despite it was raining → Despite the rain / Although it was raining. whereas compares two things; for a surprising result, use although.",
-      "he": "מילת קישור אחת מספיקה: לא Although it was late, but we stayed, אלא Although it was late, we stayed או It was late, but we stayed. אחרי despite בא שם עצם או צורת ing, לא משפט שלם: לא Despite it was raining, אלא Despite the rain או Although it was raining. ‏whereas משווה בין שני דברים; לתוצאה מפתיעה משתמשים ב-although."
+      "he": "מילת קישור אחת מספיקה: although או but, לא שתיהן. אחרי despite בא שם עצם או צורת ing, לא משפט שלם. ‏whereas משווה בין שני דברים; לתוצאה מפתיעה משתמשים ב-although."
     },
     {
       "type": "tip",
       "en": "A balanced pros-and-cons paragraph: topic sentence → advantages (with an example) → On the other hand, / However, → disadvantages (with an example) → your view: On balance, ... / Overall, ... To present two sides, you can use On the one hand, ... On the other hand, ...",
-      "he": "פסקה מאוזנת של יתרונות וחסרונות: משפט נושא ← יתרונות (עם דוגמה) ← On the other hand, / However, ← חסרונות (עם דוגמה) ← הדעה שלכם: On balance, ... / Overall, ... כדי להציג שני צדדים אפשר להשתמש ב-On the one hand, ... On the other hand, ..."
+      "he": "פסקה מאוזנת של יתרונות וחסרונות: משפט נושא ← יתרונות (עם דוגמה) ← On the other hand ← חסרונות (עם דוגמה) ← הדעה שלכם, למשל עם Overall."
     }
   ],
   "examples": [
@@ -334,12 +334,12 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the adjective comes after the noun (literally 'an advantage big'), so it is easy to write *an advantage big. In English the adjective comes before the noun: a big advantage, a serious disadvantage, the main drawback.",
-      "he": "בעברית שם התואר בא אחרי שם העצם ('יתרון גדול'), ולכן קל לכתוב an advantage big. באנגלית שם התואר בא לפני שם העצם: a big advantage, ‏a serious disadvantage, ‏the main drawback.",
+      "he": "בעברית שם התואר בא אחרי שם העצם ('יתרון גדול'). באנגלית שם התואר בא לפני שם העצם: a big advantage.",
       "error_type": "word-order"
     },
     {
       "en": "In Hebrew there are no capital letters, so it's easy to forget one when however starts a new sentence. After a full stop, write a capital H: ...is cheap. However, it is slow. After a semicolon, keep a small h: ...is cheap; however, it is slow.",
-      "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אות גדולה כש-however פותח משפט חדש. אחרי נקודה כותבים H גדולה: ...is cheap. However, it is slow. אחרי נקודה-פסיק נשארת h קטנה: ...is cheap; however, it is slow.",
+      "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אות גדולה כש-however פותח משפט חדש: אחרי נקודה כותבים H גדולה, ואחרי נקודה-פסיק נשארת h קטנה.",
       "error_type": "capitalization"
     },
     {
@@ -386,7 +386,7 @@
       ],
       "explanation": {
         "en": "Hebrew uses one word for 'despite' and 'although': it is followed by a noun ('despite the rain') or by 'that' + a clause ('although it rained'). English uses two different words: although + subject + verb (although it rained), despite + noun (despite the rain). The Hebrew partner of whereas works the same way: it compares two different things.",
-        "he": "בעברית יש מילה אחת, 'למרות', ואחריה בא שם עצם ('למרות הגשם') או ש + משפט ('למרות שירד גשם'). באנגלית יש שתי מילים שונות: although + נושא + פועל (although it rained), ו-despite + שם עצם (despite the rain). 'ואילו' משווה בין שני דברים, בדיוק כמו whereas."
+        "he": "בעברית יש מילה אחת, 'למרות', ואחריה בא שם עצם ('למרות הגשם') או ש + משפט ('למרות שירד גשם'). באנגלית יש שתי מילים שונות: although + נושא + פועל, ו-despite + שם עצם. 'ואילו' משווה בין שני דברים, בדיוק כמו whereas."
       }
     },
     {
@@ -446,7 +446,7 @@
       },
       "explanation": {
         "en": "however: a full stop or semicolon before it, a comma after it (a comma alone is wrong). One connector per contrast (not although ... but). despite + noun (its low price), not + subject + verb (the phone is cheap).",
-        "he": "however: נקודה או נקודה-פסיק לפניו, ופסיק אחריו (פסיק לבד שגוי). מילת קישור אחת לכל ניגוד (לא although ... but). ‏despite + שם עצם (its low price), ולא + נושא + פועל (the phone is cheap)."
+        "he": "however: נקודה או נקודה-פסיק לפניו, ופסיק אחריו (פסיק לבד שגוי). מילת קישור אחת לכל ניגוד, ו-despite + שם עצם, לא + נושא + פועל."
       }
     },
     {
@@ -469,7 +469,7 @@
       "option_feedback": {
         "0": {
           "en": "Although needs a clause in the same sentence: Although the hotel was lovely, the food was disappointing. Here there is a full stop before the gap.",
-          "he": "אחרי Although צריך לבוא באותו משפט גם החלק השני: Although the hotel was lovely, the food was disappointing. כאן יש נקודה לפני הרווח."
+          "he": "אחרי Although צריך לבוא באותו משפט גם החלק השני, אבל כאן יש נקודה לפני הרווח."
         },
         "2": {
           "en": "Whereas joins two clauses in one sentence to compare two things. It cannot start a sentence with a comma after it like this.",
@@ -529,7 +529,7 @@
       },
       "explanation": {
         "en": "On the other hand introduces the disadvantage: I really miss my classmates. Although we have video calls, ... adds that the calls do not solve the problem.",
-        "he": "On the other hand מציג את החיסרון: I really miss my classmates. ‏Although we have video calls, ... מוסיף שהשיחות לא פותרות את הבעיה."
+        "he": "On the other hand מציג את החיסרון (הגעגועים לחברים לכיתה), ו-Although מוסיף שהשיחות בווידאו לא פותרות את הבעיה."
       }
     },
     {
@@ -608,7 +608,7 @@
           "match": "Although",
           "feedback": {
             "en": "Although needs subject + verb (although the weather was bad). Before a noun (the bad weather), use Despite. After a full stop, use However.",
-            "he": "אחרי Although בא נושא + פועל (although the weather was bad). לפני שם עצם (the bad weather) משתמשים ב-Despite, ואחרי נקודה – ב-However."
+            "he": "אחרי Although בא נושא + פועל. לפני שם עצם משתמשים ב-Despite, ואחרי נקודה – ב-However."
           },
           "error_type": "cohesion"
         },
@@ -631,11 +631,11 @@
       ],
       "hint": {
         "en": "Before a noun → Despite. Before subject + verb → Although. Comparing two people → whereas. After a full stop → However / On the other hand. Inside one sentence → but.",
-        "he": "לפני שם עצם ← Despite. לפני נושא + פועל ← Although. השוואה בין שני אנשים ← whereas. אחרי נקודה ← However / On the other hand. בתוך משפט אחד ← but."
+        "he": "לפני שם עצם ← Despite. לפני נושא + פועל ← Although. השוואה בין שני אנשים ← whereas. אחרי נקודה ← However. בתוך משפט אחד ← but."
       },
       "explanation": {
         "en": "1 whereas (or but) compares two people · 2 Despite + noun · 3 Although + subject + verb · 4 However, / On the other hand, after a full stop · 5 but joins two clauses about the same flat.",
-        "he": "1 whereas (או but) משווה בין שני אנשים · 2 Despite + שם עצם · 3 Although + נושא + פועל · 4 However, / On the other hand, אחרי נקודה · 5 but מחבר שני חלקים על אותה דירה."
+        "he": "1 whereas (או but) משווה בין שני אנשים · 2 Despite + שם עצם · 3 Although + נושא + פועל · 4 However אחרי נקודה · 5 but מחבר שני חלקים על אותה דירה."
       }
     },
     {
@@ -658,7 +658,7 @@
       "option_feedback": {
         "0": {
           "en": "Although needs subject + verb: Although he felt ill, Omer went to work.",
-          "he": "אחרי Although בא נושא + פועל: Although he felt ill, Omer went to work."
+          "he": "אחרי Although בא נושא + פועל (he felt ill)."
         },
         "1": {
           "en": "However starts a new sentence after a full stop; it cannot go before feeling.",
@@ -816,7 +816,7 @@
       },
       "explanation": {
         "en": "Although the hostel was cheap, it was very noisy. When the although part comes first, we normally put a comma after it. In the middle of the sentence, the comma is optional.",
-        "he": "Although the hostel was cheap, it was very noisy. כשהחלק עם although בא ראשון, בדרך כלל שמים אחריו פסיק. כשהוא באמצע המשפט, הפסיק לא חובה."
+        "he": "כשהחלק עם although בא ראשון, בדרך כלל שמים אחריו פסיק. כשהוא באמצע המשפט, הפסיק לא חובה."
       }
     },
     {
@@ -860,7 +860,7 @@
       },
       "explanation": {
         "en": "despite + noun: Despite the rain, we went to the beach. Before subject + verb, use although: Although it was raining, we went to the beach.",
-        "he": "despite + שם עצם: Despite the rain, we went to the beach. לפני נושא + פועל משתמשים ב-although: ‏Although it was raining, we went to the beach."
+        "he": "despite + שם עצם (Despite the rain). לפני נושא + פועל משתמשים ב-although."
       }
     },
     {
@@ -896,7 +896,7 @@
       },
       "explanation": {
         "en": "although and but do the same job, so use only one: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it.",
-        "he": "although ו-but עושות אותה עבודה, ולכן משתמשים רק באחת: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it."
+        "he": "although ו-but עושות אותה עבודה, ולכן משתמשים רק באחת מהן."
       }
     },
     {
@@ -922,7 +922,7 @@
       ],
       "explanation": {
         "en": "whereas joins two clauses that compare two different people: Omer loves spicy food, whereas his brother can't stand it. (can't stand = really hate)",
-        "he": "whereas מחבר שני חלקים שמשווים בין שני אנשים שונים: Omer loves spicy food, whereas his brother can't stand it. ‏(can't stand = ממש לא סובל)"
+        "he": "whereas מחבר שני חלקים שמשווים בין שני אנשים שונים. ‏can't stand = ממש לא סובל."
       }
     },
     {
@@ -977,7 +977,7 @@
           "answer": true,
           "explanation": {
             "en": "'It takes me eight minutes to get to the hospital, whereas the bus takes twenty-five.'",
-            "he": "בטקסט: It takes me eight minutes to get to the hospital, whereas the bus takes twenty-five."
+            "he": "בטקסט כתוב שבקורקינט הדרך לבית החולים לוקחת שמונה דקות, ואילו (whereas) באוטובוס עשרים וחמש."
           }
         },
         {
@@ -986,7 +986,7 @@
           "answer": false,
           "explanation": {
             "en": "'Although there are clear rules about parking, scooters are often left in the middle of the pavement.'",
-            "he": "בטקסט: Although there are clear rules about parking, scooters are often left in the middle of the pavement."
+            "he": "בטקסט כתוב שלמרות (Although) שיש כללים ברורים לחנייה, משאירים קורקינטים באמצע המדרכה."
           }
         },
         {
@@ -1054,7 +1054,7 @@
           },
           "explanation": {
             "en": "'However, this would cost money, and some people feel the town has more important problems.'",
-            "he": "בטקסט: However, this would cost money, and some people feel the town has more important problems."
+            "he": "בטקסט כתוב (However) שזה יעלה כסף, ושיש אנשים שחושבים שלעיר יש בעיות חשובות יותר."
           }
         }
       ]
@@ -1109,7 +1109,7 @@
         },
         {
           "en": "I wrote natural English, not word for word from the Hebrew (a ten-minute walk, the rent is reasonable, no lift).",
-          "he": "כתבתי באנגלית טבעית, לא תרגום מילה במילה מהעברית (a ten-minute walk, ‏the rent is reasonable, ‏no lift)."
+          "he": "כתבתי באנגלית טבעית, לא תרגום מילה במילה מהעברית (למשל a ten-minute walk)."
         }
       ]
     },
@@ -1124,7 +1124,7 @@
       },
       "task": {
         "en": "Choose one topic: living in a big city, having a part-time job while you study, or studying online. Write a balanced paragraph (100-140 words) about its pros and cons. Start with a topic sentence, give at least two advantages and two disadvantages, and finish with your own view (On balance, ... / Overall, ...). Use however and although, and at least one more contrast connector (whereas, on the other hand, but, despite).",
-        "he": "בחרו נושא אחד: לגור בעיר גדולה, לעבוד במשרה חלקית בזמן הלימודים, או ללמוד באופן מקוון. כתבו פסקה מאוזנת (100-140 מילים) על היתרונות והחסרונות שלו. פתחו במשפט נושא, תנו לפחות שני יתרונות ושני חסרונות, וסיימו בדעה שלכם (On balance, ... / Overall, ...). השתמשו ב-however וב-although, ולפחות במילת ניגוד אחת נוספת (whereas, ‏on the other hand, ‏but, ‏despite)."
+        "he": "בחרו נושא אחד: לגור בעיר גדולה, לעבוד במשרה חלקית בזמן הלימודים, או ללמוד באופן מקוון. כתבו פסקה מאוזנת (100-140 מילים) על היתרונות והחסרונות שלו. פתחו במשפט נושא, תנו לפחות שני יתרונות ושני חסרונות, וסיימו בדעה שלכם (למשל Overall). השתמשו ב-however וב-although, ולפחות במילת ניגוד אחת נוספת (כמו whereas או despite)."
       },
       "min_words": 100,
       "max_words": 140,
@@ -1169,11 +1169,11 @@
       },
       {
         "en": "however: a full stop (or semicolon) before it, a comma after it: It's cheap. However, it's slow.",
-        "he": "however: נקודה (או נקודה-פסיק) לפניו, ופסיק אחריו: It's cheap. However, it's slow."
+        "he": "however: נקודה (או נקודה-פסיק) לפניו, ופסיק אחריו."
       },
       {
         "en": "although + subject + verb; despite + noun or -ing: although it rained / despite the rain.",
-        "he": "although + נושא + פועל; ‏despite + שם עצם או ing: ‏although it rained / despite the rain."
+        "he": "although + נושא + פועל; ‏despite + שם עצם או ing."
       },
       {
         "en": "One connector per contrast: not *Although ..., but ...",
@@ -1181,7 +1181,7 @@
       },
       {
         "en": "A balanced paragraph: topic sentence → pros → On the other hand, → cons → On balance, ...",
-        "he": "פסקה מאוזנת: משפט נושא ← יתרונות ← On the other hand, ← חסרונות ← On balance, ..."
+        "he": "פסקה מאוזנת: משפט נושא ← יתרונות ← On the other hand ← חסרונות ← הדעה שלכם."
       }
     ]
   },

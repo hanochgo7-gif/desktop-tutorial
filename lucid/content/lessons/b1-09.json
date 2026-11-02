@@ -18,18 +18,18 @@
     },
     {
       "en": "I can use -ing after prepositions (good at cooking, interested in learning) and both forms after like, love and hate.",
-      "he": "אני יודע/ת להשתמש ב-ing אחרי מילות יחס (good at cooking, interested in learning) ובשתי הצורות אחרי like, ‏love ו-hate."
+      "he": "אני יודע/ת להשתמש ב-ing אחרי מילות יחס (good at cooking), ובשתי הצורות אחרי like, ‏love ו-hate."
     }
   ],
   "warmup": {
     "en": "Finish these two sentences about yourself: I really enjoy... / This year I want... Did you use the same verb form after enjoy and want?",
-    "he": "השלימו על עצמכם את שני המשפטים: I really enjoy... / This year I want... האם השתמשתם באותה צורת פועל אחרי enjoy ואחרי want?"
+    "he": "השלימו על עצמכם שני משפטים: מה אתם נהנים לעשות (enjoy), ומה אתם רוצים לעשות השנה (want). האם השתמשתם באותה צורת פועל אחרי enjoy ואחרי want?"
   },
   "explanation": [
     {
       "type": "p",
       "en": "Look: I enjoy cooking. I want to cook more. She's good at cooking. When one verb follows another, the first verb decides the form of the second: -ing (cooking) or to + base verb (to cook). No simple rule covers every verb, so learn each verb with its pattern, as one chunk: enjoy doing, want to do.",
-      "he": "שימו לב: I enjoy cooking. ‏I want to cook more. ‏She's good at cooking. כשפועל אחד בא אחרי פועל אחר, הפועל הראשון קובע את הצורה של השני: ing ‏(cooking) או to + פועל בסיס (to cook). אין כלל פשוט שמתאים לכל הפעלים, ולכן כדאי ללמוד כל פועל יחד עם הדפוס שלו, כצירוף אחד: enjoy doing, want to do."
+      "he": "כשפועל אחד בא אחרי פועל אחר, הפועל הראשון קובע את הצורה של השני: ing או to + פועל בסיס. אין כלל פשוט שמתאים לכל הפעלים, ולכן כדאי ללמוד כל פועל יחד עם הדפוס שלו, כצירוף אחד: enjoy doing, want to do."
     },
     {
       "type": "table",
@@ -67,17 +67,17 @@
     {
       "type": "rule",
       "en": "After a preposition (in, at, about, of, for, without, before, after...), always use -ing: I'm interested in learning Japanese. She's good at drawing. Thanks for coming. Don't leave without saying goodbye.",
-      "he": "אחרי מילת יחס (in, at, about, of, for, without, before, after...) תמיד בא ing: I'm interested in learning Japanese. ‏She's good at drawing. ‏Thanks for coming. ‏Don't leave without saying goodbye."
+      "he": "אחרי מילת יחס (כמו in, at או for) תמיד בא ing: She's good at drawing."
     },
     {
       "type": "tip",
       "en": "like, love and hate can take both forms with almost no change in meaning: I love dancing / I love to dance. But would like, would love and would hate take only to: I'd like to dance (not *I'd like dancing).",
-      "he": "אחרי like, ‏love ו-hate אפשר להשתמש בשתי הצורות, כמעט בלי הבדל במשמעות: I love dancing / I love to dance. אבל אחרי would like, ‏would love ו-would hate בא רק to: I'd like to dance (ולא I'd like dancing)."
+      "he": "אחרי like, ‏love ו-hate אפשר להשתמש בשתי הצורות, כמעט בלי הבדל במשמעות. אבל אחרי would like ודומיו בא רק to."
     },
     {
       "type": "warning",
       "en": "The to trap: in look forward to, to is a preposition, so -ing follows: I'm looking forward to seeing you (not *to see you). And watch out for: *I enjoy to cook → I enjoy cooking; *She suggested to go → She suggested going; *I want going → I want to go.",
-      "he": "מלכודת ה-to: בצירוף look forward to, ה-to היא מילת יחס, ולכן אחריה בא ing: I'm looking forward to seeing you (ולא to see you). והיזהרו גם מאלה: כותבים I enjoy cooking ולא I enjoy to cook; ‏She suggested going ולא She suggested to go; ‏I want to go ולא I want going."
+      "he": "מלכודת ה-to: בצירוף look forward to זו מילת יחס, ולכן אחריה בא ing. וגם אחרי enjoy ו-suggest בא ing."
     }
   ],
   "examples": [
@@ -379,7 +379,7 @@
       ],
       "explanation": {
         "en": "-ing: enjoy, finish, avoid, suggest, mind, practise. to + verb: want, decide, hope, plan, need, afford. Learn them as chunks: enjoy doing, want to do.",
-        "he": "ing: ‏enjoy, finish, avoid, suggest, mind, practise. ‏to + פועל: want, decide, hope, plan, need, afford. כדאי ללמוד אותם כצירופים: enjoy doing, want to do."
+        "he": "ing אחרי פעלים כמו enjoy ו-avoid, ו-to + פועל אחרי פעלים כמו want ו-decide. כדאי ללמוד אותם כצירופים."
       }
     },
     {
@@ -503,7 +503,7 @@
       },
       "explanation": {
         "en": "suggested going = Omer's idea; don't feel like driving = Sara doesn't want to; How about watching...? = Sara's suggestion. All three take -ing.",
-        "he": "suggested going = הרעיון של עומר; ‏don't feel like driving = לשרה לא מתחשק; ‏How about watching...? = ההצעה של שרה. אחרי שלושתם בא ing."
+        "he": "suggested going = הרעיון של עומר; ‏don't feel like = לשרה לא מתחשק; ‏How about = ההצעה של שרה. אחרי שלושתם בא ing."
       }
     },
     {
@@ -602,7 +602,7 @@
       },
       "explanation": {
         "en": "finished writing (finish + -ing); want to relax, want to come (want + to); thinking of going (preposition + -ing).",
-        "he": "finished writing ‏(finish + ing); ‏want to relax, want to come ‏(want + to); ‏thinking of going (מילת יחס + ing)."
+        "he": "finish + ing, ‏want + to, ומילת יחס + ing (thinking of going)."
       }
     },
     {
@@ -637,7 +637,7 @@
       },
       "explanation": {
         "en": "I'd like = I would like, and would like always takes to: I'd like to book a table.",
-        "he": "I'd like = I would like, ואחרי would like תמיד בא to: ‏I'd like to book a table."
+        "he": "I'd like = I would like, ואחרי would like תמיד בא to."
       }
     },
     {
@@ -717,7 +717,7 @@
       },
       "explanation": {
         "en": "After a preposition, always -ing: thanks for helping, good at fixing, worried about breaking.",
-        "he": "אחרי מילת יחס תמיד בא ing: ‏thanks for helping, good at fixing, worried about breaking."
+        "he": "אחרי מילת יחס תמיד בא ing: thanks for helping, good at fixing."
       }
     },
     {
@@ -753,7 +753,7 @@
       },
       "explanation": {
         "en": "love, like and hate take both forms. But would love / would like take only to: I'd love to swim with you tomorrow.",
-        "he": "אחרי love, ‏like ו-hate אפשר את שתי הצורות. אבל אחרי would love / would like בא רק to: I'd love to swim with you tomorrow."
+        "he": "אחרי love, ‏like ו-hate אפשר את שתי הצורות, אבל אחרי would love בא רק to."
       }
     },
     {
@@ -813,7 +813,7 @@
       },
       "explanation": {
         "en": "Let's + verb → suggested + -ing: Omer suggested taking a taxi. (Not *suggested to take – one of the most common mistakes in English.)",
-        "he": "Let's + פועל הופך ל-suggested + ing: ‏Omer suggested taking a taxi. (ולא suggested to take – אחת הטעויות הנפוצות ביותר באנגלית.)"
+        "he": "Let's + פועל הופך ל-suggested + ing (suggested taking), ולא suggested to – אחת הטעויות הנפוצות ביותר באנגלית."
       }
     },
     {
@@ -876,7 +876,7 @@
           "match": "I'm looking forward seeing you on Friday.",
           "feedback": {
             "en": "Keep to: the phrase is look forward to, and that to is followed by -ing: looking forward to seeing.",
-            "he": "לא מוותרים על to: הצירוף הוא look forward to, ואחרי ה-to הזה בא ing: ‏looking forward to seeing."
+            "he": "לא מוותרים על to: הצירוף הוא look forward to, ואחרי ה-to הזה בא ing."
           },
           "error_type": "gerund-infinitive"
         }
@@ -888,7 +888,7 @@
       },
       "explanation": {
         "en": "In look forward to, to is a preposition, and prepositions take -ing: I'm looking forward to seeing you.",
-        "he": "בצירוף look forward to, ה-to היא מילת יחס, ואחרי מילת יחס בא ing: ‏I'm looking forward to seeing you."
+        "he": "בצירוף look forward to, ה-to היא מילת יחס, ואחרי מילת יחס בא ing (seeing)."
       }
     },
     {
@@ -1049,7 +1049,7 @@
           },
           "explanation": {
             "en": "'I'm the student from Israel who is going to stay with you in July... Here is a little about me.'",
-            "he": "בטקסט: I'm the student from Israel who is going to stay with you in July... Here is a little about me."
+            "he": "בטקסט היא מציגה את עצמה: היא התלמידה מישראל שתגור אצלם ביולי, ומספרת קצת על עצמה."
           }
         },
         {
@@ -1058,7 +1058,7 @@
           "answer": true,
           "explanation": {
             "en": "'I'd love to cook dinner for you one evening.'",
-            "he": "בטקסט: I'd love to cook dinner for you one evening."
+            "he": "בטקסט כתוב שהיא תשמח לבשל להם ארוחת ערב באחד הערבים (I'd love to cook)."
           }
         },
         {
@@ -1095,7 +1095,7 @@
           },
           "explanation": {
             "en": "'We've decided to practise our English together.' decide + to.",
-            "he": "בטקסט: We've decided to practise our English together. ‏decide + to."
+            "he": "בטקסט כתוב שהן החליטו לתרגל אנגלית יחד: decide + to."
           }
         },
         {
@@ -1127,7 +1127,7 @@
           ],
           "explanation": {
             "en": "'I'm planning to keep training during my stay.' plan + to, then keep + -ing.",
-            "he": "בטקסט: I'm planning to keep training during my stay. ‏plan + to, ואחר כך keep + ing."
+            "he": "בטקסט כתוב שהיא מתכננת להמשיך להתאמן: plan + to, ואחר כך keep + ing."
           }
         },
         {
@@ -1136,13 +1136,13 @@
           "answer": false,
           "explanation": {
             "en": "'Please don't worry about cooking special meals for me.'",
-            "he": "בטקסט: Please don't worry about cooking special meals for me."
+            "he": "בטקסט היא מבקשת שלא ידאגו לבשל לה ארוחות מיוחדות (don't worry about cooking)."
           }
         }
       ],
       "explanation": {
         "en": "The email is full of verb patterns: looking forward to meeting, enjoy cooking, good at making, planning to keep training, decided to practise.",
-        "he": "המייל מלא בדפוסי פעלים: looking forward to meeting, ‏enjoy cooking, ‏good at making, ‏planning to keep training, ‏decided to practise."
+        "he": "המייל מלא בדפוסי פעלים, כמו looking forward to meeting ו-decided to practise."
       }
     },
     {
@@ -1213,7 +1213,7 @@
         },
         {
           "en": "I used would like / would love + to (I'd like to..., not *I'd like doing).",
-          "he": "אחרי would like / would love השתמשתי ב-to (I'd like to... ולא I'd like doing)."
+          "he": "אחרי would like / would love השתמשתי ב-to."
         }
       ],
       "explanation": {
@@ -1226,11 +1226,11 @@
     "key_points": [
       {
         "en": "Verb + -ing: enjoy, finish, mind, avoid, suggest, practise, keep. Verb + to: want, decide, hope, plan, need, afford, would like.",
-        "he": "פועל + ing: ‏enjoy, finish, mind, avoid, suggest, practise, keep. פועל + to: ‏want, decide, hope, plan, need, afford, would like."
+        "he": "פועל + ing (כמו enjoy, avoid). פועל + to (כמו want, decide, would like)."
       },
       {
         "en": "After a preposition, always -ing: good at cooking, interested in learning, thanks for coming.",
-        "he": "אחרי מילת יחס תמיד ing: ‏good at cooking, interested in learning, thanks for coming."
+        "he": "אחרי מילת יחס תמיד ing: good at cooking."
       },
       {
         "en": "like / love / hate + either form; would like / would love + to only.",

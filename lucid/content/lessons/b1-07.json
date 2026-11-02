@@ -10,7 +10,7 @@
   "objectives": [
     {
       "en": "I can report what people said with said and told: She said (that)... / She told me (that)...",
-      "he": "אני יודע/ת לדווח מה אנשים אמרו בעזרת said ו-told: ‏She said (that)... / She told me (that)..."
+      "he": "אני יודע/ת לדווח מה אנשים אמרו בעזרת said ו-told."
     },
     {
       "en": "I can move tenses back when I report later: is → was, will → would, can → could.",
@@ -23,13 +23,13 @@
   ],
   "warmup": {
     "en": "Think of the last voice message a friend sent you. How would you tell someone else what it said? Start with: 'She said that...' or 'He told me that...'",
-    "he": "חשבו על ההודעה הקולית האחרונה שחבר או חברה שלחו לכם. איך הייתם מספרים למישהו אחר מה היה בה? התחילו ב-\"She said that...\" או \"He told me that...\""
+    "he": "חשבו על ההודעה הקולית האחרונה שחבר או חברה שלחו לכם. איך הייתם מספרים למישהו אחר מה היה בה? התחילו ב-said that או ב-told me that."
   },
   "explanation": [
     {
       "type": "p",
       "en": "Look: Noa: 'I'm really tired.' Later: Noa said she was really tired. Amir: 'I'll call you tomorrow.' A week later: Amir told me he would call me the next day. When we report someone's words later, the verb usually moves one step back into the past, and pronouns and time words change to fit the new situation.",
-      "he": "שימו לב: נועה אמרה: 'I'm really tired.' ומאוחר יותר מדווחים: Noa said she was really tired. אמיר אמר: 'I'll call you tomorrow.' ושבוע אחרי: Amir told me he would call me the next day. כשמדווחים מאוחר יותר על דברים שמישהו אמר, הפועל בדרך כלל \"זז\" צעד אחד אחורה לעבר, וגם כינויי הגוף ומילות הזמן משתנים כדי להתאים למצב החדש."
+      "he": "נועה אמרה שהיא עייפה מאוד, ומאוחר יותר מדווחים: Noa said she was really tired. כשמדווחים מאוחר יותר על דברים שמישהו אמר, הפועל בדרך כלל 'זז' צעד אחד אחורה לעבר, וגם כינויי הגוף ומילות הזמן משתנים כדי להתאים למצב החדש."
     },
     {
       "type": "p",
@@ -107,12 +107,12 @@
     {
       "type": "rule",
       "en": "tell + the person: She told me (that)..., He told Omer (that)... say + no person: She said (that)... To name the listener after say, add to: She said to me (that)... Never: *She said me, *She told that...",
-      "he": "אחרי tell בא האדם ששומע: She told me (that)..., ‏He told Omer (that)... אחרי say לא בא אדם: She said (that)... כדי להזכיר את השומע אחרי say מוסיפים to: ‏She said to me (that)... אף פעם לא: She said me או She told that."
+      "he": "אחרי tell בא האדם ששומע (told me), ואחרי say לא בא אדם, אלא אם מוסיפים to."
     },
     {
       "type": "tip",
       "en": "that is optional, and in speech we usually leave it out: He said he was busy. Change pronouns to match the new speaker: Omer: 'I love my job.' → Omer said he loved his job.",
-      "he": "המילה that לא חובה, ובדיבור בדרך כלל משמיטים אותה: He said he was busy. משנים גם את כינויי הגוף לפי מי שמדווח: עומר אמר 'I love my job.' ומדווחים: Omer said he loved his job."
+      "he": "המילה that לא חובה, ובדיבור בדרך כלל משמיטים אותה. משנים גם את כינויי הגוף לפי מי שמדווח: Omer said he loved his job."
     },
     {
       "type": "warning",
@@ -334,17 +334,17 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew reported speech keeps the speaker's original tense (literally 'Noa said that she is tired'), so it is easy to write *Noa said she is tired about something she said last week. In English, when you report later, move the tense back: Noa said she was tired.",
-      "he": "בעברית דיבור עקיף שומר על הזמן המקורי של הדובר (\"נועה אמרה שהיא עייפה\"), ולכן קל לכתוב Noa said she is tired גם על משהו שהיא אמרה לפני שבוע. באנגלית, כשמדווחים מאוחר יותר, מזיזים את הזמן אחורה: Noa said she was tired.",
+      "he": "בעברית דיבור עקיף שומר על הזמן המקורי של הדובר ('נועה אמרה שהיא עייפה'), ולכן קל להשאיר is גם על משהו שהיא אמרה לפני שבוע. באנגלית, כשמדווחים מאוחר יותר, מזיזים את הזמן אחורה: Noa said she was tired.",
       "error_type": "reported-speech"
     },
     {
       "en": "In Hebrew a question needs no helper verb (literally 'What she said?'), so did is easy to drop. In English, a question about what someone said needs did: What did she say? (not *What she said?)",
-      "he": "בעברית שאלה לא צריכה פועל עזר (\"מה היא אמרה?\"), ולכן קל לשכוח את did. באנגלית, בשאלה על מה שמישהו אמר, צריך did: What did she say? (ולא What she said?)",
+      "he": "בעברית שאלה לא צריכה פועל עזר ('מה היא אמרה?'), ולכן קל לשכוח את did. באנגלית, בשאלה על מה שמישהו אמר, צריך did: What did she say?",
       "error_type": "do-support"
     },
     {
       "en": "Hebrew has no th sounds, so that, the and then can come out as 'zat', 'ze' and 'zen', and truth as 'trus'. For /ð/ (that, the), put your tongue lightly between your teeth and use your voice; for /θ/ (truth), do the same without voice: She said that she was telling the truth.",
-      "he": "בעברית אין את צלילי th, ולכן that, ‏the ו-then עלולים לצאת \"זאט\", \"זה\" ו-\"זן\", ו-truth עלול לצאת \"טרוס\". כדי להגות /ð/ (that, the) שימו את קצה הלשון בעדינות בין השיניים והפיקו קול; ב-/θ/ (truth) עושים אותו דבר בלי קול: She said that she was telling the truth.",
+      "he": "שימו את קצה הלשון בעדינות בין השיניים והפיקו קול כדי לומר את ה-th שב-that וב-the (/ð/); ב-truth עושים אותו דבר בלי קול (/θ/). בעברית אין צלילי th, ולכן הם עלולים לצאת 'ז' או 'ס'.",
       "error_type": "pron-th"
     }
   ],
@@ -438,7 +438,7 @@
       ],
       "explanation": {
         "en": "told + person (told us, told his parents, told me). said + no person, or said to + person. Fixed phrases: say goodbye, say sorry; tell the truth, tell a story.",
-        "he": "told + אדם (told us, told his parents, told me). ‏said בלי אדם, או said to + אדם. צירופים קבועים: say goodbye, say sorry; ‏tell the truth, tell a story."
+        "he": "told + אדם, ‏said בלי אדם (או said to + אדם). וגם צירופים קבועים, כמו tell the truth."
       }
     },
     {
@@ -515,7 +515,7 @@
       },
       "explanation": {
         "en": "can't → couldn't; I'm looking after him → she was looking after her brother.",
-        "he": "can't הופך ל-couldn't; ‏I'm looking after him הופך ל-she was looking after her brother."
+        "he": "can't הופך ל-couldn't, ו-am looking הופך ל-was looking."
       }
     },
     {
@@ -626,11 +626,11 @@
       ],
       "hint": {
         "en": "am/is → was · am/is + -ing → was + -ing · will → would · can't → couldn't",
-        "he": "am/is הופך ל-was · ‏am/is + ing הופך ל-was + ing · ‏will הופך ל-would · ‏can't הופך ל-couldn't"
+        "he": "am/is הופך ל-was, ‏will ל-would, ו-can't ל-couldn't."
       },
       "explanation": {
         "en": "Each verb moves one step back: am → was, am cooking → was cooking, will be → would be, can't → couldn't.",
-        "he": "כל פועל זז צעד אחד אחורה: am הופך ל-was, ‏am cooking ל-was cooking, ‏will be ל-would be, ‏can't ל-couldn't."
+        "he": "כל פועל זז צעד אחד אחורה: am הופך ל-was, ‏will ל-would, ו-can't ל-couldn't."
       }
     },
     {
@@ -754,7 +754,7 @@
       },
       "explanation": {
         "en": "will → would; I → he, you → me; tomorrow → the next day: Amir said (that) he would send me the photos the next day.",
-        "he": "will הופך ל-would; ‏I ל-he ו-you ל-me; ‏tomorrow ל-the next day: ‏Amir said (that) he would send me the photos the next day."
+        "he": "will הופך ל-would, כינויי הגוף מתחלפים, ו-tomorrow הופך ל-the next day."
       }
     },
     {
@@ -780,7 +780,7 @@
           "match": "She told that she was busy.",
           "feedback": {
             "en": "told needs a person after it: She told me (that) she was busy. Or use said without a person: She said she was busy.",
-            "he": "אחרי told צריך לבוא אדם: She told me (that) she was busy. או said בלי אדם: She said she was busy."
+            "he": "אחרי told צריך לבוא אדם (told me), ואחרי said לא בא אדם."
           },
           "error_type": "reported-speech"
         },
@@ -788,7 +788,7 @@
           "match": "She told she was busy.",
           "feedback": {
             "en": "told needs a person after it: She told me (that) she was busy. Or use said without a person: She said she was busy.",
-            "he": "אחרי told צריך לבוא אדם: She told me (that) she was busy. או said בלי אדם: She said she was busy."
+            "he": "אחרי told צריך לבוא אדם (told me), ואחרי said לא בא אדם."
           },
           "error_type": "reported-speech"
         },
@@ -808,7 +808,7 @@
       },
       "explanation": {
         "en": "say is never followed directly by a person. Use tell + person (She told me...), or say without a person (She said...), or say to + person (She said to me...).",
-        "he": "אחרי say אף פעם לא בא אדם ישירות. כתבו tell + אדם (She told me...), או say בלי אדם (She said...), או say to + אדם (She said to me...)."
+        "he": "אחרי say אף פעם לא בא אדם ישירות. כתבו tell + אדם, או say בלי אדם, או say to + אדם."
       }
     },
     {
@@ -856,7 +856,7 @@
       },
       "explanation": {
         "en": "Maya's 'today' was Monday. On Friday you say that day (or on Monday): Maya said she would finish the project that day.",
-        "he": "ה-\"today\" של מאיה היה יום שני. ביום שישי אומרים that day (או on Monday): ‏Maya said she would finish the project that day."
+        "he": "ה'today' של מאיה היה יום שני. ביום שישי אומרים that day (או on Monday)."
       }
     },
     {
@@ -881,7 +881,7 @@
       ],
       "explanation": {
         "en": "tell + person + (that) + reported sentence: My teacher told me that my essay was excellent.",
-        "he": "tell + אדם + (that) + המשפט המדווח: My teacher told me that my essay was excellent."
+        "he": "tell + אדם + (that) + המשפט המדווח: My teacher told me that..."
       }
     },
     {
@@ -990,7 +990,7 @@
       },
       "explanation": {
         "en": "Two contrasts: Hebrew keeps the present tense and uses one verb for 'said to me'. English moves the tense back (was) and uses tell + person: Last night Noa told me (that) she was tired.",
-        "he": "שני הבדלים: בעברית נשאר הווה (\"שהיא עייפה\"), ו\"אמרה לי\" הוא פועל אחד. באנגלית מזיזים את הזמן אחורה (was) ומשתמשים ב-tell + אדם: Last night Noa told me (that) she was tired."
+        "he": "שני הבדלים: בעברית נשאר הווה ('שהיא עייפה'), ו'אמרה לי' הוא פועל אחד. באנגלית מזיזים את הזמן אחורה (was) ומשתמשים ב-tell + אדם (told me)."
       }
     },
     {
@@ -1030,7 +1030,7 @@
           },
           "explanation": {
             "en": "'He told us that we would start at 7:30 instead of 8:00.'",
-            "he": "בטקסט: He told us that we would start at 7:30 instead of 8:00."
+            "he": "בטקסט כתוב שהוא אמר להם שיתחילו ב-7:30 במקום ב-8:00 (would start)."
           }
         },
         {
@@ -1039,7 +1039,7 @@
           "answer": false,
           "explanation": {
             "en": "'He said the council would bring gloves and bags, so we didn't need to buy anything.'",
-            "he": "בטקסט: He said the council would bring gloves and bags, so we didn't need to buy anything."
+            "he": "בטקסט כתוב שהעירייה תביא כפפות ושקיות, ולכן לא היה צריך לקנות כלום (didn't need to buy)."
           }
         },
         {
@@ -1104,7 +1104,7 @@
           },
           "explanation": {
             "en": "'...because it was too hot later in the morning.'",
-            "he": "בטקסט: ...because it was too hot later in the morning."
+            "he": "בטקסט כתוב שמאוחר יותר בבוקר היה חם מדי (too hot)."
           }
         },
         {
@@ -1131,13 +1131,13 @@
           ],
           "explanation": {
             "en": "'She wanted lots of photos. She said we could send them to her after the event.'",
-            "he": "בטקסט: She wanted lots of photos. She said we could send them to her after the event."
+            "he": "בטקסט כתוב שהיא רצתה הרבה תמונות, ואמרה שאפשר לשלוח לה אותן אחרי האירוע."
           }
         }
       ],
       "explanation": {
         "en": "Notice how Noa reports the meeting: said / told us + tenses moved back (would start, didn't need, was organising, could bring).",
-        "he": "שימו לב איך נועה מדווחת על הפגישה: said / told us + זמנים שזזו אחורה (would start, didn't need, was organising, could bring)."
+        "he": "שימו לב איך נועה מדווחת על הפגישה: said או told us, וזמנים שזזו אחורה (would start, could bring)."
       }
     },
     {
@@ -1174,7 +1174,7 @@
       },
       "explanation": {
         "en": "Asking: What did he say? (did + say, not *What he said?). Answering: He said + the tense moved back.",
-        "he": "שואלים: What did he say? (‏did + say, ולא What he said?). עונים: He said + הזמן זז אחורה."
+        "he": "שואלים: What did he say? (‏did + say). עונים: He said + הזמן זז אחורה."
       }
     },
     {
@@ -1229,11 +1229,11 @@
       },
       {
         "en": "tell + person (She told me...); say + no person (She said...) or say to + person. Never *said me.",
-        "he": "tell + אדם (She told me...); ‏say בלי אדם (She said...) או say to + אדם. אף פעם לא said me."
+        "he": "tell + אדם (She told me...); ‏say בלי אדם, או say to + אדם."
       },
       {
         "en": "Change pronouns and time words: I → he/she, today → that day, tomorrow → the next day, here → there.",
-        "he": "משנים כינויי גוף ומילות זמן: I הופך ל-he/she, ‏today ל-that day, ‏tomorrow ל-the next day, ‏here ל-there."
+        "he": "משנים כינויי גוף ומילות זמן: today הופך ל-that day, ו-tomorrow ל-the next day."
       },
       {
         "en": "that is optional: He said (that) he was busy.",

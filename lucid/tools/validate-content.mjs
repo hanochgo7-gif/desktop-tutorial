@@ -38,7 +38,7 @@ function bilingual(file, path, v, { he = false, required = true } = {}) {
 // the English field, the examples list or a table. An 'en' string never holds Hebrew letters. Both are errors
 // where Hebrew is shown by default (Pre-A1 to B1) and warnings above. IPA in slashes (/ðə/) is not counted.
 export const GLOSS_MAX_WORDS = 8;
-export const GLOSS_STRICT = new Set(['PreA1', 'A1', 'A2']);
+export const GLOSS_STRICT = new Set(['PreA1', 'A1', 'A2', 'B1']);
 const glossChecked = new Set();
 const NOT_HEBREW_RUN = /[^\u0590-\u05FF\uFB1D-\uFB4F]*[A-Za-z][^\u0590-\u05FF\uFB1D-\uFB4F]*/g;
 const IPA_TOKEN = /(?<![A-Za-z])\/[^/\s]{1,24}\/(?![A-Za-z])/g;
