@@ -10,9 +10,9 @@
     { "en": "I can write correct sentences: a capital letter at the start, a full stop at the end, and no run-on sentences.", "he": "אני יודע/ת לכתוב משפטים תקינים: אות גדולה בהתחלה, נקודה בסוף, ובלי משפטים רצים." },
     { "en": "I can plan and write a short text about myself and my daily life in three short paragraphs.", "he": "אני יודע/ת לתכנן ולכתוב טקסט קצר על עצמי ועל סדר היום שלי בשלוש פסקאות קצרות." }
   ],
-  "warmup": { "en": "Read this: 'my name is omer i live in haifa i love music'. What is wrong with it? How many sentences are there?", "he": "קראו: 'my name is omer i live in haifa i love music'. מה לא בסדר בטקסט הזה? כמה משפטים יש בו?" },
+  "warmup": { "en": "Read this: 'my name is omer i live in haifa i love music'. What is wrong with it? How many sentences are there?", "he": "קראו את הטקסט באנגלית: מה לא בסדר בו? כמה משפטים יש בו?" },
   "explanation": [
-    { "type": "p", "en": "I'm Omer, and I'm 22. I live in Haifa, but I work in Akko. I get up at six because my bus leaves at seven. The bus is slow, so I read on the way. Four small words join ideas: and, but, because and so.", "he": "I'm Omer, and I'm 22. I live in Haifa, but I work in Akko. I get up at six because my bus leaves at seven. The bus is slow, so I read on the way. ארבע מילים קטנות מחברות בין רעיונות: and, but, because, so." },
+    { "type": "p", "en": "I'm Omer, and I'm 22. I live in Haifa, but I work in Akko. I get up at six because my bus leaves at seven. The bus is slow, so I read on the way. Four small words join ideas: and, but, because and so.", "he": "ארבע מילים קטנות מחברות בין רעיונות: and (ו-), but (אבל), because (כי) ו-so (ולכן)." },
     { "type": "table", "headers": ["Word", "Job", "עברית", "Example"], "rows": [
       ["and", "adds another idea", "ו-, וגם", "I'm 22, and I study nursing."],
       ["but", "shows a contrast", "אבל", "I like my job, but it's far from home."],
@@ -20,8 +20,8 @@
       ["so", "gives a result", "אז, ולכן", "I can't drive, so I take the train."]
     ] },
     { "type": "rule", "en": "Every sentence starts with a capital letter and ends with a full stop (.), a question mark (?) or an exclamation mark (!). Use capital letters for I and for names of people, cities, countries, languages, days and months: On Fridays I visit my grandparents in Jaffa.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה (.), בסימן שאלה (?) או בסימן קריאה (!). אות גדולה גם ל-I ולשמות של אנשים, ערים, ארצות, שפות, ימים וחודשים: On Fridays I visit my grandparents in Jaffa. בעברית אין אותיות גדולות, ולכן כדאי לבדוק את זה במיוחד." },
-    { "type": "warning", "en": "A run-on sentence joins two sentences with only a comma, or with nothing: 'I live in Haifa, I work in a café.' Fix it with a full stop (I live in Haifa. I work in a café.) or with a joining word (I live in Haifa, and I work in a café.).", "he": "משפט רץ מחבר שני משפטים בפסיק בלבד, או בלי כלום: 'I live in Haifa, I work in a café'. מתקנים בנקודה (I live in Haifa. I work in a café.) או במילת קישור (I live in Haifa, and I work in a café.)." },
-    { "type": "tip", "en": "We usually put a comma before but and so when they join two sentences: I'm tired, but I'm happy. We don't usually need one before because. And because + reason can't stand alone: 'Because I work.' is not a full sentence.", "he": "בדרך כלל שמים פסיק לפני but ולפני so כשהן מחברות שני משפטים: I'm tired, but I'm happy. לפני because בדרך כלל לא צריך פסיק. ו-because עם סיבה לא עומד לבד: 'Because I work.' הוא לא משפט שלם." },
+    { "type": "warning", "en": "A run-on sentence joins two sentences with only a comma, or with nothing: 'I live in Haifa, I work in a café.' Fix it with a full stop (I live in Haifa. I work in a café.) or with a joining word (I live in Haifa, and I work in a café.).", "he": "משפט רץ מחבר שני משפטים בפסיק בלבד, או בלי כלום. מתקנים בנקודה בין המשפטים, או במילת קישור כמו and." },
+    { "type": "tip", "en": "We usually put a comma before but and so when they join two sentences: I'm tired, but I'm happy. We don't usually need one before because. And because + reason can't stand alone: 'Because I work.' is not a full sentence.", "he": "בדרך כלל שמים פסיק לפני but ולפני so כשהן מחברות שני משפטים, ולפני because בדרך כלל לא. ו-because עם סיבה לא עומד לבד: זה רק חצי משפט." },
     { "type": "tip", "en": "Plan before you write: three mini-paragraphs. 1) About me: name, age, where I live, work or studies. 2) My day: what I do and when (I usually..., at seven...). 3) Free time: what I like and why (because...).", "he": "תכננו לפני שאתם כותבים: שלוש פסקאות קטנות. 1) עליי: שם, גיל, איפה אני גר/ה, עבודה או לימודים. 2) היום שלי: מה אני עושה ומתי (I usually..., at seven...). 3) זמן פנוי: מה אני אוהב/ת ולמה (because...)." }
   ],
   "examples": [
@@ -48,8 +48,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there are no capital letters, so they are easy to forget. In English, start every sentence with one, and always use one for I, names, places, languages, days and months: On Mondays I study English with Priya.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן. באנגלית כל משפט מתחיל באות גדולה, וגם I, שמות, מקומות, שפות, ימים וחודשים: On Mondays I study English with Priya.", "error_type": "capitalization" },
-    { "en": "In Hebrew the present tense has no 'be' ('ani studentit'), so it is easy to drop it when you write about yourself. English needs it: I am a student. My brother is 20.", "he": "בעברית אין 'להיות' בהווה ('אני סטודנטית'), ולכן קל להשמיט אותו כשכותבים על עצמנו. באנגלית חייבים: I am a student. My brother is 20.", "error_type": "copula-omission" },
-    { "en": "In Hebrew there is no word for a/an, so 'I am student' or 'I work in bank' can look right. English needs a/an before one job or one place: I'm a student. I work in a bank.", "he": "בעברית אין מילה ל-a/an, ולכן I am student או I work in bank עלולים להיראות נכון. באנגלית צריך a/an לפני מקצוע אחד או מקום אחד: I'm a student. I work in a bank.", "error_type": "article" }
+    { "en": "In Hebrew the present tense has no 'be' ('ani studentit'), so it is easy to drop it when you write about yourself. English needs it: I am a student. My brother is 20.", "he": "בעברית אין 'להיות' בהווה ('אני סטודנטית'), ולכן קל להשמיט אותו כשכותבים על עצמנו. באנגלית חייבים: I am a student.", "error_type": "copula-omission" },
+    { "en": "In Hebrew there is no word for a/an, so 'I am student' or 'I work in bank' can look right. English needs a/an before one job or one place: I'm a student. I work in a bank.", "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה. באנגלית צריך a/an לפני מקצוע אחד או מקום אחד: I work in a bank.", "error_type": "article" }
   ],
   "exercises": [
     {
@@ -90,11 +90,11 @@
       "options": ["Because the speaker lives in Ashdod and works in Tel Aviv.", "Because the speaker lives and works in Ashdod.", "Because the speaker can't drive."],
       "answer": 0,
       "option_feedback": {
-        "1": { "en": "Listen again: 'I live in Ashdod, but I work in Tel Aviv.' but tells you the two places are different.", "he": "הקשיבו שוב: 'I live in Ashdod, but I work in Tel Aviv'. ‏but מראה ששני המקומות שונים." },
+        "1": { "en": "Listen again: 'I live in Ashdod, but I work in Tel Aviv.' but tells you the two places are different.", "he": "הקשיבו שוב ל-but: הוא גר באשדוד, אבל עובד בתל אביב – שני מקומות שונים." },
         "2": { "en": "The speaker doesn't talk about driving. The reason comes before so: home and work are in different cities.", "he": "הדובר/ת לא מדבר/ת על נהיגה. הסיבה באה לפני so: הבית והעבודה בערים שונות." }
       },
       "option_errors": { "1": "comprehension", "2": "comprehension" },
-      "explanation": { "en": "...but I work in Tel Aviv, so I take the train. so introduces the result; the reason comes before it.", "he": "...but I work in Tel Aviv, so I take the train. ‏so מציג את התוצאה, והסיבה באה לפניו." }
+      "explanation": { "en": "...but I work in Tel Aviv, so I take the train. so introduces the result; the reason comes before it.", "he": "so מציג את התוצאה (הוא נוסע ברכבת), והסיבה באה לפניו (הוא עובד בתל אביב)." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "writing", "topic": "connectors-basic",
@@ -121,13 +121,13 @@
         { "match": "but", "feedback": { "en": "but shows a contrast: two ideas that don't go together the way you expect.", "he": "but מראה ניגוד: שני רעיונות שלא מתאימים זה לזה כמו שהיינו מצפים." }, "error_type": "cohesion" }
       ],
       "hint": { "en": "Sentences 2 and 3 have the same facts in a different order. Reason → because; result → so.", "he": "במשפטים 2 ו-3 אותן עובדות בסדר אחר. סיבה → because; תוצאה → so." },
-      "explanation": { "en": "I want a dog, but... (contrast). I get up at six because + reason. It's far from home, so + result.", "he": "I want a dog, but... (ניגוד). ‏I get up at six because + סיבה. ‏It's far from home, so + תוצאה." }
+      "explanation": { "en": "I want a dog, but... (contrast). I get up at six because + reason. It's far from home, so + result.", "he": "but מציג ניגוד, because מציג סיבה, ו-so מציג תוצאה." }
     },
     {
       "id": "e6", "type": "order", "skill": "writing", "topic": "connectors-basic",
       "prompt": { "en": "Put the words in order. Look at the comma and the full stop.", "he": "סדרו את המילים למשפט. שימו לב לפסיק ולנקודה." },
       "tokens": ["My", "sister", "works", "at", "night,", "so", "she", "sleeps", "during", "the", "day."],
-      "explanation": { "en": "Reason (My sister works at night) + comma + so + result (she sleeps during the day). The comma comes before so, and the full stop at the end.", "he": "סיבה (My sister works at night) + פסיק + so + תוצאה (she sleeps during the day). הפסיק בא לפני so, והנקודה בסוף." }
+      "explanation": { "en": "Reason (My sister works at night) + comma + so + result (she sleeps during the day). The comma comes before so, and the full stop at the end.", "he": "סיבה + פסיק + so + תוצאה. הפסיק בא לפני so, והנקודה בסוף." }
     },
     {
       "id": "e7", "type": "transform", "skill": "writing", "topic": "connectors-basic",
@@ -136,7 +136,7 @@
       "answers": ["I take the train because I can't drive.", "I take the train, because I can't drive.", "Because I can't drive, I take the train.", "Because I can't drive I take the train."],
       "wrong_feedback": [
         { "match": "I can't drive because I take the train.", "feedback": { "en": "This says the train is the reason you can't drive! because goes before the reason: ...because I can't drive.", "he": "יוצא שהרכבת היא הסיבה שאתם לא נוהגים! because בא לפני הסיבה: ...because I can't drive." }, "error_type": "cohesion" },
-        { "match": "I take the train. Because I can't drive.", "feedback": { "en": "'Because I can't drive.' is not a full sentence on its own. Join it to the first one: I take the train because I can't drive.", "he": "'Because I can't drive.' הוא לא משפט שלם. חברו אותו למשפט הראשון: I take the train because I can't drive." }, "error_type": "punctuation" },
+        { "match": "I take the train. Because I can't drive.", "feedback": { "en": "'Because I can't drive.' is not a full sentence on its own. Join it to the first one: I take the train because I can't drive.", "he": "חלק שמתחיל ב-Because הוא לא משפט שלם. חברו אותו למשפט הראשון, בלי נקודה לפני because." }, "error_type": "punctuation" },
         { "match": "I take the train so I can't drive.", "feedback": { "en": "so introduces a result. Here you need because + the reason.", "he": "so מציג תוצאה. כאן צריך because + הסיבה." }, "error_type": "cohesion" }
       ],
       "explanation": { "en": "Result + because + reason: I take the train because I can't drive.", "he": "תוצאה + because + סיבה: I take the train because I can't drive." }
@@ -151,7 +151,7 @@
         { "match": "I take the train so I can't drive.", "feedback": { "en": "so goes before the result. The result is taking the train: I can't drive, so I take the train.", "he": "so בא לפני התוצאה, והתוצאה היא הנסיעה ברכבת: I can't drive, so I take the train." }, "error_type": "cohesion" },
         { "match": "I can't drive, because I take the train.", "feedback": { "en": "That reason doesn't make sense. Use so + the result: I can't drive, so I take the train.", "he": "הסיבה הזאת לא הגיונית. השתמשו ב-so + התוצאה: I can't drive, so I take the train." }, "error_type": "cohesion" }
       ],
-      "explanation": { "en": "Reason + so + result. Compare: I take the train because I can't drive. = I can't drive, so I take the train.", "he": "סיבה + so + תוצאה. השוו: I take the train because I can't drive = I can't drive, so I take the train." }
+      "explanation": { "en": "Reason + so + result. Compare: I take the train because I can't drive. = I can't drive, so I take the train.", "he": "סיבה + so + תוצאה. עם because הסדר הפוך: קודם התוצאה, ואחר כך הסיבה." }
     },
     {
       "id": "e9", "type": "correct", "skill": "writing", "topic": "sentence-basics",
@@ -160,7 +160,7 @@
       "answers": ["I'm a student. I study computer science.", "I'm a student, and I study computer science.", "I'm a student and I study computer science.", "I'm a student; I study computer science."],
       "error_type": "punctuation",
       "hint": { "en": "Two full sentences can't be joined with only a comma. Use a full stop or and.", "he": "אי אפשר לחבר שני משפטים שלמים בפסיק בלבד. השתמשו בנקודה או ב-and." },
-      "explanation": { "en": "Two full sentences: split them with a full stop (I'm a student. I study...), or join them with and.", "he": "יש כאן שני משפטים שלמים: מפרידים בנקודה (I'm a student. I study...) או מחברים ב-and." }
+      "explanation": { "en": "Two full sentences: split them with a full stop (I'm a student. I study...), or join them with and.", "he": "יש כאן שני משפטים שלמים: מפרידים ביניהם בנקודה, או מחברים אותם ב-and." }
     },
     {
       "id": "e10", "type": "correct", "skill": "writing", "topic": "sentence-basics",
@@ -168,7 +168,7 @@
       "sentence": "I love Fridays. Because I don't work.",
       "answers": ["I love Fridays because I don't work.", "I love Fridays, because I don't work.", "Because I don't work, I love Fridays."],
       "error_type": "punctuation",
-      "explanation": { "en": "'Because I don't work.' is only half a sentence: it gives a reason, but for what? Join it to the first part: I love Fridays because I don't work.", "he": "'Because I don't work.' הוא רק חצי משפט: יש סיבה, אבל לְמה? מחברים אותו לחלק הראשון: I love Fridays because I don't work." }
+      "explanation": { "en": "'Because I don't work.' is only half a sentence: it gives a reason, but for what? Join it to the first part: I love Fridays because I don't work.", "he": "חלק שמתחיל ב-Because הוא רק חצי משפט: יש סיבה, אבל לְמה? מחברים אותו לחלק הראשון: I love Fridays because I don't work." }
     },
     {
       "id": "e11", "type": "transform", "skill": "writing", "topic": "sentence-basics",
@@ -217,13 +217,13 @@
             "2": { "en": "Her hobbies are in paragraph 3 (In my free time...).", "he": "התחביבים שלה בפסקה 3 (In my free time...)." }
           },
           "option_errors": { "0": "comprehension", "2": "comprehension" },
-          "explanation": { "en": "Paragraph 2 has times and everyday actions: get up at six, go by train, get home at seven.", "he": "בפסקה 2 יש שעות ופעולות יומיות: get up at six, go by train, get home at seven." }
+          "explanation": { "en": "Paragraph 2 has times and everyday actions: get up at six, go by train, get home at seven.", "he": "בפסקה 2 יש שעות ופעולות יומיות, כמו get up at six." }
         },
         {
           "type": "tf",
           "statement": "Sara gets up at six because her classes start at eight.",
           "answer": true,
-          "explanation": { "en": "'I get up at six because my classes start at eight.'", "he": "'I get up at six because my classes start at eight' – זו הסיבה." }
+          "explanation": { "en": "'I get up at six because my classes start at eight.'", "he": "הסיבה באה אחרי because: השיעורים מתחילים בשמונה." }
         },
         {
           "type": "gap",
@@ -258,7 +258,7 @@
       "prompt": { "en": "Introduce yourself like Omer. Say it out loud.", "he": "הציגו את עצמכם כמו עומר. אמרו את המשפט בקול." },
       "target": "Hi, I'm Omer. I'm a student, and I work in a café because I need the money.",
       "focus": { "en": "In fast speech the joining words are short and weak: and /ən/, because /bɪkəz/. Stress the important words: STUdent, MOney.", "he": "בדיבור מהיר מילות הקישור קצרות וחלשות: and /ən/, because /bɪkəz/. הדגישו את המילים החשובות: STUdent, MOney." },
-      "explanation": { "en": "and adds an idea (I work in a café), and because gives the reason (I need the money).", "he": "and מוסיף רעיון (I work in a café), ו-because נותן את הסיבה (I need the money)." }
+      "explanation": { "en": "and adds an idea (I work in a café), and because gives the reason (I need the money).", "he": "and מוסיף רעיון (העבודה בבית הקפה), ו-because נותן את הסיבה (צריך כסף)." }
     },
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "connectors-basic",
@@ -273,7 +273,7 @@
         { "en": "I join ideas with and, but, because and so.", "he": "חיברתי רעיונות בעזרת and, but, because, so." },
         { "en": "Every sentence starts with a capital letter and ends with a full stop. I, names, cities, languages and days have capitals.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה. ל-I, לשמות, לערים, לשפות ולימים יש אות גדולה." },
         { "en": "No run-ons: I never join two sentences with only a comma.", "he": "אין משפטים רצים: אף פעם לא חיברתי שני משפטים בפסיק בלבד." },
-        { "en": "Every sentence has a verb (I'm a student, not 'I student'), a/an before a job, and -s after he/she (My sister works...).", "he": "בכל משפט יש פועל (I'm a student ולא I student), יש a/an לפני מקצוע, ויש s אחרי he/she (My sister works...)." }
+        { "en": "Every sentence has a verb (I'm a student, not 'I student'), a/an before a job, and -s after he/she (My sister works...).", "he": "בכל משפט יש פועל, יש a/an לפני מקצוע, ויש s בפועל אחרי he/she." }
       ]
     }
   ],

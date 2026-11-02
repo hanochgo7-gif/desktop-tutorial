@@ -14,7 +14,7 @@
     },
     {
       "en": "I can say where places are with next to, between, opposite, behind, in front of and near.",
-      "he": "אני יודע/ת לומר איפה נמצאים מקומות בעזרת next to, between, opposite, behind, in front of ו-near."
+      "he": "אני יודע/ת לומר איפה נמצאים מקומות בעזרת מילות מיקום כמו next to, ‏opposite ו-between."
     },
     {
       "en": "I can choose in, on or at for a place.",
@@ -85,17 +85,17 @@
     {
       "type": "rule",
       "en": "in = inside a building or an area: in the kitchen, in the park, in Haifa. on = on a surface, a side or a street: on the table, on the wall, on the left, on the second floor, on Herzl Street. at = at a point, or a place where you do something: at the bus stop, at home, at work, at school.",
-      "he": "in = בתוך בניין או שטח: in the kitchen, in the park, in Haifa. ‏on = על משטח, בצד או ברחוב: on the table, on the wall, on the left, on the second floor, on Herzl Street. ‏at = בנקודה מסוימת, או במקום שבו עושים משהו: at the bus stop, at home, at work, at school."
+      "he": "in = בתוך בניין או שטח, ‏on = על משטח, בצד או ברחוב, ו-at = בנקודה מסוימת או במקום שבו עושים משהו (at work, at home)."
     },
     {
       "type": "warning",
       "en": "Keep all the small words: next to the bank (not 'next the bank'), in front of the bank (not 'in front the bank'), between the bank and the café (with and). After opposite, add nothing: opposite the bank.",
-      "he": "אל תשמיטו את המילים הקטנות: next to the bank (ולא next the bank), ‏in front of the bank (ולא in front the bank), ‏between the bank and the café (עם and). אחרי opposite לא מוסיפים כלום: opposite the bank."
+      "he": "אל תשמיטו את המילים הקטנות: אחרי next בא to, אחרי in front בא of, ואחרי between בא and. אחרי opposite לא מוסיפים כלום."
     },
     {
       "type": "tip",
       "en": "Asking the way: Excuse me, where's the bank? / Is there a pharmacy near here? Answers: It's next to the café. / Yes, there's one opposite the park.",
-      "he": "כשמבקשים הכוונה שואלים: Excuse me, where's the bank? או Is there a pharmacy near here? ועונים: It's next to the café, או Yes, there's one opposite the park."
+      "he": "כשמבקשים הכוונה, פותחים ב-Excuse me ושואלים עם where's או עם Is there. בתשובה משתמשים במילת מיקום, כמו next to."
     }
   ],
   "examples": [
@@ -265,12 +265,12 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no present-tense 'be', so 'The bank next to the café' can sound complete. English works differently: it needs is. The bank is next to the café. Where's (= Where is) the bank?",
-      "he": "בעברית אין 'להיות' בהווה, ולכן 'The bank next to the café' נשמע אולי שלם. באנגלית חייבים is: The bank is next to the café. וגם בשאלה: Where's the bank? (Where is).",
+      "he": "בעברית אין 'להיות' בהווה ('הבנק ליד בית הקפה'), ולכן קל להשמיט את is. באנגלית חייבים is, גם במשפט וגם בשאלה: Where's the bank?",
       "error_type": "copula-omission"
     },
     {
       "en": "In Hebrew a question can keep the word order of a normal sentence. English works differently: is comes before the place. Where is the station? (not 'Where the station is?')",
-      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל. באנגלית is בא לפני המקום: Where is the station? ולא Where the station is?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל. באנגלית is בא לפני המקום: Where is the station?",
       "error_type": "word-order"
     },
     {
@@ -488,7 +488,7 @@
           "match": "in",
           "feedback": {
             "en": "in = inside a room or an area: in the kitchen. Work takes at, and the table takes on.",
-            "he": "in = בתוך חדר או שטח: in the kitchen. עם work אומרים at, ועם the table אומרים on."
+            "he": "in = בתוך חדר או שטח (in the kitchen). עם work אומרים at, ועם table אומרים on."
           },
           "error_type": "preposition"
         },
@@ -496,7 +496,7 @@
           "match": "on",
           "feedback": {
             "en": "on = on a surface: on the table. Say at work and in the kitchen.",
-            "he": "on = על משטח: on the table. אומרים at work ו-in the kitchen."
+            "he": "on = על משטח (on the table). עם work אומרים at, ועם kitchen אומרים in."
           },
           "error_type": "preposition"
         },
@@ -504,7 +504,7 @@
           "match": "at",
           "feedback": {
             "en": "at = a point or a place for an activity: at work. Say on the table and in the kitchen.",
-            "he": "at = נקודה או מקום של פעילות: at work. אומרים on the table ו-in the kitchen."
+            "he": "at = נקודה או מקום של פעילות (at work). עם table אומרים on, ועם kitchen אומרים in."
           },
           "error_type": "preposition"
         }
@@ -636,7 +636,7 @@
       },
       "explanation": {
         "en": "in front of is three words: The bus stop is in front of the pharmacy.",
-        "he": "in front of הוא צירוף של שלוש מילים: The bus stop is in front of the pharmacy."
+        "he": "in front of הוא צירוף של שלוש מילים, ואי אפשר להשמיט את of."
       }
     },
     {
@@ -666,7 +666,7 @@
       ],
       "explanation": {
         "en": "In a question, is comes before the subject: Where is (Where's) the bank?",
-        "he": "בשאלה is בא לפני הנושא: Where is the bank? (או בקיצור Where's the bank?)"
+        "he": "בשאלה is בא לפני הנושא: Where is the bank? בקיצור: Where's."
       }
     },
     {
@@ -726,7 +726,7 @@
       ],
       "explanation": {
         "en": "The pharmacy is next to (or near) the bank. English needs is, and next always comes with to.",
-        "he": "The pharmacy is next to (או near) the bank. באנגלית חייבים is, ו-next תמיד בא עם to."
+        "he": "באנגלית חייבים is, ו-next תמיד בא עם to. אפשר גם near במקום next to."
       }
     },
     {
@@ -789,7 +789,7 @@
           },
           "explanation": {
             "en": "'The bus stop is right in front of the hostel.'",
-            "he": "'The bus stop is right in front of the hostel' – התחנה ממש מול הכניסה לאכסניה."
+            "he": "בטקסט כתוב שהתחנה ממש מול האכסניה (right in front of the hostel)."
           }
         },
         {
@@ -798,7 +798,7 @@
           "answer": true,
           "explanation": {
             "en": "'There's a small supermarket on the corner, next to a pharmacy.'",
-            "he": "'There's a small supermarket on the corner, next to a pharmacy' – הם זה ליד זה."
+            "he": "בטקסט כתוב שהסופרמרקט בפינה, ליד בית מרקחת (next to a pharmacy)."
           }
         },
         {
@@ -835,7 +835,7 @@
           },
           "explanation": {
             "en": "'The post office is between the bank and a nice café.'",
-            "he": "'The post office is between the bank and a nice café' – הדואר באמצע."
+            "he": "בטקסט כתוב שהדואר נמצא בין הבנק לבית קפה (between ... and)."
           }
         },
         {
@@ -873,7 +873,7 @@
       },
       "explanation": {
         "en": "opposite the park (other side of the street), next to the cinema (beside it). library: three syllables, LI-bra-ry.",
-        "he": "opposite the park – בצד השני של הרחוב; next to the cinema – ממש ליד. ‏library: שלוש הברות, LI-bra-ry."
+        "he": "opposite = בצד השני של הרחוב, ו-next to = ממש ליד. ב-library יש שלוש הברות, וההטעמה בראשונה (LI)."
       }
     },
     {
@@ -906,7 +906,7 @@
       },
       "task": {
         "en": "Write 5-6 sentences about the area where you live (or a street you know well). Name at least four places and say where they are. Use next to, opposite and one more (between, behind, in front of or near).",
-        "he": "כתבו 5-6 משפטים על האזור שבו אתם גרים (או על רחוב שאתם מכירים היטב). ציינו לפחות ארבעה מקומות וכתבו איפה הם נמצאים. השתמשו ב-next to, ב-opposite ובעוד מילה אחת (between, behind, in front of או near)."
+        "he": "כתבו 5-6 משפטים על האזור שבו אתם גרים (או על רחוב שאתם מכירים היטב). ציינו לפחות ארבעה מקומות וכתבו איפה הם נמצאים. השתמשו ב-next to, ב-opposite ובעוד מילת מיקום אחת, כמו between או near."
       },
       "min_words": 35,
       "max_words": 90,
@@ -935,7 +935,7 @@
       ],
       "explanation": {
         "en": "The model names seven places and says where they are with next to, opposite, in front of, between and near, always with is or there's.",
-        "he": "בתשובה לדוגמה יש שבעה מקומות, ולכל אחד נאמר איפה הוא נמצא בעזרת next to, ‏opposite, ‏in front of, ‏between ו-near – תמיד עם is או there's."
+        "he": "בתשובה לדוגמה יש שבעה מקומות, ולכל אחד נאמר איפה הוא נמצא בעזרת מילת מיקום – תמיד עם is או there's."
       }
     }
   ],
@@ -943,15 +943,15 @@
     "key_points": [
       {
         "en": "next to · between ... and ... · opposite · behind · in front of · near + the place: The bank is next to the café.",
-        "he": "next to · between ... and ... · opposite · behind · in front of · near + המקום: The bank is next to the café."
+        "he": "מילת מיקום + המקום: The bank is next to the café."
       },
       {
         "en": "in = inside (in the kitchen) · on = a surface or a side (on the table, on the left) · at = a point (at the bus stop, at home, at work).",
-        "he": "in = בתוך (in the kitchen) · ‏on = על משטח או בצד (on the table, on the left) · ‏at = בנקודה (at the bus stop, at home, at work)."
+        "he": "in = בתוך · ‏on = על משטח או בצד · ‏at = בנקודה או במקום של פעילות (at home, at work)."
       },
       {
         "en": "Always use be: The bank is opposite the park. Ask: Where is...? / Is there a ... near here?",
-        "he": "תמיד עם be: The bank is opposite the park. שואלים: Where is...? או Is there a ... near here?"
+        "he": "תמיד עם be: The bank is opposite the park. גם בשאלה is בא לפני הנושא."
       }
     ]
   },

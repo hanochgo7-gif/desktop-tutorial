@@ -74,12 +74,12 @@
     {
       "type": "warning",
       "en": "Watch these: in the morning, but at night. in the evening, but on Friday evening (a day + part of the day → on). No preposition before every, next, last, this, today or tomorrow: I see her every Monday (not 'on every Monday').",
-      "he": "שימו לב: in the morning, אבל at night. ‏in the evening, אבל on Friday evening (יום + חלק מהיום → on). לפני every, next, last, this, today ו-tomorrow לא שמים מילת יחס: I see her every Monday (ולא on every Monday)."
+      "he": "שימו לב: בבוקר ובערב in, אבל בלילה at. יום + חלק מהיום מקבל on, כמו ביום שישי בערב. לפני every, next ו-last לא שמים מילת יחס."
     },
     {
       "type": "tip",
       "en": "The weekend: British English says at the weekend; American English says on the weekend. Both are correct, so choose one. Never in the weekend.",
-      "he": "סוף השבוע: באנגלית בריטית אומרים at the weekend, ובאנגלית אמריקאית on the weekend. שתי הצורות נכונות – בחרו אחת. אבל אף פעם לא in the weekend."
+      "he": "סוף השבוע: בבריטניה אומרים at the weekend, ובארה״ב on. שתי הצורות נכונות – בחרו אחת. אבל אף פעם לא in."
     }
   ],
   "examples": [
@@ -362,7 +362,7 @@
       },
       "explanation": {
         "en": "at = exact times (7:30, midnight, lunchtime). on = days and dates (Monday, my birthday, 5 May). in = months, years, seasons and parts of the day (July, 2027, winter, the morning).",
-        "he": "at = זמן מדויק (7:30, חצות, צהריים). ‏on = ימים ותאריכים (Monday, יום ההולדת, 5 May). ‏in = חודשים, שנים, עונות וחלקי היום (July, 2027, winter, the morning)."
+        "he": "at = זמן מדויק (7:30, חצות, צהריים). ‏on = ימים ותאריכים (Monday, יום ההולדת, 5 May). ‏in = חודשים, שנים, עונות וחלקי היום (July, winter)."
       }
     },
     {
@@ -469,7 +469,7 @@
           "match": "in",
           "feedback": {
             "en": "We say in the evening, but with a day it's on: on Saturday evening. A clock time takes at: at 8:30.",
-            "he": "אומרים in the evening, אבל כשיש יום אומרים on: on Saturday evening. עם שעה – at: at 8:30."
+            "he": "אומרים in the evening, אבל כשיש יום אומרים on (on Saturday evening), ועם שעה at."
           },
           "error_type": "preposition"
         },
@@ -577,7 +577,7 @@
       },
       "explanation": {
         "en": "at the weekend (UK) and on the weekend (US) are both correct. in the weekend is wrong.",
-        "he": "at the weekend (בריטית) ו-on the weekend (אמריקאית) נכונים שניהם. ‏in the weekend – שגוי."
+        "he": "at the weekend (בריטית) ו-on the weekend (אמריקאית) נכונים שניהם, אבל in שגוי."
       },
       "option_errors": {
         "0": "preposition",
@@ -748,7 +748,7 @@
       ],
       "explanation": {
         "en": "next, last, every and this replace the preposition: next Sunday, last Sunday, every Sunday, this Sunday.",
-        "he": "next, last, every ו-this מחליפים את מילת היחס: next Sunday, last Sunday, every Sunday, this Sunday."
+        "he": "next, last, every ו-this מחליפים את מילת היחס: next Sunday, בלי on."
       }
     },
     {
@@ -889,7 +889,7 @@
           },
           "explanation": {
             "en": "'...classes start early, at 8:00, because the afternoons are very hot.'",
-            "he": "'...classes start early, at 8:00, because the afternoons are very hot' – כי אחר הצהריים חם מאוד."
+            "he": "בטקסט כתוב שהשיעורים מתחילים מוקדם, ב-8:00, כי אחר הצהריים חם מאוד (very hot)."
           }
         },
         {
@@ -995,7 +995,7 @@
       ],
       "explanation": {
         "en": "The model mixes all three: at nine, on Tuesday evening, in June, and every day with no preposition.",
-        "he": "בתשובה לדוגמה יש את שלושתן: at nine, on Tuesday evening, in June – ו-every day בלי מילת יחס."
+        "he": "בתשובה לדוגמה יש את שלושתן (at nine, on Tuesday, in June), ו-every day בא בלי מילת יחס."
       }
     }
   ],

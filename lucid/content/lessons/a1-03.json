@@ -6,22 +6,22 @@
   "topics": ["present-simple-questions-negatives"],
   "minutes": 22,
   "objectives": [
-    { "en": "I can make negatives with don't and doesn't: I don't eat meat. She doesn't work on Fridays.", "he": "אני יודע/ת לבנות משפטי שלילה עם don't ו-doesn't: I don't eat meat. She doesn't work on Fridays." },
-    { "en": "I can ask yes/no questions with do and does: Do you live here? Does he play football?", "he": "אני יודע/ת לשאול שאלות כן/לא עם do ו-does: Do you live here? Does he play football?" },
-    { "en": "I can give short answers: Yes, I do. No, she doesn't.", "he": "אני יודע/ת לענות בתשובות קצרות: Yes, I do. No, she doesn't." }
+    { "en": "I can make negatives with don't and doesn't: I don't eat meat. She doesn't work on Fridays.", "he": "אני יודע/ת לבנות משפטי שלילה עם don't ו-doesn't." },
+    { "en": "I can ask yes/no questions with do and does: Do you live here? Does he play football?", "he": "אני יודע/ת לשאול שאלות כן/לא עם do ו-does." },
+    { "en": "I can give short answers: Yes, I do. No, she doesn't.", "he": "אני יודע/ת לענות בתשובות קצרות, עם do או does בסוף." }
   ],
   "warmup": { "en": "In Hebrew, 'You live here?' becomes a question just with your voice. English needs one more small word at the start. Can you guess which one?", "he": "בעברית 'אתה גר פה?' הופך לשאלה רק בזכות הטון. באנגלית צריך עוד מילה קטנה אחת בתחילת השאלה. מנחשים איזו?" },
   "explanation": [
-    { "type": "p", "en": "Do you work on Fridays? – No, I don't. Does Omer live in Haifa? – Yes, he does. He doesn't live in Tel Aviv. In the present simple, questions and negatives need a helper verb: do or does.", "he": "Do you work on Fridays? – No, I don't. Does Omer live in Haifa? – Yes, he does. He doesn't live in Tel Aviv. בהווה פשוט, שאלות ומשפטי שלילה צריכים פועל עזר: do או does." },
+    { "type": "p", "en": "Do you work on Fridays? – No, I don't. Does Omer live in Haifa? – Yes, he does. He doesn't live in Tel Aviv. In the present simple, questions and negatives need a helper verb: do or does.", "he": "בהווה פשוט, שאלות ומשפטי שלילה צריכים פועל עזר: do או does. עם he, she, it משתמשים ב-does." },
     { "type": "table", "headers": ["Type", "I / you / we / they", "he / she / it"], "rows": [
       ["Positive", "I work.", "She works."],
       ["Negative", "I don't work.", "She doesn't work."],
       ["Question", "Do you work?", "Does she work?"],
       ["Short answer", "Yes, I do. / No, I don't.", "Yes, she does. / No, she doesn't."]
     ] },
-    { "type": "rule", "en": "do/does + base verb. The -s moves to does, so the main verb has no -s: She works → She doesn't work → Does she work? (don't = do not, doesn't = does not.)", "he": "do/does + פועל בסיס. ה-s 'עוברת' ל-does, ולכן לפועל הראשי אין s: She works → She doesn't work → Does she work? (don't = do not, doesn't = does not.)" },
-    { "type": "warning", "en": "Not 'Does she works?' or 'She doesn't works'. Not 'I not work' or 'Are you work?'. With normal verbs, use do or does.", "he": "לא Does she works ולא She doesn't works. לא I not work ולא Are you work? – עם פעלים רגילים משתמשים ב-do או ב-does." },
-    { "type": "tip", "en": "Short answers repeat do/does, not the main verb: Do you like tea? – Yes, I do (not 'Yes, I like'). In speech, a yes/no question usually goes up at the end: Do you live here? ↗", "he": "בתשובה קצרה חוזרים על do/does ולא על הפועל: Do you like tea? – Yes, I do (לא Yes, I like). בדיבור, הטון בשאלת כן/לא עולה בדרך כלל בסוף: Do you live here? ↗" }
+    { "type": "rule", "en": "do/does + base verb. The -s moves to does, so the main verb has no -s: She works → She doesn't work → Does she work? (don't = do not, doesn't = does not.)", "he": "אחרי do או does בא פועל בסיס. ה-s 'עוברת' ל-does, ולכן לפועל הראשי אין s: Does she work?" },
+    { "type": "warning", "en": "Not 'Does she works?' or 'She doesn't works'. Not 'I not work' or 'Are you work?'. With normal verbs, use do or does.", "he": "עם פעלים רגילים שואלים ושוללים עם do או does: ה-s באה רק פעם אחת (ב-does), ולא משתמשים ב-not לבד או ב-are." },
+    { "type": "tip", "en": "Short answers repeat do/does, not the main verb: Do you like tea? – Yes, I do (not 'Yes, I like'). In speech, a yes/no question usually goes up at the end: Do you live here? ↗", "he": "בתשובה קצרה חוזרים על do או does ולא על הפועל: Yes, I do. בדיבור, הטון בשאלת כן/לא עולה בדרך כלל בסוף ↗." }
   ],
   "examples": [
     { "en": "I don't eat meat.", "he": "אני לא אוכל/ת בשר." },
@@ -46,7 +46,7 @@
     { "word": "instrument", "pos": "noun", "he": "כלי נגינה", "def": "a thing you play to make music, like a piano or a guitar", "example": "Do you play an instrument?", "ipa": "/ˈɪnstrəmənt/", "collocations": ["play an instrument"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew, a yes/no question can be the same as a statement, with the voice going up at the end, and a negative just puts 'not' before the verb. English works differently, so present simple questions and negatives need do or does: Do you live here? I don't live here.", "he": "בעברית שאלת כן/לא יכולה להיות משפט רגיל עם טון עולה ('את גרה פה?'), ובשלילה פשוט מוסיפים 'לא' לפני הפועל. באנגלית זה עובד אחרת: בהווה פשוט, שאלה ושלילה צריכות do או does – Do you live here? I don't live here.", "error_type": "do-support" },
+    { "en": "In Hebrew, a yes/no question can be the same as a statement, with the voice going up at the end, and a negative just puts 'not' before the verb. English works differently, so present simple questions and negatives need do or does: Do you live here? I don't live here.", "he": "בעברית שאלת כן/לא יכולה להיות משפט רגיל עם טון עולה ('את גרה פה?'), ובשלילה פשוט מוסיפים 'לא' לפני הפועל. באנגלית זה עובד אחרת: בהווה פשוט, שאלה ושלילה צריכות do או does – Do you live here?", "error_type": "do-support" },
     { "en": "Hebrew has no /ʌ/ vowel, so does and doesn't can come out as 'doz' and 'doznt', following the spelling. In English they have the short 'uh' sound of cup: does /dʌz/, doesn't /ˈdʌznt/.", "he": "בעברית אין את התנועה /ʌ/, ולכן does ו-doesn't עלולות לצאת 'דוֹז' ו'דוֹזנט' לפי הכתיב. באנגלית התנועה קצרה, כמו ב-cup: does /dʌz/, doesn't /ˈdʌznt/.", "error_type": "pron-vowel" }
   ],
   "exercises": [
@@ -58,7 +58,7 @@
       "options": ["Meat and fish.", "Meat, but not fish.", "Fish, but not meat."],
       "answer": 2,
       "option_feedback": {
-        "0": { "en": "Listen for don't: I don't eat meat.", "he": "הקשיבו ל-don't: I don't eat meat – הדובר/ת לא אוכל/ת בשר." },
+        "0": { "en": "Listen for don't: I don't eat meat.", "he": "הקשיבו ל-don't: הדובר/ת לא אוכל/ת בשר, אבל כן אוכל/ת דגים." },
         "1": { "en": "It's the other way round: no meat, but fish is OK.", "he": "הפוך: בלי בשר, אבל דגים כן." }
       },
       "option_errors": { "0": "comprehension", "1": "comprehension" },
@@ -78,7 +78,7 @@
         { "text": "they", "category": "Do" },
         { "text": "your sister", "category": "Does" }
       ],
-      "explanation": { "en": "Does with he/she/it (one person or thing): Does Omer...? Does the bus...? Do with I, you, we and they.", "he": "Does עם he/she/it (אדם אחד או דבר אחד): Does Omer...? Does the bus...? ו-Do עם I, you, we, they." }
+      "explanation": { "en": "Does with he/she/it (one person or thing): Does Omer...? Does the bus...? Do with I, you, we and they.", "he": "Does עם אדם אחד או דבר אחד (he, she, it), ו-Do עם I, you, we, they." }
     },
     {
       "id": "e3", "type": "mcq", "skill": "grammar", "topic": "present-simple-questions-negatives",
@@ -106,14 +106,14 @@
         "3": { "en": "does is only for he, she and it: Yes, I do.", "he": "does רק עם he, she, it: Yes, I do." }
       },
       "option_errors": { "0": "do-support", "2": "do-support", "3": "agreement" },
-      "explanation": { "en": "Do you...? – Yes, I do. / No, I don't.", "he": "על Do you...? עונים: Yes, I do. / No, I don't." }
+      "explanation": { "en": "Do you...? – Yes, I do. / No, I don't.", "he": "על שאלה עם Do you עונים עם I do או I don't, אחרי Yes או No." }
     },
     {
       "id": "e5", "type": "gap", "skill": "grammar", "topic": "present-simple-questions-negatives",
       "prompt": { "en": "Complete the negative sentences.", "he": "השלימו את משפטי השלילה." },
       "text": "I eat meat. → I ___ meat. My brother likes coffee. → My brother ___ coffee.",
       "answers": [["don't eat"], ["doesn't like"]],
-      "hint": { "en": "I → don't. My brother (he) → doesn't. Then the base verb.", "he": "I → don't. My brother (he) → doesn't. ואחר כך פועל בסיס." },
+      "hint": { "en": "I → don't. My brother (he) → doesn't. Then the base verb.", "he": "עם I בא don't, ועם my brother (הוא) בא doesn't. אחריהם בא פועל בסיס." },
       "wrong_feedback": [
         { "match": "not eat", "feedback": { "en": "English needs do: I don't eat meat.", "he": "באנגלית צריך do: I don't eat meat." }, "error_type": "do-support" },
         { "match": "doesn't eat", "feedback": { "en": "With I, use don't: I don't eat meat. doesn't is for he, she and it.", "he": "עם I משתמשים ב-don't: I don't eat meat. את doesn't שומרים ל-he, she, it." }, "error_type": "agreement" },
@@ -214,7 +214,7 @@
       "passage": "Hi Kenji,\nThanks for your message about the room. Here are some answers. The flat is near the beach in Bat Yam. I'm a nurse. I work at night and sleep during the day. I don't smoke, and I don't have a cat or a dog. My friend Sara lives here too. She doesn't work at night – she's a teacher. Now some questions for you: Do you cook? We cook dinner together on Fridays. And do you play an instrument? Sara plays the piano!\nDaniel",
       "questions": [
         { "type": "tf", "statement": "Daniel works at night.", "answer": true,
-          "explanation": { "en": "I'm a nurse. I work at night.", "he": "דניאל כותב: I'm a nurse. I work at night." } },
+          "explanation": { "en": "I'm a nurse. I work at night.", "he": "דניאל כותב שהוא אח ושהוא עובד בלילה (I work at night)." } },
         { "type": "tf", "statement": "Daniel has a dog.", "answer": false,
           "explanation": { "en": "I don't have a cat or a dog.", "he": "דניאל כותב: I don't have a cat or a dog – אין לו חיות." } },
         { "type": "mcq", "question": "Does Sara work at night?", "options": ["Yes, she does.", "No, she doesn't.", "Yes, she is."], "answer": 1,
@@ -223,13 +223,13 @@
             "2": { "en": "A question with does needs an answer with does: Yes, she does / No, she doesn't. And the text says she doesn't.", "he": "על שאלה עם does עונים עם does: Yes, she does / No, she doesn't. ולפי הטקסט התשובה היא לא." }
           },
           "option_errors": { "0": "comprehension", "2": "do-support" },
-          "explanation": { "en": "She doesn't work at night – she's a teacher. So: No, she doesn't.", "he": "She doesn't work at night – she's a teacher. ולכן: No, she doesn't." } },
+          "explanation": { "en": "She doesn't work at night – she's a teacher. So: No, she doesn't.", "he": "היא לא עובדת בלילה, כי היא מורה. לכן התשובה היא No, she doesn't." } },
         { "type": "mcq", "question": "Daniel asks Kenji two questions. What are they about?", "options": ["Work and sleep.", "Pets and smoking.", "Cooking and music."], "answer": 2,
           "option_feedback": {
-            "0": { "en": "Daniel tells Kenji about his own work and sleep. His questions are Do you cook? and Do you play an instrument?", "he": "דניאל מספר על העבודה והשינה שלו. השאלות שלו הן Do you cook? ו-Do you play an instrument?" },
+            "0": { "en": "Daniel tells Kenji about his own work and sleep. His questions are Do you cook? and Do you play an instrument?", "he": "דניאל מספר על העבודה והשינה שלו, אבל לא שואל עליהן. הוא שואל על בישול ועל נגינה (cook, play)." },
             "1": { "en": "Daniel says he doesn't smoke or have pets. Those are facts, not questions.", "he": "דניאל מספר שהוא לא מעשן ושאין לו חיות. אלה עובדות, לא שאלות." }
           },
-          "explanation": { "en": "Do you cook? Do you play an instrument? = cooking and music.", "he": "Do you cook? Do you play an instrument? – בישול ומוזיקה." } }
+          "explanation": { "en": "Do you cook? Do you play an instrument? = cooking and music.", "he": "דניאל שואל על בישול (cook) ועל נגינה (play an instrument)." } }
       ],
       "explanation": { "en": "Messages about sharing a flat are full of do/don't: they compare habits.", "he": "הודעות על שיתוף דירה מלאות ב-do/don't, כי משווים בהן הרגלים." }
     },
@@ -267,10 +267,10 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Negative: don't / doesn't + base verb: I don't eat meat. She doesn't work on Fridays.", "he": "שלילה: don't / doesn't + פועל בסיס: I don't eat meat. She doesn't work on Fridays." },
-      { "en": "Question: Do / Does + subject + base verb: Do you live here? Does he play football?", "he": "שאלה: Do / Does + נושא + פועל בסיס: Do you live here? Does he play football?" },
-      { "en": "Only one -s: Does she work? (not Does she works?).", "he": "רק s אחת: Does she work? – לא Does she works?" },
-      { "en": "Short answers: Yes, I do. / No, she doesn't.", "he": "תשובות קצרות: Yes, I do. / No, she doesn't." }
+      { "en": "Negative: don't / doesn't + base verb: I don't eat meat. She doesn't work on Fridays.", "he": "שלילה: don't / doesn't + פועל בסיס: She doesn't work on Fridays." },
+      { "en": "Question: Do / Does + subject + base verb: Do you live here? Does he play football?", "he": "שאלה: Do / Does + נושא + פועל בסיס: Does he play football?" },
+      { "en": "Only one -s: Does she work? (not Does she works?).", "he": "רק s אחת, ב-does: Does she work?" },
+      { "en": "Short answers: Yes, I do. / No, she doesn't.", "he": "תשובה קצרה חוזרת על do או does: No, she doesn't." }
     ]
   },
   "completion": { "pass_score": 0.7 }
