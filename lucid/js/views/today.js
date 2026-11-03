@@ -1,6 +1,6 @@
 // Today: the plan for this session, why each part is there, and honest evidence of progress.
 import { html, render, on, todayKey } from '../core/util.js';
-import { tt, legend, t, uiLang, isolateLatin } from '../core/i18n.js';
+import { tt, legend, t, uiLang, isolateLatin, bi, hebrewSupport } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayMinutes, holdTodayPart } from '../core/learner.js';
@@ -20,6 +20,16 @@ export function glyphFor(b, done = false) {
   return GLYPH[b.id];
 }
 const L = (l) => LEVEL_LABEL[l] || l;
+
+// A lesson's can-do line on Today and the path (TP-5): bi() orders the two languages by the Hebrew support level,
+// so Hebrew leads at full support and English leads above it. These rows are links, which cannot hold bi()'s
+// Hebrew chip button, so where the support level would fold the Hebrew behind that chip the row shows the
+// English alone (the lesson itself has the chip).
+export function canDo(en, he, cls = 'can-do') {
+  if (!en) return '';
+  const s = hebrewSupport();
+  return html`<span class="${cls}" style="display:block">${he && (s === 'full' || s === 'partial') ? bi({ en, he }) : bi(en)}</span>`;
+}
 const arrow = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
 
 // Where a saved lesson run stands, counted as the player counts (persona findings R2-17, N6, D7): the
@@ -132,6 +142,28 @@ export function placementCard({ heading = 'h2' } = {}) {
     ${noTestChoices()}
   </section>`;
 }
+// A passed level check (TP-6): the path and Today act on it. Passed = completed with 75% or more (the level check's
+// pass mark). next/first: the next level and its first lesson that is ready, for "continue to C1".
+export function passedCheck(curriculum, level) {
+  const c = store.get('progress', `check:${level}`);
+  if (c?.status !== 'completed' || !(c.best_score >= 0.75)) return null;
+  const i = curriculum.levels.findIndex((l) => l.id === level);
+  const nextLevel = i >= 0 ? curriculum.levels[i + 1] : null;
+  const first = nextLevel?.lessons.find((l) => lessonAvailable(l.id)) || null;
+  return { level, pct: Math.round(c.best_score * 100), at: c.completed_at || null, next: nextLevel?.id || null, first: first?.id || null };
+}
+// "B2 level check passed (81%, 3.11.2026)": the level, the score and the date are isolates of their own, so they
+// keep their order inside the Hebrew line.
+export function passedCheckLine(x) {
+  const date = x.at ? new Date(x.at).toLocaleDateString(uiLang() === 'he' ? 'he-IL' : 'en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) : '';
+  const lv = html`<bdi dir="ltr">${L(x.level)}</bdi>`;
+  const facts = html`(<bdi dir="ltr">${x.pct}%</bdi>${date ? html`, <bdi dir="ltr">${date}</bdi>` : ''})`;
+  return uiLang() === 'he' ? html`בדיקת רמה ${lv} עברה <span class="nowrap">${facts}</span>` : html`${lv} level check passed <span class="nowrap">${facts}</span>`;
+}
+export function nextLevelKey(x, cls = 'key small') {
+  return x.first ? html`<a class="${cls}" href="#/lesson/${x.first}" data-next-level><span>${isolateLatin(tt(`להמשיך ל-${L(x.next)}`, `Continue to ${L(x.next)}`))}</span> ${arrow()}</a>` : '';
+}
+
 // Starting without the test: the same choices on Today, the path and the placement intro, each naming its level
 // (TF-9; ux-research F9): the letters (Pre-A1), A1, and the learner's own estimate when it is higher.
 export function noTestChoices() {
@@ -153,6 +185,10 @@ export function bindPlacementCard(el, ctx) {
 }
 
 const wide = () => globalThis.matchMedia?.('(min-width: 64rem)').matches ?? true;
+// A narrow phone (24rem, 384px and less) at 130% or 150% text (TP-7): the start key goes right under the greeting
+// and the minutes choice under the plan, so the key is on the first screen above the tab bar.
+const NARROW = '(max-width: 24rem)';
+const compact = () => Boolean(globalThis.matchMedia?.(NARROW).matches) && ['130', '150'].includes(globalThis.document?.documentElement.dataset.text);
 // The minutes for today (TF-5) now live in learner.js (TP-1), so the lesson end reads the same rule; re-exported
 // here so that existing imports keep working.
 export { todayMinutes };
@@ -325,12 +361,12 @@ export default async function today(el, ctx) {
     const lessonWhy = (b) => {
       if (b.completed) {
         const done = lessons.get(b.lesson);
-        return html`${done?.can_do ? html`<span lang="en" dir="ltr" style="display:block">${done.can_do}</span>` : ''}<span style="display:block">${tt('אפשר לפתוח אותו שוב בכל זמן.', 'You can open it again any time.')}</span>`;
+        return html`${canDo(done?.can_do, done?.can_do_he)}<span style="display:block">${tt('אפשר לפתוח אותו שוב בכל זמן.', 'You can open it again any time.')}</span>`;
       }
       const sl = b.slice || {};
       if (b.beyond) return html`<span style="display:block">${tt(`מעבר לחלק של היום: נשארו כ-${b.minutes} דקות, והמקום נשמר.`, `Beyond today's part: about ${b.minutes} min left, and your place is saved.`)}</span>`;
       // The next lesson, beyond today's plan: the whole lesson, with no part of it planned for today.
-      if (b.next) return html`${m.next?.can_do ? html`<span lang="en" dir="ltr" style="display:block">${m.next.can_do}</span>` : ''}<span style="display:block">${tt(`שיעור של כ-${b.minutes} דקות. המקום נשמר בכל יציאה.`, `A lesson of about ${b.minutes} min. Your place is saved whenever you leave.`)}</span>`;
+      if (b.next) return html`${canDo(m.next?.can_do, m.next?.can_do_he)}<span style="display:block">${tt(`שיעור של כ-${b.minutes} דקות. המקום נשמר בכל יציאה.`, `A lesson of about ${b.minutes} min. Your place is saved whenever you leave.`)}</span>`;
       const lines = [];
       if (b.skipped?.length) {
         const sk = lessons.get(b.skipped[0]);
@@ -343,7 +379,7 @@ export default async function today(el, ctx) {
       else if (sl.split) lines.push(tt(`השיעור כולו כ-${sl.total} דקות, אז היום עושים חלק: עד תרגיל ${sl.upto} מתוך ${sl.of}. המקום נשמר בכל יציאה.`, `Today you'll do part of this ${sl.total}-minute lesson: up to exercise ${sl.upto} of ${sl.of}. Your place is saved whenever you leave.`));
       else if (sl.total && b.resume) lines.push(tt(`נשארו כ-${sl.remaining} דקות: ${stepText(b.step) || pos(sl)}.`, `About ${sl.remaining} min left: ${stepText(b.step) || pos(sl)}.`));
       else if (sl.total) lines.push(tt(`שיעור של כ-${sl.total} דקות.`, `A lesson of about ${sl.total} min.`));
-      return html`${m.next?.can_do && !b.missed ? html`<span lang="en" dir="ltr" style="display:block">${m.next.can_do}</span>` : ''}${lines.map((x) => html`<span style="display:block">${x}</span>`)}`;
+      return html`${!b.missed ? canDo(m.next?.can_do, m.next?.can_do_he) : ''}${lines.map((x) => html`<span style="display:block">${x}</span>`)}`;
     };
     // The reason names only a goal the learner chose (persona finding R2-39).
     const goalWhy = (b) => {
@@ -420,6 +456,10 @@ export default async function today(el, ctx) {
     // "Not now" hides the offer on Today for that level; the path keeps it (persona finding R2-20).
     const showImport = importLevel && s.vocab_import_hidden !== importLevel;
     const courseDone = !m.next;
+    // The highest passed level check offers the next level on the path card, until a lesson of that level is opened
+    // (TP-6).
+    const checkOffer = m.placementPending ? null : [...curriculum.levels].reverse().map((l) => passedCheck(curriculum, l.id))
+      .find((x) => x && x.first && !curriculum.levels.find((l) => l.id === x.next).lessons.some((l) => m.progress.has(l.id) && m.progress.get(l.id).status !== 'placed_out')) || null;
     const open = skillsOpen ?? wide();
     // One row of the plan or of the extras. Extras are plain rows: no Enter key, nothing that reads as required.
     // Title, time and reason are grid cells of their own, so on a phone the time moves under the title and the
@@ -446,11 +486,13 @@ export default async function today(el, ctx) {
     const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt('התוכנית להיום הושלמה', 'Today\'s plan is done')}</strong>
       ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
 
+    const small = compact();
+    const startBar = first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
+            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : '';
     const planSection = m.placementPending
       ? html`${placementCard()}<p class="small muted">${tt('התוכנית היומית תופיע אחרי מבחן המיקום, כדי שתתחילו ברמה הנכונה.', 'Your daily plan appears after the placement test, so it starts at the right level.')}</p>`
       : html`
-          ${first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
-            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : doneBanner}
+          ${first ? (small ? '' : startBar) : doneBanner}
           ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="pi-title">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="plan-time">${icon('chevron')}</span><span class="why">${legend(otherPlan.title_en, otherPlan.title_he)}<span style="display:block">${stepText(resumeStep(other.resume))}</span></span></a>` : ''}
           <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
           ${firstRecall ? html`<p class="first-recall small"><a href="#/${firstRecall.route}" data-first-recall>${icon('layers', { size: 16 })}<span>${firstRecall.count === 1
@@ -468,23 +510,27 @@ export default async function today(el, ctx) {
             ? tt('עשית את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
             : tt('השלמתם את כל 75 השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You have completed all 75 lessons. The Writing lab and advanced assignments are waiting.')}</p>` : ''}`;
 
+    // The minutes choice waits until there is a plan to fit (TP-7): not while the placement test is unfinished.
+    const minutesChoice = m.placementPending ? '' : html`<div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>
+          <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${String(target === n)}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
+          <p class="today-min-status small" role="status" data-min-status>${minutesNote}</p></div>`;
     render(el, html`
-      <div class="page-head">
+      <div class="page-head ${small ? 'compact' : ''}">
         <div><h1>${hello}${p?.name ? `, ${p.name}` : ''}</h1>
           <p>${tt(`יעד שבועי: ${week.days} מתוך ${week.goal} ימים. יום חופש לא מוחק כלום.`, `Weekly goal: ${week.days} of ${week.goal} days. A day off erases nothing.`)}</p></div>
-        <div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>
-          <div class="seg" role="group" aria-labelledby="today-min-l">${[10, 20, 35, 50].map((n) => html`<button type="button" data-min="${n}" aria-pressed="${String(target === n)}">${n} ${tt('דק׳', 'min')}</button>`)}</div>
-          <p class="today-min-status small" role="status" data-min-status>${minutesNote}</p></div>
+        ${small ? (m.placementPending ? '' : startBar) : minutesChoice}
       </div>
       <div class="today">
         <section class="stack" aria-labelledby="plan-h">
           <div class="row between"><h2 id="plan-h">${tt('התוכנית להיום', 'Today\'s plan')}</h2>${m.placementPending || complete ? '' : html`<span class="small faint num">${tt(`כ-${plan.minutes} דקות`, `about ${plan.minutes} min`)}</span>`}</div>
           ${planSection}
+          ${small ? minutesChoice : ''}
         </section>
         <aside class="stack">
           <div class="panel stack">
-            <div class="row between"><h2 class="small" style="font-size:var(--t-md)">${tt('המסלול', 'Your path')}</h2><a class="small" href="#/path">${tt('לכל השיעורים', 'All lessons')}</a></div>
+            <div class="row between"><h2 class="small" style="font-size:var(--t-md)">${tt('המסלול', 'Your path')}</h2><a class="small all-lessons" href="#/path">${tt('לכל השיעורים', 'All lessons')}</a></div>
             ${levelRail(curriculum, m.progress, m.courseLevel)}
+            ${checkOffer ? html`<div class="check-passed stack-sm" data-check-passed><p class="small">${icon('check', { size: 16 })}<span>${passedCheckLine(checkOffer)}</span></p>${nextLevelKey(checkOffer, 'key small')}</div>` : ''}
           </div>
           <details class="panel skill-fold" data-skills ${open ? html`open` : ''}>
             <summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
@@ -499,7 +545,11 @@ export default async function today(el, ctx) {
 
   draw();
   ctx.watch(['progress', 'cards', 'attempts', 'settings', 'events', 'placement', 'profile', 'writing'], draw);
+  // The compact layout follows the window width (TP-7); a text-size change saves settings, which redraws already.
+  const narrow = globalThis.matchMedia?.(NARROW);
+  narrow?.addEventListener?.('change', draw);
   const offs = [
+    () => narrow?.removeEventListener?.('change', draw),
     // Today only: Settings keeps the daily default (TF-5). The choice is announced, and focus stays on it.
     on(el, 'click', '[data-min]', (e, b) => {
       const n = Number(b.dataset.min);

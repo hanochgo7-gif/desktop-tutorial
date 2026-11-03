@@ -1696,6 +1696,27 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .first-recall { margin: 0; }
 .done-banner { margin-block-end: var(--s3); }
 .first-recall .nowrap { white-space: nowrap; }
+/* TP-5: the can-do line on Today and the path follows the support level through bi(); inside a row it keeps the
+   row's quiet meta style whichever language leads. */
+.can-do .bi.he-first > .bi-he.primary { color: inherit; font-weight: inherit; font-size: inherit; }
+.lesson-row .can-do { font-size: var(--t-sm); color: var(--ink-2); }
+/* TP-6: a passed level check on the path card and the path. */
+.check-passed { margin-block-start: var(--s4); }
+.check-passed > p { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }
+.check-passed > p > .icon { flex: none; margin-block-start: 0.2em; color: var(--ok); }
+.check-passed .nowrap, .path-current .nowrap { white-space: nowrap; }
+/* TP-7: on a narrow phone at large text the start key sits right under the greeting (today.js), and the minutes
+   choice moves under the plan. */
+.page-head.compact { margin-block-end: var(--s5); }
+.page-head.compact > .start-bar { flex: 1 1 100%; margin-block-end: 0; }
+.today .today-minutes { margin-block-start: var(--s4); }
+/* "Not now" on Today's offer rows is a text button beside the action, never a heavier key (TP-7). The shell's
+   .key.ghost is unchanged elsewhere. */
+.today :is([data-import-later], [data-ui-later]).key.ghost { --key-bg: transparent; background: transparent; border-color: transparent; box-shadow: none; color: var(--ink-2); min-height: 2.75rem; padding-inline: var(--s3); text-decoration: none; }
+.today :is([data-import-later], [data-ui-later]).key.ghost:hover { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; }
+.today :is([data-import-later], [data-ui-later]).key.ghost:active:not(:disabled) { background: transparent; transform: none; }
+/* "All lessons" on the path card: a 44px target. */
+.today .all-lessons { display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: var(--s2); margin-inline-end: calc(-1 * var(--s2)); }
 .first-recall a { display: inline-flex; align-items: center; gap: var(--s2); min-height: 2.75rem; color: var(--cobalt); }
 .first-recall a svg { flex: none; }
 

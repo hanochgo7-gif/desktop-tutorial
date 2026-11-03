@@ -184,6 +184,86 @@ try {
     await shot(page, 'tp4-35min');
     await ctx.close();
   });
+
+  // ---------- TP-5: Hebrew leads the can-do lines at full support ----------
+  await check('TP-5 Pre-A1: Today\'s lesson card leads with the Hebrew can-do (.bi-he.primary before the English); B2 with minimal support: the path row shows no Hebrew can-do', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1', { minutes: 20 });
+    await today(page);
+    const card = '.plan a.plan-item[href*="lesson/pa1-01"]';
+    const order = await page.$eval(card, (a) => {
+      const he = a.querySelector('.bi-he.primary'); const en = he?.parentElement.querySelector('.bi-en');
+      return he && en ? { he: he.textContent.trim(), first: Boolean(he.compareDocumentPosition(en) & Node.DOCUMENT_POSITION_FOLLOWING), lang: he.getAttribute('lang') } : null;
+    });
+    assert(order && /[א-ת]/.test(order.he) && order.first && order.lang === 'he', `can-do on the lesson card: ${JSON.stringify(order)}`);
+    await shot(page, 'tp5-today-prea1');
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'B2', { minutes: 20, support: 'minimal' });
+    await b.page.goto(`${BASE}#/path/B2`);
+    await b.page.waitForSelector('.lesson-row');
+    await b.page.waitForTimeout(300);
+    const he = await b.page.$$eval('.lesson-row .can-do', (x) => x.filter((c) => [...c.querySelectorAll('[lang="he"]')].some((s) => !s.hidden && s.offsetParent !== null)).length);
+    const rows = await b.page.$$eval('.lesson-row .can-do', (x) => x.length);
+    assert(rows > 0 && he === 0, `${he} of ${rows} B2 path rows show a Hebrew can-do`);
+    assert(!(await b.page.$('.lesson-row button')), 'a button inside a path link');
+    await shot(b.page, 'tp5-path-b2-minimal');
+    await b.ctx.close();
+    await ctx.close();
+  });
+
+  // ---------- TP-6: the path and Today act on a passed level check ----------
+  await check('TP-6 check:B2 completed at 75%: #/path/B2 says "עברה" with a link to the first C1 lesson and no "לבדיקת רמה B2" key; Today offers the same', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B2', { minutes: 20 });
+    await page.evaluate(() => window.lucid.store.put('progress', { id: 'check:B2', level: 'B2', kind: 'checkpoint', status: 'completed', best_score: 0.75, last_score: 0.75, attempts: 1, completed_at: new Date().toISOString() }));
+    await page.goto(`${BASE}#/path/B2`);
+    await page.waitForSelector('.lesson-row');
+    await page.waitForTimeout(300);
+    const text = await page.textContent('#view');
+    assert(/עברה/.test(text) && /75%/.test(text), 'the path does not say the check was passed');
+    assert(await page.$('#view a[href="#/lesson/c1-01"]'), 'no link to the first C1 lesson');
+    const keys = await page.$$eval('#view a.key, #view button.key', (x) => x.map((k) => k.textContent.replace(/\s+/g, ' ').trim()));
+    assert(!keys.some((k) => /לבדיקת רמה/.test(k)), `keys: ${keys.join(' | ')}`);
+    await page.evaluate(() => document.querySelector('[data-check-passed]')?.scrollIntoView({ block: 'center' }));
+    await shot(page, 'tp6-path-b2');
+    await today(page);
+    const offer = await page.$('[data-check-passed]');
+    assert(offer && /עברה/.test(await offer.textContent()) && await offer.$('a[href="#/lesson/c1-01"]'), 'Today does not show the passed check and the way on to C1');
+    await offer.scrollIntoViewIfNeeded();
+    await shot(page, 'tp6-today');
+    // Once a C1 lesson was opened, Today no longer repeats it.
+    await page.evaluate(() => window.lucid.store.put('progress', { id: 'c1-01', level: 'C1', status: 'started', started_at: new Date().toISOString() }));
+    await today(page);
+    assert(!(await page.$('[data-check-passed]')), 'the offer stays after a C1 lesson was opened');
+    await ctx.close();
+  });
+
+  // ---------- TP-7: the start key on the first screen, tidy controls ----------
+  await check('TP-7 320x568 at 150%: the start key ends above the tab bar; no minutes choice while placement is pending; "לא עכשיו" is transparent; "לכל השיעורים" is 44px tall', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: SMALL });
+    await learnerAt(page, 'A2', { minutes: 20, text: 150 });
+    await today(page);
+    const key = await page.$eval('.start-bar .key', (k) => k.getBoundingClientRect().bottom);
+    const tabTop = await page.$eval('#tabbar', (n) => n.getBoundingClientRect().top);
+    assert(key < tabTop, `start key bottom ${Math.round(key)} >= tab bar top ${Math.round(tabTop)}`);
+    assert(await page.$('.today .today-minutes'), 'the minutes choice is gone in the compact layout');
+    await shot(page, 'tp7-320-150');
+    await page.evaluate(() => { window.lucid.store.put('profile', { ...window.lucid.store.get('profile', 'me'), start_choice: 'conversations' }); window.lucid.store.remove('placement', 'latest'); });
+    await today(page);
+    assert(await page.evaluate(async () => (await import('./js/core/learner.js')).model().placementPending), 'the placement is not pending in this setup');
+    assert(!(await page.$('.today-minutes')), 'the minutes choice shows before any plan exists');
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'B1', { minutes: 20 });
+    await today(b.page);
+    const later = await b.page.$eval('[data-import-later]', (k) => { const s = getComputedStyle(k); return { bg: s.backgroundColor, border: s.borderTopColor, h: k.getBoundingClientRect().height }; });
+    assert(['transparent', 'rgba(0, 0, 0, 0)'].includes(later.bg) && later.h >= 44, `"לא עכשיו": ${JSON.stringify(later)}`);
+    const all = await b.page.$eval('a[href="#/path"].all-lessons', (a) => a.getBoundingClientRect().height);
+    assert(all >= 44, `"לכל השיעורים" is ${all}px tall`);
+    await b.page.$eval('[data-import-later]', (k) => k.scrollIntoView({ block: 'center' }));
+    await shot(b.page, 'tp7-not-now-390');
+    await b.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

@@ -8,7 +8,7 @@ import { content } from '../core/content.js';
 import { icon, mark, LEVEL_LABEL, confirmDialog, toast } from '../ui/components.js';
 import { model, moveToLevel, canImportVocab, importPlacedOutVocab, settings, placementDraft } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { placementCard, bindPlacementCard } from './today.js';
+import { placementCard, bindPlacementCard, canDo, passedCheck, passedCheckLine, nextLevelKey } from './today.js';
 
 export default async function path(el, ctx) {
   ctx.setTitle(t('nav.path'));
@@ -42,6 +42,9 @@ export default async function path(el, ctx) {
     // Placed-out lessons revised without passing: a sign the level may be too high (the learner decides).
     const missed = lvl.lessons.filter((l) => { const p = m.progress.get(l.id); return p?.status === 'placed_out' && p.last_score != null && p.last_score < 0.7; });
     const L = LEVEL_LABEL[lvl.id];
+    // A passed level check replaces "this is your current level" and the check key with what it showed, and the
+    // way on to the next level (TP-6).
+    const passed = pending ? null : passedCheck(curriculum, lvl.id);
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.path')}</h1><p>${tt('75 שיעורים מ-Pre-A1 ועד C2. אפשר לפתוח כל שיעור מוכן; ההמלצה מסומנת. שיעורים שמסומנים ״בהכנה״ עוד נכתבים.', '75 lessons from Pre-A1 to C2. Any lesson that is ready can be opened; the recommended one is marked. Lessons marked "In preparation" are still being written.')}</p></div></div>
       ${pending ? html`<div style="margin-block-end:var(--s5)">${placementCard()}</div>` : ''}
@@ -59,7 +62,7 @@ export default async function path(el, ctx) {
           const p = m.progress.get(l.id);
           const isNext = !pending && m.next?.id === l.id;
           const body = html`${mark(p?.status)}<span class="ord">${l.order}</span>
-            <span class="grow">${legend(l.title_en, l.title_he)}<span class="meta" style="display:block" lang="en" dir="ltr">${l.can_do}</span>${l.can_do_he ? html`<span class="meta" style="display:block" lang="he" dir="rtl">${l.can_do_he}</span>` : ''}</span>`;
+            <span class="grow">${legend(l.title_en, l.title_he)}${canDo(l.can_do, l.can_do_he, 'meta can-do')}</span>`;
           if (available.size && !available.has(l.id)) {
             return html`<li><div class="lesson-row unwritten">${body}<span class="row small"><span class="tag">${icon('clock', { size: 14 })} ${tt('בהכנה', 'In preparation')}</span></span></div></li>`;
           }
@@ -80,12 +83,15 @@ export default async function path(el, ctx) {
         <div class="panel flat stack-sm">
           ${missed.length ? html`<p class="small">${tt(`בשיעורים של ${L} שדילגתם עליהם וחזרתם אליהם, הציון היה מתחת ל-70% (${missed.length}). אולי כדאי להתחיל מהרמה הזו.`, `You scored under 70% on ${missed.length} ${L} lesson(s) you placed out of and went back to. Starting from this level may suit you better.`)}</p>` : ''}
           <div class="row between">
-            <p class="small muted grow">${tt('מרגישים שהרמה לא מתאימה? מיקום הוא הערכה התחלתית, ואתם מחליטים.', 'Does this level feel wrong? Placement is a first estimate, and you decide.')}</p>
+            <p class="small muted grow">${passed
+              ? isolateLatin(tt(`שיעורי ${L} נשארים פתוחים, ואפשר לתרגל אותם שוב בכל זמן.`, `The ${L} lessons stay open to practise again at any time.`))
+              : tt('מרגישים שהרמה לא מתאימה? מיקום הוא הערכה התחלתית, ואתם מחליטים.', 'Does this level feel wrong? Placement is a first estimate, and you decide.')}</p>
             <div class="row">
-              ${lvl.id === m.courseLevel && !pending
-                ? html`<span class="small path-current">${icon('check', { size: 16 })}<span>${tt('זו הרמה הנוכחית שלכם', 'This is your current level')}</span></span>`
-                : lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}"><span>${isolateLatin(tt(`להתחיל מ-${L}`, `Start from ${L}`))}</span></button>` : ''}
-              <a class="key small" href="#/checkpoint/${lvl.id}"><span>${isolateLatin(tt(`לבדיקת רמה ${L}`, `To the ${L} level check`))}</span></a>
+              ${passed ? html`<span class="small path-current" data-check-passed>${icon('check', { size: 16 })}<span>${passedCheckLine(passed)}</span></span>${nextLevelKey(passed)}`
+                : lvl.id === m.courseLevel && !pending
+                  ? html`<span class="small path-current">${icon('check', { size: 16 })}<span>${tt('זו הרמה הנוכחית שלכם', 'This is your current level')}</span></span>`
+                  : lvl.id !== 'PreA1' ? html`<button type="button" class="key small" data-move="${lvl.id}"><span>${isolateLatin(tt(`להתחיל מ-${L}`, `Start from ${L}`))}</span></button>` : ''}
+              ${passed ? '' : html`<a class="key small" href="#/checkpoint/${lvl.id}"><span>${isolateLatin(tt(`לבדיקת רמה ${L}`, `To the ${L} level check`))}</span></a>`}
               ${pending && draft?.answers?.length
                 ? html`<a class="key ghost small" href="#/placement?resume=1">${tt('להמשיך את מבחן המיקום', 'Continue the placement test')}</a>`
                 : pending ? html`<a class="key ghost small" href="#/placement">${tt('מבחן המיקום', 'Take the placement test')}</a>`
