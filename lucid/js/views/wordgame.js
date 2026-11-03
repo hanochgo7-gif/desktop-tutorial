@@ -130,7 +130,7 @@ async function hub(el, ctx) {
         <p>${tt('שלושה משחקים לתרגול מילים. הם לא משנים את הרמה שלכם במסלול.', 'Three games to practise words. They do not change your level on the path.')}</p></div></div>
       <div class="stack-sm game-pace">
         <label class="choice game-challenge"><input type="checkbox" data-challenge ${challenge ? html`checked` : ''}><span class="grow small"><strong>${tt('אתגר מהירות', 'Speed challenge')}</strong><br>${relaxed ? tt('כבוי: אין שעון, והמשחק מחכה לכם. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock, and the game waits for you. On: a quick answer earns extra points, with bests of its own.') : tt('כבוי: אין שעון ואין בונוס. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock and no bonus. On: a quick answer earns extra points, with bests of its own.')}</span></label>
-        ${relaxed ? '' : html`<p class="small muted" data-pace-note>${tt('״קצב רגוע״ כבוי בהגדרות, ולכן המשחקים עוברים לבד לשאלה הבאה והופכים בחזרה קלפים שלא התאימו.', '"Relaxed pace" is off in Settings, so the games move on by themselves and turn unmatched cards back over.')} <a href="#/settings">${tt('להגדרות', 'To Settings')}</a></p>`}
+        ${relaxed ? '' : html`<p class="small muted" data-pace-note>${tt('״קצב רגוע״ כבוי בהגדרות, ולכן המשחקים עוברים לבד לשאלה הבאה, וקלפים שלא התאימו מתהפכים שוב מעצמם.', '"Relaxed pace" is off in Settings, so the games move on by themselves and turn unmatched cards back over.')} <a href="#/settings">${tt('להגדרות', 'To Settings')}</a></p>`}
         ${challenge ? scoringTable() : ''}
       </div>
       <section class="stack-sm game-section" id="lvl-quiz" aria-labelledby="quiz-h">
