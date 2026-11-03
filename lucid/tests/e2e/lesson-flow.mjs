@@ -27,7 +27,6 @@ async function check(name, fn) {
   if (ONLY && !name.toLowerCase().includes(ONLY.toLowerCase())) return;
   try {
     const r = await fn();
-    if (r === 'skip') { results.push({ name, ok: true, skip: true }); console.log(`SKIP  ${name} (needs exercises lane)`); return; }
     results.push({ name, ok: true }); console.log(`PASS  ${name}`);
   } catch (e) { results.push({ name, ok: false }); console.log(`FAIL  ${name}\n      ${String(e.message).split('\n')[0]}`); }
 }
@@ -162,7 +161,7 @@ const browser = await chromium.launch();
 try {
   // ---------- LF-1 ----------
   for (const [w, h, text] of [[390, 844, 100], [768, 1024, 130]]) {
-    await check(`LF-1 Coming back resumes from the footer's main key, at ${w}x${h} and ${text}% text`, async () => {
+    await check(`LF-1 Coming back never restarts: the path row resumes at the saved place, and a plain lesson link (Progress, "Your next lesson") opens the intro with resume as the footer's main key, at ${w}x${h} and ${text}% text`, async () => {
       const { ctx, page } = await newPage(browser, { width: w, height: h });
       await learnerAt(page, 'A2', { text });
       const l = lessonJson('a2-01');
@@ -181,8 +180,12 @@ try {
       await page.click(row);
       await page.waitForSelector('#exroot');
       assert((await page.textContent('.step-count')).trim() === '3 מתוך 16', `the path row does not resume at 3: ${await page.textContent('.step-count')}`);
-      // Opened with no query (a bookmark or the plan), the intro's footer main key resumes.
-      await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
+      // A plain link with no ?resume=1 (here Progress's "Your next lesson"; also the grammar pages and a bookmark)
+      // opens the intro, and the intro's footer main key resumes (plan.conflicts: LF-1 and TF-11).
+      await page.goto(`${BASE}#/progress`);
+      const link = '#view a[href="#/lesson/a2-01"]';
+      await page.waitForSelector(link);
+      await page.click(link);
       await page.waitForSelector('.lesson-intro');
       const primary = await page.$eval('#pfoot .key.enter', (b) => ({ resume: b.hasAttribute('data-resume'), text: b.textContent }));
       assert(primary.resume && /3 מתוך 16/.test(primary.text), `the footer's main key is not resume: ${primary.text}`);
@@ -259,6 +262,30 @@ try {
       await ctx.close();
     });
   }
+
+  await check('LF-2 at 320px and 150% text, every step of the 14-step pa1-02 and pa1-03 explanations fits: the step dots never push the page sideways (plan.keep)', async () => {
+    const { ctx, page } = await newPage(browser, { width: 320, height: 640 });
+    await learnerAt(page, 'PreA1', { text: 150 });
+    for (const id of ['pa1-02', 'pa1-03']) {
+      await page.goto(`${BASE}#/lesson/${id}?t=${Date.now()}`);
+      await page.waitForSelector('.lesson-intro');
+      await page.click('[data-go="learn"]');
+      await page.waitForSelector('.lesson-learn');
+      await page.evaluate(() => document.fonts.ready);
+      let n = 0;
+      for (let k = 1; k <= 20; k++) {
+        await page.waitForFunction((k) => document.querySelector('[data-step-label]')?.textContent.trim().startsWith(`${k} מתוך`), k);
+        const r = await page.evaluate(() => ({ head: document.querySelector('.learn-head').scrollWidth - document.querySelector('.learn-head').clientWidth, doc: document.documentElement.scrollWidth - document.documentElement.clientWidth, dots: document.querySelectorAll('.learn-steps .dot').length }));
+        assert(r.head <= 1 && r.doc <= 1 && r.dots > 1, `${id} step ${k} scrolls sideways: ${JSON.stringify(r)}`);
+        n = r.dots;
+        const next = page.locator('.player-foot [data-learn-next]');
+        if (!(await next.count())) break;
+        await next.click();
+      }
+      assert(n >= 11, `${id} no longer has more than 10 steps at 150%, so this check no longer tests the long dot row: ${n}`);
+    }
+    await ctx.close();
+  });
 
   // ---------- LF-3 ----------
   await check('LF-3 a1-01: the sentence table reads "I | work | in a bank." left to right; at 150% it fits with the Hebrew visible', async () => {
@@ -491,36 +518,13 @@ try {
     const kept = await page.evaluate(() => ({ opts: document.querySelectorAll('#exroot .option').length, right: document.querySelectorAll('#exroot .option.is-right').length, play: Boolean(document.querySelector('#exroot [data-say="normal"]') && document.querySelector('#exroot [data-say="slow"]')) }));
     assert(kept.opts > 1 && kept.right === 1 && kept.play, `"I don't know" removed the exercise: ${JSON.stringify(kept)}`);
   }
+  // The exercises lane (EX-4) is merged, so the real controller must have the second try: no stand-in, no skip.
   await check('LF-6 A wrong typed answer gets its note and a second try; "I don\'t know" keeps the exercise (exercises lane controller)', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
-    if (!(await hasReopen(page))) { await ctx.close(); return 'skip'; }
+    assert(await hasReopen(page), 'the exercises controller has no reopen/reveal/retryable');
     await secondTry(page);
-    await ctx.close();
-  });
-  await check('LF-6 The same flow with a stand-in controller (reveal, reopen and retryable added in the test)', async () => {
-    const { ctx, page } = await newPage(browser);
-    await page.route(/\/js\/ui\/exercise\.js$/, async (route) => {
-      const res = await route.fetch();
-      let body = await res.text();
-      if (!/ctl\.reopen\s*=/.test(body)) {
-        body = body.replace('export function mountExercise(', 'function mountExercise0(') + `
-export function mountExercise(root, ex, opts) {
-  const ctl = mountExercise0(root, ex, opts);
-  if (['gap', 'transform', 'correct', 'dictation'].includes(ex.type)) {
-    ctl.retryable = true;
-    ctl.reopen = () => { const f = [...root.querySelectorAll('textarea, .gap-input')]; f.forEach((i) => { i.readOnly = false; }); (f.find((i) => i.classList.contains('wrong')) || f[0])?.focus(); };
-  }
-  ctl.reveal = () => { root.querySelectorAll('.option').forEach((b) => { b.disabled = true; if (Number(b.dataset.opt) === ex.answer) b.classList.add('is-right'); }); };
-  return ctl;
-}`;
-      }
-      await route.fulfill({ response: res, body, headers: { ...res.headers(), 'content-type': 'text/javascript' } });
-    });
-    await learnerAt(page, 'A2');
-    assert(await hasReopen(page), 'the stand-in controller did not load');
-    await secondTry(page);
-    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lf6-standin.png` });
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/lf6-second-try.png` });
     await ctx.close();
   });
   await check('LF-6 b1-02: after "My answer is also correct" the end screen says so', async () => {
@@ -596,10 +600,9 @@ export function mountExercise(root, ex, opts) {
     await lessonAt(page, 'b1-02', 'e7');
     await page.evaluate(() => { const g = document.querySelectorAll('#exroot .gap-input'); ['yet', 'for', 'since'].forEach((w, i) => { g[i].value = w; g[i].dispatchEvent(new Event('input', { bubbles: true })); }); });
     await page.click('[data-check]:not([disabled])');
-    // A wrong typed answer gets a second try first (LF-6); the first try stays recorded as wrong.
-    await page.waitForSelector('[data-try-again]');
-    await page.click('[data-show-answer]');
+    // A word-bank gap gets no second try (plan.conflicts: typed answers only), so the answer shows at once.
     await page.waitForSelector('[data-next]');
+    assert(!(await page.$('[data-try-again]')), 'a word-bank gap offers a second try');
     await page.click('[data-next]');
     await finish(page, b1.exercises, () => true);
     const b = await page.textContent('[data-mistakes]');
@@ -727,7 +730,6 @@ export function mountExercise(root, ex, opts) {
   server.kill();
 }
 const failed = results.filter((r) => !r.ok);
-const skipped = results.filter((r) => r.skip);
-console.log(`\n${results.length - failed.length - skipped.length} passed, ${skipped.length} skipped, ${failed.length} failed`);
+console.log(`\n${results.length - failed.length} passed, ${failed.length} failed`);
 if (pageErrors.length) console.log(`page errors (${pageErrors.length}):\n  ${[...new Set(pageErrors)].slice(0, 15).join('\n  ')}`);
 process.exit(failed.length ? 1 : 0);

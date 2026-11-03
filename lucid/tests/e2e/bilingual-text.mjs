@@ -55,10 +55,12 @@ async function eachLearnStep(page, fn) {
   const out = [];
   for (let i = 0; i < 12; i++) {
     out.push(await fn(page));
-    const next = await page.$('.player-foot [data-learn-next]');
-    if (!next) break;
+    // A locator re-resolves the key after the footer redraws, and the step label tells when the next step is up.
+    const next = page.locator('.player-foot [data-learn-next]');
+    if (!(await next.count())) break;
+    const label = await page.textContent('[data-step-label]');
     await next.click();
-    await page.waitForTimeout(250);
+    await page.waitForFunction((was) => document.querySelector('[data-step-label]')?.textContent !== was, label);
   }
   return out;
 }
@@ -112,7 +114,7 @@ try {
     await ctx.close();
   });
 
-  await check('BL-1c. #/expressions at 390: the "Chill" list number 3 sits outside the English; nothing scrolls sideways at 320 and 150%', async () => {
+  await check('BL-1c / RW-10. #/expressions at 390: the "Chill" senses are a numbered list, with no list number inside the English; nothing scrolls sideways at 320 and 150%', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
     // Numbered senses are a list (RW-10): the numbers are list markers, and each English example is its own run.
@@ -134,6 +136,31 @@ try {
       assert(over <= 1, `${route} scrolls sideways by ${over}px at 320 and 150%`);
     }
     await n.ctx.close();
+  });
+
+  // RW-10 made the expressions' senses a list, so no screen now shows a Hebrew list number after English text. The
+  // BL-1 rule is still checked in the page: the panel's own string goes through the app's isolateLatin into #view.
+  await check('BL-1d. The numbered gloss "…really chill. 3) Chill!" keeps each number outside the English and each full stop inside, rendered in the page at 390', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await go(page, '#/expressions');
+    const r = await page.evaluate(async () => {
+      const { isolateLatin } = await import('./js/core/i18n.js');
+      const { render } = await import('./js/core/util.js');
+      const chill = "1) (פועל) לנוח, להירגע: We just chilled at home (סתם עשינו צ'יל בבית). 2) (תואר) רגוע, זורם: My manager is really chill. 3) Chill! או Chill out! = 'תירגעו!'";
+      const p = document.createElement('p');
+      p.lang = 'he'; p.dir = 'rtl'; p.className = 'entry-he';
+      document.querySelector('#view').prepend(p);
+      render(p, isolateLatin(chill));
+      const bdis = [...p.querySelectorAll('bdi')];
+      const manager = bdis.find((b) => b.textContent.includes('My manager'));
+      return { en: bdis.map((b) => b.textContent), after: manager?.nextSibling?.textContent || '', text: p.textContent };
+    });
+    assert(r.en.includes('My manager is really chill.'), `the sentence is not one isolate with its full stop: ${JSON.stringify(r.en)}`);
+    assert(r.en.every((t) => !/(^\d|\d\)?$)/.test(t)), `a list number inside the English: ${JSON.stringify(r.en)}`);
+    assert(/^\s*3\)/.test(r.after), `"3)" does not follow the English outside it: ${JSON.stringify(r.after)}`);
+    assert(r.en.includes('Chill!') && r.en.includes('Chill out!'), `the senses' English is not isolated: ${JSON.stringify(r.en)}`);
+    await ctx.close();
   });
 
   // ---------- BL-3 ----------
