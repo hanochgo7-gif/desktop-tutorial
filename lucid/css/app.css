@@ -1386,8 +1386,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 
 /* Mixed lines (EX-6): numbered passage paragraphs, one speaker per line. */
 .passage[data-numbered] { counter-reset: para; }
-.passage[data-numbered] > p { counter-increment: para; position: relative; padding-inline-start: 2rem; }
-.passage[data-numbered] > p::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+.passage[data-numbered] > p { position: relative; padding-inline-start: 2rem; }
+.passage[data-numbered] > p[data-para] { counter-increment: para; }
+.passage[data-numbered] > p[data-para]::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
 .ex-text .speaker, .passage .speaker { font-weight: 600; }
 .ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
 .ex-source[dir='rtl'] { text-align: right; }
@@ -1699,6 +1700,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .cat-bin .chip.is-flawed { flex-wrap: wrap; text-align: start; }
 .cat-bin .chip .cat-fix { flex-basis: 100%; color: var(--ink-2); font-size: var(--t-xs, 0.8125rem); }
 .verdict-body .fix-items { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: 0.15rem; }
+/* EX-11: after Check in reading, a key at the top of the questions jumps to the first wrong one. */
+.read-jump { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.read-jump-key { background: none; border: 0; padding: 0.35rem 0; min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
 /* EX-9: speaking self-rating says what Continue waits for and acknowledges the choice; "mic off" is neutral. */
 .self-rate .self-need { color: var(--ink); font-weight: 500; }
 .self-rate .self-said { color: var(--ink-2); }

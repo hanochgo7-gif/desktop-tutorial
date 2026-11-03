@@ -402,6 +402,36 @@ try {
     await shot(c.page, 'ex10-b2-02-390');
     await c.ctx.close();
   });
+  // ---------- EX-11 ----------
+  await check('EX-11 reading: with Q1 wrong on a1-01 e12, Q1 is in view after Check and a key jumps to it; b1-02 e8 numbers body paragraphs only', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await openExercise(page, 'a1-01', 'e12');
+    const ex = await lessonEx(page, 'a1-01', 'e12');
+    // Q1 wrong, the rest right.
+    await page.click(`#exroot [data-tf="0"][data-v="${String(!ex.questions[0].answer)}"]`);
+    await page.click(`#exroot [data-tf="1"][data-v="${String(ex.questions[1].answer)}"]`);
+    await page.click(`#exroot [data-mq="2"][data-o="${ex.questions[2].answer}"]`);
+    await page.fill('#exroot [data-rg="3"]', ex.questions[3].answers[0][0]);
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    await page.waitForTimeout(400);
+    const seen = await page.$eval('#exroot [data-q="0"]', (q) => { const r = q.getBoundingClientRect(); const foot = document.querySelector('#pfoot')?.getBoundingClientRect().top ?? window.innerHeight; return { top: Math.round(r.top), bottom: Math.round(r.bottom), foot: Math.round(foot), ok: r.bottom > 0 && r.top < foot }; });
+    assert(seen.ok, `Q1 is not in view after Check: ${JSON.stringify(seen)}`);
+    assert(/לשאלה 1/.test(await page.textContent('#exroot [data-jump-q]')), 'no "לשאלה 1" key');
+    await shot(page, 'ex11-read-390');
+    await openExercise(page, 'b1-02', 'e8');
+    const nums = await page.$$eval('#exroot .passage > p', (ps) => ps.map((p) => ({ start: p.textContent.trim().slice(0, 12), n: getComputedStyle(p, '::before').content })));
+    const hi = nums.find((x) => x.start.startsWith('Hi Noa'));
+    const firstBody = nums.find((x) => !x.start.startsWith('Hi Noa'));
+    assert(hi && (hi.n === 'none' || hi.n === 'normal' || hi.n === '""'), `"Hi Noa," is numbered: ${JSON.stringify(hi)}`);
+    assert(firstBody && firstBody.n === 'counter(para)', `the first body paragraph has no number: ${JSON.stringify(firstBody)}`);
+    const counted = await page.$$eval('#exroot .passage > p[data-para]', (ps) => ps.length);
+    const firstNumber = await page.$eval('#exroot .passage > p[data-para]', (p) => p.textContent.trim().slice(0, 12));
+    assert(firstNumber === firstBody.start && counted < nums.length, `numbered: ${counted} of ${nums.length}, first "${firstNumber}"`);
+    await shot(page, 'ex11-paras-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

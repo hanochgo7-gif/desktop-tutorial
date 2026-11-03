@@ -49,6 +49,18 @@ export function splitTurns(text) {
   const starts = [...t.matchAll(TURN)].map((m) => m.index + m[1].length).filter((i) => i > 0);
   return [0, ...starts].map((s, k, all) => t.slice(s, all[k + 1] ?? t.length).trim()).filter(Boolean);
 }
+// A body paragraph of a reading passage, which gets a number (r4 EX-11). Not numbered: a greeting or sign-off
+// ("Hi Noa,", "Love,"), a short label (three words or fewer, or all capitals: "Maya", "COMMENTS") and a byline
+// ("– Lior, 16").
+export function bodyPara(p) {
+  const t = String(p || '').trim();
+  if (/^(hi|dear|hello|love|best|thanks|cheers)\b/i.test(t) && /,$/.test(t)) return false;
+  if (/^[–—-]\s*\S/.test(t)) return false;
+  const words = t.split(/\s+/).filter(Boolean);
+  if (words.length <= 3) return false;
+  if (/[A-Z]/.test(t) && t === t.toUpperCase()) return false;
+  return true;
+}
 // The text with a line break before each turn (none at the very start when `first`) and the names in bold.
 function turns(text, on_, first) {
   const t = String(text ?? '');
@@ -743,9 +755,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const dialogue = isDialogue(ex.passage);
       const paras = ex.passage.split(/\n\s*\n|\n/).flatMap((p) => (dialogue ? splitTurns(p) : [p])).filter((p) => p.trim());
       render(root, html`${prompt}
-        <article class="passage" lang="en" dir="ltr" ${paras.length > 1 ? html`data-numbered` : ''}>${ex.title ? html`<h3 style="margin-bottom:var(--s3)">${ex.title}</h3>` : ''}${paras.map((p) => html`<p>${turns(p, dialogue, true)}</p>`)}</article>
+        <article class="passage" lang="en" dir="ltr" ${paras.length > 1 ? html`data-numbered` : ''}>${ex.title ? html`<h3 style="margin-bottom:var(--s3)">${ex.title}</h3>` : ''}${paras.map((p) => html`<p ${dialogue || bodyPara(p) ? html`data-para` : ''}>${turns(p, dialogue, true)}</p>`)}</article>
         ${canSpeak() ? html`<div class="row" style="margin-top:var(--s3)"><button type="button" class="key small" data-say="normal">${icon('volume', { size: 18 })} ${tt('הקראת הטקסט', 'Read it to me')}</button></div>` : ''}
-        <div class="stack" style="margin-top:var(--s5)">${ex.questions.map((q, qi) => html`<fieldset class="panel flat stack-sm" style="margin:0" data-q="${qi}"><legend class="sr-only">${tt('שאלה', 'Question')} ${qi + 1}</legend>
+        <div class="stack" style="margin-top:var(--s5)" data-questions><div data-jump-slot></div>${ex.questions.map((q, qi) => html`<fieldset class="panel flat stack-sm" style="margin:0" data-q="${qi}"><legend class="sr-only">${tt('שאלה', 'Question')} ${qi + 1}</legend>
           ${q.type === 'tf' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.statement}</p><div class="row tf-row" dir="ltr" lang="en"><button type="button" class="key small" data-tf="${qi}" data-v="true" aria-pressed="false">True</button><button type="button" class="key small" data-tf="${qi}" data-v="false" aria-pressed="false">False</button></div>`
           : q.type === 'mcq' ? html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.question}</p><div class="options">${q.options.map((o, oi) => html`<button type="button" class="option" data-mq="${qi}" data-o="${oi}" aria-pressed="false" lang="en" dir="ltr">${o}</button>`)}</div>`
           : html`<p lang="en" dir="ltr"><span class="faint num">${qi + 1}.</span> ${q.text.split('___').map((p, i, a) => html`${p}${i < a.length - 1 ? html`<input class="gap-input" data-rg="${qi}" data-b="${i}" aria-label="${tt('מילה חסרה', 'Missing word')}" autocomplete="off" spellcheck="false">` : ''}`)}</p>`}
@@ -774,15 +786,26 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.check = async () => {
         root.dataset.locked = '1';
         let right = 0;
+        const wrong = [];
         ex.questions.forEach((q, qi) => {
           let ok;
           if (q.type === 'gap') { const ins = $$(`[data-rg="${qi}"]`, root); ok = ins.every((inp, i) => checkTyped(inp.value, q.answers[i], q.wrong_feedback).correct); ins.forEach((i) => { i.readOnly = true; i.classList.add(ok ? 'right' : 'wrong'); }); }
           else ok = answers.get(qi) === q.answer;
-          if (ok) right++;
+          if (ok) right++; else wrong.push(qi);
           markQuestion(q, qi, answers.get(qi));
           render($(`[data-q="${qi}"] .q-fb`, root), html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} ${answerEl(keyText(q))}`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
         });
         const score = right / ex.questions.length;
+        // The first wrong answer comes into view, and a link at the top of the questions jumps to it (r4 EX-11:
+        // Check used to leave the page at its bottom, two screens below the wrong Q1).
+        if (wrong.length) {
+          const target = () => $(`[data-q="${wrong[0]}"]`, root);
+          const slot = $('[data-jump-slot]', root);
+          if (slot) render(slot, html`<p class="read-jump small" ${uiAttrs()}><button type="button" class="read-jump-key" data-jump-q="${wrong[0]}">${tt(`לשאלה ${wrong[0] + 1}`, `To question ${wrong[0] + 1}`)}</button>${wrong.length > 1 ? html` <span class="faint">${tt(`(${wrong.length} תשובות לבדוק)`, `(${wrong.length} answers to look at)`)}</span>` : ''}</p>`);
+          offs.push(on(root, 'click', '[data-jump-q]', () => { const t = target(); if (!t) return; t.scrollIntoView({ block: 'center' }); t.tabIndex = -1; t.focus({ preventScroll: true }); }));
+          // After the player has drawn its verdict (it moves the focus to Continue).
+          setTimeout(() => { if (root.isConnected) target()?.scrollIntoView({ block: 'center' }); }, 120);
+        }
         return result({ correct: score >= 0.99, almost: score >= 0.5 && score < 0.99, score, response: `${right}/${ex.questions.length}`, error_type: 'comprehension', summary: tt(`${right} מתוך ${ex.questions.length} נכונות`, `${right} of ${ex.questions.length} right`) });
       };
       // "I don't know": every answer marked in place, with its explanation; the text and "Read it to me" stay.
