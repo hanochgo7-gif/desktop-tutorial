@@ -988,17 +988,18 @@ const matchAnswerEl = (ex) => html`<span class="answer answer-block match-answer
 
 // The rule an open rewrite breaks when it cannot be counted (P1 EX-5), as Bilingual feedback. It is the
 // first-try note too, so it names the rule and never the key's words (r4 EX-5): "did live" is another wrong
-// sentence when the key has no did, and "have lived" is the answer.
+// sentence when the key has no did, and "have lived" is the answer. The helper verb is named, not written: the
+// first-try note goes through retrySafe, which drops a note that holds a key word the learner left out (r4 LF-2).
 const STRUCTURE_NOTES = {
-  'present-perfect': { he: 'המשימה מבקשת present perfect: ‏have/has + V3.', en: 'The task asks for the present perfect: have/has + past participle.' },
-  'past-perfect': { he: 'המשימה מבקשת past perfect: ‏had + V3.', en: 'The task asks for the past perfect: had + past participle.' },
-  'perfect-continuous': { he: 'המשימה מבקשת present perfect continuous: ‏have/has been + ‏-ing.', en: 'The task asks for the present perfect continuous: have/has been + -ing.' },
-  passive: { he: 'המשימה מבקשת סביל: ‏be + V3.', en: 'The task asks for the passive: be + past participle.' },
+  'present-perfect': { he: 'המשימה מבקשת present perfect: פועל עזר + V3.', en: 'The task asks for the present perfect: helper verb + past participle.' },
+  'past-perfect': { he: 'המשימה מבקשת past perfect: פועל עזר בעבר + V3.', en: 'The task asks for the past perfect: past helper verb + past participle.' },
+  'perfect-continuous': { he: 'המשימה מבקשת present perfect continuous: שני פעלי עזר + ‏-ing.', en: 'The task asks for the present perfect continuous: two helper verbs + -ing.' },
+  passive: { he: 'המשימה מבקשת סביל: פועל עזר + V3.', en: 'The task asks for the passive: helper verb + past participle.' },
 };
 export function structureNote(ex, source = '') {
   const key = firstAnswer(ex.answers) || '';
   const kind = keyStructure(key);
-  if (kind === 'present-perfect' && /\bsince\b/i.test(`${key} ${source}`)) return { he: '‏since + נקודת התחלה → ‏have/has + V3.', en: 'since + a starting point → have/has + past participle.' };
+  if (kind === 'present-perfect' && /\bsince\b/i.test(`${key} ${source}`)) return { he: '‏since + נקודת התחלה → present perfect (פועל עזר + V3).', en: 'since + starting point → present perfect (helper verb + past participle).' };
   if (STRUCTURE_NOTES[kind]) return STRUCTURE_NOTES[kind];
   return { he: 'בדקו את זמן הפועל ואת הצורה שהמשימה מבקשת.', en: 'Check the tense and the verb form the task asks for.' };
 }
