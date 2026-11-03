@@ -1674,3 +1674,31 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .game-feedback .game-verdict { scroll-margin-block-end: 6rem; }
 @media (hover: none) and (pointer: coarse) { .game-options .option .k, .game-foot .kbd { display: none; } }
 /* ---- lane games: end ---- */
+
+/* ================================================================
+   UX round 4 (final fixes): one block per lane, new rules only.
+   ================================================================ */
+
+/* ---- lane r4-lesson-flow: start ---- */
+
+/* ---- lane r4-lesson-flow: end ---- */
+
+/* ---- lane r4-exercises: start ---- */
+
+/* ---- lane r4-exercises: end ---- */
+
+/* ---- lane r4-today-path: start ---- */
+
+/* ---- lane r4-today-path: end ---- */
+
+/* ---- lane r4-practice-games: start ---- */
+
+/* ---- lane r4-practice-games: end ---- */
+
+/* ---- lane r4-real-life-writing: start ---- */
+
+/* ---- lane r4-real-life-writing: end ---- */
+
+/* ---- lane r4-shell-bilingual: start ---- */
+
+/* ---- lane r4-shell-bilingual: end ---- */

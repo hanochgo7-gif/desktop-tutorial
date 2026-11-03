@@ -82,6 +82,17 @@ const STRINGS = {
   // ---- lane games: new keys go here ----
 
   // ---- lane real-life-writing: new keys go here ----
+  // ---- lane r4-lesson-flow: new keys go here ----
+
+  // ---- lane r4-exercises: new keys go here ----
+
+  // ---- lane r4-today-path: new keys go here ----
+
+  // ---- lane r4-practice-games: new keys go here ----
+
+  // ---- lane r4-real-life-writing: new keys go here ----
+
+  // ---- lane r4-shell-bilingual: new keys go here ----
 };
 
 let lang = 'he';
