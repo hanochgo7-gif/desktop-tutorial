@@ -456,7 +456,7 @@ export default async function essay(el, ctx) {
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="choice topic-choice small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span class="grow">${biCard('brief', tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
+      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="choice topic-choice note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span class="grow">${biCard('brief', tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
   }
   // The date of a text already written for an assignment, from its summary (RW-12).
   function writtenOn(id) {

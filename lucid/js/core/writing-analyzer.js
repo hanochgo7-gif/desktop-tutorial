@@ -461,7 +461,7 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
   if (minWords) checks.push({ id: 'length', ok: words >= minWords && (!maxWords || words <= maxWords * 1.1), en: maxWords ? `${words} words (target ${minWords}-${maxWords}${refNote.en})` : `${words} words (at least ${minWords}${refNote.en})`, he: maxWords ? `${words} מילים (יעד ${minWords}-${maxWords}${refNote.he})` : `${words} מילים (לפחות ${minWords}${refNote.he})` });
   for (const w of mustInclude) {
     const ok = new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(raw);
-    checks.push({ id: `must:${w}`, ok, en: `Uses "${w}"`, he: `הטקסט משתמש ב-"${w}"` });
+    checks.push({ id: `must:${w}`, ok, en: `Uses "${w}"`, he: `הטקסט משתמש ב-״${w}״` });
   }
   const capsOk = sentences.length === 0 || sentences.every((s) => /^["'“(]?[A-Z0-9]/.test(s));
   checks.push({ id: 'caps', ok: capsOk, en: 'Every sentence starts with a capital letter', he: 'כל משפט מתחיל באות גדולה' });
