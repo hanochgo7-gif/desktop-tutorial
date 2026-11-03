@@ -475,14 +475,14 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
     checks.push({ id: 'request', ok: REQUEST.test(raw), en: 'Makes a clear request: a question, or "please" or "could you"', he: 'יש בקשה ברורה: שאלה, או please או could you' });
     checks.push({ id: 'signoff', ok: Boolean(splitSignOff(body).signOff), en: 'Ends with a sign-off and your name, such as "Best" or "Kind regards"', he: 'מסיימים בברכת סיום ובשם, כמו Best או Kind regards' });
   }
-  if (words >= 150) checks.push({ id: 'paragraphs', ok: paragraphs.length >= 3, en: `${paragraphs.length} paragraph(s) (aim for 3 or more)`, he: `${paragraphs.length} פסקאות (כדאי 3 לפחות)` });
+  if (words >= 150) checks.push({ id: 'paragraphs', ok: paragraphs.length >= 3, en: `${paragraphs.length === 1 ? '1 paragraph' : `${paragraphs.length} paragraphs`} (aim for 3 or more)`, he: `${paragraphs.length === 1 ? 'פסקה אחת' : `${paragraphs.length} פסקאות`} (כדאי 3 לפחות)` });
 
   const issues = findIssues(raw, [...PATTERNS, ...L1_PATTERNS, ...(isFormal ? FORMAL_PATTERNS : []), ...(stage >= 8 ? [CLAIMS] : [])], { level, kind });
   const longest = advanced ? 55 : 40;
   lens.forEach((n, i) => { if (n > longest) issues.push({ type: 'punctuation', title: 'Very long sentence', he_title: 'משפט ארוך מאוד', en: `A ${n}-word sentence: consider splitting it for clarity.`, he: `משפט של ${n} מילים: שקלו לפצל אותו.`, match: sentences[i].slice(0, 60) + '…' }); });
   const starts = sentences.map((s) => (s.match(/^[A-Za-z']+/) || [''])[0].toLowerCase()).filter(Boolean);
   const startCounts = starts.reduce((m, w) => m.set(w, (m.get(w) || 0) + 1), new Map());
-  for (const [w, n] of startCounts) if (n >= 4 && n / sentences.length >= 0.5 && !['the', 'a'].includes(w)) issues.push({ type: 'cohesion', title: 'Repeated sentence opening', he_title: 'פתיחה חוזרת', en: `${n} sentences start with "${w}". Vary how sentences begin.`, he: `${n} משפטים מתחילים ב-"${w}". כדאי לגוון.`, match: w });
+  for (const [w, n] of startCounts) if (n >= 4 && n / sentences.length >= 0.5 && !['the', 'a'].includes(w)) issues.push({ type: 'cohesion', title: 'Repeated sentence opening', he_title: 'פתיחה חוזרת', en: `${n} sentences start with "${w}". Vary how sentences begin.`, he: `${n} משפטים מתחילים ב-״${w}״. כדאי לגוון.`, match: w });
 
   const connectors = {};
   for (const [cat, list] of Object.entries(CONNECTORS)) {
@@ -526,8 +526,11 @@ function topicFirst(issues, topic) {
 }
 
 // What the automatic checks found, for the status line under the editor and the heading of the checks panel
-// (RW-2, RW-4): failed checks (length first, with the missing words counted) and pattern issues together. It never
-// says "no problems" while a check fails, and it says what is checked, not that the text is correct.
+// (RW-2, RW-4; r4 RW-2). One list of items: failed checks (length first, with the missing words counted), each
+// distinct issue title, each kind of note (sweeping words, research with no source ...) and uncited sources. n is
+// that list's length, so "3 shown and N more" always adds up. It never says "no problems" while a check fails, and
+// it says what is checked, not that the text is correct. items keeps each label apart, so the UI can isolate each
+// English label on its own and keep the Hebrew commas outside them.
 export function checkSummary(a, { minWords = 0, maxWords = null } = {}) {
   if (!a) return null;
   const words = a.stats.words;
@@ -544,20 +547,25 @@ export function checkSummary(a, { minWords = 0, maxWords = null } = {}) {
   };
   const failed = a.checks.filter((c) => !c.ok).map((c) => ({ id: c.id, label: LABEL[c.id] || (c.id.startsWith('must:') ? [`חובה לכלול ${c.id.slice(5)}`, `must include ${c.id.slice(5)}`] : [c.he, c.en]) }));
   const errors = a.issues.filter((i) => !i.soft);
-  const notes = a.issues.length - errors.length;
+  const soft = a.issues.filter((i) => i.soft);
   const titles = [...new Map(errors.map((i) => [i.title, [i.he_title, i.title]])).values()];
-  const items = [...failed.map((f) => f.label), ...titles];
-  const n = failed.length + errors.length;
+  // A kind of note counts once, with how many there are: "מילים גורפות (2)".
+  const NOTE = { 'Sweeping claim?': [(n) => (n === 1 ? 'מילה גורפת אחת' : `${n} מילים גורפות`), (n) => `${n} sweeping word${n === 1 ? '' : 's'}`] };
+  const noteKinds = [...soft.reduce((m, i) => m.set(i.title, [...(m.get(i.title) || []), i]), new Map())].map(([title, list]) => (NOTE[title] ? [NOTE[title][0](list.length), NOTE[title][1](list.length)] : [list[0].he_title, list[0].title]));
+  const uncited = a.sources?.uncited?.length || 0;
+  const sourceItem = uncited ? [[uncited === 1 ? 'מקור אחד שלא צוטט' : `${uncited} מקורות שלא צוטטו`, `${uncited} source${uncited === 1 ? '' : 's'} not cited`]] : [];
+  const items = [...failed.map((f) => f.label), ...titles, ...noteKinds, ...sourceItem];
+  const n = items.length;
   const shown = items.slice(0, 3);
-  const more = items.length - shown.length;
-  const noteHe = notes ? ` ${notes === 1 ? 'מילה גורפת אחת' : `${notes} מילים גורפות`} לבדיקה.` : '';
-  const noteEn = notes ? ` ${notes} sweeping word${notes === 1 ? '' : 's'} to look at.` : '';
+  const more = n - shown.length;
+  const countHe = n === 1 ? 'דבר אחד לבדוק' : `${n} דברים לבדוק`;
   return {
-    n, short, over, failed: failed.map((f) => f.id), errors: errors.length, notes,
-    he: n ? `${n === 1 ? 'דבר אחד' : `${n} דברים`} לבדוק: ${shown.map((x) => x[0]).join(', ')}${more ? ` ועוד ${more}` : ''}.${noteHe}` : `לא מצאנו אף אחד מהדברים שאנחנו בודקים.${noteHe}`,
-    en: n ? `${n} thing${n === 1 ? '' : 's'} to check: ${shown.map((x) => x[1]).join(', ')}${more ? ` and ${more} more` : ''}.${noteEn}` : `None of the things we check for came up.${noteEn}`,
-    head_he: n ? `מצאנו ${n === 1 ? 'דבר אחד' : n} מהדברים שאנחנו בודקים` : 'לא מצאנו אף אחד מהדברים שאנחנו בודקים',
-    head_en: n ? `We found ${n} of the things we check for` : 'None of the things we check for came up',
+    n, short, over, failed: failed.map((f) => f.id), errors: errors.length, notes: soft.length,
+    items: items.map(([he, en]) => ({ he, en })), more,
+    he: n ? `${countHe}: ${shown.map((x) => x[0]).join(', ')}${more ? ` ועוד ${more}` : ''}.` : 'לא מצאנו אף אחד מהדברים שאנחנו בודקים.',
+    en: n ? `${n} thing${n === 1 ? '' : 's'} to check: ${shown.map((x) => x[1]).join(', ')}${more ? ` and ${more} more` : ''}.` : 'None of the things we check for came up.',
+    head_he: n ? (n === 1 ? 'יש דבר אחד לבדוק' : `יש ${n} דברים לבדוק`) : 'לא מצאנו אף אחד מהדברים שאנחנו בודקים',
+    head_en: n ? `${n} thing${n === 1 ? '' : 's'} to check` : 'None of the things we check for came up',
   };
 }
 

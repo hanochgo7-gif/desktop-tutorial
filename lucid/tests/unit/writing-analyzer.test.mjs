@@ -274,7 +274,7 @@ test('RW-2: the summary counts failed checks with the issues and never says "no 
   assert.equal(s.n, 1);
   assert.match(s.he, /חסרות 297 מילים/);
   assert.match(s.en, /297 words short/);
-  assert.match(s.head_he, /^מצאנו דבר אחד מהדברים שאנחנו בודקים/);
+  assert.match(s.head_he, /^יש דבר אחד לבדוק/);
   assert.ok(!/בעיות/.test(`${s.he} ${s.head_he}`), 'says "problems"');
   const ok = checkSummary(analyzeWriting('I study at a university. It took an hour.', { level: 'B1' }));
   assert.equal(ok.n, 0);
@@ -471,4 +471,36 @@ test('RW-4: the cards name countable nouns without the word "ספיר"', () => {
   assert.ok(all.length >= 3);
   assert.ok(all.every((i) => !/ספיר/.test(`${i.he} ${i.he_title}`)), JSON.stringify(all.map((i) => i.he)));
   assert.ok(all.some((i) => /שם עצם שאפשר לספור \(a car, a job\)/.test(i.he)));
+});
+
+// ---------- r4 RW-2: the summary adds up and reads well in Hebrew ----------
+test('RW-2: n is the number of listed items, and "ועוד" counts from the same list', () => {
+  const t = 'I am agree. I need informations. This is more better. It depends in the weather. We discussed about it. He work here. I dont know. You should to go. I goed home. We was tired. I am student.';
+  const s = checkSummary(analyzeWriting(t, { level: 'B1', minWords: 300 }), { minWords: 300 });
+  assert.equal(s.items.length, 12);
+  assert.equal(s.n, 12);
+  assert.match(s.head_he, /^יש 12/);
+  assert.match(s.he, /ועוד 9\./);
+  assert.match(s.en, /and 9 more/);
+  const one = checkSummary(analyzeWriting('I study at a university. It took an hour.', { level: 'B1', minWords: 20 }), { minWords: 20 });
+  assert.equal(one.head_he, 'יש דבר אחד לבדוק');
+});
+
+test('RW-2: sweeping words, research notes and uncited sources are counted as items', () => {
+  const a = analyzeWriting('Everyone agrees that it is bad. The research proves it.', { level: 'C1', stage: 8, sources: wa05 });
+  const s = checkSummary(a);
+  const he = s.items.map((i) => i.he);
+  assert.ok(he.includes('2 מילים גורפות'), JSON.stringify(he));
+  assert.ok(he.includes('מוזכר מחקר, בלי מקור'), JSON.stringify(he));
+  assert.ok(he.includes('3 מקורות שלא צוטטו'), JSON.stringify(he));
+  assert.equal(s.n, s.items.length);
+});
+
+test('RW-2: one paragraph is "פסקה אחת", and the repeated opening uses Hebrew quotes', () => {
+  const long = Array.from({ length: 20 }, () => 'Phones help people learn new words every day.').join(' ');
+  const p = analyzeWriting(long, { level: 'B1' }).checks.find((c) => c.id === 'paragraphs');
+  assert.match(p.he, /^פסקה אחת \(כדאי 3 לפחות\)/);
+  assert.match(p.en, /^1 paragraph \(/);
+  const rep = analyzeWriting('Research shows it. Research says it. Research proves it. Research finds it.', { level: 'B1' }).issues.find((i) => i.type === 'cohesion');
+  assert.match(rep.he, /4 משפטים מתחילים ב-״research״/);
 });

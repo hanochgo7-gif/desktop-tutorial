@@ -25,6 +25,8 @@ const CATEGORY = {
   evidence_quality: ['איכות הראיות', 'Evidence'], counterarguments: ['טיעונים נגדיים', 'Counterarguments'], academic_tone: ['טון אקדמי', 'Academic tone'],
   clarity: ['בהירות', 'Clarity'], precision: ['דיוק', 'Precision'], overall: ['הערכה כוללת', 'Overall'],
 };
+// The connector categories, named in the UI language; the connectors themselves stay English (r4 RW-2).
+const CONNECTOR_LABEL = { addition: ['תוספת', 'addition'], contrast: ['ניגוד', 'contrast'], cause: ['סיבה', 'cause'], result: ['תוצאה', 'result'], example: ['דוגמה', 'example'], sequence: ['רצף', 'sequence'], conclusion: ['סיכום', 'conclusion'] };
 const SEVERITY = { critical: ['חשוב לתקן', 'Must fix', 'bad'], important: ['כדאי לתקן', 'Should fix', 'warn'], style: ['שיפור סגנון', 'Style', 'cobalt'] };
 const ARGUMENTATIVE = new Set(['argument-construction', 'thesis-development', 'counterargument', 'essay', 'critical-response', 'research', 'timed', 'evidence-evaluation']);
 const SOURCE_KINDS = new Set(['research', 'evidence-evaluation', 'critical-response']);
@@ -213,10 +215,11 @@ export default async function essay(el, ctx) {
       ${argumentative ? html`<div class="stack-sm"><h3 class="small">${tt('מבנה הטיעון (סימנים בטקסט)', 'Argument structure (signals in the text)')}</h3>${sig.map(([k, he, en]) => html`<p class="row small sig-row">${icon(a.structure[k] ? 'check' : 'circle', { size: 16 })}<span class="${a.structure[k] ? '' : 'faint'}">${tt(he, en)}</span>${a.structureMatch?.[k] ? html`<span class="sig-found"><span class="sr-only">${tt('נמצא:', 'found:')} </span><bdi lang="en" dir="ltr">“${a.structureMatch[k]}”</bdi></span>` : ''}</p>`)}
         <p class="xsmall faint">${uiLang() === 'he' ? isolateLatin('הבדיקה מחפשת ביטויים אופייניים, כמו However או For example, ומראה מה נמצא. היא לא שופטת את איכות הטיעון.') : 'This looks for typical phrases, such as "However" or "For example", and shows what it found. It does not judge how good the argument is.'}</p></div>` : ''}
       ${a.sources ? sourceSection(a.sources) : ''}
-      ${NOT_ARGUED.has(kindOf()) ? '' : html`<div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small"><span class="tag">${k}</span> <span lang="en" dir="ltr" class="muted">${v.join(', ')}</span></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>`}
+      ${NOT_ARGUED.has(kindOf()) ? '' : html`<div class="stack-sm"><h3 class="small">${tt('מילות קישור', 'Connectors')}</h3>${Object.keys(a.connectors).length ? Object.entries(a.connectors).map(([k, v]) => html`<p class="small connector-row"><span class="tag connector-tag">${tt(...(CONNECTOR_LABEL[k] || [k, k]))}</span> <bdi lang="en" dir="ltr" class="muted">${v.join(', ')}</bdi></p>`) : html`<p class="small faint">${tt('לא נמצאו מילות קישור.', 'No connectors found.')}</p>`}</div>`}
       <p class="small muted">${tt(`${a.stats.sentences} משפטים · אורך ממוצע ${a.stats.avg_sentence} מילים · ${a.stats.paragraphs} פסקאות`, `${a.stats.sentences} sentences · average ${a.stats.avg_sentence} words · ${a.stats.paragraphs} paragraphs`)}</p>
       ${errs.length ? html`<div class="stack-sm"><h3 class="small">${tt('כדאי לבדוק', 'Worth checking')}</h3>${errs.slice(0, 20).map(issueCard)}</div>` : ''}
-      ${notes.length ? html`<div class="stack-sm"><h3 class="small">${tt('מילים גורפות: האם זה נכון בכל מקרה?', 'Sweeping words: is it true in every case?')}</h3>${notes.map(issueCard)}</div>` : ''}
+      ${notes.some((i) => i.type !== 'claim') ? html`<div class="stack-sm"><h3 class="small">${tt('הערות: כדאי להסתכל שוב', 'Notes: worth a second look')}</h3>${notes.filter((i) => i.type !== 'claim').map(issueCard)}</div>` : ''}
+      ${notes.some((i) => i.type === 'claim') ? html`<div class="stack-sm"><h3 class="small">${tt('מילים גורפות: האם זה נכון בכל מקרה?', 'Sweeping words: is it true in every case?')}</h3>${notes.filter((i) => i.type === 'claim').map(issueCard)}</div>` : ''}
       <p class="xsmall faint">${tt('בדיקות אוטומטיות פשוטות: הן יכולות לפספס טעויות ולפעמים לסמן משהו תקין.', 'Simple automatic checks: they can miss mistakes and occasionally flag correct English.')}</p></div>`;
   }
   // Which sources of the pack the draft cites, by author and year (RW-6). Copied runs are listed with the issues.
@@ -235,7 +238,7 @@ export default async function essay(el, ctx) {
   // English in order (isolateLatin); an English line is its own left-to-right block (RW-2, RW-7).
   function issueCard(i) {
     const he = uiLang() === 'he' && hebrewSupport() !== 'off';
-    return html`<div class="error-card ${i.soft ? 'style' : ''}"><p class="small issue-head"><span class="tag ${i.soft ? 'cobalt' : 'warn'}">${tt(i.he_title, i.title)}</span> <span class="quote" lang="en" dir="ltr">${i.match}</span></p>${he ? html`<p class="small muted" lang="he" dir="rtl">${isolateLatin(i.he)}</p>` : html`<p class="small muted en-line" lang="en" dir="ltr">${i.en}</p>`}${i.ex ? html`<p class="small en-line issue-ex" lang="en" dir="ltr"><span aria-hidden="true">→ </span><span class="sr-only">${tt('אפשר לכתוב:', 'You could write:')} </span>${i.ex}</p>` : ''}</div>`;
+    return html`<div class="error-card ${i.soft ? 'style' : ''}"><p class="small issue-head"><span class="tag ${i.soft ? 'cobalt' : 'warn'}">${tt(i.he_title, i.title)}</span> <span class="quote" lang="en" dir="ltr">${i.match}</span></p>${he ? html`<p class="small muted" lang="he" dir="rtl">${isolateLatin(i.he)}</p>` : html`<p class="small muted en-line" lang="en" dir="ltr">${i.en}</p>`}${i.ex ? html`<p class="small en-line issue-ex" dir="ltr"><span class="sr-only" lang="${uiLang()}" dir="auto">${tt('אפשר לכתוב:', 'You could write:')} </span><span lang="en"><span aria-hidden="true">→ </span>${i.ex}</span></p>` : ''}</div>`;
   }
 
   // While a text is being assessed (persona panel P-83): shown under the editor, which stays in view on
@@ -517,7 +520,7 @@ export default async function essay(el, ctx) {
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
             ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
             ${busyStatus()}
-            <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : uiLang() === 'he' ? isolateLatin(checkedNote.he) : checkedNote.en}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
+            <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : statusLine(checkedNote)}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
             ${aiError ? html`<p class="error-text" role="alert">${aiError}</p>` : ''}
             ${aiNote ? html`<p class="xsmall faint">${aiNote}</p>` : ''}
             ${fixStrip()}
@@ -529,6 +532,14 @@ export default async function essay(el, ctx) {
         </aside>
       </div>`);
     tickElapsed();
+  }
+  // What the last check found, as separate items: in Hebrew each English label is its own isolate, so a Hebrew
+  // list comma never ends up inside one (r4 RW-2).
+  function statusLine(sum) {
+    if (uiLang() !== 'he') return sum.en;
+    if (!sum.n) return sum.he;
+    const shown = sum.items.slice(0, 3);
+    return html`<span>${sum.n === 1 ? 'דבר אחד לבדוק' : `${sum.n} דברים לבדוק`}:</span> ${shown.map((x, i) => html`${i ? ', ' : ''}<span class="sum-item">${isolateLatin(x.he)}</span>`)}${sum.more ? ` ועוד ${sum.more}` : ''}.`;
   }
   // "target 1,500-2,000 (accepted 1,400-2,200)" when the stated range differs from the checked one (RW-12).
   function targetLabel() {
@@ -712,7 +723,7 @@ export default async function essay(el, ctx) {
       analysis = analyze(); saveVersion(); tab = 'checks'; logEvent({ type: 'writing', exercise: task.id });
       // What the checks found, failed checks first: never "no problems" under a length warning (RW-2).
       const sum = checkSummary(analysis, { minWords, maxWords });
-      checkedNote = { he: sum.he, en: sum.en };
+      checkedNote = sum;
       draw(); revealChecks();
     }),
     on(el, 'click', '[data-ai]', (e, b) => { if (!b.disabled) getFeedback(); }),
