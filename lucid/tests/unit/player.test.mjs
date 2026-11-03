@@ -432,6 +432,16 @@ test('r4 LF-4: mistakeNote explains this mistake, shows only what changed, and k
   assert.equal(P.sameOrder('You have ever been to Eilat?', 'Have you ever been to Eilat?'), false);
 });
 
+test('r4 LF-5: an item answered when nothing could be heard leaves the score\'s denominator and the missed list', () => {
+  const lesson = { exercises: [{ id: 'a', type: 'listen' }, { id: 'b', type: 'mcq' }, { id: 'c', type: 'gap' }, { id: 'd', type: 'speak' }] };
+  const first = new Map([['b', 1], ['c', 0]]);
+  assert.equal(P.lessonScore(first, lesson), 1 / 3, 'without the flag a missing first try counts as 0');
+  assert.equal(P.lessonScore(first, lesson, new Set(['a'])), 1 / 2);
+  assert.deepEqual(P.missedIds(first, lesson), ['a', 'c']);
+  assert.deepEqual(P.missedIds(first, lesson, new Set(['a'])), ['c']);
+  assert.equal(P.lessonScore(new Map(), { exercises: [{ id: 'a', type: 'listen' }] }, new Set(['a'])), 1, 'nothing left to score');
+});
+
 test('r4 LF-1: the end screen counts the words that entered review today from this lesson only', async () => {
   const day = '2026-11-03';
   const card = (lesson, at, extra = {}) => ({ kind: 'meaning', ref: { lesson }, created_at: at, ...extra });

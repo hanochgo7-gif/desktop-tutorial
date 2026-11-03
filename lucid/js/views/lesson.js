@@ -25,9 +25,10 @@ export { answerPoints };
 // ---------- scoring and counting (pure, unit-tested) ----------
 export const UNSCORED = new Set(['write', 'speak']);
 export const scoredExercises = (lesson) => lesson.exercises.filter((e) => !UNSCORED.has(e.type));
-// First-try points per exercise id -> lesson score (0..1). A lesson with nothing to score counts as done.
-export function lessonScore(firstTry, lesson) {
-  const scored = scoredExercises(lesson);
+// First-try points per exercise id -> lesson score (0..1). A lesson with nothing to score counts as done. Items
+// answered when nothing could be heard (unheard, r4 LF-5) are not first-try evidence: they leave the denominator.
+export function lessonScore(firstTry, lesson, unheard = null) {
+  const scored = scoredExercises(lesson).filter((e) => !unheard?.has(e.id));
   if (!scored.length) return 1;
   return scored.reduce((a, e) => a + (firstTry.get(e.id) || 0), 0) / scored.length;
 }
@@ -81,9 +82,10 @@ export function partEnds(part, queue, qi, finished) {
   return part.upto < queue.filter((q) => !q.retry).length && firstDone(queue, qi) === part.upto;
 }
 
-// Scored exercises whose first try was wrong (or never answered); a reading text or sort under 80% (LF-9).
-export function missedIds(firstTry, lesson) {
-  return scoredExercises(lesson).filter((e) => isMissed(firstTry.get(e.id), e.type)).map((e) => e.id);
+// Scored exercises whose first try was wrong (or never answered); a reading text or sort under 80% (LF-9). An item
+// nobody could hear is not missed (r4 LF-5).
+export function missedIds(firstTry, lesson, unheard = null) {
+  return scoredExercises(lesson).filter((e) => !unheard?.has(e.id) && isMissed(firstTry.get(e.id), e.type)).map((e) => e.id);
 }
 // Where the learner is: the first pass has a fixed total; retries are counted on their own.
 export function stepInfo(queue, qi) {
@@ -489,6 +491,7 @@ export default async function lessonView(el, ctx) {
   let qi = 0;
   const firstTry = new Map(); // exercise id -> points (0..1) on first attempt
   const judged = new Set(); // exercises the learner counted as right themselves ("My answer is also correct")
+  const unheard = new Set(); // listen items answered when no sound played: not scored (r4 LF-5, contract (b))
   let ctl = null;
   let checked = null; // last check result
   let lastAttempt = null; // the attempt record of the last check (for "My answer is also correct")
@@ -791,8 +794,17 @@ export default async function lessonView(el, ctx) {
     secondTry = false;
     checked = r;
     const latency = Math.round(performance.now() - shownAt);
+    // Answered when nothing could be heard (contract (b) with the exercises lane, EX-4): not first-try evidence,
+    // no retry, an attempt with no score, and a verdict that says so.
+    if (r.unheard && r.graded !== false && !dontKnow) {
+      if (!item.retry && !firstTry.has(item.ex.id)) unheard.add(item.ex.id);
+      lastAttempt = recordAttempt({ ...attemptBase(item), correct: false, score: null, latency_ms: latency, response: '(unheard)', unheard: true });
+      saveResume();
+      showResult(r);
+      return;
+    }
     if (r.graded !== false) {
-      if (!item.retry && !firstTry.has(item.ex.id)) firstTry.set(item.ex.id, answerPoints(r, hintUsed, item.ex.type));
+      if (!item.retry && !firstTry.has(item.ex.id)) { firstTry.set(item.ex.id, answerPoints(r, hintUsed, item.ex.type)); unheard.delete(item.ex.id); }
       lastAttempt = recordAttempt({ ...attemptBase(item), correct: r.correct, score: r.score ?? (r.correct ? 1 : 0), error_type: r.error_type, hint_used: hintUsed, latency_ms: latency, response: r.response });
       // A wrong typed answer on the first pass: a targeted note and a second try before the answer (LF-6).
       if (!dontKnow && !r.correct && !r.model && !item.retry && !wasSecond && canRetry()) {
@@ -826,11 +838,15 @@ export default async function lessonView(el, ctx) {
     const foot = $('#pfoot', el);
     const perQ = !r.correct && ['read', 'categorize'].includes(item.ex.type) && (r.score ?? 0) >= 0.6 - 1e-9;
     // A lesson writing draft saved below its target is amber, not done (r4 LF-14, contract (e) with EX-7).
-    foot.className = `player-foot ${r.graded === false ? (r.short ? 'almost' : 'ok') : r.correct ? (r.almost ? 'almost' : 'ok') : r.dontKnow ? 'shown' : (r.model || perQ) ? 'almost' : 'bad'}`;
+    foot.className = `player-foot ${r.unheard ? 'shown' : r.graded === false ? (r.short ? 'almost' : 'ok') : r.correct ? (r.almost ? 'almost' : 'ok') : r.dontKnow ? 'shown' : (r.model || perQ) ? 'almost' : 'bad'}`;
     render(foot, footer('result'));
     if (r.noSelf) $('.self-judge', foot)?.remove();
     const title = $('.verdict-title', foot);
     if (title && r.dontKnow) render(title, html`${icon('info', { size: 18 })} ${tt('הנה התשובה', 'Here is the answer')}`);
+    if (title && r.unheard) {
+      render(title, html`${icon('info', { size: 18 })} ${tt('נשמע? לא נספר', 'Heard? Not counted')}`);
+      $('.verdict-body', foot)?.insertAdjacentHTML('afterbegin', String(html`<p class="muted" data-unheard-note>${tt('בלי קול אי אפשר לבדוק הקשבה, ולכן התרגיל הזה לא נכנס לציון.', 'Listening cannot be checked without sound, so this exercise does not count toward the score.')}</p>`));
+    }
     if (title && perQ) {
       const [right, total] = String(r.response || '').split('/').map(Number);
       if (right >= 0 && total > 0) render(title, html`${icon('info', { size: 18 })} ${item.ex.type === 'read' ? tt(`${right} מתוך ${total} נכונות`, `${right} of ${total} right`) : tt(`${right} מתוך ${total} במקום הנכון`, `${right} of ${total} in the right place`)}`);
@@ -914,7 +930,7 @@ export default async function lessonView(el, ctx) {
   // Leaving mid-lesson keeps the place (research D, D17/D25): the queue, position and first-try scores.
   function saveResume(at = qi + 1) {
     const cur = progressOf(id) || { id, level: lesson.level, status: 'started' };
-    const c = { ...cur, resume: { qi: at, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], judged: [...judged], missed: missedMode, since: runSince, at: new Date().toISOString() } };
+    const c = { ...cur, resume: { qi: at, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], judged: [...judged], unheard: [...unheard], missed: missedMode, since: runSince, at: new Date().toISOString() } };
     delete c.learn_step;
     store.put('progress', c);
   }
@@ -926,6 +942,8 @@ export default async function lessonView(el, ctx) {
     for (const [k, v] of r.first) firstTry.set(k, v);
     judged.clear();
     for (const k of r.judged || []) judged.add(k);
+    unheard.clear();
+    for (const k of r.unheard || []) unheard.add(k);
     qi = Math.min(r.qi, queue.length);
     missedMode = Boolean(r.missed);
     runSince = r.since || runSince;
@@ -949,6 +967,8 @@ export default async function lessonView(el, ctx) {
     for (const x of ids) queue.push({ ex: byId.get(x), retry: false });
     firstTry.clear();
     for (const [k, v] of m.first) if (!ids.includes(k)) firstTry.set(k, v);
+    unheard.clear();
+    for (const k of m.unheard || []) if (!ids.includes(k)) unheard.add(k);
     qi = 0;
     missedMode = true;
     return true;
@@ -991,20 +1011,21 @@ export default async function lessonView(el, ctx) {
   }
 
   function showReview() {
-    const score = lessonScore(firstTry, lesson);
+    const score = lessonScore(firstTry, lesson, unheard);
     const pass = lesson.completion?.pass_score ?? 0.7;
     const passed = isPass(score, pass);
     const kind = reviewTitle(score, pass);
     const credit = partialCredit(firstTry);
     const wasDone = progressOf(id)?.status === 'completed';
     finishLesson(lesson, { score, passed });
-    const missed = passed ? [] : missedIds(firstTry, lesson);
+    const missed = passed ? [] : missedIds(firstTry, lesson, unheard);
     // The finished run replaces the saved place; a miss keeps the list of exercises to redo.
     const cur = store.get('progress', id);
-    if (cur) { const c = { ...cur }; delete c.resume; delete c.missed; delete c.learn_step; if (missed.length) c.missed = { ids: missed, first: [...firstTry], at: new Date().toISOString() }; store.put('progress', c); }
+    if (cur) { const c = { ...cur }; delete c.resume; delete c.missed; delete c.learn_step; if (missed.length) c.missed = { ids: missed, first: [...firstTry], unheard: [...unheard], at: new Date().toISOString() }; store.put('progress', c); }
     const missedMin = missedMinutes(lesson, missed.length);
     const pctText = scorePercent(score, passed);
     const nJudged = [...judged].filter((x) => firstTry.has(x)).length;
+    const nUnheard = [...unheard].filter((x) => !firstTry.has(x)).length;
     // The day as Today sees it (LF-1): done, or the next block of the plan with its own route.
     const day = passed ? dayState() : null;
     // The words that really entered review today, as Today's review row counts them (LF-1); the rest wait for
@@ -1028,7 +1049,8 @@ export default async function lessonView(el, ctx) {
       : tt(` אפשר לתרגל רק את ${missed.length === 1 ? 'התרגיל שפספסתם' : `${missed.length} התרגילים שפספסתם`}. מה שעניתם נכון נשמר, ולא צריך לעשות אותו שוב.`, ` You can practise just the ${missed.length === 1 ? 'one' : missed.length} you missed. What you got right is kept, and you need not do it again.`);
     const notes = html`${nJudged ? html`<p class="xsmall faint" data-judged-note>${nJudged === 1 ? tt('כולל תשובה אחת שסימנתם בעצמכם כנכונה.', 'Including one answer you marked as correct yourself.') : tt(`כולל ${nJudged} תשובות שסימנתם בעצמכם כנכונות.`, `Including ${nJudged} answers you marked as correct yourself.`)}</p>` : ''}
         ${!passed && (credit.hint || credit.slip) ? html`<p class="xsmall faint" data-credit-note>${[credit.hint && tt('תשובה נכונה אחרי רמז נספרת כשלושה רבעים.', 'A right answer after a hint counts as three quarters.'), credit.slip && tt('תשובה נכונה עם טעות כתיב קטנה נספרת כ-90%.', 'A right answer with a small spelling slip counts as 90%.')].filter(Boolean).join(' ')}</p>` : ''}
-        ${scoredExercises(lesson).length < lesson.exercises.length ? html`<p class="xsmall faint">${tt('תרגילי דיבור וכתיבה הם תרגול ולא נספרים בציון.', 'Speaking and writing exercises are practice and do not count toward the score.')}</p>` : ''}`;
+        ${scoredExercises(lesson).length < lesson.exercises.length ? html`<p class="xsmall faint">${tt('תרגילי דיבור וכתיבה הם תרגול ולא נספרים בציון.', 'Speaking and writing exercises are practice and do not count toward the score.')}</p>` : ''}
+        ${nUnheard ? html`<p class="xsmall faint" data-unheard-count>${nUnheard === 1 ? tt('תרגיל האזנה אחד לא נספר, כי לא נשמע קול.', 'One listening exercise was not counted, as no sound played.') : tt(`${nUnheard} תרגילי האזנה לא נספרו, כי לא נשמע קול.`, `${nUnheard} listening exercises were not counted, as no sound played.`)}</p>` : ''}`;
     const keyPoints = html`<div class="panel flat stack-sm"><h2 class="small">${tt('מה לזכור', 'Key points')}</h2><ul class="point-list">${lesson.review.key_points.map((k) => html`<li class="point">${icon('check', { size: 18 })}<div class="grow">${bi(k)}</div></li>`)}</ul></div>`;
     const title = html`<h1 tabindex="-1">${kind === 'complete' ? tt('השיעור הושלם', 'Lesson complete') : kind === 'nearly' ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h1>`;
     // A pass leads with what was gained (LF-12): the title, the words added to review, what to remember, and then

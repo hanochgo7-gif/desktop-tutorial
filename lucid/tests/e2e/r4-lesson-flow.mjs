@@ -363,6 +363,49 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-5: an item nobody could hear is not first-try evidence ----------
+  await check('LF-5 pa1-02 e1 answered with no English voice: its attempt has no score, it is not missed, and the end percentage leaves it out', async () => {
+    const { ctx, page } = await newPage(browser);
+    await ctx.addInitScript(() => { window.__silent = true; });
+    // Until the exercises lane (EX-4) marks a listen result answered after silence with unheard:true, the listen
+    // controller is given that flag here; with EX-4 merged its own transcript path is used.
+    let ex4 = false;
+    await ctx.route('**/js/ui/exercise.js', async (route) => {
+      const res = await route.fetch();
+      let src = await res.text();
+      ex4 = /unheard/.test(src);
+      if (!ex4) src = `${src.replace('export function mountExercise(', 'function mountExerciseR4(')}\nexport function mountExercise(root, ex, opts) { const c = mountExerciseR4(root, ex, opts); if (ex.type === 'listen' && window.__silent) { const check = c.check; c.check = async () => ({ ...(await check()), unheard: true }); } return c; }\n`;
+      await route.fulfill({ response: res, body: src });
+    });
+    await learnerAt(page, 'PreA1', { minutes: 50 });
+    const l = lessonJson('pa1-02');
+    const others = scoredIds(l).filter((x) => x !== 'e1');
+    const fixture = Object.fromEntries(others.map((x, i) => [x, i % 2 ? 1 : 0]));
+    await lessonAt(page, 'pa1-02', 'e1', fixture);
+    if (ex4) {
+      await page.click('#exroot [data-say="normal"]');
+      await page.getByText('להציג את התמליל עכשיו').click();
+    }
+    await page.click('#exroot [data-opt="0"]');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-next]');
+    assert(/נשמע\? לא נספר/.test(await page.textContent('#pfoot .verdict-title')), `verdict: ${await page.textContent('#pfoot .verdict-title')}`);
+    await shot(page, 'lf5-unheard');
+    // The rest of the lesson as the fixture says: jump to the end with the saved place.
+    await page.evaluate((fixture) => { const p = window.lucid.store.get('progress', 'pa1-02'); window.lucid.store.put('progress', { ...p, resume: { ...p.resume, qi: p.resume.queue.length, first: Object.entries(fixture) } }); }, fixture);
+    await page.goto(`${BASE}#/lesson/pa1-02?resume=1&t=${Date.now()}`);
+    await page.waitForSelector('[data-score-line]');
+    const at = (await store(page, 'attempts')).filter((a) => a.lesson === 'pa1-02' && a.exercise === 'e1');
+    assert(at.length === 1 && at[0].score === null, `e1 attempts: ${JSON.stringify(at)}`);
+    const prog = await page.evaluate(() => window.lucid.store.get('progress', 'pa1-02'));
+    assert(!(prog.missed?.ids || []).includes('e1'), `e1 is among the missed: ${JSON.stringify(prog.missed?.ids)}`);
+    const pct = Math.floor((Object.values(fixture).reduce((a, b) => a + b, 0) / others.length) * 100 + 1e-6);
+    const line = await page.textContent('[data-score-line]');
+    assert(line.includes(`${pct}%`), `the end percentage is not over the other ${others.length} items (${pct}%): ${line}`);
+    await shot(page, 'lf5-end', { fullPage: true });
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
