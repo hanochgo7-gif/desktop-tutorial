@@ -1690,6 +1690,11 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .silent-transcript { margin-block-start: var(--s4); color: var(--ink-2); }
 .silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
 .options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+/* EX-8: a word accepted with a slip is amber, with the letters that differ marked; a reopened field is plain. */
+.gap-input.almost, .ex-field.almost { border-color: var(--warn); background: var(--warn-tint); }
+.gap-diff { display: inline-flex; gap: 0.3em; align-items: baseline; margin-inline: 0.2rem; padding: 0 0.35rem; border-radius: 0.4rem; background: var(--warn-tint); font-size: var(--t-sm); white-space: nowrap; }
+.gap-diff .gd-typed { color: var(--ink-2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.gap-diff mark { color: var(--warn); background: transparent; font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
 
 /* ---- lane r4-exercises: end ---- */
 

@@ -299,6 +299,37 @@ try {
     assert(!/קיצור בכתיבה רשמית/.test(out), 'a story flags "didn\'t" as a contraction in formal writing');
     await b.ctx.close();
   });
+  // ---------- EX-8 ----------
+  await check('EX-8 a1-01 e7: "לנסות שוב" reopens a plain field (no wrong, no aria-invalid); "evrey" is amber with marked letters; pa1-01 e10 names where the wrong letter is', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await openExercise(page, 'a1-01', 'e7');
+    let gaps = await page.$$('#exroot .gap-input');
+    await gaps[0].fill('zzz'); await gaps[1].fill('on');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    await page.click('[data-try-again]');
+    const g = await page.$eval('#exroot .gap-input[data-gap="0"]', (i) => ({ cls: i.className, inv: i.getAttribute('aria-invalid'), ro: i.readOnly, v: i.value }));
+    assert(!/\bwrong\b/.test(g.cls) && g.inv == null && !g.ro && g.v === 'zzz', `reopened gap: ${JSON.stringify(g)}`);
+    await openExercise(page, 'a1-01', 'e7');
+    gaps = await page.$$('#exroot .gap-input');
+    await gaps[0].fill('evrey'); await gaps[1].fill('on');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    const a = await page.$eval('#exroot .gap-input[data-gap="0"]', (i) => ({ cls: i.className, mark: Boolean(i.nextElementSibling?.matches('.gap-diff') && i.nextElementSibling.querySelector('mark')) }));
+    assert(/\balmost\b/.test(a.cls) && !/\bright\b/.test(a.cls) && a.mark, `the almost gap: ${JSON.stringify(a)}`);
+    await shot(page, 'ex8-almost-390');
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'PreA1');
+    await openExercise(b.page, 'pa1-01', 'e10');
+    await b.page.fill('#exroot textarea', 'B V G E');
+    await b.page.click('[data-check]');
+    await b.page.waitForSelector('[data-try-again]');
+    const v = await verdict(b.page);
+    assert(/האות השלישית/.test(v.text) && !/\bJ\b/.test(v.text), `pa1-01 e10 note: ${v.text}`);
+    await b.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

@@ -96,7 +96,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
   // the learner's own text; a second try unlocks the field with the text kept.
   const setInvalid = (el, bad) => { el.classList.toggle('wrong', bad); if (bad) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid'); };
   const revealAnswer = (a) => { const box = $('[data-reveal]', root); if (box) render(box, html`<p class="reveal-answer">${tick()}<span class="sr-only" ${uiAttrs()}>${tt('התשובה:', 'Answer:')} </span><span lang="en" dir="ltr">${a}</span></p>`); };
-  const reopenField = (el) => { el.readOnly = false; onChange(ctl.ready()); el.focus(); el.setSelectionRange?.(el.value.length, el.value.length); };
+  const reopenField = (el) => { el.readOnly = false; setInvalid(el, false); el.classList.remove('almost'); onChange(ctl.ready()); el.focus(); el.setSelectionRange?.(el.value.length, el.value.length); };
 
   switch (ex.type) {
     case 'mcq':
@@ -281,32 +281,36 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         let allRight = true, almost = false, specific = null, err = null, rule = null;
         const responses = [], typos = [];
         root.dataset.locked = '1';
-        $$('.gap-mark', root).forEach((m) => m.remove());
+        $$('.gap-mark, .gap-diff', root).forEach((m) => m.remove());
         inputs.forEach((inp, i) => {
           const r = checkTyped(inp.value, ex.answers[i], ex.wrong_feedback);
           responses.push(inp.value);
           inp.readOnly = true;
-          inp.classList.remove('right', 'wrong', 'is-target');
+          inp.classList.remove('right', 'wrong', 'almost', 'is-target');
           inp.removeAttribute('aria-current');
           setInvalid(inp, !r.correct);
-          inp.classList.add(r.correct ? 'right' : 'wrong');
+          // An "almost" word (a spelling slip) is amber, not green, with its letters marked (r4 EX-8).
+          inp.classList.add(!r.correct ? 'wrong' : r.almost ? 'almost' : 'right');
           if (!r.correct) {
             allRight = false;
             const f = findWrongFeedback(inp.value, ex.wrong_feedback);
             if (f && !specific) { specific = f.feedback; err = f.error_type; rule = f.rule || null; }
-          } else if (r.almost) { almost = true; if (r.typo) typos.push(r.typo); }
+          } else if (r.almost) {
+            almost = true;
+            if (r.typo) { typos.push(r.typo); inp.insertAdjacentHTML('afterend', String(gapDiffHtml(r.typo.typed, r.typo.expected))); }
+          }
         });
         $$('.chip', root).forEach((c) => { c.disabled = true; });
         target = null; drawTarget();
-        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific, typos, ...(rule ? { retry_note: rule } : {}) });
+        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right') || i.classList.contains('almost')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific, typos, ...(rule ? { retry_note: rule } : {}) });
       };
       ctl.reveal = () => {
         root.dataset.locked = '1';
-        $$('.gap-mark', root).forEach((m) => m.remove());
+        $$('.gap-mark, .gap-diff', root).forEach((m) => m.remove());
         inputs.forEach((inp, i) => {
           inp.value = firstAnswer(ex.answers[i]);
           inp.readOnly = true;
-          inp.classList.remove('wrong', 'right', 'is-target');
+          inp.classList.remove('wrong', 'right', 'almost', 'is-target');
           inp.classList.add('is-right');
           inp.removeAttribute('aria-current');
           inp.removeAttribute('aria-invalid');
@@ -324,7 +328,10 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         delete root.dataset.locked;
         const wrong = inputs.filter((inp) => inp.classList.contains('wrong'));
         locked.clear();
-        inputs.forEach((inp, i) => { if (inp.classList.contains('right')) locked.add(i); else if (!bank) inp.readOnly = false; });
+        inputs.forEach((inp, i) => { if (inp.classList.contains('right') || inp.classList.contains('almost')) locked.add(i); else if (!bank) inp.readOnly = false; });
+        // The reopened fields keep the learner's words and look editable, not wrong, until they are checked again
+        // (r4 EX-8).
+        wrong.forEach((inp) => setInvalid(inp, false));
         if (bank) $$('.chip', root).forEach((c) => { c.disabled = false; });
         target = bank && wrong.length ? Number(wrong[0].dataset.gap) : null;
         drawTarget();
@@ -571,7 +578,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ta.readOnly = true;
         const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
-        setInvalid(ta, !r.correct);
+        setInvalid(ta, !r.correct); ta.classList.toggle('almost', Boolean(r.correct && r.almost));
         const open = isOpenRewrite(ex, level);
         // From B1 an answer the key does not list may be counted by the learner, but only when it could be right
         // (P1 EX-5); otherwise the verdict is red and names the rule it breaks.
@@ -607,8 +614,10 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           correct = code.accuracy === 1; almost = false; score = code.accuracy; words = code.words;
           if (code.misses.length) specific = { he: code.misses.map((m) => (m.typed ? `כתבתם ${m.typed}, נאמר ${m.expected}` : `חסרה האות ${m.expected}`)).join('; '), en: code.misses.map((m) => (m.typed ? `You wrote ${m.typed}; it was ${m.expected}` : `${m.expected} is missing`)).join('; ') };
           // The note above names the letters that were said, so the second try (LF-6) gets one that does not.
+          // r4 EX-8: it says where the first wrong letter is, never which letter it should be.
           const n = code.misses.length;
-          if (n) retry_note = n === 1 ? { he: 'אות אחת עוד לא נכונה. אפשר להקשיב שוב ולתקן.', en: 'One letter is not right yet. You can listen again and fix it.' } : { he: `${n} אותיות עוד לא נכונות. אפשר להקשיב שוב ולתקן.`, en: `${n} letters are not right yet. You can listen again and fix them.` };
+          const at = code.words.findIndex((w) => !w.ok);
+          if (n) retry_note = slipWhere({ letter: at, more: n - 1 });
         } else {
           const acc = wordAccuracy(typed, ex.answers[0]);
           // One slip of one letter in one word is "almost", even in a short word ("tenn" for "ten").
@@ -622,9 +631,21 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           correct = exact.correct || Boolean(slip) || acc.accuracy >= 0.85;
           almost = correct && !(exact.correct && !exact.almost);
           score = exact.correct ? 1 : acc.accuracy;
+          // The second try's note says where the first wrong word (and letter) is, without the word (r4 EX-8).
+          if (!correct) {
+            const k = words.findIndex((w) => !w.ok);
+            const tw = String(typed).trim().split(/\s+/);
+            const kw = String(ex.answers[0]).trim().split(/\s+/);
+            if (k >= 0) {
+              const a = bareWord(tw[k] || ''), b = bareWord(kw[k] || '');
+              let i = 0;
+              while (i < a.length && i < b.length && a[i] === b[i]) i++;
+              retry_note = tw.length === kw.length && a && i < b.length ? slipWhere({ letter: i, word: k }) : slipWhere({ word: k });
+            }
+          }
         }
         if (!(exact.correct && !exact.almost)) root.insertAdjacentHTML('beforeend', String(dictationDiff(words)));
-        setInvalid(ta, !correct);
+        setInvalid(ta, !correct); ta.classList.toggle('almost', Boolean(correct && almost));
         return result({ correct, almost, score, response: typed, answer: ex.answers[0], error_type: 'spelling', specific, typos, retry_note });
       };
       ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); revealAnswer(ex.answers[0]); };
@@ -803,6 +824,27 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
   const destroy = ctl.destroy;
   ctl.destroy = () => { offs.forEach((o) => o()); destroy(); };
   return ctl;
+}
+
+// A gap word accepted with a slip (r4 EX-8): "evrey → every", amber, the letters that differ marked.
+export function gapDiffHtml(typed, expected) {
+  return html`<span class="gap-diff" lang="en" dir="ltr"><span class="sr-only" ${uiAttrs()}>${tt('כתבתם', 'You wrote')} </span><span class="gd-typed">${typed}</span> <span aria-hidden="true">→</span><span class="sr-only" ${uiAttrs()}> ${tt('האיות:', 'spelling:')} </span> <span class="gd-fixed">${letterDiff(typed, expected).map((p) => (p.type === 'same' ? p.text : p.type === 'add' ? html`<mark>${p.text}</mark>` : ''))}</span></span>`;
+}
+
+// Where a dictation slip is, for the second try (r4 EX-8): "האות השלישית במילה הרביעית עוד לא נכונה", never the
+// letter itself. letter/word are 0-based; more counts other wrong letters in a letter code.
+const ORD_HE = ['הראשונה', 'השנייה', 'השלישית', 'הרביעית', 'החמישית', 'השישית', 'השביעית', 'השמינית', 'התשיעית', 'העשירית'];
+const ORD_EN = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
+const ordHe = (i, noun) => (ORD_HE[i] ? `${noun} ${ORD_HE[i]}` : `${noun} מספר ${i + 1}`);
+const ordEn = (i, noun) => (ORD_EN[i] ? `the ${ORD_EN[i]} ${noun}` : `${noun} ${i + 1}`);
+export function slipWhere({ letter = null, word = null, more = 0 }) {
+  const again = { he: 'אפשר להקשיב שוב ולתקן.', en: 'You can listen again and fix it.' };
+  let he, en;
+  const letterEn = (i) => (ORD_EN[i] ? `The ${ORD_EN[i]} letter` : `Letter ${i + 1}`);
+  if (letter != null && word != null) { he = `${ordHe(letter, 'האות')} ב${ordHe(word, 'מילה')} עוד לא נכונה.`; en = `${letterEn(letter)} of ${ordEn(word, 'word')} is not right yet.`; }
+  else if (letter != null) { he = `${ordHe(letter, 'האות')} עוד לא נכונה${more ? more === 1 ? ', וגם עוד אות אחת' : `, וגם עוד ${more} אותיות` : ''}.`; en = `${letterEn(letter)} is not right yet${more ? `, and ${more} more` : ''}.`; }
+  else { he = `${ordHe(word, 'המילה')} עוד לא נכונה.`; en = `${ordEn(word, 'word').replace(/^t/, 'T')} is not right yet.`; }
+  return { he: `${he} ${again.he}`, en: `${en} ${again.en}` };
 }
 
 // The lesson writing step's one word range (r4 EX-7): "{n} מילים · יעד {min}-{max}".
