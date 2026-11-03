@@ -166,12 +166,14 @@ export function runSet(el, items, { title, source, unassisted = false, exitHref 
     ctl.reopen();
     const foot = $('#pfoot', el);
     foot.className = 'player-foot';
-    render(foot, html`<div class="inner"><span class="grow"></span><button type="button" class="key enter" data-check>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
+    // A way out without another wrong answer (plan.keep), as in lessons.
+    render(foot, html`<div class="inner"><button type="button" class="key ghost small" data-show-answer>${tt('להציג את התשובה', 'Show the answer')}</button><span class="grow"></span><button type="button" class="key enter" data-check>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
     const b = $('[data-check]', el);
     if (b) b.disabled = !ctl.ready();
     $('#exroot :is(input, textarea):not([readonly])', el)?.focus();
   }
   function showAnswer() {
+    if (secondTry) { secondTry = false; el.querySelectorAll('#exroot :is(input, textarea)').forEach((f) => { f.readOnly = true; }); }
     el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = false; });
     showResult(checked);
   }

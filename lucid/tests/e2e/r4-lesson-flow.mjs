@@ -250,11 +250,32 @@ try {
     await lessonAt(page, 'a1-01', 'e10');
     await typeAndCheck(page, ['We are eating lunch at one every day.']);
     assert(await page.$('[data-try-again]'), 'no second try');
-    const r = await page.$eval('#pfoot', (f) => ({ text: f.textContent, en: [...f.querySelectorAll('.verdict-body [lang="en"]')].filter((x) => !x.closest('[lang="he"]')).map((x) => x.textContent) }));
+    const r = await page.$eval('#pfoot', (f) => ({ text: f.textContent, en: [...f.querySelectorAll('.verdict-body [lang="en"]')].map((x) => x.textContent), note: f.querySelector('.verdict-body')?.textContent || '' }));
     assert(/עוד לא. אפשר לתקן בעצמכם/.test(r.text), 'not the second-try footer');
+    // The note names the rule, not the edit: it does not list the response's extra words to delete ("are", "ing").
+    assert(!/\bare\b/i.test(r.note) && !/-?\bing\b/i.test(r.note), `the note lists the words to delete: ${r.note}`);
     assert(!/We eat lunch/i.test(r.text) && !/we eat/i.test(r.text) && !/a habit/i.test(r.text), `the note gives the answer: ${r.text}`);
     assert(!r.en.length, `English from the note at full support: ${r.en}`);
     await shot(page, 'lf2-a1-01-second-try');
+    await ctx.close();
+  });
+  await check('LF-2 the second try keeps a way out: after "לנסות שוב" a quiet "להציג את התשובה" shows the answer with the first try kept as wrong', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1', { text: 150 });
+    await lessonAt(page, 'a1-01', 'e10');
+    await typeAndCheck(page, ['We are eating lunch at one every day.']);
+    await page.click('[data-try-again]');
+    await page.waitForSelector('#pfoot [data-check]');
+    const keys = await page.$$eval('#pfoot button', (bs) => bs.map((b) => b.textContent.trim()));
+    assert(keys.some((k) => /להציג את התשובה/.test(k)), `the second try has no way out: ${keys}`);
+    await shot(page, 'lf2-second-try-way-out');
+    await page.click('#pfoot [data-show-answer]');
+    await page.waitForSelector('[data-next]');
+    const r = await page.evaluate(() => ({ foot: document.querySelector('#pfoot').textContent, ro: document.querySelector('#exroot textarea')?.readOnly, first: window.lucid.store.get('progress', 'a1-01').resume.first.find((x) => x[0] === 'e10'), queue: window.lucid.store.get('progress', 'a1-01').resume.queue.filter((q) => q[0] === 'e10') }));
+    assert(/התשובה הנכונה/.test(r.foot) && /We eat lunch at one every day/.test(r.foot), `the answer is not shown: ${r.foot}`);
+    assert(r.ro === true, 'the field is still open after the answer was shown');
+    assert(r.first && r.first[1] === 0, `the first try is not kept as wrong: ${JSON.stringify(r.first)}`);
+    assert(r.queue.some((q) => q[1] === true), `no retry queued: ${JSON.stringify(r.queue)}`);
     await ctx.close();
   });
   await check('LF-2 a2-05 e8 "leaved": the note does not contain "left"', async () => {
@@ -402,25 +423,15 @@ try {
   await check('LF-5 pa1-02 e1 answered with no English voice: its attempt has no score, it is not missed, and the end percentage leaves it out', async () => {
     const { ctx, page } = await newPage(browser);
     await ctx.addInitScript(() => { window.__silent = true; });
-    // Until the exercises lane (EX-4) marks a listen result answered after silence with unheard:true, the listen
-    // controller is given that flag here; with EX-4 merged its own transcript path is used.
-    let ex4 = false;
-    await ctx.route('**/js/ui/exercise.js', async (route) => {
-      const res = await route.fetch();
-      let src = await res.text();
-      ex4 = /unheard/.test(src);
-      if (!ex4) src = `${src.replace('export function mountExercise(', 'function mountExerciseR4(')}\nexport function mountExercise(root, ex, opts) { const c = mountExerciseR4(root, ex, opts); if (ex.type === 'listen' && window.__silent) { const check = c.check; c.check = async () => ({ ...(await check()), unheard: true }); } return c; }\n`;
-      await route.fulfill({ response: res, body: src });
-    });
     await learnerAt(page, 'PreA1', { minutes: 50 });
     const l = lessonJson('pa1-02');
     const others = scoredIds(l).filter((x) => x !== 'e1');
     const fixture = Object.fromEntries(others.map((x, i) => [x, i % 2 ? 1 : 0]));
     await lessonAt(page, 'pa1-02', 'e1', fixture);
-    if (ex4) {
-      await page.click('#exroot [data-say="normal"]');
-      await page.getByText('להציג את התמליל עכשיו').click();
-    }
+    // EX-4 (contract b, real exercise.js): after a silent play the options wait; the transcript key opens them and
+    // marks the result unheard.
+    await page.click('#exroot [data-say="normal"]');
+    await page.getByText('להציג את התמליל עכשיו').click();
     await page.click('#exroot [data-opt="0"]');
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-next]');
@@ -438,6 +449,63 @@ try {
     const line = await page.textContent('[data-score-line]');
     assert(line.includes(`${pct}%`), `the end percentage is not over the other ${others.length} items (${pct}%): ${line}`);
     await shot(page, 'lf5-end', { fullPage: true });
+    await ctx.close();
+  });
+
+  await check('LF-5 pa1-02 e1 after a silent play: "לא יודע/ת" is not a wrong try (no score, not first, no retry) and the verdict says "לא נספר" without "שמעתם"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await ctx.addInitScript(() => { window.__silent = true; });
+    await learnerAt(page, 'PreA1', { minutes: 50 });
+    await lessonAt(page, 'pa1-02', 'e1');
+    await page.click('#exroot [data-say="normal"]');
+    await page.waitForSelector('#exroot .silent-note');
+    await page.click('[data-dontknow]');
+    await page.waitForSelector('[data-next]');
+    const v = await page.textContent('#pfoot .verdict');
+    assert(/נשמע\? לא נספר/.test(v) && /sheep/.test(v), `verdict: ${v}`);
+    const p = await page.evaluate(() => window.lucid.store.get('progress', 'pa1-02').resume);
+    const at = (await store(page, 'attempts')).filter((a) => a.lesson === 'pa1-02' && a.exercise === 'e1');
+    assert(at.length === 1 && at[0].score === null && at[0].response === '(unheard)', `e1 attempts: ${JSON.stringify(at)}`);
+    assert(!p.first.some((x) => x[0] === 'e1') && p.unheard.includes('e1'), `e1 is first-try evidence: ${JSON.stringify(p)}`);
+    assert(!p.queue.some((q) => q[0] === 'e1' && q[1]), `e1 is queued again: ${JSON.stringify(p.queue)}`);
+    await ctx.close();
+    // The transcript path with a wrong pick: the option's "you heard /iː/" note is not shown under "nothing heard".
+    const b = await newPage(browser);
+    await b.ctx.addInitScript(() => { window.__silent = true; });
+    await learnerAt(b.page, 'PreA1', { minutes: 50 });
+    await lessonAt(b.page, 'pa1-02', 'e1');
+    await b.page.click('#exroot [data-say="normal"]');
+    await b.page.getByText('להציג את התמליל עכשיו').click();
+    await b.page.click('#exroot [data-opt="2"]');
+    await b.page.click('[data-check]:not([disabled])');
+    await b.page.waitForSelector('[data-next]');
+    const w = await b.page.textContent('#pfoot .verdict');
+    assert(/נשמע\? לא נספר/.test(w) && !/שמעתם|You heard/.test(w), `the unheard verdict says what was heard: ${w}`);
+    await shot(b.page, 'lf5-unheard-wrong-pick');
+    await b.ctx.close();
+  });
+  await check('LF-5 pa1-01 e10 dictation after a silent play: a note in place offers "לדלג בלי ציון", which stores no score and no retry; no toast', async () => {
+    const { ctx, page } = await newPage(browser);
+    await ctx.addInitScript(() => { window.__silent = true; });
+    await learnerAt(page, 'PreA1', { minutes: 50 });
+    await lessonAt(page, 'pa1-01', 'e10');
+    assert(await page.$('#exroot[data-silent-inline]'), 'the dictation root is not marked data-silent-inline');
+    await page.click('#exroot [data-say="normal"]');
+    await page.waitForSelector('#exroot .silent-note [data-skip-unheard]');
+    const note = await page.textContent('#exroot .silent-note');
+    const answer = lessonJson('pa1-01').exercises.find((e) => e.id === 'e10').answers[0];
+    assert(!note.includes(answer), `the note gives the answer away: ${note}`);
+    await page.waitForTimeout(300);
+    assert(!(await page.$('#toast-root .toast')), 'a toast on top of the in-place note');
+    await shot(page, 'lf5-dictation-silent');
+    await page.click('#exroot [data-skip-unheard]');
+    await page.waitForSelector('[data-next]');
+    assert(/נשמע\? לא נספר/.test(await page.textContent('#pfoot .verdict-title')), 'the skip is not "not counted"');
+    const at = (await store(page, 'attempts')).filter((a) => a.lesson === 'pa1-01' && a.exercise === 'e10');
+    const p = await page.evaluate(() => window.lucid.store.get('progress', 'pa1-01').resume);
+    assert(at.length === 1 && at[0].score === null, `e10 attempts: ${JSON.stringify(at)}`);
+    assert(!p.first.some((x) => x[0] === 'e10') && !p.queue.some((q) => q[0] === 'e10' && q[1]), `e10 counted or queued: ${JSON.stringify(p)}`);
+    await shot(page, 'lf5-dictation-skipped');
     await ctx.close();
   });
 
@@ -702,13 +770,7 @@ try {
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
-    // Until the exercises lane (EX-7) adds short:true to a short save, the write result is given it here.
-    await ctx.route('**/js/ui/exercise.js', async (route) => {
-      const res = await route.fetch();
-      let src = await res.text();
-      if (!/short\s*:/.test(src)) src = src.replace('response: text, writing: true }', 'response: text, writing: true, short: countWords(text) < (ex.min_words || 0) }');
-      await route.fulfill({ response: res, body: src });
-    });
+    // The real write result (EX-7, contract e) carries short:true below the target; no stand-in.
     await learnerAt(page, 'B1');
     await lessonAt(page, 'b1-01', 'e16');
     const words = Array.from({ length: 40 }, (_, i) => (i % 8 === 7 ? 'travelled.' : ['I', 'have', 'never', 'been', 'to', 'Eilat', 'but'][i % 8] || 'and')).join(' ');

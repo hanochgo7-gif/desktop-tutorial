@@ -808,6 +808,7 @@ export default async function lessonView(el, ctx) {
       return html`<div class="inner">
         ${item.ex.hint && !hintUsed && !secondTry ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}
         ${ctl?.graded !== false && !secondTry ? html`<button type="button" class="key ghost small" data-dontknow>${tt('לא יודע/ת', 'I don\'t know')}</button>` : ''}
+        ${secondTry ? html`<button type="button" class="key ghost small" data-show-answer>${tt('להציג את התשובה', 'Show the answer')}</button>` : ''}
         <span class="grow"></span>
         ${typed && item.ex.type !== 'write' ? html`<span class="foot-hint xsmall faint" aria-hidden="true" dir="ltr">Ctrl+Enter</span>` : ''}
         <button type="button" class="key enter" data-check disabled>${item.ex.type === 'write' ? tt('שליחה', 'Submit') : tt('בדיקה', 'Check')} <span class="kbd">${item.ex.type === 'write' ? 'Ctrl+Enter' : 'Enter'}</span></button></div>`;
@@ -855,6 +856,9 @@ export default async function lessonView(el, ctx) {
     let r;
     if (dontKnow) {
       r = { graded: true, correct: false, score: 0, response: '(I don\'t know)', error_type: null, ...answerFor(item.ex), dontKnow: true };
+      // "I don't know" on an item that said in place that no sound played is not a wrong try: it goes the unheard
+      // way (contract (b)), with the answer shown and no score.
+      if (ctl.silent?.()) r = { ...r, unheard: true };
       // The exercise stays, with the answer marked in it, when the exercise can show it (LF-6, EX-4).
       if (typeof ctl.reveal === 'function') ctl.reveal();
       else {
@@ -870,7 +874,7 @@ export default async function lessonView(el, ctx) {
     const latency = Math.round(performance.now() - shownAt);
     // Answered when nothing could be heard (contract (b) with the exercises lane, EX-4): not first-try evidence,
     // no retry, an attempt with no score, and a verdict that says so.
-    if (r.unheard && r.graded !== false && !dontKnow) {
+    if (r.unheard && r.graded !== false) {
       if (!item.retry && !firstTry.has(item.ex.id)) unheard.add(item.ex.id);
       lastAttempt = recordAttempt({ ...attemptBase(item), correct: false, score: null, latency_ms: latency, response: '(unheard)', unheard: true });
       saveResume();
@@ -970,6 +974,12 @@ export default async function lessonView(el, ctx) {
   }
   function showAnswer() {
     const item = queue[qi];
+    // From the second try too (plan.keep: a way out of every task without failing): the first try is already
+    // stored as wrong, the fields lock again and the answer is shown as it would have been.
+    if (secondTry) {
+      secondTry = false;
+      el.querySelectorAll('#exroot :is(input, textarea)').forEach((f) => { f.readOnly = true; });
+    }
     if (!item.retry) queue.push({ ex: item.ex, retry: true });
     saveResume();
     el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = false; });
