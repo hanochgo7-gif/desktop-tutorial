@@ -33,7 +33,8 @@ const assert = (c, msg) => { if (!c) throw new Error(msg); };
 const shot = async (page, name) => { if (SHOTS) await page.screenshot({ path: join(SHOTS, `${name}.png`) }); };
 
 // ---------- helpers ----------
-// speech: 'silent' (nothing ever starts, as on a device with no English voice) or 'works' (every utterance starts
+// speech: 'silent' (nothing ever starts, as on a device with no English voice), 'slow' (sound starts after 0.9 s,
+// as with an online voice) or 'works' (every utterance starts
 // and ends, as with a working voice).
 async function newPage(browser, { desktop = false, dark = false, speech = 'silent' } = {}) {
   const ctx = await browser.newContext({
@@ -48,7 +49,7 @@ async function newPage(browser, { desktop = false, dark = false, speech = 'silen
     if (!s) return;
     s.speak = (u) => {
       window.__said.push(u.text);
-      if (mode === 'works') setTimeout(() => { u.onstart?.(); setTimeout(() => u.onend?.(), 40); }, 20);
+      if (mode === 'works' || mode === 'slow') setTimeout(() => { u.onstart?.(); setTimeout(() => u.onend?.(), 40); }, mode === 'slow' ? 900 : 20);
     };
     s.cancel = () => {};
   }, speech);
@@ -182,11 +183,13 @@ try {
     await ctx.close();
   });
 
-  await check('EX-4 with working speech the options open after Play, there is no note, and no transcript before Check', async () => {
-    const { ctx, page } = await newPage(browser, { speech: 'works' });
+  await check('EX-4 with working speech the options wait for the sound to start, then open; there is no note, and no transcript before Check', async () => {
+    const { ctx, page } = await newPage(browser, { speech: 'slow' });
     await learnerAt(page, 'PreA1');
     await openExercise(page, 'pa1-02', 'e1');
     await page.click('#exroot [data-say="normal"]');
+    await page.waitForTimeout(150);
+    assert(await optionsOff(page), 'the options are answerable before the sound starts');
     await page.waitForTimeout(2500);
     assert(!(await optionsOff(page)), 'the options are locked although the sound played');
     assert(!(await page.$('#exroot .silent-note')) && !(await page.$('#exroot .transcript')), 'a note or a transcript shows with working speech');
