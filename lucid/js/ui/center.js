@@ -82,9 +82,10 @@ export function focusMode(onOff) {
 
 // A listening item counts only when it was heard (UX r4 PG-15, contract (b) with exercise.js): a result marked
 // unheard:true is stored with no score, as in lessons. exercise.js marks a listen item (EX-4); the player also sees
-// it itself, as a safety net: a listen item on a browser that cannot speak, or one whose audio stayed silent every
-// time it was played. Dictation is scored as in lessons, where only listen items can be unheard (EX-4, LF-5).
-export const LISTEN_TYPES = ['listen'];
+// it itself, as a safety net: a listening item on a browser that cannot speak, or one whose audio stayed silent
+// every time it was played. A dictation is a listening item too: exercise.js marks one answered or skipped after a
+// silent play, in lessons and here alike.
+export const LISTEN_TYPES = ['listen', 'dictation'];
 export function wasUnheard(r, ex, { speech = true, started = false, silent = false } = {}) {
   if (r?.unheard === true) return true;
   if (!LISTEN_TYPES.includes(ex.type) || r?.graded === false || r?.dontKnow) return false;
@@ -129,6 +130,8 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
     let r;
     if (dontKnow) {
       r = { graded: true, correct: false, score: 0, response: '(I don\'t know)', error_type: null, ...answerFor(ex), dontKnow: true };
+      // After a play that said in place that no sound came, "I don't know" is not a wrong try: no score (contract b).
+      if (ctl.silent?.()) r = { ...r, response: '(unheard)', unheard: true };
       // The exercise stays, with its answer marked in it, when it can show it.
       if (typeof ctl.reveal === 'function') ctl.reveal();
     } else {
@@ -142,7 +145,7 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
     if (event) logEvent({ type: event, lesson: lesson.id, exercise: ex.id });
     const foot = $('#pfoot', el);
     foot.className = `player-foot ${r.graded === false ? 'ok' : unheard || r.dontKnow ? 'shown' : r.correct ? (r.almost ? 'almost' : 'ok') : 'bad'}`;
-    render(foot, html`<div class="inner"><div class="verdict" role="status">${verdictHtml(ex, r, errors)}</div><a class="key enter" href="#/${back}" data-next>${tt('המשך', 'Continue')} <span class="kbd">Enter</span></a></div>`);
+    render(foot, html`<div class="inner"><div class="verdict" role="status">${verdictHtml(ex, unheard ? { ...r, specific: null } : r, errors)}</div><a class="key enter" href="#/${back}" data-next>${tt('המשך', 'Continue')} <span class="kbd">Enter</span></a></div>`);
     const title = $('.verdict-title', foot);
     // Nothing was heard: the answer is shown and the item is not counted, right or wrong.
     if (title && unheard) render(title, html`${icon('info', { size: 18 })} ${tt('נשמע? לא נספר', 'Heard? Not counted')}`);

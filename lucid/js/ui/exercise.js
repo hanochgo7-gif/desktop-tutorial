@@ -10,6 +10,8 @@
 //   retryable      true for typed answers (a gap with no word bank, transform, correct, dictation): after a wrong
 //                  check the player may
 //   reopen()       unlock the fields with the learner's text kept, wrong fields marked, focus on the first one
+//   silent()       listen and dictation: true once a play reported no sound in place (the player then treats
+//                  "I don't know" as unheard: no score, no retry; contract (b))
 // Focus never falls to the page: every action that redraws or disables the focused control moves focus to the
 // next useful one (the next tile, chip or bin, or Check once the exercise is complete).
 // Every typed answer goes through grading.js, so contractions, case and small slips are fair.
@@ -132,6 +134,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       // data-silent-inline, so the shell's own "can't hear?" toast stays away (contract c). With sound, the
       // transcript still comes only after answering.
       let waiting = false; let unheard = ex.type === 'listen' && !canSpeak();
+      // Silence was reported in place (the note, or the transcript chosen after it): "לא יודע/ת" then goes the
+      // unheard way too, in the lesson and in the listening hub (ctl.silent).
+      let silentSeen = false;
       const gate = (off) => { waiting = off; $$('.option', root).forEach((b) => { if (off) b.setAttribute('aria-disabled', 'true'); else b.removeAttribute('aria-disabled'); }); onChange(ctl.ready()); };
       const showTranscriptNow = () => {
         unheard = true;
@@ -151,8 +156,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
             const { state, text } = e.detail || {};
             if (text !== ex.audio_text || unheard || root.dataset.locked) return;
             const slot = $('[data-silent-slot]', root);
-            if (state === 'start') { gate(false); if (slot) render(slot, ''); }
+            if (state === 'start') { silentSeen = false; gate(false); if (slot) render(slot, ''); }
             else if ((state === 'silent' || state === 'error') && slot) {
+              silentSeen = true;
               gate(true);
               render(slot, html`<div class="silent-note" role="status">${icon('info', { size: 18 })}<div class="stack-sm"><p><b>${tt('לא נשמע קול באנגלית במכשיר הזה.', 'No English voice played on this device.')}</b> ${tt('בדקו את עוצמת הקול ונסו שוב, או קראו את התמליל. תשובה אחרי קריאת התמליל לא נספרת כהאזנה.', 'Check the volume and try again, or read the transcript. An answer after reading it does not count as listening.')}</p><div><button type="button" class="key small" data-transcript-now>${tt('להציג את התמליל עכשיו', 'Show the transcript now')}</button></div></div></div>`);
             }
@@ -164,6 +170,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
       offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled && b.getAttribute('aria-disabled') !== 'true') pick(Number(b.dataset.opt)); }));
       ctl.ready = () => picked != null && !waiting;
+      ctl.silent = () => ex.type === 'listen' && canSpeak() && (silentSeen || unheard);
       // A number key chooses, and focus goes to Check, so Enter checks (it used to stay on Play).
       ctl.onKey = (e) => { const n = KEYS.indexOf(e.key); if (n >= 0 && n < order.length && !$('.option', root).disabled && !waiting) { pick(order[n]); focusOn(checkKey()); return true; } return false; };
       // The right option is marked in place (and named for screen readers); a wrong choice too.
@@ -180,7 +187,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.check = async () => {
         const correct = picked === ex.answer;
         mark(picked);
-        const fb = !correct && ex.option_feedback?.[picked];
+        // Nothing was heard: an option's note ("you heard a long /iː/") would say otherwise, so it is left out.
+        const fb = !correct && !unheard && ex.option_feedback?.[picked];
         transcript();
         return result({ correct, score: correct ? 1 : 0, response: ex.options[picked], error_type: ex.option_errors?.[picked], answer: ex.options[ex.answer], specific: fb || null, ...(unheard ? { unheard: true } : {}) });
       };
@@ -632,19 +640,46 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
     }
 
     case 'dictation': {
-      render(root, html`${prompt}${listenButtons(ex.audio_text)}
+      render(root, html`${prompt}${listenButtons(ex.audio_text)}<div data-silent-slot></div>
         <label class="sr-only" for="dc-${ex.id}">${tt('מה שמעתם', 'What you heard')}</label>
         <textarea class="input ex-field" id="dc-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו מה ששמעתם', 'Type what you hear')}"></textarea>
         <div data-reveal></div>`);
       sayHandler(ex.audio_text);
       setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60);
       const ta = $('textarea', root);
+      // A dictation with no sound (r4 EX-4 for dictation, contract (b)): after a silent play a note in place says
+      // so and offers to skip the item with no score. No transcript: it would be the answer. Answering while no
+      // play has started marks the result unheard too, so neither a lesson nor the listening hub scores it. The
+      // root is marked data-silent-inline, so the shell's "can't hear?" toast stays away (contract c).
+      let silentSeen = false; let started = false; let skipped = false;
+      if (canSpeak()) {
+        root.setAttribute('data-silent-inline', '');
+        const onSpeech = (e) => {
+          const { state, text } = e.detail || {};
+          if (text !== ex.audio_text || root.dataset.locked || ta.readOnly) return;
+          const slot = $('[data-silent-slot]', root);
+          if (state === 'start') { started = true; silentSeen = false; if (slot) render(slot, ''); }
+          else if ((state === 'silent' || state === 'error') && !started && slot) {
+            silentSeen = true;
+            render(slot, html`<div class="silent-note" role="status">${icon('info', { size: 18 })}<div class="stack-sm"><p><b>${tt('לא נשמע קול באנגלית במכשיר הזה.', 'No English voice played on this device.')}</b> ${tt('בדקו את עוצמת הקול ונסו שוב. אפשר גם לדלג על התרגיל, והוא לא ייספר.', 'Check the volume and try again. You can also skip this item, and it will not be counted.')}</p><div><button type="button" class="key small" data-skip-unheard>${tt('לדלג בלי ציון', 'Skip without a score')}</button></div></div></div>`);
+          }
+        };
+        document.addEventListener(SPEECH_EVENT, onSpeech);
+        offs.push(() => { document.removeEventListener(SPEECH_EVENT, onSpeech); root.removeAttribute('data-silent-inline'); });
+        offs.push(on(root, 'click', '[data-skip-unheard]', () => { skipped = true; onChange(true); checkKey()?.click(); }));
+      }
+      ctl.silent = () => canSpeak() && silentSeen && !started;
       offs.push(on(root, 'input', 'textarea', () => onChange(Boolean(ta.value.trim()))));
-      ctl.ready = () => Boolean(ta.value.trim());
+      ctl.ready = () => Boolean(ta.value.trim()) || skipped;
       ctl.check = async () => {
         ta.readOnly = true;
         $('.word-diff', root)?.remove();
         const typed = ta.value;
+        if (skipped || ctl.silent()) {
+          render($('[data-silent-slot]', root), '');
+          revealAnswer(ex.answers[0]);
+          return result({ correct: false, score: null, response: skipped && !typed.trim() ? '(unheard)' : typed, answer: ex.answers[0], error_type: null, unheard: true });
+        }
         const exact = checkTyped(typed, ex.answers);
         // A letter code is compared letter by letter, so "BVGE" for "B, V, J, E" marks only the J (P1 EX-7).
         const code = exact.correct ? null : letterCode(typed, ex.answers[0]);
@@ -687,7 +722,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         setInvalid(ta, !correct); ta.classList.toggle('almost', Boolean(correct && almost));
         return result({ correct, almost, score, response: typed, answer: ex.answers[0], error_type: 'spelling', specific, typos, retry_note });
       };
-      ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); revealAnswer(ex.answers[0]); };
+      ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); const slot = $('[data-silent-slot]', root); if (slot) render(slot, ''); revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
       // The marked sentence shows the key's words, so it goes away while the learner tries again.
       ctl.reopen = () => { $('.word-diff', root)?.remove(); reopenField(ta); };

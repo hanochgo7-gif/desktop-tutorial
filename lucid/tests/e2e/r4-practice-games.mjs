@@ -343,6 +343,40 @@ try {
     await shot(ok.page, 'pg15-idk-390');
     await ok.ctx.close();
   });
+  await check('PG-15. Listening hub with speech silent: "לא יודע/ת" after the in-place note and a dictation (typed or skipped) are stored with no score and say "לא נספר"', async () => {
+    const attemptsOn = (page, e) => page.evaluate((e) => window.lucid.store.all('attempts').filter((a) => a.lesson === 'a1-02' && a.exercise === e), e);
+    {
+      const { ctx, page } = await newPage(browser, { touch: true, init: speechStub(false) });
+      await learnerAt(page, 'A1');
+      await go(page, 'listening?l=a1-02&e=e3', '[data-say="normal"]');
+      await page.click('[data-say="normal"]');
+      await page.waitForSelector('#exroot .silent-note', { timeout: 4000 });
+      await page.click('#pfoot [data-dontknow]');
+      await page.waitForSelector('[data-next]');
+      const a = await attemptsOn(page, 'e3');
+      assert(a.length === 1 && a[0].score === null && a[0].response === '(unheard)', `"I don't know" after silence: ${JSON.stringify(a)}`);
+      assert(/לא נספר/.test(await page.textContent('#pfoot')), 'the footer does not say "לא נספר"');
+      await ctx.close();
+    }
+    // A dictation: typed after a silent play (the PG-15 safety net and exercise.js agree), then skipped.
+    for (const how of ['typed', 'skip']) {
+      const { ctx, page } = await newPage(browser, { touch: true, init: speechStub(false) });
+      await learnerAt(page, 'A1');
+      await go(page, 'listening?l=a1-02&e=e14', '[data-say="normal"]');
+      await page.click('[data-say="normal"]');
+      await page.waitForSelector('#exroot .silent-note [data-skip-unheard]', { timeout: 4000 });
+      assert(!(await page.$('#toast-root .toast')), 'a toast on top of the dictation note');
+      if (how === 'typed') { await page.fill('#exroot textarea', 'he plays'); await page.click('[data-check]:not([disabled])'); }
+      else await page.click('#exroot [data-skip-unheard]');
+      await page.waitForSelector('[data-next]');
+      const a = await attemptsOn(page, 'e14');
+      assert(a.length === 1 && a[0].score === null, `the ${how} dictation: ${JSON.stringify(a)}`);
+      const foot = (await page.textContent('#pfoot')).replace(/\s+/g, ' ');
+      assert(/נשמע\? לא נספר/.test(foot) && !/לא בדיוק/.test(foot), `the ${how} dictation footer: ${foot}`);
+      await shot(page, `pg15-dictation-${how}-390`);
+      await ctx.close();
+    }
+  });
   // ---------- PG-5 ----------
   await check('PG-5. Word quiz: a wrong pick says "לא בדיוק" on the lessons\' neutral verdict surface (not --bad-tint); #/games has no "איך מנקדים" or singular "הרמה שלך"', async () => {
     for (const dark of [false, true]) {
