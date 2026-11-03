@@ -3,7 +3,7 @@
 // turn has exactly one most natural reply, and the expressions persona Yael searched for are found.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { pickScenario, dailyPlan, levelIndex } from '../../js/core/adaptive.js';
 import { recommendScenarios, searchMatch } from '../../js/core/reallife.js';
 import { MODULES } from '../../js/views/reallife.js';
@@ -59,4 +59,14 @@ test('workplace expressions are in the dictionary and found by the searches that
   const find = (q) => slang.filter((x) => searchMatch([x.term, x.meaning_en, x.meaning_he], q)).map((x) => x.id);
   for (const q of ['email', 'meeting', 'deadline', 'circle back']) assert.ok(find(q).length, `"${q}" finds no expression`);
   assert.ok(!find('mate').includes('ex-ballpark-figure'), 'word-start search still holds');
+});
+
+// r4 RW-11: one name for real-life situations (SB-7): "שיחת חולין" for small talk, "תרחישים" for the scenarios.
+test('r4 RW-11: no "סמול טוק" in content/real-life, and no "מצבים אמיתיים" in the expressions page', () => {
+  const dir = new URL('../../content/real-life/', import.meta.url);
+  const files = ['scenarios.json', 'slang.json', ...readdirSync(new URL('parts/', dir)).map((f) => `parts/${f}`)];
+  for (const f of files) assert.ok(!readFileSync(new URL(f, dir), 'utf8').includes('סמול טוק'), `${f} says "סמול טוק"`);
+  const slangView = readFileSync(new URL('../../js/views/slang.js', import.meta.url), 'utf8');
+  assert.ok(!slangView.includes('מצבים אמיתיים'), 'slang.js says "מצבים אמיתיים"');
+  assert.ok(scenarios.find((s) => s.id === 'rl-work-video-call-small-talk' || /שיחת חולין/.test(s.title_he)), 'the small-talk scenario is named "שיחת חולין"');
 });

@@ -110,7 +110,7 @@ try {
     await page.waitForSelector('[data-checks-head]');
     const status = await page.textContent('[data-status]');
     const head = await page.textContent('[data-checks-head]');
-    assert(/חסרות 297 מילים/.test(status) && !/לא נמצאו בעיות|לא מצאה בעיות/.test(`${status} ${head}`) && /מהדברים שאנחנו בודקים/.test(head), `status: "${status}" | heading: "${head}"`);
+    assert(/חסרות 297 מילים/.test(status) && !/לא נמצאו בעיות|לא מצאה בעיות/.test(`${status} ${head}`) && /^יש (דבר אחד|\d+ דברים) לבדוק/.test(head), `status: "${status}" | heading: "${head}"`);
     await ctx.close();
   });
 
@@ -179,13 +179,13 @@ try {
     await page.waitForSelector('.rubric-cat');
     const bands = await page.$$eval('.rubric-cat', (c) => c.map((x) => x.querySelectorAll('.band-row').length));
     assert(bands.length >= 8 && bands.every((n) => n === 3), `rubric descriptors: ${bands}`);
-    await page.fill('#essay', 'Halvarden should build more homes near the station. '.repeat(70));
+    await page.fill('#essay', 'Halvarden should build more homes near the station. '.repeat(101)); // r4 RW-5: final from the accepted minimum (800)
     await page.selectOption('[data-self="argument_strength"]', '3');
     await page.click('[data-save-self]');
     const saved = await page.evaluate(() => window.lucid.store.all('writing').some((w) => w.kind === 'essay-version' && w.exercise === 'wa-05' && w.self?.argument_strength === 3));
     assert(saved, 'the self-rating was not saved with the version');
     await page.click('[data-self-final]');
-    await page.waitForSelector('.final-box .tag.ok');
+    await page.waitForSelector('[data-rubric-keys] .tag.ok'); // r4 RW-6: the keys and the final mark sit at the top of the rubric
     await page.goto(`${BASE}#/writing?stage=8`);
     await page.waitForSelector('a[href="#/writing/wa-05"]');
     const cards = await page.$$eval('a[href="#/writing/wa-05"]', (a) => a.map((x) => x.textContent));

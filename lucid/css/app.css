@@ -1893,7 +1893,55 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
+/* RW-5: the save mark is a quiet word, apart from the counts, so it never reads as "target met". */
+.editor-stats .save-word { color: var(--ink-3); font-size: var(--t-xs); padding-inline-start: var(--s3); border-inline-start: 1px solid var(--key-edge); }
+.editor-stats .save-word[data-off] { visibility: hidden; }
+.editor-stats .editor-target { color: var(--ink-2); }
 
+/* RW-6: a compact rubric. The keys stay at the top of the side panel; each category is one row. */
+.rubric-keys { position: sticky; top: calc(-1 * var(--s5)); z-index: 1; background: var(--key); padding-block: var(--s2); }
+.rubric-rows { display: grid; gap: var(--s2); }
+.rubric-cat { border-block-end: 1px solid var(--key-edge); padding-block-end: var(--s2); }
+.rubric-cat-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(9rem, auto); align-items: center; gap: var(--s3); }
+.rubric-cat-row h4 { margin: 0; }
+.rubric-what > summary, .rubric-about > summary { min-height: 2.75rem; display: flex; align-items: center; cursor: pointer; color: var(--ink-2); }
+/* RW-6: the level chip sits in the meta line; topics are choice cards with a 24px round mark. */
+.essay-meta .tag { vertical-align: baseline; }
+.topic-pick .topic-choice { align-items: flex-start; gap: var(--s3); }
+.topic-pick .topic-choice input[type='radio'] { appearance: none; flex: none; inline-size: 1.5rem; block-size: 1.5rem; margin: 0.05rem 0 0; border: 2px solid var(--n5); border-radius: 50%; background: var(--key); }
+.topic-pick .topic-choice input[type='radio']:checked { border-color: var(--cobalt); background: var(--cobalt); box-shadow: inset 0 0 0 0.3rem var(--key); }
+.topic-pick .topic-choice input[type='radio']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.he-reveal.he-all { justify-self: start; margin-block-end: var(--s2); }
+/* RW-7: the scenario footer always sits right on the tab bar (the view's end margin takes back the part of its
+   bottom padding that is taller than the bar), the Enter key is full width on phones, and the footer is neutral
+   while the learner writes their own reply. */
+.scenario-view:has(> .scenario-foot:last-child) { margin-block-end: calc(var(--rw-tabbar-h, 0px) - var(--rw-view-pad, 0px)); }
+.scenario-view > .scenario-foot { max-width: 46rem; }
+@media (max-width: 40rem) {
+  .scenario-view .scenario-foot .inner { flex-wrap: wrap; }
+  .scenario-view .scenario-foot .inner > .key.enter { flex: 1 1 100%; justify-content: center; }
+  .scenario-view .scenario-foot .inner > .grow:empty { display: none; }
+  .scenario-view .scenario-foot .inner > .verdict { flex: 1 1 100%; }
+}
+.scenario-view .scenario-foot.neutral { --verdict: transparent; background: var(--ground); }
+.scenario-view .own-result, .scenario-view [data-explain] { scroll-margin-block-end: calc(var(--rw-foot-h, 6rem) + var(--rw-tabbar-h, 0px) + var(--s3)); }
+/* RW-10: the Real life and Conversations topics fold, one open at first. */
+.hub-topics .hub-fold { padding: var(--s2) var(--s4); }
+.hub-topics .hub-fold > summary { min-height: 2.75rem; }
+.hub-topics .hub-fold[open] { padding-block-end: var(--s4); }
+.hub-topics .hub-fold > summary .hub-head { margin: 0; font-size: var(--t-md); }
+.hub-topics .hub-fold-body { margin-block-start: var(--s3); }
+/* RW-8: the saved place in a scenario, above its tabs and on the hub rows. */
+.scenario-view .resume-line { margin-block-end: var(--s3); color: var(--ink-2); }
+.scenario-view .resume-line .link-key { background: none; border: 0; padding: var(--s2) var(--s1); min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.hub-row .place-tag { display: inline-block; margin-block: var(--s1); }
+/* RW-9, RW-12: Hebrew glosses in scenarios and expressions read as quiet text at normal weight, not as heavy
+   cobalt blocks. */
+.scenario-view :is(.bi-he, .legend .l-he), .entry .entry-he, .entry .sense-after { color: var(--ink-he-quiet); font-weight: 400; }
+.scenario-view .page-head h1 .l-he { font-weight: 400; }
+/* RW-12: the register options are a 2 x 2 grid, and no filter label wraps. */
+.xp-filter-row .seg.xp-seg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.xp-filter-row .seg > button { white-space: nowrap; }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */

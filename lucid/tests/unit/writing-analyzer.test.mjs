@@ -28,7 +28,7 @@ test('does not flag correct English', () => {
 });
 
 test('register checks only for formal levels; structure signals are detected', () => {
-  const essay = 'This essay argues that cities should invest in public transport.\n\nFor example, research shows that buses reduce traffic. However, critics argue that it\'s too expensive.\n\nIn conclusion, the benefits are greater.';
+  const essay = 'This essay argues that cities should invest in public transport.\n\nFor example, research shows that buses reduce traffic. However, critics argue that it\'s too expensive. This view overlooks the cost of traffic.\n\nIn conclusion, the benefits are greater.';
   assert.ok(types(essay, { level: 'C1' }).includes('register'), 'contraction flagged at C1');
   assert.ok(!types(essay, { level: 'A2' }).includes('register'), 'not at A2');
   const a = analyzeWriting(essay, { level: 'B2', minWords: 30 });
@@ -274,7 +274,7 @@ test('RW-2: the summary counts failed checks with the issues and never says "no 
   assert.equal(s.n, 1);
   assert.match(s.he, /חסרות 297 מילים/);
   assert.match(s.en, /297 words short/);
-  assert.match(s.head_he, /^מצאנו דבר אחד מהדברים שאנחנו בודקים/);
+  assert.match(s.head_he, /^יש דבר אחד לבדוק/);
   assert.ok(!/בעיות/.test(`${s.he} ${s.head_he}`), 'says "problems"');
   const ok = checkSummary(analyzeWriting('I study at a university. It took an hour.', { level: 'B1' }));
   assert.equal(ok.n, 0);
@@ -353,4 +353,154 @@ test('RW-12: the full form for each flagged contraction', () => {
   assert.equal(fullForm("I'm"), 'I am');
   const i = analyzeWriting("This essay argues that we can't wait.", { level: 'C1' }).issues.find((x) => x.type === 'register' && /can't/.test(x.match));
   assert.equal(i.ex, 'cannot');
+});
+
+// ---------- r4 RW-1: the errors Lucid's own lessons teach ----------
+// teacher-bagrut's a2-05 e15 text (irregular verbs) and teacher-academic's probe sentences.
+const A205 = 'Last weekend I goed to Haifa with my family. We eated falafel in the market and we see a big ship. My brother buyed a new shoes. In the evening we was very tired, so we sleeped early. It was a amazing day.';
+const ACADEMIC = 'Many universities use this tools in the classroom. The results was clear. Researches show that phones distract students. The number of students increase every year. It is depend on the teacher. Since the course is online, so students can study at home.';
+
+test('RW-1: the a2-05 panel text flags goed, eated, buyed, sleeped, "we was" and "a new shoes"', () => {
+  const got = flags(A205, { level: 'A2' }).map((m) => m.toLowerCase());
+  for (const want of ['goed', 'eated', 'buyed', 'sleeped', 'we was', 'a new shoes']) assert.ok(got.includes(want), `${want}: ${JSON.stringify(got)}`);
+  const ex = Object.fromEntries(issuesOf(A205, { level: 'A2' }).map((i) => [i.match.toLowerCase(), i.ex]));
+  assert.equal(ex.goed, 'went');
+  assert.equal(ex.sleeped, 'slept');
+  assert.equal(ex['we was'], 'we were');
+  assert.equal(ex['a new shoes'], 'new shoes');
+});
+
+test('RW-1: the academic fixture flags this tools, results was, Researches, the number of … increase, It is depend and Since … , so', () => {
+  const got = flags(ACADEMIC, { level: 'B2' }).map((m) => m.toLowerCase());
+  for (const want of ['this tools', 'results was', 'researches', 'the number of students increase', 'it is depend', 'since …, so']) assert.ok(got.includes(want), `${want}: ${JSON.stringify(got)}`);
+  const ex = Object.fromEntries(issuesOf(ACADEMIC, { level: 'B2' }).map((i) => [i.match.toLowerCase(), i.ex]));
+  assert.equal(ex['the number of students increase'], 'The number of students increases');
+  assert.equal(ex['it is depend'], 'It depends');
+  assert.equal(ex['results was'], 'results were');
+});
+
+test('RW-1: the new rules leave correct English alone', () => {
+  clean('I needed help. We visited Rome and opened a shop. The seed grew. A four-leaved clover. He singed his hair. The site was sited well.', { level: 'A2' });
+  clean('Thank you was all she said. One of my friends was late. Each of the students was ready. What surprised the researchers was the speed. The paragraph about the protesters was long. The news was good. The bus was late. My boss was kind. The Olympics was great.', { level: 'B1' });
+  clean('It was a great success. She runs a small business. We had a good time. It was a short limitations section. A big crisis came. It is a new series. They wore a new pair of shoes.', { level: 'B1' });
+  clean('The number of students has increased. A number of students are here. The number of students is growing. The number of cars on the road rises every year.', { level: 'B2' });
+  clean('She researches the topic every day. Research shows that it works. Studies show that it works.', { level: 'B2' });
+  clean('This results in higher costs. This refers to the past. This sits on the table. This relies on data. This consists of three parts. This works in practice.', { level: 'B2' });
+  clean('It is dependent on the weather. That is mean. It is like a dream. It is work, not fun. It is need-based.', { level: 'B1' });
+  clean('Because it was late, we left. It was late, so we left. Since 2020, so many people have moved. I stayed because it rained, so I missed the bus.', { level: 'B1' });
+  clean('Although the flat is small, it is the best we have seen. However strong the objection may be, it does not apply.', { level: 'C1' });
+});
+
+test('RW-1: a soft comma-splice note from B2, and the lesson topic orders the summary', () => {
+  const sp = 'This is a serious concern, a student who copies does not practise.';
+  assert.ok(issuesOf(sp, { level: 'B2' }).some((i) => i.type === 'punctuation' && i.soft), 'a note at B2');
+  assert.ok(issuesOf(sp, { level: 'C1' }).some((i) => i.type === 'punctuation' && i.soft), 'a note, not an error, at C1');
+  assert.ok(!issuesOf(sp, { level: 'B1' }).some((i) => i.soft), 'not below B2');
+  const plain = analyzeWriting('It was a amazing day. We goed home.', { level: 'A2' });
+  assert.equal(plain.issues[0].match, 'a amazing');
+  const topic = analyzeWriting('It was a amazing day. We goed home.', { level: 'A2', topic: ['past-simple-irregular'] });
+  assert.equal(topic.issues[0].match, 'goed');
+  assert.equal(topic.issues[0].topic, true);
+  assert.ok(checkSummary(topic).he.split(':')[1].trim().startsWith('עבר של פועל חריג'), checkSummary(topic).he);
+});
+
+// ---------- r4 RW-3: argument signals and fewer false alarms ----------
+test('RW-3: from stage 8 a bare "research" is a soft note, not evidence; a citation or a figure is evidence', () => {
+  const bare = analyzeWriting('Everyone agrees that teenagers are harmed. The research proves it.', { level: 'C1', stage: 8 });
+  assert.equal(bare.structure.evidence, false);
+  assert.equal(bare.issues.filter((i) => i.he_title === 'מוזכר מחקר, בלי מקור').length, 1);
+  assert.equal(analyzeWriting('The survey shows that people agree.', { level: 'C1', stage: 8 }).structure.evidence, false, 'a bare survey');
+  const cited = analyzeWriting('Merrow (2025) found that 40% of residents agree.', { level: 'C1', stage: 8 });
+  assert.equal(cited.structure.evidence, true);
+  assert.ok(!cited.issues.some((i) => i.type === 'evidence'));
+  assert.equal(analyzeWriting('According to the City Office, rents rose.', { level: 'C1', stage: 8 }).structure.evidence, true, 'an attributed source');
+  assert.equal(analyzeWriting('Rents rose by 12% in a year.', { level: 'C1', stage: 8 }).structure.evidence, true, 'a figure');
+  assert.equal(analyzeWriting('Research shows that phones help.', { level: 'B1' }).structure.evidence, true, 'before stage 8 nothing changes');
+});
+
+test('RW-3: "However" alone is not a rebuttal; a counter-move after it is', () => {
+  assert.equal(analyzeWriting("However, Merrow's strongest point is the loss of green space.", { level: 'C1', stage: 8 }).structure.rebuttal, false);
+  assert.equal(analyzeWriting('However, this view overlooks the housing shortage.', { level: 'C1', stage: 8 }).structure.rebuttal, true);
+  assert.equal(analyzeWriting("However, the park is not lost: only a corner is built on.", { level: 'C1' }).structure.rebuttal, true);
+  assert.equal(analyzeWriting('Nevertheless, the plan protects the lake.', { level: 'C1' }).structure.rebuttal, true);
+});
+
+test('RW-3: time phrases, "nothing" as an object and methods sentences are not sweeping claims', () => {
+  const claims = (t) => analyzeWriting(t, { level: 'C1', stage: 8 }).issues.filter((i) => i.type === 'claim').map((i) => i.match);
+  assert.deepEqual(claims('The number of students rises every year. Every year more students apply. He learns nothing. All participants completed every task. We met all day.'), []);
+  assert.deepEqual(claims('Everyone agrees. Nothing works. All buildings benefit.'), ['Everyone', 'Nothing', 'All']);
+});
+
+test('RW-3: a place name from the source is not flagged as copying', () => {
+  const draft = 'I think the city should build on the northern edge of Orrin Fields.';
+  assert.deepEqual(analyzeWriting(draft, { level: 'C1', stage: 8, sources: wa05 }).issues.filter((i) => i.type === 'source'), []);
+  assert.equal(analyzeWriting('The office estimates that it could provide about 900 homes.', { level: 'C1', sources: wa05 }).issues.filter((i) => i.type === 'source').length, 1, 'a copied sentence still is');
+});
+
+// ---------- r4 RW-4: email and own-words checks ----------
+test('RW-4: until for a deadline anywhere in the clause; a negative in an email gets a soft note; Please advise', () => {
+  const email = 'Hi James,\nI will send you the first part, with the competitors analysis, until Wednesday. I can\'t finish the report until Thursday. Please advise.\n\nBest,\nYael';
+  const a = analyzeWriting(email, { level: 'B1', kind: 'email' });
+  assert.ok(a.issues.some((i) => i.match === 'until Wednesday' && !i.soft), JSON.stringify(a.issues.map((i) => i.match)));
+  const thu = a.issues.filter((i) => i.match === 'until Thursday');
+  assert.equal(thu.length, 1);
+  assert.ok(thu[0].soft && /אם הכוונה למועד אחרון, כותבים by/.test(thu[0].he));
+  assert.ok(a.issues.some((i) => i.match === 'Please advise' && i.soft));
+  assert.ok(!analyzeWriting("I can't finish the report until Thursday.", { level: 'B1' }).issues.length, 'not outside an email');
+  clean('I sent it and waited until Friday. We will stay until the evening. The shop is open until today.');
+  flagged('Please fix the bug until the evening.', 'until the evening');
+});
+
+test('RW-4: a job after modifiers, suggest to, a past time with a present verb, and the app + bare verb', () => {
+  flagged('I am QA engineer.', 'I am QA engineer');
+  flagged("I'm senior software developer.", "I'm senior software developer");
+  assert.equal(issuesOf('I am QA engineer.')[0].ex, 'I am a QA engineer');
+  flagged('I suggest to wait.', 'suggest to wait');
+  assert.match(issuesOf('I suggest to wait.')[0].ex, /^suggest waiting/);
+  flagged('Yesterday I finish the report.', 'I finish');
+  assert.equal(issuesOf('Yesterday I finish the report.')[0].ex, 'I finished');
+  flagged('Last week she go to Eilat.', 'she go');
+  flagged('Yesterday the app crash.', 'the app crash');
+  assert.equal(issuesOf('Yesterday the app crash.').find((i) => /app/.test(i.match)).ex, 'the app crashed');
+  assert.equal(issuesOf('The app crash every day.')[0].ex, 'The app crashes');
+  clean('I am a QA engineer. I am not a student. I am also proud. He is a senior developer. I suggest waiting. I suggested to him that we wait. Yesterday I learned that they live in Haifa. Last week, at work, she started early. Yesterday I finished it. The app crashes a lot. Did the app crash? I saw the app crash. The app crash report is long.');
+});
+
+test('RW-4: the cards name countable nouns without the word "ספיר"', () => {
+  const all = [...issuesOf('I have reservation. I need informations. It is important thing.'), ...issuesOf('I am student.')];
+  assert.ok(all.length >= 3);
+  assert.ok(all.every((i) => !/ספיר/.test(`${i.he} ${i.he_title}`)), JSON.stringify(all.map((i) => i.he)));
+  assert.ok(all.some((i) => /שם עצם שאפשר לספור \(a car, a job\)/.test(i.he)));
+});
+
+// ---------- r4 RW-2: the summary adds up and reads well in Hebrew ----------
+test('RW-2: n is the number of listed items, and "ועוד" counts from the same list', () => {
+  const t = 'I am agree. I need informations. This is more better. It depends in the weather. We discussed about it. He work here. I dont know. You should to go. I goed home. We was tired. I am student.';
+  const s = checkSummary(analyzeWriting(t, { level: 'B1', minWords: 300 }), { minWords: 300 });
+  assert.equal(s.items.length, 12);
+  assert.equal(s.n, 12);
+  assert.match(s.head_he, /^יש 12/);
+  assert.match(s.he, /ועוד 9\./);
+  assert.match(s.en, /and 9 more/);
+  const one = checkSummary(analyzeWriting('I study at a university. It took an hour.', { level: 'B1', minWords: 20 }), { minWords: 20 });
+  assert.equal(one.head_he, 'יש דבר אחד לבדוק');
+});
+
+test('RW-2: sweeping words, research notes and uncited sources are counted as items', () => {
+  const a = analyzeWriting('Everyone agrees that it is bad. The research proves it.', { level: 'C1', stage: 8, sources: wa05 });
+  const s = checkSummary(a);
+  const he = s.items.map((i) => i.he);
+  assert.ok(he.includes('2 מילים גורפות'), JSON.stringify(he));
+  assert.ok(he.includes('מוזכר מחקר, בלי מקור'), JSON.stringify(he));
+  assert.ok(he.includes('3 מקורות שלא צוטטו'), JSON.stringify(he));
+  assert.equal(s.n, s.items.length);
+});
+
+test('RW-2: one paragraph is "פסקה אחת", and the repeated opening uses Hebrew quotes', () => {
+  const long = Array.from({ length: 20 }, () => 'Phones help people learn new words every day.').join(' ');
+  const p = analyzeWriting(long, { level: 'B1' }).checks.find((c) => c.id === 'paragraphs');
+  assert.match(p.he, /^פסקה אחת \(כדאי 3 לפחות\)/);
+  assert.match(p.en, /^1 paragraph \(/);
+  const rep = analyzeWriting('Research shows it. Research says it. Research proves it. Research finds it.', { level: 'B1' }).issues.find((i) => i.type === 'cohesion');
+  assert.match(rep.he, /4 משפטים מתחילים ב-״research״/);
 });

@@ -23,6 +23,17 @@ export const MODULES = [
 ];
 const FOLDED = 2;
 
+// A practice place saved part-way (scenario.js keeps it in progress rl:<id>), for the hub rows (r4 RW-8).
+export function savedPlace(s) {
+  const p = store.get('progress', `rl:${s.id}`);
+  return p && p.status !== 'completed' && Number.isInteger(p.turn) && p.turn > 0 && p.turn < (s.practice?.length || 0) ? p : null;
+}
+// "בתהליך · תור 3 מתוך 5" on a hub row, or nothing.
+export function placeTag(s) {
+  const p = savedPlace(s);
+  return p ? html`<span class="tag cobalt place-tag">${tt(`בתהליך · תור ${p.turn + 1} מתוך ${s.practice.length}`, `In progress · turn ${p.turn + 1} of ${s.practice.length}`)}</span>` : '';
+}
+
 export const doneScenarios = () => new Set(store.all('progress').filter((p) => p.id.startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
 
 // "B1 · a small stretch": the level and how it fits the learner's course level, in words.
@@ -50,20 +61,29 @@ export function hubFilters(state) {
   </div>`;
 }
 
-// Topic sections. With every topic shown, each is folded to its first two scenarios with "Show all".
+// Topic sections. With every topic shown, each is folded to its first two scenarios with "Show all". Each topic is
+// a <details>, and only one is open at first: the learner's first goal topic, or the one with the most scenarios
+// at their level, so the hub is a short list of topics instead of one long page (r4 RW-10). A topic the learner
+// opens or closes stays that way during the visit (state.topicOpen).
 export function hubSections(list, state, courseLevel, row) {
   const keep = (s) => state.scope === 'all' || ['below', 'at', 'stretch'].includes(fitOf(s.level, courseLevel));
   // The learner's goal topics come first, and in each topic the scenarios closest to their level (RW-9).
   const ids = moduleOrder(MODULES.map(([id]) => id), state.goals || []);
-  const sections = ids.map((mid) => MODULES.find(([id]) => id === mid)).filter(([id]) => state.module === 'all' || id === state.module).map(([id, ic, he, en]) => {
-    const items = byFit(list.filter((s) => s.module === id && keep(s)), courseLevel);
-    if (!items.length) return '';
+  const shown = ids.map((mid) => MODULES.find(([id]) => id === mid)).filter(([id]) => state.module === 'all' || id === state.module)
+    .map(([id, ic, he, en]) => ({ id, ic, he, en, items: byFit(list.filter((s) => s.module === id && keep(s)), courseLevel) })).filter((x) => x.items.length);
+  const atLevel = (x) => x.items.filter((s) => fitOf(s.level, courseLevel) === 'at').length;
+  const goalFirst = modulesFor(state.goals || []).find((m) => shown.some((x) => x.id === m));
+  const lead = goalFirst || [...shown].sort((a, b) => atLevel(b) - atLevel(a))[0]?.id;
+  state.topicOpen ||= new Map();
+  const sections = shown.map(({ id, ic, he, en, items }) => {
     const folded = state.module === 'all' && !state.open.has(id) && items.length > FOLDED;
-    return html`<section class="stack-sm" aria-labelledby="hub-${id}"><h2 class="row hub-head" id="hub-${id}">${icon(ic)} ${tt(he, en)} <span class="small faint num">${items.length}</span></h2>
-      <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${(folded ? items.slice(0, FOLDED) : items).map((s) => html`<li>${row(s)}</li>`)}</ul>
-      ${state.module === 'all' && items.length > FOLDED ? html`<button type="button" class="key ghost small" data-unfold="${id}" aria-expanded="${!folded}">${folded ? tt(`להציג את כל ה-${items.length}`, `Show all ${items.length}`) : tt('להציג פחות', 'Show fewer')}</button>` : ''}</section>`;
+    const isOpen = state.module !== 'all' || (state.topicOpen.has(id) ? state.topicOpen.get(id) : id === lead);
+    return html`<section class="hub-topic" aria-labelledby="hub-${id}"><details class="panel flat hub-fold" data-topic="${id}" ${isOpen ? html`open` : ''}>
+      <summary class="disclosure"><span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span><h2 class="row hub-head grow" id="hub-${id}">${icon(ic)} ${tt(he, en)} <span class="small faint num">${items.length}</span></h2></summary>
+      <div class="stack-sm hub-fold-body"><ul class="lesson-list" style="list-style:none;padding:0;margin:0">${(folded ? items.slice(0, FOLDED) : items).map((s) => html`<li>${row(s)}</li>`)}</ul>
+      ${state.module === 'all' && items.length > FOLDED ? html`<button type="button" class="key ghost small" data-unfold="${id}" aria-expanded="${!folded}">${folded ? tt(`להציג את כל ה-${items.length}`, `Show all ${items.length}`) : tt('להציג פחות', 'Show fewer')}</button>` : ''}</div></details></section>`;
   });
-  return sections.some(Boolean) ? html`<div class="stack-lg">${sections}</div>` : emptyState({ title: tt('אין תרחישים בסינון הזה', 'No scenarios match these filters'), action: html`<button type="button" class="key small" data-m="all">${tt('להציג הכול', 'Show everything')}</button>` });
+  return sections.length ? html`<div class="stack-sm hub-topics">${sections}</div>` : emptyState({ title: tt('אין תרחישים בסינון הזה', 'No scenarios match these filters'), action: html`<button type="button" class="key small" data-m="all">${tt('להציג הכול', 'Show everything')}</button>` });
 }
 
 // Filter clicks for both hubs; redraw() repaints the page.
@@ -71,6 +91,7 @@ export function hubEvents(el, state, redraw) {
   const offs = [
     on(el, 'click', '[data-m]', (e, b) => { state.module = b.dataset.m; redraw(); }),
     on(el, 'click', '[data-scope]', (e, b) => { state.scope = b.dataset.scope; redraw(); }),
+    on(el, 'toggle', 'details[data-topic]', (e, d) => { if (e.target === d) { state.topicOpen ||= new Map(); state.topicOpen.set(d.dataset.topic, d.open); } }, true),
     on(el, 'click', '[data-unfold]', (e, b) => {
       const id = b.dataset.unfold;
       if (state.open.has(id)) state.open.delete(id); else state.open.add(id);
@@ -90,7 +111,7 @@ export default async function reallife(el, ctx) {
   const row = (s, courseLevel) => {
     const p = store.get('progress', `rl:${s.id}`);
     return html`<a class="lesson-row hub-row" href="#/scenario/${s.id}">${mark(p?.status)}
-      <span class="grow">${legend(s.title_en, s.title_he)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span>
+      <span class="grow">${legend(s.title_en, s.title_he)}${placeTag(s)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span>
       <span class="hub-level">${levelTag(s.level)}${fitNote(s.level, courseLevel)}</span></a>`;
   };
 

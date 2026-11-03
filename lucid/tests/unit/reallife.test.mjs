@@ -89,6 +89,29 @@ test('own replies: Hebrew-speaker errors are named, goal points are ticked (RW-3
   for (const s of scenarios) for (const t of s.practice) for (const p of t.points || []) assert.ok(p.en && /[א-ת]/.test(p.he) && p.any?.length, `${s.id}: a point without words or phrases`);
 });
 
+// r4 RW-4: the B1 stand-up reply that used to get only praise ("Your reply has words that fit: yesterday").
+test('r4 RW-4: a stand-up reply with a past time + present verb and until the evening gets two issues and no praise', () => {
+  const turn = scenarios.find((s) => s.id === 'rl-work-standup-update').practice[0];
+  const r = checkOwnReply('Yesterday I finish the login page and fix the bug until the evening.', turn, { level: 'B1' });
+  assert.ok(r.l1.length >= 2, JSON.stringify(r.l1.map((i) => i.match)));
+  assert.deepEqual(r.l1.map((i) => i.ex).sort(), ['I finished', 'by the evening']);
+  // scenario.js praises key words only when the turn has no goal points, there are hits and no issue was found.
+  const praise = !r.points.length && r.hits.length && !r.l1.length;
+  assert.equal(Boolean(praise), false);
+  const ok = checkOwnReply('Yesterday I finished the login page and fixed the bug.', turn, { level: 'B1' });
+  assert.deepEqual(ok.l1, [], 'the corrected reply is clean');
+});
+
+// r4 RW-10: the goal's topic comes first in "Start here", even for a Pre-A1 learner (student-58).
+test('r4 RW-10: work at A2 and at Pre-A1 starts with the work scenarios, at most two levels up', () => {
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['work'] })[0].module, 'work');
+  const pre = recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: ['work'] });
+  assert.equal(pre[0].module, 'work');
+  assert.ok(pre.every((s) => ['A1', 'A2'].includes(s.level)), pre.map((s) => s.level).join());
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: [] }).every((s) => s.level === 'A1'), 'no goal: nothing above a small stretch');
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['travel'] }).every((s) => ['A1', 'A2'].includes(s.level)), 'travel at A2 stays at or below the level');
+});
+
 // RW-9: Real life follows the learner's goals.
 test('Start here, topic order and topic lists follow the goals, then the level (RW-9)', () => {
   const start = recommendScenarios(scenarios, { courseLevel: 'B2', goals: ['work'] });
