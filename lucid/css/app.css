@@ -930,14 +930,11 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .error-card .issue-head .quote { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
 /* ---- lane real-life-writing: end ---- */
 
-/* Settings: each choice group fills its row, so a last option never sits alone on a line (M10). */
+/* Settings: each choice group fills its row (M10). Its cells never shrink below their labels: see lane
+   r4-practice-games (PG-1) at the end of this file. */
 .settings-view .field { container-type: inline-size; }
-.settings-view .seg { display: flex; width: 100%; }
-.settings-view .seg > button { flex: 1 1 auto; padding-inline: 0.55rem; }
-@container (max-width: 17rem) {
-  .settings-view .seg[data-n='4'] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .settings-view .seg[data-n='5'], .settings-view .seg[data-n='6'] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
+.settings-view .seg { display: grid; width: 100%; }
+.settings-view .seg > button { padding-inline: 0.55rem; }
 .settings-view section[id] { scroll-margin-block-start: 5rem; }
 
 /* Writing: the topics and "Must include" items are English blocks, left to right (M9, T6). */
@@ -1692,6 +1689,12 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-today-path: end ---- */
 
 /* ---- lane r4-practice-games: start ---- */
+/* PG-1: a Settings segment never shrinks below its label (settings.js measures the longest label of each group
+   into --seg-cell). The group is one row of equal cells when they fit and a grid of equal cells when they do not;
+   at 130-150% text, four or five options make two columns. Still one segmented control with its help line. */
+.settings-view .field > .seg { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--seg-cell, 5.5rem)), 1fr)); }
+.settings-view .seg > button { white-space: nowrap; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .settings-view .field > .seg:is([data-n='4'], [data-n='5']) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--seg-cell, 5.5rem), calc(50% - 3px))), 1fr)); }
 
 /* ---- lane r4-practice-games: end ---- */
 

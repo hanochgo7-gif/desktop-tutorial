@@ -17,6 +17,20 @@ function seg(name, value, opts, { off = false, help = false } = {}) {
   const described = [help && `help-${name}`, off && 'ai-off'].filter(Boolean).join(' ');
   return html`<div class="seg" role="group" data-seg="${name}" data-n="${opts.length}" aria-labelledby="lbl-${name}" ${described ? html`aria-describedby="${described}"` : ''} ${off ? html`aria-disabled="true"` : ''}>${opts.map(([v, he, en, lang]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v) ? 'true' : 'false'}" ${off ? html`aria-disabled="true"` : ''} ${lang ? html`lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}"` : ''}>${lang ? (lang === 'he' ? he : en) : tt(he, en)}</button>`)}</div>`;
 }
+// PG-1: a segment's cell is as wide as the group's longest label, so no label is squeezed or runs into the next one
+// (CSS: --seg-cell). Measured after each draw and again once the web fonts have loaded.
+export function fitSegs(root) {
+  for (const g of root.querySelectorAll('.seg[data-seg]')) {
+    let w = 0;
+    for (const b of g.children) {
+      const r = document.createRange();
+      r.selectNodeContents(b);
+      const cs = getComputedStyle(b);
+      w = Math.max(w, r.getBoundingClientRect().width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight));
+    }
+    if (w > 0) g.style.setProperty('--seg-cell', `${Math.ceil(w) + 2}px`);
+  }
+}
 // One labelled field: the visible label (the group's name), the control and an optional help line.
 const field = (name, label, control, help = '', { off = false } = {}) => html`<div class="field${off ? ' is-off' : ''}"><span class="label" id="lbl-${name}">${label}</span>${control}${help ? html`<span class="help" id="help-${name}">${isolateLatin(help)}</span>` : ''}</div>`;
 
@@ -106,6 +120,7 @@ export default async function settingsView(el, ctx) {
         </section>
         <p class="xsmall faint"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות פרטיות ותנאים', 'Privacy and terms')}</a> · ${t('level.estimate')}</p>
       </div>`);
+    fitSegs(el);
   }
 
   // After a redraw the keyboard stays on the control that was used (PH-3).
@@ -128,6 +143,10 @@ export default async function settingsView(el, ctx) {
   }
 
   draw();
+  document.fonts?.ready.then(() => { if (el.isConnected) fitSegs(el); }).catch(() => {});
+  // The text size can change while the page is open (the attribute is set by the shell): measure again.
+  const sizeWatch = new MutationObserver(() => fitSegs(el));
+  sizeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-text'] });
   showOfflineCount();
   // "Offline use" links from Real life and Help open this section (persona panel M1). The router scrolls to the
   // top after the view is drawn, so this runs after it.
@@ -249,5 +268,5 @@ export default async function settingsView(el, ctx) {
       }
     }),
   ];
-  return () => offs.forEach((o) => o());
+  return () => { sizeWatch.disconnect(); offs.forEach((o) => o()); };
 }
