@@ -3,7 +3,8 @@
 import { content } from './content.js';
 import { shuffle, sum } from './util.js';
 import { LEVELS, levelIndex } from './adaptive.js';
-import { findWrongFeedback } from './grading.js';
+import { findWrongFeedback, wordAccuracy } from './grading.js';
+import { sentenceDiff } from './diff.js';
 
 export const AUTO_TYPES = new Set(['mcq', 'gap', 'order', 'match', 'categorize', 'transform', 'correct', 'listen', 'dictation']);
 
@@ -62,8 +63,9 @@ let cache = null;
 export async function exercisePool() {
   if (cache) return cache;
   const lessons = await content.allLessons();
+  // Each item carries its lesson's Hebrew-speaker pitfalls, for "Why?" in drills (r4 LF-10).
   cache = lessons.flatMap((l) => l.exercises.filter((e) => AUTO_TYPES.has(e.type)).map((ex) => ({
-    ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics,
+    ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics, pitfalls: l.hebrew_pitfalls || [],
     errors: new Set([ex.error_type, ...Object.values(ex.option_errors || {}), ...(ex.wrong_feedback || []).map((f) => f.error_type)].filter(Boolean)),
   })));
   return cache;
@@ -134,14 +136,54 @@ export function fillGaps(text, fills) {
   return parts.map((p, i) => `${p}${i < parts.length - 1 ? (fills[i] ?? '…') : ''}`).join('').replace(/\s+/g, ' ').trim();
 }
 const firstOf = (a) => (Array.isArray(a) ? a[0] : a);
-// What the learner wrote next to the right form, and the item's own note for it: the matched wrong answer's
-// feedback, the chosen option's feedback, or the item's explanation. null pair: nothing worth quoting.
-export function mistakeNote(ex, response) {
+const fullFill = (text, fills) => String(text || '').split('___').map((p, i, all) => `${p}${i < all.length - 1 ? (fills[i] ?? '…') : ''}`).join('').replace(/\s+/g, ' ').trim();
+// The accepted answer closest to what the learner wrote (the first one when nothing was written).
+const closest = (said, answers) => (said ? answers.map((a) => ({ a, acc: wordAccuracy(said, a).accuracy })).sort((x, y) => y.acc - x.acc)[0].a : answers[0]);
+// Only what changed (r4 LF-4): the word diff of the learner's text against the answer, with up to `context` words
+// kept on each side of a change and the rest left out ({ type: 'gap' }). [{ type: 'same' | 'del' | 'add' | 'gap', text }].
+export function clipDiff(parts, context = 3) {
+  const words = parts.flatMap((p) => (p.type === 'same' ? p.text.split(' ').filter(Boolean).map((w) => ({ type: 'same', text: w })) : [p]));
+  const changed = words.map((w, i) => (w.type !== 'same' ? i : -1)).filter((i) => i >= 0);
+  if (!changed.length) return [];
+  const keep = new Set();
+  for (const i of changed) for (let k = i - context; k <= i + context; k++) if (k >= 0 && k < words.length) keep.add(k);
+  const out = [];
+  words.forEach((w, i) => {
+    if (!keep.has(i)) { if (out.at(-1)?.type !== 'gap') out.push({ type: 'gap', text: '…' }); return; }
+    const last = out.at(-1);
+    if (last && last.type === w.type && w.type === 'same') last.text += ` ${w.text}`;
+    else out.push({ ...w });
+  });
+  return out;
+}
+// The learner's words in the same order as the answer's: every word they share is in the answer's order.
+export function sameOrder(said, key) {
+  const bare = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9' ]+/g, ' ').split(/\s+/).filter(Boolean);
+  const a = bare(said), b = bare(key);
+  const count = new Map();
+  for (const w of b) count.set(w, (count.get(w) || 0) + 1);
+  let shared = 0;
+  for (const w of a) if (count.get(w)) { shared++; count.set(w, count.get(w) - 1); }
+  const lcs = sentenceDiff(a.join(' '), b.join(' ')).filter((p) => p.type === 'same').reduce((n, p) => n + p.text.split(' ').length, 0);
+  return lcs === shared;
+}
+// What the learner gave next to the right form, and a note that explains this mistake (r4 LF-4). The note is the
+// matched wrong answer's feedback or the chosen option's feedback first. The item's explanation is used only when
+// it is about this mistake: the attempt's error type is the item's, or (with no error type to go by) the mistake
+// is of the item's kind, so a word-order rule is never the note for a wrong verb ("Have you ever went…") and a form
+// rule never the note for a sentence in the wrong order. Otherwise note is null and the player shows the error
+// type's own note. attempt (optional): the stored attempt, for its error type.
+// Returns { pair, diff, note, own, choice }: pair = [the learner's text, the right text] (checkpoint.js), diff =
+// only the changed words for gap, transform, correct and dictation items, choice = a multiple-choice item.
+export function mistakeNote(ex, response, attempt = null) {
   const said = String(response ?? '');
   const idk = !said || said === '(I don\'t know)';
+  const choice = ['mcq', 'listen'].includes(ex.type);
   let pair = null;
+  let diff = null;
   let note = null;
-  if (['mcq', 'listen'].includes(ex.type)) {
+  let key = null;
+  if (choice) {
     const k = ex.options.indexOf(said);
     note = k >= 0 ? ex.option_feedback?.[k] || null : null;
     if (!idk) pair = ex.question?.includes('___') ? [fillGaps(ex.question, [said]), fillGaps(ex.question, [ex.options[ex.answer]])] : [said, ex.options[ex.answer]];
@@ -149,12 +191,75 @@ export function mistakeNote(ex, response) {
     const got = said.split(' | ');
     const f = got.map((g) => findWrongFeedback(g, ex.wrong_feedback)).find(Boolean);
     note = f?.feedback || null;
-    if (!idk) pair = [fillGaps(ex.text, got), fillGaps(ex.text, ex.answers.map(firstOf))];
+    const right = ex.answers.map(firstOf);
+    if (!idk) {
+      pair = [fillGaps(ex.text, got), fillGaps(ex.text, right)];
+      diff = clipDiff(sentenceDiff(fullFill(ex.text, got), fullFill(ex.text, right)));
+    }
   } else if (['transform', 'correct', 'dictation'].includes(ex.type)) {
     note = findWrongFeedback(said, ex.wrong_feedback)?.feedback || null;
-    if (!idk) pair = [said, ex.answers[0]];
+    key = closest(idk ? '' : said, ex.answers.map(String));
+    if (!idk) { pair = [said, key]; diff = clipDiff(sentenceDiff(said, key)); }
   } else if (ex.type === 'order') {
-    if (!idk) pair = [said, ex.tokens.join(' ')];
+    key = ex.tokens.join(' ');
+    if (!idk) pair = [said, key];
   }
-  return { pair, note: note || ex.explanation || null, own: Boolean(note || ex.explanation) };
+  if (!note && ex.explanation) {
+    const orderItem = ex.type === 'order' || ex.error_type === 'word-order';
+    const explains = choice || idk || ex.type === 'gap' ? true
+      : attempt?.error_type && ex.error_type ? attempt.error_type === ex.error_type
+        : orderItem ? !sameOrder(said, key) : sameOrder(said, key);
+    if (explains) note = ex.explanation;
+  }
+  return { pair, diff: diff?.length ? diff : null, note, own: Boolean(note), choice };
+}
+
+// ---------- the second-try note (r4 LF-2) ----------
+// A note shown before a second try must not hand over the answer. Each language part of the note ({ he, en } or
+// an English string) is dropped when it quotes an accepted answer, or names a word of the answer that the
+// learner's response does not have yet ("leave → left" after "leaved"). Returns the parts that are safe, or null.
+// Words are compared in lower case, Latin words only; a Hebrew word breaks a phrase.
+const latinWords = (s) => String(s || '').toLowerCase().replace(/[‘’ʼ`´]/g, "'").split(/[^a-z0-9'֐-׿]+/)
+  .filter(Boolean).map((w) => (/[֐-׿]/.test(w) ? '¦' : w.replace(/^'+|'+$/g, ''))).filter(Boolean);
+const phrase = (words) => ` ${words.join(' ')} `;
+const alternatives = (a) => (Array.isArray(a) ? a : [a]).map(String);
+// The accepted answers (as word lists) and the answer's words that the response lacks: for a gap, the forms and words of
+// every accepted form of each gap filled wrong; otherwise the words of the closest accepted answer
+// (grading.wordAccuracy) that the response does not have.
+export function answerGaps(ex, response) {
+  const said = String(response ?? '');
+  if (ex?.type === 'gap' && Array.isArray(ex.answers)) {
+    const got = said.split(' | ');
+    const keys = [];
+    const lacking = new Set();
+    ex.answers.forEach((alts, i) => {
+      const options = alternatives(alts).map(latinWords).filter((w) => w.length);
+      const mine = phrase(latinWords(got[i]));
+      // A gap already filled right gives nothing away when a note names it.
+      if (options.some((w) => mine === phrase(w))) return;
+      keys.push(...options);
+      for (const w of options.flat()) if (!mine.includes(` ${w} `)) lacking.add(w);
+    });
+    return { keys, lacking: [...lacking] };
+  }
+  const answers = Array.isArray(ex?.answers) ? ex.answers.map((a) => String(Array.isArray(a) ? a[0] : a)) : [];
+  if (!answers.length) return { keys: [], lacking: [] };
+  const fits = answers.map((a) => ({ a, acc: wordAccuracy(said, a) })).sort((x, y) => y.acc.accuracy - x.acc.accuracy);
+  const lacking = new Set(fits[0].acc.words.filter((w) => !w.ok).flatMap((w) => latinWords(w.word)));
+  return { keys: answers.map(latinWords).filter((w) => w.length), lacking: [...lacking] };
+}
+export function retrySafe(note, ex, response) {
+  if (!note) return null;
+  const parts = typeof note === 'string' ? { en: note } : note;
+  const { keys, lacking } = answerGaps(ex, response);
+  const safe = (text) => {
+    const words = latinWords(text);
+    if (!words.length) return true;
+    const p = phrase(words);
+    if (keys.some((k) => p.includes(phrase(k)))) return false;
+    return !lacking.some((w) => words.includes(w));
+  };
+  const out = {};
+  for (const lang of ['he', 'en']) if (parts[lang] && safe(parts[lang])) out[lang] = parts[lang];
+  return Object.keys(out).length ? out : null;
 }

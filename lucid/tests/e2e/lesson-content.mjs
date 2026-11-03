@@ -127,6 +127,8 @@ try {
     await page.fill('#exroot textarea, #exroot input[type=text]', 'Sara is study English every evening.');
     await page.click('[data-check]');
     await page.waitForTimeout(400);
+    // r4 LF-2: this feedback ends with the answer, so the second-try note leaves it out; it shows with the answer.
+    if (await page.$('[data-show-answer]')) { await page.click('[data-show-answer]'); await page.waitForTimeout(200); }
     const text = await page.evaluate(() => document.body.innerText);
     assert(text.includes('לא מוסיפים is לפני הפועל') || text.includes("Don't add is before the verb"), 'no be + base verb feedback');
     await ctx.close();

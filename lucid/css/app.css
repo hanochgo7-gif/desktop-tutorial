@@ -1681,6 +1681,78 @@ table.data td:has(> .row-say) { white-space: nowrap; }
    ================================================================ */
 
 /* ---- lane r4-lesson-flow: start ---- */
+/* The exit key (LF-13): the word beside the icon at 100-115% text, the icon alone at 130% and above; 44 px tall. */
+.lesson-player .player-top .exit-key { flex: none; min-height: 44px; padding-inline: 0.55rem; gap: var(--s1); --key-bg: transparent; border-color: transparent; }
+.lesson-player .player-top .exit-key .exit-label { font-size: var(--t-sm); font-weight: 500; }
+/* The lesson top (LF-3). Below 130% it stays on screen while the page scrolls, so the exit and the bar are
+   there after Check. At 130-150% text and on narrow phones it is one row: exit, the bar with the counter inline
+   after it, help. Its keys keep a 44 px target in px, so large text does not make the row taller. */
+:root:not([data-text='130'], [data-text='150']) .lesson-player > .player-top { position: sticky; top: 0; z-index: 6; background: var(--ground); box-shadow: 0 0 0 100vmax var(--ground); clip-path: inset(0 -100vmax); }
+@media (max-width: 30rem) {
+  .lesson-player .player-top.counting { flex-wrap: nowrap; gap: var(--s2); }
+  .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+  .lesson-player .player-top.counting .progress { min-width: 0; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top { flex-wrap: nowrap; gap: var(--s1); padding-block: 6px; padding-inline: var(--s3); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top.counting .progress { min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top :is(.key.icon-only, .exit-key) { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .exit-key .exit-label { display: none; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .step-count { font-size: var(--t-xs); }
+/* The footer (LF-3): never more than 45% of the screen (player.js fitFooter caps the verdict, which scrolls with a
+   fade and a "More" cue while there is more below). At large text and on narrow phones "Show the answer" is a text
+   link beside "Try again", and "Hint" and "I don't know" share one row of compact keys. */
+.lesson-player .player-foot { --foot-bg: var(--ground); }
+.lesson-player .player-foot:is(.ok, .bad, .almost) { --foot-bg: var(--key); }
+.lesson-player .player-foot.shown { --foot-bg: var(--key-sunk); }
+.lesson-player .player-foot .verdict.fade::after {
+  content: attr(data-more) ' ↓'; position: sticky; bottom: 0; display: block; height: 2.2rem; margin-block-start: -1.4rem; padding-block-start: 1rem;
+  background: linear-gradient(to bottom, transparent, var(--foot-bg) 55%); color: var(--ink-2); font-size: var(--t-xs); font-weight: 500; text-align: center; pointer-events: none;
+}
+@media (max-width: 30rem) {
+  .lesson-player .player-foot .verdict { max-height: 40dvh; }
+  .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+  .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+  .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; padding-inline: var(--s2); white-space: normal; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot { padding-block: var(--s2) calc(var(--s2) + env(safe-area-inset-bottom)); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner { gap: var(--s2); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .verdict { max-height: 40dvh; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .key { min-height: max(44px, 2.4rem); padding-inline: 0.6rem; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
+/* Tables at Pre-A1 (LF-8): "Show IPA" hides the IPA column and the /…/ inside other cells and word cards in every
+   layout, also where rows are cards at large text; Hebrew header labels sit under the English ones; Hebrew cells
+   are in body ink, not link blue. */
+.table-wrap.ipa-hidden :is(.col-ipa, .ipa), .lesson-learn.ipa-hidden .ipa { display: none; }
+@media (max-width: 30rem) { .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; } }
+:root:is([data-text='130'], [data-text='150']) .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; }
+.table-wrap:not(.letters) table.data td:has(> .row-say) { white-space: normal; }
+.table-wrap:not(.letters) table.data td > .row-say { float: inline-start; margin-inline-end: var(--s1); }
+table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-2); }
+:root .table-wrap table.data td.c-he, :root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { color: var(--ink); }
+@media (max-width: 30rem) { :root .tstack table.data td.c-he { color: var(--ink); } }
+.word-tools { margin-block-end: calc(-1 * var(--s2)); }
+/* Level-check results (LF-11): the question itself, in English, under its instruction. */
+.check-miss .check-q { font-size: var(--t-md); font-weight: 500; color: var(--ink); }
+/* The part end (LF-7): the saved place leads; today's first-try count is a small closing line, not a grade. */
+.part-end .part-place { font-size: var(--t-md); }
+.part-end .part-score { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); }
+/* Learn steps after the first (LF-6): the lesson's title is one line in the top, cut with an ellipsis. */
+.lesson-player .player-top .top-meta.is-title { flex: 0 1 auto; min-width: 0; }
+.lesson-player .player-top:has(.is-title) .progress { min-width: 4rem; }
+.lesson-player .player-top .top-title { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--t-sm); font-weight: 500; color: var(--ink-2); }
+/* "Worth watching" (LF-4): only the words that changed, struck and added as in the verdict's diff; a choice is
+   "you chose · the answer" with no correction styling; an item fixed on a later try has a neutral tag. */
+.mistake-diff { display: inline; overflow-wrap: anywhere; }
+.mistake-diff :is(.m-arrow, .m-gap) { color: var(--ink-3); }
+.mistake-diff .m-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.mistake-diff .m-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; font-weight: 600; }
+.mistake-choice .m-chose, .mistake-choice .m-answer { font-weight: 500; }
+.mistake-fixed { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+.fixed-tag { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ink-2); background: var(--key-sunk); border-color: var(--key-line); }
+.fixed-tag .icon { color: var(--ok); }
 
 /* ---- lane r4-lesson-flow: end ---- */
 

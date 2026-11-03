@@ -364,3 +364,98 @@ test('LF-11: leaving goes back to where the learner came from, Today otherwise',
   assert.equal(exitTarget('#/start'), '#/today', 'never back into onboarding');
   assert.equal(exitTarget('', '#/path/B2'), '#/path/B2');
 });
+
+// ---------- UX round 4 (docs/qa/panels-r3-retest/plan-r4.json, lane lesson-flow) ----------
+test('r4 LF-2: retrySafe drops a note part that quotes the answer or names a word the learner has not written', async () => {
+  const Pool = await import('../../js/core/pool.js');
+  const a1 = await lessonFile('a1-01');
+  const e10 = a1.exercises.find((e) => e.id === 'e10');
+  const said = 'We are eating lunch at one every day.';
+  assert.equal(Pool.retrySafe(e10.wrong_feedback[0].feedback, e10, said), null, 'both parts give "we eat" away');
+  assert.deepEqual(Pool.retrySafe(e10.hint, e10, said), e10.hint, 'the hint "One word is extra" is safe');
+  const a2 = await lessonFile('a2-05');
+  const e8 = a2.exercises.find((e) => e.id === 'e8');
+  assert.equal(Pool.retrySafe(e8.wrong_feedback[0].feedback, e8, 'leaved | came | slept'), null, '"leave → left" names the missing word');
+  assert.ok(Pool.retrySafe(e8.hint, e8, 'leaved | came | slept'), 'the hint names no missing word');
+  // A word the learner already wrote may be named; a part with no English at all is always safe.
+  assert.deepEqual(Pool.retrySafe({ he: 'שימו לב לסוף של came.' }, e8, 'leaved | came | slept'), { he: 'שימו לב לסוף של came.' });
+  assert.deepEqual(Pool.retrySafe({ he: 'אות אחת עוד לא נכונה.', en: 'One letter is not right: left.' }, e8, 'leaved | came | slept'), { he: 'אות אחת עוד לא נכונה.' }, 'each language part is judged on its own');
+  const b1 = await lessonFile('b1-02');
+  const e11 = b1.exercises.find((e) => e.id === 'e11');
+  assert.equal(Pool.retrySafe('The verb form the task asks for is missing: have lived.', e11, 'I did lived in Tel Aviv since 2020.'), null, 'a plain string is an English note');
+  assert.equal(Pool.retrySafe(null, e11, 'x'), null);
+  const gap = a1.exercises.find((e) => e.id === 'e7');
+  assert.deepEqual(Pool.answerGaps(gap, 'all | on').lacking.sort(), ['each', 'every'], 'every accepted form of a wrong gap, none of a right one');
+});
+
+test('r4 LF-2: the second-try note is in the support language only, and falls back to the hint and then the kind of mistake', async () => {
+  const a1 = await lessonFile('a1-01');
+  const e10 = a1.exercises.find((e) => e.id === 'e10');
+  I18N.setUiLang('he');
+  I18N.setHebrewSupport('full');
+  try {
+    const r = { response: 'We are eating lunch at one every day.', specific: e10.wrong_feedback[0].feedback };
+    const n = String(P.secondTryNote(r, e10));
+    assert.match(n, /יש מילה אחת מיותרת/);
+    assert.doesNotMatch(n, /One word is extra|lang="en"/);
+    const noHint = { ...e10, hint: null };
+    assert.match(String(P.secondTryNote(r, noHint, { name_he: 'צורת הפועל', name_en: 'Verb form' })), /צורת הפועל/);
+    I18N.setHebrewSupport('off');
+    assert.match(String(P.secondTryNote(r, e10)), /One word is extra/);
+  } finally { I18N.setUiLang('en'); I18N.setHebrewSupport('partial'); }
+});
+
+test('r4 LF-4: mistakeNote explains this mistake, shows only what changed, and keeps the two-argument call', async () => {
+  const b1 = await lessonFile('b1-01');
+  const e11 = b1.exercises.find((e) => e.id === 'e11');
+  const went = P.mistakeNote(e11, 'Have you ever went to Eilat?');
+  assert.equal(went.note, null, 'a word-order rule is not the note for a wrong verb');
+  assert.ok(went.pair && went.diff, 'the two-argument call (checkpoint.js) still gives the pair');
+  const order = P.mistakeNote(e11, 'You have ever been in Eilat?');
+  assert.deepEqual(order.note, e11.explanation, 'a sentence still in the wrong order gets the word-order rule');
+  assert.deepEqual(P.mistakeNote(e11, 'Have you ever went to Eilat?', { error_type: 'word-order' }).note, e11.explanation, 'the attempt\'s own error type decides when it has one');
+  // A gap mistake: only the changed word with up to three words around it.
+  const a2 = await lessonFile('a2-05');
+  const e8 = a2.exercises.find((e) => e.id === 'e8');
+  const g = P.mistakeNote(e8, 'leaved | came | slept');
+  const words = g.diff.filter((p) => p.type !== 'gap').flatMap((p) => p.text.split(' '));
+  assert.ok(words.length <= 8, `diff words: ${JSON.stringify(g.diff)}`);
+  assert.deepEqual(g.diff.filter((p) => p.type !== 'same' && p.type !== 'gap').map((p) => [p.type, p.text]), [['del', 'leaved'], ['add', 'left']]);
+  assert.match(g.note.en, /leave → left/, 'the matched wrong answer\'s feedback comes first');
+  // A choice is a choice, not a correction.
+  const b2 = await lessonFile('b2-09');
+  const mc = P.mistakeNote(b2.exercises.find((e) => e.id === 'e2'), b2.exercises.find((e) => e.id === 'e2').options[0]);
+  assert.ok(mc.choice && !mc.diff && mc.pair.length === 2);
+  assert.deepEqual(P.clipDiff([{ type: 'same', text: 'a b c d e f g' }, { type: 'del', text: 'x' }, { type: 'add', text: 'y' }, { type: 'same', text: 'h i j k l' }]).map((p) => p.text), ['…', 'e f g', 'x', 'y', 'h i j', '…']);
+  assert.deepEqual(P.clipDiff([{ type: 'same', text: 'all the same' }]), []);
+  assert.equal(P.sameOrder('Have you ever went to Eilat?', 'Have you ever been to Eilat?'), true);
+  assert.equal(P.sameOrder('You have ever been to Eilat?', 'Have you ever been to Eilat?'), false);
+});
+
+test('r4 LF-5: an item answered when nothing could be heard leaves the score\'s denominator and the missed list', () => {
+  const lesson = { exercises: [{ id: 'a', type: 'listen' }, { id: 'b', type: 'mcq' }, { id: 'c', type: 'gap' }, { id: 'd', type: 'speak' }] };
+  const first = new Map([['b', 1], ['c', 0]]);
+  assert.equal(P.lessonScore(first, lesson), 1 / 3, 'without the flag a missing first try counts as 0');
+  assert.equal(P.lessonScore(first, lesson, new Set(['a'])), 1 / 2);
+  assert.deepEqual(P.missedIds(first, lesson), ['a', 'c']);
+  assert.deepEqual(P.missedIds(first, lesson, new Set(['a'])), ['c']);
+  assert.equal(P.lessonScore(new Map(), { exercises: [{ id: 'a', type: 'listen' }] }, new Set(['a'])), 1, 'nothing left to score');
+});
+
+test('r4 LF-11: a level-check miss shows its question, a gap text with the learner\'s own words', async () => {
+  const { questionOf } = await import('../../js/views/checkpoint.js');
+  assert.equal(questionOf({ type: 'mcq', question: 'Does Noa have a car?' }), 'Does Noa have a car?');
+  assert.equal(questionOf({ type: 'mcq', question: 'Have you ever ___ sushi?' }), 'Have you ever ___ sushi?', 'the whole question, not a clip');
+  assert.equal(questionOf({ type: 'gap', text: 'I ___ here ___ 2020.' }, 'live | for'), 'I live here for 2020.');
+  assert.equal(questionOf({ type: 'gap', text: 'I ___ here.' }, '(I don\'t know)'), 'I ___ here.');
+  assert.equal(questionOf({ type: 'correct', sentence: 'She go home.' }), 'She go home.');
+  assert.equal(questionOf({ type: 'transform', source: 'אני גר כאן.' }), 'אני גר כאן.');
+  assert.equal(questionOf({ type: 'dictation' }), null);
+});
+
+test('r4 LF-1: the end screen counts the words that entered review today from this lesson only', async () => {
+  const day = '2026-11-03';
+  const card = (lesson, at, extra = {}) => ({ kind: 'meaning', ref: { lesson }, created_at: at, ...extra });
+  const cards = [card('a1-01', `${day}T09:00:00`), card('a1-01', `${day}T09:00:01`), card('a1-01', '2026-11-04T09:00:00'), card('a1-02', `${day}T09:00:00`), card('a1-01', `${day}T10:00:00`, { _deleted: true }), card('a1-01', `${day}T10:00:00`, { kind: 'form' })];
+  assert.equal(P.wordsAddedToday(cards, 'a1-01', day), 2, 'queued for tomorrow, other lessons, deleted and form cards are left out');
+});

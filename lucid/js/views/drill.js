@@ -1,6 +1,6 @@
 // Targeted practice: a short interleaved set for one weak topic or one recurring mistake.
 import { html, render } from '../core/util.js';
-import { tt, bi, hebrewSupport } from '../core/i18n.js';
+import { tt, bi, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex } from '../core/content.js';
 import { icon, emptyState } from '../ui/components.js';
 import { runSet, exitTarget } from '../ui/player.js';
@@ -25,10 +25,15 @@ export default async function drill(el, ctx) {
       : emptyState({ title: tt('אין עדיין תרגילים לנושא הזה', 'No exercises for this yet'), body: tt('התרגילים מגיעים מהשיעורים שכבר זמינים. נסו נושא אחר או המשיכו במסלול.', 'Exercises come from the lessons available so far. Try another topic or continue your path.'), action: html`<a class="key enter" href="#/practice">${tt('לתרגול', 'To practice')}</a>` })}</div>`);
     return;
   }
-  return runSet(el, items, {
-    title: tt(`תרגול ממוקד: ${name}`, `Targeted practice: ${name}`),
+  const title = tt(`תרגול ממוקד: ${name}`, `Targeted practice: ${name}`);
+  // The Hebrew-speaker pitfall for this mistake, from the lessons the set's items come from (r4 LF-10).
+  const pitfall = error ? items.flatMap((x) => x.pitfalls || []).find((p) => p.error_type === error) || null : null;
+  const run = () => runSet(el, items, {
+    title,
     source: 'drill',
     errors: tx.error,
+    focusError: error || null,
+    pitfall,
     exitHref,
     onDone(results) {
       const score = meanScore(results);
@@ -46,4 +51,20 @@ export default async function drill(el, ctx) {
       el.querySelector('h1[tabindex]')?.focus({ preventScroll: true });
     },
   });
+  // Before item 1, one card with what this practice is about (r4 LF-10): the mistake's name and why it happens,
+  // and the Hebrew-speaker pitfall for it, then "Start". The set itself runs as before.
+  const why = label?.why_he && hebrewSupport() !== 'off' ? label.why_he : null;
+  render(el, html`<div class="onboard stack-lg drill-primer" data-drill-primer>
+    <div class="stack-sm"><p class="small faint">${tt(`${items.length} תרגילים, כמו בשיעור: רמז כשיש, וניסיון שני לתשובה כתובה.`, `${items.length} exercises, as in a lesson: a hint where there is one, and a second try for a typed answer.`)}</p>
+      <h1 tabindex="-1">${title}</h1>
+      ${why ? html`<p lang="he" dir="rtl">${isolateLatin(why)}</p>` : label?.why_en && hebrewSupport() === 'off' ? html`<p lang="en" dir="ltr">${label.why_en}</p>` : ''}</div>
+    ${pitfall && hebrewSupport() !== 'off' ? html`<div class="pitfall"><p class="pitfall-head">${icon('flag', { size: 16 })} ${tt('מלכודת לדוברי עברית', 'A trap for Hebrew speakers')}</p><div>${bi(pitfall)}</div></div>` : ''}
+    <div class="row"><button type="button" class="key enter" data-drill-start>${tt('להתחיל', 'Start')}</button><a class="key ghost" href="${exitHref}">${tt('לא עכשיו', 'Not now')}</a></div>
+  </div>`);
+  window.scrollTo?.(0, 0);
+  el.querySelector('h1[tabindex]')?.focus({ preventScroll: true });
+  let cleanup = null;
+  const onStart = (e) => { if (e.target.closest('[data-drill-start]') && !cleanup) cleanup = run(); };
+  el.addEventListener('click', onStart);
+  return () => { el.removeEventListener('click', onStart); cleanup?.(); };
 }
