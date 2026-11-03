@@ -315,8 +315,9 @@ try {
     await go(silent.page, 'listening?l=a1-02&e=e3', '[data-say="normal"]');
     await silent.page.click('[data-say="normal"]');
     await silent.page.waitForTimeout(1900);
-    const tr = await silent.page.$('#exroot button:is([data-transcript], [data-show-transcript])');
-    if (tr) await tr.click(); // the transcript path, where exercise.js offers one (EX-4)
+    // EX-4: after a silent play the answers stay locked until the learner chooses the transcript.
+    const tr = await silent.page.waitForSelector('#exroot [data-transcript-now]', { timeout: 4000 });
+    await tr.click();
     await silent.page.click('#exroot [data-opt="0"]');
     await silent.page.click('[data-check]');
     await silent.page.waitForSelector('[data-next]');

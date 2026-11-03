@@ -501,7 +501,7 @@ try {
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-try-again]');
     const foot = await page.textContent('#pfoot');
-    assert(/both verbs change|שני (ה)?פעלים משתנים/.test(foot) && !/התשובה הנכונה|got up at seven and had/.test(foot), `the note or the answer: ${foot}`);
+    assert(/both verbs change|שני (ה)?פעלים (משתנים|עוברים לעבר)/.test(foot) && !/התשובה הנכונה|got up at seven and had/.test(foot), `the note or the answer: ${foot}`);
     assert((await page.getAttribute('#pfoot', 'class')).includes('almost'), 'the second-try footer is not amber');
     await page.click('[data-try-again]');
     const ta = await page.$eval('#exroot textarea', (t) => ({ ro: t.readOnly, v: t.value, focus: document.activeElement === t }));

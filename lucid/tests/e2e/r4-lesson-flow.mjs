@@ -192,8 +192,8 @@ try {
     await shot(page, 'lf1-end-done', { fullPage: true });
     await page.click('#pfoot .key.enter');
     await page.waitForSelector('.done-banner');
-    const row = await page.$$eval('.plan a.plan-item[href^="#/review"]', (as) => as.map((a) => a.textContent.replace(/\s+/g, ' ')));
-    const n = Number(row.join(' ').match(/(\d+) מילים/)?.[1]);
+    const row = await page.$$eval('.plan a.plan-item[href^="#/review"], a[data-first-recall][href^="#/review"]', (as) => as.map((a) => a.textContent.replace(/\s+/g, ' ')));
+    const n = Number(row.join(' ').match(/(\d+) (?:ה)?מילים/)?.[1]);
     assert(words > 0 && words === n, `end screen ${words} words, Today's review row ${n} (${row.join(' | ')})`);
     await shot(page, 'lf1-today-done', { fullPage: true });
     await ctx.close();
@@ -215,9 +215,9 @@ try {
     await lessonAt(page, 'a1-01', 'e10');
     await typeAndCheck(page, ['We are eating lunch at one every day.']);
     assert(await page.$('[data-try-again]'), 'no second try');
-    const r = await page.$eval('#pfoot', (f) => ({ text: f.textContent, en: [...f.querySelectorAll('.verdict-body [lang="en"]')].map((x) => x.textContent) }));
+    const r = await page.$eval('#pfoot', (f) => ({ text: f.textContent, en: [...f.querySelectorAll('.verdict-body [lang="en"]')].filter((x) => !x.closest('[lang="he"]')).map((x) => x.textContent) }));
     assert(/עוד לא. אפשר לתקן בעצמכם/.test(r.text), 'not the second-try footer');
-    assert(!/We eat lunch/i.test(r.text) && !/we eat/i.test(r.text), `the note gives the answer: ${r.text}`);
+    assert(!/We eat lunch/i.test(r.text) && !/we eat/i.test(r.text) && !/a habit/i.test(r.text), `the note gives the answer: ${r.text}`);
     assert(!r.en.length, `English from the note at full support: ${r.en}`);
     await shot(page, 'lf2-a1-01-second-try');
     await ctx.close();
