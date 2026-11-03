@@ -50,6 +50,18 @@ async function go(page, hash) {
   await page.waitForSelector('#view > *');
   await page.waitForTimeout(400);
 }
+// The learn stage comes in steps (LF-2): run fn on every step, from the current one to the last.
+async function eachLearnStep(page, fn) {
+  const out = [];
+  for (let i = 0; i < 12; i++) {
+    out.push(await fn(page));
+    const next = await page.$('.player-foot [data-learn-next]');
+    if (!next) break;
+    await next.click();
+    await page.waitForTimeout(250);
+  }
+  return out;
+}
 // The line boxes of an element's text: [{ l, r, top }], one per visual line.
 const LINES = `(e) => { const g = document.createRange(); g.selectNodeContents(e); const rows = {}; for (const x of g.getClientRects()) { if (!x.width) continue; const k = Math.round(x.bottom); rows[k] = rows[k] ? { l: Math.min(rows[k].l, x.left), r: Math.max(rows[k].r, x.right), top: x.top } : { l: x.left, r: x.right, top: x.top }; } return Object.values(rows); }`;
 
@@ -93,21 +105,26 @@ try {
     await go(page, '#/lesson/pa1-02');
     await page.click('[data-go="learn"]');
     await page.waitForSelector('.lesson-learn');
-    const r = await page.evaluate(() => [...document.querySelectorAll('.lesson-learn .block-warning bdi')].filter((b) => b.textContent.includes('(cat)')).map((b) => ({ t: b.textContent, lines: new Set([...b.getClientRects()].map((x) => Math.round(x.top))).size })));
-    assert(r.length && r.every((x) => x.t.startsWith('/æ/') && x.lines === 1), `pitfall isolates: ${JSON.stringify(r)}`);
+    // Pitfalls sit beside the rule on their learn step (LF-2), and the note leads with the Hebrew (BL-7), so the
+    // pair may read "cat (/æ/)" or "/æ/ (cat)": either way one isolate on one line.
+    const r = (await eachLearnStep(page, (p) => p.evaluate(() => [...document.querySelectorAll('.lesson-learn .pitfall bdi')].filter((b) => b.textContent.includes('/æ/')).map((b) => ({ t: b.textContent, lines: new Set([...b.getClientRects()].map((x) => Math.round(x.top))).size }))))).flat();
+    assert(r.length && r.every((x) => /^(cat \(\/æ\/\)|\/æ\/ \(cat\))$/.test(x.t) && x.lines === 1), `pitfall isolates: ${JSON.stringify(r)}`);
     await ctx.close();
   });
 
   await check('BL-1c. #/expressions at 390: the "Chill" list number 3 sits outside the English; nothing scrolls sideways at 320 and 150%', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
-    await go(page, '#/expressions');
+    // Numbered senses are a list (RW-10): the numbers are list markers, and each English example is its own run.
+    await go(page, '#/expressions?open=ex-chill');
+    await page.waitForSelector('ol.senses.entry-he');
     const r = await page.evaluate(() => {
-      const he = [...document.querySelectorAll('.entry-he')].find((e) => e.textContent.includes('My manager is really chill'));
-      return he ? [...he.querySelectorAll('bdi')].map((b) => b.textContent) : null;
+      const he = [...document.querySelectorAll('ol.senses.entry-he')].find((e) => e.textContent.includes('My manager is really chill'));
+      return he ? { items: he.querySelectorAll(':scope > li').length, marker: getComputedStyle(he).listStyleType, en: [...he.querySelectorAll('[lang="en"], bdi')].map((b) => b.textContent.trim()) } : null;
     });
     assert(r, 'no "Chill" entry on the page');
-    assert(r.includes('My manager is really chill.') && r.every((t) => !/(^\d|\s\d+\)?$)/.test(t)), `a number inside the English: ${JSON.stringify(r)}`);
+    assert(r.items === 3 && r.marker !== 'none', `the senses are not a numbered list: ${JSON.stringify(r)}`);
+    assert(r.en.includes('My manager is really chill.') && r.en.every((t) => !/(^\d|\d\)?$)/.test(t)), `a number inside the English: ${JSON.stringify(r)}`);
     await ctx.close();
     const n = await newPage(browser, { w: 320, h: 700 });
     await learnerAt(n.page, 'A2', { text: 150 });
@@ -144,9 +161,12 @@ try {
     await go(page, '#/lesson/pa1-01');
     await page.click('[data-go="learn"]');
     await page.waitForSelector('.lesson-learn');
-    const blocks = '.lesson-learn > .stack > :is(p:not(.table-hint), .block-rule, .block-tip, .block-warning)';
-    const r = await page.evaluate((sel) => [...document.querySelectorAll(sel)].map((b) => ({ he: Boolean(b.querySelector('.bi-he.primary')), enShown: [...b.querySelectorAll('.bi-en')].some((e) => !e.hidden), chip: b.querySelector('.en-reveal')?.textContent.trim().slice(0, 2) })), blocks);
+    // The learn stage comes in steps (LF-2), with pitfalls beside the rule: collect the blocks on every step.
+    const blocks = '.lesson-learn .learn-units :is(.learn-unit > p:not(.table-hint), .block-rule, .block-tip, .block-warning, .pitfall > div:not(.pitfall-say))';
+    const r = (await eachLearnStep(page, (p) => p.evaluate((sel) => [...document.querySelectorAll(sel)].map((b) => ({ he: Boolean(b.querySelector('.bi-he.primary')), enShown: [...b.querySelectorAll('.bi-en')].some((e) => !e.hidden), chip: b.querySelector('.en-reveal')?.textContent.trim().slice(0, 2) })), blocks))).flat();
     assert(r.length >= 3 && r.every((x) => x.he && !x.enShown && x.chip === 'EN'), `paragraphs: ${JSON.stringify(r)}`);
+    // Back to the first step (a reload would land on the saved last step), and open the first chip there.
+    for (let i = 0; i < 12 && (await page.$('[data-learn-prev]')); i++) { await page.click('[data-learn-prev]'); await page.waitForTimeout(250); }
     const chip = page.locator(`${blocks} .en-reveal`).first();
     await chip.click();
     assert(await chip.evaluate((b) => b.getAttribute('aria-expanded') === 'true' && !b.nextElementSibling.hidden && b.nextElementSibling.lang === 'en'), '"EN" does not open the English');
@@ -185,8 +205,9 @@ try {
       await learnerAt(page, 'B2');
       await go(page, '#/lesson/b2-01');
       await page.click('[data-go="learn"]');
-      await page.waitForSelector('.lesson-learn .example');
-      const lefts = await page.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.lesson-learn .example')].flatMap((c) => lines(c.querySelector('.l-en')).map((x) => Math.round(x.l - c.getBoundingClientRect().left))); }, LINES);
+      await page.waitForSelector('.lesson-learn');
+      // The examples have their own learn step(s) (LF-2): collect the lines from every step.
+      const lefts = (await eachLearnStep(page, (p) => p.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.lesson-learn .example')].flatMap((c) => lines(c.querySelector('.l-en')).map((x) => Math.round(x.l - c.getBoundingClientRect().left))); }, LINES))).flat();
       assert(lefts.length >= 8 && Math.max(...lefts) - Math.min(...lefts) <= 2, `${w}: example lines start at ${[...new Set(lefts)]}`);
       await ctx.close();
     }

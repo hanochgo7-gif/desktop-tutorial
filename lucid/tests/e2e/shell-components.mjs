@@ -152,7 +152,13 @@ try {
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
     await page.goto(`${BASE}#/review`);
     await page.waitForSelector('.flash');
-    if (await page.$('[data-pick]')) await page.tap('[data-pick]'); else await page.tap('[data-idk]');
+    // Review works like a lesson (PH-2): a tap only selects, and "בדיקה" grades.
+    if (await page.$('[data-pick]')) {
+      await page.tap('[data-pick]');
+      await page.waitForSelector('[data-check]:not([disabled])');
+      all.push(['review check', await visibleKbd(page)]);
+      await page.tap('[data-check]');
+    } else await page.tap('[data-idk]');
     await page.waitForSelector('[data-next]');
     all.push(['review', await visibleKbd(page)]);
     await page.goto(`${BASE}#/placement`);
@@ -251,7 +257,10 @@ try {
       await page.goto(`${BASE}#/scenario/rl-airport-checkin-overweight`);
       await page.tap('[data-tab="practise"]');
       await page.waitForSelector('[data-opt]');
+      // A tap selects a reply and "בדיקה" commits it (RW-1); the own-words box is folded under the verdict.
       await page.tap('[data-opt="0"]');
+      await page.tap('[data-check-turn]');
+      await page.tap('details[data-own-box] > summary');
       await page.waitForSelector('#own-reply');
       await page.waitForTimeout(300);
       await page.tap('#own-reply');
@@ -344,8 +353,13 @@ try {
       await lessonAt(page, 'a1-01', 'e7');
       for (const g of await page.$$('#exroot .gap-input')) await g.fill('zzz');
       await page.click('[data-check]');
-      await page.waitForSelector('[data-next]');
+      // A wrong typed answer first gets a second try (LF-6): an amber bar on the same neutral surface.
+      await page.waitForSelector('[data-show-answer]');
       const t = await tokens(page);
+      const warn = await page.evaluate(() => { const d = document.createElement('i'); document.body.append(d); d.style.color = 'var(--warn)'; const c = getComputedStyle(d).color; d.remove(); const vs = getComputedStyle(document.querySelector('#pfoot .verdict')); return { want: c, bar: vs.borderInlineStartWidth, color: vs.borderInlineStartColor, bg: getComputedStyle(document.getElementById('pfoot')).backgroundColor }; });
+      assert(warn.bar === '4px' && warn.color === warn.want && warn.bg === t.key, `the second-try footer has no amber bar on the neutral surface: ${JSON.stringify(warn)}`);
+      await page.click('[data-show-answer]');
+      await page.waitForSelector('[data-next]');
       const m = await page.evaluate(() => {
         const foot = document.getElementById('pfoot'), body = document.getElementById('pbody'), inner = foot.querySelector('.inner'), v = foot.querySelector('.verdict');
         const bs = getComputedStyle(body), vs = getComputedStyle(v);

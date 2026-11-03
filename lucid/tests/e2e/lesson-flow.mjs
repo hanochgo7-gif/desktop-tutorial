@@ -136,8 +136,8 @@ async function solve(page, exercises, ok = true) {
 async function step(page, exercises, ok = true) {
   const ex = await solve(page, exercises, ok);
   assert(ex, `could not recognise the exercise: ${(await page.textContent('#exroot .ex-prompt').catch(() => '?')).slice(0, 80)}`);
-  const c = await page.$('[data-check]:not([disabled])');
-  if (c) await c.click(); else await page.click('[data-dontknow]');
+  // A matching board shows its verdict by itself when the last pair locks (EX-1), so it needs no key here.
+  if (ex.type !== 'match') { const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]'); }
   if (ex.type === 'speak') { await page.waitForTimeout(150); return ex; }
   await page.waitForSelector('[data-next], [data-try-again]');
   if (await page.$('[data-try-again]')) { await page.click('[data-show-answer]'); await page.waitForSelector('[data-next]'); }
@@ -172,9 +172,17 @@ try {
       await page.waitForSelector('#exroot');
       await step(page, l.exercises, true);
       await step(page, l.exercises, false);
+      // From the path, a started lesson opens at its saved place (TF-11): never a restart.
       await page.goto(`${BASE}#/path/A2`);
-      await page.waitForSelector('a.lesson-row[href="#/lesson/a2-01"]');
-      await page.click('a.lesson-row[href="#/lesson/a2-01"]');
+      const row = 'a.lesson-row[href^="#/lesson/a2-01"]';
+      await page.waitForSelector(row);
+      const href = await page.$eval(row, (a) => a.getAttribute('href'));
+      assert(href === '#/lesson/a2-01?resume=1', `the path row does not resume: ${href}`);
+      await page.click(row);
+      await page.waitForSelector('#exroot');
+      assert((await page.textContent('.step-count')).trim() === '3 מתוך 16', `the path row does not resume at 3: ${await page.textContent('.step-count')}`);
+      // Opened with no query (a bookmark or the plan), the intro's footer main key resumes.
+      await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
       await page.waitForSelector('.lesson-intro');
       const primary = await page.$eval('#pfoot .key.enter', (b) => ({ resume: b.hasAttribute('data-resume'), text: b.textContent }));
       assert(primary.resume && /3 מתוך 16/.test(primary.text), `the footer's main key is not resume: ${primary.text}`);
@@ -588,6 +596,9 @@ export function mountExercise(root, ex, opts) {
     await lessonAt(page, 'b1-02', 'e7');
     await page.evaluate(() => { const g = document.querySelectorAll('#exroot .gap-input'); ['yet', 'for', 'since'].forEach((w, i) => { g[i].value = w; g[i].dispatchEvent(new Event('input', { bubbles: true })); }); });
     await page.click('[data-check]:not([disabled])');
+    // A wrong typed answer gets a second try first (LF-6); the first try stays recorded as wrong.
+    await page.waitForSelector('[data-try-again]');
+    await page.click('[data-show-answer]');
     await page.waitForSelector('[data-next]');
     await page.click('[data-next]');
     await finish(page, b1.exercises, () => true);
@@ -690,12 +701,18 @@ export function mountExercise(root, ex, opts) {
     assert(/75% ומעלה מסמנים את הרמה כ״מוכחת״/.test(intro) && !/כ״הוכחה״/.test(intro), `intro: ${intro}`);
     // A miss: one wrong answer, then everything right; the result passes.
     await page.click('[data-begin]');
-    let k = 0;
+    // The items come in a random order. The miss goes on the first item whose answer the result can show (an
+    // option or a typed answer, not a reading, word-count or self-check item); a matching board checks itself (EX-1).
+    let k = 0, missed = false;
     for (; k < 30 && await page.$('#exroot'); k++) {
-      assert(await solve(page, b2, k !== 0), `could not answer item ${k + 1}`);
-      await page.click('[data-check]:not([disabled])');
+      const wrongNow = !missed && await page.evaluate(() => Boolean(document.querySelector('#exroot :is(.option, .gap-input, textarea, [data-in])')) && !document.querySelector('#exroot :is(.passage, [data-wc], [data-self])'));
+      if (wrongNow) missed = true;
+      const ex = await solve(page, b2, !wrongNow);
+      assert(ex, `could not answer item ${k + 1}`);
+      if (ex.type !== 'match') await page.click('[data-check]:not([disabled])');
       await page.waitForTimeout(60);
     }
+    assert(missed, 'no item could take a deliberate miss');
     await page.waitForSelector('.check-result');
     const r = await page.evaluate(() => { const c = document.querySelector('.check-result'); const b = c.getBoundingClientRect(); return { left: b.left, right: innerWidth - b.right, h1: c.querySelector('h1').textContent, mine: c.querySelectorAll('.mine-line').length, text: c.textContent, next: c.querySelector('[data-next-level]')?.getAttribute('href') }; });
     assert(r.left > 100 && r.right > 100, `no page margins: ${r.left} / ${r.right}`);

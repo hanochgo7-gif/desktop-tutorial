@@ -179,7 +179,10 @@ try {
     for (let i = 0; i < upto; i++) {
       await page.waitForSelector('#exroot');
       await answerCurrent(page);
-      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      // A matching board checks itself when the last pair locks (EX-1); a wrong typed answer gets a second try
+      // first (LF-6), and "Show the answer" moves on.
+      if (!(await page.$('[data-next]'))) { const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]'); }
+      if (await page.$('[data-show-answer]')) await page.click('[data-show-answer]');
       if (i < upto - 1 || await page.$('[data-next]')) { await page.waitForSelector('[data-next]'); await page.click('[data-next]'); }
     }
     await page.waitForSelector('.part-end');

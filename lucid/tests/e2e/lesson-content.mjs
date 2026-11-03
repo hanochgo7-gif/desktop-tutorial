@@ -55,7 +55,8 @@ async function learnUntil(page, id, sel) {
   await page.waitForTimeout(300);
   for (let i = 0; i < 8; i++) {
     if (await page.locator(sel).count()) return true;
-    const next = page.locator('.player-foot button, .player-foot a').filter({ hasText: /^\s*(הבא|Next)\b/ });
+    // The learn stage's Next key (LF-2). (A \b after a Hebrew letter never matches, so find it by its attribute.)
+    const next = page.locator('.player-foot [data-learn-next]');
     if (!(await next.count())) return false;
     await next.first().click();
     await page.waitForTimeout(250);
@@ -134,7 +135,15 @@ try {
   await check('BL-6 pa1-01 learn notes show Hebrew', async () => {
     const { ctx, page } = await learner(browser, 'PreA1');
     assert(await learnUntil(page, 'pa1-01', '.note[lang="he"]'), 'no Hebrew note in the learn stage');
-    const notes = await page.$$eval('.note[lang="he"]', (els) => els.map((e) => e.innerText.trim()));
+    // The examples may run over more than one learn step (LF-2 keeps each step short): collect them all.
+    const notes = [];
+    for (let i = 0; i < 8; i++) {
+      notes.push(...await page.$$eval('.note[lang="he"]', (els) => els.map((e) => e.innerText.trim())));
+      const next = await page.$('.player-foot [data-learn-next]');
+      if (!next) break;
+      await next.click();
+      await page.waitForTimeout(250);
+    }
     assert(notes.length >= 7 && notes.every((t) => /[֐-׿]/.test(t)), `${notes.length} Hebrew notes`);
     assert(notes.includes('שואלים את זה כשלא יודעים איך כותבים שם'), 'the spell-that note is not in Hebrew');
     await ctx.close();
