@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { normalize, variants, checkTyped, findWrongFeedback, wordAccuracy, countWords, checkOrder, levenshtein, couldBeRight, sameAsSource, didPlusPast, keepsVerbForm, usSpelling, letterCode, oneSlip } from '../../js/core/grading.js';
+import { normalize, variants, checkTyped, findWrongFeedback, wordAccuracy, countWords, checkOrder, levenshtein, couldBeRight, sameAsSource, didPlusPast, keepsVerbForm, usSpelling, letterCode, oneSlip, verbStructure, agreementSlip, isVerbForm } from '../../js/core/grading.js';
 
 test('normalisation ignores case, spacing, final punctuation and apostrophe style', () => {
   assert.equal(normalize('  She’s   a TEACHER. '), "she's a teacher");
@@ -162,4 +162,44 @@ test('EX-5: authored alternative keys are never called unchanged, and the source
     }
   }
   assert.deepEqual(problems, []);
+});
+
+// ---------- UX round 4 (exercises lane) ----------
+test('r4 EX-2: self-credit only when the key\'s verb structure is kept and the subject agrees', () => {
+  const q = { source: 'You have ever been to Eilat?', answers: ['Have you ever been to Eilat?'] };
+  assert.equal(couldBeRight('Have you ever went to Eilat?', q).ok, false, 'went for been');
+  assert.equal(couldBeRight('Have you ever went to Eilat?', q).reason, 'verb');
+  assert.equal(couldBeRight('Have you ever gone to Eilat?', q).ok, false, 'gone for been');
+  assert.equal(couldBeRight('Have you been to Eilat before?', q).ok, true, 'a paraphrase that keeps been');
+  const p = { source: 'I live in Tel Aviv since 2020.', answers: ['I have lived in Tel Aviv since 2020.', 'I have been living in Tel Aviv since 2020.'] };
+  for (const a of ['I did live in Tel Aviv since 2020.', 'I lived in Tel Aviv since 2020.', 'I have live in Tel Aviv since 2020.', 'I am living in Tel Aviv since 2020.', 'I have been lived in Tel Aviv since 2020.']) {
+    const r = couldBeRight(a, p);
+    assert.equal(r.ok, false, a);
+    assert.equal(r.reason, 'verb', a);
+  }
+  assert.equal(couldBeRight("I've lived in Tel Aviv since 2020.", p).ok, true);
+  assert.equal(couldBeRight("I've been living here in Tel Aviv since 2020.", { ...p, answers: [p.answers[0]] }).ok, true, 'the perfect continuous keeps the perfect');
+  const m = { source: 'Maya / pass / her driving test', answers: ['Maya has just passed her driving test.'] };
+  assert.deepEqual(couldBeRight('Maya have just passed her test.', m), { ok: false, reason: 'agreement' });
+  assert.equal(couldBeRight('Maya has passed her driving test just now.', m).ok, true);
+  // A paraphrase with another verb is left to the overlap rule.
+  const c = { source: 'The concert was taken place in the park.', answers: ['The concert took place in the park.'] };
+  assert.equal(couldBeRight('The concert was held in the park.', c).ok, true, 'was held for took place');
+  assert.equal(verbStructure('If I had known, I would have come to visit you.', 'If I had known, I would have visited you.'), 'ok', 'the key\'s verb as an infinitive is another structure');
+  assert.equal(verbStructure("If I'd known, I'd have visited you.", 'If I had known, I would have visited you.'), 'ok', "I'd = I had");
+  assert.equal(verbStructure('The new timetable probably contributed to it.', 'The new timetable may have contributed to it.'), 'other', 'a modal perfect is not a tense');
+});
+
+test('r4 EX-2: subject-auxiliary agreement', () => {
+  for (const s of ['I has a car.', 'They has finished.', 'She have finished.', 'Maya have just passed.', 'Has you ever been there?']) assert.ok(agreementSlip(s), s);
+  for (const s of ['Maya and Noa have finished.', 'Does she have a car?', 'Many have tried.', 'I have finished.', 'Has she finished?', "Maya's just passed.", 'Students have left.']) assert.ok(!agreementSlip(s), s);
+});
+
+test('r4 EX-3: a real verb form is never forgiven as a spelling slip', () => {
+  assert.equal(checkTyped('I have know Noa for ten years.', ['I have known Noa for ten years.']).correct, false);
+  assert.equal(checkTyped('It was build in 1990', ['It was built in 1990']).correct, false);
+  const slip = checkTyped('I have knwon Noa for ten years.', ['I have known Noa for ten years.']);
+  assert.ok(slip.correct && slip.almost, 'a real slip in known is still "almost"');
+  assert.ok(checkTyped('dubble', ['double']).almost && checkTyped('becuase', ['because']).almost, 'the round-3 EX-7 slips stay "almost"');
+  assert.ok(isVerbForm('known') && isVerbForm('build') && isVerbForm('went') && !isVerbForm('knwon'));
 });
