@@ -1684,6 +1684,12 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-lesson-flow: end ---- */
 
 /* ---- lane r4-exercises: start ---- */
+/* EX-4: a listening item with no sound says so under its play keys and offers the transcript. */
+.silent-note { display: flex; gap: var(--s3); align-items: flex-start; margin-block-start: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-key); background: var(--cobalt-tint); color: var(--ink); font-size: var(--t-sm); }
+.silent-note > svg { flex: none; margin-block-start: 0.2em; color: var(--ink-2); }
+.silent-transcript { margin-block-start: var(--s4); color: var(--ink-2); }
+.silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
+.options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
 
 /* ---- lane r4-exercises: end ---- */
 

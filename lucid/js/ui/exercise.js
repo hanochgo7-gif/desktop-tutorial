@@ -19,7 +19,7 @@ import { html, raw, render, on, shuffle, $, $$ } from '../core/util.js';
 import { bi, tt, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyVerbForms, usSpelling, oneSlip, letterCode } from '../core/grading.js';
 import { sentenceDiff, letterDiff } from '../core/diff.js';
-import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText } from '../core/speech.js';
+import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText, SPEECH_EVENT } from '../core/speech.js';
 import { icon } from './components.js';
 import { analyzeWriting } from '../core/writing-analyzer.js';
 
@@ -110,16 +110,50 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const quoted = sounds ? [...String(ex.question).matchAll(/['‘“"]([A-Za-z][A-Za-z ’'-]{0,30}?)['’”"]/g)].map((m) => m[1]) : [];
       const option = (i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false" lang="en" dir="ltr"><span class="k" aria-hidden="true">${KEYS[n]}</span><span>${ex.options[i]}</span></button>`;
       render(root, html`${prompt}
-        ${ex.type === 'listen' ? listenButtons(ex.audio_text) : ''}
+        ${ex.type === 'listen' ? html`${listenButtons(ex.audio_text)}<div data-silent-slot></div>` : ''}
         <p class="ex-text" lang="en" dir="ltr">${ex.question}${quoted.map((w) => html` <span class="ex-say">${playTile(w)}</span>`)}</p>
         <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => (sounds ? html`<div class="opt-row">${option(i, n)}${playTile(ex.options[i])}</div>` : option(i, n)))}</div>`);
       if (sounds) offs.push(on(root, 'click', '[data-say-tile]', (e, b) => say(b.dataset.sayTile, { variant })));
-      if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60); }
+      // Listening with no sound (r4 EX-4): after Play the options wait for the sound to start. When nothing plays,
+      // a note under the play keys says so and offers the transcript now; answering after it marks the result
+      // unheard (contract b), so the lesson and the listening hub do not score a guess. The root is marked
+      // data-silent-inline, so the shell's own "can't hear?" toast stays away (contract c). With sound, the
+      // transcript still comes only after answering.
+      let waiting = false; let unheard = ex.type === 'listen' && !canSpeak();
+      const gate = (off) => { waiting = off; $$('.option', root).forEach((b) => { if (off) b.setAttribute('aria-disabled', 'true'); else b.removeAttribute('aria-disabled'); }); onChange(ctl.ready()); };
+      const showTranscriptNow = () => {
+        unheard = true;
+        gate(false);
+        const slot = $('[data-silent-slot]', root);
+        if (slot) render(slot, html`<div class="transcript silent-transcript small"><p>${tt('תמליל:', 'Transcript:')}</p><p class="en-block" lang="en" dir="ltr">${ex.audio_text}</p></div>`);
+        focusOn($('.option', root));
+      };
+      if (ex.type === 'listen') {
+        sayHandler(ex.audio_text);
+        setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60);
+        if (canSpeak()) {
+          root.setAttribute('data-silent-inline', '');
+          offs.push(on(root, 'click', '[data-say]', () => { if (!unheard && !root.dataset.locked) gate(true); }));
+          offs.push(on(root, 'click', '[data-transcript-now]', () => showTranscriptNow()));
+          const onSpeech = (e) => {
+            const { state, text } = e.detail || {};
+            if (text !== ex.audio_text || unheard || root.dataset.locked) return;
+            const slot = $('[data-silent-slot]', root);
+            if (state === 'start') { gate(false); if (slot) render(slot, ''); }
+            else if ((state === 'silent' || state === 'error') && slot) {
+              gate(true);
+              render(slot, html`<div class="silent-note" role="status">${icon('info', { size: 18 })}<div class="stack-sm"><p><b>${tt('לא נשמע קול באנגלית במכשיר הזה.', 'No English voice played on this device.')}</b> ${tt('בדקו את עוצמת הקול ונסו שוב, או קראו את התמליל. תשובה אחרי קריאת התמליל לא נספרת כהאזנה.', 'Check the volume and try again, or read the transcript. An answer after reading it does not count as listening.')}</p><div><button type="button" class="key small" data-transcript-now>${tt('להציג את התמליל עכשיו', 'Show the transcript now')}</button></div></div></div>`);
+            }
+          };
+          document.addEventListener(SPEECH_EVENT, onSpeech);
+          offs.push(() => { document.removeEventListener(SPEECH_EVENT, onSpeech); root.removeAttribute('data-silent-inline'); });
+        }
+      }
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
-      offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled) pick(Number(b.dataset.opt)); }));
-      ctl.ready = () => picked != null;
+      offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled && b.getAttribute('aria-disabled') !== 'true') pick(Number(b.dataset.opt)); }));
+      ctl.ready = () => picked != null && !waiting;
       // A number key chooses, and focus goes to Check, so Enter checks (it used to stay on Play).
-      ctl.onKey = (e) => { const n = KEYS.indexOf(e.key); if (n >= 0 && n < order.length && !$('.option', root).disabled) { pick(order[n]); focusOn(checkKey()); return true; } return false; };
+      ctl.onKey = (e) => { const n = KEYS.indexOf(e.key); if (n >= 0 && n < order.length && !$('.option', root).disabled && !waiting) { pick(order[n]); focusOn(checkKey()); return true; } return false; };
       // The right option is marked in place (and named for screen readers); a wrong choice too.
       const mark = (chosen) => $$('.option', root).forEach((b) => {
         b.disabled = true;
@@ -136,9 +170,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         mark(picked);
         const fb = !correct && ex.option_feedback?.[picked];
         transcript();
-        return result({ correct, score: correct ? 1 : 0, response: ex.options[picked], error_type: ex.option_errors?.[picked], answer: ex.options[ex.answer], specific: fb || null });
+        return result({ correct, score: correct ? 1 : 0, response: ex.options[picked], error_type: ex.option_errors?.[picked], answer: ex.options[ex.answer], specific: fb || null, ...(unheard ? { unheard: true } : {}) });
       };
-      ctl.reveal = () => { mark(null); transcript(); };
+      ctl.reveal = () => { if (waiting) gate(false); mark(null); transcript(); };
       break;
     }
 
@@ -151,20 +185,24 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       render(root, html`${prompt}
         <p class="ex-text" lang="en" dir="ltr">${parts.map((p, i) => html`${turns(p, dialogue, i === 0)}${i < n ? html`<input class="gap-input" data-gap="${i}" aria-label="${gapName(i)}" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="${i < n - 1 ? 'next' : 'done'}" ${bank ? html`readonly inputmode="none"` : ''}>` : ''}`)}</p>
         ${bank ? html`<div class="gap-tools" data-gap-tools hidden><button type="button" class="key ghost small" data-gap-clear>${icon('x', { size: 16 })} <span data-gap-clear-label></span></button></div>
-          <div class="chips gap-bank" data-bank style="margin-top:var(--s4)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}" lang="en" dir="ltr">${bank.map((w, ci) => html`<button type="button" class="chip" data-chip="${w}" data-ci="${ci}" aria-disabled="false">${w}</button>`)}</div>` : ''}
+          <div class="chips gap-bank" data-bank style="margin-top:var(--s4)" role="group" aria-label="${tt('מחסן מילים', 'Word bank')}" lang="en" dir="ltr">${bank.map((w, ci) => html`<button type="button" class="chip" data-chip="${w}" data-ci="${ci}" aria-disabled="false" aria-describedby="gt-${ex.id}">${w}</button>`)}</div>
+          <span class="sr-only" id="gt-${ex.id}" ${uiAttrs()} data-gap-target></span>` : ''}
         ${liveRegion}`);
       const inputs = $$('.gap-input', root);
       const update = () => onChange(inputs.every((i) => i.value.trim()));
       offs.push(on(root, 'input', '.gap-input', update));
-      // Word bank (P0 EX-2): a chip fills the chosen gap (the target), then the target moves to the next empty
-      // gap. Tapping or focusing a gap chooses it without clearing it; Backspace or Delete, or the clear key,
-      // empties it and gives its word back. Used words stay visible, marked and skipped.
+      // Word bank (P0 EX-2): a chip fills the chosen gap (the target), then the target moves to the first empty
+      // gap. Tapping a gap, or Enter or Space on it, chooses it without clearing it; focus passing through a gap
+      // does not (r4 EX-1: tabbing from gap 1 to the chips used to make the last gap the target). Backspace or
+      // Delete, or the clear key, empties it and gives its word back. Used words stay visible, marked and skipped.
+      // Every chip is described by a hidden line that names the gap it will fill.
       const filled = new Array(n).fill(null); // chip index in each gap
       const locked = new Set(); // gaps already right when the player reopens the item
       let target = bank ? 0 : null;
       const chipEl = (ci) => $(`[data-ci="${ci}"]`, root);
       const setChip = (ci, used) => { const c = chipEl(ci); if (!c) return; c.classList.toggle('used', used); c.setAttribute('aria-disabled', String(used)); c.tabIndex = used ? -1 : 0; };
       const nextEmpty = (from) => { for (let k = 1; k <= n; k++) { const j = (from + k) % n; if (filled[j] == null && !locked.has(j)) return j; } return null; };
+      const firstEmpty = () => nextEmpty(n - 1);
       const drawTarget = () => {
         inputs.forEach((inp, i) => {
           const on_ = i === target;
@@ -172,6 +210,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           if (on_) inp.setAttribute('aria-current', 'true'); else inp.removeAttribute('aria-current');
           inp.setAttribute('aria-label', inp.value ? `${gapName(i)}: ${inp.value}. ${tt('Backspace לניקוי', 'Backspace clears it')}` : gapName(i));
         });
+        const into = $('[data-gap-target]', root);
+        if (into) into.textContent = target == null ? '' : tt(`ייכנס למילה חסרה ${target + 1}`, `Goes into missing word ${target + 1}`);
         const tools = $('[data-gap-tools]', root);
         if (!tools) return;
         tools.hidden = target == null || filled[target] == null || root.dataset.locked === '1';
@@ -195,20 +235,28 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         inputs[t].value = bank[ci];
         inputs[t].classList.remove('wrong');
         setChip(ci, true);
-        target = nextEmpty(t);
+        target = firstEmpty();
         drawTarget(); update();
         announce(html`${gapName(t)}: <span lang="en" dir="ltr">${bank[ci]}</span>`);
         // The last gap filled: Check is next. Otherwise the keyboard stays in the word bank.
         if (inputs.every((i) => i.value.trim())) focusOn(checkKey(), e);
         else focusOn($$('[data-ci]', root).find((c) => c.getAttribute('aria-disabled') !== 'true' && Number(c.dataset.ci) > ci) || $('[data-ci][aria-disabled="false"]', root), e);
       };
+      // The learner chose this gap (tap, Enter or Space): the next word goes there.
+      const chooseGap = (i, say_ = false) => {
+        if (root.dataset.locked === '1' || locked.has(i)) return false;
+        target = i; drawTarget();
+        if (say_) announce(tt(`המילה הבאה תיכנס למילה חסרה ${i + 1}`, `The next word goes into missing word ${i + 1}`));
+        return true;
+      };
       if (bank) {
         drawTarget();
         offs.push(on(root, 'click', '[data-chip]', (e, b) => { if (root.dataset.locked === '1' || b.getAttribute('aria-disabled') === 'true') return; fill(Number(b.dataset.ci), e); }));
-        offs.push(on(root, 'focusin', '.gap-input', (e, i) => { if (root.dataset.locked === '1' || locked.has(Number(i.dataset.gap))) return; target = Number(i.dataset.gap); drawTarget(); }));
-        offs.push(on(root, 'click', '.gap-input', (e, i) => { if (root.dataset.locked === '1' || locked.has(Number(i.dataset.gap))) return; target = Number(i.dataset.gap); drawTarget(); }));
+        offs.push(on(root, 'click', '.gap-input', (e, i) => { chooseGap(Number(i.dataset.gap)); }));
         offs.push(on(root, 'keydown', '.gap-input', (e, i) => {
-          if (root.dataset.locked === '1' || !['Backspace', 'Delete'].includes(e.key)) return;
+          if (root.dataset.locked === '1') return;
+          if (e.key === ' ') { e.preventDefault(); chooseGap(Number(i.dataset.gap), true); return; }
+          if (!['Backspace', 'Delete'].includes(e.key)) return;
           e.preventDefault();
           clearGap(Number(i.dataset.gap));
         }));
@@ -220,6 +268,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.onKey = (e) => {
         if (e.key !== 'Enter' || e.shiftKey || e.isComposing || root.dataset.locked === '1') return false;
         const inp = e.target?.closest?.('.gap-input');
+        // With a word bank, Enter on a gap chooses it (r4 EX-1), until every gap is filled and Enter checks.
+        if (bank && inp && root.contains(inp) && !inputs.every((x) => x.value.trim())) { chooseGap(Number(inp.dataset.gap), true); return true; }
         if (!inp || !root.contains(inp) || inputs.every((x) => x.value.trim())) return false;
         const i = Number(inp.dataset.gap);
         const next = [...inputs.slice(i + 1), ...inputs.slice(0, i)].find((x) => !x.value.trim() && !locked.has(Number(x.dataset.gap)));
