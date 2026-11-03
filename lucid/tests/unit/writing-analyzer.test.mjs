@@ -354,3 +354,52 @@ test('RW-12: the full form for each flagged contraction', () => {
   const i = analyzeWriting("This essay argues that we can't wait.", { level: 'C1' }).issues.find((x) => x.type === 'register' && /can't/.test(x.match));
   assert.equal(i.ex, 'cannot');
 });
+
+// ---------- r4 RW-1: the errors Lucid's own lessons teach ----------
+// teacher-bagrut's a2-05 e15 text (irregular verbs) and teacher-academic's probe sentences.
+const A205 = 'Last weekend I goed to Haifa with my family. We eated falafel in the market and we see a big ship. My brother buyed a new shoes. In the evening we was very tired, so we sleeped early. It was a amazing day.';
+const ACADEMIC = 'Many universities use this tools in the classroom. The results was clear. Researches show that phones distract students. The number of students increase every year. It is depend on the teacher. Since the course is online, so students can study at home.';
+
+test('RW-1: the a2-05 panel text flags goed, eated, buyed, sleeped, "we was" and "a new shoes"', () => {
+  const got = flags(A205, { level: 'A2' }).map((m) => m.toLowerCase());
+  for (const want of ['goed', 'eated', 'buyed', 'sleeped', 'we was', 'a new shoes']) assert.ok(got.includes(want), `${want}: ${JSON.stringify(got)}`);
+  const ex = Object.fromEntries(issuesOf(A205, { level: 'A2' }).map((i) => [i.match.toLowerCase(), i.ex]));
+  assert.equal(ex.goed, 'went');
+  assert.equal(ex.sleeped, 'slept');
+  assert.equal(ex['we was'], 'we were');
+  assert.equal(ex['a new shoes'], 'new shoes');
+});
+
+test('RW-1: the academic fixture flags this tools, results was, Researches, the number of … increase, It is depend and Since … , so', () => {
+  const got = flags(ACADEMIC, { level: 'B2' }).map((m) => m.toLowerCase());
+  for (const want of ['this tools', 'results was', 'researches', 'the number of students increase', 'it is depend', 'since …, so']) assert.ok(got.includes(want), `${want}: ${JSON.stringify(got)}`);
+  const ex = Object.fromEntries(issuesOf(ACADEMIC, { level: 'B2' }).map((i) => [i.match.toLowerCase(), i.ex]));
+  assert.equal(ex['the number of students increase'], 'The number of students increases');
+  assert.equal(ex['it is depend'], 'It depends');
+  assert.equal(ex['results was'], 'results were');
+});
+
+test('RW-1: the new rules leave correct English alone', () => {
+  clean('I needed help. We visited Rome and opened a shop. The seed grew. A four-leaved clover. He singed his hair. The site was sited well.', { level: 'A2' });
+  clean('Thank you was all she said. One of my friends was late. Each of the students was ready. What surprised the researchers was the speed. The paragraph about the protesters was long. The news was good. The bus was late. My boss was kind. The Olympics was great.', { level: 'B1' });
+  clean('It was a great success. She runs a small business. We had a good time. It was a short limitations section. A big crisis came. It is a new series. They wore a new pair of shoes.', { level: 'B1' });
+  clean('The number of students has increased. A number of students are here. The number of students is growing. The number of cars on the road rises every year.', { level: 'B2' });
+  clean('She researches the topic every day. Research shows that it works. Studies show that it works.', { level: 'B2' });
+  clean('This results in higher costs. This refers to the past. This sits on the table. This relies on data. This consists of three parts. This works in practice.', { level: 'B2' });
+  clean('It is dependent on the weather. That is mean. It is like a dream. It is work, not fun. It is need-based.', { level: 'B1' });
+  clean('Because it was late, we left. It was late, so we left. Since 2020, so many people have moved. I stayed because it rained, so I missed the bus.', { level: 'B1' });
+  clean('Although the flat is small, it is the best we have seen. However strong the objection may be, it does not apply.', { level: 'C1' });
+});
+
+test('RW-1: a soft comma-splice note from B2, and the lesson topic orders the summary', () => {
+  const sp = 'This is a serious concern, a student who copies does not practise.';
+  assert.ok(issuesOf(sp, { level: 'B2' }).some((i) => i.type === 'punctuation' && i.soft), 'a note at B2');
+  assert.ok(issuesOf(sp, { level: 'C1' }).some((i) => i.type === 'punctuation' && i.soft), 'a note, not an error, at C1');
+  assert.ok(!issuesOf(sp, { level: 'B1' }).some((i) => i.soft), 'not below B2');
+  const plain = analyzeWriting('It was a amazing day. We goed home.', { level: 'A2' });
+  assert.equal(plain.issues[0].match, 'a amazing');
+  const topic = analyzeWriting('It was a amazing day. We goed home.', { level: 'A2', topic: ['past-simple-irregular'] });
+  assert.equal(topic.issues[0].match, 'goed');
+  assert.equal(topic.issues[0].topic, true);
+  assert.ok(checkSummary(topic).he.split(':')[1].trim().startsWith('עבר של פועל חריג'), checkSummary(topic).he);
+});

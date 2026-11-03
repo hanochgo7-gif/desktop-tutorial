@@ -31,6 +31,10 @@ const PATTERNS = [
   // a or an is decided by sound, not spelling (an MBA, a unanimous vote); see articleFor below.
   { re: /\b(a|an)\s+([A-Za-z][\w'-]*)/gi, type: 'article', article: true },
   { re: /,[ \t]+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', leadInOk: true, lowPrecision: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
+  // A soft comma-splice note from B2 (RW-1): a full clause with be or an auxiliary, a comma, then a second clause
+  // whose subject is a noun with a relative clause ("This is a concern, a student who copies does not practise").
+  // The pronoun case stays with the rule above, which is not run at C1-C2 (P-74).
+  { re: /,[ \t]+(?:a|the|this|that|every|each|my|our|their|his|her)\s+[a-z]+\s+(?:who|that|which)\s+[a-z]+\s+(?:am|is|are|was|were|has|have|had|will|can|does|do|did|should|must)\b/g, type: 'punctuation', soft: true, spliceLead: true, minLevel: 'B2', pick: (m) => m[0].replace(/^,\s*/, ''), title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'This may be two full sentences joined by a comma: check whether a full stop or a connector fits better.', he: 'ייתכן שאלה שני משפטים שלמים שמחוברים בפסיק: בדקו אם מתאימה נקודה או מילת קישור.' },
   { re: /\s+[,.!?;:](?=\s|$)/g, type: 'punctuation', title: 'Space before punctuation', he_title: 'רווח לפני סימן פיסוק', en: 'No space before a punctuation mark.', he: 'באנגלית אין רווח לפני סימן פיסוק.' },
 ];
 
@@ -105,6 +109,22 @@ function inverted(opener, subj, next = '') {
   return `${opener} ${aux} ${s}${n && !['do', 'does'].includes(n) ? ` ${n}` : ''} …`;
 }
 
+// ---- r4 RW-1 word lists ----
+// Irregular verbs (base → past) for the over-regularised past ("goed" → went). The wrong forms are generated:
+// base + d after an e, base + ed, and a doubled final consonant (runned, swimmed). A form that is itself a word
+// (seed, sited, wined, singed, waked) is left out.
+const IRREG = { go: 'went', eat: 'ate', buy: 'bought', sleep: 'slept', see: 'saw', take: 'took', make: 'made', come: 'came', write: 'wrote', think: 'thought', bring: 'brought', teach: 'taught', catch: 'caught', run: 'ran', swim: 'swam', begin: 'began', know: 'knew', build: 'built', give: 'gave', get: 'got', say: 'said', tell: 'told', find: 'found', feel: 'felt', leave: 'left', lose: 'lost', pay: 'paid', send: 'sent', spend: 'spent', win: 'won', break: 'broke', choose: 'chose', drive: 'drove', fall: 'fell', fly: 'flew', forget: 'forgot', grow: 'grew', keep: 'kept', meet: 'met', ride: 'rode', sit: 'sat', speak: 'spoke', stand: 'stood', steal: 'stole', throw: 'threw', understand: 'understood', wear: 'wore', draw: 'drew', drink: 'drank', feed: 'fed', fight: 'fought', hide: 'hid', hold: 'held', sell: 'sold', shoot: 'shot', bite: 'bit', blow: 'blew', dig: 'dug', hear: 'heard', mean: 'meant', rise: 'rose', shake: 'shook', sink: 'sank', become: 'became', forgive: 'forgave', freeze: 'froze', read: 'read', cut: 'cut', hit: 'hit', hurt: 'hurt', shut: 'shut', set: 'set', let: 'let', lend: 'lent', deal: 'dealt', do: 'did', have: 'had', sweep: 'swept' };
+const NOT_OVER_REG = new Set(['seed', 'sited', 'wined', 'singed', 'waked', 'hanged', 'leaded', 'costed', 'putted', 'lighted', 'bended', 'teared', 'founded', 'wounded', 'reed']);
+const wrongPast = (b) => (b.endsWith('e') ? [`${b}d`] : [`${b}ed`, ...(/(^|[^aeiou])[aeiou][bdgklmnprt]$/.test(b) && !/^(open|visit|listen|happen|offer|enter|answer)$/.test(b) ? [`${b}${b.slice(-1)}ed`] : [])]);
+const OVER_REG = Object.fromEntries(Object.entries(IRREG).flatMap(([b, p]) => wrongPast(b).filter((w) => !NOT_OVER_REG.has(w)).map((w) => [w, p])));
+const pastSimple = (v) => { const w = v.toLowerCase(); return { mean: 'meant' }[w] || IRREG[w] || (w.endsWith('e') ? `${w}d` : /[^aeiou]y$/.test(w) ? `${w.slice(0, -1)}ied` : `${w}ed`); };
+const PAST_TOPICS = ['past-simple-irregular', 'past-simple-regular', 'past-simple-questions', 'past-be', 'past-continuous'];
+const PLURAL_VERB = { was: 'were', is: 'are', has: 'have', shows: 'show', suggests: 'suggest', indicates: 'indicate', proves: 'prove', "wasn't": "weren't", "isn't": "aren't", "hasn't": "haven't", "doesn't": "don't" };
+const PREP_AFTER_NOUN = new Set(['in', 'at', 'on', 'for', 'with', 'of', 'from', 'and', 'or', 'like', 'about', 'during', 'without']);
+const THIS_NOUN = new Set([...`${COUNT_NOUN}|${SING_NOUN}|${PERSON_NOUN}|tool|shoe|phone|app|rule|word|computer|class|lesson|course|subject|program|website|device|picture|photo|document|file|book|song|movie|show|car|house|room`.split('|')]);
+// A word that ends in -s but is not a plural count noun, for the plural rules ("the news was", "a great success").
+const notPluralNoun = (w) => /^[A-Z]/.test(w) || SINGULAR_S.has(w.toLowerCase()) || /(ss|us|is|ics|ous|'s)$/i.test(w);
+
 // Each rule has a one-line explanation in both languages and, in ex, the right form for the words it found, which
 // the UI shows on its own left-to-right line (so an English example never splits a Hebrew sentence).
 export const L1_PATTERNS = [
@@ -150,6 +170,25 @@ export const L1_PATTERNS = [
   // this / these with the wrong number: "this tools", "these kind of".
   { re: /\bthis\s+([a-z]+s)\b(?:\s+([a-z']+))?/gi, type: 'agreement', l1: true, thisPlural: true, pick: (m) => m[0].split(/\s+/).slice(0, 2).join(' '), title: 'this / these', he_title: 'this / these', en: 'this goes with a singular noun, these with a plural one.', he: 'this בא עם שם עצם ביחיד, ו-these עם רבים.', ex: (m) => `these ${m[1]}` },
   { re: /\b(these|those)\s+(tool|problem|idea|thing|book|person|kind|type|sort|way|reason|example|question|issue|app|rule|result|study|change|word|day|year|student|child|man|woman|method|source|argument|claim|factor|point)\b(?!['’-])(?!\s+[a-z]+s\b)/gi, type: 'agreement', l1: true, title: 'this / these', he_title: 'this / these', en: 'these and those go with a plural noun.', he: 'these ו-those באים עם שם עצם ברבים.', ex: (m) => `${m[1]} ${PLURAL[m[2].toLowerCase()] || `${m[2]}s`}${/^(kind|type|sort)$/i.test(m[2]) ? ' of' : ''}` },
+  // ---- r4 RW-1: the errors Lucid's own lessons teach (a2-05's checklist warns "לא goed ולא buyed") ----
+  // An irregular verb with a regular -ed: "goed", "eated", "buyed", "sleeped". Real words that look like one ("seed",
+  // "singed", "ringed", "four-leaved") are not in the list or are skipped by the look-behind.
+  { re: new RegExp(`(?<![-\\w])(${Object.keys(OVER_REG).join('|')})\\b(?!['’-])`, 'gi'), type: 'verb-form', l1: true, minLevel: 'A1', max: 6, topics: PAST_TOPICS, title: 'Irregular past', he_title: 'עבר של פועל חריג', en: (m) => `This verb is irregular, so its past form has no -ed: ${OVER_REG[m[1].toLowerCase()]}.`, he: 'זה פועל חריג, ולכן בעבר אין לו ed.', ex: (m) => OVER_REG[m[1].toLowerCase()] },
+  // we / you / they / a plural noun + was: "we was very tired", "my parents was".
+  { re: /\b(we|you|they)\s+(was|wasn't)\b/gi, type: 'agreement', l1: true, minLevel: 'A1', notAfter: /\b(thank|if|as)\s+$/i, topics: PAST_TOPICS, title: 'we / they + were', he_title: 'we / they עם were', en: 'With we, you, they and plural nouns the past of be is were.', he: 'אחרי we, you, they ושם עצם ברבים, העבר של be הוא were.', ex: (m) => `${m[1]} ${m[2].toLowerCase() === 'was' ? 'were' : "weren't"}` },
+  { re: /\b(the|my|our|your|their|his|her|these|those|some|many|all|both|most)\s+([a-z]+s)\s+(was|wasn't)\b/g, type: 'agreement', l1: true, minLevel: 'A1', pluralNoun: 2, notAfter: /\b(what|which|whom?|whose)\b[^.!?]*$|\b(of|in|on|for|with|from|about|by|to|among|between|at|than|like)\s+$/i, topics: PAST_TOPICS, title: 'we / they + were', he_title: 'we / they עם were', en: 'With we, you, they and plural nouns the past of be is were.', he: 'אחרי we, you, they ושם עצם ברבים, העבר של be הוא were.', ex: (m) => `${m[1]} ${m[2]} ${m[3] === 'was' ? 'were' : "weren't"}` },
+  // a / an + adjective + plural noun: "a new shoes", "an interesting ideas".
+  { re: new RegExp(`\\b(a|an)\\s+((?:very\\s+|really\\s+)?(?:${ADJ}))\\s+([a-z]+s)\\b(?=\\s*[.,;:!?)]|\\s*$|\\s+(?:and|or|but|are|were|for|in|on|at|with|to|that|which|who|from|of|because|so|I|we|he|she|they|it|the|a|today|yesterday)\\b)`, 'gi'), type: 'agreement', l1: true, minLevel: 'A1', pluralNoun: 3, topics: ['articles', 'articles-a-an', 'plurals', 'adjectives-basic', 'countable-uncountable'], title: 'a / an + plural noun', he_title: 'a / an עם רבים', en: 'a and an go with one thing only: a new shoe, or new shoes.', he: 'a ו-an באים רק לפני דבר אחד: a new shoe, או new shoes בלי a.', ex: (m) => `${m[2]} ${m[3]}` },
+  // results / findings + a singular verb: "The results was clear".
+  { re: /\b(results|findings|figures|statistics)\s+(was|is|has|shows|suggests|indicates|proves|wasn't|isn't|hasn't|doesn't)\b/gi, type: 'agreement', l1: true, minLevel: 'A2', notAfter: /\b(of|in|on|for|with|from|about|the\s+\w+\s+of)\s+$/i, topics: ['research-writing', 'present-simple-third-person', 'synthesis-citation'], title: 'Plural subject, plural verb', he_title: 'נושא ברבים, פועל ברבים', en: (m) => `${m[1]} is plural: ${m[1]} ${PLURAL_VERB[m[2].toLowerCase()]}.`, he: (m) => `${m[1]} היא מילה ברבים: ${m[1]} ${PLURAL_VERB[m[2].toLowerCase()]}.`, ex: (m) => `${m[1]} ${PLURAL_VERB[m[2].toLowerCase()]}` },
+  // The number of + plural noun takes a singular verb: "The number of students increase" (increases).
+  { re: new RegExp(`\\b(the number of\\s+(?:[a-z]+\\s+)?[a-z]+s)\\s+(are|were|have|${BASE})\\b(?!['’-])`, 'gi'), type: 'agreement', l1: true, minLevel: 'A2', topics: ['present-simple-third-person', 'research-writing', 'quantifiers'], title: 'The number of … + verb with -s', he_title: 'The number of ופועל ביחיד', en: '"The number" is the subject, and it is singular: the number of students increases.', he: 'הנושא הוא the number, והוא ביחיד: the number of students increases.', ex: (m) => `${m[1]} ${{ are: 'is', were: 'was', have: 'has' }[m[2].toLowerCase()] || s3(m[2])}` },
+  // research is uncountable: "Researches show", "many researches" (but "She researches the topic" is a verb).
+  { re: /\b(?:(?:many|some|several|the|these|those|recent|previous|other|new|different|various|few|more)\s+researches|researches(?=\s+(?:show|shows|suggest|suggests|indicate|indicates|found|find|have|has|prove|proves|are|were|say|says|claim|claims|confirm|confirms|point)\b))\b/gi, type: 'countability', l1: true, minLevel: 'A2', topics: ['countable-uncountable', 'research-writing'], title: 'research is uncountable', he_title: 'research בלי s', en: 'research is uncountable: research shows, or studies show.', he: 'research היא מילה שאי אפשר לספור, ולכן בלי s: research shows, או studies show.', ex: 'research shows / studies show' },
+  // it is + base verb: "It is depend on the weather" (It depends).
+  { re: /\b(it|he|she|this|that)\s+(is|was|'s)\s+(depend|seem|matter|exist|belong|include|require|contain|consist|happen|involve|affect|want|know|agree|understand|believe|prefer|need)\b(?![-'’])/gi, type: 'verb-form', l1: true, minLevel: 'A1', topics: ['present-simple', 'present-simple-third-person', 'present-simple-questions-negatives'], title: 'is + verb', he_title: 'is מיותר לפני פועל', en: 'Use the verb alone, not is + verb: it depends.', he: 'משתמשים בפועל לבד, בלי is: it depends.', ex: (m) => (m[2].toLowerCase() === 'was' ? `${m[1]} ${pastSimple(m[3])}` : `${m[1]} ${s3(m[3])}`) },
+  // Since / Because …, so … (מכיוון ש... אז).
+  { re: /(?<=^|[.!?]\s+|\n)(Since|Because)\s+[^.!?;,]{3,},\s*so\b(?!\s+(?:many|much|few|little|far|long|often|that)\b)/g, type: 'conjunction', l1: true, minLevel: 'A2', topics: ['connectors-basic', 'connectors-contrast', 'cohesion-devices'], pick: (m) => `${m[1]} …, so`, title: 'Because / Since … so', he_title: 'Because / Since בלי so', en: 'Use because (or since) or so, not both.', he: 'באנגלית בוחרים אחד: because (או since) או so, לא את שניהם.', ex: 'Because it was late, we left. / It was late, so we left.' },
   // A name in lower case after "my name is" or "I live in": "my name is yosef", "i live in holon".
   { re: /\b(?:[Mm]y name is|[Mm]y name's|[Ii] live in|[Ii]'m from|[Ii] am from|[Ii] come from|[Ii] was born in|[Ww]e live in)\s+([a-z][a-z'-]+)(?:\s+([a-z][a-z'-]+)(?=\s*[.,!?]|\s*$))?/g, type: 'capitalization', l1: true, name: true, pick: (m) => [m[1], m[2]].filter(Boolean).join(' '), title: 'Capital letter for names', he_title: 'אות גדולה בשמות', en: 'Names of people and places start with a capital letter.', he: 'שמות של אנשים ומקומות מתחילים באות גדולה.', ex: (m) => cap([m[1], m[2]].filter(Boolean).join(' ')) },
 ];
@@ -281,6 +320,11 @@ function findIssues(raw, patterns, { level = 'B1' } = {}) {
   const seen = new Set();
   const skip = (p, m) => {
     if (p.leadInOk && leadInOk(raw.slice(sentenceStart(raw, m.index), m.index).trim())) return true;
+    if (p.spliceLead) {
+      const lead = raw.slice(sentenceStart(raw, m.index), m.index).trim();
+      const part = lead.split(/[:;/(]/).pop().trim();
+      return leadInOk(part) || /^however\b/i.test(part) || !FINITE.test(part) || countWords(part) < 3 || part.includes(',');
+    }
     if (p.notAfter && p.notAfter.test(raw.slice(Math.max(0, m.index - 30), m.index))) return true;
     if (p.notBefore && p.notBefore.test(raw.slice(m.index))) return true;
     if (p.skipWord && p.skipWord.test(m[1])) return true;
@@ -289,9 +333,16 @@ function findIssues(raw, patterns, { level = 'B1' } = {}) {
     if (p.thisPlural) {
       const w = m[1].toLowerCase();
       // Flagged only when what follows shows a plural ("this tools are", "this tools.").
-      return SINGULAR_S.has(w) || VERB_S.has(w) || /(ss|us|is|ics|ous|'s)$/.test(w) || (m[2] ? !PLURAL_NEXT.has(m[2].toLowerCase()) : !/^\s*([.,;:!?)]|$)/.test(raw.slice(m.index + m[0].length)));
+      if (SINGULAR_S.has(w) || VERB_S.has(w) || /(ss|us|is|ics|ous|'s)$/.test(w)) return true;
+      if (!m[2]) return !/^\s*([.,;:!?)]|$)/.test(raw.slice(m.index + m[0].length));
+      const next = m[2].toLowerCase();
+      if (PLURAL_NEXT.has(next)) return false;
+      // Mid-sentence ("this tools in the university", RW-1): a preposition follows a known count noun in the plural,
+      // which is not also a verb ("This results in", "This refers to" stay clean).
+      return !(PREP_AFTER_NOUN.has(next) && THIS_NOUN.has(w.replace(/(?<=[^aeiou])ies$/, 'y').replace(/(?<=(ch|sh|x))es$|s$/, '')) && !(w === 'results' && /^(in|from)$/.test(next)));
     }
     if (p.name) return NOT_NAME.has(m[1].toLowerCase()) || (m[2] && NOT_NAME.has(m[2].toLowerCase()));
+    if (p.pluralNoun) return notPluralNoun(m[p.pluralNoun]);
     return false;
   };
   for (const p of patterns) {
@@ -307,7 +358,7 @@ function findIssues(raw, patterns, { level = 'B1' } = {}) {
       const msg = p.article ? ARTICLE[articleFor(m[2])] : p;
       const key = `${p.type}:${match.toLowerCase()}`;
       const say = (x) => (typeof x === 'function' ? x(m) : x);
-      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: msg.title, he_title: msg.he_title, en: say(msg.en), he: say(msg.he), ...(p.ex ? { ex: say(p.ex) } : {}), match, index: m.index, ...(p.l1 ? { l1: true } : {}), ...(p.soft ? { soft: true } : {}) }); }
+      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: msg.title, he_title: msg.he_title, en: say(msg.en), he: say(msg.he), ...(p.ex ? { ex: say(p.ex) } : {}), match, index: m.index, ...(p.l1 ? { l1: true } : {}), ...(p.soft ? { soft: true } : {}), ...(p.topics || TOPIC_OF[msg.title] ? { topics: p.topics || TOPIC_OF[msg.title] } : {}) }); }
       count++;
     }
   }
@@ -319,7 +370,23 @@ export function l1Issues(text, { level = 'B1' } = {}) {
   return findIssues(String(text || ''), [...PATTERNS.filter((p) => !p.lowPrecision && !p.article && p.type !== 'punctuation'), ...L1_PATTERNS], { level }).sort((a, b) => a.index - b.index);
 }
 
-export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null, stage = 0, sources = null } = {}) {
+// The lesson topics each older rule belongs to, so a lesson's own rules come first (RW-1). The newer rules carry
+// their topics on the rule itself.
+const THIRD = ['present-simple', 'present-simple-third-person', 'present-simple-questions-negatives', 'present-simple-vs-continuous'];
+const TOPIC_OF = {
+  'Verb after he / she / it': THIRD, 'every / each + verb with -s': [...THIRD, 'quantifiers'], 'Singular subject, verb with -s': THIRD, 'people + verb without -s': THIRD, 'everyone + verb with -s': THIRD, 'An -ing subject is singular': [...THIRD, 'gerund-infinitive'],
+  'did + base verb': ['past-simple-questions', 'past-simple-irregular', 'past-simple-regular'],
+  'Past time: past simple': ['present-perfect', 'present-perfect-vs-past', ...PAST_TOPICS],
+  'Although … but': ['connectors-contrast', 'connectors-basic', 'cohesion-devices'],
+  'a / an before a singular noun': ['articles', 'articles-a-an', 'countable-uncountable'], 'a / an before a job': ['articles', 'articles-a-an', 'personal-info'],
+  'an before a vowel sound': ['articles', 'articles-a-an'], 'a before a consonant sound': ['articles', 'articles-a-an'],
+  'this / these': ['demonstratives', 'plurals'], 'Uncountable noun': ['countable-uncountable', 'quantifiers', 'some-any'],
+  'Double comparative': ['comparatives', 'superlatives'], 'No will after if': ['conditionals-0-1', 'conditionals-2'],
+  'modal + base verb': ['modal-can', 'modals-obligation-advice'], 'Inversion after Rarely / Never': ['inversion-cleft'],
+  'Question word order': ['wh-questions', 'past-simple-questions', 'present-simple-questions-negatives'],
+  'Contraction in formal writing': ['register', 'style-nuance'], 'Informal word': ['register', 'style-nuance'],
+};
+export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null, kind = null, stage = 0, sources = null, topic = null } = {}) {
   const { body, references } = splitReferences(text);
   const raw = splitSignOff(body).body;
   const refWords = references ? countWords(references) : 0;
@@ -382,13 +449,22 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
       lexical_variety: lower.length ? +(types.size / Math.sqrt(lower.length)).toFixed(2) : 0, // Guiraud index: less length-sensitive than raw type-token ratio
     },
     checks,
-    issues: issues.sort((a, b) => (a.index ?? 1e9) - (b.index ?? 1e9)),
+    issues: topicFirst(issues.sort((a, b) => (a.index ?? 1e9) - (b.index ?? 1e9)), topic),
     connectors,
     structure,
     structureMatch,
     sources: sourceUse ? { cited: sourceUse.cited, uncited: sourceUse.uncited, other: sourceUse.other, overlaps: sourceUse.issues.length } : null,
     passedRequired: checks.filter((c) => c.id === 'length' || c.id.startsWith('must:')).every((c) => c.ok),
   };
+}
+
+// The lesson's own topic rules first (RW-1). topic is a lesson topic id or a list of them; each matching issue is
+// marked topic: true, and the order is otherwise kept.
+function topicFirst(issues, topic) {
+  const want = new Set([].concat(topic || []).filter(Boolean));
+  if (!want.size) return issues;
+  issues.forEach((i) => { if (i.topics?.some((t) => want.has(t))) i.topic = true; });
+  return [...issues.filter((i) => i.topic), ...issues.filter((i) => !i.topic)];
 }
 
 // What the automatic checks found, for the status line under the editor and the heading of the checks panel
