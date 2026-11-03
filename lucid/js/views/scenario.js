@@ -73,18 +73,22 @@ export default async function scenarioView(el, ctx) {
     ${resume && tab !== 'practise' ? html`<p class="small resume-line" data-resume-line>${tt(`עצרתם בתור ${resume.turn + 1} מתוך ${turnOrder.length}`, `You stopped at turn ${resume.turn + 1} of ${turnOrder.length}`)} · <button type="button" class="link-key" data-resume>${tt('להמשיך', 'Continue')}</button></p>` : ''}
     <div class="seg scenario-tabs" role="group" aria-label="${tt('חלקי התרחיש', 'Parts of the scenario')}" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
 
+  // A phrase note in English is an English block; a Hebrew one keeps its English in order (r4 RW-9).
+  const noteLine = (note) => (/[א-ת]/.test(note)
+    ? html`<div class="note" lang="he" dir="rtl">${isolateLatin(note)}</div>`
+    : html`<div class="note" lang="en" dir="ltr">${note}</div>`);
   const prepare = () => html`<div class="stack-lg" style="max-width:52rem">
     <div class="panel stack-sm"><h2 class="small">${tt('המצב', 'The situation')}</h2>${bi(s.situation, { always: true })}<h2 class="small" style="margin-top:var(--s3)">${tt('המטרה שלך', 'Your goal')}</h2>${bi(s.goal, { always: true })}</div>
     <section class="stack-sm"><h2 class="small">${tt('משפטים שימושיים', 'Useful phrases')}</h2>
-      <div class="examples">${s.phrases.map((p) => html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.en}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 18 })}</button>` : ''}
-        <div class="grow stack-sm">${legend(p.en, p.he)}${p.note ? html`<div class="note" dir="auto">${p.note}</div>` : ''}
+      <div class="examples">${s.phrases.map((p) => html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.en}" aria-label="${tt('השמעה', 'Play')}: ${p.en}">${icon('volume', { size: 18 })}</button>` : ''}
+        <div class="grow stack-sm">${legend(p.en, p.he)}${p.note ? noteLine(p.note) : ''}
         ${REGISTER[p.register] || p.variant ? html`<span class="row" style="gap:var(--s2)">${REGISTER[p.register] ? html`<span class="tag ${REGISTER[p.register][2]}">${tt(REGISTER[p.register][0], REGISTER[p.register][1])}</span>` : ''}${p.variant ? html`<span class="tag">${p.variant}</span>` : ''}</span>` : ''}</div></div>`)}</div></section>
     ${s.variants?.length ? html`<section class="stack-sm"><h2 class="small">${tt('אמריקאית מול בריטית', 'American vs British')}</h2><div class="table-wrap variants-wrap" dir="ltr"><table class="data variants-table" lang="en"><thead><tr><th>US</th><th>UK</th><th lang="${tt('he', 'en')}" dir="auto">${tt('הסבר', 'Note')}</th></tr></thead><tbody>${s.variants.map((v) => html`<tr><td data-label="US">${v.us}</td><td data-label="UK">${v.uk}</td><td dir="auto" class="faint">${v.note || ''}</td></tr>`)}</tbody></table></div></section>` : ''}
     ${s.culture?.length ? html`<section class="stack-sm"><h2 class="small">${tt('טיפים תרבותיים', 'Culture tips')}</h2>${s.culture.map((c) => html`<div class="block-tip">${bi(c, { always: hebrewSupport() !== 'off' })}</div>`)}</section>` : ''}
     <div class="row"><button type="button" class="key enter" data-tab="listen">${tt('לשיחה לדוגמה', 'To the model dialogue')}</button></div></div>`;
 
   // A play key inside a chat bubble: the shared icon key, at least 44 x 44 px under a coarse pointer (RW-1).
-  const sayKey = (text) => html`<button type="button" class="key ghost small icon-only say-key" data-say-text="${text}" aria-label="${tt('השמעה', 'Play')}">${icon('volume', { size: 16 })}</button>`;
+  const sayKey = (text) => html`<button type="button" class="key ghost small icon-only say-key" data-say-text="${text}" aria-label="${tt('השמעה', 'Play')}: ${text}">${icon('volume', { size: 16 })}</button>`;
 
   const listenTab = () => html`<div class="stack" style="max-width:46rem">
     ${canSpeak() ? html`<div class="row"><button type="button" class="key" data-play-all>${icon('play', { size: 18 })} ${tt('להשמיע את כל השיחה', 'Play the whole conversation')}</button></div>` : ''}

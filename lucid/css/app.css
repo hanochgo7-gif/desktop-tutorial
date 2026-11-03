@@ -1737,6 +1737,13 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .scenario-view .resume-line { margin-block-end: var(--s3); color: var(--ink-2); }
 .scenario-view .resume-line .link-key { background: none; border: 0; padding: var(--s2) var(--s1); min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
 .hub-row .place-tag { display: inline-block; margin-block: var(--s1); }
+/* RW-9, RW-12: Hebrew glosses in scenarios and expressions read as quiet text at normal weight, not as heavy
+   cobalt blocks. */
+.scenario-view :is(.bi-he, .legend .l-he), .entry .entry-he, .entry .sense-after { color: var(--ink-he-quiet); font-weight: 400; }
+.scenario-view .page-head h1 .l-he { font-weight: 400; }
+/* RW-12: the register options are a 2 x 2 grid, and no filter label wraps. */
+.xp-filter-row .seg.xp-seg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.xp-filter-row .seg > button { white-space: nowrap; }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */

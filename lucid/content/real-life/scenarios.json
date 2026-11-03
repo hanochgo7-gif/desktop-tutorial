@@ -11275,7 +11275,7 @@
    "id": "rl-work-video-small-talk",
    "module": "work",
    "title_en": "Video call: small talk before the meeting",
-   "title_he": "שיחת וידאו: סמול טוק לפני הישיבה",
+   "title_he": "שיחת וידאו: שיחת חולין לפני הישיבה",
    "level": "A2",
    "situation": {
     "en": "You join a video call two minutes early. Only one other person is there: Emma, a colleague from the New York office. You've met her only once. It's 4 p.m. in Tel Aviv and 9 a.m. in New York, and while you wait for the others, she starts chatting.",
@@ -11283,7 +11283,7 @@
    },
    "goal": {
     "en": "Keep a short, friendly chat going: answer, add a detail, ask a question back, and finish the small talk when the meeting starts.",
-    "he": "לנהל שיחה קצרה וידידותית: לענות, להוסיף פרט, לשאול שאלה בחזרה, ולסיים את הסמול טוק כשהישיבה מתחילה."
+    "he": "לנהל שיחה קצרה וידידותית: לענות, להוסיף פרט, לשאול שאלה בחזרה, ולסיים את שיחת החולין כשהישיבה מתחילה."
    },
    "partner_role": "colleague in New York",
    "phrases": [
@@ -11450,7 +11450,7 @@
        "verdict": "poor",
        "feedback": {
         "en": "It sounds like criticism of someone you hardly know, and the green tea part sounds like a lecture. Small talk stays light and positive.",
-        "he": "נשמע כמו ביקורת על מישהי שאתם כמעט לא מכירים, והחלק על התה הירוק נשמע כמו הטפה. סמול טוק נשאר קליל וחיובי."
+        "he": "נשמע כמו ביקורת על מישהי שאתם כמעט לא מכירים, והחלק על התה הירוק נשמע כמו הטפה. שיחת חולין נשארת קלילה וחיובית."
        }
       },
       {
@@ -11490,7 +11490,7 @@
        "verdict": "best",
        "feedback": {
         "en": "An answer with a detail, then the same kind of question back. That's how small talk keeps going.",
-        "he": "תשובה עם פרט ואחריה שאלה דומה בחזרה. ככה סמול טוק ממשיך להתגלגל."
+        "he": "תשובה עם פרט ואחריה שאלה דומה בחזרה. ככה שיחת חולין ממשיכה להתגלגל."
        }
       },
       {
@@ -11506,7 +11506,7 @@
        "verdict": "poor",
        "feedback": {
         "en": "That sounds rude. The weather is the most common small-talk topic in English. A short answer and a question back is all you need.",
-        "he": "נשמע גס. מזג האוויר הוא הנושא הנפוץ ביותר לסמול טוק באנגלית. תשובה קצרה ושאלה בחזרה זה כל מה שצריך."
+        "he": "נשמע גס. מזג האוויר הוא הנושא הנפוץ ביותר לשיחת חולין באנגלית. תשובה קצרה ושאלה בחזרה זה כל מה שצריך."
        }
       }
      ],
@@ -11572,7 +11572,7 @@
        "verdict": "ok",
        "feedback": {
         "en": "It isn't goodbye: you're both staying on the call. A short 'Nice chatting with you' ends the small talk.",
-        "he": "זו לא פרידה: שניכם נשארים בשיחה. משפט קצר כמו Nice chatting with you מסיים את הסמול טוק."
+        "he": "זו לא פרידה: שניכם נשארים בשיחה. משפט קצר כמו Nice chatting with you מסיים את שיחת החולין."
        }
       },
       {
@@ -11588,7 +11588,7 @@
        "verdict": "poor",
        "feedback": {
         "en": "When the meeting starts, the small talk stops. You can continue another time: 'Let's catch up later!'",
-        "he": "כשהישיבה מתחילה, הסמול טוק נגמר. אפשר להמשיך בפעם אחרת: Let's catch up later!"
+        "he": "כשהישיבה מתחילה, שיחת החולין נגמרת. אפשר להמשיך בפעם אחרת: Let's catch up later!"
        }
       }
      ],
@@ -11612,11 +11612,11 @@
    "culture": [
     {
      "en": "A minute or two of small talk before a call is normal and builds good relationships. Easy topics: the weather, the time difference, the weekend and holidays.",
-     "he": "דקה-שתיים של סמול טוק לפני שיחה זה דבר רגיל, וזה בונה יחסים טובים. נושאים קלים: מזג האוויר, הפרש השעות, סוף השבוע וחגים."
+     "he": "דקה-שתיים של שיחת חולין לפני שיחת עבודה זה דבר רגיל, וזה בונה יחסים טובים. נושאים קלים: מזג האוויר, הפרש השעות, סוף השבוע וחגים."
     },
     {
      "en": "In Israel the working week usually starts on Sunday, but in the US and the UK it starts on Monday. Colleagues abroad may not know this, so it can be a nice small-talk topic.",
-     "he": "בישראל שבוע העבודה מתחיל בדרך כלל ביום ראשון, אבל בארה״ב ובבריטניה הוא מתחיל ביום שני. עמיתים בחו״ל לא תמיד יודעים את זה, אז זה יכול להיות נושא נחמד לסמול טוק."
+     "he": "בישראל שבוע העבודה מתחיל בדרך כלל ביום ראשון, אבל בארה״ב ובבריטניה הוא מתחיל ביום שני. עמיתים בחו״ל לא תמיד יודעים את זה, אז זה יכול להיות נושא נחמד לשיחת חולין."
     },
     {
      "en": "The US gives temperatures in Fahrenheit: 32°C is about 90°F. To an American, '32 degrees' sounds freezing, so it helps to add 'Celsius'.",

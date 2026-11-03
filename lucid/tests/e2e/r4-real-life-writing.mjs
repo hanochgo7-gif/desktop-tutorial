@@ -254,6 +254,41 @@ try {
     assert(/^3 מתוך 5/.test((await page.textContent('[data-step]')).trim()), 'the line does not continue from turn 3');
     await ctx.close();
   });
+
+  await check('RW-9 Scenario: no two play keys share a name with "השמעה", every Latin-only note is lang=en, and the Hebrew glosses are not cobalt and not bold', async () => {
+    const { ctx, page, tap } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    const names = () => page.$$eval('#view button', (bs) => bs.map((b) => b.getAttribute('aria-label') || b.textContent.trim()).filter((n) => /השמעה/.test(n)));
+    await open(page, 'scenario/rl-airport-checkin-overweight?tab=prepare', '.examples');
+    const prep = await names();
+    const notes = await page.$$eval('.examples .note', (ns) => ns.filter((n) => !/[א-ת]/.test(n.textContent)).map((n) => n.getAttribute('lang')));
+    const gloss = await page.evaluate(() => { const he = document.querySelector('.scenario-view .bi-he'); const cs = getComputedStyle(he); const probe = document.createElement('span'); probe.style.color = 'var(--cobalt)'; document.body.append(probe); const cobalt = getComputedStyle(probe).color; probe.remove(); return { color: cs.color, weight: Number(cs.fontWeight), cobalt }; });
+    await shot(page, 'rw9-prepare-390');
+    await tap('[data-tab="listen"]');
+    await page.waitForSelector('.chat-log');
+    const listen = await names();
+    for (const [where, list] of [['prepare', prep], ['listen', listen]]) {
+      assert(list.length >= 3 && new Set(list).size === list.length, `${where}: play keys share names: ${JSON.stringify(list.slice(0, 4))}`);
+    }
+    assert(notes.length && notes.every((l) => l === 'en'), `Latin-only notes: ${JSON.stringify(notes)}`);
+    assert(gloss.color !== gloss.cobalt && gloss.weight <= 400, `Hebrew gloss: ${JSON.stringify(gloss)}`);
+    await ctx.close();
+  });
+
+  for (const size of [100, 150]) await check(`RW-12 390 at ${size}%: in the expressions filter sheet every option label is one line, and the register options are a 2 x 2 grid`, async () => {
+    const { ctx, page, tap } = await newPage(browser);
+    await learnerAt(page, 'A2', { text: size });
+    await open(page, 'expressions', '.entry');
+    await tap('[data-filters]');
+    await page.waitForSelector('#xp-filters:not([hidden])');
+    const r = await page.evaluate(() => [...document.querySelectorAll('#xp-filters .seg > button')].map((b) => { const cs = getComputedStyle(b); const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.25; const range = document.createRange(); range.selectNodeContents(b); const h = range.getBoundingClientRect().height; return { t: b.textContent.trim(), h: Math.round(h), lh: Math.round(lh), one: h <= lh * 1.3, overflow: b.scrollWidth > b.clientWidth + 1 }; }));
+    const grid = await page.$eval('[aria-labelledby="xf-formality"]', (s) => getComputedStyle(s).gridTemplateColumns.split(' ').length);
+    await shot(page, `rw12-filters-390-${size}`);
+    const bad = r.filter((x) => !x.one || x.overflow);
+    assert(!bad.length, `labels that wrap or overflow: ${JSON.stringify(bad)}`);
+    assert(grid === 2, `register options: ${grid} columns`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
