@@ -206,7 +206,7 @@ try {
     await playQuiz(page, 'A1', 1);
     text = await page.textContent('.game-result');
     assert(/בונוס מהירות/.test(text), `the challenge result has no bonus line: ${text.slice(0, 160)}`);
-    assert(/השיא הראשון שלך/.test(text), 'the first challenge round is not its own first best');
+    assert(/השיא הראשון שלכם/.test(text), 'the first challenge round is not its own first best');
     const ch = (await events(page, 'game-round'))[1];
     assert(ch.mode === 'challenge' && ch.score > 100, `challenge round not saved with its bonus: ${JSON.stringify(ch)}`);
     await ctx.close();
@@ -319,7 +319,7 @@ try {
     await go(page, 'games', '.game-stage');
     await page.waitForTimeout(200);
     assert((await page.getAttribute('.game-stage', 'href')) === '#/games/B1/1', `first card: ${await page.getAttribute('.game-stage', 'href')}`);
-    assert(/הרמה שלך/.test(await page.textContent('.game-mine')), 'the learner\'s level is not tagged');
+    assert(/הרמה שלכם/.test(await page.textContent('.game-mine')), 'the learner\'s level is not tagged');
     const h = await page.evaluate(() => document.documentElement.scrollHeight);
     assert(h < 2000, `the hub is ${h} px tall`);
     assert(await page.$('a.game-stage[href="#/games/pictures/3"]') && await page.$('a.game-stage[href="#/games/memory/3"]'), 'level 3 is not open on the hub');

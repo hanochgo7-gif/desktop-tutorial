@@ -1380,7 +1380,7 @@ try {
     const second = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round').at(-1));
     const resultText = await page.textContent('.game-result');
     const better = second.correct > first.correct || (second.correct === first.correct && second.score > first.score);
-    assert(better ? /New best|שיא חדש/.test(resultText) : /Your best|השיא שלך/.test(resultText), `second round compared with the wrong best: ${resultText.slice(0, 160)}`);
+    assert(better ? /New best|שיא חדש/.test(resultText) : /Your best|השיא שלכם/.test(resultText), `second round compared with the wrong best: ${resultText.slice(0, 160)}`);
     assert(!/first best|השיא הראשון/.test(resultText), 'second round called the first best');
     // Enter on the exit link leaves the game.
     await page.click('[data-again]');

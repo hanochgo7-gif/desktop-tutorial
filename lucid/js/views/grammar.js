@@ -87,7 +87,7 @@ export default async function grammar(el, ctx) {
               <summary class="disclosure">
                 <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
                 <h2 class="grow" style="font-size:var(--t-lg)">${LEVEL_LABEL[g.level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</h2>
-                <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} בשליטה`, ` · ${mastered} mastered`) : ''}</span></span>
+                <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === m.courseLevel ? html`<span class="tag cobalt">${tt('הרמה שלכם', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${practised}/${g.topics.length} תורגלו`, `${practised}/${g.topics.length} practised`)}${mastered ? tt(` · ${mastered} בשליטה`, ` · ${mastered} mastered`) : ''}</span></span>
               </summary>
               <ol class="topic-list" style="margin-block-start:var(--s4)">${g.topics.map((tp) => topicRow(tp, m))}</ol>
             </details>`;

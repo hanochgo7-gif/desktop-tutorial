@@ -342,6 +342,32 @@ try {
     await shot(ok.page, 'pg15-idk-390');
     await ok.ctx.close();
   });
+  // ---------- PG-5 ----------
+  await check('PG-5. Word quiz: a wrong pick says "לא בדיוק" on the lessons\' neutral verdict surface (not --bad-tint); #/games has no "איך מנקדים" or singular "הרמה שלך"', async () => {
+    for (const dark of [false, true]) {
+      const { ctx, page } = await newPage(browser, { touch: true, dark });
+      await learnerAt(page, 'A2', { settings: { game_speed_challenge: true } });
+      await go(page, 'games', '.game-levels');
+      const hub = await page.textContent('#view');
+      assert(!/איך מנקדים/.test(hub) && /איך סופרים נקודות\?/.test(hub), 'the scoring summary is not "איך סופרים נקודות?"');
+      assert(!/הרמה שלך(?![א-ת])/.test(hub), 'the hub still says "הרמה שלך"');
+      await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+      await page.waitForTimeout(200);
+      const k = await rightOption(page, 'A2');
+      await page.click(`[data-opt="${(k + 1) % 4}"]`);
+      await page.waitForSelector('.game-verdict');
+      const v = await page.evaluate(() => {
+        const g = document.querySelector('.game-verdict');
+        const probe = (prop, value) => { const x = document.createElement('div'); x.style[prop] = value; document.body.append(x); const c = getComputedStyle(x)[prop]; x.remove(); return c; };
+        return { text: g.textContent.replace(/\s+/g, ' '), bg: getComputedStyle(g).backgroundColor, key: probe('backgroundColor', 'var(--key)'), badTint: probe('backgroundColor', 'var(--bad-tint)'), bar: getComputedStyle(g).borderInlineStartColor, bad: probe('color', 'var(--bad)'), barW: parseFloat(getComputedStyle(g).borderInlineStartWidth) };
+      });
+      assert(/לא בדיוק/.test(v.text) && !/לא נכון/.test(v.text), `the wrong verdict: ${v.text}`);
+      assert(v.bg === v.key && v.bg !== v.badTint, `verdict background ${v.bg}, lesson surface ${v.key}, bad tint ${v.badTint}`);
+      assert(v.bar === v.bad && v.barW >= 3, `no --bad accent bar at the inline start: ${v.bar} ${v.barW}`);
+      await shot(page, `pg5-quiz-wrong-390${dark ? '-dark' : ''}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

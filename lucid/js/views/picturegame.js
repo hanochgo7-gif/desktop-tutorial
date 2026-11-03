@@ -59,8 +59,8 @@ export function sumLine({ terms, total, bonus = 0, challenge = false, bonusName 
 // The learner's best at this level in this mode, or the news that this round is a new one.
 export function bestLine(prev, record, challenge) {
   const where = challenge ? tt(' באתגר מהירות', ' in the speed challenge') : '';
-  if (!record) return html`<p class="small faint">${tt(`השיא שלך${where}: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `Your best${where}: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`)}</p>`;
-  return html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש${where}. הקודם: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `New best${where}. Previous: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`) : tt(`השיא הראשון שלך ברמה הזו${where}`, `Your first best at this level${where}`)}</p>`;
+  if (!record) return html`<p class="small faint">${tt(`השיא שלכם${where}: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `Your best${where}: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`)}</p>`;
+  return html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש${where}. הקודם: ${prev.score} נקודות, ${pctText(prev.accuracy)} דיוק`, `New best${where}. Previous: ${prev.score} points, ${pctText(prev.accuracy)} accuracy`) : tt(`השיא הראשון שלכם ברמה הזו${where}`, `Your first best at this level${where}`)}</p>`;
 }
 
 export default async function picturegame(el, ctx) {

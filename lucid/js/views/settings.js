@@ -111,8 +111,8 @@ export default async function settingsView(el, ctx) {
           <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
           <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
         </section>
-        <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלך', 'Your data')}</h2>
-          <p class="small muted">${tt('הכול שלך: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
+        <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלכם', 'Your data')}</h2>
+          <p class="small muted">${tt('הכול שלכם: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
           <div class="settings-data">
             <button type="button" class="key small" data-export>${icon('download', { size: 16 })} ${tt('הורדת כל המידע (JSON)', 'Download all my data (JSON)')}</button>
             <label class="key small" style="cursor:pointer">${icon('refresh', { size: 16 })} ${tt('שחזור מגיבוי', 'Restore a backup')}<input type="file" accept="application/json,.json" data-import class="sr-only" aria-describedby="restore-msg"></label>
@@ -216,7 +216,7 @@ export default async function settingsView(el, ctx) {
       const signedIn = configured() && auth.signedIn;
       const ok = await confirmDialog({
         title: signedIn ? tt('למחוק את החשבון לצמיתות?', 'Delete your account permanently?') : tt('למחוק את כל המידע מהמכשיר?', 'Delete all data from this device?'),
-        body: tt('זה מוחק את הפרופיל, ההתקדמות, המילים והכתיבה שלך. אי אפשר לבטל. כדאי להוריד גיבוי קודם.', 'This deletes your profile, progress, words and writing. It cannot be undone. Consider downloading a copy first.'),
+        body: tt('זה מוחק את הפרופיל, ההתקדמות, המילים והכתיבה שלכם. אי אפשר לבטל. כדאי להוריד גיבוי קודם.', 'This deletes your profile, progress, words and writing. It cannot be undone. Consider downloading a copy first.'),
         confirm: tt('מחיקה לצמיתות', 'Delete permanently'), danger: true,
       });
       if (!ok) return;
