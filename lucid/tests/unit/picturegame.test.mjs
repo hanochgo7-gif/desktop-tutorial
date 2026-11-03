@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PICTURES } from '../../js/ui/picture-icons.js';
-import { BOARDS, UNLOCK, makeBoards, roundScore, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords, openUpTo, topCefr } from '../../js/core/picturegame.js';
+import { BOARDS, UNLOCK, makeBoards, roundScore, mistakeCostOf, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords, openUpTo, topCefr } from '../../js/core/picturegame.js';
 
 const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
 
@@ -92,6 +92,11 @@ test('score: 10 a pair, 3 off a mistake (never below 0), a bonus for a quick boa
   assert.equal(roundScore(12, 0, 15), 135);
   assert.equal(roundScore(12, 2, 0), 114);
   assert.equal(roundScore(1, 5, 2), 2, 'pairs less mistakes stops at 0');
+  // UX r4 PG-3: in the calm default a mistake costs nothing; only the speed challenge takes 3 off.
+  assert.equal(mistakeCostOf(false), 0);
+  assert.equal(mistakeCostOf(true), 3);
+  assert.equal(roundScore(12, 1, 0, mistakeCostOf(false)), 120, 'calm: 12 pairs with 1 mistake is 120');
+  assert.equal(roundScore(12, 1, 0, mistakeCostOf(true)), 117, 'challenge: 12 pairs with 1 mistake is 117');
   assert.equal(boardBonus(15000, 4), 5);
   assert.equal(boardBonus(25000, 4), 2);
   assert.equal(boardBonus(40000, 4), 0);

@@ -70,12 +70,13 @@ async function hub(el, ctx) {
   const openTo = pics.openUpTo(sets, mine);
   const pictureGames = [
     { id: 'pictures', route: 'pictures', type: 'picture-round', he: 'התאמת מילים לתמונות', en: 'Words and pictures',
-      lineHe: `${pics.BOARDS} לוחות בסיבוב. כל זוג נכון = ${pics.MATCH} נקודות, וטעות מורידה ${pics.MISTAKE}.`,
-      lineEn: `${pics.BOARDS} boards a round. Each right pair = ${pics.MATCH} points; a mistake takes off ${pics.MISTAKE}.`,
+      // The penalty sentence only while the speed challenge is on (UX r4 PG-3): calm mode takes nothing off.
+      lineHe: (ch) => `${pics.BOARDS} לוחות בסיבוב. כל זוג נכון = ${pics.MATCH} נקודות${ch ? `, וטעות מורידה ${pics.MISTAKE}` : ''}.`,
+      lineEn: (ch) => `${pics.BOARDS} boards a round. Each right pair = ${pics.MATCH} points${ch ? `; a mistake takes off ${pics.MISTAKE}` : ''}.`,
       sizeHe: (s) => `${s.pairs} זוגות בלוח`, sizeEn: (s) => `${s.pairs} pairs a board`, iconOf: (s) => s.words[0].icon },
     { id: 'memory', route: 'memory', type: mem.TYPE, he: 'משחק זיכרון', en: 'Memory game',
-      lineHe: `הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה. כל זוג = ${mem.MATCH} נקודות.`,
-      lineEn: `Turn two cards each turn to find a picture and its word. Each pair = ${mem.MATCH} points.`,
+      lineHe: () => `הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה. כל זוג = ${mem.MATCH} נקודות.`,
+      lineEn: () => `Turn two cards each turn to find a picture and its word. Each pair = ${mem.MATCH} points.`,
       sizeHe: (s) => `${s.memory_pairs * 2} קלפים`, sizeEn: (s) => `${s.memory_pairs * 2} cards`, iconOf: (s) => s.words[1].icon },
   ];
   const doneMark = () => html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>`;
@@ -86,7 +87,7 @@ async function hub(el, ctx) {
     const locked = sets.filter((s) => !open.includes(s)).map((s) => s.level);
     return html`<section class="stack-sm game-section" id="lvl-${g.id}" aria-labelledby="${g.id}-h">
       <h2 id="${g.id}-h">${tt(g.he, g.en)}</h2>
-      <p class="small muted">${tt(g.lineHe, g.lineEn)}</p>
+      <p class="small muted">${tt(g.lineHe(mode === 'challenge'), g.lineEn(mode === 'challenge'))}</p>
       ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
       <div class="game-stages">${open.map((set) => {
         const b = shownBest[set.level];

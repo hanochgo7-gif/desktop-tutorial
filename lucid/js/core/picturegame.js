@@ -4,8 +4,9 @@
 // A round is 3 boards. Each board shows a level's number of pictures (4, 5 or 6) and the same number of
 // words in another order; the learner picks a picture and a word (either first). A right pair stays matched;
 // a wrong pair is marked at once and counts as a mistake.
-// Score: 10 points per pair, minus 3 per mistake (the two together never below 0); in the opt-in speed challenge,
-// plus a bonus for finishing a board quickly.
+// Score: 10 points per pair. Only in the opt-in speed challenge, minus 3 per mistake (the two together never below
+// 0) and plus a bonus for finishing a board quickly; in the calm default a mistake costs nothing (UX r4 PG-3) and is
+// reported apart, as accuracy.
 // Accuracy is pairs / (pairs + mistakes); level 2 opens at 70% in level 1, level 3 at 70% in level 2. Levels up to
 // the learner's course level are open from the start (placement is evidence): a set opens when the course level
 // reaches the top of its CEFR range (level 3, "A2–B1", for a B1 learner).
@@ -23,8 +24,10 @@ export const maxFor = (pairs, boards = BOARDS, challenge = false) => boards * (p
 export function boardBonus(ms, pairs) {
   return BOARD_BONUS.find(([perPair]) => ms <= perPair * pairs)?.[1] || 0;
 }
-// The round's score: pairs less mistakes (never below 0), plus the boards' speed bonuses. Shown the same way while playing.
-export const roundScore = (matches, mistakes, bonus = 0) => Math.max(0, matches * MATCH - mistakes * MISTAKE) + bonus;
+// The round's score: pairs less mistakes (never below 0), plus the boards' speed bonuses. Shown the same way while
+// playing. mistakeCost: MISTAKE in the challenge, 0 in the calm default.
+export const roundScore = (matches, mistakes, bonus = 0, mistakeCost = MISTAKE) => Math.max(0, matches * MATCH - mistakes * mistakeCost) + bonus;
+export const mistakeCostOf = (challenge) => (challenge ? MISTAKE : 0);
 export const accuracyOf = (matches, mistakes) => (matches + mistakes ? matches / (matches + mistakes) : 0);
 
 // The boards of a round. Words missed last time (focus) fill the first boards; words seen in recent rounds come last.

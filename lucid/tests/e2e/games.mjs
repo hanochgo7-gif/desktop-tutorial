@@ -161,7 +161,7 @@ try {
     await playBoard(page);
     await page.waitForTimeout(4000);
     assert(/לוח 1 מתוך 3/.test(await page.textContent('.step-count')), 'the board moved on by itself');
-    assert(await page.$('.game-verdict.ok [data-nextboard]'), 'the finished board is not on screen');
+    assert(await page.$('.game-verdict.ok') && await page.$('#pfoot [data-nextboard]'), 'the finished board is not on screen');
     assert(!/בונוס/.test(await page.textContent('#gfb')), 'a board bonus was paid with the challenge off');
     await ctx.close();
   });

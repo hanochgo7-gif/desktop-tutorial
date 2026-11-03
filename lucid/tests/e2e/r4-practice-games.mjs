@@ -70,6 +70,21 @@ const rightOption = (page, level) => page.evaluate(async (level) => {
   const w = pool.find((x) => x.word === prompt);
   return [...document.querySelectorAll('[data-opt] .game-opt')].findIndex((o) => o.textContent.trim() === w.meaning);
 }, level);
+// The English word of picture-game tile k (named by its Hebrew word for screen readers).
+const picWord = async (page, k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
+// Matches every pair still open on the current picture board (pointer).
+async function playBoard(page) {
+  await page.waitForSelector('.pic-tile:not([disabled])');
+  await page.waitForTimeout(500);
+  const n = (await page.$$('.pic-tile')).length;
+  const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
+  for (let k = 0; k < n; k++) {
+    if (await page.$eval(`[data-pic="${k}"]`, (x) => x.disabled)) continue;
+    await page.click(`[data-word="${words.indexOf(await picWord(page, k))}"]`);
+    await page.click(`[data-pic="${k}"]`);
+  }
+  await page.waitForSelector('[data-nextboard]');
+}
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', root], { stdio: 'ignore' });
 await sleep(700);
@@ -157,6 +172,47 @@ try {
     await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
     await page.waitForTimeout(4000);
     assert(await page.$('.game-verdict') && /שאלה 1 מתוך/.test(await page.textContent('.step-count')), 'with the challenge off the verdict did not stay');
+    await ctx.close();
+  });
+  // ---------- PG-3 ----------
+  await check('PG-3. Words and pictures in calm mode: no penalty (12 pairs, 1 mistake = 120), the wrong-pair line names the pair, no "מורידה" on the hub, the board-end key in #pfoot', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games', '#lvl-pictures');
+    const hub = await page.textContent('#view');
+    assert(!/מורידה/.test(hub), 'the hub still says a mistake takes points off');
+    await go(page, 'games/pictures/1', '.pic-tile');
+    await page.waitForSelector('.pic-tile:not([disabled])');
+    await page.waitForTimeout(500);
+    const pic0 = await picWord(page, 0);
+    const picHe = await page.textContent('[data-pic="0"] [data-he]');
+    const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
+    const wrong = words.findIndex((w) => w !== pic0);
+    await page.click('[data-pic="0"]');
+    await page.click(`[data-word="${wrong}"]`);
+    await page.waitForSelector('#gfb .bad-text');
+    const live = (await page.textContent('#gfb')).replace(/\s+/g, ' ');
+    assert(live.includes(words[wrong]) && live.includes(picHe) && /לא מתאים/.test(live) && !/פחות/.test(live), `the wrong-pair line: ${live}`);
+    assert((await page.textContent('.game-score')).match(/\d+/)[0] === '0', 'the score changed after a mistake');
+    await shot(page, 'pg3-wrong-pair-390');
+    // Finish the round: 12 pairs and that one mistake.
+    for (let bd = 0; bd < 3; bd++) {
+      await playBoard(page);
+      assert(await page.$('#pfoot.game-foot [data-nextboard]') && !(await page.$('#gfb [data-nextboard]')), 'the board-end key is not in the footer');
+      if (bd === 0) {
+        const r = await page.$eval('#pfoot [data-nextboard]', (b) => ({ w: b.getBoundingClientRect().width, foot: b.closest('#pfoot').clientWidth }));
+        assert(r.w >= r.foot * 0.8, `the board-end key is not full width: ${JSON.stringify(r)}`);
+        await shot(page, 'pg3-board-end-390');
+      }
+      await page.click('[data-nextboard]');
+    }
+    await page.waitForSelector('.game-total');
+    const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
+    const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round'));
+    assert(total === 120 && ev.length === 1 && ev[0].score === 120 && ev[0].mistakes === 1, `calm score ${total}: ${JSON.stringify(ev)}`);
+    const res = (await page.textContent('.game-result')).replace(/\s+/g, ' ');
+    assert(/ניסיון אחד שלא התאים/.test(res) && !/−/.test(res), `the calm result: ${res.slice(0, 220)}`);
+    await shot(page, 'pg3-result-390');
     await ctx.close();
   });
 } finally {

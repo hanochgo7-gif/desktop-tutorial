@@ -11,7 +11,7 @@ import { logEvent, settings, model } from '../core/learner.js';
 import { playTone, soundOn } from '../ui/sound.js';
 import { say, canSpeak } from '../core/speech.js';
 import { PICTURES } from '../ui/picture-icons.js';
-import { BOARDS, UNLOCK, MATCH, MISTAKE, maxFor, makeBoards, roundScore, boardBonus, accuracyOf, bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
+import { BOARDS, UNLOCK, MATCH, MISTAKE, maxFor, makeBoards, roundScore, mistakeCostOf, boardBonus, accuracyOf, bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
 import { paceOf } from '../core/wordgame.js';
 import { longestWord } from '../core/memorygame.js';
 
@@ -83,7 +83,7 @@ export default async function picturegame(el, ctx) {
   let sel = { pic: null, word: null }, matched = new Set(), done = false, timer = null, quietUntil = 0;
   const missed = new Map();
   const total = () => boards.length * set.pairs;
-  const score = () => roundScore(matches, mistakes, bonusTotal);
+  const score = () => roundScore(matches, mistakes, bonusTotal, mistakeCostOf(pace.challenge));
 
   function start(focus = []) {
     before = bests(store.all('events'));
@@ -156,27 +156,31 @@ export default async function picturegame(el, ctx) {
       missed.set(pic.word, pic);
       [pb, wb].forEach((x) => x.classList.add('is-wrong'));
       setTimeout(() => [pb, wb].forEach((x) => x.classList.remove('is-wrong')), 700);
-      render($('#gfb', el), html`<span class="bad-text">${icon('x', { size: 16 })} ${tt('לא מתאים. נסו שוב.', 'Not a match. Try again.')} <span class="faint">${tt(`(פחות ${MISTAKE} נקודות)`, `(${MISTAKE} points off)`)}</span></span>`);
+      // The pair is named (the word chosen and the picture's Hebrew), so a screen reader hears what was tried. Points
+      // come off only in the speed challenge (UX r4 PG-3).
+      render($('#gfb', el), html`<span class="bad-text">${icon('x', { size: 16 })} <strong lang="en" dir="ltr">${shown(word)}</strong> – ${isolateLatin(pic.he)}: ${tt('לא מתאים. נסו שוב.', 'not a match. Try again.')}${pace.challenge ? html` <span class="faint">${tt(`(פחות ${MISTAKE} נקודות)`, `(${MISTAKE} points off)`)}</span>` : ''}</span>`);
       playTone(false);
     }
     $('.player-top', el).outerHTML = String(top());
     if (matched.size === bd.pictures.length) boardDone(byKeyboard);
   }
 
-  // A finished board waits for "Next board". Only in the speed challenge does a board finished with a pointer move
-  // on by itself (one finished with the keyboard always waits).
+  // A finished board waits for "Next board", the full-width key in the footer as in the word quiz (UX r4 PG-3). Only
+  // in the speed challenge does a board finished with a pointer move on by itself (one finished with the keyboard
+  // always waits).
   function boardDone(byKeyboard) {
     const ms = performance.now() - started;
     const bonus = pace.challenge ? boardBonus(ms, set.pairs) : 0;
     bonusTotal += bonus;
     $('.player-top', el).outerHTML = String(top());
     const last = b + 1 >= boards.length;
-    render($('#gfb', el), html`<div class="game-verdict ok"><p class="row" style="font-weight:600">${icon('check', { size: 20 })}<span>${tt(`לוח ${b + 1} הושלם`, `Board ${b + 1} done`)}</span>${bonus ? html`<span class="game-plus num">${tt('בונוס מהירות', 'Speed bonus')} <bdi dir="ltr">+${bonus}</bdi></span>` : ''}</p>
-      <p class="small">${boardMistakes === 1 ? tt('טעות אחת בלוח הזה.', 'One mistake on this board.') : boardMistakes ? tt(`${boardMistakes} טעויות בלוח הזה.`, `${boardMistakes} mistakes on this board.`) : tt('בלי טעויות.', 'No mistakes.')}</p>
-      <button type="button" class="key small" data-nextboard>${last ? tt('לתוצאות', 'See results') : tt('ללוח הבא', 'Next board')}</button></div>`);
+    const tries = boardMistakes === 1 ? tt('ניסיון אחד שלא התאים בלוח הזה.', 'One try that did not match on this board.') : boardMistakes ? tt(`${boardMistakes} ניסיונות שלא התאימו בלוח הזה.`, `${boardMistakes} tries that did not match on this board.`) : tt('כל הזוגות התאימו בניסיון הראשון.', 'Every pair matched on the first try.');
+    render($('#gfb', el), html`<div class="game-verdict ok"><p class="row verdict-title">${icon('check', { size: 20 })}<span>${tt(`לוח ${b + 1} הושלם`, `Board ${b + 1} done`)}</span>${bonus ? html`<span class="game-plus num">${tt('בונוס מהירות', 'Speed bonus')} <bdi dir="ltr">+${bonus}</bdi></span>` : ''}</p>
+      <p class="small">${tries}</p></div>`);
+    $('.player', el).insertAdjacentHTML('beforeend', String(html`<div class="player-foot game-foot" id="pfoot"><div class="inner"><span class="grow"></span><button type="button" class="key enter" data-nextboard>${last ? tt('לתוצאות', 'See results') : tt('ללוח הבא', 'Next board')} <span class="kbd">Enter</span></button></div></div>`));
     const next = $('[data-nextboard]', el);
     next?.focus({ preventScroll: true });
-    next?.scrollIntoView({ block: 'nearest' });
+    $('#gfb .game-verdict', el)?.scrollIntoView?.({ block: 'nearest' });
     if (!byKeyboard && pace.challenge) timer = setTimeout(nextBoard, 2500);
   }
 
@@ -198,12 +202,16 @@ export default async function picturegame(el, ctx) {
     const nextSet = data.sets.find((s) => s.level === level + 1);
     const opened = nextSet && !unlocked(before, nextSet.level, openTo) && unlocked(nowBest, nextSet.level, openTo);
     const words = [...missed.values()];
-    const pointsLine = () => sumLine({ terms: [[matches, MATCH, 1], ...(mistakes ? [[mistakes, MISTAKE, -1]] : [])], total: score(), bonus: bonusTotal, challenge: pace.challenge });
+    const pointsLine = () => sumLine({ terms: [[matches, MATCH, 1], ...(mistakes && pace.challenge ? [[mistakes, MISTAKE, -1]] : [])], total: score(), bonus: bonusTotal, challenge: pace.challenge });
+    // Calm mode reports the tries that did not match apart from the points (UX r4 PG-3).
+    const triesText = mistakes === 1 ? tt('ניסיון אחד שלא התאים', 'one try that did not match') : tt(`${mistakes} ניסיונות שלא התאימו`, `${mistakes} tries that did not match`);
     render(el, html`<div class="player">${top()}<div class="player-body stack-lg">
       <div class="game-result stack-sm">
         <p class="small faint">${tt(`התאמת מילים לתמונות · רמה ${level}: ${set.name_he}`, `Words and pictures · Level ${level}: ${set.name_en}`)}</p>
         <h1 class="game-total num" tabindex="-1">${tt(`${score()} נקודות`, `${score()} points`)}<span class="small faint"> <bdi dir="ltr">/ ${maxFor(set.pairs, boards.length, pace.challenge)}</bdi></span></h1>
-        <p>${tt(`${matches} זוגות, ${mistakes === 1 ? 'טעות אחת' : `${mistakes} טעויות`} (${pctText(accuracy)} דיוק)`, `${matches} pairs, ${mistakes} ${mistakes === 1 ? 'mistake' : 'mistakes'} (${pctText(accuracy)} accuracy)`)}</p>
+        <p>${pace.challenge
+          ? tt(`${matches} זוגות, ${mistakes === 1 ? 'טעות אחת' : `${mistakes} טעויות`} (${pctText(accuracy)} דיוק)`, `${matches} pairs, ${mistakes} ${mistakes === 1 ? 'mistake' : 'mistakes'} (${pctText(accuracy)} accuracy)`)
+          : html`${tt(`${matches} זוגות`, `${matches} pairs`)}${mistakes ? html`, ${triesText}` : ''} <span class="faint">(${tt(`${pctText(accuracy)} דיוק`, `${pctText(accuracy)} accuracy`)})</span>`}</p>
         <p class="small faint">${tt('הניקוד:', 'Points:')} ${pointsLine()}</p>
         ${bestLine(prev, record, pace.challenge)}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתחה רמה ${nextSet.level}: ${nextSet.name_he}`, `Level ${nextSet.level} is open: ${nextSet.name_en}`)}</span></p>` : ''}
