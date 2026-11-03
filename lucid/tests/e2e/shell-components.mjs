@@ -287,9 +287,13 @@ try {
       assert(await page.evaluate(() => speechSynthesis.getVoices().length) === 0, 'this browser has voices; the silent check needs none');
       await lessonAt(page, 'pa1-01', 'e2');
       const t0 = Date.now();
+      // An item that says so in place (data-silent-inline, EX-4) gets no note (SB-9); this check needs the note.
+      const inline = await page.$('#exroot [data-silent-inline]');
       await page.tap('#exroot [data-say="normal"]');
-      await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
-      assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      if (!inline) {
+        await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
+        assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      }
       await shot(page, 'sc6-silent');
       await ctx.close();
     }
@@ -427,7 +431,8 @@ try {
     });
     const a = await chrome();
     assert(a.tabs.every((x) => x.lines === 1 && !x.clipped) && a.tabH <= 80, `tab bar at 320/150%: ${JSON.stringify({ tabs: a.tabs, h: a.tabH })}`);
-    assert(a.tabs.some((x) => x.text === 'לחיים'), `the short tab label is not used: ${a.tabs.map((x) => x.text)}`);
+    // The short label is "מהחיים" since round 4 (SB-7): "לחיים" alone reads "Cheers!".
+    assert(a.tabs.some((x) => x.text === 'מהחיים'), `the short tab label is not used: ${a.tabs.map((x) => x.text)}`);
     assert(a.title === 'היום' && !a.cut, `the top bar title is cut or missing: ${JSON.stringify(a)}`);
     assert(a.icon > 22 && a.label !== 'none' && a.overflow <= 0, `top-bar icons do not grow or have no labels: ${JSON.stringify(a)}`);
     await shot(page, 'sc9-today-320-150');

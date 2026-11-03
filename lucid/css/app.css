@@ -84,10 +84,10 @@
     --key-sunk: oklch(0.2 0.011 250);
     --key-edge: oklch(0.3 0.012 250);
     --key-skirt: oklch(0.13 0.010 250);
-    --deck: oklch(0.22 0.012 250);
+    --deck: oklch(0.325 0.012 250); /* 1.5:1 on the ground (SB-6) */
     --deck-ink: var(--n3);
     --deck-ink-dim: var(--n5);
-    --deck-key: oklch(0.28 0.012 250);
+    --deck-key: oklch(0.435 0.012 250); /* the active pill: 1.5:1 on the deck */
     --ink: oklch(0.95 0.005 250);
     --ink-2: oklch(0.80 0.008 250);
     --ink-3: oklch(0.70 0.010 250);
@@ -107,8 +107,8 @@
 }
 :root[data-theme='dark'] {
   --ground: oklch(0.165 0.010 250); --key: oklch(0.235 0.012 250); --key-sunk: oklch(0.2 0.011 250);
-  --key-edge: oklch(0.3 0.012 250); --key-skirt: oklch(0.13 0.010 250); --deck: oklch(0.22 0.012 250);
-  --deck-ink: var(--n3); --deck-ink-dim: var(--n5); --deck-key: oklch(0.28 0.012 250);
+  --key-edge: oklch(0.3 0.012 250); --key-skirt: oklch(0.13 0.010 250); --deck: oklch(0.325 0.012 250);
+  --deck-ink: var(--n3); --deck-ink-dim: var(--n5); --deck-key: oklch(0.435 0.012 250);
   --ink: oklch(0.95 0.005 250); --ink-2: oklch(0.80 0.008 250); --ink-3: oklch(0.70 0.010 250);
   --ink-en: oklch(0.96 0.004 250); --ink-he: oklch(0.76 0.11 263); --ink-he-quiet: oklch(0.72 0.07 263); --cobalt: oklch(0.72 0.13 263); --cobalt-tint: oklch(0.27 0.06 263);
   --ok: oklch(0.74 0.13 152); --ok-tint: oklch(0.26 0.05 152); --warn: oklch(0.80 0.12 80); --warn-tint: oklch(0.28 0.05 80);
@@ -169,12 +169,15 @@ input, textarea { caret-color: var(--cobalt); }
 :root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
 :root[data-support='off'] .legend .l-he { display: none; }
 .bi { display: inline; }
-/* English meta-text from bi() (instructions, explanations, goals, task briefs) is its own left-to-right block.
-   It is as wide as its text (up to the column), so in a Hebrew column a one-line instruction shares the Hebrew
-   line's right edge at every support level, and a longer one fills the column and reads from the left (BL-4). */
-.bi > .bi-en { display: block; text-align: start; width: fit-content; max-width: 100%; }
-.bi-he { display: block; color: var(--ink-he); font-size: 0.94em; }
-.bi-he-after { margin-block-start: 0.15em; font-size: 0.88em; }
+/* English meta-text from bi() (instructions, can-dos, hints, explanations, task briefs) is its own left-to-right
+   block at every level: it fills the column and every line starts at the left edge, whatever its length (SB-1:
+   alignment follows the role, not the line count). Only one-line labels share the Hebrew edge: legend titles
+   (.l-en), chips, option labels and plan titles, and the verdict footer's answer blocks (beside its keys). */
+.bi > .bi-en { display: block; text-align: left; width: auto; max-width: 100%; }
+/* The Hebrew under English is the line a learner at A2 reads: never smaller than its English, and never under the
+   small step (14-15px at 100%), even inside small feedback text (SB-5). */
+.bi-he { display: block; color: var(--ink-he); font-size: 1em; }
+.bi-he-after { margin-block-start: 0.15em; font-size: max(1em, var(--t-sm)); }
 /* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
 .he-reveal { display: flex; align-items: center; justify-content: center; width: fit-content; margin: var(--s2) 0 0; padding: 0.1em 0.7em; border: 1px solid var(--key-edge); border-radius: 6px; background: var(--key-sunk); color: var(--ink-he); font-size: var(--t-xs); line-height: 1.5; }
 [lang='en'] { font-feature-settings: 'kern' 1; }
@@ -266,9 +269,11 @@ textarea.input { min-height: 8rem; line-height: 1.6; resize: vertical; }
 @media (hover: hover) { .choice:hover { background: color-mix(in oklch, var(--key), var(--ink) 3%); } }
 .choice[aria-checked='true'], .choice[aria-pressed='true'], .choice:has(input:checked) { border-color: var(--cobalt); background: var(--cobalt-tint); }
 .choice input { accent-color: var(--cobalt); }
-.seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: calc(var(--r-key) + 3px); background: var(--key-sunk); border: 1px solid var(--key-edge); flex-wrap: wrap; }
-.seg button { border: 0; background: transparent; padding: 0.4rem 0.85rem; border-radius: 0.6rem; font-size: var(--t-sm); color: var(--ink-2); min-height: 2.25rem; }
-.seg button[aria-pressed='true'] { background: var(--key); color: var(--ink); box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.12); font-weight: 500; }
+.seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: calc(var(--r-key) + 3px); background: var(--key-sunk); border: 1px solid var(--key-edge); flex-wrap: wrap; max-width: 100%; }
+/* Every segment carries a transparent edge, so the selected one (edge and 2px skirt in the key line colour, 3:1 on
+   the track in light and dark) does not shift its neighbours (SB-6). */
+.seg button { border: 1px solid transparent; border-block-end-width: 2px; background: transparent; padding: 0.4rem 0.85rem; border-radius: 0.6rem; font-size: var(--t-sm); color: var(--ink-2); min-height: 2.25rem; }
+.seg button[aria-pressed='true'] { background: var(--key); color: var(--ink); border-color: var(--key-line); box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.12); font-weight: 500; }
 
 /* ---------- app shell: the deck ---------- */
 .app { min-height: 100dvh; display: grid; grid-template-columns: 1fr; }
@@ -1440,9 +1445,6 @@ table.data td:has(> .row-say) { white-space: nowrap; }
    The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
 .bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
 .bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
-/* The English line right under the Hebrew is a short meta line: it shares the Hebrew edge (BL-4). Opened from "EN",
-   an explanation paragraph stays a left-to-right block. */
-:root[dir='rtl'] .bi.he-first > .bi-he.primary + .bi-en { text-align: right; }
 .ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
 .ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
 :where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
@@ -1700,5 +1702,32 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */
+/* SB-6: a segment never shrinks below its label. The shared controls (not the lane-owned ones in Settings,
+   onboarding, Expressions and Today's minutes) keep their labels on one line; when the row cannot hold them,
+   app.js (fitSegs) turns the control into a grid of equal cells, as many columns as the widest label allows. */
+.seg:not(.settings-view .seg, .ob-prefs .seg, .xp-filter-row .seg, .today-minutes > .seg) > button { flex: 1 0 auto; min-width: max-content; white-space: nowrap; }
+.seg.seg-measure { display: inline-flex !important; flex-wrap: wrap !important; }
+.seg.seg-measure > button { flex: none !important; }
+.seg.seg-grid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(var(--seg-cols, 2), minmax(0, 1fr)) !important; width: 100%; }
+/* A centred label in an equal cell needs less side padding than a free segment. */
+.seg:is(.seg-tight, .seg-grid) > button { padding-inline: 0.25rem; }
+.seg.seg-grid > button { min-width: 0; }
+.seg.seg-grid.seg-wrap > button { white-space: normal; line-height: 1.3; }
+
+/* SB-8: at 1440x900 the desktop rail shows all 13 destinations above the pinned Help and Settings. The links are
+   tighter, and on a window under 960px tall only the current link keeps its second-language line. When the links
+   still do not fit (a short window, large text), a fade at the bottom says there is more (app.js sets .scrolls
+   while the list is not scrolled to its end). */
+@media (min-width: 64rem) {
+  .deck nav { gap: 0.15rem; }
+  .deck nav a.nav { padding-block: 0.4rem; }
+  .deck nav .group-label { margin-block: var(--s4) var(--s1); }
+  .deck nav.scrolls::after { content: ''; display: block; position: sticky; bottom: calc(var(--s3) * -1); height: 2.75rem; margin-block-start: -2.75rem; background: linear-gradient(to bottom, transparent, var(--deck) 80%); pointer-events: none; }
+}
+@media (min-width: 64rem) and (max-height: 60rem) {
+  .deck nav a.nav:not([aria-current='page']) .nav-legend .l2 { display: none; }
+}
+/* SB-10: the links under Help are full touch targets. */
+.help-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
 /* ---- lane r4-shell-bilingual: end ---- */

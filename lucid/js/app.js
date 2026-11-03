@@ -5,7 +5,7 @@ import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
-import { icon, toast, brandMark } from './ui/components.js';
+import { icon, toast, clearToasts, brandMark, segColumns } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
 import { createSync } from './core/sync.js';
 import { startSession, syncAllowed } from './core/session.js';
@@ -65,6 +65,10 @@ function drawShell(route) {
   deck.hidden = Boolean(bare);
   tabbar.hidden = Boolean(bare);
   top.hidden = Boolean(bare);
+  clearToasts(); // a new screen ends the last one's notes (SB-9)
+  // The skip link speaks the interface language, with its lang and dir (SB-11).
+  const skip = document.querySelector('a.skip');
+  if (skip && skip.textContent !== t('skip')) { skip.textContent = t('skip'); skip.lang = uiLang(); skip.dir = uiLang() === 'he' ? 'rtl' : 'ltr'; }
   if (bare) return;
   const p = profile();
   render(deck, html`
@@ -89,14 +93,44 @@ function drawShell(route) {
   const topKey = (href, key, ic) => html`<a class="key ghost small icon-only top-key" href="${href}" aria-label="${t(key)}">${icon(ic)}<span class="top-label" aria-hidden="true">${t(key)}</span></a>`;
   render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title">${shownTitle(route)}</span>${netBadge()}${topKey('#/help', 'nav.help', 'info')}${topKey('#/settings', 'nav.settings', 'settings')}`);
   fitTitle();
+  const nav = deck.querySelector('nav');
+  nav?.addEventListener('scroll', railCue, { passive: true });
+  railCue();
+}
+// The rail's links fade out at the bottom while more of them are below (SB-8).
+function railCue() {
+  const nav = document.querySelector('#deck nav');
+  if (!nav) return;
+  nav.classList.toggle('scrolls', nav.scrollHeight > nav.clientHeight + 1 && nav.scrollTop + nav.clientHeight < nav.scrollHeight - 1);
 }
 const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
-// A title too long for the top bar steps down in size, to 14px, before it is cut with an ellipsis (SC-9).
+// The top bar's title has one size per text size and window width (SB-7): the size at which the longest section
+// name ("מעבדת כתיבה", "Conversations") fits, so the bar does not jump between tabs. A title longer than every
+// section name steps down further, to 14px, before it is cut with an ellipsis (SC-9).
+const TITLE_KEYS = ['nav.today', 'nav.path', 'nav.practice', 'nav.reallife', 'nav.progress', 'nav.vocab', 'nav.games', 'nav.grammar', 'nav.reading', 'nav.listening', 'nav.speaking', 'nav.writing', 'nav.tutor', 'nav.slang', 'nav.simulations', 'nav.profile', 'nav.settings', 'nav.help'];
+let titleFit = { key: '', size: 0 };
+function sectionTitleSize(el) {
+  el.style.fontSize = '';
+  const base = parseFloat(getComputedStyle(el).fontSize);
+  const key = `${uiLang()}|${base}|${el.clientWidth}`;
+  if (titleFit.key === key) return titleFit.size;
+  const probe = document.createElement('span');
+  probe.className = 'title';
+  probe.style.cssText = 'position:absolute;visibility:hidden;width:auto;max-width:none;overflow:visible';
+  probe.setAttribute('aria-hidden', 'true');
+  el.parentElement.append(probe);
+  let widest = 0;
+  for (const k of TITLE_KEYS) { probe.textContent = t(k); widest = Math.max(widest, probe.getBoundingClientRect().width); }
+  probe.remove();
+  const size = widest > el.clientWidth ? Math.max(14, Math.floor((base * (el.clientWidth - 1)) / widest * 2) / 2) : base;
+  titleFit = { key, size };
+  return size;
+}
 function fitTitle() {
   const el = document.getElementById('top-title');
   if (!el || el.closest('[hidden]') || !el.getClientRects().length) return;
-  el.style.fontSize = '';
-  let size = parseFloat(getComputedStyle(el).fontSize);
+  let size = sectionTitleSize(el);
+  el.style.fontSize = `${size}px`;
   while (el.scrollWidth > el.clientWidth + 1 && size > 14) { size -= 1; el.style.fontSize = `${size}px`; }
 }
 // What the top bar shows for a route: the view's title, or in the Hebrew UI its section's name when the title is
@@ -172,13 +206,54 @@ function watchSpeech() {
       clear(playing.get(id));
       playing.delete(id);
     } else if (state === 'silent') {
-      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet.
-      if (recent() && Date.now() - silentNoted > 4000) {
+      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet. An item
+      // that says so in place (an ancestor with data-silent-inline, EX-4) needs no note (SB-9).
+      const b = recent();
+      if (b && !b.closest('[data-silent-inline]') && Date.now() - silentNoted > 4000) {
         silentNoted = Date.now();
-        toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.', 'Can\'t hear it? Check the volume and silent mode. If your browser has no English voice, the transcript is shown after you check.'), { ms: 7000 });
+        const keys = [...(b.parentElement?.querySelectorAll(PLAY_BUTTON) || [])];
+        const note = toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט.', 'Can\'t hear it? Check the volume and silent mode.'), { ms: 7000, avoid: keys.length ? keys : [b] });
+        // The note is about this play key: it ends as soon as the key leaves the page (the next item, or the placement
+        // result, which is a stage of the same screen).
+        const watch = setInterval(() => { if (!note?.isConnected) clearInterval(watch); else if (!b.isConnected) { note.remove(); clearInterval(watch); } }, 300);
       }
     }
   });
+}
+
+// Segmented controls (SB-6): a control whose segments do not fit on one line becomes a grid of equal cells, with as
+// many columns as its widest label allows, balanced across the rows (4 segments in 2 columns, not 3 and 1). The
+// lane-owned controls (Settings, onboarding, Expressions, Today's minutes) keep their own layouts.
+const SEG_OWN = '.settings-view .seg, .ob-prefs .seg, .xp-filter-row .seg, .today-minutes > .seg';
+function fitSegs() {
+  for (const s of document.querySelectorAll('.seg')) {
+    if (s.matches(SEG_OWN) || !s.getClientRects().length) continue;
+    const keys = [...s.children].filter((b) => b.tagName === 'BUTTON');
+    s.classList.remove('seg-grid', 'seg-wrap');
+    if (keys.length < 2) continue;
+    // Measured as a plain wrapping row of natural-width segments; the cells' width with the grid's padding.
+    s.classList.add('seg-measure');
+    const rows = new Set(keys.map((b) => Math.round(b.getBoundingClientRect().top))).size;
+    const cs = getComputedStyle(s);
+    const inner = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const gap = parseFloat(cs.columnGap) || 0;
+    s.classList.add('seg-tight');
+    const widest = Math.max(...keys.map((b) => b.getBoundingClientRect().width));
+    s.classList.remove('seg-measure', 'seg-tight');
+    if (rows < 2) continue;
+    s.style.setProperty('--seg-cols', String(segColumns(keys.length, inner, widest, gap)));
+    s.classList.add('seg-grid');
+    if (widest > inner + 1) s.classList.add('seg-wrap');
+  }
+}
+let segFrame = 0;
+const fitSegsSoon = () => { cancelAnimationFrame(segFrame); segFrame = requestAnimationFrame(fitSegs); };
+function watchSegs() {
+  const hasSeg = (n) => n.nodeType === 1 && (n.matches('.seg') || n.querySelector('.seg'));
+  new MutationObserver((list) => { if (list.some((m) => [...m.addedNodes].some(hasSeg))) fitSegsSoon(); })
+    .observe(document.body, { childList: true, subtree: true });
+  addEventListener('resize', fitSegsSoon);
+  document.fonts?.ready.then(fitSegsSoon);
 }
 
 function syncLabel() {
@@ -211,12 +286,13 @@ async function boot() {
       applyTheme();
       applySupport();
       drawShell(router.current);
+      fitSegsSoon();
     }
   });
   router.onRoute = drawShell;
   router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitle(); } };
   let fitTimer = 0;
-  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitTitle, 100); });
+  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { fitTitle(); railCue(); }, 100); });
   // The title lives on the route, so a redraw for a connection change keeps it.
   addEventListener('online', () => drawShell(router.current));
   addEventListener('offline', () => drawShell(router.current));
@@ -233,6 +309,7 @@ async function boot() {
   sessionTick();
   watchTyping();
   watchSpeech();
+  watchSegs();
   await router.start();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.lucid = { store, navigate, hasProfile };
