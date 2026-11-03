@@ -72,7 +72,7 @@ export default async function reading(el, ctx) {
       </div>
       <div class="stack-lg">
         <p class="small faint num">${tt(`קראתם ${doneCount} מתוך ${items.length} טקסטים`, `${doneCount} of ${items.length} texts read`)}</p>
-        ${ordered.map((g) => html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('טקסטים קלים יותר, מהקרוב לרמה שלך', 'Easier texts, closest to your level first')}</h2>` : ''}<section class="stack-sm" aria-labelledby="rd-${g.level}">
+        ${ordered.map((g) => html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('טקסטים קלים יותר, מהקרוב לרמה שלכם', 'Easier texts, closest to your level first')}</h2>` : ''}<section class="stack-sm" aria-labelledby="rd-${g.level}">
           ${levelHeading(g.level, ix.level, { recommended: g.level === rec, above: levelIndex(g.level) > ci, id: `rd-${g.level}` })}
           <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${g.items.map((x) => row(x, m.attempts))}</ol>
         </section>`)}

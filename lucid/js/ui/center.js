@@ -66,7 +66,7 @@ export function levelHeading(level, levelMeta, { recommended = false, above = fa
   const meta = levelMeta.get(level);
   return html`<div class="row between">
     <h2 id="${id}">${LEVEL_LABEL[level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</h2>
-    ${recommended ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלך', 'Recommended for your level')}</span>` : above ? html`<span class="small faint">${tt('מעל הרמה הנוכחית: אתגר', 'Above your current level: a stretch')}</span>` : ''}
+    ${recommended ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלכם', 'Recommended for your level')}</span>` : above ? html`<span class="small faint">${tt('מעל הרמה הנוכחית: אתגר', 'Above your current level: a stretch')}</span>` : ''}
   </div>`;
 }
 

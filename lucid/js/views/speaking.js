@@ -251,7 +251,7 @@ export default async function speaking(el, ctx) {
         const meta = ix.level.get(g.level);
         return html`<details class="level-fold" data-level="${g.level}" ${isOpen(g.level) ? 'open' : ''}>
           <summary><span class="level-fold-title">${LEVEL_LABEL[g.level]}${meta ? html` · ${legend(meta.name_en, meta.name_he)}` : ''}</span>
-            <span class="level-fold-meta small faint">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלך', 'Recommended for your level')}</span> ` : levelIndex(g.level) > ci ? html`<span>${tt('מעל הרמה הנוכחית', 'Above your level')} · </span>` : ''}<span class="num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span></summary>
+            <span class="level-fold-meta small faint">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלכם', 'Recommended for your level')}</span> ` : levelIndex(g.level) > ci ? html`<span>${tt('מעל הרמה הנוכחית', 'Above your level')} · </span>` : ''}<span class="num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span></summary>
           <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${g.items.map((x) => shadowRow(x, m.attempts))}</ol>
         </details>`;
       })}`);

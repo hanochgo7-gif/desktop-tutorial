@@ -157,7 +157,7 @@ export default async function vocab(el, ctx) {
           <summary class="disclosure">
             <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
             <h2 class="grow" id="vl-${g.level}" style="font-size:var(--t-lg)">${g.level === 'other' ? tt('מילים נוספות', 'Other words') : html`${LEVEL_LABEL[g.level]}${meta ? html` · ${tt(meta.name_he, meta.name_en)}` : ''}`}</h2>
-            <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec && !query ? html`<span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${g.words.length} מילים`, `${g.words.length} ${g.words.length === 1 ? 'word' : 'words'}`)}${dueN ? tt(` · ${dueN} לחזרה עכשיו`, ` · ${dueN} due now`) : ''}</span></span>
+            <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec && !query ? html`<span class="tag cobalt">${tt('הרמה שלכם', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${g.words.length} מילים`, `${g.words.length} ${g.words.length === 1 ? 'word' : 'words'}`)}${dueN ? tt(` · ${dueN} לחזרה עכשיו`, ` · ${dueN} due now`) : ''}</span></span>
           </summary>
           <ul class="vocab-rows" aria-labelledby="vl-${g.level}">${g.words.slice(0, limit).map(entry)}</ul>
           ${limit < g.words.length ? html`<button type="button" class="key small ghost vocab-more" data-more="${g.level}">${tt(`הצגת עוד ${g.words.length - limit} מילים`, `Show ${g.words.length - limit} more words`)}</button>` : ''}

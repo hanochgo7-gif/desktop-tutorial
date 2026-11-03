@@ -56,7 +56,7 @@ export default async function settingsView(el, ctx) {
             tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״עב״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "עב".'))}
           ${field('speech_rate', tt('מהירות הקראה', 'Speech speed'), seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']]))}
           ${field('sound', tt('צלילים במשחקים', 'Sounds in the games'), seg('sound', s.sound === false || s.sound === 'off' ? 'off' : 'on', [['on', 'פועל', 'On'], ['off', 'כבוי', 'Off']]))}
-          <label class="choice"><input type="checkbox" data-relaxed ${s.relaxed_pace !== false ? html`checked` : ''}><span class="grow"><strong>${tt('קצב רגוע', 'Relaxed pace')}</strong> <span class="small muted">${tt('(בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים)', '(no speed bonus and no automatic moving on in the games)')}</span></span></label>
+          <label class="choice"><input type="checkbox" data-relaxed ${s.relaxed_pace !== false && s.game_speed_challenge !== true ? html`checked` : ''}><span class="grow"><strong>${tt('קצב רגוע', 'Relaxed pace')}</strong> <span class="small muted">${tt('(בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים)', '(no speed bonus and no automatic moving on in the games)')}</span></span></label>
         </section>
         <section class="panel stack" aria-labelledby="set-ui"><h2 id="set-ui">${tt('ממשק', 'Interface')}</h2>
           ${field('ui_language', tt('שפת הממשק', 'Interface language'), seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'עברית', 'he'], ['en', 'English', 'English', 'en']], { help: true }), tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.'))}
@@ -158,7 +158,8 @@ export default async function settingsView(el, ctx) {
       redraw(`[data-seg="${name}"] [data-v="${raw}"]`);
     }),
     // Relaxed pace (PH-4): no speed bonus and no auto-advance in the games, which read relaxed_pace and
-    // game_speed_challenge. Turning it on also ends a speed challenge, so the label stays true.
+    // game_speed_challenge. Turning it on also ends a speed challenge, so the label stays true; and the box shows
+    // as checked only while both hold, since the games page's speed-challenge switch sets game_speed_challenge alone.
     on(el, 'change', '[data-relaxed]', (e, c) => {
       saveSettings(c.checked ? { relaxed_pace: true, game_speed_challenge: false } : { relaxed_pace: false });
       redraw('[data-relaxed]');

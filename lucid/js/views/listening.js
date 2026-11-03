@@ -92,11 +92,11 @@ export default async function listening(el, ctx) {
           const meta = ix.level.get(g.level);
           const doneN = g.items.filter((x) => attemptsOn(m.attempts, x).length).length;
           const isOpen = openState.has(g.level) ? openState.get(g.level) : g.level === (rec || ordered[0].level);
-          return html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('תרגילים קלים יותר, מהקרוב לרמה שלך', 'Easier items, closest to your level first')}</h2>` : ''}<details class="panel flat" data-level="${g.level}" ${isOpen ? html`open` : ''}>
+          return html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('תרגילים קלים יותר, מהקרוב לרמה שלכם', 'Easier items, closest to your level first')}</h2>` : ''}<details class="panel flat" data-level="${g.level}" ${isOpen ? html`open` : ''}>
             <summary class="disclosure">
               <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
               <h2 class="grow" id="ls-${g.level}" style="font-size:var(--t-lg)">${LEVEL_LABEL[g.level]}${meta ? html` · ${tt(meta.name_he, meta.name_en)}` : ''}</h2>
-              <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלך', 'Recommended for your level')}</span>` : levelIndex(g.level) > ci ? html`<span class="faint">${tt('מעל הרמה הנוכחית: אתגר', 'Above your current level: a stretch')}</span>` : ''}<span class="faint num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span>
+              <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלכם', 'Recommended for your level')}</span>` : levelIndex(g.level) > ci ? html`<span class="faint">${tt('מעל הרמה הנוכחית: אתגר', 'Above your current level: a stretch')}</span>` : ''}<span class="faint num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span>
             </summary>
             <ol class="lesson-list" aria-labelledby="ls-${g.level}" style="list-style:none;padding:0;margin:var(--s4) 0 0">${g.items.map((x) => row(x, m.attempts))}</ol>
           </details>`;

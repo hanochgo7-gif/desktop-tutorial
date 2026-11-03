@@ -238,6 +238,12 @@ try {
     await page.reload();
     await page.waitForSelector('[data-relaxed]');
     assert(await page.isChecked('[data-relaxed]'), 'not kept after a reload');
+    // The games page's speed-challenge switch brings the speed bonus back, so Settings must no longer show
+    // "no speed bonus" as on.
+    await go(page, 'games', '[data-challenge]');
+    await page.check('[data-challenge]');
+    await go(page, 'settings', '[data-relaxed]');
+    assert(!(await page.isChecked('[data-relaxed]')), 'Settings shows "no speed bonus" as on while the speed challenge is on');
     await ctx.close();
   });
 
@@ -297,7 +303,7 @@ try {
     });
     await shot(page, 'ph6-listening-A2-390');
     assert(info.h < 4000, `#/listening is ${info.h}px tall`);
-    assert(info.order[0] === 'A2' && info.firstTag === 'מומלץ לרמה שלך', `first group: ${info.order[0]} "${info.firstTag}"`);
+    assert(info.order[0] === 'A2' && info.firstTag === 'מומלץ לרמה שלכם', `first group: ${info.order[0]} "${info.firstTag}"`);
     assert(info.open.join() === 'A2' && info.order.includes('PreA1'), `open groups: ${info.open}`);
     assert(info.order.join() === 'A2,B1,B2,C1,C2,A1,PreA1', `group order: ${info.order}`);
     assert(info.titles.length && info.titles.every((x) => /[א-ת]/.test(x)), `rows are not named by the Hebrew lesson title: ${info.titles}`);
