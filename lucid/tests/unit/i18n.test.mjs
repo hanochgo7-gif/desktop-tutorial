@@ -307,6 +307,26 @@ test('SB-3: spelled words have no breakable hyphen, in Hebrew text and in Englis
   // Hyphenated words are untouched.
   assert.ok(String(legend('A T-shirt and an e-mail', 'חולצה')).includes('T-shirt and an e-mail'));
 });
+// ---------- Round 4, SB-4: the English interface's Hebrew subtitles follow the support setting ----------
+test('SB-4: in the English UI a legend shows its Hebrew line at full and partial, reads it to screen readers at minimal, and leaves it out at off (student-27)', async () => {
+  const { setHebrewSupport, setUiLang } = await import('../../js/core/i18n.js');
+  globalThis.document ??= { documentElement: { dataset: {} } };
+  const l = () => String(legend('Narrative tenses', 'זמני סיפור'));
+  try {
+    setUiLang('en');
+    setHebrewSupport('partial');
+    assert.match(l(), /<span class="l-he" lang="he" dir="rtl">זמני סיפור<\/span>/);
+    setHebrewSupport('minimal');
+    assert.doesNotMatch(l(), /l-he/);
+    assert.match(l(), /<span class="sr-only" lang="he" dir="rtl">זמני סיפור<\/span>/);
+    setHebrewSupport('off');
+    assert.doesNotMatch(l(), /l-he|lang="he"/);
+    // The Hebrew UI is unchanged: the line is there, and CSS quietens or hides it by level.
+    setUiLang('he');
+    for (const s of ['minimal', 'off']) { setHebrewSupport(s); assert.match(l(), /<span class="l-he" lang="he" dir="rtl">/); }
+  } finally { setUiLang('he'); setHebrewSupport('full'); }
+});
+
 test('SB-3: a quote of up to 30 characters inside Hebrew is one unit (student-16)', () => {
   assert.match(String(isolateLatin("והוא עונה Yes, I've been there twice – כלומר")), /<span class="nw"><bdi dir="ltr" lang="en">Yes, I&#39;ve been there twice<\/bdi><\/span>/);
 });

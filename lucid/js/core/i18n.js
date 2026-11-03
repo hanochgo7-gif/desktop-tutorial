@@ -140,9 +140,15 @@ export function setHebrewSupport(setting, level, shown = null) {
 // A dual legend: the English target and the Hebrew scaffold, in two inks.
 // Hebrew is shown according to the support level; 'off' keeps it one tap away. A "Hebrew" line with no
 // Hebrew letters (a title kept in English) is not a translation, so it is left out.
+// Round 4 (SB-4): in the English interface the Hebrew line follows the Hebrew-support setting. At "minimal" it is
+// read to screen readers only, and at "off" it is left out; the Hebrew interface is unchanged.
 export function legend(en, he, { tag = 'span', cls = '' } = {}) {
   const showHe = he && HEBREW.test(he) && fold(he) !== fold(en);
-  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${spelled(en)}</span>${showHe ? html`<span class="l-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</${raw(tag)}>`;
+  const quiet = lang === 'en' && (support === 'minimal' || support === 'off');
+  const heLine = !showHe || (quiet && support === 'off') ? ''
+    : quiet ? html`<span class="sr-only" lang="he" dir="rtl">${he}</span>`
+      : html`<span class="l-he" lang="he" dir="rtl">${isolateLatin(he)}</span>`;
+  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${spelled(en)}</span>${heLine}</${raw(tag)}>`;
 }
 // A spelled word in an English line ("O-M-E-R", "M-A-Y-A") stays in one piece (SB-3), as it does inside Hebrew text.
 const spelled = (x) => (typeof x === 'string' ? keepSpelled(x) : x);
