@@ -845,8 +845,8 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
   aside.essay-side { padding: var(--s4) var(--s3); }
   aside.essay-side .passage.source { padding: var(--s3); }
 }
-/* The rubric tab (RW-5): each category with its Band 5, 3 and 1 descriptors and the learner's own rating. */
-.rubric-cat { padding-block-start: var(--s3); border-block-start: 1px solid var(--key-edge); }
+/* The rubric tab (RW-5): each category with its Band 5, 3 and 1 descriptors and the learner's own rating. The
+   line between categories is RW-6's (.rubric-cat below), one per category. */
 .band-list { display: grid; gap: var(--s2); margin: 0; }
 .band-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; font-size: var(--t-sm); }
 .band-row dd { margin: 0; min-width: 0; }
@@ -882,8 +882,6 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .xp-filter-count { color: var(--ink-3); font-weight: 400; }
 .xp-filters { display: grid; gap: var(--s3); margin-block-end: var(--s4); padding: var(--s4); }
 .xp-filter-row { display: grid; gap: var(--s1); }
-.xp-filter-row .seg { display: flex; flex-wrap: nowrap; width: 100%; }
-.xp-filter-row .seg > button { flex: 1 1 0; min-width: 0; white-space: normal; padding-inline: 0.4rem; line-height: 1.25; }
 .say-key { flex: none; }
 .entry-head > .say-key { align-self: center; }
 /* At large text sizes on phones, the play key moves under the term instead of squeezing it. */
@@ -1939,16 +1937,18 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
    cobalt blocks. */
 .scenario-view :is(.bi-he, .legend .l-he), .entry .entry-he, .entry .sense-after { color: var(--ink-he-quiet); font-weight: 400; }
 .scenario-view .page-head h1 .l-he { font-weight: 400; }
-/* RW-12: the register options are a 2 x 2 grid, and no filter label wraps. */
-.xp-filter-row .seg.xp-seg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.xp-filter-row .seg > button { white-space: nowrap; }
+/* RW-12: no filter label wraps, and the register options are a 2 x 2 grid where two fit side by side. The
+   filter controls are shared segmented controls (SB-6, app.js fitSegs), which keep each label on one line and
+   inside its segment at any width and text size. On a phone the sheet's padding is a step smaller, so the two
+   longest register labels still fit side by side at 390 with 150% text. */
+@media (max-width: 480px) { .xp-filters { padding: var(--s3); } }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */
 /* SB-6: a segment never shrinks below its label. The shared controls (not the lane-owned ones in Settings,
-   onboarding, Expressions and Today's minutes) keep their labels on one line; when the row cannot hold them,
+   onboarding and Today's minutes) keep their labels on one line; when the row cannot hold them,
    app.js (fitSegs) turns the control into a grid of equal cells, as many columns as the widest label allows. */
-.seg:not(.settings-view .seg, .ob-prefs .seg, .xp-filter-row .seg, .today-minutes > .seg) > button { flex: 1 0 auto; min-width: max-content; white-space: nowrap; }
+.seg:not(.settings-view .seg, .ob-prefs .seg, .today-minutes > .seg) > button { flex: 1 0 auto; min-width: max-content; white-space: nowrap; }
 .seg.seg-measure { display: inline-flex !important; flex-wrap: wrap !important; }
 .seg.seg-measure > button { flex: none !important; }
 .seg.seg-grid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(var(--seg-cols, 2), minmax(0, 1fr)) !important; width: 100%; }

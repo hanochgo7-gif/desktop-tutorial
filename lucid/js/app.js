@@ -223,8 +223,9 @@ function watchSpeech() {
 
 // Segmented controls (SB-6): a control whose segments do not fit on one line becomes a grid of equal cells, with as
 // many columns as its widest label allows, balanced across the rows (4 segments in 2 columns, not 3 and 1). The
-// lane-owned controls (Settings, onboarding, Expressions, Today's minutes) keep their own layouts.
-const SEG_OWN = '.settings-view .seg, .ob-prefs .seg, .xp-filter-row .seg, .today-minutes > .seg';
+// lane-owned controls (Settings, onboarding, Today's minutes) keep their own layouts. A control fits again when
+// it is added, when the window changes size, and when a hidden box around it opens (the Expressions filter sheet).
+const SEG_OWN = '.settings-view .seg, .ob-prefs .seg, .today-minutes > .seg';
 function fitSegs() {
   for (const s of document.querySelectorAll('.seg')) {
     if (s.matches(SEG_OWN) || !s.getClientRects().length) continue;
@@ -250,8 +251,8 @@ let segFrame = 0;
 const fitSegsSoon = () => { cancelAnimationFrame(segFrame); segFrame = requestAnimationFrame(fitSegs); };
 function watchSegs() {
   const hasSeg = (n) => n.nodeType === 1 && (n.matches('.seg') || n.querySelector('.seg'));
-  new MutationObserver((list) => { if (list.some((m) => [...m.addedNodes].some(hasSeg))) fitSegsSoon(); })
-    .observe(document.body, { childList: true, subtree: true });
+  new MutationObserver((list) => { if (list.some((m) => (m.type === 'attributes' ? hasSeg(m.target) : [...m.addedNodes].some(hasSeg)))) fitSegsSoon(); })
+    .observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'open'] });
   addEventListener('resize', fitSegsSoon);
   document.fonts?.ready.then(fitSegsSoon);
 }

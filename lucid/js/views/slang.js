@@ -200,7 +200,7 @@ export default async function slang(el, ctx) {
       <button type="button" class="key small xp-filter-key" data-filters aria-expanded="false" aria-controls="xp-filters">${icon('list', { size: 18 })}<span>${tt('סינון', 'Filter')}</span><span class="xp-filter-count num" data-filter-count></span></button>
     </div>
     <div class="panel flat xp-filters" id="xp-filters" hidden>
-      ${filterRow('xf-formality', tt('רשמיות', 'Formality'), html`<div class="seg xp-seg-grid" role="group" aria-labelledby="xf-formality">${FORMALITY.map(([id, he, en]) => html`<button type="button" data-formality="${id}" aria-pressed="${formality === id}">${tt(he, en)}</button>`)}</div>`)}
+      ${filterRow('xf-formality', tt('רשמיות', 'Formality'), html`<div class="seg" role="group" aria-labelledby="xf-formality">${FORMALITY.map(([id, he, en]) => html`<button type="button" data-formality="${id}" aria-pressed="${formality === id}">${tt(he, en)}</button>`)}</div>`)}
       ${filterRow('xf-region', tt('איפה אומרים את זה', 'Where it is used'), html`<div class="seg" role="group" aria-labelledby="xf-region">${REGIONS.map(([id, he, en]) => html`<button type="button" data-region="${id}" aria-pressed="${region === id}">${tt(he, en)}</button>`)}</div>`)}
       ${filterRow('xf-scope', tt('רמה', 'Level'), html`<div class="seg" role="group" aria-labelledby="xf-scope">${SCOPES.map(([id, he, en]) => html`<button type="button" data-scope="${id}" aria-pressed="${scope === id}">${tt(he, en)}</button>`)}</div>`)}
       ${filterRow('xf-sort', tt('מיון', 'Sort'), html`<div class="seg" role="group" aria-labelledby="xf-sort">${SORTS.map(([id, he, en]) => html`<button type="button" data-sort="${id}" aria-pressed="${sort === id}">${tt(he, en)}</button>`)}</div>`)}

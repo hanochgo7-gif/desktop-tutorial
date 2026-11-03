@@ -145,9 +145,12 @@ try {
       const side = document.querySelector('aside.essay-side');
       side.scrollTop = 0;
       const s = side.getBoundingClientRect(); const k = document.querySelector('[data-save-self]').getBoundingClientRect();
-      return { h: side.scrollHeight, inSide: k.top >= s.top && k.bottom <= s.bottom, inView: k.top >= 0 && k.bottom <= innerHeight, final: Boolean(document.querySelector('[data-self-final]')) };
+      // One separator per category: a line under each, none above (the r3 rule drew a second one).
+      const lines = [...document.querySelectorAll('.rubric-cat')].map((c) => { const cs = getComputedStyle(c); return parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth); });
+      return { h: side.scrollHeight, inSide: k.top >= s.top && k.bottom <= s.bottom, inView: k.top >= 0 && k.bottom <= innerHeight, final: Boolean(document.querySelector('[data-self-final]')), lines };
     });
     await shot(page, 'rw6-rubric-1440');
+    assert(r.lines.length > 1 && r.lines.every((w) => w === 1), `separators per category: ${JSON.stringify(r.lines)}`);
     assert(r.h <= 1800, `rubric panel scrollHeight ${r.h}px`);
     assert(r.inSide && r.inView, `the save key is not in view: ${JSON.stringify(r)}`);
     // Scrolled to the end, the keys are still at the top of the panel.
@@ -288,6 +291,33 @@ try {
     assert(!bad.length, `labels that wrap or overflow: ${JSON.stringify(bad)}`);
     assert(grid === 2, `register options: ${grid} columns`);
     await ctx.close();
+  });
+
+  // RW-12 on small phones with large text: every label stays on one line inside its segment and its control, and
+  // the page never scrolls sideways (the register grid may drop to one column here).
+  for (const [w, h, size] of [[320, 568, 130], [320, 568, 150], [360, 780, 130], [360, 780, 150]]) await check(`RW-12 ${w}x${h} at ${size}%: every filter label is one line inside its segment, with no sideways scroll`, async () => {
+    const { ctx, page, tap } = await newPage(browser, { width: w, height: h });
+    await learnerAt(page, 'A2', { text: size });
+    await open(page, 'expressions', '.entry');
+    await tap('[data-filters]');
+    await page.waitForSelector('#xp-filters:not([hidden])');
+    await page.waitForTimeout(150);
+    const r = await page.evaluate(() => ({
+      keys: [...document.querySelectorAll('#xp-filters .seg > button')].map((b) => {
+        const cs = getComputedStyle(b); const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.25;
+        const range = document.createRange(); range.selectNodeContents(b); const tr = range.getBoundingClientRect();
+        const inner = b.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        const br = b.getBoundingClientRect(); const sr = b.parentElement.getBoundingClientRect();
+        return { t: b.textContent.trim(), one: tr.height <= lh * 1.3, overflow: b.scrollWidth > b.clientWidth + 1, text: Math.round(tr.width), inner: Math.round(inner), out: br.left < sr.left - 0.5 || br.right > sr.right + 0.5 };
+      }),
+      segs: [...document.querySelectorAll('#xp-filters .seg')].filter((s) => s.scrollWidth > s.clientWidth + 1).length,
+      page: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    }));
+    await shot(page, `rw12-filters-${w}-${size}`);
+    await ctx.close();
+    const bad = r.keys.filter((x) => !x.one || x.overflow || x.text > x.inner + 1 || x.out);
+    assert(!bad.length, `labels that wrap or spill out: ${JSON.stringify(bad)}`);
+    assert(!r.segs && !r.page, `sideways overflow: ${r.segs} controls, page ${r.page}`);
   });
 
   await check('RW-1 RW-4 Writing lab (A2 free writing): the a2-05 text flags goed, eated, buyed, sleeped, "we was" and "a new shoes", and no card says "ספיר"', async () => {
