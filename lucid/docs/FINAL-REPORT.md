@@ -37,9 +37,9 @@ Hebrew-L1 claims are framed as hypotheses where the evidence is indirect.
 | Placement | Adaptive staircase over 84 items; a level counts only when confirmed by a second block; resumable | `js/core/placement.js`, `js/views/placement.js` |
 | Learner model | Topic mastery, recurring errors, per-skill levels from first-try evidence on at least two days; skills without evidence say "not yet assessed" | `js/core/adaptive.js`, `js/core/learner.js` |
 | Spaced repetition | FSRS (ts-fsrs), objective grading instead of self-rating, recognition-to-recall ladder, workload governor | `js/core/srs.js`, `js/views/review.js` |
-| Word game | Vocabulary quiz and word completion per level in three stages (meaning, English word, typed completion); every answer is marked right or wrong at once; 10 points per right answer plus a speed bonus, a best round per stage, the next stage opening at 70%; missed words can be replayed or added to review. Practice only: it does not change the learner's level | `js/core/wordgame.js`, `js/views/wordgame.js` |
-| Words and pictures | A second game on the same page: English words matched to pictures, 3 boards a round of 4, 5 or 6 pairs; each pair is marked right or wrong the moment it is chosen; 10 points a pair, 3 off a mistake, a speed bonus per board; three levels (150 everyday, home and travel, tools and nature words with Hebrew meanings), each opening at 70% accuracy in the one before; missed words can be replayed. The pictures are Lucide icons (ISC licence) chosen to be unambiguous; for screen readers each picture is announced by its Hebrew meaning. Practice only | `content/pictures.json`, `js/core/picturegame.js`, `js/views/picturegame.js`, `tools/build-picture-icons.mjs` |
-| Memory game | Cards face down: turn two at a time to find each picture and its English word; 12, 16 or 20 cards over the same three levels; every turn is marked at once and a mismatch turns back over. Only a "slip" counts as a mistake (a mismatch when the first card's pair had already been seen); 10 points a pair, 3 off a slip, a bonus for few turns; levels open at 70% accuracy; slipped words can be replayed. Practice only | `js/core/memorygame.js`, `js/views/memorygame.js` |
+| Word game | Vocabulary quiz and word completion per level in three stages (meaning, English word, typed completion); every answer is marked right or wrong at once; 10 points per right answer; a calm pace by default (nothing moves on by itself, no speed bonus), and an opt-in speed challenge in Settings or on the games hub adds a speed bonus with its own bests; an unfinished round can be resumed; a best round per stage, the next stage opening at 70%; missed words can be replayed or added to review. Practice only: it does not change the learner's level | `js/core/wordgame.js`, `js/views/wordgame.js` |
+| Words and pictures | A second game on the same page: English words matched to pictures, 3 boards a round of 4, 5 or 6 pairs; each pair is marked right or wrong the moment it is chosen; 10 points a pair; in the calm default a wrong pair costs nothing and a finished board waits for the learner; in the speed challenge 3 off a mistake and a speed bonus per board; three levels (150 everyday, home and travel, tools and nature words with Hebrew meanings), each opening at 70% accuracy in the one before; missed words can be replayed. The pictures are Lucide icons (ISC licence) chosen to be unambiguous; for screen readers each picture is announced by its Hebrew meaning. Practice only | `content/pictures.json`, `js/core/picturegame.js`, `js/views/picturegame.js`, `tools/build-picture-icons.mjs` |
+| Memory game | Cards face down: turn two at a time to find each picture and its English word; 12, 16 or 20 cards over the same three levels; every turn is marked at once; in the calm default a mismatch stays face up until the next tap, the result is pairs in turns with no penalty, a smaller 8-card board is offered at large text, and levels open up to the learner's course level and above it on the picture game's 70%; in the speed challenge a "slip" (a mismatch when the first card's pair had already been seen) costs 3 and few turns earn a bonus; 10 points a pair; slipped words can be replayed. Practice only | `js/core/memorygame.js`, `js/views/memorygame.js` |
 | Daily plan | 10, 20, 35 or 50 minutes; warm-up, review, lesson (split into parts when long), targeted practice, a goal-shaped "use it" block; each block says why | `js/core/adaptive.js`, `js/views/today.js` |
 | Writing lab | Ten stages, 20 exercises, 10 advanced assignments with invented source packs, free writing as essay, email or message; automatic checks; AI feedback on a 12-category rubric with a task-fulfilment gate, a hint ladder that needs an attempt before the correction, at most three rounds, a CEFR range only on the final draft, version comparison | `js/views/essay.js`, `js/core/writing-analyzer.js`, `supabase/functions/lucid-ai/` |
 | Real-Life English | 36 scenarios in 8 modules (airport, hotel, restaurant, transport, shopping, social, emergency, work) with phrases, a model dialogue, scripted practice and AI roleplay; 60 expressions with meaning, formality, region, examples, mistakes and when not to use them | `content/real-life/`, `js/views/scenario.js`, `js/views/slang.js` |
@@ -86,12 +86,13 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 21 files) | 167 of 167 pass |
+| Unit (`npm test`, 24 files) | 302 of 302 pass |
 | Database (`npm run test:db`, PGlite) | 9 of 9 pass |
 | Edge function (Deno) | 20 of 20 pass |
-| Browser end-to-end (`tests/e2e/run.mjs`) | 55 of 55 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
-| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 28 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
-| Content validator | 75 lessons and every content file: 0 errors, 0 warnings (including the checks for split brackets and quote marks and for answer-length cues) |
+| Browser end-to-end (`tests/e2e/run.mjs`) | 56 of 56 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
+| UX round 3 browser suites (`tests/e2e/<lane>.mjs`, 15 files) | 226 of 226 checks pass; each final-round check was also run once against the code without its fix and failed there |
+| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 29 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
+| Content validator | 75 lessons and every content file: 0 errors and 1 warning: 818 authored first-try notes give the answer without naming a rule, so the app holds them back before a second try (rewriting them is open content work) (the checks include the checks for split brackets and quote marks and for answer-length cues) |
 | Performance (throttled 1.6 Mbps, 150 ms, 4x CPU, no compression) | first visit to Welcome ready in about 2.9 s, 374 KB uncompressed (GitHub Pages serves it compressed); repeat visits and offline use come from the service worker |
 
 The mapping from each acceptance criterion to its checks, and which are covered only with mocks, is in section 13 of
@@ -109,6 +110,11 @@ the specification.
   same personas re-tested every finding (71 resolved, 21 partly resolved, none regressed) and found 43 new issues
   (6 major, none blocking); all 64 round 2 items are fixed (`qa/fix-log-r2.md`). These are simulated reviews, not
   user research.
+- **UX round 3** (`qa/ux-round3.md`): fifteen AI-simulated panels (two designers, three UX specialists, six
+  learners aged 16 to 68, four teachers) used the real app and reported 247 findings; nine lanes fixed them; the same
+  panels re-tested (156 fixed, 79 partly, 12 not fixed, of which 10 were deferred on purpose, none regressed) and
+  found 153 new issues (18 major); a final round of six lanes fixed 77 planned items, all majors included. Simulated
+  reviews, not user research.
 - **Content review**: every lesson, scenario, expression and writing task was written by one AI agent and reviewed by
   another that solved each item before reading its key, checked keys against the app's real grader, and corrected
   English, Hebrew and level. The real-life practice options were rewritten so the best reply is no longer usually
