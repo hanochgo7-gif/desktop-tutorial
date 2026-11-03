@@ -472,7 +472,7 @@ const blockName = (b) => ({
   warmup: tt('חימום', 'Warm-up'),
   review: tt('חזרה על מילים', 'Word review'),
   practice: tt('תרגול ממוקד', 'Targeted practice'),
-  use: b.scenario ? tt('מהחיים', 'Real life') : b.kind === 'reading' ? tt('קריאה', 'Reading') : b.kind === 'speaking' ? tt('דיבור', 'Speaking') : tt('כתיבה', 'Writing'),
+  use: b.scenario ? tt('אנגלית לחיים', 'Real life') : b.kind === 'reading' ? tt('קריאה', 'Reading') : b.kind === 'speaking' ? tt('דיבור', 'Speaking') : tt('כתיבה', 'Writing'),
   exit: tt('בדיקת יציאה', 'Exit check'),
 }[b.id] || tt('התוכנית', 'Your plan'));
 

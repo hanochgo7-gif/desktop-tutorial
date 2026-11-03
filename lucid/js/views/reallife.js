@@ -47,10 +47,10 @@ export function levelGuide(courseLevel) {
   const L = LEVEL_LABEL[courseLevel] || courseLevel;
   const next = { PreA1: 'A1', A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1' }[courseLevel];
   return html`<p class="small muted level-guide">${icon('gauge', { size: 16 })}<span>${courseLevel === 'PreA1'
-    ? tt('הרמה שלך במסלול: Pre-A1. התרחישים מתחילים ב-A1, אז כל אחד מהם הוא אתגר קטן: היעזרו במשפטים ובעברית שבלשונית ״הכנה״.', 'Your level on the path: Pre-A1. Scenarios start at A1, so each one is a small stretch: use the phrases and the Hebrew in the Prepare tab.')
+    ? tt('הרמה שלכם במסלול: Pre-A1. התרחישים מתחילים ב-A1, אז כל אחד מהם הוא אתגר קטן: היעזרו במשפטים ובעברית שבלשונית ״הכנה״.', 'Your level on the path: Pre-A1. Scenarios start at A1, so each one is a small stretch: use the phrases and the Hebrew in the Prepare tab.')
     : next
-      ? tt(`הרמה שלך במסלול: ${L}. תרחישים ברמה ${L} ומטה מתאימים לך; ${next} הם אתגר קטן.`, `Your level on the path: ${L}. Scenarios at ${L} and below fit you; ${next} ones are a small stretch.`)
-      : tt(`הרמה שלך במסלול: ${L}. כל התרחישים ברמה שלך או מתחתיה.`, `Your level on the path: ${L}. Every scenario is at or below your level.`)}</span></p>`;
+      ? tt(`הרמה שלכם במסלול: ${L}. תרחישים ברמה ${L} ומטה מתאימים לכם; ${next} הם אתגר קטן.`, `Your level on the path: ${L}. Scenarios at ${L} and below fit you; ${next} ones are a small stretch.`)
+      : tt(`הרמה שלכם במסלול: ${L}. כל התרחישים ברמה שלכם או מתחתיה.`, `Your level on the path: ${L}. Every scenario is at or below your level.`)}</span></p>`;
 }
 
 // Topic and level filters, shared by Real life and Conversations.
@@ -125,7 +125,7 @@ export default async function reallife(el, ctx) {
       ${!list.length ? emptyState({ title: tt('התרחישים עוד לא זמינים', 'Scenarios are not available yet'), body: tt('נסו לרענן בעוד רגע.', 'Try again in a moment.') }) : html`
         ${levelGuide(courseLevel)}
         ${start.length ? html`<section class="panel flat stack-sm start-here" aria-labelledby="rl-start"><h2 id="rl-start" class="small" style="font-size:var(--t-md)">${tt('כדאי להתחיל כאן', 'Start here')}</h2>
-          <p class="xsmall faint">${tt('תרחישים שעוד לא עשית, לפי הרמה והמטרות שלך.', 'Scenarios you have not done yet, for your level and goals.')}</p>
+          <p class="xsmall faint">${tt('תרחישים שעוד לא עשיתם, לפי הרמה והמטרות שלכם.', 'Scenarios you have not done yet, for your level and goals.')}</p>
           <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${start.map((s) => html`<li>${row(s, courseLevel)}</li>`)}</ul>
           ${modulesFor(state.goals).includes('social') ? html`<a class="key small start-expr" href="#/expressions">${icon('slang', { size: 18 })} ${tt('ביטויים שאנשים באמת אומרים', 'Expressions people actually use')}</a>` : ''}</section>` : ''}
         ${hubFilters(state)}

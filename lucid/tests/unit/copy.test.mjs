@@ -96,7 +96,6 @@ export function scan() {
 
 // Hits on the day the check was added (round 3).
 const ALLOW = {
-  'js/core/reallife.js': { 'שלך': 2 },
   'js/core/router.js': { 'חזרה (back)': 1 },
   'js/ui/exercise.js': { 'שלך': 3 },
   'js/views/checkpoint.js': { 'שלך': 2 },
@@ -111,9 +110,7 @@ const ALLOW = {
   'js/views/picturegame.js': { 'שלך': 2 },
   'js/views/placement.js': { 'שלך': 4, 'בחרת': 1 },
   'js/views/reading.js': { 'חזרה (back)': 1 },
-  'js/views/reallife.js': { 'שלך': 5 },
   'js/views/review.js': { 'חזרה (back)': 2 },
-  'js/views/scenario.js': { 'שלך': 5 },
   'js/views/settings.js': { 'שלך': 3 },
   'js/views/speaking.js': { 'חזרה (back)': 1 },
   'js/views/today.js': { 'שלך': 9, 'בחרת': 7 },

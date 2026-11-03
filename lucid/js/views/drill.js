@@ -21,7 +21,7 @@ export default async function drill(el, ctx) {
     // Real-life topics are practised in their scenarios, not in drills (persona finding R2-24).
     const scene = topic && SCENARIO_TOPICS.has(topic);
     render(el, html`<div class="onboard">${scene
-      ? emptyState({ title: tt('את זה מתרגלים בתרחישים', 'This is practised in scenarios'), body: tt('למצבים מהחיים אין תרגילים מהשיעורים. בתרחישים של ״מהחיים״ עונים בשיחה ומקבלים הסבר על כל תשובה.', 'Real-life situations have no lesson exercises. In the Real life scenarios you reply in a conversation and get an explanation for each reply.'), action: html`<a class="key enter" href="#/real-life">${tt('לתרחישים מהחיים', 'To Real life scenarios')}</a>` })
+      ? emptyState({ title: tt('את זה מתרגלים בתרחישים', 'This is practised in scenarios'), body: tt('לנושא הזה אין תרגילים מהשיעורים. בתרחישים של אנגלית לחיים עונים בשיחה ומקבלים הסבר על כל תשובה.', 'This topic has no lesson exercises. In the Real life scenarios you reply in a conversation and get an explanation for each reply.'), action: html`<a class="key enter" href="#/real-life">${tt('לתרחישים באנגלית לחיים', 'To Real life scenarios')}</a>` })
       : emptyState({ title: tt('אין עדיין תרגילים לנושא הזה', 'No exercises for this yet'), body: tt('התרגילים מגיעים מהשיעורים שכבר זמינים. נסו נושא אחר או המשיכו במסלול.', 'Exercises come from the lessons available so far. Try another topic or continue your path.'), action: html`<a class="key enter" href="#/practice">${tt('לתרגול', 'To practice')}</a>` })}</div>`);
     return;
   }

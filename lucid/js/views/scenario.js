@@ -26,7 +26,7 @@ function nameSlot(phrase) {
   const en = `${phrase.en.slice(0, start)}${NAME_SLOT}${phrase.en.slice(m.index + m[0].length)}`;
   const n = m[2].split(/\s+/).length;
   const heName = new RegExp(`(קוראים לי|שמי|אני|על שם|על השם)\\s+${Array(n).fill(HE_WORD).join('\\s+')}`);
-  const he = phrase.he ? phrase.he.replace(heName, '$1 [השם שלך]') : phrase.he;
+  const he = phrase.he ? phrase.he.replace(heName, '$1 [השם שלכם]') : phrase.he;
   return { ...phrase, en, he, slot: [start, start + NAME_SLOT.length] };
 }
 
@@ -78,7 +78,7 @@ export default async function scenarioView(el, ctx) {
     ? html`<div class="note" lang="he" dir="rtl">${isolateLatin(note)}</div>`
     : html`<div class="note" lang="en" dir="ltr">${note}</div>`);
   const prepare = () => html`<div class="stack-lg" style="max-width:52rem">
-    <div class="panel stack-sm"><h2 class="small">${tt('המצב', 'The situation')}</h2>${bi(s.situation, { always: true })}<h2 class="small" style="margin-top:var(--s3)">${tt('המטרה שלך', 'Your goal')}</h2>${bi(s.goal, { always: true })}</div>
+    <div class="panel stack-sm"><h2 class="small">${tt('המצב', 'The situation')}</h2>${bi(s.situation, { always: true })}<h2 class="small" style="margin-top:var(--s3)">${tt('המטרה שלכם', 'Your goal')}</h2>${bi(s.goal, { always: true })}</div>
     <section class="stack-sm"><h2 class="small">${tt('משפטים שימושיים', 'Useful phrases')}</h2>
       <div class="examples">${s.phrases.map((p) => html`<div class="example">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${p.en}" aria-label="${tt('השמעה', 'Play')}: ${p.en}">${icon('volume', { size: 18 })}</button>` : ''}
         <div class="grow stack-sm">${legend(p.en, p.he)}${p.note ? noteLine(p.note) : ''}
@@ -186,7 +186,7 @@ export default async function scenarioView(el, ctx) {
   // On-demand help that needs no AI and costs nothing: the goal and the scenario's phrases, ready to adapt.
   const helpPanel = () => html`<section class="panel flat stack-sm" data-help tabindex="-1" aria-labelledby="rp-help-h">
     <div class="row between"><h3 class="small" id="rp-help-h">${tt('עזרה לשיחה', 'Help with the conversation')}</h3><button type="button" class="key ghost small" data-stuck>${tt('הסתרה', 'Hide')}</button></div>
-    <div class="small goal-block"><p><strong>${tt('המטרה שלך', 'Your goal')}</strong></p>${bi(s.goal, { always: hebrewTips })}</div>
+    <div class="small goal-block"><p><strong>${tt('המטרה שלכם', 'Your goal')}</strong></p>${bi(s.goal, { always: hebrewTips })}</div>
     <p class="small muted">${tt('משפטים שאפשר להתחיל בהם. לחיצה מעתיקה את המשפט לתיבה, ושם אפשר לשנות אותו. במקום [your name] כתבו את השם שלכם.', 'Phrases you can start from. Tap one to copy it into the box, then change it as you like. Replace [your name] with your own name.')}</p>
     <ul class="phrase-help">${s.phrases.map(nameSlot).map((p, i) => html`<li><button type="button" class="key small" data-use-phrase="${i}"><span lang="en" dir="ltr">${p.en}</span></button>${hebrewTips && p.he ? html`<span class="xsmall l-he" lang="he" dir="rtl">${isolateLatin(p.he)}</span>` : ''}</li>`)}</ul>
   </section>`;
@@ -211,7 +211,7 @@ export default async function scenarioView(el, ctx) {
     const learnerTurns = chat.turns.filter((t) => t.role === 'learner').length;
     return html`<div class="stack" style="max-width:46rem">
       <div class="chat"><div class="chat-log" id="rplog">${chat.turns.map((t) => html`<div class="msg ${t.role === 'learner' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${t.role === 'learner' ? tt('את/ה', 'You') : s.roleplay.persona.split(/[,.]/)[0]}</span>${t.text}</div>${t.hint_he ? html`<p class="hint-box xsmall" lang="he" dir="rtl">${icon('hint', { size: 14 })}<span>${isolateLatin(t.hint_he)}</span></p>` : ''}`)}${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('ממתין לתשובה', 'Waiting for a reply')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
-        <form class="chat-input" data-rp-send><label class="sr-only" for="rpin">${tt('התשובה שלך', 'Your reply')}</label><textarea class="input" id="rpin" rows="1" lang="en" dir="ltr" maxlength="1200" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}" ${busy || chat.done ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-rp-dictate aria-label="${tt('לומר בקול', 'Say it')}" ${busy ? html`disabled` : ''}>${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy || chat.done ? html`disabled` : ''}>${icon('send')}</button></form></div>
+        <form class="chat-input" data-rp-send><label class="sr-only" for="rpin">${tt('התשובה שלכם', 'Your reply')}</label><textarea class="input" id="rpin" rows="1" lang="en" dir="ltr" maxlength="1200" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}" ${busy || chat.done ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-rp-dictate aria-label="${tt('לומר בקול', 'Say it')}" ${busy ? html`disabled` : ''}>${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy || chat.done ? html`disabled` : ''}>${icon('send')}</button></form></div>
       ${rpError ? html`<p class="error-text" role="alert">${rpError}</p>` : ''}
       <div class="row">${chat.done ? '' : html`<button type="button" class="key small" data-stuck aria-expanded="${stuck}">${icon('hint', { size: 16 })} ${tt('נתקעתי: עזרה', 'I\'m stuck: help')}</button>`}${tipsToggle()}</div>
       ${stuck && !chat.done ? helpPanel() : ''}
@@ -228,7 +228,7 @@ export default async function scenarioView(el, ctx) {
     const strengths = Array.isArray(f.strengths) ? f.strengths.filter(Boolean) : [];
     const row = (k, he, en) => (f[k] ? html`<div class="rubric-row"><span>${tt(he, en)}</span><span class="band num">${f[k].score}/100</span>${f[k].comments?.length ? html`<details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><ul style="margin:0;padding-inline-start:1.1rem">${f[k].comments.map((c) => html`<li dir="auto">${c}</li>`)}</ul></details>` : ''}</div>` : '');
     return html`<div class="stack-lg" style="max-width:46rem">
-      <div class="stack-sm"><h2 tabindex="-1" data-report-head>${tt('המשוב שלך', 'Your feedback')}</h2>
+      <div class="stack-sm"><h2 tabindex="-1" data-report-head>${tt('המשוב שלכם', 'Your feedback')}</h2>
         <p>${f.task_completed ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השגתם את המטרה', 'You reached the goal')}</span>` : html`<span class="tag warn">${tt('המטרה עוד לא הושגה', 'Goal not reached yet')}</span>`}</p>
         <p dir="auto">${f.summary}</p>${f.summary_he ? html`<p lang="he" dir="rtl" class="muted">${isolateLatin(f.summary_he)}</p>` : ''}</div>
       ${strengths.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה עבד טוב', 'What worked')}</h3><ul class="check-rows small report-list">${strengths.map((x, i) => html`<li>${icon('check', { size: 16 })}${reportItem(x, f.strengths_he?.[i])}</li>`)}</ul></section>` : ''}

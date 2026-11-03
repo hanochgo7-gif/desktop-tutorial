@@ -11,8 +11,8 @@ export function fitOf(level, courseLevel) {
   return d < 0 ? 'below' : d === 0 ? 'at' : d === 1 ? 'stretch' : 'hard';
 }
 export const FIT_LABEL = {
-  below: ['מתחת לרמה שלך', 'Below your level'],
-  at: ['ברמה שלך', 'At your level'],
+  below: ['מתחת לרמה שלכם', 'Below your level'],
+  at: ['ברמה שלכם', 'At your level'],
   stretch: ['אתגר קטן', 'A small stretch'],
   hard: ['מאתגר', 'Challenging'],
 };
