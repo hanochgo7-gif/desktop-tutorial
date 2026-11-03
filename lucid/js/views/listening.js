@@ -43,7 +43,7 @@ export default async function listening(el, ctx) {
       ${mark(done.length ? 'completed' : '')}
       <span class="grow"><span style="display:block;font-weight:500">${title}</span>
         <span class="meta" style="display:block">${isDictation ? tt('תכתיב', 'Dictation') : tt('בחירה ממה ששמעתם', 'Choose what you hear')} · ${tt(`${words} מילים`, `${words} ${words === 1 ? 'word' : 'words'}`)}</span></span>
-      ${best != null ? html`<span class="tag ${best >= 0.7 ? 'ok' : 'warn'} num" title="${tt('התוצאה הטובה ביותר', 'Best result')}">${Math.round(best * 100)}%</span>` : html`<span class="xsmall faint">${tt('חדש', 'New')}</span>`}
+      ${best != null ? html`<span class="tag ${best >= 0.7 ? 'ok' : 'warn'} num" title="${tt('התוצאה הטובה ביותר', 'Best result')}">${Math.round(best * 100)}%</span>` : html`<span class="xsmall faint">${done.length ? tt('לא נספר', 'Not counted') : tt('חדש', 'New')}</span>`}
     </a></li>`;
   }
 

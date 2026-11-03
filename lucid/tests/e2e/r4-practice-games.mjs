@@ -40,6 +40,16 @@ async function newPage(browser, { w = 390, h = 844, touch = false, dark = false,
   page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) pageErrors.push(`${page.url()} :: console ${m.text()}`); });
   return { ctx, page };
 }
+// Speech synthesis stubbed in the page: with an English voice, and either playing (start, then end) or silent
+// (speak() never starts, so speech.js reports 'silent' after 1.5 s).
+const speechStub = (works) => `(() => {
+  const s = window.speechSynthesis; if (!s) return;
+  const voice = { lang: 'en-US', name: 'Stub English', default: true, localService: true, voiceURI: 'stub' };
+  s.getVoices = () => [voice];
+  window.SpeechSynthesisUtterance = class { constructor(text) { this.text = text; } };
+  s.cancel = () => {};
+  s.speak = ${works} ? (u) => { setTimeout(() => { u.onstart && u.onstart(); setTimeout(() => u.onend && u.onend(), 60); }, 20); } : () => {};
+})();`;
 // A learner at a course level (as the main suite makes one), with optional settings.
 async function learnerAt(page, level, { text = 100, settings = {} } = {}) {
   await page.goto(`${BASE}#/welcome`);
@@ -295,6 +305,42 @@ try {
     await page.click('.mem-size');
     await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 12);
     await ctx.close();
+  });
+  // ---------- PG-15 ----------
+  await check('PG-15. Listening hub: with speech silent the item is stored with no score and says "לא נספר"; with speech working the footer has "לא יודע/ת", which shows the answer', async () => {
+    const attemptsOn = (page) => page.evaluate(() => window.lucid.store.all('attempts').filter((a) => a.lesson === 'a1-02' && a.exercise === 'e3'));
+    // Silent: speak() never starts.
+    const silent = await newPage(browser, { touch: true, init: speechStub(false) });
+    await learnerAt(silent.page, 'A1');
+    await go(silent.page, 'listening?l=a1-02&e=e3', '[data-say="normal"]');
+    await silent.page.click('[data-say="normal"]');
+    await silent.page.waitForTimeout(1900);
+    const tr = await silent.page.$('#exroot button:is([data-transcript], [data-show-transcript])');
+    if (tr) await tr.click(); // the transcript path, where exercise.js offers one (EX-4)
+    await silent.page.click('#exroot [data-opt="0"]');
+    await silent.page.click('[data-check]');
+    await silent.page.waitForSelector('[data-next]');
+    const sa = await attemptsOn(silent.page);
+    assert(sa.length === 1 && sa[0].score === null, `the unheard attempt: ${JSON.stringify(sa)}`);
+    const foot = (await silent.page.textContent('#pfoot')).replace(/\s+/g, ' ');
+    assert(/לא נספר/.test(foot) && !/^נכון|לא בדיוק/.test(foot), `the unheard footer: ${foot}`);
+    await shot(silent.page, 'pg15-unheard-390');
+    await silent.ctx.close();
+    // Working speech: "I don't know" records a wrong first try and shows the answer.
+    const ok = await newPage(browser, { touch: true, init: speechStub(true) });
+    await learnerAt(ok.page, 'A1');
+    await go(ok.page, 'listening?l=a1-02&e=e3', '[data-say="normal"]');
+    const idk = await ok.page.$('#pfoot [data-dontknow]');
+    assert(idk && /לא יודע\/ת/.test(await idk.textContent()), 'no "לא יודע/ת" in the footer');
+    await shot(ok.page, 'pg15-idk-key-390');
+    await idk.click();
+    await ok.page.waitForSelector('[data-next]');
+    const shown = (await ok.page.textContent('#pfoot')).replace(/\s+/g, ' ');
+    assert(/He plays tennis\./.test(shown) && /הנה התשובה/.test(shown), `the answer is not shown: ${shown}`);
+    const oa = await attemptsOn(ok.page);
+    assert(oa.length === 1 && oa[0].correct === false && oa[0].score === 0, `the "I don't know" attempt: ${JSON.stringify(oa)}`);
+    await shot(ok.page, 'pg15-idk-390');
+    await ok.ctx.close();
   });
 } finally {
   await browser.close();
