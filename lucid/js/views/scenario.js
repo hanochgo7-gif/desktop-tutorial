@@ -127,7 +127,12 @@ export default async function scenarioView(el, ctx) {
   };
   // The footer is the lesson player's (.player-foot > .inner, a .verdict with role=status, one Enter key), sticky
   // inside the page and lifted above the phone tab bar by --rw-tabbar-h (RW-1): "Check" before, "Continue" after.
+  // While the learner writes their own reply, the footer is neutral: no verdict colour about the pick above, only
+  // "המשך" (r4 RW-7).
   const practiseFoot = (chosen) => {
+    if (chosen && ownOpen) {
+      return html`<div class="player-foot scenario-foot neutral" id="pfoot"><div class="inner"><button type="button" class="key enter" data-next-turn>${tt('המשך', 'Continue')}</button></div></div>`;
+    }
     if (!chosen) {
       return html`<div class="player-foot scenario-foot" id="pfoot"><div class="inner"><span class="grow small faint">${picked == null ? tt('בחרו תשובה, ואז ״בדיקה״.', 'Choose a reply, then "Check".') : ''}</span><button type="button" class="key enter" data-check-turn ${picked == null ? html`disabled` : ''}>${tt('בדיקה', 'Check')}</button></div></div>`;
     }
@@ -233,6 +238,7 @@ export default async function scenarioView(el, ctx) {
   function draw() {
     const body = { prepare, listen: listenTab, practise: practiseTab, roleplay: roleplayTab }[tab]();
     render(el, html`<div class="scenario-view">${head()}${body}</div>`);
+    measureFoot();
     const log = $('#rplog', el); if (log) log.scrollTop = log.scrollHeight;
   }
   // Bring a part of the page into view and move focus to it, so a phone user sees what changed (P-65, P-16).
@@ -244,10 +250,29 @@ export default async function scenarioView(el, ctx) {
     const r = target.getBoundingClientRect();
     if (always || r.top < 64 || r.top > innerHeight * 0.55) target.scrollIntoView({ block, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
+  // The footer alone is redrawn when the own-words box opens or closes, so the textarea keeps its focus (r4 RW-7).
+  const redrawFoot = () => {
+    const f = $('#pfoot', el);
+    if (!f || tab !== 'practise' || ti >= turnOrder.length) return;
+    const t = turnOrder[ti];
+    const box = document.createElement('div');
+    render(box, practiseFoot(checked && picked != null ? t.options[picked] : null));
+    f.replaceWith(box.firstElementChild);
+    measureFoot();
+  };
+  // The view's bottom padding is taller than the tab bar, so at the end of the page the footer would sit above its
+  // stuck place and jump between turns. Its end margin takes the difference back, so it always sits right on the
+  // tab bar; its height is kept in --rw-foot-h for the scroll margins (r4 RW-7).
+  const measureFoot = () => {
+    const view = el.closest('#view') || el;
+    el.style.setProperty('--rw-view-pad', getComputedStyle(view).paddingBottom);
+    const f = $('#pfoot', el);
+    if (f) el.style.setProperty('--rw-foot-h', `${f.getBoundingClientRect().height}px`);
+  };
   // The practice footer sits above the phone tab bar: its height (it changes with the text size, and is 0 when
   // the bar is hidden on wide screens) is kept in --rw-tabbar-h (RW-1).
   const tabbar = document.querySelector('.tabbar');
-  const setTabbarH = () => el.style.setProperty('--rw-tabbar-h', `${tabbar && getComputedStyle(tabbar).display !== 'none' ? tabbar.getBoundingClientRect().height : 0}px`);
+  const setTabbarH = () => { el.style.setProperty('--rw-tabbar-h', `${tabbar && getComputedStyle(tabbar).display !== 'none' ? tabbar.getBoundingClientRect().height : 0}px`); measureFoot(); };
   const tabbarRO = tabbar && typeof ResizeObserver === 'function' ? new ResizeObserver(setTabbarH) : null;
   tabbarRO?.observe(tabbar);
   setTabbarH();
@@ -319,12 +344,14 @@ export default async function scenarioView(el, ctx) {
       draw();
       reveal('[data-explain]', { block: 'nearest', always: true });
     }),
-    on(el, 'toggle', 'details[data-own-box]', (e, d) => { ownOpen = d.open; if (d.open) $('[data-own]', d)?.focus({ preventScroll: true }); }, true),
+    on(el, 'toggle', 'details[data-own-box]', (e, d) => { ownOpen = d.open; redrawFoot(); if (d.open) $('[data-own]', d)?.focus({ preventScroll: true }); }, true),
     on(el, 'toggle', 'details[data-why-others]', (e, d) => { othersOpen = d.open; }, true),
     on(el, 'click', '[data-own-check]', () => {
       typed = $('[data-own]', el).value;
       typedResult = checkOwnReply(typed, turnOrder[ti], { level: s.level });
       draw();
+      // The result comes into view clear of the sticky footer (r4 RW-7).
+      reveal('.own-result', { block: 'nearest', always: true });
     }),
     on(el, 'click', '[data-dictate]', async () => { try { const r = await listen({ variant }); typed = r.transcript; draw(); $('[data-own-check]', el)?.click(); } catch (e) { toast(speechErrorText(e)); } }),
     on(el, 'click', '[data-next-turn]', () => {
@@ -373,5 +400,5 @@ export default async function scenarioView(el, ctx) {
     }),
     on(el, 'click', '[data-new-rp]', () => { chat = null; report = null; stuck = false; draw(); }),
   ];
-  return () => { offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); };
+  return () => { offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); el.style.removeProperty('--rw-view-pad'); el.style.removeProperty('--rw-foot-h'); };
 }

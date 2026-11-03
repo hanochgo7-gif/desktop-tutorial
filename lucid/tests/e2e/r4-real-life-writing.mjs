@@ -170,6 +170,47 @@ try {
     assert(c.hidden >= 5 && after.hidden === 0 && after.shown >= 5 && after.exp === 'true', `the toggle did not open every Hebrew line: before ${c.hidden} hidden, after ${JSON.stringify(after)}`);
     await ctx.close();
   });
+
+  await check('RW-7 390x844: the scenario footer sits in the same place at turns 1 and 2, its key is full width, and after "Spot on" the own-words box gets a neutral footer that ends above the last issue card', async () => {
+    const { ctx, page, tap } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await open(page, 'scenario/rl-airport-checkin-overweight?tab=practise', '[data-opt]');
+    const foot = () => page.evaluate(() => { const f = document.querySelector('.scenario-foot'); const k = f.querySelector('.key.enter'); return { top: Math.round(f.getBoundingClientRect().top), key: Math.round(k.getBoundingClientRect().width), cls: f.className }; });
+    const t1 = await foot();
+    // The best reply of the turn, found by its text in the scenario data.
+    const pickBest = async () => {
+      const i = await page.evaluate(async () => {
+        const d = await (await fetch('content/real-life/scenarios.json')).json();
+        const s = d.scenarios.find((x) => x.id === 'rl-airport-checkin-overweight');
+        const step = Number(document.querySelector('[data-step]').textContent.match(/\d+/)[0]) - 1;
+        const best = s.practice[step].options.find((o) => o.verdict === 'best').text;
+        return [...document.querySelectorAll('[data-opt]')].findIndex((b) => b.textContent.includes(best));
+      });
+      await tap(`[data-opt="${i}"]`);
+      await tap('[data-check-turn]');
+      await page.waitForSelector('[data-next-turn]');
+    };
+    await pickBest();
+    await tap('[data-next-turn]');
+    await page.waitForTimeout(300);
+    const t2 = await foot();
+    assert(Math.abs(t1.top - t2.top) <= 2, `footer top: turn 1 ${t1.top}, turn 2 ${t2.top}`);
+    assert(t1.key >= 300 && t2.key >= 300, `check key width: ${t1.key}, ${t2.key}`);
+    await pickBest();
+    assert(/\bok\b/.test((await foot()).cls), 'the best pick did not give the "Spot on" footer');
+    await tap('[data-own-box] > summary');
+    await page.fill('[data-own]', 'I am agree. Nice to know you. I cant find my bag.');
+    await tap('[data-own-check]');
+    await page.waitForSelector('.own-result .error-card');
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await page.waitForTimeout(200);
+    const r = await page.evaluate(() => { const cards = [...document.querySelectorAll('.own-result .error-card')]; const f = document.querySelector('.scenario-foot'); return { n: cards.length, last: Math.round(cards.at(-1).getBoundingClientRect().bottom), top: Math.round(f.getBoundingClientRect().top), cls: f.className, label: f.textContent.trim() }; });
+    await shot(page, 'rw7-own-words-390');
+    assert(r.n === 3, `${r.n} issue cards`);
+    assert(r.last <= r.top, `the last card ends at ${r.last}, under the footer at ${r.top}`);
+    assert(!/\bok\b/.test(r.cls) && r.label === 'המשך', `footer while writing: "${r.cls}" "${r.label}"`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

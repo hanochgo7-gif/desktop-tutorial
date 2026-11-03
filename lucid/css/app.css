@@ -1715,6 +1715,18 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .topic-pick .topic-choice input[type='radio']:checked { border-color: var(--cobalt); background: var(--cobalt); box-shadow: inset 0 0 0 0.3rem var(--key); }
 .topic-pick .topic-choice input[type='radio']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
 .he-reveal.he-all { justify-self: start; margin-block-end: var(--s2); }
+/* RW-7: the scenario footer always sits right on the tab bar (its end margin takes back the part of the view's
+   bottom padding that is taller than the bar), the Enter key is full width on phones, and the footer is neutral
+   while the learner writes their own reply. */
+.scenario-view .scenario-foot { margin-block-end: calc(var(--rw-tabbar-h, 0px) - var(--rw-view-pad, 0px)); }
+@media (max-width: 40rem) {
+  .scenario-view .scenario-foot .inner { flex-wrap: wrap; }
+  .scenario-view .scenario-foot .inner > .key.enter { flex: 1 1 100%; justify-content: center; }
+  .scenario-view .scenario-foot .inner > .grow:empty { display: none; }
+  .scenario-view .scenario-foot .inner > .verdict { flex: 1 1 100%; }
+}
+.scenario-view .scenario-foot.neutral { --verdict: transparent; background: var(--ground); }
+.scenario-view .own-result, .scenario-view [data-explain] { scroll-margin-block-end: calc(var(--rw-foot-h, 6rem) + var(--rw-tabbar-h, 0px) + var(--s3)); }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */
