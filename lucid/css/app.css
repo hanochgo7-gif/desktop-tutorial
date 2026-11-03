@@ -1704,9 +1704,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .speed-switch:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
 .speed-switch:active { transform: translateY(2px); border-block-end-width: 1px; }
 .speed-track { position: relative; flex: none; width: 2.6em; height: 1.5em; border-radius: var(--r-pill); background: var(--key-sunk); border: 1px solid var(--key-edge); transition: background-color 0.15s ease, border-color 0.15s ease; }
-.speed-thumb { position: absolute; inset-block-start: 50%; inset-inline-start: 0.15em; width: 1.1em; height: 1.1em; transform: translateY(-50%); border-radius: 50%; background: var(--key); border: 1px solid var(--key-edge); box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.2); transition: inset-inline-start 0.15s ease; }
+.speed-thumb { position: absolute; inset-block-start: 50%; inset-inline-start: 0.15em; width: 1.1em; height: 1.1em; transform: translateY(-50%); border-radius: 50%; background: var(--ink-3); border: 1px solid transparent; box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.2); transition: inset-inline-start 0.15s ease; }
 .speed-switch[aria-checked='true'] .speed-track { background: var(--cobalt); border-color: var(--cobalt); }
-.speed-switch[aria-checked='true'] .speed-thumb { inset-inline-start: calc(100% - 1.25em); border-color: var(--cobalt); }
+.speed-switch[aria-checked='true'] .speed-thumb { inset-inline-start: calc(100% - 1.25em); background: var(--key); border-color: var(--cobalt); }
 .speed-field > .help { margin: 0; }
 @media (hover: hover) { .speed-switch:hover { border-color: var(--n5); } }
 @media (prefers-reduced-motion: reduce) { .speed-track, .speed-thumb { transition: none; } }
