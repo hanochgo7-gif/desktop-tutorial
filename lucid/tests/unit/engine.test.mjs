@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { gradeFrom, Rating, newCard, review, dueCards, vocabCardsFor, unlockedFormCards, newItemsBudget, retrievability } from '../../js/core/srs.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, dailyPlan, periodReport, LEVELS } from '../../js/core/adaptive.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, dailyPlan, periodReport, minutesToday, lessonSlice, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, zeroResult } from '../../js/core/placement.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
@@ -164,4 +164,31 @@ test('TF-9: placement says about how many questions are left; the bar stays unde
 test('placement tolerates an occasional slip (1 in 8)', () => {
   const r = simulate('B2', 'A1', { noise: 0.125 });
   assert.ok(['B1', 'B2'].includes(r.demonstrated), `got ${r.demonstrated}`);
+});
+
+// ---------- UX r4 today-path ----------
+test('TP-2: minutesToday counts a replayed lesson exercise once, and adds reading time for a lesson read today', () => {
+  const lessons = new Map([['a2-01', { minutes: 25, exercises: 16, intro: 2 }]]);
+  const pace = 25 / 18;
+  const once = ['e1', 'e2', 'e3', 'e4'].map((exercise, i) => ({ source: 'lesson', lesson: 'a2-01', exercise, at: at(0, i) }));
+  const replay = [...once, ...once.map((a) => ({ ...a, at: at(0, 5) })), { ...once[0], retry: true, at: at(0, 6) }];
+  assert.equal(minutesToday({ attempts: once, lessons }), Math.round(4 * pace));
+  assert.equal(minutesToday({ attempts: replay, lessons }), Math.round(4 * pace), 'a replay or retry added minutes again');
+  // A 'learn' event today (contract (f)) adds the explanation once, however many steps were shown.
+  const learn = [1, 2, 3].map((step) => ({ type: 'learn', lesson: 'a2-01', step }));
+  assert.equal(minutesToday({ attempts: once, events: learn, lessons }), Math.round(6 * pace));
+  // Without the event, a lesson only opened today adds no reading time; begun and completed today still does.
+  assert.equal(minutesToday({ attempts: once, whole: ['a2-01'], lessons }), Math.round(6 * pace));
+  assert.equal(minutesToday({ attempts: once, events: learn, whole: ['a2-01'], lessons }), Math.round(6 * pace), 'reading counted twice');
+});
+
+test('TP-2: a part finished today stays done when the day gets more minutes (held)', () => {
+  const lesson = { minutes: 25, exercises: 16, intro: 2, done: 4, doneToday: 4, revisit: 0 };
+  const ten = lessonSlice(lesson, 7);
+  assert.deepEqual([ten.split, ten.upto, ten.partDone], [true, 4, true]);
+  assert.equal(lessonSlice(lesson, 14).partDone, false, 'without a hold, a longer day extends the part');
+  const held = lessonSlice({ ...lesson, held: 4 }, 14);
+  assert.deepEqual([held.upto, held.partDone, held.done], [4, true, 4]);
+  // A hold ahead of the saved place (the run was reset) does not apply.
+  assert.equal(lessonSlice({ ...lesson, done: 2, doneToday: 2, held: 4 }, 14).partDone, false);
 });

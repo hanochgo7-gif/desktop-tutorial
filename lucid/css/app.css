@@ -324,7 +324,7 @@ body.bare .view { max-width: none; padding: 0; }
 .plan-item:hover { border-color: var(--n5); }
 .plan-item .why { color: var(--ink-2); font-size: var(--t-sm); margin-block-start: 0.15rem; }
 .plan-item .glyph { width: 2.6rem; height: 2.6rem; border-radius: 0.7rem; display: grid; place-items: center; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
-.plan-item.done { opacity: 0.6; }
+.plan-item.done { background: var(--key-sunk); box-shadow: none; border-block-end-width: 1px; color: var(--ink-2); }
 .plan-item.done .glyph { background: var(--ok-tint); color: var(--ok); border-color: transparent; }
 .plan-time { font-size: var(--t-sm); color: var(--ink-3); white-space: nowrap; }
 .start-bar { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
@@ -1688,6 +1688,16 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-exercises: end ---- */
 
 /* ---- lane r4-today-path: start ---- */
+/* TP-3: a done row keeps full contrast: a quiet sunk card (set above), --ink-2 text, the green check, and what was
+   done in the time cell (TP-2), never a faded card. */
+.plan-item.done :is(.faint, .plan-time, .why) { color: var(--ink-2); }
+.plan-item.done .plan-time.done-what { white-space: normal; font-weight: 500; }
+/* TP-1: the first round of today's new words, one quiet line above "Want more?". */
+.first-recall { margin: 0; }
+.done-banner { margin-block-end: var(--s3); }
+.first-recall .nowrap { white-space: nowrap; }
+.first-recall a { display: inline-flex; align-items: center; gap: var(--s2); min-height: 2.75rem; color: var(--cobalt); }
+.first-recall a svg { flex: none; }
 
 /* ---- lane r4-today-path: end ---- */
 

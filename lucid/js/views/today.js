@@ -3,10 +3,10 @@ import { html, render, on, todayKey } from '../core/util.js';
 import { tt, legend, t, uiLang, isolateLatin } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
-import { profile, saveProfile, settings, saveSettings, todayPlan, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep } from '../core/learner.js';
+import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayMinutes, holdTodayPart } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
-import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, planStatus, minutesToday, introSlots } from '../core/adaptive.js';
+import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
 import { router } from '../core/router.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
@@ -153,8 +153,34 @@ export function bindPlacementCard(el, ctx) {
 }
 
 const wide = () => globalThis.matchMedia?.('(min-width: 64rem)').matches ?? true;
-// The minutes for today: a choice made on Today counts only for the day it was made (TF-5).
-export const todayMinutes = (s = settings()) => (s.today_minutes?.date === todayKey() && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes);
+// The minutes for today (TF-5) now live in learner.js (TP-1), so the lesson end reads the same rule; re-exported
+// here so that existing imports keep working.
+export { todayMinutes };
+
+// What a done block shows instead of minutes (TP-2): what was done today, counted from today's records, so a
+// finished block never shows a leftover budget that changes between visits. Singular forms for 1 (TP-12).
+const countOf = (n, one, many, oneEn, manyEn) => (n === 1 ? tt(one, oneEn) : tt(`${n} ${many}`, `${n} ${manyEn}`));
+export const exercisesText = (n) => countOf(n, 'תרגיל אחד', 'תרגילים', '1 exercise', 'exercises');
+export const wordsText = (n) => countOf(n, 'מילה אחת', 'מילים', '1 word', 'words');
+export const turnsText = (n) => countOf(n, 'תור אחד', 'תורות', '1 turn', 'turns');
+export const answersText = (n) => countOf(n, 'תשובה אחת', 'תשובות', '1 answer', 'answers');
+export function doneWhat(b, { attempts = [], reviews = {} } = {}) {
+  const first = (pick) => firstTries(attempts.filter(pick)).length;
+  const turns = (id) => first((a) => a.source === 'scenario' && String(a.exercise).startsWith(`${id}:`)) || (attempts.some((a) => a.source === 'roleplay' && a.exercise === id) ? 1 : 0);
+  let n = 0;
+  let text = null;
+  if (b.id === 'review' || b.id === 'warmup' || b.id === 'exit') { n = b.id === 'review' ? reviews.review || b.count : reviews[b.id] || 0; text = wordsText; }
+  else if (b.id === 'learn') { n = first((a) => a.source === 'lesson' && a.lesson === b.lesson); text = exercisesText; }
+  else if (b.id === 'practice') {
+    if (b.focus?.kind === 'scenario') { n = turns(b.focus.scenario); text = turnsText; }
+    else { n = first((a) => a.source === 'drill'); text = exercisesText; }
+  } else if (b.id === 'use') {
+    if (b.scenario) { n = turns(b.scenario); text = turnsText; }
+    else if (b.kind === 'reading') { n = first((a) => a.source === 'reading'); text = answersText; }
+    else if (b.kind === 'writing') return tt('הטקסט נשמר', 'Text saved');
+  }
+  return n > 0 && text ? text(n) : tt('בוצע', 'Done');
+}
 
 export default async function today(el, ctx) {
   ctx.setTitle(t('nav.today'));
@@ -172,6 +198,8 @@ export default async function today(el, ctx) {
   let importNote = '';
   // The plan shows the next lesson's real length, so it needs the lesson file (cached after the first load).
   let loadingLesson = null;
+  // The plan last drawn, so a change of today's minutes can keep a part finished under the old minutes (TP-2).
+  let lastPlan = null;
   async function loadLesson(id) {
     if (!id || extras.lesson?.id === id || loadingLesson === id) return;
     loadingLesson = id;
@@ -179,7 +207,8 @@ export default async function today(el, ctx) {
     loadingLesson = null;
     if (lesson && model().next?.id === id) { extras.lesson = lesson; draw(); }
   }
-  // The pace of each lesson answered today, from its file, for the minutes done today (TF-2). Loaded once each.
+  // The pace of each lesson answered or read today, from its file, for the minutes done today (TF-2, TP-2).
+  // Loaded once each.
   const paces = new Map();
   async function loadPaces(ids) {
     const missing = ids.filter((id) => !paces.has(id));
@@ -205,9 +234,6 @@ export default async function today(el, ctx) {
     const activeDays = new Set(m.attempts.filter((a) => a.source !== 'placement').map((a) => String(a.at).slice(0, 10))).size;
     const uiSwitchOffer = p?.ui_language !== 'en' && !m.placementPending && levelIndex(m.courseLevel) >= levelIndex('B1') && activeDays >= 3
       && s.ui_switch_answered !== 'en' && (!s.ui_switch_answered || levelIndex(m.courseLevel) > levelIndex(s.ui_switch_answered));
-    // Today's minutes: the learner's choice for today, or the daily default from Settings (TF-5).
-    const target = todayMinutes(s);
-    const plan = todayPlan(target, extras);
     const week = weekActivity();
     const dueList = due();
     const dueCount = dueList.length;
@@ -221,16 +247,21 @@ export default async function today(el, ctx) {
     // A block is ticked only for what was really done: the plan marks each block itself (adaptive.dailyPlan).
     const isDone = (b) => Boolean(b.done);
     // Today is done when every block is done or today's work adds up to the day's minutes (TF-2): then the plan
-    // shows what was done, ticked, and anything else is an optional extra, never a new plan.
+    // shows what was done, ticked, and anything else is an optional extra, never a new plan. The rule is
+    // learner.dayStatus, which the lesson end reads too (TP-1), with the paces of today's lessons.
     const attemptsToday = m.attempts.filter((a) => isToday(a.at));
-    loadPaces([...new Set(attemptsToday.filter((a) => a.source === 'lesson' && a.lesson).map((a) => a.lesson))]);
-    const minutesDone = minutesToday({
-      attempts: attemptsToday, events: store.all('events').filter((e) => isToday(e.at)), lessons: paces,
-      whole: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
-    });
-    const status = planStatus(plan, { minutesDone, target });
-    const complete = !m.placementPending && status.complete;
-    const first = complete ? null : plan.blocks.find((b) => !isDone(b));
+    const eventsToday = store.all('events').filter((e) => isToday(e.at));
+    loadPaces([...new Set([
+      ...attemptsToday.filter((a) => a.source === 'lesson' && a.lesson).map((a) => a.lesson),
+      ...eventsToday.filter((e) => e.type === 'learn' && e.lesson).map((e) => e.lesson),
+    ])]);
+    const day = dayStatus({ ...extras, paces });
+    lastPlan = day.plan;
+    const { target, plan, complete } = day;
+    const status = { open: day.open };
+    const first = day.next;
+    // Cards reviewed today per review mode, for the done rows (TP-2).
+    const reviewsToday = eventsToday.filter((e) => e.type === 'review' && e.count > 0).reduce((o, e) => ({ ...o, [e.mode || 'review']: (o[e.mode || 'review'] || 0) + e.count }), {});
     const hour = new Date().getHours();
     const hello = hour < 12 ? tt('בוקר טוב', 'Good morning') : hour < 18 ? tt('צהריים טובים', 'Good afternoon') : tt('ערב טוב', 'Good evening');
     const scenario = (id) => extras.scenarios.find((x) => x.id === id);
@@ -251,9 +282,11 @@ export default async function today(el, ctx) {
         }
         case 'learn': {
           // A lesson completed today: the plan shows that lesson, ticked (TF-2).
+          // A done block says so (TP-3): "Done today", never "Continue:" on a card whose part is finished.
           const done = b.completed ? lessons.get(b.lesson) : null;
-          if (done) return html`<span class="small faint">${tt('השיעור של היום הושלם:', 'Today\'s lesson is done:')}</span> ${legend(done.title_en, done.title_he)}`;
+          if (done) return html`<span class="small faint">${tt('הושלם היום:', 'Done today:')}</span> ${legend(done.title_en, done.title_he)}`;
           if (!m.next) return tt('השיעור הבא', 'Next lesson');
+          if (b.done) return html`<span class="small faint">${tt('הושלם היום:', 'Done today:')}</span> ${legend(m.next.title_en, m.next.title_he)}`;
           // After a run that ended under the pass mark, the lead follows the lesson's own banding: "nearly done"
           // from 50% up, and below 50% the lesson is still open (TF-2; ux-research F3).
           const last = m.progress.get(m.next.id)?.last_score;
@@ -394,17 +427,23 @@ export default async function today(el, ctx) {
     const row = (b, { extra = false } = {}) => html`<li><a class="panel plan-item ${extra ? 'flat more-item' : ''} ${isDone(b) ? 'done' : ''}" href="#/${b.route}">
       <span class="glyph">${icon(glyphFor(b, isDone(b)))}</span>
       <span class="pi-title">${title(b)}</span>
-      <span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span>
+      ${isDone(b) ? html`<span class="plan-time done-what">${doneWhat(b, { attempts: attemptsToday, reviews: reviewsToday })}</span>` : html`<span class="plan-time num">${b.minutes} ${tt('דק׳', 'min')}</span>`}
       <span class="why">${why(b)}</span></a></li>`;
     // "Want more?" once the day is done (TF-2): the blocks not done, another review round, the next lesson or the
     // rest of today's lesson, and a quick word game at the learner's level.
     // The goal item (TF-4) is listed once, not beside an open "use it" block with the same route.
     const goalItem = plan.offer && !status.open.some((b) => b.route === plan.offer.route) ? [plan.offer] : [];
-    const more = complete ? [...status.open, ...plan.extras, ...goalItem, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])] : [];
-    // Before the day is done, only the lesson's own continuation and, on a short day, the goal item are offered:
-    // quiet rows under the plan, outside its minutes.
-    const lessonMore = complete ? [] : [...plan.extras.filter((b) => b.id === 'learn'), ...(plan.blocks.some((b) => b.id === 'use') ? [] : goalItem)];
-    const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt(`התוכנית להיום הושלמה${minutesDone ? ` (כ-${minutesDone} דק׳)` : ''}`, `Today's plan is done${minutesDone ? ` (about ${minutesDone} min)` : ''}`)}</strong>
+    // A first round of today's new words still waiting on a finished day gets its own gentle line above
+    // "Want more?" (TP-1), so it is not listed again among the extras.
+    const firstRecall = day.firstRecall;
+    const openLeft = firstRecall ? status.open.filter((b) => b.id !== 'review') : status.open;
+    // Before the day is done, only the lesson's own continuation and, on a short day, the goal item are offered.
+    // Either way they sit under "Want more?", outside the plan's minutes, never as a second card beside a done
+    // lesson (TP-3).
+    const more = complete ? [...openLeft, ...plan.extras, ...goalItem, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])]
+      : [...plan.extras.filter((b) => b.id === 'learn'), ...(plan.blocks.some((b) => b.id === 'use') ? [] : goalItem)];
+    // The done banner names no minutes (TP-2): the done rows say what was done.
+    const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt('התוכנית להיום הושלמה', 'Today\'s plan is done')}</strong>
       ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
 
     const planSection = m.placementPending
@@ -414,7 +453,9 @@ export default async function today(el, ctx) {
             ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : doneBanner}
           ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="pi-title">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="plan-time">${icon('chevron')}</span><span class="why">${legend(otherPlan.title_en, otherPlan.title_he)}<span style="display:block">${stepText(resumeStep(other.resume))}</span></span></a>` : ''}
           <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
-          ${lessonMore.length ? html`<ul class="plan more-list" style="list-style:none;padding:0;margin:0" aria-label="${tt('אפשר גם', 'Also possible')}">${lessonMore.map((b) => row(b, { extra: true }))}</ul>` : ''}
+          ${firstRecall ? html`<p class="first-recall small"><a href="#/${firstRecall.route}" data-first-recall>${icon('layers', { size: 16 })}<span>${firstRecall.count === 1
+            ? tt('המילה החדשה של היום מחכה לסבב ראשון', 'Today\'s new word is waiting for its first round')
+            : tt(`${firstRecall.count} המילים החדשות של היום מחכות לסבב ראשון`, `Today's ${firstRecall.count} new words are waiting for their first round`)} · <span class="nowrap">${tt(`כ-${firstRecall.minutes} דק׳`, `about ${firstRecall.minutes} min`)}</span></span></a></p>` : ''}
           ${more.length ? html`<section class="more-today stack-sm" aria-labelledby="more-h"><h3 id="more-h">${tt('רוצים עוד?', 'Want more?')}</h3>
             <p class="small muted">${tt('לא חובה. כל אחד מאלה עומד בפני עצמו.', 'Optional. Each of these stands on its own.')}</p>
             <ul class="plan more-list" style="list-style:none;padding:0;margin:0">${more.map((b) => row(b, { extra: true }))}</ul></section>` : ''}
@@ -463,7 +504,8 @@ export default async function today(el, ctx) {
     on(el, 'click', '[data-min]', (e, b) => {
       const n = Number(b.dataset.min);
       minutesNote = '';
-      saveSettings({ today_minutes: n === settings().daily_minutes ? null : { date: todayKey(), n } });
+      const hold = holdTodayPart(lastPlan?.blocks.find((b) => b.id === 'learn' && !b.completed));
+      saveSettings({ ...hold, today_minutes: n === settings().daily_minutes ? null : { date: todayKey(), n } });
       el.querySelector(`[data-min="${n}"]`)?.focus();
       setTimeout(() => {
         minutesNote = tt(`התוכנית עודכנה ל-${n} דקות`, `The plan now fits ${n} minutes`);
