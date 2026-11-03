@@ -489,6 +489,24 @@ try {
     void tutor;
     await ctx.close();
   });
+  // ---------- PG-11 ----------
+  await check('PG-11. Reading hub at 390 for an A2 learner: levels are folds, only A2 is open, the page is under 3,000px, and a fold stays as left on redraw', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A2');
+    await go(page, 'reading', '.lesson-row');
+    await page.waitForTimeout(300);
+    const r = await page.evaluate(() => ({ levels: [...document.querySelectorAll('details[data-level]')].map((d) => `${d.dataset.level}:${d.open ? 'open' : 'closed'}`), h: document.documentElement.scrollHeight, next: Boolean(document.querySelector('.page-head a.key.enter')), first: document.querySelector('details[data-level]')?.dataset.level }));
+    assert(r.levels.length >= 3, `no level folds: ${r.levels}`);
+    assert(r.levels.filter((x) => x.endsWith(':open')).join() === 'A2:open' && r.first === 'A2', `open folds: ${r.levels}`);
+    assert(r.h < 3000, `the page is ${r.h}px tall`);
+    assert(r.next, 'no next-text key at the top');
+    await shot(page, 'pg11-reading-390');
+    await page.click('details[data-level="B1"] > summary');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.recordAttempt({ source: 'reading', lesson: 'zz', exercise: 'zz', skill: 'reading', level: 'A2', correct: true }); });
+    await page.waitForTimeout(400);
+    assert(await page.$eval('details[data-level="B1"]', (d) => d.open), 'an opened fold closed on redraw');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

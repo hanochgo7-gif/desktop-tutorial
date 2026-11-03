@@ -1,15 +1,16 @@
 // Reading center: every reading passage from the lessons on this device, grouped by level. The list opens
 // at the learner's level: the recommended level first, then the levels above it, then easier texts, closest
-// first (persona panel P-35). A text opens in the focused player (Check, feedback, Continue) and is
-// recorded as reading practice.
-import { html, render } from '../core/util.js';
+// first (persona panel P-35). Each level is a fold, as in the Listening centre (UX r4 PG-11): only the recommended
+// one is open, and the learner's own opening and closing is kept for the visit. A text opens in the focused player
+// (Check, feedback, Continue) and is recorded as reading practice.
+import { html, render, on } from '../core/util.js';
 import { tt, t } from '../core/i18n.js';
 import { taxonomyIndex } from '../core/content.js';
-import { mark, emptyState } from '../ui/components.js';
+import { mark, emptyState, icon, LEVEL_LABEL } from '../ui/components.js';
 import { model } from '../core/learner.js';
 import { countWords } from '../core/grading.js';
 import { levelIndex } from '../core/adaptive.js';
-import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, orderedGroups, attemptsOn, bestScore, itemHref, findItem, levelHeading, runPlayer, missingPlayer } from '../ui/center.js';
+import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, orderedGroups, attemptsOn, bestScore, itemHref, findItem, runPlayer, missingPlayer } from '../ui/center.js';
 
 export function passageTitle(ex) {
   if (ex.title) return ex.title;
@@ -38,7 +39,8 @@ export default async function reading(el, ctx) {
     const best = bestScore(done);
     const q = item.ex.questions?.length || 0;
     const words = countWords(item.ex.passage);
-    return html`<li><a class="lesson-row three" href="${itemHref('reading', item)}">
+    // A compact row, as in the Listening centre (UX r4 PG-11), so a level of 15 texts stays short on a phone.
+    return html`<li><a class="lesson-row ls-row" style="--row: reading" href="${itemHref('reading', item)}">
       ${mark(done.length ? 'completed' : '')}
       <span class="grow"><span style="display:block;font-weight:500"><span lang="en" dir="ltr">${passageTitle(item.ex)}</span></span>
         <span class="meta" style="display:block">${tt(`${words} מילים · ${q} שאלות`, `${words} words · ${q} ${q === 1 ? 'question' : 'questions'}`)} · <span lang="en" dir="ltr">${item.lesson.title_en}</span></span></span>
@@ -72,14 +74,24 @@ export default async function reading(el, ctx) {
       </div>
       <div class="stack-lg">
         <p class="small faint num">${tt(`קראתם ${doneCount} מתוך ${items.length} טקסטים`, `${doneCount} of ${items.length} texts read`)}</p>
-        ${ordered.map((g) => html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('טקסטים קלים יותר, מהקרוב לרמה שלכם', 'Easier texts, closest to your level first')}</h2>` : ''}<section class="stack-sm" aria-labelledby="rd-${g.level}">
-          ${levelHeading(g.level, ix.level, { recommended: g.level === rec, above: levelIndex(g.level) > ci, id: `rd-${g.level}` })}
-          <ol class="lesson-list" style="list-style:none;padding:0;margin:0">${g.items.map((x) => row(x, m.attempts))}</ol>
-        </section>`)}
+        <div class="stack-sm">${ordered.map((g) => {
+          const meta = ix.level.get(g.level);
+          const doneN = g.items.filter((x) => attemptsOn(m.attempts, x).length).length;
+          const isOpen = openState.has(g.level) ? openState.get(g.level) : g.level === (rec || ordered[0].level);
+          return html`${g === firstEasier ? html`<h2 class="small faint easier-head">${tt('טקסטים קלים יותר, מהקרוב לרמה שלכם', 'Easier texts, closest to your level first')}</h2>` : ''}<section aria-labelledby="rd-${g.level}"><details class="panel flat" data-level="${g.level}" ${isOpen ? html`open` : ''}>
+            <summary class="disclosure">
+              <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
+              <h2 class="grow" id="rd-${g.level}" style="font-size:var(--t-lg)">${LEVEL_LABEL[g.level]}${meta ? html` · ${tt(meta.name_he, meta.name_en)}` : ''}</h2>
+              <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec ? html`<span class="tag cobalt">${tt('מומלץ לרמה שלכם', 'Recommended for your level')}</span>` : levelIndex(g.level) > ci ? html`<span class="faint">${tt('מעל הרמה הנוכחית: אתגר', 'Above your current level: a stretch')}</span>` : ''}<span class="faint num">${tt(`${doneN} מתוך ${g.items.length}`, `${doneN} of ${g.items.length}`)}</span></span>
+            </summary>
+            <ol class="lesson-list" aria-labelledby="rd-${g.level}" style="list-style:none;padding:0;margin:var(--s4) 0 0">${g.items.map((x) => row(x, m.attempts))}</ol>
+          </details></section>`;
+        })}</div>
       </div>`);
   }
 
+  const openState = new Map(); // level -> open, as the learner leaves it during this visit
   draw();
   ctx.watch(['attempts', 'progress'], draw);
-  return null;
+  return on(el, 'toggle', 'details[data-level]', (e, d) => { if (e.target === d) openState.set(d.dataset.level, d.open); }, true);
 }
