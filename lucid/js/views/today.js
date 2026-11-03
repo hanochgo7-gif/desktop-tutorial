@@ -21,14 +21,16 @@ export function glyphFor(b, done = false) {
 }
 const L = (l) => LEVEL_LABEL[l] || l;
 
-// A lesson's can-do line on Today and the path (TP-5): bi() orders the two languages by the Hebrew support level,
-// so Hebrew leads at full support and English leads above it. These rows are links, which cannot hold bi()'s
-// Hebrew chip button, so where the support level would fold the Hebrew behind that chip the row shows the
-// English alone (the lesson itself has the chip).
+// A lesson's can-do line on Today and the path (TP-5), by the Hebrew support level as bi() orders it: at full
+// support bi() puts the Hebrew first; at partial support the English leads with the Hebrew under it; at minimal and
+// off the English stands alone. These rows are links, which cannot hold bi()'s Hebrew chip button, so the folded
+// levels show no chip here (the lesson itself has it). The English-led lines keep the row's own English element,
+// so the shell's alignment rules for it still apply.
 export function canDo(en, he, cls = 'can-do') {
   if (!en) return '';
   const s = hebrewSupport();
-  return html`<span class="${cls}" style="display:block">${he && (s === 'full' || s === 'partial') ? bi({ en, he }) : bi(en)}</span>`;
+  if (he && s === 'full') return html`<span class="${cls}" style="display:block">${bi({ en, he })}</span>`;
+  return html`<span class="${cls}" style="display:block" lang="en" dir="ltr">${en}</span>${he && s === 'partial' ? html`<span class="${cls}" style="display:block" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}`;
 }
 const arrow = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
 

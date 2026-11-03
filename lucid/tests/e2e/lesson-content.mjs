@@ -156,7 +156,15 @@ try {
     const he = await page.$$eval('.lesson-list [lang="he"]', (els) => els.map((e) => e.innerText.trim()));
     assert(he.includes('חוויות בחיים: present perfect'), 'b1-01 has no Hebrew title');
     assert(he.includes('פועל + ing או פועל + to'), 'b1-09 has no Hebrew title');
-    assert(he.includes('אני יודע/ת לדבר על חוויות בחיים.'), 'the b1-01 can-do is English only');
+    // UX r4 TP-5: the can-do follows the Hebrew support level. B1 is minimal support, where the path row shows the
+    // English can-do alone; with full support the Hebrew can-do leads.
+    assert(!he.includes('אני יודע/ת לדבר על חוויות בחיים.'), 'the b1-01 Hebrew can-do shows at minimal support');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.saveSettings({ hebrew_support: 'full' }); });
+    await page.waitForTimeout(300);
+    await page.reload();
+    await page.waitForSelector('.lesson-list');
+    const full = await page.$$eval('.lesson-list [lang="he"]', (els) => els.map((e) => e.innerText.trim()));
+    assert(full.includes('אני יודע/ת לדבר על חוויות בחיים.'), 'the b1-01 can-do is English only at full support');
     await ctx.close();
   });
 
