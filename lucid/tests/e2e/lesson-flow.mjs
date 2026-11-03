@@ -382,13 +382,13 @@ try {
     assert(end === banner && banner === today, `minutes: end ${end}, intro ${banner}, Today ${today}`);
     await ctx.close();
   });
-  await check('LF-4 A pass while reviews are due leads back to the plan; the review promise is honest', async () => {
+  await check('LF-4 A pass while reviews are due opens the review itself (r4 LF-1: never Today); the review promise is honest', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/a1-01.json')).json(), new Date(Date.now() - 5 * 86400000)); });
     await lessonAt(page, 'a2-01', null, Object.fromEntries(scoredIds(lessonJson('a2-01')).map((x) => [x, 1])));
     const p = await page.$eval('#pfoot .key.enter', (b) => ({ text: b.textContent, href: b.getAttribute('href') }));
-    assert(/^להמשיך בתוכנית: חזרה על מילים · \d+ דק׳/.test(p.text.trim()) && p.href === '#/today', `main key: ${JSON.stringify(p)}`);
+    assert(/^להמשיך בתוכנית: חזרה על מילים · \d+ דק׳/.test(p.text.trim()) && p.href === '#/review', `main key: ${JSON.stringify(p)}`);
     assert(await page.$('#pfoot [data-next-lesson]'), '"Next lesson" is not offered second');
     const body = await page.textContent('.player-body');
     assert(!/בדיוק לפני שתשכחו/.test(body) && /בזמן שמתאים לזיכרון/.test(body), 'the review promise still overclaims');

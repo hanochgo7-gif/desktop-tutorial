@@ -11,10 +11,13 @@ import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
 import { exitTarget } from '../ui/player.js';
-import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due } from '../core/learner.js';
+import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due, resumeStep } from '../core/learner.js';
+// The day's status comes from learner.dayStatus when it exists (contract (a), today-path TP-1), read through the
+// namespace so this module still loads before that export lands.
+import * as learner from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
-import { lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
+import { lessonOrder, introSlots, firstTries, minutesToday, planStatus, isLessonId } from '../core/adaptive.js';
 import { answerPoints, isMissed, fillGaps, mistakeNote } from '../core/pool.js';
 
 export { answerPoints };
@@ -390,16 +393,43 @@ function planSlice(id, lesson) {
     return todayPlan(settings().daily_minutes, { lesson }).blocks.find((b) => b.id === 'learn' && b.lesson === id)?.slice || null;
   } catch { return null; }
 }
-// What is left in today's plan after this lesson (LF-4): the first block not done yet, as Today marks it.
-// The lesson block itself (now the next lesson) leaves the main action as "Next lesson".
-function planLeft() {
+// Today's state of the day after this lesson (LF-1), by Today's own rule: the plan for today's minutes (a choice
+// made on Today counts for that day only), and the day is done when every block is done or today's work adds up
+// to those minutes (adaptive.planStatus with minutesToday). learner.dayStatus (TP-1) is used when it exists;
+// this fallback is the same computation, so the lesson end and Today never disagree.
+// Returns { complete, next, firstRecallOpen }, or null (placement still pending, or no plan).
+export function planLeft({ lesson = null, scenarios = [], writingTasks = [], paces = new Map() } = {}) {
   try {
     if (model().placementPending) return null;
-    const dueCount = due().length;
-    const isDone = (b) => (b.id === 'review' && dueCount === 0) || ((b.id === 'use' || b.id === 'practice') && Boolean(b.done)) || (b.id === 'learn' && Boolean(b.slice?.partDone));
-    const first = todayPlan(settings().daily_minutes).blocks.find((b) => !isDone(b));
-    return first && first.id !== 'learn' ? first : null;
+    if (typeof learner.dayStatus === 'function') {
+      const st = learner.dayStatus({ lesson, scenarios, writingTasks, paces });
+      if (st) return { complete: Boolean(st.complete), next: st.complete ? null : st.next || null, firstRecallOpen: firstRecallOpen(st.plan, st.firstRecallOpen) };
+    }
+    const s = settings();
+    const day = todayKey();
+    const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
+    const target = s.today_minutes?.date === day && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes;
+    const plan = todayPlan(target, { lesson, scenarios, writingTasks });
+    const minutesDone = minutesToday({
+      attempts: model().attempts.filter((a) => isToday(a.at)), events: store.all('events').filter((e) => isToday(e.at)), lessons: paces,
+      whole: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
+    });
+    const st = planStatus(plan, { minutesDone, target });
+    return { complete: st.complete, next: st.complete ? null : plan.blocks.find((b) => !b.done) || null, firstRecallOpen: firstRecallOpen(plan) };
   } catch { return null; }
+}
+// Words that entered review today and have not had their first round yet, while the review block is open.
+function firstRecallOpen(plan, given) {
+  if (typeof given === 'boolean') return given;
+  if ((plan?.blocks || []).some((b) => b.id === 'review' && b.done)) return false;
+  const day = todayKey();
+  return due().some((c) => todayKey(new Date(c.created_at)) === day && !c.log?.length && !c.fsrs?.reps);
+}
+// A lesson's pace for the minutes done today, as Today loads it.
+const paceOf = (l) => ({ minutes: l.minutes, exercises: l.exercises.length, intro: introSlots(l) });
+// The words of a lesson that entered review today (words queued for the next days are not counted).
+export function wordsAddedToday(cards, lessonId, day = todayKey()) {
+  return cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.ref?.lesson === lessonId && todayKey(new Date(c.created_at)) === day).length;
 }
 const blockName = (b) => ({
   warmup: tt('חימום', 'Warm-up'),
@@ -424,6 +454,23 @@ export default async function lessonView(el, ctx) {
   const nextPlan = order.slice(idx + 1).find((l) => !available.size || available.has(l.id)) || null;
   // Leaving returns to where the learner came from (LF-11).
   const exitTo = exitTarget(ctx.from, 'today');
+  // What Today needs to judge the day (LF-1), loaded while the lesson runs: the scenarios and writing tasks of
+  // the plan, the next lesson's file and the pace of every lesson answered today. Each load is cached.
+  const dayExtras = { lesson: null, scenarios: [], writingTasks: [], paces: new Map() };
+  (async () => {
+    const today = todayKey();
+    const ids = [...new Set(model().attempts.filter((a) => a.source === 'lesson' && a.lesson && a.lesson !== id && todayKey(new Date(a.at)) === today).map((a) => a.lesson))];
+    const [sc, wr, nextFile, ...others] = await Promise.all([content.scenarios().catch(() => null), content.writingExercises().catch(() => null), nextPlan ? content.lesson(nextPlan.id).catch(() => null) : null, ...ids.map((x) => content.lesson(x).catch(() => null))]);
+    dayExtras.scenarios = sc?.scenarios || [];
+    dayExtras.writingTasks = wr?.exercises || [];
+    dayExtras.lesson = nextFile;
+    for (const l of others) if (l) dayExtras.paces.set(l.id, paceOf(l));
+  })().catch(() => {});
+  const dayState = () => {
+    dayExtras.paces.set(id, paceOf(lesson));
+    const next = model().next;
+    return planLeft({ ...dayExtras, lesson: next && dayExtras.lesson?.id === next.id ? dayExtras.lesson : null });
+  };
 
   let stage = ctx.query.stage === 'practice' || ctx.query.stage === 'missed' ? 'practice' : 'intro';
   const queue = lesson.exercises.map((ex) => ({ ex, retry: false }));
@@ -502,6 +549,7 @@ export default async function lessonView(el, ctx) {
     if (resuming) restoreResume(p.resume);
     const rs = resuming ? resumeStepOf(p.resume) : null;
     const mi = resuming ? null : missedInfo(p);
+    const relearnFirst = Boolean(mi && mi.score < 0.5);
     const note = partNote(resuming);
     const noteLine = note ? html`<p class="foot-note xsmall" data-part-line>${note}</p>` : '';
     frame(html`<div class="lesson-intro stack-lg">
@@ -512,13 +560,16 @@ export default async function lessonView(el, ctx) {
         <div class="intro-meta"><p class="small faint">${plan ? tt(`${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · שיעור ${plan.order}`, `${plan.level === 'PreA1' ? 'Pre-A1' : plan.level} · Lesson ${plan.order}`) : ''} · ${tt(`כ-${lesson.minutes} דקות`, `about ${lesson.minutes} min`)}</p>${heAllKey()}</div>
         <h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>
       </div>
-      ${mi ? html`<div class="banner stack-sm missed-choice" data-missed-banner><h2 class="small">${mi.score >= 0.5 ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h2><p class="small">${tt(`בפעם הקודמת: ${mi.pct}% בניסיון הראשון. התשובות הנכונות נשמרו, אז כדי להשלים את השיעור נשאר לתקן רק את ${mi.n === 1 ? 'התרגיל שפספסתם' : `${mi.n} התרגילים שפספסתם`} (כ-${mi.min} דק׳).`, `Last time: ${mi.pct}% on the first try. Your right answers are kept, so to complete the lesson only the ${mi.n === 1 ? 'one exercise' : `${mi.n} exercises`} you missed are left (about ${mi.min} min).`)}</p><div class="row"><button type="button" class="key ghost small" data-go="learn">${tt('לקרוא שוב את ההסבר קודם', 'Read the explanation first')}</button></div></div>` : ''}
+      ${mi ? html`<div class="banner stack-sm missed-choice" data-missed-banner><h2 class="small">${mi.score >= 0.5 ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h2><p class="small">${tt(`בפעם הקודמת: ${mi.pct}% בניסיון הראשון. התשובות הנכונות נשמרו, אז כדי להשלים את השיעור נשאר לתקן רק את ${mi.n === 1 ? 'התרגיל שפספסתם' : `${mi.n} התרגילים שפספסתם`} (כ-${mi.min} דק׳).`, `Last time: ${mi.pct}% on the first try. Your right answers are kept, so to complete the lesson only the ${mi.n === 1 ? 'one exercise' : `${mi.n} exercises`} you missed are left (about ${mi.min} min).`)}</p><div class="row">${relearnFirst ? html`<button type="button" class="key ghost small" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button>` : html`<button type="button" class="key ghost small" data-go="learn">${tt('לקרוא שוב את ההסבר קודם', 'Read the explanation first')}</button>`}</div></div>` : ''}
       <div class="panel flat stack-sm"><h2 class="small">${tt('בסוף השיעור', 'By the end of this lesson')}</h2>
         <ul class="point-list">${lesson.objectives.map((o) => html`<li class="point">${icon('flag', { size: 16 })}<div class="grow">${bi(o)}</div></li>`)}</ul></div>
       ${lesson.warmup ? html`<div class="block-tip row" style="align-items:flex-start">${icon('sparkle', { size: 18 })}<div class="grow">${bi(lesson.warmup)}</div></div>` : ''}
       ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לעבור עליו שוב.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
     </div>`, resuming
       ? html`<div class="inner"><button type="button" class="key ghost small" data-go="learn">${tt('להסבר', 'To the explanation')}</button><button type="button" class="key ghost small" data-restart>${tt('להתחיל מההתחלה', 'Start again')}</button><span class="grow"></span><button type="button" class="key enter" data-resume>${resumeLabel(rs)} <span class="kbd">Enter</span></button>${noteLine}</div>`
+      : relearnFirst
+        // Under 50% the end screen advised re-reading first, and coming back keeps that advice (LF-9).
+        ? html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-missed>${tt(`${mi.n === 1 ? 'לתרגל רק את הטעות' : `לתרגל רק את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise just the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)}</button><a class="key enter" href="#/lesson/${id}?stage=relearn&t=${Date.now()}" data-relearn>${tt('לקרוא שוב את ההסבר ואז לתרגל', 'Read the explanation again, then practise')} <span class="kbd">Enter</span></a>${noteLine}</div>`
       : mi
         ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button><span class="grow"></span><button type="button" class="key enter" data-missed>${tt(`${mi.n === 1 ? 'לתרגל את הטעות' : `לתרגל את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)} <span class="kbd">Enter</span></button>${noteLine}</div>`
         : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);
@@ -907,7 +958,6 @@ export default async function lessonView(el, ctx) {
     const kind = reviewTitle(score, pass);
     const credit = partialCredit(firstTry);
     const wasDone = progressOf(id)?.status === 'completed';
-    const budgetBefore = newBudgetToday();
     finishLesson(lesson, { score, passed });
     const missed = passed ? [] : missedIds(firstTry, lesson);
     // The finished run replaces the saved place; a miss keeps the list of exercises to redo.
@@ -916,37 +966,58 @@ export default async function lessonView(el, ctx) {
     const missedMin = missedMinutes(lesson, missed.length);
     const pctText = scorePercent(score, passed);
     const nJudged = [...judged].filter((x) => firstTry.has(x)).length;
-    const left = passed ? planLeft() : null;
+    // The day as Today sees it (LF-1): done, or the next block of the plan with its own route.
+    const day = passed ? dayState() : null;
+    // The words that really entered review today, as Today's review row counts them (LF-1); the rest wait for
+    // the next days at the daily new-word limit.
+    const cards = passed && !wasDone ? allCards() : [];
+    const added = wordsAddedToday(cards, id);
+    const queued = cards.filter((c) => c.kind === 'meaning' && c.ref?.lesson === id && todayKey(new Date(c.created_at)) > todayKey()).length;
     stage = 'review';
     const missedKey = (cls) => html`<a class="key ${cls}" href="#/lesson/${id}?stage=missed&t=${Date.now()}" data-retry>${tt(`${missed.length === 1 ? 'לתרגל רק את הטעות' : `לתרגל רק את ${missed.length} הטעויות`} · כ-${missedMin} דק׳`, `Practise just the ${missed.length === 1 ? 'one' : missed.length} I missed · about ${missedMin} min`)}${cls === 'enter' ? html` <span class="kbd">Enter</span>` : ''}</a>`;
-    frame(html`<div class="stack-lg">
-      <div class="stack-sm">
-        <h1 tabindex="-1">${kind === 'complete' ? tt('השיעור הושלם', 'Lesson complete') : kind === 'nearly' ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h1>
-        <p class="muted">${missedMode
-          ? tt(`עכשיו ${pctText}% מהתרגילים נכונים: התשובות הנכונות מהפעם הקודמת ועוד מה שתרגלתם עכשיו.`, `${pctText}% of the exercises are now right: your earlier right answers plus the ones you just redid.`)
-          : passed
-            ? tt(`ענית נכון בניסיון הראשון על ${pctText}% מהתרגילים.`, `You got ${pctText}% right on the first try.`)
-            : tt(`${pctText}% בניסיון הראשון. צריך ${Math.round(pass * 100)}% כדי להשלים.`, `${pctText}% on the first try. ${Math.round(pass * 100)}% completes the lesson.`)}
-          ${passed ? '' : missed.length ? (kind === 'open'
-            ? tt(' כדאי לקרוא שוב את ההסבר ואז לתרגל רק את מה שפספסתם. התשובות הנכונות נשארות.', ' It helps to read the explanation again, then practise only what you missed. Your right answers still count.')
-            : tt(` אפשר לתרגל רק את ${missed.length === 1 ? 'התרגיל שפספסתם' : `${missed.length} התרגילים שפספסתם`}, והתשובות הנכונות נשארות.`, ` You can practise just the ${missed.length === 1 ? 'one' : missed.length} you missed; your right answers still count.`)) : ''}</p>
-        ${nJudged ? html`<p class="xsmall faint" data-judged-note>${nJudged === 1 ? tt('כולל תשובה אחת שסימנתם בעצמכם כנכונה.', 'Including one answer you marked as correct yourself.') : tt(`כולל ${nJudged} תשובות שסימנתם בעצמכם כנכונות.`, `Including ${nJudged} answers you marked as correct yourself.`)}</p>` : ''}
+    const wordsBanner = added || queued ? html`<p class="banner small" data-words-added>${icon('layers', { size: 18 })}<span>${added
+      ? tt(`${added === 1 ? 'מילה אחת מהשיעור נכנסה היום' : `${added} מילים מהשיעור נכנסו היום`} לחזרה המרווחת. הן יחזרו בזמן שמתאים לזיכרון.`, `${added === 1 ? 'One word' : `${added} words`} from this lesson joined your spaced review today. They come back when the timing suits your memory.`)
+      : tt('המילים של השיעור ייכנסו לחזרה המרווחת בימים הקרובים.', 'This lesson\'s words join your spaced review over the next days.')}${queued ? tt(` ${queued === 1 ? 'מילה אחת נוספת תתחיל' : `עוד ${queued} יתחילו`} בימים הקרובים, כי המכסה היומית מלאה.`, ` ${queued === 1 ? 'One more starts' : `${queued} more start`} over the next days, as today's quota is full.`) : ''}</span></p>` : '';
+    // The score line (LF-12): plural address; on a pass it is a quiet line after what was gained.
+    const scoreText = missedMode
+      ? tt(`עכשיו ${pctText}% מהתרגילים נכונים: התשובות הנכונות מהפעם הקודמת ועוד מה שתרגלתם עכשיו.`, `${pctText}% of the exercises are now right: your earlier right answers plus the ones you just redid.`)
+      : passed
+        ? tt(`עניתם נכון בניסיון הראשון על ${pctText}% מהתרגילים.`, `You got ${pctText}% right on the first try.`)
+        : tt(`${pctText}% בניסיון הראשון. צריך ${Math.round(pass * 100)}% כדי להשלים.`, `${pctText}% on the first try. ${Math.round(pass * 100)}% completes the lesson.`);
+    const advice = passed || !missed.length ? '' : kind === 'open'
+      ? tt(' כדאי לקרוא שוב את ההסבר ואז לתרגל רק את מה שפספסתם. מה שעניתם נכון נשמר, ולא צריך לעשות אותו שוב.', ' It helps to read the explanation again, then practise only what you missed. What you got right is kept, and you need not do it again.')
+      : tt(` אפשר לתרגל רק את ${missed.length === 1 ? 'התרגיל שפספסתם' : `${missed.length} התרגילים שפספסתם`}. מה שעניתם נכון נשמר, ולא צריך לעשות אותו שוב.`, ` You can practise just the ${missed.length === 1 ? 'one' : missed.length} you missed. What you got right is kept, and you need not do it again.`);
+    const notes = html`${nJudged ? html`<p class="xsmall faint" data-judged-note>${nJudged === 1 ? tt('כולל תשובה אחת שסימנתם בעצמכם כנכונה.', 'Including one answer you marked as correct yourself.') : tt(`כולל ${nJudged} תשובות שסימנתם בעצמכם כנכונות.`, `Including ${nJudged} answers you marked as correct yourself.`)}</p>` : ''}
         ${!passed && (credit.hint || credit.slip) ? html`<p class="xsmall faint" data-credit-note>${[credit.hint && tt('תשובה נכונה אחרי רמז נספרת כשלושה רבעים.', 'A right answer after a hint counts as three quarters.'), credit.slip && tt('תשובה נכונה עם טעות כתיב קטנה נספרת כ-90%.', 'A right answer with a small spelling slip counts as 90%.')].filter(Boolean).join(' ')}</p>` : ''}
-        ${scoredExercises(lesson).length < lesson.exercises.length ? html`<p class="xsmall faint">${tt('תרגילי דיבור וכתיבה הם תרגול ולא נספרים בציון.', 'Speaking and writing exercises are practice and do not count toward the score.')}</p>` : ''}
-      </div>
-      <div class="panel flat stack-sm"><h2 class="small">${tt('מה לזכור', 'Key points')}</h2><ul class="point-list">${lesson.review.key_points.map((k) => html`<li class="point">${icon('check', { size: 18 })}<div class="grow">${bi(k)}</div></li>`)}</ul></div>
-      ${passed && !wasDone ? html`<p class="banner small">${icon('layers', { size: 18 })}<span>${tt(`${lesson.vocab.length} מילים מהשיעור נכנסו לחזרה המרווחת. הן יחזרו בזמן שמתאים לזיכרון.`, `${lesson.vocab.length} words from this lesson joined your spaced review. They come back when the timing suits your memory.`)}${budgetBefore <= 0 ? tt(' (המכסה היומית מלאה, אז חלקן יופיעו מחר.)', ' (Today\'s quota is full, so some will start tomorrow.)') : ''}</span></p>` : ''}
-      ${mistakesBox()}
-    </div>`, html`<div class="inner">
-      ${passed
-        ? left
-          ? html`<a class="key ghost" href="${nextPlan ? `#/lesson/${nextPlan.id}` : '#/path'}" data-next-lesson>${nextPlan ? tt('לשיעור הבא', 'Next lesson') : tt('למסלול', 'To the path')}</a><span class="grow"></span><a class="key enter" href="#/today" data-plan-next>${tt(`להמשיך בתוכנית: ${blockName(left)} · ${left.minutes} דק׳`, `Continue your plan: ${blockName(left)} · ${left.minutes} min`)} <span class="kbd">Enter</span></a>`
-          : html`<a class="key ghost" href="#/today">${tt('להיום', 'To Today')}</a><span class="grow"></span>${nextPlan ? html`<a class="key enter" href="#/lesson/${nextPlan.id}" data-next-lesson>${tt('לשיעור הבא', 'Next lesson')} <span class="kbd">Enter</span></a>` : html`<a class="key enter" href="#/path">${tt('למסלול', 'To the path')}</a>`}`
-        : missed.length
-          ? kind === 'open'
-            ? html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span>${missedKey('ghost')}<a class="key enter" href="#/lesson/${id}?stage=relearn&t=${Date.now()}" data-relearn>${tt('לקרוא שוב את ההסבר ואז לתרגל', 'Read the explanation again, then practise')} <span class="kbd">Enter</span></a>`
-            : html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key ghost" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry-all>${tt('את כל התרגול מחדש', 'Practise everything again')}</a>${missedKey('enter')}`
-          : html`<a class="key ghost" href="#/today">${tt('אחר כך', 'Later')}</a><span class="grow"></span><a class="key enter" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry>${tt('לתרגל שוב', 'Practise again')} <span class="kbd">Enter</span></a>`}</div>`);
+        ${scoredExercises(lesson).length < lesson.exercises.length ? html`<p class="xsmall faint">${tt('תרגילי דיבור וכתיבה הם תרגול ולא נספרים בציון.', 'Speaking and writing exercises are practice and do not count toward the score.')}</p>` : ''}`;
+    const keyPoints = html`<div class="panel flat stack-sm"><h2 class="small">${tt('מה לזכור', 'Key points')}</h2><ul class="point-list">${lesson.review.key_points.map((k) => html`<li class="point">${icon('check', { size: 18 })}<div class="grow">${bi(k)}</div></li>`)}</ul></div>`;
+    const title = html`<h1 tabindex="-1">${kind === 'complete' ? tt('השיעור הושלם', 'Lesson complete') : kind === 'nearly' ? tt('כמעט שם', 'Nearly there') : tt('השיעור עוד פתוח', 'Not complete yet')}</h1>`;
+    // A pass leads with what was gained (LF-12): the title, the words added to review, what to remember, and then
+    // the first-try percentage as a quiet line. A miss leads with what is left to do.
+    const body = passed
+      ? html`<div class="stack-lg review-end">${title}${wordsBanner}${keyPoints}<div class="stack-sm review-score"><p class="small muted" data-score-line>${scoreText}</p>${notes}</div>${mistakesBox()}</div>`
+      : html`<div class="stack-lg review-end"><div class="stack-sm">${title}<p class="muted" data-score-line>${scoreText}${advice}</p>${notes}</div>${keyPoints}${mistakesBox()}
+        <p class="small muted later-line" data-later-line>${tt('אפשר גם לעצור כאן. השיעור מחכה במסלול, והתשובות שמורות.', 'You can also stop here. The lesson waits on your path, with your answers saved.')} <a href="#/today" data-later>${tt('להיום', 'To Today')}</a></p></div>`;
+    const nextKey = (cls) => (nextPlan ? html`<a class="key ${cls}" href="#/lesson/${nextPlan.id}" data-next-lesson>${tt('לשיעור הבא', 'Next lesson')}${cls === 'enter' ? html` <span class="kbd">Enter</span>` : ''}</a>` : html`<a class="key ${cls}" href="#/path">${tt('למסלול', 'To the path')}</a>`);
+    let foot;
+    if (passed && day?.complete) {
+      // The day is done (LF-1): the main key says so and goes to Today; an open first round of today's new words
+      // is offered beside it as optional, never as "continue the plan".
+      foot = html`${day.firstRecallOpen ? html`<a class="key ghost" href="#/review" data-first-recall>${tt('חזרה ראשונה על המילים · לא חובה', 'First round of the new words · optional')}</a>` : nextKey('ghost')}<span class="grow"></span><a class="key enter" href="#/today" data-day-done>${tt('סיימתם להיום · להיום', 'Done for today · To Today')} <span class="kbd">Enter</span></a>`;
+    } else if (passed && day?.next && day.next.id !== 'learn') {
+      // The plan goes on: the main key opens the next block itself, not Today.
+      foot = html`${nextKey('ghost')}<span class="grow"></span><a class="key enter" href="#/${day.next.route || 'today'}" data-plan-next>${tt(`להמשיך בתוכנית: ${blockName(day.next)} · ${day.next.minutes} דק׳`, `Continue your plan: ${blockName(day.next)} · ${day.next.minutes} min`)} <span class="kbd">Enter</span></a>`;
+    } else if (passed) {
+      foot = html`<a class="key ghost" href="#/today">${tt('להיום', 'To Today')}</a><span class="grow"></span>${nextKey('enter')}`;
+    } else if (missed.length) {
+      // At most two keys (LF-9); "To Today" is the text link above the footer.
+      foot = kind === 'open'
+        ? html`<span class="grow"></span>${missedKey('ghost')}<a class="key enter" href="#/lesson/${id}?stage=relearn&t=${Date.now()}" data-relearn>${tt('לקרוא שוב את ההסבר ואז לתרגל', 'Read the explanation again, then practise')} <span class="kbd">Enter</span></a>`
+        : html`<span class="grow"></span><a class="key ghost" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry-all>${tt('את כל התרגול מחדש', 'Practise everything again')}</a>${missedKey('enter')}`;
+    } else {
+      foot = html`<span class="grow"></span><a class="key enter" href="#/lesson/${id}?stage=practice&t=${Date.now()}" data-retry>${tt('לתרגל שוב', 'Practise again')} <span class="kbd">Enter</span></a>`;
+    }
+    frame(body, html`<div class="inner">${foot}</div>`);
   }
 
   // Every stage opens at its top, with focus on its heading (P-44); each exercise opens at the top too.
