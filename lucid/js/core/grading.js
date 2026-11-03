@@ -353,6 +353,16 @@ function structureOne(aw, kw) {
   }
   return verdict;
 }
+// The tense structure a key asks for, named without its words (r4 EX-5): 'present-perfect', 'past-perfect',
+// 'perfect-continuous', 'passive' or null.
+export function keyStructure(key) {
+  const kw = verbWords(variants(key)[0] || '');
+  const slots = verbSlots(kw);
+  if (slots.some((s) => s.fam === 'have-ing')) return 'perfect-continuous';
+  const perfect = slots.find((s) => s.fam === 'have');
+  if (perfect) return kw[auxBefore(kw, perfect.j, 'have')] === 'had' ? 'past-perfect' : 'present-perfect';
+  return slots.some((s) => s.fam === 'be') ? 'passive' : null;
+}
 export function verbStructure(answer, key) {
   const kw = verbWords(variants(key)[0] || '');
   // Every reading of the answer's contractions ("I'd" = I had / I would): the best one counts.

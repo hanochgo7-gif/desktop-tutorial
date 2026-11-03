@@ -198,6 +198,28 @@ try {
     assert(!r.unheard && r.correct, `check() with sound: ${JSON.stringify(r)}`);
     await ctx.close();
   });
+  // ---------- EX-5 ----------
+  await check('EX-5 the first-try note states the rule without the answer: a2-05 e8 "leaved", and b1-02 e11 "I did lived …"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await openExercise(page, 'a2-05', 'e8');
+    const gaps = await page.$$('#exroot .gap-input');
+    await gaps[0].fill('leaved'); await gaps[1].fill('came'); await gaps[2].fill('slept');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    const v = await verdict(page);
+    assert(/לא מוסיפים לו ed/.test(v.text), `the rule is not shown: ${v.text}`);
+    assert(!/\bleft\b/.test(v.text), `the first-try note gives the answer: ${v.text}`);
+    await shot(page, 'ex5-rule-390');
+    await openExercise(page, 'b1-02', 'e11');
+    await page.fill('#exroot textarea', 'I did lived in Tel Aviv since 2020.');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    const w = await verdict(page);
+    assert(/since/.test(w.text) && /V3/.test(w.text), `no structure note: ${w.text}`);
+    assert(!/did live|have lived/.test(w.text), `the note leads to a wrong sentence or gives the answer: ${w.text}`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

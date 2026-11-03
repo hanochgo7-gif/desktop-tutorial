@@ -171,11 +171,11 @@
       "text": "Hi Noa! Sorry about last night. I ___ (leave) my phone at work, ___ (come) home very late and ___ (sleep) on the sofa until eleven.",
       "answers": [["left"], ["came"], ["slept"]],
       "wrong_feedback": [
-        { "match": "leaved", "feedback": { "en": "leave is irregular: leave → left (the long vowel becomes a short e).", "he": "leave הוא פועל חריג: leave → left (התנועה הארוכה מתקצרת ל-e)." }, "error_type": "verb-form" },
-        { "match": "leave", "feedback": { "en": "This is the base form. The story is in the past: leave → left.", "he": "זו צורת הבסיס. הסיפור בעבר: leave → left." }, "error_type": "tense-choice" },
-        { "match": "comed", "feedback": { "en": "come is irregular: come → came.", "he": "come הוא פועל חריג: come → came." }, "error_type": "verb-form" },
-        { "match": "come", "feedback": { "en": "This is the base form. In the past the vowel changes: come → came.", "he": "זו צורת הבסיס. בעבר התנועה משתנה: come → came." }, "error_type": "tense-choice" },
-        { "match": "sleeped", "feedback": { "en": "sleep is irregular: sleep → slept (short e + t).", "he": "sleep הוא פועל חריג: sleep → slept (e קצרה ו-t בסוף)." }, "error_type": "verb-form" }
+        { "match": "leaved", "feedback": { "en": "leave is irregular: leave → left (the long vowel becomes a short e).", "he": "leave הוא פועל חריג: leave → left (התנועה הארוכה מתקצרת ל-e)." }, "rule": { "en": "leave is irregular, so it does not take -ed. The long vowel becomes a short e.", "he": "leave הוא פועל חריג, ולכן לא מוסיפים לו ed. התנועה הארוכה מתקצרת ל-e." }, "error_type": "verb-form" },
+        { "match": "leave", "feedback": { "en": "This is the base form. The story is in the past: leave → left.", "he": "זו צורת הבסיס. הסיפור בעבר: leave → left." }, "rule": { "en": "This is the base form, and the story is in the past.", "he": "זו צורת הבסיס, והסיפור בעבר." }, "error_type": "tense-choice" },
+        { "match": "comed", "feedback": { "en": "come is irregular: come → came.", "he": "come הוא פועל חריג: come → came." }, "rule": { "en": "come is irregular, so it does not take -ed. Its past form is one to learn by heart.", "he": "come הוא פועל חריג, ולכן לא מוסיפים לו ed. את צורת העבר שלו לומדים בעל פה." }, "error_type": "verb-form" },
+        { "match": "come", "feedback": { "en": "This is the base form. In the past the vowel changes: come → came.", "he": "זו צורת הבסיס. בעבר התנועה משתנה: come → came." }, "rule": { "en": "This is the base form. In the past the vowel changes.", "he": "זו צורת הבסיס. בעבר התנועה משתנה." }, "error_type": "tense-choice" },
+        { "match": "sleeped", "feedback": { "en": "sleep is irregular: sleep → slept (short e + t).", "he": "sleep הוא פועל חריג: sleep → slept (e קצרה ו-t בסוף)." }, "rule": { "en": "sleep is irregular: the long vowel becomes a short e, with t at the end.", "he": "sleep הוא פועל חריג: התנועה הארוכה מתקצרת ל-e, ובסוף בא t." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "Check the table: leave and sleep are in the 'long vowel → short e' group; come is in 'learn by heart'.", "he": "חפשו בטבלה: leave ו-sleep בקבוצת 'התנועה מתקצרת', ו-come בקבוצת 'לזכור בעל פה'." },
       "explanation": { "en": "leave → left, come → came, sleep → slept.", "he": "שלושתם פעלים חריגים: leave → left, come → came, sleep → slept." }
@@ -201,10 +201,10 @@
         "Omer got up at seven and had breakfast with his dad yesterday."
       ],
       "wrong_feedback": [
-        { "match": "Yesterday Omer gets up at seven and has breakfast with his dad.", "feedback": { "en": "Yesterday is finished past time, so both verbs change: gets up → got up, has → had.", "he": "Yesterday הוא זמן עבר, ולכן שני הפעלים משתנים: gets up → got up, ‏has → had." }, "error_type": "tense-choice" },
-        { "match": "Yesterday Omer got up at seven and has breakfast with his dad.", "feedback": { "en": "Change the second verb too: has → had.", "he": "צריך לשנות גם את הפועל השני: has → had." }, "error_type": "tense-choice" },
-        { "match": "getted", "feedback": { "en": "get is irregular: get up → got up.", "he": "get הוא פועל חריג: get up → got up." }, "error_type": "verb-form" },
-        { "match": "haved", "feedback": { "en": "have is irregular: have → had.", "he": "have הוא פועל חריג: have → had." }, "error_type": "verb-form" }
+        { "match": "Yesterday Omer gets up at seven and has breakfast with his dad.", "feedback": { "en": "Yesterday is finished past time, so both verbs change: gets up → got up, has → had.", "he": "Yesterday הוא זמן עבר, ולכן שני הפעלים משתנים: gets up → got up, ‏has → had." }, "rule": { "en": "Yesterday is finished past time, so both verbs change to the past simple.", "he": "Yesterday הוא זמן עבר שהסתיים, ולכן שני הפעלים עוברים לעבר פשוט." }, "error_type": "tense-choice" },
+        { "match": "Yesterday Omer got up at seven and has breakfast with his dad.", "feedback": { "en": "Change the second verb too: has → had.", "he": "צריך לשנות גם את הפועל השני: has → had." }, "rule": { "en": "The first verb is right. Change the second verb to the past simple too.", "he": "הפועל הראשון נכון. צריך להעביר לעבר פשוט גם את הפועל השני." }, "error_type": "tense-choice" },
+        { "match": "getted", "feedback": { "en": "get is irregular: get up → got up.", "he": "get הוא פועל חריג: get up → got up." }, "rule": { "en": "get is irregular, so it does not take -ed.", "he": "get הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" },
+        { "match": "haved", "feedback": { "en": "have is irregular: have → had.", "he": "have הוא פועל חריג: have → had." }, "rule": { "en": "have is irregular, so it does not take -ed.", "he": "have הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "Two verbs change: gets up and has.", "he": "שני פעלים משתנים: gets up ו-has." },
       "explanation": { "en": "get up → got up, have → had. In the past there is no -s for he or she.", "he": "get up → got up, ‏have → had. בעבר אין s גם אחרי he או she." }
@@ -240,12 +240,12 @@
         "I rode the bus to Jerusalem."
       ],
       "wrong_feedback": [
-        { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים went by bus או took the bus." }, "error_type": "false-friend" },
-        { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "error_type": "tense-choice" },
-        { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "error_type": "verb-form" },
+        { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים went by bus או took the bus." }, "rule": { "en": "drove means you were the driver. Think of a verb for travelling as a passenger.", "he": "drove אומר שאתם נהגתם. חשבו על פועל לנסיעה כנוסעים." }, "error_type": "false-friend" },
+        { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "rule": { "en": "The sentence is about the past, so the verb needs its past form.", "he": "המשפט מתאר עבר, ולכן הפועל צריך לבוא בצורת העבר." }, "error_type": "tense-choice" },
+        { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "rule": { "en": "go is irregular, so it does not take -ed.", "he": "go הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" },
         { "match": "I went to Jerusalem by the bus.", "feedback": { "en": "After by, there is no the: by bus (or: on the bus).", "he": "אחרי by לא בא the: ‏by bus (או: on the bus)." }, "error_type": "article" },
-        { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" },
-        { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" }
+        { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "rule": { "en": "English uses a different preposition before a means of transport.", "he": "באנגלית באה לפני כלי תחבורה מילת יחס אחרת." }, "error_type": "preposition" },
+        { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "rule": { "en": "English uses a different preposition before a means of transport.", "he": "באנגלית באה לפני כלי תחבורה מילת יחס אחרת." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Were you the driver? If not, don't use drove.", "he": "האם אתם נהגתם? אם לא, אל תשתמשו ב-drove." },
       "explanation": { "en": "There is no single English verb for this idea: say went (by bus), took (the bus) or travelled. drove is only for the driver.", "he": "לפועל 'נסע' אין מילה אחת באנגלית: went by bus, ‏took the bus או travelled. את drove אומרים רק כשאתם הנהגים." }

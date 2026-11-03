@@ -178,7 +178,7 @@
       "error_type": "verb-form",
       "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
       "wrong_feedback": [
-        { "match": "We are eating lunch at one every day.", "feedback": { "en": "every day = a habit, so use the present simple: We eat lunch at one every day.", "he": "every day מתאר הרגל, ולכן משתמשים בהווה פשוט: we eat, בלי are ובלי ing." }, "error_type": "tense-choice" }
+        { "match": "We are eating lunch at one every day.", "feedback": { "en": "every day = a habit, so use the present simple: We eat lunch at one every day.", "he": "every day מתאר הרגל, ולכן משתמשים בהווה פשוט: we eat, בלי are ובלי ing." }, "rule": { "en": "every day = a habit, so use the present simple: no are and no -ing.", "he": "every day מתאר הרגל, ולכן משתמשים בהווה פשוט: בלי are ובלי ing." }, "error_type": "tense-choice" }
       ],
       "explanation": { "en": "eat is the verb, so don't add are: We eat lunch at one every day.", "he": "eat הוא הפועל, ולכן לא מוסיפים לפניו are: we eat." }
     },

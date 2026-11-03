@@ -97,9 +97,37 @@ function feedbackList(file, path, list, he) {
   list.forEach((f, i) => {
     if (!isStr(f.match)) err(file, `${path}[${i}].match`, 'missing');
     bilingual(file, `${path}[${i}].feedback`, f.feedback, { he });
+    if (f.rule != null) bilingual(file, `${path}[${i}].rule`, f.rule, { he });
     if (f.error_type && !ERRORS.has(f.error_type)) err(file, `${path}[${i}].error_type`, `unknown error type ${f.error_type}`);
   });
 }
+
+// ---------- first-try notes that give the answer away (r4 EX-5) ----------
+// On a typed item's first miss the player shows the matching wrong_feedback entry's `rule` (the rule without the
+// answer) or, with no rule, its `feedback`. Feedback that holds an accepted answer, or a word of the key that
+// the learner's wrong answer does not have, gives the answer away on the first try: such an entry needs a rule.
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const latinWords = (s) => String(s || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9]+(?:'[a-z]+)?/g) || [];
+const inText = (text, phrase) => {
+  const p = String(phrase).toLowerCase().replace(/[‘’]/g, "'").replace(/[.!?]+$/, '').trim();
+  return Boolean(p) && new RegExp(`(^|[^a-z0-9'])${escapeRe(p)}($|[^a-z0-9'])`).test(text);
+};
+export function noteGivesAnswer(ex, note, match) {
+  if (!note) return false;
+  const text = `${note.en || ''} ${note.he || ''}`.toLowerCase().replace(/[‘’]/g, "'");
+  const keys = ex.type === 'gap' ? (ex.answers || []).flat() : (ex.answers || []);
+  if (keys.some((k) => inText(text, k))) return true;
+  if (ex.type === 'gap') return false;
+  const have = new Set(latinWords(match));
+  return latinWords(keys[0]).some((w) => !have.has(w) && inText(text, w));
+}
+// The retryable typed items: a gap with no word bank, transform and correct.
+export const retryable = (ex) => (ex.type === 'gap' && !ex.word_bank) || ex.type === 'transform' || ex.type === 'correct';
+export function answerLeaks(lessonData) {
+  return (lessonData.exercises || []).filter(retryable).flatMap((ex) => (ex.wrong_feedback || [])
+    .filter((f) => !f.rule && noteGivesAnswer(ex, f.feedback, f.match)).map((f) => `${ex.id} "${f.match}"`));
+}
+const leaks = [];
 
 function mcqCore(file, path, ex, he, { minOptions = 3 } = {}) {
   if (!isStr(ex.question)) err(file, `${path}.question`, 'missing');
@@ -217,6 +245,7 @@ function lesson(file) {
   glossChecked.add(f);
   const plan = LESSONS.get(d.id);
   if (!plan) return err(f, 'id', `not in curriculum.json: ${d.id}`);
+  for (const x of answerLeaks(d)) leaks.push(`${d.id} ${x}`);
   if (d.level !== plan.level) err(f, 'level', `expected ${plan.level}`);
   if (JSON.stringify(d.topics) !== JSON.stringify(plan.topics)) err(f, 'topics', `expected ${JSON.stringify(plan.topics)}`);
   const he = HE_REQUIRED.has(d.level);
@@ -463,9 +492,13 @@ async function main() {
   ];
   for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
 
+  // r4 EX-5: one warning with the count; --rules lists every entry.
+  if (leaks.length) warn('lessons', 'wrong_feedback', `${leaks.length} first-try notes give the answer and have no rule (list them with --rules)`);
+  if (process.argv.includes('--rules')) for (const l of leaks) console.log('RULE ', l);
   for (const w of warnings) console.log('WARN ', w);
   for (const e of errors) console.log('ERROR', e);
   console.log(`\n${lessonCount} lesson files checked; ${errors.length} errors, ${warnings.length} warnings`);
+  console.log(`first-try notes that give the answer with no rule: ${leaks.length}`);
   // exitCode, not exit(): a piped stdout gets the whole report before the process ends.
   process.exitCode = errors.length ? 1 : 0;
 }

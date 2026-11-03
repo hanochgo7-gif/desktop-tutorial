@@ -75,3 +75,39 @@ test('lesson glosses at the Hebrew-first levels pass the gloss rule', () => {
   for (const [f, l] of lessons) if (GLOSS_STRICT.has(l.level)) walk(f, l, '');
   assert.deepEqual(bad, []);
 });
+
+// ---------- UX round 4 (exercises lane) ----------
+const lessonById = (id) => lessons.find(([, l]) => l.id === id)[1];
+const exById = (id, eid) => lessonById(id).exercises.find((e) => e.id === eid);
+
+test('r4 EX-5: the named first-try notes have a rule that does not give the answer', async () => {
+  const { noteGivesAnswer } = await import('../../tools/validate-content.mjs');
+  const named = [['a1-01', 'e10'], ['a2-05', 'e8'], ['a2-05', 'e10'], ['a2-05', 'e13'], ['b1-02', 'e9'], ['b1-02', 'e13']];
+  const bad = [];
+  for (const [id, eid] of named) {
+    const e = exById(id, eid);
+    const keys = e.type === 'gap' ? e.answers.flat() : e.answers;
+    for (const f of e.wrong_feedback) {
+      if (!noteGivesAnswer(e, f.feedback, f.match)) continue; // the feedback itself gives nothing away
+      if (!f.rule?.en || !f.rule?.he) { bad.push(`${id} ${eid} "${f.match}": no rule`); continue; }
+      if (noteGivesAnswer(e, f.rule, f.match)) bad.push(`${id} ${eid} "${f.match}": the rule gives the answer`);
+      if (keys.some((k) => `${f.rule.en} ${f.rule.he}`.toLowerCase().includes(String(k).toLowerCase().replace(/[.!?]$/, '')))) bad.push(`${id} ${eid} "${f.match}": the rule holds an accepted answer`);
+    }
+  }
+  assert.deepEqual(bad, []);
+});
+
+test('r4 EX-5: ruleNote names the rule, never the key\'s words', async () => {
+  globalThis.document ??= { documentElement: { dataset: {}, lang: 'he', dir: 'rtl' }, visibilityState: 'visible' };
+  const { ruleNote } = await import('../../js/ui/exercise.js');
+  const { couldBeRight } = await import('../../js/core/grading.js');
+  const e = exById('b1-02', 'e11');
+  for (const typed of ['I did lived in Tel Aviv since 2020.', 'I did live in Tel Aviv since 2020.', 'I lived in Tel Aviv since 2020.']) {
+    const could = couldBeRight(typed, { source: e.sentence, answers: e.answers, wrong_feedback: e.wrong_feedback });
+    assert.equal(could.ok, false, typed);
+    const note = ruleNote(could, e.sentence, e);
+    const text = `${note.en} ${note.he}`;
+    assert.ok(!/did live/.test(text) && !/have lived/.test(text), `${typed}: ${text}`);
+    assert.ok(/since/.test(text) && /V3|past participle/.test(text), `${typed}: the note does not name the structure: ${text}`);
+  }
+});

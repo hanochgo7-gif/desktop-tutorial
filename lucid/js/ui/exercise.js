@@ -17,7 +17,7 @@
 // recognised, can try again, mark it themselves or go on, and the attempt is stored with no score.
 import { html, raw, render, on, shuffle, $, $$ } from '../core/util.js';
 import { bi, tt, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
-import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyVerbForms, usSpelling, oneSlip, letterCode } from '../core/grading.js';
+import { checkTyped, findWrongFeedback, wordAccuracy, checkOrder, countWords, normalize, couldBeRight, keyStructure, usSpelling, oneSlip, letterCode, sameAsSource } from '../core/grading.js';
 import { sentenceDiff, letterDiff } from '../core/diff.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, micNotice, speechErrorText, SPEECH_EVENT } from '../core/speech.js';
 import { icon } from './components.js';
@@ -278,7 +278,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         return true;
       };
       ctl.check = async () => {
-        let allRight = true, almost = false, specific = null, err = null;
+        let allRight = true, almost = false, specific = null, err = null, rule = null;
         const responses = [], typos = [];
         root.dataset.locked = '1';
         $$('.gap-mark', root).forEach((m) => m.remove());
@@ -293,12 +293,12 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           if (!r.correct) {
             allRight = false;
             const f = findWrongFeedback(inp.value, ex.wrong_feedback);
-            if (f && !specific) { specific = f.feedback; err = f.error_type; }
+            if (f && !specific) { specific = f.feedback; err = f.error_type; rule = f.rule || null; }
           } else if (r.almost) { almost = true; if (r.typo) typos.push(r.typo); }
         });
         $$('.chip', root).forEach((c) => { c.disabled = true; });
         target = null; drawTarget();
-        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific, typos });
+        return result({ correct: allRight, almost, score: allRight ? 1 : inputs.filter((i) => i.classList.contains('right')).length / inputs.length * 0.5, response: responses.join(' | '), error_type: err, answer: ex.answers.map(firstAnswer).join(' … '), specific, typos, ...(rule ? { retry_note: rule } : {}) });
       };
       ctl.reveal = () => {
         root.dataset.locked = '1';
@@ -577,7 +577,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         // (P1 EX-5); otherwise the verdict is red and names the rule it breaks.
         const could = !r.correct && !f && open ? couldBeRight(ta.value, { source, answers: ex.answers, wrong_feedback: ex.wrong_feedback }) : null;
         const specific = f?.feedback || (could && !could.ok ? ruleNote(could, source, ex) : null);
-        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, error_type: f?.error_type, model: Boolean(could?.ok), open, typos: r.typo ? [r.typo] : [] });
+        return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, ...(f?.rule ? { retry_note: f.rule } : {}), error_type: f?.error_type, model: Boolean(could?.ok), open, typos: r.typo ? [r.typo] : [] });
       };
       ctl.reveal = () => { ta.readOnly = true; revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
@@ -850,14 +850,31 @@ export function answerFor(ex) {
 // A long English answer gets its own left-to-right line; a short one stays in the sentence.
 const answerEl = (a) => html`<span class="answer ${String(a).length > 24 ? 'answer-block' : ''}" lang="en" dir="ltr">${a}</span>`;
 
-// The rule an open rewrite breaks when it cannot be counted (P1 EX-5), as Bilingual feedback.
+// The rule an open rewrite breaks when it cannot be counted (P1 EX-5), as Bilingual feedback. It is the
+// first-try note too, so it names the rule and never the key's words (r4 EX-5): "did live" is another wrong
+// sentence when the key has no did, and "have lived" is the answer.
+const STRUCTURE_NOTES = {
+  'present-perfect': { he: 'המשימה מבקשת present perfect: ‏have/has + V3.', en: 'The task asks for the present perfect: have/has + past participle.' },
+  'past-perfect': { he: 'המשימה מבקשת past perfect: ‏had + V3.', en: 'The task asks for the past perfect: had + past participle.' },
+  'perfect-continuous': { he: 'המשימה מבקשת present perfect continuous: ‏have/has been + ‏-ing.', en: 'The task asks for the present perfect continuous: have/has been + -ing.' },
+  passive: { he: 'המשימה מבקשת סביל: ‏be + V3.', en: 'The task asks for the passive: be + past participle.' },
+};
+export function structureNote(ex, source = '') {
+  const key = firstAnswer(ex.answers) || '';
+  const kind = keyStructure(key);
+  if (kind === 'present-perfect' && /\bsince\b/i.test(`${key} ${source}`)) return { he: '‏since + נקודת התחלה → ‏have/has + V3.', en: 'since + a starting point → have/has + past participle.' };
+  if (STRUCTURE_NOTES[kind]) return STRUCTURE_NOTES[kind];
+  return { he: 'בדקו את זמן הפועל ואת הצורה שהמשימה מבקשת.', en: 'Check the tense and the verb form the task asks for.' };
+}
 export function ruleNote(could, source, ex) {
   if (could.reason === 'unchanged') return { he: `המשפט עדיין כמו המקור: ${source}`, en: `The sentence is still the same as the original: ${source}` };
-  if (could.reason === 'did-past') return { he: 'אחרי did, does או do הפועל בא בצורת הבסיס: did live, ולא did lived.', en: 'After did, does or do the verb is in its base form: did live, not did lived.' };
-  if (could.reason === 'verb') {
-    const forms = keyVerbForms(source, firstAnswer(ex.answers)).join(' ');
-    return forms ? { he: `חסרה צורת הפועל שהמשימה מבקשת: ${forms}.`, en: `The verb form the task asks for is missing: ${forms}.` } : null;
+  if (could.reason === 'did-past') {
+    if (/\b(did|does|do)\b/i.test(firstAnswer(ex.answers) || '')) return { he: 'אחרי did, ‏does או do הפועל בא בצורת הבסיס.', en: 'After did, does or do, the verb is in its base form.' };
+    const s = structureNote(ex, source);
+    return { he: `כאן לא צריך did. ${s.he}`, en: `This sentence needs no did. ${s.en}` };
   }
+  if (could.reason === 'agreement') return { he: 'בדקו שהפועל מתאים לנושא: יחיד או רבים.', en: 'Check that the verb agrees with the subject: singular or plural.' };
+  if (could.reason === 'verb') return structureNote(ex, source);
   if (could.reason === 'overlap') return { he: 'התשובה רחוקה מהמשפט שהמשימה מבקשת. השוו אותה לתשובה לדוגמה.', en: 'Your answer is far from the sentence the task asks for. Compare it with the model answer.' };
   return null;
 }
