@@ -19,7 +19,7 @@ const STRINGS = {
   'nav.writing': ['מעבדת כתיבה', 'Writing lab'],
   'nav.tutor': ['מורה AI', 'AI tutor'],
   'nav.slang': ['ביטויים וסלנג', 'Expressions'],
-  'nav.simulations': ['סימולציות שיחה', 'Conversations'],
+  'nav.simulations': ['שיחות תרגול', 'Conversations'], // SB-7: the real-life glossary (docs/ux/hebrew-microcopy.md)
   'nav.profile': ['פרופיל', 'Profile'],
   'nav.settings': ['הגדרות', 'Settings'],
   'nav.help': ['עזרה', 'Help'],
@@ -67,7 +67,8 @@ const STRINGS = {
   'ai.unavailable': ['תכונות ה-AI עוד לא זמינות באתר הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not available on this site yet. Automatic checks still work without them.'],
 
   // ---- lane shell-components: new keys go here ----
-  'nav.reallife.short': ['לחיים', 'Real life'], // the phone tab at 130-150% text (SC-9)
+  // The phone tab at 130-150% text (SC-9). Not 'לחיים', which on its own reads "Cheers!" (SB-7).
+  'nav.reallife.short': ['מהחיים', 'Real life'],
 
   // ---- lane lesson-flow: new keys go here ----
 

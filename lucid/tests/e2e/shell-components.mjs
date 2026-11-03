@@ -427,7 +427,8 @@ try {
     });
     const a = await chrome();
     assert(a.tabs.every((x) => x.lines === 1 && !x.clipped) && a.tabH <= 80, `tab bar at 320/150%: ${JSON.stringify({ tabs: a.tabs, h: a.tabH })}`);
-    assert(a.tabs.some((x) => x.text === 'לחיים'), `the short tab label is not used: ${a.tabs.map((x) => x.text)}`);
+    // The short label is "מהחיים" since round 4 (SB-7): "לחיים" alone reads "Cheers!".
+    assert(a.tabs.some((x) => x.text === 'מהחיים'), `the short tab label is not used: ${a.tabs.map((x) => x.text)}`);
     assert(a.title === 'היום' && !a.cut, `the top bar title is cut or missing: ${JSON.stringify(a)}`);
     assert(a.icon > 22 && a.label !== 'none' && a.overflow <= 0, `top-bar icons do not grow or have no labels: ${JSON.stringify(a)}`);
     await shot(page, 'sc9-today-320-150');

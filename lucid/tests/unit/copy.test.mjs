@@ -129,6 +129,32 @@ test('BL-8: the copy check finds singular address and "חזרה" as a back label
   assert.ok(!isBackLabel('חזרה', 'Review') && !isBackLabel('חזרה על מילים') && !isBackLabel('חזרות להיום') && !isBackLabel('זמן לחזרה'));
 });
 
+// ---------- Round 4, SB-7: one set of names for real-life English ----------
+// The section is "אנגלית לחיים", one situation is a "תרחיש", the conversations hub is "שיחות תרגול" and small talk is
+// "שיחת חולין". The retired names fail anywhere in js/ and content/real-life/.
+export const RETIRED = [['מצבים אמיתיים', /מצבים אמיתיים/g], ['סימולציות שיחה', /סימולציות שיחה/g], ['סמול טוק', /סמול טוק/g]];
+// Files whose own lanes rename them in the same round (TP-13 welcome.js, RW-11 slang.js and the real-life content,
+// PG-9 tutor.js). Until those lanes merge their hits are printed as warnings; once they land this list matches
+// nothing. Do not add to it.
+const PENDING = ['js/views/welcome.js', 'js/views/slang.js', 'js/views/tutor.js', 'content/real-life/'];
+export function scanRetired() {
+  const walk = (dir, ext) => readdirSync(dir).flatMap((f) => { const p = join(dir, f); return statSync(p).isDirectory() ? walk(p, ext) : p.endsWith(ext) ? [p] : []; });
+  const hits = [];
+  for (const p of [...walk(join(root, 'js'), '.js'), ...walk(join(root, 'content', 'real-life'), '.json')]) {
+    const file = relative(root, p).split('\\').join('/');
+    const src = readFileSync(p, 'utf8');
+    for (const [word, re] of RETIRED) { const n = (src.match(re) || []).length; if (n) hits.push({ file, word, n }); }
+  }
+  return hits;
+}
+test('SB-7: real-life English has one set of names (no "מצבים אמיתיים", "סימולציות שיחה" or "סמול טוק")', () => {
+  const hits = scanRetired();
+  const pending = hits.filter((h) => PENDING.some((f) => h.file.startsWith(f)));
+  if (pending.length) console.log(`warning: real-life names waiting for their lanes (TP-13, RW-11, PG-9):\n  ${pending.map((h) => `${h.file}: ${h.word} ×${h.n}`).join('\n  ')}`);
+  const fresh = hits.filter((h) => !pending.includes(h)).map((h) => `${h.file}: ${h.word} ×${h.n}`);
+  assert.deepEqual(fresh, [], `real-life names outside the glossary (docs/ux/hebrew-microcopy.md):\n${fresh.join('\n')}`);
+});
+
 test('BL-8: no new singular address or "חזרה" back label in the Hebrew UI', () => {
   const hits = scan();
   const size = Object.values(ALLOW).reduce((a, w) => a + Object.values(w).reduce((x, y) => x + y, 0), 0);

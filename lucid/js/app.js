@@ -91,12 +91,33 @@ function drawShell(route) {
   fitTitle();
 }
 const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
-// A title too long for the top bar steps down in size, to 14px, before it is cut with an ellipsis (SC-9).
+// The top bar's title has one size per text size and window width (SB-7): the size at which the longest section
+// name ("מעבדת כתיבה", "Conversations") fits, so the bar does not jump between tabs. A title longer than every
+// section name steps down further, to 14px, before it is cut with an ellipsis (SC-9).
+const TITLE_KEYS = ['nav.today', 'nav.path', 'nav.practice', 'nav.reallife', 'nav.progress', 'nav.vocab', 'nav.games', 'nav.grammar', 'nav.reading', 'nav.listening', 'nav.speaking', 'nav.writing', 'nav.tutor', 'nav.slang', 'nav.simulations', 'nav.profile', 'nav.settings', 'nav.help'];
+let titleFit = { key: '', size: 0 };
+function sectionTitleSize(el) {
+  el.style.fontSize = '';
+  const base = parseFloat(getComputedStyle(el).fontSize);
+  const key = `${uiLang()}|${base}|${el.clientWidth}`;
+  if (titleFit.key === key) return titleFit.size;
+  const probe = document.createElement('span');
+  probe.className = 'title';
+  probe.style.cssText = 'position:absolute;visibility:hidden;width:auto;max-width:none;overflow:visible';
+  probe.setAttribute('aria-hidden', 'true');
+  el.parentElement.append(probe);
+  let widest = 0;
+  for (const k of TITLE_KEYS) { probe.textContent = t(k); widest = Math.max(widest, probe.getBoundingClientRect().width); }
+  probe.remove();
+  const size = widest > el.clientWidth ? Math.max(14, Math.floor((base * (el.clientWidth - 1)) / widest * 2) / 2) : base;
+  titleFit = { key, size };
+  return size;
+}
 function fitTitle() {
   const el = document.getElementById('top-title');
   if (!el || el.closest('[hidden]') || !el.getClientRects().length) return;
-  el.style.fontSize = '';
-  let size = parseFloat(getComputedStyle(el).fontSize);
+  let size = sectionTitleSize(el);
+  el.style.fontSize = `${size}px`;
   while (el.scrollWidth > el.clientWidth + 1 && size > 14) { size -= 1; el.style.fontSize = `${size}px`; }
 }
 // What the top bar shows for a route: the view's title, or in the Hebrew UI its section's name when the title is
