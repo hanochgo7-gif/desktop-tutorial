@@ -174,8 +174,10 @@ input, textarea { caret-color: var(--cobalt); }
    alignment follows the role, not the line count). Only one-line labels share the Hebrew edge: legend titles
    (.l-en), chips, option labels and plan titles, and the verdict footer's answer blocks (beside its keys). */
 .bi > .bi-en { display: block; text-align: left; width: auto; max-width: 100%; }
-.bi-he { display: block; color: var(--ink-he); font-size: 0.94em; }
-.bi-he-after { margin-block-start: 0.15em; font-size: 0.88em; }
+/* The Hebrew under English is the line a learner at A2 reads: never smaller than its English, and never under the
+   small step (14-15px at 100%), even inside small feedback text (SB-5). */
+.bi-he { display: block; color: var(--ink-he); font-size: 1em; }
+.bi-he-after { margin-block-start: 0.15em; font-size: max(1em, var(--t-sm)); }
 /* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
 .he-reveal { display: flex; align-items: center; justify-content: center; width: fit-content; margin: var(--s2) 0 0; padding: 0.1em 0.7em; border: 1px solid var(--key-edge); border-radius: 6px; background: var(--key-sunk); color: var(--ink-he); font-size: var(--t-xs); line-height: 1.5; }
 [lang='en'] { font-feature-settings: 'kern' 1; }
