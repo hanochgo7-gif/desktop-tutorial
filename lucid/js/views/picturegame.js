@@ -17,6 +17,8 @@ import { longestWord } from '../core/memorygame.js';
 
 export const picture = (name, size = 44) => html`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${raw(PICTURES[name] || '')}</svg>`;
 const pctText = (x) => `${Math.round(x * 100)}%`;
+// The score pill of the three games names what its number is (UX r4 PG-4): "12 נקודות", not a bare number.
+export const scorePill = (n) => html`<span class="game-score"><span class="num">${n}</span> <span class="game-score-label">${tt('נקודות', 'points')}</span></span>`;
 // The word as the learner's English is set: American where it differs ("flashlight"), otherwise the word itself.
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
 const otherForm = (w) => (w.us ? (shown(w) === w.us ? `UK: ${w.word}` : `US: ${w.us}`) : '');
@@ -31,15 +33,18 @@ export function lockedPage(el, { title, text, next }) {
   setTimeout(() => $('.game-locked-page h1', el)?.focus({ preventScroll: true }), 30);
 }
 
-// A locked picture or memory level: what opens it, and the way to the highest open level below it.
-export function lockedLevel(el, route, level, isOpen) {
+// A locked picture or memory level: what opens it (text, by default the picture game's rule), and the way to the
+// highest open level below it.
+export function lockedLevel(el, route, level, isOpen, text = null) {
   const below = Array.from({ length: level - 1 }, (_, k) => level - 1 - k).find(isOpen);
   lockedPage(el, {
     title: tt('הרמה הזו עוד נעולה', 'This level is still locked'),
-    text: tt(`רמה ${level} נפתחת ב-${pctText(UNLOCK)} דיוק ברמה ${level - 1}.`, `Level ${level} opens at ${pctText(UNLOCK)} accuracy in level ${level - 1}.`),
+    text: text || tt(`רמה ${level} נפתחת ב-${pctText(UNLOCK)} דיוק ברמה ${level - 1}.`, `Level ${level} opens at ${pctText(UNLOCK)} accuracy in level ${level - 1}.`),
     next: below && { href: `#/games/${route}/${below}`, label: tt(`לרמה ${below}`, `To level ${below}`) },
   });
 }
+// What opens a memory level above the course level (UX r4 PG-4): English shown in the picture game, not memory.
+export const memoryUnlockText = (level) => html`${tt(`רמה ${level} נפתחת ברמת הקורס שלכם, או אחרי ${pctText(UNLOCK)} `, `Level ${level} opens at your course level, or after ${pctText(UNLOCK)} in `)}<a href="#/games/pictures/${level - 1}">${tt(`במשחק המילים והתמונות ברמה ${level - 1}`, `the words and pictures game at level ${level - 1}`)}</a>.`;
 
 // The round's points as one left-to-right sum ("12 × 10 − 1 × 3 = 117"); the speed bonus only in the challenge.
 // bonusName: what the bonus is for (the speed bonus by default; few turns in memory).
@@ -99,8 +104,7 @@ export default async function picturegame(el, ctx) {
     return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בסיבוב', 'Round progress')}"><span style="width:${pct}%"></span></div>
-      <span class="top-meta is-count"><span class="step-count">${tt(`לוח ${Math.min(b + 1, boards.length)} מתוך ${boards.length}`, `Board ${Math.min(b + 1, boards.length)} of ${boards.length}`)}</span></span>
-      <span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score()}</span></div>`;
+      <span class="top-meta is-count"><span class="step-count">${tt(`לוח ${Math.min(b + 1, boards.length)} מתוך ${boards.length}`, `Board ${Math.min(b + 1, boards.length)} of ${boards.length}`)}</span>${scorePill(score())}</span></div>`;
   }
 
   function board() {

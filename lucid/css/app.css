@@ -1659,7 +1659,7 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* Memory (GM-5): every pair on the end screen; the small board at level 1. */
 .game-pairs { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
 .game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
-.mem-size { display: inline-block; padding-block: var(--s1); }
+.mem-size { display: inline-flex; align-items: center; min-height: 2.75rem; padding-block: var(--s1); }
 @media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
 /* Word quiz (GM-6): the lesson's footer Continue key, full width on phones; a tap on an option is the answer, so
    touch shows no 1-4 keycaps (keys 1-4 still answer on a keyboard). The verdict scrolls clear of the footer. */
@@ -1708,6 +1708,14 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .speed-field > .help { margin: 0; }
 @media (hover: hover) { .speed-switch:hover { border-color: var(--n5); } }
 @media (prefers-reduced-motion: reduce) { .speed-track, .speed-thumb { transition: none; } }
+/* PG-4: the score pill names its number ("12 נקודות"); the memory feedback line sits under the cards, so no empty
+   band pushes the board down. */
+.game-score { display: inline-flex; align-items: baseline; gap: 0.3em; white-space: nowrap; flex: none; }
+.game-score-label { font-weight: 500; font-size: 0.85em; }
+.mem-intro { margin-block-end: 0; }
+/* The score pill shares the counter's row (one row less at 130-150% text and on phones). */
+.player-top .top-meta.is-count > .game-score { margin-inline-start: var(--s3); }
+#gbody > h1.sr-only:first-child + * { margin-block-start: 0; }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */

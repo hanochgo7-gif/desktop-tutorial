@@ -1519,7 +1519,7 @@ try {
     await ctx.close();
   });
 
-  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch stays up until the next card; only a mismatch after the pair was seen is a slip; a round is logged once and opens level 2', async () => {
+  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch stays up until the next card; only a mismatch after the pair was seen is a slip; a round is logged once, and level 2 opens through the picture game (UX r4 PG-4)', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1579,14 +1579,14 @@ try {
     const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
     // UX r3 GM-5: a slip of place is not a word to go over; only a picture paired with a word card already seen is.
     assert(listed.length <= 1, `more words listed to go over than the one turn that could be a miss (${listed}; ${slipWord})`);
-    assert(await page.$('a[href="#/games/memory/2"]'), 'memory level 2 did not open at 86%');
+    assert(!(await page.$('a[href="#/games/memory/2"]')) && await page.$('.game-result a[href="#/games/pictures/1"]'), 'memory level 2 opened on calm memory accuracy, or the result does not point to the picture game (UX r4 PG-4)');
     await page.waitForTimeout(500);
     await page.click('[data-again]');
     await page.waitForSelector('.mem-card');
     assert((await page.$$('.mem-card')).length === 12 && !(await page.$('.mem-card:disabled')), '"Play again" did not deal a fresh board');
     await page.goto(`${BASE}#/games`);
-    await page.waitForSelector('a.game-stage[href="#/games/memory/2"]');
-    assert(/86%/.test(await page.textContent('a.game-stage[href="#/games/memory/1"]')), 'the memory best is not on the games page');
+    await page.waitForSelector('a.game-stage[href="#/games/memory/1"]');
+    assert(/6 זוגות ב-\d+ תורות/.test(await page.textContent('a.game-stage[href="#/games/memory/1"]')), 'the memory best is not on the games page');
     await ctx.close();
   });
 

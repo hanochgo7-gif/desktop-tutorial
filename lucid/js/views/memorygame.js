@@ -9,10 +9,10 @@ import { store } from '../core/store.js';
 import { logEvent, settings, model } from '../core/learner.js';
 import { playTone, soundOn } from '../ui/sound.js';
 import { say, canSpeak } from '../core/speech.js';
-import { bests, isBetter, unlocked, recentWords, openUpTo } from '../core/picturegame.js';
-import { UNLOCK, MATCH, SLIP, TYPE, SMALL, maxFor, turnBonus, roundScore, accuracyOf, makeDeck, judgeTurn, longestWord } from '../core/memorygame.js';
+import { bests, isBetter, recentWords, openUpTo } from '../core/picturegame.js';
+import { UNLOCK, MATCH, SLIP, TYPE, SMALL, maxFor, turnBonus, roundScore, accuracyOf, makeDeck, judgeTurn, longestWord, memoryUnlocked, fewerTurns } from '../core/memorygame.js';
 import { paceOf } from '../core/wordgame.js';
-import { picture, sumLine, bestLine, lockedLevel } from './picturegame.js';
+import { picture, sumLine, bestLine, lockedLevel, memoryUnlockText, scorePill } from './picturegame.js';
 
 const pctText = (x) => `${Math.round(x * 100)}%`;
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
@@ -35,13 +35,21 @@ export default async function memorygame(el, ctx) {
   }
   const set = data.sets.find((s) => s.level === level);
   if (!set) { ctx.navigate('games', { replace: true }); return null; }
-  // Level 1 also has a small board of 4 pairs (8 cards): #/games/memory/1?pairs=4.
-  const small = level === 1 && Number(ctx.query?.pairs) === SMALL;
-  const pairs = small ? SMALL : set.memory_pairs || 6;
-  let before = bests(store.all('events'), TYPE);
-  let pace = paceOf(settings()), mineBefore = {};
+  // Level 1 also has a small board of 4 pairs (8 cards): #/games/memory/1?pairs=4. At 130-150% text it is the
+  // default, so the whole board fits a phone screen (UX r4 PG-4); ?pairs=<full> asks for the full board.
+  const full = set.memory_pairs || 6;
+  const bigText = ['130', '150'].includes(document.documentElement.dataset.text);
+  const asked = Number(ctx.query?.pairs);
+  const small = level === 1 && (asked === SMALL || (!asked && bigText));
+  const pairs = small ? SMALL : full;
   const openTo = openUpTo(data.sets, model().courseLevel);
-  if (!unlocked(before, level, openTo)) { lockedLevel(el, 'memory', level, (l) => unlocked(before, l, openTo)); return null; }
+  const nextSet = data.sets.find((s) => s.level === level + 1);
+  let pace = paceOf(settings()), mineBefore = {}, nextWasOpen = false;
+  if (!memoryUnlocked(store.all('events'), level, openTo)) {
+    const evs = store.all('events');
+    lockedLevel(el, 'memory', level, (l) => memoryUnlocked(evs, l, openTo), memoryUnlockText(level));
+    return null;
+  }
   try { sessionStorage.setItem('lucid-game-level', 'memory'); } catch { /* storage blocked */ }
   ctx.setTitle(`${tt('משחק זיכרון', 'Memory game')} · ${level}`);
 
@@ -51,11 +59,13 @@ export default async function memorygame(el, ctx) {
   const found = []; // the words, in the order their pairs were found (the end screen lists them all)
   const score = (bonus = 0) => roundScore(matches, slips, bonus, pace.challenge ? SLIP : 0);
 
+  // The bests shown: in the challenge by accuracy and score; in the calm default by the fewest turns a pair.
+  const myBests = () => (pace.challenge ? bests(store.all('events'), TYPE, 'challenge') : bests(store.all('events'), TYPE, 'calm', fewerTurns));
   function start(focus = []) {
     clearTimeout(backTimer);
-    before = bests(store.all('events'), TYPE);
     pace = paceOf(settings());
-    mineBefore = bests(store.all('events'), TYPE, pace.mode);
+    mineBefore = myBests();
+    nextWasOpen = Boolean(nextSet) && memoryUnlocked(store.all('events'), nextSet.level, openTo);
     cards = makeDeck(set.words, pairs, { focus, recent: recentWords(store.all('events'), level, 2, TYPE), apart: set.apart || [] });
     up = new Set(); matched = new Set(); seen = new Set(); first = null; back = null;
     turns = 0; matches = 0; slips = 0; done = false; missed.clear(); found.length = 0;
@@ -67,8 +77,7 @@ export default async function memorygame(el, ctx) {
     return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('זוגות שנמצאו', 'Pairs found')}"><span style="width:${pct}%"></span></div>
-      <span class="top-meta is-count"><span class="step-count">${tt(turns === 1 ? 'תור אחד' : `${turns} תורות`, `${turns} ${turns === 1 ? 'turn' : 'turns'}`)}</span></span>
-      <span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score()}</span></div>`;
+      <span class="top-meta is-count"><span class="step-count">${tt(turns === 1 ? 'תור אחד' : `${turns} תורות`, `${turns} ${turns === 1 ? 'turn' : 'turns'}`)}</span>${scorePill(score())}</span></div>`;
   }
   const refreshTop = () => { $('.player-top', el).outerHTML = String(top()); };
 
@@ -95,9 +104,9 @@ export default async function memorygame(el, ctx) {
     quietUntil = performance.now() + 450; // a double tap on the button that opened this round must not turn a card
     render(el, html`<div class="player">${top()}<div class="player-body stack" id="gbody" tabindex="-1">
       <h1 class="sr-only">${tt('משחק זיכרון', 'Memory game')}, ${tt(`רמה ${level}`, `level ${level}`)}</h1>
-      <p class="small faint">${tt(`רמה ${level}: ${set.name_he}. הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה באנגלית.`, `Level ${level}: ${set.name_en}. Turn two cards each turn to find a picture and its English word.`)}${level === 1 ? html` <a class="mem-size" href="${small ? '#/games/memory/1' : `#/games/memory/1?pairs=${SMALL}`}">${small ? tt(`ללוח הרגיל: ${(set.memory_pairs || 6) * 2} קלפים`, `Back to the full board: ${(set.memory_pairs || 6) * 2} cards`) : tt(`ללוח קטן: ${SMALL * 2} קלפים`, `A small board: ${SMALL * 2} cards`)}</a>` : ''}</p>
-      <div id="gfb" class="game-feedback mem-feedback small" aria-live="polite"></div>
-      <div class="mem-grid" data-pairs="${pairs}" role="group" aria-label="${tt('קלפים', 'Cards')}">${cards.map((c, i) => html`<button type="button" class="mem-card" data-card="${i}">${face(i)}</button>`)}</div></div></div>`);
+      <p class="small faint mem-intro">${tt(`רמה ${level}: ${set.name_he}. הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה באנגלית.`, `Level ${level}: ${set.name_en}. Turn two cards each turn to find a picture and its English word.`)}${level === 1 ? html` <a class="mem-size" href="${small ? `#/games/memory/1?pairs=${full}` : `#/games/memory/1?pairs=${SMALL}`}">${small ? tt(`ללוח הרגיל: ${full * 2} קלפים`, `The full board: ${full * 2} cards`) : tt(`ללוח קטן: ${SMALL * 2} קלפים`, `A small board: ${SMALL * 2} cards`)}</a>` : ''}</p>
+      <div class="mem-grid" data-pairs="${pairs}" role="group" aria-label="${tt('קלפים', 'Cards')}">${cards.map((c, i) => html`<button type="button" class="mem-card" data-card="${i}">${face(i)}</button>`)}</div>
+      <div id="gfb" class="game-feedback mem-feedback small" aria-live="polite"></div></div></div>`);
     window.scrollTo?.(0, 0);
     setTimeout(() => $('#gbody', el)?.focus({ preventScroll: true }), 30);
   }
@@ -174,36 +183,42 @@ export default async function memorygame(el, ctx) {
     const total = score(bonus);
     const accuracy = accuracyOf(matches, slips);
     const prev = mineBefore[level];
-    const record = isBetter(prev, { accuracy, score: total });
+    const record = pace.challenge ? isBetter(prev, { accuracy, score: total }) : fewerTurns(prev, { turns, matches, accuracy });
     logEvent({ type: TYPE, level, score: total, accuracy, matches, slips, turns, total: pairs, mode: pace.mode, words: [...new Set(cards.map((x) => x.w.word))] });
-    const nowBest = bests(store.all('events'), TYPE);
-    const nextSet = data.sets.find((s) => s.level === level + 1);
-    const opened = nextSet && !unlocked(before, nextSet.level, openTo) && unlocked(nowBest, nextSet.level, openTo);
+    const nextOpen = Boolean(nextSet) && memoryUnlocked(store.all('events'), nextSet.level, openTo);
+    const opened = nextOpen && !nextWasOpen;
     const words = [...missed.values()];
+    // Calm mode says nothing about slips or accuracy: memory is not what is being learned (UX r4 PG-4).
+    const pairsLine = tt(`${matches} זוגות ב-${turns} תורות`, `${matches} pairs in ${turns} turns`);
+    const calmBest = () => {
+      const was = prev && tt(`${prev.matches ?? pairs} זוגות ב-${prev.turns} תורות`, `${prev.matches ?? pairs} pairs in ${prev.turns} turns`);
+      if (!record) return html`<p class="small faint">${tt(`השיא שלכם: ${was}`, `Your best: ${was}`)}</p>`;
+      return html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש: פחות תורות לכל זוג. הקודם: ${was}`, `New best: fewer turns a pair. Previous: ${was}`) : tt('השיא הראשון שלכם ברמה הזו', 'Your first best at this level')}</p>`;
+    };
     render(el, html`<div class="player"><div class="player-top">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-label="${tt('זוגות שנמצאו', 'Pairs found')}"><span style="width:100%"></span></div>
-      <span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${total}</span></div>
+      ${scorePill(total)}</div>
       <div class="player-body stack-lg">
       <div class="game-result stack-sm">
         <p class="small faint">${tt(`משחק זיכרון · רמה ${level}: ${set.name_he}`, `Memory game · Level ${level}: ${set.name_en}`)}</p>
         <h1 class="game-total num" tabindex="-1">${tt(`${total} נקודות`, `${total} points`)}<span class="small faint"> <bdi dir="ltr">/ ${maxFor(pairs, pace.challenge)}</bdi></span></h1>
-        <p>${tt(`${matches} זוגות ב-${turns} תורות (${pctText(accuracy)} דיוק)`, `${matches} pairs in ${turns} turns (${pctText(accuracy)} accuracy)`)}</p>
+        <p>${pairsLine}${pace.challenge ? tt(` (${pctText(accuracy)} דיוק)`, ` (${pctText(accuracy)} accuracy)`) : ''}</p>
         <p class="small faint">${tt('הניקוד:', 'Points:')} ${pace.challenge
           ? sumLine({ terms: [[matches, MATCH, 1], ...(slips ? [[slips, SLIP, -1]] : [])], total, bonus, challenge: true, bonusName: tt('בונוס על מעט תורות', 'bonus for few turns') })
           : sumLine({ terms: [[matches, MATCH, 1]], total })}</p>
-        ${slips ? html`<p class="small faint">${slips === 1 ? tt('פעם אחת נבחר קלף אחר אף שהזוג כבר נראה.', 'Once, another card was chosen although the pair had been seen.') : tt(`${slips === 2 ? 'פעמיים' : `${slips} פעמים`} נבחר קלף אחר אף שהזוג כבר נראה.`, `${slips} times, another card was chosen although the pair had been seen.`)}</p>` : ''}
-        ${bestLine(prev, record, pace.challenge)}
+        ${slips && pace.challenge ? html`<p class="small faint">${slips === 1 ? tt('פעם אחת נבחר קלף אחר אף שהזוג כבר נראה.', 'Once, another card was chosen although the pair had been seen.') : tt(`${slips === 2 ? 'פעמיים' : `${slips} פעמים`} נבחר קלף אחר אף שהזוג כבר נראה.`, `${slips} times, another card was chosen although the pair had been seen.`)}</p>` : ''}
+        ${pace.challenge ? bestLine(prev, record, true) : calmBest()}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתחה רמה ${nextSet.level}: ${nextSet.name_he}`, `Level ${nextSet.level} is open: ${nextSet.name_en}`)}</span></p>` : ''}
-        ${nextSet && !unlocked(nowBest, nextSet.level, openTo) ? html`<p class="small faint">${tt(`רמה ${nextSet.level} נפתחת ב-${pctText(UNLOCK)} דיוק.`, `Level ${nextSet.level} opens at ${pctText(UNLOCK)} accuracy.`)}</p>` : ''}
+        ${nextSet && !nextOpen ? html`<p class="small faint" data-unlock-line>${memoryUnlockText(nextSet.level)}${pace.challenge ? tt(` באתגר מהירות גם ${pctText(UNLOCK)} דיוק כאן פותחים אותה.`, ` In the speed challenge, ${pctText(UNLOCK)} accuracy here opens it too.`) : ''}</p>` : ''}
       </div>
       ${words.length ? html`<section class="stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('מילים לחזור עליהן', 'Words to go over')}</h2>
         <ul class="pic-missed">${words.map((w) => html`<li class="panel flat row">${picture(w.icon, 32)}<span><strong lang="en" dir="ltr">${shown(w)}</strong>${otherForm(w) ? html` <span class="xsmall faint" lang="en" dir="ltr">(${otherForm(w)})</span>` : ''} = <span lang="he" dir="rtl">${isolateLatin(w.he)}</span></span>${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say="${shown(w)}" aria-label="${tt(`השמעה: ${shown(w)}`, `Play: ${shown(w)}`)}">${icon('volume', { size: 16 })}</button>` : ''}</li>`)}</ul>
         <button type="button" class="key" data-missed>${tt('סיבוב שמתחיל במילים האלה', 'A round with these words first')}</button></section>`
-        : !slips ? html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל זוג שכבר נראה נמצא מיד.', 'Every pair already seen was found at once.')}</span></p>` : ''}
+        : !slips && pace.challenge ? html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל זוג שכבר נראה נמצא מיד.', 'Every pair already seen was found at once.')}</span></p>` : ''}
       <div class="row">
         <button type="button" class="key enter" data-again>${tt('עוד סיבוב', 'Play again')}</button>
-        ${nextSet && unlocked(nowBest, nextSet.level, openTo) ? html`<a class="key" href="#/games/memory/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
+        ${nextOpen ? html`<a class="key" href="#/games/memory/${nextSet.level}">${tt(`לרמה ${nextSet.level}`, `To level ${nextSet.level}`)}</a>` : ''}
         <a class="key ghost" href="#/games">${tt('לכל המשחקים', 'All games')}</a>
       </div>
       <section class="stack-sm" aria-labelledby="mem-pairs-h"><h2 id="mem-pairs-h" class="small" style="font-size:var(--t-md)">${tt(`כל הזוגות בסיבוב (${found.length})`, `Every pair in the round (${found.length})`)}</h2>

@@ -85,6 +85,38 @@ async function playBoard(page) {
   }
   await page.waitForSelector('[data-nextboard]');
 }
+// What memory card i is (its English word), once it is face up.
+const cardWord = async (page, i) => {
+  const he = await page.$(`[data-card="${i}"] [data-he]`);
+  return he ? byHe.get(await he.textContent()) : (await page.textContent(`[data-card="${i}"] [data-word]`)).trim();
+};
+// Plays a memory board to the end with a perfect memory; with slip, one deliberate slip (the pair had been seen and
+// another card is turned). Returns whether the slip was made.
+async function playMemory(page, { slip = false } = {}) {
+  const n = (await page.$$('.mem-card')).length;
+  const known = new Map();
+  let slipped = false;
+  const see = async (i) => { await page.click(`[data-card="${i}"]`); known.set(i, await cardWord(page, i)); };
+  for (let guard = 0; guard < 80; guard++) {
+    const done = new Set(await page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card))));
+    if (done.size === n) break;
+    let pair = null;
+    for (const i of known.keys()) for (const j of known.keys()) if (i < j && known.get(i) === known.get(j) && !done.has(i)) pair = [i, j];
+    await page.waitForTimeout(460); // a tap on a card of the last mismatch is ignored for 450 ms (a double tap)
+    if (pair) { for (const i of pair) await page.click(`[data-card="${i}"]`); continue; }
+    const fresh = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i));
+    await see(fresh);
+    const partner = [...known.keys()].find((j) => j !== fresh && known.get(j) === known.get(fresh) && !done.has(j));
+    let second = partner ?? [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i) && i !== fresh);
+    if (slip && !slipped && partner !== undefined) {
+      second = [...Array(n).keys()].find((i) => i !== fresh && i !== partner && !done.has(i));
+      slipped = true;
+    }
+    await see(second);
+  }
+  await page.waitForSelector('.game-total');
+  return slipped;
+}
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', root], { stdio: 'ignore' });
 await sleep(700);
@@ -213,6 +245,55 @@ try {
     const res = (await page.textContent('.game-result')).replace(/\s+/g, ' ');
     assert(/ניסיון אחד שלא התאים/.test(res) && !/−/.test(res), `the calm result: ${res.slice(0, 220)}`);
     await shot(page, 'pg3-result-390');
+    await ctx.close();
+  });
+  // ---------- PG-4 ----------
+  await check('PG-4. Memory in calm mode: the end screen has no "%" and no slip tally; level 2 opens through the picture game, not memory accuracy', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'games/memory/1', '.mem-card');
+    await page.waitForTimeout(500);
+    const slipped = await playMemory(page, { slip: true });
+    assert(slipped, 'the test never had the chance to slip');
+    const ev = (await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round')))[0];
+    assert(ev && ev.slips >= 1 && ev.accuracy < 1, `no slip recorded: ${JSON.stringify(ev)}`);
+    const res = (await page.textContent('.game-result')).replace(/\s+/g, ' ');
+    // The only percentage left is the picture game's 70% in the unlock rule; nothing measures memory.
+    const own = (await page.$eval('.game-result', (r) => { const c = r.cloneNode(true); c.querySelector('[data-unlock-line]')?.remove(); return c.textContent; })).replace(/\s+/g, ' ');
+    assert(!/%/.test(own) && !/נבחר קלף אחר/.test(res) && !/דיוק/.test(res), `the calm end screen: ${res.slice(0, 260)}`);
+    assert(/6 זוגות ב-\d+ תורות/.test(res), `no "N זוגות ב-M תורות": ${res.slice(0, 200)}`);
+    assert(!(await page.$('a[href="#/games/memory/2"]')), 'memory level 2 opened on memory accuracy');
+    assert(await page.$('.game-result a[href="#/games/pictures/1"]') && /במשחק המילים והתמונות ברמה 1/.test(res), 'the unlock line does not point to the picture game');
+    await shot(page, 'pg4-memory-end-calm-390');
+    // A picture-game level-1 best of 70% opens memory level 2.
+    await page.evaluate(() => window.lucid.store.put('events', { id: 'ev-pic1', at: new Date().toISOString(), type: 'picture-round', level: 1, score: 100, accuracy: 0.75, matches: 12, mistakes: 4, total: 12, mode: 'calm' }));
+    await go(page, 'games', '#lvl-memory');
+    assert(await page.$('#lvl-memory a.game-stage[href="#/games/memory/2"]'), 'memory level 2 did not open with a picture-game best of 75%');
+    const sub = await page.textContent('#lvl-memory a.game-stage[href="#/games/memory/1"]');
+    assert(!/%/.test(sub) && /תורות/.test(sub), `the memory best on the hub: ${sub}`);
+    await ctx.close();
+  });
+
+  await check('PG-4. Memory at 390x844, 150% text: an 8-card board fits the screen, the board-size link is 44px tall and the score pill says "נקודות"', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1', { text: 150 });
+    await go(page, 'games/memory/1', '.mem-card');
+    await page.waitForTimeout(400);
+    const m = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll('.mem-card')];
+      const link = document.querySelector('.mem-size').getBoundingClientRect();
+      const pill = document.querySelector('.game-score');
+      return { n: cards.length, bottom: cards.at(-1).getBoundingClientRect().bottom, h: innerHeight, link: link.height, pill: pill.innerText.replace(/\s+/g, ' ').trim(), wide: document.documentElement.scrollWidth - innerWidth };
+    });
+    assert(m.n === 8, `${m.n} cards at 150%`);
+    assert(m.bottom <= m.h, `the last card ends at ${m.bottom} of ${m.h}`);
+    assert(m.link >= 44, `the board-size link is ${m.link}px tall`);
+    assert(/נקודות/.test(m.pill), `the score pill shows "${m.pill}"`);
+    assert(m.wide <= 0, `the page scrolls sideways by ${m.wide}px`);
+    await shot(page, 'pg4-memory-150-390');
+    // The full board is still one tap away.
+    await page.click('.mem-size');
+    await page.waitForFunction(() => document.querySelectorAll('.mem-card').length === 12);
     await ctx.close();
   });
 } finally {

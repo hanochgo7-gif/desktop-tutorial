@@ -79,16 +79,15 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
 }
 
 // The best round per level from the "picture-round" events (or another game's, by type): higher accuracy first,
-// then the score. With a mode ('calm' or 'challenge'), only the rounds played in that mode count; rounds saved
-// before modes existed were played with the bonus, so they count as 'challenge'.
-export function bests(events, type = 'picture-round', mode = null) {
+// then the score (or another order, `better`). With a mode ('calm' or 'challenge'), only the rounds played in that
+// mode count; rounds saved before modes existed were played with the bonus, so they count as 'challenge'.
+export function bests(events, type = 'picture-round', mode = null, better = isBetter) {
   const out = {};
   for (const e of events) {
     if (e.type !== type || (mode && (e.mode === 'calm' ? 'calm' : 'challenge') !== mode)) continue;
     const b = out[e.level];
-    const better = !b || e.accuracy > b.accuracy || (e.accuracy === b.accuracy && e.score > b.score);
     const rounds = (b?.rounds || 0) + 1;
-    out[e.level] = better ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, rounds } : { ...b, rounds };
+    out[e.level] = better(b, e) ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, turns: e.turns, matches: e.matches, rounds } : { ...b, rounds };
   }
   return out;
 }

@@ -10,11 +10,13 @@
 // seen (so chose knowing what it was), and that word is not the picture's. Only misses go on the list of words
 // to go over.
 // Score: 10 points per pair. In the opt-in speed challenge, minus 3 per slip (never below 0) and a bonus for
-// finishing in few turns. Accuracy is pairs / (pairs + slips); level 2 opens at 70% in level 1, level 3 at 70% in
-// level 2 (levels up to the course level are open from the start, as in the picture game).
+// finishing in few turns. Accuracy is pairs / (pairs + slips), and it counts only in the challenge.
+// Levels (UX r4 PG-4, keeping plan.json's GM-3): levels up to the course level are open from the start, as in the
+// picture game; above it, level N+1 needs 70% on English, not on working memory: a picture-game best of 70% at level N
+// (the same word set), or, from rounds played in the speed challenge, 70% memory accuracy at level N.
 // The game is practice: it does not change the learner's level.
 import { shuffle } from './util.js';
-import { makeBoards } from './picturegame.js';
+import { makeBoards, bests, UNLOCK as PICTURE_UNLOCK } from './picturegame.js';
 
 export const UNLOCK = 0.7;
 export const MATCH = 10;
@@ -50,3 +52,15 @@ export function judgeTurn(cards, a, b, seen) {
 
 // The longest word of a card's text, in letters: the word card's type size is fitted to it (CSS --len).
 export const longestWord = (text) => Math.max(1, ...String(text || '').split(/\s+/).map((x) => x.length));
+
+// Whether memory level `level` is open (UX r4 PG-4). events: the learner's events; openTo: the highest level open from
+// the course level (openUpTo).
+export function memoryUnlocked(events, level, openTo = 1) {
+  if (level <= Math.max(1, openTo)) return true;
+  if ((bests(events, 'picture-round')[level - 1]?.accuracy || 0) >= PICTURE_UNLOCK) return true;
+  return (bests(events, TYPE, 'challenge')[level - 1]?.accuracy || 0) >= UNLOCK;
+}
+// The calm best: the fewest turns a pair (so the small and the full board compare fairly), then the fewest slips,
+// since the calm score is always pairs x 10.
+const perPair = (r) => (r?.turns && r?.matches ? r.turns / r.matches : Infinity);
+export const fewerTurns = (prev, r) => !prev || perPair(r) < perPair(prev) || (perPair(r) === perPair(prev) && (r.accuracy || 0) > (prev.accuracy || 0));

@@ -14,7 +14,7 @@ import { say, canSpeak } from '../core/speech.js';
 import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, speedSetting, ADVANCE_MS } from '../core/wordgame.js';
 import * as pics from '../core/picturegame.js';
 import * as mem from '../core/memorygame.js';
-import { picture, lockedPage } from './picturegame.js';
+import { picture, lockedPage, scorePill, memoryUnlockText } from './picturegame.js';
 
 const LAST = 'lucid-game-level';
 const remember = (level) => { try { sessionStorage.setItem(LAST, level); } catch { /* storage blocked */ } };
@@ -80,22 +80,31 @@ async function hub(el, ctx) {
       sizeHe: (s) => `${s.memory_pairs * 2} קלפים`, sizeEn: (s) => `${s.memory_pairs * 2} cards`, iconOf: (s) => s.words[1].icon },
   ];
   const doneMark = () => html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>`;
+  // Memory (UX r4 PG-4): its levels open on English (memoryUnlocked), its calm best is the fewest turns a pair, and
+  // calm mode shows no accuracy for it.
   const pictureSection = (g, mode) => {
-    const best = pics.bests(store.all('events'), g.type);
-    const shownBest = pics.bests(store.all('events'), g.type, mode);
-    const open = sets.filter((s) => pics.unlocked(best, s.level, openTo));
+    const events = store.all('events');
+    const isMemory = g.id === 'memory';
+    const best = pics.bests(events, g.type);
+    const shownBest = isMemory && mode === 'calm' ? pics.bests(events, g.type, 'calm', mem.fewerTurns) : pics.bests(events, g.type, mode);
+    const isOpen = (level) => (isMemory ? mem.memoryUnlocked(events, level, openTo) : pics.unlocked(best, level, openTo));
+    const open = sets.filter((s) => isOpen(s.level));
     const locked = sets.filter((s) => !open.includes(s)).map((s) => s.level);
+    const bestText = (b) => (isMemory && mode === 'calm'
+      ? tt(`שיא: ${b.matches ?? ''} זוגות ב-${b.turns} תורות`, `Best: ${b.matches ?? ''} pairs in ${b.turns} turns`)
+      : tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`));
     return html`<section class="stack-sm game-section" id="lvl-${g.id}" aria-labelledby="${g.id}-h">
       <h2 id="${g.id}-h">${tt(g.he, g.en)}</h2>
       <p class="small muted">${tt(g.lineHe(mode === 'challenge'), g.lineEn(mode === 'challenge'))}</p>
       ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
       <div class="game-stages">${open.map((set) => {
         const b = shownBest[set.level];
-        const passed = (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
+        const passed = isMemory ? Boolean(best[set.level]) : (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
         return html`<a class="game-stage" href="#/games/${g.route}/${set.level}"><span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
-          <span class="xsmall faint game-stage-sub">${b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>${passed ? doneMark() : ''}</a>`;
+          <span class="xsmall faint game-stage-sub">${b ? bestText(b) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>${passed ? doneMark() : ''}</a>`;
       })}</div>
-      ${locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
+      ${locked.length && isMemory ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${memoryUnlockText(locked[0])}${locked.length > 1 ? tt(` רמה ${locked[1]} נפתחת באותו אופן אחרי רמה ${locked[0]}.`, ` Level ${locked[1]} opens the same way after level ${locked[0]}.`) : ''}</span></p>`
+      : locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
         ? tt(`רמה ${locked[0]} נפתחת ב-${pctText(pics.UNLOCK)} דיוק ברמה ${locked[0] - 1}.`, `Level ${locked[0]} opens at ${pctText(pics.UNLOCK)} accuracy in level ${locked[0] - 1}.`)
         : tt(`רמות ${locked.slice(0, -1).join(', ')} ו-${locked.at(-1)} נפתחות ב-${pctText(pics.UNLOCK)} דיוק ברמה הקודמת.`, `Levels ${locked.slice(0, -1).join(', ')} and ${locked.at(-1)} open at ${pctText(pics.UNLOCK)} accuracy in the level before.`)}</span></p>` : ''}
     </section>`;
@@ -205,14 +214,14 @@ async function play(el, ctx, level, stageId) {
   let i = 0, score = 0, bonusTotal = 0, right = 0, streak = 0, started = 0, answered = false, done = false, timer = null;
   const missed = [];
 
-  const scoreBadge = () => html`<span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score}</span>`;
+  const scoreBadge = () => scorePill(score);
   // The counter has its own row on phones and at 130-150% text, like the lesson's (LF-7 .counting).
   function top() {
     const pct = Math.round(((i + (answered ? 1 : 0)) / questions.length) * 100);
     return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בסיבוב', 'Round progress')}"><span style="width:${pct}%"></span></div>
-      <span class="top-meta is-count"><span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span></span>${scoreBadge()}</div>`;
+      <span class="top-meta is-count"><span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span>${scoreBadge()}</span></div>`;
   }
   const head = () => html`<h1 class="sr-only">${tt('משחק מילים', 'Word game')}, ${LEVEL_LABEL[level]}, ${tt(`שלב ${stageId}`, `stage ${stageId}`)}</h1>
     <p class="small faint row between"><span><span class="tag level">${LEVEL_LABEL[level]}</span> ${tt(`שלב ${stageId}`, `Stage ${stageId}`)}: ${stageName(stage)}</span>${pace.challenge && streak >= 3 ? html`<span class="tag ok">${tt(`רצף ${streak}`, `${streak} in a row`)}</span>` : ''}</p>`;
