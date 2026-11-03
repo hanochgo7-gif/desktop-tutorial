@@ -508,6 +508,9 @@ export function minutesToday({ attempts = [], events = [], whole = [], lessons =
 }
 
 // ---------- reports ----------
+// Writing-lab work: a text written, checked, rated or finalised (essay.js events). TP-8: the report counts writing
+// sessions (one per text per day) with no level claim, so a learner who only writes still gets a report.
+export const WRITING_EVENTS = ['writing', 'writing-final', 'writing-self-rating'];
 // extraSeconds: active time in the session that is still open (sessions are logged when they end).
 export function periodReport({ attempts = [], cards = [], progress = [], events = [], now = Date.now(), days = 7, extraSeconds = 0 }) {
   const since = now - days * DAY;
@@ -538,6 +541,7 @@ export function periodReport({ attempts = [], cards = [], progress = [], events 
     reviews: reviews.length,
     retention: acc(reviews),
     retention_30d: probes.length >= 5 ? acc(probes) : null,
+    writing_sessions: new Set(events.filter((e) => WRITING_EVENTS.includes(e.type) && inP(e.at)).map((e) => `${dayKey(e.at)}|${e.exercise || ''}`)).size,
     words_started: cards.filter((c) => c.kind === 'meaning' && inP(c.created_at)).length,
     words_known: cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.fsrs?.stability >= 21).length,
     improved,

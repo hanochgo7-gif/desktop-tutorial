@@ -192,3 +192,16 @@ test('TP-2: a part finished today stays done when the day gets more minutes (hel
   // A hold ahead of the saved place (the run was reset) does not apply.
   assert.equal(lessonSlice({ ...lesson, done: 2, doneToday: 2, held: 4 }, 14).partDone, false);
 });
+
+test('TP-8: the period report counts writing sessions (one per text per day), with no level claim', () => {
+  const now = new Date(at(6, 1)).getTime();
+  const events = [
+    { type: 'writing', exercise: 'wa-05', at: at(5, 1) }, { type: 'writing', exercise: 'wa-05', at: at(5, 2) },
+    { type: 'writing-final', exercise: 'wa-05', at: at(5, 3) }, { type: 'writing', exercise: 'wa-05', at: at(6) },
+    { type: 'writing', exercise: 'we-01', at: at(6) }, { type: 'writing-deleted', exercise: 'we-02', at: at(6) },
+    { type: 'writing', exercise: 'old', at: at(-20) },
+  ];
+  const r = periodReport({ events, now });
+  assert.equal(r.writing_sessions, 3);
+  assert.equal(periodReport({ events: [], now }).writing_sessions, 0);
+});

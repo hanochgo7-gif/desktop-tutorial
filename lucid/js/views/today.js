@@ -6,7 +6,7 @@ import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayMinutes, holdTodayPart } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
-import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
+import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, introSlots, firstTries, GOAL_KINDS } from '../core/adaptive.js';
 import { router } from '../core/router.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
@@ -223,8 +223,10 @@ export default async function today(el, ctx) {
   // This view draws only while its route is the current one: a draw that finishes loading after the learner has
   // moved on (lesson files load asynchronously) must never paint Today over the next screen.
   const route = router.current;
-  const [curriculum, tx, scenarios, writing] = await Promise.all([content.curriculum(), taxonomyIndex(), content.scenarios().catch(() => null), content.writingExercises().catch(() => null)]);
+  const [curriculum, tx, scenarios, writing, assignments] = await Promise.all([content.curriculum(), taxonomyIndex(), content.scenarios().catch(() => null), content.writingExercises().catch(() => null), content.assignments().catch(() => null)]);
   const extras = { lesson: null, scenarios: scenarios?.scenarios || [], writingTasks: writing?.exercises || [] };
+  // Writing-lab tasks and assignments by id, for an open draft's title (TP-8).
+  const writingTitles = new Map([...extras.writingTasks, ...(assignments?.assignments || [])].map((x) => [x.id, x]));
   const lessons = new Map(lessonOrder(curriculum).map((l) => [l.id, l]));
   // The skill panel is folded on phones and open beside the plan on wide screens, until the learner toggles it.
   let skillsOpen = null;
@@ -456,6 +458,16 @@ export default async function today(el, ctx) {
     // "Not now" hides the offer on Today for that level; the path keeps it (persona finding R2-20).
     const showImport = importLevel && s.vocab_import_hidden !== importLevel;
     const courseDone = !m.next;
+    // An open writing draft for a learner with a writing goal (TP-8): a draft with text whose task has no
+    // evaluated or final summary yet. The most recent one gets a quiet line under the plan, unless the plan's
+    // writing block already opens it.
+    const writingGoal = (p?.goals || []).some((g) => GOAL_KINDS[g]?.includes('writing'));
+    const wrec = writingGoal && !m.placementPending ? store.all('writing') : [];
+    const closed = new Set(wrec.filter((w) => w.kind === 'essay-summary' && ['evaluated', 'final'].includes(w.status)).map((w) => w.exercise));
+    const draft = wrec.filter((w) => w.kind === 'essay-draft' && String(w.text || '').trim() && w.exercise && !closed.has(w.exercise) && writingTitles.has(w.exercise))
+      .sort((a, b) => (String(a.updated_at) < String(b.updated_at) ? 1 : -1))[0];
+    const openDraft = draft && !plan.blocks.some((b) => b.id === 'use' && b.task === draft.exercise && !b.done)
+      ? { id: draft.exercise, task: writingTitles.get(draft.exercise), version: Math.max(1, wrec.filter((w) => w.kind === 'essay-version' && w.exercise === draft.exercise).length) } : null;
     // The highest passed level check offers the next level on the path card, until a lesson of that level is opened
     // (TP-6).
     const checkOffer = m.placementPending ? null : [...curriculum.levels].reverse().map((l) => passedCheck(curriculum, l.id))
@@ -495,6 +507,10 @@ export default async function today(el, ctx) {
           ${first ? (small ? '' : startBar) : doneBanner}
           ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="pi-title">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="plan-time">${icon('chevron')}</span><span class="why">${legend(otherPlan.title_en, otherPlan.title_he)}<span style="display:block">${stepText(resumeStep(other.resume))}</span></span></a>` : ''}
           <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
+          ${openDraft ? html`<ul class="plan more-list writing-open" style="list-style:none;padding:0;margin:0" aria-label="${tt('כתיבה פתוחה', 'Open writing')}"><li><a class="panel plan-item flat more-item" href="#/writing/${openDraft.id}" data-writing-open>
+            <span class="glyph">${icon('writing')}</span>
+            <span class="pi-title"><span class="small faint">${tt(`להמשיך (גרסה ${openDraft.version}):`, `Continue (version ${openDraft.version}):`)}</span> ${legend(openDraft.task.title_en, openDraft.task.title_he)}</span>
+            <span class="why">${tt('הטיוטה שמורה, ואפשר להמשיך ממנה בכל זמן.', 'Your draft is saved, and you can carry on from it any time.')}</span></a></li></ul>` : ''}
           ${firstRecall ? html`<p class="first-recall small"><a href="#/${firstRecall.route}" data-first-recall>${icon('layers', { size: 16 })}<span>${firstRecall.count === 1
             ? tt('המילה החדשה של היום מחכה לסבב ראשון', 'Today\'s new word is waiting for its first round')
             : tt(`${firstRecall.count} המילים החדשות של היום מחכות לסבב ראשון`, `Today's ${firstRecall.count} new words are waiting for their first round`)} · <span class="nowrap">${tt(`כ-${firstRecall.minutes} דק׳`, `about ${firstRecall.minutes} min`)}</span></span></a></p>` : ''}

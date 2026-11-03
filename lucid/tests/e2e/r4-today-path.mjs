@@ -264,6 +264,33 @@ try {
     await shot(b.page, 'tp7-not-now-390');
     await b.ctx.close();
   });
+
+  // ---------- TP-8: writing work shows on Today and in Progress ----------
+  await check('TP-8 a wa-05 draft with a writing goal: Today links to #/writing/wa-05 with "גרסה"; #/progress counts the writing and drops the "first report" text', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B2', { minutes: 20, goals: ['writing'] });
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const text = 'Cities that face a housing shortage should not build on their parks. '.repeat(20);
+      window.lucid.store.put('writing', { id: 'ess:wa-05', kind: 'essay-summary', exercise: 'wa-05', title: 'Homes or parkland?', status: 'draft', versions: 1, updated: new Date().toISOString() });
+      window.lucid.store.put('writing', { id: 'ess:wa-05#1', kind: 'essay-version', exercise: 'wa-05', n: 1, text, words: 240, at: new Date().toISOString() });
+      window.lucid.store.put('writing', { id: 'ess:wa-05#draft', kind: 'essay-draft', exercise: 'wa-05', text: `${text} More.` });
+      L.logEvent({ type: 'writing', exercise: 'wa-05' });
+    });
+    await today(page);
+    const link = await page.$('a[href="#/writing/wa-05"]');
+    assert(link && /גרסה/.test(await link.textContent()), 'no "continue" line for the open wa-05 draft');
+    await link.scrollIntoViewIfNeeded();
+    await shot(page, 'tp8-today-writing');
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('#rep-h');
+    await page.waitForTimeout(300);
+    const n = await page.$eval('[data-writing-sessions]', (s) => Number(s.dataset.writingSessions)).catch(() => 0);
+    assert(n >= 1, `writing count ${n}`);
+    assert(!/הדוח הראשון יופיע/.test(await page.textContent('#view')), 'Progress still shows the "first report" text');
+    await shot(page, 'tp8-progress');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
