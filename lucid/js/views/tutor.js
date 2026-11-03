@@ -17,7 +17,7 @@ export const MODES = [
   ['vocabulary', 'אוצר מילים', 'Vocabulary', 'משמעות, צירופים, משלב, ושאלות היזכרות', 'Meaning, collocations, register, and recall questions'],
   ['writing', 'מאמן כתיבה', 'Writing coach', 'תכנון, טיוטה ותיקון, בלי לכתוב בשבילכם', 'Planning, drafting and revising, without writing it for you'],
   ['debate', 'מאמן דיבייט', 'Debate coach', 'עמדה נגדית, ראיות, כשלים לוגיים', 'An opposing view, evidence, logical fallacies'],
-  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה למצבים אמיתיים בחו״ל', 'Getting ready for real situations abroad'],
+  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה לתרחישים בחו״ל', 'Getting ready for real situations abroad'],
   ['pronunciation', 'מאמן הגייה', 'Pronunciation coach', 'צלילים, הטעמה וזוגות מינימליים', 'Sounds, stress and minimal pairs'],
 ];
 
@@ -74,7 +74,7 @@ export default async function tutor(el, ctx) {
           <div class="chat-log" id="log" aria-live="polite">${!msgs.length ? html`<p class="small faint" style="margin:auto;text-align:center">${tt('אפשר לשאול כל דבר על אנגלית, או לבקש תרגול.', 'Ask anything about English, or ask for practice.')}</p>` : ''}
             ${msgs.map((m) => html`<div class="msg ${m.role === 'user' ? 'me' : 'them'}" dir="auto">${m.role === 'assistant' ? html`<span class="who">Lucid</span>` : ''}${m.role === 'assistant' ? raw(formatReply(m.text)) : m.text}</div>`)}
             ${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('המורה כותב', 'The tutor is writing')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
-          <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלך', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
+          <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלכם', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
         <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>

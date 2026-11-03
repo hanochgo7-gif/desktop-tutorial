@@ -12,7 +12,6 @@ import { allCards, due, gradeCard, logEvent, settings, vocabImportLevel, importP
 import { meaningOptions, seedOf, cardLevel } from '../core/srs.js';
 import { checkTyped, levenshtein } from '../core/grading.js';
 import { say, canSpeak } from '../core/speech.js';
-import { relativeDue } from './vocab.js';
 
 const stripHe = (s) => String(s || '').replace(/[֑-ׇ]/g, '').replace(/[^א-ת\s]/g, ' ').replace(/\s+/g, ' ').trim();
 // "סטודנט/ית, תלמיד/ה" -> ["סטודנט", "סטודנטית", "תלמיד", "תלמידה"]
@@ -47,6 +46,20 @@ async function levelVocab(levels) {
     }));
   } catch { /* the learner's own words are enough */ }
   return out;
+}
+
+// The hint for a typed card, or null (UX r4 PG-8). It must add something the card does not already show: a form card
+// (type the English word) shows the gapped example, so its hint is the first letter and the letter count
+// ("r _ _ _ _ (5)"); a meaning card shows the example, so its hint is the English definition, or else the part of
+// speech. Nothing new to give: no "Hint" key.
+export function hintFor(card) {
+  const p = card?.payload || {};
+  const word = String(p.word || card?.ref?.word || '');
+  if (card?.kind === 'form') return word ? `${word[0]}${' _'.repeat(Math.max(0, word.length - 1))} (${word.length})` : null;
+  const shownText = String(p.example || '').toLowerCase();
+  if (p.def && !shownText.includes(String(p.def).toLowerCase())) return p.def;
+  if (p.pos) return p.pos;
+  return null;
 }
 
 export default async function review(el, ctx) {
@@ -137,9 +150,10 @@ export default async function review(el, ctx) {
       body = html`<div class="panel flash"><p class="small faint">${tt('כתבו את המשמעות בעברית', 'Type the meaning in Hebrew')}</p><p class="prompt-word" lang="en" dir="ltr">${p.word}</p>${p.example ? html`<p class="muted" lang="en" dir="ltr">${p.example}</p>` : ''}${canSpeak() ? html`<button type="button" class="key small" data-say>${icon('volume', { size: 18 })} ${tt('השמעה', 'Play')}</button>` : ''}</div>
         <label class="sr-only" for="ans">${tt('המשמעות בעברית', 'The meaning in Hebrew')}</label><input class="input" id="ans" lang="he" dir="rtl" autocomplete="off" style="font-size:var(--t-lg);margin-top:var(--s4)">`;
     }
-    // Check opens once there is an answer: an option chosen or something typed.
+    // Check opens once there is an answer: an option chosen or something typed. "Hint" only when it adds something
+    // the card does not already show (UX r4 PG-8).
     shell(html`<h1 class="small faint" style="margin-bottom:var(--s4)">${title}</h1>${body}`,
-      html`<div class="inner">${!opts ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}<button type="button" class="key ghost small" data-idk>${tt('לא זוכר/ת', 'I don\'t remember')}</button><span class="grow"></span><button type="button" class="key enter" data-check disabled>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
+      html`<div class="inner">${!opts && hintFor(c) ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}<button type="button" class="key ghost small" data-idk>${tt('לא זוכר/ת', 'I don\'t remember')}</button><span class="grow"></span><button type="button" class="key enter" data-check disabled>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button></div>`);
     // The keyboard starts in the answer field, or on the word for an options card (1-4 then Enter answer it), so
     // focus never falls to the page between cards.
     setTimeout(() => ($('#ans', el) || $('.flash .prompt-word', el))?.focus({ preventScroll: true }), 50);
@@ -192,26 +206,31 @@ export default async function review(el, ctx) {
     picked = k;
     $$('[data-pick]', el).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.pick) === k)));
     const b = $('[data-check]', el); if (b) b.disabled = false;
+    // The word stays in view once an option is chosen (UX r4 PG-8): on a short screen the options push it away.
+    $('.flash', el)?.scrollIntoView?.({ block: 'nearest' });
   }
 
-  // The end: how it went, the words missed with when each comes back, and a game with those words (PH-2).
+  // The end: how it went, the words missed, when they come back (one line, in Today's terms: the next review, or
+  // tomorrow; UX r4 PG-8), and in the footer a game with those words beside "To Today" (PH-2).
   function done() {
     logEvent({ type: 'review', mode, count: list.length, right });
     const byLevel = new Map();
     for (const m of missed) if (m.level) byLevel.set(m.level, (byLevel.get(m.level) || 0) + 1);
     const gameLevel = [...byLevel].sort((a, b) => b[1] - a[1])[0]?.[0];
-    const back = (iso) => { const r = relativeDue(iso); return r ? `${tt('תחזור', 'Comes back')} ${r}` : tt('תחזור בחזרה הבאה', 'Comes back in your next review'); };
+    const tomorrow = todayKey(new Date(Date.now() + 86_400_000));
+    const allTomorrow = missed.length && missed.every((m) => m.due && todayKey(new Date(m.due)) === tomorrow);
     shell(html`<div class="stack-lg"><div class="stack-sm"><h1 id="rv-done" tabindex="-1">${tt('סיימתם', 'Done')}</h1>
       <p class="muted">${tt(`${right} מתוך ${list.length} נכון. מילים שהתבלבלתם בהן יחזרו מוקדם יותר, ומילים שידעתם יחזרו בעוד זמן רב יותר.`, `${right} of ${list.length} correct. Words you missed come back sooner; words you knew come back later.`)}</p></div>
       ${missed.length ? html`<section class="stack-sm" aria-labelledby="rv-missed">
         <h2 id="rv-missed" class="review-missed-h">${tt(missed.length === 1 ? 'המילה שפספסתם' : `המילים שפספסתם (${missed.length})`, missed.length === 1 ? 'The word you missed' : `The words you missed (${missed.length})`)}</h2>
+        <p class="small muted" data-back-line>${allTomorrow
+          ? tt(missed.length === 1 ? 'המילה הזו תחזור מחר.' : 'המילים האלה יחזרו מחר.', missed.length === 1 ? 'This word comes back tomorrow.' : 'These words come back tomorrow.')
+          : tt(missed.length === 1 ? 'המילה הזו תחזור בחזרה הבאה.' : 'המילים האלה יחזרו בחזרה הבאה.', missed.length === 1 ? 'This word comes back in your next review.' : 'These words come back in your next review.')}</p>
         <ul class="review-missed">${missed.map((m) => html`<li class="review-miss">
           ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${m.p.word}" aria-label="${tt('השמעה', 'Play')}: ${m.p.word}">${icon('volume', { size: 18 })}</button>` : ''}
-          <span class="grow"><span class="review-miss-word"><span lang="en" dir="ltr" class="answer">${m.p.word}</span> = <span lang="he" dir="rtl">${isolateLatin(m.p.he)}</span></span>
-          <span class="review-miss-when small faint">${back(m.due)}</span></span></li>`)}</ul>
-        ${gameLevel ? html`<div class="row"><a class="key" href="#/games/${gameLevel}/1?focus=${encodeURIComponent(missed.map((m) => m.p.word).join('|'))}">${icon('sparkle', { size: 18 })} ${tt('לשחק במילים האלה', 'Play these words')}</a></div>` : ''}
+          <span class="grow"><span class="review-miss-word"><span lang="en" dir="ltr" class="answer">${m.p.word}</span> = <span lang="he" dir="rtl">${isolateLatin(m.p.he)}</span></span></span></li>`)}</ul>
       </section>` : ''}</div>`,
-    html`<div class="inner"><span class="grow"></span><a class="key enter" href="#/today">${tt('להיום', 'To Today')} <span class="kbd">Enter</span></a></div>`);
+    html`<div class="inner">${gameLevel ? html`<a class="key" href="#/games/${gameLevel}/1?focus=${encodeURIComponent(missed.map((m) => m.p.word).join('|'))}" data-play-missed>${icon('sparkle', { size: 18 })} ${tt('לשחק במילים האלה', 'Play these words')}</a>` : ''}<span class="grow"></span><a class="key enter" href="#/today">${tt('להיום', 'To Today')} <span class="kbd">Enter</span></a></div>`);
     $('#rv-done', el)?.focus({ preventScroll: true });
   }
 
@@ -226,9 +245,9 @@ export default async function review(el, ctx) {
     on(el, 'click', '[data-check]', (e, b) => { if (!b.disabled) commit(); }),
     on(el, 'click', '[data-idk]', () => { if (!answered) grade(false, ''); }),
     on(el, 'click', '[data-hint]', (e, b) => {
+      const h = hintFor(list[i]);
+      if (!h) return;
       hint = true; b.remove();
-      const p = list[i].payload || {};
-      const h = list[i].kind === 'form' ? `${p.word[0]}${'_ '.repeat(Math.max(0, p.word.length - 1)).trim()}` : p.example || p.def || '';
       $('.flash', el).insertAdjacentHTML('beforeend', `<p class="hint-box" lang="en" dir="ltr">${h.replace(/[<>&]/g, '')}</p>`);
       $('#ans', el)?.focus();
     }),

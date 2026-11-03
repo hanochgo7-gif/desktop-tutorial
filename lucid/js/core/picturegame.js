@@ -4,8 +4,9 @@
 // A round is 3 boards. Each board shows a level's number of pictures (4, 5 or 6) and the same number of
 // words in another order; the learner picks a picture and a word (either first). A right pair stays matched;
 // a wrong pair is marked at once and counts as a mistake.
-// Score: 10 points per pair, minus 3 per mistake (the two together never below 0); in the opt-in speed challenge,
-// plus a bonus for finishing a board quickly.
+// Score: 10 points per pair. Only in the opt-in speed challenge, minus 3 per mistake (the two together never below
+// 0) and plus a bonus for finishing a board quickly; in the calm default a mistake costs nothing (UX r4 PG-3) and is
+// reported apart, as accuracy.
 // Accuracy is pairs / (pairs + mistakes); level 2 opens at 70% in level 1, level 3 at 70% in level 2. Levels up to
 // the learner's course level are open from the start (placement is evidence): a set opens when the course level
 // reaches the top of its CEFR range (level 3, "A2–B1", for a B1 learner).
@@ -23,8 +24,10 @@ export const maxFor = (pairs, boards = BOARDS, challenge = false) => boards * (p
 export function boardBonus(ms, pairs) {
   return BOARD_BONUS.find(([perPair]) => ms <= perPair * pairs)?.[1] || 0;
 }
-// The round's score: pairs less mistakes (never below 0), plus the boards' speed bonuses. Shown the same way while playing.
-export const roundScore = (matches, mistakes, bonus = 0) => Math.max(0, matches * MATCH - mistakes * MISTAKE) + bonus;
+// The round's score: pairs less mistakes (never below 0), plus the boards' speed bonuses. Shown the same way while
+// playing. mistakeCost: MISTAKE in the challenge, 0 in the calm default.
+export const roundScore = (matches, mistakes, bonus = 0, mistakeCost = MISTAKE) => Math.max(0, matches * MATCH - mistakes * mistakeCost) + bonus;
+export const mistakeCostOf = (challenge) => (challenge ? MISTAKE : 0);
 export const accuracyOf = (matches, mistakes) => (matches + mistakes ? matches / (matches + mistakes) : 0);
 
 // The boards of a round. Words missed last time (focus) fill the first boards; words seen in recent rounds come last.
@@ -76,16 +79,16 @@ export function makeBoards(words, pairs, { seed = Math.random(), boards = BOARDS
 }
 
 // The best round per level from the "picture-round" events (or another game's, by type): higher accuracy first,
-// then the score. With a mode ('calm' or 'challenge'), only the rounds played in that mode count; rounds saved
-// before modes existed were played with the bonus, so they count as 'challenge'.
-export function bests(events, type = 'picture-round', mode = null) {
+// then the score (or another order, `better`). With a mode ('calm' or 'challenge'), only the rounds played in that
+// mode count; rounds saved before modes existed were played with the bonus, so they count as 'challenge'.
+export function bests(events, type = 'picture-round', mode = null, better = isBetter) {
   const out = {};
   for (const e of events) {
     if (e.type !== type || (mode && (e.mode === 'calm' ? 'calm' : 'challenge') !== mode)) continue;
     const b = out[e.level];
-    const better = !b || e.accuracy > b.accuracy || (e.accuracy === b.accuracy && e.score > b.score);
     const rounds = (b?.rounds || 0) + 1;
-    out[e.level] = better ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, rounds } : { ...b, rounds };
+    // turns and matches come along when the round has them (memory's calm best is about turns, UX r4 PG-4).
+    out[e.level] = better(b, e) ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, ...(e.turns != null && { turns: e.turns }), ...(e.matches != null && { matches: e.matches }), rounds } : { ...b, rounds };
   }
   return out;
 }
@@ -101,6 +104,20 @@ export const topCefr = (range) => String(range || '').split('–').pop().trim().
 export function openUpTo(sets, courseLevel) {
   const c = cefrIndex(courseLevel);
   return Math.max(1, ...(sets || []).filter((s) => c >= 0 && cefrIndex(topCefr(s.cefr)) >= 0 && cefrIndex(topCefr(s.cefr)) <= c).map((s) => s.level));
+}
+
+// Whether a course level falls inside a set's range ("A1" is inside "Pre-A1–A1" and "A1–A2").
+export function cefrIn(range, level) {
+  const [lo, hi = lo] = String(range || '').split('–').map((x) => cefrIndex(x));
+  const c = cefrIndex(level);
+  return c >= 0 && lo >= 0 && c >= lo && c <= hi;
+}
+// The picture and memory levels in the order the games page lists them (UX r4 PG-7): the learner's own (the
+// highest set at or below the course level) first, then the ones above it, then the easier ones, closest first.
+export function orderSets(sets, courseLevel) {
+  const mine = openUpTo(sets, courseLevel);
+  const list = [...(sets || [])].sort((a, b) => a.level - b.level);
+  return [...list.filter((s) => s.level >= mine), ...list.filter((s) => s.level < mine).reverse()];
 }
 
 export const recentWords = (events, level, rounds = 2, type = 'picture-round') => events

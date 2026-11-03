@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { makeDeck, judgeTurn, partnerOf, roundScore, turnBonus, maxFor, accuracyOf, longestWord, TYPE, UNLOCK, SMALL } from '../../js/core/memorygame.js';
+import { makeDeck, judgeTurn, partnerOf, roundScore, turnBonus, maxFor, accuracyOf, longestWord, TYPE, UNLOCK, SMALL, memoryUnlocked, fewerTurns } from '../../js/core/memorygame.js';
 import { bests, unlocked, recentWords } from '../../js/core/picturegame.js';
 
 const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
@@ -95,4 +95,28 @@ test('memory rounds have their own bests, unlocking and recent words, apart from
   assert.equal(bests(modes, TYPE, 'challenge')[1].score, 60, 'older rounds count as the challenge');
   assert.ok(UNLOCK === 0.7);
   assert.deepEqual(recentWords(ev, 1, 2, TYPE), ['b', 'a']);
+});
+
+// UX r4 PG-4 (keeping GM-3): above the course level, memory levels open on English, never on working memory.
+test('memory level 2 above the course level opens on a picture-game best of 70%, not on calm memory accuracy', () => {
+  const calmMemory = { type: TYPE, level: 1, score: 60, accuracy: 0.9, matches: 6, slips: 0, turns: 9, mode: 'calm' };
+  assert.ok(!memoryUnlocked([calmMemory], 2, 1), 'calm memory accuracy 0.9 with no picture best opened level 2');
+  assert.ok(!memoryUnlocked([calmMemory, { type: 'picture-round', level: 1, score: 80, accuracy: 0.69, mode: 'calm' }], 2, 1), '69% in the picture game is not enough');
+  assert.ok(memoryUnlocked([calmMemory, { type: 'picture-round', level: 1, score: 100, accuracy: 0.7, mode: 'calm' }], 2, 1), 'a picture-game level-1 best of 0.7 did not open level 2');
+  assert.ok(!memoryUnlocked([calmMemory, { type: 'picture-round', level: 2, score: 100, accuracy: 1 }], 2, 1), 'another level of the picture game opened it');
+  // In the speed challenge memory accuracy also counts (and rounds from before modes count as the challenge).
+  assert.ok(memoryUnlocked([{ ...calmMemory, mode: 'challenge' }], 2, 1));
+  assert.ok(memoryUnlocked([{ type: TYPE, level: 1, score: 60, accuracy: 0.86 }], 2, 1));
+  assert.ok(!memoryUnlocked([{ ...calmMemory, mode: 'challenge', accuracy: 0.6 }], 2, 1));
+  // Levels up to the course level are open with no evidence.
+  assert.ok(memoryUnlocked([], 1, 1) && memoryUnlocked([], 3, 3) && !memoryUnlocked([], 3, 2));
+});
+
+test('the calm memory best is the fewest turns a pair, so the small and the full board compare fairly', () => {
+  assert.ok(fewerTurns(null, { turns: 12, matches: 6 }));
+  assert.ok(fewerTurns({ turns: 12, matches: 6 }, { turns: 10, matches: 6 }));
+  assert.ok(!fewerTurns({ turns: 10, matches: 6 }, { turns: 12, matches: 6 }));
+  assert.ok(!fewerTurns({ turns: 9, matches: 6 }, { turns: 7, matches: 4 }), '7 turns for 4 pairs is not better than 9 for 6');
+  const ev = [{ type: TYPE, level: 1, score: 60, accuracy: 0.7, matches: 6, turns: 14, mode: 'calm' }, { type: TYPE, level: 1, score: 60, accuracy: 1, matches: 6, turns: 9, mode: 'calm' }];
+  assert.equal(bests(ev, TYPE, 'calm', fewerTurns)[1].turns, 9);
 });

@@ -12,6 +12,8 @@ import { shortGloss, cardLevel } from '../core/srs.js';
 import { LEVELS, levelIndex } from '../core/adaptive.js';
 
 const KNOWN_DAYS = 21;
+// "מילה אחת", never "1 מילים" (UX r4 PG-9).
+const wordsN = (n) => (n === 1 ? tt('מילה אחת', '1 word') : tt(`${n} מילים`, `${n} words`));
 const FILTERS = [['all', 'הכול', 'All'], ['due', 'לחזרה עכשיו', 'Due now'], ['learning', 'בלמידה', 'Learning'], ['known', 'ידועות', 'Known']];
 const wordKey = (id) => String(id).replace(/:(meaning|form)$/, '');
 const fold = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-֑ͯ-ׇ]/g, '').trim();
@@ -144,7 +146,7 @@ export default async function vocab(el, ctx) {
   function drawList() {
     const shown = words.filter((w) => passes(w) && matches(w));
     const countEl = $('#vocab-count', el);
-    if (countEl) countEl.textContent = shown.length === words.length ? tt(`${words.length} מילים`, `${words.length} words`) : tt(`מוצגות ${shown.length} מתוך ${words.length} מילים`, `Showing ${shown.length} of ${words.length} words`);
+    if (countEl) countEl.textContent = shown.length === words.length ? wordsN(words.length) : tt(`מוצגות ${shown.length} מתוך ${words.length} מילים`, `Showing ${shown.length} of ${words.length} words`);
     const { groups, rec } = levelGroups(shown);
     render($('#vocab-list', el), shown.length
       ? html`<div class="stack-sm">${groups.map((g) => {
@@ -157,7 +159,7 @@ export default async function vocab(el, ctx) {
           <summary class="disclosure">
             <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
             <h2 class="grow" id="vl-${g.level}" style="font-size:var(--t-lg)">${g.level === 'other' ? tt('מילים נוספות', 'Other words') : html`${LEVEL_LABEL[g.level]}${meta ? html` · ${tt(meta.name_he, meta.name_en)}` : ''}`}</h2>
-            <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec && !query ? html`<span class="tag cobalt">${tt('הרמה שלכם', 'Your level')}</span>` : ''}<span class="faint num">${tt(`${g.words.length} מילים`, `${g.words.length} ${g.words.length === 1 ? 'word' : 'words'}`)}${dueN ? tt(` · ${dueN} לחזרה עכשיו`, ` · ${dueN} due now`) : ''}</span></span>
+            <span class="row small disclosure-meta" style="gap:var(--s2)">${g.level === rec && !query ? html`<span class="tag cobalt">${tt('הרמה שלכם', 'Your level')}</span>` : ''}<span class="faint num">${wordsN(g.words.length)}${dueN ? tt(` · ${dueN} לחזרה עכשיו`, ` · ${dueN} due now`) : ''}</span></span>
           </summary>
           <ul class="vocab-rows" aria-labelledby="vl-${g.level}">${g.words.slice(0, limit).map(entry)}</ul>
           ${limit < g.words.length ? html`<button type="button" class="key small ghost vocab-more" data-more="${g.level}">${tt(`הצגת עוד ${g.words.length - limit} מילים`, `Show ${g.words.length - limit} more words`)}</button>` : ''}
@@ -174,10 +176,10 @@ export default async function vocab(el, ctx) {
     const { dueCount, now } = collect();
     if (!words.length) {
       render(el, html`
-        <div class="page-head"><div><h1>${t('nav.vocab')}</h1><p>${tt('כל המילים מהשיעורים שהשלמתם, ומתי כל אחת חוזרת לחזרה.', 'Every word from the lessons you have completed, and when each one comes back for review.')}</p></div></div>
+        <div class="page-head"><div><h1>${t('nav.vocab')}</h1><p>${tt('כל המילים מהשיעורים שהשלמתם, ומתי כל אחת חוזרת.', 'Every word from the lessons you have completed, and when each one comes back for review.')}</p></div></div>
         ${emptyState({
           title: tt('עוד אין מילים במחברת', 'No words in your notebook yet'),
-          body: tt('מילים נכנסות למחברת כשמשלימים שיעור. כל שיעור מוסיף כמה מילים חדשות, והן חוזרות לחזרה בדיוק לפני שהן נשכחות.', 'Words join your notebook when you complete a lesson. Each lesson adds a handful of new words, and they come back for review just before you would forget them.'),
+          body: tt('מילים נכנסות למחברת כשמשלימים שיעור. כל שיעור מוסיף כמה מילים חדשות, והן חוזרות בדיוק לפני שהן נשכחות.', 'Words join your notebook when you complete a lesson. Each lesson adds a handful of new words, and they come back for review just before you would forget them.'),
           action: html`<a class="key enter" href="#/path">${tt('למסלול השיעורים', 'Go to your lessons')}</a>`,
         })}`);
       return;
@@ -185,13 +187,13 @@ export default async function vocab(el, ctx) {
     const n = counts();
     render(el, html`
       <div class="page-head">
-        <div><h1>${t('nav.vocab')}</h1><p>${tt('כל המילים מהשיעורים שהשלמתם, ומתי כל אחת חוזרת לחזרה.', 'Every word from the lessons you have completed, and when each one comes back for review.')}</p></div>
+        <div><h1>${t('nav.vocab')}</h1><p>${tt('כל המילים מהשיעורים שהשלמתם, ומתי כל אחת חוזרת.', 'Every word from the lessons you have completed, and when each one comes back for review.')}</p></div>
         <div>${cta(dueCount, now)}</div>
       </div>
       <div class="list-tools">
         <label class="sr-only" for="vocab-q">${tt('חיפוש מילים', 'Search words')}</label>
         <input class="input" id="vocab-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('חיפוש באנגלית או בעברית', 'Search in English or Hebrew')}">
-        <div class="seg" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${String(filter === id)}">${tt(he, en)} <span class="num">${n[id]}</span></button>`)}</div>
+        <div class="seg vocab-filters" role="group" aria-label="${tt('סינון לפי מצב', 'Filter by status')}">${FILTERS.map(([id, he, en]) => html`<button type="button" data-filter="${id}" aria-pressed="${String(filter === id)}">${tt(he, en)} <span class="num">${n[id]}</span></button>`)}</div>
       </div>
       <p class="small faint" id="vocab-count" aria-live="polite" style="margin-block-end:var(--s3)"></p>
       <div id="vocab-list"></div>

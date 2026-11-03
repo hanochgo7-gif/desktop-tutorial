@@ -173,9 +173,10 @@ try {
     const listed = await page.$$eval('.review-miss', (x) => x.map((li) => li.textContent));
     assert(listed.length === missedWords.length && missedWords.every((w) => listed.some((t) => t.includes(w))), `missed ${missedWords} but listed ${listed.length}`);
     if (missedWords.length) {
-      assert(listed.every((t) => /תחזור/.test(t)), 'missed words do not say when they come back');
-      const href = await page.getAttribute('a[href^="#/games/"]', 'href');
-      assert(href && /focus=/.test(href) && /לשחק במילים האלה/.test(await page.textContent('a[href^="#/games/"]')), `no game with these words: ${href}`);
+      // UX r4 PG-8: when they come back is one line in Today's terms, and the game is in the footer.
+      assert(!listed.some((t) => /תחזור/.test(t)) && /יחזרו|תחזור/.test(await page.textContent('[data-back-line]')), 'missed words do not say (once) when they come back');
+      const href = await page.getAttribute('#pfoot a[href^="#/games/"]', 'href');
+      assert(href && /focus=/.test(href) && /לשחק במילים האלה/.test(await page.textContent('#pfoot a[href^="#/games/"]')), `no game with these words: ${href}`);
     }
     assert(await page.$('.player-foot a[href="#/today"]'), 'no way back to Today');
     await ctx.close();
@@ -210,40 +211,44 @@ try {
     await page.keyboard.press('Tab');
     const next = await page.evaluate(() => document.activeElement.closest('[data-seg]')?.dataset.seg);
     assert(next === 'hebrew_support', `Tab went to ${next}`);
-    await page.focus('[data-relaxed]');
+    await page.focus('[data-speed-switch]');
     await page.keyboard.press('Space');
-    assert(await page.evaluate(() => document.activeElement.matches('[data-relaxed]')), 'the checkbox lost the focus');
+    assert(await page.evaluate(() => document.activeElement.matches('[data-speed-switch][aria-checked="true"]')), 'the speed switch lost the focus');
     await shot(page, 'ph3-settings-150-390');
     await ctx.close();
   });
 
   // ---------- PH-4 ----------
-  await check('PH-4. Settings opens with "תמיכה בלמידה": text size, Hebrew support, speech speed, sounds and a relaxed pace that is on by default and saved', async () => {
+  // UX r4 PG-2: the calm pace is the default of the one games speed setting, "אתגר מהירות במשחקים" (off), shown in
+  // this first section and on the games page as the same switch.
+  await check('PH-4. Settings opens with "תמיכה בלמידה": text size, Hebrew support, speech speed, sounds and the games speed switch, off (calm) by default and saved', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
-    await go(page, 'settings', '[data-relaxed]');
-    const first = await page.$eval('.settings-view > section', (s) => ({ h: s.querySelector('h2').textContent.trim(), segs: [...s.querySelectorAll('[data-seg]')].map((g) => g.dataset.seg), relaxed: Boolean(s.querySelector('[data-relaxed]')), text: s.textContent }));
+    await go(page, 'settings', '[data-speed-switch]');
+    const first = await page.$eval('.settings-view > section', (s) => ({ h: s.querySelector('h2').textContent.trim(), segs: [...s.querySelectorAll('[data-seg]')].map((g) => g.dataset.seg), speed: Boolean(s.querySelector('[data-speed-switch][role="switch"]')), text: s.textContent }));
     assert(first.h === 'תמיכה בלמידה', `first section: ${first.h}`);
     for (const k of ['text_size', 'hebrew_support', 'speech_rate', 'sound']) assert(first.segs.includes(k), `${k} is not in the first section`);
-    assert(first.relaxed && /קצב רגוע/.test(first.text) && /בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים/.test(first.text), 'no relaxed pace in the first section');
-    const defaults = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); return [L.DEFAULT_SETTINGS.relaxed_pace, L.DEFAULT_SETTINGS.game_speed_challenge, L.settings().relaxed_pace]; });
-    assert(defaults[0] === true && defaults[1] === false && defaults[2] === true, `defaults: ${defaults}`);
-    assert(await page.isChecked('[data-relaxed]'), 'relaxed pace is not on by default');
-    await page.click('[data-relaxed]');
-    assert(await page.evaluate(async () => (await import('./js/core/learner.js')).settings().relaxed_pace) === false, 'turning it off was not saved');
-    await page.evaluate(async () => (await import('./js/core/learner.js')).saveSettings({ game_speed_challenge: true }));
-    await page.click('[data-relaxed]');
-    const s = await page.evaluate(async () => { const x = (await import('./js/core/learner.js')).settings(); return [x.relaxed_pace, x.game_speed_challenge]; });
-    assert(s[0] === true && s[1] === false, `turning it on saved ${s}`);
+    assert(first.speed && /אתגר מהירות במשחקים/.test(first.text) && /המשחק מחכה לכם/.test(first.text), 'no speed switch with its calm help line in the first section');
+    const defaults = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); return [L.DEFAULT_SETTINGS.relaxed_pace, L.DEFAULT_SETTINGS.game_speed_challenge, L.settings().game_speed_challenge]; });
+    assert(defaults[0] === true && defaults[1] === false && defaults[2] === false, `defaults: ${defaults}`);
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'false', 'the speed challenge is on by default');
+    await page.click('[data-speed-switch]');
+    let s = await page.evaluate(async () => { const x = (await import('./js/core/learner.js')).settings(); return [x.relaxed_pace, x.game_speed_challenge]; });
+    assert(s[0] === false && s[1] === true, `turning it on saved ${s}`);
+    await page.click('[data-speed-switch]');
+    s = await page.evaluate(async () => { const x = (await import('./js/core/learner.js')).settings(); return [x.relaxed_pace, x.game_speed_challenge]; });
+    assert(s[0] === true && s[1] === false, `turning it off saved ${s}`);
+    await page.click('[data-speed-switch]');
+    await page.waitForTimeout(400);
     await page.reload();
-    await page.waitForSelector('[data-relaxed]');
-    assert(await page.isChecked('[data-relaxed]'), 'not kept after a reload');
-    // The games page's speed-challenge switch brings the speed bonus back, so Settings must no longer show
-    // "no speed bonus" as on.
-    await go(page, 'games', '[data-challenge]');
-    await page.check('[data-challenge]');
-    await go(page, 'settings', '[data-relaxed]');
-    assert(!(await page.isChecked('[data-relaxed]')), 'Settings shows "no speed bonus" as on while the speed challenge is on');
+    await page.waitForSelector('[data-speed-switch]');
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'true', 'not kept after a reload');
+    // The games page shows the same switch, and turning it off there shows off in Settings.
+    await go(page, 'games', '[data-speed-switch]');
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'true', 'the games page does not show the challenge as on');
+    await page.click('[data-speed-switch]');
+    await go(page, 'settings', '[data-speed-switch]');
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'false', 'Settings shows the challenge as on after it was turned off on the games page');
     await ctx.close();
   });
 
@@ -296,7 +301,7 @@ try {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.startLesson(await (await fetch('content/lessons/a2-05.json')).json()); });
-    await go(page, 'listening', '#view details');
+    await go(page, 'listening', '#view details[data-level]');
     const info = await page.evaluate(() => {
       const ds = [...document.querySelectorAll('#view details[data-level]')];
       return { h: document.documentElement.scrollHeight, order: ds.map((d) => d.dataset.level), open: ds.filter((d) => d.open).map((d) => d.dataset.level), firstTag: ds[0]?.querySelector('summary .tag')?.textContent.trim(), titles: [...ds[0].querySelectorAll('.lesson-row .grow > span:first-child')].map((s) => s.textContent.trim()).slice(0, 4), next: document.querySelector('.page-head a.key.enter')?.getAttribute('href') };
@@ -313,7 +318,7 @@ try {
     await ctx.close();
     const b = await newPage(browser);
     await learnerAt(b.page, 'B1');
-    await go(b.page, 'listening', '#view details');
+    await go(b.page, 'listening', '#view details[data-level]');
     const first = await b.page.$eval('#view details[data-level]', (d) => [d.dataset.level, d.open]);
     assert(first[0] === 'B1' && first[1], `a B1 learner starts at ${first}`);
     await b.ctx.close();

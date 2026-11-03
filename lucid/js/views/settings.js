@@ -9,6 +9,8 @@ import { auth, db, configured } from '../core/api.js';
 import { signOut } from '../core/session.js';
 import { CONFIG } from '../../config.js';
 import { content } from '../core/content.js';
+import { speedSwitch, toggleSpeed } from './wordgame.js';
+import { paceOf } from '../core/wordgame.js';
 
 // A segmented control named by its visible label (UX r3 PH-3): the group points at the label, and at its help line
 // when there is one. off: the setting does nothing on this site (AI), so the group is greyed and inert (PH-5).
@@ -16,6 +18,20 @@ import { content } from '../core/content.js';
 function seg(name, value, opts, { off = false, help = false } = {}) {
   const described = [help && `help-${name}`, off && 'ai-off'].filter(Boolean).join(' ');
   return html`<div class="seg" role="group" data-seg="${name}" data-n="${opts.length}" aria-labelledby="lbl-${name}" ${described ? html`aria-describedby="${described}"` : ''} ${off ? html`aria-disabled="true"` : ''}>${opts.map(([v, he, en, lang]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v) ? 'true' : 'false'}" ${off ? html`aria-disabled="true"` : ''} ${lang ? html`lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}"` : ''}>${lang ? (lang === 'he' ? he : en) : tt(he, en)}</button>`)}</div>`;
+}
+// PG-1: a segment's cell is as wide as the group's longest label, so no label is squeezed or runs into the next one
+// (CSS: --seg-cell). Measured after each draw and again once the web fonts have loaded.
+export function fitSegs(root) {
+  for (const g of root.querySelectorAll('.seg[data-seg]')) {
+    let w = 0;
+    for (const b of g.children) {
+      const r = document.createRange();
+      r.selectNodeContents(b);
+      const cs = getComputedStyle(b);
+      w = Math.max(w, r.getBoundingClientRect().width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight));
+    }
+    if (w > 0) g.style.setProperty('--seg-cell', `${Math.ceil(w) + 2}px`);
+  }
 }
 // One labelled field: the visible label (the group's name), the control and an optional help line.
 const field = (name, label, control, help = '', { off = false } = {}) => html`<div class="field${off ? ' is-off' : ''}"><span class="label" id="lbl-${name}">${label}</span>${control}${help ? html`<span class="help" id="help-${name}">${isolateLatin(help)}</span>` : ''}</div>`;
@@ -53,10 +69,10 @@ export default async function settingsView(el, ctx) {
         <section class="panel stack" aria-labelledby="set-support"><h2 id="set-support">${tt('תמיכה בלמידה', 'Learning support')}</h2>
           ${field('text_size', tt('גודל טקסט', 'Text size'), seg('text_size', s.text_size, [[100, '100%', '100%'], [115, '115%', '115%'], [130, '130%', '130%'], [150, '150%', '150%']]))}
           ${field('hebrew_support', tt('הסברים בעברית', 'Hebrew support'), seg('hebrew_support', s.hebrew_support, [['auto', 'לפי הרמה', 'By level'], ['full', 'מלא', 'Full'], ['partial', 'חלקי', 'Partial'], ['minimal', 'בלחיצה', 'On tap'], ['off', 'כבוי', 'Off']], { help: true }),
-            tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״עב״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "עב".'))}
+            tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״בעברית״, ובשיעור יש גם מתג ״הכול בעברית״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "Hebrew", and lessons also have an "All in Hebrew" switch.'))}
           ${field('speech_rate', tt('מהירות הקראה', 'Speech speed'), seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']]))}
           ${field('sound', tt('צלילים במשחקים', 'Sounds in the games'), seg('sound', s.sound === false || s.sound === 'off' ? 'off' : 'on', [['on', 'פועל', 'On'], ['off', 'כבוי', 'Off']]))}
-          <label class="choice"><input type="checkbox" data-relaxed ${s.relaxed_pace !== false && s.game_speed_challenge !== true ? html`checked` : ''}><span class="grow"><strong>${tt('קצב רגוע', 'Relaxed pace')}</strong> <span class="small muted">${tt('(בלי בונוס מהירות ובלי מעבר אוטומטי במשחקים)', '(no speed bonus and no automatic moving on in the games)')}</span></span></label>
+          ${speedSwitch(paceOf(s).challenge)}
         </section>
         <section class="panel stack" aria-labelledby="set-ui"><h2 id="set-ui">${tt('ממשק', 'Interface')}</h2>
           ${field('ui_language', tt('שפת הממשק', 'Interface language'), seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'עברית', 'he'], ['en', 'English', 'English', 'en']], { help: true }), tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.'))}
@@ -95,8 +111,8 @@ export default async function settingsView(el, ctx) {
           <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
           <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
         </section>
-        <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלך', 'Your data')}</h2>
-          <p class="small muted">${tt('הכול שלך: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
+        <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלכם', 'Your data')}</h2>
+          <p class="small muted">${tt('הכול שלכם: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
           <div class="settings-data">
             <button type="button" class="key small" data-export>${icon('download', { size: 16 })} ${tt('הורדת כל המידע (JSON)', 'Download all my data (JSON)')}</button>
             <label class="key small" style="cursor:pointer">${icon('refresh', { size: 16 })} ${tt('שחזור מגיבוי', 'Restore a backup')}<input type="file" accept="application/json,.json" data-import class="sr-only" aria-describedby="restore-msg"></label>
@@ -106,6 +122,7 @@ export default async function settingsView(el, ctx) {
         </section>
         <p class="xsmall faint"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות פרטיות ותנאים', 'Privacy and terms')}</a> · ${t('level.estimate')}</p>
       </div>`);
+    fitSegs(el);
   }
 
   // After a redraw the keyboard stays on the control that was used (PH-3).
@@ -128,6 +145,10 @@ export default async function settingsView(el, ctx) {
   }
 
   draw();
+  document.fonts?.ready.then(() => { if (el.isConnected) fitSegs(el); }).catch(() => {});
+  // The text size can change while the page is open (the attribute is set by the shell): measure again.
+  const sizeWatch = new MutationObserver(() => fitSegs(el));
+  sizeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-text'] });
   showOfflineCount();
   // "Offline use" links from Real life and Help open this section (persona panel M1). The router scrolls to the
   // top after the view is drawn, so this runs after it.
@@ -157,13 +178,8 @@ export default async function settingsView(el, ctx) {
       if (name === 'ui_language') saveProfile({ ui_language: v }); else saveSettings({ [name]: v });
       redraw(`[data-seg="${name}"] [data-v="${raw}"]`);
     }),
-    // Relaxed pace (PH-4): no speed bonus and no auto-advance in the games, which read relaxed_pace and
-    // game_speed_challenge. Turning it on also ends a speed challenge, so the label stays true; and the box shows
-    // as checked only while both hold, since the games page's speed-challenge switch sets game_speed_challenge alone.
-    on(el, 'change', '[data-relaxed]', (e, c) => {
-      saveSettings(c.checked ? { relaxed_pace: true, game_speed_challenge: false } : { relaxed_pace: false });
-      redraw('[data-relaxed]');
-    }),
+    // The games' one speed setting (UX r4 PG-2): the same switch as on the games page, off by default.
+    on(el, 'click', '[data-speed-switch]', () => { toggleSpeed(); redraw('[data-speed-switch]'); }),
     on(el, 'change', '[data-ai]', (e, c) => {
       if (!(configured() && CONFIG.aiEnabled)) { c.checked = false; return; } // no AI on this site: nothing to turn on
       const at = c.checked ? new Date().toISOString() : null;
@@ -200,7 +216,7 @@ export default async function settingsView(el, ctx) {
       const signedIn = configured() && auth.signedIn;
       const ok = await confirmDialog({
         title: signedIn ? tt('למחוק את החשבון לצמיתות?', 'Delete your account permanently?') : tt('למחוק את כל המידע מהמכשיר?', 'Delete all data from this device?'),
-        body: tt('זה מוחק את הפרופיל, ההתקדמות, המילים והכתיבה שלך. אי אפשר לבטל. כדאי להוריד גיבוי קודם.', 'This deletes your profile, progress, words and writing. It cannot be undone. Consider downloading a copy first.'),
+        body: tt('זה מוחק את הפרופיל, ההתקדמות, המילים והכתיבה שלכם. אי אפשר לבטל. כדאי להוריד גיבוי קודם.', 'This deletes your profile, progress, words and writing. It cannot be undone. Consider downloading a copy first.'),
         confirm: tt('מחיקה לצמיתות', 'Delete permanently'), danger: true,
       });
       if (!ok) return;
@@ -249,5 +265,5 @@ export default async function settingsView(el, ctx) {
       }
     }),
   ];
-  return () => offs.forEach((o) => o());
+  return () => { sizeWatch.disconnect(); offs.forEach((o) => o()); };
 }

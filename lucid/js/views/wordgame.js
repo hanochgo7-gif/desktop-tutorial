@@ -11,10 +11,10 @@ import { model, logEvent, addVocabCards, settings, saveSettings } from '../core/
 import { playTone } from '../ui/sound.js';
 import { LEVELS } from '../core/adaptive.js';
 import { say, canSpeak } from '../core/speech.js';
-import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf } from '../core/wordgame.js';
+import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, speedSetting, ADVANCE_MS } from '../core/wordgame.js';
 import * as pics from '../core/picturegame.js';
 import * as mem from '../core/memorygame.js';
-import { picture, lockedPage } from './picturegame.js';
+import { picture, lockedPage, scorePill, memoryUnlockText } from './picturegame.js';
 
 const LAST = 'lucid-game-level';
 const remember = (level) => { try { sessionStorage.setItem(LAST, level); } catch { /* storage blocked */ } };
@@ -29,10 +29,18 @@ const pctText = (x) => `${Math.round(x * 100)}%`;
 const plus = (n) => html`<bdi dir="ltr" class="num">${n < 0 ? `−${-n}` : `+${n}`}</bdi>`;
 const secs = (ms) => tt(`עד ${ms / 1000} שניות`, `up to ${ms / 1000} s`);
 
+// The one speed setting (UX r4 PG-2), the same switch in Settings and here: a 44px key with role=switch, named by its
+// label, and the help line as its description. idp keeps the ids apart if a page ever shows it twice.
+export const speedSwitch = (on, idp = 'speed') => html`<div class="speed-field stack-sm">
+  <button type="button" class="speed-switch" role="switch" aria-checked="${on ? 'true' : 'false'}" aria-describedby="${idp}-help" data-speed-switch><span class="speed-track" aria-hidden="true"><span class="speed-thumb"></span></span><span class="speed-label">${t('games.speed')}</span></button>
+  <p class="help small muted" id="${idp}-help">${t('games.speed_help')}</p></div>`;
+// Turns the challenge on or off (both keys), from either place.
+export const toggleSpeed = () => { const on = !paceOf(settings()).challenge; saveSettings(speedSetting(on)); return on; };
+
 // "How points are counted", shown only with the speed challenge on: one small table per game, in words.
 function scoringTable() {
   const group = (he, en, rows) => html`<tbody><tr><th colspan="2" scope="colgroup">${tt(he, en)}</th></tr>${rows.map(([what, n]) => html`<tr><td>${what}</td><td>${plus(n)}</td></tr>`)}</tbody>`;
-  return html`<details class="game-scoring"><summary>${tt('איך מנקדים?', 'How are points counted?')}</summary>
+  return html`<details class="game-scoring"><summary>${tt('איך סופרים נקודות?', 'How are points counted?')}</summary>
     <table class="game-scoring-table">
       ${group('בשאלון', 'Quiz', [[tt('תשובה נכונה', 'A right answer'), POINTS], ...BONUS.choice.map(([ms, b]) => [tt(`בונוס: בחירה ${secs(ms)}`, `Bonus: choosing in ${secs(ms)}`), b]), ...BONUS.typed.map(([ms, b]) => [tt(`בונוס: הקלדה ${secs(ms)}`, `Bonus: typing in ${secs(ms)}`), b])])}
       ${group('בהתאמת מילים לתמונות', 'Words and pictures', [[tt('זוג נכון', 'A right pair'), pics.MATCH], [tt('טעות', 'A mistake'), -pics.MISTAKE], ...pics.BOARD_BONUS.map(([ms, b]) => [tt(`בונוס: לוח שלם ${secs(ms)} לזוג`, `Bonus: a whole board in ${secs(ms)} a pair`), b])])}
@@ -62,31 +70,44 @@ async function hub(el, ctx) {
   const openTo = pics.openUpTo(sets, mine);
   const pictureGames = [
     { id: 'pictures', route: 'pictures', type: 'picture-round', he: 'התאמת מילים לתמונות', en: 'Words and pictures',
-      lineHe: `${pics.BOARDS} לוחות בסיבוב. כל זוג נכון = ${pics.MATCH} נקודות, וטעות מורידה ${pics.MISTAKE}.`,
-      lineEn: `${pics.BOARDS} boards a round. Each right pair = ${pics.MATCH} points; a mistake takes off ${pics.MISTAKE}.`,
+      // The penalty sentence only while the speed challenge is on (UX r4 PG-3): calm mode takes nothing off.
+      lineHe: (ch) => `${pics.BOARDS} לוחות בסיבוב. כל זוג נכון = ${pics.MATCH} נקודות${ch ? `, וטעות מורידה ${pics.MISTAKE}` : ''}.`,
+      lineEn: (ch) => `${pics.BOARDS} boards a round. Each right pair = ${pics.MATCH} points${ch ? `; a mistake takes off ${pics.MISTAKE}` : ''}.`,
       sizeHe: (s) => `${s.pairs} זוגות בלוח`, sizeEn: (s) => `${s.pairs} pairs a board`, iconOf: (s) => s.words[0].icon },
     { id: 'memory', route: 'memory', type: mem.TYPE, he: 'משחק זיכרון', en: 'Memory game',
-      lineHe: `הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה. כל זוג = ${mem.MATCH} נקודות.`,
-      lineEn: `Turn two cards each turn to find a picture and its word. Each pair = ${mem.MATCH} points.`,
+      lineHe: () => `הופכים שני קלפים בכל תור ומחפשים תמונה והמילה שלה. כל זוג = ${mem.MATCH} נקודות.`,
+      lineEn: () => `Turn two cards each turn to find a picture and its word. Each pair = ${mem.MATCH} points.`,
       sizeHe: (s) => `${s.memory_pairs * 2} קלפים`, sizeEn: (s) => `${s.memory_pairs * 2} cards`, iconOf: (s) => s.words[1].icon },
   ];
   const doneMark = () => html`<span class="game-done">${icon('check', { size: 16 })}<span class="sr-only">${tt('עבר', 'Passed')}</span></span>`;
+  // Memory (UX r4 PG-4): its levels open on English (memoryUnlocked), its calm best is the fewest turns a pair, and
+  // calm mode shows no accuracy for it.
   const pictureSection = (g, mode) => {
-    const best = pics.bests(store.all('events'), g.type);
-    const shownBest = pics.bests(store.all('events'), g.type, mode);
-    const open = sets.filter((s) => pics.unlocked(best, s.level, openTo));
+    const events = store.all('events');
+    const isMemory = g.id === 'memory';
+    const best = pics.bests(events, g.type);
+    const shownBest = isMemory && mode === 'calm' ? pics.bests(events, g.type, 'calm', mem.fewerTurns) : pics.bests(events, g.type, mode);
+    const isOpen = (level) => (isMemory ? mem.memoryUnlocked(events, level, openTo) : pics.unlocked(best, level, openTo));
+    const open = pics.orderSets(sets, mine).filter((s) => isOpen(s.level));
     const locked = sets.filter((s) => !open.includes(s)).map((s) => s.level);
+    const bestText = (b) => (isMemory && mode === 'calm'
+      ? tt(`שיא: ${b.matches ?? ''} זוגות ב-${b.turns} תורות`, `Best: ${b.matches ?? ''} pairs in ${b.turns} turns`)
+      : tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`));
     return html`<section class="stack-sm game-section" id="lvl-${g.id}" aria-labelledby="${g.id}-h">
       <h2 id="${g.id}-h">${tt(g.he, g.en)}</h2>
-      <p class="small muted">${tt(g.lineHe, g.lineEn)}</p>
+      <p class="small muted">${tt(g.lineHe(mode === 'challenge'), g.lineEn(mode === 'challenge'))}</p>
       ${sets.length ? '' : html`<p class="banner small">${icon('info', { size: 16 })}<span>${navigator.onLine ? tt('התמונות של המשחק לא נטענו. נסו שוב בעוד רגע.', "The game's pictures did not load. Try again in a moment.") : tt('התמונות של המשחק לא נטענו כי אין חיבור לאינטרנט. פתחו את Lucid פעם אחת עם חיבור, ואחר כך המשחק יעבוד גם בלעדיו.', "The game's pictures did not load because you are offline. Open Lucid once with a connection, and after that the game works without one.")}</span></p>`}
       <div class="game-stages">${open.map((set) => {
         const b = shownBest[set.level];
-        const passed = (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
+        const passed = isMemory ? Boolean(best[set.level]) : (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
+        // The learner's own level comes first, tagged (UX r4 PG-7); its CEFR range always shows.
+        const own = set.level === openTo;
+        const tag = own ? html`<span class="tag cobalt game-own">${pics.cefrIn(set.cefr, mine) ? tt('מתאים לרמה שלכם', 'Fits your level') : tt('הקרוב ביותר לרמה שלכם', 'Closest to your level')}</span>` : '';
         return html`<a class="game-stage" href="#/games/${g.route}/${set.level}"><span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
-          <span class="xsmall faint game-stage-sub">${b ? tt(`שיא: ${b.score} נקודות · ${pctText(b.accuracy)} דיוק`, `Best: ${b.score} points · ${pctText(b.accuracy)} accuracy`) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>${passed ? doneMark() : ''}</a>`;
+          <span class="xsmall faint game-stage-sub">${b ? html`${bestText(b)} · <bdi dir="ltr">${set.cefr}</bdi>` : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span>${tag}</span>${passed ? doneMark() : ''}</a>`;
       })}</div>
-      ${locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
+      ${locked.length && isMemory ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${memoryUnlockText(locked[0])}${locked.length > 1 ? tt(` רמה ${locked[1]} נפתחת באותו אופן אחרי רמה ${locked[0]}.`, ` Level ${locked[1]} opens the same way after level ${locked[0]}.`) : ''}</span></p>`
+      : locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1
         ? tt(`רמה ${locked[0]} נפתחת ב-${pctText(pics.UNLOCK)} דיוק ברמה ${locked[0] - 1}.`, `Level ${locked[0]} opens at ${pctText(pics.UNLOCK)} accuracy in level ${locked[0] - 1}.`)
         : tt(`רמות ${locked.slice(0, -1).join(', ')} ו-${locked.at(-1)} נפתחות ב-${pctText(pics.UNLOCK)} דיוק ברמה הקודמת.`, `Levels ${locked.slice(0, -1).join(', ')} and ${locked.at(-1)} open at ${pctText(pics.UNLOCK)} accuracy in the level before.`)}</span></p>` : ''}
     </section>`;
@@ -123,14 +144,13 @@ async function hub(el, ctx) {
   function draw() {
     const all = store.all('events');
     const best = bests(all);
-    const { challenge, relaxed, mode } = paceOf(settings());
+    const { challenge, mode } = paceOf(settings());
     const shownBest = bests(all, mode);
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${t('nav.games')}</h1>
         <p>${tt('שלושה משחקים לתרגול מילים. הם לא משנים את הרמה שלכם במסלול.', 'Three games to practise words. They do not change your level on the path.')}</p></div></div>
       <div class="stack-sm game-pace">
-        <label class="choice game-challenge"><input type="checkbox" data-challenge ${challenge ? html`checked` : ''}><span class="grow small"><strong>${tt('אתגר מהירות', 'Speed challenge')}</strong><br>${relaxed ? tt('כבוי: אין שעון, והמשחק מחכה לכם. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock, and the game waits for you. On: a quick answer earns extra points, with bests of its own.') : tt('כבוי: אין שעון ואין בונוס. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock and no bonus. On: a quick answer earns extra points, with bests of its own.')}</span></label>
-        ${relaxed ? '' : html`<p class="small muted" data-pace-note>${tt('״קצב רגוע״ כבוי בהגדרות, ולכן המשחקים עוברים לבד לשאלה הבאה, וקלפים שלא התאימו מתהפכים שוב מעצמם.', '"Relaxed pace" is off in Settings, so the games move on by themselves and turn unmatched cards back over.')} <a href="#/settings">${tt('להגדרות', 'To Settings')}</a></p>`}
+        ${speedSwitch(challenge)}
         ${challenge ? scoringTable() : ''}
       </div>
       <section class="stack-sm game-section" id="lvl-quiz" aria-labelledby="quiz-h">
@@ -139,7 +159,7 @@ async function hub(el, ctx) {
         <ul class="game-levels">
           <li class="panel game-mine" id="lvl-${mine}">
             <div class="row between"><h3 class="game-level-name"><span class="tag level">${LEVEL_LABEL[mine]}</span> ${levelName(mine)}</h3>
-              <span class="tag cobalt">${tt('הרמה שלך', 'Your level')}</span></div>
+              <span class="tag cobalt">${tt('הרמה שלכם', 'Your level')}</span></div>
             <div class="game-stages">${STAGES.filter((s) => unlocked(best, mine, s.id)).map((s) => stageCard(best, shownBest, mine, s))}</div>
             ${lockedStages(best, mine)}</li>
           ${LEVELS.filter((l) => l !== mine).map((lvl) => html`<li class="game-level-row" id="lvl-${lvl}">
@@ -156,10 +176,10 @@ async function hub(el, ctx) {
   if (last) setTimeout(() => document.getElementById(`lvl-${last}`)?.scrollIntoView({ block: 'start' }), 0);
   ctx.watch(['events'], draw);
   // The speed challenge switch: saved at once, and the page redrawn with that mode's bests and rules.
-  const off = on(el, 'change', '[data-challenge]', (e, inp) => {
-    saveSettings({ game_speed_challenge: inp.checked });
+  const off = on(el, 'click', '[data-speed-switch]', () => {
+    toggleSpeed();
     draw();
-    $('[data-challenge]', el)?.focus({ preventScroll: true });
+    $('[data-speed-switch]', el)?.focus({ preventScroll: true });
   });
   return off;
 }
@@ -196,15 +216,26 @@ async function play(el, ctx, level, stageId) {
   }
   let i = 0, score = 0, bonusTotal = 0, right = 0, streak = 0, started = 0, answered = false, done = false, timer = null;
   const missed = [];
+  // A round left in the middle is kept for this session (UX r4 PG-6), as lessons and scenarios keep their place:
+  // after each answer the questions, the next one and the score are saved under the level and stage.
+  const ROUND_KEY = `lucid-quiz-round:${level}:${stageId}`;
+  const saveRound = () => { try { sessionStorage.setItem(ROUND_KEY, JSON.stringify({ questions, next: i + 1, score, bonusTotal, right, streak, missed, mode: pace.mode })); } catch { /* storage blocked */ } };
+  const clearRound = () => { try { sessionStorage.removeItem(ROUND_KEY); } catch { /* storage blocked */ } };
+  const savedRound = () => {
+    try {
+      const r = JSON.parse(sessionStorage.getItem(ROUND_KEY) || 'null');
+      return r && Array.isArray(r.questions) && r.questions.length && r.next > 0 && r.next <= r.questions.length && r.mode === pace.mode ? r : null;
+    } catch { return null; }
+  };
 
-  const scoreBadge = () => html`<span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score}</span>`;
+  const scoreBadge = () => scorePill(score);
   // The counter has its own row on phones and at 130-150% text, like the lesson's (LF-7 .counting).
   function top() {
     const pct = Math.round(((i + (answered ? 1 : 0)) / questions.length) * 100);
     return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בסיבוב', 'Round progress')}"><span style="width:${pct}%"></span></div>
-      <span class="top-meta is-count"><span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span></span>${scoreBadge()}</div>`;
+      <span class="top-meta is-count"><span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span>${scoreBadge()}</span></div>`;
   }
   const head = () => html`<h1 class="sr-only">${tt('משחק מילים', 'Word game')}, ${LEVEL_LABEL[level]}, ${tt(`שלב ${stageId}`, `stage ${stageId}`)}</h1>
     <p class="small faint row between"><span><span class="tag level">${LEVEL_LABEL[level]}</span> ${tt(`שלב ${stageId}`, `Stage ${stageId}`)}: ${stageName(stage)}</span>${pace.challenge && streak >= 3 ? html`<span class="tag ok">${tt(`רצף ${streak}`, `${streak} in a row`)}</span>` : ''}</p>`;
@@ -256,7 +287,7 @@ async function play(el, ctx, level, stageId) {
   }
 
   // Marks the answer at once and shows the right answer. The game then waits, so the feedback can be read
-  // (Enter or Continue); only with the calm pace turned off in Settings does a right answer move on by itself.
+  // (Enter or Continue); only in the speed challenge does a right answer move on by itself (a wrong one waits).
   function answer(result, given) {
     if (answered) return;
     answered = true;
@@ -287,17 +318,19 @@ async function play(el, ctx, level, stageId) {
     const pair = html`<span lang="en" dir="ltr"><strong>${q.word.word}</strong></span> = <span lang="he" dir="rtl">${isolateLatin(q.word.he)}</span>`;
     const plus = (n) => html`<bdi dir="ltr">+${n}</bdi>`;
     const pointsLine = !correct ? '' : result.almost && pace.challenge ? html`${plus(POINTS)} ${tt('(בלי בונוס, בגלל האיות)', '(no bonus for the spelling)')}` : bonus ? html`${plus(POINTS)} ${tt(`ובונוס מהירות ${bonus}`, `and a speed bonus of ${bonus}`)}` : plus(POINTS);
+    // The lessons' calm verdict (UX r4 PG-5): a neutral surface with an accent bar, and "לא בדיוק" for a miss.
     render($('#gfb', el), html`<div class="game-verdict ${correct ? 'ok' : 'bad'}">
-      <p class="row" style="font-weight:600">${icon(correct ? 'check' : 'x', { size: 20 })}<span>${correct ? tt('נכון', 'Right') : tt('לא נכון', 'Not right')}</span>${correct ? html`<span class="game-plus num">${pointsLine}</span>` : ''}</p>
+      <p class="row verdict-title">${icon(correct ? 'check' : 'x', { size: 20 })}<span>${correct ? tt('נכון', 'Right') : tt('לא בדיוק', 'Not quite')}</span>${correct ? html`<span class="game-plus num">${pointsLine}</span>` : ''}</p>
       ${result.almost ? html`<p class="small">${tt('כמעט מושלם. האיות הנכון:', 'Nearly perfect. The spelling is:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
       ${result.variant ? html`<p class="small">${tt('נכון באיות האמריקאי או הבריטי. במשפט הזה:', 'Right in US or UK spelling. In this sentence:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
       ${!correct && q.type === 'typed' ? html`<p>${tt('התשובה:', 'Answer:')} <strong lang="en" dir="ltr">${q.answer}</strong></p>` : ''}
       <p class="small">${pair}</p>${q.word.example ? html`<p class="small faint" lang="en" dir="ltr">${q.word.example}</p>` : ''}</div>`);
     $('.player-top', el).outerHTML = String(top());
     setFoot('next');
+    saveRound();
     if (!fromInput) $('[data-next]', el)?.focus({ preventScroll: true });
     $('#gfb .game-verdict', el)?.scrollIntoView?.({ block: 'nearest' });
-    if (correct && !pace.relaxed) timer = setTimeout(next, 1100);
+    if (correct && pace.challenge) timer = setTimeout(next, ADVANCE_MS);
   }
 
   function next() {
@@ -309,6 +342,7 @@ async function play(el, ctx, level, stageId) {
 
   function summary() {
     done = true;
+    clearRound();
     const accuracy = right / questions.length;
     const prev = mineBefore[`${level}:${stageId}`];
     const round = { score, correct: right };
@@ -329,7 +363,7 @@ async function play(el, ctx, level, stageId) {
         <p class="small faint">${tt('הניקוד:', 'Points:')} ${pace.challenge
           ? html`<bdi dir="ltr" class="num">${right} × ${POINTS} + ${bonusTotal} = ${score}</bdi> ${tt(`(בונוס מהירות: ${bonusTotal})`, `(speed bonus: ${bonusTotal})`)}`
           : html`<bdi dir="ltr" class="num">${right} × ${POINTS} = ${score}</bdi>`}</p>
-        ${record ? html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש${pace.challenge ? ' באתגר מהירות' : ''}. הקודם: ${prev.score} נקודות, ${prev.correct} נכונות`, `New best${pace.challenge ? ' in the speed challenge' : ''}. Previous: ${prev.score} points, ${prev.correct} right`) : pace.challenge ? tt('השיא הראשון שלך בשלב הזה באתגר מהירות', 'Your first best for this stage in the speed challenge') : tt('השיא הראשון שלך בשלב הזה', 'Your first best for this stage')}</p>` : html`<p class="small faint">${tt(`השיא שלך${pace.challenge ? ' באתגר מהירות' : ''}: ${prev.score} נקודות, ${prev.correct} מתוך ${prev.total}`, `Your best${pace.challenge ? ' in the speed challenge' : ''}: ${prev.score} points, ${prev.correct} of ${prev.total}`)}</p>`}
+        ${record ? html`<p class="tag ok" style="width:fit-content">${prev ? tt(`שיא חדש${pace.challenge ? ' באתגר מהירות' : ''}. הקודם: ${prev.score} נקודות, ${prev.correct} נכונות`, `New best${pace.challenge ? ' in the speed challenge' : ''}. Previous: ${prev.score} points, ${prev.correct} right`) : pace.challenge ? tt('השיא הראשון שלכם בשלב הזה באתגר מהירות', 'Your first best for this stage in the speed challenge') : tt('השיא הראשון שלכם בשלב הזה', 'Your first best for this stage')}</p>` : html`<p class="small faint">${tt(`השיא שלכם${pace.challenge ? ' באתגר מהירות' : ''}: ${prev.score} נקודות, ${prev.correct} מתוך ${prev.total}`, `Your best${pace.challenge ? ' in the speed challenge' : ''}: ${prev.score} points, ${prev.correct} of ${prev.total}`)}</p>`}
         ${opened ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`נפתח שלב ${nextStage.id}: ${nextStage.he}`, `Stage ${nextStage.id} is open: ${nextStage.en}`)}</span></p>` : ''}
         ${nextStage && !unlocked(nowBest, level, nextStage.id) ? html`<p class="small faint">${tt(`שלב ${nextStage.id} נפתח ב-${pctText(UNLOCK)}.`, `Stage ${nextStage.id} opens at ${pctText(UNLOCK)}.`)}</p>` : ''}
         ${!nextStage && accuracy >= UNLOCK && nextLevel ? html`<p class="banner ok small">${icon('check', { size: 16 })}<span>${tt(`סיימת את שלושת השלבים של ${LEVEL_LABEL[level]}. אפשר להמשיך ל-${LEVEL_LABEL[nextLevel]}.`, `You finished all three stages of ${LEVEL_LABEL[level]}. You can go on to ${LEVEL_LABEL[nextLevel]}.`)}</span></p>` : ''}
@@ -337,7 +371,7 @@ async function play(el, ctx, level, stageId) {
       ${missed.length ? html`<section class="stack-sm"><h2 class="small" style="font-size:var(--t-md)">${tt('מילים לחזור עליהן', 'Words to go over')}</h2>
         <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${missed.map((w) => html`<li class="panel flat"><p><strong lang="en" dir="ltr">${w.word}</strong> = <span lang="he" dir="rtl">${isolateLatin(w.he)}</span></p><p class="small faint" lang="en" dir="ltr">${w.example}</p></li>`)}</ul>
         <div class="row"><button type="button" class="key" data-missed>${tt(missed.length === 1 ? 'לשחק שוב במילה שפספסתי' : `לשחק במילים שפספסתי (${missed.length})`, missed.length === 1 ? 'Play the word I missed again' : `Play the words I missed (${missed.length})`)}</button>
-        ${n ? html`<button type="button" class="key ghost" data-add>${icon('layers', { size: 16 })} ${n === 1 ? tt('להוסיף את המילה לחזרה המרווחת', 'Add the word to spaced review') : tt(`להוסיף ${n} מילים לחזרה המרווחת`, `Add ${n} words to spaced review`)}</button>` : html`<span class="small faint">${tt('המילים האלה כבר בחזרה המרווחת שלך.', 'These words are already in your spaced review.')}</span>`}</div></section>` : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל התשובות נכונות.', 'Every answer right.')}</span></p>`}
+        ${n ? html`<button type="button" class="key ghost" data-add>${icon('layers', { size: 16 })} ${n === 1 ? tt('להוסיף את המילה לחזרה המרווחת', 'Add the word to spaced review') : tt(`להוסיף ${n} מילים לחזרה המרווחת`, `Add ${n} words to spaced review`)}</button>` : html`<span class="small faint">${tt('המילים האלה כבר בחזרה המרווחת שלכם.', 'These words are already in your spaced review.')}</span>`}</div></section>` : html`<p class="banner ok">${icon('check', { size: 18 })}<span>${tt('כל התשובות נכונות.', 'Every answer right.')}</span></p>`}
       <div class="row">
         <button type="button" class="key enter" data-again>${tt('עוד סיבוב', 'Play again')}</button>
         ${nextStage && unlocked(nowBest, level, nextStage.id) ? html`<a class="key" href="#/games/${level}/${nextStage.id}">${tt(`לשלב ${nextStage.id}`, `To stage ${nextStage.id}`)}</a>` : ''}
@@ -348,6 +382,7 @@ async function play(el, ctx, level, stageId) {
   }
 
   function restart(focus = []) {
+    clearRound();
     before = bests(store.all('events'));
     pace = paceOf(settings());
     mineBefore = bests(store.all('events'), pace.mode);
@@ -356,8 +391,31 @@ async function play(el, ctx, level, stageId) {
     question();
   }
 
-  question();
+  // Coming back to a round left in the middle: go on from the next question with the score kept, or start over.
+  function offerResume(r) {
+    const n = r.next + 1;
+    const where = r.next < r.questions.length ? tt(`להמשיך משאלה ${n} מתוך ${r.questions.length}`, `Go on from question ${n} of ${r.questions.length}`) : tt('לתוצאות הסיבוב', 'See the round results');
+    render(el, html`<div class="player"><div class="player-top"><a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a></div><div class="player-body"><div class="empty stack game-resume">
+      <p class="small faint"><span class="tag level">${LEVEL_LABEL[level]}</span> ${tt(`שלב ${stageId}`, `Stage ${stageId}`)}: ${stageName(stage)}</p>
+      <h1 tabindex="-1">${tt('יש סיבוב שלא הסתיים', 'A round is still open')}</h1>
+      <p>${tt(`עניתם על ${r.next} מתוך ${r.questions.length} שאלות, ${r.score} נקודות עד עכשיו.`, `You answered ${r.next} of ${r.questions.length} questions, ${r.score} points so far.`)}</p>
+      <div class="row"><button type="button" class="key enter" data-resume-round>${where}</button><button type="button" class="key" data-new-round>${tt('סיבוב חדש', 'New round')}</button></div></div></div></div>`);
+    setTimeout(() => $('.game-resume h1', el)?.focus({ preventScroll: true }), 30);
+  }
+  function resume() {
+    const r = savedRound();
+    if (!r) { restart(); return; }
+    questions = r.questions; score = r.score; bonusTotal = r.bonusTotal || 0; right = r.right; streak = r.streak || 0;
+    missed.length = 0; missed.push(...(r.missed || []));
+    i = r.next;
+    if (i < questions.length) question(); else summary();
+  }
+
+  const saved = !ctx.query.focus && savedRound();
+  if (saved) offerResume(saved); else { clearRound(); question(); }
   const offs = [
+    on(el, 'click', '[data-resume-round]', () => resume()),
+    on(el, 'click', '[data-new-round]', () => restart()),
     on(el, 'click', '[data-opt]', (e, b) => { const q = questions[i]; const k = Number(b.dataset.opt); answer({ correct: k === q.answer }, k); }),
     on(el, 'click', '[data-check]', () => { const v = $('#gw', el)?.value || ''; if (v.trim()) answer(checkAnswer(v, questions[i].answer), v); else $('#gw', el)?.focus(); }),
     on(el, 'click', '[data-skip]', () => answer({ correct: false }, '')),

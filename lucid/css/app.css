@@ -935,14 +935,11 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .error-card .issue-head .quote { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
 /* ---- lane real-life-writing: end ---- */
 
-/* Settings: each choice group fills its row, so a last option never sits alone on a line (M10). */
+/* Settings: each choice group fills its row (M10). Its cells never shrink below their labels: see lane
+   r4-practice-games (PG-1) at the end of this file. */
 .settings-view .field { container-type: inline-size; }
-.settings-view .seg { display: flex; width: 100%; }
-.settings-view .seg > button { flex: 1 1 auto; padding-inline: 0.55rem; }
-@container (max-width: 17rem) {
-  .settings-view .seg[data-n='4'] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .settings-view .seg[data-n='5'], .settings-view .seg[data-n='6'] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
+.settings-view .seg { display: grid; width: 100%; }
+.settings-view .seg > button { padding-inline: 0.55rem; }
 .settings-view section[id] { scroll-margin-block-start: 5rem; }
 
 /* Writing: the topics and "Must include" items are English blocks, left to right (M9, T6). */
@@ -1018,11 +1015,13 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .game-input { display: inline-block; width: auto; min-height: 2.4rem; margin-inline: 0.25rem; padding: 0.1rem 0.5rem; font-size: var(--t-lg); vertical-align: baseline; }
 .game-input.right { border-color: var(--ok); background: var(--ok-tint); }
 .game-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
-.game-verdict { display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); border: 1px solid transparent; }
-.game-verdict.ok { background: var(--ok-tint); border-color: var(--ok); }
-.game-verdict.ok > p:first-child { color: var(--ok); }
-.game-verdict.bad { background: var(--bad-tint); border-color: var(--bad); }
-.game-verdict.bad > p:first-child { color: var(--bad); }
+/* UX r4 PG-5: the games' verdict looks like the lessons' (a neutral key surface, an accent bar at the inline start in
+   --ok or --bad, and the colour only on the glyph), never a pink or green card. */
+.game-verdict { --verdict: var(--key-edge); display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); border-inline-start: 4px solid var(--verdict); background: var(--key); }
+.game-verdict.ok { --verdict: var(--ok); }
+.game-verdict.bad { --verdict: var(--bad); }
+.game-verdict > p:first-child { color: var(--ink); font-weight: 600; }
+.game-verdict > p:first-child > svg { color: var(--verdict); flex: none; }
 .game-verdict .key { justify-self: start; }
 .game-plus { margin-inline-start: auto; font-weight: 700; animation: game-pop 0.35s var(--ease-out); }
 @keyframes game-pop { from { transform: translateY(0.4rem); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -1092,9 +1091,9 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .mem-feedback { min-height: 2lh; }
 .mem-card { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s1); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; container-type: inline-size; }
 .mem-card svg { width: min(2.75rem, 62%); height: auto; }
-.mem-card:not(.is-up) { background: var(--cobalt-tint); border-color: color-mix(in oklab, var(--cobalt) 45%, var(--key-edge)); }
-.mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); opacity: 0.35;
-  background: repeating-linear-gradient(135deg, var(--cobalt) 0 2px, transparent 2px 9px); }
+/* A face-down card is a quiet keycap (UX r4 PG-7): a sunk surface with a 1px edge, not a dense blue hatch. */
+.mem-card:not(.is-up) { background: var(--key); border-color: var(--key-edge); }
+.mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); background: var(--key-sunk); border: 1px solid var(--key-edge); }
 /* The word fills the card: sized to the card's width and the word's longest word (--len), at most --t-xl (GM-5). */
 .mem-word { font-size: min(var(--t-xl), max(0.6875rem, calc(160cqi / var(--len, 6)))); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
 .mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
@@ -1624,7 +1623,6 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* Games hub (GM-1 to GM-3): the speed-challenge switch, the scoring table shown only in the challenge, the
    learner's level first and the other levels as one row each, and locked levels folded into one line. */
 .game-pace { margin-block-end: var(--s5); }
-.game-challenge strong { font-size: var(--t-md); }
 .game-scoring > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; }
 .game-scoring-table { width: 100%; max-width: 30rem; border-collapse: collapse; font-size: var(--t-sm); }
 .game-scoring-table th { text-align: start; font-weight: 600; padding: var(--s3) 0 var(--s1); color: var(--ink); }
@@ -1666,11 +1664,11 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* Memory (GM-5): every pair on the end screen; the small board at level 1. */
 .game-pairs { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
 .game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
-.mem-size { display: inline-block; padding-block: var(--s1); }
+.mem-size { display: inline-flex; align-items: center; min-height: 2.75rem; padding-block: var(--s1); }
 @media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
 /* Word quiz (GM-6): the lesson's footer Continue key, full width on phones; a tap on an option is the answer, so
    touch shows no 1-4 keycaps (keys 1-4 still answer on a keyboard). The verdict scrolls clear of the footer. */
-@media (max-width: 40rem) { .game-foot .inner > .key { flex: 1 1 auto; } .game-foot .inner > [data-next] { flex-basis: 100%; } }
+@media (max-width: 40rem) { .game-foot .inner > .key { flex: 1 1 auto; } .game-foot .inner > :is([data-next], [data-nextboard]) { flex-basis: 100%; } }
 .game-instant { margin-block-end: calc(-1 * var(--s2)); }
 /* The completion stage: the hint under the sentence at every width (the prompt row is for a word and its key). */
 .game-prompt.stack-sm { display: grid; justify-items: stretch; }
@@ -1730,7 +1728,54 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-today-path: end ---- */
 
 /* ---- lane r4-practice-games: start ---- */
+/* PG-1: a Settings segment never shrinks below its label (settings.js measures the longest label of each group
+   into --seg-cell). The group is one row of equal cells when they fit and a grid of equal cells when they do not;
+   at 130-150% text, four or five options make two columns. Still one segmented control with its help line. */
+.settings-view .field > .seg { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--seg-cell, 5.5rem)), 1fr)); }
+.settings-view .seg > button { white-space: nowrap; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .settings-view .field > .seg:is([data-n='4'], [data-n='5']) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--seg-cell, 5.5rem), calc(50% - 3px))), 1fr)); }
 
+/* PG-2: the games' one speed setting is a 44px switch key (role=switch) with a track and thumb drawn in keycap
+   tokens; it scales with the text size. The same component in Settings and on the games page. */
+.speed-field { max-width: 36rem; }
+.speed-switch { display: inline-flex; align-items: center; gap: var(--s3); min-height: 2.75rem; min-width: 2.75rem; max-width: 100%; padding: var(--s2) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink); font: inherit; font-weight: 500; font-size: var(--t-md); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.speed-switch:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.speed-switch:active { transform: translateY(2px); border-block-end-width: 1px; }
+.speed-track { position: relative; flex: none; width: 2.6em; height: 1.5em; border-radius: var(--r-pill); background: var(--key-sunk); border: 1px solid var(--key-edge); transition: background-color 0.15s ease, border-color 0.15s ease; }
+.speed-thumb { position: absolute; inset-block-start: 50%; inset-inline-start: 0.15em; width: 1.1em; height: 1.1em; transform: translateY(-50%); border-radius: 50%; background: var(--ink-3); border: 1px solid transparent; box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.2); transition: inset-inline-start 0.15s ease; }
+.speed-switch[aria-checked='true'] .speed-track { background: var(--cobalt); border-color: var(--cobalt); }
+.speed-switch[aria-checked='true'] .speed-thumb { inset-inline-start: calc(100% - 1.25em); background: var(--key); border-color: var(--cobalt); }
+.speed-field > .help { margin: 0; }
+@media (hover: hover) { .speed-switch:hover { border-color: var(--n5); } }
+@media (prefers-reduced-motion: reduce) { .speed-track, .speed-thumb { transition: none; } }
+/* PG-4: the score pill names its number ("12 נקודות"); the memory feedback line sits under the cards, so no empty
+   band pushes the board down. */
+.game-score { display: inline-flex; align-items: baseline; gap: 0.3em; white-space: nowrap; flex: none; }
+.game-score-label { font-weight: 500; font-size: 0.85em; }
+.mem-intro { margin-block-end: 0; }
+/* The score pill shares the counter's row (one row less at 130-150% text and on phones). */
+.player-top .top-meta.is-count > .game-score { margin-inline-start: var(--s3); }
+#gbody > h1.sr-only:first-child + * { margin-block-start: 0; }
+/* PG-7: the quiz's other levels: the stage keys sit at the row's inline end, in rows no wider than 46rem; the
+   learner's own picture and memory level carries its tag on a line of its own. */
+.game-levels > .game-level-row { max-width: 46rem; }
+.game-level-row .game-chips { margin-inline-start: auto; }
+.game-stage .game-own { display: inline-block; width: fit-content; margin-block-start: var(--s1); }
+/* PG-10: on a site without AI, an AI-only setting looks inert: its chosen segment is flat --ink-3 text (no raised fill,
+   no shadow) and its label steps back to --ink-2; the one AI-off sentence above them says why. */
+.settings-view .is-off .seg button[aria-pressed='true'] { background: transparent; box-shadow: none; color: var(--ink-3); }
+.settings-view .is-off .label { color: var(--ink-2); }
+/* PG-13: Practice: the lab tiles of a row are one height, and the recommended cards keep a readable width; the
+   vocabulary filters are a 2 x 2 grid of equal cells on a phone, not a ragged wrap. */
+.practice-labs > li { display: grid; }
+.practice-labs > li > .lesson-row { height: 100%; }
+.practice-now > .plan-item { max-width: 46rem; }
+@media (max-width: 30rem) {
+  .list-tools .seg.vocab-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .list-tools .seg.vocab-filters > button { white-space: nowrap; }
+}
+/* PG-14: the speaking lab for beginners hides the phonetic symbols until "להצגת IPA" (the tabs keep their words). */
+.sp-ipa-off :is(.tab-ipa, .entry-ipa) { display: none; }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
