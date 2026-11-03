@@ -69,7 +69,7 @@ export default async function settingsView(el, ctx) {
         <section class="panel stack" aria-labelledby="set-support"><h2 id="set-support">${tt('תמיכה בלמידה', 'Learning support')}</h2>
           ${field('text_size', tt('גודל טקסט', 'Text size'), seg('text_size', s.text_size, [[100, '100%', '100%'], [115, '115%', '115%'], [130, '130%', '130%'], [150, '150%', '150%']]))}
           ${field('hebrew_support', tt('הסברים בעברית', 'Hebrew support'), seg('hebrew_support', s.hebrew_support, [['auto', 'לפי הרמה', 'By level'], ['full', 'מלא', 'Full'], ['partial', 'חלקי', 'Partial'], ['minimal', 'בלחיצה', 'On tap'], ['off', 'כבוי', 'Off']], { help: true }),
-            tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״עב״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "עב".'))}
+            tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״בעברית״, ובשיעור יש גם מתג ״הכול בעברית״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "Hebrew", and lessons also have an "All in Hebrew" switch.'))}
           ${field('speech_rate', tt('מהירות הקראה', 'Speech speed'), seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']]))}
           ${field('sound', tt('צלילים במשחקים', 'Sounds in the games'), seg('sound', s.sound === false || s.sound === 'off' ? 'off' : 'on', [['on', 'פועל', 'On'], ['off', 'כבוי', 'Off']]))}
           ${speedSwitch(paceOf(s).challenge)}

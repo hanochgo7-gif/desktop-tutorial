@@ -68,7 +68,7 @@ export default async function grammar(el, ctx) {
     const cta = primary(m);
     render(el, html`
       <div class="page-head">
-        <div><h1>${t('nav.grammar')}</h1><p>${tt('כל נושאי הדקדוק לפי רמה: מה כבר יושב, מה עוד צריך תרגול, ואיזה שיעור מלמד כל נושא.', 'Every grammar topic by level: what is secure, what still needs practice, and which lesson teaches it.')}</p></div>
+        <div><h1>${t('nav.grammar')}</h1><p>${tt('כל נושאי הדקדוק לפי רמה: מה כבר בשליטה, מה עוד צריך תרגול, ואיזה שיעור מלמד כל נושא.', 'Every grammar topic by level: what is secure, what still needs practice, and which lesson teaches it.')}</p></div>
         ${cta ? html`<div>${cta}</div>` : ''}
       </div>
       <div class="stack-lg">

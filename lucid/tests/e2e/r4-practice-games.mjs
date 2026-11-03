@@ -463,6 +463,32 @@ try {
     assert(r.top >= -1 && r.top < r.h, `the word card is out of view after a tap: ${JSON.stringify(r)}`);
     await ctx.close();
   });
+  // ---------- PG-9 ----------
+  await check('PG-9. Copy: #/practice, #/vocab, #/grammar, #/settings and #/tutor have no "לפני שכחה", "1 מילים", "חוזר… לחזרה.", "יושב", "״עב״" or "מצבים אמיתיים"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    const bad = [];
+    const scan = async (route, sel, label = route) => {
+      await go(page, route, sel);
+      await page.waitForTimeout(300);
+      const text = (await page.textContent('#view')).replace(/\s+/g, ' ');
+      for (const [name, re] of [['לפני שכחה', /לפני שכחה/], ['1 מילים', /(?<![\d])1 מילים/], ['חוזר… לחזרה.', /חוזר\S* לחזרה\./], ['יושב', /יושב/], ['״עב״', /״עב״|"עב"/], ['מצבים אמיתיים', /מצבים אמיתיים/]]) if (re.test(text)) bad.push(`${label}: ${name}`);
+      return text;
+    };
+    await scan('vocab', '#view h1', 'vocab (empty)');
+    // One word in review: the counts say "מילה אחת" and the review card uses Today's "סבב ראשון" title.
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const lesson = await (await fetch('content/lessons/pa1-05.json')).json(); L.addVocabCards({ ...lesson, vocab: lesson.vocab.slice(0, 1) }, new Date(Date.now() - 86400000)); });
+    const practice = await scan('practice', '.practice-labs');
+    assert(/מילה חדשה אחת: סבב ראשון|מילה אחת שכדאי לרענן/.test(practice) && /מילה אחת · 1 לחזרה/.test(practice), `the practice review card: ${practice.slice(0, 300)}`);
+    await scan('vocab', '#vocab-list');
+    await scan('grammar', 'details[data-level]');
+    const settingsText = await scan('settings', '[data-seg="hebrew_support"]');
+    assert(/הכול בעברית/.test(settingsText) && /בלחיצה על ״בעברית״/.test(settingsText), 'the Settings hint does not name "בעברית" and "הכול בעברית"');
+    const tutor = await scan('tutor', '#view h1');
+    assert(!bad.length, bad.join(' | '));
+    void tutor;
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

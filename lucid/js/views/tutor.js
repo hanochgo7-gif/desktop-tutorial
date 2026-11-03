@@ -17,7 +17,7 @@ export const MODES = [
   ['vocabulary', 'אוצר מילים', 'Vocabulary', 'משמעות, צירופים, משלב, ושאלות היזכרות', 'Meaning, collocations, register, and recall questions'],
   ['writing', 'מאמן כתיבה', 'Writing coach', 'תכנון, טיוטה ותיקון, בלי לכתוב בשבילכם', 'Planning, drafting and revising, without writing it for you'],
   ['debate', 'מאמן דיבייט', 'Debate coach', 'עמדה נגדית, ראיות, כשלים לוגיים', 'An opposing view, evidence, logical fallacies'],
-  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה למצבים אמיתיים בחו״ל', 'Getting ready for real situations abroad'],
+  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה לתרחישים בחו״ל', 'Getting ready for real situations abroad'],
   ['pronunciation', 'מאמן הגייה', 'Pronunciation coach', 'צלילים, הטעמה וזוגות מינימליים', 'Sounds, stress and minimal pairs'],
 ];
 
