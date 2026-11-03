@@ -59,6 +59,17 @@ async function learnerAt(page, level, { text = 100, settings = {} } = {}) {
 const go = async (page, route, sel) => { await page.goto(`${BASE}#/${route}`); if (sel) await page.waitForSelector(sel); await page.waitForTimeout(150); };
 const setText = (page, text) => page.evaluate(async (t) => (await import('./js/core/learner.js')).saveSettings({ text_size: t }), text);
 const learnerSettings = (page) => page.evaluate(async () => (await import('./js/core/learner.js')).settings());
+// The index of the right option in a stage-1 word-quiz question, from the level's lesson words.
+const rightOption = (page, level) => page.evaluate(async (level) => {
+  const { content } = await import('./js/core/content.js');
+  const { wordPool } = await import('./js/core/wordgame.js');
+  const cur = await content.curriculum();
+  const ids = cur.levels.find((l) => l.id === level).lessons.map((l) => l.id);
+  const pool = wordPool((await Promise.all(ids.map((id) => content.lesson(id).catch(() => null)))).filter(Boolean), level);
+  const prompt = document.querySelector('.game-word').textContent.trim();
+  const w = pool.find((x) => x.word === prompt);
+  return [...document.querySelectorAll('[data-opt] .game-opt')].findIndex((o) => o.textContent.trim() === w.meaning);
+}, level);
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', root], { stdio: 'ignore' });
 await sleep(700);
@@ -97,6 +108,55 @@ try {
       if (text === 100) assert(m.threes.length >= 3 && m.threes.every(([, r]) => r === 1), `100%: 3-option groups wrap: ${JSON.stringify(m.threes)}`);
       await shot(page, `pg1-settings-${text}-390`);
     }
+    await ctx.close();
+  });
+  // ---------- PG-2 ----------
+  await check('PG-2. One speed switch, "אתגר מהירות במשחקים", in Settings and on #/games: role=switch, 44px, same help; it advances a right quiz answer only when on', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A2');
+    const read = () => page.evaluate(() => {
+      const sw = [...document.querySelectorAll('#view [role="switch"]')];
+      return sw.map((s) => { const r = s.getBoundingClientRect(); const ids = (s.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean); return { name: s.textContent.replace(/\s+/g, ' ').trim(), label: s.getAttribute('aria-label'), w: r.width, h: r.height, checked: s.getAttribute('aria-checked'), help: ids.map((id) => document.getElementById(id)?.textContent.trim()).join(' ') }; });
+    });
+    await go(page, 'settings', '[data-seg="text_size"]');
+    const inSettings = await read();
+    const named = (list) => list.filter((s) => (s.label || s.name) === 'אתגר מהירות במשחקים');
+    assert(named(inSettings).length === 1 && inSettings.length === 1, `Settings switches: ${JSON.stringify(inSettings)}`);
+    assert(!(await page.$('#view input[type="checkbox"][data-relaxed]')) && !/קצב רגוע/.test(await page.textContent('#view')), 'the old "קצב רגוע" checkbox is still there');
+    await go(page, 'games', '.game-levels');
+    const inGames = await read();
+    assert(named(inGames).length === 1 && inGames.length === 1, `#/games switches: ${JSON.stringify(inGames)}`);
+    for (const s of [inSettings[0], inGames[0]]) assert(s.w >= 44 && s.h >= 44 && s.checked === 'false', `switch size or state: ${JSON.stringify(s)}`);
+    assert(inSettings[0].help && inSettings[0].help === inGames[0].help && /המשחק מחכה לכם/.test(inGames[0].help), `help lines differ: ${inSettings[0].help} | ${inGames[0].help}`);
+    assert(!(await page.$('[data-pace-note]')) && !/קצב רגוע/.test(await page.textContent('#view')), 'the "קצב רגוע כבוי" note is still on #/games');
+    await shot(page, 'pg2-games-switch-390');
+    // Turned on in Settings, on in #/games.
+    await go(page, 'settings', '[role="switch"]');
+    await page.click('[role="switch"]');
+    assert((await page.getAttribute('[role="switch"]', 'aria-checked')) === 'true', 'the Settings switch did not turn on');
+    assert(await page.evaluate(() => document.activeElement?.getAttribute('role') === 'switch'), 'the focus left the switch');
+    await page.$eval('[role="switch"]', (x) => x.scrollIntoView({ block: 'center' }));
+    await shot(page, 'pg2-settings-switch-on-390');
+    const s = await learnerSettings(page);
+    assert(s.game_speed_challenge === true && s.relaxed_pace === false, `saved: ${s.game_speed_challenge} ${s.relaxed_pace}`);
+    await go(page, 'games', '[role="switch"]');
+    assert((await page.getAttribute('[role="switch"]', 'aria-checked')) === 'true', '#/games does not show the challenge as on');
+    // Challenge on: a right answer moves on by itself within 1.5 s.
+    await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+    await page.waitForTimeout(200);
+    await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
+    const t0 = Date.now();
+    await page.waitForFunction(() => /שאלה 2 מתוך/.test(document.querySelector('.step-count')?.textContent || ''), null, { timeout: 1500 });
+    assert(Date.now() - t0 <= 1500, 'a right answer did not move on within 1.5 s');
+    // Challenge off (switched on #/games): the verdict stays for 4 s.
+    await go(page, 'games', '[role="switch"]');
+    await page.click('[role="switch"]');
+    assert((await page.getAttribute('[role="switch"]', 'aria-checked')) === 'false' && (await learnerSettings(page)).game_speed_challenge === false, 'the #/games switch did not turn off');
+    await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+    await page.waitForTimeout(200);
+    await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
+    await page.waitForTimeout(4000);
+    assert(await page.$('.game-verdict') && /שאלה 1 מתוך/.test(await page.textContent('.step-count')), 'with the challenge off the verdict did not stay');
     await ctx.close();
   });
 } finally {

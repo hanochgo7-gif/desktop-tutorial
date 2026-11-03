@@ -198,9 +198,9 @@ try {
     assert(/10 מתוך 10 נכונות/.test(text), 'the result does not show the accuracy');
     const calm = (await events(page, 'game-round'))[0];
     assert(calm.mode === 'calm' && calm.score === 100, `calm round not saved as calm: ${JSON.stringify(calm)}`);
-    await go(page, 'games', '[data-challenge]');
-    assert(!(await page.isChecked('[data-challenge]')), 'the speed challenge is on by default');
-    await page.check('[data-challenge]');
+    await go(page, 'games', '[data-speed-switch]');
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'false', 'the speed challenge is on by default');
+    await page.click('[data-speed-switch]');
     assert((await page.evaluate(async () => (await import('./js/core/learner.js')).settings().game_speed_challenge)) === true, 'the switch did not save game_speed_challenge');
     await go(page, 'games/A1/1', '[data-opt]');
     await playQuiz(page, 'A1', 1);
@@ -212,20 +212,20 @@ try {
     await ctx.close();
   });
 
-  await check('GM-1f. The hub says "the game waits for you" only while Settings keeps the relaxed pace; with it off, the hub says the games move on by themselves', async () => {
+  // UX r4 PG-2 replaced the Settings "calm pace" box with the one speed switch: the hub's promise that the game waits
+  // holds whenever the challenge is off, also for a learner who had turned the old box off.
+  await check('GM-1f. The hub says "the game waits for you" with the challenge off, also after the legacy relaxed_pace was turned off; no Settings note', async () => {
     const { ctx, page } = await newPage(browser);
-    await learnerAt(page, 'A1');
-    await go(page, 'games', '[data-challenge]');
+    await learnerAt(page, 'A1', { settings: { relaxed_pace: false } });
+    await go(page, 'games', '[data-speed-switch]');
     const calm = await page.textContent('.game-pace');
-    assert(/המשחק מחכה לכם/.test(calm) && !(await page.$('[data-pace-note]')), `the relaxed hub: ${calm}`);
-    await go(page, 'settings', '[data-relaxed]');
-    await page.click('[data-relaxed]');
-    assert((await page.evaluate(async () => (await import('./js/core/learner.js')).settings().relaxed_pace)) === false, 'the relaxed box did not save');
-    await go(page, 'games', '[data-challenge]');
-    assert(!(await page.isChecked('[data-challenge]')), 'the speed challenge turned on');
-    const off = await page.textContent('.game-pace');
-    assert(!/מחכה לכם/.test(off), `the hub still promises that the game waits: ${off}`);
-    assert(await page.$('[data-pace-note] a[href="#/settings"]') && /עוברים לבד/.test(await page.textContent('[data-pace-note]')), 'no note that the games move on by themselves, with a way to Settings');
+    assert(/המשחק מחכה לכם/.test(calm) && !(await page.$('[data-pace-note]')), `the calm hub: ${calm}`);
+    assert((await page.getAttribute('[data-speed-switch]', 'aria-checked')) === 'false', 'the speed challenge turned on');
+    await go(page, 'games/A1/1', '[data-opt]');
+    await page.waitForTimeout(300);
+    await page.click(`[data-opt="${await rightOption(page, 'A1', 1)}"]`);
+    await page.waitForTimeout(2500);
+    assert(/שאלה 1 מתוך 10/.test(await page.textContent('.step-count')), 'with the legacy relaxed_pace off, the quiz moved on by itself');
     await ctx.close();
   });
 
@@ -286,7 +286,7 @@ try {
     assert(!(await page.$('.game-scoring, .game-rules')), 'the scoring rules show with the challenge off');
     const lines = await page.$$eval('.game-section > p.muted', (ps) => ps.map((p) => Math.round(p.getBoundingClientRect().height / parseFloat(getComputedStyle(p).lineHeight))));
     assert(lines.length === 3 && lines.every((n) => n <= 2), `game descriptions are not short: ${lines} lines`);
-    await page.check('[data-challenge]');
+    await page.click('[data-speed-switch]');
     await page.waitForSelector('.game-scoring');
     await page.click('.game-scoring > summary');
     const table = await page.textContent('.game-scoring-table');

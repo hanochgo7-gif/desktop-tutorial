@@ -11,7 +11,7 @@ import { model, logEvent, addVocabCards, settings, saveSettings } from '../core/
 import { playTone } from '../ui/sound.js';
 import { LEVELS } from '../core/adaptive.js';
 import { say, canSpeak } from '../core/speech.js';
-import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf } from '../core/wordgame.js';
+import { STAGES, ROUND, UNLOCK, POINTS, BONUS, maxFor, wordPool, makeRound, checkAnswer, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, speedSetting, ADVANCE_MS } from '../core/wordgame.js';
 import * as pics from '../core/picturegame.js';
 import * as mem from '../core/memorygame.js';
 import { picture, lockedPage } from './picturegame.js';
@@ -28,6 +28,14 @@ const stageName = (s) => tt(s.he, s.en);
 const pctText = (x) => `${Math.round(x * 100)}%`;
 const plus = (n) => html`<bdi dir="ltr" class="num">${n < 0 ? `−${-n}` : `+${n}`}</bdi>`;
 const secs = (ms) => tt(`עד ${ms / 1000} שניות`, `up to ${ms / 1000} s`);
+
+// The one speed setting (UX r4 PG-2), the same switch in Settings and here: a 44px key with role=switch, named by its
+// label, and the help line as its description. idp keeps the ids apart if a page ever shows it twice.
+export const speedSwitch = (on, idp = 'speed') => html`<div class="speed-field stack-sm">
+  <button type="button" class="speed-switch" role="switch" aria-checked="${on ? 'true' : 'false'}" aria-describedby="${idp}-help" data-speed-switch><span class="speed-track" aria-hidden="true"><span class="speed-thumb"></span></span><span class="speed-label">${t('games.speed')}</span></button>
+  <p class="help small muted" id="${idp}-help">${t('games.speed_help')}</p></div>`;
+// Turns the challenge on or off (both keys), from either place.
+export const toggleSpeed = () => { const on = !paceOf(settings()).challenge; saveSettings(speedSetting(on)); return on; };
 
 // "How points are counted", shown only with the speed challenge on: one small table per game, in words.
 function scoringTable() {
@@ -123,14 +131,13 @@ async function hub(el, ctx) {
   function draw() {
     const all = store.all('events');
     const best = bests(all);
-    const { challenge, relaxed, mode } = paceOf(settings());
+    const { challenge, mode } = paceOf(settings());
     const shownBest = bests(all, mode);
     render(el, html`
       <div class="page-head"><div><p class="small faint"><a href="#/practice">${t('nav.practice')}</a></p><h1>${t('nav.games')}</h1>
         <p>${tt('שלושה משחקים לתרגול מילים. הם לא משנים את הרמה שלכם במסלול.', 'Three games to practise words. They do not change your level on the path.')}</p></div></div>
       <div class="stack-sm game-pace">
-        <label class="choice game-challenge"><input type="checkbox" data-challenge ${challenge ? html`checked` : ''}><span class="grow small"><strong>${tt('אתגר מהירות', 'Speed challenge')}</strong><br>${relaxed ? tt('כבוי: אין שעון, והמשחק מחכה לכם. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock, and the game waits for you. On: a quick answer earns extra points, with bests of its own.') : tt('כבוי: אין שעון ואין בונוס. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock and no bonus. On: a quick answer earns extra points, with bests of its own.')}</span></label>
-        ${relaxed ? '' : html`<p class="small muted" data-pace-note>${tt('״קצב רגוע״ כבוי בהגדרות, ולכן המשחקים עוברים לבד לשאלה הבאה, וקלפים שלא התאימו מתהפכים שוב מעצמם.', '"Relaxed pace" is off in Settings, so the games move on by themselves and turn unmatched cards back over.')} <a href="#/settings">${tt('להגדרות', 'To Settings')}</a></p>`}
+        ${speedSwitch(challenge)}
         ${challenge ? scoringTable() : ''}
       </div>
       <section class="stack-sm game-section" id="lvl-quiz" aria-labelledby="quiz-h">
@@ -156,10 +163,10 @@ async function hub(el, ctx) {
   if (last) setTimeout(() => document.getElementById(`lvl-${last}`)?.scrollIntoView({ block: 'start' }), 0);
   ctx.watch(['events'], draw);
   // The speed challenge switch: saved at once, and the page redrawn with that mode's bests and rules.
-  const off = on(el, 'change', '[data-challenge]', (e, inp) => {
-    saveSettings({ game_speed_challenge: inp.checked });
+  const off = on(el, 'click', '[data-speed-switch]', () => {
+    toggleSpeed();
     draw();
-    $('[data-challenge]', el)?.focus({ preventScroll: true });
+    $('[data-speed-switch]', el)?.focus({ preventScroll: true });
   });
   return off;
 }
@@ -256,7 +263,7 @@ async function play(el, ctx, level, stageId) {
   }
 
   // Marks the answer at once and shows the right answer. The game then waits, so the feedback can be read
-  // (Enter or Continue); only with the calm pace turned off in Settings does a right answer move on by itself.
+  // (Enter or Continue); only in the speed challenge does a right answer move on by itself (a wrong one waits).
   function answer(result, given) {
     if (answered) return;
     answered = true;
@@ -297,7 +304,7 @@ async function play(el, ctx, level, stageId) {
     setFoot('next');
     if (!fromInput) $('[data-next]', el)?.focus({ preventScroll: true });
     $('#gfb .game-verdict', el)?.scrollIntoView?.({ block: 'nearest' });
-    if (correct && !pace.relaxed) timer = setTimeout(next, 1100);
+    if (correct && pace.challenge) timer = setTimeout(next, ADVANCE_MS);
   }
 
   function next() {

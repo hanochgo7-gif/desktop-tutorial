@@ -89,6 +89,8 @@ const STRINGS = {
   // ---- lane r4-today-path: new keys go here ----
 
   // ---- lane r4-practice-games: new keys go here ----
+  'games.speed': ['אתגר מהירות במשחקים', 'Speed challenge in the games'],
+  'games.speed_help': ['כבוי: אין שעון, והמשחק מחכה לכם. פועל: תשובה מהירה מוסיפה נקודות, עם שיאים נפרדים.', 'Off: no clock, and the game waits for you. On: a quick answer earns extra points, with bests of its own.'],
 
   // ---- lane r4-real-life-writing: new keys go here ----
 

@@ -17,8 +17,8 @@ import { picture, sumLine, bestLine, lockedLevel } from './picturegame.js';
 const pctText = (x) => `${Math.round(x * 100)}%`;
 const shown = (w) => (settings().english_variant === 'US' && w.us) || w.word;
 const otherForm = (w) => (w.us ? (shown(w) === w.us ? `UK: ${w.word}` : `US: ${w.us}`) : '');
-// A mismatched pair stays face up until the next card is chosen. Only with the calm pace turned off in Settings
-// does it also turn back by itself, after this long.
+// A mismatched pair stays face up until the next card is chosen. Only in the speed challenge does it also turn
+// back by itself, after this long.
 const BACK_AFTER = 1300;
 
 export default async function memorygame(el, ctx) {
@@ -156,7 +156,7 @@ export default async function memorygame(el, ctx) {
       [a, i].forEach((x) => $(`[data-card="${x}"]`, el)?.classList.add('is-wrong'));
       back = [a, i];
       backAt = performance.now();
-      if (!pace.relaxed) backTimer = setTimeout(turnBack, BACK_AFTER);
+      if (pace.challenge) backTimer = setTimeout(turnBack, BACK_AFTER);
       // Both cards are named, then the verdict: what was turned is part of what a learner has to remember.
       render($('#gfb', el), html`<span>${named(a)}.</span> <span>${named(i)}.</span> <span class="bad-text">${icon('x', { size: 16 })} ${tt('לא זוג.', 'Not a pair.')}</span>${slip && pace.challenge ? html` <span class="faint">${tt(`הזוג של הקלף הראשון כבר נראה (פחות ${SLIP} נקודות)`, `The first card's pair had been seen already (${SLIP} points off)`)}</span>` : ''}`);
       playTone(false);

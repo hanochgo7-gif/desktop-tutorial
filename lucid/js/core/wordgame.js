@@ -27,16 +27,22 @@ export const maxFor = (n, challenge = false) => n * (POINTS + (challenge ? BONUS
 export const MAX_SCORE = maxFor(ROUND);
 
 // How the three games are paced (PRODUCT.md: no time pressure except opt-in timed writing). Shared by the word
-// quiz, the picture game and the memory game.
-//   relaxed   Settings, "calm pace" (relaxed_pace; on unless set to false): nothing moves on by itself, and a
-//             memory mismatch stays face up until the next card is chosen.
-//   challenge the games page's "speed challenge" switch (game_speed_challenge; off unless set to true): quick
-//             answers earn a bonus, and in memory few turns earn a bonus and a slip costs points.
-// Each round is saved with its mode, and bests are kept apart for each mode.
+// quiz, the picture game and the memory game. One setting, "אתגר מהירות במשחקים" (game_speed_challenge; off unless
+// set to true), is the same switch in Settings and on the games page (UX r4 PG-2):
+//   calm      (off, the default) relaxed: nothing moves on by itself, a memory mismatch stays face up until the
+//             next card is chosen, and a mistake costs no points.
+//   challenge (on) quick answers earn a bonus, a right quiz answer moves on after a second (a wrong one always
+//             waits), and mistakes and memory slips cost points.
+// relaxed_pace is a legacy key derived from the switch (saved as !game_speed_challenge); it no longer decides
+// anything. Each round is saved with its mode, and bests are kept apart for each mode.
 export function paceOf(s = {}) {
-  const challenge = s.game_speed_challenge === true;
-  return { relaxed: s.relaxed_pace !== false, challenge, mode: challenge ? 'challenge' : 'calm' };
+  const challenge = s?.game_speed_challenge === true;
+  return { relaxed: !challenge, challenge, mode: challenge ? 'challenge' : 'calm' };
 }
+// What the switch saves: the setting and its derived legacy key.
+export const speedSetting = (on) => ({ game_speed_challenge: Boolean(on), relaxed_pace: !on });
+// A right quiz answer moves on after this long, in the challenge only.
+export const ADVANCE_MS = 1000;
 // Rounds saved before the calm default were all scored with the speed bonus.
 export const modeOf = (e) => (e?.mode === 'calm' ? 'calm' : 'challenge');
 

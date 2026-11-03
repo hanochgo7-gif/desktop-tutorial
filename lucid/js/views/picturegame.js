@@ -1,6 +1,6 @@
 // Picture matching game (#/games/pictures/<level>): match English words to pictures, three boards a round.
-// A pair is marked right or wrong the moment it is chosen; a finished board waits for "Next board" (unless the
-// calm pace is off in Settings). Logic is in js/core/picturegame.js; the levels are listed on the games page
+// A pair is marked right or wrong the moment it is chosen; a finished board waits for "Next board" (except in the
+// speed challenge). Logic is in js/core/picturegame.js; the levels are listed on the games page
 // (js/views/wordgame.js).
 import { html, raw, render, on, $, $$ } from '../core/util.js';
 import { tt, isolateLatin } from '../core/i18n.js';
@@ -163,8 +163,8 @@ export default async function picturegame(el, ctx) {
     if (matched.size === bd.pictures.length) boardDone(byKeyboard);
   }
 
-  // A finished board waits for "Next board". Only with the calm pace turned off in Settings does a board finished
-  // with a pointer move on by itself (one finished with the keyboard always waits).
+  // A finished board waits for "Next board". Only in the speed challenge does a board finished with a pointer move
+  // on by itself (one finished with the keyboard always waits).
   function boardDone(byKeyboard) {
     const ms = performance.now() - started;
     const bonus = pace.challenge ? boardBonus(ms, set.pairs) : 0;
@@ -177,7 +177,7 @@ export default async function picturegame(el, ctx) {
     const next = $('[data-nextboard]', el);
     next?.focus({ preventScroll: true });
     next?.scrollIntoView({ block: 'nearest' });
-    if (!byKeyboard && !pace.relaxed) timer = setTimeout(nextBoard, 2500);
+    if (!byKeyboard && pace.challenge) timer = setTimeout(nextBoard, 2500);
   }
 
   function nextBoard() {

@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { wordPool, completable, makeRound, maskWord, gameMeaning, senses, posKey, checkAnswer, typedCorrect, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, modeOf, maxFor, ROUND, MAX_SCORE } from '../../js/core/wordgame.js';
+import { wordPool, completable, makeRound, maskWord, gameMeaning, senses, posKey, checkAnswer, typedCorrect, scoreFor, bests, isBetter, unlocked, recentWords, paceOf, speedSetting, ADVANCE_MS, modeOf, maxFor, ROUND, MAX_SCORE } from '../../js/core/wordgame.js';
 
 const dir = new URL('../../content/lessons/', import.meta.url);
 const lessons = readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')));
@@ -98,12 +98,18 @@ test('scores: 10 for a right answer, 0 for a wrong one; a speed bonus only in th
   assert.equal(maxFor(ROUND, true), 150);
 });
 
-test('pace: calm by default (a missing key counts as relaxed, the challenge as off); rounds keep their mode', () => {
+test('pace: one setting (UX r4 PG-2): calm by default, relaxed is derived from the challenge; rounds keep their mode', () => {
   assert.deepEqual(paceOf({}), { relaxed: true, challenge: false, mode: 'calm' });
   assert.deepEqual(paceOf(), { relaxed: true, challenge: false, mode: 'calm' });
-  assert.deepEqual(paceOf({ relaxed_pace: false }), { relaxed: false, challenge: false, mode: 'calm' });
-  assert.deepEqual(paceOf({ game_speed_challenge: true }), { relaxed: true, challenge: true, mode: 'challenge' });
+  assert.deepEqual(paceOf(null), { relaxed: true, challenge: false, mode: 'calm' });
+  // The old Settings "calm pace" key no longer decides anything: off with the challenge off is still calm.
+  assert.deepEqual(paceOf({ relaxed_pace: false }), { relaxed: true, challenge: false, mode: 'calm' });
+  assert.deepEqual(paceOf({ game_speed_challenge: true }), { relaxed: false, challenge: true, mode: 'challenge' });
+  assert.deepEqual(paceOf({ game_speed_challenge: true, relaxed_pace: true }), { relaxed: false, challenge: true, mode: 'challenge' });
   assert.equal(paceOf({ game_speed_challenge: 'yes' }).challenge, false, 'only true turns the challenge on');
+  assert.deepEqual(speedSetting(true), { game_speed_challenge: true, relaxed_pace: false });
+  assert.deepEqual(speedSetting(false), { game_speed_challenge: false, relaxed_pace: true });
+  assert.ok(ADVANCE_MS <= 1000, 'a right answer in the challenge moves on within a second');
   assert.equal(modeOf({ mode: 'calm' }), 'calm');
   assert.equal(modeOf({}), 'challenge', 'rounds from before the calm default were scored with the bonus');
 });
