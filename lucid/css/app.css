@@ -1727,6 +1727,12 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 }
 .scenario-view .scenario-foot.neutral { --verdict: transparent; background: var(--ground); }
 .scenario-view .own-result, .scenario-view [data-explain] { scroll-margin-block-end: calc(var(--rw-foot-h, 6rem) + var(--rw-tabbar-h, 0px) + var(--s3)); }
+/* RW-10: the Real life and Conversations topics fold, one open at first. */
+.hub-topics .hub-fold { padding: var(--s2) var(--s4); }
+.hub-topics .hub-fold > summary { min-height: 2.75rem; }
+.hub-topics .hub-fold[open] { padding-block-end: var(--s4); }
+.hub-topics .hub-fold > summary .hub-head { margin: 0; font-size: var(--t-md); }
+.hub-topics .hub-fold-body { margin-block-start: var(--s3); }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */

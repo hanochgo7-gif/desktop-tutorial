@@ -102,6 +102,16 @@ test('r4 RW-4: a stand-up reply with a past time + present verb and until the ev
   assert.deepEqual(ok.l1, [], 'the corrected reply is clean');
 });
 
+// r4 RW-10: the goal's topic comes first in "Start here", even for a Pre-A1 learner (student-58).
+test('r4 RW-10: work at A2 and at Pre-A1 starts with the work scenarios, at most two levels up', () => {
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['work'] })[0].module, 'work');
+  const pre = recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: ['work'] });
+  assert.equal(pre[0].module, 'work');
+  assert.ok(pre.every((s) => ['A1', 'A2'].includes(s.level)), pre.map((s) => s.level).join());
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: [] }).every((s) => s.level === 'A1'), 'no goal: nothing above a small stretch');
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['travel'] }).every((s) => ['A1', 'A2'].includes(s.level)), 'travel at A2 stays at or below the level');
+});
+
 // RW-9: Real life follows the learner's goals.
 test('Start here, topic order and topic lists follow the goals, then the level (RW-9)', () => {
   const start = recommendScenarios(scenarios, { courseLevel: 'B2', goals: ['work'] });

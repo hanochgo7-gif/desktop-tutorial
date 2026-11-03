@@ -43,14 +43,19 @@ export function byFit(items = [], courseLevel = 'A1') {
 }
 
 // Up to n scenarios to start with, not done yet: those for the learner's goals first, at or below their level
-// (closest first) and then a small stretch; then the other topics the same way (RW-9, persona panel P-46).
+// (closest first), then a small stretch, then (for a goal topic only) up to two levels above, so a Pre-A1 learner
+// whose goal is work is offered the A2 work scenarios before airports (r4 RW-10, student-58); then the other topics,
+// at or below the level and then a small stretch (RW-9, persona panel P-46).
 export function recommendScenarios(list = [], { courseLevel = 'A1', goals = [], done = new Set(), n = 3 } = {}) {
   const rank = goalRank(goals);
   const goalCount = modulesFor(goals).length;
   const order = new Map(list.map((s, i) => [s.id, i]));
-  const open = list.filter((s) => !done.has(s.id) && levelIndex(s.level) >= 0 && fitOf(s.level, courseLevel) !== 'hard');
-  const tier = (s) => (rank(s) < goalCount ? 0 : 2) + (fitOf(s.level, courseLevel) === 'stretch' ? 1 : 0);
-  const by = (a, b) => tier(a) - tier(b) || rank(a) - rank(b) || fitRank(a.level, courseLevel) - fitRank(b.level, courseLevel) || order.get(a.id) - order.get(b.id);
+  const isGoal = (s) => rank(s) < goalCount;
+  const above = (s) => levelIndex(s.level) - Math.max(0, levelIndex(courseLevel));
+  const open = list.filter((s) => !done.has(s.id) && levelIndex(s.level) >= 0 && (fitOf(s.level, courseLevel) !== 'hard' || (isGoal(s) && above(s) <= 2)));
+  const fitTier = (s) => ({ below: 0, at: 0, stretch: 1, hard: 2 })[fitOf(s.level, courseLevel)];
+  const tier = (s) => (isGoal(s) ? 0 : 3) + fitTier(s);
+  const by = (a, b) => tier(a) - tier(b) || rank(a) - rank(b) || fitRank(a.level, courseLevel) - fitRank(b.level, courseLevel) || above(a) - above(b) || order.get(a.id) - order.get(b.id);
   return open.sort(by).slice(0, n);
 }
 

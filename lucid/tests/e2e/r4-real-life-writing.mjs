@@ -211,6 +211,25 @@ try {
     assert(!/\bok\b/.test(r.cls) && r.label === 'המשך', `footer while writing: "${r.cls}" "${r.label}"`);
     await ctx.close();
   });
+
+  await check('RW-10 390: Real life and Conversations are each under 2,500px with one open topic; a Pre-A1 work learner starts with work scenarios', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { goals: ['travel'] });
+    for (const [hash, name] of [['real-life', 'rw10-real-life-390'], ['conversations', 'rw10-conversations-390']]) {
+      await open(page, hash, '.hub-topics details');
+      const r = await page.evaluate(() => ({ h: document.documentElement.scrollHeight, open: document.querySelectorAll('.hub-topics details[open]').length, all: document.querySelectorAll('.hub-topics details').length }));
+      await shot(page, name);
+      assert(r.h < 2500, `#/${hash} is ${r.h}px tall`);
+      assert(r.open === 1 && r.all >= 7, `#/${hash}: ${r.open} open of ${r.all} topics`);
+    }
+    await ctx.close();
+    const pre = await newPage(browser);
+    await learnerAt(pre.page, 'PreA1', { goals: ['work'] });
+    await open(pre.page, 'real-life', '.start-here .lesson-row');
+    const start = await pre.page.$$eval('.start-here .lesson-row', (a) => a.map((x) => x.getAttribute('href')));
+    assert(start[0].includes('rl-work-'), `start here for Pre-A1 work: ${start}`);
+    await pre.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
