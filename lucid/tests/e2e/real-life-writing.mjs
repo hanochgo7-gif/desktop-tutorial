@@ -77,6 +77,9 @@ try {
       await page.waitForTimeout(150);
       const s = await page.evaluate(() => { const b = document.querySelector('[data-next-turn]'); const r = b.getBoundingClientRect(); const tb = document.querySelector('.tabbar'); const top = getComputedStyle(tb).display === 'none' ? innerHeight : tb.getBoundingClientRect().top; const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return { top: r.top, bottom: r.bottom, bar: top, hit: b === hit || b.contains(hit) }; });
       assert(s.top >= 0 && s.bottom <= s.bar && s.hit, `turn ${i + 1}: "Continue" is not fully visible above the tab bar: ${JSON.stringify(s)}`);
+      // One row: the verdict takes the room and the key keeps its own width (the phone footer rule must not stretch it).
+      const f = await page.evaluate(() => { const inner = document.querySelector('.scenario-foot .inner'); const v = inner.querySelector('.verdict'); return { inner: inner.getBoundingClientRect().width, verdict: v ? v.getBoundingClientRect().width : 0, foot: document.querySelector('.scenario-foot').getBoundingClientRect().height }; });
+      assert(f.verdict >= f.inner * 0.5, `turn ${i + 1}: the verdict is squeezed beside the key: ${JSON.stringify(f)}`);
       if (i === 0) await shot(page, 'rw1-checked-390');
       await tap('[data-next-turn]');
     }

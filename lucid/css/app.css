@@ -788,7 +788,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .scenario-view .scenario-foot { z-index: 5; bottom: var(--rw-tabbar-h, 0px); margin-block-start: var(--s5); }
 .scenario-view .scenario-foot .inner { flex-wrap: nowrap; }
 .scenario-view .scenario-foot .inner > .verdict { flex: 1 1 auto; }
-.scenario-view .scenario-foot .inner > .key { flex: none; }
+.scenario-view .scenario-foot .inner > .key, .scenario-view .scenario-foot .inner > .key.enter { flex: none; }
 @media (max-width: 63.99rem) {
   .scenario-view .scenario-foot { margin-inline: calc(-1 * var(--s4)); padding-block-end: var(--s3); }
 }
@@ -1163,9 +1163,9 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 
 /* Segmented controls (SC-8): a control that fills its row (a form field, a page header, or .seg.full) has equal
    segments and no empty track; at 130-150% text four options become two equal rows of two. */
-.seg.full, .field > .seg, .page-head > .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
-:root:is([data-text='130'], [data-text='150']) :is(.seg.full, .field > .seg, .page-head > .seg):has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 40rem) { .page-head > .seg { flex: 1 1 100%; } }
+.seg.full, .field > .seg, .page-head > .seg, .today-minutes > .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+:root:is([data-text='130'], [data-text='150']) :is(.seg.full, .field > .seg, .page-head > .seg, .today-minutes > .seg):has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 40rem) { .page-head > .seg, .page-head > .today-minutes { flex: 1 1 100%; } .today-minutes { justify-items: stretch; } }
 
 /* Large text on a phone (SC-9): the top-bar title shrinks before it truncates (app.js fits it); tab labels keep to
    one line (the long one has a short form at 130-150%); the top-bar keys show their names under the icons. */
@@ -1377,7 +1377,7 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 
 /* The lesson writing step (EX-11): the key names what happens and how many words are still needed; the text
    area grows with the text; the self-check list is a left-to-right grid, box then text. */
-.check-label { display: inline-grid; justify-items: center; line-height: 1.2; white-space: normal; }
+.key-label { display: inline-grid; justify-items: center; line-height: 1.2; white-space: normal; }
 .check-need { font-size: var(--t-xs); font-weight: 500; }
 .ex-write { min-height: 10rem; field-sizing: content; max-height: 70dvh; }
 .self-check { display: grid; gap: var(--s3); text-align: left; }
@@ -1392,9 +1392,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .spell { font-weight: 600; }
 
 /* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
-.answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
-.answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
-.answer-diff .w-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; }
+.word-diff.answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
+.word-diff.answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.word-diff.answer-diff .w-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; }
 
 /* ---- lane exercises: end ---- */
 

@@ -704,7 +704,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         let l = $('[data-check-label]', b);
         if (!l) {
           [...b.childNodes].filter((nd) => nd.nodeType === 3).forEach((nd) => nd.remove());
-          b.insertAdjacentHTML('afterbegin', '<span class="check-label" data-check-label></span>');
+          b.insertAdjacentHTML('afterbegin', '<span class="key-label" data-check-label></span>');
           l = $('[data-check-label]', b);
         }
         const left = need - countWords(ta.value);
