@@ -1,7 +1,8 @@
-// The practice hubs' shared logic (js/ui/center.js): lane r4-practice-games (PG-15, PG-12).
+// The practice hubs' logic (js/ui/center.js, the review hint): lane r4-practice-games (PG-15, PG-8, PG-12).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { wasUnheard, bestScore } from '../../js/ui/center.js';
+import { hintFor } from '../../js/views/review.js';
 
 const listen = { type: 'listen' };
 const dictation = { type: 'dictation' };
@@ -27,4 +28,12 @@ test('bestScore leaves out attempts with no score', () => {
   assert.equal(bestScore([{ score: null, correct: false }]), null);
   assert.equal(bestScore([{ score: null, correct: true }, { score: 0.5 }]), 0.5);
   assert.equal(bestScore([{ correct: true }]), 1);
+});
+
+test('PG-8: a review hint adds what the card does not show', () => {
+  assert.equal(hintFor({ kind: 'form', payload: { word: 'river', example: 'The river is wide.' } }), 'r _ _ _ _ (5)');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'doctor', example: 'He is a doctor.', def: 'a person who helps sick people', pos: 'noun' } }), 'a person who helps sick people');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'run', example: 'I run.', pos: 'verb' } }), 'verb', 'no definition: the part of speech');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'An x.' } }), null, 'nothing new: no hint');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'a thing you see', def: 'a thing you see' } }), null, 'a definition that is the example is not new');
 });

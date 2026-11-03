@@ -403,6 +403,66 @@ try {
     assert(/שאלה 1 מתוך 10/.test(await page.textContent('.step-count')) && (await page.textContent('.game-score')).match(/\d+/)[0] === '0', 'a new round did not start over');
     await ctx.close();
   });
+  // ---------- PG-8 ----------
+  await check('PG-8. Review end with 3 misses: one "יחזרו" line and no "תחזור בעוד" per word; the game link is in #pfoot; a typed card\'s hint adds something beyond the example', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A1');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
+    await go(page, 'review?n=3', '[data-idk]');
+    for (let k = 0; k < 3; k++) {
+      await page.waitForSelector('[data-idk]');
+      await page.click('[data-idk]');
+      await page.click('[data-next]');
+    }
+    await page.waitForSelector('#rv-done');
+    const end = await page.evaluate(() => ({ text: document.querySelector('.player-body').textContent.replace(/\s+/g, ' '), lines: document.querySelectorAll('[data-back-line]').length, line: document.querySelector('[data-back-line]')?.textContent.trim(), rows: document.querySelectorAll('.review-miss').length }));
+    assert(end.rows === 3, `${end.rows} missed rows`);
+    assert(!/תחזור בעוד|תחזור/.test(end.text), `per-word timing is still there: ${end.text.slice(0, 200)}`);
+    assert(end.lines === 1 && /^המילים האלה יחזרו (בחזרה הבאה|מחר)\.?$/.test(end.line), `the back line: ${end.lines} ${end.line}`);
+    assert(await page.$('#pfoot a[href^="#/games/"]') && await page.$('#pfoot a[href="#/today"]'), 'the game link and "להיום" are not both in the footer');
+    await shot(page, 'pg8-review-end-390');
+    // Typed cards: the hint is not the example already on the card.
+    await page.evaluate(() => { for (const c of window.lucid.store.all('cards')) window.lucid.store.put('cards', { ...c, fsrs: { ...c.fsrs, reps: 3 } }); });
+    const seen = [];
+    for (let t = 0; t < 2; t++) {
+      await go(page, `review?mode=early&t=${t}`, '#ans');
+      for (let n = 0; n < 14; n++) {
+        await page.waitForSelector('#ans');
+        const card = await page.evaluate(() => { const f = document.querySelector('.panel.flash'); const ex = f.querySelector('.muted[lang="en"], .ex-text[lang="en"]'); return { kind: /המשמעות/.test(f.textContent) ? 'meaning' : 'form', example: ex?.textContent.trim() || '', hint: Boolean(document.querySelector('[data-hint]')) }; });
+        if (card.example && card.hint && !seen.includes(card.kind)) {
+          await page.click('[data-hint]');
+          const hint = (await page.textContent('.hint-box')).trim();
+          assert(hint && hint !== card.example && !card.example.includes(hint), `${card.kind} card: the hint repeats the example (${hint} | ${card.example})`);
+          if (card.kind === 'form') assert(/^[a-z](?: _)+ \(\d+\)$/i.test(hint), `the form hint is not "r _ _ _ _ (5)": ${hint}`);
+          seen.push(card.kind);
+          await shot(page, `pg8-hint-${card.kind}-390`);
+        }
+        if (seen.length === 2) break;
+        await page.click('[data-idk]'); await page.click('[data-next]');
+        if (await page.$('#rv-done')) break;
+      }
+      if (seen.length === 2) break;
+    }
+    assert(seen.includes('meaning'), `no typed meaning card with an example was checked (${seen})`);
+    await ctx.close();
+  });
+
+  await check('PG-8. Review: after an option is tapped, the word card is scrolled back into view', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true, h: 640 });
+    await learnerAt(page, 'A1', { text: 150 });
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
+    await go(page, 'review?mode=early', '.flash');
+    for (let n = 0; n < 12 && !(await page.$('[data-pick]')); n++) { await page.click('[data-idk]'); await page.click('[data-next]'); await page.waitForSelector('[data-pick], #ans'); }
+    assert(await page.$('[data-pick]'), 'no options card');
+    const last = (await page.$$('[data-pick]')).at(-1);
+    await last.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollBy(0, 400));
+    await last.click();
+    await page.waitForTimeout(400);
+    const r = await page.$eval('.flash', (f) => { const b = f.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, h: innerHeight }; });
+    assert(r.top >= -1 && r.top < r.h, `the word card is out of view after a tap: ${JSON.stringify(r)}`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

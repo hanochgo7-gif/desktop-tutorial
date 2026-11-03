@@ -173,9 +173,10 @@ try {
     const listed = await page.$$eval('.review-miss', (x) => x.map((li) => li.textContent));
     assert(listed.length === missedWords.length && missedWords.every((w) => listed.some((t) => t.includes(w))), `missed ${missedWords} but listed ${listed.length}`);
     if (missedWords.length) {
-      assert(listed.every((t) => /תחזור/.test(t)), 'missed words do not say when they come back');
-      const href = await page.getAttribute('a[href^="#/games/"]', 'href');
-      assert(href && /focus=/.test(href) && /לשחק במילים האלה/.test(await page.textContent('a[href^="#/games/"]')), `no game with these words: ${href}`);
+      // UX r4 PG-8: when they come back is one line in Today's terms, and the game is in the footer.
+      assert(!listed.some((t) => /תחזור/.test(t)) && /יחזרו|תחזור/.test(await page.textContent('[data-back-line]')), 'missed words do not say (once) when they come back');
+      const href = await page.getAttribute('#pfoot a[href^="#/games/"]', 'href');
+      assert(href && /focus=/.test(href) && /לשחק במילים האלה/.test(await page.textContent('#pfoot a[href^="#/games/"]')), `no game with these words: ${href}`);
     }
     assert(await page.$('.player-foot a[href="#/today"]'), 'no way back to Today');
     await ctx.close();
