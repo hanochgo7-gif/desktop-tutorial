@@ -1714,4 +1714,18 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .seg.seg-grid > button { min-width: 0; }
 .seg.seg-grid.seg-wrap > button { white-space: normal; line-height: 1.3; }
 
+/* SB-8: at 1440x900 the desktop rail shows all 13 destinations above the pinned Help and Settings. The links are
+   tighter, and on a window under 960px tall only the current link keeps its second-language line. When the links
+   still do not fit (a short window, large text), a fade at the bottom says there is more (app.js sets .scrolls
+   while the list is not scrolled to its end). */
+@media (min-width: 64rem) {
+  .deck nav { gap: 0.15rem; }
+  .deck nav a.nav { padding-block: 0.4rem; }
+  .deck nav .group-label { margin-block: var(--s4) var(--s1); }
+  .deck nav.scrolls::after { content: ''; display: block; position: sticky; bottom: calc(var(--s3) * -1); height: 2.75rem; margin-block-start: -2.75rem; background: linear-gradient(to bottom, transparent, var(--deck) 80%); pointer-events: none; }
+}
+@media (min-width: 64rem) and (max-height: 60rem) {
+  .deck nav a.nav:not([aria-current='page']) .nav-legend .l2 { display: none; }
+}
+
 /* ---- lane r4-shell-bilingual: end ---- */

@@ -89,6 +89,15 @@ function drawShell(route) {
   const topKey = (href, key, ic) => html`<a class="key ghost small icon-only top-key" href="${href}" aria-label="${t(key)}">${icon(ic)}<span class="top-label" aria-hidden="true">${t(key)}</span></a>`;
   render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title">${shownTitle(route)}</span>${netBadge()}${topKey('#/help', 'nav.help', 'info')}${topKey('#/settings', 'nav.settings', 'settings')}`);
   fitTitle();
+  const nav = deck.querySelector('nav');
+  nav?.addEventListener('scroll', railCue, { passive: true });
+  railCue();
+}
+// The rail's links fade out at the bottom while more of them are below (SB-8).
+function railCue() {
+  const nav = document.querySelector('#deck nav');
+  if (!nav) return;
+  nav.classList.toggle('scrolls', nav.scrollHeight > nav.clientHeight + 1 && nav.scrollTop + nav.clientHeight < nav.scrollHeight - 1);
 }
 const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
 // The top bar's title has one size per text size and window width (SB-7): the size at which the longest section
@@ -273,7 +282,7 @@ async function boot() {
   router.onRoute = drawShell;
   router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitle(); } };
   let fitTimer = 0;
-  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitTitle, 100); });
+  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { fitTitle(); railCue(); }, 100); });
   // The title lives on the route, so a redraw for a connection change keeps it.
   addEventListener('online', () => drawShell(router.current));
   addEventListener('offline', () => drawShell(router.current));
