@@ -605,21 +605,29 @@ export default async function lessonView(el, ctx) {
           : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);
   }
 
-  // The end of today's part: what was done today, stop with the place saved, or finish now (R2-28, LF-4).
+  // The end of today's part (R2-28, LF-4, r4 LF-7): the place first, counted by the same helper as Today and the
+  // resume key (learner.resumeStep over the saved place), then the lesson's words, and the first-try count as a
+  // small line. Stop with the place saved stays the main key; the counter says how many are done.
   function showPartEnd() {
-    const s = stepInfo(queue, qi);
+    const saved = progressOf(id)?.resume;
+    const rs = saved && saved.qi < saved.queue.length ? resumeStep(saved) : null;
+    const s = rs || stepInfo(queue, qi);
     const from = s.retry ? tt(`תרגיל חוזר ${s.pos} מתוך ${s.total}`, `revisit ${s.pos} of ${s.total}`) : tt(`תרגיל ${s.pos} מתוך ${s.total}`, `exercise ${s.pos} of ${s.total}`);
+    const doneN = rs ? rs.firstDone : firstDone(queue, qi);
+    const totalN = rs ? rs.firstTotal : queue.filter((q) => !q.retry).length;
     const today = todayKey();
     const mine = firstTries(model().attempts.filter((a) => a.lesson === id && a.source === 'lesson' && a.score !== null && a.skill !== 'speaking' && todayKey(new Date(a.at)) === today));
     const right = mine.filter((a) => a.correct).length;
     const rest = restMinutes(lesson, queue, qi);
     frame(html`<div class="stack-lg part-end">
       <div class="stack-sm"><h1 tabindex="-1">${tt('החלק של היום הושלם', 'Today\'s part is done')}</h1>
-        ${mine.length ? html`<p class="part-score" data-part-score>${tt(`היום: ${right} מתוך ${mine.length} נכונות בניסיון הראשון`, `Today: ${right} of ${mine.length} right on the first try`)}</p>` : ''}
-        <p>${tt(`עשיתם את החלק שהתוכנית היומית קבעה לשיעור הזה היום (עד תרגיל ${part.upto}, כ-${part.today} דקות).`, `You've done the part of this lesson your daily plan set for today (up to exercise ${part.upto}, about ${part.today} min).`)}</p>
-        <p class="muted">${tt(`המקום שלכם נשמר: בפעם הבאה ממשיכים מ${from}. אפשר לעצור כאן, או להמשיך עכשיו אם יש זמן.`, `Your place is saved: next time you continue from ${from}. Stop here, or keep going now if you have time.`)}</p></div>
+        <p class="part-place" data-part-place>${tt(`המקום שלכם נשמר: בפעם הבאה ממשיכים מ${from}. אפשר לעצור כאן, או להמשיך עכשיו אם יש זמן.`, `Your place is saved: next time you continue from ${from}. Stop here, or keep going now if you have time.`)}</p>
+        <p class="small muted">${tt(`עשיתם את החלק שהתוכנית היומית קבעה לשיעור הזה היום (עד תרגיל ${part.upto}, כ-${part.today} דקות).`, `You've done the part of this lesson your daily plan set for today (up to exercise ${part.upto}, about ${part.today} min).`)}</p></div>
       ${lesson.vocab?.length ? html`<div class="panel flat stack-sm"><h2 class="small">${tt('המילים של השיעור', 'This lesson\'s words')}</h2><p class="part-words" lang="en" dir="ltr">${lesson.vocab.map((v) => html`<span class="tag">${v.word}</span> `)}</p></div>` : ''}
+      ${mine.length ? html`<p class="part-score" data-part-score>${tt(`היום: ${right} מתוך ${mine.length} נכונות בניסיון הראשון`, `Today: ${right} of ${mine.length} right on the first try`)}</p>` : ''}
     </div>`, html`<div class="inner"><button type="button" class="key ghost" data-part-go>${tt(`להמשיך ולסיים · כ-${rest} דק׳`, `Keep going to the end · about ${rest} min`)}</button><span class="grow"></span><a class="key enter" href="#/today" data-part-stop>${tt('לעצור כאן', 'Stop here')} <span class="kbd">Enter</span></a></div>`);
+    const count = $('.player-top .step-count', el);
+    if (count) count.textContent = tt(`${doneN} מתוך ${totalN} הושלמו`, `${doneN} of ${totalN} done`);
   }
 
   // The explanation in short steps, with dots, Back and Next (LF-2). The step is kept, so leaving and coming

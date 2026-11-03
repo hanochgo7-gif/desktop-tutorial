@@ -1721,6 +1721,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
+/* The part end (LF-7): the saved place leads; today's first-try count is a small closing line, not a grade. */
+.part-end .part-place { font-size: var(--t-md); }
+.part-end .part-score { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); }
 /* Learn steps after the first (LF-6): the lesson's title is one line in the top, cut with an ellipsis. */
 .lesson-player .player-top .top-meta.is-title { flex: 0 1 auto; min-width: 0; }
 .lesson-player .player-top:has(.is-title) .progress { min-width: 4rem; }

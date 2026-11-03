@@ -454,6 +454,43 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-7: the part end, Today and resume name the same place ----------
+  await check('LF-7 a 10-minute learner on b1-01: the part end, Today and the resumed counter name the same exercise; the place comes before the score; "Stop here" stays the main key', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1', { minutes: 10 });
+    const l = lessonJson('b1-01');
+    await page.goto(`${BASE}#/lesson/b1-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-skip-learn]');
+    for (let i = 0; i < 20 && !(await page.$('.part-end')); i++) {
+      await page.waitForSelector('#exroot, .part-end');
+      if (await page.$('.part-end')) break;
+      await step(page, l.exercises, i % 2 === 0);
+    }
+    await page.waitForSelector('.part-end');
+    const end = await page.evaluate(() => {
+      const ps = [...document.querySelectorAll('.part-end p')];
+      const place = ps.find((p) => /המקום שלכם נשמר/.test(p.textContent));
+      const score = document.querySelector('.part-score');
+      return { place: place?.textContent || '', counter: document.querySelector('.step-count')?.textContent.trim(), scoreAfter: place && score ? Boolean(place.compareDocumentPosition(score) & Node.DOCUMENT_POSITION_FOLLOWING) : null, stop: document.querySelector('[data-part-stop]')?.matches('.key.enter') };
+    });
+    const at = end.place.match(/מתרגיל (\d+) מתוך (\d+)/);
+    assert(at, `no place on the part end: ${end.place}`);
+    await shot(page, 'lf7-part-end', { fullPage: true });
+    await page.click('[data-part-stop]');
+    await page.waitForSelector('.plan');
+    const today = (await page.textContent('.plan')).match(/ממשיכים מתרגיל (\d+) מתוך (\d+)/);
+    assert(today && today[1] === at[1], `Today says ${today?.[0]}, the part end ${at[0]}`);
+    await page.goto(`${BASE}#/lesson/b1-01?resume=1&t=${Date.now()}`);
+    await page.waitForSelector('#exroot');
+    const counter = (await page.textContent('.step-count')).trim();
+    assert(counter.startsWith(`${at[1]} מתוך`), `the resumed counter is ${counter}, the part end ${at[0]}`);
+    assert(end.scoreAfter === true, 'the score does not come after the saved place');
+    assert(end.stop, '"Stop here" is not the main key');
+    assert(/הושלמו/.test(end.counter || ''), `the part-end counter does not say what was done: ${end.counter}`);
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
