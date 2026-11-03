@@ -1085,8 +1085,11 @@ try {
     assert((await page.$$('section[aria-labelledby^="hub-"]')).length === 1, 'the topic filter shows other topics');
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/real-life-390.png` });
     await page.goto(`${BASE}#/conversations`);
-    await page.waitForSelector('.hub-filters');
-    assert(await page.$('.page-head a[href="#/real-life"]') && await page.$('.level-guide'), 'Conversations is not grouped with Real life or has no level guidance');
+    // A hash change keeps the document, so the Real life view (with its own .hub-filters) may still be up: wait for
+    // the Conversations page itself and its level guidance before reading them.
+    await page.waitForSelector('.page-head a[href="#/real-life"]');
+    await page.waitForFunction(() => document.querySelector('.level-guide')?.textContent.trim(), null, { timeout: 5000 }).catch(() => {});
+    assert(await page.$('.page-head a[href="#/real-life"]') && (await page.$eval('.level-guide', (g) => g.textContent.trim()).catch(() => '')), 'Conversations is not grouped with Real life or has no level guidance');
     assert((await page.$$eval('section[aria-labelledby^="hub-"]', (x) => x.map((sec) => sec.querySelectorAll('.lesson-row').length))).every((n) => n <= 2), 'Conversations topics are not folded');
     await ctx.close();
   });
