@@ -53,7 +53,11 @@ export function retryNote(r, ex, errorInfo = null) {
   const pick = (n) => retrySafe(n, ex, r.response)?.[lang] || null;
   const text = pick(r.retry_note || r.specific) || pick(ex.hint);
   if (text) return lang === 'he' ? html`<span lang="he" dir="rtl">${isolateLatin(text)}</span>` : html`<span lang="en" dir="ltr">${text}</span>`;
-  if (errorInfo) return html`${tt(errorInfo.name_he, errorInfo.name_en)}${lang === 'he' && errorInfo.why_he ? html`: <span lang="he" dir="rtl">${isolateLatin(errorInfo.why_he)}</span>` : ''}`;
+  // The error type's name; its "why" only when it passes the same gate (it can hold an example with the key's word).
+  if (errorInfo) {
+    const why = lang === 'he' && errorInfo.why_he ? retrySafe({ he: errorInfo.why_he }, ex, r.response)?.he : null;
+    return html`${tt(errorInfo.name_he, errorInfo.name_en)}${why ? html`: <span lang="he" dir="rtl">${isolateLatin(why)}</span>` : ''}`;
+  }
   return tt('בדקו שוב את התשובה.', 'Check your answer again.');
 }
 
