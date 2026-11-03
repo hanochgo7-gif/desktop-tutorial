@@ -28,7 +28,7 @@ test('does not flag correct English', () => {
 });
 
 test('register checks only for formal levels; structure signals are detected', () => {
-  const essay = 'This essay argues that cities should invest in public transport.\n\nFor example, research shows that buses reduce traffic. However, critics argue that it\'s too expensive.\n\nIn conclusion, the benefits are greater.';
+  const essay = 'This essay argues that cities should invest in public transport.\n\nFor example, research shows that buses reduce traffic. However, critics argue that it\'s too expensive. This view overlooks the cost of traffic.\n\nIn conclusion, the benefits are greater.';
   assert.ok(types(essay, { level: 'C1' }).includes('register'), 'contraction flagged at C1');
   assert.ok(!types(essay, { level: 'A2' }).includes('register'), 'not at A2');
   const a = analyzeWriting(essay, { level: 'B2', minWords: 30 });
@@ -402,4 +402,73 @@ test('RW-1: a soft comma-splice note from B2, and the lesson topic orders the su
   assert.equal(topic.issues[0].match, 'goed');
   assert.equal(topic.issues[0].topic, true);
   assert.ok(checkSummary(topic).he.split(':')[1].trim().startsWith('עבר של פועל חריג'), checkSummary(topic).he);
+});
+
+// ---------- r4 RW-3: argument signals and fewer false alarms ----------
+test('RW-3: from stage 8 a bare "research" is a soft note, not evidence; a citation or a figure is evidence', () => {
+  const bare = analyzeWriting('Everyone agrees that teenagers are harmed. The research proves it.', { level: 'C1', stage: 8 });
+  assert.equal(bare.structure.evidence, false);
+  assert.equal(bare.issues.filter((i) => i.he_title === 'מוזכר מחקר, בלי מקור').length, 1);
+  assert.equal(analyzeWriting('The survey shows that people agree.', { level: 'C1', stage: 8 }).structure.evidence, false, 'a bare survey');
+  const cited = analyzeWriting('Merrow (2025) found that 40% of residents agree.', { level: 'C1', stage: 8 });
+  assert.equal(cited.structure.evidence, true);
+  assert.ok(!cited.issues.some((i) => i.type === 'evidence'));
+  assert.equal(analyzeWriting('According to the City Office, rents rose.', { level: 'C1', stage: 8 }).structure.evidence, true, 'an attributed source');
+  assert.equal(analyzeWriting('Rents rose by 12% in a year.', { level: 'C1', stage: 8 }).structure.evidence, true, 'a figure');
+  assert.equal(analyzeWriting('Research shows that phones help.', { level: 'B1' }).structure.evidence, true, 'before stage 8 nothing changes');
+});
+
+test('RW-3: "However" alone is not a rebuttal; a counter-move after it is', () => {
+  assert.equal(analyzeWriting("However, Merrow's strongest point is the loss of green space.", { level: 'C1', stage: 8 }).structure.rebuttal, false);
+  assert.equal(analyzeWriting('However, this view overlooks the housing shortage.', { level: 'C1', stage: 8 }).structure.rebuttal, true);
+  assert.equal(analyzeWriting("However, the park is not lost: only a corner is built on.", { level: 'C1' }).structure.rebuttal, true);
+  assert.equal(analyzeWriting('Nevertheless, the plan protects the lake.', { level: 'C1' }).structure.rebuttal, true);
+});
+
+test('RW-3: time phrases, "nothing" as an object and methods sentences are not sweeping claims', () => {
+  const claims = (t) => analyzeWriting(t, { level: 'C1', stage: 8 }).issues.filter((i) => i.type === 'claim').map((i) => i.match);
+  assert.deepEqual(claims('The number of students rises every year. Every year more students apply. He learns nothing. All participants completed every task. We met all day.'), []);
+  assert.deepEqual(claims('Everyone agrees. Nothing works. All buildings benefit.'), ['Everyone', 'Nothing', 'All']);
+});
+
+test('RW-3: a place name from the source is not flagged as copying', () => {
+  const draft = 'I think the city should build on the northern edge of Orrin Fields.';
+  assert.deepEqual(analyzeWriting(draft, { level: 'C1', stage: 8, sources: wa05 }).issues.filter((i) => i.type === 'source'), []);
+  assert.equal(analyzeWriting('The office estimates that it could provide about 900 homes.', { level: 'C1', sources: wa05 }).issues.filter((i) => i.type === 'source').length, 1, 'a copied sentence still is');
+});
+
+// ---------- r4 RW-4: email and own-words checks ----------
+test('RW-4: until for a deadline anywhere in the clause; a negative in an email gets a soft note; Please advise', () => {
+  const email = 'Hi James,\nI will send you the first part, with the competitors analysis, until Wednesday. I can\'t finish the report until Thursday. Please advise.\n\nBest,\nYael';
+  const a = analyzeWriting(email, { level: 'B1', kind: 'email' });
+  assert.ok(a.issues.some((i) => i.match === 'until Wednesday' && !i.soft), JSON.stringify(a.issues.map((i) => i.match)));
+  const thu = a.issues.filter((i) => i.match === 'until Thursday');
+  assert.equal(thu.length, 1);
+  assert.ok(thu[0].soft && /אם הכוונה למועד אחרון, כותבים by/.test(thu[0].he));
+  assert.ok(a.issues.some((i) => i.match === 'Please advise' && i.soft));
+  assert.ok(!analyzeWriting("I can't finish the report until Thursday.", { level: 'B1' }).issues.length, 'not outside an email');
+  clean('I sent it and waited until Friday. We will stay until the evening. The shop is open until today.');
+  flagged('Please fix the bug until the evening.', 'until the evening');
+});
+
+test('RW-4: a job after modifiers, suggest to, a past time with a present verb, and the app + bare verb', () => {
+  flagged('I am QA engineer.', 'I am QA engineer');
+  flagged("I'm senior software developer.", "I'm senior software developer");
+  assert.equal(issuesOf('I am QA engineer.')[0].ex, 'I am a QA engineer');
+  flagged('I suggest to wait.', 'suggest to wait');
+  assert.match(issuesOf('I suggest to wait.')[0].ex, /^suggest waiting/);
+  flagged('Yesterday I finish the report.', 'I finish');
+  assert.equal(issuesOf('Yesterday I finish the report.')[0].ex, 'I finished');
+  flagged('Last week she go to Eilat.', 'she go');
+  flagged('Yesterday the app crash.', 'the app crash');
+  assert.equal(issuesOf('Yesterday the app crash.').find((i) => /app/.test(i.match)).ex, 'the app crashed');
+  assert.equal(issuesOf('The app crash every day.')[0].ex, 'The app crashes');
+  clean('I am a QA engineer. I am not a student. I am also proud. He is a senior developer. I suggest waiting. I suggested to him that we wait. Yesterday I learned that they live in Haifa. Last week, at work, she started early. Yesterday I finished it. The app crashes a lot. Did the app crash? I saw the app crash. The app crash report is long.');
+});
+
+test('RW-4: the cards name countable nouns without the word "ספיר"', () => {
+  const all = [...issuesOf('I have reservation. I need informations. It is important thing.'), ...issuesOf('I am student.')];
+  assert.ok(all.length >= 3);
+  assert.ok(all.every((i) => !/ספיר/.test(`${i.he} ${i.he_title}`)), JSON.stringify(all.map((i) => i.he)));
+  assert.ok(all.some((i) => /שם עצם שאפשר לספור \(a car, a job\)/.test(i.he)));
 });
