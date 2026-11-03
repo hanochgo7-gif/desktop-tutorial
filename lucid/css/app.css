@@ -1736,6 +1736,8 @@ table.data td:has(> .row-say) { white-space: nowrap; }
   .list-tools .seg.vocab-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .list-tools .seg.vocab-filters > button { white-space: nowrap; }
 }
+/* PG-14: the speaking lab for beginners hides the phonetic symbols until "להצגת IPA" (the tabs keep their words). */
+.sp-ipa-off :is(.tab-ipa, .entry-ipa) { display: none; }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */

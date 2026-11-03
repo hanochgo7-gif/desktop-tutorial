@@ -51,6 +51,22 @@ export const SOUND_SETS = [
   },
 ];
 const ROUND = 8;
+// UX r4 PG-14: at Pre-A1 and A1 the phonetic symbols are behind "להצגת IPA" (kept for the session). Without them a
+// tip names each sound by its example word: "/iː/ (sheep)" and "sheep /iː/" read "sheep", and a sound on its own
+// ("you get /s/") reads its word from the set's tab ("you get “sink”").
+const IPA_KEY = 'lucid-speaking-ipa';
+export function withoutIpa(text, set) {
+  let out = String(text || '');
+  // The set's own sounds first, then any other set's (the /ð/ tip names /θ/, the think sound).
+  for (const x of [set, ...SOUND_SETS.filter((y) => y !== set)]) {
+    const words = x.words.split(' / ');
+    x.label.split(' – ').forEach((sound, i) => {
+      const w = words[i];
+      out = out.split(`${sound} (${w})`).join(w).split(`${w} ${sound}`).join(w).split(sound).join(`“${w}”`);
+    });
+  }
+  return out;
+}
 const tokens = (s) => normalize(s).replace(/[^a-z'\s]/g, ' ').split(/\s+/).filter(Boolean);
 const enq = (w) => html`<span lang="en" dir="ltr">“${w}”</span>`;
 
@@ -122,6 +138,9 @@ export default async function speaking(el, ctx) {
   }
 
   const variant = settings().english_variant;
+  const beginner = levelIndex(model().courseLevel) <= levelIndex('A1');
+  const ipaKept = () => { try { return sessionStorage.getItem(IPA_KEY) === '1'; } catch { return false; } };
+  let showIpa = !beginner || ipaKept();
   let set = SOUND_SETS.find((s) => s.id === ctx.query.sound) || SOUND_SETS[0];
   let hear = newRound(set);
   let speak = { target: set.pairs[0][1].w, status: 'idle' };
@@ -133,10 +152,12 @@ export default async function speaking(el, ctx) {
   const refocus = (sel) => $(sel, el)?.focus();
 
   function drawSet() {
+    const tip = showIpa ? set.tip : { en: withoutIpa(set.tip.en, set), he: withoutIpa(set.tip.he, set) };
     render($('#sp-set', el), html`<div class="stack">
-      <div class="block-tip row" style="align-items:flex-start;flex-wrap:nowrap">${icon('hint', { size: 18 })}<div class="grow">${bi(set.tip, { always: hebrewSupport() !== 'off' })}</div></div>
+      <div class="block-tip row" style="align-items:flex-start;flex-wrap:nowrap">${icon('hint', { size: 18 })}<div class="grow">${bi(tip, { always: hebrewSupport() !== 'off' })}</div></div>
+      ${beginner ? html`<div><button type="button" class="key ghost small" data-ipa aria-pressed="${showIpa ? 'true' : 'false'}">${showIpa ? tt('להסתרת IPA', 'Hide IPA') : tt('להצגת IPA', 'Show IPA')}</button></div>` : ''}
       <div class="table-wrap"><table class="data">
-        <caption class="sr-only">${tt('זוגות מילים', 'Word pairs')} <span lang="en" dir="ltr">${set.label}</span></caption>
+        <caption class="sr-only">${tt('זוגות מילים', 'Word pairs')} <span lang="en" dir="ltr">${showIpa ? set.label : set.words}</span></caption>
         <tbody>${set.pairs.map((p) => html`<tr>${p.map((x) => html`<td><div class="row" style="gap:var(--s2)">
           ${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-word="${x.w}" aria-label="${tt('השמעה', 'Play')}: ${x.w}">${icon('volume', { size: 18 })}</button>` : ''}
           <span lang="en" dir="ltr" style="font-weight:600">${x.w}</span><span class="entry-ipa" lang="en" dir="ltr">${x.ipa}</span><span class="entry-he small" lang="he" dir="rtl">${isolateLatin(x.he)}</span>
@@ -259,7 +280,7 @@ export default async function speaking(el, ctx) {
 
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.speaking')}</h1><p>${tt('צלילים שמשנים משמעות, משפטים מהשיעורים שאומרים בקול אחרי הדובר, ומשוב על איך שנשמעתם. המטרה: שיבינו אתכם.', 'Sounds that change meaning, repeating sentences from your lessons, and feedback on how you were heard. The goal: being understood.')}</p></div></div>
-    <div class="stack-lg">
+    <div class="stack-lg${showIpa ? '' : ' sp-ipa-off'}" id="sp-root">
       <section class="stack" aria-labelledby="sp-pairs">
         <div class="stack-sm"><h2 id="sp-pairs">${tt('צלילים שמשנים משמעות', 'Sounds that change meaning')}</h2>
           <p class="small muted">${tt('זוגות מילים שנשמעים כמעט אותו דבר לאוזן של דוברי עברית, אבל הם מילים שונות לגמרי.', 'Word pairs that sound almost the same to a Hebrew speaker\'s ear, but are completely different words.')}</p></div>
@@ -327,6 +348,13 @@ export default async function speaking(el, ctx) {
   }
 
   const offs = [
+    on(el, 'click', '[data-ipa]', () => {
+      showIpa = !showIpa;
+      try { sessionStorage.setItem(IPA_KEY, showIpa ? '1' : '0'); } catch { /* storage blocked */ }
+      $('#sp-root', el)?.classList.toggle('sp-ipa-off', !showIpa);
+      drawSet(); drawHear();
+      refocus('[data-ipa]');
+    }),
     on(el, 'click', '[data-set]', (e, b) => chooseSet(b.dataset.set)),
     on(el, 'click', '[data-say-word]', (e, b) => say(b.dataset.sayWord, { variant })),
     // The answers open only once the word has really started playing (PH-8), never on the press alone.

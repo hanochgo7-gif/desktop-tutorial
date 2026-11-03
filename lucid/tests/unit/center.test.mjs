@@ -1,8 +1,9 @@
-// The practice hubs' logic (js/ui/center.js, the review hint): lane r4-practice-games (PG-15, PG-8, PG-12).
+// The practice hubs' logic (js/ui/center.js, the review hint): lane r4-practice-games (PG-15, PG-8, PG-12, PG-14).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { wasUnheard, bestScore, nextSuggestion, metLesson } from '../../js/ui/center.js';
 import { hintFor } from '../../js/views/review.js';
+import { withoutIpa, SOUND_SETS } from '../../js/views/speaking.js';
 
 const listen = { type: 'listen' };
 const dictation = { type: 'dictation' };
@@ -47,4 +48,13 @@ test('PG-12: the next listening item comes from a met lesson first, then from th
   assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress, 'a1-03').lesson.id, 'a1-03', 'then the next lesson');
   assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress).lesson.id, 'a1-02', 'without a next lesson, curriculum order');
   assert.ok(metLesson(progress, items[0]) && !metLesson(progress, items[1]));
+});
+
+test('PG-14: without IPA, a speaking tip names each sound by its example word', () => {
+  const set = (id) => SOUND_SETS.find((x) => x.id === id);
+  assert.equal(withoutIpa('For /iː/ (sheep) spread your lips', set('ih-ee')), 'For sheep spread your lips');
+  assert.equal(withoutIpa('צליל ארוך: sheep /iː/.', set('ih-ee')), 'צליל ארוך: sheep.');
+  assert.equal(withoutIpa('you get /s/ or /t/.', set('th-s-t')), 'you get “sink” or “tank”.');
+  assert.equal(withoutIpa('as /θ/, between', set('dh-d')), 'as “think”, between', 'a sound from another set');
+  for (const x of SOUND_SETS) for (const t of [x.tip.en, x.tip.he]) assert.ok(!/\/[^/\s]+\//.test(withoutIpa(t, x)), `${x.id}: IPA left in "${withoutIpa(t, x)}"`);
 });

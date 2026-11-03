@@ -602,6 +602,37 @@ try {
     await shot(page, 'pg13-vocab-390');
     await ctx.close();
   });
+  // ---------- PG-14 ----------
+  await check('PG-14. Speaking lab for a Pre-A1 learner: no visible IPA (/æ ʌ ʃ ɪ θ/) until "להצגת IPA" is pressed, the Hebrew mouth instruction first; a B1 learner sees IPA', async () => {
+    const IPA = /\/[^/\s]*[æʌʃɪθ]/;
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'PreA1');
+    await go(page, 'speaking', '#sp-set table');
+    const visible = () => page.evaluate(() => document.querySelector('#view').innerText);
+    for (const id of ['ih-ee', 'ae-uh-e', 'th-s-t']) {
+      await page.click(`[data-set="${id}"]`);
+      await page.waitForTimeout(150);
+      const text = await visible();
+      assert(!IPA.test(text), `${id}: IPA is visible before the toggle: ${text.match(IPA)?.[0]}`);
+    }
+    const tip = await page.$eval('#sp-set .block-tip', (b) => b.innerText.trim());
+    assert(/^[^A-Za-z]*[א-ת]/.test(tip), `the tip does not open with the Hebrew instruction: ${tip.slice(0, 60)}`);
+    await shot(page, 'pg14-speaking-preA1-390');
+    const toggle = await page.$('[data-ipa]');
+    assert(toggle && /להצגת IPA/.test(await toggle.textContent()), 'no "להצגת IPA" toggle');
+    await toggle.click();
+    await page.waitForTimeout(150);
+    assert(IPA.test(await visible()) && (await page.getAttribute('[data-ipa]', 'aria-pressed')) === 'true', 'the toggle did not show the IPA');
+    await go(page, 'today', '#view > *');
+    await go(page, 'speaking', '#sp-set table');
+    assert(IPA.test(await visible()), 'the IPA choice was not kept for the session');
+    await ctx.close();
+    const b1 = await newPage(browser, { touch: true });
+    await learnerAt(b1.page, 'B1');
+    await go(b1.page, 'speaking', '#sp-set table');
+    assert(IPA.test(await b1.page.evaluate(() => document.querySelector('#view').innerText)) && !(await b1.page.$('[data-ipa]')), 'a B1 learner does not see the IPA');
+    await b1.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
