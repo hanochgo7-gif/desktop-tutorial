@@ -143,7 +143,7 @@ try {
   });
 
   // ---------- SB-3 ----------
-  await check('SB-3. #/lesson/a2-01 second try at 390/150%: "lie → lying" is on one line, and "ל-" holds only "y"', async () => {
+  await check('SB-3. #/lesson/a2-01 after the second-try note, the shown answer at 390/150%: "lie → lying" is on one line, and "ל-" holds only "y"', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2', { text: 150 });
     await lessonAt(page, 'a2-01', 'e6');
@@ -151,6 +151,10 @@ try {
     await gaps[0].fill('swimming'); await gaps[1].fill('writing'); await gaps[2].fill('lieing');
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-try-again]');
+    await page.waitForTimeout(200);
+    // LF-2: the second-try note never gives the answer; the note with "lying" comes with the shown answer.
+    assert(!(await page.textContent('#pfoot')).includes('lying'), 'the second-try note gives away "lying" (LF-2)');
+    await page.click('[data-show-answer]');
     await page.waitForTimeout(200);
     const r = await page.evaluate((js) => {
       const f = eval(js);
@@ -326,6 +330,14 @@ try {
           await page.waitForSelector('[data-idk], .onboard .key.enter[href="#/today"], .onboard a.key.enter');
           if (!(await page.$('[data-idk]'))) return n - 1;
           if (n === playAt) {
+            // EX-4: a listen item says so in place and gets no toast; take the mark off to stand for a play key outside a listen item.
+            if (await page.$('#exroot[data-silent-inline]')) {
+              await page.tap('#exroot [data-say="normal"]');
+              await page.waitForSelector('#exroot .silent-note', { timeout: 2500 });
+              assert(!(await page.$('#toast-root .toast')), 'a toast on a listen item that says so in place');
+              await page.evaluate(() => document.querySelector('#exroot').removeAttribute('data-silent-inline'));
+              await page.waitForTimeout(4100);
+            }
             await page.tap('#exroot [data-say="normal"]');
             await page.waitForSelector('#toast-root .toast', { timeout: 2500 });
           }
@@ -347,7 +359,7 @@ try {
       const { ctx, page } = await newPage(browser);
       await learnerAt(page, 'PreA1', { text });
       await lessonAt(page, 'pa1-02', 'e1');
-      const inline = await page.$('#exroot [data-silent-inline]');
+      const inline = await page.$('#exroot[data-silent-inline], #exroot [data-silent-inline]');
       await page.tap('#exroot [data-say="normal"]');
       if (inline) {
         await page.waitForTimeout(1500);

@@ -288,11 +288,22 @@ try {
       await lessonAt(page, 'pa1-01', 'e2');
       const t0 = Date.now();
       // An item that says so in place (data-silent-inline, EX-4) gets no note (SB-9); this check needs the note.
-      const inline = await page.$('#exroot [data-silent-inline]');
+      const inline = await page.$('#exroot[data-silent-inline], #exroot [data-silent-inline]');
       await page.tap('#exroot [data-say="normal"]');
       if (!inline) {
         await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
         assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      }
+      // EX-4: the listen item says so in place within 2 s; a play key outside a listen item (an option's own tile) gets the note.
+      if (inline) {
+        await page.waitForSelector('#exroot .silent-note', { timeout: 2000 });
+        assert(!(await page.$('#toast-root .toast')), 'a toast on top of the in-place note');
+        await lessonAt(page, 'pa1-01', 'e4');
+        await page.waitForTimeout(4100);
+        const t1 = Date.now();
+        await page.tap('#exroot [data-say-tile]');
+        await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
+        assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t1} ms`);
       }
       await shot(page, 'sc6-silent');
       await ctx.close();
