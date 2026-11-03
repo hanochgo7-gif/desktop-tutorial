@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /text-review/
 
 Sitemap: https://miftah-site.vercel.app/sitemap.xml
