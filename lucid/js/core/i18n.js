@@ -185,8 +185,8 @@ export const NOWRAP_MAX = 30;
 // Round 4 (SB-2): an English sentence that ends the text (or its line) keeps its own full stop. Left outside the
 // isolate, a full stop at the end of a right-to-left line is drawn at the English's left, so a wrapped line read
 // ".I work in a bank". A sentence is two words or more (a slash list such as "am/is/are" counts its words), or one
-// capitalised word ("Maya", "K-O-H-E-N").
-const isSentence = (t) => t.trim().split(/[\s/]+/).filter(Boolean).length >= 2 || /^\p{Lu}.*\p{L}$/u.test(t.trim());
+// capitalised word ("Maya"). A spelled name ("K-O-H-E-N") is not a sentence: the full stop after it is the Hebrew's.
+const isSentence = (t) => t.trim().split(/[\s/]+/).filter(Boolean).length >= 2 || /^\p{Lu}[\p{L}'’]*\p{L}$/u.test(t.trim());
 // A lone token of up to three characters ("I", "go", "/ɪ/") before a question mark is the subject of a Hebrew
 // question ("זה E או I?"): the question mark is the Hebrew sentence's.
 const loneToken = (t) => /^\S{1,3}$/u.test(t) && [...t].length <= 3;

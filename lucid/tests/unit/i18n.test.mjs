@@ -32,7 +32,7 @@ test('the English keeps its own ? ! and ..., the Hebrew keeps its separators and
   assert.equal(iso('או פשוט Bummer!.'), `או פשוט ${B('Bummer!')}.`);
   // A Hebrew prefix hyphen stays with the Hebrew word.
   assert.equal(iso('משתמשים ב-am/is/are ובפועל עם ing.'), `משתמשים ב-${B('am/is/are')} ובפועל עם ${B('ing')}.`);
-  assert.equal(iso('תאייתו: K-O-H-E-N.'), `תאייתו: ${B('K-O-H-E-N.')}`);
+  assert.equal(iso('תאייתו: K-O-H-E-N.'), `תאייתו: ${B('K-O-H-E-N')}.`);
   // Ellipses, abbreviations and numbers attached to a word stay inside.
   assert.equal(iso('אפשר גם Could I have...?, I\'d like..., please.'), `אפשר גם ${B('Could I have...?, I&#39;d like..., please.')}`);
   assert.equal(iso('בשעה 7 a.m. בבוקר'), `בשעה 7 ${B('a.m.')} בבוקר`);
@@ -177,16 +177,16 @@ test('BL-1: a list number stays outside the English (design-visual: Expressions 
 });
 
 test('BL-1: a spelled name stays in one piece (teacher-adult-efl, student-58)', () => {
-  // A spelled name that ends the text is a capitalised word, so it keeps the full stop (SB-2).
-  assert.equal(exact('תאייתו: A-N-N-A.'), `תאייתו: ${N(`A${NBH}N${NBH}N${NBH}A.`)}`);
-  assert.equal(exact('תאייתו: K-O-H-E-N.'), `תאייתו: ${N(`K${NBH}O${NBH}H${NBH}E${NBH}N.`)}`);
+  // A spelled name is not a sentence: the full stop after it stays the Hebrew's (SB-2).
+  assert.equal(exact('תאייתו: A-N-N-A.'), `תאייתו: ${N(`A${NBH}N${NBH}N${NBH}A`)}.`);
+  assert.equal(exact('תאייתו: K-O-H-E-N.'), `תאייתו: ${N(`K${NBH}O${NBH}H${NBH}E${NBH}N`)}.`);
   const anna = exact('כשיש שתי אותיות זהות ברצף אומרים double: Anna = A, double N, A. כדי לשאול, אומרים: How do you spell that?');
   assert.ok(anna.includes(`Anna${NBSP}=${NBSP}A,${NBSP}double${NBSP}N,${NBSP}A`), anna);
   assert.ok(anna.includes(N('How do you spell that?').replace(' class="nw"', '')) || anna.includes(W('How do you spell that?')), anna);
   const why = exact('עוד אותיות שנשמעות כמו מילים: U = you, C = see, R = are. בהודעות כותבים u.');
   assert.ok(why.includes(`U${NBSP}=${NBSP}you, C${NBSP}=${NBSP}see, R${NBSP}=${NBSP}are`), why);
   // Hyphenated words are not spelled names.
-  assert.equal(exact('אומרים e-mail ו-T-shirt.'), `אומרים ${N('e-mail')} ו-${N('T-shirt.')}`);
+  assert.equal(exact('אומרים e-mail ו-T-shirt.'), `אומרים ${N('e-mail')} ו-${N('T-shirt')}.`);
 });
 
 test('BL-1: a short isolate is one unit with what is attached to it; a long one may wrap (30 characters since SB-3)', () => {
@@ -251,7 +251,8 @@ test('SB-2: an English sentence that ends the text keeps its own full stop (stud
   assert.deepEqual(bdis(isolateLatin('… ועובדות: I work in a bank.')), ['I work in a bank.']);
   // ...also before a line break, and with white space after it.
   assert.deepEqual(bdis(isolateLatin('אפשר לומר: Sorry, I\'m in a bit of a hurry.\nואז להמשיך')), ['Sorry, I&#39;m in a bit of a hurry.']);
-  assert.deepEqual(bdis(isolateLatin('תאייתו: M-A-Y-A.  ')), [`M${NBH}A${NBH}Y${NBH}A.`]);
+  assert.deepEqual(bdis(isolateLatin('אומרים: My name is Maya.  ')), ['My name is Maya.']);
+  assert.deepEqual(bdis(isolateLatin('השם שלה Maya.')), ['Maya.']);
   // Not when Hebrew follows, and not for a lone small word: those full stops are the Hebrew sentence's.
   assert.equal(iso('אומרים I work. ואז ממשיכים.'), `אומרים ${B('I work')}. ואז ממשיכים.`);
   assert.equal(iso('משתמשים ב-am/is/are ובפועל עם ing.'), `משתמשים ב-${B('am/is/are')} ובפועל עם ${B('ing')}.`);
