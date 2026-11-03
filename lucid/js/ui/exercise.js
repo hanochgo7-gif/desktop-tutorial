@@ -668,34 +668,51 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           ${canSpeak() ? html`<button type="button" class="key" data-say="normal">${icon('volume', { size: 22 })} ${tt('לשמוע', 'Hear it')}</button>` : ''}
           ${canListen() ? html`<button type="button" class="key ${listening ? 'enter' : ''}" data-rec aria-pressed="${listening}">${icon(listening ? 'stop' : heard != null ? 'refresh' : 'speaking', { size: 22 })} ${recLabel()}</button>` : ''}
         </div>
-        <div aria-live="polite">${heard != null ? recognised(heard, ex.target) : ''}${err ? html`<p class="error-text" role="alert">${err}</p>` : ''}</div>
+        <div aria-live="polite">${heard != null ? recognised(heard, ex.target) : ''}${err ? (err.note
+          ? html`<p class="speak-note small" role="status">${icon('info', { size: 16 })}<span>${err.text}</span></p>`
+          : html`<p class="error-text" role="alert">${err.text}</p>`) : ''}</div>
         ${ex.focus ? speakFocus(ex.focus) : ''}
         ${!canListen() ? html`<p class="banner warn small">${icon('info', { size: 18 })}<span>${tt('זיהוי דיבור לא זמין בדפדפן הזה (עובד ב-Chrome, Edge ו-Safari). הקשיבו, אמרו בקול, וסמנו בעצמכם.', 'Speech recognition is not available in this browser (it works in Chrome, Edge and Safari). Listen, say it aloud, then mark it yourself.')}</span></p>` : ''}
         <div class="stack-sm self-rate" role="group" aria-labelledby="sr-${ex.id}">
           <p class="small muted" id="sr-${ex.id}">${canListen() ? tt('אפשר גם לומר בקול ולסמן בעצמכם:', 'You can also say it aloud and mark it yourself:') : tt('איך זה הלך?', 'How did it go?')}</p>
+          ${heard == null && selfRated == null ? html`<p class="small self-need" data-self-need>${tt('סמנו איך הלך כדי להמשיך.', 'Mark how it went to continue.')}</p>` : ''}
           <div class="row"><button type="button" class="key small" data-self="1" aria-pressed="${selfRated === 1}">${tt('אמרתי את זה בבירור', 'I said it clearly')}</button><button type="button" class="key small" data-self="0" aria-pressed="${selfRated === 0}">${tt('צריך עוד תרגול', 'I need more practice')}</button></div>
+          <p class="small self-said" role="status" data-self-said>${selfSaid(selfRated)}</p>
         </div>
         <p class="xsmall faint">${tt('תרגול דיבור לא מקבל ציון.', 'Speaking practice is not scored.')}</p>`);
       const refocus = () => root.querySelector('[data-rec]')?.focus();
       draw();
       sayHandler(ex.target);
-      offs.push(on(root, 'click', '[data-self]', (e, b) => { selfRated = Number(b.dataset.self); draw(); root.querySelector(`[data-self="${selfRated}"]`)?.focus(); onChange(true); }));
+      // A self-rating is acknowledged in place (r4 EX-9): the keys and the status line change without a redraw,
+      // so the status line (role=status) is announced. The lesson goes straight on after Continue.
+      offs.push(on(root, 'click', '[data-self]', (e, b) => {
+        selfRated = Number(b.dataset.self);
+        $$('[data-self]', root).forEach((x) => x.setAttribute('aria-pressed', String(Number(x.dataset.self) === selfRated)));
+        $('[data-self-need]', root)?.remove();
+        const said = $('[data-self-said]', root);
+        if (said) { said.textContent = selfSaid(selfRated); said.scrollIntoView?.({ block: 'nearest' }); }
+        onChange(true);
+      }));
+      // After a recording result or a microphone message, the rating keys come into view (r4 EX-9: at 150% they
+      // were below the fold, with Continue waiting for them).
+      const showRating = () => root.querySelector('.self-rate')?.scrollIntoView?.({ block: 'nearest' });
       offs.push(on(root, 'click', '[data-rec]', async () => {
         if (listening) { listen.stop?.(); return; }
         stopSpeaking();
         err = '';
-        if (!(await micNotice())) { err = `${speechErrorText({ code: 'declined' })} ${tt('אפשר לומר בקול ולסמן בעצמכם.', 'You can say it aloud and mark it yourself.')}`; draw(); return; }
+        // Keeping the microphone off is a choice, not an error: a neutral note (r4 EX-9).
+        if (!(await micNotice())) { err = { note: true, text: `${speechErrorText({ code: 'declined' })} ${tt('אפשר לומר בקול ולסמן בעצמכם.', 'You can say it aloud and mark it yourself.')}` }; draw(); showRating(); return; }
         listening = true; draw(); refocus();
         try {
           const r = await listen({ variant });
           // The alternative closest to the target, so the learner is not shown the recogniser's worst guess.
           heard = r.alternatives.map((a) => ({ a, acc: wordAccuracy(a, ex.target).accuracy })).sort((x, y) => y.acc - x.acc)[0]?.a ?? r.transcript;
         } catch (e) {
-          err = speechErrorText(e);
+          err = e?.code === 'declined' ? { note: true, text: speechErrorText(e) } : { note: false, text: speechErrorText(e) };
         }
         listening = false;
         if (!root.isConnected) return;
-        draw(); refocus(); onChange(ctl.ready());
+        draw(); refocus(); onChange(ctl.ready()); showRating();
       }));
       ctl.ready = () => heard != null || selfRated != null;
       ctl.check = async () => ({ graded: false, speak: true, correct: selfRated === 1, score: null, error_type: null, self: selfRated, heard, response: heard != null ? heard : selfRated === 1 ? 'self: clear' : 'self: practise' });
@@ -830,6 +847,11 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
 export function gapDiffHtml(typed, expected) {
   return html`<span class="gap-diff" lang="en" dir="ltr"><span class="sr-only" ${uiAttrs()}>${tt('כתבתם', 'You wrote')} </span><span class="gd-typed">${typed}</span> <span aria-hidden="true">→</span><span class="sr-only" ${uiAttrs()}> ${tt('האיות:', 'spelling:')} </span> <span class="gd-fixed">${letterDiff(typed, expected).map((p) => (p.type === 'same' ? p.text : p.type === 'add' ? html`<mark>${p.text}</mark>` : ''))}</span></span>`;
 }
+
+// The line that acknowledges a speaking self-rating (r4 EX-9).
+export const selfSaid = (v) => (v === 0
+  ? tt('נרשם: צריך עוד תרגול. אפשר לחזור למשפט הזה במעבדת הדיבור.', 'Noted: more practice needed. You can come back to this sentence in the Speaking lab.')
+  : v === 1 ? tt('סימנתם: אמרתי בבירור.', 'You marked it: said clearly.') : '');
 
 // Where a dictation slip is, for the second try (r4 EX-8): "האות השלישית במילה הרביעית עוד לא נכונה", never the
 // letter itself. letter/word are 0-based; more counts other wrong letters in a letter code.

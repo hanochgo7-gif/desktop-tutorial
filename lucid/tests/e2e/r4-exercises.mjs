@@ -330,6 +330,32 @@ try {
     assert(/האות השלישית/.test(v.text) && !/\bJ\b/.test(v.text), `pa1-01 e10 note: ${v.text}`);
     await b.ctx.close();
   });
+  // ---------- EX-9 ----------
+  await check('EX-9 a1-01 e14: "צריך עוד תרגול" is acknowledged in a role=status; at 150% "סמנו איך הלך" is there before a rating; "mic stays off" is not error-text', async () => {
+    const { ctx, page } = await newPage(browser);
+    // A recogniser, so "Say it" and the microphone notice are there (it never runs here).
+    await ctx.addInitScript(() => { if (!window.SpeechRecognition && !window.webkitSpeechRecognition) window.webkitSpeechRecognition = class { start() {} stop() {} abort() {} }; });
+    await learnerAt(page, 'A1', { text: 150 });
+    await openExercise(page, 'a1-01', 'e14');
+    const need = await page.$('#exroot [data-self-need]');
+    assert(need && /סמנו איך הלך/.test(await need.textContent()), 'no "סמנו איך הלך" before a rating');
+    await shot(page, 'ex9-before-150');
+    await page.click('#exroot [data-rec]');
+    await page.waitForSelector('dialog [value="no"]');
+    await page.click('dialog [value="no"]');
+    await page.waitForSelector('#exroot .speak-note');
+    const msg = await page.$eval('#exroot .speak-note', (p) => ({ cls: p.className, role: p.getAttribute('role'), text: p.textContent }));
+    assert(!/error-text/.test(msg.cls) && msg.role === 'status' && /המיקרופון נשאר כבוי/.test(msg.text), `mic note: ${JSON.stringify(msg)}`);
+    assert(!(await page.$('#exroot .error-text')), 'the declined message is still error-text');
+    const inView = await page.$eval('#exroot .self-rate [data-self="0"]', (b) => { const r = b.getBoundingClientRect(); return r.top >= 0 && r.bottom <= window.innerHeight; });
+    assert(inView, 'the rating keys are not scrolled into view after the mic message');
+    await page.click('#exroot [data-self="0"]');
+    const said = await page.$eval('#exroot [role="status"][data-self-said]', (p) => p.textContent);
+    assert(/נרשם/.test(said), `the status line: ${said}`);
+    assert(!(await page.$('#exroot [data-self-need]')), 'the "mark it" line stays after a rating');
+    await shot(page, 'ex9-after-150');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

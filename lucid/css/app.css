@@ -1690,6 +1690,14 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .silent-transcript { margin-block-start: var(--s4); color: var(--ink-2); }
 .silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
 .options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+/* EX-9: speaking self-rating says what Continue waits for and acknowledges the choice; "mic off" is neutral. */
+.self-rate .self-need { color: var(--ink); font-weight: 500; }
+.self-rate .self-said { color: var(--ink-2); }
+/* Scrolled into view above the player's fixed footer. */
+.self-rate, .self-rate .self-said { scroll-margin-block-end: 10rem; }
+.self-rate .self-said:empty { display: block; min-height: 0; margin: 0; padding: 0; }
+.speak-note { display: flex; gap: var(--s2); align-items: flex-start; color: var(--ink-2); margin-block-start: var(--s3); }
+.speak-note > svg { flex: none; margin-block-start: 0.2em; }
 /* EX-8: a word accepted with a slip is amber, with the letters that differ marked; a reopened field is plain. */
 .gap-input.almost, .ex-field.almost { border-color: var(--warn); background: var(--warn-tint); }
 .gap-diff { display: inline-flex; gap: 0.3em; align-items: baseline; margin-inline: 0.2rem; padding: 0 0.35rem; border-radius: 0.4rem; background: var(--warn-tint); font-size: var(--t-sm); white-space: nowrap; }
