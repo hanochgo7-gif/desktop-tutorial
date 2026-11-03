@@ -442,6 +442,17 @@ test('r4 LF-5: an item answered when nothing could be heard leaves the score\'s 
   assert.equal(P.lessonScore(new Map(), { exercises: [{ id: 'a', type: 'listen' }] }, new Set(['a'])), 1, 'nothing left to score');
 });
 
+test('r4 LF-11: a level-check miss shows its question, a gap text with the learner\'s own words', async () => {
+  const { questionOf } = await import('../../js/views/checkpoint.js');
+  assert.equal(questionOf({ type: 'mcq', question: 'Does Noa have a car?' }), 'Does Noa have a car?');
+  assert.equal(questionOf({ type: 'mcq', question: 'Have you ever ___ sushi?' }), 'Have you ever ___ sushi?', 'the whole question, not a clip');
+  assert.equal(questionOf({ type: 'gap', text: 'I ___ here ___ 2020.' }, 'live | for'), 'I live here for 2020.');
+  assert.equal(questionOf({ type: 'gap', text: 'I ___ here.' }, '(I don\'t know)'), 'I ___ here.');
+  assert.equal(questionOf({ type: 'correct', sentence: 'She go home.' }), 'She go home.');
+  assert.equal(questionOf({ type: 'transform', source: 'אני גר כאן.' }), 'אני גר כאן.');
+  assert.equal(questionOf({ type: 'dictation' }), null);
+});
+
 test('r4 LF-1: the end screen counts the words that entered review today from this lesson only', async () => {
   const day = '2026-11-03';
   const card = (lesson, at, extra = {}) => ({ kind: 'meaning', ref: { lesson }, created_at: at, ...extra });

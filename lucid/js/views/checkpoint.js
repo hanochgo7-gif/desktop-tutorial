@@ -16,6 +16,19 @@ export function answerDiff(said, right) {
   return wordAccuracy(right, said).words.map((w) => ({ word: w.word, ok: w.ok }));
 }
 
+// The question itself, under its instruction (r4 LF-11): an option item's question, the sentence to fix or to
+// rewrite, or a gap text with the learner's words in its gaps. null when there is none (a dictation).
+export function questionOf(ex, response = '') {
+  if (['mcq', 'listen'].includes(ex.type)) return ex.question || null;
+  if (ex.type === 'gap' && ex.text) {
+    const got = String(response || '').split(' | ');
+    return ex.text.split('___').map((p, i, all) => `${p}${i < all.length - 1 ? (got[i] && got[i] !== '(I don\'t know)' ? got[i] : '___') : ''}`).join('').replace(/\s+/g, ' ').trim();
+  }
+  if (ex.type === 'correct') return ex.sentence || null;
+  if (ex.type === 'transform') return ex.source || null;
+  return null;
+}
+
 export default async function checkpoint(el, ctx) {
   const level = ctx.params.level;
   if (!LEVELS.includes(level)) { ctx.navigate('path'); return; }
@@ -33,7 +46,7 @@ export default async function checkpoint(el, ctx) {
   }
   render(el, html`<div class="onboard stack-lg">
     <div class="stack-sm"><h1>${isolateLatin(tt(`בדיקת רמה ${L}`, `${L} level check`))}</h1>
-      <p class="muted">${tt(`${items.length} שאלות מכל נושאי הרמה, בלי רמזים ובלי הסברים עד הסוף. כך רואים מה באמת בשליטה.`, `${items.length} questions across the level's topics, with no hints and no explanations until the end. This shows what you really know.`)}</p></div>
+      <p class="muted">${tt(`בדיקה קצרה של נושאי הרמה, בלי רמזים: ${items.length} שאלות, וההסברים בסוף.`, `A short check of the level's topics, with no hints: ${items.length} questions, with the explanations at the end.`)}</p></div>
     <ul class="check-rows small">
       <li>${icon('check', { size: 16 })}<span>${tt('75% ומעלה מסמנים את הרמה כ״מוכחת״.', '75% or more marks the level as demonstrated.')}</span></li>
       <li>${icon('check', { size: 16 })}<span>${tt('משימת הכתיבה של הרמה (בשיעור האחרון) היא חלק נפרד מההוכחה:', 'The level\'s writing task (in its last lesson) is a separate part of the evidence:')} <span lang="en" dir="ltr">${lvl.final_assessment.task}</span></span></li>
@@ -46,7 +59,9 @@ export default async function checkpoint(el, ctx) {
   const missedItem = (x) => {
     const m = mistakeNote(x.item.ex, x.r.response);
     const typed = m.pair && !['mcq', 'listen'].includes(x.item.ex.type);
+    const stem = questionOf(x.item.ex, x.r.response);
     return html`<div class="panel flat stack-sm small check-miss">${bi(x.item.ex.prompt)}
+      ${stem ? (/[\u0590-\u05FF]/.test(stem) ? html`<p class="check-q" lang="he" dir="rtl">${stem}</p>` : html`<p class="check-q" lang="en" dir="ltr">${stem}</p>`) : ''}
       ${m.pair ? html`<p class="mine-line">${typed ? tt('כתבתם:', 'You wrote:') : tt('בחרתם:', 'You chose:')} <span class="answer-diff" lang="en" dir="ltr">${typed
         ? answerDiff(m.pair[0], m.pair[1]).map((w, k) => html`${k ? ' ' : ''}<span class="${w.ok ? 'w-ok' : 'w-x'}">${w.word}${w.ok ? '' : html`<span class="sr-only"> (${tt('לא בתשובה', 'not in the answer')})</span>`}</span>`)
         : html`<span class="w-x">${m.pair[0]}</span>`}</span></p>` : ''}

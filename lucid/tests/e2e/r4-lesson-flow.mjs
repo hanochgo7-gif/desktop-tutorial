@@ -633,6 +633,37 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-11: level-check results show the question; the intro claims only what the check shows ----------
+  await check('LF-11 #/checkpoint/B1 with every multiple-choice item wrong: each missed item shows its question; no "מה באמת בשליטה"', async () => {
+    const { ctx, page } = await newPage(browser, { width: 1440, height: 900 });
+    await learnerAt(page, 'B1');
+    const manifest = JSON.parse(readFileSync(join(app, 'content/manifest.json'), 'utf8'));
+    const ids = (manifest.lessons || []).map((x) => (typeof x === 'string' ? x : x.id)).filter((x) => /^b1-/.test(x));
+    const b1 = ids.flatMap((x) => lessonJson(x).exercises);
+    await page.goto(`${BASE}#/checkpoint/B1`);
+    await page.waitForSelector('[data-begin]');
+    assert(!/מה באמת בשליטה/.test(await page.textContent('body')), 'the intro still claims "what you really know"');
+    await page.click('[data-begin]');
+    const questions = [];
+    for (let k = 0; k < 30 && await page.$('#exroot'); k++) {
+      const choice = await page.evaluate(() => Boolean(document.querySelector('#exroot .option')) && !document.querySelector('#exroot .passage'));
+      const ex = await solve(page, b1, !choice);
+      assert(ex, `could not answer item ${k + 1}`);
+      if (choice && ex.question) questions.push(ex.question);
+      if (ex.type !== 'match') await page.click('[data-check]:not([disabled])');
+      await page.waitForTimeout(60);
+    }
+    await page.waitForSelector('.check-result');
+    assert(questions.length > 0, 'no multiple-choice item in the check');
+    const misses = await page.$$eval('.check-miss', (ms) => ms.map((m) => m.textContent.replace(/\s+/g, ' ')));
+    const norm = (s) => s.replace(/\s+/g, ' ').trim();
+    const lost = questions.filter((q) => !misses.some((m) => m.includes(norm(q))));
+    assert(!lost.length, `missed items without their question: ${lost.join(' | ')}`);
+    assert(!/מה באמת בשליטה/.test(await page.textContent('body')), 'the result page claims "what you really know"');
+    await shot(page, 'lf11-check-result', { fullPage: true });
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
