@@ -229,6 +229,26 @@ try {
     await ctx.close();
   });
 
+  await check('GM top bar (LF-7 rule): at 320, 360 and 390 with 150% text, the round counter has its own row, the progress bar keeps a real width and nothing scrolls sideways', async () => {
+    const bad = [];
+    for (const w of [320, 360, 390]) {
+      const { ctx, page } = await newPage(browser, { w, h: 844, touch: true });
+      await learnerAt(page, 'A1', { text: 150 });
+      for (const [route, sel] of [['games/A1/1', '[data-opt]'], ['games/pictures/1', '.pic-tile'], ['games/memory/1', '.mem-card']]) {
+        await go(page, route, sel);
+        const r = await page.evaluate(() => {
+          const top = document.querySelector('.player-top');
+          const bar = top.querySelector('.progress').getBoundingClientRect();
+          const count = top.querySelector('.step-count').getBoundingClientRect();
+          return { over: document.documentElement.scrollWidth - document.documentElement.clientWidth, bar: Math.round(bar.width), share: bar.width / top.clientWidth, ownRow: count.top >= bar.bottom - 1 };
+        });
+        if (r.over > 1 || r.share < 0.3 || !r.ownRow) bad.push(`${route} at ${w}: ${JSON.stringify(r)}`);
+      }
+      await ctx.close();
+    }
+    assert(!bad.length, bad.join(' | '));
+  });
+
   await check('GM-1e. Picture and memory games: calm rounds show no bonus; with the speed challenge on, the bonus line and the challenge mode come back', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'PreA1');

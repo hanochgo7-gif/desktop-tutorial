@@ -64,10 +64,10 @@ export default async function memorygame(el, ctx) {
 
   function top() {
     const pct = Math.round((matches / pairs) * 100);
-    return html`<div class="player-top">
+    return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('זוגות שנמצאו', 'Pairs found')}"><span style="width:${pct}%"></span></div>
-      <span class="step-count">${tt(turns === 1 ? 'תור אחד' : `${turns} תורות`, `${turns} ${turns === 1 ? 'turn' : 'turns'}`)}</span>
+      <span class="top-meta is-count"><span class="step-count">${tt(turns === 1 ? 'תור אחד' : `${turns} תורות`, `${turns} ${turns === 1 ? 'turn' : 'turns'}`)}</span></span>
       <span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score()}</span></div>`;
   }
   const refreshTop = () => { $('.player-top', el).outerHTML = String(top()); };

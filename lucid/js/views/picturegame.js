@@ -96,10 +96,10 @@ export default async function picturegame(el, ctx) {
 
   function top() {
     const pct = Math.round((matches / total()) * 100);
-    return html`<div class="player-top">
+    return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בסיבוב', 'Round progress')}"><span style="width:${pct}%"></span></div>
-      <span class="step-count">${tt(`לוח ${Math.min(b + 1, boards.length)} מתוך ${boards.length}`, `Board ${Math.min(b + 1, boards.length)} of ${boards.length}`)}</span>
+      <span class="top-meta is-count"><span class="step-count">${tt(`לוח ${Math.min(b + 1, boards.length)} מתוך ${boards.length}`, `Board ${Math.min(b + 1, boards.length)} of ${boards.length}`)}</span></span>
       <span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score()}</span></div>`;
   }
 

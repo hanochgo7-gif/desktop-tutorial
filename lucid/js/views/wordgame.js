@@ -198,12 +198,13 @@ async function play(el, ctx, level, stageId) {
   const missed = [];
 
   const scoreBadge = () => html`<span class="game-score num"><span class="sr-only">${tt('ניקוד:', 'Score:')} </span>${score}</span>`;
+  // The counter has its own row on phones and at 130-150% text, like the lesson's (LF-7 .counting).
   function top() {
     const pct = Math.round(((i + (answered ? 1 : 0)) / questions.length) * 100);
-    return html`<div class="player-top">
+    return html`<div class="player-top counting">
       <a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a>
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בסיבוב', 'Round progress')}"><span style="width:${pct}%"></span></div>
-      <span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span>${scoreBadge()}</div>`;
+      <span class="top-meta is-count"><span class="step-count">${tt(`שאלה ${Math.min(i + 1, questions.length)} מתוך ${questions.length}`, `Question ${Math.min(i + 1, questions.length)} of ${questions.length}`)}</span></span>${scoreBadge()}</div>`;
   }
   const head = () => html`<h1 class="sr-only">${tt('משחק מילים', 'Word game')}, ${LEVEL_LABEL[level]}, ${tt(`שלב ${stageId}`, `stage ${stageId}`)}</h1>
     <p class="small faint row between"><span><span class="tag level">${LEVEL_LABEL[level]}</span> ${tt(`שלב ${stageId}`, `Stage ${stageId}`)}: ${stageName(stage)}</span>${pace.challenge && streak >= 3 ? html`<span class="tag ok">${tt(`רצף ${streak}`, `${streak} in a row`)}</span>` : ''}</p>`;
