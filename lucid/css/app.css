@@ -1247,10 +1247,11 @@ details[open] > summary:not(.disclosure)::before, :root[dir='rtl'] details[open]
 .player-foot.shown { background: var(--key-sunk); }
 /* The explanation in steps: dots, "2 of 4" and the reading time, then the step's own heading (LF-2). */
 .learn-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
-.learn-steps { display: inline-flex; gap: 0.35rem; align-items: center; }
-.learn-steps .dot { width: 0.55rem; height: 0.55rem; border-radius: var(--r-pill); background: var(--key-edge); border: 1px solid var(--key-skirt); }
+/* Dots are sized in px, so 150% text does not widen them, and the row wraps: 14 steps fit 320px (plan.keep). */
+.learn-steps { display: inline-flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: 100%; min-width: 0; }
+.learn-steps .dot { width: 9px; height: 9px; border-radius: var(--r-pill); background: var(--key-edge); border: 1px solid var(--key-skirt); }
 .learn-steps .dot.done { background: color-mix(in oklch, var(--cobalt), var(--key) 55%); border-color: transparent; }
-.learn-steps .dot.on { width: 1.4rem; background: var(--cobalt); border-color: var(--cobalt); }
+.learn-steps .dot.on { width: 22px; background: var(--cobalt); border-color: var(--cobalt); }
 .learn-step-label { font-variant-numeric: tabular-nums; flex: 1 1 auto; }
 .learn-h { font-size: var(--t-lg); }
 .learn-h:focus { outline: none; }
