@@ -377,6 +377,60 @@ try {
       await ctx.close();
     }
   });
+  await check('PG-4/PG-5 layout at 150% text: a whole word-quiz round at 320 never scrolls sideways (score pill wraps under the count); the quiz, picture and memory results with the speed challenge fit 390', async () => {
+    // Against the device width itself: on an emulated phone innerWidth grows with an overflowing page.
+    const overflow = (page, w = 320) => page.evaluate((w) => ({ sw: document.documentElement.scrollWidth, w, x: scrollX }), w);
+    // 320x700, 150%, calm: every question of a round, with the score pill showing from the first answer.
+    {
+      const { ctx, page } = await newPage(browser, { w: 320, h: 700, touch: true });
+      await learnerAt(page, 'A2', { text: 150 });
+      await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+      for (let q = 0; q < 10; q++) {
+        await page.waitForSelector('[data-opt]:not([disabled])');
+        await page.waitForTimeout(150);
+        await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
+        await page.waitForSelector('#pfoot [data-next]');
+        const o = await overflow(page);
+        assert(o.sw <= o.w && o.x === 0, `question ${q + 1} at 320/150%: ${JSON.stringify(o)}`);
+        if (q === 0) await shot(page, 'pg4-quiz-320-150-q1');
+        await page.click('#pfoot [data-next]');
+      }
+      await page.waitForSelector('.game-total');
+      const o = await overflow(page);
+      assert(o.sw <= o.w, `the result at 320/150%: ${JSON.stringify(o)}`);
+      await ctx.close();
+    }
+    // 390x844, 150%, speed challenge on: the first-record tag on each game's result wraps inside the column.
+    for (const game of ['quiz', 'pictures', 'memory']) {
+      const { ctx, page } = await newPage(browser, { touch: true });
+      await learnerAt(page, 'A2', { text: 150, settings: { game_speed_challenge: true } });
+      if (game === 'quiz') {
+        await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+        for (let q = 0; q < 10; q++) {
+          await page.waitForSelector('[data-opt]:not([disabled]), .game-total');
+          if (await page.$('.game-total')) break;
+          await page.waitForTimeout(150);
+          await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
+          await page.waitForFunction((q) => document.querySelector('.game-total') || !new RegExp(`שאלה ${q + 1} מתוך`).test(document.querySelector('.step-count')?.textContent || '') || document.querySelector('#pfoot [data-next]'), q);
+          const next = await page.$('#pfoot [data-next]');
+          if (next) await next.click();
+        }
+      } else if (game === 'pictures') {
+        await go(page, 'games/pictures/2', '.pic-tile');
+        for (let b = 0; b < 6 && !(await page.$('.game-total')); b++) { await playBoard(page); await page.click('[data-nextboard]'); await page.waitForTimeout(200); }
+      } else {
+        await go(page, 'games/memory/2', '.mem-card');
+        await playMemory(page);
+      }
+      await page.waitForSelector('.game-total');
+      await page.waitForTimeout(200);
+      const r = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, w: 390, x: scrollX, tags: [...document.querySelectorAll('.game-result .tag')].map((t) => { const b = t.getBoundingClientRect(); const col = t.closest('.game-result').getBoundingClientRect(); return { text: t.textContent.trim(), inside: b.left >= col.left - 1 && b.right <= col.right + 1 }; }) }));
+      assert(r.sw <= r.w && r.x === 0, `${game} result at 390/150% with the challenge: ${JSON.stringify(r)}`);
+      assert(r.tags.every((t) => t.inside), `${game} result tags outside the column: ${JSON.stringify(r.tags)}`);
+      await shot(page, `pg5-${game}-result-150-challenge`);
+      await ctx.close();
+    }
+  });
   // ---------- PG-5 ----------
   await check('PG-5. Word quiz: a wrong pick says "לא בדיוק" on the lessons\' neutral verdict surface (not --bad-tint); #/games has no "איך מנקדים" or singular "הרמה שלך"', async () => {
     for (const dark of [false, true]) {
@@ -610,6 +664,9 @@ try {
     await go(page, 'listening', '.page-head a.key.enter');
     const key = await page.$eval('.page-head a.key.enter', (a) => ({ text: a.textContent.replace(/\s+/g, ' ').trim(), href: a.getAttribute('href') }));
     assert(/מהשיעור הבא שלכם/.test(key.text) && /l=a1-02/.test(key.href), `the next key: ${JSON.stringify(key)}`);
+    // The label (Hebrew with an English isolate) is one flex item, so a wrapped key reads line by line in order.
+    const items = await page.$eval('.page-head a.key.enter', (a) => [...a.childNodes].filter((n) => n.nodeType === 1 || n.textContent.trim()).length);
+    assert(items === 1, `the next key's label is ${items} flex items`);
     await shot(page, 'pg12-listening-next-390');
     await ctx.close();
   });

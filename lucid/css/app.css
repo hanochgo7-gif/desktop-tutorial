@@ -1977,3 +1977,14 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
 .help-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
 /* ---- lane r4-shell-bilingual: end ---- */
+
+/* ---- r4 integrate (round 2): start ---- */
+/* A key label that mixes Hebrew and an English isolate is one flex item, so it wraps as one line of text, in
+   reading order, instead of splitting into two columns (the isolate is an inline-block of its own). */
+.key-text { min-width: 0; text-align: center; }
+/* Game results: the tag "השיא הראשון שלכם בשלב הזה באתגר מהירות" wraps inside the column at 150% text. */
+.game-result .tag { white-space: normal; max-width: 100%; }
+/* The counter row of a player top (step count plus the game's score pill) wraps to two centred lines when both do
+   not fit (320px at 150% text), instead of pushing the page sideways. */
+.player-top .top-meta.is-count { flex-wrap: wrap; justify-content: center; row-gap: var(--s1); min-width: 0; max-width: 100%; }
+/* ---- r4 integrate (round 2): end ---- */
