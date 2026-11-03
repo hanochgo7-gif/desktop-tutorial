@@ -301,7 +301,7 @@ try {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2');
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.startLesson(await (await fetch('content/lessons/a2-05.json')).json()); });
-    await go(page, 'listening', '#view details');
+    await go(page, 'listening', '#view details[data-level]');
     const info = await page.evaluate(() => {
       const ds = [...document.querySelectorAll('#view details[data-level]')];
       return { h: document.documentElement.scrollHeight, order: ds.map((d) => d.dataset.level), open: ds.filter((d) => d.open).map((d) => d.dataset.level), firstTag: ds[0]?.querySelector('summary .tag')?.textContent.trim(), titles: [...ds[0].querySelectorAll('.lesson-row .grow > span:first-child')].map((s) => s.textContent.trim()).slice(0, 4), next: document.querySelector('.page-head a.key.enter')?.getAttribute('href') };
@@ -318,7 +318,7 @@ try {
     await ctx.close();
     const b = await newPage(browser);
     await learnerAt(b.page, 'B1');
-    await go(b.page, 'listening', '#view details');
+    await go(b.page, 'listening', '#view details[data-level]');
     const first = await b.page.$eval('#view details[data-level]', (d) => [d.dataset.level, d.open]);
     assert(first[0] === 'B1' && first[1], `a B1 learner starts at ${first}`);
     await b.ctx.close();
