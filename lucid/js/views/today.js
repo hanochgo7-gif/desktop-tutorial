@@ -350,7 +350,7 @@ export default async function today(el, ctx) {
               : { reading: tt('קריאה ברמה שלכם', 'Reading at your level'), writing: tt('כתיבה קצרה', 'A short text') }[b.kind] || tt('דיבור', 'Speaking');
             return html`<span class="small faint">${tt(`יש עוד ${b.minutes} דקות?`, `Have ${b.minutes} more minutes?`)}</span> ${what}`;
           }
-          if (sc) return html`${tt('מהחיים:', 'Real life:')} ${legend(sc.title_en, sc.title_he)}`;
+          if (sc) return html`${tt('אנגלית לחיים:', 'Real life:')} ${legend(sc.title_en, sc.title_he)}`;
           if (tk) return html`${b.started && !b.done ? tt('כתיבה, להמשיך:', 'Writing, continue:') : tt('כתיבה:', 'Writing:')} ${legend(tk.title_en, tk.title_he)}`;
           if (b.kind === 'reading') return tt('קריאה: טקסט קצר ברמה שלכם', 'Reading: a short text at your level');
           return b.kind === 'speaking' ? tt('דיבור: להשתמש במה שלמדתם', 'Speaking: use what you learned') : tt('כתיבה: טקסט קצר משלכם', 'Writing: a short text of your own');
@@ -416,7 +416,7 @@ export default async function today(el, ctx) {
               ? tt('פעם ראשונה בחזרה המרווחת: כל היזכרות מחזקת את הזיכרון.', 'Their first time in spaced review: every recall makes the memory stronger.')
               : !k ? tt('עבר זמן מאז הפעם הקודמת, והיזכרות עכשיו מאריכה את הזיכרון.', 'Some time has passed since last time, and recalling them now makes the memory last longer.')
                 : tt('מילים חדשות לצד מילים שעבר זמן מאז שראיתם אותן. כל היזכרות מחזקת את הזיכרון.', 'New words next to words you have not seen for a while. Every recall makes the memory stronger.');
-            return b.later ? `${base} ${tt(`עוד ${b.later} יחכו לימים הבאים.`, `${b.later} more will wait for the next days.`)}` : base;
+            return b.later ? `${base} ${b.later === 1 ? tt('מילה אחת נוספת תחכה לימים הבאים.', 'One more will wait for the next days.') : tt(`עוד ${b.later} יחכו לימים הבאים.`, `${b.later} more will wait for the next days.`)}` : base;
           }
         case 'learn': return lessonWhy(b);
         case 'game': return tt('10 שאלות קצרות על המילים של הרמה שלכם.', '10 quick questions on the words of your level.');
@@ -437,14 +437,19 @@ export default async function today(el, ctx) {
         // At Pre-A1 and A1 in the Hebrew UI the key names the lesson in Hebrew, which a beginner can read (TF-10).
         const name = uiLang() === 'he' && levelIndex(m.next.level) <= levelIndex('A1') && m.next.title_he
           ? html`<span lang="he">${isolateLatin(m.next.title_he)}</span>` : html`<bdi lang="en" dir="ltr">${m.next.title_en}</bdi>`;
-        return b.resume
-          ? html`<span>${tt('להמשיך', 'Continue')}: ${name} · <span style="white-space:nowrap">${stepText(b.step, { short: true })}</span></span>`
-          : html`<span>${tt('להתחיל', 'Start')}: ${name}</span>`;
+        if (b.resume) return html`<span>${tt('להמשיך', 'Continue')}: ${name} · <span style="white-space:nowrap">${stepText(b.step, { short: true })}</span></span>`;
+        // Left in the middle of the explanation: the same words as the lesson intro's key (r4 LF-6).
+        if (b.reading) {
+          const n = b.reading.step + 1;
+          const where = b.reading.of ? tt(`שלב ${n} מתוך ${b.reading.of}`, `step ${n} of ${b.reading.of}`) : tt(`שלב ${n}`, `step ${n}`);
+          return html`<span data-continue-reading>${tt('להמשיך לקרוא', 'Continue reading')}: ${name} · <span style="white-space:nowrap">${where}</span></span>`;
+        }
+        return html`<span>${tt('להתחיל', 'Start')}: ${name}</span>`;
       }
       // "Review" alone could read as "go back": the key says what is reviewed (TF-10).
       if (b.id === 'review') return html`<span>${tt(`להתחיל: חזרה על ${b.count} מילים`, `Start: review ${b.count} words`)}</span>`;
       if (b.id === 'use') {
-        const kind = b.scenario ? tt('מהחיים', 'Real life') : { writing: tt('כתיבה', 'Writing'), reading: tt('קריאה', 'Reading') }[b.kind] || tt('דיבור', 'Speaking');
+        const kind = b.scenario ? tt('תרחיש', 'Scenario') : { writing: tt('כתיבה', 'Writing'), reading: tt('קריאה', 'Reading') }[b.kind] || tt('דיבור', 'Speaking');
         return html`${tt('להתחיל', 'Start')}: ${kind}`;
       }
       const i = ['warmup', 'review', 'learn', 'practice', 'use', 'exit'].indexOf(b.id);

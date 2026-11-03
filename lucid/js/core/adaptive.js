@@ -451,7 +451,7 @@ export function dailyPlan({
     const route = lesson?.resumable ? `lesson/${next.id}?resume=1` : missed ? `lesson/${next.id}?stage=missed` : `lesson/${next.id}`;
     const learn = {
       id: 'learn', minutes: slice.today, lesson: next.id, route, why: 'learn', resume: Boolean(lesson?.resumable), missed: missed?.count || 0,
-      step: lesson?.step || null, missedRun: Boolean(lesson?.missedRun), slice, skipped: skipped.map((l) => l.id), done: Boolean(slice.partDone),
+      step: lesson?.step || null, reading: !lesson?.resumable && !missed ? lesson?.reading || null : null, missedRun: Boolean(lesson?.missedRun), slice, skipped: skipped.map((l) => l.id), done: Boolean(slice.partDone),
     };
     if (today.lesson && today.lesson !== next.id && !(lesson?.doneToday > 0)) {
       // A lesson was completed today and the next one was not begun today: today's lesson is done, and the

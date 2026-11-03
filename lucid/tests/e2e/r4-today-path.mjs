@@ -421,6 +421,25 @@ try {
     await shot(c.page, 'tp12-no-test');
     await c.ctx.close();
   });
+  await check('TP-14 (with LF-6) a2-01 left at learn step 3 on a 20-minute day: Today\'s start key says "להמשיך לקרוא · שלב 3 מתוך N", as the lesson intro does', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { minutes: 20 });
+    await page.goto(`${BASE}#/lesson/a2-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn [data-step-label]');
+    for (const n of [2, 3]) { await page.click('[data-learn-next]'); await page.waitForFunction((n) => new RegExp(`^${n} מתוך`).test(document.querySelector('[data-step-label]')?.textContent.trim()), n); }
+    const of = Number((await page.textContent('[data-step-label]')).match(/מתוך (\d+)/)?.[1]);
+    await today(page);
+    const key = (await page.textContent('.start-bar .key.enter')).replace(/\s+/g, ' ').trim();
+    assert(new RegExp(`להמשיך לקרוא.*שלב 3 מתוך ${of}`).test(key) && !/להתחיל/.test(key), `Today's start key: ${key}`);
+    await shot(page, 'tp14-today-continue-reading');
+    await page.click('.start-bar .key.enter');
+    await page.waitForSelector('.lesson-intro');
+    const intro = (await page.textContent('#pfoot .key.enter')).replace(/\s+/g, ' ').trim();
+    assert(new RegExp(`להמשיך לקרוא · שלב 3 מתוך ${of}`).test(intro), `the intro key: ${intro}`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

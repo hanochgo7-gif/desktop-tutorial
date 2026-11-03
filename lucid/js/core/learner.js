@@ -390,6 +390,9 @@ function lessonInfo(next, lesson, attempts, today, held = null) {
     doneToday: firstTries(attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today)).length,
     // Where today's finished part ended, kept when the minutes changed after it (TP-2; see holdTodayPart).
     held: held?.date === today && held.lesson === next.id && !r?.missed ? held.upto : null,
+    // Left in the middle of the explanation (r4 LF-6): the lesson intro offers to go on reading from this step, so
+    // Today names the same state (0-based step, and the number of steps when known).
+    reading: !resumable && !missedIds.length && Number.isInteger(p?.learn_step) && p.learn_step > 0 ? { step: p.learn_step, of: p.learn_of || null } : null,
   };
 }
 
