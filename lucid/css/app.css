@@ -1806,6 +1806,9 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
    row's quiet meta style whichever language leads. */
 .can-do .bi.he-first > .bi-he.primary { color: inherit; font-weight: inherit; font-size: inherit; }
 .lesson-row .can-do { font-size: var(--t-sm); color: var(--ink-2); }
+/* At full support the row's English can-do is the .bi-en under the Hebrew one: a short line under a title, so it
+   shares the title's edge, as on Today (BL-4a). Instructions and explanations keep SB-1's left edge. */
+:root[dir='rtl'] .lesson-row .can-do .bi > .bi-en { text-align: right; }
 /* TP-6: a passed level check on the path card and the path. */
 .check-passed { margin-block-start: var(--s4); }
 .check-passed > p { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }

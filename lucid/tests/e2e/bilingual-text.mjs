@@ -216,16 +216,19 @@ try {
   });
 
   // ---------- BL-4 ----------
-  await check('BL-4a. #/path and #/today at 1440: an English title and the can-do on its row share the right edge (< 8px)', async () => {
-    const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
-    await learnerAt(page, 'A2');
-    await go(page, '#/path');
-    const gaps = await page.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.lesson-list .lesson-row')].map((row) => { const en = row.querySelector('.l-en'), meta = row.querySelector('.meta[dir="ltr"]'); return en && meta ? Math.abs(Math.max(...lines(en).map((x) => x.r)) - Math.max(...lines(meta).map((x) => x.r))) : null; }).filter((x) => x != null); }, LINES);
-    assert(gaps.length >= 5 && gaps.every((g) => g < 8), `path title/can-do gaps: ${gaps.map(Math.round)}`);
-    await go(page, '#/today');
-    const today = await page.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.plan-item')].map((row) => { const en = row.querySelector('.l-en'), can = row.querySelector('[lang="en"][dir="ltr"]:not(.l-en)'); return en && can ? Math.abs(Math.max(...lines(en).map((x) => x.r)) - Math.max(...lines(can).map((x) => x.r))) : null; }).filter((x) => x != null); }, LINES);
-    assert(today.length >= 1 && today.every((g) => g < 8), `today title/can-do gaps: ${today.map(Math.round)}`);
-    await ctx.close();
+  // At A2 the can-do is an English meta line; at A1 (full support, TP-5) it is bi()'s English under the Hebrew.
+  await check('BL-4a. #/path and #/today at 1440, at A2 and A1: an English title and the can-do on its row share the right edge (< 8px)', async () => {
+    for (const level of ['A2', 'A1']) {
+      const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
+      await learnerAt(page, level);
+      await go(page, '#/path');
+      const gaps = await page.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.lesson-list .lesson-row')].map((row) => { const en = row.querySelector('.l-en'), meta = row.querySelector('.can-do .bi-en, .meta[dir="ltr"]'); return en && meta ? Math.abs(Math.max(...lines(en).map((x) => x.r)) - Math.max(...lines(meta).map((x) => x.r))) : null; }).filter((x) => x != null); }, LINES);
+      assert(gaps.length >= 5 && gaps.every((g) => g < 8), `${level} path title/can-do gaps: ${gaps.map(Math.round)}`);
+      await go(page, '#/today');
+      const today = await page.evaluate((js) => { const lines = eval(js); return [...document.querySelectorAll('.plan-item')].map((row) => { const en = row.querySelector('.l-en'), can = row.querySelector('.can-do .bi-en') || row.querySelector('[lang="en"][dir="ltr"]:not(.l-en, bdi)'); return en && can ? Math.abs(Math.max(...lines(en).map((x) => x.r)) - Math.max(...lines(can).map((x) => x.r))) : null; }).filter((x) => x != null); }, LINES);
+      assert(today.length >= 1 && today.every((g) => g < 8), `${level} today title/can-do gaps: ${today.map(Math.round)}`);
+      await ctx.close();
+    }
   });
 
   await check('BL-4b. #/lesson/b2-01 examples are left-aligned whatever their length (390 and 1440)', async () => {
