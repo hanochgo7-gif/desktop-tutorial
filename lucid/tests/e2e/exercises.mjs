@@ -290,9 +290,13 @@ try {
         };
         ctl.destroy();
       }
+      // A word-bank gap gets no second try: picking again among the chips left would be guessing (typed answers only).
+      { const { ctl } = mount(by(a1, 'e6')); res['bank-no-retry'] = { retryable: ctl.retryable === true }; ctl.destroy(); }
       return res;
     });
     const bad = [];
+    if (out['bank-no-retry'].retryable) bad.push('gap-bank: retryable (a second try among the chips left)');
+    delete out['bank-no-retry'];
     for (const [k, v] of Object.entries(out)) {
       if (v.missing) { bad.push(`${k}: no reveal()`); continue; }
       if (k.startsWith('reopen-')) { if (!(v.retryable && v.first === false && v.kept && v.wrongOpen && v.focused && v.noKeyShown && v.checkOn)) bad.push(`${k}: ${JSON.stringify(v)}`); continue; }

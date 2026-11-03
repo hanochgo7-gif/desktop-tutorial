@@ -7,7 +7,8 @@
 //   speak          true for speaking items: the player offers "Can't speak right now" and goes straight on
 //   reveal()       "I don't know": the exercise stays on screen, locked, with the answer marked in place and the
 //                  play buttons kept (mcq, listen, gap, order, transform, correct, dictation, match, categorize, read)
-//   retryable      true for typed answers (gap, transform, correct, dictation): after a wrong check the player may
+//   retryable      true for typed answers (a gap with no word bank, transform, correct, dictation): after a wrong
+//                  check the player may
 //   reopen()       unlock the fields with the learner's text kept, wrong fields marked, focus on the first one
 // Focus never falls to the page: every action that redraws or disables the focused control moves focus to the
 // next useful one (the next tile, chip or bin, or Check once the exercise is complete).
@@ -266,8 +267,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         target = null; drawTarget();
       };
       // A second try (P0 EX-4): the gaps that were right stay as they are; the wrong ones open with the
-      // learner's words in them, marked, and the first of them takes the focus.
-      ctl.retryable = true;
+      // learner's words in them, marked, and the first of them takes the focus. Typed gaps only: with a word bank
+      // a second try would be picking by elimination among the chips left (plan.conflicts: typed answers only).
+      ctl.retryable = !bank;
       ctl.reopen = () => {
         delete root.dataset.locked;
         const wrong = inputs.filter((inp) => inp.classList.contains('wrong'));
