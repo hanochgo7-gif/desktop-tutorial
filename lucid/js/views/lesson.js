@@ -18,7 +18,7 @@ import * as learner from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { lessonOrder, introSlots, firstTries, minutesToday, planStatus, isLessonId } from '../core/adaptive.js';
-import { answerPoints, isMissed, fillGaps, mistakeNote } from '../core/pool.js';
+import { answerPoints, isMissed, fillGaps, mistakeNote, retrySafe } from '../core/pool.js';
 
 export { answerPoints };
 
@@ -323,6 +323,18 @@ export function pitfallBox(p) {
 
 // ---------- the learner's own mistakes (LF-8): fillGaps and mistakeNote live in core/pool.js ----------
 export { fillGaps, mistakeNote };
+
+// The note before a second try (r4 LF-2), in the support language only ('he' unless Hebrew support is off): the
+// exercise's own note when it is safe (pool.retrySafe), else the hint when it is safe, else the kind of mistake.
+// Shared with the drill player (LF-10).
+export function secondTryNote(r, ex, errorInfo = null) {
+  const lang = hebrewSupport() === 'off' ? 'en' : 'he';
+  const pick = (n) => retrySafe(n, ex, r.response)?.[lang] || null;
+  const text = pick(r.retry_note || r.specific) || pick(ex.hint);
+  if (text) return lang === 'he' ? html`<span lang="he" dir="rtl">${isolateLatin(text)}</span>` : html`<span lang="en" dir="ltr">${text}</span>`;
+  if (errorInfo) return html`${tt(errorInfo.name_he, errorInfo.name_en)}${lang === 'he' && errorInfo.why_he ? html`: <span lang="he" dir="rtl">${isolateLatin(errorInfo.why_he)}</span>` : ''}`;
+  return tt('בדקו שוב את התשובה.', 'Check your answer again.');
+}
 
 // ---------- the "all Hebrew" switch (LF-10) ----------
 const HE_ALL = 'lucid-he-all';
@@ -799,7 +811,10 @@ export default async function lessonView(el, ctx) {
     saveResume();
     // Speaking goes straight on: what was recognised is already on screen and there is nothing to grade.
     if (ctl.speak) { next(); return; }
-    showResult(r);
+    // After a second try the learner cannot count the answer themselves (r4 LF-2): the note before it pointed the
+    // way, so the model answer is shown as the answer.
+    if (wasSecond && r.model) checked = { ...r, noSelf: true };
+    showResult(checked);
   }
 
   // The result footer: the verdict, with the reading score per question (LF-9), a neutral title after "I don't
@@ -808,8 +823,10 @@ export default async function lessonView(el, ctx) {
     const item = queue[qi];
     const foot = $('#pfoot', el);
     const perQ = !r.correct && ['read', 'categorize'].includes(item.ex.type) && (r.score ?? 0) >= 0.6 - 1e-9;
-    foot.className = `player-foot ${r.graded === false ? 'ok' : r.correct ? (r.almost ? 'almost' : 'ok') : r.dontKnow ? 'shown' : (r.model || perQ) ? 'almost' : 'bad'}`;
+    // A lesson writing draft saved below its target is amber, not done (r4 LF-14, contract (e) with EX-7).
+    foot.className = `player-foot ${r.graded === false ? (r.short ? 'almost' : 'ok') : r.correct ? (r.almost ? 'almost' : 'ok') : r.dontKnow ? 'shown' : (r.model || perQ) ? 'almost' : 'bad'}`;
     render(foot, footer('result'));
+    if (r.noSelf) $('.self-judge', foot)?.remove();
     const title = $('.verdict-title', foot);
     if (title && r.dontKnow) render(title, html`${icon('info', { size: 18 })} ${tt('הנה התשובה', 'Here is the answer')}`);
     if (title && perQ) {
@@ -836,7 +853,9 @@ export default async function lessonView(el, ctx) {
     const item = queue[qi];
     const foot = $('#pfoot', el);
     const e = r.error_type && errors?.get(r.error_type);
-    const note = r.retry_note ? bi(r.retry_note) : r.specific ? bi(r.specific) : item.ex.hint ? bi(item.ex.hint) : e ? tt(e.name_he, e.name_en) : tt('בדקו שוב את התשובה.', 'Check your answer again.');
+    // The note never hands over the answer (r4 LF-2): retrySafe drops a part that quotes it or names a word of it
+    // the learner has not written, and only the support language is shown, not the English that repeats it.
+    const note = secondTryNote(r, item.ex, e);
     // A dictation's marked sentence spells out the key's words, so it stays hidden while the learner tries again;
     // "Show the answer" brings it back, and "Try again" (ctl.reopen) removes it.
     el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = true; });
@@ -867,7 +886,7 @@ export default async function lessonView(el, ctx) {
   // "My answer is also correct" on an open rewrite (B1+): counts as right, logged as self-judged, no retry.
   function selfJudge() {
     const item = queue[qi];
-    if (!checked?.model || checked.correct) return;
+    if (!checked?.model || checked.correct || checked.noSelf) return;
     checked = { ...checked, correct: true, self_judged: true };
     if (!item.retry && firstTry.has(item.ex.id)) { firstTry.set(item.ex.id, answerPoints({ correct: true }, hintUsed, item.ex.type)); judged.add(item.ex.id); }
     if (lastAttempt) store.put('attempts', { ...lastAttempt, correct: true, score: 1, error_type: null, self_judged: true });

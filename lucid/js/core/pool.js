@@ -3,7 +3,7 @@
 import { content } from './content.js';
 import { shuffle, sum } from './util.js';
 import { LEVELS, levelIndex } from './adaptive.js';
-import { findWrongFeedback } from './grading.js';
+import { findWrongFeedback, wordAccuracy } from './grading.js';
 
 export const AUTO_TYPES = new Set(['mcq', 'gap', 'order', 'match', 'categorize', 'transform', 'correct', 'listen', 'dictation']);
 
@@ -157,4 +157,54 @@ export function mistakeNote(ex, response) {
     if (!idk) pair = [said, ex.tokens.join(' ')];
   }
   return { pair, note: note || ex.explanation || null, own: Boolean(note || ex.explanation) };
+}
+
+// ---------- the second-try note (r4 LF-2) ----------
+// A note shown before a second try must not hand over the answer. Each language part of the note ({ he, en } or
+// an English string) is dropped when it quotes an accepted answer, or names a word of the answer that the
+// learner's response does not have yet ("leave → left" after "leaved"). Returns the parts that are safe, or null.
+// Words are compared in lower case, Latin words only; a Hebrew word breaks a phrase.
+const latinWords = (s) => String(s || '').toLowerCase().replace(/[‘’ʼ`´]/g, "'").split(/[^a-z0-9'֐-׿]+/)
+  .filter(Boolean).map((w) => (/[֐-׿]/.test(w) ? '¦' : w.replace(/^'+|'+$/g, ''))).filter(Boolean);
+const phrase = (words) => ` ${words.join(' ')} `;
+const alternatives = (a) => (Array.isArray(a) ? a : [a]).map(String);
+// The accepted answers (as word lists) and the answer's words that the response lacks: for a gap, the forms and words of
+// every accepted form of each gap filled wrong; otherwise the words of the closest accepted answer
+// (grading.wordAccuracy) that the response does not have.
+export function answerGaps(ex, response) {
+  const said = String(response ?? '');
+  if (ex?.type === 'gap' && Array.isArray(ex.answers)) {
+    const got = said.split(' | ');
+    const keys = [];
+    const lacking = new Set();
+    ex.answers.forEach((alts, i) => {
+      const options = alternatives(alts).map(latinWords).filter((w) => w.length);
+      const mine = phrase(latinWords(got[i]));
+      // A gap already filled right gives nothing away when a note names it.
+      if (options.some((w) => mine === phrase(w))) return;
+      keys.push(...options);
+      for (const w of options.flat()) if (!mine.includes(` ${w} `)) lacking.add(w);
+    });
+    return { keys, lacking: [...lacking] };
+  }
+  const answers = Array.isArray(ex?.answers) ? ex.answers.map((a) => String(Array.isArray(a) ? a[0] : a)) : [];
+  if (!answers.length) return { keys: [], lacking: [] };
+  const fits = answers.map((a) => ({ a, acc: wordAccuracy(said, a) })).sort((x, y) => y.acc.accuracy - x.acc.accuracy);
+  const lacking = new Set(fits[0].acc.words.filter((w) => !w.ok).flatMap((w) => latinWords(w.word)));
+  return { keys: answers.map(latinWords).filter((w) => w.length), lacking: [...lacking] };
+}
+export function retrySafe(note, ex, response) {
+  if (!note) return null;
+  const parts = typeof note === 'string' ? { en: note } : note;
+  const { keys, lacking } = answerGaps(ex, response);
+  const safe = (text) => {
+    const words = latinWords(text);
+    if (!words.length) return true;
+    const p = phrase(words);
+    if (keys.some((k) => p.includes(phrase(k)))) return false;
+    return !lacking.some((w) => words.includes(w));
+  };
+  const out = {};
+  for (const lang of ['he', 'en']) if (parts[lang] && safe(parts[lang])) out[lang] = parts[lang];
+  return Object.keys(out).length ? out : null;
 }

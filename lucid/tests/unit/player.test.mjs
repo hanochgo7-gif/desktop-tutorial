@@ -364,3 +364,50 @@ test('LF-11: leaving goes back to where the learner came from, Today otherwise',
   assert.equal(exitTarget('#/start'), '#/today', 'never back into onboarding');
   assert.equal(exitTarget('', '#/path/B2'), '#/path/B2');
 });
+
+// ---------- UX round 4 (docs/qa/panels-r3-retest/plan-r4.json, lane lesson-flow) ----------
+test('r4 LF-2: retrySafe drops a note part that quotes the answer or names a word the learner has not written', async () => {
+  const Pool = await import('../../js/core/pool.js');
+  const a1 = await lessonFile('a1-01');
+  const e10 = a1.exercises.find((e) => e.id === 'e10');
+  const said = 'We are eating lunch at one every day.';
+  assert.equal(Pool.retrySafe(e10.wrong_feedback[0].feedback, e10, said), null, 'both parts give "we eat" away');
+  assert.deepEqual(Pool.retrySafe(e10.hint, e10, said), e10.hint, 'the hint "One word is extra" is safe');
+  const a2 = await lessonFile('a2-05');
+  const e8 = a2.exercises.find((e) => e.id === 'e8');
+  assert.equal(Pool.retrySafe(e8.wrong_feedback[0].feedback, e8, 'leaved | came | slept'), null, '"leave → left" names the missing word');
+  assert.ok(Pool.retrySafe(e8.hint, e8, 'leaved | came | slept'), 'the hint names no missing word');
+  // A word the learner already wrote may be named; a part with no English at all is always safe.
+  assert.deepEqual(Pool.retrySafe({ he: 'שימו לב לסוף של came.' }, e8, 'leaved | came | slept'), { he: 'שימו לב לסוף של came.' });
+  assert.deepEqual(Pool.retrySafe({ he: 'אות אחת עוד לא נכונה.', en: 'One letter is not right: left.' }, e8, 'leaved | came | slept'), { he: 'אות אחת עוד לא נכונה.' }, 'each language part is judged on its own');
+  const b1 = await lessonFile('b1-02');
+  const e11 = b1.exercises.find((e) => e.id === 'e11');
+  assert.equal(Pool.retrySafe('The verb form the task asks for is missing: have lived.', e11, 'I did lived in Tel Aviv since 2020.'), null, 'a plain string is an English note');
+  assert.equal(Pool.retrySafe(null, e11, 'x'), null);
+  const gap = a1.exercises.find((e) => e.id === 'e7');
+  assert.deepEqual(Pool.answerGaps(gap, 'all | on').lacking.sort(), ['each', 'every'], 'every accepted form of a wrong gap, none of a right one');
+});
+
+test('r4 LF-2: the second-try note is in the support language only, and falls back to the hint and then the kind of mistake', async () => {
+  const a1 = await lessonFile('a1-01');
+  const e10 = a1.exercises.find((e) => e.id === 'e10');
+  I18N.setUiLang('he');
+  I18N.setHebrewSupport('full');
+  try {
+    const r = { response: 'We are eating lunch at one every day.', specific: e10.wrong_feedback[0].feedback };
+    const n = String(P.secondTryNote(r, e10));
+    assert.match(n, /יש מילה אחת מיותרת/);
+    assert.doesNotMatch(n, /One word is extra|lang="en"/);
+    const noHint = { ...e10, hint: null };
+    assert.match(String(P.secondTryNote(r, noHint, { name_he: 'צורת הפועל', name_en: 'Verb form' })), /צורת הפועל/);
+    I18N.setHebrewSupport('off');
+    assert.match(String(P.secondTryNote(r, e10)), /One word is extra/);
+  } finally { I18N.setUiLang('en'); I18N.setHebrewSupport('partial'); }
+});
+
+test('r4 LF-1: the end screen counts the words that entered review today from this lesson only', async () => {
+  const day = '2026-11-03';
+  const card = (lesson, at, extra = {}) => ({ kind: 'meaning', ref: { lesson }, created_at: at, ...extra });
+  const cards = [card('a1-01', `${day}T09:00:00`), card('a1-01', `${day}T09:00:01`), card('a1-01', '2026-11-04T09:00:00'), card('a1-02', `${day}T09:00:00`), card('a1-01', `${day}T10:00:00`, { _deleted: true }), card('a1-01', `${day}T10:00:00`, { kind: 'form' })];
+  assert.equal(P.wordsAddedToday(cards, 'a1-01', day), 2, 'queued for tomorrow, other lessons, deleted and form cards are left out');
+});

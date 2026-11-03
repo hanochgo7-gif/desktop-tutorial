@@ -208,6 +208,67 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-2: the second try never shows the answer ----------
+  await check('LF-2 a1-01 e10 "We are eating…": the fix-it-yourself note does not contain "We eat lunch" and has no English line', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await lessonAt(page, 'a1-01', 'e10');
+    await typeAndCheck(page, ['We are eating lunch at one every day.']);
+    assert(await page.$('[data-try-again]'), 'no second try');
+    const r = await page.$eval('#pfoot', (f) => ({ text: f.textContent, en: [...f.querySelectorAll('.verdict-body [lang="en"]')].map((x) => x.textContent) }));
+    assert(/עוד לא. אפשר לתקן בעצמכם/.test(r.text), 'not the second-try footer');
+    assert(!/We eat lunch/i.test(r.text) && !/we eat/i.test(r.text), `the note gives the answer: ${r.text}`);
+    assert(!r.en.length, `English from the note at full support: ${r.en}`);
+    await shot(page, 'lf2-a1-01-second-try');
+    await ctx.close();
+  });
+  await check('LF-2 a2-05 e8 "leaved": the note does not contain "left"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await lessonAt(page, 'a2-05', 'e8');
+    await typeAndCheck(page, ['leaved', 'came', 'slept']);
+    assert(await page.$('[data-try-again]'), 'no second try');
+    const t = await page.textContent('#pfoot .verdict');
+    assert(!/\bleft\b/.test(t), `the note gives the answer: ${t}`);
+    await ctx.close();
+  });
+  await check('LF-2 b1-02 e11: after "I did lived…" and a second try "I did live…", no self-credit is offered and the answer is shown', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await lessonAt(page, 'b1-02', 'e11');
+    await typeAndCheck(page, ['I did lived in Tel Aviv since 2020.']);
+    assert(await page.$('[data-try-again]'), 'no second try after "I did lived"');
+    await page.click('[data-try-again]');
+    await typeAndCheck(page, ['I did live in Tel Aviv since 2020.']);
+    assert(!(await page.$('[data-self-judge]')), 'self-credit is offered after a second try');
+    const t = await page.textContent('#pfoot .verdict');
+    assert(/I have lived in Tel Aviv since 2020/.test(t), `the answer is not shown: ${t}`);
+    await shot(page, 'lf2-b1-02-after-second');
+    await ctx.close();
+  });
+
+  // ---------- LF-14: a short writing draft is amber ----------
+  await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
+    const { ctx, page } = await newPage(browser);
+    // Until the exercises lane (EX-7) adds short:true to a short save, the write result is given it here.
+    await ctx.route('**/js/ui/exercise.js', async (route) => {
+      const res = await route.fetch();
+      let src = await res.text();
+      if (!/short\s*:/.test(src)) src = src.replace('response: text, writing: true }', 'response: text, writing: true, short: countWords(text) < (ex.min_words || 0) }');
+      await route.fulfill({ response: res, body: src });
+    });
+    await learnerAt(page, 'B1');
+    await lessonAt(page, 'b1-01', 'e16');
+    const words = Array.from({ length: 40 }, (_, i) => (i % 8 === 7 ? 'travelled.' : ['I', 'have', 'never', 'been', 'to', 'Eilat', 'but'][i % 8] || 'and')).join(' ');
+    await page.fill('#exroot textarea', words);
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-next]');
+    const cls = await page.getAttribute('#pfoot', 'class');
+    assert(/\balmost\b/.test(cls) && !/\bok\b/.test(cls), `footer class: ${cls}`);
+    await shot(page, 'lf14-short-draft');
+    await ctx.close();
+  });
+
   // ---------- LF-9: after a weak lesson ----------
   await check('LF-9 a2-01 under 50%: at most two footer keys, a "להיום" text link, and coming back leads with re-reading', async () => {
     const { ctx, page } = await newPage(browser);
