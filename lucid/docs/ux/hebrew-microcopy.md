@@ -49,6 +49,12 @@ Never claim certification: a level is "הערכה של Lucid לפי מתארי C
   English, and keeps short pieces (20 characters or fewer) on one line with the punctuation attached to them.
 - Content files need no invisible control characters. A right-to-left mark (U+200F) between two English pieces
   that belong to different parts of the Hebrew sentence keeps them apart.
+- Alignment follows the role of the English, never its line count (round 4, SB-1). Titles, labels, chips, option
+  labels and plan titles are one-line labels: they share the Hebrew (right) edge. Every English meta-text block
+  from `bi()` (instructions, can-dos, hints, explanations, task briefs) and every English content block (examples,
+  passages, phrase cards) is a left-to-right block, left-aligned at every level, so a one-line and a three-line
+  instruction start at the same x. The one exception is the verdict footer, whose answer blocks sit at the Hebrew
+  edge beside its keys.
 - Check every new mixed line at 390px wide, in light and dark, and at 150% text.
 
 ## Hebrew support by level

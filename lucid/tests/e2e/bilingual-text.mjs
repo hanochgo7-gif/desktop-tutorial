@@ -253,7 +253,9 @@ try {
   });
 
   // The shared-edge rule at A2 and above, where the English leads (BL-4 with BL-3), and in the SC-7 verdict footer.
-  await check('BL-4d. At 1440 (A2): a one-line exercise instruction and its Hebrew share the right edge; in the verdict, a one-line answer and the fix list sit under their Hebrew label, not beside the keys', async () => {
+  // SB-1 (round 4) changed the instruction half of this check to the role rule: bi() meta-text is a left-to-right
+  // block at every length, so a one-line instruction starts at the column's left edge like a two-line one.
+  await check('BL-4d. At 1440 (A2): a one-line exercise instruction is a left-aligned block (role rule, SB-1); in the verdict, a one-line answer and the fix list sit under their Hebrew label, not beside the keys', async () => {
     const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
     await learnerAt(page, 'A2');
     const openAt = async (id, eid) => {
@@ -266,8 +268,9 @@ try {
     };
     const right = (sel) => page.$eval(sel, (e) => { const g = document.createRange(); g.selectNodeContents(e); const r = [...g.getClientRects()].filter((x) => x.width); return { r: Math.round(Math.max(...r.map((x) => x.right))), l: Math.round(Math.min(...r.map((x) => x.left))), lines: new Set(r.map((x) => Math.round(x.bottom))).size }; });
     await openAt('a2-05', 'e1');
-    const en = await right('#exroot .ex-prompt .bi-en'), he = await right('#exroot .ex-prompt .bi-he');
-    assert(en.lines === 1 && Math.abs(en.r - he.r) < 8, `the instruction and its Hebrew do not share the right edge: en ${JSON.stringify(en)}, he ${JSON.stringify(he)}`);
+    const en = await right('#exroot .ex-prompt .bi-en');
+    const col = await page.$eval('#exroot .ex-prompt .bi-en', (e) => ({ l: Math.round(e.getBoundingClientRect().left), align: getComputedStyle(e).textAlign }));
+    assert(en.lines === 1 && Math.abs(en.l - col.l) < 4 && col.align === 'left', `the one-line instruction is not a left-aligned block: en ${JSON.stringify(en)}, block ${JSON.stringify(col)}`);
     await openAt('a2-05', 'e10');
     await page.fill('#exroot textarea', 'Yesterday Omer gets up at seven and has breakfast with his dad.');
     await page.click('[data-check]:not([disabled])');

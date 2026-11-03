@@ -169,10 +169,11 @@ input, textarea { caret-color: var(--cobalt); }
 :root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
 :root[data-support='off'] .legend .l-he { display: none; }
 .bi { display: inline; }
-/* English meta-text from bi() (instructions, explanations, goals, task briefs) is its own left-to-right block.
-   It is as wide as its text (up to the column), so in a Hebrew column a one-line instruction shares the Hebrew
-   line's right edge at every support level, and a longer one fills the column and reads from the left (BL-4). */
-.bi > .bi-en { display: block; text-align: start; width: fit-content; max-width: 100%; }
+/* English meta-text from bi() (instructions, can-dos, hints, explanations, task briefs) is its own left-to-right
+   block at every level: it fills the column and every line starts at the left edge, whatever its length (SB-1:
+   alignment follows the role, not the line count). Only one-line labels share the Hebrew edge: legend titles
+   (.l-en), chips, option labels and plan titles, and the verdict footer's answer blocks (beside its keys). */
+.bi > .bi-en { display: block; text-align: left; width: auto; max-width: 100%; }
 .bi-he { display: block; color: var(--ink-he); font-size: 0.94em; }
 .bi-he-after { margin-block-start: 0.15em; font-size: 0.88em; }
 /* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
@@ -1440,9 +1441,6 @@ table.data td:has(> .row-say) { white-space: nowrap; }
    The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
 .bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
 .bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
-/* The English line right under the Hebrew is a short meta line: it shares the Hebrew edge (BL-4). Opened from "EN",
-   an explanation paragraph stays a left-to-right block. */
-:root[dir='rtl'] .bi.he-first > .bi-he.primary + .bi-en { text-align: right; }
 .ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
 .ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
 :where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
