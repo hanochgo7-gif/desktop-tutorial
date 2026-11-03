@@ -29,7 +29,7 @@ async function check(name, fn) {
   try {
     await fn();
     results.push({ name, ok: true }); console.log(`PASS  ${name}`);
-  } catch (e) { results.push({ name, ok: false }); console.log(`FAIL  ${name}\n      ${String(e.message).split('\n')[0]}`); }
+  } catch (e) { results.push({ name, ok: false }); console.log(`FAIL  ${name}\n      ${String(e.message).split('\n')[0]}`); if (process.env.R4_DEBUG) console.log(e.stack); }
 }
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
 const lessonJson = (id) => JSON.parse(readFileSync(join(app, `content/lessons/${id}.json`), 'utf8'));
@@ -130,7 +130,7 @@ async function solve(page, exercises, ok = true) {
       case 'categorize': for (let i = 0; i < 40; i++) { const it = r.querySelector('[data-item]'); if (!it) break; const item = ex.items[Number(it.dataset.item)]; it.click(); [...r.querySelectorAll('[data-bin]')].find((b) => (b.dataset.bin === item.category) === ok).click(); } break;
       case 'read': ex.questions.forEach((q, qi) => { if (q.type === 'tf') r.querySelector(`[data-tf="${qi}"][data-v="${ok ? q.answer : !q.answer}"]`).click(); else if (q.type === 'mcq') r.querySelector(`[data-mq="${qi}"][data-o="${ok ? q.answer : (q.answer + 1) % q.options.length}"]`).click(); else r.querySelectorAll(`[data-rg="${qi}"]`).forEach((g, i) => { g.value = ok ? first(q.answers[i]) : 'zzz'; fire(g); }); }); break;
       case 'speak': r.querySelector('[data-self="1"]').click(); break;
-      case 'write': { const ta = r.querySelector('textarea'); ta.value = 'I am a student and I work in a bank. My friends live in Haifa and we study English together every week.'; fire(ta); break; }
+      case 'write': { const ta = r.querySelector('textarea'); const s = 'I am a student and I work in a bank. My friends live in Haifa and we study English together every week. '; ta.value = s.repeat(Math.max(1, Math.ceil((ex.min_words || 0) / 22))).trim(); fire(ta); break; }
       default: return null;
     }
     return ex;
@@ -304,6 +304,62 @@ try {
     await page.evaluate(() => { document.documentElement.dataset.text = '150'; });
     const big = await page.$eval('[data-exit]', (b) => ({ text: b.innerText.trim(), w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height }));
     assert(!big.text && big.h >= 44 && big.w >= 44, `at 150%: ${JSON.stringify(big)}`);
+    await ctx.close();
+  });
+
+  // ---------- LF-4: "Worth watching" explains the right error and shows only what changed ----------
+  // Opens a lesson at one exercise, answers it with `answer` (typed values, or { click: selector }), handles a
+  // second try with `second` (values) or "Show the answer", and runs the rest of the lesson right to its end.
+  async function missThenFinish(page, lessonId, exId, answer, second = null) {
+    const l = lessonJson(lessonId);
+    await lessonAt(page, lessonId, exId);
+    if (answer.click) { await page.click(answer.click); if (process.env.R4_DEBUG) console.log(await page.evaluate(() => document.querySelector('#pfoot')?.outerHTML.slice(0, 600))); await page.click('[data-check]:not([disabled])'); await page.waitForSelector('[data-next], [data-try-again]'); }
+    else await typeAndCheck(page, answer);
+    if (await page.$('[data-try-again]')) {
+      if (second) { await page.click('[data-try-again]'); await typeAndCheck(page, second); }
+      else await page.click('[data-show-answer]');
+    }
+    await page.waitForSelector('[data-next]');
+    await page.click('[data-next]');
+    await finish(page, l.exercises);
+    await page.waitForSelector('[data-mistakes]');
+  }
+  await check('LF-4 b1-01 e11 "Have you ever went to Eilat?": the end-screen note is not the word-order rule', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1', { minutes: 50 });
+    await missThenFinish(page, 'b1-01', 'e11', ['Have you ever went to Eilat?']);
+    const box = await page.textContent('[data-mistakes]');
+    assert(/Eilat/.test(box), `e11 is not in the box: ${box}`);
+    assert(!/have\/has comes before|בא לפני הנושא/.test(box), `the word-order rule is the note: ${box}`);
+    await shot(page, 'lf4-b1-01', { fullPage: true });
+    await ctx.close();
+  });
+  await check('LF-4 a2-05 e8 "leaved": the mistake line shows the change with at most 8 words', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { minutes: 50 });
+    await missThenFinish(page, 'a2-05', 'e8', ['leaved', 'came', 'slept']);
+    const pair = await page.$eval('[data-mistakes] .mistake-pair', (p) => ({ text: p.textContent, words: (p.textContent.match(/[A-Za-z']+/g) || []).length, del: p.querySelector('del')?.textContent, ins: p.querySelector('ins')?.textContent }));
+    assert(pair.words <= 8, `${pair.words} words: ${pair.text}`);
+    assert(/leaved/.test(pair.del) && /left/.test(pair.ins), `the change is not marked: ${JSON.stringify(pair)}`);
+    await shot(page, 'lf4-a2-05', { fullPage: true });
+    await ctx.close();
+  });
+  await check('LF-4 b2-09 e2 answered wrong: "you chose · the answer", with no arrow and no correction styling', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B2', { minutes: 50 });
+    await missThenFinish(page, 'b2-09', 'e2', { click: '#exroot [data-opt="0"]' });
+    const item = await page.$eval('[data-mistakes] .mistake-list > li', (li) => ({ text: li.textContent, right: Boolean(li.querySelector('.m-right')) }));
+    assert(/parking rules/.test(item.text), `not the b2-09 e2 item: ${item.text}`);
+    assert(!item.text.includes('→') && !item.right, `the choice is shown as a correction: ${item.text}`);
+    await ctx.close();
+  });
+  await check('LF-4 a1-01 e9 fixed on the second try: tagged "תיקנתם בעצמכם", not struck through', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1', { minutes: 50 });
+    await missThenFinish(page, 'a1-01', 'e9', ['We lives in Jerusalem and works in Tel Aviv.'], ['We live in Jerusalem and work in Tel Aviv.']);
+    const item = await page.$eval('[data-mistakes] .mistake-list > li', (li) => ({ text: li.textContent, wrong: Boolean(li.querySelector('.m-wrong, .m-del')) }));
+    assert(/תיקנתם בעצמכם/.test(item.text) && !item.wrong, `the fixed item: ${JSON.stringify(item)}`);
+    await shot(page, 'lf4-a1-01-fixed', { fullPage: true });
     await ctx.close();
   });
 

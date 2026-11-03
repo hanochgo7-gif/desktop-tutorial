@@ -405,6 +405,33 @@ test('r4 LF-2: the second-try note is in the support language only, and falls ba
   } finally { I18N.setUiLang('en'); I18N.setHebrewSupport('partial'); }
 });
 
+test('r4 LF-4: mistakeNote explains this mistake, shows only what changed, and keeps the two-argument call', async () => {
+  const b1 = await lessonFile('b1-01');
+  const e11 = b1.exercises.find((e) => e.id === 'e11');
+  const went = P.mistakeNote(e11, 'Have you ever went to Eilat?');
+  assert.equal(went.note, null, 'a word-order rule is not the note for a wrong verb');
+  assert.ok(went.pair && went.diff, 'the two-argument call (checkpoint.js) still gives the pair');
+  const order = P.mistakeNote(e11, 'You have ever been in Eilat?');
+  assert.deepEqual(order.note, e11.explanation, 'a sentence still in the wrong order gets the word-order rule');
+  assert.deepEqual(P.mistakeNote(e11, 'Have you ever went to Eilat?', { error_type: 'word-order' }).note, e11.explanation, 'the attempt\'s own error type decides when it has one');
+  // A gap mistake: only the changed word with up to three words around it.
+  const a2 = await lessonFile('a2-05');
+  const e8 = a2.exercises.find((e) => e.id === 'e8');
+  const g = P.mistakeNote(e8, 'leaved | came | slept');
+  const words = g.diff.filter((p) => p.type !== 'gap').flatMap((p) => p.text.split(' '));
+  assert.ok(words.length <= 8, `diff words: ${JSON.stringify(g.diff)}`);
+  assert.deepEqual(g.diff.filter((p) => p.type !== 'same' && p.type !== 'gap').map((p) => [p.type, p.text]), [['del', 'leaved'], ['add', 'left']]);
+  assert.match(g.note.en, /leave → left/, 'the matched wrong answer\'s feedback comes first');
+  // A choice is a choice, not a correction.
+  const b2 = await lessonFile('b2-09');
+  const mc = P.mistakeNote(b2.exercises.find((e) => e.id === 'e2'), b2.exercises.find((e) => e.id === 'e2').options[0]);
+  assert.ok(mc.choice && !mc.diff && mc.pair.length === 2);
+  assert.deepEqual(P.clipDiff([{ type: 'same', text: 'a b c d e f g' }, { type: 'del', text: 'x' }, { type: 'add', text: 'y' }, { type: 'same', text: 'h i j k l' }]).map((p) => p.text), ['…', 'e f g', 'x', 'y', 'h i j', '…']);
+  assert.deepEqual(P.clipDiff([{ type: 'same', text: 'all the same' }]), []);
+  assert.equal(P.sameOrder('Have you ever went to Eilat?', 'Have you ever been to Eilat?'), true);
+  assert.equal(P.sameOrder('You have ever been to Eilat?', 'Have you ever been to Eilat?'), false);
+});
+
 test('r4 LF-1: the end screen counts the words that entered review today from this lesson only', async () => {
   const day = '2026-11-03';
   const card = (lesson, at, extra = {}) => ({ kind: 'meaning', ref: { lesson }, created_at: at, ...extra });

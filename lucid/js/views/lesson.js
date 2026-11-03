@@ -18,7 +18,7 @@ import * as learner from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { lessonOrder, introSlots, firstTries, minutesToday, planStatus, isLessonId } from '../core/adaptive.js';
-import { answerPoints, isMissed, fillGaps, mistakeNote, retrySafe } from '../core/pool.js';
+import { answerPoints, isMissed, fillGaps, mistakeNote, retrySafe, clipDiff, sameOrder } from '../core/pool.js';
 
 export { answerPoints };
 
@@ -322,7 +322,7 @@ export function pitfallBox(p) {
 }
 
 // ---------- the learner's own mistakes (LF-8): fillGaps and mistakeNote live in core/pool.js ----------
-export { fillGaps, mistakeNote };
+export { fillGaps, mistakeNote, clipDiff, sameOrder };
 
 // The note before a second try (r4 LF-2), in the support language only ('he' unless Hebrew support is off): the
 // exercise's own note when it is safe (pool.retrySafe), else the hint when it is safe, else the kind of mistake.
@@ -954,22 +954,37 @@ export default async function lessonView(el, ctx) {
     return true;
   }
 
-  // The learner's own mistakes in this run, each with what they wrote and the item's own note (LF-8).
+  // The learner's own mistakes in this run (LF-8, r4 LF-4): for a typed answer only the words that changed, with a
+  // little context; for a choice what was chosen and the answer, not a "correction"; a note that explains this
+  // mistake; and "You fixed it yourself" for an item put right on its second try (its score is unchanged).
   function mistakesBox() {
     const seen = new Map();
-    for (const a of model().attempts) {
-      if (a.lesson !== id || a.source !== 'lesson' || a.correct || a.score === null || a.skill === 'speaking' || a.at < runSince) continue;
-      if (!seen.has(a.exercise)) seen.set(a.exercise, a);
-    }
-    const items = lesson.exercises.filter((e) => seen.has(e.id)).map((e) => ({ e, a: seen.get(e.id), m: mistakeNote(e, seen.get(e.id).response) }));
+    const mine = model().attempts.filter((a) => a.lesson === id && a.source === 'lesson' && a.score !== null && a.skill !== 'speaking' && a.at >= runSince)
+      .sort((x, y) => (x.at < y.at ? -1 : x.at > y.at ? 1 : 0));
+    for (const a of mine) if (!a.correct && !seen.has(a.exercise)) seen.set(a.exercise, a);
+    // Fixed on the second try: the very next answer, to the same exercise, was right (not a retry after the answer
+    // was shown).
+    const fixedLater = (a) => { const b = mine[mine.indexOf(a) + 1]; return b && b.exercise === a.exercise && b.correct ? b : null; };
+    const items = lesson.exercises.filter((e) => seen.has(e.id)).map((e) => ({ e, a: seen.get(e.id), m: mistakeNote(e, seen.get(e.id).response, seen.get(e.id)), fixed: fixedLater(seen.get(e.id)) }));
     if (!items.length) return '';
     const shown = items.slice(0, 4);
     const verb = (e) => (['mcq', 'listen'].includes(e.type) ? tt('בחרתם:', 'You chose:') : e.type === 'order' ? tt('סידרתם:', 'You built:') : tt('כתבתם:', 'You wrote:'));
     const general = (a) => { const x = a.error_type && errors.get(a.error_type); return x && hebrewSupport() !== 'off' ? html`<p class="small"><span class="tag warn">${tt(x.name_he, x.name_en)}</span> <span lang="he" dir="rtl" class="muted">${isolateLatin(x.why_he)}</span></p>` : x ? html`<p class="small"><span class="tag warn">${tt(x.name_he, x.name_en)}</span></p>` : ''; };
+    const ui = html`lang="${tt('he', 'en')}" dir="${tt('rtl', 'ltr')}"`;
+    const diffHtml = (d) => d.map((p, k) => html`${k ? ' ' : ''}${p.type === 'gap' ? html`<span class="m-gap" aria-hidden="true">…</span>`
+      : p.type === 'del' ? html`<del class="m-del"><span class="sr-only" ${ui}>${tt('במקום: ', 'instead of: ')}</span>${p.text}</del>`
+        : p.type === 'add' ? html`${d[k - 1]?.type === 'del' ? html`<span class="m-arrow" aria-hidden="true">→</span> ` : ''}<ins class="m-add"><span class="sr-only" ${ui}>${tt('נכון: ', 'right: ')}</span>${p.text}</ins>`
+          : html`<span class="m-same">${p.text}</span>`}`);
+    const line = ({ e, m }) => {
+      if (m.choice && m.pair) return html`<p class="small mistake-line mistake-choice">${tt('בחרתם:', 'You chose:')} <span class="m-chose" lang="en" dir="ltr">${m.pair[0]}</span> · ${tt('התשובה:', 'The answer:')} <span class="m-answer" lang="en" dir="ltr">${m.pair[1]}</span></p>`;
+      if (m.diff) return html`<p class="small mistake-line">${verb(e)} <span class="mistake-pair mistake-diff" lang="en" dir="ltr">${diffHtml(m.diff)}</span></p>`;
+      if (m.pair) return html`<p class="small mistake-line">${verb(e)} <span class="mistake-pair" lang="en" dir="ltr"><span class="m-wrong">${m.pair[0]}</span> <span aria-hidden="true">→</span><span class="sr-only">${tt(', ובצורה הנכונה: ', ', and correctly: ')}</span> <span class="m-right">${m.pair[1]}</span></span></p>`;
+      return html`<div class="small">${bi(e.prompt)}</div>`;
+    };
     return html`<div class="panel flat stack-sm" data-mistakes><h2 class="small">${tt('כדאי לשים לב', 'Worth watching')}</h2>
-      <ul class="mistake-list">${shown.map(({ e, a, m }) => html`<li class="stack-sm">
-        ${m.pair ? html`<p class="small mistake-line">${verb(e)} <span class="mistake-pair" lang="en" dir="ltr"><span class="m-wrong">${m.pair[0]}</span> <span aria-hidden="true">→</span><span class="sr-only">${tt(', ובצורה הנכונה: ', ', and correctly: ')}</span> <span class="m-right">${m.pair[1]}</span></span></p>` : html`<div class="small">${bi(e.prompt)}</div>`}
-        ${m.note ? html`<div class="small muted">${bi(m.note)}</div>` : general(a)}
+      <ul class="mistake-list">${shown.map((x) => html`<li class="stack-sm" ${x.fixed ? html`data-fixed` : ''}>
+        ${x.fixed ? html`<p class="small mistake-fixed"><span class="tag fixed-tag">${icon('check', { size: 14 })} ${tt('תיקנתם בעצמכם', 'You fixed it yourself')}</span>${!x.m.choice && x.fixed.response ? html` <span class="m-final" lang="en" dir="ltr">${x.e.type === 'gap' ? fillGaps(x.e.text, String(x.fixed.response).split(' | ')) : x.fixed.response}</span>` : ''}</p>` : line(x)}
+        ${x.m.note ? html`<div class="small muted">${bi(x.m.note)}</div>` : general(x.a)}
       </li>`)}</ul>
       ${items.length > shown.length ? html`<p class="xsmall faint">${tt(`ועוד ${items.length - shown.length} בתרגול של הטעויות.`, `And ${items.length - shown.length} more in the practice of your mistakes.`)}</p>` : ''}
       <p class="xsmall faint">${tt('אם זה יחזור, Lucid יוסיף תרגול ממוקד לתוכנית היומית.', 'If this keeps happening, Lucid adds a short targeted drill to your daily plan.')}</p></div>`;
