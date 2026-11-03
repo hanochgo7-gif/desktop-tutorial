@@ -673,12 +673,15 @@ export default async function lessonView(el, ctx) {
     return html`<div class="inner"><div class="verdict" role="status">${verdictHtml(item.ex, checked, errors)}</div><button type="button" class="key enter" data-next>${t('continue')} <span class="kbd">Enter</span></button></div>`;
   }
 
-  // Each new exercise puts focus on its prompt, unless it put focus in its own answer field (LF-5).
+  // Each new exercise puts focus on its prompt, unless it put focus in its own answer field (LF-5), or the learner
+  // already acted in the footer within the first 90 ms ("I don't know" moved focus to Continue: it stays there).
   function focusPrompt(token) {
     if (token !== exToken || stage !== 'practice') return;
     const a = document.activeElement;
     const root = $('#exroot', el);
     if (root && a && root.contains(a) && ['INPUT', 'TEXTAREA'].includes(a.tagName)) return;
+    const foot = $('#pfoot', el);
+    if (foot && ((a && foot.contains(a)) || $('[data-next], [data-try-again]', foot))) return;
     const h = $('#exroot .ex-prompt', el);
     if (!h) return;
     h.tabIndex = -1;
