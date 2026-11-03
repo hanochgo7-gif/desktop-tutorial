@@ -270,7 +270,7 @@
       "prompt": { "en": "Write a message with rules and advice.", "he": "כתבו הודעה עם חוקים ועצות." },
       "task": { "en": "A student from abroad is joining your school, course or workplace next week. Write them a message (50-80 words). Include two things they have to / must do, one thing they mustn't do, one thing they don't have to do, and two pieces of advice with should or shouldn't.", "he": "תלמיד או תלמידה מחו״ל מצטרפים בשבוע הבא לבית הספר, לקורס או למקום העבודה שלכם. כתבו להם הודעה (50-80 מילים). כללו שני דברים שחייבים לעשות (have to / must), דבר אחד שאסור (mustn't), דבר אחד שלא חייבים, ושתי עצות עם should או shouldn't." },
       "min_words": 50,
-      "max_words": 100,
+      "max_words": 80,
       "must_include": ["have to", "mustn't", "should"],
       "model_answer": "Hi Priya! I'm so happy you're joining our school. You have to wear the school T-shirt every day, and you must be in class by 8:15. You mustn't use your phone during lessons – the teachers are very strict about that. You don't have to bring lunch, because there's a cafeteria. You should bring a water bottle, because it's hot here, and you shouldn't sit at the back if you want to hear the teacher. See you on Sunday!",
       "checklist": [

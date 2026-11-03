@@ -250,7 +250,7 @@
       "prompt": { "en": "Pass on a message in English.", "he": "העבירו הודעה באנגלית." },
       "task": { "en": "Your friend Omer sent you a message in Hebrew (you can see it in the Hebrew instructions). Kenji, your friend from Japan, is visiting Israel and doesn't speak Hebrew. Write him a short message in English (40-80 words): tell him the plans for the weekend and ask if he is free.", "he": "עומר שלח לכם את ההודעה הזאת: 'היי! ביום שישי בערב אנחנו עושים מנגל אצל נועה, בשבע. אני מביא את הבשר, ומאיה מביאה עוגה. בשבת בבוקר אנחנו נוסעים לים, בעשר. תגידו לקנג'י שהוא מוזמן!' קנג'י, חבר שלכם מיפן, מבקר בארץ ולא מדבר עברית. כתבו לו הודעה קצרה באנגלית (40-80 מילים): ספרו לו מה התוכניות לסוף השבוע ושאלו אם הוא פנוי." },
       "min_words": 40,
-      "max_words": 90,
+      "max_words": 80,
       "must_include": ["Friday", "Saturday"],
       "model_answer": "Hi Kenji! Omer asked me to tell you about the weekend plans. On Friday evening we're having a barbecue at Noa's place at 7. Omer is bringing the meat and Maya is bringing a cake. On Saturday morning we're going to the beach at 10. You're invited to both! Are you free? Let me know and I'll send you the address.",
       "checklist": [

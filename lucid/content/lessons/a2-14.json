@@ -254,7 +254,7 @@
       "prompt": { "en": "Reply to an invitation.", "he": "ענו להזמנה." },
       "task": { "en": "Your friend Amir sent you this message: 'Hey! I've got two tickets for a concert on Friday night. Would you like to come?' You can't go. Write a reply (40-80 words): thank him, say no politely with a reason, and suggest another plan with Let's, Why don't we or How about.", "he": "החבר שלכם אמיר שלח לכם הודעה באנגלית: יש לו שני כרטיסים להופעה ביום שישי בערב, והוא מזמין אתכם. אתם לא יכולים ללכת. כתבו תשובה (40-80 מילים): הודו לו, סרבו בנימוס ותנו סיבה, והציעו תוכנית אחרת עם Let's, ‏why don't we או how about." },
       "min_words": 40,
-      "max_words": 90,
+      "max_words": 80,
       "model_answer": "Hi Amir! Thanks so much for the invitation. I'd love to come, but I can't on Friday night. My cousin is getting married in Haifa, and the whole family is going. I'm really sorry! Why don't we do something together next week? How about going to that new burger place near the station on Tuesday? Let me know if you're free. Have a great time at the concert!",
       "checklist": [
         { "en": "I thanked Amir and showed interest (Thanks for the invitation / I'd love to...).", "he": "הודיתי לאמיר והבעתי עניין (Thanks for the invitation / I'd love to...)." },

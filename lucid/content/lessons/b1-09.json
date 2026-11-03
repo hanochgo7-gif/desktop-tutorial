@@ -1196,7 +1196,7 @@
         "he": "כתבו מייל (80-120 מילים) למשפחה מארחת או לשותף/ה חדש/ה לדירה לפני שאתם נפגשים. ספרו מה אתם נהנים לעשות, במה אתם טובים, מה אתם מתכננים או מקווים לעשות בתקופה הזאת, ודבר אחד שהייתם רוצים לעשות ביחד. השתמשו לפחות בשלושה פעלים + ing, שלושה פעלים + to, ומילת יחס אחת + ing."
       },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "model_answer": "Hi Daniel,\n\nI'm Omer, your new flatmate! I've just finished packing, and I'm really looking forward to meeting you next week. A little about me: I'm studying computer science, and I enjoy playing football and cooking. I'm not very good at cleaning, but I promise to do my share! I'm planning to join a gym near the flat, and I hope to find a cheap place for lunch too. I'd love to go for a run with you sometimes – I don't mind getting up early. Also, I need to buy a desk, so if you know a good shop, let me know.\n\nSee you soon!\nOmer",
       "checklist": [
         {

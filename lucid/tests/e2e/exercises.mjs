@@ -247,7 +247,7 @@ try {
   });
 
   // ---------- EX-4 ----------
-  await check('EX-4 reveal() and reopen(): every listed type stays on screen locked with the answer marked and play keys kept; typed types reopen with the text kept, wrong fields marked and focused', async () => {
+  await check('EX-4 reveal() and reopen(): every listed type stays on screen locked with the answer marked and play keys kept; typed types reopen with the text kept and the wrong fields open, plain (r4 EX-8) and focused', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
     const out = await page.evaluate(async () => {
@@ -285,12 +285,13 @@ try {
         const fields = [...root.querySelectorAll('.gap-input, textarea')];
         fields.forEach((f, i) => { f.value = Array.isArray(typed) ? typed[i] : typed; f.dispatchEvent(new Event('input', { bubbles: true })); });
         const r1 = await ctl.check();
-        ctl.reopen();
+        // r4 EX-8: the fields that were wrong reopen plain (no wrong class, no aria-invalid) until they are checked again.
         const wrong = fields.filter((f) => f.classList.contains('wrong'));
+        ctl.reopen();
         res[`reopen-${name}`] = {
           retryable: ctl.retryable === true, first: r1.correct,
           kept: fields.every((f, i) => f.value === (Array.isArray(typed) ? typed[i] : typed)),
-          wrongOpen: wrong.length > 0 && wrong.every((f) => !f.readOnly),
+          wrongOpen: wrong.length > 0 && wrong.every((f) => !f.readOnly && !f.classList.contains('wrong') && !f.hasAttribute('aria-invalid')),
           focused: document.activeElement === wrong[0],
           noKeyShown: !root.querySelector('.word-diff'),
           checkOn: !document.querySelector('[data-check]').disabled,
@@ -403,7 +404,7 @@ try {
   });
 
   // ---------- EX-9 ----------
-  await check('EX-9 sorting: picking a chip highlights the bins; "They lives in Eilat." in the Wrong bin is struck through with no green tick', async () => {
+  await check('EX-9 sorting: picking a chip highlights the bins; "They lives in Eilat." in the Wrong bin has the same green check as every right placement and a neutral "שגוי" tag, no strike (r4 EX-10)', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
     await openExercise(page, 'a1-01', 3);
@@ -420,8 +421,8 @@ try {
     }
     await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
-    const lives = await page.evaluate(() => { const b = [...document.querySelectorAll('[data-bin="Wrong"] [data-placed]')].find((x) => x.textContent.includes('They lives')); return b && { struck: Boolean(b.querySelector('s, del')), tick: Boolean(b.querySelector('svg')), right: b.classList.contains('is-right') }; });
-    assert(lives && lives.struck && !lives.tick && !lives.right, `"They lives in Eilat.": ${JSON.stringify(lives)}`);
+    const lives = await page.evaluate(() => { const b = [...document.querySelectorAll('[data-bin="Wrong"] [data-placed]')].find((x) => x.textContent.includes('They lives')); return b && { struck: Boolean(b.querySelector('s, del')), tick: Boolean(b.querySelector('svg')), right: b.classList.contains('is-right'), tag: b.querySelector('.cat-tag')?.textContent.trim() }; });
+    assert(lives && !lives.struck && lives.tick && lives.right && lives.tag === 'שגוי', `"They lives in Eilat.": ${JSON.stringify(lives)}`);
     await ctx.close();
   });
 
@@ -450,7 +451,7 @@ try {
     await openExercise(page, 'c2-03', idx);
     await page.fill('#exroot textarea', 'This is my answer with seven words.');
     const key = await page.$eval('[data-check]', (b) => ({ off: b.disabled, text: b.textContent.replace(/\s+/g, ' ') }));
-    assert(key.off && /שמירה ובדיקה/.test(key.text) && /עוד \d+ מילים/.test(key.text), `writing key: ${JSON.stringify(key)}`);
+    assert(key.off && /שמירה ובדיקה/.test(key.text) && /אפשר לשמור טיוטה מ-\d+ מילים \(עוד \d+\)/.test(key.text), `writing key: ${JSON.stringify(key)}`);
     // The two lines of the key's label are stacked, not side by side.
     const lines = await page.$eval('[data-check] [data-check-label]', (l) => { const [a, b] = [...l.children].map((c) => c.getBoundingClientRect()); return a && b ? { stacked: b.top >= a.bottom - 1 } : null; });
     assert(lines?.stacked, `the writing key's label is not stacked: ${JSON.stringify(lines)}`);

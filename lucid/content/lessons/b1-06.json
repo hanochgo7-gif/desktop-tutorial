@@ -1080,7 +1080,7 @@
         "he": "כתבו פוסט (80-120 מילים) לאתר טיולים על מאכל או מוצר מהעיר או מהאזור שלכם. הסבירו איך הוא מיוצר, איפה הוא נמכר, ומשהו מההיסטוריה שלו (מתי הוא הוכן לראשונה, או מי הקים את המקום). השתמשו לפחות בחמש צורות סביל בהווה פשוט ובעבר פשוט. הוסיפו by + מבצע הפעולה רק כשזה מוסיף מידע חשוב."
       },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "model_answer": "In our neighbourhood there is a tiny bakery that is known for its rugelach. It was opened by two sisters in 1985, and today it is run by their grandchildren. Every night the dough is made by hand and left in the fridge. In the morning, the rugelach are filled with chocolate, rolled and baked. They are sold from six o'clock until about ten, when everything is gone! Nothing is wasted: the cakes that aren't sold are given to a local food bank. The bakery isn't advertised online, but it is recommended by everyone who lives here. If you visit, go early!",
       "checklist": [
         {

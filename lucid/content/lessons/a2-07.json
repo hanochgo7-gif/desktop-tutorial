@@ -256,7 +256,7 @@
       "prompt": { "en": "Write a message about your plans.", "he": "כתבו הודעה על התוכניות שלכם." },
       "task": { "en": "Write a message to a friend (50-90 words). Tell them three plans for next weekend or the summer (going to). Then make one prediction and one offer or promise with will or won't.", "he": "כתבו הודעה לחבר או לחברה (50-90 מילים). ספרו על שלוש תוכניות לסוף השבוע הבא או לקיץ (going to). אחר כך כתבו תחזית אחת, והצעה או הבטחה אחת עם will או won't." },
       "min_words": 50,
-      "max_words": 100,
+      "max_words": 90,
       "must_include": ["going to"],
       "model_answer": "Hi Daniel! Big news: I'm going to visit my cousins in London in August. We're going to see a musical, and I'm going to try fish and chips for the first time. I think it will rain every day, but I don't care! I'll bring you something from London. What would you like? And don't worry, I won't forget your birthday this time. See you soon, Yael",
       "checklist": [

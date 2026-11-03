@@ -270,7 +270,7 @@
       "prompt": { "en": "Mediation: pass on a message in English.", "he": "תיווך: העבירו הודעה באנגלית." },
       "task": { "en": "Tom, a friend from London, is flying to Israel to stay with your family. Your mum sent you a message in Hebrew (you can see it in the Hebrew instructions). Tom doesn't read Hebrew. Write him a message in English (60-100 words) with all her information. Use if and as soon as (and when or unless if you like), with the present after them.", "he": "טום, חבר מלונדון, טס לארץ ויגור אצל המשפחה שלכם. אמא שלכם שלחה לכם את ההודעה הזאת: „צריך להגיד לטום: אם הטיסה שלו נוחתת בזמן, אבא יאסוף אותו מהשדה. אם יש עיכוב, שייקח רכבת לתל אביב, ואנחנו נחכה לו בתחנה. שיתקשר אלינו ברגע שהוא נוחת. ואם יהיה חם בשבת, נלך לים – שלא ישכח בגד ים!” טום לא קורא עברית. כתבו לו הודעה באנגלית (60-100 מילים) עם כל המידע. השתמשו ב-if וב-as soon as (ואם תרצו, גם ב-when או ב-unless), ואחריהן בהווה." },
       "min_words": 60,
-      "max_words": 110,
+      "max_words": 100,
       "must_include": ["if", "as soon as"],
       "model_answer": "Hi Tom! My mum asked me to send you the plan. If your flight lands on time, my dad will pick you up at the airport. If it's late, take the train to Tel Aviv, and we'll wait for you at the station. Please call us as soon as you land, so we know where you are. And if it's hot on Saturday, we'll go to the beach, so don't forget your swimsuit! See you soon, Noa",
       "checklist": [

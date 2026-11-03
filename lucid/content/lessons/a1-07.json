@@ -13,13 +13,13 @@
   "warmup": { "en": "Translate in your head: 'I've got a new job. The job is in Tel Aviv.' Which English word has a Hebrew partner, and which one has none?", "he": "תרגמו בראש: 'יש לי עבודה חדשה. העבודה בתל אביב.' לאיזו מילה באנגלית יש מקבילה בעברית (ה' הידיעה), ולאיזו אין מקבילה בכלל?" },
   "explanation": [
     { "type": "p", "en": "I've got a new job. The job is in an office near the sea. The first time we mention the job, we say a job. Now you know which job, so we say the job.", "he": "בפעם הראשונה שמזכירים את העבודה אומרים a job ('עבודה'). בפעם השנייה כבר ברור על איזו עבודה מדובר, ולכן the job ('העבודה'). the מקבילה בערך לה' הידיעה, אבל ל-a/an אין מילה בעברית." },
-    { "type": "table", "headers": ["Article", "When?", "Examples"], "rows": [
-      ["a / an", "one thing, the first time; any one", "I live in a flat. She's got an old car."],
-      ["a / an", "jobs", "I'm a student. He's an engineer."],
-      ["the", "we know which one (we said it before, or it's clear)", "The flat is small. Close the door, please."],
-      ["the", "there is only one", "the sun, the sea, the city centre"],
-      ["no article", "plurals in general", "I love dogs. Children need sleep."],
-      ["no article", "meals", "We have lunch at one. After dinner I read."]
+    { "type": "table", "headers": ["Article", "When?", "Examples", "מתי?"], "rows": [
+      ["a / an", "one thing, the first time; any one", "I live in a flat. She's got an old car.", "דבר אחד שמזכירים בפעם הראשונה, או אחד כלשהו"],
+      ["a / an", "jobs", "I'm a student. He's an engineer.", "לפני מקצוע"],
+      ["the", "we know which one (we said it before, or it's clear)", "The flat is small. Close the door, please.", "ברור על מה מדברים: כבר הזכרנו אותו, או שזה מובן"],
+      ["the", "there is only one", "the sun, the sea, the city centre", "יש רק אחד כזה"],
+      ["no article", "plurals in general", "I love dogs. Children need sleep.", "רבים, כשמדברים באופן כללי"],
+      ["no article", "meals", "We have lunch at one. After dinner I read.", "לפני ארוחות"]
     ] },
     { "type": "rule", "en": "One singular thing (book, job, car) can't stand alone. Use a/an, the, or my/your...: I've got a car. The car is red. My car is old. Never just 'I've got car'.", "he": "שם עצם ביחיד שאפשר לספור (כמו car) לא עומד לבד באנגלית: צריך לפניו a/an, the או מילת שייכות כמו my – I've got a car." },
     { "type": "warning", "en": "Jobs need a/an: I'm a student (not 'I'm student'). And don't use one like an article: A man wants to talk to you (not 'One man wants...'). Keep one for counting: one brother and two sisters.", "he": "לפני מקצוע צריך a/an: I'm a student. ואל תשתמשו ב-one במקום a ('איש אחד' = a man); את one שומרים לספירה." },

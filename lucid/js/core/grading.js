@@ -97,6 +97,55 @@ export function levenshtein(a, b) {
 
 const words = (s) => normalize(s).replace(/[,.!?;:"]/g, ' ').split(/\s+/).filter(Boolean);
 
+// ---------- verb forms (r4 EX-2, EX-3) ----------
+// Irregular verbs of the A1-C2 lessons: base, past simple, past participle ("/" between alternatives). Built from
+// the lessons' irregular-verb tables and the PAST/PARTICIPLE sets below, plus the common verbs around them.
+const IRREGULAR_TABLE = `be was/were been; become became become; begin began begun; bend bent bent; bet bet bet; bite bit bitten;
+blow blew blown; break broke broken; bring brought brought; build built built; burn burnt/burned burnt/burned; buy bought bought;
+catch caught caught; choose chose chosen; come came come; cost cost cost; cut cut cut; deal dealt dealt; dig dug dug; do did done;
+draw drew drawn; dream dreamt/dreamed dreamt/dreamed; drink drank drunk; drive drove driven; eat ate eaten; fall fell fallen;
+feed fed fed; feel felt felt; fight fought fought; find found found; fly flew flown; forget forgot forgotten; forgive forgave forgiven;
+freeze froze frozen; get got got/gotten; give gave given; go went gone; grow grew grown; hang hung hung; have had had; hear heard heard;
+hide hid hidden; hit hit hit; hold held held; hurt hurt hurt; keep kept kept; know knew known; lay laid laid; lead led led;
+learn learnt/learned learnt/learned; leave left left; lend lent lent; let let let; lie lay lain; light lit lit; lose lost lost;
+make made made; mean meant meant; meet met met; pay paid paid; put put put; quit quit quit; read read read; ride rode ridden;
+ring rang rung; rise rose risen; run ran run; say said said; see saw seen; seek sought sought; sell sold sold; send sent sent;
+set set set; shake shook shaken; shine shone shone; shoot shot shot; show showed shown; shut shut shut; sing sang sung; sink sank sunk;
+sit sat sat; sleep slept slept; slide slid slid; speak spoke spoken; spell spelt/spelled spelt/spelled; spend spent spent;
+spread spread spread; stand stood stood; steal stole stolen; stick stuck stuck; sting stung stung; strike struck struck;
+swear swore sworn; swim swam swum; take took taken; teach taught taught; tear tore torn; tell told told; think thought thought;
+throw threw thrown; understand understood understood; wake woke woken; wear wore worn; win won won; write wrote written;
+withdraw withdrew withdrawn; overcome overcame overcome; undertake undertook undertaken; arise arose arisen; bear bore born/borne`;
+const IRREGULAR = IRREGULAR_TABLE.split(';').map((r) => r.trim().split(/\s+/).map((f) => f.split('/'))).filter((r) => r.length === 3);
+const BASE_OF = new Map(); // form -> Set of bases
+const IRREG_PARTICIPLE = new Set();
+for (const [[base], past, part] of IRREGULAR) {
+  for (const f of [base, ...past, ...part]) { if (!BASE_OF.has(f)) BASE_OF.set(f, new Set()); BASE_OF.get(f).add(base); }
+  part.forEach((p) => IRREG_PARTICIPLE.add(p));
+}
+for (const [f, base] of [['am', 'be'], ['is', 'be'], ['are', 'be'], ['being', 'be'], ['has', 'have']]) { if (!BASE_OF.has(f)) BASE_OF.set(f, new Set()); BASE_OF.get(f).add(base); }
+// A listed irregular form: base, past or participle ("know", "knew", "known").
+export const isVerbForm = (w) => BASE_OF.has(w);
+// The bases a word could be a form of: an irregular form, or a regular -s, -ed or -ing ending taken off.
+export function lemmas(w) {
+  const out = new Set(BASE_OF.get(w) || []);
+  out.add(w);
+  const strip = (end, add = '') => { if (w.length > end.length + 1 && w.endsWith(end)) out.add(w.slice(0, -end.length) + add); };
+  strip('s'); strip('es'); strip('ies', 'y'); strip('ed'); strip('ed', 'e'); strip('ied', 'y'); strip('ing'); strip('ing', 'e');
+  // A doubled last letter before -ed or -ing: stopped, running.
+  const m = /^(.*?)([b-df-hj-np-tv-z])\2(ed|ing)$/.exec(w);
+  if (m) out.add(m[1] + m[2]);
+  return out;
+}
+// Two words are forms of the same verb (know/known, build/built, live/living). Short function words are kept out.
+export function sameVerb(a, b) {
+  if (a === b || a.length < 3 || b.length < 3) return false;
+  const la = lemmas(a);
+  if (![...lemmas(b)].some((x) => la.has(x))) return false;
+  // Both must look like verb forms: listed, or a regular ending on one of them.
+  return BASE_OF.has(a) || BASE_OF.has(b) || /(s|ed|ing)$/.test(a) || /(s|ed|ing)$/.test(b);
+}
+
 // One word differs by one edit (insert/delete/substitute/transposition), and that word has 5+ letters; or by
 // two edits in a word of 6+ letters.
 // A slip inside an inflectional ending (wants/want, swimming/swiming, studied/studyed) is a grammar or
@@ -121,6 +170,9 @@ function typoOnly(input, target) {
   }
   if (!diff || diff.expected.length < 5) return null;
   if (inInflection(diff.typed, diff.expected)) return null;
+  // A real verb form is never a spelling slip (r4 EX-3): "know" for "known", "build" for "built" are the forms
+  // the lessons teach, so they are wrong, not "almost".
+  if (isVerbForm(diff.typed) || sameVerb(diff.typed, diff.expected)) return null;
   const d = levenshtein(diff.typed, diff.expected);
   const transposition = d === 2 && diff.typed.length === diff.expected.length &&
     [...diff.typed].sort().join('') === [...diff.expected].sort().join('');
@@ -243,8 +295,112 @@ export function keepsVerbForm(answer, source, keys) {
   return ans.filter(verbish).join(' ') !== srcWords.filter(verbish).join(' ');
 }
 
+// ---------- the key's verb structure (r4 EX-2) ----------
+// A key's perfect (have/has/had + participle: "Have you ever been", "Maya has just passed") or, with an irregular
+// participle, its passive ("was built"), and its perfect continuous ("have been living"). When the answer uses
+// the same lexical verb, it must keep that structure: "went" or "gone" for "been", "did live", a bare past
+// ("I lived … since"), "have live", "am living" and "have been lived" are refused; "have been living" for
+// "have lived" and "have lived" for "have been living" keep the perfect. An answer that uses the key's verb only
+// as an infinitive ("to visit"), or uses another verb, is left to the overlap rule, so a real paraphrase can
+// still be counted. Modal and infinitive perfects ("may have contributed", "to have been") are not tenses and
+// are not checked. Returns 'ok', 'verb' (the structure is broken) or 'other' (the key's verb is not used).
+const HAVE = new Set(['have', 'has', 'had']);
+const BE = new Set(['am', 'is', 'are', 'was', 'were', 'be', 'been', 'being']);
+const ADVERBS = new Set(['not', 'never', 'ever', 'just', 'already', 'also', 'still', 'recently', 'always', 'finally', 'really', 'actually', 'only', 'often', 'all', 'both', 'probably', 'certainly', 'definitely', 'now', 'even', 'sometimes', 'usually', 'once', 'since', 'yet', 'hardly', 'nearly', 'almost']);
+const MODAL_TO = new Set(['may', 'might', 'could', 'would', 'should', 'must', 'will', 'shall', 'can', 'to']);
+const GO_FOR_BEEN = new Set(['went', 'gone', 'go', 'goes', 'going']);
+// Words of a sentence with "'s" after a name as an auxiliary of its own ("maya 's just passed").
+const verbWords = (v) => v.replace(/'s\b/g, " 's").replace(/[,.!?;:"()]/g, ' ').split(/\s+/).filter(Boolean);
+// The auxiliary of a family before word j: only adverbs between (and the subject, after a perfect's have, or when
+// the auxiliary opens a question). Its index, or -1.
+function auxBefore(w, j, fam) {
+  for (let k = j - 1; k >= Math.max(0, j - 4); k--) {
+    const x = w[k];
+    const hit = x === "'s" || (fam === 'have' ? HAVE.has(x) : BE.has(x));
+    if (hit) {
+      if (fam === 'have' && MODAL_TO.has(w[k - 1])) return -1;
+      const between = w.slice(k + 1, j);
+      return between.every((b) => ADVERBS.has(b) || (fam === 'have' && PRONOUNS.has(b))) || (k === 0 && between.length <= 2) ? k : -1;
+    }
+    if (HAVE.has(x) || BE.has(x)) return -1;
+  }
+  return -1;
+}
+const isParticiple = (w) => IRREG_PARTICIPLE.has(w) || (w.length > 3 && w.endsWith('ed') && !w.endsWith('eed') && !BASE_ED.has(w));
+function verbSlots(w) {
+  const out = [];
+  w.forEach((x, j) => {
+    if (x.endsWith('ing') && w[j - 1] === 'been' && auxBefore(w, j - 1, 'have') >= 0) out.push({ j, fam: 'have-ing' });
+    else if (!isParticiple(x)) return;
+    else if (auxBefore(w, j, 'have') >= 0) out.push({ j, fam: 'have' });
+    else if (IRREG_PARTICIPLE.has(x) && x !== 'been' && auxBefore(w, j, 'be') >= 0) out.push({ j, fam: 'be' });
+  });
+  return out;
+}
+function structureOne(aw, kw) {
+  let verdict = 'other';
+  for (const { j, fam } of verbSlots(kw)) {
+    const p = kw[j];
+    const family = p === 'been' ? new Set(['been']) : lemmas(p);
+    const same = (x) => x === p || (p === 'been' ? GO_FOR_BEEN.has(x) : x.length >= 3 && !HAVE.has(x) && !BE.has(x) && [...lemmas(x)].some((l) => l.length >= 3 && family.has(l)));
+    const uses = aw.map((x, i) => (same(x) && aw[i - 1] !== 'to' ? i : -1)).filter((i) => i >= 0);
+    if (!uses.length) continue;
+    const perfect = (i) => isParticiple(aw[i]) && auxBefore(aw, i, 'have') >= 0;
+    const continuous = (i) => aw[i].endsWith('ing') && aw[i - 1] === 'been' && auxBefore(aw, i - 1, 'have') >= 0;
+    const kept = uses.some((i) => (p === 'been' ? aw[i] === 'been' && perfect(i) : fam === 'be' ? aw[i] === p && auxBefore(aw, i, 'be') >= 0 : perfect(i) || continuous(i)));
+    if (!kept) return 'verb';
+    verdict = 'ok';
+  }
+  return verdict;
+}
+// The tense structure a key asks for, named without its words (r4 EX-5): 'present-perfect', 'past-perfect',
+// 'perfect-continuous', 'passive' or null.
+export function keyStructure(key) {
+  const kw = verbWords(variants(key)[0] || '');
+  const slots = verbSlots(kw);
+  if (slots.some((s) => s.fam === 'have-ing')) return 'perfect-continuous';
+  const perfect = slots.find((s) => s.fam === 'have');
+  if (perfect) return kw[auxBefore(kw, perfect.j, 'have')] === 'had' ? 'past-perfect' : 'present-perfect';
+  return slots.some((s) => s.fam === 'be') ? 'passive' : null;
+}
+export function verbStructure(answer, key) {
+  const kw = verbWords(variants(key)[0] || '');
+  // Every reading of the answer's contractions ("I'd" = I had / I would): the best one counts.
+  const all = variants(answer).map((v) => structureOne(verbWords(v), kw));
+  return all.includes('ok') ? 'ok' : all.includes('other') ? 'other' : 'verb';
+}
+// Subject and auxiliary disagree: "I has", "they has", "she have", "Maya have", "Has you". Returns true on a slip.
+const SING = new Set(['he', 'she', 'it']);
+const PLURAL = new Set(['i', 'you', 'we', 'they']);
+const NOT_NAMES = new Set(['many', 'some', 'both', 'all', 'most', 'few', 'others', 'people', 'children', 'these', 'those', 'several', 'none', 'who', 'which', 'that', 'what', 'where', 'why', 'how', 'when', 'police', 'parents', 'yesterday', 'today', 'recently', 'already', 'never', 'just', 'also', 'still', 'often', 'we', 'you', 'they', 'i']);
+const DO_MODAL = new Set(['do', 'does', 'did', 'will', 'would', 'can', 'could', 'should', 'may', 'might', 'must', 'shall', 'to', "let's", 'let']);
+export function agreementSlip(text) {
+  const w = fullWords(text);
+  for (let i = 0; i < w.length; i++) {
+    if (w[i] !== 'has' && w[i] !== 'have') continue;
+    const prev = w[i - 1], next = w[i + 1];
+    if (prev && !DO_MODAL.has(w[i - 2])) {
+      if (w[i] === 'has' && PLURAL.has(prev)) return true;
+      if (w[i] === 'have' && SING.has(prev)) return true;
+    }
+    // A question: "Has you …", "Have she …".
+    if ((i === 0 || !prev) && next && ((w[i] === 'has' && PLURAL.has(next)) || (w[i] === 'have' && SING.has(next)))) return true;
+  }
+  // A singular name before "have": "Maya have just passed" (not "Maya and Noa have").
+  const t = String(text || '').split(/\s+/).filter(Boolean);
+  for (let k = 1; k < t.length; k++) {
+    if (!/^have$/i.test(t[k].replace(/[^A-Za-z]/g, ''))) continue;
+    const name = t[k - 1];
+    if (!/^[A-Z][a-z]+$/.test(name) || /s$/.test(name) || NOT_NAMES.has(name.toLowerCase())) continue;
+    const before = (t[k - 2] || '').toLowerCase();
+    if (['and', 'or', '&', 'nor'].includes(before) || /,$/.test(t[k - 2] || '')) continue;
+    return true;
+  }
+  return false;
+}
+
 // { ok, reason, feedback }: reason is 'unchanged', 'known' (an authored wrong answer: feedback is its entry),
-// 'did-past', 'verb' or 'overlap'.
+// 'did-past', 'agreement', 'verb' or 'overlap'.
 export function couldBeRight(answer, { source = '', answers = [], wrong_feedback = null } = {}) {
   const keys = (Array.isArray(answers) ? answers : [answers]).filter(Boolean);
   if (!normalize(answer) || !keys.length) return { ok: false, reason: 'unchanged' };
@@ -252,6 +408,8 @@ export function couldBeRight(answer, { source = '', answers = [], wrong_feedback
   const known = findWrongFeedback(answer, wrong_feedback);
   if (known) return { ok: false, reason: 'known', feedback: known };
   if (didPlusPast(answer)) return { ok: false, reason: 'did-past' };
+  if (agreementSlip(answer) && !keys.some((k) => agreementSlip(k))) return { ok: false, reason: 'agreement' };
+  if (keys.every((k) => verbStructure(answer, k) === 'verb')) return { ok: false, reason: 'verb' };
   const ans = fullWords(answer);
   if (!keepsVerbForm(answer, source, keys)) return { ok: false, reason: 'verb' };
   const overlap = Math.max(...keys.map((k) => { const kw = new Set(fullWords(k)); return ans.filter((x) => kw.has(x)).length / ans.length; }));

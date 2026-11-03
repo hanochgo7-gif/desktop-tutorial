@@ -273,7 +273,7 @@
       "prompt": { "en": "Write a forum post.", "he": "כתבו פוסט בפורום." },
       "task": { "en": "A forum for young people asks: 'If you could change one thing about the town or city where you live, what would it be?' Write a post (100-150 words). Say what you would change and why, give at least two results (what would be different), and end with a question to other readers.", "he": "בפורום לצעירים שואלים מה הייתם משנים בעיר או ביישוב שלכם, אילו יכולתם לשנות דבר אחד. כתבו פוסט (100-150 מילים). כתבו מה הייתם משנים ולמה, תנו לפחות שתי תוצאות (מה היה שונה), וסיימו בשאלה לקוראים אחרים." },
       "min_words": 100,
-      "max_words": 160,
+      "max_words": 150,
       "must_include": ["if", "would"],
       "model_answer": "If I could change one thing about Be'er Sheva, I would plant a lot more trees. In summer it's so hot that hardly anyone walks anywhere in the afternoon. If there were more trees along the main streets, people would walk more and use their cars less. The air would be cleaner, and the city would look greener and friendlier.\n\nI would also put benches and water fountains under the trees. Older people could sit down and rest, and kids would have somewhere to play outside. If the streets felt nicer, small cafés would probably open there too.\n\nI know trees take years to grow, but if we started now, our children would enjoy them. What would you change about your town?",
       "checklist": [

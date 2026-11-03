@@ -985,8 +985,8 @@
       "task": {
         "en": "You are a student representative. During the exam period, the college library has started closing at 6 p.m. instead of 10 p.m. Write an email of about 200-250 words to the college director, Dr Sarah Collins. Describe the problem and its effects, propose a practical solution, and respond to one objection the college is likely to raise (for example, staff costs). Use at least six collocations from this lesson, such as raise a concern, pay attention, meet a deadline, make an effort, take responsibility, reach a decision or a high price."
       },
-      "min_words": 180,
-      "max_words": 280,
+      "min_words": 200,
+      "max_words": 250,
       "model_answer": "Dear Dr Collins,\n\nI am writing on behalf of the second-year students to raise a concern about the library's new opening hours. Since the start of the exam period, the library has closed at 6 p.m. instead of 10 p.m.\n\nThis change has had a serious effect on many students. Those who work part-time during the day can no longer study there, and several project groups are struggling to meet their deadlines because they have nowhere quiet to work together. Many students have also told me that they find it hard to pay attention at home, where there is often noise and little space.\n\nWe understand that keeping the library open in the evening comes at a high price, mainly because of staff costs. However, we would like to suggest a compromise. The library could stay open until 10 p.m. on weekdays during the four exam weeks only, and trained student volunteers could take responsibility for the self-service desk, so that only one member of staff would be needed.\n\nThe student council is ready to make every effort to organise the volunteers. We would be grateful if you could reach a decision before the exam period begins, so that students can plan their revision.\n\nThank you for your attention to this matter.\n\nYours sincerely,\nMaya Cohen\nStudent representative",
       "checklist": [
         {

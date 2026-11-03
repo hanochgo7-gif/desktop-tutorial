@@ -271,7 +271,7 @@
       "prompt": { "en": "Mediation: pass on a message in English.", "he": "תיווך: העבירו הודעה באנגלית." },
       "task": { "en": "Daniel, a friend from London, is coming to stay with your family next week. Your mum sent you a message in Hebrew (you can see it in the Hebrew instructions). Write Daniel a message in English (40-80 words) with all her information.", "he": "דניאל, חבר מלונדון, מגיע לגור אצל המשפחה שלכם בשבוע הבא. אמא שלכם שלחה לכם את ההודעה הזאת: „תגידו לדניאל שאין הרבה מקום בארון, אז שיביא רק מזוודה אחת. הוא לא צריך הרבה מזומן – כמעט בכל מקום אפשר לשלם בכרטיס. ושיביא כמה סוודרים, כי בירושלים קר בלילה. אם יש לו שאלות, שישלח לי הודעה.” כתבו לדניאל הודעה באנגלית (40-80 מילים) עם כל המידע." },
       "min_words": 40,
-      "max_words": 90,
+      "max_words": 80,
       "must_include": ["much", "a few"],
       "model_answer": "Hi Daniel! My mum asked me to send you some information. There isn't much space in the wardrobe, so please bring only one suitcase. You don't need much cash – you can pay by card almost everywhere. But bring a few jumpers, because it's cold in Jerusalem at night. If you have any questions, you can send her a message. See you next week!",
       "checklist": [

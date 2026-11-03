@@ -532,7 +532,7 @@ try {
     await learnerAt(page, 'B1', { minutes: 50 });
     const l = lessonJson('b1-02');
     await lessonAt(page, 'b1-02', 'e9');
-    await page.fill('#exroot textarea', 'Just now Maya passed the test for driving.');
+    await page.fill('#exroot textarea', 'Maya has just passed the test for driving.');
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-self-judge]');
     await page.click('[data-self-judge]');

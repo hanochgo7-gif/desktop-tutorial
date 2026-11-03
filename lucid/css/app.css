@@ -1391,8 +1391,9 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 
 /* Mixed lines (EX-6): numbered passage paragraphs, one speaker per line. */
 .passage[data-numbered] { counter-reset: para; }
-.passage[data-numbered] > p { counter-increment: para; position: relative; padding-inline-start: 2rem; }
-.passage[data-numbered] > p::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+.passage[data-numbered] > p { position: relative; padding-inline-start: 2rem; }
+.passage[data-numbered] > p[data-para] { counter-increment: para; }
+.passage[data-numbered] > p[data-para]::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
 .ex-text .speaker, .passage .speaker { font-weight: 600; }
 .ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
 .ex-source[dir='rtl'] { text-align: right; }
@@ -1686,6 +1687,41 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-lesson-flow: end ---- */
 
 /* ---- lane r4-exercises: start ---- */
+/* EX-4: a listening item with no sound says so under its play keys and offers the transcript. */
+.silent-note { display: flex; gap: var(--s3); align-items: flex-start; margin-block: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-key); background: var(--cobalt-tint); color: var(--ink); font-size: var(--t-sm); }
+.silent-note > svg { flex: none; margin-block-start: 0.2em; color: var(--ink-2); }
+.silent-transcript { margin-block: var(--s4); color: var(--ink-2); }
+.silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
+.options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+/* EX-10: sentences get full-width bins (long items, or a narrow column), every right placement looks the same,
+   and the answer is a list per bin. */
+.cat-grid { container-type: inline-size; }
+.cat-grid.cat-long { grid-template-columns: minmax(0, 1fr); }
+@container (max-width: 30rem) { .cat-grid .cat-bin { grid-column: 1 / -1; } }
+.cat-grid.cat-long .chip, .chips.cat-long-pool .chip { text-align: start; justify-content: flex-start; white-space: normal; }
+.cat-bin .chip.is-flawed { flex-wrap: wrap; text-align: start; }
+.cat-bin .chip .cat-fix { flex-basis: 100%; color: var(--ink-2); font-size: var(--t-xs, 0.8125rem); }
+.verdict-body .fix-items { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: 0.15rem; }
+/* EX-12: room under the underlined source sentence; why Check is off; a matching answer in two languages. */
+.ex-source { margin-block-end: 0.75rem; }
+.same-note { color: var(--ink-2); margin-block-start: var(--s2); }
+.match-answer .pair { unicode-bidi: isolate; display: inline-block; max-width: 100%; }
+/* EX-11: after Check in reading, a key at the top of the questions jumps to the first wrong one. */
+.read-jump { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.read-jump-key { background: none; border: 0; padding: 0.35rem 0; min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+/* EX-9: speaking self-rating says what Continue waits for and acknowledges the choice; "mic off" is neutral. */
+.self-rate .self-need { color: var(--ink); font-weight: 500; }
+.self-rate .self-said { color: var(--ink-2); }
+/* Scrolled into view above the player's fixed footer. */
+.self-rate, .self-rate .self-said { scroll-margin-block-end: 10rem; }
+.self-rate .self-said:empty { display: block; min-height: 0; margin: 0; padding: 0; }
+.speak-note { display: flex; gap: var(--s2); align-items: flex-start; color: var(--ink-2); margin-block-start: var(--s3); }
+.speak-note > svg { flex: none; margin-block-start: 0.2em; }
+/* EX-8: a word accepted with a slip is amber, with the letters that differ marked; a reopened field is plain. */
+.gap-input.almost, .ex-field.almost { border-color: var(--warn); background: var(--warn-tint); }
+.gap-diff { display: inline-flex; gap: 0.3em; align-items: baseline; margin-inline: 0.2rem; padding: 0 0.35rem; border-radius: 0.4rem; background: var(--warn-tint); font-size: var(--t-sm); white-space: nowrap; }
+.gap-diff .gd-typed { color: var(--ink-2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.gap-diff mark { color: var(--warn); background: transparent; font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
 
 /* ---- lane r4-exercises: end ---- */
 
