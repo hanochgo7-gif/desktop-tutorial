@@ -212,6 +212,23 @@ try {
     await ctx.close();
   });
 
+  await check('GM-1f. The hub says "the game waits for you" only while Settings keeps the relaxed pace; with it off, the hub says the games move on by themselves', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await go(page, 'games', '[data-challenge]');
+    const calm = await page.textContent('.game-pace');
+    assert(/המשחק מחכה לכם/.test(calm) && !(await page.$('[data-pace-note]')), `the relaxed hub: ${calm}`);
+    await go(page, 'settings', '[data-relaxed]');
+    await page.click('[data-relaxed]');
+    assert((await page.evaluate(async () => (await import('./js/core/learner.js')).settings().relaxed_pace)) === false, 'the relaxed box did not save');
+    await go(page, 'games', '[data-challenge]');
+    assert(!(await page.isChecked('[data-challenge]')), 'the speed challenge turned on');
+    const off = await page.textContent('.game-pace');
+    assert(!/מחכה לכם/.test(off), `the hub still promises that the game waits: ${off}`);
+    assert(await page.$('[data-pace-note] a[href="#/settings"]') && /עוברים לבד/.test(await page.textContent('[data-pace-note]')), 'no note that the games move on by themselves, with a way to Settings');
+    await ctx.close();
+  });
+
   await check('GM-1e. Picture and memory games: calm rounds show no bonus; with the speed challenge on, the bonus line and the challenge mode come back', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'PreA1');
