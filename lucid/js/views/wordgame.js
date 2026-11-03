@@ -213,6 +213,17 @@ async function play(el, ctx, level, stageId) {
   }
   let i = 0, score = 0, bonusTotal = 0, right = 0, streak = 0, started = 0, answered = false, done = false, timer = null;
   const missed = [];
+  // A round left in the middle is kept for this session (UX r4 PG-6), as lessons and scenarios keep their place:
+  // after each answer the questions, the next one and the score are saved under the level and stage.
+  const ROUND_KEY = `lucid-quiz-round:${level}:${stageId}`;
+  const saveRound = () => { try { sessionStorage.setItem(ROUND_KEY, JSON.stringify({ questions, next: i + 1, score, bonusTotal, right, streak, missed, mode: pace.mode })); } catch { /* storage blocked */ } };
+  const clearRound = () => { try { sessionStorage.removeItem(ROUND_KEY); } catch { /* storage blocked */ } };
+  const savedRound = () => {
+    try {
+      const r = JSON.parse(sessionStorage.getItem(ROUND_KEY) || 'null');
+      return r && Array.isArray(r.questions) && r.questions.length && r.next > 0 && r.next <= r.questions.length && r.mode === pace.mode ? r : null;
+    } catch { return null; }
+  };
 
   const scoreBadge = () => scorePill(score);
   // The counter has its own row on phones and at 130-150% text, like the lesson's (LF-7 .counting).
@@ -313,6 +324,7 @@ async function play(el, ctx, level, stageId) {
       <p class="small">${pair}</p>${q.word.example ? html`<p class="small faint" lang="en" dir="ltr">${q.word.example}</p>` : ''}</div>`);
     $('.player-top', el).outerHTML = String(top());
     setFoot('next');
+    saveRound();
     if (!fromInput) $('[data-next]', el)?.focus({ preventScroll: true });
     $('#gfb .game-verdict', el)?.scrollIntoView?.({ block: 'nearest' });
     if (correct && pace.challenge) timer = setTimeout(next, ADVANCE_MS);
@@ -327,6 +339,7 @@ async function play(el, ctx, level, stageId) {
 
   function summary() {
     done = true;
+    clearRound();
     const accuracy = right / questions.length;
     const prev = mineBefore[`${level}:${stageId}`];
     const round = { score, correct: right };
@@ -366,6 +379,7 @@ async function play(el, ctx, level, stageId) {
   }
 
   function restart(focus = []) {
+    clearRound();
     before = bests(store.all('events'));
     pace = paceOf(settings());
     mineBefore = bests(store.all('events'), pace.mode);
@@ -374,8 +388,31 @@ async function play(el, ctx, level, stageId) {
     question();
   }
 
-  question();
+  // Coming back to a round left in the middle: go on from the next question with the score kept, or start over.
+  function offerResume(r) {
+    const n = r.next + 1;
+    const where = r.next < r.questions.length ? tt(`להמשיך משאלה ${n} מתוך ${r.questions.length}`, `Go on from question ${n} of ${r.questions.length}`) : tt('לתוצאות הסיבוב', 'See the round results');
+    render(el, html`<div class="player"><div class="player-top"><a class="key ghost small icon-only" href="#/games" aria-label="${tt('יציאה מהמשחק', 'Leave the game')}">${icon('x')}</a></div><div class="player-body"><div class="empty stack game-resume">
+      <p class="small faint"><span class="tag level">${LEVEL_LABEL[level]}</span> ${tt(`שלב ${stageId}`, `Stage ${stageId}`)}: ${stageName(stage)}</p>
+      <h1 tabindex="-1">${tt('יש סיבוב שלא הסתיים', 'A round is still open')}</h1>
+      <p>${tt(`עניתם על ${r.next} מתוך ${r.questions.length} שאלות, ${r.score} נקודות עד עכשיו.`, `You answered ${r.next} of ${r.questions.length} questions, ${r.score} points so far.`)}</p>
+      <div class="row"><button type="button" class="key enter" data-resume-round>${where}</button><button type="button" class="key" data-new-round>${tt('סיבוב חדש', 'New round')}</button></div></div></div></div>`);
+    setTimeout(() => $('.game-resume h1', el)?.focus({ preventScroll: true }), 30);
+  }
+  function resume() {
+    const r = savedRound();
+    if (!r) { restart(); return; }
+    questions = r.questions; score = r.score; bonusTotal = r.bonusTotal || 0; right = r.right; streak = r.streak || 0;
+    missed.length = 0; missed.push(...(r.missed || []));
+    i = r.next;
+    if (i < questions.length) question(); else summary();
+  }
+
+  const saved = !ctx.query.focus && savedRound();
+  if (saved) offerResume(saved); else { clearRound(); question(); }
   const offs = [
+    on(el, 'click', '[data-resume-round]', () => resume()),
+    on(el, 'click', '[data-new-round]', () => restart()),
     on(el, 'click', '[data-opt]', (e, b) => { const q = questions[i]; const k = Number(b.dataset.opt); answer({ correct: k === q.answer }, k); }),
     on(el, 'click', '[data-check]', () => { const v = $('#gw', el)?.value || ''; if (v.trim()) answer(checkAnswer(v, questions[i].answer), v); else $('#gw', el)?.focus(); }),
     on(el, 'click', '[data-skip]', () => answer({ correct: false }, '')),

@@ -368,6 +368,41 @@ try {
       await ctx.close();
     }
   });
+  // ---------- PG-6 ----------
+  await check('PG-6. Leaving the word quiz after 2 answers and coming back offers "להמשיך משאלה 3 מתוך 10", which keeps the score; "סיבוב חדש" starts over', async () => {
+    const { ctx, page } = await newPage(browser, { touch: true });
+    await learnerAt(page, 'A2');
+    await go(page, 'games/A2/1', '[data-opt]:not([disabled])');
+    await page.waitForTimeout(200);
+    const asked = [];
+    for (let q = 0; q < 2; q++) {
+      await page.waitForSelector('[data-opt]:not([disabled])');
+      asked.push((await page.textContent('.game-word')).trim());
+      await page.click(`[data-opt="${await rightOption(page, 'A2')}"]`);
+      await page.waitForSelector('[data-next]');
+      if (q === 0) { await page.click('[data-next]'); }
+    }
+    const score = (await page.textContent('.game-score')).match(/\d+/)[0];
+    assert(score === '20', `score after two right answers: ${score}`);
+    await go(page, 'today', '#view > *');
+    await go(page, 'games/A2/1', '[data-resume-round]');
+    const offer = (await page.textContent('[data-resume-round]')).replace(/\s+/g, ' ');
+    assert(/שאלה 3/.test(offer) && /להמשיך משאלה 3 מתוך 10/.test(offer), `the resume key: ${offer}`);
+    assert(await page.$('[data-new-round]'), 'no "סיבוב חדש"');
+    await shot(page, 'pg6-resume-390');
+    await page.click('[data-resume-round]');
+    await page.waitForSelector('[data-opt]:not([disabled])');
+    assert(/שאלה 3 מתוך 10/.test(await page.textContent('.step-count')), `resumed at ${await page.textContent('.step-count')}`);
+    assert((await page.textContent('.game-score')).match(/\d+/)[0] === '20', 'the score was not kept');
+    assert(!asked.includes((await page.textContent('.game-word')).trim()), 'question 3 repeats an earlier word');
+    // A new round starts from question 1 with 0 points.
+    await go(page, 'today', '#view > *');
+    await go(page, 'games/A2/1', '[data-new-round]');
+    await page.click('[data-new-round]');
+    await page.waitForSelector('[data-opt]:not([disabled])');
+    assert(/שאלה 1 מתוך 10/.test(await page.textContent('.step-count')) && (await page.textContent('.game-score')).match(/\d+/)[0] === '0', 'a new round did not start over');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
