@@ -119,7 +119,7 @@ try {
     await ctx.close();
   });
 
-  await check('EX-1/EX-2/EX-10 layout: at 320px with 150% text, the letter board with pair numbers, the pair rows, the word bank and the sound options never scroll sideways', async () => {
+  await check('EX-1/EX-2/EX-10 layout: at 320px with 150% text, the letter board with pair numbers, the pair rows, the word bank and the sound options never scroll sideways, also after "I don\'t know"', async () => {
     const ctx = await browser.newContext({ viewport: { width: 320, height: 800 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers: 'block' });
     const page = await ctx.newPage();
     page.on('pageerror', (e) => pageErrors.push(`${page.url()} :: ${e.message}`));
@@ -139,6 +139,13 @@ try {
     if (await wide() > 1) over.push(`word bank ${await wide()}px`);
     await openExercise(page, 'pa1-02', 6);
     if (await wide() > 1) over.push(`sound options ${await wide()}px`);
+    // "I don't know" (EX-4 reveal) marks the answer in place: the mark and the screen-reader note add no width.
+    for (const [id, n, what] of [['pa1-03', 2, 'options with play keys'], ['pa1-02', 4, 'pair rows']]) {
+      await openExercise(page, id, n);
+      await page.click('[data-dontknow]');
+      await page.waitForSelector('[data-next]');
+      if (await wide() > 1) over.push(`${what} after "I don't know" (${id} exercise ${n}) ${await wide()}px`);
+    }
     assert(!over.length, over.join(', '));
     await ctx.close();
   });

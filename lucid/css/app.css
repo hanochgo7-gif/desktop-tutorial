@@ -382,7 +382,8 @@ body.bare .view { max-width: none; padding: 0; }
 .ex-prompt .bi-he { font-size: var(--t-md); font-weight: 400; margin-block-start: 0.25rem; }
 .ex-text { font-size: var(--t-xl); line-height: 1.5; }
 .ex-text [lang='en'] { letter-spacing: -0.005em; }
-.options { display: grid; gap: var(--s3); }
+/* One column that never grows past the screen: a long option or its play key cannot push the page sideways. */
+.options { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s3); }
 .option { display: flex; align-items: center; gap: var(--s3); width: 100%; min-height: 3.5rem; padding: var(--s3) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); text-align: start; font-size: var(--t-md); transition: transform 0.08s ease; }
 .option:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
 .option .k { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; flex: none; border-radius: 0.4rem; border: 1px solid var(--key-edge); border-block-end-width: 2px; font-size: var(--t-xs); color: var(--ink-3); font-weight: 600; background: var(--key-sunk); }
@@ -1160,6 +1161,15 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .option.is-wrong { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E"); }
 .option.is-right::after { color: var(--ok); }
 .option.is-wrong::after { color: var(--bad); }
+/* In a narrow column (320px at 150% text, beside a play key) the mark leaves the row: it sits in the option's
+   inline-end padding, so it never pushes the text or the page sideways. */
+.options { container-type: inline-size; }
+@container (max-width: 22em) {
+  .option { gap: var(--s2); padding-inline: var(--s3); }
+  .option:not(:has(.game-mark)):is(.is-right, .is-wrong) { position: relative; }
+  .option:not(:has(.game-mark)):is(.is-right, .is-wrong)::after { position: absolute; inset-inline-end: 0.3rem; inset-block-start: 0.3rem; width: 0.9rem; height: 0.9rem; margin: 0; }
+}
+.option > span:not(.k):not(.sr-only) { min-width: 0; overflow-wrap: break-word; }
 
 /* Segmented controls (SC-8): a control that fills its row (a form field, a page header, or .seg.full) has equal
    segments and no empty track; at 130-150% text four options become two equal rows of two. */
@@ -1329,7 +1339,22 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .match-mark { display: inline-grid; place-items: center; flex: none; }
 .match-n { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; padding: 0 0.25rem; border-radius: var(--r-pill); background: var(--ok); color: var(--key); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
 .match-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
-.match-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--s2); min-height: 3rem; padding: var(--s1) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.match-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--s2); min-height: 3rem; padding: var(--s1) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); position: relative; min-width: 0; }
+/* The word cells wrap (a long Hebrew word such as וטרינר/ית breaks rather than widening the row at 320px). */
+.match-row .match-a, .match-row .match-b { min-width: 0; overflow-wrap: break-word; }
+/* A narrow board (320px, or 150% text on a phone) stacks each pair: the play key, then the two words one under
+   the other, so a long word such as וטרינר/ית has the row's width instead of a third of it. */
+.match-rows { container-type: inline-size; }
+@container (max-width: 20em) {
+  .match-row { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'lead a trail' 'lead b trail'; row-gap: 0; }
+  .match-row .match-lead { grid-area: lead; }
+  .match-row .match-a { grid-area: a; justify-self: start; }
+  .match-row .match-b { grid-area: b; justify-self: start; }
+  .match-row .match-trail { grid-area: trail; }
+  .match-row .match-sep { display: none; }
+}
+/* After "I don't know", the tick is a badge on the row's corner, so it adds no width to the row. */
+.match-row .match-lead > .ex-mark { position: absolute; inset-block-start: -8px; inset-inline-start: -8px; inline-size: 20px; block-size: 20px; border-radius: var(--r-pill); background: var(--key); border: 1px solid var(--ok); }
 .match-row.is-right { border-color: var(--ok); }
 .match-row .match-a { text-align: end; font-weight: 500; }
 .match-row .match-b { text-align: start; }
@@ -1371,8 +1396,8 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .cat-tag { font-weight: 500; }
 
 /* Sound questions (EX-10): a play key beside each option, outside it. */
-.opt-row { display: flex; align-items: center; gap: var(--s2); }
-.opt-row > .option { flex: 1; min-width: 0; }
+.opt-row { display: flex; align-items: center; gap: var(--s2); min-width: 0; }
+.opt-row > .option { flex: 1; min-width: 0; overflow-wrap: break-word; }
 .ex-say { display: inline-block; vertical-align: middle; }
 @media (pointer: coarse) { .opt-row > .key.icon-only, .ex-say > .key.icon-only, .match-row .key.icon-only { width: 2.75rem; min-height: 2.75rem; } }
 
