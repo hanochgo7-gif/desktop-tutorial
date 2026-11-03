@@ -473,6 +473,18 @@ export function holdTodayPart(learnBlock) {
 // daily default from Settings. Today, the lesson end and dayStatus read it from here (TP-1).
 export const todayMinutes = (s = settings()) => (s.today_minutes?.date === todayKey() && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes);
 
+// The lessons whose pace today's minutes need: every lesson answered today, and every lesson whose explanation
+// was read today (the 'learn' event, contract (f)), which adaptive.minutesToday counts as reading time. Today and
+// the lesson end both load their paces from this list, so the two never count the same day differently.
+export function todayLessonIds() {
+  const day = todayKey();
+  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
+  return [...new Set([
+    ...model().attempts.filter((a) => a.source === 'lesson' && a.lesson && isToday(a.at)).map((a) => a.lesson),
+    ...store.all('events').filter((e) => e.type === 'learn' && e.lesson && isToday(e.at)).map((e) => e.lesson),
+  ])];
+}
+
 // The day's state, the one rule Today and the lesson end share (TP-1; plan-r4 contract (a)): today's plan for
 // today's minutes, the minutes today's records add up to, and whether the plan is done (planStatus). paces is a
 // Map of lesson id -> { minutes, exercises, intro } for the lessons answered today; a lesson it does not have

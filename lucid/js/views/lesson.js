@@ -11,13 +11,10 @@ import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
 import { exitTarget, fitFooter, fitOnResize, retryNote } from '../ui/player.js';
-import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due, resumeStep } from '../core/learner.js';
-// The day's status comes from learner.dayStatus when it exists (contract (a), today-path TP-1), read through the
-// namespace so this module still loads before that export lands.
-import * as learner from '../core/learner.js';
+import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due, resumeStep, dayStatus, todayLessonIds } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
-import { lessonOrder, introSlots, firstTries, minutesToday, planStatus, isLessonId } from '../core/adaptive.js';
+import { lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
 import { answerPoints, isMissed, fillGaps, mistakeNote, clipDiff, sameOrder } from '../core/pool.js';
 
 export { answerPoints };
@@ -448,29 +445,14 @@ function planSlice(id, lesson) {
     return todayPlan(settings().daily_minutes, { lesson }).blocks.find((b) => b.id === 'learn' && b.lesson === id)?.slice || null;
   } catch { return null; }
 }
-// Today's state of the day after this lesson (LF-1), by Today's own rule: the plan for today's minutes (a choice
-// made on Today counts for that day only), and the day is done when every block is done or today's work adds up
-// to those minutes (adaptive.planStatus with minutesToday). learner.dayStatus (TP-1) is used when it exists;
-// this fallback is the same computation, so the lesson end and Today never disagree.
+// Today's state of the day after this lesson (LF-1), by Today's own rule: learner.dayStatus (TP-1, contract (a)),
+// the one rule both screens read, with the paces of the same lessons Today loads (learner.todayLessonIds).
 // Returns { complete, next, firstRecallOpen }, or null (placement still pending, or no plan).
 export function planLeft({ lesson = null, scenarios = [], writingTasks = [], paces = new Map() } = {}) {
   try {
     if (model().placementPending) return null;
-    if (typeof learner.dayStatus === 'function') {
-      const st = learner.dayStatus({ lesson, scenarios, writingTasks, paces });
-      if (st) return { complete: Boolean(st.complete), next: st.complete ? null : st.next || null, firstRecallOpen: firstRecallOpen(st.plan, st.firstRecallOpen) };
-    }
-    const s = settings();
-    const day = todayKey();
-    const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
-    const target = s.today_minutes?.date === day && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes;
-    const plan = todayPlan(target, { lesson, scenarios, writingTasks });
-    const minutesDone = minutesToday({
-      attempts: model().attempts.filter((a) => isToday(a.at)), events: store.all('events').filter((e) => isToday(e.at)), lessons: paces,
-      whole: store.all('progress').filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
-    });
-    const st = planStatus(plan, { minutesDone, target });
-    return { complete: st.complete, next: st.complete ? null : plan.blocks.find((b) => !b.done) || null, firstRecallOpen: firstRecallOpen(plan) };
+    const st = dayStatus({ lesson, scenarios, writingTasks, paces });
+    return { complete: Boolean(st.complete), next: st.complete ? null : st.next || null, firstRecallOpen: firstRecallOpen(st.plan, st.firstRecallOpen) };
   } catch { return null; }
 }
 // Words that entered review today and have not had their first round yet, while the review block is open.
@@ -510,11 +492,11 @@ export default async function lessonView(el, ctx) {
   // Leaving returns to where the learner came from (LF-11).
   const exitTo = exitTarget(ctx.from, 'today');
   // What Today needs to judge the day (LF-1), loaded while the lesson runs: the scenarios and writing tasks of
-  // the plan, the next lesson's file and the pace of every lesson answered today. Each load is cached.
+  // the plan, the next lesson's file and the pace of every lesson answered or read today, the same list Today
+  // loads (learner.todayLessonIds). Each load is cached.
   const dayExtras = { lesson: null, scenarios: [], writingTasks: [], paces: new Map() };
   (async () => {
-    const today = todayKey();
-    const ids = [...new Set(model().attempts.filter((a) => a.source === 'lesson' && a.lesson && a.lesson !== id && todayKey(new Date(a.at)) === today).map((a) => a.lesson))];
+    const ids = todayLessonIds().filter((x) => x !== id);
     const [sc, wr, nextFile, ...others] = await Promise.all([content.scenarios().catch(() => null), content.writingExercises().catch(() => null), nextPlan ? content.lesson(nextPlan.id).catch(() => null) : null, ...ids.map((x) => content.lesson(x).catch(() => null))]);
     dayExtras.scenarios = sc?.scenarios || [];
     dayExtras.writingTasks = wr?.exercises || [];

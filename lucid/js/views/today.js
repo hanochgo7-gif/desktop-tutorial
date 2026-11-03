@@ -3,7 +3,7 @@ import { html, render, on, todayKey } from '../core/util.js';
 import { tt, legend, t, uiLang, isolateLatin, bi, hebrewSupport } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
-import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayMinutes, holdTodayPart } from '../core/learner.js';
+import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayLessonIds, todayMinutes, holdTodayPart } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
 import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, introSlots, firstTries, GOAL_KINDS } from '../core/adaptive.js';
@@ -291,10 +291,7 @@ export default async function today(el, ctx) {
     // learner.dayStatus, which the lesson end reads too (TP-1), with the paces of today's lessons.
     const attemptsToday = m.attempts.filter((a) => isToday(a.at));
     const eventsToday = store.all('events').filter((e) => isToday(e.at));
-    loadPaces([...new Set([
-      ...attemptsToday.filter((a) => a.source === 'lesson' && a.lesson).map((a) => a.lesson),
-      ...eventsToday.filter((e) => e.type === 'learn' && e.lesson).map((e) => e.lesson),
-    ])]);
+    loadPaces(todayLessonIds());
     const day = dayStatus({ ...extras, paces });
     lastPlan = day.plan;
     const { target, plan, complete } = day;

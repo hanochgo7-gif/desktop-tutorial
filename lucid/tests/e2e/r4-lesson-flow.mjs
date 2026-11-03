@@ -198,6 +198,41 @@ try {
     await shot(page, 'lf1-today-done', { fullPage: true });
     await ctx.close();
   });
+  await check('LF-1 A lesson read today but not answered counts the same at the lesson end and on Today: b1-01\'s explanation, then a2-01\'s last items on a 10-minute day', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2', { minutes: 10 });
+    // Read the start of b1-01's explanation (a 'learn' event, contract (f)), then leave it.
+    await page.goto(`${BASE}#/lesson/b1-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('button.key.enter[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn');
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    // a2-01's last items, answered here, end the lesson.
+    const l = lessonJson('a2-01');
+    await lessonAt(page, 'a2-01', 'e14');
+    await finish(page, l.exercises);
+    await page.waitForSelector('#pfoot .key.enter');
+    const p = await page.$eval('#pfoot .key.enter', (b) => ({ text: b.textContent.trim(), href: b.getAttribute('href') }));
+    const endDone = /סיימתם להיום/.test(p.text) && p.href === '#/today';
+    // The day as both screens count it: learner.dayStatus with the paces of every lesson answered or read today.
+    const mins = await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js'); const A = await import('./js/core/adaptive.js');
+      const paces = new Map();
+      for (const id of L.todayLessonIds()) { const x = await (await fetch(`content/lessons/${id}.json`)).json(); paces.set(id, { minutes: x.minutes, exercises: x.exercises.length, intro: A.introSlots(x) }); }
+      return { ids: L.todayLessonIds(), withRead: L.dayStatus({ paces }).minutesDone, withoutRead: L.dayStatus({ paces: new Map([...paces].filter(([k]) => k !== 'b1-01')) }).minutesDone };
+    });
+    await shot(page, 'lf1-read-end', { fullPage: true });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    await page.waitForTimeout(300);
+    const todayDone = Boolean(await page.$('.done-banner'));
+    await shot(page, 'lf1-read-today', { fullPage: true });
+    await ctx.close();
+    // The b1-01 reading is what finishes the day here, so a lesson end that counted it at the default pace would differ.
+    assert(mins.ids.includes('b1-01') && mins.withRead >= 10 && mins.withoutRead < 10, `the case does not test the reading: ${JSON.stringify(mins)}`);
+    assert(endDone === todayDone && todayDone, `lesson end done ${endDone} (${p.text}), Today done ${todayDone}, ${JSON.stringify(mins)}`);
+  });
   await check('LF-1 A 30-minute day with the review still open: the end key opens #/review itself, not Today', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A2', { minutes: 30 });
