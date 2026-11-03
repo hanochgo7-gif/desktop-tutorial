@@ -744,6 +744,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
 
     case 'write': {
       ctl.graded = false;
+      const topic = ex.topic || null; // passed to the analyzer, which may use it (RW-1)
       // Nothing is sent, so the key says what happens: "Save and check" (P2 EX-11). It stays off, saying how many
       // words are still needed, until the text has max(10, 25% of the minimum) words (never more than the minimum).
       const need = ex.min_words ? Math.min(ex.min_words, Math.max(10, Math.ceil(ex.min_words * 0.25))) : 3;
@@ -751,7 +752,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en" dir="ltr">${w}</span> `)}</p>` : ''}</div>
         <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלך', 'Your text')}</label>
         <textarea class="input ex-write" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4)" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
-        <p class="small faint num" data-wc>0 ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}</p>`);
+        <p class="small faint num" data-wc>${wordCountLine(0, ex)}</p>`);
       const ta = $('textarea', root);
       const label = () => {
         const b = root.closest('.player')?.querySelector('[data-check]');
@@ -763,16 +764,22 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           l = $('[data-check-label]', b);
         }
         const left = need - countWords(ta.value);
-        render(l, html`<span>${tt('שמירה ובדיקה', 'Save and check')}</span>${left > 0 ? html`<small class="check-need">${left === 1 ? tt('עוד מילה אחת', '1 more word') : tt(`עוד ${left} מילים`, `${left} more words`)}</small>` : ''}`);
+        // r4 EX-7: one range on the screen (the counter's). The key says from when a draft can be saved.
+        render(l, html`<span>${tt('שמירה ובדיקה', 'Save and check')}</span>${left > 0 ? html`<small class="check-need">${tt(`אפשר לשמור טיוטה מ-${need} מילים (עוד ${left})`, `A draft can be saved from ${need} words (${left} more)`)}</small>` : ''}`);
       };
       // The player draws its footer after the exercise, so the key is named once it is there.
       queueMicrotask(label);
-      offs.push(on(root, 'input', 'textarea', () => { const n = countWords(ta.value); $('[data-wc]', root).textContent = `${n} ${tt('מילים', 'words')} · ${tt('לפחות', 'at least')} ${ex.min_words}`; onChange(n >= need); label(); }));
+      offs.push(on(root, 'input', 'textarea', () => { const n = countWords(ta.value); $('[data-wc]', root).textContent = wordCountLine(n, ex); onChange(n >= need); label(); }));
       ctl.ready = () => countWords(ta.value) >= need;
       ctl.check = async () => {
         ta.readOnly = true;
         const text = ta.value;
-        const a = analyzeWriting(text, { level, minWords: ex.min_words, maxWords: ex.max_words, mustInclude: ex.must_include || [] });
+        // A story, blog post or message is not formal writing, whatever the level (r4 EX-7): "didn't" is fine there.
+        const informal = INFORMAL_TASK.test(`${ex.genre || ''} ${ex.prompt?.en || ''} ${ex.prompt?.he || ''}`);
+        const a = analyzeWriting(text, { level, minWords: ex.min_words, maxWords: ex.max_words, mustInclude: ex.must_include || [], ...(informal ? { formal: false } : {}), topic });
+        // Saved below the minimum: a draft, and the result says so (contract e: the lesson shows it amber).
+        const words = a.stats?.words ?? countWords(text);
+        const short = Boolean(ex.min_words) && words < ex.min_words;
         const issues = a.issues.slice(0, 5);
         root.insertAdjacentHTML('beforeend', '<div data-writeout></div>');
         render($('[data-writeout]', root), html`<div class="stack" style="margin-top:var(--s5)">
@@ -782,7 +789,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
             <p class="xsmall faint">${tt('אלה בדיקות אוטומטיות פשוטות, לא ציון. משוב מלא יש במעבדת הכתיבה.', 'These are simple automatic checks, not a grade. Full feedback is in the Writing lab.')}</p></div>
           <div class="panel flat stack-sm"><h3 class="small">${tt('בדקו את עצמכם', 'Check yourself')}</h3><div class="self-check" dir="ltr">${ex.checklist.map((c) => html`<label class="self-check-item"><input type="checkbox"><span class="self-check-text">${bi(c)}</span></label>`)}</div></div>
           <details class="panel flat"><summary>${tt('דוגמה לתשובה', 'A model answer')}</summary><p lang="en" dir="ltr" style="margin-top:var(--s3)">${ex.model_answer}</p></details></div>`);
-        return { graded: false, correct: a.passedRequired, score: null, response: text, writing: true };
+        return { graded: false, correct: a.passedRequired, score: null, response: text, writing: true, ...(short ? { short: true, missing: ex.min_words - words } : {}) };
       };
       break;
     }
@@ -797,6 +804,15 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
   ctl.destroy = () => { offs.forEach((o) => o()); destroy(); };
   return ctl;
 }
+
+// The lesson writing step's one word range (r4 EX-7): "{n} מילים · יעד {min}-{max}".
+export function wordCountLine(n, ex) {
+  const words = n === 1 ? tt('מילה אחת', '1 word') : tt(`${n} מילים`, `${n} words`);
+  const target = ex.max_words ? `${ex.min_words}-${ex.max_words}` : tt(`${ex.min_words} ומעלה`, `${ex.min_words}+`);
+  return `${words} · ${tt('יעד', 'target')} ${target}`;
+}
+// Tasks that are not formal writing: a story, a blog post, a message, a chat, a diary entry or a postcard.
+export const INFORMAL_TASK = /story|blog|message|chat|diary|postcard|סיפור|בלוג|הודעה/i;
 
 // A speaking item's pronunciation note. It is a contrastive note for Hebrew speakers, so its Hebrew shows at
 // every support level except "off", as the Speaking lab's sound tips do (research C3; R1-A10). At 130-150% text
@@ -900,6 +916,7 @@ export function sentenceDiffHtml(typed, key) {
 // The verdict shown in the player footer after checking: the result and the correct form first, the
 // explanation one tap away behind "Why?" (research D7), so it never covers the exercise on a phone.
 export function verdictHtml(ex, r, errors) {
+  if (r.writing && r.short) return html`<div class="verdict-title">${icon('info', { size: 18 })} ${tt(r.missing === 1 ? 'נשמר כטיוטה · קצר מהיעד במילה אחת' : `נשמר כטיוטה · קצר מהיעד ב-${r.missing} מילים`,`Saved as a draft · ${r.missing} ${r.missing === 1 ? 'word' : 'words'} short of the target`)}</div>`;
   if (r.writing) return html`<div class="verdict-title">${icon('check', { size: 18 })} ${tt('נשמר. עברו על הבדיקות והדוגמה.', 'Saved. Go through the checks and the model.')}</div>`;
   if (r.speak || r.self != null) {
     const title = r.self === 1 ? tt('סימנתם: אמרתי בבירור', 'You marked it: said clearly') : r.self === 0 ? tt('נרשם: צריך עוד תרגול', 'Noted: more practice needed') : tt('תרגול דיבור נרשם', 'Speaking practice recorded');

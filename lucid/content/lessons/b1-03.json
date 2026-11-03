@@ -286,7 +286,7 @@
       "prompt": { "en": "Write the opening of a story.", "he": "כתבו פתיחה של סיפור." },
       "task": { "en": "Write the opening of a story (100-150 words). You can start with 'It was a cold night in January...' or choose your own first line. First set the scene: use at least three verbs in the past continuous (what was happening, what people were doing). Then tell what happened, using when and while at least once each.", "he": "כתבו פתיחה של סיפור (100-150 מילים). אפשר להתחיל ב-'It was a cold night in January...' או לבחור משפט פתיחה משלכם. קודם בנו את הרקע: השתמשו לפחות בשלושה פעלים בעבר מתמשך (מה התרחש, מה אנשים עשו). אחר כך ספרו מה קרה, ושלבו לפחות פעם אחת when ופעם אחת while." },
       "min_words": 100,
-      "max_words": 160,
+      "max_words": 150,
       "must_include": ["while", "when"],
       "model_answer": "It was a cold night in January, and the streets of Jerusalem were almost empty. A strong wind was blowing, and a few people were hurrying home with their hoods up. I was sitting at the bus stop and listening to music while I was waiting for the last bus. Across the road, an old man was feeding some cats.\n\nSuddenly, a car stopped in front of me and the window went down. It was my grandfather! He was driving home from a friend's house when he saw me at the bus stop. 'Get in,' he said. 'Your grandmother has made soup.' While we were driving home, he told me stories about the night it snowed in Jerusalem when he was a boy.",
       "checklist": [

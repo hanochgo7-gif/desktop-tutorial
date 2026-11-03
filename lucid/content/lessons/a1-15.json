@@ -265,7 +265,7 @@
       "prompt": { "en": "Final task: write about yourself and your daily life.", "he": "משימת סיום: כתבו על עצמכם ועל סדר היום שלכם." },
       "task": { "en": "Write a short introduction about yourself and your daily life (60-80 words). Use three mini-paragraphs: 1) about you (name, age, where you live, work or studies), 2) your day (what you usually do and when), 3) your free time (what you like and why). Join ideas with and, but, because and so, and check your capital letters and full stops.", "he": "כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים). כתבו שלוש פסקאות קטנות: 1) עליכם (שם, גיל, איפה אתם גרים, עבודה או לימודים), 2) היום שלכם (מה אתם עושים בדרך כלל ומתי), 3) הזמן הפנוי (מה אתם אוהבים ולמה). חברו רעיונות בעזרת and, but, because, so, ובדקו אותיות גדולות ונקודות." },
       "min_words": 60,
-      "max_words": 100,
+      "max_words": 80,
       "must_include": ["and", "but", "because", "so"],
       "model_answer": "My name is Yael, and I'm 23. I'm from Be'er Sheva, but now I live in Tel Aviv. I'm a graphic designer.\n\nOn weekdays I get up at seven. I work from home, so I don't take the bus. I usually finish at five, and then I go to the gym.\n\nIn my free time I cook and read. I love Fridays because my friends come for dinner.",
       "checklist": [

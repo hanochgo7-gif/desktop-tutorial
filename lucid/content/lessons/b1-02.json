@@ -268,7 +268,7 @@
       "prompt": { "en": "Catch up with an old friend.", "he": "התעדכנו עם חבר/ה ותיק/ה." },
       "task": { "en": "You haven't written to an old friend for a long time. Write an email (80-120 words). Include: how long you've lived, studied or worked where you are now (for or since); two things you've done recently (with just or already); one thing you haven't done yet; and one finished event with a past time (last month, in June...). End with a question to your friend.", "he": "מזמן לא כתבתם לחבר או לחברה ותיקים. כתבו מייל (80-120 מילים). כללו: כמה זמן אתם גרים, לומדים או עובדים במקום הנוכחי (for או since); שני דברים שעשיתם לאחרונה (עם just או already); דבר אחד שעוד לא עשיתם (yet); ואירוע אחד שהסתיים עם ציון זמן בעבר. סיימו בשאלה לחבר/ה." },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "must_include": ["yet"],
       "model_answer": "Hi Lior,\n\nSorry I haven't written for ages! Lots of news. I've lived in Jerusalem since March, and I've started a course in graphic design. I've already made some good friends there, and I've just finished my first big project, a poster for a local music festival. Last month I went to Eilat with my classmates. We swam at the coral beach and slept under the stars. Amazing!\n\nI haven't found a part-time job yet, so money is a bit tight. How about you? Have you finished your army service yet? Let's catch up soon!\n\nHugs,\nYael",
       "checklist": [

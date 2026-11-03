@@ -266,6 +266,39 @@ try {
     assert(/חסרה מילה/.test(w.text), `a1-11 e9 note: ${w.text}`);
     await ctx.close();
   });
+  // ---------- EX-7 ----------
+  await check('EX-7 lesson writing: one range "יעד 80-120" on b1-01 e16; 40 words save as a short draft (short:true); a story does not flag "didn\'t" as formal', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'B1');
+    await openExercise(page, 'b1-01', 'e16');
+    const counter = await page.textContent('#exroot [data-wc]');
+    assert(/יעד 80-120/.test(counter) && !/לפחות/.test(counter), `counter: ${counter}`);
+    const forty = Array.from({ length: 5 }, () => 'I have been to Eilat and it was a really nice trip.').join(' ').split(' ').slice(0, 40).join(' ');
+    await page.fill('#exroot textarea', 'I have been to Eilat.');
+    const key = (await page.textContent('[data-check]')).replace(/\s+/g, ' ');
+    assert(/אפשר לשמור טיוטה מ-20 מילים \(עוד 15\)/.test(key), `the disabled key: ${key}`);
+    await page.fill('#exroot textarea', forty);
+    await shot(page, 'ex7-counter-390');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    const v = await verdict(page);
+    assert(/קצר מהיעד/.test(v.text) && /נשמר כטיוטה/.test(v.text), `verdict: ${v.text}`);
+    await shot(page, 'ex7-short-390');
+    await mountAlone(page, 'b1-01', 'e16');
+    await page.fill('#__root textarea', forty);
+    const r = await page.evaluate(() => window.__ctl.check());
+    assert(r.short === true && r.missing === 40, `check(): ${JSON.stringify({ short: r.short, missing: r.missing })}`);
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'B2');
+    await openExercise(b.page, 'b2-01', 'e16');
+    await b.page.fill('#exroot textarea', Array.from({ length: 25 }, () => "I didn't know what had happened before we arrived at the old house.").join(' '));
+    await b.page.click('[data-check]');
+    await b.page.waitForSelector('#exroot [data-writeout]');
+    const out = await b.page.textContent('#exroot [data-writeout]');
+    assert(!/קיצור בכתיבה רשמית/.test(out), 'a story flags "didn\'t" as a contraction in formal writing');
+    await b.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

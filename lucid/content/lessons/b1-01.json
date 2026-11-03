@@ -1090,7 +1090,7 @@
         "he": "ענו על השאלה בפורום (מה הדבר הכי לא רגיל שעשיתם אי פעם?). כתבו 80-120 מילים. השתמשו ב-present perfect לפחות ארבע פעמים (עם ever, ‏never, ‏been או gone), והוסיפו פרט או שניים בעבר פשוט (מתי או איפה זה קרה). סיימו בשאלה לקוראים האחרים."
       },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "model_answer": "Great question! I've never jumped out of a plane, but I've had a few unusual experiences. I've been on the radio twice, because my band won a competition for young musicians. The first time, I was so nervous that I forgot the name of our song! I've also taken part in a 24-hour hackathon. We stayed up all night and built an app for our school. My best friend has gone to Berlin for a year, so now I'm planning to visit him. I've never been to Germany, so it's top of my bucket list. What about you? Have you ever done something that scared you?",
       "checklist": [
         {

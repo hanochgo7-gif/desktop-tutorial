@@ -258,7 +258,7 @@
       "prompt": { "en": "Compare two places you know.", "he": "השוו בין שני מקומות שאתם מכירים." },
       "task": { "en": "Compare two places you know well (two towns, neighbourhoods, schools or cafés). Write 50-80 words. Use at least three comparatives with than, one irregular form (better, worse or further) and one sentence with as ... as or not as ... as.", "he": "השוו בין שני מקומות שאתם מכירים טוב (שתי ערים, שכונות, בתי ספר או בתי קפה). כתבו 50-80 מילים. השתמשו לפחות בשלושה ערכי יתרון עם than, בצורה חריגה אחת (כמו better) ובמשפט אחד עם as ... as או not as ... as." },
       "min_words": 50,
-      "max_words": 100,
+      "max_words": 80,
       "must_include": ["than", "as"],
       "model_answer": "I live in Ramat Gan, but my grandparents live in a small village in the Galilee. The village is much quieter than Ramat Gan, and the air is cleaner. People there are friendlier than in the city, and life is slower. But Ramat Gan is more convenient than the village: the shops are closer and the buses are better. The village isn't as exciting as the city, but it's a better place to relax at the weekend.",
       "checklist": [

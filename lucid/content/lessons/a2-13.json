@@ -276,7 +276,7 @@
       "prompt": { "en": "Write a note for a friend who is looking after your flat.", "he": "כתבו פתק לחברה שתשמור על הדירה שלכם." },
       "task": { "en": "You're going away for the weekend, and your friend Priya is looking after your flat and your cat. Write her a note (40-80 words) with instructions. Use at least four phrasal verbs from this lesson (for example look after, turn off, throw away, pick up).", "he": "אתם נוסעים לסוף השבוע, והחברה שלכם פריה שומרת על הדירה ועל החתול שלכם. כתבו לה פתק (40-80 מילים) עם הוראות. השתמשו לפחות בארבעה פעלים מורכבים מהשיעור (למשל look after, ‏turn off, ‏throw away, ‏pick up)." },
       "min_words": 40,
-      "max_words": 90,
+      "max_words": 80,
       "model_answer": "Hi Priya! Thanks for looking after the flat this weekend. Please feed Mitzi twice a day and throw away any food she doesn't eat. When you go out, turn off the lights and the air conditioning. If you can't find something, look for it in the kitchen cupboard. I'm coming back on Sunday evening, so you don't have to pick me up. See you soon!\nLior",
       "checklist": [
         { "en": "I used at least four phrasal verbs (look after, turn off, throw away, look for...).", "he": "השתמשתי לפחות בארבעה פעלים מורכבים (look after, turn off, throw away, look for...)." },

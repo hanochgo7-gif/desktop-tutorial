@@ -450,7 +450,7 @@ try {
     await openExercise(page, 'c2-03', idx);
     await page.fill('#exroot textarea', 'This is my answer with seven words.');
     const key = await page.$eval('[data-check]', (b) => ({ off: b.disabled, text: b.textContent.replace(/\s+/g, ' ') }));
-    assert(key.off && /שמירה ובדיקה/.test(key.text) && /עוד \d+ מילים/.test(key.text), `writing key: ${JSON.stringify(key)}`);
+    assert(key.off && /שמירה ובדיקה/.test(key.text) && /אפשר לשמור טיוטה מ-\d+ מילים \(עוד \d+\)/.test(key.text), `writing key: ${JSON.stringify(key)}`);
     // The two lines of the key's label are stacked, not side by side.
     const lines = await page.$eval('[data-check] [data-check-label]', (l) => { const [a, b] = [...l.children].map((c) => c.getBoundingClientRect()); return a && b ? { stacked: b.top >= a.bottom - 1 } : null; });
     assert(lines?.stacked, `the writing key's label is not stacked: ${JSON.stringify(lines)}`);

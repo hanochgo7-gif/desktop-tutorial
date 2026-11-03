@@ -254,7 +254,7 @@
       "prompt": { "en": "Write tips for a visitor to your town.", "he": "כתבו המלצות למבקרים בעיר שלכם." },
       "task": { "en": "A friend from abroad is visiting your town or city. Write a short message (50-80 words) with your tips: the best place to eat, the most interesting place to visit, the worst time to go somewhere, and one more tip. Use at least four superlatives and one sentence with I've ever.", "he": "חבר או חברה מחו״ל מגיעים לבקר בעיר שלכם. כתבו הודעה קצרה (50-80 מילים) עם המלצות: המקום הכי טוב לאכול בו, המקום הכי מעניין לבקר בו, הזמן הכי גרוע ללכת למקום מסוים, ועוד טיפ אחד. השתמשו לפחות בארבעה ערכי הפלגה ובמשפט אחד עם I've ever." },
       "min_words": 50,
-      "max_words": 100,
+      "max_words": 80,
       "must_include": ["the best", "ever"],
       "model_answer": "Welcome to Haifa! In my opinion, the best place to eat is a small hummus restaurant near the port. It's the best hummus I've ever had. The most interesting area to visit is the German Colony, and the view from the top of the Carmel is the most beautiful in the city. The worst time to drive is Sunday morning: it's the busiest time of the week. The easiest way to get around is by bus.",
       "checklist": [
