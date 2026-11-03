@@ -463,7 +463,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => placed.size === items.length;
       // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
       // A wrong sentence sorted rightly into the "wrong" bin gets no green tick: it is struck through, with its
-      // fix beside it when the item has one, and a neutral "in place" tag (P2 EX-9).
+      // fix beside it when the item has one, and a neutral "in the right place" tag (P2 EX-9).
       const wrongBin = (c) => ex.categories.length === 2 && ex.categories.some((x) => /^correct$/i.test(x)) && !/^correct$/i.test(c);
       const markPlaced = () => {
         let right = 0;
@@ -475,7 +475,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
             b.classList.add('is-struck');
             render(b, html`<span class="sr-only" ${uiAttrs()}>${tt('במקום הנכון:', 'Right:')} </span>${it.fix
               ? sentenceDiff(it.text, it.fix).map((p) => (p.type === 'same' ? html`<span>${p.text}</span> ` : p.type === 'del' ? html`<del>${p.text}</del> ` : html`<ins>${p.text}</ins> `))
-              : html`<s>${it.text}</s>`}<span class="tag cat-tag" ${uiAttrs()}>${tt('במקום', 'In place')}</span>`);
+              : html`<s>${it.text}</s>`}<span class="tag cat-tag" ${uiAttrs()}>${tt('במקום הנכון', 'Right place')}</span>`);
             return;
           }
           b.classList.add(ok ? 'is-right' : 'is-wrong');
@@ -487,7 +487,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         root.dataset.locked = '1';
         const right = markPlaced();
         const correct = right === items.length;
-        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: tt(`${right} מתוך ${items.length} במקום`, `${right} of ${items.length} in place`), fixes: categoryFixes(ex, placed) });
+        return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: tt(`${right} מתוך ${items.length} במקום הנכון`, `${right} of ${items.length} in the right place`), fixes: categoryFixes(ex, placed) });
       };
       // "I don't know": every item sorted into its own bin and marked.
       ctl.reveal = () => {
@@ -676,7 +676,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           render($(`[data-q="${qi}"] .q-fb`, root), html`<p class="small" style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${ok ? tt('נכון', 'Correct') : html`${tt('התשובה:', 'Answer:')} ${answerEl(keyText(q))}`}</p>${q.explanation ? html`<p class="small muted">${bi(q.explanation)}</p>` : ''}`);
         });
         const score = right / ex.questions.length;
-        return result({ correct: score >= 0.99, almost: score >= 0.5 && score < 0.99, score, response: `${right}/${ex.questions.length}`, error_type: 'comprehension', summary: `${right}/${ex.questions.length}` });
+        return result({ correct: score >= 0.99, almost: score >= 0.5 && score < 0.99, score, response: `${right}/${ex.questions.length}`, error_type: 'comprehension', summary: tt(`${right} מתוך ${ex.questions.length} נכונות`, `${right} of ${ex.questions.length} right`) });
       };
       // "I don't know": every answer marked in place, with its explanation; the text and "Read it to me" stay.
       ctl.reveal = () => {

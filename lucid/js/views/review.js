@@ -87,13 +87,20 @@ export default async function review(el, ctx) {
   }
 
   // Nothing to review: the bare player route keeps a heading, the next step and a way out (PH-2).
+  // "בעוד כשעה", "בעוד כשעתיים", "בעוד כ-5 שעות", then days the same way: never "כ-1 שעות".
+  function inAbout(ms) {
+    const h = Math.max(1, Math.round(ms / 3_600_000));
+    if (h < 24) return h === 1 ? ['בעוד כשעה', 'in about an hour'] : h === 2 ? ['בעוד כשעתיים', 'in about 2 hours'] : [`בעוד כ-${h} שעות`, `in about ${h} hours`];
+    const d = Math.round(h / 24);
+    return d === 1 ? ['בעוד כיום', 'in about a day'] : d === 2 ? ['בעוד כיומיים', 'in about 2 days'] : [`בעוד כ-${d} ימים`, `in about ${d} days`];
+  }
   function empty() {
     const next = cards.map((c) => new Date(c.fsrs.due)).filter((d) => d > now).sort((a, b) => a - b)[0];
-    const hours = next ? Math.max(1, Math.round((next - now) / 3_600_000)) : null;
+    const when = next ? inAbout(next - now) : null;
     const importLevel = vocabImportLevel();
     const L = importLevel && (LEVEL_LABEL[importLevel] || importLevel);
     const body = cards.length
-      ? (hours ? tt(`החזרה הבאה בעוד כ-${hours} שעות. לחזור מוקדם מדי פחות מועיל לזיכרון.`, `Next review in about ${hours} hours. Reviewing too early helps memory less.`) : '')
+      ? (when ? tt(`החזרה הבאה ${when[0]}. לחזור מוקדם מדי פחות מועיל לזיכרון.`, `Next review ${when[1]}. Reviewing too early helps memory less.`) : '')
       : importLevel ? tt(`מילים נכנסות לחזרה כשמשלימים שיעור. אפשר גם להוסיף עכשיו את מילות המפתח של שיעורי ${L} שדילגתם עליהם. הן ייכנסו בהדרגה, עד ${settings().new_per_day} ביום.`, `Words join your review when you complete a lesson. You can also add the key words of the ${L} lessons you placed out of now. They come in gradually, up to ${settings().new_per_day} a day.`)
         : tt('מילים נכנסות לחזרה כשמשלימים שיעור.', 'Words join your review when you complete a lesson.');
     render(el, html`<div class="review-empty"><div class="empty">
