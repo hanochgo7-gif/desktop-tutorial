@@ -4,7 +4,7 @@
 import { store } from './store.js';
 import { uid, todayKey } from './util.js';
 import { content } from './content.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, firstTries, introSlots, LEVELS, levelIndex } from './adaptive.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, firstTries, introSlots, planStatus, minutesToday, LEVELS, levelIndex } from './adaptive.js';
 import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
 import { setHebrewSupport } from './i18n.js';
 import { START_FOR, selfReportResult } from './placement.js';
@@ -371,7 +371,7 @@ export function resumeStep(resume) {
 
 // What the plan needs to know about the next lesson: its real length, the saved place (first pass and
 // retries apart), and the exercises missed on the first try when the last run ended "Nearly there".
-function lessonInfo(next, lesson, attempts, today) {
+function lessonInfo(next, lesson, attempts, today, held = null) {
   if (!next || !lesson || lesson.id !== next.id) return null;
   const p = progressOf(next.id);
   const r = p?.resume;
@@ -388,6 +388,8 @@ function lessonInfo(next, lesson, attempts, today) {
     step, missedRun: Boolean(step && r.missed),
     missed: missedIds.length ? { count: missedIds.length, minutes: Math.max(1, Math.round(missedIds.length * perItem)) } : null,
     doneToday: firstTries(attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today)).length,
+    // Where today's finished part ended, kept when the minutes changed after it (TP-2; see holdTodayPart).
+    held: held?.date === today && held.lesson === next.id && !r?.missed ? held.upto : null,
   };
 }
 
@@ -411,7 +413,9 @@ function doneToday(now, { scenarios, writingTasks, attempts }) {
     scenario: scenarios.find((x) => x.id === scenarioId) || null,
     writingTask: writingTasks.find((x) => x.id === latest((e) => e.type === 'writing' && e.exercise)) || null,
     reading: attempts.some((a) => a.source === 'reading' && isToday(a.at)),
-    speaking: events.some((e) => e.type === 'speaking'),
+    // TP-4: only real speaking practice ticks a speaking block: the speaking lab and scenarios, never the speak
+    // items inside a lesson (which log a 'speaking' event with their lesson).
+    speaking: events.some((e) => e.type === 'speaking' && (!e.lesson || e.source === 'speaking')),
     writing: events.some((e) => e.type === 'writing'),
     // Cards reviewed today per review mode, and the curriculum lesson completed most recently today (TF-2).
     reviews: events.filter((e) => e.type === 'review' && e.count > 0).reduce((o, e) => ({ ...o, [e.mode || 'review']: (o[e.mode || 'review'] || 0) + e.count }), {}),
@@ -448,11 +452,58 @@ export function todayPlan(minutes = settings().daily_minutes, { lesson = null, s
     next: m.next, weak: m.weak, recurring: m.recurring, level: m.courseLevel, goals, skipped: m.skipped,
     lastSpeakingAt: lastOf('speaking'), lastWritingAt: lastOf('writing'),
     lastReadingAt: m.attempts.filter((a) => a.source === 'reading').map((a) => a.at).sort().pop() || null,
-    lesson: lessonInfo(m.next, lesson, m.attempts, todayKey(now)),
+    lesson: lessonInfo(m.next, lesson, m.attempts, todayKey(now), settings().today_part),
     scenario: pickScenario(scenarios, { level: m.courseLevel, goals, done: scenariosDone }),
+    scenarios, scenariosDone,
     writingTask: task && { ...task, started: writingStarted.has(task.id) },
     today,
   });
+}
+
+// A lesson part finished today stays done for the rest of the day (TP-2): when the learner changes today's
+// minutes after finishing it, Today saves where it ended (with the new minutes, in one settings write), so the
+// done row does not reopen as a longer part. Returns the settings patch for the caller to save.
+export function holdTodayPart(learnBlock) {
+  const sl = learnBlock?.slice;
+  if (!learnBlock?.done || !sl?.partDone || !learnBlock.lesson) return {};
+  return { today_part: { date: todayKey(), lesson: learnBlock.lesson, upto: sl.upto } };
+}
+
+// The minutes for today (TF-5): a choice made on Today counts only for the day it was made, otherwise the
+// daily default from Settings. Today, the lesson end and dayStatus read it from here (TP-1).
+export const todayMinutes = (s = settings()) => (s.today_minutes?.date === todayKey() && s.today_minutes.n ? s.today_minutes.n : s.daily_minutes);
+
+// The day's state, the one rule Today and the lesson end share (TP-1; plan-r4 contract (a)): today's plan for
+// today's minutes, the minutes today's records add up to, and whether the plan is done (planStatus). paces is a
+// Map of lesson id -> { minutes, exercises, intro } for the lessons answered today; a lesson it does not have
+// counts at ITEM_MINUTES an exercise. next is the first block not done (null once the day is done); open, the
+// blocks left undone on a finished day. firstRecallOpen: the day is done, the review is not, and every card it
+// would show is a word that is new today, so its first round is still waiting (firstRecall says how many words
+// and minutes).
+export function dayStatus({ lesson = null, scenarios = [], writingTasks = [], paces = new Map() } = {}) {
+  const m = model();
+  const target = todayMinutes();
+  const plan = todayPlan(target, { lesson, scenarios, writingTasks });
+  const day = todayKey();
+  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
+  const attempts = m.attempts.filter((a) => isToday(a.at));
+  const progress = store.all('progress');
+  const minutesDone = minutesToday({
+    attempts, events: store.all('events').filter((e) => isToday(e.at)), lessons: paces,
+    whole: progress.filter((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
+  });
+  const st = planStatus(plan, { minutesDone, target });
+  const complete = !m.placementPending && st.complete;
+  const review = plan.blocks.find((b) => b.id === 'review');
+  const dueList = review && !review.done ? due().slice(0, review.count) : [];
+  const allNewToday = dueList.length > 0 && dueList.every((c) => isToday(c.created_at) && !c.log?.length && !c.fsrs?.reps);
+  const firstRecall = complete && allNewToday ? { count: dueList.length, minutes: review.minutes, route: review.route } : null;
+  return {
+    target, plan, minutesDone, complete, allDone: st.allDone,
+    next: complete ? null : plan.blocks.find((b) => !b.done) || null,
+    open: complete ? st.open : [],
+    firstRecallOpen: Boolean(firstRecall), firstRecall,
+  };
 }
 
 export function newBudgetToday() {

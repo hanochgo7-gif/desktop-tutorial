@@ -22,8 +22,8 @@ import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './we
 // Each goal says what it changes (adaptive.dailyPlan: GOAL_KINDS, SCENARIO_MODULES). The work note depends on
 // whether workplace scenarios exist yet. Profile uses the same cards and labels (goalCards).
 export const GOALS = [
-  ['travel', 'טיולים ונסיעות לחו״ל', 'Travel', 'מצבים מנסיעה: שדה תעופה, מלון, מקרי חירום', 'Real travel situations: airport, hotel, emergencies'],
-  ['work', 'עבודה ושיחות מקצועיות', 'Work', 'מצבים מהעבודה', 'Workplace situations'],
+  ['travel', 'טיולים ונסיעות לחו״ל', 'Travel', 'תרחישים מנסיעה: שדה תעופה, מלון, מקרי חירום', 'Real travel situations: airport, hotel, emergencies'],
+  ['work', 'עבודה ושיחות מקצועיות', 'Work', 'תרחישים מהעבודה', 'Workplace situations'],
   ['studies', 'בגרות, פסיכומטרי ולימודים אקדמיים', 'Exams and university', 'קריאה וכתיבה', 'Reading and writing'],
   ['conversation', 'ביטחון בשיחה', 'Confidence in conversation', 'שיחות מהחיים, ברמה שלכם', 'Real-life conversations at your level'],
   ['writing', 'כתיבה אקדמית וטיעונית', 'Academic and argumentative writing', 'משימות ממעבדת הכתיבה, וקריאה', 'Writing lab tasks, and reading'],
@@ -135,7 +135,7 @@ export default async function onboarding(el, ctx) {
         <h2 id="ob-min-h" class="ob-h2">${tt('כמה זמן ביום?', 'How much time a day?')}</h2>
         <p class="muted">${tt('תוכנית היום תתאים את עצמה לזמן הזה. ימים קצרים זה בסדר גמור.', 'Your daily plan fits this time. Short days are completely fine.')}</p>
         <div class="choice-list ob-choices" role="radiogroup" aria-labelledby="ob-min-h" aria-describedby="ob-min-note">${MINUTES.map(([m, he, en], i) => html`<button type="button" class="choice" role="radio" data-min="${m}" aria-checked="${String(data.daily_minutes === m)}" tabindex="${tabFor(data.daily_minutes === m, i, anyMin)}">${radioMark()}<span class="grow">${tt(he, en)}</span><span class="num faint">${m} ${tt('דק׳', 'min')}</span></button>`)}</div>
-        <p class="help ob-note" id="ob-min-note">${isolateLatin(tt('ב-10 דקות: שיעור וחזרה. המטרות מופיעות כהצעה, ומ-20 דקות בתוך התוכנית.', 'In 10 minutes: a lesson and a review. Your goals appear as a suggestion, and from 20 minutes inside the plan.'))}</p>
+        <p class="help ob-note" id="ob-min-note">${isolateLatin(tt('ב-10 דקות: שיעור וחזרה. ההצעות לפי המטרות מתחילות מרמה A1, ומ-20 דקות הן בתוך התוכנית.', 'In 10 minutes: a lesson and a review. Suggestions from your goals start at A1, and from 20 minutes they are inside the plan.'))}</p>
         <div class="field"><label for="ob-days">${tt('יעד שבועי: כמה ימים בשבוע?', 'Weekly goal: how many days a week?')}</label>
           <select class="input" id="ob-days" name="weekly_goal_days" aria-describedby="ob-days-help">${[2, 3, 4, 5, 6, 7].map((d) => html`<option value="${d}" ${d === data.weekly_goal_days ? html`selected` : ''}>${d}</option>`)}</select>
           <span class="help" id="ob-days-help">${tt('אין רצף שנשבר: יום חופש לא מוחק שום דבר.', 'There is no streak to break: a day off erases nothing.')}</span></div>`;
@@ -243,11 +243,15 @@ export default async function onboarding(el, ctx) {
       try { sessionStorage.setItem('lucid-ui-lang', b.dataset.ui); } catch { /* ignore */ }
       draw(null); el.querySelector(`[data-ui="${b.dataset.ui}"]`)?.focus();
     }),
-    // Text size applies at once, without redrawing the form, and is kept for this session (TF-1).
+    // Text size applies at once, without redrawing the form, and is kept for this session (TF-1). The key just
+    // tapped stays where the finger is (TP-11): the text above it grows, so the page scrolls by as much.
     on(el, 'click', '[data-size]', (e, b) => {
+      const before = b.getBoundingClientRect().top;
       data.text_size = Number(b.dataset.size);
       chooseTextSize(data.text_size);
       el.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      const moved = b.getBoundingClientRect().top - before;
+      if (Math.abs(moved) >= 1) globalThis.scrollBy?.({ top: moved, behavior: 'instant' });
     }),
     on(el, 'click', '[data-goal]', (e, b) => { const g = b.dataset.goal; data.goals = data.goals.includes(g) ? data.goals.filter((x) => x !== g) : [...data.goals, g]; b.setAttribute('aria-pressed', String(data.goals.includes(g))); }),
     on(el, 'click', '[data-start]', (e, b) => {

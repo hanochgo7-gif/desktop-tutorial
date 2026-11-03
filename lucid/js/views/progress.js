@@ -6,7 +6,7 @@ import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, mark } from '../ui/components.js';
 import { model, allCards, settings, weekActivity, currentSessionSeconds, due } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { periodReport, levelIndex } from '../core/adaptive.js';
+import { periodReport, levelIndex, WRITING_EVENTS } from '../core/adaptive.js';
 import { configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { RETENTION } from '../core/srs.js';
@@ -56,7 +56,7 @@ export default async function progress(el, ctx) {
         <a class="key small ghost" href="#/profile">${icon('user', { size: 16 })} ${tt('הפרופיל שלי', 'My profile')}</a></div>
       <div class="stack-lg">
         <section class="stack" aria-labelledby="rep-h"><h2 id="rep-h">${days === 7 ? tt('דוח שבועי', 'Weekly report') : tt('דוח חודשי', 'Monthly report')}</h2>
-          ${!m.attempts.some((a) => a.source !== 'placement') ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
+          ${!m.attempts.some((a) => a.source !== 'placement') && !events.some((e) => WRITING_EVENTS.includes(e.type)) ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
           <div class="stat-grid">
             <div class="stat"><div class="v num">${r.active_days}</div><div class="k">${tt('ימי לימוד', 'Days studied')}</div>${days === 7 ? html`<div class="d faint">${tt(`יעד: ${week.goal}`, `Goal: ${week.goal}`)}</div>` : ''}</div>
             <div class="stat"><div class="v num">${r.minutes}</div><div class="k">${tt('דקות פעילות', 'Active minutes')}</div></div>
@@ -65,6 +65,7 @@ export default async function progress(el, ctx) {
             <div class="stat"><div class="v num">${pct(r.retention)}</div><div class="k">${tt('זכירה בחזרות', 'Recall on reviews')}</div><div class="d faint">${tt(`יעד ${Math.round(target * 100)}%`, `Target ${Math.round(target * 100)}%`)}</div></div>
             <div class="stat"><div class="v num">${r.words_known}</div><div class="k">${tt('מילים יציבות (3 שבועות+)', 'Stable words (3+ weeks)')}</div><div class="d faint">${tt(`${r.words_started} חדשות בתקופה`, `${r.words_started} new this period`)}</div></div>
             <div class="stat"><div class="v num">${r.lessons_completed}</div><div class="k">${tt('שיעורים שהושלמו', 'Lessons completed')}</div></div>
+            <div class="stat" data-writing-sessions="${r.writing_sessions}"><div class="v num">${r.writing_sessions}</div><div class="k">${r.writing_sessions === 1 ? tt('פעם אחת של כתיבה', '1 writing session') : tt('פעמים של כתיבה', 'writing sessions')}</div><div class="d faint">${tt('במעבדת הכתיבה, בלי הערכת רמה', 'In the Writing lab, no level claim')}</div></div>
             <div class="stat"><div class="v num">${r.retention_30d == null ? '—' : pct(r.retention_30d)}</div><div class="k">${tt('זכירה אחרי 30 יום', 'Recall after 30 days')}</div><div class="d faint">${r.retention_30d == null ? tt('מחכה למספיק נתונים', 'Waiting for enough data') : ''}</div></div>
           </div>
           <div class="panel flat"><p class="small faint" style="margin-bottom:var(--s3)">${tt('תרגילים לפי', 'Exercises by')} ${days === 7 ? tt('יום', 'day') : tt('שבוע', 'week')}</p>

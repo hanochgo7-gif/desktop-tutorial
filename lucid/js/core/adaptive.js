@@ -283,6 +283,10 @@ export function lessonSlice(lesson, budget) {
   const remaining = Math.max(1, Math.round(left(done)));
   // A part is at least MIN_PART exercises; when fewer than that would be left after it, it is the rest (TF-3).
   const k = Math.max(MIN_PART, Math.floor((start > 0 ? budget : budget - intro * per) / per));
+  // A part finished today stays finished when the day's minutes change afterwards (TP-2): `held` is where that
+  // part ended, so a larger day offers the rest as an extra instead of reopening the done block.
+  const held = lesson.held && done >= lesson.held && done < n ? lesson.held : null;
+  if (held) return { today: Math.max(1, Math.round((start > 0 ? 0 : intro * per) + (held - start) * per)), total: lesson.minutes, remaining, split: true, done, of: n, revisit, upto: held, partDone: true };
   let upto = Math.min(n, start + k);
   if (n - upto < MIN_PART) upto = n;
   // It fits, or the part reaches the end: today is the rest of the lesson.
@@ -391,7 +395,7 @@ function practiceFocus({ recurring, weak, level }) {
 export function dailyPlan({
   minutes = 35, now = Date.now(), dueCount = 0, warmupCount = 0, todayNewCount = 0,
   next = null, weak = [], recurring = [], lastSpeakingAt = null, lastWritingAt = null, lastReadingAt = null, level = 'PreA1',
-  goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {},
+  goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {}, scenarios = [], scenariosDone = new Set(),
 } = {}) {
   const blocks = [];
   const extras = [];
@@ -423,7 +427,16 @@ export function dailyPlan({
   const used = blocks.find((b) => b.id === 'use');
   const offer = !used ? useBlock({ minutes: BUDGET[20].use, level, goals, last, scenario, writingTask, today })
     : used.done ? useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask }) : null;
-  const goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
+  let goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
+  // TP-10: once today's goal scenario is done, the next scenario for the goal (not done, not today's) is an extra
+  // under "Want more?". scenarios: the real-life list (todayPlan passes it); scenariosDone: the ones completed.
+  if (used?.done && used.scenario && scenarios.length) {
+    const nextSc = pickScenario(scenarios, { level, goals, done: new Set([...scenariosDone, ...(today.scenarios || []), used.scenario]) });
+    if (nextSc) {
+      extras.push({ id: 'use', kind: 'speaking', minutes: plan.use, route: `scenario/${nextSc.id}`, scenario: nextSc.id, goal: used.goal, why: 'scenario', done: false });
+      if (goalOffer?.route === `scenario/${nextSc.id}`) goalOffer = null;
+    }
+  }
   if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
   if (next) {
     const others = blocks.reduce((a, b) => a + b.minutes, 0);
@@ -475,26 +488,38 @@ export function planStatus(plan, { minutesDone = 0, target = 0 } = {}) {
 // cautious planning estimate from what was done, not measured time (Progress reports measured active minutes).
 // attempts and events: today's only. whole: ids of lessons begun and completed today. lessons: id -> { minutes,
 // exercises, intro } for the lessons whose pace is known.
+// TP-2: a lesson exercise counts once a day, so replaying a lesson (or its retries) never adds its minutes
+// again; and a lesson whose explanation was shown today (a 'learn' event, contract (f), logged by the lesson
+// player) adds its reading time once, like a lesson begun and completed today.
 export const ITEM_MINUTES = 1.5;
 const GAME_EVENTS = ['game-round', 'picture-round', 'memory-round'];
 export function minutesToday({ attempts = [], events = [], whole = [], lessons = new Map() } = {}) {
   const info = (id) => lessons.get(id);
   const pace = (id) => { const l = info(id); return l?.minutes && l.exercises ? l.minutes / (l.exercises + (l.intro ?? 2)) : ITEM_MINUTES; };
   let m = 0;
+  const seen = new Set();
   for (const a of attempts) {
-    if (a.source === 'lesson') m += pace(a.lesson);
-    else if (a.source === 'review') m += REVIEW_SECONDS / 60;
+    if (a.source === 'lesson') {
+      const k = a.exercise ? `${a.lesson}|${a.exercise}` : null;
+      if (k && seen.has(k)) continue;
+      if (k) seen.add(k);
+      m += pace(a.lesson);
+    } else if (a.source === 'review') m += REVIEW_SECONDS / 60;
     else if (a.source === 'scenario') m += 1;
     else if (a.source === 'roleplay') m += 5;
     else if (a.source !== 'placement' && !essayFeedback(a)) m += 0.5;
   }
-  for (const id of new Set(whole)) m += pace(id) * (info(id)?.intro ?? 2);
+  const read = events.filter((e) => e.type === 'learn' && e.lesson).map((e) => e.lesson);
+  for (const id of new Set([...whole, ...read])) m += pace(id) * (info(id)?.intro ?? 2);
   m += events.filter((e) => GAME_EVENTS.includes(e.type)).length * 2;
   m += new Set(events.filter((e) => e.type === 'writing' && e.exercise).map((e) => e.exercise)).size * 5;
   return Math.round(m);
 }
 
 // ---------- reports ----------
+// Writing-lab work: a text written, checked, rated or finalised (essay.js events). TP-8: the report counts writing
+// sessions (one per text per day) with no level claim, so a learner who only writes still gets a report.
+export const WRITING_EVENTS = ['writing', 'writing-final', 'writing-self-rating'];
 // extraSeconds: active time in the session that is still open (sessions are logged when they end).
 export function periodReport({ attempts = [], cards = [], progress = [], events = [], now = Date.now(), days = 7, extraSeconds = 0 }) {
   const since = now - days * DAY;
@@ -525,6 +550,7 @@ export function periodReport({ attempts = [], cards = [], progress = [], events 
     reviews: reviews.length,
     retention: acc(reviews),
     retention_30d: probes.length >= 5 ? acc(probes) : null,
+    writing_sessions: new Set(events.filter((e) => WRITING_EVENTS.includes(e.type) && inP(e.at)).map((e) => `${dayKey(e.at)}|${e.exercise || ''}`)).size,
     words_started: cards.filter((c) => c.kind === 'meaning' && inP(c.created_at)).length,
     words_known: cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.fsrs?.stability >= 21).length,
     improved,

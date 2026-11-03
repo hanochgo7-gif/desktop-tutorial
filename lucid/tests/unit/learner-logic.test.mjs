@@ -8,7 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { skillLevels, placementSkillEstimate, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonSlice, pickScenario, periodReport, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, MAX_ITEMS } from '../../js/core/placement.js';
-import { meaningOptions, seedOf, shortGloss, cardLevel } from '../../js/core/srs.js';
+import { meaningOptions, seedOf, shortGloss, cardLevel, vocabCardsFor } from '../../js/core/srs.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
 const at = (days, h = 0) => new Date(T0.getTime() + days * 86_400_000 + h * 3_600_000).toISOString();
@@ -341,4 +341,84 @@ test('the plan for the store: the next lesson file gives its real length', async
   const learn = [...plan.blocks, ...plan.extras].find((b) => b.id === 'learn' && b.lesson === next.id);
   assert.ok(learn.slice.total >= 15);
   assert.ok(plan.minutes <= 12, `${plan.minutes} min`);
+});
+
+// ---------- UX r4 today-path ----------
+// A fresh day for the store flows below: no answers, lessons, events or cards, a placement at A1, 10 minutes.
+async function freshDay({ level = 'A1', minutes = 10, goals = ['travel'] } = {}) {
+  for (const c of ['attempts', 'progress', 'events', 'cards', 'writing']) for (const x of storeMod.store.all(c)) storeMod.store.remove(c, x.id);
+  storeMod.store.put('profile', { id: 'me', onboarded: true, goals });
+  L.saveSettings({ daily_minutes: minutes, today_minutes: null, today_part: null });
+  await L.applyPlacement((await import('../../js/core/placement.js')).selfReportResult(level));
+}
+// The rule Today used inline before TP-1, recomputed here from its parts.
+async function inlineRule() {
+  const A = await import('../../js/core/adaptive.js');
+  const { todayKey } = await import('../../js/core/util.js');
+  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === todayKey();
+  const target = L.todayMinutes();
+  const plan = L.todayPlan(target);
+  const minutesDone = A.minutesToday({
+    attempts: L.model().attempts.filter((a) => isToday(a.at)), events: storeMod.store.all('events').filter((e) => isToday(e.at)),
+    whole: storeMod.store.all('progress').filter((x) => A.isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
+  });
+  return { ...A.planStatus(plan, { minutesDone, target }), minutesDone, first: plan.blocks.find((b) => !b.done)?.id };
+}
+
+test('TP-1: dayStatus agrees with Today\'s banner rule: neither, minutes met, all blocks done', async () => {
+  await freshDay();
+  assert.equal(typeof L.todayMinutes, 'function');
+  // Neither: nothing done yet.
+  let d = L.dayStatus(); let r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.minutesDone, d.target], [false, false, 0, 10]);
+  assert.equal(d.next.id, r.first);
+  assert.equal(d.firstRecallOpen, false);
+  // Minutes met: 12 scenario replies count a minute each, so 12 >= 10 although the lesson block is open.
+  for (let i = 0; i < 12; i++) L.recordAttempt({ source: 'scenario', exercise: `rl-x:${i}`, topic: 'travel-functional', skill: 'speaking', level: 'A1', correct: true });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.allDone, r.allDone], [true, true, false, false]);
+  assert.equal(d.next, null);
+  assert.ok(d.open.length > 0 && d.open.every((b) => !b.done));
+  // All blocks done: the plan's lesson completed today and today's review taken, with only a few minutes.
+  await freshDay();
+  const lesson = await lessonFile(L.model().next.id);
+  L.startLesson(lesson);
+  L.finishLesson(lesson, { score: 0.9, passed: true });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete], [false, false], 'the review of the new words is still open');
+  assert.equal(d.next.id, 'review');
+  L.logEvent({ type: 'review', mode: 'review', count: L.due().length });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.allDone, r.allDone, d.minutesDone < d.target], [true, true, true, true, true]);
+});
+
+test('TP-1: on a finished day, an undone first round of today\'s new words is open (firstRecallOpen)', async () => {
+  await freshDay();
+  const lesson = await lessonFile(L.model().next.id);
+  const paces = new Map([[lesson.id, { minutes: lesson.minutes, exercises: lesson.exercises.length, intro: 2 }]]);
+  L.startLesson(lesson);
+  for (const e of lesson.exercises) L.recordAttempt({ source: 'lesson', lesson: lesson.id, exercise: e.id, topic: lesson.topics[0], skill: 'grammar', level: lesson.level, correct: true });
+  L.finishLesson(lesson, { score: 1, passed: true });
+  // The earlier test already added this lesson's words today (their deleted records stay), so they are put back
+  // as new cards of today, as finishLesson does on a fresh device.
+  for (const c of vocabCardsFor(lesson, [], new Date()).slice(0, 5)) storeMod.store.put('cards', c);
+  const d = L.dayStatus({ paces });
+  assert.equal(d.complete, true);
+  assert.equal(d.firstRecallOpen, true);
+  assert.ok(d.firstRecall.count > 0 && d.firstRecall.minutes >= 1 && d.firstRecall.route.startsWith('review'));
+  // An older card is waiting too: this is not only the first round of today's words.
+  const old = L.due()[0];
+  storeMod.store.put('cards', { ...old, id: 'old-card', created_at: new Date(Date.now() - 5 * 86_400_000).toISOString(), log: [{ at: 'x' }] });
+  assert.equal(L.dayStatus({ paces }).firstRecallOpen, false);
+});
+
+test('TP-4: a lesson speak item does not tick the speaking block; the speaking lab does', async () => {
+  await freshDay({ level: 'A1', minutes: 20, goals: [] });
+  const use = () => L.todayPlan(20).blocks.find((b) => b.id === 'use');
+  assert.equal(use().kind, 'speaking');
+  assert.equal(use().done, false);
+  L.logEvent({ type: 'speaking', lesson: 'a1-01', self: 1, recognised: false });
+  assert.equal(use().done, false, 'a lesson speak item ticked the speaking block');
+  L.logEvent({ type: 'speaking', drill: 'say-it', sound: 'th' });
+  assert.equal(use().done, true);
 });

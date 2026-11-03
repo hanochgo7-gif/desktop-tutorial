@@ -260,7 +260,8 @@ try {
     await page.selectOption('#ob-year', '1990');
     await page.click('button[type=submit]');
     const note = await page.textContent('#ob-min-note');
-    assert(/ב-10 דקות: שיעור וחזרה\. המטרות מופיעות כהצעה, ומ-20 דקות בתוך התוכנית\./.test(note), `step 2 note: ${note}`);
+    // UX r4 TP-9: the note says when goal suggestions begin (from A1).
+    assert(/ב-10 דקות: שיעור וחזרה\. ההצעות לפי המטרות מתחילות מרמה A1, ומ-20 דקות הן בתוך התוכנית\./.test(note), `step 2 note: ${note}`);
     const below = await page.evaluate(() => { const g = document.querySelector('[role="radiogroup"][aria-labelledby="ob-min-h"]'); return g.nextElementSibling?.id; });
     assert(below === 'ob-min-note', 'the note is not right under the minutes choice');
     assert(/דיבור וכתיבה לסירוגין/.test(await page.textContent('[data-goal="everyday"]')) && !/לא משנה את התוכנית/.test(await page.textContent('#ob-form')), 'the everyday goal still says it changes nothing');
