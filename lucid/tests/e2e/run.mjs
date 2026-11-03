@@ -1605,7 +1605,8 @@ try {
     const notice = await page.textContent('dialog[open]');
     assert(/הדפדפן|browser/.test(notice) && /לא מקליט ולא שומר|never records or keeps/.test(notice), `notice does not say who processes the voice and that nothing is kept: ${notice}`);
     await page.click('dialog[open] [value="no"]');
-    await page.waitForSelector('#exroot .error-text');
+    // r4 EX-9: keeping the microphone off is a neutral note (role=status), not an error.
+    await page.waitForSelector('#exroot .speak-note[role="status"]');
     assert(!(await page.$('#exroot .recognised')), 'recognition ran after "Not now"');
     await page.click('#exroot [data-rec]');
     await page.waitForSelector('dialog[open]');
