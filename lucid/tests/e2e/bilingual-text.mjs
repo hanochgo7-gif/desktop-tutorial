@@ -154,7 +154,9 @@ try {
       render(p, isolateLatin(chill));
       const bdis = [...p.querySelectorAll('bdi')];
       const manager = bdis.find((b) => b.textContent.includes('My manager'));
-      return { en: bdis.map((b) => b.textContent), after: manager?.nextSibling?.textContent || '', text: p.textContent };
+      // A sentence of 30 characters or fewer sits in its one-line unit (SB-3): the text after the unit follows it.
+      const box = manager?.parentElement?.classList.contains('nw') ? manager.parentElement : manager;
+      return { en: bdis.map((b) => b.textContent), after: box?.nextSibling?.textContent || '', text: p.textContent };
     });
     assert(r.en.includes('My manager is really chill.'), `the sentence is not one isolate with its full stop: ${JSON.stringify(r.en)}`);
     assert(r.en.every((t) => !/(^\d|\d\)?$)/.test(t)), `a list number inside the English: ${JSON.stringify(r.en)}`);
