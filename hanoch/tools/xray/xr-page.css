@@ -1,0 +1,92 @@
+/* רנטגן: עיצוב משותף לרילס ולקרוסלה. אותה שפה כמו hgpro.io: דיו, נייר חם, כתום שמסמן, וכחול רק למצב רנטגן */
+@font-face { font-family: "HG Mark"; src: url("../../fonts/hg-mark.woff2") format("woff2"); font-weight: 800; unicode-range: U+20, U+2E, U+44, U+47-49, U+4F-50, U+52-55, U+64, U+67-69, U+6F-70, U+72-75, U+B7; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-ascii.woff2") format("woff2"); font-weight: 750; unicode-range: U+0020-007E, U+00A0, U+00AB, U+00BB, U+00D7, U+2010-2027; }
+@font-face { font-family: "Rubik"; src: url("../../fonts/g/rubik-hebrew-423ede.woff2") format("woff2"); font-weight: 300 900; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Rubik"; src: url("../../fonts/g/rubik-latin-f673d8.woff2") format("woff2"); font-weight: 300 900; unicode-range: U+0000-00FF, U+2000-206F; }
+
+:root {
+  --ink: #0a0a0b; --ink-soft: #141416; --paper: #ede8de;
+  --fg: #ede8de; --fg-dim: rgba(237, 232, 222, .6); --fg-faint: rgba(237, 232, 222, .14);
+  --signal: #ff4f1a; --blue: #3d7bff;
+  --f-display: "HG Handjet", "Rubik", sans-serif; --f-body: "Rubik", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body); direction: rtl; overflow: hidden; -webkit-font-smoothing: antialiased; }
+.frame { position: relative; width: 1080px; overflow: hidden; background: var(--ink); }
+/* רשת עדינה ברקע, כמו שרטוט */
+.frame::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--fg-faint) 1px, transparent 1px), linear-gradient(90deg, var(--fg-faint) 1px, transparent 1px); background-size: 54px 54px; opacity: .35; mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 75%); }
+
+/* תגית הסדרה */
+.series { position: absolute; display: flex; align-items: center; gap: 18px; font-size: 36px; color: var(--fg-dim); }
+.series b { font: 750 50px/1 var(--f-display); color: #fff; background: var(--blue); padding: 10px 24px 8px; border-radius: 99px; letter-spacing: .02em; }
+.fict { font-size: 30px; color: var(--fg-dim); border: 1px dashed rgba(237, 232, 222, .35); border-radius: 99px; padding: 6px 16px; white-space: nowrap; }
+
+.title { font: 750 112px/.98 var(--f-display); letter-spacing: -.005em; text-wrap: balance; }
+.title em { font-style: normal; color: var(--signal); }
+.sub { font-size: 40px; line-height: 1.38; color: var(--fg-dim); text-wrap: pretty; }
+.sub b { color: var(--fg); font-weight: 600; }
+.num { font: 750 40px/1 var(--f-display); color: var(--ink); background: var(--signal); width: 64px; height: 64px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.logo { font: 800 64px/1 "HG Mark", var(--f-body); letter-spacing: .02em; direction: ltr; color: var(--fg); }
+.logo b { color: var(--signal); }
+
+/* הטלפון */
+.phone { position: absolute; width: 500px; height: 1000px; border-radius: 70px; background: #050506; padding: 14px; box-shadow: 0 0 0 2px #2a2a2e, 0 60px 120px -40px rgba(0, 0, 0, .95), 0 0 0 10px rgba(237, 232, 222, .03); }
+.phone::after { content: ""; position: absolute; top: 30px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 99px; background: #050506; z-index: 9; }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 56px; overflow: hidden; background: #fff; }
+.layer { position: absolute; inset: 0; }
+.scroller { will-change: transform; }
+.layer.xr { background: #07101f; clip-path: inset(0 0 100% 0); }
+.scanline { position: absolute; left: 0; right: 0; height: 4px; margin-top: -2px; background: var(--blue); box-shadow: 0 0 24px 6px rgba(61, 123, 255, .65); z-index: 6; opacity: 0; }
+
+/* העמוד הבדיוני בתוך הטלפון. רוחב 472 פיקסלים */
+.site { width: 472px; color: #1e2a36; font-family: var(--f-body); background: #fff; padding-top: 70px; }
+.site .hd { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid #e3e8ee; }
+.site .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; color: #1f5f9e; }
+.site .brand i { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #4aa3df; display: inline-block; }
+.site .burger { width: 30px; height: 20px; border-top: 3px solid #1e2a36; border-bottom: 3px solid #1e2a36; position: relative; }
+.site .burger::after { content: ""; position: absolute; left: 0; right: 0; top: 5.5px; border-top: 3px solid #1e2a36; }
+.site .hero { height: 230px; background: linear-gradient(160deg, #dff0fb, #b9dcf2); display: flex; align-items: center; justify-content: center; }
+.site .ac { width: 270px; height: 86px; background: #fff; border-radius: 18px; box-shadow: 0 10px 24px rgba(31, 95, 158, .25); position: relative; }
+.site .ac::after { content: ""; position: absolute; left: 24px; right: 24px; bottom: 16px; height: 14px; border-top: 3px solid #c9d6e2; border-bottom: 3px solid #c9d6e2; }
+.site .ac::before { content: ""; position: absolute; right: 22px; top: 16px; width: 10px; height: 10px; border-radius: 50%; background: #5ac46a; }
+.site .body { padding: 26px 24px 8px; }
+.site .heads { display: grid; }
+.site .heads > * { grid-area: 1 / 1; }
+.site h1 { font-size: 34px; line-height: 1.2; font-weight: 700; color: #16324f; }
+.site h1.new { color: #16324f; opacity: 0; }
+.site .strike { position: absolute; height: 5px; background: var(--signal); width: 0; top: 50%; right: 0; border-radius: 3px; }
+.site .old { position: relative; }
+.site .area { overflow: hidden; height: 0; opacity: 0; }
+.site .area span { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 21px; font-weight: 600; color: #1f5f9e; background: #e6f2fb; padding: 7px 14px; border-radius: 10px; }
+.site .area span::before { content: ""; width: 12px; height: 12px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #1f5f9e; }
+.site p { font-size: 20px; line-height: 1.5; color: #4f5d6b; margin-top: 14px; }
+.site .more { display: inline-block; margin-top: 18px; padding: 11px 26px; border: 2px solid #1f5f9e; color: #1f5f9e; border-radius: 8px; font-size: 19px; font-weight: 600; }
+.site h2 { font-size: 26px; color: #16324f; margin: 34px 24px 14px; }
+.site .cards { display: grid; gap: 12px; padding: 0 24px; }
+.site .card { border: 1px solid #e3e8ee; border-radius: 12px; padding: 16px 18px; font-size: 20px; font-weight: 600; color: #16324f; display: flex; gap: 14px; align-items: center; }
+.site .card i { width: 38px; height: 38px; border-radius: 10px; background: #e6f2fb; flex: none; }
+.site .about { padding: 0 24px; }
+.site .gal { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 24px; }
+.site .gal i { height: 120px; border-radius: 10px; background: linear-gradient(150deg, #e9eef3, #d5dee7); }
+.site .ft { margin-top: 36px; background: #1e2a36; color: #c6d0da; padding: 28px 24px 120px; font-size: 19px; line-height: 1.7; }
+.site .ft b { display: block; color: #fff; font-size: 22px; margin-bottom: 6px; }
+.site .ft .tel { color: #fff; font-weight: 600; direction: ltr; display: inline-block; }
+
+/* העמוד בצילום רנטגן: אותו מבנה, רק קווי מתאר כחולים */
+.layer.xr .site, .layer.xr .site * { background: transparent !important; box-shadow: none !important; color: rgba(120, 165, 255, .95) !important; border-color: rgba(61, 123, 255, .55) !important; }
+.layer.xr .site * { outline: 2px dashed rgba(61, 123, 255, .45); outline-offset: -2px; }
+.layer.xr .site .strike { background: var(--signal) !important; outline: 0; }
+
+/* הסימונים: כחול לבעיה, כתום לתיקון */
+.mark { position: absolute; border: 4px dashed var(--blue); border-radius: 14px; z-index: 7; opacity: 0; pointer-events: none; }
+.mark.fix { border: 4px solid var(--signal); }
+.tag { position: absolute; z-index: 8; opacity: 0; white-space: nowrap; font: 600 40px/1 var(--f-body); color: #fff; background: var(--blue); padding: 18px 26px; border-radius: 14px; box-shadow: 0 16px 30px -10px rgba(0, 0, 0, .6); }
+.tag.fix { background: var(--signal); color: var(--ink); }
+
+/* פס החיוג הקבוע (תיקון) */
+.callbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; padding: 14px 16px 30px; background: rgba(255, 255, 255, .96); box-shadow: 0 -8px 24px rgba(16, 40, 64, .14); transform: translateY(130%); }
+.callbar span { display: flex; align-items: center; justify-content: center; gap: 10px; height: 62px; border-radius: 14px; font-size: 22px; font-weight: 700; color: #fff; background: #1f5f9e; }
+.callbar span + span { background: #25d366; color: #06301a; }
+.callbar span::before { content: ""; width: 14px; height: 14px; border: 3px solid currentColor; border-radius: 4px; }

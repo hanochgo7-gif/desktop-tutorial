@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>רנטגן: קרוסלה</title>
+<link rel="stylesheet" href="xr-page.css">
+<style>
+.frame { height: 1350px; }
+.series { top: 80px; right: 80px; }
+.pg { position: absolute; bottom: 64px; right: 80px; font: 750 34px/1 var(--f-display); color: var(--fg-dim); letter-spacing: .04em; }
+.mini { position: absolute; bottom: 60px; left: 80px; font-size: 34px; }
+.col { position: absolute; top: 210px; right: 80px; width: 440px; display: flex; flex-direction: column; gap: 34px; }
+.col .title { font-size: 104px; }
+.col .sub { font-size: 40px; }
+.col .num { width: 84px; height: 84px; font-size: 58px; }
+.col .num.fix { background: var(--signal); }
+.ph { transform-origin: top left; }
+/* שער */
+.k-cover .title { position: absolute; top: 190px; right: 80px; left: 80px; font-size: 136px; }
+.k-cover .col { top: 600px; width: 430px; }
+.k-cover .col .sub { font-size: 46px; }
+.swipe { font: 750 44px/1 var(--f-display); color: var(--signal); }
+/* טקסט */
+.k-text .col, .k-end .col { top: 0; bottom: 0; right: 80px; left: 80px; width: auto; justify-content: center; gap: 44px; }
+.k-text .title, .k-end .title { font-size: 168px; }
+.k-text .sub, .k-end .sub { font-size: 50px; max-width: 860px; }
+.k-end .col { align-items: flex-start; }
+/* השוואה */
+.k-compare .title { position: absolute; top: 170px; right: 80px; left: 80px; font-size: 120px; }
+.k-compare .sub { position: absolute; bottom: 130px; right: 80px; left: 80px; font-size: 40px; }
+.cap { position: absolute; top: 440px; font: 750 52px/1 var(--f-display); width: 290px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="frame" id="f"></div>
+<script src="xr-kit.js"></script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search), ep = q.get('ep') || 'ep-ac', n = +(q.get('s') || 1);
+  var s = document.createElement('script'); s.src = ep + '.js'; s.onload = function () { XR.fonts().then(build); }; document.head.appendChild(s);
+  function el(html) { var d = document.createElement('div'); d.innerHTML = html; return d.firstChild; }
+
+  // טלפון מוקטן במקום מסוים בשקף, עם מצב ועם סימון
+  function phone(F, E, x, y, k, state, mark) {
+    var ph = XR.makePhone(E.site, E); ph.classList.add('ph'); F.appendChild(ph);
+    ph.style.left = x + 'px'; ph.style.top = y + 'px'; ph.style.transform = 'scale(' + k + ')';
+    XR.setPhone(ph, state);
+    if (mark) {
+      var m = document.createElement('div'); m.className = 'mark' + (mark.fix ? ' fix' : ''); m.style.opacity = 1;
+      ph.querySelector('.screen').appendChild(m); XR.placeMark(ph, m, mark.sel, 10);
+    }
+    return ph;
+  }
+
+  function build() {
+    var E = window.EP, F = document.getElementById('f'), S = E.slides[n - 1], total = E.slides.length;
+    F.classList.add('k-' + S.kind);
+    if (S.kind !== 'end') F.appendChild(el('<div class="series"><b>רנטגן</b><span class="fict">' + E.fict + '</span></div>'));
+    F.appendChild(el('<div class="pg">' + n + '/' + total + '</div>'));
+    if (S.kind !== 'end') F.appendChild(el('<div class="logo mini">HG<b>·</b>STUDIO</div>'));
+
+    if (S.kind === 'cover') {
+      F.appendChild(el('<h1 class="title">' + S.title + '</h1>'));
+      F.appendChild(el('<div class="col"><p class="sub">' + S.sub + '</p><span class="swipe">← החליקו</span></div>'));
+      phone(F, E, 100, 520, .7, S.phone);
+    } else if (S.kind === 'text') {
+      F.appendChild(el('<div class="col"><h1 class="title">' + S.title + '</h1><p class="sub">' + S.sub + '</p></div>'));
+    } else if (S.kind === 'phone') {
+      F.appendChild(el('<div class="col"><span class="num' + (S.fix ? ' fix' : '') + '">' + (S.fix ? '✓' : S.n) + '</span><h1 class="title">' + S.title + '</h1><p class="sub">' + S.sub + '</p></div>'));
+      phone(F, E, 70, 200, .92, S.phone, S.mark);
+    } else if (S.kind === 'compare') {
+      F.appendChild(el('<h1 class="title">' + S.title + '</h1>'));
+      F.appendChild(el('<p class="sub">' + S.sub + '</p>'));
+      F.appendChild(el('<div class="cap" style="left:610px;color:var(--fg-dim)">' + E.compare.before + '</div>'));
+      F.appendChild(el('<div class="cap" style="left:180px;color:var(--signal)">' + E.compare.after + '</div>'));
+      phone(F, E, 610, 510, .58, {});
+      phone(F, E, 180, 510, .58, { bar: true, area: true, head: true });
+    } else if (S.kind === 'end') {
+      F.appendChild(el('<div class="col"><div class="logo">HG<b>·</b>STUDIO</div><h1 class="title">' + S.title + '</h1><p class="sub">' + S.sub + '</p><span class="fict">' + E.fict + ', להמחשה</span></div>'));
+    }
+    window.READY = true;
+  }
+})();
+</script>
+</body>
+</html>
