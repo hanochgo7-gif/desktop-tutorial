@@ -132,6 +132,17 @@ test('RW-2: a singular subject or every / each with a base verb', () => {
   clean('During work hours we stay inside. Being honest helps. Having a plan is good.');
 });
 
+test('RW-2: a family or people noun with a base verb, and people + verb with -s', () => {
+  flagged('My brother live in Haifa.', 'my brother live');
+  flagged('My sister work in a bank.', 'my sister work');
+  flagged('My cousin live in Canada.', 'my cousin live');
+  flagged('My friend think it is good.', 'my friend think');
+  flagged('Some people says that it is bad.', 'people says');
+  assert.equal(issuesOf('My cousin live in Canada.')[0].ex, 'My cousin lives');
+  assert.equal(issuesOf('Some people says that it is bad.')[0].ex, 'people say');
+  clean('My brother lives in Haifa. Does my sister need it? Let my sister go. I saw my dad leave. My brother and I live here. Dana and my cousin live here. My family live in Haifa. People say it is fine.');
+});
+
 test('RW-2: people was', () => {
   flagged('The old people was very kind.', 'people was');
   flagged('People is friendly here.', 'people is');
@@ -311,6 +322,11 @@ test('RW-6: a quoted and cited passage is not flagged; a paraphrase is not flagg
   const para = 'For ten years the number of people in Halvarden grew more quickly than the number of homes (Halvarden City Planning Office, 2025).';
   assert.deepEqual(analyzeWriting(para, { level: 'C1', sources: wa05 }).issues.filter((i) => i.type === 'source'), []);
   assert.equal(analyzeWriting('Ferrant and Oyelaran (2024) suggest that roofs help.', { level: 'C1' }).structure.evidence, true, 'author-year citation is evidence');
+  // The evidence words count at the start of a sentence too, where they have a capital.
+  assert.equal(analyzeWriting('I think phones help. For example, my cousin calls me every day.', { level: 'B1' }).structureMatch.evidence, 'For example');
+  assert.equal(analyzeWriting('Research shows that phones help.', { level: 'B1' }).structure.evidence, true, 'Research at the start of a sentence');
+  assert.equal(analyzeWriting('Studies show that phones help.', { level: 'B1' }).structure.evidence, true, 'Studies at the start of a sentence');
+  assert.equal(analyzeWriting('Phones help people. They are useful.', { level: 'B1' }).structure.evidence, false, 'no evidence words, no citation');
   assert.equal(analyzeWriting('A plain text with no sources.', { level: 'C1' }).sources, null);
 });
 

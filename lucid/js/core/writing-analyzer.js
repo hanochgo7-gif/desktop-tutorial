@@ -60,7 +60,16 @@ const COMPOUND_AFTER = `${AUX_AFTER}(?!\\s*[,.;:!?)]|\\s+(?:with|of|for|in|on|at
 // Before "every" / "each" or a noun subject: a question auxiliary, a causative, or a preposition (the noun then
 // belongs to a phrase: "Many cities around the world have ...").
 const NOT_SUBJECT = /\b(do|does|did|will|would|can|could|should|must|may|might|make|makes|made|making|let|lets|help|helps|helped|have|has|had|to|in|around|of|from|at|across|throughout|on|for|with|by|near|over|under|between|among|than|like|about|into|without|within|beside|behind)\s+$/i;
-const SING_NOUN = 'student|teacher|person|child|man|woman|school|city|country|study|report|paper|article|author|writer|researcher|friend|boss|manager|user|worker|employee|doctor|parent|system|app|website|book|survey|society|world|internet|technology|program|programme|company';
+const SING_NOUN = 'student|teacher|person|child|man|woman|school|city|country|study|report|paper|article|author|writer|researcher|manager|user|worker|employee|doctor|parent|system|app|website|book|survey|society|world|internet|technology|program|programme|company';
+// Family and people nouns ("My brother live in Haifa", RW-2) are rarely the first half of a compound noun, so,
+// unlike the nouns above, they are flagged before a preposition too. Collective nouns (family, team) are left out,
+// since "My family live in Haifa" is correct British English.
+// Before a person noun also: a perception verb ("I saw my dad leave") or a joined subject ("Dana and my brother live").
+const NOT_PERSON_SUBJECT = new RegExp(`(?:${NOT_SUBJECT.source.replace(/\\s\+\$$/, '')}|\\b(?:see|saw|seen|seeing|watch|watched|watching|hear|heard|hearing|feel|felt|notice|noticed|and|or|nor))\\s+$`, 'i');
+const PERSON_NOUN = 'friend|boss|brother|sister|cousin|mother|father|mom|mum|dad|son|daughter|husband|wife|uncle|aunt|grandmother|grandfather|grandma|grandpa|neighbour|neighbor|partner|boyfriend|girlfriend|colleague|classmate|roommate|baby|kid';
+// The -s forms of the base verbs, for "people says" (have and do are covered by the "people has / does" rule).
+const PEOPLE_BASE = Object.fromEntries(BASE.split('|').filter((v) => !['have', 'do', "don't"].includes(v)).map((v) => [s3(v), v]));
+const PEOPLE_S = Object.keys(PEOPLE_BASE).join('|');
 const SING_PRONOUN = 'everyone|everybody|someone|somebody|nobody|no one|anyone|everything|something|nothing';
 const DEADLINE = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|tomorrow|tonight|noon|midday|midnight|the end of (?:the )?(?:day|week|month|year)|next (?:week|month|Monday|Tuesday|Wednesday|Thursday|Friday)|\\d{1,2}(?::\\d\\d)?\\s?(?:am|pm|a\\.m\\.|p\\.m\\.|o\'clock)|(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s\\d{1,2})?|the \\d{1,2}(?:st|nd|rd|th)';
 const PARTICIPLE = '\\w+ed|found|made|seen|been|done|gone|written|taken|given|shown|known|said|told|got|gotten|bought|built|come|become|begun|left|lost|met|paid|run|sent|spent|won|had|grown|risen|fallen|chosen|spoken|broken|driven|eaten|drunk|thought|brought|taught|caught|felt|kept|heard|held|sold';
@@ -102,7 +111,10 @@ export const L1_PATTERNS = [
   // Third person -s: "it need", "she want", "every school need", "the study show", "everyone know".
   { re: new RegExp(`\\b(he|she|it)\\s+(${BASE})\\b${AUX_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_3SG, skipPair: /^it like$/i, title: 'Verb after he / she / it', he_title: 'פועל אחרי he / she / it', en: 'After he, she or it, the verb takes -s.', he: 'אחרי he, she או it מוסיפים s לפועל.', ex: (m) => `${m[1]} ${s3(m[2])}` },
   { re: new RegExp(`\\b(every|each)\\s+([a-z]+)\\s+(${BASE})\\b${COMPOUND_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_SUBJECT, title: 'every / each + verb with -s', he_title: 'every / each ופועל עם s', en: 'every and each take a singular verb, with -s.', he: 'אחרי every או each הפועל ביחיד, עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
-  { re: new RegExp(`\\b(a|an|the|this|that|my|his|her|our|your|one)\\s+(${SING_NOUN})\\s+(${BASE})\\b${COMPOUND_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_SUBJECT, title: 'Singular subject, verb with -s', he_title: 'נושא ביחיד, פועל עם s', en: 'A singular subject takes a verb with -s.', he: 'נושא ביחיד מקבל פועל עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
+  { re: new RegExp(`\\b(a|an|the|this|that|my|his|her|our|your|their|its|one)\\s+(${SING_NOUN})\\s+(${BASE})\\b${COMPOUND_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_SUBJECT, title: 'Singular subject, verb with -s', he_title: 'נושא ביחיד, פועל עם s', en: 'A singular subject takes a verb with -s.', he: 'נושא ביחיד מקבל פועל עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
+  { re: new RegExp(`\\b(a|the|this|that|my|his|her|our|your|their|one)\\s+(${PERSON_NOUN})\\s+(${BASE})\\b${AUX_AFTER}(?!\\s*[-'])`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_PERSON_SUBJECT, title: 'Singular subject, verb with -s', he_title: 'נושא ביחיד, פועל עם s', en: 'A singular subject takes a verb with -s.', he: 'נושא ביחיד מקבל פועל עם s.', ex: (m) => `${m[1]} ${m[2]} ${s3(m[3])}` },
+  // people + verb with -s: "Some people says" (next to "people was" above, RW-2).
+  { re: new RegExp(`\\bpeople\\s+(${PEOPLE_S})\\b(?!')`, 'gi'), type: 'agreement', l1: true, title: 'people + verb without -s', he_title: 'people ופועל בלי s', en: 'people is plural, so the verb has no -s.', he: 'people היא מילה ברבים, ולכן הפועל בלי s.', ex: (m) => `people ${PEOPLE_BASE[m[1].toLowerCase()]}` },
   { re: new RegExp(`\\b(${SING_PRONOUN})\\s+(${BASE})\\b${AUX_AFTER}`, 'gi'), type: 'agreement', l1: true, notAfter: NOT_3SG, skipPair: / like$/i, title: 'everyone + verb with -s', he_title: 'everyone ופועל עם s', en: 'Words like everyone and nobody are singular in English, so the verb takes -s.', he: 'מילים כמו everyone ו-nobody הן ביחיד באנגלית, ולכן הפועל מקבל s.', ex: (m) => `${m[1]} ${s3(m[2])}` },
   { re: /(?<=^|[.!?]\s+|\n)([A-Z][a-z]+ing)\s+(give|make|take|mean|cause|allow|teach|require|become|keep|bring|provide|create|improve|reduce|seem|lead|let)\b/g, type: 'agreement', l1: true, skipWord: /^(During|Being|Having|Including|Regarding|Concerning|According|Following|Considering|Something|Nothing|Everything|Anything|Morning|Evening|Spring|King|Thing|Building|Notwithstanding|Pending|Excluding)$/, title: 'An -ing subject is singular', he_title: 'נושא עם ing הוא ביחיד', en: 'An -ing subject is singular, so the verb takes -s.', he: 'נושא שהוא פעולה (ing) נחשב ליחיד, ולכן הפועל מקבל s.', ex: (m) => `${m[1]} ${s3(m[2])}` },
   // Spelling Hebrew speakers carry over from chat: alot, dont, doesnt, didnt, cant.
@@ -172,12 +184,19 @@ const CONNECTORS = {
   conclusion: ['in conclusion', 'to conclude', 'to sum up', 'overall', 'in summary', 'all in all'],
 };
 
+// Several patterns read as one: exec() returns the match that starts first.
+const earliest = (...res) => ({ exec: (text) => res.map((re) => re.exec(text)).filter(Boolean).sort((a, b) => a.index - b.index)[0] || null });
 const SIGNALS = {
   thesis: /\b(I (strongly )?(believe|argue|maintain|contend|think)( that)?|in my (view|opinion)|this (essay|paper) (will )?(argue|argues|contend|contends|maintain|maintains|demonstrate|demonstrates|show|shows)|I would argue|the (central|main) (argument|claim) (of this|here) is)\b/i,
   counter: /\b(some (people )?(argue|claim|believe|say|maintain)|opponents|critics|supporters of|it (could|might|may) be argued|admittedly|one (could|might) object|proponents|others (argue|believe|claim))\b|\b[A-Z][\w'’-]+(?: (?:and|&) [A-Z][\w'’-]+| et al\.)? \((?:19|20)\d{2}\) (argues|argue|claims|claim|insists|maintains|contends|believes|objects)\b/i,
   rebuttal: /\b(however|nevertheless|nonetheless|yet this|this (view|argument|claim) (overlooks|ignores|fails|neglects)|while this (may|might) be true|but this|on closer (inspection|examination))\b/i,
   // An author-year citation is evidence too: "(Merrow, 2025)", "Ferrant and Oyelaran (2024) suggest" (RW-6).
-  evidence: /\b(for (example|instance)|such as|according to|research|stud(y|ies)|survey|data|statistics|evidence|\d+(\.\d+)?\s?(%|per ?cent)|in \d{4})\b|\([A-Z][^()]{1,100}?,? (?:19|20)\d{2}[a-z]?\)|\b[A-Z][\w'’-]+(?: (?:and|&) [A-Z][\w'’-]+| et al\.)? \((?:19|20)\d{2}\)/,
+  // The words match in any case ("For example," opens a sentence); a citation needs its capital, so it has its own
+  // case-sensitive pattern, and the earlier of the two matches is the one shown.
+  evidence: earliest(
+    /\b(for (example|instance)|such as|according to|research|stud(y|ies)|survey|data|statistics|evidence|\d+(\.\d+)?\s?(%|per ?cent)|in \d{4})\b/i,
+    /\([A-Z][^()]{1,100}?,? (?:19|20)\d{2}[a-z]?\)|\b[A-Z][\w'’-]+(?: (?:and|&) [A-Z][\w'’-]+| et al\.)? \((?:19|20)\d{2}\)/,
+  ),
   conclusion: /\b(in conclusion|to conclude|to sum up|in summary|overall|all in all|ultimately)\b/i,
   hedging: /\b(may|might|could|arguably|tends? to|likely|unlikely|suggests?|appears? to|seems? to|to some extent|in some cases)\b/i,
 };
