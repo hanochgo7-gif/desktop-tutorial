@@ -1727,5 +1727,7 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 @media (min-width: 64rem) and (max-height: 60rem) {
   .deck nav a.nav:not([aria-current='page']) .nav-legend .l2 { display: none; }
 }
+/* SB-10: the links under Help are full touch targets. */
+.help-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
 /* ---- lane r4-shell-bilingual: end ---- */

@@ -5,6 +5,14 @@ import { icon } from '../ui/components.js';
 import { configured } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 
+const AI_ANSWER = () => (configured() && CONFIG.aiEnabled
+  ? [
+    'באתר הזה AI פעיל. הוא עובד אחרי שמתחברים לחשבון ומאשרים אותו בהגדרות. גם בלעדיו כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. משוב AI יכול לטעות, ואפשר לדווח על כך.',
+    'AI is active on this site. It works once you sign in to an account and allow it in Settings. Everything else works without it: lessons, word review, scripted practice and automatic writing checks. AI feedback can be wrong, and you can report it.']
+  : [
+    'AI לא פעיל באתר הזה. כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. אם יתווסף, נשאל קודם.',
+    'AI is not active on this site. Everything else works: lessons, word review, scripted practice and automatic writing checks. If it is added, we will ask you first.']);
+
 const Q = [
   ['מאיפה מתחילים כל יום?', 'Where do I start each day?',
     'במסך ״היום״. התוכנית מורכבת מחזרה על מילים, השיעור הבא, תרגול של טעויות שחוזרות, ודיבור או כתיבה. כל חלק מסביר למה הוא שם. אפשר לבחור 10, 20, 35 או 50 דקות.',
@@ -16,17 +24,16 @@ const Q = [
     'מילים מכל שיעור שהשלמתם חוזרות בדיוק לפני שהייתם שוכחים אותן. Lucid מחליט לפי מה שעשיתם (נכון, עם רמז, לאט או טעות), לא לפי הרגשה. מילים קשות חוזרות מוקדם יותר.',
     'Words from each lesson you complete come back just before you would forget them. Lucid decides from what you did (right, with a hint, slowly, or wrong), not from a self-rating. Hard words come back sooner.'],
   ['טעיתי. מה עכשיו?', 'I made a mistake. Now what?',
-    'אחרי כל תשובה תראו את התשובה הנכונה ולמה. תרגיל שטעיתם בו יחזור פעם נוספת בסוף השיעור. טעות שחוזרת בכמה ימים תיכנס לתוכנית היומית כתרגול קצר וממוקד.',
-    'After every answer you see the right answer and why. An exercise you got wrong comes back once at the end of the lesson. A mistake that repeats across days enters your daily plan as a short targeted practice.'],
+    'אחרי כל תשובה תראו אם צדקתם ולמה. בתשובה שכתבתם אפשר לנסות שוב פעם אחת, עם רמז, לפני שהתשובה מוצגת. תרגיל שטעיתם בו יחזור פעם נוספת בסוף השיעור. טעות שחוזרת בכמה ימים תיכנס לתוכנית היומית כתרגול קצר וממוקד.',
+    'After every answer you see whether you were right, and why. In an answer you typed you can try again once, with a hint, before the answer is shown. An exercise you got wrong comes back once at the end of the lesson. A mistake that repeats across days enters your daily plan as a short targeted practice.'],
   ['עצרתי באמצע שיעור', 'I stopped in the middle of a lesson',
     'שום דבר לא הולך לאיבוד. במסך ״היום״ יופיע ״להמשיך מאיפה שעצרתם״.',
     'Nothing is lost. Today shows "Continue where you left off".'],
   ['איך משתמשים במעבדת הכתיבה?', 'How do I use the Writing lab?',
     'כתבו, לחצו ״בדיקה״ לבדיקות אוטומטיות, ואם יש משוב AI, שלחו למשוב. המשוב מסמן טעויות ונותן רמז; נסו לתקן לבד ורק אז חשפו את התיקון. כל שליחה נשמרת כגרסה, ואפשר להשוות בין גרסאות.',
     'Write, press "Check" for automatic checks, and if AI feedback is available, send it for feedback. Feedback marks mistakes with a hint; try to fix them yourself before revealing the correction. Every submission is saved as a version you can compare.'],
-  ['משוב AI, שיחות AI והמורה', 'AI feedback, AI conversations and the tutor',
-    'אלה דורשים שרת שבו הוגדר שירות AI, חשבון, והסכמה בהגדרות. בלעדיהם כל השאר עובד: שיעורים, חזרה, תרגול מובנה ובדיקות כתיבה אוטומטיות. משוב AI יכול לטעות, ואפשר לדווח על כך.',
-    'These need a server with AI configured, an account, and your consent in Settings. Without them everything else works: lessons, review, scripted practice and automatic writing checks. AI feedback can be wrong, and you can report it.'],
+  // The answer says what is true on this site (SB-10): the glossary's one sentence when AI is off.
+  ['משוב AI, שיחות AI והמורה', 'AI feedback, AI conversations and the tutor', 'ai'],
   ['שימוש בלי אינטרנט', 'Using Lucid offline',
     'אחרי שפתחתם את Lucid פעם אחת עם חיבור, המסכים, החזרה על מילים, התרגול המובנה בתרחישים ומעבדת הכתיבה עובדים גם בלי אינטרנט. את השיעורים (כ-3MB) שומרים מראש בהגדרות, ב״שימוש בלי אינטרנט״. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור. כשאין חיבור, בטלפון מופיע ״אין חיבור״ בראש המסך, ובמחשב בתפריט הצד.',
     'Once you have opened Lucid with a connection, screens, word review, scripted scenario practice and the Writing lab work without internet. Save the lessons (about 3 MB) beforehand in Settings, under "Offline use". AI feedback, AI conversations and speech recognition need a connection. When you are offline, a phone shows "Offline" at the top of the screen, and a computer shows it in the side menu.',
@@ -56,11 +63,11 @@ const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: 
 
 export default async function help(el, ctx) {
   ctx.setTitle(t('nav.help'));
-  const items = touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q;
+  const items = (touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q).map((q) => (q[2] === 'ai' ? [q[0], q[1], ...AI_ANSWER()] : q));
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.help')}</h1><p>${tt('תשובות קצרות לשאלות הנפוצות.', 'Short answers to common questions.')}</p></div></div>
     <div class="stack-sm" style="max-width:46rem">
       ${items.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link?.[0].includes('offline') && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon(link[3] || 'chevron', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
-      <p class="small faint row" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
+      <p class="small faint row help-foot" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
     </div>`);
 }

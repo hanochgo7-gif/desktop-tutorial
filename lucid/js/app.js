@@ -5,7 +5,7 @@ import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
-import { icon, toast, brandMark, segColumns } from './ui/components.js';
+import { icon, toast, clearToasts, brandMark, segColumns } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
 import { createSync } from './core/sync.js';
 import { startSession, syncAllowed } from './core/session.js';
@@ -65,6 +65,10 @@ function drawShell(route) {
   deck.hidden = Boolean(bare);
   tabbar.hidden = Boolean(bare);
   top.hidden = Boolean(bare);
+  clearToasts(); // a new screen ends the last one's notes (SB-9)
+  // The skip link speaks the interface language, with its lang and dir (SB-11).
+  const skip = document.querySelector('a.skip');
+  if (skip && skip.textContent !== t('skip')) { skip.textContent = t('skip'); skip.lang = uiLang(); skip.dir = uiLang() === 'he' ? 'rtl' : 'ltr'; }
   if (bare) return;
   const p = profile();
   render(deck, html`
@@ -202,10 +206,16 @@ function watchSpeech() {
       clear(playing.get(id));
       playing.delete(id);
     } else if (state === 'silent') {
-      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet.
-      if (recent() && Date.now() - silentNoted > 4000) {
+      // Only sound the learner asked for gets the note (a few seconds apart); a game's own sound stays quiet. An item
+      // that says so in place (an ancestor with data-silent-inline, EX-4) needs no note (SB-9).
+      const b = recent();
+      if (b && !b.closest('[data-silent-inline]') && Date.now() - silentNoted > 4000) {
         silentNoted = Date.now();
-        toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט. אם בדפדפן אין קול באנגלית, התמליל מוצג אחרי הבדיקה.', 'Can\'t hear it? Check the volume and silent mode. If your browser has no English voice, the transcript is shown after you check.'), { ms: 7000 });
+        const keys = [...(b.parentElement?.querySelectorAll(PLAY_BUTTON) || [])];
+        const note = toast(tt('לא שומעים? בדקו את עוצמת הקול ומצב שקט.', 'Can\'t hear it? Check the volume and silent mode.'), { ms: 7000, avoid: keys.length ? keys : [b] });
+        // The note is about this play key: it ends as soon as the key leaves the page (the next item, or the placement
+        // result, which is a stage of the same screen).
+        const watch = setInterval(() => { if (!note?.isConnected) clearInterval(watch); else if (!b.isConnected) { note.remove(); clearInterval(watch); } }, 300);
       }
     }
   });

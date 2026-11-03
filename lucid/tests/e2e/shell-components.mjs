@@ -287,9 +287,13 @@ try {
       assert(await page.evaluate(() => speechSynthesis.getVoices().length) === 0, 'this browser has voices; the silent check needs none');
       await lessonAt(page, 'pa1-01', 'e2');
       const t0 = Date.now();
+      // An item that says so in place (data-silent-inline, EX-4) gets no note (SB-9); this check needs the note.
+      const inline = await page.$('#exroot [data-silent-inline]');
       await page.tap('#exroot [data-say="normal"]');
-      await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
-      assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      if (!inline) {
+        await page.waitForSelector('#toast-root .toast', { timeout: 2000 });
+        assert(/לא שומעים\?/.test(await page.textContent('#toast-root')), `no "can't hear" note after ${Date.now() - t0} ms`);
+      }
       await shot(page, 'sc6-silent');
       await ctx.close();
     }
