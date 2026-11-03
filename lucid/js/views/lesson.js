@@ -5,7 +5,7 @@
 // practice, never part of the score or its denominator. After "Nearly there" the learner can redo only the
 // exercises missed on the first try; their earlier right answers keep counting, so fixing the misses can
 // complete the lesson.
-import { html, render, on, $, todayKey } from '../core/util.js';
+import { html, raw, render, on, $, todayKey } from '../core/util.js';
 import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
@@ -250,34 +250,76 @@ export function pitfallSayables(p) {
 // A table whose first header is English reads left to right; its Hebrew columns (a Hebrew header) move to the
 // end as right-to-left cells. On phones and at 130-150% text each row becomes a card (CSS): the English cells
 // in a line with their column names, the Hebrew under them. IPA columns, at Pre-A1, wait behind "Show IPA".
+// An IPA token inside a cell ("th /θ/", "‏/ɪ/ קצרה"), never "noun/verb": a slash after the start, a space, a mark
+// or a tag, and a slash before the end, a space, punctuation or a tag (r4 LF-8).
+export const IPA_TOKEN = /(^|[\s‏>(])(\/[^/\s<>][^/<>]{0,24}\/)(?=$|[\s.,;:)<–-])/g;
+const hasIpaToken = (v) => new RegExp(IPA_TOKEN.source).test(String(v ?? ''));
+// The IPA tokens of a cell's HTML, each in <span class="ipa"> so "Show IPA" can hide them (r4 LF-8).
+const wrapIpa = (h) => raw(String(h).replace(IPA_TOKEN, (m, pre, tok) => `${pre}<span class="ipa">${tok}</span>`));
 export function tableShape(b, level) {
   const english = !HEBREW.test(b.headers[0] || '');
   const cols = b.headers.map((h, i) => ({ i, he: english && HEBREW.test(h), ipa: /IPA/i.test(h) || (b.rows.length > 0 && b.rows.every((r) => /^\/[^/]+\/$/.test(String(r[i] || '').trim()))) }));
   const order = english ? [...cols.filter((c) => !c.he), ...cols.filter((c) => c.he)] : cols;
   const letters = english && b.rows.length > 0 && b.rows.every((r) => /^[A-Za-z](?:\s?[A-Za-z])?$/.test(String(r[0] || '').trim()));
   const examples = b.headers.findIndex((h) => /^examples?$/i.test(h.trim()));
-  const hideIpa = level === 'PreA1' && cols.some((c) => c.ipa);
+  // At Pre-A1, IPA waits behind "Show IPA": a whole IPA column, and the /…/ tokens inside any other cell (r4 LF-8).
+  const inlineIpa = level === 'PreA1' && b.rows.some((r) => r.some((v, i) => !cols[i]?.ipa && hasIpaToken(v)));
+  const hideIpa = level === 'PreA1' && (cols.some((c) => c.ipa) || inlineIpa);
   // Rows become cards (CSS, on phones and at large text) when three or more columns show; two fit as a table.
   const stack = order.filter((c) => !(hideIpa && c.ipa)).length >= 3;
-  return { english, order, letters, examples, alphabet: letters && b.rows.length >= 20, hideIpa, stack };
+  return { english, order, letters, examples, alphabet: letters && b.rows.length >= 20, hideIpa, inlineIpa, stack };
 }
+// IPA in the explanation's own text at Pre-A1 (r4 LF-8): each /…/ (with the brackets around it, "(/ɪ/)") is put in
+// <span class="ipa">, so "Show IPA" shows and hides it with the tables. Text in keys and screen-reader text stays.
+const PROSE_IPA = /(^|[\s\u200f])(\(\/[^/\s]{1,24}\/\)|\/[^/\s][^/]{0,24}\/)(?=$|[\s.,;:)\u2013\u200f-])/g;
+export function markIpa(root) {
+  if (!root || !globalThis.document) return 0;
+  const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.parentElement?.closest('.ipa, .col-ipa, button, .sr-only, [data-say-text]') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+  const nodes = [];
+  for (let n = walk.nextNode(); n; n = walk.nextNode()) if (new RegExp(PROSE_IPA.source).test(n.data)) nodes.push(n);
+  for (const n of nodes) {
+    const f = document.createDocumentFragment();
+    let at = 0;
+    for (const m of n.data.matchAll(PROSE_IPA)) {
+      const start = m.index + m[1].length;
+      f.append(n.data.slice(at, start));
+      const sp = document.createElement('span');
+      sp.className = 'ipa';
+      sp.dir = 'ltr';
+      sp.textContent = m[2];
+      f.append(sp);
+      at = start + m[2].length;
+    }
+    f.append(n.data.slice(at));
+    n.replaceWith(f);
+  }
+  return nodes.length;
+}
+// The "Show IPA" key: one state for the whole lesson (the lesson view keeps it in step with every table and word).
+const ipaToggle = () => html`<button type="button" class="key ghost small" data-ipa-toggle aria-expanded="false">${isolateLatin(tt('להצגת IPA', 'Show IPA'))}</button>`;
 function tableBlock(b, level, continued = false) {
   const s = tableShape(b, level);
   const sayOf = (r) => (s.examples >= 0 ? r[s.examples] : String(r[0]).trim().charAt(0));
-  // k: the row, for the first cell of a row (its play key); -1 for the other cells.
+  // Hebrew header labels (headers_he, r4 LF-8): a small Hebrew line under each header and in the card label; the
+  // column's direction still comes from its own header.
+  const heads = Array.isArray(b.headers_he) && b.headers_he.length === b.headers.length ? b.headers_he : null;
+  const label = (i) => (heads?.[i] && heads[i] !== b.headers[i] ? `${b.headers[i]} · ${heads[i]}` : b.headers[i]);
+  // The row's play key sits in the cell it plays: the examples cell when there is one, else the letter (r4 LF-8).
+  const playIn = s.examples >= 0 ? s.examples : s.letters ? s.order[0].i : -1;
   const cell = (c, v, k) => {
     const cls = [c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ');
-    const play = k >= 0 && s.letters && canSpeak() ? html`<button type="button" class="key ghost small icon-only row-say" data-say-text="${sayOf(b.rows[k])}" aria-label="${tt('השמעה', 'Play')}: ${sayOf(b.rows[k])}">${icon('volume', { size: 18 })}</button>` : '';
+    const play = c.i === playIn && canSpeak() ? html`<button type="button" class="key ghost small icon-only row-say" data-say-text="${sayOf(b.rows[k])}" aria-label="${tt('השמעה', 'Play')}: ${sayOf(b.rows[k])}">${icon('volume', { size: 18 })}</button>` : '';
+    const body = (h) => (s.inlineIpa && !c.ipa ? wrapIpa(h) : h);
     return c.he
-      ? html`<td class="${cls}" data-label="${b.headers[c.i]}" lang="he" dir="rtl">${isolateLatin(v)}</td>`
-      : html`<td class="${cls}" data-label="${b.headers[c.i]}" dir="auto">${play}${v}</td>`;
+      ? html`<td class="${cls}" data-label="${label(c.i)}" lang="he" dir="rtl">${body(isolateLatin(v))}</td>`
+      : html`<td class="${cls}" data-label="${label(c.i)}" dir="auto">${play}${body(html`${v}`)}</td>`;
   };
   const tools = !continued && ((s.alphabet && canSpeak()) || s.hideIpa)
-    ? html`<div class="table-tools row">${s.alphabet && canSpeak() ? html`<button type="button" class="key small" data-say-text="${b.rows.map((r) => String(r[0]).trim().charAt(0)).join(', ')}" data-say-slow>${icon('turtle', { size: 18 })} <span dir="ltr" lang="en">A–Z</span> ${tt('לאט', 'slowly')}</button>` : ''}${s.hideIpa ? html`<button type="button" class="key ghost small" data-ipa-toggle aria-expanded="false">${isolateLatin(tt('להצגת IPA', 'Show IPA'))}</button>` : ''}</div>`
+    ? html`<div class="table-tools row">${s.alphabet && canSpeak() ? html`<button type="button" class="key small" data-say-text="${b.rows.map((r) => String(r[0]).trim().charAt(0)).join(', ')}" data-say-slow>${icon('turtle', { size: 18 })} <span dir="ltr" lang="en">A–Z</span> ${tt('לאט', 'slowly')}</button>` : ''}${s.hideIpa ? ipaToggle() : ''}</div>`
     : '';
   const attrs = s.english ? html`dir="ltr" lang="en"` : '';
-  return html`${tools}${tableHint()}<div class="table-wrap ${s.stack ? 'tstack' : ''} ${s.letters ? 'letters' : ''} ${s.hideIpa ? 'ipa-hidden' : ''}" ${attrs}><table class="data"><thead><tr>${s.order.map((c) => html`<th class="${[c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ')}" ${c.he ? html`lang="he" dir="rtl"` : html`dir="auto"`}>${b.headers[c.i]}</th>`)}</tr></thead>
-    <tbody>${b.rows.map((r, k) => html`<tr>${s.order.map((c, n) => cell(c, r[c.i] ?? '', n === 0 ? k : -1))}</tr>`)}</tbody></table></div>`;
+  return html`${tools}${tableHint()}<div class="table-wrap ${s.stack ? 'tstack' : ''} ${s.letters ? 'letters' : ''} ${s.hideIpa ? 'ipa-hidden' : ''}" ${s.hideIpa ? html`data-ipa` : ''} ${attrs}><table class="data"><thead><tr>${s.order.map((c) => html`<th class="${[c.he ? 'c-he' : 'c-en', c.ipa ? 'col-ipa' : ''].filter(Boolean).join(' ')}" ${c.he ? html`lang="he" dir="rtl"` : html`dir="auto"`}>${b.headers[c.i]}${heads?.[c.i] && heads[c.i] !== b.headers[c.i] ? html`<span class="th-he" lang="he" dir="rtl">${heads[c.i]}</span>` : ''}</th>`)}</tr></thead>
+    <tbody>${b.rows.map((r, k) => html`<tr>${s.order.map((c) => cell(c, r[c.i] ?? '', k))}</tr>`)}</tbody></table></div>`;
 }
 
 export function renderBlocks(blocks, { level = null, continued = false } = {}) {
@@ -634,8 +676,10 @@ export default async function lessonView(el, ctx) {
   // back opens the same step.
   const STEP_TITLE = { core: ['ההסבר', 'The explanation'], examples: ['דוגמאות', 'Examples'], notes: ['כדאי לדעת', 'Good to know'], words: ['מילים חדשות', 'New words'] };
   const STEP_MORE = { core: ['עוד מההסבר', 'More of the explanation'], examples: ['עוד דוגמאות', 'More examples'], notes: ['עוד דברים שכדאי לדעת', 'More good to know'], words: ['עוד מילים חדשות', 'More new words'] };
+  // At Pre-A1 a word's IPA and part of speech wait behind "Show IPA", as in the tables (r4 LF-8).
+  const preIpa = lesson.level === 'PreA1';
   const wordRow = (v) => html`<div class="word-row">
-    <div class="word-line">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}: ${v.word}">${icon('volume', { size: 18 })}</button>` : ''}<span class="entry-word" lang="en" dir="ltr">${v.word}</span><span class="faint small" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
+    <div class="word-line">${canSpeak() ? html`<button type="button" class="key ghost small icon-only" data-say-text="${v.word}" aria-label="${tt('השמעה', 'Play')}: ${v.word}">${icon('volume', { size: 18 })}</button>` : ''}<span class="entry-word" lang="en" dir="ltr">${v.word}</span><span class="faint small ${preIpa ? 'ipa' : ''}" lang="en">${v.pos}</span>${v.ipa ? html`<span class="entry-ipa ${preIpa ? 'ipa' : ''}" lang="en" dir="ltr">${v.ipa}</span>` : ''}</div>
     <div class="entry-he" lang="he" dir="rtl">${isolateLatin(v.he)}</div>
     <div class="entry-ex" lang="en" dir="ltr">${v.example}</div>${v.example_he && hebrewSupport() !== 'off' ? html`<div class="entry-ex" lang="he" dir="rtl">${isolateLatin(v.example_he)}</div>` : ''}</div>`;
   const blockOf = (u) => {
@@ -651,7 +695,8 @@ export default async function lessonView(el, ctx) {
   function measure(groups) {
     const units = groups.flatMap((g) => g.units);
     const body = $('#pbody', el);
-    render(body, html`<div class="lesson-learn learn-measure" aria-hidden="true"><div class="stack learn-units">${units.map(unitHtml)}</div></div>`);
+    render(body, html`<div class="lesson-learn learn-measure ${preIpa && !ipaShown ? 'ipa-hidden' : ''}" aria-hidden="true"><div class="stack learn-units">${units.map(unitHtml)}</div></div>`);
+    if (preIpa) markIpa($('.learn-measure', body));
     const kids = [...body.querySelectorAll('.learn-measure .learn-units > *')];
     const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const hs = new Map(units.map((u, k) => [u, (kids[k]?.getBoundingClientRect().height || 0) + gap]));
@@ -673,6 +718,7 @@ export default async function lessonView(el, ctx) {
   // A step's content: a heading wherever a group starts (or continues at the top of the step), then its units.
   function stepContent(s, k, n) {
     const out = [];
+    let wordsKey = false;
     s.items.forEach((x, j) => {
       if (j === 0 || x.first) {
         const title = x.first ? STEP_TITLE[x.g] : STEP_MORE[x.g];
@@ -683,6 +729,8 @@ export default async function lessonView(el, ctx) {
             ? html`<h2 class="learn-h" id="learn-h" tabindex="-1"><span class="sr-only">${tt(`שלב ${k + 1} מתוך ${n}: `, `Step ${k + 1} of ${n}: `)}</span>${tt(...title)}</h2>`
             : html`<h2 class="learn-h">${tt(...title)}</h2>`);
       }
+      // The words of a Pre-A1 lesson get their own "Show IPA" key where they start on the step (r4 LF-8).
+      if (x.u.kind === 'word' && preIpa && !wordsKey && (lesson.vocab || []).some((v) => v.ipa || v.pos)) { wordsKey = true; out.push(html`<div class="table-tools row word-tools">${ipaToggle()}</div>`); }
       out.push(unitHtml(x.u));
     });
     return out;
@@ -735,6 +783,13 @@ export default async function lessonView(el, ctx) {
     </div>`, html`<div class="inner">${k > 0 ? html`<button type="button" class="key ghost" data-learn-prev>${tt('הקודם', 'Back')}</button>` : ''}<span class="grow"></span>${last
       ? html`<button type="button" class="key enter" data-go="practice">${tt('לתרגול', 'Start practice')} <span class="kbd">Enter</span></button>`
       : html`<button type="button" class="key ghost" data-go="practice">${tt('לתרגול', 'Start practice')}</button><button type="button" class="key enter" data-learn-next>${tt('הבא', 'Next')} <span class="kbd">Enter</span></button>`}</div>`);
+    // At Pre-A1 the IPA in the step's text waits behind "Show IPA" too; a step with IPA and no table key gets the
+    // key in its head row.
+    if (preIpa) {
+      markIpa($('.lesson-learn .learn-units', el));
+      if ($('.lesson-learn .learn-units :is(.ipa, .col-ipa)', el) && !$('.lesson-learn [data-ipa-toggle]', el)) $('.lesson-learn .learn-head', el)?.insertAdjacentHTML('beforeend', String(ipaToggle()));
+    }
+    applyIpa();
     markWideTables($('#pbody', el));
     if (heading === 'step') { window.scrollTo?.(0, 0); $('#learn-h', el)?.focus({ preventScroll: true }); }
   }
@@ -744,6 +799,16 @@ export default async function lessonView(el, ctx) {
     saveLearnStep(learnStep, steps.length);
     stopSpeaking();
     drawLearn(steps);
+  }
+  // "Show IPA" is one state for the whole lesson (r4 LF-8): every table and word on every step follows it.
+  let ipaShown = false;
+  function applyIpa() {
+    el.querySelectorAll('.lesson-learn:not(.learn-measure)').forEach((x) => x.classList.toggle('ipa-hidden', preIpa && !ipaShown));
+    el.querySelectorAll('.table-wrap[data-ipa]').forEach((w) => w.classList.toggle('ipa-hidden', !ipaShown));
+    el.querySelectorAll('[data-ipa-toggle]').forEach((b) => {
+      b.setAttribute('aria-expanded', String(ipaShown));
+      render(b, isolateLatin(ipaShown ? tt('להסתרת IPA', 'Hide IPA') : tt('להצגת IPA', 'Show IPA')));
+    });
   }
   // The step being read is kept, also on a learner's first visit, before any progress record exists (r4 LF-6):
   // coming back offers "continue reading" at that step. The number of steps is kept for the intro's key.
@@ -1153,13 +1218,10 @@ export default async function lessonView(el, ctx) {
     on(el, 'click', '[data-learn-next]', () => learnMove(1)),
     on(el, 'click', '[data-learn-restart]', () => { const cur = progressOf(id); if (cur) { const c = { ...cur }; delete c.learn_step; store.put('progress', c); } learnStep = 0; go('learn'); }),
     on(el, 'click', '[data-learn-prev]', () => learnMove(-1)),
-    on(el, 'click', '[data-ipa-toggle]', (e, b) => {
-      const w = b.closest('.table-tools')?.nextElementSibling?.nextElementSibling;
-      const show = b.getAttribute('aria-expanded') !== 'true';
-      w?.classList.toggle('ipa-hidden', !show);
-      b.setAttribute('aria-expanded', String(show));
-      render(b, isolateLatin(show ? tt('להסתרת IPA', 'Hide IPA') : tt('להצגת IPA', 'Show IPA')));
-      if (w) markWideTables(w.parentElement);
+    on(el, 'click', '[data-ipa-toggle]', () => {
+      ipaShown = !ipaShown;
+      applyIpa();
+      markWideTables($('#pbody', el));
     }),
     on(el, 'click', '[data-he-switch]', () => {
       const value = !document.documentElement.dataset.heAll;

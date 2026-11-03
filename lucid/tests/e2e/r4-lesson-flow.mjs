@@ -491,6 +491,97 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-8: "Show IPA" hides all IPA at Pre-A1, sound tables play their examples, Hebrew headers ----------
+  // Text nodes in the learn step that show IPA and are really on screen.
+  const visibleIpa = (page) => page.evaluate(() => {
+    const out = [];
+    const walk = document.createTreeWalker(document.querySelector('.lesson-learn'), NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      if (!/\/[æɪʌɒθ]/.test(n.textContent)) continue;
+      const e = n.parentElement;
+      if (e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('.sr-only')) out.push(n.textContent.trim());
+    }
+    return out;
+  });
+  async function learnStepWith(page, lid, sel, max = 14) {
+    await page.goto(`${BASE}#/lesson/${lid}?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < max && !(await page.$(sel)); s++) { const n = await page.$('[data-learn-next]'); if (!n) break; await n.click(); await page.waitForTimeout(60); }
+    return Boolean(await page.$(sel));
+  }
+  for (const text of [100, 150]) {
+    await check(`LF-8 pa1-02 learn step 1 at 390 and ${text}% text: no IPA on screen until "Show IPA", then it shows`, async () => {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'PreA1', { text });
+      await learnStepWith(page, 'pa1-02', '.lesson-learn');
+      assert(await page.$('.lesson-learn [data-ipa-toggle]'), 'step 1 has no "Show IPA" key');
+      const off = await visibleIpa(page);
+      assert(!off.length, `IPA on screen with the toggle off: ${off.slice(0, 4).join(' | ')}`);
+      await shot(page, `lf8-pa1-02-off-${text}`, { fullPage: true });
+      await page.click('.lesson-learn [data-ipa-toggle]');
+      const on = await visibleIpa(page);
+      assert(on.length > 0, 'IPA does not show after "Show IPA"');
+      await ctx.close();
+    });
+  }
+  await check('LF-8 pa1-02: the th/w/v table has "Show IPA", and each row\'s play key sits in its examples cell and plays it', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    assert(await learnStepWith(page, 'pa1-02', '.table-wrap:has(td[data-label^="Sound"])'), 'no th/w/v table');
+    const t = await page.evaluate(() => {
+      const w = document.querySelector('.table-wrap:has(td[data-label^="Sound"])');
+      const tools = w.previousElementSibling?.previousElementSibling;
+      const rows = [...w.querySelectorAll('tbody tr')].map((tr) => { const b = tr.querySelector('.row-say'); const td = b?.closest('td'); return { say: b?.dataset.sayText, cell: td ? [...td.childNodes].filter((n) => n !== b).map((n) => n.textContent).join('').trim() : null, label: td?.dataset.label }; });
+      return { toggle: Boolean(tools?.querySelector('[data-ipa-toggle]')), rows };
+    });
+    assert(t.toggle, 'the th/w/v table has no "Show IPA"');
+    assert(t.rows.length && t.rows.every((r) => r.say && r.say === r.cell && /^Examples/.test(r.label)), `play keys: ${JSON.stringify(t.rows)}`);
+    // The vowel table too: the play key is in the examples cell, not by the letter.
+    await page.goto(`${BASE}#/lesson/pa1-02?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn .table-wrap');
+    const v = await page.$$eval('.lesson-learn .table-wrap .row-say', (bs) => bs.map((b) => ({ label: b.closest('td').dataset.label, say: b.dataset.sayText })));
+    assert(v.length === 5 && v.every((x) => /^Examples/.test(x.label)), `vowel table play keys: ${JSON.stringify(v)}`);
+    await ctx.close();
+  });
+  await check('LF-8 pa1-01 word cards show no IPA or part of speech until "Show IPA"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    assert(await learnStepWith(page, 'pa1-01', '.lesson-learn .word-row'), 'no word cards in pa1-01');
+    const shown = () => page.$$eval('.lesson-learn .word-row .word-line > span', (ss) => ss.filter((s) => s.getClientRects().length).map((s) => s.textContent.trim()));
+    const off = await shown();
+    assert(!off.some((x) => /^\/.*\/$|^(noun|verb|adjective|adverb)/.test(x)), `IPA or part of speech on a word card: ${off.join(' | ')}`);
+    await page.click('.lesson-learn [data-ipa-toggle]');
+    assert((await shown()).some((x) => /^\/.*\/$/.test(x)), 'IPA does not show on the word cards after "Show IPA"');
+    await shot(page, 'lf8-pa1-01-words');
+    await ctx.close();
+  });
+  await check('LF-8 a table with headers_he shows the Hebrew under each header, and its English columns stay left to right', async () => {
+    const { ctx, page } = await newPage(browser);
+    await ctx.route('**/content/lessons/pa1-02.json', async (route) => {
+      const res = await route.fetch();
+      const l = await res.json();
+      const t = l.explanation.find((b) => b.type === 'table');
+      t.headers_he = ['אות', 'צליל קצר', 'דוגמאות', 'איך זה נשמע'];
+      await route.fulfill({ response: res, json: l });
+    });
+    await learnerAt(page, 'PreA1');
+    await learnStepWith(page, 'pa1-02', '.lesson-learn .table-wrap');
+    const r = await page.evaluate(() => {
+      const w = document.querySelector('.lesson-learn .table-wrap');
+      const ths = [...w.querySelectorAll('thead th')].map((th) => ({ he: th.querySelector('.th-he')?.textContent, cls: th.className }));
+      const en = [...w.querySelectorAll('tbody tr:first-child td.c-en')].map((td) => getComputedStyle(td).direction);
+      return { dir: getComputedStyle(w).direction, ths, en, label: w.querySelector('tbody td.c-en')?.dataset.label };
+    });
+    assert(r.ths.filter((x) => !/c-he/.test(x.cls)).every((x) => x.he), `a header without its Hebrew: ${JSON.stringify(r.ths)}`);
+    assert(r.dir === 'ltr' && r.en.length >= 2 && r.en.every((d) => d === 'ltr'), `the English columns are not left to right: ${JSON.stringify(r)}`);
+    assert(/אות/.test(r.label || ''), `the card label has no Hebrew: ${r.label}`);
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);

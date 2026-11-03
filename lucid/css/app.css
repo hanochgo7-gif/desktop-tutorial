@@ -1721,6 +1721,16 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
+/* Tables at Pre-A1 (LF-8): "Show IPA" hides the IPA column and the /…/ inside other cells and word cards in every
+   layout, also where rows are cards at large text; Hebrew header labels sit under the English ones; Hebrew cells
+   are in body ink, not link blue. */
+.table-wrap.ipa-hidden :is(.col-ipa, .ipa), .lesson-learn.ipa-hidden .ipa { display: none; }
+@media (max-width: 30rem) { .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; } }
+:root:is([data-text='130'], [data-text='150']) .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; }
+table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-2); }
+:root .table-wrap table.data td.c-he, :root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { color: var(--ink); }
+@media (max-width: 30rem) { :root .tstack table.data td.c-he { color: var(--ink); } }
+.word-tools { margin-block-end: calc(-1 * var(--s2)); }
 /* The part end (LF-7): the saved place leads; today's first-try count is a small closing line, not a grade. */
 .part-end .part-place { font-size: var(--t-md); }
 .part-end .part-score { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); }
