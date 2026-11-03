@@ -247,7 +247,7 @@ try {
   });
 
   // ---------- EX-4 ----------
-  await check('EX-4 reveal() and reopen(): every listed type stays on screen locked with the answer marked and play keys kept; typed types reopen with the text kept, wrong fields marked and focused', async () => {
+  await check('EX-4 reveal() and reopen(): every listed type stays on screen locked with the answer marked and play keys kept; typed types reopen with the text kept and the wrong fields open, plain (r4 EX-8) and focused', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
     const out = await page.evaluate(async () => {
@@ -285,12 +285,13 @@ try {
         const fields = [...root.querySelectorAll('.gap-input, textarea')];
         fields.forEach((f, i) => { f.value = Array.isArray(typed) ? typed[i] : typed; f.dispatchEvent(new Event('input', { bubbles: true })); });
         const r1 = await ctl.check();
-        ctl.reopen();
+        // r4 EX-8: the fields that were wrong reopen plain (no wrong class, no aria-invalid) until they are checked again.
         const wrong = fields.filter((f) => f.classList.contains('wrong'));
+        ctl.reopen();
         res[`reopen-${name}`] = {
           retryable: ctl.retryable === true, first: r1.correct,
           kept: fields.every((f, i) => f.value === (Array.isArray(typed) ? typed[i] : typed)),
-          wrongOpen: wrong.length > 0 && wrong.every((f) => !f.readOnly),
+          wrongOpen: wrong.length > 0 && wrong.every((f) => !f.readOnly && !f.classList.contains('wrong') && !f.hasAttribute('aria-invalid')),
           focused: document.activeElement === wrong[0],
           noKeyShown: !root.querySelector('.word-diff'),
           checkOn: !document.querySelector('[data-check]').disabled,
