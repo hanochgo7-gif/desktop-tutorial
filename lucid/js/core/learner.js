@@ -454,6 +454,7 @@ export function todayPlan(minutes = settings().daily_minutes, { lesson = null, s
     lastReadingAt: m.attempts.filter((a) => a.source === 'reading').map((a) => a.at).sort().pop() || null,
     lesson: lessonInfo(m.next, lesson, m.attempts, todayKey(now), settings().today_part),
     scenario: pickScenario(scenarios, { level: m.courseLevel, goals, done: scenariosDone }),
+    scenarios, scenariosDone,
     writingTask: task && { ...task, started: writingStarted.has(task.id) },
     today,
   });

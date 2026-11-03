@@ -395,7 +395,7 @@ function practiceFocus({ recurring, weak, level }) {
 export function dailyPlan({
   minutes = 35, now = Date.now(), dueCount = 0, warmupCount = 0, todayNewCount = 0,
   next = null, weak = [], recurring = [], lastSpeakingAt = null, lastWritingAt = null, lastReadingAt = null, level = 'PreA1',
-  goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {},
+  goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {}, scenarios = [], scenariosDone = new Set(),
 } = {}) {
   const blocks = [];
   const extras = [];
@@ -427,7 +427,16 @@ export function dailyPlan({
   const used = blocks.find((b) => b.id === 'use');
   const offer = !used ? useBlock({ minutes: BUDGET[20].use, level, goals, last, scenario, writingTask, today })
     : used.done ? useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask }) : null;
-  const goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
+  let goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
+  // TP-10: once today's goal scenario is done, the next scenario for the goal (not done, not today's) is an extra
+  // under "Want more?". scenarios: the real-life list (todayPlan passes it); scenariosDone: the ones completed.
+  if (used?.done && used.scenario && scenarios.length) {
+    const nextSc = pickScenario(scenarios, { level, goals, done: new Set([...scenariosDone, ...(today.scenarios || []), used.scenario]) });
+    if (nextSc) {
+      extras.push({ id: 'use', kind: 'speaking', minutes: plan.use, route: `scenario/${nextSc.id}`, scenario: nextSc.id, goal: used.goal, why: 'scenario', done: false });
+      if (goalOffer?.route === `scenario/${nextSc.id}`) goalOffer = null;
+    }
+  }
   if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
   if (next) {
     const others = blocks.reduce((a, b) => a + b.minutes, 0);

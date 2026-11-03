@@ -205,3 +205,22 @@ test('TP-8: the period report counts writing sessions (one per text per day), wi
   assert.equal(r.writing_sessions, 3);
   assert.equal(periodReport({ events: [], now }).writing_sessions, 0);
 });
+
+test('TP-10: once today\'s travel scenario is done, the extras offer the next travel scenario', () => {
+  const sc = (id, module, level = 'A1') => ({ id, module, level });
+  const scenarios = [sc('rl-airport-checkin', 'airport'), sc('rl-hotel-checkin', 'hotel'), sc('rl-social-hi', 'social'), sc('rl-airport-b2', 'airport', 'B2')];
+  const done = scenarios[0];
+  const plan = dailyPlan({
+    minutes: 20, level: 'A1', goals: ['travel'], scenarios, scenario: done,
+    today: { scenario: done, scenarios: new Set([done.id]) },
+  });
+  const use = plan.blocks.find((b) => b.id === 'use');
+  assert.deepEqual([use.scenario, use.done], [done.id, true]);
+  const extra = plan.extras.find((b) => b.id === 'use' && b.scenario);
+  assert.ok(extra, 'no scenario among the extras');
+  assert.notEqual(extra.scenario, done.id);
+  assert.equal(extra.scenario, 'rl-hotel-checkin', 'a travel scenario at the learner\'s level');
+  assert.deepEqual([extra.route, extra.done], ['scenario/rl-hotel-checkin', false]);
+  // Without the list (older callers) nothing changes.
+  assert.ok(!dailyPlan({ minutes: 20, level: 'A1', goals: ['travel'], scenario: done, today: { scenario: done, scenarios: new Set([done.id]) } }).extras.some((b) => b.id === 'use'));
+});

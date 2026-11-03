@@ -385,9 +385,9 @@ export default async function today(el, ctx) {
     };
     // The reason names only a goal the learner chose (persona finding R2-39).
     const goalWhy = (b) => {
-      if (b.goal === 'travel') return tt('בחרתם טיולים: מצב אחד מנסיעה, ברמה שלכם.', 'You chose travel: one real situation from a trip, at your level.');
+      if (b.goal === 'travel') return tt('בחרתם טיולים: תרחיש אחד מנסיעה, ברמה שלכם.', 'You chose travel: one real situation from a trip, at your level.');
       if (b.goal === 'conversation') return tt('בחרתם ביטחון בשיחה: שיחה אחת מהחיים, ברמה שלכם.', 'You chose confidence in conversation: one real conversation, at your level.');
-      if (b.goal === 'work') return tt('בחרתם עבודה: מצב אחד מהעבודה, ברמה שלכם.', 'You chose work: one workplace situation, at your level.');
+      if (b.goal === 'work') return tt('בחרתם עבודה: תרחיש אחד מהעבודה, ברמה שלכם.', 'You chose work: one workplace situation, at your level.');
       if (b.goal === 'studies' && b.kind === 'reading') return tt('בחרתם בגרות ולימודים: קריאה של טקסטים קצרים בונה את ההבנה שהמבחנים האלה בודקים.', 'You chose exams and university: reading short texts builds the comprehension these exams test.');
       if (b.goal === 'writing' && b.kind === 'reading') return tt('בחרתם כתיבה אקדמית: קריאה של טקסטים עם טיעון טוב בונה את השפה שכותבים בה.', 'You chose academic writing: reading well-argued texts builds the language you write with.');
       if (b.goal === 'studies' && b.kind === 'writing') return tt('בחרתם בגרות ולימודים: משימה אחת ממעבדת הכתיבה, ברמה שלכם.', 'You chose exams and university: one Writing lab task at your level.');
@@ -458,6 +458,11 @@ export default async function today(el, ctx) {
     // "Not now" hides the offer on Today for that level; the path keeps it (persona finding R2-20).
     const showImport = importLevel && s.vocab_import_hidden !== importLevel;
     const courseDone = !m.next;
+    // At Pre-A1 no goal item is planned yet (scenarios start at A1), so a learner with a goal is told when it comes
+    // in, with one thing to use meanwhile (TP-9): travel phrases for a travel goal, otherwise real-life English.
+    const goals = (p?.goals || []).filter((g) => GOAL_KINDS[g]);
+    const goalLater = !m.placementPending && m.courseLevel === 'PreA1' && goals.length
+      ? (goals.includes('travel') ? { route: 'expressions', what: tt('ביטויים לנסיעה', 'travel phrases') } : { route: 'real-life', what: tt('אנגלית לחיים', 'English for real life') }) : null;
     // An open writing draft for a learner with a writing goal (TP-8): a draft with text whose task has no
     // evaluated or final summary yet. The most recent one gets a quiet line under the plan, unless the plan's
     // writing block already opens it.
@@ -493,7 +498,7 @@ export default async function today(el, ctx) {
     // Either way they sit under "Want more?", outside the plan's minutes, never as a second card beside a done
     // lesson (TP-3).
     const more = complete ? [...openLeft, ...plan.extras, ...goalItem, ...(m.placementPending ? [] : [{ id: 'game', level: m.courseLevel, minutes: 2, route: `games/${m.courseLevel}/1` }])]
-      : [...plan.extras.filter((b) => b.id === 'learn'), ...(plan.blocks.some((b) => b.id === 'use') ? [] : goalItem)];
+      : [...plan.extras.filter((b) => b.id === 'learn' || b.id === 'use'), ...(plan.blocks.some((b) => b.id === 'use') ? [] : goalItem)];
     // The done banner names no minutes (TP-2): the done rows say what was done.
     const doneBanner = html`<div class="banner done-banner">${icon('check', { size: 18 })}<p><strong>${tt('התוכנית להיום הושלמה', 'Today\'s plan is done')}</strong>
       ${tt('אפשר לעצור כאן, או להמשיך בחופשיות', 'You can stop here, or carry on freely')} <a href="#/practice">${tt('בלשונית תרגול', 'in Practice')}</a>.</p></div>`;
@@ -507,6 +512,7 @@ export default async function today(el, ctx) {
           ${first ? (small ? '' : startBar) : doneBanner}
           ${otherPlan ? html`<a class="panel plan-item" href="#/lesson/${other.id}?resume=1"><span class="glyph">${icon('play')}</span><span class="pi-title">${tt('להמשיך מאיפה שעצרתם', 'Continue where you left off')}</span><span class="plan-time">${icon('chevron')}</span><span class="why">${legend(otherPlan.title_en, otherPlan.title_he)}<span style="display:block">${stepText(resumeStep(other.resume))}</span></span></a>` : ''}
           <ol class="plan" style="list-style:none;padding:0;margin:0">${(complete ? plan.blocks.filter(isDone) : plan.blocks).map((b) => row(b))}</ol>
+          ${goalLater ? html`<p class="goal-later small" data-goal-later>${icon('globe', { size: 16 })}<span>${isolateLatin(tt('המטרות שלכם ייכנסו לתוכנית מ-A1.', 'Your goals join the plan from A1.'))} <a href="#/${goalLater.route}">${tt('בינתיים:', 'Meanwhile:')} ${goalLater.what}</a></span></p>` : ''}
           ${openDraft ? html`<ul class="plan more-list writing-open" style="list-style:none;padding:0;margin:0" aria-label="${tt('כתיבה פתוחה', 'Open writing')}"><li><a class="panel plan-item flat more-item" href="#/writing/${openDraft.id}" data-writing-open>
             <span class="glyph">${icon('writing')}</span>
             <span class="pi-title"><span class="small faint">${tt(`להמשיך (גרסה ${openDraft.version}):`, `Continue (version ${openDraft.version}):`)}</span> ${legend(openDraft.task.title_en, openDraft.task.title_he)}</span>

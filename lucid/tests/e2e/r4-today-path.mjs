@@ -291,6 +291,45 @@ try {
     await shot(page, 'tp8-progress');
     await ctx.close();
   });
+
+  // ---------- TP-9: the goal promise matches what Pre-A1 learners get ----------
+  await check('TP-9 the onboarding note says goal suggestions start "מרמה A1"; a Pre-A1 travel learner on 10 minutes has a [data-goal-later] line linking to #/expressions', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('#ob-form');
+    await page.selectOption('#ob-year', '1990');
+    await page.click('button[type=submit]');
+    await page.waitForSelector('#ob-min-note');
+    const note = await page.textContent('#ob-min-note');
+    assert(/מרמה A1/.test(note), `note: ${note}`);
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'PreA1', { minutes: 10, goals: ['travel'] });
+    await today(b.page);
+    const line = await b.page.$('[data-goal-later]');
+    assert(line && await line.$('a[href="#/expressions"]'), 'no goal line linking to #/expressions');
+    assert(/מ-A1/.test(await line.textContent()), `goal line: ${await line.textContent()}`);
+    await line.scrollIntoViewIfNeeded();
+    await shot(b.page, 'tp9-goal-later');
+    await b.ctx.close();
+    // A1 and up: the goal is in the plan or offered, so the line is gone.
+    const c = await newPage(browser);
+    await learnerAt(c.page, 'A1', { minutes: 10, goals: ['travel'] });
+    await today(c.page);
+    assert(!(await c.page.$('[data-goal-later]')), 'the Pre-A1 goal line shows at A1');
+    await c.ctx.close();
+  });
+
+  // ---------- TP-13: Welcome names real-life situations as the rest of the app does ----------
+  await check('TP-13 Welcome says "תרחישים", and welcome.js has no "מצבים אמיתיים"', async () => {
+    const src = readFileSync(join(app, 'js/views/welcome.js'), 'utf8');
+    assert(!src.includes('מצבים אמיתיים'), 'welcome.js still says "מצבים אמיתיים"');
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/welcome`);
+    await page.waitForSelector('.welcome');
+    assert(/30 תרחישים מהחיים/.test(await page.textContent('.welcome')), 'Welcome does not say "30 תרחישים מהחיים"');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

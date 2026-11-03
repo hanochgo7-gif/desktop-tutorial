@@ -68,7 +68,7 @@ export default async function welcome(el, ctx) {
           </div>
           <ul class="check-rows small muted">
             <li>${icon('check', { size: 16 })}<span>${tt('75 שיעורים, מאפס ועד C2, עם הסברים בעברית שנעלמים בהדרגה', '75 lessons from zero to C2, with Hebrew support that fades as you grow')}</span></li>
-            <li>${icon('check', { size: 16 })}<span>${tt('30 מצבים אמיתיים: שדה תעופה, מלון, מסעדה, היכרויות וחירום', '30 real situations: airports, hotels, restaurants, meeting people, emergencies')}</span></li>
+            <li>${icon('check', { size: 16 })}<span>${tt('30 תרחישים מהחיים: שדה תעופה, מלון, מסעדה, היכרויות וחירום', '30 real-life scenarios: airports, hotels, restaurants, meeting people, emergencies')}</span></li>
             <li>${icon('check', { size: 16 })}<span>${tt('בלי פרסומות, בלי לחץ של רצפים, ורמה שנמדדת לפי מה שאתם יודעים לעשות', 'No ads, no streak pressure, and a level based on what you can actually do')}</span></li>
           </ul>
         </div>

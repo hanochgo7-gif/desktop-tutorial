@@ -1719,6 +1719,10 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .today .all-lessons { display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: var(--s2); margin-inline-end: calc(-1 * var(--s2)); }
 .first-recall a { display: inline-flex; align-items: center; gap: var(--s2); min-height: 2.75rem; color: var(--cobalt); }
 .first-recall a svg { flex: none; }
+/* TP-9: the Pre-A1 goal line: the text and its link on one quiet row. */
+.goal-later { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; color: var(--ink-2); }
+.goal-later > .icon { flex: none; margin-block-start: 0.2em; }
+.goal-later a { padding-block: 0.6rem; }
 
 /* ---- lane r4-today-path: end ---- */
 
