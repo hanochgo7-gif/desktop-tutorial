@@ -491,17 +491,25 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       // The prompt and the instruction are drawn once; a tap redraws the words and the bins, then puts the focus
       // back: on a bin after choosing a word, on the next word after placing one, on Check when all are placed.
       // The instruction comes first, at body size, and says what to do next (P2 EX-9); while an item is chosen
-      // the bins are marked as the next target.
+      // the bins are marked as the next target. Moves are spoken by a live line of their own ("text → bin"), so
+      // the instruction is not repeated (r4 EX-10). Each bin is a group named by its label.
       const helpText = () => (sel == null
         ? tt('בחרו פריט ואז את הקבוצה שלו. לחיצה על פריט שהונח מחזירה אותו.', 'Pick an item, then its group. Tap a placed item to take it back.')
         : tt('עכשיו בחרו את הקבוצה שלו.', 'Now choose its group.'));
+      // Sentences need room: with a long item the bins stack full width (r4 EX-10).
+      const long = ex.items.some((x) => String(x.text).length > 30);
+      const binId = (k) => `cat-${ex.id}-${k}`;
+      let checked = false;
+      // After Check, the items of a capital-letter group are shown with their capital (r4 EX-10).
+      const shown = (x) => (checked ? capitalFor(x.text, x.category) : x.text);
       render(root, html`${prompt}
-        <p class="cat-help" aria-live="polite" data-cat-help>${helpText()}</p>
-        <div class="chips" role="group" aria-label="${tt('פריטים למיון', 'Items to sort')}" lang="en" dir="ltr" data-pool></div>
-        <div class="cat-grid" lang="en" dir="ltr" data-bins></div>`);
+        <p class="cat-help" data-cat-help>${helpText()}</p>
+        <div class="chips${long ? ' cat-long-pool' : ''}" role="group" aria-label="${tt('פריטים למיון', 'Items to sort')}" lang="en" dir="ltr" data-pool></div>
+        <div class="cat-grid${long ? ' cat-long' : ''}" lang="en" dir="ltr" data-bins></div>
+        ${liveRegion}`);
       const draw = () => {
         render($('[data-pool]', root), items.filter((x) => !placed.has(x.i)).map((x) => html`<button type="button" class="chip" data-item="${x.i}" aria-pressed="${sel === x.i}">${x.text}</button>`));
-        render($('[data-bins]', root), ex.categories.map((c) => html`<div class="cat-bin${sel != null ? ' is-target' : ''}" data-bin="${c}"><button type="button" class="label">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en">${x.text}</button>`)}</div>`));
+        render($('[data-bins]', root), ex.categories.map((c, k) => html`<div class="cat-bin${sel != null ? ' is-target' : ''}" data-bin="${c}" role="group" aria-labelledby="${binId(k)}"><button type="button" class="label" id="${binId(k)}">${c}</button>${items.filter((x) => placed.get(x.i) === c).map((x) => html`<button type="button" class="chip" data-placed="${x.i}" lang="en" aria-label="${tt(`${shown(x)} – ב-${c}. לחיצה מחזירה`, `${shown(x)} – in ${c}. Tap to take it back`)}">${shown(x)}</button>`)}</div>`));
         const help = $('[data-cat-help]', root);
         if (help && help.textContent !== helpText()) help.textContent = helpText();
       };
@@ -512,17 +520,26 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       offs.push(on(root, 'click', '[data-bin]', (e, b) => {
         if (root.dataset.locked || sel == null || e.target.closest('[data-placed]')) return;
         const at = items.findIndex((x) => x.i === sel);
+        const moved = items[at];
         placed.set(sel, b.dataset.bin); sel = null; draw();
+        announce(html`<span lang="en" dir="ltr">${moved.text}</span> → <span lang="en" dir="ltr">${b.dataset.bin}</span>`);
         const complete = placed.size === items.length;
         onChange(complete);
         const next = [...items.slice(at + 1), ...items.slice(0, at)].find((x) => !placed.has(x.i));
         focusOn(complete ? checkKey() : next && $(`[data-item="${next.i}"]`, root), e);
       }));
-      offs.push(on(root, 'click', '[data-placed]', (e, b) => { if (root.dataset.locked) return; const i = Number(b.dataset.placed); placed.delete(i); draw(); onChange(false); focusOn($(`[data-item="${i}"]`, root), e); }));
+      offs.push(on(root, 'click', '[data-placed]', (e, b) => {
+        if (root.dataset.locked) return;
+        const i = Number(b.dataset.placed);
+        placed.delete(i); draw(); onChange(false);
+        announce(html`<span lang="en" dir="ltr">${items.find((x) => x.i === i)?.text}</span>: ${tt('הוחזר לרשימה', 'back in the list')}`);
+        focusOn($(`[data-item="${i}"]`, root), e);
+      }));
       ctl.ready = () => placed.size === items.length;
       // Each placed item is marked in place (icon, colour and words); the verdict lists only the misplaced ones.
-      // A wrong sentence sorted rightly into the "wrong" bin gets no green tick: it is struck through, with its
-      // fix beside it when the item has one, and a neutral "in the right place" tag (P2 EX-9).
+      // Every right placement has the same green check (r4 EX-10). A wrong sentence sorted rightly into the
+      // "wrong" bin also gets a neutral "שגוי" tag (it is ungrammatical, and it is in the right place), with its
+      // fix beside it when the item has one; nothing is struck through.
       const wrongBin = (c) => ex.categories.length === 2 && ex.categories.some((x) => /^correct$/i.test(x)) && !/^correct$/i.test(c);
       const markPlaced = () => {
         let right = 0;
@@ -530,20 +547,19 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
           const it = items.find((x) => x.i === Number(b.dataset.placed));
           const ok = placed.get(it.i) === it.category;
           if (ok) right++;
-          if (ok && wrongBin(it.category)) {
-            b.classList.add('is-struck');
-            render(b, html`<span class="sr-only" ${uiAttrs()}>${tt('במקום הנכון:', 'Right:')} </span>${it.fix
-              ? sentenceDiff(it.text, it.fix).map((p) => (p.type === 'same' ? html`<span>${p.text}</span> ` : p.type === 'del' ? html`<del>${p.text}</del> ` : html`<ins>${p.text}</ins> `))
-              : html`<s>${it.text}</s>`}<span class="tag cat-tag" ${uiAttrs()}>${tt('במקום הנכון', 'Right place')}</span>`);
-            return;
-          }
           b.classList.add(ok ? 'is-right' : 'is-wrong');
           b.insertAdjacentHTML('afterbegin', String(html`${icon(ok ? 'check' : 'x', { size: 14 })}<span class="sr-only" ${uiAttrs()}>${ok ? tt('במקום הנכון:', 'Right:') : tt('לא במקום:', 'Wrong place:')} </span>`));
+          if (ok && wrongBin(it.category)) {
+            b.classList.add('is-flawed');
+            b.insertAdjacentHTML('beforeend', String(html` <span class="tag cat-tag" ${uiAttrs()}>${tt('שגוי', 'Wrong')}</span>${it.fix ? html`<span class="cat-fix"><span class="sr-only" ${uiAttrs()}>${tt('תיקון:', 'Fix:')} </span><span aria-hidden="true">→ </span>${it.fix}</span>` : ''}`));
+          }
         });
         return right;
       };
       ctl.check = async () => {
         root.dataset.locked = '1';
+        checked = true;
+        draw();
         const right = markPlaced();
         const correct = right === items.length;
         return result({ correct, score: right / items.length, response: `${right}/${items.length}`, summary: tt(`${right} מתוך ${items.length} במקום הנכון`, `${right} of ${items.length} in the right place`), fixes: categoryFixes(ex, placed) });
@@ -552,6 +568,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.reveal = () => {
         root.dataset.locked = '1';
         sel = null;
+        checked = true;
         items.forEach((x) => placed.set(x.i, x.category));
         draw();
         markPlaced();
@@ -909,10 +926,13 @@ export function recognised(heard, target) {
   </div>`;
 }
 
+// An item of a capital-letter group ("Capital (A)") as it is written: with its capital (r4 EX-10: "israel" was
+// shown in small letters under "Capital").
+export const capitalFor = (text, category) => (/capital/i.test(String(category)) ? String(text).replace(/^\s*([a-z])/, (m, c) => m.replace(c, c.toUpperCase())) : String(text));
 // Misplaced items of a categorize exercise, grouped by the category they belong in.
 export function categoryFixes(ex, placed) {
   return ex.categories
-    .map((category) => ({ category, items: ex.items.filter((x, i) => x.category === category && placed.get(i) !== category).map((x) => x.text) }))
+    .map((category) => ({ category, items: ex.items.filter((x, i) => x.category === category && placed.get(i) !== category).map((x) => capitalFor(x.text, category)) }))
     .filter((g) => g.items.length);
 }
 
@@ -995,7 +1015,7 @@ export function verdictHtml(ex, r, errors) {
     <div class="verdict-body stack-sm">
       ${!r.correct && r.answer ? html`<p>${r.model || r.open ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
       ${!r.correct && r.answer && r.typed && normalize(r.typed) !== normalize(r.answer) ? html`<div class="stack-sm"><p class="small">${tt('בתשובה שלכם:', 'In your answer:')}</p>${sentenceDiffHtml(r.typed, r.answer)}</div>` : ''}
-      ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <span class="answer">${g.items.join(', ')}</span></li>`)}</ul></div>` : ''}
+      ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <ul class="fix-items">${g.items.map((x) => html`<li class="answer">${x}</li>`)}</ul></li>`)}</ul></div>` : ''}
       ${r.almost && r.correct && r.typos?.length ? html`<p>${tt('המילה נכונה; האיות:', 'Right word; the spelling:')} ${r.typos.map((t, k) => html`${k ? ', ' : ''}<span class="spell" lang="en" dir="ltr">${t.expected}</span>`)}</p>` : ''}
       ${r.almost && r.answer && r.correct && !(r.typos?.length && !/\s/.test(String(r.answer).trim())) ? html`<p>${tt('הצורה המדויקת:', 'Exact form:')} ${answerEl(r.answer)}</p>` : ''}
       ${r.specific ? html`<p>${bi(r.specific)}</p>` : ''}

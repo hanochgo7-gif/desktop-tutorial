@@ -1690,6 +1690,15 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .silent-transcript { margin-block-start: var(--s4); color: var(--ink-2); }
 .silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
 .options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+/* EX-10: sentences get full-width bins (long items, or a narrow column), every right placement looks the same,
+   and the answer is a list per bin. */
+.cat-grid { container-type: inline-size; }
+.cat-grid.cat-long { grid-template-columns: minmax(0, 1fr); }
+@container (max-width: 30rem) { .cat-grid .cat-bin { grid-column: 1 / -1; } }
+.cat-grid.cat-long .chip, .chips.cat-long-pool .chip { text-align: start; justify-content: flex-start; white-space: normal; }
+.cat-bin .chip.is-flawed { flex-wrap: wrap; text-align: start; }
+.cat-bin .chip .cat-fix { flex-basis: 100%; color: var(--ink-2); font-size: var(--t-xs, 0.8125rem); }
+.verdict-body .fix-items { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: 0.15rem; }
 /* EX-9: speaking self-rating says what Continue waits for and acknowledges the choice; "mic off" is neutral. */
 .self-rate .self-need { color: var(--ink); font-weight: 500; }
 .self-rate .self-said { color: var(--ink-2); }

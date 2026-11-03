@@ -403,7 +403,7 @@ try {
   });
 
   // ---------- EX-9 ----------
-  await check('EX-9 sorting: picking a chip highlights the bins; "They lives in Eilat." in the Wrong bin is struck through with no green tick', async () => {
+  await check('EX-9 sorting: picking a chip highlights the bins; "They lives in Eilat." in the Wrong bin has the same green check as every right placement and a neutral "שגוי" tag, no strike (r4 EX-10)', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
     await openExercise(page, 'a1-01', 3);
@@ -420,8 +420,8 @@ try {
     }
     await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
-    const lives = await page.evaluate(() => { const b = [...document.querySelectorAll('[data-bin="Wrong"] [data-placed]')].find((x) => x.textContent.includes('They lives')); return b && { struck: Boolean(b.querySelector('s, del')), tick: Boolean(b.querySelector('svg')), right: b.classList.contains('is-right') }; });
-    assert(lives && lives.struck && !lives.tick && !lives.right, `"They lives in Eilat.": ${JSON.stringify(lives)}`);
+    const lives = await page.evaluate(() => { const b = [...document.querySelectorAll('[data-bin="Wrong"] [data-placed]')].find((x) => x.textContent.includes('They lives')); return b && { struck: Boolean(b.querySelector('s, del')), tick: Boolean(b.querySelector('svg')), right: b.classList.contains('is-right'), tag: b.querySelector('.cat-tag')?.textContent.trim() }; });
+    assert(lives && !lives.struck && lives.tick && lives.right && lives.tag === 'שגוי', `"They lives in Eilat.": ${JSON.stringify(lives)}`);
     await ctx.close();
   });
 

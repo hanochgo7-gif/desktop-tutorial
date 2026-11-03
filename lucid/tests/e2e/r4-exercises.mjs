@@ -356,6 +356,52 @@ try {
     await shot(page, 'ex9-after-150');
     await ctx.close();
   });
+  // ---------- EX-10 ----------
+  await check('EX-10 categorize: bins are named groups and moves are spoken ("→"); no right placement is struck; capitals show as capitals; b2-02 bins are full width at 390', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await openExercise(page, 'a1-01', 'e3');
+    assert(await page.getByRole('group', { name: 'Correct', exact: true }).count() === 1, 'no group named "Correct"');
+    const cat = await lessonEx(page, 'a1-01', 'e3');
+    const first = (await page.textContent('#exroot [data-item]')).trim();
+    await page.click('#exroot [data-item]');
+    await page.click(`#exroot [data-bin="${cat.items.find((x) => x.text === first).category}"] > .label`);
+    const live = await page.textContent('#exroot [data-live]');
+    assert(/→/.test(live) && live.includes(first), `the live line after a move: "${live}"`);
+    assert(!(await page.$('#exroot [data-cat-help][aria-live]')), 'the instruction is still a live region');
+    const placedName = await page.$eval('#exroot [data-placed]', (b) => b.getAttribute('aria-label'));
+    assert(/לחיצה מחזירה/.test(placedName) && /ב-/.test(placedName), `a placed item's name: ${placedName}`);
+    for (let k = 0; k < 12; k++) {
+      const it = await page.$('#exroot [data-item]'); if (!it) break;
+      const text = (await it.textContent()).trim();
+      await it.click();
+      await page.click(`#exroot [data-bin="${cat.items.find((x) => x.text === text).category}"] > .label`);
+    }
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-next]');
+    const struck = await page.$$eval('#exroot .cat-bin .chip.is-right', (cs) => cs.filter((c) => [c, ...c.querySelectorAll('*')].some((x) => getComputedStyle(x).textDecorationLine.includes('line-through'))).map((c) => c.textContent));
+    assert(!struck.length, `right placements struck through: ${struck}`);
+    await shot(page, 'ex10-sorted-390');
+    // Capitals: "I don't know" on pa1-01 e6 lists Israel with its capital.
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'PreA1');
+    await openExercise(b.page, 'pa1-01', 'e6');
+    await b.page.click('[data-dontknow]');
+    await b.page.waitForSelector('[data-next]');
+    const answer = await b.page.textContent('#pfoot .verdict');
+    assert(/\bIsrael\b/.test(answer), `the answer line: ${answer}`);
+    const inBin = await b.page.$$eval('#exroot .cat-bin [data-placed]', (cs) => cs.map((c) => c.textContent));
+    assert(inBin.some((t) => /Israel/.test(t)) && !inBin.some((t) => /\bisrael\b/.test(t)), `bin items: ${inBin}`);
+    await b.ctx.close();
+    const c = await newPage(browser);
+    await learnerAt(c.page, 'B2');
+    await openExercise(c.page, 'b2-02', 'e2');
+    const widths = await c.page.$$eval('#exroot .cat-bin', (bs) => bs.map((x) => Math.round(x.getBoundingClientRect().width)));
+    assert(widths.length && widths.every((w) => w > 300), `b2-02 bin widths at 390: ${widths}`);
+    await shot(c.page, 'ex10-b2-02-390');
+    await c.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
