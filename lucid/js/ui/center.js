@@ -81,9 +81,10 @@ export function focusMode(onOff) {
 }
 
 // A listening item counts only when it was heard (UX r4 PG-15, contract (b) with exercise.js): a result marked
-// unheard:true is stored with no score. Until exercise.js marks it, the player sees it itself: a listening item on a
-// browser that cannot speak, or one whose audio stayed silent every time it was played.
-export const LISTEN_TYPES = ['listen', 'dictation'];
+// unheard:true is stored with no score, as in lessons. exercise.js marks a listen item (EX-4); the player also sees
+// it itself, as a safety net: a listen item on a browser that cannot speak, or one whose audio stayed silent every
+// time it was played. Dictation is scored as in lessons, where only listen items can be unheard (EX-4, LF-5).
+export const LISTEN_TYPES = ['listen'];
 export function wasUnheard(r, ex, { speech = true, started = false, silent = false } = {}) {
   if (r?.unheard === true) return true;
   if (!LISTEN_TYPES.includes(ex.type) || r?.graded === false || r?.dontKnow) return false;

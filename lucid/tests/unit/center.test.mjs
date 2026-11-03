@@ -16,7 +16,8 @@ test('PG-15: a listening result marked unheard by exercise.js is never scored (c
 
 test('PG-15: without the flag, a listening item is unheard when the browser cannot speak or every play stayed silent', () => {
   assert.equal(wasUnheard({ correct: true }, listen, { speech: false }), true);
-  assert.equal(wasUnheard({ correct: true }, dictation, { speech: true, silent: true, started: false }), true);
+  assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: true, started: false }), true);
+  assert.equal(wasUnheard({ correct: true }, dictation, { speech: true, silent: true, started: false }), false, 'dictation is scored, as in lessons (contract b covers listen items)');
   assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: true, started: true }), false, 'one play that started is enough');
   assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: false, started: false }), false, 'never played is not "nothing heard"');
   assert.equal(wasUnheard({ correct: true }, read, { speech: false }), false, 'reading is not a listening item');
