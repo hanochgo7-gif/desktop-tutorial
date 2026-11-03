@@ -578,6 +578,30 @@ try {
     await shot(page, 'pg12-listening-next-390');
     await ctx.close();
   });
+  // ---------- PG-13 ----------
+  await check('PG-13. Practice at 1440: lab tiles in a row have equal heights and the recommended cards are at most 736px; #/vocab filters at 390 are 2 rows of 2', async () => {
+    const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
+    await learnerAt(page, 'A2');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 86400000)); });
+    await go(page, 'practice', '.practice-labs');
+    const m = await page.evaluate(() => {
+      const tiles = [...document.querySelectorAll('.practice-labs > li > a')].map((a) => { const r = a.getBoundingClientRect(); return { top: Math.round(a.parentElement.getBoundingClientRect().top), h: Math.round(r.height) }; });
+      const rows = new Map();
+      for (const t of tiles) rows.set(t.top, [...(rows.get(t.top) || []), t.h]);
+      return { rows: [...rows.values()], rec: [...document.querySelectorAll('#view section[aria-labelledby="now-h"] .plan-item')].map((x) => Math.round(x.getBoundingClientRect().width)) };
+    });
+    assert(m.rows.length >= 4 && m.rows.every((hs) => Math.max(...hs) - Math.min(...hs) <= 1), `uneven tiles: ${JSON.stringify(m.rows)}`);
+    assert(m.rec.length && m.rec.every((w) => w <= 736), `recommended cards: ${m.rec}`);
+    await shot(page, 'pg13-practice-1440', { fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await go(page, 'vocab', '[data-filter]');
+    const f = await page.$$eval('[data-filter]', (bs) => bs.map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.top), Math.round(r.width)]; }));
+    const tops = [...new Set(f.map(([t]) => t))];
+    assert(f.length === 4 && tops.length === 2 && tops.every((t) => f.filter(([x]) => x === t).length === 2), `filter rows: ${JSON.stringify(f)}`);
+    assert(Math.max(...f.map(([, w]) => w)) - Math.min(...f.map(([, w]) => w)) <= 1, `filter cells are not equal: ${JSON.stringify(f)}`);
+    await shot(page, 'pg13-vocab-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

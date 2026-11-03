@@ -51,7 +51,7 @@ export default async function practice(el, ctx) {
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.practice')}</h1><p>${tt('מה כדאי לתרגל עכשיו, ומעבדות לכל מיומנות.', 'What to practise now, and a lab for every skill.')}</p></div></div>
     <div class="stack-lg">
-      <section class="stack-sm" aria-labelledby="now-h">
+      <section class="stack-sm practice-now" aria-labelledby="now-h">
         <h2 id="now-h" class="small" style="font-size:var(--t-md)">${tt('מומלץ עכשיו', 'Recommended now')}</h2>
         ${dueN ? html`<a class="panel plan-item" href="#/review"><span class="glyph">${icon('layers')}</span><span class="grow"><span style="font-weight:500">${reviewTitle}</span><span class="why" style="display:block">${reviewWhy}</span></span>${icon('chevron')}</a>` : ''}
         ${m.recurring.slice(0, 3).map((e) => { const x = tx.error.get(e.error_type); return html`<a class="panel plan-item" href="#/drill?error=${e.error_type}"><span class="glyph">${icon('practice')}</span><span class="grow"><span style="font-weight:500">${tt(x?.name_he, x?.name_en)}</span><span class="why" style="display:block">${tt(`טעות שחזרה ${e.count} פעמים ב-${e.days} ימים`, `Came up ${e.count} times on ${e.days} days`)}</span></span>${icon('chevron')}</a>`; })}

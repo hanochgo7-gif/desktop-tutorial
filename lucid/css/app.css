@@ -1727,6 +1727,15 @@ table.data td:has(> .row-say) { white-space: nowrap; }
    no shadow) and its label steps back to --ink-2; the one AI-off sentence above them says why. */
 .settings-view .is-off .seg button[aria-pressed='true'] { background: transparent; box-shadow: none; color: var(--ink-3); }
 .settings-view .is-off .label { color: var(--ink-2); }
+/* PG-13: Practice: the lab tiles of a row are one height, and the recommended cards keep a readable width; the
+   vocabulary filters are a 2 x 2 grid of equal cells on a phone, not a ragged wrap. */
+.practice-labs > li { display: grid; }
+.practice-labs > li > .lesson-row { height: 100%; }
+.practice-now > .plan-item { max-width: 46rem; }
+@media (max-width: 30rem) {
+  .list-tools .seg.vocab-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .list-tools .seg.vocab-filters > button { white-space: nowrap; }
+}
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
