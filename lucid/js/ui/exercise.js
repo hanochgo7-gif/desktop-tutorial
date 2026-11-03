@@ -597,10 +597,20 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         <p class="ex-text ex-source" lang="${srcLang}" dir="${srcLang === 'he' ? 'rtl' : 'ltr'}">${ex.type === 'correct' ? html`<span style="text-decoration:underline wavy var(--bad);text-underline-offset:.3em">${source}</span>` : source}</p>
         <label class="sr-only" for="tx-${ex.id}">${tt('התשובה שלך', 'Your answer')}</label>
         <textarea class="input ex-field" id="tx-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו כאן את המשפט המלא', 'Type the full sentence here')}">${ex.type === 'correct' ? source : ''}</textarea>
+        ${ex.type === 'correct' ? html`<p class="same-note small" id="same-${ex.id}" ${uiAttrs()} hidden>${tt('המשפט זהה למקור – שנו את המילים עם הטעות.', 'The sentence is the same as the original. Change the words with the mistake.')}</p>` : ''}
         <div data-reveal></div>`);
       const ta = $('textarea', root);
       setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 50);
-      offs.push(on(root, 'input', 'textarea', () => onChange(Boolean(ta.value.trim()) && normalize(ta.value) !== normalize(ex.type === 'correct' ? source : ''))));
+      // Check is off while a "find and fix" answer is still the source sentence; once the learner has typed, a line
+      // under the field says why (r4 EX-12).
+      const sameNote = () => {
+        const note = $('.same-note', root);
+        if (!note) return;
+        const same = Boolean(ta.value.trim()) && normalize(ta.value) === normalize(source);
+        note.hidden = !same;
+        if (same) ta.setAttribute('aria-describedby', note.id); else ta.removeAttribute('aria-describedby');
+      };
+      offs.push(on(root, 'input', 'textarea', () => { sameNote(); onChange(Boolean(ta.value.trim()) && normalize(ta.value) !== normalize(ex.type === 'correct' ? source : '')); }));
       offs.push(on(root, 'keydown', 'textarea', (e) => { if (e.key === 'Enter' && !e.shiftKey) e.preventDefault(); }));
       ctl.ready = () => Boolean(ta.value.trim()) && (ex.type !== 'correct' || normalize(ta.value) !== normalize(source));
       ctl.check = async () => {
@@ -615,9 +625,9 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         const specific = f?.feedback || (could && !could.ok ? ruleNote(could, source, ex) : null);
         return result({ correct: r.correct, almost: r.almost, score: r.correct ? 1 : 0, response: ta.value, typed: ta.value, answer: ex.answers[0], specific, ...(f?.rule ? { retry_note: f.rule } : {}), error_type: f?.error_type, model: Boolean(could?.ok), open, typos: r.typo ? [r.typo] : [] });
       };
-      ctl.reveal = () => { ta.readOnly = true; revealAnswer(ex.answers[0]); };
+      ctl.reveal = () => { ta.readOnly = true; const n = $('.same-note', root); if (n) n.hidden = true; revealAnswer(ex.answers[0]); };
       ctl.retryable = true;
-      ctl.reopen = () => reopenField(ta);
+      ctl.reopen = () => { reopenField(ta); sameNote(); };
       break;
     }
 
@@ -972,6 +982,9 @@ export function answerFor(ex) {
 
 // A long English answer gets its own left-to-right line; a short one stays in the sentence.
 const answerEl = (a) => html`<span class="answer ${String(a).length > 24 ? 'answer-block' : ''}" lang="en" dir="ltr">${a}</span>`;
+// A matching board's answer: each pair with each side in its own language (r4 EX-12: one lang=en span held the
+// Hebrew too).
+const matchAnswerEl = (ex) => html`<span class="answer answer-block match-answer">${ex.pairs.map(([a, b], k) => html`${k ? html`<span aria-hidden="true"> · </span>` : ''}<span class="pair"><span lang="${langOf(a)}" dir="${langOf(a) === 'he' ? 'rtl' : 'ltr'}">${a}</span> – <span lang="${langOf(b)}" dir="${langOf(b) === 'he' ? 'rtl' : 'ltr'}">${b}</span></span>`)}</span>`;
 
 // The rule an open rewrite breaks when it cannot be counted (P1 EX-5), as Bilingual feedback. It is the
 // first-try note too, so it names the rule and never the key's words (r4 EX-5): "did live" is another wrong
@@ -1036,7 +1049,7 @@ export function verdictHtml(ex, r, errors) {
   const why = note || ex.explanation;
   return html`<div class="verdict-title">${icon(ico, { size: 18 })} ${title}${r.summary ? html` <span class="num">· ${r.summary}</span>` : ''}</div>
     <div class="verdict-body stack-sm">
-      ${!r.correct && r.answer ? html`<p>${r.model || r.open ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${answerEl(r.answer)}</p>` : ''}
+      ${!r.correct && r.answer ? html`<p>${r.model || r.open ? tt('תשובה אחת לדוגמה:', 'One model answer:') : tt('התשובה הנכונה:', 'Correct answer:')} ${ex.type === 'match' ? matchAnswerEl(ex) : answerEl(r.answer)}</p>` : ''}
       ${!r.correct && r.answer && r.typed && normalize(r.typed) !== normalize(r.answer) ? html`<div class="stack-sm"><p class="small">${tt('בתשובה שלכם:', 'In your answer:')}</p>${sentenceDiffHtml(r.typed, r.answer)}</div>` : ''}
       ${!r.correct && r.fixes?.length ? html`<div><p>${tt('המקום של אלה:', 'Where these go:')}</p><ul class="fix-list" lang="en" dir="ltr">${r.fixes.map((g) => html`<li><span class="fix-cat">${g.category}:</span> <ul class="fix-items">${g.items.map((x) => html`<li class="answer">${x}</li>`)}</ul></li>`)}</ul></div>` : ''}
       ${r.almost && r.correct && r.typos?.length ? html`<p>${tt('המילה נכונה; האיות:', 'Right word; the spelling:')} ${r.typos.map((t, k) => html`${k ? ', ' : ''}<span class="spell" lang="en" dir="ltr">${t.expected}</span>`)}</p>` : ''}

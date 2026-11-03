@@ -432,6 +432,36 @@ try {
     await shot(page, 'ex11-paras-390');
     await ctx.close();
   });
+  // ---------- EX-12 ----------
+  await check('EX-12 small details: the source typed back on a pa1-02 e11 retry says why Check is off; the match answer keeps Hebrew out of lang=en; pa1-01 e8 says "בחרו"', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    await openExercise(page, 'pa1-02', 'e11');
+    const ex = await lessonEx(page, 'pa1-02', 'e11');
+    await page.fill('#exroot textarea', 'I tink so, tanks!');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    await page.click('[data-try-again]');
+    await page.fill('#exroot textarea', '');
+    await page.type('#exroot textarea', ex.sentence);
+    const same = await page.evaluate(() => { const ta = document.querySelector('#exroot textarea'); const id = ta.getAttribute('aria-describedby'); const n = id && document.getElementById(id); return { text: n?.textContent || '', visible: Boolean(n && n.offsetParent !== null), off: document.querySelector('[data-check]')?.disabled }; });
+    assert(same.visible && /זהה למקור/.test(same.text) && same.off, `same-as-source note: ${JSON.stringify(same)}`);
+    await shot(page, 'ex12-same-390');
+    // pa1-01 e8: a word-bank gap asks to choose, not to write.
+    const e8 = await lessonEx(page, 'pa1-01', 'e8');
+    assert(/בחרו/.test(e8.prompt.he) && !/כתבו/.test(e8.prompt.he), `pa1-01 e8 prompt: ${e8.prompt.he}`);
+    await ctx.close();
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'A1');
+    await openExercise(b.page, 'a1-01', 'e1');
+    await b.page.click('[data-dontknow]');
+    await b.page.waitForSelector('[data-next]');
+    const bad = await b.page.$$eval('#pfoot [lang="en"]', (els) => els.filter((e) => /[֐-׿]/.test(e.textContent)).map((e) => e.textContent.slice(0, 40)));
+    assert(!bad.length, `lang=en elements holding Hebrew in the match answer: ${JSON.stringify(bad)}`);
+    assert(await b.page.$('#pfoot .match-answer [lang="he"]'), 'the Hebrew side of the pairs is not marked lang=he');
+    await shot(b.page, 'ex12-match-390');
+    await b.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

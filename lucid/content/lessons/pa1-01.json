@@ -156,7 +156,7 @@
     },
     {
       "id": "e8", "type": "gap", "skill": "vocabulary", "topic": "alphabet",
-      "prompt": { "en": "Complete the conversation. Write one word in each gap.", "he": "השלימו את השיחה. כתבו מילה אחת בכל רווח." },
+      "prompt": { "en": "Complete the conversation. Choose a word for each gap: tap a gap, then a word.", "he": "השלימו את השיחה. בחרו מילה לכל רווח: לחצו על רווח ואז על מילה." },
       "text": "Ella: My name is Ella. Tom: Sorry, how do you ___ that? Ella: E, ___ L, A.",
       "answers": [["spell", "write"], ["double"]],
       "word_bank": ["spell", "say", "double", "two"],
