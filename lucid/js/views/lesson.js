@@ -782,7 +782,10 @@ export default async function lessonView(el, ctx) {
     const item = queue[qi];
     const foot = $('#pfoot', el);
     const e = r.error_type && errors?.get(r.error_type);
-    const note = r.specific ? bi(r.specific) : item.ex.hint ? bi(item.ex.hint) : e ? tt(e.name_he, e.name_en) : tt('בדקו שוב את התשובה.', 'Check your answer again.');
+    const note = r.retry_note ? bi(r.retry_note) : r.specific ? bi(r.specific) : item.ex.hint ? bi(item.ex.hint) : e ? tt(e.name_he, e.name_en) : tt('בדקו שוב את התשובה.', 'Check your answer again.');
+    // A dictation's marked sentence spells out the key's words, so it stays hidden while the learner tries again;
+    // "Show the answer" brings it back, and "Try again" (ctl.reopen) removes it.
+    el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = true; });
     foot.className = 'player-foot almost';
     render(foot, html`<div class="inner"><div class="verdict" role="status"><div class="verdict-title">${icon('info', { size: 18 })} ${tt('עוד לא. אפשר לתקן בעצמכם', 'Not yet. You can fix it yourself')}</div><div class="verdict-body"><p>${note}</p></div></div>
       <button type="button" class="key ghost" data-show-answer>${tt('להציג את התשובה', 'Show the answer')}</button><button type="button" class="key enter" data-try-again>${tt('לנסות שוב', 'Try again')} <span class="kbd">Enter</span></button></div>`);
@@ -802,6 +805,7 @@ export default async function lessonView(el, ctx) {
     const item = queue[qi];
     if (!item.retry) queue.push({ ex: item.ex, retry: true });
     saveResume();
+    el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = false; });
     showResult(checked);
     frameCounter();
   }

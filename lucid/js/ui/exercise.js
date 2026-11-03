@@ -550,10 +550,13 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         const exact = checkTyped(typed, ex.answers);
         // A letter code is compared letter by letter, so "BVGE" for "B, V, J, E" marks only the J (P1 EX-7).
         const code = exact.correct ? null : letterCode(typed, ex.answers[0]);
-        let correct, almost, score, words = [], specific = null, typos = [];
+        let correct, almost, score, words = [], specific = null, typos = [], retry_note = null;
         if (code) {
           correct = code.accuracy === 1; almost = false; score = code.accuracy; words = code.words;
           if (code.misses.length) specific = { he: code.misses.map((m) => (m.typed ? `כתבתם ${m.typed}, נאמר ${m.expected}` : `חסרה האות ${m.expected}`)).join('; '), en: code.misses.map((m) => (m.typed ? `You wrote ${m.typed}; it was ${m.expected}` : `${m.expected} is missing`)).join('; ') };
+          // The note above names the letters that were said, so the second try (LF-6) gets one that does not.
+          const n = code.misses.length;
+          if (n) retry_note = n === 1 ? { he: 'אות אחת עוד לא נכונה. אפשר להקשיב שוב ולתקן.', en: 'One letter is not right yet. You can listen again and fix it.' } : { he: `${n} אותיות עוד לא נכונות. אפשר להקשיב שוב ולתקן.`, en: `${n} letters are not right yet. You can listen again and fix them.` };
         } else {
           const acc = wordAccuracy(typed, ex.answers[0]);
           // One slip of one letter in one word is "almost", even in a short word ("tenn" for "ten").
@@ -570,7 +573,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         }
         if (!(exact.correct && !exact.almost)) root.insertAdjacentHTML('beforeend', String(dictationDiff(words)));
         setInvalid(ta, !correct);
-        return result({ correct, almost, score, response: typed, answer: ex.answers[0], error_type: 'spelling', specific, typos });
+        return result({ correct, almost, score, response: typed, answer: ex.answers[0], error_type: 'spelling', specific, typos, retry_note });
       };
       ctl.reveal = () => { ta.readOnly = true; $('.word-diff', root)?.remove(); revealAnswer(ex.answers[0]); };
       ctl.retryable = true;

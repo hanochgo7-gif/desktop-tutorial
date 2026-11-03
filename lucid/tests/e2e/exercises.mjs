@@ -68,6 +68,19 @@ async function openExercise(page, id, n) {
 }
 const lessonEx = (page, id, eid) => page.evaluate(async ({ id, eid }) => (await (await import('./js/core/content.js')).content.lesson(id)).exercises.find((e) => e.id === eid), { id, eid });
 const verdict = (page) => page.evaluate(() => ({ cls: document.querySelector('#pfoot')?.className || '', text: (document.querySelector('.verdict')?.textContent || '').replace(/\s+/g, ' ').trim(), selfJudge: Boolean(document.querySelector('[data-self-judge]')) }));
+// After Check: a wrong typed answer first gets the player's second try (LF-6). It must offer no self-credit and
+// must not show the key (a dictation's marked sentence stays hidden); "Show the answer" then gives the verdict.
+// Returns the second-try verdict, or null when there was none.
+async function settle(page) {
+  await page.waitForSelector('[data-next], [data-try-again]');
+  if (!(await page.$('[data-show-answer]'))) return null;
+  const v = await verdict(page);
+  assert(/almost/.test(v.cls) && !v.selfJudge, `second try: ${JSON.stringify(v)}`);
+  assert(!(await page.$$eval('#exroot .word-diff', (d) => d.some((x) => x.offsetParent !== null))), 'the marked sentence (the key) shows during the second try');
+  await page.click('[data-show-answer]');
+  await page.waitForSelector('[data-next]');
+  return v;
+}
 const focusIsBody = (page) => page.evaluate(() => !document.activeElement || document.activeElement === document.body);
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', lucid], { stdio: 'ignore' });
@@ -293,7 +306,7 @@ try {
   await check('EX-5 self-credit: b1-01 e11 "You have ever been to Eilat? x" and b1-02 e11 "I did lived …" are red with no self-credit key; "Have you been to Eilat before?" still gets it; the verdict shows a word diff', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'B1');
-    const tryIt = async (id, n, text) => { await openExercise(page, id, n); await page.fill('#exroot textarea', text); await page.click('[data-check]'); await page.waitForSelector('[data-next]'); return { ...(await verdict(page)), diff: Boolean(await page.$('.verdict .answer-diff del, .verdict .answer-diff ins')) }; };
+    const tryIt = async (id, n, text) => { await openExercise(page, id, n); await page.fill('#exroot textarea', text); await page.click('[data-check]'); await settle(page); return { ...(await verdict(page)), diff: Boolean(await page.$('.verdict .answer-diff del, .verdict .answer-diff ins')) }; };
     const a = await tryIt('b1-01', 11, 'You have ever been to Eilat? x');
     assert(/bad/.test(a.cls) && !a.selfJudge && /עדיין כמו המקור|still the same as the original/.test(a.text) && a.diff, `junk: ${JSON.stringify(a)}`);
     const b = await tryIt('b1-02', 11, 'I did lived in Tel Aviv since 2020.');
@@ -342,8 +355,11 @@ try {
   await check('EX-7 typing: pa1-01 e10 "BVGE" marks only J; pa1-02 e10 "tenn" is almost; the a1-01 dictation "thursday" shows the missing letter in amber; "mom" for the "mum" key is right', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'PreA1');
-    const type = async (id, n, text) => { await openExercise(page, id, n); await page.fill('#exroot textarea', text); await page.click('[data-check]'); await page.waitForSelector('[data-next]'); return verdict(page); };
+    let second = null;
+    const type = async (id, n, text) => { await openExercise(page, id, n); await page.fill('#exroot textarea', text); await page.click('[data-check]'); second = await settle(page); return verdict(page); };
     await type('pa1-01', 10, 'BVGE');
+    // The second try names how many letters are off, not which letter was said.
+    assert(second && !/נאמר|it was/.test(second.text), `the second try gives the letter away: ${JSON.stringify(second)}`);
     const miss = await page.$$eval('#exroot .word-diff .w-miss', (x) => x.map((s) => s.textContent));
     const ok = await page.$$eval('#exroot .word-diff .w-ok', (x) => x.map((s) => s.textContent));
     assert(miss.join() === 'J' && ok.join() === 'B,V,E', `letter code: miss ${miss}, ok ${ok}`);
@@ -424,6 +440,9 @@ try {
     await page.fill('#exroot textarea', 'This is my answer with seven words.');
     const key = await page.$eval('[data-check]', (b) => ({ off: b.disabled, text: b.textContent.replace(/\s+/g, ' ') }));
     assert(key.off && /שמירה ובדיקה/.test(key.text) && /עוד \d+ מילים/.test(key.text), `writing key: ${JSON.stringify(key)}`);
+    // The two lines of the key's label are stacked, not side by side.
+    const lines = await page.$eval('[data-check] [data-check-label]', (l) => { const [a, b] = [...l.children].map((c) => c.getBoundingClientRect()); return a && b ? { stacked: b.top >= a.bottom - 1 } : null; });
+    assert(lines?.stacked, `the writing key's label is not stacked: ${JSON.stringify(lines)}`);
     await ctx.close();
     const b = await newPage(browser);
     await learnerAt(b.page, 'B2');
