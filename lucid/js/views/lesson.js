@@ -559,7 +559,7 @@ export default async function lessonView(el, ctx) {
       // one row at large text and stays on screen below it (LF-3, CSS).
       render(el, html`<div class="player lesson-player">
         <div class="player-top">
-          <button type="button" class="key ghost small exit-key" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}<span class="exit-label" aria-hidden="true">${tt('יציאה', 'Exit')}</span></button>
+          <button type="button" class="key ghost small exit-key" data-exit aria-label="${tt('יציאה מהשיעור', 'Exit the lesson')}">${icon('x')}<span class="exit-label" aria-hidden="true">${tt('יציאה', 'Exit')}</span></button>
           <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="${tt('התקדמות בשיעור', 'Lesson progress')}"><span style="width:0%"></span></div>
           <span class="top-meta"></span>
           <a class="key ghost small icon-only" href="#/help" aria-label="${tt('עזרה', 'Help')}">${icon('info', { size: 18 })}</a>

@@ -1849,7 +1849,7 @@ try {
     await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : perQ.has(id) ? 1 : x])));
     const summary = await page.textContent('.player-body');
     assert(/כמעט שם|Nearly there/.test(summary) && /69%/.test(summary) && !/\b70% (בניסיון|on the first)/.test(summary), `a near miss reads as the pass mark: ${summary.slice(0, 200)}`);
-    await page.click('#pfoot a[href="#/today"]');
+    await page.click('.player a[href="#/today"]'); // r4 LF-9: "להיום" is a text link above the footer
     await page.waitForSelector('.start-bar, .plan, .banner');
     await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');

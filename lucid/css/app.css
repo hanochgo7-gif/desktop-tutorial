@@ -1727,6 +1727,8 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .table-wrap.ipa-hidden :is(.col-ipa, .ipa), .lesson-learn.ipa-hidden .ipa { display: none; }
 @media (max-width: 30rem) { .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; } }
 :root:is([data-text='130'], [data-text='150']) .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; }
+.table-wrap:not(.letters) table.data td:has(> .row-say) { white-space: normal; }
+.table-wrap:not(.letters) table.data td > .row-say { float: inline-start; margin-inline-end: var(--s1); }
 table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-2); }
 :root .table-wrap table.data td.c-he, :root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { color: var(--ink); }
 @media (max-width: 30rem) { :root .tstack table.data td.c-he { color: var(--ink); } }
