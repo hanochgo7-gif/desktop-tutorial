@@ -81,7 +81,7 @@
     {
       "type": "tip",
       "en": "Hebrew keeps the same word and simply adds a prefix before a clause (the same Hebrew word means both 'despite' and 'although', and both 'because of' and 'because'). English changes the word: despite the rain / although it rained; because of the traffic / because there was traffic.",
-      "he": "בעברית אותה מילה משמשת לשני המבנים, ומוסיפים ש- לפני פסוקית: למרות הגשם / למרות שירד גשם; בגלל העומס / בגלל שהיה עומס. באנגלית מחליפים מילה: despite the rain / although it rained; because of the traffic / because there was traffic."
+      "he": "בעברית אותה מילה משמשת לשני המבנים, ומוסיפים ש- לפני פסוקית: למרות הגשם / למרות שירד גשם. באנגלית מחליפים מילה: despite לפני שם עצם, ו-although לפני פסוקית; because of לפני שם עצם, ו-because לפני פסוקית."
     },
     {
       "type": "p",
@@ -298,7 +298,7 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew often links the two halves of a sentence with a pair of words (literally 'admittedly ..., but ...'), so learners write *Although the course was expensive, but it was worth it. English uses one connector only: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it.",
-      "he": "בעברית מקובל לחבר את שני חלקי המשפט בשתי מילות קישור ('אמנם הקורס יקר, אבל...'), ולכן קל לכתוב Although the course was expensive, but it was worth it. באנגלית משתמשים במילת קישור אחת בלבד: Although the course was expensive, it was worth it. או: The course was expensive, but it was worth it.",
+      "he": "בעברית מקובל לחבר את שני חלקי המשפט בשתי מילות קישור ('אמנם הקורס יקר, אבל...'). באנגלית משתמשים במילת קישור אחת בלבד: although או but, לא שתיהן.",
       "error_type": "cohesion"
     }
   ],
@@ -956,8 +956,8 @@
       "task": {
         "en": "Your town is considering closing its main street to cars every Friday. Write an opinion piece of about 200-250 words for a local news website. Argue for or against the plan and respond fairly to one opposing view. Link your ideas carefully: use at least four connectors from different groups (addition, contrast or concession, cause, result) and at least two reference devices (this + noun, such, the former / the latter). Do not use the same connector twice."
       },
-      "min_words": 180,
-      "max_words": 280,
+      "min_words": 200,
+      "max_words": 250,
       "model_answer": "Every Friday, the main street of our town is full of cars looking for parking spaces. Closing it to traffic on that day would make the centre safer, quieter and more attractive.\n\nThe most obvious benefit is safety. Children and older people could cross the street without waiting for a gap in the traffic. In addition, a car-free street would give cafés and shops room to put tables and stalls outside, which would encourage people to stay longer and spend more.\n\nCritics argue that shop owners would lose customers who usually drive into town. This concern is understandable, since many shoppers come from nearby villages with poor bus services. However, such customers could still park at the edge of the centre, only a short walk away. Moreover, people on foot can easily visit several shops in one trip, whereas drivers often stop at one place and leave.\n\nThe council has two realistic options: a six-month trial or a permanent Friday closure from the start. The former is clearly the wiser first step, because it would allow everyone to see the effects before a final decision is made. Consequently, the town should begin with the trial and ask residents for their views at the end of it.",
       "checklist": [
         {

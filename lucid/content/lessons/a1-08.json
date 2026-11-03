@@ -66,22 +66,22 @@
     {
       "type": "rule",
       "en": "There is (There's) + one thing: There's a banana. There are + two or more: There are three bananas. Words like milk, water, bread, rice and cheese have no a/an and no -s, so they take is: There's some bread.",
-      "he": "There is (בקיצור There's) + דבר אחד: There's a banana. עם שניים או יותר – There are: There are three bananas. מילים כמו milk, water, bread, rice ו-cheese באות בלי a/an ובלי s, ולכן הולכות עם is: There's some bread."
+      "he": "There's + דבר אחד, ו-There are + שניים או יותר. מילים כמו milk ו-bread באות בלי a/an ובלי s, ולכן הולכות עם is."
     },
     {
       "type": "rule",
       "en": "some = an amount or a number, but not exactly how much. Use some in positive sentences, and any in negatives and questions: There are some eggs. There aren't any eggs. Are there any eggs?",
-      "he": "some פירושו 'קצת' או 'כמה' – בלי לומר כמה בדיוק. משתמשים ב-some במשפט חיובי, וב-any בשלילה ובשאלה: There are some eggs. There aren't any eggs. Are there any eggs?"
+      "he": "some פירושו 'קצת' או 'כמה' – בלי לומר כמה בדיוק. משתמשים ב-some במשפט חיובי, וב-any בשלילה ובשאלה: Are there any eggs?"
     },
     {
       "type": "warning",
       "en": "Don't translate the Hebrew word for 'there is' word for word: There's some bread, not 'Have bread' or 'Is bread'. And count: There are three apples, not 'There is three apples'.",
-      "he": "אל תתרגמו את 'יש' מילה במילה: There's some bread, ולא Have bread או Is bread. ושימו לב לכמות: There are three apples, ולא There is three apples."
+      "he": "אל תתרגמו את 'יש' מילה במילה: אומרים There's some bread, בלי have ובלי is בהתחלה. ושימו לב לכמות: עם כמה דברים משתמשים ב-are."
     },
     {
       "type": "tip",
       "en": "To ask for food politely, say I'd like (= I would like): I'd like a coffee, please. I'd like some water. (In a café, a coffee = a cup of coffee.) To offer something, use some even in a question: Would you like some tea?",
-      "he": "כדי לבקש אוכל או שתייה בנימוס אומרים I'd like (קיצור של I would like – 'הייתי רוצה'): I'd like a coffee, please. ‏(בבית קפה a coffee פירושו כוס קפה.) כשמציעים משהו, משתמשים ב-some גם בשאלה: Would you like some tea?"
+      "he": "כדי לבקש אוכל או שתייה בנימוס אומרים I'd like (קיצור של I would like – 'הייתי רוצה'). בבית קפה a coffee פירושו כוס קפה. כשמציעים משהו, משתמשים ב-some גם בשאלה."
     }
   ],
   "examples": [
@@ -277,17 +277,17 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew, the word for 'there is' is one word, with no verb 'be' and no subject. English works differently: it needs There + is/are. Say There's some bread, not 'Have bread' or 'Is bread'.",
-      "he": "בעברית 'יש' היא מילה אחת, בלי פועל 'להיות' ובלי נושא. באנגלית צריך There + is/are: There's some bread, ולא Have bread או Is bread.",
+      "he": "בעברית 'יש' היא מילה אחת, בלי פועל 'להיות' ובלי נושא. באנגלית צריך There ואחריו is או are: There's some bread.",
       "error_type": "false-friend"
     },
     {
       "en": "In Hebrew there is no word for a/an, so 'There's apple' or 'I'd like sandwich' can sound right. English works differently: There's an apple. I'd like a sandwich. Use one only when the number matters: one apple, not two.",
-      "he": "בעברית אין מילה ל-a/an, ולכן There's apple או I'd like sandwich נשמעים אולי נכון. באנגלית: There's an apple, I'd like a sandwich. את one אומרים רק כשהמספר חשוב: one apple, not two.",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה. באנגלית דבר אחד צריך a/an: I'd like a sandwich. את one אומרים רק כשהמספר חשוב.",
       "error_type": "article"
     },
     {
       "en": "Hebrew works differently here: it has no /ð/ or /θ/ sound, so there and three can come out as 'dere' and 'tree'. Put the tip of your tongue between your teeth: there /ðeə(r)/ with your voice, three /θriː/ with air only.",
-      "he": "בעברית אין את הצלילים /ð/ ו-/θ/, ולכן there ו-three יוצאות לפעמים 'דֶר' ו'טְרִי' (tree = עץ!). שימו את קצה הלשון בין השיניים: ב-there עם קול, וב-three רק עם אוויר.",
+      "he": "שמים את קצה הלשון בין השיניים: ב-there עם קול (/ð/), וב-three רק עם אוויר (/θ/). בעברית אין את הצלילים האלה, ולכן הם יוצאים לפעמים 'דֶר' ו'טְרִי' (tree = עץ).",
       "error_type": "pron-th"
     }
   ],
@@ -385,7 +385,7 @@
       },
       "explanation": {
         "en": "One thing (a banana, an apple) and words like milk, bread and rice → There is. Two or more (eggs, tomatoes, vegetables) → There are.",
-        "he": "דבר אחד (a banana, an apple) ומילים כמו milk, bread, rice → There is. שניים או יותר (eggs, tomatoes, vegetables) → There are."
+        "he": "דבר אחד ומילים כמו milk ו-bread הולכים עם is, ושניים או יותר עם are."
       }
     },
     {
@@ -421,7 +421,7 @@
       },
       "explanation": {
         "en": "There's some cheese = there is cheese. There isn't any milk = there is no milk.",
-        "he": "There's some cheese = יש גבינה. There isn't any milk = אין חלב."
+        "he": "some במשפט חיובי ('יש גבינה'), ו-any אחרי isn't ('אין חלב')."
       }
     },
     {
@@ -451,7 +451,7 @@
           "match": "any",
           "feedback": {
             "en": "The first part is positive (There are...), so use some. any goes after aren't: there aren't any onions.",
-            "he": "החלק הראשון חיובי (There are...), ולכן some. את any שמים אחרי aren't: there aren't any onions."
+            "he": "החלק הראשון חיובי, ולכן some. את any שמים אחרי aren't: there aren't any onions."
           },
           "error_type": "word-choice"
         },
@@ -459,14 +459,14 @@
           "match": "some",
           "feedback": {
             "en": "After aren't or isn't, use any: there aren't any onions. some is for the positive part: There are some tomatoes.",
-            "he": "אחרי aren't או isn't משתמשים ב-any: there aren't any onions. את some שמים בחלק החיובי: There are some tomatoes."
+            "he": "אחרי aren't או isn't משתמשים ב-any: there aren't any onions. את some שמים בחלק החיובי."
           },
           "error_type": "word-choice"
         }
       ],
       "explanation": {
         "en": "Positive → some (There are some tomatoes). Negative → any (there aren't any onions).",
-        "he": "משפט חיובי → some (There are some tomatoes). שלילה → any (there aren't any onions)."
+        "he": "משפט חיובי → some, ושלילה → any (there aren't any onions)."
       }
     },
     {
@@ -507,7 +507,7 @@
       },
       "explanation": {
         "en": "In Hebrew the question has the same words as the statement. English works differently: There is → Is there? Use Is there with milk, bread or one thing, and Are there with plurals.",
-        "he": "בעברית השאלה בנויה מאותן מילים כמו המשפט ('יש חלב?'). באנגלית מחליפים את הסדר: There is → Is there? ‏Is there עם milk, bread או דבר אחד, ו-Are there עם רבים."
+        "he": "בעברית השאלה בנויה מאותן מילים כמו המשפט ('יש חלב?'). באנגלית מחליפים את הסדר ושמים את is או are לפני there."
       }
     },
     {
@@ -529,7 +529,7 @@
       "option_feedback": {
         "0": {
           "en": "I like coffee means you enjoy coffee in general. To order, say I'd like.",
-          "he": "I like coffee פירושו 'אני אוהב/ת קפה' באופן כללי. כדי להזמין אומרים I'd like."
+          "he": "like לבד פירושו 'אוהב/ת' באופן כללי. כדי להזמין אומרים I'd like."
         },
         "2": {
           "en": "Don't add am. I'd like is short for I would like.",
@@ -542,7 +542,7 @@
       },
       "explanation": {
         "en": "I'd like (I would like) is the polite way to ask for something: I'd like a coffee, please.",
-        "he": "I'd like (קיצור של I would like) היא הדרך המנומסת לבקש משהו: I'd like a coffee, please."
+        "he": "I'd like (קיצור של I would like) היא הדרך המנומסת לבקש משהו."
       }
     },
     {
@@ -584,14 +584,14 @@
           "match": "There aren't no onions in the cupboard.",
           "feedback": {
             "en": "English uses only one negative word: There aren't any onions, or There are no onions.",
-            "he": "באנגלית יש רק מילת שלילה אחת במשפט: There aren't any onions, או There are no onions."
+            "he": "באנגלית יש רק מילת שלילה אחת במשפט: או aren't any, או are no."
           },
           "error_type": "word-choice"
         }
       ],
       "explanation": {
         "en": "Negative: There aren't + any + plural. There are no onions means the same.",
-        "he": "שלילה: There aren't + any + רבים. There are no onions אומר אותו דבר."
+        "he": "שלילה: There aren't + any + רבים. גם are no אומר אותו דבר."
       }
     },
     {
@@ -647,7 +647,7 @@
       ],
       "explanation": {
         "en": "Question: Is there + any + juice? Short answers: Yes, there is. / No, there isn't.",
-        "he": "שאלה: Is there + any + juice? תשובות קצרות: Yes, there is. / No, there isn't."
+        "he": "שאלה: Is there + any + juice? בתשובה קצרה חוזרים על there is או there isn't."
       }
     },
     {
@@ -691,7 +691,7 @@
       "error_type": "word-choice",
       "explanation": {
         "en": "After isn't or aren't, use any: there isn't any milk. (there's no milk means the same.)",
-        "he": "אחרי isn't או aren't משתמשים ב-any: there isn't any milk. ‏(there's no milk אומר אותו דבר.)"
+        "he": "אחרי isn't או aren't משתמשים ב-any (isn't any milk). גם no לבד אומר אותו דבר."
       }
     },
     {
@@ -744,7 +744,7 @@
       ],
       "explanation": {
         "en": "The Hebrew question uses the same words as the statement; English puts are before there: Are there any eggs in the fridge? eggs is plural, so are. (any is the usual word in questions.)",
-        "he": "בעברית השאלה 'יש ביצים במקרר?' בנויה מאותן מילים כמו המשפט; באנגלית מקדימים את are: Are there any eggs in the fridge? ‏eggs ברבים, ולכן are. ‏(any היא המילה הרגילה בשאלות.)"
+        "he": "בעברית השאלה 'יש ביצים במקרר?' בנויה מאותן מילים כמו המשפט; באנגלית מקדימים את are: Are there any eggs? ‏eggs ברבים, ולכן are."
       }
     },
     {
@@ -830,7 +830,7 @@
           },
           "explanation": {
             "en": "'there isn't any milk for the morning, so I'd like to get some.'",
-            "he": "'there isn't any milk for the morning, so I'd like to get some' – אין חלב, ולכן היא רוצה לקנות."
+            "he": "בהודעה כתוב שאין חלב לבוקר (isn't any milk), ולכן היא רוצה לקנות."
           }
         },
         {
@@ -867,7 +867,7 @@
       },
       "explanation": {
         "en": "Is there any + bread (no -s). I'd = I would.",
-        "he": "Is there any + bread (בלי s). ‏I'd = I would."
+        "he": "Is there any + bread, בלי s, ו-I'd הוא קיצור של would."
       }
     },
     {
@@ -943,11 +943,11 @@
       },
       {
         "en": "some in positives · any in negatives and questions: There aren't any eggs. Is there any milk?",
-        "he": "some במשפט חיובי · any בשלילה ובשאלה: There aren't any eggs. Is there any milk?"
+        "he": "some במשפט חיובי · any בשלילה ובשאלה: Is there any milk?"
       },
       {
         "en": "Questions: Is there...? / Are there...? Short answers: Yes, there is. / No, there aren't.",
-        "he": "שאלות: Is there...? / Are there...? תשובות קצרות: Yes, there is. / No, there aren't."
+        "he": "שאלה: Is there או Are there בהתחלה. בתשובה קצרה חוזרים על there ועל is או are."
       },
       {
         "en": "Order politely with I'd like: I'd like a coffee, please.",

@@ -109,17 +109,17 @@
     {
       "type": "rule",
       "en": "A plural subject takes a plural verb: The children are at school. My feet hurt. People is already plural: People are friendly here (not 'people is' or 'peoples').",
-      "he": "נושא ברבים מקבל פועל ברבים: The children are at school, My feet hurt. המילה people כבר ברבים: People are friendly here – לא people is ולא peoples."
+      "he": "נושא ברבים מקבל פועל ברבים: The children are at school. המילה people כבר ברבים, ולכן people are, בלי s."
     },
     {
       "type": "warning",
       "en": "a/an is only for one: a book, but books (not 'a books'). After two, three... use the plural: two books (not 'two book'). And never add -s to an irregular plural: children, not 'childrens'.",
-      "he": "a/an רק ליחיד: a book, אבל books (לא a books). אחרי two, three וכו' באה צורת הרבים: two books (לא two book). ולא מוסיפים s לרבים חריג: children, לא childrens."
+      "he": "a/an רק ליחיד (a book). אחרי מספר גדול מאחד באה צורת הרבים (two books), ולרבים חריג לא מוסיפים s (children)."
     },
     {
       "type": "tip",
       "en": "Say it right: -es after s, sh, ch and x adds a syllable /ɪz/: bus-es, box-es. In woman → women the spelling changes in the second part, but the sound changes in the first part: woman /ˈwʊmən/ ('WU-mən'), women /ˈwɪmɪn/ ('WI-min').",
-      "he": "הגייה: es אחרי s, sh, ch, x מוסיפה הברה /ɪz/: bus-es, box-es. ב-woman → women האיות משתנה בחלק השני של המילה, אבל ההגייה משתנה דווקא בחלק הראשון: woman /ˈwʊmən/ (בערך 'WU-mən'), women /ˈwɪmɪn/ (בערך 'WI-min')."
+      "he": "הגייה: אחרי s, sh, ch ו-x הסיומת es מוסיפה הברה, 'איז' (/ɪz/), כמו ב-buses. ב-women האיות משתנה בסוף המילה, אבל ההגייה משתנה בהתחלה: 'ווּמֶן' ביחיד ו'וִימִין' ברבים (/ˈwʊmən/, /ˈwɪmɪn/)."
     }
   ],
   "examples": [
@@ -289,17 +289,17 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew works differently here: it has no /æ/ vowel, so man /mæn/ and men /men/ can sound the same. For man, open your mouth wider; men has the short 'e' of pen.",
-      "he": "בעברית אין את התנועה /æ/, ולכן man ו-men עלולות להישמע אותו דבר. ב-man פותחים את הפה רחב (צליל בין 'אַ' ל'אֶ'); ב-men אומרים 'אֶ' קצרה, כמו ב-pen.",
+      "he": "פותחים את הפה רחב, לצליל שבין 'אַ' ל'אֶ', ב-man (/æ/); ב-men אומרים 'אֶ' קצרה, כמו ב-pen (/e/). בעברית אין את התנועה הראשונה, ולכן man ו-men עלולות להישמע אותו דבר.",
       "error_type": "pron-vowel"
     },
     {
       "en": "Hebrew works differently: the sound /w/ is rare, and the letter vav is usually /v/. So woman can sound like 'voman'. For /w/, round your lips as for 'oo' and don't touch your teeth: woman /ˈwʊmən/, women /ˈwɪmɪn/.",
-      "he": "בעברית הצליל /w/ נדיר, והאות ו' נהגית בדרך כלל v. לכן woman עלול לצאת 'וֹוֹמֶן' עם v. כדי להגות /w/ מעגלים את השפתיים כמו ל'אוּ', בלי לגעת בשיניים: woman, women.",
+      "he": "מעגלים את השפתיים כמו ל'אוּ', בלי לגעת בשיניים, בתחילת woman ו-women (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר 'וֹמֶן' עם v.",
       "error_type": "pron-w-v"
     },
     {
       "en": "In Hebrew there is no present-tense 'be', so 'The children at school' can sound complete. English needs are: The children are at school.",
-      "he": "בעברית אין 'להיות' בהווה ('הילדים בבית הספר'), ולכן The children at school נשמע אולי שלם. באנגלית חייבים are: The children are at school.",
+      "he": "בעברית אין 'להיות' בהווה ('הילדים בבית הספר'), ולכן קל להשמיט את are. באנגלית חייבים are: The children are at school.",
       "error_type": "copula-omission"
     }
   ],
@@ -359,7 +359,7 @@
       ],
       "explanation": {
         "en": "Look at the end of the word. day and key end in a vowel + y, so just add -s. class, box, watch → -es. city, party (consonant + y) → -ies. knife, wife → -ves.",
-        "he": "הסתכלו על סוף המילה. day ו-key מסתיימות בתנועה + y, ולכן מוסיפים רק s. class, box, watch → es. city, party (עיצור + y) → ies. knife, wife → ves."
+        "he": "הסתכלו על סוף המילה: תנועה + y מקבלת רק s (keys), אחרי s, x ו-ch מוסיפים es, עיצור + y הופך ל-ies (cities), ו-f או fe הופכים ל-ves (knives)."
       }
     },
     {
@@ -399,7 +399,7 @@
       ],
       "explanation": {
         "en": "These plurals don't add -s. Learn them as pairs: man – men, woman – women, child – children, person – people, foot – feet, tooth – teeth.",
-        "he": "צורות הרבים האלה לא מקבלות s. כדאי ללמוד אותן בזוגות: man – men, woman – women, child – children, person – people, foot – feet, tooth – teeth."
+        "he": "צורות הרבים האלה לא מקבלות s, ולכן כדאי ללמוד אותן בזוגות, כמו child – children ו-foot – feet."
       }
     },
     {
@@ -466,7 +466,7 @@
         },
         "2": {
           "en": "child is one person, so it takes is: The child is... For more than one: The children are...",
-          "he": "child הוא ילד אחד, ולכן is: The child is... ליותר מאחד: The children are..."
+          "he": "child הוא ילד אחד, ולכן is. ליותר מילד אחד אומרים The children are."
         }
       },
       "option_errors": {
@@ -476,7 +476,7 @@
       },
       "explanation": {
         "en": "child → children (no -s), and a plural subject takes are: The children are in the garden.",
-        "he": "child → children (בלי s), ונושא ברבים מקבל are: The children are in the garden."
+        "he": "child → children (בלי s), ונושא ברבים מקבל are: the children are."
       }
     },
     {
@@ -551,7 +551,7 @@
       },
       "explanation": {
         "en": "city → cities, party → parties (consonant + y); bus → buses (+es); key → keys (vowel + y: just -s).",
-        "he": "city → cities, party → parties (עיצור + y); bus → buses (מוסיפים es); key → keys (תנועה + y: רק s)."
+        "he": "עיצור + y הופך ל-ies (cities), אחרי s מוסיפים es (buses), ותנועה + y מקבלת רק s (keys)."
       }
     },
     {
@@ -737,7 +737,7 @@
       },
       "explanation": {
         "en": "child → children and is → are: The children are very tired. tired doesn't change: adjectives have no plural form.",
-        "he": "child → children ו-is → are: The children are very tired. המילה tired לא משתנה – לשמות תואר באנגלית אין צורת רבים."
+        "he": "child → children ו-is → are. המילה tired לא משתנה – לשמות תואר באנגלית אין צורת רבים."
       }
     },
     {

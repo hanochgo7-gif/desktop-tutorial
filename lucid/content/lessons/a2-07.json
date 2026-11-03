@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "Two situations: last week you bought a ticket to Berlin, and now a friend asks about your summer; or right now a friend says 'I'm cold!' What do you say in each case?", "he": "שני מצבים: בשבוע שעבר קניתם כרטיס לברלין, ועכשיו חבר שואל מה התוכניות שלכם לקיץ; או שממש עכשיו חבר אומר לכם 'קר לי!'. מה תגידו בכל מקרה? באנגלית התשובה תלויה ברגע שבו קיבלתם את ההחלטה." },
   "explanation": [
-    { "type": "p", "en": "Compare: I'm going to visit Berlin in May. (I decided this before: it's my plan.) · You're cold? I'll close the window. (I'm deciding right now.)", "he": "השוו: I'm going to visit Berlin in May – החלטתי מראש, זו התוכנית שלי. ‏You're cold? I'll close the window – אני מחליט/ה עכשיו, ברגע הדיבור." },
+    { "type": "p", "en": "Compare: I'm going to visit Berlin in May. (I decided this before: it's my plan.) · You're cold? I'll close the window. (I'm deciding right now.)", "he": "השוו: going to – כשההחלטה התקבלה מראש וזו התוכנית. will – כשמחליטים עכשיו, ברגע הדיבור (I'll close the window)." },
     { "type": "table", "headers": ["Use", "Form", "Example"], "rows": [
       ["Plan (decided before)", "am/is/are + going to + base verb", "We're going to move to Haifa in the summer."],
       ["Prediction: I can see it now", "am/is/are + going to + base verb", "Look at those clouds. It's going to rain."],
@@ -20,8 +20,8 @@
       ["Offer or promise", "will ('ll) / won't + base verb", "I'll help you. I won't tell anyone."],
       ["Prediction: opinion or belief", "I think / probably + will", "I think you'll love the film."]
     ] },
-    { "type": "rule", "en": "will is the same for every person, and the base verb follows it: she will go (not *she wills go, not *will to go). Negative: won't = will not.", "he": "will זהה בכל הגופים, ואחריו בא פועל בצורת הבסיס: she will go (לא wills ולא will to go). בשלילה: won't = will not." },
-    { "type": "warning", "en": "going to needs am, is or are: I'm going to call her (not *I going to call her).", "he": "לפני going to חייבים am, is או are: I'm going to call her ולא I going to call her." },
+    { "type": "rule", "en": "will is the same for every person, and the base verb follows it: she will go (not *she wills go, not *will to go). Negative: won't = will not.", "he": "will זהה בכל הגופים, ואחריו בא פועל בצורת הבסיס, בלי s ובלי to: she will go. בשלילה: won't = will not." },
+    { "type": "warning", "en": "going to needs am, is or are: I'm going to call her (not *I going to call her).", "he": "לפני going to חייבים be: I'm going to call her." },
     { "type": "tip", "en": "In Hebrew the same future form can describe a plan and a sudden decision. In English, ask yourself: did I decide before (going to) or right now (will)?", "he": "בעברית אותה צורת עתיד ('אני אתקשר אליה') מתאימה גם לתוכנית וגם להחלטה של רגע. באנגלית שאלו את עצמכם: החלטתי לפני כן (going to) או ממש עכשיו (will)?" },
     { "type": "tip", "en": "In fast speech going to often sounds like 'gonna'. You'll hear it everywhere, but write going to.", "he": "בדיבור מהיר going to נשמע הרבה פעמים כמו gonna. תשמעו את זה בכל מקום, אבל בכתיבה כתבו going to." }
   ],
@@ -48,8 +48,8 @@
     { "word": "abroad", "pos": "adverb", "he": "בחו״ל, לחו״ל", "def": "in or to another country", "example": "Lior is going to study abroad next year.", "ipa": "/əˈbrɔːd/", "collocations": ["live abroad", "travel abroad", "study abroad"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is no present-tense 'be', so am/is/are can disappear before going to. English needs it: I'm going to call her (not *I going to call her).", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט את am/is/are לפני going to. באנגלית חייבים אותו: I'm going to call her.", "error_type": "copula-omission" },
-    { "en": "In Hebrew a question can keep the word order of a statement. In a normal English question, am/is/are or will comes before the subject: Are you going to come? Will you help me? (You're going to come? only shows surprise.)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('אתה הולך לבוא?'). בשאלה רגילה באנגלית am/is/are או will באים לפני הנושא: Are you going to come? Will you help me? (You're going to come? מביע רק הפתעה.)", "error_type": "word-order" }
+    { "en": "In Hebrew there is no present-tense 'be', so am/is/are can disappear before going to. English needs it: I'm going to call her (not *I going to call her).", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט את be לפני going to. באנגלית חייבים אותו: I'm going to call.", "error_type": "copula-omission" },
+    { "en": "In Hebrew a question can keep the word order of a statement. In a normal English question, am/is/are or will comes before the subject: Are you going to come? Will you help me? (You're going to come? only shows surprise.)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('אתה הולך לבוא?'). בשאלה רגילה באנגלית be או will באים לפני הנושא: Are you going to come? בלי ההיפוך, השאלה מביעה רק הפתעה.", "error_type": "word-order" }
   ],
   "exercises": [
     {
@@ -65,7 +65,7 @@
         { "text": "This box is so heavy! – Wait, I ___ help you.", "category": "will (decision now)" }
       ],
       "hint": { "en": "Look for clues. booked, saved, decided = before. Don't worry, OK, Wait = now.", "he": "חפשו רמזים. booked, saved, decided = החלטה מראש. Don't worry, OK, Wait = החלטה עכשיו." },
-      "explanation": { "en": "If the decision was made before (booked, saved, decided), use going to. If the speaker decides at that moment, often to help someone (Don't worry / OK / Wait), use will.", "he": "אם ההחלטה התקבלה מראש (booked, saved, decided) – going to. אם הדובר מחליט באותו רגע, הרבה פעמים כדי לעזור (Don't worry / OK / Wait) – will." }
+      "explanation": { "en": "If the decision was made before (booked, saved, decided), use going to. If the speaker decides at that moment, often to help someone (Don't worry / OK / Wait), use will.", "he": "אם ההחלטה התקבלה מראש (הוזמן, נחסך, הוחלט) – going to. אם הדובר מחליט באותו רגע, הרבה פעמים כדי לעזור – will." }
     },
     {
       "id": "e2", "type": "listen", "skill": "listening",
@@ -109,7 +109,7 @@
         { "match": "are going to not move", "feedback": { "en": "Put not right after are: aren't going to move.", "he": "ה-not בא מיד אחרי are: ‏aren't going to move." }, "error_type": "word-order" }
       ],
       "hint": { "en": "Noa = she → is. Her parents = they → are.", "he": "Noa = she, ולכן is. ‏Her parents = they, ולכן are." },
-      "explanation": { "en": "be + going to + base verb. Noa is going to study; her parents aren't going to move.", "he": "be + going to + צורת הבסיס: Noa is going to study, ובשלילה: her parents aren't going to move." }
+      "explanation": { "en": "be + going to + base verb. Noa is going to study; her parents aren't going to move.", "he": "be + going to + צורת הבסיס, וגם בשלילה: aren't going to move." }
     },
     {
       "id": "e5", "type": "gap", "skill": "grammar",
@@ -122,7 +122,7 @@
         { "match": "will to help", "feedback": { "en": "No to after will: will help.", "he": "אחרי will לא בא to: ‏will help." }, "error_type": "modal-use" },
         { "match": "will helps", "feedback": { "en": "will + base verb, with no -s: will help.", "he": "will + צורת הבסיס, בלי s: will help." }, "error_type": "verb-form" }
       ],
-      "explanation": { "en": "Promises and offers use will / won't + base verb: I won't tell anyone. I'll help you.", "he": "הבטחות והצעות: will או won't + צורת הבסיס. I won't tell anyone. I'll help you." }
+      "explanation": { "en": "Promises and offers use will / won't + base verb: I won't tell anyone. I'll help you.", "he": "הבטחות והצעות: will או won't + צורת הבסיס (I'll help you)." }
     },
     {
       "id": "e6", "type": "mcq", "skill": "grammar",
@@ -151,7 +151,7 @@
             "1": { "en": "In South America he's going to travel, not work.", "he": "בדרום אמריקה הוא מתכנן לטייל, לא לעבוד." },
             "2": { "en": "Computer science is maybe for later, at university.", "he": "מדעי המחשב הם אולי בהמשך, באוניברסיטה." }
           },
-          "explanation": { "en": "'My uncle has a small restaurant in Haifa, and I'm going to help in the kitchen.'", "he": "בטקסט: My uncle has a small restaurant in Haifa, and I'm going to help in the kitchen." } },
+          "explanation": { "en": "'My uncle has a small restaurant in Haifa, and I'm going to help in the kitchen.'", "he": "בטקסט כתוב שלדוד שלו יש מסעדה קטנה בחיפה, ושהוא הולך לעזור במטבח (I'm going to help)." } },
         { "type": "tf", "statement": "Amir and Lior already have their plane tickets.", "answer": false,
           "explanation": { "en": "'We don't have our plane tickets yet, but we're going to buy them soon.'", "he": "בטקסט: We don't have our plane tickets yet – עוד אין להם כרטיסים." } },
         { "type": "mcq", "question": "Amir writes 'I think I'll study computer science'. Why does he use will here?", "options": ["It's a fixed plan with a date.", "It's a decision he made years ago.", "He isn't sure: it's an opinion about the future."], "answer": 2,
@@ -189,7 +189,7 @@
         { "match": "Kenji is going see his grandparents this weekend.", "feedback": { "en": "Don't drop the to: going to see.", "he": "אל תשמיטו את ה-to: going to see." }, "error_type": "verb-form" },
         { "match": "Kenji will see his grandparents this weekend.", "feedback": { "en": "That's correct English, but the task asks for going to, and for a plan made before, going to is the most natural choice.", "he": "זה משפט תקין, אבל המשימה מבקשת going to, ולתוכנית שנקבעה מראש going to היא הבחירה הטבעית ביותר." }, "error_type": "tense-choice" }
       ],
-      "explanation": { "en": "Plan → subject + am/is/are + going to + base verb: Kenji is going to see his grandparents.", "he": "תוכנית → נושא + am/is/are + going to + צורת הבסיס: Kenji is going to see his grandparents." }
+      "explanation": { "en": "Plan → subject + am/is/are + going to + base verb: Kenji is going to see his grandparents.", "he": "תוכנית → נושא + be + going to + צורת הבסיס: Kenji is going to see." }
     },
     {
       "id": "e9", "type": "correct", "skill": "grammar",
@@ -206,13 +206,13 @@
       "answers": ["I am going to buy a new laptop next week."],
       "error_type": "copula-omission",
       "hint": { "en": "What always comes before going to?", "he": "מה תמיד בא לפני going to?" },
-      "explanation": { "en": "going to always needs am/is/are: I'm going to buy...", "he": "לפני going to תמיד יש am/is/are: I'm going to buy..." }
+      "explanation": { "en": "going to always needs am/is/are: I'm going to buy...", "he": "לפני going to תמיד יש be: I'm going to buy." }
     },
     {
       "id": "e11", "type": "order", "skill": "grammar",
       "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
       "tokens": ["Are", "you", "going", "to", "apply", "for", "the", "job"],
-      "explanation": { "en": "In a question, are comes before the subject: Are you going to apply for the job?", "he": "בשאלה are בא לפני הנושא: Are you going to apply for the job?" }
+      "explanation": { "en": "In a question, are comes before the subject: Are you going to apply for the job?", "he": "בשאלה are בא לפני הנושא: Are you going to apply...?" }
     },
     {
       "id": "e12", "type": "transform", "skill": "vocabulary",
@@ -227,11 +227,11 @@
         "Next year, I will study medicine."
       ],
       "wrong_feedback": [
-        { "match": "I going to study medicine next year.", "feedback": { "en": "Add am: I'm going to study... going to always needs am/is/are.", "he": "חסר am: ‏I'm going to study. לפני going to תמיד יש am/is/are." }, "error_type": "copula-omission" },
-        { "match": "I go to study medicine next year.", "feedback": { "en": "Here the idea is a plan for the future, not walking somewhere. I go to... describes a habit. Write: I'm going to study...", "he": "כאן 'הולכת ל...' היא תוכנית לעתיד, לא הליכה. ‏I go to... מתאר הרגל. כתבו: I'm going to study..." }, "error_type": "false-friend" },
+        { "match": "I going to study medicine next year.", "feedback": { "en": "Add am: I'm going to study... going to always needs am/is/are.", "he": "חסר am: לפני going to תמיד יש be (I'm going to)." }, "error_type": "copula-omission" },
+        { "match": "I go to study medicine next year.", "feedback": { "en": "Here the idea is a plan for the future, not walking somewhere. I go to... describes a habit. Write: I'm going to study...", "he": "כאן 'הולכת ל...' היא תוכנית לעתיד, לא הליכה, ו-go to מתאר הרגל. כתבו: I'm going to study..." }, "error_type": "false-friend" },
         { "match": "learn", "feedback": { "en": "For a subject at university, English uses study. learn is for skills: learn to drive, learn English.", "he": "ל'ללמוד' יש שתי מילים באנגלית: study למקצוע באוניברסיטה, ו-learn למיומנות (learn to drive)." }, "error_type": "word-choice" },
         { "match": "I'm going to study medicine the next year.", "feedback": { "en": "No the before next year: I'm going to study medicine next year.", "he": "לפני next year לא בא the: ‏next year." }, "error_type": "article" },
-        { "match": "I'm going to study medicine in the next year.", "feedback": { "en": "Just say next year, with no in and no the: I'm going to study medicine next year.", "he": "אומרים פשוט next year, בלי in ובלי the: ‏I'm going to study medicine next year." }, "error_type": "preposition" }
+        { "match": "I'm going to study medicine in the next year.", "feedback": { "en": "Just say next year, with no in and no the: I'm going to study medicine next year.", "he": "אומרים פשוט next year, בלי in ובלי the." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Think about two verbs: study and learn. Which one do we use for a university subject?", "he": "יש שני פעלים: study ו-learn. באיזה מהם משתמשים למקצוע באוניברסיטה?" },
       "explanation": { "en": "Two traps: this plan needs am (I'm going to...), and for a university subject English uses study, not learn.", "he": "שתי מלכודות: לתוכנית צריך am (I'm going to...), ול'ללמוד' מקצוע באוניברסיטה אומרים study ולא learn." }
@@ -248,7 +248,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say it out loud.", "he": "אמרו את זה בקול." },
       "target": "I'm going to call her tonight. I'll tell you what she says.",
-      "focus": { "en": "going ends in /ŋ/: no hard g at the end. I'll sounds like /aɪl/.", "he": "going מסתיים ב-/ŋ/, בלי g חזקה בסוף. ‏I'll נשמע /aɪl/." },
+      "focus": { "en": "going ends in /ŋ/: no hard g at the end. I'll sounds like /aɪl/.", "he": "מסיימים את going באף, בלי g חזקה בסוף (/ŋ/). ‏I'll נשמע 'אַייל' (/aɪl/)." },
       "explanation": { "en": "A plan (going to) and a promise (will) together: very natural in everyday conversation.", "he": "תוכנית (going to) והבטחה (will) ביחד – שילוב טבעי מאוד בשיחה יומיומית." }
     },
     {
@@ -256,7 +256,7 @@
       "prompt": { "en": "Write a message about your plans.", "he": "כתבו הודעה על התוכניות שלכם." },
       "task": { "en": "Write a message to a friend (50-90 words). Tell them three plans for next weekend or the summer (going to). Then make one prediction and one offer or promise with will or won't.", "he": "כתבו הודעה לחבר או לחברה (50-90 מילים). ספרו על שלוש תוכניות לסוף השבוע הבא או לקיץ (going to). אחר כך כתבו תחזית אחת, והצעה או הבטחה אחת עם will או won't." },
       "min_words": 50,
-      "max_words": 100,
+      "max_words": 90,
       "must_include": ["going to"],
       "model_answer": "Hi Daniel! Big news: I'm going to visit my cousins in London in August. We're going to see a musical, and I'm going to try fish and chips for the first time. I think it will rain every day, but I don't care! I'll bring you something from London. What would you like? And don't worry, I won't forget your birthday this time. See you soon, Yael",
       "checklist": [
@@ -272,7 +272,7 @@
       { "en": "Plans made before: am/is/are + going to + base verb.", "he": "תוכניות שנקבעו מראש: am/is/are + going to + צורת הבסיס." },
       { "en": "Predictions from what you can see now: It's going to rain.", "he": "תחזית לפי מה שרואים עכשיו: It's going to rain." },
       { "en": "will ('ll) for decisions now, offers, promises and opinions: I'll help you.", "he": "will ('ll) להחלטה של רגע, הצעה, הבטחה ודעה: I'll help you." },
-      { "en": "won't = will not. No to after will: I'll call (not *I'll to call).", "he": "won't = will not. אחרי will אין to: I'll call ולא I'll to call." }
+      { "en": "won't = will not. No to after will: I'll call (not *I'll to call).", "he": "won't = will not. אחרי will אין to: I'll call." }
     ]
   },
   "completion": { "pass_score": 0.7 }

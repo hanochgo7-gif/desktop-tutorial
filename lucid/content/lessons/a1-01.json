@@ -6,7 +6,7 @@
   "topics": ["present-simple"],
   "minutes": 20,
   "objectives": [
-    { "en": "I can talk about habits and facts with I, you, we and they: We study English on Mondays.", "he": "אני יודע/ת לדבר על הרגלים ועובדות עם I, you, we, they: We study English on Mondays." },
+    { "en": "I can talk about habits and facts with I, you, we and they: We study English on Mondays.", "he": "אני יודע/ת לדבר על הרגלים ועובדות עם I, you, we ו-they." },
     { "en": "I can use common verbs: live, work, study, like, eat, drink, go.", "he": "אני יודע/ת להשתמש בפעלים נפוצים: live, work, study, like, eat, drink, go." },
     { "en": "I can say when with every day, every morning and on Mondays.", "he": "אני יודע/ת לומר מתי עם every day, every morning ו-on Mondays." }
   ],
@@ -20,9 +20,9 @@
       ["They", "eat", "lunch at school.", "הם אוכלים צהריים בבית הספר."],
       ["My parents", "drink", "coffee every morning.", "ההורים שלי שותים קפה כל בוקר."]
     ] },
-    { "type": "rule", "en": "With I, you, we and they (and two or more people), use the base verb: no -s and no am/is/are. I work. They live in Eilat. (He, she and it come in the next lesson.)", "he": "עם I, you, we, they (ועם שניים או יותר) משתמשים בפועל בצורת הבסיס – בלי s ובלי am/is/are: I work. They live in Eilat. (he, she, it – בשיעור הבא.)" },
-    { "type": "rule", "en": "Time words usually go at the end: every day, every morning, every week, on Mondays, on Fridays. on + day + s = every week on that day.", "he": "מילות זמן באות בדרך כלל בסוף המשפט: every day (כל יום), every morning, every week, on Mondays (בימי שני), on Fridays. on + יום + s פירושו: בכל שבוע ביום הזה." },
-    { "type": "warning", "en": "Don't add am/is/are: I work in Holon (not 'I am work'). Don't add -s: They live (not 'They lives').", "he": "לא מוסיפים am/is/are: I work in Holon, לא I am work. ולא מוסיפים s: They live, לא They lives." },
+    { "type": "rule", "en": "With I, you, we and they (and two or more people), use the base verb: no -s and no am/is/are. I work. They live in Eilat. (He, she and it come in the next lesson.)", "he": "עם I, you, we, they (ועם שניים או יותר) הפועל נשאר בצורת הבסיס: בלי s ובלי be לפניו. את he, she, it נלמד בשיעור הבא." },
+    { "type": "rule", "en": "Time words usually go at the end: every day, every morning, every week, on Mondays, on Fridays. on + day + s = every week on that day.", "he": "מילות זמן באות בדרך כלל בסוף המשפט: every day (כל יום), ‏on Mondays (בימי שני). on + יום + s פירושו: בכל שבוע ביום הזה." },
+    { "type": "warning", "en": "Don't add am/is/are: I work in Holon (not 'I am work'). Don't add -s: They live (not 'They lives').", "he": "לא מוסיפים am/is/are לפני הפועל (I work, בלי am), ולא מוסיפים לו s (They live, בלי s)." },
     { "type": "tip", "en": "In Hebrew, one present form can describe a habit or something happening right now. The English present simple is for habits and facts. For 'right now', English has a different form, which you will learn at A2.", "he": "בעברית 'אני עובד' יכול לתאר הרגל וגם משהו שקורה ממש עכשיו. הווה פשוט באנגלית מתאר הרגלים ועובדות. למה שקורה עכשיו יש באנגלית צורה אחרת – נלמד אותה ברמה A2." }
   ],
   "examples": [
@@ -49,8 +49,9 @@
     { "word": "language", "pos": "noun", "he": "שפה", "def": "the words people use to speak and write, like Hebrew or English", "example": "They speak three languages.", "ipa": "/ˈlæŋɡwɪdʒ/", "level": "A1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live התנועה קצרה /lɪv/, וב-eat היא ארוכה /iːt/.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew there is no 'be' before a verb in the present (ani oved), and English is the same: I work, we live, they study, not *I am work. Learners often add am out of habit. agree is a verb too: I agree, not *I am agree.", "he": "בעברית אין 'להיות' לפני פועל בהווה ('אני עובד'), וגם באנגלית אומרים I work – בלי am. קל להוסיף am מתוך הרגל. גם agree הוא פועל, ולכן גם איתו בלי am.", "error_type": "verb-form" },
+    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "מותחים את השפתיים כמו בחיוך ומאריכים את ה'אִי' ב-leave וב-eat (/iː/). ב-live וב-it ה'אִי' קצרה ורפויה, קרובה ל'אֶ' (/ɪ/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, בתחילת work, ‏we ו-week (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
@@ -87,7 +88,7 @@
         { "text": "We are eat lunch at one.", "category": "Wrong" },
         { "text": "They go to the gym.", "category": "Correct" }
       ],
-      "explanation": { "en": "With I, you, we and they (and two or more people, like my parents or my friends): the base verb, with no -s and no am/is/are. Correct: They live, I work, My parents drink, We eat.", "he": "עם I, you, we, they (ועם שניים או יותר, כמו my parents או my friends): פועל בסיס – בלי s ובלי am/is/are. הנכון: They live, I work, My parents drink, We eat." }
+      "explanation": { "en": "With I, you, we and they (and two or more people, like my parents or my friends): the base verb, with no -s and no am/is/are. Correct: They live, I work, My parents drink, We eat.", "he": "עם I, you, we, they ועם שניים או יותר (כמו my parents): פועל בסיס, בלי s ובלי am/is/are לפניו." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple",
@@ -139,14 +140,14 @@
         { "match": "in", "feedback": { "en": "With days, use on: on Mondays.", "he": "עם ימים משתמשים ב-on: on Mondays." }, "error_type": "preposition" },
         { "match": "at", "feedback": { "en": "With days, use on: on Mondays. (at is for clock times: at six.)", "he": "עם ימים משתמשים ב-on: on Mondays. (at – לשעות: at six.)" }, "error_type": "preposition" }
       ],
-      "explanation": { "en": "every day, every week, every morning · on Mondays, on Fridays.", "he": "'כל' + זמן: every day, every week, every morning · ימים בשבוע עם on: on Mondays, on Fridays." }
+      "explanation": { "en": "every day, every week, every morning · on Mondays, on Fridays.", "he": "'כל' + זמן הוא every (every day), ויום קבוע בשבוע הוא on + היום + s (on Mondays)." }
     },
     {
       "id": "e8", "type": "order", "skill": "grammar", "topic": "present-simple",
       "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
       "tokens": ["They", "drink", "coffee", "every", "morning"],
       "answers": ["Every morning they drink coffee"],
-      "explanation": { "en": "Who (They) + verb (drink) + what (coffee) + when (every morning). The time can also go first: Every morning, they drink coffee.", "he": "מי (They) + פועל (drink) + מה (coffee) + מתי (every morning). אפשר גם להתחיל בזמן: Every morning, they drink coffee." }
+      "explanation": { "en": "Who (They) + verb (drink) + what (coffee) + when (every morning). The time can also go first: Every morning, they drink coffee.", "he": "מי (They) + פועל (drink) + מה (coffee) + מתי (every morning). אפשר גם להתחיל בזמן, ואז שמים פסיק אחריו." }
     },
     {
       "id": "e9", "type": "transform", "skill": "grammar", "topic": "present-simple",
@@ -167,7 +168,7 @@
         { "match": "We are live in Jerusalem and we are work in Tel Aviv.", "feedback": { "en": "Don't add are: We live... and we work...", "he": "לא מוסיפים are: We live... and we work..." }, "error_type": "verb-form" },
         { "match": "We lives in Jerusalem and works in Tel Aviv.", "feedback": { "en": "No -s with we: We live... and work...", "he": "עם we אין s: We live... and work..." }, "error_type": "agreement" }
       ],
-      "explanation": { "en": "In Hebrew the verb changes for gender and number. In English it stays the same for I, you, we and they: I live, we live, they live.", "he": "בעברית הפועל משתנה לפי מין ומספר (גר, גרה, גרים, גרות). באנגלית הוא זהה עם I, you, we, they: I live, we live, they live." }
+      "explanation": { "en": "In Hebrew the verb changes for gender and number. In English it stays the same for I, you, we and they: I live, we live, they live.", "he": "בעברית הפועל משתנה לפי מין ומספר (גר, גרה, גרים, גרות). באנגלית הוא זהה עם I, you, we, they: live." }
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-simple",
@@ -177,9 +178,9 @@
       "error_type": "verb-form",
       "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
       "wrong_feedback": [
-        { "match": "We are eating lunch at one every day.", "feedback": { "en": "every day = a habit, so use the present simple: We eat lunch at one every day.", "he": "every day מתאר הרגל, ולכן הווה פשוט: We eat lunch at one every day." }, "error_type": "tense-choice" }
+        { "match": "We are eating lunch at one every day.", "feedback": { "en": "every day = a habit, so use the present simple: We eat lunch at one every day.", "he": "every day מתאר הרגל, ולכן משתמשים בהווה פשוט: we eat, בלי are ובלי ing." }, "rule": { "en": "It happens every day, so it is a routine: use the present simple.", "he": "זה קורה כל יום, כלומר הרגל, ולכן משתמשים בהווה פשוט." }, "error_type": "tense-choice" }
       ],
-      "explanation": { "en": "eat is the verb, so don't add are: We eat lunch at one every day.", "he": "eat הוא הפועל, ולכן לא מוסיפים are: We eat lunch at one every day." }
+      "explanation": { "en": "eat is the verb, so don't add are: We eat lunch at one every day.", "he": "eat הוא הפועל, ולכן לא מוסיפים לפניו are: we eat." }
     },
     {
       "id": "e11", "type": "correct", "skill": "grammar", "topic": "present-simple",
@@ -206,7 +207,7 @@
             "1": { "en": "On Fridays, Lior goes home to his family.", "he": "בימי שישי ליאור נוסע הביתה למשפחה." },
             "3": { "en": "Priya and Lior go home on Fridays. Maya writes: I work in a bookshop.", "he": "פְּרִיָּה וליאור נוסעים הביתה בשישי. מאיה כותבת: I work in a bookshop." }
           },
-          "explanation": { "en": "On Fridays, ... I work in a bookshop. I = Maya.", "he": "On Fridays, ... I work in a bookshop – הכותבת היא מאיה." } },
+          "explanation": { "en": "On Fridays, ... I work in a bookshop. I = Maya.", "he": "מאיה כותבת שבימי שישי היא עובדת בחנות ספרים (I work in a bookshop)." } },
         { "type": "gap", "text": "On Saturdays, they sleep ___.", "answers": [["late", "in"]],
           "wrong_feedback": [
             { "match": "early", "feedback": { "en": "They get up early from Sunday to Thursday. On Saturdays, they sleep late.", "he": "הם קמים מוקדם מראשון עד חמישי. בשבת הם ישנים עד מאוחר." }, "error_type": "comprehension" }
@@ -250,7 +251,7 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Present simple = habits and facts: I work in a bank. We study on Mondays.", "he": "הווה פשוט = הרגלים ועובדות: I work in a bank. We study on Mondays." },
+      { "en": "Present simple = habits and facts: I work in a bank. We study on Mondays.", "he": "הווה פשוט = הרגלים ועובדות: I work in a bank." },
       { "en": "I, you, we, they + base verb: no -s, no am/is/are.", "he": "I, you, we, they + פועל בסיס: בלי s ובלי am/is/are." },
       { "en": "Time words: every day, every morning, on Mondays – usually at the end.", "he": "מילות זמן: every day, every morning, on Mondays – בדרך כלל בסוף המשפט." }
     ]

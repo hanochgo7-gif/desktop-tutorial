@@ -1,0 +1,61 @@
+// The practice hubs' logic (js/ui/center.js, the review hint): lane r4-practice-games (PG-15, PG-8, PG-12, PG-14).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { wasUnheard, bestScore, nextSuggestion, metLesson } from '../../js/ui/center.js';
+import { hintFor } from '../../js/views/review.js';
+import { withoutIpa, SOUND_SETS } from '../../js/views/speaking.js';
+
+const listen = { type: 'listen' };
+const dictation = { type: 'dictation' };
+const read = { type: 'read' };
+
+test('PG-15: a listening result marked unheard by exercise.js is never scored (contract b)', () => {
+  assert.equal(wasUnheard({ correct: true, unheard: true }, listen), true);
+  assert.equal(wasUnheard({ correct: false, unheard: true }, read), true, 'the flag wins whatever the type');
+});
+
+test('PG-15: without the flag, a listening item is unheard when the browser cannot speak or every play stayed silent', () => {
+  assert.equal(wasUnheard({ correct: true }, listen, { speech: false }), true);
+  assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: true, started: false }), true);
+  assert.equal(wasUnheard({ correct: true }, dictation, { speech: true, silent: true, started: false }), true, 'a dictation is a listening item too');
+  assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: true, started: true }), false, 'one play that started is enough');
+  assert.equal(wasUnheard({ correct: true }, listen, { speech: true, silent: false, started: false }), false, 'never played is not "nothing heard"');
+  assert.equal(wasUnheard({ correct: true }, read, { speech: false }), false, 'reading is not a listening item');
+  assert.equal(wasUnheard({ correct: false, dontKnow: true }, listen, { speech: false }), false, '"I don\'t know" stays a wrong first try');
+  assert.equal(wasUnheard({ graded: false }, listen, { speech: false }), false);
+});
+
+test('bestScore leaves out attempts with no score', () => {
+  assert.equal(bestScore([]), null);
+  assert.equal(bestScore([{ score: null, correct: false }]), null);
+  assert.equal(bestScore([{ score: null, correct: true }, { score: 0.5 }]), 0.5);
+  assert.equal(bestScore([{ correct: true }]), 1);
+});
+
+test('PG-8: a review hint adds what the card does not show', () => {
+  assert.equal(hintFor({ kind: 'form', payload: { word: 'river', example: 'The river is wide.' } }), 'r _ _ _ _ (5)');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'doctor', example: 'He is a doctor.', def: 'a person who helps sick people', pos: 'noun' } }), 'a person who helps sick people');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'run', example: 'I run.', pos: 'verb' } }), 'verb', 'no definition: the part of speech');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'An x.' } }), null, 'nothing new: no hint');
+  assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'a thing you see', def: 'a thing you see' } }), null, 'a definition that is the example is not new');
+});
+
+test('PG-12: the next listening item comes from a met lesson first, then from the learner\'s next lesson', () => {
+  const item = (lesson, level, ex, rank) => ({ lesson: { id: lesson, level }, ex: { id: ex }, rank });
+  const items = [item('a1-01', 'A1', 'e3', 100), item('a1-02', 'A1', 'e3', 200), item('a1-03', 'A1', 'e2', 300), item('a1-04', 'A1', 'e1', 400)];
+  const progress = new Map([['a1-01', { status: 'completed' }]]);
+  const done = (lesson, ex) => ({ lesson, exercise: ex });
+  assert.equal(nextSuggestion(items, [], 'A1', progress, 'a1-03').lesson.id, 'a1-01', 'an undone item in a met lesson comes first');
+  assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress, 'a1-03').lesson.id, 'a1-03', 'then the next lesson');
+  assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress).lesson.id, 'a1-02', 'without a next lesson, curriculum order');
+  assert.ok(metLesson(progress, items[0]) && !metLesson(progress, items[1]));
+});
+
+test('PG-14: without IPA, a speaking tip names each sound by its example word', () => {
+  const set = (id) => SOUND_SETS.find((x) => x.id === id);
+  assert.equal(withoutIpa('For /iː/ (sheep) spread your lips', set('ih-ee')), 'For sheep spread your lips');
+  assert.equal(withoutIpa('צליל ארוך: sheep /iː/.', set('ih-ee')), 'צליל ארוך: sheep.');
+  assert.equal(withoutIpa('you get /s/ or /t/.', set('th-s-t')), 'you get “sink” or “tank”.');
+  assert.equal(withoutIpa('as /θ/, between', set('dh-d')), 'as “think”, between', 'a sound from another set');
+  for (const x of SOUND_SETS) for (const t of [x.tip.en, x.tip.he]) assert.ok(!/\/[^/\s]+\//.test(withoutIpa(t, x)), `${x.id}: IPA left in "${withoutIpa(t, x)}"`);
+});

@@ -7,12 +7,12 @@
   "minutes": 22,
   "objectives": [
     { "en": "I can choose the right question word: what, where, when, who, why, how, which, whose.", "he": "אני יודע/ת לבחור את מילת השאלה הנכונה: what, where, when, who, why, how, which, whose." },
-    { "en": "I can ask questions in the right order: Where do you live? What does she do?", "he": "אני יודע/ת לבנות שאלה בסדר הנכון: Where do you live? What does she do?" },
-    { "en": "I can ask who does something: Who lives here? Who has a car?", "he": "אני יודע/ת לשאול מי עושה משהו: Who lives here? Who has a car?" }
+    { "en": "I can ask questions in the right order: Where do you live? What does she do?", "he": "אני יודע/ת לבנות שאלה בסדר הנכון: Where do you live?" },
+    { "en": "I can ask who does something: Who lives here? Who has a car?", "he": "אני יודע/ת לשאול מי עושה משהו: Who lives here?" }
   ],
   "warmup": { "en": "You meet a new classmate or colleague. Think of three questions you want to ask them. Which question words do you need?", "he": "פגשתם חבר/ה חדש/ה לכיתה או לעבודה. חשבו על שלוש שאלות שהייתם רוצים לשאול: מאיפה? איפה גרים? מה עושים? באילו מילות שאלה תצטרכו להשתמש באנגלית?" },
   "explanation": [
-    { "type": "p", "en": "Where do you live? – In Haifa. What does your sister do? – She's a nurse. Who lives next door? – Maya and Tom. Question words ask for information, so the answer is not just yes or no.", "he": "Where do you live? – In Haifa. ‏What does your sister do? – She's a nurse. ‏Who lives next door? – Maya and Tom. מילות שאלה מבקשות מידע, ולכן התשובה היא לא סתם כן או לא." },
+    { "type": "p", "en": "Where do you live? – In Haifa. What does your sister do? – She's a nurse. Who lives next door? – Maya and Tom. Question words ask for information, so the answer is not just yes or no.", "he": "מילות שאלה (כמו Where, What, Who) מבקשות מידע, ולכן התשובה היא לא סתם כן או לא." },
     { "type": "table", "headers": ["Word", "Asks about", "עברית", "Example"], "rows": [
       ["what", "a thing, information", "מה", "What do you study?"],
       ["where", "a place", "איפה, לאן", "Where does he work?"],
@@ -25,10 +25,10 @@
       ["which", "one from a small group", "איזה, איזו, אילו", "Which bus goes to the beach?"],
       ["whose", "the owner", "של מי", "Whose phone is this?"]
     ] },
-    { "type": "rule", "en": "Word order: question word + do/does + subject + base verb: Where do you live? What does Omer study? With am/is/are: question word + be + subject: Where is the station? How old are you?", "he": "סדר המילים: מילת שאלה + do/does + נושא + פועל בצורת הבסיס: Where do you live? What does Omer study? עם am/is/are: מילת שאלה + be + נושא: Where is the station? How old are you?" },
-    { "type": "p", "en": "In Hebrew, a question is just the question word + a normal sentence ('where you live?'). English works differently: after the question word we need do/does, or am/is/are. Where do you live?", "he": "בעברית שאלה היא פשוט מילת שאלה + משפט רגיל: 'איפה אתה גר?'. באנגלית זה עובד אחרת: אחרי מילת השאלה צריך do/does, או am/is/are: Where do you live?" },
-    { "type": "warning", "en": "When who or what is the subject (the person or thing that does the action), don't use do/does. The verb comes straight after who, with -s: Who lives here? (not 'Who does live here?'). Compare: Who do you live with? Here you is the subject, so we need do.", "he": "כש-who או what הם הנושא (מי שעושה את הפעולה), לא משתמשים ב-do/does, והפועל בא מיד אחרי who, עם s: Who lives here? (לא Who does live here?). השוו: Who do you live with? – כאן you הוא הנושא, ולכן צריך do." },
-    { "type": "tip", "en": "whose ≠ who's. Whose bag is this? asks about the owner; Who's that? = Who is that? And questions with a question word usually go down at the end: Where do you ↘live?", "he": "whose ≠ who's. ‏Whose bag is this? שואלת של מי התיק; Who's that? = Who is that? ובשאלות עם מילת שאלה הקול בדרך כלל יורד בסוף: Where do you ↘live?" }
+    { "type": "rule", "en": "Word order: question word + do/does + subject + base verb: Where do you live? What does Omer study? With am/is/are: question word + be + subject: Where is the station? How old are you?", "he": "סדר המילים: מילת שאלה + do/does + נושא + פועל בסיס: Where do you live? כשאין פועל אחר, be בא במקום do." },
+    { "type": "p", "en": "In Hebrew, a question is just the question word + a normal sentence ('where you live?'). English works differently: after the question word we need do/does, or am/is/are. Where do you live?", "he": "בעברית שאלה היא פשוט מילת שאלה + משפט רגיל: 'איפה אתה גר?'. באנגלית זה עובד אחרת: אחרי מילת השאלה צריך do/does או be: Where do you live?" },
+    { "type": "warning", "en": "When who or what is the subject (the person or thing that does the action), don't use do/does. The verb comes straight after who, with -s: Who lives here? (not 'Who does live here?'). Compare: Who do you live with? Here you is the subject, so we need do.", "he": "כש-who הוא הנושא (מי שעושה את הפעולה), לא משתמשים ב-do/does, והפועל בא מיד אחריו, עם s: Who lives here? כשהנושא הוא אחר (למשל you), צריך do." },
+    { "type": "tip", "en": "whose ≠ who's. Whose bag is this? asks about the owner; Who's that? = Who is that? And questions with a question word usually go down at the end: Where do you ↘live?", "he": "whose (של מי) שונה מ-who's (= who is). ובשאלות עם מילת שאלה הקול בדרך כלל יורד בסוף ↘." }
   ],
   "examples": [
     { "en": "Where do you live? – In Ramat Gan.", "he": "איפה את/ה גר/ה? – ברמת גן." },
@@ -55,15 +55,15 @@
     { "word": "information", "pos": "noun", "he": "מידע", "def": "facts about something or someone", "example": "Where can I get information about the course?", "ipa": "/ˌɪnfəˈmeɪʃn/", "collocations": ["ask for information", "more information"], "level": "A1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew, questions work differently: you put the question word in front of a normal sentence, with no extra word. So 'Where you live?' can feel natural. English needs do/does (or am/is/are) after the question word: Where do you live? What does she do?", "he": "בעברית שאלה בנויה אחרת: שמים את מילת השאלה לפני משפט רגיל, בלי מילה נוספת ('איפה אתה גר?'). לכן Where you live? עלול להרגיש טבעי. באנגלית צריך do/does (או am/is/are) אחרי מילת השאלה: Where do you live? What does she do?", "error_type": "do-support" },
-    { "en": "In Hebrew, /w/ is rare (the letter vav is usually /v/), so what, where and which can sound like 'vot', 'vair' and 'vich'. For English /w/, round your lips as for 'oo' and keep your teeth away from your lip.", "he": "בעברית הצליל /w/ נדיר (האות ו' נהגית בדרך כלל /v/), ולכן what, where ו-which עלולות להישמע כאילו הן מתחילות ב-v. כדי להגיד /w/ באנגלית, עגלו את השפתיים כמו ב'אוּ', ואל תגעו בשיניים בשפה.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew, questions work differently: you put the question word in front of a normal sentence, with no extra word. So 'Where you live?' can feel natural. English needs do/does (or am/is/are) after the question word: Where do you live? What does she do?", "he": "בעברית שאלה בנויה אחרת: שמים את מילת השאלה לפני משפט רגיל, בלי מילה נוספת ('איפה אתה גר?'). באנגלית צריך do/does (או be) אחרי מילת השאלה: Where do you live?", "error_type": "do-support" },
+    { "en": "In Hebrew, /w/ is rare (the letter vav is usually /v/), so what, where and which can sound like 'vot', 'vair' and 'vich'. For English /w/, round your lips as for 'oo' and keep your teeth away from your lip.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, בתחילת what, ‏where ו-which (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
       "id": "e1", "type": "match", "skill": "vocabulary", "topic": "wh-questions",
       "prompt": { "en": "Match the question words with their Hebrew meaning.", "he": "התאימו כל מילת שאלה למשמעות שלה בעברית." },
       "pairs": [["who", "מי"], ["where", "איפה"], ["when", "מתי"], ["why", "למה"], ["whose", "של מי"], ["which", "איזה (מתוך כמה)"]],
-      "explanation": { "en": "Careful: whose (= the owner) is not who's (= who is). which asks about one from a small group: Which bus? Which colour?", "he": "שימו לב: whose (של מי) שונה מ-who's (= who is). ‏which שואלת על אחד מתוך קבוצה קטנה: Which bus? Which colour?" }
+      "explanation": { "en": "Careful: whose (= the owner) is not who's (= who is). which asks about one from a small group: Which bus? Which colour?", "he": "שימו לב: whose (של מי) שונה מ-who's (= who is). ‏which שואלת על אחד מתוך קבוצה קטנה (Which bus?)." }
     },
     {
       "id": "e2", "type": "listen", "skill": "listening", "topic": "wh-questions",
@@ -75,10 +75,10 @@
       "option_feedback": {
         "0": { "en": "By bus answers How do you get there?", "he": "By bus עונה על השאלה How do you get there (איך מגיעים)." },
         "1": { "en": "Near my house answers Where?", "he": "Near my house עונה על השאלה Where (איפה)." },
-        "3": { "en": "With my sister answers Who do you go with?", "he": "With my sister עונה על השאלה Who do you go with (עם מי)." }
+        "3": { "en": "With my sister answers Who do you go with?", "he": "התשובה הזאת עונה על השאלה 'עם מי?' (Who ... with)." }
       },
       "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
-      "explanation": { "en": "How often asks how many times: always, every day, three times a week, never.", "he": "How often שואלת כל כמה זמן: always, every day, three times a week, never." }
+      "explanation": { "en": "How often asks how many times: always, every day, three times a week, never.", "he": "How often שואלת כל כמה זמן, והתשובה היא תדירות (every day, never)." }
     },
     {
       "id": "e3", "type": "categorize", "skill": "grammar", "topic": "wh-questions",
@@ -94,7 +94,7 @@
         { "text": "Our new neighbour.", "category": "Who?" },
         { "text": "Twenty students.", "category": "How many?" }
       ],
-      "explanation": { "en": "Where → a place (in, next to). When → a time (at six, on Sunday). Who → a person. How many → a number.", "he": "Where → מקום (in, next to). ‏When → זמן (at six, on Sunday). ‏Who → אדם. ‏How many → מספר." }
+      "explanation": { "en": "Where → a place (in, next to). When → a time (at six, on Sunday). Who → a person. How many → a number.", "he": "Where → מקום · When → זמן · Who → אדם · How many → מספר." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "wh-questions",
@@ -118,12 +118,12 @@
       "answers": [["When"], ["Where"], ["Why"]],
       "wrong_feedback": [
         { "match": "Who", "feedback": { "en": "who asks about a person. Look at each answer: a month, a city, a reason.", "he": "who שואלת על אדם. הסתכלו על כל תשובה: חודש, עיר, סיבה." } },
-        { "match": "How", "feedback": { "en": "how asks about the way (How do you get there? – By bus.). Look at each answer: a month, a city, a reason.", "he": "how שואלת איך (How do you get there? – By bus.). הסתכלו על כל תשובה: חודש, עיר, סיבה." } },
+        { "match": "How", "feedback": { "en": "how asks about the way (How do you get there? – By bus.). Look at each answer: a month, a city, a reason.", "he": "how שואלת איך (באוטובוס, ברגל). הסתכלו על כל תשובה: חודש, עיר, סיבה." } },
         { "match": "When", "feedback": { "en": "when asks about a time. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "when שואלת על זמן. בדקו כל תשובה: In May = זמן, In Haifa = מקום, Because... = סיבה." } },
         { "match": "Where", "feedback": { "en": "where asks about a place. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "where שואלת על מקום. בדקו כל תשובה: In May = זמן, In Haifa = מקום, Because... = סיבה." } },
         { "match": "Why", "feedback": { "en": "why asks for a reason, and the answer starts with Because. Check each answer: a time, a place, a reason.", "he": "why שואלת על סיבה, והתשובה מתחילה ב-Because. בדקו כל תשובה: זמן, מקום, סיבה." } }
       ],
-      "explanation": { "en": "When → In May (a time). Where → In Haifa (a place). Why → Because... (a reason).", "he": "When → In May (זמן). ‏Where → In Haifa (מקום). ‏Why → Because... (סיבה)." }
+      "explanation": { "en": "When → In May (a time). Where → In Haifa (a place). Why → Because... (a reason).", "he": "When שואלת על זמן, Where על מקום, ו-Why על סיבה (Because...)." }
     },
     {
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "wh-questions",
@@ -132,13 +132,13 @@
       "word_bank": ["do", "does", "is", "are"],
       "answers": [["do"], ["does"], ["is"]],
       "wrong_feedback": [
-        { "match": "does", "feedback": { "en": "Check two things. Is there another verb? (live, do → do/does; no other verb → is/are.) Who is the subject? your parents = they → do.", "he": "בדקו שני דברים. יש פועל נוסף? (live, do → do/does; אין פועל נוסף → is/are.) מי הנושא? your parents = they → do." }, "error_type": "agreement" },
+        { "match": "does", "feedback": { "en": "Check two things. Is there another verb? (live, do → do/does; no other verb → is/are.) Who is the subject? your parents = they → do.", "he": "בדקו שני דברים: יש פועל נוסף (כמו live)? אם כן, do/does; אם לא, is/are. ומי הנושא? ההורים הם they, ולכן do." }, "error_type": "agreement" },
         { "match": "do", "feedback": { "en": "Check two things. Is there another verb? (no other verb → is/are.) Who is the subject? your sister = she → does.", "he": "בדקו שני דברים. יש פועל נוסף? (אין פועל נוסף → is/are.) מי הנושא? your sister = she → does." }, "error_type": "agreement" },
-        { "match": "are", "feedback": { "en": "Use am/is/are only when there is no other verb. With live and do, use do/does. And the station = it → is.", "he": "am/is/are רק כשאין פועל אחר. עם live ו-do משתמשים ב-do/does. ו-the station = it → is." }, "error_type": "do-support" },
-        { "match": "is", "feedback": { "en": "is works only when there is no other verb (Where is the station?). With another verb (live, do), use do/does.", "he": "is מתאים רק כשאין פועל אחר (Where is the station?). כשיש פועל נוסף (live, do) משתמשים ב-do/does." }, "error_type": "do-support" }
+        { "match": "are", "feedback": { "en": "Use am/is/are only when there is no other verb. With live and do, use do/does. And the station = it → is.", "he": "be רק כשאין פועל אחר. עם live ו-do משתמשים ב-do/does, ועם התחנה (it) – is." }, "error_type": "do-support" },
+        { "match": "is", "feedback": { "en": "is works only when there is no other verb (Where is the station?). With another verb (live, do), use do/does.", "he": "is מתאים רק כשאין פועל אחר, כמו בשאלה על התחנה. כשיש פועל נוסף (live, do) משתמשים ב-do/does." }, "error_type": "do-support" }
       ],
       "hint": { "en": "Is there another verb in the question? Then do/does. No other verb? Then is/are.", "he": "יש פועל נוסף בשאלה? אז do/does. אין פועל נוסף? אז is/are." },
-      "explanation": { "en": "Another verb (live, do) → do/does: Where do your parents live? What does your sister do? No other verb → be: Where is the station?", "he": "כשיש פועל נוסף (live, do) → do/does: Where do your parents live? What does your sister do? כשאין פועל נוסף → be: Where is the station?" }
+      "explanation": { "en": "Another verb (live, do) → do/does: Where do your parents live? What does your sister do? No other verb → be: Where is the station?", "he": "כשיש פועל נוסף (live, do) משתמשים ב-do/does, וכשאין – ב-be." }
     },
     {
       "id": "e7", "type": "order", "skill": "grammar", "topic": "wh-questions",
@@ -157,7 +157,7 @@
         { "match": "Where is Omer work?", "feedback": { "en": "work is a verb, so use does, not is: Where does Omer work?", "he": "work הוא פועל, ולכן does ולא is: Where does Omer work?" }, "error_type": "do-support" }
       ],
       "hint": { "en": "IN A BANK is a place. Which question word asks about a place?", "he": "IN A BANK הוא מקום. איזו מילת שאלה שואלת על מקום?" },
-      "explanation": { "en": "A place → Where. Omer = he → does. Then the base verb: Where does Omer work?", "he": "מקום → Where. ‏Omer = he → does. ואחריו הפועל בצורת הבסיס: Where does Omer work?" }
+      "explanation": { "en": "A place → Where. Omer = he → does. Then the base verb: Where does Omer work?", "he": "מקום → Where. עומר הוא he, ולכן does, ואחריו פועל בסיס: Where does Omer work?" }
     },
     {
       "id": "e9", "type": "transform", "skill": "grammar", "topic": "wh-questions",
@@ -193,7 +193,7 @@
       "answers": ["How many brothers have you got?", "How many brothers do you have?"],
       "error_type": "countability",
       "hint": { "en": "Can you count brothers?", "he": "אפשר לספור אחים?" },
-      "explanation": { "en": "how many + plural nouns you can count (brothers, students, apples). how much for prices and for things you don't count (money, water, time).", "he": "how many + שם עצם ברבים שאפשר לספור (brothers, students, apples). ‏how much למחיר ולדברים שלא סופרים (money, water, time)." }
+      "explanation": { "en": "how many + plural nouns you can count (brothers, students, apples). how much for prices and for things you don't count (money, water, time).", "he": "how many + שם עצם ברבים שאפשר לספור (brothers). ‏how much למחיר ולדברים שלא סופרים (money)." }
     },
     {
       "id": "e12", "type": "mcq", "skill": "grammar", "topic": "wh-questions",
@@ -202,7 +202,7 @@
       "options": ["Whose", "Who's", "Who", "Where"],
       "answer": 0,
       "option_feedback": {
-        "1": { "en": "Who's = Who is, and 'Who is phone is this?' doesn't work. To ask about the owner: Whose.", "he": "Who's = Who is, ו-'Who is phone is this' לא עובד. כדי לשאול של מי: Whose." },
+        "1": { "en": "Who's = Who is, and 'Who is phone is this?' doesn't work. To ask about the owner: Whose.", "he": "Who's פירושו Who is, ולא 'של מי'. כדי לשאול של מי הטלפון, שואלים Whose." },
         "2": { "en": "Who asks about a person. Here we ask who the phone belongs to: Whose phone?", "he": "Who שואלת על אדם. כאן שואלים של מי הטלפון: Whose phone?" },
         "3": { "en": "Where asks about a place. The answer (It's Amir's) tells us the owner.", "he": "Where שואלת על מקום. התשובה (It's Amir's) אומרת של מי הטלפון." }
       },
@@ -265,19 +265,19 @@
       "audio_text": "What does your sister do? She's a nurse.",
       "answers": ["What does your sister do? She's a nurse."],
       "hint": { "en": "A question with does, then a short answer.", "he": "שאלה עם does, ואחריה תשובה קצרה." },
-      "explanation": { "en": "What does she do? asks about someone's job. The answer uses a/an: She's a nurse.", "he": "What does she do? שואלת במה מישהו עובד. בתשובה יש a/an: She's a nurse." }
+      "explanation": { "en": "What does she do? asks about someone's job. The answer uses a/an: She's a nurse.", "he": "What does she do? שואלת במה מישהו עובד, ובתשובה יש a או an לפני המקצוע." }
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "wh-questions",
       "prompt": { "en": "You're at a bus stop in a new city. Ask the question out loud.", "he": "אתם בתחנת אוטובוס בעיר חדשה. שאלו את השאלה בקול." },
       "target": "Excuse me, which bus goes to the beach?",
       "focus": { "en": "which starts with /w/: round your lips as for 'oo', and don't touch your lip with your teeth. Let your voice go down at the end: to the ↘beach?", "he": "which מתחילה ב-/w/: עגלו את השפתיים כמו ב'אוּ', ואל תגעו בשיניים בשפה. תנו לקול לרדת בסוף: to the ↘beach?" },
-      "explanation": { "en": "Which bus? = which one of the buses here. There's no does, because which bus is the subject: Which bus goes...?", "he": "Which bus? = איזה מהאוטובוסים כאן. אין does, כי which bus הוא הנושא: Which bus goes...?" }
+      "explanation": { "en": "Which bus? = which one of the buses here. There's no does, because which bus is the subject: Which bus goes...?", "he": "Which bus? = איזה מהאוטובוסים כאן. אין does, כי which bus הוא הנושא, והפועל בא מיד אחריו עם s." }
     },
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "wh-questions",
       "prompt": { "en": "Get to know your new flatmate.", "he": "הכירו את השותף/ה החדש/ה לדירה." },
-      "task": { "en": "You have a new flatmate. Write 6-8 questions to get to know them. Use at least five different question words, one question about someone in their family (What does your brother do?) and one question with Who + verb (Who cooks...?).", "he": "יש לכם שותף/ה חדש/ה לדירה. כתבו 6-8 שאלות כדי להכיר אותו/ה. השתמשו לפחות בחמש מילות שאלה שונות, בשאלה אחת על מישהו מהמשפחה שלו/ה (What does your brother do?) ובשאלה אחת עם Who + פועל (Who cooks...?)." },
+      "task": { "en": "You have a new flatmate. Write 6-8 questions to get to know them. Use at least five different question words, one question about someone in their family (What does your brother do?) and one question with Who + verb (Who cooks...?).", "he": "יש לכם שותף/ה חדש/ה לדירה. כתבו 6-8 שאלות כדי להכיר אותו/ה. השתמשו לפחות בחמש מילות שאלה שונות, בשאלה אחת על מישהו מהמשפחה שלו/ה ובשאלה אחת עם Who + פועל (Who cooks...?)." },
       "min_words": 25,
       "max_words": 80,
       "must_include": ["do you", "does"],
@@ -292,10 +292,10 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Question word + do/does + subject + base verb: Where do you live? What does she do?", "he": "מילת שאלה + do/does + נושא + פועל בצורת הבסיס: Where do you live? What does she do?" },
-      { "en": "With be, no do: Where is the station? How old are you?", "he": "עם be אין do: Where is the station? How old are you?" },
+      { "en": "Question word + do/does + subject + base verb: Where do you live? What does she do?", "he": "מילת שאלה + do/does + נושא + פועל בצורת הבסיס: Where do you live?" },
+      { "en": "With be, no do: Where is the station? How old are you?", "he": "עם be אין do: Where is the station?" },
       { "en": "Who as the subject: no do, verb + -s: Who lives here?", "he": "Who כנושא: בלי do, ופועל עם s: Who lives here?" },
-      { "en": "how many + plural (How many brothers?), how much + price or amount (How much is it?), whose = the owner (Whose phone is this?).", "he": "how many + רבים (How many brothers?), ‏how much + מחיר או כמות (How much is it?), ‏whose = של מי (Whose phone is this?)." }
+      { "en": "how many + plural (How many brothers?), how much + price or amount (How much is it?), whose = the owner (Whose phone is this?).", "he": "how many + רבים · how much + מחיר או כמות · whose = של מי." }
     ]
   },
   "completion": { "pass_score": 0.7 }

@@ -249,8 +249,9 @@ try {
       if (await page.$('[data-skip-speak]')) { await page.click('[data-skip-speak]'); continue; }
       await answerCurrent(page, { correct: i % 3 !== 1 });
       const check = await page.$('[data-check]:not([disabled])');
-      if (check) await check.click(); else await page.click('[data-dontknow]').catch(() => {});
-      await page.waitForSelector('[data-next]', { timeout: 3000 });
+      if (check) await check.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]').catch(() => {}); // a finished matching board checks itself (EX-1)
+      await page.waitForSelector('[data-next], [data-show-answer]', { timeout: 3000 });
+      if (await page.$('[data-show-answer]')) { await page.click('[data-show-answer]'); await page.waitForSelector('[data-next]', { timeout: 3000 }); } // LF-6: a second try first
       const verdict = await page.textContent('.verdict');
       if (/Correct answer|התשובה הנכונה|Not quite|לא בדיוק/.test(verdict)) feedbackSeen = true;
       await page.click('[data-next]');
@@ -281,7 +282,7 @@ try {
     assert(/drill\?error=copula-omission/.test(html), 'targeted practice for the recurring error not in the plan');
     await page.click('a[href="#/drill?error=copula-omission"]');
     await page.waitForTimeout(800);
-    assert(await page.$('#exroot') || await page.$('.empty'), 'drill did not open');
+    assert(await page.$('#exroot') || await page.$('[data-drill-primer]') || await page.$('.empty'), 'drill did not open'); // r4 LF-10: a primer card comes first
     await ctx.close();
   });
 
@@ -296,7 +297,7 @@ try {
     await page.goto(`${BASE}#/review`);
     await page.waitForSelector('.flash');
     const before = (await store(page, 'cards'))[0].fsrs.reps;
-    if (await page.$('[data-pick]')) await page.click('[data-pick]'); else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); }
+    if (await page.$('[data-pick]')) { await page.click('[data-pick]'); await page.click('[data-check]'); } else { await page.fill('#ans', 'סטודנט'); await page.click('[data-check]'); } // PH-2: a tap selects, Check commits
     await page.waitForSelector('[data-next]');
     const cards = await store(page, 'cards');
     assert(cards.some((c) => c.fsrs.reps > before), 'card was not rescheduled');
@@ -317,7 +318,9 @@ try {
     await page.waitForSelector('.chat-log .msg');
     await page.click('[data-tab="practise"]');
     await page.click('[data-opt="0"]');
+    await page.click('[data-check-turn]'); // RW-1: a tap selects, "Check" commits
     await page.waitForSelector('.explain');
+    await page.click('[data-own-box] > summary');
     await page.fill('[data-own]', 'Could you help me, please?');
     await page.click('[data-own-check]');
     assert(await page.isVisible('[data-next-turn]'), 'cannot continue the scripted practice');
@@ -335,7 +338,7 @@ try {
     await page.fill('#xp-q', 'no worries');
     const text = await page.textContent('#view');
     assert(/No worries/i.test(text), 'expression list missing "No worries"');
-    const details = await page.$('details, [aria-expanded]');
+    const details = await page.$('details, [data-toggle]'); // RW-10: the filter key is the first [aria-expanded] now
     if (details) await details.click();
     await page.waitForTimeout(300);
     const after = await page.textContent('#view');
@@ -459,7 +462,7 @@ try {
     await page.waitForSelector('#essay');
     assert(!(await page.$('[data-tab="sources"]')), 'Sources tab before a topic with a pack is chosen');
     await page.click('input[name=topic][value="0"]');
-    await page.waitForSelector('[data-tab="sources"]');
+    await page.waitForSelector('aside [data-tab="sources"]'); // RW-4: the brief (and its own Sources key) folds once a topic is chosen
     await page.click('aside [data-tab="sources"]');
     assert((await page.$$('aside .passage.source')).length >= 3, 'source pack not shown beside the text (P-84)');
     // P-78: a long paper with its references (over the old 16,000-character limit) is accepted and counted
@@ -511,7 +514,7 @@ try {
       }
       await ctx.close();
     }
-    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'games/pictures/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'games', 'games/PreA1/1', 'games/pictures/1', 'games/memory/1', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });
@@ -584,7 +587,7 @@ try {
       await page.goto(`${BASE}#/${r}`);
       await page.waitForTimeout(500);
       const txt = await page.textContent('#view');
-      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר)/.test(txt), `${r}: no configuration notice`);
+      assert(/(not configured|לא הוגדר|עוד לא הוגדרה|עוד לא הוגדרו|not available on this site|עוד לא זמינה באתר|עוד לא זמין באתר|לא פעיל באתר הזה|not active on this site)/.test(txt), `${r}: no configuration notice`);
     }
     await ctx.close();
     const m = await newPage(browser, { mock: true });
@@ -802,8 +805,10 @@ try {
     await page.reload();
     await page.goto(`${BASE}#/today`);
     await page.waitForSelector('.plan a[href^="#/lesson/"]');
-    const href = await page.getAttribute('.plan a[href^="#/lesson/"]', 'href');
-    assert(href.startsWith('#/lesson/b2-02'), `Today's lesson is still ${href}`);
+    // The lesson finished today is ticked in the plan and the next one is offered beyond it (UX r3 TF-2).
+    const hrefs = await page.$$eval('#view .plan a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href')));
+    assert(hrefs.some((h) => h.startsWith('#/lesson/b2-02')), `Today's lesson is still ${hrefs}`);
+    assert(await page.$('.plan a.done[href="#/lesson/b2-01"]'), 'the lesson finished today is not ticked');
     assert(await page.$('.start-bar .tag.ok'), 'no "lesson completed today" tag after a finished lesson');
     const rec = await page.evaluate(() => window.lucid.store.get('progress', 'b2-01', { includeDeleted: true }));
     assert(rec.status === 'completed' && !rec._deleted, `b2-01 stored as ${JSON.stringify(rec)}`);
@@ -863,7 +868,7 @@ try {
     await page.click('[data-skip-learn]');
     for (let i = 0; i < 3; i++) {
       await answerCurrent(page);
-      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]'); // a finished matching board checks itself (EX-1)
       await page.waitForSelector('[data-next]'); await page.click('[data-next]');
     }
     await page.click('[data-exit]');
@@ -1036,7 +1041,7 @@ try {
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/lp4-placement-a1-390.png`, fullPage: true });
     const eitan = await showResult(['work', 'writing'], 'c1', 'B2');
     assert(/C1/.test(eitan) && !/C1-C2/.test(eitan), `the headline claims C1-C2: ${eitan.slice(0, 200)}`);
-    assert(/B2\+/.test(eitan) && /נכונות ב-C1/.test(eitan), 'capped skills do not say where their answers were');
+    assert(/B2\+/.test(eitan) && /נראה טוב גם ב-C1/.test(eitan), 'capped skills do not say where their answers were');
     assert((await store(page, 'placement')).find((p) => p.id === 'latest').start_level === 'C1', 'academic writing chosen: the start should be C1');
     const yael = await showResult(['work', 'travel'], 'c1', 'B2');
     assert(/נתחיל ב-B2/.test(yael) && await page.$('[data-start-at="C1"]'), `a work and travel learner is started on the C1 track: ${yael.slice(0, 240)}`);
@@ -1080,8 +1085,11 @@ try {
     assert((await page.$$('section[aria-labelledby^="hub-"]')).length === 1, 'the topic filter shows other topics');
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/real-life-390.png` });
     await page.goto(`${BASE}#/conversations`);
-    await page.waitForSelector('.hub-filters');
-    assert(await page.$('.page-head a[href="#/real-life"]') && await page.$('.level-guide'), 'Conversations is not grouped with Real life or has no level guidance');
+    // A hash change keeps the document, so the Real life view (with its own .hub-filters) may still be up: wait for
+    // the Conversations page itself and its level guidance before reading them.
+    await page.waitForSelector('.page-head a[href="#/real-life"]');
+    await page.waitForFunction(() => document.querySelector('.level-guide')?.textContent.trim(), null, { timeout: 5000 }).catch(() => {});
+    assert(await page.$('.page-head a[href="#/real-life"]') && (await page.$eval('.level-guide', (g) => g.textContent.trim()).catch(() => '')), 'Conversations is not grouped with Real life or has no level guidance');
     assert((await page.$$eval('section[aria-labelledby^="hub-"]', (x) => x.map((sec) => sec.querySelectorAll('.lesson-row').length))).every((n) => n <= 2), 'Conversations topics are not folded');
     await ctx.close();
   });
@@ -1093,18 +1101,21 @@ try {
     await page.waitForSelector('[data-opt]');
     const poor = await page.$$eval('[data-opt]', (bs) => bs.findIndex((b) => /Why do you want to know/.test(b.textContent)));
     await page.click(`[data-opt="${poor}"]`);
+    await page.click('[data-check-turn]'); // RW-1: a tap selects, "Check" commits
     await page.waitForSelector('[data-explain]');
     await page.waitForTimeout(200);
     const seen = await page.evaluate(() => { const e = document.querySelector('[data-explain]'); const r = e.getBoundingClientRect(); return { focused: document.activeElement === e, top: r.top, h: innerHeight }; });
     assert(seen.focused && seen.top >= 0 && seen.top < seen.h * 0.6, `the explanation is not brought into view: ${JSON.stringify(seen)}`);
     const alts = await page.$$eval('.alt-list > li', (x) => x.map((li) => ({ q: li.querySelector('.alt-quote')?.getAttribute('dir'), qd: getComputedStyle(li.querySelector('.alt-quote')).display, fb: Boolean(li.querySelector('.bi')) })));
     assert(alts.length === 2 && alts.every((a) => a.q === 'ltr' && a.qd === 'block' && a.fb), `other replies are not quote and feedback on their own lines: ${JSON.stringify(alts)}`);
+    await page.click('[data-own-box] > summary');
     await page.fill('[data-own]', 'Hi, I work with Dana on the product team. How do you know her?');
     await page.click('[data-own-check]');
     const own = await page.textContent('.panel.flat');
-    assert(/שאלה בחזרה|question back/.test(own) && /מחפשת רק מילות מפתח|only looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
+    // RW-3: a question back alone is not praised; the check says what it looks for.
+    assert(/לא מצאנו את המילים|did not find the words/.test(own) && /מחפשת מילות מפתח|looks for key words/.test(own) && !/נסו להשתמש|Try using/.test(own), `the own-words check reads as a judgement: ${own}`);
     for (let i = 0; i < 8 && await page.$('[data-next-turn], [data-opt]:not([disabled])'); i++) {
-      if (!(await page.$('[data-next-turn]'))) await page.click('[data-opt]:not([disabled])');
+      if (!(await page.$('[data-next-turn]'))) { await page.click('[data-opt]:not([disabled])'); await page.click('[data-check-turn]'); }
       await page.click('[data-next-turn]');
     }
     await page.waitForSelector('[data-done-head]');
@@ -1138,7 +1149,7 @@ try {
     await page.waitForSelector('.hint-box bdi');
     let body = db.aiBodies.at(-1);
     assert(body.corrections === 'light' && ['full', 'partial'].includes(body.hebrew_support), `roleplay request: ${JSON.stringify({ c: body.corrections, h: body.hebrew_support })}`);
-    const hint = await page.evaluate(() => { const b = document.querySelector('.hint-box bdi'); return { iso: b.textContent, after: b.nextSibling?.textContent }; });
+    const hint = await page.evaluate(() => { const b = document.querySelector('.hint-box bdi'); return { iso: b.textContent.replace(/[\u2011]/g, '-').replace(/\u00a0/g, ' '), after: b.nextSibling?.textContent }; });
     assert(hint.iso === 'K-O-H-E-N' && hint.after === '.', `Hebrew hint not isolated: ${JSON.stringify(hint)}`);
     await page.uncheck('[data-tips]');
     await page.fill('#rpin', 'My name is Kohen.');
@@ -1184,6 +1195,7 @@ try {
     await page.fill('#xp-q', 'mate');
     assert(!/Ballpark/i.test(await page.textContent('#xp-list')), '"mate" matches inside "estimate"');
     await page.fill('#xp-q', '');
+    await page.click('[data-filters]'); // RW-10: the filters sit behind one key
     await page.click('[data-scope="mine"]');
     assert(!(await page.$$eval('.entry .tag.level', (x) => x.map((t) => t.textContent.trim()))).includes('B2'), 'the level filter keeps B2 expressions for an A2 learner');
     await page.click('[data-sort="az"]');
@@ -1209,7 +1221,8 @@ try {
       const charBox = (node, i) => { const r = document.createRange(); r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
       // "תאייתו: K-O-H-E-N." — the full stop sits left of the English (the end of the Hebrew sentence).
       const a = put(isolateLatin('תאייתו: K-O-H-E-N.'));
-      const dot = charBox(a.lastChild, a.lastChild.length - 1);
+      const dotNode = a.querySelector('bdi').nextSibling;
+      const dot = charBox(dotNode, dotNode.length - 1);
       // "...: Can I get a coffee? = 'אפשר קפה?'" — the question mark is the right end of the English.
       const b = put(isolateLatin('להזמין: Can I get a coffee? = \'אפשר קפה?\''));
       const t = b.querySelector('bdi').firstChild;
@@ -1228,6 +1241,8 @@ try {
     // Placeholders in English fields read right to left in the Hebrew UI until the learner types.
     await page.goto(`${BASE}#/scenario/rl-social-party-small-talk?tab=practise`);
     await page.click('[data-opt="0"]');
+    await page.click('[data-check-turn]');
+    await page.click('[data-own-box] > summary');
     const ph = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
     await page.fill('[data-own]', 'Hello');
     const typed = await page.$eval('[data-own]', (i) => getComputedStyle(i).direction);
@@ -1249,7 +1264,8 @@ try {
     await page.click('[data-start="basics"]');
     await page.click('button[type=submit]');
     const step = await page.textContent('#ob-form');
-    assert(/מיקרופון|microphone/.test(step) && /Anthropic/.test(step) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
+    // Device only: no AI consent, one honest line instead (UX r3 TF-7); the AI details show only where AI works.
+    assert(/מיקרופון|microphone/.test(step) && /AI לא פעיל באתר הזה/.test(step) && !(await page.$('input[name=ai_consent]')) && !/מחמירות|strictest/.test(step), `onboarding privacy step: ${step}`);
     await ctx.close();
     const p = await newPage(browser);
     await learnerAt(p.page, 'A1', { birthYear: new Date().getFullYear() - 17 });
@@ -1364,7 +1380,7 @@ try {
     const second = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'game-round').at(-1));
     const resultText = await page.textContent('.game-result');
     const better = second.correct > first.correct || (second.correct === first.correct && second.score > first.score);
-    assert(better ? /New best|שיא חדש/.test(resultText) : /Your best|השיא שלך/.test(resultText), `second round compared with the wrong best: ${resultText.slice(0, 160)}`);
+    assert(better ? /New best|שיא חדש/.test(resultText) : /Your best|השיא שלכם/.test(resultText), `second round compared with the wrong best: ${resultText.slice(0, 160)}`);
     assert(!/first best|השיא הראשון/.test(resultText), 'second round called the first best');
     // Enter on the exit link leaves the game.
     await page.click('[data-again]');
@@ -1398,7 +1414,8 @@ try {
     await page.type('#gw', answer, { delay: 20 });
     await page.waitForSelector('.game-verdict.ok', { timeout: 2000 });
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'focus left the input, which would close a phone keyboard');
-    assert(!(await page.$eval('[data-check]', (b) => !b.disabled)), 'check still active after an accepted answer');
+    // UX r3 GM-6: after an answer the footer holds Continue, so no active Check remains.
+    assert(!(await page.$('[data-check]:not([disabled])')) && await page.$('#pfoot [data-next]'), 'check still active, or no Continue key, after an accepted answer');
     await page.click('[data-next]', { timeout: 400 }).catch(() => {});
     await page.waitForSelector('#gw:not([readonly])');
     assert(await page.evaluate(() => document.activeElement?.id === 'gw'), 'the next question did not keep the input focused');
@@ -1409,7 +1426,7 @@ try {
     await ctx.close();
   });
 
-  await check('PG1. Words and pictures: shown first on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists both words; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
+  await check('PG1. Words and pictures: listed after the learner\'s level on the games page; level 2 locked at first; a pair is marked right or wrong at once; a mistake costs points and lists the picture\'s word; a keyboard-finished board waits; a double tap on "See results" keeps the results; a 3-board round is logged once and opens level 2', async () => {
     const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
     const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
     const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
@@ -1418,11 +1435,12 @@ try {
     await page.waitForSelector('a.game-stage[href="#/games/pictures/1"]');
     await page.waitForTimeout(200);
     const inView = () => page.$eval('#lvl-pictures', (x) => { const r = x.getBoundingClientRect(); return r.top >= -1 && r.top < innerHeight / 2; });
-    assert(await inView(), 'the picture game is scrolled out of view on a first visit');
+    // UX r3 GM-3: the learner's own level comes first on a first visit; the picture game follows it.
+    assert(await page.$eval('#lvl-pictures', (x) => x.getBoundingClientRect().top > document.querySelector('.game-mine').getBoundingClientRect().top), 'the learner\'s level is not first');
     assert(!(await page.$('a.game-stage[href="#/games/pictures/2"]')), 'level 2 open before level 1 was played');
     await page.click('a.game-stage[href="#/games/pictures/1"]');
     const wordOf = async (k) => byHe.get(await page.textContent(`[data-pic="${k}"] [data-he]`));
-    let wrongDone = false;
+    let wrongDone = false, wrongPic = null;
     for (let bd = 0; bd < 3; bd++) {
       await page.waitForSelector('.pic-tile:not([disabled])');
       assert(!(await page.$('.pic-tile[aria-pressed="true"], .pic-word[aria-pressed="true"]')), 'a card was chosen by the tap that opened the board');
@@ -1432,6 +1450,7 @@ try {
       const words = await page.$$eval('[data-word]', (xs) => xs.map((x) => x.textContent.trim()));
       if (!wrongDone) {
         const right = await wordOf(0);
+        wrongPic = right;
         const other = words.findIndex((w) => w !== right);
         const t0 = Date.now();
         await page.click('[data-pic="0"]');
@@ -1477,7 +1496,9 @@ try {
     const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round'));
     assert(ev.length === 1 && ev[0].matches === 12 && ev[0].mistakes === 1 && ev[0].score === total && ev[0].level === 1, `round not logged once and right: ${JSON.stringify(ev)}`);
     assert(total >= 12 * 10 - 3 && total <= 12 * 10 - 3 + 15, `score ${total} does not follow the rules`);
-    assert((await page.$$('.pic-missed li')).length === 2, 'the wrong pair did not list both words to go over');
+    // UX r3 GM-4: only the picture that was given a wrong word is listed, not the word chosen for it.
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    assert(listed.length === 1 && listed[0] === wrongPic, `the wrong pair did not list just the picture's word: ${listed} (${wrongPic})`);
     assert(await page.$('a[href="#/games/pictures/2"]'), 'level 2 did not open at 92% accuracy');
     await page.waitForTimeout(300);
     assert((await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'picture-round').length)) === 1, 'the round was counted twice');
@@ -1498,6 +1519,77 @@ try {
     await ctx.close();
   });
 
+  await check('MG1. Memory game: cards hide what they are until turned; each turn is marked at once and a mismatch stays up until the next card; only a mismatch after the pair was seen is a slip; a round is logged once, and level 2 opens through the picture game (UX r4 PG-4)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 } });
+    const pics = JSON.parse(readFileSync(join(repo, 'lucid', 'content', 'pictures.json'), 'utf8'));
+    const byHe = new Map(pics.sets.flatMap((s) => s.words).map((w) => [w.he, w.word]));
+    await onboard(page, { start: 'zero' });
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/memory/1"]');
+    assert(!(await page.$('a.game-stage[href="#/games/memory/2"]')), 'memory level 2 open before level 1 was played');
+    await page.click('a.game-stage[href="#/games/memory/1"]');
+    await page.waitForSelector('.mem-card');
+    await page.waitForTimeout(500);
+    const n = (await page.$$('.mem-card')).length;
+    assert(n === 12, `level 1 has ${n} cards`);
+    assert(!(await page.$('.mem-card [data-he], .mem-card [data-word]')), 'a face-down card shows what it is');
+    const idOf = async (i) => { const he = await page.$(`[data-card="${i}"] [data-he]`); return he ? byHe.get(await he.textContent()) : (await page.textContent(`[data-card="${i}"] [data-word]`)).trim(); };
+    const known = new Map();
+    const found = () => page.$$eval('.mem-card:disabled', (xs) => xs.map((x) => Number(x.dataset.card)));
+    let slipped = false, sawMismatch = false, keyboardTurns = 0, slipWord = null;
+    const flip = async (i) => {
+      if (keyboardTurns < 2) { await page.focus(`[data-card="${i}"]`); await page.keyboard.press('Enter'); } else await page.click(`[data-card="${i}"]`);
+      known.set(i, await idOf(i));
+    };
+    for (let guard = 0; guard < 40; guard++) {
+      const done = new Set(await found());
+      if (done.size === n) break;
+      let pair = null;
+      for (const [i, wi] of known) for (const [j, wj] of known) if (i < j && wi === wj && !done.has(i)) pair = [i, j];
+      if (pair) { await flip(pair[0]); await flip(pair[1]); keyboardTurns++; await page.waitForTimeout(150); continue; }
+      const fresh = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i));
+      await flip(fresh);
+      const partner = [...known].find(([j, wj]) => j !== fresh && wj === known.get(fresh) && !done.has(j))?.[0];
+      let second = partner;
+      if (partner !== undefined && !slipped) {
+        // One deliberate slip: the pair was seen, another card is chosen.
+        second = [...Array(n).keys()].find((i) => i !== fresh && i !== partner && !done.has(i));
+        slipped = true;
+        slipWord = known.get(fresh);
+      } else if (partner === undefined) second = [...Array(n).keys()].find((i) => !known.has(i) && !done.has(i) && i !== fresh);
+      const t0 = Date.now();
+      await flip(second);
+      keyboardTurns++;
+      if (known.get(second) !== known.get(fresh)) {
+        await page.waitForSelector('.mem-card.is-wrong');
+        assert(Date.now() - t0 < 1500, 'a mismatch was not marked at once');
+        if (!sawMismatch) {
+          sawMismatch = true;
+          // Calm pace (the default): the mismatch stays face up until the next card is chosen (UX r3 GM-1).
+          await page.waitForTimeout(1600);
+          assert(await page.$(`[data-card="${fresh}"] [data-he], [data-card="${fresh}"] [data-word]`), 'a mismatched card turned back by itself');
+        }
+      } else assert(await page.$eval(`[data-card="${second}"]`, (x) => x.disabled && x.classList.contains('is-right')), 'a match was not kept face up');
+    }
+    assert(slipped, 'the test never had the chance to slip');
+    await page.waitForSelector('.game-total');
+    const total = Number((await page.textContent('.game-total')).match(/\d+/)[0]);
+    const ev = await page.evaluate(() => window.lucid.store.all('events').filter((e) => e.type === 'memory-round'));
+    assert(ev.length === 1 && ev[0].matches === 6 && ev[0].slips === 1 && ev[0].score === total && Math.abs(ev[0].accuracy - 6 / 7) < 1e-9, `round not logged once and right: ${JSON.stringify(ev)}`);
+    const listed = await page.$$eval('.pic-missed strong', (xs) => xs.map((x) => x.textContent));
+    // UX r3 GM-5: a slip of place is not a word to go over; only a picture paired with a word card already seen is.
+    assert(listed.length <= 1, `more words listed to go over than the one turn that could be a miss (${listed}; ${slipWord})`);
+    assert(!(await page.$('a[href="#/games/memory/2"]')) && await page.$('.game-result a[href="#/games/pictures/1"]'), 'memory level 2 opened on calm memory accuracy, or the result does not point to the picture game (UX r4 PG-4)');
+    await page.waitForTimeout(500);
+    await page.click('[data-again]');
+    await page.waitForSelector('.mem-card');
+    assert((await page.$$('.mem-card')).length === 12 && !(await page.$('.mem-card:disabled')), '"Play again" did not deal a fresh board');
+    await page.goto(`${BASE}#/games`);
+    await page.waitForSelector('a.game-stage[href="#/games/memory/1"]');
+    assert(/6 זוגות ב-\d+ תורות/.test(await page.textContent('a.game-stage[href="#/games/memory/1"]')), 'the memory best is not on the games page');
+    await ctx.close();
+  });
+
   await check('PS1. Speaking in lessons is practice: what was recognised, no verdict or score, "Can\'t speak right now" skips with no retry, a microphone notice first (P-02, P-27, P-57, P-05)', async () => {
     const { ctx, page } = await newPage(browser);
     await fakeRecognition(ctx);
@@ -1513,7 +1605,8 @@ try {
     const notice = await page.textContent('dialog[open]');
     assert(/הדפדפן|browser/.test(notice) && /לא מקליט ולא שומר|never records or keeps/.test(notice), `notice does not say who processes the voice and that nothing is kept: ${notice}`);
     await page.click('dialog[open] [value="no"]');
-    await page.waitForSelector('#exroot .error-text');
+    // r4 EX-9: keeping the microphone off is a neutral note (role=status), not an error.
+    await page.waitForSelector('#exroot .speak-note[role="status"]');
     assert(!(await page.$('#exroot .recognised')), 'recognition ran after "Not now"');
     await page.click('#exroot [data-rec]');
     await page.waitForSelector('dialog[open]');
@@ -1564,7 +1657,8 @@ try {
     assert(box.why === false, 'the explanation is not folded behind "Why?"');
     await page.click('[data-next]');
     await page.waitForSelector('#exroot .cat-bin');
-    assert((await page.textContent('.step-count')).trim() === `2 מתוך ${total} · 1 לחזרה`, `total moved or retries not counted apart: ${await page.textContent('.step-count')}`);
+    // LF-7: the first pass shows no running tally of mistakes; the retry comes later, in its own round.
+    assert((await page.textContent('.step-count')).trim() === `2 מתוך ${total}`, `total moved or a running tally shown: ${await page.textContent('.step-count')}`);
     await page.evaluate(() => { const root = document.querySelector('#exroot'); for (let i = 0; i < 20; i++) { const it = root.querySelector('[data-item]'); if (!it) break; it.click(); root.querySelector('[data-bin]').click(); } });
     await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
@@ -1668,8 +1762,7 @@ try {
     const [, l, e] = href.match(/l=([^&]+)&e=(.+)$/);
     const sa = (await store(page, 'attempts')).filter((a) => a.lesson === decodeURIComponent(l) && a.exercise === decodeURIComponent(e));
     assert(sa.length === 1 && sa[0].score === null, `shadowing stored a score: ${JSON.stringify(sa)}`);
-    await page.goto(`${BASE}#/tutor`);
-    await page.click('[data-mode="pronunciation"]');
+    await page.goto(`${BASE}#/tutor?mode=pronunciation`); // PH-5: without AI on the site the mode chips are hidden
     await page.waitForSelector('[data-pron-note] a[href="#/speaking"]');
     // Review: a picked meaning is right or wrong; only a typed one can be "what I meant".
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.addVocabCards(await (await fetch('content/lessons/pa1-05.json')).json(), new Date(Date.now() - 3 * 86400000)); });
@@ -1680,7 +1773,9 @@ try {
     assert(picks.length, 'no multiple-choice review card');
     const word = await page.textContent('.prompt-word');
     const rightHe = await page.evaluate((w) => window.lucid.store.all('cards').find((c) => c.payload?.word === w)?.payload.he, word.trim());
-    for (const b of picks) if ((await b.getAttribute('data-pick')) !== rightHe) { await b.click(); break; }
+    // PH-1/PH-2: options show the short gloss and a tap selects; Check commits.
+    for (const b of picks) if (!rightHe.startsWith((await b.$eval('span:not(.k)', (s) => s.textContent)).trim())) { await b.click(); break; }
+    await page.click('[data-check]');
     await page.waitForSelector('[data-next]');
     assert(!(await page.$('[data-override]')), '"count it" offered on a picked option');
     await page.evaluate(() => { for (const c of window.lucid.store.all('cards')) if (c.kind === 'meaning') window.lucid.store.put('cards', { ...c, fsrs: { ...c.fsrs, reps: 3 } }); });
@@ -1709,23 +1804,27 @@ try {
     const objective = await page.evaluate(() => { const p = document.querySelector('.point'); const i = p.querySelector('.icon').getBoundingClientRect(); const t = p.querySelector('.grow').getBoundingClientRect(); return { iconTop: i.top, textTop: t.top, iconBottom: i.bottom }; });
     assert(objective.iconBottom <= objective.textTop + 40 && Math.abs(objective.iconTop - objective.textTop) < 12, `objective icon is not on the line of its text: ${JSON.stringify(objective)}`);
     await page.click('[data-go="learn"]');
-    await page.waitForSelector('.lesson-learn .table-wrap');
+    // LF-2: the explanation comes in steps; go on to the step with the first table.
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < 6 && !(await page.$('.lesson-learn .table-wrap')); s++) await page.click('[data-learn-next]');
     const en = await page.evaluate(() => { const s = document.querySelector('.lesson-learn .bi-en'); const cs = getComputedStyle(s); return { display: cs.display, dir: cs.direction, align: cs.textAlign }; });
     assert(en.display === 'block' && en.dir === 'ltr' && ['start', 'left'].includes(en.align), `English explanation is not a left-aligned block: ${JSON.stringify(en)}`);
-    const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const th = w.querySelector('th').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: th.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
-    assert(table.dir === 'ltr' && table.firstLeft < 4 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
+    // LF-3: on a phone the rows are cards, so the first cell starts after the card's own padding (1rem).
+    const table = await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap'); const td = w.querySelector('tbody td').getBoundingClientRect(); return { dir: getComputedStyle(w).direction, firstLeft: td.left - w.getBoundingClientRect().left, overflow: getComputedStyle(w).overflowX }; });
+    assert(table.dir === 'ltr' && table.firstLeft < 24 && table.overflow === 'auto', `English table does not start at its first column: ${JSON.stringify(table)}`);
     await ctx.close();
   });
 
   // ---------- lesson player, i18n and speaking: persona round 2 ----------
-  const bdiOf = (page, sel) => page.$$eval(`${sel} bdi`, (x) => x.map((b) => b.textContent));
+  const bdiOf = (page, sel) => page.$$eval(`${sel} bdi`, (x) => x.map((b) => b.textContent.replace(/[\u2011]/g, '-').replace(/\u00a0/g, ' ')));
   await check('PL1. Brackets stay with their English inside Hebrew; "Why?" explains the item, not its error type in general (R2-01, R2-04)', async () => {
     const { ctx, page } = await newPage(browser);
     await onboard(page, { start: 'zero' });
     await lessonAt(page, 'pa1-08', 'e5');
     await page.evaluate(() => { const g = document.querySelectorAll('#exroot .gap-input'); g[0].value = 'first'; g[1].value = 'three'; g.forEach((x) => x.dispatchEvent(new Event('input', { bubbles: true }))); });
     await page.click('[data-check]:not([disabled])');
-    await page.waitForSelector('[data-next]');
+    await page.waitForSelector('[data-next], [data-show-answer]');
+    if (await page.$('[data-show-answer]')) { await page.click('[data-show-answer]'); await page.waitForSelector('[data-next]'); } // LF-6: a second try first
     const iso = await bdiOf(page, '#pfoot');
     assert(iso.includes('third (3rd)'), `the bracket pair is split: ${JSON.stringify(iso)}`);
     await page.click('#pfoot details.why > summary').catch(() => {});
@@ -1744,12 +1843,14 @@ try {
     await onboard(page, { start: 'zero' });
     const lesson = lessonJson('a2-01');
     const scored = lesson.exercises.filter((e) => !['speak', 'write'].includes(e.type)).map((e) => e.id);
-    // First tries that average 0.696: one miss, the rest just above 0.75 (Math.round would show 70%).
-    const x = (0.696 * scored.length) / (scored.length - 1);
-    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : x])));
+    // First tries that average 0.696: one miss, the rest right enough not to count as missed (Math.round would
+    // show 70%). A reading text or a sort is scored per question and missed under 0.8 (LF-9), so those two are 1.
+    const perQ = new Set(lesson.exercises.filter((e) => ['read', 'categorize'].includes(e.type)).map((e) => e.id));
+    const x = (0.696 * scored.length - perQ.size) / (scored.length - 1 - perQ.size);
+    await lessonAt(page, 'a2-01', null, Object.fromEntries(scored.map((id, i) => [id, i === 1 ? 0 : perQ.has(id) ? 1 : x])));
     const summary = await page.textContent('.player-body');
     assert(/כמעט שם|Nearly there/.test(summary) && /69%/.test(summary) && !/\b70% (בניסיון|on the first)/.test(summary), `a near miss reads as the pass mark: ${summary.slice(0, 200)}`);
-    await page.click('#pfoot a[href="#/today"]');
+    await page.click('.player a[href="#/today"]'); // r4 LF-9: "להיום" is a text link above the footer
     await page.waitForSelector('.start-bar, .plan, .banner');
     await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');
@@ -1774,12 +1875,13 @@ try {
     await page.goto(`${BASE}#/lesson/a2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');
     const line = await page.textContent('[data-part-line]');
-    assert(/25/.test(line) && new RegExp(`(עד תרגיל|up to exercise) ${upto} `).test(line), `the intro does not state the length and the part: ${line}`);
+    // LF-1: the part is one short line under the main key; the lesson's length is in the line above the title.
+    assert(/25/.test(await page.textContent('.lesson-intro')) && new RegExp(`(עד תרגיל|up to exercise) ${upto} `).test(line), `the intro does not state the length and the part: ${line}`);
     await page.click('[data-skip-learn]');
     for (let i = 0; i < upto; i++) {
       await page.waitForSelector('#exroot');
       await answerCurrent(page);
-      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else if (!(await page.$('[data-next]'))) await page.click('[data-dontknow]'); // a finished matching board checks itself (EX-1)
       if (i < upto - 1 || await page.$('[data-next]')) { await page.waitForSelector('[data-next]'); await page.click('[data-next]'); }
     }
     await page.waitForSelector('.part-end');
@@ -1849,15 +1951,15 @@ try {
     await page.waitForSelector('#exroot .transcript .en-block');
     const tr = await page.$eval('#exroot .transcript .en-block', (p) => { const cs = getComputedStyle(p); return { dir: cs.direction, display: cs.display, align: cs.textAlign }; });
     assert(tr.dir === 'ltr' && tr.display === 'block' && ['start', 'left'].includes(tr.align), `transcript is not an LTR block: ${JSON.stringify(tr)}`);
-    // A wide table at 390 px: hint and fade until the far side.
+    // LF-3 (replacing R2-32's cue at this width): at 390 px a table of three or more columns is a stack of
+    // cards with nothing to scroll sideways. The cue stays for a table still wider than its frame (lane e2e).
     await page.goto(`${BASE}#/lesson/b2-01?t=${Date.now()}`);
     await page.waitForSelector('.lesson-intro');
     await page.click('[data-go="learn"]');
-    await page.waitForSelector('.lesson-learn .table-wrap');
-    const wide = await page.evaluate(() => { const w = [...document.querySelectorAll('.lesson-learn .table-wrap')].find((x) => x.scrollWidth > x.clientWidth + 2); return w ? { cls: w.className, hint: !w.previousElementSibling.hidden, tab: w.tabIndex } : null; });
-    assert(wide && /scrolls/.test(wide.cls) && wide.hint && wide.tab === 0, `a wide table gives no scroll cue: ${JSON.stringify(wide)}`);
-    await page.evaluate(() => { const w = document.querySelector('.lesson-learn .table-wrap.scrolls'); w.scrollLeft = w.scrollWidth; w.dispatchEvent(new Event('scroll')); });
-    assert(await page.$('.lesson-learn .table-wrap.scrolls.at-end'), 'the fade stays at the far side');
+    await page.waitForSelector('.lesson-learn');
+    for (let s = 0; s < 6 && !(await page.$('.lesson-learn .table-wrap')); s++) await page.click('[data-learn-next]');
+    const wide = await page.evaluate(() => [...document.querySelectorAll('.lesson-learn .table-wrap')].map((w) => ({ over: w.scrollWidth > w.clientWidth + 2, hint: !w.previousElementSibling.hidden, cards: w.classList.contains('tstack') })));
+    assert(wide.length && wide.every((w) => !w.over && !w.hint && w.cards), `a table still scrolls sideways at 390 px: ${JSON.stringify(wide)}`);
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl6-wide-table.png` });
     // Find and fix at C1: an equivalent wording can be counted.
     await lessonAt(page, 'c1-03', 'e11');
@@ -1925,10 +2027,11 @@ try {
     await learnerAt(page, 'B1', { text: 130 });
     await page.goto(`${BASE}#/scenario/rl-emergency-lost-passport`);
     await page.waitForSelector('.scenario-tabs');
-    const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth }; });
-    assert(head.lines < 1.6 && head.rows === 1 && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
+    const head = await page.evaluate(() => { const t = document.getElementById('top-title'); const tabs = [...document.querySelectorAll('.scenario-tabs button')]; return { lines: t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight), rows: new Set(tabs.map((b) => Math.round(b.getBoundingClientRect().top))).size, overflow: document.documentElement.scrollWidth - innerWidth, inView: tabs.every((b) => { const r = b.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth; }) }; });
+    // RW-11: at 130% and above the four parts wrap to two rows, so every one is on screen.
+    assert(head.lines < 1.6 && head.rows <= 2 && head.inView && head.overflow <= 0, `scenario header at 390/130%: ${JSON.stringify(head)}`);
     await page.click('[data-tab="practise"]');
-    const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); return text; });
+    const picked = await page.evaluate(() => { const o = [...document.querySelectorAll('[data-opt]')].at(-1); const text = o.textContent.replace(/^\d+/, '').trim(); o.click(); document.querySelector('[data-check-turn]').click(); return text; });
     await page.waitForSelector('.chosen-quote');
     assert((await page.textContent('.chosen-quote')).includes(picked), 'the chosen reply is not quoted in the explanation');
     // No account yet: both ways in, sign-up first on a device that was never signed in.

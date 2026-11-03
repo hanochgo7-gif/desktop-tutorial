@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { gradeFrom, Rating, newCard, review, dueCards, vocabCardsFor, unlockedFormCards, newItemsBudget, retrievability } from '../../js/core/srs.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, dailyPlan, periodReport, LEVELS } from '../../js/core/adaptive.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, dailyPlan, periodReport, minutesToday, lessonSlice, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, zeroResult } from '../../js/core/placement.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
@@ -139,7 +139,108 @@ test('placement finds the boundary for learners of known ability', () => {
   assert.equal(zeroResult().start_level, 'PreA1');
 });
 
+test('TF-9: placement says about how many questions are left; the bar stays under 90% until the last block', () => {
+  for (const [trueLevel, start, noise] of [['B1', 'A1', 0], ['A2', 'B1', 0], ['C2', 'B2', 0], ['PreA1', 'A1', 0], ['C1', 'A1', 0], [null, 'A1', 0], ['B2', 'A1', 0.125]]) {
+    const p = createPlacement(bank, { start });
+    const seen = [];
+    let item, n = 0;
+    while ((item = p.next())) {
+      // What the screen shows for this question: its number, and the bar for the answers before it.
+      const { asked, estimate } = p.progress;
+      seen.push({ q: asked + 1, estimate, bar: asked / estimate });
+      const knows = trueLevel != null && LEVELS.indexOf(item.level) <= LEVELS.indexOf(trueLevel);
+      const flip = Boolean(noise) && n++ % Math.round(1 / noise) === 0;
+      p.answer(item, knows !== flip ? { correct: true } : { correct: false, dontKnow: !knows });
+    }
+    const total = p.progress.asked;
+    for (const s of seen) {
+      assert.ok(s.estimate >= s.q, `${trueLevel}: question ${s.q} of about ${s.estimate}`);
+      if (s.q <= total - 4) assert.ok(s.bar < 0.9, `${trueLevel}: the bar is at ${Math.round(s.bar * 100)}% at question ${s.q} of ${total}`);
+    }
+    assert.equal(p.progress.estimate, total, 'at the end the estimate is the real count');
+  }
+});
+
 test('placement tolerates an occasional slip (1 in 8)', () => {
   const r = simulate('B2', 'A1', { noise: 0.125 });
   assert.ok(['B1', 'B2'].includes(r.demonstrated), `got ${r.demonstrated}`);
+});
+
+// ---------- UX r4 today-path ----------
+test('TP-2: minutesToday counts a replayed lesson exercise once, and adds reading time for a lesson read today', () => {
+  const lessons = new Map([['a2-01', { minutes: 25, exercises: 16, intro: 2 }]]);
+  const pace = 25 / 18;
+  const once = ['e1', 'e2', 'e3', 'e4'].map((exercise, i) => ({ source: 'lesson', lesson: 'a2-01', exercise, at: at(0, i) }));
+  const replay = [...once, ...once.map((a) => ({ ...a, at: at(0, 5) })), { ...once[0], retry: true, at: at(0, 6) }];
+  assert.equal(minutesToday({ attempts: once, lessons }), Math.round(4 * pace));
+  assert.equal(minutesToday({ attempts: replay, lessons }), Math.round(4 * pace), 'a replay or retry added minutes again');
+  // A 'learn' event today (contract (f)) adds the explanation once, however many steps were shown.
+  const learn = [1, 2, 3].map((step) => ({ type: 'learn', lesson: 'a2-01', step }));
+  assert.equal(minutesToday({ attempts: once, events: learn, lessons }), Math.round(6 * pace));
+  // Without the event, a lesson only opened today adds no reading time; begun and completed today still does.
+  assert.equal(minutesToday({ attempts: once, whole: ['a2-01'], lessons }), Math.round(6 * pace));
+  assert.equal(minutesToday({ attempts: once, events: learn, whole: ['a2-01'], lessons }), Math.round(6 * pace), 'reading counted twice');
+});
+
+test('TP-2: a part finished today stays done when the day gets more minutes (held)', () => {
+  const lesson = { minutes: 25, exercises: 16, intro: 2, done: 4, doneToday: 4, revisit: 0 };
+  const ten = lessonSlice(lesson, 7);
+  assert.deepEqual([ten.split, ten.upto, ten.partDone], [true, 4, true]);
+  assert.equal(lessonSlice(lesson, 14).partDone, false, 'without a hold, a longer day extends the part');
+  const held = lessonSlice({ ...lesson, held: 4 }, 14);
+  assert.deepEqual([held.upto, held.partDone, held.done], [4, true, 4]);
+  // A hold ahead of the saved place (the run was reset) does not apply.
+  assert.equal(lessonSlice({ ...lesson, done: 2, doneToday: 2, held: 4 }, 14).partDone, false);
+});
+
+test('TP-8: the period report counts writing sessions (one per text per day), with no level claim', () => {
+  const now = new Date(at(6, 1)).getTime();
+  const events = [
+    { type: 'writing', exercise: 'wa-05', at: at(5, 1) }, { type: 'writing', exercise: 'wa-05', at: at(5, 2) },
+    { type: 'writing-final', exercise: 'wa-05', at: at(5, 3) }, { type: 'writing', exercise: 'wa-05', at: at(6) },
+    { type: 'writing', exercise: 'we-01', at: at(6) }, { type: 'writing-deleted', exercise: 'we-02', at: at(6) },
+    { type: 'writing', exercise: 'old', at: at(-20) },
+  ];
+  const r = periodReport({ events, now });
+  assert.equal(r.writing_sessions, 3);
+  assert.equal(periodReport({ events: [], now }).writing_sessions, 0);
+});
+
+test('TP-12: the placement bar never grows by more than 10 points on one answer, and never moves back', () => {
+  let drops = 0;
+  for (const [trueLevel, start, noise] of [['B1', 'A1', 0], ['A2', 'B1', 0], ['C2', 'B2', 0], ['PreA1', 'A1', 0], ['C1', 'A1', 0], [null, 'A1', 0], ['B2', 'A1', 0.125], ['A2', 'A1', 0.2], ['B1', 'C1', 0]]) {
+    const p = createPlacement(bank, { start });
+    let item, n = 0, prev = p.progress.bar, prevEst = p.progress.estimate;
+    assert.equal(prev, 0);
+    while ((item = p.next())) {
+      const knows = trueLevel != null && LEVELS.indexOf(item.level) <= LEVELS.indexOf(trueLevel);
+      const flip = Boolean(noise) && n++ % Math.round(1 / noise) === 0;
+      p.answer(item, knows !== flip ? { correct: true } : { correct: false, dontKnow: !knows });
+      const { bar, estimate } = p.progress;
+      if (estimate < prevEst && !p.done) drops++;
+      assert.ok(bar - prev <= 0.1 + 1e-9, `${trueLevel} from ${start}: the bar grew ${Math.round((bar - prev) * 100)} points`);
+      assert.ok(bar >= prev, `${trueLevel} from ${start}: the bar moved back`);
+      prev = bar; prevEst = estimate;
+    }
+  }
+  assert.ok(drops > 0, 'no run dropped its estimate, so the check proves nothing');
+});
+
+test('TP-10: once today\'s travel scenario is done, the extras offer the next travel scenario', () => {
+  const sc = (id, module, level = 'A1') => ({ id, module, level });
+  const scenarios = [sc('rl-airport-checkin', 'airport'), sc('rl-hotel-checkin', 'hotel'), sc('rl-social-hi', 'social'), sc('rl-airport-b2', 'airport', 'B2')];
+  const done = scenarios[0];
+  const plan = dailyPlan({
+    minutes: 20, level: 'A1', goals: ['travel'], scenarios, scenario: done,
+    today: { scenario: done, scenarios: new Set([done.id]) },
+  });
+  const use = plan.blocks.find((b) => b.id === 'use');
+  assert.deepEqual([use.scenario, use.done], [done.id, true]);
+  const extra = plan.extras.find((b) => b.id === 'use' && b.scenario);
+  assert.ok(extra, 'no scenario among the extras');
+  assert.notEqual(extra.scenario, done.id);
+  assert.equal(extra.scenario, 'rl-hotel-checkin', 'a travel scenario at the learner\'s level');
+  assert.deepEqual([extra.route, extra.done], ['scenario/rl-hotel-checkin', false]);
+  // Without the list (older callers) nothing changes.
+  assert.ok(!dailyPlan({ minutes: 20, level: 'A1', goals: ['travel'], scenario: done, today: { scenario: done, scenarios: new Set([done.id]) } }).extras.some((b) => b.id === 'use'));
 });

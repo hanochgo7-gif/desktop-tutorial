@@ -21,9 +21,9 @@
       ["Do you work on Fridays? She doesn't work.", "Are you working now? She isn't working."],
       ["always, usually, often, never, every day, on Fridays", "now, right now, at the moment, today, this week, these days"]
     ] },
-    { "type": "rule", "en": "State verbs describe feelings, thoughts and possession, not actions. We don't usually use them with -ing: like, love, hate, want, need, prefer, know, understand, believe, remember, mean, belong.", "he": "פעלי מצב מתארים רגש, מחשבה או בעלות – לא פעולה. בדרך כלל לא משתמשים בהם עם ing: like, love, hate, want, need, prefer, know, understand, believe, remember, mean, belong." },
-    { "type": "warning", "en": "I'm knowing ✗ → I know ✓. Are you understanding? ✗ → Do you understand? ✓. I'm wanting a coffee ✗ → I want a coffee ✓.", "he": "לא I'm knowing אלא I know. לא Are you understanding? אלא Do you understand? לא I'm wanting a coffee אלא I want a coffee." },
-    { "type": "tip", "en": "have = own → simple: I have a car. have = eat, drink or do → -ing is fine: We're having lunch. think = opinion → simple: I think it's great. think = consider → -ing: I'm thinking about it.", "he": "have במובן 'יש לי' → צורה פשוטה: I have a car. have במובן אוכל, שותה או עושה → אפשר ing: We're having lunch. think במובן דעה → פשוט: I think it's great. think במובן שוקל/ת → ing: I'm thinking about it." }
+    { "type": "rule", "en": "State verbs describe feelings, thoughts and possession, not actions. We don't usually use them with -ing: like, love, hate, want, need, prefer, know, understand, believe, remember, mean, belong.", "he": "פעלי מצב מתארים רגש, מחשבה או בעלות – לא פעולה. בדרך כלל לא משתמשים בהם עם ing, למשל know, want, like ו-need." },
+    { "type": "warning", "en": "I'm knowing ✗ → I know ✓. Are you understanding? ✗ → Do you understand? ✓. I'm wanting a coffee ✗ → I want a coffee ✓.", "he": "פעלי מצב לא באים עם ing: אומרים I know ולא I'm knowing, וגם want ו-understand באים בצורה הפשוטה." },
+    { "type": "tip", "en": "have = own → simple: I have a car. have = eat, drink or do → -ing is fine: We're having lunch. think = opinion → simple: I think it's great. think = consider → -ing: I'm thinking about it.", "he": "have במובן 'יש לי' → צורה פשוטה. have במובן אוכל, שותה או עושה → אפשר ing (We're having lunch). think במובן דעה → פשוט, ובמובן שוקל/ת → ing." }
   ],
   "examples": [
     { "en": "I usually walk to school, but today I'm taking the bus.", "he": "בדרך כלל אני הולך/ת לבית הספר ברגל, אבל היום אני נוסע/ת באוטובוס." },
@@ -49,8 +49,8 @@
     { "word": "mean", "pos": "verb", "he": "להתכוון; פירושו", "def": "to have a meaning; to want to say", "example": "What does this word mean?", "ipa": "/miːn/", "collocations": ["What does it mean?", "I know what you mean"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew one present form covers habits and things happening now, so it is easy to use one English form for both. English splits them: I work at a café (habit) / I'm working at the moment (now).", "he": "בעברית אותה צורת הווה משמשת להרגלים ולמה שקורה עכשיו, ולכן קל להשתמש בצורה אחת באנגלית לשניהם. באנגלית הן נפרדות: I work at a café (הרגל) / I'm working at the moment (עכשיו).", "error_type": "tense-choice" },
-    { "en": "In Hebrew a question can keep statement word order with no helper verb, so English questions can lose do or are. English needs a helper before the subject, and it changes with the meaning: Do you work on Fridays? (habit) / Are you working today? (now).", "he": "בעברית שאלה יכולה להיות משפט רגיל עם אינטונציה של שאלה ('אתה עובד היום?'). באנגלית צריך פועל עזר לפני הנושא, והוא משתנה לפי המשמעות: Do you work on Fridays? (הרגל) / Are you working today? (עכשיו).", "error_type": "do-support" }
+    { "en": "In Hebrew one present form covers habits and things happening now, so it is easy to use one English form for both. English splits them: I work at a café (habit) / I'm working at the moment (now).", "he": "בעברית אותה צורת הווה משמשת להרגלים ולמה שקורה עכשיו, ולכן קל להשתמש בצורה אחת באנגלית לשניהם. באנגלית הן נפרדות: הווה פשוט להרגל, והווה מתמשך למה שקורה עכשיו (I'm working at the moment).", "error_type": "tense-choice" },
+    { "en": "In Hebrew a question can keep statement word order with no helper verb, so English questions can lose do or are. English needs a helper before the subject, and it changes with the meaning: Do you work on Fridays? (habit) / Are you working today? (now).", "he": "בעברית שאלה יכולה להיות משפט רגיל עם אינטונציה של שאלה ('אתה עובד היום?'). באנגלית צריך פועל עזר לפני הנושא, והוא משתנה לפי המשמעות: do להרגל, ו-are למה שקורה עכשיו (Are you working today?).", "error_type": "do-support" }
   ],
   "exercises": [
     {
@@ -67,7 +67,7 @@
         { "text": "right now", "category": "now or temporary: present continuous" },
         { "text": "these days", "category": "now or temporary: present continuous" }
       ],
-      "explanation": { "en": "Words for repeated actions (every, usually, never, on Mondays) go with the present simple. Words for now or a short period (at the moment, this week, these days) go with the present continuous.", "he": "מילים של חזרה והרגל (every, usually, never, on Mondays) הולכות עם הווה פשוט. מילים של עכשיו או של תקופה קצרה (at the moment, this week, these days) הולכות עם הווה מתמשך." }
+      "explanation": { "en": "Words for repeated actions (every, usually, never, on Mondays) go with the present simple. Words for now or a short period (at the moment, this week, these days) go with the present continuous.", "he": "מילים של חזרה והרגל (כמו every ו-usually) הולכות עם הווה פשוט. מילים של עכשיו או של תקופה קצרה (כמו at the moment ו-this week) הולכות עם הווה מתמשך." }
     },
     {
       "id": "e2", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -96,7 +96,7 @@
         "3": { "en": "The speaker doesn't mention a university.", "he": "הדובר/ת לא מזכיר/ה אוניברסיטה." }
       },
       "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
-      "explanation": { "en": "'I usually work...' → the normal place (Dizengoff Street). 'This week I'm helping...' → a temporary place: the new café near the beach.", "he": "'I usually work...' – המקום הקבוע (רחוב דיזנגוף). 'This week I'm helping...' – מקום זמני: בית הקפה החדש ליד החוף." }
+      "explanation": { "en": "'I usually work...' → the normal place (Dizengoff Street). 'This week I'm helping...' → a temporary place: the new café near the beach.", "he": "usually מראה את המקום הקבוע (רחוב דיזנגוף), ו-this week עם ing מראה מקום זמני: בית הקפה החדש ליד החוף." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -124,7 +124,7 @@
         "3": { "en": "Are is missing: We are having dinner.", "he": "חסר are: We are having dinner." }
       },
       "option_errors": { "0": "tense-choice", "2": "agreement", "3": "copula-omission" },
-      "explanation": { "en": "have = own → no -ing (I have a car). have = eat → an action, so -ing is fine: We're having dinner.", "he": "have במובן 'יש לי' → בלי ing (I have a car). have במובן לאכול → פעולה, ולכן אפשר ing: We're having dinner." }
+      "explanation": { "en": "have = own → no -ing (I have a car). have = eat → an action, so -ing is fine: We're having dinner.", "he": "have במובן 'יש לי' → בלי ing. have במובן לאכול → פעולה, ולכן אפשר ing: We're having dinner." }
     },
     {
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -153,7 +153,7 @@
         { "match": "Are", "feedback": { "en": "Know is a state verb, so the question uses do: Do you know...?", "he": "know הוא פועל מצב, ולכן השאלה נבנית עם do: Do you know...?" }, "error_type": "tense-choice" }
       ],
       "hint": { "en": "Know is a state verb. The last gap is an action happening now: I + am + look-ing.", "he": "know הוא פועל מצב. הרווח האחרון הוא פעולה שקורית עכשיו: I + am + look עם ing." },
-      "explanation": { "en": "Do you know...? (state verb → simple). I'm looking for... (action in progress → continuous).", "he": "Do you know...? – פועל מצב, ולכן הווה פשוט. I'm looking for... – פעולה שמתרחשת עכשיו, ולכן הווה מתמשך." }
+      "explanation": { "en": "Do you know...? (state verb → simple). I'm looking for... (action in progress → continuous).", "he": "know הוא פועל מצב, ולכן Do you know – הווה פשוט. look for הוא פעולה שמתרחשת עכשיו, ולכן I'm looking – הווה מתמשך." }
     },
     {
       "id": "e8", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -189,6 +189,11 @@
       "answers": ["Omer usually goes to the gym after work.", "Usually Omer goes to the gym after work.", "Usually, Omer goes to the gym after work."],
       "error_type": "tense-choice",
       "hint": { "en": "Usually tells you it's a habit.", "he": "המילה usually מראה שזה הרגל." },
+      "wrong_feedback": [
+        { "match": "Omer usually is going to the gym after work.", "feedback": { "en": "A habit needs the present simple, with usually before the main verb: Omer usually goes to the gym after work.", "he": "להרגל משתמשים בהווה פשוט, ו-usually בא לפני הפועל הראשי: Omer usually goes." }, "error_type": "word-order" },
+        { "match": "Omer usually going to the gym after work.", "feedback": { "en": "A habit uses the present simple, with no -ing: Omer usually goes to the gym after work.", "he": "להרגל משתמשים בהווה פשוט, בלי ing: Omer usually goes." }, "error_type": "tense-choice" },
+        { "match": "Omer usually go to the gym after work.", "feedback": { "en": "With he (Omer) the present simple needs -es: Omer usually goes.", "he": "עם he ‏(Omer) בהווה פשוט מוסיפים es: goes." }, "error_type": "third-person-s" }
+      ],
       "explanation": { "en": "Usually = a habit → present simple: Omer usually goes. Usually comes before the main verb.", "he": "usually = הרגל → הווה פשוט: Omer usually goes. המילה usually באה לפני הפועל." }
     },
     {
@@ -196,7 +201,7 @@
       "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
       "tokens": ["What", "do", "you", "usually", "do", "on", "Fridays?"],
       "hint": { "en": "do appears twice: first as a helper, then as the main verb.", "he": "do מופיע פעמיים: פעם כפועל עזר ופעם כפועל עיקרי." },
-      "explanation": { "en": "A habit question: What + do + you + usually + verb? Compare: What are you doing now? (now).", "he": "שאלה על הרגל: What + do + you + usually + פועל? השוו: What are you doing now? – שאלה על עכשיו." }
+      "explanation": { "en": "A habit question: What + do + you + usually + verb? Compare: What are you doing now? (now).", "he": "שאלה על הרגל: What + do + you + usually + פועל. על עכשיו שואלים עם are ו-ing." }
     },
     {
       "id": "e12", "type": "transform", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -273,7 +278,7 @@
       "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
       "audio_text": "Do you know where Lior is? She isn't answering her phone.",
       "answers": ["Do you know where Lior is? She isn't answering her phone."],
-      "explanation": { "en": "Do you know (state verb → simple) / She isn't answering (happening now → continuous).", "he": "Do you know – פועל מצב, ולכן פשוט. She isn't answering – קורה עכשיו, ולכן מתמשך." }
+      "explanation": { "en": "Do you know (state verb → simple) / She isn't answering (happening now → continuous).", "he": "know הוא פועל מצב, ולכן הווה פשוט; לענות לטלפון קורה עכשיו, ולכן isn't answering – הווה מתמשך." }
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "present-simple-vs-continuous",
@@ -301,9 +306,9 @@
   "review": {
     "key_points": [
       { "en": "Habits, routines and facts → present simple: I usually take the bus.", "he": "הרגלים, שגרה ועובדות → הווה פשוט: I usually take the bus." },
-      { "en": "Now and temporary situations → present continuous: Today I'm walking. She's working from home this week.", "he": "עכשיו ומצבים זמניים → הווה מתמשך: Today I'm walking. She's working from home this week." },
-      { "en": "State verbs (know, want, need, like, understand, belong) are usually simple: I know, not 'I'm knowing'.", "he": "פעלי מצב (know, want, need, like, understand, belong) בדרך כלל בצורה פשוטה: I know, ולא I'm knowing." },
-      { "en": "Questions: Do you work...? (habit) / Are you working...? (now).", "he": "שאלות: Do you work...? (הרגל) / Are you working...? (עכשיו)." }
+      { "en": "Now and temporary situations → present continuous: Today I'm walking. She's working from home this week.", "he": "עכשיו ומצבים זמניים → הווה מתמשך: She's working from home this week." },
+      { "en": "State verbs (know, want, need, like, understand, belong) are usually simple: I know, not 'I'm knowing'.", "he": "פעלי מצב (כמו know, want ו-need) באים בדרך כלל בצורה הפשוטה: I know, ולא I'm knowing." },
+      { "en": "Questions: Do you work...? (habit) / Are you working...? (now).", "he": "שאלה על הרגל נפתחת ב-Do, ושאלה על עכשיו ב-Are ועם ing." }
     ]
   },
   "completion": { "pass_score": 0.7 }

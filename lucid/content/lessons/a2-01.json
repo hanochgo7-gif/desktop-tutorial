@@ -13,22 +13,22 @@
   "warmup": { "en": "Look around you. What is happening right now? Think of three things people are doing at this moment.", "he": "הסתכלו סביבכם: מה קורה ממש עכשיו? חשבו על שלושה דברים שאנשים עושים ברגע זה – מישהו מדבר בטלפון, מישהו מקליד, ואולי אתם שותים קפה." },
   "explanation": [
     { "type": "p", "en": "Noa is on the bus. She is listening to music and texting Omer. Omer isn't answering at the moment – he's playing basketball. For things happening right now, English uses am/is/are + verb-ing.", "he": "נועה באוטובוס. היא מקשיבה למוזיקה ושולחת הודעה לעומר. עומר לא עונה כרגע – הוא משחק כדורסל. כשמשהו קורה ממש עכשיו, באנגלית משתמשים ב-am/is/are ובפועל עם ing." },
-    { "type": "rule", "en": "Present continuous = subject + am/is/are + verb-ing. Use it for actions in progress now or around now. Typical time words: now, right now, at the moment, today.", "he": "המבנה: נושא + am/is/are + פועל עם ing. משתמשים בו לפעולה שמתרחשת עכשיו או בתקופה הזאת. מילות זמן נפוצות: now, right now, at the moment, today." },
-    { "type": "p", "en": "In Hebrew, the same present form means both 'I work' and 'I'm working'. English has a separate form for now: I work every day, but I'm working at the moment.", "he": "בעברית אותה צורה ('אני עובד') משמשת גם להרגל וגם למה שקורה עכשיו. באנגלית יש לזה צורה נפרדת: I work every day, אבל I'm working at the moment." },
+    { "type": "rule", "en": "Present continuous = subject + am/is/are + verb-ing. Use it for actions in progress now or around now. Typical time words: now, right now, at the moment, today.", "he": "המבנה: נושא + am/is/are + פועל עם ing. משתמשים בו לפעולה שמתרחשת עכשיו או בתקופה הזאת. מילות זמן נפוצות: now ו-at the moment." },
+    { "type": "p", "en": "In Hebrew, the same present form means both 'I work' and 'I'm working'. English has a separate form for now: I work every day, but I'm working at the moment.", "he": "בעברית אותה צורה ('אני עובד') משמשת גם להרגל וגם למה שקורה עכשיו. באנגלית יש לזה צורה נפרדת: I'm working at the moment." },
     { "type": "table", "headers": ["Subject", "Positive", "Negative", "Question", "Short answer"], "rows": [
       ["I", "I'm working.", "I'm not working.", "Am I working?", "Yes, I am. / No, I'm not."],
       ["he / she / it", "She's working.", "She isn't working.", "Is she working?", "Yes, she is. / No, she isn't."],
       ["you / we / they", "They're working.", "They aren't working.", "Are they working?", "Yes, they are. / No, they aren't."]
     ] },
-    { "type": "rule", "en": "Spelling the -ing form: most verbs just add -ing. Drop a final -e (make → making). After one vowel + one consonant, double the last letter (run → running). Change ie to y (lie → lying).", "he": "איות של ing: ברוב הפעלים פשוט מוסיפים ing. e בסוף הפועל נופלת (make → making). אחרי תנועה אחת + עיצור אחד מכפילים את האות האחרונה (run → running), אבל לא w, x, y. ie הופך ל-y (lie → lying)." },
+    { "type": "rule", "en": "Spelling the -ing form: most verbs just add -ing. Drop a final -e (make → making). After one vowel + one consonant, double the last letter (run → running). Change ie to y (lie → lying).", "he": "איות של ing: ברוב הפעלים פשוט מוסיפים ing. e בסוף הפועל נופלת (make → making). אחרי תנועה אחת + עיצור אחד מכפילים את האות האחרונה (run → running), אבל לא w, x, y. ie הופך ל-y (lying)." },
     { "type": "table", "headers": ["Verb ends in", "Rule", "Examples"], "rows": [
       ["most verbs", "add -ing", "work → working, play → playing, study → studying"],
       ["-e", "drop the e, add -ing", "make → making, write → writing, dance → dancing"],
       ["one vowel + one consonant (short verbs)", "double the last letter", "run → running, sit → sitting, swim → swimming (not w, x, y: fixing, playing)"],
       ["-ie", "ie → y, add -ing", "lie → lying, tie → tying"]
     ] },
-    { "type": "warning", "en": "You need both parts, be and -ing: She cooking ✗, She cook now ✗ → She is cooking ✓.", "he": "צריך את שני החלקים – גם am/is/are וגם ing: לא She cooking ולא She cook now, אלא She is cooking." },
-    { "type": "tip", "en": "Short answers repeat only be: Are you working? – Yes, I am. Don't contract a positive short answer (not 'Yes, I'm'), but a negative can be short: No, I'm not.", "he": "בתשובה קצרה חוזרים רק על am/is/are: Are you working? – Yes, I am. בתשובה חיובית לא מקצרים (לא Yes, I'm), אבל בשלילה אפשר: No, I'm not." }
+    { "type": "warning", "en": "You need both parts, be and -ing: She cooking ✗, She cook now ✗ → She is cooking ✓.", "he": "צריך את שני החלקים – גם am/is/are וגם ing: She is cooking." },
+    { "type": "tip", "en": "Short answers repeat only be: Are you working? – Yes, I am. Don't contract a positive short answer (not 'Yes, I'm'), but a negative can be short: No, I'm not.", "he": "בתשובה קצרה חוזרים רק על am/is/are: Yes, I am. בתשובה חיובית לא מקצרים, אבל בשלילה אפשר לקצר." }
   ],
   "examples": [
     { "en": "I'm studying for an exam right now.", "he": "אני לומד/ת עכשיו למבחן." },
@@ -53,16 +53,17 @@
     { "word": "queue", "pos": "noun", "he": "תור", "def": "a line of people who are waiting for something (US: line)", "example": "We're standing in a long queue.", "ipa": "/kjuː/", "collocations": ["stand in a queue", "a long queue"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew the same present form covers habits and what is happening now, so it is easy to use the simple form for an action in progress. In English: I'm working at the moment (not 'I work at the moment').", "he": "בעברית אותה צורה משמשת גם להרגל וגם למה שקורה עכשיו, ולכן קל להשתמש בצורה הפשוטה גם לפעולה שמתרחשת עכשיו. באנגלית: I'm working at the moment (ולא I work at the moment).", "error_type": "tense-choice" },
-    { "en": "In Hebrew the present tense has no 'be', so it is easy to drop am/is/are before -ing. In English: She is cooking, not 'She cooking'.", "he": "בעברית אין 'להיות' בהווה, ולכן קל לשכוח את am/is/are לפני ing. באנגלית: She is cooking, ולא She cooking.", "error_type": "copula-omission" },
-    { "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k, as in the Hebrew word for 'English'), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: working /ˈwɜːkɪŋ/.", "he": "בעברית /ŋ/ אינו צליל עצמאי (הוא מופיע רק לפני g או k, כמו ב'אנגלית'), ולכן ing עלול לצאת 'אין' או 'אינג-ג'. באנגלית ing מסתיים ב-/ŋ/ בלבד, בלי g אחריו: working." }
+    { "en": "In Hebrew the same present form covers habits and what is happening now, so it is easy to use the simple form for an action in progress. In English: I'm working at the moment (not 'I work at the moment').", "he": "בעברית אותה צורה משמשת גם להרגל וגם למה שקורה עכשיו, ולכן קל להשתמש בצורה הפשוטה גם לפעולה שמתרחשת עכשיו. באנגלית: I'm working at the moment.", "error_type": "tense-choice" },
+    { "en": "In Hebrew the present tense has no 'be', so it is easy to drop am/is/are before -ing. In English: She is cooking, not 'She cooking'.", "he": "בעברית אין 'להיות' בהווה, ולכן קל לשכוח את am/is/are לפני ing. באנגלית: She is cooking.", "error_type": "copula-omission" },
+    { "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k, as in the Hebrew word for 'English'), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: working /ˈwɜːkɪŋ/.", "he": "מסיימים את ing באף, כמו ה-נ שב'אנגלית' לפני ה-ג, בלי להשמיע g אחריו (/ŋ/): working. בעברית הצליל הזה לא עומד לבד, ולכן ing יוצא לפעמים 'אין' או 'אינג-ג'." },
+    { "en": "Hebrew waits 'to' something (mechakim le-), so learners write *waiting to the bus or drop the preposition: *waiting the bus. English uses for: I'm waiting for the bus.", "he": "בעברית מחכים ל-, ולכן קל לכתוב to אחרי wait, או לוותר על מילת היחס. באנגלית אחרי wait בא for: waiting for the bus.", "error_type": "preposition" }
   ],
   "exercises": [
     {
       "id": "e1", "type": "match", "skill": "vocabulary", "topic": "present-continuous",
       "prompt": { "en": "Match the English phrases with their Hebrew meaning.", "he": "התאימו כל צירוף באנגלית למשמעות שלו בעברית." },
       "pairs": [["wait for the bus", "לחכות לאוטובוס"], ["text a friend", "לשלוח הודעה לחבר/ה"], ["lie on the sofa", "לשכב על הספה"], ["get ready", "להתארגן"], ["stand in a queue", "לעמוד בתור"], ["at the moment", "כרגע"]],
-      "explanation": { "en": "Notice the small words: wait for the bus, lie on the sofa, stand in a queue. Learn them as whole chunks.", "he": "שימו לב למילים הקטנות: wait for the bus, lie on the sofa, stand in a queue. כדאי ללמוד אותן כצירוף שלם ולא מילה-מילה." }
+      "explanation": { "en": "Notice the small words: wait for the bus, lie on the sofa, stand in a queue. Learn them as whole chunks.", "he": "שימו לב למילים הקטנות, כמו for ב-wait for the bus. כדאי ללמוד אותן כצירוף שלם ולא מילה-מילה." }
     },
     {
       "id": "e2", "type": "mcq", "skill": "grammar", "topic": "present-continuous",
@@ -95,7 +96,7 @@
         { "text": "tie", "category": "ie → y, add -ing" }
       ],
       "hint": { "en": "Look at the last one or two letters of each verb.", "he": "הסתכלו על האות או על שתי האותיות האחרונות של כל פועל." },
-      "explanation": { "en": "playing, studying (keep the y) · making, writing, dancing · running, sitting, getting · lying, tying.", "he": "playing, studying (ה-y נשארת) · making, writing, dancing (ה-e נופלת) · running, sitting, getting (האות האחרונה מוכפלת) · lying, tying (ie הופך ל-y)." }
+      "explanation": { "en": "playing, studying (keep the y) · making, writing, dancing · running, sitting, getting · lying, tying.", "he": "ה-y נשארת (studying) · ה-e נופלת (making) · האות האחרונה מוכפלת (running) · ie הופך ל-y (lying)." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-continuous",
@@ -104,7 +105,7 @@
       "options": ["Do", "Does", "Are", "Is"],
       "answer": 2,
       "option_feedback": {
-        "0": { "en": "Do is for the present simple (Do you listen to podcasts?). With -ing, the question starts with am/is/are: Are you listening?", "he": "do שייך להווה פשוט (Do you listen to podcasts?). כשיש ing, השאלה נפתחת ב-am/is/are: Are you listening?" },
+        "0": { "en": "Do is for the present simple (Do you listen to podcasts?). With -ing, the question starts with am/is/are: Are you listening?", "he": "do שייך להווה פשוט. כשיש ing, השאלה נפתחת ב-am/is/are: Are you listening?" },
         "1": { "en": "Does is for he/she/it in the present simple. Here we have -ing, so we need are.", "he": "does שייך ל-he/she/it בהווה פשוט. כאן יש ing, ולכן צריך are." },
         "3": { "en": "Is goes with he, she and it. With you, use are.", "he": "is בא עם he, she, it. עם you משתמשים ב-are." }
       },
@@ -119,7 +120,7 @@
       "options": ["She is waiting in a queue.", "She is driving to the post office.", "She is working at the post office.", "She is sleeping at home."],
       "answer": 0,
       "option_feedback": {
-        "1": { "en": "She is already at the post office: 'I'm standing in a really long queue at the post office.'", "he": "היא כבר בדואר: 'I'm standing in a really long queue at the post office'." },
+        "1": { "en": "She is already at the post office: 'I'm standing in a really long queue at the post office.'", "he": "היא כבר בדואר: היא כותבת שהיא עומדת בתור ארוך מאוד בסניף." },
         "2": { "en": "She doesn't work there. She is a customer, standing in the queue.", "he": "היא לא עובדת שם. היא לקוחה שעומדת בתור." },
         "3": { "en": "She isn't at home. Listen again for 'at the post office'.", "he": "היא לא בבית. הקשיבו שוב ל-at the post office." }
       },
@@ -154,7 +155,7 @@
         { "match": "is doing", "feedback": { "en": "The kids = they, so: are doing.", "he": "הילדים הם they, ולכן are doing." }, "error_type": "agreement" }
       ],
       "hint": { "en": "I → am, Dad → is, the kids → are.", "he": "I → am, אבא → is, הילדים → are." },
-      "explanation": { "en": "Each subject takes its own form of be + -ing: I am cooking, Dad is helping, the kids are doing.", "he": "כל נושא מקבל את הצורה שלו של be ועוד ing: I am cooking, Dad is helping, the kids are doing." }
+      "explanation": { "en": "Each subject takes its own form of be + -ing: I am cooking, Dad is helping, the kids are doing.", "he": "כל נושא מקבל את הצורה שלו של be ועוד ing: I am, Dad is, the kids are." }
     },
     {
       "id": "e8", "type": "gap", "skill": "grammar", "topic": "present-continuous",
@@ -166,14 +167,14 @@
         { "match": "not", "feedback": { "en": "Short answers repeat be: No, he isn't.", "he": "בתשובה קצרה חוזרים על be: No, he isn't." }, "error_type": "copula-omission" },
         { "match": "isnt", "feedback": { "en": "Almost! Add the apostrophe: isn't.", "he": "כמעט! חסר הגרש: isn't." }, "error_type": "spelling" }
       ],
-      "explanation": { "en": "Short answers repeat be from the question: Is he...? – Yes, he is. / No, he isn't.", "he": "בתשובה קצרה חוזרים על הפועל be מהשאלה: Is he...? – Yes, he is. / No, he isn't." }
+      "explanation": { "en": "Short answers repeat be from the question: Is he...? – Yes, he is. / No, he isn't.", "he": "בתשובה קצרה חוזרים על הפועל be מהשאלה: על Is he עונים he is או he isn't." }
     },
     {
       "id": "e9", "type": "order", "skill": "grammar", "topic": "present-continuous",
       "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
       "tokens": ["Why", "is", "Lior", "wearing", "a", "coat", "today?"],
       "hint": { "en": "Start with the question word. Is comes before Lior.", "he": "התחילו במילת השאלה. is בא לפני Lior." },
-      "explanation": { "en": "Question word + is/are + subject + verb-ing: Why is Lior wearing a coat today?", "he": "מילת שאלה + is/are + נושא + פועל עם ing: Why is Lior wearing a coat today? בשאלה באנגלית is בא לפני הנושא." }
+      "explanation": { "en": "Question word + is/are + subject + verb-ing: Why is Lior wearing a coat today?", "he": "מילת שאלה + is/are + נושא + פועל עם ing: בשאלה באנגלית is בא לפני הנושא (Why is Lior...)." }
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-continuous",
@@ -194,7 +195,7 @@
         { "match": "We not watching the match.", "feedback": { "en": "Keep are: We are not (aren't) watching.", "he": "אל תוותרו על are: We are not (aren't) watching." }, "error_type": "copula-omission" },
         { "match": "We aren't watch the match.", "feedback": { "en": "Keep the -ing: aren't watching.", "he": "ה-ing נשאר: aren't watching." }, "error_type": "verb-form" }
       ],
-      "explanation": { "en": "Negative = am/is/are + not + verb-ing. We aren't watching = We're not watching = We are not watching.", "he": "שלילה = am/is/are + not + פועל עם ing. אפשר לכתוב We aren't watching או We're not watching – שניהם נכונים." }
+      "explanation": { "en": "Negative = am/is/are + not + verb-ing. We aren't watching = We're not watching = We are not watching.", "he": "שלילה = am/is/are + not + פועל עם ing. אפשר לקצר בשתי דרכים, ושתיהן נכונות: aren't או we're not." }
     },
     {
       "id": "e12", "type": "transform", "skill": "grammar", "topic": "present-continuous",
@@ -214,10 +215,11 @@
       "wrong_feedback": [
         { "match": "I wait for the bus now.", "feedback": { "en": "In Hebrew one present form covers 'wait' and 'am waiting'. For right now, English needs am + -ing: I'm waiting.", "he": "בעברית 'מחכה' מתאים גם ל-wait וגם ל-am waiting. למה שקורה עכשיו באנגלית צריך am + ing: I'm waiting." }, "error_type": "tense-choice" },
         { "match": "I waiting for the bus now.", "feedback": { "en": "Add am: I am (I'm) waiting.", "he": "הוסיפו am: I am (I'm) waiting." }, "error_type": "copula-omission" },
-        { "match": "I'm waiting to the bus now.", "feedback": { "en": "We wait for something: wait for the bus.", "he": "באנגלית אומרים wait for: wait for the bus." }, "error_type": "preposition" }
+        { "match": "I'm waiting to the bus now.", "feedback": { "en": "We wait for something: wait for the bus.", "he": "באנגלית אומרים wait for: wait for the bus." }, "error_type": "preposition" },
+        { "match": "I'm waiting the bus now.", "feedback": { "en": "wait needs for before the thing you are waiting for: I'm waiting for the bus now.", "he": "אחרי wait בא for לפני מה שמחכים לו: waiting for the bus." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Use am + -ing, add now at the end, and remember: wait for.", "he": "עכשיו = now. השתמשו ב-am + ing, וזכרו: wait for." },
-      "explanation": { "en": "Now → present continuous: I'm waiting. Wait takes for: I'm waiting for the bus now.", "he": "עכשיו → הווה מתמשך: I'm waiting. אחרי wait באה המילה for: I'm waiting for the bus now." }
+      "explanation": { "en": "Now → present continuous: I'm waiting. Wait takes for: I'm waiting for the bus now.", "he": "עכשיו → הווה מתמשך (I'm waiting), ואחרי wait באה המילה for." }
     },
     {
       "id": "e13", "type": "read", "skill": "reading", "topic": "present-continuous",
@@ -241,7 +243,7 @@
             "1": { "en": "Some teenagers are playing volleyball, not Noa.", "he": "בני נוער משחקים כדורעף, לא נועה." },
             "2": { "en": "Dad is probably sleeping, not Noa.", "he": "אבא כנראה ישן, לא נועה." }
           },
-          "explanation": { "en": "'I'm not swimming at the moment because I'm studying for my history exam.'", "he": "'I'm not swimming at the moment because I'm studying for my history exam' – היא לומדת למבחן." }
+          "explanation": { "en": "'I'm not swimming at the moment because I'm studying for my history exam.'", "he": "היא לא שוחה עכשיו כי היא לומדת למבחן בהיסטוריה (because I'm studying)." }
         },
         {
           "type": "tf",
@@ -291,8 +293,8 @@
     "key_points": [
       { "en": "Now / at the moment: am/is/are + verb-ing → She's studying.", "he": "עכשיו / כרגע: am/is/are + פועל עם ing → She's studying." },
       { "en": "Spelling: make → making, run → running, lie → lying.", "he": "איות: make → making, run → running, lie → lying." },
-      { "en": "Questions: Are you working? Negatives: I'm not working. Short answers: Yes, I am. / No, she isn't.", "he": "שאלה: Are you working? שלילה: I'm not working. תשובה קצרה: Yes, I am. / No, she isn't." },
-      { "en": "Don't drop be: He is cooking, not 'He cooking'.", "he": "אל תשמיטו את be: He is cooking, ולא He cooking." }
+      { "en": "Questions: Are you working? Negatives: I'm not working. Short answers: Yes, I am. / No, she isn't.", "he": "בשאלה am/is/are באים ראשונים (Are you working?), ובשלילה מוסיפים not. בתשובה קצרה חוזרים רק על be." },
+      { "en": "Don't drop be: He is cooking, not 'He cooking'.", "he": "אל תשמיטו את be: He is cooking." }
     ]
   },
   "completion": { "pass_score": 0.7 }

@@ -6,13 +6,13 @@
   "topics": ["personal-info"],
   "minutes": 20,
   "objectives": [
-    { "en": "I can say where I am from and my nationality: I'm from Israel. I'm Israeli.", "he": "אני יודע/ת לומר מאיפה אני ומה הלאום שלי: I'm from Israel. I'm Israeli." },
-    { "en": "I can say my job with a or an: I'm a nurse. I'm an engineer.", "he": "אני יודע/ת לומר מה המקצוע שלי עם a או an: I'm a nurse. I'm an engineer." },
-    { "en": "I can ask Where are you from? and What do you do?", "he": "אני יודע/ת לשאול Where are you from? ו-What do you do?" }
+    { "en": "I can say where I am from and my nationality: I'm from Israel. I'm Israeli.", "he": "אני יודע/ת לומר מאיפה אני (I'm from) ומה הלאום שלי." },
+    { "en": "I can say my job with a or an: I'm a nurse. I'm an engineer.", "he": "אני יודע/ת לומר מה המקצוע שלי, עם a או an לפניו." },
+    { "en": "I can ask Where are you from? and What do you do?", "he": "אני יודע/ת לשאול Where are you from? ולשאול במה מישהו עובד." }
   ],
   "warmup": { "en": "You meet a tourist in Jerusalem. What two questions do you ask first?", "he": "פגשתם תייר/ת בירושלים. אילו שתי שאלות תשאלו קודם? כנראה 'מאיפה את/ה?' ו'במה את/ה עובד/ת?' – היום נלמד לשאול אותן באנגלית." },
   "explanation": [
-    { "type": "p", "en": "Where are you from? – I'm from Israel. I'm Israeli. The country (Israel) and the nationality (Israeli) both start with a capital letter. Languages do too: Hebrew, English.", "he": "Where are you from? – I'm from Israel. I'm Israeli. שם המדינה (Israel) ושם הלאום (Israeli) – שניהם באות גדולה. גם שמות של שפות: Hebrew, English." },
+    { "type": "p", "en": "Where are you from? – I'm from Israel. I'm Israeli. The country (Israel) and the nationality (Israeli) both start with a capital letter. Languages do too: Hebrew, English.", "he": "שם המדינה (Israel) ושם הלאום (Israeli) – שניהם באות גדולה, וגם שמות של שפות, כמו English." },
     { "type": "table", "headers": ["Country", "Nationality", "בעברית"], "rows": [
       ["Israel", "Israeli", "ישראל – ישראלי/ת"],
       ["the USA", "American", "ארה״ב – אמריקאי/ת"],
@@ -26,10 +26,10 @@
       ["Japan", "Japanese", "יפן – יפני/ת"],
       ["Brazil", "Brazilian", "ברזיל – ברזילאי/ת"]
     ] },
-    { "type": "rule", "en": "from + country: I'm from Japan. be + nationality: I'm Japanese. (Not 'I'm from Japanese' or 'I'm Japan'.)", "he": "from + מדינה: I'm from Japan. be + לאום: I'm Japanese. (לא 'I'm from Japanese' ולא 'I'm Japan'.)" },
-    { "type": "rule", "en": "A job needs a or an: I'm a student. She's an engineer. Use an before a vowel sound: an artist, an actor. For two or more people, no a: We're students.", "he": "לפני מקצוע ביחיד באים a או an: I'm a student. She's an engineer. לפני צליל תנועה – an: an artist, an actor. ברבים אין a: We're students." },
-    { "type": "tip", "en": "What do you do? means What's your job? Answer: I'm a nurse. / I'm a student.", "he": "What do you do? פירושו 'במה את/ה עובד/ת?' (לא 'מה את/ה עושה עכשיו'). עונים: I'm a nurse / I'm a student." },
-    { "type": "warning", "en": "Question order: Where are you from? The word from goes at the end, and are comes before you (not 'From where are you?' or 'Where you from?').", "he": "סדר המילים בשאלה: Where are you from? – ה-from בסוף, ו-are בא לפני you. לא 'From where are you?' ולא 'Where you from?'." }
+    { "type": "rule", "en": "from + country: I'm from Japan. be + nationality: I'm Japanese. (Not 'I'm from Japanese' or 'I'm Japan'.)", "he": "אחרי from באה המדינה (Japan), ואחרי be בא הלאום (Japanese). לא מערבבים בין השניים." },
+    { "type": "rule", "en": "A job needs a or an: I'm a student. She's an engineer. Use an before a vowel sound: an artist, an actor. For two or more people, no a: We're students.", "he": "לפני מקצוע ביחיד באים a או an: I'm a student. לפני צליל תנועה בא an (an artist), וברבים אין a בכלל." },
+    { "type": "tip", "en": "What do you do? means What's your job? Answer: I'm a nurse. / I'm a student.", "he": "What do you do? פירושו 'במה את/ה עובד/ת?' (לא 'מה את/ה עושה עכשיו'). עונים עם I'm a ואחריו המקצוע." },
+    { "type": "warning", "en": "Question order: Where are you from? The word from goes at the end, and are comes before you (not 'From where are you?' or 'Where you from?').", "he": "סדר המילים בשאלה: from בא בסוף, ו-are בא לפני you – Where are you from?" }
   ],
   "examples": [
     { "en": "Where are you from?", "he": "מאיפה את/ה?" },
@@ -60,14 +60,14 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew a job needs no article ('I'm student' is just two words). English works differently, so use a or an before one person's job: I'm a student. She's an engineer.", "he": "בעברית אומרים 'אני סטודנט' בלי שום מילה לפני המקצוע. באנגלית זה עובד אחרת: לפני מקצוע של אדם אחד באים a או an – I'm a student, She's an engineer. לא I'm student.", "error_type": "article" },
     { "en": "Hebrew writing works differently: it has no capital letters. So remember that English countries, nationalities and languages always start with a capital: Israel, Israeli, Hebrew, English.", "he": "בכתב העברי אין אותיות גדולות. לכן זכרו: באנגלית מדינות, לאומים ושפות תמיד מתחילים באות גדולה – Israel, Israeli, Hebrew, English.", "error_type": "capitalization" },
-    { "en": "In Hebrew, the question 'Where are you from?' has no verb. English works differently: the question needs be, and it comes before the subject: Where are you from? (not 'Where you from?').", "he": "בעברית אומרים 'מאיפה את/ה?' – בלי פועל. באנגלית זה עובד אחרת: בשאלה צריך be, והוא בא לפני הנושא: Where are you from? ולא 'Where you from?'.", "error_type": "copula-omission" }
+    { "en": "In Hebrew, the question 'Where are you from?' has no verb. English works differently: the question needs be, and it comes before the subject: Where are you from? (not 'Where you from?').", "he": "בעברית אומרים 'מאיפה את/ה?' – בלי פועל. באנגלית זה עובד אחרת: בשאלה צריך be, והוא בא לפני הנושא: Where are you from?", "error_type": "copula-omission" }
   ],
   "exercises": [
     {
       "id": "e1", "type": "match", "skill": "vocabulary", "topic": "personal-info",
       "prompt": { "en": "Match each country with its nationality.", "he": "התאימו כל מדינה ללאום שלה." },
       "pairs": [["Israel", "Israeli"], ["Japan", "Japanese"], ["the UK", "British"], ["France", "French"], ["Ethiopia", "Ethiopian"], ["the USA", "American"]],
-      "explanation": { "en": "Country: I'm from Israel. Nationality: I'm Israeli. Some nationalities look very different from the country: the UK – British, the USA – American.", "he": "מדינה: I'm from Israel. לאום: I'm Israeli. יש לאומים ששונים מאוד משם המדינה: the UK – British, the USA – American." }
+      "explanation": { "en": "Country: I'm from Israel. Nationality: I'm Israeli. Some nationalities look very different from the country: the UK – British, the USA – American.", "he": "מדינה באה אחרי from, ולאום אחרי I'm. יש לאומים ששונים מאוד משם המדינה, כמו British (מבריטניה) ו-American." }
     },
     {
       "id": "e2", "type": "listen", "skill": "listening", "topic": "personal-info",
@@ -96,7 +96,7 @@
         { "text": "Russia", "category": "Country" },
         { "text": "Russian", "category": "Nationality" }
       ],
-      "explanation": { "en": "The country goes after from (I'm from Spain); the nationality goes after be (I'm Spanish).", "he": "אחרי from באה המדינה (I'm from Spain), ואחרי be בא הלאום (I'm Spanish)." }
+      "explanation": { "en": "The country goes after from (I'm from Spain); the nationality goes after be (I'm Spanish).", "he": "אחרי from באה המדינה (Spain), ואחרי be בא הלאום (Spanish)." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "personal-info",
@@ -106,7 +106,7 @@
       "answer": 2,
       "option_feedback": {
         "0": { "en": "After from, use the country: from Israel. (Or: I'm Israeli.)", "he": "אחרי from באה המדינה: from Israel. (או: I'm Israeli.)" },
-        "1": { "en": "Israel is the country. Say I'm from Israel or I'm Israeli.", "he": "Israel היא המדינה. אומרים I'm from Israel או I'm Israeli." },
+        "1": { "en": "Israel is the country. Say I'm from Israel or I'm Israeli.", "he": "Israel היא שם המדינה, ולכן לפניה צריך from. בלי from משתמשים בלאום: Israeli." },
         "3": { "en": "The verb is missing: I'm (I am) from Israel.", "he": "חסר הפועל: I'm (I am) from Israel." }
       },
       "option_errors": { "0": "word-choice", "1": "word-choice", "3": "copula-omission" },
@@ -133,11 +133,11 @@
       "options": ["what you are doing right now.", "your job or studies.", "where you are from."],
       "answer": 1,
       "option_feedback": {
-        "0": { "en": "For right now, we ask What are you doing? What do you do? is about your job.", "he": "על מה שקורה עכשיו שואלים What are you doing? השאלה What do you do? היא על העבודה או הלימודים." },
+        "0": { "en": "For right now, we ask What are you doing? What do you do? is about your job.", "he": "השאלה הזאת היא על מה שקורה עכשיו. על העבודה או הלימודים שואלים What do you do?" },
         "2": { "en": "For that, we ask Where are you from?", "he": "על זה שואלים Where are you from?" }
       },
       "option_errors": { "0": "false-friend" },
-      "explanation": { "en": "What do you do? = What's your job? Answer: I'm a nurse. / I'm a student.", "he": "What do you do? = במה את/ה עובד/ת? עונים: I'm a nurse / I'm a student." }
+      "explanation": { "en": "What do you do? = What's your job? Answer: I'm a nurse. / I'm a student.", "he": "What do you do? פירושו 'במה את/ה עובד/ת?', ועונים עם I'm a ואחריו המקצוע." }
     },
     {
       "id": "e7", "type": "gap", "skill": "grammar", "topic": "personal-info",
@@ -162,7 +162,7 @@
         { "match": "Japan", "feedback": { "en": "Japan is the country. The nationality is Japanese.", "he": "Japan היא המדינה. הלאום הוא Japanese." }, "error_type": "word-choice" },
         { "match": "France", "feedback": { "en": "France is the country. The nationality is French.", "he": "France היא המדינה. הלאום הוא French." }, "error_type": "word-choice" }
       ],
-      "explanation": { "en": "be + nationality: He's Japanese. She's French. Both start with a capital letter.", "he": "be + לאום: He's Japanese. She's French. שניהם מתחילים באות גדולה." }
+      "explanation": { "en": "be + nationality: He's Japanese. She's French. Both start with a capital letter.", "he": "be ואחריו לאום, והלאום תמיד באות גדולה: He's Japanese." }
     },
     {
       "id": "e9", "type": "transform", "skill": "grammar", "topic": "personal-info",
@@ -266,7 +266,7 @@
       "checklist": [
         { "en": "from + country or city: I'm from Israel.", "he": "from + מדינה או עיר: I'm from Israel." },
         { "en": "be + nationality: I'm Israeli.", "he": "be + לאום: I'm Israeli." },
-        { "en": "a/an before a job: I'm a student. He's an engineer.", "he": "a/an לפני מקצוע: I'm a student. He's an engineer." },
+        { "en": "a/an before a job: I'm a student. He's an engineer.", "he": "כתבתם a או an לפני המקצוע (I'm a student)." },
         { "en": "Capital letters for names, countries and nationalities.", "he": "אות גדולה בשמות, במדינות ובלאומים." }
       ],
       "explanation": { "en": "This is the core of every first conversation: name, place, nationality and job.", "he": "זה הבסיס של כל שיחת היכרות: שם, מקום, לאום ומקצוע." }
@@ -274,9 +274,9 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Where are you from? I'm from Israel. I'm Israeli.", "he": "שאלה ותשובה: Where are you from? – I'm from Israel. I'm Israeli." },
+      { "en": "Where are you from? I'm from Israel. I'm Israeli.", "he": "שואלים Where are you from? ועונים עם from ושם המדינה, או עם הלאום." },
       { "en": "Countries, nationalities and languages take a capital letter: Japan, Japanese.", "he": "מדינות, לאומים ושפות כותבים באות גדולה: Japan, Japanese." },
-      { "en": "Jobs take a/an: I'm a student. She's an engineer.", "he": "לפני מקצוע באים a/an: I'm a student. She's an engineer." },
+      { "en": "Jobs take a/an: I'm a student. She's an engineer.", "he": "לפני מקצוע ביחיד באים a או an: I'm a student." },
       { "en": "What do you do? = What's your job?", "he": "What do you do? = במה את/ה עובד/ת?" }
     ]
   },

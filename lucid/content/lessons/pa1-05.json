@@ -21,7 +21,7 @@
       ["we", "are", "we're", "אנחנו"],
       ["they", "are", "they're", "הם / הן"]
     ] },
-    { "type": "rule", "en": "I → am. He, she, it (and one person or thing) → is. You, we, they (and two or more) → are.", "he": "I תמיד עם am. אדם או דבר אחד (he, she, it, Dana, my car) עם is. you, we, they ושניים או יותר (Dana and Tom) עם are." },
+    { "type": "rule", "en": "I → am. He, she, it (and one person or thing) → is. You, we, they (and two or more) → are.", "he": "I תמיד עם am. אדם אחד או דבר אחד (כמו he או she) עם is. ‏you ורבים (כמו we או they) עם are." },
     { "type": "warning", "en": "Do not drop the verb: She is a teacher, not 'She teacher'.", "he": "הטעות הנפוצה ביותר של דוברי עברית: להשמיט את הפועל. 'She teacher' שגוי – צריך She is a teacher." },
     { "type": "tip", "en": "In speaking we usually use the short forms: I'm, you're, she's. In formal writing, use the full forms.", "he": "בדיבור משתמשים בדרך כלל בצורות המקוצרות: I'm, you're, she's. בכתיבה רשמית עדיף את הצורה המלאה." },
     { "type": "p", "en": "'You' is the same for one person or many people, man or woman.", "he": "ל-you יש צורה אחת: אתה, את, אתם ואתן – כולם you are." }
@@ -184,7 +184,7 @@
   ],
   "review": {
     "key_points": [
-      { "en": "I am · he/she/it is · you/we/they are.", "he": "I עם am · he/she/it עם is · you/we/they עם are." },
+      { "en": "I am · he/she/it is · you/we/they are.", "he": "I עם am · אחד (he, she, it) עם is · you ורבים עם are." },
       { "en": "Never drop be: She is a teacher.", "he": "אסור להשמיט את be: She is a teacher." },
       { "en": "Short forms: I'm, you're, he's, she's, it's, we're, they're.", "he": "צורות מקוצרות: I'm, you're, he's, she's, it's, we're, they're." }
     ]

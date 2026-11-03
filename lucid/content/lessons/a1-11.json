@@ -34,12 +34,12 @@
     {
       "type": "rule",
       "en": "An adjective goes before the noun: a tall man, an old city, friendly people. Or after be: The man is tall. The city is old.",
-      "he": "שם התואר בא לפני שם העצם: a tall man, an old city, friendly people. או אחרי be: The man is tall. The city is old."
+      "he": "שם התואר בא לפני שם העצם (a tall man), או אחרי be (The man is tall)."
     },
     {
       "type": "warning",
       "en": "Adjectives never change: one green apple, two green apples (not 'greens apples'); a tall man, a tall woman. No -s, and no different form for a man or a woman.",
-      "he": "שמות תואר באנגלית לא משתנים לעולם: one green apple, two green apples (ולא greens apples); ‏a tall man, a tall woman. אין s בסוף, ואין צורה שונה לזכר ולנקבה."
+      "he": "שמות תואר באנגלית לא משתנים לעולם: אין להם s ברבים (two green apples), ואין להם צורה שונה לזכר ולנקבה."
     },
     {
       "type": "table",
@@ -123,7 +123,7 @@
     {
       "type": "tip",
       "en": "very, really and quite go before the adjective: a very old house. a/an depends on the next sound: an old car, but a very old car. With quite, a comes after it: quite a big flat. And don't mix quite /kwaɪt/ (a bit) with quiet /ˈkwaɪət/ (not noisy).",
-      "he": "very, ‏really ו-quite באים לפני שם התואר: a very old house. הבחירה בין a ל-an נקבעת לפי הצליל הבא: an old car, אבל a very old car. עם quite, ה-a בא אחריו: quite a big flat. ואל תבלבלו בין quite (די) ל-quiet (שקט)."
+      "he": "very, ‏really ו-quite באים לפני שם התואר. הבחירה בין a ל-an נקבעת לפי הצליל הבא, ועם quite ה-a בא אחריו. ואל תבלבלו בין quite (די) ל-quiet (שקט)."
     }
   ],
   "examples": [
@@ -328,12 +328,12 @@
     },
     {
       "en": "In Hebrew there is no present-tense 'be', so 'She very tall' can sound complete. English works differently: She is very tall.",
-      "he": "בעברית אין 'להיות' בהווה, ולכן 'She very tall' נשמע אולי שלם. באנגלית חייבים is: She is very tall.",
+      "he": "בעברית אין 'להיות' בהווה ('היא גבוהה מאוד'), ולכן קל להשמיט את is. באנגלית חייבים is: She is very tall.",
       "error_type": "copula-omission"
     },
     {
       "en": "In Hebrew there is no word for a/an. English works differently: one thing with an adjective still needs a/an: It's a nice city (not 'It's nice city'). Choose by the first sound after it: an old car, a new car.",
-      "he": "בעברית אין מילה ל-a/an. באנגלית גם כשיש שם תואר, לפני דבר אחד צריך a/an: It's a nice city (ולא It's nice city). הבחירה נקבעת לפי הצליל שבא מיד אחריו: an old car, a new car.",
+      "he": "בעברית אין מילה ל-a/an. באנגלית גם כשיש שם תואר, לפני דבר אחד צריך a/an: It's a nice city. הבחירה ביניהן נקבעת לפי הצליל שבא מיד אחריהן (an old car).",
       "error_type": "article"
     }
   ],
@@ -657,6 +657,10 @@
         "I have got a new phone."
       ],
       "error_type": "word-order",
+      "wrong_feedback": [
+        { "match": "I have new phone.", "feedback": { "en": "The order is right now, but a word is missing: one phone needs a before it, also with an adjective: a new phone.", "he": "הסדר עכשיו נכון, אבל חסרה מילה: לפני טלפון אחד צריך a, גם כשיש שם תואר: a new phone." }, "rule": { "en": "The order is right now, but one small word is missing before the adjective: it is one phone.", "he": "הסדר עכשיו נכון, אבל חסרה מילה קטנה לפני שם התואר, כי מדובר בטלפון אחד." }, "error_type": "article" },
+        { "match": "I have got new phone.", "feedback": { "en": "The order is right now, but a word is missing: one phone needs a before it, also with an adjective: a new phone.", "he": "הסדר עכשיו נכון, אבל חסרה מילה: לפני טלפון אחד צריך a, גם כשיש שם תואר: a new phone." }, "rule": { "en": "The order is right now, but one small word is missing before the adjective: it is one phone.", "he": "הסדר עכשיו נכון, אבל חסרה מילה קטנה לפני שם התואר, כי מדובר בטלפון אחד." }, "error_type": "article" }
+      ],
       "explanation": {
         "en": "In Hebrew the adjective comes after the noun. In English it comes before: a new phone.",
         "he": "בעברית שם התואר בא אחרי שם העצם ('טלפון חדש'). באנגלית הוא בא לפניו: a new phone."
@@ -753,7 +757,7 @@
       ],
       "explanation": {
         "en": "She has blue eyes: has with she, and blue before eyes, with no -s. (Her eyes are blue is also correct.)",
-        "he": "She has blue eyes: ‏has עם she, ו-blue לפני eyes, בלי s. ‏(גם Her eyes are blue נכון.)"
+        "he": "has עם she, ו-blue לפני eyes, בלי s. אפשר גם לומר שהעיניים כחולות, עם are."
       }
     },
     {
@@ -891,12 +895,12 @@
       "target": "My brother is tall and thin, with short curly hair.",
       "focus": {
         "en": "thin /θɪn/: tongue between your teeth, and a short /ɪ/ (not 'teen'). curly: /ˈkɜːli/.",
-        "he": "thin: קצה הלשון בין השיניים, ותנועה קצרה /ɪ/ – לא teen. ‏curly: /ˈkɜːli/."
+        "he": "שמים את קצה הלשון בין השיניים ב-thin ואומרים 'אִי' קצרה, לא כמו teen (/θɪn/). ‏curly נשמע 'קֶרְלִי' (/ˈkɜːli/)."
       },
       "error_type": "pron-th",
       "explanation": {
         "en": "be + adjectives (is tall and thin), then with + adjectives + noun (with short curly hair).",
-        "he": "be + שמות תואר (is tall and thin), ואחר כך with + שמות תואר + שם עצם (with short curly hair)."
+        "he": "be + שמות תואר (is tall), ואחר כך with + שמות תואר + שם עצם (with curly hair)."
       }
     },
     {
@@ -935,7 +939,7 @@
       ],
       "explanation": {
         "en": "The model describes looks (tall, long curly hair), personality (funny, kind) and a place (small, old, quiet, noisy), with very, really and quite.",
-        "he": "בתשובה לדוגמה יש תיאור של מראה (tall, long curly hair), של אופי (funny, kind) ושל מקום (small, old, quiet, noisy), עם very, ‏really ו-quite."
+        "he": "בתשובה לדוגמה יש תיאור של מראה, של אופי ושל מקום, עם very, ‏really ו-quite."
       }
     }
   ],
@@ -943,7 +947,7 @@
     "key_points": [
       {
         "en": "Adjective + noun (a tall man, friendly people), or be + adjective (The man is tall).",
-        "he": "שם תואר + שם עצם (a tall man, friendly people), או be + שם תואר (The man is tall)."
+        "he": "שם תואר + שם עצם (a tall man), או be + שם תואר (The man is tall)."
       },
       {
         "en": "Adjectives never change: green apples, a tall woman.",
@@ -951,7 +955,7 @@
       },
       {
         "en": "quite (a bit) < very = really: quite small, very small, really small.",
-        "he": "quite (די) < very = really (מאוד, ממש): quite small, very small, really small."
+        "he": "quite (די) חלש יותר מ-very ומ-really (מאוד, ממש)."
       },
       {
         "en": "old ↔ young (people), old ↔ new (things); tall ↔ short, long ↔ short.",

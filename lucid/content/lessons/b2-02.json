@@ -100,7 +100,7 @@
     {
       "type": "p",
       "en": "Contrast with Hebrew: in Hebrew the same structure (lu or ilu + past, then haya + verb) is used for unreal present and unreal past situations, and the context shows which one is meant. English shows the time in the verbs: If I knew, I would come (now) / If I had known, I would have come (in the past).",
-      "he": "בעברית 'לו ידעתי, הייתי בא' יכול לתאר גם את ההווה וגם את העבר, וההקשר מכריע. באנגלית הזמן מסומן בפועל: If I knew, I would come (עכשיו) לעומת If I had known, I would have come (בעבר)."
+      "he": "בעברית 'לו ידעתי, הייתי בא' יכול לתאר גם את ההווה וגם את העבר, וההקשר מכריע. באנגלית הזמן מסומן בפועל: על העבר אומרים If I had known, I would have come."
     }
   ],
   "examples": [
@@ -289,7 +289,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the perfect is not marked in the verb, and the same conditional structure can describe the present or the past. In English the past needs had + past participle and would have: If I had known, I would have come (not *If I knew, I would come, when you mean yesterday).",
-      "he": "בעברית אין סימון של 'עבר שלפני העבר' בפועל, ואותו מבנה ('לו ידעתי, הייתי בא') מתאים גם להווה וגם לעבר. באנגלית, תנאי על העבר דורש had + V3 ו-would have: If I had known, I would have come.",
+      "he": "בעברית אין סימון של 'עבר שלפני העבר' בפועל, ואותו מבנה ('לו ידעתי, הייתי בא') מתאים גם להווה וגם לעבר. באנגלית, תנאי על העבר דורש had + V3 ו-would have: If I had known.",
       "error_type": "conditional-form"
     }
   ],

@@ -15,7 +15,11 @@ import { LEVELS, placementSkillEstimate } from './adaptive.js';
 const SKILL_ROTATION = ['grammar', 'vocabulary', 'reading', 'listening'];
 export const START_FOR = { zero: null, basics: 'A1', conversations: 'A2', comfortable: 'B1', advanced: 'B2' };
 export const MAX_ITEMS = 28;
+export const TYPICAL_ITEMS = 20;
 const BLOCK = 4;
+// The progress bar moves by at most this much on one answer (TP-12), so a drop in the question estimate (20 to 16)
+// never makes it leap from 55% to 75%: it catches up over the next answers instead, and it never moves back.
+export const BAR_STEP = 0.1;
 const PASS = 0.75;
 const idx = (l) => LEVELS.indexOf(l);
 
@@ -38,6 +42,7 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
     failed: new Set(),
     asked: [],
     done: false,
+    bar: 0,
   };
   const stats = (l) => state.perLevel[l];
   const acc = (l) => (stats(l).n ? stats(l).right / stats(l).n : 0);
@@ -95,9 +100,24 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
 
   function finish() { state.done = true; }
 
+  // About how many questions the whole test takes (TF-9): those asked, the rest of the current block and, unless
+  // this block is the confirming block at the highest level passed (which can end the test), one more block;
+  // never fewer than a typical run, never more than the cap. An estimate for "question 4 of about 20" and the
+  // bar, which therefore stays well short of full until the last block.
+  function estimate() {
+    const asked = state.asked.length;
+    if (api.done) return asked;
+    const n = stats(state.level).n;
+    const left = BLOCK - (n % BLOCK);
+    const confirming = state.passed.has(state.level) && n >= BLOCK;
+    const est = asked + left + (confirming ? 0 : BLOCK);
+    return Math.min(MAX_ITEMS, confirming ? est : Math.max(TYPICAL_ITEMS, est));
+  }
+
   const api = {
     get done() { return state.done || state.asked.length >= MAX_ITEMS; },
-    get progress() { return { asked: state.asked.length, level: state.level }; },
+    // bar: the share of the test shown as done (TP-12), smoothed from asked / estimate.
+    get progress() { return { asked: state.asked.length, level: state.level, estimate: estimate(), bar: state.bar }; },
     // The answers so far, in a form that can be saved and replayed.
     get answers() { return state.asked.map(({ id, correct, dontKnow }) => ({ id, correct, dontKnow })); },
     next() {
@@ -113,6 +133,8 @@ export function createPlacement(items, { start = 'A1', shuffle = (a) => a, answe
       p.n++;
       if (correct && !dontKnow) p.right++;
       if (item.level === state.level && p.n % BLOCK === 0) decide();
+      const target = api.done ? 1 : state.asked.length / estimate();
+      state.bar = Math.max(state.bar, Math.min(target, state.bar + BAR_STEP));
     },
     result() { return result(state, confirmed, goals); },
   };

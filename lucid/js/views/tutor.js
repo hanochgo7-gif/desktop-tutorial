@@ -1,7 +1,7 @@
 // AI tutor: eight teaching modes. It knows the learner's level, goals, weak topics and recurring
 // mistakes, gives hints before answers, and never writes the learner's work for them.
 import { html, raw, render, on, $, uid } from '../core/util.js';
-import { tt, t, hebrewSupport } from '../core/i18n.js';
+import { tt, t, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex, content } from '../core/content.js';
 import { icon, toast, confirmDialog } from '../ui/components.js';
 import { model, settings, profile } from '../core/learner.js';
@@ -17,7 +17,7 @@ export const MODES = [
   ['vocabulary', 'אוצר מילים', 'Vocabulary', 'משמעות, צירופים, משלב, ושאלות היזכרות', 'Meaning, collocations, register, and recall questions'],
   ['writing', 'מאמן כתיבה', 'Writing coach', 'תכנון, טיוטה ותיקון, בלי לכתוב בשבילכם', 'Planning, drafting and revising, without writing it for you'],
   ['debate', 'מאמן דיבייט', 'Debate coach', 'עמדה נגדית, ראיות, כשלים לוגיים', 'An opposing view, evidence, logical fallacies'],
-  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה למצבים אמיתיים בחו״ל', 'Getting ready for real situations abroad'],
+  ['travel', 'שותף לטיול', 'Travel companion', 'הכנה לתרחישים בחו״ל', 'Getting ready for real situations abroad'],
   ['pronunciation', 'מאמן הגייה', 'Pronunciation coach', 'צלילים, הטעמה וזוגות מינימליים', 'Sounds, stress and minimal pairs'],
 ];
 
@@ -57,21 +57,24 @@ export default async function tutor(el, ctx) {
 
   function draw() {
     const msgs = session?.messages || [];
+    // On a site without AI the tutor cannot run: its notice comes first and the mode chips are hidden (UX r3 PH-5).
+    const siteAI = configured() && CONFIG.aiEnabled;
+    const modes = html`<div class="seg" role="group" aria-label="${tt('מצב המורה', 'Tutor mode')}" style="margin-block-end:var(--s3)">${MODES.map(([id, he, en]) => html`<button type="button" data-mode="${id}" aria-pressed="${String(mode === id)}">${tt(he, en)}</button>`)}</div>
+      <p class="small muted" style="margin-block-end:var(--s4)">${(() => { const x = MODES.find((m) => m[0] === mode); return tt(x[3], x[4]); })()}</p>`;
+    const pron = mode === 'pronunciation' ? html`<p class="banner small" style="max-width:52rem;margin-block:var(--s4)" data-pron-note>${icon('info', { size: 18 })}<span>${tt('המורה קורא טקסט ולא שומע אתכם: גם כשמכתיבים בקול, מגיע אליו רק הטקסט שזוהה. כדי לבדוק איך הצלילים שלכם נשמעים:', 'The tutor reads text and can\'t hear you: when you dictate, it only gets the recognised text. To check how your sounds come across:')} <a href="#/speaking">${t('nav.speaking')}</a></span></p>` : '';
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.tutor')}</h1><p>${tt('מורה שמלמד: שואל, נותן רמזים, ומתקן את מה שחשוב. הוא יודע מה הרמה שלכם ובמה כדאי להתמקד.', 'A tutor who teaches: asks, gives hints, and corrects what matters. It knows your level and what to focus on.')}</p></div></div>
-      <div class="seg" role="group" aria-label="${tt('מצב המורה', 'Tutor mode')}" style="margin-block-end:var(--s3)">${MODES.map(([id, he, en]) => html`<button type="button" data-mode="${id}" aria-pressed="${mode === id}">${tt(he, en)}</button>`)}</div>
-      <p class="small muted" style="margin-block-end:var(--s4)">${(() => { const x = MODES.find((m) => m[0] === mode); return tt(x[3], x[4]); })()}</p>
-      ${mode === 'pronunciation' ? html`<p class="banner small" style="max-width:52rem;margin-block-end:var(--s4)" data-pron-note>${icon('info', { size: 18 })}<span>${tt('המורה קורא טקסט ולא שומע אתכם: גם כשמכתיבים בקול, מגיע אליו רק הטקסט שזוהה. כדי לבדוק איך הצלילים שלכם נשמעים:', 'The tutor reads text and can\'t hear you: when you dictate, it only gets the recognised text. To check how your sounds come across:')} <a href="#/speaking">${t('nav.speaking')}</a></span></p>` : ''}
+      ${siteAI ? html`${modes}${pron}` : ''}
       ${!aiReady ? html`<div class="panel stack" style="max-width:44rem">
-          <p class="banner">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? tt('המורה מבוסס AI, ושירות ה-AI עוד לא זמין באתר הזה, ולכן המורה לא זמין: אנחנו לא מציגים שיחה מזויפת. שיעורים, חזרה ובדיקות כתיבה עובדים כרגיל.', 'The tutor runs on AI, and AI is not available on this site yet, so the tutor is unavailable: we do not show a fake conversation. Lessons, review and writing checks work as usual.') : !auth.signedIn ? tt('כדי לדבר עם המורה צריך להיכנס לחשבון.', 'Sign in to talk with the tutor.') : tt('המורה דורש הפעלה של ״משוב AI״ בהגדרות.', 'The tutor needs "AI feedback" turned on in Settings.')}</span></p>
+          <p class="banner" data-ai-notice>${icon('info', { size: 18 })}<span>${!siteAI ? isolateLatin(tt('המורה לא זמין כאן. AI לא פעיל באתר הזה. כל השאר עובד.', 'The tutor is not available here. AI is not active on this site. Everything else works.')) : !auth.signedIn ? tt('כדי לדבר עם המורה צריך להיכנס לחשבון.', 'Sign in to talk with the tutor.') : isolateLatin(tt('המורה דורש הפעלה של ״משוב AI״ בהגדרות.', 'The tutor needs "AI feedback" turned on in Settings.'))}</span></p>
           <p class="small">${tt('בלי AI עדיין יש:', 'Without AI you still have:')}</p>
           <ul class="small stack-sm" style="margin:0;padding-inline-start:1.2rem"><li><a href="#/grammar">${t('nav.grammar')}</a> ${tt('– הסברים ותרגול לכל נושא', '– explanations and practice for every topic')}</li><li><a href="#/writing">${t('nav.writing')}</a> ${tt('– בדיקות כתיבה אוטומטיות', '– automatic writing checks')}</li><li><a href="#/real-life">${t('nav.reallife')}</a> ${tt('– תרגול שיחה מובנה', '– scripted conversation practice')}</li></ul>
-          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div>${session ? html`<p class="xsmall faint row">${tt('יש שיחה שמורה במצב הזה.', 'There is a saved conversation in this mode.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקה', 'Delete')}</button></p>` : ''}${savedRow()}</div>`
+          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div>${session ? html`<p class="xsmall faint row">${tt('יש שיחה שמורה במצב הזה.', 'There is a saved conversation in this mode.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקה', 'Delete')}</button></p>` : ''}${savedRow()}</div>${siteAI ? '' : pron}`
       : html`<div class="chat" style="max-width:52rem">
           <div class="chat-log" id="log" aria-live="polite">${!msgs.length ? html`<p class="small faint" style="margin:auto;text-align:center">${tt('אפשר לשאול כל דבר על אנגלית, או לבקש תרגול.', 'Ask anything about English, or ask for practice.')}</p>` : ''}
             ${msgs.map((m) => html`<div class="msg ${m.role === 'user' ? 'me' : 'them'}" dir="auto">${m.role === 'assistant' ? html`<span class="who">Lucid</span>` : ''}${m.role === 'assistant' ? raw(formatReply(m.text)) : m.text}</div>`)}
             ${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('המורה כותב', 'The tutor is writing')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
-          <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלך', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
+          <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלכם', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
         <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>

@@ -12,18 +12,18 @@
   ],
   "warmup": { "en": "Where were you at 8 o'clock last night, and what were you doing?", "he": "איפה הייתם אתמול בשמונה בערב, ומה עשיתם? בעברית אומרים פשוט 'ראיתי סדרה'. באנגלית יש צורה מיוחדת לפעולה שהייתה באמצע: I was watching a series." },
   "explanation": [
-    { "type": "p", "en": "Last night at 8:00, Omer was watching a series. At 8:15 his phone rang. → Omer was watching a series when his phone rang. was watching = a longer action in progress (it started before 8:15 and continued); rang = a short event that interrupted it.", "he": "אתמול בשמונה עומר ראה סדרה. ב-8:15 הטלפון שלו צלצל. ← Omer was watching a series when his phone rang. ‏was watching = פעולה ארוכה שהייתה באמצע (התחילה לפני 8:15 ונמשכה); ‏rang = אירוע קצר שקטע אותה." },
+    { "type": "p", "en": "Last night at 8:00, Omer was watching a series. At 8:15 his phone rang. → Omer was watching a series when his phone rang. was watching = a longer action in progress (it started before 8:15 and continued); rang = a short event that interrupted it.", "he": "אתמול בשמונה עומר ראה סדרה, וב-8:15 הטלפון שלו צלצל. ‏was watching = פעולה ארוכה שהייתה באמצע (התחילה לפני 8:15 ונמשכה); ‏rang = אירוע קצר שקטע אותה." },
     { "type": "table", "headers": ["Type", "Form", "Example"], "rows": [
       ["Positive", "I / he / she / it was + -ing · you / we / they were + -ing", "It was raining. We were sitting outside."],
       ["Negative", "wasn't / weren't + -ing", "I wasn't listening. They weren't waiting for us."],
       ["Question", "(Wh-word) + was / were + subject + -ing?", "What were you doing at nine? Was she driving?"],
       ["Short answer", "Yes, + subject + was/were. · No, + subject + wasn't/weren't.", "Were you sleeping? – No, I wasn't."]
     ] },
-    { "type": "rule", "en": "when + the short event (past simple): I was cooking when the lights went out. while + the longer action (past continuous): While I was cooking, the lights went out. Two long actions at the same time: While Noa was studying, her brother was playing the guitar. When the when or while part comes first, add a comma. (during + a noun: during the film)", "he": "when + האירוע הקצר (עבר פשוט): I was cooking when the lights went out. ‏while + הפעולה הארוכה (עבר מתמשך): While I was cooking, the lights went out. שתי פעולות ארוכות באותו זמן: While Noa was studying, her brother was playing the guitar. כשהחלק של when או while בא ראשון, שמים פסיק. (during בא לפני שם עצם: during the film)" },
-    { "type": "tip", "en": "Compare: When Noa arrived, Omer made coffee. (first she arrived, then he made coffee) / When Noa arrived, Omer was making coffee. (he was already in the middle of it)", "he": "השוו: When Noa arrived, Omer made coffee – קודם היא הגיעה, ואז הוא הכין קפה. ‏When Noa arrived, Omer was making coffee – כשהיא הגיעה, הוא כבר היה באמצע הכנת הקפה." },
-    { "type": "tip", "en": "To open a story, use the past continuous to paint the background (It was getting dark. People were hurrying home.), then the past simple for the events that move the story forward (Suddenly, a woman screamed.).", "he": "בפתיחת סיפור משתמשים בעבר מתמשך כדי לצייר את הרקע (It was getting dark. People were hurrying home.), ואז בעבר פשוט לאירועים שמקדמים את העלילה (Suddenly, a woman screamed.)." },
-    { "type": "warning", "en": "State verbs (know, want, like, need, believe, belong) don't normally take -ing: I knew the answer (not *I was knowing). And don't forget was/were: I was watching TV (not *I watching TV).", "he": "פעלי מצב (know, want, like, need, believe, belong) בדרך כלל לא מקבלים ing: I knew the answer ולא I was knowing. ואל תשכחו את was/were: I was watching TV ולא I watching TV." },
-    { "type": "p", "en": "Contrast with Hebrew: Hebrew has one past form, so the same verb can mean 'it rained' or 'it was raining'. English shows an action in progress with was/were + -ing: It was raining when we left.", "he": "השוואה לעברית: בעברית יש צורת עבר אחת, ו'ירד גשם' יכול להיות גם it rained וגם it was raining. באנגלית פעולה שהייתה באמצע מסומנת ב-was/were + ing: It was raining when we left." }
+    { "type": "rule", "en": "when + the short event (past simple): I was cooking when the lights went out. while + the longer action (past continuous): While I was cooking, the lights went out. Two long actions at the same time: While Noa was studying, her brother was playing the guitar. When the when or while part comes first, add a comma. (during + a noun: during the film)", "he": "when + האירוע הקצר (עבר פשוט), ו-while + הפעולה הארוכה (עבר מתמשך), גם כששתי פעולות ארוכות קורות יחד. כשהחלק של when או while בא ראשון, שמים פסיק. ו-during בא לפני שם עצם." },
+    { "type": "tip", "en": "Compare: When Noa arrived, Omer made coffee. (first she arrived, then he made coffee) / When Noa arrived, Omer was making coffee. (he was already in the middle of it)", "he": "השוו: כשהפועל בעבר פשוט (made), קודם היא הגיעה ואז הוא הכין קפה. כשהוא בעבר מתמשך (was making), הוא כבר היה באמצע הכנת הקפה כשהיא הגיעה." },
+    { "type": "tip", "en": "To open a story, use the past continuous to paint the background (It was getting dark. People were hurrying home.), then the past simple for the events that move the story forward (Suddenly, a woman screamed.).", "he": "בפתיחת סיפור משתמשים בעבר מתמשך כדי לצייר את הרקע (It was getting dark), ואז בעבר פשוט לאירועים שמקדמים את העלילה (Suddenly...)." },
+    { "type": "warning", "en": "State verbs (know, want, like, need, believe, belong) don't normally take -ing: I knew the answer (not *I was knowing). And don't forget was/were: I was watching TV (not *I watching TV).", "he": "פעלי מצב (כמו know ו-want) בדרך כלל לא מקבלים ing, ובעבר מתמשך אל תשכחו את was/were: I was watching TV." },
+    { "type": "p", "en": "Contrast with Hebrew: Hebrew has one past form, so the same verb can mean 'it rained' or 'it was raining'. English shows an action in progress with was/were + -ing: It was raining when we left.", "he": "השוואה לעברית: בעברית יש צורת עבר אחת, ו'ירד גשם' יכול להיות גם עבר פשוט וגם עבר מתמשך. באנגלית פעולה שהייתה באמצע מסומנת ב-was/were + ing: It was raining." }
   ],
   "examples": [
     { "en": "At midnight I was still writing my essay.", "he": "בחצות עוד כתבתי את החיבור.", "note": "in progress at a moment" },
@@ -50,8 +50,8 @@
     { "word": "torch", "pos": "noun", "he": "פנס", "def": "(British) a small electric light you hold in your hand; American English: flashlight", "example": "We used our phones as torches during the power cut.", "ipa": "/tɔːtʃ/", "collocations": ["use a torch", "shine a torch", "a phone torch"], "level": "B1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew the past tense does not mark an action in progress: one form means both 'I read' and 'I was reading'. So it is easy to write *I read when the phone rang. English uses was/were + -ing for the action in progress: I was reading when the phone rang.", "he": "בעברית העבר לא מסמן פעולה שהייתה באמצע: 'קראתי' יכול להיות I read וגם I was reading. לכן קל לכתוב I read when the phone rang. באנגלית לפעולה שהייתה באמצע משתמשים ב-was/were + ing: I was reading when the phone rang.", "error_type": "tense-choice" },
-    { "en": "In Hebrew a question can keep the order of a statement. In English was or were comes before the subject: What were you doing at ten? (not *What you were doing at ten?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה עשית בעשר?'). באנגלית was או were באים לפני הנושא: What were you doing at ten?, ולא What you were doing at ten?", "error_type": "word-order" }
+    { "en": "In Hebrew the past tense does not mark an action in progress: one form means both 'I read' and 'I was reading'. So it is easy to write *I read when the phone rang. English uses was/were + -ing for the action in progress: I was reading when the phone rang.", "he": "בעברית העבר לא מסמן פעולה שהייתה באמצע: 'קראתי' יכול לתאר גם פעולה כזאת. באנגלית לפעולה שהייתה באמצע משתמשים ב-was/were + ing: I was reading when...", "error_type": "tense-choice" },
+    { "en": "In Hebrew a question can keep the order of a statement. In English was or were comes before the subject: What were you doing at ten? (not *What you were doing at ten?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה עשית בעשר?'). באנגלית was או were באים לפני הנושא: What were you doing?", "error_type": "word-order" }
   ],
   "exercises": [
     {
@@ -96,7 +96,7 @@
         "3": { "en": "Work is later: 'I'll call you back after work.' Last night she was driving.", "he": "העבודה היא בהמשך: I'll call you back after work. אתמול בלילה היא נהגה." }
       },
       "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
-      "explanation": { "en": "I was driving home when you called = the drive was in progress; the call interrupted it. and then my battery died = the next event.", "he": "I was driving home when you called = הנסיעה הייתה באמצע, והשיחה קטעה אותה. ‏and then my battery died = האירוע הבא." }
+      "explanation": { "en": "I was driving home when you called = the drive was in progress; the call interrupted it. and then my battery died = the next event.", "he": "הנסיעה הביתה הייתה באמצע (was driving), והשיחה קטעה אותה. ‏and then מציג את האירוע הבא." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "past-continuous",
@@ -140,7 +140,7 @@
         { "match": "didn't had", "feedback": { "en": "After didn't, use the base verb: didn't have.", "he": "אחרי didn't בא הפועל בצורת הבסיס: didn't have." }, "error_type": "do-support" }
       ],
       "hint": { "en": "Two actions were in progress (the walk, the wait). The other verbs are short events (the rain starting, seeing the teacher) or a state (not having an umbrella).", "he": "שתי פעולות היו באמצע (ההליכה, ההמתנה). שאר הפעלים הם אירועים קצרים (תחילת הגשם, המפגש עם המורה) או מצב (אין מטרייה)." },
-      "explanation": { "en": "was walking / was waiting = longer actions in progress. started / saw = short events. didn't have = a state verb, never -ing. (While I waited is also possible.)", "he": "was walking / was waiting = פעולות ארוכות שהיו באמצע. ‏started / saw = אירועים קצרים. ‏didn't have = פועל מצב, אף פעם לא ing. (אפשר גם While I waited.)" }
+      "explanation": { "en": "was walking / was waiting = longer actions in progress. started / saw = short events. didn't have = a state verb, never -ing. (While I waited is also possible.)", "he": "פעולות ארוכות שהיו באמצע (was walking) מול אירועים קצרים (started, saw). ‏have כאן פועל מצב, ולכן בלי ing." }
     },
     {
       "id": "e7", "type": "read", "skill": "reading", "topic": "past-continuous",
@@ -198,8 +198,8 @@
         { "match": "Maya was losing her keys while she was jogging in the park.", "feedback": { "en": "Losing your keys is a short event: Maya lost her keys while she was jogging.", "he": "לאבד מפתחות זה אירוע קצר: Maya lost her keys while she was jogging." }, "error_type": "tense-choice" },
         { "match": "While Maya was jogging in the park, lost her keys.", "feedback": { "en": "The second part needs a subject: she lost her keys.", "he": "לחלק השני צריך נושא: she lost her keys." }, "error_type": "pronoun" },
         { "match": "Maya lost her keys while was jogging in the park.", "feedback": { "en": "The while part needs a subject: while she was jogging.", "he": "לחלק של while צריך נושא: while she was jogging." }, "error_type": "pronoun" },
-        { "match": "Maya was jogging in the park while she lost her keys.", "feedback": { "en": "while goes with the longer action, not the short event: Maya lost her keys while she was jogging in the park.", "he": "while בא עם הפעולה הארוכה, לא עם האירוע הקצר: Maya lost her keys while she was jogging in the park." }, "error_type": "word-choice" },
-        { "match": "While Maya lost her keys, she was jogging in the park.", "feedback": { "en": "while goes with the longer action, not the short event: While Maya was jogging in the park, she lost her keys.", "he": "while בא עם הפעולה הארוכה, לא עם האירוע הקצר: While Maya was jogging in the park, she lost her keys." }, "error_type": "word-choice" }
+        { "match": "Maya was jogging in the park while she lost her keys.", "feedback": { "en": "while goes with the longer action, not the short event: Maya lost her keys while she was jogging in the park.", "he": "while בא עם הפעולה הארוכה (was jogging), לא עם האירוע הקצר (lost)." }, "error_type": "word-choice" },
+        { "match": "While Maya lost her keys, she was jogging in the park.", "feedback": { "en": "while goes with the longer action, not the short event: While Maya was jogging in the park, she lost her keys.", "he": "while בא עם הפעולה הארוכה (was jogging), לא עם האירוע הקצר (lost)." }, "error_type": "word-choice" }
       ],
       "explanation": { "en": "while + the longer action (was jogging); the short event in the past simple (lost). If the while part comes first, add a comma.", "he": "while + הפעולה הארוכה (was jogging); האירוע הקצר בעבר פשוט (lost). אם החלק של while בא ראשון, שמים פסיק." }
     },
@@ -286,7 +286,7 @@
       "prompt": { "en": "Write the opening of a story.", "he": "כתבו פתיחה של סיפור." },
       "task": { "en": "Write the opening of a story (100-150 words). You can start with 'It was a cold night in January...' or choose your own first line. First set the scene: use at least three verbs in the past continuous (what was happening, what people were doing). Then tell what happened, using when and while at least once each.", "he": "כתבו פתיחה של סיפור (100-150 מילים). אפשר להתחיל ב-'It was a cold night in January...' או לבחור משפט פתיחה משלכם. קודם בנו את הרקע: השתמשו לפחות בשלושה פעלים בעבר מתמשך (מה התרחש, מה אנשים עשו). אחר כך ספרו מה קרה, ושלבו לפחות פעם אחת when ופעם אחת while." },
       "min_words": 100,
-      "max_words": 160,
+      "max_words": 150,
       "must_include": ["while", "when"],
       "model_answer": "It was a cold night in January, and the streets of Jerusalem were almost empty. A strong wind was blowing, and a few people were hurrying home with their hoods up. I was sitting at the bus stop and listening to music while I was waiting for the last bus. Across the road, an old man was feeding some cats.\n\nSuddenly, a car stopped in front of me and the window went down. It was my grandfather! He was driving home from a friend's house when he saw me at the bus stop. 'Get in,' he said. 'Your grandmother has made soup.' While we were driving home, he told me stories about the night it snowed in Jerusalem when he was a boy.",
       "checklist": [

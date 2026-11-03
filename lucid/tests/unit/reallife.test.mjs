@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch } from '../../js/core/reallife.js';
+import { fitOf, recommendScenarios, nextScenario, hasPhrase, checkOwnReply, searchMatch, moduleOrder, byFit, fitRank, spoken, senses } from '../../js/core/reallife.js';
 
 const scenarios = JSON.parse(readFileSync(new URL('../../content/real-life/scenarios.json', import.meta.url), 'utf8')).scenarios;
 const slang = JSON.parse(readFileSync(new URL('../../content/real-life/slang.json', import.meta.url), 'utf8')).entries;
@@ -71,4 +71,87 @@ test('key words match inside contractions ("tip\'s", "where\'s") but not inside 
 test("quote marks around a word do not hide it from the key-word check", () => {
   assert.ok(hasPhrase("What do you mean by 'short'?", 'short'));
   assert.ok(hasPhrase("I don't know", "don't"));
+});
+
+// RW-3: the own-words check runs the Hebrew-speaker rules and ticks the turn's goal points.
+test('own replies: Hebrew-speaker errors are named, goal points are ticked (RW-3)', () => {
+  const intro = scenarios.find((s) => s.id === 'rl-work-first-day-intro').practice[0];
+  const r = checkOwnReply('I am agree to work with you. Nice to know you.', intro, { level: 'A2' });
+  assert.deepEqual(r.l1.map((i) => i.ex), ['I agree', 'Nice to meet you']);
+  assert.deepEqual(checkOwnReply('Can I fix the bug until Thursday?', intro, { level: 'B1' }).l1.map((i) => i.ex), ['by Thursday']);
+  assert.deepEqual(checkOwnReply('Hi everyone, it is great to be here.', intro, { level: 'A2' }).l1, [], 'a correct reply has no flags');
+  const email = scenarios.find((s) => s.id === 'rl-work-email-extension').practice[0];
+  assert.ok(email.points.length === 3, 'the email turn has goal points');
+  const off = checkOwnReply('Hi Dana, the report will be late. I will send the first part until Wednesday, is it ok?', email, { level: 'B2' });
+  assert.deepEqual(off.points.map((p) => p.ok), [false, true, false], 'a reply to the wrong person that asks for no new date');
+  const good = checkOwnReply(email.model_replies[0], email, { level: 'B2' });
+  assert.ok(good.points.every((p) => p.ok) && !good.l1.length, 'the model reply meets every point');
+  for (const s of scenarios) for (const t of s.practice) for (const p of t.points || []) assert.ok(p.en && /[א-ת]/.test(p.he) && p.any?.length, `${s.id}: a point without words or phrases`);
+});
+
+// r4 RW-4: the B1 stand-up reply that used to get only praise ("Your reply has words that fit: yesterday").
+test('r4 RW-4: a stand-up reply with a past time + present verb and until the evening gets two issues and no praise', () => {
+  const turn = scenarios.find((s) => s.id === 'rl-work-standup-update').practice[0];
+  const r = checkOwnReply('Yesterday I finish the login page and fix the bug until the evening.', turn, { level: 'B1' });
+  assert.ok(r.l1.length >= 2, JSON.stringify(r.l1.map((i) => i.match)));
+  assert.deepEqual(r.l1.map((i) => i.ex).sort(), ['I finished', 'by the evening']);
+  // scenario.js praises key words only when the turn has no goal points, there are hits and no issue was found.
+  const praise = !r.points.length && r.hits.length && !r.l1.length;
+  assert.equal(Boolean(praise), false);
+  const ok = checkOwnReply('Yesterday I finished the login page and fixed the bug.', turn, { level: 'B1' });
+  assert.deepEqual(ok.l1, [], 'the corrected reply is clean');
+});
+
+// r4 RW-10: the goal's topic comes first in "Start here", even for a Pre-A1 learner (student-58).
+test('r4 RW-10: work at A2 and at Pre-A1 starts with the work scenarios, at most two levels up', () => {
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['work'] })[0].module, 'work');
+  const pre = recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: ['work'] });
+  assert.equal(pre[0].module, 'work');
+  assert.ok(pre.every((s) => ['A1', 'A2'].includes(s.level)), pre.map((s) => s.level).join());
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'PreA1', goals: [] }).every((s) => s.level === 'A1'), 'no goal: nothing above a small stretch');
+  assert.ok(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['travel'] }).every((s) => ['A1', 'A2'].includes(s.level)), 'travel at A2 stays at or below the level');
+});
+
+// RW-9: Real life follows the learner's goals.
+test('Start here, topic order and topic lists follow the goals, then the level (RW-9)', () => {
+  const start = recommendScenarios(scenarios, { courseLevel: 'B2', goals: ['work'] });
+  assert.ok(start.length === 3 && start.every((s) => s.module === 'work'), start.map((s) => s.id).join());
+  assert.equal(start[0].level, 'B2', 'the closest level first');
+  // A1 with a work goal: the work scenarios (a small stretch) before travel ones that fit (student-58).
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A1', goals: ['work'] })[0].module, 'work');
+  assert.equal(recommendScenarios(scenarios, { courseLevel: 'A2', goals: ['everyday'] })[0].module, 'social');
+  const ids = ['airport', 'hotel', 'emergency', 'transport', 'restaurant', 'shopping', 'social', 'work'];
+  assert.deepEqual(moduleOrder(ids, ['work']).slice(0, 2), ['work', 'airport']);
+  assert.deepEqual(moduleOrder(ids, ['conversation', 'work']).slice(0, 3), ['social', 'work', 'airport']);
+  assert.deepEqual(moduleOrder(ids, []), ids);
+  const work = byFit(scenarios.filter((s) => s.module === 'work'), 'B2').map((s) => s.level);
+  assert.deepEqual(work, ['B2', 'B2', 'B1', 'B1', 'A2', 'A2'], 'at the level, then just below, then far below');
+  assert.ok(fitRank('B2', 'B2') < fitRank('B1', 'B2') && fitRank('B1', 'B2') < fitRank('A2', 'B2') && fitRank('A2', 'B2') < fitRank('C1', 'B2'));
+});
+
+test('the next scenario after a B2 work scenario is a B2 or B1 work scenario (RW-9)', () => {
+  const dis = scenarios.find((s) => s.id === 'rl-work-disagree-politely');
+  const next = nextScenario(scenarios, dis, { courseLevel: 'B2', goals: ['work'], done: new Set([dis.id]) });
+  assert.equal(next.module, 'work');
+  assert.ok(['B1', 'B2'].includes(next.level), next.id);
+  const all = new Set(scenarios.filter((s) => s.module === 'work' && s.level !== 'A2').map((s) => s.id));
+  assert.equal(nextScenario(scenarios, dis, { courseLevel: 'B2', goals: ['work'], done: all }).level, 'A2', 'lower levels only when the closer ones are done');
+});
+
+// RW-10: expressions speak only the expression, and numbered senses become a list with the examples apart.
+test('expressions: spoken text and numbered senses (RW-10)', () => {
+  assert.equal(spoken('Brilliant (UK)'), 'Brilliant');
+  assert.equal(spoken('Can I get...? (ordering)'), 'Can I get...?');
+  assert.equal(spoken('No worries'), 'No worries');
+  const chill = slang.find((x) => x.id === 'ex-chill');
+  const he = senses(chill.meaning_he);
+  assert.equal(he.length, 3);
+  assert.deepEqual([he[0].def, he[0].en, he[0].after], ['(פועל) לנוח, להירגע', 'We just chilled at home', "(סתם עשינו צ'יל בבית)."]);
+  assert.equal(he[1].en, 'My manager is really chill.');
+  assert.ok(!/\d$/.test(he[1].en), 'the next number is not swallowed into the English');
+  const en = senses(chill.meaning_en);
+  assert.deepEqual([en.length, en[0].def, en[0].en], [3, '(verb) To relax', 'We just chilled at home.']);
+  const bummer = senses(slang.find((x) => x.id === 'ex-bummer').meaning_he);
+  assert.deepEqual([bummer.length, bummer[0].def, bummer[0].en], [1, 'משהו מאכזב או מבאס.', 'What a bummer!']);
+  for (const x of slang) for (const s of [...senses(x.meaning_he), ...senses(x.meaning_en)]) assert.ok(s.def, `${x.id}: a sense without a definition`);
 });

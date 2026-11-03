@@ -2,7 +2,7 @@
 // Usage: node tools/validate-content.mjs [--only lessons|placement|scenarios|slang|writing] [files...]
 // Exit code 1 when any error is found. Warnings flag quality issues that do not block.
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'content');
@@ -29,7 +29,63 @@ function bilingual(file, path, v, { he = false, required = true } = {}) {
   if (typeof v !== 'object' || !isStr(v.en)) { err(file, path, 'must be {en, he?} with non-empty en'); return; }
   if (he && !isStr(v.he)) err(file, path, 'Hebrew (he) required at this level');
   if (v.he != null && !hebrew.test(v.he)) err(file, path, 'he must be Hebrew text');
-  if (hebrew.test(v.en)) warn(file, path, 'en contains Hebrew characters');
+  if (hebrew.test(v.en) && !glossChecked.has(file)) warn(file, path, 'en contains Hebrew characters');
+}
+
+// Hebrew glosses translate the claim (BL-2). A Hebrew line that repeats whole English examples doubles the
+// text and comes apart in right-to-left lines, so a 'he' string may quote short English tokens ("עם don't
+// ו-doesn't") but not more than one English sentence or more than 8 English words; full examples belong in
+// the English field, the examples list or a table. An 'en' string never holds Hebrew letters. Both are errors
+// where Hebrew is shown by default (Pre-A1 to B1) and warnings above. IPA in slashes (/ðə/) is not counted.
+export const GLOSS_MAX_WORDS = 8;
+export const GLOSS_STRICT = new Set(['PreA1', 'A1', 'A2', 'B1']);
+const glossChecked = new Set();
+const NOT_HEBREW_RUN = /[^\u0590-\u05FF\uFB1D-\uFB4F]*[A-Za-z][^\u0590-\u05FF\uFB1D-\uFB4F]*/g;
+const IPA_TOKEN = /(?<![A-Za-z])\/[^/\s]{1,24}\/(?![A-Za-z])/g;
+const LATIN_WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*/g;
+const NOT_A_SENTENCE_END = /(?:\b(?:Mr|Mrs|Ms|Dr|St|etc|vs|e\.g|i\.e|a\.m|p\.m)|\b[A-Za-z])\.$/i;
+// English words (two letters or more; single letters are letter names) and English sentences in a Hebrew
+// string. A sentence starts with a capital letter, has a word of two letters or more (N-O-A is a spelling),
+// is not a list of single words ("I, you, we, they") and either ends with . ? ! or runs to three words or more.
+export function glossStats(text) {
+  const s = String(text ?? '').replace(IPA_TOKEN, ' ');
+  const latinWords = (s.match(LATIN_WORD) || []).filter((w) => w.length > 1).length;
+  const sentences = [];
+  for (const [run] of s.matchAll(NOT_HEBREW_RUN)) {
+    const pieces = [];
+    let cur = '';
+    for (const part of run.split(/(?<=[.?!…:;])\s+/)) {
+      cur += (cur ? ' ' : '') + part;
+      if (!NOT_A_SENTENCE_END.test(cur.trim())) { pieces.push(cur); cur = ''; }
+    }
+    if (cur) pieces.push(cur);
+    for (const p of pieces) {
+      const words = p.match(LATIN_WORD) || [];
+      const closed = /[.?!…]['")\]]*\s*$/.test(p.trim());
+      const list = p.split(/[,/·]|\b(?:and|or)\b/).every((x) => (x.match(LATIN_WORD) || []).length <= 1);
+      if (/^[^A-Za-z]*[A-Z]/.test(p) && words.length >= 2 && words.some((w) => w.length > 1) && !list && (closed || words.length >= 3)) sentences.push(p.trim().replace(/^[^A-Za-z'"‘“(]+/, ''));
+    }
+  }
+  return { latinWords, sentences };
+}
+export function glossProblem(he) {
+  const { latinWords, sentences } = glossStats(he);
+  if (sentences.length > 1) return `Hebrew gloss repeats ${sentences.length} English sentences ("${sentences[0]}" ...); state the claim and leave the examples to the English`;
+  if (latinWords > GLOSS_MAX_WORDS) return `Hebrew gloss holds ${latinWords} English words (max ${GLOSS_MAX_WORDS}); state the claim and leave the examples to the English`;
+  return null;
+}
+// Every he / *_he string and every en / *_en string in a content object, judged at the given level.
+function glossCheck(file, v, level, path = '') {
+  glossChecked.add(file);
+  if (Array.isArray(v)) return v.forEach((x, i) => glossCheck(file, x, level, `${path}[${i}]`));
+  if (!v || typeof v !== 'object') return;
+  const report = (p, msg) => (GLOSS_STRICT.has(level) ? err : warn)(file, p, msg);
+  for (const [k, x] of Object.entries(v)) {
+    const p = path ? `${path}.${k}` : k;
+    if (typeof x === 'string' && (k === 'he' || k.endsWith('_he'))) { const m = glossProblem(x); if (m) report(p, m); }
+    else if (typeof x === 'string' && (k === 'en' || k.endsWith('_en')) && hebrew.test(x)) report(p, 'en contains Hebrew letters');
+    else if (x && typeof x === 'object') glossCheck(file, x, level, p);
+  }
 }
 const strArr = (file, path, v, min = 1) => {
   if (!Array.isArray(v) || v.length < min || !v.every(isStr)) err(file, path, `must be an array of >= ${min} non-empty strings`);
@@ -41,9 +97,37 @@ function feedbackList(file, path, list, he) {
   list.forEach((f, i) => {
     if (!isStr(f.match)) err(file, `${path}[${i}].match`, 'missing');
     bilingual(file, `${path}[${i}].feedback`, f.feedback, { he });
+    if (f.rule != null) bilingual(file, `${path}[${i}].rule`, f.rule, { he });
     if (f.error_type && !ERRORS.has(f.error_type)) err(file, `${path}[${i}].error_type`, `unknown error type ${f.error_type}`);
   });
 }
+
+// ---------- first-try notes that give the answer away (r4 EX-5) ----------
+// On a typed item's first miss the player shows the matching wrong_feedback entry's `rule` (the rule without the
+// answer) or, with no rule, its `feedback`. Feedback that holds an accepted answer, or a word of the key that
+// the learner's wrong answer does not have, gives the answer away on the first try: such an entry needs a rule.
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const latinWords = (s) => String(s || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9]+(?:'[a-z]+)?/g) || [];
+const inText = (text, phrase) => {
+  const p = String(phrase).toLowerCase().replace(/[‘’]/g, "'").replace(/[.!?]+$/, '').trim();
+  return Boolean(p) && new RegExp(`(^|[^a-z0-9'])${escapeRe(p)}($|[^a-z0-9'])`).test(text);
+};
+export function noteGivesAnswer(ex, note, match) {
+  if (!note) return false;
+  const text = `${note.en || ''} ${note.he || ''}`.toLowerCase().replace(/[‘’]/g, "'");
+  const keys = ex.type === 'gap' ? (ex.answers || []).flat() : (ex.answers || []);
+  if (keys.some((k) => inText(text, k))) return true;
+  if (ex.type === 'gap') return false;
+  const have = new Set(latinWords(match));
+  return latinWords(keys[0]).some((w) => !have.has(w) && inText(text, w));
+}
+// The retryable typed items: a gap with no word bank, transform and correct.
+export const retryable = (ex) => (ex.type === 'gap' && !ex.word_bank) || ex.type === 'transform' || ex.type === 'correct';
+export function answerLeaks(lessonData) {
+  return (lessonData.exercises || []).filter(retryable).flatMap((ex) => (ex.wrong_feedback || [])
+    .filter((f) => !f.rule && noteGivesAnswer(ex, f.feedback, f.match)).map((f) => `${ex.id} "${f.match}"`));
+}
+const leaks = [];
 
 function mcqCore(file, path, ex, he, { minOptions = 3 } = {}) {
   if (!isStr(ex.question)) err(file, `${path}.question`, 'missing');
@@ -158,8 +242,10 @@ function lesson(file) {
   let d;
   try { d = read(file); } catch (e) { return err(file, '', `invalid JSON: ${e.message}`); }
   const f = file.replace(ROOT + '/', '');
+  glossChecked.add(f);
   const plan = LESSONS.get(d.id);
   if (!plan) return err(f, 'id', `not in curriculum.json: ${d.id}`);
+  for (const x of answerLeaks(d)) leaks.push(`${d.id} ${x}`);
   if (d.level !== plan.level) err(f, 'level', `expected ${plan.level}`);
   if (JSON.stringify(d.topics) !== JSON.stringify(plan.topics)) err(f, 'topics', `expected ${JSON.stringify(plan.topics)}`);
   const he = HE_REQUIRED.has(d.level);
@@ -176,6 +262,16 @@ function lesson(file) {
     else if (b.type === 'table') {
       strArr(f, `${p}.headers`, b.headers, 2);
       if (!Array.isArray(b.rows) || !b.rows.length || !b.rows.every((r) => Array.isArray(r) && r.length === b.headers?.length)) err(f, `${p}.rows`, 'rows must match headers');
+      // r4 EX-6: Hebrew labels for the headers go in headers_he, one per header ("" for a Hebrew column), so a
+      // Hebrew header never turns an English column into a right-to-left one.
+      if (b.headers_he != null && (!Array.isArray(b.headers_he) || b.headers_he.length !== b.headers?.length)) err(f, `${p}.headers_he`, 'needs one entry per header');
+      // At Pre-A1 and A1 a column that states the rule in English (When?, Rule, Meaning) needs a Hebrew column.
+      if (['PreA1', 'A1'].includes(d.level) && Array.isArray(b.headers) && !hebrew.test(b.headers[0] || '')) {
+        // A column of formulas ("+ s", "y → ies") is not prose and needs no Hebrew.
+        const prose = (i) => (b.rows || []).filter((r) => /[→+]/.test(String(r[i]))).length < (b.rows || []).length / 2;
+        const meta = b.headers.find((h, i) => /^(when\??|rule|meaning|asks about|use)$/i.test(String(h).trim()) && prose(i));
+        if (meta && !b.headers.some((h) => hebrew.test(h))) warn(f, `${p}.headers`, `the English "${meta}" column explains the rule, and the table has no Hebrew column`);
+      }
     } else if (b.type === 'examples') {
       if (!Array.isArray(b.items) || !b.items.length || !b.items.every((x) => isStr(x.en))) err(f, `${p}.items`, 'needs items with en');
     } else err(f, `${p}.type`, `unknown block type ${b.type}`);
@@ -210,11 +306,14 @@ function lesson(file) {
   if (!d.review || !Array.isArray(d.review.key_points) || d.review.key_points.length < 2) err(f, 'review.key_points', 'needs at least 2');
   else d.review.key_points.forEach((k, i) => bilingual(f, `review.key_points[${i}]`, k, { he }));
   if (d.completion && (typeof d.completion.pass_score !== 'number' || d.completion.pass_score < 0.5 || d.completion.pass_score > 1)) err(f, 'completion.pass_score', '0.5-1');
+  glossCheck(f, d, d.level);
 }
 
 function placement(file) {
   const d = read(file); const f = 'placement.json';
   if (!Array.isArray(d.items)) return err(f, 'items', 'missing');
+  glossChecked.add(f);
+  d.items.forEach((it, i) => glossCheck(f, it, it.level, `items[${i}]`));
   const ids = new Set();
   const per = {};
   d.items.forEach((it, i) => {
@@ -347,54 +446,70 @@ function rubric(file) {
 }
 
 // ---- run ----
+// The checks run when this file is the command (node tools/validate-content.mjs); importing it (the unit tests
+// import glossStats) runs nothing.
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
-// Single-file mode for authors: --file <path> --kind lesson|placement|scenarios|slang|writing-exercises|writing-assignments
-if (arg('--file')) {
-  const file = arg('--file'), kind = arg('--kind');
-  const run = { lesson, placement, scenarios, slang, rubric, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
-  if (!run) { console.log('ERROR unknown --kind'); process.exit(2); }
-  try { run(file); } catch (e) { err(file, '', `invalid JSON or crash: ${e.message}`); }
+async function main() {
+  // Single-file mode for authors: --file <path> --kind lesson|placement|scenarios|slang|writing-exercises|writing-assignments
+  if (arg('--file')) {
+    const file = arg('--file'), kind = arg('--kind');
+    const run = { lesson, placement, scenarios, slang, rubric, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
+    if (!run) { console.log('ERROR unknown --kind'); process.exit(2); }
+    try { run(file); } catch (e) { err(file, '', `invalid JSON or crash: ${e.message}`); }
+    for (const w of warnings) console.log('WARN ', w);
+    for (const e of errors) console.log('ERROR', e);
+    console.log(`\n${file}: ${errors.length} errors, ${warnings.length} warnings`);
+    process.exitCode = errors.length ? 1 : 0;
+    return;
+  }
+  const only = arg('--only');
+  const want = (k) => !only || only === k;
+  let lessonCount = 0;
+  if (want('lessons')) {
+    const dir = join(ROOT, 'lessons');
+    if (existsSync(dir)) for (const name of readdirSync(dir).filter((n) => n.endsWith('.json')).sort()) { lesson(join(dir, name)); lessonCount++; }
+    const missing = [...LESSONS.keys()].filter((id) => !existsSync(join(dir, `${id}.json`)));
+    if (missing.length) warn('lessons', '', `${missing.length} curriculum lessons have no file yet: ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? '...' : ''}`);
+  }
+  const opt = (rel, fn, ...a) => { const p = join(ROOT, rel); if (existsSync(p)) { try { fn(p, ...a); } catch (e) { err(rel, '', `invalid JSON or crash: ${e.message}`); } } else warn(rel, '', 'not present yet'); };
+  if (want('placement')) opt('placement.json', placement);
+  if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
+  if (want('slang')) opt('real-life/slang.json', slang);
+  if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
+  // The taxonomy's notes are shown after lessons at every level; the curriculum's per level.
+  if (!only) {
+    glossCheck('taxonomy.json', taxonomy, 'PreA1');
+    curriculum.levels.forEach((l, i) => glossCheck('curriculum.json', l, l.id, `levels[${i}]`));
+  }
+
+  // Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
+  // js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
+  const { isolateLatin, unpaired, unpairedQuotes } = await import('../js/core/i18n.js');
+  function bidiBrackets(rel, v, path = '') {
+    if (typeof v === 'string') {
+      if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
+      const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
+      if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
+      const halfQuote = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpairedQuotes(m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"')));
+      if (halfQuote) warn(rel, path, `English isolate "${halfQuote[1]}" holds half of a pair of quote marks`);
+    } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
+  }
+  const bidiFiles = [
+    ...(want('lessons') && existsSync(join(ROOT, 'lessons')) ? readdirSync(join(ROOT, 'lessons')).filter((n) => n.endsWith('.json')).map((n) => `lessons/${n}`) : []),
+    ...(want('placement') ? ['placement.json'] : []), ...(want('scenarios') ? ['real-life/scenarios.json'] : []), ...(want('slang') ? ['real-life/slang.json'] : []),
+    ...(want('writing') ? ['writing/exercises.json', 'writing/assignments.json', 'writing/rubric.json'] : []), ...(!only ? ['taxonomy.json'] : []),
+  ];
+  for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
+
+  // r4 EX-5: one warning with the count; --rules lists every entry.
+  if (leaks.length) warn('lessons', 'wrong_feedback', `${leaks.length} first-try notes give the answer and have no rule (list them with --rules)`);
+  if (process.argv.includes('--rules')) for (const l of leaks) console.log('RULE ', l);
   for (const w of warnings) console.log('WARN ', w);
   for (const e of errors) console.log('ERROR', e);
-  console.log(`\n${file}: ${errors.length} errors, ${warnings.length} warnings`);
-  process.exit(errors.length ? 1 : 0);
+  console.log(`\n${lessonCount} lesson files checked; ${errors.length} errors, ${warnings.length} warnings`);
+  console.log(`first-try notes that give the answer with no rule: ${leaks.length}`);
+  // exitCode, not exit(): a piped stdout gets the whole report before the process ends.
+  process.exitCode = errors.length ? 1 : 0;
 }
-const only = arg('--only');
-const want = (k) => !only || only === k;
-let lessonCount = 0;
-if (want('lessons')) {
-  const dir = join(ROOT, 'lessons');
-  if (existsSync(dir)) for (const name of readdirSync(dir).filter((n) => n.endsWith('.json')).sort()) { lesson(join(dir, name)); lessonCount++; }
-  const missing = [...LESSONS.keys()].filter((id) => !existsSync(join(dir, `${id}.json`)));
-  if (missing.length) warn('lessons', '', `${missing.length} curriculum lessons have no file yet: ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? '...' : ''}`);
-}
-const opt = (rel, fn, ...a) => { const p = join(ROOT, rel); if (existsSync(p)) { try { fn(p, ...a); } catch (e) { err(rel, '', `invalid JSON or crash: ${e.message}`); } } else warn(rel, '', 'not present yet'); };
-if (want('placement')) opt('placement.json', placement);
-if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
-if (want('slang')) opt('real-life/slang.json', slang);
-if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
-
-// Hebrew text that quotes English is shown with each English run in a left-to-right isolate (isolateLatin in
-// js/core/i18n.js). An isolate that holds one bracket of a pair and not the other renders scrambled (R2-01).
-const { isolateLatin, unpaired, unpairedQuotes } = await import('../js/core/i18n.js');
-function bidiBrackets(rel, v, path = '') {
-  if (typeof v === 'string') {
-    if (!hebrew.test(v) || !/[A-Za-z]/.test(v)) return;
-    const half = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpaired(m[1]).length);
-    if (half) warn(rel, path, `English isolate "${half[1]}" holds half of a bracket pair`);
-    const halfQuote = [...String(isolateLatin(v)).matchAll(/<bdi dir="ltr" lang="en">(.*?)<\/bdi>/g)].find((m) => unpairedQuotes(m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"')));
-    if (halfQuote) warn(rel, path, `English isolate "${halfQuote[1]}" holds half of a pair of quote marks`);
-  } else if (Array.isArray(v)) v.forEach((x, i) => bidiBrackets(rel, x, `${path}[${i}]`));
-  else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) bidiBrackets(rel, x, path ? `${path}.${k}` : k);
-}
-const bidiFiles = [
-  ...(want('lessons') && existsSync(join(ROOT, 'lessons')) ? readdirSync(join(ROOT, 'lessons')).filter((n) => n.endsWith('.json')).map((n) => `lessons/${n}`) : []),
-  ...(want('placement') ? ['placement.json'] : []), ...(want('scenarios') ? ['real-life/scenarios.json'] : []), ...(want('slang') ? ['real-life/slang.json'] : []),
-  ...(want('writing') ? ['writing/exercises.json', 'writing/assignments.json', 'writing/rubric.json'] : []), ...(!only ? ['taxonomy.json'] : []),
-];
-for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
-
-for (const w of warnings) console.log('WARN ', w);
-for (const e of errors) console.log('ERROR', e);
-console.log(`\n${lessonCount} lesson files checked; ${errors.length} errors, ${warnings.length} warnings`);
-process.exit(errors.length ? 1 : 0);
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) await main();

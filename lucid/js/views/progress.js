@@ -6,7 +6,7 @@ import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, mark } from '../ui/components.js';
 import { model, allCards, settings, weekActivity, currentSessionSeconds, due } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { periodReport, levelIndex } from '../core/adaptive.js';
+import { periodReport, levelIndex, WRITING_EVENTS } from '../core/adaptive.js';
 import { configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { RETENTION } from '../core/srs.js';
@@ -40,7 +40,7 @@ export default async function progress(el, ctx) {
     const dueN = due().length;
     const recs = [];
     if (m.recurring[0]) recs.push(html`<a href="#/drill?error=${m.recurring[0].error_type}">${tt('תרגול ממוקד לטעות שחוזרת הכי הרבה', 'Targeted practice for your most frequent mistake')}</a>`);
-    if (weakToPractise) recs.push(html`<a href="#/${weakToPractise.route || `drill?topic=${weakToPractise.topic}`}">${tt('לחזק נושא שעוד לא יושב', 'Strengthen a topic that is not secure yet')}</a>`);
+    if (weakToPractise) recs.push(html`<a href="#/${weakToPractise.route || `drill?topic=${weakToPractise.topic}`}">${tt('לחזק נושא שעוד לא בשליטה', 'Strengthen a topic that is not secure yet')}</a>`);
     if (dueN) recs.push(html`<a href="#/review">${tt(`חזרה מרווחת: ${dueN} מילים מחכות`, `Spaced review: ${dueN} words are waiting`)}</a>`);
     if (m.next && !m.placementPending) recs.push(html`<a href="#/lesson/${m.next.id}">${tt('השיעור הבא:', 'Your next lesson:')} ${legend(m.next.title_en, m.next.title_he)}</a>`);
     if (!m.skills.writing.level && aiReady && levelIndex(m.courseLevel) >= levelIndex('A1')) recs.push(html`<a href="#/writing">${tt('לכתוב במעבדת הכתיבה ולקבל משוב: שני טקסטים שהוערכו, בימים שונים, נותנים לכתיבה רמה', 'Write in the Writing lab and get feedback: two assessed texts, on different days, give writing a level')}</a>`);
@@ -52,11 +52,11 @@ export default async function progress(el, ctx) {
 
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.progress')}</h1><p>${tt('מה אתם יודעים לעשות עכשיו, לפי ראיות. בלי נקודות ובלי ניקוד על זמן.', 'What you can do now, based on evidence. No points, no scores for time spent.')}</p></div>
-        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${days === 7}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${days === 30}">${tt('החודש', 'This month')}</button></div>
+        <div class="seg" role="group" aria-label="${tt('תקופה', 'Period')}"><button type="button" data-days="7" aria-pressed="${String(days === 7)}">${tt('השבוע', 'This week')}</button><button type="button" data-days="30" aria-pressed="${String(days === 30)}">${tt('החודש', 'This month')}</button></div>
         <a class="key small ghost" href="#/profile">${icon('user', { size: 16 })} ${tt('הפרופיל שלי', 'My profile')}</a></div>
       <div class="stack-lg">
         <section class="stack" aria-labelledby="rep-h"><h2 id="rep-h">${days === 7 ? tt('דוח שבועי', 'Weekly report') : tt('דוח חודשי', 'Monthly report')}</h2>
-          ${!m.attempts.some((a) => a.source !== 'placement') ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
+          ${!m.attempts.some((a) => a.source !== 'placement') && !events.some((e) => WRITING_EVENTS.includes(e.type)) ? html`<div class="panel flat stack-sm"><p>${tt('הדוח הראשון יופיע אחרי התרגול הראשון.', 'Your first report appears after your first practice.')}</p><p class="small muted">${tt('הוא יראה כמה ימים ודקות למדתם, דיוק בניסיון ראשון לעומת התקופה הקודמת, כמה מילים נשארות בזיכרון, ומה השתפר.', 'It will show days and minutes studied, first-try accuracy against the previous period, how many words are sticking, and what improved.')}</p><div class="row"><a class="key enter" href="#/today">${tt('לתוכנית של היום', 'To today\'s plan')}</a></div></div>` : html`
           <div class="stat-grid">
             <div class="stat"><div class="v num">${r.active_days}</div><div class="k">${tt('ימי לימוד', 'Days studied')}</div>${days === 7 ? html`<div class="d faint">${tt(`יעד: ${week.goal}`, `Goal: ${week.goal}`)}</div>` : ''}</div>
             <div class="stat"><div class="v num">${r.minutes}</div><div class="k">${tt('דקות פעילות', 'Active minutes')}</div></div>
@@ -65,6 +65,7 @@ export default async function progress(el, ctx) {
             <div class="stat"><div class="v num">${pct(r.retention)}</div><div class="k">${tt('זכירה בחזרות', 'Recall on reviews')}</div><div class="d faint">${tt(`יעד ${Math.round(target * 100)}%`, `Target ${Math.round(target * 100)}%`)}</div></div>
             <div class="stat"><div class="v num">${r.words_known}</div><div class="k">${tt('מילים יציבות (3 שבועות+)', 'Stable words (3+ weeks)')}</div><div class="d faint">${tt(`${r.words_started} חדשות בתקופה`, `${r.words_started} new this period`)}</div></div>
             <div class="stat"><div class="v num">${r.lessons_completed}</div><div class="k">${tt('שיעורים שהושלמו', 'Lessons completed')}</div></div>
+            <div class="stat" data-writing-sessions="${r.writing_sessions}"><div class="v num">${r.writing_sessions}</div><div class="k">${r.writing_sessions === 1 ? tt('פעם אחת של כתיבה', '1 writing session') : tt('פעמים של כתיבה', 'writing sessions')}</div><div class="d faint">${tt('במעבדת הכתיבה, בלי הערכת רמה', 'In the Writing lab, no level claim')}</div></div>
             <div class="stat"><div class="v num">${r.retention_30d == null ? '—' : pct(r.retention_30d)}</div><div class="k">${tt('זכירה אחרי 30 יום', 'Recall after 30 days')}</div><div class="d faint">${r.retention_30d == null ? tt('מחכה למספיק נתונים', 'Waiting for enough data') : ''}</div></div>
           </div>
           <div class="panel flat"><p class="small faint" style="margin-bottom:var(--s3)">${tt('תרגילים לפי', 'Exercises by')} ${days === 7 ? tt('יום', 'day') : tt('שבוע', 'week')}</p>

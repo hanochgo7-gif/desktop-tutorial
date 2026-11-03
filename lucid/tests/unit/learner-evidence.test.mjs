@@ -283,3 +283,118 @@ test('R1-D3: a long explanation takes more of the lesson time than a short one',
   const a = lessonSlice({ ...base, intro: 1 }, 10), b = lessonSlice({ ...base, intro: 6 }, 10);
   assert.ok(a.split && b.split && b.upto < a.upto, `a longer explanation leaves fewer exercises for today (${a.upto} vs ${b.upto})`);
 });
+
+// ---------- UX round 3, first run and Today (docs/qa/panels-r3/plan.json, lane first-run-today) ----------
+test('TF-2: a lesson completed today ticks the lesson block; the next lesson is a whole-lesson extra, never a new plan', async () => {
+  const { dailyPlan, planStatus } = await import('../../js/core/adaptive.js');
+  const base = { minutes: 20, next: { id: 'a2-02' }, level: 'A2', lesson: { minutes: 25, exercises: 16, done: 0, doneToday: 0, intro: 3 } };
+  const plan = dailyPlan({ ...base, today: { lesson: 'a2-01' } });
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.deepEqual([learn.lesson, learn.completed, learn.done, learn.route], ['a2-01', true, true, 'lesson/a2-01']);
+  const next = plan.extras.find((b) => b.next);
+  assert.deepEqual([next.lesson, next.route, next.minutes, next.done], ['a2-02', 'lesson/a2-02', 25, false]);
+  // Once the next lesson is begun today, it is the plan's lesson again.
+  const begun = dailyPlan({ ...base, lesson: { ...base.lesson, done: 3, doneToday: 3, resumable: true }, today: { lesson: 'a2-01' } });
+  assert.equal(begun.blocks.find((b) => b.id === 'learn').lesson, 'a2-02');
+  // Every block done: the plan is done. A whole lesson's minutes on a 20-minute day: done too, with the rest open.
+  const only = dailyPlan({ minutes: 10, next: { id: 'a2-02' }, level: 'A2', lesson: base.lesson, today: { lesson: 'a2-01' } });
+  assert.equal(planStatus(only).complete, true);
+  const withUse = dailyPlan({ ...base, scenario: { id: 'rl-airport-a2', module: 'airport', level: 'A2' }, goals: ['travel'], today: { lesson: 'a2-01' } });
+  assert.equal(planStatus(withUse, { minutesDone: 12, target: 20 }).complete, false, 'the scenario is still to do');
+  const st = planStatus(withUse, { minutesDone: 25, target: 20 });
+  assert.equal(st.complete, true);
+  assert.deepEqual(st.open.map((b) => b.id), ['use']);
+});
+
+test('TF-2: today\'s part done ticks the lesson and offers the rest of it; a review done today is ticked, and cards due again are an extra', async () => {
+  const { dailyPlan } = await import('../../js/core/adaptive.js');
+  const lesson = { minutes: 25, exercises: 16, done: 6, doneToday: 6, intro: 2, resumable: true };
+  const plan = dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', lesson });
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.equal(learn.done, true);
+  const beyond = plan.extras.find((b) => b.beyond);
+  assert.deepEqual([beyond.route, beyond.done], ['lesson/a2-01?resume=1', false]);
+  const reviewed = dailyPlan({ minutes: 20, next: { id: 'a2-01' }, level: 'A2', dueCount: 11, today: { reviews: { review: 11 } } });
+  const rev = reviewed.blocks.find((b) => b.id === 'review');
+  assert.deepEqual([rev.done, rev.count], [true, 11]);
+  assert.equal(reviewed.extras.find((b) => b.id === 'review')?.more, true, 'cards due again are another short round, optional');
+  const warm = dailyPlan({ minutes: 35, next: { id: 'a2-01' }, level: 'A2', warmupCount: 4, todayNewCount: 3, today: { reviews: { warmup: 4, exit: 3 } } });
+  assert.deepEqual(warm.blocks.filter((b) => ['warmup', 'exit'].includes(b.id)).map((b) => b.done), [true, true]);
+});
+
+test('TF-2: minutes done today follow the records: lesson answers at the lesson\'s pace, reviews at 10 seconds, scenarios a minute a reply', async () => {
+  const { minutesToday } = await import('../../js/core/adaptive.js');
+  const lessons = new Map([['a2-01', { minutes: 25, exercises: 16, intro: 4 }]]);
+  const answers = Array.from({ length: 16 }, (_, i) => ({ source: 'lesson', lesson: 'a2-01', exercise: `e${i}` }));
+  assert.equal(minutesToday({ attempts: answers, whole: ['a2-01'], lessons }), 25, 'a whole lesson begun and completed today is its length');
+  assert.equal(minutesToday({ attempts: answers.slice(0, 5), lessons }), 6, 'a part is its share, without the explanation it may have skipped');
+  const reviews = Array.from({ length: 12 }, () => ({ source: 'review' }));
+  assert.equal(minutesToday({ attempts: reviews }), 2);
+  assert.equal(minutesToday({ attempts: [{ source: 'scenario' }, { source: 'scenario' }, { source: 'placement' }], events: [{ type: 'game-round' }] }), 4);
+});
+
+test('TF-3: a 10-minute night with 11 due words: a review timed from its cards, capped at 3 minutes, and a lesson part of at least 4', async () => {
+  const { dailyPlan, reviewMinutes, planStatus } = await import('../../js/core/adaptive.js');
+  const lesson = { minutes: 22, exercises: 16, done: 0, doneToday: 0, intro: 3 };
+  const plan = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 11, lesson });
+  const review = plan.blocks.find((b) => b.id === 'review');
+  const learn = plan.blocks.find((b) => b.id === 'learn');
+  assert.deepEqual([review.count, review.minutes, review.route, review.later], [11, reviewMinutes(11), 'review', 0]);
+  assert.equal(reviewMinutes(11), 2, 'about 10 seconds a card');
+  assert.ok(learn.slice.split && learn.slice.upto >= 4, `the part is up to exercise ${learn.slice.upto}`);
+  // A big backlog: 3 minutes of it, the rest for the next days, and the review route takes only those cards.
+  const many = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 40, lesson }).blocks.find((b) => b.id === 'review');
+  assert.deepEqual([many.minutes, many.count, many.later, many.route], [3, 18, 22, 'review?n=18']);
+  // At 20 minutes, 2 words take a minute, and the lesson gets the rest of the review's time.
+  const p20 = dailyPlan({ minutes: 20, next: { id: 'a1-02' }, level: 'A1', dueCount: 2, lesson });
+  assert.equal(p20.blocks.find((b) => b.id === 'review').minutes, 1);
+  // After today's review the main action is not the same review again.
+  const after = dailyPlan({ minutes: 10, next: { id: 'a1-02' }, level: 'A1', dueCount: 10, lesson, today: { reviews: { review: 11 } } });
+  assert.equal(after.blocks.find((b) => !b.done).id, 'learn');
+  assert.equal(planStatus(after).complete, false);
+});
+
+test('TF-4: on a 10-minute day the goal item is offered outside the budget; once done, the next one is the goal-matched extra', async () => {
+  const { dailyPlan } = await import('../../js/core/adaptive.js');
+  const airport = { id: 'rl-airport-a2', module: 'airport', level: 'A2' };
+  const short = dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport });
+  assert.equal(short.blocks.find((b) => b.id === 'use'), undefined, 'no "use it" block in 10 minutes');
+  assert.deepEqual([short.offer.route, short.offer.goal, short.offer.minutes, short.offer.offer], ['scenario/rl-airport-a2', 'travel', 4, true]);
+  assert.equal(short.minutes, short.blocks.reduce((a, b) => a + b.minutes, 0), 'the offer is outside the plan\'s minutes');
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: [], scenario: null }).offer, null, 'no goal, no offer');
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'pa1-01' }, level: 'PreA1', goals: ['travel'], scenario: airport }).offer, null, 'not at Pre-A1');
+  // The goal item was done today: no offer on a short day; on a 20-minute day the next scenario is the extra.
+  const doneToday = { scenario: { id: 'rl-hotel-a1', module: 'hotel', level: 'A1' }, scenarios: new Set(['rl-hotel-a1']), speaking: true };
+  assert.equal(dailyPlan({ minutes: 10, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport, today: doneToday }).offer, null);
+  const p20 = dailyPlan({ minutes: 20, next: { id: 'a2-01' }, level: 'A2', goals: ['travel'], scenario: airport, today: doneToday });
+  assert.equal(p20.blocks.find((b) => b.id === 'use').done, true);
+  assert.equal(p20.offer.route, 'scenario/rl-airport-a2');
+});
+
+test('TF-8: a skill reports the evidence it is collecting and the level check that covered it; the rule does not change', async () => {
+  const { skillLevels } = await import('../../js/core/adaptive.js');
+  const answer = (i, ok, day, extra = {}) => ({ source: 'lesson', lesson: 'b2-01', exercise: `e${i}`, skill: 'grammar', level: 'B2', correct: ok, score: ok ? 1 : 0, at: at(day, i / 60), ...extra });
+  const oneDay = Array.from({ length: 31 }, (_, i) => answer(i, i !== 3 && i !== 7, 0));
+  const g = skillLevels({ attempts: oneDay }).grammar;
+  assert.equal(g.level, null, 'one day is still not a level');
+  assert.deepEqual(g.collecting, { level: 'B2', answers: 31, right: 29, pct: 94, days: 1 });
+  assert.equal(skillLevels({ attempts: [] }).grammar.collecting, undefined);
+  // Above a shown level, the next level's answers are collected too.
+  const b1 = [0, 1].flatMap((d) => Array.from({ length: 4 }, (_, i) => ({ ...answer(i, true, d), level: 'B1', lesson: 'b1-01' })));
+  const both = skillLevels({ attempts: [...b1, ...oneDay.slice(0, 5)] }).grammar;
+  assert.deepEqual([both.level, both.collecting.level, both.collecting.answers], ['B1', 'B2', 5]);
+  // A level check: the latest day's answers at its highest level, per skill.
+  const check = Array.from({ length: 8 }, (_, i) => ({ source: 'checkpoint', lesson: 'b2-02', exercise: `c${i}`, skill: 'grammar', level: 'B2', correct: i < 6, score: i < 6 ? 1 : 0, at: at(2, i / 60) }));
+  assert.deepEqual(skillLevels({ attempts: check }).grammar.check, { level: 'B2', answers: 8, pct: 75, day: at(2).slice(0, 10) });
+});
+
+test('TF-3: a lesson part is never fewer than 4 exercises; when fewer would be left after it, the part is the rest', async () => {
+  const { lessonSlice } = await import('../../js/core/adaptive.js');
+  const tiny = lessonSlice({ minutes: 25, exercises: 16, done: 0, intro: 6 }, 5);
+  assert.ok(tiny.split && tiny.upto === 4, `upto ${tiny.upto}`);
+  assert.ok(tiny.today >= 5, 'the part says its own time');
+  const tail = lessonSlice({ minutes: 25, exercises: 16, done: 10, doneToday: 0, intro: 2 }, 5);
+  assert.equal(tail.split, false, 'six left: four today would leave two, so today is the rest');
+  const near = lessonSlice({ minutes: 25, exercises: 16, done: 13, doneToday: 0, intro: 2 }, 5);
+  assert.equal(near.split, false);
+});

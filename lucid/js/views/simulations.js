@@ -5,18 +5,18 @@ import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, confirmDialog, toast } from '../ui/components.js';
 import { configured, auth } from '../core/api.js';
-import { settings, model } from '../core/learner.js';
+import { settings, model, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { CONFIG } from '../../config.js';
-import { MODULES, fitNote, levelGuide, hubFilters, hubSections, hubEvents } from './reallife.js';
+import { MODULES, fitNote, levelGuide, hubFilters, hubSections, hubEvents, placeTag } from './reallife.js';
 
 export default async function simulations(el, ctx) {
   ctx.setTitle(t('nav.simulations'));
   const data = await content.scenarios();
   const list = data?.scenarios || [];
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
-  const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set() };
-  const why = !configured() || !CONFIG.aiEnabled ? tt('שיחה חופשית עם AI עוד לא זמינה באתר הזה. התרגול המובנה בכל תרחיש עובד בלי AI.', 'Free conversation with AI is not available on this site yet. The scripted practice in every scenario works without AI.')
+  const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };
+  const why = !configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד. התרגול המובנה בכל תרחיש עובד בלי AI.', 'AI is not active on this site. Everything else works. The scripted practice in every scenario works without AI.')
     : !auth.signedIn ? tt('שיחה עם AI דורשת חשבון: ההסכמה שלכם לעיבוד ב-AI נשמרת בחשבון, ולכל חשבון יש מגבלת שימוש יומית ב-AI. התרגול המובנה בכל תרחיש עובד גם בלי חשבון.', 'AI conversations need an account: your consent to AI processing is saved in it, and each account has a daily AI limit. The scripted practice in every scenario works without one.') : tt('הפעילו ״משוב AI״ בהגדרות כדי להתחיל.', 'Turn on "AI feedback" in Settings to start.');
   // No account: both ways in, sign-up first on a device that has never been signed in (persona panel R2-09).
   const accountLinks = () => {
@@ -26,7 +26,7 @@ export default async function simulations(el, ctx) {
     return html`<div class="row" style="margin-block-start:var(--s2)">${store.owner() ? html`${inn}${up}` : html`${up}${inn}`}</div>`;
   };
 
-  const row = (s, courseLevel) => html`<a class="lesson-row hub-row two" href="#/scenario/${s.id}?tab=${aiReady ? 'roleplay' : 'practise'}"><span class="grow">${legend(s.title_en, s.title_he)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span><span class="hub-level">${levelTag(s.level)}${fitNote(s.level, courseLevel)}</span></a>`;
+  const row = (s, courseLevel) => html`<a class="lesson-row hub-row two" href="#/scenario/${s.id}?tab=${aiReady ? 'roleplay' : 'practise'}"><span class="grow">${legend(s.title_en, s.title_he)}${placeTag(s)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span><span class="hub-level">${levelTag(s.level)}${fitNote(s.level, courseLevel)}</span></a>`;
 
   function draw() {
     const courseLevel = model().courseLevel;

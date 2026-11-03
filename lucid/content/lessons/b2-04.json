@@ -114,7 +114,7 @@
     {
       "type": "tip",
       "en": "Contrast with Hebrew: a Hebrew question with a pronoun subject keeps statement word order ('where you live?'), and so does an English reported question: She asked where I lived. Watch out for two traps. First, the English direct-question pattern (do / did and inversion): switch it off after asked, wondered and wanted to know. Second, Hebrew often puts the verb before a noun subject in a question ('when opens the museum?'). In English the subject always comes first: She asked when the museum opened (not *when opened the museum).",
-      "he": "בשאלה בעברית עם כינוי גוף, סדר המילים הוא כמו במשפט רגיל ('איפה אתה גר?'), וכך גם בשאלה מדווחת באנגלית: She asked where I lived. שימו לב לשתי מלכודות. הראשונה: מבנה השאלה הישירה באנגלית (do/did והיפוך) – אחרי asked, wondered ו-wanted to know מוותרים עליו. השנייה: בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'), אבל באנגלית הנושא תמיד בא לפני הפועל: She asked when the museum opened, ולא when opened the museum."
+      "he": "בשאלה בעברית עם כינוי גוף, סדר המילים הוא כמו במשפט רגיל ('איפה אתה גר?'), וכך גם בשאלה מדווחת באנגלית: She asked where I lived. שימו לב לשתי מלכודות. הראשונה: מבנה השאלה הישירה באנגלית (do/did והיפוך) – אחרי asked ודומיו מוותרים עליו. השנייה: בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'), אבל באנגלית הנושא תמיד בא לפני הפועל."
     }
   ],
   "examples": [
@@ -330,12 +330,12 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew reported speech keeps the speaker's original tense (word for word: 'Last summer Kenji asked me where I am staying'). In English, after a past reporting verb the tense usually shifts back: Last summer, Kenji asked me where I was staying.",
-      "he": "בדיבור עקיף בעברית הזמן המקורי נשמר: \"בקיץ שעבר קנג'י שאל אותי איפה אני מתאכסן\". באנגלית, אחרי פועל דיווח בעבר (asked, wanted to know), הזמן בדרך כלל זז אחורה: Last summer, Kenji asked me where I was staying, ולא where I am staying.",
+      "he": "בדיבור עקיף בעברית הזמן המקורי נשמר ('בקיץ שעבר קנג'י שאל אותי איפה אני מתאכסן'). באנגלית, אחרי פועל דיווח בעבר, הזמן בדרך כלל זז אחורה: where I was staying.",
       "error_type": "reported-speech"
     },
     {
       "en": "In Hebrew questions the verb often comes before a noun subject ('when opens the museum?'), and learners carry this into reported questions: *She asked when opened the museum. In English the subject always comes before the verb: She asked when the museum opened.",
-      "he": "בשאלות בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'), ולכן קל לכתוב בטעות She asked when opened the museum. באנגלית הנושא תמיד בא לפני הפועל: She asked when the museum opened.",
+      "he": "בשאלות בעברית הפועל בא לעתים קרובות לפני נושא שהוא שם עצם ('מתי נפתח המוזיאון?'). באנגלית הנושא תמיד בא לפני הפועל: She asked when the museum opened.",
       "error_type": "word-order"
     }
   ],

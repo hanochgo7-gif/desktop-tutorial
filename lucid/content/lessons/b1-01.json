@@ -2,7 +2,7 @@
   "id": "b1-01",
   "level": "B1",
   "title_en": "Have you ever...?",
-  "title_he": "Have you ever...?",
+  "title_he": "חוויות בחיים: present perfect",
   "topics": [
     "present-perfect"
   ],
@@ -10,7 +10,7 @@
   "objectives": [
     {
       "en": "I can ask and answer questions about life experiences: Have you ever...? – Yes, I have. / No, I haven't.",
-      "he": "אני יודע/ת לשאול ולענות על חוויות בחיים: Have you ever...? – Yes, I have. / No, I haven't."
+      "he": "אני יודע/ת לשאול ולענות על חוויות בחיים עם Have you ever."
     },
     {
       "en": "I can form the present perfect with have/has + past participle, including common irregular participles.",
@@ -29,7 +29,7 @@
     {
       "type": "p",
       "en": "Look: I've been to Japan. She's never eaten sushi. Have you ever broken a bone? These sentences are about experiences in someone's life up to now. We don't say when they happened, because the time isn't important.",
-      "he": "שימו לב: I've been to Japan. She's never eaten sushi. Have you ever broken a bone? המשפטים האלה עוסקים בחוויות בחייו של מישהו עד עכשיו. לא אומרים מתי זה קרה, כי הזמן לא חשוב."
+      "he": "משפטים כמו I've been to Japan עוסקים בחוויות בחייו של מישהו עד עכשיו. לא אומרים מתי זה קרה, כי הזמן לא חשוב."
     },
     {
       "type": "p",
@@ -98,17 +98,17 @@
     {
       "type": "rule",
       "en": "ever = at any time in your life, mainly in questions: Have you ever...? never = not at any time, with a positive verb: I've never been there (not *I haven't never been there).",
-      "he": "ever = אי פעם, בעיקר בשאלות: Have you ever...? ‏never = אף פעם, ובא עם פועל חיובי: I've never been there ולא I haven't never been there."
+      "he": "ever = אי פעם, בעיקר בשאלות. ‏never = אף פעם, ובא עם פועל חיובי: I've never been there, בלי haven't."
     },
     {
       "type": "warning",
       "en": "been or gone? She's been to Paris = she went and came back. She's gone to Paris = she went and she's there now. For experiences, use been: Have you ever been to India?",
-      "he": "been או gone? ‏She's been to Paris = היא נסעה וחזרה. ‏She's gone to Paris = היא נסעה והיא שם עכשיו. לחוויות משתמשים ב-been: Have you ever been to India?"
+      "he": "been או gone? ‏been = נסעו וחזרו, ו-gone = נסעו והם שם עכשיו. לחוויות משתמשים ב-been."
     },
     {
       "type": "tip",
       "en": "'s can be is or has: She's tired (is) / She's been there (has). If a past participle follows, it's has. To add details such as when or where, switch to the past simple: Yes, I have. I went there last year. (More on this in the next lesson.)",
-      "he": "'s יכול להיות is או has: She's tired (is) לעומת She's been there (has). אם אחריו בא past participle, זה has. כדי להוסיף פרטים כמו מתי או איפה, עוברים לעבר פשוט: Yes, I have. I went there last year. (נרחיב בשיעור הבא.)"
+      "he": "'s יכול להיות is או has: אם אחריו באה צורה שלישית (V3), זה has. כדי להוסיף פרטים כמו מתי או איפה, עוברים לעבר פשוט (I went there last year). נרחיב בשיעור הבא."
     }
   ],
   "examples": [
@@ -323,17 +323,17 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the verb does not mark the perfect: one past form covers 'I was in London' and 'I've been to London'. English uses the present perfect for an experience with no time given: I've been to London.",
-      "he": "בעברית הפועל לא מסמן 'פרפקט': 'הייתי בלונדון' מתאים גם ל-I was in London וגם ל-I've been to London. באנגלית, לחוויה בלי ציון זמן משתמשים ב-present perfect: I've been to London.",
+      "he": "בעברית הפועל לא מסמן 'פרפקט': 'הייתי בלונדון' מתאים גם לעבר פשוט וגם ל-present perfect. באנגלית, לחוויה בלי ציון זמן משתמשים ב-present perfect: I've been to London.",
       "error_type": "tense-choice"
     },
     {
       "en": "In Hebrew a question can keep the word order of a statement. In English, have/has comes before the subject: Have you ever been to Eilat? (not *You have ever been to Eilat?)",
-      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('היית פעם באילת?'). באנגלית have/has בא לפני הנושא: Have you ever been to Eilat? ולא You have ever been to Eilat?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('היית פעם באילת?'). באנגלית have/has בא לפני הנושא: Have you ever been to Eilat?",
       "error_type": "word-order"
     },
     {
       "en": "In Hebrew there is one 'a' sound, so swam and swum, or drank and drunk, can sound the same. In English the vowel shows the form: past simple /æ/ (swam, drank, sang), past participle /ʌ/ (swum, drunk, sung).",
-      "he": "בעברית יש צליל 'אַ' אחד, ולכן swam ו-swum, או drank ו-drunk, עלולים להישמע אותו דבר. באנגלית התנועה מסמנת את הצורה: בעבר פשוט /æ/ (swam, drank, sang), וב-past participle ‏/ʌ/ (swum, drunk, sung).",
+      "he": "בעברית יש צליל 'אַ' אחד, ולכן swam ו-swum עלולים להישמע אותו דבר. באנגלית התנועה מסמנת את הצורה: בעבר פשוט פותחים את הפה רחב (swam, ‏/æ/), ובצורה השלישית אומרים 'אַ' קצרה ורפויה (swum, ‏/ʌ/).",
       "error_type": "pron-vowel"
     }
   ],
@@ -374,7 +374,7 @@
       ],
       "explanation": {
         "en": "Irregular past participles must be learned: see – saw – seen, fly – flew – flown. Some are the same as the past simple: buy – bought – bought.",
-        "he": "את ה-past participle של פעלים חריגים צריך לזכור: see – saw – seen, fly – flew – flown. חלקם זהים לצורת העבר: buy – bought – bought."
+        "he": "את הצורה השלישית (V3) של פעלים חריגים צריך לזכור (see – saw – seen). חלקן זהות לצורת העבר (bought)."
       }
     },
     {
@@ -429,7 +429,7 @@
       },
       "explanation": {
         "en": "bought, met, won and made are both past simple and past participle. eat – ate – eaten, swim – swam – swum, write – wrote – written and be – was/were – been have a third form.",
-        "he": "bought, met, won, made משמשים גם כעבר פשוט וגם כ-past participle. ל-eat – ate – eaten, ‏swim – swam – swum, ‏write – wrote – written ו-be – was/were – been יש צורה שלישית שונה."
+        "he": "bought, met, won ו-made משמשים גם כעבר פשוט וגם כצורה שלישית. לפעלים כמו eat – ate – eaten יש צורה שלישית שונה."
       }
     },
     {
@@ -469,7 +469,7 @@
       },
       "explanation": {
         "en": "Present perfect = have/has + past participle: Have you ever eaten sushi? (eat – ate – eaten)",
-        "he": "present perfect בנוי מ-have/has + past participle: ‏Have you ever eaten sushi? (eat – ate – eaten)"
+        "he": "present perfect = have/has + צורה שלישית (eaten)."
       }
     },
     {
@@ -565,7 +565,7 @@
       "option_feedback": {
         "1": {
           "en": "'He is never seen snow' doesn't work. When a past participle (seen) follows, 's = has.",
-          "he": "'He is never seen snow' לא עובד. כשאחרי 's בא past participle ‏(seen), ‏'s = has."
+          "he": "כשאחרי 's באה צורה שלישית (seen), ה-'s הוא has, לא is."
         },
         "2": {
           "en": "his shows possession (his car). Here 's is a short form of a verb.",
@@ -574,7 +574,7 @@
       },
       "explanation": {
         "en": "'s + past participle = has: He has never seen snow. 's + adjective or -ing = is: He's tired. He's working.",
-        "he": "'s + past participle = has: ‏He has never seen snow. ‏'s + שם תואר או ing = is: ‏He's tired. He's working."
+        "he": "'s + צורה שלישית = has ‏(He has never seen snow). ‏'s + שם תואר או ing = is."
       },
       "option_errors": {
         "1": "verb-form",
@@ -668,7 +668,7 @@
           "match": "never",
           "feedback": {
             "en": "Use has + never + past participle: has never flown (fly – flew – flown).",
-            "he": "משתמשים ב-has + never + past participle: ‏has never flown (fly – flew – flown)."
+            "he": "משתמשים ב-has + never + צורה שלישית: has never flown."
           },
           "error_type": "verb-form"
         },
@@ -715,11 +715,11 @@
       ],
       "hint": {
         "en": "she → has, your parents → have. Then the past participle. never goes between has and the participle.",
-        "he": "she עם has, ‏your parents עם have. אחר כך past participle. ‏never בא בין has לבין הפועל."
+        "he": "she עם has, ‏your parents עם have. אחר כך צורה שלישית, ו-never בא באמצע."
       },
       "explanation": {
         "en": "has never flown (fly – flew – flown) · has visited · Have your parents ever travelled...? never already makes the sentence negative.",
-        "he": "has never flown (fly – flew – flown) · has visited · Have your parents ever travelled...? ‏never כבר הופך את המשפט לשלילי."
+        "he": "has never flown (fly – flew – flown), ובשאלה have לפני הנושא. ‏never כבר הופך את המשפט לשלילי."
       }
     },
     {
@@ -791,7 +791,7 @@
       },
       "explanation": {
         "en": "Have + subject + ever + past participle: Have you ever swum in a lake? (swim – swam – swum)",
-        "he": "Have + נושא + ever + past participle: ‏Have you ever swum in a lake? (swim – swam – swum)"
+        "he": "Have + נושא + ever + צורה שלישית: swum (swim – swam – swum)."
       }
     },
     {
@@ -848,7 +848,7 @@
           "answer": true,
           "explanation": {
             "en": "'My brother has gone back there this week.' gone = he went and he's still there.",
-            "he": "אמיר כותב: My brother has gone back there this week. ‏gone = הוא נסע והוא עדיין שם."
+            "he": "אמיר כותב שאחיו has gone back there השבוע: gone = הוא נסע והוא עדיין שם."
           }
         },
         {
@@ -876,7 +876,7 @@
           },
           "explanation": {
             "en": "'The strangest was at a theme park. Once I wore a giant banana costume...' Notice the switch to the past simple for the detail (Once I wore).",
-            "he": "קנג'י כותב: The strangest was at a theme park. Once I wore a giant banana costume... שימו לב למעבר לעבר פשוט כשהוא מוסיף פרט (Once I wore)."
+            "he": "קנג'י כותב שהמוזר ביותר היה בפארק שעשועים, ועובר לעבר פשוט כשהוא מוסיף פרט (Once I wore)."
           }
         },
         {
@@ -885,7 +885,7 @@
           "answer": true,
           "explanation": {
             "en": "'I tried them at a night market in Thailand three years ago.' The time is given, so Lior uses the past simple: I tried.",
-            "he": "ליאור כותב: I tried them at a night market in Thailand three years ago. יש ציון זמן, ולכן הוא עובר לעבר פשוט: I tried."
+            "he": "ליאור מציין זמן (לפני שלוש שנים, בתאילנד), ולכן הוא עובר לעבר פשוט: I tried."
           }
         },
         {
@@ -919,7 +919,7 @@
       "error_type": "verb-form",
       "explanation": {
         "en": "After have, use the past participle, not the past simple (went). For experiences, been is the usual choice: I've never been to a concert.",
-        "he": "אחרי have בא past participle, לא צורת העבר (went). לחוויות משתמשים בדרך כלל ב-been: I've never been to a concert."
+        "he": "אחרי have באה צורה שלישית, לא צורת העבר (went). לחוויות משתמשים בדרך כלל ב-been."
       }
     },
     {
@@ -959,7 +959,7 @@
       ],
       "explanation": {
         "en": "Has + subject + ever + past participle: Has your brother ever ridden a horse? (ride – rode – ridden)",
-        "he": "Has + נושא + ever + past participle: ‏Has your brother ever ridden a horse? (ride – rode – ridden)"
+        "he": "Has + נושא + ever + צורה שלישית: ridden (ride – rode – ridden)."
       }
     },
     {
@@ -1087,10 +1087,10 @@
       },
       "task": {
         "en": "Reply to the forum question 'What's the most unusual thing you've ever done?' Write 80-120 words. Use the present perfect at least four times (with ever, never, been or gone), and add one or two details in the past simple (when or where it happened). End with a question to the other readers.",
-        "he": "ענו על השאלה בפורום: 'What's the most unusual thing you've ever done?' כתבו 80-120 מילים. השתמשו ב-present perfect לפחות ארבע פעמים (עם ever, ‏never, ‏been או gone), והוסיפו פרט או שניים בעבר פשוט (מתי או איפה זה קרה). סיימו בשאלה לקוראים האחרים."
+        "he": "ענו על השאלה בפורום (מה הדבר הכי לא רגיל שעשיתם אי פעם?). כתבו 80-120 מילים. השתמשו ב-present perfect לפחות ארבע פעמים (עם ever, ‏never, ‏been או gone), והוסיפו פרט או שניים בעבר פשוט (מתי או איפה זה קרה). סיימו בשאלה לקוראים האחרים."
       },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "model_answer": "Great question! I've never jumped out of a plane, but I've had a few unusual experiences. I've been on the radio twice, because my band won a competition for young musicians. The first time, I was so nervous that I forgot the name of our song! I've also taken part in a 24-hour hackathon. We stayed up all night and built an app for our school. My best friend has gone to Berlin for a year, so now I'm planning to visit him. I've never been to Germany, so it's top of my bucket list. What about you? Have you ever done something that scared you?",
       "checklist": [
         {
@@ -1099,7 +1099,7 @@
         },
         {
           "en": "I used ever in a question and never with a positive verb (I've never..., not I haven't never...).",
-          "he": "השתמשתי ב-ever בשאלה וב-never עם פועל חיובי (I've never... ולא I haven't never...)."
+          "he": "השתמשתי ב-ever בשאלה וב-never עם פועל חיובי (בלי haven't)."
         },
         {
           "en": "My past participles are correct (been, flown, eaten, swum, taken).",
@@ -1116,15 +1116,15 @@
     "key_points": [
       {
         "en": "Present perfect = have/has + past participle: I've visited, she's seen.",
-        "he": "present perfect בנוי מ-have/has + past participle: ‏I've visited, she's seen."
+        "he": "present perfect בנוי מ-have/has + צורה שלישית (she's seen)."
       },
       {
         "en": "Use it for life experiences with no time given: Have you ever...? – Yes, I have. / No, I haven't.",
-        "he": "משתמשים בו לחוויות בחיים בלי ציון זמן: Have you ever...? – Yes, I have. / No, I haven't."
+        "he": "משתמשים בו לחוויות בחיים בלי ציון זמן: Have you ever...?"
       },
       {
         "en": "ever in questions; never with a positive verb: I've never been there (not *I haven't never).",
-        "he": "ever בשאלות; ‏never עם פועל חיובי: I've never been there (ולא I haven't never)."
+        "he": "ever בשאלות; ‏never עם פועל חיובי: I've never been there."
       },
       {
         "en": "been = went and came back; gone = went and is still there.",
@@ -1132,7 +1132,7 @@
       },
       {
         "en": "Hebrew has one past form; English chooses: I went there last year (time given) / I've been there (experience).",
-        "he": "בעברית יש צורת עבר אחת; באנגלית בוחרים: I went there last year (עם זמן) לעומת I've been there (חוויה)."
+        "he": "בעברית יש צורת עבר אחת; באנגלית בוחרים: עם ציון זמן – עבר פשוט (went), ולחוויה – present perfect (I've been)."
       }
     ]
   },

@@ -33,7 +33,7 @@
     {
       "type": "p",
       "en": "Look at this plan for the essay 'Should schools have a four-day week?' Introduction: Some towns are discussing a four-day school week. In my view, this would be a mistake. → Body 1: The main reason is that the other days would become too long. For example, ... → Body 2: Another reason is that many parents work on Fridays. For instance, ... → Conclusion: To sum up, a four-day week sounds attractive, but it would cause more problems than it solves. Every part has one job.",
-      "he": "הנה תוכנית לחיבור בנושא 'Should schools have a four-day week?' פתיחה: Some towns are discussing a four-day school week. In my view, this would be a mistake. ← גוף 1: The main reason is that the other days would become too long. For example, ... ← גוף 2: Another reason is that many parents work on Fridays. For instance, ... ← סיכום: To sum up, a four-day week sounds attractive, but it would cause more problems than it solves. לכל חלק יש תפקיד אחד."
+      "he": "הנה תוכנית לחיבור בנושא שבוע לימודים של ארבעה ימים: בפתיחה מציגים את הנושא ואת הדעה (in my view); בכל פסקת גוף נימוק אחד ודוגמה (for example); ובסיכום חוזרים על הדעה (to sum up). לכל חלק יש תפקיד אחד."
     },
     {
       "type": "table",
@@ -322,17 +322,17 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no word for a/an, so it is easy to leave it out: *It is good idea, *This is big problem. In English a singular countable noun needs a, an or the (or a word such as my or this): It is a good idea. This is a big problem.",
-      "he": "בעברית אין מילה ל-a/an, ולכן קל להשמיט אותה: It is good idea, ‏This is big problem. באנגלית לפני שם עצם ספיר ביחיד צריך a, ‏an או the (או מילה כמו my או this): ‏It is a good idea. ‏This is a big problem.",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל להשמיט אותה. באנגלית לפני שם עצם ספיר ביחיד צריך a, ‏an או the (או מילה כמו my): It is a good idea.",
       "error_type": "article"
     },
     {
       "en": "In Hebrew there is no present-tense 'be' (literally 'this very important'), so it is easy to write *This very important. English needs the verb: This is very important. The problem is that...",
-      "he": "בעברית אין 'להיות' בהווה ('זה חשוב מאוד'), ולכן קל לכתוב This very important. באנגלית חייבים את הפועל: This is very important. ‏The problem is that...",
+      "he": "בעברית אין 'להיות' בהווה ('זה חשוב מאוד'), ולכן קל להשמיט אותו. באנגלית חייבים את הפועל: This is very important.",
       "error_type": "copula-omission"
     },
     {
       "en": "In Hebrew a present-tense verb has the same form for I, you and he (literally 'I think, he think'), so the English -s is easy to forget, especially after everyone, nobody and singular nouns: Everyone needs rest. This idea makes sense.",
-      "he": "בעברית לפועל בהווה יש אותה צורה ל'אני' ול'הוא' (אני חושב, הוא חושב), ולכן קל לשכוח את ה-s באנגלית, במיוחד אחרי everyone, ‏nobody ושמות עצם ביחיד: Everyone needs rest. ‏This idea makes sense.",
+      "he": "בעברית לפועל בהווה יש אותה צורה ל'אני' ול'הוא' (אני חושב, הוא חושב), ולכן קל לשכוח את ה-s באנגלית, במיוחד אחרי everyone, ‏nobody ושמות עצם ביחיד: Everyone needs rest.",
       "error_type": "third-person-s"
     }
   ],
@@ -387,7 +387,7 @@
       },
       "explanation": {
         "en": "The introduction presents the topic and the opinion. Body paragraphs start with a reason (The main reason is that..., Another reason is that...) and support it (For example, ...). The conclusion sums up (To sum up, ..., For these reasons, ...).",
-        "he": "הפתיחה מציגה את הנושא ואת הדעה. פסקאות הגוף פותחות בנימוק (The main reason is that..., Another reason is that...) ותומכות בו (For example, ...). הסיכום מסכם (To sum up, ..., For these reasons, ...)."
+        "he": "הפתיחה מציגה את הנושא ואת הדעה. פסקאות הגוף פותחות בנימוק ותומכות בו בדוגמה (for example). הסיכום מסכם (to sum up)."
       }
     },
     {
@@ -428,7 +428,7 @@
       },
       "explanation": {
         "en": "A good opinion statement takes a clear side that people could disagree with: In my view, uniforms should be optional for students over sixteen.",
-        "he": "משפט דעה טוב נוקט עמדה ברורה שאפשר לחלוק עליה: In my view, uniforms should be optional for students over sixteen."
+        "he": "משפט דעה טוב נוקט עמדה ברורה שאפשר לחלוק עליה, למשל שתלבושת אחידה צריכה להיות רשות לתלמידים מעל גיל 16."
       }
     },
     {
@@ -511,7 +511,7 @@
       },
       "explanation": {
         "en": "'In the second one, though, you give a reason but no example' and 'your conclusion shouldn't introduce a new idea.'",
-        "he": "המורה אומרת: 'In the second one, though, you give a reason but no example' ו-'your conclusion shouldn't introduce a new idea.'"
+        "he": "המורה אומרת שבפסקה השנייה יש נימוק אבל אין דוגמה, ושבסיכום לא מביאים רעיון חדש."
       }
     },
     {
@@ -557,7 +557,7 @@
           },
           "explanation": {
             "en": "'However, I believe this plan would cause more problems than it solves.' – the last sentence of the introduction.",
-            "he": "'However, I believe this plan would cause more problems than it solves.' – המשפט האחרון בפתיחה."
+            "he": "המשפט האחרון בפתיחה מציג את הדעה: התוכנית תיצור יותר בעיות משהיא פותרת (However, I believe...)."
           }
         },
         {
@@ -594,7 +594,7 @@
           "answer": true,
           "explanation": {
             "en": "'Some people argue that...' gives the other side; 'However, teachers would also have longer... days' is her answer.",
-            "he": "'Some people argue that...' מציג את הצד השני; ‏'However, teachers would also have longer... days' היא התשובה שלה."
+            "he": "Some people argue that מציג את הצד השני, והמשפט שמתחיל ב-However הוא התשובה שלה."
           }
         },
         {
@@ -637,7 +637,7 @@
           ],
           "explanation": {
             "en": "'For instance, our neighbour, a nurse, would have to pay a babysitter every Friday.'",
-            "he": "בטקסט: For instance, our neighbour, a nurse, would have to pay a babysitter every Friday."
+            "he": "בטקסט יש דוגמה (For instance): השכנה, שהיא אחות, תצטרך לשלם לבייביסיטר בכל יום שישי."
           }
         }
       ]
@@ -659,7 +659,7 @@
       ],
       "explanation": {
         "en": "Topic sentence (Firstly, ...) → explanation (This is because...) → example (For example, ...) → a link back to the main idea (this kind of situation refers to the example).",
-        "he": "משפט נושא (Firstly, ...) ← הסבר (This is because...) ← דוגמה (For example, ...) ← חיבור חזרה לרעיון המרכזי (this kind of situation מתייחס לדוגמה)."
+        "he": "משפט נושא (Firstly) ← הסבר (This is because) ← דוגמה (For example) ← חיבור חזרה לרעיון המרכזי."
       }
     },
     {
@@ -807,7 +807,7 @@
       },
       "explanation": {
         "en": "1 In my view (the opinion) · 2 The main reason (first reason) · 3 For example (an example of not noticing the time) · 4 Another reason (second reason) · 5 To sum up (conclusion).",
-        "he": "1 In my view (הדעה) · 2 The main reason (נימוק ראשון) · 3 For example (דוגמה לכך שלא שמים לב לזמן) · 4 Another reason (נימוק שני) · 5 To sum up (סיכום)."
+        "he": "1 הדעה · 2 נימוק ראשון (the main reason) · 3 דוגמה · 4 נימוק שני (another reason) · 5 סיכום (to sum up)."
       }
     },
     {
@@ -833,7 +833,7 @@
       },
       "explanation": {
         "en": "week and idea are singular countable nouns, so each needs an article: a four-day week, a good idea. (the four-day week is also possible if you mean the plan everyone is discussing.)",
-        "he": "week ו-idea הם שמות עצם ספירים ביחיד, ולכן כל אחד צריך תווית: a four-day week, ‏a good idea. ‏(אפשר גם the four-day week, אם מתכוונים לתוכנית שכולם מדברים עליה.)"
+        "he": "week ו-idea הם שמות עצם ספירים ביחיד, ולכן כל אחד צריך תווית (a). אפשר גם the, אם מתכוונים לתוכנית שכולם מדברים עליה."
       }
     },
     {
@@ -880,7 +880,7 @@
       },
       "explanation": {
         "en": "everyone and a longer school day are singular (like he, she or it), so the present simple verbs take the -s form: have → has (irregular), eat → eats. (eat into something = use up part of it)",
-        "he": "everyone ו-a longer school day הם ביחיד (כמו he, ‏she או it), ולכן הפעלים בהווה פשוט מקבלים את צורת ה-s: ‏have הופך ל-has (חריג), ‏eat הופך ל-eats. ‏(eat into something = לנגוס במשהו, לקחת ממנו חלק)"
+        "he": "everyone ו'יום לימודים ארוך יותר' הם ביחיד, ולכן הפעלים בהווה פשוט מקבלים s: has, eats. ‏(eat into = לנגוס במשהו, לקחת ממנו חלק)"
       }
     },
     {
@@ -967,7 +967,7 @@
       },
       "explanation": {
         "en": "To sum up, I believe (that) schools should teach more life skills. Notice: for schools in general there is no article; should is followed directly by the base verb; and Hebrew 'skills of life' becomes life skills (the noun that describes comes first).",
-        "he": "To sum up, I believe (that) schools should teach more life skills. שימו לב: לבתי ספר באופן כללי אין תווית; אחרי should בא ישר הפועל בצורת הבסיס; ו\"מיומנויות חיים\" הופך ל-life skills (שם העצם המתאר בא קודם)."
+        "he": "שימו לב: לבתי ספר באופן כללי אין תווית; אחרי should בא ישר הפועל בצורת הבסיס; ו'מיומנויות חיים' הופך ל-life skills (שם העצם המתאר בא קודם)."
       }
     },
     {
@@ -1004,7 +1004,7 @@
       },
       "explanation": {
         "en": "A clear opinion statement: In my view + your position. ...cause more problems than it solves is a useful phrase for disagreeing with a plan.",
-        "he": "משפט דעה ברור: In my view + העמדה שלכם. ‏...cause more problems than it solves הוא ביטוי שימושי להתנגדות לתוכנית."
+        "he": "משפט דעה ברור: in my view + העמדה שלכם. הביטוי 'יותר בעיות משהיא פותרת' שימושי להתנגדות לתוכנית."
       }
     },
     {
@@ -1018,7 +1018,7 @@
       },
       "task": {
         "en": "Write a 300-word opinion essay (250-350 words) with an introduction, supporting arguments and a conclusion. Choose one topic: (1) Should public transport be free for students? (2) Is social media doing more harm than good to teenagers? (3) Is it better to live in a big city or a small town when you are young? Plan for five minutes first: your opinion, two or three reasons, and an example for each. Introduction: introduce the topic and give your opinion clearly. Body paragraphs: start each one with a topic sentence, explain your reason and support it with an example. You can add a short paragraph about the other side and say why you still disagree. Conclusion: restate your opinion in new words, with no new ideas.",
-        "he": "כתבו חיבור דעה של כ-300 מילים (250-350 מילים) עם פתיחה, נימוקים תומכים וסיכום. בחרו נושא אחד: (1) Should public transport be free for students? ‏(2) Is social media doing more harm than good to teenagers? ‏(3) Is it better to live in a big city or a small town when you are young? תכננו קודם חמש דקות: הדעה שלכם, שניים או שלושה נימוקים ודוגמה לכל אחד. פתיחה: הציגו את הנושא וכתבו את דעתכם בבירור. פסקאות גוף: פתחו כל פסקה במשפט נושא, הסבירו את הנימוק ותמכו בו בדוגמה. אפשר להוסיף פסקה קצרה על הצד השני ולהסביר למה אתם עדיין לא מסכימים. סיכום: חזרו על דעתכם במילים חדשות, בלי רעיונות חדשים."
+        "he": "כתבו חיבור דעה של כ-300 מילים (250-350 מילים) עם פתיחה, נימוקים תומכים וסיכום. בחרו נושא אחד: (1) האם תחבורה ציבורית צריכה להיות חינם לסטודנטים? (2) האם הרשתות החברתיות מזיקות לבני נוער יותר משהן מועילות? (3) האם עדיף לגור בעיר גדולה או בעיירה קטנה כשצעירים? תכננו קודם חמש דקות: הדעה שלכם, שניים או שלושה נימוקים ודוגמה לכל אחד. פתיחה: הציגו את הנושא וכתבו את דעתכם בבירור. פסקאות גוף: פתחו כל פסקה במשפט נושא, הסבירו את הנימוק ותמכו בו בדוגמה. אפשר להוסיף פסקה קצרה על הצד השני ולהסביר למה אתם עדיין לא מסכימים. סיכום: חזרו על דעתכם במילים חדשות, בלי רעיונות חדשים."
       },
       "min_words": 250,
       "max_words": 350,
@@ -1042,7 +1042,7 @@
         },
         {
           "en": "I linked my ideas clearly: The main reason is that..., Another reason is that..., For example, However, To sum up.",
-          "he": "קישרתי בין הרעיונות בבירור: The main reason is that..., ‏Another reason is that..., ‏For example, ‏However, ‏To sum up."
+          "he": "קישרתי בין הרעיונות בבירור, בביטויים כמו for example ו-to sum up."
         },
         {
           "en": "The essay has 250-350 words in 4-5 paragraphs, with full forms (it is, do not) and no slang.",
@@ -1059,7 +1059,7 @@
     "key_points": [
       {
         "en": "Introduction: introduce the topic, then give a clear opinion (In my view, ... / I strongly believe that...).",
-        "he": "פתיחה: מציגים את הנושא ואז כותבים דעה ברורה (In my view, ... / I strongly believe that...)."
+        "he": "פתיחה: מציגים את הנושא ואז כותבים דעה ברורה (in my view)."
       },
       {
         "en": "Body paragraph: topic sentence → explanation → example (For example, ...).",
@@ -1071,7 +1071,7 @@
       },
       {
         "en": "Conclusion: restate your opinion in new words – no new ideas (To sum up, ... / For these reasons, ...).",
-        "he": "סיכום: חוזרים על הדעה במילים חדשות – בלי רעיונות חדשים (To sum up, ... / For these reasons, ...)."
+        "he": "סיכום: חוזרים על הדעה במילים חדשות – בלי רעיונות חדשים (to sum up)."
       },
       {
         "en": "Plan before you write, and check a/an, is/are and the -s after he, she, it and everyone.",

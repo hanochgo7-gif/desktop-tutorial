@@ -25,7 +25,7 @@
       ["learn by heart", "go → went, have → had, do → did, make → made, say → said, see → saw, take → took, eat → ate, come → came, get → got, give → gave, find → found, lose → lost, tell → told, hear → heard, forget → forgot", "אין דפוס: חוזרים עליהם בקול עד שהם נשמעים טבעיים"]
     ] },
     { "type": "warning", "en": "Never add -ed to an irregular verb, and never use two past forms together: went (not *goed or *wented), bought (not *buyed).", "he": "אל תוסיפו ed לפועל חריג, ואל תחברו שתי צורות עבר: went ולא goed או wented, ‏bought ולא buyed." },
-    { "type": "tip", "en": "Learn the verbs in their groups and say them aloud: buy – bought, bring – brought, think – thought. Watch the sound too: said is /sed/, and read (past) is /red/, like the colour red.", "he": "למדו את הפעלים לפי הקבוצות ואמרו אותם בקול: buy – bought, bring – brought, think – thought. שימו לב גם להגייה: said נשמע /sed/, ו-read בעבר נשמע /red/, כמו הצבע red." },
+    { "type": "tip", "en": "Learn the verbs in their groups and say them aloud: buy – bought, bring – brought, think – thought. Watch the sound too: said is /sed/, and read (past) is /red/, like the colour red.", "he": "למדו את הפעלים לפי הקבוצות ואמרו אותם בקול, כמו bought, brought ו-thought. שימו לב גם להגייה: said נשמע 'סֶד' (/sed/), ו-read בעבר נשמע 'רֶד' (/red/), כמו הצבע red." },
     { "type": "p", "en": "Good news: you need these forms only in positive sentences. Questions and negatives use did + the base form (next lesson).", "he": "חדשות טובות: צריך את הצורות האלה רק במשפטים חיוביים. בשאלות ובשלילה משתמשים ב-did ובצורת הבסיס, ועל זה בשיעור הבא." }
   ],
   "examples": [
@@ -54,8 +54,8 @@
     { "word": "found", "pos": "verb (past of find)", "he": "מצא (עבר של find)", "def": "the past of find: discovered something you were looking for", "example": "Maya found her phone under the sofa.", "ipa": "/faʊnd/", "collocations": ["found a seat", "found a job"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is one 'a' sound, so English /æ/ and /ʌ/ can sound the same. In the past this changes the meaning: ran /ræn/ is past, run /rʌn/ is not. Open your mouth wider for /æ/: ran, swam, drank, sat.", "he": "בעברית יש צליל 'a' אחד, ולכן /æ/ ו-/ʌ/ באנגלית עלולים להישמע אותו דבר. בעבר זה משנה את המשמעות: ran /ræn/ הוא עבר, ו-run /rʌn/ לא. פתחו את הפה רחב יותר ב-/æ/: ran, swam, drank, sat.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no /θ/ sound, so thought can come out as 'sought' or 'tought'. Put the tip of your tongue between your teeth: /θɔːt/.", "he": "בעברית אין את הצליל /θ/, ולכן thought עלול לצאת sought או tought. שימו את קצה הלשון בין השיניים: /θɔːt/.", "error_type": "pron-th" }
+    { "en": "In Hebrew there is one 'a' sound, so English /æ/ and /ʌ/ can sound the same. In the past this changes the meaning: ran /ræn/ is past, run /rʌn/ is not. Open your mouth wider for /æ/: ran, swam, drank, sat.", "he": "פותחים את הפה רחב ב-ran, ‏swam ו-sat (/æ/), ואומרים 'אַ' קצרה ורפויה ב-run (/ʌ/). בעברית יש רק 'אַ' אחת, ולכן העבר (ran) וההווה (run) עלולים להישמע אותו דבר.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no /θ/ sound, so thought can come out as 'sought' or 'tought'. Put the tip of your tongue between your teeth: /θɔːt/.", "he": "שמים את קצה הלשון בין השיניים ונושפים, בלי קול, ב-thought (/θɔːt/). בעברית אין את הצליל הזה, ולכן thought יוצא לפעמים sought או tought.", "error_type": "pron-th" }
   ],
   "exercises": [
     {
@@ -80,7 +80,7 @@
         { "text": "break", "category": "like write → wrote" }
       ],
       "hint": { "en": "Say the past form aloud first, then listen to how it ends.", "he": "אמרו קודם את צורת העבר בקול, ואז הקשיבו איך היא מסתיימת." },
-      "explanation": { "en": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. When you remember one verb in a group, the others are easier to remember.", "he": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. כשזוכרים פועל אחד מהקבוצה, קל יותר לזכור את כולם." }
+      "explanation": { "en": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. When you remember one verb in a group, the others are easier to remember.", "he": "הפעלים כאן בשלוש קבוצות, כמו brought ו-caught, ‏flew ו-grew, ‏drove ו-spoke. כשזוכרים פועל אחד מהקבוצה, קל יותר לזכור את כולם." }
     },
     {
       "id": "e3", "type": "mcq", "skill": "grammar",
@@ -132,15 +132,15 @@
       "passage": "Last Friday my friend Priya and I took the early train to Haifa. We had a plan: a long walk on Mount Carmel and dinner by the sea. But the day began badly. I left my water bottle on the train, and Priya lost her sunglasses at the station. Then it started to rain, so we spent two hours in a small café near the port.\nActually, that was the best part of the day. We drank hot chocolate, ate amazing cheese pastries and met the owner, an old man called Yosef. He told us funny stories about the city in the 1970s.\nIn the evening the sky was clear again. We walked to the beach and saw a beautiful sunset. I came home tired and wet, but very happy.\n– Yael",
       "questions": [
         { "type": "tf", "statement": "Yael and Priya went to Haifa by train.", "answer": true,
-          "explanation": { "en": "'We took the early train to Haifa.' take → took.", "he": "בטקסט: We took the early train to Haifa. ‏take → took." } },
+          "explanation": { "en": "'We took the early train to Haifa.' take → took.", "he": "בטקסט כתוב שהם לקחו את הרכבת המוקדמת לחיפה: take → took." } },
         { "type": "mcq", "question": "Yael left ___ on the train.", "options": ["her sunglasses", "her water bottle", "her phone"], "answer": 1,
           "option_feedback": {
             "0": { "en": "Priya lost her sunglasses, at the station.", "he": "פריה איבדה את משקפי השמש שלה, בתחנה." },
             "2": { "en": "The text doesn't mention a phone.", "he": "בטקסט אין אזכור של טלפון." }
           },
-          "explanation": { "en": "'I left my water bottle on the train.' leave → left. When you say the place, use left (I left it on the train); forgot means you didn't bring it (I forgot my water bottle).", "he": "בטקסט: I left my water bottle on the train. ‏leave → left. כשמציינים מקום אומרים left (I left it on the train), ו-forgot פירושו ששכחתם להביא (I forgot my water bottle)." } },
+          "explanation": { "en": "'I left my water bottle on the train.' leave → left. When you say the place, use left (I left it on the train); forgot means you didn't bring it (I forgot my water bottle).", "he": "בטקסט כתוב שהיא שכחה את בקבוק המים ברכבת: leave → left. כשמציינים מקום אומרים left, ו-forgot פירושו ששכחתם להביא." } },
         { "type": "tf", "statement": "For Yael, the time in the café was the worst part of the day.", "answer": false,
-          "explanation": { "en": "She writes: 'Actually, that was the best part of the day.'", "he": "היא כותבת: Actually, that was the best part of the day – זה היה החלק הכי טוב ביום." } },
+          "explanation": { "en": "She writes: 'Actually, that was the best part of the day.'", "he": "היא כותבת שזה היה בעצם החלק הכי טוב ביום (the best part of the day)." } },
         { "type": "gap", "text": "Yosef ___ them funny stories about the city.", "answers": [["told"]],
           "explanation": { "en": "tell → told: 'He told us funny stories.'", "he": "העבר של tell הוא told: He told us funny stories." } },
         { "type": "mcq", "question": "In the evening, Yael and Priya ___.", "options": ["went back to the café", "took the train to Tel Aviv", "saw a beautiful sunset"], "answer": 2,
@@ -148,7 +148,7 @@
             "0": { "en": "They walked to the beach, not back to the café.", "he": "הן הלכו לחוף, לא חזרו לבית הקפה." },
             "1": { "en": "The text doesn't say this. It says they walked to the beach.", "he": "הטקסט לא אומר את זה. כתוב שהן הלכו לחוף." }
           },
-          "explanation": { "en": "'We walked to the beach and saw a beautiful sunset.' see → saw.", "he": "בטקסט: We walked to the beach and saw a beautiful sunset. ‏see → saw." } }
+          "explanation": { "en": "'We walked to the beach and saw a beautiful sunset.' see → saw.", "he": "בטקסט כתוב שהם הלכו לחוף וראו שקיעה יפה: see → saw." } }
       ]
     },
     {
@@ -171,11 +171,11 @@
       "text": "Hi Noa! Sorry about last night. I ___ (leave) my phone at work, ___ (come) home very late and ___ (sleep) on the sofa until eleven.",
       "answers": [["left"], ["came"], ["slept"]],
       "wrong_feedback": [
-        { "match": "leaved", "feedback": { "en": "leave is irregular: leave → left (the long vowel becomes a short e).", "he": "leave הוא פועל חריג: leave → left (התנועה הארוכה מתקצרת ל-e)." }, "error_type": "verb-form" },
-        { "match": "leave", "feedback": { "en": "This is the base form. The story is in the past: leave → left.", "he": "זו צורת הבסיס. הסיפור בעבר: leave → left." }, "error_type": "tense-choice" },
-        { "match": "comed", "feedback": { "en": "come is irregular: come → came.", "he": "come הוא פועל חריג: come → came." }, "error_type": "verb-form" },
-        { "match": "come", "feedback": { "en": "This is the base form. In the past the vowel changes: come → came.", "he": "זו צורת הבסיס. בעבר התנועה משתנה: come → came." }, "error_type": "tense-choice" },
-        { "match": "sleeped", "feedback": { "en": "sleep is irregular: sleep → slept (short e + t).", "he": "sleep הוא פועל חריג: sleep → slept (e קצרה ו-t בסוף)." }, "error_type": "verb-form" }
+        { "match": "leaved", "feedback": { "en": "leave is irregular: leave → left (the long vowel becomes a short e).", "he": "leave הוא פועל חריג: leave → left (התנועה הארוכה מתקצרת ל-e)." }, "rule": { "en": "leave is irregular, so it does not take -ed. The long vowel becomes a short e.", "he": "leave הוא פועל חריג, ולכן לא מוסיפים לו ed. התנועה הארוכה מתקצרת ל-e." }, "error_type": "verb-form" },
+        { "match": "leave", "feedback": { "en": "This is the base form. The story is in the past: leave → left.", "he": "זו צורת הבסיס. הסיפור בעבר: leave → left." }, "rule": { "en": "This is the base form, and the story is in the past.", "he": "זו צורת הבסיס, והסיפור בעבר." }, "error_type": "tense-choice" },
+        { "match": "comed", "feedback": { "en": "come is irregular: come → came.", "he": "come הוא פועל חריג: come → came." }, "rule": { "en": "come is irregular, so it does not take -ed. Its past form is one to learn by heart.", "he": "come הוא פועל חריג, ולכן לא מוסיפים לו ed. את צורת העבר שלו לומדים בעל פה." }, "error_type": "verb-form" },
+        { "match": "come", "feedback": { "en": "This is the base form. In the past the vowel changes: come → came.", "he": "זו צורת הבסיס. בעבר התנועה משתנה: come → came." }, "rule": { "en": "This is the base form. In the past the vowel changes.", "he": "זו צורת הבסיס. בעבר התנועה משתנה." }, "error_type": "tense-choice" },
+        { "match": "sleeped", "feedback": { "en": "sleep is irregular: sleep → slept (short e + t).", "he": "sleep הוא פועל חריג: sleep → slept (e קצרה ו-t בסוף)." }, "rule": { "en": "sleep is irregular: the long vowel becomes a short e, with t at the end.", "he": "sleep הוא פועל חריג: התנועה הארוכה מתקצרת ל-e, ובסוף בא t." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "Check the table: leave and sleep are in the 'long vowel → short e' group; come is in 'learn by heart'.", "he": "חפשו בטבלה: leave ו-sleep בקבוצת 'התנועה מתקצרת', ו-come בקבוצת 'לזכור בעל פה'." },
       "explanation": { "en": "leave → left, come → came, sleep → slept.", "he": "שלושתם פעלים חריגים: leave → left, come → came, sleep → slept." }
@@ -201,10 +201,10 @@
         "Omer got up at seven and had breakfast with his dad yesterday."
       ],
       "wrong_feedback": [
-        { "match": "Yesterday Omer gets up at seven and has breakfast with his dad.", "feedback": { "en": "Yesterday is finished past time, so both verbs change: gets up → got up, has → had.", "he": "Yesterday הוא זמן עבר, ולכן שני הפעלים משתנים: gets up → got up, ‏has → had." }, "error_type": "tense-choice" },
-        { "match": "Yesterday Omer got up at seven and has breakfast with his dad.", "feedback": { "en": "Change the second verb too: has → had.", "he": "צריך לשנות גם את הפועל השני: has → had." }, "error_type": "tense-choice" },
-        { "match": "getted", "feedback": { "en": "get is irregular: get up → got up.", "he": "get הוא פועל חריג: get up → got up." }, "error_type": "verb-form" },
-        { "match": "haved", "feedback": { "en": "have is irregular: have → had.", "he": "have הוא פועל חריג: have → had." }, "error_type": "verb-form" }
+        { "match": "Yesterday Omer gets up at seven and has breakfast with his dad.", "feedback": { "en": "Yesterday is finished past time, so both verbs change: gets up → got up, has → had.", "he": "Yesterday הוא זמן עבר, ולכן שני הפעלים משתנים: gets up → got up, ‏has → had." }, "rule": { "en": "Yesterday is finished past time, so both verbs change to the past simple.", "he": "Yesterday הוא זמן עבר שהסתיים, ולכן שני הפעלים עוברים לעבר פשוט." }, "error_type": "tense-choice" },
+        { "match": "Yesterday Omer got up at seven and has breakfast with his dad.", "feedback": { "en": "Change the second verb too: has → had.", "he": "צריך לשנות גם את הפועל השני: has → had." }, "rule": { "en": "The first verb is right. Change the second verb to the past simple too.", "he": "הפועל הראשון נכון. צריך להעביר לעבר פשוט גם את הפועל השני." }, "error_type": "tense-choice" },
+        { "match": "getted", "feedback": { "en": "get is irregular: get up → got up.", "he": "get הוא פועל חריג: get up → got up." }, "rule": { "en": "get is irregular, so it does not take -ed.", "he": "get הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" },
+        { "match": "haved", "feedback": { "en": "have is irregular: have → had.", "he": "have הוא פועל חריג: have → had." }, "rule": { "en": "have is irregular, so it does not take -ed.", "he": "have הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "Two verbs change: gets up and has.", "he": "שני פעלים משתנים: gets up ו-has." },
       "explanation": { "en": "get up → got up, have → had. In the past there is no -s for he or she.", "he": "get up → got up, ‏have → had. בעבר אין s גם אחרי he או she." }
@@ -240,12 +240,12 @@
         "I rode the bus to Jerusalem."
       ],
       "wrong_feedback": [
-        { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים I went by bus או I took the bus." }, "error_type": "false-friend" },
-        { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "error_type": "tense-choice" },
-        { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "error_type": "verb-form" },
+        { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים went by bus או took the bus." }, "rule": { "en": "drove means you were the driver. Think of a verb for travelling as a passenger.", "he": "drove אומר שאתם נהגתם. חשבו על פועל לנסיעה כנוסעים." }, "error_type": "false-friend" },
+        { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "rule": { "en": "The sentence is about the past, so the verb needs its past form.", "he": "המשפט מתאר עבר, ולכן הפועל צריך לבוא בצורת העבר." }, "error_type": "tense-choice" },
+        { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "rule": { "en": "go is irregular, so it does not take -ed.", "he": "go הוא פועל חריג, ולכן לא מוסיפים לו ed." }, "error_type": "verb-form" },
         { "match": "I went to Jerusalem by the bus.", "feedback": { "en": "After by, there is no the: by bus (or: on the bus).", "he": "אחרי by לא בא the: ‏by bus (או: on the bus)." }, "error_type": "article" },
-        { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" },
-        { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" }
+        { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "rule": { "en": "English uses a different preposition before a means of transport.", "he": "באנגלית באה לפני כלי תחבורה מילת יחס אחרת." }, "error_type": "preposition" },
+        { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "rule": { "en": "English uses a different preposition before a means of transport.", "he": "באנגלית באה לפני כלי תחבורה מילת יחס אחרת." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Were you the driver? If not, don't use drove.", "he": "האם אתם נהגתם? אם לא, אל תשתמשו ב-drove." },
       "explanation": { "en": "There is no single English verb for this idea: say went (by bus), took (the bus) or travelled. drove is only for the driver.", "he": "לפועל 'נסע' אין מילה אחת באנגלית: went by bus, ‏took the bus או travelled. את drove אומרים רק כשאתם הנהגים." }
@@ -254,7 +254,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
       "target": "I bought a ticket and caught the last train home.",
-      "focus": { "en": "bought and caught rhyme: /bɔːt/, /kɔːt/. The gh is silent.", "he": "bought ו-caught מתחרזים: /bɔːt/, /kɔːt/. האותיות gh לא נהגות." },
+      "focus": { "en": "bought and caught rhyme: /bɔːt/, /kɔːt/. The gh is silent.", "he": "אומרים 'אוֹ' ארוכה ב-bought וב-caught, והן מתחרזות; האותיות gh לא נהגות (/bɔːt/, /kɔːt/)." },
       "explanation": { "en": "All the -ought/-aught verbs end in the same sound, which makes them easier to remember.", "he": "כל הפעלים בקבוצת ought/aught מסתיימים באותו צליל, וזה עוזר לזכור אותם." }
     },
     {
@@ -276,7 +276,7 @@
     "key_points": [
       { "en": "Irregular verbs have their own past form: go → went, see → saw, buy → bought.", "he": "לפעלים חריגים יש צורת עבר משלהם: go → went, see → saw, buy → bought." },
       { "en": "The past form is the same for every person: I went, she went, they went.", "he": "צורת העבר זהה בכל הגופים: I went, she went, they went." },
-      { "en": "Learn them in groups: bought/brought/thought/caught · knew/grew/flew · wrote/drove/spoke.", "he": "לומדים אותם בקבוצות: bought/brought/thought/caught · knew/grew/flew · wrote/drove/spoke." },
+      { "en": "Learn them in groups: bought/brought/thought/caught · knew/grew/flew · wrote/drove/spoke.", "he": "לומדים אותם בקבוצות שנשמעות דומה, כמו bought/brought/thought ו-knew/grew/flew." },
       { "en": "Never add -ed to an irregular verb: not *goed, *buyed or *wented.", "he": "אף פעם לא מוסיפים ed לפועל חריג: לא goed, לא buyed ולא wented." },
       { "en": "Watch the sounds: said /sed/, read (past) /red/, ran /ræn/.", "he": "שימו לב להגייה: said /sed/, ‏read בעבר /red/, ‏ran /ræn/." }
     ]

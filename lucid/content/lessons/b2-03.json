@@ -131,7 +131,7 @@
     {
       "type": "p",
       "en": "Contrast with Hebrew: Hebrew does not mark progressive or perfect aspect in the verb, so one passive form can cover 'is built' and 'is being built', and another can cover 'was built' and 'has been built'. English always chooses: The stadium is being built (in progress) / has been built (finished).",
-      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל: 'האצטדיון נבנה' יכול להתאים גם ל-is built וגם ל-is being built, ובעבר גם ל-was built וגם ל-has been built. באנגלית חייבים לבחור: The stadium is being built (בתהליך) / has been built (הסתיים)."
+      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל, ולכן 'האצטדיון נבנה' יכול להתאים לכמה צורות באנגלית. באנגלית חייבים לבחור: is being built (בתהליך) או has been built (הסתיים)."
     }
   ],
   "examples": [
@@ -336,7 +336,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the progressive and perfect are not marked in the verb. One present passive form covers 'houses are built' (in general) and 'a house is being built' (now), and one past form covers 'was built' and 'has been built'. English must choose: The stadium is being built at the moment (not *The stadium is built at the moment).",
-      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל: 'נבנה' בהווה מתאים גם ל-is built (באופן כללי) וגם ל-is being built (עכשיו), ו'נבנה' בעבר מתאים גם ל-was built וגם ל-has been built. באנגלית חייבים לבחור: The stadium is being built at the moment.",
+      "he": "בעברית אין סימון של הווה מתמשך או של perfect בפועל: 'נבנה' יכול לתאר מצב כללי, פעולה שקורית עכשיו או פעולה שהסתיימה. באנגלית חייבים לבחור, ולמה שקורה עכשיו אומרים is being built.",
       "error_type": "tense-choice"
     }
   ],

@@ -12,16 +12,16 @@
   ],
   "warmup": { "en": "Open the calendar on your phone. What's happening this week? Who are you meeting, and when?", "he": "פתחו את היומן בטלפון. מה מתוכנן לכם השבוע? עם מי אתם נפגשים, ומתי? שימו לב: גם בעברית אומרים 'ביום רביעי אני נפגשת עם דנה' – בהווה, על העתיד." },
   "explanation": [
-    { "type": "p", "en": "Look at Noa's diary: Tuesday 4:30 – dentist. Friday 8:00 – dinner with Omer. Noa says: I'm seeing the dentist on Tuesday. I'm having dinner with Omer on Friday. These are arrangements: the day and time are fixed, and other people know about them.", "he": "הנה היומן של נועה: יום שלישי 4:30 – רופא שיניים. יום שישי 8:00 – ארוחת ערב עם עומר. נועה אומרת: I'm seeing the dentist on Tuesday. I'm having dinner with Omer on Friday. אלה סידורים: היום והשעה קבועים, ואנשים נוספים כבר יודעים עליהם." },
-    { "type": "rule", "en": "Fixed arrangement = am/is/are + -ing + a future time: I'm meeting Dana at 6 tomorrow. The time words show it's the future, not now.", "he": "סידור קבוע = am/is/are + ing + ציון זמן עתידי: I'm meeting Dana at 6 tomorrow. ציון הזמן מראה שמדובר בעתיד ולא במה שקורה עכשיו." },
+    { "type": "p", "en": "Look at Noa's diary: Tuesday 4:30 – dentist. Friday 8:00 – dinner with Omer. Noa says: I'm seeing the dentist on Tuesday. I'm having dinner with Omer on Friday. These are arrangements: the day and time are fixed, and other people know about them.", "he": "ביומן של נועה רשומים רופא שיניים ביום שלישי וארוחת ערב עם עומר ביום שישי, ולכן היא אומרת I'm seeing the dentist on Tuesday. אלה סידורים: היום והשעה קבועים, ואנשים נוספים כבר יודעים עליהם." },
+    { "type": "rule", "en": "Fixed arrangement = am/is/are + -ing + a future time: I'm meeting Dana at 6 tomorrow. The time words show it's the future, not now.", "he": "סידור קבוע = am/is/are + ing + ציון זמן עתידי. ציון הזמן (כמו tomorrow) מראה שמדובר בעתיד ולא במה שקורה עכשיו." },
     { "type": "table", "headers": ["Form", "Example", "Meaning"], "rows": [
       ["present continuous", "I'm flying to Rome on Monday.", "arrangement: the ticket is booked"],
       ["going to", "I'm going to visit Rome one day.", "plan or intention, maybe with no date yet"],
       ["will", "Rome? Great idea, I'll come with you!", "decision at the moment of speaking"]
     ] },
-    { "type": "p", "en": "Asking about plans: What are you doing tonight? · Are you doing anything at the weekend? · Are you free on Thursday? Answers: I'm not doing anything special. · Sorry, I'm busy. I'm working late.", "he": "כך שואלים על תוכניות: What are you doing tonight? · Are you doing anything at the weekend? · Are you free on Thursday? וכך עונים: I'm not doing anything special. · Sorry, I'm busy. I'm working late." },
-    { "type": "tip", "en": "Hebrew uses the present for arrangements too, but it has only one present form. In English an arrangement uses the continuous form: I'm meeting Dana at six. (I meet Dana at six sounds like a habit, not an arrangement.)", "he": "גם בעברית משתמשים בהווה לסידורים ('אני פוגשת את דנה בשש'), אבל בעברית יש רק צורת הווה אחת. באנגלית לסידור משתמשים בהווה מתמשך: I'm meeting Dana at six. (I meet Dana at six נשמע כמו הרגל, לא כמו סידור.)" },
-    { "type": "warning", "en": "Keep am/is/are: We're flying on Sunday (not *We flying on Sunday).", "he": "אל תשמיטו את am/is/are: We're flying on Sunday ולא We flying on Sunday." }
+    { "type": "p", "en": "Asking about plans: What are you doing tonight? · Are you doing anything at the weekend? · Are you free on Thursday? Answers: I'm not doing anything special. · Sorry, I'm busy. I'm working late.", "he": "כך שואלים על תוכניות: What are you doing tonight? בתשובה משתמשים באותה צורה, עם ing." },
+    { "type": "tip", "en": "Hebrew uses the present for arrangements too, but it has only one present form. In English an arrangement uses the continuous form: I'm meeting Dana at six. (I meet Dana at six sounds like a habit, not an arrangement.)", "he": "גם בעברית משתמשים בהווה לסידורים ('אני פוגשת את דנה בשש'), אבל בעברית יש רק צורת הווה אחת. באנגלית לסידור משתמשים בהווה מתמשך: I'm meeting Dana at six. ההווה הפשוט נשמע כאן כמו הרגל." },
+    { "type": "warning", "en": "Keep am/is/are: We're flying on Sunday (not *We flying on Sunday).", "he": "אל תשמיטו את am/is/are: We're flying on Sunday." }
   ],
   "examples": [
     { "en": "I'm meeting Dana at 6 this evening.", "he": "אני נפגש/ת עם דנה בשש הערב.", "note": "arrangement" },
@@ -47,7 +47,7 @@
     { "word": "have a party", "pos": "phrase", "he": "לעשות מסיבה", "def": "to organise a party and invite people", "example": "My sister is having a party on Saturday.", "ipa": "/ˌhæv ə ˈpɑːti/", "collocations": ["have a birthday party", "have a big party"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew the present tense has one form, so an arrangement can come out in the present simple: *Tomorrow I meet Dana. English uses the present continuous: Tomorrow I'm meeting Dana.", "he": "בעברית יש צורת הווה אחת, ולכן 'מחר אני פוגשת את דנה' עלול להפוך ל-Tomorrow I meet Dana. באנגלית לסידור משתמשים בהווה מתמשך: Tomorrow I'm meeting Dana.", "error_type": "tense-choice" },
+    { "en": "In Hebrew the present tense has one form, so an arrangement can come out in the present simple: *Tomorrow I meet Dana. English uses the present continuous: Tomorrow I'm meeting Dana.", "he": "בעברית יש צורת הווה אחת, ולכן 'מחר אני פוגשת את דנה' עלול לצאת בהווה פשוט. באנגלית לסידור משתמשים בהווה מתמשך: Tomorrow I'm meeting Dana.", "error_type": "tense-choice" },
     { "en": "In Hebrew there is no present-tense 'be', so am/is/are can go missing: *We flying on Sunday. English needs it: We're flying on Sunday.", "he": "בעברית אין 'להיות' בהווה, ולכן am/is/are נעלמים בקלות. באנגלית חייבים אותם: We're flying on Sunday.", "error_type": "copula-omission" },
     { "en": "In Hebrew a question can keep the word order of a statement. In English, are/is comes before the subject: What are you doing tomorrow? (not *What you are doing tomorrow?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה אתה עושה מחר?'). באנגלית are/is בא לפני הנושא: What are you doing tomorrow?", "error_type": "word-order" }
   ],
@@ -93,7 +93,7 @@
         { "text": "My cousins are arriving the day after tomorrow.", "category": "Future arrangement" }
       ],
       "hint": { "en": "The verb form is the same. Look for the time words.", "he": "צורת הפועל זהה. חפשו את מילות הזמן." },
-      "explanation": { "en": "The form is the same (am/is/are + -ing). The context tells you: Shh, Look!, at the moment, right now = now; on Thursday, next Saturday, tomorrow night = future.", "he": "הצורה זהה (am/is/are + ing). ההקשר קובע: Shh, Look!, at the moment, right now = עכשיו; on Thursday, next Saturday, tomorrow night = עתיד." }
+      "explanation": { "en": "The form is the same (am/is/are + -ing). The context tells you: Shh, Look!, at the moment, right now = now; on Thursday, next Saturday, tomorrow night = future.", "he": "הצורה זהה (am/is/are + ing), וההקשר קובע: מילים כמו right now מראות שזה עכשיו, ומילים כמו next Saturday מראות שזה בעתיד." }
     },
     {
       "id": "e4", "type": "listen", "skill": "listening",
@@ -107,7 +107,7 @@
         "2": { "en": "There's no dentist in the message. She's visiting her grandmother in Haifa.", "he": "בהודעה אין רופא שיניים. היא מבקרת את סבתא שלה בחיפה." }
       },
       "option_errors": { "0": "comprehension", "2": "comprehension" },
-      "explanation": { "en": "I'm visiting my grandmother = an arrangement for Thursday. Then Maya asks about another day: Are you free on Friday?", "he": "I'm visiting my grandmother = סידור ליום חמישי. אחר כך מאיה שואלת על יום אחר: Are you free on Friday?" }
+      "explanation": { "en": "I'm visiting my grandmother = an arrangement for Thursday. Then Maya asks about another day: Are you free on Friday?", "he": "ביום חמישי יש לה סידור (I'm visiting my grandmother), ולכן מאיה שואלת על יום אחר: שישי." }
     },
     {
       "id": "e5", "type": "gap", "skill": "grammar",
@@ -127,7 +127,7 @@
         { "match": "make", "feedback": { "en": "For an arrangement, use the present continuous: am making.", "he": "לסידור משתמשים בהווה מתמשך: am making." }, "error_type": "tense-choice" }
       ],
       "hint": { "en": "we → are, Lior → is, I → am. Then add -ing.", "he": "we עם are, ‏Lior עם is, ‏I עם am. ואז מוסיפים ing." },
-      "explanation": { "en": "Arrangement = am/is/are + -ing: we're having, Lior is bringing, I'm making.", "he": "סידור = am/is/are + ing: we're having, Lior is bringing, I'm making." }
+      "explanation": { "en": "Arrangement = am/is/are + -ing: we're having, Lior is bringing, I'm making.", "he": "סידור = am/is/are + ing, לכל נושא: we're having, I'm making." }
     },
     {
       "id": "e6", "type": "mcq", "skill": "grammar",
@@ -136,12 +136,12 @@
       "options": ["What do you do tonight?", "What you are doing tonight?", "What will you doing tonight?", "What are you doing tonight?"],
       "answer": 3,
       "option_feedback": {
-        "0": { "en": "What do you do? asks about habits or someone's job. For plans tonight: What are you doing tonight?", "he": "What do you do? שואל על הרגלים או על מקצוע. לתוכניות להערב: What are you doing tonight?" },
+        "0": { "en": "What do you do? asks about habits or someone's job. For plans tonight: What are you doing tonight?", "he": "השאלה עם do שואלת על הרגלים או על מקצוע. לתוכניות להערב: What are you doing tonight?" },
         "1": { "en": "In a question, are comes before you: What are you doing?", "he": "בשאלה are בא לפני you: ‏What are you doing?" },
         "2": { "en": "After will, use the base verb, not -ing. The natural question is: What are you doing tonight?", "he": "אחרי will בא פועל בצורת הבסיס, לא ing. השאלה הטבעית: What are you doing tonight?" }
       },
       "option_errors": { "0": "tense-choice", "1": "word-order", "2": "verb-form" },
-      "explanation": { "en": "Asking about arrangements: What + are + you + -ing? What are you doing tonight?", "he": "שאלה על סידורים: What + are + you + ing. ‏What are you doing tonight?" }
+      "explanation": { "en": "Asking about arrangements: What + are + you + -ing? What are you doing tonight?", "he": "שאלה על סידורים בנויה כך: What + are + you + ing." }
     },
     {
       "id": "e7", "type": "read", "skill": "reading",
@@ -154,7 +154,7 @@
             "1": { "en": "On Monday she's starting her new course.", "he": "ביום שני היא מתחילה את הקורס החדש." },
             "2": { "en": "On Thursday she's visiting Jerusalem with Arjun.", "he": "ביום חמישי היא מבקרת בירושלים עם ארג'ון." }
           },
-          "explanation": { "en": "'...on Tuesday evening I'm having dinner with my manager and the new team.'", "he": "במייל: on Tuesday evening I'm having dinner with my manager and the new team." } },
+          "explanation": { "en": "'...on Tuesday evening I'm having dinner with my manager and the new team.'", "he": "במייל כתוב שביום שלישי בערב הוא אוכל ארוחת ערב עם המנהל והצוות החדש (I'm having dinner)." } },
         { "type": "tf", "statement": "Arjun is arriving on Wednesday night.", "answer": true,
           "explanation": { "en": "He's arriving on Wednesday, and Priya is meeting him at the airport at 11 p.m.", "he": "הוא מגיע ביום רביעי, ופריה פוגשת אותו בשדה התעופה ב-11 בלילה." } },
         { "type": "tf", "statement": "Priya is busy every day this week.", "answer": false,
@@ -211,7 +211,7 @@
       "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
       "tokens": ["Are", "you", "doing", "anything", "on", "Saturday", "evening"],
       "answers": ["On Saturday evening are you doing anything"],
-      "explanation": { "en": "Are + subject + -ing: Are you doing anything on Saturday evening? Use anything in questions.", "he": "Are + נושא + ing: ‏Are you doing anything on Saturday evening? בשאלה משתמשים ב-anything." }
+      "explanation": { "en": "Are + subject + -ing: Are you doing anything on Saturday evening? Use anything in questions.", "he": "Are + נושא + ing, ובשאלה משתמשים ב-anything: Are you doing anything...?" }
     },
     {
       "id": "e12", "type": "transform", "skill": "vocabulary",
@@ -224,7 +224,7 @@
       ],
       "wrong_feedback": [
         { "match": "What you are doing the day after tomorrow?", "feedback": { "en": "In Hebrew the subject can come before the verb in a question. In English, are comes before you: What are you doing...?", "he": "בעברית הנושא יכול לבוא לפני הפועל בשאלה ('מה את עושה'). באנגלית are בא לפני you: What are you doing...?" }, "error_type": "word-order" },
-        { "match": "What do you do the day after tomorrow?", "feedback": { "en": "What do you do? is about habits or your job. For plans, use the present continuous: What are you doing...?", "he": "What do you do? שואל על הרגלים או על מקצוע. לתוכניות משתמשים בהווה מתמשך: What are you doing...?" }, "error_type": "tense-choice" },
+        { "match": "What do you do the day after tomorrow?", "feedback": { "en": "What do you do? is about habits or your job. For plans, use the present continuous: What are you doing...?", "he": "השאלה עם do שואלת על הרגלים או על מקצוע. לתוכניות משתמשים בהווה מתמשך: What are you doing...?" }, "error_type": "tense-choice" },
         { "match": "What are you doing after tomorrow?", "feedback": { "en": "Hebrew has one word for this day, but English needs a phrase: the day after tomorrow.", "he": "ל'מחרתיים' יש מילה אחת בעברית, אבל באנגלית אומרים the day after tomorrow." }, "error_type": "false-friend" },
         { "match": "What are you doing in the day after tomorrow?", "feedback": { "en": "No preposition before the day after tomorrow, just like tomorrow and tonight.", "he": "לפני the day after tomorrow אין מילת יחס, בדיוק כמו לפני tomorrow ו-tonight." }, "error_type": "preposition" }
       ],
@@ -242,7 +242,7 @@
       "id": "e14", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Say no politely. Say it out loud.", "he": "סרבו בנימוס. אמרו את זה בקול." },
       "target": "Sorry, I can't make it on Friday. I'm working late.",
-      "focus": { "en": "working ends in /ŋ/: no hard g at the end.", "he": "working מסתיים ב-/ŋ/, בלי g חזקה בסוף." },
+      "focus": { "en": "working ends in /ŋ/: no hard g at the end.", "he": "מסיימים את working באף, בלי g חזקה בסוף (/ŋ/)." },
       "explanation": { "en": "I can't make it = I can't come. Giving your arrangement as a reason sounds polite and natural.", "he": "I can't make it = אני לא אוכל להגיע. כשמסבירים מה הסידור שלכם, הסירוב נשמע מנומס וטבעי." }
     },
     {
@@ -250,7 +250,7 @@
       "prompt": { "en": "Pass on a message in English.", "he": "העבירו הודעה באנגלית." },
       "task": { "en": "Your friend Omer sent you a message in Hebrew (you can see it in the Hebrew instructions). Kenji, your friend from Japan, is visiting Israel and doesn't speak Hebrew. Write him a short message in English (40-80 words): tell him the plans for the weekend and ask if he is free.", "he": "עומר שלח לכם את ההודעה הזאת: 'היי! ביום שישי בערב אנחנו עושים מנגל אצל נועה, בשבע. אני מביא את הבשר, ומאיה מביאה עוגה. בשבת בבוקר אנחנו נוסעים לים, בעשר. תגידו לקנג'י שהוא מוזמן!' קנג'י, חבר שלכם מיפן, מבקר בארץ ולא מדבר עברית. כתבו לו הודעה קצרה באנגלית (40-80 מילים): ספרו לו מה התוכניות לסוף השבוע ושאלו אם הוא פנוי." },
       "min_words": 40,
-      "max_words": 90,
+      "max_words": 80,
       "must_include": ["Friday", "Saturday"],
       "model_answer": "Hi Kenji! Omer asked me to tell you about the weekend plans. On Friday evening we're having a barbecue at Noa's place at 7. Omer is bringing the meat and Maya is bringing a cake. On Saturday morning we're going to the beach at 10. You're invited to both! Are you free? Let me know and I'll send you the address.",
       "checklist": [
@@ -264,7 +264,7 @@
   "review": {
     "key_points": [
       { "en": "Fixed arrangements: am/is/are + -ing + a future time: I'm meeting Dana at 6.", "he": "סידורים קבועים: am/is/are + ing + ציון זמן עתידי: I'm meeting Dana at 6." },
-      { "en": "Ask about plans: What are you doing tonight? Are you free on Friday?", "he": "שואלים על תוכניות: What are you doing tonight? Are you free on Friday?" },
+      { "en": "Ask about plans: What are you doing tonight? Are you free on Friday?", "he": "שואלים על תוכניות בהווה מתמשך: What are you doing tonight?" },
       { "en": "Arrangement = present continuous · plan or intention = going to · decision now = will.", "he": "סידור = הווה מתמשך · תוכנית או כוונה = going to · החלטה של רגע = will." },
       { "en": "Keep am/is/are, and in questions put it before the subject: What are you doing?", "he": "אל תשמיטו את am/is/are, ובשאלה שימו אותו לפני הנושא: What are you doing?" }
     ]

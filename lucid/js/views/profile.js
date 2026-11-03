@@ -3,11 +3,20 @@ import { html, render, on, $ } from '../core/util.js';
 import { tt, t } from '../core/i18n.js';
 import { icon, toast, LEVEL_LABEL } from '../ui/components.js';
 import { profile, saveProfile, model } from '../core/learner.js';
-
-const GOALS = { travel: ['טיולים', 'Travel'], work: ['עבודה', 'Work'], studies: ['מבחנים ולימודים', 'Exams and university'], conversation: ['ביטחון בשיחה', 'Conversation'], writing: ['כתיבה אקדמית', 'Academic writing'], everyday: ['יום-יום', 'Everyday English'] };
+import { content } from '../core/content.js';
 
 export default async function profileView(el, ctx) {
   ctx.setTitle(t('nav.profile'));
+  let goals = [...(profile()?.goals || [])];
+  // The goals use the same cards and labels as onboarding (TF-6), not a second set of native checkboxes. The
+  // page draws at once; the cards fill their place when onboarding's module has loaded, and the work goal's note
+  // follows whether workplace scenarios exist.
+  let goalCards = null;
+  let hasWork = true;
+  const drawGoals = () => {
+    const slot = el.querySelector('[data-goals-slot]');
+    if (slot && goalCards) render(slot, goalCards(goals, { hasWork, labelledby: 'pf-goals' }));
+  };
   function draw() {
     const p = profile() || {};
     const m = model();
@@ -18,8 +27,8 @@ export default async function profileView(el, ctx) {
       <div class="stack-lg" style="max-width:40rem">
         <form class="panel stack" data-form>
           <div class="field"><label for="pn">${tt('שם', 'Name')}</label><input class="input" id="pn" maxlength="40" value="${p.name || ''}" autocomplete="given-name"></div>
-          <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="label">${tt('מטרות', 'Goals')}</legend>
-            <div class="choice-list">${Object.entries(GOALS).map(([id, [he, en]]) => html`<label class="choice"><input type="checkbox" name="goal" value="${id}" ${p.goals?.includes(id) ? html`checked` : ''}><span>${tt(he, en)}</span></label>`)}</div></fieldset>
+          <div class="field"><span class="label" id="pf-goals">${tt('מטרות', 'Goals')}</span>
+            <div data-goals-slot></div></div>
           <div class="row"><button class="key enter" type="submit">${t('save')}</button></div>
         </form>
         <div class="panel stack-sm small">
@@ -30,12 +39,27 @@ export default async function profileView(el, ctx) {
         </div>
         <div class="row"><a class="key" href="#/progress">${t('nav.progress')}</a><a class="key ghost" href="#/settings">${t('nav.settings')}</a></div>
       </div>`);
+    drawGoals();
   }
   draw();
-  return on(el, 'submit', '[data-form]', (e) => {
-    e.preventDefault();
-    saveProfile({ name: $('#pn', el).value.trim(), goals: [...el.querySelectorAll('input[name=goal]:checked')].map((i) => i.value) });
-    toast(tt('נשמר', 'Saved'));
-    draw();
+  import('./onboarding.js').then((mod) => { goalCards = mod.goalCards; drawGoals(); }).catch(() => {});
+  content.scenarios().catch(() => null).then((d) => {
+    const work = Boolean(d?.scenarios?.some((x) => x.module === 'work'));
+    if (work !== hasWork) { hasWork = work; drawGoals(); }
   });
+  const offs = [
+    on(el, 'click', '[data-goal]', (e, b) => {
+      const g = b.dataset.goal;
+      goals = goals.includes(g) ? goals.filter((x) => x !== g) : [...goals, g];
+      b.setAttribute('aria-pressed', String(goals.includes(g)));
+    }),
+    on(el, 'submit', '[data-form]', (e) => {
+      e.preventDefault();
+      saveProfile({ name: $('#pn', el).value.trim(), goals });
+      toast(tt('נשמר', 'Saved'));
+      draw();
+      el.querySelector('[data-form] button[type=submit]')?.focus();
+    }),
+  ];
+  return () => offs.forEach((o) => o());
 }

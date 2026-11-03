@@ -316,12 +316,12 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the perfect is not marked in the verb: the order of two past events is shown with words such as 'already' or 'before'. So an English sentence can lose its time order: *When I arrived, the train already left. English marks the earlier event with had + past participle: the train had already left.",
-      "he": "בעברית אין סימון מיוחד בפועל ל'עבר שלפני העבר', והסדר מובע במילים כמו 'כבר' או 'קודם'. לכן קל לכתוב בטעות When I arrived, the train already left. באנגלית מסמנים את האירוע המוקדם בפועל עצמו: the train had already left.",
+      "he": "בעברית אין סימון מיוחד בפועל ל'עבר שלפני העבר', והסדר מובע במילים כמו 'כבר' או 'קודם'. באנגלית מסמנים את האירוע המוקדם בפועל עצמו, עם had + V3: the train had already left.",
       "error_type": "tense-choice"
     },
     {
       "en": "In Hebrew one past form covers both 'I knew him' and 'I had known him'. In English, a period lasting up to a past moment needs the past perfect: I had known Amir for ten years when we started the company (not *I knew Amir for ten years when...).",
-      "he": "בעברית צורת עבר אחת ('הכרתי אותו עשר שנים') משמשת לשני המקרים. באנגלית, תקופה שנמשכה עד רגע מסוים בעבר דורשת past perfect: I had known Amir for ten years when we started the company.",
+      "he": "בעברית צורת עבר אחת ('הכרתי אותו עשר שנים') משמשת לשני המקרים. באנגלית, תקופה שנמשכה עד רגע מסוים בעבר דורשת past perfect: I had known Amir for ten years.",
       "error_type": "tense-choice"
     }
   ],

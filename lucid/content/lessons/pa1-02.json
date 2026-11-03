@@ -13,15 +13,15 @@
   "warmup": { "en": "In lesson 1, the letter A was 'ay'. Now say the word 'cat' out loud. Does the A in 'cat' sound like the letter name?", "he": "בשיעור הקודם למדנו שהאות A נקראת 'אֵיי'. עכשיו אמרו בקול cat. האם ה-A ב-cat נשמעת כמו שם האות? לא – בתוך מילה יש לאות צליל משלה, ואותו נלמד היום." },
   "explanation": [
     { "type": "p", "en": "cat, bed, sit, hot, cup. In short words like these (consonant + vowel + consonant), the vowel letters a, e, i, o and u have a short sound, not their name.", "he": "cat, bed, sit, hot, cup – במילים קצרות כאלה (עיצור + תנועה + עיצור), לאותיות התנועה a, e, i, o, u יש צליל קצר, ולא השם שלהן." },
-    { "type": "table", "headers": ["Letter", "Short sound", "Examples", "איך זה נשמע"], "rows": [
+    { "type": "table", "headers": ["Letter", "Short sound", "Examples", "איך זה נשמע"], "headers_he": ["אות", "צליל קצר", "דוגמאות", ""], "rows": [
       ["a", "/æ/", "cat, bag, map", "פה פתוח לרווחה, בין 'אַ' ל'אֶ'"],
       ["e", "/e/", "bed, pen, ten", "כמו 'אֶ'"],
       ["i", "/ɪ/", "sit, big, ship", "'אִ' קצרה ורפויה"],
       ["o", "/ɒ/", "hot, dog, stop", "'אוֹ' קצרה, עם פה פתוח"],
       ["u", "/ʌ/", "cup, bus, sun", "'אַ' קצרה ורפויה"]
     ] },
-    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: mad – made, ‏kit – kite, ‏hop – hope, ‏cut – cute. כמה מילים נפוצות מאוד לא עובדות לפי הכלל: come, some, have, give, love." },
-    { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "rows": [
+    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: kit – kite, ‏hop – hope. כמה מילים נפוצות לא עובדות לפי הכלל, כמו come ו-have." },
+    { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "headers_he": ["צליל", "דוגמאות", ""], "rows": [
       ["th /θ/", "think, three, thanks", "קצה הלשון בין השיניים, ונושפים אוויר בלי קול"],
       ["th /ð/", "this, the, mother", "אותה תנוחה, אבל עם קול (מרגישים רטט בגרון)"],
       ["w /w/", "we, wet, west", "שפתיים מעוגלות כמו ב'אוּ', השיניים לא נוגעות בשפה"],
@@ -32,37 +32,37 @@
     { "type": "tip", "en": "th is not t, s or f: think (not 'tink' or 'sink'), three (not 'tree' or 'free'). Use a mirror: you should see the tip of your tongue between your teeth.", "he": "th זה לא t, לא s ולא f: think (לא 'טינק' ולא 'סינק'), three (לא 'טרי' ולא 'פרי'). הצליל הזה לא קיים בעברית, אז בדקו מול מראה: צריך לראות את קצה הלשון בין השיניים." }
   ],
   "examples": [
-    { "en": "a hot cup of coffee", "he": "כוס קפה חמה", "note": "o = /ɒ/ in hot, u = /ʌ/ in cup" },
-    { "en": "Get on the bus at ten.", "he": "עלו על האוטובוס בעשר.", "note": "e = /e/, u = /ʌ/" },
-    { "en": "Sit here, please.", "he": "שבו כאן, בבקשה.", "note": "i = /ɪ/ (short)" },
-    { "en": "Is this seat free?", "he": "המקום הזה פנוי?", "note": "ea and ee = /iː/ (long); th /ð/ in this" },
-    { "en": "It's time to go home.", "he": "הגיע הזמן ללכת הביתה.", "note": "silent e: time /aɪ/, home /əʊ/" },
-    { "en": "I think so.", "he": "אני חושב/ת שכן.", "note": "th /θ/: tongue between the teeth" },
-    { "en": "We're very wet!", "he": "אנחנו רטובים לגמרי!", "note": "w /w/ in we and wet, v /v/ in very" },
-    { "en": "a ship – a sheep", "he": "ספינה – כבשה", "note": "/ɪ/ short – /iː/ long" },
-    { "en": "Thanks, see you this week.", "he": "תודה, נתראה השבוע.", "note": "th /θ/ in thanks, th /ð/ in this" }
+    { "en": "a hot cup of coffee", "he": "כוס קפה חמה", "note": "o = /ɒ/ in hot, u = /ʌ/ in cup", "note_he": "ב-hot ה-o נשמעת 'אוֹ' קצרה (/ɒ/), וב-cup ה-u נשמעת 'אַ' קצרה (/ʌ/)" },
+    { "en": "Get on the bus at ten.", "he": "עלו על האוטובוס בעשר.", "note": "e = /e/, u = /ʌ/", "note_he": "ה-e נשמעת 'אֶ' (/e/), וה-u נשמעת 'אַ' קצרה (/ʌ/)" },
+    { "en": "Sit here, please.", "he": "שבו כאן, בבקשה.", "note": "i = /ɪ/ (short)", "note_he": "ה-i קצרה ורפויה, קרובה ל'אֶ' (/ɪ/)" },
+    { "en": "Is this seat free?", "he": "המקום הזה פנוי?", "note": "ea and ee = /iː/ (long); th /ð/ in this", "note_he": "ea ו-ee נשמעות 'אִי' ארוכה, עם חיוך (/iː/); ב-this הלשון בין השיניים, עם קול (/ð/)" },
+    { "en": "It's time to go home.", "he": "הגיע הזמן ללכת הביתה.", "note": "silent e: time /aɪ/, home /əʊ/", "note_he": "ה-e בסוף לא נשמעת: time נשמעת 'טַיים', ו-home נשמעת 'הוֹם'" },
+    { "en": "I think so.", "he": "אני חושב/ת שכן.", "note": "th /θ/: tongue between the teeth", "note_he": "ב-th הלשון בין השיניים, בלי קול (/θ/)" },
+    { "en": "We're very wet!", "he": "אנחנו רטובים לגמרי!", "note": "w /w/ in we and wet, v /v/ in very", "note_he": "ב-we וב-wet מעגלים את השפתיים (/w/); ב-very השיניים העליונות נוגעות בשפה (/v/)" },
+    { "en": "a ship – a sheep", "he": "ספינה – כבשה", "note": "/ɪ/ short – /iː/ long", "note_he": "ב-ship ה'אִי' קצרה, וב-sheep היא ארוכה (/ɪ/ – /iː/)" },
+    { "en": "Thanks, see you this week.", "he": "תודה, נתראה השבוע.", "note": "th /θ/ in thanks, th /ð/ in this", "note_he": "ב-thanks ה-th בלי קול (/θ/), וב-this עם קול (/ð/)" }
   ],
   "vocab": [
-    { "word": "cup", "pos": "noun", "he": "כוס, ספל", "def": "a small container that you drink from", "example": "A cup of tea, please.", "ipa": "/kʌp/", "collocations": ["a cup of tea", "a cup of coffee"], "level": "PreA1" },
-    { "word": "bed", "pos": "noun", "he": "מיטה", "def": "the thing you sleep in", "example": "I'm in bed with a cold.", "ipa": "/bed/", "level": "PreA1" },
-    { "word": "bus", "pos": "noun", "he": "אוטובוס", "def": "a big vehicle that takes many people from place to place", "example": "Get on the bus at ten.", "ipa": "/bʌs/", "collocations": ["bus stop", "take the bus"], "level": "PreA1" },
-    { "word": "hot", "pos": "adjective", "he": "חם", "def": "very warm", "example": "The coffee is hot.", "ipa": "/hɒt/", "level": "PreA1" },
-    { "word": "sit", "pos": "verb", "he": "לשבת", "def": "to rest on a chair or seat", "example": "Sit here, please.", "ipa": "/sɪt/", "collocations": ["sit down"], "level": "PreA1" },
-    { "word": "seat", "pos": "noun", "he": "מושב, מקום ישיבה", "def": "a place where you can sit", "example": "Is this seat free?", "ipa": "/siːt/", "collocations": ["window seat"], "level": "PreA1" },
-    { "word": "ship", "pos": "noun", "he": "ספינה, אונייה", "def": "a very big boat", "example": "The ship is in the port.", "ipa": "/ʃɪp/", "level": "PreA1" },
-    { "word": "sheep", "pos": "noun", "he": "כבשה (ברבים: כבשים – ובאנגלית גם sheep, בלי s)", "def": "a farm animal with thick wool", "example": "Look at that sheep!", "ipa": "/ʃiːp/", "level": "PreA1" },
-    { "word": "think", "pos": "verb", "he": "לחשוב", "def": "to have an idea or opinion in your head", "example": "I think so.", "ipa": "/θɪŋk/", "level": "PreA1" },
-    { "word": "wet", "pos": "adjective", "he": "רטוב", "def": "covered with water", "example": "My hair is wet.", "ipa": "/wet/", "level": "PreA1" },
-    { "word": "vet", "pos": "noun", "he": "וטרינר/ית", "def": "a doctor for animals", "example": "My dog is at the vet.", "ipa": "/vet/", "level": "PreA1" },
-    { "word": "very", "pos": "adverb", "he": "מאוד", "def": "a lot (before a word like hot or good)", "example": "It's very hot today.", "ipa": "/ˈveri/", "level": "PreA1" },
-    { "word": "time", "pos": "noun", "he": "זמן", "def": "minutes, hours and days", "example": "It's time to go.", "ipa": "/taɪm/", "level": "PreA1" },
-    { "word": "home", "pos": "noun", "he": "בית", "def": "the place where you live", "example": "I'm at home.", "ipa": "/həʊm/", "collocations": ["at home", "go home"], "level": "PreA1" }
+    { "word": "cup", "pos": "noun", "he": "כוס, ספל", "def": "a small container that you drink from", "example": "A cup of tea, please.", "example_he": "כוס תה, בבקשה.", "ipa": "/kʌp/", "collocations": ["a cup of tea", "a cup of coffee"], "level": "PreA1" },
+    { "word": "bed", "pos": "noun", "he": "מיטה", "def": "the thing you sleep in", "example": "I'm in bed with a cold.", "example_he": "אני במיטה עם הצטננות.", "ipa": "/bed/", "level": "PreA1" },
+    { "word": "bus", "pos": "noun", "he": "אוטובוס", "def": "a big vehicle that takes many people from place to place", "example": "Get on the bus at ten.", "example_he": "עלו על האוטובוס בעשר.", "ipa": "/bʌs/", "collocations": ["bus stop", "take the bus"], "level": "PreA1" },
+    { "word": "hot", "pos": "adjective", "he": "חם", "def": "very warm", "example": "The coffee is hot.", "example_he": "הקפה חם.", "ipa": "/hɒt/", "level": "PreA1" },
+    { "word": "sit", "pos": "verb", "he": "לשבת", "def": "to rest on a chair or seat", "example": "Sit here, please.", "example_he": "שבו כאן, בבקשה.", "ipa": "/sɪt/", "collocations": ["sit down"], "level": "PreA1" },
+    { "word": "seat", "pos": "noun", "he": "מושב, מקום ישיבה", "def": "a place where you can sit", "example": "Is this seat free?", "example_he": "המקום הזה פנוי?", "ipa": "/siːt/", "collocations": ["window seat"], "level": "PreA1" },
+    { "word": "ship", "pos": "noun", "he": "ספינה, אונייה", "def": "a very big boat", "example": "The ship is in the port.", "example_he": "הספינה בנמל.", "ipa": "/ʃɪp/", "level": "PreA1" },
+    { "word": "sheep", "pos": "noun", "he": "כבשה (ברבים: כבשים – ובאנגלית גם sheep, בלי s)", "def": "a farm animal with thick wool", "example": "Look at that sheep!", "example_he": "תראו את הכבשה הזאת!", "ipa": "/ʃiːp/", "level": "PreA1" },
+    { "word": "think", "pos": "verb", "he": "לחשוב", "def": "to have an idea or opinion in your head", "example": "I think so.", "example_he": "אני חושב/ת שכן.", "ipa": "/θɪŋk/", "level": "PreA1" },
+    { "word": "wet", "pos": "adjective", "he": "רטוב", "def": "covered with water", "example": "My hair is wet.", "example_he": "השיער שלי רטוב.", "ipa": "/wet/", "level": "PreA1" },
+    { "word": "vet", "pos": "noun", "he": "וטרינר/ית", "def": "a doctor for animals", "example": "My dog is at the vet.", "example_he": "הכלב שלי אצל הווטרינר.", "ipa": "/vet/", "level": "PreA1" },
+    { "word": "very", "pos": "adverb", "he": "מאוד", "def": "a lot (before a word like hot or good)", "example": "It's very hot today.", "example_he": "היום חם מאוד.", "ipa": "/ˈveri/", "level": "PreA1" },
+    { "word": "time", "pos": "noun", "he": "זמן", "def": "minutes, hours and days", "example": "It's time to go.", "example_he": "הגיע הזמן ללכת.", "ipa": "/taɪm/", "level": "PreA1" },
+    { "word": "home", "pos": "noun", "he": "בית", "def": "the place where you live", "example": "I'm at home.", "example_he": "אני בבית.", "ipa": "/həʊm/", "collocations": ["at home", "go home"], "level": "PreA1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "בעברית יש רק צליל 'אִי' אחד, ולכן ship ו-sheep, או sit ו-seat, עלולים להישמע אותו דבר. את /ɪ/ אומרים קצר ורפוי, ואת /iː/ ארוך, עם חיוך קטן.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no th sound, so think can come out as 'tink' or 'sink', and this as 'dis' or 'zis'. Put the tip of your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן think עלול לצאת 'טינק' או 'סינק', ו-this – 'דיס' או 'זיס'. שימו את קצה הלשון בין השיניים.", "error_type": "pron-th" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so wet and vet can sound the same. For w, round your lips; for v, put your top teeth on your bottom lip.", "he": "בעברית w אינו צליל רגיל (האות ו נהגית v), ולכן wet ו-vet עלולות להישמע אותו דבר. ב-w מעגלים את השפתיים; ב-v השיניים העליונות נוגעות בשפה התחתונה.", "error_type": "pron-w-v" },
-    { "en": "In Hebrew there is one 'a' sound and one 'e' sound, but English has /æ/ (cat), /ʌ/ (cut) and /e/ (bet). Open your mouth wide for /æ/, and keep /ʌ/ short and relaxed.", "he": "בעברית יש צליל 'אַ' אחד וצליל 'אֶ' אחד, אבל באנגלית יש /æ/ (cat), ‏/ʌ/ (cut) ו-/e/ (bet). ב-/æ/ פותחים את הפה לרווחה, ואת /ʌ/ אומרים קצר ורפוי.", "error_type": "pron-vowel" }
+    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "אומרים 'אִי' קצרה ורפויה, קרובה ל'אֶ', ב-ship וב-sit (/ɪ/), ומותחים את השפתיים בחיוך קטן ומאריכים ב-sheep וב-seat (/iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no th sound, so think can come out as 'tink' or 'sink', and this as 'dis' or 'zis'. Put the tip of your tongue between your teeth.", "he": "שמים את קצה הלשון בין השיניים: ב-think בלי קול, וב-this עם קול (/θ/, /ð/). בעברית אין את הצליל th, ולכן הוא יוצא לפעמים 'טינק' או 'דיס'.", "error_type": "pron-th" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so wet and vet can sound the same. For w, round your lips; for v, put your top teeth on your bottom lip.", "he": "מעגלים את השפתיים ל-w, ונוגעים בשיניים העליונות בשפה התחתונה ל-v (/w/, /v/). בעברית ו' נהגית v, ולכן wet ו-vet עלולות להישמע אותו דבר.", "error_type": "pron-w-v" },
+    { "en": "In Hebrew there is one 'a' sound and one 'e' sound, but English has /æ/ (cat), /ʌ/ (cut) and /e/ (bet). Open your mouth wide for /æ/, and keep /ʌ/ short and relaxed.", "he": "פותחים את הפה לרווחה ב-cat (/æ/), אומרים 'אַ' קצרה ורפויה ב-cut (/ʌ/) ו'אֶ' רגילה ב-bet (/e/). בעברית יש רק 'אַ' אחת ו'אֶ' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -174,7 +174,7 @@
         { "type": "tf", "statement": "Kate says: 'Come at nine.'", "answer": false, "explanation": { "en": "She says 'Come at five.' five and nine both have i + consonant + silent e, so read them carefully.", "he": "היא כותבת Come at five. גם five וגם nine בנויות מ-i + עיצור + e שקטה, אז קראו בעיון." } },
         { "type": "gap", "text": "Kate is in ___ with a cold.", "answers": [["bed"]], "explanation": { "en": "'I'm at home in bed with a cold.' bed has a short e: /e/.", "he": "כתוב: in bed with a cold. ב-bed יש e קצרה." } }
       ],
-      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate). Two words break the silent-e rule: come and some have /ʌ/, like cup.", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועות קצרות (bed, get, milk, shop, bus, stop) ו-e שקטה (home, five, Kate). שתי מילים לא עובדות לפי כלל ה-e השקטה: ב-come וב-some שומעים /ʌ/, כמו ב-cup." }
+      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate). Two words break the silent-e rule: come and some have /ʌ/, like cup.", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועה קצרה (כמו ב-bed וב-shop) ו-e שקטה (כמו ב-home וב-five). רק come ו-some לא עובדות לפי כלל ה-e השקטה: שומעים בהן /ʌ/, כמו ב-cup." }
     },
     {
       "id": "e9", "type": "gap", "skill": "vocabulary", "topic": "phonics",
@@ -186,7 +186,7 @@
         { "match": "sit", "feedback": { "en": "sit (short /ɪ/) is the action. The place is a seat (long /iː/): Is this seat free?", "he": "sit (עם /ɪ/ קצרה) היא הפעולה – לשבת. המקום עצמו הוא seat (עם /iː/ ארוכה): Is this seat free?" }, "error_type": "word-choice" },
         { "match": "seat", "feedback": { "en": "seat (long /iː/) is the place. The action is sit (short /ɪ/): please sit down.", "he": "seat (עם /iː/ ארוכה) הוא המקום – מושב. הפעולה היא sit (עם /ɪ/ קצרה): please sit down." }, "error_type": "word-choice" }
       ],
-      "explanation": { "en": "Is this seat free? asks about the place. Please sit down is the action. One vowel sound changes the word.", "he": "Is this seat free שואל על המקום. Please sit down היא הפעולה – בבקשה שבו. צליל תנועה אחד משנה את המילה." }
+      "explanation": { "en": "Is this seat free? asks about the place. Please sit down is the action. One vowel sound changes the word.", "he": "seat הוא המקום (מושב), ו-sit היא הפעולה (לשבת). בשאלה אם המקום פנוי צריך seat, ובבקשה לשבת צריך sit. צליל תנועה אחד משנה את המילה." }
     },
     {
       "id": "e10", "type": "dictation", "skill": "listening", "topic": "phonics",
@@ -202,8 +202,13 @@
       "sentence": "I sink so, sanks!",
       "answers": ["I think so, thanks!", "I think so thanks", "I think so. Thanks!"],
       "error_type": "pron-th",
-      "hint": { "en": "Two words need th, not s.", "he": "בשתי מילים צריך th במקום s." },
-      "explanation": { "en": "think and thanks start with th /θ/: tongue between the teeth, not s. 'I sink' means something else: you go down under water!", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים, לא s. ‏I sink פירושו בכלל 'אני שוקע/ת' במים!" }
+      "wrong_feedback": [
+        { "match": "I tink so, tanks!", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. think, thanks.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. think, ‏thanks." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" },
+        { "match": "tink", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. think.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. think." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" },
+        { "match": "tanks", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. thanks.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. thanks." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" }
+      ],
+      "hint": { "en": "Two words need th.", "he": "בשתי מילים צריך th." },
+      "explanation": { "en": "think and thanks start with th /θ/: the tip of the tongue between the teeth. Said with s or t, they become other words: sink, tank.", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים. עם s או t הן נשמעות כמו מילים אחרות: sink, ‏tank." }
     },
     {
       "id": "e12", "type": "speak", "skill": "speaking", "topic": "phonics",
@@ -217,7 +222,7 @@
       "id": "e13", "type": "speak", "skill": "speaking", "topic": "phonics",
       "prompt": { "en": "Say it out loud. You are on a busy train.", "he": "אמרו בקול. אתם ברכבת מלאה." },
       "target": "Excuse me, is this seat free?",
-      "focus": { "en": "seat and free have a long /iː/. this has th /ð/, with voice.", "he": "ב-seat וב-free יש /iː/ ארוכה. ב-this יש th עם קול (רטט בגרון)." },
+      "focus": { "en": "seat and free have a long /iː/. this has th /ð/, with voice.", "he": "מותחים את השפתיים ומאריכים את ה'אִי' ב-seat וב-free (/iː/). ב-this הלשון בין השיניים, עם קול (רטט בגרון)." },
       "error_type": "pron-vowel",
       "explanation": { "en": "A real question on a bus or a train. Make seat long, so it does not sound like sit.", "he": "שאלה אמיתית באוטובוס או ברכבת. האריכו את seat כדי שלא יישמע כמו sit." }
     },

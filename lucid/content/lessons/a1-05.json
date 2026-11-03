@@ -7,7 +7,7 @@
   "minutes": 25,
   "objectives": [
     { "en": "I can name the people in my family.", "he": "אני יודע/ת את המילים באנגלית לבני המשפחה שלי (mother, brother, aunt...)." },
-    { "en": "I can show who something belongs to with my, your, his, her, its, our, their and 's (Noa's brother).", "he": "אני יודע/ת להראות למי משהו שייך בעזרת my, your, his, her, its, our, their ו-'s (Noa's brother)." },
+    { "en": "I can show who something belongs to with my, your, his, her, its, our, their and 's (Noa's brother).", "he": "אני יודע/ת להראות למי משהו שייך, בעזרת מילות שייכות כמו my ו-their, ובעזרת 's (Noa's brother)." },
     { "en": "I can say what people have with have and have got.", "he": "אני יכול/ה לומר מה יש לאנשים בעזרת have ו-have got." }
   ],
   "warmup": { "en": "Think of three people in your family. How do you say 'her brother' or 'their house' in Hebrew? Where does the word for 'her' or 'their' go?", "he": "חשבו על שלושה אנשים מהמשפחה שלכם. איך אומרים בעברית 'האח שלה' או 'הבית שלהם'? שימו לב: בעברית 'שלה' בא אחרי שם העצם. באנגלית הוא בא לפניו: her brother, their house." },
@@ -22,14 +22,14 @@
       ["we", "our", "our flat", "הדירה שלנו"],
       ["they", "their", "their parents", "ההורים שלהם / שלהן"]
     ] },
-    { "type": "rule", "en": "When the owner is a person, add 's: Noa's brother, my sister's car, Omer's phone. After a plural that ends in -s, add only an apostrophe: my parents' house.", "he": "כשהבעלים הוא אדם, מוסיפים 's: Noa's brother ('האח של נועה'), my sister's car, Omer's phone. אחרי צורת רבים שמסתיימת ב-s מוסיפים רק גרש: my parents' house ('הבית של ההורים שלי')." },
+    { "type": "rule", "en": "When the owner is a person, add 's: Noa's brother, my sister's car, Omer's phone. After a plural that ends in -s, add only an apostrophe: my parents' house.", "he": "כשהבעלים הוא אדם, מוסיפים 's: Noa's brother ('האח של נועה'). אחרי צורת רבים שמסתיימת ב-s מוסיפים רק גרש: my parents' house ('הבית של ההורים שלי')." },
     { "type": "table", "headers": ["Form", "have", "have got (UK, informal)"], "rows": [
       ["+", "I have a sister. She has a cat.", "I've got a sister. She's got a cat."],
       ["−", "I don't have a car. He doesn't have a car.", "I haven't got a car. He hasn't got a car."],
       ["?", "Do you have a brother? Does she have kids?", "Have you got a brother? Has she got kids?"]
     ] },
-    { "type": "warning", "en": "Don't mix the two: Do you have...? or Have you got...?, never 'Do you have got...?'. And he's got = he has got, not he is.", "he": "לא מערבבים בין שתי הצורות: Do you have...? או Have you got...? – אבל אף פעם לא Do you have got...? ושימו לב: he's got פירושו he has got, ולא he is." },
-    { "type": "tip", "en": "it's = it is; its = belongs to it: It's a nice phone, but its battery is bad. Mum is British English; Mom is American English.", "he": "it's = it is, ואילו its = 'שלו/שלה' של חפץ או בעל חיים: It's a nice phone, but its battery is bad. בבריטניה אומרים Mum, ובארה״ב Mom." }
+    { "type": "warning", "en": "Don't mix the two: Do you have...? or Have you got...?, never 'Do you have got...?'. And he's got = he has got, not he is.", "he": "לא מערבבים בין שתי הצורות: שואלים עם do (בלי got) או עם have ו-got, אבל לא עם שניהם יחד. ושימו לב: ה-'s ב-he's got הוא has, ולא is." },
+    { "type": "tip", "en": "it's = it is; its = belongs to it: It's a nice phone, but its battery is bad. Mum is British English; Mom is American English.", "he": "it's = it is, ואילו its = 'שלו/שלה' של חפץ או בעל חיים, בלי גרש: its battery. בבריטניה אומרים Mum, ובארה״ב Mom." }
   ],
   "examples": [
     { "en": "My brother's name is Omer.", "he": "לאח שלי קוראים עומר.", "note": "brother's = of my brother" },
@@ -59,9 +59,9 @@
     { "word": "only child", "pos": "noun", "he": "בן יחיד / בת יחידה", "def": "a person who has no brothers or sisters", "example": "I'm an only child.", "ipa": "/ˌəʊnli ˈtʃaɪld/", "collocations": ["an only child"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "Hebrew works differently here: it has no /ð/ sound, so mother, brother and their can come out with a /d/ or /z/ ('mader', 'zeir'). In English, put the tip of your tongue between your teeth and use your voice: /ˈmʌðə(r)/, /ðeə(r)/.", "he": "בעברית אין את הצליל /ð/, ולכן mother, brother ו-their יוצאות לפעמים עם ד' או ז' ('מָאדֶר', 'זֵייר'). באנגלית מוציאים מעט את קצה הלשון בין השיניים ומשמיעים קול: mother, their.", "error_type": "pron-th" },
-    { "en": "Hebrew works differently: it has one 'i' vowel, while English has a short /ɪ/ and a long /iː/. So his /hɪz/ and he's /hiːz/ can sound the same. His (short) = belongs to him; he's (long) = he is.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן his ו-he's עלולות להישמע אותו דבר. his (קצרה) = 'שלו'; he's (ארוכה) = 'הוא'.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no word for a/an, so 'I have brother' can sound right. English works differently: I have a brother / I've got a brother. Use one only when you count: one brother and two sisters.", "he": "בעברית אין מילה ל-a/an ('יש לי אח'), ולכן I have brother נשמע אולי נכון. באנגלית: I have a brother או I've got a brother. את one משתמשים רק כשסופרים: one brother and two sisters.", "error_type": "article" },
+    { "en": "Hebrew works differently here: it has no /ð/ sound, so mother, brother and their can come out with a /d/ or /z/ ('mader', 'zeir'). In English, put the tip of your tongue between your teeth and use your voice: /ˈmʌðə(r)/, /ðeə(r)/.", "he": "מוציאים מעט את קצה הלשון בין השיניים ומשמיעים קול ב-mother, ‏brother ו-their (/ð/). בעברית אין את הצליל הזה, ולכן הוא יוצא לפעמים ד' או ז' ('מָאדֶר', 'זֵייר').", "error_type": "pron-th" },
+    { "en": "Hebrew works differently: it has one 'i' vowel, while English has a short /ɪ/ and a long /iː/. So his /hɪz/ and he's /hiːz/ can sound the same. His (short) = belongs to him; he's (long) = he is.", "he": "אומרים 'אִי' קצרה ורפויה ב-his ('שלו', /ɪ/), ומותחים את השפתיים ומאריכים ב-he's ('הוא', /iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no word for a/an, so 'I have brother' can sound right. English works differently: I have a brother / I've got a brother. Use one only when you count: one brother and two sisters.", "he": "בעברית אין מילה ל-a/an ('יש לי אח'), ולכן קל לשכוח אותה. באנגלית חייבים: I have a brother. את one משתמשים רק כשסופרים.", "error_type": "article" },
     { "en": "In Hebrew, 'have' works differently: one word is used for everyone (for me, for her, for them). In English the verb changes: I have, but she has (she's got), not 'she have'.", "he": "בעברית 'יש' זהה לכולם (יש לי, יש לה, יש להם). באנגלית הפועל משתנה: I have, אבל she has (או she's got), ולא she have.", "error_type": "third-person-s" }
   ],
   "exercises": [
@@ -129,7 +129,7 @@
         { "match": "their", "feedback": { "en": "their = belongs to them (two or more people). Who is the owner in this sentence?", "he": "their = 'שלהם' (שניים או יותר). מי הבעלים במשפט הזה?" }, "error_type": "pronoun" }
       ],
       "hint": { "en": "we → ?, my aunt Noa → ?, my grandparents (they) → ?, my phone (it) → ?", "he": "we → ?, הדודה נועה → ?, סבא וסבתא (they) → ?, הטלפון (it) → ?" },
-      "explanation": { "en": "we → our flat; my aunt Noa → her husband; my grandparents (they) → their cats; the phone (it) → its battery.", "he": "we → our flat; הדודה נועה → her husband; סבא וסבתא (they) → their cats; הטלפון (it) → its battery." }
+      "explanation": { "en": "we → our flat; my aunt Noa → her husband; my grandparents (they) → their cats; the phone (it) → its battery.", "he": "we → our; הדודה נועה (she) → her; סבא וסבתא (they) → their; הטלפון (it) → its." }
     },
     {
       "id": "e6", "type": "mcq", "skill": "grammar", "topic": "possessives",
@@ -164,12 +164,12 @@
       "options": ["Do", "Are", "Have", "Has"],
       "answer": 2,
       "option_feedback": {
-        "0": { "en": "Do goes with have, without got: Do you have a car? With got, start with Have: Have you got a car?", "he": "do בא עם have בלי got: Do you have a car? כשיש got, פותחים ב-Have: Have you got a car?" },
+        "0": { "en": "Do goes with have, without got: Do you have a car? With got, start with Have: Have you got a car?", "he": "do בא עם have בלי got. כשיש got, פותחים את השאלה ב-have, בלי do." },
         "1": { "en": "Are is a form of be. have got questions start with Have or Has.", "he": "are הוא צורה של be. שאלה עם have got נפתחת ב-Have או ב-Has." },
         "3": { "en": "Has is for he, she and it. With you: Have you got...?", "he": "has מתאים ל-he, she, it. עם you: Have you got...?" }
       },
       "option_errors": { "0": "do-support", "1": "verb-form", "3": "agreement" },
-      "explanation": { "en": "have got questions: Have/Has + subject + got? → Have you got a car? (= Do you have a car?)", "he": "שאלה עם have got: Have/Has + נושא + got? → Have you got a car? (= Do you have a car?)" }
+      "explanation": { "en": "have got questions: Have/Has + subject + got? → Have you got a car? (= Do you have a car?)", "he": "שאלה עם have got: Have/Has + נושא + got. המשמעות זהה לשאלה עם do you have." }
     },
     {
       "id": "e9", "type": "transform", "skill": "grammar", "topic": "possessives",
@@ -178,7 +178,7 @@
       "answers": ["Noa has got three cousins.", "Noa's got three cousins."],
       "wrong_feedback": [
         { "match": "Noa have got three cousins.", "feedback": { "en": "Noa = she, so has got.", "he": "נועה היא she, ולכן has got." }, "error_type": "third-person-s" },
-        { "match": "Noa is got three cousins.", "feedback": { "en": "have got uses has, not is: Noa has got (Noa's got).", "he": "ב-have got משתמשים ב-has ולא ב-is: Noa has got (או Noa's got)." }, "error_type": "verb-form" },
+        { "match": "Noa is got three cousins.", "feedback": { "en": "have got uses has, not is: Noa has got (Noa's got).", "he": "ב-have got משתמשים ב-has ולא ב-is: Noa has got." }, "error_type": "verb-form" },
         { "match": "Noa has three cousins.", "feedback": { "en": "Add got after has: Noa has got three cousins.", "he": "הוסיפו got אחרי has: Noa has got three cousins." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "Keep has and add got.", "he": "השאירו את has והוסיפו got." },
@@ -191,7 +191,7 @@
       "answers": ["My sister has got two kids.", "My sister's got two kids.", "My sister has two kids."],
       "error_type": "third-person-s",
       "hint": { "en": "My sister = she.", "he": "My sister היא she." },
-      "explanation": { "en": "My sister = she → has got (she's got). I/you/we/they have got; he/she/it has got.", "he": "My sister היא she → has got (או she's got). I/you/we/they עם have got; he/she/it עם has got." }
+      "explanation": { "en": "My sister = she → has got (she's got). I/you/we/they have got; he/she/it has got.", "he": "האחות היא she, ולכן has got: עם he/she/it בא has, ועם השאר have." }
     },
     {
       "id": "e11", "type": "transform", "skill": "grammar", "topic": "possessives",
@@ -205,7 +205,7 @@
         { "match": "Dana son is a student in London.", "feedback": { "en": "Add 's to Dana: Dana's son.", "he": "הוסיפו 's לשם: Dana's son." } }
       ],
       "hint": { "en": "Start with Dana's son. Don't forget is and a.", "he": "התחילו ב-Dana's son. אל תשכחו is ו-a." },
-      "explanation": { "en": "When the owner is a person, use 's: Dana's son. And English needs is a: Dana's son is a student in London.", "he": "'של' + אדם → 's: Dana's son. ובאנגלית צריך גם is a: Dana's son is a student in London." }
+      "explanation": { "en": "When the owner is a person, use 's: Dana's son. And English needs is a: Dana's son is a student in London.", "he": "'של' + אדם → 's (Dana's son). ובאנגלית צריך גם is ו-a לפני המקצוע." }
     },
     {
       "id": "e12", "type": "read", "skill": "reading", "topic": "possessives",
@@ -241,11 +241,11 @@
             "2": { "en": "Sara is Arjun's girlfriend. The text says nothing about her cooking.", "he": "שרה היא החברה של ארג'ון. לא כתוב שום דבר על הבישול שלה." }
           },
           "option_errors": { "1": "comprehension", "2": "comprehension" },
-          "explanation": { "en": "'My grandmother lives with us, too. Her cooking is amazing!' her = the grandmother's.", "he": "'My grandmother lives with us, too. Her cooking is amazing!' – her מתייחס לסבתא." }
+          "explanation": { "en": "'My grandmother lives with us, too. Her cooking is amazing!' her = the grandmother's.", "he": "בטקסט her מתייחס לסבתא, שגרה איתם ומבשלת נהדר." }
         },
         {
           "type": "gap", "text": "Priya's uncle ___ got two big dogs.", "answers": [["has"]],
-          "explanation": { "en": "My uncle = he → has got: 'my uncle has got two big dogs.'", "he": "הדוד הוא he → has got: 'my uncle has got two big dogs'." }
+          "explanation": { "en": "My uncle = he → has got: 'my uncle has got two big dogs.'", "he": "הדוד הוא he, ולכן has got: לדוד יש שני כלבים גדולים." }
         }
       ]
     },
@@ -261,29 +261,29 @@
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "possessives",
       "prompt": { "en": "You are showing a family photo. Say the sentence out loud.", "he": "אתם מראים תמונה משפחתית. אמרו את המשפט בקול." },
       "target": "This is my brother and his wife, and these are their kids.",
-      "focus": { "en": "The sound /ð/ in this, brother, these and their: put the tip of your tongue between your teeth and use your voice. his is short /hɪz/.", "he": "הצליל /ð/ ב-this, brother, these ו-their: קצה הלשון בין השיניים, עם קול. ב-his התנועה קצרה /hɪz/." },
+      "focus": { "en": "The sound /ð/ in this, brother, these and their: put the tip of your tongue between your teeth and use your voice. his is short /hɪz/.", "he": "שמים את קצה הלשון בין השיניים ומשמיעים קול ב-this, ‏brother, ‏these ו-their (/ð/). ב-his ה'אִי' קצרה (/hɪz/)." },
       "explanation": { "en": "You can use this sentence with any photo. It has his (one owner, a man) and their (two owners).", "he": "אפשר להשתמש במשפט הזה עם כל תמונה. יש בו his (בעלים אחד, גבר) ו-their (שני בעלים)." }
     },
     {
       "id": "e15", "type": "write", "skill": "writing", "topic": "possessives",
       "prompt": { "en": "Write about your family.", "he": "כתבו על המשפחה שלכם." },
-      "task": { "en": "Write 5-6 sentences about your family (or a family you know well). Say who the people are, what they do and one thing they have. Use my, his/her and their, at least one 's (my sister's...), and have or have got.", "he": "כתבו 5-6 משפטים על המשפחה שלכם (או על משפחה שאתם מכירים היטב). כתבו מי האנשים, מה הם עושים ודבר אחד שיש להם. השתמשו ב-my, his/her ו-their, לפחות פעם אחת ב-'s (my sister's...), וב-have או have got." },
+      "task": { "en": "Write 5-6 sentences about your family (or a family you know well). Say who the people are, what they do and one thing they have. Use my, his/her and their, at least one 's (my sister's...), and have or have got.", "he": "כתבו 5-6 משפטים על המשפחה שלכם (או על משפחה שאתם מכירים היטב). כתבו מי האנשים, מה הם עושים ודבר אחד שיש להם. השתמשו ב-my, his/her ו-their, לפחות פעם אחת ב-'s, וב-have או have got." },
       "min_words": 35,
       "max_words": 100,
       "model_answer": "My family is small. My mum's name is Ruth, and she's a nurse. My dad is an engineer, and his office is in Herzliya. I've got one sister, Shira. Her husband is from France, and their son is two. My grandparents live near us, and their garden is beautiful.",
       "checklist": [
         { "en": "his for a man, her for a woman, their for two or more people.", "he": "his לגבר, her לאישה, their לשניים או יותר." },
         { "en": "I used 's for a person: my sister's husband, Noa's car.", "he": "השתמשתי ב-'s כשהבעלים הוא אדם: my sister's husband, Noa's car." },
-        { "en": "he/she → has (has got); I/you/we/they → have (have got).", "he": "עם he/she → has (has got); עם I/you/we/they → have (have got)." },
+        { "en": "he/she → has (has got); I/you/we/they → have (have got).", "he": "עם he/she כתבתם has, ועם I/you/we/they כתבתם have (גם עם got)." },
         { "en": "Every sentence starts with a capital letter, and names have capitals too.", "he": "כל משפט מתחיל באות גדולה, וגם שמות מתחילים באות גדולה." }
       ]
     }
   ],
   "review": {
     "key_points": [
-      { "en": "I → my, you → your, he → his, she → her, it → its, we → our, they → their.", "he": "מילות השייכות: I → my, you → your, he → his, she → her, it → its, we → our, they → their." },
+      { "en": "I → my, you → your, he → his, she → her, it → its, we → our, they → their.", "he": "לכל כינוי גוף יש מילת שייכות משלו, למשל I → my ו-they → their." },
       { "en": "Person + 's: Noa's brother, my sister's car (plural: my parents' house).", "he": "אדם + 's: Noa's brother, my sister's car (ברבים: my parents' house)." },
-      { "en": "I have = I've got. Do you have...? = Have you got...? Never 'Do you have got'.", "he": "I have = I've got. Do you have...? = Have you got...? אף פעם לא Do you have got." },
+      { "en": "I have = I've got. Do you have...? = Have you got...? Never 'Do you have got'.", "he": "have ו-have got הם אותו דבר, אבל לא מערבבים אותם בשאלה: או do, או got." },
       { "en": "its = belongs to it; it's = it is.", "he": "its = 'שלו/שלה' (של חפץ או חיה); it's = it is." }
     ]
   },

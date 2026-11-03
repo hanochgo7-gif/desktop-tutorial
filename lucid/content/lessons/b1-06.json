@@ -29,7 +29,7 @@
     {
       "type": "p",
       "en": "Look: Coffee is grown in Brazil. Our school was built in 1965. My bike was stolen last night. In each sentence the focus is on the thing (the coffee, the school, my bike) and what happens to it, not on the person who does the action. This is the passive.",
-      "he": "שימו לב: Coffee is grown in Brazil. ‏Our school was built in 1965. ‏My bike was stolen last night. בכל משפט המוקד הוא הדבר עצמו (הקפה, בית הספר, האופניים) ומה שקורה לו – לא מי שעושה את הפעולה. זה הסביל (passive)."
+      "he": "במשפטים כמו Our school was built in 1965 המוקד הוא הדבר עצמו ומה שקורה לו – לא מי שעושה את הפעולה. זה הסביל (passive)."
     },
     {
       "type": "table",
@@ -64,22 +64,22 @@
     {
       "type": "rule",
       "en": "The tense is shown by be (is, was). The past participle never changes: is built, was built (not *was build). Common ones: make – made, build – built, write – written, steal – stolen, grow – grown, sell – sold, take – taken, give – given.",
-      "he": "הזמן מסומן ב-be ‏(is, was). ה-past participle לא משתנה: is built, was built (ולא was build). צורות נפוצות: make – made, build – built, write – written, steal – stolen, grow – grown, sell – sold, take – taken, give – given."
+      "he": "הזמן מסומן ב-be ‏(is, was), והצורה השלישית (V3) לא משתנה: was built. את הצורות הנפוצות, כמו written ו-stolen, כדאי לזכור."
     },
     {
       "type": "p",
       "en": "Use the passive when the doer is unknown (My car was stolen), obvious (The thief was arrested), or less important than the action or the result. Add by + the doer only when it is new, useful information: The mural was painted by a 16-year-old student. Never add empty agents like by someone or by people.",
-      "he": "משתמשים בסביל כשלא יודעים מי עשה את הפעולה (My car was stolen), כשזה ברור מאליו (The thief was arrested), או כשהפעולה והתוצאה חשובות יותר ממי שביצע אותה. מוסיפים by + מבצע הפעולה רק כשזה מידע חדש ומועיל: The mural was painted by a 16-year-old student. לא מוסיפים מבצע \"ריק\" כמו by someone או by people."
+      "he": "משתמשים בסביל כשלא יודעים מי עשה את הפעולה, כשזה ברור מאליו, או כשהפעולה והתוצאה חשובות יותר ממי שביצע אותה. מוסיפים by + מבצע הפעולה רק כשזה מידע חדש ומועיל, ולא מוסיפים מבצע 'ריק' כמו by someone."
     },
     {
       "type": "warning",
       "en": "Don't drop be: The house was built in 1950 (not *The house built in 1950, which means the house built something!). And verbs with no object can't be passive, because there is no object to become the subject: The concert took place in the park (not *was taken place). The accident happened at night (not *was happened).",
-      "he": "אל תשמיטו את be: ‏The house was built in 1950 (ולא The house built in 1950 – שמשמעו שהבית בנה משהו!). ופעלים בלי מושא לא יכולים לבוא בסביל, כי אין מושא שיהפוך לנושא: The concert took place in the park (ולא was taken place); ‏The accident happened at night (ולא was happened)."
+      "he": "אל תשמיטו את be: בלי was, המשפט אומר שהבית בנה משהו. ופעלים בלי מושא, כמו happen ו-take place, לא יכולים לבוא בסביל, כי אין מושא שיהפוך לנושא."
     },
     {
       "type": "tip",
       "en": "Describing a process? Use the present passive with sequencing words: First, the olives are picked. Then they are washed and crushed. Finally, the oil is bottled.",
-      "he": "מתארים תהליך? השתמשו בסביל בהווה יחד עם מילות רצף: First, the olives are picked. Then they are washed and crushed. Finally, the oil is bottled."
+      "he": "מתארים תהליך? השתמשו בסביל בהווה יחד עם מילות רצף: First, the olives are picked."
     }
   ],
   "examples": [
@@ -296,12 +296,12 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew the passive is shown inside the verb itself, and the present tense has no 'be' at all (literally 'the bags made in Italy'), so be is easy to leave out. In English the passive always needs be + past participle: These bags are made in Italy (not *These bags made in Italy).",
-      "he": "בעברית הסביל מסומן בתוך הפועל עצמו (נבנה, מיוצרים), ובהווה אין בכלל \"להיות\" (\"התיקים מיוצרים באיטליה\"), ולכן קל לשכוח את be. באנגלית סביל תמיד צריך be + past participle: These bags are made in Italy (ולא These bags made in Italy).",
+      "he": "בעברית הסביל מסומן בתוך הפועל עצמו (נבנה, מיוצרים), ובהווה אין בכלל 'להיות' ('התיקים מיוצרים באיטליה'), ולכן קל לשכוח את be. באנגלית סביל תמיד צריך be + V3: These bags are made in Italy.",
       "error_type": "passive-form"
     },
     {
       "en": "In Hebrew a question can keep the word order of a statement (literally 'where this was photographed?'), so it is easy to say *Where this photo was taken?. In English, be comes before the subject: Where was this photo taken?",
-      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל (\"איפה זה צולם?\"), ולכן קל לומר Where this photo was taken?. באנגלית be בא לפני הנושא: Where was this photo taken?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('איפה זה צולם?'). באנגלית be בא לפני הנושא: Where was this photo taken?",
       "error_type": "word-order"
     }
   ],
@@ -355,7 +355,7 @@
       ],
       "explanation": {
         "en": "Passive = be + past participle: was built, is grown, are cleaned, was invited. \"Noa was cleaning\" is active: was + -ing is the past continuous, and Noa is doing the action.",
-        "he": "סביל = be + past participle: ‏was built, is grown, are cleaned, was invited. ‏\"Noa was cleaning\" הוא פעיל: was + ing זה עבר מתמשך, ונועה היא זו שמבצעת את הפעולה."
+        "he": "סביל = be + V3 (was built, is grown). ‏was + ing זה עבר מתמשך, ושם נועה היא זו שמבצעת את הפעולה."
       }
     },
     {
@@ -607,7 +607,7 @@
       },
       "explanation": {
         "en": "A regular process → present simple passive: is/are + past participle. Oil is singular (is made, is sold); olives are plural (are picked).",
-        "he": "תהליך קבוע = סביל בהווה פשוט: is/are + past participle. השמן ביחיד (is made, is sold), הזיתים ברבים (are picked)."
+        "he": "תהליך קבוע = סביל בהווה פשוט: is/are + V3. השמן ביחיד (is made), הזיתים ברבים (are picked)."
       }
     },
     {
@@ -749,7 +749,7 @@
       },
       "explanation": {
         "en": "After be, always use the past participle: was written (not *was write or *was wrote). by my best friend is useful information, so we keep it.",
-        "he": "אחרי be תמיד בא past participle: ‏was written (ולא was write או was wrote). ‏by my best friend הוא מידע חשוב, ולכן משאירים אותו."
+        "he": "אחרי be תמיד באה צורה שלישית: was written. ‏by my best friend הוא מידע חשוב, ולכן משאירים אותו."
       }
     },
     {
@@ -772,7 +772,7 @@
           "match": "The concert was took place in the park.",
           "feedback": {
             "en": "Remove was: take place is never passive. The concert took place in the park.",
-            "he": "מוחקים את was: ‏take place אף פעם לא בא בסביל. The concert took place in the park."
+            "he": "מוחקים את was: ‏take place אף פעם לא בא בסביל (took place)."
           },
           "error_type": "passive-form"
         },
@@ -792,7 +792,7 @@
       },
       "explanation": {
         "en": "take place (= happen) has no object, so it can't be passive: The concert took place in the park (or happened in the park). If you want a passive, use hold: The concert was held in the park.",
-        "he": "take place (= להתקיים) הוא פועל בלי מושא, ולכן אין לו סביל: The concert took place in the park (או happened in the park). אם רוצים סביל, משתמשים ב-hold: ‏The concert was held in the park."
+        "he": "take place (= להתקיים) הוא פועל בלי מושא, ולכן אין לו סביל: took place. אם רוצים סביל, משתמשים ב-hold: was held."
       }
     },
     {
@@ -814,7 +814,7 @@
       ],
       "explanation": {
         "en": "Passive question: Wh- word + was/were + subject + past participle? Where were these photos taken?",
-        "he": "שאלה בסביל: מילת שאלה + was/were + נושא + past participle? ‏Where were these photos taken?"
+        "he": "שאלה בסביל: מילת שאלה + was/were + נושא + V3: Where were these photos taken?"
       }
     },
     {
@@ -930,7 +930,7 @@
           },
           "explanation": {
             "en": "'Today it is run by Samir and his daughter, Rana.' run = manage.",
-            "he": "בטקסט: Today it is run by Samir and his daughter, Rana. ‏run = לנהל."
+            "he": "בטקסט כתוב שהיום סמיר ובתו ראנה מנהלים את המקום (is run by). ‏run = לנהל."
           }
         },
         {
@@ -976,7 +976,7 @@
           },
           "explanation": {
             "en": "'The dry paste that is left is used as fuel in winter.'",
-            "he": "בטקסט: The dry paste that is left is used as fuel in winter."
+            "he": "בטקסט כתוב שהעיסה היבשה שנשארת משמשת כחומר בעירה בחורף (is used as fuel)."
           }
         },
         {
@@ -1019,7 +1019,7 @@
           ],
           "explanation": {
             "en": "'It was started by Samir Haddad's grandfather in 1958.' by + agent tells us who started it.",
-            "he": "בטקסט: It was started by Samir Haddad's grandfather in 1958. ‏by + מבצע הפעולה מספר לנו מי הקים את העסק."
+            "he": "בטקסט כתוב שסבא של סמיר הקים את העסק ב-1958: ‏by + מבצע הפעולה מספר לנו מי הקים אותו."
           }
         }
       ],
@@ -1080,7 +1080,7 @@
         "he": "כתבו פוסט (80-120 מילים) לאתר טיולים על מאכל או מוצר מהעיר או מהאזור שלכם. הסבירו איך הוא מיוצר, איפה הוא נמכר, ומשהו מההיסטוריה שלו (מתי הוא הוכן לראשונה, או מי הקים את המקום). השתמשו לפחות בחמש צורות סביל בהווה פשוט ובעבר פשוט. הוסיפו by + מבצע הפעולה רק כשזה מוסיף מידע חשוב."
       },
       "min_words": 80,
-      "max_words": 130,
+      "max_words": 120,
       "model_answer": "In our neighbourhood there is a tiny bakery that is known for its rugelach. It was opened by two sisters in 1985, and today it is run by their grandchildren. Every night the dough is made by hand and left in the fridge. In the morning, the rugelach are filled with chocolate, rolled and baked. They are sold from six o'clock until about ten, when everything is gone! Nothing is wasted: the cakes that aren't sold are given to a local food bank. The bakery isn't advertised online, but it is recommended by everyone who lives here. If you visit, go early!",
       "checklist": [
         {
@@ -1102,7 +1102,7 @@
       ],
       "explanation": {
         "en": "Descriptions of products and places use the passive because the thing is the topic: It was opened in 1985. It is made by hand.",
-        "he": "בתיאורים של מוצרים ומקומות משתמשים בסביל, כי הדבר עצמו הוא הנושא: It was opened in 1985. It is made by hand."
+        "he": "בתיאורים של מוצרים ומקומות משתמשים בסביל, כי הדבר עצמו הוא הנושא: It was opened in 1985."
       }
     }
   ],
@@ -1110,7 +1110,7 @@
     "key_points": [
       {
         "en": "Passive = be + past participle: is/are made (present), was/were built (past).",
-        "he": "סביל = be + past participle: ‏is/are made (הווה), ‏was/were built (עבר)."
+        "he": "סביל = be + V3: ‏is/are made (הווה), ‏was/were built (עבר)."
       },
       {
         "en": "Never drop be, and never use the base form after it: The house was built (not *built / *was build).",

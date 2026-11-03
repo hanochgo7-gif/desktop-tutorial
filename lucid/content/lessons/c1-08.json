@@ -314,7 +314,7 @@
   "hebrew_pitfalls": [
     {
       "en": "In Hebrew there is no word for a/an, so a missing indefinite article is easy to overlook even in advanced writing, especially before an adjective (*This is significant change, *The report proposes new approach). Give articles their own proofreading pass: every singular countable noun needs a, an, the or another determiner (this, my, each).",
-      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר (‎*This is significant change). הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה אחרת שבאה לפניו (this, my, each).",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר. הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה אחרת שבאה לפניו (כמו this).",
       "error_type": "article"
     },
     {
@@ -1062,8 +1062,8 @@
       "task": {
         "en": "Edit this paragraph of about 150 words down to about 80-110 words. Keep every argument, hedge and piece of evidence that does real work; cut redundancy and empty frames; replace vague verbs; remove the sentence that breaks paragraph unity; correct any claim that goes beyond the evidence; and start sentences with given information where you can.\n\n'In my personal opinion, I think that it is important to note that the city's decision to close the late-night library has had an impact on students in a number of different ways. There are many students who used the library in order to study in a quiet place due to the fact that their homes are crowded and noisy. The library building itself was designed in 1971 by a well-known local architect and has a very unique curved roof. Since the closure, students have had to deal with the problem of finding somewhere else to study. A survey of 80 students at one college suggests that the majority of them now study for fewer hours each week than they did before the closure. Each and every one of these students is affected by this, and the end result could possibly perhaps be lower exam results in the future.'"
       },
-      "min_words": 70,
-      "max_words": 120,
+      "min_words": 80,
+      "max_words": 110,
       "model_answer": "I would argue that the city's decision to close the late-night library has harmed students in two ways. First, many students relied on the library as a quiet place to study because their homes are crowded and noisy. Since the closure, these students have had to find somewhere else to work. Second, this disruption seems to have cost them study time: in a survey of 80 students at one college, most said that they now study for fewer hours each week than before. This loss of study time may, in turn, lead to lower exam results.",
       "checklist": [
         {

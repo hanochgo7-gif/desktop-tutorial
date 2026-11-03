@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "In Hebrew, a statement and a question can use the same words; only your voice changes. Does English work the same way?", "he": "בעברית 'את עייפה.' ו'את עייפה?' בנויים מאותן מילים – רק הטון משתנה. האם גם באנגלית זה עובד ככה? בואו נבדוק." },
   "explanation": [
-    { "type": "p", "en": "Look: You are tired. → Are you tired? In a yes/no question, am, is or are comes first, before the subject.", "he": "שימו לב: You are tired הופך ל-Are you tired? בשאלת כן/לא, am / is / are עוברים לתחילת המשפט, לפני הנושא." },
+    { "type": "p", "en": "Look: You are tired. → Are you tired? In a yes/no question, am, is or are comes first, before the subject.", "he": "בשאלת כן/לא, am / is / are עוברים לתחילת המשפט, לפני הנושא: Are you tired?" },
     { "type": "table", "headers": ["Statement", "Question", "Short answers"], "rows": [
       ["I am late.", "Am I late?", "Yes, you are. / No, you aren't."],
       ["You are busy.", "Are you busy?", "Yes, I am. / No, I'm not."],
@@ -20,9 +20,9 @@
       ["It is cold.", "Is it cold?", "Yes, it is. / No, it isn't."],
       ["They are friends.", "Are they friends?", "Yes, they are. / No, they aren't."]
     ] },
-    { "type": "rule", "en": "Negative: add not after am, is or are. Short forms: I'm not · isn't (= is not) · aren't (= are not). You will also hear she's not, they're not: they mean the same.", "he": "שלילה: מוסיפים not אחרי am / is / are. בקיצור: I'm not · isn't (= is not) · aren't (= are not). שומעים גם she's not, they're not – זה אותו דבר." },
-    { "type": "warning", "en": "Don't use your voice only. 'You are busy?' sounds surprised, like 'Really?'. A normal question is: Are you busy?", "he": "אל תסתמכו רק על הטון. 'You are busy?' נשמע כמו הפתעה ('באמת?'). שאלה רגילה היא: Are you busy?" },
-    { "type": "tip", "en": "A Yes short answer ends with the full form: Yes, I am. / Yes, she is. (not 'Yes, I'm.'). After No, short forms are fine: No, I'm not. / No, she isn't.", "he": "תשובה קצרה עם Yes מסתיימת בצורה המלאה: Yes, I am / Yes, she is (לא 'Yes, I'm'). אחרי No הקיצור תקין: No, I'm not / No, she isn't." }
+    { "type": "rule", "en": "Negative: add not after am, is or are. Short forms: I'm not · isn't (= is not) · aren't (= are not). You will also hear she's not, they're not: they mean the same.", "he": "שלילה: מוסיפים not אחרי be. בקיצור אומרים isn't ו-aren't, ועם I – I'm not. גם she's not נכון, באותה משמעות." },
+    { "type": "warning", "en": "Don't use your voice only. 'You are busy?' sounds surprised, like 'Really?'. A normal question is: Are you busy?", "he": "אל תסתמכו רק על הטון: משפט רגיל עם סימן שאלה נשמע כמו הפתעה ('באמת?'). בשאלה רגילה are בא ראשון: Are you busy?" },
+    { "type": "tip", "en": "A Yes short answer ends with the full form: Yes, I am. / Yes, she is. (not 'Yes, I'm.'). After No, short forms are fine: No, I'm not. / No, she isn't.", "he": "תשובה קצרה עם Yes מסתיימת בצורה המלאה של be, בלי קיצור: Yes, I am. אחרי No הקיצור תקין: isn't, I'm not." }
   ],
   "examples": [
     { "en": "Are you busy?", "he": "את/ה עסוק/ה?" },
@@ -48,7 +48,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, yes/no questions work differently: they can keep the word order of a statement, and only the voice goes up. So in English, move am/is/are before the subject: Are you ready? (not 'You are ready?').", "he": "בעברית שאלת כן/לא בנויה אחרת: אפשר להשאיר את סדר המילים של משפט רגיל ורק להרים את הטון ('את מוכנה?'). לכן באנגלית מעבירים את am / is / are לפני הנושא: Are you ready?", "error_type": "word-order" },
-    { "en": "In Hebrew there is no present-tense 'be', so a negative like 'She not busy' can feel natural. English works differently, so be stays in negatives and questions too: She isn't busy. Is she busy?", "he": "בעברית אין 'להיות' בהווה ('היא לא עסוקה'), ולכן 'She not busy' עלול להרגיש טבעי. באנגלית be נשאר גם בשלילה וגם בשאלה: She isn't busy. Is she busy?", "error_type": "copula-omission" }
+    { "en": "In Hebrew there is no present-tense 'be', so a negative like 'She not busy' can feel natural. English works differently, so be stays in negatives and questions too: She isn't busy. Is she busy?", "he": "בעברית אין 'להיות' בהווה ('היא לא עסוקה'), ולכן קל להשמיט אותו. באנגלית be נשאר גם בשלילה וגם בשאלה: She isn't busy.", "error_type": "copula-omission" }
   ],
   "exercises": [
     {
@@ -88,7 +88,7 @@
         ["Is it cold today?", "No, it isn't."],
         ["Am I late?", "No, you aren't."]
       ],
-      "explanation": { "en": "A short answer repeats the verb from the question with the right pronoun: Are you...? I am. Is Dana...? She isn't.", "he": "בתשובה קצרה חוזרים על הפועל מהשאלה, עם כינוי הגוף המתאים: על Are you...? עונים I am, ועל Is Dana...? עונים she isn't." }
+      "explanation": { "en": "A short answer repeats the verb from the question with the right pronoun: Are you...? I am. Is Dana...? She isn't.", "he": "בתשובה קצרה חוזרים על הפועל מהשאלה, עם כינוי הגוף המתאים: על are you עונים I am, ועל is Dana עונים she isn't." }
     },
     {
       "id": "e4", "type": "categorize", "skill": "grammar", "topic": "be-negative-questions",
@@ -103,7 +103,7 @@
         { "text": "we", "category": "aren't" },
         { "text": "Sara and Kenji", "category": "aren't" }
       ],
-      "explanation": { "en": "I: am not (short form I'm not; there is no 'amn't'). One person or thing: isn't. You, we, they and two or more: aren't.", "he": "עם I: am not (בקיצור I'm not; אין צורה כמו 'amn't'). עם אדם או דבר אחד: isn't. עם you, we, they ועם שניים או יותר: aren't." }
+      "explanation": { "en": "I: am not (short form I'm not; there is no 'amn't'). One person or thing: isn't. You, we, they and two or more: aren't.", "he": "עם I: ‏I'm not (אין קיצור 'amn't'). עם אדם או דבר אחד: isn't. עם you ועם רבים: aren't." }
     },
     {
       "id": "e5", "type": "mcq", "skill": "grammar", "topic": "be-negative-questions",
@@ -117,7 +117,7 @@
         "3": { "en": "She is one person, so use is.", "he": "she היא אדם אחד, ולכן is." }
       },
       "option_errors": { "0": "verb-form", "1": "word-order", "3": "agreement" },
-      "explanation": { "en": "Short answers repeat be in the full form: Yes, she is. (For No, the short form is fine: No, she isn't.)", "he": "בתשובה קצרה חוזרים על be בצורה המלאה: Yes, she is. (בתשובת No הקיצור בסדר: No, she isn't.)" }
+      "explanation": { "en": "Short answers repeat be in the full form: Yes, she is. (For No, the short form is fine: No, she isn't.)", "he": "בתשובה קצרה עם Yes חוזרים על be בצורה המלאה: Yes, she is. בתשובה עם No הקיצור בסדר." }
     },
     {
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "be-negative-questions",
@@ -144,7 +144,7 @@
         { "match": "am not", "feedback": { "en": "am goes only with I. Omer is one person: isn't.", "he": "am בא רק עם I. עומר הוא אדם אחד: isn't." }, "error_type": "agreement" },
         { "match": "don't", "feedback": { "en": "In a sentence with be (at home, at work), use isn't, not don't.", "he": "במשפט עם be (at home, at work) משתמשים ב-isn't, לא ב-don't." }, "error_type": "do-support" }
       ],
-      "explanation": { "en": "Omer isn't at home (negative). He is at work (positive). isn't = is not.", "he": "Omer isn't at home – שלילה. He is at work – חיוב. isn't = is not." }
+      "explanation": { "en": "Omer isn't at home (negative). He is at work (positive). isn't = is not.", "he": "עומר לא בבית: isn't הוא is not בקיצור. הוא בעבודה: is, בלי not." }
     },
     {
       "id": "e8", "type": "transform", "skill": "grammar", "topic": "be-negative-questions",
@@ -156,7 +156,7 @@
         { "match": "Is hungry Noa?", "feedback": { "en": "After Is comes the subject (Noa), then hungry.", "he": "אחרי Is בא הנושא (Noa), ורק אחר כך hungry." }, "error_type": "word-order" },
         { "match": "Does Noa hungry?", "feedback": { "en": "Hungry is not an action, so use be: Is Noa hungry?", "he": "hungry הוא לא פעולה, ולכן משתמשים ב-be: Is Noa hungry?" }, "error_type": "do-support" }
       ],
-      "explanation": { "en": "Statement: Noa is hungry. Question: Is Noa hungry? Only is moves.", "he": "משפט: Noa is hungry. שאלה: Is Noa hungry? רק is זז להתחלה." }
+      "explanation": { "en": "Statement: Noa is hungry. Question: Is Noa hungry? Only is moves.", "he": "בשאלה רק is זז להתחלה, לפני הנושא: Is Noa hungry?" }
     },
     {
       "id": "e9", "type": "transform", "skill": "grammar", "topic": "be-negative-questions",
@@ -168,7 +168,7 @@
         { "match": "They don't at home.", "feedback": { "en": "With be, add not after are: They aren't at home. No don't here.", "he": "עם be מוסיפים not אחרי are: They aren't at home. בלי don't." }, "error_type": "do-support" },
         { "match": "They are no at home.", "feedback": { "en": "Use not, not no: They are not at home.", "he": "משתמשים ב-not, לא ב-no: They are not at home." }, "error_type": "word-choice" }
       ],
-      "explanation": { "en": "Add not after are. They are not / They aren't / They're not at home: all three are correct.", "he": "מוסיפים not אחרי are. They are not / They aren't / They're not at home – שלושתן נכונות." }
+      "explanation": { "en": "Add not after are. They are not / They aren't / They're not at home: all three are correct.", "he": "מוסיפים not אחרי are. שלוש הצורות נכונות: are not, ‏aren't ו-they're not." }
     },
     {
       "id": "e10", "type": "order", "skill": "grammar", "topic": "be-negative-questions",
@@ -183,7 +183,7 @@
       "answers": ["She isn't ready."],
       "error_type": "copula-omission",
       "hint": { "en": "One word is missing before not.", "he": "חסרה מילה אחת לפני not." },
-      "explanation": { "en": "English needs be in negatives too: She isn't ready / She's not ready / She is not ready.", "he": "גם בשלילה באנגלית צריך את be: She isn't ready / She's not ready / She is not ready." }
+      "explanation": { "en": "English needs be in negatives too: She isn't ready / She's not ready / She is not ready.", "he": "גם בשלילה באנגלית צריך את be: ‏isn't, ‏she's not או is not – כל השלוש נכונות." }
     },
     {
       "id": "e12", "type": "read", "skill": "reading", "topic": "be-negative-questions",
@@ -192,9 +192,9 @@
       "passage": "Lior: Hi Yael! Are you at home?\nYael: No, I'm not. I'm at work.\nLior: Is Daniel with you?\nYael: Yes, he is. He isn't happy today. He's very tired!\nLior: Oh no! Are you free at 8? Pizza at my place?\nYael: Yes! Daniel and I are hungry. See you at 8!",
       "questions": [
         { "type": "tf", "statement": "Yael is at home.", "answer": false,
-          "explanation": { "en": "Yael writes: No, I'm not. I'm at work.", "he": "יעל כותבת: No, I'm not. I'm at work – היא בעבודה." } },
+          "explanation": { "en": "Yael writes: No, I'm not. I'm at work.", "he": "יעל כותבת שהיא לא בבית אלא בעבודה: I'm at work." } },
         { "type": "tf", "statement": "Daniel is with Yael.", "answer": true,
-          "explanation": { "en": "Lior asks: Is Daniel with you? Yael answers: Yes, he is.", "he": "ליאור שואל Is Daniel with you? ויעל עונה Yes, he is." } },
+          "explanation": { "en": "Lior asks: Is Daniel with you? Yael answers: Yes, he is.", "he": "ליאור שואל אם דניאל עם יעל, והיא עונה שכן: Yes, he is." } },
         { "type": "mcq", "question": "How is Daniel today?", "options": ["Very tired.", "Happy.", "Sick."], "answer": 0,
           "option_feedback": {
             "1": { "en": "Yael writes: He isn't happy today.", "he": "יעל כותבת: He isn't happy today – הוא לא שמח היום." },
@@ -212,7 +212,7 @@
       "audio_text": "Is she at home? No, she isn't.",
       "answers": ["Is she at home? No, she isn't.", "Is she at home? No she isn't."],
       "hint": { "en": "Two sentences: a question and a short answer.", "he": "שני משפטים: שאלה ותשובה קצרה." },
-      "explanation": { "en": "Is she...? No, she isn't. The short answer uses the same verb, is.", "he": "על Is she...? עונים No, she isn't – עם אותו פועל, is." }
+      "explanation": { "en": "Is she...? No, she isn't. The short answer uses the same verb, is.", "he": "בתשובה הקצרה חוזרים על אותו פועל מהשאלה, is: No, she isn't." }
     },
     {
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "be-negative-questions",
@@ -231,7 +231,7 @@
       "model_answer": "Are you a student? Yes, I am. Are you from Haifa? No, I'm not. I'm from Eilat. Is your phone new? Yes, it is.",
       "checklist": [
         { "en": "Each question starts with Am, Is or Are.", "he": "כל שאלה מתחילה ב-Am, Is או Are." },
-        { "en": "Short answers: Yes, I am. / No, I'm not. (not 'Yes, I'm').", "he": "תשובות קצרות: Yes, I am / No, I'm not (לא 'Yes, I'm')." },
+        { "en": "Short answers: Yes, I am. / No, I'm not. (not 'Yes, I'm').", "he": "בתשובה קצרה עם Yes כתבתם את הצורה המלאה (Yes, I am), בלי קיצור." },
         { "en": "Negatives keep be: I'm not, isn't, aren't.", "he": "בשלילה be נשאר: I'm not, isn't, aren't." },
         { "en": "Questions end with ? and other sentences with a full stop.", "he": "שאלות מסתיימות ב-? ושאר המשפטים בנקודה." }
       ],
@@ -240,10 +240,10 @@
   ],
   "review": {
     "key_points": [
-      { "en": "Questions: am/is/are comes first: Are you busy? Is she at home?", "he": "שאלה: am / is / are באים ראשונים: Are you busy? Is she at home?" },
-      { "en": "Short answers: Yes, I am. / No, I'm not. Yes, she is. / No, she isn't.", "he": "תשובות קצרות: Yes, I am / No, I'm not. Yes, she is / No, she isn't. (לא 'Yes, I'm')" },
-      { "en": "Negatives: I'm not · he/she/it isn't · you/we/they aren't.", "he": "שלילה: I'm not · he/she/it isn't · you/we/they aren't." },
-      { "en": "Never drop be: She isn't ready (not 'She not ready').", "he": "אסור להשמיט את be: She isn't ready, לא 'She not ready'." }
+      { "en": "Questions: am/is/are comes first: Are you busy? Is she at home?", "he": "שאלה: am, is או are באים ראשונים, לפני הנושא: Are you busy?" },
+      { "en": "Short answers: Yes, I am. / No, I'm not. Yes, she is. / No, she isn't.", "he": "תשובה קצרה חוזרת על be: אחרי Yes בלי קיצור (Yes, I am), ואחרי No עם קיצור או בלי." },
+      { "en": "Negatives: I'm not · he/she/it isn't · you/we/they aren't.", "he": "שלילה: עם I – I'm not, עם אחד – isn't, עם you ורבים – aren't." },
+      { "en": "Never drop be: She isn't ready (not 'She not ready').", "he": "אסור להשמיט את be, גם בשלילה: She isn't ready." }
     ]
   },
   "completion": { "pass_score": 0.7 }

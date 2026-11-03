@@ -8,6 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { skillLevels, placementSkillEstimate, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonSlice, pickScenario, periodReport, LEVELS } from '../../js/core/adaptive.js';
 import { createPlacement, MAX_ITEMS } from '../../js/core/placement.js';
+import { meaningOptions, seedOf, shortGloss, cardLevel, vocabCardsFor } from '../../js/core/srs.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
 const at = (days, h = 0) => new Date(T0.getTime() + days * 86_400_000 + h * 3_600_000).toISOString();
@@ -183,6 +184,67 @@ test('reports count only curriculum lessons and include the open session', () =>
   assert.equal(r.minutes, 7);
 });
 
+// ---------- review options (UX r3 PH-1) ----------
+const lessonVocab = async (prefix) => {
+  const { readdir } = await import('node:fs/promises');
+  const dir = new URL('../../content/lessons/', import.meta.url);
+  const files = (await readdir(dir)).filter((f) => f.startsWith(prefix)).sort();
+  return (await Promise.all(files.map(async (f) => JSON.parse(await readFile(new URL(f, dir), 'utf8'))))).flatMap((l) => l.vocab || []);
+};
+const heWordCount = (s) => s.split(/\s+/).filter((w) => /[א-ת]/.test(w)).length;
+
+test('PH-1: the option shows a short gloss of at most four words', () => {
+  assert.equal(shortGloss('כבשה (ברבים: sheep)'), 'כבשה');
+  assert.equal(shortGloss('לשחק; לנגן'), 'לשחק');
+  assert.equal(shortGloss('(ב)משרה חלקית'), 'משרה חלקית');
+  assert.equal(shortGloss('לנסוע ב- (אוטובוס, רכבת); לקחת'), 'לנסוע ב-');
+  assert.equal(shortGloss('כל כמה זמן, באיזו תדירות'), 'כל כמה זמן');
+  assert.equal(shortGloss('בן דוד / בת דודה'), 'בן דוד / בת דודה');
+  assert.ok(heWordCount(shortGloss('לנסוע כל יום לעבודה או ללימודים (ובחזרה)')) <= 4);
+  // A card's level: its word's level, else its lesson's (pa1- is Pre-A1).
+  assert.equal(cardLevel({ payload: { level: 'A2' }, ref: { lesson: 'a1-03' } }), 'A2');
+  assert.equal(cardLevel({ ref: { lesson: 'pa1-05' } }), 'PreA1');
+  assert.equal(cardLevel({ ref: { lesson: 'b2-01' } }), 'B2');
+  assert.equal(cardLevel({ ref: {} }), null);
+});
+
+test('PH-1: review options vary by card, never repeat a distractor set, and match the part of speech', async () => {
+  const a1 = await lessonVocab('a1-');
+  const learned = a1.slice(0, 60);
+  const used = new Map(); const sets = new Set();
+  const positions = new Set(); const seen = [];
+  // Two sessions of eight A1 cards on the same day, as the acceptance check runs them.
+  const cards = [...a1.filter((v) => v.pos === 'verb').slice(0, 8), ...a1.filter((v) => v.pos !== 'verb').slice(0, 8)];
+  for (const v of cards) {
+    const o = meaningOptions(v, { learned, level: a1, seed: seedOf(`v:${v.word}:meaning|2026-11-02`), used, sets });
+    assert.equal(o.options.length, 4, v.word);
+    assert.equal(o.options[o.answer], shortGloss(v.he));
+    assert.equal(new Set(o.options).size, 4, `duplicate option for ${v.word}`);
+    positions.add(o.answer);
+    for (const x of o.options) assert.ok(heWordCount(x) <= 4 && !/[A-Za-z]/.test(x), `${v.word}: "${x}"`);
+    if (v.pos === 'verb' && shortGloss(v.he).startsWith('ל')) for (const x of o.options) assert.ok(x.startsWith('ל'), `verb ${v.word} has a non-verb option "${x}"`);
+    const key = o.options.filter((_, k) => k !== o.answer).sort().join('|');
+    assert.ok(!seen.includes(key), `distractor set repeats for ${v.word}: ${key}`);
+    seen.push(key);
+  }
+  assert.ok(positions.size >= 3, `the right answer sits in only ${[...positions]}`);
+  // The same card on the same day keeps its order; on another day it changes.
+  const v = a1.find((x) => x.word === 'cook');
+  const day = (d) => meaningOptions(v, { learned, level: a1, seed: seedOf(`v:cook:meaning|${d}`) });
+  assert.deepEqual(day('2026-11-02'), day('2026-11-02'));
+  const other = ['2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06'].map((d) => JSON.stringify(day(d)));
+  assert.ok(new Set(other).size > 1, 'options never change between days');
+});
+
+test('PH-1: a noun card shows no infinitives; with too few words there are fewer options', async () => {
+  const a1 = await lessonVocab('a1-');
+  const noun = a1.find((v) => v.word === 'language');
+  const o = meaningOptions(noun, { learned: [], level: a1, seed: 0.42 });
+  for (const x of o.options) if (x !== shortGloss(noun.he)) assert.ok(!(x.startsWith('ל') && a1.find((v) => shortGloss(v.he) === x)?.pos === 'verb'), `infinitive "${x}" for a noun`);
+  const tiny = meaningOptions(noun, { learned: [a1.find((v) => v.word === 'flat')], level: [], seed: 0.1 });
+  assert.equal(tiny.options.length, 2);
+});
+
 // ---------- learner store flows ----------
 // learner.js runs against the real store (memory backend) and real curriculum files.
 const root = new URL('../../', import.meta.url);
@@ -275,7 +337,88 @@ test('P-82: placed learners can add placed-out words; new words are queued at th
 test('the plan for the store: the next lesson file gives its real length', async () => {
   const next = L.model().next;
   const plan = L.todayPlan(10, { lesson: await lessonFile(next.id) });
-  const learn = plan.blocks.find((b) => b.id === 'learn');
+  // Earlier tests completed a lesson today, so the next one is offered beyond the plan (TF-2).
+  const learn = [...plan.blocks, ...plan.extras].find((b) => b.id === 'learn' && b.lesson === next.id);
   assert.ok(learn.slice.total >= 15);
   assert.ok(plan.minutes <= 12, `${plan.minutes} min`);
+});
+
+// ---------- UX r4 today-path ----------
+// A fresh day for the store flows below: no answers, lessons, events or cards, a placement at A1, 10 minutes.
+async function freshDay({ level = 'A1', minutes = 10, goals = ['travel'] } = {}) {
+  for (const c of ['attempts', 'progress', 'events', 'cards', 'writing']) for (const x of storeMod.store.all(c)) storeMod.store.remove(c, x.id);
+  storeMod.store.put('profile', { id: 'me', onboarded: true, goals });
+  L.saveSettings({ daily_minutes: minutes, today_minutes: null, today_part: null });
+  await L.applyPlacement((await import('../../js/core/placement.js')).selfReportResult(level));
+}
+// The rule Today used inline before TP-1, recomputed here from its parts.
+async function inlineRule() {
+  const A = await import('../../js/core/adaptive.js');
+  const { todayKey } = await import('../../js/core/util.js');
+  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === todayKey();
+  const target = L.todayMinutes();
+  const plan = L.todayPlan(target);
+  const minutesDone = A.minutesToday({
+    attempts: L.model().attempts.filter((a) => isToday(a.at)), events: storeMod.store.all('events').filter((e) => isToday(e.at)),
+    whole: storeMod.store.all('progress').filter((x) => A.isLessonId(x.id) && x.status === 'completed' && isToday(x.started_at) && isToday(x.completed_at)).map((x) => x.id),
+  });
+  return { ...A.planStatus(plan, { minutesDone, target }), minutesDone, first: plan.blocks.find((b) => !b.done)?.id };
+}
+
+test('TP-1: dayStatus agrees with Today\'s banner rule: neither, minutes met, all blocks done', async () => {
+  await freshDay();
+  assert.equal(typeof L.todayMinutes, 'function');
+  // Neither: nothing done yet.
+  let d = L.dayStatus(); let r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.minutesDone, d.target], [false, false, 0, 10]);
+  assert.equal(d.next.id, r.first);
+  assert.equal(d.firstRecallOpen, false);
+  // Minutes met: 12 scenario replies count a minute each, so 12 >= 10 although the lesson block is open.
+  for (let i = 0; i < 12; i++) L.recordAttempt({ source: 'scenario', exercise: `rl-x:${i}`, topic: 'travel-functional', skill: 'speaking', level: 'A1', correct: true });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.allDone, r.allDone], [true, true, false, false]);
+  assert.equal(d.next, null);
+  assert.ok(d.open.length > 0 && d.open.every((b) => !b.done));
+  // All blocks done: the plan's lesson completed today and today's review taken, with only a few minutes.
+  await freshDay();
+  const lesson = await lessonFile(L.model().next.id);
+  L.startLesson(lesson);
+  L.finishLesson(lesson, { score: 0.9, passed: true });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete], [false, false], 'the review of the new words is still open');
+  assert.equal(d.next.id, 'review');
+  L.logEvent({ type: 'review', mode: 'review', count: L.due().length });
+  d = L.dayStatus(); r = await inlineRule();
+  assert.deepEqual([d.complete, r.complete, d.allDone, r.allDone, d.minutesDone < d.target], [true, true, true, true, true]);
+});
+
+test('TP-1: on a finished day, an undone first round of today\'s new words is open (firstRecallOpen)', async () => {
+  await freshDay();
+  const lesson = await lessonFile(L.model().next.id);
+  const paces = new Map([[lesson.id, { minutes: lesson.minutes, exercises: lesson.exercises.length, intro: 2 }]]);
+  L.startLesson(lesson);
+  for (const e of lesson.exercises) L.recordAttempt({ source: 'lesson', lesson: lesson.id, exercise: e.id, topic: lesson.topics[0], skill: 'grammar', level: lesson.level, correct: true });
+  L.finishLesson(lesson, { score: 1, passed: true });
+  // The earlier test already added this lesson's words today (their deleted records stay), so they are put back
+  // as new cards of today, as finishLesson does on a fresh device.
+  for (const c of vocabCardsFor(lesson, [], new Date()).slice(0, 5)) storeMod.store.put('cards', c);
+  const d = L.dayStatus({ paces });
+  assert.equal(d.complete, true);
+  assert.equal(d.firstRecallOpen, true);
+  assert.ok(d.firstRecall.count > 0 && d.firstRecall.minutes >= 1 && d.firstRecall.route.startsWith('review'));
+  // An older card is waiting too: this is not only the first round of today's words.
+  const old = L.due()[0];
+  storeMod.store.put('cards', { ...old, id: 'old-card', created_at: new Date(Date.now() - 5 * 86_400_000).toISOString(), log: [{ at: 'x' }] });
+  assert.equal(L.dayStatus({ paces }).firstRecallOpen, false);
+});
+
+test('TP-4: a lesson speak item does not tick the speaking block; the speaking lab does', async () => {
+  await freshDay({ level: 'A1', minutes: 20, goals: [] });
+  const use = () => L.todayPlan(20).blocks.find((b) => b.id === 'use');
+  assert.equal(use().kind, 'speaking');
+  assert.equal(use().done, false);
+  L.logEvent({ type: 'speaking', lesson: 'a1-01', self: 1, recognised: false });
+  assert.equal(use().done, false, 'a lesson speak item ticked the speaking block');
+  L.logEvent({ type: 'speaking', drill: 'say-it', sound: 'th' });
+  assert.equal(use().done, true);
 });
