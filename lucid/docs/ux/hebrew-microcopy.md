@@ -46,7 +46,13 @@ Never claim certification: a level is "הערכה של Lucid לפי מתארי C
 - Every English fragment inside a Hebrew string is rendered through `isolateLatin()` (js/core/i18n.js). It wraps
   each English piece in its own `<bdi dir="ltr">`, keeps IPA (/ɪz/) and a sound with its example word
   ("/æ/ (cat)") together, gives each English sentence its own isolate, keeps a Hebrew list number outside the
-  English, and keeps short pieces (20 characters or fewer) on one line with the punctuation attached to them.
+  English, and keeps short pieces (30 characters or fewer) on one line with the punctuation attached to them.
+- Round 4 (SB-2, SB-3): an English sentence that ends the text (or its line) keeps its own full stop, so a wrapped
+  line never reads ".I work in a bank". After a lone token of up to three characters a question mark is the Hebrew
+  question's ("זה E או I?"). A list of letters or short words ("E ו-I, G ו-J", "בלי s, I גדולה") gets one isolate
+  per item, so the commas stay Hebrew. After a Hebrew prefix only the next token is isolated ("ל-y: lie → lying"),
+  arrow pairs ("make → making") and "A = אֵיי" never break, and spelled words ("M-A-Y-A") use non-breaking hyphens
+  in English lines too.
 - Content files need no invisible control characters. A right-to-left mark (U+200F) between two English pieces
   that belong to different parts of the Hebrew sentence keeps them apart.
 - Alignment follows the role of the English, never its line count (round 4, SB-1). Titles, labels, chips, option
