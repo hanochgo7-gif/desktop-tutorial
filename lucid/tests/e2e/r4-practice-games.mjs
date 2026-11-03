@@ -526,6 +526,34 @@ try {
     await shot(page, 'pg7-memory-backs-1440');
     await ctx.close();
   });
+  // ---------- PG-10 ----------
+  await check('PG-10. Settings without AI: each AI field is .is-off, described by #ai-off, and its selected segment is --ink-3 with no raised fill', async () => {
+    for (const dark of [false, true]) {
+      const { ctx, page } = await newPage(browser, { dark });
+      await learnerAt(page, 'B1');
+      await go(page, 'settings', '#ai-off');
+      const r = await page.evaluate(() => {
+        const probe = (prop, value) => { const x = document.createElement('div'); x.style[prop] = value; document.body.append(x); const c = getComputedStyle(x)[prop]; x.remove(); return c; };
+        const ink3 = probe('color', 'var(--ink-3)'), ink2 = probe('color', 'var(--ink-2)');
+        return { ink3, ink2, fields: ['corrections', 'feedback_scope'].map((name) => {
+          const g = document.querySelector(`[data-seg="${name}"]`);
+          const sel = g.querySelector('[aria-pressed="true"]');
+          const cs = getComputedStyle(sel);
+          return { name, off: Boolean(g.closest('.is-off')), described: (g.getAttribute('aria-describedby') || '').split(/\s+/).includes('ai-off'), color: cs.color, bg: cs.backgroundColor, shadow: cs.boxShadow, label: getComputedStyle(g.closest('.field').querySelector('.label')).color };
+        }), ai: (() => { const c = document.querySelector('[data-ai]'); return { off: Boolean(c.closest('.is-off')), described: (c.getAttribute('aria-describedby') || '').split(/\s+/).includes('ai-off') }; })() };
+      });
+      for (const f of r.fields) {
+        assert(f.off && f.described, `${f.name}: not marked off or not described by #ai-off`);
+        assert(f.color === r.ink3, `${f.name}: the selected segment is ${f.color}, not --ink-3 ${r.ink3}`);
+        assert((f.bg === 'rgba(0, 0, 0, 0)' || f.bg === 'transparent') && f.shadow === 'none', `${f.name}: the selected segment still looks raised (${f.bg}, ${f.shadow})`);
+        assert(f.label === r.ink2, `${f.name}: the label is ${f.label}, not --ink-2`);
+      }
+      assert(r.ai.off && r.ai.described, 'the AI checkbox is not marked off');
+      await page.$eval('#ai-off', (x) => x.scrollIntoView({ block: 'start' }));
+      await shot(page, `pg10-settings-ai-off${dark ? '-dark' : ''}`);
+      await ctx.close();
+    }
+  });
 } finally {
   await browser.close();
   server.kill();

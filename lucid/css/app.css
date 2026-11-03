@@ -1723,6 +1723,10 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .game-levels > .game-level-row { max-width: 46rem; }
 .game-level-row .game-chips { margin-inline-start: auto; }
 .game-stage .game-own { display: inline-block; width: fit-content; margin-block-start: var(--s1); }
+/* PG-10: on a site without AI, an AI-only setting looks inert: its chosen segment is flat --ink-3 text (no raised fill,
+   no shadow) and its label steps back to --ink-2; the one AI-off sentence above them says why. */
+.settings-view .is-off .seg button[aria-pressed='true'] { background: transparent; box-shadow: none; color: var(--ink-3); }
+.settings-view .is-off .label { color: var(--ink-2); }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
