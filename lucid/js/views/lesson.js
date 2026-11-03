@@ -56,22 +56,28 @@ export function partialCredit(firstTry) {
 export const missedMinutes = (lesson, n) => Math.max(1, Math.round(n * (lesson.minutes / (lesson.exercises.length + introSlots(lesson)))));
 // About how long the rest of a run takes from position qi (first pass and retries alike).
 export const restMinutes = (lesson, queue, qi) => Math.max(1, Math.round((queue.length - qi) * (lesson.minutes / (lesson.exercises.length + introSlots(lesson)))));
-// About how long the explanation takes to read: English at about 90 words a minute (a learner reading
-// carefully), the Hebrew around it at about 180 (LF-2). Shown instead of the old "short explanation".
+// About how long the explanation takes to read (r4 LF-6), from the words in its learn units: the explanation, the
+// examples, the Hebrew-speaker pitfalls and the new words. English at about 120 words a minute, and at about 60 at
+// Pre-A1, where the learner is still decoding the Latin alphabet; the Hebrew around it at about 180 (none when
+// Hebrew support is off). Rounded to whole minutes, at least one, so each lesson shows its own time.
+export const READ_WPM = { en: 120, enPreA1: 60, he: 180 };
 export function readingMinutes(lesson, support = 'full') {
   const count = (s, re) => (String(s || '').match(re) || []).length;
   const EN = /[A-Za-z][A-Za-z'’-]*/g;
   const HE = /[֐-׿]+/g;
+  const withHe = support !== 'off';
   let en = 0, he = 0;
-  const add = (o) => { if (!o) return; if (typeof o === 'string') { en += count(o, EN); return; } en += count(o.en, EN); if (support !== 'off') he += count(o.he, HE); };
+  const add = (o) => { if (!o) return; if (typeof o === 'string') { en += count(o, EN); if (withHe) he += count(o, HE); return; } en += count(o.en, EN); if (withHe) he += count(o.he, HE); };
   for (const b of lesson.explanation || []) {
-    if (b.type === 'table') { for (const r of [b.headers, ...b.rows]) for (const c of r) { en += count(c, EN); he += count(c, HE); } }
+    if (b.type === 'table') { for (const r of [b.headers, ...b.rows]) r.forEach(add); }
     else if (b.type === 'examples') b.items.forEach(add);
     else add(b);
   }
   (lesson.examples || []).forEach(add);
-  (lesson.hebrew_pitfalls || []).forEach(add);
-  return Math.max(1, Math.round(en / 90 + he / 180));
+  if (withHe) (lesson.hebrew_pitfalls || []).forEach(add);
+  for (const v of lesson.vocab || []) add({ en: `${v.word} ${v.example || ''}`, he: `${v.he || ''} ${v.example_he || ''}` });
+  const enRate = lesson.level === 'PreA1' ? READ_WPM.enPreA1 : READ_WPM.en;
+  return Math.max(1, Math.round(en / enRate + he / READ_WPM.he));
 }
 // First-pass exercises before position qi (retries are counted apart, as on the step counter).
 export const firstDone = (queue, qi) => queue.slice(0, qi).filter((q) => !q.retry).length;
@@ -532,7 +538,10 @@ export default async function lessonView(el, ctx) {
     const meta = $('.player-top .top-meta', el);
     meta.classList.toggle('is-count', Boolean(step));
     meta.parentElement.classList.toggle('counting', Boolean(step));
-    render(meta, step ? html`<span class="step-count">${stepLabel(step)}</span>` : levelTag(lesson.level));
+    // A later learn step names the lesson in one line here instead of repeating its title block (r4 LF-6).
+    const titled = !step && stage === 'learn' && learnStep > 0;
+    meta.classList.toggle('is-title', titled);
+    render(meta, step ? html`<span class="step-count">${stepLabel(step)}</span>` : titled ? html`<span class="top-title" title="${lesson.title_en}">${hebrewSupport() === 'full' ? html`<span lang="he" dir="rtl">${isolateLatin(lesson.title_he)}</span>` : html`<span lang="en" dir="ltr">${lesson.title_en}</span>`}</span>` : levelTag(lesson.level));
     render($('#pbody', el), body);
     $('#pfoot', el)?.remove();
     if (foot) $('.player', el).insertAdjacentHTML('beforeend', `<div class="player-foot" id="pfoot">${foot}</div>`);
@@ -567,6 +576,8 @@ export default async function lessonView(el, ctx) {
     const rs = resuming ? resumeStepOf(p.resume) : null;
     const mi = resuming ? null : missedInfo(p);
     const relearnFirst = Boolean(mi && mi.score < 0.5);
+    // Left in the middle of the explanation (r4 LF-6): the main key goes on reading from that step.
+    const readAt = !resuming && !mi && Number.isInteger(p?.learn_step) && p.learn_step > 0 ? p.learn_step : 0;
     const note = partNote(resuming);
     const noteLine = note ? html`<p class="foot-note xsmall" data-part-line>${note}</p>` : '';
     frame(html`<div class="lesson-intro stack-lg">
@@ -589,7 +600,9 @@ export default async function lessonView(el, ctx) {
         ? html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-missed>${tt(`${mi.n === 1 ? 'לתרגל רק את הטעות' : `לתרגל רק את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise just the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)}</button><a class="key enter" href="#/lesson/${id}?stage=relearn&t=${Date.now()}" data-relearn>${tt('לקרוא שוב את ההסבר ואז לתרגל', 'Read the explanation again, then practise')} <span class="kbd">Enter</span></a>${noteLine}</div>`
       : mi
         ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('את כל התרגול מחדש', 'Practise everything again')}</button><span class="grow"></span><button type="button" class="key enter" data-missed>${tt(`${mi.n === 1 ? 'לתרגל את הטעות' : `לתרגל את ${mi.n} הטעויות`} · כ-${mi.min} דק׳`, `Practise the ${mi.n === 1 ? 'one' : mi.n} I missed · about ${mi.min} min`)} <span class="kbd">Enter</span></button>${noteLine}</div>`
-        : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);
+        : readAt
+          ? html`<div class="inner"><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key ghost" data-learn-restart>${tt('מההתחלה', 'From the start')}</button><span class="grow"></span><button type="button" class="key enter" data-go="learn" data-continue-reading>${p.learn_of ? tt(`להמשיך לקרוא · שלב ${readAt + 1} מתוך ${p.learn_of}`, `Continue reading · step ${readAt + 1} of ${p.learn_of}`) : tt(`להמשיך לקרוא · שלב ${readAt + 1}`, `Continue reading · step ${readAt + 1}`)} <span class="kbd">Enter</span></button>${noteLine}</div>`
+          : html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button>${noteLine}</div>`);
   }
 
   // The end of today's part: what was done today, stop with the place saved, or finish now (R2-28, LF-4).
@@ -655,9 +668,12 @@ export default async function lessonView(el, ctx) {
     s.items.forEach((x, j) => {
       if (j === 0 || x.first) {
         const title = x.first ? STEP_TITLE[x.g] : STEP_MORE[x.g];
-        out.push(j === 0
-          ? html`<h2 class="learn-h" id="learn-h" tabindex="-1"><span class="sr-only">${tt(`שלב ${k + 1} מתוך ${n}: `, `Step ${k + 1} of ${n}: `)}</span>${tt(...title)}</h2>`
-          : html`<h2 class="learn-h">${tt(...title)}</h2>`);
+        // After step 1 the lesson title is a line in the player top, and the step's heading is the page's h1 (r4 LF-6).
+        out.push(j === 0 && k > 0
+          ? html`<h1 class="learn-h" id="learn-h" tabindex="-1"><span class="sr-only">${tt(`שלב ${k + 1} מתוך ${n}: `, `Step ${k + 1} of ${n}: `)}</span>${tt(...title)}</h1>`
+          : j === 0
+            ? html`<h2 class="learn-h" id="learn-h" tabindex="-1"><span class="sr-only">${tt(`שלב ${k + 1} מתוך ${n}: `, `Step ${k + 1} of ${n}: `)}</span>${tt(...title)}</h2>`
+            : html`<h2 class="learn-h">${tt(...title)}</h2>`);
       }
       out.push(unitHtml(x.u));
     });
@@ -669,6 +685,7 @@ export default async function lessonView(el, ctx) {
     const saved = progressOf(id)?.learn_step;
     if (Number.isInteger(saved) && learnStep === 0 && saved > 0) learnStep = saved;
     learnStep = Math.max(0, Math.min(learnStep, steps.length - 1));
+    saveLearnStep(learnStep, steps.length);
     drawLearn(steps, { heading: 'h1' });
     // Measured before the font arrived, the steps are measured again once it has, at the same step and focus.
     const fonts = globalThis.document?.fonts;
@@ -695,6 +712,8 @@ export default async function lessonView(el, ctx) {
     const s = steps[k];
     const last = k === n - 1;
     const minutes = readingMinutes(lesson, hebrewSupport());
+    // Today counts the reading time of a lesson whose explanation was read today (contract (f), TP-2).
+    if (!learnLogged.has(k)) { learnLogged.add(k); logEvent({ type: 'learn', lesson: id, step: k }); }
     frame(html`<div class="stack-lg lesson-learn" data-step="${s.id}">
       <div class="stack-sm">
         <div class="learn-head">
@@ -702,7 +721,7 @@ export default async function lessonView(el, ctx) {
           <span class="learn-step-label small faint" data-step-label>${n > 1 ? `${t('of', { a: k + 1, b: n })} · ` : ''}${tt(`כ-${minutes} דק׳ קריאה`, `about ${minutes} min reading`)}</span>
           ${heAllKey()}
         </div>
-        <h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>
+        ${k === 0 ? html`<h1 tabindex="-1">${legend(lesson.title_en, lesson.title_he)}</h1>` : ''}
       </div>
       <section class="stack learn-units" aria-labelledby="learn-h">${stepContent(s, k, n)}</section>
     </div>`, html`<div class="inner">${k > 0 ? html`<button type="button" class="key ghost" data-learn-prev>${tt('הקודם', 'Back')}</button>` : ''}<span class="grow"></span>${last
@@ -714,10 +733,17 @@ export default async function lessonView(el, ctx) {
   function learnMove(d) {
     const steps = pagesFor();
     learnStep = Math.max(0, Math.min(learnStep + d, steps.length - 1));
-    const cur = progressOf(id);
-    if (cur) store.put('progress', { ...cur, learn_step: learnStep });
+    saveLearnStep(learnStep, steps.length);
     stopSpeaking();
     drawLearn(steps);
+  }
+  // The step being read is kept, also on a learner's first visit, before any progress record exists (r4 LF-6):
+  // coming back offers "continue reading" at that step. The number of steps is kept for the intro's key.
+  const learnLogged = new Set();
+  function saveLearnStep(k, n) {
+    const cur = progressOf(id) || { id, level: lesson.level, status: 'started', started_at: new Date().toISOString(), attempts: 0 };
+    if (cur.learn_step === k && cur.learn_of === n) return;
+    store.put('progress', { ...cur, learn_step: k, learn_of: n });
   }
 
   function footer(state) {
@@ -1117,6 +1143,7 @@ export default async function lessonView(el, ctx) {
       if (ok) restart(); else $('[data-restart]', el)?.focus();
     }),
     on(el, 'click', '[data-learn-next]', () => learnMove(1)),
+    on(el, 'click', '[data-learn-restart]', () => { const cur = progressOf(id); if (cur) { const c = { ...cur }; delete c.learn_step; store.put('progress', c); } learnStep = 0; go('learn'); }),
     on(el, 'click', '[data-learn-prev]', () => learnMove(-1)),
     on(el, 'click', '[data-ipa-toggle]', (e, b) => {
       const w = b.closest('.table-tools')?.nextElementSibling?.nextElementSibling;

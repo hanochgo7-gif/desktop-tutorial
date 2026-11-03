@@ -1721,6 +1721,10 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
 :root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
+/* Learn steps after the first (LF-6): the lesson's title is one line in the top, cut with an ellipsis. */
+.lesson-player .player-top .top-meta.is-title { flex: 0 1 auto; min-width: 0; }
+.lesson-player .player-top:has(.is-title) .progress { min-width: 4rem; }
+.lesson-player .player-top .top-title { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--t-sm); font-weight: 500; color: var(--ink-2); }
 /* "Worth watching" (LF-4): only the words that changed, struck and added as in the verdict's diff; a choice is
    "you chose · the answer" with no correction styling; an item fixed on a later try has a neutral tag. */
 .mistake-diff { display: inline; overflow-wrap: anywhere; }

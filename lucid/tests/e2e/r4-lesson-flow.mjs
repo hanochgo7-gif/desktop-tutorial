@@ -406,6 +406,54 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-6: learn steps resume, and only step 1 has the big title ----------
+  await check('LF-6 a fresh learner leaves a2-02 at learn step 3: the intro offers "continue reading · step 3", which opens step 3; a learn event is stored; step 2 has no title h1', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    assert(!(await page.evaluate(() => window.lucid.store.get('progress', 'a2-02'))?.learn_step), 'not a fresh learner');
+    await page.goto(`${BASE}#/lesson/a2-02`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForSelector('.lesson-learn [data-step-label]');
+    const n = Number((await page.textContent('[data-step-label]')).match(/מתוך (\d+)/)?.[1]);
+    assert(n >= 3, `a2-02 has ${n} steps`);
+    await page.click('[data-learn-next]');
+    await page.waitForFunction(() => /^2 מתוך/.test(document.querySelector('[data-step-label]')?.textContent.trim()));
+    const h1s = await page.$$eval('.lesson-learn h1', (hs) => hs.map((h) => h.textContent));
+    const title = lessonJson('a2-02').title_en;
+    assert(!h1s.some((t) => t.includes(title)), `step 2 repeats the title h1: ${h1s}`);
+    await shot(page, 'lf6-step2');
+    await page.click('[data-learn-next]');
+    await page.waitForFunction(() => /^3 מתוך/.test(document.querySelector('[data-step-label]')?.textContent.trim()));
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('#view > *');
+    await page.goto(`${BASE}#/lesson/a2-02?t=${Date.now()}`);
+    await page.waitForSelector('.lesson-intro');
+    const key = (await page.textContent('#pfoot .key.enter')).trim();
+    assert(/שלב 3/.test(key), `the intro primary: ${key}`);
+    await shot(page, 'lf6-intro-continue');
+    await page.click('#pfoot .key.enter');
+    await page.waitForFunction(() => /^3 מתוך/.test(document.querySelector('[data-step-label]')?.textContent.trim()));
+    const ev = (await store(page, 'events')).filter((e) => e.type === 'learn' && e.lesson === 'a2-02');
+    assert(ev.length >= 3, `learn events: ${JSON.stringify(ev)}`);
+    await ctx.close();
+  });
+  await check('LF-6 the reading time is worked out per lesson: pa1-01 and a1-01 show different times', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    const time = async (lid) => {
+      await page.goto(`${BASE}#/lesson/${lid}?t=${Date.now()}`);
+      await page.waitForSelector('.lesson-intro');
+      await page.click('[data-go="learn"]');
+      await page.waitForSelector('[data-step-label]');
+      return (await page.textContent('[data-step-label]')).match(/כ-(\d+) דק׳ קריאה/)?.[1];
+    };
+    const a = await time('pa1-01');
+    const b = await time('a1-01');
+    assert(a && b && a !== b, `pa1-01 ${a} min, a1-01 ${b} min`);
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
