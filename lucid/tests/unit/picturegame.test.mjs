@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PICTURES } from '../../js/ui/picture-icons.js';
-import { BOARDS, UNLOCK, makeBoards, roundScore, mistakeCostOf, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords, openUpTo, topCefr } from '../../js/core/picturegame.js';
+import { BOARDS, UNLOCK, makeBoards, roundScore, mistakeCostOf, boardBonus, accuracyOf, maxFor, bests, isBetter, unlocked, recentWords, openUpTo, topCefr, orderSets, cefrIn } from '../../js/core/picturegame.js';
 
 const data = JSON.parse(readFileSync(new URL('../../content/pictures.json', import.meta.url), 'utf8'));
 
@@ -147,4 +147,15 @@ test('recent words come from the last two rounds of that level', () => {
     { type: 'picture-round', level: 1, at: '2026-10-01', words: ['old'] },
   ];
   assert.deepEqual(recentWords(ev, 1), ['c', 'a', 'b']);
+});
+
+// UX r4 PG-7: the games page lists the learner's own picture and memory level first.
+test('levels are listed from the learner\'s own: then the ones above, then the easier ones, closest first', () => {
+  const sets = data.sets;
+  assert.deepEqual(orderSets(sets, 'B1').map((s) => s.level), [3, 2, 1]);
+  assert.deepEqual(orderSets(sets, 'A2').map((s) => s.level), [2, 3, 1]);
+  assert.deepEqual(orderSets(sets, 'PreA1').map((s) => s.level), [1, 2, 3]);
+  assert.deepEqual(orderSets(sets, 'C2').map((s) => s.level), [3, 2, 1]);
+  assert.ok(cefrIn('A2–B1', 'B1') && cefrIn('Pre-A1–A1', 'PreA1') && cefrIn('A1–A2', 'A1'));
+  assert.ok(!cefrIn('A2–B1', 'C1') && !cefrIn('Pre-A1–A1', 'A2'));
 });

@@ -507,6 +507,25 @@ try {
     assert(await page.$eval('details[data-level="B1"]', (d) => d.open), 'an opened fold closed on redraw');
     await ctx.close();
   });
+  // ---------- PG-7 ----------
+  await check('PG-7. Games hub for a B1 learner: the picture and memory lists start at the A2–B1 level, tagged "מתאים לרמה שלכם"; at 1440 the stage keys sit at the row\'s inline end; quiet memory backs', async () => {
+    const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
+    await learnerAt(page, 'B1');
+    await go(page, 'games', '#lvl-pictures .game-stage');
+    for (const id of ['pictures', 'memory']) {
+      const first = (await page.textContent(`#lvl-${id} .game-stages > .game-stage:first-child`)).replace(/\s+/g, ' ');
+      assert(/A2/.test(first) && /מתאים לרמה שלכם/.test(first), `${id}: the first level row is "${first}"`);
+    }
+    const rows = await page.$$eval('.game-levels > .game-level-row', (xs) => xs.map((r) => { const c = r.querySelector('.game-chips').getBoundingClientRect(); const b = r.getBoundingClientRect(); return { chips: c.left, row: b.left, w: b.width }; }));
+    assert(rows.length && rows.every((r) => r.chips <= r.row + 40), `stage keys float mid-row: ${JSON.stringify(rows.slice(0, 2))}`);
+    assert(rows.every((r) => r.w <= 736 + 1), `the level rows are wider than 46rem: ${rows[0].w}`);
+    await shot(page, 'pg7-games-1440', { fullPage: true });
+    await go(page, 'games/memory/1', '.mem-card');
+    const back = await page.$eval('.mem-card:not(.is-up) .mem-back', (b) => { const cs = getComputedStyle(b); const probe = document.createElement('div'); probe.style.backgroundColor = 'var(--key-sunk)'; document.body.append(probe); const sunk = getComputedStyle(probe).backgroundColor; probe.remove(); return { img: cs.backgroundImage, bg: cs.backgroundColor, sunk, border: cs.borderTopWidth }; });
+    assert(back.img === 'none' && back.bg === back.sunk && parseFloat(back.border) >= 1, `the memory back: ${JSON.stringify(back)}`);
+    await shot(page, 'pg7-memory-backs-1440');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

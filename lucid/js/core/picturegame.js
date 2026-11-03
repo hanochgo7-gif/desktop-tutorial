@@ -87,7 +87,8 @@ export function bests(events, type = 'picture-round', mode = null, better = isBe
     if (e.type !== type || (mode && (e.mode === 'calm' ? 'calm' : 'challenge') !== mode)) continue;
     const b = out[e.level];
     const rounds = (b?.rounds || 0) + 1;
-    out[e.level] = better(b, e) ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, turns: e.turns, matches: e.matches, rounds } : { ...b, rounds };
+    // turns and matches come along when the round has them (memory's calm best is about turns, UX r4 PG-4).
+    out[e.level] = better(b, e) ? { score: e.score, accuracy: e.accuracy, mistakes: e.mistakes, ...(e.turns != null && { turns: e.turns }), ...(e.matches != null && { matches: e.matches }), rounds } : { ...b, rounds };
   }
   return out;
 }
@@ -103,6 +104,20 @@ export const topCefr = (range) => String(range || '').split('–').pop().trim().
 export function openUpTo(sets, courseLevel) {
   const c = cefrIndex(courseLevel);
   return Math.max(1, ...(sets || []).filter((s) => c >= 0 && cefrIndex(topCefr(s.cefr)) >= 0 && cefrIndex(topCefr(s.cefr)) <= c).map((s) => s.level));
+}
+
+// Whether a course level falls inside a set's range ("A1" is inside "Pre-A1–A1" and "A1–A2").
+export function cefrIn(range, level) {
+  const [lo, hi = lo] = String(range || '').split('–').map((x) => cefrIndex(x));
+  const c = cefrIndex(level);
+  return c >= 0 && lo >= 0 && c >= lo && c <= hi;
+}
+// The picture and memory levels in the order the games page lists them (UX r4 PG-7): the learner's own (the
+// highest set at or below the course level) first, then the ones above it, then the easier ones, closest first.
+export function orderSets(sets, courseLevel) {
+  const mine = openUpTo(sets, courseLevel);
+  const list = [...(sets || [])].sort((a, b) => a.level - b.level);
+  return [...list.filter((s) => s.level >= mine), ...list.filter((s) => s.level < mine).reverse()];
 }
 
 export const recentWords = (events, level, rounds = 2, type = 'picture-round') => events

@@ -88,7 +88,7 @@ async function hub(el, ctx) {
     const best = pics.bests(events, g.type);
     const shownBest = isMemory && mode === 'calm' ? pics.bests(events, g.type, 'calm', mem.fewerTurns) : pics.bests(events, g.type, mode);
     const isOpen = (level) => (isMemory ? mem.memoryUnlocked(events, level, openTo) : pics.unlocked(best, level, openTo));
-    const open = sets.filter((s) => isOpen(s.level));
+    const open = pics.orderSets(sets, mine).filter((s) => isOpen(s.level));
     const locked = sets.filter((s) => !open.includes(s)).map((s) => s.level);
     const bestText = (b) => (isMemory && mode === 'calm'
       ? tt(`שיא: ${b.matches ?? ''} זוגות ב-${b.turns} תורות`, `Best: ${b.matches ?? ''} pairs in ${b.turns} turns`)
@@ -100,8 +100,11 @@ async function hub(el, ctx) {
       <div class="game-stages">${open.map((set) => {
         const b = shownBest[set.level];
         const passed = isMemory ? Boolean(best[set.level]) : (best[set.level]?.accuracy || 0) >= pics.UNLOCK;
+        // The learner's own level comes first, tagged (UX r4 PG-7); its CEFR range always shows.
+        const own = set.level === openTo;
+        const tag = own ? html`<span class="tag cobalt game-own">${pics.cefrIn(set.cefr, mine) ? tt('מתאים לרמה שלכם', 'Fits your level') : tt('הקרוב ביותר לרמה שלכם', 'Closest to your level')}</span>` : '';
         return html`<a class="game-stage" href="#/games/${g.route}/${set.level}"><span class="pic-level-icon">${picture(g.iconOf(set), 28)}</span><span class="grow"><span class="game-stage-name">${tt(`רמה ${set.level}: ${set.name_he}`, `Level ${set.level}: ${set.name_en}`)}</span>
-          <span class="xsmall faint game-stage-sub">${b ? bestText(b) : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span></span>${passed ? doneMark() : ''}</a>`;
+          <span class="xsmall faint game-stage-sub">${b ? html`${bestText(b)} · <bdi dir="ltr">${set.cefr}</bdi>` : tt(`${g.sizeHe(set)} · ${set.cefr}`, `${g.sizeEn(set)} · ${set.cefr}`)}</span>${tag}</span>${passed ? doneMark() : ''}</a>`;
       })}</div>
       ${locked.length && isMemory ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${memoryUnlockText(locked[0])}${locked.length > 1 ? tt(` רמה ${locked[1]} נפתחת באותו אופן אחרי רמה ${locked[0]}.`, ` Level ${locked[1]} opens the same way after level ${locked[0]}.`) : ''}</span></p>`
       : locked.length ? html`<p class="game-locked small faint">${icon('lock', { size: 16 })}<span>${locked.length === 1

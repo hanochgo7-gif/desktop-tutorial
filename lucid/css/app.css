@@ -1086,9 +1086,9 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .mem-feedback { min-height: 2lh; }
 .mem-card { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s1); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; container-type: inline-size; }
 .mem-card svg { width: min(2.75rem, 62%); height: auto; }
-.mem-card:not(.is-up) { background: var(--cobalt-tint); border-color: color-mix(in oklab, var(--cobalt) 45%, var(--key-edge)); }
-.mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); opacity: 0.35;
-  background: repeating-linear-gradient(135deg, var(--cobalt) 0 2px, transparent 2px 9px); }
+/* A face-down card is a quiet keycap (UX r4 PG-7): a sunk surface with a 1px edge, not a dense blue hatch. */
+.mem-card:not(.is-up) { background: var(--key); border-color: var(--key-edge); }
+.mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); background: var(--key-sunk); border: 1px solid var(--key-edge); }
 /* The word fills the card: sized to the card's width and the word's longest word (--len), at most --t-xl (GM-5). */
 .mem-word { font-size: min(var(--t-xl), max(0.6875rem, calc(160cqi / var(--len, 6)))); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
 .mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
@@ -1718,6 +1718,11 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* The score pill shares the counter's row (one row less at 130-150% text and on phones). */
 .player-top .top-meta.is-count > .game-score { margin-inline-start: var(--s3); }
 #gbody > h1.sr-only:first-child + * { margin-block-start: 0; }
+/* PG-7: the quiz's other levels: the stage keys sit at the row's inline end, in rows no wider than 46rem; the
+   learner's own picture and memory level carries its tag on a line of its own. */
+.game-levels > .game-level-row { max-width: 46rem; }
+.game-level-row .game-chips { margin-inline-start: auto; }
+.game-stage .game-own { display: inline-block; width: fit-content; margin-block-start: var(--s1); }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
