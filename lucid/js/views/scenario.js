@@ -35,7 +35,9 @@ export default async function scenarioView(el, ctx) {
   const s = data?.scenarios?.find((x) => x.id === ctx.params.id);
   if (!s) { render(el, emptyState({ title: tt('התרחיש לא נמצא', 'Scenario not found'), action: html`<a class="key enter" href="#/real-life">${tt('לכל התרחישים', 'All scenarios')}</a>` })); return; }
   ctx.setTitle(s.title_en);
-  let tab = ctx.query.tab || 'prepare';
+  // A saved practice place opens the practice tab with its resume offer, unless the route names a tab (r4 RW-8).
+  const hasPlace = () => { const p = store.get('progress', `rl:${s.id}`); return Number.isInteger(p?.turn) && p.turn > 0 && p.turn < s.practice.length; };
+  let tab = ctx.query.tab || (hasPlace() ? 'practise' : 'prepare');
   const variant = settings().english_variant === 'any' ? undefined : settings().english_variant;
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
   // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
@@ -68,6 +70,7 @@ export default async function scenarioView(el, ctx) {
     : !auth.signedIn ? tt('שיחה עם AI דורשת חשבון: ההסכמה שלכם לעיבוד ב-AI נשמרת בחשבון, ולכל חשבון יש מגבלת שימוש יומית ב-AI. אין חשבון? אפשר ליצור אחד עכשיו, וההתקדמות שבמכשיר עוברת אליו.', 'AI conversations need an account: your consent to AI processing is saved in it, and each account has a daily AI limit. No account yet? You can create one now, and the progress on this device moves into it.') : tt('צריך להפעיל ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.'));
 
   const head = () => html`<div class="page-head"><div><p class="small faint"><a href="#/real-life">${tt('אנגלית לחיים', 'Real life')}</a></p><h1>${legend(s.title_en, s.title_he)}</h1><div class="row" style="margin-top:var(--s2)">${levelTag(s.level)}<span class="small faint">${tt(...FIT_LABEL[fitOf(s.level, model().courseLevel)])}</span><span class="small muted">${tt('את/ה מדבר/ת עם:', 'You are talking to:')} <span lang="en" dir="ltr">${s.partner_role}</span></span></div></div></div>
+    ${resume && tab !== 'practise' ? html`<p class="small resume-line" data-resume-line>${tt(`עצרתם בתור ${resume.turn + 1} מתוך ${turnOrder.length}`, `You stopped at turn ${resume.turn + 1} of ${turnOrder.length}`)} · <button type="button" class="link-key" data-resume>${tt('להמשיך', 'Continue')}</button></p>` : ''}
     <div class="seg scenario-tabs" role="group" aria-label="${tt('חלקי התרחיש', 'Parts of the scenario')}" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
 
   const prepare = () => html`<div class="stack-lg" style="max-width:52rem">
@@ -360,7 +363,7 @@ export default async function scenarioView(el, ctx) {
       draw();
       reveal(ti >= turnOrder.length ? '[data-done-head]' : '[data-step]');
     }),
-    on(el, 'click', '[data-resume]', () => { ti = resume.turn; results = [...(resume.answers || [])]; resume = null; picked = null; checked = false; draw(); reveal('[data-step]'); }),
+    on(el, 'click', '[data-resume]', () => { tab = 'practise'; ti = resume.turn; results = [...(resume.answers || [])]; resume = null; picked = null; checked = false; draw(); reveal('[data-step]'); }),
     on(el, 'click', '[data-start-over]', () => { resume = null; clearPlace(); draw(); reveal('[data-step]'); }),
     on(el, 'click', '[data-restart]', () => { clearPlace(); ti = 0; picked = null; checked = false; typed = ''; typedResult = null; ownOpen = false; othersOpen = false; results = []; turnOrder.forEach((x) => { x.options = shuffle(x.options); }); draw(); }),
     on(el, 'change', '[data-tips]', (e, i) => { hebrewTips = i.checked; if (stuck) draw(); }),

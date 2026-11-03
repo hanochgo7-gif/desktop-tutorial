@@ -23,6 +23,17 @@ export const MODULES = [
 ];
 const FOLDED = 2;
 
+// A practice place saved part-way (scenario.js keeps it in progress rl:<id>), for the hub rows (r4 RW-8).
+export function savedPlace(s) {
+  const p = store.get('progress', `rl:${s.id}`);
+  return p && p.status !== 'completed' && Number.isInteger(p.turn) && p.turn > 0 && p.turn < (s.practice?.length || 0) ? p : null;
+}
+// "בתהליך · תור 3 מתוך 5" on a hub row, or nothing.
+export function placeTag(s) {
+  const p = savedPlace(s);
+  return p ? html`<span class="tag cobalt place-tag">${tt(`בתהליך · תור ${p.turn + 1} מתוך ${s.practice.length}`, `In progress · turn ${p.turn + 1} of ${s.practice.length}`)}</span>` : '';
+}
+
 export const doneScenarios = () => new Set(store.all('progress').filter((p) => p.id.startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
 
 // "B1 · a small stretch": the level and how it fits the learner's course level, in words.
@@ -100,7 +111,7 @@ export default async function reallife(el, ctx) {
   const row = (s, courseLevel) => {
     const p = store.get('progress', `rl:${s.id}`);
     return html`<a class="lesson-row hub-row" href="#/scenario/${s.id}">${mark(p?.status)}
-      <span class="grow">${legend(s.title_en, s.title_he)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span>
+      <span class="grow">${legend(s.title_en, s.title_he)}${placeTag(s)}<span class="meta" style="display:block">${tt(s.goal?.he || '', s.goal?.en || '')}</span></span>
       <span class="hub-level">${levelTag(s.level)}${fitNote(s.level, courseLevel)}</span></a>`;
   };
 

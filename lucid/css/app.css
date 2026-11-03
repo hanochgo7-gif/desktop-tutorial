@@ -1733,6 +1733,10 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .hub-topics .hub-fold[open] { padding-block-end: var(--s4); }
 .hub-topics .hub-fold > summary .hub-head { margin: 0; font-size: var(--t-md); }
 .hub-topics .hub-fold-body { margin-block-start: var(--s3); }
+/* RW-8: the saved place in a scenario, above its tabs and on the hub rows. */
+.scenario-view .resume-line { margin-block-end: var(--s3); color: var(--ink-2); }
+.scenario-view .resume-line .link-key { background: none; border: 0; padding: var(--s2) var(--s1); min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.hub-row .place-tag { display: inline-block; margin-block: var(--s1); }
 /* ---- lane r4-real-life-writing: end ---- */
 
 /* ---- lane r4-shell-bilingual: start ---- */

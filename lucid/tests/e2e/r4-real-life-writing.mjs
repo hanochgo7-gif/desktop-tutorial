@@ -230,6 +230,30 @@ try {
     assert(start[0].includes('rl-work-'), `start here for Pre-A1 work: ${start}`);
     await pre.ctx.close();
   });
+
+  await check('RW-8 A saved scenario place: after 2 answered turns the scenario reopens on its resume offer, and the Real life and Conversations rows say "בתהליך · תור 3 מתוך 5"', async () => {
+    const { ctx, page, tap } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await open(page, 'scenario/rl-airport-checkin-overweight?tab=practise', '[data-opt]');
+    for (let i = 0; i < 2; i++) { await tap('[data-opt="0"]'); await tap('[data-check-turn]'); await tap('[data-next-turn]'); await page.waitForTimeout(100); }
+    await open(page, 'real-life', '.hub-topics');
+    const row = await page.$$eval('a[href="#/scenario/rl-airport-checkin-overweight"]', (a) => a.map((x) => x.textContent));
+    assert(row.length && row.every((t) => /בתהליך · תור 3 מתוך 5/.test(t)), `Real life rows: ${JSON.stringify(row)}`);
+    await open(page, 'conversations', '.hub-topics');
+    const conv = await page.$$eval('a[href^="#/scenario/rl-airport-checkin-overweight?"]', (a) => a.map((x) => x.textContent));
+    assert(conv.length && conv.every((t) => /בתהליך/.test(t)), `Conversations rows: ${JSON.stringify(conv)}`);
+    await open(page, 'scenario/rl-airport-checkin-overweight', '.scenario-tabs');
+    const r = await page.evaluate(() => { const b = document.querySelector('[data-resume]'); if (!b) return null; const rr = b.getBoundingClientRect(); return { visible: rr.width > 0 && rr.top >= 0 && rr.bottom <= innerHeight, tab: document.querySelector('.scenario-tabs [aria-pressed="true"]')?.dataset.tab }; });
+    await shot(page, 'rw8-resume-390');
+    assert(r && r.visible && r.tab === 'practise', `resume on open: ${JSON.stringify(r)}`);
+    // From another tab, the line above the tabs offers the same place.
+    await tap('[data-tab="prepare"]');
+    assert(/עצרתם בתור 3 מתוך 5/.test(await page.textContent('[data-resume-line]')), 'no saved-place line above the tabs');
+    await tap('[data-resume-line] [data-resume]');
+    await page.waitForSelector('[data-step]');
+    assert(/^3 מתוך 5/.test((await page.textContent('[data-step]')).trim()), 'the line does not continue from turn 3');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();
