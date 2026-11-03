@@ -5,7 +5,7 @@ import { router, navigate, topTitle, sectionOf } from './core/router.js';
 import { html, render } from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
-import { icon, toast, brandMark } from './ui/components.js';
+import { icon, toast, brandMark, segColumns } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
 import { createSync } from './core/sync.js';
 import { startSession, syncAllowed } from './core/session.js';
@@ -181,6 +181,41 @@ function watchSpeech() {
   });
 }
 
+// Segmented controls (SB-6): a control whose segments do not fit on one line becomes a grid of equal cells, with as
+// many columns as its widest label allows, balanced across the rows (4 segments in 2 columns, not 3 and 1). The
+// lane-owned controls (Settings, onboarding, Expressions, Today's minutes) keep their own layouts.
+const SEG_OWN = '.settings-view .seg, .ob-prefs .seg, .xp-filter-row .seg, .today-minutes > .seg';
+function fitSegs() {
+  for (const s of document.querySelectorAll('.seg')) {
+    if (s.matches(SEG_OWN) || !s.getClientRects().length) continue;
+    const keys = [...s.children].filter((b) => b.tagName === 'BUTTON');
+    s.classList.remove('seg-grid', 'seg-wrap');
+    if (keys.length < 2) continue;
+    // Measured as a plain wrapping row of natural-width segments; the cells' width with the grid's padding.
+    s.classList.add('seg-measure');
+    const rows = new Set(keys.map((b) => Math.round(b.getBoundingClientRect().top))).size;
+    const cs = getComputedStyle(s);
+    const inner = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const gap = parseFloat(cs.columnGap) || 0;
+    s.classList.add('seg-tight');
+    const widest = Math.max(...keys.map((b) => b.getBoundingClientRect().width));
+    s.classList.remove('seg-measure', 'seg-tight');
+    if (rows < 2) continue;
+    s.style.setProperty('--seg-cols', String(segColumns(keys.length, inner, widest, gap)));
+    s.classList.add('seg-grid');
+    if (widest > inner + 1) s.classList.add('seg-wrap');
+  }
+}
+let segFrame = 0;
+const fitSegsSoon = () => { cancelAnimationFrame(segFrame); segFrame = requestAnimationFrame(fitSegs); };
+function watchSegs() {
+  const hasSeg = (n) => n.nodeType === 1 && (n.matches('.seg') || n.querySelector('.seg'));
+  new MutationObserver((list) => { if (list.some((m) => [...m.addedNodes].some(hasSeg))) fitSegsSoon(); })
+    .observe(document.body, { childList: true, subtree: true });
+  addEventListener('resize', fitSegsSoon);
+  document.fonts?.ready.then(fitSegsSoon);
+}
+
 function syncLabel() {
   if (!configured() || !auth.signedIn) return t('device.only');
   const s = sync?.status();
@@ -211,6 +246,7 @@ async function boot() {
       applyTheme();
       applySupport();
       drawShell(router.current);
+      fitSegsSoon();
     }
   });
   router.onRoute = drawShell;
@@ -233,6 +269,7 @@ async function boot() {
   sessionTick();
   watchTyping();
   watchSpeech();
+  watchSegs();
   await router.start();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.lucid = { store, navigate, hasProfile };

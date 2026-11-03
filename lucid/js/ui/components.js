@@ -40,6 +40,13 @@ if (typeof addEventListener === 'function') {
   });
 }
 
+// SB-6: the columns of a segmented control that cannot hold its segments on one line: as many equal cells as the
+// widest label allows, balanced across the rows (4 segments in 2 + 2, not 3 + 1; 9 in 3 + 3 + 3, not 4 + 4 + 1).
+export function segColumns(n, inner, widest, gap = 0) {
+  const fit = Math.max(1, Math.min(n, Math.floor((inner + gap) / (widest + gap))));
+  return Math.ceil(n / Math.ceil(n / fit));
+}
+
 // A native <dialog>: focus is trapped and restored by the browser; Esc closes.
 export function openDialog(content, { onClose, label = '' } = {}) {
   const d = document.createElement('dialog');
