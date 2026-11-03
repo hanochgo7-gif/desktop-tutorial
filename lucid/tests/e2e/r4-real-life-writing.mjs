@@ -134,6 +134,42 @@ try {
     assert(vs.length === 1 && /בזמן/.test(vs[0]), `versions: ${JSON.stringify(vs)}`);
     await ctx.close();
   });
+
+  await check('RW-6 1440: the wa-05 rubric panel is at most 1,800px with its save key in view; the C2 final brief has at most one Hebrew toggle per card, and it opens every line; topic radios are 24px', async () => {
+    const { ctx, page, tap } = await newPage(browser, { width: 1440, height: 900 });
+    await learnerAt(page, 'C2');
+    await open(page, 'writing/wa-05', '#essay');
+    await tap('[data-tab="rubric"]');
+    await page.waitForSelector('[data-save-self]');
+    const r = await page.evaluate(() => {
+      const side = document.querySelector('aside.essay-side');
+      side.scrollTop = 0;
+      const s = side.getBoundingClientRect(); const k = document.querySelector('[data-save-self]').getBoundingClientRect();
+      return { h: side.scrollHeight, inSide: k.top >= s.top && k.bottom <= s.bottom, inView: k.top >= 0 && k.bottom <= innerHeight, final: Boolean(document.querySelector('[data-self-final]')) };
+    });
+    await shot(page, 'rw6-rubric-1440');
+    assert(r.h <= 1800, `rubric panel scrollHeight ${r.h}px`);
+    assert(r.inSide && r.inView, `the save key is not in view: ${JSON.stringify(r)}`);
+    // Scrolled to the end, the keys are still at the top of the panel.
+    const stuck = await page.evaluate(() => { const side = document.querySelector('aside.essay-side'); side.scrollTop = side.scrollHeight; const s = side.getBoundingClientRect(); const k = document.querySelector('[data-save-self]').getBoundingClientRect(); return k.top >= s.top - 1 && k.bottom <= s.bottom; });
+    assert(stuck, 'the save key scrolls out of the panel');
+    await open(page, 'writing/final-C2', 'input[name=topic]');
+    const c = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll('#view .panel')];
+      const per = cards.map((p) => p.querySelectorAll('[data-reveal-he], [data-he-all]').length);
+      const radios = [...document.querySelectorAll('.topic-pick input[type=radio]')].map((i) => i.getBoundingClientRect().width);
+      return { per, chips: document.querySelectorAll('#view [data-reveal-he]').length, toggles: document.querySelectorAll('#view [data-he-all]').length, radios, hidden: document.querySelectorAll('.task-brief .bi-he[hidden], .topic-pick .bi-he[hidden]').length };
+    });
+    assert(c.per.every((n) => n <= 1), `Hebrew toggles per card: ${JSON.stringify(c.per)}`);
+    assert(c.chips === 0 && c.toggles >= 1, `chips ${c.chips}, toggles ${c.toggles}`);
+    assert(c.radios.length === 4 && c.radios.every((w) => w >= 20), `topic radios: ${JSON.stringify(c.radios)}`);
+    await page.click('[data-he-all="brief"]');
+    await page.waitForTimeout(150);
+    const after = await page.evaluate(() => ({ hidden: document.querySelectorAll('.task-brief .bi-he[hidden], .topic-pick .bi-he[hidden]').length, shown: document.querySelectorAll('.task-brief .bi-he:not([hidden]), .topic-pick .bi-he:not([hidden])').length, exp: document.querySelector('[data-he-all="brief"]').getAttribute('aria-expanded') }));
+    await shot(page, 'rw6-final-c2-1440');
+    assert(c.hidden >= 5 && after.hidden === 0 && after.shown >= 5 && after.exp === 'true', `the toggle did not open every Hebrew line: before ${c.hidden} hidden, after ${JSON.stringify(after)}`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

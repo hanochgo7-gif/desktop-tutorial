@@ -319,6 +319,15 @@ export default async function essay(el, ctx) {
   // The rubric, always there, with or without AI (RW-5): the stage's categories with their Band 5, 3 and 1
   // descriptors, a self-rating saved with the version, and "mark as final (self-assessed)", which counts the task
   // as done but never as a writing level (only AI-assessed final drafts are, adaptive.writingLevel).
+  // At C1-C2 a brief gets one "הכול בעברית" toggle per card, which shows every Hebrew line in it, instead of a
+  // "בעברית" chip under each line (r4 RW-6). Where Hebrew already shows (full or partial support), nothing changes.
+  const heAll = new Set();
+  const cardToggle = () => ['C1', 'C2'].includes(level) && !['full', 'partial'].includes(hebrewSupport());
+  const biCard = (card, obj) => (cardToggle() && obj && typeof obj === 'object' && obj.he
+    ? html`<span class="bi"><span class="bi-en" lang="en" dir="ltr">${obj.en}</span><span class="bi-he bi-he-after" lang="he" dir="rtl" ${heAll.has(card) ? '' : html`hidden`}>${isolateLatin(obj.he)}</span></span>`
+    : bi(obj));
+  const heToggle = (card, items) => (cardToggle() && items.some((x) => x && typeof x === 'object' && x.he)
+    ? html`<button type="button" class="he-reveal he-all" data-he-all="${card}" aria-expanded="${heAll.has(card)}">${heAll.has(card) ? tt('להסתיר את העברית', 'Hide the Hebrew') : tt('הכול בעברית', 'All in Hebrew')}</button>` : '');
   const rubricStage = () => Math.min(10, Math.max(1, task.stage || 1));
   const rubricCats = () => (rubric?.categories || []).filter((c) => c.id !== 'overall' && (rubric.applicability?.[c.id]?.[rubricStage() - 1] || 'full') !== 'na');
   const selfFinal = () => versions().find((v) => v.self_final) || null;
@@ -331,21 +340,27 @@ export default async function essay(el, ctx) {
     const aiFinal = isFinal();
     const enough = bodyWords() >= finalMin();
     const band = (c, n) => html`<div class="band-row"><dt><span class="tag num">${n}</span></dt><dd>${uiLang() === 'he' ? html`<span lang="he">${isolateLatin(c[`band${n}_he`])}</span>` : html`<span lang="en">${c[`band${n}_en`]}</span>`}</dd></div>`;
+    // The keys come first and stay at the top of the panel; each category is one row (its name and a select),
+    // with what it means and its band descriptors folded under "מה זה אומר?" (r4 RW-6).
+    const keys = html`<div class="rubric-keys stack-sm" data-rubric-keys>
+      <div class="row"><button type="button" class="key small" data-save-self ${Object.keys(selfScores).length && text.trim() ? '' : html`disabled`}>${tt('שמירת הדירוג עם הגרסה', 'Save my rating with this version')}</button>
+      ${aiFinal || done ? '' : html`<button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button>`}</div>
+      ${aiFinal ? html`<p class="small">${icon('check', { size: 16 })} ${tt('הטיוטה סומנה כסופית עם משוב AI.', 'This draft is marked final with AI feedback.')}</p>`
+        : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
+        : enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${finalMin().toLocaleString('en-US')} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${finalMin().toLocaleString('en-US')} words (you have ${bodyWords()}).`)}</p>`}
+      <p class="small" role="status" data-self-status>${selfNote}</p></div>`;
     return html`<div class="stack rubric-tab">
       <h3 class="small checks-head" tabindex="-1" data-rubric-head>${tt(`המחוון לשלב ${rubricStage()}`, `The rubric for stage ${rubricStage()}`)}</h3>
-      ${rubric.rule ? html`<p class="small muted">${uiLang() === 'he' ? isolateLatin(rubric.rule.he) : rubric.rule.en}</p>` : ''}
-      <p class="xsmall faint">${tt('אפשר לדרג את הטקסט בעצמכם לפי התיאורים. הדירוג נשמר עם הגרסה. הוא הערכה עצמית, ולא נחשב לרמת כתיבה.', 'You can rate your text yourself against the descriptions. Your rating is saved with the version. It is a self-assessment and never counts as a writing level.')}</p>
-      ${rubricCats().map((c) => html`<section class="rubric-cat stack-sm" aria-labelledby="rc-${c.id}"><h4 class="small" id="rc-${c.id}">${tt(c.name_he, c.name_en)}</h4>
-        <p class="xsmall muted">${uiLang() === 'he' ? isolateLatin(c.what_he) : c.what_en}</p>
-        <dl class="band-list">${band(c, 5)}${band(c, 3)}${band(c, 1)}</dl>
-        <label class="row small self-row"><span class="grow">${tt('הדירוג שלכם', 'Your rating')}</span><select class="input compact" data-self="${c.id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[c.id] === n ? html`selected` : ''}>${n} · ${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label></section>`)}
-      <div class="row"><button type="button" class="key" data-save-self ${Object.keys(selfScores).length && text.trim() ? '' : html`disabled`}>${tt('שמירת הדירוג עם הגרסה', 'Save my rating with this version')}</button></div>
-      <p class="small" role="status" data-self-status>${selfNote}</p>
-      <div class="final-box stack-sm">${aiFinal ? html`<p class="small">${icon('check', { size: 16 })} ${tt('הטיוטה סומנה כסופית עם משוב AI.', 'This draft is marked final with AI feedback.')}</p>`
-        : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
-        : html`<p class="small muted">${tt('כשהטקסט מוכן, אפשר לסמן אותו כסופי לפי ההערכה שלכם. המשימה תיחשב כגמורה, עם התווית ״הערכה עצמית״, ולא תשפיע על רמת הכתיבה שלכם.', 'When your text is ready, you can mark it final on your own judgement. The task then counts as done, labelled "self-assessed", and it does not change your writing level.')}</p>
-          <div class="row"><button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button></div>
-          ${enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${finalMin().toLocaleString('en-US')} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${finalMin().toLocaleString('en-US')} words (you have ${bodyWords()}).`)}</p>`}`}</div>
+      ${keys}
+      <details class="rubric-about"><summary class="xsmall">${tt('איך מדרגים, ומה קורה בסימון כסופית', 'How to rate, and what marking final does')}</summary>
+        <div class="stack-sm" style="margin-top:var(--s2)">${rubric.rule ? html`<p class="small muted">${uiLang() === 'he' ? isolateLatin(rubric.rule.he) : rubric.rule.en}</p>` : ''}
+        <p class="xsmall faint">${tt('אפשר לדרג את הטקסט בעצמכם לפי התיאורים. הדירוג נשמר עם הגרסה. הוא הערכה עצמית, ולא נחשב לרמת כתיבה.', 'You can rate your text yourself against the descriptions. Your rating is saved with the version. It is a self-assessment and never counts as a writing level.')}</p>
+        <p class="xsmall faint">${tt('כשהטקסט מוכן, אפשר לסמן אותו כסופי לפי ההערכה שלכם. המשימה תיחשב כגמורה, עם התווית ״הערכה עצמית״, ולא תשפיע על רמת הכתיבה שלכם.', 'When your text is ready, you can mark it final on your own judgement. The task then counts as done, labelled "self-assessed", and it does not change your writing level.')}</p></div></details>
+      <div class="rubric-rows">${rubricCats().map((c) => html`<section class="rubric-cat" aria-labelledby="rc-${c.id}">
+        <div class="rubric-cat-row"><h4 class="small" id="rc-${c.id}">${tt(c.name_he, c.name_en)}</h4><select class="input compact" data-self="${c.id}" aria-labelledby="rc-${c.id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[c.id] === n ? html`selected` : ''}>${n} · ${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></div>
+        <details class="rubric-what"><summary class="xsmall">${tt('מה זה אומר?', 'What does it mean?')}</summary>
+          <p class="xsmall muted">${uiLang() === 'he' ? isolateLatin(c.what_he) : c.what_en}</p>
+          <dl class="band-list">${band(c, 5)}${band(c, 3)}${band(c, 1)}</dl></details></section>`)}</div>
     </div>`;
   }
   // The self-rating goes on the version of the current text (a new version when the text changed).
@@ -441,7 +456,7 @@ export default async function essay(el, ctx) {
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
+      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="choice topic-choice small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span class="grow">${biCard('brief', tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
   }
   // The date of a text already written for an assignment, from its summary (RW-12).
   function writtenOn(id) {
@@ -460,12 +475,13 @@ export default async function essay(el, ctx) {
   function taskPanel() {
     const pack = sourcePack();
     const req = task.required || task.required_elements || [];
-    const body = html`${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${bi(task.instructions)}</div>
+    const briefItems = [task.instructions, ...(task.topics || []), ...req, ...(task.scaffold || [])];
+    const body = html`${heToggle('brief', briefItems)}${isAssignment ? html`<p lang="en" dir="ltr" style="font-weight:500">${task.prompt}</p>` : ''}<div class="task-brief">${biCard('brief', task.instructions)}</div>
       ${task.audience ? html`<p class="small"><strong>${tt('למי כותבים:', 'Audience:')}</strong> <span lang="en" dir="ltr">${task.audience}</span></p>` : ''}
       ${kindPicker()}
       ${topicPicker()}
-      ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list" dir="ltr">${req.map((r) => html`<li>${bi(r)}</li>`)}</ul></details>` : ''}
-      ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm lab-list" dir="ltr" lang="en">${task.scaffold.map((s) => html`<li>${bi(s)}</li>`)}</ol></details>` : ''}
+      ${req.length ? html`<details ${task.final_task ? html`open` : ''}><summary class="small"><strong>${tt(`חובה לכלול (${req.length})`, `Must include (${req.length})`)}</strong></summary><ul class="small stack-sm req-list" dir="ltr">${req.map((r) => html`<li>${biCard('brief', r)}</li>`)}</ul></details>` : ''}
+      ${task.scaffold?.length ? html`<details><summary class="small">${tt('תוכנית עבודה', 'Plan it step by step')}</summary><ol class="small stack-sm lab-list" dir="ltr" lang="en">${task.scaffold.map((s) => html`<li>${biCard('brief', s)}</li>`)}</ol></details>` : ''}
       ${pack?.length ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt(`חומרי מקור (${pack.length}), לדוגמה בלבד`, `Source pack (${pack.length}), illustrative only`)}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}
       ${task.input_text ? html`<p class="row small">${icon('reading', { size: 16 })}<span class="grow">${tt('הטקסט שעליו עונים נמצא בלשונית ״מקורות״.', 'The text you respond to is in the Sources tab.')}</span><button type="button" class="key small" data-tab="sources" data-reveal>${tt('לפתוח ליד הטקסט', 'Open beside your text')}</button></p>` : ''}`;
     // Once a topic is chosen, the brief folds into "The task", so the editor comes up the page (RW-4).
@@ -484,7 +500,7 @@ export default async function essay(el, ctx) {
     // The model opens after a checked draft of at least half the minimum length, not after a 3-word check (RW-4).
     const half = Math.max(1, Math.ceil(minWords * 0.5));
     const open = versions().some((v) => (v.words || 0) >= half);
-    return html`${checklist?.length ? html`<details class="panel flat"><summary class="small">${tt(email ? 'רשימת בדיקה עצמית למייל' : 'רשימת בדיקה עצמית', email ? 'Self-check list for an email' : 'Self-check list')}</summary><div class="stack-sm check-labels" style="margin-top:var(--s2)">${checklist.map((c) => html`<label class="check-label small" dir="ltr"><input type="checkbox"><span>${bi(c)}</span></label>`)}</div></details>` : ''}
+    return html`${checklist?.length ? html`<details class="panel flat"><summary class="small">${tt(email ? 'רשימת בדיקה עצמית למייל' : 'רשימת בדיקה עצמית', email ? 'Self-check list for an email' : 'Self-check list')}</summary><div class="stack-sm check-labels" style="margin-top:var(--s2)">${heToggle('checklist', checklist)}${checklist.map((c) => html`<label class="check-label small" dir="ltr"><input type="checkbox"><span>${biCard('checklist', c)}</span></label>`)}</div></details>` : ''}
       ${model && !open ? html`<p class="small faint row">${icon('lock', { size: 14 })} ${minWords ? tt(`דוגמה לתשובה תיפתח אחרי בדיקה של טיוטה עם ${half} מילים לפחות (חצי מהמינימום), כדי שתכתבו קודם בעצמכם.`, `A model answer opens after you check a draft of at least ${half} words (half the minimum), so you write it yourself first.`) : tt('דוגמה לתשובה תיפתח אחרי הבדיקה הראשונה, כדי שתכתבו קודם בעצמכם.', 'A model answer opens after your first check, so you write it yourself first.')}</p>` : ''}
       ${model && open ? html`<details class="panel flat"><summary class="small">${tt('דוגמה למשימה דומה', 'A model for a similar task')}</summary><div class="stack-sm small" style="margin-top:var(--s2)" lang="en" dir="ltr">${email ? html`<p style="white-space:pre-line">${EMAIL_MODEL}</p>` : task.model_answer ? task.model_answer.split(/\n+/).map((p) => html`<p>${p}</p>`) : ''}${task.exemplar ? html`<p><strong>Outline</strong></p><p style="white-space:pre-wrap">${task.exemplar.outline}</p><p><strong>Annotated paragraph</strong></p><p style="white-space:pre-wrap">${task.exemplar.annotated_paragraph}</p>` : ''}</div></details>` : ''}`;
   }
@@ -506,7 +522,7 @@ export default async function essay(el, ctx) {
     const tabs = [['checks', 'בדיקות', 'Checks'], ['rubric', 'מחוון', 'Rubric'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
     if (tab === 'sources' && !hasSources()) tab = 'checks';
     render(el, html`
-      <div class="page-head"><div><p class="small faint"><a href="#/writing">${t('nav.writing')}</a>${stage ? html` · ${tt(`שלב ${stage[0]}: ${stage[2]}`, `Stage ${stage[0]}: ${stage[1]}`)}` : ''}</p><h1>${legend(task.title_en, task.title_he)}</h1></div>${task.level ? levelTag(task.level) : ''}</div>
+      <div class="page-head"><div><p class="small faint essay-meta"><a href="#/writing">${t('nav.writing')}</a>${stage ? html` · ${tt(`שלב ${stage[0]}: ${stage[2]}`, `Stage ${stage[0]}: ${stage[1]}`)}` : ''}${task.level ? html` · ${levelTag(task.level)}` : ''}</p><h1>${legend(task.title_en, task.title_he)}</h1></div></div>
       <div class="editor">
         <div class="stack">
           ${taskPanel()}
@@ -752,6 +768,12 @@ export default async function essay(el, ctx) {
       const target = $(`#cmp-p${b.dataset.cmpJump}`, el);
       target?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       target?.focus({ preventScroll: true });
+    }),
+    on(el, 'click', '[data-he-all]', (e, b) => {
+      const card = b.dataset.heAll;
+      if (heAll.has(card)) heAll.delete(card); else heAll.add(card);
+      draw();
+      $(`[data-he-all="${card}"]`, el)?.focus();
     }),
     on(el, 'click', '[data-kind]', (e, b) => { textKind = b.dataset.kind; syncMin(); if (analysis) analysis = analyze(); saveDraft(); draw(); $(`[data-kind="${textKind}"]`, el)?.focus(); }),
     on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { markFinal(v); draw(); } }),
