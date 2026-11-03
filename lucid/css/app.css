@@ -169,8 +169,10 @@ input, textarea { caret-color: var(--cobalt); }
 :root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
 :root[data-support='off'] .legend .l-he { display: none; }
 .bi { display: inline; }
-/* English meta-text from bi() (instructions, explanations, goals, task briefs) is its own left-to-right block. */
-.bi > .bi-en { display: block; text-align: start; }
+/* English meta-text from bi() (instructions, explanations, goals, task briefs) is its own left-to-right block.
+   It is as wide as its text (up to the column), so in a Hebrew column a one-line instruction shares the Hebrew
+   line's right edge at every support level, and a longer one fills the column and reads from the left (BL-4). */
+.bi > .bi-en { display: block; text-align: start; width: fit-content; max-width: 100%; }
 .bi-he { display: block; color: var(--ink-he); font-size: 0.94em; }
 .bi-he-after { margin-block-start: 0.15em; font-size: 0.88em; }
 /* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
@@ -631,7 +633,11 @@ dialog.sheet > .panel { padding: var(--s5); }
 .verdict .why[open] > summary { margin-block-end: var(--s1); }
 .verdict-body .fix-list { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: var(--s1); }
 .verdict-body .fix-cat { color: var(--ink-2); }
+/* English in the verdict (the answer, the learner's sentence marked, a note, the fix list, an example) is as wide
+   as its text: a one-line answer sits under its Hebrew label at the right edge, away from the keys on the left,
+   and a longer block fills the verdict and reads from the left (BL-4 in the SC-7 footer row). */
 .verdict-body .answer-block { display: block; text-align: start; }
+.verdict-body :is(.answer-block, .answer-diff, .en-block, .fix-list) { width: fit-content; max-width: 100%; }
 .verdict .self-judge .key { white-space: normal; }
 @media (max-width: 40rem) {
   .player-foot .inner > .verdict { flex: 1 1 100%; }
@@ -839,7 +845,7 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .band-list { display: grid; gap: var(--s2); margin: 0; }
 .band-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; font-size: var(--t-sm); }
 .band-row dd { margin: 0; min-width: 0; }
-.band-row .bi > .bi-en { display: block; text-align: start; }
+.band-row .bi > .bi-en { display: block; text-align: start; width: auto; }
 .self-row select { max-width: 60%; }
 /* Source-based tasks (RW-6): the phrase behind each structure tick; cited and uncited sources. */
 .sig-row { flex-wrap: wrap; row-gap: 0; }
@@ -853,7 +859,7 @@ textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); r
 .passage.source .source-tag { margin-block-end: var(--s2); }
 .lab-list { margin: var(--s2) 0 0; padding-inline-start: 1.4rem; text-align: left; }
 .lab-list > li::marker { color: var(--ink-3); }
-.lab-list .bi > .bi-en, .lab-points .bi > .bi-en, .check-label .bi > .bi-en { display: block; text-align: left; }
+.lab-list .bi > .bi-en, .lab-points .bi > .bi-en, .check-label .bi > .bi-en { display: block; text-align: left; width: auto; }
 .lab-list .bi > .he-reveal, .check-label .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.2em; }
 .check-label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; text-align: left; cursor: pointer; }
 .check-label > input { margin: 0.3em 0 0; inline-size: 1.1rem; block-size: 1.1rem; accent-color: var(--cobalt); }

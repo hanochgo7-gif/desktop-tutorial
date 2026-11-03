@@ -252,6 +252,43 @@ try {
     await ctx.close();
   });
 
+  // The shared-edge rule at A2 and above, where the English leads (BL-4 with BL-3), and in the SC-7 verdict footer.
+  await check('BL-4d. At 1440 (A2): a one-line exercise instruction and its Hebrew share the right edge; in the verdict, a one-line answer and the fix list sit under their Hebrew label, not beside the keys', async () => {
+    const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
+    await learnerAt(page, 'A2');
+    const openAt = async (id, eid) => {
+      await page.evaluate(async ({ id, eid }) => {
+        const l = await (await fetch(`content/lessons/${id}.json`)).json();
+        window.lucid.store.put('progress', { id, level: l.level, status: 'started', resume: { qi: l.exercises.findIndex((e) => e.id === eid), queue: l.exercises.map((e) => [e.id, false]), first: [] } });
+      }, { id, eid });
+      await go(page, `#/lesson/${id}?resume=1`);
+      await page.waitForSelector('#exroot > *');
+    };
+    const right = (sel) => page.$eval(sel, (e) => { const g = document.createRange(); g.selectNodeContents(e); const r = [...g.getClientRects()].filter((x) => x.width); return { r: Math.round(Math.max(...r.map((x) => x.right))), l: Math.round(Math.min(...r.map((x) => x.left))), lines: new Set(r.map((x) => Math.round(x.bottom))).size }; });
+    await openAt('a2-05', 'e1');
+    const en = await right('#exroot .ex-prompt .bi-en'), he = await right('#exroot .ex-prompt .bi-he');
+    assert(en.lines === 1 && Math.abs(en.r - he.r) < 8, `the instruction and its Hebrew do not share the right edge: en ${JSON.stringify(en)}, he ${JSON.stringify(he)}`);
+    await openAt('a2-05', 'e10');
+    await page.fill('#exroot textarea', 'Yesterday Omer gets up at seven and has breakfast with his dad.');
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-show-answer]');
+    await page.click('[data-show-answer]');
+    await page.waitForSelector('[data-next]');
+    const label = await page.evaluate(() => { const p = [...document.querySelectorAll('#pfoot .verdict-body p')].find((x) => /התשובה הנכונה/.test(x.textContent)); const g = document.createRange(); g.setStart(p.firstChild, 0); g.setEnd(p.firstChild, p.firstChild.length); return Math.round(Math.max(...[...g.getClientRects()].map((x) => x.right))); });
+    const ans = await right('#pfoot .verdict-body .answer');
+    const keys = await page.$eval('#pfoot [data-next]', (b) => Math.round(b.getBoundingClientRect().right));
+    assert(ans.lines === 1 && Math.abs(ans.r - label) < 8 && ans.l > keys + 40, `the answer is not under its label: answer ${JSON.stringify(ans)}, label right ${label}, Continue key right ${keys}`);
+    await openAt('a2-05', 'e2');
+    const n = await page.$$eval('[data-item]', (x) => x.length);
+    for (let k = 0; k < n; k++) { await page.click('[data-pool] [data-item]'); await page.click('[data-bin] > .label'); }
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('#pfoot .fix-list');
+    const list = await page.$eval('#pfoot .fix-list', (u) => ({ r: Math.round(u.getBoundingClientRect().right), body: Math.round(u.closest('.verdict-body').getBoundingClientRect().right), l: Math.round(Math.min(...[...u.querySelectorAll('li')].map((li) => li.getBoundingClientRect().left))) }));
+    const k2 = await page.$eval('#pfoot [data-next]', (b) => Math.round(b.getBoundingClientRect().right));
+    assert(Math.abs(list.r - list.body) < 4 && list.l > k2 + 40, `the fix list is not at the Hebrew edge: ${JSON.stringify(list)}, Continue key right ${k2}`);
+    await ctx.close();
+  });
+
   // ---------- BL-5 ----------
   const chips = (page) => page.evaluate(() => [...document.querySelectorAll('#view .he-reveal')].filter((b) => b.offsetParent).map((b) => {
     const r = b.getBoundingClientRect(), prev = b.previousElementSibling?.getBoundingClientRect();
