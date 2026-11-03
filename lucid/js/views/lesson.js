@@ -10,7 +10,7 @@ import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js'
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
-import { exitTarget, fitFooter, fitOnResize } from '../ui/player.js';
+import { exitTarget, fitFooter, fitOnResize, retryNote } from '../ui/player.js';
 import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due, resumeStep } from '../core/learner.js';
 // The day's status comes from learner.dayStatus when it exists (contract (a), today-path TP-1), read through the
 // namespace so this module still loads before that export lands.
@@ -18,7 +18,7 @@ import * as learner from '../core/learner.js';
 import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { lessonOrder, introSlots, firstTries, minutesToday, planStatus, isLessonId } from '../core/adaptive.js';
-import { answerPoints, isMissed, fillGaps, mistakeNote, retrySafe, clipDiff, sameOrder } from '../core/pool.js';
+import { answerPoints, isMissed, fillGaps, mistakeNote, clipDiff, sameOrder } from '../core/pool.js';
 
 export { answerPoints };
 
@@ -376,15 +376,8 @@ export { fillGaps, mistakeNote, clipDiff, sameOrder };
 
 // The note before a second try (r4 LF-2), in the support language only ('he' unless Hebrew support is off): the
 // exercise's own note when it is safe (pool.retrySafe), else the hint when it is safe, else the kind of mistake.
-// Shared with the drill player (LF-10).
-export function secondTryNote(r, ex, errorInfo = null) {
-  const lang = hebrewSupport() === 'off' ? 'en' : 'he';
-  const pick = (n) => retrySafe(n, ex, r.response)?.[lang] || null;
-  const text = pick(r.retry_note || r.specific) || pick(ex.hint);
-  if (text) return lang === 'he' ? html`<span lang="he" dir="rtl">${isolateLatin(text)}</span>` : html`<span lang="en" dir="ltr">${text}</span>`;
-  if (errorInfo) return html`${tt(errorInfo.name_he, errorInfo.name_en)}${lang === 'he' && errorInfo.why_he ? html`: <span lang="he" dir="rtl">${isolateLatin(errorInfo.why_he)}</span>` : ''}`;
-  return tt('בדקו שוב את התשובה.', 'Check your answer again.');
-}
+// It lives in ui/player.js, shared with the drill player (LF-10).
+export { retryNote as secondTryNote };
 
 // ---------- the "all Hebrew" switch (LF-10) ----------
 const HE_ALL = 'lucid-he-all';
@@ -973,7 +966,7 @@ export default async function lessonView(el, ctx) {
     const e = r.error_type && errors?.get(r.error_type);
     // The note never hands over the answer (r4 LF-2): retrySafe drops a part that quotes it or names a word of it
     // the learner has not written, and only the support language is shown, not the English that repeats it.
-    const note = secondTryNote(r, item.ex, e);
+    const note = retryNote(r, item.ex, e);
     // A dictation's marked sentence spells out the key's words, so it stays hidden while the learner tries again;
     // "Show the answer" brings it back, and "Try again" (ctl.reopen) removes it.
     el.querySelectorAll('#exroot .word-diff').forEach((d) => { d.hidden = true; });

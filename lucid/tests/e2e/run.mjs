@@ -282,7 +282,7 @@ try {
     assert(/drill\?error=copula-omission/.test(html), 'targeted practice for the recurring error not in the plan');
     await page.click('a[href="#/drill?error=copula-omission"]');
     await page.waitForTimeout(800);
-    assert(await page.$('#exroot') || await page.$('.empty'), 'drill did not open');
+    assert(await page.$('#exroot') || await page.$('[data-drill-primer]') || await page.$('.empty'), 'drill did not open'); // r4 LF-10: a primer card comes first
     await ctx.close();
   });
 

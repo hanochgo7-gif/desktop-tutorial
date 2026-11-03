@@ -582,6 +582,57 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-10: targeted drills give the lesson's help ----------
+  const typedItem = (page) => page.evaluate(() => Boolean(document.querySelector('#exroot textarea:not([readonly]), #exroot .gap-input:not([readonly])')) && !document.querySelector('#exroot [data-chip], #exroot [data-wc]'));
+  await check('LF-10 #/drill?error=article: a primer with the pitfall first; a wrong typed item gets "Try again"; "Why?" then holds the pitfall', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await page.goto(`${BASE}#/drill?error=article`);
+    await page.waitForSelector('[data-drill-primer]');
+    assert(await page.$('[data-drill-primer] .pitfall-head'), 'the primer has no pitfall');
+    await shot(page, 'lf10-primer');
+    await page.click('[data-drill-start]');
+    let found = false;
+    for (let k = 0; k < 12 && !found; k++) {
+      await page.waitForSelector('#exroot');
+      if (await typedItem(page)) {
+        await typeAndCheck(page, ['zzz']);
+        found = Boolean(await page.$('[data-try-again]'));
+        if (!found) { await page.click('[data-next]'); continue; }
+      } else {
+        await page.click('[data-idk]');
+        await page.waitForSelector('[data-next]');
+        await page.click('[data-next]');
+      }
+    }
+    assert(found, 'no wrong typed item offered "Try again"');
+    await shot(page, 'lf10-second-try');
+    await page.click('[data-show-answer]');
+    await page.waitForSelector('[data-next]');
+    assert(await page.$('#pfoot details.why .pitfall-why'), '"Why?" has no pitfall');
+    await ctx.close();
+  });
+  await check('LF-10 #/checkpoint/A1 stays unassisted: a wrong typed item gets no second try', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await page.goto(`${BASE}#/checkpoint/A1`);
+    await page.waitForSelector('[data-begin]');
+    await page.click('[data-begin]');
+    let typed = false;
+    for (let k = 0; k < 16 && !typed; k++) {
+      await page.waitForSelector('#exroot');
+      typed = await typedItem(page);
+      if (typed) {
+        await page.evaluate(() => document.querySelectorAll('#exroot :is(textarea, .gap-input):not([readonly])').forEach((f) => { f.value = 'zzz'; f.dispatchEvent(new Event('input', { bubbles: true })); }));
+        await page.click('[data-check]:not([disabled])');
+      } else await page.click('[data-idk]');
+      await page.waitForTimeout(150);
+      assert(!(await page.$('[data-try-again], [data-show-answer]')), 'the level check offers a second try');
+    }
+    assert(typed, 'no typed item in the level check');
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);

@@ -63,8 +63,9 @@ let cache = null;
 export async function exercisePool() {
   if (cache) return cache;
   const lessons = await content.allLessons();
+  // Each item carries its lesson's Hebrew-speaker pitfalls, for "Why?" in drills (r4 LF-10).
   cache = lessons.flatMap((l) => l.exercises.filter((e) => AUTO_TYPES.has(e.type)).map((ex) => ({
-    ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics,
+    ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics, pitfalls: l.hebrew_pitfalls || [],
     errors: new Set([ex.error_type, ...Object.values(ex.option_errors || {}), ...(ex.wrong_feedback || []).map((f) => f.error_type)].filter(Boolean)),
   })));
   return cache;
