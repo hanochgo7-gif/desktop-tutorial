@@ -289,6 +289,43 @@ try {
     assert(grid === 2, `register options: ${grid} columns`);
     await ctx.close();
   });
+
+  await check('RW-1 RW-4 Writing lab (A2 free writing): the a2-05 text flags goed, eated, buyed, sleeped, "we was" and "a new shoes", and no card says "ספיר"', async () => {
+    const { ctx, page, tap } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    await open(page, 'writing/free', '#essay');
+    await typeEssay(page, 'Last weekend I goed to Haifa with my family. We eated falafel in the market. My brother buyed a new shoes. In the evening we was very tired, so we sleeped early. I have reservation for next week. I need informations.');
+    await tap('[data-check]');
+    await page.waitForSelector('.essay-side .error-card');
+    const r = await page.evaluate(() => ({ quotes: [...document.querySelectorAll('.essay-side .error-card .quote')].map((q) => q.textContent.trim().toLowerCase()), text: document.querySelector('.essay-side').textContent }));
+    await shot(page, 'rw1-lab-a2-390');
+    for (const w of ['goed', 'eated', 'buyed', 'sleeped', 'we was', 'a new shoes']) assert(r.quotes.includes(w), `"${w}" is not flagged: ${JSON.stringify(r.quotes)}`);
+    assert(!/ספיר/.test(r.text), 'a card says "ספיר"');
+    await ctx.close();
+  });
+
+  await check('RW-5 RW-6 RW-7 dark mode at 150%: the scenario footer keeps its place with a full-width key, and the 1440 rubric keeps its save key in view', async () => {
+    const phone = await newPage(browser, { dark: true });
+    await learnerAt(phone.page, 'A2', { text: 150 });
+    await open(phone.page, 'scenario/rl-airport-checkin-overweight?tab=practise', '[data-opt]');
+    const at = () => phone.page.evaluate(() => { const f = document.querySelector('.scenario-foot'); const k = f.querySelector('.key.enter'); const tb = document.querySelector('.tabbar'); const bar = getComputedStyle(tb).display === 'none' ? innerHeight : tb.getBoundingClientRect().top; return { top: Math.round(f.getBoundingClientRect().top), bottom: Math.round(f.getBoundingClientRect().bottom), bar: Math.round(bar), key: Math.round(k.getBoundingClientRect().width) }; });
+    const a = await at();
+    await phone.tap('[data-opt="0"]'); await phone.tap('[data-check-turn]'); await phone.tap('[data-next-turn]'); await phone.page.waitForTimeout(300);
+    const b = await at();
+    await shot(phone.page, 'rw7-dark-150-390');
+    assert(Math.abs(a.top - b.top) <= 2 && Math.abs(b.bottom - b.bar) <= 2, `footer: ${JSON.stringify([a, b])}`);
+    assert(a.key >= 300, `key width ${a.key}`);
+    await phone.ctx.close();
+    const wide = await newPage(browser, { width: 1440, height: 900, dark: true });
+    await learnerAt(wide.page, 'C1', { text: 150 });
+    await open(wide.page, 'writing/wa-05', '#essay');
+    await wide.tap('[data-tab="rubric"]');
+    await wide.page.waitForSelector('[data-save-self]');
+    const k = await wide.page.evaluate(() => { const side = document.querySelector('aside.essay-side'); side.scrollTop = side.scrollHeight; const s = side.getBoundingClientRect(); const r = document.querySelector('[data-save-self]').getBoundingClientRect(); return { inSide: r.top >= s.top - 1 && r.bottom <= s.bottom, inView: r.top >= 0 && r.bottom <= innerHeight, over: document.documentElement.scrollWidth - innerWidth }; });
+    await shot(wide.page, 'rw6-dark-150-1440');
+    assert(k.inSide && k.inView && k.over <= 0, `rubric keys at 150%: ${JSON.stringify(k)}`);
+    await wide.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

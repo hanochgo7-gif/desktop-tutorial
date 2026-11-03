@@ -170,7 +170,6 @@ export default async function scenarioView(el, ctx) {
           <div class="row">${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button type="button" class="key" data-own-check>${tt('השוואה', 'Compare')}</button></div>
           ${typedResult ? ownResult(t) : ''}
         </div></details>` : ''}
-      ${practiseFoot(chosen)}
     </div>`;
   };
 
@@ -244,7 +243,12 @@ export default async function scenarioView(el, ctx) {
 
   function draw() {
     const body = { prepare, listen: listenTab, practise: practiseTab, roleplay: roleplayTab }[tab]();
-    render(el, html`<div class="scenario-view">${head()}${body}</div>`);
+    // The practice footer is a child of the whole view, not of the practice column: a sticky footer cannot rise
+    // above the top of its parent, so at 150% text, where the header and tabs fill the first screen, it would sit
+    // under the tab bar at turn 1 (r4 RW-7).
+    const inTurn = tab === 'practise' && !(resume && ti === 0 && !checked) && ti < turnOrder.length;
+    const t = inTurn ? turnOrder[ti] : null;
+    render(el, html`<div class="scenario-view">${head()}${body}${inTurn ? practiseFoot(checked && picked != null ? t.options[picked] : null) : ''}</div>`);
     measureFoot();
     const log = $('#rplog', el); if (log) log.scrollTop = log.scrollHeight;
   }

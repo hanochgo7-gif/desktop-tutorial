@@ -1715,10 +1715,11 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .topic-pick .topic-choice input[type='radio']:checked { border-color: var(--cobalt); background: var(--cobalt); box-shadow: inset 0 0 0 0.3rem var(--key); }
 .topic-pick .topic-choice input[type='radio']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
 .he-reveal.he-all { justify-self: start; margin-block-end: var(--s2); }
-/* RW-7: the scenario footer always sits right on the tab bar (its end margin takes back the part of the view's
+/* RW-7: the scenario footer always sits right on the tab bar (the view's end margin takes back the part of its
    bottom padding that is taller than the bar), the Enter key is full width on phones, and the footer is neutral
    while the learner writes their own reply. */
-.scenario-view .scenario-foot { margin-block-end: calc(var(--rw-tabbar-h, 0px) - var(--rw-view-pad, 0px)); }
+.scenario-view:has(> .scenario-foot:last-child) { margin-block-end: calc(var(--rw-tabbar-h, 0px) - var(--rw-view-pad, 0px)); }
+.scenario-view > .scenario-foot { max-width: 46rem; }
 @media (max-width: 40rem) {
   .scenario-view .scenario-foot .inner { flex-wrap: wrap; }
   .scenario-view .scenario-foot .inner > .key.enter { flex: 1 1 100%; justify-content: center; }
