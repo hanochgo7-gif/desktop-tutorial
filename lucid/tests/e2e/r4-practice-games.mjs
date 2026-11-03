@@ -554,6 +554,30 @@ try {
       await ctx.close();
     }
   });
+  // ---------- PG-12 ----------
+  await check('PG-12. Listening: with a1-01 completed and its items done, the next key says "מהשיעור הבא"; with an undone a1-01 item, it links to that item', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    const ids = await page.evaluate(async () => {
+      const lesson = await (await fetch('content/lessons/a1-01.json')).json();
+      window.lucid.store.put('progress', { id: 'a1-01', level: 'A1', status: 'completed', best_score: 1 });
+      return lesson.exercises.filter((e) => ['listen', 'dictation'].includes(e.type)).map((e) => e.id);
+    });
+    assert(ids.length >= 2, `a1-01 has ${ids.length} listening items`);
+    // One a1-01 item still undone: the key goes to it.
+    await page.evaluate((ids) => { const L = window.lucid; for (const e of ids.slice(1)) L.store.put('attempts', { id: `at-${e}`, at: new Date().toISOString(), source: 'lesson', lesson: 'a1-01', exercise: e, skill: 'listening', level: 'A1', correct: true, score: 1 }); }, ids);
+    await go(page, 'listening', '.page-head a.key.enter');
+    const href = await page.getAttribute('.page-head a.key.enter', 'href');
+    assert(href === `#/listening?l=a1-01&e=${ids[0]}`, `the next key with an undone a1-01 item: ${href}`);
+    // All done: the next item comes from the next lesson, and the key says so.
+    await page.evaluate((e) => window.lucid.store.put('attempts', { id: `at-${e}`, at: new Date().toISOString(), source: 'lesson', lesson: 'a1-01', exercise: e, skill: 'listening', level: 'A1', correct: true, score: 1 }), ids[0]);
+    await go(page, 'today', '#view > *');
+    await go(page, 'listening', '.page-head a.key.enter');
+    const key = await page.$eval('.page-head a.key.enter', (a) => ({ text: a.textContent.replace(/\s+/g, ' ').trim(), href: a.getAttribute('href') }));
+    assert(/מהשיעור הבא שלכם/.test(key.text) && /l=a1-02/.test(key.href), `the next key: ${JSON.stringify(key)}`);
+    await shot(page, 'pg12-listening-next-390');
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

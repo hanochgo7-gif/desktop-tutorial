@@ -1,7 +1,7 @@
 // The practice hubs' logic (js/ui/center.js, the review hint): lane r4-practice-games (PG-15, PG-8, PG-12).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wasUnheard, bestScore } from '../../js/ui/center.js';
+import { wasUnheard, bestScore, nextSuggestion, metLesson } from '../../js/ui/center.js';
 import { hintFor } from '../../js/views/review.js';
 
 const listen = { type: 'listen' };
@@ -36,4 +36,15 @@ test('PG-8: a review hint adds what the card does not show', () => {
   assert.equal(hintFor({ kind: 'meaning', payload: { word: 'run', example: 'I run.', pos: 'verb' } }), 'verb', 'no definition: the part of speech');
   assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'An x.' } }), null, 'nothing new: no hint');
   assert.equal(hintFor({ kind: 'meaning', payload: { word: 'x', example: 'a thing you see', def: 'a thing you see' } }), null, 'a definition that is the example is not new');
+});
+
+test('PG-12: the next listening item comes from a met lesson first, then from the learner\'s next lesson', () => {
+  const item = (lesson, level, ex, rank) => ({ lesson: { id: lesson, level }, ex: { id: ex }, rank });
+  const items = [item('a1-01', 'A1', 'e3', 100), item('a1-02', 'A1', 'e3', 200), item('a1-03', 'A1', 'e2', 300), item('a1-04', 'A1', 'e1', 400)];
+  const progress = new Map([['a1-01', { status: 'completed' }]]);
+  const done = (lesson, ex) => ({ lesson, exercise: ex });
+  assert.equal(nextSuggestion(items, [], 'A1', progress, 'a1-03').lesson.id, 'a1-01', 'an undone item in a met lesson comes first');
+  assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress, 'a1-03').lesson.id, 'a1-03', 'then the next lesson');
+  assert.equal(nextSuggestion(items, [done('a1-01', 'e3')], 'A1', progress).lesson.id, 'a1-02', 'without a next lesson, curriculum order');
+  assert.ok(metLesson(progress, items[0]) && !metLesson(progress, items[1]));
 });

@@ -9,7 +9,7 @@ import { model, settings, saveSettings } from '../core/learner.js';
 import { countWords } from '../core/grading.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { levelIndex } from '../core/adaptive.js';
-import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, orderedGroups, attemptsOn, bestScore, itemHref, findItem, runPlayer, missingPlayer } from '../ui/center.js';
+import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, metLesson, orderedGroups, attemptsOn, bestScore, itemHref, findItem, runPlayer, missingPlayer } from '../ui/center.js';
 
 const RATES = [[0.8, 'איטי', 'Slower'], [0.95, 'רגיל', 'Normal'], [1.1, 'מהיר', 'Faster']];
 const SAMPLE = 'This is how fast the speaker will talk.';
@@ -73,7 +73,12 @@ export default async function listening(el, ctx) {
     }
     const ci = levelIndex(m.courseLevel);
     const rec = recommendedLevel(groups, m.courseLevel);
-    const next = nextSuggestion(items, m.attempts, m.courseLevel, m.progress);
+    const next = nextSuggestion(items, m.attempts, m.courseLevel, m.progress, m.next?.id);
+    // A next item from a lesson not met yet says where it comes from (UX r4 PG-12).
+    const lessonName = (l) => (uiLang() === 'he' && l.title_he ? isolateLatin(l.title_he) : html`<span lang="en" dir="ltr">${l.title_en}</span>`);
+    const nextLabel = !next || metLesson(m.progress, next) ? tt('לתרגיל ההאזנה הבא', 'Next listening item')
+      : next.lesson.id === m.next?.id ? html`${tt('מהשיעור הבא שלכם:', 'From your next lesson:')} ${lessonName(next.lesson)}`
+        : html`${tt('משיעור שעוד לא התחלתם:', 'From a lesson you have not started:')} ${lessonName(next.lesson)}`;
     const doneCount = items.filter((x) => attemptsOn(m.attempts, x).length).length;
     // PH-6: the learner's level first and open, then the levels above, then the easier ones, each folded (as in the
     // Grammar lab), so the list starts where the learner is instead of at the alphabet.
@@ -82,7 +87,7 @@ export default async function listening(el, ctx) {
     render(el, html`
       <div class="page-head">
         <div><h1>${t('nav.listening')}</h1><p>${intro}</p></div>
-        ${next ? html`<a class="key enter" href="${itemHref('listening', next)}">${tt('לתרגיל ההאזנה הבא', 'Next listening item')}</a>` : ''}
+        ${next ? html`<a class="key enter ls-next" href="${itemHref('listening', next)}">${nextLabel}</a>` : ''}
       </div>
       <div class="stack-lg">
         ${noSpeech()}

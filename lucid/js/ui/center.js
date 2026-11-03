@@ -47,13 +47,16 @@ export function recommendedLevel(groups, courseLevel) {
 }
 // Next suggestion: not done yet, at or below the course level, closest to it first. Items from lessons the learner
 // has started or completed come first (UX r3 PH-6), so "next" is never a lesson they have not met while one they
-// have met still has something to practise. progress: the learner model's Map of lesson progress.
-export function nextSuggestion(items, attempts, courseLevel, progress = new Map()) {
+// have met still has something to practise; after those, the learner's next lesson (nextId, UX r4 PG-12).
+// progress: the learner model's Map of lesson progress.
+export const metLesson = (progress, item) => ['started', 'completed'].includes(progress?.get(item?.lesson.id)?.status);
+export function nextSuggestion(items, attempts, courseLevel, progress = new Map(), nextId = null) {
   const ci = levelIndex(courseLevel);
-  const met = (x) => ['started', 'completed'].includes(progress.get(x.lesson.id)?.status);
+  const met = (x) => metLesson(progress, x);
+  const isNext = (x) => Boolean(nextId) && x.lesson.id === nextId;
   return items
     .filter((x) => levelIndex(x.lesson.level) <= ci && !attemptsOn(attempts, x).length)
-    .sort((a, b) => met(b) - met(a) || levelIndex(b.lesson.level) - levelIndex(a.lesson.level) || a.rank - b.rank)[0] || null;
+    .sort((a, b) => met(b) - met(a) || isNext(b) - isNext(a) || levelIndex(b.lesson.level) - levelIndex(a.lesson.level) || a.rank - b.rank)[0] || null;
 }
 // The level groups in the order a hub shows them (PH-6, as the Reading centre does): the recommended level, the
 // levels above it, then the easier ones, closest first.
