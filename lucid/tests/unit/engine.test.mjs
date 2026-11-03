@@ -206,6 +206,26 @@ test('TP-8: the period report counts writing sessions (one per text per day), wi
   assert.equal(periodReport({ events: [], now }).writing_sessions, 0);
 });
 
+test('TP-12: the placement bar never grows by more than 10 points on one answer, and never moves back', () => {
+  let drops = 0;
+  for (const [trueLevel, start, noise] of [['B1', 'A1', 0], ['A2', 'B1', 0], ['C2', 'B2', 0], ['PreA1', 'A1', 0], ['C1', 'A1', 0], [null, 'A1', 0], ['B2', 'A1', 0.125], ['A2', 'A1', 0.2], ['B1', 'C1', 0]]) {
+    const p = createPlacement(bank, { start });
+    let item, n = 0, prev = p.progress.bar, prevEst = p.progress.estimate;
+    assert.equal(prev, 0);
+    while ((item = p.next())) {
+      const knows = trueLevel != null && LEVELS.indexOf(item.level) <= LEVELS.indexOf(trueLevel);
+      const flip = Boolean(noise) && n++ % Math.round(1 / noise) === 0;
+      p.answer(item, knows !== flip ? { correct: true } : { correct: false, dontKnow: !knows });
+      const { bar, estimate } = p.progress;
+      if (estimate < prevEst && !p.done) drops++;
+      assert.ok(bar - prev <= 0.1 + 1e-9, `${trueLevel} from ${start}: the bar grew ${Math.round((bar - prev) * 100)} points`);
+      assert.ok(bar >= prev, `${trueLevel} from ${start}: the bar moved back`);
+      prev = bar; prevEst = estimate;
+    }
+  }
+  assert.ok(drops > 0, 'no run dropped its estimate, so the check proves nothing');
+});
+
 test('TP-10: once today\'s travel scenario is done, the extras offer the next travel scenario', () => {
   const sc = (id, module, level = 'A1') => ({ id, module, level });
   const scenarios = [sc('rl-airport-checkin', 'airport'), sc('rl-hotel-checkin', 'hotel'), sc('rl-social-hi', 'social'), sc('rl-airport-b2', 'airport', 'B2')];

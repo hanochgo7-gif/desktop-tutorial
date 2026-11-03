@@ -27,6 +27,8 @@ export default async function placementView(el, ctx) {
   // Goals weigh the start at C1-C2, the academic track (placement.startFor, persona finding R1-Y2).
   const test = createPlacement(bank.items, { start, shuffle: (a) => shuffle(a, 0.37), answers: draft?.start === start ? draft.answers || [] : [], goals: profile()?.goals || [] });
   let item = null; let ctl = null;
+  // The bar's last width, so the next question's bar grows from it (TP-12) instead of being drawn at its new width.
+  let lastBar = null;
   const arrow = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
 
   function intro() {
@@ -54,16 +56,21 @@ export default async function placementView(el, ctx) {
     item = test.next();
     if (!item) return results();
     // "Question 4 of about 20" and a bar for the answers so far, both from the test's own estimate (TF-9).
-    const { asked: before, estimate } = test.progress;
+    const { asked: before, estimate, bar } = test.progress;
+    const from = lastBar ?? bar;
+    lastBar = bar;
     const asked = before + 1;
     const counter = tt(`שאלה ${asked} מתוך כ-${estimate}`, `Question ${asked} of about ${estimate}`);
     render(el, html`<div class="player">
       <div class="player-top"><a class="key ghost small icon-only" href="#/today" aria-label="${tt('שמירה ויציאה', 'Save and leave')}">${icon('x')}</a>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${estimate}" aria-valuenow="${before}" aria-valuetext="${counter}" aria-label="${tt('התקדמות במבחן', 'Test progress')}"><span style="width:${(before / estimate) * 100}%"></span></div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${estimate}" aria-valuenow="${before}" aria-valuetext="${counter}" aria-label="${tt('התקדמות במבחן', 'Test progress')}"><span data-pl-bar style="width:${from * 100}%"></span></div>
         <span class="small faint pl-count">${tt('שאלה ', 'Question ')}<span class="num">${asked}</span>${tt(` מתוך כ-${estimate}`, ` of about ${estimate}`)}</span></div>
       <div class="player-body"><div id="exroot"></div></div>
       <div class="player-foot"><div class="inner"><button type="button" class="key ghost" data-idk>${tt('לא יודע/ת', 'I don\'t know')}</button><span class="grow"></span><button type="button" class="key enter" data-answer disabled>${tt('הבא', 'Next')} <span class="kbd">Enter</span></button></div></div>
     </div>`);
+    // The width changes after the first frame, so the bar's transition animates it (off under reduced motion).
+    const barEl = $('[data-pl-bar]', el);
+    if (from !== bar) requestAnimationFrame(() => requestAnimationFrame(() => { barEl.style.width = `${bar * 100}%`; }));
     const ex = { ...item, prompt: item.prompt || { en: 'Choose the best answer.', he: 'בחרו את התשובה הנכונה.' } };
     ctl = mountExercise($('#exroot', el), ex, { onChange: (r) => { $('[data-answer]', el).disabled = !r; }, variant: settings().english_variant });
     // A reading item: the passage in its own panel and the question in bold under it, never one run of text (TF-9).

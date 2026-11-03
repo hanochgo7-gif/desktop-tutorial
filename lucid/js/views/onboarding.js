@@ -243,11 +243,15 @@ export default async function onboarding(el, ctx) {
       try { sessionStorage.setItem('lucid-ui-lang', b.dataset.ui); } catch { /* ignore */ }
       draw(null); el.querySelector(`[data-ui="${b.dataset.ui}"]`)?.focus();
     }),
-    // Text size applies at once, without redrawing the form, and is kept for this session (TF-1).
+    // Text size applies at once, without redrawing the form, and is kept for this session (TF-1). The key just
+    // tapped stays where the finger is (TP-11): the text above it grows, so the page scrolls by as much.
     on(el, 'click', '[data-size]', (e, b) => {
+      const before = b.getBoundingClientRect().top;
       data.text_size = Number(b.dataset.size);
       chooseTextSize(data.text_size);
       el.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      const moved = b.getBoundingClientRect().top - before;
+      if (Math.abs(moved) >= 1) globalThis.scrollBy?.({ top: moved, behavior: 'instant' });
     }),
     on(el, 'click', '[data-goal]', (e, b) => { const g = b.dataset.goal; data.goals = data.goals.includes(g) ? data.goals.filter((x) => x !== g) : [...data.goals, g]; b.setAttribute('aria-pressed', String(data.goals.includes(g))); }),
     on(el, 'click', '[data-start]', (e, b) => {

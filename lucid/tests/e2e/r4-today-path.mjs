@@ -330,6 +330,97 @@ try {
     assert(/30 תרחישים מהחיים/.test(await page.textContent('.welcome')), 'Welcome does not say "30 תרחישים מהחיים"');
     await ctx.close();
   });
+
+  // ---------- TP-11: onboarding choice cards look alike; the text-size control does not jump ----------
+  await check('TP-11 onboarding at 390: the chosen goal and minutes cards share one background; the 130% key keeps its rect.top when tapped', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(`${BASE}#/start`);
+    await page.waitForSelector('#ob-form');
+    const top = () => page.$eval('[data-size="130"]', (b) => b.getBoundingClientRect().top);
+    const before = await top();
+    await page.click('[data-size="130"]');
+    await page.waitForTimeout(250);
+    const after = await top();
+    assert(Math.abs(after - before) < 1, `the 130% key moved from ${Math.round(before)} to ${Math.round(after)}`);
+    const rows = await page.$$eval('[data-size]', (x) => new Set(x.map((b) => Math.round(b.getBoundingClientRect().top))).size);
+    assert(rows === 2, `the size control has ${rows} rows at 390`);
+    await shot(page, 'tp11-size-130');
+    await page.click('[data-size="100"]');
+    await page.selectOption('#ob-year', '1990');
+    await page.click('button[type=submit]');
+    await page.click('[data-goal="travel"]');
+    await page.click('[data-min="20"]');
+    // The pointer rests on the minutes card just chosen, as a mouse would.
+    await page.hover('[data-min="20"]');
+    const bg = await page.evaluate(() => [document.querySelector('[data-goal="travel"]'), document.querySelector('[data-min="20"]')].map((b) => getComputedStyle(b).backgroundColor));
+    assert(bg[0] === bg[1], `goal ${bg[0]} vs minutes ${bg[1]}`);
+    await page.$eval('[data-min="20"]', (b) => b.scrollIntoView({ block: 'center' }));
+    await shot(page, 'tp11-cards');
+    await ctx.close();
+  });
+
+  // ---------- TP-12: count strings, the placement bar and the start options ----------
+  await check('TP-12 one first-try answer reads "תשובה אחת" on Today and Progress; the placement bar grows at most 10 points per answer when the estimate drops; the no-test keys stack at 390', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1', { minutes: 20 });
+    await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      L.recordAttempt({ source: 'lesson', lesson: 'a1-01', exercise: 'e1', topic: 'to-be', skill: 'grammar', level: 'A1', correct: true });
+    });
+    await today(page);
+    await page.click('details[data-skills] summary').catch(() => {});
+    const t = await page.textContent('[data-skills]');
+    assert(/תשובה אחת/.test(t) && !/1 תשובות/.test(t), `Today: ${t.replace(/\s+/g, ' ').slice(0, 200)}`);
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('#rep-h');
+    await page.waitForTimeout(300);
+    const pr = await page.textContent('#view');
+    assert(/תשובה אחת/.test(pr) && !/1 תשובות/.test(pr), 'Progress still says "1 תשובות"');
+    await ctx.close();
+    // A learner who knows A2, starting at B1: after 8 answers the estimate drops from 20 to 12.
+    const b = await newPage(browser);
+    await learnerAt(b.page, 'A1', { minutes: 20 });
+    const seeded = await b.page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const P = await import('./js/core/placement.js');
+      const U = await import('./js/core/util.js');
+      const bank = await (await fetch('content/placement.json')).json();
+      const order = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      const test = P.createPlacement(bank.items, { start: 'B1', shuffle: (a) => U.shuffle(a, 0.37), goals: ['travel'] });
+      const shown = [];
+      for (let i = 0; i < 8; i++) { const item = test.next(); shown.push(test.progress); test.answer(item, { correct: order.indexOf(item.level) <= order.indexOf('A2') }); }
+      L.saveProfile({ start_choice: 'comfortable' });
+      L.savePlacementDraft({ start: 'B1', answers: test.answers });
+      return { before: shown.at(-1), after: test.progress };
+    });
+    assert(seeded.after.estimate < seeded.before.estimate, `the seeded run does not drop its estimate: ${JSON.stringify(seeded)}`);
+    await b.page.goto(`${BASE}#/placement?resume=1`);
+    await b.page.waitForSelector('.player-top .progress > span');
+    const widths = [];
+    for (let i = 0; i < 3; i++) {
+      await b.page.waitForTimeout(500);
+      widths.push(await b.page.$eval('.player-top .progress > span', (s) => (s.getBoundingClientRect().width / s.parentElement.getBoundingClientRect().width) * 100));
+      await b.page.click('[data-idk]');
+      await b.page.waitForTimeout(150);
+      if (await b.page.$('[data-answer]:not([disabled])')) await b.page.click('[data-answer]');
+    }
+    const last = (seeded.before.asked / seeded.before.estimate) * 100;
+    const steps = [widths[0] - last, widths[1] - widths[0], widths[2] - widths[1]];
+    assert(steps.every((d) => d <= 10.5), `bar ${Math.round(last)}% then ${widths.map(Math.round).join('%, ')}%`);
+    await shot(b.page, 'tp12-placement-bar');
+    await b.ctx.close();
+    // No test: the label over its two keys, stacked.
+    const c = await newPage(browser);
+    await learnerAt(c.page, 'A1', { minutes: 20 });
+    await c.page.evaluate(() => { window.lucid.store.put('profile', { ...window.lucid.store.get('profile', 'me'), start_choice: 'conversations' }); window.lucid.store.remove('placement', 'latest'); });
+    await today(c.page);
+    const keys = await c.page.$$eval('.no-test > .key', (x) => x.map((k) => Math.round(k.getBoundingClientRect().top)));
+    const label = await c.page.$eval('.no-test > .muted', (s) => Math.round(s.getBoundingClientRect().bottom));
+    assert(keys.length >= 2 && new Set(keys).size === keys.length && keys.every((y) => y >= label - 1), `no-test rows: label ends ${label}, keys at ${keys}`);
+    await c.page.$eval('.no-test', (s) => s.scrollIntoView({ block: 'center' }));
+    await shot(c.page, 'tp12-no-test');
+    await c.ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

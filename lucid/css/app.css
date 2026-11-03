@@ -1723,6 +1723,13 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 .goal-later { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; color: var(--ink-2); }
 .goal-later > .icon { flex: none; margin-block-start: 0.2em; }
 .goal-later a { padding-block: 0.6rem; }
+/* TP-11: one selected treatment for every onboarding choice card (goals, minutes, starting point): the cobalt tint
+   and edge with the check or radio indicator, also under the pointer. */
+.onboard .choice:is([aria-checked='true'], [aria-pressed='true']), .onboard .choice:is([aria-checked='true'], [aria-pressed='true']):hover { background: var(--cobalt-tint); border-color: var(--cobalt); }
+/* TP-11: on a phone the text-size control is 2x2 from the start, so choosing 130% or 150% never re-flows it. */
+@media (max-width: 30rem) { .ob-prefs .seg:has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* TP-12: on a phone, "or without the test:" is a label over its start keys, stacked, so no key is left hanging. */
+@media (max-width: 30rem) { .no-test { flex-direction: column; align-items: flex-start; } .no-test > .key { max-width: 100%; white-space: normal; text-align: start; } }
 
 /* ---- lane r4-today-path: end ---- */
 

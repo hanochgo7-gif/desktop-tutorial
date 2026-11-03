@@ -69,7 +69,7 @@ export function collectingText(c) {
   const more = [c.answers < EVIDENCE.items ? tt(`צריך ${EVIDENCE.items} תשובות`, `${EVIDENCE.items} answers needed`) : '', c.pct < EVIDENCE.accuracy * 100 ? tt(`צריך ${EVIDENCE.accuracy * 100}% נכון`, `${EVIDENCE.accuracy * 100}% right needed`) : ''].filter(Boolean);
   // Only the level is an isolate, so "94%" keeps its sign beside its number inside the Hebrew line.
   const lv = html`<bdi dir="ltr">${L(c.level)}</bdi>`;
-  return html`${tt(`אוספים ראיות: ${c.answers} תשובות ב-`, `Collecting evidence: ${c.answers} answers at `)}${lv}, ${tt(`${c.pct}% נכון`, `${c.pct}% right`)} · <span class="nowrap">${tt(`יום ${day} מתוך ${EVIDENCE.days}`, `day ${day} of ${EVIDENCE.days}`)}</span>${more.length ? ` · ${more.join(', ')}` : ''}`;
+  return html`${tt('אוספים ראיות: ', 'Collecting evidence: ')}${answersText(c.answers)}${tt(' ב-', ' at ')}${lv}, ${tt(`${c.pct}% נכון`, `${c.pct}% right`)} · <span class="nowrap">${tt(`יום ${day} מתוך ${EVIDENCE.days}`, `day ${day} of ${EVIDENCE.days}`)}</span>${more.length ? ` · ${more.join(', ')}` : ''}`;
 }
 // A level check that asked about this skill (TF-8): "B2 shown in a level check, 81%" once the check was passed.
 function checkText(c) {
@@ -89,7 +89,7 @@ function skillSource(s, k) {
         ? tt(`הערכה ראשונה ממבחן המיקום · נראה טוב גם ב-${L(k.from)} (${k.right} מתוך ${k.evidence}), יאושר בבדיקת רמה`, `First estimate from placement · looks good at ${L(k.from)} too (${k.right} of ${k.evidence}), to be confirmed in a level check`)
         : tt(`הערכה ראשונה: ${k.evidence} שאלות במבחן המיקום`, `First estimate: ${k.evidence} placement questions`));
     }
-    if (k.notYet) return tt(`עוד לא ${L(k.notYet)} בתרגול (${k.evidence} תשובות בניסיון ראשון)`, `Not yet ${L(k.notYet)} in practice (${k.evidence} first-try answers)`);
+    if (k.notYet) return tt(`עוד לא ${L(k.notYet)} בתרגול (${k.evidence === 1 ? 'תשובה אחת' : `${k.evidence} תשובות`} בניסיון ראשון)`, `Not yet ${L(k.notYet)} in practice (${k.evidence} first-try answer${k.evidence === 1 ? '' : 's'})`);
     if (k.source === 'assessed-writing') return tt(`${k.evidence} טקסטים שהוערכו, ב-${k.days} ימים`, `${k.evidence} assessed texts, on ${k.days} days`);
     return tt(`${k.evidence} תשובות בניסיון ראשון ברמה, ב-${k.days} ימים`, `${k.evidence} first-try answers at this level, on ${k.days} days`);
   }
