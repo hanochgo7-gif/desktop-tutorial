@@ -97,7 +97,7 @@ test('a wrong sort lists only the misplaced items, grouped by where they belong'
   const ex = { id: 'e6', type: 'categorize', categories: ['Capital', 'small'], items: [{ text: 'i', category: 'Capital' }, { text: 'phone', category: 'small' }, { text: 'maya', category: 'Capital' }, { text: 'name', category: 'small' }] };
   const placed = new Map([[0, 'Capital'], [1, 'Capital'], [2, 'small'], [3, 'small']]);
   const fixes = X.categoryFixes(ex, placed);
-  assert.deepEqual(fixes, [{ category: 'Capital', items: ['maya'] }, { category: 'small', items: ['phone'] }]);
+  assert.deepEqual(fixes, [{ category: 'Capital', items: ['Maya'] }, { category: 'small', items: ['phone'] }]);
   const h = String(X.verdictHtml(ex, { correct: false, fixes, summary: '2 of 4 in place' }, new Map()));
   assert.match(text(h), /Not quite · 2 of 4 in place/);
   assert.match(h, /class="fix-list" lang="en" dir="ltr"/);

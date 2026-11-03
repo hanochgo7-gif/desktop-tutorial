@@ -137,3 +137,26 @@ test('r4 EX-6: Hebrew header labels are in headers_he, so English headers stay E
   assert.ok(at > 0 && a107.rows.every((r) => /[֐-׿]/.test(r[at])), 'a1-07 has no Hebrew "מתי?" column');
   assert.ok(!/[֐-׿]/.test(a107.headers[0]), 'the first header stays English, so the table stays an English table');
 });
+
+test('r4 EX-7 EX-8 EX-10 EX-11: exercise helpers', async () => {
+  globalThis.document ??= { documentElement: { dataset: {}, lang: 'he', dir: 'rtl' }, visibilityState: 'visible' };
+  const I18N = await import('../../js/core/i18n.js');
+  I18N.setUiLang('he');
+  const X = await import('../../js/ui/exercise.js');
+  // EX-7: one range, and the informal genres.
+  assert.equal(X.wordCountLine(40, { min_words: 80, max_words: 120 }), '40 מילים · יעד 80-120');
+  assert.equal(X.wordCountLine(1, { min_words: 8, max_words: 40 }), 'מילה אחת · יעד 8-40');
+  for (const p of ['Write a short story with flashbacks.', 'Write a short blog post about a place you know well.', 'Write a message to a friend.']) assert.ok(X.INFORMAL_TASK.test(p), p);
+  assert.ok(!X.INFORMAL_TASK.test('Write a formal email using collocations from the lesson.'));
+  // EX-8: where the slip is, never the letter.
+  assert.match(X.slipWhere({ letter: 2, word: 3 }).he, /^האות השלישית במילה הרביעית עוד לא נכונה\./);
+  assert.match(X.slipWhere({ letter: 2, more: 0 }).he, /^האות השלישית עוד לא נכונה\./);
+  assert.match(X.slipWhere({ word: 0 }).he, /^המילה הראשונה עוד לא נכונה\./);
+  // EX-10: a capital-letter group shows capitals; other groups are left as they are.
+  assert.equal(X.capitalFor('israel', 'Capital (A)'), 'Israel');
+  assert.equal(X.capitalFor('book', 'small (a)'), 'book');
+  assert.deepEqual(X.categoryFixes({ categories: ['Capital (A)', 'small (a)'], items: [{ text: 'israel', category: 'Capital (A)' }, { text: 'book', category: 'small (a)' }] }, new Map()), [{ category: 'Capital (A)', items: ['Israel'] }, { category: 'small (a)', items: ['book'] }]);
+  // EX-11: greetings, sign-offs, short labels and bylines are not numbered.
+  for (const p of ['Hi Noa,', 'Love,', 'Maya', 'COMMENTS', '– Lior, 16', 'Best wishes,']) assert.equal(X.bodyPara(p), false, p);
+  assert.equal(X.bodyPara("Sorry I haven't written for ages. Life here has been crazy!"), true);
+});
