@@ -262,6 +262,16 @@ function lesson(file) {
     else if (b.type === 'table') {
       strArr(f, `${p}.headers`, b.headers, 2);
       if (!Array.isArray(b.rows) || !b.rows.length || !b.rows.every((r) => Array.isArray(r) && r.length === b.headers?.length)) err(f, `${p}.rows`, 'rows must match headers');
+      // r4 EX-6: Hebrew labels for the headers go in headers_he, one per header ("" for a Hebrew column), so a
+      // Hebrew header never turns an English column into a right-to-left one.
+      if (b.headers_he != null && (!Array.isArray(b.headers_he) || b.headers_he.length !== b.headers?.length)) err(f, `${p}.headers_he`, 'needs one entry per header');
+      // At Pre-A1 and A1 a column that states the rule in English (When?, Rule, Meaning) needs a Hebrew column.
+      if (['PreA1', 'A1'].includes(d.level) && Array.isArray(b.headers) && !hebrew.test(b.headers[0] || '')) {
+        // A column of formulas ("+ s", "y → ies") is not prose and needs no Hebrew.
+        const prose = (i) => (b.rows || []).filter((r) => /[→+]/.test(String(r[i]))).length < (b.rows || []).length / 2;
+        const meta = b.headers.find((h, i) => /^(when\??|rule|meaning|asks about|use)$/i.test(String(h).trim()) && prose(i));
+        if (meta && !b.headers.some((h) => hebrew.test(h))) warn(f, `${p}.headers`, `the English "${meta}" column explains the rule, and the table has no Hebrew column`);
+      }
     } else if (b.type === 'examples') {
       if (!Array.isArray(b.items) || !b.items.length || !b.items.every((x) => isStr(x.en))) err(f, `${p}.items`, 'needs items with en');
     } else err(f, `${p}.type`, `unknown block type ${b.type}`);

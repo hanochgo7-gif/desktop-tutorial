@@ -220,6 +220,52 @@ try {
     assert(!/did live|have lived/.test(w.text), `the note leads to a wrong sentence or gives the answer: ${w.text}`);
     await ctx.close();
   });
+  // ---------- EX-6 ----------
+  await check('EX-6 a1-07 learn step 1 at 390: every row has a Hebrew cell under "מתי?"; pa1-02 tables carry headers_he with English headers', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await page.goto(`${BASE}#/lesson/a1-07`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-go="learn"]');
+    await page.waitForTimeout(300);
+    // The explanation is paged by height (LF-2): walk the steps to the table.
+    for (let i = 0; i < 6 && !(await page.$('.lesson-learn:not(.learn-measure) table.data')); i++) {
+      await page.click('.player-foot [data-learn-next]');
+      await page.waitForTimeout(250);
+    }
+    await page.waitForSelector('.lesson-learn:not(.learn-measure) table.data');
+    const t = await page.$eval('.lesson-learn:not(.learn-measure) table.data', (tb) => {
+      const ths = [...tb.querySelectorAll('thead th')].map((x) => x.textContent.trim());
+      const at = ths.indexOf('מתי?');
+      const rows = [...tb.querySelectorAll('tbody tr')].map((r) => { const c = r.children[at]; return c ? { lang: c.getAttribute('lang'), text: c.textContent.trim() } : null; });
+      return { ths, at, rows };
+    });
+    assert(t.at >= 0 && t.rows.length === 6 && t.rows.every((r) => r && r.lang === 'he' && /[֐-׿]/.test(r.text)), `a1-07 table: ${JSON.stringify(t)}`);
+    await shot(page, 'ex6-a1-07-table-390');
+    const tables = await page.evaluate(async () => (await (await import('./js/core/content.js')).content.lesson('pa1-02')).explanation.filter((b) => b.type === 'table'));
+    assert(tables.every((b) => Array.isArray(b.headers_he) && b.headers_he.length === b.headers.length), 'pa1-02 tables have no headers_he');
+    assert(tables.every((b) => b.headers.every((h, i) => !/[֐-׿]/.test(h) || b.headers_he[i] === '')), 'a new Hebrew header was put into headers');
+    await ctx.close();
+  });
+
+  await check('EX-6 first-try notes: pa1-02 e11 "I tink so, tanks!" gets t guidance, not "s במקום"; a1-11 e9 "I have new phone." names the missing word', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'PreA1');
+    await openExercise(page, 'pa1-02', 'e11');
+    await page.fill('#exroot textarea', 'I tink so, tanks!');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    const v = await verdict(page);
+    assert(/כתבתם t/.test(v.text) && !/s במקום/.test(v.text), `pa1-02 e11 note: ${v.text}`);
+    assert(!/think|thanks/.test(v.text), `the first-try note gives the answer: ${v.text}`);
+    await openExercise(page, 'a1-11', 'e9');
+    await page.fill('#exroot textarea', 'I have new phone.');
+    await page.click('[data-check]');
+    await page.waitForSelector('[data-try-again]');
+    const w = await verdict(page);
+    assert(/חסרה מילה/.test(w.text), `a1-11 e9 note: ${w.text}`);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

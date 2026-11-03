@@ -13,7 +13,7 @@
   "warmup": { "en": "In lesson 1, the letter A was 'ay'. Now say the word 'cat' out loud. Does the A in 'cat' sound like the letter name?", "he": "בשיעור הקודם למדנו שהאות A נקראת 'אֵיי'. עכשיו אמרו בקול cat. האם ה-A ב-cat נשמעת כמו שם האות? לא – בתוך מילה יש לאות צליל משלה, ואותו נלמד היום." },
   "explanation": [
     { "type": "p", "en": "cat, bed, sit, hot, cup. In short words like these (consonant + vowel + consonant), the vowel letters a, e, i, o and u have a short sound, not their name.", "he": "cat, bed, sit, hot, cup – במילים קצרות כאלה (עיצור + תנועה + עיצור), לאותיות התנועה a, e, i, o, u יש צליל קצר, ולא השם שלהן." },
-    { "type": "table", "headers": ["Letter", "Short sound", "Examples", "איך זה נשמע"], "rows": [
+    { "type": "table", "headers": ["Letter", "Short sound", "Examples", "איך זה נשמע"], "headers_he": ["אות", "צליל קצר", "דוגמאות", ""], "rows": [
       ["a", "/æ/", "cat, bag, map", "פה פתוח לרווחה, בין 'אַ' ל'אֶ'"],
       ["e", "/e/", "bed, pen, ten", "כמו 'אֶ'"],
       ["i", "/ɪ/", "sit, big, ship", "'אִ' קצרה ורפויה"],
@@ -21,7 +21,7 @@
       ["u", "/ʌ/", "cup, bus, sun", "'אַ' קצרה ורפויה"]
     ] },
     { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: kit – kite, ‏hop – hope. כמה מילים נפוצות לא עובדות לפי הכלל, כמו come ו-have." },
-    { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "rows": [
+    { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "headers_he": ["צליל", "דוגמאות", ""], "rows": [
       ["th /θ/", "think, three, thanks", "קצה הלשון בין השיניים, ונושפים אוויר בלי קול"],
       ["th /ð/", "this, the, mother", "אותה תנוחה, אבל עם קול (מרגישים רטט בגרון)"],
       ["w /w/", "we, wet, west", "שפתיים מעוגלות כמו ב'אוּ', השיניים לא נוגעות בשפה"],
@@ -202,8 +202,13 @@
       "sentence": "I sink so, sanks!",
       "answers": ["I think so, thanks!", "I think so thanks", "I think so. Thanks!"],
       "error_type": "pron-th",
-      "hint": { "en": "Two words need th, not s.", "he": "בשתי מילים צריך th במקום s." },
-      "explanation": { "en": "think and thanks start with th /θ/: tongue between the teeth, not s. 'I sink' means something else: you go down under water!", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים, לא s. ‏I sink פירושו בכלל 'אני שוקע/ת' במים!" }
+      "wrong_feedback": [
+        { "match": "I tink so, tanks!", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. think, thanks.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. think, ‏thanks." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" },
+        { "match": "tink", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. think.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. think." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" },
+        { "match": "tanks", "feedback": { "en": "You wrote t. th is a sound of its own: the tip of the tongue goes between the teeth. thanks.", "he": "כתבתם t. ‏th הוא צליל אחר: קצה הלשון בין השיניים. thanks." }, "rule": { "en": "You wrote t. For th, the tip of the tongue goes between the teeth.", "he": "כתבתם t. ב-th קצה הלשון בין השיניים." }, "error_type": "pron-th" }
+      ],
+      "hint": { "en": "Two words need th.", "he": "בשתי מילים צריך th." },
+      "explanation": { "en": "think and thanks start with th /θ/: the tip of the tongue between the teeth. Said with s or t, they become other words: sink, tank.", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים. עם s או t הן נשמעות כמו מילים אחרות: sink, ‏tank." }
     },
     {
       "id": "e12", "type": "speak", "skill": "speaking", "topic": "phonics",

@@ -111,3 +111,29 @@ test('r4 EX-5: ruleNote names the rule, never the key\'s words', async () => {
     assert.ok(/since/.test(text) && /V3|past participle/.test(text), `${typed}: the note does not name the structure: ${text}`);
   }
 });
+
+test('r4 EX-6: the word range in a writing task is the one the data checks', () => {
+  for (const id of ['c1-03', 'c2-03']) {
+    const e = lessonById(id).exercises.find((x) => x.type === 'write');
+    const m = /(\d+)\s*[-–]\s*(\d+)\s*words/.exec(e.task.en) || /words?\s*\((\d+)\s*[-–]\s*(\d+)/.exec(e.task.en) || /\((\d+)\s*[-–]\s*(\d+)\s*words\)/.exec(e.task.en);
+    assert.ok(m, `${id}: no range in the task`);
+    assert.deepEqual([e.min_words, e.max_words], [Number(m[1]), Number(m[2])], `${id}: the data and the task disagree`);
+  }
+});
+
+test('r4 EX-6: Hebrew header labels are in headers_he, so English headers stay English', () => {
+  const tables = lessonById('pa1-02').explanation.filter((b) => b.type === 'table');
+  assert.ok(tables.length >= 2);
+  for (const t of tables) {
+    assert.ok(Array.isArray(t.headers_he) && t.headers_he.length === t.headers.length, `headers_he: ${JSON.stringify(t.headers_he)}`);
+    // Every English header has a Hebrew label; a Hebrew column keeps its own Hebrew header and gets none.
+    t.headers.forEach((h, i) => {
+      if (/[֐-׿]/.test(h)) assert.equal(t.headers_he[i], '', `the Hebrew column "${h}" gets no second label`);
+      else assert.ok(/[֐-׿]/.test(t.headers_he[i]) && !/[֐-׿]/.test(h), `"${h}" has no Hebrew label`);
+    });
+  }
+  const a107 = lessonById('a1-07').explanation.find((b) => b.type === 'table');
+  const at = a107.headers.indexOf('מתי?');
+  assert.ok(at > 0 && a107.rows.every((r) => /[֐-׿]/.test(r[at])), 'a1-07 has no Hebrew "מתי?" column');
+  assert.ok(!/[֐-׿]/.test(a107.headers[0]), 'the first header stays English, so the table stays an English table');
+});

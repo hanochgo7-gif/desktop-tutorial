@@ -49,9 +49,9 @@
     { "word": "language", "pos": "noun", "he": "שפה", "def": "the words people use to speak and write, like Hebrew or English", "example": "They speak three languages.", "ipa": "/ˈlæŋɡwɪdʒ/", "level": "A1" }
   ],
   "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no 'be' before a verb in the present (ani oved), and English is the same: I work, we live, they study, not *I am work. Learners often add am out of habit. agree is a verb too: I agree, not *I am agree.", "he": "בעברית אין 'להיות' לפני פועל בהווה ('אני עובד'), וגם באנגלית אומרים I work – בלי am. קל להוסיף am מתוך הרגל. גם agree הוא פועל, ולכן גם איתו בלי am.", "error_type": "verb-form" },
     { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "מותחים את השפתיים כמו בחיוך ומאריכים את ה'אִי' ב-leave וב-eat (/iː/). ב-live וב-it ה'אִי' קצרה ורפויה, קרובה ל'אֶ' (/ɪ/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, בתחילת work, ‏we ו-week (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" },
-    { "en": "In Hebrew 'I agree' (ani maskim / maskima) has no 'be', and agree is a verb in English too, just like live or work. Learners often add am out of habit: say I agree, not *I am agree.", "he": "agree הוא פועל, בדיוק כמו live או work, ולכן אומרים I agree – בלי am. גם בעברית אין כאן 'להיות' ('אני מסכים'), אבל קל להוסיף am מתוך הרגל.", "error_type": "verb-form" }
+    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, בתחילת work, ‏we ו-week (/w/). בעברית ו' נהגית בדרך כלל v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
