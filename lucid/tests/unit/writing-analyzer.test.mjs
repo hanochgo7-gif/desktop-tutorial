@@ -379,6 +379,20 @@ test('RW-1: the academic fixture flags this tools, results was, Researches, the 
   assert.equal(ex['results was'], 'results were');
 });
 
+test('RW-1: "the results was" is one item, under the results rule from A2; "my parents was" has its own plural-noun title', () => {
+  const at = (text, level) => issuesOf(text, { level }).filter((i) => /was/i.test(i.match));
+  const b1 = at('I think the results was good.', 'B1');
+  assert.equal(b1.length, 1, JSON.stringify(b1));
+  assert.equal(b1[0].he_title, 'נושא ברבים, פועל ברבים');
+  const a1 = at('I think the results was good.', 'A1');
+  assert.equal(a1.length, 1, 'still flagged below A2, where the results rule does not run');
+  assert.equal(a1[0].he_title, 'נושא ברבים עם were');
+  const parents = at('Yesterday my parents was happy.', 'A2');
+  assert.equal(parents.length, 1);
+  assert.equal(parents[0].he_title, 'נושא ברבים עם were', 'a plural noun is not named "we / they"');
+  assert.equal(at('We was tired.', 'A2')[0].he_title, 'we / they עם were');
+});
+
 test('RW-1: the new rules leave correct English alone', () => {
   clean('I needed help. We visited Rome and opened a shop. The seed grew. A four-leaved clover. He singed his hair. The site was sited well.', { level: 'A2' });
   clean('Thank you was all she said. One of my friends was late. Each of the students was ready. What surprised the researchers was the speed. The paragraph about the protesters was long. The news was good. The bus was late. My boss was kind. The Olympics was great.', { level: 'B1' });
