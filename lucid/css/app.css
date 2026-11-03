@@ -1696,6 +1696,10 @@ table.data td:has(> .row-say) { white-space: nowrap; }
 /* ---- lane r4-practice-games: end ---- */
 
 /* ---- lane r4-real-life-writing: start ---- */
+/* RW-5: the save mark is a quiet word, apart from the counts, so it never reads as "target met". */
+.editor-stats .save-word { color: var(--ink-3); font-size: var(--t-xs); padding-inline-start: var(--s3); border-inline-start: 1px solid var(--key-edge); }
+.editor-stats .save-word[data-off] { visibility: hidden; }
+.editor-stats .editor-target { color: var(--ink-2); }
 
 /* ---- lane r4-real-life-writing: end ---- */
 

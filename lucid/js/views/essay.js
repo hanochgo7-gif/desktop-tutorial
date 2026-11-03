@@ -322,13 +322,14 @@ export default async function essay(el, ctx) {
   const rubricStage = () => Math.min(10, Math.max(1, task.stage || 1));
   const rubricCats = () => (rubric?.categories || []).filter((c) => c.id !== 'overall' && (rubric.applicability?.[c.id]?.[rubricStage() - 1] || 'full') !== 'na');
   const selfFinal = () => versions().find((v) => v.self_final) || null;
+  // A self-assessed final needs the accepted minimum: the low end of the range the checks accept (r4 RW-5).
+  const finalMin = () => Math.max(1, minWords);
   let selfNote = '';
   function rubricPanel() {
     if (!rubric?.categories) return html`<p class="small muted">${tt('המחוון לא נטען. נסו לרענן את הדף.', 'The rubric did not load. Try reloading the page.')}</p>`;
     const done = selfFinal();
     const aiFinal = isFinal();
-    const half = Math.max(1, Math.ceil(minWords * 0.5));
-    const enough = bodyWords() >= half;
+    const enough = bodyWords() >= finalMin();
     const band = (c, n) => html`<div class="band-row"><dt><span class="tag num">${n}</span></dt><dd>${uiLang() === 'he' ? html`<span lang="he">${isolateLatin(c[`band${n}_he`])}</span>` : html`<span lang="en">${c[`band${n}_en`]}</span>`}</dd></div>`;
     return html`<div class="stack rubric-tab">
       <h3 class="small checks-head" tabindex="-1" data-rubric-head>${tt(`המחוון לשלב ${rubricStage()}`, `The rubric for stage ${rubricStage()}`)}</h3>
@@ -344,7 +345,7 @@ export default async function essay(el, ctx) {
         : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
         : html`<p class="small muted">${tt('כשהטקסט מוכן, אפשר לסמן אותו כסופי לפי ההערכה שלכם. המשימה תיחשב כגמורה, עם התווית ״הערכה עצמית״, ולא תשפיע על רמת הכתיבה שלכם.', 'When your text is ready, you can mark it final on your own judgement. The task then counts as done, labelled "self-assessed", and it does not change your writing level.')}</p>
           <div class="row"><button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button></div>
-          ${enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${half} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${half} words (you have ${bodyWords()}).`)}</p>`}`}</div>
+          ${enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${finalMin().toLocaleString('en-US')} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${finalMin().toLocaleString('en-US')} words (you have ${bodyWords()}).`)}</p>`}`}</div>
     </div>`;
   }
   // The self-rating goes on the version of the current text (a new version when the text changed).
@@ -357,7 +358,7 @@ export default async function essay(el, ctx) {
     logEvent({ type: 'writing-self-rating', exercise: task.id, version: v.n });
   }
   function markSelfFinal() {
-    if (bodyWords() < Math.max(1, Math.ceil(minWords * 0.5)) || isFinal()) return;
+    if (bodyWords() < finalMin() || isFinal()) return;
     analysis = analyze();
     const v = saveVersion();
     store.put('writing', { ...store.get('writing', v.id), self_final: true, ...(Object.keys(selfScores).length ? { self: { ...selfScores } } : {}) });
@@ -418,7 +419,7 @@ export default async function essay(el, ctx) {
     if (!vs.length) return html`<p class="small muted">${tt('כל בדיקה או שליחה שומרת גרסה. כך אפשר לראות מה השתנה.', 'Every check or submission saves a version, so you can see what changed.')}</p>${deleteRow()}`;
     // Only a final draft shows a level, and as a range (persona panel P-71).
     return html`<div class="stack">
-      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.final ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}${v.self_final ? html`<span class="tag ok">${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span>` : v.self ? html`<span class="tag">${tt('דירוג עצמי', 'Self-rated')}</span>` : ''}</li>`)}</ul>
+      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.timed ? html`<span class="tag" title="${tt('נכתבה כשהטיימר רץ', 'Written with the timer running')}">${tt('בזמן', 'Timed')}</span>` : ''}${v.final ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}${v.self_final ? html`<span class="tag ok">${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span>` : v.self ? html`<span class="tag">${tt('דירוג עצמי', 'Self-rated')}</span>` : ''}</li>`)}</ul>
       ${compareView(vs)}${deleteRow()}</div>`;
   }
 
@@ -440,12 +441,12 @@ export default async function essay(el, ctx) {
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${tt(`כתבתם את המטלה הזו ב-${wrote}`, `You wrote this assignment on ${wrote}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
+      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span>${bi(tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
   }
   // The date of a text already written for an assignment, from its summary (RW-12).
   function writtenOn(id) {
     const sum = store.get('writing', `ess:${id}`);
-    return sum?.versions ? new Date(sum.updated).toLocaleDateString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB') : null;
+    return sum?.versions ? { date: new Date(sum.updated).toLocaleDateString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB'), final: sum.status === 'final' } : null;
   }
 
   function kindPicker() {
@@ -514,7 +515,7 @@ export default async function essay(el, ctx) {
           <div class="editor-pane stack-sm">
             <label class="sr-only" for="essay">${tt('הטקסט שלך', 'Your text')}</label>
             <textarea class="input" id="essay" lang="en" dir="ltr" spellcheck="false" placeholder="${tt('כתבו כאן באנגלית…', 'Write here in English…')}">${text}</textarea>
-            <div class="editor-bar"><div class="editor-stats"><span class="num" data-wc>${wordLabel(words, refs)}</span>${minWords ? html`<span>${targetLabel()}</span>` : ''}<span class="save-slot" data-saved title="${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}" ${draftRec ? '' : html`data-off`}>${icon('check', { size: 14 })}<span class="sr-only">${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}</span></span></div>
+            <div class="editor-bar"><div class="editor-stats"><span class="num" data-wc>${wordLabel(words, refs)}</span>${minWords ? html`<span class="editor-target" data-target>${targetLabel()}</span>` : ''}<span class="save-word" data-saved title="${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}" ${draftRec || store.get('writing', `${sumId}#draft`) ? '' : html`data-off`}>${tt('נשמר', 'Saved')}</span></div>
               <div class="row editor-keys"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
                 ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || why ? html`disabled aria-describedby="ai-why"` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
@@ -542,11 +543,14 @@ export default async function essay(el, ctx) {
     return html`<span>${sum.n === 1 ? 'דבר אחד לבדוק' : `${sum.n} דברים לבדוק`}:</span> ${shown.map((x, i) => html`${i ? ', ' : ''}<span class="sum-item">${isolateLatin(x.he)}</span>`)}${sum.more ? ` ועוד ${sum.more}` : ''}.`;
   }
   // "target 1,500-2,000 (accepted 1,400-2,200)" when the stated range differs from the checked one (RW-12).
+  // Neutral until the target is reached, with the words still to go: "יעד 450-600 · עוד 288" (r4 RW-5).
   function targetLabel() {
     const n = (x) => x.toLocaleString('en-US');
     const st = task.stated_range;
-    if (st && maxWords && (st[0] !== minWords || st[1] !== maxWords)) return tt(`יעד ${n(st[0])}-${n(st[1])} (מתקבל ${n(minWords)}-${n(maxWords)})`, `target ${n(st[0])}-${n(st[1])} (accepted ${n(minWords)}-${n(maxWords)})`);
-    return `${tt('יעד', 'target')} ${n(minWords)}${maxWords ? `-${n(maxWords)}` : '+'}`;
+    const left = Math.max(0, (st?.[0] ?? minWords) - bodyWords());
+    const togo = left ? tt(` · עוד ${n(left)}`, ` · ${n(left)} to go`) : '';
+    if (st && maxWords && (st[0] !== minWords || st[1] !== maxWords)) return tt(`יעד ${n(st[0])}-${n(st[1])} (מתקבל ${n(minWords)}-${n(maxWords)})${togo}`, `target ${n(st[0])}-${n(st[1])} (accepted ${n(minWords)}-${n(maxWords)})${togo}`);
+    return `${tt('יעד', 'target')} ${n(minWords)}${maxWords ? `-${n(maxWords)}` : '+'}${togo}`;
   }
   function wordLabel(words, refs) {
     const r = refs ? countWords(refs) : 0;
@@ -563,6 +567,7 @@ export default async function essay(el, ctx) {
   // Live updates while typing, without redrawing (the textarea keeps focus).
   function refreshLive() {
     const wc = $('[data-wc]', el); if (wc) wc.textContent = wordLabel(bodyWords(), splitReferences(text).references);
+    const tg = $('[data-target]', el); if (tg) tg.textContent = targetLabel();
     const ck = $('[data-check]', el); if (ck) ck.disabled = countWords(text) < 3;
     const why = aiWhy();
     const ai = $('[data-ai]', el);
@@ -589,7 +594,7 @@ export default async function essay(el, ctx) {
     const last = vs.at(-1);
     if (last && last.text === body && !evaluation) return last;
     const n = last && last.text === body ? last.n : (last?.n || 0) + 1;
-    const rec = { id: `${sumId}#${n}`, kind: 'essay-version', exercise: task.id, n, text: body, words: countWords(splitReferences(body).body), at: new Date().toISOString(), level, topic: chosen, ...(textKind ? { text_kind: textKind } : {}), analysis: { stats: analysis?.stats, issues: analysis?.issues?.length || 0 }, evaluation: evaluation || (last?.n === n ? last.evaluation : null) };
+    const rec = { id: `${sumId}#${n}`, kind: 'essay-version', exercise: task.id, n, text: body, words: countWords(splitReferences(body).body), at: new Date().toISOString(), level, topic: chosen, ...(textKind ? { text_kind: textKind } : {}), ...(timerEnd ? { timed: true } : {}), analysis: { stats: analysis?.stats, issues: analysis?.issues?.length || 0 }, evaluation: evaluation || (last?.n === n ? last.evaluation : null) };
     store.put('writing', rec);
     cmp = null; // back to previous vs latest
     const status = store.get('writing', sumId)?.status;
