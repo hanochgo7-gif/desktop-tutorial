@@ -10,7 +10,7 @@ import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js'
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
-import { exitTarget } from '../ui/player.js';
+import { exitTarget, fitFooter, fitOnResize } from '../ui/player.js';
 import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday, logEvent, todayPlan, allCards, due, resumeStep } from '../core/learner.js';
 // The day's status comes from learner.dayStatus when it exists (contract (a), today-path TP-1), read through the
 // namespace so this module still loads before that export lands.
@@ -511,9 +511,11 @@ export default async function lessonView(el, ctx) {
     const step = stage === 'practice' || stage === 'part' ? stepInfo(queue, qi) : null;
     const pct = stage === 'intro' ? 0 : stage === 'learn' ? 6 : stage === 'review' ? 100 : stepPct(step);
     if (!$('.player > .player-top', el)) {
-      render(el, html`<div class="player">
+      // The exit key shows its word at 100-115% text and only its icon at 130% and above (r4 LF-13); the top is
+      // one row at large text and stays on screen below it (LF-3, CSS).
+      render(el, html`<div class="player lesson-player">
         <div class="player-top">
-          <button type="button" class="key ghost small icon-only" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}</button>
+          <button type="button" class="key ghost small exit-key" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}<span class="exit-label" aria-hidden="true">${tt('יציאה', 'Exit')}</span></button>
           <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="${tt('התקדמות בשיעור', 'Lesson progress')}"><span style="width:0%"></span></div>
           <span class="top-meta"></span>
           <a class="key ghost small icon-only" href="#/help" aria-label="${tt('עזרה', 'Help')}">${icon('info', { size: 18 })}</a>
@@ -834,6 +836,7 @@ export default async function lessonView(el, ctx) {
       if (right >= 0 && total > 0) render(title, html`${icon('info', { size: 18 })} ${item.ex.type === 'read' ? tt(`${right} מתוך ${total} נכונות`, `${right} of ${total} right`) : tt(`${right} מתוך ${total} במקום הנכון`, `${right} of ${total} in the right place`)}`);
     }
     if (!r.correct && r.error_type) addPitfallWhy(foot, r.error_type);
+    fitFooter(foot);
     $('[data-next]', el)?.focus();
   }
   function addPitfallWhy(foot, type) {
@@ -862,6 +865,7 @@ export default async function lessonView(el, ctx) {
     foot.className = 'player-foot almost';
     render(foot, html`<div class="inner"><div class="verdict" role="status"><div class="verdict-title">${icon('info', { size: 18 })} ${tt('עוד לא. אפשר לתקן בעצמכם', 'Not yet. You can fix it yourself')}</div><div class="verdict-body"><p>${note}</p></div></div>
       <button type="button" class="key ghost" data-show-answer>${tt('להציג את התשובה', 'Show the answer')}</button><button type="button" class="key enter" data-try-again>${tt('לנסות שוב', 'Try again')} <span class="kbd">Enter</span></button></div>`);
+    fitFooter(foot);
     $('[data-try-again]', el)?.focus();
   }
   function tryAgain() {
@@ -897,6 +901,7 @@ export default async function lessonView(el, ctx) {
     const foot = $('#pfoot', el);
     foot.className = 'player-foot ok';
     render(foot, html`<div class="inner"><div class="verdict" role="status">${selfJudgedHtml(checked)}</div><button type="button" class="key enter" data-next>${t('continue')} <span class="kbd">Enter</span></button></div>`);
+    fitFooter(foot);
     frameCounter();
     $('[data-next]', el)?.focus();
   }
@@ -1130,5 +1135,6 @@ export default async function lessonView(el, ctx) {
     btn.click();
   };
   document.addEventListener('keydown', onKey);
-  return () => { offs.forEach((o) => o()); document.removeEventListener('keydown', onKey); ctl?.destroy?.(); stopSpeaking(); heAllApply(false); };
+  const offResize = fitOnResize(el);
+  return () => { offs.forEach((o) => o()); offResize(); document.removeEventListener('keydown', onKey); ctl?.destroy?.(); stopSpeaking(); heAllApply(false); };
 }

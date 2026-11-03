@@ -18,14 +18,44 @@ export function exitTarget(from, fallback = 'today') {
   return back || (String(fallback).startsWith('#') ? fallback : `#/${fallback}`);
 }
 
+// The result footer never takes more than 45% of the screen (r4 LF-3): the verdict scrolls inside it, with a
+// fade and a "More" cue at its foot while there is more below. Called after every footer render, and again when
+// "Why?" opens or the window changes size.
+export const FOOT_SHARE = 0.45;
+export function fitFooter(foot) {
+  const v = foot?.querySelector('.verdict');
+  if (!v) return;
+  v.style.maxHeight = '';
+  v.dataset.more = tt('עוד', 'More');
+  const over = foot.getBoundingClientRect().height - Math.floor(innerHeight * FOOT_SHARE);
+  if (over > 0) v.style.maxHeight = `${Math.max(48, Math.floor(v.getBoundingClientRect().height - over))}px`;
+  const mark = () => {
+    const extra = v.scrollHeight - v.clientHeight;
+    v.classList.toggle('fade', extra > 2 && v.scrollTop < extra - 2);
+  };
+  mark();
+  if (!v.dataset.fitted) {
+    v.dataset.fitted = '1';
+    v.addEventListener('scroll', mark, { passive: true });
+    v.addEventListener('toggle', () => fitFooter(foot), true);
+  }
+}
+// One resize listener per player screen: the footer is fitted again when the window changes size.
+export function fitOnResize(el) {
+  const fit = () => fitFooter(el.querySelector('#pfoot'));
+  addEventListener('resize', fit);
+  return () => removeEventListener('resize', fit);
+}
+
 export function runSet(el, items, { title, source, unassisted = false, exitHref = '#/today', errors = null, onDone }) {
   let i = 0; let ctl = null; let shownAt = 0; let hintUsed = false; let checked = null; let lastAttempt = null; let token = 0;
   const results = [];
   const variant = settings().english_variant;
 
   function frame(body, foot) {
-    render(el, html`<div class="player">
-      <div class="player-top counting"><a class="key ghost small icon-only" href="${exitHref}" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}</a>
+    // The same top and footer as the lesson player (r4 LF-3, LF-13): the exit key with its word, one row at large text.
+    render(el, html`<div class="player lesson-player">
+      <div class="player-top counting"><a class="key ghost small exit-key" href="${exitHref}" aria-label="${tt('יציאה', 'Exit')}">${icon('x')}<span class="exit-label" aria-hidden="true">${tt('יציאה', 'Exit')}</span></a>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${i}" aria-label="${title}"><span style="width:${(i / items.length) * 100}%"></span></div>
         <span class="top-meta is-count"><span class="step-count">${t('of', { a: Math.min(i + 1, items.length), b: items.length })}</span></span></div>
       <div class="player-body">${body}</div>

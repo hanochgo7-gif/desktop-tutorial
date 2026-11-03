@@ -1680,6 +1680,47 @@ table.data td:has(> .row-say) { white-space: nowrap; }
    ================================================================ */
 
 /* ---- lane r4-lesson-flow: start ---- */
+/* The exit key (LF-13): the word beside the icon at 100-115% text, the icon alone at 130% and above; 44 px tall. */
+.lesson-player .player-top .exit-key { flex: none; min-height: 44px; padding-inline: 0.55rem; gap: var(--s1); --key-bg: transparent; border-color: transparent; }
+.lesson-player .player-top .exit-key .exit-label { font-size: var(--t-sm); font-weight: 500; }
+/* The lesson top (LF-3). Below 130% it stays on screen while the page scrolls, so the exit and the bar are
+   there after Check. At 130-150% text and on narrow phones it is one row: exit, the bar with the counter inline
+   after it, help. Its keys keep a 44 px target in px, so large text does not make the row taller. */
+:root:not([data-text='130'], [data-text='150']) .lesson-player > .player-top { position: sticky; top: 0; z-index: 6; background: var(--ground); box-shadow: 0 0 0 100vmax var(--ground); clip-path: inset(0 -100vmax); }
+@media (max-width: 30rem) {
+  .lesson-player .player-top.counting { flex-wrap: nowrap; gap: var(--s2); }
+  .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+  .lesson-player .player-top.counting .progress { min-width: 0; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top { flex-wrap: nowrap; gap: var(--s1); padding-block: 6px; padding-inline: var(--s3); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top.counting .progress { min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top :is(.key.icon-only, .exit-key) { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .exit-key .exit-label { display: none; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .step-count { font-size: var(--t-xs); }
+/* The footer (LF-3): never more than 45% of the screen (player.js fitFooter caps the verdict, which scrolls with a
+   fade and a "More" cue while there is more below). At large text and on narrow phones "Show the answer" is a text
+   link beside "Try again", and "Hint" and "I don't know" share one row of compact keys. */
+.lesson-player .player-foot { --foot-bg: var(--ground); }
+.lesson-player .player-foot:is(.ok, .bad, .almost) { --foot-bg: var(--key); }
+.lesson-player .player-foot.shown { --foot-bg: var(--key-sunk); }
+.lesson-player .player-foot .verdict.fade::after {
+  content: attr(data-more) ' ↓'; position: sticky; bottom: 0; display: block; height: 2.2rem; margin-block-start: -1.4rem; padding-block-start: 1rem;
+  background: linear-gradient(to bottom, transparent, var(--foot-bg) 55%); color: var(--ink-2); font-size: var(--t-xs); font-weight: 500; text-align: center; pointer-events: none;
+}
+@media (max-width: 30rem) {
+  .lesson-player .player-foot .verdict { max-height: 40dvh; }
+  .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+  .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+  .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; padding-inline: var(--s2); white-space: normal; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot { padding-block: var(--s2) calc(var(--s2) + env(safe-area-inset-bottom)); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner { gap: var(--s2); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .verdict { max-height: 40dvh; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .key { min-height: max(44px, 2.4rem); padding-inline: 0.6rem; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
 
 /* ---- lane r4-lesson-flow: end ---- */
 

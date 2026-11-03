@@ -247,6 +247,66 @@ try {
     await ctx.close();
   });
 
+  // ---------- LF-3: the lesson chrome at large text ----------
+  for (const [w, h] of [[320, 568], [390, 844]]) {
+    await check(`LF-3 ${w}x${h} at 150% text: the top is one row (64 px at most), and after a wrong check the footer stays within 45% with the verdict scrolling and a gap still in view`, async () => {
+      const { ctx, page } = await newPage(browser, { width: w, height: h });
+      await learnerAt(page, 'A2', { text: 150, minutes: 50 });
+      await page.goto(`${BASE}#/lesson/a2-01?stage=practice`);
+      await page.waitForSelector('#exroot');
+      const top = await page.$eval('.player-top', (t) => t.getBoundingClientRect().height);
+      assert(top <= 64, `the player top is ${top}px`);
+      await shot(page, `lf3-top-${w}`);
+      await lessonAt(page, 'a1-01', 'e7');
+      await typeAndCheck(page, ['zzz']);
+      await page.evaluate(() => document.activeElement?.blur());
+      const r = await page.evaluate(() => {
+        const foot = document.querySelector('#pfoot');
+        const v = foot.querySelector('.verdict');
+        const ft = foot.getBoundingClientRect().top;
+        const gaps = [...document.querySelectorAll('#exroot .gap-input')].map((g) => g.getBoundingClientRect());
+        const over = v.scrollHeight - v.clientHeight > 2;
+        const out = { foot: foot.getBoundingClientRect().height, ih: innerHeight, over, fade: v.classList.contains('fade'), scrolls: getComputedStyle(v).overflowY, gapInView: gaps.some((g) => g.top >= 0 && g.bottom <= ft) };
+        if (over) { v.scrollTop = v.scrollHeight; out.reached = Math.abs(v.scrollTop + v.clientHeight - v.scrollHeight) < 2; }
+        return out;
+      });
+      assert(r.foot <= 0.45 * r.ih + 0.5, `the footer is ${Math.round(r.foot)}px of ${r.ih}`);
+      assert(!r.over || (r.fade && ['auto', 'scroll'].includes(r.scrolls) && r.reached), `the verdict overflows without a fade or a scroll: ${JSON.stringify(r)}`);
+      assert(r.gapInView, 'no gap input is fully visible above the footer');
+      await page.waitForTimeout(50);
+      assert(!r.over || !(await page.$eval('#pfoot .verdict', (v) => v.classList.contains('fade'))), 'the fade stays at the end of the verdict');
+      await shot(page, `lf3-second-try-${w}`);
+      await ctx.close();
+    });
+  }
+  await check('LF-3 at 100% text the exit key stays on screen after Check (a1-01 e2)', async () => {
+    const { ctx, page } = await newPage(browser, { width: 390, height: 844 });
+    await learnerAt(page, 'A1');
+    await lessonAt(page, 'a1-01', 'e2');
+    await solve(page, lessonJson('a1-01').exercises, false);
+    await page.click('[data-check]:not([disabled])');
+    await page.waitForSelector('[data-next]');
+    await page.evaluate(() => window.scrollTo(0, document.scrollingElement.scrollHeight));
+    await page.waitForTimeout(100);
+    const top = await page.$eval('[data-exit]', (b) => b.getBoundingClientRect().top);
+    assert(top >= 0, `the exit key is at ${top}px`);
+    await ctx.close();
+  });
+
+  // ---------- LF-13: the exit shows a word ----------
+  await check('LF-13 at 390 and 100% text the exit key shows "יציאה" and is at least 44 px tall; at 150% it is the icon alone', async () => {
+    const { ctx, page } = await newPage(browser, { width: 390, height: 844 });
+    await learnerAt(page, 'A2');
+    await page.goto(`${BASE}#/lesson/a2-01?stage=practice`);
+    await page.waitForSelector('#exroot');
+    const k = await page.$eval('[data-exit]', (b) => ({ text: b.innerText.trim(), h: b.getBoundingClientRect().height, label: b.getAttribute('aria-label') }));
+    assert(k.text.includes('יציאה') && k.h >= 44 && /יציאה/.test(k.label), `exit key: ${JSON.stringify(k)}`);
+    await page.evaluate(() => { document.documentElement.dataset.text = '150'; });
+    const big = await page.$eval('[data-exit]', (b) => ({ text: b.innerText.trim(), w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height }));
+    assert(!big.text && big.h >= 44 && big.w >= 44, `at 150%: ${JSON.stringify(big)}`);
+    await ctx.close();
+  });
+
   // ---------- LF-14: a short writing draft is amber ----------
   await check('LF-14 b1-01 e16 saved at 40 words: the result footer is amber ("almost"), not green', async () => {
     const { ctx, page } = await newPage(browser);
