@@ -5,624 +5,728 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sayeret Nahal Alumni</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="עמותת בוגרי סיירת נח&quot;ל: ליווי לוחמים, פצועים ומשפחות שכולות של היחידה, גם אחרי השירות. Sayeret Nahal Alumni Association — support for the unit's veterans and their families.">
-<meta property="og:title" content="עמותת בוגרי סיירת נח&quot;ל · Sayeret Nahal Alumni Association">
-<meta property="og:description" content="פעם משפחה, תמיד משפחה. Once a family, always a family.">
+<meta name="description" content="עמותת בוגרי סיירת נח&quot;ל: ליווי אישי וארוך טווח ללוחמי היחידה, לפצועים ולמשפחות השכולות, מאז 1993. Sayeret Nahal Alumni Association: long-term care for the unit's veterans, wounded and bereaved families.">
+<meta property="og:title" content="בסיירת סופרים את כולם · Sayeret Nahal Alumni Association">
+<meta property="og:description" content="איפה שהתמיכה הרשמית נגמרת, אנחנו מתחילים. Where official support ends, we begin.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@400;600;700;800&display=swap">
 <style>
-/* Layout: editorial single column on ivory, olive bands for the two moments that ask for action (hero CTA, donate panel). */
+/* Concept: "the trek". The page reads as one journey: a Negev ridgeline opens it, a dotted trail threads the chapters, and the front ridge dissolves into the dark band where the story turns serious. Ivory for calm, olive for the moments that ask something of you. */
 :root{
-  --ivory:#f7f5ee; --paper:#fffdf7; --olive:#3f4f2a; --olive-deep:#2c3a1c; --sage:#a9b596; --sage-soft:#e6eadc;
-  --ink:#1f2419; --muted:#5b6250; --line:#d9dccb; --gold:#8a7b3c;
-  --display:"Frank Ruhl Libre","Times New Roman",serif;
+  --ivory:#f6f4ec; --paper:#fffdf6; --olive:#3d4c29; --olive-deep:#253217; --night:#1c2612;
+  --sage:#a3b08d; --sage-mid:#c9d0b5; --sage-soft:#e4e8d8;
+  --ink:#1d2218; --muted:#555c4a; --line:#d6d9c6; --edge:#7d8370;
+  --gold:#75682f; --gold-on-dark:#e9dca4; --on-dark:#e7ecdb; --on-dark-muted:#bcc5a8;
+  --display:"Frank Ruhl Libre","Times New Roman",Georgia,serif;
   --body:"Assistant","Segoe UI",Arial,sans-serif;
-  --r:14px; --max:1080px;
+  --r:16px; --max:1120px; --header:68px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{background:var(--ivory);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65}
+body{background:var(--ivory);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
 .wrap{max-width:var(--max);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0;color:var(--olive-deep)}
-h2{font-size:clamp(28px,4vw,40px);font-weight:700}
-h3{font-size:22px;font-weight:700}
+h1,h2,h3{font-family:var(--display);line-height:1.12;text-wrap:balance;margin:0;color:var(--olive-deep)}
+h2{font-size:clamp(30px,4.4vw,48px);font-weight:700}
+h3{font-size:23px;font-weight:700}
 p{margin:0}
 a{color:var(--olive)}
+img{max-width:100%}
+[id]{scroll-margin-top:calc(var(--header) + 12px)}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
-.eyebrow{font-family:var(--body);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.lead{font-size:clamp(18px,2.1vw,21px);color:var(--muted);max-width:62ch}
-section{padding-block:clamp(56px,8vw,96px)}
-.stack{display:grid;gap:18px}
+.dark :focus-visible{outline-color:var(--gold-on-dark)}
+.label{font-weight:800;font-size:14px;color:var(--gold)}
+[lang="en"] .label{letter-spacing:.1em;text-transform:uppercase;font-size:13px}
+.dark .label{color:var(--gold-on-dark)}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--muted);max-width:60ch}
+.dark .lead{color:var(--on-dark-muted)}
+section{padding-block:clamp(64px,9vw,112px)}
+.head{display:grid;gap:14px;max-width:760px}
+.skip{position:absolute;inset-inline-start:12px;top:-60px;background:var(--olive);color:#fff;padding:10px 16px;border-radius:10px;z-index:60;font-weight:700}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 10px)}
 
-/* header */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;gap:16px;min-height:66px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--olive-deep);font-family:var(--display);font-weight:700;font-size:18px;line-height:1.1;min-width:0}
-.brand img{width:52px;height:auto;flex:none}
-.brand span{overflow:hidden;text-overflow:ellipsis}
-.top nav{margin-inline-start:auto;display:flex;align-items:center;gap:10px}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
-.lang button{border:0;background:none;font:600 14px var(--body);padding:7px 12px;cursor:pointer;color:var(--muted)}
-.lang button[aria-pressed="true"]{background:var(--olive);color:#fff}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 24px;font:700 17px var(--body);text-decoration:none;cursor:pointer;border:2px solid var(--olive);transition:background .15s,color .15s}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:999px;padding:12px 26px;font:800 17px var(--body);text-decoration:none;cursor:pointer;border:2px solid var(--olive);transition:background .18s,color .18s,transform .18s;text-align:center}
 .btn-primary{background:var(--olive);color:#fff}
 .btn-primary:hover{background:var(--olive-deep);border-color:var(--olive-deep)}
 .btn-ghost{background:transparent;color:var(--olive)}
 .btn-ghost:hover{background:var(--sage-soft)}
-.btn-sm{padding:8px 16px;font-size:15px}
-@media (max-width:560px){.brand span{display:none}.top .btn-sm{padding:8px 14px}}
+.btn-light{background:var(--gold-on-dark);border-color:var(--gold-on-dark);color:var(--night)}
+.btn-light:hover{background:#fff;border-color:#fff}
+.btn:active{transform:translateY(1px)}
+.btn .arr{display:inline-block;transition:transform .18s}
+.btn:hover .arr{transform:translateX(3px)}
+[dir="rtl"] .btn .arr{transform:scaleX(-1)}
+[dir="rtl"] .btn:hover .arr{transform:scaleX(-1) translateX(3px)}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:var(--paper)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:var(--header)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--olive-deep);font-family:var(--display);font-weight:700;font-size:18px;line-height:1.1;min-width:0}
+.brand img{width:50px;height:auto;flex:none}
+.top nav{margin-inline-start:auto;display:flex;align-items:center;gap:10px}
+.lang{display:inline-flex;border:1px solid var(--edge);border-radius:999px;overflow:hidden;background:var(--paper)}
+.lang button{border:0;background:none;font:700 15px var(--body);min-width:48px;min-height:44px;padding:0 12px;cursor:pointer;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--olive);color:#fff}
+.top .btn{min-height:44px;padding:8px 20px;font-size:16px}
+.progress{position:absolute;inset-inline:0;bottom:-1px;height:2px;background:repeating-linear-gradient(90deg,var(--olive) 0 6px,transparent 6px 12px);transform-origin:left;transform:scaleX(0)}
+[dir="rtl"] .progress{transform-origin:right}
+@supports (animation-timeline: scroll()){
+  .progress{animation:grow linear both;animation-timeline:scroll(root)}
+  @keyframes grow{to{transform:scaleX(1)}}
+}
+@media (max-width:600px){.brand span{display:none}}
 
 /* hero */
-.hero{padding-block:clamp(40px,7vw,84px) clamp(48px,7vw,80px)}
-.hero .wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:clamp(28px,5vw,64px);align-items:center}
-.hero h1{font-size:clamp(40px,6.4vw,74px);font-weight:900;letter-spacing:-.01em}
-.hero h1 em{font-style:normal;color:var(--gold)}
-.hero .lead{margin-top:20px}
+.hero{position:relative;padding-block:clamp(28px,4.5vw,56px) 0;overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.35fr .8fr;gap:clamp(24px,5vw,56px);align-items:center;position:relative;z-index:2}
+.hero h1{font-size:clamp(40px,5.4vw,70px);font-weight:900;letter-spacing:-.015em}
+.hero h1 .l2{display:block;color:var(--gold);font-weight:700}
+.hero .lead{margin-top:22px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.hero figure{margin:0;justify-self:center}
-.hero figure img{width:min(420px,100%);filter:drop-shadow(0 18px 30px rgba(44,58,28,.18))}
-@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero figure{order:-1}.hero figure img{width:min(300px,80vw)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:15px;color:var(--muted);padding:0;list-style:none}
+.chips li{display:flex;align-items:center;gap:8px}
+.chips li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage);flex:none}
+.medal{justify-self:center;margin:0}
+.medal img{width:min(340px,100%);filter:drop-shadow(0 20px 34px rgba(37,50,23,.2))}
+.ridges{margin-bottom:-2px;display:block;width:100%;height:clamp(150px,24vw,380px);margin-top:clamp(8px,3vw,24px);position:relative;z-index:1}
+@media (max-width:820px){.hero .grid{grid-template-columns:1fr}.medal{display:none}}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: scroll()){
+    .ridges .r1{animation:drift1 linear both;animation-timeline:scroll(root);animation-range:0 90vh}
+    .ridges .r2{animation:drift2 linear both;animation-timeline:scroll(root);animation-range:0 90vh}
+    @keyframes drift1{to{transform:translateY(46px)}}
+    @keyframes drift2{to{transform:translateY(22px)}}
+  }
+}
 
-/* facts strip */
-.facts{background:var(--olive-deep);color:#eef1e4;padding-block:34px}
-.facts dl{margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.facts div{min-width:0}
-.facts dt{font-family:var(--display);font-weight:900;font-size:clamp(30px,4vw,44px);color:#fff;line-height:1}
-.facts dd{margin:8px 0 0;font-size:15px;color:#cfd6bf}
-.facts .src{margin-top:18px;font-size:13px;color:#aab394}
-.facts .src a{color:#dfe5cf}
-@media (max-width:760px){.facts dl{grid-template-columns:repeat(2,1fr)}}
+/* urgency band */
+.dark{background:var(--olive-deep);color:var(--on-dark)}
+.dark h2,.dark h3{color:#fff}
+.now{padding-top:clamp(24px,4vw,40px);margin-top:-2px}
+.now .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,72px);align-items:end}
+.big41{font-family:var(--display);font-weight:900;font-size:clamp(120px,22vw,260px);line-height:.82;color:#fff;letter-spacing:-.03em;font-variant-numeric:lining-nums}
+.now .caption{margin-top:18px;font-size:clamp(19px,2.2vw,23px);color:var(--on-dark);max-width:34ch}
+.now dl{margin:0;display:grid;gap:0}
+.now dl div{padding-block:20px;border-top:1px solid rgba(231,236,219,.22)}
+.now dl div:last-child{border-bottom:1px solid rgba(231,236,219,.22)}
+.now dt{font-family:var(--display);font-weight:700;font-size:clamp(34px,4vw,46px);color:var(--gold-on-dark);line-height:1}
+.now dd{margin:6px 0 0;color:var(--on-dark-muted);font-size:17px}
+.now .src{margin-top:28px;font-size:14px;color:var(--on-dark-muted)}
+@media (max-width:820px){.now .grid{grid-template-columns:1fr}}
 
-/* about */
-.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,64px);align-items:start}
-.split .body{display:grid;gap:16px;max-width:64ch}
-@media (max-width:820px){.split{grid-template-columns:1fr}}
-blockquote{margin:0;border-inline-start:4px solid var(--sage);padding:6px 20px;font-family:var(--display);font-size:22px;color:var(--olive-deep)}
+/* uniform split */
+.split-story{padding-block:0}
+.uniform{display:grid;grid-template-columns:1fr 1fr}
+.uniform > div{padding:clamp(48px,8vw,104px) clamp(20px,5vw,72px);display:grid;gap:16px;align-content:center;min-height:min(70vh,560px)}
+.uniform .in{background:var(--night);color:var(--on-dark)}
+.uniform .out{background:var(--paper)}
+.uniform .in h2{color:#fff}
+.uniform .in p{color:var(--on-dark-muted)}
+.uniform .out p{color:var(--muted)}
+.uniform h2{font-size:clamp(36px,5vw,60px);font-weight:900}
+@media (max-width:760px){.uniform{grid-template-columns:1fr}.uniform>div{min-height:0}}
 
-/* programs */
-.programs{background:var(--paper);border-block:1px solid var(--line)}
-.flag{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--sage-soft);border-radius:var(--r);padding:clamp(22px,4vw,40px);margin-top:36px}
-.flag .num{font-family:var(--display);font-size:clamp(34px,5vw,52px);font-weight:900;color:var(--olive-deep);line-height:1}
-.flag ul{margin:0;padding-inline-start:20px;display:grid;gap:6px}
-@media (max-width:760px){.flag{grid-template-columns:1fr}}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}
-.card{background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:8px;align-content:start}
-.card p{color:var(--muted)}
-@media (max-width:640px){.cards{grid-template-columns:1fr}}
+/* who */
+.who .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);align-items:start;margin-top:36px}
+.who .body{display:grid;gap:16px;color:var(--muted)}
+.who .facts{margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.who .facts div{border-top:2px solid var(--olive);padding-top:12px;min-width:0}
+.who .facts dt{font-family:var(--display);font-weight:900;font-size:clamp(34px,4vw,46px);color:var(--olive-deep);line-height:1}
+.who .facts dd{margin:8px 0 0;font-size:15px;color:var(--muted)}
+figure.quote{margin:28px 0 0;padding:24px 28px;background:var(--sage-soft);border-radius:var(--r)}
+figure.quote blockquote{margin:0;font-family:var(--display);font-size:clamp(21px,2.4vw,26px);line-height:1.4;color:var(--olive-deep)}
+figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
+@media (max-width:820px){.who .grid{grid-template-columns:1fr}}
+@media (max-width:420px){.who .facts{grid-template-columns:1fr 1fr}}
+
+/* pillars on a trail */
+.pillars{background:var(--paper);border-block:1px solid var(--line)}
+.trail{list-style:none;margin:44px 0 0;padding:0;position:relative;display:grid;gap:20px}
+.trail::before{content:"";position:absolute;inset-block:18px 18px;inset-inline-start:23px;border-inline-start:2px dashed var(--sage)}
+.trail li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:22px}
+.trail .pin{width:48px;height:48px;border-radius:50%;background:var(--paper);border:2px solid var(--olive);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:20px;color:var(--olive);position:relative;z-index:1}
+.trail .card{background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:1fr auto;gap:8px 28px;align-items:start;min-width:0}
+.trail .card .tag{grid-column:1/-1;font-size:14px;font-weight:800;color:var(--gold)}
+.trail .card h3{grid-column:1}
+.trail .card p{grid-column:1;color:var(--muted)}
+.trail .card p.stat{grid-column:2;grid-row:2/4;text-align:end;min-width:120px;align-self:center}
+.trail .stat b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(40px,5vw,56px);line-height:1;color:var(--olive-deep);font-variant-numeric:lining-nums}
+.trail .stat span{display:block;font-size:14px;color:var(--muted);margin-top:6px;max-width:16ch;margin-inline-start:auto}
+@media (max-width:640px){.trail .card{grid-template-columns:1fr}.trail .card p.stat{grid-column:1;grid-row:auto;text-align:start}.trail .stat span{margin-inline-start:0}.trail li{grid-template-columns:36px 1fr;gap:14px}.trail .pin{width:36px;height:36px;font-size:16px}.trail::before{inset-inline-start:17px}}
+.note{font-size:14px;color:var(--muted);margin-top:16px}
+.dark .note{color:var(--on-dark-muted)}
 
 /* donate */
-.donate{background:var(--olive);color:#fff}
-.donate h2{color:#fff}
-.donate .lead{color:#dde3cf}
-.panel{background:var(--paper);color:var(--ink);border-radius:20px;padding:clamp(20px,4vw,36px);margin-top:30px;display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,4vw,40px);box-shadow:0 24px 50px rgba(20,28,10,.25)}
-@media (max-width:820px){.panel{grid-template-columns:1fr}}
-.field{border:0;margin:0 0 20px;padding:0;min-width:0}
-.field legend{font-weight:700;margin-bottom:10px;padding:0}
-.seg{display:inline-flex;flex-wrap:wrap;gap:8px}
-.seg button,.amts button{font:600 16px var(--body);border:1.5px solid var(--line);background:var(--ivory);color:var(--ink);border-radius:12px;padding:10px 16px;cursor:pointer;font-variant-numeric:tabular-nums}
-.seg button[aria-pressed="true"],.amts button[aria-pressed="true"]{border-color:var(--olive);background:var(--olive);color:#fff}
-.amts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.amts button{padding:16px 10px;font-size:19px}
-.other{display:flex;align-items:center;gap:8px;margin-top:10px}
-.other input{width:100%;max-width:200px;font:600 17px var(--body);padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
-.impact{background:var(--sage-soft);border-radius:12px;padding:12px 16px;font-size:15px;color:var(--olive-deep);margin-bottom:18px}
-.go{width:100%;font-size:19px;padding:16px}
-.note{font-size:14px;color:var(--muted);margin-top:10px}
-.side{display:grid;gap:18px;align-content:start;font-size:15px}
-.side h3{font-size:19px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-variant-numeric:tabular-nums}
-.kv dt{color:var(--muted)}
-.kv dd{margin:0;font-weight:700}
-.copy{font:600 13px var(--body);border:1px solid var(--line);background:var(--ivory);border-radius:8px;padding:4px 10px;cursor:pointer;color:var(--olive)}
-.trust{display:flex;flex-wrap:wrap;gap:8px}
-.trust span{font-size:13px;font-weight:600;background:var(--ivory);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--olive-deep)}
+.donate{background:var(--olive)}
+.donate .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);margin-top:40px;align-items:start}
+@media (max-width:880px){.donate .grid{grid-template-columns:1fr}}
+.ladder{list-style:none;margin:0;padding:0;border-top:1px solid rgba(231,236,219,.3)}
+.ladder li{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;padding-block:18px;border-bottom:1px solid rgba(231,236,219,.3);align-items:baseline}
+.ladder .amt{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,38px);color:#fff;font-variant-numeric:lining-nums;min-width:4.6ch}
+.ladder .what{color:var(--on-dark)}
+.ladder a{grid-column:2;font-weight:700;font-size:15px;color:var(--gold-on-dark);text-underline-offset:4px}
+.pay{background:var(--paper);color:var(--ink);border-radius:22px;padding:clamp(22px,3.6vw,36px);display:grid;gap:20px;box-shadow:0 30px 60px rgba(18,26,8,.3)}
+.dark .pay h3{font-size:26px;color:var(--olive-deep)}
+.pay .curr{display:grid;gap:12px}
+.pay .curr .btn{width:100%;min-height:58px;font-size:19px;justify-content:space-between}
+.pay .curr .btn small{font-weight:600;font-size:14px;opacity:.85}
+@media (max-width:480px){.pay .curr .btn{flex-direction:column;gap:0;justify-content:center;padding-block:10px}}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:16px;color:var(--muted);counter-increment:s}
+.steps li::before{content:counter(s);width:30px;height:30px;border-radius:50%;background:var(--sage-soft);color:var(--olive-deep);display:grid;place-items:center;font-weight:800;font-size:15px}
+.steps b{color:var(--ink)}
+.secure{display:flex;flex-wrap:wrap;gap:8px}
+.secure span{font-size:14px;font-weight:700;background:var(--ivory);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--olive-deep)}
+.pay .fine{font-size:14px;color:var(--muted)}
+.other{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.other > div{background:rgba(255,253,246,.07);border:1px solid rgba(231,236,219,.22);border-radius:var(--r);padding:20px;display:grid;gap:8px;align-content:start;font-size:16px;color:var(--on-dark);min-width:0}
+.other h3{font-size:19px}
+.other a{color:var(--gold-on-dark)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-variant-numeric:tabular-nums}
+.kv dt{color:var(--on-dark-muted)}
+.kv dd{margin:0;font-weight:700;min-width:0;overflow-wrap:anywhere}
+.copy{font:700 14px var(--body);min-height:36px;border:1px solid currentColor;background:transparent;border-radius:10px;padding:4px 12px;cursor:pointer;color:inherit;margin-inline-start:6px}
+@media (max-width:880px){.other{grid-template-columns:1fr}}
 
 /* adopt */
-.adopt .wrap{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;border:2px solid var(--olive);border-radius:20px;padding:clamp(22px,4vw,40px)}
-@media (max-width:760px){.adopt .wrap{grid-template-columns:1fr}}
+.adopt .box{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;border:2px solid var(--olive);border-radius:24px;padding:clamp(24px,4vw,44px);background:var(--paper)}
+@media (max-width:760px){.adopt .box{grid-template-columns:1fr}}
 
 /* transparency */
-.table-wrap{overflow-x:auto;margin-top:26px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper)}
-table{border-collapse:collapse;width:100%;min-width:480px;font-variant-numeric:tabular-nums}
-th,td{padding:14px 18px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
-tr:last-child th,tr:last-child td{border-bottom:0}
-th{font-weight:600;color:var(--muted);width:40%}
+.money .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);margin-top:36px;align-items:start}
+@media (max-width:880px){.money .grid{grid-template-columns:1fr}}
+.bars{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.bars li{display:grid;gap:6px;font-size:16px}
+.bars .row{display:flex;justify-content:space-between;gap:12px}
+.bars b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bars .track{height:12px;border-radius:6px;background:var(--sage-soft);overflow:hidden}
+.bars .fill{display:block;height:100%;border-radius:6px;background:var(--olive)}
+.bars .ops .fill{background:var(--sage)}
+.ops-note{margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--sage-soft);font-size:16px;color:var(--olive-deep)}
+.reg{margin:0;display:grid;border-top:1px solid var(--line)}
+.reg div{display:grid;grid-template-columns:minmax(0,14ch) 1fr;gap:12px;padding-block:13px;border-bottom:1px solid var(--line);font-size:16px}
+.reg dt{color:var(--muted)}
+.reg dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;min-width:0}
+@media (max-width:480px){.reg div{grid-template-columns:1fr;gap:2px}}
 
 /* faq */
-.faq{display:grid;gap:10px;margin-top:26px;max-width:820px}
-details{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:0 20px}
-summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq{display:grid;gap:10px;margin-top:32px;max-width:820px}
+details{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:0 20px}
+summary{cursor:pointer;font-weight:800;padding:18px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:44px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:22px;line-height:1;color:var(--olive)}
+summary::after{content:"+";font-size:24px;line-height:1;color:var(--olive);flex:none}
 details[open] summary::after{content:"–"}
-details p{padding-bottom:16px;color:var(--muted)}
+details p{padding-bottom:18px;color:var(--muted)}
 
 /* closing */
-.closing{text-align:center}
-.closing .wrap{display:grid;justify-items:center;gap:18px}
-.closing h2{font-size:clamp(32px,5vw,52px)}
-.contact{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:8px;font-size:16px}
-.contact b{font-variant-numeric:tabular-nums;user-select:all}
-footer{border-top:1px solid var(--line);padding-block:28px;font-size:14px;color:var(--muted)}
+.closing{text-align:center;position:relative;overflow:hidden}
+.closing .wrap{display:grid;justify-items:center;gap:20px}
+.closing h2{font-size:clamp(38px,6vw,72px);font-weight:900}
+.closing .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.contacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;width:100%;max-width:900px;text-align:start}
+.contacts > div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0;font-size:16px}
+.contacts b{display:block;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;user-select:all}
+.contacts a{font-size:15px;font-weight:700;display:inline-block;margin:8px 0 0;margin-inline-end:12px}
+.contacts .copy{color:var(--olive);margin:6px 0 0}
+@media (max-width:760px){.contacts{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding-block:28px calc(28px + 76px);font-size:14px;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
-img{max-width:100%}[hidden]{display:none!important}body{margin:0}
+@media (min-width:821px){footer{padding-bottom:28px}}
 
-/* additions: pillars, impact ladder, budget bars */
-.pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
-@media (max-width:760px){.pillars{grid-template-columns:1fr}}
-.pillar{background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:12px;align-content:start;min-width:0}
-.pillar .tag{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--gold)}
-.pillar .big{font-family:var(--display);font-weight:900;font-size:36px;line-height:1;color:var(--olive-deep);font-variant-numeric:tabular-nums}
-.pillar .big small{font-family:var(--body);font-size:15px;font-weight:600;color:var(--muted);margin-inline-start:8px}
-.pillar p{color:var(--muted)}
-.pillar .budget{font-size:14px;font-weight:700;color:var(--olive);border-top:1px dashed var(--line);padding-top:10px}
-.ladder{margin-top:28px;display:grid;border-top:2px solid var(--olive-deep)}
-.rung{display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:center;padding-block:18px;border-bottom:1px solid var(--line)}
-.rung .amt{font-family:var(--display);font-weight:900;font-size:32px;color:var(--olive-deep);font-variant-numeric:tabular-nums}
-.rung .what{min-width:0}
-@media (max-width:640px){.rung{grid-template-columns:1fr;gap:6px}}
-.bars{margin-top:26px;display:grid;gap:12px;max-width:820px}
-.bar{display:grid;grid-template-columns:minmax(0,220px) 1fr;gap:14px;align-items:center;font-size:15px}
-.bar .track{display:flex;align-items:center;gap:10px;min-width:0}
-.bar .fill{height:22px;border-radius:4px;background:var(--olive);flex:none}
-.bar.ops .fill{background:var(--sage)}
-.bar b{font-variant-numeric:tabular-nums;white-space:nowrap}
-@media (max-width:560px){.bar{grid-template-columns:1fr;gap:4px}}
-.split2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,56px);align-items:start}
-@media (max-width:820px){.split2{grid-template-columns:1fr}}
+/* sticky mobile donate bar */
+.dockbar{position:fixed;inset-inline:0;bottom:0;z-index:45;background:var(--paper);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;gap:12px;align-items:center;box-shadow:0 -10px 30px rgba(18,26,8,.12);transition:transform .25s}
+.dockbar p{font-size:14px;color:var(--muted);line-height:1.3;flex:1;min-width:0}
+.dockbar .btn{min-height:48px;flex:none}
+.dockbar.off{transform:translateY(110%)}
+@media (min-width:821px){.dockbar{display:none}}
+
+/* scroll reveal: elements rest fully visible; motion only adds a gentle lift where supported */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: view()){
+    .rv{animation:lift linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+    @keyframes lift{from{transform:translateY(32px)}to{transform:none}}
+  }
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ridges.mirror{transform:scaleX(-1)}
+[hidden]{display:none!important}body{margin:0}
 </style>
 </head>
 <body>
 
 
 <div id="app">
-
-<!-- ======================= HEBREW ======================= -->
 <div class="v" data-lang="he" lang="he" dir="rtl">
+<a class="skip" href="#main-he">דלגו לתוכן</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#top-he"><img src="logo.webp" alt="סמל עמותת בוגרי סיירת נח&quot;ל"><span>עמותת בוגרי סיירת נח"ל</span></a>
-  <nav aria-label="ניווט">
-    <div class="lang" role="group" aria-label="שפה"><button type="button" data-set-lang="he" aria-pressed="true">עב</button><button type="button" data-set-lang="en" aria-pressed="false" lang="en">EN</button></div>
-    <a class="btn btn-primary btn-sm" href="#donate-he">תרמו</a>
+  <a class="brand" href="#top-he" aria-label="עמותת בוגרי סיירת נח&quot;ל, לראש העמוד"><img src="logo.webp" alt=""><span>עמותת בוגרי סיירת נח"ל</span></a>
+  <nav aria-label="ניווט ראשי">
+    <div class="lang" role="group" aria-label="שפה"><button type="button" data-set-lang="he" aria-pressed="true">עברית</button><button type="button" data-set-lang="en" aria-pressed="false" lang="en">EN</button></div>
+    <a class="btn btn-primary" href="#donate-he">תרמו</a>
   </nav>
-</div></header>
+</div><span class="progress" aria-hidden="true"></span></header>
 
-<main>
-<section class="hero" id="top-he" data-sec="top"><div class="wrap">
-  <div>
-    <p class="eyebrow">עמותת בוגרי סיירת נח"ל · פעם משפחה, תמיד משפחה</p>
-    <h1>איפה שהתמיכה הרשמית נגמרת,<br><em>אנחנו מתחילים.</em></h1>
-    <p class="lead">מאז 1993 העמותה מלווה את בוגרי הסיירת, את הפצועים ובני משפחותיהם, ואת משפחות חללי היחידה. ליווי אישי וארוך טווח, בכל מקום שבו תמיכת המדינה חסרה, נגמרה או לא מספיקה.</p>
-    <div class="ctas">
-      <a class="btn btn-primary" href="#donate-he">תרמו עכשיו</a>
-      <a class="btn btn-ghost" href="#work-he">מה אנחנו עושים</a>
+<main id="main-he">
+<section class="hero" id="top-he" data-sec="top">
+  <div class="wrap grid">
+    <div>
+      <p class="label">עמותת בוגרי סיירת נח"ל</p>
+      <h1>בסיירת סופרים את כולם.<span class="l2">גם אחרי שהמלחמה נגמרת.</span></h1>
+      <p class="lead">איפה שהתמיכה הרשמית נגמרת, אנחנו מתחילים. מאז 1993 בוגרי היחידה דואגים זה לזה: ליווי נפשי ללוחמים, ליווי לפצועים ולמשפחותיהם, ומשפחה לכל החיים למשפחות השכולות.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#donate-he">תרמו לעמותה <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#story-he">הסיפור שלנו</a>
+      </div>
+      <ul class="chips" aria-label="פרטי העמותה"><li>ע"ר 580218642</li><li>ניהול תקין 2026</li><li>זיכוי מס לפי סעיף 46</li></ul>
+    </div>
+    <figure class="medal"><img src="logo.webp" alt="סמל העמותה: כנפי הסיירת מעל שיירת לוחמים בהרים" width="340" height="260"></figure>
+  </div>
+  <svg class="ridges" viewBox="0 140 1600 380" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path class="r1" d="M-80 560 L-80 228.1 L-64 227.9 L-48 227.3 L-32 226.0 L-16 223.7 L0 220.0 L16 215.1 L32 209.2 L48 202.6 L64 195.8 L80 189.6 L96 184.2 L112 180.2 L128 177.7 L144 176.8 L160 177.1 L176 178.5 L192 180.5 L208 182.7 L224 184.9 L240 187.0 L256 188.9 L272 190.9 L288 193.2 L304 196.2 L320 200.2 L336 205.4 L352 211.7 L368 219.0 L384 226.9 L400 235.0 L416 242.6 L432 249.4 L448 254.8 L464 258.6 L480 260.9 L496 261.8 L512 261.6 L528 260.9 L544 260.1 L560 259.7 L576 259.8 L592 260.5 L608 261.9 L624 263.6 L640 265.3 L656 266.7 L672 267.5 L688 267.5 L704 266.8 L720 265.5 L736 264.0 L752 262.7 L768 262.0 L784 262.2 L800 263.4 L816 265.8 L832 268.9 L848 272.6 L864 276.1 L880 279.1 L896 281.0 L912 281.4 L928 280.3 L944 277.6 L960 273.6 L976 268.7 L992 263.2 L1008 257.7 L1024 252.4 L1040 247.6 L1056 243.2 L1072 239.1 L1088 235.0 L1104 230.7 L1120 225.8 L1136 220.2 L1152 213.8 L1168 207.0 L1184 199.9 L1200 193.1 L1216 187.0 L1232 182.3 L1248 179.1 L1264 177.8 L1280 178.3 L1296 180.2 L1312 183.4 L1328 187.1 L1344 191.0 L1360 194.5 L1376 197.4 L1392 199.6 L1408 201.1 L1424 202.2 L1440 203.2 L1456 204.4 L1472 206.0 L1488 208.4 L1504 211.4 L1520 214.9 L1536 218.6 L1552 222.1 L1568 224.9 L1584 226.8 L1600 227.6 L1616 227.4 L1632 226.3 L1648 224.7 L1664 223.1 L1680 222.1 L1680 560 Z" fill="#e4e8d8"/><path class="r1" d="M-80 560 L-80 339.2 L-64 335.1 L-48 329.8 L-32 323.5 L-16 316.5 L0 309.1 L16 301.9 L32 295.1 L48 289.1 L64 283.9 L80 279.7 L96 276.4 L112 273.9 L128 271.9 L144 270.1 L160 268.3 L176 266.4 L192 264.2 L208 261.7 L224 259.0 L240 256.3 L256 254.0 L272 252.1 L288 251.1 L304 251.0 L320 252.0 L336 254.1 L352 257.1 L368 260.7 L384 264.6 L400 268.5 L416 272.0 L432 274.7 L448 276.4 L464 277.1 L480 276.7 L496 275.3 L512 273.3 L528 270.9 L544 268.5 L560 266.3 L576 264.8 L592 264.0 L608 264.0 L624 264.8 L640 266.2 L656 268.1 L672 270.1 L688 272.1 L704 273.8 L720 275.1 L736 276.1 L752 276.7 L768 277.2 L784 277.9 L800 279.0 L816 280.9 L832 283.7 L848 287.5 L864 292.5 L880 298.5 L896 305.3 L912 312.6 L928 319.9 L944 326.9 L960 333.1 L976 338.4 L992 342.4 L1008 345.1 L1024 346.6 L1040 347.0 L1056 346.6 L1072 345.6 L1088 344.4 L1104 343.2 L1120 342.2 L1136 341.4 L1152 340.9 L1168 340.5 L1184 340.0 L1200 339.1 L1216 337.7 L1232 335.6 L1248 332.6 L1264 328.7 L1280 324.1 L1296 318.9 L1312 313.5 L1328 308.2 L1344 303.4 L1360 299.4 L1376 296.4 L1392 294.6 L1408 294.0 L1424 294.4 L1440 295.7 L1456 297.4 L1472 299.2 L1488 300.8 L1504 301.8 L1520 302.1 L1536 301.5 L1552 300.0 L1568 297.8 L1584 295.1 L1600 292.0 L1616 289.0 L1632 286.2 L1648 283.7 L1664 281.8 L1680 280.4 L1680 560 Z" fill="#c9d0b5"/><path class="r2" d="M-80 560 L-80 310.7 L-64 310.6 L-48 311.3 L-32 313.0 L-16 315.5 L0 318.8 L16 322.7 L32 326.9 L48 331.1 L64 335.1 L80 338.5 L96 341.1 L112 342.9 L128 343.6 L144 343.4 L160 342.4 L176 340.8 L192 338.8 L208 336.8 L224 334.9 L240 333.5 L256 332.7 L272 332.5 L288 333.0 L304 334.1 L320 335.6 L336 337.3 L352 339.0 L368 340.5 L384 341.5 L400 342.1 L416 342.2 L432 341.9 L448 341.2 L464 340.4 L480 339.9 L496 339.7 L512 340.2 L528 341.6 L544 343.9 L560 347.3 L576 351.7 L592 356.9 L608 362.7 L624 368.8 L640 374.9 L656 380.6 L672 385.8 L688 390.2 L704 393.7 L720 396.2 L736 397.9 L752 398.8 L768 399.1 L784 399.1 L800 399.1 L816 399.1 L832 399.4 L848 399.9 L864 400.8 L880 401.9 L896 403.0 L912 404.0 L928 404.5 L944 404.5 L960 403.6 L976 401.7 L992 398.9 L1008 395.2 L1024 390.7 L1040 385.6 L1056 380.2 L1072 374.9 L1088 369.9 L1104 365.5 L1120 361.9 L1136 359.2 L1152 357.6 L1168 356.8 L1184 356.9 L1200 357.4 L1216 358.3 L1232 359.2 L1248 360.0 L1264 360.3 L1280 360.1 L1296 359.3 L1312 358.0 L1328 356.3 L1344 354.4 L1360 352.5 L1376 350.7 L1392 349.5 L1408 348.7 L1424 348.6 L1440 349.1 L1456 350.1 L1472 351.4 L1488 352.9 L1504 354.1 L1520 354.9 L1536 354.9 L1552 354.1 L1568 352.3 L1584 349.5 L1600 345.8 L1616 341.3 L1632 336.3 L1648 331.1 L1664 325.9 L1680 321.2 L1680 560 Z" fill="#a3b08d"/><path class="" d="M-80 560 L-80 452.1 L-64 455.2 L-48 457.9 L-32 460.0 L-16 461.5 L0 462.5 L16 462.8 L32 462.6 L48 462.0 L64 460.9 L80 459.6 L96 458.2 L112 456.7 L128 455.4 L144 454.2 L160 453.3 L176 452.6 L192 452.2 L208 452.1 L224 452.1 L240 452.3 L256 452.4 L272 452.5 L288 452.3 L304 452.0 L320 451.3 L336 450.3 L352 449.0 L368 447.4 L384 445.5 L400 443.6 L416 441.6 L432 439.7 L448 438.0 L464 436.6 L480 435.7 L496 435.2 L512 435.1 L528 435.6 L544 436.5 L560 437.8 L576 439.4 L592 441.1 L608 442.9 L624 444.5 L640 445.9 L656 447.0 L672 447.7 L688 447.9 L704 447.6 L720 446.9 L736 445.7 L752 444.2 L768 442.5 L784 440.6 L800 438.6 L816 436.8 L832 435.0 L848 433.4 L864 432.1 L880 431.0 L896 430.1 L912 429.3 L928 428.5 L944 427.7 L960 426.8 L976 425.7 L992 424.2 L1008 422.4 L1024 420.1 L1040 417.4 L1056 414.3 L1072 410.9 L1088 407.3 L1104 403.6 L1120 399.9 L1136 396.3 L1152 393.0 L1168 390.1 L1184 387.7 L1200 385.8 L1216 384.6 L1232 383.9 L1248 383.8 L1264 384.2 L1280 384.9 L1296 386.0 L1312 387.2 L1328 388.5 L1344 389.7 L1360 390.8 L1376 391.7 L1392 392.4 L1408 392.9 L1424 393.2 L1440 393.3 L1456 393.4 L1472 393.6 L1488 393.8 L1504 394.3 L1520 395.2 L1536 396.3 L1552 397.8 L1568 399.7 L1584 402.0 L1600 404.4 L1616 407.1 L1632 409.8 L1648 412.4 L1664 414.8 L1680 416.9 L1680 560 Z" fill="#253217"/><path id="trail-he" d="M1680 446.9 L1664 444.8 L1648 442.4 L1632 439.8 L1616 437.1 L1600 434.4 L1584 432.0 L1568 429.7 L1552 427.8 L1536 426.3 L1520 425.2 L1504 424.3 L1488 423.8 L1472 423.6 L1456 423.4 L1440 423.3 L1424 423.2 L1408 422.9 L1392 422.4 L1376 421.7 L1360 420.8 L1344 419.7 L1328 418.5 L1312 417.2 L1296 416.0 L1280 414.9 L1264 414.2 L1248 413.8 L1232 413.9 L1216 414.6 L1200 415.8 L1184 417.7 L1168 420.1 L1152 423.0 L1136 426.3 L1120 429.9 L1104 433.6 L1088 437.3 L1072 440.9 L1056 444.3 L1040 447.4 L1024 450.1 L1008 452.4 L992 454.2 L976 455.7 L960 456.8 L944 457.7 L928 458.5 L912 459.3 L896 460.1 L880 461.0 L864 462.1 L848 463.4 L832 465.0 L816 466.8 L800 468.6 L784 470.6 L768 472.5 L752 474.2 L736 475.7 L720 476.9 L704 477.6 L688 477.9 L672 477.7 L656 477.0 L640 475.9 L624 474.5 L608 472.9 L592 471.1 L576 469.4 L560 467.8 L544 466.5 L528 465.6 L512 465.1 L496 465.2 L480 465.7 L464 466.6 L448 468.0 L432 469.7 L416 471.6 L400 473.6 L384 475.5 L368 477.4 L352 479.0 L336 480.3 L320 481.3 L304 482.0 L288 482.3 L272 482.5 L256 482.4 L240 482.3 L224 482.1 L208 482.1 L192 482.2 L176 482.6 L160 483.3 L144 484.2 L128 485.4 L112 486.7 L96 488.2 L80 489.6 L64 490.9 L48 492.0 L32 492.6 L16 492.8 L0 492.5 L-16 491.5 L-32 490.0 L-48 487.9 L-64 485.2 L-80 482.1" fill="none" stroke="#a3b08d" stroke-width="2" stroke-dasharray="1 11" stroke-linecap="round" opacity=".55"/><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-30.0s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-32.4s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-34.8s"><mpath href="#trail-he"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-37.2s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-39.6s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-42.0s"><mpath href="#trail-he"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-44.4s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-46.8s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-49.2s"><mpath href="#trail-he"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-51.6s"><mpath href="#trail-he"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-54.0s"><mpath href="#trail-he"/></animateMotion></circle></svg>
+</section>
+
+<section class="dark now" id="now-he" data-sec="now" aria-labelledby="now-h-he"><div class="wrap">
+  <p class="label" id="now-h-he">למה עכשיו</p>
+  <div class="grid">
+    <div class="rv">
+      <p class="big41" aria-hidden="true">41</p>
+      <p class="caption"><span class="sr">41 </span>לוחמים מהיחידה נפלו מאז 7 באוקטובר 2023, ובהם מפקד היחידה, סא"ל יונתן "ברנש" צור ז"ל.</p>
+    </div>
+    <dl class="rv">
+      <div><dt>‎+150%‎</dt><dd>צפי לגידול בבקשות לטיפול נפשי ב-2026</dd></div>
+      <div><dt>25</dt><dd>מסעות צוות מתוכננים ל-2026. הביקוש עדיין גדול מהיכולת.</dd></div>
+      <div><dt>97</dt><dd>משפחות שכולות של היחידה. אנחנו לצדן לכל החיים.</dd></div>
+    </dl>
+  </div>
+  <p class="src">מקור: נתוני העמותה, 2026.</p>
+</div></section>
+
+<section class="split-story" id="story-he" data-sec="story" aria-label="הסיפור שלנו">
+  <div class="uniform">
+    <div class="in"><p class="label" style="color:var(--gold-on-dark)">במדים</p><h2>בלתי שבירים.</h2><p>בשירות לומדים לשאת את המשא, ולא לבקש עזרה.</p></div>
+    <div class="out"><p class="label">אחרי המדים</p><h2>לבד. בלתי נראים.</h2><p>הטראומה, הבדידות והקושי הכלכלי לא נגמרים ביום השחרור. ולפעמים דווקא בשגרה חוויות הלחימה מתחילות לצוף.</p></div>
+  </div>
+</section>
+
+<section class="who" id="about-he" data-sec="about"><div class="wrap">
+  <div class="head"><p class="label">מי אנחנו</p><h2>משפחה גם אחרי השירות</h2></div>
+  <div class="grid">
+    <div class="body">
+      <p>סיירת נח"ל היא יחידת עילית בחטיבת הנח"ל. את העמותה הקים ב-1993 סא"ל אייל וייס ז"ל, לשעבר מפקד הסיירת. אחרי שסא"ל יונתן "ברנש" צור נפל ב-7 באוקטובר, עמותות הבוגרים של היחידה התאחדו לעמותה אחת.</p>
+      <p>את העמותה מנהלים 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי. היא פועלת בשקט, בכל מקום שבו תמיכת המדינה חסרה, נגמרה או לא מספיקה.</p>
+    </div>
+    <div>
+      <dl class="facts">
+        <div><dt>1993</dt><dd>שנת הייסוד</dd></div>
+        <div><dt>‎500+‎</dt><dd>חברים פעילים, בקהילה של אלפי בוגרים</dd></div>
+        <div><dt>6</dt><dd>חברי ועד מתנדבים</dd></div>
+      </dl>
+      <figure class="quote rv">
+        <blockquote>חוסן נפשי אינו מותרות. זו אחריות כלפי מי שיצאו שוב ושוב להגן על כולנו, וכלפי המשפחות שממשיכות ללוות אותם הרבה אחרי שהקרב מסתיים.</blockquote>
+        <figcaption>חזקי מלאכי, מנכ"ל העמותה</figcaption>
+      </figure>
     </div>
   </div>
-  <figure><img src="logo.webp" alt="סמל העמותה: כנפי הסיירת מעל שיירת לוחמים בהרים, ולמטה סמלי היחידה"></figure>
 </div></section>
 
-<div class="facts" aria-label="העמותה במספרים"><div class="wrap">
-  <dl>
-    <div><dt>1993</dt><dd>שנת הייסוד, בידי סא"ל אייל וייס ז"ל, לשעבר מפקד הסיירת</dd></div>
-    <div><dt>‎500+‎</dt><dd>חברים פעילים, בקהילה של אלפי בוגרים</dd></div>
-    <div><dt>‎400+‎</dt><dd>בוגרים ובני משפחה מקבלים מאיתנו ליווי נפשי בכל שנה</dd></div>
-    <div><dt>97</dt><dd>חללי היחידה. אנחנו לצד כל משפחה, לכל החיים</dd></div>
-  </dl>
-  <p class="src">מקורות: נתוני העמותה (מצגת 2026) ו<a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">גיידסטאר, משרד המשפטים</a>.</p>
-</div></div>
-
-<section id="about-he" data-sec="about"><div class="wrap split">
-  <div class="stack">
-    <p class="eyebrow">מי אנחנו</p>
-    <h2>משפחה גם אחרי השירות</h2>
-  </div>
-  <div class="body">
-    <p>סיירת נח"ל היא יחידת עילית בחטיבת הנח"ל, שלוחמיה פועלים בסיור, בלוחמה בטרור, בהנדסה קרבית ובנ"ט. במדים לומדים לשאת את המשא ולא לבקש עזרה. אחרי השחרור, טראומה, בדידות וקשיים כלכליים לא נגמרים יחד עם השירות.</p>
-    <p>מאז 1993 העמותה פועלת בשקט: מלווה פצועים ובני משפחותיהם, עומדת לצד המשפחות השכולות, ועוזרת לבוגרים לבנות חיים אחרי הצבא. 97 מלוחמי היחידה נפלו, מהם 30 באסון המסוקים ב-1997 ו-41 מאז 7 באוקטובר 2023.</p>
-    <p>אחרי שמפקד היחידה, סא"ל יונתן "ברנש" צור, נפל ב-7 באוקטובר, עמותות הבוגרים של היחידה התאחדו לעמותה אחת. היום מנהלים אותה 6 חברי ועד מתנדבים, ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי.</p>
-    <blockquote>"חוסן נפשי אינו מותרות. זו אחריות כלפי מי שיצאו שוב ושוב להגן על כולנו."</blockquote>
-  </div>
-</div></section>
-
-<section class="programs" id="work-he" data-sec="work"><div class="wrap">
-  <p class="eyebrow">מה אנחנו עושים</p>
-  <h2>ארבעה עמודי תמיכה</h2>
-  <div class="pillars">
-    <article class="pillar">
-      <p class="tag">עמוד 1 · טראומה קרבית וחוסן נפשי</p>
-      <h3>לרפא את הפצעים שלא רואים</h3>
-      <p class="big">‎17‎<small>מסעות צוות ב-2025</small></p>
-      <p>צוות אורגני של 15 עד 20 לוחמים יוצא יחד למסע עיבוד בליווי אנשי מקצוע. ב-2025 התקיימו גם 25 מסעות אישיים ו-5 מסעות לאמהות שכולות, ו-6 לוחמים הופנו לטיפול פסיכולוגי. ל-2026 מתוכננים 25 מסעות צוות ו-10 מסעות להורים שכולים, ובקשות הטיפול צפויות לגדול ב-150%.</p>
-      <p class="budget">תקציב שנתי: ‎$380K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">עמוד 2 · רווחה ומשפחות</p>
-      <h3>לכל החיים</h3>
-      <p class="big">97<small>משפחות שכולות</small></p>
-      <p>ליווי אישי לעשרות לוחמים פצועים ולמשפחותיהם כל עוד צריך, תמיכה במשפחות של 97 החללים, ועזרה למשפחות מילואימניקים בזמן גיוסים ארוכים: רגשית, קהילתית ומעשית.</p>
-      <p class="budget">משפחות שכולות ‎$250K‎ · פצועים ומשפחותיהם ‎$100K‎ · משפחות מילואים ‎$10K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">עמוד 3 · קריירה וחיים אחרי השירות</p>
-      <h3>מנהיגי המחר</h3>
-      <p class="big">‎650+‎<small>בוגרים בשנה</small></p>
-      <p>8 עד 10 מפגשים בשנה עם מובילים מעולמות ההייטק וההשקעות, 30 בוגרים במחזורי מנטורינג, מהם כ-15 עם מענקי הכשרה, ו-3 סדנאות שחרור של יומיים שנותנות ליותר מ-200 משוחררים כלים לקריירה, לכסף ולחיים.</p>
-      <p class="budget">תקציב שנתי: ‎$80K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">עמוד 4 · לוחמים בודדים · יוזמה חדשה</p>
-      <h3>אף אחד לא נשאר מאחור</h3>
-      <p class="big">5<small>שנות ליווי</small></p>
-      <p>לוחמים בודדים משרתים בלי משפחה, וביום השחרור רשת הביטחון נעלמת. היוזמה: משפחות מאמצות, מנטור אישי בחמש השנים הראשונות באזרחות, ורשת קהילתית לעתיד עצמאי.</p>
-      <p class="budget">עלות הקמה: ‎$40K</p>
-    </article>
-  </div>
+<section class="pillars" id="work-he" data-sec="work"><div class="wrap">
+  <div class="head"><p class="label">מה אנחנו עושים</p><h2>ארבעה עמודי תמיכה</h2><p class="lead">לכל עמוד יעד ותקציב משלו. כך נראית העבודה בשטח.</p></div>
+  <ol class="trail">
+    <li class="rv"><span class="pin" aria-hidden="true">1</span><article class="card">
+      <p class="tag">חוסן נפשי וטראומה קרבית</p><h3>לרפא את הפצעים שלא רואים</h3>
+      <p>צוות של 15 עד 20 לוחמים שלחמו יחד יוצא למסע עיבוד, בליווי אנשי מקצוע. ב-2025 התקיימו 17 מסעות צוות, 25 מסעות אישיים ו-5 מסעות לאמהות שכולות.</p>
+      <p class="stat"><b>‎400+‎</b><span>בוגרים ובני משפחה בליווי בכל שנה</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">2</span><article class="card">
+      <p class="tag">רווחה ומשפחות</p><h3>לכל החיים</h3>
+      <p>ליווי אישי לפצועים ולמשפחותיהם כל עוד צריך, תמיכה במשפחות של חללי היחידה, ועזרה למשפחות מילואימניקים בזמן גיוסים ארוכים.</p>
+      <p class="stat"><b>97</b><span>משפחות שכולות</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">3</span><article class="card">
+      <p class="tag">קריירה וחיים אחרי השירות</p><h3>מנהיגי המחר</h3>
+      <p>מפגשים עם מובילים מעולמות ההייטק וההשקעות, מחזורי מנטורינג ומענקי הכשרה, ו-3 סדנאות שחרור בשנה שנותנות ליותר מ-200 משוחררים כלים לקריירה ולכסף.</p>
+      <p class="stat"><b>‎650+‎</b><span>בוגרים בשנה</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">4</span><article class="card">
+      <p class="tag">לוחמים בודדים · יוזמה חדשה</p><h3>אף אחד לא נשאר מאחור</h3>
+      <p>לוחמים בודדים משרתים בלי משפחה בארץ, וביום השחרור רשת הביטחון נעלמת. היוזמה: משפחה מאמצת, מנטור אישי וקהילה תומכת.</p>
+      <p class="stat"><b>5</b><span>שנות ליווי בחיים האזרחיים</span></p>
+    </article></li>
+  </ol>
   <p class="note">הנתונים מתוך מצגת העמותה לשנת 2026.</p>
 </div></section>
 
-<section id="impact-he" data-sec="impact"><div class="wrap">
-  <p class="eyebrow">בחרו את ההשפעה שלכם</p>
-  <h2>מה התרומה שלכם מאפשרת</h2>
-  <p class="lead">הסכומים לפי תקציב העמותה, בדולרים. אפשר לתרום כל סכום, וגם לציין תחום בהערה בעמוד התשלום.</p>
-  <div class="ladder">
-    <div class="rung"><span class="amt">‎$120</span><span class="what">בוגר אחד מוכן לשוק העבודה: ליווי, היכרויות ומענקי הכשרה.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="120">לתרומה בסכום זה</button></div>
-    <div class="rung"><span class="amt">‎$2,500</span><span class="what">מסע חוסן להורה שכול, בליווי אנשי מקצוע.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="2500">לתרומה בסכום זה</button></div>
-    <div class="rung"><span class="amt">‎$13,000</span><span class="what">צוות של 15 עד 20 לוחמים במסע חוסן מקצועי.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="13000">לתרומה בסכום זה</button></div>
-    <div class="rung"><span class="amt">‎$40,000</span><span class="what">הקמת תוכנית הלוחמים הבודדים: משפחות מאמצות וחמש שנות מנטורינג.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="40000">לתרומה בסכום זה</button></div>
-  </div>
-</div></section>
-
-<section class="donate" id="donate-he" data-sec="donate"><div class="wrap">
-  <p class="eyebrow" style="color:#e6d9a2">תרומה</p>
-  <h2>עמדו לצד הלוחמים</h2>
-  <p class="lead">התשלום עצמו מתבצע בעמוד המאובטח של Jgive. שם בוחרים שוב את הסכום ומשלמים.</p>
-  <div class="panel">
-    <div class="donor" data-donor>
-      <fieldset class="field"><legend>תדירות</legend>
-        <div class="seg"><button type="button" data-freq="once">פעם אחת</button><button type="button" data-freq="monthly">כל חודש</button></div>
-      </fieldset>
-      <fieldset class="field"><legend>מטבע</legend>
-        <div class="seg"><button type="button" data-cur="ILS">₪ שקלים</button><button type="button" data-cur="USD">$ דולרים</button></div>
-      </fieldset>
-      <fieldset class="field"><legend>סכום</legend>
-        <div class="amts" data-amts></div>
-        <div class="other"><label for="other-he">סכום אחר</label><input id="other-he" type="number" min="1" inputmode="numeric" data-other></div>
-      </fieldset>
-      <p class="impact" data-impact aria-live="polite"></p>
-      <a class="btn btn-primary go" data-go target="_blank" rel="noopener" href="https://www.jgive.com/l/Mental_Resilience-Sayeret_Nahal_Alumni">המשך לתשלום מאובטח</a>
-      <p class="note" data-note></p>
+<section class="dark donate" id="donate-he" data-sec="donate"><div class="wrap">
+  <div class="head"><p class="label">תרומה</p><h2>הצטרפו למשפחה</h2><p class="lead">תרומה חודשית עוזרת לעמותה לתכנן קדימה: עוד מסע, עוד משפחה, עוד בוגר. גם תרומה חד-פעמית עוזרת.</p></div>
+  <div class="grid">
+    <div>
+      <h3>מה התרומה מאפשרת</h3>
+      <p class="note">סכומים בדולרים, לפי תקציב העמותה.</p>
+      <ul class="ladder">
+        <li><span class="amt">‎$120</span><span class="what">בוגר אחד מוכן לשוק העבודה: ליווי, היכרויות ומענקי הכשרה.</span></li>
+        <li><span class="amt">‎$2,500</span><span class="what">מסע חוסן להורה שכול, בליווי אנשי מקצוע.</span></li>
+        <li><span class="amt">‎$13,000</span><span class="what">צוות של 15 עד 20 לוחמים במסע חוסן מקצועי.</span></li>
+        <li><span class="amt">‎$40,000</span><span class="what">הקמת תוכנית הלוחמים הבודדים: משפחות מאמצות וחמש שנות מנטורינג.</span></li>
+      </ul>
     </div>
-    <aside class="side">
-      <div class="trust"><span>ניהול תקין 2026</span><span>זיכוי מס לפי סעיף 46</span><span>תשלום מאובטח ב-Jgive</span></div>
-      <div><h3>זיכוי ממס</h3><p>בישראל התרומה מזכה בזיכוי לפי סעיף 46, בתוקף עד 31.12.2027. לפי העמותה, תרומה דרך Jgive מוכרת לצורכי מס גם בארה"ב, בבריטניה ובקנדה. תרומה עד 31 בדצמבר נחשבת לשנת המס הנוכחית.</p></div>
-      <div><h3>העברה בנקאית</h3>
-        <dl class="kv"><dt>בנק</dt><dd>לאומי (10)</dd><dt>סניף</dt><dd>734</dd><dt>חשבון</dt><dd><span>2014601</span> <button type="button" class="copy" data-copy="2014601">העתק</button></dd><dt>שם</dt><dd>מגיני הינשוף (ע"ר)</dd></dl>
-        <p class="note">אחרי העברה, כתבו לנו למייל כדי לקבל קבלה.</p>
+    <div class="pay">
+      <h3>תרומה מאובטחת ב-Jgive</h3>
+      <div class="curr">
+        <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener"><span>תרומה בשקלים ₪</span><small>חד-פעמית או חודשית</small></a>
+        <a class="btn btn-ghost" href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener"><span>תרומה בדולרים $</span><small>לתורמים מחו"ל</small></a>
       </div>
-    </aside>
+      <ol class="steps" aria-label="מה קורה אחרי הלחיצה">
+        <li><span><b>בוחרים סכום ותדירות.</b> לתרומה חודשית בוחרים "הוראת קבע". אפשר להפסיק בכל עת מהחשבון ב-Jgive.</span></li>
+        <li><span><b>משלמים בכרטיס אשראי</b> בעמוד המאובטח של Jgive. פרטי הכרטיס לא עוברים אלינו.</span></li>
+        <li><span><b>מקבלים קבלה במייל</b> לצורך זיכוי ממס לפי סעיף 46.</span></li>
+      </ol>
+      <div class="secure"><span>ניהול תקין 2026</span><span>סעיף 46 בתוקף עד 2027</span><span>ע"ר 580218642</span></div>
+      <p class="fine">התרומה עוברת דרך דף הקמפיין "חוסן נפשי – מסעות עיבוד צוותיים" ב-Jgive. רוצים לתרום לתחום אחר? כתבו אותו בשדה ההערה. העמוד נפתח בלשונית חדשה.</p>
+    </div>
+  </div>
+  <div class="other">
+    <div><h3>העברה בנקאית</h3>
+      <dl class="kv"><dt>בנק</dt><dd>לאומי (10)</dd><dt>סניף</dt><dd>734</dd><dt>חשבון</dt><dd><span data-sel>2014601</span><button type="button" class="copy" data-copy="2014601" aria-label="העתקת מספר החשבון">העתק</button></dd><dt>שם</dt><dd>מגיני הינשוף (ע"ר)</dd></dl>
+      <p class="note">אחרי ההעברה כתבו לנו, ונשלח קבלה.</p></div>
+    <div><h3>תורמים מארה"ב</h3><p>אפשר לתרום גם דרך AID Coalition, ארגון אמריקאי בסטטוס 501(c)(3), בצ'ק, בהעברה או מקרן תרומות (DAF).</p><p><a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">לפרטי התרומה באתר שלהם</a></p></div>
+    <div><h3>כבר תרמתם? תודה.</h3><p>הכי עוזר עכשיו: להעביר את הקישור לחברים מהצוות.</p><p><a href="https://wa.me/?text=%D7%AA%D7%A8%D7%9E%D7%AA%D7%99%20%D7%9C%D7%A2%D7%9E%D7%95%D7%AA%D7%AA%20%D7%91%D7%95%D7%92%D7%A8%D7%99%20%D7%A1%D7%99%D7%99%D7%A8%D7%AA%20%D7%A0%D7%97%22%D7%9C%2C%20%D7%A9%D7%9E%D7%9C%D7%95%D7%95%D7%94%20%D7%90%D7%AA%20%D7%9C%D7%95%D7%97%D7%9E%D7%99%20%D7%94%D7%99%D7%97%D7%99%D7%93%D7%94%2C%20%D7%94%D7%A4%D7%A6%D7%95%D7%A2%D7%99%D7%9D%20%D7%95%D7%94%D7%9E%D7%A9%D7%A4%D7%97%D7%95%D7%AA%20%D7%94%D7%A9%D7%9B%D7%95%D7%9C%D7%95%D7%AA.%20%D7%9E%D7%A6%D7%98%D7%A8%D7%A4%D7%99%D7%9D%3F%20https%3A%2F%2Fwww.jgive.com%2Fnew%2Fhe%2Fils%2Fcollect%2Fdonation-targets%2F163449%2Famount" target="_blank" rel="noopener">שתפו בוואטסאפ</a></p></div>
   </div>
 </div></section>
 
-<section class="adopt" id="adopt-he" data-sec="adopt"><div class="wrap">
-  <div class="stack">
-    <p class="eyebrow">לחברות ולתורמים גדולים</p>
-    <h2>אמצו צוות</h2>
-    <p class="lead">מסע חוסן לצוות שלם של 15 עד 20 לוחמים. אפשר לממן מסע מלא או חלק ממנו, וכך עוד צוות יוצא לדרך עם ליווי מקצועי שממשיך גם אחרי המסע. נשמח לספר גם על אימוץ תחומים אחרים.</p>
-  </div>
-  <a class="btn btn-ghost" href="#contact-he">לשיחה עם חזקי</a>
-</div></section>
+<section class="adopt" id="adopt-he" data-sec="adopt"><div class="wrap"><div class="box">
+  <div class="head"><p class="label">לחברות ולתורמים גדולים</p><h2>אמצו צוות</h2><p class="lead">מסע חוסן לצוות שלם של 15 עד 20 לוחמים, בליווי אנשי מקצוע. אפשר לממן מסע מלא או חלק ממנו, או לאמץ תחום אחר. נשמח להיפגש.</p></div>
+  <a class="btn btn-primary" href="#contact-he">לשיחה עם חזקי מלאכי, מנכ"ל</a>
+</div></div></section>
 
-<section class="programs" id="trust-he" data-sec="trust"><div class="wrap">
-  <p class="eyebrow">שקיפות</p>
-  <h2>לאן הולכים ‎$950K‎ ב-2026</h2>
-  <p class="lead">לכל תחום תקציב משלו. אפשר לייעד את התרומה לתחום מסוים, או להשאיר לוועד להחליט איפה הצורך הכי גדול.</p>
-  <div class="bars" role="list">
-    <div class="bar" role="listitem"><span>חוסן נפשי</span><span class="track"><span class="fill" style="width:calc(100% * .75)"></span><b>‎$380K</b></span></div>
-    <div class="bar" role="listitem"><span>משפחות שכולות</span><span class="track"><span class="fill" style="width:calc(65.8% * .75)"></span><b>‎$250K</b></span></div>
-    <div class="bar" role="listitem"><span>פצועים ומשפחותיהם</span><span class="track"><span class="fill" style="width:calc(26.3% * .75)"></span><b>‎$100K</b></span></div>
-    <div class="bar" role="listitem"><span>קריירה, מנטורינג וסטודנטים</span><span class="track"><span class="fill" style="width:calc(21.1% * .75)"></span><b>‎$80K</b></span></div>
-    <div class="bar" role="listitem"><span>לוחמים בודדים</span><span class="track"><span class="fill" style="width:calc(10.5% * .75)"></span><b>‎$40K</b></span></div>
-    <div class="bar" role="listitem"><span>משפחות מילואים</span><span class="track"><span class="fill" style="width:calc(2.6% * .75)"></span><b>‎$10K</b></span></div>
-    <div class="bar ops" role="listitem"><span>תפעול והוצאות אחרות</span><span class="track"><span class="fill" style="width:calc(23.7% * .75)"></span><b>‎$90K</b></span></div>
+<section class="money pillars" id="trust-he" data-sec="trust"><div class="wrap">
+  <div class="head"><p class="label">שקיפות</p><h2>לאן הולך הכסף ב-2026</h2><p class="lead">תקציב 2026: 950 אלף $. לכל תחום תקציב משלו. אפשר לייעד את התרומה, או להשאיר לוועד להחליט איפה הצורך הכי גדול.</p></div>
+  <div class="grid">
+    <div>
+      <ul class="bars">
+        <li><span class="row"><span>חוסן נפשי</span><b>380 אלף $</b></span><span class="track"><span class="fill" style="width:100%"></span></span></li>
+        <li><span class="row"><span>משפחות שכולות</span><b>250 אלף $</b></span><span class="track"><span class="fill" style="width:65.8%"></span></span></li>
+        <li><span class="row"><span>פצועים ומשפחותיהם</span><b>100 אלף $</b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
+        <li><span class="row"><span>קריירה, מנטורינג וסטודנטים</span><b>80 אלף $</b></span><span class="track"><span class="fill" style="width:21.1%"></span></span></li>
+        <li><span class="row"><span>לוחמים בודדים</span><b>40 אלף $</b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
+        <li><span class="row"><span>משפחות מילואים</span><b>10 אלף $</b></span><span class="track"><span class="fill" style="width:2.6%"></span></span></li>
+        <li class="ops"><span class="row"><span>תפעול והוצאות אחרות</span><b>90 אלף $</b></span><span class="track"><span class="fill" style="width:23.7%"></span></span></li>
+      </ul>
+      <p class="ops-note">תפעול והוצאות אחרות: כ-9.5% מהתקציב. השאר הולך ישירות לתוכניות.</p>
+      <p class="note">מקור: מצגת העמותה, תקציב 2026.</p>
+    </div>
+    <div>
+      <h3>העמותה ברשם</h3>
+      <dl class="reg">
+        <div><dt>שם רשום</dt><dd>מגיני הינשוף (ע"ר), בתהליך שינוי שם לעמותת בוגרי סיירת נח"ל</dd></div>
+        <div><dt>מספר עמותה</dt><dd>580218642</dd></div>
+        <div><dt>ניהול תקין</dt><dd>2026</dd></div>
+        <div><dt>סעיף 46</dt><dd>בתוקף עד 31.12.2027</dd></div>
+        <div><dt>מחזור מדווח</dt><dd>‏1,615,762 ₪ (2024)</dd></div>
+        <div><dt>כתובת</dt><dd>אולפן 1, רביבים</dd></div>
+      </dl>
+      <p class="note"><a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">לפרופיל המלא בגיידסטאר, כולל דוחות</a></p>
+    </div>
   </div>
-  <p class="note">מקור: מצגת העמותה, תקציב 2026.</p>
-  <div class="table-wrap"><table>
-    <tr><th>שם רשום</th><td>מגיני הינשוף (ע"ר). העמותה בתהליך שינוי שם לעמותת בוגרי סיירת נח"ל.</td></tr>
-    <tr><th>מספר עמותה</th><td>580218642</td></tr>
-    <tr><th>אישור ניהול תקין</th><td>2026</td></tr>
-    <tr><th>זיכוי מס לתרומות (סעיף 46)</th><td>בתוקף עד 31.12.2027</td></tr>
-    <tr><th>מחזור שנתי מדווח</th><td>‏1,615,762 ₪ (2024)</td></tr>
-    <tr><th>כתובת</th><td>אולפן 1, רביבים</td></tr>
-  </table></div>
-  <p class="note"><a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">לפרופיל המלא בגיידסטאר, כולל דוחות ומסמכים</a></p>
 </div></section>
 
 <section id="faq-he" data-sec="faq"><div class="wrap">
-  <p class="eyebrow">שאלות נפוצות</p>
-  <h2>לפני שתורמים</h2>
+  <div class="head"><p class="label">שאלות נפוצות</p><h2>לפני שתורמים</h2></div>
   <div class="faq">
-    <details><summary>מי עומד מאחורי העמותה?</summary><p>בוגרי סיירת נח"ל. העמותה נוסדה ב-1993 בידי סא"ל אייל וייס ז"ל. היום מנהלים אותה 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי.</p></details>
-    <details><summary>מי נעזר בתרומה?</summary><p>בוגרי היחידה, לוחמים פצועים ובני משפחותיהם, משפחות החללים, משפחות מילואימניקים ולוחמים בודדים.</p></details>
-    <details><summary>אפשר לתרום לתחום מסוים?</summary><p>כן. כתבו את התחום בשדה ההערה בעמוד התשלום של Jgive, או דברו עם חזקי. בלי ציון תחום, הוועד מחליט איפה הצורך הכי גדול.</p></details>
-    <details><summary>אפשר לתרום כל חודש?</summary><p>כן. בעמוד התשלום של Jgive בוחרים "הוראת קבע".</p></details>
-    <details><summary>התרומה מזכה בזיכוי מס?</summary><p>בישראל כן, לפי סעיף 46, בתוקף עד 31.12.2027. בחו"ל, לפי העמותה, תרומה דרך Jgive מוכרת בארה"ב, בבריטניה ובקנדה.</p></details>
-    <details><summary>איך יוצרים קשר?</summary><p>חזקי מלאכי, מנכ"ל: ‎050-734-7952‎, hezki.m@gmail.com. מייל העמותה: sayeret.nahal@gmail.com.</p></details>
+    <details><summary>לאן הולכת התרומה?</summary><p>לפעילות העמותה, לפי התקציב שלמעלה. אפשר לציין תחום בשדה ההערה בעמוד התשלום. בלי ציון, הוועד מחליט איפה הצורך הכי גדול.</p></details>
+    <details><summary>אפשר לתרום כל חודש?</summary><p>כן. בעמוד התשלום של Jgive בוחרים "הוראת קבע". אפשר להפסיק בכל עת מהחשבון האישי ב-Jgive.</p></details>
+    <details><summary>התשלום מאובטח?</summary><p>התשלום מתבצע ב-Jgive, פלטפורמת תרומות ישראלית. פרטי הכרטיס לא עוברים לעמותה.</p></details>
+    <details><summary>יש זיכוי ממס?</summary><p>כן. לעמותה אישור לפי סעיף 46, בתוקף עד 31.12.2027, והקבלה נשלחת במייל.</p></details>
+    <details><summary>אפשר לתרום מחו"ל?</summary><p>כן, בדולרים דרך Jgive. לפי העמותה, התרומה מוכרת לצורכי מס בארה"ב, בבריטניה ובקנדה. תורמים מארה"ב יכולים לתרום גם דרך AID Coalition.</p></details>
+    <details><summary>מי מנהל את העמותה?</summary><p>בוגרי היחידה: 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי. העמותה נוסדה ב-1993.</p></details>
   </div>
 </div></section>
 
 <section class="closing" id="contact-he" data-sec="contact"><div class="wrap">
-  <img src="logo.webp" alt="" width="120">
-  <h2>עמדו לצד הגיבורים.</h2>
-  <p class="lead">ההשפעה של המלחמה ארוכה, וההחלמה צריכה להתחיל עכשיו. הביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p>
-  <a class="btn btn-primary" href="#donate-he">תרמו עכשיו</a>
-  <div class="contact">
-    <span>חזקי מלאכי, מנכ"ל: <b>050-734-7952</b></span>
-    <span><b>hezki.m@gmail.com</b></span>
-    <span>אריאל כהן, ראש תחום קהילה</span>
-    <span>מייל העמותה: <b>sayeret.nahal@gmail.com</b></span>
+  <img src="logo.webp" alt="" width="112" height="86">
+  <h2>פעם משפחה, תמיד משפחה.</h2>
+  <p class="lead">ההחלמה צריכה להתחיל עכשיו, והביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p>
+  <div class="ctas">
+    <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בשקלים ₪</a>
+    <a class="btn btn-ghost" href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בדולרים $</a>
+  </div>
+  <div class="contacts">
+    <div>חזקי מלאכי, מנכ"ל<b dir="ltr">050-734-7952</b><a href="tel:+972507347952">התקשרו</a><button type="button" class="copy" data-copy="050-734-7952">העתק</button></div>
+    <div>מייל של חזקי<b dir="ltr">hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="hezki.m@gmail.com">העתק</button></div>
+    <div>מייל העמותה · אריאל כהן, ראש תחום קהילה<b dir="ltr">sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="sayeret.nahal@gmail.com">העתק</button></div>
   </div>
 </div></section>
 </main>
 <footer><div class="wrap"><span>מגיני הינשוף (ע"ר) 580218642 · עמותת בוגרי סיירת נח"ל</span><span>אולפן 1, רביבים</span></div></footer>
+<div class="dockbar off" aria-hidden="true"><p>עמותת בוגרי סיירת נח"ל<br>תרומה מאובטחת ב-Jgive</p><a class="btn btn-primary" href="#donate-he">תרמו</a></div>
 </div>
 
-<!-- ======================= ENGLISH ======================= -->
 <div class="v" data-lang="en" lang="en" dir="ltr" hidden>
+<a class="skip" href="#main-en">Skip to content</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#top-en"><img src="logo.webp" alt="Sayeret Nahal Alumni Association emblem"><span>Sayeret Nahal Alumni Association</span></a>
+  <a class="brand" href="#top-en" aria-label="Sayeret Nahal Alumni Association, back to top"><img src="logo.webp" alt=""><span>Sayeret Nahal Alumni</span></a>
   <nav aria-label="Main">
-    <div class="lang" role="group" aria-label="Language"><button type="button" data-set-lang="he" aria-pressed="false" lang="he">עב</button><button type="button" data-set-lang="en" aria-pressed="true">EN</button></div>
-    <a class="btn btn-primary btn-sm" href="#donate-en">Donate</a>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-set-lang="he" aria-pressed="false" lang="he">עברית</button><button type="button" data-set-lang="en" aria-pressed="true">EN</button></div>
+    <a class="btn btn-primary" href="#donate-en">Donate</a>
   </nav>
-</div></header>
+</div><span class="progress" aria-hidden="true"></span></header>
 
-<main>
-<section class="hero" id="top-en" data-sec="top"><div class="wrap">
-  <div>
-    <p class="eyebrow">Sayeret Nahal Alumni Association · With you everywhere</p>
-    <h1>Where official support ends,<br><em>we begin.</em></h1>
-    <p class="lead">Sayeret Nahal is an elite unit of the Israel Defense Forces. Since 1993, its alumni have cared for their own: the unit's veterans, its wounded and their families, and the families of its fallen. Personal, long-term support, wherever state help is missing, has ended, or is not enough.</p>
-    <div class="ctas">
-      <a class="btn btn-primary" href="#donate-en">Donate now</a>
-      <a class="btn btn-ghost" href="#work-en">See our work</a>
+<main id="main-en">
+<section class="hero" id="top-en" data-sec="top">
+  <div class="wrap grid">
+    <div>
+      <p class="label">Sayeret Nahal Alumni Association</p>
+      <h1>In Sayeret Nahal, we count everyone.<span class="l2">Even after the war ends.</span></h1>
+      <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends, we begin. Since 1993 we have cared for the unit's veterans, its wounded and their families, and the families of its fallen.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#donate-en">Donate <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#story-en">Our story</a>
+      </div>
+      <ul class="chips" aria-label="About the association"><li>Registered Israeli non-profit 580218642</li><li>Secure checkout by Jgive</li><li>Monthly giving available</li></ul>
+    </div>
+    <figure class="medal"><img src="logo.webp" alt="Association emblem: the unit's wings above a line of soldiers hiking through hills" width="340" height="260"></figure>
+  </div>
+  <svg class="ridges mirror" viewBox="0 140 1600 380" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path class="r1" d="M-80 560 L-80 228.1 L-64 227.9 L-48 227.3 L-32 226.0 L-16 223.7 L0 220.0 L16 215.1 L32 209.2 L48 202.6 L64 195.8 L80 189.6 L96 184.2 L112 180.2 L128 177.7 L144 176.8 L160 177.1 L176 178.5 L192 180.5 L208 182.7 L224 184.9 L240 187.0 L256 188.9 L272 190.9 L288 193.2 L304 196.2 L320 200.2 L336 205.4 L352 211.7 L368 219.0 L384 226.9 L400 235.0 L416 242.6 L432 249.4 L448 254.8 L464 258.6 L480 260.9 L496 261.8 L512 261.6 L528 260.9 L544 260.1 L560 259.7 L576 259.8 L592 260.5 L608 261.9 L624 263.6 L640 265.3 L656 266.7 L672 267.5 L688 267.5 L704 266.8 L720 265.5 L736 264.0 L752 262.7 L768 262.0 L784 262.2 L800 263.4 L816 265.8 L832 268.9 L848 272.6 L864 276.1 L880 279.1 L896 281.0 L912 281.4 L928 280.3 L944 277.6 L960 273.6 L976 268.7 L992 263.2 L1008 257.7 L1024 252.4 L1040 247.6 L1056 243.2 L1072 239.1 L1088 235.0 L1104 230.7 L1120 225.8 L1136 220.2 L1152 213.8 L1168 207.0 L1184 199.9 L1200 193.1 L1216 187.0 L1232 182.3 L1248 179.1 L1264 177.8 L1280 178.3 L1296 180.2 L1312 183.4 L1328 187.1 L1344 191.0 L1360 194.5 L1376 197.4 L1392 199.6 L1408 201.1 L1424 202.2 L1440 203.2 L1456 204.4 L1472 206.0 L1488 208.4 L1504 211.4 L1520 214.9 L1536 218.6 L1552 222.1 L1568 224.9 L1584 226.8 L1600 227.6 L1616 227.4 L1632 226.3 L1648 224.7 L1664 223.1 L1680 222.1 L1680 560 Z" fill="#e4e8d8"/><path class="r1" d="M-80 560 L-80 339.2 L-64 335.1 L-48 329.8 L-32 323.5 L-16 316.5 L0 309.1 L16 301.9 L32 295.1 L48 289.1 L64 283.9 L80 279.7 L96 276.4 L112 273.9 L128 271.9 L144 270.1 L160 268.3 L176 266.4 L192 264.2 L208 261.7 L224 259.0 L240 256.3 L256 254.0 L272 252.1 L288 251.1 L304 251.0 L320 252.0 L336 254.1 L352 257.1 L368 260.7 L384 264.6 L400 268.5 L416 272.0 L432 274.7 L448 276.4 L464 277.1 L480 276.7 L496 275.3 L512 273.3 L528 270.9 L544 268.5 L560 266.3 L576 264.8 L592 264.0 L608 264.0 L624 264.8 L640 266.2 L656 268.1 L672 270.1 L688 272.1 L704 273.8 L720 275.1 L736 276.1 L752 276.7 L768 277.2 L784 277.9 L800 279.0 L816 280.9 L832 283.7 L848 287.5 L864 292.5 L880 298.5 L896 305.3 L912 312.6 L928 319.9 L944 326.9 L960 333.1 L976 338.4 L992 342.4 L1008 345.1 L1024 346.6 L1040 347.0 L1056 346.6 L1072 345.6 L1088 344.4 L1104 343.2 L1120 342.2 L1136 341.4 L1152 340.9 L1168 340.5 L1184 340.0 L1200 339.1 L1216 337.7 L1232 335.6 L1248 332.6 L1264 328.7 L1280 324.1 L1296 318.9 L1312 313.5 L1328 308.2 L1344 303.4 L1360 299.4 L1376 296.4 L1392 294.6 L1408 294.0 L1424 294.4 L1440 295.7 L1456 297.4 L1472 299.2 L1488 300.8 L1504 301.8 L1520 302.1 L1536 301.5 L1552 300.0 L1568 297.8 L1584 295.1 L1600 292.0 L1616 289.0 L1632 286.2 L1648 283.7 L1664 281.8 L1680 280.4 L1680 560 Z" fill="#c9d0b5"/><path class="r2" d="M-80 560 L-80 310.7 L-64 310.6 L-48 311.3 L-32 313.0 L-16 315.5 L0 318.8 L16 322.7 L32 326.9 L48 331.1 L64 335.1 L80 338.5 L96 341.1 L112 342.9 L128 343.6 L144 343.4 L160 342.4 L176 340.8 L192 338.8 L208 336.8 L224 334.9 L240 333.5 L256 332.7 L272 332.5 L288 333.0 L304 334.1 L320 335.6 L336 337.3 L352 339.0 L368 340.5 L384 341.5 L400 342.1 L416 342.2 L432 341.9 L448 341.2 L464 340.4 L480 339.9 L496 339.7 L512 340.2 L528 341.6 L544 343.9 L560 347.3 L576 351.7 L592 356.9 L608 362.7 L624 368.8 L640 374.9 L656 380.6 L672 385.8 L688 390.2 L704 393.7 L720 396.2 L736 397.9 L752 398.8 L768 399.1 L784 399.1 L800 399.1 L816 399.1 L832 399.4 L848 399.9 L864 400.8 L880 401.9 L896 403.0 L912 404.0 L928 404.5 L944 404.5 L960 403.6 L976 401.7 L992 398.9 L1008 395.2 L1024 390.7 L1040 385.6 L1056 380.2 L1072 374.9 L1088 369.9 L1104 365.5 L1120 361.9 L1136 359.2 L1152 357.6 L1168 356.8 L1184 356.9 L1200 357.4 L1216 358.3 L1232 359.2 L1248 360.0 L1264 360.3 L1280 360.1 L1296 359.3 L1312 358.0 L1328 356.3 L1344 354.4 L1360 352.5 L1376 350.7 L1392 349.5 L1408 348.7 L1424 348.6 L1440 349.1 L1456 350.1 L1472 351.4 L1488 352.9 L1504 354.1 L1520 354.9 L1536 354.9 L1552 354.1 L1568 352.3 L1584 349.5 L1600 345.8 L1616 341.3 L1632 336.3 L1648 331.1 L1664 325.9 L1680 321.2 L1680 560 Z" fill="#a3b08d"/><path class="" d="M-80 560 L-80 452.1 L-64 455.2 L-48 457.9 L-32 460.0 L-16 461.5 L0 462.5 L16 462.8 L32 462.6 L48 462.0 L64 460.9 L80 459.6 L96 458.2 L112 456.7 L128 455.4 L144 454.2 L160 453.3 L176 452.6 L192 452.2 L208 452.1 L224 452.1 L240 452.3 L256 452.4 L272 452.5 L288 452.3 L304 452.0 L320 451.3 L336 450.3 L352 449.0 L368 447.4 L384 445.5 L400 443.6 L416 441.6 L432 439.7 L448 438.0 L464 436.6 L480 435.7 L496 435.2 L512 435.1 L528 435.6 L544 436.5 L560 437.8 L576 439.4 L592 441.1 L608 442.9 L624 444.5 L640 445.9 L656 447.0 L672 447.7 L688 447.9 L704 447.6 L720 446.9 L736 445.7 L752 444.2 L768 442.5 L784 440.6 L800 438.6 L816 436.8 L832 435.0 L848 433.4 L864 432.1 L880 431.0 L896 430.1 L912 429.3 L928 428.5 L944 427.7 L960 426.8 L976 425.7 L992 424.2 L1008 422.4 L1024 420.1 L1040 417.4 L1056 414.3 L1072 410.9 L1088 407.3 L1104 403.6 L1120 399.9 L1136 396.3 L1152 393.0 L1168 390.1 L1184 387.7 L1200 385.8 L1216 384.6 L1232 383.9 L1248 383.8 L1264 384.2 L1280 384.9 L1296 386.0 L1312 387.2 L1328 388.5 L1344 389.7 L1360 390.8 L1376 391.7 L1392 392.4 L1408 392.9 L1424 393.2 L1440 393.3 L1456 393.4 L1472 393.6 L1488 393.8 L1504 394.3 L1520 395.2 L1536 396.3 L1552 397.8 L1568 399.7 L1584 402.0 L1600 404.4 L1616 407.1 L1632 409.8 L1648 412.4 L1664 414.8 L1680 416.9 L1680 560 Z" fill="#253217"/><path id="trail-en" d="M1680 446.9 L1664 444.8 L1648 442.4 L1632 439.8 L1616 437.1 L1600 434.4 L1584 432.0 L1568 429.7 L1552 427.8 L1536 426.3 L1520 425.2 L1504 424.3 L1488 423.8 L1472 423.6 L1456 423.4 L1440 423.3 L1424 423.2 L1408 422.9 L1392 422.4 L1376 421.7 L1360 420.8 L1344 419.7 L1328 418.5 L1312 417.2 L1296 416.0 L1280 414.9 L1264 414.2 L1248 413.8 L1232 413.9 L1216 414.6 L1200 415.8 L1184 417.7 L1168 420.1 L1152 423.0 L1136 426.3 L1120 429.9 L1104 433.6 L1088 437.3 L1072 440.9 L1056 444.3 L1040 447.4 L1024 450.1 L1008 452.4 L992 454.2 L976 455.7 L960 456.8 L944 457.7 L928 458.5 L912 459.3 L896 460.1 L880 461.0 L864 462.1 L848 463.4 L832 465.0 L816 466.8 L800 468.6 L784 470.6 L768 472.5 L752 474.2 L736 475.7 L720 476.9 L704 477.6 L688 477.9 L672 477.7 L656 477.0 L640 475.9 L624 474.5 L608 472.9 L592 471.1 L576 469.4 L560 467.8 L544 466.5 L528 465.6 L512 465.1 L496 465.2 L480 465.7 L464 466.6 L448 468.0 L432 469.7 L416 471.6 L400 473.6 L384 475.5 L368 477.4 L352 479.0 L336 480.3 L320 481.3 L304 482.0 L288 482.3 L272 482.5 L256 482.4 L240 482.3 L224 482.1 L208 482.1 L192 482.2 L176 482.6 L160 483.3 L144 484.2 L128 485.4 L112 486.7 L96 488.2 L80 489.6 L64 490.9 L48 492.0 L32 492.6 L16 492.8 L0 492.5 L-16 491.5 L-32 490.0 L-48 487.9 L-64 485.2 L-80 482.1" fill="none" stroke="#a3b08d" stroke-width="2" stroke-dasharray="1 11" stroke-linecap="round" opacity=".55"/><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-30.0s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-32.4s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-34.8s"><mpath href="#trail-en"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-37.2s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-39.6s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-42.0s"><mpath href="#trail-en"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-44.4s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-46.8s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-49.2s"><mpath href="#trail-en"/></animateMotion></circle><circle r="7" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-51.6s"><mpath href="#trail-en"/></animateMotion></circle><circle r="6" fill="#f6f4ec"><animateMotion dur="80s" repeatCount="indefinite" begin="-54.0s"><mpath href="#trail-en"/></animateMotion></circle></svg>
+</section>
+
+<section class="dark now" id="now-en" data-sec="now" aria-labelledby="now-h-en"><div class="wrap">
+  <p class="label" id="now-h-en">Why now</p>
+  <div class="grid">
+    <div class="rv">
+      <p class="big41" aria-hidden="true">41</p>
+      <p class="caption"><span class="sr">41 </span>soldiers of the unit have fallen since October 7, 2023, among them its commander, Lt. Col. Yonatan "Barnash" Tzur.</p>
+    </div>
+    <dl class="rv">
+      <div><dt>+150%</dt><dd>more requests for mental health care expected in 2026</dd></div>
+      <div><dt>25</dt><dd>team resilience journeys planned for 2026. Demand still exceeds capacity.</dd></div>
+      <div><dt>97</dt><dd>bereaved families of the unit. We stand by them for life.</dd></div>
+    </dl>
+  </div>
+  <p class="src">Source: association figures, 2026.</p>
+</div></section>
+
+<section class="split-story" id="story-en" data-sec="story" aria-label="Our story">
+  <div class="uniform">
+    <div class="in"><p class="label" style="color:var(--gold-on-dark)">In uniform</p><h2>Unbreakable.</h2><p>In service, they are trained to carry the weight and never to ask for help.</p></div>
+    <div class="out"><p class="label">After the uniform</p><h2>Alone. Unseen.</h2><p>Trauma, isolation and financial strain don't end on discharge day. Sometimes it is back in everyday life that the experiences of combat begin to surface.</p></div>
+  </div>
+</section>
+
+<section class="who" id="about-en" data-sec="about"><div class="wrap">
+  <div class="head"><p class="label">Who we are</p><h2>A family after service</h2></div>
+  <div class="grid">
+    <div class="body">
+      <p>In Israel, most young people serve in the army. A few are selected for units like Sayeret Nahal, part of the Nahal Brigade, where small teams train and fight together through the hardest missions. Those teammates stay family for life.</p>
+      <p>The association was founded in 1993 by the late Lt. Col. Eyal Weiss, a former commander of the unit. After the unit's commander, Lt. Col. Yonatan "Barnash" Tzur, fell on October 7, its alumni groups united as one. Today it is run by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p>
+    </div>
+    <div>
+      <dl class="facts">
+        <div><dt>1993</dt><dd>Year founded</dd></div>
+        <div><dt>500+</dt><dd>Active members, in a community of thousands</dd></div>
+        <div><dt>6</dt><dd>Volunteer board members</dd></div>
+      </dl>
+      <figure class="quote rv">
+        <blockquote>Mental resilience is not a luxury. It is a responsibility we owe to those who repeatedly stepped forward to protect us, and to the families who continue to support them long after the fighting ends.</blockquote>
+        <figcaption>Hezki Malachi, CEO</figcaption>
+      </figure>
     </div>
   </div>
-  <figure><img src="logo.webp" alt="Association emblem: the unit's wings above a line of soldiers hiking through hills"></figure>
 </div></section>
 
-<div class="facts" aria-label="At a glance"><div class="wrap">
-  <dl>
-    <div><dt>1993</dt><dd>Founded by the late Lt. Col. Eyal Weiss, a former commander of the unit</dd></div>
-    <div><dt>500+</dt><dd>Active members, in a community of thousands of veterans</dd></div>
-    <div><dt>400+</dt><dd>Veterans and family members receive mental health support each year</dd></div>
-    <div><dt>97</dt><dd>Soldiers of the unit have fallen. We stand by every family, for life</dd></div>
-  </dl>
-  <p class="src">Sources: association figures (2026 donor presentation) and <a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">GuideStar Israel, Ministry of Justice</a>.</p>
-</div></div>
-
-<section id="about-en" data-sec="about"><div class="wrap split">
-  <div class="stack">
-    <p class="eyebrow">Who we are</p>
-    <h2>A family after service</h2>
-  </div>
-  <div class="body">
-    <p>In Israel, most young people serve in the army. A few are selected for units like Sayeret Nahal, part of the Nahal Brigade, whose fighters specialize in reconnaissance, counter-terrorism, combat engineering and anti-tank warfare. They are trusted with missions where one mistake can cost lives, and they carry that weight for the rest of their lives.</p>
-    <p>In uniform, they are trained to carry the load and never ask for help. Out of uniform, trauma, isolation and financial strain do not end when service does. 97 soldiers of the unit have fallen: 30 in the 1997 helicopter disaster and 41 since October 7, 2023.</p>
-    <p>After the unit's commander, Lt. Col. Yonatan "Barnash" Tzur, fell on October 7, the unit's separate alumni groups united as one association. It is run by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p>
-    <blockquote>"Mental resilience is not a luxury. It is a responsibility we owe to those who stepped forward again and again to protect us."</blockquote>
-  </div>
-</div></section>
-
-<section class="programs" id="work-en" data-sec="work"><div class="wrap">
-  <p class="eyebrow">Our work</p>
-  <h2>Four pillars of support</h2>
-  <div class="pillars">
-    <article class="pillar">
-      <p class="tag">Pillar 1 · Combat trauma and mental health</p>
-      <h3>Healing the invisible wounds</h3>
-      <p class="big">17<small>team journeys in 2025</small></p>
-      <p>A team of 15 to 20 fighters who served together goes on a processing journey, guided by professionals. In 2025 we also ran 25 individual journeys and 5 journeys for bereaved mothers, and referred 6 fighters to psychological care. For 2026, 25 team journeys and 10 journeys for bereaved parents are planned, and therapy requests are expected to rise by 150%.</p>
-      <p class="budget">Annual budget: $380K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">Pillar 2 · Welfare and families</p>
-      <h3>For life</h3>
-      <p class="big">97<small>bereaved families</small></p>
-      <p>Personal care for dozens of wounded soldiers and their families for as long as it takes, support for the families of the 97 fallen, and help for reservists' families through long call-ups: emotional, community and practical.</p>
-      <p class="budget">Bereaved families $250K · Wounded and families $100K · Reservist families $10K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">Pillar 3 · Careers and life after service</p>
-      <h3>Leaders of tomorrow</h3>
-      <p class="big">650+<small>veterans each year</small></p>
-      <p>8 to 10 industry events a year with tech and investment leaders, 30 veterans in mentoring cycles, about 15 of them with training grants, and 3 two-day discharge workshops that give more than 200 veterans tools for career, finance and life.</p>
-      <p class="budget">Annual budget: $80K</p>
-    </article>
-    <article class="pillar">
-      <p class="tag">Pillar 4 · Lone soldiers · New initiative</p>
-      <h3>Never behind. Never alone.</h3>
-      <p class="big">5<small>years of mentoring</small></p>
-      <p>Lone soldiers serve in Israel without family nearby. At discharge, their safety net vanishes. This new initiative gives them adoptive families, a personal mentor for their first five years of civilian life, and a community network for an independent future.</p>
-      <p class="budget">Launch cost: $40K</p>
-    </article>
-  </div>
+<section class="pillars" id="work-en" data-sec="work"><div class="wrap">
+  <div class="head"><p class="label">Our work</p><h2>Four pillars of support</h2><p class="lead">Each pillar has its own goals and budget. This is what the work looks like on the ground.</p></div>
+  <ol class="trail">
+    <li class="rv"><span class="pin" aria-hidden="true">1</span><article class="card">
+      <p class="tag">Combat trauma and mental health</p><h3>Healing the invisible wounds</h3>
+      <p>A team of 15 to 20 fighters who served together goes on a processing journey, guided by professionals. In 2025 we ran 17 team journeys, 25 individual journeys and 5 journeys for bereaved mothers.</p>
+      <p class="stat"><b>400+</b><span>veterans and family members supported each year</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">2</span><article class="card">
+      <p class="tag">Welfare and families</p><h3>For life</h3>
+      <p>Personal care for wounded soldiers and their families for as long as it takes, support for the families of the unit's fallen, and help for reservists' families through long call-ups.</p>
+      <p class="stat"><b>97</b><span>bereaved families</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">3</span><article class="card">
+      <p class="tag">Careers and life after service</p><h3>Leaders of tomorrow</h3>
+      <p>Events with tech and investment leaders, mentoring cycles and training grants, and 3 discharge workshops a year that give more than 200 new veterans tools for career and finances.</p>
+      <p class="stat"><b>650+</b><span>veterans each year</span></p>
+    </article></li>
+    <li class="rv"><span class="pin" aria-hidden="true">4</span><article class="card">
+      <p class="tag">Lone soldiers · New initiative</p><h3>Never behind. Never alone.</h3>
+      <p>Lone soldiers serve in Israel without family nearby, and at discharge their safety net vanishes. The initiative: an adoptive family, a personal mentor and a supportive community.</p>
+      <p class="stat"><b>5</b><span>years of mentoring in civilian life</span></p>
+    </article></li>
+  </ol>
   <p class="note">Figures from the association's 2026 donor presentation.</p>
 </div></section>
 
-<section id="impact-en" data-sec="impact"><div class="wrap">
-  <p class="eyebrow">Choose your impact</p>
-  <h2>What your gift makes possible</h2>
-  <p class="lead">Based on the association's budget. Give any amount, and add the area you want to support in the comment field at checkout.</p>
-  <div class="ladder">
-    <div class="rung"><span class="amt">$120</span><span class="what">One veteran, career-ready: coaching, introductions and training grants.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="120">Give this amount</button></div>
-    <div class="rung"><span class="amt">$2,500</span><span class="what">A bereaved parent's resilience journey, guided by professionals.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="2500">Give this amount</button></div>
-    <div class="rung"><span class="amt">$13,000</span><span class="what">A team of 15 to 20 fighters on a professionally guided resilience journey.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="13000">Give this amount</button></div>
-    <div class="rung"><span class="amt">$40,000</span><span class="what">Launch the lone-soldier program: adoptive families and five years of mentoring.</span><button type="button" class="btn btn-ghost btn-sm" data-pick="40000">Give this amount</button></div>
-  </div>
-</div></section>
-
-<section class="donate" id="donate-en" data-sec="donate"><div class="wrap">
-  <p class="eyebrow" style="color:#e6d9a2">Give</p>
-  <h2>Stand with the heroes</h2>
-  <p class="lead">You complete your gift on Jgive's secure donation page, where you confirm the amount and pay.</p>
-  <div class="panel">
-    <div class="donor" data-donor>
-      <fieldset class="field"><legend>How often</legend>
-        <div class="seg"><button type="button" data-freq="once">One time</button><button type="button" data-freq="monthly">Monthly</button></div>
-      </fieldset>
-      <fieldset class="field"><legend>Currency</legend>
-        <div class="seg"><button type="button" data-cur="USD">$ USD</button><button type="button" data-cur="ILS">₪ ILS</button></div>
-      </fieldset>
-      <fieldset class="field"><legend>Amount</legend>
-        <div class="amts" data-amts></div>
-        <div class="other"><label for="other-en">Other amount</label><input id="other-en" type="number" min="1" inputmode="numeric" data-other></div>
-      </fieldset>
-      <p class="impact" data-impact aria-live="polite"></p>
-      <a class="btn btn-primary go" data-go target="_blank" rel="noopener" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount">Continue to secure checkout</a>
-      <p class="note" data-note></p>
+<section class="dark donate" id="donate-en" data-sec="donate"><div class="wrap">
+  <div class="head"><p class="label">Give</p><h2>Join the family</h2><p class="lead">A monthly gift helps the association plan ahead: one more journey, one more family, one more veteran. A one-time gift helps too.</p></div>
+  <div class="grid">
+    <div>
+      <h3>What your gift makes possible</h3>
+      <p class="note">Amounts based on the association's budget.</p>
+      <ul class="ladder">
+        <li><span class="amt">$120</span><span class="what">One veteran, career-ready: coaching, introductions and training grants.</span></li>
+        <li><span class="amt">$2,500</span><span class="what">A bereaved parent's resilience journey, guided by professionals.</span></li>
+        <li><span class="amt">$13,000</span><span class="what">A team of 15 to 20 fighters on a professionally guided resilience journey.</span></li>
+        <li><span class="amt">$40,000</span><span class="what">Launch the lone-soldier program: adoptive families and five years of mentoring.</span></li>
+      </ul>
     </div>
-    <aside class="side">
-      <div class="trust"><span>Registered Israeli non-profit</span><span>Secure checkout by Jgive</span><span>Monthly giving available</span></div>
-      <div><h3>Tax receipts</h3><p>According to the association, gifts through Jgive are tax-deductible in the United States, the United Kingdom and Canada. Jgive issues the receipt. Please confirm the details for your country with Jgive or your tax advisor. Gifts made by December 31 count toward this tax year.</p></div>
-      <div><h3>US checks, wires and donor-advised funds</h3><p>US donors can also give through the AID Coalition (America-Israel Democracy Coalition), which receives gifts for Sayeret Nahal. <a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">Mailing and wire details</a>.</p></div>
-      <div><h3>Bank transfer (Israel)</h3>
-        <dl class="kv"><dt>Bank</dt><dd>Leumi (10)</dd><dt>Branch</dt><dd>734</dd><dt>Account</dt><dd><span>2014601</span> <button type="button" class="copy" data-copy="2014601">Copy</button></dd><dt>Name</dt><dd>Owl Protectors (registered non-profit)</dd></dl>
+    <div class="pay">
+      <h3>Give securely through Jgive</h3>
+      <div class="curr">
+        <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener"><span>Donate in US dollars $</span><small>One-time or monthly</small></a>
+        <a class="btn btn-ghost" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener"><span>Donate in shekels ₪</span><small>For donors in Israel</small></a>
       </div>
-    </aside>
+      <ol class="steps" aria-label="What happens after you click">
+        <li><span><b>Choose your amount and frequency.</b> For a monthly gift, select "Recurring donation". You can stop it anytime from your Jgive account.</span></li>
+        <li><span><b>Pay by card</b> on Jgive's secure page. Your card details never reach us.</span></li>
+        <li><span><b>Get your receipt by email.</b> Check the tax rules that apply in your country.</span></li>
+      </ol>
+      <div class="secure"><span>Registered non-profit 580218642</span><span>Proper management certified 2026</span></div>
+      <p class="fine">Your gift goes through the Jgive campaign page "Mental Resilience – Team Combat-Processing Journeys". Want to support another program? Name it in the comment field. Opens in a new tab.</p>
+    </div>
+  </div>
+  <div class="other">
+    <div><h3>US checks, wires and DAFs</h3><p>US donors can also give through the AID Coalition, a 501(c)(3) organization that receives gifts for Sayeret Nahal.</p><p><a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">Mailing and wire details</a></p></div>
+    <div><h3>Bank transfer (Israel)</h3>
+      <dl class="kv"><dt>Bank</dt><dd>Leumi (10)</dd><dt>Branch</dt><dd>734</dd><dt>Account</dt><dd><span data-sel>2014601</span><button type="button" class="copy" data-copy="2014601" aria-label="Copy account number">Copy</button></dd><dt>Payee</dt><dd>Meginei HaYanshuf (registered non-profit)</dd></dl></div>
+    <div><h3>Already gave? Thank you.</h3><p>The most helpful next step: pass the link to your friends.</p><p><a href="https://wa.me/?text=I%20just%20gave%20to%20the%20Sayeret%20Nahal%20Alumni%20Association%2C%20which%20supports%20the%20unit's%20veterans%2C%20wounded%20and%20bereaved%20families.%20Join%20me%3A%20https%3A%2F%2Fwww.jgive.com%2Fnew%2Fen%2Fusd%2Fcollect%2Fdonation-targets%2F163449%2Famount" target="_blank" rel="noopener">Share on WhatsApp</a></p></div>
   </div>
 </div></section>
 
-<section class="adopt" id="adopt-en" data-sec="adopt"><div class="wrap">
-  <div class="stack">
-    <p class="eyebrow">For companies, foundations and major donors</p>
-    <h2>Adopt a team</h2>
-    <p class="lead">Fund a resilience journey for a full team of 15 to 20 fighters (about $13,000), or share its cost. Another team gets professional support that continues after the journey. We are also glad to talk about adopting other programs.</p>
-  </div>
-  <a class="btn btn-ghost" href="#contact-en">Talk to Hezki</a>
-</div></section>
+<section class="adopt" id="adopt-en" data-sec="adopt"><div class="wrap"><div class="box">
+  <div class="head"><p class="label">For companies, foundations and major donors</p><h2>Adopt a team</h2><p class="lead">Fund a resilience journey for a full team of 15 to 20 fighters, guided by professionals, or share its cost. You can also adopt another program. We would be glad to meet.</p></div>
+  <a class="btn btn-primary" href="#contact-en">Talk to Hezki Malachi, CEO</a>
+</div></div></section>
 
-<section class="programs" id="trust-en" data-sec="trust"><div class="wrap">
-  <p class="eyebrow">Transparency</p>
-  <h2>Where $950K goes in 2026</h2>
-  <p class="lead">Every program has its own budget. You can direct your gift to one area, or let our board allocate it where the need is greatest.</p>
-  <div class="bars" role="list">
-    <div class="bar" role="listitem"><span>Mental resilience</span><span class="track"><span class="fill" style="width:calc(100% * .75)"></span><b>$380K</b></span></div>
-    <div class="bar" role="listitem"><span>Bereaved families</span><span class="track"><span class="fill" style="width:calc(65.8% * .75)"></span><b>$250K</b></span></div>
-    <div class="bar" role="listitem"><span>Wounded soldiers and families</span><span class="track"><span class="fill" style="width:calc(26.3% * .75)"></span><b>$100K</b></span></div>
-    <div class="bar" role="listitem"><span>Career, mentoring and students</span><span class="track"><span class="fill" style="width:calc(21.1% * .75)"></span><b>$80K</b></span></div>
-    <div class="bar" role="listitem"><span>Lone soldiers, post-service</span><span class="track"><span class="fill" style="width:calc(10.5% * .75)"></span><b>$40K</b></span></div>
-    <div class="bar" role="listitem"><span>Homefront and reservist families</span><span class="track"><span class="fill" style="width:calc(2.6% * .75)"></span><b>$10K</b></span></div>
-    <div class="bar ops" role="listitem"><span>Operations and other costs</span><span class="track"><span class="fill" style="width:calc(23.7% * .75)"></span><b>$90K</b></span></div>
+<section class="money pillars" id="trust-en" data-sec="trust"><div class="wrap">
+  <div class="head"><p class="label">Transparency</p><h2>Where the money goes in 2026</h2><p class="lead">The 2026 budget is $950K. Every program has its own budget. You can direct your gift to one area, or let the board allocate it where the need is greatest.</p></div>
+  <div class="grid">
+    <div>
+      <ul class="bars">
+        <li><span class="row"><span>Mental resilience</span><b>$380K</b></span><span class="track"><span class="fill" style="width:100%"></span></span></li>
+        <li><span class="row"><span>Bereaved families</span><b>$250K</b></span><span class="track"><span class="fill" style="width:65.8%"></span></span></li>
+        <li><span class="row"><span>Wounded soldiers and families</span><b>$100K</b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
+        <li><span class="row"><span>Career, mentoring and students</span><b>$80K</b></span><span class="track"><span class="fill" style="width:21.1%"></span></span></li>
+        <li><span class="row"><span>Lone soldiers, post-service</span><b>$40K</b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
+        <li><span class="row"><span>Reservist families</span><b>$10K</b></span><span class="track"><span class="fill" style="width:2.6%"></span></span></li>
+        <li class="ops"><span class="row"><span>Operations and other costs</span><b>$90K</b></span><span class="track"><span class="fill" style="width:23.7%"></span></span></li>
+      </ul>
+      <p class="ops-note">Operations and other costs: about 9.5% of the budget. The rest goes directly to programs.</p>
+      <p class="note">Source: the association's 2026 budget, as presented to donors.</p>
+    </div>
+    <div>
+      <h3>On the public record</h3>
+      <dl class="reg">
+        <div><dt>Registered name</dt><dd>Meginei HaYanshuf ("Owl Protectors"), changing its name to Sayeret Nahal Alumni Association</dd></div>
+        <div><dt>Non-profit no.</dt><dd>580218642</dd></div>
+        <div><dt>Proper management</dt><dd>Certified 2026</dd></div>
+        <div><dt>Israeli tax credit</dt><dd>Section 46, valid to 31 Dec 2027</dd></div>
+        <div><dt>Reported revenue</dt><dd>₪1,615,762 (2024)</dd></div>
+        <div><dt>Address</dt><dd>Ulpan 1, Revivim, Israel</dd></div>
+      </dl>
+      <p class="note"><a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">Full profile on GuideStar Israel (Hebrew)</a></p>
+    </div>
   </div>
-  <p class="note">Source: the association's 2026 budget, as presented to donors.</p>
-  <div class="table-wrap"><table>
-    <tr><th>Registered name</th><td>Owl Protectors (Hebrew: Meginei HaYanshuf). A change of name to Sayeret Nahal Alumni Association is in progress.</td></tr>
-    <tr><th>Non-profit number</th><td>580218642</td></tr>
-    <tr><th>Proper management certificate</th><td>2026</td></tr>
-    <tr><th>Israeli tax credit (Section 46)</th><td>Valid until 31 December 2027</td></tr>
-    <tr><th>Reported annual revenue</th><td>₪1,615,762 (2024)</td></tr>
-    <tr><th>Address</th><td>Ulpan 1, Revivim, Israel</td></tr>
-  </table></div>
-  <p class="note"><a href="https://www.guidestar.org.il/organization/580218642" target="_blank" rel="noopener">Full profile on GuideStar Israel (Hebrew), including reports</a></p>
 </div></section>
 
 <section id="faq-en" data-sec="faq"><div class="wrap">
-  <p class="eyebrow">Questions</p>
-  <h2>Before you give</h2>
+  <div class="head"><p class="label">Questions</p><h2>Before you give</h2></div>
   <div class="faq">
-    <details><summary>Who runs the association?</summary><p>Alumni of Sayeret Nahal. It was founded in 1993 by the late Lt. Col. Eyal Weiss and is run today by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p></details>
-    <details><summary>Who benefits?</summary><p>The unit's veterans, wounded soldiers and their families, the families of the fallen, reservists' families and lone soldiers.</p></details>
-    <details><summary>Can I support a specific program?</summary><p>Yes. Write the program in the comment field on the Jgive checkout page, or contact Hezki. Without a note, the board allocates your gift where the need is greatest.</p></details>
-    <details><summary>Can I give monthly?</summary><p>Yes. Choose "Recurring donation" on the Jgive checkout page.</p></details>
-    <details><summary>Can I give from outside Israel?</summary><p>Yes, in US dollars through Jgive, by credit card. US donors can also give by check, wire or donor-advised fund through the AID Coalition.</p></details>
-    <details><summary>Is my gift tax-deductible?</summary><p>According to the association, gifts through Jgive are tax-deductible in the US, the UK and Canada, and gifts through the AID Coalition are deductible under Section 501(c)(3). Rules differ by country, so please confirm with the receiving organization or your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
-    <details><summary>How do I reach you?</summary><p>Hezki Malachi, CEO: +972-50-734-7952, hezki.m@gmail.com. Association email: sayeret.nahal@gmail.com.</p></details>
+    <details><summary>Where does my gift go?</summary><p>To the association's programs, following the budget above. You can name a program in the comment field at checkout. Without a note, the board allocates it where the need is greatest.</p></details>
+    <details><summary>Can I give monthly?</summary><p>Yes. Choose "Recurring donation" on the Jgive checkout page. You can stop it anytime from your Jgive account.</p></details>
+    <details><summary>Is the payment secure?</summary><p>Payment is handled by Jgive, an Israeli donation platform. Your card details never reach the association.</p></details>
+    <details><summary>Is my gift tax-deductible?</summary><p>The association tells us that gifts through Jgive are tax-deductible in the US, the UK and Canada, and gifts through the AID Coalition are deductible under Section 501(c)(3). Rules differ by country, so please confirm with the receiving organization or your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
+    <details><summary>Who runs the association?</summary><p>Alumni of the unit: 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi. It was founded in 1993.</p></details>
   </div>
 </div></section>
 
 <section class="closing" id="contact-en" data-sec="contact"><div class="wrap">
-  <img src="logo.webp" alt="" width="120">
-  <h2>Stand with the heroes.</h2>
-  <p class="lead">The war's impact is long term, and recovery has to start now. Demand for care is rising faster than our capacity.</p>
-  <a class="btn btn-primary" href="#donate-en">Donate now</a>
-  <div class="contact">
-    <span>Hezki Malachi, CEO: <b>+972-50-734-7952</b></span>
-    <span><b>hezki.m@gmail.com</b></span>
-    <span>Ariel Cohen, Head of Community</span>
-    <span>Association: <b>sayeret.nahal@gmail.com</b></span>
+  <img src="logo.webp" alt="" width="112" height="86">
+  <h2>Once a family, always a family.</h2>
+  <p class="lead">Recovery has to start now, and demand for care is rising faster than our capacity to provide it.</p>
+  <div class="ctas">
+    <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in US dollars $</a>
+    <a class="btn btn-ghost" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in shekels ₪</a>
+  </div>
+  <div class="contacts">
+    <div>Hezki Malachi, CEO<b>+972-50-734-7952</b><a href="tel:+972507347952">Call</a> <button type="button" class="copy" data-copy="+972-50-734-7952">Copy</button></div>
+    <div>Hezki's email<b>hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">Email</a> <button type="button" class="copy" data-copy="hezki.m@gmail.com">Copy</button></div>
+    <div>Association email · Ariel Cohen, Head of Community<b>sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">Email</a> <button type="button" class="copy" data-copy="sayeret.nahal@gmail.com">Copy</button></div>
   </div>
 </div></section>
 </main>
-<footer><div class="wrap"><span>Owl Protectors (registered non-profit 580218642) · Sayeret Nahal Alumni Association</span><span>Ulpan 1, Revivim, Israel</span></div></footer>
+<footer><div class="wrap"><span>Meginei HaYanshuf (registered non-profit 580218642) · Sayeret Nahal Alumni Association</span><span>Ulpan 1, Revivim, Israel</span></div></footer>
+<div class="dockbar off" aria-hidden="true"><p>Sayeret Nahal Alumni<br>Secure giving through Jgive</p><a class="btn btn-primary" href="#donate-en">Donate</a></div>
 </div>
 
 </div>
 
 <script>
 (function(){
-  var LINKS={ILS:"https://www.jgive.com/l/Mental_Resilience-Sayeret_Nahal_Alumni",USD:"https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount"};
-  var AMTS=[100,180,360,500,1000];
-  var state={freq:"once",cur:null,amt:180,other:""};
   var lang="he";
-  function sym(c){return c==="USD"?"$":"₪"}
-  function fmt(n,c){var s=Number(n).toLocaleString("en-US");return c==="USD"?"$"+s:"‏"+s+" ₪"}
-  var T={
-    he:{per:" לחודש",pick:"בחרו סכום",msg:function(a,c,m){return "בעמוד של Jgive תבחרו "+(m?"\"הוראת קבע\" ו":"")+"סכום של "+a+". נפתח בלשונית חדשה."},
-        imp:function(){return "אפשר לייעד את התרומה לתחום מסוים: כתבו אותו בשדה ההערה בעמוד התשלום."}},
-    en:{per:"/month",pick:"Choose an amount",msg:function(a,c,m){return "On Jgive, select "+(m?"\"Recurring donation\" and ":"")+a+". Opens in a new tab."},
-        imp:function(){return "Want to support a specific program? Write it in the comment field at checkout."}}
-  };
-  function render(){
-    document.querySelectorAll("[data-donor]").forEach(function(d){
-      var L=d.closest(".v").dataset.lang, t=T[L], cur=state.cur||(L==="he"?"ILS":"USD");
-      d.querySelectorAll("[data-freq]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.freq===state.freq)});
-      d.querySelectorAll("[data-cur]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.cur===cur)});
-      var box=d.querySelector("[data-amts]");
-      box.innerHTML="";
-      AMTS.forEach(function(a){var b=document.createElement("button");b.type="button";b.textContent=fmt(a,cur)+(state.freq==="monthly"?t.per:"");b.setAttribute("aria-pressed",!state.other&&state.amt===a);b.onclick=function(){state.amt=a;state.other="";render()};box.appendChild(b)});
-      var o=d.querySelector("[data-other]"); if(document.activeElement!==o) o.value=state.other;
-      var amount=state.other?Number(state.other):state.amt;
-      d.querySelector("[data-impact]").textContent=t.imp(cur);
-      d.querySelector("[data-go]").href=LINKS[cur];
-      d.querySelector("[data-note]").textContent=amount>0?t.msg(fmt(amount,cur)+(state.freq==="monthly"?t.per:""),cur,state.freq==="monthly"):t.pick;
-    });
-  }
-  document.addEventListener("click",function(e){
-    var b=e.target.closest("button"); if(!b) return;
-    if(b.dataset.freq){state.freq=b.dataset.freq;render()}
-    else if(b.dataset.cur){state.cur=b.dataset.cur;render()}
-    else if(b.dataset.pick){state.cur="USD";state.other=b.dataset.pick;render();var t=document.getElementById("donate-"+lang);if(t)t.scrollIntoView();}
-    else if(b.dataset.setLang){setLang(b.dataset.setLang,true)}
-    else if(b.dataset.copy){var txt=b.dataset.copy, old=b.textContent;
-      var done=function(){b.textContent=lang==="he"?"הועתק":"Copied";setTimeout(function(){b.textContent=old},1500)};
-      try{navigator.clipboard.writeText(txt).then(done,function(){selectText(b.previousElementSibling||b)})}catch(err){selectText(b.previousElementSibling||b)}}
-  });
-  function selectText(el){try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}}
-  document.addEventListener("input",function(e){if(e.target.matches("[data-other]")){state.other=e.target.value;render()}});
-  function currentSection(){
-    var v=document.querySelector('.v[data-lang="'+lang+'"]'); var best="top";
-    v.querySelectorAll("[data-sec]").forEach(function(s){if(s.getBoundingClientRect().top<window.innerHeight*0.35) best=s.dataset.sec});
+  function views(){return document.querySelectorAll(".v")}
+  function cur(){return document.querySelector('.v[data-lang="'+lang+'"]')}
+  function section(){
+    var best=null; cur().querySelectorAll("[data-sec]").forEach(function(s){if(s.getBoundingClientRect().top<innerHeight*.35) best=s.dataset.sec});
     return best;
   }
   function setLang(l,keep){
-    var sec=keep?currentSection():null; lang=l;
-    document.querySelectorAll(".v").forEach(function(v){v.hidden=v.dataset.lang!==l});
+    var sec=keep?section():null; lang=l;
+    views().forEach(function(v){v.hidden=v.dataset.lang!==l});
     document.documentElement.lang=l; document.documentElement.dir=l==="he"?"rtl":"ltr";
     document.title=l==="he"?"עמותת בוגרי סיירת נח\"ל":"Sayeret Nahal Alumni";
     try{localStorage.setItem("snl-lang",l)}catch(e){}
-    if(keep){ if(location.hash!=="#"+l) history.replaceState(null,"","#"+l); var t=document.getElementById(sec+"-"+l); if(t) t.scrollIntoView({behavior:"instant"}); }
-    render();
+    if(keep){
+      try{history.replaceState(null,"","#"+l)}catch(e){}
+      var t=sec&&document.getElementById(sec+"-"+l);
+      if(t) t.scrollIntoView({behavior:"instant"}); else scrollTo({top:0,behavior:"instant"});
+    }
+    watchDock();
   }
-  var h=(location.hash||"").replace("#",""), start="he";
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b) return;
+    if(b.dataset.setLang){ if(b.dataset.setLang!==lang) setLang(b.dataset.setLang,true); return; }
+    if(b.dataset.copy){
+      var old=b.textContent, txt=b.dataset.copy;
+      var ok=function(){b.textContent=lang==="he"?"הועתק":"Copied";setTimeout(function(){b.textContent=old},1600)};
+      var fail=function(){var el=b.parentElement.querySelector("b,[data-sel]"); if(!el) return; try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(x){}};
+      try{navigator.clipboard.writeText(txt).then(ok,fail)}catch(x){fail()}
+    }
+  });
+
+  /* sticky donate bar: visible after the hero, hidden while the donate section is on screen */
+  var io=null;
+  function watchDock(){
+    if(!("IntersectionObserver" in window)) return;
+    if(io) io.disconnect();
+    var v=cur(), bar=v.querySelector(".dockbar"), hero=v.querySelector(".hero"), don=v.querySelector(".donate"), closing=v.querySelector(".closing");
+    if(!bar) return;
+    var st={hero:true,don:false,close:false};
+    function upd(){bar.classList.toggle("off",st.hero||st.don||st.close); var off=st.hero||st.don||st.close;bar.setAttribute("aria-hidden",off);bar.inert=off}
+    io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.target===hero) st.hero=e.isIntersecting; else if(e.target===don) st.don=e.isIntersecting; else st.close=e.isIntersecting;
+    });upd()},{threshold:0});
+    io.observe(hero);io.observe(don);if(closing)io.observe(closing);upd();
+  }
+
+  /* respect reduced motion for the SVG walkers */
+  try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches){ document.querySelectorAll("svg.ridges").forEach(function(s){s.pauseAnimations&&s.pauseAnimations();s.setCurrentTime&&s.setCurrentTime(6)}) } }catch(e){}
+
+  /* starting language: hash, then saved choice, then browser language */
+  var h=(location.hash||"").slice(1), start=null, saved=null;
+  try{saved=localStorage.getItem("snl-lang")}catch(e){}
   if(h==="en"||/-en$/.test(h)) start="en"; else if(h==="he"||/-he$/.test(h)) start="he";
-  else { try{var s=localStorage.getItem("snl-lang"); if(s) start=s}catch(e){} if(!h && !/^he/i.test(navigator.language||"he") && start!=="he") start="en"; }
+  else if(saved==="he"||saved==="en") start=saved;
+  else start=/^he\b/i.test(navigator.language||"he")?"he":"en";
   setLang(start,false);
-  window.addEventListener("hashchange",function(){var x=location.hash.slice(1); if((x==="en"||x==="he")&&x!==lang) setLang(x,false)});
+  if(/-(he|en)$/.test(h)){var t=document.getElementById(h); if(t) setTimeout(function(){t.scrollIntoView()},0)}
+  addEventListener("hashchange",function(){var x=location.hash.slice(1); if((x==="en"||x==="he")&&x!==lang) setLang(x,false)});
 })();
 </script>
 
