@@ -92,16 +92,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .chips li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage);flex:none}
 .medal{justify-self:center;margin:0}
 .medal img{width:min(340px,100%);filter:drop-shadow(0 20px 34px rgba(37,50,23,.2))}
-.ridges{margin-bottom:-2px;display:block;width:100%;height:clamp(150px,24vw,380px);margin-top:clamp(8px,3vw,24px);position:relative;z-index:1}
 @media (max-width:820px){.hero .grid{grid-template-columns:1fr}.medal{display:none}}
-@media (prefers-reduced-motion:no-preference){
-  @supports (animation-timeline: scroll()){
-    .ridges .r1{animation:drift1 linear both;animation-timeline:scroll(root);animation-range:0 90vh}
-    .ridges .r2{animation:drift2 linear both;animation-timeline:scroll(root);animation-range:0 90vh}
-    @keyframes drift1{to{transform:translateY(46px)}}
-    @keyframes drift2{to{transform:translateY(22px)}}
-  }
-}
 
 /* urgency band */
 .dark{background:var(--olive-deep);color:var(--on-dark)}
@@ -168,7 +159,7 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .ladder li{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;padding-block:18px;border-bottom:1px solid rgba(231,236,219,.3);align-items:baseline}
 .ladder .amt{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,38px);color:#fff;font-variant-numeric:lining-nums;min-width:4.6ch}
 .ladder .what{color:var(--on-dark)}
-.ladder a{grid-column:2;font-weight:700;font-size:15px;color:var(--gold-on-dark);text-underline-offset:4px}
+.ladder a{grid-column:2;justify-self:start;display:inline-flex;align-items:center;min-height:40px;font-weight:700;font-size:15px;color:var(--gold-on-dark);text-underline-offset:4px}
 .pay{background:var(--paper);color:var(--ink);border-radius:22px;padding:clamp(22px,3.6vw,36px);display:grid;gap:20px;box-shadow:0 30px 60px rgba(18,26,8,.3)}
 .dark .pay h3{font-size:26px;color:var(--olive-deep)}
 .pay .curr{display:grid;gap:12px}
@@ -189,7 +180,7 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-variant-numeric:tabular-nums}
 .kv dt{color:var(--on-dark-muted)}
 .kv dd{margin:0;font-weight:700;min-width:0;overflow-wrap:anywhere}
-.copy{font:700 14px var(--body);min-height:36px;border:1px solid currentColor;background:transparent;border-radius:10px;padding:4px 12px;cursor:pointer;color:inherit;margin-inline-start:6px}
+.copy{font:700 14px var(--body);min-height:40px;border:1px solid currentColor;background:transparent;border-radius:10px;padding:4px 12px;cursor:pointer;color:inherit;margin-inline-start:6px}
 @media (max-width:880px){.other{grid-template-columns:1fr}}
 
 /* adopt */
@@ -203,6 +194,7 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .bars li{display:grid;gap:6px;font-size:16px}
 .bars .row{display:flex;justify-content:space-between;gap:12px}
 .bars b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bars b small{font-weight:600;color:var(--muted);font-size:14px}
 .bars .track{height:12px;border-radius:6px;background:var(--sage-soft);overflow:hidden}
 .bars .fill{display:block;height:100%;border-radius:6px;background:var(--olive)}
 .bars .ops .fill{background:var(--sage)}
@@ -230,7 +222,9 @@ details p{padding-bottom:18px;color:var(--muted)}
 .contacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;width:100%;max-width:900px;text-align:start}
 .contacts > div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0;font-size:16px}
 .contacts b{display:block;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;user-select:all}
-.contacts a{font-size:15px;font-weight:700;display:inline-block;margin:8px 0 0;margin-inline-end:12px}
+.contacts a{font-size:15px;font-weight:700;display:inline-flex;align-items:center;min-height:44px;margin-inline-end:14px}
+[dir="rtl"] .contacts b{text-align:right}
+.contacts .copy{min-height:44px}
 .contacts .copy{color:var(--olive);margin:6px 0 0}
 @media (max-width:760px){.contacts{grid-template-columns:1fr}}
 footer{border-top:1px solid var(--line);padding-block:28px calc(28px + 76px);font-size:14px;color:var(--muted)}
@@ -261,7 +255,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 .vista .front{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(40px,6vw,92px);display:block}
 .illus{position:absolute;z-index:3;inset-inline-end:max(16px,env(safe-area-inset-right,0px));font:700 12px var(--body);color:var(--muted);background:rgba(255,253,246,.82);padding:3px 10px;border-radius:999px}
 .vista .illus{top:max(12px,calc(clamp(10px,6vw,120px) + 8px))}
-.now{background:#2c3a1c url(assets/topo.webp) center/cover}
+.now{background:linear-gradient(rgba(37,50,23,.62),rgba(37,50,23,.62)),#2c3a1c url(assets/topo.webp) center/cover}
 .trail::before{inset-inline-start:27px}
 .trail li{grid-template-columns:56px 1fr}
 .trail .pin{width:56px;height:56px;background:var(--ivory)}
@@ -276,8 +270,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 .fireband .lead{color:var(--on-dark)}
 .fireband .btn-primary{background:var(--gold-on-dark);border-color:var(--gold-on-dark);color:var(--night)}
 .fireband .btn-primary:hover{background:#fff;border-color:#fff}
-.btn-onfire{background:transparent;border-color:var(--gold-on-dark);color:var(--gold-on-dark)}
-.btn-onfire:hover{background:rgba(255,255,255,.12)}
+.btn-onfire{background:rgba(28,38,18,.82);border-color:var(--gold-on-dark);color:var(--gold-on-dark)}
+.btn-onfire:hover{background:rgba(28,38,18,.95)}
+.fireband .lead{text-shadow:0 1px 14px rgba(20,28,10,.9)}
+@media (max-width:820px){.fireband::before{background:linear-gradient(to bottom,rgba(37,50,23,.95) 0%,rgba(37,50,23,.88) 50%,rgba(37,50,23,0) 86%)}}
 .fireband :focus-visible{outline-color:var(--gold-on-dark)}
 .fireband .illus{bottom:12px}
 .closing > .wrap{padding-block:clamp(32px,5vw,56px)}
@@ -402,12 +398,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="grid">
     <div>
       <h3>מה התרומה מאפשרת</h3>
-      <p class="note">סכומים בדולרים, לפי תקציב העמותה.</p>
+      <p class="note">הסכומים בדולרים, לפי תקציב העמותה. אפשר לתרום כל סכום, גם בשקלים. את הסכום מזינים בעמוד התשלום.</p>
       <ul class="ladder">
-        <li><span class="amt">‎$120</span><span class="what">בוגר אחד מוכן לשוק העבודה: ליווי, היכרויות ומענקי הכשרה.</span></li>
-        <li><span class="amt">‎$2,500</span><span class="what">מסע חוסן להורה שכול, בליווי אנשי מקצוע.</span></li>
-        <li><span class="amt">‎$13,000</span><span class="what">צוות של 15 עד 20 לוחמים במסע חוסן מקצועי.</span></li>
-        <li><span class="amt">‎$40,000</span><span class="what">הקמת תוכנית הלוחמים הבודדים: משפחות מאמצות וחמש שנות מנטורינג.</span></li>
+        <li><span class="amt">‎$120</span><span class="what">בוגר אחד מוכן לשוק העבודה: ליווי, היכרויות ומענקי הכשרה.</span><a href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎$120‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">‎$2,500</span><span class="what">מסע חוסן להורה שכול, בליווי אנשי מקצוע.</span><a href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎$2,500‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">‎$13,000</span><span class="what">צוות של 15 עד 20 לוחמים במסע חוסן מקצועי.</span><a href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎$13,000‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">‎$40,000</span><span class="what">הקמת תוכנית הלוחמים הבודדים: משפחות מאמצות וחמש שנות מנטורינג.</span><a href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎$40,000‎ <span aria-hidden="true">←</span></a></li>
       </ul>
     </div>
     <div class="pay">
@@ -418,7 +414,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       </div>
       <ol class="steps" aria-label="מה קורה אחרי הלחיצה">
         <li><span><b>בוחרים סכום ותדירות.</b> לתרומה חודשית בוחרים "הוראת קבע". אפשר להפסיק בכל עת מהחשבון ב-Jgive.</span></li>
-        <li><span><b>משלמים בכרטיס אשראי</b> בעמוד המאובטח של Jgive. פרטי הכרטיס לא עוברים אלינו.</span></li>
+        <li><span><b>משלמים בכרטיס אשראי</b> בעמוד המאובטח של Jgive. פרטי הכרטיס לא עוברים אלינו. בקבלה עשוי להופיע השם הרשום של העמותה, מגיני הינשוף (ע"ר).</span></li>
         <li><span><b>מקבלים קבלה במייל</b> לצורך זיכוי ממס לפי סעיף 46.</span></li>
       </ol>
       <div class="secure"><span>ניהול תקין 2026</span><span>סעיף 46 בתוקף עד 2027</span><span>ע"ר 580218642</span></div>
@@ -444,13 +440,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="grid">
     <div>
       <ul class="bars">
-        <li><span class="row"><span>חוסן נפשי</span><b>380 אלף $</b></span><span class="track"><span class="fill" style="width:100%"></span></span></li>
-        <li><span class="row"><span>משפחות שכולות</span><b>250 אלף $</b></span><span class="track"><span class="fill" style="width:65.8%"></span></span></li>
-        <li><span class="row"><span>פצועים ומשפחותיהם</span><b>100 אלף $</b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
-        <li><span class="row"><span>קריירה, מנטורינג וסטודנטים</span><b>80 אלף $</b></span><span class="track"><span class="fill" style="width:21.1%"></span></span></li>
-        <li><span class="row"><span>לוחמים בודדים</span><b>40 אלף $</b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
-        <li><span class="row"><span>משפחות מילואים</span><b>10 אלף $</b></span><span class="track"><span class="fill" style="width:2.6%"></span></span></li>
-        <li class="ops"><span class="row"><span>תפעול והוצאות אחרות</span><b>90 אלף $</b></span><span class="track"><span class="fill" style="width:23.7%"></span></span></li>
+        <li><span class="row"><span>חוסן נפשי</span><b>380 אלף $ <small>· 40%</small></b></span><span class="track"><span class="fill" style="width:40%"></span></span></li>
+        <li><span class="row"><span>משפחות שכולות</span><b>250 אלף $ <small>· 26.3%</small></b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
+        <li><span class="row"><span>פצועים ומשפחותיהם</span><b>100 אלף $ <small>· 10.5%</small></b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
+        <li><span class="row"><span>קריירה, מנטורינג וסטודנטים</span><b>80 אלף $ <small>· 8.4%</small></b></span><span class="track"><span class="fill" style="width:8.4%"></span></span></li>
+        <li><span class="row"><span>לוחמים בודדים</span><b>40 אלף $ <small>· 4.2%</small></b></span><span class="track"><span class="fill" style="width:4.2%"></span></span></li>
+        <li><span class="row"><span>משפחות מילואים</span><b>10 אלף $ <small>· 1.1%</small></b></span><span class="track"><span class="fill" style="width:1.1%"></span></span></li>
+        <li class="ops"><span class="row"><span>תפעול והוצאות אחרות</span><b>90 אלף $ <small>· 9.5%</small></b></span><span class="track"><span class="fill" style="width:9.5%"></span></span></li>
       </ul>
       <p class="ops-note">תפעול והוצאות אחרות: כ-9.5% מהתקציב. השאר הולך ישירות לתוכניות.</p>
       <p class="note">מקור: מצגת העמותה, תקציב 2026.</p>
@@ -477,7 +473,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <details><summary>אפשר לתרום כל חודש?</summary><p>כן. בעמוד התשלום של Jgive בוחרים "הוראת קבע". אפשר להפסיק בכל עת מהחשבון האישי ב-Jgive.</p></details>
     <details><summary>התשלום מאובטח?</summary><p>התשלום מתבצע ב-Jgive, פלטפורמת תרומות ישראלית. פרטי הכרטיס לא עוברים לעמותה.</p></details>
     <details><summary>יש זיכוי ממס?</summary><p>כן. לעמותה אישור לפי סעיף 46, בתוקף עד 31.12.2027, והקבלה נשלחת במייל.</p></details>
-    <details><summary>אפשר לתרום מחו"ל?</summary><p>כן, בדולרים דרך Jgive. לפי העמותה, התרומה מוכרת לצורכי מס בארה"ב, בבריטניה ובקנדה. תורמים מארה"ב יכולים לתרום גם דרך AID Coalition.</p></details>
+    <details><summary>אפשר לתרום מחו"ל?</summary><p>כן, בדולרים דרך Jgive. תרומה דרך Jgive מוכרת לצורכי מס בארה"ב, בבריטניה ובקנדה, ותורמים מארה"ב יכולים לתרום גם דרך AID Coalition. הכללים משתנים ממדינה למדינה, ולכן כדאי לוודא מול יועץ המס.</p></details>
     <details><summary>מי מנהל את העמותה?</summary><p>בוגרי היחידה: 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי. העמותה נוסדה ב-1993.</p></details>
   </div>
 </div></section>
@@ -486,9 +482,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בשקלים ₪</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בדולרים $</a>
   </div></div><span class="illus">איור</span></div><div class="wrap"><div class="contacts">
-    <div>חזקי מלאכי, מנכ"ל<b dir="ltr">050-734-7952</b><a href="tel:+972507347952">התקשרו</a><button type="button" class="copy" data-copy="050-734-7952">העתק</button></div>
-    <div>מייל של חזקי<b dir="ltr">hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="hezki.m@gmail.com">העתק</button></div>
-    <div>מייל העמותה · אריאל כהן, ראש תחום קהילה<b dir="ltr">sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="sayeret.nahal@gmail.com">העתק</button></div>
+    <div>חזקי מלאכי, מנכ"ל<b dir="ltr">050-734-7952</b><a href="tel:+972507347952">התקשרו</a><button type="button" class="copy" data-copy="050-734-7952" aria-label="העתקת מספר הטלפון">העתק</button></div>
+    <div>המייל של חזקי מלאכי<b dir="ltr">hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="hezki.m@gmail.com" aria-label="העתקת המייל של חזקי">העתק</button></div>
+    <div>מייל העמותה · אריאל כהן, ראש תחום קהילה<b dir="ltr">sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">שלחו מייל</a><button type="button" class="copy" data-copy="sayeret.nahal@gmail.com" aria-label="העתקת מייל העמותה">העתק</button></div>
   </div></div></section>
 </main>
 <footer><div class="wrap"><span>מגיני הינשוף (ע"ר) 580218642 · עמותת בוגרי סיירת נח"ל</span><span>אולפן 1, רביבים</span></div></footer>
@@ -510,7 +506,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="wrap grid">
     <div>
       <p class="label">Sayeret Nahal Alumni Association</p>
-      <h1>In Sayeret Nahal, we count everyone.<span class="l2">Even after the war ends.</span></h1>
+      <h1>In Sayeret Nahal, everyone is counted.<span class="l2">Even after the war ends.</span></h1>
       <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends, we begin. Since 1993 we have cared for the unit's veterans, its wounded and their families, and the families of its fallen.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="#donate-en">Donate <span class="arr" aria-hidden="true">→</span></a>
@@ -531,7 +527,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <p class="caption"><span class="sr">41 </span>soldiers of the unit have fallen since October 7, 2023, among them its commander, Lt. Col. Yonatan "Barnash" Tzur.</p>
     </div>
     <dl class="rv">
-      <div><dt>+150%</dt><dd>more requests for mental health care expected in 2026</dd></div>
+      <div><dt>+150%</dt><dd>expected rise in requests for mental health care in 2026</dd></div>
       <div><dt>25</dt><dd>team resilience journeys planned for 2026. Demand still exceeds capacity.</dd></div>
       <div><dt>97</dt><dd>bereaved families of the unit. We stand by them for life.</dd></div>
     </dl>
@@ -572,7 +568,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <ol class="trail">
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-journey.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">Combat trauma and mental health</p><h3>Healing the invisible wounds</h3>
-      <p>A team of 15 to 20 fighters who served together goes on a processing journey, guided by professionals. In 2025 we ran 17 team journeys, 25 individual journeys and 5 journeys for bereaved mothers.</p>
+      <p>A team of 15 to 20 fighters who served together goes on a guided combat-processing journey with mental health professionals. In 2025 we ran 17 team journeys, 25 individual journeys and 5 journeys for bereaved mothers.</p>
       <p class="stat"><b>400+</b><span>veterans and family members supported each year</span></p>
     </article></li>
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-family.svg" alt="" width="34" height="34"></span><article class="card">
@@ -599,12 +595,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="grid">
     <div>
       <h3>What your gift makes possible</h3>
-      <p class="note">Amounts based on the association's budget.</p>
+      <p class="note">Amounts based on the association's budget. Give any amount; you enter it on the checkout page.</p>
       <ul class="ladder">
-        <li><span class="amt">$120</span><span class="what">One veteran, career-ready: coaching, introductions and training grants.</span></li>
-        <li><span class="amt">$2,500</span><span class="what">A bereaved parent's resilience journey, guided by professionals.</span></li>
-        <li><span class="amt">$13,000</span><span class="what">A team of 15 to 20 fighters on a professionally guided resilience journey.</span></li>
-        <li><span class="amt">$40,000</span><span class="what">Launch the lone-soldier program: adoptive families and five years of mentoring.</span></li>
+        <li><span class="amt">$120</span><span class="what">One veteran, career-ready: coaching, introductions and training grants.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $120 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">$2,500</span><span class="what">A bereaved parent's resilience journey, guided by professionals.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $2,500 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">$13,000</span><span class="what">A team of 15 to 20 fighters on a professionally guided resilience journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $13,000 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">$40,000</span><span class="what">Launch the lone-soldier program: adoptive families and five years of mentoring.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $40,000 <span aria-hidden="true">→</span></a></li>
       </ul>
     </div>
     <div class="pay">
@@ -615,10 +611,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       </div>
       <ol class="steps" aria-label="What happens after you click">
         <li><span><b>Choose your amount and frequency.</b> For a monthly gift, select "Recurring donation". You can stop it anytime from your Jgive account.</span></li>
-        <li><span><b>Pay by card</b> on Jgive's secure page. Your card details never reach us.</span></li>
+        <li><span><b>Pay by card</b> on Jgive's secure page. Your card details never reach us. Your receipt may show our registered name, Meginei HaYanshuf.</span></li>
         <li><span><b>Get your receipt by email.</b> Check the tax rules that apply in your country.</span></li>
       </ol>
-      <div class="secure"><span>Registered non-profit 580218642</span><span>Proper management certified 2026</span></div>
+      <div class="secure"><span>Registered non-profit 580218642</span><span>Proper Management Certificate 2026</span></div>
       <p class="fine">Your gift goes through the Jgive campaign page "Mental Resilience – Team Combat-Processing Journeys". Want to support another program? Name it in the comment field. Opens in a new tab.</p>
     </div>
   </div>
@@ -640,13 +636,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="grid">
     <div>
       <ul class="bars">
-        <li><span class="row"><span>Mental resilience</span><b>$380K</b></span><span class="track"><span class="fill" style="width:100%"></span></span></li>
-        <li><span class="row"><span>Bereaved families</span><b>$250K</b></span><span class="track"><span class="fill" style="width:65.8%"></span></span></li>
-        <li><span class="row"><span>Wounded soldiers and families</span><b>$100K</b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
-        <li><span class="row"><span>Career, mentoring and students</span><b>$80K</b></span><span class="track"><span class="fill" style="width:21.1%"></span></span></li>
-        <li><span class="row"><span>Lone soldiers, post-service</span><b>$40K</b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
-        <li><span class="row"><span>Reservist families</span><b>$10K</b></span><span class="track"><span class="fill" style="width:2.6%"></span></span></li>
-        <li class="ops"><span class="row"><span>Operations and other costs</span><b>$90K</b></span><span class="track"><span class="fill" style="width:23.7%"></span></span></li>
+        <li><span class="row"><span>Mental resilience</span><b>$380K <small>· 40%</small></b></span><span class="track"><span class="fill" style="width:40%"></span></span></li>
+        <li><span class="row"><span>Bereaved families</span><b>$250K <small>· 26.3%</small></b></span><span class="track"><span class="fill" style="width:26.3%"></span></span></li>
+        <li><span class="row"><span>Wounded soldiers and families</span><b>$100K <small>· 10.5%</small></b></span><span class="track"><span class="fill" style="width:10.5%"></span></span></li>
+        <li><span class="row"><span>Career, mentoring and students</span><b>$80K <small>· 8.4%</small></b></span><span class="track"><span class="fill" style="width:8.4%"></span></span></li>
+        <li><span class="row"><span>Lone soldiers, post-service</span><b>$40K <small>· 4.2%</small></b></span><span class="track"><span class="fill" style="width:4.2%"></span></span></li>
+        <li><span class="row"><span>Reservist families</span><b>$10K <small>· 1.1%</small></b></span><span class="track"><span class="fill" style="width:1.1%"></span></span></li>
+        <li class="ops"><span class="row"><span>Operations and other costs</span><b>$90K <small>· 9.5%</small></b></span><span class="track"><span class="fill" style="width:9.5%"></span></span></li>
       </ul>
       <p class="ops-note">Operations and other costs: about 9.5% of the budget. The rest goes directly to programs.</p>
       <p class="note">Source: the association's 2026 budget, as presented to donors.</p>
@@ -672,7 +668,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <details><summary>Where does my gift go?</summary><p>To the association's programs, following the budget above. You can name a program in the comment field at checkout. Without a note, the board allocates it where the need is greatest.</p></details>
     <details><summary>Can I give monthly?</summary><p>Yes. Choose "Recurring donation" on the Jgive checkout page. You can stop it anytime from your Jgive account.</p></details>
     <details><summary>Is the payment secure?</summary><p>Payment is handled by Jgive, an Israeli donation platform. Your card details never reach the association.</p></details>
-    <details><summary>Is my gift tax-deductible?</summary><p>The association tells us that gifts through Jgive are tax-deductible in the US, the UK and Canada, and gifts through the AID Coalition are deductible under Section 501(c)(3). Rules differ by country, so please confirm with the receiving organization or your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
+    <details><summary>Is my gift tax-deductible?</summary><p>Gifts through Jgive are tax-deductible in the US, the UK and Canada, and gifts through the AID Coalition are deductible under Section 501(c)(3). Rules differ by country, so please confirm with the receiving organization or your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
     <details><summary>Who runs the association?</summary><p>Alumni of the unit: 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi. It was founded in 1993.</p></details>
   </div>
 </div></section>
@@ -681,9 +677,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in US dollars $</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in shekels ₪</a>
   </div></div><span class="illus">Illustration</span></div><div class="wrap"><div class="contacts">
-    <div>Hezki Malachi, CEO<b>+972-50-734-7952</b><a href="tel:+972507347952">Call</a> <button type="button" class="copy" data-copy="+972-50-734-7952">Copy</button></div>
-    <div>Hezki's email<b>hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">Email</a> <button type="button" class="copy" data-copy="hezki.m@gmail.com">Copy</button></div>
-    <div>Association email · Ariel Cohen, Head of Community<b>sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">Email</a> <button type="button" class="copy" data-copy="sayeret.nahal@gmail.com">Copy</button></div>
+    <div>Hezki Malachi, CEO<b>+972-50-734-7952</b><a href="tel:+972507347952">Call</a> <button type="button" class="copy" data-copy="+972-50-734-7952" aria-label="Copy phone number">Copy</button></div>
+    <div>Email · Hezki Malachi<b>hezki.m@gmail.com</b><a href="mailto:hezki.m@gmail.com">Email</a> <button type="button" class="copy" data-copy="hezki.m@gmail.com" aria-label="Copy Hezki's email">Copy</button></div>
+    <div>Association email · Ariel Cohen, Head of Community<b>sayeret.nahal@gmail.com</b><a href="mailto:sayeret.nahal@gmail.com">Email</a> <button type="button" class="copy" data-copy="sayeret.nahal@gmail.com" aria-label="Copy association email">Copy</button></div>
   </div></div></section>
 </main>
 <footer><div class="wrap"><span>Meginei HaYanshuf (registered non-profit 580218642) · Sayeret Nahal Alumni Association</span><span>Ulpan 1, Revivim, Israel</span></div></footer>
@@ -698,8 +694,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   function views(){return document.querySelectorAll(".v")}
   function cur(){return document.querySelector('.v[data-lang="'+lang+'"]')}
   function section(){
-    var best=null; cur().querySelectorAll("[data-sec]").forEach(function(s){if(s.getBoundingClientRect().top<innerHeight*.35) best=s.dataset.sec});
-    return best;
+    var best=null,off=0; cur().querySelectorAll("[data-sec]").forEach(function(s){var t=s.getBoundingClientRect().top; if(t<innerHeight*.35){best=s.dataset.sec; off=-t}});
+    return best?{id:best,off:off}:null;
   }
   function setLang(l,keep){
     var sec=keep?section():null; lang=l;
@@ -709,8 +705,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     try{localStorage.setItem("snl-lang",l)}catch(e){}
     if(keep){
       try{history.replaceState(null,"","#"+l)}catch(e){}
-      var t=sec&&document.getElementById(sec+"-"+l);
-      if(t) t.scrollIntoView({behavior:"instant"}); else scrollTo({top:0,behavior:"instant"});
+      var t=sec&&document.getElementById(sec.id+"-"+l);
+      if(t){ var r=t.getBoundingClientRect(); var off=Math.min(sec.off,Math.max(0,r.height-innerHeight*.5)); scrollTo({top:r.top+scrollY+off,behavior:"instant"}); } else scrollTo({top:0,behavior:"instant"});
+      var fb=cur().querySelector('.lang button[data-set-lang="'+l+'"]'); if(fb) try{fb.focus({preventScroll:true})}catch(e){fb.focus()}
     }
     watchDock();
   }
@@ -720,13 +717,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     if(b.dataset.copy){
       var old=b.textContent, txt=b.dataset.copy;
       var ok=function(){b.textContent=lang==="he"?"הועתק":"Copied";setTimeout(function(){b.textContent=old},1600)};
-      var fail=function(){var el=b.parentElement.querySelector("b,[data-sel]"); if(!el) return; try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(x){}};
+      var fail=function(){var el=b.parentElement.querySelector("b,[data-sel]"); if(!el) return; try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(x){} b.textContent=lang==="he"?"סומן, העתיקו ידנית":"Selected, copy manually"; setTimeout(function(){b.textContent=old},2600)};
       try{navigator.clipboard.writeText(txt).then(ok,fail)}catch(x){fail()}
     }
   });
 
   /* sticky donate bar: visible after the hero, hidden while the donate section is on screen */
-  var io=null;
+  var io=null,io2=null;
   function watchDock(){
     if(!("IntersectionObserver" in window)) return;
     if(io) io.disconnect();
@@ -734,14 +731,18 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     if(!bar) return;
     var st={hero:true,don:false,close:false};
     function upd(){bar.classList.toggle("off",st.hero||st.don||st.close); var off=st.hero||st.don||st.close;bar.setAttribute("aria-hidden",off);bar.inert=off}
-    io=new IntersectionObserver(function(es){es.forEach(function(e){
+    var cb=function(es){es.forEach(function(e){
       if(e.target===hero) st.hero=e.isIntersecting; else if(e.target===don) st.don=e.isIntersecting; else st.close=e.isIntersecting;
-    });upd()},{threshold:0});
-    io.observe(hero);io.observe(don);if(closing)io.observe(closing);upd();
+    });upd()};
+    io=new IntersectionObserver(cb,{threshold:0,rootMargin:"0px 0px -45% 0px"});
+    io.observe(hero);io.observe(don);
+    if(io2) io2.disconnect();
+    if(closing){io2=new IntersectionObserver(cb,{threshold:0,rootMargin:"0px 0px -78% 0px"});io2.observe(closing)}
+    upd();
   }
 
   /* respect reduced motion for the SVG walkers */
-  try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches){ document.querySelectorAll("svg.ridges").forEach(function(s){s.pauseAnimations&&s.pauseAnimations();s.setCurrentTime&&s.setCurrentTime(6)}) } }catch(e){}
+
 
   /* starting language: hash, then saved choice, then browser language */
   var h=(location.hash||"").slice(1), start=null, saved=null;
