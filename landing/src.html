@@ -247,6 +247,44 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   }
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* paintings, icons, texture */
+.hero{background:#f8f5ea}
+.vista{position:relative;z-index:1;margin-top:calc(-1 * clamp(10px,6vw,120px));overflow:hidden}
+.vista .paint{display:block;width:100%;height:clamp(240px,38vw,600px);object-fit:cover;object-position:18% 78%}
+.vista.mirror .paint,.vista.mirror .front{transform:scaleX(-1)}
+.vista .front{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(40px,6vw,92px);display:block}
+.illus{position:absolute;z-index:3;inset-inline-end:max(16px,env(safe-area-inset-right,0px));font:700 12px var(--body);color:var(--muted);background:rgba(255,253,246,.82);padding:3px 10px;border-radius:999px}
+.vista .illus{top:max(12px,calc(clamp(10px,6vw,120px) + 8px))}
+.now{background:#2c3a1c url(__A_topo__) center/cover}
+.trail::before{inset-inline-start:27px}
+.trail li{grid-template-columns:56px 1fr}
+.trail .pin{width:56px;height:56px;background:var(--ivory)}
+.trail .pin img{width:36px;height:36px}
+@media (max-width:640px){.trail li{grid-template-columns:44px 1fr}.trail .pin{width:44px;height:44px}.trail .pin img{width:30px;height:30px}.trail::before{inset-inline-start:21px}}
+.closing{padding-top:0;background:var(--ivory)}
+.fireband{position:relative;overflow:hidden;background:#2c3a1c}
+.fireband .paint{display:block;width:100%;height:clamp(540px,56vw,800px);object-fit:cover;object-position:center 82%}
+.fireband::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(37,50,23,.94) 0%,rgba(37,50,23,.72) 34%,rgba(37,50,23,0) 64%)}
+.fireband .over{position:absolute;left:0;right:0;top:0;z-index:2;padding-block:clamp(48px,7vw,96px)}
+.fireband h2{color:#fff}
+.fireband .lead{color:var(--on-dark)}
+.fireband .btn-primary{background:var(--gold-on-dark);border-color:var(--gold-on-dark);color:var(--night)}
+.fireband .btn-primary:hover{background:#fff;border-color:#fff}
+.btn-onfire{background:transparent;border-color:var(--gold-on-dark);color:var(--gold-on-dark)}
+.btn-onfire:hover{background:rgba(255,255,255,.12)}
+.fireband :focus-visible{outline-color:var(--gold-on-dark)}
+.fireband .illus{bottom:12px}
+.closing > .wrap{padding-block:clamp(32px,5vw,56px)}
+.closing .contacts{margin-top:0}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: view()){
+    .vista .paint{animation:sink linear both;animation-timeline:view();animation-range:exit 0% exit 100%}
+    .vista.mirror .paint{animation-name:sinkm}
+    @keyframes sink{to{transform:translateY(36px) scale(1.04)}}
+    @keyframes sinkm{to{transform:scaleX(-1) translateY(36px) scale(1.04)}}
+  }
+}
 </style>
 
 <div id="app">
