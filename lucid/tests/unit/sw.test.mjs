@@ -143,8 +143,12 @@ test('the precache revalidates (no-cache), stores the shell once, leaves out les
   await w.fire('install');
   const cache = w.cache();
   assert.ok(env.fetches.length > 50 && env.fetches.every((f) => f.cache === 'no-cache'), 'every precache request revalidates');
-  for (const f of ['js/views/review.js', 'js/views/simulations.js', 'js/views/settings.js', 'content/real-life/scenarios.json', 'vendor/ts-fsrs.mjs', 'privacy.html', 'release.json', 'content/manifest.json']) {
+  for (const f of ['js/views/review.js', 'js/views/simulations.js', 'js/views/settings.js', 'content/real-life/index.json', 'content/real-life/scenario/rl-airport-checkin-overweight.json', 'content/writing/index.json', 'content/writing/task/we-01.json', 'vendor/ts-fsrs.mjs', 'privacy.html', 'release.json', 'content/manifest.json']) {
     assert.ok(await cache.match(f), `${f} not precached`);
+  }
+  // Contract C-2: the sources the index files replace, and the centre and pool files, are not precached.
+  for (const f of ['content/real-life/scenarios.json', 'content/writing/exercises.json', 'content/centers/read.json', 'content/pool/A1.json']) {
+    assert.equal(await cache.match(f), undefined, `${f} precached`);
   }
   assert.equal(await env.cached(w.name, './'), file('index.html'));
   assert.equal(cache.m.has(abs('index.html')), false, 'index.html is stored once, as ./');
@@ -167,7 +171,7 @@ test('code, fonts, vendor and content are served from the release cache; a miss 
   env.overrides.set('/lucid/js/core/api.js', 'changed on the server');
   const n = env.fetches.length;
   assert.equal(await body((await w.fire('fetch', req('js/core/api.js'))).response), 'cached api');
-  for (const p of ['config.js', 'css/app.css', 'vendor/ts-fsrs.mjs', 'fonts/rubik-hebrew.woff2', 'content/taxonomy.json', 'content/manifest.json', 'content/real-life/scenarios.json']) {
+  for (const p of ['config.js', 'css/app.css', 'vendor/ts-fsrs.mjs', 'fonts/rubik-hebrew.woff2', 'content/taxonomy.json', 'content/manifest.json', 'content/real-life/index.json', 'content/real-life/scenario/rl-airport-checkin-overweight.json', 'content/writing/task/we-01.json']) {
     assert.equal(await body((await w.fire('fetch', req(p))).response), file(p), p);
   }
   for (const [path, mode] of [['./?utm=1', 'navigate'], ['index.html', 'navigate'], ['./', 'navigate'], ['index.html', 'cors']]) {

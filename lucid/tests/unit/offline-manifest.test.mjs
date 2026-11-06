@@ -104,6 +104,8 @@ test('index files replace the big source files in the offline list; centre and p
   const dir = mkdtempSync(join(tmpdir(), 'lucid-split-'));
   try {
     for (const p of ['js', 'vendor', 'content', 'sw.js']) cpSync(join(rootDir, p), join(dir, p), { recursive: true });
+    // Start from a tree without the generated files (as before the content lane), then add them one kind at a time.
+    for (const p of ['real-life/index.json', 'real-life/scenario', 'writing/index.json', 'writing/task', 'centers', 'pool']) rmSync(join(dir, 'content', p), { recursive: true, force: true });
     const before = computeManifest(dir).manifest.offline;
     assert.ok(before.includes('content/real-life/scenarios.json') && before.includes('content/writing/exercises.json'));
     for (const d of ['real-life/scenario', 'writing/task', 'centers', 'pool']) mkdirSync(join(dir, 'content', d), { recursive: true });
@@ -117,6 +119,14 @@ test('index files replace the big source files in the offline list; centre and p
     for (const f of ['content/real-life/index.json', 'content/real-life/scenario/rl-a.json', 'content/writing/index.json', 'content/writing/task/w-a.json']) assert.ok(after.includes(f), f);
     for (const f of ['content/real-life/scenarios.json', 'content/writing/exercises.json', 'content/writing/assignments.json', 'content/centers/read.json', 'content/pool/A1.json']) assert.ok(!after.includes(f), f);
     assert.ok(after.includes('content/real-life/slang.json'));
+    // The committed tree (both lanes merged): every split file is listed, so a scenario or task opens offline; the
+    // centre and pool files and the replaced sources are not (their views fall back to the saved lessons).
+    const real = computeManifest(rootDir).manifest.offline;
+    for (const d of ['real-life/scenario', 'writing/task']) {
+      const ids = readdirSync(join(rootDir, 'content', d)).filter((f) => f.endsWith('.json'));
+      assert.ok(ids.length > 0 && ids.every((f) => real.includes(`content/${d}/${f}`)), d);
+    }
+    assert.ok(!real.some((f) => /^content\/(centers|pool)\/|^content\/real-life\/scenarios\.json$|^content\/writing\/(exercises|assignments)\.json$/.test(f)));
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
