@@ -36,10 +36,16 @@ std=('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8"
 # --- security hardening for the standalone page (index.html only; the Claude artifact host injects its own scripts) ---
 import hashlib
 FRAMEGUARD='(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();'
+GLINKS=['<link rel="preconnect" href="https://fonts.googleapis.com">\n','<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n','<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@400;600;700;800&display=swap">\n']
+for g in GLINKS:
+    assert std.count(g)==1, g
+    std=std.replace(g,'')
+# fonts are self-hosted (OFL licensed, see assets/fonts): no visitor IP goes to Google, and the CSP stays 'self'
+std=std.replace('<style>','<style>\n'+open('assets/fonts/fonts.css',encoding='utf8').read(),1)
 std=std.replace('<meta name="viewport"','<meta name="referrer" content="strict-origin-when-cross-origin">\n__CSP__\n<script>'+FRAMEGUARD+'</script>\n<meta name="viewport"',1)
 def csp_for(html):
     hs=sorted(set("'sha256-%s'"%base64.b64encode(hashlib.sha256(m.encode('utf8')).digest()).decode() for m in re.findall(r'<script>(.*?)</script>',html,flags=re.S)))
-    pol=["default-src 'none'","script-src "+' '.join(hs),"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com","font-src https://fonts.gstatic.com","img-src 'self' data:","connect-src 'none'","media-src 'none'","object-src 'none'","frame-src 'none'","worker-src 'none'","manifest-src 'none'","base-uri 'none'","form-action 'none'","upgrade-insecure-requests"]
+    pol=["default-src 'none'","script-src "+' '.join(hs),"style-src 'self' 'unsafe-inline'","font-src 'self'","img-src 'self' data:","connect-src 'none'","media-src 'none'","object-src 'none'","frame-src 'none'","worker-src 'none'","manifest-src 'none'","base-uri 'none'","form-action 'none'","upgrade-insecure-requests"]
     return '<meta http-equiv="Content-Security-Policy" content="%s">'%'; '.join(pol)
 import re
 out=fill(std,'file')
