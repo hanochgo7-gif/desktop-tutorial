@@ -6,6 +6,7 @@
 // exercises missed on the first try; their earlier right answers keep counting, so fixing the misses can
 // complete the lesson.
 import { html, raw, render, on, $, todayKey } from '../core/util.js';
+import * as util from '../core/util.js';
 import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { content, taxonomyIndex, withItemCount } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
@@ -16,6 +17,8 @@ import { store } from '../core/store.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { lessonOrder, introSlots, firstTries } from '../core/adaptive.js';
 import { answerPoints, isMissed, fillGaps, mistakeNote, clipDiff, sameOrder } from '../core/pool.js';
+// The day of an ISO time (contract C-3: util.dayOf when the runtime lane has it, else the same through a Date).
+const dayOf = util.dayOf ?? ((x) => util.todayKey(new Date(x)));
 
 export { answerPoints };
 
@@ -460,13 +463,13 @@ function firstRecallOpen(plan, given) {
   if (typeof given === 'boolean') return given;
   if ((plan?.blocks || []).some((b) => b.id === 'review' && b.done)) return false;
   const day = todayKey();
-  return due().some((c) => todayKey(new Date(c.created_at)) === day && !c.log?.length && !c.fsrs?.reps);
+  return due().some((c) => dayOf(c.created_at) === day && !c.log?.length && !c.fsrs?.reps);
 }
 // A lesson's pace for the minutes done today, as Today loads it.
 const paceOf = (l) => ({ minutes: l.minutes, exercises: l.exercises.length, intro: introSlots(l) });
 // The words of a lesson that entered review today (words queued for the next days are not counted).
 export function wordsAddedToday(cards, lessonId, day = todayKey()) {
-  return cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.ref?.lesson === lessonId && todayKey(new Date(c.created_at)) === day).length;
+  return cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.ref?.lesson === lessonId && dayOf(c.created_at) === day).length;
 }
 const blockName = (b) => ({
   warmup: tt('חימום', 'Warm-up'),
@@ -633,7 +636,7 @@ export default async function lessonView(el, ctx) {
     const doneN = rs ? rs.firstDone : firstDone(queue, qi);
     const totalN = rs ? rs.firstTotal : queue.filter((q) => !q.retry).length;
     const today = todayKey();
-    const mine = firstTries(model().attempts.filter((a) => a.lesson === id && a.source === 'lesson' && a.score !== null && a.skill !== 'speaking' && todayKey(new Date(a.at)) === today));
+    const mine = firstTries(model().attempts.filter((a) => a.lesson === id && a.source === 'lesson' && a.score !== null && a.skill !== 'speaking' && dayOf(a.at) === today));
     const right = mine.filter((a) => a.correct).length;
     const rest = restMinutes(lesson, queue, qi);
     frame(html`<div class="stack-lg part-end">
@@ -1116,7 +1119,7 @@ export default async function lessonView(el, ctx) {
     // the next days at the daily new-word limit.
     const cards = passed && !wasDone ? allCards() : [];
     const added = wordsAddedToday(cards, id);
-    const queued = cards.filter((c) => c.kind === 'meaning' && c.ref?.lesson === id && todayKey(new Date(c.created_at)) > todayKey()).length;
+    const queued = cards.filter((c) => c.kind === 'meaning' && c.ref?.lesson === id && dayOf(c.created_at) > todayKey()).length;
     stage = 'review';
     const missedKey = (cls) => html`<a class="key ${cls}" href="#/lesson/${id}?stage=missed&t=${Date.now()}" data-retry>${tt(`${missed.length === 1 ? 'לתרגל רק את הטעות' : `לתרגל רק את ${missed.length} הטעויות`} · כ-${missedMin} דק׳`, `Practise just the ${missed.length === 1 ? 'one' : missed.length} I missed · about ${missedMin} min`)}${cls === 'enter' ? html` <span class="kbd">Enter</span>` : ''}</a>`;
     const wordsBanner = added || queued ? html`<p class="banner small" data-words-added>${icon('layers', { size: 18 })}<span>${added

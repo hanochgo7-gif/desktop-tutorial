@@ -1,5 +1,6 @@
 // Today: the plan for this session, why each part is there, and honest evidence of progress.
 import { html, render, on, todayKey } from '../core/util.js';
+import * as util from '../core/util.js';
 import { tt, legend, t, uiLang, isolateLatin, bi, hebrewSupport } from '../core/i18n.js';
 import { content, taxonomyIndex, withItemCount } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
@@ -20,6 +21,8 @@ export function glyphFor(b, done = false) {
   return GLYPH[b.id];
 }
 const L = (l) => LEVEL_LABEL[l] || l;
+// The day of an ISO time (contract C-3: util.dayOf when the runtime lane has it, else the same through a Date).
+const dayOf = util.dayOf ?? ((x) => util.todayKey(new Date(x)));
 
 // A lesson's can-do line on Today and the path (TP-5), by the Hebrew support level as bi() orders it: at full
 // support bi() puts the Hebrew first; at partial support the English leads with the Hebrew under it; at minimal and
@@ -244,12 +247,13 @@ export default async function today(el, ctx) {
   let loadingLesson = null;
   // The plan last drawn, so a change of today's minutes can keep a part finished under the old minutes (TP-2).
   let lastPlan = null;
-  async function loadLesson(id) {
+  // The first load only sets the lesson, so Today draws once (C7); a lesson that arrives later redraws.
+  async function loadLesson(id, { redraw = true } = {}) {
     if (!id || extras.lesson?.id === id || loadingLesson === id) return;
     loadingLesson = id;
     const lesson = await content.lesson(id).catch(() => null);
     loadingLesson = null;
-    if (lesson && model().next?.id === id) { extras.lesson = lesson; draw(); }
+    if (lesson && model().next?.id === id) { extras.lesson = lesson; if (redraw) draw(); }
   }
   // The pace of each lesson answered or read today, from its file, for the minutes done today (TF-2, TP-2).
   // Loaded once each.
@@ -264,10 +268,11 @@ export default async function today(el, ctx) {
     }));
     draw();
   }
-  await loadLesson(model().next?.id);
+  await loadLesson(model().next?.id, { redraw: false });
 
   function draw() {
     if (route && router.current !== route) return;
+    performance.mark?.('today:draw');
     const s = settings();
     const p = profile();
     const m = model();
@@ -285,7 +290,7 @@ export default async function today(el, ctx) {
     // "about to fade". The review takes the first cards of the due list, as review.js does.
     const newIn = (n) => dueList.slice(0, n).filter((c) => !c.log?.length && !c.fsrs?.reps).length;
     const today = todayKey();
-    const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === today;
+    const isToday = (iso) => Boolean(iso) && dayOf(iso) === today;
     // Only curriculum lessons count here: a finished scenario or level check is not a lesson.
     const lessonDoneToday = store.all('progress').some((x) => isLessonId(x.id) && x.status === 'completed' && isToday(x.completed_at));
     // A block is ticked only for what was really done: the plan marks each block itself (adaptive.dailyPlan).
