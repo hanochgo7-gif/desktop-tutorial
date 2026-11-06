@@ -259,6 +259,38 @@ try {
     await ctx.close();
   });
 
+  await check('B4 B7 phone: no layout shift while the shell and the top-bar title are drawn; the title size is kept, so a later load measures nothing', async () => {
+    const { ctx, page } = await newPage(browser);
+    await ctx.addInitScript(() => {
+      window.__probes = 0;
+      new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1 && n.matches('span.title[aria-hidden="true"]')) window.__probes++; })
+        .observe(document, { childList: true, subtree: true });
+    });
+    await learnerAt(page);
+    const out = [];
+    let first = null;
+    for (const r of ['today', 'real-life', 'writing', 'progress', 'expressions', 'today']) {
+      await page.goto(`${BASE}?p=${out.length}#/${r}`);
+      await page.waitForSelector('#view > :not(.boot)');
+      await page.waitForTimeout(700);
+      const st = await page.evaluate(() => ({ cls: window.__cls(), probes: window.__probes, size: document.getElementById('top-title')?.style.fontSize, kept: localStorage.getItem('lucid-title-fit') }));
+      out.push([r, Math.round(st.cls * 1000) / 1000, st.probes]);
+      if (r === 'today') first ??= st;
+      else if (r !== 'today') assert(st.probes === 0, `${r} measured the title again (${st.probes} probes): ${JSON.stringify(out)}`);
+    }
+    assert(out.every(([, c]) => c <= 0.01), `CLS: ${JSON.stringify(out)}`);
+    assert(first?.kept && JSON.parse(first.kept).size > 0, 'the title size is not kept');
+    // The kept size is the size a fresh measurement gives.
+    await page.evaluate(() => localStorage.removeItem('lucid-title-fit'));
+    await page.goto(`${BASE}?fresh#/today`);
+    await page.waitForSelector('#view .today .plan');
+    await page.waitForTimeout(500);
+    const fresh = await page.evaluate(() => ({ probes: window.__probes, size: document.getElementById('top-title')?.style.fontSize }));
+    const kept = await page.evaluate(() => { const el = document.getElementById('top-title'); return el.style.fontSize; });
+    assert(fresh.probes > 0 && fresh.size === first.size && kept === first.size, `fresh ${JSON.stringify(fresh)} vs kept ${first.size}`);
+    await ctx.close();
+  });
+
   await check('B4 a boot that fails still shows its message (the main column is not left hidden)', async () => {
     const { ctx, page } = await newPage(browser, { viewport: DESKTOP });
     await page.route(/content\/curriculum\.json$/, (route) => route.fulfill({ status: 500, body: '' }));

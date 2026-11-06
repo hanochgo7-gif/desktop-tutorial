@@ -1,7 +1,7 @@
 // Boot: open the local store, load the curriculum, apply settings, draw the shell, start routing
 // and (when an account is connected) sync.
 import { openStore, store } from './core/store.js';
-import { router, navigate, topTitle, sectionOf, watchRelease, checkForRelease, releaseOnHide } from './core/router.js';
+import { router, navigate, topTitle, sectionOf, titleFitKey, watchRelease, checkForRelease, releaseOnHide } from './core/router.js';
 import * as util from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
@@ -95,7 +95,7 @@ function drawShell(route) {
   // The top-bar keys carry their names as small labels at 130-150% text (SC-9); the title survives every redraw.
   const topKey = (href, key, ic) => html`<a class="key ghost small icon-only top-key" href="${href}" aria-label="${t(key)}">${icon(ic)}<span class="top-label" aria-hidden="true">${t(key)}</span></a>`;
   render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title">${shownTitle(route)}</span>${netBadge()}${topKey('#/help', 'nav.help', 'info')}${topKey('#/settings', 'nav.settings', 'settings')}`);
-  fitTitle();
+  fitTitleSoon();
   const nav = deck.querySelector('nav');
   nav?.addEventListener('scroll', railCue, { passive: true });
   railCue();
@@ -111,11 +111,19 @@ const SHORT_TAB = { 'nav.reallife': 'nav.reallife.short' };
 // name ("מעבדת כתיבה", "Conversations") fits, so the bar does not jump between tabs. A title longer than every
 // section name steps down further, to 14px, before it is cut with an ellipsis (SC-9).
 const TITLE_KEYS = ['nav.today', 'nav.path', 'nav.practice', 'nav.reallife', 'nav.progress', 'nav.vocab', 'nav.games', 'nav.grammar', 'nav.reading', 'nav.listening', 'nav.speaking', 'nav.writing', 'nav.tutor', 'nav.slang', 'nav.simulations', 'nav.profile', 'nav.settings', 'nav.help'];
-let titleFit = { key: '', size: 0 };
+// The size is measured with one probe per section name (a layout each), so it is kept across page loads too
+// (localStorage, best effort, only once the web font has loaded; perf plan B7).
+const TITLE_FIT = 'lucid-title-fit';
+let titleFit = (() => {
+  try { const v = JSON.parse(localStorage.getItem(TITLE_FIT) || 'null'); if (typeof v?.key === 'string' && Number.isFinite(v.size)) return v; } catch { /* storage blocked */ }
+  return { key: '', size: 0 };
+})();
 function sectionTitleSize(el) {
   el.style.fontSize = '';
-  const base = parseFloat(getComputedStyle(el).fontSize);
-  const key = `${uiLang()}|${base}|${el.clientWidth}`;
+  const cs = getComputedStyle(el);
+  const base = parseFloat(cs.fontSize);
+  const names = TITLE_KEYS.map((k) => t(k));
+  const key = titleFitKey({ lang: uiLang(), base, width: el.clientWidth, font: `${cs.fontWeight} ${cs.fontFamily} ${cs.letterSpacing}`, names });
   if (titleFit.key === key) return titleFit.size;
   const probe = document.createElement('span');
   probe.className = 'title';
@@ -123,12 +131,16 @@ function sectionTitleSize(el) {
   probe.setAttribute('aria-hidden', 'true');
   el.parentElement.append(probe);
   let widest = 0;
-  for (const k of TITLE_KEYS) { probe.textContent = t(k); widest = Math.max(widest, probe.getBoundingClientRect().width); }
+  for (const name of names) { probe.textContent = name; widest = Math.max(widest, probe.getBoundingClientRect().width); }
   probe.remove();
   const size = widest > el.clientWidth ? Math.max(14, Math.floor((base * (el.clientWidth - 1)) / widest * 2) / 2) : base;
   titleFit = { key, size };
+  if (document.fonts?.status === 'loaded') { try { localStorage.setItem(TITLE_FIT, JSON.stringify(titleFit)); } catch { /* storage blocked */ } }
   return size;
 }
+// Fitted in the next frame, with the frame's own layout, instead of forcing one while the old screen is still drawn.
+let fitFrame = 0;
+const fitTitleSoon = () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(fitTitle); };
 function fitTitle() {
   const el = document.getElementById('top-title');
   if (!el || el.closest('[hidden]') || !el.getClientRects().length) return;
@@ -294,7 +306,7 @@ async function boot() {
     }
   });
   router.onRoute = drawShell;
-  router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitle(); } };
+  router.onTitle = (route) => { const el = document.getElementById('top-title'); if (el) { el.textContent = shownTitle(route); fitTitleSoon(); } };
   let fitTimer = 0;
   addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { fitTitle(); railCue(); }, 100); });
   // The title lives on the route, so a redraw for a connection change keeps it.
