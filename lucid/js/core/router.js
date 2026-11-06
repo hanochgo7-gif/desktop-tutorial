@@ -213,15 +213,6 @@ export function topTitle(title, { lang = 'he', section = '' } = {}) {
   const text = String(title || '');
   return lang === 'he' && text && !HEBREW.test(text) && section ? section : text;
 }
-// The key under which the shell keeps the section-title size across page loads (perf plan B7): the interface
-// language, the title's base size and width, its font, and the section names it must fit (a short hash), plus a
-// version to bump if the title's styling changes in a way none of these show.
-export const TITLE_FIT_VERSION = 1;
-export function titleFitKey({ lang = '', base = 0, width = 0, font = '', names = [] } = {}) {
-  let h = 0;
-  for (const ch of names.join('\u0001')) h = (Math.imul(h, 31) + ch.codePointAt(0)) | 0;
-  return `${lang}|${base}|${width}|${font}|${(h >>> 0).toString(36)}|v${TITLE_FIT_VERSION}`;
-}
 // The section a route belongs to, as [href, label key] from the shell's lists: a lab first (its own entry), then the
 // main entry the route lights up, then Settings and Help.
 export function sectionOf(route, nav = [], labs = []) {

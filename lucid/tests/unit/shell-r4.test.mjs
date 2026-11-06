@@ -17,18 +17,3 @@ test('SB-6: a segmented control that cannot hold its segments on one line gets e
   // Never more columns than segments.
   assert.equal(segColumns(2, 1000, 80, 3), 2);
 });
-
-// The top-bar title size is kept across page loads under a key (perf plan B7): any change that can change the size
-// (language, text size, width, font, the section names) gives a new key, so a stale size is never reused.
-test('B7: the kept title size is keyed by everything that sets it', async () => {
-  globalThis.location ??= { hash: '' };
-  const { titleFitKey, TITLE_FIT_VERSION } = await import('../../js/core/router.js');
-  const at = { lang: 'he', base: 17, width: 212, font: '600 Rubik, system-ui 0px', names: ['היום', 'מעבדת כתיבה', 'הגדרות'] };
-  const key = titleFitKey(at);
-  assert.equal(titleFitKey({ ...at, names: [...at.names] }), key, 'stable for the same inputs');
-  assert.ok(key.endsWith(`|v${TITLE_FIT_VERSION}`));
-  for (const change of [{ lang: 'en' }, { base: 19.5 }, { width: 211 }, { font: '600 system-ui 0px' }, { names: ['היום', 'מעבדת כתיבה', 'הגדרות!'] }, { names: ['היום', 'הגדרות', 'מעבדת כתיבה'] }]) {
-    assert.notEqual(titleFitKey({ ...at, ...change }), key, JSON.stringify(change));
-  }
-  assert.doesNotThrow(() => titleFitKey());
-});
