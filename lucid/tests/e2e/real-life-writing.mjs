@@ -5,7 +5,7 @@
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -336,6 +336,49 @@ try {
     assert(!/wa-\d\d/.test(text) && /A minimum age for social media/.test(text), 'the C2 final still shows assignment ids');
     assert(/יעד 1,500-2,000 \(מתקבל 1,400-2,200\)/.test(await page.textContent('.editor-stats')), `ranges: ${await page.textContent('.editor-stats')}`);
     await ctx.close();
+  });
+
+  // ---------- perf lane "content" (docs/perf/plan.json): one item's file, not every scenario or task ----------
+  const requested = (page) => { const urls = []; page.on('request', (r) => urls.push(new URL(r.url()).pathname)); return urls; };
+  await check('PERF-C3. A scenario loads its own file and the small list; an unknown id says "not found" as before', async () => {
+    const { ctx, page } = await newPage(browser);
+    const urls = requested(page);
+    await learnerAt(page, 'A2');
+    for (const r of ['real-life', 'conversations', 'practice', 'scenario/rl-hotel-checkin-basics?tab=practise', 'today']) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForSelector('#view > :not(.boot)');
+      await page.waitForTimeout(300);
+    }
+    assert(urls.includes('/content/real-life/scenario/rl-hotel-checkin-basics.json') && urls.includes('/content/real-life/index.json'), `the small files were not used: ${urls.filter((u) => u.includes('/content/'))}`);
+    const big = urls.filter((u) => /real-life\/scenarios\.json|writing\/(exercises|assignments)\.json/.test(u));
+    assert(!big.length, `full files downloaded: ${big}`);
+    await page.goto(`${BASE}#/scenario/rl-no-such-scenario`);
+    await page.waitForSelector('#view .empty');
+    assert(/התרחיש לא נמצא|Scenario not found/.test(await page.textContent('#view')), 'no "not found" screen');
+    await ctx.close();
+  });
+  await check('PERF-C5. A final task\'s source pack loads when needed: after choosing a topic, on reopening, and offline from the full file', async () => {
+    const pack = JSON.parse(readFileSync(join(lucid, 'content/writing/assignments.json'), 'utf8')).assignments.find((a) => a.id === 'wa-08').source_pack;
+    for (const offline of [false, true]) {
+      const { ctx, page } = await newPage(browser);
+      await learnerAt(page, 'C2');
+      // Offline: the task files were never cached; the full assignments file (precached by the old worker) still is.
+      if (offline) await page.route(/content\/writing\/(task\/|index\.json)/, (r) => r.abort());
+      await page.goto(`${BASE}#/writing/final-C2`);
+      await page.waitForSelector('#essay');
+      assert(!(await page.$('aside [data-tab="sources"]')), 'a Sources tab before any topic is chosen');
+      await page.check('input[name=topic][value="0"]');
+      await page.waitForSelector('aside [data-tab="sources"]');
+      await page.click('aside [data-tab="sources"]');
+      await page.waitForSelector('aside .passage.source');
+      assert(await page.$$eval('aside .passage.source', (p) => p.length) === pack.length, `${offline ? 'offline' : 'online'}: the pack is not shown`);
+      await page.fill('#essay', 'A first sentence about social media and age limits.');
+      await page.waitForTimeout(900);
+      await page.reload();
+      await page.waitForSelector('#essay');
+      assert(await page.$('aside [data-tab="sources"]'), `${offline ? 'offline' : 'online'}: reopened with a chosen topic, no Sources tab at the first draw`);
+      await ctx.close();
+    }
   });
 
   await check('Layout: lane screens at 390 (light and dark) and at 150% text do not scroll sideways', async () => {
