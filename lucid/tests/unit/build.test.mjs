@@ -81,3 +81,24 @@ test('verify refuses a missing map, a stale hash, a broken import, a lost file a
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('CSS inlining (D9, gated) replaces exactly the one stylesheet tag, rewrites font URLs and keeps the CSP', { skip }, async () => {
+  const { build, inlineCss, CSS_TAG } = await import('../../tools/build/build.mjs');
+  const { verify } = await import('../../tools/build/verify.mjs');
+  const { dir, src, out } = copyApp();
+  try {
+    const r = await build(out, { inline: true });
+    assert.equal(r.inlined, true);
+    const page = readFileSync(join(out, 'index.html'), 'utf8');
+    const source = readFileSync(join(src, 'index.html'), 'utf8');
+    assert.ok(!page.includes(CSS_TAG) && source.includes(CSS_TAG));
+    assert.equal(page.replace(/<style>[\s\S]*<\/style>/, CSS_TAG), source, 'only the tag changed');
+    assert.ok(/url\(fonts\/rubik-hebrew\.woff2\)/.test(page) && !page.includes('../fonts/'));
+    assert.ok(!/sourceMappingURL/.test(page));
+    assert.ok(existsSync(join(out, 'css/app.css')), 'privacy.html still links the stylesheet');
+    assert.deepEqual((await verify(out, { sourceDir: src })).problems, []);
+    assert.equal(inlineCss(out), false, 'no tag left: nothing to do');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

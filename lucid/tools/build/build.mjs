@@ -10,7 +10,7 @@
 // - content/**/*.json: whitespace removed (JSON.parse then JSON.stringify: the same values);
 // - then content/manifest.json, release.json and the RELEASE line of sw.js are recomputed on the built bytes.
 // sw.js, the HTML files and everything else are left as they are (the CSP meta in index.html is never touched).
-// Usage: node tools/build/build.mjs [appRoot]      (default: the lucid/ directory this file is in)
+// Usage: node tools/build/build.mjs [appRoot] [--inline-css]   (default root: the lucid/ directory this file is in)
 import { readdirSync, readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, resolve, basename, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -46,7 +46,26 @@ async function minify(root, rel, loader) {
   return { before: Buffer.byteLength(source), after: statSync(path).size };
 }
 
-export async function build(root, { log = () => {} } = {}) {
+// perf D9 (gated, off unless --inline-css): replaces exactly one tag in index.html,
+// <link rel="stylesheet" href="css/app.css">, wherever it is, with a <style> of the built CSS (font URLs rewritten
+// from ../fonts/ to fonts/). Does nothing when the tag is absent or appears more than once. css/app.css stays
+// (privacy.html links it). Allowed by the CSP's style-src 'unsafe-inline'; the CSP meta is not touched.
+export const CSS_TAG = '<link rel="stylesheet" href="css/app.css">';
+export function inlineCss(root) {
+  const index = join(root, 'index.html');
+  if (!existsSync(index) || !existsSync(join(root, 'css/app.css'))) return false;
+  const page = readFileSync(index, 'utf8');
+  if (page.split(CSS_TAG).length !== 2) return false;
+  const css = readFileSync(join(root, 'css/app.css'), 'utf8')
+    .replace(/\/\*# sourceMappingURL=[^*]*\*\/\s*$/, '')
+    .replace(/url\((["']?)\.\.\/fonts\//g, 'url($1fonts/')
+    .trim();
+  if (/<\/style/i.test(css)) throw new Error('css/app.css contains </style');
+  writeFileSync(index, page.replace(CSS_TAG, () => `<style>${css}</style>`));
+  return true;
+}
+
+export async function build(root, { log = () => {}, inline = false } = {}) {
   if (esbuild.version !== ESBUILD_VERSION) throw new Error(`esbuild ${esbuild.version}, expected ${ESBUILD_VERSION} (npm ci --prefix tools/build)`);
   if (existsSync(join(root, 'js/app.js')) && /sourceMappingURL=/.test(readFileSync(join(root, 'js/app.js'), 'utf8'))) throw new Error('already built');
   const t = targets(root);
@@ -60,13 +79,15 @@ export async function build(root, { log = () => {} } = {}) {
     before += Buffer.byteLength(text); after += Buffer.byteLength(compact);
     writeFileSync(path, compact);
   }
+  const inlined = inline ? inlineCss(root) : false;
   const m = buildManifest(root);
-  log(`built ${t.js.length} modules, ${t.css.length} stylesheet, ${t.json.length} content files: ${Math.round(before / 1024)} KB -> ${Math.round(after / 1024)} KB raw; release ${m.release}`);
-  return { ...t, release: m.release, before, after };
+  log(`${inlined ? 'css inlined into index.html; ' : ''}built ${t.js.length} modules, ${t.css.length} stylesheet, ${t.json.length} content files: ${Math.round(before / 1024)} KB -> ${Math.round(after / 1024)} KB raw; release ${m.release}`);
+  return { ...t, release: m.release, before, after, inlined };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const root = resolve(process.argv[2] || join(here, '..', '..'));
+  const args = process.argv.slice(2);
+  const root = resolve(args.find((a) => !a.startsWith('--')) || join(here, '..', '..'));
   const t0 = Date.now();
-  build(root, { log: (s) => console.log(`${s} (${relative(process.cwd(), root) || '.'}, ${Date.now() - t0} ms)`) }).catch((e) => { console.error(`build failed: ${e.message}`); process.exit(1); });
+  build(root, { inline: args.includes('--inline-css'), log: (s) => console.log(`${s} (${relative(process.cwd(), root) || '.'}, ${Date.now() - t0} ms)`) }).catch((e) => { console.error(`build failed: ${e.message}`); process.exit(1); });
 }
