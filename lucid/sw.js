@@ -13,7 +13,7 @@
 //   first install, and the one-time upgrade from the old hand-numbered caches, activate at once.
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
-const RELEASE = '9fcb6b8e8a75';
+const RELEASE = '747e8249f190';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'content/taxonomy.json', 'content/curriculum.json', 'content/manifest.json'];

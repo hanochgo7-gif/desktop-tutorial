@@ -106,6 +106,9 @@ test('a route starts its content as it resolves, through content.js, so the view
     requested.push(u.replace(/^.*\/content\//, ''));
     if (u.includes('missing')) return { ok: false, status: 404, json: async () => null };
     if (u.includes('broken')) throw new TypeError('offline');
+    // The shapes the views read: the manifest's lesson list and a pool file's {lessons, items} (contract C-1).
+    if (u.endsWith('/content/manifest.json')) return { ok: true, status: 200, json: async () => ({ lessons: ['a1-01'] }) };
+    if (u.includes('/content/pool/')) return { ok: true, status: 200, json: async () => ({ lessons: { 'a1-01': { id: 'a1-01', level: 'A1', topics: ['be-present'] } }, items: [{ lesson: 'a1-01', ex: { id: 'e1', type: 'mcq' } }] }) };
     return { ok: true, status: 200, json: async () => ({ url: u }) };
   };
   try {
@@ -129,10 +132,35 @@ test('a route starts its content as it resolves, through content.js, so the view
     assert.equal(await content.lesson('broken'), null);
     assert.equal(requested.length, n + 1, 'a failed prefetch is fetched again, not served from a rejected promise');
 
-    // The newer per-file methods (contract C-1) are used when content.js has them, the old files otherwise.
+    // The per-file methods of contract C-1 (content lane) are what the routes ask for, and each view's own call
+    // reuses the prefetched request.
     requested.length = 0;
     prefetchRoute('scenario/:id', { id: 'rl-x' });
-    assert.deepEqual(requested, ['real-life/scenarios.json']);
+    assert.deepEqual(requested, ['real-life/scenario/rl-x.json']);
+    assert.ok((await content.scenario('rl-x')).url.endsWith('real-life/scenario/rl-x.json'));
+    prefetchRoute('checkpoint/:level', { level: 'A1' });
+    prefetchRoute('reading', {});
+    prefetchRoute('real-life', {});
+    prefetchRoute('writing/:id', { id: 'w-x' });
+    prefetchRoute('writing/:id', { id: 'final-B2' }); // a final task has no file of its own: no 404 request
+    assert.deepEqual([...requested].sort(), ['centers/read.json', 'pool/A1.json', 'real-life/index.json', 'real-life/scenario/rl-x.json', 'writing/index.json', 'writing/rubric.json', 'writing/task/w-x.json']);
+    const { exercisePool } = await import('../../js/core/pool.js');
+    const pool = await exercisePool(['A1']);
+    assert.deepEqual(pool.map((p) => [p.lesson, p.level, p.topic, p.ex.id]), [['a1-01', 'A1', 'be-present', 'e1']], 'the level check reads the pool file the router started');
+    await Promise.all([content.center('read'), content.scenarioIndex(), content.writingIndex(), content.writingTask('w-x')]);
+    assert.equal(requested.filter((r) => r !== 'manifest.json').length, 7, 'no file was requested twice');
+
+    // Without the C-1 methods (the boot lane merged alone), the old files.
+    const C1 = ['scenarioIndex', 'scenario', 'writingIndex', 'writingTask', 'center', 'pool'];
+    const saved = Object.fromEntries(C1.map((k) => [k, content[k]]));
+    for (const k of C1) delete content[k];
+    try {
+      requested.length = 0;
+      prefetchRoute('scenario/:id', { id: 'rl-x' });
+      prefetchRoute('real-life', {});
+      prefetchRoute('reading', {});
+      assert.deepEqual(requested, ['real-life/scenarios.json']);
+    } finally { Object.assign(content, saved); }
     const calls = [];
     content.scenario = (id) => { calls.push(['scenario', id]); return Promise.resolve(null); };
     content.pool = (level) => { calls.push(['pool', level]); return Promise.reject(new Error('404')); };
@@ -145,7 +173,7 @@ test('a route starts its content as it resolves, through content.js, so the view
       assert.deepEqual(calls, [['scenario', 'rl-y'], ['pool', 'A2'], ['center', 'read']]);
       assert.ok(!requested.includes('real-life/scenarios.json'));
       await new Promise((r) => setTimeout(r, 0)); // the rejected pool promise is handled (no unhandled rejection)
-    } finally { delete content.scenario; delete content.pool; delete content.center; }
+    } finally { Object.assign(content, saved); }
 
     // Without a learner store (the drill and Today read the learner model), the prefetch gives up quietly.
     assert.doesNotThrow(() => prefetchRoute('today', {}));

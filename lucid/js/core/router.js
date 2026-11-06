@@ -87,8 +87,8 @@ export const DATA = {
   'path/:level': () => [content.taxonomy()],
   'lesson/:id': ({ id }) => [content.lesson(id), content.taxonomy()],
   'checkpoint/:level': ({ level }) => [content.taxonomy(), content.pool?.(level)],
-  // A drill draws from every level up to one above the course level (pool.drillSet).
-  drill: () => [content.taxonomy(), ...LEVELS.slice(0, Math.max(0, levelIndex(model().courseLevel)) + 2).map((l) => content.pool?.(l))],
+  // A drill draws from every level up to one above the course level, or from every level without one (pool.drillLevels).
+  drill: () => [content.taxonomy(), ...(model().courseLevel ? LEVELS.slice(0, Math.max(0, levelIndex(model().courseLevel)) + 2) : LEVELS).map((l) => content.pool?.(l))],
   practice: () => [content.taxonomy(), scenarioList()],
   vocab: () => [content.taxonomy()],
   games: () => [content.taxonomy(), content.pictures()],
@@ -99,7 +99,8 @@ export const DATA = {
   listening: () => [content.taxonomy(), center('listen')],
   speaking: () => [content.taxonomy(), center('speak')],
   writing: () => [writingList()],
-  'writing/:id': ({ id }) => [content.taxonomy(), content.rubric(), content.writingTask?.(id) ?? writingList()],
+  // The essay reads the writing index and, for a task with its own file (not free writing or a final task), that file.
+  'writing/:id': ({ id }) => [content.taxonomy(), content.rubric(), writingList(), id !== 'free' && !id.startsWith('final-') && content.writingTask?.(id)],
   tutor: () => [content.taxonomy()],
   'real-life': () => [scenarioList()],
   'scenario/:id': ({ id }) => [content.scenario?.(id) ?? content.scenarios()],
