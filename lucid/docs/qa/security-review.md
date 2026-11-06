@@ -156,6 +156,38 @@ PGlite, migration applied with Supabase-like default privileges, statements run 
 - `lucid/supabase`, `lucid/tests`, `lucid/tools`, `node_modules` and `package*.json` are excluded from Pages.
 - The service worker handles only same-origin GETs. Supabase and edge-function calls are cross-origin and never cached.
 
+## 5a. Re-review of S-15 after the performance programme (2026-11-06, perf lane "delivery", items D1-D6)
+
+**Change.** `sw.js` now serves code (pages, `config.js`, `js/`, `css/`) and also `vendor/`, `fonts/` and non-lesson
+`content/` from the release cache first, which reverses the network-first part of the S-15 fix. Learners on a slow or
+flaky connection otherwise waited on about 30 revalidations per load (1.3 s on a mid-range phone after 10 minutes,
+16 s on lie-fi).
+
+**Why the S-15 property still holds.** S-15's concern was that a fix reached learners late because the cache never
+changed. Now the cache name is derived from the content: `tools/build-manifest.mjs` sets `RELEASE` to a hash of every
+cached file plus the worker's own code, and `tests/unit/offline-manifest.test.mjs` fails while it is stale, so any
+deployed fix changes `sw.js`. The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache (default
+`updateViaCache: 'imports'`). The new worker verifies every file it downloads against `release.json` and fails the
+install on a mismatch rather than caching a stale copy. A fix therefore runs at the first screen change after the new
+worker has installed, once the page side of contract C-4 (boot lane, B6) is merged, and otherwise when every Lucid tab
+has been closed. Before this change it ran on the next load. A learner who keeps one tab open for days without changing
+screen gets a fix later than before; B6 adds an update check when the tab becomes visible after an hour.
+
+**S-03 interaction (shared origin).** A script on a sibling site of the same origin can still write into Lucid's
+Cache Storage. With network-first code such an entry was overwritten at the next online load unless the attacker
+re-poisoned it; with cache-first code it is served until the next release. The integrity checks run only when files
+enter the cache (on install), not on every response, because hashing each response on every load would cost the
+time this change saves. This does not change S-03's conclusion: same-origin script can already read the learner's
+token and IndexedDB, and the fix remains serving Lucid from its own origin before accounts are enabled.
+`{type:'lucid:activate'}` can be posted by any same-origin page; it only makes an already-installed, already-verified
+release take over early.
+
+**Other checks.** The worker still handles only same-origin GETs under `/lucid/`; Supabase and edge-function calls are
+never cached; activation deletes only `lucid-` caches. The deploy-only minify step (D7) never touches the CSP meta,
+and `tools/build/verify.mjs` fails the build if it changed.
+
+**Status.** Re-reviewed by the delivery lane. Needs a security sign-off by the lead before merge (plan item D2).
+
 ## 6. Limits of this review
 
 - **No live Supabase project.** Not verified:

@@ -14,6 +14,8 @@ and Supabase over `fetch`. Lucid follows it because:
   server routes, which Lucid does not need because the only server logic is one Supabase Edge Function.
 Trade-offs accepted: no TypeScript in the client (mitigated by small modules, unit tests and `node --check`), no
 component framework (mitigated by a strict view-module contract), manual code splitting (lazy `import()` per view).
+Amended in the performance programme (2026-11): the deployed copy is minified by a deploy-only step that keeps every
+path and publishes source maps; the repository itself still has no build step (section 7, "Deploy-only build").
 Hosting with the rest of the repository shares one web origin with its other sites, so it is only suitable for
 device-only mode. Accounts need Lucid on its own origin first (section 6, `docs/setup.md` 2.1).
 
@@ -323,17 +325,51 @@ atomic in-memory ledger instead.
 
 ## 7. Offline and performance
 
-A service worker (registered in any secure context: https, or localhost in development) caches the app shell and
-fonts, then every module and the non-lesson content listed in `content/manifest.json` (`offline`, written by
-`tools/build-manifest.mjs`), so screens never opened before work offline. Lessons (about 3 MB) are cached when
-opened, or all at once from Settings, "Offline use". AI features and speech recognition need a connection. Covered by
-`tests/unit/offline-manifest.test.mjs` and the e2e check OF1, which goes offline after saving lessons. Code (pages,
-`config.js`, `js/`, `css/`) is fetched network-first, falling back to the cache when offline or after 4 seconds, so a
-fix reaches learners on their next load. Fonts, content and other files are served from the cache and refreshed in
-the background. The cache is named `lucid-<RELEASE>` (the constant at the top of `sw.js`); bumping it on a deploy
-installs a new worker, which deletes older `lucid-` caches and nothing else. Tested in `tests/unit/sw.test.mjs`.
+A service worker (`sw.js`, registered in any secure context: https, or localhost in development) keeps one cache per
+release, `lucid-<RELEASE>`.
+
+- **What it caches.** On install: the app shell and fonts, then every module and the non-lesson content listed in
+  `content/manifest.json` (`offline`), so screens never opened before work offline. Code is fetched before content.
+  Lessons (about 3 MB) are cached when opened, or all at once from Settings, "Offline use"; the centre and pool files
+  are cached on first use. AI features and speech recognition need a connection.
+- **Releases.** `tools/build-manifest.mjs` writes `content/manifest.json`, `release.json` (a sha256 prefix of every
+  file the worker precaches, every lesson, centre, pool and font file) and the `RELEASE` line of `sw.js`: a hash of
+  all of those plus the worker's own code. Any changed byte therefore gives a new release, so a new worker and a new
+  cache; `tests/unit/offline-manifest.test.mjs` fails until the tool has been run. Nobody bumps `RELEASE` by hand.
+- **Install.** Precache requests revalidate (`cache: 'no-cache'`), so a file the page has just loaded costs a 304.
+  A file whose bytes in the previous release's cache match `release.json` is copied instead of downloaded, and every
+  downloaded file is checked against its hash: a mismatch (a CDN edge still serving the previous deploy) is retried
+  once with a cache-busting query, then fails the install, so the current release stays. Saved lessons whose bytes
+  still match are carried over to the new cache; changed ones are fetched again. A release that changes one file
+  downloads that file, `sw.js` and `release.json`.
+- **Serving.** Pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/` and `content/` (except lessons, centre and pool
+  files) come from the release cache first and go to the network only on a miss, so a repeat visit makes no request
+  for them, whatever the HTTP cache or the connection. Lessons, centre and pool files are stale-while-revalidate.
+  Another origin's requests (Supabase, the AI function) are never touched.
+- **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
+  the background and waits; it takes over when the page asks for it between two screens (`{type:'lucid:activate'}`,
+  contract C-4 in `docs/perf/plan.json`) or when every Lucid tab has closed, so one page never runs modules from two
+  releases. A first install, and the one-time upgrade from the old hand-numbered caches, take over at once. Activation
+  deletes older `lucid-` caches and nothing else (the origin is shared with other apps).
+- **Development.** Because code is cache-first, an edit shows up under the worker only after
+  `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
+
+Tested in `tests/unit/sw.test.mjs` (the worker in a vm), `tests/unit/offline-manifest.test.mjs`, and the e2e checks
+OF1 (offline after saving lessons) and OF2 (13 screens offline right after the install, no lesson saved).
 Fonts are self-hosted subsets (Rubik Hebrew and Latin, about 64 KB). Views load on demand. No third-party scripts
 or trackers.
+
+**Deploy-only build (ADR-1 amendment, perf D7).** The repository source stays buildless: every file in git is the
+file a developer runs. Only the deploy step in `.github/workflows/pages.yml` runs `tools/build/build.mjs` (esbuild,
+pinned exactly in `tools/build/package-lock.json`): it minifies `js/**`, `vendor/*.mjs`, `config.js` and
+`css/app.css` in place, compacts `content/**/*.json`, keeps every path and import, publishes a `.map` source map
+next to each minified file, and recomputes the release hashes on the built bytes. `tools/build/verify.mjs` then
+checks that every module parses, every import resolves, every map exists, every hash matches, no tracked file
+disappeared and the CSP meta is unchanged. On any error the step restores the source (`git checkout` and
+`git clean` inside `lucid/`) and the source is deployed unminified, so the other sites in the same deploy are never
+blocked. What learners run can be audited against the repository through the maps. `.github/workflows/lucid-verify.yml`
+runs the unit tests and the e2e suite against a built copy on every push that touches `lucid/`, without gating the
+deploy.
 
 ## 8. Configuration
 
