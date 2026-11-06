@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-ZrwTld3UQCporBKxH5ywU0h9ER8vj2SYOpubRe8d1I8='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-P0DFVrK76upPaJwndS0zPrY16VZCUSGxv3L8zEDa2tk='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <script>(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sayeret Nahal Alumni</title>
@@ -375,6 +375,35 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .scene .beat p:not(.label){font-size:16px}
   .scene.live .scene-hint{bottom:84px}
 }
+/* ---- motion layer 2 (research picks): ink-sweep headings, embers, staggered steps, button feedback, language wipe ---- */
+.embers{position:absolute;z-index:1;left:calc(50% - .05 * max(100%, clamp(540px,56vw,800px) * 1.768));bottom:27%;width:0;height:0;pointer-events:none}
+.embers::before{content:"";position:absolute;left:-150px;top:-150px;width:300px;height:300px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,150,60,.42),rgba(255,150,60,0));opacity:.75}
+.embers i{position:absolute;left:var(--dx);top:0;width:6px;height:6px;border-radius:50%;background:#fff1c9;box-shadow:0 0 10px 4px rgba(255,130,40,.85);opacity:0}
+.btn:active{transform:scale(.97)}
+[dir="rtl"] .btn:hover .arr{transform:scaleX(-1) translateX(4px)}
+@media (prefers-reduced-motion:no-preference){
+  .embers::before{animation:breathe 4.2s ease-in-out infinite}
+  .embers i{animation:ember 4.6s linear infinite;animation-delay:calc(var(--k) * -.58s)}
+  .fireband:not(.on) .embers::before,.fireband:not(.on) .embers i{animation-play-state:paused}
+  @keyframes breathe{50%{opacity:1;transform:scale(1.12)}}
+  @keyframes ember{0%{transform:translate(0,0) scale(1);opacity:0}12%{opacity:.95}70%{opacity:.5}100%{transform:translate(var(--sx),calc(var(--h) * -1)) scale(.4);opacity:0}}
+  .js-reveal .stagger > *{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .js-reveal .stagger.in > *{opacity:1;transform:none}
+  .js-reveal .stagger.in > :nth-child(2){transition-delay:.14s}
+  .js-reveal .stagger.in > :nth-child(3){transition-delay:.28s}
+  .js-reveal .stagger.in > :nth-child(4){transition-delay:.42s}
+  @supports (animation-timeline:view()){
+    .head h2,.closing h2{-webkit-mask-image:linear-gradient(to left,#000 44%,rgba(0,0,0,.14) 58%);mask-image:linear-gradient(to left,#000 44%,rgba(0,0,0,.14) 58%);-webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:ink-rtl linear both;animation-timeline:view();animation-range:entry 5% cover 36%}
+    .v[data-lang="en"] .head h2,.v[data-lang="en"] .closing h2{-webkit-mask-image:linear-gradient(to right,#000 44%,rgba(0,0,0,.14) 58%);mask-image:linear-gradient(to right,#000 44%,rgba(0,0,0,.14) 58%);animation-name:ink-ltr}
+    @keyframes ink-rtl{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:100% 0;mask-position:100% 0}}
+    @keyframes ink-ltr{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+  }
+  ::view-transition-old(root){animation:none}
+  ::view-transition-new(root){animation:.55s cubic-bezier(.3,.7,.2,1) both wipe-rtl}
+  html[data-vt="en"]::view-transition-new(root){animation-name:wipe-ltr}
+  @keyframes wipe-rtl{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
+  @keyframes wipe-ltr{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+}
 /* reveal of the real photos */
 .reveal{transition:clip-path 1.1s cubic-bezier(.2,.7,.2,1),transform 1.4s cubic-bezier(.2,.7,.2,1)}
 .js-reveal .reveal:not(.in){clip-path:inset(9% 9% 9% 9% round 28px);transform:scale(1.04)}
@@ -658,7 +687,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <div class="adopt-body">
       <div class="head"><p class="label">לחברות ישראליות</p><h2>אמצו צוות לוחמים</h2><p class="lead">צוות של 15 עד 20 לוחמים ששירתו יחד יוצא למסע חוסן ועיבוד, בליווי אנשי מקצוע. חברה מאמצת מממנת מסע מלא, או משתתפת במימון.</p></div>
       <div class="figure-card"><b>‎$13,000‎</b><span>מימון מלא של מסע חוסן לצוות אחד, לפי תקציב העמותה. אפשר גם לאמץ תחום אחר מתוך ארבעת עמודי התמיכה.</span></div>
-      <ol class="howto" aria-label="איך זה עובד">
+      <ol class="howto stagger" aria-label="איך זה עובד">
         <li><b>שיחת היכרות</b><span>15 דקות עם המנכ"ל, סא"ל (מיל.) חזקי מלאכי.</span></li>
         <li><b>בוחרים יחד</b><span>מסע מלא, השתתפות במימון, או תחום אחר.</span></li>
         <li><b>תרומה מתועדת</b><span>קבלה לפי סעיף 46, בתוקף עד 31.12.2027.</span></li>
@@ -812,7 +841,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   </div>
 </div></section>
 
-<section class="closing" id="contact-he" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="איור בצבעי מים: מדורה בוואדי במדבר, ומסביבה מעגל אבנים" loading="lazy" width="1600" height="905"><div class="wrap over"><h2>פעם משפחה, תמיד משפחה.</h2><p class="lead">ההחלמה צריכה להתחיל עכשיו, והביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p><div class="ctas">
+<section class="closing" id="contact-he" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="איור בצבעי מים: מדורה בוואדי במדבר, ומסביבה מעגל אבנים" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>פעם משפחה, תמיד משפחה.</h2><p class="lead">ההחלמה צריכה להתחיל עכשיו, והביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p><div class="ctas">
     <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בשקלים ₪</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בדולרים $</a>
   </div></div><span class="illus">איור</span></div><div class="wrap"><div class="contacts">
@@ -905,7 +934,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <div class="adopt-body">
       <div class="head"><p class="label">For companies and foundations</p><h2>Adopt a team</h2><p class="lead">A team of 15 to 20 fighters who served together goes on a guided resilience journey with mental health professionals. A partner funds the full journey or shares its cost.</p></div>
       <div class="figure-card"><b>$13,000</b><span>Funds one full resilience journey for one team, per the association's budget. You can also adopt another of the four pillars.</span></div>
-      <ol class="howto" aria-label="How it works">
+      <ol class="howto stagger" aria-label="How it works">
         <li><b>Intro call</b><span>15 minutes with our CEO, Lt. Col. (Res.) Hezki Malachi.</span></li>
         <li><b>Choose together</b><span>A full journey, a share of one, or another program.</span></li>
         <li><b>Documented gift</b><span>A tax receipt through Jgive or the AID Coalition.</span></li>
@@ -1056,7 +1085,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   </div>
 </div></section>
 
-<section class="closing" id="contact-en" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="Watercolor illustration: a campfire in a desert wadi, ringed by stones" loading="lazy" width="1600" height="905"><div class="wrap over"><h2>Once a family, always a family.</h2><p class="lead">Recovery has to start now, and demand for care is rising faster than our capacity to provide it.</p><div class="ctas">
+<section class="closing" id="contact-en" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="Watercolor illustration: a campfire in a desert wadi, ringed by stones" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>Once a family, always a family.</h2><p class="lead">Recovery has to start now, and demand for care is rising faster than our capacity to provide it.</p><div class="ctas">
     <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in US dollars $</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in shekels ₪</a>
   </div></div><span class="illus">Illustration</span></div><div class="wrap"><div class="contacts">
@@ -1098,7 +1127,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var b=e.target.closest("button"); if(!b) return;
     if(b.dataset.setLang){
       if(b.dataset.goto){ setLang(b.dataset.setLang,false); var g=document.getElementById(b.dataset.goto+"-"+lang); if(g) g.scrollIntoView({behavior:"instant"}); var f=g&&g.querySelector("h2"); if(f){f.setAttribute("tabindex","-1");try{f.focus({preventScroll:true})}catch(e){}} return; }
-      if(b.dataset.setLang!==lang) setLang(b.dataset.setLang,true); return; }
+      if(b.dataset.setLang!==lang){ var nl=b.dataset.setLang, run=function(){setLang(nl,true)};
+        if(document.startViewTransition&&!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)){ document.documentElement.setAttribute("data-vt",nl); try{ document.startViewTransition(run).finished.then(function(){document.documentElement.removeAttribute("data-vt")},function(){document.documentElement.removeAttribute("data-vt")}); }catch(x){ document.documentElement.removeAttribute("data-vt"); run(); } }
+        else run(); } return; }
     if(b.dataset.copy){
       var old=b.textContent, txt=b.dataset.copy;
       var ok=function(){b.textContent=lang==="he"?"הועתק":"Copied";setTimeout(function(){b.textContent=old},1600)};
@@ -1172,6 +1203,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     root.classList.add("js-reveal");
     var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{rootMargin:"0px 0px -12% 0px"});
     [].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){io.observe(el)});
+    [].slice.call(document.querySelectorAll(".stagger")).forEach(function(el){io.observe(el)});
+    var fo=new IntersectionObserver(function(es){es.forEach(function(en){en.target.classList.toggle("on",en.isIntersecting)})});
+    [].slice.call(document.querySelectorAll(".fireband")).forEach(function(el){fo.observe(el)});
   }
 })();
 </script>
