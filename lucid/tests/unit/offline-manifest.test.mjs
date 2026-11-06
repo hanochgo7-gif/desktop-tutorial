@@ -53,8 +53,11 @@ test('release.json hashes every file the worker precaches, every lesson and ever
 
 test('content/manifest.json keeps its shape and stays small (it is read at boot)', () => {
   assert.deepEqual(Object.keys(manifest), ['version', 'lessons', 'offline']);
+  // 726 bytes gzipped at the delivery lane's base; the content lane's split files (contract C-2) add about 500.
+  // The per-file hashes live in release.json, which only the worker and the tools read.
   const gz = gzipSync(readFileSync(new URL('content/manifest.json', root))).length;
-  assert.ok(gz <= 1024, `manifest.json is ${gz} bytes gzipped`);
+  assert.ok(gz <= 1536, `manifest.json is ${gz} bytes gzipped`);
+  assert.ok(!/[0-9a-f]{12}"\s*[,}]/.test(JSON.stringify(manifest.offline)), 'no hashes in the boot-path manifest');
 });
 
 // A copy of the shipped files in a temporary directory: a one-byte edit must make the check fail until the tool
