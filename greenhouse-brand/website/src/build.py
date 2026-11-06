@@ -1213,6 +1213,7 @@ def main():
     for f in (SRC / "assets/icons").iterdir():
         shutil.copy(f, A / f.name)
     shutil.copy(SRC.parents[1] / "images/miftah-mark.svg", A / "favicon.svg")
+    shutil.copytree(SRC / "assets/brand", A / "brand", dirs_exist_ok=True)  # the original logo as files, for Canva and partners (colours unchanged)
     for w in (A / "fonts").glob("*.woff2"):
         FONTV[w.name] = ver(w)
     fc = A / "fonts/fonts.css"
