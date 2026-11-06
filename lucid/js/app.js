@@ -57,6 +57,7 @@ const netBadge = () => (navigator.onLine === false ? html`<span class="net-badge
 const { html, render } = util;
 
 function drawShell(route) {
+  document.documentElement.classList.remove('booting'); // the boot frame goes, the main column shows (B4, B5)
   const active = route?.extra?.nav || route?.path?.split('/')[0];
   const lab = labOf(route);
   const bare = route?.extra?.bare;
@@ -323,5 +324,6 @@ async function boot() {
 
 boot().catch((e) => {
   console.error(e);
+  document.documentElement.classList.remove('booting');
   document.getElementById('view').innerHTML = '<div class="empty"><h3>Lucid could not start</h3><p>Please reload the page.</p></div>';
 });
