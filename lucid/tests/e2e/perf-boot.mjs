@@ -105,20 +105,12 @@ function writeRelease(dir, rel) {
   if (!existsSync(join(dir, 'release.json'))) sw = sw.replace(/^const RELEASE = '[^']*';/m, `const RELEASE = 'perf-boot-${rel}';`);
   writeFileSync(swPath, sw);
 }
-// The worker of the release protocol (contract C-4): the delivery lane's sw.js when it is merged; otherwise the
-// current worker made to behave like it (code from the release cache, a new release waits until a page asks).
+// The worker of the release protocol (contract C-4). Both lanes are merged, so the release checks run against the
+// delivery lane's own sw.js (D3), never against a simulation of it: a worker without the handler fails the check.
 function protocolWorker(dir) {
-  const swPath = join(dir, 'sw.js');
-  let sw = readFileSync(swPath, 'utf8');
-  if (sw.includes('lucid:activate')) return 'delivery';
-  const install = '.then(() => self.skipWaiting()));';
-  const route = 'isCode(e.request, rel) ? networkFirst(e, cache) : staleWhileRevalidate(e, cache)';
-  if (!sw.includes(install) || !sw.includes(route)) throw new Error('sw.js changed shape: update protocolWorker() in perf-boot.mjs');
-  sw = sw.replace(install, '.then(() => { if (!self.registration.active) return self.skipWaiting(); }));')
-    .replace(route, "isCode(e.request, rel) ? cache.match(e.request).then((c) => c || (e.request.mode === 'navigate' ? cache.match('./') : null)).then((c) => c || fetch(e.request)) : staleWhileRevalidate(e, cache)")
-    + "\nself.addEventListener('message', (e) => { if (e.data?.type === 'lucid:activate') self.skipWaiting(); });\n";
-  writeFileSync(swPath, sw);
-  return 'simulated';
+  const sw = readFileSync(join(dir, 'sw.js'), 'utf8');
+  if (!sw.includes("'lucid:activate'") || !sw.includes('skipWaiting')) throw new Error('sw.js has no lucid:activate handler (contract C-4)');
+  return 'delivery';
 }
 function makeCopy() {
   const dir = mkdtempSync(join(tmpdir(), 'lucid-perf-boot-'));
