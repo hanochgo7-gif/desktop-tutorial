@@ -54,6 +54,8 @@ a { color: var(--pine); }
 .nav .dot.done { border-color: var(--pine); background: var(--pine); }
 .nav .opt { font-size: .75rem; color: var(--ink-3); display: block; }
 .nav button[aria-current="page"] .opt { color: #CFE7DA; }
+.nav button[data-g="upd"] { background: var(--amber-bg); color: var(--amber); font-weight: 700; margin-bottom: 6px; }
+.nav button[data-g="upd"][aria-current="page"] { background: var(--amber); color: #fff; }
 .nav .send-i button { margin-top: 8px; background: var(--mint-2); font-weight: 700; color: var(--forest); }
 .nav .send-i button[aria-current="page"] { background: var(--forest); color: #fff; }
 
@@ -89,6 +91,13 @@ a { color: var(--pine); }
 .t-label { font-weight: 600; }
 .card.ok .txt { color: var(--ink-2); }
 .ph-chip { display: inline-block; background: var(--mint-2); color: var(--forest); border-radius: 6px; padding: 0 6px; font-size: .85em; font-weight: 600; }
+.flag { margin: 8px 0 0; font-size: .9rem; border-radius: 8px; padding: 7px 12px; line-height: 1.5; }
+.f-m { background: var(--mint-2); color: var(--forest); font-weight: 600; }
+.f-w { background: var(--amber-bg); color: var(--amber); }
+.f-w .was { display: block; color: var(--ink-3); text-decoration: line-through; margin-top: 2px; }
+.f-n { background: var(--sage); color: var(--ink-2); }
+.f-h { background: var(--amber-bg); color: var(--amber); border: 1px dashed var(--amber-line); }
+.f-r { background: #EAF2FB; color: #1F4E7A; }
 .en { margin-top: 6px; font-size: .9rem; color: var(--ink-3); direction: ltr; text-align: left; }
 .en::before { content: "באנגלית: "; direction: rtl; }
 .acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
@@ -97,6 +106,7 @@ a { color: var(--pine); }
 .acts .b-ok[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: #fff; }
 .acts .b-ed[aria-pressed="true"] { background: var(--amber-bg); border-color: var(--amber-line); color: var(--amber); }
 .ed { margin-top: 14px; display: grid; gap: 8px; }
+.ed[hidden], .en[hidden] { display: none; }
 .ed label { font-size: .9rem; font-weight: 600; color: var(--ink-2); }
 .ed textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 8px; padding: 12px 14px; background: #fff; resize: vertical; min-height: 56px; line-height: 1.55; }
 .ed textarea:focus { border-color: var(--pine); outline: none; box-shadow: 0 0 0 3px rgba(127, 196, 155, .45); }
@@ -221,7 +231,7 @@ details.more .card { box-shadow: none; border: 1px solid var(--line); border-inl
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
-<script src="data.js?v=385b756a"></script>
-<script src="app.js?v=385b756a"></script>
+<script src="data.js?v=98e18bc6"></script>
+<script src="app.js?v=98e18bc6"></script>
 </body>
 </html>

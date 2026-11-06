@@ -124,6 +124,87 @@ def keys(path):
     return [k for k in re.findall(r"\['([a-z_0-9]+)'\]", path)][:1]
 
 
+IDS = SRC / "data/text-review-ids.json"    # content.py path -> id, so an owner's saved progress and the ids in her emails stay valid
+BASE = SRC / "data/text-review-base.json"  # id -> the text the owners first saw, to show what changed since
+REVIEWS = SRC.parent / "docs/reviews"       # the owners' emails, kept as sent
+HELD = {  # changes she asked for that wait for a decision (ledger 7b)
+    350: "הנתונים בטבלה עדיין מ-2015, ולכן הכותרת נשארת 2015 עד שיגיעו הנתונים המעודכנים והפרויקטים בפורטוגל.",
+    **{i: "שאלות במקום כרטיסי ״מי אתם״ דורשות לבנות מחדש את השלב הזה בטופס. ממתין לאישור של חנוך." for i in range(406, 414)},
+}
+REPLY = {
+    1: "שם החברה מופיע עכשיו עם הסלוגן בשתי השפות, באותו גופן ובאותו משקל.",
+    47: "אין לנו עדיין צילום אמיתי של המפעל. צילום או סרטון קצר משם יחזק מאוד את השורה הזו.",
+    49: "במקום ״7״ כתוב עכשיו ״מדינות בעולם״. אם בפריקה יש מדינה מסוימת, עדיף לכתוב אותה.",
+    350: "הכותרת נשארת 2015 עד שיגיעו נתונים מעודכנים.",
+    359: "אפשר להוסיף קישור או ציטוט, ברגע שהלקוח מאשר בכתב.",
+    361: "מעולה. כשיהיו אישורים, נוסיף את השמות.",
+    434: "זו השורה הראשונה ברשימת גודל השטח בטופס. שינינו ל״בחרו את גודל השטח״.",
+    435: "המינימום (50 דונם בארץ, 300 בחו״ל) מופיע בכמה עמודים ובטופס. להוריד מכל האתר? ממתין לאישור.",
+}
+
+
+def reviews():
+    """{id: {"new": text or None, "note": text or None}} from the owners' emails, oldest first (a later email wins)."""
+    out = {}
+    for f in sorted(REVIEWS.glob("*.txt")) if REVIEWS.exists() else []:
+        cur, key = None, None
+        for line in f.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"\[#(\d+)\]", line)
+            if m:
+                cur = out.setdefault(int(m.group(1)), {"new": None, "note": None}); key = None; continue
+            if cur is None or line.startswith("====") or line.startswith("(נוצר"):
+                cur = None if line.startswith("====") or line.startswith("(נוצר") else cur; continue
+            if line.startswith("היום: "):
+                key = None
+            elif line.startswith("חדש: "):
+                key = "new"; cur["new"] = line[5:]
+            elif line.startswith("הערה: "):
+                key = "note"; cur["note"] = line[6:]
+            elif key and line.strip():
+                cur[key] += " " + line.strip()
+    return out
+
+
+def flags(items):
+    ids = json.loads(IDS.read_text(encoding="utf-8")) if IDS.exists() else {}
+    if not ids and (OUT / "data.js").exists():  # first run: take the ids of the page the owners already use
+        old = json.loads((OUT / "data.js").read_text(encoding="utf-8")[len("window.TEXTS = "):].rstrip().rstrip(";"))
+        for it in old["items"]:
+            for p in it["paths"]:
+                ids[p] = it["id"]
+        BASE.write_text(json.dumps({it["id"]: it["he"] for it in old["items"]}, ensure_ascii=False, indent=0), encoding="utf-8")
+    base = {int(k): v for k, v in json.loads(BASE.read_text(encoding="utf-8")).items()} if BASE.exists() else {}
+    taken, nxt = set(), max(list(ids.values()) + [0]) + 1
+    for it in sorted(items, key=lambda x: min([ids.get(p, 10 ** 9) for p in x["paths"]])):
+        c = sorted(ids[p] for p in it["paths"] if p in ids and ids[p] not in taken)
+        if c:
+            it["id"] = c[0]
+        else:
+            it["id"] = nxt; nxt += 1
+        taken.add(it["id"])
+        for p in it["paths"]:
+            ids.setdefault(p, it["id"])
+    IDS.write_text(json.dumps(ids, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
+    rv = reviews()
+    for it in items:
+        i = it["id"]; it["v"] = hashlib.sha1(it["he"].encode()).hexdigest()[:6]
+        r = rv.get(i)
+        if r and r["new"] and i not in HELD:
+            it["m"] = 1              # she wrote this text; it is on the site
+        if r and r["new"]:
+            it["sent"] = r["new"]    # what she sent, so the same change is not sent twice
+        if r and r["note"]:
+            it["note"] = r["note"]   # her note, already sent
+        if i in HELD:
+            it["held"] = HELD[i]
+        if i in REPLY:
+            it["reply"] = REPLY[i]
+        if i not in base:
+            it["nw"] = 1             # a text that did not exist when she started
+        elif base[i] != it["he"] and not it.get("m"):
+            it["was"] = base[i]      # changed after her answers: she should approve it
+
+
 def main():
     seen = {}
     for name in [n for n in vars(C) if n.isupper()]:
@@ -166,14 +247,18 @@ def main():
         items.append({"id": n, "g": group, "pos": pos, "label": lab, "page": page, "he": s, "en": english_for(paths[0]),
                       "paths": paths, "count": len({h[4] for h in hits}), "kind": kind,
                       "ph": sorted(set(re.findall(r"\{[a-z_]+\}", s)))})
-    groups = [("site", "בכל האתר: תפריט, תחתית ופס יצירת קשר", False)] + [(s, nm, s in OPTIONAL) for s, nm in PAGES] + \
+    flags(items)
+    groups = [("upd", "מה התעדכן בעקבות התשובות שלך", False), ("site", "בכל האתר: תפריט, תחתית ופס יצירת קשר", False)] + [(s, nm, s in OPTIONAL) for s, nm in PAGES] + \
              [("more", "הודעות ותוויות שמופיעות רק במצבים מסוימים (טופס, שגיאות)", True)]
     order = {g: i for i, (g, _, _) in enumerate(groups)}
     items.sort(key=lambda it: (order[it["g"]], "vgh".index(it["kind"]), it["pos"], it["id"]))
-    for i, it in enumerate(items, 1):
-        it["id"] = i
-    used = {it["g"] for it in items}
-    data = {"site": SITE, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    used = {it["g"] for it in items} | ({"upd"} if any(it.get("was") or it.get("nw") for it in items) else set())
+    general = ""
+    for f in sorted(REVIEWS.glob("*.txt")) if REVIEWS.exists() else []:
+        m = re.search(r"הערה כללית:\n(.*?)\n\n", f.read_text(encoding="utf-8"), re.S)
+        if m:
+            general = m.group(1).strip()
+    data = {"site": SITE, "sentGeneral": general, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

@@ -162,6 +162,15 @@ Source: Merav's review from the text-review page (`/text-review/`), sent to Hano
 | M10 | Turnkey partners named as **business partners** in the "ways to work with us" block | "agricultural partners" there | Home |
 | M11 | The contact page no longer asks callers to ask for Merav by name | contact lead | Contact |
 
+Aligned across the site on 6 Nov 2026 (Hanoch: "align all existing information with the answers"), Hebrew and English:
+- M2/M3: projects page description and the "do you work abroad?" answer list the countries in her order with Africa and "millions of m²"; "7 countries" became "countries around the world" (header facts, globe text). The projects table keeps its 2015 figures and label (held, below).
+- M1: "more than 20 years" became "since 2003" (about page, its description, turnkey page).
+- M4: Belarus is the intensive fish-farming project everywhere (home list, about page, FAQ, globe marker).
+- M5: maintenance removed as an offer: process step 4 is "installation and handover", the Net houses steps end at handover, the service block is "dismantling and reuse", the "already have net houses?" answer and the crop selector's service row no longer offer maintenance. Kept: farm upkeep as a stage of a turnkey farm abroad (stage 10 of 11), which is farm operation with partners, not structure maintenance; to confirm with Merav.
+- M6: "loading sheds" became "shade solutions for work areas" in every list, title, FAQ, form hint and the structured data.
+- M11: the contact aside no longer asks for Merav by name.
+- "Farm structures" became "agricultural projects" in general descriptions; pages about a specific crop keep "orchards and bananas".
+
 Held back, waiting for a decision (not applied):
 - **Projects table date** (her #350): she changed "figures as of 2015" to 2026, and noted the figures must be updated and Portugal added. The label stays "2015" until the new figures arrive, so the table stays true.
 - **Contact form "who are you" cards** (her #406-#413): she replaced the role cards with questions (which settlement, which crop, area, net type, when, interest in farms abroad, invest or grow). These need a form redesign, not a text swap.

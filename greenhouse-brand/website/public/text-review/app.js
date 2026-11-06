@@ -45,10 +45,25 @@
     if (l === "תווית" || l === "שם שורה" || l === "שם של שדה בטופס" || l === "הדגשה") return "t-label";
     return "";
   }
-  function stateOf(id) { return S.items[id] || null; }
-  function changed(id) { var s = stateOf(id); return !!(s && s.s === "edit" && ((s.t != null && s.t.trim() !== byId[id].he.trim()) || (s.n || "").trim())); }
-  function done(id) { var s = stateOf(id); return !!(s && (s.s === "ok" || s.s === "edit")); }
-  function inGroup(g) { return D.items.filter(function (it) { return it.g === g; }); }
+  function stateOf(id) {  // a mark counts only for the text it was made on; texts updated after her answers ask again
+    var s = S.items[id], it = byId[id];
+    if (!s || !it) return null;
+    if (s.v ? s.v !== it.v : (it.was || it.m)) return null;
+    return s;
+  }
+  function sentNote(id) { return (byId[id].note || "").trim(); }
+  function txt(id) { var x = S.items[id]; return x && x.t != null ? String(x.t) : byId[id].he; }
+  function changed(id) {
+    var s = stateOf(id); if (!s || s.s !== "edit") return false;
+    var n = (s.n || "").trim();
+    var t = txt(id).trim(), it = byId[id];
+    if (it.sent != null && t === it.sent.trim() && (!n || n === sentNote(id))) return false;  // already sent in an earlier email
+    if (s.sentT != null && t === s.sentT && n === (s.sentN || "")) return false;  // sent from this page already
+    return t !== it.he.trim() || (!!n && n !== sentNote(id));
+  }
+  function done(id) { var s = stateOf(id), it = byId[id]; return !!((s && (s.s === "ok" || s.s === "edit")) || it.m || (it.note && !s)); }
+  function setMark(id, o) { o.v = byId[id].v; S.items[id] = o; }
+  function inGroup(g) { return D.items.filter(function (it) { return g === "upd" ? (it.was || it.nw) : it.g === g; }); }
 
   // ---- side navigation and progress ----
   function progress() {
@@ -102,6 +117,12 @@
     var st = el("span", "st"); meta.appendChild(st);
     var tx = withChips(el("div", "txt " + style(it)), it.he);
     c.append(meta, tx);
+    if (it.m) c.appendChild(el("p", "flag f-m", "✓ את כתבת את הנוסח הזה, והוא כבר באתר."));
+    if (it.was) { var fw = el("p", "flag f-w"); fw.append(el("b", "", "עודכן בעקבות התשובות שלך. נא לאשר או לתקן. "), el("span", "was", "היה: " + it.was)); c.appendChild(fw); }
+    if (it.nw) c.appendChild(el("p", "flag f-w", "טקסט חדש באתר, בעקבות התשובות שלך. נא לאשר או לתקן."));
+    if (it.note) c.appendChild(el("p", "flag f-n", "ההערה ששלחת: " + it.note));
+    if (it.held) c.appendChild(el("p", "flag f-h", "ממתין להחלטה: " + it.held));
+    if (it.reply) c.appendChild(el("p", "flag f-r", "תשובה: " + it.reply));
     if (it.en) { var en = el("div", "en", it.en); en.hidden = !S.showEn; c.appendChild(en); }
     var acts = el("div", "acts"), bOk = el("button", "b-ok", "✓ נראה טוב"), bEd = el("button", "b-ed", "✎ לתקן או להעיר");
     bOk.type = bEd.type = "button"; acts.append(bOk, bEd); c.appendChild(acts);
@@ -122,24 +143,25 @@
       c.classList.toggle("ok", m === "ok"); c.classList.toggle("edit", m === "edit");
       bOk.setAttribute("aria-pressed", m === "ok" ? "true" : "false"); bEd.setAttribute("aria-pressed", m === "edit" ? "true" : "false");
       ed.hidden = m !== "edit";
-      st.textContent = m === "ok" ? "✓ אושר" : m === "edit" ? (changed(it.id) ? "✎ תוקן" : "✎ בעריכה") : "";
+      st.textContent = m === "ok" ? "✓ אושר" : m === "edit" ? (changed(it.id) ? "✎ תוקן" : "✎ בעריכה") : it.m ? "✓ באתר" : "";
+      c.classList.toggle("ok", m === "ok" || (!m && !!it.m));
     }
     function grow(t) { t.style.height = "auto"; t.style.height = t.scrollHeight + 2 + "px"; }
     bOk.addEventListener("click", function () {
       var s = stateOf(it.id);
       if (s && s.s === "ok") delete S.items[it.id];
       else if (s && changed(it.id) && !confirm("לבטל את התיקון שכתבת ולהשאיר את הטקסט המקורי?")) return;
-      else S.items[it.id] = { s: "ok" };
+      else setMark(it.id, { s: "ok" });
       save(); paint();
     });
     bEd.addEventListener("click", function () {
       var s = stateOf(it.id);
       if (s && s.s === "edit") { ta.focus(); return; }
-      S.items[it.id] = { s: "edit", t: it.he, n: "" }; ta.value = it.he; tn.value = "";
+      setMark(it.id, { s: "edit", t: it.he, n: "" }); ta.value = it.he; tn.value = "";
       save(); paint(); grow(ta); ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
     });
-    ta.addEventListener("input", function () { S.items[it.id].t = ta.value; grow(ta); save(); paint(); });
-    tn.addEventListener("input", function () { S.items[it.id].n = tn.value; grow(tn); save(); paint(); });
+    ta.addEventListener("input", function () { if (!stateOf(it.id)) setMark(it.id, { s: "edit", t: it.he, n: "" }); S.items[it.id].t = ta.value; grow(ta); save(); paint(); });
+    tn.addEventListener("input", function () { if (!stateOf(it.id)) setMark(it.id, { s: "edit", t: it.he, n: "" }); S.items[it.id].n = tn.value; grow(tn); save(); paint(); });
     undo.addEventListener("click", function () { delete S.items[it.id]; ta.value = it.he; tn.value = ""; save(); paint(); });
     paint(); if (!ed.hidden) requestAnimationFrame(function () { grow(ta); grow(tn); });
     return c;
@@ -151,11 +173,12 @@
     main.textContent = "";
     var ph = el("div", "ph");
     ph.appendChild(el("h2", "", g.name));
-    ph.appendChild(el("p", "", gid === "site" ? "טקסטים שמופיעים בכל העמודים: התפריט למעלה, התחתית ופס יצירת הקשר. תיקון כאן משנה בכל האתר."
+    ph.appendChild(el("p", "", gid === "upd" ? "אחרי ששלחת את התיקונים, עדכנו גם טקסטים בעמודים אחרים כדי שיתאימו לתשובות שלך (תחזוקה, סככות, מספר המדינות, בלארוס ועוד). כאן הם מרוכזים במקום אחד, עם מה שהיה כתוב קודם. מספיק לעבור ולאשר."
+      : gid === "site" ? "טקסטים שמופיעים בכל העמודים: התפריט למעלה, התחתית ופס יצירת הקשר. תיקון כאן משנה בכל האתר."
       : gid === "more" ? "טקסטים שמופיעים רק במצבים מסוימים, למשל הודעה אחרי שליחת הטופס או כשחסר שדה. אפשר לדלג."
       : "הטקסטים בסדר שבו הם מופיעים בעמוד, מלמעלה למטה."));
     var row = el("div", "row");
-    if (gid !== "more") { var a = el("a", "pill", "פתיחת העמוד באתר ↗"); a.href = g.url; a.target = "_blank"; a.rel = "noopener"; row.appendChild(a); }
+    if (gid !== "more" && gid !== "upd") { var a = el("a", "pill", "פתיחת העמוד באתר ↗"); a.href = g.url; a.target = "_blank"; a.rel = "noopener"; row.appendChild(a); }
     var en = el("button", "lnk", S.showEn ? "הסתרת הנוסח באנגלית" : "להציג גם את הנוסח באנגלית"); en.type = "button";
     en.addEventListener("click", function () { S.showEn = !S.showEn; save(true); renderGroup(gid); });
     row.appendChild(en); ph.appendChild(row); main.appendChild(ph);
@@ -172,7 +195,7 @@
     pn.append(lb, ta); main.appendChild(pn);
     var foot = el("div", "foot"), all = el("button", "pill", "כל מה שלא סימנתי בעמוד הזה נראה טוב"); all.type = "button";
     all.addEventListener("click", function () {
-      var k = 0; its.forEach(function (it) { if (!stateOf(it.id)) { S.items[it.id] = { s: "ok" }; k++; } });
+      var k = 0; its.forEach(function (it) { if (!stateOf(it.id) && !it.m) { setMark(it.id, { s: "ok" }); k++; } });
       save(); renderGroup(gid); toast(k ? "סומנו " + k + " טקסטים כ'נראה טוב'." : "כל הטקסטים בעמוד כבר סומנו.");
     });
     var idx = D.groups.indexOf(g), next = D.groups[idx + 1];
@@ -199,24 +222,24 @@
   function groupName(g) { var x = D.groups.filter(function (y) { return y.id === g; })[0]; return x ? x.name : ""; }
   function report() {
     var ch = changes(), d = new Date(), lines = [];
-    var nT = ch.filter(function (it) { return S.items[it.id].t.trim() !== it.he.trim(); }).length;
+    var nT = ch.filter(function (it) { return txt(it.id).trim() !== it.he.trim(); }).length;
     lines.push("שינויים בטקסטים של אתר מיפתח");
     lines.push("מאת מרב, " + d.toLocaleDateString("he-IL") + " " + d.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }));
-    var pl = function (n, one, many) { return n === 1 ? one : n + " " + many; };
+    var pl = function (n, one, many) { return n === 1 ? one : n === 0 ? "אין " + many : n + " " + many; };
     lines.push(pl(nT, "תיקון נוסח אחד", "תיקוני נוסח") + ", " + pl(ch.length - nT, "הערה אחת בלי שינוי נוסח", "הערות בלי שינוי נוסח") + ". עברתי על " + D.items.filter(function (it) { return done(it.id); }).length + " מתוך " + D.items.length + " טקסטים.");
     lines.push("");
-    if (S.general.trim()) { lines.push("הערה כללית:", S.general.trim(), ""); }
+    if (S.general.trim() && S.general.trim() !== (D.sentGeneral || "").trim() && S.general.trim() !== (S.sentGeneral || "")) { lines.push("הערה כללית:", S.general.trim(), ""); }
     var lastG = "";
     ch.forEach(function (it) {
       var s = S.items[it.id];
       if (it.g !== lastG) { lines.push("==== " + groupName(it.g) + " ===="); lastG = it.g; }
       lines.push("[#" + it.id + "] " + it.label);
       lines.push("היום: " + it.he);
-      if (s.t.trim() !== it.he.trim()) lines.push("חדש: " + s.t.trim());
-      if ((s.n || "").trim()) lines.push("הערה: " + s.n.trim());
+      if (txt(it.id).trim() !== it.he.trim()) lines.push("חדש: " + txt(it.id).trim());
+      if ((s.n || "").trim() && s.n.trim() !== sentNote(it.id)) lines.push("הערה: " + s.n.trim());
       lines.push("");
     });
-    var pn = D.groups.filter(function (g) { return (S.notes[g.id] || "").trim(); });
+    var sn = S.sentNotes || {}, pn = D.groups.filter(function (g) { var x = (S.notes[g.id] || "").trim(); return x && x !== sn[g.id]; });
     if (pn.length) { lines.push("==== הערות כלליות לעמודים ===="); pn.forEach(function (g) { lines.push(g.name + ": " + S.notes[g.id].trim()); }); lines.push(""); }
     lines.push("(נוצר בעמוד עריכת הטקסטים. המספרים בסוגריים מזהים כל טקסט.)");
     return lines.join("\n");
@@ -232,7 +255,7 @@
     var ph = el("div", "ph"); ph.appendChild(el("h2", "", "סיום ושליחה לחנוך")); ph.appendChild(el("p", "", "כאן רואים את כל מה שתיקנת, לפני ואחרי. אם הכול נכון, שולחים בכפתור למטה."));
     main.appendChild(ph);
     var stats = el("div", "sum-stats");
-    [[ch.filter(function (it) { return S.items[it.id].t.trim() !== it.he.trim(); }).length, "תיקוני נוסח"],
+    [[ch.filter(function (it) { return txt(it.id).trim() !== it.he.trim(); }).length, "תיקוני נוסח חדשים"],
      [ch.filter(function (it) { return (S.items[it.id].n || "").trim(); }).length + pn.length, "הערות"],
      [D.items.filter(function (it) { return done(it.id); }).length + " / " + D.items.length, "טקסטים שעברת עליהם"]].forEach(function (x) {
       var s = el("div", "stat"); s.append(el("b", "", String(x[0])), el("span", "", x[1])); stats.appendChild(s);
@@ -245,8 +268,8 @@
       var back = el("button", "lnk", "לחזור לטקסט"); back.type = "button"; back.style.fontSize = ".85rem"; back.style.padding = "0";
       back.addEventListener("click", function () { go(it.g); setTimeout(function () { var c = main.querySelector('[data-id="' + it.id + '"]'); if (c) { var d = c.closest("details"); if (d) d.open = true; c.scrollIntoView({ block: "center" }); var t = c.querySelector("textarea"); if (t) t.focus({ preventScroll: true }); } }, 60); });
       w.appendChild(back); b.appendChild(w);
-      if (s.t.trim() !== it.he.trim()) {
-        var af = el("div", "after"); af.appendChild(el("span", "tag", "אחרי:")); af.appendChild(diff(it.he.trim(), s.t.trim()));
+      if (txt(it.id).trim() !== it.he.trim()) {
+        var af = el("div", "after"); af.appendChild(el("span", "tag", "אחרי:")); af.appendChild(diff(it.he.trim(), txt(it.id).trim()));
         var bf = el("div", "before"); bf.appendChild(el("span", "tag", "היום:")); bf.appendChild(document.createTextNode(it.he));
         b.append(af, bf);
       } else { var bf2 = el("div", "before"); bf2.appendChild(el("span", "tag", "הטקסט:")); bf2.appendChild(document.createTextNode(it.he)); b.appendChild(bf2); }
@@ -275,7 +298,9 @@
         msg.hidden = false; msg.textContent = "";
         msg.append(el("b", "", long ? "נפתח מייל לחנוך. התיקונים ארוכים מדי לשורת המייל, ולכן הם הועתקו: לוחצים בתוך המייל ובוחרים \"הדבק\", ואז \"שלח\"." : "נפתח מייל לחנוך עם כל השינויים. בודקים ולוחצים \"שלח\"."),
           el("div", "", "לא נפתח מייל? התיקונים כבר הועתקו: פותחים מייל חדש לחנוך, מדביקים (לחיצה ארוכה ו\"הדבק\", או Ctrl+V) ושולחים. אפשר גם ללחוץ \"שמירה כקובץ\" ולצרף את הקובץ."));
-        S.sentAt = new Date().toISOString(); save(true);
+        S.sentAt = new Date().toISOString(); S.sentGeneral = S.general.trim(); S.sentNotes = {};
+        Object.keys(S.notes).forEach(function (k) { S.sentNotes[k] = (S.notes[k] || "").trim(); });
+        changes().forEach(function (it) { var x = S.items[it.id]; x.sentT = txt(it.id).trim(); x.sentN = (x.n || "").trim(); }); save(true);
       });
     });
     bCopy.addEventListener("click", function () { copy(report()).then(function (ok) { toast(ok ? "השינויים הועתקו. אפשר להדביק אותם במייל או בהודעה לחנוך." : "ההעתקה לא הצליחה. נסי \"שמירה כקובץ\"."); }); });
@@ -293,12 +318,17 @@
   $("mnav-b").addEventListener("click", function () { $("side").classList.add("open"); $("side-x").focus(); });
   $("side-x").addEventListener("click", function () { $("side").classList.remove("open"); $("mnav-b").focus(); });
   var w = $("welcome");
-  function closeW() { w.hidden = true; S.started = true; save(true); main.focus({ preventScroll: true }); }
+  function closeW() { w.hidden = true; if (!S.started) S.seenUpd = D.items.filter(function (it) { return it.was || it.nw; }).length + ":" + D.items.filter(function (it) { return it.m; }).length; S.started = true; save(true); main.focus({ preventScroll: true }); }
   $("start").addEventListener("click", closeW);
   $("help").addEventListener("click", function () { w.hidden = false; $("start").textContent = "חזרה לעריכה"; $("start").focus(); });
   w.addEventListener("keydown", function (e) { if (e.key === "Escape") closeW(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("side").classList.contains("open")) { $("side").classList.remove("open"); $("mnav-b").focus(); } });
   go(S.cur === "send" || D.groups.some(function (g) { return g.id === S.cur; }) ? S.cur : D.groups[0].id);
-  if (!S.started) { w.hidden = false; $("start").focus(); } else if (S.cur !== D.groups[0].id) toast("ממשיכים מאיפה שעצרת.");
+  var nM = D.items.filter(function (it) { return it.m; }).length, nU = D.items.filter(function (it) { return it.was || it.nw; }).length;
+  if (!S.started) { w.hidden = false; $("start").focus(); }
+  else if (nU && S.seenUpd !== nU + ":" + nM) {
+    S.seenUpd = nU + ":" + nM; save(true); go("upd");
+    toast(nM + " התיקונים ששלחת כבר באתר ומסומנים ✓. בעקבותיהם עדכנו עוד " + nU + " טקסטים, והם מרוכזים כאן לאישור שלך.", 9000);
+  } else if (S.cur !== D.groups[0].id) toast("ממשיכים מאיפה שעצרת.");
   progress();
 })();

@@ -240,7 +240,7 @@ def jsonld(slug, L, crumbs):
         "slogan": tm(C.SITE["slogan"], L),
         "address": {"@type": "PostalAddress", "addressLocality": "Kfar Masaryk", "addressCountry": "IL"},
         "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"],
-        "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Loading sheds", "Windbreaks", "Turnkey farms"],
+        "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Shade solutions for work areas", "Windbreaks", "Turnkey farms"],
         "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
         "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
         "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
@@ -1046,10 +1046,12 @@ def globe_page():
     for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
                      ('d: "4 פרויקטים בגליל ובגולן"', 'd: "פרויקטים נבחרים בישראל"'), ('d: "4 projects in the Galilee and the Golan"', 'd: "Selected projects in Israel"'),
                      ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
-                      "ישראל ושבע מדינות מעבר לים. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע."),
+                      "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע."),
                      ("From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
-                      "Israel and seven countries abroad. Abroad, we plan the work, train local crews and manage the build."),
+                      "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build."),
                      # opened without ?lang and without a saved choice: the browser's language (Hebrew browsers get Hebrew)
+                     ('d: "פרויקט מורכב", w: "ייצור מקומי וצוותים מקומיים, הסתיים בזמן"', 'd: "פרויקט מורכב לגידול דגים", w: "ייצור מקומי והתקנה בשטח, הסתיים בזמן"'),  # Merav, 5 Nov 2026
+                     ('d: "A complex project", w: "Local production and local crews, delivered on schedule"', 'd: "A complex fish-farming project", w: "Local production and installation on site, delivered on schedule"'),
                      ('var L = "he", sel = "il";', 'var L = /^he\\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";'),
                      ('{ id: "baram", g: "il", lat: 33.063, lon: 35.432, prec: "exact",', '{ id: "ug", g: "il", lat: 33.0, lon: 35.5, prec: "region",'),
                      ('var fly = p.g === "il" && HAS_FLY ?', 'var fly = p.id === "il" && HAS_FLY ?')):
