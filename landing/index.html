@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-icSBEsA2tXNNnhzwwqs4FhfLzXNvgoLszmh4MvgTq6E='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-ZrwTld3UQCporBKxH5ywU0h9ER8vj2SYOpubRe8d1I8='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <script>(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sayeret Nahal Alumni</title>
@@ -333,16 +333,52 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media (max-width:820px){.now .grid{grid-template-columns:1fr}}
 
 /* uniform split */
-.split-story{padding-block:0}
-.uniform{display:grid;grid-template-columns:1fr 1fr}
-.uniform > div{padding:clamp(48px,8vw,104px) clamp(20px,5vw,72px);display:grid;gap:16px;align-content:center;min-height:min(70vh,560px)}
-.uniform .in{background:var(--night);color:var(--on-dark)}
-.uniform .out{background:var(--paper)}
-.uniform .in h2{color:#fff}
-.uniform .in p{color:var(--on-dark-muted)}
-.uniform .out p{color:var(--muted)}
-.uniform h2{font-size:clamp(36px,5vw,60px);font-weight:900}
-@media (max-width:760px){.uniform{grid-template-columns:1fr}.uniform>div{min-height:0}}
+/* ---- story scroll scene: one team as 18 abstract dots. formation -> scattered -> circle ---- */
+.scene{position:relative;background:var(--night);color:var(--on-dark);--t1:1;--t2:1;--o1:1;--o2:1;--o3:1}
+.scene .stage{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(16px,4vw,64px);padding:clamp(56px,8vw,104px) max(16px,calc((100vw - 1160px)/2))}
+.scene .sky,.scene .sky i{position:absolute;inset:0}
+.scene .sky i{display:block}
+.scene .sky .cold{background:linear-gradient(180deg,#232a24,#2b3230 60%,#1d2420);opacity:calc(var(--t1) * (1 - var(--t2)))}
+.scene .sky .warm{background:radial-gradient(closest-side at 50% 50%,rgba(233,170,90,.34),rgba(233,170,90,.10) 55%,transparent),var(--night);opacity:var(--t2)}
+.scene .dots{position:relative;z-index:1;width:min(100%,460px);aspect-ratio:1;justify-self:center;container-type:size}
+.scene .dots::after{content:"";position:absolute;left:50%;top:50%;width:62cqw;height:62cqw;margin:-31cqw;border-radius:50%;border:1px dashed rgba(233,220,164,.35);opacity:var(--t2);transform:scale(calc(.85 + .15 * var(--t2)))}
+.scene .dots i{position:absolute;left:50%;top:50%;width:3.4cqw;height:3.4cqw;min-width:10px;min-height:10px;margin:-1.7cqw;border-radius:50%;background:var(--gold-on-dark);
+  --x:calc(var(--x0) + (var(--x1) - var(--x0)) * var(--t1) + (var(--x2) - var(--x1)) * var(--t2));
+  --y:calc(var(--y0) + (var(--y1) - var(--y0)) * var(--t1) + (var(--y2) - var(--y1)) * var(--t2));
+  transform:translate(calc(var(--x) * 1cqw),calc(var(--y) * 1cqw)) scale(calc(1 - .35 * var(--t1) + .35 * var(--t2)));
+  opacity:calc(1 - (.62 + .2 * var(--d)) * var(--t1) + (.62 + .2 * var(--d)) * var(--t2));
+  box-shadow:0 0 calc(18px * var(--t2)) rgba(240,190,110,calc(.65 * var(--t2)))}
+.scene .beats{position:relative;z-index:1;display:grid}
+.scene .beat{grid-area:1/1;display:grid;gap:14px;align-content:center}
+.scene .beat .label{color:var(--gold-on-dark)}
+.scene .beat h2{font-size:clamp(36px,5vw,62px);font-weight:900;color:#fff}
+.scene .beat p:not(.label){color:var(--on-dark-muted);max-width:30em}
+.scene .b1{opacity:var(--o1);transform:translateY(calc((1 - var(--o1)) * -18px))}
+.scene .b2{opacity:var(--o2);transform:translateY(calc((1 - var(--o2)) * 18px))}
+.scene .b3{opacity:var(--o3);transform:translateY(calc((1 - var(--o3)) * 18px))}
+.scene .scene-hint{display:none}
+/* static fallback (no JS or reduced motion): show the three beats in order, dots in their circle */
+.scene:not(.live) .beats{gap:40px}
+.scene:not(.live) .beat{grid-area:auto}
+/* live: pinned stage, scroll drives --t1/--t2 and the beat opacities */
+.scene.live{height:250vh}
+.scene.live .stage{position:sticky;top:0;height:100vh;height:100svh;padding-block:calc(var(--hdr,70px) + 16px) 24px}
+.scene.live .beat{pointer-events:none}
+.scene.live .scene-hint{display:block;position:absolute;z-index:1;bottom:22px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:.06em;color:var(--on-dark-muted);opacity:calc(1 - var(--t1))}
+.scene.live .scene-hint span{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(5px)}}
+@media (max-width:760px){
+  .scene .stage{grid-template-columns:1fr;align-content:center}
+  .scene.live .stage{grid-template-rows:minmax(0,1fr) auto;align-content:stretch;gap:8px;padding-bottom:96px}
+  .scene .dots{width:min(78vw,40svh,340px);align-self:center}
+  .scene .beat h2{font-size:clamp(32px,9vw,44px)}
+  .scene .beat p:not(.label){font-size:16px}
+  .scene.live .scene-hint{bottom:84px}
+}
+/* reveal of the real photos */
+.reveal{transition:clip-path 1.1s cubic-bezier(.2,.7,.2,1),transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.js-reveal .reveal:not(.in){clip-path:inset(9% 9% 9% 9% round 28px);transform:scale(1.04)}
+.js-reveal .reveal.in{clip-path:inset(0 0 0 0 round 0)}
 
 /* who */
 .who .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);align-items:start;margin-top:36px}
@@ -366,6 +402,7 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .pillars{background:var(--paper);border-block:1px solid var(--line)}
 .trail{list-style:none;margin:44px 0 0;padding:0;position:relative;display:grid;gap:20px}
 .trail::before{content:"";position:absolute;inset-block:18px 18px;inset-inline-start:23px;border-inline-start:2px dashed var(--sage)}
+.trail.live::before{clip-path:inset(0 0 calc((1 - var(--tp,0)) * 100%) 0)}
 .trail li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:22px}
 .trail .pin{width:48px;height:48px;border-radius:50%;background:var(--paper);border:2px solid var(--olive);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:20px;color:var(--olive);position:relative;z-index:1}
 .trail .card{background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:1fr auto;gap:8px 28px;align-items:start;min-width:0}
@@ -602,9 +639,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <p class="src">מקור: נתוני העמותה, 2026.</p>
 </div></section>
 
+<section class="scene" id="story-he" data-sec="story" aria-label="הסיפור שלנו">
+  <div class="stage">
+    <div class="sky" aria-hidden="true"><i class="cold"></i><i class="warm"></i></div>
+    <div class="dots" aria-hidden="true"><i style="--x0:-22.5;--y0:-10.0;--x1:-13.1;--y1:22.2;--x2:0.0;--y2:-30.0;--d:0.65"></i><i style="--x0:-13.5;--y0:-10.0;--x1:33.5;--y1:13.9;--x2:10.3;--y2:-28.2;--d:0.37"></i><i style="--x0:-4.5;--y0:-10.0;--x1:34.2;--y1:11.1;--x2:19.3;--y2:-23.0;--d:0.04"></i><i style="--x0:4.5;--y0:-10.0;--x1:-25.1;--y1:9.5;--x2:26.0;--y2:-15.0;--d:0.09"></i><i style="--x0:13.5;--y0:-10.0;--x1:-38.6;--y1:16.8;--x2:29.5;--y2:-5.2;--d:0.12"></i><i style="--x0:22.5;--y0:-10.0;--x1:6.6;--y1:32.8;--x2:29.5;--y2:5.2;--d:0.95"></i><i style="--x0:-22.5;--y0:0.0;--x1:-30.4;--y1:-13.6;--x2:26.0;--y2:15.0;--d:0.98"></i><i style="--x0:-13.5;--y0:0.0;--x1:42.2;--y1:10.8;--x2:19.3;--y2:23.0;--d:0.29"></i><i style="--x0:-4.5;--y0:0.0;--x1:17.6;--y1:19.1;--x2:10.3;--y2:28.2;--d:0.31"></i><i style="--x0:4.5;--y0:0.0;--x1:12.0;--y1:-23.2;--x2:0.0;--y2:30.0;--d:0.58"></i><i style="--x0:13.5;--y0:0.0;--x1:-21.7;--y1:-22.0;--x2:-10.3;--y2:28.2;--d:0.55"></i><i style="--x0:22.5;--y0:0.0;--x1:25.2;--y1:8.9;--x2:-19.3;--y2:23.0;--d:0.21"></i><i style="--x0:-22.5;--y0:10.0;--x1:-14.8;--y1:-26.9;--x2:-26.0;--y2:15.0;--d:0.31"></i><i style="--x0:-13.5;--y0:10.0;--x1:-30.5;--y1:-15.5;--x2:-29.5;--y2:5.2;--d:0.30"></i><i style="--x0:-4.5;--y0:10.0;--x1:11.2;--y1:-33.2;--x2:-29.5;--y2:-5.2;--d:0.24"></i><i style="--x0:4.5;--y0:10.0;--x1:-33.1;--y1:-14.2;--x2:-26.0;--y2:-15.0;--d:0.88"></i><i style="--x0:13.5;--y0:10.0;--x1:-4.1;--y1:-27.0;--x2:-19.3;--y2:-23.0;--d:0.98"></i><i style="--x0:22.5;--y0:10.0;--x1:25.6;--y1:20.0;--x2:-10.3;--y2:-28.2;--d:0.76"></i></div>
+    <div class="beats">
+      <div class="beat b1"><p class="label">במדים</p><h2>בלתי שבירים.</h2><p>בשירות לומדים לשאת את המשא, ולא לבקש עזרה.</p></div>
+      <div class="beat b2"><p class="label">אחרי המדים</p><h2>לבד. בלתי נראים.</h2><p>הטראומה, הבדידות והקושי הכלכלי לא נגמרים ביום השחרור. ולפעמים דווקא בשגרה חוויות הלחימה מתחילות לצוף.</p></div>
+      <div class="beat b3"><p class="label">מסע חוסן</p><h2>ואז הצוות נפגש שוב.</h2><p>במסע חוסן, צוות של 15 עד 20 לוחמים נפגש מחדש, יושב יחד במעגל, בליווי אנשי מקצוע.</p></div>
+    </div>
+    <p class="scene-hint" aria-hidden="true">המשיכו לגלול <span>↓</span></p>
+  </div>
+</section>
+
 <section class="adopt2" id="adopt-he" data-sec="adopt"><div class="wrap">
   <div class="adopt-grid">
-    <figure class="adopt-art"><img class="paint" src="assets/team.webp" alt="צוות בוגרים במסע חוסן, עומדים חבוקים בשביל ביער, גבם למצלמה" loading="lazy" width="1200" height="900"><span class="illus">צילום ממסע חוסן צוותי</span></figure>
+    <figure class="adopt-art"><img class="paint reveal" src="assets/team.webp" alt="צוות בוגרים במסע חוסן, עומדים חבוקים בשביל ביער, גבם למצלמה" loading="lazy" width="1200" height="900"><span class="illus">צילום ממסע חוסן צוותי</span></figure>
     <div class="adopt-body">
       <div class="head"><p class="label">לחברות ישראליות</p><h2>אמצו צוות לוחמים</h2><p class="lead">צוות של 15 עד 20 לוחמים ששירתו יחד יוצא למסע חוסן ועיבוד, בליווי אנשי מקצוע. חברה מאמצת מממנת מסע מלא, או משתתפת במימון.</p></div>
       <div class="figure-card"><b>‎$13,000‎</b><span>מימון מלא של מסע חוסן לצוות אחד, לפי תקציב העמותה. אפשר גם לאמץ תחום אחר מתוך ארבעת עמודי התמיכה.</span></div>
@@ -624,13 +674,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   </div>
 </div></section>
 
-
-<section class="split-story" id="story-he" data-sec="story" aria-label="הסיפור שלנו">
-  <div class="uniform">
-    <div class="in"><p class="label" style="color:var(--gold-on-dark)">במדים</p><h2>בלתי שבירים.</h2><p>בשירות לומדים לשאת את המשא, ולא לבקש עזרה.</p></div>
-    <div class="out"><p class="label">אחרי המדים</p><h2>לבד. בלתי נראים.</h2><p>הטראומה, הבדידות והקושי הכלכלי לא נגמרים ביום השחרור. ולפעמים דווקא בשגרה חוויות הלחימה מתחילות לצוף.</p></div>
-  </div>
-</section>
 
 <section class="who" id="about-he" data-sec="about"><div class="wrap">
   <div class="head"><p class="label">מי אנחנו</p><h2>משפחה גם אחרי השירות</h2></div>
@@ -652,8 +695,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     </div>
   </div>
   <div class="field-photos">
-    <figure><img src="assets/ridge.webp" alt="שיירה ארוכה של אנשים עולה במעלה רכס מדברי עם שחר" loading="lazy" width="1000" height="750"><figcaption>מפעילות העמותה עם המשפחות השכולות</figcaption></figure>
-    <figure><img src="assets/gather.webp" alt="אולם מלא בוגרים צעירים מקשיבים להרצאה" loading="lazy" width="1000" height="750"><figcaption>מפגש קהילה של בוגרי היחידה</figcaption></figure>
+    <figure><img class="reveal" src="assets/ridge.webp" alt="שיירה ארוכה של אנשים עולה במעלה רכס מדברי עם שחר" loading="lazy" width="1000" height="750"><figcaption>מפעילות העמותה עם המשפחות השכולות</figcaption></figure>
+    <figure><img class="reveal" src="assets/gather.webp" alt="אולם מלא בוגרים צעירים מקשיבים להרצאה" loading="lazy" width="1000" height="750"><figcaption>מפגש קהילה של בוגרי היחידה</figcaption></figure>
   </div>
 </div></section>
 
@@ -828,6 +871,19 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <p class="src">Source: association figures, 2026.</p>
 </div></section>
 
+<section class="scene" id="story-en" data-sec="story" aria-label="Our story">
+  <div class="stage">
+    <div class="sky" aria-hidden="true"><i class="cold"></i><i class="warm"></i></div>
+    <div class="dots" aria-hidden="true"><i style="--x0:-22.5;--y0:-10.0;--x1:-13.1;--y1:22.2;--x2:0.0;--y2:-30.0;--d:0.65"></i><i style="--x0:-13.5;--y0:-10.0;--x1:33.5;--y1:13.9;--x2:10.3;--y2:-28.2;--d:0.37"></i><i style="--x0:-4.5;--y0:-10.0;--x1:34.2;--y1:11.1;--x2:19.3;--y2:-23.0;--d:0.04"></i><i style="--x0:4.5;--y0:-10.0;--x1:-25.1;--y1:9.5;--x2:26.0;--y2:-15.0;--d:0.09"></i><i style="--x0:13.5;--y0:-10.0;--x1:-38.6;--y1:16.8;--x2:29.5;--y2:-5.2;--d:0.12"></i><i style="--x0:22.5;--y0:-10.0;--x1:6.6;--y1:32.8;--x2:29.5;--y2:5.2;--d:0.95"></i><i style="--x0:-22.5;--y0:0.0;--x1:-30.4;--y1:-13.6;--x2:26.0;--y2:15.0;--d:0.98"></i><i style="--x0:-13.5;--y0:0.0;--x1:42.2;--y1:10.8;--x2:19.3;--y2:23.0;--d:0.29"></i><i style="--x0:-4.5;--y0:0.0;--x1:17.6;--y1:19.1;--x2:10.3;--y2:28.2;--d:0.31"></i><i style="--x0:4.5;--y0:0.0;--x1:12.0;--y1:-23.2;--x2:0.0;--y2:30.0;--d:0.58"></i><i style="--x0:13.5;--y0:0.0;--x1:-21.7;--y1:-22.0;--x2:-10.3;--y2:28.2;--d:0.55"></i><i style="--x0:22.5;--y0:0.0;--x1:25.2;--y1:8.9;--x2:-19.3;--y2:23.0;--d:0.21"></i><i style="--x0:-22.5;--y0:10.0;--x1:-14.8;--y1:-26.9;--x2:-26.0;--y2:15.0;--d:0.31"></i><i style="--x0:-13.5;--y0:10.0;--x1:-30.5;--y1:-15.5;--x2:-29.5;--y2:5.2;--d:0.30"></i><i style="--x0:-4.5;--y0:10.0;--x1:11.2;--y1:-33.2;--x2:-29.5;--y2:-5.2;--d:0.24"></i><i style="--x0:4.5;--y0:10.0;--x1:-33.1;--y1:-14.2;--x2:-26.0;--y2:-15.0;--d:0.88"></i><i style="--x0:13.5;--y0:10.0;--x1:-4.1;--y1:-27.0;--x2:-19.3;--y2:-23.0;--d:0.98"></i><i style="--x0:22.5;--y0:10.0;--x1:25.6;--y1:20.0;--x2:-10.3;--y2:-28.2;--d:0.76"></i></div>
+    <div class="beats">
+      <div class="beat b1"><p class="label">In uniform</p><h2>Unbreakable.</h2><p>In service, they are trained to carry the weight and never to ask for help.</p></div>
+      <div class="beat b2"><p class="label">After the uniform</p><h2>Alone. Unseen.</h2><p>Trauma, isolation and financial strain don't end on discharge day. Sometimes it is back in everyday life that the experiences of combat begin to surface.</p></div>
+      <div class="beat b3"><p class="label">Resilience journey</p><h2>Then the team meets again.</h2><p>On a resilience journey, a team of 15 to 20 fighters comes back together and sits in a circle, with professional guidance.</p></div>
+    </div>
+    <p class="scene-hint" aria-hidden="true">Keep scrolling <span>↓</span></p>
+  </div>
+</section>
+
 <section class="abroad" id="abroad-en" data-sec="abroad"><div class="wrap">
   <div class="abroad-grid">
     <div class="abroad-body">
@@ -839,13 +895,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       </ol>
       <p class="yearend">Gifts made by December 31 count toward this tax year. Rules differ by country, so please confirm with your tax advisor.</p>
     </div>
-    <figure class="abroad-art"><img class="paint" src="assets/journey.webp" alt="A team sitting in a circle in a mountain meadow during a resilience journey" loading="lazy" width="1400" height="1050"><span class="illus">Photo from a team resilience journey</span></figure>
+    <figure class="abroad-art"><img class="paint reveal" src="assets/journey.webp" alt="A team sitting in a circle in a mountain meadow during a resilience journey" loading="lazy" width="1400" height="1050"><span class="illus">Photo from a team resilience journey</span></figure>
   </div>
 </div></section>
 
 <section class="adopt2" id="adopt-en" data-sec="adopt"><div class="wrap">
   <div class="adopt-grid">
-    <figure class="adopt-art"><img class="paint" src="assets/team.webp" alt="An alumni team on a resilience journey, standing arm in arm on a forest path, backs to the camera" loading="lazy" width="1200" height="900"><span class="illus">Photo from a team resilience journey</span></figure>
+    <figure class="adopt-art"><img class="paint reveal" src="assets/team.webp" alt="An alumni team on a resilience journey, standing arm in arm on a forest path, backs to the camera" loading="lazy" width="1200" height="900"><span class="illus">Photo from a team resilience journey</span></figure>
     <div class="adopt-body">
       <div class="head"><p class="label">For companies and foundations</p><h2>Adopt a team</h2><p class="lead">A team of 15 to 20 fighters who served together goes on a guided resilience journey with mental health professionals. A partner funds the full journey or shares its cost.</p></div>
       <div class="figure-card"><b>$13,000</b><span>Funds one full resilience journey for one team, per the association's budget. You can also adopt another of the four pillars.</span></div>
@@ -865,13 +921,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   </div>
 </div></section>
 
-
-<section class="split-story" id="story-en" data-sec="story" aria-label="Our story">
-  <div class="uniform">
-    <div class="in"><p class="label" style="color:var(--gold-on-dark)">In uniform</p><h2>Unbreakable.</h2><p>In service, they are trained to carry the weight and never to ask for help.</p></div>
-    <div class="out"><p class="label">After the uniform</p><h2>Alone. Unseen.</h2><p>Trauma, isolation and financial strain don't end on discharge day. Sometimes it is back in everyday life that the experiences of combat begin to surface.</p></div>
-  </div>
-</section>
 
 <section class="who" id="about-en" data-sec="about"><div class="wrap">
   <div class="head"><p class="label">Who we are</p><h2>A family after service</h2></div>
@@ -893,8 +942,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     </div>
   </div>
   <div class="field-photos">
-    <figure><img src="assets/ridge.webp" alt="A long line of people climbing a desert ridge at dawn" loading="lazy" width="1000" height="750"><figcaption>From the association's work with bereaved families</figcaption></figure>
-    <figure><img src="assets/gather.webp" alt="A hall full of young alumni listening to a talk" loading="lazy" width="1000" height="750"><figcaption>An alumni community gathering</figcaption></figure>
+    <figure><img class="reveal" src="assets/ridge.webp" alt="A long line of people climbing a desert ridge at dawn" loading="lazy" width="1000" height="750"><figcaption>From the association's work with bereaved families</figcaption></figure>
+    <figure><img class="reveal" src="assets/gather.webp" alt="A hall full of young alumni listening to a talk" loading="lazy" width="1000" height="750"><figcaption>An alumni community gathering</figcaption></figure>
   </div>
 </div></section>
 
@@ -1089,6 +1138,41 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   setLang(start,false);
   if(/-(he|en)$/.test(h)){var t=document.getElementById(h); if(t) setTimeout(function(){t.scrollIntoView()},0)}
   addEventListener("hashchange",function(){var x=location.hash.slice(1); if((x==="en"||x==="he")&&x!==lang) setLang(x,false)});
+})();
+/* scroll story: the pinned scene, the drawn trail and the photo reveal. Off for reduced motion. */
+(function(){
+  if(!window.matchMedia||matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var root=document.documentElement, scenes=[].slice.call(document.querySelectorAll(".scene")), trails=[].slice.call(document.querySelectorAll(".trail"));
+  scenes.forEach(function(s){s.classList.add("live")}); trails.forEach(function(t){t.classList.add("live")});
+  var c=function(x){return x<0?0:x>1?1:x}, e=function(x){return x*x*(3-2*x)}, ticking=false;
+  function frame(){
+    ticking=false;
+    var hdr=document.querySelector(".v:not([hidden]) .top"); if(hdr) root.style.setProperty("--hdr",hdr.offsetHeight+"px");
+    scenes.forEach(function(s){
+      if(!s.offsetParent) return;
+      var r=s.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
+      var p=c(-r.top/(r.height-innerHeight));
+      var t1=e(c((p-.24)/.16)), t2=e(c((p-.6)/.16));
+      s.style.setProperty("--t1",t1.toFixed(3)); s.style.setProperty("--t2",t2.toFixed(3));
+      s.style.setProperty("--o1",(1-c((p-.18)/.1)).toFixed(3));
+      s.style.setProperty("--o2",(c((p-.3)/.1)*(1-c((p-.56)/.1))).toFixed(3));
+      s.style.setProperty("--o3",c((p-.68)/.1).toFixed(3));
+    });
+    trails.forEach(function(t){
+      if(!t.offsetParent) return;
+      var r=t.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
+      t.style.setProperty("--tp",c((innerHeight*.72-r.top)/r.height).toFixed(3));
+    });
+  }
+  function req(){if(!ticking){ticking=true;requestAnimationFrame(frame)}}
+  addEventListener("scroll",req,{passive:true}); addEventListener("resize",req); addEventListener("hashchange",function(){setTimeout(req,50)});
+  document.addEventListener("click",function(){setTimeout(req,60)});
+  frame();
+  if("IntersectionObserver" in window){
+    root.classList.add("js-reveal");
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{rootMargin:"0px 0px -12% 0px"});
+    [].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){io.observe(el)});
+  }
 })();
 </script>
 

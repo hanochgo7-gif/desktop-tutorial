@@ -18,6 +18,20 @@ extra_css='.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(
 if '.sr{' not in src: src=src.replace('</style>',extra_css+'</style>',1)
 he=open('he.html',encoding='utf8').read().replace('__RIDGES__',vista('he'))
 en=open('en.html',encoding='utf8').read().replace('__RIDGES__',vista('en'))
+# scroll scene: 18 abstract dots = one team. formation -> scattered -> circle (positions in % of the dots box)
+import math, random
+def dots():
+    rnd=random.Random(7); out=[]
+    for i in range(18):
+        r,c=divmod(i,6)
+        x0,y0=(c-2.5)*9,(r-1)*10
+        ang=rnd.uniform(0,2*math.pi); rad=rnd.uniform(26,47)
+        x1,y1=math.cos(ang)*rad,math.sin(ang)*rad*.85
+        a2=i/18*2*math.pi-math.pi/2
+        x2,y2=math.cos(a2)*30,math.sin(a2)*30
+        out.append('<i style="--x0:%.1f;--y0:%.1f;--x1:%.1f;--y1:%.1f;--x2:%.1f;--y2:%.1f;--d:%.2f"></i>'%(x0,y0,x1,y1,x2,y2,rnd.uniform(0,1)))
+    return ''.join(out)
+he=he.replace('__DOTS__',dots()); en=en.replace('__DOTS__',dots())
 page=src.replace('__HE__',he).replace('__EN__',en)
 page=page.replace('bar.setAttribute("aria-hidden",st.hero||st.don||st.close)','var off=st.hero||st.don||st.close;bar.setAttribute("aria-hidden",off);bar.inert=off')
 assets={'hero':'assets/hero.webp','fire':'assets/fire.webp','topo':'assets/topo.webp','i-journey':'assets/i-journey.svg','i-family':'assets/i-family.svg','i-compass':'assets/i-compass.svg','i-home':'assets/i-home.svg','favicon':'assets/favicon.png','team':'assets/team.webp','journey':'assets/journey.webp','ridge':'assets/ridge.webp','gather':'assets/gather.webp'}
@@ -56,7 +70,7 @@ import re
 def d64(path,mime): return 'data:%s;base64,%s'%(mime,base64.b64encode(open(path,'rb').read()).decode())
 art=page
 art=re.sub(r'<img class="paint" src="__A_hero__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-hero" role="img" aria-label="\1"></div>',art)
-art=re.sub(r'<img class="paint" src="__A_team__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-team" role="img" aria-label="\\1"></div>',art)
+art=re.sub(r'<img class="paint( reveal)?" src="__A_team__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-team\1" role="img" aria-label="\2"></div>',art)
 art=re.sub(r'<img class="paint" src="__A_fire__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-fire" role="img" aria-label="\1"></div>',art)
 def logo_rep(m):
     alt=m.group(1)
