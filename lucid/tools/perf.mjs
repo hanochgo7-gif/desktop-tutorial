@@ -468,7 +468,10 @@ async function measureLoad(env, ctx, P, url) {
   m.netKB = net.reduce((a, e) => a + e.wire, 0) / 1024;
   return { page, cdp, m };
 }
-// What the service worker fetched for its precache (requests sent with cache: 'reload'), in page time.
+// What the service worker fetched for its precache, in page time. The worker of b2b669b sent cache: 'reload'
+// (Cache-Control: no-cache, Pragma: no-cache); the revalidating precache (perf D4) sends cache: 'no-cache', which
+// Chromium sends as Cache-Control: max-age=0 (checked: also for a URL it has no copy of). Both count; the page's
+// navigation and the worker script's own update check (Service-Worker: script) do not.
 function swInstall(env, m, page0) {
   const rel = (t) => t - m.timeOrigin;
   const nav = env.server.log().find((e) => e.dest === 'document');
@@ -960,7 +963,7 @@ async function main() {
         if (sample) row.sample = sample;
       };
       if (SCENARIOS.has('a') || SCENARIOS.has('f')) await scenarioA(env, browser, P, add);
-      if (SCENARIOS.has('b') || SCENARIOS.has('c')) await scenarioBC(env, browser, P, add, routes, { b: SCENARIOS.has('b') || SCENARIOS.has('f'), c: SCENARIOS.has('c') });
+      if (SCENARIOS.has('b') || SCENARIOS.has('c') || SCENARIOS.has('f')) await scenarioBC(env, browser, P, add, routes, { b: SCENARIOS.has('b') || SCENARIOS.has('f'), c: SCENARIOS.has('c') });
       if (SCENARIOS.has('d')) await scenarioD(env, browser, P, add, dRoutes);
       if (SCENARIOS.has('e')) await scenarioE(env, browser, P, add);
       if (SCENARIOS.has('f')) await scenarioF(env, browser, P, add);
