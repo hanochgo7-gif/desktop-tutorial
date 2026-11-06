@@ -300,9 +300,11 @@ export function lessonSlice(lesson, budget) {
 // finding R2-16): planning, writing and a quick check of the middle of the word range at about 5 words a
 // minute up to A2, 7 at B1-B2 and 9 from C1 (an exam pace, such as 250 words in 40 minutes), or half a
 // minute per item for a set of sentence exercises. A heuristic, not a measured rate.
+// A Writing-index row (content/writing/index.json) carries n_items in place of the items themselves (contract C-11).
 export function writingMinutes(task) {
   if (!task) return null;
-  if (task.items?.length && !task.min_words) return Math.max(2, Math.round(task.items.length / 2));
+  const n = task.n_items ?? task.items?.length;
+  if (n && !task.min_words) return Math.max(2, Math.round(n / 2));
   const lo = task.word_range?.[0] ?? task.min_words;
   const hi = task.word_range?.[1] ?? task.max_words ?? lo;
   if (!lo) return null;
