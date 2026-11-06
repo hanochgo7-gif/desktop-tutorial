@@ -153,3 +153,22 @@ test('recent words come from the last rounds of that level and stage', () => {
   ];
   assert.deepEqual(recentWords(ev, 'A1', 1), ['c', 'a', 'b']);
 });
+
+// Perf plan R5: round building keeps each meaning's senses in a memo. The rounds must not depend on what the memo
+// already holds: a fresh module instance (empty memo) and this one (warm from the tests above) build the same rounds,
+// and the exported senses() still returns a new Set each time.
+test('the sense memo changes no round: a cold and a warm memo give identical seeded rounds (R5)', async () => {
+  const fresh = await import('../../js/core/wordgame.js?cold-memo');
+  for (const level of LEVELS) {
+    for (const stage of [1, 2, 3]) {
+      for (let r = 0; r < 8; r++) {
+        const seed = r / 8 + 0.021;
+        const cold = fresh.makeRound(fresh.wordPool(lessons, level), stage, { seed });
+        const warm = makeRound(pools[level], stage, { seed });
+        assert.deepEqual(JSON.parse(JSON.stringify(cold)), JSON.parse(JSON.stringify(warm)), `${level} stage ${stage} seed ${seed}`);
+      }
+    }
+  }
+  const he = pools.A1[0].he;
+  assert.notEqual(senses(he), senses(he), 'senses() returns a new Set for callers that change it');
+});
