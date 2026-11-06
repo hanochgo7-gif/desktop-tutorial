@@ -100,6 +100,7 @@
   "js/core/placement.js",
   "js/core/pool.js",
   "js/core/reallife.js",
+  "js/core/route-deps.js",
   "js/core/router.js",
   "js/core/session.js",
   "js/core/speech.js",
