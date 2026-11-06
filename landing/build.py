@@ -33,7 +33,19 @@ def fill(p,mode):
 i=page.index('</style>')
 std=('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
      +page[:i]+'[hidden]{display:none!important}body{margin:0}\n</style>\n</head>\n<body>\n'+page[i+8:]+'\n</body>\n</html>\n')
-open('index.html','w',encoding='utf8').write(fill(std,'file'))
+# --- security hardening for the standalone page (index.html only; the Claude artifact host injects its own scripts) ---
+import hashlib
+FRAMEGUARD='(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();'
+std=std.replace('<meta name="viewport"','<meta name="referrer" content="strict-origin-when-cross-origin">\n__CSP__\n<script>'+FRAMEGUARD+'</script>\n<meta name="viewport"',1)
+def csp_for(html):
+    hs=sorted(set("'sha256-%s'"%base64.b64encode(hashlib.sha256(m.encode('utf8')).digest()).decode() for m in re.findall(r'<script>(.*?)</script>',html,flags=re.S)))
+    pol=["default-src 'none'","script-src "+' '.join(hs),"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com","font-src https://fonts.gstatic.com","img-src 'self' data:","connect-src 'none'","media-src 'none'","object-src 'none'","frame-src 'none'","worker-src 'none'","manifest-src 'none'","base-uri 'none'","form-action 'none'","upgrade-insecure-requests"]
+    return '<meta http-equiv="Content-Security-Policy" content="%s">'%'; '.join(pol)
+import re
+out=fill(std,'file')
+out=out.replace('__CSP__',csp_for(out),1)
+assert len(re.findall(r'<script',out))==2 and 'src=' not in ''.join(re.findall(r'<script[^>]*>',out))
+open('index.html','w',encoding='utf8').write(out)
 import re
 def d64(path,mime): return 'data:%s;base64,%s'%(mime,base64.b64encode(open(path,'rb').read()).decode())
 art=page
