@@ -15,7 +15,7 @@ import { countWords } from '../core/grading.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { runSet } from '../ui/player.js';
-import { STAGES } from './writing.js';
+import { STAGES, groupDigits } from './writing.js';
 import { wordDiff, diffParagraphs, fixStatus, locateSpan } from '../core/diff.js';
 
 const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעט מעל היעד', 'A little above target'], ['הרבה מעל היעד', 'Well above target']];
@@ -358,7 +358,7 @@ export default async function essay(el, ctx) {
       ${aiFinal || done ? '' : html`<button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button>`}</div>
       ${aiFinal ? html`<p class="small">${icon('check', { size: 16 })} ${tt('הטיוטה סומנה כסופית עם משוב AI.', 'This draft is marked final with AI feedback.')}</p>`
         : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
-        : enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${finalMin().toLocaleString('en-US')} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${finalMin().toLocaleString('en-US')} words (you have ${bodyWords()}).`)}</p>`}
+        : enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${groupDigits(finalMin())} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${groupDigits(finalMin())} words (you have ${bodyWords()}).`)}</p>`}
       <p class="small" role="status" data-self-status>${selfNote}</p></div>`;
     return html`<div class="stack rubric-tab">
       <h3 class="small checks-head" tabindex="-1" data-rubric-head>${tt(`המחוון לשלב ${rubricStage()}`, `The rubric for stage ${rubricStage()}`)}</h3>
@@ -572,7 +572,7 @@ export default async function essay(el, ctx) {
   // "target 1,500-2,000 (accepted 1,400-2,200)" when the stated range differs from the checked one (RW-12).
   // Neutral until the target is reached, with the words still to go: "יעד 450-600 · עוד 288" (r4 RW-5).
   function targetLabel() {
-    const n = (x) => x.toLocaleString('en-US');
+    const n = (x) => groupDigits(x);
     const st = task.stated_range;
     const left = Math.max(0, (st?.[0] ?? minWords) - bodyWords());
     const togo = left ? tt(` · עוד ${n(left)}`, ` · ${n(left)} to go`) : '';

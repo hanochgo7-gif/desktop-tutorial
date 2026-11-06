@@ -1,6 +1,7 @@
 // Writing lab: a ten-stage path from the first correct sentence to independent argumentation,
 // with exercises and assignments for each stage, and the learner's drafts.
 import { html, render, on } from '../core/util.js';
+import * as util from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
@@ -13,7 +14,10 @@ function statedRange(text) {
   const m = String(text || '').match(/(\d[\d,]*)\s*[-–]\s*(\d[\d,]*)\s*words/);
   return m ? [Number(m[1].replace(/,/g, '')), Number(m[2].replace(/,/g, ''))] : null;
 }
-const fmt = (x) => x.toLocaleString('en-US');
+// Digit grouping ("1,500") without Intl, whose first use is a long task on a phone (C8): util.groupDigits when the
+// runtime lane has it (contract C-3), else the same for integers here; anything else still goes through Intl.
+export const groupDigits = util.groupDigits ?? ((n) => (Number.isSafeInteger(n) ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : n.toLocaleString('en-US')));
+const fmt = (x) => groupDigits(x);
 const rangeText = (x) => (x.stated && (x.stated[0] !== x.word_range[0] || x.stated[1] !== x.word_range[1]) ? tt(`${fmt(x.stated[0])}-${fmt(x.stated[1])} מילים (מתקבל ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`, `${fmt(x.stated[0])}-${fmt(x.stated[1])} words (accepted ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`) : tt(`${fmt(x.word_range[0])}-${fmt(x.word_range[1])} מילים`, `${fmt(x.word_range[0])}-${fmt(x.word_range[1])} words`));
 
 export const STAGES = [

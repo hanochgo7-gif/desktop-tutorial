@@ -70,3 +70,12 @@ test('r4 RW-11: no "סמול טוק" in content/real-life, and no "מצבים א
   assert.ok(!slangView.includes('מצבים אמיתיים'), 'slang.js says "מצבים אמיתיים"');
   assert.ok(scenarios.find((s) => s.id === 'rl-work-video-call-small-talk' || /שיחת חולין/.test(s.title_he)), 'the small-talk scenario is named "שיחת חולין"');
 });
+
+// C8: the writing lab's word counts are grouped without Intl, exactly as toLocaleString('en-US') groups them.
+test('C8: groupDigits equals toLocaleString("en-US") for word counts and ranges', async () => {
+  const { groupDigits } = await import('../../js/views/writing.js');
+  const values = [0, 1, 9, 10, 99, 100, 999, 1000, 1001, 1500, 2000, 9999, 10000, 12345, 99999, 100000, 1234567, 987654321, -1, -999, -1000, -1234567, Number.MAX_SAFE_INTEGER];
+  for (let i = 0; i < 5000; i += 7) values.push(i * 37);
+  for (const n of values) assert.equal(groupDigits(n), n.toLocaleString('en-US'), String(n));
+  assert.equal(groupDigits(2.5), (2.5).toLocaleString('en-US'), 'a non-integer still goes through Intl');
+});
