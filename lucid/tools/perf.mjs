@@ -37,7 +37,8 @@
 //      lie-fi (every response held 15 s)
 //   u  a release that changes only sw.js (its RELEASE line), deployed while the learner is away (stale cache, new
 //      ETags): the returning #/today, Today -> lesson/a1-01 while the new worker installs, what the new worker
-//      downloads, the saved lessons before and after, the next #/today, and whether a page ran modules from two
+//      downloads, the saved lessons before (every Lucid cache) and after (in the new release's cache), the next
+//      #/today, and whether a page ran modules from two
 //      releases (JS loaded both before and after a controllerchange in the same document)
 //   Not in the default list: g and u run only when named in --scenarios.
 //
@@ -743,13 +744,13 @@ async function installWorker(env, ctx, lessons = ['a1-01']) {
   await pg.close();
   env.server.dropConnections();
 }
-// The lesson files in Lucid's caches, and the cache names.
-const cachedLessons = (page) => page.evaluate(async () => {
+// The lesson files in Lucid's caches (only in the caches whose name contains `only`, when given), and the cache names.
+const cachedLessons = (page, only = null) => page.evaluate(async (only) => {
   const out = new Set();
   const names = (await caches.keys()).filter((x) => x.startsWith('lucid-'));
-  for (const k of names) for (const r of await (await caches.open(k)).keys()) if (/content\/lessons\//.test(r.url)) out.add(r.url.replace(/^.*lessons\//, ''));
+  for (const k of names.filter((x) => !only || x.includes(only))) for (const r of await (await caches.open(k)).keys()) if (/content\/lessons\//.test(r.url)) out.add(r.url.replace(/^.*lessons\//, ''));
   return { lessons: out.size, caches: names.join(',') };
-});
+}, only);
 // A load measured with what the server sent for it: requests, 304s and bytes.
 async function measureServed(env, ctx, P, route) {
   const { page, m } = await measureLoad(env, ctx, P, routeUrl(env, route));
@@ -818,14 +819,15 @@ async function scenarioU(env, browser, P, add) {
     };
     const t = await measureServed(env, ctx, P, 'today');
     const tr = await transition(t.page, 'lesson/a1-01');
-    // Waits for the new worker's install: its cache appears, or the worker is replaced (at most 90 s).
+    // Waits until the new worker has installed (its cache exists and nothing is installing) and has either activated
+    // or is waiting for the tabs to close (a worker that does not skip waiting); at most 90 s.
     const done = await t.page.evaluate((stamp) => new Promise((res) => {
       const t0 = performance.now();
       const poll = async () => {
         const k = (await caches.keys()).filter((x) => x.startsWith('lucid-'));
         const reg = await navigator.serviceWorker.getRegistration();
-        const settled = !reg?.installing && !reg?.waiting;
-        if ((k.some((x) => x.includes(stamp)) && settled) || performance.now() - t0 > 90_000) res({ at: performance.now(), keys: k.join(',') });
+        const settled = reg && !reg.installing && (reg.waiting || reg.active?.state === 'activated');
+        if ((k.some((x) => x.includes(stamp)) && settled) || performance.now() - t0 > 90_000) res({ at: performance.now(), keys: k.join(','), waiting: Boolean(reg?.waiting) });
         else setTimeout(poll, 200);
       };
       poll();
@@ -833,7 +835,8 @@ async function scenarioU(env, browser, P, add) {
     await env.server.idle(500, 60_000);
     const pre = env.server.log().filter((e) => e.noCache && e.dest !== 'document' && !e.sw);
     const all = env.server.log().filter((e) => e.dest !== 'document');
-    const after = await cachedLessons(t.page);
+    // The saved lessons the new release kept: the lesson files in its own cache.
+    const after = await cachedLessons(t.page, stamp);
     const mods = await moduleReleases(t.page);
     await t.page.close();
     const again = await measureServed(env, ctx, P, 'today');
