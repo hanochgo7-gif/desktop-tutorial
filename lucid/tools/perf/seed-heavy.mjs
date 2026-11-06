@@ -4,10 +4,11 @@
 // seedHeavy runs in the page (Playwright page.evaluate serialises it, so it must stay self-contained: no imports
 // or closures from this module). It must run on a page of the app whose boot has opened the store
 // (window.lucid.store). The unit tests run it in Node too: they set globalThis.lucid = { store } after
-// openStore() and pass opts.base, the app root as a URL, so the app's modules resolve from there. Deterministic: a pinned PRNG drives every choice and every record id, and the history is
-// relative to the moment it runs (days before now), so the learner is the same on any date and the plan, due
-// cards and "today" checks see the same shape of history. Defaults give about 5.3k attempts, 1.2k events, 700
-// cards, 32 completed lessons, 12 scenarios and 6 essays.
+// openStore() and pass opts.base, the app root as a URL, so the app's modules resolve from there.
+// Deterministic: a pinned PRNG drives every choice and every record id, and the history is relative to the day it
+// runs (the 180 days before today, UTC), so the learner has the same shape on any date and the plan, due cards and
+// "today" checks see the same history. Defaults give about 5.2-5.3k attempts, 1.2k events, 700 cards, 32 completed
+// lessons, 12 scenarios and 6 essays.
 //
 // Returns the record counts ({ attempts, events, cards, progress, writing, lessons }).
 export async function seedHeavy(opts) {
@@ -22,8 +23,9 @@ export async function seedHeavy(opts) {
   const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
   let n = 0;
   const uid = (p) => `${p}-h${(n++).toString(36)}${Math.floor(rnd() * 2 ** 31).toString(36)}`;
-  // Whole minutes, so every timestamp is reproducible to the minute for a given run start.
-  const now = Math.floor(at / 60e3) * 60e3;
+  // The history ends at the start of today (UTC midnight): the latest session is yesterday evening, and every record
+  // is the same whatever the time of day the seed runs (the same date gives the same learner).
+  const now = Math.floor(at / 864e5) * 864e5;
   L.saveProfile({ onboarded: true, name: 'Heavy', birth_year: 1995, ui_language: 'he', goals: ['travel', 'studies'], created_at: new Date(now - days * 864e5).toISOString() });
   L.saveSettings({ daily_minutes: 20, text_size: 100 });
   await L.applyPlacement(PL.selfReportResult('A1'));
