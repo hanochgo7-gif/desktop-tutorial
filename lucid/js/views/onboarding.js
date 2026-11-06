@@ -78,7 +78,7 @@ const tabFor = (checked, i, anyChecked) => (checked || (!anyChecked && i === 0) 
 export default async function onboarding(el, ctx) {
   ctx.setTitle(tt('התחלה', 'Getting started'));
   const year = new Date().getFullYear();
-  const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
+  const hasWork = Boolean((await content.scenarioIndex().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
   // AI consent is asked only where AI can work: with accounts and the AI service switched on (TF-7).
   const aiAvailable = configured() && CONFIG.aiEnabled;
   const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, terms: false, text_size: currentTextSize() };

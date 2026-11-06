@@ -43,7 +43,7 @@ export default async function profileView(el, ctx) {
   }
   draw();
   import('./onboarding.js').then((mod) => { goalCards = mod.goalCards; drawGoals(); }).catch(() => {});
-  content.scenarios().catch(() => null).then((d) => {
+  content.scenarioIndex().catch(() => null).then((d) => {
     const work = Boolean(d?.scenarios?.some((x) => x.module === 'work'));
     if (work !== hasWork) { hasWork = work; drawGoals(); }
   });

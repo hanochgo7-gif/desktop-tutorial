@@ -3,7 +3,7 @@
 // attempts, and a focused one-exercise player (same frame and keys as the lesson player).
 import { html, render, on, $ } from '../core/util.js';
 import { tt, legend } from '../core/i18n.js';
-import { content } from '../core/content.js';
+import { content, CENTERS } from '../core/content.js';
 import { icon, levelTag, LEVEL_LABEL } from './components.js';
 import { mountExercise, verdictHtml, answerFor } from './exercise.js';
 import { recordAttempt, settings, logEvent } from '../core/learner.js';
@@ -13,13 +13,27 @@ import { LEVELS, levelIndex, lessonOrder } from '../core/adaptive.js';
 // The "עב" reveal is handled by one document-level listener in app.js.
 export const hebrewReveal = () => () => {};
 
-// Every exercise whose type is in `types`, in curriculum order: [{ lesson, ex }].
+// Every exercise whose type is in `types`, in curriculum order: [{ lesson, ex, rank }]. The exercises come from the
+// centre files (content/centers/<name>.json, cached on first use), whose lesson rows carry what the centres show
+// (id, level, titles, topics); the lessons the manifest lists, as before. When a centre file cannot be loaded
+// (offline and never opened online), they come from the lesson files on this device, as they did before (C4).
 export async function gatherExercises(types) {
-  const [lessons, curriculum] = await Promise.all([content.allLessons(), content.curriculum()]);
+  const names = Object.keys(CENTERS).filter((n) => CENTERS[n].some((t) => types.includes(t)));
+  const [curriculum, available, files] = await Promise.all([content.curriculum(), content.availableLessons().catch(() => new Set()),
+    Promise.all(names.map((n) => content.center(n))).catch(() => null)]);
   const order = new Map(lessonOrder(curriculum).map((l, i) => [l.id, i]));
   const items = [];
-  for (const lesson of lessons) {
-    (lesson.exercises || []).forEach((ex, i) => { if (types.includes(ex.type)) items.push({ lesson, ex, rank: (order.get(lesson.id) ?? 9999) * 100 + i }); });
+  if (files) {
+    // The manifest's order, as content.allLessons() gives the lessons, so equal ranks keep the same order.
+    const at = new Map([...available].map((id, i) => [id, i]));
+    const rows = files.flatMap((f) => f.items.map((x) => ({ ...x, lesson: f.lessons[x.lesson] })))
+      .filter((x) => types.includes(x.ex.type) && (!available.size || available.has(x.lesson.id)))
+      .sort((a, b) => (at.get(a.lesson.id) ?? at.size) - (at.get(b.lesson.id) ?? at.size) || (a.lesson.id < b.lesson.id ? -1 : a.lesson.id > b.lesson.id ? 1 : 0) || a.i - b.i);
+    for (const { lesson, ex, i } of rows) items.push({ lesson, ex, rank: (order.get(lesson.id) ?? 9999) * 100 + i });
+  } else {
+    for (const lesson of await content.allLessons()) {
+      (lesson.exercises || []).forEach((ex, i) => { if (types.includes(ex.type)) items.push({ lesson, ex, rank: (order.get(lesson.id) ?? 9999) * 100 + i }); });
+    }
   }
   return items.sort((a, b) => a.rank - b.rank);
 }
@@ -27,9 +41,25 @@ export async function gatherExercises(types) {
 export const itemHref = (base, item) => `#/${base}?l=${encodeURIComponent(item.lesson.id)}&e=${encodeURIComponent(item.ex.id)}`;
 export const findItem = (items, query) => items.find((x) => x.lesson.id === query.l && x.ex.id === query.e) || null;
 
-// Attempts on this exercise from anywhere (lesson, center): done = at least one.
+// Attempts on this exercise from anywhere (lesson, center): done = at least one. The attempts are grouped by lesson
+// and exercise once per attempts array (C6), so a list of items is a lookup each, not a pass over every attempt.
+// A new attempts array (the model is rebuilt after each change) gets its own grouping. The lists are shared:
+// callers read them and never change them.
+const NONE = Object.freeze([]);
+const byExercise = new WeakMap();
 export function attemptsOn(attempts, item) {
-  return attempts.filter((a) => a.exercise === item.ex.id && a.lesson === item.lesson.id);
+  let lessons = byExercise.get(attempts);
+  if (!lessons) {
+    lessons = new Map();
+    for (const a of attempts) {
+      let exercises = lessons.get(a.lesson);
+      if (!exercises) lessons.set(a.lesson, exercises = new Map());
+      const list = exercises.get(a.exercise);
+      if (list) list.push(a); else exercises.set(a.exercise, [a]);
+    }
+    byExercise.set(attempts, lessons);
+  }
+  return lessons.get(item.lesson.id)?.get(item.ex.id) || NONE;
 }
 // Attempts with no score (nothing was heard, speaking practice) are not results.
 export function bestScore(list) {

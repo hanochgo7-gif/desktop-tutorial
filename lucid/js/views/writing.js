@@ -1,6 +1,7 @@
 // Writing lab: a ten-stage path from the first correct sentence to independent argumentation,
 // with exercises and assignments for each stage, and the learner's drafts.
 import { html, render, on } from '../core/util.js';
+import * as util from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
@@ -13,7 +14,10 @@ function statedRange(text) {
   const m = String(text || '').match(/(\d[\d,]*)\s*[-–]\s*(\d[\d,]*)\s*words/);
   return m ? [Number(m[1].replace(/,/g, '')), Number(m[2].replace(/,/g, ''))] : null;
 }
-const fmt = (x) => x.toLocaleString('en-US');
+// Digit grouping ("1,500") without Intl, whose first use is a long task on a phone (C8): util.groupDigits when the
+// runtime lane has it (contract C-3), else the same for integers here; anything else still goes through Intl.
+export const groupDigits = util.groupDigits ?? ((n) => (Number.isSafeInteger(n) ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : n.toLocaleString('en-US')));
+const fmt = (x) => groupDigits(x);
 const rangeText = (x) => (x.stated && (x.stated[0] !== x.word_range[0] || x.stated[1] !== x.word_range[1]) ? tt(`${fmt(x.stated[0])}-${fmt(x.stated[1])} מילים (מתקבל ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`, `${fmt(x.stated[0])}-${fmt(x.stated[1])} words (accepted ${fmt(x.word_range[0])}-${fmt(x.word_range[1])})`) : tt(`${fmt(x.word_range[0])}-${fmt(x.word_range[1])} מילים`, `${fmt(x.word_range[0])}-${fmt(x.word_range[1])} words`));
 
 export const STAGES = [
@@ -40,10 +44,11 @@ export function openStage(rec, counts) {
 
 export default async function writing(el, ctx) {
   ctx.setTitle(t('nav.writing'));
-  const [ex, as, cur] = await Promise.all([content.writingExercises(), content.assignments(), content.curriculum()]);
+  // The lists need only the rows of the writing index (C5), not every task's full text.
+  const [index, cur] = await Promise.all([content.writingIndex(), content.curriculum()]);
   const finals = (cur?.levels || []).filter((l) => l.final_assessment?.stage).map((l) => ({ id: `final-${l.id}`, _type: 'final', stage: l.final_assessment.stage, level: l.id, word_range: [l.final_assessment.min_words, l.final_assessment.max_words], stated: statedRange(l.final_assessment.instructions?.en), topics: l.final_assessment.topics?.length || 0, title_en: `${LEVEL_LABEL[l.id]} final writing task`, title_he: `משימת הסיום של ${LEVEL_LABEL[l.id]}` }));
-  const exercises = ex?.exercises || [];
-  const assignments = as?.assignments || [];
+  const exercises = index?.exercises || [];
+  const assignments = index?.assignments || [];
   const m = model();
   const rec = STAGE_FOR_LEVEL[m.courseLevel] || 1;
   const summaries = store.all('writing').filter((w) => w.kind === 'essay-summary').sort((a, b) => (a.updated < b.updated ? 1 : -1));
@@ -60,8 +65,8 @@ export default async function writing(el, ctx) {
     const s = summaries.find((w) => w.exercise === x.id);
     const tooHard = levelIndex(x.level) > levelIndex(m.courseLevel) + 1;
     return html`<li><a class="lesson-row hub-row" href="#/writing/${x.id}">
-      <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
-      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${rangeText(x)}${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${rangeText(x)}${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
+      <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.n_items != null ? 'list' : 'writing')}</span>
+      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${rangeText(x)}${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${rangeText(x)}${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.n_items != null ? tt(`${x.n_items} תרגילים`, `${x.n_items} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
       <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' && s.self_assessed ? tt('בוצעה · הערכה עצמית', 'Done · self-assessed') : s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
   }
 

@@ -533,6 +533,23 @@ try {
     assert(/Today you'll do part of this \d+-minute lesson: up to exercise \d+ of \d+\./.test(txt), 'the English lesson part line is not rewritten');
     await en.ctx.close();
   });
+
+  // ---------- perf lane "content" (docs/perf/plan.json) ----------
+  await check('PERF-C7. A day-1 learner\'s Today draws once per load, with the lesson card and its real length', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    for (const route of ['#/today', `#/today?t=${Date.now()}`]) {
+      await page.goto(`${BASE}${route}`);
+      await page.reload();
+      await page.waitForSelector('#view section[aria-labelledby="plan-h"]');
+      await page.waitForTimeout(1200);
+      const draws = await page.evaluate(() => performance.getEntriesByName('today:draw').length);
+      assert(draws === 1, `${route}: Today drew ${draws} times`);
+      const learn = await page.textContent('.plan');
+      assert(/pa1-01|Pre-A1|\d+ (דקות|min)/.test(learn) && await page.$('.plan a[href^="#/lesson/pa1-01"]'), 'no lesson card for the first lesson');
+    }
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   server.kill();

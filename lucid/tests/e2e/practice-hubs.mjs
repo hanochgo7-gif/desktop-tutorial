@@ -6,7 +6,7 @@
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -463,6 +463,71 @@ try {
       await page.waitForFunction(() => document.documentElement.lang === 'he');
       await ctx.close();
     }
+  });
+
+  // ---------- perf lane "content" (docs/perf/plan.json): centres, drills and level checks from small files ----------
+  const requested = (page) => { const urls = []; page.on('request', (r) => urls.push(new URL(r.url()).pathname)); return urls; };
+  const readJson = (rel) => JSON.parse(readFileSync(join(app, 'content', rel), 'utf8'));
+  await check('PERF-C4. Reading, listening and speaking list from the centre files: every text, no lesson file downloaded', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A2');
+    const urls = requested(page);
+    for (const [route, file, rowSel] of [['reading', 'read', 'a.lesson-row[href*="reading?l="]'], ['listening', 'listen', 'a.lesson-row[href*="listening?l="]'], ['speaking', 'speak', 'a.lesson-row[href*="speaking?l="]']]) {
+      await go(page, route, rowSel);
+      assert(urls.includes(`/content/centers/${file}.json`), `${route}: centers/${file}.json not loaded`);
+      const items = readJson(`centers/${file}.json`).items;
+      if (route === 'reading') {
+        const rows = await page.$$eval(rowSel, (a) => a.length);
+        assert(rows === items.length, `reading lists ${rows} texts, the lessons have ${items.length}`);
+      }
+      // A text opens in the player from the centre file alone.
+      const href = await page.getAttribute(rowSel, 'href');
+      await page.goto(`${BASE}${href}`);
+      await page.waitForSelector('#exroot > *');
+    }
+    const lessons = urls.filter((u) => u.startsWith('/content/lessons/'));
+    assert(!lessons.length, `lesson files downloaded: ${lessons.slice(0, 4)}`);
+    await ctx.close();
+  });
+  await check('PERF-C4. Offline with Reading never opened online: the texts of the 2 lessons on the device are listed and open, as before', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    const saved = ['a1-01', 'a1-02'];
+    await page.route(/content\/(centers\/|lessons\/)/, (r) => (saved.some((id) => r.request().url().endsWith(`/lessons/${id}.json`)) ? r.continue() : r.abort()));
+    await go(page, 'reading', '.page-head');
+    await page.waitForTimeout(300);
+    const hrefs = await page.$$eval('a.lesson-row[href*="reading?l="]', (a) => a.map((x) => x.getAttribute('href')));
+    const want = saved.flatMap((id) => readJson(`lessons/${id}.json`).exercises.filter((e) => e.type === 'read').map((e) => `#/reading?l=${id}&e=${e.id}`));
+    assert(hrefs.length === want.length && want.every((h) => hrefs.includes(h)), `listed ${hrefs.length}: ${hrefs.slice(0, 3)}; want ${want.length}`);
+    await page.goto(`${BASE}${hrefs[0]}`);
+    await page.waitForSelector('#exroot > *');
+    await ctx.close();
+  });
+  await check('PERF-C10. A level check and a drill load their level\'s pool files, never the 75 lesson files', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    const urls = requested(page);
+    await go(page, 'checkpoint/A1', '[data-begin]');
+    assert(urls.includes('/content/pool/A1.json'), 'pool/A1.json not loaded');
+    await page.click('[data-begin]');
+    await page.waitForSelector('#exroot > *');
+    await go(page, 'drill?topic=present-simple', '#exroot > *');
+    const pools = [...new Set(urls.filter((u) => u.startsWith('/content/pool/')))].sort();
+    assert(pools.join() === ['/content/pool/A1.json', '/content/pool/A2.json', '/content/pool/PreA1.json'].join(), `pool files: ${pools}`);
+    const lessons = urls.filter((u) => u.startsWith('/content/lessons/'));
+    assert(!lessons.length, `lesson files downloaded: ${lessons.slice(0, 4)}`);
+    await ctx.close();
+  });
+  await check('PERF-C10. Offline with A1 lessons saved and no pool file: the A1 level check runs from those lessons, as before', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page, 'A1');
+    await page.route(/content\/(pool\/|lessons\/)/, (r) => (/\/lessons\/a1-\d+\.json$/.test(r.request().url()) ? r.continue() : r.abort()));
+    await go(page, 'checkpoint/A1', '[data-begin]');
+    const from = await page.evaluate(async () => [...new Set((await (await import('./js/core/pool.js')).checkpointSet('A1')).map((p) => p.lesson))]);
+    assert(from.length >= 8 && from.every((id) => id.startsWith('a1-')), `items from ${from}`);
+    await page.click('[data-begin]');
+    await page.waitForSelector('#exroot > *');
+    await ctx.close();
   });
 } finally {
   await browser.close();
