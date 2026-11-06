@@ -1,4 +1,4 @@
-/* המצפן: היועץ הדיגיטלי של HG Studio, להתייעצות ולמציאת דברים באתר. בלי תלויות.
+/* המצפן: היועץ הדיגיטלי של Blueprint Lab, להתייעצות ולמציאת דברים באתר. בלי תלויות.
    שני מצבים: מסלול מודרך שעובד תמיד (שאלות קצרות, המלצה, הוכחה מהתיק ובריף לוואטסאפ),
    ושאלות חופשיות שעוברות לפונקציה /api/chat (Claude). אם השרת לא זמין, המסלול המודרך ממשיך לעבוד.
    השיחה נשמרת רק בלשונית הזו (sessionStorage) ונמחקת כשסוגרים אותה. שום דבר לא נשלח לחנוך בלי לחיצה של הגולש. */
@@ -73,40 +73,40 @@
   /* ---------- סגנון ---------- */
   var CSS =
     '.ht-btn{position:fixed;z-index:124;bottom:18px;inset-inline-start:18px;display:flex;align-items:center;gap:.65rem;min-height:56px;padding:.35rem .45rem;padding-inline-end:1.15rem;border-radius:99px;' +
-    'background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);border:0;box-shadow:0 12px 30px rgba(0,0,0,.45);font-family:var(--f-body,system-ui,sans-serif);text-align:start;cursor:pointer;transition:box-shadow .2s,transform .15s}' +
-    '.ht-btn:hover{box-shadow:0 0 0 2px var(--signal,#ff4f1a),0 12px 30px rgba(0,0,0,.45)}.ht-btn:active{transform:scale(.98)}.ht-btn:focus-visible,.ht-dlg :focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
-    '.ht-lbl{display:grid;gap:3px}.ht-lbl b{font:700 1rem/1.1 var(--f-body,system-ui,sans-serif)}.ht-lbl small{font:500 var(--fs-xs,.8125rem)/1.1 var(--f-body,system-ui,sans-serif);color:rgba(10,10,11,.68)}' +
-    '.ht-mark{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:700 1.2rem/1 var(--f-body,system-ui,sans-serif)}' +
-    '.ht-hint{position:fixed;z-index:124;bottom:86px;inset-inline-start:18px;max-width:250px;padding:.7rem .9rem;border-radius:14px;background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);font:var(--fs-s,.9rem)/1.45 var(--f-body,system-ui);box-shadow:0 14px 30px rgba(0,0,0,.45)}' +
+    'background:var(--paper,#f3efe6);color:var(--ink,#0b1424);border:0;box-shadow:0 12px 30px rgba(0,0,0,.45);font-family:var(--f-body,system-ui,sans-serif);text-align:start;cursor:pointer;transition:box-shadow .2s,transform .15s}' +
+    '.ht-btn:hover{box-shadow:0 0 0 2px var(--signal,#ff5a1f),0 12px 30px rgba(0,0,0,.45)}.ht-btn:active{transform:scale(.98)}.ht-btn:focus-visible,.ht-dlg :focus-visible{outline:2px solid var(--signal,#ff5a1f);outline-offset:3px}' +
+    '.ht-lbl{display:grid;gap:3px}.ht-lbl b{font:700 1rem/1.1 var(--f-body,system-ui,sans-serif)}.ht-lbl small{font:500 var(--fs-xs,.8125rem)/1.1 var(--f-body,system-ui,sans-serif);color:rgba(11,20,36,.68)}' +
+    '.ht-mark{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--signal,#ff5a1f);color:var(--ink,#0b1424);font:700 1.2rem/1 var(--f-body,system-ui,sans-serif)}' +
+    '.ht-hint{position:fixed;z-index:124;bottom:86px;inset-inline-start:18px;max-width:250px;padding:.7rem .9rem;border-radius:14px;background:var(--paper,#f3efe6);color:var(--ink,#0b1424);font:var(--fs-s,.9rem)/1.45 var(--f-body,system-ui);box-shadow:0 14px 30px rgba(0,0,0,.45)}' +
     '.ht-hint button{margin-inline-start:.4rem;min-width:28px;min-height:28px;border-radius:50%;background:transparent;color:inherit;border:0;cursor:pointer;font-size:1rem}' +
-    '.ht-dlg{position:fixed;inset:auto;bottom:18px;inset-inline-start:18px;margin:0;width:min(400px,calc(100vw - 36px));height:min(640px,calc(100dvh - 36px));max-height:none;max-width:none;padding:0;border:1px solid rgba(237,232,222,.2);border-radius:22px;' +
-    'background:var(--ink-2,#121214);color:var(--fg,#ede8de);box-shadow:0 30px 70px rgba(0,0,0,.6);font-family:var(--f-body,system-ui,sans-serif);overflow:hidden}' +
-    '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(10,10,11,.45);opacity:0;transition:opacity .3s ease}.ht-dlg.ht-in::backdrop{opacity:1}' +
+    '.ht-dlg{position:fixed;inset:auto;bottom:18px;inset-inline-start:18px;margin:0;width:min(400px,calc(100vw - 36px));height:min(640px,calc(100dvh - 36px));max-height:none;max-width:none;padding:0;border:1px solid rgba(243,239,230,.2);border-radius:22px;' +
+    'background:var(--ink-2,#101b2e);color:var(--fg,#f3efe6);box-shadow:0 30px 70px rgba(0,0,0,.6);font-family:var(--f-body,system-ui,sans-serif);overflow:hidden}' +
+    '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(11,20,36,.45);opacity:0;transition:opacity .3s ease}.ht-dlg.ht-in::backdrop{opacity:1}' +
     '.ht-grab{display:none}' +
-    '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid var(--fg-faint,rgba(237,232,222,.14))}' +
-    '.ht-head h2{flex:1;margin:0;font:600 var(--fs-b,1rem)/1.2 var(--f-body,system-ui)}.ht-head small{display:block;margin-top:.2rem;font-weight:400;color:rgba(237,232,222,.62);font-size:var(--fs-xs,.8125rem)}' +
-    '.ht-x{width:44px;height:44px;border-radius:50%;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}' +
+    '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid var(--fg-faint,rgba(243,239,230,.14))}' +
+    '.ht-head h2{flex:1;margin:0;font:600 var(--fs-b,1rem)/1.2 var(--f-body,system-ui)}.ht-head small{display:block;margin-top:.2rem;font-weight:400;color:rgba(243,239,230,.62);font-size:var(--fs-xs,.8125rem)}' +
+    '.ht-x{width:44px;height:44px;border-radius:50%;border:1px solid var(--fg-line,rgba(243,239,230,.42));background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}' +
     '.ht-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:1rem;display:flex;flex-direction:column;gap:.7rem}' +
     '.ht-m{max-width:88%;padding:.7rem .9rem;border-radius:16px;line-height:1.55;font-size:var(--fs-b,1rem);white-space:pre-wrap;overflow-wrap:anywhere}' +
-    '.ht-a{align-self:flex-start;background:var(--ink-3,#1c1c1f);border-start-start-radius:4px}.ht-u{align-self:flex-end;background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);border-start-end-radius:4px}' +
-    '.ht-m a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}.ht-u a{color:var(--signal-ink,#a8360a)}' +
+    '.ht-a{align-self:flex-start;background:var(--ink-3,#17253c);border-start-start-radius:4px}.ht-u{align-self:flex-end;background:var(--paper,#f3efe6);color:var(--ink,#0b1424);border-start-end-radius:4px}' +
+    '.ht-m a{color:var(--signal,#ff5a1f);text-decoration:underline;text-underline-offset:3px}.ht-u a{color:var(--signal-ink,#a8360a)}' +
     '.ht-chips{display:flex;flex-wrap:wrap;gap:.45rem;align-self:flex-start}' +
-    '.ht-chip{min-height:44px;padding:.5rem .95rem;border-radius:99px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit;font-size:var(--fs-s,.9rem);cursor:pointer;text-align:start}' +
-    '.ht-chip:hover{border-color:var(--signal,#ff4f1a)}.ht-chip.is-main{background:var(--signal,#ff4f1a);border-color:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font-weight:600;text-decoration:none;display:inline-flex;align-items:center}' +
-    '.ht-card{align-self:stretch;border:1px solid rgba(237,232,222,.2);border-radius:16px;padding:.9rem;display:grid;gap:.6rem;background:var(--ink,#0a0a0b)}' +
+    '.ht-chip{min-height:44px;padding:.5rem .95rem;border-radius:99px;border:1px solid var(--fg-line,rgba(243,239,230,.42));background:transparent;color:inherit;font:inherit;font-size:var(--fs-s,.9rem);cursor:pointer;text-align:start}' +
+    '.ht-chip:hover{border-color:var(--signal,#ff5a1f)}.ht-chip.is-main{background:var(--signal,#ff5a1f);border-color:var(--signal,#ff5a1f);color:var(--ink,#0b1424);font-weight:600;text-decoration:none;display:inline-flex;align-items:center}' +
+    '.ht-card{align-self:stretch;border:1px solid rgba(243,239,230,.2);border-radius:16px;padding:.9rem;display:grid;gap:.6rem;background:var(--ink,#0b1424)}' +
     '.ht-card pre{margin:0;white-space:pre-wrap;font:var(--fs-s,.9rem)/1.55 var(--f-body,system-ui)}' +
-    '.ht-card label{font-size:var(--fs-s,.9rem);color:rgba(237,232,222,.75)}' +
-    '.ht-card input{min-height:44px;padding:.5rem .8rem;border-radius:10px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit}' +
-    '.ht-note{margin:0;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.7);line-height:1.5}.ht-note a{color:inherit;text-decoration:underline}' +
-    '.ht-typing{align-self:flex-start;color:rgba(237,232,222,.62);font-size:var(--fs-s,.9rem)}' +
-    '.ht-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--fg-faint,rgba(237,232,222,.14))}' +
-    '.ht-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:.65rem .85rem;border-radius:14px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:var(--ink,#0a0a0b);color:inherit;font:inherit;font-size:1rem;line-height:1.4}' +
-    '.ht-send{min-width:64px;min-height:44px;border-radius:14px;border:0;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:600 var(--fs-s,.9rem)/1 var(--f-body,system-ui);cursor:pointer}' +
-    '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-foot a{color:inherit}' +
+    '.ht-card label{font-size:var(--fs-s,.9rem);color:rgba(243,239,230,.75)}' +
+    '.ht-card input{min-height:44px;padding:.5rem .8rem;border-radius:10px;border:1px solid var(--fg-line,rgba(243,239,230,.42));background:transparent;color:inherit;font:inherit}' +
+    '.ht-note{margin:0;font-size:var(--fs-xs,.8125rem);color:rgba(243,239,230,.7);line-height:1.5}.ht-note a{color:inherit;text-decoration:underline}' +
+    '.ht-typing{align-self:flex-start;color:rgba(243,239,230,.62);font-size:var(--fs-s,.9rem)}' +
+    '.ht-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--fg-faint,rgba(243,239,230,.14))}' +
+    '.ht-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:.65rem .85rem;border-radius:14px;border:1px solid var(--fg-line,rgba(243,239,230,.42));background:var(--ink,#0b1424);color:inherit;font:inherit;font-size:1rem;line-height:1.4}' +
+    '.ht-send{min-width:64px;min-height:44px;border-radius:14px;border:0;background:var(--signal,#ff5a1f);color:var(--ink,#0b1424);font:600 var(--fs-s,.9rem)/1 var(--f-body,system-ui);cursor:pointer}' +
+    '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(243,239,230,.62)}.ht-foot a{color:inherit}' +
     '@media (max-width:600px){.ht-btn{min-height:52px;gap:.55rem;padding-inline-end:1rem}.ht-btn .ht-mark{width:40px;height:40px}' +
     '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-head{touch-action:none;padding-top:1.15rem;position:relative}' +
     '.ht-dlg.ht-kb .ht-head{padding-top:.55rem;padding-bottom:.55rem}.ht-dlg.ht-kb .ht-head small,.ht-dlg.ht-kb .ht-foot,.ht-dlg.ht-kb .ht-grab{display:none}.ht-dlg.ht-kb .ht-log{padding-top:.6rem;padding-bottom:.6rem}' +
-    '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
+    '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(243,239,230,.38)}.ht-hint{inset-inline-end:18px}}' +
     // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
     '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}' +
     // ובמסך הראשון היועץ מחכה עד שהפס מופיע, כדי לא לכסות את הקישור לשיחה חוזרת שמתחת לכפתור
@@ -115,12 +115,12 @@
     "@media (max-width:400px){html[lang='en'] .ht-lbl small{display:none}}" +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}' +
     // כרטיס חבילה, קישורים, משוב וניסיון חוזר: אותה שפה של הצ'אט
-    '.ht-pkg{align-self:stretch;border:1px solid var(--signal,#ff4f1a);border-radius:16px;padding:.9rem;display:grid;gap:.55rem;background:var(--ink,#0a0a0b)}' +
-    '.ht-pkg small{font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-pkg b{font:400 1.6rem/1 var(--f-display,system-ui);color:var(--signal,#ff4f1a)}' +
+    '.ht-pkg{align-self:stretch;border:1px solid var(--signal,#ff5a1f);border-radius:16px;padding:.9rem;display:grid;gap:.55rem;background:var(--ink,#0b1424)}' +
+    '.ht-pkg small{font-size:var(--fs-xs,.8125rem);color:rgba(243,239,230,.62)}.ht-pkg b{font:400 1.6rem/1 var(--f-display,system-ui);color:var(--signal,#ff5a1f)}' +
     '.ht-pkg ul{margin:0;padding-inline-start:1.1rem;display:grid;gap:.3rem;font-size:var(--fs-s,.9rem);line-height:1.5}.ht-pkg .ht-chips{margin-top:.2rem}' +
     '.ht-chip[href]{text-decoration:none;display:inline-flex;align-items:center}' +
-    '.ht-fb{align-self:flex-start;display:flex;gap:.4rem;align-items:center;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}' +
-    '.ht-fb button{min-height:32px;padding:.2rem .7rem;border-radius:99px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit;cursor:pointer}' +
+    '.ht-fb{align-self:flex-start;display:flex;gap:.4rem;align-items:center;font-size:var(--fs-xs,.8125rem);color:rgba(243,239,230,.62)}' +
+    '.ht-fb button{min-height:32px;padding:.2rem .7rem;border-radius:99px;border:1px solid var(--fg-line,rgba(243,239,230,.42));background:transparent;color:inherit;font:inherit;cursor:pointer}' +
     '.ht-send[disabled]{opacity:.55;cursor:wait}' +
     '.ht-typing i{display:inline-block;width:5px;height:5px;margin-inline-start:3px;border-radius:50%;background:currentColor;animation:htdot 1s infinite}.ht-typing i:nth-child(2){animation-delay:.15s}.ht-typing i:nth-child(3){animation-delay:.3s}' +
     '@keyframes htdot{0%,80%,100%{opacity:.25}40%{opacity:1}}@media (prefers-reduced-motion:reduce){.ht-typing i{animation:none}}';
@@ -138,7 +138,7 @@
     // השם הנגיש מתחיל בטקסט שרואים על הכפתור (WCAG 2.5.3), ואחריו מה הכפתור עושה
     // השם שנשמע כולל את הטקסט שרואים, באותו סדר (שליטה קולית: "לחץ על יועץ דיגיטלי")
     btn.setAttribute('aria-label', T('יועץ דיגיטלי, אוטומטי · עונה מיד. פתיחת שיחה עם המצפן', 'Digital advisor, automated · replies instantly. Open chat with Compass'));
-    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><span class="ht-lbl" aria-hidden="true"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b><small>' + T('אוטומטי · עונה מיד', 'Automated · replies instantly') + '</small></span>';
+    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0b1424" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0b1424"/><circle cx="12" cy="10.8" r="1.2" fill="#0b1424"/><circle cx="15" cy="10.8" r="1.2" fill="#0b1424"/></svg></span><span class="ht-lbl" aria-hidden="true"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b><small>' + T('אוטומטי · עונה מיד', 'Automated · replies instantly') + '</small></span>';
     btn.addEventListener('click', open);
     document.body.appendChild(btn);
   }
@@ -161,7 +161,7 @@
     dlg.className = 'ht-dlg';
     dlg.setAttribute('aria-labelledby', 'ht-title');
     dlg.innerHTML =
-      '<div class="ht-head"><span class="ht-grab" aria-hidden="true"></span><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><h2 id="ht-title">' + T('המצפן · יועץ דיגיטלי', 'Compass · digital advisor') +
+      '<div class="ht-head"><span class="ht-grab" aria-hidden="true"></span><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0b1424" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0b1424"/><circle cx="12" cy="10.8" r="1.2" fill="#0b1424"/><circle cx="15" cy="10.8" r="1.2" fill="#0b1424"/></svg></span><h2 id="ht-title">' + T('המצפן · יועץ דיגיטלי', 'Compass · digital advisor') +
       '<small>' + T('לא בן אדם · עונה מיד, ומעביר לחנוך כשצריך', 'Not a person · replies instantly, hands over to Hanoch when needed') + '</small></h2>' +
       '<button type="button" class="ht-x" aria-label="' + T('סגירת השיחה', 'Close chat') + '">✕</button></div>' +
       '<div class="ht-log"></div>' +
@@ -220,10 +220,10 @@
   function greet() {
     var path = location.pathname, h1 = document.querySelector('main h1, h1'), title = h1 ? h1.textContent.replace(/\s+/g, ' ').trim().slice(0, 60) : '';
     var b = briefDraft(), first;
-    if (b && b.biz) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ראיתי שהתחלתם את הבריף (' + b.biz + '). אפשר להמשיך כאן: לשאול על מה שלא ברור, לבדוק מה מתאים, או לסכם הכול לחנוך.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). I see you started the brief (' + b.biz + '). We can continue here: ask about anything unclear, check what fits, or wrap it all up for Hanoch.');
-    else if (/\/services\/./.test(path) && title) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). אתם בעמוד "' + title + '". רוצים לבדוק אם זה מתאים לעסק שלכם, או לשאול על מה שכלול, על הזמנים ועל המחיר?', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). You’re on "' + title + '". Want to check if it fits your business, or ask about what’s included, timing or price?');
-    else if (/work|archive/.test(path)) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ספרו לי איזה עסק יש לכם, ואמצא בתיק את העבודה הכי דומה, ומה היא עושה בשביל העסק.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Tell me what business you have, and I’ll find the closest project and what it does for that business.');
-    else first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ספרו לי על העסק ומה הייתם רוצים שהאתר יעשה, ואגיד לכם מה מתאים ולמה. אפשר גם לשאול על מחיר, זמנים או עבודות.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Tell me about your business and what you want the site to do, and I’ll tell you what fits and why. You can also ask about price, timing or work.');
+    if (b && b.biz) first = T('היי, אני המצפן, היועץ הדיגיטלי של Blueprint Lab (לא בן אדם). ראיתי שהתחלתם את הבריף (' + b.biz + '). אפשר להמשיך כאן: לשאול על מה שלא ברור, לבדוק מה מתאים, או לסכם הכול לחנוך.', 'Hi, I’m Compass, the Blueprint Lab digital advisor (not a person). I see you started the brief (' + b.biz + '). We can continue here: ask about anything unclear, check what fits, or wrap it all up for Hanoch.');
+    else if (/\/services\/./.test(path) && title) first = T('היי, אני המצפן, היועץ הדיגיטלי של Blueprint Lab (לא בן אדם). אתם בעמוד "' + title + '". רוצים לבדוק אם זה מתאים לעסק שלכם, או לשאול על מה שכלול, על הזמנים ועל המחיר?', 'Hi, I’m Compass, the Blueprint Lab digital advisor (not a person). You’re on "' + title + '". Want to check if it fits your business, or ask about what’s included, timing or price?');
+    else if (/work|archive/.test(path)) first = T('היי, אני המצפן, היועץ הדיגיטלי של Blueprint Lab (לא בן אדם). ספרו לי איזה עסק יש לכם, ואמצא בתיק את העבודה הכי דומה, ומה היא עושה בשביל העסק.', 'Hi, I’m Compass, the Blueprint Lab digital advisor (not a person). Tell me what business you have, and I’ll find the closest project and what it does for that business.');
+    else first = T('היי, אני המצפן, היועץ הדיגיטלי של Blueprint Lab (לא בן אדם). ספרו לי על העסק ומה הייתם רוצים שהאתר יעשה, ואגיד לכם מה מתאים ולמה. אפשר גם לשאול על מחיר, זמנים או עבודות.', 'Hi, I’m Compass, the Blueprint Lab digital advisor (not a person). Tell me about your business and what you want the site to do, and I’ll tell you what fits and why. You can also ask about price, timing or work.');
     say(first);
     chips(START);
   }

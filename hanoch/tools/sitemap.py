@@ -31,9 +31,9 @@ IMG = {'/': ['/work/og-home.jpg', '/work/creation/poster.webp'], '/en.html': ['/
        '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/elef.webp', '/work/film/hg.webp'], '/archive/en.html': ['/work/film/elef.webp', '/work/film/hg.webp'],
        '/elef/': ['/elef/media/s8-poster.webp', '/elef/media/s1-1600.webp', '/elef/media/s12-1600.webp'], '/elef/en.html': ['/elef/media/s8-poster.webp']}
 # סרטונים לכל עמוד: רק מה שבאמת מופיע בעמוד. מותגים בדיוניים וקונספט מסומנים ככאלה בכל תיאור
-ELEF_HE = ('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/elef.webp', '/work/film/elef.mp4', 60)
+ELEF_HE = ('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי Blueprint Lab.', '/work/film/elef.webp', '/work/film/elef.mp4', 60)
 HG_HE = ('HG · Unforgettable', 'פרסומת בושם של 20 שניות למותג קונספט של הסטודיו, שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 20)
-NIGHT_HE = ('אתר שלא נסגר בשבע', 'פרסומת אנכית ל-HG Studio שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)
+NIGHT_HE = ('אתר שלא נסגר בשבע', 'פרסומת אנכית ל-Blueprint Lab שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)
 CON = 'מותג קונספט של הסטודיו. '
 VID = {'/work.html': [ELEF_HE, HG_HE, NIGHT_HE,
                        ('HG TRAVELS · פרסומת למותג קונספט של חופשות סקי', 'פרסומת אנכית שנוצרה בבינה מלאכותית למותג קונספט של הסטודיו.', '/work/film/hgtravels.webp', '/work/film/hgtravels.mp4', 38),
@@ -44,7 +44,7 @@ VID = {'/work.html': [ELEF_HE, HG_HE, NIGHT_HE,
                        ('HG Fragrance · ליד האח', CON + 'גבר במעיל שחור מחזיק את Nocturne ליד אח בהרים, ואז עומד מול חלון מעל השלג.', '/work/film/hgr-by-the-fire.webp', '/work/film/hgr-by-the-fire.mp4', 5),
                        ('HG Fragrance · המגדל', CON + 'מתחת למגדל זכוכית ושמיים כחולים, גבר במעיל ארוך נוגע בצווארון והולך.', '/work/film/hgr-the-tower.webp', '/work/film/hgr-the-tower.mp4', 4)],
        '/archive/': [ELEF_HE, HG_HE, NIGHT_HE],
-       '/archive/en.html': [("A website that doesn't close at seven", 'A vertical HG Studio ad made with AI, with real screens from client sites.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)],
+       '/archive/en.html': [("A website that doesn't close at seven", 'A vertical Blueprint Lab ad made with AI, with real screens from client sites.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)],
        '/services/ai-commercial.html': [ELEF_HE, HG_HE],
        '/services/en/ai-commercial-production.html': [('Elef · Galilee olive oil', 'A one minute cinematic commercial for a fictional olive oil brand, made with AI.', '/work/film/elef.webp', '/work/film/elef-en.mp4', 60),
                      ('HG · Unforgettable', 'A 20 second fragrance commercial for a studio concept brand, made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 20)]}

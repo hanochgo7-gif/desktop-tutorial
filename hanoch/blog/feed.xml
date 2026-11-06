@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>המאמרים של HG Studio</title><link>https://hgpro.io/blog/</link><language>he</language>
+  <title>המאמרים של Blueprint Lab</title><link>https://hgpro.io/blog/</link><language>he</language>
   <description>מדריכים לבעלי עסקים על בניית אתרים, עיצוב, קידום ובינה מלאכותית.</description>
   <atom:link href="https://hgpro.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <item><title>מהירות אתר: למה אתר איטי מפסיד לקוחות, ואיך בודקים את שלכם</title><link>https://hgpro.io/blog/website-speed.html</link><guid>https://hgpro.io/blog/website-speed.html</guid><pubDate>Sun, 01 Nov 2026 08:00:00 +0300</pubDate><description>למה מהירות האתר חשובה לעסק, איך בודקים אותה בחינם תוך כמה דקות, מה המדדים של גוגל אומרים בשפה פשוטה, ומה בדרך כלל מאט אתר של עסק קטן ואיך מתקנים.</description></item>

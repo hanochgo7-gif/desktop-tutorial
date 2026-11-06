@@ -105,7 +105,7 @@
       if (!dlg) {
         dlg = document.createElement('dialog');
         dlg.className = 'film-dlg night-dlg';
-        dlg.setAttribute('aria-label', T('הפרסומת של HG Studio: אתר שלא נסגר בשבע', 'HG Studio ad: a website that doesn’t close at seven'));
+        dlg.setAttribute('aria-label', T('הפרסומת של Blueprint Lab: אתר שלא נסגר בשבע', 'Blueprint Lab ad: a website that doesn’t close at seven'));
         var base = ad.dataset.ad;
         dlg.innerHTML = '<button class="film-close mono" type="button">' + T('סגירה ✕', 'Close ✕') + '</button>' +
           '<video class="film-video night-ad" controls playsinline preload="metadata" poster="' + base + '.webp">' +

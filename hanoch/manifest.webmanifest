@@ -1,12 +1,12 @@
 {
-  "name": "HG Studio · חנוך גוטובסקי, בונה אתרים",
-  "short_name": "HG Studio",
+  "name": "Blueprint Lab · חנוך גוטובסקי, בונה אתרים",
+  "short_name": "Blueprint Lab",
   "lang": "he",
   "dir": "rtl",
   "start_url": "index.html",
   "display": "browser",
-  "background_color": "#0a0a0b",
-  "theme_color": "#0a0a0b",
+  "background_color": "#0b1424",
+  "theme_color": "#0b1424",
   "icons": [
     { "src": "images/icon-180.png", "sizes": "180x180", "type": "image/png" },
     { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }

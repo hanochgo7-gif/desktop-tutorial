@@ -98,7 +98,7 @@ function start() {
     const ctx = typeCanvas.getContext('2d');
     ctx.scale(r, r);
     // רקע אטום: הזכוכית שוברת רק מה שאטום, אז הטקסט והרקע הם משטח אחד
-    ctx.fillStyle = '#0a0a0b';
+    ctx.fillStyle = '#0b1424';
     ctx.fillRect(0, 0, w, h);
     // הילה חמה מאחורי האות: לזכוכית יש אור לשבור
     const gx = w * 0.5, gy = h * (w < 700 ? 0.38 : 0.45), gr = Math.max(w, h) * 0.42;
@@ -108,8 +108,8 @@ function start() {
     g.addColorStop(1, 'rgba(255,79,26,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     g = ctx.createRadialGradient(gx * 0.8, gy * 0.6, 0, gx * 0.8, gy * 0.6, gr * 0.6);
-    g.addColorStop(0, 'rgba(237,232,222,.10)');
-    g.addColorStop(1, 'rgba(237,232,222,0)');
+    g.addColorStop(0, 'rgba(243,239,230,.10)');
+    g.addColorStop(1, 'rgba(243,239,230,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     // רשת שרטוט עדינה: האתר "בשלבי בנייה"
     ctx.strokeStyle = 'rgba(61,123,255,.09)';
@@ -118,7 +118,7 @@ function start() {
     for (let x = w % step / 2; x < w; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
     for (let y = h % step / 2; y < h; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
     const hr = pin.getBoundingClientRect();
-    ctx.fillStyle = '#ede8de';
+    ctx.fillStyle = '#f3efe6';
     ctx.textBaseline = 'middle';
     document.querySelectorAll('.hero-title span').forEach((s) => {
       const rr = s.getBoundingClientRect(), cs = getComputedStyle(s);
