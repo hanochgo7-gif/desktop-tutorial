@@ -1988,3 +1988,15 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
    not fit (320px at 150% text), instead of pushing the page sideways. */
 .player-top .top-meta.is-count { flex-wrap: wrap; justify-content: center; row-gap: var(--s1); min-width: 0; max-width: 100%; }
 /* ---- r4 integrate (round 2): end ---- */
+
+/* ---- boot (perf lane "boot": B4, B5): start ---- */
+/* Until the shell is drawn (app.js removes .booting) the main column is hidden: on a wide screen it would first lay
+   out in the rail's column and jump when the rail appears (desktop CLS). The first spinner stays visible and
+   announced, fixed in the middle of the screen. */
+.booting .main { visibility: hidden; }
+.booting .boot-first { visibility: visible; }
+/* Fixed before and after the shell appears, so drawing the shell does not move it (it is replaced by the view). */
+.boot-first { position: fixed; inset: 0; min-height: 0; pointer-events: none; }
+/* The boot frame in index.html covers the page until then. */
+html:not(.booting) .bootframe { display: none; }
+/* ---- boot (perf lane "boot"): end ---- */
