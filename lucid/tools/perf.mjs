@@ -27,7 +27,11 @@
 //   b  cold #/today for an onboarded A1 learner (storage kept, HTTP cache and service worker cleared), then warm
 //   c  cold and warm (HTTP cache fresh and service worker active) opens of the main routes
 //   d  in-app transitions from Today to each route: right after a cold Today ("first session", while the service
-//      worker installs) and after a warm Today ("returning")
+//      worker installs) and after a warm Today ("returning"), and each route back to Today. The routes run in one
+//      page in list order, so a route that reuses data an earlier one loaded is measured warm: on the base code
+//      #/reading, #/checkpoint/A1 and #/drill all load every lesson, so the default order (reading first) keeps
+//      reading comparable with the baseline, and a first-session checkpoint or drill needs its own run
+//      (--routes checkpoint/A1).
 //   e  interaction latency: lesson Check -> verdict, essay typing (300 words), word quiz answer -> verdict and
 //      Next -> next question, memory card flip
 //   f  service worker install: what it precaches on the first visit, when, and the first view with the worker
