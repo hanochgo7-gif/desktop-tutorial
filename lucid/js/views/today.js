@@ -579,6 +579,16 @@ export default async function today(el, ctx) {
   }
 
   draw();
+  // The scenario and writing task the plan offers load at idle (a few KB each), so opening them from Today does not
+  // wait for their own files (C3, C5); before the index files, the full lists Today loaded held them.
+  const idle = globalThis.requestIdleCallback || ((f) => setTimeout(f, 200));
+  idle(() => {
+    for (const b of [...(lastPlan?.blocks || []), ...(lastPlan?.extras || [])]) {
+      const sc = b.scenario || b.focus?.scenario;
+      if (sc) content.scenario(sc).catch(() => null);
+      if (b.task) content.writingTask(b.task).catch(() => null);
+    }
+  });
   ctx.watch(['progress', 'cards', 'attempts', 'settings', 'events', 'placement', 'profile', 'writing'], draw);
   // The compact layout follows the window width (TP-7); a text-size change saves settings, which redraws already.
   const narrow = globalThis.matchMedia?.(NARROW);
