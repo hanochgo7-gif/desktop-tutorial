@@ -18,7 +18,9 @@ import { createRequire } from 'node:module';
 import { buildManifest } from '../build-manifest.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const esbuild = createRequire(join(here, 'package.json'))('esbuild');
+// Loaded on first use, so the pure helpers (targets, inlineCss) and verify.mjs's importsOf work without esbuild.
+let esbuildModule = null;
+export const loadEsbuild = () => (esbuildModule ??= createRequire(join(here, 'package.json'))('esbuild'));
 export const ESBUILD_VERSION = '0.25.10';
 
 const walk = (root, dir, test) => (existsSync(join(root, dir)) ? readdirSync(join(root, dir), { withFileTypes: true })
@@ -39,7 +41,7 @@ async function minify(root, rel, loader) {
   const opts = loader === 'css'
     ? { loader: 'css', minifyWhitespace: true, legalComments: 'inline', sourcemap: 'external', sourcefile: basename(rel) }
     : { loader: 'js', format: 'esm', target: 'esnext', minify: true, legalComments: 'inline', sourcemap: 'external', sourcefile: basename(rel) };
-  const out = await esbuild.transform(source, opts);
+  const out = await loadEsbuild().transform(source, opts);
   const comment = loader === 'css' ? `/*# sourceMappingURL=${basename(rel)}.map */` : `//# sourceMappingURL=${basename(rel)}.map`;
   writeFileSync(path, `${out.code.replace(/\n+$/, '')}\n${comment}\n`);
   writeFileSync(`${path}.map`, out.map);
@@ -66,6 +68,7 @@ export function inlineCss(root) {
 }
 
 export async function build(root, { log = () => {}, inline = false } = {}) {
+  const esbuild = loadEsbuild();
   if (esbuild.version !== ESBUILD_VERSION) throw new Error(`esbuild ${esbuild.version}, expected ${ESBUILD_VERSION} (npm ci --prefix tools/build)`);
   if (existsSync(join(root, 'js/app.js')) && /sourceMappingURL=/.test(readFileSync(join(root, 'js/app.js'), 'utf8'))) throw new Error('already built');
   const t = targets(root);

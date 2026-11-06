@@ -92,7 +92,10 @@ test('CSS inlining (D9, gated) replaces exactly the one stylesheet tag, rewrites
     const page = readFileSync(join(out, 'index.html'), 'utf8');
     const source = readFileSync(join(src, 'index.html'), 'utf8');
     assert.ok(!page.includes(CSS_TAG) && source.includes(CSS_TAG));
-    assert.equal(page.replace(/<style>[\s\S]*<\/style>/, CSS_TAG), source, 'only the tag changed');
+    // index.html has other <style> blocks (the boot frame, B5), so compare around the one tag the build replaced.
+    const [head, tail] = source.split(CSS_TAG);
+    assert.ok(page.startsWith(head) && page.endsWith(tail), 'only the tag changed');
+    assert.match(page.slice(head.length, page.length - tail.length), /^<style>(?:(?!<\/style>)[\s\S])*<\/style>$/, 'the tag became one <style>');
     assert.ok(/url\(fonts\/rubik-hebrew\.woff2\)/.test(page) && !page.includes('../fonts/'));
     assert.ok(!/sourceMappingURL/.test(page));
     assert.ok(existsSync(join(out, 'css/app.css')), 'privacy.html still links the stylesheet');

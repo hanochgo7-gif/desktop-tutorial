@@ -11,12 +11,10 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve, relative, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { createRequire } from 'node:module';
 import { buildManifest, fileHash } from '../build-manifest.mjs';
-import { targets } from './build.mjs';
+import { targets, loadEsbuild } from './build.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const esbuild = createRequire(join(here, 'package.json'))('esbuild');
 
 // Relative specifiers a module imports: from '…', import '…', export … from '…', import('…') with a literal.
 export function importsOf(code) {
@@ -45,6 +43,7 @@ export async function verify(root, { sourceDir = null } = {}) {
   const problems = [];
   const src = sourceReader(root, sourceDir);
   const t = targets(root);
+  const esbuild = loadEsbuild();
   for (const rel of t.js) {
     const code = readFileSync(join(root, rel), 'utf8');
     try { await esbuild.transform(code, { loader: 'js', format: 'esm', target: 'esnext' }); } catch (e) { problems.push(`${rel}: does not parse (${e.message.split('\n')[0]})`); }
