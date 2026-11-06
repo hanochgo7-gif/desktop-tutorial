@@ -68,7 +68,7 @@ test('the cache is named after the release and activation removes only older Luc
   await w.openCache('hgos-v3').put('https://example.org/crm/index.html', 'crm');
   await w.fire('install');
   const name = w.cacheName();
-  assert.match(name, /^lucid-\d{4}-\d{2}-\d{2}\.\d+$/);
+  assert.match(name, /^lucid-[0-9a-f]{12}$/);
   assert.ok((await w.openCache(name).match('js/app.js')).body.startsWith('precached'));
   await w.fire('activate');
   assert.deepEqual([...w.stores.keys()].sort(), ['hgos-v3', name].sort());

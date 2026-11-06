@@ -2,10 +2,11 @@
 // saved on request from Settings). Code (pages, config.js, js/, css/) is network-first, so a fix reaches learners on the next
 // load; when the network is slow or gone, the cached copy is used. Fonts, content and other files are
 // stale-while-revalidate. Server API calls (another origin) are never cached.
-// RELEASE names the cache: bump it with every deploy. A new value makes the browser install a fresh worker,
-// precache the shell again and delete older Lucid caches. Only caches named "lucid-…" are ever deleted,
+// RELEASE names the cache. tools/build-manifest.mjs sets it to a hash of every file the worker caches and of this
+// file (release.json lists the per-file hashes); never edit it by hand. A new value makes the browser install a
+// fresh worker, precache the shell again and delete older Lucid caches. Only caches named "lucid-…" are ever deleted,
 // because the origin is shared with other apps.
-const RELEASE = '2026-11-03.1';
+const RELEASE = 'ff501c5bca8e';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'index.html', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2',
