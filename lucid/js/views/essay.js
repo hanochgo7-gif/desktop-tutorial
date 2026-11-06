@@ -108,9 +108,11 @@ function aiErrorText(e) {
 
 export default async function essay(el, ctx) {
   const id = ctx.params.id;
-  const [ex, as, tx, cur, rubric] = await Promise.all([content.writingExercises(), content.assignments(), taxonomyIndex(), content.curriculum(), content.rubric()]);
-  const assignments = as?.assignments || [];
-  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6), as?.assignments || []) : (ex?.exercises || []).find((x) => x.id === id) || assignments.find((x) => x.id === id);
+  // The task's own file and the writing index (titles and stages of the others), not every task's full text (C5).
+  const own = id === 'free' || id.startsWith('final-') ? null : content.writingTask(id);
+  const [ex, tx, cur, rubric, file] = await Promise.all([content.writingIndex(), taxonomyIndex(), content.curriculum(), content.rubric(), own]);
+  const assignments = ex?.assignments || [];
+  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6), assignments) : file;
   if (!task) { render(el, emptyState({ title: tt('התרגיל לא נמצא', 'Exercise not found'), action: html`<a class="key enter" href="#/writing">${t('nav.writing')}</a>` })); return; }
   ctx.setTitle(task.title_en);
   const m = model();
@@ -151,7 +153,16 @@ export default async function essay(el, ctx) {
   syncMin();
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
   // The task's source pack, or the pack of the chosen topic's assignment: drafts are compared with it (RW-6).
-  const packOf = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
+  // A final task's topic packs are in their assignments' files, loaded when first needed: the chosen topic's before
+  // the first draw, the others after it, and a newly chosen one before its redraw (C5).
+  const packs = new Map();
+  const loadPack = (i) => {
+    const a = task.topics?.[i]?.assignment;
+    if (!a || packs.has(a)) return Promise.resolve();
+    return content.writingTask(a).then((x) => { if (x) packs.set(a, x); }).catch(() => {});
+  };
+  if (chosen != null) await loadPack(chosen);
+  const packOf = () => task.source_pack || packs.get(task.topics?.[chosen]?.assignment)?.source_pack || null;
   const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf(), stage: task.stage || 0, sources: packOf() });
   let analysis = text ? analyze() : null;
   let busy = false; let aiError = ''; let aiNote = ''; let busySince = 0; let busyTimer = null;
@@ -735,9 +746,18 @@ export default async function essay(el, ctx) {
   }
 
   draw();
+  // The other topics' packs, so a topic chosen next draws with its pack at once.
+  for (let i = 0; i < (task.topics?.length || 0); i++) loadPack(i);
+  let gone = false;
   const offs = [
     on(el, 'input', '#essay', (e) => { text = e.target.value; refreshLive(); markAttempts(); saveDraft(); }),
-    on(el, 'change', 'input[name=topic]', (e, r) => { chosen = Number(r.value); briefOpen = false; saveDraft(); draw(); $('[data-task-fold] > summary', el)?.focus(); }),
+    on(el, 'change', 'input[name=topic]', async (e, r) => {
+      chosen = Number(r.value); briefOpen = false; saveDraft();
+      const at = chosen;
+      await loadPack(at);
+      if (gone || chosen !== at) return;
+      draw(); $('[data-task-fold] > summary', el)?.focus();
+    }),
     on(el, 'toggle', 'details[data-task-fold]', (e, d) => { briefOpen = d.open; }, true),
     on(el, 'click', '[data-goto-checks]', () => revealChecks()),
     on(el, 'click', '[data-check]', () => {
@@ -785,5 +805,5 @@ export default async function essay(el, ctx) {
       timerId = setInterval(() => { const left = Math.max(0, timerEnd - Date.now()); const s = $('[data-time]', el); if (s) s.textContent = `${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, '0')}`; if (!left) { clearInterval(timerId); toast(tt('הזמן נגמר. אפשר לסיים את המשפט ולבדוק.', 'Time is up. Finish your sentence and check.')); } }, 1000);
     }),
   ];
-  return () => { offs.forEach((o) => o()); clearInterval(timerId); clearInterval(busyTimer); saveDraft.flush?.(); };
+  return () => { gone = true; offs.forEach((o) => o()); clearInterval(timerId); clearInterval(busyTimer); saveDraft.flush?.(); };
 }

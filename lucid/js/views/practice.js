@@ -23,7 +23,7 @@ const LABS = [
 
 export default async function practice(el, ctx) {
   ctx.setTitle(t('nav.practice'));
-  const [tx, scenarioData] = await Promise.all([taxonomyIndex(), content.scenarios().catch(() => null)]);
+  const [tx, scenarioData] = await Promise.all([taxonomyIndex(), content.scenarioIndex().catch(() => null)]);
   const m = model();
   const dueList = due();
   const dueN = dueList.length;

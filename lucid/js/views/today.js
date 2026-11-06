@@ -1,7 +1,7 @@
 // Today: the plan for this session, why each part is there, and honest evidence of progress.
 import { html, render, on, todayKey } from '../core/util.js';
 import { tt, legend, t, uiLang, isolateLatin, bi, hebrewSupport } from '../core/i18n.js';
-import { content, taxonomyIndex } from '../core/content.js';
+import { content, taxonomyIndex, withItemCount } from '../core/content.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayLessonIds, todayMinutes, holdTodayPart } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';
@@ -225,10 +225,14 @@ export default async function today(el, ctx) {
   // This view draws only while its route is the current one: a draw that finishes loading after the learner has
   // moved on (lesson files load asynchronously) must never paint Today over the next screen.
   const route = router.current;
-  const [curriculum, tx, scenarios, writing, assignments] = await Promise.all([content.curriculum(), taxonomyIndex(), content.scenarios().catch(() => null), content.writingExercises().catch(() => null), content.assignments().catch(() => null)]);
-  const extras = { lesson: null, scenarios: scenarios?.scenarios || [], writingTasks: writing?.exercises || [] };
+  // The next lesson's file loads alongside the lists (it is cached, so loadLesson below finds it in flight).
+  const firstNext = model().next?.id;
+  if (firstNext) content.lesson(firstNext).catch(() => null);
+  // The plan needs only the list fields of the scenarios and writing tasks: the small index files (C2).
+  const [curriculum, tx, scenarios, writing] = await Promise.all([content.curriculum(), taxonomyIndex(), content.scenarioIndex().catch(() => null), content.writingIndex().catch(() => null)]);
+  const extras = { lesson: null, scenarios: scenarios?.scenarios || [], writingTasks: (writing?.exercises || []).map(withItemCount) };
   // Writing-lab tasks and assignments by id, for an open draft's title (TP-8).
-  const writingTitles = new Map([...extras.writingTasks, ...(assignments?.assignments || [])].map((x) => [x.id, x]));
+  const writingTitles = new Map([...extras.writingTasks, ...(writing?.assignments || [])].map((x) => [x.id, x]));
   const lessons = new Map(lessonOrder(curriculum).map((l) => [l.id, l]));
   // The skill panel is folded on phones and open beside the plan on wide screens, until the learner toggles it.
   let skillsOpen = null;

@@ -12,7 +12,7 @@ import { MODULES, fitNote, levelGuide, hubFilters, hubSections, hubEvents, place
 
 export default async function simulations(el, ctx) {
   ctx.setTitle(t('nav.simulations'));
-  const data = await content.scenarios();
+  const data = await content.scenarioIndex();
   const list = data?.scenarios || [];
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
   const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };

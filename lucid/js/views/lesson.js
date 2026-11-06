@@ -7,7 +7,7 @@
 // complete the lesson.
 import { html, raw, render, on, $, todayKey } from '../core/util.js';
 import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js';
-import { content, taxonomyIndex } from '../core/content.js';
+import { content, taxonomyIndex, withItemCount } from '../core/content.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
 import { exitTarget, fitFooter, fitOnResize, retryNote } from '../ui/player.js';
@@ -497,9 +497,9 @@ export default async function lessonView(el, ctx) {
   const dayExtras = { lesson: null, scenarios: [], writingTasks: [], paces: new Map() };
   (async () => {
     const ids = todayLessonIds().filter((x) => x !== id);
-    const [sc, wr, nextFile, ...others] = await Promise.all([content.scenarios().catch(() => null), content.writingExercises().catch(() => null), nextPlan ? content.lesson(nextPlan.id).catch(() => null) : null, ...ids.map((x) => content.lesson(x).catch(() => null))]);
+    const [sc, wr, nextFile, ...others] = await Promise.all([content.scenarioIndex().catch(() => null), content.writingIndex().catch(() => null), nextPlan ? content.lesson(nextPlan.id).catch(() => null) : null, ...ids.map((x) => content.lesson(x).catch(() => null))]);
     dayExtras.scenarios = sc?.scenarios || [];
-    dayExtras.writingTasks = wr?.exercises || [];
+    dayExtras.writingTasks = (wr?.exercises || []).map(withItemCount);
     dayExtras.lesson = nextFile;
     for (const l of others) if (l) dayExtras.paces.set(l.id, paceOf(l));
   })().catch(() => {});
