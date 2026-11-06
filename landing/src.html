@@ -153,6 +153,35 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .scene .beat p:not(.label){font-size:16px}
   .scene.live .scene-hint{bottom:84px}
 }
+/* ---- motion layer 2 (research picks): ink-sweep headings, embers, staggered steps, button feedback, language wipe ---- */
+.embers{position:absolute;z-index:1;left:calc(50% - .05 * max(100%, clamp(540px,56vw,800px) * 1.768));bottom:27%;width:0;height:0;pointer-events:none}
+.embers::before{content:"";position:absolute;left:-150px;top:-150px;width:300px;height:300px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,150,60,.42),rgba(255,150,60,0));opacity:.75}
+.embers i{position:absolute;left:var(--dx);top:0;width:6px;height:6px;border-radius:50%;background:#fff1c9;box-shadow:0 0 10px 4px rgba(255,130,40,.85);opacity:0}
+.btn:active{transform:scale(.97)}
+[dir="rtl"] .btn:hover .arr{transform:scaleX(-1) translateX(4px)}
+@media (prefers-reduced-motion:no-preference){
+  .embers::before{animation:breathe 4.2s ease-in-out infinite}
+  .embers i{animation:ember 4.6s linear infinite;animation-delay:calc(var(--k) * -.58s)}
+  .fireband:not(.on) .embers::before,.fireband:not(.on) .embers i{animation-play-state:paused}
+  @keyframes breathe{50%{opacity:1;transform:scale(1.12)}}
+  @keyframes ember{0%{transform:translate(0,0) scale(1);opacity:0}12%{opacity:.95}70%{opacity:.5}100%{transform:translate(var(--sx),calc(var(--h) * -1)) scale(.4);opacity:0}}
+  .js-reveal .stagger > *{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .js-reveal .stagger.in > *{opacity:1;transform:none}
+  .js-reveal .stagger.in > :nth-child(2){transition-delay:.14s}
+  .js-reveal .stagger.in > :nth-child(3){transition-delay:.28s}
+  .js-reveal .stagger.in > :nth-child(4){transition-delay:.42s}
+  @supports (animation-timeline:view()){
+    .head h2,.closing h2{-webkit-mask-image:linear-gradient(to left,#000 44%,rgba(0,0,0,.14) 58%);mask-image:linear-gradient(to left,#000 44%,rgba(0,0,0,.14) 58%);-webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:ink-rtl linear both;animation-timeline:view();animation-range:entry 5% cover 36%}
+    .v[data-lang="en"] .head h2,.v[data-lang="en"] .closing h2{-webkit-mask-image:linear-gradient(to right,#000 44%,rgba(0,0,0,.14) 58%);mask-image:linear-gradient(to right,#000 44%,rgba(0,0,0,.14) 58%);animation-name:ink-ltr}
+    @keyframes ink-rtl{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:100% 0;mask-position:100% 0}}
+    @keyframes ink-ltr{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+  }
+  ::view-transition-old(root){animation:none}
+  ::view-transition-new(root){animation:.55s cubic-bezier(.3,.7,.2,1) both wipe-rtl}
+  html[data-vt="en"]::view-transition-new(root){animation-name:wipe-ltr}
+  @keyframes wipe-rtl{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
+  @keyframes wipe-ltr{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+}
 /* reveal of the real photos */
 .reveal{transition:clip-path 1.1s cubic-bezier(.2,.7,.2,1),transform 1.4s cubic-bezier(.2,.7,.2,1)}
 .js-reveal .reveal:not(.in){clip-path:inset(9% 9% 9% 9% round 28px);transform:scale(1.04)}
@@ -397,7 +426,9 @@ __EN__
     var b=e.target.closest("button"); if(!b) return;
     if(b.dataset.setLang){
       if(b.dataset.goto){ setLang(b.dataset.setLang,false); var g=document.getElementById(b.dataset.goto+"-"+lang); if(g) g.scrollIntoView({behavior:"instant"}); var f=g&&g.querySelector("h2"); if(f){f.setAttribute("tabindex","-1");try{f.focus({preventScroll:true})}catch(e){}} return; }
-      if(b.dataset.setLang!==lang) setLang(b.dataset.setLang,true); return; }
+      if(b.dataset.setLang!==lang){ var nl=b.dataset.setLang, run=function(){setLang(nl,true)};
+        if(document.startViewTransition&&!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)){ document.documentElement.setAttribute("data-vt",nl); try{ document.startViewTransition(run).finished.then(function(){document.documentElement.removeAttribute("data-vt")},function(){document.documentElement.removeAttribute("data-vt")}); }catch(x){ document.documentElement.removeAttribute("data-vt"); run(); } }
+        else run(); } return; }
     if(b.dataset.copy){
       var old=b.textContent, txt=b.dataset.copy;
       var ok=function(){b.textContent=lang==="he"?"הועתק":"Copied";setTimeout(function(){b.textContent=old},1600)};
@@ -471,6 +502,9 @@ __EN__
     root.classList.add("js-reveal");
     var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{rootMargin:"0px 0px -12% 0px"});
     [].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){io.observe(el)});
+    [].slice.call(document.querySelectorAll(".stagger")).forEach(function(el){io.observe(el)});
+    var fo=new IntersectionObserver(function(es){es.forEach(function(en){en.target.classList.toggle("on",en.isIntersecting)})});
+    [].slice.call(document.querySelectorAll(".fireband")).forEach(function(el){fo.observe(el)});
   }
 })();
 </script>
