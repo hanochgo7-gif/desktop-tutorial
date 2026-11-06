@@ -33,7 +33,7 @@ function doPost(e) {
       createdAt: new Date(),
       company: company,
       contact: contact,
-      phone: phone,
+      phone: "'" + phone.replace(/^'/, ''), // stored as text so the leading zero survives
       employees: Math.max(0, Math.min(100000, Number(data.employees) || 0)),
       zone: clean_(data.zone, 80),
       interest: INTERESTS.indexOf(data.interest) >= 0 ? data.interest : 'weekly',

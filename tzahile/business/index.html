@@ -284,12 +284,13 @@ if(attr) store.set('tz_attr',attr);
 attr=attr||{ref:'',utm_source:'',utm_medium:'',utm_campaign:''};
 function sourceId(){
   if(attr.ref) return 'b2c';
-  const s=(attr.utm_source||'').toLowerCase();
-  if(/linkedin/.test(s)) return 'linkedin';
-  if(/facebook|fb|instagram|ig|meta/.test(s)) return 'facebook';
-  if(/partner/.test(s)) return 'partner';
-  if(/cowork/.test(s)) return 'coworking';
-  if(/qr|card|basket/.test(s)) return 'visit';
+  const t=(attr.utm_source||'').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const has=list=>t.some(x=>list.includes(x));
+  if(has(['linkedin','li'])) return 'linkedin';
+  if(has(['facebook','fb','instagram','ig','meta'])) return 'facebook';
+  if(has(['partner'])) return 'partner';
+  if(has(['cowork','coworking'])) return 'coworking';
+  if(has(['qr','card','basket'])) return 'visit';
   return 'landing';
 }
 
@@ -376,7 +377,8 @@ form.addEventListener('submit',async e=>{
   const waText=`היי, השארתי פרטים לשבוע ניסיון.\nשם: ${payload.contact}\nחברה: ${payload.company}\nעובדים: ${$('#f-employees').selectedOptions[0].text}\nאזור: ${payload.zone}${attr.ref?`\nהמליץ/ה עלינו: ${attr.ref}`:''}`;
   let ok=false;
   if(CONFIG.endpoint){
-    try{await fetch(CONFIG.endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});ok=true}catch(x){ok=false}
+    // A text/plain POST needs no preflight, so the Apps Script answer can be read. Anything but {ok:true} falls back to WhatsApp.
+    try{const r=await fetch(CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});const j=await r.json();ok=!!(j&&j.ok)}catch(x){ok=false}
   }
   if(ok){
     track('generate_lead',{value:payload.employees*12*4,currency:'ILS',lead_source:payload.source});

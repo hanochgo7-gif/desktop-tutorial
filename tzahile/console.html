@@ -328,6 +328,7 @@ const parseYmd=s=>{const p=String(s||'').split('-').map(Number);return p.length=
 const addDays=(s,n)=>{const d=parseYmd(s||today());d.setDate(d.getDate()+n);return ymd(d)};
 const workday=s=>{const d=parseYmd(s);const w=d.getDay();if(w===5)d.setDate(d.getDate()+2);if(w===6)d.setDate(d.getDate()+1);return ymd(d)};
 const due=n=>workday(addDays(today(),n));
+const addWorkdays=(s,n)=>{const d=parseYmd(s);while(n>0){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==5&&w!==6)n--}return ymd(d)};
 const diffDays=(a,b)=>Math.round((parseYmd(a)-parseYmd(b))/864e5);
 const nowISO=()=>new Date().toISOString();
 const dm=s=>{const d=parseYmd(s);return `${d.getDate()}.${d.getMonth()+1}`};
@@ -379,21 +380,29 @@ const NEXT={
 const PROB={target:.03,touched:.06,talk:.15,trial:.4};
 const BENCH=[null,.8,.3,.35,.35];
 const TU_BISHVAT='2027-01-21'; // Tu Bishvat 5787 falls on Saturday 23.1.2027; offices celebrate Thursday 21.1
-const DEF={ownerName:'',waNumber:'052-3262624',landingUrl:'',ppe:12,margin:30,empSpend:400,referralCredit:150,
+const DEF={ownerName:'',landingUrl:'',ppe:12,margin:30,empSpend:400,referralCredit:150,
   zones:['אתיר ידע, כפר סבא','אזור התעשייה רעננה','הרצליה פיתוח','אזור התעשייה הוד השרון','קריית אריה, פתח תקווה','פארק אפק, ראש העין'],spend:{}};
 
+function normSettings(d){
+  d=d&&typeof d==='object'?d:{};
+  const z=arr(d.zones).map(String).map(x=>x.trim()).filter(Boolean).slice(0,30);
+  const sp={};if(d.spend&&typeof d.spend==='object')for(const k of Object.keys(SOURCES)){const n=num(d.spend[k]);if(n)sp[k]=n}
+  return {ownerName:String(d.ownerName||'').slice(0,60),landingUrl:/^https?:\/\//.test(String(d.landingUrl||''))?String(d.landingUrl).slice(0,300):'',
+    ppe:num(d.ppe)||DEF.ppe,margin:Math.min(90,num(d.margin)||DEF.margin),empSpend:d.empSpend===undefined?DEF.empSpend:num(d.empSpend),
+    referralCredit:d.referralCredit===undefined?DEF.referralCredit:num(d.referralCredit),zones:z.length?z:DEF.zones.slice(),spend:sp};
+}
 function norm(d,id){
-  d=d||{};
+  d=d||{};id=String(id).replace(/[^A-Za-z0-9_\-.~:@+]/g,'');
   const stage=STAGES.some(s=>s.id===d.stage)?d.stage:'target';
   return {
     id,company:String(d.company||'').slice(0,120),contact:String(d.contact||''),role:String(d.role||''),phone:String(d.phone||''),email:String(d.email||''),
     employees:num(d.employees),zone:String(d.zone||''),building:String(d.building||''),source:SOURCES[d.source]?d.source:'other',
     referrer:String(d.referrer||''),referralStatus:['none','owed','paid'].includes(d.referralStatus)?d.referralStatus:'none',
     interest:arr(d.interest).filter(k=>INTERESTS[k]),supplier:String(d.supplier||''),pains:arr(d.pains).map(String),objections:arr(d.objections).map(String),
-    stage,history:arr(d.history).filter(h=>h&&h.stage),nextType:String(d.nextType||NEXT[stage].type),nextAt:String(d.nextAt||''),
+    stage,history:arr(d.history).filter(h=>h&&STAGES.some(s=>s.id===h.stage)&&typeof h.at==='string'&&!isNaN(Date.parse(h.at))).map(h=>({stage:h.stage,at:h.at})),nextType:String(d.nextType||NEXT[stage].type),nextAt:String(d.nextAt||''),
     trialStart:String(d.trialStart||''),clientSince:String(d.clientSince||''),tier:TIERS[d.tier]?d.tier:'',weekly:num(d.weekly),b2c:num(d.b2c),
-    consent:!!d.consent,lostReason:String(d.lostReason||''),notes:arr(d.notes).filter(n=>n&&n.text).slice(-60),example:!!d.example,
-    createdAt:String(d.createdAt||nowISO()),updatedAt:String(d.updatedAt||''),lastTouchAt:String(d.lastTouchAt||'')
+    consent:!!d.consent,lostReason:String(d.lostReason||''),notes:arr(d.notes).filter(n=>n&&n.text).slice(-60).map(n=>({at:typeof n.at==='string'&&!isNaN(Date.parse(n.at))?n.at:nowISO(),text:String(n.text),kind:['note','system','ai'].includes(n.kind)?n.kind:'note'})),example:!!d.example,
+    createdAt:typeof d.createdAt==='string'&&!isNaN(Date.parse(d.createdAt))?d.createdAt:nowISO(),updatedAt:String(d.updatedAt||''),lastTouchAt:typeof d.lastTouchAt==='string'&&!isNaN(Date.parse(d.lastTouchAt))?d.lastTouchAt:''
   };
 }
 function serialize(l){const o=clone(l);delete o.id;return o}
@@ -433,7 +442,7 @@ function setStage(l,stage,extra={}){
   const prev=l.stage;l.stage=stage;
   l.history=[...l.history,{stage,at:nowISO()}].slice(-30);
   l.nextType=NEXT[stage].type;
-  if(stage==='trial'){l.trialStart=extra.trialStart||l.trialStart&&l.trialStart>=today()&&l.trialStart||workday(addDays(today(),1));l.nextAt=workday(addDays(l.trialStart,4))}
+  if(stage==='trial'){l.trialStart=extra.trialStart||l.trialStart&&l.trialStart>=today()&&l.trialStart||workday(addDays(today(),1));l.nextAt=addWorkdays(l.trialStart,4)}
   else l.nextAt=due(NEXT[stage].d);
   if(stage==='client'){
     l.clientSince=l.clientSince||today();
@@ -466,7 +475,7 @@ function waPhone(p){let d=String(p||'').replace(/\D/g,'');if(!d)return'';if(d.st
 const waLink=(l,text)=>`https://wa.me/${waPhone(l.phone)}?text=${encodeURIComponent(text)}`;
 
 /* ---------- state & store ---------- */
-const S={leads:new Map(),settings:clone(DEF),view:'today',mode:'loading',loaded:false,canWrite:true,stale:false,loadError:'',
+const S={leads:new Map(),settings:normSettings({}),noteDraft:{},settingsDirty:false,opener:null,view:'today',mode:'loading',loaded:false,canWrite:true,stale:false,loadError:'',
   drawer:null,ai:null,filters:{q:'',stage:'open',source:'all',zone:'all',sort:'score'},fieldZone:null,picked:new Set(),openOutcome:null,confirmDel:false};
 let db=null,sampleFn,undoFn=null,toastTimer=null;
 const LS='tz-growth-v1';
@@ -504,7 +513,7 @@ function newId(){return db?db.collection('leads').doc().id:'l'+Date.now().toStri
 function saveLocal(){try{localStorage.setItem(LS,JSON.stringify({settings:S.settings,leads:Object.fromEntries([...S.leads].map(([id,l])=>[id,serialize(l)]))}))}catch(e){}}
 function startLocal(){
   S.mode='local';
-  try{const raw=localStorage.getItem(LS);if(raw){const o=JSON.parse(raw);S.settings={...clone(DEF),...(o.settings||{})};S.leads=new Map(Object.entries(o.leads||{}).map(([id,d])=>[id,norm(d,id)]))}}catch(e){}
+  try{const raw=localStorage.getItem(LS);if(raw){const o=JSON.parse(raw);S.settings=normSettings(o.settings);S.leads=new Map(Object.entries(o.leads||{}).map(([id,d])=>[id,norm(d,id)]))}}catch(e){}
   S.loaded=true;render();
 }
 async function init(){
@@ -519,9 +528,9 @@ async function init(){
   db.collection('leads').onSnapshot(snap=>{
     if(!snap.metadata.fromCache){clearTimeout(timer);S.stale=false}
     S.leads=new Map(snap.docs.filter(d=>d.exists).map(d=>[d.id,norm(d.data(),d.id)]));
-    S.loaded=true;render();refreshDrawer();
+    S.loaded=true;render({sync:true});refreshDrawer();
   },err=>{clearTimeout(timer);S.loaded=true;S.loadError=err&&err.code||'unavailable';render()});
-  db.doc('settings/main').onSnapshot(d=>{S.settings={...clone(DEF),...(d.exists?d.data():{})};render()},()=>{});
+  db.doc('settings/main').onSnapshot(d=>{S.settings=normSettings(d.exists?d.data():{});render({sync:true})},()=>{});
 }
 async function getSample(){
   if(sampleFn!==undefined) return sampleFn;
@@ -785,7 +794,6 @@ function viewSettings(){
   <section class="card pad" style="display:grid;gap:12px"><h3>פרטים להודעות</h3>
     <div class="fgrid">
       <div class="field"><label for="s-ownerName">השם שחותם על ההודעות</label><input type="text" id="s-ownerName" value="${esc(s.ownerName)}" placeholder="למשל: צחי"></div>
-      <div class="field"><label for="s-waNumber">מספר הוואטסאפ של העסק</label><input type="tel" id="s-waNumber" value="${esc(s.waNumber)}"></div>
       <div class="field full"><label for="s-landingUrl">כתובת דף הנחיתה לעסקים</label><input type="url" id="s-landingUrl" value="${esc(s.landingUrl)}" placeholder="https://tzahile.co.il/business"></div>
     </div></section>
   <section class="card pad" style="display:grid;gap:12px"><h3>מספרים לחישובים</h3>
@@ -811,9 +819,10 @@ function viewSettings(){
 }
 
 /* ---------- drawer ---------- */
-function openDrawer(d){S.drawer=d;S.confirmDel=false;if(!S.ai||!d||S.ai.id!==d.id){if(S.ai&&S.ai.ctl)S.ai.ctl.abort();S.ai=null}renderDrawer();$('#drawer').classList.add('on');$('#drawer').setAttribute('aria-hidden','false');$('#scrim').classList.add('on');
+function openDrawer(d){if(!S.drawer)S.opener=document.activeElement;S.drawer=d;$('#drawer').inert=false;S.confirmDel=false;if(!S.ai||!d||S.ai.id!==d.id){if(S.ai&&S.ai.ctl)S.ai.ctl.abort();S.ai=null}renderDrawer();$('#drawer').classList.add('on');$('#drawer').setAttribute('aria-hidden','false');$('#scrim').classList.add('on');
   setTimeout(()=>{const f=$('#drawer [autofocus]')||$('#drawer .iconbtn');f&&f.focus()},60)}
-function closeDrawer(){if(S.ai&&S.ai.ctl&&S.ai.busy)S.ai.ctl.abort();S.drawer=null;S.ai=null;$('#drawer').classList.remove('on');$('#drawer').setAttribute('aria-hidden','true');$('#scrim').classList.remove('on')}
+function closeDrawer(){if(S.ai&&S.ai.ctl&&S.ai.busy)S.ai.ctl.abort();S.drawer=null;S.ai=null;$('#drawer').classList.remove('on');$('#drawer').setAttribute('aria-hidden','true');$('#drawer').inert=true;$('#scrim').classList.remove('on');
+  const o=S.opener;S.opener=null;if(o&&document.contains(o))o.focus()}
 function refreshDrawer(){if(!S.drawer)return;if(S.drawer.kind==='lead'&&!S.leads.has(S.drawer.id)){closeDrawer();return}if(!$('#drawer').contains(document.activeElement)||document.activeElement.tagName==='BUTTON')renderDrawer()}
 function renderDrawer(){
   const d=S.drawer,el=$('#drawer');if(!d){el.innerHTML='';return}
@@ -890,7 +899,7 @@ function drawerLead(l){
     ${stageBlock}
   </div>
   <section style="display:grid;gap:8px"><span class="lbl">מה היה? (שיחה, ביקור, הודעה)</span>
-    <textarea id="d-note" rows="3" placeholder="למשל: דיברתי עם מיכל, מנהלת משרד. 60 עובדים. הספק הנוכחי מביא פירות רכים ומאחר. רוצה לנסות אחרי החגים." ${dis}></textarea>
+    <textarea id="d-note" rows="3" placeholder="למשל: דיברתי עם מיכל, מנהלת משרד. 60 עובדים. הספק הנוכחי מביא פירות רכים ומאחר. רוצה לנסות אחרי החגים." ${dis}>${esc(S.noteDraft[l.id]||'')}</textarea>
     <div class="toolbar"><button class="btn sm" data-act="add-note" ${dis}>שמירת הערה</button><button class="btn sm accent" data-act="ai-update" ${dis} ${S.aiOk===false?'hidden':''}>${IC.spark}עדכון חכם מהסיכום</button></div>
     <p class="small muted">"עדכון חכם" קורא את מה שכתבתם ומציע לעדכן שלב, פעולה הבאה, כאבים והתנגדויות. שום דבר לא משתנה בלי אישור שלכם.</p>
   </section>
@@ -943,7 +952,7 @@ Rules: 2 to 5 short lines. Warm, casual Israeli tone, first person, like a real 
   renderDrawer();
 }
 async function aiUpdate(id){
-  const raw=($('#d-note')||{}).value||'';
+  const raw=S.noteDraft[id]||($('#d-note')||{}).value||'';
   if(!raw.trim()){toast('כתבו קודם מה היה בשיחה.');return}
   const sample=await getSample();if(!sample){S.aiOk=false;toast('העוזר לא זמין בתצוגה הזאת.');renderDrawer();return}
   const l=S.leads.get(id);if(!l)return;
@@ -980,6 +989,7 @@ function buildProps(l,o){
 
 /* ---------- import / export ---------- */
 function parseCSV(text){
+  text=String(text).replace(/^\ufeff/,'');
   const rows=[];let row=[],cell='',q=false;
   const sep=text.split('\n')[0].includes('\t')&&!text.split('\n')[0].includes(',')?'\t':',';
   for(let i=0;i<text.length;i++){const c=text[i];
@@ -990,7 +1000,8 @@ function parseCSV(text){
 }
 const HMAP={company:['company','חברה','שם החברה'],contact:['contact','name','שם','איש קשר'],phone:['phone','טלפון'],email:['email','אימייל','מייל'],
   employees:['employees','עובדים','מספר עובדים'],zone:['zone','city','אזור','עיר'],building:['building','בניין','כתובת'],source:['source','מקור'],
-  referrer:['ref','referrer','מפנה'],interest:['interest','התעניינות'],consent:['consent','הסכמה'],role:['role','תפקיד'],createdAt:['createdat','תאריך']};
+  referrer:['ref','referrer','מפנה'],interest:['interest','התעניינות'],consent:['consent','הסכמה'],role:['role','תפקיד'],createdAt:['createdat','תאריך'],
+  stage:['stage'],nextType:['nexttype'],nextAt:['nextat'],tier:['tier'],weekly:['weekly'],b2c:['b2c'],campaign:['utm_campaign'],variant:['variant'],supplier:['supplier']};
 function importText(text,defSource,defZone){
   const rows=parseCSV(text);if(!rows.length)return {leads:[],skipped:0};
   const head=rows[0].map(h=>h.toLowerCase());
@@ -1004,20 +1015,32 @@ function importText(text,defSource,defZone){
     let d;
     if(hasHead){
       const src=get('source');
+      const fromLanding=idx.variant!==undefined;
+      const st=STAGES.some(x=>x.id===get('stage'))?get('stage'):'target';
       d={company:get('company'),contact:get('contact'),role:get('role'),phone:get('phone'),email:isEmail(get('email'))?get('email'):'',employees:num(get('employees')),zone:get('zone')||defZone,
-        building:get('building'),source:SOURCES[src]?src:(get('referrer')?'b2c':(src?'landing':defSource)),referrer:get('referrer'),
-        interest:get('interest').split(/[,|;\s]+/).filter(k=>INTERESTS[k]),consent:/^(true|yes|כן|1)$/i.test(get('consent'))};
+        building:get('building'),source:SOURCES[src]?src:(get('referrer')?'b2c':(fromLanding?'landing':defSource)),referrer:get('referrer'),supplier:get('supplier'),
+        interest:get('interest').split(/[,|;\s]+/).filter(k=>INTERESTS[k]),consent:/^(true|yes|כן|1)$/i.test(get('consent')),
+        stage:st,tier:get('tier'),weekly:num(get('weekly')),b2c:num(get('b2c')),nextType:get('nextType'),nextAt:/^\d{4}-\d{2}-\d{2}$/.test(get('nextAt'))?get('nextAt'):'',
+        createdAt:!isNaN(Date.parse(get('createdAt')))?new Date(get('createdAt')).toISOString():'',_landing:fromLanding,_campaign:get('campaign')};
     }else{
-      const [company,emp,phone,zone,...rest]=r;
-      d={company,employees:num(emp),phone:phone||'',zone:zone||defZone,building:rest.join(', '),source:defSource};
+      const [company,emp,phone,...rest]=r;
+      const tail=rest.join(', ').trim();
+      const known=[...new Set([...S.settings.zones,...all().map(l=>l.zone).filter(Boolean)])].sort((a,b)=>b.length-a.length);
+      const kz=known.find(z=>tail===z||tail.startsWith(z+','));
+      const zone=kz||(rest[0]||'').trim();
+      const building=kz?tail.slice(kz.length).replace(/^,\s*/,''):rest.slice(1).join(', ').trim();
+      d={company,employees:num(emp),phone:phone||'',zone:zone||defZone,building,source:defSource};
     }
     if(!d.company){skipped++;continue}
     const k1=d.company.trim().toLowerCase(),k2=waPhone(d.phone);
     if(existing.has(k1)||(k2&&existing.has(k2))){skipped++;continue}
     existing.add(k1);if(k2)existing.add(k2);
-    const l=norm({...d,stage:'target',history:[{stage:'target',at:nowISO()}],nextAt:today(),createdAt:nowISO()},newId());
-    addNote(l,hasHead&&get('source')?'נכנס מדף הנחיתה':'יובא מרשימה','system');
-    if(hasHead&&get('source')){l.nextType='לחזור תוך שעה: השאירו פרטים בדף הנחיתה';l.lastTouchAt=nowISO()}
+    const stage=d.stage||'target',created=d.createdAt||nowISO();
+    const l=norm({...d,stage,history:[{stage,at:created}],nextAt:d.nextAt||(stage==='lost'?due(60):today()),createdAt:created},newId());
+    if(!d.nextType)l.nextType=NEXT[stage].type;
+    addNote(l,d._landing?'נכנס מדף הנחיתה':'יובא מרשימה','system');
+    if(d._campaign)addNote(l,'קמפיין: '+d._campaign,'system');
+    if(d._landing){l.nextType='לחזור מהר: השאירו פרטים בדף הנחיתה';l.lastTouchAt=created}
     out.push(l);
   }
   return {leads:out,skipped};
@@ -1038,8 +1061,9 @@ async function runImport(){
 }
 function csvCell(v){v=String(v??'');if(/^[=+\-@]/.test(v))v="'"+v;return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 async function exportCSV(){
-  const cols=['company','contact','role','phone','email','employees','zone','building','source','referrer','stage','nextType','nextAt','tier','weekly','b2c','consent','createdAt'];
-  const lines=[cols.join(',')].concat(all().map(l=>cols.map(c=>c==='source'?SOURCES[l.source]:c==='stage'?stageLabel(l.stage):l[c]).map(csvCell).join(',')));
+  const cols=['company','contact','role','phone','email','employees','zone','building','source','referrer','supplier','interest','stage','nextType','nextAt','tier','weekly','b2c','consent','createdAt'];
+  const head=[...cols,'שלב','מקור'];
+  const lines=[head.join(',')].concat(all().map(l=>[...cols.map(c=>c==='interest'?l.interest.join(' '):l[c]),stageLabel(l.stage),SOURCES[l.source]].map(csvCell).join(',')));
   const data='﻿'+lines.join('\n');
   let dl=null;try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null}catch(e){}
   if(dl){try{await dl.save({filename:`tzahile-leads-${today()}.csv`,data});toast('הקובץ נשמר.')}catch(e){if(e&&e.code!=='declined')toast('לא ניתן לשמור קובץ בתצוגה הזאת.')};return}
@@ -1075,15 +1099,18 @@ function createLead(){
 }
 function saveSettings(){
   const s=S.settings,v=id=>($('#'+id)||{}).value||'';
-  s.ownerName=v('s-ownerName').trim();s.waNumber=v('s-waNumber').trim();s.landingUrl=v('s-landingUrl').trim();
+  s.ownerName=v('s-ownerName').trim().slice(0,60);s.landingUrl=v('s-landingUrl').trim();
+  if(s.landingUrl&&!/^https?:\/\//.test(s.landingUrl)){toast('כתובת דף הנחיתה צריכה להתחיל ב־https://');return}
   s.ppe=num(v('s-ppe'))||DEF.ppe;s.margin=Math.min(90,num(v('s-margin'))||DEF.margin);s.empSpend=num(v('s-empSpend'));s.referralCredit=num(v('s-referralCredit'));
   s.zones=v('s-zones').split('\n').map(z=>z.trim()).filter(Boolean).slice(0,30);
   s.spend={};for(const k of Object.keys(SOURCES)){const n=num(v('s-spend-'+k));if(n)s.spend[k]=n}
-  persistSettings();render();toast('ההגדרות נשמרו.');
+  S.settingsDirty=false;persistSettings();render();toast('ההגדרות נשמרו.');
 }
 async function copyText(t,okMsg){try{await navigator.clipboard.writeText(t);toast(okMsg||'הועתק.')}catch(e){toast('לא ניתן להעתיק אוטומטית. סמנו והעתיקו ידנית.')}}
 function finishRound(){
-  const ids=[...S.picked].filter(id=>S.leads.has(id));if(!ids.length)return;
+  if(!S.canWrite)return;
+  const ids=[...S.picked].filter(id=>{const l=S.leads.get(id);return l&&l.stage==='target'&&l.zone===S.fieldZone});
+  S.picked.clear();if(!ids.length){render();return}
   const befores=ids.map(id=>clone(S.leads.get(id)));
   for(const id of ids){const l=S.leads.get(id);setStage(l,'touched');addNote(l,'סלסלה וכרטיס נמסרו בסבב ביקורים','note');touch(l);persistLead(l,true)}
   S.picked.clear();render();
@@ -1093,7 +1120,7 @@ function updateField(l,f,el){
   if(f==='consent') l.consent=el.checked;
   else if(['employees','weekly','b2c'].includes(f)) l[f]=num(el.value);
   else if(f==='email'){if(el.value&&!isEmail(el.value)){toast('כתובת האימייל לא תקינה.');return}l.email=el.value.trim()}
-  else if(f==='trialStart'){l.trialStart=el.value;if(el.value){l.nextAt=workday(addDays(el.value,4))}}
+  else if(f==='trialStart'){l.trialStart=el.value;if(el.value){l.nextAt=addWorkdays(el.value,4)}}
   else if(f==='company'){if(!el.value.trim()){el.value=l.company;return}l.company=el.value.trim()}
   else l[f]=el.value;
   persistLead(l,true);render();
@@ -1102,7 +1129,8 @@ function updateField(l,f,el){
 function renderDrawerKeepFocus(){const a=document.activeElement,id=a&&a.id;renderDrawer();if(id){const e=document.getElementById(id);if(e)e.focus()}}
 
 /* ---------- render ---------- */
-function render(){
+function render(opt){
+  const keepView=opt&&opt.sync&&S.view==='settings'&&S.settingsDirty;
   const a=document.activeElement,vid=a&&a.id&&$('#view').contains(a)?a.id:null;
   let ss=null,se=null;try{ss=a.selectionStart;se=a.selectionEnd}catch(e){}
   const m=S.loaded?metrics():null,badge=m?m.overdue.length+m.dueToday.length:0;
@@ -1117,7 +1145,7 @@ function render(){
   else if(S.loaded&&!S.settings.ownerName&&S.view!=='settings') ban=`<div class="banner info">כדי שההודעות המוכנות ייחתמו בשם שלכם, מלאו שם בהגדרות. <button class="btn sm" data-view="settings">להגדרות</button></div>`;
   $('#banner').innerHTML=ban;
   const fn={today:viewToday,pipeline:viewPipeline,leads:viewLeads,field:viewField,data:viewData,settings:viewSettings}[S.view]||viewToday;
-  $('#view').innerHTML=fn();
+  if(!keepView)$('#view').innerHTML=fn();
   if(vid){const e=document.getElementById(vid);if(e){e.focus();try{if(ss!==null)e.setSelectionRange(ss,se)}catch(x){}}}
 }
 
@@ -1126,14 +1154,14 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('[data-view],[data-open],[data-done],[data-outcome],[data-snooze],[data-act],[data-stage],[data-zone],[data-paid],[data-touch]');
   if(!t)return;
   if(t.dataset.touch){const l=S.leads.get(t.dataset.touch);if(l&&S.canWrite){touch(l);addNote(l,'נשלחה הודעת וואטסאפ','system');persistLead(l,true)}return}
-  if(t.dataset.view){S.view=t.dataset.view;S.openOutcome=null;render();window.scrollTo({top:0});return}
+  if(t.dataset.view){S.view=t.dataset.view;S.openOutcome=null;S.settingsDirty=false;render();window.scrollTo({top:0});return}
   if(t.dataset.open){openDrawer({kind:'lead',id:t.dataset.open});return}
   if(t.dataset.done){if(!S.canWrite)return;S.openOutcome=S.openOutcome===t.dataset.done?null:t.dataset.done;render();return}
   if(t.dataset.outcome){outcome(t.dataset.id,t.dataset.outcome);return}
-  if(t.dataset.snooze){snooze(t.dataset.snooze,+t.dataset.days||1);return}
+  if(t.dataset.snooze){if(!S.canWrite)return;snooze(t.dataset.snooze,+t.dataset.days||1);return}
   if(t.dataset.stage){const l=S.leads.get(S.drawer&&S.drawer.id);if(!l||!S.canWrite)return;const before=clone(l);setStage(l,t.dataset.stage);touch(l);persistLead(l);toast(`${stageLabel(t.dataset.stage)}. הפעולה הבאה ${relDay(l.nextAt).t}.`,()=>persistLead(norm(before,l.id)));return}
-  if(t.dataset.zone&&t.classList.contains('chip')){S.fieldZone=t.dataset.zone;render();return}
-  if(t.dataset.paid){for(const id of t.dataset.paid.split(',')){const l=S.leads.get(id);if(l){l.referralStatus='paid';addNote(l,'זיכוי הפניה שולם','system');persistLead(l,true)}}render();toast('סומן כשולם.');return}
+  if(t.dataset.zone&&t.classList.contains('chip')){S.fieldZone=t.dataset.zone;S.picked.clear();render();return}
+  if(t.dataset.paid){if(!S.canWrite)return;for(const id of t.dataset.paid.split(',')){const l=S.leads.get(id);if(l){l.referralStatus='paid';addNote(l,'זיכוי הפניה שולם','system');persistLead(l,true)}}render();toast('סומן כשולם.');return}
   const a=t.dataset.act;
   switch(a){
     case 'new-lead':S.dupOk=false;openDrawer({kind:'new'});break;
@@ -1152,7 +1180,7 @@ document.addEventListener('click',e=>{
     case 'del-examples':{const ex=all().filter(l=>l.example);for(const l of ex)removeLead(l.id);toast(`${ex.length} לידי דוגמה נמחקו.`);break}
     case 'copy-phone':{const l=S.leads.get(S.drawer.id);copyText(l.phone,'הטלפון הועתק.');break}
     case 'copy-ref':{const name=($('#r-name')||{}).value||'';if(!name.trim()){toast('כתבו קודם את שם המפנה.');return}copyText($('#r-link').textContent+encodeURIComponent(name.trim()),'הקישור הועתק.');break}
-    case 'add-note':{const l=S.leads.get(S.drawer.id),tx=$('#d-note').value.trim();if(!tx)return;addNote(l,tx);touch(l);persistLead(l,true);renderDrawer();render();toast('ההערה נשמרה.');break}
+    case 'add-note':{const l=S.leads.get(S.drawer.id),tx=$('#d-note').value.trim();if(!tx)return;delete S.noteDraft[l.id];addNote(l,tx);touch(l);persistLead(l,true);renderDrawer();render();toast('ההערה נשמרה.');break}
     case 'ai-msg':aiMessage(S.drawer.id);break;
     case 'ai-update':aiUpdate(S.drawer.id);break;
     case 'ai-stop':if(S.ai&&S.ai.ctl)S.ai.ctl.abort();break;
@@ -1161,7 +1189,7 @@ document.addEventListener('click',e=>{
     case 'ai-apply':{const l=S.leads.get(S.drawer.id);if(!l||!S.ai)break;const before=clone(l);let n=0;
       S.ai.props.forEach((p,i)=>{const c=$('#ai-p-'+i);if(c&&c.checked){p.apply(l);n++}});
       addNote(l,S.ai.raw,'note');if(S.ai.summary)addNote(l,'סיכום: '+S.ai.summary,'ai');touch(l);
-      S.ai=null;$('#d-note')&&($('#d-note').value='');persistLead(l);toast(`עודכנו ${n} פרטים.`,()=>persistLead(norm(before,l.id)));break}
+      delete S.noteDraft[l.id];S.ai=null;persistLead(l);toast(`עודכנו ${n} פרטים.`,()=>persistLead(norm(before,l.id)));break}
     case 'delete':S.confirmDel=true;renderDrawer();break;
     case 'delete-no':S.confirmDel=false;renderDrawer();break;
     case 'delete-yes':{const id=S.drawer.id,before=clone(S.leads.get(id));closeDrawer();removeLead(id);toast('הליד נמחק.',()=>persistLead(norm(before,id)));break}
@@ -1176,6 +1204,8 @@ $('#scrim').addEventListener('click',closeDrawer);
 document.addEventListener('input',e=>{
   const id=e.target.id;
   if(id==='f-q'){S.filters.q=e.target.value;render()}
+  if(id==='d-note'&&S.drawer)S.noteDraft[S.drawer.id]=e.target.value;
+  if(S.view==='settings'&&(id.startsWith('s-')||id==='r-name'))S.settingsDirty=true;
   if(id==='ai-text'&&S.ai){S.ai.text=e.target.value;const w=$('#ai-wa');const l=S.leads.get(S.drawer&&S.drawer.id);if(w&&l)w.href=waLink(l,S.ai.text)}
 });
 document.addEventListener('change',e=>{
@@ -1188,6 +1218,7 @@ document.addEventListener('change',e=>{
   if(el.dataset.int){l.interest=$$('[data-int]').filter(c=>c.checked).map(c=>c.dataset.int);persistLead(l,true);render()}
 });
 
+$('#drawer').inert=true;
 getSample().then(s=>{S.aiOk=!!s;if(S.drawer)renderDrawer()});
 init();
 })();
