@@ -3,17 +3,19 @@
 // mock Supabase (auth, REST and the lucid-ai function) injected with request interception, so the real
 // UI code paths run without credentials.
 // Usage: node tests/e2e/run.mjs [--only <substring>] [--shots <dir>]
+// E2E_ROOT=<dir> serves and reads <dir>/lucid instead of this repository's copy (for example a tree built by
+// tools/build/build.mjs); the default is the repository.
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { readFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = join(here, '..', '..', '..');
+const repo = process.env.E2E_ROOT ? resolve(process.env.E2E_ROOT) : join(here, '..', '..', '..');
 const PORT = Number(process.env.E2E_PORT) || 8771;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
@@ -1318,6 +1320,29 @@ try {
     await page.reload();
     await page.waitForSelector('#view');
     assert(!/did not load|לא נטען/.test(await page.textContent('#view')), 'reload failed offline');
+    await ctx.close();
+  });
+
+  // perf D4: the precache alone (no lesson saved) is enough for every screen that needs no lesson file.
+  await check('OF2. Offline sweep: right after the worker installs, with the network cut, 13 screens render without a lesson saved (perf D4)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 }, serviceWorkers: 'allow' });
+    await learnerAt(page, 'A1');
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 30000 });
+    await ctx.setOffline(true);
+    const routes = ['today', 'path', 'practice', 'review', 'vocab', 'games', 'real-life', 'scenario/rl-airport-checkin-overweight', 'expressions', 'writing', 'writing/final-B2', 'progress', 'settings'];
+    const failed = [];
+    for (const r of routes) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForFunction(() => document.querySelector('#view > :not(.boot)') && !document.querySelector('#view .spinner, #view [aria-busy="true"]'), null, { timeout: 15000 }).catch(() => {});
+      await page.waitForTimeout(300);
+      const txt = (await page.textContent('#view')) || '';
+      if (/did not load|לא נטען|Something went wrong|משהו השתבש|could not start/.test(txt) || txt.trim().length < 20) failed.push(`${r}: ${txt.trim().slice(0, 80)}`);
+    }
+    assert(!failed.length, `failed offline: ${failed.join(' | ')}`);
+    await page.reload();
+    await page.waitForSelector('#view > :not(.boot)');
+    assert(!/did not load|לא נטען|could not start/.test(await page.textContent('#view')), 'reload failed offline');
     await ctx.close();
   });
 
