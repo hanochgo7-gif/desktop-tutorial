@@ -1,7 +1,7 @@
 // Boot: open the local store, load the curriculum, apply settings, draw the shell, start routing
 // and (when an account is connected) sync.
 import { openStore, store } from './core/store.js';
-import { router, navigate, topTitle, sectionOf, titleFitKey, watchRelease, checkForRelease, releaseOnHide } from './core/router.js';
+import { router, navigate, topTitle, sectionOf, titleFitKey, primeRoute, watchRelease, checkForRelease, releaseOnHide } from './core/router.js';
 import * as util from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
@@ -280,6 +280,11 @@ function syncLabel() {
   return t('synced');
 }
 
+// app.js runs as soon as its modules are ready (async in index.html), possibly before the page below the
+// stylesheet is parsed: the store, the learner model and the first route's downloads start at once, and the shell
+// waits for the document.
+const domReady = () => (document.readyState === 'loading' ? new Promise((resolve) => document.addEventListener('DOMContentLoaded', resolve, { once: true })) : Promise.resolve());
+
 async function boot() {
   const s = await openStore();
   await initModel();
@@ -287,6 +292,8 @@ async function boot() {
   applyTheme();
   applySupport();
   document.title = 'Lucid';
+  try { primeRoute(); } catch (e) { console.warn(e); }
+  await domReady();
 
   if (configured()) {
     // Sync runs only once session.js has confirmed the device data and the server profile belong to this account.
@@ -334,8 +341,9 @@ async function boot() {
   window.lucid = { store, navigate, hasProfile };
 }
 
-boot().catch((e) => {
+boot().catch(async (e) => {
   console.error(e);
+  await domReady();
   document.documentElement.classList.remove('booting');
   document.getElementById('view').innerHTML = '<div class="empty"><h3>Lucid could not start</h3><p>Please reload the page.</p></div>';
 });

@@ -107,7 +107,7 @@ test('the boot frame paints in the app\'s ground, ink and key colours, light and
 test('the module script does not wait for the stylesheet, which comes after the frame; the frame is hidden from assistive technology (B4, B5)', () => {
   const html = read('index.html');
   const at = (s) => { const i = html.indexOf(s); assert.ok(i >= 0, s); return i; };
-  assert.ok(at('<script type="module" src="js/app.js"></script>') < at('</head>'), 'the module script is in the head');
+  assert.ok(at('<script type="module" async src="js/app.js"></script>') < at('</head>'), 'the module script is in the head, async');
   assert.ok(at('<link rel="preload" href="css/app.css" as="style">') < at('</head>'));
   assert.ok(at('<div class="bootframe" aria-hidden="true">') < at('<link rel="stylesheet" href="css/app.css">'));
   assert.ok(at('<link rel="stylesheet" href="css/app.css">') < at('<a class="skip"'), 'the skip link is still the first thing to focus');
@@ -123,5 +123,7 @@ test('the module script does not wait for the stylesheet, which comes after the 
   assert.match(css, /html:not\(\.booting\) \.bootframe \{ display: none; \}/);
   const app = read('js/app.js');
   assert.match(app, /function drawShell\(route\) \{\n  document\.documentElement\.classList\.remove\('booting'\);/);
-  assert.match(app, /boot\(\)\.catch\(\(e\) => \{\n  console\.error\(e\);\n  document\.documentElement\.classList\.remove\('booting'\);/);
+  assert.match(app, /boot\(\)\.catch\(async \(e\) => \{\n  console\.error\(e\);\n  await domReady\(\);\n  document\.documentElement\.classList\.remove\('booting'\);/);
+  // Running before the page is parsed, app.js touches the body only after the document is ready.
+  assert.match(app, /primeRoute\(\); \} catch \(e\) \{ console\.warn\(e\); \}\n  await domReady\(\);\n\n  if \(configured\(\)\)/);
 });

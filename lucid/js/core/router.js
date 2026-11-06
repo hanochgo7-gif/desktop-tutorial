@@ -176,6 +176,24 @@ export async function releaseOnHide(doc = globalThis.document) {
 }
 export const releaseState = () => ({ stale: release.stale, waiting: Boolean(release.reg?.waiting), checked: release.checked });
 
+// The first route's modules and content, started as soon as the learner's profile is known: while the document
+// is still parsing behind the stylesheet (index.html), before the shell can be drawn (perf plan B5). router.go
+// then finds them in flight. Redirects are left to go(); a route that would redirect is not primed.
+export function primeRoute(hash = globalThis.location?.hash || '') {
+  const { path: raw, query, malformed } = parse(hash);
+  if (malformed) return null;
+  let path = raw || (hasProfile() ? 'today' : 'welcome');
+  if ((path === 'welcome' || path === 'start') && hasProfile() && !query.again) path = 'today';
+  const match = compiled.find((r) => r.re.test(path));
+  if (!match || (!match.extra.public && !hasProfile())) return null;
+  const params = {};
+  match.re.exec(path).slice(1).forEach((v, i) => { params[match.keys[i]] = v; });
+  preloadRoute(match.pattern);
+  prefetchRoute(match.pattern, params);
+  match.load().catch(() => {}); // go() imports it again and shows the error screen if it failed
+  return match.pattern;
+}
+
 export const hrefOf = ({ path, query = {} }) => {
   const qs = new URLSearchParams(query).toString();
   return `#/${path}${qs ? `?${qs}` : ''}`;

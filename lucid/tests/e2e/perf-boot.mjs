@@ -245,6 +245,24 @@ try {
     });
   }
 
+  await check('B5 the boot does not wait for the stylesheet: the first screen\'s modules and content download while it loads, and the screen draws once it arrives', async () => {
+    const { ctx, page } = await newPage(browser);
+    await learnerAt(page);
+    await page.route(/css\/app\.css$/, async (route) => { await sleep(1500); await route.continue(); });
+    await page.goto(`${BASE}?held#/lesson/a1-01`);
+    await page.waitForSelector('.lesson-intro', { timeout: 20_000 });
+    const list = await resources(page);
+    const css = await page.evaluate(() => performance.getEntriesByType('resource').find((e) => e.name.endsWith('css/app.css')).responseEnd);
+    for (const f of ['js/views/lesson.js', 'content/lessons/a1-01.json', 'content/taxonomy.json']) {
+      const r = list.find((x) => x.path === f);
+      assert(r && r.start < css, `${f} started at ${r?.start}, the stylesheet arrived at ${css}`);
+    }
+    assert(duplicates(list).length === 0, `requested twice: ${JSON.stringify(duplicates(list))}`);
+    const st = await page.evaluate(() => ({ booting: document.documentElement.classList.contains('booting'), focus: document.activeElement?.id }));
+    assert(!st.booting && st.focus === 'view', `after boot: ${JSON.stringify(st)}`);
+    await ctx.close();
+  });
+
   await check('B4 desktop: no layout shift while the shell is drawn (Today, lesson, real-life, writing; cold and again)', async () => {
     const { ctx, page } = await newPage(browser, { viewport: DESKTOP });
     await learnerAt(page);

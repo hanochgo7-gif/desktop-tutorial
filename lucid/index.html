@@ -51,8 +51,9 @@
      crossorigin matches content.js's plain fetch(), so the preloaded response is used, not fetched twice. -->
 <link rel="preload" href="content/curriculum.json" as="fetch" crossorigin>
 <link rel="preload" href="content/manifest.json" as="fetch" crossorigin>
-<!-- In the head, before the stylesheet, so it never waits for it (a module script runs once parsing ends). -->
-<script type="module" src="js/app.js"></script>
+<!-- async: it runs as soon as its modules are ready, without waiting for the stylesheet or the rest of the page
+     (app.js waits for the document itself before drawing). -->
+<script type="module" async src="js/app.js"></script>
 </head>
 <body>
 <div class="bootframe" aria-hidden="true"><span class="bootframe-mark"><span class="bootframe-key">L</span>Lucid</span><span class="bootframe-spin"></span></div>
