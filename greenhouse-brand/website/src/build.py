@@ -498,7 +498,7 @@ def p_index(L):
               f'<source type="image/avif" srcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" sizes="100vw">'
               f'<source type="image/webp" srcset="{r}assets/img/hero-960.webp 960w, {r}assets/img/hero-1600.webp 1600w" sizes="100vw">'
               f'<img src="{r}assets/img/hero-1600.jpg" alt="" width="1600" height="900" fetchpriority="high"></picture>')
-    # The slogan is the page headline: a thin line, then a heavy one. The Hebrew breaks after the company name, never before the dash.
+    # The slogan is the page headline: the company name, then the slogan, in one weight (Merav, 5 Nov 2026). Both languages break after the name, never before the dash.
     sl = t(S["slogan"], L)
     if " - " in sl:
         a, b = sl.split(" - ", 1); a += " -"
@@ -1043,7 +1043,7 @@ def globe_page():
                      ("A decade of work with Bar'am Orchard", "The client is willing to give a reference")):
         assert old in js, old
         js = js.replace(old, new)
-    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "Where agriculture feels at home"),
+    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
                      ('d: "4 פרויקטים בגליל ובגולן"', 'd: "פרויקטים נבחרים בישראל"'), ('d: "4 projects in the Galilee and the Golan"', 'd: "Selected projects in Israel"'),
                      ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
                       "ישראל ושבע מדינות מעבר לים. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע."),

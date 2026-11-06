@@ -144,6 +144,29 @@ Other services:
 | D11 | The same brief describes "management and operation of agricultural properties" for owners abroad, including property in Israel | Not stated anywhere. Farm operation exists only as turnkey stages 8–11 abroad, with partners (§2). Ask the owners (O12). | No source; "don't put on the site things we don't do" (1.5) |
 | D9 | The design choice (4 examples) is pending with Merav; this brief asks for a full build now | Build on a scored direction (see MIFTAH_CREATIVE_DIRECTION.md). Tokens are kept swappable, and the four examples stay untouched. | The user explicitly requested the full build on 26 Oct 2026 |
 
+## 7b. Owner text review, Merav Eyal Hasfel (co-CEO), 5 Nov 2026
+
+Source: Merav's review from the text-review page (`/text-review/`), sent to Hanoch on 5 Nov 2026 13:17 (120 of 573 texts reviewed; partial). Her wording is the client's own and now outranks earlier site copy on these points. English was written to match and still needs the native-speaker review (Q q37).
+
+| ID | Fact or decision (Merav) | Replaces | Where |
+|---|---|---|---|
+| M1 | Planning and building agricultural projects **since 2003** | D10 / O11 (start year unsourced) for this line; the "20+" figure stays consistent with it | Home key facts |
+| M2 | **Millions of m²** of agricultural projects and shade solutions worldwide | D3 (410,000 m² abroad only) on the home key facts; other pages still show the 2015 figures until she reviews them | Home key facts |
+| M3 | Countries worked in: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus **and Africa**; show "countries in the world", not the number 7 | 3.1-3.3 list of seven | Home key facts |
+| M4 | The Belarus project was **intensive fish farming**: managing the whole project, on schedule, local manufacturing, shipping and installation on site | 3.3 wording | Projects table |
+| M5 | Offer described as **agricultural projects**, "one address" from design to construction; **maintenance is removed** from the offer list (ticker) and from the build illustration's last chapter | 2.8 "installation and maintenance" in those places | Home, how-we-build |
+| M6 | "Loading sheds" become **shade solutions for work areas** | 2.4 wording | Home, Net houses |
+| M7 | Build steps: marking out the site, digging the anchors, **concrete for the poles**, laying cables and raising poles, lifting and sewing the net | How-we-build lead | How-we-build |
+| M8 | Hail **falls between the nets through special hail-release fittings**; the net sheds the hail | ch08 wording (2.3) | How-we-build |
+| M9 | The net can fold in winter and spread in summer **or the other way round**, as the crop needs; the season chip of that chapter is **autumn** | ch09 wording | How-we-build |
+| M10 | Turnkey partners named as **business partners** in the "ways to work with us" block | "agricultural partners" there | Home |
+| M11 | The contact page no longer asks callers to ask for Merav by name | contact lead | Contact |
+
+Held back, waiting for a decision (not applied):
+- **Projects table date** (her #350): she changed "figures as of 2015" to 2026, and noted the figures must be updated and Portugal added. The label stays "2015" until the new figures arrive, so the table stays true.
+- **Contact form "who are you" cards** (her #406-#413): she replaced the role cards with questions (which settlement, which crop, area, net type, when, interest in farms abroad, invest or grow). These need a form redesign, not a text swap.
+- **Minimum project sizes** (her note on #435, "don't state how many dunam we do"): the 50 / 300 dunam minimums appear on several pages and in the form logic; removing them everywhere needs her confirmation.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

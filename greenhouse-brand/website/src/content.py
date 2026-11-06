@@ -4,7 +4,7 @@ Each value is (English, Hebrew)."""
 
 SITE = {
     "name": ("MIFTAH Projects", "מיפתח פרויקטים"),
-    "slogan": ("Where agriculture feels at home", "מיפתח פרויקטים - חקלאות שיש לה בית"),  # 1.13
+    "slogan": ("MIFTAH Projects - Where agriculture feels at home", "מיפתח פרויקטים - חקלאות שיש לה בית"),  # 1.13; the company name leads in both languages (Merav, 5 Nov 2026)
     "phone_display": ("+972\u00a04\u00a0985\u00a04404", "04\u20119854404"),  # 1.10
     "phone_tel": "+97249854404",
     "town": ("Kfar Masaryk, Israel", "כפר מסריק"),  # 1.10
@@ -24,7 +24,7 @@ SITE = {
     "rights": ("© {y} MIFTAH Projects. All rights reserved.", "© {y} מיפתח פרויקטים. כל הזכויות שמורות."),
     "tb": [(("Company", "חברה"), ("MIFTAH Projects", "מיפתח פרויקטים")),
            (("Office", "משרד"), ("Kfar Masaryk, Israel", "כפר מסריק")),
-           (("Work", "תחום"), ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים")),
+           (("Work", "תחום"), ("Net houses and agricultural projects", "בתי רשת ופרויקטים חקלאיים")),
            (("Projects", "פרויקטים"), ("Israel and 7 countries abroad", "ישראל ו-7 מדינות בחו״ל"))],
     "video_play": ("Play video", "הפעלת הסרטון"), "video_pause": ("Pause video", "עצירת הסרטון"),
     "noscript": ("Sending this form needs JavaScript. Please call +972 4 985 4404.", "שליחת הטופס דורשת JavaScript. אפשר להתקשר ל-04-9854404."),
@@ -44,10 +44,10 @@ NAV = [  # (slug, en, he)
 
 # ---------------------------------------------------------------- shared blocks
 FACTS = [  # once, under the home hero
-    (("20+", "20+"), ("years designing and building agricultural structures", "שנים של תכנון והקמת מבנים חקלאיים")),  # 1.6
-    (("41 ha", "410 דונם"), ("of net houses built abroad (410,000 m²), as of 2015", "בתי רשת שהקמנו בחו״ל (410,000 מ״ר), נכון ל-2015")),  # 3.2
-    (("Own plant", "מפעל משלנו"), ("poles, nets, cables and fittings are made and checked before they ship", "עמודים, רשתות, כבלים ואביזרים מיוצרים ונבדקים לפני היציאה לשטח")),  # 1.7
-    (("7", "7"), ("countries abroad where we have worked: Mexico, India, Honduras, Spain, Georgia, Portugal and Belarus", "מדינות בחו״ל שעבדנו בהן: מקסיקו, הודו, הונדורס, ספרד, גאורגיה, פורטוגל ובלארוס")),  # 3.1-3.3
+    (("20+", "20+"), ("designing and building agricultural projects since 2003", "מאז 2003 מתכננים ומקימים פרויקטים חקלאיים")),  # 1.6
+    (("Millions of m²", "מיליוני מטרים"), ("of agricultural projects and shade solutions around the world", "מיליוני מ״ר של פרויקטים חקלאיים ופתרונות הצללה בעולם")),  # 3.2
+    (("Our plant", "מפעל שלנו"), ("materials processed and made, and quality-checked before they ship", "עיבוד וייצור החומרים ובקרת איכות לפני היציאה לשטח")),  # 1.7
+    (("Countries", "מדינות בעולם"), ("where we have worked: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus and Africa", "שעבדנו בהן: פורטוגל, ספרד, מקסיקו, הודו, הונדורס, גאורגיה, בלארוס ואפריקה")),  # 3.1-3.3
 ]
 
 STEPS = [  # OS consult (2.8), one real photo each
@@ -105,14 +105,14 @@ PROJECT_ROWS = [  # projects table
     ("Spain", "ספרד", ("Net houses", "בתי רשת"), 60000),
     ("Georgia", "גאורגיה", ("Net houses", "בתי רשת"), 50000),
     ("Portugal", "פורטוגל", ("Avocado net house", "בית רשת לאבוקדו"), None),
-    ("Belarus", "בלארוס", ("A complex project: on schedule, with local manufacturing, shipping and local crews", "פרויקט מורכב: עמידה בלוח הזמנים, ייצור מקומי, שילוח וצוותים מקומיים"), None),
+    ("Belarus", "בלארוס", ("A complex project for intensive fish farming: managing the whole project, on schedule, with local manufacturing, shipping and installation on site", "פרויקט מורכב לגידול דגים בצורה אינטנסיבית: תכלול הפרויקט, עמידה בלוח הזמנים, ייצור מקומי, שילוח והתקנה בשטח"), None),
 ]
 
 FEATURED = [  # Q q14: the five projects the owners want shown. Regions only until approval (O2).
     (("Kiwi", "קיווי"), ("Upper Galilee, Israel", "הגליל העליון"), ("Net house with a pergola trellis", "בית רשת עם הדליית סוכה")),
     (("Bananas", "בננות"), ("Western Galilee, Israel", "הגליל המערבי"), ("Banana net house with 11% net", "בית רשת לבננות עם רשת 11%")),
-    (("Apples", "תפוחים"), ("Golan Heights, Israel", "רמת הגולן"), ("Orchard net house", "בית רשת למטע")),
-    (("Cherries", "דובדבנים"), ("Israel", "ישראל"), ("Orchard net house", "בית רשת למטע")),
+    (("Apples", "תפוחים"), ("Golan Heights, Israel", "רמת הגולן"), ("Net house for orchards", "בית רשת למטעים")),
+    (("Cherries", "דובדבנים"), ("Israel", "ישראל"), ("Net house for orchards", "בית רשת למטעים")),
     (("Avocado", "אבוקדו"), ("Portugal", "פורטוגל"), ("Avocado net house", "בית רשת לאבוקדו")),
 ]
 
@@ -157,7 +157,7 @@ TYPES = [  # Net houses page, organized by crop (market research implication 1)
     {"id": "sheds", "img": None,
      "h": ("Loading sheds and windbreaks", "סככות העמסה ושוברי רוח"), "crops": ("For the farm around the orchard", "לחווה שמסביב למטע"),
      "rows": [
-         (("Loading sheds", "סככות העמסה"), ("Shade sheds for loading, unloading and handling produce. Wide spans leave room for trucks and carts to turn.", "סככות צל להעמסה, לפריקה ולטיפול בתוצרת. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות.")),
+         (("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), ("Shade sheds for loading, unloading and handling produce. Wide spans leave room for trucks and carts to turn.", "סככות צל להעמסה, לפריקה ולטיפול בתוצרת. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות.")),
          (("Net to order", "רשת לפי הזמנה"), ("Shade percentage and color chosen with you. An opening and closing system can be added for bad weather.", "אחוז הצל והצבע נבחרים איתכם. אפשר להוסיף מערכת פתיחה וסגירה למזג אוויר קשה.")),
          (("Windbreaks", "שוברי רוח"), ("Designed and built with the rest of the farm.", "מתוכננים ומוקמים יחד עם שאר החווה.")),
      ], "cap": None},  # 2.4, 2.5
@@ -186,9 +186,9 @@ PAGES = {
                  "בתי רשת מפלדה מגולוונת נגד ברד, רוח ושמש, מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו בישראל ובידי צוותים מקומיים שאנחנו מדריכים ומנהלים בחו״ל, כבר יותר מ-20 שנה. ולמשקיעים בחו״ל: חוות מפתח שלמות, יחד עם שותפים חקלאיים."),
         "cta2": ("For investors: turnkey farms", "למשקיעים: חוות מפתח"),
         "vidcap": ("Drone footage of a net house built by MIFTAH", "צילום רחפן של בית רשת שהקימה מיפתח"),
-        "routes_h": ("Two ways to work with us", "שתי דרכים לעבוד איתנו"),
+        "routes_h": ("Ways to work with us", "דרכי התקשרות"),
         "r1_who": ("For growers and agricultural companies", "למגדלים ולחברות חקלאיות"),
-        "r1_h": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"),
+        "r1_h": ("Net houses and agricultural projects", "בתי רשת ופרויקטים חקלאיים"),
         "r1_p": ("Net houses for orchards and bananas, loading sheds and windbreaks. We map your needs on site, engineer the structure, make it in our plant, install it and maintain it.",
                  "בתי רשת למטעים ולבננות, סככות העמסה ושוברי רוח. ממפים את הצרכים בשטח, מתכננים הנדסית, מייצרים במפעל שלנו, מקימים ומתחזקים."),
         "r1_min": ("Projects from 5 ha in Israel and 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-300 דונם בחו״ל."),
@@ -216,9 +216,9 @@ PAGES = {
         "title": ("Net houses and farm structures for growers | MIFTAH Projects", "בתי רשת חקלאיים: תכנון, ייצור והקמה | מיפתח פרויקטים"),
         "desc": ("Banana net houses with 11% net, orchard net houses with 10–30% net that fold in winter, loading sheds and windbreaks. Designed, made and installed by MIFTAH.",
                  "בתי רשת לבננות עם רשת 11%, בתי רשת למטעים עם רשת 10%–30% שמתקפלת בחורף, סככות העמסה ושוברי רוח: מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח."),
-        "h1": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"),
-        "lead": ("We design, manufacture and install net houses for orchards and bananas, and the loading sheds and windbreaks around them. One team from the first site visit to maintenance.",
-                 "אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות, וגם את סככות ההעמסה ושוברי הרוח שמסביב. צוות אחד, מהביקור הראשון בשטח ועד התחזוקה."),
+        "h1": ("Net houses and agricultural projects", "בתי רשת ופרויקטים חקלאיים"),
+        "lead": ("We design, manufacture and install net houses for agricultural crops, shade solutions for work areas, windbreaks, and trellising and support systems. One address from your first call, through a site visit to understand your needs, manufacturing and preparing the material, to installation and handover.",
+                 "אנחנו מתכננים, מייצרים ומקימים בתי רשת לגידולים חקלאיים, פתרונות הצללה לאזורי תפעול, שוברי רוח ומערכות הדליה ותמיכה לגידולים. כתובת אחת, החל מהפנייה הראשונית, דרך ביקור בשטח והבנת צורכי הלקוח, ייצור והכנת החומר, ועד ההתקנה והמסירה ללקוח."),
         "types_h": ("By crop and by use", "לפי גידול ולפי שימוש"),
         "types_h2": ("Sheds, windbreaks and service", "סככות, שוברי רוח ושירות"),
         "draw_h": ("The parts of the structure", "החלקים של המבנה"),
@@ -286,14 +286,14 @@ PAGES = {
         "lead": ("Net houses on three continents. Abroad, we plan the work, train local crews and manage the build on site.",
                  "בתי רשת בשלוש יבשות. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח."),  # 3.2
         "map_h": ("Abroad", "בחו״ל"),
-        "tbl_cap": ("Projects outside Israel", "פרויקטים מחוץ לישראל"),
-        "th_country": ("Country", "מדינה"), "th_work": ("Work", "עבודה"), "th_area": ("Area (ha)", "שטח (דונם)"),
+        "tbl_cap": ("Projects around the world", "פרויקטים בעולם"),
+        "th_country": ("Country", "מדינה"), "th_work": ("Project", "פרויקט"), "th_area": ("Area (ha)", "שטח (דונם)"),
         "total": ("Total area shown (figures as of 2015)", "סך השטח המפורט (נתונים נכון ל-2015)"),
         "feat_h": ("Selected projects", "פרויקטים נבחרים"),
         "how_h": ("How we work abroad", "איך אנחנו עובדים בחו״ל"),
-        "how": [(("We design the project", "מתכננים את הפרויקט"), ("Fitted to the site and the crop, before anything is built.", "מותאם לשטח ולגידול, לפני שבונים משהו.")),  # 2.8
-                (("We train and manage local crews", "מדריכים ומנהלים צוותים מקומיים"), ("On site, through the whole build.", "בשטח, לאורך כל ההקמה.")),  # 3.2
-                (("We manage the build until handover", "מנהלים את הביצוע עד המסירה"), ("In Belarus, manufacturing, shipping and crews were organized locally.", "בבלארוס הייצור, השילוח והצוותים אורגנו במקום.")),  # 1.2, 3.3
+        "how": [(("We design the project", "מתכננים את הפרויקט"), ("Fitted to the site and the crop.", "בהתאמה לשטח ולגידול.")),  # 2.8
+                (("We train and manage local crews", "מדריכים ומנהלים צוותים מקומיים"), ("Together with the client through the whole build.", "יחד עם הלקוח לאורך כל ההקמה.")),  # 3.2
+                (("We manage the build until handover", "מנהלים את הביצוע עד המסירה"), ("We take care of manufacturing, shipping and training the local crews.", "דואגים לייצור, לשילוח ולהדרכת הצוותים המקומיים.")),  # 1.2, 3.3
                 (("A reference from Portugal", "המלצה מפורטוגל"), ("Our client there is willing to give one, on request.", "הלקוח שלנו שם מוכן להמליץ, לפי בקשה."))],  # 3.5
         "feat_th": (("Crop", "Structure", "Region"), ("גידול", "מבנה", "אזור")),
         "feat_p": ("We name clients only with their permission. References from clients in Israel and Portugal on request.",
@@ -324,8 +324,8 @@ PAGES = {
         "desc": ("Tell MIFTAH Projects where your land is, what you grow and how large it is, and we'll arrange a first conversation. Office: +972 4 985 4404.",
                  "ספרו למיפתח פרויקטים איפה הקרקע, מה מגדלים ומה גודל השטח, ונתאם שיחה ראשונה. משרד: 04-9854404, כפר מסריק."),
         "h1": ("Discuss your project", "דברו איתנו על הפרויקט"),
-        "lead_off": ("Call the office and ask for Merav Eyal Hasfel. To keep the call short, prepare your project details below: where the land is, what you grow and how large it is.",
-                     "התקשרו למשרד ובקשו את מרב איל הספל. כדי שהשיחה תהיה קצרה, הכינו כאן את פרטי הפרויקט: איפה הקרקע, מה מגדלים ומה גודל השטח."),  # O1
+        "lead_off": ("Call our office. To keep the call short, prepare your project details below: where the land is, what you grow and how large it is.",
+                     "התקשרו אלינו למשרד. כדי שהשיחה תהיה קצרה, הכינו כאן את פרטי הפרויקט: איפה הקרקע, מה מגדלים ומה גודל השטח."),  # O1
         "call_pill": ("Call {phone}", "התקשרו: {phone}"),
         "lead": ("Tell us where the land is, what you grow or plan to grow, and how large it is. We'll contact you to arrange a first conversation, and a visit to the site when the project fits.",
                  "ספרו לנו איפה הקרקע, מה מגדלים או מתכננים לגדל, ומה גודל השטח. נחזור אליכם כדי לתאם שיחה ראשונה, וביקור בשטח כשהפרויקט מתאים."),
@@ -365,8 +365,8 @@ PAGES = {
         "desc": ("Scroll through an illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
                  "הדמיה בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
         "h1": ("How a net house is built", "כך בונים בית רשת"),
-        "lead": ("Scroll down and watch one go up: from bare soil, through galvanized poles, cables and net, to a protected orchard.",
-                 "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך עמודים מגולוונים, כבלים ורשת, ועד מטע מוגן."),
+        "lead": ("Scroll down and watch one go up: from bare soil, through marking out the site, digging the anchors, pouring concrete for the poles, laying out the cables and raising the poles, and lifting and sewing the net, to a protected orchard.",
+                 "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך סימון השטח, חפירת העוגנים, פיזור בטונים לעמודים, פריסת כבלים והעמדת העמודים, והרמת רשת ותפירה, ועד מטע מוגן."),
     },
     "privacy": {
         "title": ("Privacy | MIFTAH Projects", "מדיניות פרטיות | מיפתח פרויקטים"),
@@ -515,15 +515,15 @@ FORM = {
     "phone_hint": ("Include your country code (+…) if you are outside Israel", "עם קידומת מדינה אם מחוץ לישראל"),
     "optional": ("optional", "לא חובה"),
     "role": ("I am *", "מי אתם? *"),
-    "roles": [("grower", ("A grower or farm manager", "מגדלים או מנהלי משק"), ("Running an orchard or plantation", "מנהלים מטע או משק")),
+    "roles": [("grower", ("A grower, farm manager or farm coordinator", "מגדלים, מנהלים או רכזי משק"), ("Running an orchard or plantation", "מנהלים מטע או משק")),
               ("coop", ("A cooperative or group of growers", "אגודה או קבוצת מגדלים"), ("Several members or plots", "כמה חברים או חלקות")),
               ("company", ("An agricultural company", "חברה חקלאית"), ("Growing or developing at scale", "מגדלת או מפתחת בהיקף גדול")),
               ("investor", ("A private investor", "משקיעים פרטיים"), ("Investing in a farm or land", "משקיעים בחווה או בקרקע")),
               ("entrepreneur", ("An entrepreneur", "יזמים"), ("Starting a new farm business", "מקימים מיזם חקלאי חדש")),
               ("partner", ("A potential partner", "שותפים פוטנציאליים"), ("A company exploring work together", "חברה שבוחנת שיתוף פעולה"))],
     "need": ("What do you need? *", "מה צריך? *"),
-    "needs": [("nethouse", ("Net houses or farm structures", "בתי רשת או מבנים חקלאיים"), ("Orchards, bananas, loading sheds, windbreaks", "מטעים, בננות, סככות העמסה, שוברי רוח")),
-              ("turnkey", ("A turnkey farm abroad", "חוות מפתח בחו״ל"), ("From soil testing to harvest, with partners", "מבדיקת קרקע ועד קטיף, עם שותפים")),
+    "needs": [("nethouse", ("Net houses or farm structures", "בתי רשת או מבנים חקלאיים"), ("Orchards, bananas, windbreaks, support and trellising", "מטעים, בננות, שוברי רוח, תמיכה והדליה")),
+              ("turnkey", ("A turnkey farm abroad", "חוות מפתח בחו״ל"), ("From finding land to harvest, with partners", "מאיתור קרקע ועד קטיף, עם שותפים")),
               ("unsure", ("Not sure yet", "עוד לא ברור"), ("Let's talk it through", "נדבר ונבין יחד"))],
     "country": ("Where is the land? *", "איפה הקרקע? *"),
     "countries": [("", ("Choose a country or region", "בחירת מדינה או אזור")), ("IL", ("Israel", "ישראל")), ("PT", ("Portugal", "פורטוגל")), ("ES", ("Spain", "ספרד")),
@@ -531,7 +531,7 @@ FORM = {
                   ("LA", ("Latin America", "אמריקה הלטינית")), ("AS", ("Asia", "אסיה")), ("OC", ("Australia or New Zealand", "אוסטרליה או ניו זילנד")), ("OT", ("Somewhere else", "מקום אחר")), ("SEARCH", ("Still looking for land", "עוד מחפשים קרקע"))],
     "region": ("Region or nearest town", "אזור או יישוב קרוב"),
     "size": ("Land size *", "גודל השטח *"),
-    "sizes": [("", ("Choose a range", "בחירת טווח")), ("lt5", ("Under 5 ha (under 50 dunam)", "פחות מ-50 דונם")), ("5-30", ("5–30 ha (50–300 dunam)", "50 עד 300 דונם")),
+    "sizes": [("", ("Choose the size of the area", "בחרו את גודל השטח")), ("lt5", ("Under 5 ha (under 50 dunam)", "פחות מ-50 דונם")), ("5-30", ("5–30 ha (50–300 dunam)", "50 עד 300 דונם")),
               ("30-100", ("30–100 ha", "300 עד 1,000 דונם")), ("100+", ("Over 100 ha", "מעל 1,000 דונם")), ("tbd", ("Not decided yet", "עוד לא ידוע"))],
     "status": ("Land status", "מצב הקרקע"),
     "statuses": [("", ("Choose", "בחירה")), ("own", ("We own it", "בבעלותנו")), ("lease", ("We lease it", "בחכירה")), ("acquiring", ("We are acquiring it", "בתהליך רכישה")), ("search", ("Still looking", "עוד מחפשים"))],
@@ -626,31 +626,31 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
     "aria": ("Photorealistic illustration, made with AI, of a MIFTAH net house being built, step by step", "הדמיה מציאותית, שנוצרה בבינה מלאכותית, של הקמת בית רשת של מיפתח, שלב אחרי שלב"),
     "scroll": ("Scroll to build", "גללו כדי לבנות"),
     "step": ("Step", "שלב"),
-    "note": ("Illustration made with AI from our 3D model, not a photograph of a real project. Sizes, spacing and height are not a specification: every project is designed for its crop, soil and wind.",
-             "הדמיה שנוצרה בבינה מלאכותית מהמודל התלת-ממדי שלנו, לא צילום של פרויקט אמיתי. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, הקרקע והרוח באתר."),
+    "note": ("Illustration made with AI from our 3D model, not a photograph of a real project. Sizes, spacing and height are not a specification: every project is designed for its crop, the grower's needs, the soil and drainage, and the wind on site.",
+             "הדמיה שנוצרה בבינה מלאכותית מהמודל התלת-ממדי שלנו, לא צילום של פרויקט אמיתי. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צורכי המגדל, הקרקע והניקוז ומשטרי הרוחות באתר."),
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [
-        (("Design", "תכנון"), ("Designed for the site", "מתוכנן לשטח"),
-         ("We map the crop, soil, drainage, access and wind, then design the structure and the bill of quantities.", "ממפים את הגידול, הקרקע, הניקוז, הגישה והרוח, ואז מתכננים את המבנה ואת כתב הכמויות.")),  # 2.8, steps
+        (("Design", "תכנון"), ("Planning for the site", "תכנון לשטח"),
+         ("We map the soil, the needs of the crop and the grower, drainage, access and wind directions, then design the structure and the bill of quantities.", "ממפים את הקרקע, צורכי הגידול והמגדל, הניקוז, הגישה וכיווני הרוח, ואז מתכננים את המבנה ואת כתב הכמויות.")),  # 2.8, steps
         (("On site", "בשטח"), ("Marking out", "סימון"),
          ("Pole lines are marked from the engineering design, point by point.", "קווי העמודים מסומנים לפי התכנון ההנדסי, נקודה אחרי נקודה.")),
         (("From our plant", "מהמפעל שלנו"), ("Galvanized poles", "עמודים מגולוונים"),
          ("Poles made and checked in our plant are set in straight rows, at the span and height in the design.", "עמודים שיוצרו ונבדקו במפעל שלנו מוצבים בשורות ישרות, במפתח ובגובה שבתכנון.")),  # 1.7
         (("At height", "עבודה בגובה"), ("Cables and anchoring", "כבלים ועיגון"),
-         ("Steel cables are tensioned across the pole heads, and the edges are anchored against the wind. Our crews are trained for work at height.", "כבלי פלדה נמתחים בין ראשי העמודים, והשוליים מעוגנים מול הרוח. הצוותים שלנו בעלי הכשרה לעבודה בגובה.")),  # 2.8
+         ("Steel cables are tensioned between the poles. All our crews are trained to work at height.", "כבלי פלדה נמתחים בין העמודים. כל הצוותים שלנו בעלי הכשרה לעבודה בגובה.")),  # 2.8
         (("The net", "הרשת"), ("Spread row by row", "נפרסת שורה אחרי שורה"),
          ("The net is unrolled over the cables and fixed, one bay at a time.", "הרשת נפרסת מעל הכבלים ומחוברת, מפתח אחרי מפתח.")),
         (("Closing", "סגירה"), ("Side nets and a door", "רשתות צד ודלת"),
          ("Side nets and an entrance door close the structure.", "רשתות בדפנות ודלת כניסה סוגרות את המבנה.")),
-        (("Planting", "שתילה"), ("Irrigation, then trees", "השקיה, ואז עצים"),
-         ("On a turnkey farm, drip lines go in first, then the orchard is planted under the net.", "בחוות מפתח, קווי הטפטוף מותקנים קודם, ואחר כך שותלים את המטע מתחת לרשת.")),  # stages 5, 7
-        (("What the net does", "מה הרשת עושה"), ("Hail stops on the net", "הברד נעצר על הרשת"),
-         ("The net catches hail before it reaches the fruit.", "הרשת עוצרת את הברד לפני שהוא מגיע לפרי.")),  # 2.3 (wind: bananas only, 2.2)
-        (("Winter", "חורף"), ("Folded, then spread again", "מתקפלת ונפרסת מחדש"),
-         ("On orchards the net can fold away in winter and spread again in summer, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ, ידנית או אוטומטית.")),  # 2.3
-        (("One team", "צוות אחד"), ("From design to maintenance", "מהתכנון ועד התחזוקה"),
-         ("Design, our own plant, installation and maintenance, in Israel and abroad.", "תכנון, מפעל משלנו, הקמה ותחזוקה, בישראל ובחו״ל.")),
+        (("Planting", "שתילה"), ("Irrigation, then planting", "השקיה, ואז שתילה"),
+         ("Drip lines go in first, then the trees are planted under the net.", "קווי הטפטוף מותקנים קודם, ואחר כך שותלים את העצים מתחת לרשת.")),  # stages 5, 7
+        (("What the net does", "מה הרשת עושה"), ("Hail falls between the nets, through special hail-release fittings", "הברד נופל בין הרשתות עם אביזרים מיוחדים לפריקת ברד"),
+         ("The net sheds the hail, so it doesn't damage the fruit.", "הרשת פורקת את הברד כך שהוא לא פוגע בפרי.")),  # 2.3 (wind: bananas only, 2.2)
+        (("Autumn", "סתיו"), ("Folded, then spread again", "מתקפלת ונפרסת מחדש"),
+         ("On orchards the net can fold away in winter and spread again in summer, or the other way round, as the crop needs, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ, או הפוך בהתאם לצורך הגידול, ידנית או אוטומטית.")),  # 2.3
+        (("One address", "כתובת אחת"), ("From design to construction", "מהתכנון ועד ההקמה"),
+         ("Design, manufacturing, installation and support, in Israel and around the world.", "תכנון, ייצור, הקמה וליווי, בישראל ובעולם.")),
     ],
 }
 
@@ -666,21 +666,21 @@ GLOBE = {
 # ---------------------------------------------------------------- "Open Skies" home (design chosen 28 Oct 2026)
 OS = {
     "ticker_label": ("What we build", "מה אנחנו בונים"),
-    "ticker": [("Banana net houses", "בתי רשת לבננות"), ("Apple and cherry net houses", "בתי רשת לתפוחים ולדובדבנים"), ("Kiwi net houses with a pergola trellis", "בתי רשת לקיווי עם הדליית סוכה"),
-               ("Avocado net houses", "בתי רשת לאבוקדו"), ("Loading sheds", "סככות העמסה"), ("Windbreaks", "שוברי רוח"), ("Trellising and support", "הדליה ותמיכה"),
-               ("Maintenance of structures", "תחזוקת מבנים"), ("Turnkey farms abroad", "חוות מפתח בחו״ל")],  # 2.1-2.6, 1.3
+    "ticker": [("Banana net houses", "בתי רשת לבננות"), ("Orchard net houses", "בתי רשת למטעים"), ("Kiwi net houses", "בתי רשת לקיווי"),
+               ("Avocado net houses", "בתי רשת לאבוקדו"), ("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), ("Windbreaks", "שוברי רוח"), ("Trellising and support", "הדליה ותמיכה"),
+               ("Agricultural planning and development", "תכנון ופיתוח בחקלאות"), ("Turnkey farms abroad", "חוות מפתח בחו״ל")],  # 2.1-2.6, 1.3
     "ticker_pause": ("Pause the scrolling list", "עצירת הרשימה הנגללת"), "ticker_play": ("Pause the scrolling list", "עצירת הרשימה הנגללת"),
     "who_k": ("Who we are", "מי אנחנו"),
-    "statement_b": ("Net houses for orchards and bananas,", "בתי רשת למטעים ולבננות,"),
-    "statement": (" designed and built by one team, in Israel and abroad.",
-                  " שצוות אחד מתכנן ומקים, בישראל ובחו״ל."),  # 1.6, 1.7, 2.1
-    "sol_h": ("Two ways to work with us", "שתי דרכים לעבוד איתנו"),
-    "sol_p": ("Net houses and farm structures, in Israel and abroad. Turnkey farms abroad, delivered with agricultural partners.",
-              "בתי רשת ומבנים חקלאיים, בישראל ובחו״ל. חוות מפתח בחו״ל, יחד עם שותפים חקלאיים."),  # 1.2-1.4, 2.8, D4
+    "statement_b": ("Net houses for agricultural crops,", "בתי רשת לגידולים חקלאיים,"),
+    "statement": (" one address from design to construction, in Israel and around the world.",
+                  " כתובת אחת, החל מהתכנון ועד ההקמה, בישראל ובעולם כולו."),  # 1.6, 1.7, 2.1
+    "sol_h": ("Ways to work with us", "דרכי התקשרות"),
+    "sol_p": ("Net houses and agricultural projects, in Israel and abroad. Turnkey farms abroad, delivered with business partners.",
+              "בתי רשת ופרויקטים חקלאיים, בישראל ובחו״ל. הקמת חוות עד מפתח בחו״ל, יחד עם שותפים עסקיים."),  # 1.2-1.4, 2.8, D4
     "sols": [
-        {"k": ("Structures", "מבנים"), "h": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"), "img": "forest",
+        {"k": ("Structures", "מבנים"), "h": ("Net houses and agricultural projects", "בתי רשת ופרויקטים חקלאיים"), "img": "forest",
          "alt": ("A large white net house below a wooded hillside", "בית רשת לבן וגדול מתחת לגבעה מיוערת"),
-         "p": ("Orchards and bananas, loading sheds and windbreaks. Built by our crews in Israel, and by local crews we train and manage abroad.", "מטעים ובננות, סככות העמסה ושוברי רוח. מקימים אותם הצוותים שלנו בישראל, ובחו״ל צוותים מקומיים שאנחנו מדריכים ומנהלים."),
+         "p": ("Net houses for every type of crop, windbreaks, support and trellising, and shade solutions for work areas. All under one roof: design, manufacturing, installation and support, in Israel and abroad.", "בתי רשת לכל סוגי הגידולים החקלאיים, שוברי רוח, פתרונות תמיכה והדליה, פתרונות הצללה לאזורי תפעול. הכול תחת קורת גג אחת: תכנון, ייצור, הקמה וליווי בארץ ובחו״ל."),
          "chips": [("11% shade net for bananas", "רשת צל 11% לבננות"), ("10–30% shade net for orchards", "רשת צל 10%–30% למטעים")], "href": "net-houses.html"},  # 1.7, 2.1-2.4
         {"k": ("Turnkey, abroad", "חוות מפתח בחו״ל"), "h": ("Complete farms abroad", "חוות שלמות בחו״ל"), "img": None, "alt": None,  # no photo until a delivered farm can be shown (1.3; registry O1 is a banana net house)
          "p": ("Soil testing and a business plan, structures and irrigation, planting, a local team, growing and marketing. With agricultural partners.", "בדיקת קרקע ותוכנית עסקית, מבנים והשקיה, שתילה, צוות מקומי, גידול ושיווק. עם שותפים חקלאיים."),
@@ -700,11 +700,11 @@ OS = {
 
 # ---------------------------------------------------------------- V3 home ("under the net")
 HOME3 = {
-    "h1": ("A net roof over your crop.", "גג של רשת מעל הגידול שלכם."),
-    "lead": ("We design, make and build galvanized-steel net houses for orchards and bananas, against hail, sun and wind, in Israel and abroad.",
-             "אנחנו מתכננים, מייצרים ומקימים בתי רשת מפלדה מגולוונת למטעים ולבננות, נגד ברד, שמש ורוח, בישראל ובחו״ל."),  # 1.6, 1.7, 2.1-2.3
-    "cta2": ("Which net for your crop?", "איזו רשת לגידול שלכם?"),
-    "invest": ("Investing in a farm abroad? Turnkey farms, delivered with agricultural partners", "משקיעים בחווה בחו״ל? חוות מפתח, יחד עם שותפים חקלאיים"),  # 1.3, 1.4
+    "h1": ("Agricultural projects under one roof.", "פרויקטים חקלאיים תחת קורת גג אחת."),
+    "lead": ("We design, make and build agricultural projects in Israel and around the world.",
+             "אנחנו מתכננים, מייצרים ומקימים פרויקטים חקלאיים בישראל ובעולם כולו."),  # 1.6, 1.7, 2.1-2.3
+    "cta2": ("Which net is right for you?", "איזו רשת מתאימה לכם?"),
+    "invest": ("Looking for an agricultural investment abroad? We initiate, develop, design and build turnkey farms and agricultural projects, with agricultural partners.", "מחפשים השקעה חקלאית בחו״ל? יזום, פיתוח, תכנון והקמת חוות ופרויקטים חקלאיים עד מפתח, יחד עם שותפים חקלאיים."),  # 1.3, 1.4
     "crop_h": ("Which net house for your crop?", "איזה בית רשת מתאים לגידול שלכם?"),
     "crop_p": ("Choose a crop to see its net and structure.", "בחרו גידול כדי לראות את הרשת והמבנה שלו."),
     "crop_proj": ("On a MIFTAH project", "בפרויקט של מיפתח"),
