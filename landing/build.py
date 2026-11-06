@@ -20,7 +20,7 @@ he=open('he.html',encoding='utf8').read().replace('__RIDGES__',vista('he'))
 en=open('en.html',encoding='utf8').read().replace('__RIDGES__',vista('en'))
 page=src.replace('__HE__',he).replace('__EN__',en)
 page=page.replace('bar.setAttribute("aria-hidden",st.hero||st.don||st.close)','var off=st.hero||st.don||st.close;bar.setAttribute("aria-hidden",off);bar.inert=off')
-assets={'hero':'assets/hero.webp','fire':'assets/fire.webp','topo':'assets/topo.webp','i-journey':'assets/i-journey.svg','i-family':'assets/i-family.svg','i-compass':'assets/i-compass.svg','i-home':'assets/i-home.svg','favicon':'assets/favicon.png','packs':'assets/packs.webp','sea':'assets/sea.webp'}
+assets={'hero':'assets/hero.webp','fire':'assets/fire.webp','topo':'assets/topo.webp','i-journey':'assets/i-journey.svg','i-family':'assets/i-family.svg','i-compass':'assets/i-compass.svg','i-home':'assets/i-home.svg','favicon':'assets/favicon.png','team':'assets/team.webp','journey':'assets/journey.webp'}
 def fill(p,mode):
     for k,v in assets.items():
         if mode=='file': rep=v
@@ -38,15 +38,15 @@ import re
 def d64(path,mime): return 'data:%s;base64,%s'%(mime,base64.b64encode(open(path,'rb').read()).decode())
 art=page
 art=re.sub(r'<img class="paint" src="__A_hero__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-hero" role="img" aria-label="\1"></div>',art)
-art=re.sub(r'<img class="paint" src="__A_packs__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-packs" role="img" aria-label="\\1"></div>',art)
+art=re.sub(r'<img class="paint" src="__A_team__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-team" role="img" aria-label="\\1"></div>',art)
 art=re.sub(r'<img class="paint" src="__A_fire__" alt="([^"]*)"[^>]*>',r'<div class="paint bg-fire" role="img" aria-label="\1"></div>',art)
 def logo_rep(m):
     alt=m.group(1)
     return '<span class="logo-img" role="img" aria-label="%s"></span>'%alt if alt else '<span class="logo-img" aria-hidden="true"></span>'
 art=re.sub(r'<img src="__LOGO__" alt="([^"]*)"[^>]*>',logo_rep,art)
 bgcss=('.bg-hero{background:url(%s) 18%% 78%%/cover no-repeat}.bg-fire{background:url(%s) center 82%%/cover no-repeat}'
-       '.bg-packs{background:url(%s) center/cover no-repeat}.logo-img{display:inline-block;flex:none;aspect-ratio:640/489;background:url(%s) center/contain no-repeat}'
-       '.brand .logo-img{width:50px}.medal .logo-img{display:block;width:min(340px,80vw);filter:drop-shadow(0 20px 34px rgba(37,50,23,.2))}\n')%(d64('assets/hero.webp','image/webp'),d64('assets/fire.webp','image/webp'),d64('assets/packs.webp','image/webp'),d64('logo.webp','image/webp'))
+       '.bg-team{background:url(%s) center/cover no-repeat}.logo-img{display:inline-block;flex:none;aspect-ratio:640/489;background:url(%s) center/contain no-repeat}'
+       '.brand .logo-img{width:50px}.medal .logo-img{display:block;width:min(340px,80vw);filter:drop-shadow(0 20px 34px rgba(37,50,23,.2))}\n')%(d64('assets/hero.webp','image/webp'),d64('assets/fire.webp','image/webp'),d64('assets/team.webp','image/webp'),d64('logo.webp','image/webp'))
 art=art.replace('</style>',bgcss+'</style>',1)
 open('artifact.html','w',encoding='utf8').write(fill(art,'data'))
 print('ok',os.path.getsize('index.html'),os.path.getsize('artifact.html'))
