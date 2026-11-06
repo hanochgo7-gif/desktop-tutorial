@@ -1,0 +1,49 @@
+# Lucid: checks the site as it is deployed (minified by lucid/tools/build) on every push that touches lucid/.
+# It does not gate the Pages deploy (pages.yml), so a Lucid test failure never blocks the other sites; it reports.
+name: Lucid verify (built site)
+
+on:
+  push:
+    paths:
+      - 'lucid/**'
+      - '.github/workflows/lucid-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lucid-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: lucid
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Playwright and its Chromium (on the CI runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Unit tests
+        run: npm test
+      - name: Content validation
+        run: npm run validate
+      - name: Build a copy of the site as pages.yml deploys it
+        run: |
+          npm ci --prefix tools/build --no-audit --no-fund
+          mkdir -p "$RUNNER_TEMP/built/lucid"
+          rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
+          node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
+          node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
+      - name: End-to-end suite against the built site
+        run: E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs

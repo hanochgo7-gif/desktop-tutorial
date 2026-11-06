@@ -4,7 +4,9 @@
 // - js/**/*.js, vendor/*.mjs and config.js: minified ES modules (no bundling, no renaming of files or imports),
 //   each with an external source map (<file>.map) and a sourceMappingURL comment, so the shipped code stays
 //   auditable against the repository;
-// - css/app.css: minified, with a source map; modern colour functions (oklch) are kept as written;
+// - css/app.css: comments and whitespace removed, with a source map. Syntax minification is off on purpose: it
+//   rewrites some oklch() colours as hex with a rounded alpha (oklch(1 0 0 / 0.07) -> #ffffff12), which changed
+//   pixels, for 46 bytes gzipped;
 // - content/**/*.json: whitespace removed (JSON.parse then JSON.stringify: the same values);
 // - then content/manifest.json, release.json and the RELEASE line of sw.js are recomputed on the built bytes.
 // sw.js, the HTML files and everything else are left as they are (the CSP meta in index.html is never touched).
@@ -35,7 +37,7 @@ async function minify(root, rel, loader) {
   const path = join(root, rel);
   const source = readFileSync(path, 'utf8');
   const opts = loader === 'css'
-    ? { loader: 'css', minify: true, supported: { 'color-functions': true }, legalComments: 'inline', sourcemap: 'external', sourcefile: basename(rel) }
+    ? { loader: 'css', minifyWhitespace: true, legalComments: 'inline', sourcemap: 'external', sourcefile: basename(rel) }
     : { loader: 'js', format: 'esm', target: 'esnext', minify: true, legalComments: 'inline', sourcemap: 'external', sourcefile: basename(rel) };
   const out = await esbuild.transform(source, opts);
   const comment = loader === 'css' ? `/*# sourceMappingURL=${basename(rel)}.map */` : `//# sourceMappingURL=${basename(rel)}.map`;
