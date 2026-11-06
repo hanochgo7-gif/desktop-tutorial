@@ -73,6 +73,26 @@ jobs:
           if [ "${{ steps.dira.outcome }}" = "success" ] && [ -f dira/out/index.html ]; then mv dira/out _dira_site; fi
           rm -rf dira .dira-prev-static
           if [ -d _dira_site ]; then mv _dira_site dira; fi
+      # Hemshech Tnua CRM (Vite app) is built into a static copy and published at /hemshech-tnua/.
+      # It needs the Supabase project URL and public (anon) key as repository variables
+      # HEMSHECH_SUPABASE_URL and HEMSHECH_SUPABASE_ANON_KEY. Without them, or if the build fails,
+      # the folder is left out entirely (its source, docs and tests are never published).
+      - name: Build the Hemshech Tnua CRM (static)
+        id: hemshech
+        continue-on-error: true
+        if: vars.HEMSHECH_SUPABASE_URL != '' && vars.HEMSHECH_SUPABASE_ANON_KEY != ''
+        working-directory: hemshech-tnua
+        env:
+          VITE_SUPABASE_URL: ${{ vars.HEMSHECH_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.HEMSHECH_SUPABASE_ANON_KEY }}
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Publish the built CRM instead of its source
+        run: |
+          if [ "${{ steps.hemshech.outcome }}" = "success" ] && [ -f hemshech-tnua/dist/index.html ]; then mv hemshech-tnua/dist _hemshech_site; fi
+          rm -rf hemshech-tnua
+          if [ -d _hemshech_site ]; then mv _hemshech_site hemshech-tnua; fi
       # קבצי הבנייה, ההערות הפנימיות והגדרות הפיתוח לא צריכים להיות באתר הציבורי
       - name: Exclude build tools and internal notes (AMS, Mizrahi, Krudo, Lucid)
         run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json mizrahi/tools mizrahi/docs mizrahi/content mizrahi/README.md mizrahi/.gitignore .taste-skill krudoeng/tools krudoeng/README.md krudoeng/.gitignore lucid/tools lucid/tests lucid/supabase lucid/docs/research/data lucid/node_modules lucid/package.json lucid/package-lock.json lucid/.impeccable
