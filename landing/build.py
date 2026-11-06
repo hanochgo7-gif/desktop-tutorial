@@ -20,7 +20,7 @@ he=open('he.html',encoding='utf8').read().replace('__RIDGES__',vista('he'))
 en=open('en.html',encoding='utf8').read().replace('__RIDGES__',vista('en'))
 page=src.replace('__HE__',he).replace('__EN__',en)
 page=page.replace('bar.setAttribute("aria-hidden",st.hero||st.don||st.close)','var off=st.hero||st.don||st.close;bar.setAttribute("aria-hidden",off);bar.inert=off')
-assets={'hero':'assets/hero.webp','fire':'assets/fire.webp','topo':'assets/topo.webp','i-journey':'assets/i-journey.svg','i-family':'assets/i-family.svg','i-compass':'assets/i-compass.svg','i-home':'assets/i-home.svg','favicon':'assets/favicon.png','team':'assets/team.webp','journey':'assets/journey.webp'}
+assets={'hero':'assets/hero.webp','fire':'assets/fire.webp','topo':'assets/topo.webp','i-journey':'assets/i-journey.svg','i-family':'assets/i-family.svg','i-compass':'assets/i-compass.svg','i-home':'assets/i-home.svg','favicon':'assets/favicon.png','team':'assets/team.webp','journey':'assets/journey.webp','ridge':'assets/ridge.webp','gather':'assets/gather.webp'}
 def fill(p,mode):
     for k,v in assets.items():
         if mode=='file': rep=v
