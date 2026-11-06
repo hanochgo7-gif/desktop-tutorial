@@ -5,7 +5,7 @@
 // from B1), with a "for my level" filter; search matches the start of words (persona panel P-68). Like Real
 // life, the list is grouped (by level, or by letter for A-Z) and each group is folded to its first few
 // entries; a search shows every match (persona panel D11).
-import { html, render, on, $, $$ } from '../core/util.js';
+import { html, render, on, $, $$, collatorEn } from '../core/util.js';
 import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
@@ -42,7 +42,7 @@ export default async function slang(el, ctx) {
   ctx.setTitle(t('nav.slang'));
   const data = await content.slang();
   const all = (Array.isArray(data?.entries) ? data.entries : []).filter((x) => x?.id && x.term);
-  const byTerm = (a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' });
+  const byTerm = (a, b) => collatorEn().compare(a.term, b.term); // one shared collator (util.collatorEn)
   const byLevel = (a, b) => levelIndex(a.level) - levelIndex(b.level) || byTerm(a, b);
   const courseLevel = model().courseLevel;
   let sort = levelIndex(courseLevel) <= levelIndex('A2') ? 'level' : 'az';

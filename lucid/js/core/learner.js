@@ -2,7 +2,7 @@
 // spaced-repetition cards and the derived learner model. Views call these functions instead of
 // touching collections directly, so every recorded action feeds the adaptive engine the same way.
 import { store } from './store.js';
-import { uid, todayKey } from './util.js';
+import { uid, todayKey, dayOf, isCanonicalIso } from './util.js';
 import { content } from './content.js';
 import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, isLessonId, pickScenario, pickWritingTask, firstTries, introSlots, planStatus, minutesToday, LEVELS, levelIndex } from './adaptive.js';
 import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
@@ -270,7 +270,9 @@ export function weekActivity(now = new Date()) {
   const dow = (start.getDay() + 6) % 7; // Monday = 0
   start.setHours(0, 0, 0, 0);
   start.setDate(start.getDate() - dow);
-  const days = new Set(store.all('attempts').filter((a) => new Date(a.at) >= start).map((a) => todayKey(new Date(a.at))));
+  // Canonical ISO timestamps compare as strings (util.isCanonicalIso); other values take the Date path.
+  const since = start.toISOString();
+  const days = new Set(store.all('attempts').filter((a) => (isCanonicalIso(a.at) ? a.at >= since : new Date(a.at) >= start)).map((a) => dayOf(a.at)));
   return { days: days.size, goal: settings().weekly_goal_days, startOfWeek: start };
 }
 
@@ -387,7 +389,7 @@ function lessonInfo(next, lesson, attempts, today, held = null) {
     exercises: step ? step.firstTotal : lesson.exercises.length, intro, done: step ? step.firstDone : 0, revisit: step ? step.revisit : 0, resumable,
     step, missedRun: Boolean(step && r.missed),
     missed: missedIds.length ? { count: missedIds.length, minutes: Math.max(1, Math.round(missedIds.length * perItem)) } : null,
-    doneToday: firstTries(attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today)).length,
+    doneToday: firstTries(attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && dayOf(a.at) === today)).length,
     // Where today's finished part ended, kept when the minutes changed after it (TP-2; see holdTodayPart).
     held: held?.date === today && held.lesson === next.id && !r?.missed ? held.upto : null,
     // Left in the middle of the explanation (r4 LF-6): the lesson intro offers to go on reading from this step, so
@@ -399,7 +401,7 @@ function lessonInfo(next, lesson, attempts, today, held = null) {
 // What was already done today, so the plan ticks only what was really done (persona finding R2-27).
 function doneToday(now, { scenarios, writingTasks, attempts }) {
   const day = todayKey(now);
-  const isToday = (iso) => iso && todayKey(new Date(iso)) === day;
+  const isToday = (iso) => iso && dayOf(iso) === day;
   const events = store.all('events').filter((e) => isToday(e.at));
   const scenarioIds = new Set([
     ...store.all('progress').filter((x) => String(x.id).startsWith('rl:') && isToday(x.completed_at)).map((x) => x.id.slice(3)),
@@ -438,7 +440,8 @@ export function todayPlan(minutes = settings().daily_minutes, { lesson = null, s
   const dueNow = dueCards(cards, now, settings().retention);
   const dayAgo = (d) => now.getTime() - d * 86_400_000;
   const warm = cards.filter((c) => c.kind === 'meaning' && new Date(c.created_at).getTime() <= dayAgo(1) && new Date(c.created_at).getTime() >= dayAgo(3));
-  const todayNew = cards.filter((c) => todayKey(new Date(c.created_at)) === todayKey(now));
+  const nowKey = todayKey(now);
+  const todayNew = cards.filter((c) => dayOf(c.created_at) === nowKey);
   const lastOf = (type) => store.all('events').filter((e) => e.type === type).map((e) => e.at).sort().pop() || null;
   const goals = profile()?.goals || [];
   const scenariosDone = new Set(store.all('progress').filter((p) => String(p.id).startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
@@ -481,7 +484,7 @@ export const todayMinutes = (s = settings()) => (s.today_minutes?.date === today
 // the lesson end both load their paces from this list, so the two never count the same day differently.
 export function todayLessonIds() {
   const day = todayKey();
-  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
+  const isToday = (iso) => Boolean(iso) && dayOf(iso) === day;
   return [...new Set([
     ...model().attempts.filter((a) => a.source === 'lesson' && a.lesson && isToday(a.at)).map((a) => a.lesson),
     ...store.all('events').filter((e) => e.type === 'learn' && e.lesson && isToday(e.at)).map((e) => e.lesson),
@@ -500,7 +503,7 @@ export function dayStatus({ lesson = null, scenarios = [], writingTasks = [], pa
   const target = todayMinutes();
   const plan = todayPlan(target, { lesson, scenarios, writingTasks });
   const day = todayKey();
-  const isToday = (iso) => Boolean(iso) && todayKey(new Date(iso)) === day;
+  const isToday = (iso) => Boolean(iso) && dayOf(iso) === day;
   const attempts = m.attempts.filter((a) => isToday(a.at));
   const progress = store.all('progress');
   const minutesDone = minutesToday({
@@ -523,7 +526,8 @@ export function dayStatus({ lesson = null, scenarios = [], writingTasks = [], pa
 
 export function newBudgetToday() {
   const cards = allCards();
-  const today = cards.filter((c) => c.kind === 'meaning' && todayKey(new Date(c.created_at)) === todayKey()).length;
+  const day = todayKey();
+  const today = cards.filter((c) => c.kind === 'meaning' && dayOf(c.created_at) === day).length;
   return Math.max(0, Math.min(settings().new_per_day, newItemsBudget(cards, { base: settings().new_per_day })) - today);
 }
 

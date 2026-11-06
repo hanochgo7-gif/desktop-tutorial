@@ -1,6 +1,7 @@
 // The learner model: what the learner has mastered, which mistakes recur, which CEFR level each
 // skill has demonstrated, and what to do today. Everything is computed from recorded attempts, so
 // it can be audited and recomputed; nothing is assigned by time spent or lessons clicked through.
+import { isCanonicalIso } from './util.js';
 
 export const LEVELS = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 export const SKILLS = ['vocabulary', 'grammar', 'reading', 'listening', 'speaking', 'writing'];
@@ -41,8 +42,12 @@ const byTime = (list) => [...list].sort((a, b) => (String(a.at) < String(b.at) ?
 // Auto-graded writing exercises run in the set player with their task as `lesson`, and count.
 const essayFeedback = (a) => a.source === 'writing' && !a.lesson;
 export function topicMastery(attempts, now = Date.now()) {
+  return masteryOfSorted(byTime(attempts), now);
+}
+// topicMastery of a list already in byTime order (periodReport sorts once for two reports).
+function masteryOfSorted(sorted, now) {
   const by = new Map();
-  for (const a of firstTries(byTime(attempts))) {
+  for (const a of firstTries(sorted)) {
     if (!a.topic || a.source === 'placement' || a.score === null || essayFeedback(a)) continue; // score null: practice, not evidence
     const t = by.get(a.topic) || { a: 0, n: 0, count: 0, days: new Set(), last: null, level: null };
     const w = weight(a.at, now);
@@ -153,11 +158,14 @@ function writingLevel(writing) {
 
 export function skillLevels({ attempts = [], placement = null, writing = [] } = {}) {
   const out = {};
+  // Sorted and reduced to first tries once for every skill (the same stable sort each skill used to repeat).
+  const sorted = byTime(attempts);
+  const first = firstTries(sorted);
   for (const skill of SKILLS) {
     if (skill === 'speaking') { out[skill] = { level: null, source: null, evidence: 0, days: 0 }; continue; }
     if (skill === 'writing') { out[skill] = writingLevel(writing); continue; }
     const perLevel = new Map();
-    for (const a of firstTries(byTime(attempts))) {
+    for (const a of first) {
       if (a.skill !== skill || !a.level || a.source === 'placement' || a.score === null) continue;
       const p = perLevel.get(a.level) || { right: 0, n: 0, days: new Set() };
       p.right += scoreOf(a);
@@ -197,7 +205,7 @@ export function skillLevels({ attempts = [], placement = null, writing = [] } = 
     }
     // The highest level check that asked about this skill, from its latest day (TF-8): the view says whether the
     // check was passed. Its answers already count as practice evidence above.
-    const checks = byTime(attempts).filter((a) => a.source === 'checkpoint' && a.skill === skill && a.level && a.score !== null);
+    const checks = sorted.filter((a) => a.source === 'checkpoint' && a.skill === skill && a.level && a.score !== null);
     const top = checks.reduce((best, a) => (levelIndex(a.level) > levelIndex(best) ? a.level : best), null);
     if (top) {
       const at = checks.filter((a) => a.level === top);
@@ -300,9 +308,11 @@ export function lessonSlice(lesson, budget) {
 // finding R2-16): planning, writing and a quick check of the middle of the word range at about 5 words a
 // minute up to A2, 7 at B1-B2 and 9 from C1 (an exam pace, such as 250 words in 40 minutes), or half a
 // minute per item for a set of sentence exercises. A heuristic, not a measured rate.
+// A Writing-index row (content/writing/index.json) carries n_items in place of the items themselves (contract C-11).
 export function writingMinutes(task) {
   if (!task) return null;
-  if (task.items?.length && !task.min_words) return Math.max(2, Math.round(task.items.length / 2));
+  const n = task.n_items ?? task.items?.length;
+  if (n && !task.min_words) return Math.max(2, Math.round(n / 2));
   const lo = task.word_range?.[0] ?? task.min_words;
   const hi = task.word_range?.[1] ?? task.max_words ?? lo;
   if (!lo) return null;
@@ -365,7 +375,8 @@ function useBlock({ minutes, level, goals, last, scenario, writingTask, today = 
     if (kinds.includes('writing') && today.writingTask) return writing(goalOf('writing'), today.writingTask, true);
     if (kinds.includes('reading') && today.reading) return byKind.reading(goalOf('reading'));
     // Rotate between the goal's kinds: the one practised least recently comes first.
-    const kind = [...kinds].sort((a, b) => (last[a] || '').localeCompare(last[b] || ''))[0];
+    // ISO timestamps order as plain strings; localeCompare would build an ICU collator for this one sort.
+    const kind = [...kinds].sort((a, b) => { const x = last[a] || ''; const y = last[b] || ''; return x < y ? -1 : x > y ? 1 : 0; })[0];
     return byKind[kind](goalOf(kind));
   }
   const speakDue = !last.speaking || (last.writing && last.speaking < last.writing);
@@ -523,11 +534,19 @@ export const WRITING_EVENTS = ['writing', 'writing-final', 'writing-self-rating'
 // extraSeconds: active time in the session that is still open (sessions are logged when they end).
 export function periodReport({ attempts = [], cards = [], progress = [], events = [], now = Date.now(), days = 7, extraSeconds = 0 }) {
   const since = now - days * DAY;
-  const inP = (iso) => iso && new Date(iso).getTime() >= since && new Date(iso).getTime() <= now;
   const prevSince = since - days * DAY;
-  const inPrev = (iso) => iso && new Date(iso).getTime() >= prevSince && new Date(iso).getTime() < since;
-  const att = attempts.filter((a) => inP(a.at) && a.source !== 'placement');
-  const prevAtt = attempts.filter((a) => inPrev(a.at) && a.source !== 'placement');
+  // The bounds as ISO strings, once: a canonical timestamp (util.isCanonicalIso) compares with them as a string,
+  // any other value as a Date, exactly as before. Only for whole-millisecond bounds that are canonical themselves.
+  const isoOf = (t) => { if (!Number.isInteger(t)) return null; const d = new Date(t); if (Number.isNaN(d.getTime())) return null; const x = d.toISOString(); return isCanonicalIso(x) ? x : null; };
+  const [nowIso, sinceIso, prevIso] = [isoOf(now), isoOf(since), isoOf(prevSince)];
+  const strings = Boolean(nowIso && sinceIso && prevIso);
+  const inP = (iso) => iso && (strings && isCanonicalIso(iso) ? iso >= sinceIso && iso <= nowIso : new Date(iso).getTime() >= since && new Date(iso).getTime() <= now);
+  const inPrev = (iso) => iso && (strings && isCanonicalIso(iso) ? iso >= prevIso && iso < sinceIso : new Date(iso).getTime() >= prevSince && new Date(iso).getTime() < since);
+  const before0 = (iso) => (strings && isCanonicalIso(iso) ? iso < sinceIso : new Date(iso).getTime() < since);
+  // Sorted once (byTime is a stable sort, so a filtered sorted list is the sorted filtered list).
+  const sorted = byTime(attempts);
+  const att = sorted.filter((a) => inP(a.at) && a.source !== 'placement');
+  const prevAtt = sorted.filter((a) => inPrev(a.at) && a.source !== 'placement');
   // Accuracy is first-try accuracy: retries and same-day redos are left out (firstTries), and so is essay
   // feedback, where each mistake the AI found is a record of its own, not a wrong answer.
   const acc = (all) => { const list = firstTries(byTime(all)).filter((a) => a.score !== null && !essayFeedback(a)); return list.length ? list.reduce((s, a) => s + (a.score ?? (a.correct ? 1 : 0)), 0) / list.length : null; };
@@ -535,8 +554,8 @@ export function periodReport({ attempts = [], cards = [], progress = [], events 
   // Retention = share of due reviews answered correctly (what the scheduler is meant to keep near the target).
   const probes = attempts.filter((a) => a.probe && inP(a.at));
   const minutes = Math.round((events.filter((e) => e.type === 'session' && inP(e.at)).reduce((s, e) => s + (e.seconds || 0), 0) + Math.max(0, extraSeconds)) / 60);
-  const before = topicMastery(attempts.filter((a) => new Date(a.at).getTime() < since), since);
-  const after = topicMastery(attempts, now);
+  const before = masteryOfSorted(sorted.filter((a) => before0(a.at)), since);
+  const after = masteryOfSorted(sorted, now);
   const improved = [...after.values()].filter((m) => m.evidence >= 3 && before.has(m.topic) && m.mastery - before.get(m.topic).mastery >= 0.1)
     .map((m) => ({ topic: m.topic, from: before.get(m.topic).mastery, to: m.mastery }));
   return {

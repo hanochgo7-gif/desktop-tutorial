@@ -2,7 +2,7 @@
 // review) that opens to the same entry furniture each time (IPA, part of speech, Hebrew, definition, example,
 // collocations, level) and its review status from the scheduler: New (never reviewed), Learning (memory stable for
 // under 21 days), Known (21+).
-import { html, render, on, $, $$ } from '../core/util.js';
+import { html, render, on, $, $$, collatorEn, relTime } from '../core/util.js';
 import { tt, t, uiLang, isolateLatin } from '../core/i18n.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { allCards, due, settings, model } from '../core/learner.js';
@@ -24,11 +24,11 @@ export function wordStatus(card) {
   return (f.stability || 0) >= KNOWN_DAYS ? 'known' : 'learning';
 }
 
-// "in 3 days" / "בעוד 3 ימים"; null when the date has passed (the word is due now).
-export function relativeDue(iso, now = new Date()) {
+// "in 3 days" / "בעוד 3 ימים"; null when the date has passed (the word is due now). The formatter is the shared
+// one for the UI language (util.relTime), not one per row; rtf lets a test pass its own.
+export function relativeDue(iso, now = new Date(), rtf = relTime(uiLang() === 'he' ? 'he' : 'en')) {
   const ms = new Date(iso) - now;
   if (!(ms > 0)) return null;
-  const rtf = new Intl.RelativeTimeFormat(uiLang() === 'he' ? 'he' : 'en', { numeric: 'auto' });
   // Some browsers' Hebrew data write "בעוד דקה (1)"; the number in brackets repeats the word.
   const fmt = (n, unit) => rtf.format(n, unit).replace(/\s*\(\d+\)$/, '');
   const hours = ms / 3_600_000;
@@ -45,6 +45,9 @@ const STATUS = {
   learning: { cls: 'half', he: 'בלמידה', en: 'Learning' },
   known: { cls: 'done', he: 'ידועה', en: 'Known' },
 };
+
+// a.p.word.localeCompare(b.p.word, 'en', { sensitivity: 'base' }) with one shared collator, not one per comparison.
+export const byWord = (a, b) => collatorEn().compare(a.p.word, b.p.word);
 
 export default async function vocab(el, ctx) {
   ctx.setTitle(t('nav.vocab'));
@@ -71,7 +74,7 @@ export default async function vocab(el, ctx) {
       const p = { word: c.ref?.word || '', ...(c.payload || {}) };
       const d = nextDue.get(wordKey(c.id)) || c.fsrs?.due;
       return { id: c.id, p, level: cardLevel(c), status: wordStatus(c), due: d, isDue: !d || new Date(d) <= now };
-    }).filter((w) => w.p.word).sort((a, b) => a.p.word.localeCompare(b.p.word, 'en', { sensitivity: 'base' }));
+    }).filter((w) => w.p.word).sort(byWord);
     return { dueCount: due(now).length, now };
   }
 

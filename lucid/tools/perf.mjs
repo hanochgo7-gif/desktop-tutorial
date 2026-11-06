@@ -5,24 +5,52 @@
 // Usage (from lucid/):
 //   node tools/perf.mjs [--profiles mobile,desktop] [--runs 3] [--scenarios a,b,c,d,e,f] [--routes r1,r2]
 //                       [--out result.json] [--md result.md] [--compare docs/perf/baseline.json] [--port 9300]
-//   node tools/perf.mjs --serve [--net mobile|none] [--port 9300]     serve only (prints the URL and Chrome flag)
+//                       [--learner light|heavy] [--http-maxage N] [--etag-epoch] [--net offline|lie-fi]
+//   node tools/perf.mjs --serve [--net mobile|none|offline|lie-fi] [--http-maxage N] [--port 9300]
+//                                                                     serve only (prints the URL and Chrome flag)
+//
+// Learner and returning-visit options (the defaults reproduce docs/perf/baseline.json):
+//   --learner light   (default) an onboarded A1 learner with no history, as in the baseline
+//   --learner heavy   about six months of daily use (tools/perf/seed-heavy.mjs: 180 days, 32 lessons, about 5.3k
+//                     attempts, 1.2k events and 700 cards; deterministic, history relative to today). Scenario d
+//                     then also opens #/vocab and #/review.
+//   --http-maxage N   Cache-Control max-age the server sends (default 600, as GitHub Pages). 0 models a learner who
+//                     comes back more than 10 minutes later: every HTTP-cache entry is stale.
+//   --etag-epoch      every warm (returning) load sees new ETags and Last-Modified dates on every file, as after a
+//                     push to main (Pages re-stamps every file on each deploy)
+//   --net offline     warm (returning) loads run with the browser offline and the server refusing connections
+//   --net lie-fi      warm (returning) loads: the server holds every response for 15 s
+// Warm loads are the second load of each route in b and c and the returning half of d; cold loads never use these.
 //
 // Scenarios (every one is run --runs times; tables show the median):
 //   a  cold first visit of #/welcome: empty cache, no service worker
 //   b  cold #/today for an onboarded A1 learner (storage kept, HTTP cache and service worker cleared), then warm
 //   c  cold and warm (HTTP cache fresh and service worker active) opens of the main routes
 //   d  in-app transitions from Today to each route: right after a cold Today ("first session", while the service
-//      worker installs) and after a warm Today ("returning")
+//      worker installs) and after a warm Today ("returning"), and each route back to Today. The routes run in one
+//      page in list order, so a route that reuses data an earlier one loaded is measured warm: on the base code
+//      #/reading, #/checkpoint/A1 and #/drill all load every lesson, so the default order (reading first) keeps
+//      reading comparable with the baseline, and a first-session checkpoint or drill needs its own run
+//      (--routes checkpoint/A1).
 //   e  interaction latency: lesson Check -> verdict, essay typing (300 words), word quiz answer -> verdict and
 //      Next -> next question, memory card flip
 //   f  service worker install: what it precaches on the first visit, when, and the first view with the worker
 //      blocked for comparison
+//   g  returning learner (worker installed yesterday, lesson a1-01 saved): #/today and #/lesson/a1-01 in five
+//      states: fresh (HTTP cache fresh), stale (max-age 0), after-push (stale and every ETag changed), offline,
+//      lie-fi (every response held 15 s)
+//   u  a release that changes only sw.js (its RELEASE line), deployed while the learner is away (stale cache, new
+//      ETags): the returning #/today, Today -> lesson/a1-01 while the new worker installs, what the new worker
+//      downloads, the saved lessons before (every Lucid cache) and after (in the new release's cache), the next
+//      #/today, and whether a page ran modules from two
+//      releases (JS loaded both before and after a controllerchange in the same document)
+//   Not in the default list: g and u run only when named in --scenarios.
 //
 // Metrics: view = the route's main content visible and painted (ms from navigation start; for #/welcome its h1);
 // FCP, LCP; TBT = sum of (long task - 50 ms) after FCP until the page settles; CLS = largest session window;
 // reqs/KB from Resource Timing (gzKB = encoded body bytes, rawKB = decoded); netKB = bytes the server actually
 // sent (page and service worker); script = Chrome's ScriptDuration. Interactions: ms = input event to the result
-// painted; inp = largest Event Timing duration of the interaction (0 = under 16 ms, the API's floor). Essay:
+// painted; longest = the longest task in the transition; inp = largest Event Timing duration of the interaction (0 = under 16 ms, the API's floor). Essay:
 // keydown -> next frame painted per keystroke (median/p95/max), msPerKey = how long each key's dispatch took
 // beyond the 25 ms gap between keys, slowEvents = key/input events over 50 ms. Sanity: swServed (JSON only) is
 // the number of resources a service worker answered, 0 on every cold load.
@@ -53,6 +81,7 @@ import { join, extname, dirname, resolve, normalize } from 'node:path';
 import { tmpdir, cpus } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { performance } from 'node:perf_hooks';
+import { seedHeavy } from './perf/seed-heavy.mjs';
 
 const APP = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MOUNT = '/desktop-tutorial/lucid/';
@@ -69,7 +98,15 @@ const OUT = arg('out');
 const MD = arg('md');
 const COMPARE = arg('compare');
 const QUIET = flag('quiet');
-const ROUTES = (arg('routes') || 'lesson/a1-01,real-life,scenario/FIRST,writing,writing/final-B2,games,expressions,reading,progress').split(',');
+const ROUTES_ARG = arg('routes');
+const ROUTES = (ROUTES_ARG || 'lesson/a1-01,real-life,scenario/FIRST,writing,writing/final-B2,games,expressions,reading,progress,checkpoint/A1,drill?topic=A1TOPIC').split(',');
+const LEARNER = arg('learner', 'light');
+if (!['light', 'heavy'].includes(LEARNER)) throw new Error(`--learner light|heavy, not ${LEARNER}`);
+const HTTP_MAXAGE = arg('http-maxage') == null ? 600 : Math.max(0, Number(arg('http-maxage')));
+const ETAG_EPOCH = flag('etag-epoch');
+const NET_ARG = arg('net');
+const WARM_NET = ['offline', 'lie-fi'].includes(NET_ARG) ? NET_ARG : null;
+const LIEFI_MS = 15_000;
 
 const PROFILES = {
   mobile: {
@@ -94,6 +131,11 @@ const VIEW = {
   expressions: '#view .entry',
   reading: '#view .lesson-row',
   progress: '#rep-h',
+  'checkpoint/': '[data-begin]',
+  // The drill's first screen, shown once its exercises are built (pool.drillSet), before "Start".
+  drill: '[data-drill-primer]',
+  vocab: '#view h1',
+  review: '#view .player-body, #view .review-empty',
 };
 
 const log = (...a) => { if (!QUIET) console.log(...a); };
@@ -114,6 +156,10 @@ const GZIP = /^(text\/|application\/(javascript|json|manifest\+json)|image\/svg)
 function createServer() {
   const files = new Map(); // path -> { raw, gz, etag, mtime, type }
   let net = null;
+  // maxAge: the Cache-Control max-age; epoch: a new ETag and Last-Modified on every file per epoch (a push to main);
+  // mode: 'ok', 'down' (connections refused) or 'hang' (every response held hangMs); transform(rel, file): a
+  // replacement file (scenario u's new sw.js) or null.
+  const knobs = { maxAge: 600, epoch: 0, mode: 'ok', hangMs: LIEFI_MS, transform: null };
   let entries = [];
   let inflight = 0;
   const sessions = new WeakSet();
@@ -123,6 +169,7 @@ function createServer() {
   const queue = [];
   let timer = null; let last = 0;
   function tick() {
+    if (!net) { for (const q of queue.splice(0)) { try { q.res.end(q.buf.subarray(q.off)); } catch { /* closed */ } q.done(); } clearInterval(timer); timer = null; return; }
     const t = performance.now();
     let budget = ((t - last) * net.down) / 1000;
     last = t;
@@ -162,13 +209,15 @@ function createServer() {
     if (net && session && !sessions.has(session)) { sessions.add(session); delay += 2 * net.rtt; }
     if (net && !session && req.socket && !req.socket.__seen) { req.socket.__seen = true; delay += net.rtt; }
     const h = req.headers;
-    const entry = { at: arrived, path: '', status: 0, wire: 0, raw: 0, end: 0, noCache: /no-cache/.test(h['cache-control'] || '') || /no-cache/.test(h.pragma || ''), dest: h['sec-fetch-dest'] || '', sw: h['service-worker'] === 'script' };
+    const entry = { at: arrived, path: '', status: 0, wire: 0, raw: 0, end: 0, noCache: /no-cache|max-age=0/.test(h['cache-control'] || '') || /no-cache/.test(h.pragma || ''), dest: h['sec-fetch-dest'] || '', sw: h['service-worker'] === 'script' };
     entries.push(entry);
     inflight++;
     const finish = () => { entry.end = now(); inflight--; };
     let url;
     try { url = new URL(req.url, 'https://localhost'); } catch { res.writeHead(400); res.end(); finish(); return; }
     entry.path = url.pathname;
+    if (knobs.mode === 'down') { entry.status = -1; try { if (req.stream) req.stream.close(http2.constants.NGHTTP2_REFUSED_STREAM); else req.socket.destroy(); } catch { /* gone */ } finish(); return; }
+    if (knobs.mode === 'hang') delay += knobs.hangMs;
     if (delay) await sleep(delay);
     if (url.pathname === '/' || url.pathname === MOUNT.slice(0, -1)) { entry.status = 301; res.writeHead(301, { location: MOUNT }); res.end(); finish(); return; }
     if (!url.pathname.startsWith(MOUNT)) { entry.status = 404; res.writeHead(404, { 'content-type': 'text/plain' }); res.end('not found'); finish(); return; }
@@ -179,8 +228,11 @@ function createServer() {
     try { if (statSync(path).isDirectory()) { if (!url.pathname.endsWith('/')) { entry.status = 301; res.writeHead(301, { location: `${url.pathname}/` }); res.end(); finish(); return; } path = join(path, 'index.html'); } } catch { /* 404 below */ }
     let f;
     try { f = load(path); } catch { entry.status = 404; res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' }); send(res, Buffer.from('<h1>404</h1>'), finish); return; }
-    const headers = { 'content-type': f.type, 'cache-control': 'max-age=600', etag: f.etag, 'last-modified': f.lastModified, 'access-control-allow-origin': '*', vary: 'Accept-Encoding', expires: new Date(Date.now() + 600_000).toUTCString() };
-    if (h['if-none-match'] === f.etag) { entry.status = 304; res.writeHead(304, headers); res.end(); finish(); return; }
+    if (knobs.transform) { const t = knobs.transform(rel, f); if (t) f = t; }
+    const etag = knobs.epoch ? `"${f.etag.slice(1, -1)}-e${knobs.epoch}"` : f.etag;
+    const lastModified = knobs.epoch ? new Date(f.mtime + knobs.epoch * 60_000).toUTCString() : f.lastModified;
+    const headers = { 'content-type': f.type, 'cache-control': `max-age=${knobs.maxAge}`, etag, 'last-modified': lastModified, 'access-control-allow-origin': '*', vary: 'Accept-Encoding', expires: new Date(Date.now() + knobs.maxAge * 1000).toUTCString() };
+    if (h['if-none-match'] === etag) { entry.status = 304; res.writeHead(304, headers); res.end(); finish(); return; }
     const gz = f.gz && /\bgzip\b/.test(h['accept-encoding'] || '');
     const body = gz ? f.gz : f.raw;
     if (gz) headers['content-encoding'] = 'gzip';
@@ -192,6 +244,7 @@ function createServer() {
   }
 
   return {
+    knobs,
     setNet(n) { net = n; },
     resetLog() { entries = []; },
     log() { return entries.slice(); },
@@ -247,17 +300,21 @@ function instrument({ VIEW }) {
   po('resource', (e) => { P.lastResource = Math.max(P.lastResource, e.responseEnd); });
   try { navigator.serviceWorker?.addEventListener('controllerchange', () => { P.ctrlAt = performance.now(); }); } catch { /* none */ }
   const visible = (el) => el && el.getClientRects().length > 0 && !el.closest('[hidden]');
-  const afterPaint = () => new Promise((r) => requestAnimationFrame(() => { const c = new MessageChannel(); c.port1.onmessage = () => r(performance.now()); c.port2.postMessage(0); }));
-  // Resolves with the time of the first paint after pred() holds (null after the timeout).
+  // The time once the frame being produced has been painted: a message posted from a requestAnimationFrame callback
+  // is delivered after that frame's rendering steps.
+  const afterThisFrame = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(performance.now()); c.port2.postMessage(0); });
+  // Resolves with the time of the first paint after pred() holds (null after the timeout). pred() is checked only
+  // in requestAnimationFrame callbacks, where the browser computes layout for the frame anyway: checking it on every
+  // DOM mutation (as before) forced 25-44 ms of extra layout per transition in the middle of the app's rendering.
+  // A frame's rAF callbacks run before its paint, so the paint time is the same frame's as with a mutation check.
   P.until = (pred, timeout = 60_000) => new Promise((resolve) => {
     let done = false;
-    const mo = new MutationObserver(() => check());
-    const stop = (v) => { if (done) return; done = true; mo.disconnect(); clearTimeout(to); resolve(v); };
-    const check = () => { if (!done && pred()) { done = true; mo.disconnect(); clearTimeout(to); afterPaint().then(resolve); } };
-    const loop = () => { if (done) return; check(); if (!done) requestAnimationFrame(loop); };
-    const to = setTimeout(() => stop(null), timeout);
-    mo.observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'disabled'] });
-    check(); requestAnimationFrame(loop);
+    const to = setTimeout(() => { if (!done) { done = true; resolve(null); } }, timeout);
+    const loop = () => {
+      if (done) return;
+      if (pred()) { done = true; clearTimeout(to); afterThisFrame().then(resolve); } else requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
   });
   // An element matching sel that did not match when this was called.
   P.untilNew = (sel, timeout) => { const before = new Set(document.querySelectorAll(sel)); return P.until(() => [...document.querySelectorAll(sel)].some((el) => !before.has(el) && visible(el)), timeout); };
@@ -333,12 +390,23 @@ async function openPage(ctx, P) {
   if (P.cpu > 1) await cdp.send('Emulation.setCPUThrottlingRate', { rate: P.cpu });
   return { page, cdp };
 }
-// An onboarded A1 learner, made through the app's own modules (as the e2e suites do), unthrottled.
+// An onboarded A1 learner, made through the app's own modules (as the e2e suites do), unthrottled. With
+// --learner heavy, six months of history on top (tools/perf/seed-heavy.mjs).
+let seedInfo = null;
 async function seed(env, ctx, level = 'A1') {
   env.server.setNet(null);
   const page = await ctx.newPage();
   await page.goto(`${env.base}#/welcome`);
   await page.waitForSelector('.welcome');
+  if (LEARNER === 'heavy') {
+    await page.waitForFunction(() => Boolean(window.lucid?.store), null, { timeout: 60_000 });
+    seedInfo = await page.evaluate(seedHeavy, {});
+    await page.waitForTimeout(400);
+    await page.evaluate(() => window.lucid?.store?.flush?.()).catch(() => {});
+    await page.close();
+    await env.server.idle(300, 30_000);
+    return;
+  }
   await page.evaluate(async (lv) => {
     const L = await import('./js/core/learner.js');
     const P = await import('./js/core/placement.js');
@@ -359,6 +427,18 @@ async function coldReset(env, ctx) {
   await cdp.send('Network.clearBrowserCache');
   await page.close();
   env.server.dropConnections();
+}
+// The state of a warm (returning) load: --etag-epoch moves every file to new ETags first, and --net offline|lie-fi
+// takes the network away or holds every response. Returns the function that restores the network.
+async function warmState(env, ctx) {
+  if (ETAG_EPOCH) env.server.knobs.epoch++;
+  if (WARM_NET === 'offline') { await ctx.setOffline(true); env.server.knobs.mode = 'down'; }
+  if (WARM_NET === 'lie-fi') env.server.knobs.mode = 'hang';
+  return async () => { env.server.knobs.mode = 'ok'; if (WARM_NET === 'offline') await ctx.setOffline(false); };
+}
+async function warmLoad(env, ctx, P, url) {
+  const restore = await warmState(env, ctx);
+  try { return await measureLoad(env, ctx, P, url); } finally { await restore(); }
 }
 async function waitForWorker(page, max = 120_000) {
   return page.evaluate((max) => new Promise((r) => {
@@ -436,7 +516,7 @@ async function scenarioBC(env, browser, P, add, routes, { b, c }) {
       await env.server.idle(500);
       if (route === 'today') add('f', 'SW precache on the first visit (#/today)', swInstall(env, cold.m, await cold.page.evaluate(() => ({ ctrlAt: window.__perf.ctrlAt }))));
       await cold.page.close();
-      const warm = await measureLoad(env, ctx, P, routeUrl(env, route));
+      const warm = await warmLoad(env, ctx, P, routeUrl(env, route));
       add(s, `warm #/${route}`, { ...pick(warm.m), controlled: warm.m.controlled ? 1 : 0 });
       log(`  ${s} run ${r + 1} ${route}: cold view ${round(cold.m.view)} lcp ${round(cold.m.lcp)} tbt ${round(cold.m.tbt)} gz ${round(cold.m.gzKB)}KB | warm view ${round(warm.m.view)} tbt ${round(warm.m.tbt)}`);
       await warm.page.close();
@@ -462,12 +542,25 @@ async function transition(page, route) {
     const t = await wait;
     const lts = P.longtasks.slice(lt0);
     const res = performance.getEntriesByType('resource').slice(r0);
-    return { ms: t == null ? null : t - t0, longTasks: lts.length, tbt: lts.reduce((s, [, d]) => s + Math.max(0, d - 50), 0), reqs: res.length, gzKB: res.reduce((s, e) => s + e.encodedBodySize, 0) / 1024, linked: !tmp };
+    return { ms: t == null ? null : t - t0, longTasks: lts.length, longest: lts.reduce((s, [, d]) => Math.max(s, d), 0), tbt: lts.reduce((s, [, d]) => s + Math.max(0, d - 50), 0), reqs: res.length, gzKB: res.reduce((s, e) => s + e.encodedBodySize, 0) / 1024, linked: !tmp };
   }, route);
 }
+// Back to Today (the hash changes, as the tab bar's Today link does) and waits for the plan; returns the same
+// measures as transition().
 async function backToToday(page) {
-  await page.evaluate(async () => { const w = window.__perf.untilNew(window.__perf.selFor('#/today'), 30_000); location.hash = '#/today'; await w; });
+  const m = await page.evaluate(async () => {
+    const P = window.__perf;
+    const lt0 = P.longtasks.length; const r0 = performance.getEntriesByType('resource').length;
+    const w = P.untilNew(P.selFor('#/today'), 30_000);
+    const t0 = performance.now();
+    location.hash = '#/today';
+    const t = await w;
+    const lts = P.longtasks.slice(lt0);
+    const res = performance.getEntriesByType('resource').slice(r0);
+    return { ms: t == null ? null : t - t0, longTasks: lts.length, longest: lts.reduce((s, [, d]) => Math.max(s, d), 0), tbt: lts.reduce((s, [, d]) => s + Math.max(0, d - 50), 0), reqs: res.length, gzKB: res.reduce((s, e) => s + e.encodedBodySize, 0) / 1024 };
+  });
   await page.evaluate(() => window.__perf.settle(500, 8000));
+  return m;
 }
 async function scenarioD(env, browser, P, add, routes) {
   for (let r = 0; r < RUNS; r++) {
@@ -478,20 +571,24 @@ async function scenarioD(env, browser, P, add, routes) {
     for (const route of routes) {
       const m = await transition(first.page, route);
       add('d', `Today -> #/${route} (first session)`, m);
-      await backToToday(first.page);
+      add('d', `#/${route} -> Today (first session)`, await backToToday(first.page));
     }
     await waitForWorker(first.page);
     await env.server.idle(500);
     await first.page.close();
+    // The returning half runs in the warm state (--etag-epoch, --net), transitions included.
+    const restore = await warmState(env, ctx);
     const warm = await measureLoad(env, ctx, P, routeUrl(env, 'today'));
     const out = [];
     for (const route of routes) {
       const m = await transition(warm.page, route);
       add('d', `Today -> #/${route} (returning)`, m);
-      out.push(`${route.split('/')[0]} ${round(m.ms)}`);
-      await backToToday(warm.page);
+      const back = await backToToday(warm.page);
+      add('d', `#/${route} -> Today (returning)`, back);
+      out.push(`${route.split(/[/?]/)[0]} ${round(m.ms)}/${round(back.ms)}`);
     }
-    log(`  d run ${r + 1} returning: ${out.join(', ')}`);
+    await restore();
+    log(`  d run ${r + 1} returning (to/back): ${out.join(', ')}`);
     await ctx.close();
   }
 }
@@ -638,16 +735,144 @@ async function scenarioF(env, browser, P, add) {
   }
 }
 
+// ---------- returning learners and releases (g, u) ----------
+// The learner used the app yesterday: the worker is installed (unthrottled) and the given lessons were opened, so
+// the worker cached them as saved lessons.
+async function installWorker(env, ctx, lessons = ['a1-01']) {
+  env.server.setNet(null);
+  const pg = await ctx.newPage();
+  await pg.goto(routeUrl(env, 'today'));
+  await waitForWorker(pg);
+  await env.server.idle(500, 60_000);
+  for (const l of lessons) { await pg.goto(routeUrl(env, `lesson/${l}`)); await pg.waitForSelector('.lesson-intro', { timeout: 60_000 }); await env.server.idle(400, 30_000); }
+  await pg.close();
+  env.server.dropConnections();
+}
+// The lesson files in Lucid's caches (only in the caches whose name contains `only`, when given), and the cache names.
+const cachedLessons = (page, only = null) => page.evaluate(async (only) => {
+  const out = new Set();
+  const names = (await caches.keys()).filter((x) => x.startsWith('lucid-'));
+  for (const k of names.filter((x) => !only || x.includes(only))) for (const r of await (await caches.open(k)).keys()) if (/content\/lessons\//.test(r.url)) out.add(r.url.replace(/^.*lessons\//, ''));
+  return { lessons: out.size, caches: names.join(',') };
+}, only);
+// A load measured with what the server sent for it: requests, 304s and bytes.
+async function measureServed(env, ctx, P, route) {
+  const { page, m } = await measureLoad(env, ctx, P, routeUrl(env, route));
+  const net = env.server.log();
+  return { page, m, row: { ...pick(m), n304: net.filter((e) => e.status === 304).length, n200: net.filter((e) => e.status === 200).length } };
+}
+const resetKnobs = (env) => Object.assign(env.server.knobs, { maxAge: HTTP_MAXAGE, epoch: 0, mode: 'ok', transform: null });
+
+const G_STATES = ['fresh', 'stale', 'after-push', 'offline', 'lie-fi'];
+async function scenarioG(env, browser, P, add) {
+  for (let r = 0; r < RUNS; r++) {
+    for (const state of G_STATES) {
+      resetKnobs(env);
+      // Yesterday's HTTP-cache entries are stale in every state but fresh.
+      env.server.knobs.maxAge = state === 'fresh' ? 600 : 0;
+      const ctx = await newContext(browser, P);
+      await seed(env, ctx);
+      await installWorker(env, ctx);
+      if (state === 'after-push') env.server.knobs.epoch++;
+      if (state === 'offline') { await ctx.setOffline(true); env.server.knobs.mode = 'down'; }
+      if (state === 'lie-fi') env.server.knobs.mode = 'hang';
+      const out = [];
+      for (const route of ['today', 'lesson/a1-01']) {
+        const res = await measureServed(env, ctx, P, route);
+        add('g', `${state}: #/${route}`, res.row, r === 0 ? { resources: res.m.resources } : null);
+        out.push(`${route} view ${round(res.m.view)} net ${res.m.netReqs}/${res.row.n304}x304/${round(res.m.netKB)}KB`);
+        await res.page.close();
+      }
+      log(`  g run ${r + 1} ${state}: ${out.join(' | ')}`);
+      resetKnobs(env);
+      await ctx.setOffline(false).catch(() => {});
+      await ctx.close();
+      await env.server.idle(300, 20_000);
+    }
+  }
+}
+
+// Which release the modules of a page came from: JS loaded before and after the page saw a controllerchange (the
+// new worker taking over). mixed = 1 when one document ran modules from both.
+const moduleReleases = (page) => page.evaluate(() => {
+  const at = window.__perf.ctrlAt;
+  const js = performance.getEntriesByType('resource').filter((e) => /\.m?js(\?|$)/.test(new URL(e.name).pathname));
+  const before = at == null ? js.length : js.filter((e) => e.startTime < at).length;
+  const after = js.length - before;
+  return { jsOld: before, jsNew: after, mixed: before > 0 && after > 0 ? 1 : 0 };
+});
+async function scenarioU(env, browser, P, add) {
+  for (let r = 0; r < RUNS; r++) {
+    resetKnobs(env);
+    env.server.knobs.maxAge = 0;
+    const ctx = await newContext(browser, P);
+    await seed(env, ctx);
+    await installWorker(env, ctx, ['a1-01', 'a1-02', 'a1-03']);
+    const before = await (async () => { const p = await ctx.newPage(); await p.goto(routeUrl(env, 'progress')); const c = await cachedLessons(p); await p.close(); return c; })();
+    env.server.dropConnections();
+    // The deploy: only sw.js changes (a new RELEASE line), and Pages gives every file a new ETag.
+    const stamp = `perf-u-${r + 1}`;
+    const releaseOf = (text) => (text.match(/const RELEASE = '([^']+)'/) || [])[1] || null;
+    const oldRelease = releaseOf(readFileSync(join(APP, 'sw.js'), 'utf8'));
+    env.server.knobs.epoch++;
+    env.server.knobs.transform = (rel, f) => {
+      if (rel !== 'sw.js') return null;
+      const text = f.raw.toString();
+      const raw = Buffer.from(/const RELEASE = '[^']+'/.test(text) ? text.replace(/const RELEASE = '[^']+'/, `const RELEASE = '${stamp}'`) : `${text}\n// ${stamp}\n`);
+      return { ...f, raw, gz: zlib.gzipSync(raw, { level: 6 }), etag: `"${stamp}"` };
+    };
+    const t = await measureServed(env, ctx, P, 'today');
+    const tr = await transition(t.page, 'lesson/a1-01');
+    // Waits until the new worker has installed (its cache exists and nothing is installing) and has either activated
+    // or is waiting for the tabs to close (a worker that does not skip waiting); at most 90 s.
+    const done = await t.page.evaluate((stamp) => new Promise((res) => {
+      const t0 = performance.now();
+      const poll = async () => {
+        const k = (await caches.keys()).filter((x) => x.startsWith('lucid-'));
+        const reg = await navigator.serviceWorker.getRegistration();
+        const settled = reg && !reg.installing && (reg.waiting || reg.active?.state === 'activated');
+        if ((k.some((x) => x.includes(stamp)) && settled) || performance.now() - t0 > 90_000) res({ at: performance.now(), keys: k.join(','), waiting: Boolean(reg?.waiting) });
+        else setTimeout(poll, 200);
+      };
+      poll();
+    }), stamp);
+    await env.server.idle(500, 60_000);
+    const pre = env.server.log().filter((e) => e.noCache && e.dest !== 'document' && !e.sw);
+    const all = env.server.log().filter((e) => e.dest !== 'document');
+    // The saved lessons the new release kept: the lesson files in its own cache.
+    const after = await cachedLessons(t.page, stamp);
+    const mods = await moduleReleases(t.page);
+    await t.page.close();
+    const again = await measureServed(env, ctx, P, 'today');
+    const mods2 = await moduleReleases(again.page);
+    await again.page.close();
+    add('u', 'new release: what it downloads', { reqs: pre.length, wireKB: pre.reduce((a, e) => a + e.wire, 0) / 1024, allReqs: all.length, allKB: all.reduce((a, e) => a + e.wire, 0) / 1024, doneMs: done.at, lessonsBefore: before.lessons, lessonsAfter: after.lessons });
+    add('u', 'new release: #/today (returning, after the deploy)', { ...t.row, ...mods });
+    add('u', 'new release: Today -> lesson/a1-01 while installing', tr);
+    add('u', 'new release: #/today, next visit', { ...again.row, ...mods2 });
+    log(`  u run ${r + 1}: today ${round(t.m.view)} -> lesson ${round(tr.ms)} | precache ${pre.length} reqs ${round(pre.reduce((a, e) => a + e.wire, 0) / 1024)}KB done ${round(done.at)} (${done.keys}; was ${oldRelease}) | lessons ${before.lessons} -> ${after.lessons} | mixed ${mods.mixed}/${mods2.mixed} | next ${round(again.m.view)}`);
+    resetKnobs(env);
+    await ctx.close();
+  }
+}
+
 // ---------- results and tables ----------
 const COLUMNS = {
   load: [['view', 0], ['fcp', 0], ['lcp', 0], ['tbt', 0], ['cls', 3], ['reqs', 0], ['gzKB', 0], ['rawKB', 0], ['netKB', 0], ['longTasks', 0], ['script', 0]],
-  d: [['ms', 0], ['longTasks', 0], ['tbt', 0], ['reqs', 0], ['gzKB', 0]],
+  d: [['ms', 0], ['longTasks', 0], ['longest', 0], ['tbt', 0], ['reqs', 0], ['gzKB', 0]],
   e: [['ms', 0], ['inp', 0], ['longTasks', 0], ['tbt', 0]],
   essay: [['median', 0], ['p95', 0], ['max', 0], ['msPerKey', 1], ['longTasks', 0], ['tbt', 0], ['longest', 0], ['slowEvents', 0], ['inp', 0]],
   sw: [['reqs', 0], ['wireKB', 0], ['rawKB', 0], ['startMs', 0], ['endMs', 0], ['activatedMs', 0], ['view', 0], ['overlapReqs', 0]],
+  g: [['view', 0], ['fcp', 0], ['cls', 3], ['netReqs', 0], ['n304', 0], ['netKB', 0], ['swServed', 0], ['reqs', 0], ['longTasks', 0], ['script', 0]],
+  uLoad: [['view', 0], ['fcp', 0], ['netReqs', 0], ['n304', 0], ['netKB', 0], ['swServed', 0], ['jsOld', 0], ['jsNew', 0], ['mixed', 0]],
+  uNet: [['reqs', 0], ['wireKB', 0], ['allReqs', 0], ['allKB', 0], ['doneMs', 0], ['lessonsBefore', 0], ['lessonsAfter', 0]],
 };
-const columnsOf = (row) => (row.scenario === 'd' ? COLUMNS.d : row.scenario === 'e' ? (row.name.startsWith('essay') ? COLUMNS.essay : COLUMNS.e) : row.name.startsWith('SW precache') ? COLUMNS.sw : COLUMNS.load);
-const TITLES = { a: 'a. Cold first visit', b: 'b. Today for an onboarded A1 learner', c: 'c. Routes, cold and warm', d: 'd. In-app transitions from Today (click -> content painted)', e: 'e. Interactions (input -> result painted)', f: 'f. Service worker install' };
+const columnsOf = (row) => {
+  if (row.scenario === 'g') return COLUMNS.g;
+  if (row.scenario === 'u') return /downloads/.test(row.name) ? COLUMNS.uNet : /->/.test(row.name) ? COLUMNS.d : COLUMNS.uLoad;
+  return row.scenario === 'd' ? COLUMNS.d : row.scenario === 'e' ? (row.name.startsWith('essay') ? COLUMNS.essay : COLUMNS.e) : row.name.startsWith('SW precache') ? COLUMNS.sw : COLUMNS.load;
+};
+const TITLES = { a: 'a. Cold first visit', b: 'b. Today for an onboarded A1 learner', c: 'c. Routes, cold and warm', d: 'd. In-app transitions from Today (click -> content painted)', e: 'e. Interactions (input -> result painted)', f: 'f. Service worker install', g: 'g. Returning learner: #/today and a saved lesson by network state', u: 'u. A new release (only sw.js changed) while the learner is away' };
 
 function summarise(rows) {
   for (const row of rows) {
@@ -663,7 +888,7 @@ function tables(result, { markdown = false, compare = null } = {}) {
   const fmt = (v, d) => (v == null ? '-' : d ? v.toFixed(d) : String(Math.round(v)));
   for (const profile of result.meta.profiles) {
     out.push(markdown ? `\n## ${profile}\n` : `\n=== ${profile} ===`);
-    for (const s of ['a', 'b', 'c', 'd', 'e', 'f']) {
+    for (const s of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'u']) {
       const rows = result.rows.filter((r) => r.profile === profile && r.scenario === s);
       if (!rows.length) continue;
       out.push(markdown ? `\n### ${TITLES[s]}\n` : `\n${TITLES[s]}`);
@@ -698,6 +923,9 @@ async function main() {
   if (flag('serve')) {
     const env = await startServer();
     env.server.setNet(PROFILES[arg('net', 'none')]?.net || null);
+    env.server.knobs.maxAge = HTTP_MAXAGE;
+    if (NET_ARG === 'offline') env.server.knobs.mode = 'down';
+    if (NET_ARG === 'lie-fi') env.server.knobs.mode = 'hang';
     console.log(`Serving ${APP} at ${env.base} (${env.protocol}, network ${arg('net', 'none')})`);
     if (env.tls) console.log(`Chrome flag to trust the certificate: --ignore-certificate-errors-spki-list=${env.tls.spki}`);
     return;
@@ -705,12 +933,17 @@ async function main() {
   const require = createRequire(join(APP, 'package.json'));
   const { chromium } = require('playwright');
   const env = await startServer();
+  env.server.knobs.maxAge = HTTP_MAXAGE;
   const browser = await chromium.launch({ args: env.tls ? [`--ignore-certificate-errors-spki-list=${env.tls.spki}`] : [] });
   let commit = null;
   try { commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: APP }).toString().trim(); } catch { /* not a checkout */ }
   // The first scenario in the real-life file, for #/scenario/FIRST.
   const firstScenario = JSON.parse(readFileSync(join(APP, 'content/real-life/scenarios.json'), 'utf8')).scenarios[0].id;
-  const routes = ROUTES.map((r) => r.replace('FIRST', firstScenario));
+  // The first topic of the first A1 lesson, for #/drill?topic=A1TOPIC.
+  const a1Topic = JSON.parse(readFileSync(join(APP, 'content/curriculum.json'), 'utf8')).levels.find((l) => l.id === 'A1' || l.level === 'A1')?.lessons?.[0]?.topics?.[0] || 'present-simple';
+  const routes = ROUTES.map((r) => r.replace('FIRST', firstScenario).replace('A1TOPIC', a1Topic));
+  // A learner with history also opens the vocabulary notebook and the review in d.
+  const dRoutes = LEARNER === 'heavy' && !ROUTES_ARG ? [...routes, 'vocab', 'review'] : routes;
   const rows = [];
   const started = Date.now();
   try {
@@ -728,9 +961,11 @@ async function main() {
       };
       if (SCENARIOS.has('a') || SCENARIOS.has('f')) await scenarioA(env, browser, P, add);
       if (SCENARIOS.has('b') || SCENARIOS.has('c')) await scenarioBC(env, browser, P, add, routes, { b: SCENARIOS.has('b') || SCENARIOS.has('f'), c: SCENARIOS.has('c') });
-      if (SCENARIOS.has('d')) await scenarioD(env, browser, P, add, routes);
+      if (SCENARIOS.has('d')) await scenarioD(env, browser, P, add, dRoutes);
       if (SCENARIOS.has('e')) await scenarioE(env, browser, P, add);
       if (SCENARIOS.has('f')) await scenarioF(env, browser, P, add);
+      if (SCENARIOS.has('g')) await scenarioG(env, browser, P, add);
+      if (SCENARIOS.has('u')) await scenarioU(env, browser, P, add);
     }
   } finally {
     await browser.close();
@@ -743,6 +978,7 @@ async function main() {
       network: Object.fromEntries(PROFILE_NAMES.map((n) => [n, PROFILES[n].net ? { rttMs: PROFILES[n].net.rtt, downMbps: (PROFILES[n].net.down * 8) / 1e6, shaping: 'server-side, shared downlink' } : 'unshaped'])),
       cpu: Object.fromEntries(PROFILE_NAMES.map((n) => [n, PROFILES[n].cpu])),
       units: 'ms for times, KB = 1024 bytes; medians over runs',
+      learner: LEARNER, seed: seedInfo, httpMaxAge: HTTP_MAXAGE, etagEpoch: ETAG_EPOCH, warmNet: WARM_NET || 'online',
     },
     rows: summarise(rows),
   };
@@ -753,7 +989,8 @@ async function main() {
     mkdirSync(dirname(resolve(MD)), { recursive: true });
     const head = `# Lucid performance${compare ? ` (compared with ${COMPARE})` : ''}\n\nMeasured by \`node tools/perf.mjs\` on ${result.meta.date.slice(0, 10)} (commit ${commit || '?'}, Chromium ${result.meta.chromium}, ${result.meta.protocol}, ${RUNS} runs, median). `
       + 'mobile: 1.6 Mbps down, 150 ms RTT (server-shaped, shared by the page and the service worker), CPU 4x, 390x844 @2x, touch. desktop: unshaped, 1440x900. '
-      + 'Times in ms from navigation start (loads) or from the input (interactions); KB = 1024 bytes; gzKB = bytes on the wire for the page, rawKB = decoded, netKB = everything the server sent (page and service worker). See the top of tools/perf.mjs for each metric.\n';
+      + 'Times in ms from navigation start (loads) or from the input (interactions); KB = 1024 bytes; gzKB = bytes on the wire for the page, rawKB = decoded, netKB = everything the server sent (page and service worker). See the top of tools/perf.mjs for each metric.'
+      + `${LEARNER !== 'light' || HTTP_MAXAGE !== 600 || ETAG_EPOCH || WARM_NET ? ` Learner ${LEARNER}${seedInfo ? ` (${JSON.stringify(seedInfo)})` : ''}; max-age ${HTTP_MAXAGE}; warm loads${ETAG_EPOCH ? ' after a new ETag epoch' : ''}${WARM_NET ? `, ${WARM_NET}` : ''}.` : ''}\n`;
     writeFileSync(MD, `${head}${tables(result, { markdown: true, compare })}\n`);
     console.log(`wrote ${MD}`);
   }

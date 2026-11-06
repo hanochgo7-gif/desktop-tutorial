@@ -12,6 +12,16 @@ import { CONFIG } from '../../config.js';
 import { RETENTION } from '../core/srs.js';
 import { levelRail, skillProfile } from './today.js';
 
+// The narrow weekday names toLocaleDateString(lang, { weekday: 'narrow' }) gives for the two UI languages, by
+// getDay() (Sunday first), so the week chart does not build an ICU date formatter on the view's first render (its
+// first use costs 18-39 ms on a slow phone). tests/unit/intl-tables.test.mjs and tests/e2e/perf-runtime.mjs check
+// them against Intl; any other language still asks Intl.
+export const NARROW_WEEKDAYS = {
+  he: ['\u05D0\u05F3', '\u05D1\u05F3', '\u05D2\u05F3', '\u05D3\u05F3', '\u05D4\u05F3', '\u05D5\u05F3', '\u05E9\u05F3'],
+  en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+};
+export const weekdayNarrow = (d, lang) => NARROW_WEEKDAYS[lang]?.[d.getDay()] ?? d.toLocaleDateString(lang, { weekday: 'narrow' });
+
 export default async function progress(el, ctx) {
   ctx.setTitle(t('nav.progress'));
   const [curriculum, tx] = await Promise.all([content.curriculum(), taxonomyIndex()]);
@@ -25,8 +35,11 @@ export default async function progress(el, ctx) {
     const target = RETENTION[settings().retention];
     const delta = r.accuracy != null && r.accuracy_prev != null ? r.accuracy - r.accuracy_prev : null;
     // Activity per day (or per week for the month view).
+    // The week's answers per UTC day, counted in one pass.
+    const perDay = new Map();
+    if (days === 7) for (const a of m.attempts) { const k = a.at.slice(0, 10); if (a.source !== 'placement') perDay.set(k, (perDay.get(k) || 0) + 1); }
     const buckets = days === 7
-      ? Array.from({ length: 7 }, (_, i) => { const d = new Date(Date.now() - (6 - i) * 86_400_000); const k = todayKey(d); return { label: d.toLocaleDateString(document.documentElement.lang, { weekday: 'narrow' }), n: m.attempts.filter((a) => a.at.slice(0, 10) === k && a.source !== 'placement').length }; })
+      ? Array.from({ length: 7 }, (_, i) => { const d = new Date(Date.now() - (6 - i) * 86_400_000); const k = todayKey(d); return { label: weekdayNarrow(d, document.documentElement.lang), n: perDay.get(k) || 0 }; })
       : Array.from({ length: 4 }, (_, i) => { const end = Date.now() - (3 - i) * 7 * 86_400_000; const start = end - 7 * 86_400_000; return { label: tt(`ש׳ ${i + 1}`, `W${i + 1}`), n: m.attempts.filter((a) => { const t0 = new Date(a.at).getTime(); return t0 > start && t0 <= end && a.source !== 'placement'; }).length }; });
     const maxN = Math.max(1, ...buckets.map((b) => b.n));
     const mastered = [...m.mastery.values()].filter((x) => x.status === 'mastered');
