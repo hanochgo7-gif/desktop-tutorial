@@ -482,7 +482,7 @@
   };
 
   D.object = {
-    url: T('תלת־ממד מתוך האתרים שבניתי', '3D, from sites I’ve built'), hint: T('נסו: גררו כדי לסובב', 'Try it: drag to rotate'),
+    url: T('תלת־ממד מתוך האתרים שבנינו', '3D, from sites we’ve built'), hint: T('נסו: גררו כדי לסובב', 'Try it: drag to rotate'),
     run(s) {
       const R = [['gotovski', T('ש. גוטובסקי', 'S. Gotovski')], ['ams', 'AMS'], ['allenbis', T('אלנביס', 'Allenbis')], ['clinic', T('רותם', 'Rotem')], ['chef', T('בר', 'Bar')]];
       s.innerHTML = `<div class="d-obj"><i></i><div class="d-opts">${R.map((r, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-id="${r[0]}">${r[1]}</button>`).join('')}</div></div>`;

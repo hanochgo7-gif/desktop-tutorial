@@ -195,3 +195,8 @@ body.pm .foot { border-top-color: rgba(243, 239, 230, .1); }
   .pm-clients li { font-size: 1.12rem; }
   .pm-cap { padding-inline-end: 0; padding-inline-start: 0; flex-direction: column; gap: .5rem; margin-top: 38px; }
 }
+
+/* מערכות חיות: אותו אולם תצוגה, במסגרת של הדף החדש */
+body.pm .pm-sys { padding: var(--pad) 0; background: radial-gradient(60% 50% at 80% 0%, rgba(31, 79, 163, .22), transparent 70%), var(--night); }
+body.pm .pm-sys .pm-head { margin-bottom: clamp(40px, 5vw, 72px); }
+body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
