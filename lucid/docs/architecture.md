@@ -351,14 +351,26 @@ release, `lucid-<RELEASE>`.
   fetched (not navigated) `privacy.html` are stale-while-revalidate and served as stored, unhashed, as before the
   performance work: data the views escape, never code. Requests for `release.json` itself go to the network.
   Another origin's requests (Supabase, the AI function) are never touched.
-- **Full storage.** The origin's quota is shared with other apps. A release installs only with its `release.json`
-  and its whole shell in its cache, so it can start offline: when those do not fit, the install fails, gives its
-  space back, and the active release keeps its cache and saved lessons (online and offline); the browser tries again
-  at later visits, so the update arrives once there is room (until then the learner stays on the old release, where
-  b2b669b's network-first worker would have fetched the new code). Any other file that does not fit is left out and
-  fetched and checked on use once the release has taken over. At activation the old release's own files are dropped
-  first if that is what makes room for the saved lessons, and a saved lesson the release changed is fetched again
-  (best effort) once the old caches are gone.
+- **Full storage.** The origin's quota is shared with other apps, and a phone's disk can be nearly full. Room is
+  measured by writing, never with `navigator.storage.estimate()`, which on a nearly full disk reports about a
+  gigabyte free while every write fails. A release installs only with its `release.json` and its whole shell in its
+  cache, so it can start offline: before its first write the install writes (and deletes) a probe of the shell's
+  size, and when that or a shell write does not fit, the install fails having written nothing it keeps, and the
+  active release keeps its cache and saved lessons (online and offline); the browser tries again at later visits,
+  so the update arrives once there is room (until then the learner stays on the old release, where b2b669b's
+  network-first worker would have fetched the new code). Modules and content beyond the shell are written next to a
+  "ballast" entry as big as 1.25 times the shell, deleted afterwards, so they always leave the next release room to
+  install; a file missed this way is fetched, checked, and kept on use under the same rule. An install that fails
+  for any reason (no room, a stale file at the edge, its cache removed, no `release.json`) deletes its own cache,
+  entries first: Chromium keeps a deleted cache's space while a `Cache` object for it is alive, but frees each entry
+  at once. It never deletes a complete cache of the same release that it found (the registration went away and Cache
+  Storage stayed): that install writes nothing and keeps the saved lessons. During the one-time upgrade from the
+  hand-numbered caches the install bypasses the HTTP cache (`no-store`), because b2b669b's worker serves code from
+  it and a failed attempt must not hand that page a new `app.js` next to old modules. At activation the old caches
+  are deleted and emptied, so their space returns at once; the old release's own files are dropped first if that
+  is what makes room for the saved lessons; then saved lessons the release changed, and files the install left out,
+  are fetched again (checked, best effort). Offline, a file the release cache lacks is taken from the HTTP cache when
+  its bytes are the release's.
 - **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
   20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
 - **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
@@ -374,7 +386,9 @@ release, `lucid-<RELEASE>`.
   the old hand-numbered caches, take over at once. Activation deletes older `lucid-` caches and nothing else (the
   origin is shared with other apps), and only when its own cache holds `release.json` and the shell and no newer
   release is installing or waiting (that release's cache is among them; an install whose cache was removed while it
-  ran fails and is tried again).
+  ran fails and is tried again). The page listens for a takeover from the evaluation of `js/core/router.js`, before
+  its first screen and the registration, so a release that takes over while the page boots (another tab asked) makes
+  it reload at its first or next change of screen rather than import that release's screens.
 - **Development.** Because code is cache-first, an edit shows up under the worker only after
   `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
 

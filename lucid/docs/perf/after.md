@@ -829,3 +829,101 @@ All green on the source tree, and on the built tree where marked:
 - upgrade.mjs 14/14 (source and built: U1-U9 and the new U10 x 2, U11, U12);
 - build, then verify: ok (63 modules, maps, hashes, paths, CSP), against the source. `index.html` is unchanged
   since `fde78c2`, and its CSP meta is byte-identical to b2b669b's.
+
+## Fifth skeptic round (2026-11-07)
+
+Two reviews of `9db2cd7`: a line-by-line review of the worker's state machine, which rejected it on the storage edges
+and on contract C-4, and an offline and upgrade matrix against b2b669b (61 cells), which asked for one fix (P1) before
+shipping. Verdicts, conditions and how each was met are in docs/qa/security-review.md 5a, "Fifth skeptic round". Each
+problem was reproduced first with the reviewers' scripts on a `9db2cd7` tree (scratchpad `refix5/b5/out/pre-*`,
+`refix5/m5/out/recover-b2-head-1.2.txt`), then run on this round's source and on its build (release `e64c1cd42486`;
+scratchpad `refix5/b5/out/`, `refix5/m5/out/`).
+
+### What changed
+
+- **Worker (`sw.js`).**
+  - **Room is measured by writing (blocker, majors).** On a real nearly full disk Chromium's `estimate()` reports
+    about 1 GiB free while every write fails, and DevTools' quota override is not reported by it either, so no
+    decision uses it. Before its first write the install writes and deletes a probe of its shell's size (the shell is
+    read into memory first); best-effort files are written next to a "ballast" entry of 1.25 x the shell, deleted
+    afterwards, in the install, in a fill-in after activation and for each miss kept later, so they always leave the
+    next release room to install. The probe and ballast use the key `https://lucid.invalid/room`.
+  - **A failed install gives its own cache back, and only its own (majors).** Every failure (not only a quota error)
+    empties and deletes the install's cache; a complete cache of the same release found at the start (the
+    registration went away, Cache Storage stayed) is never deleted, and that install writes nothing.
+  - **The one-time upgrade bypasses the HTTP cache (blocker).** A failed attempt at 1.02-1.1 x usage had stored the
+    new `index.html` and `app.js` in the HTTP cache, from which b2b669b's network-first worker served them next to
+    old modules and stored that mix; now the upgrade's requests use `cache: 'no-store'`.
+  - **Deleted caches give their space back at once (matrix P1).** Activation empties the old caches through the
+    `Cache` objects it holds (Chromium otherwise keeps a deleted cache's space while one is alive), then fetches the
+    changed saved lessons again, then the offline list's files the install left out (`fillIn`).
+  - **Offline, a missing file may come from the HTTP cache (matrix P2)**, hashed like any other copy.
+- **Router (`js/core/router.js`, contract C-4).** The `controllerchange` listener is attached when the module is
+  evaluated, not after the first screen and the registration; the first screen reloads too when a release took over
+  during the boot, and so does a screen whose modules were loading when one took over.
+- **Docs.** plan.json C-4 (install, activation and the boot-time listener), architecture §7 ("Full storage",
+  "Updates"), 5a. The earlier rounds' sentences that "the old release's cache is removed when the new one takes over,
+  which makes room again" and that files left out are fetched only on use no longer describe this build: the first
+  held only once the worker stopped, and left-out files are now also fetched again after activation.
+- **Tests.** The sw.test harness counts a replacing put in full, keeps a deleted cache's bytes while a worker that
+  opened it runs (unless its entries are deleted), and models the HTTP cache; seven sw.test cases and one router.test
+  case, each failing on `9db2cd7` and each needed by one part of the fix (mutation runs); upgrade.mjs U13 (1.02, 1.05,
+  1.1 x from b2b669b), U14 (1.2 x, offline right after the upgrade visit), U15 (same-release reinstall at quota =
+  usage), U16 (failed-install orphan) and U17 (a takeover during a tab's boot, CPU 4 and 6 x), all failing on a
+  `9db2cd7` tree and passing on the source and the built tree.
+
+### The reviewers' scripts on this round
+
+| script | `9db2cd7` | this round |
+|---|---|---|
+| `legacy.mjs` b2b669b -> head, 1.02 / 1.05 / 1.1 x | 1.05: offline stuck (`router.js` lacks `checkForRelease`); U13: at 1.02 and 1.05 offline does not start, and at all three the old worker serves the new `app.js` | stays on the old release; offline starts, 3/3 lessons, 5/5 screens (1.02 and 1.05 x: 5 runs each); with the probe but without `no-store`, 1.02 x was still stuck in 2 of 3 runs |
+| `legacy.mjs` 1.2 x | takes over with 52 entries; offline only `path` of 5 screens (progress, games, expressions, writing "did not load"), also after room returns | takes over; offline 3/3 lessons, 5/5 screens |
+| `reinstall.mjs` x 1 / x 1.05 | complete cache and 3 lessons deleted | cache (150 entries, 3 lessons) kept, worker active |
+| `orphan.mjs` (quota = A + 1.3 x shell) | B leaves 73 entries; C never installs | B leaves nothing; C installs at the first attempt |
+| `tight.mjs` 1.9 MB | no update ever installs; Expressions broken online | 64 entries at first; N1 installs and takes over; Expressions loads |
+| `askboot.mjs` 4 / 6 x CPU | 4 of 4 runs mixed, `#/progress` broken | 8 of 8 clean (4 reload at the first change of screen, 4 boot on N1) |
+| `recover.mjs` b2b669b -> build, 1.2 x | offline right after the upgrade: does not start, 0/31, 0/5 | 31/31 screens, 5/5 saved lessons (1.5 x too) |
+
+### Re-measured (mobile, 3 runs, medians, two quiet windows)
+
+The fixes touch the install (probe, ballast, the shell read first), the activation (emptying and fill-in) and the
+router's boot, so the rows re-measured are the release update (u), the first-visit precache (f), the returning loads
+(g) and the hand-over load. Built tree of this round (`e64c1cd42486`) against the built previous head (`9db2cd7`,
+release `1a7cae2732c8`) and b2b669b, one at a time with nothing else running. Raw JSON and logs: scratchpad
+`refix5/perf/` (`m5.log`; the second window, in the reverse order, `m5b.log`).
+
+| row | this round | previous head | base | note |
+|---|---:|---:|---:|---|
+| release update: downloads / saved lessons | 1 req, 6 KB / 4 of 4 | 1 req, 6 KB / 4 of 4 | 84 reqs, 884 KB / 0 | 0 mixed-release pages in all three; all requests 5 / 34 KB against 5 / 31 KB (the larger `sw.js`) |
+| returning #/today right after the deploy | 408 [462, 408, 366] | 416 [364, 465, 416] | 2401 | |
+| Today -> lesson while installing | 87 [1327, 87, 86] | 104 [104, 1298, 78] | 2510 | one run in each reloads into the new release at the click |
+| next #/today (two of three hand over) | 1304 [422, 1304, 1322] | 1312 [1312, 426, 1389] | 1201 | |
+| cold #/welcome, window 1 / window 2 | 1504 / 1489 | 1467 / 1497 | | window 1 ran this round first, window 2 last; the order, not the build, gives the difference (with the worker blocked: 1474 / 1469 against 1461 / 1492) |
+| cold #/today, window 1 / window 2 | 1692 / 1681 | 1677 / 1697 | | |
+| precache on welcome: requests / KB / finished | 84 / 595 / 8173, 8183 | 84 / 595 / 8106, 8157 | | 26-67 ms later: the probe and ballast writes, after the page has drawn |
+| warm (g) #/today fresh / stale / after-push / offline / lie-fi | 392 / 369 / 370 / 432 / 383 | 357 / 370 / 413 / 369 / 401 | | the runs overlap (offline 432, 363, 432 against 375, 369, 346) |
+| warm (g) lesson a1-01, same states | 345 / 418 / 366 / 363 / 450 | 389 / 353 / 435 / 376 / 357 | | |
+| hand-over load, light: plain reload / with a release waiting / b2b669b after a deploy | 265, 287 / 1341, 1346 / 485, 446 | 326, 267 / 1308, 1304 / 487, 502 | | `cost.mjs`, two windows |
+| the same, dark | 313, 295 / 1370, 1315 / 499, 464 | 338, 249 / 1309, 1361 / 478, 449 | | |
+
+The release update, the returning and warm loads and the cold loads are unchanged within the run-to-run spread. The
+precache finishes about 30-70 ms later out of 8.1 s, after the page has drawn. The light hand-over load was about
+40 ms slower in both windows (1341 and 1346 against 1308 and 1304 ms), probably the old cache's entries being
+deleted while the new page loads; in dark mode and in the u row's hand-over runs there is no consistent
+difference. It happens once per deploy, and the hand-over still costs about 1 s against a plain reload and b2b669b,
+as the fourth round states.
+
+### Suites on this round
+
+All green on the source tree, and on the built tree (release `e64c1cd42486`) where marked:
+
+- `npm test` 397/397 with `CI=true` and esbuild (0 skipped); validate-content (0 errors, 1 warning as before);
+  build-content-index --check; build-route-deps --check;
+- run.mjs 57/57 (source and built) and a11y (0 violations);
+- every lane suite: shell-components 12/12, lesson-flow 25/25, exercises 12/12, bilingual-text 12/12,
+  lesson-content 7/7, first-run-today 14/14, practice-hubs 14/14, games 17/17, real-life-writing 16/16,
+  r4-lesson-flow 32/32, r4-exercises 13/13, r4-today-path 14/14, r4-practice-games 19/19, r4-real-life-writing 15/15,
+  r4-shell-bilingual 11/11, perf-boot 13/13, perf-runtime 9/9; screen-errors ok;
+- upgrade.mjs 21/21 (source and built: U1-U12 and the new U13 x 3, U14, U15, U16, U17);
+- build, then verify: ok (63 modules, maps, hashes, paths, CSP), against the source. `index.html` is unchanged,
+  and its CSP meta is byte-identical to b2b669b's.

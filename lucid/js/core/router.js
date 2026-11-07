@@ -123,19 +123,29 @@ const whenIdle = (fn) => (globalThis.requestIdleCallback ? requestIdleCallback(f
 // change of screen (router.go), after the old view's cleanup and a store flush, and reloads on the new hash, so no
 // page ever runs modules from two releases. A tab that sees another tab switch the release reloads at its own next
 // change of screen. Nothing happens on the first install, or when the worker activates by itself (it then claims
-// the page, which counts as a switch this tab did not ask for).
-const release = { reg: null, sw: null, stale: false, requested: false, checked: 0 };
+// the page, which counts as a switch this tab did not ask for). The page listens from this module's evaluation, not
+// from the registration after the first screen: a release that takes over while the page boots (another tab asked)
+// is seen too, and the page reloads at its first or next change of screen instead of importing that release's views.
+const release = { reg: null, sw: null, stale: false, requested: false, checked: 0, heard: null, known: false };
 const UPDATE_EVERY_MS = 3_600_000;
+function heard() {
+  // A worker that already ran this origin (it controls the page, or a reload bypassed it): its replacement is a new
+  // release. Otherwise the first controllerchange is the first install claiming the page.
+  if (!release.known) { release.known = true; return; }
+  if (!release.requested) release.stale = true;
+}
+function listen(sw) {
+  if (!sw?.addEventListener || release.heard === sw) return;
+  release.heard = sw;
+  release.known = Boolean(sw.controller);
+  sw.addEventListener('controllerchange', heard);
+}
+listen(globalThis.navigator?.serviceWorker);
 export function watchRelease(reg, sw = globalThis.navigator?.serviceWorker, now = Date.now()) {
   if (!reg || !sw || release.reg) return;
   Object.assign(release, { reg, sw, checked: now });
-  // A worker that already ran this origin (it controls the page, or a reload bypassed it): its replacement is a new
-  // release. Otherwise the first controllerchange is the first install claiming the page.
-  let known = Boolean(sw.controller || reg.active);
-  sw.addEventListener('controllerchange', () => {
-    if (!known) { known = true; return; }
-    if (!release.requested) release.stale = true;
-  });
+  listen(sw);
+  if (reg.active) release.known = true;
 }
 // The browser checks for a new worker on navigations, which a single-page app seldom makes: check when the learner
 // comes back to the tab after more than an hour.
@@ -248,8 +258,9 @@ export const router = {
     prev?.unwatch?.forEach((u) => u());
     if (prev) prev.unwatch = [];
     // A new release takes over at a change of screen, after the old view has cleaned up (B6): the page reloads on the
-    // new hash instead of importing a view module from the other release.
-    if (prev && prev.path !== path && releaseDue()) {
+    // new hash instead of importing a view module from the other release. So does the first screen, when a release
+    // took over while the page booted.
+    if ((!prev || prev.path !== path) && releaseDue()) {
       if (await switchRelease()) { await store.flush(); location.reload(); return; }
       if (seq !== this.seq) return;
     }
@@ -262,12 +273,21 @@ export const router = {
     this.current = state;
     this.onRoute?.(state);
     let mod;
+    const stale = release.stale;
+    const switched = async () => {
+      // A release took over while the view's modules loaded: some may be the other release's (C-4).
+      if (stale || !release.stale || this.current !== state) return false;
+      await store.flush();
+      location.reload();
+      return true;
+    };
     try { mod = await match.load(); } catch (e) {
+      if (await switched()) return;
       console.error(e);
       root.innerHTML = `<div class="empty"><h3>${document.documentElement.lang === 'he' ? 'המסך לא נטען' : 'This screen did not load'}</h3><p>${navigator.onLine ? '' : (document.documentElement.lang === 'he' ? 'אין חיבור לאינטרנט.' : 'You are offline.')}</p><a class="key" href="">${document.documentElement.lang === 'he' ? 'טעינה מחדש' : 'Reload'}</a></div>`;
       return;
     }
-    if (this.current !== state) return;
+    if (this.current !== state || (await switched())) return;
     const ctx = {
       params, query, path, from,
       navigate,

@@ -18,18 +18,26 @@
 //   navigated to. Other script on the origin can change these; what they hold is data that the views escape, never
 //   code. Server API calls (another origin) are never cached.
 // - Storage: a release installs only when its release.json and its whole shell are in its cache, so it can start
-//   offline; a write of those that does not fit the origin's quota (shared with other apps) fails the install, and
-//   the active release keeps its cache and saved lessons. Any other file that does not fit is left out (fetched and
-//   checked on use); the old release's cache is removed when the new one takes over, which makes room again.
+//   offline. Room is measured by writing (see ROOM), never estimated: before its first write the install writes and
+//   deletes a probe of the shell's size; when that, or a write of the shell, does not fit the origin's quota (shared
+//   with other apps), the install fails having written nothing it keeps, and the active release keeps its cache and
+//   saved lessons. Other files are stored next to a ballast as big as the next release's shell (RESERVE), so they
+//   leave it room to install; the rest is fetched and checked on use. An install that fails, for any reason, gives
+//   its own cache back, entries first so the space returns at once (never a complete cache of this release that it
+//   found: the registration went away, the cache stayed). The one-time upgrade fetches past the HTTP cache, which
+//   the old worker serves code from. When the new release takes over, the old caches are deleted and emptied, which
+//   makes room at once; then changed saved lessons, and files the install left out, are fetched again.
 // - Activation (perf D3, contract C-4): a new release waits until a page asks for it ({type:'lucid:activate'},
 //   sent between two screens), the app is loaded again (a reload, a new tab: see handover), or every Lucid tab has
 //   closed, so one page never runs modules from two releases. The first install, and the one-time upgrade from the
 //   old hand-numbered caches, activate at once. Activation removes the older Lucid caches only when its own cache
 //   holds release.json and the shell, and never while a newer release installs or waits (its cache is one of them).
+//   The page listens for a takeover from its first module on (js/core/router.js), so one that lands while it boots
+//   is seen too.
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
-const LISTING = '47c0daa08bbd5c717c67eb1bc1bb8ad66a4477ef9176d9e5fe8078105c4ad837';
-const RELEASE = 'e4a50c80a106';
+const LISTING = 'f4edb68c8b431af4faa75a215fd22110e7c738276657988f5e67cc5b06715367';
+const RELEASE = '9d73d47444f4';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json',
@@ -71,6 +79,24 @@ const entry = (p, body) => new Response(body, { status: 200, headers: { 'content
 const mismatch = (p) => Object.assign(new Error(`${p} does not match release ${RELEASE}`), { mismatch: true });
 // The origin's storage is full (it is shared with other apps): a best-effort write that does not fit is skipped.
 const isFull = (err) => err?.name === 'QuotaExceededError';
+const full = (what) => Object.assign(new Error(`no room for ${what}`), { name: 'QuotaExceededError' });
+// Room is measured by writing, never by navigator.storage.estimate(): on a nearly full disk Chromium reports a
+// gigabyte free while every write fails. ROOM is the key of the entry that does it (another origin's URL: no request
+// of the page ever matches it). A probe of the shell's size is written, then deleted, before an install writes
+// anything (so an install that cannot fit takes nothing from what the active release, or the hand-numbered caches'
+// worker, still writes); a "ballast" of RESERVE times the shell is held while best-effort files are written, then
+// deleted, so they leave room for the next release, which copies or fetches a whole shell into a new cache before
+// the old one goes.
+const ROOM = 'https://lucid.invalid/room';
+const RESERVE = 1.25;
+// Writes size bytes as ROOM into cache: false when they do not fit.
+const claim = (cache, size) => cache.put(ROOM, new Response(new Uint8Array(Math.ceil(size)))).then(() => true, (err) => { if (isFull(err)) return false; throw err; });
+const unclaim = (cache) => cache.delete(ROOM).catch(() => null);
+// Empties a cache through a Cache object this worker holds: Chromium gives a deleted cache's space back only once no
+// Cache object for it is left, so its entries go too, which gives the space back at once.
+async function empty(cache) {
+  await Promise.all((await cache.keys().catch(() => [])).map((r) => cache.delete(r).catch(() => null)));
+}
 // The hashes of this release when cache holds what it needs to start, online or offline: its release.json (matching
 // LISTING) and every shell file. Otherwise null.
 async function holds(cache) {
@@ -83,9 +109,12 @@ async function holds(cache) {
 // Fetches p, revalidating against the HTTP cache (a 304 reuses the copy the page just loaded), and checks it
 // against its hash. A mismatch (an edge still serving the previous deploy) is retried once past every cache;
 // a second mismatch throws, so the install fails and the current release stays.
-async function fetchVerified(p, want) {
+// With no connection, the copy the HTTP cache holds (a page loaded within its max-age) is used, checked the same way.
+// mode 'no-store' never reads or writes the HTTP cache (the one-time upgrade: see install).
+async function fetchBody(p, want, mode = 'no-cache') {
   const get = async (u) => {
-    const res = await fetch(new Request(u, { cache: 'no-cache' }));
+    const res = await fetch(new Request(u, { cache: mode }))
+      .catch((err) => (mode === 'no-store' ? Promise.reject(err) : fetch(new Request(u, { cache: 'force-cache' })).catch(() => { throw err; })));
     if (!res.ok) throw new Error(`${p}: ${res.status}`);
     return res.arrayBuffer();
   };
@@ -94,19 +123,29 @@ async function fetchVerified(p, want) {
     buf = await get(`${p}${p.includes('?') ? '&' : '?'}r=${want}`);
     if ((await digest(buf)) !== want) throw mismatch(p);
   }
-  return entry(p, buf);
+  return buf;
 }
+const fetchVerified = async (p, want) => entry(p, await fetchBody(p, want));
 
-// A copy of p from an older Lucid cache whose bytes match want, if there is one.
-async function fromOld(olds, p, want) {
+// The bytes of p in an older Lucid cache, if they match want.
+async function oldBody(olds, p, want) {
   if (!want) return null;
   for (const old of olds) {
     const hit = (await old.match(p)) || (p === './' ? await old.match('index.html') : undefined);
     if (!hit || !hit.ok) continue;
     const buf = await hit.arrayBuffer();
-    if ((await digest(buf)) === want) return entry(p, buf);
+    if ((await digest(buf)) === want) return buf;
   }
   return null;
+}
+const fromOld = async (olds, p, want) => { const buf = await oldBody(olds, p, want); return buf && entry(p, buf); };
+// The size of p's entry in cache when it is already what this release stores (its bytes, and entry()'s status and
+// header): a second install of the same release (the registration went away, the cache stayed) writes nothing.
+async function inPlace(cache, p, want) {
+  const hit = cache && want && (await cache.match(p).catch(() => null));
+  if (!hit || hit.status !== 200 || [...hit.headers].length !== 1 || hit.headers.get('content-type') !== entry(p, null).headers.get('content-type')) return null;
+  const buf = await hit.arrayBuffer();
+  return (await digest(buf)) === want ? buf.byteLength : null;
 }
 
 async function olderCaches() {
@@ -118,7 +157,7 @@ async function olderCaches() {
 // cannot be loaded (an error status, no connection, or no answer within RELEASE_WAIT_MS), the install fails: nothing
 // is installed that this worker could not check later (it would serve nothing from it), the browser tries again at
 // the next visit, and an active release (or the hand-numbered caches) keeps its cache and saved lessons.
-async function releaseFile(cache) {
+async function releaseFile() {
   const get = async (u) => {
     const ctl = typeof AbortController === 'function' ? new AbortController() : null;
     let timer;
@@ -138,30 +177,34 @@ async function releaseFile(cache) {
     got = await get(`release.json?r=${RELEASE}`).catch(() => null);
     if (!(await ours(got))) throw mismatch('release.json');
   }
-  await cache.put('release.json', entry('release.json', got[0])); // required: no room for it fails the install
-  return got[1].hashes;
+  return { buf: got[0], hashes: got[1].hashes };
 }
 
-// Writes into the new cache. A best-effort write that does not fit marks the install as full instead of failing it;
-// a required one (the shell) fails it.
-async function store(ctx, p, res, required = false) {
-  try { await ctx.cache.put(p, res); } catch (err) {
+// Writes buf as p into the new cache. A best-effort write that does not fit (next to the ballast) marks the install as
+// full instead of failing it; a required one (the shell) fails it.
+async function store(ctx, p, buf, required = false) {
+  if (!required && ctx.full) return;
+  try { await ctx.cache.put(p, entry(p, buf)); } catch (err) {
     if (!isFull(err) || required) throw err;
     ctx.full = true;
   }
 }
-// Puts p into the new cache: copied when an older cache holds the same bytes, fetched otherwise.
-async function ensure(ctx, p, required) {
-  if (ctx.full && !required) return; // no room: fetched and checked on first use
+// The bytes of p for this release: copied when an older cache holds the same bytes, fetched otherwise.
+async function bodyOf(ctx, p) {
+  const want = ctx.hashes[hashKey(p)];
+  if (!want) throw new Error(`${p} is not in release ${RELEASE}`);
+  return (await oldBody(ctx.olds, p, want)) || fetchBody(p, want, ctx.mode);
+}
+// Puts p (best effort) into the new cache.
+async function ensure(ctx, p) {
+  if (ctx.full) return; // no room: fetched and checked on first use
   try {
-    const want = ctx.hashes[hashKey(p)];
-    if (!want) throw new Error(`${p} is not in release ${RELEASE}`);
-    await store(ctx, p, (await fromOld(ctx.olds, p, want)) || (await fetchVerified(p, want)), required);
+    if (ctx.reuse && (await inPlace(ctx.cache, p, ctx.hashes[hashKey(p)])) !== null) return;
+    await store(ctx, p, await bodyOf(ctx, p));
   } catch (err) {
-    // The shell must be complete (also when storage is full: a release without it could not start offline, and
-    // taking over would remove the release that can) and nothing may be stale. Any other file is best effort, as a
-    // screen whose module is missing is fetched and checked on first use, and so is one that did not fit.
-    if (required || err.mismatch) throw err;
+    // Nothing may be stale; any other failure leaves the file out, as a screen whose module is missing is fetched and
+    // checked on first use, and so is one that did not fit.
+    if (err.mismatch) throw err;
   }
 }
 
@@ -170,7 +213,7 @@ async function ensure(ctx, p, required) {
 // (activating: the old caches are no longer served, so when storage is full their own files are dropped first to
 // make room for the lessons). Returns the saved lessons that changed in this release: fetched again here when
 // refetch is set (install), by the caller otherwise (activation, once the old caches are gone).
-async function carryOver(cache, hashes, olds, { refetch = false, activating = false } = {}) {
+async function carryOver(cache, hashes, olds, { refetch = false, activating = false, mode } = {}) {
   if (!hashes) return [];
   const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
   const missed = new Set();
@@ -195,10 +238,10 @@ async function carryOver(cache, hashes, olds, { refetch = false, activating = fa
     }
   }
   if (!refetch) return [...missed];
-  for (const rel of missed) await refetchLesson(cache, hashes, rel);
+  for (const rel of missed) await refetchLesson(cache, hashes, rel, mode);
   return [];
 }
-const refetchLesson = (cache, hashes, rel) => fetchVerified(rel, hashes[rel]).then((r) => cache.put(rel, r)).catch(() => null);
+const refetchLesson = (cache, hashes, rel, mode) => fetchBody(rel, hashes[rel], mode).then((buf) => cache.put(rel, entry(rel, buf))).catch(() => null);
 // Everything but the runtime files, out of the older caches (which are deleted right after).
 async function purge(olds) {
   for (const old of olds) {
@@ -223,63 +266,126 @@ const isItem = (p) => PACKS.some(([dir]) => p.startsWith(dir) && p.endsWith('.js
 async function unpack(ctx, items) {
   const need = new Set();
   await Promise.all(items.map(async (p) => {
-    const copy = await fromOld(ctx.olds, p, ctx.hashes[p]).catch(() => null);
+    if (ctx.reuse && (await inPlace(ctx.cache, p, ctx.hashes[p])) !== null) return;
+    const copy = await oldBody(ctx.olds, p, ctx.hashes[p]).catch(() => null);
     if (copy) await store(ctx, p, copy); else need.add(p);
   }));
   await Promise.all(PACKS.map(async ([dir, pack, field]) => {
     const mine = [...need].filter((p) => p.startsWith(dir));
     const want = ctx.hashes[pack];
     if (!want || mine.length < 4 || ctx.full) return; // a few changed items: fetched one by one
-    const res = (await fromOld(ctx.olds, pack, want).catch(() => null)) || (await fetchVerified(pack, want).catch(() => null));
+    const buf = (await oldBody(ctx.olds, pack, want).catch(() => null)) || (await fetchBody(pack, want, ctx.mode).catch(() => null));
     let list = null;
-    try { list = res && (await res.json())[field]; } catch { /* fetched one by one below */ }
+    try { list = buf && JSON.parse(new TextDecoder().decode(buf))[field]; } catch { /* fetched one by one below */ }
     for (const item of Array.isArray(list) ? list : []) {
       const p = `${dir}${item?.id}.json`;
       if (!need.has(p)) continue;
       const buf = new TextEncoder().encode(`${JSON.stringify(item)}\n`);
       if ((await digest(buf)) !== ctx.hashes[p]) continue;
-      await store(ctx, p, entry(p, buf));
+      await store(ctx, p, buf);
       need.delete(p);
     }
   }));
-  await Promise.all([...need].map((p) => ensure(ctx, p, false)));
+  await Promise.all([...need].map((p) => ensure(ctx, p)));
 }
 
-async function install() {
-  const cache = await caches.open(CACHE);
+async function install(ctx) {
+  // A cache of this release that already holds it whole is the learner's (the registration went away and Cache
+  // Storage stayed): this install completes it in place and, if it fails, leaves it. Any other is this install's own.
+  const had = await caches.has(CACHE);
+  ctx.cache = had ? await caches.open(CACHE) : null;
+  ctx.reuse = had;
+  ctx.own = !(had && (await holds(ctx.cache)));
   const { names, caches: olds } = await olderCaches();
-  const hashes = await releaseFile(cache);
-  const ctx = { cache, olds, hashes };
-  await Promise.all(SHELL.filter((p) => p !== 'release.json').map((p) => ensure(ctx, p, true)));
+  // The one-time upgrade: the active worker is the hand-numbered caches' (b2b669b's), which serves code network-first
+  // through the HTTP cache. This install's requests then bypass that cache entirely: if it fails (no room), a new
+  // index.html and app.js fetched here would otherwise reach the page next to the old release's modules, and the old
+  // worker would store that mix (offline Lucid then no longer starts). Its files differ from the old ones, so a
+  // revalidation would download them anyway.
+  const legacy = Boolean(self.registration?.active) && names.length > 0 && names.every((n) => LEGACY.test(n));
+  const { buf: listing, hashes } = await releaseFile();
+  Object.assign(ctx, { olds, hashes, full: false, mode: legacy ? 'no-store' : 'no-cache' });
+  // The shell and release.json are read first, then the room for them is checked, and only then is anything written:
+  // an install that cannot fit them takes nothing from the space the active release (or the hand-numbered caches'
+  // worker, which still writes) has left.
+  const shell = await Promise.all(SHELL.map(async (p) => {
+    if (p === 'release.json') {
+      const size = await inPlace(ctx.cache, p, await digest(listing));
+      return { p, buf: listing, size: size ?? listing.byteLength, write: size === null };
+    }
+    const size = await inPlace(ctx.cache, p, hashes[hashKey(p)]);
+    if (size !== null) return { p, size, write: false };
+    const buf = await bodyOf(ctx, p);
+    return { p, buf, size: buf.byteLength, write: true };
+  }));
+  const writes = shell.filter((s) => s.write);
+  ctx.cache ||= await caches.open(CACHE);
+  await unclaim(ctx.cache); // left by an attempt that stopped half-way
+  if (writes.length) {
+    if (!(await claim(ctx.cache, writes.reduce((n, s) => n + s.size, 0)))) throw full(`release ${RELEASE}'s shell`);
+    await unclaim(ctx.cache);
+  }
+  // release.json last: a cache holding it holds the shell too.
+  await Promise.all(writes.filter((s) => s.p !== 'release.json').map((s) => store(ctx, s.p, s.buf, true)));
+  for (const s of writes.filter((w) => w.p === 'release.json')) await store(ctx, s.p, s.buf, true);
+  // The best-effort files next to the ballast: none when even that does not fit.
+  ctx.full = !(await claim(ctx.cache, RESERVE * shell.reduce((n, s) => n + s.size, 0)));
   // Then the offline list: code first, so the modules a learner's next screen needs are in the HTTP cache early;
   // content second.
   let list = [];
-  try { list = (await (await cache.match('content/manifest.json')).json()).offline || []; } catch { /* the shell is enough to start */ }
+  try { list = JSON.parse(new TextDecoder().decode(shell.find((s) => s.p === 'content/manifest.json').buf || (await (await ctx.cache.match('content/manifest.json')).arrayBuffer()))).offline || []; } catch { /* the shell is enough to start */ }
   const code = (p) => /^(js|vendor)\//.test(p);
   const todo = list.filter((p) => !SHELL.includes(p));
-  await Promise.all(todo.filter(code).map((p) => ensure(ctx, p, false)));
-  await Promise.all([...todo.filter((p) => !code(p) && !isItem(p)).map((p) => ensure(ctx, p, false)), unpack(ctx, todo.filter(isItem))]);
-  if (!ctx.full) await carryOver(cache, hashes, olds, { refetch: true });
+  await Promise.all(todo.filter(code).map((p) => ensure(ctx, p)));
+  await Promise.all([...todo.filter((p) => !code(p) && !isItem(p)).map((p) => ensure(ctx, p)), unpack(ctx, todo.filter(isItem))]);
+  await unclaim(ctx.cache);
+  if (!ctx.full) await carryOver(ctx.cache, hashes, olds, { refetch: true, mode: ctx.mode });
   // The cache is opened again by name: one removed while this install ran (by an older release's activation) fails
   // the install, so the browser tries again, instead of a release waiting with nothing to serve.
-  if (!(await holds(await caches.open(CACHE)))) throw new Error(`${CACHE} lost its shell while installing`);
+  if (!(await caches.has(CACHE)) || !(await holds(await caches.open(CACHE)))) throw new Error(`${CACHE} lost its shell while installing`);
   // No release is active yet (first visit), or the active one predates release hashes: take over at once, as the
   // old worker did. Otherwise wait for the page's message or for every tab to close.
-  if (!self.registration?.active || (names.length && names.every((n) => LEGACY.test(n)))) await self.skipWaiting();
+  if (!self.registration?.active || legacy) await self.skipWaiting();
 }
 
 self.addEventListener('install', (e) => {
-  // An install that did not fit gives its space back to the origin (the next attempt copies again).
-  e.waitUntil(install().catch(async (err) => { if (isFull(err)) await caches.delete(CACHE).catch(() => null); throw err; }));
+  // An install that fails, for any reason (no room, a stale or missing file, the worker's cache removed), gives its
+  // own cache back, entries first so the space is free at once; the next attempt copies again.
+  const ctx = {};
+  e.waitUntil(install(ctx).catch(async (err) => {
+    if (ctx.own && ctx.cache) { await empty(ctx.cache); await caches.delete(CACHE).catch(() => null); }
+    throw err;
+  }));
 });
 
 self.addEventListener('message', (e) => {
   if (e.data && e.data.type === 'lucid:activate') e.waitUntil(self.skipWaiting());
 });
 
-// Saved lessons that changed in this release, fetched again (best effort) once activation has removed the old caches.
+// After activation has removed the old caches: their entries are deleted (the space they held comes back now, not
+// when this worker stops), then the saved lessons that changed in this release are fetched again (best effort), then
+// the files of the offline list that the install left out for want of room (fillIn).
 // Not part of the activation itself, which holds every fetch until it ends; the next fetch events keep it alive.
 let refill = null;
+// Fetches, checks and keeps the offline list's files missing from cache (code first), a few at a time, next to the
+// ballast (room for the next release's shell). Nothing is fetched when the install stored them all.
+async function fillIn(cache, hashes) {
+  let list = [];
+  try { list = JSON.parse(new TextDecoder().decode(await (await cache.match('content/manifest.json')).arrayBuffer())).offline || []; } catch { return; }
+  const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname.slice(SCOPE.length)));
+  const code = (p) => /^(js|vendor)\//.test(p);
+  const todo = [...list.filter(code), ...list.filter((p) => !code(p))].filter((p) => !SHELL.includes(p) && !have.has(p) && hashes[p]);
+  if (!todo.length) return;
+  await (keeping = keeping.then(async () => {
+    if (!(await claim(cache, await reserve(cache)))) return;
+    try {
+      for (let i = 0; i < todo.length; i += 6) {
+        const got = await Promise.all(todo.slice(i, i + 6).map((p) => fetchBody(p, hashes[p]).then((buf) => [p, buf], () => null)));
+        for (const [p, buf] of got.filter(Boolean)) if (!(await cache.put(p, entry(p, buf)).then(() => true, () => false))) return;
+      }
+    } finally { await unclaim(cache); }
+  }).catch(() => null));
+}
 const newerRelease = () => Boolean(self.registration?.installing || self.registration?.waiting);
 self.addEventListener('activate', (e) => {
   e.waitUntil((async () => {
@@ -287,11 +393,16 @@ self.addEventListener('activate', (e) => {
     const { names, caches: olds } = await olderCaches();
     // Older caches go only when this one can start the app without them, and not while a newer release installs or
     // waits: its cache is one of them, and its own activation removes the rest.
+    await unclaim(cache); // a ballast left by a worker stopped half-way
     const hashes = await holds(cache);
     const missed = await carryOver(cache, hashes, olds, { activating: !newerRelease() }).catch(() => []);
-    if (hashes && !newerRelease()) await Promise.all(names.map((k) => caches.delete(k)));
+    const gone = hashes && !newerRelease() ? olds : [];
+    if (gone.length) await Promise.all(names.map((k) => caches.delete(k)));
     await self.clients.claim();
-    if (missed.length) refill = Promise.all(missed.map((rel) => refetchLesson(cache, hashes, rel))).finally(() => { refill = null; });
+    if (gone.length || missed.length) {
+      refill = Promise.all(gone.map(empty)).then(() => Promise.all(missed.map((rel) => refetchLesson(cache, hashes, rel))))
+        .then(() => (gone.length ? fillIn(cache, hashes) : null)).catch(() => null).finally(() => { refill = null; });
+    }
   })());
 });
 
@@ -339,17 +450,40 @@ async function servable(cache, key, rel, cached) {
 // handed to the page as a module, a stylesheet or content of this release (contract C-4): that request fails, and
 // the router shows its "did not load" screen or moves the page to a waiting release. A navigation still gets the
 // page as the network gave it.
+// It is kept only next to the ballast (keep), so room for the next release's shell stays free.
 async function verifiedMiss(e, cache, rel, key) {
   const want = (await trustedHashes(cache))[hashKey(keyOf(rel))];
   if (!want) return fetch(e.request); // not part of the release, or nothing to check against: passed on, not kept
   try {
-    const res = await fetchVerified(new URL(key).pathname.slice(SCOPE.length) || './', want);
-    e.waitUntil(cache.put(key, res.clone()).catch(() => null));
-    return res;
+    const p = new URL(key).pathname.slice(SCOPE.length) || './';
+    const buf = await fetchBody(p, want);
+    e.waitUntil(keep(cache, key, entry(p, buf)));
+    return entry(p, buf);
   } catch (err) {
     if (err.mismatch) return e.request.mode === 'navigate' ? fetch(e.request) : Response.error();
     throw err;
   }
+}
+
+// The ballast's size: RESERVE times this release's release.json and shell, measured once per worker lifetime.
+let reserved = null;
+function reserve(cache) {
+  reserved ??= (async () => {
+    let n = 0;
+    for (const p of SHELL) n += (await (await cache.match(p))?.arrayBuffer())?.byteLength || 0;
+    return RESERVE * n;
+  })().catch(() => { reserved = null; return 0; });
+  return reserved;
+}
+// Best-effort writes after the install, one at a time, each next to the ballast: one that would eat into the room for
+// the next release's shell is skipped.
+let keeping = Promise.resolve();
+function keep(cache, key, res) {
+  keeping = keeping.then(async () => {
+    if (!(await claim(cache, await reserve(cache)))) return;
+    try { await cache.put(key, res); } catch { /* best effort */ } finally { await unclaim(cache); }
+  }).catch(() => null);
+  return keeping;
 }
 
 // The release's copy, or the network on a miss. Pages other than the app shell (privacy.html) match their own

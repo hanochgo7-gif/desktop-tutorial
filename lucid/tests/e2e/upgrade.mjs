@@ -24,6 +24,17 @@
 //       reload with a complete cache and the saved lessons, and screens load offline
 //   U12 a reload while another tab has a request the network never answers costs one hand-over page, not five
 //       seconds of them
+// and the storage edges of the round-5 review (S-15), with the quota set by Storage.overrideQuotaForOrigin:
+//   U13 from b2b669b with the origin nearly full (1.02x to 1.1x of usage): an update that does not fit changes nothing
+//       the old worker serves or stores, one that fits takes over, and either way Lucid starts offline with the saved
+//       lessons
+//   U14 from b2b669b at 1.2x: the update takes over, the old cache's space comes back at once, and right after the
+//       upgrade visit Lucid starts offline with the saved lessons
+//   U15 a second install of the same release (the registration went away, the cache stayed) on a full origin keeps
+//       the cache and the saved lessons, and Lucid starts offline
+//   U16 an install that fails half-way (two deploys in quick succession) leaves no cache: the next release installs
+//       at a quota that fits it next to the active release
+//   U17 a release that takes over while a tab boots (another tab asked): that tab never runs two releases' modules
 // The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
@@ -721,6 +732,177 @@ try {
       assert(ms < 4000, `Lucid started after ${ms} ms`);
     } finally { answer(); served.stall.clear(); rmSync(fix, { recursive: true, force: true }); }
     await ctx.close();
+  });
+
+  // ---------- round-5 review: storage edges (S-15) ----------
+  const shellOf = (page, name) => page.evaluate(async (n) => {
+    const c = await caches.open(n);
+    let size = 0;
+    for (const p of ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg', 'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json', 'content/manifest.json']) size += (await (await c.match(p))?.arrayBuffer())?.byteLength || 0;
+    return size;
+  }, name);
+  const usageOf = (page) => page.evaluate(async () => (await navigator.storage.estimate()).usage);
+  const setQuota = async (page, quotaSize) => (await page.context().newCDPSession(page)).send('Storage.overrideQuotaForOrigin', { origin: new URL(BASE).origin, quotaSize: Math.round(quotaSize) });
+  const settle = (page) => page.evaluate(async () => {
+    const reg = await navigator.serviceWorker.getRegistration();
+    await reg?.update().catch(() => {});
+    for (let i = 0; i < 150 && reg?.installing; i++) await new Promise((r) => setTimeout(r, 200));
+    return { waiting: Boolean(reg?.waiting), installing: Boolean(reg?.installing) };
+  });
+
+  // The failed install's partial cache (its space still counted while its worker ran, and the install tried again at
+  // every navigation) took the room that b2b669b's own network-first writes needed: its cache ended up with files of
+  // two releases, and offline Lucid no longer started.
+  for (const f of [1.02, 1.05, 1.1]) {
+    await check(`U13. From b2b669b with the origin nearly full (quota ${f}x usage): whether the update fits or not, Lucid starts offline with the saved lessons`, async () => {
+      const ctx = await context();
+      const a = await oldLearner(ctx, { lean: true });
+      await sleep(1500);
+      await setQuota(a, (await usageOf(a)) * f);
+      served.root = NEW;
+      await settle(a);
+      if (JSON.stringify(await cacheNames(a)) === JSON.stringify([LEGACY_CACHE])) {
+        // It did not fit: what the old worker serves from the HTTP cache is still the old release's (an attempt that
+        // fetched the new shell through it made the old worker serve the new app.js next to old modules).
+        const seen = await a.evaluate(async () => {
+          const r = await fetch('js/app.js', { cache: 'only-if-cached', mode: 'same-origin' }).catch(() => null);
+          return r?.ok ? r.text() : null;
+        });
+        assert(seen === readFileSync(join(OLD, 'js/app.js'), 'utf8'), `the failed update changed the app.js the old worker serves (${seen === null ? 'none' : seen.length} bytes)`);
+      }
+      await a.reload();
+      assert(await started(a) === 'app', 'the reload did not start Lucid');
+      await sleep(3000);
+      // Either the update did not fit (the old release and its cache stay as they were) or it took over (only its
+      // cache is left); never a mix.
+      const names = await cacheNames(a);
+      assert(names.length === 1, `caches ${names}`);
+      await offlineRestart(a, `x${f} (${names[0] === LEGACY_CACHE ? 'old release' : 'updated'})`, []);
+      await ctx.close();
+    });
+  }
+
+  // Activation opened the old caches and then deleted them: Chromium keeps a deleted cache's space while a Cache object
+  // for it lives, so in that worker's lifetime the saved lessons fetched again and the modules a page loaded did not
+  // fit; offline, Lucid did not start and every saved lesson was lost.
+  await check('U14. From b2b669b at quota 1.2x usage: the update takes over, and right after the upgrade visit Lucid starts offline with the saved lessons', async () => {
+    const ctx = await context();
+    const a = await oldLearner(ctx, { lean: true });
+    await sleep(1500);
+    await setQuota(a, (await usageOf(a)) * 1.2);
+    served.root = NEW;
+    await settle(a);
+    await takenOver(a);
+    await a.reload();
+    assert(await started(a) === 'app', 'the reload did not start Lucid');
+    await sleep(3000);
+    const [name] = await cacheNames(a);
+    assert(await lessonsIn(a, name) === SAVED.length, `saved lessons in the new cache: ${await lessonsIn(a, name)} of ${SAVED.length}`);
+    await offlineRestart(a, 'x1.2', [['path', '.level-tabs']]);
+    await ctx.close();
+  });
+
+  await check('U15. A second install of the same release on a full origin (the registration went away, the cache stayed) keeps the cache and the saved lessons, and Lucid starts offline', async () => {
+    const ctx = await context();
+    const helper = await tab(ctx);
+    await helper.goto(`${new URL(BASE).origin}/outside.html`); // same origin, outside the worker's scope
+    const a = await newVisit(ctx);
+    await learner(a);
+    await a.evaluate(async (ids) => { for (const id of ids) await fetch(`content/lessons/${id}.json`); }, SAVED);
+    await sleep(1500);
+    const [name] = await cacheNames(a);
+    const entries = await keysIn(a, name);
+    await a.evaluate(async () => { for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister(); });
+    await a.close();
+    await sleep(1500);
+    await setQuota(helper, await usageOf(helper));
+    const b = await tab(ctx);
+    await b.goto(`${BASE}#/today`);
+    assert(await started(b) === 'app', 'Lucid did not start');
+    await settle(b);
+    await sleep(1500);
+    assert(JSON.stringify(await cacheNames(helper)) === JSON.stringify([name]), `caches ${await cacheNames(helper)}`);
+    assert(await keysIn(helper, name) === entries, `the cache went from ${entries} entries to ${await keysIn(helper, name)}`);
+    assert(await lessonsIn(b, name) === SAVED.length, 'saved lessons lost');
+    await offlineRestart(b, 'reinstalled', [['path', '.level-tabs']]);
+    await ctx.close();
+  });
+
+  await check('U16. An install that fails half-way (two deploys in quick succession) leaves no cache: the next release installs at a quota that fits it next to the active release', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    await learner(a);
+    await sleep(1500);
+    const [name] = await cacheNames(a);
+    const usage = await usageOf(a);
+    const shell = await shellOf(a, name);
+    const B = nextRelease((d) => appendFileSync(join(d, 'js/views/progress.js'), '\n// release B\n'));
+    const C = nextRelease((d) => appendFileSync(join(d, 'js/views/progress.js'), '\n// release B\n// release C\n'));
+    let answer = () => {};
+    try {
+      served.stall.set('/lucid/js/views/progress.js', new Promise((r) => { answer = r; }));
+      served.root = join(B, 'lucid');
+      const up = settle(a);
+      for (let i = 0; i < 100 && (await cacheNames(a)).length < 2; i++) await sleep(100);
+      await sleep(1000);
+      served.root = join(C, 'lucid'); // B's progress.js is now answered with C's bytes
+      served.stall.clear();
+      answer();
+      await up;
+      await sleep(1000);
+      assert(JSON.stringify(await cacheNames(a)) === JSON.stringify([name]), `the failed install left its cache: ${await cacheNames(a)}`);
+      await setQuota(a, usage + shell * 1.3);
+      await stopWorkers(a);
+      await a.reload();
+      assert(await started(a) === 'app', 'Lucid did not start');
+      assert(await waitingWorker(a), 'the next release did not install next to the active one');
+    } finally { answer(); served.stall.clear(); rmSync(B, { recursive: true, force: true }); rmSync(C, { recursive: true, force: true }); }
+    await ctx.close();
+  });
+
+  // The page listened for a release switch only from the registration, after its first screen: a release that took
+  // over while it booted went unseen, and the page imported that release's screens next to its own core modules.
+  await check('U17. A release that takes over while a tab boots (another tab asked at a change of screen): that tab never runs two releases\' modules', async () => {
+    const fix = nextRelease((d) => {
+      appendFileSync(join(d, 'js/core/util.js'), "\nexport const nextMark = 'next';\n");
+      appendFileSync(join(d, 'js/views/progress.js'), "\nimport { nextMark } from '../core/util.js';\nwindow.__next = nextMark;\n");
+    });
+    const failed = [];
+    try {
+      for (const rate of [4, 6, 6]) {
+        const ctx = await context();
+        const a = await newVisit(ctx);
+        await learner(a);
+        await a.reload();
+        await a.waitForSelector('#view .today', { timeout: 30000 });
+        await sleep(1000);
+        served.root = join(fix, 'lucid');
+        const t = await tab(ctx);
+        const cdp = await ctx.newCDPSession(t);
+        await cdp.send('Emulation.setCPUThrottlingRate', { rate });
+        const go = t.goto(`${BASE}#/today`, { waitUntil: 'commit' });
+        const asked = a.evaluate(async () => {
+          const reg = await navigator.serviceWorker.getRegistration();
+          reg.update().catch(() => {});
+          for (let i = 0; i < 400 && !reg.waiting; i++) await new Promise((r) => setTimeout(r, 10));
+          if (reg.waiting) location.hash = '#/path';
+          return Boolean(reg.waiting);
+        });
+        await go;
+        const didAsk = await asked;
+        await t.waitForFunction(() => Boolean(window.lucid && document.querySelector('#view > :not(.boot-first)')), null, { timeout: 30000 }).catch(() => {});
+        await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+        await t.waitForFunction(async () => { const r = await navigator.serviceWorker.getRegistration(); return r && !r.waiting && r.active?.state === 'activated'; }, null, { timeout: 15000, polling: 100 }).catch(() => {});
+        await sleep(1000);
+        const r = await openScreen(t, 'progress', '.page-head + .stack-lg');
+        await sleep(800);
+        const mixed = t.__errors.filter((m) => /does not provide an export/.test(m));
+        if (!didAsk) failed.push(`${rate}x: the next release never waited`);
+        else if (r !== 'ok' || mixed.length) failed.push(`${rate}x: #/progress ${r}; ${mixed[0] || ''}`);
+        await ctx.close();
+      }
+    } finally { rmSync(fix, { recursive: true, force: true }); }
+    assert(!failed.length, failed.join(' || '));
   });
 } finally {
   await browser.close();

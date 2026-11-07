@@ -402,9 +402,108 @@ wall time instead of after 40 polls of 50 ms.
   `release.json` never read from or written to the cache by the fetch handler, installs fail without it, 128-bit
   hashes anchored by `LISTING`; U1-U9 and every earlier sw.test pass.
 
-**Status.** Re-reviewed by the delivery lane, changed by the integration and four times by the skeptic rounds as
-above. The second, third and fourth reviewers' conditions are met in code and tests; the S-15 sign-off itself is
-still the lead's to give before the release ships (plan item D2).
+**Fifth skeptic round: S-15 sign-off review of `9db2cd7` (2026-11-07).** Two reviews: a line-by-line review of the
+worker's state machine (install, activation, purge, carry-over, refetch, hand-over, fetch paths), each suspicion tested
+with a fake-cache unit test or in Chromium on a GitHub-Pages-like server, on the source and a built tree; and an
+offline and upgrade matrix (61 cells, built trees against b2b669b as production serves it, quotas 1.0 to 2 x usage,
+HTTP cache fresh or cleared, a worker restart and a fresh offline tab walking 31 screens and 5 saved lessons). Every
+problem was reproduced first with the reviewers' scripts on a `9db2cd7` tree (copies in scratchpad `refix5/b5/`,
+outputs `refix5/b5/out/pre-*`; matrix cell `refix5/m5/out/recover-b2-head-1.2.txt`), then run on this round's source
+(release `25d5521d984f`, which differs from the final one only in comments and in not yet skipping the `force-cache`
+fallback in `no-store` mode;
+outputs `refix5/b5/out/srcfix-*`, `rep2-*`) and on the final build (`e64c1cd42486`, `refix5/m5/out/`).
+- **Verdict (worker state machine): REJECT 9db2cd7 as is** ("each round's fix again broke a neighbouring path, this
+  time the storage edges"). Approve once: (1) the install deletes on failure only a cache it created, and deletes it
+  on every failure; (2) the install checks for room before its first write; (3) best-effort writes leave room for
+  the next release's shell; (4) the router listens for `controllerchange` from module evaluation; (5) tests cover the
+  1.02-1.1 x legacy band, the same-release reinstall (with the harness counting a replacing put in full), the
+  failed-install orphan and the claim during boot.
+- **Verdict (offline matrix): faster, and equal or better offline in every ample-storage cell; fix P1 before
+  shipping** (b2b669b -> this release at 1.2 x usage: offline Lucid did not start and all 5 saved lessons were lost,
+  because activation kept `Cache` objects for the caches it deleted, so Chromium kept their space for that worker's
+  lifetime). P2 (offline within max-age on a nearly full origin) and P3 (the hand-over load) may ship as documented.
+- **Condition 1, met.** Reproduced: `reinstall.mjs` (registration removed, Cache Storage kept, quota = usage x 1 and
+  x 1.05): the same release's fresh install failed and deleted the complete cache with the 3 saved lessons; `orphan.mjs`:
+  B, failing on a stale file, left 73 entries (1.6 MB) that kept C out. Fix: the install records whether it found a
+  complete cache of its own release (`holds()`); only otherwise is the cache its own, and every failure (not only a
+  quota error) then empties it through the worker's `Cache` object and deletes it, so the space returns at once. A
+  same-release install over a complete cache also writes nothing: an entry already holding the release's bytes and
+  the worker's headers is left in place (`inPlace`), so at quota = usage that install succeeds. On this round:
+  `reinstall.mjs` x 1 and x 1.05: the cache (150 entries, 3 lessons) is kept and the worker active again; `orphan2.mjs`
+  (quota = A's usage + 1.3 x shell, which fits C next to A but not next to B's leftovers): B leaves no cache and C
+  installs at the first attempt (9db2cd7: B's 73 entries stay and C never installs). Tests: sw.test "a second install
+  of the same release ... writes nothing and keeps the cache and saved lessons; one that fails leaves that cache
+  alone", "an install that fails for any reason, after writing, gives its own cache back and its space at once";
+  U15, U16.
+- **Condition 2, met, by writing rather than estimating.** `navigator.storage.estimate()` cannot carry the check:
+  Chromium's DevTools quota override (which every quota test uses) is enforced on writes but not reported by
+  `estimate()`, and with the profile on a real nearly full disk (a 64 MB tmpfs filled to 98%) `estimate()` reported
+  usage + 1 GiB free while every write failed (`refix5/b5/disk.mjs`). So the install reads the shell and
+  `release.json` into memory first, then writes a probe entry of their size and deletes it; when the probe does not
+  fit, the install fails before writing anything else. The probe's key is `https://lucid.invalid/room`, another
+  origin's URL that no request the worker serves can match. That alone did not fix the 1.02-1.05 x band: with nothing
+  written (usage unchanged), offline Lucid still did not start in 2 of 3 runs, while b2b669b's worker alone (HEAD's
+  files under b2b669b's `sw.js`) started in 4 of 4. The cause was the HTTP cache, not space: the failed install had
+  fetched the new `index.html` and `app.js` with `cache: 'no-cache'`, which stores them in the HTTP cache, and
+  b2b669b's network-first worker, which reads that cache, then served them next to old modules still fresh there
+  (`router.js` without `checkForRelease`) and stored the mix (a diagnostic run classed the old cache's entries as 25
+  old and 3 new). `9db2cd7` failed at its `release.json` write at 1.0 x, before fetching the shell, which is why U10
+  passed and the band began just above it. Now the one-time upgrade (an active worker and only hand-numbered caches)
+  fetches with `cache: 'no-store'`, so an attempt never changes what the old worker serves; the upgrade's files
+  differ from the old ones, so nothing a revalidation could reuse is lost. On this round: b2b669b -> source at 1.02,
+  1.05 and 1.1 x stays on the old release and starts offline with 3 of 3 lessons and 5 of 5 screens (1.02 and 1.05 x:
+  5 runs each), at 1.2 x it takes over and does the same; a built tree, whose shell is smaller, may take over at
+  1.1 x, and U13 accepts either outcome but requires the offline start and the lessons, and, when the update did not
+  fit, that the `app.js` the old worker serves from the HTTP cache is still the old one. Tests: sw.test "an install
+  checks for room before its first write ... writes nothing", "the one-time upgrade from the hand-numbered caches
+  leaves the HTTP cache as it is (no-store)"; U13 at 1.02, 1.05 and 1.1 x.
+- **Condition 3, met.** Reproduced: `tight.mjs` (quota 1.9 MB before the first visit): the first install filled the
+  origin, no update ever installed, and online the changed `slang.json` was refused (Expressions did not load). Now
+  best-effort files are written next to a ballast entry (same key) of 1.25 x the shell, deleted afterwards: in the
+  install, in the fill-in after activation, and for every miss kept later (one at a time). They therefore stop where
+  the next release's shell would no longer fit. On this round: the first release stores 64 entries, N1 installs at
+  the first attempt, takes over at the reload, and Expressions loads online. Test: sw.test "on a tight origin the first
+  install, and later misses, leave room for the next release's shell".
+- **Condition 4, met.** Reproduced: `askboot.mjs` (4 and 6 x CPU): 4 of 4 runs mixed releases and broke `#/progress`
+  (`SyntaxError ... export named 'n1mark'`). Now `js/core/router.js` attaches its `controllerchange` listener when it
+  is evaluated (and `watchRelease` adds the registration later), the first screen also reloads when a release took
+  over during the boot, and a screen whose modules were loading when one took over reloads instead of rendering or
+  showing "did not load". On this round: 8 of 8 throttled runs clean (4 reloaded into N1 at the first change of
+  screen, 4 booted on N1 through the first-screen reload); `#/progress` loads in every run. Tests: router.test "a
+  release taking over while the page boots ... is a release switch; the first install is not"; U17 (4, 6 and 6 x).
+- **Condition 5, met.** The unit harness now counts a replacing put in full, keeps a deleted cache's bytes counted
+  while a worker that opened it runs (`worker.stop()` ends that) unless its entries are deleted, models the HTTP cache
+  for `force-cache`, and has `caches.has`. Seven new sw.test cases and one router.test case; each fails on `9db2cd7`'s
+  worker or router, and each part of the fix is needed by one of them (mutation runs: no probe, no ballast, no
+  emptying at activation, no emptying at a failed install, no fill-in, no `no-store`, no boot listener). upgrade.mjs
+  U13 x 3, U14, U15, U16 and U17 all fail on a `9db2cd7` tree (U13: "the failed update changed the app.js the old
+  worker serves", also on a tree with only the `no-store` part removed; U14: "offline path: broken"; U15: no cache
+  left; U16: the orphan; U17: the mixed screen) and pass on the source and the built tree.
+- **Matrix P1, fixed.** Chromium frees a deleted cache's space only when no `Cache` object for it is alive, but frees
+  each entry deleted through one at once, before or after `caches.delete` (`refix5/b5/handle3.mjs`: 2 MB -> 0 in both
+  orders). Activation now deletes the old caches and then empties them through the objects it holds, before it fetches
+  the changed saved lessons again and then the offline list's files the install left out (`fillIn`, next to the
+  ballast). Reviewer's `recover.mjs`, b2b669b -> build at 1.2 x: right after the upgrade visit, offline Lucid starts
+  with 31 of 31 screens and 5 of 5 saved lessons (`9db2cd7`: does not start, 0 of 31, 0 of 5). Tests: sw.test
+  "activation gives the old caches' space back at once ...", U14.
+- **Matrix P2, fixed.** Offline, a file the release cache lacks was fetched with `cache: 'no-cache'` only, which fails
+  without a connection even when the HTTP cache holds a fresh copy. Now a network error falls back to
+  `cache: 'force-cache'` (not in `no-store` mode), and the bytes are hashed as before, so a copy of another release is
+  never served. Test: sw.test "offline, a file the install left out is served from the HTTP cache when its bytes are
+  the release's ...".
+- **Matrix P3 and the worker review's minor items.** The hand-over load is unchanged (after.md re-measures it). Files
+  left out at an upgrade on a nearly full origin are now fetched again once activation has made room (the fill-in);
+  after.md's "26 of 31" note no longer applies to that path.
+- **Unchanged.** Bodies only and the worker's headers on every response, hashing on every served response,
+  `release.json` never read from or written to the cache by the fetch handler, no install without `release.json`,
+  128-bit hashes anchored by `LISTING`, the hand-over page and its CSP, `index.html`'s CSP byte-identical to
+  b2b669b's; U1-U12 and every earlier sw.test pass. New surface: the probe and ballast entry under
+  `https://lucid.invalid/` (written and deleted by the worker, never served: the fetch handler ignores other origins
+  and its cache lookups use in-scope keys), and the `force-cache` fallback, whose bytes are checked like any other.
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and five times by the skeptic rounds as
+above. The second to fifth reviewers' conditions are met in code and tests; the S-15 sign-off itself is still the
+lead's to give before the release ships (plan item D2).
 
 ## 6. Limits of this review
 

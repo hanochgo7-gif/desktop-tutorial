@@ -33,8 +33,14 @@ function makeEnv() {
   // fail(url): 'network', 'hang' (no answer), a status for a request that should fail, or a promise the answer waits
   // for; digests counts SHA-256 runs in the workers.
   // quota: the bytes Cache Storage may hold in all (a write past it fails with QuotaExceededError, as in a browser).
-  const env = { online: true, fetches: [], overrides: new Map(), stores: new Map(), fail: () => null, digests: 0, quota: Infinity };
-  const sizes = new Map(); // `${cache name} ${url}` -> bytes
+  // As in Chromium, a put that replaces an entry needs room for the new body before the old one is freed, and a
+  // deleted cache's bytes stay counted while a worker that opened it runs (worker.stop() ends that), unless its
+  // entries are deleted through the Cache object. http: what the HTTP cache holds (url -> body), which a
+  // 'force-cache' request gets offline.
+  // written: the URLs of the app's files written (not the worker's room probes); afterPut(url): called after a write.
+  const env = { online: true, fetches: [], overrides: new Map(), stores: new Map(), fail: () => null, digests: 0, quota: Infinity, http: new Map(), written: [], afterPut: () => {} };
+  const sizes = new Map(); // `${store id} ${url}` -> bytes
+  let ids = 0;
   env.used = () => [...sizes.values()].reduce((a, n) => a + n, 0);
   env.serve = (url) => {
     const u = new URL(url);
@@ -48,23 +54,30 @@ function makeEnv() {
   env.open = (name) => {
     if (!env.stores.has(name)) {
       const m = new Map();
+      const id = ++ids;
       env.stores.set(name, {
-        m,
+        m, id, name,
         match: async (r) => { const v = m.get(key(r)); return v ? v.clone() : undefined; },
         put: async (r, v) => {
           const size = (await v.clone().arrayBuffer()).byteLength;
-          if (env.used() - (sizes.get(`${name} ${key(r)}`) || 0) + size > env.quota) throw new DOMException('The quota has been exceeded.', 'QuotaExceededError');
-          sizes.set(`${name} ${key(r)}`, size);
+          if (env.used() + size > env.quota) throw new DOMException('The quota has been exceeded.', 'QuotaExceededError');
+          sizes.set(`${id} ${key(r)}`, size);
           m.set(key(r), v);
+          if (key(r).startsWith(BASE)) env.written.push(key(r));
+          env.afterPut(key(r));
         },
-        delete: async (r) => { sizes.delete(`${name} ${key(r)}`); return m.delete(key(r)); },
+        delete: async (r) => { sizes.delete(`${id} ${key(r)}`); return m.delete(key(r)); },
         keys: async () => [...m.keys()].map((url) => ({ url })),
       });
     }
     return env.stores.get(name);
   };
-  env.deleteStore = (name) => {
-    for (const k of [...sizes.keys()]) if (k.startsWith(`${name} `)) sizes.delete(k);
+  env.free = (id) => { for (const k of [...sizes.keys()]) if (k.startsWith(`${id} `)) sizes.delete(k); };
+  // held: the store ids a running worker opened (their bytes stay counted after the delete until it stops).
+  env.deleteStore = (name, held = null) => {
+    const store = env.stores.get(name);
+    if (!store) return false;
+    if (held?.has(store.id)) held.ghosts.add(store.id); else env.free(store.id);
     return env.stores.delete(name);
   };
   env.cached = async (name, path) => { const r = await env.open(name).match(path); return r ? Buffer.from(await r.arrayBuffer()).toString() : undefined; };
@@ -91,6 +104,7 @@ function worker(env, { release = realRelease.release, hashes = realRelease.hashe
   if (release !== realRelease.release || hashes !== realRelease.hashes) env.overrides.set('/lucid/release.json', JSON.stringify({ release, hashes }));
   const listeners = {};
   const calls = { skipWaiting: 0, claim: 0, posted: [] };
+  const held = Object.assign(new Set(), { ghosts: new Set() });
   const self = {
     location: new URL('sw.js', BASE),
     registration: { active: active ? {} : null, waiting, installing },
@@ -103,13 +117,15 @@ function worker(env, { release = realRelease.release, hashes = realRelease.hashe
     crypto: { subtle: { digest: (algo, buf) => { env.digests += 1; return webcrypto.subtle.digest(algo, buf); } }, getRandomValues: (a) => webcrypto.getRandomValues(a) },
     Request: class { constructor(u, init = {}) { this.url = new URL(typeof u === 'string' ? u : u.url, BASE).href; this.cache = init.cache; this.method = 'GET'; this.mode = 'cors'; } },
     caches: {
-      open: async (n) => env.open(n),
+      open: async (n) => { const c = env.open(n); held.add(c.id); return c; },
+      has: async (n) => env.stores.has(n),
       keys: async () => [...env.stores.keys()],
-      delete: async (n) => env.deleteStore(n),
+      delete: async (n) => env.deleteStore(n, held),
     },
     fetch: async (r) => {
       const url = key(r);
       env.fetches.push({ url, cache: r.cache });
+      if (r.cache === 'force-cache' && env.http.has(url)) return netRes(env.http.get(url));
       if (!env.online) throw new TypeError('offline');
       const failure = env.fail(url);
       if (failure === 'network') throw new TypeError('Failed to fetch');
@@ -130,7 +146,9 @@ function worker(env, { release = realRelease.release, hashes = realRelease.hashe
     await Promise.all(waits);
     return { response: out, handled: Boolean(response) };
   };
-  return { calls, fire, name: `lucid-${release}`, cache: () => env.open(`lucid-${release}`) };
+  // stop(): the worker ends, and with it its Cache objects: deleted caches it held give their space back.
+  const stop = () => { for (const id of held.ghosts) env.free(id); held.ghosts.clear(); held.clear(); };
+  return { calls, fire, stop, name: `lucid-${release}`, cache: () => env.open(`lucid-${release}`) };
 }
 const req = (path, mode = 'cors', method = 'GET') => ({ url: abs(path), mode, method });
 const body = async (r) => Buffer.from(await r.arrayBuffer()).toString();
@@ -797,4 +815,206 @@ test('activation leaves the cache of a newer release that is installing; an inst
   const d2 = worker(env, { release: 'dddddddddddd', hashes: hashesD, active: true });
   await d2.fire('install');
   assert.ok(await d2.cache().match('release.json'));
+});
+
+// ---------- round-5 review: storage edges ----------
+const SHELL_FILES = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg', 'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json', 'content/manifest.json'];
+const shellBytes = async (cache) => {
+  let n = 0;
+  for (const p of SHELL_FILES) n += (await (await cache.match(p)).arrayBuffer()).byteLength;
+  return n;
+};
+const SAVED_LESSONS = ['a1-01', 'a1-02', 'a1-03'];
+async function activeRelease(env, release = 'aaaaaaaaaaaa') {
+  const a = worker(env, { release });
+  await a.fire('install');
+  await a.fire('activate');
+  for (const l of SAVED_LESSONS) await a.fire('fetch', req(`content/lessons/${l}.json`));
+  return a;
+}
+const fixed = () => {
+  const hashes = { ...realRelease.hashes, 'js/views/today.js': hh('export default 1; // the fix') };
+  return { hashes, serve: (env) => env.overrides.set('/lucid/js/views/today.js', 'export default 1; // the fix') };
+};
+
+// The b2b669b -> this release upgrade at 1.05x usage: the failed install's partial cache used up the headroom the old
+// worker's own writes needed, and its cache ended up holding two releases' files.
+test('an install checks for room before its first write: with less free space than its shell and release.json it writes nothing, over this release and over the hand-numbered caches', async () => {
+  for (const from of ['aaaaaaaaaaaa', '2026-11-03.1']) {
+    for (const f of [0.3, 0.9]) {
+      const env = makeEnv();
+      const a = await activeRelease(env, from);
+      const used = env.used();
+      env.quota = used + Math.round((await shellBytes(a.cache())) * f);
+      const { hashes, serve } = fixed();
+      serve(env);
+      const written = env.written.length;
+      const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
+      await assert.rejects(b.fire('install'), (err) => err.name === 'QuotaExceededError', `${from} x${f}`);
+      assert.equal(env.written.length, written, `${from} x${f}: the install wrote before it knew it had room`);
+      assert.equal(env.used(), used, `${from} x${f}: space taken`);
+      assert.deepEqual([...env.stores.keys()], [a.name], `${from} x${f}`);
+      assert.equal(b.calls.skipWaiting, 0);
+    }
+  }
+});
+
+test('a second install of the same release (the registration went away, Cache Storage stayed) on a full origin writes nothing and keeps the cache and saved lessons; one that fails leaves that cache alone', async () => {
+  for (const f of [1, 1.05]) {
+    const env = makeEnv();
+    const a = await activeRelease(env, realRelease.release);
+    const used = env.used();
+    const entries = (await a.cache().keys()).length;
+    env.quota = Math.round(used * f);
+    const written = env.written.length;
+    const again = worker(env); // no active worker: the browser installs this release afresh
+    await again.fire('install');
+    assert.equal(env.written.length, written, `x${f}: the complete cache was written again`);
+    assert.equal(again.calls.skipWaiting, 1);
+    await again.fire('activate');
+    assert.deepEqual([...env.stores.keys()], [a.name]);
+    assert.equal((await a.cache().keys()).length, entries);
+    env.online = false;
+    const offline = worker(env, { active: true });
+    assert.equal(await body((await offline.fire('fetch', req('./', 'navigate'))).response), file('index.html'), `x${f}: offline start`);
+    for (const l of SAVED_LESSONS) assert.equal(await env.cached(a.name, `content/lessons/${l}.json`), file(`content/lessons/${l}.json`), `x${f}: saved lesson ${l}`);
+    // A second install that fails (no release.json, a stale file): the complete cache is not this install's to give back.
+    env.online = true;
+    for (const fail of [(u) => (u.includes('release.json') ? 503 : null), (u) => (u.includes('release.json') ? 'network' : null)]) {
+      env.fail = fail;
+      await assert.rejects(worker(env).fire('install'));
+      assert.equal((await a.cache().keys()).length, entries, `x${f}: the failed install removed the complete cache`);
+    }
+  }
+});
+
+test('an install that fails for any reason, after writing, gives its own cache back and its space at once: the next release then installs at a quota that fits it', async () => {
+  for (const how of ['a stale file (two deploys in quick succession)', 'no room for the shell after all (another app wrote meanwhile)']) {
+    const env = makeEnv();
+    const a = await activeRelease(env);
+    const used = env.used();
+    const shell = await shellBytes(a.cache());
+    const { hashes, serve } = fixed();
+    serve(env);
+    if (how.startsWith('a stale')) {
+      // The edge already serves the next deploy's today.js: B fails half-way, its shell written.
+      env.overrides.set('/lucid/js/views/today.js', 'export default 3; // C');
+      const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
+      await assert.rejects(b.fire('install'), /does not match/);
+      assert.ok(env.written.length > 0);
+      serve(env);
+    } else {
+      // The room probe fits; right after it, another app on the origin takes most of that room.
+      env.afterPut = (u) => { if (!u.startsWith(BASE)) { env.afterPut = () => {}; env.quota = used + Math.round(shell / 2); } };
+      const written = env.written.length;
+      const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
+      await assert.rejects(b.fire('install'), (err) => err.name === 'QuotaExceededError');
+      assert.ok(env.written.length > written, 'nothing was written: the case is not tested');
+    }
+    assert.deepEqual([...env.stores.keys()], [a.name], `${how}: the failed install's cache stayed`);
+    assert.equal(env.used(), used, `${how}: its space did not come back while its worker runs`);
+    // C fits next to A, not next to A and B's leftovers.
+    env.quota = used + shell + SHELL_FILES.length * 1024 + 4096;
+    const c = worker(env, { release: 'cccccccccccc', hashes, active: true });
+    await c.fire('install');
+    assert.ok(await c.cache().match('release.json'), `${how}: C did not install`);
+  }
+});
+
+test('on a tight origin the first install, and later misses, leave room for the next release\'s shell: the next release installs', async () => {
+  const env0 = makeEnv();
+  const w0 = worker(env0);
+  await w0.fire('install');
+  const shell = await shellBytes(w0.cache());
+  const env = makeEnv();
+  env.quota = Math.round(shell * 3.5); // less than the whole install
+  assert.ok(env.quota < env0.used());
+  const a = worker(env, { release: 'aaaaaaaaaaaa' });
+  await a.fire('install');
+  await a.fire('activate');
+  const reserve = 1.25 * shell;
+  assert.ok(env.quota - env.used() >= reserve, `the install left ${env.quota - env.used()} bytes, not the room for a shell`);
+  // The learner opens screens whose modules were left out: each is fetched, checked, and kept while room stays.
+  const left = manifest.offline.filter((p) => /^js\/views\//.test(p));
+  for (const p of left) assert.equal(await body((await a.fire('fetch', req(p))).response), file(p));
+  assert.ok(env.quota - env.used() >= reserve, 'kept misses took the room');
+  const { hashes, serve } = fixed();
+  serve(env);
+  const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
+  await b.fire('install');
+  await b.fire('message', undefined, { type: 'lucid:activate' });
+  await b.fire('activate');
+  assert.deepEqual([...env.stores.keys()], [b.name], 'the next release did not take over');
+  assert.equal(await body((await b.fire('fetch', req('js/views/today.js'))).response), 'export default 1; // the fix');
+});
+
+// The b2b669b -> this release upgrade at 1.2x usage: activation deleted the old caches, but its Cache objects for them
+// kept their space counted for that worker's lifetime, so the saved lessons fetched again did not fit, and were lost.
+test('activation gives the old caches\' space back at once (not when its worker stops): the saved lessons the release changed are fetched again in that lifetime', async () => {
+  const env = makeEnv();
+  const legacy = await activeRelease(env, '2026-11-03.1');
+  // Production's raw bytes differ from this release's (minified) ones: every saved lesson "changed".
+  for (const l of SAVED_LESSONS) await legacy.cache().put(abs(`content/lessons/${l}.json`), netRes(`${file(`content/lessons/${l}.json`)}\n`));
+  env.quota = env.used() + Math.round((await shellBytes(legacy.cache())) * 1.6);
+  const w = worker(env, { active: true });
+  await w.fire('install');
+  assert.equal(w.calls.skipWaiting, 1, 'the upgrade from the hand-numbered caches takes over at once');
+  await w.fire('activate');
+  await w.fire('fetch', req('assets/favicon.svg')); // the next request waits for the refill
+  assert.deepEqual([...env.stores.keys()], [w.name]);
+  let own = 0;
+  for (const r of await w.cache().keys()) own += (await (await w.cache().match(r.url)).arrayBuffer()).byteLength;
+  assert.equal(env.used(), own, 'the old cache\'s space is still counted');
+  for (const l of SAVED_LESSONS) assert.equal(await env.cached(w.name, `content/lessons/${l}.json`), file(`content/lessons/${l}.json`), `saved lesson ${l} lost`);
+  // With the room back, what the install left out (it kept the room for the next release) is fetched, checked and
+  // kept, so every screen of the offline list starts offline, while that room stays free.
+  const missing = [];
+  for (const p of manifest.offline) if (!(await w.cache().match(p))) missing.push(p);
+  assert.ok(missing.length < manifest.offline.length / 4, `left out after the room came back: ${missing.length}: ${missing.slice(0, 3)}`);
+  for (const p of manifest.offline.filter((f) => /^js\/core\//.test(f))) assert.ok(await w.cache().match(p), `${p} (the app's boot) left out`);
+  assert.ok(env.quota - env.used() >= 1.25 * (await shellBytes(w.cache())), 'the fill-in took the next release\'s room');
+});
+
+test('offline, a file the install left out is served from the HTTP cache when its bytes are the release\'s, and kept; a copy that is not is never served', async () => {
+  const env = makeEnv();
+  const a = await activeRelease(env);
+  for (const p of ['js/views/review.js', 'js/views/grammar.js']) await a.cache().delete(p);
+  env.online = false;
+  env.http.set(abs('js/views/review.js'), file('js/views/review.js')); // loaded within max-age
+  env.http.set(abs('js/views/grammar.js'), 'export default 666; // another release');
+  const w = worker(env, { release: 'aaaaaaaaaaaa', active: true });
+  assert.equal(await body((await w.fire('fetch', req('js/views/review.js'))).response), file('js/views/review.js'));
+  assert.equal(await env.cached(a.name, 'js/views/review.js'), file('js/views/review.js'));
+  const other = await w.fire('fetch', req('js/views/grammar.js')).then((r) => r.response, () => null);
+  assert.ok(!other || other.type === 'error', 'a copy of another release was handed to the page');
+  assert.equal(await a.cache().match('js/views/grammar.js'), undefined);
+});
+
+// The b2b669b -> this release upgrade at 1.02x-1.1x usage: the install that did not fit had fetched the new shell with
+// cache 'no-cache', which put the new index.html and app.js in the HTTP cache; b2b669b's network-first worker then
+// served them next to the old modules (still fresh there) and stored that mix: offline Lucid no longer started.
+test('the one-time upgrade from the hand-numbered caches leaves the HTTP cache as it is (no-store), so a failed attempt changes nothing the old worker serves; other installs revalidate', async () => {
+  const env = makeEnv();
+  const legacy = await activeRelease(env, '2026-11-03.1');
+  for (const l of SAVED_LESSONS) await legacy.cache().put(abs(`content/lessons/${l}.json`), netRes(`${file(`content/lessons/${l}.json`)}\n`));
+  for (const p of ['js/app.js', 'index.html']) await legacy.cache().delete(p); // changed in the new release: fetched
+  await legacy.cache().delete('./');
+  for (const quota of [env.used() + 1000, Infinity]) {
+    env.quota = quota;
+    env.fetches.length = 0;
+    const w = worker(env, { active: true });
+    const done = await w.fire('install').then(() => true, () => false);
+    assert.equal(done, quota === Infinity);
+    const own = env.fetches.filter((f) => !f.url.includes('release.json'));
+    assert.ok(own.some((f) => f.url === abs('js/app.js')) && own.some((f) => f.url === abs('content/lessons/a1-01.json') || quota !== Infinity), `${quota}: the case is not tested`);
+    assert.deepEqual([...new Set(own.map((f) => f.cache))], ['no-store'], `${quota}: the upgrade's requests went through the HTTP cache`);
+  }
+  // An update over this release's own cache revalidates, as before (a 304 reuses the copy the page just loaded).
+  const env2 = makeEnv();
+  await activeRelease(env2);
+  const { hashes, serve } = fixed();
+  serve(env2);
+  env2.fetches.length = 0;
+  await worker(env2, { release: 'bbbbbbbbbbbb', hashes, active: true }).fire('install');
+  assert.deepEqual([...new Set(env2.fetches.map((f) => f.cache))], ['no-cache']);
 });

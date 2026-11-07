@@ -223,6 +223,28 @@ test('the first install claiming the page is not a release switch; a later switc
   assert.equal(R.releaseState().stale, true, 'a later release taking over');
 });
 
+// Round-5 review: the page listened only from the registration, after the first screen; a release that took over
+// while the page booted (another tab asked) went unseen, and the page imported that release's views (C-4).
+test('a release taking over while the page boots, before the registration is watched, is a release switch; the first install is not (C-4)', async () => {
+  const real = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+  try {
+    for (const [label, controller, stale] of [['a controlled page', {}, true], ['a first visit', null, false]]) {
+      const { sw, reg } = fakeWorkers({ controller });
+      Object.defineProperty(globalThis, 'navigator', { value: { serviceWorker: sw }, configurable: true, writable: true });
+      const R = await import(`../../js/core/router.js?boot-${controller ? 'controlled' : 'first'}`);
+      sw.dispatchEvent(new Event('controllerchange')); // during boot: no registration yet
+      sw.controller = {};
+      reg.active = {};
+      R.watchRelease(reg, undefined, 0);
+      assert.equal(R.releaseState().stale, stale, label);
+      sw.dispatchEvent(new Event('controllerchange'));
+      assert.equal(R.releaseState().stale, true, `${label}: a later release taking over`);
+    }
+  } finally {
+    if (real) Object.defineProperty(globalThis, 'navigator', real); else delete globalThis.navigator;
+  }
+});
+
 test('a tab whose release was switched by another tab reloads when hidden on a hub, not on an activity (B6)', async () => {
   const R = await import('../../js/core/router.js?other-tab');
   const { sw, reg, posted } = fakeWorkers({ controller: {}, active: {} });
