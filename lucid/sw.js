@@ -39,7 +39,7 @@
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
 const LISTING = 'e6ebd2806eb3f3c8dac48d73dc4d0e02fb0cab4e5245100429eeef23e674ad6a';
-const RELEASE = '8612c63a8047';
+const RELEASE = '2aeb12fd30ca';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json',
@@ -225,25 +225,35 @@ async function ensure(ctx, p) {
 // Run on install and again at activation, for lessons saved while this worker waited, or that did not fit at install.
 // Activating, the old caches are no longer served and are deleted next: each copy is moved (its old entry deleted at
 // once, which gives its space back), so a lesson needs room for itself only; when even that does not fit, the old
-// caches' own files are dropped first. Returns the saved lessons that changed in this release, or that still did not
-// fit: fetched again here when refetch is set (install), by the caller otherwise (activation, once the old caches are
-// gone).
+// caches' own files are dropped first. A copy whose bytes this release changed moves too when activating (its bytes
+// as stored, with this worker's headers): these files are stale-while-revalidate data, served as stored and
+// refreshed on use, so an older copy is what release 2026-11-07.1 itself would serve. It is still fetched again
+// (below, or by the caller), but a fetch that does not happen (no connection, the worker stopped) no longer loses it.
+// Returns the saved lessons that changed in this release, or that still did not fit: fetched again here when refetch
+// is set (install), by the caller otherwise (activation, once the old caches are gone).
 async function carryOver(cache, hashes, olds, { refetch = false, activating = false, mode } = {}) {
   if (!hashes) return [];
   const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
   const missed = new Set();
   let purged = false;
+  // 'same' (moved or copied, unchanged), 'older' (moved, changed in this release) or null (not placed).
   const put = async (old, req, rel) => {
     for (;;) {
-      const res = await fromOld([old], rel, hashes[rel]).catch(() => null);
-      if (!res) return false;
+      let res = await fromOld([old], rel, hashes[rel]).catch(() => null);
+      let kind = 'same';
+      if (!res && activating) {
+        const hit = await old.match(req).catch(() => null);
+        res = hit?.ok ? entry(rel, await hit.arrayBuffer()) : null;
+        kind = 'older';
+      }
+      if (!res) return null;
       try {
         await cache.put(rel, res);
         if (activating) await old.delete(req).catch(() => null);
-        return true;
+        return kind;
       } catch (err) {
-        if (!activating) return true; // installing: activation carries it over again
-        if (!isFull(err) || purged) return false; // fetched again once the old caches are emptied
+        if (!activating) return kind; // installing: activation carries it over again
+        if (!isFull(err) || purged) return null; // fetched again once the old caches are emptied
         purged = true;
         await purge(olds);
       }
@@ -254,7 +264,9 @@ async function carryOver(cache, hashes, olds, { refetch = false, activating = fa
       const url = new URL(req.url);
       const rel = url.pathname.slice(SCOPE.length);
       if (url.search || !url.pathname.startsWith(SCOPE) || !isRuntime(rel) || have.has(url.pathname) || !hashes[rel]) continue;
-      if (await put(old, req, rel)) { have.add(url.pathname); missed.delete(rel); } else if (rel.startsWith('content/lessons/')) missed.add(rel);
+      const kind = await put(old, req, rel);
+      if (kind) have.add(url.pathname);
+      if (kind === 'same') missed.delete(rel); else if (rel.startsWith('content/lessons/')) missed.add(rel);
     }
   }
   if (!refetch) return [...missed];
@@ -386,23 +398,32 @@ self.addEventListener('message', (e) => {
 // when this worker stops), then the saved lessons that changed in this release are fetched again (best effort), then
 // the files of the offline list that the install left out for want of room (fillIn).
 // Not part of the activation itself, which holds every fetch until it ends; the next fetch events keep it alive.
+// A fill-in that a lost connection or a stopped worker cut short is taken up again at the next load of the app
+// (a navigation to the shell), in this worker lifetime or a later one, until nothing is left that fits.
 let refill = null;
+// True once fillIn has nothing left to fetch in this worker lifetime: every file stored, or no room for more.
+let filled = false;
 // Fetches, checks and keeps the offline list's files missing from cache (code first), a few at a time, next to the
-// ballast (room for the next release's shell). Nothing is fetched when the install stored them all.
+// ballast (room for the next release's shell). Nothing is fetched when the install stored them all. A file whose
+// fetch fails for want of a connection leaves the fill-in to do (filled stays false); one that does not match (an
+// edge already on the next release) does not.
 async function fillIn(cache, hashes) {
   let list = [];
   try { list = JSON.parse(new TextDecoder().decode(await (await cache.match('content/manifest.json')).arrayBuffer())).offline || []; } catch { return; }
+  if (!Object.keys(hashes || {}).length) return; // nothing to check against yet
   const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname.slice(SCOPE.length)));
   const code = (p) => /^(js|vendor)\//.test(p);
   const todo = [...list.filter(code), ...list.filter((p) => !code(p))].filter((p) => !SHELL.includes(p) && !have.has(p) && hashes[p]);
-  if (!todo.length) return;
+  if (!todo.length) { filled = true; return; }
   await (keeping = keeping.then(async () => {
-    if (!(await claim(cache, await reserve(cache)))) return;
+    if (!(await claim(cache, await reserve(cache)))) { filled = true; return; }
+    let cut = false;
     try {
       for (let i = 0; i < todo.length; i += 6) {
-        const got = await Promise.all(todo.slice(i, i + 6).map((p) => fetchBody(p, hashes[p]).then((buf) => [p, buf], () => null)));
-        for (const [p, buf] of got.filter(Boolean)) if (!(await cache.put(p, entry(p, buf)).then(() => true, () => false))) return;
+        const got = await Promise.all(todo.slice(i, i + 6).map((p) => fetchBody(p, hashes[p]).then((buf) => [p, buf], (err) => { if (!err?.mismatch) cut = true; return null; })));
+        for (const [p, buf] of got.filter(Boolean)) if (!(await cache.put(p, entry(p, buf)).then(() => true, () => false))) { filled = true; return; }
       }
+      filled = !cut;
     } finally { await unclaim(cache); }
   }).catch(() => null));
 }
@@ -582,6 +603,10 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || !url.pathname.startsWith(SCOPE)) return;
   const rel = url.pathname.slice(SCOPE.length);
+  // A load of the app takes up a fill-in left unfinished (see refill), unless a newer release installs or waits.
+  if (!refill && !filled && e.request.mode === 'navigate' && isShell(rel) && !newerRelease()) {
+    refill = caches.open(CACHE).then(async (cache) => fillIn(cache, await trustedHashes(cache))).catch(() => null).finally(() => { refill = null; });
+  }
   if (refill) e.waitUntil(refill);
   // release.json is this worker's own (read at install, and checked against LISTING): a request for it, a
   // navigation included, goes to the network and never reads, writes or deletes the cached copy.

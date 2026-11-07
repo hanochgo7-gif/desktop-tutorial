@@ -614,10 +614,53 @@ a child-protection one, not a worker one: in a tab still on 2026-11-07.1 the scr
 scenario and could open it (no item is flagged today, so nobody was exposed). Fixed and tested (fix-log AGE-16,
 upgrade U19, which fails on `4546346`). Tabs still on 2026-11-03.1 are covered as architecture §7 states.
 
-**Status.** Re-reviewed by the delivery lane, changed by the integration and six times by the skeptic rounds as
-above. The second to sixth reviewers' conditions are met in code and tests (the sixth round's tight-origin and
-ballast items as documented limits with follow-ups); the S-15 sign-off itself is still the lead's to give before the
-release ships (plan item D2).
+**Seventh skeptic round: S-15 and age sign-off review of `d2d62a2` (2026-11-07, production `d83a500`).** Two
+reviews of the integration of production's no-age-limit change: one of the age protections on the perf paths (source
+and built trees, fresh tabs and tabs that crossed the deploy, online and offline, with flagged content injected into
+throwaway `git archive` copies and the index files regenerated; scratchpad `skeptic7-age-on-perf/`), and one of the
+merged worker and the upgrade from `d83a500` to `d2d62a2` on a GitHub-Pages-like server with fault injection, source
+(`8612c63a8047`) and built (`d9f3f0d19b33`) (scratchpad `skeptic7-worker-upgrade/`). The problem was reproduced first
+with the reviewer's own script on `d2d62a2`'s build, then run on this round's build (release `87265cced809`; source
+`2aeb12fd30ca`; scratchpad `refix7/c9/`).
+- **Sign-off (age): "I could not refute it: on the age lens, d2d62a2 is safe to ship in place of d83a500."** Every age
+  behaviour tested matched production, on source and built, in fresh tabs and in tabs that crossed the deploy,
+  offline, without the index files, across an age change and across UTC New Year; no condition. This round changes
+  no age path: the files it moves are lessons, centre and pool files, none of which carries a `sensitive` flag or
+  is age-filtered (only scenarios and expressions are, in code, on every read), and the fill-in stores only files
+  checked against `release.json`.
+- **Sign-off (worker and upgrade): "approve with conditions"**, no blocker; nothing that works on `d83a500` breaks in
+  normal operation. Condition P-A (minor): fix or document that, on an origin under about 1.45 x of usage, an
+  interruption right after the one-time built upgrade can lose saved lessons and leave most screens unavailable
+  offline with no retry.
+- **Condition P-A, met by a fix.** Reproduced with the reviewer's `c9-refill.mjs` on `d2d62a2`'s build (75 lessons
+  saved on `d83a500`, quota by `Storage.overrideQuotaForOrigin`): worker stopped 1.3-1.6 s after the takeover at
+  1.15 x and 1.3 x, 49 and 12 of 75 lessons left in the new cache, 2 and 18 of 21 screens offline; server down for
+  20 s at 1.06 x, 0 lessons and 1 of 21 screens. Cause: none of production's saved lessons matches the built
+  (minified) bytes, the install had no room to carry anything over, activation deleted the old caches with the
+  lessons, and the refetch and the fill-in ran once. Fix (`sw.js`), taking the reviewer's option (a) for the
+  lessons and (b) for the screens, with no new mechanism: at activation a saved lesson (or centre or pool file) the
+  release changed is moved as stored, with the worker's headers, like a matching one (these are stale-while-
+  revalidate data, served as stored and never hashed, so production's copy is what `d83a500` itself serves; it is
+  still fetched again, and refreshed on use); and a fill-in that a lost connection or a stopped worker cut short is
+  taken up again at the next load of the app (a navigation to the shell) until every offline file is stored or no
+  room is left next to the ballast; a file that does not match (an edge on another deploy) does not count as left
+  to do. The hash check stays everywhere else: code, pages and non-runtime content are still only ever served
+  hashed. On this round's build: 75 of 75 lessons kept at the fault, 223 entries after the next load, 21 of 21
+  screens offline, in all three cases. Tests: sw.test "the upgrade on a nearly full origin keeps every saved lesson
+  when the network goes right after the takeover ..." (1.2 and 2 shells free; fails on `d2d62a2` with 75 lessons
+  lost, and with either half of the fix removed) and "a load of the app with nothing left to fill in makes no
+  request ..."; upgrade.mjs U20 (screens and lessons cut off until just after the takeover, then the worker
+  stopped; fails on `d2d62a2`'s build with 0 of 3 lessons and on its source with 19 of 30 screens).
+- **Cost.** A load of the app reads the cache's key list once per worker lifetime when the fill-in is not known to be
+  complete; on a tight origin where files never fit, each worker lifetime may write the ballast once and fetch up to
+  six files that are then not kept (as a kept miss already does). Measured: docs/perf/after.md, "Seventh skeptic
+  round".
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and seven times by the skeptic rounds as
+above. The second to seventh reviewers' conditions are met in code and tests (the sixth round's tight-origin and
+ballast items as documented limits with follow-ups; the seventh round's P-A by a fix); the seventh round's age
+review signed off without conditions; the S-15 sign-off itself is still the lead's to give before the release ships
+(plan item D2).
 
 ## 6. Limits of this review
 

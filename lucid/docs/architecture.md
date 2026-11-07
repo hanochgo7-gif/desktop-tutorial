@@ -390,8 +390,15 @@ release, `lucid-<RELEASE>`.
   are moved (each old entry deleted right after its copy, so each needs room for itself only; the old release's own
   files are dropped first if even that does not fit), the old caches are deleted and emptied, so their space returns
   at once, and then saved lessons the release changed or that still did not fit, and files the install left out,
-  are fetched again (checked, best effort). Offline, a file the release cache lacks is taken from the HTTP cache when
-  its bytes are the release's.
+  are fetched again (checked, best effort). A saved lesson (or centre or pool file) whose bytes the release changed
+  is moved too, as stored: these are stale-while-revalidate data, so the old copy is what 2026-11-07.1 itself would
+  serve, until the fetch replaces it or a use online refreshes it. A fill-in that a lost connection or a stopped
+  worker cut short is taken up again at the next load of the app (a navigation to the shell), in that worker
+  lifetime or a later one, until every file of the offline list is stored or no room is left next to the ballast
+  (seventh skeptic round: on the built one-time upgrade, where none of production's saved lessons matches the
+  minified bytes, an interruption in the seconds after the takeover had lost saved lessons for good and left most
+  screens without an offline copy until the next release). Offline, a file the release cache lacks is taken from the
+  HTTP cache when its bytes are the release's.
 - **Known limits on a full origin** (sixth skeptic round). (1) With room for only one release (under about 2.25
   times the shell free at the first install, some 800 KB), the next release cannot install; a screen it changed that
   the active release never stored loads from the HTTP cache's copy of the active release, and, once the browser has

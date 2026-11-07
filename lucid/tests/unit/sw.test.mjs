@@ -1091,6 +1091,70 @@ test('a saved lesson activation cannot place is fetched again once the old cache
   for (const l of SAVED_LESSONS) assert.equal(await env.cached(b.name, `content/lessons/${l}.json`), file(`content/lessons/${l}.json`), `saved lesson ${l} lost`);
 });
 
+// Round 7, P-A: the one-time upgrade from production (d83a500) on a nearly full origin. Production's saved lessons
+// never match this release's (minified) bytes, the install had no room to carry anything over, and activation
+// deleted the old caches; the saved lessons and the screens the install left out were fetched again once, in that
+// worker lifetime. A connection lost (or the worker stopped) right after the takeover lost the lessons for good and
+// left most screens without an offline copy until the next release (c9-refill: 2 of 21 screens, 21-69 of 75 lessons).
+for (const room of [1.2, 2]) test(`the upgrade on a nearly full origin keeps every saved lesson when the network goes right after the takeover, and the screens the install left out are fetched at the next load of the app (x${room})`, async () => {
+  const env = makeEnv();
+  const old = env.open(`lucid-${LEGACY_RELEASES[0]}`);
+  for (const p of [...SHELL_FILES.filter((p) => p !== 'release.json'), 'index.html', ...manifest.offline]) { const b = env.serve(abs(p)); if (b) await old.put(abs(p), netRes(b)); }
+  // Every lesson saved, in production's bytes (not this release's).
+  for (const l of ALL_LESSONS) await old.put(abs(l), netRes(`${env.serve(abs(l))}\n`));
+  const env0 = makeEnv();
+  const w0 = worker(env0);
+  await w0.fire('install');
+  // Free space for the shell and some more, less than the shell and the room for the next release's (2.25 shells).
+  env.quota = env.used() + Math.round((await shellBytes(w0.cache())) * room);
+  const w = worker(env, { active: true });
+  await w.fire('install');
+  assert.equal(w.calls.skipWaiting, 1);
+  const views = manifest.offline.filter((p) => /^js\/views\//.test(p));
+  const leftOut = async (cache) => { const out = []; for (const p of manifest.offline) if (!(await cache.match(p))) out.push(p); return out; };
+  assert.ok((await leftOut(w.cache())).length > views.length / 2, `x${room}: the install kept most files: the case is not tested`);
+  env.online = false; // the server goes down at the takeover
+  await w.fire('activate');
+  await w.fire('fetch', req('assets/favicon.svg')).catch(() => null);
+  w.stop();
+  assert.deepEqual([...env.stores.keys()], [w.name]);
+  const lost = [];
+  for (const l of ALL_LESSONS) if (!(await w.cache().match(l))) lost.push(l);
+  assert.deepEqual(lost, [], `x${room}: ${lost.length} saved lessons lost`);
+  // Production's copy of a lesson is served as stored (stale-while-revalidate), offline too.
+  const offline = await w.fire('fetch', req(ALL_LESSONS[0]));
+  assert.equal(await body(offline.response), `${file(ALL_LESSONS[0])}\n`);
+  // Back online, a later worker (the browser stopped this one): the next load of the app takes the fill-in up.
+  env.online = true;
+  const later = worker(env, { active: true });
+  assert.equal(await body((await later.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
+  const missing = await leftOut(later.cache());
+  assert.deepEqual(missing.filter((p) => views.includes(p)), [], `x${room}: screens still without an offline copy`);
+  assert.ok(missing.length < manifest.offline.length / 4, `x${room}: ${missing.length} offline files still left out`);
+  assert.ok(env.quota - env.used() >= 1.25 * (await shellBytes(later.cache())), `x${room}: the fill-in took the next release's room`);
+  // Offline from here on, every screen's module is served (no request leaves the device).
+  env.online = false;
+  const offlineWorker = worker(env, { active: true });
+  for (const p of views) assert.equal(await body((await offlineWorker.fire('fetch', req(p))).response), file(p), p);
+  // A lesson fetched online is refreshed (stale-while-revalidate brings this release's bytes).
+  env.online = true;
+  await offlineWorker.fire('fetch', req(ALL_LESSONS[0]));
+  assert.equal(await env.cached(w.name, ALL_LESSONS[0]), file(ALL_LESSONS[0]));
+});
+
+// The fill-in is taken up only while it has work: once it has nothing left, a load of the app fetches nothing more.
+test('a load of the app with nothing left to fill in makes no request beyond the page\'s own', async () => {
+  const env = makeEnv();
+  const a = worker(env, { release: 'aaaaaaaaaaaa' });
+  await a.fire('install');
+  await a.fire('activate');
+  env.fetches = [];
+  const later = worker(env, { release: 'aaaaaaaaaaaa', active: true });
+  await later.fire('fetch', req('./', 'navigate'));
+  await later.fire('fetch', req('./', 'navigate'));
+  assert.deepEqual(env.fetches.map((f) => f.url), [], 'a load of the app fetched files');
+});
+
 // Replay round, T1: once an install had no room left, it never requested the files it left out, so they never reached
 // the HTTP cache; offline within its max-age they were missing, where b2b669b's precache had requested every one.
 test('an install with no room left still fetches and checks the offline files it does not keep (not on the one-time upgrade)', async () => {

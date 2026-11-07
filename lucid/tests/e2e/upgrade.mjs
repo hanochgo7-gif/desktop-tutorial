@@ -44,6 +44,11 @@
 //       releases are not on the Real life, Conversations and Expressions screens and the scenario's link does not
 //       open it (this release's index and per-item files carry the flag; compat.js filters them for the old page);
 //       an adult sees both
+// and the seventh round (S-15):
+//   U20 from d83a500 on a nearly full origin (1.2x), the connection lost for the screens and the saved lessons from the
+//       deploy until just after the takeover, and the worker then stopped: no saved lesson is lost (on the built tree,
+//       where none of production's copies matches, they are carried over as stored), and the next load of the app
+//       fetches the screens the install left out, so they open offline
 // Until 2026-11-07 the base was b2b669b (release 2026-11-03.1). Its worker is byte-identical to d83a500's apart from
 // RELEASE, so no case is kept for it here: tests/unit/sw.test.mjs runs the legacy-cache cases for both cache names,
 // and tests/unit/compat.test.mjs checks the screens against both releases' modules (architecture.md section 7).
@@ -1034,6 +1039,41 @@ try {
       rmSync(oldF, { recursive: true, force: true });
       rmSync(newF, { recursive: true, force: true });
     }
+  });
+
+  // Seventh round, P-A: the activation fetched the saved lessons and the screens the install left out once, after
+  // deleting the old caches (and production's lessons, which never match the built release's bytes, with them): a
+  // connection lost in those seconds lost the lessons, and most screens never got an offline copy until the next
+  // release.
+  await check('U20. From d83a500 at 1.2x, with the screens and lessons unreachable until just after the takeover and the worker then stopped: the saved lessons are kept, and the next load fetches the screens, which open offline', async () => {
+    const ctx = await context();
+    const a = await oldLearner(ctx, { lean: true });
+    await sleep(1500);
+    await setQuota(a, (await usageOf(a)) * 1.2);
+    const offline = JSON.parse(readFileSync(join(NEW, 'content/manifest.json'), 'utf8')).offline;
+    const cut = [...offline.filter((p) => /^js\/views\//.test(p)), ...SAVED.map((id) => `content/lessons/${id}.json`)].map((p) => `/lucid/${p}`);
+    for (const p of cut) served.drop.add(p);
+    try {
+      served.root = NEW;
+      await settle(a);
+      await takenOver(a);
+      await sleep(2000);
+    } finally { for (const p of cut) served.drop.delete(p); }
+    await stopWorkers(a); // as when the system ends the browser
+    const [name] = await cacheNames(a);
+    assert(await lessonsIn(a, name) === SAVED.length, `saved lessons in the new cache: ${await lessonsIn(a, name)} of ${SAVED.length}`);
+    const views = offline.filter((p) => /^js\/views\//.test(p));
+    const stored = (page) => page.evaluate(async ({ n, ps }) => { const c = await caches.open(n); return (await Promise.all(ps.map((p) => c.match(p)))).filter(Boolean).length; }, { n: name, ps: views });
+    // Screens whose bytes are the same in d83a500 were copied from the old cache; the others were cut off.
+    const before = await stored(a);
+    assert(views.length - before >= 5, `the install kept ${before} of ${views.length} screens: the case is not tested`);
+    await a.reload();
+    assert(await started(a) === 'app', 'the reload did not start Lucid');
+    let after = 0;
+    for (let i = 0; i < 50 && (after = await stored(a)) < views.length; i++) await sleep(200);
+    assert(after === views.length, `screens with an offline copy after the next load: ${after} of ${views.length}`);
+    await offlineRestart(a, 'x1.2, cut short', [['path', '.level-tabs'], ['practice', '.page-head + .stack-lg'], ['vocab', '.page-head'], ['games', '.game-section'], ['grammar', '.page-head + .stack-lg'], ['writing', '.stage-panel .hub-row']]);
+    await ctx.close();
   });
 } finally {
   await browser.close();

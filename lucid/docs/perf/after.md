@@ -1064,3 +1064,74 @@ All green on the source tree (release `8612c63a8047`) and, where marked, on the 
   r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime 9/9;
 - upgrade.mjs 23/23 from `d83a500` (source and built: U1-U18 and the new U19);
 - `index.html`'s and `privacy.html`'s CSP metas are byte-identical to `d83a500`'s.
+
+## Seventh skeptic round (2026-11-07)
+
+Two reviews of `d2d62a2` (the integration of production `d83a500`): the age protections on the perf paths (signed
+off without conditions: every age behaviour matched production, source and built, fresh and crossed tabs, offline),
+and the merged worker with the upgrade from `d83a500` (approve with one condition, P-A, minor). Verdicts, the
+condition and how it was met are in docs/qa/security-review.md 5a, "Seventh skeptic round"; fix-log PERF-7A.
+
+### What changed
+
+- **Worker (`sw.js`).** At activation a saved lesson (or centre or pool file) whose bytes the release changed is moved
+  as stored, like a matching one, and still fetched again: these are stale-while-revalidate data, never hashed, and
+  on the built one-time upgrade none of production's saved lessons matches the minified bytes. A fill-in of the
+  offline files that a lost connection or a stopped worker cut short is taken up again at the next load of the app,
+  in that worker lifetime or a later one, until every file is stored or no room is left next to the ballast.
+- **Docs.** architecture §7 ("Full storage"), 5a, fix-log PERF-7A.
+- **Tests.** sw.test (three cases: the cut-short upgrade at 1.2 and 2 shells free, and no request from a load with
+  nothing left to fill in); upgrade.mjs U20. Each fails on `d2d62a2` (sw.test: 75 saved lessons lost; with either
+  half of the fix removed, lessons lost or screens without an offline copy; U20: 0 of 3 lessons on the build, 19 of
+  30 screens on the source).
+
+### The reviewer's script on this round
+
+`c9-refill.mjs` (75 lessons saved on `d83a500`; the update to the built tree takes over; then the fault; back online,
+a reload, 15 s; then offline after a worker restart), scratchpad `refix7/c9/` (`pre-*.txt`, `post-*.txt`):
+
+| fault | `d2d62a2` built (`d9f3f0d19b33`): lessons in the new cache / screens offline | this round built (`87265cced809`) |
+|---|---|---|
+| worker stopped 1.3-1.6 s after the takeover, 1.15 x | 49 of 75 / 2 of 21 | 75 of 75 / 21 of 21 (223 entries after the reload) |
+| worker stopped, 1.3 x | 12 of 75 / 18 of 21 | 75 of 75 / 21 of 21 (223 entries) |
+| server down 20 s from the takeover, 1.06 x | 0 (1 after the reload) of 75 / 1 of 21 | 75 of 75 / 21 of 21 (223 entries) |
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+The fix touches the activation and the start of each worker lifetime (a load of the app reads the cache's key list
+once when the fill-in is not known to be complete), so the rows re-measured are the warm returning loads (g) and the
+release update (u). Built tree of this round (`87265cced809`; source `2aeb12fd30ca`) against the built previous head
+(`d2d62a2`, `d9f3f0d19b33`), alternated, one run at a time, nothing else running (load under 1), 19:34-19:40 UTC.
+Raw JSON and logs: scratchpad `refix7/perf/`.
+
+| row | this round: Today / lesson | previous head: Today / lesson | note |
+|---|---:|---:|---|
+| fresh (HTTP cache fresh) | 372 / 349 | 383 / 336 | 1 request each |
+| stale (> 10 min) | 413 / 406 | 378 / 373 | 2 / 3 requests in both |
+| after a push (new ETags) | 382 / 355 | 351 / 369 | 21 / 8 KB against 20 / 8 KB |
+| offline | 387 / 357 | 424 / 364 | |
+| lie-fi (15 s holds) | 355 / 350 | 373 / 362 | |
+| release update: downloads / saved lessons | 1 req, 6 KB / 4 of 4 | 1 req, 6 KB / 4 of 4 | all requests 4-5 / 35 KB against 5 / 34 KB |
+| returning #/today right after the deploy | 342 | 423 | |
+| Today -> lesson while installing | 108 | 127 | |
+| next #/today | 1297 | 1272 | the hand-over load, as in earlier rounds |
+
+Every difference is within the run-to-run spread (each column's three runs overlap the other's), and no load makes a
+request it did not make before.
+
+### Suites on this round
+
+All green on the source tree (release `2aeb12fd30ca`) and, where marked, on the built tree (release `87265cced809`,
+`verify: ok (64 modules, maps, hashes, paths, CSP)`):
+
+- `npm test` 433/433 with `CI=true` (0 skipped); `npm run test:db` 13/13; validate-content (0 errors, 1 warning as
+  before); build-content-index --check; build-route-deps --check; `tools/release-fixture.mjs --check` for both
+  fixtures;
+- run.mjs 61/61 (source and built) and a11y (0 violations);
+- every lane suite: shell-components, lesson-flow, exercises, bilingual-text, lesson-content, first-run-today,
+  practice-hubs, games, real-life-writing, r4-lesson-flow, r4-exercises, r4-today-path, r4-practice-games,
+  r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime 9/9. r4-real-life-writing failed once (RW-12, the
+  register options at 390 px and 150 % laid out in one column) while two of the reviewer's Chromium runs shared the
+  machine, and passed 15/15 when run again alone; this round changes no page or style;
+- upgrade.mjs 24/24 from `d83a500` (source and built: U1-U19 and the new U20);
+- `index.html`'s and `privacy.html`'s CSP metas are byte-identical to `d83a500`'s.
