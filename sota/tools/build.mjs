@@ -21,6 +21,9 @@ const write = (rel, html) => { const p = join(ROOT, rel); mkdirSync(dirname(p), 
 const ROUTES = {
   home: { he: "", en: "en/" },
   service: { he: "service/", en: "en/service/" },
+  private: { he: "private/", en: "en/private/" },
+  small: { he: "small-business/", en: "en/small-business/" },
+  growing: { he: "growing-business/", en: "en/growing-business/" },
   privacy: { he: "privacy/", en: "en/privacy/" },
   accessibility: { he: "accessibility/", en: "en/accessibility/" },
 };
@@ -85,7 +88,9 @@ function header(t, route, { onHome }) {
   const homeHref = rel(route, ROUTES.home[t.lang]);
   const navHref = (id) => (onHome ? `#${id}` : `${homeHref}#${id}`);
   const consultHref = navHref("consult");
-  const navLinks = t.nav.map((n) => `<a href="${navHref(n.id)}" data-nav="${n.id}">${esc(n.label)}</a>`).join("");
+  const navLinks = t.nav.map((n) => n.page
+    ? `<a href="${rel(route, ROUTES[n.page][t.lang])}"${ROUTES[n.page][t.lang] === route ? ' aria-current="page"' : ""}>${esc(n.label)}</a>`
+    : `<a href="${navHref(n.id)}" data-nav="${n.id}">${esc(n.label)}</a>`).join("");
   return `<a class="skip" href="#main">${esc(t.ui.skip)}</a>
 <header class="site-header" data-header>
   <div class="wrap">
@@ -126,7 +131,7 @@ function footer(t, route, { onHome }) {
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand"><img src="${p}assets/logo-dark.svg" alt="SOTA" width="300" height="88" loading="lazy"><p>${esc(t.footer.about)}</p></div>
-      <div><h3>${esc(t.footer.navTitle)}</h3><ul>${t.nav.map((n) => `<li><a href="${navHref(n.id)}">${esc(n.label)}</a></li>`).join("")}</ul></div>
+      <div><h3>${esc(t.footer.navTitle)}</h3><ul>${t.nav.map((n) => `<li><a href="${n.page ? rel(route, ROUTES[n.page][t.lang]) : navHref(n.id)}">${esc(n.label)}</a></li>`).join("")}</ul></div>
       <div><h3>${esc(t.footer.clientsTitle)}</h3><ul>
         <li><a href="${navHref("consult")}">${esc(t.footer.consult)}</a></li>
         <li><a href="${rel(route, ROUTES.service[t.lang])}">${esc(t.footer.ticket)}</a></li>
@@ -158,7 +163,7 @@ function scripts(t, route, page) {
 <script src="${p}vendor/ScrollTrigger.min.js" defer></script>
 <script src="${p}vendor/lenis.min.js" defer></script>
 <script src="${p}js/main.js?v=${VERSION}" defer></script>
-${page === "home" || page === "service" ? `<script src="${p}js/forms.js?v=${VERSION}" defer></script>` : ""}
+${page === "home" || page === "service" || page === "audience" ? `<script src="${p}js/forms.js?v=${VERSION}" defer></script>` : ""}
 ${page === "home" ? `<script src="${p}js/check.js?v=${VERSION}" defer></script>` : ""}`;
 }
 
@@ -215,6 +220,52 @@ ${paths.map((d, i) => `<path d="${d}"/><path class="live" d="${d}" pathLength="1
 </svg>`;
 }
 
+function consultSection(t, route, preset = "") {
+  const f = t.consult.form;
+  const privacy = rel(route, ROUTES.privacy[t.lang]);
+  const types = f.types.map((o) => `<label><input type="radio" name="clientType" value="${o.v}" id="lead-type-${o.v}"${o.v === preset ? " checked" : ""}><span>${esc(o.l)}</span></label>`).join("");
+  return `<section class="section" id="consult" aria-labelledby="consult-title">
+  <div class="wrap consult">
+    <div class="consult-copy">
+      <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(t.consult.label)}</span>
+      <h2 id="consult-title" class="display h-l">${esc(t.consult.title)}</h2>
+      <p class="lede">${esc(t.consult.text)}</p>
+      <ul class="assure">${t.consult.assure.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
+      <div class="alt-contact" data-alt-contact${site.whatsapp || site.phone ? "" : " hidden"}>
+        <span class="small muted">${esc(t.consult.altLabel)}</span>
+        <a class="btn btn-ghost btn-small btn-wa" href="${waHref(t.ui.waText)}" data-wa data-wa-text="${esc(t.ui.waText)}" target="_blank" rel="noopener" data-track="whatsapp_click" data-track-loc="consult"${site.whatsapp ? "" : " hidden"}>${ICON.wa}${esc(t.ui.whatsapp)}</a>
+        <a class="btn btn-ghost btn-small" href="${telHref()}" data-contact="phone" data-track="phone_click" data-contact-wrap="phone"${site.phone ? "" : " hidden"}><span class="ltr">${esc(site.phone)}</span></a>
+      </div>
+    </div>
+    <div class="form-card">
+      <form class="form" data-form="lead" novalidate>
+        <div class="row">
+          <div class="field"><label for="lead-name">${esc(f.name)}</label><input id="lead-name" name="name" type="text" autocomplete="name" required maxlength="80" aria-describedby="lead-name-err"><span class="err" id="lead-name-err" aria-live="polite"></span></div>
+          <div class="field"><label for="lead-phone">${esc(f.phone)}</label><input id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" aria-describedby="lead-phone-err"><span class="err" id="lead-phone-err" aria-live="polite"></span></div>
+        </div>
+        <div class="field"><label for="lead-email">${esc(f.email)} <span class="opt">${esc(f.optional)}</span></label><input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120" aria-describedby="lead-email-err"><span class="err" id="lead-email-err" aria-live="polite"></span></div>
+        <fieldset class="field" aria-describedby="lead-type-err"><legend class="flabel">${esc(f.type)}</legend><div class="seg" role="radiogroup">${types}</div><span class="err" id="lead-type-err" aria-live="polite"></span></fieldset>
+        <div class="field"><label for="lead-message">${esc(f.message)}</label><textarea id="lead-message" name="message" required maxlength="2000" placeholder="${esc(f.messagePh)}" aria-describedby="lead-message-err"></textarea><span class="err" id="lead-message-err" aria-live="polite"></span></div>
+        <div class="hp" aria-hidden="true"><label for="lead-company">Company</label><input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="cf-turnstile" data-turnstile></div>
+        <p class="consent">${fill(f.consent, { privacy })}</p>
+        <div class="form-foot"><button class="btn" type="submit"><span class="dot" aria-hidden="true"></span><span data-label>${esc(f.submit)}</span></button><p class="form-status" role="status" aria-live="polite"></p></div>
+      </form>
+      <div class="form-success" data-success hidden tabindex="-1">
+        <span class="ok-ring" aria-hidden="true"></span>
+        <h3 class="display h-l">${esc(f.successTitle)}</h3>
+        <p class="lede" data-success-text></p>
+        <a class="btn btn-ghost btn-wa" href="${waHref(t.ui.waText)}" data-wa data-wa-text="${esc(t.ui.waText)}" target="_blank" rel="noopener" data-track="whatsapp_click" data-track-loc="lead_success"${site.whatsapp ? "" : " hidden"}>${ICON.wa}${esc(f.successWa)}</a>
+      </div>
+      <div class="next-steps">
+        <h3 class="flabel">${esc(t.consult.nextTitle)}</h3>
+        <ol>${t.consult.next.map((n, i) => `<li><span class="ns-n" aria-hidden="true">${i + 1}</span><div><b>${esc(n.t)}</b><span>${esc(n.d)}</span></div></li>`).join("")}</ol>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
 function homePage(t) {
   const route = ROUTES.home[t.lang];
   const p = up(route);
@@ -227,9 +278,11 @@ function homePage(t) {
   const steps = t.approach.steps.map((s, i) => `<li class="step" data-step="${i}"><span class="stn" aria-hidden="true"></span><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></li>`).join("");
   const svcs = t.services.items.map((s) => `<li class="svc"><h3>${esc(s.t)}</h3>${ICON.branch}<p>${esc(s.d)}</p>${s.q ? `<div class="svc-q"><span class="sr-only">${esc(t.services.qLabel)}</span><ul>${s.q.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>` : ""}</li>`).join("");
   const whyCells = t.why.cells.map((c) => `<li class="why-cell"><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></li>`).join("");
-  const tracks = t.who.tracks.map((tr) => `<li class="track"><div><h3>${esc(tr.t)}</h3><p class="who-size">${esc(tr.size)}</p></div>${trackSvg(tr.stations)}<p>${esc(tr.d)}</p></li>`).join("");
+  const pathCards = ["private", "small", "growing"].map((k, i) => {
+    const tr = t.who.tracks[i];
+    return `<li><a class="path-card" href="${rel(route, ROUTES[k][t.lang])}" data-track="path_select" data-track-loc="${k}">${trackSvg(tr.stations)}<h3>${esc(t.audiences[k].label)}</h3><p class="who-size">${esc(tr.size)}</p><p>${esc(tr.d)}</p><span class="go">${esc(t.paths.go)}</span></a></li>`;
+  }).join("");
   const faqs = t.faq.items.map((q, i) => `<details${i === 0 ? " open" : ""}><summary><span>${esc(q.q)}</span><span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>${fill(q.a, { service: svcRoute })}</p></div></details>`).join("");
-  const types = f.types.map((o) => `<label><input type="radio" name="clientType" value="${o.v}" id="lead-type-${o.v}"><span>${esc(o.l)}</span></label>`).join("");
 
   return `${head(t, { route, pageKey: "home", title: t.meta.home.title, description: t.meta.home.description, extra: jsonLd(t, route) })}
 <body data-page="home">
@@ -249,6 +302,19 @@ ${header(t, route, { onHome: true })}
       </div>
     </div>
     <a class="scroll-cue" href="#problem" data-hero-fade><i aria-hidden="true"></i>${esc(t.hero.scroll)}</a>
+  </div>
+</section>
+
+<section class="section paths" id="paths" aria-labelledby="paths-title">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(t.paths.label)}</span>
+      <h2 id="paths-title" class="display h-l">${esc(t.paths.title)}</h2>
+      <p class="lede">${esc(t.paths.lede)}</p>
+    </div>
+    <ul class="path-grid">${pathCards}
+      <li class="path-clients"><a href="${svcRoute}" data-track="cta_click" data-track-loc="paths_clients">${ICON.ticket}<span><b>${esc(t.paths.clientsT)}</b><span>${esc(t.paths.clientsD)}</span></span><span class="go">${esc(t.paths.clientsGo)}</span></a></li>
+    </ul>
   </div>
 </section>
 
@@ -308,16 +374,6 @@ ${header(t, route, { onHome: true })}
   </div>
 </section>
 
-<section class="section" id="who" aria-labelledby="who-title">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="label"><span class="node" aria-hidden="true"></span>${esc(t.who.label)}</span>
-      <h2 id="who-title" class="display h-l">${esc(t.who.title)}</h2>
-    </div>
-    <ul class="tracks">${tracks}</ul>
-  </div>
-</section>
-
 <section class="section check-sec" id="check" aria-labelledby="check-title">
   <div class="wrap">
     <div class="check" data-check>
@@ -337,46 +393,7 @@ ${header(t, route, { onHome: true })}
   </div>
 </section>
 
-<section class="section" id="consult" aria-labelledby="consult-title">
-  <div class="wrap consult">
-    <div class="consult-copy">
-      <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(t.consult.label)}</span>
-      <h2 id="consult-title" class="display h-l">${esc(t.consult.title)}</h2>
-      <p class="lede">${esc(t.consult.text)}</p>
-      <ul class="assure">${t.consult.assure.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
-      <div class="alt-contact" data-alt-contact${site.whatsapp || site.phone ? "" : " hidden"}>
-        <span class="small muted">${esc(t.consult.altLabel)}</span>
-        <a class="btn btn-ghost btn-small btn-wa" href="${waHref(t.ui.waText)}" data-wa data-wa-text="${esc(t.ui.waText)}" target="_blank" rel="noopener" data-track="whatsapp_click" data-track-loc="consult"${site.whatsapp ? "" : " hidden"}>${ICON.wa}${esc(t.ui.whatsapp)}</a>
-        <a class="btn btn-ghost btn-small" href="${telHref()}" data-contact="phone" data-track="phone_click" data-contact-wrap="phone"${site.phone ? "" : " hidden"}><span class="ltr">${esc(site.phone)}</span></a>
-      </div>
-    </div>
-    <div class="form-card">
-      <form class="form" data-form="lead" novalidate>
-        <div class="row">
-          <div class="field"><label for="lead-name">${esc(f.name)}</label><input id="lead-name" name="name" type="text" autocomplete="name" required maxlength="80" aria-describedby="lead-name-err"><span class="err" id="lead-name-err" aria-live="polite"></span></div>
-          <div class="field"><label for="lead-phone">${esc(f.phone)}</label><input id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" aria-describedby="lead-phone-err"><span class="err" id="lead-phone-err" aria-live="polite"></span></div>
-        </div>
-        <div class="field"><label for="lead-email">${esc(f.email)} <span class="opt">${esc(f.optional)}</span></label><input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120" aria-describedby="lead-email-err"><span class="err" id="lead-email-err" aria-live="polite"></span></div>
-        <fieldset class="field" aria-describedby="lead-type-err"><legend class="flabel">${esc(f.type)}</legend><div class="seg" role="radiogroup">${types}</div><span class="err" id="lead-type-err" aria-live="polite"></span></fieldset>
-        <div class="field"><label for="lead-message">${esc(f.message)}</label><textarea id="lead-message" name="message" required maxlength="2000" placeholder="${esc(f.messagePh)}" aria-describedby="lead-message-err"></textarea><span class="err" id="lead-message-err" aria-live="polite"></span></div>
-        <div class="hp" aria-hidden="true"><label for="lead-company">Company</label><input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off"></div>
-        <div class="cf-turnstile" data-turnstile></div>
-        <p class="consent">${fill(f.consent, { privacy })}</p>
-        <div class="form-foot"><button class="btn" type="submit"><span class="dot" aria-hidden="true"></span><span data-label>${esc(f.submit)}</span></button><p class="form-status" role="status" aria-live="polite"></p></div>
-      </form>
-      <div class="form-success" data-success hidden tabindex="-1">
-        <span class="ok-ring" aria-hidden="true"></span>
-        <h3 class="display h-l">${esc(f.successTitle)}</h3>
-        <p class="lede" data-success-text></p>
-        <a class="btn btn-ghost btn-wa" href="${waHref(t.ui.waText)}" data-wa data-wa-text="${esc(t.ui.waText)}" target="_blank" rel="noopener" data-track="whatsapp_click" data-track-loc="lead_success"${site.whatsapp ? "" : " hidden"}>${ICON.wa}${esc(f.successWa)}</a>
-      </div>
-      <div class="next-steps">
-        <h3 class="flabel">${esc(t.consult.nextTitle)}</h3>
-        <ol>${t.consult.next.map((n, i) => `<li><span class="ns-n" aria-hidden="true">${i + 1}</span><div><b>${esc(n.t)}</b><span>${esc(n.d)}</span></div></li>`).join("")}</ol>
-      </div>
-    </div>
-  </div>
-</section>
+${consultSection(t, route)}
 
 <section class="section" id="testimonials" aria-labelledby="testimonials-title" data-testimonials hidden>
   <div class="wrap">
@@ -412,6 +429,83 @@ ${header(t, route, { onHome: true })}
 </main>
 ${footer(t, route, { onHome: true })}
 ${scripts(t, route, "home")}
+</body>
+</html>
+`;
+}
+
+function audiencePage(t, key) {
+  const route = ROUTES[key][t.lang];
+  const a = t.audiences[key];
+  const svcRoute = rel(route, ROUTES.service[t.lang]);
+  const homeHref = rel(route, ROUTES.home[t.lang]);
+  const others = ["private", "small", "growing"].filter((k) => k !== key);
+  const steps = t.approach.steps.map((s, i) => `<li><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></li>`).join("");
+  const faqs = a.faq.map((q, i) => `<details${i === 0 ? " open" : ""}><summary><span>${esc(q.q)}</span><span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>${fill(q.a, { service: svcRoute })}</p></div></details>`).join("");
+  const preset = key === "private" ? "private" : key === "small" ? "small" : "medium";
+  const stations = { private: 2, small: 4, growing: 6 }[key];
+  return `${head(t, { route, pageKey: key, title: a.meta.title, description: a.meta.description })}
+<body data-page="audience" data-audience="${key}">
+${header(t, route, { onHome: false })}
+<main id="main">
+  <section class="page-hero aud-hero">
+    <div class="wrap">
+      <div class="aud-crumbs small"><a class="link-u" href="${homeHref}">SOTA</a> <span aria-hidden="true">/</span> <span>${esc(a.label)}</span></div>
+      <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(a.label)} · ${esc(a.size)}</span>
+      <h1 class="display h-xl">${esc(a.title)}</h1>
+      <p class="lede">${esc(a.lede)}</p>
+      <div class="cta-row">
+        <a class="btn" href="#consult" data-track="cta_click" data-track-loc="audience_hero"><span class="dot" aria-hidden="true"></span>${esc(t.hero.primary)}</a>
+        <a class="btn btn-ghost" href="#help">${esc(t.audience.ctaSecondary)}</a>
+      </div>
+      <div class="aud-track" aria-hidden="true">${trackSvg(stations)}</div>
+    </div>
+  </section>
+
+  <section class="section aud-sec" aria-labelledby="pains-title">
+    <div class="wrap aud-split">
+      <h2 id="pains-title" class="display h-l">${esc(a.painsTitle)}</h2>
+      <ul class="aud-pains">${a.pains.map((x) => `<li><span class="x" aria-hidden="true"></span><p>${esc(x)}</p></li>`).join("")}</ul>
+    </div>
+  </section>
+
+  <section class="section aud-sec" id="help" aria-labelledby="help-title">
+    <div class="wrap">
+      <h2 id="help-title" class="display h-l aud-h">${esc(a.helpTitle)}</h2>
+      <ul class="aud-help">${a.help.map((h) => `<li>${ICON.branch}<h3>${esc(h.t)}</h3><p>${esc(h.d)}</p></li>`).join("")}</ul>
+      <div class="aud-q">
+        <h3 class="flabel">${esc(a.qTitle)}</h3>
+        <div class="svc-q"><ul>${a.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section aud-sec" aria-labelledby="steps-title">
+    <div class="wrap">
+      <h2 id="steps-title" class="display h-l aud-h">${esc(t.audience.stepsTitle)}</h2>
+      <ol class="aud-steps">${steps}</ol>
+    </div>
+  </section>
+
+  ${consultSection(t, route, preset)}
+
+  <section class="section aud-sec" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-wrap">
+      <div class="section-head"><h2 id="faq-title" class="display h-l">${esc(t.audience.faqTitle)}</h2></div>
+      <div class="faq">${faqs}</div>
+    </div>
+  </section>
+
+  <section class="section aud-sec aud-others" aria-labelledby="others-title">
+    <div class="wrap">
+      <h2 id="others-title" class="h-m">${esc(t.audience.other)}</h2>
+      <ul class="others">${others.map((k) => `<li><a class="path-card mini" href="${rel(route, ROUTES[k][t.lang])}"><h3>${esc(t.audiences[k].label)}</h3><p class="who-size">${esc(t.audiences[k].size)}</p><span class="go">${esc(t.paths.go)}</span></a></li>`).join("")}
+        <li><a class="path-card mini" href="${svcRoute}"><h3>${esc(t.paths.clientsT)}</h3><p class="who-size">${esc(t.paths.clientsGo)}</p><span class="go">${esc(t.paths.clientsGo)}</span></a></li></ul>
+    </div>
+  </section>
+</main>
+${footer(t, route, { onHome: false })}
+${scripts(t, route, "audience")}
 </body>
 </html>
 `;
@@ -517,6 +611,7 @@ const legalHtml = (lang, key) => fill(LEGAL[lang][key], { contact: contactLine(l
 for (const t of [he, en]) {
   write(`${ROUTES.home[t.lang]}index.html`, homePage(t));
   write(`${ROUTES.service[t.lang]}index.html`, servicePage(t));
+  for (const k of ["private", "small", "growing"]) write(`${ROUTES[k][t.lang]}index.html`, audiencePage(t, k));
   write(`${ROUTES.privacy[t.lang]}index.html`, legalPage(t, "privacy", legalHtml(t.lang, "privacy")));
   write(`${ROUTES.accessibility[t.lang]}index.html`, legalPage(t, "accessibility", legalHtml(t.lang, "accessibility")));
 }
@@ -545,7 +640,7 @@ window.SOTA_CONFIG = ${JSON.stringify({
 `);
 
 // sitemap + robots
-const urls = ["home", "service", "privacy", "accessibility"].flatMap((k) => ["he", "en"].map((l) => ({ k, l })));
+const urls = ["home", "private", "small", "growing", "service", "privacy", "accessibility"].flatMap((k) => ["he", "en"].map((l) => ({ k, l })));
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.map(({ k, l }) => `  <url>
@@ -554,7 +649,7 @@ ${urls.map(({ k, l }) => `  <url>
     <xhtml:link rel="alternate" hreflang="en" href="${abs(ROUTES[k].en)}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${abs(ROUTES[k].he)}"/>
     <changefreq>${k === "home" ? "monthly" : "yearly"}</changefreq>
-    <priority>${k === "home" ? "1.0" : k === "service" ? "0.6" : "0.3"}</priority>
+    <priority>${k === "home" ? "1.0" : ["private", "small", "growing"].includes(k) ? "0.9" : k === "service" ? "0.6" : "0.3"}</priority>
   </url>`).join("\n")}
 </urlset>
 `);
