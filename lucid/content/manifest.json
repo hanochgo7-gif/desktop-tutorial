@@ -154,6 +154,7 @@
   "content/writing/task/we-20.json",
   "js/app.js",
   "js/core/adaptive.js",
+  "js/core/age.js",
   "js/core/api.js",
   "js/core/compat.js",
   "js/core/content.js",

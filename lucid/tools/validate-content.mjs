@@ -4,6 +4,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SENSITIVE_FLAGS } from '../js/core/age.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'content');
 const read = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -333,6 +334,7 @@ function scenarios(file) {
   (d.scenarios || []).forEach((s, i) => {
     const p = `scenarios[${i}](${s.id})`;
     if (ids.has(s.id)) err(f, p, 'duplicate id'); ids.add(s.id);
+    sensitive(f, p, s);
     if (!MODULES.includes(s.module)) err(f, `${p}.module`, 'unknown module');
     if (!isStr(s.title_en) || !isStr(s.title_he)) err(f, p, 'titles required');
     if (!LEVELS.includes(s.level)) err(f, `${p}.level`, 'unknown level');
@@ -386,7 +388,15 @@ function slang(file) {
     else e.mistakes.forEach((m, j) => bilingual(f, `${p}.mistakes[${j}]`, m, { he: true }));
     bilingual(f, `${p}.avoid_when`, e.avoid_when, { he: true });
     if (e.warning) bilingual(f, `${p}.warning`, e.warning, { he: true });
+    sensitive(f, p, e);
+    if (e.sensitive?.length && !e.warning) err(f, `${p}.warning`, 'a sensitive expression needs a warning');
   });
+}
+
+// Optional flags that hide an item from learners under 16 (js/core/age.js SENSITIVE_FLAGS).
+function sensitive(f, p, x) {
+  if (x.sensitive === undefined) return;
+  if (!Array.isArray(x.sensitive) || !x.sensitive.length || x.sensitive.some((v) => !SENSITIVE_FLAGS.includes(v))) err(f, `${p}.sensitive`, `a non-empty list of ${SENSITIVE_FLAGS.join('|')}`);
 }
 
 function writing(file, kind) {

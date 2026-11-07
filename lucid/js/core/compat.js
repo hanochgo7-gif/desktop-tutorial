@@ -12,7 +12,7 @@ import * as contentModule from './content.js';
 import * as utilModule from './util.js';
 
 const pick = (o, keys) => Object.fromEntries(keys.filter((k) => o[k] !== undefined).map((k) => [k, o[k]]));
-const SCENARIO_ROW = ['id', 'module', 'level', 'title_en', 'title_he', 'goal'];
+const SCENARIO_ROW = ['id', 'module', 'level', 'title_en', 'title_he', 'goal', 'sensitive'];
 const WRITING_ROW = ['id', 'stage', 'level', 'kind', 'title_en', 'title_he', 'word_range', 'min_words', 'max_words', 'time_limit_min'];
 const scenarioRow = (s) => ({ ...pick(s, SCENARIO_ROW), n_practice: Array.isArray(s.practice) ? s.practice.length : 0 });
 const writingRow = (x) => ({ ...pick(x, WRITING_ROW), ...(Array.isArray(x.items) ? { n_items: x.items.length } : {}), ...(x.prompt !== undefined ? { prompt: x.prompt } : {}) });

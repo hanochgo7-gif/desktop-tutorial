@@ -64,8 +64,11 @@ is prefixed `lucid_`. The prefix only avoids name clashes; it does not isolate a
 
 1. Create the dedicated project (section 2.2).
 2. Run the migrations in order in the SQL editor (or `supabase db push`): `supabase/migrations/001_lucid_core.sql`,
-   then `002_lucid_hardening.sql`, then `003_lucid_export_account.sql`. All can be run again safely. Without 003
-   the data export lacks the account email and dates that the privacy page says it includes.
+   then `002_lucid_hardening.sql`, then `003_lucid_export_account.sql`, then `004_lucid_no_age_limit.sql`. All can
+   be run again safely, in this order. Without 003 the data export lacks the account email and dates that the
+   privacy page says it includes. Without 004 the database still refuses learners under 16 (there is no minimum
+   age since November 2026) and lacks the `guardian_consent_at` column the app sends for them; re-running 001
+   alone brings that refusal back, so always finish with 004.
 3. Authentication → URL configuration: set the Site URL to Lucid's own origin (section 2.1) and add it to the
    redirect URLs, for confirmation and password-reset links. Email + password sign-in must be enabled.
 4. Authentication settings (dashboard names as of October 2026; they move from time to time):
@@ -159,7 +162,8 @@ Code reaches learners on their next load either way (it is fetched network-first
 browsers download a fresh app shell and drop the old cache (lessons are cached again as they are opened). That address shares its origin with the repository's other sites. It is fine for trying
 Lucid in device-only mode, but move Lucid to its own origin before turning on accounts (section 2.1).
 
-**Launch blocker.** Before inviting real learners (especially 16-17-year-olds), fill in the two boxes marked "To be
+**Launch blocker.** Before inviting real learners (especially learners under 18; Lucid has no minimum age), fill in the three boxes marked "To be
 filled in before public launch" in `privacy.html`, in Hebrew and English: the operator's name and a contact address for privacy
-questions and complaints, and how long Anthropic keeps API data under the terms of the workspace you use. The page
-says until then that there is no operator to contact.
+questions and complaints, how long Anthropic keeps API data under the terms of the workspace you use, and the
+outcome of the legal review of children's data (whether the ticked parent-or-guardian box under 16 is enough). The
+page says until then that there is no operator to contact.

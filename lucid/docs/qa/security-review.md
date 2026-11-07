@@ -3,12 +3,21 @@
 Date: 30 October 2026. Reviewer: independent application-security review (code review plus local proofs of concept).
 Commit reviewed: `5102e40` ("Writing feedback follows the research E rubric protocol").
 
+> **Note, 7 November 2026: no minimum age.** The owner removed the 16+ age limit. This review is kept as it was
+> written; where it mentions the age gate, read it as history. Today `004_lucid_no_age_limit.sql` replaces
+> `lucid_profiles_guard`: no floor, a birth year that is not in the future and an age of at most 120, marketing off
+> under 18, and `guardian_consent_at` required while the learner is under 16. S-05 still holds: records need a
+> profile, so a refused profile (now: an impossible year, or under 16 without a guardian's agreement) stores
+> nothing, and the client creates no server profile for an under-16 without the agreement (`js/core/session.js`).
+> The guardian's agreement is self-declared, like the birth year (S-05 (d) applies to it too). Tests:
+> `tests/db/schema.test.mjs` ("no minimum age: ..."), `tests/unit/session.test.mjs`, e2e `AGE2`.
+
 ## 1. Scope
 
 | Area | Files |
 |---|---|
 | Client | `index.html` (CSP), `sw.js`, `config.js`, `js/**` with emphasis on `js/core/util.js` (`html`/`raw`), every `raw()`, `innerHTML` and `insertAdjacentHTML` sink, hash and location handling (`js/core/router.js`, `js/core/api.js` `consumeRedirect`), token storage and refresh (`js/core/api.js`), `js/core/store.js`, `js/core/sync.js`, backup import (`js/views/settings.js`), rendering of AI output (`js/views/tutor.js`, `essay.js`, `scenario.js`) and content JSON |
-| Database | `supabase/migrations/001_lucid_core.sql`: RLS, grants, `SECURITY DEFINER` and `search_path`, age gate and 16-17 year olds, export, account deletion, size limits |
+| Database | `supabase/migrations/001_lucid_core.sql`: RLS, grants, `SECURITY DEFINER` and `search_path`, age gate and 16-17 year olds (since November 2026 there is no minimum age: `004_lucid_no_age_limit.sql` replaces the guard; see the note at the top), export, account deletion, size limits |
 | Edge function | `supabase/functions/lucid-ai/{index,handler,schemas,prompts,rubric}.ts`: auth, CORS, consent, rate limiting, request validation, prompt injection, error messages, key handling, logging |
 | Deployment | `../.github/workflows/pages.yml` (what is published), `privacy.html` (does it match the code), secrets anywhere in the repository |
 

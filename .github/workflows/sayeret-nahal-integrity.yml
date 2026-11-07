@@ -1,0 +1,56 @@
+# Daily check that the live Sayeret Nahal donation page is exactly the reviewed file in this
+# repository and that every payment detail and link is on the approved list.
+# On failure it opens an issue, which GitHub emails to the repository owner.
+name: Sayeret Nahal page integrity
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sayeret-nahal-integrity
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github/scripts
+            sayeret-nahal/index.html
+          sparse-checkout-cone-mode: false
+      - name: Check the live donation page
+        id: check
+        run: python3 .github/scripts/sayeret_nahal_integrity.py | tee integrity.txt; exit ${PIPESTATUS[0]}
+      - name: Open an alert issue
+        if: failure() && steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The daily integrity check of the donation page failed."
+            echo
+            echo '```'
+            cat integrity.txt
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo "If you did not make this change, treat it as a security incident: see sayeret-nahal-security/incident-response.md."
+          } > body.md
+          gh issue create --repo "${{ github.repository }}" --title "ALERT: Sayeret Nahal donation page integrity check failed" --body-file body.md

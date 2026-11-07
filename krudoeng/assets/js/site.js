@@ -1,4 +1,4 @@
-/* קרודו הנדסה · התנהגות האתר: תפריט נייד, מבט של בודק, טופס לוואטסאפ, הדפסה ומדידת לחיצות.
+/* קרודו הנדסה · התנהגות האתר: תפריט נייד, טופס לוואטסאפ, הדפסה ומדידת לחיצות. הדירה בהדמיה ב-inspect.js.
    בלי אנימציות גלילה: כל התוכן גלוי מההתחלה. */
 (function () {
   'use strict';
@@ -43,37 +43,6 @@
     var wide = window.matchMedia && matchMedia('(min-width: 1121px)');
     if (wide && wide.addEventListener) wide.addEventListener('change', function (m) { if (m.matches && !menu.hidden) close(false); });
   }
-
-  // ---------- מבט של בודק (הדירה בעמוד הבית) ----------
-  var FIND = {};
-  try { FIND = JSON.parse(($('#k-findings') || {}).textContent || '{}'); } catch (err) { FIND = {}; }
-  $$('[data-eye]').forEach(function (btn) {
-    var host = document.getElementById(btn.getAttribute('data-eye'));
-    if (!host || !host._k) { btn.hidden = true; return; }
-    var api = host._k, fig = btn.closest('figure') || document, say = $('[data-eye-say]', fig), on = false;
-    function setSay(t) { if (say) say.textContent = t; }
-    function pick(o, byUser) {
-      api.pins.forEach(function (x) { x.b.classList.toggle('active', x === o); });
-      var f = FIND[o.p.id];
-      if (f) setSay(f[0] + ': ' + f[1]);
-      if (byUser) track('finding_open', { finding: o.p.id });
-    }
-    btn.addEventListener('click', function () {
-      on = !on;
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      api.show(on ? 'all' : '');
-      api.pins.forEach(function (o) { o.b.classList.remove('active'); });
-      setSay(on ? say.getAttribute('data-on') : say.getAttribute('data-off'));
-      // בטלפון רואים ממצא אחד בכל פעם: הראשון נפתח, והשאר בלחיצה על הנקודות
-      if (on && api.el.classList.contains('compact')) pick(api.pins[0], false);
-      track('inspector_view', { on: on });
-    });
-    api.pins.forEach(function (o) {
-      o.b.addEventListener('click', function () { pick(o, true); });
-      var f = FIND[o.p.id];
-      if (f) o.b.setAttribute('aria-label', f[0] + '. ' + f[1]);
-    });
-  });
 
   // ---------- טופס: נפתח כהודעה מוכנה בוואטסאפ ----------
   $$('[data-quote]').forEach(function (f) {

@@ -6,7 +6,7 @@ import { content } from '../core/content.js';
 import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
-import { recordAttempt, settings, logEvent, profile, model } from '../core/learner.js';
+import { recordAttempt, settings, logEvent, profile, model, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
@@ -41,7 +41,7 @@ export default async function scenarioView(el, ctx) {
   const hasPlace = () => { const p = store.get('progress', `rl:${s.id}`); return Number.isInteger(p?.turn) && p.turn > 0 && p.turn < s.practice.length; };
   let tab = ctx.query.tab || (hasPlace() ? 'practise' : 'prepare');
   const variant = settings().english_variant === 'any' ? undefined : settings().english_variant;
-  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
   let ti = 0; let picked = null; let checked = false; let typed = ''; let typedResult = null; let results = [];
   let ownOpen = false; let othersOpen = false;
@@ -203,17 +203,18 @@ export default async function scenarioView(el, ctx) {
   const roleplayTab = () => {
     if (!aiReady) {
       return html`<div class="stack" style="max-width:40rem"><p class="banner">${icon('info', { size: 18 })}<span>${noAiWhy()}</span></p><p class="small muted">${tt('בינתיים, התרגול המובנה עובד במלואו ונותן משוב על כל תשובה.', 'Meanwhile, the scripted practice works fully and gives feedback on every reply.')}</p>
-        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? accountLinks() : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
+        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? accountLinks() : ''}${configured() && auth.signedIn && !aiConsent() ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
     }
     if (report) return reportView();
     if (!chat) {
-      return html`<div class="stack" style="max-width:42rem"><div class="panel stack-sm"><h2 class="small">${tt('המשימה', 'Your task')}</h2>${bi(s.goal, { always: true })}<p class="small muted">${tt('ה-AI ישחק את הצד השני.', 'The AI plays the other person.')}</p>${correctionsNote()}${tipsToggle()}<p class="xsmall faint">${tt('אם נתקעים, ״עזרה״ מציג את המטרה ומשפטים שימושיים, בלי לפגוע במשוב. משוב AI יכול לטעות.', 'If you get stuck, "Help" shows your goal and useful phrases; it does not affect your feedback. AI feedback can be wrong.')}</p></div>
+      return html`<div class="stack" style="max-width:42rem"><div class="panel stack-sm"><h2 class="small">${tt('המשימה', 'Your task')}</h2>${bi(s.goal, { always: true })}<p class="small muted">${tt('ה-AI ישחק את הצד השני.', 'The AI plays the other person.')}</p><p class="small muted" data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אם השיחה מבקשת שם, כתובת או מספר, אפשר להמציא.', 'Do not type real personal details; if the conversation asks for a name, an address or a number, you can make one up.')}</p>${correctionsNote()}${tipsToggle()}<p class="xsmall faint">${tt('אם נתקעים, ״עזרה״ מציג את המטרה ומשפטים שימושיים, בלי לפגוע במשוב. משוב AI יכול לטעות.', 'If you get stuck, "Help" shows your goal and useful phrases; it does not affect your feedback. AI feedback can be wrong.')}</p></div>
         <div class="row"><button type="button" class="key enter" data-start-rp>${tt('להתחיל שיחה', 'Start the conversation')}</button></div></div>`;
     }
     const learnerTurns = chat.turns.filter((t) => t.role === 'learner').length;
     return html`<div class="stack" style="max-width:46rem">
       <div class="chat"><div class="chat-log" id="rplog">${chat.turns.map((t) => html`<div class="msg ${t.role === 'learner' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${t.role === 'learner' ? tt('את/ה', 'You') : s.roleplay.persona.split(/[,.]/)[0]}</span>${t.text}</div>${t.hint_he ? html`<p class="hint-box xsmall" lang="he" dir="rtl">${icon('hint', { size: 14 })}<span>${isolateLatin(t.hint_he)}</span></p>` : ''}`)}${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('ממתין לתשובה', 'Waiting for a reply')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
         <form class="chat-input" data-rp-send><label class="sr-only" for="rpin">${tt('התשובה שלכם', 'Your reply')}</label><textarea class="input" id="rpin" rows="1" lang="en" dir="ltr" maxlength="1200" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}" ${busy || chat.done ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-rp-dictate aria-label="${tt('לומר בקול', 'Say it')}" ${busy ? html`disabled` : ''}>${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy || chat.done ? html`disabled` : ''}>${icon('send')}</button></form></div>
+      <p class="xsmall faint" data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</p>
       ${rpError ? html`<p class="error-text" role="alert">${rpError}</p>` : ''}
       <div class="row">${chat.done ? '' : html`<button type="button" class="key small" data-stuck aria-expanded="${stuck}">${icon('hint', { size: 16 })} ${tt('נתקעתי: עזרה', 'I\'m stuck: help')}</button>`}${tipsToggle()}</div>
       ${stuck && !chat.done ? helpPanel() : ''}

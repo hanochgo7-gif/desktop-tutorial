@@ -1,5 +1,10 @@
 // Loads curriculum content (static JSON, cached by the service worker for offline use).
 // Lessons are fetched on demand; files that do not exist yet resolve to null.
+// Scenarios and expressions flagged as sensitive (offensive, vulgar, sexual, alcohol) are left out for learners
+// under 16 (age.js), for every screen that reads them; `hidden_for_age` says how many were left out.
+import { store } from './store.js';
+import { forLearner } from './age.js';
+
 const base = new URL('../../content/', import.meta.url);
 const cache = new Map();
 
@@ -38,7 +43,7 @@ function once(key, load) {
 // C-11). tools/build-content-index.mjs writes the files with these functions, and the fallbacks below build the
 // same rows from the full files, so both ways give the same rows.
 const pick = (o, keys) => Object.fromEntries(keys.filter((k) => o[k] !== undefined).map((k) => [k, o[k]]));
-export const SCENARIO_ROW = ['id', 'module', 'level', 'title_en', 'title_he', 'goal'];
+export const SCENARIO_ROW = ['id', 'module', 'level', 'title_en', 'title_he', 'goal', 'sensitive'];
 export const scenarioRow = (s) => ({ ...pick(s, SCENARIO_ROW), n_practice: Array.isArray(s.practice) ? s.practice.length : 0 });
 export const WRITING_ROW = ['id', 'stage', 'level', 'kind', 'title_en', 'title_he', 'word_range', 'min_words', 'max_words', 'time_limit_min'];
 export const writingRow = (x) => ({ ...pick(x, WRITING_ROW), ...(Array.isArray(x.items) ? { n_items: x.items.length } : {}), ...(x.prompt !== undefined ? { prompt: x.prompt } : {}) });
@@ -49,6 +54,15 @@ export const writingIndexOf = (ex, as) => (ex || as ? { exercises: (ex?.exercise
 export const withItemCount = (row) => (row && row.n_items != null && !row.items ? { ...row, items: new Array(row.n_items) } : row);
 // The practice centres' files: content/centers/<name>.json holds the exercises of these types.
 export const CENTERS = { read: ['read'], listen: ['listen', 'dictation'], speak: ['speak'] };
+const learner = () => { try { return store?.get('profile', 'me') || null; } catch { return null; } };
+// Decided on each call, from the profile as it is now (the cached file stays complete).
+const forAge = (key) => (d) => {
+  if (!d || !Array.isArray(d[key])) return d;
+  const { shown, hidden } = forLearner(d[key], learner());
+  return hidden ? { ...d, [key]: shown, hidden_for_age: hidden } : d;
+};
+
+const allScenarios = () => get('real-life/scenarios.json', { optional: true });
 
 export const content = {
   taxonomy: () => get('taxonomy.json'),
@@ -56,21 +70,23 @@ export const content = {
   manifest: () => get('manifest.json', { optional: true }),
   lesson: (id) => get(`lessons/${encodeURIComponent(id)}.json`, { optional: true }),
   placement: () => get('placement.json', { optional: true }),
-  scenarios: () => get('real-life/scenarios.json', { optional: true }),
-  slang: () => get('real-life/slang.json', { optional: true }),
+  scenarios: () => get('real-life/scenarios.json', { optional: true }).then(forAge('scenarios')),
+  slang: () => get('real-life/slang.json', { optional: true }).then(forAge('entries')),
   writingExercises: () => get('writing/exercises.json', { optional: true }),
   assignments: () => get('writing/assignments.json', { optional: true }),
   rubric: () => get('writing/rubric.json', { optional: true }),
   pictures: () => get('pictures.json', { optional: true }),
   // The small generated lists and one file per scenario or task (contract C-1), so a list or one item never downloads
   // every scenario or task. scenario(id) and writingTask(id) resolve to null for an unknown id.
+  // The age filter runs after the memo, on each call, like scenarios() (index rows carry `sensitive`).
   scenarioIndex() {
     return once('scenarioIndex', () => split('real-life/index.json').catch(() => null)
-      .then((d) => d || content.scenarios().then(scenarioIndexOf)));
+      .then((d) => d || allScenarios().then(scenarioIndexOf))).then(forAge('scenarios'));
   },
   scenario(id) {
     return once(`scenario:${id}`, () => split(`real-life/scenario/${encodeURIComponent(id)}.json`)
-      .catch(() => content.scenarios().then((d) => d?.scenarios?.find((x) => x.id === id) || null)));
+      .catch(() => allScenarios().then((d) => d?.scenarios?.find((x) => x.id === id) || null)))
+      .then((s) => (s && forLearner([s], learner()).hidden ? null : s));
   },
   writingIndex() {
     return once('writingIndex', () => split('writing/index.json').catch(() => null)

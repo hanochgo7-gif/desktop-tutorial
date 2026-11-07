@@ -8,6 +8,7 @@ import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, course
 import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
 import { setHebrewSupport } from './i18n.js';
 import { START_FOR, selfReportResult } from './placement.js';
+import { aiConsented } from './age.js';
 
 export const DEFAULT_SETTINGS = {
   id: 'me',
@@ -32,6 +33,8 @@ export const DEFAULT_SETTINGS = {
 
 export const profile = () => store.get('profile', 'me');
 export const settings = () => ({ ...DEFAULT_SETTINGS, ...(store.get('settings', 'me') || {}) });
+// AI feedback is on for this learner (under 16 only with the guardian's agreement too; age.js). Every AI screen asks this.
+export const aiConsent = () => aiConsented(settings(), profile());
 export const hasProfile = () => Boolean(profile()?.onboarded);
 
 export function saveProfile(patch) { return store.update('profile', 'me', { ...patch }); }
