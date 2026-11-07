@@ -6,6 +6,14 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 
 ## Summary
 
+> **Skeptic round (2026-11-07).** After this measurement, a skeptic review found problems on the integrated tree; the
+> fixes and their re-measurement are in [Skeptic round](#skeptic-round-2026-11-07) below. In short: a tab still
+> running the production release (2026-11-03.1) no longer breaks when the deploy lands; the boot frame can no longer
+> cover a page drawn by the old app.js; the worker checks what it serves and refuses to install without
+> `release.json` over an older cache; the IPA font is precached again; and the first-visit precache now finishes at
+> **8.1 s** (was 10.8 s; baseline 9.45 s; target 8.5 s: **met**), with 84 requests instead of 145. Rows re-measured
+> then carry `"revision": "skeptic-round"` in after.json.
+
 - **Cold loads on the phone are 26-70 % faster.** These are the deployed (minified) tree's numbers.
   - Cold welcome: 2050 → 1511 ms, with first paint 2072 → 632 ms.
   - Cold Today: 3695 → 1701 ms.
@@ -31,7 +39,8 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 - **Inline-CSS gate (D9): failed.** Built with `--inline-css` vs built without it: welcome −14 ms, Today −14 ms
   (both need ≥ 120), and first paint is 16-40 ms later. pages.yml stays without the flag.
 - **Not met:**
-  - the precache now finishes later (10.8 s against 9.45 s on welcome; target 8.5 s; a regression);
+  - ~~the precache now finishes later (10.8 s against 9.45 s on welcome; target 8.5 s; a regression)~~: fixed in
+    the skeptic round (8.1 s, 84 requests);
   - first-session Today → reading takes 730-891 ms (target 300);
   - cold Today is 261 KB gz (target 180);
   - some CPU-bound transition and interaction targets miss in the slower measurement window. The same-window base
@@ -259,15 +268,16 @@ and they are not comparable. Reading has to fetch its 90 KB gz centre file while
 
 | measure | baseline | headline | target | verdict |
 |---|---:|---:|---|---|
-| KB on the wire (welcome) | 884 | 632 | ≤ 700 | met |
-| requests | 84 | 145 | ≤ 160 | met |
-| finished, after the welcome navigation | 9452 ms (base W1: 9400) | 10843 ms (W1 10769; source 11329-11493) | ≤ 8500 | **not met, and a regression** (+1.4 s) |
-| finished, first visit on #/today | 11055 | 10690 | | −3 % |
+| KB on the wire (welcome) | 884 | 632; skeptic round 592 | ≤ 700 | met |
+| requests | 84 | 145; skeptic round 84 | ≤ 160 | met |
+| finished, after the welcome navigation | 9452 ms (base W1: 9400) | 10843 ms (W1 10769; source 11329-11493); **skeptic round 8136** (previous head, same window: 10797) | ≤ 8500 | **met** in the skeptic round (was a regression, +1.4 s) |
+| finished, first visit on #/today | 11055 | 10690; skeptic round 8041 (same window: 10726) | | −27 % |
 
-The first view never waits for the precache: SW-blocked welcome and Today give the same view times. But the app is
-ready offline about 1.4 s later than before on a first welcome visit. There are 61 more requests: the per-item
-scenario and task files that contract C-2 adds to the offline list. Each costs a round trip on a 150 ms link, and
-the time is not in the bytes (632 KB is about 3.2 s at 1.6 Mbps).
+The first view never waits for the precache: SW-blocked welcome and Today give the same view times. In the headline
+the app was ready offline about 1.4 s later than before on a first welcome visit: 61 more requests, the per-item
+scenario and task files that contract C-2 adds to the offline list (the time was not in the bytes). The skeptic round
+writes those 66 files from their three source files (one request each) in the worker, each checked against its hash;
+see below.
 
 ### 9. Heavy-history learner (180 days, about 5.3k attempts, 700 cards), warm, CPU 4x
 
@@ -327,20 +337,20 @@ measured 93 and 132 in window 2.
 
 | check | result |
 |---|---|
-| `npm test` | 367/367 |
+| `npm test` | 367/367 (skeptic round: 378/378, 0 skipped) |
 | `node tools/validate-content.mjs` | 0 errors (1 warning, as before) |
 | `node tools/build-content-index.mjs --check` | current |
 | `tests/e2e/run.mjs` on the built tree (`E2E_ROOT`) | 57/57 (includes OF2, the offline sweep) |
 | `tests/e2e/a11y.mjs` | 0 violations (29 routes + welcome and onboarding x 5 configurations) |
 | `tests/e2e/perf-boot.mjs` | 12/12 |
-| upgrade from the production worker (`2026-11-03.1`, b2b669b) to the built tree and to the source, heavy learner, 5 saved lessons | 7247 of 7247 records unchanged, 5 of 5 lessons carried into the new cache, Today's plan identical, offline Today, lessons, progress and vocab open |
+| upgrade from the production worker (`2026-11-03.1`, b2b669b) to the built tree and to the source, heavy learner, 5 saved lessons | 7247 of 7247 records unchanged, 5 of 5 lessons carried into the new cache, Today's plan identical, offline Today, lessons, progress and vocab open (a harness run; it checked the data, not the page code: see the skeptic round, where `tests/e2e/upgrade.mjs` now covers it) |
 | CSP meta byte-identical to b2b669b | yes (same sha-256 in source and built); so no new connect-src origin |
 | the other lane e2e suites, the full e2e on the source, and a separate console-error sweep | not re-run in this step (the integration step ran them); not measured here |
 
 ## Regressions (worse than the baseline beyond noise)
 
-- **Precache finish on a first welcome visit: 9.45 → 10.84 s (+1.4 s; base W1 9.40 s).** The app is offline-ready
-  later. The bytes went down (−28 %), but 61 more files are listed.
+- ~~**Precache finish on a first welcome visit: 9.45 → 10.84 s (+1.4 s; base W1 9.40 s).**~~ Fixed in the skeptic
+  round: 8.14 s, 84 requests, 592 KB.
 - **Page-load script time (Chrome ScriptDuration until the page settles) is up about 35-40 ms at 4x.**
   - Base: welcome 26, Today 27, warm Today 18 ms (W1).
   - Integrated, built: 64, 71, 62 (W1).
@@ -357,11 +367,8 @@ measured 93 and 132 in window 2.
 
 ## What remains
 
-1. **Precache count.** The per-item scenario and task files (C-2) cost round trips. Options:
-   - bundle them into a few precache packs at deploy time;
-   - fetch them with more parallelism after the shell and code;
-   - precache only the index files plus the items Today plans.
-   This would bring back the 8.5 s target and the 9.45 s baseline.
+1. ~~**Precache count.**~~ Done in the skeptic round: the per-item files are written from their source files in the
+   worker (8.1 s, 84 requests).
 2. **First-session reading (730-891 ms, target 300).** Its 90 KB centre file competes with the precache. C9
    (list-only reading file) was deferred by the content lane; worth re-gating now that cold reading is 2.3 s.
 3. **Cold Today bytes (261 KB, target 180).** Most of it is code. The route-module preloads that B2 adds for the
@@ -377,3 +384,105 @@ measured 93 and 132 in window 2.
    windows the integrated tree is at or below the base app.
 8. **D8** (lucid-verify.yml) still needs its first run on GitHub (the delivery lane could not push; nor does this
    step).
+
+## Skeptic round (2026-11-07)
+
+A skeptic review of the integrated head (`16c6dbf`) reported 15 problems. Each was reproduced first; this section
+says what changed and re-measures what the changes could move.
+
+### What changed
+
+- **A tab open on the production release when the deploy lands** (2026-11-03.1, b2b669b). Its worker serves code
+  network-first and its page has no release handoff, so such a tab keeps its core modules and imports this
+  release's screens. That happens from the network as soon as the HTTP cache expires (reproduced without any new
+  worker: 11 of 31 screens failed), and from the new release cache once the new worker has taken over.
+  - Fix: `js/core/compat.js`. The screens take the functions added since (C-1, C-3: `withItemCount`, `CENTERS`,
+    `collatorEn`, `relTime`, `groupDigits`) from it, and it adds the C-1 methods to an old `content` object, built
+    on the same files. On a page that started on this release, it hands over the core modules' own functions,
+    unchanged.
+  - Tests: `tests/unit/compat.test.mjs` checks both cases, and checks that no module an old page can load imports a
+    name the old modules lack (the fixture lists release 2026-11-03.1's exports).
+  - `tests/e2e/upgrade.mjs` (U1-U4) walks all 31 screens in a tab on the old release in three cases: the old worker
+    fetches the new screens; a second tab installs the new worker; a reload within ten minutes. It then checks the
+    records, the essay draft and the saved lessons offline. It passes on the source and on the built tree, and
+    lucid-verify.yml now runs it.
+- **The boot frame after a reload within ten minutes** (new index.html, old app.js and app.css from the HTTP cache).
+  The inline style now hides the frame once `#view` holds anything but its first spinner (`:has()`), and in any case
+  after 20 s. Checked by U3 and by `boot-preload.test.mjs`.
+- **The worker** (`sw.js`; see docs/qa/security-review.md 5a):
+  - every entry it serves from the release cache is checked against `release.json` once per worker lifetime, and an
+    entry that does not match is never served;
+  - `release.json` must match `LISTING`, a SHA-256 of its hash list that only sw.js carries;
+  - a file missed at install is kept only once it matches its hash;
+  - when `release.json` cannot be loaded and an older Lucid cache exists, the install fails instead of going ahead
+    unchecked (no saved lesson is dropped);
+  - the IPA font `fonts/rubik-latin-ext.woff2` is in the shell again, as it was in b2b669b (19 KB);
+  - the 66 per-item scenario and task files are written from their three source files, each checked against its hash,
+    with one request per source file instead of one per item. An update that changes a few items still fetches only
+    those.
+  - `tools/build-manifest.mjs` writes `LISTING` and hashes the three source files.
+- **Router.** A hidden tab on a hub no longer reloads while any text field holds a value (email and password
+  included). The drill's prefetch levels are a named function, compared with `pool.drillLevels` for every level and
+  for none.
+- **Tests and CI.**
+  - OF1, OF2 and the layout sweep now match error stems (`לא נטענ`, so the lists' `לא נטענה` too), look for "not
+    found" inside `.empty` blocks, and require each screen's own content. OF2 now fails when the content precache is
+    removed (checked).
+  - PERF-C5's second variant is called "task files unreachable", and a real offline variant runs through the worker.
+  - PL4 waits for `document.fonts.ready` before it looks up the folds. Cause of the flake (reproduced by holding the
+    IPA font for 1.5 s): lesson.js measures and draws the learn step again once its fonts arrive (pre-existing, in
+    b2b669b too).
+  - lucid-verify.yml installs esbuild before `npm test`, and the build tests fail rather than skip in CI.
+- **Not changed, with evidence.**
+  - The curriculum and manifest preloads. The duplicate is real: on a page the worker controls, Chromium does not
+    hand the preload to `fetch()`, which is 2 more requests and 66 KB read twice from the cache. Measured
+    alternating on the source tree, mobile, 2 x 3 runs:
+    - warm Today: 407 / 407 ms with the preloads, 400 / 386 without;
+    - cold Today: 1999 / 1959 with, 2133 / 2129 without.
+    The preloads save about 150 ms on a first visit and cost about 10 ms on a return, so they stay. The index.html
+    comment now says so.
+  - The S-15 sign-off. It still needs the lead (security-review.md 5a). The integration cannot give it.
+
+### Re-measured (built tree, mobile, 3 runs, same window)
+
+The built tree of this round (release `709b1a90e06c`) against the built previous head (`16c6dbf`, release
+`6e01c455e024`, the headline's tree). The runs alternated, with no other work on the machine. Medians.
+
+| row | this round | previous head | note |
+|---|---:|---:|---|
+| cold #/welcome view | 1508 | 1506 | |
+| cold #/today view | 1709 | 1715 | 39 vs 38 requests (compat.js) |
+| precache on welcome: requests / KB / finished | 84 / 592 / **8136** | 145 / 632 / 10797 | target ≤ 8500: **met** (baseline 9452) |
+| precache on Today: finished | 8041 | 10726 | |
+| worker controls the page (welcome) | 8232 | 10811 | |
+| warm #/today, fresh: sample 1 / sample 2 | 459 / 398 | 437 / 439 | |
+| warm #/today, stale | 405 / 391 | 443 / 431 | |
+| warm #/today, after a push | 437 / 418 | 437 / 427 | |
+| warm #/today, offline | 428 / 431 | 410 / 425 | |
+| warm #/today, lie-fi | 512 / 414 | 434 / 392 | |
+| warm lesson a1-01 (g fresh / stale / push / offline / lie-fi, sample 2) | 409 / 398 / 398 / 401 / 378 | 397 / 377 / 390 / 405 / 365 | |
+| warm (c) lesson / real-life / scenario / writing / expressions, sample 1 | 444 / 487 / 509 / 445 / 568 | 498 / 499 / 454 / 388 / 483 | |
+| the same, sample 2 | 392 / 441 / 433 / 403 / 471 | 424 / 406 / 432 / 407 / 496 | |
+| cold (c) lesson / real-life / scenario / writing / expressions | 2068 / 1777 / 1811 / 1580 / 2156 | 2062 / 1751 / 1794 / 1546 / 2139 | +1 request each (compat.js) |
+| release update: downloads / installed after | 1 request, 3 KB / 1280 ms | 1 request, 3 KB / 1273 ms | saved lessons 4 of 4 on both |
+| release update: next #/today | 447 | 461 | 0 mixed-release pages on both |
+| returning Today -> scenario / expressions / real-life / writing / progress / lesson | 151 / 142 / 97 / 83 / 71 / 70 | 133 / 128 / 126 / 112 / 80 / 83 | |
+
+The precache gain is the only change beyond noise. Warm loads, where the worker now hashes each entry once per
+lifetime, move by -40 to +85 ms between the two samples in both directions: no cost shows above the noise. Cold
+loads are 6-34 ms slower, inside the run-to-run spread; they make one more request, compat.js (1 KB). Raw JSON and
+logs: scratchpad `integ2/measure/` (`cur-*` this round, `prev-*` the previous head).
+
+### Suites on this round
+
+All green on the source tree, and on the built tree where marked:
+
+- `npm test` 378/378, 0 skipped;
+- validate-content (0 errors, 1 warning as before) and build-content-index --check;
+- run.mjs 57/57 (source and built) and a11y (0 violations);
+- every lane suite: shell-components, lesson-flow, exercises, bilingual-text, lesson-content, first-run-today,
+  practice-hubs, games, real-life-writing, r4-lesson-flow, r4-exercises, r4-today-path, r4-practice-games,
+  r4-real-life-writing, r4-shell-bilingual, perf-boot 12/12, perf-runtime 9/9;
+- upgrade.mjs 4/4 (source and built);
+- build, then verify: ok (63 modules), against a clean source copy. Run in place, verify also lists the
+  git-ignored `.impeccable/` folder, which a checkout does not have.

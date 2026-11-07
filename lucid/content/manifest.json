@@ -155,6 +155,7 @@
   "js/app.js",
   "js/core/adaptive.js",
   "js/core/api.js",
+  "js/core/compat.js",
   "js/core/content.js",
   "js/core/diff.js",
   "js/core/grading.js",

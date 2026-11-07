@@ -186,7 +186,29 @@ release take over early.
 never cached; activation deletes only `lucid-` caches. The deploy-only minify step (D7) never touches the CSP meta,
 and `tools/build/verify.mjs` fails the build if it changed.
 
-**Status.** Re-reviewed by the delivery lane. Needs a security sign-off by the lead before merge (plan item D2).
+**Integration follow-up (2026-11-07).** A skeptic review showed in a browser that a poisoned entry written into
+the release cache by same-origin script ran on every online load until the next release (b2b669b's network-first
+worker overwrote it at the next online load). The worker now checks what it serves, so the paragraph above about
+checking only on install no longer holds:
+- Every entry served from the release cache is hashed and compared with `release.json` once per worker lifetime
+  (`servable` in `sw.js`); an entry that does not match is deleted, fetched again and checked, and never served
+  (offline it is not served at all). Re-measured on the phone profile, warm loads show no cost above the noise
+  (docs/perf/after.md, skeptic round).
+- `release.json` in the cache can no longer vouch for a forged entry: its hash list must match `LISTING`, a SHA-256
+  that only `sw.js` carries (written by `tools/build-manifest.mjs`), and the browser fetches `sw.js` from the server.
+  A changed or removed copy is fetched again from the server; with none to be had, nothing is served from the cache
+  (and nothing deleted) until one can be.
+- A file missed at install and fetched later is kept only if it matches its hash.
+- A `release.json` that cannot be loaded (an error status or no connection) fails the install whenever an older
+  Lucid cache exists, so nothing is installed unchecked over a release or over the hand-numbered caches; only a first
+  install goes ahead without hashes, as before them.
+- Limit: the per-file hashes are 48-bit prefixes, so a forger with a lot of computing power could find a second
+  preimage for one file; `LISTING` is a full SHA-256. Same-origin script can still read the learner's token and
+  IndexedDB (S-03), which no worker check changes.
+Covered by `tests/unit/sw.test.mjs` (the integrity tests at its end).
+
+**Status.** Re-reviewed by the delivery lane and changed by the integration as above. Still needs the explicit
+security sign-off by the lead before the release ships (plan item D2); the integration cannot give it.
 
 ## 6. Limits of this review
 
