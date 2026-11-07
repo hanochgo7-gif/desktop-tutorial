@@ -95,6 +95,7 @@
       dlg.classList.toggle('is-v', b.dataset.v === 'v');
       ttl.textContent = b.dataset.title;
       vid.src = b.dataset.film;
+      vid.muted = !b.dataset.sound;
       dlg.showModal();
       play(vid);
     });

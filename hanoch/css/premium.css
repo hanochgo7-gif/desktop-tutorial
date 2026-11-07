@@ -270,3 +270,21 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
 .pm-reel-btn svg { width: 14px; height: 14px; }
 .pm-reel-btn .i-play, .pm-reel-btn.is-paused .i-pause { display: none; }
 .pm-reel-btn.is-paused .i-play { display: block; }
+
+/* ריילס אנכיים */
+.pm-reels { margin-top: clamp(56px, 7vw, 96px); }
+.pm-reels-head { display: grid; gap: 0; margin-bottom: 28px; }
+.pm-reels-head .pm-label { margin-bottom: .8rem; }
+.pm-reels-head .pm-sub { margin-top: 0; max-width: 36rem; }
+.pm-reel-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.pm-film-btn.pm-film-v { aspect-ratio: 9 / 16; }
+.pm-film-v .pm-film-cap { inset: auto 14px 14px; }
+.pm-film-v .pm-film-cap b { font-size: 1.3rem; }
+.pm-film-v .pm-film-cap > span:last-child { font-size: .78rem; }
+.pm-film-v .pm-play { width: 40px; height: 40px; top: 12px; left: 12px; }
+@media (max-width: 979px) {
+  .pm-reel-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+  .pm-reel-row::-webkit-scrollbar { display: none; }
+  .pm-reel-row li { flex: 0 0 44%; scroll-snap-align: start; }
+}
+@media (max-width: 560px) { .pm-reel-row li { flex-basis: 62%; } }
