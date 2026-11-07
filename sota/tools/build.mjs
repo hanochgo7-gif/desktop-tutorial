@@ -275,7 +275,7 @@ function homePage(t) {
   const yrs = site.yearsExperience;
 
   const problemItems = t.problem.items.map((s) => `<li class="problem-item"><span class="x" aria-hidden="true"></span><p>${esc(s)}</p></li>`).join("");
-  const steps = t.approach.steps.map((s, i) => `<li class="step" data-step="${i}"><span class="stn" aria-hidden="true"></span><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></li>`).join("");
+  const steps = t.approach.steps.map((s, i) => `<li class="step" data-step="${i}"><span class="stn" aria-hidden="true"></span><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p><img class="step-vis" src="${p}assets/visuals/step-${i + 1}.webp" alt="" width="480" height="480" loading="lazy" decoding="async"></li>`).join("");
   const svcs = t.services.items.map((s) => `<li class="svc"><h3>${esc(s.t)}</h3>${ICON.branch}<p>${esc(s.d)}</p>${s.q ? `<div class="svc-q"><span class="sr-only">${esc(t.services.qLabel)}</span><ul>${s.q.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>` : ""}</li>`).join("");
   const whyCells = t.why.cells.map((c) => `<li class="why-cell"><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></li>`).join("");
   const pathCards = ["private", "small", "growing"].map((k, i) => {
@@ -370,6 +370,7 @@ ${header(t, route, { onHome: true })}
       <h2 id="why-title" class="display h-l">${esc(t.why.title)}</h2>
     </div>
     <ul class="why-grid">${whyCells}</ul>
+    <figure class="why-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${p}assets/visuals/years.webp"><source src="${p}assets/visuals/years.mp4" type="video/mp4"></video></figure>
     <p class="why-quote display h-l">${esc(t.why.quote)}</p>
   </div>
 </section>
@@ -441,7 +442,7 @@ function audiencePage(t, key) {
   const svcRoute = rel(route, ROUTES.service[t.lang]);
   const homeHref = rel(route, ROUTES.home[t.lang]);
   const others = ["private", "small", "growing"].filter((k) => k !== key);
-  const steps = t.approach.steps.map((s, i) => `<li><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></li>`).join("");
+  const steps = t.approach.steps.map((s, i) => `<li><img class="aud-step-vis" src="${up(route)}assets/visuals/step-${i + 1}.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></li>`).join("");
   const faqs = a.faq.map((q, i) => `<details${i === 0 ? " open" : ""}><summary><span>${esc(q.q)}</span><span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>${fill(q.a, { service: svcRoute })}</p></div></details>`).join("");
   const preset = key === "private" ? "private" : key === "small" ? "small" : "medium";
   const stations = { private: 2, small: 4, growing: 6 }[key];
@@ -526,11 +527,14 @@ function servicePage(t) {
 <body data-page="service">
 ${header(t, route, { onHome: false })}
 <main id="main">
-  <section class="page-hero">
-    <div class="wrap">
+  <section class="page-hero aud-hero">
+    <div class="wrap aud-hero-grid">
+      <div class="aud-hero-text">
       <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(s.label)}</span>
       <h1 class="display h-xl">${esc(s.title)}</h1>
       <p class="lede">${esc(s.lede)}</p>
+      </div>
+      <figure class="aud-visual svc-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${up(route)}assets/visuals/service.webp"><source src="${up(route)}assets/visuals/service.mp4" type="video/mp4"></video></figure>
     </div>
   </section>
   <div class="wrap service-layout">

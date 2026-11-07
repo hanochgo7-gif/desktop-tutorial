@@ -733,6 +733,21 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 @media (max-width: 1080px) { .aud-hero-grid { grid-template-columns: minmax(0, 1fr); } .aud-visual { max-width: 460px; aspect-ratio: 1; } }
 @media (max-width: 760px) { .final-visual video { opacity: .5; } }
 
+
+/* Higgsfield visuals, round 2 */
+.step-vis { width: clamp(96px, 15vh, 180px); height: auto; aspect-ratio: 1; border-radius: 14px; margin-top: 8px; box-shadow: 0 0 0 1px var(--line); transition: transform var(--t-med) var(--ease-out), box-shadow var(--t-med); }
+.step.is-on .step-vis, :root:not(.motion) .step-vis { box-shadow: 0 0 0 1px var(--signal-dim); }
+.aud-step-vis { width: 100%; max-width: 220px; height: auto; aspect-ratio: 1; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 0 0 1px var(--line); }
+.why-visual { margin: clamp(48px, 7vw, 96px) 0 0; border-radius: 22px; overflow: hidden; aspect-ratio: 21 / 9; background: var(--paper-2); box-shadow: 0 30px 80px rgb(19 21 23 / .14); }
+.why-visual video { width: 100%; height: 100%; object-fit: cover; }
+:root[dir="rtl"] .why-visual video { transform: scaleX(-1); }
+.svc-visual { max-width: 420px; justify-self: center; }
+@media (max-width: 760px) {
+  .step-vis { width: 120px; }
+  .why-visual { aspect-ratio: 16 / 10; }
+  .aud-step-vis { max-width: 160px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .problem-item, .step { opacity: 1 !important; transform: none !important; }
