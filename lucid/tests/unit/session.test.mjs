@@ -36,7 +36,7 @@ globalThis.document = {
   },
 };
 
-const server = { profile: null, refuse: false, posts: [], records: 0 };
+const server = { profile: null, refuse: false, posts: [], patches: [], records: 0 };
 globalThis.fetch = async (url, init = {}) => {
   const u = new URL(url, 'https://mock.supabase.co');
   const reply = (status, json) => ({ ok: status < 400, status, text: async () => (json === undefined ? '' : JSON.stringify(json)) });
@@ -47,6 +47,11 @@ globalThis.fetch = async (url, init = {}) => {
     if (server.refuse) return reply(400, { code: '22023', message: 'The birth year must be a past year, at most 120 years ago' });
     server.profile = { ...body };
     return reply(201, [server.profile]);
+  }
+  if (u.pathname === '/rest/v1/lucid_profiles' && init.method === 'PATCH') {
+    server.patches.push(body);
+    server.profile = { ...server.profile, ...body };
+    return reply(204);
   }
   if (u.pathname === '/auth/v1/logout') return reply(204);
   if (u.pathname === '/auth/v1/token') return reply(200, { access_token: 'b-token', refresh_token: 'r', expires_in: 3600, user: USER });
@@ -61,7 +66,7 @@ const fakeSync = () => { const s = { runs: 0, run: async () => { s.runs++; retur
 
 beforeEach(async () => {
   await store.wipe();
-  Object.assign(server, { profile: null, refuse: false, posts: [] });
+  Object.assign(server, { profile: null, refuse: false, posts: [], patches: [] });
   dialogs = []; answer = 'cancel';
   if (!auth.signedIn) await auth.signIn(USER.email, 'password 123');
 });
@@ -164,6 +169,45 @@ test('a device already onboarded without the agreement takes it from the server 
   assert.equal(r.synced, true);
   assert.equal(store.get('profile', 'me').guardian_consent_at, at);
   assert.equal(syncPauseReason(), null);
+});
+
+// The 16+ gate on main used the older age, so a learner born in year - 16 got a server profile without any
+// guardian's agreement; by the youngest age they count as under 16 now. The existing profile is not enough.
+test('a server profile from the 16+ gate for a learner now counted as under 16: sync waits for the agreement, which is then sent to it', async () => {
+  const year = new Date().getFullYear();
+  const old = '2026-10-01T10:00:00.000Z';
+  store.put('profile', { id: 'me', onboarded: true, name: 'Old', birth_year: year - 16, minor: true, consent_terms_at: old });
+  store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: old });
+  store.setOwner(USER.id);
+  server.profile = { id: USER.id, display_name: 'Old', birth_year: year - 16, ui_language: 'he', goals: [], consent_terms_at: old, consent_ai_at: old, guardian_consent_at: null };
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced, reason: r.reason }, { ok: true, synced: false, reason: 'guardian' });
+  assert.equal(syncAllowed(), false, 'nothing is uploaded without the agreement');
+  assert.equal(syncPauseReason(), 'guardian', 'Settings shows the box');
+  assert.equal(sync.runs, 0);
+  assert.equal(server.posts.length + server.patches.length, 0);
+  const at = new Date().toISOString();
+  store.update('profile', 'me', { guardian_consent_at: at });
+  const r2 = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r2.ok, synced: r2.synced, reason: r2.reason }, { ok: true, synced: true, reason: null });
+  assert.deepEqual(server.patches, [{ guardian_consent_at: at }], 'the agreement is sent to the existing profile');
+  assert.equal(server.posts.length, 0);
+  assert.equal(sync.runs, 1);
+});
+
+test('a new profile does not send AI consent that an under-16 gave without the guardian\'s agreement', async () => {
+  const year = new Date().getFullYear();
+  const at = new Date().toISOString();
+  store.put('profile', { id: 'me', onboarded: true, name: 'K', birth_year: year - 16, guardian_consent_at: at });
+  store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: at });
+  store.setOwner(USER.id);
+  await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(server.posts[0].consent_ai_at, null);
+  store.update('settings', 'me', { ai_guardian_consent_at: at });
+  server.profile = null;
+  await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(server.posts[1].consent_ai_at, at, 'with the guardian\'s agreement for AI it is sent');
 });
 
 test('signing in over another account\'s data and cancelling signs out and changes nothing (S-06)', async () => {

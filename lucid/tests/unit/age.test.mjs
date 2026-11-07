@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { ageFromYear, ageOf, youngestAge, isMinor, isUnder16, forLearner, flagsOf, birthYears, SENSITIVE_FLAGS } from '../../js/core/age.js';
+import { ageFromYear, ageOf, youngestAge, isMinor, isUnder16, forLearner, flagsOf, birthYears, SENSITIVE_FLAGS, currentYear, aiConsented } from '../../js/core/age.js';
 
 const now = new Date('2026-11-07T12:00:00Z');
 
@@ -44,6 +44,35 @@ test('protections use the youngest possible age, so a 15-year-old and a 17-year-
   const jan = new Date('2027-01-05T12:00:00Z');
   assert.equal(isUnder16({ birth_year: 2011 }, jan), true);
   assert.equal(isUnder16({ birth_year: 2010 }, jan), false, 'born 2010: surely 16 in 2027');
+});
+
+// The database trigger counts in UTC (004), so the app does too: at 00:30 on 1 January in Israel it is still
+// 31 December in UTC, and both treat someone born in 2010 as possibly 15 (tests/db checks the trigger side).
+test('the current year is the UTC year in every time zone, as in the database trigger', () => {
+  const prevTZ = process.env.TZ;
+  process.env.TZ = 'Asia/Jerusalem';
+  try {
+    const at = new Date('2026-12-31T22:30:00Z');
+    assert.equal(at.getFullYear(), 2027, 'the local year in Israel has already turned');
+    assert.equal(currentYear(at), 2026);
+    assert.equal(ageFromYear(2010, at), 16);
+    assert.equal(isUnder16({ birth_year: 2010 }, at), true, 'born 2010 may still be 15 until midnight UTC');
+    assert.equal(birthYears(at)[0], 2026);
+    const after = new Date('2027-01-01T00:30:00Z');
+    assert.equal(isUnder16({ birth_year: 2010 }, after), false);
+  } finally { if (prevTZ === undefined) delete process.env.TZ; else process.env.TZ = prevTZ; }
+});
+
+// AI consent given when Lucid was 16+ does not count for a learner who is counted as under 16 now: the guardian's
+// agreement (ai_guardian_consent_at) is needed too. Every AI screen and the server profile use this.
+test('AI is on for an under-16 only with the guardian\'s agreement; from 16 the consent alone', () => {
+  const at = '2026-10-01T00:00:00Z';
+  assert.equal(aiConsented({ ai_consent: true }, { birth_year: 2010 }, now), false, 'born 2010, consent from the 16+ days');
+  assert.equal(aiConsented({ ai_consent: true, ai_guardian_consent_at: at }, { birth_year: 2010 }, now), true);
+  assert.equal(aiConsented({ ai_consent: false, ai_guardian_consent_at: at }, { birth_year: 2010 }, now), false);
+  assert.equal(aiConsented({ ai_consent: true }, { birth_year: 2009 }, now), true, 'surely 16');
+  assert.equal(aiConsented({ ai_consent: true }, null, now), true, 'no profile: no age to protect by');
+  assert.equal(aiConsented({}, { birth_year: 1990 }, now), false);
 });
 
 test('without a birth year the stored flag is the fallback, and under-16 is never assumed', () => {

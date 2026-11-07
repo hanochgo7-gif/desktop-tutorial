@@ -440,6 +440,76 @@ try {
     await two.ctx.close();
   });
 
+  await check('AGE4. A learner who signed up when Lucid was 16+ (born year - 16, now counted as under 16) and is still signed in: sync, AI and the tutor wait for a guardian; Settings takes the agreement and says what really happened (mock server)', async () => {
+    const year = new Date().getFullYear();
+    const until = async (fn, ms = 4000) => { const t0 = Date.now(); while (!fn()) { if (Date.now() - t0 > ms) return false; await sleep(50); } return true; };
+    const toasts = (page) => page.$$eval('#toast-root .toast', (xs) => xs.map((x) => x.textContent.trim()));
+    const t = await newPage(browser, { mock: true });
+    const db = t.page.lucidMock;
+    const old = '2026-10-01T00:00:00.000Z';
+    // As the 16+ gate on main left it: a server profile without the agreement, AI consent on, a stored session.
+    db.profile = { id: db.user.id, display_name: 'Old', birth_year: year - 16, ui_language: 'he', goals: ['travel'], consent_terms_at: old, consent_ai_at: old, guardian_consent_at: null };
+    await learnerAt(t.page, 'A2', { birthYear: year - 16 });
+    await t.page.evaluate(async ({ u, old }) => {
+      const L = await import('./js/core/learner.js');
+      localStorage.setItem('lucid-session', JSON.stringify({ access_token: `tok-${u.id}`, refresh_token: 'r', expires_at: Date.now() + 3_600_000, user: u }));
+      window.lucid.store.setOwner(u.id);
+      L.saveProfile({ minor: true, consent_terms_at: old });
+      L.saveSettings({ ai_consent: true, ai_consent_at: old });
+    }, { u: db.user, old });
+    await sleep(500); // the store writes to IndexedDB in the background
+    assert((await store(t.page, 'settings'))[0]?.ai_consent === true, 'the test did not store the AI consent');
+    await t.page.reload();
+    await t.page.waitForSelector('#view > *');
+    await sleep(800);
+    assert(!db.pushes.length, `progress was uploaded without a guardian's agreement (${db.pushes.length} pushes)`);
+    // AI is off for this learner until a guardian agrees: the tutor sends nothing and points to Settings.
+    await t.page.goto(`${BASE}#/tutor`);
+    await t.page.waitForSelector('[data-ai-notice]', { timeout: 4000 }).catch(() => { throw new Error('the tutor is open for an under-16 without a guardian\'s agreement'); });
+    assert(!(await t.page.$('#tin')) && db.usage === 0, 'an AI request could be sent');
+    // Settings: the account box is there, AI shows as off with its guardian box.
+    await t.page.goto(`${BASE}#/settings`);
+    await t.page.waitForSelector('[data-guardian-account-box]', { timeout: 4000 }).catch(() => { throw new Error('Settings does not say sync waits for a guardian'); });
+    assert(!(await t.page.isChecked('[data-ai]')) && await t.page.$('[data-guardian-ai]'), 'AI shows as on without a guardian\'s agreement');
+    // "Sync now" while waiting for a guardian points to the box; it does not promise an automatic retry.
+    await t.page.click('[data-sync]');
+    await sleep(300);
+    const syncToast = (await toasts(t.page)).join(' | ');
+    assert(/בתיבה שלמעלה/.test(syncToast) && !/ננסה שוב אוטומטית/.test(syncToast), `Sync now said: ${syncToast}`);
+    assert(!db.pushes.length, 'Sync now uploaded without the agreement');
+    await t.page.evaluate(() => document.querySelectorAll('#toast-root .toast').forEach((x) => x.remove()));
+    // The agreement while offline: saved, and the toast says sync waits for the connection, not that it started.
+    // (The mock answers before the network, so the connection is cut by aborting its requests.)
+    const cut = (route) => route.abort('internetdisconnected');
+    await t.page.route(/mock\.supabase\.co\/rest/, cut);
+    await t.page.click('[data-guardian-account]');
+    await sleep(800);
+    const offToast = (await toasts(t.page)).join(' | ');
+    assert(/האישור נשמר/.test(offToast) && /אין כרגע חיבור לשרת/.test(offToast) && !/הסנכרון התחיל|יתחיל עכשיו/.test(offToast), `offline agreement said: ${offToast}`);
+    assert(!db.pushes.length && !db.profile.guardian_consent_at, 'something was sent while offline');
+    // Back online: the agreement goes to the existing profile, then sync runs.
+    await t.page.unroute(/mock\.supabase\.co\/rest/, cut);
+    await t.page.evaluate(() => dispatchEvent(new Event('online')));
+    assert(await until(() => db.pushes.length > 0), 'sync did not start once back online');
+    const local = (await store(t.page, 'profile'))[0];
+    assert(db.profile.guardian_consent_at && db.profile.guardian_consent_at === local.guardian_consent_at, `the agreement did not reach the server profile: ${JSON.stringify(db.profile)}`);
+    await t.ctx.close();
+    // Online, the agreement toast says sync started only when it did.
+    const k = await newPage(browser, { mock: true });
+    const kdb = k.page.lucidMock;
+    await learnerAt(k.page, 'A1', { birthYear: year - 12 });
+    await k.page.evaluate((u) => { localStorage.setItem('lucid-session', JSON.stringify({ access_token: `tok-${u.id}`, refresh_token: 'r', expires_at: Date.now() + 3_600_000, user: u })); window.lucid.store.setOwner(u.id); }, kdb.user);
+    await k.page.reload();
+    await k.page.goto(`${BASE}#/settings`);
+    await k.page.waitForSelector('[data-guardian-account]');
+    await k.page.click('[data-guardian-account]');
+    assert(await until(() => kdb.pushes.length > 0), 'no sync after the agreement');
+    await sleep(200);
+    const okToast = (await toasts(k.page)).join(' | ');
+    assert(/האישור נשמר, והסנכרון התחיל/.test(okToast), `the agreement said: ${okToast}`);
+    await k.ctx.close();
+  });
+
   await check('2. A new user can complete a placement assessment', async () => {
     const { ctx, page } = await newPage(browser);
     await onboard(page, { start: 'basics' });

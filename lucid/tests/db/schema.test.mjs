@@ -7,12 +7,14 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
+import { isUnder16 } from '../../js/core/age.js';
 
 const A = '11111111-1111-4111-8111-111111111111';
 const B = '22222222-2222-4222-8222-222222222222';
 const year = new Date().getFullYear();
 
-async function setup() {
+// edit(file, sql) may change a migration before it runs (the clock test pins now()); upTo stops before a file.
+async function setup({ edit = (f, sql) => sql, upTo = null } = {}) {
   const db = new PGlite();
   // Supabase grants everything on new tables, sequences and functions in public to these roles by default;
   // the migrations must take back what learners should not have.
@@ -29,11 +31,16 @@ async function setup() {
     alter default privileges in schema public grant all on functions to anon, authenticated, service_role;
   `);
   for (const f of readdirSync(new URL('../../supabase/migrations/', import.meta.url)).sort()) {
-    await db.exec(readFileSync(new URL(`../../supabase/migrations/${f}`, import.meta.url), 'utf8'));
+    if (upTo && f >= upTo) break;
+    await db.exec(edit(f, readFileSync(new URL(`../../supabase/migrations/${f}`, import.meta.url), 'utf8')));
   }
   await db.exec(`insert into auth.users (id, email) values ('${A}', 'a@example.com'), ('${B}', 'b@example.com');`);
   return db;
 }
+const migration = (prefix) => {
+  const f = readdirSync(new URL('../../supabase/migrations/', import.meta.url)).find((x) => x.startsWith(prefix));
+  return readFileSync(new URL(`../../supabase/migrations/${f}`, import.meta.url), 'utf8');
+};
 // Run statements as a given role/user inside a transaction so settings don't leak.
 async function as(db, role, uid, sql, params = []) {
   await db.exec(`begin; set local role ${role}; select set_config('request.jwt.claim.sub', '${uid ?? ''}', true);`);
@@ -124,6 +131,66 @@ test('protections use the youngest possible age: the last year of each threshold
   const C = '33333333-3333-4333-8333-333333333333';
   await db.exec(`insert into auth.users (id, email) values ('${C}', 'c@example.com');`);
   await as(db, 'authenticated', C, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [C, year - 120]);
+});
+
+// The 16+ gate of 001 used the older age, so in year Y it let in learners born in Y - 16, who count as under 16 now.
+// Their profiles have no guardian's agreement. 004 keeps them usable (updates, withdrawing AI consent) but clears
+// their AI consent, keeps it off and stores no new records for them until the agreement is given.
+test('a profile from the 16+ gate that counts as under 16 now: updates work, AI consent is cleared, no new records until a guardian agrees (004)', async () => {
+  const db = await setup({ upTo: '004' });
+  await as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year, consent_ai_at) values ($1, $2, now())`, [A, year - 16]);
+  await as(db, 'authenticated', A, `insert into lucid_records (coll, id, data) values ('progress', 'old', '{}')`);
+  await db.exec(migration('004'));
+  const row = async () => (await as(db, 'authenticated', A, `select display_name, ui_language, consent_ai_at, guardian_consent_at from lucid_profiles`)).rows[0];
+  assert.equal((await row()).consent_ai_at, null, 'the AI consent given without a guardian is cleared by 004');
+  // Withdrawing AI consent and other updates still work.
+  await as(db, 'authenticated', A, `update lucid_profiles set consent_ai_at = null`);
+  await as(db, 'authenticated', A, `update lucid_profiles set display_name = 'Noa', ui_language = 'en'`);
+  assert.deepEqual([(await row()).display_name, (await row()).ui_language], ['Noa', 'en']);
+  // AI consent cannot be set again without the agreement.
+  await as(db, 'authenticated', A, `update lucid_profiles set consent_ai_at = now()`);
+  assert.equal((await row()).consent_ai_at, null, 'AI consent was stored for an unconfirmed under-16');
+  // A younger birth year is still refused.
+  await assert.rejects(as(db, 'authenticated', A, `update lucid_profiles set birth_year = $1`, [year - 12]), /parent or guardian/);
+  // No new or changed records; the old one can still be read and deleted.
+  await assert.rejects(as(db, 'authenticated', A, `insert into lucid_records (coll, id, data) values ('progress', 'new', '{}')`), /row-level security/);
+  await assert.rejects(as(db, 'authenticated', A, `update lucid_records set data = '{"x":1}'`), /row-level security/);
+  assert.equal((await as(db, 'authenticated', A, `select id from lucid_records`)).rows.length, 1);
+  // With the agreement: records and AI consent work again; the agreement cannot then be withdrawn while under 16.
+  await as(db, 'authenticated', A, `update lucid_profiles set guardian_consent_at = now()`);
+  await as(db, 'authenticated', A, `insert into lucid_records (coll, id, data) values ('progress', 'new', '{}')`);
+  await as(db, 'authenticated', A, `update lucid_profiles set consent_ai_at = now()`);
+  assert.ok((await row()).consent_ai_at);
+  await assert.rejects(as(db, 'authenticated', A, `update lucid_profiles set guardian_consent_at = null`), /parent or guardian/);
+  await as(db, 'authenticated', A, `delete from lucid_records where id = 'old'`);
+  // Surely 16 (born year - 17) from the same gate: nothing changes for them.
+  await as(db, 'authenticated', B, `insert into lucid_profiles (id, birth_year, consent_ai_at) values ($1, $2, now())`, [B, year - 17]);
+  await as(db, 'authenticated', B, `insert into lucid_records (coll, id, data) values ('progress', 'b', '{}')`);
+  assert.ok((await as(db, 'authenticated', B, `select consent_ai_at from lucid_profiles`)).rows[0].consent_ai_at);
+});
+
+// The app (age.js) and the trigger use the same clock, the UTC year, so they agree around New Year's Eve in any
+// time zone. now() is pinned to 22:30 UTC on 31 December 2026, which is already 1 January 2027 in Israel.
+test('the trigger and the app agree on the current year in any session time zone (UTC year, 004)', async () => {
+  const at = '2026-12-31T22:30:00Z';
+  const db = await setup({ edit: (f, sql) => (f.startsWith('004') ? sql.replaceAll('now()', `timestamptz '${at}'`) : sql) });
+  const users = ['55555555-5555-4555-8555-555555555555', '66666666-6666-4666-8666-666666666666', '77777777-7777-4777-8777-777777777777', '88888888-8888-4888-8888-888888888888'];
+  await db.exec(`insert into auth.users (id, email) values ${users.map((u, i) => `('${u}', 'z${i}@example.com')`).join(', ')};`);
+  const prevTZ = process.env.TZ;
+  process.env.TZ = 'Asia/Jerusalem';
+  try {
+    for (const [i, zone] of ['Asia/Jerusalem', 'Pacific/Kiritimati'].entries()) {
+      await db.exec(`set timezone = '${zone}'`);
+      for (const [j, born] of [2010, 2009].entries()) {
+        const u = users[i * 2 + j];
+        const under16 = isUnder16({ birth_year: born }, new Date(at));
+        let stored = true;
+        try { await as(db, 'authenticated', u, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [u, born]); } catch (e) { assert.match(e.message, /parent or guardian/); stored = false; }
+        assert.equal(stored, !under16, `${zone}, born ${born}: the app says under 16 = ${under16}, the trigger ${stored ? 'stored' : 'refused'} the profile without the agreement`);
+      }
+    }
+    assert.equal(isUnder16({ birth_year: 2010 }, new Date(at)), true, 'still 2026 in UTC: born 2010 may be 15');
+  } finally { if (prevTZ === undefined) delete process.env.TZ; else process.env.TZ = prevTZ; }
 });
 
 test('records need a profile: a refused or missing profile stores nothing (S-05)', async () => {

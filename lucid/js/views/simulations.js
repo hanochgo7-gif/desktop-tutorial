@@ -5,7 +5,7 @@ import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, confirmDialog, toast } from '../ui/components.js';
 import { configured, auth } from '../core/api.js';
-import { settings, model, profile } from '../core/learner.js';
+import { model, profile, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { CONFIG } from '../../config.js';
 import { MODULES, fitNote, levelGuide, hubFilters, hubSections, hubEvents, placeTag } from './reallife.js';
@@ -14,7 +14,7 @@ export default async function simulations(el, ctx) {
   ctx.setTitle(t('nav.simulations'));
   const data = await content.scenarios();
   const list = data?.scenarios || [];
-  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };
   const why = !configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד. התרגול המובנה בכל תרחיש עובד בלי AI.', 'AI is not active on this site. Everything else works. The scripted practice in every scenario works without AI.')
     : !auth.signedIn ? tt('שיחה עם AI דורשת חשבון: ההסכמה שלכם לעיבוד ב-AI נשמרת בחשבון, ולכל חשבון יש מגבלת שימוש יומית ב-AI. התרגול המובנה בכל תרחיש עובד גם בלי חשבון.', 'AI conversations need an account: your consent to AI processing is saved in it, and each account has a daily AI limit. The scripted practice in every scenario works without one.') : tt('הפעילו ״משוב AI״ בהגדרות כדי להתחיל.', 'Turn on "AI feedback" in Settings to start.');

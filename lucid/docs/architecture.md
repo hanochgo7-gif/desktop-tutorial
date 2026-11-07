@@ -300,7 +300,11 @@ atomic in-memory ledger instead.
   sign-in) and before AI; offered in onboarding when already signed in (finishing without it leaves the account's
   sync paused, so nobody is stuck), and in Settings while the last profile check paused sync for it (stored as
   `profile.guardian_consent_at`, sent as `guardian_consent_at`; `session.js` creates no server profile without it
-  and the trigger refuses one), and before AI feedback is turned on (`settings.ai_guardian_consent_at`). On the live
+  and the trigger refuses one), and before AI feedback is turned on (`settings.ai_guardian_consent_at`; without it
+  AI consent does not count under 16, `age.js` `aiConsented`). A server profile from the 16+ gate whose learner
+  counts as under 16 now has no agreement: sync pauses until it is given (then it is sent to that profile), the
+  trigger keeps its AI consent off and the records policy stores nothing new for it. The current year is the UTC
+  year on both sides. On the live
   site (device only, AI off) none of these points exist, so nothing leaves the device. The agreement is
   self-declared; its legal sufficiency is to be reviewed before a public launch (roadmap LB-04). Every other default
   is the same for all ages, and `privacy.html`, onboarding and Profile say exactly that. AI processing requires an

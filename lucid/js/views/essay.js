@@ -8,7 +8,7 @@ import { html, render, on, $, debounce } from '../core/util.js';
 import { tt, t, bi, legend, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, levelTag, toast, emptyState, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
-import { model, settings, recordAttempt, logEvent } from '../core/learner.js';
+import { model, settings, recordAttempt, logEvent, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { analyzeWriting, splitReferences, NOT_ARGUED, checkSummary } from '../core/writing-analyzer.js';
 import { countWords } from '../core/grading.js';
@@ -173,7 +173,7 @@ export default async function essay(el, ctx) {
   const SELF = ['argument_strength', 'evidence_quality', 'counterarguments', 'coherence'];
   // A self-rating saved with the latest version is shown again (RW-5).
   let selfScores = { ...(store.all('writing').filter((w) => w.kind === 'essay-version' && w.exercise === task.id && w.self).sort((a, b) => a.n - b.n).at(-1)?.self || {}) };
-  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   let timerEnd = null; let timerId = null;
 
   const latestEval = () => versions().filter((v) => v.evaluation).at(-1) || null;

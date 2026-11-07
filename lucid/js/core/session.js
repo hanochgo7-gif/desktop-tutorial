@@ -8,12 +8,14 @@
 // - There is no minimum age. For a learner under 16 the server profile is created only after a parent or
 //   guardian has confirmed (profile.guardian_consent_at, asked on the account screen, in onboarding when signed
 //   in, or in Settings), so nothing leaves the device before that; the database refuses it too (migration 004).
+//   A server profile made when Lucid was 16+ for a learner who counts as under 16 now (born in the last year that
+//   gate let in) has no agreement: sync stops until it is given, and the database refuses new records for it.
 import { store, eraseDevice } from './store.js';
 import { auth, db, configured } from './api.js';
 import { profile, saveProfile, settings } from './learner.js';
 import { tt } from './i18n.js';
 import { esc } from './util.js';
-import { isUnder16 } from './age.js';
+import { isUnder16, aiConsented } from './age.js';
 import { openDialog, toast } from '../ui/components.js';
 
 let ready = false; // this account owns the device data and has a server profile
@@ -80,21 +82,31 @@ async function clearDeviceData() {
 }
 
 // Makes sure the account has a server profile. Returns it, or null when there is no profile anywhere
-// yet (onboarding will make one). Throws when the server refuses or cannot be reached.
+// yet (onboarding will make one). Throws when the server refuses or cannot be reached, and with code 'guardian'
+// while a learner under 16 has no parent's or guardian's agreement: also when the server profile already exists,
+// because one made when Lucid was 16+ may belong to a learner who counts as under 16 now (the youngest age the
+// birth year allows). Once the agreement is given on this device it is sent to that profile.
+const noGuardian = () => Object.assign(new Error('A parent or guardian has not confirmed yet.'), { code: 'guardian' });
 async function ensureServerProfile() {
-  const p = profile();
+  let p = profile();
   const server = await db.profile();
   if (server) {
     // The consents recorded on the server come along, so this device does not ask for them again.
     const consents = { ...(server.consent_terms_at ? { consent_terms_at: server.consent_terms_at } : {}), ...(server.guardian_consent_at ? { guardian_consent_at: server.guardian_consent_at } : {}) };
     if (!p?.onboarded) saveProfile({ onboarded: true, name: server.display_name, birth_year: server.birth_year, ui_language: server.ui_language, goals: server.goals, ...consents });
     else if (server.guardian_consent_at && !p.guardian_consent_at) saveProfile({ guardian_consent_at: server.guardian_consent_at });
+    p = profile();
+    if (!server.guardian_consent_at && (isUnder16(p) || isUnder16(server))) {
+      if (!p?.guardian_consent_at) throw noGuardian();
+      await db.updateProfile({ guardian_consent_at: p.guardian_consent_at });
+      return { ...server, guardian_consent_at: p.guardian_consent_at };
+    }
     return server;
   }
   if (!p?.onboarded) return null;
-  if (isUnder16(p) && !p.guardian_consent_at) throw Object.assign(new Error('A parent or guardian has not confirmed yet.'), { code: 'guardian' });
+  if (isUnder16(p) && !p.guardian_consent_at) throw noGuardian();
   const s = settings();
-  const saved = await db.saveProfile({ display_name: p.name || null, birth_year: p.birth_year, ui_language: p.ui_language || 'he', goals: p.goals || [], consent_terms_at: p.consent_terms_at || new Date().toISOString(), consent_ai_at: s.ai_consent ? s.ai_consent_at || new Date().toISOString() : null, ...(p.guardian_consent_at ? { guardian_consent_at: p.guardian_consent_at } : {}) });
+  const saved = await db.saveProfile({ display_name: p.name || null, birth_year: p.birth_year, ui_language: p.ui_language || 'he', goals: p.goals || [], consent_terms_at: p.consent_terms_at || new Date().toISOString(), consent_ai_at: aiConsented(s, p) ? s.ai_consent_at || new Date().toISOString() : null, ...(p.guardian_consent_at ? { guardian_consent_at: p.guardian_consent_at } : {}) });
   return saved || { id: auth.user?.id };
 }
 
@@ -143,6 +155,14 @@ async function connect(kind, sync) {
 function recheck() {
   if (ready || checking || !auth.signedIn || !auth.user?.id || store.owner() !== auth.user.id) return;
   checking = checkProfile(activeSync).finally(() => { checking = null; });
+}
+
+// For Settings after the guardian's agreement: checks the profile again (or waits for the check already running)
+// and resolves to its result, { synced, reason }, so the screen reports what really happened.
+export async function recheckProfile() {
+  recheck();
+  if (checking) { const r = await checking; return { synced: r.synced, reason: r.reason }; }
+  return { synced: ready, reason: ready ? null : pauseReason };
 }
 
 // Sign out; with erase, push what is pending first (when possible), then remove Lucid's data from the device.

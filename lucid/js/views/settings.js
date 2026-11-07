@@ -1,7 +1,8 @@
 // Settings: learning support, interface, learning load, feedback, AI consent, account, and data
 // (export, import, delete). Every control takes effect immediately and is saved on the device.
 // Under 16 (age.js), turning AI feedback on needs one more box ticked first: a parent or guardian has agreed
-// (stored as ai_guardian_consent_at, cleared when AI is turned off). A signed-in learner under 16 whose sync is
+// (stored as ai_guardian_consent_at, cleared when AI is turned off); without it AI shows as off, also for consent given
+// when Lucid was 16+ (age.js aiConsented). A signed-in learner under 16 whose sync is
 // waiting for that agreement for the account can give it here (profile.guardian_consent_at; session.js). The box
 // shows only while the last profile check really paused sync for that reason (syncPauseReason), never from the
 // local field alone: on a second device the agreement is on the server and sync runs.
@@ -11,9 +12,9 @@ import { icon, confirmDialog, toast } from '../ui/components.js';
 import { settings, saveSettings, profile, saveProfile, placementPending } from '../core/learner.js';
 import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
-import { signOut, syncPauseReason } from '../core/session.js';
+import { signOut, syncPauseReason, syncPausedText, recheckProfile } from '../core/session.js';
 import { CONFIG } from '../../config.js';
-import { isUnder16 } from '../core/age.js';
+import { isUnder16, aiConsented } from '../core/age.js';
 import { content } from '../core/content.js';
 import { speedSwitch, toggleSpeed } from './wordgame.js';
 import { paceOf } from '../core/wordgame.js';
@@ -71,6 +72,7 @@ export default async function settingsView(el, ctx) {
     // Without AI on this site its settings do nothing, so they are greyed and the one AI-off sentence says why (PH-5).
     const aiOn = configured() && CONFIG.aiEnabled;
     const young = isUnder16(p);
+    const aiConsent = aiConsented(s, p); // under 16, consent without the guardian's agreement does not count
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
       <div class="stack-lg settings-view" style="max-width:46rem">
@@ -104,9 +106,9 @@ export default async function settingsView(el, ctx) {
             tt('קל: רק מה שחוסם הבנה. רגיל: תיקון אחד לכל היותר בכל תשובה של המורה. הרבה: עד שלושה. בשיחה עם AI רוב התיקונים מגיעים במשוב שבסוף.', 'Light: only what blocks meaning. Standard: at most one correction in each tutor reply. Intensive: up to three. In AI conversations most corrections come in the feedback at the end.'), { off: !aiOn })}
           ${field('feedback_scope', tt('משוב על כתיבה', 'Writing feedback'), seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד', 'Focused'], ['comprehensive', 'מקיף', 'Comprehensive']], { off: !aiOn, help: true }),
             tt('ממוקד: עד 3 סוגי טעויות. מקיף: עד 12 טעויות. ״לפי הרמה״: ממוקד עד B1, מקיף מ-B2.', 'Focused: up to 3 kinds of mistake. Comprehensive: up to 12 mistakes. "By level": focused up to B1, comprehensive from B2.'), { off: !aiOn })}
-          <div class="field${aiOn ? '' : ' is-off'}"><label class="choice"><input type="checkbox" data-ai ${aiOn && s.ai_consent ? html`checked` : ''} ${aiOn ? '' : html`disabled`} aria-describedby="ai-desc${aiOn ? '' : ' ai-off'}${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow"><strong>${tt('משוב AI', 'AI feedback')}</strong></span></label>
+          <div class="field${aiOn ? '' : ' is-off'}"><label class="choice"><input type="checkbox" data-ai ${aiOn && aiConsent ? html`checked` : ''} ${aiOn ? '' : html`disabled`} aria-describedby="ai-desc${aiOn ? '' : ' ai-off'}${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow"><strong>${tt('משוב AI', 'AI feedback')}</strong></span></label>
             <span class="help" id="ai-desc">${isolateLatin(tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.'))}</span></div>
-          ${aiOn && young && !s.ai_consent ? html`<div class="field" data-guardian-ai-box><label class="choice"><input type="checkbox" data-guardian-ai ${aiGuardian ? html`checked` : ''} ${aiGuardianError ? html`aria-invalid="true"` : ''} aria-describedby="ai-guardian-help${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow">${isolateLatin(tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
+          ${aiOn && young && !aiConsent ? html`<div class="field" data-guardian-ai-box><label class="choice"><input type="checkbox" data-guardian-ai ${aiGuardian ? html`checked` : ''} ${aiGuardianError ? html`aria-invalid="true"` : ''} aria-describedby="ai-guardian-help${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow">${isolateLatin(tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
             ${aiGuardianError ? html`<p class="error-text field-error" id="ai-guardian-err">${isolateLatin(tt('כדי להפעיל משוב AI צריך קודם אישור של הורה או אפוטרופוס.', 'To turn on AI feedback, a parent or guardian needs to agree first.'))}</p>` : ''}
             <span class="help" id="ai-guardian-help">${isolateLatin(tt('מתחת לגיל 16 צריך אישור של הורה או אפוטרופוס לפני שמפעילים משוב AI.', 'Under 16, a parent or guardian agrees before AI feedback is turned on.'))}</span></div>` : ''}
         </section>
@@ -219,12 +221,15 @@ export default async function settingsView(el, ctx) {
       redraw('[data-ai]');
     }),
     on(el, 'change', '[data-guardian-ai]', (e, c) => { aiGuardian = c.checked; if (c.checked && aiGuardianError) { aiGuardianError = false; redraw('[data-guardian-ai]'); } }),
-    // Saving the agreement lets session.js create the server profile and start syncing (it watches the profile).
-    on(el, 'change', '[data-guardian-account]', (e, c) => {
+    // Saving the agreement lets session.js create (or update) the server profile and start syncing. The toast
+    // says what the profile check really did: started, or why sync is still paused.
+    on(el, 'change', '[data-guardian-account]', async (e, c) => {
       if (!c.checked) return;
       saveProfile({ guardian_consent_at: new Date().toISOString() });
-      toast(tt('האישור נשמר. הסנכרון יתחיל עכשיו.', 'Saved. Sync will start now.'));
       redraw('[data-sync]');
+      const r = await recheckProfile();
+      toast(r.synced ? tt('האישור נשמר, והסנכרון התחיל.', 'Your agreement is saved, and sync has started.')
+        : `${tt('האישור נשמר.', 'Your agreement is saved.')} ${['offline', 'profile'].includes(r.reason) ? syncPausedText(r.reason) : ''}`.trim());
     }),
     on(el, 'click', '[data-export]', async () => {
       const local = store.snapshot();
@@ -281,7 +286,8 @@ export default async function settingsView(el, ctx) {
     }),
     on(el, 'click', '[data-sync]', async () => {
       const { sync } = await import('../app.js');
-      try { const r = await sync?.run(); toast(r?.skipped ? tt('הסנכרון מושהה עד שהפרופיל יישמר בשרת. ננסה שוב אוטומטית.', 'Sync is paused until your profile is saved on the server. Lucid will try again automatically.') : t('synced')); } catch { toast(t('offline')); }
+      // Waiting for a guardian is not retried on its own: point to the box above instead.
+      try { const r = await sync?.run(); toast(!r?.skipped ? t('synced') : syncPauseReason() === 'guardian' ? tt('הסנכרון מושהה עד שהורה או אפוטרופוס יאשרו, בתיבה שלמעלה. עד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused until a parent or guardian agrees, in the box above. Until then your progress stays on this device only.') : tt('הסנכרון מושהה עד שהפרופיל יישמר בשרת. ננסה שוב אוטומטית.', 'Sync is paused until your profile is saved on the server. Lucid will try again automatically.')); } catch { toast(t('offline')); }
     }),
     on(el, 'click', '[data-pw]', () => { pwOpen = true; pwMsg = ''; draw(); $('#cp', el)?.focus(); }),
     on(el, 'click', '[data-pw-cancel]', () => { pwOpen = false; pwMsg = ''; if (ctx.query.reset) ctx.navigate('settings'); else draw(); }),

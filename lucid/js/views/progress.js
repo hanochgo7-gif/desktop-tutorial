@@ -4,7 +4,7 @@ import { html, render, on, pct, todayKey } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, mark } from '../ui/components.js';
-import { model, allCards, settings, weekActivity, currentSessionSeconds, due } from '../core/learner.js';
+import { model, allCards, settings, weekActivity, currentSessionSeconds, due, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { periodReport, levelIndex, WRITING_EVENTS } from '../core/adaptive.js';
 import { configured, auth } from '../core/api.js';
@@ -35,7 +35,7 @@ export default async function progress(el, ctx) {
     const week = weekActivity();
     // Recommend only what this learner can do here (persona finding R2-03): AI writing feedback needs the AI
     // service, an account and consent, and makes sense from A1; a weak topic needs somewhere to practise it.
-    const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+    const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
     const weakToPractise = m.weak.find((w) => w.route !== null);
     const dueN = due().length;
     const recs = [];

@@ -5,7 +5,7 @@ import { tt, bi, legend, hebrewSupport, isolateLatin, uiLang, SUPPORT_BY_LEVEL }
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
-import { recordAttempt, settings, logEvent, profile, model } from '../core/learner.js';
+import { recordAttempt, settings, logEvent, profile, model, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
@@ -39,7 +39,7 @@ export default async function scenarioView(el, ctx) {
   const hasPlace = () => { const p = store.get('progress', `rl:${s.id}`); return Number.isInteger(p?.turn) && p.turn > 0 && p.turn < s.practice.length; };
   let tab = ctx.query.tab || (hasPlace() ? 'practise' : 'prepare');
   const variant = settings().english_variant === 'any' ? undefined : settings().english_variant;
-  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
   let ti = 0; let picked = null; let checked = false; let typed = ''; let typedResult = null; let results = [];
   let ownOpen = false; let othersOpen = false;
@@ -201,7 +201,7 @@ export default async function scenarioView(el, ctx) {
   const roleplayTab = () => {
     if (!aiReady) {
       return html`<div class="stack" style="max-width:40rem"><p class="banner">${icon('info', { size: 18 })}<span>${noAiWhy()}</span></p><p class="small muted">${tt('בינתיים, התרגול המובנה עובד במלואו ונותן משוב על כל תשובה.', 'Meanwhile, the scripted practice works fully and gives feedback on every reply.')}</p>
-        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? accountLinks() : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
+        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? accountLinks() : ''}${configured() && auth.signedIn && !aiConsent() ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
     }
     if (report) return reportView();
     if (!chat) {
