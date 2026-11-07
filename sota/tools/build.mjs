@@ -415,7 +415,8 @@ ${consultSection(t, route)}
   </div>
 </section>
 
-<section class="final" aria-labelledby="final-title" data-final-section>
+<section class="final has-visual" aria-labelledby="final-title" data-final-section>
+  <div class="final-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${p}assets/visuals/tangle.webp"><source src="${p}assets/visuals/tangle.mp4" type="video/mp4"></video></div>
   ${finalLines()}
   <div class="wrap">
     <h2 id="final-title" class="display h-xl">${esc(t.final.title)}</h2>
@@ -449,7 +450,8 @@ function audiencePage(t, key) {
 ${header(t, route, { onHome: false })}
 <main id="main">
   <section class="page-hero aud-hero">
-    <div class="wrap">
+    <div class="wrap aud-hero-grid">
+      <div class="aud-hero-text">
       <div class="aud-crumbs small"><a class="link-u" href="${homeHref}">SOTA</a> <span aria-hidden="true">/</span> <span>${esc(a.label)}</span></div>
       <span class="label is-signal"><span class="node" aria-hidden="true"></span>${esc(a.label)} · ${esc(a.size)}</span>
       <h1 class="display h-xl">${esc(a.title)}</h1>
@@ -459,6 +461,8 @@ ${header(t, route, { onHome: false })}
         <a class="btn btn-ghost" href="#help">${esc(t.audience.ctaSecondary)}</a>
       </div>
       <div class="aud-track" aria-hidden="true">${trackSvg(stations)}</div>
+      </div>
+      <figure class="aud-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${up(route)}assets/visuals/${key}.webp"><source src="${up(route)}assets/visuals/${key}.mp4" type="video/mp4"></video></figure>
     </div>
   </section>
 

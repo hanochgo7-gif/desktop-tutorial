@@ -424,6 +424,16 @@
     $$("[data-draw], [data-final]").forEach((p) => p.setAttribute("stroke-dashoffset", "0"));
   }
 
+  // ambient videos (Higgsfield loops): load and play only while on screen; poster only for reduced motion or data saver
+  const saveData = navigator.connection?.saveData;
+  $$("video[data-ambient]").forEach((v) => {
+    if (reduced || saveData || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { if (v.preload !== "auto") { v.preload = "auto"; v.load(); } v.play().catch(() => {}); }
+      else v.pause();
+    }, { rootMargin: "200px 0px" }).observe(v);
+  });
+
   const heroCanvas = $("[data-hero-canvas]");
   const tangleCanvas = $("[data-tangle]");
   if (motion) initMotion(); else initStatic();
