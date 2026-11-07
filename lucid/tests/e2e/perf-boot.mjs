@@ -11,6 +11,7 @@ import { mkdtempSync, cpSync, readFileSync, writeFileSync, readdirSync, rmSync, 
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { BROKEN } from './screen-errors.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -121,9 +122,17 @@ const loads = (page) => { page.__loads = 0; page.on('load', () => { page.__loads
 const releaseOf = (page) => page.evaluate((k) => ({ boot: globalThis.__bootRelease, views: [...new Set(globalThis.__viewReleases || [])], mixed: sessionStorage.getItem(k) || '' }), MIXED);
 const pretendHidden = (page) => page.evaluate(() => { Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' }); document.dispatchEvent(new Event('visibilitychange')); });
 const pretendVisible = (page) => page.evaluate(() => { delete document.visibilityState; document.dispatchEvent(new Event('visibilitychange')); });
+// Polled in the page: waitForFunction does not wait for an async predicate's promise (it is truthy at once).
 async function waitingWorker(page) {
   await page.evaluate(async () => { const r = await navigator.serviceWorker.getRegistration(); await r.update(); });
-  await page.waitForFunction(async () => Boolean((await navigator.serviceWorker.getRegistration())?.waiting), null, { timeout: 60_000, polling: 200 });
+  const ok = await page.evaluate(async () => {
+    for (let i = 0; i < 300; i++) {
+      if ((await navigator.serviceWorker.getRegistration())?.waiting) return true;
+      await new Promise((r) => setTimeout(r, 200));
+    }
+    return false;
+  });
+  if (!ok) throw new Error('no waiting worker after 60 s');
 }
 // Waits for the page's release (and a selector), naming what it waited for when it times out.
 async function onRelease(page, rel, sel, label) {
@@ -201,7 +210,8 @@ try {
     await page.goto(`${BASE}#/lesson/zz-99`);
     await page.waitForSelector('#view .empty, #view a[href="#/path"]');
     let txt = await page.textContent('#view');
-    assert(!/Something went wrong|משהו השתבש|did not load|לא נטענ/.test(txt), `lesson 404: ${txt.slice(0, 120)}`);
+    // The lesson view's own not-found screen, not the router's "did not load" one (which also has a link).
+    assert(!BROKEN.test(txt) && /השיעור לא נמצא|Lesson not found/.test(txt), `lesson 404: ${txt.slice(0, 120)}`);
     await page.goto(`${BASE}#/scenario/no-such-scenario`);
     await page.waitForSelector('#view a[href="#/real-life"]');
     txt = await page.textContent('#view');
@@ -387,6 +397,36 @@ try {
       assert(r.boot === 'r3' && r.views.every((v) => v === 'r3') && !r.mixed, `tab ${name}: ${JSON.stringify(r)}`);
     }
     assert(a.__loads === 2 && b.__loads === 2, `loads ${a.__loads}, ${b.__loads}`);
+    await ctx.close();
+  });
+  await check('B6 a screen missing from the release cache whose server copy belongs to the next release is never run in the page: the screen does not load, and the next change of screen moves to that release', async () => {
+    writeRelease(copy, 'r4');
+    const { ctx, page: a } = await newPage(browser, { sw: 'allow', base: COPY_BASE });
+    await learnerAt(a);
+    await a.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60_000 });
+    await a.reload();
+    await a.waitForSelector('#view .today .plan');
+    await a.waitForTimeout(1500); // the precache settles
+    assert((await releaseOf(a)).boot === 'r4', 'not on release 4');
+    loads(a);
+    // The install missed one screen (it is best effort), and the server has moved on to the next release, whose
+    // worker has not been fetched yet: release 4's worker cannot have its own progress.js, and must not hand the
+    // page release 5's.
+    await a.evaluate(async () => { const n = (await caches.keys()).find((k) => k.startsWith('lucid-')); await (await caches.open(n)).delete('js/views/progress.js'); });
+    writeRelease(copy, 'r5');
+    await a.evaluate(() => { location.hash = '#/progress'; });
+    await a.waitForSelector('#view .empty', { timeout: 30_000 });
+    const txt = await a.textContent('#view');
+    assert(BROKEN.test(txt), `expected the router's "did not load" screen: ${txt.slice(0, 120)}`);
+    let r = await releaseOf(a);
+    assert(r.boot === 'r4' && !r.views.includes('r5') && !r.mixed, `release 5's module ran under release 4: ${JSON.stringify(r)}`);
+    // Release 5's worker installs; the next change of screen moves the page to it, where the screen loads.
+    await waitingWorker(a);
+    await a.evaluate(() => { location.hash = '#/today'; });
+    await onRelease(a, 'r5', '#view .today .plan', 'leaving the screen that did not load');
+    await goHash(a, '#/progress', '#view h1');
+    r = await releaseOf(a);
+    assert(r.boot === 'r5' && r.views.every((v) => v === 'r5') && !r.mixed && a.__loads === 1, `after the switch: ${JSON.stringify(r)}, ${a.__loads} loads`);
     await ctx.close();
   });
 } finally {

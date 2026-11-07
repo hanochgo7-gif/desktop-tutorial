@@ -8,6 +8,11 @@
 //   U2  a second tab opened after the deploy installs the new worker, which takes over the first tab too
 //   U3  a reload within the HTTP cache's ten minutes (new index.html, old modules): no boot frame left on top
 //   U4  after the upgrade: the learner's records, the essay draft and the saved lessons are kept, also offline
+// and the release cache's integrity in the browser (docs/qa/security-review.md 5a):
+//   U5  a genuine shell stored with a forged Refresh header (same-origin script) is served without it, and the next
+//       release copies the bytes only
+//   U6  a top-level navigation to release.json leaves the cached copy: offline still starts after a worker restart
+//   U7  a first visit whose release.json cannot be loaded installs nothing; the next visit installs, and offline works
 // The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
@@ -15,12 +20,14 @@
 import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdtempSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, existsSync, statSync, rmSync, cpSync, appendFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import http from 'node:http';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, resolve } from 'node:path';
+import { BROKEN, NOT_FOUND } from './screen-errors.mjs';
+import { buildManifest } from '../../tools/build-manifest.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -58,9 +65,11 @@ assert(readFileSync(join(OLD, 'sw.js'), 'utf8').includes(`const RELEASE = '${LEG
 
 // ---------- a GitHub-Pages-like server whose root switches at the deploy ----------
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg' };
-const served = { root: OLD };
+// down: the server is unreachable (every connection dropped); drop: paths whose connection is dropped.
+const served = { root: OLD, down: false, drop: new Set() };
 const srv = http.createServer((req, res) => {
   const u = new URL(req.url, 'http://x');
+  if (served.down || served.drop.has(u.pathname)) { req.socket.destroy(); return; }
   if (!u.pathname.startsWith('/lucid/')) { res.writeHead(404); res.end(); return; }
   let f = join(served.root, decodeURIComponent(u.pathname.slice('/lucid/'.length)) || 'index.html');
   if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
@@ -111,9 +120,7 @@ const SCREENS = [
   ['account', '.onboard'],
 ];
 // The router's and the views' error screens anywhere in the view, and their not-found screens (an .empty block), in
-// both languages (stems, so every inflection matches; a scenario is called "ההזמנה שלכם לא נמצאת", hence .empty).
-const BROKEN = /לא נטענ|did not load|משהו השתבש|Something went wrong|could not start/i;
-const NOT_FOUND = /לא נמצא|not found/i;
+// both languages: BROKEN and NOT_FOUND (screen-errors.mjs).
 
 // Shows `selector` (or an error) on the route; the previous screen's nodes must be gone first.
 async function openScreen(page, route, selector, timeout = 20000) {
@@ -237,6 +244,39 @@ async function frameGone(page) {
   }, null, { timeout: 8000 }).then(() => true).catch(() => false);
 }
 
+// A next release on top of NEW, as a usual deploy makes it: one screen changed, index.html and app.js unchanged.
+function nextRelease() {
+  const dir = mkdtempSync(join(tmpdir(), 'lucid-next-'));
+  cpSync(NEW, join(dir, 'lucid'), { recursive: true, filter: (f) => !/[/\\](node_modules|tests|docs|\.git)$/.test(f) });
+  appendFileSync(join(dir, 'lucid/js/views/progress.js'), '\n// the next release\n');
+  buildManifest(join(dir, 'lucid'));
+  return dir;
+}
+const cacheNames = (page) => page.evaluate(async () => (await caches.keys()).filter((k) => k.startsWith('lucid-')));
+// A first visit of the new release, controlled by its worker, the precache done.
+async function newVisit(ctx) {
+  served.root = NEW;
+  const page = await tab(ctx);
+  await page.goto(`${BASE}#/welcome`);
+  await page.waitForSelector('.welcome', { timeout: 30000 });
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60000 });
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  return page;
+}
+async function stopWorkers(page) {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('ServiceWorker.enable');
+  await cdp.send('ServiceWorker.stopAllWorkers');
+  await sleep(500);
+}
+// Lucid's welcome screen is on show at the app's address (not somewhere a forged header sent the page).
+async function onLucid(page, label) {
+  await sleep(1500);
+  const url = page.url();
+  assert(url.startsWith(BASE), `${label}: the page went to ${url}`);
+  assert(await page.waitForSelector('#view .welcome', { timeout: 15000 }).then(() => true).catch(() => false), `${label}: the welcome screen is not drawn at ${url}`);
+}
+
 browser = await chromium.launch();
 try {
   await check('U1. A tab open on 2026-11-03.1 when the deploy lands: every screen it opens from the new release works (the old worker fetches them)', async () => {
@@ -308,6 +348,104 @@ try {
     assert(r === 'ok', `a scenario offline: ${r}`);
     await ctx.setOffline(false);
     assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+    await ctx.close();
+  });
+  await check('U5. A genuine shell stored with a forged Refresh header is served without it, online after a worker restart, and the next release copies only its bytes', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    const [name] = await cacheNames(a);
+    // Same-origin script (a sibling site on the origin) writes the shell's own bytes with a header of its choosing.
+    await a.evaluate(async (n) => {
+      const bytes = await (await fetch('./', { cache: 'no-store' })).arrayBuffer();
+      await (await caches.open(n)).put(new Request('./'), new Response(bytes, { headers: { 'content-type': 'text/html; charset=utf-8', refresh: '0; url=/phish.html' } }));
+    }, name);
+    await stopWorkers(a);
+    await a.goto(BASE);
+    await onLucid(a, 'after a worker restart');
+    await a.goto(BASE);
+    await onLucid(a, 'a second load');
+    // The next release keeps index.html: its install copies the stored shell's bytes, and only those.
+    const tmpNext = nextRelease();
+    try {
+      served.root = join(tmpNext, 'lucid');
+      const next = await a.evaluate(async () => {
+        const reg = await navigator.serviceWorker.getRegistration();
+        await reg.update();
+        for (let i = 0; i < 150 && !reg.waiting; i++) await new Promise((r) => setTimeout(r, 200));
+        if (!reg.waiting) return null;
+        const changed = new Promise((r) => navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }));
+        reg.waiting.postMessage({ type: 'lucid:activate' });
+        await changed;
+        let keys = [];
+        for (let i = 0; i < 150; i++) { // activation (which removes the older cache) finishes after the switch
+          keys = (await caches.keys()).filter((k) => k.startsWith('lucid-'));
+          if (reg.active?.state === 'activated' && keys.length === 1) break;
+          await new Promise((r) => setTimeout(r, 200));
+        }
+        const shell = await (await caches.open(keys[0])).match('./');
+        return { keys, refresh: shell?.headers.get('refresh') ?? null };
+      });
+      assert(next && next.keys.length === 1 && next.keys[0] !== name, `the next release did not take over: ${JSON.stringify(next)}`);
+      assert(next.refresh === null, `the next release carried the forged header: ${next.refresh}`);
+      await stopWorkers(a);
+      await a.goto(BASE);
+      await onLucid(a, 'the next release, after a worker restart');
+    } finally { rmSync(tmpNext, { recursive: true, force: true }); }
+    assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+    await ctx.close();
+  });
+
+  await check('U6. A top-level navigation to release.json (a link from any site) leaves the cached copy: offline, Lucid still starts after a worker restart', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    const [name] = await cacheNames(a);
+    const b = await ctx.newPage();
+    const r = await b.goto(`${BASE}release.json`);
+    assert(r.ok(), `release.json: ${r.status()}`);
+    await b.close();
+    await a.goto(BASE);
+    await onLucid(a, 'online');
+    assert(await a.evaluate(async (n) => Boolean(await (await caches.open(n)).match('release.json')), name), 'the cached release.json is gone');
+    await (await ctx.newCDPSession(a)).send('Network.clearBrowserCache'); // more than ten minutes later
+    await stopWorkers(a);
+    served.down = true;
+    try {
+      await a.goto(BASE).catch((e) => { throw new Error(`offline after a worker restart: ${e.message.split('\n')[0]}`); });
+      await onLucid(a, 'offline after a worker restart');
+    } finally { served.down = false; }
+    await ctx.close();
+  });
+
+  await check('U7. A first visit whose release.json cannot be loaded installs no worker; the next visit installs one, and Lucid then starts offline', async () => {
+    const ctx = await context();
+    served.root = NEW;
+    served.drop.add('/lucid/release.json');
+    const a = await tab(ctx);
+    try {
+      await a.goto(`${BASE}#/welcome`);
+      await a.waitForSelector('.welcome', { timeout: 30000 });
+      // An install without release.json would be done within seconds here; give it 15.
+      const first = await a.evaluate(async () => {
+        for (let i = 0; i < 75; i++) {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg?.active || navigator.serviceWorker.controller) break;
+          await new Promise((r) => setTimeout(r, 200));
+        }
+        const reg = await navigator.serviceWorker.getRegistration();
+        return { active: Boolean(reg?.active), controlled: Boolean(navigator.serviceWorker.controller) };
+      });
+      assert(!first.active && !first.controlled, `a worker installed without release.json: ${JSON.stringify(first)}`);
+    } finally { served.drop.delete('/lucid/release.json'); }
+    await a.reload();
+    await a.waitForSelector('.welcome', { timeout: 30000 });
+    await a.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60000 });
+    await (await ctx.newCDPSession(a)).send('Network.clearBrowserCache');
+    await stopWorkers(a);
+    served.down = true;
+    try {
+      await a.goto(BASE).catch((e) => { throw new Error(`offline: ${e.message.split('\n')[0]}`); });
+      await onLucid(a, 'offline after the second visit');
+    } finally { served.down = false; }
     await ctx.close();
   });
 } finally {

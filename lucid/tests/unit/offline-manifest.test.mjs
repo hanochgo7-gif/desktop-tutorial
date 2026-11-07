@@ -36,6 +36,7 @@ test('content/manifest.json, release.json and the RELEASE line of sw.js are up t
   const sw = readFileSync(new URL('sw.js', root), 'utf8');
   assert.equal(sw.match(/^const RELEASE = '([^']*)';$/m)[1], release.release, 'sw.js RELEASE equals release.json release');
   assert.match(release.release, /^[0-9a-f]{12}$/);
+  assert.equal(Number(sw.match(/^const HASH_LEN = (\d+);$/m)?.[1]), 32, 'sw.js checks 128-bit hashes, as release.json carries them');
 });
 
 test('release.json hashes every file the worker precaches, every lesson, every font and the full files the index files replace, and nothing else', () => {
@@ -45,6 +46,9 @@ test('release.json hashes every file the worker precaches, every lesson, every f
   for (const p of precache) assert.ok(hashes[p], `${p} has no hash`);
   for (const l of manifest.lessons) assert.ok(hashes[`content/lessons/${l}.json`], `lesson ${l} has no hash`);
   for (const [p, h] of Object.entries(hashes)) {
+    // 128-bit prefixes, as sw.js computes them (HASH_LEN): a forged file cannot be made to match one, and fromOld
+    // carries a matching file into every later release (docs/qa/security-review.md 5a).
+    assert.match(h, /^[0-9a-f]{32}$/, `${p}: not a 128-bit hash`);
     assert.equal(h, fileHash(readFileSync(new URL(p, root))), `${p}: hash does not match the file`);
     // The full files are fetched when an index file cannot be loaded (content.js); a copy is kept only once checked.
     const replaced = ['content/real-life/scenarios.json', 'content/writing/exercises.json', 'content/writing/assignments.json'];

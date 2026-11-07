@@ -189,26 +189,72 @@ and `tools/build/verify.mjs` fails the build if it changed.
 **Integration follow-up (2026-11-07).** A skeptic review showed in a browser that a poisoned entry written into
 the release cache by same-origin script ran on every online load until the next release (b2b669b's network-first
 worker overwrote it at the next online load). The worker now checks what it serves, so the paragraph above about
-checking only on install no longer holds:
-- Every entry served from the release cache is hashed and compared with `release.json` once per worker lifetime
-  (`servable` in `sw.js`); an entry that does not match is deleted, fetched again and checked, and never served
-  (offline it is not served at all). Re-measured on the phone profile, warm loads show no cost above the noise
-  (docs/perf/after.md, skeptic round).
+checking only on install no longer holds. As it stands after the second skeptic round below:
+- Every response served from the release cache is hashed and compared with `release.json` as it is served
+  (`servable` in `sw.js`), and is built from the bytes just hashed, so bytes rewritten after an earlier check are
+  never served. (The first follow-up hashed each entry once per worker lifetime, which left a window: see below.)
+  An entry that does not match is deleted, fetched again and checked, and never served (offline it is not served at
+  all).
+- Only bodies are trusted. Every response the release cache stores or serves is built by the worker (`entry`):
+  status 200 and one header, the content type of the file's extension. A stored status or header (a `Refresh`, a
+  `Content-Type`) never reaches a page, and an install that copies an unchanged file from an older cache copies its
+  bytes only.
 - `release.json` in the cache can no longer vouch for a forged entry: its hash list must match `LISTING`, a SHA-256
   that only `sw.js` carries (written by `tools/build-manifest.mjs`), and the browser fetches `sw.js` from the server.
   A changed or removed copy is fetched again from the server; with none to be had, nothing is served from the cache
-  (and nothing deleted) until one can be.
-- A file missed at install and fetched later is kept only if it matches its hash.
-- A `release.json` that cannot be loaded (an error status or no connection) fails the install whenever an older
-  Lucid cache exists, so nothing is installed unchecked over a release or over the hand-numbered caches; only a first
-  install goes ahead without hashes, as before them.
-- Limit: the per-file hashes are 48-bit prefixes, so a forger with a lot of computing power could find a second
-  preimage for one file; `LISTING` is a full SHA-256. Same-origin script can still read the learner's token and
-  IndexedDB (S-03), which no worker check changes.
-Covered by `tests/unit/sw.test.mjs` (the integrity tests at its end).
+  (and nothing deleted) until one can be. Requests for `release.json` (a navigation included) are not handled by
+  the worker: they go to the network and never read, write or delete the cached copy. An entry with no hash is never
+  deleted by a request.
+- A file missed at install and fetched later is kept only if it matches its hash; one that still does not match
+  past every cache (an edge on another deploy) is never handed to the page as a module, stylesheet or content file
+  (the request fails, contract C-4); a navigation still gets the page as the network gave it.
+- A `release.json` that cannot be loaded (an error status, no connection, or no answer within 20 s) fails every
+  install, a first one included (the browser tries again at the next visit), so nothing is installed that the worker
+  could not check, and an active release or the hand-numbered caches keep their files and saved lessons.
+- Per-file hashes are 128-bit SHA-256 prefixes (32 hex digits), so a second preimage is out of reach; `LISTING` is
+  a full SHA-256. Same-origin script can still read the learner's token and IndexedDB (S-03), which no worker check
+  changes.
+Covered by `tests/unit/sw.test.mjs` (the integrity tests at its end) and, in a browser, `tests/e2e/upgrade.mjs`
+U5-U7 and `tests/e2e/perf-boot.mjs` (the last B6 check).
 
-**Status.** Re-reviewed by the delivery lane and changed by the integration as above. Still needs the explicit
-security sign-off by the lead before the release ships (plan item D2); the integration cannot give it.
+**Second skeptic round: S-15 sign-off review (2026-11-07).** The reviewer read `sw.js` line by line and attacked
+it in Chromium on b2b669b, the source of `fe6b9af` and its built tree (release `709b1a90e06c`).
+- **Verdict: reject 5a as written; approve with conditions** once (1) served and copied entries are rebuilt with
+  headers the worker chooses, or their headers are validated, with tests for the shell `Refresh` case and the
+  carry-over case; and (2) navigations never delete unhashed entries and `release.json` is excluded, with an
+  offline test. Recommended, not as ship blockers: full-length per-file hashes, and honest wording about the
+  once-per-lifetime window. CSP, source maps, pages.yml (fallback, other sites, pinning) and lucid-verify.yml passed.
+- **Condition 1, met.** Reproduced first: a page outside the scope stored the shell's genuine bytes with
+  `refresh: 0; url=/other/phish.html`; after a worker restart every online open of `/lucid/` landed on the phishing
+  page, and the next release (index.html unchanged) carried the header into its cache. Fix: `entry()` and the
+  bullets above (headers are never stored or served from the cache). Tests: sw.test "stored headers never reach a
+  page or a later release" (fails when `servable` or `fromOld` keeps the stored headers: checked by mutation);
+  upgrade.mjs U5 in Chromium (forged shell, worker restart, two loads, the next release installed and activated,
+  worker restart again: Lucid every time; on `fe6b9af` it fails, landing on the forged target). The reviewer's
+  script run again on the new built tree: Lucid at every step.
+- **Condition 2, met.** Reproduced first (max-age 0): one navigation to `/lucid/release.json` deleted the cached
+  copy, and after a worker restart offline the load failed (`net::ERR_FAILED`). Fix: the worker leaves every
+  request for `release.json` to the network, and never deletes an entry that has no hash. Tests: sw.test "a request
+  for release.json, a navigation included, goes to the network and leaves the cached copy" (fails when the worker
+  handles release.json again or deletes unhashed entries: checked by mutation); upgrade.mjs U6 (navigation to
+  release.json, HTTP cache cleared, worker restarted, server unreachable: Lucid starts; on `fe6b9af` the cached copy
+  is gone). The reviewer's script run again: the copy stays and the offline load draws the welcome screen.
+- **Hash length (recommended), done as 128 bits.** `HASH_LEN` is 32 in `sw.js` and `tools/build-manifest.mjs`.
+  A 128-bit prefix puts a second preimage at 2^128 work (2^120 against any of the 234 files): out of reach. The
+  full 64 digits would add about 4 KB gz more to every release update for no practical gain. release.json grows from
+  3.5 to 6.1 KB gz. offline-manifest.test checks every hash is 32 digits and that sw.js checks 32.
+- **The once-per-lifetime window (recommended), closed instead of documented.** Reproduced first: `js/app.js`
+  rewritten after the live worker had checked it ran on two reloads, until the worker stopped. Now every response
+  is hashed as it is served (sw.test "every response from the release cache is hashed as it is served"); the
+  reviewer's script run again: clean on every reload. Cost: see docs/perf/after.md, "Second skeptic round".
+- From the other two round-2 reviews, also in the worker: no install goes ahead without `release.json` (a first
+  visit whose `release.json` dropped installed a worker that then served nothing offline; now the install fails and
+  is tried at the next visit; upgrade.mjs U7), and a stale edge can no longer feed a module of another release into a
+  page (perf-boot B6, last check).
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and twice by the skeptic rounds as above.
+The second reviewer's two conditions are met in code and tests; the S-15 sign-off itself is still the lead's to give
+before the release ships (plan item D2).
 
 ## 6. Limits of this review
 

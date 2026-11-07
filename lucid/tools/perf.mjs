@@ -20,6 +20,9 @@
 //                     push to main (Pages re-stamps every file on each deploy)
 //   --net offline     warm (returning) loads run with the browser offline and the server refusing connections
 //   --net lie-fi      warm (returning) loads: the server holds every response for 15 s
+//   --worker-restart  scenario g: the service worker is stopped before the returning #/today (as the browser stops
+//                     it after half a minute idle), so that load starts a new worker lifetime; by default it runs in
+//                     the lifetime of the install
 // Warm loads are the second load of each route in b and c and the returning half of d; cold loads never use these.
 //
 // Scenarios (every one is run --runs times; tables show the median):
@@ -106,6 +109,7 @@ const LEARNER = arg('learner', 'light');
 if (!['light', 'heavy'].includes(LEARNER)) throw new Error(`--learner light|heavy, not ${LEARNER}`);
 const HTTP_MAXAGE = arg('http-maxage') == null ? 600 : Math.max(0, Number(arg('http-maxage')));
 const ETAG_EPOCH = flag('etag-epoch');
+const WORKER_RESTART = flag('worker-restart');
 const NET_ARG = arg('net');
 const WARM_NET = ['offline', 'lie-fi'].includes(NET_ARG) ? NET_ARG : null;
 const LIEFI_MS = 15_000;
@@ -811,6 +815,13 @@ async function scenarioG(env, browser, P, add) {
       if (state === 'after-push') env.server.knobs.epoch++;
       if (state === 'offline') { await ctx.setOffline(true); env.server.knobs.mode = 'down'; }
       if (state === 'lie-fi') env.server.knobs.mode = 'hang';
+      if (WORKER_RESTART) {
+        const pg = await ctx.newPage();
+        const cdp = await ctx.newCDPSession(pg);
+        await cdp.send('ServiceWorker.enable');
+        await cdp.send('ServiceWorker.stopAllWorkers');
+        await pg.close();
+      }
       const out = [];
       for (const route of ['today', 'lesson/a1-01']) {
         const res = await measureServed(env, ctx, P, route);
@@ -1026,7 +1037,7 @@ async function main() {
       network: Object.fromEntries(PROFILE_NAMES.map((n) => [n, PROFILES[n].net ? { rttMs: PROFILES[n].net.rtt, downMbps: (PROFILES[n].net.down * 8) / 1e6, shaping: 'server-side, shared downlink' } : 'unshaped'])),
       cpu: Object.fromEntries(PROFILE_NAMES.map((n) => [n, PROFILES[n].cpu])),
       units: 'ms for times, KB = 1024 bytes; medians over runs',
-      learner: LEARNER, seed: seedInfo, httpMaxAge: HTTP_MAXAGE, etagEpoch: ETAG_EPOCH, warmNet: WARM_NET || 'online',
+      learner: LEARNER, seed: seedInfo, httpMaxAge: HTTP_MAXAGE, etagEpoch: ETAG_EPOCH, workerRestart: WORKER_RESTART, warmNet: WARM_NET || 'online',
     },
     rows: summarise(rows),
   };

@@ -14,7 +14,8 @@ const APP = new URL('../../', import.meta.url);
 const source = readFileSync(new URL('sw.js', APP), 'utf8');
 const realRelease = JSON.parse(readFileSync(new URL('release.json', APP), 'utf8'));
 const manifest = JSON.parse(readFileSync(new URL('content/manifest.json', APP), 'utf8'));
-const h12 = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 12);
+// The per-file hash release.json carries (a 128-bit SHA-256 prefix, as tools/build-manifest.mjs writes it).
+const hh = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 32);
 const abs = (p) => new URL(p, BASE).href;
 const key = (r) => new URL(typeof r === 'string' ? r : r.url, BASE).href;
 
@@ -29,7 +30,8 @@ function netRes(body, status = 200) {
 
 // Shared by every worker made from it: the server, Cache Storage and a log of requests.
 function makeEnv() {
-  // fail(url): 'network' or a status for a request that should fail; digests counts SHA-256 runs in the workers.
+  // fail(url): 'network', 'hang' (no answer) or a status for a request that should fail; digests counts SHA-256 runs
+  // in the workers.
   const env = { online: true, fetches: [], overrides: new Map(), stores: new Map(), fail: () => null, digests: 0 };
   env.serve = (url) => {
     const u = new URL(url);
@@ -61,8 +63,13 @@ function makeEnv() {
 const listingOf = (hashes) => createHash('sha256').update(Object.entries(hashes).map(([p, h]) => `${p} ${h}\n`).join('')).digest('hex');
 // One worker. release: the RELEASE it is built with (the committed one by default); release.json is served to match,
 // and the worker's LISTING matches its hashes.
-function worker(env, { release = realRelease.release, hashes = realRelease.hashes, active = false } = {}) {
-  const src = source.replace(/^const RELEASE = '[^']*';$/m, `const RELEASE = '${release}';`).replace(/^const LISTING = '[^']*';$/m, `const LISTING = '${listingOf(hashes)}';`);
+// wait: how long the install waits for release.json (RELEASE_WAIT_MS), shortened for the tests that need it.
+function worker(env, { release = realRelease.release, hashes = realRelease.hashes, active = false, wait } = {}) {
+  let src = source.replace(/^const RELEASE = '[^']*';$/m, `const RELEASE = '${release}';`).replace(/^const LISTING = '[^']*';$/m, `const LISTING = '${listingOf(hashes)}';`);
+  if (wait !== undefined) {
+    assert.match(src, /^const RELEASE_WAIT_MS = \d+;$/m);
+    src = src.replace(/^const RELEASE_WAIT_MS = \d+;$/m, `const RELEASE_WAIT_MS = ${wait};`);
+  }
   if (release !== realRelease.release || hashes !== realRelease.hashes) env.overrides.set('/lucid/release.json', JSON.stringify({ release, hashes }));
   const listeners = {};
   const calls = { skipWaiting: 0, claim: 0 };
@@ -74,7 +81,7 @@ function worker(env, { release = realRelease.release, hashes = realRelease.hashe
     clients: { claim: async () => { calls.claim++; } },
   };
   const context = vm.createContext({
-    self, location: self.location, URL, setTimeout, Promise, Response, Headers, TextDecoder, TextEncoder,
+    self, location: self.location, URL, setTimeout, clearTimeout, Promise, Response, Headers, TextDecoder, TextEncoder, AbortController,
     crypto: { subtle: { digest: (algo, buf) => { env.digests += 1; return webcrypto.subtle.digest(algo, buf); } } },
     Request: class { constructor(u, init = {}) { this.url = new URL(typeof u === 'string' ? u : u.url, BASE).href; this.cache = init.cache; this.method = 'GET'; this.mode = 'cors'; } },
     caches: {
@@ -88,6 +95,7 @@ function worker(env, { release = realRelease.release, hashes = realRelease.hashe
       if (!env.online) throw new TypeError('offline');
       const failure = env.fail(url);
       if (failure === 'network') throw new TypeError('Failed to fetch');
+      if (failure === 'hang') return new Promise(() => {});
       if (failure) return netRes('busy', failure);
       const body = env.serve(url);
       return body == null ? netRes('not found', 404) : netRes(body);
@@ -188,7 +196,7 @@ test('an update with a few changed scenarios fetches only those; one that cannot
   const changed = 'content/real-life/scenario/rl-airport-checkin-overweight.json';
   env.overrides.set(`/lucid/${changed}`, '{"id":"rl-airport-checkin-overweight","changed":true}\n');
   env.fetches = [];
-  const b = worker(env, { release: 'bbbbbbbbbbbb', hashes: { ...realRelease.hashes, [changed]: h12('{"id":"rl-airport-checkin-overweight","changed":true}\n') }, active: true });
+  const b = worker(env, { release: 'bbbbbbbbbbbb', hashes: { ...realRelease.hashes, [changed]: hh('{"id":"rl-airport-checkin-overweight","changed":true}\n') }, active: true });
   await b.fire('install');
   assert.deepEqual(env.fetches.map((f) => new URL(f.url).pathname.slice('/lucid/'.length)).sort(), [changed, 'release.json'].sort());
   assert.equal(await env.cached(b.name, changed), '{"id":"rl-airport-checkin-overweight","changed":true}\n');
@@ -203,6 +211,18 @@ test('an update with a few changed scenarios fetches only those; one that cannot
   await w.fire('install');
   const first = `content/real-life/scenario/${scen.scenarios[0].id}.json`;
   assert.equal(await env2.cached(w.name, first), file(first));
+  // The source file matches its hash, but an item's hash is not that of its cut (JSON.stringify(item) + "\n"), as when
+  // the generator's item format and the worker's cut disagree: that item is fetched by itself, and the cut bytes are
+  // never stored.
+  const env3 = makeEnv();
+  const item = `content/real-life/scenario/${JSON.parse(file('content/real-life/scenarios.json')).scenarios[1].id}.json`;
+  const served = `${file(item).trimEnd()}\n\n`; // the same item, written differently
+  env3.overrides.set(`/lucid/${item}`, served);
+  const w3 = worker(env3, { release: 'cccccccccccc', hashes: { ...realRelease.hashes, [item]: hh(served) } });
+  await w3.fire('install');
+  assert.equal(await env3.cached(w3.name, item), served, 'the cut bytes were stored for an item they do not match');
+  assert.ok(env3.fetches.some((f) => f.url === abs(item)), 'the item was not fetched by itself');
+  assert.equal(env3.fetches.filter((f) => new URL(f.url).pathname.startsWith('/lucid/content/real-life/scenario/')).length, 1, 'only that item');
 });
 
 test('code, fonts, vendor and content are served from the release cache; a miss goes to the network and is kept', async () => {
@@ -269,7 +289,7 @@ test('an update fetches only release.json and the changed files, and carries unc
   for (const l of ['a1-01', 'a1-02', 'a1-03', 'a1-04']) await a.fire('fetch', req(`content/lessons/${l}.json`));
   env.overrides.set('/lucid/js/views/today.js', 'export default 1; // new');
   env.overrides.set('/lucid/content/lessons/a1-04.json', '{"changed":true}');
-  const hashes = { ...realRelease.hashes, 'js/views/today.js': h12('export default 1; // new'), 'content/lessons/a1-04.json': h12('{"changed":true}') };
+  const hashes = { ...realRelease.hashes, 'js/views/today.js': hh('export default 1; // new'), 'content/lessons/a1-04.json': hh('{"changed":true}') };
   env.fetches = [];
   const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
   await b.fire('install');
@@ -331,7 +351,7 @@ test('a fetched file that does not match its hash is fetched once more past the 
   const a = worker(env2, { release: 'aaaaaaaaaaaa' });
   await a.fire('install');
   await a.fire('activate');
-  const want = h12('new today');
+  const want = hh('new today');
   env2.overrides.set('/lucid/js/views/today.js', 'stale today');
   env2.overrides.set(`/lucid/js/views/today.js?r=${want}`, 'stale today');
   const b = worker(env2, { release: 'bbbbbbbbbbbb', active: true, hashes: { ...realRelease.hashes, 'js/views/today.js': want } });
@@ -366,14 +386,23 @@ test('a missing offline file does not fail the install; a missing shell file doe
 });
 
 // ---------- integrity (docs/qa/security-review.md 5a) ----------
-test('release.json that cannot be loaded: a first install goes ahead without hashes; over an older Lucid cache the install fails and its saved lessons stay', async () => {
-  for (const failure of [503, 404, 'network']) {
+test('release.json that cannot be loaded (an error, no connection, no answer) fails every install: a first one is tried again at the next visit; over an older Lucid cache its saved lessons stay', async () => {
+  for (const failure of [503, 404, 'network', 'hang']) {
     const onlyRelease = (url) => (url === abs('release.json') ? failure : null);
     const env = makeEnv();
     env.fail = onlyRelease;
-    const first = worker(env);
-    await first.fire('install');
-    assert.equal(await env.cached(first.name, 'js/app.js'), file('js/app.js'), `${failure}: a first install still works`);
+    // A first visit: no worker is installed that would then serve nothing (it could check nothing against release.json);
+    // the browser runs the install again at the next visit.
+    const first = worker(env, { wait: 50 });
+    await assert.rejects(first.fire('install'), /release\.json/, `${failure}: a first install went ahead without release.json`);
+    assert.equal(first.calls.skipWaiting, 0);
+    assert.equal(await first.cache().match('js/app.js'), undefined, `${failure}: files were installed`);
+    env.fail = () => null;
+    const retry = worker(env);
+    await retry.fire('install');
+    assert.equal(await env.cached(retry.name, 'js/app.js'), file('js/app.js'), `${failure}: the next visit installs`);
+    env.online = false;
+    assert.equal(await body((await worker(env).fire('fetch', req('./', 'navigate'))).response), file('index.html'), `${failure}: offline after that visit`);
     // Over a release with hashes.
     const env2 = makeEnv();
     const a = worker(env2, { release: 'aaaaaaaaaaaa' });
@@ -381,26 +410,26 @@ test('release.json that cannot be loaded: a first install goes ahead without has
     await a.fire('activate');
     await a.fire('fetch', req('content/lessons/a1-01.json'));
     env2.fail = onlyRelease;
-    const b = worker(env2, { release: 'bbbbbbbbbbbb', active: true });
+    const b = worker(env2, { release: 'bbbbbbbbbbbb', active: true, wait: 50 });
     await assert.rejects(b.fire('install'), /release\.json/, `${failure}: installed over a hashed release without hashes`);
     assert.equal(await env2.cached(a.name, 'content/lessons/a1-01.json'), file('content/lessons/a1-01.json'), 'the saved lesson stays');
     // Over the hand-numbered cache of release 2026-11-03.1.
     const env3 = makeEnv();
     await env3.open('lucid-2026-11-03.1').put(abs('content/lessons/b1-03.json'), netRes(file('content/lessons/b1-03.json')));
     env3.fail = onlyRelease;
-    const c = worker(env3, { active: true });
+    const c = worker(env3, { active: true, wait: 50 });
     await assert.rejects(c.fire('install'), /release\.json/);
     assert.equal(c.calls.skipWaiting, 0);
     assert.equal(await env3.cached('lucid-2026-11-03.1', 'content/lessons/b1-03.json'), file('content/lessons/b1-03.json'));
   }
 });
 
-test('a file the install could not get is checked when it is fetched later: a stale edge copy is passed on, never kept', async () => {
+test('a file the install could not get is checked when it is fetched later: a stale edge copy is never kept, and never handed to the page (C-4)', async () => {
   const env = makeEnv();
   const a = worker(env, { release: 'aaaaaaaaaaaa' });
   await a.fire('install');
   await a.fire('activate');
-  const want = h12('export default 1; // new today');
+  const want = hh('export default 1; // new today');
   const hashes = { ...realRelease.hashes, 'js/views/today.js': want };
   env.fail = (url) => (url === abs('js/views/today.js') ? 503 : null); // once, during the install
   const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
@@ -410,8 +439,16 @@ test('a file the install could not get is checked when it is fetched later: a st
   // The edge still serves the previous deploy's copy, also past the caches.
   env.overrides.set('/lucid/js/views/today.js', file('js/views/today.js'));
   env.overrides.set(`/lucid/js/views/today.js?r=${want}`, file('js/views/today.js'));
-  assert.equal(await body((await b.fire('fetch', req('js/views/today.js'))).response), file('js/views/today.js'), 'passed on as the network gave it');
+  // The page's import fails (the router shows its "did not load" screen) instead of running another release's module.
+  assert.equal((await b.fire('fetch', req('js/views/today.js'))).response.type, 'error', 'another release\'s module was handed to the page');
+  assert.ok(env.fetches.some((f) => f.url === abs(`js/views/today.js?r=${want}`)), 'retried past the caches first');
   assert.equal(await b.cache().match('js/views/today.js'), undefined, 'and not kept for the release');
+  // A navigation still gets the page as the network gave it (the shell's own entry was lost, say).
+  await b.cache().delete('./');
+  env.overrides.set('/lucid/', 'the previous deploy\'s page');
+  env.overrides.set(`/lucid/?r=${realRelease.hashes['index.html']}`, 'the previous deploy\'s page');
+  assert.equal(await body((await b.fire('fetch', req('./', 'navigate'))).response), 'the previous deploy\'s page');
+  assert.equal(await b.cache().match('./'), undefined);
   // The edge catches up: the release's copy is kept.
   env.overrides.set(`/lucid/js/views/today.js?r=${want}`, 'export default 1; // new today');
   assert.equal(await body((await b.fire('fetch', req('js/views/today.js'))).response), 'export default 1; // new today');
@@ -434,7 +471,7 @@ test('an entry changed in the release cache is never served: it is fetched again
   // With release.json changed to vouch for the bytes (same release name, matching hash): LISTING, which only sw.js
   // carries, rejects it, and a fresh release.json is fetched.
   await cache.put('js/views/today.js', netRes('poisoned today'));
-  await cache.put('release.json', netRes(JSON.stringify({ release: realRelease.release, hashes: { ...realRelease.hashes, 'js/views/today.js': h12('poisoned today') } })));
+  await cache.put('release.json', netRes(JSON.stringify({ release: realRelease.release, hashes: { ...realRelease.hashes, 'js/views/today.js': hh('poisoned today') } })));
   const third = worker(env);
   assert.equal(await body((await third.fire('fetch', req('js/views/today.js'))).response), file('js/views/today.js'));
   assert.deepEqual(JSON.parse(await env.cached(w.name, 'release.json')), realRelease, 'release.json restored from the server');
@@ -454,20 +491,83 @@ test('an entry changed in the release cache is never served: it is fetched again
   assert.equal(await body((await blind.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
 });
 
-test('each cache entry is hashed once per worker lifetime, and not at all after the install that stored it', async () => {
+test('every response from the release cache is hashed as it is served: bytes changed after a check are never served, in the same worker lifetime too', async () => {
   const env = makeEnv();
   const w = worker(env);
   await w.fire('install');
+  await w.fire('activate');
   let n = env.digests;
+  assert.equal(await body((await w.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
+  await w.fire('fetch', req('js/core/store.js'));
+  assert.equal(env.digests - n, 3, 'release.json\'s list once per lifetime, then the bytes of each response');
+  n = env.digests;
   await w.fire('fetch', req('js/app.js'));
-  assert.equal(env.digests - n, 1, 'the installing worker checks only release.json\'s list');
-  const later = worker(env);
-  n = env.digests;
-  await later.fire('fetch', req('js/app.js'));
-  await later.fire('fetch', req('js/core/store.js'));
-  assert.equal(env.digests - n, 3, 'the list once, then each file once');
-  n = env.digests;
-  await later.fire('fetch', req('js/app.js'));
-  await later.fire('fetch', req('js/core/store.js'));
-  assert.equal(env.digests - n, 0);
+  assert.equal(env.digests - n, 1);
+  // Other script on the origin rewrites an entry the live worker has already served: the next response is checked
+  // again (no window until the worker stops), so the forged bytes never run.
+  await w.cache().put('js/app.js', netRes('window.__pwn = 1;'));
+  assert.equal(await body((await w.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
+  assert.equal(await env.cached(w.name, 'js/app.js'), file('js/app.js'), 'replaced in the cache');
+});
+
+// A stored response is only a body to this worker: status and headers come from the worker, never from the cache.
+test('stored headers never reach a page or a later release: a genuine shell with a forged Refresh header is served with the worker\'s headers, and carried over without it', async () => {
+  const env = makeEnv();
+  const a = worker(env, { release: 'aaaaaaaaaaaa' });
+  await a.fire('install');
+  await a.fire('activate');
+  const forged = (text, type = 'text/html') => {
+    const r = new Response(text, { status: 200, headers: { 'content-type': type, refresh: '0; url=/other/phish.html', 'x-forged': '1', 'content-security-policy': "script-src 'none'" } });
+    Object.defineProperty(r, 'type', { value: 'basic' });
+    return r;
+  };
+  await a.cache().put('./', forged(file('index.html')));
+  await a.cache().put('js/app.js', forged(file('js/app.js'), 'text/html'));
+  const later = worker(env, { release: 'aaaaaaaaaaaa' }); // a new worker lifetime
+  for (const [path, mode, type] of [['./', 'navigate', 'text/html; charset=utf-8'], ['index.html', 'navigate', 'text/html; charset=utf-8'], ['js/app.js', 'cors', 'text/javascript; charset=utf-8']]) {
+    const res = (await later.fire('fetch', req(path, mode))).response;
+    assert.equal(res.status, 200);
+    assert.deepEqual([...res.headers], [['content-type', type]], `${path}: only the worker's own header`);
+  }
+  env.online = false; // offline too
+  assert.equal((await later.fire('fetch', req('./?x=1', 'navigate'))).response.headers.get('refresh'), null);
+  env.online = true;
+  // The next release leaves index.html and app.js unchanged, so it copies them from this cache: bytes only.
+  env.fetches = [];
+  const b = worker(env, { release: 'bbbbbbbbbbbb', active: true });
+  await b.fire('install');
+  for (const p of ['./', 'js/app.js']) {
+    const stored = await b.cache().match(p);
+    assert.equal(stored.headers.get('refresh'), null, `${p}: the forged header was carried into the next release`);
+    assert.equal(stored.headers.get('x-forged'), null);
+    assert.equal(await body(stored), file(p === './' ? 'index.html' : p));
+  }
+  assert.ok(!env.fetches.some((f) => /\/lucid\/(\?|$)|js\/app\.js/.test(f.url)), 'the genuine bytes were copied, not fetched');
+  // Every kind of file gets its own content type.
+  const types = { 'css/app.css': 'text/css; charset=utf-8', 'content/taxonomy.json': 'application/json; charset=utf-8', 'fonts/rubik-hebrew.woff2': 'font/woff2', 'assets/favicon.svg': 'image/svg+xml', 'manifest.webmanifest': 'application/manifest+json', 'vendor/ts-fsrs.mjs': 'text/javascript; charset=utf-8', 'privacy.html': 'text/html; charset=utf-8' };
+  for (const [p, type] of Object.entries(types)) {
+    const res = (await b.fire('fetch', req(p, p.endsWith('.html') ? 'navigate' : 'cors'))).response;
+    assert.equal(res.headers.get('content-type'), type, p);
+  }
+});
+
+test('a request for release.json, a navigation included, goes to the network and leaves the cached copy: offline still works after the next worker restart', async () => {
+  const env = makeEnv();
+  const w = worker(env);
+  await w.fire('install');
+  await w.fire('activate');
+  for (const mode of ['navigate', 'cors', 'no-cors']) {
+    assert.equal((await w.fire('fetch', req('release.json', mode))).handled, false, `${mode}: handled by the worker`);
+  }
+  assert.equal((await w.fire('fetch', req('release.json?x=1', 'navigate'))).handled, false);
+  assert.deepEqual(JSON.parse(await env.cached(w.name, 'release.json')), realRelease, 'the cached release.json is kept');
+  // A navigation to any other path the release has no hash for is passed through, and the cached entry stays.
+  await w.cache().put('docs/notes.html', netRes('notes'));
+  env.overrides.set('/lucid/docs/notes.html', 'notes online');
+  assert.equal(await body((await w.fire('fetch', req('docs/notes.html', 'navigate'))).response), 'notes online');
+  assert.ok(await w.cache().match('docs/notes.html'), 'an entry with no hash was deleted');
+  env.online = false;
+  const restarted = worker(env);
+  assert.equal(await body((await restarted.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
+  assert.equal(await body((await restarted.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
 });

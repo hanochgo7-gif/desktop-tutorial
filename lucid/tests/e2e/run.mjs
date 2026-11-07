@@ -11,6 +11,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { readFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
+import { BROKEN, NOT_FOUND } from './screen-errors.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -33,10 +34,7 @@ async function check(name, fn) {
 }
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
 // The router's and the views' error screens anywhere in the view, and their not-found screens (an .empty block), in
-// both languages. Stems, so every inflection matches: 'לא נטענ' covers 'לא נטען' (final nun) and 'לא נטענה' (the
-// lists' "did not load"). 'לא נמצא' only counts inside .empty: a scenario is called "ההזמנה שלכם לא נמצאת".
-const BROKEN = /did not load|לא נטענ|Something went wrong|משהו השתבש|could not start/i;
-const NOT_FOUND = /לא נמצא|not found/i;
+// both languages (screen-errors.mjs).
 // What is wrong with the screen on show, or '' when nothing is.
 async function screenProblem(page) {
   const { all, empty } = await page.evaluate(() => ({ all: document.querySelector('#view')?.textContent || '', empty: [...document.querySelectorAll('#view .empty')].map((e) => e.textContent).join(' | ') }));

@@ -13,6 +13,14 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 > `release.json` over an older cache; the IPA font is precached again; and the first-visit precache now finishes at
 > **8.1 s** (was 10.8 s; baseline 9.45 s; target 8.5 s: **met**), with 84 requests instead of 145. Rows re-measured
 > then carry `"revision": "skeptic-round"` in after.json.
+>
+> **Second skeptic round (2026-11-07).** Three more reviews (upgrades and releases, the S-15 security sign-off, test
+> integrity and numbers) found a header-forgery hole and an offline break in the worker, a loosened e2e error
+> pattern, and stale numbers here. The fixes and a same-window re-measurement are in
+> [Second skeptic round](#second-skeptic-round-2026-11-07). They cost nothing measurable; the release update now
+> downloads 6 KB instead of 3 (128-bit hashes in release.json), which misses its "≤ 5 KB" allowance. Corrected
+> below: script time is up about 55-60 ms against the base, not 35-40; checkpoint and reading make 35 and 34 cold
+> requests; heavy TBT is met only in the headline windows. Rows re-measured then carry `"revision": "verify2"`.
 
 - **Cold loads on the phone are 26-70 % faster.** These are the deployed (minified) tree's numbers.
   - Cold welcome: 2050 → 1511 ms, with first paint 2072 → 632 ms.
@@ -28,7 +36,8 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
   - A saved lesson opens in 433-496 ms in every state (baseline: up to 24 s on lie-fi).
   - What remains is CPU time. In this window it sits above the plan's absolute 390-500 ms targets, but at or below
     the time the base app needs for a fresh warm load.
-- **A release now downloads 3.4 KB, not 884 KB, and keeps every saved lesson** (4 of 4; baseline 0). No page ran
+- **A release now downloads 3.4 KB, not 884 KB, and keeps every saved lesson** (4 of 4; baseline 0). Since the
+  second skeptic round it is 6 KB (`release.json` carries 128-bit hashes). No page ran
   modules from two releases.
   - Upgrading from the worker live in production (RELEASE `2026-11-03.1`) loses none of a heavy learner's 7247
     records, keeps all 5 saved lessons, gives the same Today plan, and works offline.
@@ -172,9 +181,9 @@ next lesson). The content itself is small (the index files).
 | writing/final-B2 | 3739 | 2108 | 2032 | ≤ 2600 | met |
 | games | 2885 | 1744 | 1705 | ≤ 1850 | met |
 | expressions | 3495 | 2124 | 2092 | ≤ 2200 | met |
-| reading | 7172, 106 reqs | 2295, 33 reqs | 2264, 33 | ≤ 2400, ≤ 35 reqs | met |
+| reading | 7172, 106 reqs | 2295, 33 reqs (34 since compat.js: 2307 in verify2) | 2264, 33 | ≤ 2400, ≤ 35 reqs | met |
 | progress | 2610 | 1636 | 1583 | ≤ 1750 | met |
-| checkpoint/A1 | 7320, 107 reqs, 1065 KB | 2095, 34 reqs, 260 KB | 2052, 34, 260 | ≤ 2300, ≤ 30 reqs, ≤ 300 KB | time and KB met; **requests not met** (34) |
+| checkpoint/A1 | 7320, 107 reqs, 1065 KB | 2095, 34 reqs, 260 KB (35 since compat.js: 2090, 262 KB in verify2) | 2052, 34, 260 | ≤ 2300, ≤ 30 reqs, ≤ 300 KB | time and KB met; **requests not met** (35) |
 | drill?topic=present-simple | 7381 (base, runtime lane), 107 reqs | 2499, 36 reqs | 2468, 36 | ≤ 2300, ≤ 30 reqs | **not met** (time and requests) |
 
 The drill loads the A1 and A2 pool files (343 KB gz, against 260 for the level check), because a drill draws up to
@@ -206,7 +215,7 @@ absolute targets are met in window 1 and missed in the slower window 2.
 |---|---:|---:|---|---|
 | next #/today after the release | 1115 (base W1: 1117) | 492 (runs 494, 492, 402; source 420) | ≤ 420 | **not met** in the headline (the same-window base fresh warm Today is 482) |
 | returning #/today right after the deploy | 2355 (base W1) | 422 | | |
-| what the update downloads | 84 reqs, 884 KB | 1 precache request, 3.4 KB (`release.json`), plus the changed sw.js itself (4.0 KB gz, fetched by the browser's update check); 23 KB in all, page loads included (base: 1433 KB) | changed files + ≤ 5 KB | met |
+| what the update downloads | 84 reqs, 884 KB | 1 precache request, 3.4 KB (`release.json`), plus the changed sw.js itself (4.0 KB gz, fetched by the browser's update check); 23 KB in all, page loads included (base: 1433 KB). Second skeptic round: `release.json` is 6 KB (128-bit hashes), 28 KB in all | changed files + ≤ 5 KB | met in the headline; **not met** since the second skeptic round (6 KB) |
 | saved lessons kept | 0 of 4 | 4 of 4 (100 %) | 100 % | met |
 | new worker installed after (from navigation start) | 11.0 s (base W1) | 1.3 s | | |
 | pages that ran modules from two releases | 0 | 0 | 0 | met |
@@ -284,8 +293,8 @@ see below.
 | measure | baseline | headline (q3) | base, window 2 | W1 | base, W1 | target | verdict |
 |---|---:|---:|---:|---:|---:|---|---|
 | warm Today view | 1066 | 666 | 1178 | 604 | 869 | ≤ 750 | met |
-| warm Today TBT | 377 | 158 | 273 | 110 | 167 | ≤ 160 | met |
-| warm Today longest task | 247 | 118 | 265 | 103 | 184 | ≤ 120 | met |
+| warm Today TBT | 377 | 158 | 273 | 110 | 167 | ≤ 160 | met in the headline and W1; **not met** in the later windows (185-189; base 286-343) |
+| warm Today longest task | 247 | 118 | 265 | 103 | 184 | ≤ 120 | met in the headline and W1; borderline later (117-126; base 260-274) |
 | review → Today | 319-360 | 57-62 | 195-201 | 45-47 | 142-188 | ≤ 160 | met |
 | Today → progress (returning) | 194-224 | 169 | 161 | 109 | 131 | ≤ 130 | **not met** in the headline (met in W1) |
 | Today → reading TBT | 94 | 0 | 59 | 0 | 39 | ≤ 10 | met |
@@ -302,8 +311,12 @@ notes). It is no faster than the base app in either window.
 | last match pair → verdict | 71 | 93 | 101 / 97 | 73 | ≤ 75 | **not met** in the headline (met in W1) |
 | word-quiz round start (Today → games/A1/1), longest task | 85-98 | first session 53, returning 51 (base 143 / 111) | | | no task > 50 | **not met** (1-3 ms over) |
 
-Built and base are within 1-6 ms of each other in each window. These rows move with the machine, not with the
-change.
+In the headline windows built and base were within 1-6 ms of each other. The first skeptic-round window did not
+reproduce that for the match pair: built 95-129 (median about 103) against base 79-103 (about 86), +17 ms. Measured
+again alternated in the second round (base, built, base, built; 6 runs each), it is built 81, 82, 86, 89, 121, 132
+(median 87.5) against base 82, 85, 90, 92, 92, 105 (median 91): no regression in the median, but 2 of the 6 built
+runs are above 120 ms, so the built tree has the wider spread. Check → verdict was 61 / 59 built against 49 / 63
+base. These rows move with the machine more than with the change; the ≤ 75 target is not met by either tree.
 
 ### 11. Essay typing, 300 words
 
@@ -351,13 +364,18 @@ measured 93 and 132 in window 2.
 
 - ~~**Precache finish on a first welcome visit: 9.45 → 10.84 s (+1.4 s; base W1 9.40 s).**~~ Fixed in the skeptic
   round: 8.14 s, 84 requests, 592 KB.
-- **Page-load script time (Chrome ScriptDuration until the page settles) is up about 35-40 ms at 4x.**
-  - Base: welcome 26, Today 27, warm Today 18 ms (W1).
-  - Integrated, built: 64, 71, 62 (W1).
-  - Integrated, source: 63, 62, 60.
+- **Page-load script time (Chrome ScriptDuration until the page settles) is up about 55-60 ms at 4x** (corrected
+  in the second skeptic round; this section first said 35-40).
+  - W1: base 26 / 27 / 18 ms (welcome, Today, warm Today) against built 64 / 71 / 62, source 63 / 62 / 60.
+  - Same window, second skeptic round: base 31 / 38 / 31 against built 92 / 94 / 83 (+61 / +56 / +52; warm Today
+    about 2.7x the base). The first skeptic round's window gave 86-98 / 93-95 / 86-94 against 31-34 / 35-39 /
+    23-24, about 3.6x on warm Today.
+  - The first skeptic round's fixes (compat.js among them) added about 8 ms (16c6dbf built 90 / 85 / 85 against
+    98 / 93 / 94 in one window). The second round's added nothing measurable (fe6b9af built 88 / 103 / 87 against
+    92 / 94 / 83).
   - The cause is the app, not the minify step. Candidates: priming the first route at boot, the idle preload of the
     lesson route's modules after Today, and the Intl warm-up.
-  - Views, TBT and long tasks stay within target, so it is not visible as a delay.
+  - Views are much faster than the base all the same, so it is not visible as a delay.
 - **Cold Today makes 38 requests instead of 29** (preloads, route modules, the next lesson), for fewer bytes
   (261 vs 426 KB gz). Not a time regression on this link profile.
 - **Not regressions, though the comparison against the baseline document reads so:**
@@ -425,9 +443,10 @@ says what changed and re-measures what the changes could move.
   included). The drill's prefetch levels are a named function, compared with `pool.drillLevels` for every level and
   for none.
 - **Tests and CI.**
-  - OF1, OF2 and the layout sweep now match error stems (`לא נטענ`, so the lists' `לא נטענה` too), look for "not
-    found" inside `.empty` blocks, and require each screen's own content. OF2 now fails when the content precache is
-    removed (checked).
+  - OF1, OF2 and the layout sweep now match error stems, look for "not found" inside `.empty` blocks, and require
+    each screen's own content. OF2 now fails when the content precache is removed (checked). (Corrected in the
+    second skeptic round: the stem written here, `לא נטענ`, ends in a regular nun and missed the router's own
+    "המסך לא נטען"; it is now `לא נטע[ןנ]`, shared in `tests/e2e/screen-errors.mjs`.)
   - PERF-C5's second variant is called "task files unreachable", and a real offline variant runs through the worker.
   - PL4 waits for `document.fonts.ready` before it looks up the folds. Cause of the flake (reproduced by holding the
     IPA font for 1.5 s): lesson.js measures and draws the learn step again once its fonts arrive (pre-existing, in
@@ -486,3 +505,106 @@ All green on the source tree, and on the built tree where marked:
 - upgrade.mjs 4/4 (source and built);
 - build, then verify: ok (63 modules), against a clean source copy. Run in place, verify also lists the
   git-ignored `.impeccable/` folder, which a checkout does not have.
+
+## Second skeptic round (2026-11-07)
+
+Three reviews of `fe6b9af`: real-learner upgrades and releases (with injected edge faults), the S-15 security
+sign-off (docs/qa/security-review.md 5a records its verdict and how each condition was met), and test integrity and
+numbers. Each problem was reproduced first, with the reviewers' own scripts.
+
+### What changed
+
+- **Worker (`sw.js`).**
+  - Only bodies are trusted: every response the release cache stores or serves is built by the worker, with
+    status 200 and the content type of its extension as the only header. A genuine shell stored with a forged
+    `Refresh` header by same-origin script sent every online load to the forged target and rode into the next
+    release; it no longer does (reproduced before, clean after; sw.test and upgrade.mjs U5).
+  - Every response from the release cache is hashed as it is served, built from the bytes just hashed. The
+    once-per-lifetime check let a body rewritten after the check run on reloads until the worker stopped (reproduced
+    before, clean after).
+  - Requests for `release.json` go to the network, and an entry with no hash is never deleted. One top-level
+    navigation to `release.json` (a link from any site) had deleted the cached copy, and offline Lucid then failed to
+    start after a worker restart (reproduced before, fixed after; sw.test and U6).
+  - No install without `release.json`, a first one included, and the install waits at most 20 s for it. A first visit
+    whose `release.json` dropped had installed a worker that took control and then served nothing from its cache
+    (offline the next open failed, and every request went to the network). Now nothing installs and the next visit
+    tries again (U7). As with b2b669b when one of its 13 shell files dropped, such a first visit gives no offline
+    until the next online one.
+  - A miss that still does not match its hash past every cache is never handed to the page as a module, stylesheet
+    or content file; the request fails, and the router shows its "did not load" screen. With an edge stale even for
+    `?r=`, a page of the new release had run the previous release's today.js. Reproduced again after the fix:
+    Today shows "המסך לא נטען" until the edge serves the release's bytes, and no old module runs. With the next
+    release already on the server, the page moves to it at the next change of screen and the screen loads
+    (perf-boot, last B6 check). A navigation still gets the page as the network gave it.
+  - Per-file hashes are 128-bit (32 hex digits; `HASH_LEN` in sw.js and tools/build-manifest.mjs), up from 48-bit.
+    `release.json`: 15.7 KB raw, 6.1 KB gz (was 11.0 and 3.5).
+- **Tests.**
+  - The e2e broken-screen pattern is shared (`tests/e2e/screen-errors.mjs`) and is `לא נטע[ןנ]`. The first round's
+    `לא נטענ` missed the router's own "המסך לא נטען": perf-boot B3 passed with `lesson.js` importing a missing
+    module (reproduced). It now fails there, and B3 also requires the lesson view's own "השיעור לא נמצא".
+    `tests/unit/e2e-screen-errors.test.mjs` checks the pattern against the router's messages and every "לא נטע…"
+    message in `js/`.
+  - sw.test: the per-item hash check of `unpack()` (an item whose hash is not that of its cut is fetched by itself,
+    the cut bytes never stored), stored headers, `release.json` requests, a first install without `release.json`
+    (error, no connection, no answer), a miss of another release, and hashing on every response. Each fails with
+    its fix reverted (mutation runs: serve stored headers, copy stored headers, handle `release.json`, delete
+    unhashed entries, install without `release.json`, no timeout, pass a mismatch on, a per-lifetime memo, no item
+    check, 12-digit hashes).
+  - upgrade.mjs U5-U7 (in CI on the built site) fail on `fe6b9af` and pass now; perf-boot's new B6 check fails
+    with the old miss handling. perf-boot's `waitingWorker` now polls in the page: Playwright's `waitForFunction`
+    returned at once for its async predicate.
+  - `tools/perf.mjs --worker-restart`: scenario g with the worker stopped before the returning load, so that load
+    starts a new worker lifetime (by default g runs in the lifetime of the install, where the previous worker hashed
+    nothing).
+- **Not changed, with evidence.** The one extra reload a returning learner gets at the first change of screen after
+  the deploy (about 150 ms, boot.md B6) stays. The page booted from the old network-first worker and the HTTP
+  cache, which can still hold release 2026-11-03.1's files for up to ten minutes (the reason compat.js exists). It
+  cannot tell whether its own modules are the new worker's release, and the reload is what guarantees that they are.
+  It happens once per tab and loses nothing (U2-U4).
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+Built tree of this round (release `61cdec2e3120`) against the built previous head (`fe6b9af`, release
+`709b1a90e06c`) and `git archive b2b669b` (base), with this harness; runs in sequence, nothing else on the machine.
+Raw JSON and logs: scratchpad `verify2/perf/`.
+
+| row | this round | previous head | base | note |
+|---|---:|---:|---:|---|
+| cold #/welcome view / script ms | 1511 / 92 | 1494 / 88 | 2107 / 31 | |
+| cold #/today view / script ms / reqs | 1696 / 94 / 39 | 1707 / 103 / 39 | 3764 / 38 / 29 | |
+| warm #/today (b) view / script ms | 441 / 83 | 519 / 87 | 551 / 31 | |
+| cold #/reading view / reqs | 2307 / 34 | | 7242 / 106 | target ≤ 2400, ≤ 35 reqs: met |
+| cold #/checkpoint/A1 view / reqs / KB gz | 2090 / 35 / 262 | | 7381 / 107 / 1065 | requests not met (≤ 30) |
+| precache on welcome: requests / KB / finished | 84 / 595 / 8136 | 84 / 592 / 8108 | | +3 KB: release.json |
+| precache on Today: finished | 8101 | 8044 | | |
+| release update: downloads / all requests / installed after | 1 req, 6 KB / 5 reqs, 28 KB / 1327 ms | (1 req, 3 KB / 1280 ms, first round) | | saved lessons 4 of 4; next #/today 467; 0 mixed-release pages |
+| warm (g) #/today fresh / stale / push / offline / lie-fi, sample 1 | 479 / 447 / 458 / 475 / 459 | 451 / 411 / 425 / 406 / 442 | 551 / 1416 / 2200 / 515 / 16583 | in the install's worker lifetime |
+| the same, sample 2 | 511 / 522 / 490 / 577 / 533 | 528 / 514 / 524 / 581 / 523 | | |
+| warm (g) lesson a1-01, sample 1 / sample 2 | 533 / 438 / 434 / 409 / 440; 482 / 513 / 500 / 488 / 507 | 410 / 425 / 404 / 396 / 391; 517 / 438 / 520 / 592 / 532 | 439 / 1350 / 1882 / 458 / 24546 | |
+| warm (g) #/today after a worker restart, two samples | 458 / 491 / 468 / 480 / 477; 519 / 491 / 483 / 475 / 468 | 499 / 486 / 453 / 512 / 499; 468 / 500 / 511 / 516 / 488 | | `--worker-restart` |
+| warm (g) lesson after a worker restart, two samples | 460 / 453 / 437 / 467 / 463; 429 / 467 / 399 / 467 / 443 | 447 / 481 / 434 / 409 / 412; 463 / 443 / 484 / 444 / 453 | | |
+| returning Today -> lesson / real-life / scenario / writing / expressions / progress | 114 / 102 / 103 / 83 / 141 / 73 | 109 / 102 / 96 / 93 / 189 / 79 | | |
+| heavy learner, warm #/today view / TBT / longest | 751 / 185 / 125 | 767 / 189 / 126 | 1209 / 286 / 274 | TBT target ≤ 160 not met in this window |
+| last match pair -> verdict, 6 runs (2 alternated pairs) | median 87.5 (81-132) | | median 91 (82-105) | |
+| lesson Check -> verdict, two samples | 61 / 59 | | 49 / 63 | |
+| essay per-key median / p95 / msPerKey, two samples | 12.5, 13.4 / 22.5, 23.2 / 9.1, 9.8 | | 13.1, 13.0 / 22.9, 22.9 / 9.4, 9.4 | |
+
+Hashing every response costs nothing that shows above the noise. In the install's lifetime, where the previous head
+hashed nothing, sample 1 reads +13 to +123 ms and sample 2 -104 to +75 ms, in both directions. After a worker restart,
+where both hash every response, the two trees are within the run-to-run spread. The page's script time does not
+move. The worker is not CPU-throttled in this harness (the 4x rate applies to the page), so on a slow phone its
+hashing takes longer than here. It runs off the page's main thread, on about 0.8 MB per full load of Today.
+
+### Suites on this round
+
+All green on the source tree, and on the built tree where marked:
+
+- `npm test` 383/383 with `CI=true` and esbuild (0 skipped); validate-content (0 errors, 1 warning as before);
+  build-content-index --check;
+- run.mjs 57/57 (source and built) and a11y (0 violations);
+- every lane suite: shell-components, lesson-flow, exercises, bilingual-text, lesson-content, first-run-today,
+  practice-hubs (14/14 on a re-run; the first run timed out once on PERF-C10, a suite that blocks the worker, while
+  the reviewers' browser scripts ran beside it), games, real-life-writing, r4-lesson-flow, r4-exercises,
+  r4-today-path, r4-practice-games, r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime 9/9;
+- upgrade.mjs 7/7 (source and built);
+- build, then verify: ok (63 modules), against the source.

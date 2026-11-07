@@ -1,9 +1,9 @@
 // Writes the release files (contract C-5):
 // - content/manifest.json: which lesson files exist, a content version, and the files the service worker
 //   precaches for offline use (`offline`). Its shape stays {version, lessons, offline}: the page reads it at boot.
-// - release.json (app root): {release, hashes}. hashes = a sha256 prefix of every file the worker precaches
-//   (SHELL in sw.js plus `offline`), every lesson file, the centre and pool files when they exist, the full files
-//   the index files replace (fetched when an index file cannot be loaded) and every font.
+// - release.json (app root): {release, hashes}. hashes = a 128-bit sha256 prefix (HASH_LEN hex digits) of every
+//   file the worker precaches (SHELL in sw.js plus `offline`), every lesson file, the centre and pool files when they
+//   exist, the full files the index files replace (fetched when an index file cannot be loaded) and every font.
 //   release = a hash of all of them plus sw.js with its RELEASE line blanked, so any change to a byte the worker
 //   can serve from its cache, or to the worker's own logic, gives a new release (and a new cache).
 // - the RELEASE line of sw.js, set to that release, and its LISTING line, set to the full SHA-256 of the hash list
@@ -17,7 +17,10 @@ import { createHash } from 'node:crypto';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const HASH_LEN = 12;
+// Per-file hashes: 128-bit SHA-256 prefixes, so a forged file cannot be made to match one (security review 5a). The
+// release name is a cache name, not a check: it stays 12 characters.
+export const HASH_LEN = 32;
+export const RELEASE_LEN = 12;
 export const RELEASE_LINE = /^const RELEASE = '[^'\n]*';$/m;
 export const LISTING_LINE = /^const LISTING = '[^'\n]*';$/m;
 const sha = (algo, buf) => createHash(algo).update(buf).digest('hex');
@@ -80,7 +83,7 @@ export function computeRelease(root, manifestText = computeManifest(root).manife
   const all = createHash('sha256');
   all.update(listing);
   all.update(normalised);
-  const release = all.digest('hex').slice(0, HASH_LEN);
+  const release = all.digest('hex').slice(0, RELEASE_LEN);
   return {
     release,
     hashes,

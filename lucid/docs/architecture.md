@@ -332,8 +332,8 @@ release, `lucid-<RELEASE>`.
   `content/manifest.json` (`offline`), so screens never opened before work offline. Code is fetched before content.
   Lessons (about 3 MB) are cached when opened, or all at once from Settings, "Offline use"; the centre and pool files
   are cached on first use. AI features and speech recognition need a connection.
-- **Releases.** `tools/build-manifest.mjs` writes `content/manifest.json`, `release.json` (a sha256 prefix of every
-  file the worker precaches, every lesson, centre, pool and font file) and the `RELEASE` line of `sw.js`: a hash of
+- **Releases.** `tools/build-manifest.mjs` writes `content/manifest.json`, `release.json` (a 128-bit sha256 prefix of
+  every file the worker precaches, every lesson, centre, pool and font file) and the `RELEASE` line of `sw.js`: a hash of
   all of those plus the worker's own code. Any changed byte therefore gives a new release, so a new worker and a new
   cache; `tests/unit/offline-manifest.test.mjs` fails until the tool has been run. Nobody bumps `RELEASE` by hand.
 - **Install.** Precache requests revalidate (`cache: 'no-cache'`), so a file the page has just loaded costs a 304.
@@ -344,8 +344,13 @@ release, `lucid-<RELEASE>`.
   downloads that file, `sw.js` and `release.json`.
 - **Serving.** Pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/` and `content/` (except lessons, centre and pool
   files) come from the release cache first and go to the network only on a miss, so a repeat visit makes no request
-  for them, whatever the HTTP cache or the connection. Lessons, centre and pool files are stale-while-revalidate.
-  Another origin's requests (Supabase, the AI function) are never touched.
+  for them, whatever the HTTP cache or the connection. Every response from the release cache is hashed against
+  `release.json` as it is served and carries the worker's own headers (status 200, the file type's content type),
+  never stored ones; a miss is kept only when it matches, and a module of another release is never handed to the
+  page (docs/qa/security-review.md 5a). Lessons, centre and pool files are stale-while-revalidate. Requests for
+  `release.json` itself go to the network. Another origin's requests (Supabase, the AI function) are never touched.
+- **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
+  20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
 - **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
   the background and waits; it takes over when the page asks for it between two screens (`{type:'lucid:activate'}`,
   contract C-4 in `docs/perf/plan.json`) or when every Lucid tab has closed, so one page never runs modules from two
