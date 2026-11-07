@@ -351,9 +351,14 @@ release, `lucid-<RELEASE>`.
   fetched (not navigated) `privacy.html` are stale-while-revalidate and served as stored, unhashed, as before the
   performance work: data the views escape, never code. Requests for `release.json` itself go to the network.
   Another origin's requests (Supabase, the AI function) are never touched.
-- **Full storage.** A write that does not fit (the origin's quota is shared with other apps) never fails an install:
-  what did not fit, the shell included, is fetched and checked on use once the release has taken over, and at
-  activation the old release's own files are dropped first if that is what makes room for the saved lessons.
+- **Full storage.** The origin's quota is shared with other apps. A release installs only with its `release.json`
+  and its whole shell in its cache, so it can start offline: when those do not fit, the install fails, gives its
+  space back, and the active release keeps its cache and saved lessons (online and offline); the browser tries again
+  at later visits, so the update arrives once there is room (until then the learner stays on the old release, where
+  b2b669b's network-first worker would have fetched the new code). Any other file that does not fit is left out and
+  fetched and checked on use once the release has taken over. At activation the old release's own files are dropped
+  first if that is what makes room for the saved lessons, and a saved lesson the release changed is fetched again
+  (best effort) once the old caches are gone.
 - **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
   20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
 - **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
@@ -361,8 +366,15 @@ release, `lucid-<RELEASE>`.
   contract C-4 in `docs/perf/plan.json`), when the app is loaded again (a reload or a new tab: the active worker
   asks the waiting one to take over and answers that one navigation with a page of its own that reloads once it has,
   so a release whose page cannot start is replaced at the reload it asks for), or when every Lucid tab has closed,
-  so one page never runs modules from two releases; other open tabs follow at their next change of screen. A first install, and the one-time upgrade from the old hand-numbered caches, take over at once. Activation
-  deletes older `lucid-` caches and nothing else (the origin is shared with other apps).
+  so one page never runs modules from two releases; other open tabs follow at their next change of screen. The
+  hand-over page has the app's ground colours and a status line ("מעדכנים את Lucid…"); it costs about 1 s once per
+  deploy (Chromium activates the waiting worker about 1 s after the ask), and when the browser cannot activate it
+  (another tab still has a request in the active worker that the network does not answer) only one such page is
+  shown: its reload, after about 2 s, gets the app on the old release. A first install, and the one-time upgrade from
+  the old hand-numbered caches, take over at once. Activation deletes older `lucid-` caches and nothing else (the
+  origin is shared with other apps), and only when its own cache holds `release.json` and the shell and no newer
+  release is installing or waiting (that release's cache is among them; an install whose cache was removed while it
+  ran fails and is tried again).
 - **Development.** Because code is cache-first, an edit shows up under the worker only after
   `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
 

@@ -29,6 +29,13 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 > worker's comment and security-review 5a now say which paths are hashed as served. See
 > [Third skeptic round](#third-skeptic-round-2026-11-07). Nothing measured moved beyond the noise; rows re-measured
 > then carry `"revision": "verify3"`.
+>
+> **Fourth skeptic round (2026-11-07).** Two reviews of `fde78c2` found that on a full origin an update could install
+> without its shell or `release.json`, take over and delete the complete old cache (offline lost, from b2b669b too),
+> that activation could delete the cache of a newer release still installing, and four minor hand-over problems.
+> All are fixed; see [Fourth skeptic round](#fourth-skeptic-round-2026-11-07). The one load that hands over is still
+> about 1 s slower than a plain reload and than b2b669b's reload after a deploy (that second is the browser's
+> activation). Rows re-measured then carry `"revision": "verify4"`.
 
 - **Cold loads on the phone are 26-70 % faster.** These are the deployed (minified) tree's numbers.
   - Cold welcome: 2050 → 1511 ms, with first paint 2072 → 632 ms.
@@ -704,3 +711,121 @@ All green on the source tree, and on the built tree where marked:
   r4-shell-bilingual 11/11, perf-boot 13/13, perf-runtime 9/9;
 - upgrade.mjs 10/10 (source and built: U1-U7 and the new U8 x 2, U9);
 - build, then verify: ok (63 modules), against the source.
+
+## Fourth skeptic round (2026-11-07)
+
+Two reviews of `fde78c2`: the S-15 security and contract review of its two new worker mechanisms (the hand-over at a
+load of the app, the quota-tolerant install), which rejected it, and a real-learner review of the hand-over on built
+trees, which found no blocker. Verdicts, conditions and how each was met are in docs/qa/security-review.md 5a,
+"Fourth skeptic round". Each problem was reproduced first with the reviewers' scripts (scratchpad
+`skeptic4-handover-security/x/`, `skeptic4-handover/`), then run again on a build of this round (release `b23362933538`; scratchpad
+`refix4/x/`, `refix4/s4/`; the final build `1a7cae2732c8` differs only in the hand-over page's give-up, 2 s of wall
+time instead of 40 polls).
+
+### What changed
+
+- **Worker (`sw.js`).**
+  - **The shell and `release.json` are required again on a full origin (blocker).** The third round made every
+    write best effort, so at quota = usage an update installed with 0 or 5 entries, took over at the reload (from
+    b2b669b at once) and deleted the old, complete cache: offline Lucid no longer started and the saved lessons were
+    gone. Now a shell or `release.json` write that does not fit fails the install, which gives its space back; the
+    install ends by checking, in its cache opened again by name, that `release.json` (matching `LISTING`) and every
+    shell file are there; and activation deletes older caches only when its own cache passes that check. Modules
+    and content beyond the shell stay best effort, so at 1.5 x usage the update still installs (U9). With no room
+    even for the shell, the learner stays on the old release, online too, until there is room; b2b669b's
+    network-first worker would have fetched new code online in that case, but lost the offline copy
+    (learner reviewer's `quota.mjs`, HTTP cache cleared, 1.1 x usage: b2b669b 1 of 5 saved lessons and 1 of 31
+    screens offline; this build stays on the old release with 5 of 5 and 31 of 31).
+  - **Activation never deletes a newer release's cache (major).** B's activation deleted every other `lucid-`
+    cache, also that of C, a release still installing; C then took over with 27 entries and no lessons. Now
+    activation purges and deletes nothing while a worker is installing or waiting (that release's activation removes
+    the older caches; if its install fails, the next release's does), and an install whose cache was removed while
+    it ran fails its final check and is tried again.
+  - **A saved lesson the release changed is fetched again after activation.** On a nearly full origin the install
+    skips the carry-over, and activation only copied unchanged lessons, so a changed saved lesson was dropped. Now
+    activation fetches those again (checked) once the old caches are gone; the fetch runs after the activation (kept
+    alive by the next fetch events), so it delays no request.
+  - **A hand-over that does not happen costs one page.** With another tab's request in the active worker that the
+    network never answers, the browser cannot activate the waiting worker, and a reload showed hand-over pages for
+    6.4 s. Now only navigations within 1 s of the first ask get the page (`HANDOVER_MS` 1000), and the page gives up
+    after 2 s of wall time (not a count of polls, which a hidden tab's timers would stretch), so its own reload gets
+    the app on the old release, which the waiting worker replaces by itself once the request ends.
+  - **The hand-over page is the app's colour and speaks.** It had no content: white in light mode (the app's ground
+    is 244,248,251) and an empty, silent document for screen readers. It now has the boot frame's ground and ink for
+    each colour scheme (a nonce'd style; its CSP gains `style-src 'nonce-…'` only) and `<p role="status">מעדכנים את
+    Lucid…</p>`, a status live region in Chromium's accessibility tree. `index.html`'s CSP is unchanged.
+- **Docs.** plan.json C-4 now describes the third hand-over point and the install and activation rules;
+  architecture §7 ("Full storage", "Updates") and 5a's third-round K2 bullet are corrected.
+- **Tests.** sw.test: "a hand-over that does not happen costs one page", "a nearly full origin never fails an
+  install over best-effort files" (now also: the shell and `release.json` are stored, and a changed saved lesson is
+  fetched again), "with no room for the next release's release.json or shell, its install fails" (room 0, 0.004 and
+  0.02, offline restart, then a retry with room), "activation removes the older caches only when its own holds
+  release.json and the shell", "activation leaves the cache of a newer release that is installing"; the hand-over
+  test also checks the colours against `index.html`, the status line and the CSP. Each fails on `fde78c2`'s worker,
+  and each part of the fix is needed by one of them (mutation runs). upgrade.mjs U10 (quota = usage, from this
+  release and from b2b669b, offline restart), U11 (an install racing an activation, then offline screens) and U12
+  (a stalled request in another tab: at most 2 documents and under 4 s). All four fail on a `fde78c2` tree ("the
+  update installed with no room for its shell", "caches [lucid-2026-11-03.1] became [lucid-17565f744f38]", "B's
+  activation removed the cache of C", "4 documents before Lucid started") and pass on the source and the built tree.
+
+### The reviewers' scripts on this round's build
+
+| script | `fde78c2` | this round |
+|---|---|---|
+| `x/quota.mjs` F = 1.0 / 1.004 | new cache 0 / 5 entries takes over, old (150) deleted; offline `ERR_FAILED` / app does not start | no update installs; old cache 150 entries, 3 lessons; offline starts, lessons 200 |
+| `x/quota.mjs` F = 1.5 | installs, takes over | installs, takes over, 3 of 3 lessons, offline starts |
+| b2b669b -> build, quota = usage | legacy cache (83) deleted at once; offline `ERR_FAILED` | legacy cache kept; offline starts, 3 lessons 200 |
+| `x/race.mjs` reload / screen | C takes over with 27 entries, no lessons; offline screens fail | C takes over with 150 entries and 3 lessons; path, progress, writing, games, lesson offline |
+| `stall.mjs` (stuck request in tab X) | 6436 ms, 4 documents, old release | 2408 ms, 2 documents, old release (B takes over once the request ends) |
+| `x/loop.mjs` hang / no hang | 6335 ms, 3 hand-over pages / 1183 ms | 2261 ms, 1 hand-over page / 1217 ms |
+| `quota.mjs` (5 saved, HTTP cache cleared) 1.1 / 1.5 / 2 x | saved 4/5, 4/5, 5/5; offline screens 1, 25, 31 of 31 | no update at 1.1 (old release: 5/5, 31 of 31); 5/5, 26 of 31; 5/5, 31 of 31 |
+| `cost.mjs` hand-over frame colour (light / dark) | 255,255,255 / 18,18,18 | 244,248,251 / 11,14,21 (the app's ground) |
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+The fixes touch the install (its last check), the activation and the hand-over, so the rows re-measured are the
+release update (u), the first-visit precache (f), the returning loads (g) and the hand-over load itself. Built tree of
+this round against the built previous head (`fde78c2`, release `6a35f1a0edfa`) and b2b669b, in sequence with nothing
+else running. Raw JSON and logs: scratchpad `refix4/perf/` (`m4.log`; u on the final build: `final-u1`, `final-u2`).
+
+| row | this round | previous head | base | note |
+|---|---:|---:|---:|---|
+| release update: downloads / saved lessons | 1 req, 6 KB / 4 of 4 | 1 req, 6 KB / 4 of 4 | 84 reqs, 884 KB / 0 | 0 mixed-release pages in all three |
+| returning #/today right after the deploy | 449 [384, 449, 451] | 425 [445, 382, 425] | 2495 | |
+| Today -> lesson, reloading into the new release / not (installed after the click) | 1295, 1299 / 99 | 1296, 1317 / 94 | 2482 | which path a run takes depends on whether the install finished before the click, in both |
+| next #/today, plain / handing over | 416, 503 / 1260 | 399, 406 / 1371 | 1208 | |
+| precache on welcome: requests / KB / finished | 84 / 595 / 8179 | 84 / 595 / 8140 | | |
+| precache on Today: finished | 8075 | 8053 | | |
+| warm (g) #/today fresh / stale / after-push / offline / lie-fi | 423 / 410 / 385 / 373 / 415 | 380 / 361 / 363 / 387 / 452 | | the previous-head runs overlap (fresh 435, 408, 423 against 380, 370, 399) |
+| warm (g) lesson a1-01, same states | 424 / 395 / 341 / 389 / 359 | 380 / 383 / 361 / 356 / 384 | | |
+| hand-over load, light: plain reload / with a release waiting / b2b669b after a deploy | 487 / 1557 / 631 | | | `cost.mjs`, 150 ms RTT, 1.6 Mbps, CPU 4x; this machine ran slower than at the review (reviewer: 385 / 1403 / 565) |
+| the same, dark | 542 / 1664 / 722 | | | reviewer: 350 / 1412 / 468 |
+
+Differences in u, f and g are inside the run-to-run spread, in both directions; the changed code runs only at an
+install's end (13 cache lookups), at activation and while a release waits. The u and g rows were measured on a
+build whose hand-over page gave up after 40 polls instead of 2 s of wall time; u was run again on the final build
+(`final-u1`, used in after.json, and `final-u2`: the same paths, 1294-1386 ms when the reload happens at the click).
+
+**What the hand-over costs, plainly.** The load that hands over is about 1 s slower than a plain reload and than
+b2b669b's reload right after a deploy (1557 against 487 and 631 ms in light mode here). That second is Chromium's: it
+activates the waiting worker about 1 s after it is asked, once the active worker has no request in hand. The
+statement in the third round that the hand-over "does not add" a second holds only against `40b402b`, which paid it
+at the next change of screen; against a plain load and against b2b669b (which at that moment still runs the old code
+from its fresh HTTP cache) it is a second more, once per deploy, now on a screen of the app's colour with a status
+line. When the browser cannot activate (a request in the active worker that the network never answers), it costs
+one hand-over page and about 2 s, then the old release.
+
+### Suites on this round
+
+All green on the source tree, and on the built tree where marked:
+
+- `npm test` 389/389 with `CI=true` and esbuild (0 skipped); validate-content (0 errors, 1 warning as before);
+  build-content-index --check; build-route-deps --check;
+- run.mjs 57/57 (source and built, release `1a7cae2732c8`) and a11y (0 violations);
+- every lane suite: shell-components 12/12, lesson-flow 25/25, exercises 12/12, bilingual-text 12/12,
+  lesson-content 7/7, first-run-today 14/14, practice-hubs 14/14, games 17/17, real-life-writing 16/16,
+  r4-lesson-flow 32/32, r4-exercises 13/13, r4-today-path 14/14, r4-practice-games 19/19, r4-real-life-writing 15/15,
+  r4-shell-bilingual 11/11, perf-boot 13/13, perf-runtime 9/9; screen-errors ok;
+- upgrade.mjs 14/14 (source and built: U1-U9 and the new U10 x 2, U11, U12);
+- build, then verify: ok (63 modules, maps, hashes, paths, CSP), against the source. `index.html` is unchanged
+  since `fde78c2`, and its CSP meta is byte-identical to b2b669b's.

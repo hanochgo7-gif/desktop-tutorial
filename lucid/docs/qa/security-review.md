@@ -283,7 +283,7 @@ before any notes, then re-ran the second round's proofs and new attacks in Chrom
   no request in hand, so waiting inside the navigation deadlocks and a redirect comes straight back to the old
   worker (both tried in Chromium: an 8 s stall, and `ERR_TOO_MANY_REDIRECTS`; a meta refresh is a same-document
   fragment navigation on `#/...` URLs and never reloads). If the waiting worker has not taken over 5 s after the first
-  ask, the release serves the app again. The page is built by the worker, never stored, and appears only while a
+  ask, the release serves the app again (1 s since the fourth round, below, with one hand-over page at most). The page is built by the worker, never stored, and appears only while a
   release waits; it is not a path for other script (it carries no stored bytes and no stored header). Other open
   tabs follow at their next change of screen, as when one tab switches at a change of screen (C-4 unchanged there).
   Tests: sw.test "a load of the app while a release waits hands over to it" and upgrade.mjs U8 (both variants: boot
@@ -303,6 +303,9 @@ before any notes, then re-ran the second round's proofs and new attacks in Chrom
   still full then, the old caches' own files (no longer served by anyone) are dropped first to make room for them.
   The integrity rules are unchanged: nothing unchecked is stored or served, and `release.json` must still come from
   the server (only its write is best effort; without it the worker fetches it again when it next starts, as before).
+  *Corrected in the fourth round (below):* this made the shell and `release.json` best effort too, so at quota =
+  usage an update installed with an empty or partial cache, took over and deleted the complete old cache (offline
+  lost); and activation read the hashes only from its cache, so without `release.json` nothing was carried over.
   The partial cache the reviewer saw kept and reused came from failed installs; a quota error no longer fails one,
   and a cache left by an install that failed for another reason (no connection, an edge on another deploy) is what
   the retry copies from, and is removed at the next activation, as before. Tests: sw.test "a full origin never fails
@@ -322,9 +325,86 @@ before any notes, then re-ran the second round's proofs and new attacks in Chrom
   the window between a deploy and the worker's update (the network then serves the next release's bytes) unstorable,
   where b2b669b stored it, and the content is escaped data.
 
-**Status.** Re-reviewed by the delivery lane, changed by the integration and three times by the skeptic rounds as
-above. The second and third reviewers' conditions are met in code and tests; the S-15 sign-off itself is still the
-lead's to give before the release ships (plan item D2).
+**Fourth skeptic round: S-15 sign-off review of `fde78c2` (2026-11-07).** Two reviews of the third round's two new
+mechanisms: a security and contract review of the hand-over at a load of the app and of the quota-tolerant install,
+and a review of real-learner behaviour of the hand-over on built trees (GitHub-Pages-like server, 150 ms RTT and
+1.6 Mbps shaping, CPU 4x). Each problem was reproduced first with the reviewers' own scripts (scratchpad
+`skeptic4-handover-security/x/`, `skeptic4-handover/`), then run again on a build of this round (release
+`b23362933538`, next release `b783a3b0177f`; outputs in scratchpad `refix4/x/` and `refix4/s4/`). The final
+build (`1a7cae2732c8`, where U1-U12 and run.mjs pass) differs from it only in the hand-over page giving up after 2 s of
+wall time instead of after 40 polls of 50 ms.
+- **Verdict (security and contract): REJECT as it stands.** The hand-over was approved for security (a cross-site
+  page can trigger it only through a visible top-level load of the app; nothing new for same-origin script; shell
+  URLs only; per-response 128-bit nonce; strict `no-store` CSP; `index.html`'s CSP byte-identical; its tests fail
+  when it is reverted). Rejected for the full-origin path and an activation race. Conditions: (1) never activate
+  over, or delete, a complete old cache unless the new cache holds `release.json` and the full SHELL, and fail the
+  install when required files do not fit; (2) activation must not delete the cache of a release still installing;
+  (3) tests for quota = usage with an offline restart, and for an install racing an activation; (4) plan.json C-4
+  and the 5a / architecture §7 wording corrected.
+- **Verdict (learner behaviour): no blocker; shipping OK as far as the hand-over goes.** Four minor problems, all
+  reproduced: a ~1 s blank (white in light mode) screen once per deploy, 1403 ms against 385 ms for a plain reload
+  and 565 ms for b2b669b; a 6.4 s stall of hand-over pages that ends on the old release when another tab has a
+  cache-miss request hanging; a silent, empty page for screen readers during the hand-over; and a changed saved
+  lesson dropped when storage is full. Not tested by that reviewer: a hidden or background tab (every tab reported
+  itself visible); not tested here either.
+- **Condition 1, met.** Reproduced first: `x/quota.mjs` at F = 1.0 on a build of `fde78c2` gave the next release a
+  cache of 0 entries that took over at the reload and deleted the old 150-entry cache (offline `ERR_FAILED`), and
+  b2b669b -> `fde78c2` at quota = usage deleted the legacy cache at once. Fix: `release.json` and every SHELL write
+  are required again (`store(..., required)` rethrows `QuotaExceededError`; the `release.json` put is no longer
+  caught), so such an install fails, gives its space back (`caches.delete(CACHE)` on a quota failure) and the
+  active release keeps its cache. The install also ends by opening its cache again by name and checking it with
+  `holds()` (release.json matching `LISTING`, every SHELL entry). Activation deletes older caches only when
+  `holds()` passes for its own cache, and otherwise keeps them (it does no network). Only best-effort files (modules
+  and content beyond the shell) may still be left out on a full origin, as the third round needed (K2: at 1.5 x
+  usage the update installs). On this build: `x/quota.mjs` F = 1.0 and 1.004: no update installs, the old cache
+  keeps its 150 entries and 3 lessons, and offline the app starts and the lessons return 200; F = 1.5: the update
+  installs, takes over, 3 of 3 lessons; b2b669b -> this build at F = 1.0: the legacy cache (83 entries, 3 lessons)
+  is kept and works offline. The trade-off, stated in architecture §7: with no room even for the shell, the learner
+  stays on the old release (online too) until the origin has room, where b2b669b's network-first worker would have
+  fetched new code online (and lost the offline copy: the learner reviewer's `quota.mjs` at 1.1 x: b2b669b kept 1 of
+  5 saved lessons and 1 of 31 screens offline; this build keeps 5 of 5 and 31 of 31 on the old release).
+- **Condition 2, met.** Reproduced first: `x/race.mjs` (B waiting, C installing with one file stalled, then a
+  reload): B's activation deleted C's cache; C later took over with 27 entries and no lessons. Fix: activation
+  purges and deletes nothing while `registration.installing` or `registration.waiting` is set (a newer release: its
+  cache is among the older ones, and its own activation removes the rest), and an install whose cache was removed
+  while it ran fails its final `holds()` check, so the browser tries again. On this build, `race.mjs` reload and
+  screen variants: C takes over with 150 entries and the 3 lessons; offline path, progress, writing, games and the
+  saved lesson load.
+- **Condition 3, met.** sw.test: "with no room for the next release's release.json or shell, its install fails"
+  (room 0, 0.004, 0.02; the old release starts offline after a restart; with room the next attempt installs),
+  "activation removes the older caches only when its own holds release.json and the shell", and "activation leaves
+  the cache of a newer release that is installing; an install whose cache was removed while it ran fails". Each
+  fails on `fde78c2`'s worker and on a mutation that removes its part of the fix (required shell writes, the space
+  given back, the `holds()` guard, the newer-release guard, the end-of-install check). upgrade.mjs U10 (quota =
+  usage, from this release and from b2b669b, with an offline restart) and U11 (an install racing an activation,
+  then offline screens) fail on a `fde78c2` tree ("the update installed with no room for its shell", "caches
+  [lucid-2026-11-03.1] became [lucid-17565f744f38]", "B's activation removed the cache of C") and pass on the
+  source and the built tree.
+- **Condition 4, met.** plan.json C-4 now has the third hand-over point (the active worker at a shell navigation
+  while a release waits, the nonce page, the 1 s window and the fall-back) and the install/activation rules above;
+  architecture §7 ("Full storage", "Updates") and the K2 bullet above are corrected.
+- **Learner-lens problems, all fixed.** (a) Stall: only navigations within `HANDOVER_MS` (now 1000 ms) of the first
+  ask get the hand-over page, and that page reloads after at most about 2 s, so a hand-over the browser cannot make
+  costs one page: `stall.mjs` 2408 ms and 2 documents (was 6436 ms and 4), `x/loop.mjs` 2261 ms and one hand-over
+  page (was 6335 ms and 3); it still ends on the old release, which takes over by itself once the stuck request
+  ends (the waiting worker was asked). Test: sw.test "a hand-over that does not happen costs one page" (fails at
+  5000 ms) and U12 ("4 documents" on `fde78c2`). (b) Blank screen: the page has the boot frame's ground and ink
+  for each colour scheme (sw.test compares them with `index.html`, which boot-preload.test ties to `css/app.css`);
+  `cost.mjs` frames are now 244,248,251 in light and 11,14,21 in dark mode. Its ~1 s is the browser's activation
+  and stays (after.md says so against a plain reload and b2b669b). (c) Screen readers: the page has
+  `<p role="status">מעדכנים את Lucid…</p>`; in Chromium's accessibility tree it is a status live region with that
+  text. The CSP gains `style-src 'nonce-…'` for the one style; nothing else is allowed. (d) Changed saved lessons:
+  activation returns the lessons it could not carry (changed in the release) and fetches them again (checked) once
+  the old caches are gone, kept alive by the next fetch events rather than held in activation (which would delay
+  every request): the learner reviewer's `quota.mjs` with the HTTP cache cleared, 1.5 x usage: 5 of 5 saved lessons
+  (was 4 of 5, `a1-02` missing).
+- **Unchanged.** Everything the second and third rounds established: bodies only, hashing on every served response,
+  `release.json` never read from or written to the cache by the fetch handler, installs fail without it, 128-bit
+  hashes anchored by `LISTING`; U1-U9 and every earlier sw.test pass.
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and four times by the skeptic rounds as
+above. The second, third and fourth reviewers' conditions are met in code and tests; the S-15 sign-off itself is
+still the lead's to give before the release ships (plan item D2).
 
 ## 6. Limits of this review
 

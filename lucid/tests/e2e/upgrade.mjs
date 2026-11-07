@@ -18,6 +18,12 @@
 //       the reload the page asks for, without closing the tab
 //   U9  with the origin's storage nearly full, the next release still installs and takes over at a reload, keeps the
 //       saved lessons, and the old release's cache is removed
+//   U10 with no room even for the next release's shell (quota = usage), from this release and from b2b669b: the update
+//       does not install, and the old release keeps its cache and saved lessons and starts offline after a restart
+//   U11 a release that is still installing when an older one takes over keeps its cache: it takes over at the next
+//       reload with a complete cache and the saved lessons, and screens load offline
+//   U12 a reload while another tab has a request the network never answers costs one hand-over page, not five
+//       seconds of them
 // The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
@@ -70,10 +76,12 @@ assert(readFileSync(join(OLD, 'sw.js'), 'utf8').includes(`const RELEASE = '${LEG
 
 // ---------- a GitHub-Pages-like server whose root switches at the deploy ----------
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg' };
-// down: the server is unreachable (every connection dropped); drop: paths whose connection is dropped.
-const served = { root: OLD, down: false, drop: new Set() };
-const srv = http.createServer((req, res) => {
+// down: the server is unreachable (every connection dropped); drop: paths whose connection is dropped; stall: paths
+// whose answer waits for the promise they map to.
+const served = { root: OLD, down: false, drop: new Set(), stall: new Map() };
+const srv = http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
+  if (served.stall.has(u.pathname)) await served.stall.get(u.pathname);
   if (served.down || served.drop.has(u.pathname)) { req.socket.destroy(); return; }
   if (!u.pathname.startsWith('/lucid/')) { res.writeHead(404); res.end(); return; }
   let f = join(served.root, decodeURIComponent(u.pathname.slice('/lucid/'.length)) || 'index.html');
@@ -558,6 +566,160 @@ try {
       }
     } finally { rmSync(fix, { recursive: true, force: true }); }
     assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+    await ctx.close();
+  });
+
+  // Round-4 review (blocker). At fde78c2 a write that did not fit never failed an install, release.json and the shell
+  // included: with quota = usage the next release installed with an empty cache, took over at the reload (from
+  // b2b669b at once) and removed the old, complete cache; offline Lucid no longer started.
+  const learner = async (page) => page.evaluate(async () => {
+    const L = await import('./js/core/learner.js');
+    const P = await import('./js/core/placement.js');
+    L.saveProfile({ onboarded: true, name: 'Test', birth_year: 1990, ui_language: 'he', goals: ['travel'], created_at: new Date().toISOString() });
+    L.saveSettings({ daily_minutes: 20, text_size: 100 });
+    await L.applyPlacement(P.selfReportResult('A1'));
+    await window.lucid.store.flush();
+  });
+  const lessonsIn = (page, name) => page.evaluate(async ({ n, ids }) => {
+    const c = await caches.open(n);
+    return (await Promise.all(ids.map((id) => c.match(`content/lessons/${id}.json`)))).filter(Boolean).length;
+  }, { n: name, ids: SAVED });
+  const keysIn = (page, name) => page.evaluate(async (n) => (await (await caches.open(n)).keys()).length, name);
+  async function offlineRestart(page, label, routes) {
+    await (await page.context().newCDPSession(page)).send('Network.clearBrowserCache');
+    await stopWorkers(page);
+    served.down = true;
+    try {
+      await page.goto(BASE).catch((e) => { throw new Error(`${label}: offline: ${e.message.split('\n')[0]}`); });
+      assert(await started(page) === 'app', `${label}: offline, Lucid did not start`);
+      const got = await page.evaluate(async (ids) => (await Promise.all(ids.map((id) => fetch(`content/lessons/${id}.json`).then((r) => r.ok, () => false)))).filter(Boolean).length, SAVED);
+      assert(got === SAVED.length, `${label}: offline, saved lessons ${got} of ${SAVED.length}`);
+      for (const [route, sel] of routes) {
+        const r = await openScreen(page, route, sel);
+        assert(r === 'ok', `${label}: offline ${route}: ${r}`);
+      }
+    } finally { served.down = false; }
+  }
+  for (const from of ['this release', FROM]) {
+    await check(`U10. With no room for the next release's shell (quota = usage, from ${from}), the update does not install: the old release keeps its cache and saved lessons and starts offline after a restart`, async () => {
+      const ctx = await context();
+      let a;
+      let fix = null;
+      if (from === FROM) a = await oldLearner(ctx, { lean: true });
+      else {
+        a = await newVisit(ctx);
+        await learner(a);
+        await a.evaluate(async (ids) => { for (const id of ids) await fetch(`content/lessons/${id}.json`); }, SAVED);
+      }
+      try {
+        await sleep(1500);
+        const before = await cacheNames(a);
+        const entries = await keysIn(a, before[0]);
+        const usage = await a.evaluate(async () => (await navigator.storage.estimate()).usage);
+        const cdp = await ctx.newCDPSession(a);
+        await cdp.send('Storage.overrideQuotaForOrigin', { origin: new URL(BASE).origin, quotaSize: usage });
+        if (from === FROM) served.root = NEW;
+        else { fix = nextRelease(); served.root = join(fix, 'lucid'); }
+        const after = await a.evaluate(async () => {
+          const reg = await navigator.serviceWorker.getRegistration();
+          await reg.update().catch(() => {});
+          for (let i = 0; i < 150 && reg.installing; i++) await new Promise((r) => setTimeout(r, 200));
+          return { waiting: Boolean(reg.waiting), installing: Boolean(reg.installing) };
+        });
+        assert(!after.waiting && !after.installing, `the update installed with no room for its shell: ${JSON.stringify(after)}`);
+        await a.reload();
+        assert(await started(a) === 'app', 'the reload did not start Lucid');
+        await sleep(1500);
+        const names = await cacheNames(a);
+        assert(JSON.stringify(names) === JSON.stringify(before), `caches ${JSON.stringify(before)} became ${JSON.stringify(names)}`);
+        assert(await keysIn(a, before[0]) === entries, 'the old release\'s cache changed');
+        assert(await lessonsIn(a, before[0]) === SAVED.length, 'saved lessons lost');
+        await offlineRestart(a, from, from === FROM ? [] : [['path', '.level-tabs'], ['writing', '.stage-panel .hub-row']]);
+      } finally { if (fix) rmSync(fix, { recursive: true, force: true }); }
+      assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+      await ctx.close();
+    });
+  }
+
+  // Round-4 review (major). B's activation removed every other Lucid cache, also that of C, a newer release still
+  // installing; C finished into the removed cache, took over at the next reload with almost nothing, and removed B's
+  // cache with the saved lessons: offline, most screens did not load.
+  await check('U11. A release still installing when an older one takes over keeps its cache: it takes over at the next reload, complete and with the saved lessons, and screens load offline', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    await learner(a);
+    await a.evaluate(async (ids) => { for (const id of ids) await fetch(`content/lessons/${id}.json`); }, SAVED);
+    await sleep(1500);
+    const [first] = await cacheNames(a);
+    const full = await keysIn(a, first);
+    const b = nextRelease();
+    const c = nextRelease((d) => { appendFileSync(join(d, 'js/views/progress.js'), '\n// the next release\n'); appendFileSync(join(d, 'js/views/today.js'), '\n// release C\n'); });
+    let answer = () => {};
+    try {
+      served.root = join(b, 'lucid');
+      assert(await waitingWorker(a), 'B did not install');
+      served.root = join(c, 'lucid');
+      served.stall.set('/lucid/js/views/today.js', new Promise((r) => { answer = r; }));
+      const cName = `lucid-${JSON.parse(readFileSync(join(c, 'lucid', 'release.json'), 'utf8')).release}`;
+      assert(await a.evaluate(async (n) => {
+        const reg = await navigator.serviceWorker.getRegistration();
+        reg.update().catch(() => {});
+        for (let i = 0; i < 100 && !(reg.installing && (await caches.keys()).includes(n)); i++) await new Promise((r) => setTimeout(r, 100));
+        return Boolean(reg.installing);
+      }, cName), 'C did not start installing');
+      await sleep(1000);
+      await a.reload(); // hands over to B while C installs
+      assert(await started(a) === 'app', 'B did not start');
+      for (let i = 0; i < 50 && (await cacheNames(a)).includes(first); i++) await sleep(200);
+      assert((await cacheNames(a)).includes(cName), 'B\'s activation removed the cache of C, which was still installing');
+      answer();
+      served.stall.clear();
+      assert(await a.evaluate(async () => {
+        const reg = await navigator.serviceWorker.getRegistration();
+        for (let i = 0; i < 150 && !reg.waiting; i++) await new Promise((r) => setTimeout(r, 200));
+        return Boolean(reg.waiting);
+      }), 'C did not finish installing');
+      await a.reload(); // hands over to C
+      assert(await started(a) === 'app', 'C did not start');
+      let names = [];
+      for (let i = 0; i < 50; i++) { names = await cacheNames(a); if (names.length === 1) break; await sleep(200); }
+      assert(names.length === 1 && names[0] === cName, `C did not take over: ${names}`);
+      const now = await keysIn(a, cName);
+      assert(now >= full, `C's cache holds ${now} entries, the first release's held ${full}`);
+      assert(await lessonsIn(a, cName) === SAVED.length, 'saved lessons lost');
+      await offlineRestart(a, 'C', [['path', '.level-tabs'], ['writing', '.stage-panel .hub-row'], ['games', '.game-section'], ['progress', '.page-head + .stack-lg']]);
+    } finally { answer(); served.stall.clear(); rmSync(b, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+    assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+    await ctx.close();
+  });
+
+  // Round-4 review (minor). At fde78c2, with another tab's request in the active worker (a lesson the network never
+  // answers), the browser could not activate the waiting worker, and a reload showed hand-over pages for 6.4 s.
+  await check('U12. A reload while another tab has a request the network never answers costs one hand-over page, then Lucid starts', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    const x = await tab(ctx);
+    await x.goto(`${BASE}#/welcome`);
+    await x.waitForSelector('.welcome', { timeout: 30000 });
+    const fix = nextRelease();
+    let answer = () => {};
+    try {
+      served.root = join(fix, 'lucid');
+      assert(await waitingWorker(a), 'the next release did not install');
+      served.stall.set('/lucid/content/lessons/a1-09.json', new Promise((r) => { answer = r; }));
+      x.evaluate(() => { fetch('content/lessons/a1-09.json').catch(() => {}); }).catch(() => {});
+      await sleep(500);
+      let documents = 0;
+      const count = (f) => { if (f === a.mainFrame()) documents += 1; };
+      a.on('framenavigated', count);
+      const t0 = Date.now();
+      await a.reload({ waitUntil: 'commit' });
+      assert(await a.waitForFunction(() => Boolean(window.lucid && document.querySelector('#view > :not(.boot-first)')), null, { timeout: 15000 }).then(() => true, () => false), 'Lucid did not start');
+      const ms = Date.now() - t0;
+      a.off('framenavigated', count);
+      assert(documents <= 2, `${documents} documents before Lucid started (one hand-over page at most)`);
+      assert(ms < 4000, `Lucid started after ${ms} ms`);
+    } finally { answer(); served.stall.clear(); rmSync(fix, { recursive: true, force: true }); }
     await ctx.close();
   });
 } finally {
