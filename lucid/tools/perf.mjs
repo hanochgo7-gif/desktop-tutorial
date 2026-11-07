@@ -43,7 +43,8 @@
 //      one, as build-manifest writes it), deployed while the learner is away (stale cache, new
 //      ETags): the returning #/today, Today -> lesson/a1-01 while the new worker installs, what the new worker
 //      downloads, the saved lessons before (every Lucid cache) and after (in the new release's cache), the next
-//      #/today, and whether a page ran modules from two
+//      #/today (when the new worker is already waiting at the click, the page reloads into it, contract C-4, and the
+//      transition is timed from the click to the lesson in the reloaded page), and whether a page ran modules from two
 //      releases (JS loaded both before and after a controllerchange in the same document)
 //   Not in the default list: g and u run only when named in --scenarios.
 //
@@ -541,6 +542,8 @@ async function transition(page, route) {
     const lt0 = P.longtasks.length; const r0 = performance.getEntriesByType('resource').length;
     const wait = P.untilNew(sel, 30_000);
     const t0 = performance.now();
+    // For a click that reloads the page (a new release taking over at a change of screen, contract C-4).
+    try { sessionStorage.setItem('__perf.click', String(performance.timeOrigin + t0)); } catch { /* storage blocked */ }
     a.click();
     if (tmp) a.remove();
     const t = await wait;
@@ -548,6 +551,34 @@ async function transition(page, route) {
     const res = performance.getEntriesByType('resource').slice(r0);
     return { ms: t == null ? null : t - t0, longTasks: lts.length, longest: lts.reduce((s, [, d]) => Math.max(s, d), 0), tbt: lts.reduce((s, [, d]) => s + Math.max(0, d - 50), 0), reqs: res.length, gzKB: res.reduce((s, e) => s + e.encodedBodySize, 0) / 1024, linked: !tmp };
   }, route);
+}
+// transition() for a click that may reload the page: B6 (contract C-4) reloads into a waiting release at the first
+// change of screen. The old document's context is then destroyed, so the time runs from the click to the route's
+// content in the reloaded page (its view, from performance.timeOrigin); reqs and gzKB are the reloaded page's.
+async function transitionAcrossReload(page, route) {
+  try { return { ...(await transition(page, route)), reloaded: 0 }; } catch (e) {
+    if (!/context was destroyed|navigat/i.test(String(e?.message))) throw e;
+  }
+  // The old document can still answer until the reload commits: retry until the document started after the click.
+  for (let i = 0; i < 100; i++) {
+    await page.waitForLoadState('domcontentloaded');
+    try {
+      const r = await page.evaluate(async () => {
+        const click = Number(sessionStorage.getItem('__perf.click'));
+        if (!click || performance.timeOrigin < click || !window.__perf) return null;
+        const P = window.__perf;
+        const t = await P.viewReady;
+        const lts = P.longtasks;
+        const res = performance.getEntriesByType('resource');
+        return { ms: t == null ? null : performance.timeOrigin + t - click, longTasks: lts.length, longest: lts.reduce((s, [, d]) => Math.max(s, d), 0), tbt: lts.reduce((s, [, d]) => s + Math.max(0, d - 50), 0), reqs: res.length, gzKB: res.reduce((s, e) => s + e.encodedBodySize, 0) / 1024, linked: true, reloaded: 1 };
+      });
+      if (r) return r;
+    } catch (e) {
+      if (!/context was destroyed|navigat/i.test(String(e?.message))) throw e;
+    }
+    await page.waitForTimeout(100);
+  }
+  throw new Error(`transitionAcrossReload: no reloaded page for #/${route}`);
 }
 // Back to Today (the hash changes, as the tab bar's Today link does) and waits for the plan; returns the same
 // measures as transition().
@@ -835,7 +866,9 @@ async function scenarioU(env, browser, P, add) {
       return { ...f, raw, gz: zlib.gzipSync(raw, { level: 6 }), etag: `"${stamp}"` };
     };
     const t = await measureServed(env, ctx, P, 'today');
-    const tr = await transition(t.page, 'lesson/a1-01');
+    // The modules this document ran before the change of screen (a reload below starts a new document).
+    const mods0 = await moduleReleases(t.page);
+    const tr = await transitionAcrossReload(t.page, 'lesson/a1-01');
     // Waits until the new worker has installed (its cache exists and nothing is installing) and has either activated
     // or is waiting for the tabs to close (a worker that does not skip waiting); at most 90 s.
     const done = await t.page.evaluate((stamp) => new Promise((res) => {
@@ -860,10 +893,12 @@ async function scenarioU(env, browser, P, add) {
     const mods2 = await moduleReleases(again.page);
     await again.page.close();
     add('u', 'new release: what it downloads', { reqs: pre.length, wireKB: pre.reduce((a, e) => a + e.wire, 0) / 1024, allReqs: all.length, allKB: all.reduce((a, e) => a + e.wire, 0) / 1024, doneMs: done.at, lessonsBefore: before.lessons, lessonsAfter: after.lessons });
-    add('u', 'new release: #/today (returning, after the deploy)', { ...t.row, ...mods });
+    // mixed: a document ran modules from both releases (the first one up to its change of screen, or the one that
+    // measured the install, which is the reloaded document when tr.reloaded).
+    add('u', 'new release: #/today (returning, after the deploy)', { ...t.row, ...mods, mixed: Math.max(mods.mixed, mods0.mixed) });
     add('u', 'new release: Today -> lesson/a1-01 while installing', tr);
     add('u', 'new release: #/today, next visit', { ...again.row, ...mods2 });
-    log(`  u run ${r + 1}: today ${round(t.m.view)} -> lesson ${round(tr.ms)} | precache ${pre.length} reqs ${round(pre.reduce((a, e) => a + e.wire, 0) / 1024)}KB done ${round(done.at)} (${done.keys}; was ${oldRelease}) | lessons ${before.lessons} -> ${after.lessons} | mixed ${mods.mixed}/${mods2.mixed} | next ${round(again.m.view)}`);
+    log(`  u run ${r + 1}: today ${round(t.m.view)} -> lesson ${round(tr.ms)}${tr.reloaded ? ' (reloaded into the new release)' : ''} | precache ${pre.length} reqs ${round(pre.reduce((a, e) => a + e.wire, 0) / 1024)}KB done ${round(done.at)} (${done.keys}; was ${oldRelease}) | lessons ${before.lessons} -> ${after.lessons} | mixed ${mods.mixed}/${mods2.mixed} | next ${round(again.m.view)}`);
     resetKnobs(env);
     await ctx.close();
   }
