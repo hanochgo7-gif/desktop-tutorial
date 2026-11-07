@@ -44,3 +44,47 @@
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(show);
   tick();
 })();
+
+/* סרטים: הפתיחה מנגנת קטעים מהסרטים, האריחים מתנגנים כשהם על המסך, ולחיצה פותחת את הסרט המלא */
+(function () {
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saver = navigator.connection && navigator.connection.saveData;
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+  var reel = document.querySelector('.pm-reel video');
+  if (reel && !still && !saver) {
+    reel.src = innerWidth > 900 ? reel.dataset.srcLg : reel.dataset.srcSm;
+    reel.preload = 'auto';
+    play(reel);
+    document.addEventListener('visibilitychange', function () { document.hidden ? reel.pause() : play(reel); });
+  }
+
+  var tiles = document.querySelectorAll('.pm-film-btn video');
+  if ('IntersectionObserver' in window && !still && !saver) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; play(v); } else if (v.src) v.pause();
+      });
+    }, { threshold: 0.35 });
+    tiles.forEach(function (v) { io.observe(v); });
+  }
+
+  var dlg = document.querySelector('.pm-lightbox');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var vid = dlg.querySelector('video'), ttl = dlg.querySelector('.pm-lb-t'), last = null;
+  document.querySelectorAll('.pm-film-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      last = b;
+      dlg.classList.toggle('is-v', b.dataset.v === 'v');
+      ttl.textContent = b.dataset.title;
+      vid.src = b.dataset.film;
+      dlg.showModal();
+      play(vid);
+    });
+  });
+  function shut() { vid.pause(); vid.removeAttribute('src'); vid.load(); if (dlg.open) dlg.close(); }
+  dlg.querySelector('.pm-lb-x').addEventListener('click', shut);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) shut(); });
+  dlg.addEventListener('close', function () { vid.pause(); if (last) last.focus(); });
+})();
