@@ -201,7 +201,7 @@ try {
     await page.goto(`${BASE}#/lesson/zz-99`);
     await page.waitForSelector('#view .empty, #view a[href="#/path"]');
     let txt = await page.textContent('#view');
-    assert(!/Something went wrong|משהו השתבש|did not load|לא נטען/.test(txt), `lesson 404: ${txt.slice(0, 120)}`);
+    assert(!/Something went wrong|משהו השתבש|did not load|לא נטענ/.test(txt), `lesson 404: ${txt.slice(0, 120)}`);
     await page.goto(`${BASE}#/scenario/no-such-scenario`);
     await page.waitForSelector('#view a[href="#/real-life"]');
     txt = await page.textContent('#view');
