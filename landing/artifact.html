@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="עמותת בוגרי סיירת נח&quot;ל: ליווי אישי וארוך טווח ללוחמי היחידה, לפצועים ולמשפחות השכולות, מאז 1993. Sayeret Nahal Alumni Association: long-term care for the unit's veterans, wounded and bereaved families.">
 <meta property="og:title" content="בסיירת סופרים את כולם · Sayeret Nahal Alumni Association">
-<meta property="og:description" content="איפה שהתמיכה הרשמית נגמרת, אנחנו מתחילים. Where official support ends, we begin.">
+<meta property="og:description" content="איפה שהתמיכה הרשמית נגמרת או לא רלוונטית, אנחנו מתחילים. Where official support ends or doesn't fit, we begin.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/assets/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -210,6 +210,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* who */
 .who .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);align-items:start;margin-top:36px}
 .who .body{display:grid;gap:16px;color:var(--muted)}
+.who .body .reach{font-family:var(--display);font-size:clamp(22px,2.6vw,28px);font-weight:700;line-height:1.35;color:var(--olive-deep);border-inline-start:3px solid var(--gold);padding-inline-start:16px;margin-block:4px}
+.adopt2 .tagline{font-family:var(--display);font-size:clamp(20px,2.2vw,24px);font-weight:700;color:var(--olive-deep);margin:4px 0 0}
 .who .facts{margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .who .facts div{border-top:2px solid var(--olive);padding-top:12px;min-width:0}
 .who .facts dt{font-family:var(--display);font-weight:900;font-size:clamp(34px,4vw,46px);color:var(--olive-deep);line-height:1}
@@ -441,7 +443,7 @@ footer .legal ul{padding-inline-start:18px}
     <div>
       <p class="label">עמותת בוגרי סיירת נח"ל</p>
       <h1>בסיירת סופרים את כולם.<span class="l2">גם אחרי שהמלחמה נגמרת.</span></h1>
-      <p class="lead">איפה שהתמיכה הרשמית נגמרת, אנחנו מתחילים. מאז 1993 בוגרי היחידה מלווים את הלוחמים, את הפצועים ואת המשפחות השכולות. חברות ישראליות מוזמנות לאמץ צוות: לממן מסע חוסן לצוות לוחמים שלם, בליווי אנשי מקצוע.</p>
+      <p class="lead">איפה שהתמיכה הרשמית נגמרת או לא רלוונטית, אנחנו מתחילים. כבר מעל 30 שנה בוגרי היחידה מלווים את הבוגרים, את הפצועים ואת המשפחות השכולות. חברות ישראליות מוזמנות לאמץ צוות: לממן מסע חוסן לצוות לוחמים שלם.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="#adopt-he">לחברות: אמצו צוות <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#donate-he">תרומה אישית</a>
@@ -488,7 +490,7 @@ footer .legal ul{padding-inline-start:18px}
   <div class="adopt-grid">
     <figure class="adopt-art"><div class="paint bg-team reveal" role="img" aria-label="צוות בוגרים במסע חוסן, עומדים חבוקים בשביל ביער, גבם למצלמה"></div><span class="illus">צילום ממסע חוסן צוותי</span></figure>
     <div class="adopt-body">
-      <div class="head"><p class="label">לחברות ישראליות</p><h2>אמצו צוות לוחמים</h2><p class="lead">צוות של 15 עד 20 לוחמים ששירתו יחד יוצא למסע חוסן ועיבוד, בליווי אנשי מקצוע. חברה מאמצת מממנת מסע מלא, או משתתפת במימון.</p></div>
+      <div class="head"><p class="label">לחברות ישראליות</p><h2>אמצו צוות לוחמים</h2><p class="lead">צוות של 15 עד 20 לוחמים ששירתו יחד יוצא למסע חוסן, בליווי אנשי מקצוע ובהתאמה לצרכיו. הזדמנות לתת למי שהיו שם יחד את המקום לעבד, להתחזק ולהמשיך יחד. חברה מאמצת מממנת מסע מלא, או משתתפת במימון.</p></div>
       <div class="figure-card"><b>‎$13,000‎</b><span>מימון מלא של מסע חוסן לצוות אחד, לפי תקציב העמותה. אפשר גם לאמץ תחום אחר מתוך ארבעת עמודי התמיכה.</span></div>
       <ol class="howto stagger" aria-label="איך זה עובד">
         <li><b>שיחת היכרות</b><span>15 דקות עם המנכ"ל, סא"ל (מיל.) חזקי מלאכי.</span></li>
@@ -497,6 +499,7 @@ footer .legal ul{padding-inline-start:18px}
         <li><b>עדכון מהשטח</b><span>העמותה מעדכנת את החברה על השימוש בתרומה.</span></li>
       </ol>
       <ul class="assure"><li>58 מסעות צוות עד היום, יותר מ-900 משתתפים</li><li>ניהול תקין 2026</li><li>תו מידות לאפקטיביות</li><li>תקציב שקוף, 9.5% תפעול</li></ul>
+      <p class="tagline">אמצו צוות. היו שותפים בחלק משמעותי מהדרך שלו קדימה.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%97%D7%96%D7%A7%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%97%D7%91%D7%A8%D7%AA%20___%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%90%D7%99%D7%9E%D7%95%D7%A5%20%D7%A6%D7%95%D7%95%D7%AA." target="_blank" rel="noopener">לשיחה עם חזקי בוואטסאפ <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#contact-he">כל פרטי הקשר</a>
@@ -511,8 +514,10 @@ footer .legal ul{padding-inline-start:18px}
   <div class="head"><p class="label">מי אנחנו</p><h2>משפחה גם אחרי השירות</h2></div>
   <div class="grid">
     <div class="body">
+      <p>אנחנו מכירים את האנשים שמאחורי השמות, את הצוותים ואת הדרך שעברו יחד. ההיכרות הזאת מאפשרת לנו לזהות גם קושי שלא נאמר בקול, להרים טלפון למי שלא יבקש עזרה, ולבנות את האמון שבלעדיו קשה להתחיל.</p>
+      <p class="reach">כי לפעמים, כדי להסכים לקבל עזרה, צריך שמישהו שמכיר אותך יושיט יד.</p>
       <p>סיירת נח"ל היא יחידת עילית בחטיבת הנח"ל. את העמותה הקים ב-1993 סא"ל אייל וייס ז"ל, לשעבר מפקד הסיירת. אחרי שסא"ל יונתן "ברנש" צור נפל ב-7 באוקטובר, עמותות הבוגרים של היחידה התאחדו לעמותה אחת.</p>
-      <p>את העמותה מנהלים 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי. היא פועלת בשקט, בכל מקום שבו תמיכת המדינה חסרה, נגמרה או לא מספיקה.</p>
+      <p>את העמותה מנהלים 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי.</p>
     </div>
     <div>
       <dl class="facts">
@@ -696,7 +701,7 @@ footer .legal ul{padding-inline-start:18px}
     <div>
       <p class="label">Sayeret Nahal Alumni Association</p>
       <h1>In Sayeret Nahal, everyone is counted.<span class="l2">Even after the war ends.</span></h1>
-      <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends, we begin: since 1993 we have cared for the unit's veterans, its wounded and their families, and the families of its fallen. Giving from abroad? Jgive and the AID Coalition issue tax receipts for donors outside Israel.</p>
+      <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends or doesn't fit, we begin. For more than 30 years, the unit's alumni have stood by its veterans, its wounded and the families of its fallen. Giving from abroad? Jgive and the AID Coalition issue tax receipts for donors outside Israel.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in USD <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#abroad-en">Ways to give from abroad</a>
@@ -758,7 +763,7 @@ footer .legal ul{padding-inline-start:18px}
   <div class="adopt-grid">
     <figure class="adopt-art"><div class="paint bg-team reveal" role="img" aria-label="An alumni team on a resilience journey, standing arm in arm on a forest path, backs to the camera"></div><span class="illus">Photo from a team resilience journey</span></figure>
     <div class="adopt-body">
-      <div class="head"><p class="label">For companies and foundations</p><h2>Adopt a team</h2><p class="lead">A team of 15 to 20 fighters who served together goes on a guided resilience journey with mental health professionals. A partner funds the full journey or shares its cost.</p></div>
+      <div class="head"><p class="label">For companies and foundations</p><h2>Adopt a team</h2><p class="lead">A team of 15 to 20 fighters who served together goes on a resilience journey with mental health professionals, shaped around its needs: room to process, grow stronger and keep going together. A partner funds the full journey or shares its cost.</p></div>
       <div class="figure-card"><b>$13,000</b><span>Funds one full resilience journey for one team, per the association's budget. You can also adopt another of the four pillars.</span></div>
       <ol class="howto stagger" aria-label="How it works">
         <li><b>Intro call</b><span>15 minutes with our CEO, Lt. Col. (Res.) Hezki Malachi.</span></li>
@@ -767,6 +772,7 @@ footer .legal ul{padding-inline-start:18px}
         <li><b>Report back</b><span>We update you on how your gift was used.</span></li>
       </ol>
       <ul class="assure"><li>58 team journeys to date, 900+ participants</li><li>Proper Management Certificate 2026</li><li>Midot Seal of Effectiveness</li><li>Transparent budget, 9.5% operations</li></ul>
+      <p class="tagline">Adopt a team. Be part of a meaningful stretch of its road ahead.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=Hello%20Hezki%2C%20I%27d%20like%20to%20hear%20about%20supporting%20the%20Sayeret%20Nahal%20Alumni%20Association." target="_blank" rel="noopener">Message Hezki on WhatsApp <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#contact-en">All contact details</a>
@@ -781,6 +787,8 @@ footer .legal ul{padding-inline-start:18px}
   <div class="head"><p class="label">Who we are</p><h2>A family after service</h2></div>
   <div class="grid">
     <div class="body">
+      <p>We know the people behind the names, the teams and the road they walked together. That lets us notice the struggle no one says out loud, call the person who would never ask for help, and build the trust that everything else depends on.</p>
+      <p class="reach">Because sometimes, to accept help, you need someone who knows you to reach out.</p>
       <p>In Israel, most young people serve in the army. A few are selected for units like Sayeret Nahal, part of the Nahal Brigade, where small teams train and fight together through the hardest missions. Those teammates stay family for life.</p>
       <p>The association was founded in 1993 by the late Lt. Col. Eyal Weiss, a former commander of the unit. After the unit's commander, Lt. Col. Yonatan "Barnash" Tzur, fell on October 7, its alumni groups united as one. Today it is run by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p>
     </div>
