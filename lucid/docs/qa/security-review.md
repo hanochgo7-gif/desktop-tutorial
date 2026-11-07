@@ -659,8 +659,16 @@ with the reviewer's own script on `d2d62a2`'s build, then run on this round's bu
 **Status.** Re-reviewed by the delivery lane, changed by the integration and seven times by the skeptic rounds as
 above. The second to seventh reviewers' conditions are met in code and tests (the sixth round's tight-origin and
 ballast items as documented limits with follow-ups; the seventh round's P-A by a fix); the seventh round's age
-review signed off without conditions; the S-15 sign-off itself is still the lead's to give before the release ships
-(plan item D2).
+review signed off without conditions.
+
+**Lead sign-off (S-15, plan item D2): approve.** Given on `a3e3af7` after reading the seventh refix's `sw.js` diff
+(`carryOver`'s activation-only move of changed runtime files, `fillIn`'s `filled` flag and the resume on a shell
+navigation) against the reviewers' reports and re-running the unit suite (433/433) and the generator checks. The
+one relaxation, runtime files moved at activation without a hash match, adds no exposure: those files were never
+hash-checked in this design (stale-while-revalidate data, as on `d83a500`), CacheStorage is origin-wide so anything
+that could plant them could already write the new cache, and code, pages and non-runtime content are still only
+served hashed. The documented limits above (tight origin, ballast, a first visit without `release.json`, the
+one-time hand-over cost) ship as known limits.
 
 ## 6. Limits of this review
 
