@@ -51,12 +51,28 @@
   var saver = navigator.connection && navigator.connection.saveData;
   function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
 
-  var reel = document.querySelector('.pm-reel video');
-  if (reel && !still && !saver) {
+  // סרט הפתיחה. נטען תמיד; מתנגן לבד אם הדפדפן מאפשר, ואם לא (מצב חיסכון בסוללה, הפחתת תנועה) הכפתור מפעיל אותו
+  var reel = document.querySelector('.pm-reel video'), btn = document.querySelector('.pm-reel-btn');
+  if (reel) {
     reel.src = innerWidth > 900 ? reel.dataset.srcLg : reel.dataset.srcSm;
     reel.preload = 'auto';
-    play(reel);
-    document.addEventListener('visibilitychange', function () { document.hidden ? reel.pause() : play(reel); });
+    var userPaused = still || saver;
+    var label = btn && btn.querySelector('span');
+    function sync() {
+      if (!btn) return;
+      var on = !reel.paused;
+      btn.setAttribute('aria-pressed', on ? 'false' : 'true');
+      btn.classList.toggle('is-paused', !on);
+      label.textContent = on ? 'עצירת הסרט' : 'הפעלת הסרט';
+    }
+    function start() { var p = reel.play(); if (p && p.then) p.then(sync, sync); else sync(); }
+    reel.addEventListener('play', sync); reel.addEventListener('pause', sync);
+    if (userPaused) { reel.removeAttribute('autoplay'); reel.pause(); sync(); } else start();
+    if (btn) btn.addEventListener('click', function () { if (reel.paused) { userPaused = false; start(); } else { userPaused = true; reel.pause(); } });
+    // דפדפנים שחוסמים הפעלה אוטומטית מאפשרים אותה אחרי מגע ראשון בדף
+    function kick() { if (!userPaused && reel.paused) start(); }
+    ['touchstart', 'pointerdown', 'scroll', 'keydown'].forEach(function (ev) { addEventListener(ev, kick, { once: true, passive: true }); });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) reel.pause(); else if (!userPaused) start(); });
   }
 
   var tiles = document.querySelectorAll('.pm-film-btn video');

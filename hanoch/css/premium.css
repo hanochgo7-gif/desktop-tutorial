@@ -262,3 +262,11 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
   .pm-reel::after { background: linear-gradient(0deg, var(--night) 4%, rgba(7, 13, 24, .45) 45%, rgba(7, 13, 24, .25) 100%); }
   .pm-play { width: 44px; height: 44px; }
 }
+
+/* כפתור עצירה והפעלה לסרט הפתיחה */
+.pm-reel-note { display: flex; align-items: center; gap: 12px; }
+.pm-reel-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px 0 12px; border-radius: 99px; border: 1px solid rgba(243, 239, 230, .3); background: rgba(7, 13, 24, .35); color: var(--fg); font: 500 .8rem/1 var(--f-body); cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.pm-reel-btn:hover { border-color: var(--fg); }
+.pm-reel-btn svg { width: 14px; height: 14px; }
+.pm-reel-btn .i-play, .pm-reel-btn.is-paused .i-pause { display: none; }
+.pm-reel-btn.is-paused .i-play { display: block; }

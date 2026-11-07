@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/bl/space-grotesk.woff2" crossorigin>
 <link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/home.css">
-<link rel="stylesheet" href="/css/systems.css">
-<link rel="stylesheet" href="/css/premium.css">
+<link rel="stylesheet" href="/css/systems.css?v=3">
+<link rel="stylesheet" href="/css/premium.css?v=3">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/g/frank-ruhl-libre-hebrew-096aa4.woff2" crossorigin>
 <link rel="preload" as="image" href="/work/films/reel.webp" fetchpriority="high">
 <script>(function(d){d.classList.add("js");var a={};try{a=JSON.parse(localStorage.getItem("hanoch-a11y")||"{}")}catch(e){}if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!a["a11y-no-motion"])d.classList.add("motion")})(document.documentElement)</script>
@@ -78,7 +78,7 @@
 
   <section class="pm-hero pm-hero-film" id="hero" aria-labelledby="hero-title">
     <div class="pm-reel" aria-hidden="true">
-      <video muted loop playsinline preload="none" poster="/work/films/reel.webp" data-src-lg="/work/films/reel-1600.mp4" data-src-sm="/work/films/reel-960.mp4"></video>
+      <video muted autoplay loop playsinline preload="none" poster="/work/films/reel.webp" data-src-lg="/work/films/reel-1600.mp4" data-src-sm="/work/films/reel-960.mp4"></video>
     </div>
     <div class="pm-wrap pm-hero-in">
       <div class="pm-hero-copy">
@@ -92,7 +92,7 @@
         <p class="pm-fine">מדברים ישירות עם השותפים · מחיר סגור בכתב לפני שמתחילים · <a href="tel:+972545522053" dir="ltr">054-5522053</a></p>
       </div>
     </div>
-    <p class="pm-wrap pm-reel-note">ברקע: קטעים מסרטים שהפקנו</p>
+    <p class="pm-wrap pm-reel-note"><button type="button" class="pm-reel-btn" aria-pressed="false"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><span>עצירת הסרט</span></button>ברקע: קטעים מסרטים שהפקנו</p>
     <div class="pm-wrap pm-clients" aria-label="לקוחות">
       <span class="pm-label">לקוחות</span>
       <ul><li>AMS</li><li>בר ליפשיץ</li><li>רותם גוטובסקי</li><li>ש. גוטובסקי</li><li>אלנביס</li></ul>
@@ -439,8 +439,8 @@
 </svg>
 
 <script src="/js/home.js" defer></script>
-<script src="/js/systems.js" defer></script>
-<script src="/js/premium.js" defer></script>
+<script src="/js/systems.js?v=3" defer></script>
+<script src="/js/premium.js?v=3" defer></script>
 <script src="/js/vendor/lenis.min.js" defer></script>
 <script src="/js/ux.js" defer></script>
 <script src="/js/a11y.js" defer></script>
