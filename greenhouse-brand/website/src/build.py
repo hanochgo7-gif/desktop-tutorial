@@ -467,7 +467,7 @@ def crop_selector(L, where="home"):
         sz = "(max-width: 900px) calc(100vw - 32px), 560px"
         return (f'<picture class="cp" data-crop="{cr["id"]}"><source type="image/avif" srcset="{ss("avif")}" sizes="{sz}"><source type="image/webp" srcset="{ss("webp")}" sizes="{sz}">'
                 f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
-    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}<span class="ill-chip" aria-hidden="true">{esc(t(H["crop_ill"], L))}</span></div>'
+    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}</div>'
            f'<figcaption>{esc(t(H["crop_note"], L))}</figcaption></figure>')
     tabs, panels = [], []
     for i, cr in enumerate(C.CROPS):
@@ -648,7 +648,7 @@ def p_sim(L):
         if i == n - 1:
             cta = (f'<div class="actions"><a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="sim">{esc(t(C.SITE["cta"], L))}</a>'
                    f'<a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="sim">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a></div>')
-        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}<span class="k-ill"> · {esc(t(S["badge"], L))}</span></span>'
+        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}</span>'
                    f'<h2 id="sim-h{i}">{esc(t(h, L))}</h2><p>{esc(t(p, L))}</p>{cta}</div></section>')
     fig, legend = drawing(L, animate=False)
     r = rel(L)
@@ -674,7 +674,6 @@ def p_sim(L):
   <div class="sim-track" id="sim-track">
     <div class="sim-stage" id="sim-stage">
       <div class="sim-ph" role="img" aria-label="{esc(tm(S["aria"], L))}">{photos}</div>
-      <span class="sim-badge">{esc(t(S["badge"], L))}</span>
       <div class="sim-hud" aria-hidden="true"><span class="num" id="sim-step">01 / {n:02d}</span><span class="sim-barw"><span id="sim-bar"></span></span></div>
       <nav class="sim-rail" aria-label="{steps_label}">{rail}</nav>
       <span class="sim-scroll" aria-hidden="true">{esc(t(S["scroll"], L))}</span>
@@ -735,7 +734,7 @@ def p_projects(L):
   <div class="wrap">
     <div class="os-head"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="lead">{esc(t(C.GLOBE["p"], L))}</p></div>
       <p class="more"><a href="{rel(L)}globe/index.html?lang={L}" data-track="globe_open">{esc(t(C.GLOBE["full"], L))}</a></p></div>
-    <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async"><span class="ill-chip">{esc(t(C.SIM["badge"], L))}</span>
+    <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async">
       <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" tabindex="-1" hidden></iframe>
       <button type="button" class="btn btn-primary globe-go" data-loading="{esc(tm(C.GLOBE["loading"], L))}">{esc(t(C.GLOBE["go"], L))}</button></div>
     <div class="proj-table">{projects_table(L)}</div>
@@ -1052,6 +1051,9 @@ def globe_page():
                      # opened without ?lang and without a saved choice: the browser's language (Hebrew browsers get Hebrew)
                      ('d: "פרויקט מורכב", w: "ייצור מקומי וצוותים מקומיים, הסתיים בזמן"', 'd: "פרויקט מורכב לגידול דגים", w: "ייצור מקומי והתקנה בשטח, הסתיים בזמן"'),  # Merav, 5 Nov 2026
                      ('d: "A complex project", w: "Local production and local crews, delivered on schedule"', 'd: "A complex fish-farming project", w: "Local production and installation on site, delivered on schedule"'),
+                     ('flyc: "הדמיית מעבר מהחלל, שמסתיימת בצילום רחפן אמיתי של בית רשת של מיפתח."', 'flyc: "מהחלל אל צילום רחפן אמיתי של בית רשת של מיפתח."'),  # no visible illustration labels (Hanoch, 7 Nov 2026)
+                     ('flyc: "An illustrated descent from orbit, ending on real drone footage of a MIFTAH net house."', 'flyc: "From orbit to real drone footage of a MIFTAH net house."'),
+                     ('ill: "הדמיה", real:', 'ill: "", real:'), ('ill: "Illustration", real:', 'ill: "", real:'),
                      ('var L = "he", sel = "il";', 'var L = /^he\\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";'),
                      ('{ id: "baram", g: "il", lat: 33.063, lon: 35.432, prec: "exact",', '{ id: "ug", g: "il", lat: 33.0, lon: 35.5, prec: "region",'),
                      ('var fly = p.g === "il" && HAS_FLY ?', 'var fly = p.id === "il" && HAS_FLY ?')):
@@ -1060,7 +1062,7 @@ def globe_page():
     js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
            ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט";'
            ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת");'
-           ' var ic = document.getElementById("ill-chip"); if (ic) ic.textContent = en ? "Illustration" : "הדמיה"; }'
+           ' }'
            ' u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n')
     js += ('\n(function () { var box = document.getElementById("flybox"); if (!box) return;'
            ' box.addEventListener("keydown", function (e) { if (e.key !== "Tab") return; var f = [].slice.call(box.querySelectorAll("video[controls], button")).filter(function (x) { return x.offsetParent !== null; });'
@@ -1070,8 +1072,9 @@ def globe_page():
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
     page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית")
+    page = page.replace("#flybadge.real {", "#flybadge:empty { display: none; }\n  #flybadge.real {", 1)
     page = page.replace('<button class="lang" id="lang" type="button" lang="en">English</button>',
-                        '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a><span class="ill-chip" id="ill-chip">הדמיה</span>', 1)
+                        '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a>', 1)
     assert 'id="globe-cta"' in page
     page, n = re.subn(r'(<p class="note" id="note">)מקור:[^<]*', r'\1' + NOTE["he"], page); assert n == 1
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)

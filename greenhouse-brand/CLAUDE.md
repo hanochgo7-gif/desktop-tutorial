@@ -18,7 +18,7 @@
 - Steel: only **galvanized (silver) steel** may appear in images. Never black/rusty/painted steel. Real project photos showing black steel are removed, not retouched.
 - Logo: only the original colors `#0E4239`, `#1B6E62`, `#7FC49B`. On dark backgrounds the original logo sits on a white plate; no recolored reverse version.
 - Avoid repeating the same image (especially the one drone net house) within a page or across the four design examples' openings.
-- AI images are labelled "הדמיה".
+- AI images: until 7 Nov 2026 they carried a visible "הדמיה" label. On 7 Nov 2026 Hanoch asked to remove every visible "הדמיה" label from the site; they are gone. Alt text still describes them as illustrations, and the site must never claim an AI image shows a real MIFTAH project.
 
 ## Media sources
 - Google Drive (folder from liorhoresh85) holds only two drone videos (`DJI_0001.MP4`, `DJI_0024.MP4`). Use only DJI_0024 (aerial). DJI_0001 (walk inside an orchard) shows dark brown poles, so it is excluded.

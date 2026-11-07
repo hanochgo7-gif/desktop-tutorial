@@ -361,8 +361,8 @@ PAGES = {
     },
     "how-we-build": {
         "title": ("How a net house is built, step by step | MIFTAH Projects", "כך בונים בית רשת, שלב אחרי שלב | מיפתח פרויקטים"),
-        "desc": ("Scroll through an illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
-                 "הדמיה בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
+        "desc": ("Scroll and watch a MIFTAH net house go up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
+                 "גללו וראו איך מקימים בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
         "h1": ("How a net house is built", "כך בונים בית רשת"),
         "lead": ("Scroll down and watch one go up: from bare soil, through marking out the site, digging the anchors, pouring concrete for the poles, laying out the cables and raising the poles, and lifting and sewing the net, to a protected orchard.",
                  "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך סימון השטח, חפירת העוגנים, פיזור בטונים לעמודים, פריסת כבלים והעמדת העמודים, והרמת רשת ותפירה, ועד מטע מוגן."),
@@ -625,8 +625,8 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
     "aria": ("Photorealistic illustration, made with AI, of a MIFTAH net house being built, step by step", "הדמיה מציאותית, שנוצרה בבינה מלאכותית, של הקמת בית רשת של מיפתח, שלב אחרי שלב"),
     "scroll": ("Scroll to build", "גללו כדי לבנות"),
     "step": ("Step", "שלב"),
-    "note": ("Illustration made with AI from our 3D model, not a photograph of a real project. Sizes, spacing and height are not a specification: every project is designed for its crop, the grower's needs, the soil and drainage, and the wind on site.",
-             "הדמיה שנוצרה בבינה מלאכותית מהמודל התלת-ממדי שלנו, לא צילום של פרויקט אמיתי. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צורכי המגדל, הקרקע והניקוז ומשטרי הרוחות באתר."),
+    "note": ("Sizes, spacing and height are not a specification: every project is designed for its crop, the grower's needs, the soil and drainage, and the wind on site.",
+             "המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צורכי המגדל, הקרקע והניקוז ומשטרי הרוחות באתר."),  # no visible illustration labels (Hanoch, 7 Nov 2026)
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [
@@ -711,8 +711,7 @@ HOME3 = {
     "crop_cta": ("Discuss a project for this crop", "דברו איתנו על פרויקט לגידול הזה"),
     "crop_ask": ("Ask about your crop", "שאלו על הגידול שלכם"),
     "crop_ill": ("Illustration", "הדמיה"),
-    "crop_note": ("Illustration made with AI, not a photograph of a real project. Spans, heights and net type are set for each project.",
-                  "הדמיה שנוצרה בבינה מלאכותית, לא צילום של פרויקט אמיתי. המפתחים, הגבהים וסוג הרשת נקבעים לכל פרויקט."),
+    "crop_note": ("Spans, heights and net type are set for each project.", "המפתחים, הגבהים וסוג הרשת נקבעים לכל פרויקט."),
     "proof_h": ("Net houses on three continents.", "בתי רשת בשלוש יבשות."),  # 3.2
     "proof_p": ("Abroad, we plan the work, train local crews and manage the build on site.",
                 "בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח."),  # 3.2, 3.3
