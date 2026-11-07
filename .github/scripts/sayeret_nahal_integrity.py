@@ -15,6 +15,7 @@ JGIVE = re.compile(r"^https://www\.jgive\.com/new/(he|en)/(ils|usd)/collect/dona
 EXACT_LINKS = {
     "https://aid-coalition.org/donate/nahal",
     "https://www.guidestar.org.il/organization/580218642",
+    "https://midot.org.il/association/%d7%9e%d7%92%d7%99%d7%a0%d7%99-%d7%94%d7%99%d7%a0%d7%a9%d7%95%d7%a3",
     "https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/",
     "https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/assets/og.jpg",
     "mailto:hezki.m@gmail.com",
