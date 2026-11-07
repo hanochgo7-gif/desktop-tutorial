@@ -81,14 +81,17 @@ export function preloadRoute(pattern, doc = globalThis.document) {
 const scenarioList = () => content.scenarioIndex?.() ?? content.scenarios();
 const writingList = () => content.writingIndex?.() ?? Promise.all([content.writingExercises(), content.assignments()]);
 const center = (kind) => content.center?.(kind);
+// The levels a drill draws from: every level up to one above the course level, or every level without one. The same
+// rule as pool.drillLevels (tests/unit/router.test.mjs compares them), which the router does not import because
+// pool.js is not part of the boot graph.
+export const drillLevelsOf = (level = null) => (level ? LEVELS.slice(0, Math.max(0, levelIndex(level)) + 2) : LEVELS);
 export const DATA = {
   today: () => [content.taxonomy(), scenarioList(), writingList(), model().next?.id && content.lesson(model().next.id)],
   path: () => [content.taxonomy()],
   'path/:level': () => [content.taxonomy()],
   'lesson/:id': ({ id }) => [content.lesson(id), content.taxonomy()],
   'checkpoint/:level': ({ level }) => [content.taxonomy(), content.pool?.(level)],
-  // A drill draws from every level up to one above the course level, or from every level without one (pool.drillLevels).
-  drill: () => [content.taxonomy(), ...(model().courseLevel ? LEVELS.slice(0, Math.max(0, levelIndex(model().courseLevel)) + 2) : LEVELS).map((l) => content.pool?.(l))],
+  drill: () => [content.taxonomy(), ...drillLevelsOf(model().courseLevel).map((l) => content.pool?.(l))],
   practice: () => [content.taxonomy(), scenarioList()],
   vocab: () => [content.taxonomy()],
   games: () => [content.taxonomy(), content.pictures()],
@@ -162,12 +165,14 @@ async function switchRelease() {
   return true;
 }
 // A hidden tab switches too, but only on a screen that holds nothing in progress: a hub (no parameters, no query,
-// not a full-screen activity) with no text typed into it.
-const TYPED = 'textarea, input:not([type]), input[type="text"], input[type="search"], [contenteditable=""], [contenteditable="true"]';
+// not a full-screen activity) with nothing typed into it: no text field of any type (an email or a new password in
+// Settings or the account screen included) holds a value. Only inputs whose value nobody types are left out.
+const UNTYPED = new Set(['checkbox', 'radio', 'range', 'hidden', 'button', 'submit', 'reset', 'image', 'color']);
+const typedIn = (el) => (el.isContentEditable ? Boolean(el.textContent?.trim()) : !UNTYPED.has(String(el.type || '').toLowerCase()) && Boolean(el.value));
 export async function releaseOnHide(doc = globalThis.document) {
   const cur = router.current;
   if (!cur || !releaseDue() || cur.extra.bare || cur.pattern.includes(':') || Object.keys(cur.query || {}).length) return false;
-  if ([...doc.querySelectorAll(TYPED)].some((el) => el.value || (el.isContentEditable && el.textContent.trim()))) return false;
+  if ([...doc.querySelectorAll('input, textarea, [contenteditable]')].some(typedIn)) return false;
   if (!(await switchRelease())) return false;
   await store?.flush();
   // Back in view, or moved on meanwhile: the next change of screen reloads instead.

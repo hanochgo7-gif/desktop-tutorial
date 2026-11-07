@@ -192,6 +192,24 @@ function fakeWorkers({ controller = null, active = null } = {}) {
   return { sw, reg, posted, waitingWorker };
 }
 const hubDoc = (typed = []) => ({ visibilityState: 'hidden', querySelectorAll: () => typed });
+// A hidden page holding these fields, whose querySelectorAll matches the simple selectors a page query uses (a tag,
+// [attr], [attr="v"], :not([attr])), so a field the router's query leaves out is really left out.
+function fieldsDoc(fields) {
+  const one = (el, sel) => {
+    const m = sel.trim().match(/^([a-z]*)((?:\[[^\]]+\]|:not\(\[[^\]]+\]\))*)$/);
+    if (!m) throw new Error(`selector not understood by the fake: ${sel}`);
+    if (m[1] && m[1] !== el.tag) return false;
+    return [...m[2].matchAll(/(:not\()?\[([\w-]+)(?:="([^"]*)")?\]\)?/g)].every(([, not, a, v]) => {
+      const has = a in el.attrs && (v === undefined || el.attrs[a] === v);
+      return not ? !has : has;
+    });
+  };
+  const elements = fields.map(({ tag = 'input', attrs = {}, value = '', text = '' }) => ({
+    tag, attrs, value, textContent: text, tagName: tag.toUpperCase(), type: tag === 'input' ? (attrs.type || 'text') : undefined,
+    isContentEditable: 'contenteditable' in attrs && attrs.contenteditable !== 'false',
+  }));
+  return { visibilityState: 'hidden', querySelectorAll: (sel) => elements.filter((el) => sel.split(',').some((x) => one(el, x))) };
+}
 let reloads = 0;
 globalThis.location.reload = () => { reloads++; };
 
@@ -220,7 +238,19 @@ test('a tab whose release was switched by another tab reloads when hidden on a h
   assert.equal(await R.releaseOnHide(hubDoc()), false, 'an exercise opened in a centre is never reloaded');
   R.router.current = { pattern: 'tutor', extra: { nav: 'practice' }, query: {} };
   assert.equal(await R.releaseOnHide(hubDoc([{ value: 'half a message' }])), false, 'typed text is never lost');
+  R.router.current = { pattern: 'settings', extra: { nav: 'settings' }, query: {} };
+  for (const type of ['email', 'password', 'url', 'tel', 'number', 'text', 'search', null]) {
+    const attrs = type ? { type } : {};
+    assert.equal(await R.releaseOnHide(fieldsDoc([{ attrs, value: 'x' }])), false, `a field of type ${type || "(none)"} with a value is never lost`);
+  }
+  assert.equal(await R.releaseOnHide(fieldsDoc([{ tag: 'textarea', value: 'a draft' }])), false);
+  assert.equal(await R.releaseOnHide(fieldsDoc([{ tag: 'div', attrs: { contenteditable: 'plaintext-only' }, text: ' note ' }])), false);
   assert.equal(reloads, 0);
+  // Inputs whose value nobody types (a ticked box, a chosen option, a slider) and empty fields hold nothing.
+  const untyped = [{ attrs: { type: 'checkbox' }, value: 'on' }, { attrs: { type: 'radio' }, value: 'he' }, { attrs: { type: 'range' }, value: '100' }, { attrs: { type: 'hidden' }, value: 'x' }, { attrs: { type: 'password' }, value: '' }, { tag: 'div', attrs: { contenteditable: 'false' }, text: 'shown' }];
+  assert.equal(await R.releaseOnHide(fieldsDoc(untyped)), true);
+  assert.equal(reloads, 1);
+  reloads = 0;
   R.router.current = { pattern: 'today', extra: { nav: 'today' }, query: {} };
   assert.equal(await R.releaseOnHide(hubDoc()), true);
   assert.equal(reloads, 1);
@@ -265,4 +295,26 @@ test('an update check runs when the tab comes back after more than an hour, not 
   assert.equal(R.checkForRelease(1_000 + 61 * 60_000), true);
   assert.equal(reg.updates, 1);
   assert.equal(R.checkForRelease(1_000 + 62 * 60_000), false, 'the hour counts from the last check');
+});
+
+test('a drill prefetches the pool files the drill reads: pool.drillLevels\'s levels, every level without a course level', async () => {
+  const R = await import('../../js/core/router.js?drill');
+  const { drillLevels } = await import('../../js/core/pool.js');
+  const { LEVELS } = await import('../../js/core/adaptive.js');
+  for (const level of [null, undefined, '', ...LEVELS]) assert.deepEqual(R.drillLevelsOf(level), drillLevels(level || null), String(level));
+  assert.deepEqual(R.drillLevelsOf(null), LEVELS, 'no course level: every level, all 7 pool files');
+  // Through the route, with a learner store: the files of model().courseLevel's levels, once each.
+  const { openStore } = await import('../../js/core/store.js');
+  const { model } = await import('../../js/core/learner.js');
+  const { content } = await import('../../js/core/content.js');
+  globalThis.addEventListener ??= () => {};
+  await openStore({ persistent: () => null });
+  const saved = { pool: content.pool, taxonomy: content.taxonomy };
+  const asked = [];
+  content.pool = (level) => { asked.push(level); return Promise.resolve({ lessons: [], items: [] }); };
+  content.taxonomy = () => Promise.resolve({});
+  try {
+    R.prefetchRoute('drill', {});
+    assert.deepEqual(asked, drillLevels(model().courseLevel));
+  } finally { Object.assign(content, saved); }
 });

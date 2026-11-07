@@ -50,6 +50,7 @@ const cases = [
   () => checkpointSet('A1'), () => checkpointSet('B2', 12), () => checkpointSet('PreA1'),
   () => drillSet({ topic: 'present-simple', level: 'A1' }), () => drillSet({ error: 'article', level: 'B1' }),
   () => drillSet({ topic: 'conditionals-2', level: 'B2', size: 10 }), () => drillSet({ error: 'third-person-s', level: 'PreA1' }),
+  () => drillSet({ topic: 'present-simple', level: null }), () => drillSet({ error: 'article' }), // no course level: every level
 ];
 const old = [];
 
@@ -117,6 +118,7 @@ const oldCases = [
   () => oldCheckpointSet('A1'), () => oldCheckpointSet('B2', 12), () => oldCheckpointSet('PreA1'),
   () => oldDrillSet({ topic: 'present-simple', level: 'A1' }), () => oldDrillSet({ error: 'article', level: 'B1' }),
   () => oldDrillSet({ topic: 'conditionals-2', level: 'B2', size: 10 }), () => oldDrillSet({ error: 'third-person-s', level: 'PreA1' }),
+  () => oldDrillSet({ topic: 'present-simple', level: null }), () => oldDrillSet({ error: 'article' }),
 ];
 
 test('C10: seeded level checks and drills are the same sets as before (the base code over all lessons, and the fallback)', async () => {
