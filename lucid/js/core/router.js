@@ -126,7 +126,7 @@ const whenIdle = (fn) => (globalThis.requestIdleCallback ? requestIdleCallback(f
 // the page, which counts as a switch this tab did not ask for). The page listens from this module's evaluation, not
 // from the registration after the first screen: a release that takes over while the page boots (another tab asked)
 // is seen too, and the page reloads at its first or next change of screen instead of importing that release's views.
-const release = { reg: null, sw: null, stale: false, requested: false, checked: 0, heard: null, known: false };
+const release = { reg: null, sw: null, stale: false, requested: false, checked: 0, heard: null, known: false, unanswered: null };
 const UPDATE_EVERY_MS = 3_600_000;
 function heard() {
   // A worker that already ran this origin (it controls the page, or a reload bypassed it): its replacement is a new
@@ -158,10 +158,19 @@ export function checkForRelease(now = Date.now()) {
 const releaseDue = () => release.stale || Boolean(release.reg?.waiting && release.sw?.controller);
 // Resolves true when this page should reload into the new release: another tab already switched, or the waiting
 // worker took over after this page asked (within 3 s; otherwise the page carries on and switches later).
+// A waiting worker that did not take over within those 3 s cannot yet: the browser activates it only once the active
+// worker has no request in hand, and one that the network never answers (lie-fi, in this tab or another Lucid tab)
+// holds it. It is asked again at later changes of screen without waiting, so the page never stalls on it twice; it
+// takes over by itself once that request ends (it was asked), and the page then reloads at its next change of screen
+// (a switch it did not wait for, as when another tab switches).
 async function switchRelease() {
   if (release.stale) return true;
   const waiting = release.reg?.waiting;
   if (!waiting || !release.sw?.controller) return false;
+  if (release.unanswered === waiting) {
+    try { waiting.postMessage({ type: 'lucid:activate' }); } catch { /* the worker went away */ }
+    return false;
+  }
   release.requested = true;
   const changed = new Promise((resolve) => {
     release.sw.addEventListener('controllerchange', () => resolve(true), { once: true });
@@ -170,7 +179,7 @@ async function switchRelease() {
   try { waiting.postMessage({ type: 'lucid:activate' }); } catch { /* the worker went away */ }
   const ok = await changed;
   release.requested = false;
-  if (!ok) return false;
+  if (!ok) { release.unanswered = waiting; return false; }
   release.stale = true; // switched: this page now runs the old release under the new worker
   return true;
 }

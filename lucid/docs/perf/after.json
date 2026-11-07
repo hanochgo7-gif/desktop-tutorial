@@ -77,6 +77,12 @@
     "note": "Rows marked revision \"verify5\" were re-measured after the fifth skeptic round's fixes (room measured by writing: a probe before the install's first write and a ballast next to best-effort writes; a failed install gives back only its own cache; the one-time upgrade bypasses the HTTP cache; activation empties the caches it deletes and fills in what the install left out; the router listens for a takeover from its evaluation) on the built tree (release e64c1cd42486), mobile, 3 runs each: scenarios u, f and g. Same-window comparisons against the previous head (9db2cd7, release 1a7cae2732c8) and the base (b2b669b), and a second window in the reverse order, are in after.md, \"Fifth skeptic round\".",
     "protocol": "h2",
     "chromium": "153.0.8010.12"
+   },
+   {
+    "date": "2026-11-07T17:30:00.000Z",
+    "note": "Rows marked revision \"verify6\" were re-measured after the sixth skeptic round's fixes (the router waits at most once for a waiting release that cannot take over; activation moves saved lessons; an install with no room left still fetches the files it does not keep, and a miss takes the HTTP cache's copy first; the hand-over page's status line in both languages) on the built tree (release d6e094419e58), mobile, 3 runs each: scenario u, and scenario d for reading and lesson/a1-01. Same-window comparisons against the previous head (26290ea, release e64c1cd42486) and the base (b2b669b) are in after.md, \"Sixth skeptic round\".",
+    "protocol": "h2",
+    "chromium": "153.0.8010.12"
    }
   ]
  },
@@ -6438,42 +6444,42 @@
    "name": "Today -> #/lesson/a1-01 (first session)",
    "runs": [
     {
-     "ms": 137.7999999988824,
+     "ms": 90.20000000298023,
      "longTasks": 1,
-     "longest": 98,
-     "tbt": 48,
+     "longest": 59,
+     "tbt": 9,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     },
     {
-     "ms": 108.19999999925494,
+     "ms": 92.89999999850988,
      "longTasks": 1,
-     "longest": 71,
-     "tbt": 21,
+     "longest": 77,
+     "tbt": 27,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     },
     {
-     "ms": 111.30000000074506,
+     "ms": 90.79999999701977,
      "longTasks": 1,
-     "longest": 89,
-     "tbt": 39,
+     "longest": 62,
+     "tbt": 12,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     }
    ],
    "median": {
-    "ms": 111.3,
+    "ms": 90.8,
     "longTasks": 1,
-    "longest": 89,
-    "tbt": 39,
+    "longest": 62,
+    "tbt": 12,
     "reqs": 0,
     "gzKB": 0
    },
-   "revision": "verify2"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -6481,7 +6487,7 @@
    "name": "#/lesson/a1-01 -> Today (first session)",
    "runs": [
     {
-     "ms": 101.90000000037253,
+     "ms": 49.399999998509884,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -6489,7 +6495,7 @@
      "gzKB": 0
     },
     {
-     "ms": 95.19999999925494,
+     "ms": 77.79999999701977,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -6497,7 +6503,7 @@
      "gzKB": 0
     },
     {
-     "ms": 74.90000000037253,
+     "ms": 62.20000000298023,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -6506,14 +6512,14 @@
     }
    ],
    "median": {
-    "ms": 95.2,
+    "ms": 62.2,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
     "reqs": 0,
     "gzKB": 0
    },
-   "revision": "verify2"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7015,41 +7021,42 @@
    "name": "Today -> #/reading (first session)",
    "runs": [
     {
-     "ms": 911.5999999998603,
+     "ms": 785.2000000029802,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
-     "reqs": 2,
-     "gzKB": 92.3662109375,
+     "reqs": 3,
+     "gzKB": 95.9013671875,
      "linked": true
     },
     {
-     "ms": 889.4000000001397,
+     "ms": 774.6000000014901,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
-     "reqs": 2,
-     "gzKB": 92.3662109375,
+     "reqs": 3,
+     "gzKB": 95.9013671875,
      "linked": true
     },
     {
-     "ms": 890.6999999999534,
+     "ms": 753,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
-     "reqs": 2,
-     "gzKB": 92.3662109375,
+     "reqs": 3,
+     "gzKB": 95.9013671875,
      "linked": true
     }
    ],
    "median": {
-    "ms": 890.7,
+    "ms": 774.6,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
-    "reqs": 2,
-    "gzKB": 92.366
-   }
+    "reqs": 3,
+    "gzKB": 95.901
+   },
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7057,7 +7064,7 @@
    "name": "#/reading -> Today (first session)",
    "runs": [
     {
-     "ms": 65.10000000009313,
+     "ms": 72.70000000298023,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7065,7 +7072,7 @@
      "gzKB": 0
     },
     {
-     "ms": 48.4000000001397,
+     "ms": 74.79999999701977,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7073,7 +7080,7 @@
      "gzKB": 0
     },
     {
-     "ms": 41.5,
+     "ms": 42.5,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7082,13 +7089,14 @@
     }
    ],
    "median": {
-    "ms": 48.4,
+    "ms": 72.7,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
     "reqs": 0,
     "gzKB": 0
-   }
+   },
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7341,42 +7349,42 @@
    "name": "Today -> #/lesson/a1-01 (returning)",
    "runs": [
     {
-     "ms": 113.5,
+     "ms": 87.70000000298023,
      "longTasks": 1,
-     "longest": 80,
-     "tbt": 30,
+     "longest": 73,
+     "tbt": 23,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     },
     {
-     "ms": 107.40000000037253,
+     "ms": 88.5,
      "longTasks": 1,
-     "longest": 79,
-     "tbt": 29,
+     "longest": 58,
+     "tbt": 8,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     },
     {
-     "ms": 121.20000000111759,
+     "ms": 98.29999999701977,
      "longTasks": 1,
-     "longest": 86,
-     "tbt": 36,
+     "longest": 78,
+     "tbt": 28,
      "reqs": 0,
      "gzKB": 0,
      "linked": true
     }
    ],
    "median": {
-    "ms": 113.5,
+    "ms": 88.5,
     "longTasks": 1,
-    "longest": 80,
-    "tbt": 30,
+    "longest": 73,
+    "tbt": 23,
     "reqs": 0,
     "gzKB": 0
    },
-   "revision": "verify2"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7384,7 +7392,7 @@
    "name": "#/lesson/a1-01 -> Today (returning)",
    "runs": [
     {
-     "ms": 87.59999999962747,
+     "ms": 71.89999999850988,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7392,7 +7400,7 @@
      "gzKB": 0
     },
     {
-     "ms": 56.40000000037253,
+     "ms": 53.400000005960464,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7400,7 +7408,7 @@
      "gzKB": 0
     },
     {
-     "ms": 73.79999999888241,
+     "ms": 53.5,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7409,14 +7417,14 @@
     }
    ],
    "median": {
-    "ms": 73.8,
+    "ms": 53.5,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
     "reqs": 0,
     "gzKB": 0
    },
-   "revision": "verify2"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7918,41 +7926,42 @@
    "name": "Today -> #/reading (returning)",
    "runs": [
     {
-     "ms": 125.39999999990687,
+     "ms": 144.39999999850988,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
-     "reqs": 2,
-     "gzKB": 335.458984375,
+     "reqs": 3,
+     "gzKB": 343.443359375,
      "linked": true
     },
     {
-     "ms": 112.10000000009313,
-     "longTasks": 0,
-     "longest": 0,
-     "tbt": 0,
-     "reqs": 2,
-     "gzKB": 335.458984375,
+     "ms": 215.5,
+     "longTasks": 2,
+     "longest": 63,
+     "tbt": 23,
+     "reqs": 3,
+     "gzKB": 343.443359375,
      "linked": true
     },
     {
-     "ms": 107.5999999998603,
+     "ms": 174.5,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
-     "reqs": 2,
-     "gzKB": 335.458984375,
+     "reqs": 3,
+     "gzKB": 343.443359375,
      "linked": true
     }
    ],
    "median": {
-    "ms": 112.1,
+    "ms": 174.5,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
-    "reqs": 2,
-    "gzKB": 335.459
-   }
+    "reqs": 3,
+    "gzKB": 343.443
+   },
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -7960,7 +7969,7 @@
    "name": "#/reading -> Today (returning)",
    "runs": [
     {
-     "ms": 52.699999999953434,
+     "ms": 63.399999998509884,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7968,7 +7977,7 @@
      "gzKB": 0
     },
     {
-     "ms": 44.4000000001397,
+     "ms": 57.400000005960464,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7976,7 +7985,7 @@
      "gzKB": 0
     },
     {
-     "ms": 43.5,
+     "ms": 42.69999999552965,
      "longTasks": 0,
      "longest": 0,
      "tbt": 0,
@@ -7985,13 +7994,14 @@
     }
    ],
    "median": {
-    "ms": 44.4,
+    "ms": 57.4,
     "longTasks": 0,
     "longest": 0,
     "tbt": 0,
     "reqs": 0,
     "gzKB": 0
-   }
+   },
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -13664,8 +13674,8 @@
      "reqs": 1,
      "wireKB": 6.0478515625,
      "allReqs": 5,
-     "allKB": 33.67578125,
-     "doneMs": 1325.800000000745,
+     "allKB": 34.326171875,
+     "doneMs": 1269.6999999955297,
      "lessonsBefore": 4,
      "lessonsAfter": 4
     },
@@ -13673,17 +13683,17 @@
      "reqs": 1,
      "wireKB": 6.0478515625,
      "allReqs": 5,
-     "allKB": 33.67578125,
-     "doneMs": 1641.699999999255,
+     "allKB": 34.326171875,
+     "doneMs": 1317.8000000044703,
      "lessonsBefore": 4,
      "lessonsAfter": 4
     },
     {
      "reqs": 1,
      "wireKB": 6.0478515625,
-     "allReqs": 4,
-     "allKB": 33.67578125,
-     "doneMs": 2606.5,
+     "allReqs": 5,
+     "allKB": 34.326171875,
+     "doneMs": 1303.1999999955297,
      "lessonsBefore": 4,
      "lessonsAfter": 4
     }
@@ -13692,37 +13702,38 @@
     "reqs": 1,
     "wireKB": 6.048,
     "allReqs": 5,
-    "allKB": 33.676,
-    "doneMs": 1641.7,
+    "allKB": 34.326,
+    "doneMs": 1303.2,
     "lessonsBefore": 4,
     "lessonsAfter": 4
    },
-   "revision": "verify5"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
    "scenario": "u",
    "name": "new release: #/today (returning, after the deploy)",
+   "lcpEl": "span",
    "runs": [
     {
-     "view": 461.5,
-     "fcp": 168,
-     "lcp": 488,
-     "tbt": 25,
+     "view": 517.1999999955297,
+     "fcp": 192,
+     "lcp": 540,
+     "tbt": 96,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 25.5224609375,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
+     "netKB": 26.1728515625,
      "netReqs": 3,
-     "longTasks": 1,
-     "longest": 75,
-     "script": 78.426,
-     "layout": 67.613,
-     "style": 48.686,
-     "heapMB": 2.8604087829589844,
-     "dcl": 175.30000000074506,
-     "load": 229.69999999925494,
+     "longTasks": 4,
+     "longest": 83,
+     "script": 128.27700000000002,
+     "layout": 71.395,
+     "style": 60.016,
+     "heapMB": 2.872589111328125,
+     "dcl": 140.69999999552965,
+     "load": 220.89999999850988,
      "swServed": 40,
      "n304": 0,
      "n200": 3,
@@ -13731,86 +13742,85 @@
      "mixed": 0
     },
     {
-     "view": 408.3999999985099,
-     "fcp": 180,
-     "lcp": 428,
-     "tbt": 19,
+     "view": 534.7000000029802,
+     "fcp": 212,
+     "lcp": 564,
+     "tbt": 88,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 25.5224609375,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
+     "netKB": 26.1728515625,
      "netReqs": 3,
-     "longTasks": 3,
-     "longest": 63,
-     "script": 78.581,
-     "layout": 71.593,
-     "style": 37.391,
-     "heapMB": 2.892120361328125,
-     "dcl": 126,
-     "load": 200.89999999850988,
+     "longTasks": 4,
+     "longest": 85,
+     "script": 99.72399999999999,
+     "layout": 74.792,
+     "style": 59.783,
+     "heapMB": 2.8700485229492188,
+     "dcl": 129.10000000149012,
+     "load": 232.60000000149012,
      "swServed": 40,
      "n304": 0,
      "n200": 3,
-     "jsOld": 28,
+     "jsOld": 27,
      "jsNew": 0,
      "mixed": 0
     },
     {
-     "view": 366.19999999925494,
-     "fcp": 140,
-     "lcp": 392,
-     "tbt": 5,
+     "view": 447.29999999701977,
+     "fcp": 168,
+     "lcp": 468,
+     "tbt": 77,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 7.498046875,
-     "netReqs": 1,
-     "longTasks": 1,
-     "longest": 55,
-     "script": 66.621,
-     "layout": 55.641000000000005,
-     "style": 40.353,
-     "heapMB": 2.8719253540039062,
-     "dcl": 101.09999999776483,
-     "load": 170.79999999701977,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
+     "netKB": 26.1728515625,
+     "netReqs": 3,
+     "longTasks": 3,
+     "longest": 85,
+     "script": 112.824,
+     "layout": 89.333,
+     "style": 45.023,
+     "heapMB": 2.8790435791015625,
+     "dcl": 117,
+     "load": 189.09999999403954,
      "swServed": 40,
      "n304": 0,
-     "n200": 1,
-     "jsOld": 28,
+     "n200": 3,
+     "jsOld": 27,
      "jsNew": 0,
      "mixed": 0
     }
    ],
-   "lcpEl": "span",
    "median": {
-    "view": 408.4,
-    "fcp": 168,
-    "lcp": 428,
-    "tbt": 19,
+    "view": 517.2,
+    "fcp": 192,
+    "lcp": 540,
+    "tbt": 88,
     "cls": 0,
     "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
-    "netKB": 25.522,
+    "gzKB": 804.743,
+    "rawKB": 804.743,
+    "netKB": 26.173,
     "netReqs": 3,
-    "longTasks": 1,
-    "longest": 63,
-    "script": 78.426,
-    "layout": 67.613,
-    "style": 40.353,
-    "heapMB": 2.872,
-    "dcl": 126,
-    "load": 200.9,
+    "longTasks": 4,
+    "longest": 85,
+    "script": 112.824,
+    "layout": 74.792,
+    "style": 59.783,
+    "heapMB": 2.873,
+    "dcl": 129.1,
+    "load": 220.9,
     "swServed": 40,
     "n304": 0,
     "n200": 3,
-    "jsOld": 28,
+    "jsOld": 27,
     "jsNew": 0,
     "mixed": 0
    },
-   "revision": "verify5"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
@@ -13818,71 +13828,72 @@
    "name": "new release: Today -> lesson/a1-01 while installing",
    "runs": [
     {
-     "ms": 1327.300048828125,
+     "ms": 1280.5,
      "longTasks": 1,
      "longest": 57,
      "tbt": 7,
      "reqs": 36,
-     "gzKB": 710.3974609375,
+     "gzKB": 710.5078125,
      "linked": true,
      "reloaded": 1
     },
     {
-     "ms": 86.89999999850988,
+     "ms": 1319,
      "longTasks": 1,
-     "longest": 68,
-     "tbt": 18,
-     "reqs": 0,
-     "gzKB": 0,
+     "longest": 95,
+     "tbt": 45,
+     "reqs": 36,
+     "gzKB": 710.5078125,
      "linked": true,
-     "reloaded": 0
+     "reloaded": 1
     },
     {
-     "ms": 85.59999999776483,
+     "ms": 1307.30029296875,
      "longTasks": 1,
-     "longest": 61,
-     "tbt": 11,
-     "reqs": 0,
-     "gzKB": 0,
+     "longest": 77,
+     "tbt": 27,
+     "reqs": 36,
+     "gzKB": 710.5078125,
      "linked": true,
-     "reloaded": 0
+     "reloaded": 1
     }
    ],
    "median": {
-    "ms": 86.9,
+    "ms": 1307.3,
     "longTasks": 1,
-    "longest": 61,
-    "tbt": 11,
-    "reqs": 0,
-    "gzKB": 0,
-    "reloaded": 0
+    "longest": 77,
+    "tbt": 27,
+    "reqs": 36,
+    "gzKB": 710.508,
+    "reloaded": 1
    },
-   "revision": "verify5"
+   "revision": "verify6"
   },
   {
    "profile": "mobile",
    "scenario": "u",
    "name": "new release: #/today, next visit",
+   "lcpEl": "span",
    "runs": [
     {
-     "view": 421.6000000014901,
-     "fcp": 156,
-     "lcp": 440,
-     "tbt": 33,
+     "view": 592.3999999985099,
+     "fcp": 220,
+     "lcp": 608,
+     "tbt": 76,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
      "netKB": 0,
      "netReqs": 2,
-     "longTasks": 2,
-     "longest": 70,
-     "script": 81.61200000000001,
-     "layout": 73.045,
-     "style": 35.39,
-     "heapMB": 2.8672752380371094,
-     "dcl": 112.89999999850988,
-     "load": 193.39999999850988,
+     "longTasks": 4,
+     "longest": 77,
+     "script": 95.064,
+     "layout": 90.36099999999999,
+     "style": 70.53,
+     "heapMB": 2.8736648559570312,
+     "dcl": 226.19999999552965,
+     "load": 288.79999999701977,
      "swServed": 40,
      "n304": 2,
      "n200": 0,
@@ -13891,86 +13902,85 @@
      "mixed": 0
     },
     {
-     "view": 1303.699999999255,
-     "fcp": 1028,
-     "lcp": 1316,
-     "tbt": 21,
+     "view": 489.59999999403954,
+     "fcp": 172,
+     "lcp": 508,
+     "tbt": 83,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
      "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 2,
-     "longest": 71,
-     "script": 66.913,
-     "layout": 48.874,
-     "style": 38.330999999999996,
-     "heapMB": 3.7513275146484375,
-     "dcl": 991.2999999970198,
-     "load": 1077.7999999970198,
+     "netReqs": 2,
+     "longTasks": 4,
+     "longest": 92,
+     "script": 94.191,
+     "layout": 78.527,
+     "style": 49.68,
+     "heapMB": 2.8737831115722656,
+     "dcl": 117.5,
+     "load": 207.5,
      "swServed": 40,
-     "n304": 1,
+     "n304": 2,
      "n200": 0,
      "jsOld": 28,
      "jsNew": 0,
      "mixed": 0
     },
     {
-     "view": 1321.6000000014901,
-     "fcp": 1024,
-     "lcp": 1344,
-     "tbt": 31,
+     "view": 445.79999999701977,
+     "fcp": 168,
+     "lcp": 472,
+     "tbt": 53,
      "cls": 0,
      "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
+     "gzKB": 804.7431640625,
+     "rawKB": 804.7431640625,
      "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 3,
-     "longest": 74,
-     "script": 74.958,
-     "layout": 47.914,
-     "style": 48.554,
-     "heapMB": 3.7690277099609375,
-     "dcl": 976.6000000014901,
-     "load": 1036.1000000014901,
+     "netReqs": 2,
+     "longTasks": 4,
+     "longest": 68,
+     "script": 100.91,
+     "layout": 79.077,
+     "style": 41.499,
+     "heapMB": 2.88311767578125,
+     "dcl": 116.79999999701977,
+     "load": 191.70000000298023,
      "swServed": 40,
-     "n304": 1,
+     "n304": 2,
      "n200": 0,
      "jsOld": 28,
      "jsNew": 0,
      "mixed": 0
     }
    ],
-   "lcpEl": "span",
    "median": {
-    "view": 1303.7,
-    "fcp": 1024,
-    "lcp": 1316,
-    "tbt": 31,
+    "view": 489.6,
+    "fcp": 172,
+    "lcp": 508,
+    "tbt": 76,
     "cls": 0,
     "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
+    "gzKB": 804.743,
+    "rawKB": 804.743,
     "netKB": 0,
-    "netReqs": 1,
-    "longTasks": 2,
-    "longest": 71,
-    "script": 74.958,
-    "layout": 48.874,
-    "style": 38.331,
-    "heapMB": 3.751,
-    "dcl": 976.6,
-    "load": 1036.1,
+    "netReqs": 2,
+    "longTasks": 4,
+    "longest": 77,
+    "script": 95.064,
+    "layout": 79.077,
+    "style": 49.68,
+    "heapMB": 2.874,
+    "dcl": 117.5,
+    "load": 207.5,
     "swServed": 40,
-    "n304": 1,
+    "n304": 2,
     "n200": 0,
     "jsOld": 28,
     "jsNew": 0,
     "mixed": 0
    },
-   "revision": "verify5"
+   "revision": "verify6"
   },
   {
    "profile": "desktop",

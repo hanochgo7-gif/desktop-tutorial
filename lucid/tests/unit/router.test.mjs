@@ -307,6 +307,38 @@ test('a waiting worker that does not take over within 3 s leaves the page as it 
   assert.equal(R.releaseState().stale, false);
 });
 
+// Round-6 review: while the active worker had a request the network never answered, the waiting worker could not take
+// over, and every change of screen waited the full 3 s for it again (3.0 s per tap, the old view already gone).
+test('a waiting worker that did not take over within 3 s is asked again without waiting; once it takes over the page switches at its next change of screen (B6, C-4)', async () => {
+  const R = await import('../../js/core/router.js?unanswered');
+  const { sw, reg, posted, waitingWorker } = fakeWorkers({ controller: {}, active: {} });
+  R.watchRelease(reg, sw, 0);
+  R.router.current = { pattern: 'today', extra: { nav: 'today' }, query: {} };
+  reg.waiting = waitingWorker({ activates: false });
+  reloads = 0;
+  assert.equal(await R.releaseOnHide(hubDoc()), false, 'first ask: waited 3 s');
+  for (let i = 0; i < 3; i++) {
+    const t0 = Date.now();
+    assert.equal(await R.releaseOnHide(hubDoc()), false);
+    assert.ok(Date.now() - t0 < 500, `ask ${i + 2} waited ${Date.now() - t0} ms for a worker that already did not answer`);
+  }
+  assert.equal(posted.length, 4, 'every ask still reaches the waiting worker');
+  assert.equal(reloads, 0);
+  sw.dispatchEvent(new Event('controllerchange')); // the stuck request ended: the asked worker takes over
+  assert.equal(R.releaseState().stale, true);
+  assert.equal(await R.releaseOnHide(hubDoc()), true, 'the page switches at its next chance');
+  assert.equal(reloads, 1);
+  // A later release that waits is asked, and waited for, afresh.
+  const R2 = await import('../../js/core/router.js?unanswered-next');
+  const f2 = fakeWorkers({ controller: {}, active: {} });
+  R2.watchRelease(f2.reg, f2.sw, 0);
+  R2.router.current = { pattern: 'today', extra: { nav: 'today' }, query: {} };
+  f2.reg.waiting = f2.waitingWorker({ activates: false });
+  assert.equal(await R2.releaseOnHide(hubDoc()), false);
+  f2.reg.waiting = f2.waitingWorker({ activates: true });
+  assert.equal(await R2.releaseOnHide(hubDoc()), true, 'a newer waiting worker is waited for again');
+});
+
 test('an update check runs when the tab comes back after more than an hour, not more often (B6)', async () => {
   const R = await import('../../js/core/router.js?update');
   const { sw, reg } = fakeWorkers({ controller: {}, active: {} });

@@ -360,17 +360,31 @@ release, `lucid-<RELEASE>`.
   so the update arrives once there is room (until then the learner stays on the old release, where b2b669b's
   network-first worker would have fetched the new code). Modules and content beyond the shell are written next to a
   "ballast" entry as big as 1.25 times the shell, deleted afterwards, so they always leave the next release room to
-  install; a file missed this way is fetched, checked, and kept on use under the same rule. An install that fails
+  install; a file missed this way is fetched, checked, and kept on use under the same rule. Once an install has no
+  room left, it still fetches and checks the offline list's remaining files without keeping them, so they are in the
+  HTTP cache (as b2b669b's precache left them even when its writes failed), and a miss takes the HTTP cache's copy
+  first when its bytes are the release's: a first use offline, or a screen the next deploy changed while the next
+  release cannot install yet, then still loads. An install that fails
   for any reason (no room, a stale file at the edge, its cache removed, no `release.json`) deletes its own cache,
   entries first: Chromium keeps a deleted cache's space while a `Cache` object for it is alive, but frees each entry
   at once. It never deletes a complete cache of the same release that it found (the registration went away and Cache
   Storage stayed): that install writes nothing and keeps the saved lessons. During the one-time upgrade from the
   hand-numbered caches the install bypasses the HTTP cache (`no-store`), because b2b669b's worker serves code from
-  it and a failed attempt must not hand that page a new `app.js` next to old modules. At activation the old caches
-  are deleted and emptied, so their space returns at once; the old release's own files are dropped first if that
-  is what makes room for the saved lessons; then saved lessons the release changed, and files the install left out,
+  it and a failed attempt must not hand that page a new `app.js` next to old modules. At activation saved lessons
+  are moved (each old entry deleted right after its copy, so each needs room for itself only; the old release's own
+  files are dropped first if even that does not fit), the old caches are deleted and emptied, so their space returns
+  at once, and then saved lessons the release changed or that still did not fit, and files the install left out,
   are fetched again (checked, best effort). Offline, a file the release cache lacks is taken from the HTTP cache when
   its bytes are the release's.
+- **Known limits on a full origin** (sixth skeptic round). (1) With room for only one release (under about 2.25
+  times the shell free at the first install, some 800 KB), the next release cannot install; a screen it changed that
+  the active release never stored loads from the HTTP cache's copy of the active release, and, once the browser has
+  evicted that copy, shows "did not load" online until the origin has room (b2b669b's network-first worker would
+  have loaded the new screen next to old modules). (2) Lessons saved from Settings (stale-while-revalidate) are not
+  written next to the ballast, so on a nearly full origin they can take the next release's room, as they could at
+  b2b669b, whose update needed room for a whole second copy; putting the ballast on them would keep fewer saved
+  lessons than b2b669b did. (3) A first visit whose `release.json` cannot be loaded gets no offline support until
+  its next online visit (below).
 - **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
   20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
 - **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
@@ -379,7 +393,8 @@ release, `lucid-<RELEASE>`.
   asks the waiting one to take over and answers that one navigation with a page of its own that reloads once it has,
   so a release whose page cannot start is replaced at the reload it asks for), or when every Lucid tab has closed,
   so one page never runs modules from two releases; other open tabs follow at their next change of screen. The
-  hand-over page has the app's ground colours and a status line ("מעדכנים את Lucid…"); it costs about 1 s once per
+  hand-over page has the app's ground colours and a status line in Hebrew and English ("מעדכנים את Lucid…",
+  "Updating Lucid…", each part marked with its language; the worker does not know the interface language); it costs about 1 s once per
   deploy (Chromium activates the waiting worker about 1 s after the ask), and when the browser cannot activate it
   (another tab still has a request in the active worker that the network does not answer) only one such page is
   shown: its reload, after about 2 s, gets the app on the old release. A first install, and the one-time upgrade from
@@ -388,7 +403,11 @@ release, `lucid-<RELEASE>`.
   release is installing or waiting (that release's cache is among them; an install whose cache was removed while it
   ran fails and is tried again). The page listens for a takeover from the evaluation of `js/core/router.js`, before
   its first screen and the registration, so a release that takes over while the page boots (another tab asked) makes
-  it reload at its first or next change of screen rather than import that release's screens.
+  it reload at its first or next change of screen rather than import that release's screens. A page waits at most
+  3 s at a change of screen for the takeover it asked for, and only once per waiting release: when it does not come
+  (the browser activates the waiting worker only once the active one has no request in hand, and a request the
+  network never answers holds it), later changes of screen ask again without waiting, and the page reloads at the
+  first change of screen after the takeover lands.
 - **Development.** Because code is cache-first, an edit shows up under the worker only after
   `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
 

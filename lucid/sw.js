@@ -22,11 +22,13 @@
 //   deletes a probe of the shell's size; when that, or a write of the shell, does not fit the origin's quota (shared
 //   with other apps), the install fails having written nothing it keeps, and the active release keeps its cache and
 //   saved lessons. Other files are stored next to a ballast as big as the next release's shell (RESERVE), so they
-//   leave it room to install; the rest is fetched and checked on use. An install that fails, for any reason, gives
-//   its own cache back, entries first so the space returns at once (never a complete cache of this release that it
-//   found: the registration went away, the cache stayed). The one-time upgrade fetches past the HTTP cache, which
-//   the old worker serves code from. When the new release takes over, the old caches are deleted and emptied, which
-//   makes room at once; then changed saved lessons, and files the install left out, are fetched again.
+//   leave it room to install; the rest is fetched and checked by the install without being kept (so the HTTP cache
+//   holds it), and on use, the HTTP cache's copy first. An install that fails, for any reason, gives its own cache
+//   back, entries first so the space returns at once (never a complete cache of this release that it found: the
+//   registration went away, the cache stayed). The one-time upgrade fetches past the HTTP cache, which the old worker
+//   serves code from. When the new release takes over, saved lessons are moved into its cache, and the old caches
+//   are deleted and emptied, which makes room at once; then changed saved lessons, and files the install left out,
+//   are fetched again. Lessons saved from Settings (stale-while-revalidate) are not written next to the ballast.
 // - Activation (perf D3, contract C-4): a new release waits until a page asks for it ({type:'lucid:activate'},
 //   sent between two screens), the app is loaded again (a reload, a new tab: see handover), or every Lucid tab has
 //   closed, so one page never runs modules from two releases. The first install, and the one-time upgrade from the
@@ -36,8 +38,8 @@
 //   is seen too.
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
-const LISTING = 'f4edb68c8b431af4faa75a215fd22110e7c738276657988f5e67cc5b06715367';
-const RELEASE = '9d73d47444f4';
+const LISTING = 'b85100383ef294637c839c8127628e6d84b18ce0f5cdc5f16a0b8d97789e0575';
+const RELEASE = 'b64765738ba5';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json',
@@ -126,6 +128,9 @@ async function fetchBody(p, want, mode = 'no-cache') {
   return buf;
 }
 const fetchVerified = async (p, want) => entry(p, await fetchBody(p, want));
+// The bytes of p in the HTTP cache, whatever their age (or from the network when it holds none), if they match want.
+const httpCopy = (p, want) => fetch(new Request(p, { cache: 'force-cache' })).then((res) => (res.ok ? res.arrayBuffer() : null))
+  .then(async (buf) => (buf && (await digest(buf)) === want ? buf : null)).catch(() => null);
 
 // The bytes of p in an older Lucid cache, if they match want.
 async function oldBody(olds, p, want) {
@@ -195,11 +200,19 @@ async function bodyOf(ctx, p) {
   if (!want) throw new Error(`${p} is not in release ${RELEASE}`);
   return (await oldBody(ctx.olds, p, want)) || fetchBody(p, want, ctx.mode);
 }
-// Puts p (best effort) into the new cache.
+// Puts p (best effort) into the new cache. With no room left (ctx.full) it is still fetched and checked, not kept:
+// the HTTP cache then holds it, so a first use offline, or after the server has moved on to another release, finds
+// this release's bytes there (verifiedMiss), as release 2026-11-03.1's precache left every file in the HTTP cache
+// even when its writes failed. Not on the one-time upgrade, which never uses the HTTP cache.
 async function ensure(ctx, p) {
-  if (ctx.full) return; // no room: fetched and checked on first use
   try {
     if (ctx.reuse && (await inPlace(ctx.cache, p, ctx.hashes[hashKey(p)])) !== null) return;
+    if (ctx.full) {
+      // Nothing is kept, so a copy of another release (an edge on another deploy) fails nothing here.
+      const want = ctx.hashes[hashKey(p)];
+      if (want && ctx.mode !== 'no-store' && !(await oldBody(ctx.olds, p, want))) await fetchBody(p, want, ctx.mode).catch(() => null);
+      return;
+    }
     await store(ctx, p, await bodyOf(ctx, p));
   } catch (err) {
     // Nothing may be stale; any other failure leaves the file out, as a screen whose module is missing is fetched and
@@ -209,21 +222,28 @@ async function ensure(ctx, p) {
 }
 
 // Lessons (and centre and pool files) in older caches whose bytes still match this release move to the new cache.
-// Run on install and again at activation, for lessons saved while this worker waited, or that did not fit at install
-// (activating: the old caches are no longer served, so when storage is full their own files are dropped first to
-// make room for the lessons). Returns the saved lessons that changed in this release: fetched again here when
-// refetch is set (install), by the caller otherwise (activation, once the old caches are gone).
+// Run on install and again at activation, for lessons saved while this worker waited, or that did not fit at install.
+// Activating, the old caches are no longer served and are deleted next: each copy is moved (its old entry deleted at
+// once, which gives its space back), so a lesson needs room for itself only; when even that does not fit, the old
+// caches' own files are dropped first. Returns the saved lessons that changed in this release, or that still did not
+// fit: fetched again here when refetch is set (install), by the caller otherwise (activation, once the old caches are
+// gone).
 async function carryOver(cache, hashes, olds, { refetch = false, activating = false, mode } = {}) {
   if (!hashes) return [];
   const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
   const missed = new Set();
-  let purged = !activating;
-  const put = async (old, rel) => {
+  let purged = false;
+  const put = async (old, req, rel) => {
     for (;;) {
       const res = await fromOld([old], rel, hashes[rel]).catch(() => null);
       if (!res) return false;
-      try { await cache.put(rel, res); return true; } catch (err) {
-        if (!isFull(err) || purged) return true; // best effort
+      try {
+        await cache.put(rel, res);
+        if (activating) await old.delete(req).catch(() => null);
+        return true;
+      } catch (err) {
+        if (!activating) return true; // installing: activation carries it over again
+        if (!isFull(err) || purged) return false; // fetched again once the old caches are emptied
         purged = true;
         await purge(olds);
       }
@@ -234,7 +254,7 @@ async function carryOver(cache, hashes, olds, { refetch = false, activating = fa
       const url = new URL(req.url);
       const rel = url.pathname.slice(SCOPE.length);
       if (url.search || !url.pathname.startsWith(SCOPE) || !isRuntime(rel) || have.has(url.pathname) || !hashes[rel]) continue;
-      if (await put(old, rel)) { have.add(url.pathname); missed.delete(rel); } else if (rel.startsWith('content/lessons/')) missed.add(rel);
+      if (await put(old, req, rel)) { have.add(url.pathname); missed.delete(rel); } else if (rel.startsWith('content/lessons/')) missed.add(rel);
     }
   }
   if (!refetch) return [...missed];
@@ -451,12 +471,15 @@ async function servable(cache, key, rel, cached) {
 // the router shows its "did not load" screen or moves the page to a waiting release. A navigation still gets the
 // page as the network gave it.
 // It is kept only next to the ballast (keep), so room for the next release's shell stays free.
+// The HTTP cache's copy comes first, whatever its age, when its bytes are this release's: after a deploy the server
+// already serves the next release's file, and on a full origin (where the next release cannot install yet) the copy
+// the install fetched without keeping it (ensure) is the only one of this release left.
 async function verifiedMiss(e, cache, rel, key) {
   const want = (await trustedHashes(cache))[hashKey(keyOf(rel))];
   if (!want) return fetch(e.request); // not part of the release, or nothing to check against: passed on, not kept
   try {
     const p = new URL(key).pathname.slice(SCOPE.length) || './';
-    const buf = await fetchBody(p, want);
+    const buf = (await httpCopy(p, want)) || (await fetchBody(p, want));
     e.waitUntil(keep(cache, key, entry(p, buf)));
     return entry(p, buf);
   } catch (err) {
@@ -539,15 +562,17 @@ function handingOver() {
 }
 // The page for that moment: the app's ground and ink for each colour scheme (index.html's boot frame), one status
 // line for screen readers, and one inline script and one style allowed by its own policy (a nonce); never stored.
+// The worker does not know the learner's interface language (it is in the page's database), so the status line is
+// in both, each part marked with its own language and direction, so a screen reader speaks each in its voice.
 const HANDOVER_STYLE = 'html{background:oklch(0.972 0.004 250);color:oklch(0.185 0.010 250);font:1rem/1.5 system-ui,-apple-system,\'Segoe UI\',Arial,sans-serif}'
-  + 'body{margin:0;min-height:100vh;display:grid;place-items:center}p{margin:0;opacity:0.7}'
+  + 'body{margin:0;min-height:100vh;display:grid;place-items:center}p{margin:0;opacity:0.7;text-align:center}p span{display:block}'
   + '@media (prefers-color-scheme:dark){html{background:oklch(0.165 0.010 250);color:oklch(0.95 0.005 250)}}';
 // It gives up after 2 s of wall time (not a count of polls, which a hidden tab's throttled timers would stretch).
 const HANDOVER_SCRIPT = "const t=Date.now();let done=false;const sw=navigator.serviceWorker,go=()=>{if(!done){done=true;location.reload();}};"
   + "sw.addEventListener('controllerchange',go);(function poll(){sw.getRegistration().then((r)=>(!r||!r.waiting||Date.now()-t>2000?go():setTimeout(poll,50)),go);})();";
 function handoverPage() {
   const nonce = hex(crypto.getRandomValues(new Uint8Array(16)));
-  return new Response(`<!doctype html><html lang="he" dir="rtl"><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lucid</title><style nonce="${nonce}">${HANDOVER_STYLE}</style><body><p role="status">מעדכנים את Lucid…</p><script nonce="${nonce}">${HANDOVER_SCRIPT}</script></body></html>`, {
+  return new Response(`<!doctype html><html lang="he" dir="rtl"><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lucid</title><style nonce="${nonce}">${HANDOVER_STYLE}</style><body><p role="status"><span lang="he" dir="rtl">מעדכנים את Lucid…</span><span lang="en" dir="ltr">Updating Lucid…</span></p><script nonce="${nonce}">${HANDOVER_SCRIPT}</script></body></html>`, {
     status: 200,
     headers: { 'content-type': TYPES.html, 'cache-control': 'no-store', 'content-security-policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; base-uri 'none'; form-action 'none'` },
   });

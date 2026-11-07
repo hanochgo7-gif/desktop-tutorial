@@ -501,9 +501,102 @@ outputs `refix5/b5/out/srcfix-*`, `rep2-*`) and on the final build (`e64c1cd4248
   `https://lucid.invalid/` (written and deleted by the worker, never served: the fetch handler ignores other origins
   and its cache lookups use in-scope keys), and the `force-cache` fallback, whose bytes are checked like any other.
 
-**Status.** Re-reviewed by the delivery lane, changed by the integration and five times by the skeptic rounds as
-above. The second to fifth reviewers' conditions are met in code and tests; the S-15 sign-off itself is still the
-lead's to give before the release ships (plan item D2).
+**Sixth skeptic round: S-15 sign-off review of `26290ea` (2026-11-07).** Two reviews: a fresh-eyes review (the
+worker, the router's release watch, app.js and compat.js read before any notes; each state of the worker tested with
+fake-cache unit tests and in Chromium on a GitHub-Pages-like server with the quota set by
+`Storage.overrideQuotaForOrigin`; scratchpad `skeptic6-fresh-eyes/`), and a replay of every earlier reproduction on
+fresh built trees, with the offline and upgrade matrix and perf against b2b669b (scratchpad
+`skeptic6-replay-matrix/`). Every problem was reproduced first with the reviewers' own scripts on `26290ea` (outputs
+in scratchpad `refix6/pre/`, and the reviewers' own outputs), then run on this round's source and on its build
+(release `d6e094419e58`; source `b64765738ba5`; scratchpad `refix6/post/` and `refix6/replay/`, a copy of the replay reviewer's folder pointed
+at this round's trees).
+- **Verdict (fresh eyes): APPROVE WITH CONDITIONS.** No blocker; the legacy upgrade is safe on the source and the
+  built tree. Conditions before shipping: (1) the 3.0 s freeze at every change of screen while a release waits
+  behind a request the network never answers (major); (2) saved lessons dropped silently at about 1.08-1.1 x of
+  quota on deploys after the upgrade (`sw.js:226`). The tight-origin breakage of changed screens online, the ballast
+  not covering saved lessons, and the Hebrew-only hand-over page may ship if documented in architecture §7 and here,
+  with follow-ups.
+- **Verdict (replay): safe to ship, and faster than b2b669b.** Every earlier blocker and major passes on `26290ea`.
+  Conditions: fix T1 (a first visit on a nearly full origin, then offline within max-age: 18 of 31 screens against
+  b2b669b's 26) or document it; correct the heavy-Today headline. No blocker or major.
+- **Condition 1 (the freeze), met.** Reproduced: `c2c-stall.mjs` (one unsaved lesson request never answered, the
+  next release waiting) on `26290ea`: six changes of screen took 3029, 3015, 3034, 3015, 3014 and 3037 ms, none
+  reloaded, the release still waited. The browser cannot activate the waiting worker while the active one has a
+  fetch whose response is pending, and `switchRelease()` waited its full 3 s again at every tap. Fix
+  (`js/core/router.js`): a waiting worker that did not take over within the 3 s is remembered; later changes of
+  screen post `lucid:activate` again without waiting; when the stuck request ends the worker takes over by itself
+  (it was asked), and the page reloads at its next change of screen, as after a switch by another tab. The
+  reviewer's first suggestion (never wait at a change of screen) was not taken: the reload at the asking change of
+  screen is what C-4, perf-boot B6 ("tab A asks for the new release and reloads on Today") and U8 rely on, so a
+  returning learner runs the new release at the first change of screen; without the wait the takeover lands about
+  1 s after the new screen is drawn and the page moves one change of screen later. What remains is one wait of at
+  most 3 s per waiting release and tab, in that state only (b2b669b: none; with every request hanging, b2b669b's 4 s
+  network-first timeout is worse). On this round: `c2c-stall.mjs` on the source: 3028 ms at the first change of screen, then 20, 39, 28, 30 and 38 ms, with the release still waiting behind the request; on the build 3035, then 40, 40, 13, 24 and 37 ms; the reviewer's control `c2b-stall.mjs` (a hanging revalidation) is unchanged (1160 ms once, then the reload into the new release), and b2b669b in the same setup (`c2d-stall-b2b.mjs`) 22-114 ms. Tests: router.test "a waiting worker that did not take
+  over within 3 s is asked again without waiting ..." and upgrade.mjs U18 (a stuck request, the next release
+  waiting, five changes of screen, then the request ends: at most one waits, the release takes over and the next
+  change of screen reloads into it); both fail on `26290ea` (U18: "5 changes of screen waited for the release:
+  3021, 3027, 3017, 3033, 3017 ms").
+- **Condition 2 (saved lessons), met.** Reproduced: the reviewer's harness `t1-lessons-quota.test.mjs` (all 75
+  lessons saved): 67 of 75 kept at 1.08 x, from this release and from b2b669b's cache; Chromium `c1-lessons-quota.mjs`
+  at 1.08 x: 68 of 75. A copy that did not fit even after the purge counted as carried, and the old caches were then
+  deleted. Fix (`carryOver` in `sw.js`): at activation each saved lesson is moved (its old entry deleted right after
+  the copy, which gives that space back at once, so each copy needs room for itself only), and a lesson that still
+  does not fit is returned as missed and fetched again once the old caches are emptied. On this round: the harness
+  keeps 75 of 75 at every factor from 1.0 to 2, from this release and from b2b669b; Chromium `c1-lessons-quota.mjs` keeps 75 of 75 at 1.08, 1.1 and 1.15 x (usage afterwards 5.91 MB of a 6.42 MB quota at 1.08 x; at 1.06 x the update does not install and all 75 stay), and on the build 75 of 75 at 1.08 and 1.1 x (5.07 of 5.51 MB); the legacy upgrade at 1.04-1.15 x keeps 75 of 75 as before. Tests: sw.test
+  "activation moves the saved lessons on a nearly full origin ..." (offline at activation, from this release and
+  from b2b669b; fails without the move) and "a saved lesson activation cannot place is fetched again once the old
+  caches are emptied" (fails when such a copy counts as carried).
+- **T1 (replay), fixed.** Reproduced by the reviewer on `26290ea`'s build (matrix cell at an absolute quota of
+  1484581 B, HTTP cache kept: 18 of 31 screens offline against b2b669b's 26; `edge.mjs` quota 1.5 MB: 26 of 29
+  against 29). Once an install had no room left it never requested the files it left out, so they never reached the
+  HTTP cache. Fix (`ensure`): such an install still fetches and checks the remaining offline files, without keeping
+  them, as b2b669b's precache left every file in the HTTP cache even when its writes failed; not on the one-time
+  upgrade, whose requests bypass the HTTP cache (`no-store`, fifth round). On this round: the matrix cell keeps 26 of 31 screens offline, as b2b669b (every other of the 64 matrix runs gives what it gave on `26290ea`), and `edge.mjs` quota 1.5 MB 29 of 29 (PROBLEMS 0). Test: sw.test "an
+  install with no room left still fetches and checks the offline files it does not keep (not on the one-time
+  upgrade)" (fails without it, and when the `no-store` guard is removed).
+- **Tight origin, changed screens online (fresh eyes P3), mitigated; the rest documented.** Reproduced:
+  `t2-full-origin-deploy.test.mjs` (quota 1.2-1.95 x the shell: the first install keeps its 13 shell entries, the
+  next release cannot install, its changed `progress.js` is refused) and `c3-tight-deploy.mjs` (1.3 and 1.8 x: "did
+  not load" online). Fix: a miss now takes the HTTP cache's copy first (`force-cache`, hashed like any other copy),
+  which, with T1's fetches, still holds the active release's file after the server has moved on. Test: sw.test "on
+  an origin with room for one release, a screen the next release changed still loads after the deploy from the HTTP
+  cache's copy of this release" (fails without either part; it also checks that the next release's copy is still
+  never handed to the page). `t2` itself still fails (its harness does not put fetched files in the HTTP cache), and
+  `c3` too, because it clears the browser's HTTP cache at the deploy: that is the case left, a copy the browser has
+  evicted, documented in architecture §7 ("Known limits on a full origin"). Not done: passing the network copy
+  through, as b2b669b did, would hand the page a module of another release, the hole the second round closed
+  (perf-boot B6's last check, which now clears the HTTP cache first so that only the next release's copy exists
+  anywhere, as it means to test); requiring room for the shell and the ballast before a first install would leave
+  such an origin without any offline support, where b2b669b kept its shell. Follow-up: a release that has proved it
+  cannot have its own file while no newer release can install could serve the next load of the app from the network
+  whole (the page and every request of that page), so a reload recovers.
+- **The ballast and saved lessons (fresh eyes P4), documented, not changed.** Reproduced: `t3-lessons-eat-reserve`
+  (1 MB free after a full install; 30 lessons saved Settings-style leave 4.6 KB; the next install fails with
+  `QuotaExceededError`). Not a regression: b2b669b's update needed room for a whole second copy. Writing those
+  lessons next to the ballast would keep about 11 fewer saved lessons than b2b669b on a nearly full origin (1.25 x
+  the shell is about 450 KB) and write 450 KB per newly saved lesson; the reviewer's other suggestion (a permanent
+  room entry that the next install deletes) is a new cross-cache mechanism. Stated in architecture §7 and in the
+  head comment of `sw.js`; follow-up.
+- **Hand-over page language (fresh eyes P5), fixed.** The worker does not know the interface language (it is in the
+  page's database), so the status line is in both: `<span lang="he" dir="rtl">מעדכנים את Lucid…</span><span
+  lang="en" dir="ltr">Updating Lucid…</span>`, so a screen reader speaks each part in its own voice. The page keeps
+  `lang="he" dir="rtl"` on `<html>`, as `index.html`'s boot frame does for every learner. Test: the sw.test hand-over
+  check now requires both parts with their language and direction (fails on `26290ea`).
+- **Replay minors.** A first visit whose `release.json` cannot be loaded gets no offline support until its next
+  online visit (`firstdrop`, `first503`): unchanged, accepted since the second round, stated in architecture §7. The
+  heavy-Today headline in after.md is now a range across windows (about 30-43 %), with heavy TBT no better than the
+  base app's. The hand-over load (about 0.9 s slower than b2b669b's load after a deploy, once per deploy) is
+  unchanged and re-measured in after.md.
+- **Unchanged.** Bodies only and the worker's headers on every response, hashing on every served response (the
+  HTTP cache's copies included), `release.json` never read from or written to the cache by the fetch handler, no
+  install without `release.json`, 128-bit hashes anchored by `LISTING`, a module of another release never handed to
+  a page, the hand-over page's CSP, `index.html`'s CSP byte-identical to b2b669b's; U1-U17 and every earlier sw.test
+  pass.
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and six times by the skeptic rounds as
+above. The second to sixth reviewers' conditions are met in code and tests (the sixth round's tight-origin and
+ballast items as documented limits with follow-ups); the S-15 sign-off itself is still the lead's to give before the
+release ships (plan item D2).
 
 ## 6. Limits of this review
 

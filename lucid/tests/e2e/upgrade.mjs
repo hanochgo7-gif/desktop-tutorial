@@ -35,6 +35,9 @@
 //   U16 an install that fails half-way (two deploys in quick succession) leaves no cache: the next release installs
 //       at a quota that fits it next to the active release
 //   U17 a release that takes over while a tab boots (another tab asked): that tab never runs two releases' modules
+// and the sixth round (S-15):
+//   U18 while a release waits behind a request the network never answers, a change of screen waits for it at most
+//       once (3 s), not at every tap; once the request ends the release takes over and the page moves to it
 // The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
@@ -903,6 +906,55 @@ try {
       }
     } finally { rmSync(fix, { recursive: true, force: true }); }
     assert(!failed.length, failed.join(' || '));
+  });
+
+  // Round-6 review: the waiting worker cannot take over while the active one has a fetch the network never answers,
+  // and at 26290ea every change of screen waited the full 3 s for it again, the old view already gone.
+  await check('U18. A release waiting behind a request the network never answers costs one 3 s wait at a change of screen, not one per tap; it takes over once the request ends', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    await learner(a);
+    await a.reload();
+    await a.waitForSelector('#view .today', { timeout: 30000 });
+    const fix = nextRelease();
+    let answer = () => {};
+    try {
+      served.stall.set('/lucid/content/lessons/a1-09.json', new Promise((r) => { answer = r; }));
+      a.evaluate(() => { fetch('content/lessons/a1-09.json').catch(() => {}); }).catch(() => {});
+      await sleep(500);
+      served.root = join(fix, 'lucid');
+      assert(await waitingWorker(a), 'the next release did not install');
+      const times = [];
+      for (const [route, sel] of [['path', '.level-tabs'], ['practice', '.page-head'], ['today', '.today'], ['progress', '.page-head + .stack-lg'], ['vocab', '.page-head']]) {
+        const t0 = Date.now();
+        const r = await openScreen(a, route, sel);
+        assert(r === 'ok', `#/${route}: ${r}`);
+        times.push(Date.now() - t0);
+      }
+      const slow = times.filter((ms) => ms > 2000).length;
+      assert(slow <= 1, `${slow} changes of screen waited for the release: ${times.join(', ')} ms`);
+      answer();
+      // (Polled inside the page: waitForFunction takes a promise for a truthy value.)
+      const moved = await a.evaluate(async () => {
+        const r = await navigator.serviceWorker.getRegistration();
+        for (let i = 0; i < 75 && r.waiting; i++) await new Promise((x) => setTimeout(x, 200));
+        return !r.waiting;
+      });
+      assert(moved, 'the release still waits after the request ended');
+      // The takeover reaches the page (controllerchange) a moment after the registration stops waiting.
+      const seen = await a.evaluate(async () => {
+        const { releaseState } = await import('./js/core/router.js');
+        for (let i = 0; i < 50 && !releaseState().stale; i++) await new Promise((x) => setTimeout(x, 200));
+        return releaseState().stale;
+      });
+      assert(seen, 'the page never saw the takeover');
+      const reloaded = a.waitForEvent('load', { timeout: 15000 }).then(() => true, () => false);
+      await a.evaluate(() => { location.hash = '#/path'; });
+      assert(await reloaded, 'the page did not reload into the new release at its next change of screen');
+      await a.waitForSelector('#view .level-tabs', { timeout: 30000 });
+      assert(await a.evaluate(async () => (await (await fetch('js/views/progress.js')).text()).includes('the next release')), 'the page does not run the next release');
+    } finally { answer(); served.stall.clear(); rmSync(fix, { recursive: true, force: true }); }
+    await ctx.close();
   });
 } finally {
   await browser.close();

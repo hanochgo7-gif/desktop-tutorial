@@ -413,6 +413,9 @@ try {
     // worker has not been fetched yet: release 4's worker cannot have its own progress.js, and must not hand the
     // page release 5's.
     await a.evaluate(async () => { const n = (await caches.keys()).find((k) => k.startsWith('lucid-')); await (await caches.open(n)).delete('js/views/progress.js'); });
+    // Nor is release 4's copy in the HTTP cache (the install's request left one there, which the worker would serve,
+    // hashed, as its own: sw.test "on an origin with room for one release ..."): only release 5's exists anywhere.
+    await (await ctx.newCDPSession(a)).send('Network.clearBrowserCache');
     writeRelease(copy, 'r5');
     await a.evaluate(() => { location.hash = '#/progress'; });
     await a.waitForSelector('#view .empty', { timeout: 30_000 });

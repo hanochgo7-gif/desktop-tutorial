@@ -56,7 +56,10 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
   modules from two releases.
   - Upgrading from the worker live in production (RELEASE `2026-11-03.1`) loses none of a heavy learner's 7247
     records, keeps all 5 saved lessons, gives the same Today plan, and works offline.
-- **The heavy-history learner's warm Today is 43 % faster than the base app in the same window** (666 vs 1178 ms).
+- **The heavy-history learner's warm Today is about 30-43 % faster than the base app in the same window**, depending
+  on the window: 666 vs 1178 ms in the headline window, 855 vs 1212 ms (medians of 3 alternated runs; -29 %, -32 %
+  over 6) in the sixth skeptic round's replay. Its TBT is no better than the base app's outside the headline window
+  (308 vs 299 ms there).
 - **Desktop CLS is 0 everywhere** (baseline 0.19-0.50).
 - **Minify gate (D7): passed.** Built vs source, alternating 3+3: cold welcome −303 ms, cold Today −265 ms (both need
   ≥ 200). Production keeps the build step that pages.yml already runs.
@@ -927,3 +930,86 @@ All green on the source tree, and on the built tree (release `e64c1cd42486`) whe
 - upgrade.mjs 21/21 (source and built: U1-U12 and the new U13 x 3, U14, U15, U16, U17);
 - build, then verify: ok (63 modules, maps, hashes, paths, CSP), against the source. `index.html` is unchanged,
   and its CSP meta is byte-identical to b2b669b's.
+
+## Sixth skeptic round (2026-11-07)
+
+Two reviews of `26290ea`: a fresh-eyes review of the worker and the router's release watch (approve with two
+conditions: the 3 s freeze at every change of screen while a release waits behind a stuck request, and saved lessons
+dropped at 1.08-1.1 x of quota), and a replay of every earlier reproduction on fresh built trees with the offline and
+upgrade matrix and perf (safe to ship; fix or document T1, correct the heavy-Today headline). Verdicts, conditions and
+how each was met are in docs/qa/security-review.md 5a, "Sixth skeptic round". Each problem was reproduced first with
+the reviewers' scripts on `26290ea` (scratchpad `refix6/pre/`), then run on this round's source and on its build
+(release `d6e094419e58`; source `b64765738ba5`; scratchpad `refix6/post/`, and `refix6/replay/`, a copy of the replay reviewer's folder pointed at
+this round's trees).
+
+### What changed
+
+- **Router (`js/core/router.js`, contract C-4).** A waiting worker that does not take over within the 3 s a change of
+  screen waits for it is not waited for again: later changes of screen post the ask without waiting, and the page
+  reloads at the first change of screen after it takes over (once the request that held the active worker ends).
+- **Worker (`sw.js`).**
+  - Activation moves saved lessons (each old entry deleted right after its copy), and a lesson that still does not
+    fit is fetched again once the old caches are emptied, instead of counting as carried.
+  - An install with no room left still fetches and checks the offline files it does not keep, so the HTTP cache
+    holds them (not on the one-time upgrade), and a miss takes the HTTP cache's copy first when its bytes are the
+    release's.
+  - The hand-over page's status line is in Hebrew and English, each part with its own `lang` and `dir`.
+- **Docs.** plan.json C-4 and B6, architecture §7 ("Full storage", "Known limits on a full origin", "Updates"), the
+  head comment of `sw.js`, 5a, and the heavy-Today headline above (a range across windows).
+- **Tests.** router.test (one case), sw.test (four cases and the hand-over check), upgrade.mjs U18; each fails on
+  `26290ea` or on a mutation that removes its part of the fix. perf-boot's last B6 check clears the HTTP cache before
+  the deploy, so its scenario (only the next release's copy of the screen exists anywhere) is still what it tests.
+
+### The reviewers' scripts on this round
+
+| script | `26290ea` | this round |
+|---|---|---|
+| `c2c-stall.mjs` (one request never answered, the next release waiting; six changes of screen) | 3029, 3015, 3034, 3015, 3014, 3037 ms; built 3013-3046 | source 3028, then 20, 39, 28, 30, 38 ms; built 3035, then 13-40 ms (the release takes over once the request ends: U18) |
+| `c2b-stall.mjs` (a hanging revalidation) / `c2d-stall-b2b.mjs` (b2b669b) | 1.17 s once, then reload / 23-55 ms | 1160 ms once, then reload / 22-114 ms |
+| `t1-lessons-quota.test.mjs` (75 saved lessons, 1.0-2 x, this release and b2b669b's cache) | 67 of 75 at 1.08 x, 72 (71) at 1.1 x | 75 of 75 at every factor |
+| `c1-lessons-quota.mjs` (Chromium) 1.06 / 1.08 / 1.1 / 1.15 x; built 1.08 / 1.1 x; legacy 1.04-1.15 x | no install / 68 / 73 / 75; built 70 at 1.08 x; legacy 75 | no install, 75 / 75 / 75 / 75 (5.91 of 6.42 MB used afterwards); built 75 / 75; legacy 75 |
+| replay matrix, first visit at 1484581 B, HTTP cache kept (T1) | 18 of 31 screens offline (b2b669b 26) | 26 of 31; the other 63 matrix runs as on `26290ea` |
+| `edge.mjs` quota 1.5 MB / 3 MB (same tab, offline) | 26 of 29, PROBLEMS 3 / 29 of 29 | 29 of 29, PROBLEMS 0 / 29 of 29 (walk times equal in a quiet window: 1003 vs 969 ms, 1083 vs 1057 ms) |
+| `t2-full-origin-deploy.test.mjs` (harness, 1.2-1.95 x shell) | progress.js refused, next release cannot install | unchanged: its harness never puts a fetched file in the HTTP cache; sw.test models the browser, and the screen loads from the HTTP cache's copy |
+| `c3-tight-deploy.mjs` (first visit at 1.3 / 1.8 x shell + 120 KB, HTTP cache cleared at the deploy) | "did not load" online | unchanged ("did not load"): the case left once the browser has no copy (architecture §7, follow-up). At 2.5 and 3 x shell this round loaded in 6 of 7 and 7 of 8 runs, `26290ea` in 6 of 6 and 7 of 7: the two that did not ran first, under the replay's load; in one the origin lacked 135 B of the next release's shell (`sw.js` is 2.3 KB larger), in the other it had kept 45 entries instead of 39-41, and writes outside the ballast (the database, a lesson) then took the rest. Neither came back in 13 later runs, 6 of them under load |
+| `t3-lessons-eat-reserve.test.mjs` (saved lessons take the ballast's room) | next install fails | unchanged, documented (not a regression; ballasting those writes would keep fewer saved lessons than b2b669b) |
+| hand-over page, accessibility tree (`s4/a11y2.mjs`) | status "מעדכנים את Lucid…" | status with "מעדכנים את Lucid…" and "Updating Lucid…", each in its own language |
+| the replay reviewer's 160 jobs (`q-s4x`, `q-2`, `q-4`, `q-5`, `q-6`, `q-7`, the matrix `q-3`) and `b5/run6.sh` | (their outputs) | the same result in every job except T1 above; `r2/lifetime.mjs` exits 1 on both (it reads an entry the worker deleted; the reviewer's tolerant `lifetime2.mjs`: clean); `firstdrop` and `first503` as before (a first visit without `release.json` gets no offline support, accepted since the second round) |
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+The fixes touch the release switch at a change of screen, the activation (moving saved lessons) and misses (the
+HTTP cache's copy first), so the rows re-measured are the release update (u), the first-session and returning
+transitions (d) and the hand-over load; the heavy-history warm Today is re-measured for the corrected headline.
+Built tree of this round (`d6e094419e58`) against the built previous head (`26290ea`, release `e64c1cd42486`) and
+b2b669b, alternated, one at a time with nothing else running. Raw JSON and logs: scratchpad `refix6/replay/perf/`
+(`perf6*.log`).
+
+| row | this round | previous head | base | note |
+|---|---:|---:|---:|---|
+| release update: downloads / saved lessons | 1 req, 6 KB / 4 of 4 | 1 req, 6 KB / 4 of 4 | 84 reqs, 884 KB / 0 | 0 mixed-release pages in all three; all requests 5 / 34.3 KB against 5 / 33.7 KB (the larger `sw.js`) |
+| returning #/today right after the deploy | 517 [517, 535, 447] | 585 [521, 585, 629] | 2503 | |
+| Today -> lesson while installing | 1307 [1281, 1319, 1307] | 1406 [1406, 1442, 1350] | 2483 | in this window the new worker already waits at the click in every run, so all of them reload into it there (fifth round: one in three) |
+| next #/today | 490 [592, 490, 446] | 447 [447, 394, 509] | 1249 | no hand-over left for this load in this window (the switch happened at the click above) |
+| Today -> #/reading, first session / returning | 775 / 175 | 767 / 154 | 6335 / 651 | |
+| Today -> #/lesson/a1-01, first session / returning | 91 / 89 | 82 / 105 | 655 / 104 | |
+| heavy warm #/today: view / TBT | 790 / 206 (13 runs) | 716 / 179 (13 runs) | 1266 / 273 (6 runs) | an identical copy of the previous head in another directory, run alongside in the last four rounds, gave 858 (815, 929, 858, 673) against 806 for the previous head and 828 for this round in those rounds: the difference is the run-to-run spread. 38 % faster than the base in this window (the previous head 43 %) |
+| hand-over load, light: plain reload / with a release waiting / b2b669b after a deploy | 287 / 1339 / 491 | | | `cost.mjs` (sixth-round replay: 385 / 1376 / 524) |
+| the same, dark | 310 / 1355 / 474 | | | (347 / 1416 / 560) |
+
+Nothing a fix touches moved beyond the run-to-run spread. The hand-over still costs about 1 s against a plain reload
+and about 0.85 s against b2b669b's load after a deploy, once per deploy, as the fourth and fifth rounds state.
+
+### Suites on this round
+
+All green on the source tree (release `b64765738ba5`), and on the built tree (release `d6e094419e58`) where marked:
+
+- `npm test` 402/402 with `CI=true` (0 skipped); validate-content (0 errors, 1 warning as before);
+  build-content-index --check; build-route-deps --check;
+- run.mjs 57/57 (source and built) and a11y (0 violations);
+- every lane suite: shell-components, lesson-flow, exercises, bilingual-text, lesson-content, first-run-today,
+  practice-hubs, games, real-life-writing, r4-lesson-flow, r4-exercises, r4-today-path, r4-practice-games,
+  r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime;
+- upgrade.mjs 22/22 (source and built: U1-U17 and the new U18);
+- build, then verify: ok (63 modules, maps, hashes, paths, CSP) apart from the `node_modules` link made for the
+  copy; `index.html` is unchanged, and its CSP meta is byte-identical to b2b669b's.
