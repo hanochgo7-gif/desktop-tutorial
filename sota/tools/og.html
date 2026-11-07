@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Template for the Open Graph images. Serve the sota folder locally and screenshot tools/og.html?lang=he|en at 1200x630 into assets/og-he.png / og-en.png. -->
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+body{margin:0;width:1200px;height:630px;background:#131517;color:#ECEAE4;overflow:hidden;position:relative;font-family:"IBM Plex Sans Hebrew","IBM Plex Sans",sans-serif}
+svg.bg{position:absolute;inset:0}
+.wrap{position:absolute;inset:0;padding:72px 80px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{width:220px}
+h1{margin:0;font-family:Karantina,Archivo,sans-serif;font-stretch:62%;font-weight:700;font-size:118px;line-height:.9;max-width:900px}
+html[lang=en] h1{font-family:Archivo;font-weight:780;font-size:96px;line-height:.95}
+.foot{display:flex;justify-content:space-between;align-items:center;font-size:26px;color:#ABB1B7}
+.chip{display:flex;align-items:center;gap:14px;font-family:Archivo;font-weight:600;letter-spacing:.14em;font-size:18px;color:#ECEAE4;direction:ltr}
+.chip b{font-stretch:62%;font-weight:800;font-size:44px;color:#C5F03C;letter-spacing:0}
+</style></head><body>
+<svg class="bg" viewBox="0 0 1200 630"><g fill="none" stroke="#33383E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M0 520H260L340 440H700L780 520H1200"/><path d="M-10 590H420L500 510"/><path d="M1200 140H1020L940 220V330L860 410"/><path d="M820 0V60L900 140H1200"/></g>
+<path d="M0 520H260L340 440H700" fill="none" stroke="#C5F03C" stroke-width="3"/>
+<g fill="#131517" stroke="#ECEAE4" stroke-width="3"><circle cx="340" cy="440" r="9"/><circle cx="520" cy="440" r="9"/><circle cx="940" cy="220" r="9"/></g>
+<circle cx="700" cy="440" r="11" fill="#C5F03C"/></svg>
+<div class="wrap"><img class="logo" src="../assets/logo-dark.svg"><h1 id="t"></h1><div class="foot"><span id="s"></span><span class="chip"><b>25</b>YEARS OF EXPERIENCE</span></div></div>
+<script>const q=new URLSearchParams(location.search);document.documentElement.lang=q.get('lang');document.documentElement.dir=q.get('lang')==='he'?'rtl':'ltr';
+document.getElementById('t').textContent=q.get('lang')==='he'?'העסק שלך צריך IT שחושב קדימה.':'Your business needs IT that thinks ahead.';
+document.getElementById('s').textContent=q.get('lang')==='he'?'ייעוץ IT לעסקים · ייעוץ ראשוני ללא עלות':'IT consulting for businesses · Free first consultation';</script>
+</body></html>

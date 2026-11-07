@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://example.com/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/service/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/service/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/service/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/service/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/service/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/service/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/service/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/service/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://example.com/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/privacy/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/privacy/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://example.com/accessibility/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/accessibility/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/accessibility/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://example.com/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/accessibility/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

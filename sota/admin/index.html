@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ניהול | SOTA</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#131517">
+<link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="stylesheet" href="../css/sota.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body data-page="admin">
+<a class="skip" href="#app">דילוג לתוכן</a>
+
+<main class="login" data-view="login" hidden>
+  <form class="login-card form" data-login novalidate>
+    <img src="../assets/logo-dark.svg" alt="SOTA" width="140" height="41">
+    <h1 class="h-m">כניסה לצוות</h1>
+    <div class="field"><label for="lg-email">אימייל</label><input id="lg-email" name="email" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="lg-pass">סיסמה</label><input id="lg-pass" name="password" type="password" autocomplete="current-password" required></div>
+    <p class="form-status is-error" role="alert" data-login-error></p>
+    <button class="btn" type="submit"><span class="dot" aria-hidden="true"></span><span data-label>כניסה</span></button>
+  </form>
+</main>
+
+<div class="console" data-view="app" hidden>
+  <aside class="side">
+    <img class="side-logo" src="../assets/logo-dark.svg" alt="SOTA" width="110" height="32">
+    <nav class="side-nav" aria-label="ניהול">
+      <a href="#overview" data-tab="overview">סקירה</a>
+      <a href="#tickets" data-tab="tickets">קריאות שירות <span class="pill" data-count="tickets" hidden></span></a>
+      <a href="#leads" data-tab="leads">פניות חדשות <span class="pill" data-count="leads" hidden></span></a>
+      <a href="#testimonials" data-tab="testimonials">המלצות</a>
+      <a href="#settings" data-tab="settings">פרטי קשר</a>
+      <a href="#team" data-tab="team" data-admin-only>צוות</a>
+      <a href="#account" data-tab="account">החשבון שלי</a>
+    </nav>
+    <div class="side-foot"><span data-me></span><button class="link-btn" type="button" data-logout>יציאה</button></div>
+  </aside>
+  <main id="app" class="main" tabindex="-1">
+    <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
+    <section data-panel="overview"></section>
+    <section data-panel="tickets" hidden></section>
+    <section data-panel="ticket" hidden></section>
+    <section data-panel="leads" hidden></section>
+    <section data-panel="testimonials" hidden></section>
+    <section data-panel="settings" hidden></section>
+    <section data-panel="team" hidden></section>
+    <section data-panel="account" hidden></section>
+  </main>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

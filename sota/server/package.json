@@ -1,0 +1,17 @@
+{
+  "name": "sota-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:site": "node ../tools/build.mjs",
+    "dev": "npm run build:site && wrangler dev",
+    "db:init:local": "wrangler d1 execute sota --local --file=schema.sql",
+    "db:init": "wrangler d1 execute sota --remote --file=schema.sql",
+    "user:add": "node scripts/add-user.mjs",
+    "test": "node --test test/*.test.mjs",
+    "deploy": "npm run build:site && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
