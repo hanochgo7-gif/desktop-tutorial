@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-P0DFVrK76upPaJwndS0zPrY16VZCUSGxv3L8zEDa2tk='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-GhKWgdFVcVOVmrItkHF7wRnTE5SZc8Iiz3ZmXA7ESYM='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <script>(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sayeret Nahal Alumni</title>
@@ -335,12 +335,31 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* uniform split */
 /* ---- story scroll scene: one team as 18 abstract dots. formation -> scattered -> circle ---- */
 .scene{position:relative;background:var(--night);color:var(--on-dark);--t1:1;--t2:1;--o1:1;--o2:1;--o3:1}
-.scene .stage{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(16px,4vw,64px);padding:clamp(56px,8vw,104px) max(16px,calc((100vw - 1160px)/2))}
+.scene .stage{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr;align-items:center;gap:clamp(16px,4vw,48px);padding:clamp(56px,8vw,104px) max(16px,calc((100vw - 1160px)/2))}
 .scene .sky,.scene .sky i{position:absolute;inset:0}
 .scene .sky i{display:block}
-.scene .sky .cold{background:linear-gradient(180deg,#232a24,#2b3230 60%,#1d2420);opacity:calc(var(--t1) * (1 - var(--t2)))}
-.scene .sky .warm{background:radial-gradient(closest-side at 50% 50%,rgba(233,170,90,.34),rgba(233,170,90,.10) 55%,transparent),var(--night);opacity:var(--t2)}
-.scene .dots{position:relative;z-index:1;width:min(100%,460px);aspect-ratio:1;justify-self:center;container-type:size}
+/* three watercolor paintings (illustrations, no people) cross-fade under the dots: packs in rows -> one pack alone -> packs around a fire */
+.scene .sky .pa{position:absolute;inset:0;background:var(--night) center 60%/cover no-repeat;transform:scale(calc(1.05 - .05 * var(--p,1)));will-change:opacity,transform}
+.scene .sky .p2{opacity:var(--t1)}
+.scene .sky .p3{opacity:var(--t2)}
+.scene .sky::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(14,20,9,.95) 0%,rgba(14,20,9,.8) 28%,rgba(14,20,9,.12) 58%,rgba(14,20,9,.2) 80%,rgba(14,20,9,.5) 100%)}
+@media (min-width:761px){
+  .scene .sky::after{background:linear-gradient(to top,rgba(14,20,9,.92) 0%,rgba(14,20,9,.6) 24%,rgba(14,20,9,.08) 50%,rgba(14,20,9,.15) 78%,rgba(14,20,9,.5) 100%)}
+  .scene .beats{max-width:680px}
+}
+.scene.near .p1{background-image:url(assets/scene1-w.webp)}
+.scene.near .p2{background-image:url(assets/scene2-w.webp)}
+.scene.near .p3,.scene:not(.live) .p3{background-image:url(assets/scene3-w.webp)}
+@media (max-aspect-ratio:4/5){
+  .scene.near .p1{background-image:url(assets/scene1-t.webp)}
+  .scene.near .p2{background-image:url(assets/scene2-t.webp)}
+  .scene.near .p3,.scene:not(.live) .p3{background-image:url(assets/scene3-t.webp)}
+}
+.scene .illus{top:12px;z-index:2}
+.scene.live .illus{top:calc(var(--hdr,70px) + 12px)}
+.scene:not(.live) .p1,.scene:not(.live) .p2{display:none}
+.scene:not(.live) .sky::after{background:rgba(14,20,9,.78)}
+.scene .dots{position:relative;z-index:1;width:min(46vw,30svh,300px);aspect-ratio:1;justify-self:center;container-type:size}
 .scene .dots::after{content:"";position:absolute;left:50%;top:50%;width:62cqw;height:62cqw;margin:-31cqw;border-radius:50%;border:1px dashed rgba(233,220,164,.35);opacity:var(--t2);transform:scale(calc(.85 + .15 * var(--t2)))}
 .scene .dots i{position:absolute;left:50%;top:50%;width:3.4cqw;height:3.4cqw;min-width:10px;min-height:10px;margin:-1.7cqw;border-radius:50%;background:var(--gold-on-dark);
   --x:calc(var(--x0) + (var(--x1) - var(--x0)) * var(--t1) + (var(--x2) - var(--x1)) * var(--t2));
@@ -362,15 +381,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .scene:not(.live) .beat{grid-area:auto}
 /* live: pinned stage, scroll drives --t1/--t2 and the beat opacities */
 .scene.live{height:250vh}
-.scene.live .stage{position:sticky;top:0;height:100vh;height:100svh;padding-block:calc(var(--hdr,70px) + 16px) 24px}
+.scene.live .stage{position:sticky;top:0;height:100vh;height:100svh;padding-block:calc(var(--hdr,70px) + 16px) 40px;grid-template-rows:auto minmax(0,1fr);align-items:stretch}
+.scene.live .dots{align-self:start}
+.scene.live .beats{align-self:end}
 .scene.live .beat{pointer-events:none}
 .scene.live .scene-hint{display:block;position:absolute;z-index:1;bottom:22px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:.06em;color:var(--on-dark-muted);opacity:calc(1 - var(--t1))}
 .scene.live .scene-hint span{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{50%{transform:translateY(5px)}}
 @media (max-width:760px){
-  .scene .stage{grid-template-columns:1fr;align-content:center}
-  .scene.live .stage{grid-template-rows:minmax(0,1fr) auto;align-content:stretch;gap:8px;padding-bottom:96px}
-  .scene .dots{width:min(78vw,40svh,340px);align-self:center}
+  .scene.live .stage{gap:8px;padding-bottom:96px}
+  .scene .dots{width:min(54vw,27svh,240px)}
   .scene .beat h2{font-size:clamp(32px,9vw,44px)}
   .scene .beat p:not(.label){font-size:16px}
   .scene.live .scene-hint{bottom:84px}
@@ -670,7 +690,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 
 <section class="scene" id="story-he" data-sec="story" aria-label="הסיפור שלנו">
   <div class="stage">
-    <div class="sky" aria-hidden="true"><i class="cold"></i><i class="warm"></i></div>
+    <div class="sky" aria-hidden="true"><i class="pa p1"></i><i class="pa p2"></i><i class="pa p3"></i></div>
+    <span class="illus">איור</span>
     <div class="dots" aria-hidden="true"><i style="--x0:-22.5;--y0:-10.0;--x1:-13.1;--y1:22.2;--x2:0.0;--y2:-30.0;--d:0.65"></i><i style="--x0:-13.5;--y0:-10.0;--x1:33.5;--y1:13.9;--x2:10.3;--y2:-28.2;--d:0.37"></i><i style="--x0:-4.5;--y0:-10.0;--x1:34.2;--y1:11.1;--x2:19.3;--y2:-23.0;--d:0.04"></i><i style="--x0:4.5;--y0:-10.0;--x1:-25.1;--y1:9.5;--x2:26.0;--y2:-15.0;--d:0.09"></i><i style="--x0:13.5;--y0:-10.0;--x1:-38.6;--y1:16.8;--x2:29.5;--y2:-5.2;--d:0.12"></i><i style="--x0:22.5;--y0:-10.0;--x1:6.6;--y1:32.8;--x2:29.5;--y2:5.2;--d:0.95"></i><i style="--x0:-22.5;--y0:0.0;--x1:-30.4;--y1:-13.6;--x2:26.0;--y2:15.0;--d:0.98"></i><i style="--x0:-13.5;--y0:0.0;--x1:42.2;--y1:10.8;--x2:19.3;--y2:23.0;--d:0.29"></i><i style="--x0:-4.5;--y0:0.0;--x1:17.6;--y1:19.1;--x2:10.3;--y2:28.2;--d:0.31"></i><i style="--x0:4.5;--y0:0.0;--x1:12.0;--y1:-23.2;--x2:0.0;--y2:30.0;--d:0.58"></i><i style="--x0:13.5;--y0:0.0;--x1:-21.7;--y1:-22.0;--x2:-10.3;--y2:28.2;--d:0.55"></i><i style="--x0:22.5;--y0:0.0;--x1:25.2;--y1:8.9;--x2:-19.3;--y2:23.0;--d:0.21"></i><i style="--x0:-22.5;--y0:10.0;--x1:-14.8;--y1:-26.9;--x2:-26.0;--y2:15.0;--d:0.31"></i><i style="--x0:-13.5;--y0:10.0;--x1:-30.5;--y1:-15.5;--x2:-29.5;--y2:5.2;--d:0.30"></i><i style="--x0:-4.5;--y0:10.0;--x1:11.2;--y1:-33.2;--x2:-29.5;--y2:-5.2;--d:0.24"></i><i style="--x0:4.5;--y0:10.0;--x1:-33.1;--y1:-14.2;--x2:-26.0;--y2:-15.0;--d:0.88"></i><i style="--x0:13.5;--y0:10.0;--x1:-4.1;--y1:-27.0;--x2:-19.3;--y2:-23.0;--d:0.98"></i><i style="--x0:22.5;--y0:10.0;--x1:25.6;--y1:20.0;--x2:-10.3;--y2:-28.2;--d:0.76"></i></div>
     <div class="beats">
       <div class="beat b1"><p class="label">במדים</p><h2>בלתי שבירים.</h2><p>בשירות לומדים לשאת את המשא, ולא לבקש עזרה.</p></div>
@@ -902,7 +923,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 
 <section class="scene" id="story-en" data-sec="story" aria-label="Our story">
   <div class="stage">
-    <div class="sky" aria-hidden="true"><i class="cold"></i><i class="warm"></i></div>
+    <div class="sky" aria-hidden="true"><i class="pa p1"></i><i class="pa p2"></i><i class="pa p3"></i></div>
+    <span class="illus">Illustration</span>
     <div class="dots" aria-hidden="true"><i style="--x0:-22.5;--y0:-10.0;--x1:-13.1;--y1:22.2;--x2:0.0;--y2:-30.0;--d:0.65"></i><i style="--x0:-13.5;--y0:-10.0;--x1:33.5;--y1:13.9;--x2:10.3;--y2:-28.2;--d:0.37"></i><i style="--x0:-4.5;--y0:-10.0;--x1:34.2;--y1:11.1;--x2:19.3;--y2:-23.0;--d:0.04"></i><i style="--x0:4.5;--y0:-10.0;--x1:-25.1;--y1:9.5;--x2:26.0;--y2:-15.0;--d:0.09"></i><i style="--x0:13.5;--y0:-10.0;--x1:-38.6;--y1:16.8;--x2:29.5;--y2:-5.2;--d:0.12"></i><i style="--x0:22.5;--y0:-10.0;--x1:6.6;--y1:32.8;--x2:29.5;--y2:5.2;--d:0.95"></i><i style="--x0:-22.5;--y0:0.0;--x1:-30.4;--y1:-13.6;--x2:26.0;--y2:15.0;--d:0.98"></i><i style="--x0:-13.5;--y0:0.0;--x1:42.2;--y1:10.8;--x2:19.3;--y2:23.0;--d:0.29"></i><i style="--x0:-4.5;--y0:0.0;--x1:17.6;--y1:19.1;--x2:10.3;--y2:28.2;--d:0.31"></i><i style="--x0:4.5;--y0:0.0;--x1:12.0;--y1:-23.2;--x2:0.0;--y2:30.0;--d:0.58"></i><i style="--x0:13.5;--y0:0.0;--x1:-21.7;--y1:-22.0;--x2:-10.3;--y2:28.2;--d:0.55"></i><i style="--x0:22.5;--y0:0.0;--x1:25.2;--y1:8.9;--x2:-19.3;--y2:23.0;--d:0.21"></i><i style="--x0:-22.5;--y0:10.0;--x1:-14.8;--y1:-26.9;--x2:-26.0;--y2:15.0;--d:0.31"></i><i style="--x0:-13.5;--y0:10.0;--x1:-30.5;--y1:-15.5;--x2:-29.5;--y2:5.2;--d:0.30"></i><i style="--x0:-4.5;--y0:10.0;--x1:11.2;--y1:-33.2;--x2:-29.5;--y2:-5.2;--d:0.24"></i><i style="--x0:4.5;--y0:10.0;--x1:-33.1;--y1:-14.2;--x2:-26.0;--y2:-15.0;--d:0.88"></i><i style="--x0:13.5;--y0:10.0;--x1:-4.1;--y1:-27.0;--x2:-19.3;--y2:-23.0;--d:0.98"></i><i style="--x0:22.5;--y0:10.0;--x1:25.6;--y1:20.0;--x2:-10.3;--y2:-28.2;--d:0.76"></i></div>
     <div class="beats">
       <div class="beat b1"><p class="label">In uniform</p><h2>Unbreakable.</h2><p>In service, they are trained to carry the weight and never to ask for help.</p></div>
@@ -1181,8 +1203,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var hdr=document.querySelector(".v:not([hidden]) .top"); if(hdr) root.style.setProperty("--hdr",hdr.offsetHeight+"px");
     scenes.forEach(function(s){
       if(!s.offsetParent) return;
-      var r=s.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
-      var p=c(-r.top/(r.height-innerHeight));
+      var r=s.getBoundingClientRect();
+      if(r.top<innerHeight*2.5&&r.bottom>-innerHeight) s.classList.add("near");
+      if(r.bottom<0||r.top>innerHeight) return;
+      var p=c(-r.top/(r.height-innerHeight)); s.style.setProperty("--p",p.toFixed(3));
       var t1=e(c((p-.24)/.16)), t2=e(c((p-.6)/.16));
       s.style.setProperty("--t1",t1.toFixed(3)); s.style.setProperty("--t2",t2.toFixed(3));
       s.style.setProperty("--o1",(1-c((p-.18)/.1)).toFixed(3));
