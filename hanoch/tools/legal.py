@@ -197,7 +197,7 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, �
   <h2>שינויים במדיניות</h2>
   <p>אם המדיניות תשתנה, הנוסח המעודכן יפורסם בעמוד הזה עם תאריך העדכון.</p>'''
 
-PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gotovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
+PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gutovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
 
   <h2>In short</h2>
   <ul>
@@ -208,7 +208,7 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the busines
   </ul>
 
   <h2>Who is responsible for the information</h2>
-  <p>Hanoch Gotovski, Blueprint Lab. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
+  <p>Hanoch Gutovski, Blueprint Lab. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
 
   <h2>Information you give me</h2>
   <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the English home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. That form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off. The brief form on the Hebrew home page works differently: if you leave a phone number there, it is also saved in my inquiries system (see below).</p>
@@ -344,7 +344,7 @@ TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, ה
   <h2>יצירת קשר</h2>
   <p>שאלות על התנאים: {CONTACT_HE}.</p>'''
 
-TERMS_EN = f'''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gotovski. Using the site is subject to these terms, the <a href="en-privacy.html">privacy policy</a> and the <a href="en-refunds.html">cancellation and refund policy</a>.</p>
+TERMS_EN = f'''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gutovski. Using the site is subject to these terms, the <a href="en-privacy.html">privacy policy</a> and the <a href="en-refunds.html">cancellation and refund policy</a>.</p>
 
   <h2>What is on the site</h2>
   <p>The site has information about my services, examples of work I did for clients, articles and demos. Some interactive demos and numbers marked "example" or "illustration" are illustrations only. Films and characters made with AI are labeled as such, and the brands in them are fictional where stated.</p>
@@ -434,7 +434,7 @@ REFUNDS_EN = f'''  <p class="lead">Nothing is bought or paid for on the site. Ev
   <p>Send me a message at {CONTACT_EN}, with your name, phone number and the project. I will confirm that I received it.</p>
 
   <h2>Business details</h2>
-  <p>Blueprint Lab is the business of Hanoch Gotovski. The full business details appear in the proposal and the deal documents.</p>
+  <p>Blueprint Lab is the business of Hanoch Gutovski. The full business details appear in the proposal and the deal documents.</p>
 
   <p>This page is subject to the Israeli Consumer Protection Law. If anything here conflicts with the law, the law prevails.</p>'''
 
