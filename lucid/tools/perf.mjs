@@ -39,7 +39,8 @@
 //   g  returning learner (worker installed yesterday, lesson a1-01 saved): #/today and #/lesson/a1-01 in five
 //      states: fresh (HTTP cache fresh), stale (max-age 0), after-push (stale and every ETag changed), offline,
 //      lie-fi (every response held 15 s)
-//   u  a release that changes only sw.js (its RELEASE line), deployed while the learner is away (stale cache, new
+//   u  a release that changes only sw.js (its RELEASE line, and the release name in release.json when the tree has
+//      one, as build-manifest writes it), deployed while the learner is away (stale cache, new
 //      ETags): the returning #/today, Today -> lesson/a1-01 while the new worker installs, what the new worker
 //      downloads, the saved lessons before (every Lucid cache) and after (in the new release's cache), the next
 //      #/today, and whether a page ran modules from two
@@ -819,6 +820,15 @@ async function scenarioU(env, browser, P, add) {
     const oldRelease = releaseOf(readFileSync(join(APP, 'sw.js'), 'utf8'));
     env.server.knobs.epoch++;
     env.server.knobs.transform = (rel, f) => {
+      // A real deploy regenerates release.json with sw.js (tools/build-manifest.mjs): the same hashes, the new release
+      // name, which a worker with release hashes checks against its RELEASE before it installs. Without this the new
+      // worker's install fails by design and u would measure a failed release, not an update.
+      if (rel === 'release.json') {
+        const j = JSON.parse(f.raw.toString());
+        if (!j || typeof j.release !== 'string') return null;
+        const raw = Buffer.from(JSON.stringify({ ...j, release: stamp }));
+        return { ...f, raw, gz: zlib.gzipSync(raw, { level: 6 }), etag: `"${stamp}-release"` };
+      }
       if (rel !== 'sw.js') return null;
       const text = f.raw.toString();
       const raw = Buffer.from(/const RELEASE = '[^']+'/.test(text) ? text.replace(/const RELEASE = '[^']+'/, `const RELEASE = '${stamp}'`) : `${text}\n// ${stamp}\n`);
