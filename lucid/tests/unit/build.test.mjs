@@ -1,5 +1,6 @@
 // The deploy-only build (perf D7): tools/build/build.mjs minifies in place and keeps every path; verify.mjs refuses a
-// tree that lost a file, a map, a hash or the CSP. Skipped when esbuild is not installed (npm ci --prefix tools/build).
+// tree that lost a file, a map, a hash or the CSP. Skipped when esbuild is not installed (npm ci --prefix tools/build),
+// except in CI (CI=true, as GitHub Actions sets it), where a missing esbuild fails these tests instead of hiding them.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, mkdtempSync, cpSync, rmSync, writeFileSync, readdirSync, unlinkSync } from 'node:fs';
@@ -9,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const app = fileURLToPath(new URL('../../', import.meta.url));
 const hasEsbuild = existsSync(join(app, 'tools/build/node_modules/esbuild/package.json'));
-const skip = hasEsbuild ? false : 'esbuild not installed (npm ci --prefix tools/build)';
+const skip = hasEsbuild || process.env.CI === 'true' ? false : 'esbuild not installed (npm ci --prefix tools/build)';
 const SHIPPED = ['js', 'vendor', 'css', 'fonts', 'content', 'assets', 'index.html', 'privacy.html', 'config.js', 'manifest.webmanifest', 'sw.js', 'release.json'];
 
 function copyApp() {
@@ -37,7 +38,9 @@ test('the build keeps every path, adds only source maps, keeps the CSP and colou
     assert.deepEqual(after.filter((f) => f.endsWith('.map')).sort(), [...r.js, ...r.css].map((f) => `${f}.map`).sort());
     assert.ok(r.after < r.before * 0.9, 'nothing was minified');
     assert.equal(readFileSync(join(out, 'index.html'), 'utf8'), readFileSync(join(src, 'index.html'), 'utf8'), 'index.html is untouched');
-    assert.equal(readFileSync(join(out, 'sw.js'), 'utf8').replace(/^const RELEASE = .*$/m, ''), readFileSync(join(src, 'sw.js'), 'utf8').replace(/^const RELEASE = .*$/m, ''), 'only the RELEASE line of sw.js changes');
+    // The minified bytes give new hashes, so the two generated lines (tools/build-manifest.mjs) change; nothing else.
+    const generated = (t) => t.replace(/^const (RELEASE|LISTING) = .*$/gm, '');
+    assert.equal(generated(readFileSync(join(out, 'sw.js'), 'utf8')), generated(readFileSync(join(src, 'sw.js'), 'utf8')), 'only the RELEASE and LISTING lines of sw.js change');
     const css = readFileSync(join(out, 'css/app.css'), 'utf8');
     const srcCss = readFileSync(join(src, 'css/app.css'), 'utf8');
     assert.equal((css.match(/oklch\(/g) || []).length > 0, (srcCss.match(/oklch\(/g) || []).length > 0, 'oklch colours are kept');

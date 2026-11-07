@@ -34,16 +34,24 @@ jobs:
         run: |
           npm install --no-save --no-audit --no-fund playwright@1.63.0
           npx playwright install --with-deps chromium
+      # Before the unit tests: tests/unit/build.test.mjs runs the deploy build, and in CI it fails without esbuild.
+      - name: Build dependencies (esbuild, pinned)
+        run: npm ci --prefix tools/build --no-audit --no-fund
       - name: Unit tests
         run: npm test
       - name: Content validation
         run: npm run validate
       - name: Build a copy of the site as pages.yml deploys it
         run: |
-          npm ci --prefix tools/build --no-audit --no-fund
           mkdir -p "$RUNNER_TEMP/built/lucid"
           rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
           node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
           node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
       - name: End-to-end suite against the built site
         run: E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs
+      # The one-time upgrade from the release in production before the perf programme (2026-11-03.1, b2b669b) to
+      # the built site: that commit's tree is fetched on its own (the checkout is shallow).
+      - name: Upgrade from release 2026-11-03.1 to the built site
+        run: |
+          git fetch --no-tags --depth=1 origin b2b669b66197b87701c3e2ce15eecef880670cee
+          E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/upgrade.mjs
