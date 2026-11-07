@@ -38,7 +38,7 @@ test('content/manifest.json, release.json and the RELEASE line of sw.js are up t
   assert.match(release.release, /^[0-9a-f]{12}$/);
 });
 
-test('release.json hashes every file the worker precaches, every lesson and every font, and nothing else', () => {
+test('release.json hashes every file the worker precaches, every lesson, every font and the full files the index files replace, and nothing else', () => {
   const { hashes } = JSON.parse(readFileSync(new URL('release.json', root), 'utf8'));
   const sw = readFileSync(new URL('sw.js', root), 'utf8');
   const precache = [...shellOf(sw).map((p) => (p === './' ? 'index.html' : p)).filter((p) => p !== 'release.json'), ...manifest.offline];
@@ -46,7 +46,9 @@ test('release.json hashes every file the worker precaches, every lesson and ever
   for (const l of manifest.lessons) assert.ok(hashes[`content/lessons/${l}.json`], `lesson ${l} has no hash`);
   for (const [p, h] of Object.entries(hashes)) {
     assert.equal(h, fileHash(readFileSync(new URL(p, root))), `${p}: hash does not match the file`);
-    assert.ok(precache.includes(p) || /^content\/(lessons|centers|pool)\//.test(p) || /^fonts\/[\w-]+\.woff2$/.test(p), `${p} is hashed but never served from the release cache`);
+    // The full files are fetched when an index file cannot be loaded (content.js); a copy is kept only once checked.
+    const replaced = ['content/real-life/scenarios.json', 'content/writing/exercises.json', 'content/writing/assignments.json'];
+    assert.ok(precache.includes(p) || /^content\/(lessons|centers|pool)\//.test(p) || /^fonts\/[\w-]+\.woff2$/.test(p) || replaced.includes(p), `${p} is hashed but never served from the release cache`);
   }
   assert.ok(!('release.json' in hashes) && !('sw.js' in hashes));
 });

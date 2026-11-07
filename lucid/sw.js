@@ -6,6 +6,12 @@
 // - Code, fonts, vendor files and non-lesson content are served from the release cache first (perf D2, D6), so a
 //   repeat visit waits on no network. Freshness comes from the release: the browser re-checks this file on
 //   navigation, and any changed byte gives a new RELEASE, so a new worker and a new cache.
+// - Integrity (docs/qa/security-review.md 5a): release.json must match LISTING, which only this file carries. Every
+//   entry served from the release cache is checked against it once per worker lifetime; one that does not match
+//   (written by other script on the shared origin) is never served: it is fetched again and checked. A file that
+//   was missed at install is checked too before it is kept. Without release.json from the server, only a first
+//   install goes ahead (unchecked, as before release hashes); with an older Lucid cache present the install fails,
+//   so the active release and its saved lessons stay.
 // - Lessons and the centre and pool files are stale-while-revalidate. Server API calls (another origin) are never
 //   cached.
 // - Activation (perf D3, contract C-4): a new release waits until the page asks for it ({type:'lucid:activate'},
@@ -13,10 +19,12 @@
 //   first install, and the one-time upgrade from the old hand-numbered caches, activate at once.
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
-const RELEASE = '747e8249f190';
+const LISTING = '1b8c7e3c2176d3625e8134bf3aac621a7894c648fb7a71be8d0bd771f20228e7';
+const RELEASE = 'fdf5d754277e';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
-  'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'content/taxonomy.json', 'content/curriculum.json', 'content/manifest.json'];
+  'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json',
+  'content/manifest.json'];
 const SCOPE = new URL('./', self.location).pathname;
 const HASH_LEN = 12;
 // Caches written by the workers before release hashes (RELEASE was a hand-bumped date).
@@ -32,10 +40,13 @@ const fromRelease = (req, rel) => req.mode === 'navigate'
 const keyOf = (rel) => (isShell(rel) ? './' : rel);
 const hashKey = (p) => (p === './' ? 'index.html' : p);
 
+const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 async function digest(buf) {
-  const bytes = new Uint8Array(await crypto.subtle.digest('SHA-256', buf)).slice(0, HASH_LEN / 2);
-  return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+  return hex(await crypto.subtle.digest('SHA-256', buf)).slice(0, HASH_LEN);
 }
+// Whether a release.json's hash list is the one this worker was built with.
+const listed = async (hashes) => Boolean(hashes) && typeof hashes === 'object'
+  && hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(Object.entries(hashes).map(([p, h]) => `${p} ${h}\n`).join('')))) === LISTING;
 // A stored copy of a response whose body has been read. The body is already decoded, so the transfer headers go.
 function rebuild(res, buf) {
   const headers = new Headers(res.headers);
@@ -79,23 +90,28 @@ async function olderCaches() {
   return { names, caches: await Promise.all(names.map((k) => caches.open(k))) };
 }
 
-// release.json for this worker: fetched (never copied) and checked against RELEASE. Null when the server has none
-// (the install then works without hashes, as before them).
-async function releaseFile(cache) {
+// release.json for this worker: fetched (never copied) and checked against RELEASE and LISTING. When the server's
+// cannot be loaded (an error status or no connection), only a first install goes ahead, without hashes (as before
+// them); with an older Lucid cache present the install fails, so nothing is installed unchecked over it.
+async function releaseFile(cache, olds) {
   const get = async (u) => {
     const res = await fetch(new Request(u, { cache: 'no-cache' }));
     if (!res.ok) return null;
     const buf = await res.arrayBuffer();
     return [res, buf, JSON.parse(new TextDecoder().decode(buf))];
   };
+  const ours = async (got) => Boolean(got) && got[2]?.release === RELEASE && listed(got[2].hashes);
   let got = await get('release.json').catch(() => null);
-  if (!got) return null;
-  if (got[2].release !== RELEASE) {
-    got = await get(`release.json?r=${RELEASE}`);
-    if (!got || got[2].release !== RELEASE) throw mismatch('release.json');
+  if (!got) {
+    if (olds.length) throw new Error('release.json could not be loaded; the active release stays');
+    return null;
+  }
+  if (!(await ours(got))) {
+    got = await get(`release.json?r=${RELEASE}`).catch(() => null);
+    if (!(await ours(got))) throw mismatch('release.json');
   }
   await cache.put('release.json', rebuild(got[0], got[1]));
-  return got[2].hashes || {};
+  return got[2].hashes;
 }
 
 // Puts p into the new cache: copied when an older cache holds the same bytes, fetched otherwise.
@@ -105,6 +121,7 @@ async function ensure(ctx, p, required) {
     const res = (await fromOld(ctx.olds, p, want)) || (ctx.hashes ? await fetchVerified(p, want) : await fetch(new Request(p, { cache: 'no-cache' })));
     if (!res.ok) throw new Error(`${p}: ${res.status}`);
     await ctx.cache.put(p, res);
+    if (ctx.hashes) checked.add(new URL(p, self.location).href);
   } catch (err) {
     // The shell must be complete and nothing may be stale; any other file is best effort, as a screen whose module
     // is missing is fetched from the network on first use.
@@ -131,10 +148,50 @@ async function carryOver(cache, hashes, olds, { refetch }) {
   }
 }
 
+// The per-item content files (contract C-2) are cut from three source files by tools/build-content-index.mjs, each
+// as JSON.stringify(item) + "\n". When most of a source file's items are needed, the install fetches the source file
+// once (or copies it from an older cache) and writes the items from it, each checked against its hash, instead of
+// one request per item (perf: 66 requests fewer on a first visit). An item that does not match is fetched itself.
+// The source file is only a transport: it is not kept.
+const PACKS = [
+  ['content/real-life/scenario/', 'content/real-life/scenarios.json', 'scenarios'],
+  ['content/writing/task/', 'content/writing/exercises.json', 'exercises'],
+  ['content/writing/task/', 'content/writing/assignments.json', 'assignments'],
+];
+const isItem = (p) => PACKS.some(([dir]) => p.startsWith(dir) && p.endsWith('.json'));
+async function unpack(ctx, items) {
+  const need = new Set();
+  await Promise.all(items.map(async (p) => {
+    const copy = await fromOld(ctx.olds, p, ctx.hashes?.[p]).catch(() => null);
+    if (copy) { await ctx.cache.put(p, copy); checked.add(new URL(p, self.location).href); } else need.add(p);
+  }));
+  if (ctx.hashes) {
+    await Promise.all(PACKS.map(async ([dir, pack, field]) => {
+      const mine = [...need].filter((p) => p.startsWith(dir));
+      const want = ctx.hashes[pack];
+      if (!want || mine.length < 4) return; // a few changed items: fetched one by one
+      const res = (await fromOld(ctx.olds, pack, want).catch(() => null)) || (await fetchVerified(pack, want).catch(() => null));
+      let list = null;
+      try { list = res && (await res.json())[field]; } catch { /* fetched one by one below */ }
+      for (const item of Array.isArray(list) ? list : []) {
+        const p = `${dir}${item?.id}.json`;
+        if (!need.has(p)) continue;
+        const text = `${JSON.stringify(item)}\n`;
+        const buf = new TextEncoder().encode(text);
+        if ((await digest(buf)) !== ctx.hashes[p]) continue;
+        await ctx.cache.put(p, new Response(buf, { headers: { 'content-type': 'application/json; charset=utf-8' } }));
+        checked.add(new URL(p, self.location).href);
+        need.delete(p);
+      }
+    }));
+  }
+  await Promise.all([...need].map((p) => ensure(ctx, p, false)));
+}
+
 async function install() {
   const cache = await caches.open(CACHE);
   const { names, caches: olds } = await olderCaches();
-  const hashes = await releaseFile(cache);
+  const hashes = await releaseFile(cache, olds);
   const ctx = { cache, olds, hashes };
   await Promise.all(SHELL.filter((p) => p !== 'release.json').map((p) => ensure(ctx, p, true)));
   // Then the offline list: code first, so the modules a learner's next screen needs are in the HTTP cache early;
@@ -144,7 +201,7 @@ async function install() {
   const code = (p) => /^(js|vendor)\//.test(p);
   const todo = list.filter((p) => !SHELL.includes(p));
   await Promise.all(todo.filter(code).map((p) => ensure(ctx, p, false)));
-  await Promise.all(todo.filter((p) => !code(p)).map((p) => ensure(ctx, p, false)));
+  await Promise.all([...todo.filter((p) => !code(p) && !isItem(p)).map((p) => ensure(ctx, p, false)), unpack(ctx, todo.filter(isItem))]);
   await carryOver(cache, hashes, olds, { refetch: true });
   // No release is active yet (first visit), or the active one predates release hashes: take over at once, as the
   // old worker did. Otherwise wait for the page's message or for every tab to close.
@@ -176,18 +233,80 @@ function fetchAndStore(cache, req, key = req) {
   return { response, stored };
 }
 
-// The release's copy, or the network on a miss (stored for next time). Pages other than the app shell (privacy.html)
-// match their own entry; an offline navigation with no entry gets the shell.
+// ---------- integrity of what the release cache serves (security review 5a) ----------
+// The hashes this worker trusts, read once per worker lifetime: release.json from the cache, if it matches LISTING;
+// otherwise (changed or removed) a fresh copy from the server, checked the same way. null: the server has none, as
+// for an install without hashes (nothing to check). UNTRUSTED: no matching release.json could be had (offline with
+// the cached copy changed or removed), so nothing is served from the cache until one can; nothing is deleted either.
+const UNTRUSTED = Object.freeze({});
+let trust = null;
+const checked = new Set(); // cache entries (URLs) whose bytes matched in this worker's lifetime
+function trustedHashes(cache) {
+  trust ||= (async () => {
+    const json = await cache.match('release.json').then((r) => r?.json()).catch(() => null);
+    if (json?.release === RELEASE && (await listed(json.hashes))) return json.hashes;
+    const fresh = await fetch(new Request(`release.json?r=${RELEASE}`, { cache: 'no-cache' })).catch(() => null);
+    if (fresh?.status === 404) return null;
+    const buf = fresh?.ok ? await fresh.arrayBuffer() : null;
+    let got = null;
+    try { got = buf && JSON.parse(new TextDecoder().decode(buf)); } catch { /* not ours */ }
+    if (got?.release === RELEASE && (await listed(got.hashes))) { await cache.put('release.json', rebuild(fresh, buf)); return got.hashes; }
+    trust = null; // try again on the next request
+    return UNTRUSTED;
+  })();
+  return trust;
+}
+// A cached response that may be served: its bytes match the release (checked once per worker lifetime). An entry
+// that does not match is deleted.
+async function servable(cache, key, rel, cached) {
+  const hashes = await trustedHashes(cache);
+  if (hashes === null || checked.has(key)) return cached;
+  if (hashes === UNTRUSTED) return null;
+  const want = hashes[hashKey(keyOf(rel))];
+  if (want && (await digest(await cached.clone().arrayBuffer())) === want) { checked.add(key); return cached; }
+  await cache.delete(key);
+  return null;
+}
+// A miss: fetched and kept only when it matches the release (a file the install could not get, or one deleted
+// above); a copy that does not match, even past the caches, is passed on unkept, as the network gave it.
+async function verifiedMiss(e, cache, rel, key) {
+  const hashes = await trustedHashes(cache);
+  if (hashes === null) {
+    const { response, stored } = fetchAndStore(cache, e.request, key);
+    e.waitUntil(stored);
+    return response;
+  }
+  const want = hashes[hashKey(keyOf(rel))];
+  if (!want) return fetch(e.request); // not part of the release
+  try {
+    const res = await fetchVerified(new URL(key).pathname.slice(SCOPE.length) || './', want);
+    e.waitUntil(cache.put(key, res.clone()).then(() => checked.add(key)).catch(() => null));
+    return res;
+  } catch (err) {
+    if (err.mismatch) return fetch(e.request);
+    throw err;
+  }
+}
+
+// The release's copy, or the network on a miss. Pages other than the app shell (privacy.html) match their own
+// entry; an offline navigation with no entry gets the shell.
 async function cacheFirst(e, cache, rel) {
   const req = e.request;
-  const cached = await cache.match(isShell(rel) ? './' : req);
+  const key = isShell(rel) ? new URL('./', self.location).href : new URL(req.url).href;
+  const hit = await cache.match(key);
+  const cached = hit && (await servable(cache, key, rel, hit));
   if (cached) return cached;
   // Another page in the scope (not part of the app) is passed through, not kept.
-  if (req.mode === 'navigate' && !isShell(rel)) return fetch(req).catch(async () => (await cache.match('./')) || Response.error());
-  const { response, stored } = fetchAndStore(cache, req, isShell(rel) ? './' : req);
-  e.waitUntil(stored);
+  if (req.mode === 'navigate' && !isShell(rel)) return fetch(req).catch(async () => (await shell(cache)) || Response.error());
+  const response = verifiedMiss(e, cache, rel, key);
   if (req.mode !== 'navigate') return response;
-  return response.catch(async () => (await cache.match('./')) || Response.error());
+  return response.catch(async () => (await shell(cache)) || Response.error());
+}
+// The app shell for an offline navigation, if its bytes are the release's.
+async function shell(cache) {
+  const key = new URL('./', self.location).href;
+  const hit = await cache.match(key);
+  return hit ? servable(cache, key, '', hit) : null;
 }
 
 async function staleWhileRevalidate(e, cache) {

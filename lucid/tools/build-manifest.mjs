@@ -2,10 +2,13 @@
 // - content/manifest.json: which lesson files exist, a content version, and the files the service worker
 //   precaches for offline use (`offline`). Its shape stays {version, lessons, offline}: the page reads it at boot.
 // - release.json (app root): {release, hashes}. hashes = a sha256 prefix of every file the worker precaches
-//   (SHELL in sw.js plus `offline`), every lesson file, the centre and pool files when they exist and every font.
+//   (SHELL in sw.js plus `offline`), every lesson file, the centre and pool files when they exist, the full files
+//   the index files replace (fetched when an index file cannot be loaded) and every font.
 //   release = a hash of all of them plus sw.js with its RELEASE line blanked, so any change to a byte the worker
 //   can serve from its cache, or to the worker's own logic, gives a new release (and a new cache).
-// - the RELEASE line of sw.js, set to that release.
+// - the RELEASE line of sw.js, set to that release, and its LISTING line, set to the full SHA-256 of the hash list
+//   ("<path> <hash>\n" per file, in release.json's order): the worker checks release.json against it, so a copy of
+//   release.json in Cache Storage cannot be swapped for another (docs/qa/security-review.md 5a).
 // Run `node tools/build-manifest.mjs` after changing any file the app ships; tests/unit/offline-manifest.test.mjs
 // fails while the three are stale. The deploy build (tools/build/build.mjs) calls buildManifest(root) again on
 // the minified bytes.
@@ -16,6 +19,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const HASH_LEN = 12;
 export const RELEASE_LINE = /^const RELEASE = '[^'\n]*';$/m;
+export const LISTING_LINE = /^const LISTING = '[^'\n]*';$/m;
 const sha = (algo, buf) => createHash(algo).update(buf).digest('hex');
 export const fileHash = (buf) => sha('sha256', buf).slice(0, HASH_LEN);
 
@@ -59,25 +63,29 @@ export function computeManifest(root) {
 export function computeRelease(root, manifestText = computeManifest(root).manifestText) {
   const swSource = readFileSync(join(root, 'sw.js'), 'utf8');
   if (!RELEASE_LINE.test(swSource)) throw new Error("sw.js: no line of the form const RELEASE = '…';");
+  if (!LISTING_LINE.test(swSource)) throw new Error("sw.js: no line of the form const LISTING = '…';");
   const manifest = JSON.parse(manifestText);
   const runtime = RUNTIME_ONLY.flatMap((p) => (existsSync(join(root, p)) ? readdirSync(join(root, p)).filter((f) => f.endsWith('.json')).map((f) => `${p}${f}`) : []));
   const fonts = existsSync(join(root, 'fonts')) ? readdirSync(join(root, 'fonts')).filter((f) => f.endsWith('.woff2')).map((f) => `fonts/${f}`) : [];
-  const paths = new Set([...shellOf(swSource).map(shellFile), ...manifest.offline, ...manifest.lessons.map((l) => `content/lessons/${l}.json`), ...runtime, ...fonts]);
+  const replaced = SPLIT.flatMap(([, , old]) => old.map((f) => `content/${f}`)).filter((f) => existsSync(join(root, f)));
+  const paths = new Set([...shellOf(swSource).map(shellFile), ...manifest.offline, ...manifest.lessons.map((l) => `content/lessons/${l}.json`), ...runtime, ...replaced, ...fonts]);
   paths.delete('release.json');
   const hashes = {};
   for (const p of [...paths].sort()) {
     hashes[p] = fileHash(p === 'content/manifest.json' ? Buffer.from(manifestText) : readFileSync(join(root, p)));
   }
-  const normalised = swSource.replace(RELEASE_LINE, "const RELEASE = '';");
+  const listing = Object.entries(hashes).map(([p, h]) => `${p} ${h}\n`).join('');
+  const withListing = swSource.replace(LISTING_LINE, `const LISTING = '${sha('sha256', listing)}';`);
+  const normalised = withListing.replace(RELEASE_LINE, "const RELEASE = '';");
   const all = createHash('sha256');
-  for (const [p, h] of Object.entries(hashes)) all.update(`${p} ${h}\n`);
+  all.update(listing);
   all.update(normalised);
   const release = all.digest('hex').slice(0, HASH_LEN);
   return {
     release,
     hashes,
     releaseText: `${JSON.stringify({ release, hashes }, null, 0)}\n`,
-    swText: swSource.replace(RELEASE_LINE, `const RELEASE = '${release}';`),
+    swText: withListing.replace(RELEASE_LINE, `const RELEASE = '${release}';`),
   };
 }
 
