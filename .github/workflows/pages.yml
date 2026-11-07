@@ -1,4 +1,9 @@
 # פריסה אוטומטית ל-GitHub Pages בכל דחיפה לענף
+# Security layout: third-party npm code (the Dira build) runs in its own job with read-only
+# permissions. Only its static output is handed to the deploy job, so it can no longer touch
+# the other sites (including the Sayeret Nahal donation page) or the Pages deploy token.
+# The Hemshech Tnua CRM is built the same way, in its own read-only job.
+# Actions are pinned to full commit SHAs.
 name: Deploy to GitHub Pages
 
 on:
@@ -9,26 +14,167 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-dira:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      built: ${{ steps.done.outputs.built }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      # Dira (דירה מוכנה) is a Next.js app. It's built here into a static copy and published at /dira/.
+      # If its build fails, the other sites still deploy and /dira/ is simply left out.
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dira/package-lock.json
+      - name: Build the Dira studio (static)
+        id: dira
+        continue-on-error: true
+        working-directory: dira
+        env:
+          BASE_PATH: /desktop-tutorial/dira
+          SITE_URL: https://hanochgo7-gif.github.io/desktop-tutorial/dira
+          NEXT_TELEMETRY_DISABLED: "1"
+          # Cookieless analytics switch on once the repository variable PLAUSIBLE_DOMAIN is set.
+          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PLAUSIBLE_DOMAIN }}
+        run: |
+          npm ci --no-audit --no-fund
+          bash scripts/build-static.sh
+      # Pages caches HTML for 10 minutes: a page cached just before a deploy still asks for the
+      # previous build's hashed files. Ship them alongside the new ones (one build back).
+      - name: Restore the previous Dira build's static files
+        if: steps.dira.outcome == 'success'
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .dira-prev-static
+          key: dira-static-${{ github.sha }}
+          restore-keys: dira-static-
+      - name: Merge the previous build's static files into this one
+        if: steps.dira.outcome == 'success'
+        run: |
+          mkdir -p .dira-cur && cp -r dira/out/_next/static .dira-cur/static
+          if [ -d .dira-prev-static ]; then cp -rn .dira-prev-static/. dira/out/_next/static/; fi
+          rm -rf .dira-prev-static && mv .dira-cur/static .dira-prev-static && rm -rf .dira-cur
+      - name: Remember this build's static files for the next deploy
+        if: steps.dira.outcome == 'success'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .dira-prev-static
+          key: dira-static-${{ github.sha }}
+      - name: Hand over the built site
+        if: steps.dira.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dira-site
+          path: dira/out
+          include-hidden-files: true
+          retention-days: 1
+      - id: done
+        if: steps.dira.outcome == 'success'
+        run: echo "built=true" >> "$GITHUB_OUTPUT"
+
+  build-hemshech:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      built: ${{ steps.done.outputs.built }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: hemshech-tnua/package-lock.json
+      # Hemshech Tnua CRM (Vite app), published at /hemshech-tnua/ as a static build only
+      # (its source, docs, tests and database files are never published).
+      # By default it connects to the DEMO project (hemshech-tnua-demo, fictitious data only) and shows a
+      # "demo environment" strip on every page. To switch to production, set the repository variables
+      # HEMSHECH_SUPABASE_URL and HEMSHECH_SUPABASE_ANON_KEY (and leave HEMSHECH_ENV_LABEL empty).
+      # The anon key is public by design: every permission is enforced by RLS and SQL functions on the server.
+      # If the build fails, the other sites still deploy and /hemshech-tnua/ is simply left out.
+      - name: Build the Hemshech Tnua CRM (static)
+        id: hemshech
+        continue-on-error: true
+        working-directory: hemshech-tnua
+        env:
+          VITE_SUPABASE_URL: ${{ vars.HEMSHECH_SUPABASE_URL || 'https://bvoubfasrgumpehyxbcg.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.HEMSHECH_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b3ViZmFzcmd1bXBlaHl4YmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNTMwMTEsImV4cCI6MjEwOTYyOTAxMX0.pNfgZOgR3Z0tdjGF6AvZV1G1xfVODEL39uV6UD9wtCM' }}
+          VITE_ENV_LABEL: "${{ vars.HEMSHECH_SUPABASE_URL == '' && 'סביבת הדגמה · כל השמות והנתונים כאן בדויים' || vars.HEMSHECH_ENV_LABEL }}"
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Hand over the built site
+        if: steps.hemshech.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: hemshech-site
+          path: hemshech-tnua/dist
+          retention-days: 1
+      - id: done
+        if: steps.hemshech.outcome == 'success'
+        run: echo "built=true" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: [build-dira, build-hemshech]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
         with:
           enablement: true
-      - uses: actions/upload-pages-artifact@v3
+      - name: Get the built Dira site
+        if: needs.build-dira.outputs.built == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dira-site
+          path: _dira_site
+      - name: Publish the built Dira site instead of its source
+        run: |
+          rm -rf dira
+          if [ -f _dira_site/index.html ]; then mv _dira_site dira; else rm -rf _dira_site; fi
+      - name: Get the built CRM
+        if: needs.build-hemshech.outputs.built == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: hemshech-site
+          path: _hemshech_site
+      - name: Publish the built CRM instead of its source
+        run: |
+          rm -rf hemshech-tnua
+          if [ -f _hemshech_site/index.html ]; then mv _hemshech_site hemshech-tnua; else rm -rf _hemshech_site; fi
+      # Lucid: minify in place for the deploy only (every path kept, source maps published, release hashes
+      # recomputed on the built bytes; see lucid/tools/build). On any error the Lucid source is restored and
+      # deployed unminified, so this step never blocks the other sites.
+      - name: Build Lucid for the deploy (falls back to the source on any error)
+        run: cd lucid && (npm ci --prefix tools/build --no-audit --no-fund && node tools/build/build.mjs && node tools/build/verify.mjs) || (git checkout -- . && git clean -fdq -- .)
+      # קבצי הבנייה, ההערות הפנימיות והגדרות הפיתוח לא צריכים להיות באתר הציבורי
+      - name: Exclude build tools and internal notes (AMS, Mizrahi, Krudo, Lucid, Sayeret Nahal security docs)
+        run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json mizrahi/tools mizrahi/docs mizrahi/content mizrahi/README.md mizrahi/.gitignore .taste-skill krudoeng/tools krudoeng/README.md krudoeng/.gitignore lucid/tools lucid/tests lucid/supabase lucid/docs/research/data lucid/node_modules lucid/package.json lucid/package-lock.json lucid/.impeccable sayeret-nahal-security
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: .
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -313,6 +313,9 @@
       if (preview) preview.textContent = text.replace(/\n/g, ', ').replace('., ', '. ');
     };
     quick.addEventListener('change', update);
+    // הטופס לא נשלח לשום מקום: ההודעה נפתחת רק בלחיצה על הכפתור (בלי onsubmit בתוך ה־HTML, בגלל מדיניות ה־CSP)
+    const form = quick.querySelector('form');
+    if (form) form.addEventListener('submit', (e) => e.preventDefault());
   }
 
   // מדידה והסכמה. כל עוד אין מזהה מדידה ב־build (window.AMS_ANALYTICS), לא נאסף ולא נשמר שום דבר.
@@ -320,7 +323,10 @@
   // נתיב השורש של האתר (לפי מיקום גיליון הסגנונות), לקישורים שנבנים כאן
   const cssLink = document.querySelector('link[rel="stylesheet"][href$="css/ams.css"]');
   const ROOT = cssLink ? cssLink.getAttribute('href').replace('css/ams.css', '') : '';
-  const cfg = window.AMS_ANALYTICS || null;
+  // מדידה רק בדומיין של האתר עצמו: אם אותם קבצים מוגשים גם בכתובת אחרת (למשל github.io, שבה דפים אחרים
+  // יכולים לסמן הסכמה בשם הגולש), לא נטען שום דבר ולא מוצג באנר
+  const rawCfg = window.AMS_ANALYTICS || null;
+  const cfg = rawCfg && rawCfg.origin === location.origin ? rawCfg : null;
   const store = {
     get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* בלי אחסון */ } },

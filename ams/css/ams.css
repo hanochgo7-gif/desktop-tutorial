@@ -66,7 +66,7 @@
   --ash: #cdc2b2;
   --line: rgba(212, 162, 76, .28);
   --line-soft: rgba(242, 236, 224, .12);
-  --gold-hi: #f2c76e;   /* זהב בהיר לטקסט קטן מעל תמונות (ניגודיות 4.5:1) */
+  --gold-hi: #f6d384;   /* זהב בהיר לטקסט קטן מעל תמונות (ניגודיות 4.5:1) */
 
   --f-display: "Dragon", "IBM Plex Sans Hebrew", sans-serif;
   --f-body: "Dragon", "IBM Plex Sans Hebrew", Arial, sans-serif;   /* כל האתר ב־Dragon; אותיות לטיניות נופלות ל־Plex */
@@ -740,7 +740,7 @@ ul, ol { list-style: none; }
 .trainer-label { margin: 0 0 10px; font-weight: 600; color: var(--gold); }
 .trainer-body > p:not(.trainer-label) { max-width: 36em; margin-top: 20px; color: rgba(242, 236, 224, .96); }
 .trainer .creds { margin-top: 24px; }
-.trainer-link { display: inline-block; margin-top: 14px; padding: 10px 0; color: var(--gold); font-weight: 600; text-underline-offset: 5px; }
+.trainer-link { display: inline-block; margin-top: 14px; padding: 10px 0; color: var(--gold-hi); font-weight: 600; text-underline-offset: 5px; }
 
 /* ---------- רספונסיביות ---------- */
 @media (max-width: 1020px) {
@@ -875,6 +875,7 @@ ul, ol { list-style: none; }
 }
 .bubble p { margin: 0; }
 .bubble strong { font-weight: 600; color: #f3d38c; }
+.review-name { margin: 10px 0 0; font-weight: 600; color: var(--gold-hi); }
 .bubble-meta { position: absolute; left: 12px; bottom: 6px; font-size: 1.25rem; color: #9fb0ba; letter-spacing: .02em; }
 .review figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 8px 0 0 18px; font-size: 1.25rem; color: var(--ash); }
 .review-proof { flex-basis: 100%; }
@@ -1207,3 +1208,12 @@ html.lenis { scroll-behavior: auto; }
 @media (max-width: 760px) {
   .where-card { min-height: 0; padding-top: 104px; }
 }
+
+/* ---------- סלוגן ושעות פעילות ---------- */
+.motto { margin: 14px 0 0; font: 500 1.25rem/1.5 "IBM Plex Sans Hebrew", Arial, sans-serif; letter-spacing: .02em; color: var(--gold-hi); text-align: right; }
+.footer-brand .motto { max-width: 18em; }
+.footer-hours { margin: 14px 0 0; font-size: 1.25rem; line-height: 1.6; color: rgba(242, 236, 224, .96); }
+.hero-content .motto { margin-top: 10px; font-size: 1.3rem; }
+/* בפתיחה רק כשיש מקום, כדי שכפתור "לתיאום אימון ניסיון" יישאר במסך הראשון */
+@media (max-width: 1020px), (max-height: 700px) { .hero-content .motto { display: none; } }
+.pull[dir="ltr"] { text-align: right; }   /* ציטוט באנגלית: מיושר לימין כמו שאר הדף */

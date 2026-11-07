@@ -1,0 +1,2002 @@
+/* Lucid design system: a bilingual keyboard to learn on.
+   Graphite deck for the shell, keycap surfaces for the work, two legend inks
+   (carbon = English, cobalt = Hebrew), one Enter-key colour for the primary action. */
+
+@font-face { font-family: 'Rubik'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url('../fonts/rubik-hebrew.woff2') format('woff2'); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: 'Rubik'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url('../fonts/rubik-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Rubik'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url('../fonts/rubik-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* ---------- tokens ---------- */
+:root {
+  color-scheme: light;
+  /* One neutral ramp (cool keycap grey). No other greys anywhere. */
+  --n0: oklch(0.995 0.002 250);
+  --n1: oklch(0.972 0.004 250);
+  --n2: oklch(0.945 0.006 250);
+  --n3: oklch(0.905 0.008 250);
+  --n4: oklch(0.835 0.010 250);
+  --n5: oklch(0.700 0.012 250);
+  --n6: oklch(0.505 0.014 250);
+  --n7: oklch(0.445 0.014 250);
+  --n8: oklch(0.340 0.013 250);
+  --n9: oklch(0.255 0.012 250);
+  --n10: oklch(0.185 0.010 250);
+
+  --ground: var(--n1);
+  --key: var(--n0);
+  --key-sunk: var(--n2);
+  --key-edge: var(--n3);
+  --key-skirt: var(--n4);
+  --deck: var(--n9);
+  --deck-ink: var(--n2);
+  --deck-ink-dim: var(--n5);
+  --deck-key: var(--n8);
+
+  --ink: var(--n10);
+  --ink-2: var(--n7);
+  --ink-3: var(--n6);
+  --ink-en: var(--n10);
+  --ink-he: oklch(0.47 0.165 263);
+  --ink-he-quiet: oklch(0.52 0.09 263); /* minimal Hebrew support: quieter, still 5:1 on paper */
+  --cobalt: oklch(0.47 0.165 263);
+  --cobalt-tint: oklch(0.94 0.035 263);
+
+  --enter: oklch(0.72 0.175 52);
+  --enter-hi: oklch(0.77 0.165 55);
+  --enter-ink: oklch(0.19 0.02 50);
+  --enter-skirt: oklch(0.56 0.15 45);
+
+  --ok: oklch(0.52 0.13 152);
+  --ok-tint: oklch(0.95 0.04 152);
+  --warn: oklch(0.50 0.11 70);
+  --warn-tint: oklch(0.96 0.05 85);
+  --bad: oklch(0.53 0.19 27);
+  --bad-tint: oklch(0.955 0.03 27);
+
+  --focus: oklch(0.55 0.2 263);
+  --shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.06), 0 4px 14px oklch(0.2 0.02 250 / 0.06);
+  --shadow-lift: 0 2px 4px oklch(0.2 0.02 250 / 0.08), 0 12px 32px oklch(0.2 0.02 250 / 0.12);
+
+  /* Key units: a 1u key is 48px tall; spacing steps are quarter units. */
+  --u: 3rem;
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem; --s6: 2rem; --s7: 3rem; --s8: 4rem;
+  --r-key: 0.75rem;
+  --r-panel: 1rem;
+  --r-pill: 999px;
+
+  --font: 'Rubik', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --t-xs: 0.8125rem; --t-sm: 0.9375rem; --t-md: 1.0625rem; --t-lg: 1.25rem; --t-xl: 1.5rem; --t-2xl: 1.875rem; --t-3xl: 2.375rem;
+  --rail-w: 15.5rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { color-scheme: dark; }
+}
+:root[data-theme='dark'] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: oklch(0.165 0.010 250);
+    --key: oklch(0.235 0.012 250);
+    --key-sunk: oklch(0.2 0.011 250);
+    --key-edge: oklch(0.3 0.012 250);
+    --key-skirt: oklch(0.13 0.010 250);
+    --deck: oklch(0.325 0.012 250); /* 1.5:1 on the ground (SB-6) */
+    --deck-ink: var(--n3);
+    --deck-ink-dim: var(--n5);
+    --deck-key: oklch(0.435 0.012 250); /* the active pill: 1.5:1 on the deck */
+    --ink: oklch(0.95 0.005 250);
+    --ink-2: oklch(0.80 0.008 250);
+    --ink-3: oklch(0.70 0.010 250);
+    --ink-en: oklch(0.96 0.004 250);
+    --ink-he: oklch(0.76 0.11 263);
+    --ink-he-quiet: oklch(0.72 0.07 263);
+    --cobalt: oklch(0.72 0.13 263);
+    --cobalt-tint: oklch(0.27 0.06 263);
+    --ok: oklch(0.74 0.13 152); --ok-tint: oklch(0.26 0.05 152);
+    --warn: oklch(0.80 0.12 80); --warn-tint: oklch(0.28 0.05 80);
+    --bad: oklch(0.72 0.15 27); --bad-tint: oklch(0.27 0.06 27);
+    --enter-skirt: oklch(0.45 0.13 45);
+    --focus: oklch(0.75 0.14 263);
+    --shadow: 0 1px 2px oklch(0 0 0 / 0.35), 0 4px 14px oklch(0 0 0 / 0.25);
+    --shadow-lift: 0 2px 4px oklch(0 0 0 / 0.4), 0 12px 32px oklch(0 0 0 / 0.4);
+  }
+}
+:root[data-theme='dark'] {
+  --ground: oklch(0.165 0.010 250); --key: oklch(0.235 0.012 250); --key-sunk: oklch(0.2 0.011 250);
+  --key-edge: oklch(0.3 0.012 250); --key-skirt: oklch(0.13 0.010 250); --deck: oklch(0.325 0.012 250);
+  --deck-ink: var(--n3); --deck-ink-dim: var(--n5); --deck-key: oklch(0.435 0.012 250);
+  --ink: oklch(0.95 0.005 250); --ink-2: oklch(0.80 0.008 250); --ink-3: oklch(0.70 0.010 250);
+  --ink-en: oklch(0.96 0.004 250); --ink-he: oklch(0.76 0.11 263); --ink-he-quiet: oklch(0.72 0.07 263); --cobalt: oklch(0.72 0.13 263); --cobalt-tint: oklch(0.27 0.06 263);
+  --ok: oklch(0.74 0.13 152); --ok-tint: oklch(0.26 0.05 152); --warn: oklch(0.80 0.12 80); --warn-tint: oklch(0.28 0.05 80);
+  --bad: oklch(0.72 0.15 27); --bad-tint: oklch(0.27 0.06 27); --enter-skirt: oklch(0.45 0.13 45); --focus: oklch(0.75 0.14 263);
+  --shadow: 0 1px 2px oklch(0 0 0 / 0.35), 0 4px 14px oklch(0 0 0 / 0.25);
+  --shadow-lift: 0 2px 4px oklch(0 0 0 / 0.4), 0 12px 32px oklch(0 0 0 / 0.4);
+}
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block: 5rem 7rem; }
+:root[data-text='115'] { font-size: 115%; }
+:root[data-text='130'] { font-size: 130%; }
+:root[data-text='150'] { font-size: 150%; }
+body {
+  margin: 0; min-height: 100dvh; background: var(--ground); color: var(--ink);
+  font-family: var(--font); font-size: var(--t-md); line-height: 1.55; font-weight: 400;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+[lang='he'] { line-height: 1.6; }
+::selection { background: var(--cobalt-tint); color: var(--ink); }
+:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+a { color: var(--cobalt); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+h1, h2, h3, h4 { margin: 0; font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: var(--t-2xl); letter-spacing: -0.015em; }
+h2 { font-size: var(--t-xl); letter-spacing: -0.01em; }
+h3 { font-size: var(--t-lg); }
+p { margin: 0; text-wrap: pretty; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+img, svg { display: block; }
+.icon { flex: none; }
+[hidden] { display: none !important; }
+.num { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; inset-inline-start: var(--s4); top: -4rem; z-index: 100; background: var(--enter); color: var(--enter-ink); padding: var(--s2) var(--s4); border-radius: var(--r-key); font-weight: 600; }
+.skip:focus { top: var(--s4); }
+* { scrollbar-width: thin; scrollbar-color: var(--n5) transparent; }
+textarea::placeholder, input::placeholder { color: var(--ink-3); opacity: 1; }
+input, textarea { caret-color: var(--cobalt); }
+
+/* ---------- dual legend (the signature) ---------- */
+.legend { display: inline-grid; grid-template-rows: auto auto; justify-items: stretch; gap: 0.1rem; max-width: 100%; }
+/* One alignment rule (BL-4): both lines are blocks aligned to the screen's reading edge. In the Hebrew UI a short
+   English title or can-do shares the Hebrew (right) edge, one line or wrapped; inside a left-to-right block (an
+   example, a phrase card) both lines share the left edge. (text-align: start would align each line by its own
+   direction, which is what split a card into two edges.) */
+.legend > :is(.l-en, .l-he) { display: block; text-align: left; overflow-wrap: anywhere; }
+:root[dir='rtl'] .legend > :is(.l-en, .l-he) { text-align: right; }
+:root[dir='rtl'] .example .legend > :is(.l-en, .l-he) { text-align: left; }
+.example .legend { display: grid; }
+.example > :not(.grow) { flex: none; }
+/* BL-5: the chip is a full touch target on touch screens. */
+@media (pointer: coarse) { .he-reveal { min-height: 2.75rem; min-width: 2.75rem; } }
+.legend .l-en { color: var(--ink-en); font-weight: 500; }
+.legend .l-he { color: var(--ink-he); font-size: 0.82em; font-weight: 400; transition: opacity 0.3s var(--ease-out); }
+:root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
+:root[data-support='off'] .legend .l-he { display: none; }
+.bi { display: inline; }
+/* English meta-text from bi() (instructions, can-dos, hints, explanations, task briefs) is its own left-to-right
+   block at every level: it fills the column and every line starts at the left edge, whatever its length (SB-1:
+   alignment follows the role, not the line count). Only one-line labels share the Hebrew edge: legend titles
+   (.l-en), chips, option labels and plan titles, and the verdict footer's answer blocks (beside its keys). */
+.bi > .bi-en { display: block; text-align: left; width: auto; max-width: 100%; }
+/* The Hebrew under English is the line a learner at A2 reads: never smaller than its English, and never under the
+   small step (14-15px at 100%), even inside small feedback text (SB-5). */
+.bi-he { display: block; color: var(--ink-he); font-size: 1em; }
+.bi-he-after { margin-block-start: 0.15em; font-size: max(1em, var(--t-sm)); }
+/* The Hebrew (or English) chip sits on its own line under its paragraph, never inside an English sentence (BL-5). */
+.he-reveal { display: flex; align-items: center; justify-content: center; width: fit-content; margin: var(--s2) 0 0; padding: 0.1em 0.7em; border: 1px solid var(--key-edge); border-radius: 6px; background: var(--key-sunk); color: var(--ink-he); font-size: var(--t-xs); line-height: 1.5; }
+[lang='en'] { font-feature-settings: 'kern' 1; }
+
+/* ---------- keys (buttons) ---------- */
+.key {
+  --key-bg: var(--key); --key-fg: var(--ink); --key-sk: var(--key-skirt);
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--s2);
+  min-height: var(--u); padding: 0 1.15rem; border: 1px solid var(--key-edge); border-block-end-width: 3px; border-block-end-color: var(--key-sk);
+  border-radius: var(--r-key); background: var(--key-bg); color: var(--key-fg); font-weight: 500; font-size: var(--t-md);
+  text-decoration: none; box-shadow: 0 1px 3px oklch(0.2 0.02 250 / 0.06);
+  transition: transform 0.08s ease, border-block-end-width 0.08s ease, background-color 0.15s ease;
+  user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
+}
+@media (hover: hover) { .key:not(:disabled, [aria-disabled='true']):hover { background: color-mix(in oklch, var(--key-bg), var(--ink) 3%); } }
+.key:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
+.key:disabled, .key[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+.key.enter { --key-bg: var(--enter); --key-fg: var(--enter-ink); --key-sk: var(--enter-skirt); border-color: var(--enter-skirt); font-weight: 600; }
+@media (hover: hover) { .key.enter:not(:disabled, [aria-disabled='true']):hover { background: var(--enter-hi); } }
+.key.enter:disabled { --key-bg: var(--key-sunk); --key-fg: var(--ink-3); --key-sk: var(--key-edge); border-color: var(--key-edge); }
+/* A secondary action is a flat key (SC-3): a sunk fill and a 1px outline that reaches 3:1 on the ground, no skirt.
+   Icon-only secondary keys (close, help, play beside a word) stay bare: the icon says they are buttons. */
+.key.ghost { --key-bg: var(--key-sunk); --key-sk: var(--key-line); border-color: var(--key-line); box-shadow: none; border-block-end-width: 1px; }
+.key.ghost.icon-only { --key-bg: transparent; border-color: transparent; }
+.key.ghost:active:not(:disabled) { transform: none; background: color-mix(in oklch, var(--key-sunk), var(--ink) 9%); }
+@media (hover: hover) { .key.ghost:not(:disabled, [aria-disabled='true']):hover { background: color-mix(in oklch, var(--key-sunk), var(--ink) 5%); } .key.ghost.icon-only:not(:disabled):hover { background: var(--key-sunk); } }
+.key.small { min-height: 2.25rem; padding: 0 0.8rem; font-size: var(--t-sm); border-radius: 0.6rem; }
+.key.wide { width: 100%; }
+.key.icon-only { padding: 0; width: var(--u); }
+.key.small.icon-only { width: 2.25rem; }
+.key .kbd { font-size: var(--t-xs); color: var(--ink-3); font-weight: 500; border: 1px solid var(--key-edge); border-radius: 5px; padding: 0 0.3rem; line-height: 1.4; }
+.key.enter .kbd { color: inherit; border-color: color-mix(in oklch, var(--enter-ink), transparent 70%); }
+.key.danger { --key-fg: var(--bad); }
+
+/* ---------- panels ---------- */
+.panel { background: var(--key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-panel); padding: var(--s5); box-shadow: var(--shadow); }
+.panel.flat { box-shadow: none; border-block-end-width: 1px; }
+.panel.sunk { background: var(--key-sunk); box-shadow: none; border-block-end-width: 1px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-block-end: var(--s4); }
+.panel-head h2, .panel-head h3 { font-size: var(--t-lg); }
+.muted { color: var(--ink-2); }
+.faint { color: var(--ink-3); }
+.small { font-size: var(--t-sm); }
+.xsmall { font-size: var(--t-xs); }
+.stack > * + * { margin-block-start: var(--s4); }
+.stack-sm > * + * { margin-block-start: var(--s2); }
+.stack-lg > * + * { margin-block-start: var(--s6); }
+.row { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.grow { flex: 1 1 auto; min-width: 0; }
+.grid-2 { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.grid-3 { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+
+/* status mark in a fixed cell: filled = done, half = in progress, hollow = not started */
+.mark { width: 1.125rem; height: 1.125rem; border-radius: 50%; border: 2px solid var(--n5); flex: none; position: relative; }
+.mark.done { background: var(--ok); border-color: var(--ok); }
+.mark.done { display: grid; place-items: center; color: var(--key); }
+.mark.done .icon { width: 0.75rem; height: 0.75rem; stroke-width: 3; }
+.mark.half { border-color: var(--cobalt); background: linear-gradient(to right, var(--cobalt) 50%, transparent 50%); }
+:root[dir='rtl'] .mark.half { background: linear-gradient(to left, var(--cobalt) 50%, transparent 50%); }
+.mark.out { border-style: dashed; border-color: var(--n5); }
+
+.tag { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.05rem 0.55rem; border-radius: 6px; font-size: var(--t-xs); font-weight: 500; border: 1px solid var(--key-edge); background: var(--key-sunk); color: var(--ink-2); white-space: nowrap; }
+.tag.level { font-variant-numeric: tabular-nums; color: var(--ink); background: var(--key); border-block-end-width: 2px; border-block-end-color: var(--key-skirt); }
+.tag.ok { color: var(--ok); background: var(--ok-tint); border-color: transparent; }
+.tag.warn { color: var(--warn); background: var(--warn-tint); border-color: transparent; }
+.tag.bad { color: var(--bad); background: var(--bad-tint); border-color: transparent; }
+.tag.cobalt { color: var(--cobalt); background: var(--cobalt-tint); border-color: transparent; }
+
+/* meter (evidence bar, never decorative) */
+.meter { height: 0.5rem; border-radius: var(--r-pill); background: var(--key-sunk); overflow: hidden; border: 1px solid var(--key-edge); }
+.meter > span { display: block; height: 100%; background: var(--cobalt); border-radius: inherit; transition: width 0.5s var(--ease-out); }
+.meter.ok > span { background: var(--ok); }
+
+/* ---------- forms ---------- */
+.field { display: grid; gap: var(--s2); }
+.field label, .field .label { font-weight: 500; font-size: var(--t-sm); }
+.field .help { font-size: var(--t-xs); color: var(--ink-3); }
+.input, textarea.input, select.input {
+  width: 100%; min-height: var(--u); padding: 0.65rem 0.9rem; border-radius: var(--r-key); border: 1px solid var(--key-edge);
+  background: var(--key); color: var(--ink); box-shadow: inset 0 1px 2px oklch(0.2 0.02 250 / 0.06);
+}
+.input:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in oklch, var(--focus), transparent 75%); }
+.input[aria-invalid='true'] { border-color: var(--bad); }
+textarea.input { min-height: 8rem; line-height: 1.6; resize: vertical; }
+.error-text { color: var(--bad); font-size: var(--t-sm); }
+.choice-list { display: grid; gap: var(--s2); }
+.choice { display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); cursor: pointer; text-align: start; width: 100%; }
+@media (hover: hover) { .choice:hover { background: color-mix(in oklch, var(--key), var(--ink) 3%); } }
+.choice[aria-checked='true'], .choice[aria-pressed='true'], .choice:has(input:checked) { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.choice input { accent-color: var(--cobalt); }
+.seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: calc(var(--r-key) + 3px); background: var(--key-sunk); border: 1px solid var(--key-edge); flex-wrap: wrap; max-width: 100%; }
+/* Every segment carries a transparent edge, so the selected one (edge and 2px skirt in the key line colour, 3:1 on
+   the track in light and dark) does not shift its neighbours (SB-6). */
+.seg button { border: 1px solid transparent; border-block-end-width: 2px; background: transparent; padding: 0.4rem 0.85rem; border-radius: 0.6rem; font-size: var(--t-sm); color: var(--ink-2); min-height: 2.25rem; }
+.seg button[aria-pressed='true'] { background: var(--key); color: var(--ink); border-color: var(--key-line); box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.12); font-weight: 500; }
+
+/* ---------- app shell: the deck ---------- */
+.app { min-height: 100dvh; display: grid; grid-template-columns: 1fr; }
+.deck { display: none; }
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); background: color-mix(in oklch, var(--ground), transparent 8%); backdrop-filter: saturate(1.2) blur(10px); border-block-end: 1px solid var(--key-edge); }
+.top .title { font-weight: 600; font-size: var(--t-md); }
+.view { flex: 1; width: 100%; max-width: 72rem; margin-inline: auto; padding: var(--s5) var(--s4) calc(var(--s8) + 4rem); }
+.view:focus { outline: none; }
+.view.narrow { max-width: 44rem; }
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; color: inherit; text-decoration: none; }
+.brand-key { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 0.5rem; background: var(--enter); color: var(--enter-ink); border-block-end: 3px solid var(--enter-skirt); font-size: 0.95rem; font-weight: 700; position: relative; }
+.brand-key small { position: absolute; inset-block-end: 1px; inset-inline-end: 3px; font-size: 0.5rem; font-weight: 600; }
+
+.tabbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--deck); padding: 0.35rem 0.35rem calc(0.35rem + env(safe-area-inset-bottom)); gap: 0.3rem; }
+.tabbar a { display: grid; justify-items: center; gap: 0.1rem; padding: 0.35rem 0.1rem 0.3rem; border-radius: 0.6rem; color: var(--deck-ink-dim); text-decoration: none; font-size: 0.72rem; font-weight: 500; }
+.tabbar a[aria-current='page'] { color: var(--deck-ink); background: var(--deck-key); box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.07), inset 0 -2px 0 oklch(0 0 0 / 0.35); }
+.tabbar .l2 { display: none; }
+
+@media (min-width: 64rem) {
+  .app { grid-template-columns: var(--rail-w) 1fr; }
+  .tabbar { display: none; }
+  .deck { display: flex; flex-direction: column; gap: var(--s1); position: sticky; top: 0; height: 100dvh; overflow-y: auto; background: var(--deck); color: var(--deck-ink); padding: var(--s5) var(--s3); }
+  .deck .brand { color: var(--deck-ink); padding: 0 var(--s2) var(--s5); }
+  .deck nav { display: grid; gap: 0.3rem; }
+  .deck .group-label { margin: var(--s5) var(--s3) var(--s2); font-size: var(--t-xs); color: var(--deck-ink-dim); font-weight: 500; }
+  .deck a.nav { display: flex; align-items: center; gap: var(--s3); padding: 0.55rem var(--s3); border-radius: 0.65rem; color: var(--deck-ink-dim); text-decoration: none; border: 1px solid transparent; }
+  .deck a.nav:hover { color: var(--deck-ink); background: oklch(1 0 0 / 0.04); }
+  .deck a.nav[aria-current='page'] { color: var(--deck-ink); background: var(--deck-key); border-color: oklch(1 0 0 / 0.06); border-block-end: 3px solid oklch(0 0 0 / 0.45); }
+  .deck .nav-legend { display: grid; line-height: 1.25; }
+  .deck .nav-legend .l1 { font-size: var(--t-sm); font-weight: 500; }
+  .deck .nav-legend .l2 { font-size: 0.72rem; color: var(--deck-ink-dim); }
+  .deck .nav-legend .l2[lang='he'] { color: oklch(0.78 0.09 263); opacity: 1; }
+  .deck a.nav[aria-current='page'] .nav-legend .l2:not([lang='he']) { color: var(--n4); }
+  .deck .foot { margin-top: auto; padding: var(--s4) var(--s3) 0; font-size: var(--t-xs); color: var(--deck-ink-dim); display: grid; gap: var(--s2); }
+  .top { display: none; }
+  .top.always { display: flex; }
+  .view { padding: var(--s7) var(--s6) var(--s8); }
+  body.bare .app { grid-template-columns: 1fr; }
+}
+body.bare .view { max-width: none; padding: 0; }
+
+/* ---------- page header ---------- */
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; margin-block-end: var(--s6); }
+.page-head h1 { font-size: var(--t-2xl); }
+.page-head p { margin-block-start: var(--s2); color: var(--ink-2); max-width: 42rem; }
+
+/* ---------- Today ---------- */
+.today { display: grid; gap: var(--s6); }
+@media (min-width: 64rem) { .today { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } }
+.plan { display: grid; gap: var(--s3); }
+.plan-item { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s4); padding: var(--s4) var(--s5); text-decoration: none; color: inherit; }
+.plan-item:hover { border-color: var(--n5); }
+.plan-item .why { color: var(--ink-2); font-size: var(--t-sm); margin-block-start: 0.15rem; }
+.plan-item .glyph { width: 2.6rem; height: 2.6rem; border-radius: 0.7rem; display: grid; place-items: center; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
+.plan-item.done { background: var(--key-sunk); box-shadow: none; border-block-end-width: 1px; color: var(--ink-2); }
+.plan-item.done .glyph { background: var(--ok-tint); color: var(--ok); border-color: transparent; }
+.plan-time { font-size: var(--t-sm); color: var(--ink-3); white-space: nowrap; }
+.start-bar { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
+
+/* level rail: extents proportional to lesson count */
+.level-rail { display: flex; gap: 3px; align-items: stretch; }
+.level-rail > div { flex: var(--n) 1 0; height: 0.65rem; border-radius: 3px; background: var(--key-sunk); border: 1px solid var(--key-edge); position: relative; overflow: hidden; }
+.level-rail > div > span { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--ok); }
+.level-rail > div.current { border-color: var(--cobalt); }
+.level-rail > div.current > span { background: var(--cobalt); }
+.level-rail-labels { display: flex; gap: 3px; font-size: 0.7rem; color: var(--ink-3); margin-block-start: 0.3rem; }
+.level-rail-labels > span { flex: var(--n) 1 0; text-align: start; white-space: nowrap; min-width: 0; }
+.level-rail-labels > span.current { color: var(--cobalt); font-weight: 600; }
+
+.skills { display: grid; gap: var(--s3); }
+.skill-row { display: grid; grid-template-columns: 7rem 1fr 3.2rem; align-items: center; gap: var(--s3); font-size: var(--t-sm); }
+.skill-level { text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+.skill-level.none { color: var(--ink-3); font-weight: 400; }
+
+/* ---------- path ---------- */
+.level-tabs { display: flex; gap: var(--s2); overflow-x: auto; padding-block-end: var(--s2); margin-block-end: var(--s5); }
+.level-tab { display: grid; gap: 0.15rem; min-width: 5.5rem; padding: 0.5rem 0.8rem; border-radius: var(--r-key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); background: var(--key); color: inherit; text-decoration: none; text-align: start; }
+.level-tab[aria-current='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.level-tab .lt-name { font-weight: 600; }
+.level-tab .lt-count { font-size: var(--t-xs); color: var(--ink-3); }
+.lesson-list { display: grid; gap: var(--s2); }
+.lesson-row { display: grid; grid-template-columns: auto 2.2rem 1fr auto; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); text-decoration: none; color: inherit; }
+.lesson-row:hover { border-color: var(--n5); }
+.lesson-row.next { border-color: var(--cobalt); border-block-end: 3px solid var(--cobalt); }
+.lesson-row .ord { font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: var(--t-sm); text-align: center; }
+.lesson-row .meta { font-size: var(--t-xs); color: var(--ink-3); }
+.lesson-row.unwritten { border-style: dashed; }
+
+/* ---------- lesson player ---------- */
+.player { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); background: var(--ground); }
+.player-top { display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); max-width: 52rem; width: 100%; margin-inline: auto; }
+.progress { flex: 1; height: 0.6rem; border-radius: var(--r-pill); background: var(--key-sunk); border: 1px solid var(--key-edge); overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--cobalt); transition: width 0.4s var(--ease-out); border-radius: inherit; }
+.player-body { width: 100%; max-width: 46rem; margin-inline: auto; padding: var(--s5) var(--s4) var(--s7); }
+.player-foot { position: sticky; bottom: 0; border-block-start: 1px solid var(--key-edge); background: var(--ground); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom)); }
+.player-foot .inner { max-width: calc(46rem - 2 * var(--s4)); margin-inline: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.player-foot .inner > .key { min-width: 0; }
+@media (max-width: 22rem) { .player-foot .inner > .key { white-space: normal; text-align: center; } }
+/* The verdict sits on a calm, neutral surface; its colour is a 4px bar at the start and the icon (SC-7). */
+.player-foot.ok, .player-foot.bad, .player-foot.almost { background: var(--key); border-color: var(--key-edge); }
+.player-foot.ok { --verdict: var(--ok); }
+.player-foot.bad { --verdict: var(--bad); }
+.player-foot.almost { --verdict: var(--warn); }
+.verdict { flex: 1; min-width: 0; }
+.player-foot .verdict { border-inline-start: 4px solid var(--verdict, transparent); padding-inline-start: var(--s3); }
+.verdict-title { font-weight: 600; display: flex; align-items: center; gap: var(--s2); }
+.player-foot .verdict-title .icon { color: var(--verdict, currentColor); }
+.verdict-body { font-size: var(--t-sm); margin-block-start: 0.2rem; }
+.verdict-body .answer { font-weight: 600; }
+
+.ex-prompt { font-size: var(--t-lg); font-weight: 600; margin-block-end: var(--s5); }
+.ex-prompt .bi-he { font-size: var(--t-md); font-weight: 400; margin-block-start: 0.25rem; }
+.ex-text { font-size: var(--t-xl); line-height: 1.5; }
+.ex-text [lang='en'] { letter-spacing: -0.005em; }
+/* One column that never grows past the screen: a long option or its play key cannot push the page sideways. */
+.options { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s3); }
+.option { display: flex; align-items: center; gap: var(--s3); width: 100%; min-height: 3.5rem; padding: var(--s3) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); text-align: start; font-size: var(--t-md); transition: transform 0.08s ease; }
+.option:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
+.option .k { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; flex: none; border-radius: 0.4rem; border: 1px solid var(--key-edge); border-block-end-width: 2px; font-size: var(--t-xs); color: var(--ink-3); font-weight: 600; background: var(--key-sunk); }
+.option[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.option[aria-pressed='true'] .k { color: var(--cobalt); border-color: var(--cobalt); }
+.option.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.option.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.option:disabled { cursor: default; }
+.option-fb { font-size: var(--t-sm); color: var(--ink-2); margin-block-start: var(--s2); }
+.gap-input { display: inline-block; min-width: 6ch; width: auto; padding: 0.1rem 0.5rem; margin: 0 0.15rem; border: 0; border-block-end: 2px solid var(--cobalt); background: var(--cobalt-tint); border-radius: 0.4rem 0.4rem 0 0; font-size: inherit; text-align: center; field-sizing: content; }
+.gap-input:focus { background: color-mix(in oklch, var(--cobalt-tint), var(--cobalt) 10%); }
+.gap-input:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.gap-input.right { border-color: var(--ok); background: var(--ok-tint); }
+.gap-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.chip { min-height: 2.75rem; padding: 0.35rem 0.85rem; border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: 0.65rem; background: var(--key); font-size: var(--t-md); }
+.chip:active:not(:disabled) { transform: translateY(2px); border-block-end-width: 1px; }
+.chip.used { visibility: hidden; }
+.answer-line { min-height: 4rem; display: flex; flex-wrap: wrap; gap: var(--s2); align-content: flex-start; padding: var(--s3); border-radius: var(--r-key); border: 1px dashed var(--n5); background: var(--key-sunk); margin-block-end: var(--s4); }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+.match-col { display: grid; gap: var(--s2); align-content: start; }
+.match-item { min-height: 3rem; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); text-align: center; }
+.match-item[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.match-item.paired { opacity: 0.45; border-color: var(--ok); }
+.match-item.shake { animation: shake 0.3s; border-color: var(--bad); }
+@keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.cat-grid { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); margin-block-start: var(--s4); }
+.cat-bin { min-height: 6rem; border: 1px dashed var(--n5); border-radius: var(--r-key); padding: var(--s3); background: var(--key-sunk); display: flex; flex-direction: column; gap: var(--s2); }
+.cat-bin > .label { font-weight: 600; font-size: var(--t-sm); }
+.cat-bin .chip { font-size: var(--t-sm); }
+.passage { background: var(--key); border: 1px solid var(--key-edge); border-radius: var(--r-panel); padding: var(--s5); font-size: var(--t-md); line-height: 1.75; max-width: 68ch; }
+.passage p + p { margin-block-start: var(--s3); }
+.big-listen { display: flex; gap: var(--s3); justify-content: center; margin-block: var(--s5); }
+.big-listen .key { min-height: 4.5rem; padding: 0 1.6rem; font-size: var(--t-lg); }
+.word-diff { display: flex; flex-wrap: wrap; gap: 0.35rem; font-size: var(--t-lg); }
+.word-diff .w-ok { color: var(--ok); }
+.word-diff .w-miss { color: var(--bad); text-decoration: underline wavy; text-underline-offset: 0.25em; }
+.explain { margin-block-start: var(--s5); padding: var(--s4); border-radius: var(--r-key); background: var(--key-sunk); border: 1px solid var(--key-edge); font-size: var(--t-sm); }
+.hint-box { margin-block-start: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-key); background: var(--warn-tint); font-size: var(--t-sm); display: flex; gap: var(--s2); align-items: flex-start; }
+
+/* lesson intro / explanation */
+.lesson-intro h1 { font-size: var(--t-2xl); }
+.block-rule { padding: var(--s4); border-radius: var(--r-key); background: var(--cobalt-tint); border: 1px solid transparent; }
+.block-warning { padding: var(--s4); border-radius: var(--r-key); background: var(--warn-tint); }
+.block-tip { padding: var(--s4); border-radius: var(--r-key); background: var(--key-sunk); border: 1px solid var(--key-edge); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+table.data { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+table.data th, table.data td { padding: 0.55rem 0.8rem; text-align: start; border-block-end: 1px solid var(--key-edge); }
+table.data th { font-weight: 600; background: var(--key-sunk); }
+table.data tr:last-child td { border-block-end: 0; }
+.examples { display: grid; gap: var(--s2); }
+.example { display: flex; align-items: flex-start; gap: var(--s3); padding: var(--s3) var(--s4); background: var(--key); border: 1px solid var(--key-edge); border-radius: var(--r-key); direction: ltr; text-align: left; }
+.example .note { font-size: var(--t-xs); color: var(--ink-3); }
+
+/* ---------- welcome / onboarding ---------- */
+.welcome { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; }
+.welcome-top { display: flex; justify-content: space-between; align-items: center; padding: var(--s4) var(--s5); }
+.welcome-main { display: grid; align-content: center; gap: var(--s6); width: 100%; max-width: 64rem; margin-inline: auto; padding: var(--s6) var(--s5); }
+@media (min-width: 64rem) { .welcome-main { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--s7); } }
+.welcome h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.025em; max-width: 17ch; }
+.check-rows { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+.check-rows li { display: grid; grid-template-columns: auto 1fr; gap: var(--s2); align-items: start; }
+.check-rows li .icon { margin-block-start: 0.2em; color: var(--ok); }
+.welcome .lede { font-size: var(--t-lg); color: var(--ink-2); max-width: 34rem; margin-block-start: var(--s4); }
+.keyboard { display: grid; gap: 0.45rem; padding: var(--s4); border-radius: 1.25rem; background: var(--deck); box-shadow: var(--shadow-lift); direction: ltr; }
+.keyboard .krow { display: flex; gap: 0.45rem; justify-content: center; }
+.kc { position: relative; width: clamp(2.3rem, 6vw, 3.4rem); aspect-ratio: 1; border-radius: 0.55rem; background: var(--n1); border-block-end: 4px solid var(--n4); color: var(--n10); }
+.kc .kl { position: absolute; inset-block-start: 0.3rem; inset-inline-start: 0.4rem; font-size: clamp(0.8rem, 1.6vw, 1rem); font-weight: 600; }
+.kc .kh { position: absolute; inset-block-end: 0.25rem; inset-inline-end: 0.4rem; font-size: clamp(0.72rem, 1.4vw, 0.9rem); color: var(--ink-he); font-weight: 500; }
+.kc.hot { background: var(--enter); border-block-end-color: var(--enter-skirt); }
+.kc.hot .kh { color: oklch(0.32 0.1 263); }
+.kc.wide { width: auto; flex: 1; aspect-ratio: auto; }
+.kc.press { animation: press 0.35s var(--ease-out); }
+@keyframes press { 40% { transform: translateY(3px); border-block-end-width: 1px; } }
+.welcome-steps { display: grid; gap: var(--s3); counter-reset: none; }
+.onboard { max-width: 38rem; margin-inline: auto; padding: var(--s6) var(--s4) var(--s8); }
+.onboard h1 { font-size: var(--t-2xl); margin-block-end: var(--s2); }
+.steps-dots { display: flex; gap: 0.35rem; margin-block-end: var(--s5); }
+.steps-dots span { height: 0.35rem; flex: 1; border-radius: var(--r-pill); background: var(--key-edge); }
+.steps-dots span.on { background: var(--cobalt); }
+
+/* ---------- cards for lists (word entries, scenarios, expressions) ---------- */
+.entry { display: grid; gap: var(--s2); padding: var(--s4) var(--s5); border-radius: var(--r-panel); background: var(--key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); text-decoration: none; color: inherit; }
+.entry-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); }
+.entry-word { font-size: var(--t-lg); font-weight: 600; }
+.entry-ipa { color: var(--ink-3); font-size: var(--t-sm); }
+.entry-he { color: var(--ink-he); }
+.entry-ex { color: var(--ink-2); font-size: var(--t-sm); }
+.entry-foot { display: flex; gap: var(--s2); flex-wrap: wrap; align-items: center; }
+.list-tools { display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; margin-block-end: var(--s4); }
+.list-tools .input { max-width: 22rem; }
+
+/* flashcard (vocabulary trainer) */
+.flash { min-height: 15rem; display: grid; place-items: center; text-align: center; gap: var(--s3); padding: var(--s6); }
+.flash .prompt-word { font-size: clamp(2rem, 6vw, 3rem); font-weight: 600; letter-spacing: -0.02em; }
+
+/* chat (tutor, roleplay) */
+.chat { display: grid; grid-template-rows: 1fr auto; height: calc(100dvh - 12rem); min-height: 26rem; border: 1px solid var(--key-edge); border-radius: var(--r-panel); background: var(--key); overflow: hidden; }
+.chat-log { overflow-y: auto; padding: var(--s4); display: flex; flex-direction: column; gap: var(--s3); }
+.msg { max-width: 80%; padding: var(--s3) var(--s4); border-radius: 1rem; line-height: 1.55; white-space: pre-wrap; }
+.msg.them { align-self: flex-start; background: var(--key-sunk); border: 1px solid var(--key-edge); border-end-start-radius: 0.3rem; }
+.msg.me { align-self: flex-end; background: var(--cobalt-tint); border-end-end-radius: 0.3rem; }
+.msg .who { display: block; font-size: var(--t-xs); color: var(--ink-3); margin-block-end: 0.2rem; }
+.chat-input { display: flex; gap: var(--s2); padding: var(--s3); border-block-start: 1px solid var(--key-edge); background: var(--ground); align-items: flex-end; }
+.chat-input textarea { min-height: 3rem; max-height: 9rem; }
+
+/* writing editor */
+.editor { display: grid; gap: var(--s5); }
+@media (min-width: 64rem) { .editor { grid-template-columns: minmax(0, 1fr) 23rem; align-items: start; } }
+.editor textarea.input { min-height: 22rem; font-size: var(--t-md); line-height: 1.75; }
+.editor-stats { display: flex; gap: var(--s4); flex-wrap: wrap; font-size: var(--t-sm); color: var(--ink-2); }
+.check-list { display: grid; gap: var(--s2); }
+.check-item { display: grid; grid-template-columns: auto 1fr; gap: var(--s3); align-items: start; padding: var(--s3); border-radius: var(--r-key); background: var(--key-sunk); font-size: var(--t-sm); }
+.rubric { display: grid; gap: var(--s2); }
+.rubric-row { display: grid; grid-template-columns: 1fr auto; gap: var(--s2) var(--s3); padding: var(--s3); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); }
+.rubric-row .band { font-weight: 600; font-size: var(--t-sm); }
+.rubric-row details { grid-column: 1 / -1; font-size: var(--t-sm); }
+.error-card { padding: var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); display: grid; gap: var(--s2); }
+.error-card .quote { font-weight: 500; background: var(--bad-tint); padding: 0 0.3rem; border-radius: 4px; }
+.error-card.style .quote { background: var(--cobalt-tint); }
+mark.hl { background: var(--warn-tint); color: inherit; border-radius: 3px; padding: 0 0.1em; }
+
+/* ---------- dialogs & toasts ---------- */
+dialog.sheet { border: 0; padding: 0; background: transparent; max-width: min(36rem, calc(100vw - 2rem)); width: 100%; color: inherit; }
+dialog.sheet::backdrop { background: oklch(0.15 0.01 250 / 0.5); backdrop-filter: blur(2px); }
+dialog.sheet > .panel { padding: var(--s5); }
+#toast-root { position: fixed; inset-inline: 0; bottom: calc(5.5rem + env(safe-area-inset-bottom)); display: grid; justify-items: center; gap: var(--s2); pointer-events: none; z-index: 60; }
+@media (min-width: 64rem) { #toast-root { bottom: var(--s5); } }
+.toast { pointer-events: auto; background: var(--n10); color: var(--n1); padding: 0.7rem 1rem; border-radius: var(--r-key); box-shadow: var(--shadow-lift); font-size: var(--t-sm); max-width: calc(100vw - 2rem); animation: toast-in 0.35s var(--ease-out); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
+.banner { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s3) var(--s4); border-radius: var(--r-key); font-size: var(--t-sm); background: var(--cobalt-tint); }
+.banner.warn { background: var(--warn-tint); }
+.banner.bad { background: var(--bad-tint); }
+.empty { text-align: center; padding: var(--s7) var(--s4); color: var(--ink-2); display: grid; gap: var(--s3); justify-items: center; }
+.empty h2, .empty h3 { color: var(--ink); font-size: var(--t-lg); }
+.boot { display: grid; place-items: center; min-height: 60dvh; color: var(--ink-3); }
+.spinner { width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2.5px solid var(--key-edge); border-top-color: var(--cobalt); animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* stats */
+.stat-grid { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); }
+.stat { padding: var(--s4); border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); }
+.stat .v { font-size: var(--t-xl); font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .k { font-size: var(--t-xs); color: var(--ink-3); }
+.stat .d { font-size: var(--t-xs); margin-block-start: 0.2rem; }
+.bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.4rem; align-items: end; height: 7rem; }
+.bars > div { display: grid; align-content: end; justify-items: center; gap: 0.3rem; height: 100%; font-size: 0.7rem; color: var(--ink-3); }
+.bars > div > span { width: 100%; max-width: 2.2rem; border-radius: 0.35rem 0.35rem 0.15rem 0.15rem; background: var(--cobalt); min-height: 2px; }
+
+/* Touch devices: every control at least 44 x 44 px. */
+@media (pointer: coarse) {
+  .key.small, .key.small.icon-only, .seg button, .chip, .he-reveal { min-height: 2.75rem; }
+  .key.small.icon-only { width: 2.75rem; }
+}
+.step-count { font-size: var(--t-sm); color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+@media print { .deck, .tabbar, .top, .player-foot { display: none !important; } body { background: #fff; } }
+
+/* centers */
+.disclosure { display: flex; align-items: center; gap: var(--s3); width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; list-style: none; }
+.disclosure::-webkit-details-marker { display: none; }
+.disclosure .chev { display: inline-grid; place-items: center; flex: none; color: var(--ink-3); transition: transform 0.2s var(--ease-out); }
+:root[dir='rtl'] .disclosure .chev { transform: scaleX(-1); }
+.disclosure[aria-expanded='true'] .chev, details[open] > .disclosure .chev,
+:root[dir='rtl'] .disclosure[aria-expanded='true'] .chev, :root[dir='rtl'] details[open] > .disclosure .chev { transform: rotate(90deg); }
+.lesson-row.three { grid-template-columns: auto minmax(0, 1fr) auto; }
+.topic-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+.topic-row { display: grid; gap: var(--s3); padding: var(--s3) var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); }
+@media (min-width: 48rem) { .topic-row { grid-template-columns: minmax(0, 1fr) 12rem auto; align-items: center; } }
+.topic-row > .key { justify-self: start; }
+.entry-more { border-block-start: 1px solid var(--key-edge); padding-block-start: var(--s4); margin-block-start: var(--s2); }
+@media (max-width: 47.99rem) {
+  summary.disclosure { flex-wrap: wrap; }
+  summary.disclosure > .disclosure-meta { flex-basis: 100%; padding-inline-start: calc(18px + var(--s3)); }
+  .topic-row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .topic-row > :first-child { grid-column: 1 / -1; }
+}
+.entry[data-entry] { scroll-margin-block-start: 5rem; }
+
+/* learner-logic */
+/* Exercises-by-day chart: each bar sits in a track of definite height, so percentage heights draw. */
+.bars > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.bars > div > .bar-track { position: relative; flex: 1 1 auto; width: 100%; max-width: 2.2rem; min-height: 0; background: none; border-radius: 0; }
+.bars .bar { position: absolute; inset-inline: 0; inset-block-end: 0; min-height: 2px; background: var(--cobalt); border-radius: 0.35rem 0.35rem 0.15rem 0.15rem; }
+/* Level rail: placed-out lessons are a hatched part, never the fill of completed ones. */
+.level-rail > div > span.out { background: repeating-linear-gradient(135deg, var(--n5) 0 2px, transparent 2px 5px); }
+.level-tab .lt-out { font-size: var(--t-xs); color: var(--ink-3); }
+/* Lessons still being written: not links, labelled in words. */
+.lesson-row.unwritten { background: transparent; color: var(--ink-2); }
+.lesson-row.unwritten:hover { border-color: var(--key-edge); }
+/* Skill rows: the source of each level on its own line; first estimates are striped. */
+.skill-row { row-gap: 0.1rem; }
+.skill-row .skill-src { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-3); line-height: 1.35; }
+.skill-row .skill-wide { grid-column: 2 / 4; }
+.skill-row.est .meter > span { background: repeating-linear-gradient(135deg, var(--cobalt) 0 3px, var(--cobalt-tint) 3px 6px); }
+/* Today's main button carries a lesson title: it may wrap on narrow phones instead of overflowing. */
+.start-bar > .key { white-space: normal; max-width: 100%; text-align: start; padding-block: 0.45rem; }
+
+/* writing */
+/* Desktop: the text stays in view beside long feedback and fills the screen height (persona panel P-30, P-84). */
+@media (min-width: 64rem) {
+  .editor { align-items: stretch; }
+  .editor > aside { align-self: start; }
+  .editor-pane { position: sticky; top: var(--s4); }
+  .editor .editor-pane textarea.input { height: calc(100dvh - 12rem); min-height: 22rem; }
+  .fix-strip { display: none; }
+}
+.editor-pane [data-status]:empty, .editor-pane [data-ai-why]:empty { display: none; }
+.fix-strip .row { gap: var(--s2); }
+.fix-strip .chip { font-size: var(--t-sm); }
+/* Compact controls only with a fine pointer; touch keeps the 44 px minimum. */
+@media (pointer: fine) { .fix-strip .chip, .input.compact { min-height: 2.25rem; } }
+.essay-side:focus:not(:focus-visible) { outline: none; }
+.note-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; margin: 0; }
+.topic-pick { border: 0; padding: 0; margin: 0; min-width: 0; }
+.topic-pick legend { padding: 0; margin-block-end: var(--s2); }
+.topic-pick .note-row { padding: var(--s2) var(--s3); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); cursor: pointer; }
+.topic-pick .note-row:has(input:checked) { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.topic-pick input { margin-block-start: 0.3rem; }
+.req-list { margin: var(--s2) 0 0; padding-inline-start: 1.2rem; }
+.final-box { padding: var(--s3); border-radius: var(--r-key); background: var(--key-sunk); }
+.input.compact { width: auto; padding: 0.2rem 0.5rem; }
+.diff { white-space: pre-wrap; line-height: 1.8; overflow-wrap: anywhere; }
+.diff ins, .xsmall ins { background: var(--ok-tint); text-decoration: none; }
+.diff del, .xsmall del { background: var(--bad-tint); }
+.passage.source { max-width: none; }
+.essay-busy { align-items: center; }
+/* A long English task brief on a Hebrew screen reads as its own left-aligned block (research D33). */
+
+/* player-speaking */
+/* English learning text inside Hebrew screens is its own left-aligned block (research D33; P-32, P-58). */
+/* Objectives and key points: the icon stays on the line of its text, also on phones (P-13). */
+.point-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+.point { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: var(--s2); }
+.point > .icon { margin-block-start: 0.2em; color: var(--cobalt); }
+.block-tip.row, .block-warning.row, .speak-focus { flex-wrap: nowrap; align-items: flex-start; gap: var(--s2); }
+.missing-lesson h1 { font-size: var(--t-lg); }
+/* The verdict: the result and the right form first, the explanation behind "Why?" (research D7). On phones
+   it takes the full width with a full-width Continue below it (P-03, P-39, P-59). */
+.player-foot .verdict { max-height: 35dvh; overflow-y: auto; }
+.verdict .why > summary { cursor: pointer; width: fit-content; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; min-height: 2rem; display: flex; align-items: center; }
+.verdict .why[open] > summary { margin-block-end: var(--s1); }
+.verdict-body .fix-list { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: var(--s1); }
+.verdict-body .fix-cat { color: var(--ink-2); }
+/* English in the verdict (the answer, the learner's sentence marked, a note, the fix list, an example) is as wide
+   as its text: a one-line answer sits under its Hebrew label at the right edge, away from the keys on the left,
+   and a longer block fills the verdict and reads from the left (BL-4 in the SC-7 footer row). */
+.verdict-body .answer-block { display: block; text-align: start; }
+.verdict-body :is(.answer-block, .answer-diff, .en-block, .fix-list) { width: fit-content; max-width: 100%; }
+.verdict .self-judge .key { white-space: normal; }
+@media (max-width: 40rem) {
+  .player-foot .inner > .verdict { flex: 1 1 100%; }
+  .player-foot .inner > .verdict ~ .key, .player-foot .inner > [data-retry] { flex: 1 1 100%; }
+}
+/* Letter tiles: a play button beside the tile; pointed Hebrew (niqqud) larger (P-09). */
+.match-cell { display: flex; gap: var(--s2); align-items: center; }
+.match-cell > .match-item { flex: 1; min-width: 0; }
+.match-item.pointed { font-size: var(--t-lg); line-height: 1.5; }
+/* Sorting: every placed item is marked in place with an icon as well as colour (D8). */
+.cat-bin .chip.is-right, .cat-bin .chip.is-wrong { display: inline-flex; align-items: center; gap: 0.3rem; }
+.cat-bin .chip.is-right { border-color: var(--ok); }
+.cat-bin .chip.is-right .icon { color: var(--ok); }
+.cat-bin .chip.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.cat-bin .chip.is-wrong .icon { color: var(--bad); }
+/* A bin's name is its button; the bin around the placed chips is not a control itself (no nested controls). */
+.cat-bin > button.label { background: none; border: 0; padding: 0.2rem 0; min-height: 2rem; text-align: start; color: inherit; cursor: pointer; }
+@media (pointer: coarse) { .cat-bin > button.label { min-height: 2.75rem; } }
+/* Speaking: what was recognised is information, never a grade. Recognised words are a darker green on the
+   sunk panel, for contrast in both themes. */
+.recognised .heard { color: var(--ink); }
+.recognised .word-diff .w-ok { color: color-mix(in oklch, var(--ok), var(--ink) 30%); }
+/* Speaking lab tabs: example words first, the IPA below in small print (P-23). */
+.sound-tabs button { display: inline-grid; justify-items: center; line-height: 1.25; padding-block: 0.3rem; }
+.sound-tabs .tab-ipa { font-size: var(--t-xs); color: var(--ink-3); font-weight: 400; }
+/* The ready lesson offered on the "still being written" screen: its title keeps the button's ink. */
+.missing-lesson .key .legend :is(.l-en, .l-he) { color: inherit; }
+
+/* reallife-layout-privacy */
+/* Welcome keyboard: keys are sized from the viewport, so ten keys and their gaps fit a 320px phone (P-01,
+   P-36, P-52). Narrow keys are a little taller than wide, so both legends stay apart. */
+.keyboard { --kgap: 0.45rem; --kpad: var(--s4); --wpad: var(--s5);
+  --kw: min(3.4rem, calc((100vw - 2 * var(--wpad) - 2 * var(--kpad) - 9 * var(--kgap)) / 10));
+  gap: var(--kgap); padding: var(--kpad); max-width: 100%; }
+.keyboard .krow { gap: var(--kgap); }
+.keyboard .kc { width: var(--kw); height: max(var(--kw), 1.85rem); aspect-ratio: auto; }
+.keyboard .kc .kl { inset-block-start: max(2px, calc(var(--kw) * 0.08)); inset-inline-start: max(3px, calc(var(--kw) * 0.12)); font-size: clamp(0.6rem, calc(var(--kw) * 0.3), 1rem); line-height: 1.1; }
+.keyboard .kc .kh { inset-block-end: max(2px, calc(var(--kw) * 0.07)); inset-inline-end: max(3px, calc(var(--kw) * 0.12)); font-size: clamp(0.56rem, calc(var(--kw) * 0.27), 0.9rem); line-height: 1.1; }
+.keyboard .kc.wide { width: auto; height: calc(max(var(--kw), 1.85rem) * 0.75); }
+@media (max-width: 30rem) {
+  .welcome-top { padding-inline: var(--s4); }
+  .welcome-main { padding-inline: var(--s4); }
+  .keyboard { --kgap: 0.25rem; --kpad: 0.6rem; --wpad: var(--s4); border-radius: 0.9rem; }
+}
+/* The skip link hides by its own height, so a two-line label at large text sizes stays off screen. */
+.skip { top: 0; transform: translateY(-120%); }
+.skip:focus { transform: none; }
+/* Large text (130-150%) and narrow phones: nothing may push the page sideways (P-24, P-40, P-51). */
+@media (max-width: 63.99rem) { .today { grid-template-columns: minmax(0, 1fr); } }
+.plan-item > .grow { min-width: 0; overflow-wrap: break-word; }
+.big-listen { flex-wrap: wrap; }
+.big-listen .key { white-space: normal; max-width: 100%; text-align: center; }
+@media (max-width: 30rem) {
+  :root[data-text='130'] .plan-item, :root[data-text='150'] .plan-item { grid-template-columns: auto minmax(0, 1fr); padding: var(--s3) var(--s4); column-gap: var(--s3); row-gap: 0; }
+  :root[data-text='130'] .plan-item .plan-time, :root[data-text='150'] .plan-item .plan-time { grid-column: 2; }
+}
+/* A key's label wraps instead of pushing the page sideways on phones and at large text sizes. */
+@media (max-width: 40rem) { .key { white-space: normal; max-width: 100%; } }
+:root[data-text='130'] .key, :root[data-text='150'] .key { white-space: normal; max-width: 100%; }
+.entry-word { overflow-wrap: anywhere; }
+@media (max-width: 30rem) {
+  .page-head h1 { font-size: var(--t-xl); overflow-wrap: anywhere; }
+  .entry { padding: var(--s3) var(--s4); }
+  .lesson-row { padding: var(--s3); column-gap: var(--s2); }
+}
+/* Scenario practice: each other reply and its feedback are two lines, each with its own direction (P-55). */
+.alt-list { list-style: none; margin: var(--s2) 0 0; padding: 0; display: grid; gap: var(--s3); }
+.alt-list > li { padding-block-start: var(--s2); border-block-start: 1px solid var(--key-edge); }
+.alt-quote { font-size: var(--t-sm); font-weight: 500; text-align: start; }
+/* Roleplay help: phrases to start from, each with its Hebrew meaning under it. */
+.phrase-help { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.phrase-help > li { display: grid; justify-items: start; gap: 0.15rem; }
+.phrase-help .key { text-align: start; white-space: normal; height: auto; padding-block: 0.35rem; }
+.phrase-help .l-he { color: var(--ink-he); padding-inline: 0.2rem; }
+.hint-box > span { min-width: 0; }
+/* A Hebrew placeholder in an English field reads right to left until the learner types (P-69). */
+:root[dir='rtl'] :is(input, textarea)[dir='ltr']:placeholder-shown { direction: rtl; }
+/* Real life and Conversations hubs: level and fit on each row, a level guide, a start strip (P-46, P-64). */
+.hub-level { display: grid; justify-items: end; gap: 0.15rem; text-align: end; }
+.fit { font-size: var(--t-xs); color: var(--ink-3); white-space: nowrap; }
+.fit-stretch { color: var(--cobalt); }
+.fit-hard { color: var(--warn); }
+.level-guide { display: flex; gap: var(--s2); align-items: flex-start; margin-block-end: var(--s4); }
+.level-guide .icon { margin-block-start: 0.15em; flex: none; }
+.start-here { margin-block-end: var(--s5); }
+.hub-filters { row-gap: var(--s2); }
+.hub-head .icon { color: var(--ink-2); }
+
+/* writing-reallife-layout r2 */
+/* List rows: the tags move under the title when the list is narrow in text units (phones at 115-150% text,
+   or 320px), so a title is never squeezed to a few letters a line (R2-13). Container units follow the text
+   size, so 20rem is about 390px at 115%. */
+.lesson-row.hub-row, .lesson-row.three { grid-template-columns: auto minmax(0, 1fr) auto; }
+.lesson-row.hub-row.two { grid-template-columns: minmax(0, 1fr) auto; }
+.lesson-row.draft-row { grid-template-columns: minmax(0, 1fr) auto auto; }
+.lesson-list { container-type: inline-size; }
+.lesson-row > .row:empty { display: none; }
+@container (max-width: 20rem) {
+  .lesson-row:not([style], .hub-row, .three, .draft-row) { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto 1fr auto; grid-template-areas: 'mark body' 'ord body' '. tags'; row-gap: var(--s1); align-items: start; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .mark { grid-area: mark; margin-block-start: 0.2em; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .ord { grid-area: ord; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > .grow { grid-area: body; }
+  .lesson-row:not([style], .hub-row, .three, .draft-row) > :last-child:not(.grow, .ord, .mark) { grid-area: tags; justify-self: start; }
+  .lesson-row:is(.hub-row, .three) { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }
+  .lesson-row:is(.hub-row, .three) > :first-child:not(.grow) { margin-block-start: 0.2em; }
+  .lesson-row:is(.hub-row, .three) > :last-child:not(.grow) { grid-column: 2; justify-self: start; }
+  .lesson-row.hub-row.two { grid-template-columns: minmax(0, 1fr); }
+  .lesson-row.hub-row.two > :last-child:not(.grow) { grid-column: 1; }
+  .lesson-row .hub-level { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); justify-items: start; text-align: start; }
+  .lesson-row.draft-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--s1); }
+  .lesson-row.draft-row > :first-child { grid-column: 1 / -1; }
+}
+.stage-panel { padding: var(--s4) var(--s5); }
+@media (max-width: 30rem) { .start-here, .stage-panel { padding: var(--s4) var(--s3); } }
+
+/* Skill rows at large text or on narrow cards: name and level on one line, a full-width meter under them
+   (R2-14, D5). */
+.skills { container-type: inline-size; }
+@container (max-width: 16rem) {
+  .skill-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .skill-row > .meter { grid-column: 1 / -1; grid-row: 2; }
+  .skill-row > .skill-level { grid-column: 2; grid-row: 1; }
+  .skill-row .skill-wide { grid-column: 2; text-align: end; }
+}
+/* Level rail labels never run into each other: a label wraps at its hyphen ("Pre-" / "A1") and stays inside its
+   own segment; on a rail too narrow for all seven (large text on phones) only the current level is named
+   (R2-14, R2-31). The rail's aria-label carries the full summary. */
+.level-rail-labels { container-type: inline-size; }
+.level-rail-labels > span { white-space: normal; overflow: hidden; line-height: 1.2; }
+@container (max-width: 15rem) {
+  .level-rail-labels > span:not(.current) { visibility: hidden; }
+  .level-rail-labels > span.current { overflow: visible; white-space: nowrap; }
+}
+
+/* The phone top bar keeps its title to one line; the page heading repeats it (R2-35). */
+.top .title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; unicode-bidi: plaintext; text-align: match-parent; }
+.net-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.5rem; border-radius: var(--r-pill); background: var(--warn-tint); color: var(--warn); font-size: var(--t-xs); font-weight: 500; white-space: nowrap; flex: none; }
+.deck .net-badge { justify-self: start; }
+
+/* Scenario: the tabs scroll sideways instead of wrapping, and the header takes less of the first screen (R2-35). */
+.scenario-tabs { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; }
+.scenario-tabs > button { flex: none; white-space: nowrap; }
+.scenario-view .page-head { margin-block-end: var(--s4); }
+@media (max-width: 30rem) { .scenario-view .page-head h1 .l-he { font-size: var(--t-md); } }
+/* English goal and situation text: its own left-to-right block under the Hebrew label (R2-34, M9). */
+.chosen-quote { margin-block-start: 0; }
+/* Roleplay report lists follow the screen direction, under their headings: each point is one or two lines,
+   so its English stays an isolate in the line, and the Hebrew line comes under it (R2-10). */
+.report-list .report-item { display: grid; gap: 0.1rem; min-width: 0; }
+.report-list .report-item > .bi-he { font-size: 0.94em; }
+
+/* ---- lane real-life-writing: start ---- */
+/* Scenario practice: the lesson player's footer, sticky inside the page and lifted above the phone tab bar
+   (--rw-tabbar-h is measured by scenario.js), with the verdict and one key on one row (RW-1). */
+.scenario-view .scenario-foot { z-index: 5; bottom: var(--rw-tabbar-h, 0px); margin-block-start: var(--s5); }
+.scenario-view .scenario-foot .inner { flex-wrap: nowrap; }
+.scenario-view .scenario-foot .inner > .verdict { flex: 1 1 auto; }
+.scenario-view .scenario-foot .inner > .key, .scenario-view .scenario-foot .inner > .key.enter { flex: none; }
+@media (max-width: 63.99rem) {
+  .scenario-view .scenario-foot { margin-inline: calc(-1 * var(--s4)); padding-block-end: var(--s3); }
+}
+@media (min-width: 64rem) { .scenario-view .scenario-foot { border-radius: var(--r-key) var(--r-key) 0 0; } }
+.scenario-view [data-explain] { scroll-margin-block-end: 3rem; }
+.scenario-view [data-step]:focus { outline: none; }
+.why-others > summary, .own-words > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-weight: 500; }
+.own-words > summary { color: var(--ink); }
+.own-words[open] > summary { margin-block-end: var(--s2); }
+.why-others[open] > summary { margin-block-end: var(--s1); }
+.alt-quote .tag { vertical-align: 0.1em; margin-inline-start: var(--s1); }
+/* Play keys inside chat bubbles keep the key's own size (44 x 44 px under a coarse pointer). */
+.msg .say-key { vertical-align: middle; margin-inline-start: var(--s1); margin-block: -0.4rem; }
+/* A reply in the learner's own words: a three-line field, possible Hebrew-speaker errors, the turn's goal points
+   as a checklist (RW-3). */
+textarea.input.own-input { min-height: 6.5rem; min-height: calc(3lh + 1.3rem); resize: vertical; }
+.own-l1-h { display: flex; align-items: center; gap: var(--s2); color: var(--warn); font-size: var(--t-sm); }
+.goal-points li.ok > .icon { color: var(--ok); }
+.goal-points li.todo > .icon { color: var(--ink-3); }
+.model-replies { margin: 0; padding-inline-start: 1.2rem; text-align: start; }
+/* Essay editor (RW-4): the feedback panel stays beside the text on wide screens; under the text the counter and
+   the keys sit in a grid, so typing never moves the Check key; the save status is a fixed icon slot. */
+@media (min-width: 64rem) {
+  .editor > aside.essay-side { position: sticky; top: var(--s5); max-height: calc(100dvh - 2 * var(--s5)); overflow: auto; overscroll-behavior: contain; }
+}
+.editor-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: var(--s2) var(--s3); }
+.editor-bar .editor-stats { align-items: center; row-gap: 0; padding-block-start: 0.7rem; }
+.editor-keys { justify-content: flex-end; }
+.save-slot { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: 1.25rem; color: var(--ok); }
+.save-slot[data-off] { visibility: hidden; }
+@media (max-width: 30rem) {
+  .editor-bar { grid-template-columns: minmax(0, 1fr); }
+  .editor-keys { justify-content: flex-start; }
+}
+.check-status { gap: var(--s2); }
+.check-status:has([data-status]:empty) { display: none; }
+.task-fold > summary { min-height: 2.75rem; }
+.task-fold-topic { display: block; font-size: var(--t-sm); color: var(--ink-2); text-align: start; }
+.task-fold-body { margin-block-start: var(--s3); }
+/* Phones: less padding around sources inside the feedback panel, so a passage keeps a readable line length. */
+@media (max-width: 30rem) {
+  aside.essay-side { padding: var(--s4) var(--s3); }
+  aside.essay-side .passage.source { padding: var(--s3); }
+}
+/* The rubric tab (RW-5): each category with its Band 5, 3 and 1 descriptors and the learner's own rating. The
+   line between categories is RW-6's (.rubric-cat below), one per category. */
+.band-list { display: grid; gap: var(--s2); margin: 0; }
+.band-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; font-size: var(--t-sm); }
+.band-row dd { margin: 0; min-width: 0; }
+.band-row .bi > .bi-en { display: block; text-align: start; width: auto; }
+.self-row select { max-width: 60%; }
+/* Source-based tasks (RW-6): the phrase behind each structure tick; cited and uncited sources. */
+.sig-row { flex-wrap: wrap; row-gap: 0; }
+.sig-found { font-size: var(--t-xs); color: var(--ink-2); min-width: 0; overflow-wrap: anywhere; }
+.source-list li.ok > .icon { color: var(--ok); }
+.source-list li.bad > .icon { color: var(--warn); }
+.source-list li.todo > .icon { color: var(--ink-3); }
+/* English in the writing lab reads left to right (RW-7): sources, plans, checklists. A Hebrew help line under an
+   English item keeps its own direction. */
+.passage.source .en-block-lab, .passage.source .en-block-lab p { text-align: left; }
+.passage.source .source-tag { margin-block-end: var(--s2); }
+.lab-list { margin: var(--s2) 0 0; padding-inline-start: 1.4rem; text-align: left; }
+.lab-list > li::marker { color: var(--ink-3); }
+.lab-list .bi > .bi-en, .lab-points .bi > .bi-en, .check-label .bi > .bi-en { display: block; text-align: left; width: auto; }
+.lab-list .bi > .he-reveal, .check-label .bi > .he-reveal { margin-inline-start: 0; margin-block-start: 0.2em; }
+.check-label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2); align-items: start; text-align: left; cursor: pointer; }
+.check-label > input { margin: 0.3em 0 0; inline-size: 1.1rem; block-size: 1.1rem; accent-color: var(--cobalt); }
+.check-label .bi-he { text-align: right; }
+/* Real life (RW-9): for everyday and conversation goals, Expressions sits in the start strip. */
+.start-here .start-expr { margin-block-start: var(--s2); }
+/* Expressions (RW-10): filters behind one key in labelled rows; numbered senses as a list, each English example
+   on its own left-to-right line in ink; play keys keep their size. */
+.xp-head { margin-block-end: var(--s4); }
+.xp-head p:not(.small) { margin-block-start: var(--s1); }
+.xp-tools { flex-wrap: nowrap; margin-block-end: var(--s2); }
+.xp-tools .input { flex: 1 1 auto; max-width: 28rem; min-width: 0; }
+.xp-count { margin-block-end: var(--s2); }
+.list-tools .xp-filter-key { flex: none; }
+.xp-filter-count { color: var(--ink-3); font-weight: 400; }
+.xp-filters { display: grid; gap: var(--s3); margin-block-end: var(--s4); padding: var(--s4); }
+.xp-filter-row { display: grid; gap: var(--s1); }
+.say-key { flex: none; }
+.entry-head > .say-key { align-self: center; }
+/* At large text sizes on phones, the play key moves under the term instead of squeezing it. */
+.entry[data-entry] > .entry-head { flex-wrap: wrap; row-gap: 0; }
+.entry[data-entry] > .entry-head > h3 { flex: 1 1 12rem; }
+.entry[data-entry] > .entry-head > .say-key { margin-inline-start: auto; }
+.senses { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: var(--s1); }
+.senses > li::marker { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.senses-short { font-size: var(--t-sm); }
+.sense-def, .sense-ex, .sense-after { display: block; }
+.sense-ex { color: var(--ink); text-align: left; font-size: var(--t-sm); margin-block-start: 0.1rem; }
+.sense-after { color: var(--ink-2); font-size: var(--t-xs); }
+.senses[dir='ltr'] { text-align: left; }
+.entry-more .sense-one .sense-ex { margin-block-start: var(--s1); }
+/* Scenario at large text (RW-11): the four parts wrap to two rows, so none is off screen; the US/UK table reads
+   left to right and stacks its rows on phones. */
+:root:is([data-text='130'], [data-text='150']) .scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+@media (max-width: 22.5rem) { .scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; } }
+:root:is([data-text='130'], [data-text='150']) .scenario-tabs > button, .scenario-tabs > button { white-space: normal; }
+.variants-table { text-align: left; }
+.variants-table th, .variants-table td { text-align: left; }
+.variants-table td[dir='auto'] { text-align: start; }
+@media (max-width: 30rem) {
+  .variants-wrap { border: 0; background: none; overflow: visible; }
+  .variants-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .variants-table, .variants-table tbody { display: block; }
+  .variants-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s3); padding: var(--s3); margin-block-end: var(--s2); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+  table.data.variants-table td { border: 0; padding: 0; }
+  .variants-table td[data-label]::before { content: attr(data-label); display: block; font-size: var(--t-xs); color: var(--ink-3); font-weight: 600; }
+  .variants-table td:nth-child(3) { grid-column: 1 / -1; margin-block-start: var(--s2); }
+  .variants-table td:nth-child(3):empty { display: none; }
+}
+.resume-turn { margin-block-end: var(--s4); }
+.resume-turn h2:focus { outline: none; }
+/* Writing-lab stage cards (RW-12): an outline chevron, a step numeral that is not a CEFR chip, a labelled count. */
+.stage-head { align-items: flex-start; min-height: 2.75rem; }
+.stage-head .chev { margin-block-start: 0.35rem; }
+.stage-num { display: grid; place-items: center; flex: none; inline-size: 1.9rem; block-size: 1.9rem; border-radius: 50%; border: 1.5px solid var(--key-skirt); color: var(--ink-2); font-size: var(--t-sm); font-weight: 600; }
+.stage-panel:not(.flat) .stage-num { border-color: var(--cobalt); color: var(--cobalt); }
+.stage-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); margin-block-start: var(--s1); }
+/* Writing checks: a failed check is amber, a passed one green; the heading says what came up (RW-2). */
+.check-item.ok > .icon { color: var(--ok); }
+.check-item.bad { background: var(--warn-tint); }
+.check-item.bad > .icon { color: var(--warn); }
+.checks-head { font-size: var(--t-md); }
+.checks-head:focus:not(:focus-visible) { outline: none; }
+.error-card .en-line { text-align: start; }
+.error-card .issue-ex { font-weight: 500; color: var(--ink); }
+.error-card .issue-head .quote { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
+/* ---- lane real-life-writing: end ---- */
+
+/* Settings: each choice group fills its row (M10). Its cells never shrink below their labels: see lane
+   r4-practice-games (PG-1) at the end of this file. */
+.settings-view .field { container-type: inline-size; }
+.settings-view .seg { display: grid; width: 100%; }
+.settings-view .seg > button { padding-inline: 0.55rem; }
+.settings-view section[id] { scroll-margin-block-start: 5rem; }
+
+/* Writing: the topics and "Must include" items are English blocks, left to right (M9, T6). */
+.topic-pick .note-row .tag { margin-inline-start: var(--s2); }
+/* Draft comparison by paragraph (R2-40). */
+.cmp-jump { gap: var(--s1); }
+.cmp-para { padding-block-start: var(--s2); border-block-start: 1px solid var(--key-edge); scroll-margin-block-start: 5rem; }
+.cmp-para:focus { outline: none; }
+.cmp-gap { font-style: italic; }
+.para-mark { font-weight: 600; padding-inline: 0.15em; border-radius: 3px; }
+/* Lucid's statement about sources and the AI's own note are two blocks (R2-41). */
+.source-limits .ai-note { padding-block-start: var(--s2); border-block-start: 1px solid color-mix(in oklch, var(--cobalt), transparent 70%); }
+.self-rate > summary { cursor: pointer; font-weight: 500; }
+/* learner model, plan and progress r2 */
+/* Today: "Level by skill" folds to one summary line (open beside the plan on wide screens, R2-20). */
+.skill-fold > summary { align-items: flex-start; flex-wrap: nowrap; }
+.skill-fold > summary > .grow { min-width: 0; }
+.skill-fold > summary .chev { margin-block-start: 0.15rem; }
+.skill-fold-h { font-size: var(--t-md); margin: 0; }
+.skill-fold-sum { display: block; margin-block-start: 0.15rem; line-height: 1.4; }
+.skill-fold[open] .skill-fold-sum { display: none; }
+/* Progress: level checks above the learner's level are folded (R2-03). */
+.more-checks { margin-block-start: var(--s2); }
+.more-checks > summary { color: var(--ink-2); min-height: 2rem; }
+/* lesson player, i18n and speaking r2 */
+/* English transcripts, recognised text and review examples: their own left-to-right block (R2-18, M9). */
+.en-block { display: block; direction: ltr; text-align: left; margin: 0; }
+.transcript { display: grid; gap: 0.15rem; }
+.transcript > p { margin: 0; }
+/* Speech recognition: words not caught are grey and dotted, never the red of a wrong answer (R2-08). */
+.word-diff .w-uncaught, .recognised-key .w-uncaught { color: var(--ink-2); text-decoration: underline dotted; text-underline-offset: 0.25em; text-decoration-thickness: 2px; }
+.recognised-key { gap: var(--s2); align-items: baseline; flex-wrap: wrap; }
+/* Speaking item: Hear it and Say it under the sentence; the pronunciation note folds at large text (R2-19). */
+.speak-controls { margin-block: var(--s4); }
+.speak-focus-fold > summary { cursor: pointer; display: flex; align-items: center; gap: var(--s2); min-height: 2.75rem; width: fit-content; }
+.speak-focus-fold .speak-focus-body { margin-block-start: var(--s2); }
+/* Partial Hebrew support: a "בעברית" button under a long English paragraph (R1-D10). */
+/* Wide tables: a fade on the side of the hidden columns until the far side is reached (R2-32). */
+.table-wrap.scrolls:not(.at-end):dir(ltr) { mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); }
+.table-wrap.scrolls:not(.at-end):dir(rtl) { mask-image: linear-gradient(to left, #000 calc(100% - 3rem), transparent); }
+.table-wrap.scrolls:focus-visible { mask-image: none; }
+.table-hint { margin-block-end: calc(var(--s2) * -1); }
+/* Shadowing by level, the learner's level open (R2-05). */
+.level-fold { border-block-start: 1px solid var(--key-edge); padding-block: var(--s2); }
+.level-fold > summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); cursor: pointer; min-height: 2.75rem; font-weight: 600; }
+.level-fold > summary .level-fold-meta { font-weight: 400; display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--s1); }
+.level-fold > .lesson-list { margin-block-start: var(--s2) !important; }
+.shadow-next { margin-block-end: var(--s3); align-items: center; }
+.shadow-next > span { min-width: 0; flex: 1 1 12rem; }
+/* Lesson intro: the "practise only what I missed" choice after "Nearly there" (R2-02). */
+.missed-choice { display: grid; }
+.missed-choice > * { margin: 0; }
+/* At 130-150% text the two speaking buttons share one compact row, so Say it is on the first screen (R2-19). */
+:root:is([data-text='130'], [data-text='150']) .speak-controls { flex-wrap: nowrap; gap: var(--s2); margin-block: var(--s3); }
+:root:is([data-text='130'], [data-text='150']) .speak-controls .key { flex: 1 1 0; min-width: 0; min-height: 3.25rem; padding: var(--s2) var(--s3); font-size: var(--t-md); }
+
+/* word game */
+.game-levels { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s4); }
+.game-levels > li { display: grid; gap: var(--s3); }
+.game-mine { border-color: var(--cobalt); }
+.game-level-name { font-size: var(--t-md); display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+.game-stages { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.game-stage { display: flex; align-items: center; gap: var(--s3); padding: var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: inherit; text-decoration: none; min-width: 0; }
+.game-stage:hover { border-color: var(--cobalt); }
+.game-stage.is-locked { background: var(--key-sunk); border-block-end-width: 1px; color: var(--ink-3); }
+.game-stage-num { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; flex: none; border-radius: 0.45rem; background: var(--key-sunk); border: 1px solid var(--key-edge); font-weight: 600; }
+.game-stage-name { font-weight: 500; }
+.game-done { color: var(--ok); }
+.game-score { min-width: 2.5rem; padding: 0.15rem 0.6rem; border-radius: var(--r-pill); background: var(--cobalt-tint); color: var(--ink-en); font-weight: 600; text-align: center; }
+.game-prompt { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; margin-block: var(--s3) var(--s5); }
+.game-word { font-size: var(--t-xl); font-weight: 600; }
+.game-sentence { font-size: var(--t-lg); line-height: 2.2; text-align: start; }
+.game-input { display: inline-block; width: auto; min-height: 2.4rem; margin-inline: 0.25rem; padding: 0.1rem 0.5rem; font-size: var(--t-lg); vertical-align: baseline; }
+.game-input.right { border-color: var(--ok); background: var(--ok-tint); }
+.game-input.wrong { border-color: var(--bad); background: var(--bad-tint); }
+/* UX r4 PG-5: the games' verdict looks like the lessons' (a neutral key surface, an accent bar at the inline start in
+   --ok or --bad, and the colour only on the glyph), never a pink or green card. */
+.game-verdict { --verdict: var(--key-edge); display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); border-inline-start: 4px solid var(--verdict); background: var(--key); }
+.game-verdict.ok { --verdict: var(--ok); }
+.game-verdict.bad { --verdict: var(--bad); }
+.game-verdict > p:first-child { color: var(--ink); font-weight: 600; }
+.game-verdict > p:first-child > svg { color: var(--verdict); flex: none; }
+.game-verdict .key { justify-self: start; }
+.game-plus { margin-inline-start: auto; font-weight: 700; animation: game-pop 0.35s var(--ease-out); }
+@keyframes game-pop { from { transform: translateY(0.4rem); opacity: 0; } to { transform: none; opacity: 1; } }
+.game-total { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--ink-en); }
+@media (prefers-reduced-motion: reduce) { .game-plus { animation: none; } }
+#gbody:focus { outline: none; }
+.option, .game-stage { -webkit-tap-highlight-color: transparent; }
+.option .game-opt { flex: 1; min-width: 0; }
+.option .game-opt[dir='rtl'] { text-align: right; }
+.option .game-mark { flex: none; display: inline-grid; }
+.option.is-right .game-mark { color: var(--ok); }
+.option.is-wrong .game-mark { color: var(--bad); }
+.game-mask { display: inline-flex; flex-wrap: wrap; gap: 0.2em 0.9em; vertical-align: middle; }
+.game-mask-word { display: inline-flex; gap: 0.18em; }
+.game-mask .slot { display: inline-block; width: 0.75em; min-height: 1.2em; border-block-end: 2px solid var(--ink-3); text-align: center; font-weight: 600; line-height: 1.1; }
+.game-mask .slot.shown { border-color: var(--cobalt); }
+
+/* picture matching */
+.game-section { margin-block-end: var(--s5); }
+.pic-level-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; flex: none; border-radius: 0.55rem; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-2); }
+.pic-grid, .pic-words { display: flex; flex-wrap: wrap; justify-content: center; }
+/* Phones: two pictures a row for 4 pairs, three for 5 and 6; desktop: all pictures in one row. Words: two a row on
+   phones; four or three a row on wider screens. An odd last row is centred. */
+.pic-grid { --gap: var(--s3); gap: var(--gap); }
+.pic-grid > * { flex: 0 0 calc((100% - 2 * var(--gap)) / 3); }
+.pic-grid[data-pairs='4'] > * { flex-basis: calc((100% - var(--gap)) / 2); }
+.pic-words { --gap: var(--s2); gap: var(--gap); }
+.pic-words > * { flex: 0 0 calc((100% - var(--gap)) / 2); min-width: 0; }
+@media (min-width: 40rem) {
+  .pic-grid { --n: 6; }
+  .pic-grid[data-pairs='4'] { --n: 4; }
+  .pic-grid[data-pairs='5'] { --n: 5; }
+  .pic-grid > *, .pic-grid[data-pairs='4'] > * { flex: 0 0 min(9rem, calc((100% - (var(--n) - 1) * var(--gap)) / var(--n))); }
+  .pic-words > * { flex-basis: calc((100% - 2 * var(--gap)) / 3); }
+  .pic-words[data-pairs='4'] > * { flex-basis: calc((100% - 3 * var(--gap)) / 4); }
+}
+.pic-tile { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; }
+.pic-tile svg { width: min(3.4rem, 60%); height: auto; }
+.pic-he { position: absolute; inset-inline: var(--s1); inset-block-end: var(--s2); font-size: var(--t-xs); line-height: 1.2; text-align: center; color: var(--ink-he); }
+.pic-tile.is-right .pic-he { color: inherit; }
+.pic-word { min-height: 3rem; overflow-wrap: anywhere; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); font-size: var(--t-md); font-weight: 500; -webkit-tap-highlight-color: transparent; }
+.pic-tile.is-right, .pic-word.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
+.pic-tile.is-wrong, .pic-word.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
+.pic-tile[aria-pressed='true'], .pic-word[aria-pressed='true'] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+.pic-tile:disabled, .pic-word:disabled { cursor: default; }
+@keyframes pic-shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .pic-tile.is-wrong, .pic-word.is-wrong { animation: none; } }
+.ok-text, .bad-text { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--s1); }
+.ok-text { color: var(--ok); }
+.bad-text { color: var(--bad); }
+.pic-missed { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+.pic-missed li { align-items: center; color: var(--ink-en); }
+
+/* memory game */
+.mem-grid { --gap: var(--s2); --cols: 3; --rows: 4; display: grid; gap: var(--gap); grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); max-width: 40rem; margin-inline: auto; width: 100%; }
+.mem-grid[data-pairs='8'], .mem-grid[data-pairs='10'] { --cols: 4; }
+.mem-grid[data-pairs='10'] { --rows: 5; }
+/* Large text on a phone: three cards a row, so the words stay readable. */
+:root[data-text='130'] .mem-grid, :root[data-text='150'] .mem-grid { --cols: 3; }
+@media (min-width: 40rem) {
+  .mem-grid, :root[data-text='130'] .mem-grid, :root[data-text='150'] .mem-grid { --gap: var(--s3); --cols: 4; --rows: 3; }
+  .mem-grid[data-pairs='8'] { --rows: 4; }
+  .mem-grid[data-pairs='10'] { --cols: 5; --rows: 4; }
+  /* The whole board in view: its width follows the height left under the top bar and the feedback line. */
+  .mem-grid { max-width: min(40rem, calc((100dvh - 13rem) * var(--cols) / var(--rows))); }
+}
+.mem-feedback { min-height: 2lh; }
+.mem-card { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: var(--s1); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink-en); -webkit-tap-highlight-color: transparent; container-type: inline-size; }
+.mem-card svg { width: min(2.75rem, 62%); height: auto; }
+/* A face-down card is a quiet keycap (UX r4 PG-7): a sunk surface with a 1px edge, not a dense blue hatch. */
+.mem-card:not(.is-up) { background: var(--key); border-color: var(--key-edge); }
+.mem-back { position: absolute; inset: var(--s2); border-radius: calc(var(--r-key) - 0.2rem); background: var(--key-sunk); border: 1px solid var(--key-edge); }
+/* The word fills the card: sized to the card's width and the word's longest word (--len), at most --t-xl (GM-5). */
+.mem-word { font-size: min(var(--t-xl), max(0.6875rem, calc(160cqi / var(--len, 6)))); font-weight: 600; line-height: 1.15; text-align: center; hyphens: auto; overflow-wrap: normal; max-width: 100%; }
+.mem-card.is-up > :not(.sr-only) { animation: mem-flip 0.18s var(--ease-out); }
+.mem-card.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ok); }
+.mem-card.is-wrong { border-color: var(--bad); background: var(--bad-tint); animation: pic-shake 0.3s; }
+.mem-card:disabled { cursor: default; }
+@media (hover: hover) { .mem-card:not(:disabled, .is-wrong):hover { border-color: var(--cobalt); } }
+@keyframes mem-flip { from { transform: scaleX(0.2); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .mem-card.is-up > :not(.sr-only), .mem-card.is-wrong { animation: none; } }
+
+/* ================================================================
+   UX round 3: one block per work lane. A lane adds its NEW rules only
+   inside its own block, so parallel lanes merge without conflicts.
+   ================================================================ */
+
+/* ---- lane shell-components: start ---- */
+/* A control outline that reaches 3:1 against the ground, the paper and the sunk fill, in both themes (SC-3). */
+:root { --key-line: color-mix(in oklch, var(--n5), var(--n6) 55%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) { --key-line: oklch(0.56 0.012 250); } }
+:root[data-theme='dark'] { --key-line: oklch(0.56 0.012 250); }
+/* The secondary keys in a player footer are as tall as the main key beside them (SC-3). */
+.player-foot .key.ghost:not(.icon-only) { min-height: var(--u); }
+
+/* Pressable controls (SC-1): every key-shaped control shares one set of states. A tap never shows the browser's
+   square highlight; a hover tint only where there is a real pointer (so a tapped key does not stay tinted on a
+   phone); the press pushes the skirt down; one focus ring. */
+:is(.key, .chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card, .seg button) { -webkit-tap-highlight-color: transparent; }
+:is(.key, .chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card, .seg button):focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+@media (hover: hover) {
+  :is(.chip, .option, .choice, .match-item, .pic-tile, .pic-word):not(:disabled, [aria-pressed='true'], [aria-disabled='true'], .is-right, .is-wrong, .paired):hover { background: color-mix(in oklch, var(--key), var(--ink) 4%); border-color: var(--n5); }
+  .seg button:not([aria-pressed='true']):hover { color: var(--ink); background: color-mix(in oklch, var(--key-sunk), var(--ink) 5%); }
+}
+:is(.chip, .option, .choice, .match-item, .pic-tile, .pic-word, .mem-card):active:not(:disabled, [aria-disabled='true']) { transform: translateY(2px); border-block-end-width: 1px; }
+:is(.chip, .choice, .match-item, .pic-tile, .pic-word, .mem-card) { transition: transform 0.08s ease, background-color 0.15s ease, border-color 0.15s ease; }
+/* The latched key: a toggle key or chip that is on (True/False, a self-rating, a picked item to sort) stays
+   down, in the selection colour. Its outer box keeps its height, so nothing under it moves. The primary key
+   (recording) keeps its own colour. */
+.key:not(.enter)[aria-pressed='true'], .chip[aria-pressed='true'] {
+  border-color: var(--cobalt); background: var(--cobalt-tint); color: var(--ink);
+  border-block-end-width: 1px; margin-block-end: 2px; transform: translateY(2px); box-shadow: none;
+}
+.key:not(.enter)[aria-pressed='true']:disabled { opacity: 0.8; }
+/* An answered option: its number keycap takes the verdict colour, never the blue of "selected". */
+.option.is-right .k { color: var(--ok); border-color: var(--ok); background: var(--key); }
+.option.is-wrong .k { color: var(--bad); border-color: var(--bad); background: var(--key); }
+
+/* Phones (SC-5): while the learner types, the tab bar steps aside and the top bar scrolls with the page; on a short
+   (landscape) screen the top bar always scrolls away. app.js marks body.typing and keeps the field clear of bars. */
+@media (pointer: coarse) {
+  body.typing .tabbar { display: none; }
+  body.typing .top { position: static; }
+}
+@media (max-height: 500px) { .top { position: static; } }
+
+/* A play key while its sound plays (SC-6): the selection colour, and a quiet pulse on the speaker icon. */
+.key.is-playing, .key.ghost.is-playing { --key-bg: var(--cobalt-tint); border-color: var(--cobalt); color: var(--cobalt); }
+.key.is-playing .icon { animation: play-pulse 1.1s ease-in-out infinite; }
+@keyframes play-pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .key.is-playing .icon { animation: none; } }
+
+/* Phones (SC-7): the main key fills its own row at the bottom, where "Continue" will be, so it never moves; the
+   secondary keys share one row above it. Right and wrong options also carry a mark, not only a colour. */
+@media (max-width: 30rem) {
+  .player-foot .inner { gap: var(--s2); }
+  .player-foot .inner > .grow:empty { display: none; }
+  .player-foot .inner > .grow:not(:empty) { flex: 1 1 100%; }
+  .player-foot .inner > .key.enter { flex: 1 1 100%; }
+  .player-foot .inner > .key.ghost { flex: 0 1 auto; }
+}
+.option:not(:has(.game-mark)):is(.is-right, .is-wrong)::after {
+  content: ''; flex: none; width: 1.25rem; height: 1.25rem; margin-inline-start: auto; background: currentColor;
+  -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat;
+}
+.option.is-right { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.option.is-wrong { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E"); }
+.option.is-right::after { color: var(--ok); }
+.option.is-wrong::after { color: var(--bad); }
+/* In a narrow column (320px at 150% text, beside a play key) the mark leaves the row: it sits in the option's
+   inline-end padding, so it never pushes the text or the page sideways. */
+.options { container-type: inline-size; }
+@container (max-width: 22em) {
+  .option { gap: var(--s2); padding-inline: var(--s3); }
+  .option:not(:has(.game-mark)):is(.is-right, .is-wrong) { position: relative; }
+  .option:not(:has(.game-mark)):is(.is-right, .is-wrong)::after { position: absolute; inset-inline-end: 0.3rem; inset-block-start: 0.3rem; width: 0.9rem; height: 0.9rem; margin: 0; }
+}
+.option > span:not(.k):not(.sr-only) { min-width: 0; overflow-wrap: break-word; }
+
+/* Segmented controls (SC-8): a control that fills its row (a form field, a page header, or .seg.full) has equal
+   segments and no empty track; at 130-150% text four options become two equal rows of two. */
+.seg.full, .field > .seg, .page-head > .seg, .today-minutes > .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+:root:is([data-text='130'], [data-text='150']) :is(.seg.full, .field > .seg, .page-head > .seg, .today-minutes > .seg):has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 40rem) { .page-head > .seg, .page-head > .today-minutes { flex: 1 1 100%; } .today-minutes { justify-items: stretch; } }
+
+/* Large text on a phone (SC-9): the top-bar title shrinks before it truncates (app.js fits it); tab labels keep to
+   one line (the long one has a short form at 130-150%); the top-bar keys show their names under the icons. */
+.tabbar a { min-width: 0; white-space: nowrap; }
+.tabbar .tab-l { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: min(0.72rem, 3.9vw); }
+.tabbar .tab-short, .top .top-label { display: none; }
+:root:is([data-text='130'], [data-text='150']) .tabbar { gap: 2px; padding-inline: 4px; }
+:root:is([data-text='130'], [data-text='150']) .tabbar a { padding: 6px 2px 5px; }
+:root:is([data-text='130'], [data-text='150']) .tabbar .tab-l.has-short { display: none; }
+:root:is([data-text='130'], [data-text='150']) .tabbar .tab-short { display: block; }
+:root:is([data-text='130'], [data-text='150']) .top { gap: var(--s2); }
+:root:is([data-text='130'], [data-text='150']) .top .top-key { flex-direction: column; gap: 0; width: auto; min-width: 44px; padding-inline: 0.2rem; line-height: 1.15; }
+:root:is([data-text='130'], [data-text='150']) .top .top-label { display: block; font-size: min(0.62rem, 3.6vw); font-weight: 500; }
+
+/* A note never blocks a tap on what is under it; in a player it sits just above the footer (components.js). */
+#toast-root .toast { pointer-events: none; }
+
+/* Disclosures (SC-10): every summary that is not already a .disclosure row gets the outline chevron instead of
+   the browser's filled triangle; it points to the reading direction and turns down when open. The chevron is
+   placed absolutely, so summaries laid out as flex rows keep their layout. */
+summary:not(.disclosure) { list-style: none; cursor: pointer; position: relative; padding-inline-start: 1.35em; }
+summary:not(.disclosure)::-webkit-details-marker { display: none; }
+summary:not(.disclosure)::before {
+  content: ''; position: absolute; inset-inline-start: 0; inset-block-start: calc(var(--sum-pad, 0px) + (1lh - 1em) / 2); width: 1em; height: 1em;
+  background: currentColor; opacity: 0.75; transition: transform 0.2s var(--ease-out);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+:root[dir='rtl'] summary:not(.disclosure)::before { transform: scaleX(-1); }
+details[open] > summary:not(.disclosure)::before, :root[dir='rtl'] details[open] > summary:not(.disclosure)::before { transform: rotate(90deg); }
+/* Touch (SC-10): summaries and gap inputs are at least 44px tall, and the top-bar keys 44x44. */
+@media (pointer: coarse) {
+  summary { --sum-pad: max(0px, calc((2.75rem - 1lh) / 2)); min-height: 2.75rem; padding-block: var(--sum-pad); }
+  .gap-input { min-height: 2.75rem; }
+  .top .key.icon-only { flex: none; width: 2.75rem; height: 2.75rem; }
+}
+
+/* The graphite deck keeps its edge (SC-11): in dark mode the deck is lighter than the ground, and the rail and the
+   tab bar are set off by a hairline. */
+.deck { border-inline-end: 1px solid var(--key-edge); }
+.tabbar { border-block-start: 1px solid var(--key-edge); }
+
+/* Desktop rail (SC-4): the links scroll on their own, so Help and Settings stay pinned in view on any height. */
+@media (min-width: 64rem) {
+  .deck { overflow: hidden; }
+  .deck nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; align-content: start; overscroll-behavior: contain; margin-inline: calc(var(--s1) * -1); padding-inline: var(--s1); padding-block-end: var(--s3); }
+  .deck .foot { flex: none; margin-top: 0; padding-block-start: var(--s3); border-block-start: 1px solid oklch(1 0 0 / 0.1); }
+  .deck .foot a.nav { padding-block: 0.4rem; }
+  .deck a.nav > .icon { font-size: var(--t-md); }
+}
+
+/* Touch screens (SC-2): no keyboard hints. "Enter" keycaps go; option numbers stay as quiet labels, not keys. */
+@media (hover: none) and (pointer: coarse) {
+  .kbd { display: none; }
+  .option .k, .option[aria-pressed='true'] .k, .option.is-right .k, .option.is-wrong .k { width: auto; min-width: 1.1rem; border-color: transparent; background: none; font-weight: 500; }
+}
+
+/* ---- lane shell-components: end ---- */
+
+/* ---- lane lesson-flow: start ---- */
+/* Player top: the bar keeps a real width; on phones and at large text the counter has its own row (LF-7). */
+.player-top.counting .progress { min-width: 40%; }
+.player-top .top-meta { display: inline-flex; align-items: center; flex: none; }
+@media (max-width: 30rem) {
+  .player-top.counting { flex-wrap: wrap; row-gap: var(--s1); }
+  .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
+}
+:root:is([data-text='130'], [data-text='150']) .player-top.counting { flex-wrap: wrap; row-gap: var(--s1); }
+:root:is([data-text='130'], [data-text='150']) .player-top .top-meta.is-count { order: 5; flex-basis: 100%; justify-content: center; }
+/* Intro: where the learner stopped comes first; one short plan line under the main key (LF-1). */
+.resume-banner { align-items: center; font-size: var(--t-md); }
+.resume-banner .icon { color: var(--cobalt); flex: none; }
+.player-foot .foot-note { flex-basis: 100%; margin: 0; color: var(--ink-2); text-align: end; }
+.intro-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); }
+/* Typed answers: Ctrl+Enter checks from anywhere; said only where there is a keyboard (LF-5). */
+.foot-hint { display: none; font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (pointer: fine) { .foot-hint { display: inline; } }
+/* "I don't know": a neutral footer, neither right nor wrong (LF-6). */
+.player-foot.shown { background: var(--key-sunk); }
+/* The explanation in steps: dots, "2 of 4" and the reading time, then the step's own heading (LF-2). */
+.learn-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
+/* Dots are sized in px, so 150% text does not widen them, and the row wraps: 14 steps fit 320px (plan.keep). */
+.learn-steps { display: inline-flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: 100%; min-width: 0; }
+.learn-steps .dot { width: 9px; height: 9px; border-radius: var(--r-pill); background: var(--key-edge); border: 1px solid var(--key-skirt); }
+.learn-steps .dot.done { background: color-mix(in oklch, var(--cobalt), var(--key) 55%); border-color: transparent; }
+.learn-steps .dot.on { width: 22px; background: var(--cobalt); border-color: var(--cobalt); }
+.learn-step-label { font-variant-numeric: tabular-nums; flex: 1 1 auto; }
+.learn-h { font-size: var(--t-lg); }
+.learn-h:focus { outline: none; }
+.learn-units > .word-row + .word-row { margin-block-start: 0; }
+.word-row { display: grid; gap: 0.1rem; padding-block: var(--s3); border-block-end: 1px solid var(--key-edge); }
+.word-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s2); }
+.word-line .entry-ipa { font-size: var(--t-xs); }
+.he-all { flex: none; }
+.he-all[aria-pressed='true'] { background: var(--cobalt-tint); color: var(--cobalt); border-color: var(--cobalt); }
+/* "All in Hebrew": every folded Hebrew paragraph shows and the per-paragraph chips go (LF-10). */
+:root[data-he-all] .player .bi-he[hidden] { display: block !important; }
+:root[data-he-all] .player .he-reveal { display: none; }
+/* A trap for Hebrew speakers: its own box in the Hebrew ink, with the English to hear (LF-2, LF-8). */
+.pitfall { display: grid; gap: var(--s2); padding: var(--s4); border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); border-inline-start: 4px solid var(--cobalt); }
+.pitfall-head { display: flex; align-items: center; gap: var(--s2); margin: 0; font-size: var(--t-sm); font-weight: 600; color: var(--ink-he); }
+.pitfall-head .icon { flex: none; }
+.pitfall-say { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.pitfall-say .say-chip { gap: var(--s2); border: 1px solid var(--key-edge); background: var(--key-sunk); max-width: 100%; white-space: normal; text-align: start; height: auto; padding-block: 0.3rem; }
+.pitfall-say .say-chip .icon { flex: none; color: var(--cobalt); }
+.pitfall-why { margin-block-start: var(--s2); padding-block-start: var(--s2); border-block-start: 1px solid color-mix(in oklch, var(--ink-3), transparent 70%); }
+/* Tables (LF-3): a play key per letter row, the IPA column behind its key at Pre-A1, rows as cards on phones. */
+.table-tools { gap: var(--s2); margin-block-end: calc(var(--s2) * -1); }
+.table-wrap.ipa-hidden .col-ipa { display: none; }
+table.data td .row-say { vertical-align: middle; margin-inline-end: var(--s2); }
+table.data td:has(> .row-say) { white-space: nowrap; }
+.table-wrap.letters table.data td { padding-block: 0.15rem; }
+@media (max-width: 30rem) {
+  .tstack table, .tstack tbody { display: block; }
+  .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
+  .tstack table.data tr:last-child { border-block-end: 0; }
+  .tstack table.data td { display: block; min-width: 0; padding: 0; border: 0; overflow-wrap: break-word; }
+  .tstack table.data td.c-en::before { content: attr(data-label); display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+  .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
+}
+:root:is([data-text='130'], [data-text='150']) .tstack table, :root:is([data-text='130'], [data-text='150']) .tstack tbody { display: block; }
+:root:is([data-text='130'], [data-text='150']) .tstack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data tr { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-block-end: 1px solid var(--key-edge); }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data tr:last-child { border-block-end: 0; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td { display: block; min-width: 0; padding: 0; border: 0; overflow-wrap: break-word; }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-en::before { content: attr(data-label); display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+:root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { flex-basis: 100%; color: var(--ink-he); }
+/* Part end and lesson end (LF-4, LF-8). Under 50%, "practise only the mistakes" is the second choice and keeps
+   its own width, so the end screen's keys take two rows on a phone, not three. */
+@media (max-width: 40rem) { .player-foot .inner > a.ghost[data-retry] { flex: 0 1 auto; } }
+.part-score { font-size: var(--t-lg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.part-words { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.part-words .tag { font-size: var(--t-sm); color: var(--ink-en); }
+.mistake-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); }
+.mistake-list > li + li { padding-block-start: var(--s3); border-block-start: 1px solid var(--key-edge); }
+.mistake-pair { display: inline-block; max-width: 100%; text-align: start; }
+.mistake-pair .m-wrong { color: var(--ink-2); text-decoration: line-through; text-decoration-color: color-mix(in oklch, var(--bad), transparent 30%); }
+.mistake-pair .m-right { color: var(--ok); font-weight: 600; }
+/* Level check and drill results: in the page frame (LF-12); the learner's words not in the answer marked. */
+.check-result { padding-block-start: var(--s6); }
+.answer-diff .w-x { color: var(--bad); text-decoration: underline wavy; text-underline-offset: 0.25em; }
+.answer-diff .w-ok { color: var(--ink); }
+
+/* ---- lane lesson-flow: end ---- */
+
+/* ---- lane exercises: start ---- */
+.ex-prompt:focus { outline: none; }
+.ex-mark { display: inline-grid; place-items: center; flex: none; vertical-align: -0.2em; }
+.ex-mark.ok { color: var(--ok); }
+.ex-mark.bad { color: var(--bad); }
+
+/* Matching (EX-1): a wrong pair stays marked until the next tap; found pairs keep full contrast and a pair
+   number; the finished board becomes rows of pairs, side by side. */
+.match-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.match-grid .match-item { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.25rem 0.35rem; min-width: 0; }
+.match-grid .match-item.paired { opacity: 1; border-color: var(--ok); background: var(--ok-tint); color: var(--ink); cursor: default; }
+.match-grid .match-item.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.match-grid .match-item.is-wrong .match-mark { color: var(--bad); }
+.match-mark:empty { display: none; }
+.match-mark { display: inline-grid; place-items: center; flex: none; }
+.match-n { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; padding: 0 0.25rem; border-radius: var(--r-pill); background: var(--ok); color: var(--key); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
+.match-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.match-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--s2); min-height: 3rem; padding: var(--s1) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); position: relative; min-width: 0; }
+/* The word cells wrap (a long Hebrew word such as וטרינר/ית breaks rather than widening the row at 320px). */
+.match-row .match-a, .match-row .match-b { min-width: 0; overflow-wrap: break-word; }
+/* A narrow board (320px, or 150% text on a phone) stacks each pair: the play key, then the two words one under
+   the other, so a long word such as וטרינר/ית has the row's width instead of a third of it. */
+.match-rows { container-type: inline-size; }
+@container (max-width: 20em) {
+  .match-row { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'lead a trail' 'lead b trail'; row-gap: 0; }
+  .match-row .match-lead { grid-area: lead; }
+  .match-row .match-a { grid-area: a; justify-self: start; }
+  .match-row .match-b { grid-area: b; justify-self: start; }
+  .match-row .match-trail { grid-area: trail; }
+  .match-row .match-sep { display: none; }
+}
+/* After "I don't know", the tick is a badge on the row's corner, so it adds no width to the row. */
+.match-row .match-lead > .ex-mark { position: absolute; inset-block-start: -8px; inset-inline-start: -8px; inline-size: 20px; block-size: 20px; border-radius: var(--r-pill); background: var(--key); border: 1px solid var(--ok); }
+.match-row.is-right { border-color: var(--ok); }
+.match-row .match-a { text-align: end; font-weight: 500; }
+.match-row .match-b { text-align: start; }
+.match-row .match-sep { color: var(--ink-3); }
+.match-lead, .match-trail { display: inline-flex; align-items: center; gap: var(--s1); }
+.match-lead:empty, .match-trail:empty { width: 0; }
+
+/* Word bank (EX-2): the chosen gap is marked; used words stay visible, flat and skipped. */
+.gap-input.is-target { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+.gap-input.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.gap-mark { display: inline-grid; vertical-align: -0.15em; margin-inline-end: 0.15rem; }
+.gap-tools { margin-block-start: var(--s3); }
+.gap-bank .chip.used { visibility: visible; border-style: dashed; border-block-end-width: 1px; background: var(--key-sunk); color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--ink-3); cursor: default; }
+.gap-bank .chip.used:active { transform: none; }
+
+/* Reveal and second tries (EX-4). */
+.ex-field.wrong, .ex-field[aria-invalid='true'] { border-color: var(--bad); }
+.reveal-answer { display: flex; align-items: baseline; gap: var(--s2); margin-block-start: var(--s3); padding: var(--s2) var(--s3); border-radius: var(--r-key); background: var(--ok-tint); font-size: var(--t-lg); }
+.answer-line .chip.is-right { border-color: var(--ok); background: var(--ok-tint); color: var(--ink); opacity: 1; }
+.tf-row .key:disabled { opacity: 1; cursor: default; }
+.tf-row .key.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.tf-row .key.is-wrong { border-color: var(--bad); background: var(--bad-tint); }
+
+/* Mixed lines (EX-6): numbered passage paragraphs, one speaker per line. */
+.passage[data-numbered] { counter-reset: para; }
+.passage[data-numbered] > p { position: relative; padding-inline-start: 2rem; }
+.passage[data-numbered] > p[data-para] { counter-increment: para; }
+.passage[data-numbered] > p[data-para]::before { content: counter(para); position: absolute; inset-inline-start: 0; inset-block-start: 0.2em; min-width: 1.4rem; color: var(--ink-3); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+.ex-text .speaker, .passage .speaker { font-weight: 600; }
+.ex-text br + .speaker { display: inline-block; margin-block-start: var(--s2); }
+.ex-source[dir='rtl'] { text-align: right; }
+
+/* Sorting (EX-9): the instruction first, the bins marked while an item is chosen, and a wrong sentence in the
+   "wrong" bin struck through with a neutral tag instead of a green tick. */
+.cat-help { font-size: var(--t-md); color: var(--ink-2); margin-block-end: var(--s3); }
+.cat-bin.is-target { border-style: solid; border-color: var(--cobalt); background: var(--cobalt-tint); }
+.cat-bin .chip.is-struck { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; border-color: var(--key-edge); border-style: dashed; color: var(--ink-2); text-align: start; }
+.cat-bin .chip.is-struck s, .cat-bin .chip.is-struck del { text-decoration: line-through; text-decoration-color: var(--bad); text-decoration-thickness: 2px; }
+.cat-bin .chip.is-struck ins { text-decoration: none; color: var(--ink); font-weight: 600; }
+.cat-tag { font-weight: 500; }
+
+/* Sound questions (EX-10): a play key beside each option, outside it. */
+.opt-row { display: flex; align-items: center; gap: var(--s2); min-width: 0; }
+.opt-row > .option { flex: 1; min-width: 0; overflow-wrap: break-word; }
+.ex-say { display: inline-block; vertical-align: middle; }
+@media (pointer: coarse) { .opt-row > .key.icon-only, .ex-say > .key.icon-only, .match-row .key.icon-only { width: 2.75rem; min-height: 2.75rem; } }
+
+/* The lesson writing step (EX-11): the key names what happens and how many words are still needed; the text
+   area grows with the text; the self-check list is a left-to-right grid, box then text. */
+.key-label { display: inline-grid; justify-items: center; line-height: 1.2; white-space: normal; }
+.check-need { font-size: var(--t-xs); font-weight: 500; }
+.ex-write { min-height: 10rem; field-sizing: content; max-height: 70dvh; }
+.self-check { display: grid; gap: var(--s3); text-align: left; }
+.self-check-item { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: var(--s3); font-size: var(--t-sm); line-height: 1.5; cursor: pointer; }
+.self-check-item input { width: 1.15rem; height: 1.15rem; margin: 0.15em 0 0; }
+@media (pointer: coarse) { .self-check-item { min-height: 2.75rem; } }
+
+/* A word typed with a slip (EX-7): the word as it should be, missing letters added and extra ones struck, amber. */
+.word-diff .w-slip { color: var(--ink); }
+.w-slip .l-add { color: var(--warn); background: var(--warn-tint); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; border-radius: 2px; }
+.w-slip .l-del { color: var(--warn); text-decoration: line-through; text-decoration-thickness: 2px; }
+.spell { font-weight: 600; }
+
+/* A typed sentence against the model answer (EX-5): the learner's extra words struck, the model's added. */
+.word-diff.answer-diff { font-size: var(--t-md); gap: 0.3rem; line-height: 1.6; }
+.word-diff.answer-diff .w-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.word-diff.answer-diff .w-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; }
+
+/* ---- lane exercises: end ---- */
+
+/* ---- lane bilingual-text: start ---- */
+/* BL-1: an English piece of 20 characters or fewer inside Hebrew text, with the punctuation attached to it, is one
+   unit that moves to the next line whole ("/s/, /z/", "/æ/ (cat)", "Yes, I am."). A unit wider than the whole line
+   still wraps inside itself, so nothing scrolls sideways at 150% text. isolateLatin() writes the unit. */
+.nw { display: inline-block; max-width: 100%; }
+/* BL-3: at full Hebrew support (Pre-A1, A1) the Hebrew instruction or explanation is the primary line and the English
+   meta-text follows in the quieter ink. In an exercise prompt the Hebrew takes the prompt's own size and weight.
+   The Hebrew line of a dual legend reads in body grey at near-full size; the English title stays first. */
+.bi.he-first > .bi-he.primary { display: block; color: var(--ink); font-size: 1em; font-weight: 500; margin: 0; }
+.bi.he-first > .bi-en { display: block; color: var(--ink-2); font-size: 0.94em; margin-block-start: 0.15em; }
+.ex-prompt .bi.he-first > .bi-he.primary { font-size: 1em; font-weight: inherit; line-height: 1.4; margin: 0; }
+.ex-prompt .bi.he-first > .bi-en { font-weight: 400; margin-block-start: 0.25rem; }
+:where(:root[data-support='full']) .legend .l-he { color: var(--ink-2); font-size: 0.94em; }
+/* BL-4: a can-do or outcome line under a title is a short English line too, so it shares the title's edge. */
+:root[dir='rtl'] :is(.lesson-row .meta[dir='ltr'], .plan-item [lang='en'][dir='ltr']) { text-align: right; }
+
+/* ---- lane bilingual-text: end ---- */
+
+/* ---- lane first-run-today: start ---- */
+/* Welcome: text size beside the language switch, before there is a profile (TF-1). */
+.welcome-top { flex-wrap: wrap; row-gap: var(--s3); }
+.welcome-tools { display: flex; align-items: center; gap: var(--s2); margin-inline-start: auto; }
+.text-cycle { gap: 0.3rem; padding-inline: 0.7rem; }
+.text-cycle [aria-hidden] { font-weight: 700; }
+.text-cycle .num { font-size: var(--t-xs); color: var(--ink-2); }
+/* Onboarding step 1: language and text size side by side where they fit; help lines readable at 100% (TF-1). */
+.ob-prefs { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); align-items: start; }
+.onboard .field .help { font-size: var(--t-sm); color: var(--ink-2); }
+.ob-prefs .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+.ob-prefs .seg > button { padding-inline: var(--s1); white-space: nowrap; }
+/* Onboarding and Profile choice cards: a square check for several choices, a round dot for one, on the first line
+   of the card (TF-6). The cards keep their keycap look; the mark says which kind of choice it is. */
+.ob-choices .choice { align-items: flex-start; min-height: 3rem; }
+.ob-choices .choice > .num { margin-block-start: 0.1em; }
+.ob-mark { flex: none; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; margin-block-start: 0.1em; border: 2px solid var(--n5); background: var(--key); color: transparent; }
+.ob-mark.check { border-radius: 0.35rem; }
+.ob-mark.radio { border-radius: 50%; }
+.choice[aria-pressed='true'] > .ob-mark.check { background: var(--cobalt); border-color: var(--cobalt); color: var(--key); }
+.choice[aria-pressed='true'] > .ob-mark.check .icon { stroke-width: 3; }
+.choice[aria-checked='true'] > .ob-mark.radio { border-color: var(--cobalt); box-shadow: inset 0 0 0 0.25rem var(--key); background: var(--cobalt); }
+.choice-note { display: block; font-size: var(--t-sm); color: var(--ink-2); line-height: 1.4; margin-block-start: 0.1rem; }
+.ob-h2 { font-size: var(--t-lg); margin-block-start: var(--s5); }
+.ob-note { margin-block-start: var(--s2); }
+.onboard .ob-note { font-size: var(--t-sm); color: var(--ink-2); }
+/* An error sits under its field, with an icon as well as colour (TF-6). */
+.field-error { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }
+.field-error > .icon { flex: none; margin-block-start: 0.2em; }
+.onboard [role='radiogroup'][aria-invalid='true'] .choice { border-color: var(--bad); }
+/* Consent: a 24px box on the first line of a short label; details are a separate line (TF-7). */
+.ob-check { display: grid; gap: var(--s2); }
+.ob-check .choice { align-items: flex-start; }
+.ob-check .help { padding-inline-start: calc(1.5rem + var(--s3) + var(--s4)); }
+.ob-check input[type='checkbox'] { appearance: none; -webkit-appearance: none; flex: none; position: relative; width: 1.5rem; height: 1.5rem; margin: 0; border: 2px solid var(--n6); border-radius: 0.35rem; background: var(--key); cursor: pointer; }
+.ob-check input[type='checkbox']:checked { background: var(--cobalt); border-color: var(--cobalt); }
+.ob-check input[type='checkbox']:checked::after { content: ''; position: absolute; left: 0.4rem; top: 0.1rem; width: 0.4rem; height: 0.8rem; border: solid var(--key); border-width: 0 0.18rem 0.18rem 0; transform: rotate(45deg); }
+.ob-check input[type='checkbox'][aria-invalid='true'] { border-color: var(--bad); }
+.ob-check input[type='checkbox']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.ob-ai-off { display: flex; align-items: flex-start; gap: var(--s2); color: var(--ink-2); }
+.ob-ai-off > .icon { flex: none; margin-block-start: 0.2em; }
+/* Placement: "question 4 of about 20" beside the bar; a reading passage in its own panel, the question under it
+   (TF-9). */
+.player-top .pl-count { white-space: nowrap; }
+.pl-reading .passage { padding: var(--s4); max-width: none; }
+.pl-reading .pl-question { font-size: var(--t-lg); line-height: 1.5; text-align: start; }
+.pl-ceiling { color: var(--ink-2); }
+.no-test { row-gap: var(--s2); }
+/* Today's minutes: a visible question over the choice, and a status line when it changes (TF-5). */
+.today-minutes { display: grid; gap: var(--s2); justify-items: start; }
+.today-minutes > .label { font-weight: 500; font-size: var(--t-sm); }
+.today-min-status { margin: 0; color: var(--ink-2); }
+/* Skill rows: the evidence still being collected reads as a sentence from the start edge (TF-8). */
+.skill-row .skill-level.collecting { grid-column: 1 / -1; text-align: start; font-weight: 400; color: var(--ink-2); line-height: 1.4; text-wrap: pretty; }
+.skill-row .skill-src { color: var(--ink-2); }
+.skill-row .nowrap { white-space: nowrap; }
+/* Primary keys never touch what follows them: Today's start key and Welcome's hero CTA (TF-10). */
+.start-bar { margin-block-end: var(--s5); }
+/* Plan rows: title, time and reason are grid cells. On phones the time goes under the title and the reason spans
+   the card, so the text column is not squeezed beside the icon and the time (TF-10). */
+.plan-item { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'glyph title time' 'glyph why time'; column-gap: var(--s4); row-gap: 0.15rem; }
+.plan-item > .glyph { grid-area: glyph; align-self: center; }
+.plan-item > .pi-title { grid-area: title; min-width: 0; font-weight: 500; overflow-wrap: break-word; }
+.plan-item > .plan-time { grid-area: time; align-self: center; }
+.plan-item > .why { grid-area: why; display: block; min-width: 0; margin-block-start: 0; overflow-wrap: break-word; }
+.plan-item > .why > * { display: block; }
+.plan-item > .why > .legend { display: inline-grid; }
+@media (max-width: 30rem) {
+  .plan-item, :root[data-text] .plan-item { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'glyph title' 'glyph time' 'why why'; column-gap: var(--s3); row-gap: 0.15rem; padding: var(--s3) var(--s4); }
+  .plan-item > .glyph { align-self: start; }
+  .plan-item > .plan-time, :root[data-text] .plan-item .plan-time { grid-area: time; justify-self: start; align-self: start; }
+  .plan-item > .why { margin-block-start: var(--s2); }
+}
+/* English outcomes on path rows: the target language is not the smallest, faintest text (TF-10). */
+.lesson-row .meta[lang='en'] { font-size: var(--t-sm); color: var(--ink-2); }
+/* Welcome at desktop: the text column keeps at least 30rem, so the headline takes about three lines (TF-10). */
+@media (min-width: 64rem) {
+  .welcome-main { max-width: 76rem; grid-template-columns: minmax(30rem, 1fr) auto; }
+  .welcome h1 { max-width: 20ch; }
+  .keyboard { --kw: min(2.9rem, 3.2vw); }
+}
+/* Level rail labels: one line each at 12px; the Pre-A1 segment is as wide as its label in both rows, so "Pre-A1"
+   never breaks into "Pre-" / "A1" and never runs into the next label (TF-11). */
+.level-rail-labels { font-size: 0.75rem; }
+.level-rail-labels > span { white-space: nowrap; overflow: visible; }
+.level-rail > [data-l='PreA1'], .level-rail-labels > [data-l='PreA1'] { min-width: 2.5rem; }
+/* Path: the level's Hebrew name sits under its heading's own edge; the current level says so in words (TF-11). */
+.path-level-h .legend { display: grid; }
+.path-level-h .legend > .l-he { font-size: var(--t-md); font-weight: 500; justify-self: start; }
+.path-current { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ok); font-weight: 500; min-height: 2.25rem; }
+/* Today's offers after the plan: the import result in place of its button, the English-UI offer (TF-12). */
+.import-status { display: flex; align-items: flex-start; gap: var(--s2); }
+.import-status > .icon { flex: none; margin-block-start: 0.2em; color: var(--ok); }
+.ui-offer { flex-wrap: wrap; }
+/* Today: the day's plan can be done; extras are plain optional rows under "Want more?" (TF-2). */
+.done-banner { align-items: flex-start; font-size: var(--t-md); }
+.done-banner > .icon { margin-block-start: 0.2em; color: var(--ok); }
+.done-banner strong { display: block; font-weight: 600; }
+.more-today { margin-block-start: var(--s5); }
+.more-today > h3 { font-size: var(--t-md); }
+.more-list { display: grid; gap: var(--s2); }
+.plan-item.more-item { padding-block: var(--s3); border-style: dashed; border-block-end-width: 1px; box-shadow: none; }.plan-item.more-item .glyph { background: transparent; }
+
+/* ---- lane first-run-today: end ---- */
+
+/* ---- lane practice-hubs: start ---- */
+/* Review with nothing due (bare route): a centred column with a heading, the next step and a way out (PH-2). */
+.review-empty { min-height: 100dvh; display: grid; place-items: center; padding: var(--s5) var(--s4); }
+.review-empty .empty { width: 100%; max-width: 34rem; padding-block: var(--s6); }
+.review-empty .empty h1 { color: var(--ink); font-size: var(--t-xl); }
+.review-empty .empty h1:focus { outline: none; }
+.review-empty .empty p { max-width: 30rem; }
+.review-empty-key { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: var(--r-key); background: var(--key); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); color: var(--ink-2); }
+.review-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s3); margin-block-start: var(--s2); }
+/* Review end: the words missed, each with play and when it comes back. */
+#rv-done:focus, .flash .prompt-word[tabindex='-1']:focus { outline: none; }
+.review-missed-h { font-size: var(--t-md); }
+.review-missed { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.review-miss { display: flex; align-items: center; gap: var(--s3); min-height: 3.5rem; padding: var(--s2) var(--s3); border: 1px solid var(--key-edge); border-radius: var(--r-key); background: var(--key); }
+.review-miss > .grow { min-width: 0; display: grid; gap: 0.125rem; }
+.review-miss-word { overflow-wrap: anywhere; }
+/* Settings: AI-only settings on a site without AI are greyed and inert (PH-5); the data actions are one stack of
+   equal widths (PH-10). */
+/* Only the inert controls are greyed; their label and help stay readable (5:1). */
+.settings-view .is-off .seg, .settings-view .is-off .choice { opacity: 0.6; }
+.settings-view .is-off .seg button, .settings-view .is-off .choice { cursor: not-allowed; }
+.settings-view .is-off .choice:hover { background: var(--key); }
+.settings-data { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s2); width: fit-content; max-width: 100%; }
+.settings-data > .key { width: 100%; justify-content: center; }
+.settings-view .error-text:empty { display: none; }
+/* Listening: rows named by their lesson and compact, so a level of 30 items stays short (PH-6); the touch target
+   stays above 44px. The row's inline style opts it out of the shared narrow-row layout: it keeps its three columns
+   on a phone at 100% text and stacks its tag only when large text leaves little room. */
+.lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr) auto; padding-block: var(--s2); min-height: 3.25rem; }
+/* Vocabulary (PH-7): one compact row per word (word · Hebrew · next review) that opens in place. */
+.vocab-rows { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; container-type: inline-size; }
+.vocab-item { min-width: 0; }
+.vocab-item + .vocab-item { border-block-start: 1px solid var(--key-edge); }
+.vocab-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--s3); width: 100%; min-height: 2.75rem; padding: var(--s1) var(--s2); border: 0; border-radius: var(--r-key); background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+@media (hover: hover) { .vocab-row:hover { background: var(--key-sunk); } }
+.vocab-row-text { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s2); min-width: 0; }
+.vocab-row-word { font-weight: 600; overflow-wrap: anywhere; }
+.vocab-row-he { color: var(--ink-he); font-size: var(--t-sm); }
+.vocab-row-when { white-space: nowrap; }
+.vocab-row .chev { display: inline-grid; place-items: center; color: var(--ink-3); transition: transform 0.2s var(--ease-out); }
+:root[dir='rtl'] .vocab-row .chev { transform: scaleX(-1); }
+.vocab-row[aria-expanded='true'] .chev, :root[dir='rtl'] .vocab-row[aria-expanded='true'] .chev { transform: rotate(90deg); }
+.vocab-detail { display: grid; gap: var(--s2); padding-block: 0 var(--s3); padding-inline: calc(1.125rem + var(--s3) + var(--s2)) var(--s2); }
+.vocab-detail[hidden] { display: none; }
+.vocab-detail > * { min-width: 0; overflow-wrap: anywhere; }
+.vocab-detail .tag { white-space: normal; max-width: 100%; }
+.vocab-ex { display: flex; align-items: center; gap: var(--s2); }
+.vocab-more { margin-block-start: var(--s3); }
+/* Practice (PH-9): on a wide screen the labs are a compact two-column grid under the recommendations. */
+@media (min-width: 64rem) { .practice-labs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Speaking lab (PH-8): a shadowing sentence is an English block, left to right from the left edge. */
+.shadow-sentence { display: block; font-weight: 500; text-align: left; }
+@container (max-width: 17rem) { .vocab-row-when { grid-column: 2; grid-row: 2; } .vocab-row .chev { grid-row: 1; grid-column: 4; } }
+@container (max-width: 17rem) {
+  .lesson-row.ls-row { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--s1); align-items: start; }
+  .lesson-row.ls-row > .mark { margin-block-start: 0.2em; }
+  .lesson-row.ls-row > :last-child:not(.grow) { grid-column: 2; justify-self: start; }
+}
+
+/* ---- lane practice-hubs: end ---- */
+
+/* ---- lane games: start ---- */
+/* Games hub (GM-1 to GM-3): the speed-challenge switch, the scoring table shown only in the challenge, the
+   learner's level first and the other levels as one row each, and locked levels folded into one line. */
+.game-pace { margin-block-end: var(--s5); }
+.game-scoring > summary { cursor: pointer; width: fit-content; min-height: 2.75rem; display: flex; align-items: center; color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; }
+.game-scoring-table { width: 100%; max-width: 30rem; border-collapse: collapse; font-size: var(--t-sm); }
+.game-scoring-table th { text-align: start; font-weight: 600; padding: var(--s3) 0 var(--s1); color: var(--ink); }
+.game-scoring-table td { padding: var(--s1) 0; border-block-end: 1px solid var(--key-edge); color: var(--ink-2); }
+.game-scoring-table td:last-child { text-align: end; padding-inline-start: var(--s4); white-space: nowrap; color: var(--ink); font-weight: 500; }
+.game-stage-sub { display: block; }
+.game-levels { gap: var(--s2); }
+.game-levels > .game-mine { margin-block-end: var(--s3); padding: var(--s4); }
+/* Hub cards a little tighter than lesson cards, so the whole hub stays short on a phone. */
+.game-stages > .game-stage:not(.game-chip) { padding-block: var(--s2); min-height: 3.5rem; }
+.game-levels > .game-level-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); padding-block: var(--s2); border-block-end: 1px solid var(--key-edge); }
+.game-levels > .game-level-row:last-child { border-block-end: 0; }
+.game-level-row .game-level-name { min-width: 0; flex: 1 1 9rem; max-width: 20rem; flex-wrap: nowrap; }
+.game-chips { display: flex; gap: var(--s2); flex: none; }
+.game-chip { position: relative; justify-content: center; width: 2.75rem; height: 2.75rem; padding: 0; font-weight: 600; }
+.game-chip-mark { position: absolute; inset-block-start: -0.35rem; inset-inline-end: -0.35rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--key-sunk); border: 1px solid var(--key-edge); color: var(--ink-3); }
+.game-chip.is-done .game-chip-mark { background: var(--ok-tint); border-color: var(--ok); color: var(--ok); }
+.game-chip.is-locked { border-style: dashed; }
+.game-locked { display: flex; align-items: flex-start; gap: var(--s2); margin-block-start: var(--s1); }
+.game-locked > svg { flex: none; margin-block-start: 0.15rem; }
+.game-locked-page { max-width: 30rem; margin-inline: auto; }
+.game-locked-page h1 { font-size: var(--t-xl); }
+.game-locked-page .row { justify-content: center; }
+
+/* Picture game (GM-4): a matched tile ends on the English word, large under the picture, with the Hebrew small
+   below it. The word's size follows the tile's width and its longest word (--len), so the tile never grows. */
+.pic-tile.is-right { container-type: inline-size; grid-template-rows: minmax(0, 1fr) auto; row-gap: var(--s1); min-height: 0; overflow: hidden; }
+.pic-tile.is-right svg { width: min(2.75rem, 38cqi); }
+.pic-cap:empty { display: none; }
+.pic-cap { display: grid; gap: 0.1rem; justify-items: center; text-align: center; max-width: 100%; line-height: 1.15; }
+.pic-cap .pic-en { font-size: min(var(--t-lg), max(0.75rem, calc(150cqi / var(--len, 6)))); font-weight: 600; color: var(--ink-en); overflow-wrap: normal; hyphens: auto; }
+.pic-tile .pic-cap .pic-he { position: static; font-size: var(--t-xs); color: var(--ink-he); }
+/* A long word on a word key breaks at a hyphenation point, not between any two letters. */
+.pic-word { hyphens: auto; }
+/* Large text on a phone: two pictures a row, so a matched tile's word and its Hebrew stay readable. */
+@media (max-width: 39.99rem) {
+  :root:is([data-text='130'], [data-text='150']) .pic-grid > * { flex-basis: calc((100% - var(--gap)) / 2); }
+}
+/* Memory (GM-5): every pair on the end screen; the small board at level 1. */
+.game-pairs { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.game-pairs li { align-items: center; color: var(--ink-en); padding: var(--s2) var(--s3); }
+.mem-size { display: inline-flex; align-items: center; min-height: 2.75rem; padding-block: var(--s1); }
+@media (min-width: 40rem) { .mem-grid[data-pairs='4'] { --cols: 4; --rows: 2; } }
+/* Word quiz (GM-6): the lesson's footer Continue key, full width on phones; a tap on an option is the answer, so
+   touch shows no 1-4 keycaps (keys 1-4 still answer on a keyboard). The verdict scrolls clear of the footer. */
+@media (max-width: 40rem) { .game-foot .inner > .key { flex: 1 1 auto; } .game-foot .inner > :is([data-next], [data-nextboard]) { flex-basis: 100%; } }
+.game-instant { margin-block-end: calc(-1 * var(--s2)); }
+/* The completion stage: the hint under the sentence at every width (the prompt row is for a word and its key). */
+.game-prompt.stack-sm { display: grid; justify-items: stretch; }
+.game-feedback .game-verdict { scroll-margin-block-end: 6rem; }
+@media (hover: none) and (pointer: coarse) { .game-options .option .k, .game-foot .kbd { display: none; } }
+/* ---- lane games: end ---- */
+
+/* ================================================================
+   UX round 4 (final fixes): one block per lane, new rules only.
+   ================================================================ */
+
+/* ---- lane r4-lesson-flow: start ---- */
+/* The exit key (LF-13): the word beside the icon at 100-115% text, the icon alone at 130% and above; 44 px tall. */
+.lesson-player .player-top .exit-key { flex: none; min-height: 44px; padding-inline: 0.55rem; gap: var(--s1); --key-bg: transparent; border-color: transparent; }
+.lesson-player .player-top .exit-key .exit-label { font-size: var(--t-sm); font-weight: 500; }
+/* The lesson top (LF-3). Below 130% it stays on screen while the page scrolls, so the exit and the bar are
+   there after Check. At 130-150% text and on narrow phones it is one row: exit, the bar with the counter inline
+   after it, help. Its keys keep a 44 px target in px, so large text does not make the row taller. */
+:root:not([data-text='130'], [data-text='150']) .lesson-player > .player-top { position: sticky; top: 0; z-index: 6; background: var(--ground); box-shadow: 0 0 0 100vmax var(--ground); clip-path: inset(0 -100vmax); }
+@media (max-width: 30rem) {
+  .lesson-player .player-top.counting { flex-wrap: nowrap; gap: var(--s2); }
+  .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+  .lesson-player .player-top.counting .progress { min-width: 0; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top { flex-wrap: nowrap; gap: var(--s1); padding-block: 6px; padding-inline: var(--s3); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .top-meta.is-count { order: 0; flex-basis: auto; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top.counting .progress { min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top :is(.key.icon-only, .exit-key) { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .exit-key .exit-label { display: none; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-top .step-count { font-size: var(--t-xs); }
+/* The footer (LF-3): never more than 45% of the screen (player.js fitFooter caps the verdict, which scrolls with a
+   fade and a "More" cue while there is more below). At large text and on narrow phones "Show the answer" is a text
+   link beside "Try again", and "Hint" and "I don't know" share one row of compact keys. */
+.lesson-player .player-foot { --foot-bg: var(--ground); }
+.lesson-player .player-foot:is(.ok, .bad, .almost) { --foot-bg: var(--key); }
+.lesson-player .player-foot.shown { --foot-bg: var(--key-sunk); }
+.lesson-player .player-foot .verdict.fade::after {
+  content: attr(data-more) ' ↓'; position: sticky; bottom: 0; display: block; height: 2.2rem; margin-block-start: -1.4rem; padding-block-start: 1rem;
+  background: linear-gradient(to bottom, transparent, var(--foot-bg) 55%); color: var(--ink-2); font-size: var(--t-xs); font-weight: 500; text-align: center; pointer-events: none;
+}
+@media (max-width: 30rem) {
+  .lesson-player .player-foot .verdict { max-height: 40dvh; }
+  .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+  .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+  .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; padding-inline: var(--s2); white-space: normal; }
+}
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot { padding-block: var(--s2) calc(var(--s2) + env(safe-area-inset-bottom)); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner { gap: var(--s2); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .verdict { max-height: 40dvh; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .key { min-height: max(44px, 2.4rem); padding-inline: 0.6rem; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-show-answer] { flex: 1 1 0; min-width: 0; white-space: normal; min-height: 44px; padding-inline: var(--s2); background: none; border-color: transparent; box-shadow: none; color: var(--cobalt); text-decoration: underline; text-underline-offset: 0.2em; font-size: var(--t-sm); }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > [data-try-again] { flex: 1.4 1 0; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .lesson-player .player-foot .inner > :is([data-hint], [data-dontknow], [data-idk]) { flex: 1 1 0; min-width: 0; min-height: 44px; padding-inline: var(--s2); font-size: var(--t-xs); white-space: normal; }
+/* Tables at Pre-A1 (LF-8): "Show IPA" hides the IPA column and the /…/ inside other cells and word cards in every
+   layout, also where rows are cards at large text; Hebrew header labels sit under the English ones; Hebrew cells
+   are in body ink, not link blue. */
+.table-wrap.ipa-hidden :is(.col-ipa, .ipa), .lesson-learn.ipa-hidden .ipa { display: none; }
+@media (max-width: 30rem) { .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; } }
+:root:is([data-text='130'], [data-text='150']) .tstack.ipa-hidden table.data :is(td, th).col-ipa { display: none; }
+.table-wrap:not(.letters) table.data td:has(> .row-say) { white-space: normal; }
+.table-wrap:not(.letters) table.data td > .row-say { float: inline-start; margin-inline-end: var(--s1); }
+table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500; color: var(--ink-2); }
+:root .table-wrap table.data td.c-he, :root:is([data-text='130'], [data-text='150']) .tstack table.data td.c-he { color: var(--ink); }
+@media (max-width: 30rem) { :root .tstack table.data td.c-he { color: var(--ink); } }
+.word-tools { margin-block-end: calc(-1 * var(--s2)); }
+/* Level-check results (LF-11): the question itself, in English, under its instruction. */
+.check-miss .check-q { font-size: var(--t-md); font-weight: 500; color: var(--ink); }
+/* The part end (LF-7): the saved place leads; today's first-try count is a small closing line, not a grade. */
+.part-end .part-place { font-size: var(--t-md); }
+.part-end .part-score { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); }
+/* Learn steps after the first (LF-6): the lesson's title is one line in the top, cut with an ellipsis. */
+.lesson-player .player-top .top-meta.is-title { flex: 0 1 auto; min-width: 0; }
+.lesson-player .player-top:has(.is-title) .progress { min-width: 4rem; }
+.lesson-player .player-top .top-title { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--t-sm); font-weight: 500; color: var(--ink-2); }
+/* "Worth watching" (LF-4): only the words that changed, struck and added as in the verdict's diff; a choice is
+   "you chose · the answer" with no correction styling; an item fixed on a later try has a neutral tag. */
+.mistake-diff { display: inline; overflow-wrap: anywhere; }
+.mistake-diff :is(.m-arrow, .m-gap) { color: var(--ink-3); }
+.mistake-diff .m-del { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.mistake-diff .m-add { color: var(--ok); background: var(--ok-tint); text-decoration: underline; text-underline-offset: 0.2em; border-radius: 3px; padding: 0 0.15em; font-weight: 600; }
+.mistake-choice .m-chose, .mistake-choice .m-answer { font-weight: 500; }
+.mistake-fixed { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+.fixed-tag { display: inline-flex; align-items: center; gap: var(--s1); color: var(--ink-2); background: var(--key-sunk); border-color: var(--key-line); }
+.fixed-tag .icon { color: var(--ok); }
+
+/* ---- lane r4-lesson-flow: end ---- */
+
+/* ---- lane r4-exercises: start ---- */
+/* EX-4: a listening item with no sound says so under its play keys and offers the transcript. */
+.silent-note { display: flex; gap: var(--s3); align-items: flex-start; margin-block: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-key); background: var(--cobalt-tint); color: var(--ink); font-size: var(--t-sm); }
+.silent-note > svg { flex: none; margin-block-start: 0.2em; color: var(--ink-2); }
+.silent-transcript { margin-block: var(--s4); color: var(--ink-2); }
+.silent-transcript .en-block { font-size: var(--t-md); color: var(--ink); }
+.options .option[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+/* EX-10: sentences get full-width bins (long items, or a narrow column), every right placement looks the same,
+   and the answer is a list per bin. */
+.cat-grid { container-type: inline-size; }
+.cat-grid.cat-long { grid-template-columns: minmax(0, 1fr); }
+@container (max-width: 30rem) { .cat-grid .cat-bin { grid-column: 1 / -1; } }
+.cat-grid.cat-long .chip, .chips.cat-long-pool .chip { text-align: start; justify-content: flex-start; white-space: normal; }
+.cat-bin .chip.is-flawed { flex-wrap: wrap; text-align: start; }
+.cat-bin .chip .cat-fix { flex-basis: 100%; color: var(--ink-2); font-size: var(--t-xs, 0.8125rem); }
+.verdict-body .fix-items { margin: var(--s1) 0 0; padding-inline-start: 1.1rem; display: grid; gap: 0.15rem; }
+/* EX-12: room under the underlined source sentence; why Check is off; a matching answer in two languages. */
+.ex-source { margin-block-end: 0.75rem; }
+.same-note { color: var(--ink-2); margin-block-start: var(--s2); }
+.match-answer .pair { unicode-bidi: isolate; display: inline-block; max-width: 100%; }
+/* EX-11: after Check in reading, a key at the top of the questions jumps to the first wrong one. */
+.read-jump { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.read-jump-key { background: none; border: 0; padding: 0.35rem 0; min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+/* EX-9: speaking self-rating says what Continue waits for and acknowledges the choice; "mic off" is neutral. */
+.self-rate .self-need { color: var(--ink); font-weight: 500; }
+.self-rate .self-said { color: var(--ink-2); }
+/* Scrolled into view above the player's fixed footer. */
+.self-rate, .self-rate .self-said { scroll-margin-block-end: 10rem; }
+.self-rate .self-said:empty { display: block; min-height: 0; margin: 0; padding: 0; }
+.speak-note { display: flex; gap: var(--s2); align-items: flex-start; color: var(--ink-2); margin-block-start: var(--s3); }
+.speak-note > svg { flex: none; margin-block-start: 0.2em; }
+/* EX-8: a word accepted with a slip is amber, with the letters that differ marked; a reopened field is plain. */
+.gap-input.almost, .ex-field.almost { border-color: var(--warn); background: var(--warn-tint); }
+.gap-diff { display: inline-flex; gap: 0.3em; align-items: baseline; margin-inline: 0.2rem; padding: 0 0.35rem; border-radius: 0.4rem; background: var(--warn-tint); font-size: var(--t-sm); white-space: nowrap; }
+.gap-diff .gd-typed { color: var(--ink-2); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.gap-diff mark { color: var(--warn); background: transparent; font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+
+/* ---- lane r4-exercises: end ---- */
+
+/* ---- lane r4-today-path: start ---- */
+/* TP-3: a done row keeps full contrast: a quiet sunk card (set above), --ink-2 text, the green check, and what was
+   done in the time cell (TP-2), never a faded card. */
+.plan-item.done :is(.faint, .plan-time, .why) { color: var(--ink-2); }
+.plan-item.done .plan-time.done-what { white-space: normal; font-weight: 500; }
+/* TP-1: the first round of today's new words, one quiet line above "Want more?". */
+.first-recall { margin: 0; }
+.done-banner { margin-block-end: var(--s3); }
+.first-recall .nowrap { white-space: nowrap; }
+/* TP-5: the can-do line on Today and the path follows the support level through bi(); inside a row it keeps the
+   row's quiet meta style whichever language leads. */
+.can-do .bi.he-first > .bi-he.primary { color: inherit; font-weight: inherit; font-size: inherit; }
+.lesson-row .can-do { font-size: var(--t-sm); color: var(--ink-2); }
+/* At full support the row's English can-do is the .bi-en under the Hebrew one: a short line under a title, so it
+   shares the title's edge, as on Today (BL-4a). Instructions and explanations keep SB-1's left edge. */
+:root[dir='rtl'] .lesson-row .can-do .bi > .bi-en { text-align: right; }
+/* TP-6: a passed level check on the path card and the path. */
+.check-passed { margin-block-start: var(--s4); }
+.check-passed > p { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; }
+.check-passed > p > .icon { flex: none; margin-block-start: 0.2em; color: var(--ok); }
+.check-passed .nowrap, .path-current .nowrap { white-space: nowrap; }
+/* TP-7: on a narrow phone at large text the start key sits right under the greeting (today.js), and the minutes
+   choice moves under the plan. */
+.page-head.compact { margin-block-end: var(--s5); }
+.page-head.compact > .start-bar { flex: 1 1 100%; margin-block-end: 0; }
+.today .today-minutes { margin-block-start: var(--s4); }
+/* "Not now" on Today's offer rows is a text button beside the action, never a heavier key (TP-7). The shell's
+   .key.ghost is unchanged elsewhere. */
+.today :is([data-import-later], [data-ui-later]).key.ghost { --key-bg: transparent; background: transparent; border-color: transparent; box-shadow: none; color: var(--ink-2); min-height: 2.75rem; padding-inline: var(--s3); text-decoration: none; }
+.today :is([data-import-later], [data-ui-later]).key.ghost:hover { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; }
+.today :is([data-import-later], [data-ui-later]).key.ghost:active:not(:disabled) { background: transparent; transform: none; }
+/* "All lessons" on the path card: a 44px target. */
+.today .all-lessons { display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: var(--s2); margin-inline-end: calc(-1 * var(--s2)); }
+.first-recall a { display: inline-flex; align-items: center; gap: var(--s2); min-height: 2.75rem; color: var(--cobalt); }
+.first-recall a svg { flex: none; }
+/* TP-9: the Pre-A1 goal line: the text and its link on one quiet row. */
+.goal-later { display: flex; align-items: flex-start; gap: var(--s2); margin: 0; color: var(--ink-2); }
+.goal-later > .icon { flex: none; margin-block-start: 0.2em; }
+.goal-later a { padding-block: 0.6rem; }
+/* TP-11: one selected treatment for every onboarding choice card (goals, minutes, starting point): the cobalt tint
+   and edge with the check or radio indicator, also under the pointer. */
+.onboard .choice:is([aria-checked='true'], [aria-pressed='true']), .onboard .choice:is([aria-checked='true'], [aria-pressed='true']):hover { background: var(--cobalt-tint); border-color: var(--cobalt); }
+/* TP-11: on a phone the text-size control is 2x2 from the start, so choosing 130% or 150% never re-flows it. */
+@media (max-width: 30rem) { .ob-prefs .seg:has(> :nth-child(4):last-child) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* TP-12: on a phone, "or without the test:" is a label over its start keys, stacked, so no key is left hanging. */
+@media (max-width: 30rem) { .no-test { flex-direction: column; align-items: flex-start; } .no-test > .key { max-width: 100%; white-space: normal; text-align: start; } }
+
+/* ---- lane r4-today-path: end ---- */
+
+/* ---- lane r4-practice-games: start ---- */
+/* PG-1: a Settings segment never shrinks below its label (settings.js measures the longest label of each group
+   into --seg-cell). The group is one row of equal cells when they fit and a grid of equal cells when they do not;
+   at 130-150% text, four or five options make two columns. Still one segmented control with its help line. */
+.settings-view .field > .seg { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--seg-cell, 5.5rem)), 1fr)); }
+.settings-view .seg > button { white-space: nowrap; min-width: 0; }
+:root:is([data-text='130'], [data-text='150']) .settings-view .field > .seg:is([data-n='4'], [data-n='5']) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--seg-cell, 5.5rem), calc(50% - 3px))), 1fr)); }
+
+/* PG-2: the games' one speed setting is a 44px switch key (role=switch) with a track and thumb drawn in keycap
+   tokens; it scales with the text size. The same component in Settings and on the games page. */
+.speed-field { max-width: 36rem; }
+.speed-switch { display: inline-flex; align-items: center; gap: var(--s3); min-height: 2.75rem; min-width: 2.75rem; max-width: 100%; padding: var(--s2) var(--s4); border: 1px solid var(--key-edge); border-block-end: 3px solid var(--key-skirt); border-radius: var(--r-key); background: var(--key); color: var(--ink); font: inherit; font-weight: 500; font-size: var(--t-md); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.speed-switch:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.speed-switch:active { transform: translateY(2px); border-block-end-width: 1px; }
+.speed-track { position: relative; flex: none; width: 2.6em; height: 1.5em; border-radius: var(--r-pill); background: var(--key-sunk); border: 1px solid var(--key-edge); transition: background-color 0.15s ease, border-color 0.15s ease; }
+.speed-thumb { position: absolute; inset-block-start: 50%; inset-inline-start: 0.15em; width: 1.1em; height: 1.1em; transform: translateY(-50%); border-radius: 50%; background: var(--ink-3); border: 1px solid transparent; box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.2); transition: inset-inline-start 0.15s ease; }
+.speed-switch[aria-checked='true'] .speed-track { background: var(--cobalt); border-color: var(--cobalt); }
+.speed-switch[aria-checked='true'] .speed-thumb { inset-inline-start: calc(100% - 1.25em); background: var(--key); border-color: var(--cobalt); }
+.speed-field > .help { margin: 0; }
+@media (hover: hover) { .speed-switch:hover { border-color: var(--n5); } }
+@media (prefers-reduced-motion: reduce) { .speed-track, .speed-thumb { transition: none; } }
+/* PG-4: the score pill names its number ("12 נקודות"); the memory feedback line sits under the cards, so no empty
+   band pushes the board down. */
+.game-score { display: inline-flex; align-items: baseline; gap: 0.3em; white-space: nowrap; flex: none; }
+.game-score-label { font-weight: 500; font-size: 0.85em; }
+.mem-intro { margin-block-end: 0; }
+/* The score pill shares the counter's row (one row less at 130-150% text and on phones). */
+.player-top .top-meta.is-count > .game-score { margin-inline-start: var(--s3); }
+#gbody > h1.sr-only:first-child + * { margin-block-start: 0; }
+/* PG-7: the quiz's other levels: the stage keys sit at the row's inline end, in rows no wider than 46rem; the
+   learner's own picture and memory level carries its tag on a line of its own. */
+.game-levels > .game-level-row { max-width: 46rem; }
+.game-level-row .game-chips { margin-inline-start: auto; }
+.game-stage .game-own { display: inline-block; width: fit-content; margin-block-start: var(--s1); }
+/* PG-10: on a site without AI, an AI-only setting looks inert: its chosen segment is flat --ink-3 text (no raised fill,
+   no shadow) and its label steps back to --ink-2; the one AI-off sentence above them says why. */
+.settings-view .is-off .seg button[aria-pressed='true'] { background: transparent; box-shadow: none; color: var(--ink-3); }
+.settings-view .is-off .label { color: var(--ink-2); }
+/* PG-13: Practice: the lab tiles of a row are one height, and the recommended cards keep a readable width; the
+   vocabulary filters are a 2 x 2 grid of equal cells on a phone, not a ragged wrap. */
+.practice-labs > li { display: grid; }
+.practice-labs > li > .lesson-row { height: 100%; }
+.practice-now > .plan-item { max-width: 46rem; }
+@media (max-width: 30rem) {
+  .list-tools .seg.vocab-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .list-tools .seg.vocab-filters > button { white-space: nowrap; }
+}
+/* PG-14: the speaking lab for beginners hides the phonetic symbols until "להצגת IPA" (the tabs keep their words). */
+.sp-ipa-off :is(.tab-ipa, .entry-ipa) { display: none; }
+/* ---- lane r4-practice-games: end ---- */
+
+/* ---- lane r4-real-life-writing: start ---- */
+/* RW-5: the save mark is a quiet word, apart from the counts, so it never reads as "target met". */
+.editor-stats .save-word { color: var(--ink-3); font-size: var(--t-xs); padding-inline-start: var(--s3); border-inline-start: 1px solid var(--key-edge); }
+.editor-stats .save-word[data-off] { visibility: hidden; }
+.editor-stats .editor-target { color: var(--ink-2); }
+
+/* RW-6: a compact rubric. The keys stay at the top of the side panel; each category is one row. */
+.rubric-keys { position: sticky; top: calc(-1 * var(--s5)); z-index: 1; background: var(--key); padding-block: var(--s2); }
+.rubric-rows { display: grid; gap: var(--s2); }
+.rubric-cat { border-block-end: 1px solid var(--key-edge); padding-block-end: var(--s2); }
+.rubric-cat-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(9rem, auto); align-items: center; gap: var(--s3); }
+.rubric-cat-row h4 { margin: 0; }
+.rubric-what > summary, .rubric-about > summary { min-height: 2.75rem; display: flex; align-items: center; cursor: pointer; color: var(--ink-2); }
+/* RW-6: the level chip sits in the meta line; topics are choice cards with a 24px round mark. */
+.essay-meta .tag { vertical-align: baseline; }
+.topic-pick .topic-choice { align-items: flex-start; gap: var(--s3); }
+.topic-pick .topic-choice input[type='radio'] { appearance: none; flex: none; inline-size: 1.5rem; block-size: 1.5rem; margin: 0.05rem 0 0; border: 2px solid var(--n5); border-radius: 50%; background: var(--key); }
+.topic-pick .topic-choice input[type='radio']:checked { border-color: var(--cobalt); background: var(--cobalt); box-shadow: inset 0 0 0 0.3rem var(--key); }
+.topic-pick .topic-choice input[type='radio']:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+.he-reveal.he-all { justify-self: start; margin-block-end: var(--s2); }
+/* RW-7: the scenario footer always sits right on the tab bar (the view's end margin takes back the part of its
+   bottom padding that is taller than the bar), the Enter key is full width on phones, and the footer is neutral
+   while the learner writes their own reply. */
+.scenario-view:has(> .scenario-foot:last-child) { margin-block-end: calc(var(--rw-tabbar-h, 0px) - var(--rw-view-pad, 0px)); }
+.scenario-view > .scenario-foot { max-width: 46rem; }
+@media (max-width: 40rem) {
+  .scenario-view .scenario-foot .inner { flex-wrap: wrap; }
+  .scenario-view .scenario-foot .inner > .key.enter { flex: 1 1 100%; justify-content: center; }
+  .scenario-view .scenario-foot .inner > .grow:empty { display: none; }
+  .scenario-view .scenario-foot .inner > .verdict { flex: 1 1 100%; }
+}
+.scenario-view .scenario-foot.neutral { --verdict: transparent; background: var(--ground); }
+.scenario-view .own-result, .scenario-view [data-explain] { scroll-margin-block-end: calc(var(--rw-foot-h, 6rem) + var(--rw-tabbar-h, 0px) + var(--s3)); }
+/* RW-10: the Real life and Conversations topics fold, one open at first. */
+.hub-topics .hub-fold { padding: var(--s2) var(--s4); }
+.hub-topics .hub-fold > summary { min-height: 2.75rem; }
+.hub-topics .hub-fold[open] { padding-block-end: var(--s4); }
+.hub-topics .hub-fold > summary .hub-head { margin: 0; font-size: var(--t-md); }
+.hub-topics .hub-fold-body { margin-block-start: var(--s3); }
+/* RW-8: the saved place in a scenario, above its tabs and on the hub rows. */
+.scenario-view .resume-line { margin-block-end: var(--s3); color: var(--ink-2); }
+.scenario-view .resume-line .link-key { background: none; border: 0; padding: var(--s2) var(--s1); min-height: 2.75rem; color: var(--cobalt); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.hub-row .place-tag { display: inline-block; margin-block: var(--s1); }
+/* RW-9, RW-12: Hebrew glosses in scenarios and expressions read as quiet text at normal weight, not as heavy
+   cobalt blocks. */
+.scenario-view :is(.bi-he, .legend .l-he), .entry .entry-he, .entry .sense-after { color: var(--ink-he-quiet); font-weight: 400; }
+.scenario-view .page-head h1 .l-he { font-weight: 400; }
+/* RW-12: no filter label wraps, and the register options are a 2 x 2 grid where two fit side by side. The
+   filter controls are shared segmented controls (SB-6, app.js fitSegs), which keep each label on one line and
+   inside its segment at any width and text size. On a phone the sheet's padding is a step smaller, so the two
+   longest register labels still fit side by side at 390 with 150% text. */
+@media (max-width: 480px) { .xp-filters { padding: var(--s3); } }
+/* ---- lane r4-real-life-writing: end ---- */
+
+/* ---- lane r4-shell-bilingual: start ---- */
+/* SB-6: a segment never shrinks below its label. The shared controls (not the lane-owned ones in Settings,
+   onboarding and Today's minutes) keep their labels on one line; when the row cannot hold them,
+   app.js (fitSegs) turns the control into a grid of equal cells, as many columns as the widest label allows. */
+.seg:not(.settings-view .seg, .ob-prefs .seg, .today-minutes > .seg) > button { flex: 1 0 auto; min-width: max-content; white-space: nowrap; }
+.seg.seg-measure { display: inline-flex !important; flex-wrap: wrap !important; }
+.seg.seg-measure > button { flex: none !important; }
+.seg.seg-grid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(var(--seg-cols, 2), minmax(0, 1fr)) !important; width: 100%; }
+/* A centred label in an equal cell needs less side padding than a free segment. */
+.seg:is(.seg-tight, .seg-grid) > button { padding-inline: 0.25rem; }
+.seg.seg-grid > button { min-width: 0; }
+.seg.seg-grid.seg-wrap > button { white-space: normal; line-height: 1.3; }
+
+/* SB-8: at 1440x900 the desktop rail shows all 13 destinations above the pinned Help and Settings. The links are
+   tighter, and on a window under 960px tall only the current link keeps its second-language line. When the links
+   still do not fit (a short window, large text), a fade at the bottom says there is more (app.js sets .scrolls
+   while the list is not scrolled to its end). */
+@media (min-width: 64rem) {
+  .deck nav { gap: 0.15rem; }
+  .deck nav a.nav { padding-block: 0.4rem; }
+  .deck nav .group-label { margin-block: var(--s4) var(--s1); }
+  .deck nav.scrolls::after { content: ''; display: block; position: sticky; bottom: calc(var(--s3) * -1); height: 2.75rem; margin-block-start: -2.75rem; background: linear-gradient(to bottom, transparent, var(--deck) 80%); pointer-events: none; }
+}
+@media (min-width: 64rem) and (max-height: 60rem) {
+  .deck nav a.nav:not([aria-current='page']) .nav-legend .l2 { display: none; }
+}
+/* SB-10: the links under Help are full touch targets. */
+.help-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+/* ---- lane r4-shell-bilingual: end ---- */
+
+/* ---- r4 integrate (round 2): start ---- */
+/* A key label that mixes Hebrew and an English isolate is one flex item, so it wraps as one line of text, in
+   reading order, instead of splitting into two columns (the isolate is an inline-block of its own). */
+.key-text { min-width: 0; text-align: center; }
+/* Game results: the tag "השיא הראשון שלכם בשלב הזה באתגר מהירות" wraps inside the column at 150% text. */
+.game-result .tag { white-space: normal; max-width: 100%; }
+/* The counter row of a player top (step count plus the game's score pill) wraps to two centred lines when both do
+   not fit (320px at 150% text), instead of pushing the page sideways. */
+.player-top .top-meta.is-count { flex-wrap: wrap; justify-content: center; row-gap: var(--s1); min-width: 0; max-width: 100%; }
+/* ---- r4 integrate (round 2): end ---- */
+
+/* ---- boot (perf lane "boot": B4, B5): start ---- */
+/* Until the shell is drawn (app.js removes .booting) the main column is hidden: on a wide screen it would first lay
+   out in the rail's column and jump when the rail appears (desktop CLS). The first spinner stays visible and
+   announced, fixed in the middle of the screen. */
+.booting .main { visibility: hidden; }
+.booting .boot-first { visibility: visible; }
+/* Fixed before and after the shell appears, so drawing the shell does not move it (it is replaced by the view). */
+.boot-first { position: fixed; inset: 0; min-height: 0; pointer-events: none; }
+/* The boot frame in index.html covers the page until then. */
+html:not(.booting) .bootframe { display: none; }
+/* ---- boot (perf lane "boot"): end ---- */

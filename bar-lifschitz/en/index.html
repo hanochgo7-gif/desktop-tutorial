@@ -1,0 +1,1504 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bar Lifschitz | Private Chef, Mitzpe Matat</title>
+<meta name="description" content="Bar Lifschitz, private chef. I cook and host, in my yard in Mitzpe Matat, at your home and at events. Simple, interesting, Galilean, and cooked in front of the guests.">
+<meta property="og:title" content="Bar Lifschitz | Private Chef">
+<meta property="og:description" content="I cook and host, in my yard and at yours. Private chef dinners in Mitzpe Matat, at your home and at events.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<link rel="alternate" hreflang="he" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/">
+<link rel="alternate" hreflang="en" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<meta name="theme-color" content="#1e0d12">
+<link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="../images/window-night.webp" type="image/webp">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  // מסמנים מוקדם שיש JS
+  document.documentElement.classList.add('js');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<style>
+  :root {
+    --ash: #d6d7cb;      /* עלה זית יבש: היום */
+    --linen: #f3f2ec;    /* נייר התפריט */
+    --fig: #2b1219;      /* דיו בצבע תאנה */
+    --dusk: #3e1d27;     /* שקיעה */
+    --night: #1e0d12;     /* לילה ליד הגחלים */
+    --wall: #2b140f;      /* הקיר ליד החלון של המטבח */
+    --beet: #9c1b2c;     /* רוטב הקרודו */
+    --rose: #e7a3ad;     /* גחלת */
+    --olive: #5e6142;
+    --smoke: #7a776f;
+    --display: "Bellefair", "Frank Ruhl Libre", serif;
+    --body: "Assistant", "Heebo", system-ui, sans-serif;
+    --gutter: clamp(16px, 5vw, 72px);
+    --max: 1280px;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html.js:not(.motion) { scroll-behavior: smooth; } }
+  html.lenis, html.lenis body { height: auto; }
+  html.lenis { scroll-behavior: auto; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  body {
+    margin: 0;
+    background: var(--night);
+    color: var(--fig);
+    font-family: var(--body);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* גרעין צילום עדין על כל הדף */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent, var(--beet)); outline-offset: 3px; }
+  ::selection { background: var(--beet); color: var(--linen); }
+
+  .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1; }
+  h2 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); letter-spacing: -0.015em; line-height: .95; }
+  h1, h2, h3, .hero-tag, .statement, .finale-line, .about-line, .ev-n, .faq summary { text-wrap: balance; }
+  p, li, dd { text-wrap: pretty; }
+  p { margin: 0 0 1em; max-width: 34em; }
+
+  /* ---------- שלושה מצבי אור: היום, השקיעה והלילה ---------- */
+  [data-theme] { background: var(--bg); color: var(--ink); }
+  [data-theme="day"]   { --bg: var(--ash);   --ink: var(--fig);   --soft: #5d4b50; --line: rgba(43,18,25,.2);   --accent: var(--beet); --on-accent: var(--linen); }
+  [data-theme="dusk"]  { --bg: var(--dusk);  --ink: var(--linen); --soft: #dccfd2; --line: rgba(243,242,236,.2); --accent: var(--rose); --on-accent: var(--fig); }
+  [data-theme="night"] { --bg: var(--night); --ink: var(--linen); --soft: #d4c7ca; --line: rgba(243,242,236,.18); --accent: var(--rose); --on-accent: var(--fig); }
+  /* כשהתנועה פעילה, צבע הרקע של הדף עצמו מתחלף בגלילה, מיום ללילה */
+  html.motion main > [data-theme]:not(.hero):not(.stage), html.motion footer[data-theme] { background: transparent; }
+
+  .btn {
+    position: relative; overflow: hidden; isolation: isolate;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 54px; padding: 0 30px;
+    font: 700 1.02rem/1 var(--body); letter-spacing: .01em;
+    text-decoration: none; border: 1px solid var(--ink); border-radius: 999px;
+    background: var(--ink); color: var(--bg); cursor: pointer;
+    transition: color .45s var(--ease), border-color .45s var(--ease);
+  }
+  .btn::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; background: var(--accent);
+    transform: translateY(101%); transition: transform .5s var(--ease);
+  }
+  .btn:hover { color: var(--on-accent); border-color: var(--accent); }
+  .btn:hover::before { transform: none; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+
+  .fill { width: 100%; object-fit: cover; }
+
+  /* ---------- כותרת עליונה ---------- */
+  .site-head {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 22px var(--gutter);
+    color: var(--linen);
+    transition: background-color .5s var(--ease), padding .5s var(--ease), transform .6s var(--ease), backdrop-filter .5s;
+  }
+  .site-head.scrolled { background: rgba(30, 13, 18, .9); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); padding-block: 12px; }
+  .site-head.hide { transform: translateY(-105%); }
+  .site-head .mark { font-family: var(--display); font-size: 1.6rem; text-decoration: none; line-height: 1; }
+  .site-head nav { display: flex; align-items: center; gap: 30px; font-weight: 600; font-size: .98rem; }
+  .site-head nav a { position: relative; text-decoration: none; padding-block: 6px; }
+  .site-head nav a:not(.pill)::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease);
+  }
+  .site-head nav a:not(.pill):hover::after { transform: scaleX(1); transform-origin: left; }
+  .site-head .pill { border: 1px solid rgba(243,242,236,.55); border-radius: 999px; padding: 9px 20px; transition: background-color .3s, color .3s; }
+  .site-head .pill:hover { background: var(--linen); color: var(--fig); }
+  .menu-btn { display: none; background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 8px 0; min-height: 44px; align-items: center; gap: 10px; }
+  .menu-btn i { display: grid; gap: 6px; width: 24px; }
+  .menu-btn i::before, .menu-btn i::after { content: ""; height: 1px; background: currentColor; }
+  @media (max-width: 820px) {
+    .site-head nav { display: none; }
+    .menu-btn { display: inline-flex; }
+  }
+
+  .menu-overlay {
+    position: fixed; inset: 0; z-index: 70; background: var(--night); color: var(--linen);
+    display: flex; flex-direction: column; justify-content: center; padding: 96px var(--gutter) 48px;
+    clip-path: inset(0 0 100% 0); transition: clip-path .7s var(--ease); visibility: hidden;
+  }
+  .menu-overlay.open { clip-path: inset(0 0 0 0); visibility: visible; }
+  .menu-overlay a { font-family: var(--display); font-size: clamp(2.4rem, 11vw, 3.6rem); line-height: 1.25; text-decoration: none; display: block;
+    opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: calc(.12s + var(--i) * .06s); }
+  .menu-overlay.open a { opacity: 1; transform: none; }
+  .menu-overlay .close { position: absolute; top: 18px; inset-inline-end: var(--gutter); background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 10px 0; }
+  .menu-overlay small { margin-top: 40px; color: #cdbfc2; font-size: 1rem; }
+
+  @media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }
+  .site-head .mark { view-transition-name: barlif-mark; }
+
+  /* ---------- פתיח: החלון המואר ---------- */
+  /* הקיר הבורדו מהסרטון של בר הופך לכל המסך. גוללים, ונכנסים דרך החלון אל המטבח, ומשם לחצר. */
+  .stage { position: relative; height: 100vh; height: 100svh; background: var(--wall); color: var(--linen); }
+  html.motion .stage { height: 175vh; height: 175svh; }
+  .stage-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; }
+  .stage-film { position: absolute; inset: 0; z-index: -1; display: flex; justify-content: center; transform-origin: 50% 54%; will-change: transform; }
+  .stage-film video { height: 100%; width: auto; aspect-ratio: 9 / 16; object-fit: cover; }
+  @media (min-aspect-ratio: 9/16) {
+    .stage-film video { -webkit-mask-image: linear-gradient(to right, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(to right, transparent, #000 16%, #000 84%, transparent); }
+  }
+  @media (max-aspect-ratio: 9/16) { .stage-film video { width: 100%; height: 100%; } }
+  .stage-film::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 70% at 50% 54%, transparent 45%, rgba(20,8,8,.55) 100%); pointer-events: none; }
+  .stage-ui { position: absolute; inset: 0; }
+  .stage-title { position: absolute; inset-inline: 0; top: max(84px, 13svh); margin: 0; display: flex; justify-content: center; }
+  .stage-title .logo { width: min(66vw, 520px); color: var(--linen); }
+  .stage-copy { position: absolute; inset-inline: 0; bottom: max(28px, 6svh); display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; padding-inline: var(--gutter); }
+  .stage-when { margin: 0; font-size: clamp(1rem, 1.6vw, 1.15rem); letter-spacing: .14em; color: #eadfe0; }
+  .stage-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .stage-copy .cue { font-size: .85rem; letter-spacing: .1em; color: #cdbfc2; margin-top: 6px; }
+  html.motion .hero { margin-top: -100vh; margin-top: -100svh; }
+  .stage-fade { position: absolute; inset: 0; background: var(--night); opacity: 0; pointer-events: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .stage-title .logo { -webkit-mask-image: linear-gradient(to right, #000 40%, transparent 60%); mask-image: linear-gradient(to right, #000 40%, transparent 60%);
+      -webkit-mask-size: 260% 100%; mask-size: 260% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0; animation: ink 1.6s .25s cubic-bezier(.3,.6,.2,1) forwards; }
+    html.js .stage-copy { opacity: 0; transform: translateY(14px); animation: rise .9s .35s var(--ease) forwards; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .stage-title { top: 58px; }
+    .stage-title .logo { width: min(34vw, 260px); }
+    .stage-copy { bottom: 12px; gap: 10px; }
+    .stage-copy .cue { display: none; }
+  }
+  @keyframes ink { to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* ---------- פתיח: החצר ---------- */
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    color: var(--linen);
+  }
+  .hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(30,13,18,.55) 100%),
+      linear-gradient(to top, rgba(30,13,18,.95) 0%, rgba(30,13,18,.55) 34%, rgba(30,13,18,.05) 64%, rgba(30,13,18,.6) 100%);
+  }
+  .hero-body { width: 100%; padding-top: 140px; }
+  .hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; margin-top: clamp(22px, 3vw, 36px); }
+  .hero-lede { font-size: clamp(1.15rem, 1.7vw, 1.4rem); line-height: 1.6; max-width: 30em; margin: 0; color: #efe7e8; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px 32px; flex-wrap: wrap;
+    margin-top: clamp(36px, 6vw, 72px); padding-block: 20px clamp(20px, 3vw, 32px);
+    border-top: 1px solid rgba(243,242,236,.22); font-size: .95rem; color: #dcd2d4;
+  }
+  .hero-facts { display: flex; flex-wrap: wrap; gap: 8px 36px; margin: 0; padding: 0; list-style: none; }
+  .cue { display: inline-flex; align-items: center; gap: 12px; }
+  .cue i { position: relative; width: 1px; height: 34px; background: rgba(243,242,236,.25); overflow: hidden; }
+  .cue i::after { content: ""; position: absolute; inset: 0; background: var(--linen); animation: cue 2.2s var(--ease) infinite; }
+  @keyframes cue { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
+  @media (prefers-reduced-motion: reduce) { .cue i::after { animation: none; } }
+  @media (max-width: 600px) { .hero .cue { display: none; } }
+
+  /* ---------- מי מבשל ---------- */
+  .about { padding-top: clamp(96px, 14vw, 200px); }
+  .statement {
+    margin: 0 auto; max-width: 17em; text-align: center;
+    font-family: var(--display); font-size: clamp(2.2rem, 5.2vw, 4.6rem); line-height: 1.12; letter-spacing: -0.01em;
+  }
+  .statement .q { color: var(--accent); }
+  .statement .w { display: inline; }
+  .about-grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
+    margin-top: clamp(80px, 11vw, 160px);
+  }
+  .about-copy {
+    padding: clamp(40px, 6vw, 80px) var(--gutter);
+    padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  }
+  .about-copy p { font-size: clamp(1.1rem, 1.4vw, 1.25rem); }
+  .signature { font-family: var(--display); font-size: 2.6rem; line-height: 1; margin-top: 28px; color: var(--accent); }
+  .about-media { margin: 0; overflow: hidden; height: min(92vh, 900px); }
+  .about-media img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 800px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-media { height: auto; aspect-ratio: 4 / 5; order: -1; }
+  }
+
+  /* ---------- בחצר או אצלכם ---------- */
+  .formats { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(56px, 7vw, 100px); }
+  .formats-head { padding-bottom: clamp(36px, 5vw, 64px); }
+  .formats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .format-media { margin: 0; overflow: hidden; aspect-ratio: 4 / 4.6; }
+  .format-media img { width: 100%; height: 100%; object-fit: cover; }
+  .format-text { padding: 40px var(--gutter) 0; }
+  .format h3 { font-size: clamp(2rem, 3.4vw, 2.9rem); margin-bottom: 16px; }
+  .format ul { margin: 22px 0 30px; padding: 0; list-style: none; max-width: 30em; }
+  .format li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .format li:first-child { border-top: 1px solid var(--line); }
+  @media (max-width: 800px) { .formats-grid { grid-template-columns: 1fr; gap: 64px; } }
+
+  /* ---------- איך נראה ערב: סיפור בגלילה ---------- */
+  .evening { position: relative; }
+  .ev-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 7fr); }
+  .ev-media { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .ev-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity 1s var(--ease), transform 1.6s var(--ease); }
+  .ev-media img.on { opacity: 1; transform: none; }
+  .ev-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(30,13,18,.75), transparent 45%); pointer-events: none; }
+  .ev-clock {
+    position: absolute; z-index: 2; inset: auto auto clamp(24px, 4vw, 48px) clamp(24px, 4vw, 48px);
+    font-family: var(--display); font-size: clamp(4rem, 9vw, 8rem); line-height: 1; color: var(--linen); direction: ltr;
+    transition: opacity .35s var(--ease);
+  }
+  .ev-clock.swap { opacity: 0; }
+  .ev-steps { padding-inline: var(--gutter); padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); position: relative; }
+  .ev-head { padding-top: clamp(96px, 14vw, 180px); }
+  .ev-head .sub { color: var(--soft); margin-top: 18px; }
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .ev-step { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; max-width: 30em; transition: opacity .6s var(--ease); }
+  .ev-step:last-child { min-height: 90vh; }
+  html.js .ev-step { opacity: .22; }
+  html.js .ev-step.on { opacity: 1; }
+  .ev-step time { font-family: var(--display); font-size: 1.6rem; color: var(--accent); direction: ltr; text-align: right; }
+  .ev-step h3 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin: 10px 0 16px; }
+  .ev-step p { color: var(--soft); font-size: clamp(1.1rem, 1.4vw, 1.25rem); margin: 0; }
+  .ev-rail { position: absolute; inset-block: 0; inset-inline-end: 0; width: 1px; background: var(--line); }
+  .ev-rail i { position: absolute; inset: 0; background: var(--accent); transform-origin: top; transform: scaleY(0); }
+  @media (max-width: 900px) {
+    .ev-grid { display: flex; flex-direction: column; }
+    .ev-media { order: -1; top: 0; height: 48vh; height: 48svh; z-index: 1; }
+    .ev-head { padding-top: 56px; }
+    .ev-step { min-height: 62vh; }
+    .ev-step:last-child { min-height: 70vh; }
+    .ev-rail { display: none; }
+  }
+
+  /* ---------- גלריה אופקית ---------- */
+  .roads { padding-top: clamp(96px, 12vw, 160px); padding-bottom: clamp(80px, 10vw, 140px); overflow: hidden; }
+  .roads-pin { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+  .roads-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: clamp(32px, 4vw, 52px); width: 100%; }
+  .roads-head p { margin: 0; max-width: 24em; color: var(--soft); }
+  .roads-track {
+    display: flex; gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter);
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; will-change: transform;
+  }
+  .roads-track::-webkit-scrollbar { display: none; }
+  .roads-track figure { flex: 0 0 auto; margin: 0; height: clamp(340px, 62vh, 660px); aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; }
+  .roads-track img, .roads-track video { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .roads-track figure:hover img, .roads-track figure:hover video { transform: scale(1.05); }
+  html.motion .roads-track.pinned { overflow: visible; scroll-snap-type: none; }
+
+  /* ---------- סיום ---------- */
+  .finale { overflow: hidden; padding-top: clamp(110px, 14vw, 200px); }
+  .finale-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px; }
+  .finale-line { font-family: var(--display); font-size: clamp(2.2rem, 4.6vw, 4rem); line-height: 1.05; margin: 0; max-width: 12em; }
+  .finale-name {
+    font-family: var(--display); font-size: clamp(5rem, 24vw, 26rem); line-height: .78; letter-spacing: -0.03em;
+    text-align: center; white-space: nowrap; margin-top: clamp(48px, 8vw, 110px);
+    color: var(--linen);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  }
+  .finale-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; padding-block: 28px 36px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--soft); }
+  .finale-meta nav { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+  .finale-meta nav a { padding-block: 10px; min-width: 44px; }
+
+  /* ---------- שאלות ---------- */
+  .faq { padding-block: clamp(80px, 10vw, 140px) clamp(40px, 6vw, 80px); }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (min-width: 901px) { .faq-head h2 { font-size: clamp(2.8rem, 3.6vw, 4.2rem); } }
+  @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-head p { color: var(--soft); margin-top: 18px; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 24px 0; font-family: var(--display); font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary i { position: relative; flex: 0 0 18px; height: 18px; }
+  .faq summary i::before, .faq summary i::after { content: ""; position: absolute; inset: 50% 0 auto; height: 1px; background: currentColor; transition: transform .5s var(--ease); }
+  .faq summary i::after { transform: rotate(90deg); }
+  .faq details[open] summary i::after { transform: rotate(0); }
+  .faq .ans { overflow: hidden; }
+  .faq .ans p { color: var(--soft); margin: 0; padding: 0 0 26px; max-width: 38em; }
+
+  /* ---------- תיקונים מסקירת העיצוב ---------- */
+  .about-copy .signature { font-size: clamp(2.6rem, 4vw, 3.4rem); margin-top: 32px; }
+  .about-grid { align-items: end; }
+  @media (min-width: 801px) { .about-media { height: min(80vh, 760px); } }
+  .roads { padding-block: 0; }
+  .finale { padding-top: clamp(72px, 9vw, 128px); }
+  .formats-grid { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); gap: clamp(24px, 3vw, 48px); }
+  .format-media { aspect-ratio: 4 / 5; }
+  .format-text { padding-inline: 0; }
+  html:not(.motion) .evening::before { content: ""; position: absolute; inset: -35vh 0 auto; height: 35vh; background: linear-gradient(transparent, var(--dusk)); pointer-events: none; }
+  .site-head .mark { font-size: 1.9rem; }
+  .site-head.scrolled[data-tone="day"] { background: rgba(214, 215, 203, .86); color: var(--fig); }
+  .site-head.scrolled[data-tone="day"] .pill { border-color: rgba(43,18,25,.4); }
+  .site-head.scrolled[data-tone="day"] .pill:hover { background: var(--fig); color: var(--linen); }
+  html.js .ev-step { opacity: .55; }
+  html.js:not(.motion) .ev-step { opacity: 1; }
+  .ev-n { font-size: .95rem; color: var(--accent); letter-spacing: .02em; }
+  .ev-clock { transition: opacity .3s var(--ease), transform .45s var(--ease); }
+  .ev-clock.swap { opacity: 0; transform: translateY(-30%); }
+  .ev-clock.pre { opacity: 0; transform: translateY(30%); transition: none; }
+  @media (max-width: 900px) {
+    .ev-media { height: 42vh; height: 42svh; }
+    .ev-step { min-height: 56vh; min-height: 56svh; justify-content: flex-start; padding-top: 8svh; }
+  }
+  .swipe-hint { display: none; }
+  @media (max-width: 899px) {
+    .swipe-hint { display: block; width: 100%; font-size: 1rem; letter-spacing: .08em; color: var(--soft); margin-top: -6px; }
+    .roads-track figure { height: auto; width: 78vw; }
+  }
+  .roads-track::after { content: ""; flex: 0 0 1px; }
+  .finale-meta a, .roads-head a, .faq-head a { display: inline-block; padding-block: 8px; }
+  .vid-toggle { background: none; border: 0; color: inherit; font: 600 .95rem var(--body); cursor: pointer; padding: 8px 0; min-height: 44px; display: inline-flex; align-items: center; gap: 10px; }
+  .vid-toggle i { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
+  .vid-toggle.paused i { border: 0; width: 0; height: 0; border-block: 6px solid transparent; border-inline-end: 10px solid currentColor; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ev-media video, .ev-clock, .menu-overlay, .menu-overlay a, .btn::before { transition: none !important; }
+  }
+
+  /* מירכאה גדולה מעל המשפט של בר */
+  /* מירכאות בשני הצדדים של הציטוט */
+  .statement::before { content: "\201E"; color: var(--accent); margin-inline-end: .08em; }
+  .statement::after { content: "\201D"; color: var(--accent); margin-inline-start: -.02em; }
+
+  /* קו התקדמות דק בראש המסך */
+  .progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 65; background: var(--rose); transform-origin: right; transform: scaleX(0); pointer-events: none; }
+
+  /* קו רכס הגליל בין היום לשקיעה */
+  .ridge { display: block; width: 100%; height: clamp(60px, 9vw, 130px); margin-top: clamp(64px, 9vw, 120px); color: var(--fig); }
+  .ridge path { fill: none; stroke: var(--beet); stroke-width: 1.5; vector-effect: non-scaling-stroke; opacity: .7; }
+
+
+  /* ---------- לוגו ווידאו ---------- */
+  .logo { display: block; fill: currentColor; width: 100%; height: auto; }
+  .site-head .mark { display: block; width: clamp(92px, 9vw, 124px); }
+  .hero-media .hero-vids { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: var(--night); }
+  .hero-vids video { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 60%; filter: saturate(.94) contrast(1.04); }
+  @media (max-aspect-ratio: 4/5) {
+    .hero-media .hero-vids { grid-template-columns: 1fr; gap: 0; }
+    .hero-vids video { filter: none; }
+    .hero-vids video:not(.hero-main) { display: none; }
+  }
+  .hero-tag { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5.4rem); line-height: 1.02; max-width: 12em; color: var(--linen); }
+  .about-media video, .format-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ev-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 1s var(--ease), transform 1.6s var(--ease); }
+  .ev-media video.on { opacity: 1; transform: none; }
+  .finale { position: relative; isolation: isolate; }
+  .finale-bg { position: absolute; inset: 0; z-index: -1; }
+  .finale-bg video { width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+  .finale-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--night) 0%, rgba(30,13,18,.35) 40%, rgba(30,13,18,.75) 100%); }
+  .finale-name { font-size: 1rem; width: min(92%, 1400px); margin-inline: auto; -webkit-mask-image: none; mask-image: none; }
+  .finale-name .logo { color: var(--linen); }
+
+  [hidden] { display: none !important; }
+  .skip { position: absolute; top: -60px; inset-inline-start: 16px; background: var(--linen); color: var(--fig); padding: 10px 16px; z-index: 110; }
+  .skip:focus { top: 12px; }
+
+
+  /* ---------- שלוש דרכים ---------- */
+  .formats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 900px) { .formats-grid { grid-template-columns: 1fr; gap: 64px; } }
+  .format h3 { font-size: clamp(1.8rem, 2.6vw, 2.3rem); }
+  .format-text p { font-size: 1.02rem; }
+  .format ul { font-size: 1rem; }
+  .soon { color: var(--soft); font-size: .95rem; margin: -10px 0 24px; }
+  .about-copy .about-line { font-family: var(--display); font-size: clamp(1.6rem, 2.4vw, 2.1rem); line-height: 1.25; margin-top: 28px; }
+
+  /* ---------- התפריט כמסע בגלילה ---------- */
+  .ev-n { display: block; font-size: 1rem; font-weight: 600; letter-spacing: .02em; margin-bottom: 14px; }
+  .dishes { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .dishes li { font-family: var(--display); font-size: clamp(1.45rem, 2.2vw, 1.9rem); line-height: 1.3; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .dishes li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .menu-note { color: var(--soft); max-width: 30em; padding-bottom: clamp(80px, 10vw, 140px); margin: 0; }
+  .ev-clock { font-size: clamp(3.6rem, 8vw, 8.5rem); direction: inherit; text-shadow: 0 4px 40px rgba(30,13,18,.45); }
+  .ev-n { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 3.2vw, 2.8rem); line-height: 1.1; color: var(--linen); margin-bottom: 20px; }
+  html.motion .ev-step .dishes li { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .9s var(--ease); }
+  html.motion .ev-step.on .dishes li { opacity: 1; transform: none; }
+  html.motion .ev-step.on .dishes li:nth-child(2) { transition-delay: .09s; }
+  html.motion .ev-step.on .dishes li:nth-child(3) { transition-delay: .18s; }
+  @media (min-width: 901px) { .ev-step { min-height: 66vh; } }
+  @media (max-width: 900px) { .ev-clock { display: none; } }
+
+  /* ---------- תיאום ארוחה ---------- */
+  .book { padding-block: clamp(110px, 14vw, 200px) clamp(60px, 8vw, 110px); }
+  .book-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+  @media (max-width: 900px) { .book-grid { grid-template-columns: 1fr; } }
+  .book-head p { color: var(--soft); margin-top: 18px; }
+  .book-form { display: grid; gap: 24px; margin-top: clamp(32px, 4vw, 48px); }
+  .q-step { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .q-step legend, .book-form label:not(.tile) { font-weight: 700; font-size: 1rem; padding: 0; margin-bottom: 10px; display: block; }
+  .tiles { display: grid; gap: 10px; }
+  .tiles.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tiles.serve { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles.serve .tile:last-child { grid-column: 1 / -1; }
+  .tiles.serve .tile-name { font-size: 1.2rem; }
+  .book-form label.addon { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 600; min-height: 44px; }
+  .addon input { width: 22px; height: 22px; accent-color: var(--rose); margin: 0; }
+  @media (max-width: 640px) { .tiles.three { grid-template-columns: 1fr; } }
+  .tile { position: relative; display: block; cursor: pointer; font-weight: 400; }
+  .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .tile-body { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid rgba(243, 242, 236, .45); height: 100%; transition: border-color .2s, background-color .2s; }
+  .tile:hover .tile-body { border-color: rgba(243,242,236,.8); }
+  .tile input:checked + .tile-body { border-color: var(--linen); background: rgba(243,242,236,.07); box-shadow: inset 0 0 0 1px var(--linen); }
+  .tile input:focus-visible + .tile-body { outline: 2px solid var(--rose); outline-offset: 3px; }
+  .tile-name { font-family: var(--display); font-size: 1.35rem; line-height: 1.15; }
+  .tile-desc { color: #d9cdd0; font-size: 1rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+  .field { display: grid; }
+  .book-form input[type="text"], .book-form input[type="date"], .book-form select, .book-form textarea {
+    font: 400 1.05rem/1.4 var(--body); color: var(--linen); background: transparent; width: 100%;
+    border: 0; border-bottom: 1.5px solid rgba(243,242,236,.55); border-radius: 0; padding: 10px 2px; color-scheme: dark;
+  }
+  .book-form select { appearance: none; -webkit-appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23f3f2ec' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat; background-position: left 6px center; padding-inline-end: 28px; }
+  [dir="ltr"] .book-form select { background-position: right 6px center; }
+  .book-form select option { color: var(--fig); }
+  .book-form textarea { resize: vertical; min-height: 92px; }
+  .book-form input::placeholder, .book-form textarea::placeholder { color: rgba(243,242,236,.45); }
+  .book-form input:focus, .book-form select:focus, .book-form textarea:focus { outline: none; border-bottom-color: var(--rose); box-shadow: 0 1.5px 0 var(--rose); }
+  .stepper { display: inline-flex; align-items: center; border: 1px solid rgba(243,242,236,.4); width: max-content; }
+  .stepper button { width: 50px; height: 52px; border: 0; background: transparent; color: var(--linen); font: 400 1.6rem/1 var(--display); cursor: pointer; }
+  .stepper button:hover:not(:disabled) { background: rgba(243,242,236,.08); }
+  .stepper button:disabled { opacity: .3; cursor: default; }
+  .stepper input { width: 76px; height: 52px; text-align: center; border: 0; border-inline: 1px solid rgba(243,242,236,.4); background: transparent; color: var(--linen); font: 400 1.9rem/1 var(--display); -moz-appearance: textfield; }
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .hint { color: #e3d8da; font-size: 1rem; margin: -8px 0 0; }
+  .sent { color: var(--rose); font-weight: 600; margin: 0; min-height: 1.4em; }
+  .send-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- השולחן שלכם: הדמיה חיה של הערב ---------- */
+  .table-viz { margin: 4px 0 0; }
+  .tv-frame { position: relative; overflow: hidden; border-radius: 4px; background: radial-gradient(90% 80% at 50% 45%, #2a1416 0%, #150a0c 70%, #0f0709 100%); box-shadow: inset 0 0 0 1px rgba(243,242,236,.1); transition: height .5s cubic-bezier(.2,.7,.2,1); }
+  .tv-stage { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+  .tv-stage > * { position: absolute; }
+  .tv-stage img { display: block; pointer-events: none; user-select: none; }
+  .tv-table { border-radius: 12px; background: #6b4a2a center / cover; filter: brightness(.6) saturate(.85) contrast(1.06); box-shadow: 0 40px 70px rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.35); }
+  .tv-table::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(75% 90% at 50% 50%, transparent 40%, rgba(10,4,4,.55) 100%); }
+  .tv-chair { filter: brightness(.62) saturate(.9) drop-shadow(0 10px 12px rgba(0,0,0,.55)); }
+  .tv-item { filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)); }
+  .tv-glow { width: 300px; height: 300px; margin: -150px 0 0 -150px; border-radius: 50%; background: radial-gradient(circle, rgba(255,184,110,.42) 0%, rgba(255,150,70,.16) 32%, rgba(255,120,40,0) 66%); mix-blend-mode: screen; pointer-events: none; animation: tv-flicker 3.2s ease-in-out infinite alternate; }
+  @keyframes tv-flicker { 0% { opacity: .78; transform: scale(.97); } 35% { opacity: 1; transform: scale(1.02); } 60% { opacity: .86; } 100% { opacity: .96; transform: scale(1); } }
+  .tv-new { animation: tv-in .8s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes tv-in { from { opacity: 0; translate: 0 -14px; scale: 1.04; } to { opacity: 1; translate: 0 0; scale: 1; } }
+  .tv-note { position: absolute; top: 10px; inset-inline-start: 12px; font-size: .78rem; letter-spacing: .14em; color: rgba(243,242,236,.55); }
+  .table-viz figcaption { margin-top: 12px; text-align: center; font-family: var(--display); font-size: 1.3rem; color: #efe7e8; letter-spacing: .02em; }
+  @media (prefers-reduced-motion: reduce) { .tv-new, .tv-glow { animation: none; } .tv-frame { transition: none; } }
+  .error { color: var(--rose); font-weight: 600; font-size: .95rem; min-height: 1.4em; margin: 0; }
+
+  .next-card {
+    position: sticky; top: 96px; background: var(--linen); color: var(--fig); padding: clamp(28px, 4vw, 44px);
+    --ink: var(--fig); --soft: #5d4b50; --line: rgba(43,18,25,.18);
+  }
+  @media (max-width: 900px) { .next-card { position: static; } }
+  .next-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(43,18,25,.3); pointer-events: none; }
+  .next-card h3 { font-size: clamp(1.6rem, 2.4vw, 2rem); margin-bottom: 20px; }
+  /* כרטיס ההזמנה: מתמלא בזמן שממלאים את הטופס */
+  .ticket { position: relative; margin: 0 0 28px; padding: 4px 0 22px; border-bottom: 1.5px dashed rgba(43,18,25,.32); }
+  html:not(.js) .ticket { display: none; }
+  .ticket::before, .ticket::after { content: ""; position: absolute; bottom: -12px; width: 22px; height: 22px; border-radius: 50%; background: var(--night); }
+  .ticket::before { inset-inline-start: calc(-1 * clamp(28px, 4vw, 44px) - 11px); }
+  .ticket::after { inset-inline-end: calc(-1 * clamp(28px, 4vw, 44px) - 11px); }
+  .ticket-label { margin: 0 0 12px; font-size: .8rem; font-weight: 700; letter-spacing: .22em; color: var(--beet); }
+  .ticket-rows { margin: 0; display: grid; }
+  .ticket-rows > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 9px 0; border-bottom: 1px solid rgba(43,18,25,.1); }
+  .ticket-rows > div:last-child { border-bottom: 0; }
+  .ticket-rows > div[hidden] { display: none; }
+  .ticket-rows dt { font-size: .9rem; color: #6a5a5e; flex: 0 0 auto; }
+  .ticket-rows dd { margin: 0; font-family: var(--display); font-size: 1.2rem; line-height: 1.25; text-align: end; transition: color .5s; }
+  .ticket-rows dd.flash { color: var(--beet); transition: none; }
+  /* השלבים: ציר זמן דק */
+  .next-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 18px; }
+  .next-steps li { position: relative; counter-increment: s; display: grid; grid-template-columns: 2.2rem 1fr; column-gap: 10px; line-height: 1.45; }
+  .next-steps li::before { content: counter(s); grid-row: span 2; width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid rgba(156,27,44,.45); border-radius: 50%; font-family: var(--display); font-size: 1.15rem; line-height: 1; color: var(--beet); background: var(--linen); position: relative; z-index: 1; }
+  .next-steps li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: calc(1rem - .5px); top: 2rem; bottom: -18px; width: 1px; background: rgba(156,27,44,.28); }
+  .next-steps strong { font-family: var(--display); font-weight: 400; font-size: 1.45rem; line-height: 1.15; }
+  .next-steps span { color: #5d4b50; }
+  .next-card .fine { color: #4f4a46; font-size: .95rem; margin: 22px 0 18px; }
+  .contact { margin: 0; display: grid; border-top: 1px solid var(--line); padding-top: 8px; }
+  .contact > div { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid rgba(43,18,25,.08); }
+  .contact > div:last-child { border-bottom: 0; }
+  .contact dt { font-size: .9rem; color: #6a5a5e; }
+  .contact dd { margin: 0; }
+  .contact a { display: inline-block; font-weight: 600; text-decoration: none; padding-block: 11px; }
+  .contact a:hover { color: var(--beet); }
+  .nc-sign { margin: 14px 0 0; text-align: end; font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--beet); }
+
+  /* ---------- שפה ---------- */
+  .site-head .lang { font-size: .9rem; letter-spacing: .06em; opacity: .85; }
+  .menu-overlay small a { text-decoration: underline; text-underline-offset: 5px; }
+  [dir="ltr"] .progress { transform-origin: left; }
+  :lang(en) .statement::before { content: "\201C"; }
+  :lang(en) .statement::after { content: "\201D"; }
+  .finale-name { white-space: nowrap; }
+  [dir="ltr"] .stepper { flex-direction: row-reverse; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="barlif" viewBox="20 29 1620 453"><path fill-rule="evenodd" d="M90.03 480.88C91.20 480.26 94.31 477.86 96.95 475.54C113.02 461.45 113.72 460.88 123.00 454.21C132.59 447.32 142.13 442.54 154.00 438.69C162.26 436.02 161.32 436.24 171.25 434.53C172.90 434.25 177.45 433.78 181.37 433.49C193.41 432.59 206.10 434.15 219.00 438.12C228.31 440.98 239.69 445.02 244.99 447.33C245.96 447.76 247.20 448.28 247.75 448.50C248.30 448.72 249.54 449.24 250.50 449.66C251.46 450.08 253.47 450.90 254.96 451.49C256.45 452.07 258.64 452.99 259.83 453.53C261.03 454.06 262.96 454.92 264.12 455.44C265.29 455.96 267.38 456.89 268.75 457.50C270.12 458.11 271.98 458.92 272.88 459.30C273.77 459.69 275.23 460.32 276.12 460.71C280.03 462.41 301.00 470.69 303.50 471.52C305.01 472.02 307.49 472.88 309.00 473.43C312.84 474.81 325.47 478.17 331.50 479.41C339.42 481.03 349.36 482.00 358.00 481.99C366.89 481.99 381.91 479.77 391.62 477.03C392.66 476.74 394.23 476.29 395.12 476.04C400.35 474.57 408.00 471.48 415.00 468.02C431.61 459.82 447.39 447.23 459.98 432.16C463.53 427.90 471.00 417.52 471.00 416.84C471.00 416.71 471.86 415.17 472.90 413.43C475.80 408.59 481.00 397.62 481.00 396.34C481.00 395.99 481.19 395.49 481.42 395.23C482.58 393.91 486.01 381.26 487.03 374.50C487.30 372.71 487.64 370.87 487.79 370.40C487.93 369.93 488.06 365.88 488.07 361.40C488.08 352.04 487.19 345.91 484.78 338.75C478.83 321.11 463.82 303.94 441.00 288.67C429.42 280.92 422.72 277.18 402.50 267.21C395.49 263.75 389.30 260.74 388.75 260.51C386.07 259.41 381.75 257.45 372.08 252.94C369.78 251.88 367.82 251.00 367.71 251.00C367.61 251.00 366.05 250.33 364.25 249.50C362.45 248.68 360.87 248.00 360.75 248.00C360.26 248.00 349.96 243.23 342.25 239.44C318.79 227.90 308.00 218.72 307.12 209.55C306.91 207.38 307.02 207.07 308.47 205.85C309.34 205.12 310.99 204.25 312.15 203.91C314.83 203.13 325.49 203.10 335.50 203.85C364.37 206.00 367.98 206.14 378.50 205.55C384.14 205.23 390.21 204.74 392.00 204.46C393.79 204.18 396.82 203.71 398.75 203.41C414.52 201.00 431.05 194.93 442.50 187.34C451.92 181.09 459.83 173.57 465.14 165.77C467.52 162.29 473.00 151.63 473.00 150.49C473.00 150.05 473.18 149.49 473.40 149.23C474.04 148.46 474.86 145.58 476.48 138.38C477.75 132.72 478.11 126.00 477.52 119.12C477.20 115.34 476.71 111.12 476.45 109.75C475.22 103.35 474.87 101.66 474.50 100.50C474.29 99.81 473.84 98.24 473.50 97.00C472.97 95.05 471.83 91.72 470.53 88.25C467.66 80.65 459.49 67.42 453.34 60.42C442.24 47.78 425.71 37.26 410.25 32.98C397.59 29.48 393.32 28.92 379.50 28.91C363.35 28.90 356.82 29.78 340.25 34.24C332.41 36.35 321.76 40.75 314.35 44.95C313.33 45.53 311.66 46.48 310.63 47.06C309.60 47.64 307.85 48.73 306.75 49.48C305.65 50.22 304.40 50.96 303.98 51.11C303.55 51.26 300.74 53.25 297.73 55.53C273.31 73.96 254.76 97.38 238.55 130.25C235.85 135.72 234.87 137.83 232.64 143.00C232.22 143.96 231.59 145.43 231.23 146.25C230.88 147.07 229.76 149.89 228.75 152.50C227.74 155.11 226.73 157.70 226.50 158.25C226.28 158.80 225.83 160.04 225.50 161.00C225.17 161.96 224.71 163.20 224.47 163.75C224.23 164.30 223.74 165.83 223.37 167.15C223.00 168.48 222.50 169.55 222.26 169.53C222.01 169.51 221.87 159.33 221.94 146.12C222.06 120.11 221.60 113.47 219.01 103.88C218.73 102.84 218.30 101.27 218.06 100.38C217.25 97.37 214.95 90.77 213.97 88.63C213.44 87.46 213.00 86.36 213.00 86.19C213.00 85.54 208.05 75.67 205.62 71.45C203.28 67.41 198.18 59.55 197.54 59.00C197.38 58.86 196.59 57.87 195.78 56.79C193.82 54.16 184.37 44.65 181.25 42.16C177.23 38.95 173.05 36.33 168.50 34.15C160.21 30.18 154.89 28.93 146.28 28.89C140.51 28.86 135.34 29.84 129.50 32.05C126.24 33.28 115.32 38.73 113.42 40.06C112.69 40.58 111.95 41.00 111.77 41.00C111.07 41.00 99.43 49.40 93.41 54.26C91.12 56.11 87.25 59.45 84.80 61.68C82.36 63.92 80.00 66.01 79.55 66.32C77.05 68.07 60.87 86.64 55.09 94.39C51.99 98.54 44.00 110.28 44.00 110.68C44.00 110.80 43.11 112.37 42.02 114.16C39.19 118.82 30.00 137.81 30.00 139.00C30.00 139.28 29.80 139.90 29.56 140.38C28.44 142.59 26.90 147.01 25.51 152.00C25.17 153.24 24.71 154.81 24.49 155.50C23.25 159.44 21.63 168.04 20.51 176.65C19.33 185.70 20.28 202.79 22.51 212.75C24.39 221.16 26.41 228.16 27.51 230.12C27.78 230.60 28.00 231.22 28.00 231.50C28.00 231.78 28.48 233.08 29.06 234.38C29.64 235.68 30.45 237.54 30.87 238.50C31.88 240.86 35.58 248.27 36.98 250.75C38.51 253.45 45.62 264.09 48.17 267.50C57.67 280.17 73.60 294.89 85.99 302.43C90.15 304.96 99.36 309.64 102.75 310.95C104.40 311.58 106.20 312.30 106.75 312.55C108.54 313.36 115.63 314.88 120.64 315.54C124.61 316.06 126.00 316.06 128.02 315.54C139.38 312.63 151.60 298.57 162.83 275.50C165.20 270.63 167.00 266.63 167.00 266.25C167.00 266.11 167.47 264.92 168.05 263.62C168.63 262.32 169.29 260.80 169.53 260.25C170.10 258.93 173.51 248.66 174.02 246.75C174.24 245.93 174.75 244.01 175.16 242.50C177.50 233.91 178.17 229.23 178.21 221.40C178.24 216.56 178.05 213.35 177.73 213.03C177.43 212.73 173.85 212.40 169.48 212.27C159.16 211.96 147.57 210.15 138.75 207.48C136.82 206.90 134.80 206.31 134.25 206.17C133.70 206.03 132.80 205.72 132.25 205.48C131.70 205.25 130.24 204.72 129.00 204.32C117.41 200.57 100.22 191.41 88.59 182.79C67.31 167.02 53.72 149.79 49.71 133.50C48.89 130.16 48.80 122.98 49.55 120.25C51.42 113.46 55.62 108.46 62.15 105.27C70.37 101.25 79.85 100.97 92.50 104.40C97.39 105.72 98.06 105.95 102.00 107.66C102.96 108.07 105.33 109.04 107.25 109.81C111.81 111.62 121.82 116.79 125.00 118.98C125.69 119.45 126.59 119.96 127.00 120.12C127.95 120.48 139.38 128.59 145.83 133.49C151.94 138.14 168.48 154.54 173.82 161.25C184.37 174.52 192.34 187.81 197.55 200.88C197.80 201.49 198.22 202.51 198.48 203.12C199.09 204.57 201.50 211.80 202.02 213.75C203.84 220.64 204.28 222.58 205.52 229.00C207.28 238.11 207.89 260.33 206.60 268.25C206.24 270.45 205.72 273.71 205.44 275.50C205.17 277.29 204.75 279.65 204.51 280.75C204.28 281.85 203.81 284.10 203.47 285.75C201.73 294.28 195.84 314.43 193.53 319.75C193.29 320.30 192.37 322.66 191.49 325.00C190.61 327.34 189.46 330.20 188.94 331.37C188.42 332.54 188.00 333.61 188.00 333.75C188.00 334.01 187.00 336.30 184.74 341.25C184.11 342.62 183.04 344.99 182.36 346.50C179.15 353.64 173.61 364.53 169.59 371.62C168.77 373.07 167.65 375.04 167.11 376.00C166.57 376.96 164.49 380.56 162.50 384.00C160.51 387.44 158.46 390.97 157.96 391.85C156.57 394.27 144.27 412.66 140.80 417.50C121.96 443.76 99.76 466.86 85.41 475.15C82.92 476.59 82.21 477.80 82.79 479.62C83.61 482.20 86.56 482.71 90.03 480.88ZM575.25 481.05C588.18 478.92 597.74 475.03 606.95 468.14C613.11 463.52 614.53 462.01 616.32 458.12C617.25 456.13 618.00 454.39 618.00 454.26C618.00 454.13 618.67 452.55 619.50 450.75C620.33 448.95 621.00 447.37 621.00 447.25C621.00 447.13 621.67 445.55 622.50 443.75C623.33 441.95 624.00 440.37 624.00 440.23C624.00 440.10 624.48 438.92 625.06 437.62C625.64 436.32 626.43 434.52 626.81 433.62C627.19 432.73 627.86 431.16 628.31 430.12C629.34 427.74 630.43 425.19 631.31 423.12C631.69 422.23 632.31 420.77 632.69 419.88C634.12 416.52 634.91 414.68 635.94 412.38C636.52 411.08 637.00 409.90 637.00 409.77C637.00 409.63 637.67 408.05 638.50 406.25C639.33 404.45 640.00 402.87 640.00 402.75C640.00 402.63 640.67 401.05 641.50 399.25C642.33 397.45 643.00 395.87 643.00 395.75C643.00 395.63 643.67 394.05 644.50 392.25C645.33 390.45 646.00 388.87 646.00 388.75C646.00 388.63 646.67 387.05 647.50 385.25C648.33 383.45 649.00 381.87 649.00 381.75C649.00 381.63 649.67 380.05 650.50 378.25C651.33 376.45 652.00 374.87 652.00 374.75C652.00 374.63 652.67 373.05 653.50 371.25C654.33 369.45 655.00 367.87 655.00 367.73C655.00 367.60 655.48 366.42 656.06 365.12C656.64 363.82 657.43 362.02 657.81 361.12C658.19 360.23 658.81 358.77 659.19 357.88C659.57 356.98 660.33 355.24 660.87 354.00C661.42 352.76 662.15 350.94 662.50 349.96C663.15 348.13 664.38 346.15 664.62 346.54C664.70 346.65 664.60 368.69 664.40 395.50C664.15 429.44 664.20 445.09 664.57 447.00C666.65 457.70 679.26 470.76 695.00 478.54C701.31 481.65 705.85 482.49 711.33 481.54C721.58 479.77 730.18 477.03 742.50 471.62C743.74 471.07 746.21 469.99 748.00 469.20C752.56 467.21 761.95 462.37 770.12 457.82C771.43 457.10 773.57 455.91 774.88 455.19C776.18 454.47 777.85 453.46 778.58 452.94C779.31 452.42 780.05 452.00 780.22 452.00C781.13 452.00 791.00 444.86 791.00 444.20C791.00 443.78 789.84 442.38 788.43 441.09C784.94 437.91 780.52 432.42 777.51 427.51C776.13 425.26 775.00 423.32 775.00 423.18C775.00 423.05 774.34 421.54 773.54 419.84C771.84 416.22 770.34 411.85 769.48 408.00C769.14 406.49 768.63 404.46 768.35 403.50C768.02 402.39 767.71 383.04 767.50 350.50C767.27 314.95 766.99 298.02 766.57 295.25C765.31 286.76 764.84 284.11 763.90 280.00C762.86 275.47 761.17 269.40 760.48 267.75C760.25 267.20 759.57 265.29 758.96 263.50C754.75 251.08 746.21 236.37 736.47 224.75C731.29 218.56 721.08 208.45 717.04 205.50C716.09 204.81 714.74 203.78 714.04 203.20C712.35 201.83 701.38 194.56 698.50 192.90C695.93 191.43 685.19 186.04 682.38 184.82C681.34 184.37 679.77 183.68 678.88 183.29C677.98 182.89 676.12 182.21 674.75 181.76C673.38 181.31 671.80 180.74 671.25 180.48C670.70 180.22 668.90 179.65 667.25 179.21C665.60 178.77 663.58 178.23 662.75 178.00C657.07 176.44 655.20 175.98 650.75 175.10C638.09 172.58 630.67 171.89 616.10 171.89C609.26 171.88 602.05 172.13 600.08 172.44C598.11 172.75 594.87 173.24 592.88 173.54C590.88 173.83 588.58 174.26 587.75 174.48C586.92 174.70 584.90 175.16 583.25 175.51C576.91 176.82 561.69 181.65 560.67 182.67C560.48 182.85 560.04 183.00 559.68 183.00C558.08 183.00 545.21 189.32 538.00 193.64C517.65 205.86 502.58 220.92 495.11 236.50C492.56 241.83 491.33 245.63 490.50 250.80C489.54 256.74 490.97 266.01 493.84 272.50C494.27 273.46 494.97 275.04 495.40 276.00C501.59 289.79 518.12 305.75 531.50 310.85C536.04 312.59 542.35 313.77 543.31 313.07C543.55 312.89 544.60 311.06 545.64 309.00C547.79 304.71 549.70 301.34 551.06 299.42C551.58 298.69 552.00 297.96 552.00 297.79C552.00 297.42 563.61 279.98 565.51 277.50C566.24 276.54 568.77 273.16 571.13 270.00C585.65 250.51 596.61 237.83 613.97 220.47C629.96 204.48 638.97 196.98 648.00 192.13C652.95 189.48 655.94 188.77 659.03 189.51C662.86 190.43 664.60 192.65 665.21 197.44C665.40 198.92 665.39 226.98 665.20 259.78L664.84 319.43L616.80 319.64C584.65 319.77 568.09 320.02 566.75 320.38C565.65 320.68 563.40 321.20 561.75 321.53C555.45 322.83 549.22 324.62 546.13 326.03C544.96 326.56 543.85 327.00 543.66 327.00C543.47 327.00 541.06 328.15 538.31 329.55C522.71 337.49 508.20 351.23 500.23 365.61C495.23 374.65 492.38 381.83 490.56 390.00C490.29 391.24 489.93 392.81 489.77 393.50C489.11 396.37 488.01 406.51 488.00 409.77C488.00 416.98 489.86 427.64 492.24 434.00C493.84 438.29 497.22 444.77 500.17 449.25C505.39 457.17 516.14 466.95 525.06 471.90C526.05 472.45 527.29 473.15 527.81 473.45C529.02 474.14 534.73 476.64 537.00 477.46C537.96 477.81 539.20 478.28 539.75 478.49C540.80 478.90 543.85 479.59 548.50 480.47C550.01 480.76 552.26 481.21 553.50 481.47C556.17 482.04 570.98 481.75 575.25 481.05ZM1146.75 481.24C1154.70 479.75 1164.41 477.01 1167.12 475.49C1167.60 475.22 1168.21 475.00 1168.48 475.00C1168.75 475.00 1170.45 474.32 1172.25 473.50C1174.05 472.68 1175.63 472.00 1175.75 472.00C1176.53 472.00 1195.54 462.78 1199.50 460.48C1200.74 459.77 1203.55 458.20 1205.75 457.01C1207.95 455.82 1210.35 454.43 1211.08 453.93C1211.81 453.42 1212.55 453.00 1212.72 453.00C1213.66 453.00 1225.00 444.86 1225.00 444.18C1225.00 443.74 1223.46 441.89 1221.58 440.07C1217.53 436.15 1215.13 433.20 1212.48 428.90C1208.34 422.19 1205.16 414.71 1203.59 408.00C1203.30 406.76 1202.88 405.19 1202.66 404.50C1202.45 403.81 1202.15 327.09 1202.01 234.00C1201.76 74.19 1201.70 64.58 1200.87 61.75C1198.09 52.29 1190.61 42.91 1180.57 36.29C1172.21 30.79 1167.20 28.90 1160.90 28.90C1153.70 28.89 1141.89 32.38 1128.00 38.60C1125.68 39.64 1123.35 40.65 1120.75 41.76C1119.92 42.11 1117.95 42.98 1116.36 43.70C1114.77 44.41 1113.37 45.00 1113.25 45.00C1113.02 45.00 1109.30 46.65 1104.25 49.00C1101.20 50.42 1097.46 52.09 1094.75 53.24C1093.92 53.60 1092.18 54.36 1090.88 54.94C1089.58 55.52 1088.42 56.00 1088.31 56.00C1088.19 56.00 1086.11 56.91 1083.67 58.02C1078.74 60.28 1077.95 60.63 1075.63 61.58C1074.74 61.94 1073.90 62.54 1073.76 62.90C1073.62 63.28 1075.52 65.67 1078.19 68.46C1083.52 74.03 1086.92 78.86 1089.83 85.00C1093.96 93.69 1095.51 99.82 1097.36 114.75C1098.08 120.56 1098.19 138.62 1098.46 285.00L1098.75 448.75L1100.55 452.50C1103.61 458.88 1111.30 467.24 1119.29 472.86C1121.66 474.53 1129.07 478.72 1130.75 479.35C1131.58 479.66 1132.70 480.08 1133.25 480.29C1137.92 482.10 1140.99 482.31 1146.75 481.24ZM933.38 474.62C933.50 474.26 932.85 473.67 931.92 473.28C926.65 471.04 921.11 461.76 918.56 450.88C914.71 434.47 914.00 423.81 914.01 382.99C914.02 353.40 914.23 348.64 915.96 338.37C916.72 333.86 918.92 325.45 920.32 321.68C921.03 319.79 921.73 317.81 921.89 317.26C922.63 314.70 927.36 305.94 930.57 301.14C935.83 293.30 945.48 283.95 952.68 279.70C956.39 277.52 967.68 272.12 970.75 271.07C976.58 269.07 980.96 268.01 988.50 266.76C991.11 266.33 994.49 265.77 996.00 265.51C1000.71 264.71 1017.85 264.39 1026.25 264.95C1038.41 265.75 1050.46 268.55 1062.87 273.45C1064.78 274.20 1065.81 274.36 1066.68 274.02C1073.90 271.28 1076.48 237.15 1071.01 216.88C1069.35 210.76 1068.84 209.18 1067.56 206.38C1066.96 205.07 1066.26 203.50 1066.00 202.88C1064.19 198.62 1059.30 191.87 1054.50 187.00C1047.30 179.69 1038.51 174.90 1027.75 172.44C1023.33 171.42 1010.25 171.55 1005.60 172.66C994.01 175.41 981.82 181.61 972.25 189.63C962.09 198.14 950.18 212.52 942.73 225.25C937.56 234.09 931.87 245.82 928.54 254.50C927.64 256.84 926.71 259.20 926.48 259.75C924.52 264.35 919.53 281.61 917.51 290.75C916.99 293.13 916.26 296.37 915.53 299.60C915.24 300.89 915.00 302.52 915.00 303.22C915.00 303.92 914.77 304.50 914.50 304.50C914.17 304.50 914.00 288.07 914.00 256.22C914.00 208.72 913.91 205.64 912.40 202.00C911.24 199.21 908.80 194.65 907.59 193.00C904.59 188.90 897.99 182.71 893.25 179.54C884.35 173.59 879.58 171.78 873.00 171.85C866.04 171.94 853.19 175.82 840.11 181.79C838.66 182.46 837.37 183.00 837.25 183.00C837.13 183.00 835.55 183.68 833.75 184.50C831.95 185.33 830.37 186.00 830.25 186.00C830.13 186.00 828.73 186.59 827.14 187.30C825.55 188.02 823.46 188.96 822.50 189.39C821.54 189.82 818.43 191.25 815.60 192.58C812.76 193.91 810.34 195.00 810.21 195.00C810.09 195.00 808.92 195.47 807.62 196.05C806.32 196.63 804.80 197.29 804.25 197.53C803.70 197.76 801.79 198.60 800.00 199.39C798.21 200.18 795.75 201.25 794.53 201.79C790.22 203.67 786.29 205.76 786.16 206.25C786.08 206.53 788.06 208.89 790.56 211.50C801.79 223.25 807.14 235.61 809.49 255.25C810.65 264.98 811.00 286.32 810.99 348.00C810.98 423.58 810.71 430.44 807.04 448.00C806.29 451.55 803.63 459.34 801.96 462.83C800.04 466.86 796.13 471.59 793.82 472.68C791.85 473.62 791.29 474.25 791.75 475.00C792.25 475.81 933.11 475.43 933.38 474.62ZM1513.88 474.62C1514.00 474.26 1513.35 473.68 1512.42 473.29C1507.73 471.33 1503.63 465.42 1500.59 456.20C1498.65 450.33 1497.67 446.19 1496.56 439.00C1494.76 427.46 1494.75 426.83 1494.75 302.50L1494.75 180.75L1542.50 180.50L1590.25 180.25L1590.25 176.00L1590.25 171.75L1542.50 171.50L1494.75 171.25L1494.62 114.75C1494.54 81.23 1494.68 56.52 1494.96 54.00C1496.41 41.09 1501.45 37.32 1514.03 39.72C1519.48 40.77 1522.04 41.72 1528.50 45.11C1538.95 50.59 1545.85 55.87 1556.79 66.75C1569.80 79.69 1580.36 93.04 1589.02 107.50C1592.51 113.32 1599.36 126.50 1600.71 130.00C1601.19 131.24 1601.88 132.93 1602.24 133.75C1602.60 134.57 1603.52 136.88 1604.28 138.88C1605.89 143.10 1606.50 143.80 1607.94 143.03C1610.11 141.87 1616.03 133.79 1621.28 124.84C1623.09 121.74 1629.66 108.59 1630.69 106.00C1631.18 104.76 1631.88 103.08 1632.24 102.25C1635.26 95.31 1637.89 86.32 1639.29 78.11C1640.74 69.60 1639.57 62.33 1636.19 58.86C1634.63 57.26 1631.06 55.26 1624.75 52.49C1623.38 51.88 1621.12 50.89 1619.75 50.28C1618.38 49.67 1615.90 48.66 1614.25 48.04C1612.60 47.41 1610.80 46.72 1610.25 46.49C1604.47 44.08 1593.42 40.73 1581.50 37.76C1578.43 37.00 1577.10 36.69 1571.75 35.50C1570.51 35.23 1568.54 34.79 1567.38 34.53C1566.21 34.26 1564.12 33.83 1562.75 33.57C1554.50 31.98 1554.87 32.04 1541.75 30.55C1529.86 29.19 1525.89 28.94 1514.75 28.86C1501.98 28.76 1497.55 29.23 1488.75 31.60C1477.44 34.66 1460.97 42.32 1452.18 48.61C1450.92 49.51 1448.89 50.95 1447.67 51.81C1446.46 52.67 1444.85 53.91 1444.10 54.57C1443.36 55.23 1441.40 56.80 1439.75 58.07C1436.71 60.40 1423.69 72.99 1421.46 75.75C1420.80 76.58 1419.33 78.38 1418.21 79.75C1413.04 86.07 1407.74 93.50 1404.78 98.56C1403.30 101.09 1398.00 111.76 1398.00 112.21C1398.00 112.37 1397.57 113.46 1397.04 114.63C1395.83 117.31 1394.27 121.89 1393.24 125.75C1390.93 134.49 1391.02 128.47 1391.01 279.36C1391.00 372.53 1390.82 423.24 1390.49 426.61C1389.26 438.94 1388.42 444.10 1386.41 451.75C1384.44 459.25 1380.88 466.44 1377.40 469.95C1372.77 474.64 1370.62 474.61 1366.13 469.81C1362.35 465.77 1358.54 457.71 1357.00 450.50C1355.12 441.72 1354.53 438.01 1353.51 428.40C1353.18 425.25 1353.00 386.52 1353.00 317.37C1353.00 247.98 1352.82 210.16 1352.49 208.22C1351.74 203.77 1351.01 201.63 1348.86 197.55C1343.34 187.02 1332.71 178.17 1319.40 173.01C1315.34 171.43 1308.88 171.49 1302.50 173.16C1297.75 174.40 1293.64 175.67 1291.75 176.48C1291.20 176.71 1288.84 177.64 1286.50 178.54C1284.16 179.44 1281.01 180.72 1279.50 181.39C1276.64 182.66 1274.30 183.67 1271.75 184.76C1270.92 185.11 1268.95 185.98 1267.36 186.70C1265.77 187.41 1264.37 188.00 1264.25 188.00C1263.97 188.00 1259.50 190.01 1253.60 192.80C1251.04 194.01 1248.86 195.00 1248.74 195.00C1248.62 195.00 1247.05 195.68 1245.25 196.50C1243.45 197.32 1241.87 198.00 1241.75 198.00C1241.52 198.00 1237.99 199.57 1232.75 202.00C1231.10 202.76 1228.68 203.85 1227.38 204.42C1224.21 205.79 1224.28 206.77 1227.81 210.10C1231.17 213.27 1236.32 219.60 1237.97 222.60C1244.40 234.23 1246.91 243.16 1248.57 260.25C1249.53 270.18 1249.57 419.41 1248.61 428.00C1246.67 445.38 1244.56 454.54 1240.72 462.25C1237.76 468.19 1235.24 471.09 1230.72 473.78C1230.20 474.09 1229.98 474.56 1230.19 474.91C1230.75 475.81 1513.58 475.52 1513.88 474.62ZM395.00 459.41C378.55 455.96 361.66 446.42 344.02 430.62C343.32 429.99 341.03 427.97 338.93 426.12C334.91 422.57 315.51 403.22 309.98 397.25C290.36 376.03 272.99 358.47 265.25 352.04C255.82 344.21 246.92 338.98 240.00 337.21C235.73 336.11 227.62 336.49 223.08 338.00C213.57 341.16 205.96 346.24 195.33 356.50C191.00 360.68 181.52 371.77 180.09 374.32C179.81 374.83 179.40 375.06 179.18 374.85C178.96 374.63 179.10 373.96 179.48 373.35C180.48 371.75 186.09 360.60 187.20 357.98C187.73 356.76 188.79 354.34 189.58 352.61C190.36 350.89 191.00 349.37 191.00 349.25C191.00 349.13 191.67 347.55 192.50 345.75C193.32 343.95 194.00 342.16 194.00 341.77C194.00 341.38 194.20 340.94 194.44 340.79C194.68 340.64 194.99 340.01 195.13 339.38C195.27 338.76 196.10 336.34 196.97 334.00C199.27 327.85 201.59 320.74 203.58 313.75C203.89 312.65 204.42 310.85 204.77 309.75C205.30 308.06 207.86 297.80 209.51 290.75C210.50 286.51 212.87 273.79 214.45 264.25C215.78 256.22 217.67 240.73 218.51 231.00C219.77 216.25 224.02 193.60 228.10 179.75C229.42 175.29 232.91 164.56 233.48 163.25C233.72 162.70 234.72 160.15 235.72 157.59C242.61 139.83 253.53 123.33 265.25 112.96C267.67 110.82 277.06 104.51 279.50 103.39C296.64 95.48 315.64 94.82 331.50 101.60C332.19 101.89 333.20 102.32 333.75 102.55C350.38 109.50 365.01 119.76 373.97 130.75C382.66 141.43 386.03 149.48 386.17 159.90C386.24 165.59 385.14 169.04 381.86 173.38C377.27 179.45 366.62 185.19 353.75 188.52C342.72 191.37 340.23 191.97 335.00 192.98C322.98 195.30 319.16 196.03 316.25 196.54C314.60 196.84 312.12 197.29 310.75 197.55C309.38 197.82 307.12 198.24 305.75 198.51C301.57 199.31 292.47 201.37 288.50 202.43C280.33 204.59 278.53 205.13 272.75 207.08C248.52 215.29 234.90 226.74 229.11 243.75C227.16 249.49 226.77 252.14 226.78 259.50C226.79 267.10 227.40 270.16 230.07 275.96C232.45 281.14 240.92 291.81 246.04 296.09C247.26 297.10 249.04 298.63 250.00 299.49C251.59 300.90 257.28 305.26 263.75 310.02C268.17 313.27 279.36 320.39 285.82 324.05C289.82 326.31 291.02 327.01 295.75 329.84C298.50 331.48 302.32 333.68 304.25 334.73C309.41 337.53 316.95 341.65 321.00 343.87C322.24 344.55 323.48 345.28 323.75 345.49C324.02 345.70 326.27 346.94 328.75 348.25C331.23 349.55 334.38 351.24 335.75 352.00C337.12 352.76 339.71 354.16 341.50 355.12C344.84 356.90 346.06 357.59 351.25 360.61C352.90 361.58 355.26 362.92 356.50 363.61C359.90 365.49 373.51 373.67 377.49 376.24C379.42 377.48 382.63 379.54 384.62 380.81C392.57 385.88 402.43 393.84 409.28 400.70C417.33 408.78 420.44 412.83 423.97 419.85C427.36 426.59 428.20 429.93 428.22 436.75C428.25 442.44 428.17 442.90 426.75 445.75C423.67 451.91 416.74 457.46 409.84 459.30C406.93 460.07 398.47 460.14 395.00 459.41ZM600.25 389.19C597.66 388.52 594.04 386.43 592.55 384.73C589.93 381.74 589.00 379.02 589.01 374.33C589.03 363.90 596.09 353.91 610.00 344.64C613.67 342.19 625.82 336.00 626.94 336.00C627.26 336.00 627.90 335.80 628.38 335.56C632.43 333.50 641.29 330.96 649.50 329.50C651.29 329.18 653.76 328.73 655.00 328.49C656.24 328.25 658.67 327.95 660.41 327.83C664.34 327.55 664.55 327.92 663.04 332.43C658.90 344.82 650.28 357.70 637.75 370.25C630.53 377.48 624.34 382.27 618.17 385.41C614.65 387.19 614.04 387.45 610.93 388.44C608.90 389.09 601.79 389.59 600.25 389.19ZM1295.31 130.50L1357.54 130.50L1357.39 126.12L1357.25 121.75L1294.00 121.75L1230.75 121.75L1230.60 125.96C1230.45 130.24 1230.86 131.32 1232.42 130.74C1232.78 130.61 1261.08 130.50 1295.31 130.50Z"/></symbol></svg>
+<a class="skip" href="#book">Skip to booking</a>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header class="site-head" id="site-head" data-tone="night">
+  <a class="mark" href="#top" aria-label="Bar Lifschitz, back to top"><svg class="logo" viewBox="20 29 1620 453" aria-hidden="true" focusable="false"><use href="#barlif"/></svg></a>
+  <nav aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#formats">Where &amp; how</a>
+    <a href="#menu">The menu</a>
+    <a href="#faq">FAQ</a>
+    <a class="lang" href="../" hreflang="he" lang="he">עברית</a>
+    <a class="pill" href="#book">Book a dinner</a>
+  </nav>
+  <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-overlay"><i aria-hidden="true"></i>Menu</button>
+</header>
+
+<div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation">
+  <a href="#about" style="--i:0">About</a>
+  <a href="#formats" style="--i:1">Where &amp; how</a>
+  <a href="#menu" style="--i:2">The menu</a>
+  <a href="#faq" style="--i:3">FAQ</a>
+  <a href="#book" style="--i:4">Book a dinner</a>
+  <small><a class="lang" href="../" hreflang="he" lang="he">עברית</a></small>
+  <button class="close" type="button" id="menu-close">Close</button>
+</div>
+
+<main id="top">
+  <section class="stage" data-theme="night" aria-labelledby="stage-title">
+    <div class="stage-sticky">
+      <div class="stage-film">
+        <video class="vid" muted loop playsinline preload="none" poster="../images/window-night.webp" data-src="../media/window-night" aria-label="Bar cooking in his kitchen, seen through a lit window in a burgundy wall"></video>
+      </div>
+      <div class="stage-fade" aria-hidden="true"></div>
+      <div class="stage-ui">
+      <h1 class="stage-title" id="stage-title"><span class="sr-only">Bar Lifschitz</span><svg class="logo" viewBox="20 29 1620 453" aria-hidden="true" focusable="false"><use href="#barlif"/></svg></h1>
+      <div class="stage-copy">
+        <p class="stage-when">Bar Lifschitz · Private chef dinners · Mitzpe Matat</p>
+        <div class="stage-actions">
+          <a class="btn" href="#book">Book a dinner</a>
+          <a class="btn ghost" href="#menu">See the menu</a>
+        </div>
+        <span class="cue" aria-hidden="true"><i></i>Scroll in</span>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero" data-theme="night" aria-labelledby="hero-title">
+    <div class="hero-media">
+      <div class="hero-vids">
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-guests.webp" data-src="../media/yard-guests" aria-hidden="true"></video>
+        <video class="vid hero-main" muted loop playsinline preload="none" data-poster="../images/bar-wine.webp" data-src="../media/bar-wine" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-hidden="true"></video>
+      </div>
+    </div>
+    <div class="wrap hero-body">
+      <h2 class="hero-tag" id="hero-title">I cook and host, in my yard and at yours</h2>
+      <div class="hero-row">
+        <div class="hero-actions">
+          <a class="btn" href="#book">Book a dinner</a>
+          <a class="btn ghost" href="#menu">See the menu</a>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <ul class="hero-facts">
+          <li>My yard in Mitzpe Matat</li>
+          <li>At your place</li>
+          <li>Private and corporate events</li>
+        </ul>
+        <button class="vid-toggle" type="button" id="vid-toggle" hidden><i aria-hidden="true"></i><span data-pause="Pause video" data-play="Play video">Pause video</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about" data-theme="day" aria-label="About Bar">
+    <div class="wrap">
+      <blockquote class="statement" data-words>My love for cooking came from my love of hosting, and from the connection it creates between people.</blockquote>
+    </div>
+    <div class="about-grid">
+      <div class="about-copy">
+        <p>I grew up in an Argentinian home, where there were always guests and always something cooking. After the army I went into professional kitchens, and today I host in my own yard in Mitzpe Matat.</p>
+        <p>My cooking is simple, interesting and Galilean. Good ingredients, all cooked in front of the guests.</p>
+        <p class="about-line">Because a meal is so much more than food.</p>
+        <p class="signature">Bar</p>
+      </div>
+      <figure class="about-media" data-reveal>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/studio-plating.webp" data-src="../media/studio-plating" aria-label="Bar plating dozens of dishes along a long table in a white room"></video>
+      </figure>
+    </div>
+  </section>
+
+  <section class="formats" id="formats" data-theme="day" aria-labelledby="formats-title">
+    <div class="wrap formats-head">
+      <h2 id="formats-title" data-words-rise>Three ways to the table</h2>
+    </div>
+    <div class="formats-grid">
+      <div class="format">
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-label="The table in the yard set with flowers, milk churns holding wine and a barrel of glasses"></video></figure>
+        <div class="format-text">
+          <h3>In the yard, Mitzpe Matat</h3>
+          <p>One long table under the trees, just for your group.</p>
+          <ul>
+            <li>6 to 16 guests</li>
+            <li>6:30 pm to 9:30 pm</li>
+            <li>Adults only</li>
+          </ul>
+          <p class="soon">Coming soon: a studio in Matat, for 30 to 40 guests.</p>
+          <a class="btn ghost" href="#book" data-format="yard">Book the yard</a>
+        </div>
+      </div>
+      <div class="format">
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/burrata-pour.webp" data-src="../media/burrata-pour" aria-label="Olive oil drizzled over a row of bowls of white cheese and greens"></video></figure>
+        <div class="format-text">
+          <h3>At your place</h3>
+          <p>I come with my team and the ingredients, and cook in front of your guests.</p>
+          <ul>
+            <li>8 to 40 guests</li>
+            <li>From the Galilee to central Israel</li>
+            <li>All you need is a kitchen, tables and chairs</li>
+          </ul>
+          <a class="btn ghost" href="#book" data-format="home">Book at your place</a>
+        </div>
+      </div>
+      <div class="format">
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/vineyard-table.webp" data-src="../media/vineyard-table" aria-label="A long table with a white cloth in a vineyard, under parasols"></video></figure>
+        <div class="format-text">
+          <h3>At your event</h3>
+          <p>Wherever you choose, in my style.</p>
+          <ul>
+            <li>Companies, teams and launches</li>
+            <li>Plated, sharing plates, buffet or small bites</li>
+            <li>Waiting staff to match the size of the event</li>
+            <li>Cocktails by Kuller, if you like</li>
+          </ul>
+          <a class="btn ghost" href="#book" data-format="event">Plan an event</a>
+        </div>
+      </div>
+    </div>
+    <svg class="ridge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 104 C 70 98, 120 74, 190 78 S 300 52, 360 60 S 470 30, 540 40 S 640 70, 720 58 S 820 22, 900 30 S 1010 62, 1080 54 S 1190 34, 1250 44 S 1360 76, 1440 70"/></svg>
+  </section>
+
+  <section class="evening" id="menu" data-theme="dusk" aria-labelledby="menu-title">
+    <div class="ev-grid">
+      <div class="ev-steps">
+        <div class="ev-head">
+          <h2 id="menu-title" data-words-rise>The menu</h2>
+          <p class="sub">It changes with the season and the occasion.</p>
+        </div>
+        <ol class="timeline">
+          <li class="ev-step on" data-step="0" data-label="To begin">
+            <span class="ev-n">To begin</span>
+            <ul class="dishes">
+              <li>Focaccia, olives and bishbash</li>
+              <li>Brown butter, fresh hyssop and shallot jam</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="1" data-label="Cold">
+            <span class="ev-n">Cold</span>
+            <ul class="dishes">
+              <li>Sliced cured pork neck, stracciatella, basil oil, pine nuts and seasonal fruit</li>
+              <li>Shaved cucumber salad, arugula, toasted almonds and sumac onion on smoked labneh</li>
+              <li>Rump steak tartare, with thyme aioli and confit garlic</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="2" data-label="From the sea">
+            <span class="ev-n">From the sea</span>
+            <ul class="dishes">
+              <li>Local fish sashimi, avocado, red onion consommé, chili and arugula</li>
+              <li>Fish tartare, green mango, mint and arugula, with yogurt and green oil</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="3" data-label="Hot">
+            <span class="ev-n">Hot</span>
+            <ul class="dishes">
+              <li>Tortellini in corn cream, with a caramelized onion, butter and wine sauce and flaked fish</li>
+              <li>Chorizo, milk bun, pepper cream, provençal and pickled onion</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="4" data-label="Sweet">
+            <span class="ev-n">Sweet</span>
+            <ul class="dishes">
+              <li>Layali Beirut (Beirut Nights) style, za'atar crumble, raspberries and orange caramel syrup</li>
+              <li>Chocolate crémeux, olive oil and Maldon salt</li>
+            </ul>
+          </li>
+        </ol>
+        <p class="menu-note">Vegetarian, gluten-free, nut-free and lactose-free are all possible. Wine from local wineries, or bring your own. And at the end of the evening, a little something to take home.</p>
+        <span class="ev-rail" aria-hidden="true"><i></i></span>
+      </div>
+      <div class="ev-media" aria-hidden="true">
+        <video class="vid on" muted loop playsinline preload="none" data-poster="../images/barrel-wine.webp" data-src="../media/barrel-wine" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/neck-plates.webp" data-src="../media/neck-plates" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-line.webp" data-src="../media/sashimi-line" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/chorizo-sauce.webp" data-src="../media/chorizo-sauce" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/plating-dark.webp" data-src="../media/plating-dark" aria-hidden="true"></video>
+        <div class="ev-clock" id="ev-clock">To begin</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="roads" id="roads" data-theme="night" aria-labelledby="roads-title">
+    <div class="roads-pin">
+      <div class="wrap roads-head">
+        <h2 id="roads-title" data-words-rise>From recent tables</h2>
+        <p>More on Instagram <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
+        <span class="swipe-hint" aria-hidden="true">Swipe →</span>
+      </div>
+      <div class="roads-track" tabindex="0" aria-label="Photo gallery">
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-600.webp" data-src="../media/sashimi-motion" aria-label="Plates of white fish sashimi in a pink consommé, chili and herbs"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/night-toast-still-600.webp" data-src="../media/night-toast" aria-label="An evening in the yard: a long table of guests raising their glasses"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/fish-hang-still-600.webp" data-src="../media/fish-hang" aria-label="Two whole fish hanging to age"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/coupes-flowers-still-600.webp" data-src="../media/coupes-flowers" style="object-position:50% 60%" aria-label="A row of coupe cocktails with white foam, topped with edible flowers"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-guests-still-600.webp" data-src="../media/yard-guests" aria-label="The long table in the yard full of guests under a tree"></video></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="book" data-theme="night" aria-labelledby="book-title">
+    <div class="wrap book-grid">
+      <div>
+        <div class="book-head">
+          <h2 id="book-title" data-words-rise>Book a dinner</h2>
+          <p>Tell me what you have in mind. I will come back with a proposal and a menu.</p>
+        </div>
+        <form class="book-form" id="book-form" novalidate>
+          <fieldset class="q-step">
+            <legend>Where</legend>
+            <div class="tiles three">
+              <label class="tile"><input type="radio" name="format" value="yard" checked><span class="tile-body"><span class="tile-name">In the yard, Mitzpe Matat</span><span class="tile-desc">6 to 16 guests</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="home"><span class="tile-body"><span class="tile-name">At your place</span><span class="tile-desc">8 to 40 guests</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">At your event</span><span class="tile-desc">Wherever you choose</span></span></label>
+            </div>
+          </fieldset>
+          <div class="field" id="region-field" hidden>
+            <label for="region">Where is your home</label>
+            <select id="region" name="region">
+              <option>The Galilee and Golan</option>
+              <option>Haifa and Haifa Bay</option>
+              <option>The Sharon and central Israel</option>
+              <option>Another area</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="date">Date</label>
+              <input id="date" name="date" type="date">
+            </div>
+            <div class="field">
+              <label id="guests-label" for="guests">Guests</label>
+              <div class="stepper">
+                <button type="button" id="g-plus" aria-label="One more guest">+</button>
+                <input id="guests" name="guests" type="number" inputmode="numeric" value="8" min="1" max="500">
+                <button type="button" id="g-minus" aria-label="One guest fewer">−</button>
+              </div>
+            </div>
+          </div>
+          <p class="hint" id="g-hint"></p>
+          <figure class="table-viz" aria-hidden="true">
+            <div class="tv-frame" id="table-frame"><div class="tv-stage" id="table-stage"></div><span class="tv-note">Illustration</span></div>
+            <figcaption id="table-cap"></figcaption>
+          </figure>
+          <fieldset class="q-step" id="serve-field" hidden>
+            <legend>Serving style</legend>
+            <div class="tiles serve">
+              <label class="tile"><input type="radio" name="serve" value="plated"><span class="tile-body"><span class="tile-name">Plated, course by course</span></span></label>
+              <label class="tile"><input type="radio" name="serve" value="family"><span class="tile-body"><span class="tile-name">Sharing plates</span></span></label>
+              <label class="tile"><input type="radio" name="serve" value="buffet"><span class="tile-body"><span class="tile-name">Buffet</span></span></label>
+              <label class="tile"><input type="radio" name="serve" value="bites"><span class="tile-body"><span class="tile-name">Passed small bites</span></span></label>
+              <label class="tile"><input type="radio" name="serve" value="unsure" checked><span class="tile-body"><span class="tile-name">Not sure yet, let's decide together</span></span></label>
+            </div>
+          </fieldset>
+          <fieldset class="q-step" id="addon-field" hidden>
+            <legend>Add-ons</legend>
+            <label class="addon"><input type="checkbox" name="kuller"><span>Add cocktails by Kuller</span></label>
+          </fieldset>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="guestname" type="text" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="notes">What is the occasion, and what should I know?</label>
+            <textarea id="notes" name="notes" placeholder="For example: a 40th birthday, one of us is vegetarian"></textarea>
+          </div>
+          <p class="error" id="form-error" role="alert"></p>
+          <div class="send-row"><button class="btn" type="submit">Send on WhatsApp</button><button class="btn ghost" type="button" id="send-mail">Or by email</button></div>
+          <p class="sent" id="form-sent" role="status"></p>
+        </form>
+      </div>
+
+      <aside class="next-card" aria-labelledby="next-title">
+        <div class="ticket">
+          <p class="ticket-label">Your booking</p>
+          <dl class="ticket-rows">
+            <div><dt>Where</dt><dd id="tk-where"></dd></div>
+            <div><dt>When</dt><dd id="tk-when"></dd></div>
+            <div><dt>Guests</dt><dd id="tk-guests"></dd></div>
+            <div id="tk-serve-row" hidden><dt>Serving</dt><dd id="tk-serve"></dd></div>
+            <div id="tk-addon-row" hidden><dt>Add-ons</dt><dd id="tk-addon"></dd></div>
+          </dl>
+        </div>
+        <h3 id="next-title">What happens next</h3>
+        <ol class="next-steps">
+          <li><strong>Message</strong><span>I come back with a proposal and a menu.</span></li>
+          <li><strong>The date</strong><span>A 30% deposit holds the date.</span></li>
+          <li><strong>Details</strong><span>A few days before, we settle the details.</span></li>
+          <li><strong>The evening</strong><span>You arrive. The table is set.</span></li>
+        </ol>
+        <p class="fine">Cancel up to a month before: full refund.</p>
+        <dl class="contact">
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/972587870656" target="_blank" rel="noopener"><bdi dir="ltr">+972 58-787-0656</bdi></a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+972587870656"><bdi dir="ltr">+972 58-787-0656</bdi></a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:barlif2002@gmail.com"><bdi dir="ltr">barlif2002@gmail.com</bdi></a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener"><bdi dir="ltr">@barlif</bdi></a></dd></div>
+        </dl>
+        <p class="nc-sign">Bar</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" data-theme="night" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="faq-head">
+        <h2 id="faq-title" data-words-rise>Questions before you come</h2>
+        <p>Can't find an answer? Message me on <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details><summary>Length of the evening<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, 6:30 to 9:30 pm.</p></div></details>
+        <details><summary>Number of guests<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard 6 to 16. At your place 8 to 40.</p></div></details>
+        <details><summary>Price<i aria-hidden="true"></i></summary><div class="ans"><p>It depends on the menu, the number of guests and the place. Tell me, and I will send a proposal.</p></div></details>
+        <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>Vegetarian, gluten-free, nut-free and lactose-free are all possible. Just tell me in advance. The kitchen is not kosher.</p></div></details>
+        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>There is wine from local wineries, and you are welcome to bring your own. At events there are cocktails by Kuller too.</p></div></details>
+        <details><summary>Children<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
+        <details><summary>Before you come<i aria-hidden="true"></i></summary><div class="ans"><p>Come on time, and bring something warm: evenings in Matat are cool. I send the address with the confirmation.</p></div></details>
+        <details><summary>Accessibility<i aria-hidden="true"></i></summary><div class="ans"><p>There are steps at the entrance. A wheelchair can reach the house from the road.</p></div></details>
+        <details><summary>In winter<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat opens soon. Until then, we plan together around the forecast.</p></div></details>
+        <details><summary>Deposit and cancellations<i aria-hidden="true"></i></summary><div class="ans"><p>A 30% deposit holds the date, by PayBox or bank transfer. Cancel up to a month before: full refund. After that: no refund. In war or an emergency, cancel up to three days before: 50% back.</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="finale" data-theme="night">
+  <div class="finale-bg"><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-hidden="true"></video></div>
+  <div class="wrap finale-top">
+    <p class="finale-line">The table is set.</p>
+    <a class="btn" href="#book">Book a dinner</a>
+  </div>
+  <div class="finale-name" aria-hidden="true"><svg class="logo" viewBox="20 29 1620 453" aria-hidden="true" focusable="false"><use href="#barlif"/></svg></div>
+  <div class="wrap finale-meta">
+    <span>Private chef · Mitzpe Matat</span>
+    <nav aria-label="Links">
+      <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="tel:+972587870656">Phone</a>
+      <a href="mailto:barlif2002@gmail.com">Email</a>
+      <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">Instagram</a>
+      <a href="#top">Back to top</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // ---------- תיאום ארוחה ----------
+  // מספר הוואטסאפ של בר, בפורמט בינלאומי.
+  const WHATSAPP_NUMBER = '972587870656';
+
+  (function () {
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'he';
+    const T = {
+      he: {
+        days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
+        hint: { yard: 'בחצר: 6 עד 16 אורחים, מבוגרים בלבד.', home: 'אצלכם: 8 עד 40 אורחים.', event: 'באירוע: כל גודל. ספרו לי בהערות איפה ומה חוגגים.' },
+        noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
+        tk: { flexible: 'תאריך גמיש', guests: n => `${n} אורחים`, kuller: 'קוקטיילים של קולר' },
+        cap: { one: n => `${n} מקומות סביב שולחן אחד`, many: (n, t) => `${n} מקומות, ${t} שולחנות ארוכים`, lots: n => `${n} אורחים, שולחנות ארוכים`, bites: n => `${n} אורחים בעמידה, מגשים מסתובבים`, buffet: ' · ועמדת בופה' },
+        hello: n => `היי בר, כאן ${n}.`,
+        below: m => `בחצר השולחן מתחיל מ־${m} אורחים. פחות מזה? כתבו לי בהערות ונבדוק.`,
+        serve: t => `סגנון הגשה: ${t}`, kuller: 'תוספת: קוקטיילים של קולר', sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
+        what: { yard: () => 'אשמח לתאם ארוחה בחצר במצפה מתת.', home: r => `אשמח לתאם ארוחת שף אצלי בבית (${r}).`, event: () => 'אשמח לתאם אירוע.' },
+        date: d => `תאריך: ${d}`, flexible: 'גמיש', guests: n => `כמה אורחים: ${n}`, notes: t => `חשוב לדעת: ${t}`,
+      },
+      en: {
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        hint: { yard: 'In the yard: 6 to 16 guests, adults only.', home: 'At your place: 8 to 40 guests.', event: 'At your event: any size. Tell me in the notes where it is and what you are celebrating.' },
+        noName: 'Please add your name, so I know who to reply to.',
+        tk: { flexible: 'Flexible date', guests: n => `${n} guests`, kuller: 'cocktails by Kuller' },
+        cap: { one: n => `${n} seats around one table`, many: (n, t) => `${n} seats, ${t} long tables`, lots: n => `${n} guests, long tables`, bites: n => `${n} guests standing, small bites passed around`, buffet: ' · and a buffet station' },
+        hello: n => `Hi Bar, this is ${n}.`,
+        below: m => `In the yard the table starts at ${m} guests. Fewer? Tell me in the notes and I will see what I can do.`,
+        serve: t => `Serving style: ${t}`, kuller: 'Add-on: cocktails by Kuller', sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
+        what: { yard: () => 'I would like to book a dinner in your yard in Mitzpe Matat.', home: r => `I would like to book a private chef dinner at my home (${r}).`, event: () => 'I would like to plan an event.' },
+        date: d => `Date: ${d}`, flexible: 'flexible', guests: n => `Guests: ${n}`, notes: t => `Good to know: ${t}`,
+      },
+    }[lang];
+    const RULES = { yard: { min: 6, max: 16, start: 8 }, home: { min: 8, max: 40, start: 12 }, event: { min: 10, max: 500, start: 30 } };
+
+    const $ = id => document.getElementById(id);
+    const form = $('book-form');
+    const guests = $('guests');
+    let format = 'yard';
+
+    // התאריך הכי מוקדם: מחר
+    const t = new Date(); t.setDate(t.getDate() + 1);
+    $('date').min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+
+    // ---------- השולחן שלכם ----------
+    // הדמיה של השולחן במבט מלמעלה, מתמונות בודדות שמסודרות בזמן אמת:
+    // לכל אורח כיסא וכלים, ובמרכז השולחן מה שמתאים לסגנון ההגשה. נרות מהבהבים בעדינות.
+    const frame = $('table-frame'), stage = $('table-stage'), cap = $('table-cap');
+    // התיקייה נגזרת מהאייקון, כדי שזה יעבוד גם בעמוד האנגלי שיושב תיקייה אחת למטה
+    const IMG = document.querySelector('link[rel="icon"]').getAttribute('href').replace(/brand\/.*$/, '') + 'images/table/';
+    const SPR = { setting: [110, 124], chair: [100, 112], flowers: [120, 119], board: [210, 90], bowl: [130, 133], tray: [110, 113], cocktail: [140, 152], candle: [60, 61] };
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let drawn = 0, drawnKey = '', ready = false, trayAnims = [];
+    const sprite = (name, x, y, rot, cls, extra = '') => {
+      const [w, h] = SPR[name];
+      return `<img class="${cls}" src="${IMG}${name}.webp" alt="" width="${w}" height="${h}" style="left:${x - w / 2}px;top:${y - h / 2}px;${rot ? 'rotate:' + rot + 'deg;' : ''}${extra}">`;
+    };
+    const glow = (x, y, d) => `<i class="tv-glow" style="left:${x}px;top:${y}px;animation-delay:-${d}s"></i>`;
+
+    function drawTable() {
+      if (!ready) return;
+      const n = +guests.value || 0;
+      const serveEl = form.querySelector('input[name="serve"]:checked');
+      const serve = format === 'yard' ? 'yard' : (serveEl ? serveEl.value : 'unsure');
+      const key = format + serve;
+      const fresh = i => (key === drawnKey && i >= drawn) ? ' tv-new' : '';
+      const delay = i => (key === drawnKey && i >= drawn) ? `animation-delay:${(i - drawn) * 0.06}s;` : '';
+      const under = [], over = [], lights = [];
+      let DW, DH;
+      trayAnims.forEach(a => a.cancel()); trayAnims = [];
+
+      if (serve === 'bites') {
+        // ערב בעמידה: שולחנות קוקטייל, ומגשים שעוברים ביניהם
+        const tables = Math.min(18, Math.max(3, Math.ceil(n / 4))), cols = Math.min(6, tables), rows = Math.ceil(tables / cols);
+        DW = cols * 230 + 120; DH = rows * 230 + 120;
+        for (let i = 0; i < tables; i++) {
+          const r = Math.floor(i / cols), c = i % cols;
+          const x = 120 + c * 230 + (r % 2 ? 50 : 0) + ((i * 37) % 31) - 15, y = 125 + r * 230 + ((i * 53) % 29) - 14;
+          over.push(sprite('cocktail', x, y, (i * 47) % 360, 'tv-item' + fresh(i * 4), delay(i * 4)));
+          lights.push(glow(x + 8, y - 6, (i * 0.7) % 3));
+        }
+        cap.textContent = T.cap.bites(n);
+        render(DW, DH, under, over, lights);
+        if (!still) [0, 1, 2].forEach(k => {
+          const el = stage.querySelector(`[data-tray="${k}"]`);
+          const cx = DW / 2, cy = DH / 2, a = DW / 2 - 110 - k * 40, b = DH / 2 - 90 - k * 20, dir = k % 2 ? -1 : 1;
+          const frames = Array.from({ length: 25 }, (_, t) => { const th = dir * t / 24 * Math.PI * 2 + k; return { transform: `translate(${cx + a * Math.cos(th) - 55}px, ${cy + b * Math.sin(th) - 56}px) rotate(${t * 15}deg)` }; });
+          trayAnims.push(el.animate(frames, { duration: 16000 + k * 5000, iterations: Infinity }));
+        });
+        drawn = n; drawnKey = key;
+        return;
+      }
+
+      // שולחנות ארוכים: עד 16 מקומות בחצר, עד 20 בשולחן אצלכם ובאירועים, ועד שלושה שולחנות בהדמיה
+      const per = format === 'yard' ? 16 : 20, P = 132, depth = 380, block = depth + 172, gap = 56;
+      const tables = Math.min(3, Math.max(1, Math.ceil(n / per)));
+      let left = Math.min(n, tables * per), idx = 0;
+      const side0 = Math.max(3, Math.ceil(Math.min(n, per) / 2));
+      const L = side0 * P + 70;
+      DW = L + 120;
+      const buffetH = serve === 'buffet' ? 250 : 0;
+      DH = tables * block + (tables - 1) * gap + buffetH + 40;
+      for (let t = 0; t < tables; t++) {
+        const c = Math.min(per, left); left -= c;
+        const top = Math.ceil(c / 2), bottom = Math.floor(c / 2);
+        const x0 = 60, y0 = 20 + 86 + t * (block + gap), cy = y0 + depth / 2;
+        const len = Math.max(3, top) * P + 70, tx = x0 + (L - len) / 2;
+        under.push(`<div class="tv-table" style="left:${tx}px;top:${y0}px;width:${len}px;height:${depth}px;background-image:url(${IMG}wood.webp)"></div>`);
+        // כל מקום: כיסא שנכנס קצת מתחת לשולחן, וצלחת, מפית, סכו״ם וכוס על השולחן
+        const seat = (x, dir) => {
+          const i = idx++, rot = dir < 0 ? 180 : 0;
+          under.unshift(sprite('chair', x, dir > 0 ? y0 + depth + 30 : y0 - 30, rot, 'tv-chair' + fresh(i), delay(i)));
+          over.push(sprite('setting', x, dir > 0 ? y0 + depth - 70 : y0 + 70, rot, 'tv-item' + fresh(i), delay(i)));
+        };
+        for (let k = 0; k < top; k++) seat(tx + 35 + P / 2 + k * P, -1);
+        for (let k = 0; k < bottom; k++) seat(tx + 35 + P / 2 + k * P, 1);
+        // מרכז השולחן
+        const slots = Math.max(3, top);
+        for (let k = 0; k < slots; k++) {
+          const x = tx + 35 + P / 2 + k * P;
+          if (serve === 'family') { if (k % 2 === 0 && k + 1 < slots) over.push(sprite('board', x + P / 2, cy, k % 4 ? 180 : 0, 'tv-item')); else if (k % 2 === 1 || k === slots - 1) { over.push(sprite('candle', x + (k % 2 ? P / 2 : 0), cy, 0, 'tv-item')); lights.push(glow(x + (k % 2 ? P / 2 : 0), cy, k * 0.6)); } }
+          else if (k % 3 === 1) over.push(sprite('flowers', x, cy, k * 40, 'tv-item'));
+          else if (k % 3 === 0 || k === slots - 1) { over.push(sprite('candle', x, cy, 0, 'tv-item')); lights.push(glow(x, cy, k * 0.6)); }
+        }
+      }
+      if (serve === 'buffet') {
+        // עמדת הבופה מתחת לשולחנות
+        const y0 = 20 + tables * block + (tables - 1) * gap + 30, bl = Math.min(L, 6 * 160), bx = 60 + (L - bl) / 2;
+        under.push(`<div class="tv-table" style="left:${bx}px;top:${y0}px;width:${bl}px;height:190px;background-image:url(${IMG}wood.webp)"></div>`);
+        const items = ['board', 'bowl', 'tray', 'bowl', 'board', 'tray'], k = Math.floor(bl / 160);
+        for (let m = 0; m < k; m++) over.push(sprite(items[m % items.length], bx + bl / k * (m + 0.5), y0 + 95, items[m % items.length] === 'board' ? 90 : m * 30, 'tv-item'));
+      }
+      const many = n > tables * per;
+      cap.textContent = many ? T.cap.lots(n) : (tables > 1 ? T.cap.many(n, tables) : T.cap.one(n)) + (serve === 'buffet' ? T.cap.buffet : '');
+      render(DW, DH, under, over, lights);
+      drawn = n; drawnKey = key;
+    }
+
+    function render(DW, DH, under, over, lights) {
+      const trays = format !== 'yard' && (form.querySelector('input[name="serve"]:checked') || {}).value === 'bites' ? [0, 1, 2].map(k => `<img class="tv-item" data-tray="${k}" src="${IMG}tray.webp" alt="" width="110" height="113" style="left:0;top:0;transform:translate(${DW / 2 - 55 + (k - 1) * 160}px, ${DH / 2 - 56}px)">`) : [];
+      stage.style.width = DW + 'px'; stage.style.height = DH + 'px';
+      stage.innerHTML = under.join('') + over.join('') + trays.join('') + lights.join('');
+      fit(DW, DH);
+    }
+    // מתאים את ההדמיה לרוחב. בטלפון השולחן עומד לאורך המסך
+    function fit(DW, DH) {
+      const cw = frame.clientWidth, tall = cw < 520;
+      let sc;
+      if (tall) {
+        sc = Math.min(cw / DH, (innerHeight * 0.72) / DW);
+        stage.style.transform = `translate(${(cw + DH * sc) / 2}px, 0) rotate(90deg) scale(${sc})`;
+        frame.style.height = DW * sc + 'px';
+      } else {
+        sc = Math.min(cw / DW, 560 / DH);
+        stage.style.transform = `translate(${(cw - DW * sc) / 2}px, 0) scale(${sc})`;
+        frame.style.height = DH * sc + 'px';
+      }
+    }
+    window.addEventListener('resize', () => { if (ready) fit(parseFloat(stage.style.width), parseFloat(stage.style.height)); });
+    // התמונות נטענות רק כשמתקרבים לטופס
+    const wake = () => { if (ready) return; ready = true; drawTable(); };
+    if ('IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { wake(); vio.disconnect(); } }, { rootMargin: '900px 0px' });
+      vio.observe(frame);
+    } else wake();
+
+    // ---------- כרטיס ההזמנה ----------
+    const dayName = () => {
+      if (!$('date').value) return T.tk.flexible;
+      const [y, m, d] = $('date').value.split('-').map(Number);
+      return `${T.days[new Date(y, m - 1, d).getDay()]} ${d}.${m}.${y}`;
+    };
+    const setTk = (id, text) => { const el = $(id); if (el.textContent === text) return; el.textContent = text; el.classList.add('flash'); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('flash'))); };
+    function ticket() {
+      const place = form.querySelector('input[name="format"]:checked').closest('label').querySelector('.tile-name').textContent;
+      setTk('tk-where', format === 'home' ? `${place}, ${$('region').value}` : place);
+      setTk('tk-when', dayName());
+      setTk('tk-guests', T.tk.guests(guests.value));
+      const serve = form.querySelector('input[name="serve"]:checked');
+      const style = format !== 'yard' && serve && serve.value !== 'unsure' ? serve.closest('label').textContent.trim() : '';
+      $('tk-serve-row').hidden = !style;
+      if (style) setTk('tk-serve', style);
+      const addon = format === 'event' && form.elements.kuller.checked;
+      $('tk-addon-row').hidden = !addon;
+      if (addon) setTk('tk-addon', T.tk.kuller);
+    }
+    form.addEventListener('input', ticket);
+
+    function clamp() {
+      const r = RULES[format];
+      let n = parseInt(guests.value, 10);
+      if (!n) n = r.start;
+      // מי שביקש פחות מהמינימום מקבל הסבר, ולא רק מספר שהשתנה בשקט
+      $('g-hint').textContent = n < r.min && format === 'yard' ? T.below(r.min) : T.hint[format];
+      n = Math.min(r.max, Math.max(r.min, n));
+      guests.value = n; guests.min = r.min; guests.max = r.max;
+      $('g-minus').disabled = n <= r.min; $('g-plus').disabled = n >= r.max;
+      drawTable();
+      ticket();
+    }
+    function setFormat(f, reset) {
+      format = f;
+      $('region-field').hidden = f !== 'home';
+      $('serve-field').hidden = f === 'yard';
+      $('addon-field').hidden = f !== 'event';
+      if (reset) guests.value = RULES[f].start;
+      clamp();
+    }
+    // החלפת סוג הארוחה שומרת את מספר האורחים, בגבולות של הסוג החדש
+    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, false); if (e.target.name === 'serve') drawTable(); ticket(); });
+    guests.addEventListener('change', clamp);
+    $('g-plus').addEventListener('click', () => { guests.value = +guests.value + 1; clamp(); });
+    $('g-minus').addEventListener('click', () => { guests.value = +guests.value - 1; clamp(); });
+
+    // הכפתורים בקטע "איפה ואיך" בוחרים מראש את סוג הארוחה
+    document.querySelectorAll('[data-format]').forEach(a => a.addEventListener('click', () => {
+      const input = form.querySelector(`input[name="format"][value="${a.dataset.format}"]`);
+      if (input && !input.checked) { input.checked = true; setFormat(input.value, true); }
+    }));
+
+    // ההודעה עצמה, לוואטסאפ או למייל
+    function message() {
+      const name = form.elements.guestname.value.trim();
+      if (!name) { $('form-error').textContent = T.noName; form.elements.guestname.focus(); return null; }
+      $('form-error').textContent = '';
+      clamp();
+      const when = $('date').value ? dayName() : T.flexible;
+      const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
+      const serve = form.querySelector('input[name="serve"]:checked');
+      if (format !== 'yard' && serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
+      if (format === 'event' && form.elements.kuller.checked) lines.push(T.kuller);
+      const notes = form.elements.notes.value.trim();
+      if (notes) lines.push(T.notes(notes));
+      return lines.join('\n');
+    }
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const text = message();
+      if (!text) return;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      $('form-sent').textContent = T.sent;
+    });
+    $('send-mail').addEventListener('click', () => {
+      const text = message();
+      if (!text) return;
+      location.href = `mailto:barlif2002@gmail.com?subject=${encodeURIComponent(T.subject)}&body=${encodeURIComponent(text)}`;
+      $('form-sent').textContent = T.sentMail;
+    });
+
+    setFormat('yard', true);
+
+    // ---------- שאלות: פתיחה וסגירה רכות ----------
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.faq details').forEach(det => {
+      const sum = det.querySelector('summary'), ans = det.querySelector('.ans');
+      sum.addEventListener('click', ev => {
+        if (calm || !ans.animate) return;
+        ev.preventDefault();
+        if (det.open) {
+          ans.animate([{ height: ans.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' })
+            .onfinish = () => { det.open = false; };
+        } else {
+          det.open = true;
+          const h = ans.offsetHeight;
+          ans.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
+      });
+    });
+  })();
+</script>
+
+<script>
+  // ---------- וידאו: נטען רק כשמגיעים אליו, מתנגן רק כשהוא על המסך ----------
+  // מי שביקש פחות תנועה או חיסכון בנתונים רואה רק את תמונות הפתיחה של הסרטונים.
+  (function () {
+    // האם השמש כבר שקעה במצפה מתת (נוסחת NOAA, בלי שירות חיצוני)
+    const now = new Date();
+    const r = Math.PI / 180, lat = 33.04, lon = 35.39;
+    const day = (Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - Date.UTC(now.getUTCFullYear(), 0, 0)) / 864e5;
+    const g = 2 * Math.PI / 365 * (day - 1);
+    const eq = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const decl = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = Math.acos(Math.cos(90.833 * r) / (Math.cos(lat * r) * Math.cos(decl)) - Math.tan(lat * r) * Math.tan(decl)) / r;
+    const rise = 720 - 4 * (lon + ha) - eq, set = 720 - 4 * (lon - ha) - eq;
+    const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes();
+    const dark = utcMin > set + 20 || utcMin < rise - 10;
+    // אחרי השקיעה בגליל, החצר שאחרי החלון מוצגת בערב
+    if (dark) {
+      // התיקיות נלקחות מהכתובות הקיימות, כדי שזה יעבוד גם בעמוד האנגלי
+      const night = ['studio-plating', 'night-toast', 'plating-dark'];
+      const dir = u => u.slice(0, u.lastIndexOf('/') + 1);
+      document.querySelectorAll('.hero-vids video').forEach((v, k) => { v.dataset.src = dir(v.dataset.src) + night[k]; v.dataset.poster = dir(v.dataset.poster) + night[k] + '.webp'; if (v.getAttribute('poster')) v.poster = v.dataset.poster; });
+    }
+
+    // תמונת הפתיחה של כל סרטון נטענת רק כשהוא מתקרב למסך
+    const lazyPosters = [...document.querySelectorAll('video[data-poster]')];
+    const showPoster = v => { if (!v.getAttribute('poster')) v.poster = v.dataset.poster; };
+    if ('IntersectionObserver' in window) {
+      const po = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { showPoster(e.target); po.unobserve(e.target); } }), { rootMargin: '900px 300px' });
+      lazyPosters.forEach(v => po.observe(v));
+    } else lazyPosters.forEach(showPoster);
+
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData);
+    const toggle = document.getElementById('vid-toggle');
+    const heroVids = [...document.querySelectorAll('.hero-vids video')];
+    const menuVids = [...document.querySelectorAll('.ev-media video')];
+    if (still || !('IntersectionObserver' in window)) return;
+    const ext = document.createElement('video').canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
+    let paused = false, menuVisible = false, step = 0;
+    const load = v => { if (!v.getAttribute('src')) v.src = v.dataset.src + ext; };
+    const play = v => { load(v); const p = v.play(); if (p) p.catch(() => {}); };
+
+    // הסרטונים של החצר מחכים מתחת לחלון עד שנכנסים אליו
+    let heroOpen = !document.querySelector('.stage');
+    const seen = new Set();
+    const wake = v => { if (paused || (heroVids.includes(v) && !heroOpen)) return; play(v); };
+    // סרטון נטען רק אחרי שהוא נשאר על המסך רגע, ולא כשרק עוברים לידו בדרך
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      const v = e.target;
+      if (e.isIntersecting) { seen.add(v); clearTimeout(v._t); v._t = setTimeout(() => { if (seen.has(v)) wake(v); }, v.getAttribute('src') ? 0 : 300); }
+      else { seen.delete(v); clearTimeout(v._t); if (v.getAttribute('src')) v.pause(); }
+    }), { rootMargin: '150px 0px' });
+    document.querySelectorAll('video.vid').forEach(v => { if (!menuVids.includes(v)) io.observe(v); });
+
+    // בתפריט מתנגן רק הסרטון של השלב הפעיל
+    // והבא אחריו נטען מראש, כדי שהמעבר יהיה חלק
+    const syncMenu = () => menuVids.forEach((v, k) => {
+      if (menuVisible && k === step && !paused) play(v);
+      else { if (menuVisible && k === step + 1) load(v); if (v.getAttribute('src')) v.pause(); }
+    });
+    const menuBox = document.querySelector('.ev-media');
+    if (menuBox) new IntersectionObserver(([e]) => {
+      menuVisible = e.isIntersecting;
+      syncMenu();
+    }, { rootMargin: '300px 0px' }).observe(menuBox);
+    window.barVideo = {
+      menuStep: i => { step = i; syncMenu(); },
+      openHero: () => { if (heroOpen) return; heroOpen = true; heroVids.forEach(v => { if (seen.has(v)) wake(v); }); },
+      isPaused: () => paused,
+    };
+
+    heroVids.forEach(v => v.addEventListener('playing', () => { toggle.hidden = false; }, { once: true }));
+    // הכפתור עוצר את כל הסרטונים באתר, לא רק את אלה שבראש העמוד
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      if (paused) document.querySelectorAll('video.vid').forEach(v => v.pause());
+      else { seen.forEach(wake); syncMenu(); }
+      toggle.classList.toggle('paused', paused);
+      const lbl = toggle.querySelector('span');
+      lbl.textContent = paused ? lbl.dataset.play : lbl.dataset.pause;
+    });
+  })();
+</script>
+
+<script>
+  // ---------- תנועה וגלילה ----------
+  // הדף מלא וקריא גם בלי הספריות. אם GSAP, ScrollTrigger ו-Lenis נטענו ואין בקשה לפחות תנועה, מפעילים את הגלילה.
+  window.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const head = document.getElementById('site-head');
+    const overlay = document.getElementById('menu-overlay');
+    const menuBtn = document.getElementById('menu-btn');
+    let lenis = null;
+
+    // --- שלבי הערב: התמונה והשעה מתחלפות לפי הצעד שבמרכז המסך ---
+    const steps = [...document.querySelectorAll('.ev-step')];
+    const frames = [...document.querySelectorAll('.ev-media video')];
+    const clock = document.getElementById('ev-clock');
+    let current = 0;
+    function setStep(i) {
+      if (i === current) return;
+      current = i;
+      steps.forEach((s, k) => s.classList.toggle('on', k === i));
+      frames.forEach((f, k) => f.classList.toggle('on', k === i));
+      if (window.barVideo) window.barVideo.menuStep(i);
+      const t = steps[i].dataset.label;
+      clock.classList.add('swap');
+      setTimeout(() => {
+        clock.textContent = t;
+        clock.classList.remove('swap'); clock.classList.add('pre');
+        void clock.offsetWidth;
+        clock.classList.remove('pre');
+      }, 260);
+    }
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) setStep(+e.target.dataset.step); });
+      }, { rootMargin: window.matchMedia('(max-width: 900px)').matches ? '-60% 0px -30% 0px' : '-48% 0px -48% 0px' });
+      steps.forEach(s => io.observe(s));
+      // מי שחוזר לראש התפריט רואה שוב את הפתיחה
+      new IntersectionObserver(([e]) => { if (e.isIntersecting) setStep(0); }).observe(document.querySelector('.ev-head'));
+    }
+
+    // --- תפריט בטלפון ---
+    function openMenu(open) {
+      overlay.classList.toggle('open', open);
+      ['main', 'footer', '#site-head'].forEach(sel => { const el = document.querySelector(sel); if (el) el.inert = open; });
+      menuBtn.setAttribute('aria-expanded', String(open));
+      if (lenis) open ? lenis.stop() : lenis.start();
+      else document.body.style.overflow = open ? 'hidden' : '';
+      if (open) overlay.querySelector('a').focus(); else menuBtn.focus();
+    }
+    menuBtn.addEventListener('click', () => openMenu(true));
+    document.getElementById('menu-close').addEventListener('click', () => openMenu(false));
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => openMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) openMenu(false); });
+
+    // --- הכותרת העליונה מתכווצת אחרי הפתיח ---
+    const progress = document.getElementById('progress');
+    let maxScroll = 1;
+    const measure = () => { maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); };
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+    // צבע הכותרת לפי הקטע שמתחתיה
+    const toneAt = () => {
+      const under = document.elementsFromPoint(window.innerWidth / 2, 40).find(el => !el.closest('#site-head, .progress, .toast'));
+      const sec = under && under.closest('[data-theme]');
+      if (sec) head.dataset.tone = sec.dataset.theme;
+    };
+    let toneQueued = false, toneByScroll = false;
+    const onScrollHead = (y, dir) => {
+      head.classList.toggle('scrolled', y > window.innerHeight * 0.5);
+      if (!toneQueued && !toneByScroll) { toneQueued = true; setTimeout(() => { toneQueued = false; toneAt(); }, 120); }
+      progress.style.transform = `scaleX(${Math.min(1, y / maxScroll)})`;
+    };
+
+    const haveLibs = window.gsap && window.ScrollTrigger && window.Lenis;
+    if (calm || !haveLibs) {
+      if (window.barVideo) window.barVideo.openHero();
+      let last = 0;
+      window.addEventListener('scroll', () => { const y = scrollY; onScrollHead(y, y - last); last = y; }, { passive: true });
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    root.classList.add('motion');
+    ScrollTrigger.addEventListener('refresh', measure);
+    toneByScroll = true;
+    document.querySelectorAll('main > [data-theme], footer[data-theme]').forEach(sec => ScrollTrigger.create({
+      trigger: sec, start: 'top 40px', end: 'bottom 40px',
+      onToggle: self => { if (self.isActive) head.dataset.tone = sec.dataset.theme; },
+    }));
+
+    // גלילה רכה
+    lenis = new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    lenis.on('scroll', ({ scroll, direction }) => { ScrollTrigger.update(); onScrollHead(scroll, direction); });
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // קישורים פנימיים גוללים ברכות
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      const target = id === '#top' ? 0 : document.querySelector(id);
+      if (target === null) return;
+      e.preventDefault();
+      lenis.scrollTo(target, {
+        duration: 1.1, offset: id === '#top' ? 0 : -72,
+        onComplete: () => {
+          // הפוקוס עובר ליעד, והכתובת מתעדכנת, כמו בקישור רגיל
+          if (target !== 0) { if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+          history.pushState(null, '', id);
+        },
+      });
+    }));
+
+    // פיצול טקסט למילים
+    const splitWords = el => {
+      const words = el.textContent.trim().split(/\s+/);
+      el.innerHTML = words.map(w => `<span class="w" style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em"><span class="wi" style="display:inline-block">${w}</span></span>`).join(' ');
+      return el.querySelectorAll('.wi');
+    };
+
+    // צבע הרקע של הדף עובר מיום ללילה לפי הקטע שעל המסך
+    // המעבר צמוד לגלילה, כמו שקיעה, ולא קפיצה
+    const tones = { day: '#d6d7cb', dusk: '#3e1d27', night: '#1e0d12' };
+    let prev = null;
+    document.querySelectorAll('main > [data-theme], footer[data-theme]').forEach(sec => {
+      const tone = sec.dataset.theme;
+      if (prev && prev !== tone) {
+        gsap.fromTo(document.body, { backgroundColor: tones[prev] }, {
+          backgroundColor: tones[tone], ease: 'none', immediateRender: false,
+          scrollTrigger: { trigger: sec, start: 'top 75%', end: 'top 35%', scrub: true },
+        });
+      }
+      prev = tone;
+    });
+
+    // קו רכס הגליל נמתח בזמן הגלילה
+    const ridge = document.querySelector('.ridge path');
+    if (ridge) {
+      const len = ridge.getTotalLength();
+      gsap.fromTo(ridge, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.ridge', start: 'top 95%', end: 'bottom 45%', scrub: true } });
+    }
+
+    // --- הפתיח: נכנסים דרך החלון ---
+    const heroImg = document.querySelector('.hero-vids');
+    const heroIn = gsap.timeline({ paused: true })
+      .fromTo(heroImg, { scale: 1.12 }, { scale: 1, duration: 2.2, ease: 'expo.out' }, 0)
+      .from('.hero-tag', { y: 40, opacity: 0, duration: 1.2, ease: 'expo.out' }, 0.1)
+      .from('.hero-row > *, .hero-foot', { y: 30, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.1 }, 0.3);
+    const stage = document.querySelector('.stage');
+    const film = document.querySelector('.stage-film');
+    // המצלמה נכנסת אל בר, שעומד בתוך החלון
+    const aim = () => {
+      const v = film.querySelector('video');
+      film.style.transformOrigin = `${v.offsetLeft + v.offsetWidth * 0.445}px ${v.offsetTop + v.offsetHeight * 0.55}px`;
+    };
+    aim();
+    ScrollTrigger.addEventListener('refreshInit', () => { gsap.set(film, { scale: 1 }); aim(); });
+    matchMedia('(orientation: portrait)').addEventListener('change', () => setTimeout(() => ScrollTrigger.refresh(true), 250));
+    const stageVid = film.querySelector('video');
+    gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+      onUpdate: self => {
+        if (self.progress > 0.35 && window.barVideo) window.barVideo.openHero();
+        if (self.progress > 0.9) stageVid.pause();
+        else if (stageVid.paused && stageVid.getAttribute('src') && !(window.barVideo && window.barVideo.isPaused())) { const pr = stageVid.play(); if (pr) pr.catch(() => {}); }
+      } } })
+      .to('.stage-ui', { opacity: 0, y: -40, ease: 'power1.in', duration: 0.2 }, 0)
+      .to(film, { scale: 2.3, ease: 'power2.in', duration: 0.7 }, 0)
+      .to('.stage-fade', { opacity: 1, ease: 'power1.in', duration: 0.2 }, 0.42)
+      .fromTo('.hero', { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: 0.28 }, 0.58);
+    ScrollTrigger.create({ trigger: '.hero', start: 'top 12%', once: true, onEnter: () => { heroIn.play(); if (window.barVideo) window.barVideo.openHero(); } });
+
+    gsap.to(heroImg, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero-body', { yPercent: -10, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });
+
+    // --- המשפט של בר נצבע מילה אחר מילה בזמן הקריאה ---
+    const st = document.querySelector('[data-words]');
+    st.innerHTML = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+    gsap.fromTo(st.querySelectorAll('.w'), { opacity: 0.14 }, {
+      opacity: 1, ease: 'none', stagger: 0.1,
+      scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true },
+    });
+
+    // --- כותרות עולות מתוך מסכה ---
+    document.querySelectorAll('[data-words-rise]').forEach(h => {
+      gsap.from(splitWords(h), { yPercent: 110, duration: 1.2, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: h, start: 'top 85%' } });
+    });
+
+    // --- תמונות נחשפות כמו וילון ---
+    document.querySelectorAll('[data-reveal]').forEach(fig => {
+      const img = fig.querySelector('img, video');
+      const tl = gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 92%', end: 'top 55%', scrub: 0.6 } });
+      tl.fromTo(fig, { clipPath: 'inset(16% 10% 16% 10%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none' }, 0)
+        .fromTo(img, { scale: 1.28 }, { scale: 1, ease: 'none' }, 0);
+    });
+
+    // --- שלוש הדרכים נכנסות אחת אחרי השנייה ---
+    gsap.from('.format', { y: 70, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.14, scrollTrigger: { trigger: '.formats-grid', start: 'top 82%' } });
+
+    // --- פס ההתקדמות של הערב ---
+    gsap.to('.ev-rail i', { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 50%', end: 'bottom 50%', scrub: true } });
+
+    // --- גלריה אופקית שנעה עם הגלילה (במסכים רחבים) ---
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 900px)', () => {
+      const track = document.querySelector('.roads-track');
+      track.classList.add('pinned');
+      track.removeAttribute('tabindex');
+      const dist = () => Math.max(0, track.scrollWidth - track.clientWidth);
+      const tween = gsap.to(track, {
+        x: () => (document.documentElement.dir === 'rtl' ? 1 : -1) * dist(), ease: 'none',
+        scrollTrigger: { trigger: '.roads-pin', start: 'top top', end: () => '+=' + dist(), pin: true, anticipatePin: 1, scrub: 0.8, invalidateOnRefresh: true },
+      });
+      return () => { track.classList.remove('pinned'); track.setAttribute('tabindex', '0'); tween.kill(); gsap.set(track, { clearProps: 'transform' }); };
+    });
+
+    // --- הסיום ---
+    gsap.fromTo('.finale-name .logo', { clipPath: 'inset(0 0 100% 0)', yPercent: 30 }, { clipPath: 'inset(0 0 0% 0)', yPercent: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.finale-name', start: 'top 92%' } });
+    gsap.from('.finale-line', { y: 40, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.finale', start: 'top 75%' } });
+
+    // תמונות שנטענות מאוחר משנות גבהים, ולכן מחשבים מחדש את נקודות הגלילה
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  });
+</script>
+</body>
+</html>

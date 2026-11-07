@@ -58,17 +58,23 @@ const status = onSale && from !== null ? `${labels} · from ${fmt.format(from)}`
   .card-img .media img {
     transition: transform 1.4s var(--ease-out);
   }
+  /* the portrait fades in through a light blur, so the crossfade reads as one image changing,
+     not two exposures on top of each other */
   .card-img__alt {
     position: absolute !important;
     inset: 0;
     opacity: 0;
-    transition: opacity 0.9s var(--ease-soft);
+    filter: blur(6px);
+    transition:
+      opacity 0.5s var(--ease-out),
+      filter 0.5s var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
     a:hover > .card-img .card-img__alt,
     a.card-img:hover .card-img__alt,
     a:focus-visible .card-img__alt {
       opacity: 1;
+      filter: none;
     }
     a:hover > .card-img .media img,
     a.card-img:hover .media img {

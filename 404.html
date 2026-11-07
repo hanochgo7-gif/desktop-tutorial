@@ -9,6 +9,12 @@
   <!-- כתובות מהאתר הישן מופנות לקטע המתאים באתר החדש -->
   <script>
     (function () {
+      // Dira Ready (/desktop-tutorial/dira/) is a separate site: keep its visitors there.
+      if (location.pathname.indexOf('/desktop-tutorial/dira') === 0) {
+        var l = /\/dira\/en(\/|$)/.test(location.pathname) ? 'en' : 'he';
+        location.replace('/desktop-tutorial/dira/' + l + '/' + location.search);
+        return;
+      }
       var p = decodeURIComponent(location.pathname + location.search).toLowerCase();
       var map = [
         [/גלרי|gallery|תמונ|photo/, '/#gallery'],

@@ -2,8 +2,10 @@
 /**
  * Choose a fragrance: the four flacons side by side.
  * mode "links" (product page) — each tile opens that fragrance's page.
- * mode "tabs" (collection page) — each tile shows that fragrance's panel ([data-pick-panel]) in place,
- *   via html[data-pick]; without JavaScript the tiles are anchors to the panels, which are all visible.
+ * mode "tabs" (collection page) — each tile shows that fragrance's panel ([data-pick-panel], id panel-<slug>)
+ *   in place, via html[data-pick]; the URL hash carries the bare slug (#nocturne), which matches no element,
+ *   so a shared link never jumps past the picker. Without JavaScript the tiles are anchors to the panels,
+ *   which are all visible.
  */
 import Media from './Media.astro';
 import { bySeason } from '../data/catalog';
@@ -25,9 +27,10 @@ const all = bySeason();
         <li>
           <a
             class="pick__item"
-            href={mode === 'tabs' ? `#${p.slug}` : `/fragrances/${p.slug}`}
+            href={mode === 'tabs' ? `#panel-${p.slug}` : `/fragrances/${p.slug}`}
             data-pick-item={mode === 'tabs' ? p.slug : undefined}
-            aria-controls={mode === 'tabs' ? p.slug : undefined}
+            data-pick-name={mode === 'tabs' ? p.name : undefined}
+            aria-controls={mode === 'tabs' ? `panel-${p.slug}` : undefined}
             aria-current={p.slug === current ? (mode === 'tabs' ? 'true' : 'page') : undefined}
             style={`--accent:${p.accent}`}
           >
@@ -44,6 +47,7 @@ const all = bySeason();
       ))
     }
   </ul>
+  {mode === 'tabs' && <p class="visually-hidden" aria-live="polite" data-pick-status></p>}
 </nav>
 
 {
@@ -52,7 +56,7 @@ const all = bySeason();
       {/* Before first paint: pick the fragrance from the URL hash (or the default) so only its panel shows. */}
       <script is:inline define:vars={{ slugs: all.map((p) => p.slug), fallback: current }}>
         (function () {
-          var h = decodeURIComponent(location.hash.slice(1));
+          var h = decodeURIComponent(location.hash.slice(1)).replace(/^panel-/, '');
           var slug = slugs.indexOf(h) > -1 ? h : fallback;
           document.documentElement.dataset.pick = slug;
           document.querySelectorAll('[data-pick-item]').forEach(function (a) {
@@ -72,21 +76,35 @@ const all = bySeason();
   if (nav) {
     const items = [...nav.querySelectorAll<HTMLAnchorElement>('[data-pick-item]')];
     const slugs = items.map((a) => a.dataset.pickItem!);
-    const show = (slug: string) => {
+    const status = nav.querySelector<HTMLElement>('[data-pick-status]');
+    const slugFrom = (hash: string) => decodeURIComponent(hash.slice(1)).replace(/^panel-/, '');
+    const show = (slug: string, announce = false) => {
       document.documentElement.dataset.pick = slug;
       items.forEach((a) => (a.dataset.pickItem === slug ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      const item = items.find((a) => a.dataset.pickItem === slug);
+      if (announce && status && item) status.textContent = `${item.dataset.pickName} shown`;
+    };
+    // On a phone the chosen fragrance sits below the picker: bring it up only when it is mostly out of view.
+    const reveal = (slug: string) => {
+      const panel = document.getElementById(`panel-${slug}`);
+      if (!panel) return;
+      const top = panel.getBoundingClientRect().top;
+      if (top < innerHeight * 0.7) return;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      scrollTo({ top: scrollY + top - nav.getBoundingClientRect().height * 0.25, behavior: reduce ? 'auto' : 'smooth' });
     };
     items.forEach((a) =>
       a.addEventListener('click', (e) => {
         e.preventDefault();
         const slug = a.dataset.pickItem!;
-        show(slug);
+        show(slug, true);
         history.replaceState(null, '', `#${slug}`);
+        reveal(slug);
       }),
     );
     addEventListener('hashchange', () => {
-      const h = decodeURIComponent(location.hash.slice(1));
-      if (slugs.includes(h)) show(h);
+      const h = slugFrom(location.hash);
+      if (slugs.includes(h)) show(h, true);
     });
   }
 </script>
@@ -117,11 +135,17 @@ const all = bySeason();
     border: 1px solid var(--c-line);
     transition:
       border-color var(--dur-2),
-      color var(--dur-2);
+      color var(--dur-2),
+      transform 160ms var(--ease-out);
   }
-  .pick__item:hover {
-    color: var(--c-ivory);
-    border-color: rgb(239 231 216 / 0.35);
+  .pick__item:active {
+    transform: scale(0.97);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pick__item:hover {
+      color: var(--c-ivory);
+      border-color: rgb(239 231 216 / 0.35);
+    }
   }
   .pick__item[aria-current] {
     color: var(--c-ivory);

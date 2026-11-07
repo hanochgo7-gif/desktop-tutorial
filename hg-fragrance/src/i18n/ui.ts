@@ -15,7 +15,7 @@ const en = {
 
   'bag.title': 'Your bag',
   'bag.empty': 'Your bag is empty.',
-  'bag.emptyHint': 'Unforgettable is waiting where you left it.',
+  'bag.emptyHint': 'The four fragrances are waiting where you left them.',
   'bag.discover': 'Discover Unforgettable',
   'bag.subtotal': 'Subtotal',
   'bag.shippingNote': 'Shipping and taxes are calculated at checkout.',

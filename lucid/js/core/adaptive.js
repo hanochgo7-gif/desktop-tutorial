@@ -1,0 +1,578 @@
+// The learner model: what the learner has mastered, which mistakes recur, which CEFR level each
+// skill has demonstrated, and what to do today. Everything is computed from recorded attempts, so
+// it can be audited and recomputed; nothing is assigned by time spent or lessons clicked through.
+import { isCanonicalIso } from './util.js';
+
+export const LEVELS = ['PreA1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const SKILLS = ['vocabulary', 'grammar', 'reading', 'listening', 'speaking', 'writing'];
+const DAY = 86_400_000;
+const dayKey = (iso) => String(iso).slice(0, 10);
+export const levelIndex = (l) => LEVELS.indexOf(l);
+
+// Recent evidence counts more: an attempt's weight halves every 21 days.
+const weight = (at, now) => 0.5 ** (Math.max(0, now - new Date(at).getTime()) / DAY / 21);
+
+// ---------- first tries ----------
+// Evidence counts only the first answer to an item on a day. A retry at the end of a lesson comes seconds
+// after the right answer was shown, and "Practise the ones I missed" or "Practise everything again" on the
+// same day repeats answers just seen, so neither shows what the learner can do. The same item answered
+// again on a later day is spaced retrieval and counts. Exercise ids are unique only inside their lesson,
+// so the key includes the lesson. Answers with no item id (older records, tests) are all kept.
+const itemKey = (a) => (a.exercise ? `${a.source || ''}|${a.lesson || ''}|${a.exercise}|${dayKey(a.at)}` : null);
+export function firstTries(attempts) {
+  const seen = new Set();
+  return attempts.filter((a) => {
+    if (a.retry) return false;
+    const k = itemKey(a);
+    if (!k) return true;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+const byTime = (list) => [...list].sort((a, b) => (String(a.at) < String(b.at) ? -1 : String(a.at) > String(b.at) ? 1 : 0));
+
+// ---------- topic mastery ----------
+// mastery = time-weighted accuracy with a neutral prior (Laplace), so two lucky answers are not
+// "mastered". "mastered" also needs evidence on two different days (in-session accuracy alone is
+// not mastery: research C1, D22 / what-not-to-build 10). Only first tries count (above).
+// Feedback on an essay in the Writing lab (source "writing" with no lesson) is not an answer to an item:
+// its mistakes feed recurring errors and its assessed drafts feed the writing level, but neither moves a
+// topic, so a grammar slip in an essay never makes "argument structure" weak (persona finding R2-37).
+// Auto-graded writing exercises run in the set player with their task as `lesson`, and count.
+const essayFeedback = (a) => a.source === 'writing' && !a.lesson;
+export function topicMastery(attempts, now = Date.now()) {
+  return masteryOfSorted(byTime(attempts), now);
+}
+// topicMastery of a list already in byTime order (periodReport sorts once for two reports).
+function masteryOfSorted(sorted, now) {
+  const by = new Map();
+  for (const a of firstTries(sorted)) {
+    if (!a.topic || a.source === 'placement' || a.score === null || essayFeedback(a)) continue; // score null: practice, not evidence
+    const t = by.get(a.topic) || { a: 0, n: 0, count: 0, days: new Set(), last: null, level: null };
+    const w = weight(a.at, now);
+    t.a += w * (a.score ?? (a.correct ? 1 : 0));
+    t.n += w;
+    t.count++;
+    t.days.add(dayKey(a.at));
+    if (!t.last || a.at > t.last) t.last = a.at;
+    if (levelIndex(a.level) > levelIndex(t.level)) t.level = a.level; // the highest level it was practised at
+    by.set(a.topic, t);
+  }
+  const out = new Map();
+  for (const [topic, t] of by) {
+    const mastery = (t.a + 1) / (t.n + 2);
+    let status = 'practising';
+    if (mastery < 0.6) status = 'learning';
+    else if (mastery >= 0.85 && t.count >= 6 && t.days.size >= 2) status = 'mastered';
+    out.set(topic, { topic, mastery, evidence: t.count, days: t.days.size, last: t.last, status, level: t.level });
+  }
+  return out;
+}
+
+export function weakTopics(mastery, { limit = 5 } = {}) {
+  return [...mastery.values()].filter((m) => m.evidence >= 3 && m.mastery < 0.7).sort((a, b) => a.mastery - b.mastery).slice(0, limit);
+}
+
+// ---------- recurring errors ----------
+export function errorProfile(attempts, now = Date.now(), { windowDays = 30 } = {}) {
+  const since = now - windowDays * DAY;
+  const half = now - 14 * DAY;
+  const by = new Map();
+  for (const a of attempts) {
+    if (!a.error_type || new Date(a.at).getTime() < since) continue;
+    const e = by.get(a.error_type) || { error_type: a.error_type, count: 0, days: new Set(), recent: 0, earlier: 0, examples: [] };
+    e.count++;
+    e.days.add(dayKey(a.at));
+    if (new Date(a.at).getTime() >= half) e.recent++; else e.earlier++;
+    if (a.response && e.examples.length < 3) e.examples.push({ response: a.response, ref: a.exercise, at: a.at });
+    by.set(a.error_type, e);
+  }
+  return [...by.values()].map((e) => ({
+    error_type: e.error_type,
+    count: e.count,
+    days: e.days.size,
+    recurring: e.count >= 3 && e.days.size >= 2,
+    trend: e.earlier === 0 ? (e.recent ? 'new' : 'steady') : e.recent < e.earlier * 0.6 ? 'improving' : e.recent > e.earlier * 1.4 ? 'worsening' : 'steady',
+    examples: e.examples,
+  })).sort((a, b) => b.count - a.count);
+}
+
+// ---------- demonstrated level per skill ----------
+// A level needs evidence for that skill, at that level (research C2, D1-D2; Companion Volume p. 29):
+// - practice (lessons, drills, reviews): at least 6 first-try answers at level L (retries and same-day
+//   redos do not count, see firstTries), 75%+ right, on at least 2 days;
+// - placement: a first estimate only, from at least 2 placement questions at L in that skill (2 of 2, or
+//   67%+ of more), and never above the overall level the test confirmed (two questions in one skill do
+//   not outweigh two blocks). Multiple-choice placement items never establish C1 or C2: higher estimates
+//   are capped at B2 and shown as "B2+";
+// - writing: only final drafts of texts assessed by AI feedback (a draft still being revised never counts),
+//   one per task, at least 2 tasks on 2 different days (median of the last 3, the lower of two);
+// - speaking: Lucid does not assess speaking level yet (speech recognition never grades on its own), so it
+//   stays "not yet assessed".
+// Clear failure at the current level (under 50% over 8+ answers) lowers it one step, as a first estimate.
+export const EVIDENCE = { items: 6, accuracy: 0.75, days: 2, placementItems: 2, placementAccuracy: 2 / 3, placementCap: 'B2', writingTasks: 2 };
+export const RECEPTIVE = ['grammar', 'vocabulary', 'reading', 'listening'];
+const scoreOf = (a) => a.score ?? (a.correct ? 1 : 0);
+
+// First estimate for one skill from placement answers ({ level, skill, correct }). `confirmed` is the
+// overall level the test confirmed (null when none was); the estimate never goes above it. When the shown
+// level is lower than the level of the answers behind it, `from` says where they were ("B2+, 2 of 2 at C1").
+export function placementSkillEstimate(answers = [], skill, { confirmed } = {}) {
+  let best = null;
+  for (const l of LEVELS) {
+    const at = answers.filter((a) => a.skill === skill && a.level === l);
+    const right = at.filter((a) => a.correct).length;
+    if (at.length >= EVIDENCE.placementItems && right / at.length >= EVIDENCE.placementAccuracy - 1e-9) best = { level: l, items: at.length, right };
+  }
+  if (!best) return null;
+  if (confirmed === null) return null; // the test confirmed no level: two answers in one skill do not set one
+  const capped = levelIndex(best.level) > levelIndex(EVIDENCE.placementCap);
+  let level = capped ? EVIDENCE.placementCap : best.level;
+  const overall = confirmed !== undefined && levelIndex(level) > levelIndex(confirmed);
+  if (overall) level = confirmed;
+  const out = { level, items: best.items, capped: capped && !overall };
+  if (level !== best.level) Object.assign(out, { from: best.level, right: best.right });
+  return out;
+}
+
+function writingLevel(writing) {
+  // One piece of evidence per task: its latest assessed version, once it is marked final (persona panel P-71).
+  const byTask = new Map();
+  for (const w of writing) {
+    if (w.kind === 'essay-version' && !w.final) continue;
+    const est = w.evaluation?.cefr_estimate;
+    if (!est || est === 'below_PreA1' || levelIndex(est) < 0) continue;
+    const at = w.at || w.updated || w.updated_at || '';
+    const key = w.exercise || w.id;
+    const cur = byTask.get(key);
+    if (!cur || at > cur.at) byTask.set(key, { level: est, at });
+  }
+  const tasks = [...byTask.values()].sort((a, b) => (a.at < b.at ? -1 : 1));
+  const days = new Set(tasks.map((t) => dayKey(t.at))).size;
+  if (tasks.length < EVIDENCE.writingTasks || days < EVIDENCE.days) return { level: null, source: tasks.length ? 'assessed-writing' : null, evidence: tasks.length, days };
+  const recent = tasks.slice(-3).map((t) => levelIndex(t.level)).sort((a, b) => a - b);
+  // The median; with two texts, the lower one (a cautious estimate).
+  return { level: LEVELS[recent[Math.floor((recent.length - 1) / 2)]], source: 'assessed-writing', evidence: tasks.length, days };
+}
+
+export function skillLevels({ attempts = [], placement = null, writing = [] } = {}) {
+  const out = {};
+  // Sorted and reduced to first tries once for every skill (the same stable sort each skill used to repeat).
+  const sorted = byTime(attempts);
+  const first = firstTries(sorted);
+  for (const skill of SKILLS) {
+    if (skill === 'speaking') { out[skill] = { level: null, source: null, evidence: 0, days: 0 }; continue; }
+    if (skill === 'writing') { out[skill] = writingLevel(writing); continue; }
+    const perLevel = new Map();
+    for (const a of first) {
+      if (a.skill !== skill || !a.level || a.source === 'placement' || a.score === null) continue;
+      const p = perLevel.get(a.level) || { right: 0, n: 0, days: new Set() };
+      p.right += scoreOf(a);
+      p.n++;
+      if (a.at) p.days.add(dayKey(a.at));
+      perLevel.set(a.level, p);
+    }
+    const confirmed = placement ? (placement.demonstrated !== undefined ? placement.demonstrated : placement.level) : undefined;
+    const est = RECEPTIVE.includes(skill) ? placementSkillEstimate(placement?.answers || [], skill, { confirmed }) : null;
+    let r = est
+      ? { level: est.level, source: 'placement', evidence: est.items, days: 1, provisional: true, capped: est.capped, ...(est.from ? { from: est.from, right: est.right } : {}) }
+      : { level: null, source: null, evidence: 0, days: 0 };
+    for (const l of LEVELS) {
+      const p = perLevel.get(l);
+      const shown = p && p.n >= EVIDENCE.items && p.right / p.n >= EVIDENCE.accuracy && p.days.size >= EVIDENCE.days;
+      if (shown && (r.level == null || levelIndex(l) > levelIndex(r.level) || (l === r.level && r.provisional))) {
+        r = { level: l, source: 'practice', evidence: p.n, days: p.days.size };
+      }
+    }
+    if (r.level) {
+      const p = perLevel.get(r.level);
+      if (p && p.n >= 8 && p.right / p.n < 0.5) {
+        r = r.level === LEVELS[0]
+          ? { level: null, source: 'practice', evidence: p.n, days: p.days.size, notYet: r.level }
+          : { level: LEVELS[levelIndex(r.level) - 1], source: 'practice', evidence: p.n, days: p.days.size, provisional: true, notYet: r.level };
+      }
+    }
+    // What is still being collected (TF-8): the highest level above the one shown (or at a first estimate's own
+    // level) with first-try answers that do not meet the rule yet, so a row never says "not assessed" after 30
+    // answers. The rule itself does not change.
+    for (const l of [...LEVELS].reverse()) {
+      const p = perLevel.get(l);
+      if (!p || (r.level && !(levelIndex(l) > levelIndex(r.level) || (l === r.level && r.provisional)))) continue;
+      if (p.n >= EVIDENCE.items && p.right / p.n >= EVIDENCE.accuracy && p.days.size >= EVIDENCE.days) continue;
+      r = { ...r, collecting: { level: l, answers: p.n, right: p.right, pct: Math.round((p.right / p.n) * 100), days: p.days.size } };
+      break;
+    }
+    // The highest level check that asked about this skill, from its latest day (TF-8): the view says whether the
+    // check was passed. Its answers already count as practice evidence above.
+    const checks = sorted.filter((a) => a.source === 'checkpoint' && a.skill === skill && a.level && a.score !== null);
+    const top = checks.reduce((best, a) => (levelIndex(a.level) > levelIndex(best) ? a.level : best), null);
+    if (top) {
+      const at = checks.filter((a) => a.level === top);
+      const day = dayKey(at[at.length - 1].at);
+      const last = at.filter((a) => dayKey(a.at) === day);
+      r = { ...r, check: { level: top, answers: last.length, pct: Math.round((last.reduce((s, a) => s + scoreOf(a), 0) / last.length) * 100), day } };
+    }
+    out[skill] = r;
+  }
+  return out;
+}
+
+// ---------- the path ----------
+export function lessonOrder(curriculum) {
+  return curriculum.levels.flatMap((l) => l.lessons);
+}
+export const isDone = (p) => p && (p.status === 'completed' || p.status === 'placed_out');
+// Curriculum lessons have plain ids ("b1-03"); scenarios ("rl:...") and level checks ("check:...") share
+// the progress collection but are not lessons.
+export const isLessonId = (id) => !String(id).includes(':');
+const progressFor = (progressById, id) => progressById.get?.(id) ?? progressById[id];
+// `available` = the lesson files that exist (content/manifest.json). An empty or missing set means unknown.
+const isAvailable = (available, id) => !available || !available.size || available.has(id);
+
+// The next lesson to take: the first one in order that is not done and has been written.
+export function nextLesson(curriculum, progressById, available = null) {
+  for (const l of lessonOrder(curriculum)) if (!isDone(progressFor(progressById, l.id)) && isAvailable(available, l.id)) return l;
+  return null;
+}
+
+// Lessons still being written that the learner would otherwise have reached before `next`.
+export function unwrittenAhead(curriculum, progressById, available, next) {
+  const out = [];
+  for (const l of lessonOrder(curriculum)) {
+    if (next && l.id === next.id) break;
+    if (!isDone(progressFor(progressById, l.id)) && !isAvailable(available, l.id)) out.push(l);
+  }
+  return out;
+}
+
+// Course level = the level of the next lesson. Distinct from demonstrated skill levels.
+export function courseLevel(curriculum, progressById, available = null) {
+  return (nextLesson(curriculum, progressById, available) || nextLesson(curriculum, progressById))?.level ?? 'C2';
+}
+
+// ---------- the daily plan ----------
+// Blocks follow research C1 §10 (warm-up recall, due reviews, new learning, use it, exit check),
+// scaled to the minutes the learner has today. Each block says why it is there. The lesson gets the time
+// the other blocks leave (at least 5 minutes), so the plan fits the day; a long lesson is split.
+// A review is timed from its cards, at about 10 seconds a card (TF-3; a believable estimate), and capped by the
+// budget's review minutes: 3 on a 10-minute day, so a night with many due words still moves the lesson on. The
+// cards over the cap wait for the next days (the review route takes only the planned number).
+const BUDGET = { 10: { review: 3, learn: 7 }, 20: { review: 6, learn: 10, use: 4 }, 35: { warm: 3, review: 10, learn: 10, use: 8, exit: 4 }, 50: { warm: 3, review: 12, learn: 15, practice: 6, use: 10, exit: 4 } };
+export const REVIEW_SECONDS = 10;
+export const reviewMinutes = (cards) => Math.max(1, Math.ceil((cards * REVIEW_SECONDS) / 60));
+const reviewCap = (budget) => Math.floor((budget.review * 60) / REVIEW_SECONDS);
+// A lesson part is never fewer than 4 exercises (TF-3; persona findings: parts of 1-3 exercises on short days).
+export const MIN_PART = 4;
+
+// How much of a lesson fits today. Lessons take 15-25 minutes; when one does not fit, today's plan takes
+// a part of it and the lesson's saved place (resume) carries the rest to the next day. The explanation
+// counts as about two exercises of time. lesson = { minutes, exercises, done, doneToday, revisit }, counted
+// the way the player counts (persona findings R2-17, N6, D7): exercises is the first-pass total, done the
+// first-pass exercises answered, revisit the retries still waiting at the end, and doneToday the first-pass
+// answers given today. Retries add time but never grow the total.
+// How many exercise-sized slots a lesson's explanation and examples take: about 120 English words per slot
+// (a learner reading carefully), at least 1 and at most 6. A heuristic for planning, not a measured rate.
+export function introSlots(lesson) {
+  const words = (v) => (typeof v === 'string' ? v.split(/\s+/).filter(Boolean).length : Array.isArray(v) ? v.reduce((a, x) => a + words(x), 0) : v && typeof v === 'object' ? Object.entries(v).reduce((a, [k, x]) => a + (k === 'he' ? 0 : words(x)), 0) : 0);
+  const n = words(lesson?.explanation) + words(lesson?.examples);
+  return Math.min(6, Math.max(1, Math.round(n / 120)));
+}
+
+export function lessonSlice(lesson, budget) {
+  if (!lesson?.minutes || !lesson.exercises) return { today: budget, total: null, split: false, done: lesson?.done || 0, of: lesson?.exercises || 0, revisit: 0 };
+  const n = lesson.exercises;
+  const intro = lesson.intro ?? 2;
+  const per = lesson.minutes / (n + intro);
+  const done = Math.min(n, Math.max(0, lesson.done || 0));
+  const revisit = Math.max(0, lesson.revisit || 0);
+  const start = Math.max(0, done - (lesson.doneToday || 0)); // the position when today began
+  const left = (from) => (from > 0 ? per * (n - from + revisit) : lesson.minutes);
+  const remaining = Math.max(1, Math.round(left(done)));
+  // A part is at least MIN_PART exercises; when fewer than that would be left after it, it is the rest (TF-3).
+  const k = Math.max(MIN_PART, Math.floor((start > 0 ? budget : budget - intro * per) / per));
+  // A part finished today stays finished when the day's minutes change afterwards (TP-2): `held` is where that
+  // part ended, so a larger day offers the rest as an extra instead of reopening the done block.
+  const held = lesson.held && done >= lesson.held && done < n ? lesson.held : null;
+  if (held) return { today: Math.max(1, Math.round((start > 0 ? 0 : intro * per) + (held - start) * per)), total: lesson.minutes, remaining, split: true, done, of: n, revisit, upto: held, partDone: true };
+  let upto = Math.min(n, start + k);
+  if (n - upto < MIN_PART) upto = n;
+  // It fits, or the part reaches the end: today is the rest of the lesson.
+  if (left(start) <= budget + 2 || upto >= n) return { today: Math.max(1, Math.round(left(start))), total: lesson.minutes, remaining, split: false, done, of: n, revisit };
+  // The part's own time, which may be over the budget when the 4-exercise minimum applies.
+  const part = Math.round((start > 0 ? 0 : intro * per) + (upto - start) * per);
+  return { today: Math.max(budget, part), total: lesson.minutes, remaining, split: true, done, of: n, revisit, upto, partDone: done >= upto && done < n };
+}
+
+// About how long a Writing lab task takes, so a plan never budgets a 250-word text as 4 minutes (persona
+// finding R2-16): planning, writing and a quick check of the middle of the word range at about 5 words a
+// minute up to A2, 7 at B1-B2 and 9 from C1 (an exam pace, such as 250 words in 40 minutes), or half a
+// minute per item for a set of sentence exercises. A heuristic, not a measured rate.
+// A Writing-index row (content/writing/index.json) carries n_items in place of the items themselves (contract C-11).
+export function writingMinutes(task) {
+  if (!task) return null;
+  const n = task.n_items ?? task.items?.length;
+  if (n && !task.min_words) return Math.max(2, Math.round(n / 2));
+  const lo = task.word_range?.[0] ?? task.min_words;
+  const hi = task.word_range?.[1] ?? task.max_words ?? lo;
+  if (!lo) return null;
+  const i = levelIndex(task.level);
+  const pace = i <= levelIndex('A2') ? 5 : i <= levelIndex('B2') ? 7 : 9;
+  return Math.max(5, Math.round((lo + hi) / 2 / pace / 5) * 5);
+}
+
+// Goals shape the "use it" block, only where Lucid has content for them: travel and conversation pick a
+// real-life scenario (travel: airport, hotel and emergencies first), exams and academic writing pick
+// reading and writing. Work picks workplace scenarios (content/real-life, module "work"); without any, a work goal
+// alone would leave the default mix.
+export const GOAL_KINDS = { travel: ['speaking'], conversation: ['speaking'], work: ['speaking'], studies: ['reading', 'writing'], writing: ['writing', 'reading'] };
+export const SCENARIO_MODULES = { travel: ['airport', 'hotel', 'emergency', 'transport', 'restaurant', 'shopping'], conversation: ['social'], work: ['work'] };
+
+// The next real-life scenario for the learner's goals: not done yet, at or below their level, in goal order.
+export function pickScenario(scenarios = [], { level = 'A1', goals = [], done = new Set() } = {}) {
+  const modules = goals.flatMap((g) => SCENARIO_MODULES[g] || []);
+  const rank = (s) => modules.indexOf(s.module);
+  const fit = scenarios.filter((s) => rank(s) >= 0 && levelIndex(s.level) >= 0 && levelIndex(s.level) <= levelIndex(level) && !done.has(s.id));
+  fit.sort((a, b) => rank(a) - rank(b) || levelIndex(b.level) - levelIndex(a.level));
+  return fit[0] || null;
+}
+
+// The next writing-lab task at or below the learner's level that has not had feedback yet. A task with a
+// draft in progress (`started`) comes first, so a text begun on one day is picked up on the next.
+export function pickWritingTask(tasks = [], { level = 'A1', done = new Set(), started = new Set() } = {}) {
+  const fit = tasks.filter((t) => levelIndex(t.level) >= 0 && levelIndex(t.level) <= levelIndex(level) && !done.has(t.id));
+  fit.sort((a, b) => Number(started.has(b.id)) - Number(started.has(a.id)) || levelIndex(b.level) - levelIndex(a.level) || (a.stage ?? 0) - (b.stage ?? 0));
+  return fit[0] || null;
+}
+
+// today = what the learner already did today: { scenarios, tasks, drills (Sets of ids; drills as
+// "error:x" or "topic:y"), scenario and writingTask (the ones done today, as objects), reading, speaking,
+// writing (booleans) }. A block is ticked only for what was really done (persona finding R2-27): once a goal's
+// kind was practised today, the block shows that scenario or task, ticked, instead of moving on to the next.
+function useBlock({ minutes, level, goals, last, scenario, writingTask, today = {} }) {
+  const beginner = levelIndex(level) <= levelIndex('A1');
+  const speaking = (goal, sc = scenario, done = false) => (sc
+    ? { id: 'use', kind: 'speaking', minutes, route: `scenario/${sc.id}`, scenario: sc.id, goal, why: 'scenario', done }
+    : { id: 'use', kind: 'speaking', minutes, route: beginner ? 'speaking' : 'real-life', goal, why: 'speak', done: Boolean(today.speaking) });
+  const writing = (goal, tk = writingTask, done = false) => {
+    const total = writingMinutes(tk);
+    // A text longer than the block: today is a part (the editor saves the draft as the learner types).
+    const part = Boolean(total && total > minutes + 1);
+    return { id: 'use', kind: 'writing', minutes: total && !part ? Math.min(minutes, total) : minutes, route: tk ? `writing/${tk.id}` : 'writing', task: tk?.id, goal, why: 'write', total, part, started: Boolean(tk?.started), done: tk ? done : Boolean(today.writing) };
+  };
+  const byKind = {
+    speaking,
+    writing,
+    reading: (goal) => ({ id: 'use', kind: 'reading', minutes, route: 'reading', goal, why: 'read', done: Boolean(today.reading) }),
+  };
+  // Work counts only when there is a workplace scenario to practise.
+  const active = level === 'PreA1' ? [] : goals.filter((g) => GOAL_KINDS[g] && (g !== 'work' || scenario?.module === 'work' || today.scenario?.module === 'work'));
+  const kinds = [...new Set(active.flatMap((g) => GOAL_KINDS[g]))];
+  if (kinds.length) {
+    const goalOf = (kind) => active.find((g) => GOAL_KINDS[g].includes(kind));
+    const modules = active.flatMap((g) => SCENARIO_MODULES[g] || []);
+    if (kinds.includes('speaking') && today.scenario && modules.includes(today.scenario.module)) return speaking(goalOf('speaking'), today.scenario, true);
+    if (kinds.includes('writing') && today.writingTask) return writing(goalOf('writing'), today.writingTask, true);
+    if (kinds.includes('reading') && today.reading) return byKind.reading(goalOf('reading'));
+    // Rotate between the goal's kinds: the one practised least recently comes first.
+    // ISO timestamps order as plain strings; localeCompare would build an ICU collator for this one sort.
+    const kind = [...kinds].sort((a, b) => { const x = last[a] || ''; const y = last[b] || ''; return x < y ? -1 : x > y ? 1 : 0; })[0];
+    return byKind[kind](goalOf(kind));
+  }
+  const speakDue = !last.speaking || (last.writing && last.speaking < last.writing);
+  return speakDue || beginner ? speaking(null) : byKind.writing(null);
+}
+
+// The targeted-practice focus: a recurring mistake first, then a weak topic that can be practised. A weak
+// topic carries `route` when the caller knows where it can be practised: a drill when lessons have exercises
+// for it, a scenario for the real-life topics, or null when nothing can fill it, and then it is not planned
+// (persona finding R2-24: a block must never open an empty page). A topic practised only more than one level
+// below the course level is not planned either (R2-37): recurring mistakes cover what an advanced learner
+// still gets wrong.
+function practiceFocus({ recurring, weak, level }) {
+  if (recurring[0]?.error_type) return { kind: 'error', id: recurring[0].error_type, route: `drill?error=${recurring[0].error_type}` };
+  const w = weak.find((x) => x.route !== null && (!x.level || levelIndex(x.level) >= levelIndex(level) - 1));
+  if (!w) return null;
+  if (w.scenario) return { kind: 'scenario', id: w.topic, scenario: w.scenario, route: w.route || `scenario/${w.scenario}` };
+  return { kind: 'topic', id: w.topic, route: w.route || `drill?topic=${w.topic}` };
+}
+
+// Every block says whether it was done today (`done`), so the plan can say when the day is done (TF-2). What
+// counts: a warm-up, review or exit check taken today (today.reviews: cards per review mode), today's part of
+// the lesson, a lesson completed today, and the practice and "use it" blocks below. Once today's review is
+// done, cards that come due again later the same day are an optional extra, never the review again.
+// extras: optional items beyond the plan (shown under "Want more?"): another short review round, the next
+// lesson after one was completed today, or the rest of a lesson after today's part.
+export function dailyPlan({
+  minutes = 35, now = Date.now(), dueCount = 0, warmupCount = 0, todayNewCount = 0,
+  next = null, weak = [], recurring = [], lastSpeakingAt = null, lastWritingAt = null, lastReadingAt = null, level = 'PreA1',
+  goals = [], lesson = null, scenario = null, writingTask = null, skipped = [], today = {}, scenarios = [], scenariosDone = new Set(),
+} = {}) {
+  const blocks = [];
+  const extras = [];
+  const add = (b) => blocks.push(b);
+  const plan = BUDGET[[10, 20, 35, 50].reduce((best, m) => (Math.abs(m - minutes) < Math.abs(best - minutes) ? m : best), 35)];
+  const reviews = today.reviews || {};
+
+  if (plan.warm && warmupCount > 0) add({ id: 'warmup', minutes: plan.warm, count: Math.min(warmupCount, 8), route: 'review?mode=warmup', why: 'warmup', done: Boolean(reviews.warmup) });
+  // The review: timed from its cards and capped (TF-3). `later` counts the due cards left for the next days.
+  const cap = reviewCap(plan);
+  const reviewOf = (n) => ({ id: 'review', minutes: reviewMinutes(Math.min(n, cap)), count: Math.min(n, cap), route: n > cap ? `review?n=${cap}` : 'review', why: 'review', later: Math.max(0, n - cap) });
+  if (reviews.review) {
+    add({ ...reviewOf(reviews.review), count: reviews.review, route: 'review', later: 0, done: true });
+    if (dueCount > 0) extras.push({ ...reviewOf(dueCount), more: true, done: false });
+  } else if (dueCount > 0) add({ ...reviewOf(dueCount), done: false });
+  const reviewMin = blocks.find((b) => b.id === 'review')?.minutes || 0;
+  const learnAt = blocks.length; // the lesson goes here; its time is what the other blocks leave
+  const focus = practiceFocus({ recurring, weak, level });
+  if (focus && (plan.practice || plan.use)) {
+    const { route, ...f } = focus;
+    const done = focus.kind === 'scenario' ? Boolean(today.scenarios?.has(focus.scenario)) : Boolean(today.drills?.has(`${focus.kind}:${focus.id}`));
+    add({ id: 'practice', minutes: plan.practice || 4, focus: f, route, why: 'practice', done });
+  }
+  const last = { speaking: lastSpeakingAt, writing: lastWritingAt, reading: lastReadingAt };
+  if (plan.use) add(useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask, today }));
+  // The goals stay visible on short days (TF-4): when no "use it" block fits, the item the goals would choose is
+  // offered outside the budget, as one optional line. When the day's goal item is done, the next one is the
+  // goal-matched extra under "Want more?". Only an item that comes from a goal the learner chose is offered.
+  const used = blocks.find((b) => b.id === 'use');
+  const offer = !used ? useBlock({ minutes: BUDGET[20].use, level, goals, last, scenario, writingTask, today })
+    : used.done ? useBlock({ minutes: plan.use, level, goals, last, scenario, writingTask }) : null;
+  let goalOffer = offer?.goal && !offer.done && offer.route !== used?.route ? { ...offer, offer: true } : null;
+  // TP-10: once today's goal scenario is done, the next scenario for the goal (not done, not today's) is an extra
+  // under "Want more?". scenarios: the real-life list (todayPlan passes it); scenariosDone: the ones completed.
+  if (used?.done && used.scenario && scenarios.length) {
+    const nextSc = pickScenario(scenarios, { level, goals, done: new Set([...scenariosDone, ...(today.scenarios || []), used.scenario]) });
+    if (nextSc) {
+      extras.push({ id: 'use', kind: 'speaking', minutes: plan.use, route: `scenario/${nextSc.id}`, scenario: nextSc.id, goal: used.goal, why: 'scenario', done: false });
+      if (goalOffer?.route === `scenario/${nextSc.id}`) goalOffer = null;
+    }
+  }
+  if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit', done: Boolean(reviews.exit) });
+  if (next) {
+    const others = blocks.reduce((a, b) => a + b.minutes, 0);
+    // The lesson also gets what the review does not use of its minutes.
+    const budget = Math.max(5, Math.min(plan.learn + plan.review - reviewMin, minutes - others));
+    // A lesson that ended "Nearly there" is finished by redoing only the missed exercises (persona findings
+    // R2-02, R2-25), unless a run of it is in progress.
+    const missed = !lesson?.resumable && lesson?.missed?.count ? lesson.missed : null;
+    const slice = missed
+      ? { today: Math.max(1, missed.minutes), total: lesson.minutes || null, split: false, done: 0, of: lesson.exercises || 0, revisit: 0, missed: missed.count }
+      : lessonSlice(lesson, budget);
+    const route = lesson?.resumable ? `lesson/${next.id}?resume=1` : missed ? `lesson/${next.id}?stage=missed` : `lesson/${next.id}`;
+    const learn = {
+      id: 'learn', minutes: slice.today, lesson: next.id, route, why: 'learn', resume: Boolean(lesson?.resumable), missed: missed?.count || 0,
+      step: lesson?.step || null, reading: !lesson?.resumable && !missed ? lesson?.reading || null : null, missedRun: Boolean(lesson?.missedRun), slice, skipped: skipped.map((l) => l.id), done: Boolean(slice.partDone),
+    };
+    if (today.lesson && today.lesson !== next.id && !(lesson?.doneToday > 0)) {
+      // A lesson was completed today and the next one was not begun today: today's lesson is done, and the
+      // next lesson is an extra, never a new plan (TF-2; ux-research F1).
+      blocks.splice(learnAt, 0, { id: 'learn', minutes: budget, lesson: today.lesson, route: `lesson/${today.lesson}`, why: 'learn', completed: true, skipped: [], done: true });
+      // Chosen beyond the plan, it is the whole lesson (or the rest of a saved run), not a part of it.
+      extras.push({ ...learn, done: false, next: true, minutes: (learn.resume ? slice.remaining : slice.total) || slice.today });
+    } else {
+      blocks.splice(learnAt, 0, learn);
+      // Today's part is done: the rest of the lesson is there for a learner who wants to keep going.
+      if (learn.done) extras.push({ ...learn, done: false, beyond: true, minutes: slice.remaining, route: `lesson/${next.id}?resume=1` });
+    }
+  }
+  if (!blocks.length) add({ id: 'learn', minutes, route: next ? `lesson/${next.id}` : 'writing', lesson: next?.id, why: next ? 'learn' : 'write', done: false });
+  return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks, extras, offer: goalOffer };
+}
+
+// Today's plan is done when each of its blocks is done, or when today's records already add up to the day's
+// minutes (TF-2; ux-research F1: a learner who did a whole 25-minute lesson on a 20-minute day is done, and the
+// plan does not refill). Blocks not done then become optional extras (`open`).
+export function planStatus(plan, { minutesDone = 0, target = 0 } = {}) {
+  const blocks = plan?.blocks || [];
+  const allDone = blocks.length > 0 && blocks.every((b) => b.done);
+  const complete = allDone || (target > 0 && minutesDone >= target);
+  return { complete, allDone, open: complete ? blocks.filter((b) => !b.done) : [] };
+}
+
+// ---------- minutes done today ----------
+// About how many minutes today's records show, to tell when the day's plan is done (TF-2). Lesson answers count
+// at their lesson's pace (its length over its exercises and explanation slots), and a whole lesson (begun and
+// completed today) adds its explanation; a lesson only opened today does not, since its explanation may have
+// been skipped. Review answers count 10 seconds a card; scripted scenario replies a minute each and an AI
+// roleplay 5; other practice answers half a minute; a game round 2 minutes; an essay worked on today 5. A
+// cautious planning estimate from what was done, not measured time (Progress reports measured active minutes).
+// attempts and events: today's only. whole: ids of lessons begun and completed today. lessons: id -> { minutes,
+// exercises, intro } for the lessons whose pace is known.
+// TP-2: a lesson exercise counts once a day, so replaying a lesson (or its retries) never adds its minutes
+// again; and a lesson whose explanation was shown today (a 'learn' event, contract (f), logged by the lesson
+// player) adds its reading time once, like a lesson begun and completed today.
+export const ITEM_MINUTES = 1.5;
+const GAME_EVENTS = ['game-round', 'picture-round', 'memory-round'];
+export function minutesToday({ attempts = [], events = [], whole = [], lessons = new Map() } = {}) {
+  const info = (id) => lessons.get(id);
+  const pace = (id) => { const l = info(id); return l?.minutes && l.exercises ? l.minutes / (l.exercises + (l.intro ?? 2)) : ITEM_MINUTES; };
+  let m = 0;
+  const seen = new Set();
+  for (const a of attempts) {
+    if (a.source === 'lesson') {
+      const k = a.exercise ? `${a.lesson}|${a.exercise}` : null;
+      if (k && seen.has(k)) continue;
+      if (k) seen.add(k);
+      m += pace(a.lesson);
+    } else if (a.source === 'review') m += REVIEW_SECONDS / 60;
+    else if (a.source === 'scenario') m += 1;
+    else if (a.source === 'roleplay') m += 5;
+    else if (a.source !== 'placement' && !essayFeedback(a)) m += 0.5;
+  }
+  const read = events.filter((e) => e.type === 'learn' && e.lesson).map((e) => e.lesson);
+  for (const id of new Set([...whole, ...read])) m += pace(id) * (info(id)?.intro ?? 2);
+  m += events.filter((e) => GAME_EVENTS.includes(e.type)).length * 2;
+  m += new Set(events.filter((e) => e.type === 'writing' && e.exercise).map((e) => e.exercise)).size * 5;
+  return Math.round(m);
+}
+
+// ---------- reports ----------
+// Writing-lab work: a text written, checked, rated or finalised (essay.js events). TP-8: the report counts writing
+// sessions (one per text per day) with no level claim, so a learner who only writes still gets a report.
+export const WRITING_EVENTS = ['writing', 'writing-final', 'writing-self-rating'];
+// extraSeconds: active time in the session that is still open (sessions are logged when they end).
+export function periodReport({ attempts = [], cards = [], progress = [], events = [], now = Date.now(), days = 7, extraSeconds = 0 }) {
+  const since = now - days * DAY;
+  const prevSince = since - days * DAY;
+  // The bounds as ISO strings, once: a canonical timestamp (util.isCanonicalIso) compares with them as a string,
+  // any other value as a Date, exactly as before. Only for whole-millisecond bounds that are canonical themselves.
+  const isoOf = (t) => { if (!Number.isInteger(t)) return null; const d = new Date(t); if (Number.isNaN(d.getTime())) return null; const x = d.toISOString(); return isCanonicalIso(x) ? x : null; };
+  const [nowIso, sinceIso, prevIso] = [isoOf(now), isoOf(since), isoOf(prevSince)];
+  const strings = Boolean(nowIso && sinceIso && prevIso);
+  const inP = (iso) => iso && (strings && isCanonicalIso(iso) ? iso >= sinceIso && iso <= nowIso : new Date(iso).getTime() >= since && new Date(iso).getTime() <= now);
+  const inPrev = (iso) => iso && (strings && isCanonicalIso(iso) ? iso >= prevIso && iso < sinceIso : new Date(iso).getTime() >= prevSince && new Date(iso).getTime() < since);
+  const before0 = (iso) => (strings && isCanonicalIso(iso) ? iso < sinceIso : new Date(iso).getTime() < since);
+  // Sorted once (byTime is a stable sort, so a filtered sorted list is the sorted filtered list).
+  const sorted = byTime(attempts);
+  const att = sorted.filter((a) => inP(a.at) && a.source !== 'placement');
+  const prevAtt = sorted.filter((a) => inPrev(a.at) && a.source !== 'placement');
+  // Accuracy is first-try accuracy: retries and same-day redos are left out (firstTries), and so is essay
+  // feedback, where each mistake the AI found is a record of its own, not a wrong answer.
+  const acc = (all) => { const list = firstTries(byTime(all)).filter((a) => a.score !== null && !essayFeedback(a)); return list.length ? list.reduce((s, a) => s + (a.score ?? (a.correct ? 1 : 0)), 0) / list.length : null; };
+  const reviews = att.filter((a) => a.source === 'review');
+  // Retention = share of due reviews answered correctly (what the scheduler is meant to keep near the target).
+  const probes = attempts.filter((a) => a.probe && inP(a.at));
+  const minutes = Math.round((events.filter((e) => e.type === 'session' && inP(e.at)).reduce((s, e) => s + (e.seconds || 0), 0) + Math.max(0, extraSeconds)) / 60);
+  const before = masteryOfSorted(sorted.filter((a) => before0(a.at)), since);
+  const after = masteryOfSorted(sorted, now);
+  const improved = [...after.values()].filter((m) => m.evidence >= 3 && before.has(m.topic) && m.mastery - before.get(m.topic).mastery >= 0.1)
+    .map((m) => ({ topic: m.topic, from: before.get(m.topic).mastery, to: m.mastery }));
+  return {
+    days,
+    minutes,
+    active_days: new Set(att.map((a) => dayKey(a.at))).size,
+    lessons_completed: progress.filter((p) => isLessonId(p.id) && p.status === 'completed' && inP(p.completed_at)).length,
+    exercises: att.length,
+    accuracy: acc(att),
+    accuracy_prev: acc(prevAtt),
+    reviews: reviews.length,
+    retention: acc(reviews),
+    retention_30d: probes.length >= 5 ? acc(probes) : null,
+    writing_sessions: new Set(events.filter((e) => WRITING_EVENTS.includes(e.type) && inP(e.at)).map((e) => `${dayKey(e.at)}|${e.exercise || ''}`)).size,
+    words_started: cards.filter((c) => c.kind === 'meaning' && inP(c.created_at)).length,
+    words_known: cards.filter((c) => c.kind === 'meaning' && !c._deleted && c.fsrs?.stability >= 21).length,
+    improved,
+    errors: errorProfile(attempts, now, { windowDays: days }),
+  };
+}
