@@ -1,0 +1,9 @@
+server
+tools
+content
+*.md
+node_modules
+.wrangler
+.dev.vars
+_headers
+.assetsignore

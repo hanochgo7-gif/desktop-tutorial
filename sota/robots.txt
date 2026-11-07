@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /brand/
 
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://hanochgo7-gif.github.io/desktop-tutorial/sota/sitemap.xml

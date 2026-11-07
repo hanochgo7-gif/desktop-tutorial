@@ -3,7 +3,7 @@
 // פרטי הקשר אפשר לעדכן גם מממשק הניהול (/admin), והם גוברים על מה שכתוב כאן.
 export default {
   // הכתובת הסופית של האתר, בלי / בסוף. משמשת ל-canonical, hreflang, sitemap ו-Open Graph.
-  siteUrl: "https://example.com", // TODO: הדומיין של SOTA
+  siteUrl: "https://hanochgo7-gif.github.io/desktop-tutorial/sota", // זמני, עד שיהיה דומיין ל-SOTA
 
   // פרטי קשר
   phone: "",            // TODO: לתצוגה, למשל "050-123-4567"
