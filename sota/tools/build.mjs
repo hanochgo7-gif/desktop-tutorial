@@ -231,6 +231,7 @@ function consultSection(t, route, preset = "") {
       <h2 id="consult-title" class="display h-l">${esc(t.consult.title)}</h2>
       <p class="lede">${esc(t.consult.text)}</p>
       <ul class="assure">${t.consult.assure.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
+      <figure class="side-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${up(route)}assets/visuals/consult.webp"><source src="${up(route)}assets/visuals/consult.mp4" type="video/mp4"></video></figure>
       <div class="alt-contact" data-alt-contact${site.whatsapp || site.phone ? "" : " hidden"}>
         <span class="small muted">${esc(t.consult.altLabel)}</span>
         <a class="btn btn-ghost btn-small btn-wa" href="${waHref(t.ui.waText)}" data-wa data-wa-text="${esc(t.ui.waText)}" target="_blank" rel="noopener" data-track="whatsapp_click" data-track-loc="consult"${site.whatsapp ? "" : " hidden"}>${ICON.wa}${esc(t.ui.whatsapp)}</a>
@@ -276,7 +277,7 @@ function homePage(t) {
 
   const problemItems = t.problem.items.map((s) => `<li class="problem-item"><span class="x" aria-hidden="true"></span><p>${esc(s)}</p></li>`).join("");
   const steps = t.approach.steps.map((s, i) => `<li class="step" data-step="${i}"><span class="stn" aria-hidden="true"></span><span class="n" aria-hidden="true">0${i + 1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p><img class="step-vis" src="${p}assets/visuals/step-${i + 1}.webp" alt="" width="480" height="480" loading="lazy" decoding="async"></li>`).join("");
-  const svcs = t.services.items.map((s) => `<li class="svc"><h3>${esc(s.t)}</h3>${ICON.branch}<p>${esc(s.d)}</p>${s.q ? `<div class="svc-q"><span class="sr-only">${esc(t.services.qLabel)}</span><ul>${s.q.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>` : ""}</li>`).join("");
+  const svcs = t.services.items.map((s, i) => `<li class="svc has-thumb"><img class="svc-thumb" src="${p}assets/visuals/svc-${i + 1}.webp" alt="" width="360" height="360" loading="lazy" decoding="async"><h3>${esc(s.t)}</h3>${ICON.branch}<p>${esc(s.d)}</p>${s.q ? `<div class="svc-q"><span class="sr-only">${esc(t.services.qLabel)}</span><ul>${s.q.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>` : ""}</li>`).join("");
   const whyCells = t.why.cells.map((c) => `<li class="why-cell"><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></li>`).join("");
   const pathCards = ["private", "small", "growing"].map((k, i) => {
     const tr = t.who.tracks[i];
@@ -383,6 +384,7 @@ ${header(t, route, { onHome: true })}
         <h2 id="check-title" class="display h-l">${esc(t.check.title)}</h2>
         <p class="lede">${esc(t.check.lede)}</p>
         <noscript><p class="small muted">JavaScript is required for the quick check.</p></noscript>
+        <figure class="side-visual" aria-hidden="true"><video data-ambient muted loop playsinline preload="none" poster="${p}assets/visuals/check.webp"><source src="${p}assets/visuals/check.mp4" type="video/mp4"></video></figure>
       </div>
       <div class="check-panel" data-check-panel>
         <div class="check-route" aria-hidden="true"><span class="cr-rail"></span><span class="cr-live" data-check-live></span>${t.check.questions.map((_, i) => `<span class="cr-stn" data-check-stn="${i}" style="--i:${i}"></span>`).join("")}<span class="cr-stn cr-end" style="--i:${t.check.questions.length}"></span></div>
@@ -627,7 +629,7 @@ for (const t of [he, en]) {
 // 404 (served from the site root by the Worker)
 write("404.html", `${head(he, { route: "", pageKey: null, title: "העמוד לא נמצא | SOTA", description: "העמוד שחיפשת לא נמצא.", noindex: true }).replace(/href="\.\/(css|fonts|assets)/g, 'href="/$1')}
 <body data-page="404">
-<main id="main" class="page-hero" style="min-height:100svh;display:grid;align-content:center">
+<main id="main" class="page-hero lost" style="min-height:100svh;display:grid;align-content:center">
   <div class="wrap" style="display:grid;gap:24px">
     <img src="/assets/logo-dark.svg" alt="SOTA" width="160" height="47" style="width:160px">
     <h1 class="display h-xl">המסלול הזה לא מוביל לשום מקום.</h1>

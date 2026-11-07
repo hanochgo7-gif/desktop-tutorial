@@ -37,7 +37,7 @@
     const choose = (k) => () => {
       if (!started) { started = true; window.sotaTrack?.("check_start"); }
       answers[i] = VALUE[k]; i + 1 < total ? question(i + 1) : result(); };
-    body.replaceChildren(
+    body.replaceChildren(...[
       el("p", { class: "check-progress", text: C.progress.replace("{n}", i + 1).replace("{total}", total) }),
       h,
       el("div", { class: "check-answers" },
@@ -45,7 +45,7 @@
         el("button", { class: "btn btn-ghost", type: "button", onclick: choose("unsure") }, C.unsure),
         el("button", { class: "btn btn-ghost", type: "button", onclick: choose("no") }, C.no)),
       i > 0 ? el("button", { class: "link-back", type: "button", onclick: () => question(i - 1) }, C.back) : null,
-    );
+    ].filter(Boolean));
     if (focus) h.focus({ preventScroll: true });
   }
 
@@ -70,7 +70,7 @@
       setTimeout(() => document.getElementById("lead-name")?.focus({ preventScroll: true }), 1100);
     });
 
-    body.replaceChildren(
+    body.replaceChildren(...[
       el("div", { class: "check-score" },
         el("span", { class: "cs-num", text: `${score}/${max}` }),
         el("span", { class: "small muted", text: C.scoreLabel })),
@@ -82,7 +82,7 @@
       el("div", { class: "cta-row" }, cta,
         el("button", { class: "btn btn-ghost", type: "button", onclick: () => { answers = []; question(0); } }, C.restart)),
       el("p", { class: "small muted", text: C.disclaimer }),
-    );
+    ].filter(Boolean));
     h.focus({ preventScroll: true });
   }
 
