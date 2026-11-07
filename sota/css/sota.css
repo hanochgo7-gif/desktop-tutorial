@@ -748,6 +748,22 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .aud-step-vis { max-width: 160px; }
 }
 
+
+/* Higgsfield visuals, round 3 */
+.svc.has-thumb { grid-template-columns: clamp(76px, 7vw, 108px) minmax(0, 1fr); column-gap: clamp(16px, 2vw, 28px); }
+.svc.has-thumb .branch { display: none; }
+.svc-thumb { grid-row: 1 / span 3; width: 100%; height: auto; aspect-ratio: 1; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); align-self: start; transition: transform var(--t-med) var(--ease-out), box-shadow var(--t-med); }
+.svc.has-thumb:hover .svc-thumb { transform: scale(1.04); box-shadow: 0 0 0 1px var(--signal-dim); }
+.svc.has-thumb h3, .svc.has-thumb p, .svc.has-thumb .svc-q { grid-column: 2; }
+.side-visual { margin: 6px 0 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; max-width: 460px; background: #0d0f10; box-shadow: 0 0 0 1px var(--line); }
+.side-visual video { width: 100%; height: 100%; object-fit: cover; }
+:root[dir="rtl"] .side-visual video { transform: scaleX(-1); }
+.lost { background: var(--bg) url(../assets/visuals/lost.webp) center 70% / cover no-repeat; position: relative; }
+:root[dir="rtl"] .lost { background-image: linear-gradient(to left, var(--bg) 25%, rgb(19 21 23 / .4) 70%), url(../assets/visuals/lost.webp); background-size: cover; }
+.consult-copy .side-visual { aspect-ratio: 16 / 9; max-width: 380px; }
+@media (max-width: 1080px) { .side-visual { max-width: 380px; } }
+@media (max-width: 760px) { .svc.has-thumb { grid-template-columns: 64px minmax(0, 1fr); } .side-visual { display: none; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .problem-item, .step { opacity: 1 !important; transform: none !important; }
