@@ -9,7 +9,10 @@
 --     it is refused, and records need a profile (002, S-05), so nothing of an unconfirmed under-16 is stored.
 --     The value is self-declared by the client, like the birth year. Whether a ticked box is a sufficient legal
 --     basis must be reviewed before a public launch (docs/09-roadmap.md LB-04).
--- Age is the current year minus the birth year, so it can be one year more than the real age (privacy.html).
+-- Only the year is stored, so the real age is the current year minus the birth year, or one less before the
+-- birthday. The sanity bound uses the older value (nobody is turned away); the protections use the younger one, so
+-- a 15-year-old born late in the year is still treated as under 16, and a 17-year-old as under 18 (js/core/age.js,
+-- privacy.html).
 -- Safe to run more than once. Run after 003_lucid_export_account.sql.
 
 alter table public.lucid_profiles add column if not exists guardian_consent_at timestamptz;
@@ -22,17 +25,18 @@ comment on column public.lucid_profiles.guardian_consent_at is
 create or replace function public.lucid_profiles_guard() returns trigger
 language plpgsql set search_path = '' as $$
 declare
-  age int := extract(year from now())::int - new.birth_year;
+  age int := extract(year from now())::int - new.birth_year; -- the oldest the learner can be
+  youngest int := greatest(age - 1, 0);                       -- the youngest: the protections decide on this
 begin
   if new.birth_year is null or age < 0 or age > 120 then
     raise exception 'The birth year must be a past year, at most 120 years ago' using errcode = '22023';
   end if;
   -- A parent or guardian confirms before the account of a learner under 16 is kept on the server.
-  if age < 16 and new.guardian_consent_at is null then
+  if youngest < 16 and new.guardian_consent_at is null then
     raise exception 'A parent or guardian must agree before a learner under 16 has an account' using errcode = '22023';
   end if;
   -- No marketing to minors, whatever the client sends.
-  if age < 18 then new.marketing_opt_in := false; end if;
+  if youngest < 18 then new.marketing_opt_in := false; end if;
   new.updated_at := now();
   return new;
 end $$;

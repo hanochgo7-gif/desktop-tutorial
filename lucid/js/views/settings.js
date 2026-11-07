@@ -2,14 +2,16 @@
 // (export, import, delete). Every control takes effect immediately and is saved on the device.
 // Under 16 (age.js), turning AI feedback on needs one more box ticked first: a parent or guardian has agreed
 // (stored as ai_guardian_consent_at, cleared when AI is turned off). A signed-in learner under 16 whose sync is
-// waiting for that agreement for the account can give it here (profile.guardian_consent_at; session.js).
+// waiting for that agreement for the account can give it here (profile.guardian_consent_at; session.js). The box
+// shows only while the last profile check really paused sync for that reason (syncPauseReason), never from the
+// local field alone: on a second device the agreement is on the server and sync runs.
 import { html, render, on, download, $ } from '../core/util.js';
 import { tt, t, isolateLatin } from '../core/i18n.js';
 import { icon, confirmDialog, toast } from '../ui/components.js';
 import { settings, saveSettings, profile, saveProfile, placementPending } from '../core/learner.js';
 import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
-import { signOut } from '../core/session.js';
+import { signOut, syncPauseReason } from '../core/session.js';
 import { CONFIG } from '../../config.js';
 import { isUnder16 } from '../core/age.js';
 import { content } from '../core/content.js';
@@ -111,7 +113,7 @@ export default async function settingsView(el, ctx) {
         <section class="panel stack" aria-labelledby="set-account"><h2 id="set-account">${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
           : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
-            ${young && !p.guardian_consent_at ? html`<div class="field banner" data-guardian-account-box><p class="small">${tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. עד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. Until then your progress stays on this device only.')}</p>
+            ${young && !p.guardian_consent_at && syncPauseReason() === 'guardian' ? html`<div class="field banner" data-guardian-account-box><p class="small">${tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. עד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. Until then your progress stays on this device only.')}</p>
               <label class="choice"><input type="checkbox" data-guardian-account><span class="grow">${tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')}</span></label></div>` : ''}
             <div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button>${pwOpen ? '' : html`<button type="button" class="key small ghost" data-pw>${tt('שינוי סיסמה', 'Change password')}</button>`}</div>
             <div class="row"><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button><button type="button" class="key small ghost" data-signout-erase style="white-space:normal;text-align:start">${icon('log-out', { size: 16 })} ${tt('יציאה ומחיקת המידע מהמכשיר', 'Sign out and remove my data from this device')}</button></div>
@@ -165,7 +167,18 @@ export default async function settingsView(el, ctx) {
   // "Offline use" links from Real life and Help open this section (persona panel M1). The router scrolls to the
   // top after the view is drawn, so this runs after it.
   if (ctx.query.section === 'offline') setTimeout(() => { const sec = $('#offline', el); sec?.scrollIntoView({ block: 'start' }); sec?.focus({ preventScroll: true }); }, 0);
+  // The profile check finishes after the first draw (and again after the agreement): draw again when its result
+  // changes, keeping the focus where it was.
+  const onSyncState = () => {
+    if (!el.isConnected) return;
+    const a = document.activeElement;
+    const key = a && el.contains(a) ? (a.id ? `#${a.id}` : [...a.attributes].map((x) => x.name).find((n) => n.startsWith('data-'))) : null;
+    draw();
+    if (key) $(key.startsWith('#') ? key : `[${key}]`, el)?.focus({ preventScroll: true });
+  };
+  addEventListener('lucid-sync-state', onSyncState);
   const offs = [
+    () => removeEventListener('lucid-sync-state', onSyncState),
     on(el, 'click', '[data-offline]', async (e, b) => {
       const ids = (await content.manifest())?.lessons || [];
       offline.busy = true; b.disabled = true;

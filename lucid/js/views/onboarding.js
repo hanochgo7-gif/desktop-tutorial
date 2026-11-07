@@ -2,24 +2,26 @@
 // daily time, privacy. Then the placement test (or straight to lesson one for complete beginners).
 // There is no minimum age (owner's decision, November 2026): every year from this one back 110 years can be
 // chosen and nobody is refused. The year is still asked (only the year: data minimisation) because some
-// protections depend on age (age.js): under 18 no marketing; under 16 sensitive content is hidden, and where
-// this step sends data off the device (signed in, or AI feedback) a parent or guardian confirms first. The
-// 24-hour refusal of the former 16+ gate is gone; its leftover key is removed here, so a learner refused before
-// can register now. Age is computed from the year alone, because only the year is stored: someone born late in
-// the year counts as a year older from January (a deliberate trade-off, also in privacy.html).
+// protections depend on age (age.js): under 18 no marketing; under 16 sensitive content is hidden, and data
+// leaves the device only after a parent or guardian confirms (AI feedback needs the box ticked here; signed in,
+// finishing without it keeps the account's sync paused until it is given, so nobody is stuck). The 24-hour
+// refusal of the former 16+ gate is gone; its leftover key is removed here, so a learner refused before can
+// register now. Only the year is stored, so the protections take the youngest age that year allows (age.js,
+// privacy.html).
 // Forms that keyboards and screen readers can use (TF-6): each step opens with focus on its heading; an error
 // sits under its field, is tied to it (aria-describedby, aria-invalid) and takes the focus; radio groups are
 // named by their question and move with the arrow keys; multi-choice cards carry a square check, single-choice
 // cards a round dot. AI consent is asked only where AI exists (TF-7).
 import { html, render, on, $ } from '../core/util.js';
 import { tt, setUiLang, uiLang, isolateLatin } from '../core/i18n.js';
-import { icon, brandMark } from '../ui/components.js';
+import { icon, brandMark, toast } from '../ui/components.js';
 import { saveProfile, saveSettings, applyPlacement } from '../core/learner.js';
 import { zeroResult } from '../core/placement.js';
 import { configured, auth } from '../core/api.js';
-import { ageFromYear, birthYears, ADULT_AGE, GUARDIAN_AGE } from '../core/age.js';
+import { birthYears, isMinor, isUnder16 } from '../core/age.js';
 import { content } from '../core/content.js';
 import { CONFIG } from '../../config.js';
+import { syncPausedText } from '../core/session.js';
 import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './welcome.js';
 
 // Each goal says what it changes (adaptive.dailyPlan: GOAL_KINDS, SCENARIO_MODULES). The work note depends on
@@ -95,11 +97,15 @@ export default async function onboarding(el, ctx) {
   // Left by the former 16+ gate (a refusal held 24 hours). Nobody is refused any more.
   try { localStorage.removeItem('lucid-age-refused'); } catch { /* storage blocked */ }
 
-  const age = () => (data.birth_year ? ageFromYear(data.birth_year) : null);
-  const under = (n) => age() != null && age() < n;
+  // The same rules as everywhere else (age.js): the youngest age the year allows decides.
+  const young = () => Boolean(data.birth_year) && isUnder16({ birth_year: data.birth_year });
+  const minorNow = () => Boolean(data.birth_year) && isMinor({ birth_year: data.birth_year });
   // Under 16, one box for a parent's or guardian's agreement wherever this step sends data off the device.
-  const guardianShown = () => under(GUARDIAN_AGE) && (signedIn || aiAvailable);
-  const guardianRequired = () => under(GUARDIAN_AGE) && (signedIn || (aiAvailable && data.ai_consent));
+  const guardianShown = () => young() && (signedIn || aiAvailable);
+  // Required only for AI feedback. Signed in, finishing without it is fine: the account's sync stays paused and
+  // the progress stays on this device until the agreement is given (session.js; Settings takes it later), so
+  // nobody is stuck here.
+  const guardianRequired = () => young() && aiAvailable && data.ai_consent;
   const nextIcon = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
   // The message sits directly under its field and is part of the field's description.
   const errFor = (field) => (error?.field === field ? html`<p class="error-text field-error" id="ob-err">${icon('alert', { size: 16 })}<span>${error.msg}</span></p>` : '');
@@ -158,10 +164,10 @@ export default async function onboarding(el, ctx) {
           <p>${tt('בכל רגע אפשר להוריד את כל המידע שלכם או למחוק אותו בהגדרות.', 'You can download or delete all your data in Settings at any time.')}</p>
           <p>${isolateLatin(tt('בתרגילי דיבור אפשר להשתמש במיקרופון, אבל לא חייבים. את זיהוי הדיבור עושה הדפדפן (ב-Chrome וב-Edge, שירות מקוון של יצרן הדפדפן); Lucid מקבל רק את הטקסט ולא מקליט את הקול.', 'Speaking exercises can use the microphone, but you don\'t have to. Your browser does the speech recognition (in Chrome and Edge, the browser maker\'s online service); Lucid gets only the text and never records your voice.'))}</p>
           ${!aiAvailable ? html`<p class="ob-ai-off">${icon('info', { size: 16 })}<span>${isolateLatin(tt('AI לא פעיל באתר הזה. כל השאר עובד. אם יתווסף, נשאל קודם.', 'AI is not active on this site. Everything else works. If it is added, we will ask first.'))}</span></p>` : ''}
-          ${under(GUARDIAN_AGE) ? html`<p class="banner" data-under16>${icon('info', { size: 18 })}<span>${isolateLatin(signedIn || aiAvailable
-            ? tt('מתחת לגיל 16: ביטויים ותרחישים שמסומנים כגסים, כמיניים או כקשורים לאלכוהול לא מוצגים, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: expressions and scenarios flagged as rude, sexual or about alcohol are not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')
-            : tt('מתחת לגיל 16: ביטויים ותרחישים שמסומנים כגסים, כמיניים או כקשורים לאלכוהול לא מוצגים. באתר הזה ההתקדמות נשמרת רק במכשיר.', 'Under 16: expressions and scenarios flagged as rude, sexual or about alcohol are not shown. On this site your progress stays on this device.'))}</span></p>` : ''}
-          ${under(ADULT_AGE) ? html`<p class="banner">${icon('info', { size: 18 })}<span>${isolateLatin(aiAvailable
+          ${young() ? html`<p class="banner" data-under16>${icon('info', { size: 18 })}<span>${isolateLatin(signedIn || aiAvailable
+            ? tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: content flagged as not suitable for this age is not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')
+            : tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג. באתר הזה ההתקדמות נשמרת רק במכשיר.', 'Under 16: content flagged as not suitable for this age is not shown. On this site your progress stays on this device.'))}</span></p>` : ''}
+          ${minorNow() ? html`<p class="banner">${icon('info', { size: 18 })}<span>${isolateLatin(aiAvailable
             ? tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. כל שאר ברירות המחדל זהות לכולם, למשל משוב AI כבוי עד שמפעילים אותו.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same for everyone; for example, AI feedback stays off until you turn it on.')
             : tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד. כל שאר ברירות המחדל זהות לכולם.', 'Under 18: Lucid sends no marketing to anyone. Every other default is the same for everyone.'))}</span></p>` : ''}
         </div>
@@ -169,12 +175,12 @@ export default async function onboarding(el, ctx) {
           <label class="choice"><input type="checkbox" name="ai_consent" aria-describedby="ob-ai-details" ${data.ai_consent ? html`checked` : ''}><span class="grow">${isolateLatin(tt('לאפשר משוב AI (אפשר לשנות בהגדרות)', 'Allow AI feedback (you can change this in Settings)'))}</span></label>
           <p class="help" id="ob-ai-details">${isolateLatin(tt('בכתיבה, בשיחות ובמורה, צריך חשבון. הטקסטים שתשלחו, עם הרמה וההגדרות שלכם, ובמורה גם המטרות והטעויות החוזרות, יישלחו לספק ה-AI (Anthropic) רק כדי ליצור את התשובה. לא נשלחים שם, דוא״ל או שנת לידה.', 'For writing, conversations and the tutor; needs an account. The texts you send, with your level and settings, and for the tutor also your goals and recurring mistakes, go to the AI provider (Anthropic) only to produce the response. Your name, email and birth year are not sent.'))}</p></div>` : ''}
         ${guardianShown() ? html`<div class="ob-check" data-guardian>
-          <label class="choice"><input type="checkbox" name="guardian" ${signedIn ? html`required` : ''} aria-describedby="${described('guardian', 'ob-guardian-help')}" ${invalid('guardian')} ${data.guardian ? html`checked` : ''}><span class="grow">${isolateLatin(signedIn && aiAvailable
+          <label class="choice"><input type="checkbox" name="guardian" aria-describedby="${described('guardian', 'ob-guardian-help')}" ${invalid('guardian')} ${data.guardian ? html`checked` : ''}><span class="grow">${isolateLatin(signedIn && aiAvailable
             ? tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת ולשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server and to send my texts for AI feedback')
             : signedIn ? tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')
               : tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
           ${errFor('guardian')}
-          <p class="help" id="ob-guardian-help">${signedIn ? tt('צריך את האישור כדי להמשיך, כי נכנסתם לחשבון. בלי חשבון, Lucid עובד במכשיר הזה בלבד.', 'Needed to go on, because you are signed in. Without an account, Lucid works on this device only.') : isolateLatin(tt('צריך את האישור רק אם מפעילים משוב AI.', 'Needed only if you turn on AI feedback.'))}</p></div>` : ''}
+          <p class="help" id="ob-guardian-help">${signedIn ? isolateLatin(tt('בלי האישור אפשר להמשיך: הסנכרון עם החשבון יחכה, וההתקדמות תישמר רק במכשיר הזה. אפשר לאשר אחר כך בהגדרות. למשוב AI צריך את האישור.', 'You can go on without it: syncing with the account waits, and your progress stays on this device only. You can agree later in Settings. AI feedback needs it.')) : isolateLatin(tt('צריך את האישור רק אם מפעילים משוב AI.', 'Needed only if you turn on AI feedback.'))}</p></div>` : ''}
         <div class="ob-check">
           <label class="choice"><input type="checkbox" name="terms" required aria-describedby="${described('terms', 'ob-terms-help')}" ${invalid('terms')} ${data.terms ? html`checked` : ''}><span class="grow">${tt('קראתי ואני מסכים/ה לתנאים ולמדיניות הפרטיות', 'I have read and agree to the terms and privacy policy')}</span></label>
           ${errFor('terms')}
@@ -219,8 +225,7 @@ export default async function onboarding(el, ctx) {
     }
     if (step === 2 && !data.start) return { field: 'start', msg: tt('בחרו נקודת פתיחה.', 'Choose a starting point.') };
     if (step === 3 && guardianRequired() && !data.guardian) {
-      return { field: 'guardian', msg: signedIn ? tt('כדי להמשיך צריך אישור של הורה או אפוטרופוס.', 'To continue, a parent or guardian needs to agree.')
-        : isolateLatin(tt('כדי להפעיל משוב AI צריך אישור של הורה או אפוטרופוס. אפשר גם להמשיך בלי AI.', 'To turn on AI feedback, a parent or guardian needs to agree. You can also go on without AI.')) };
+      return { field: 'guardian', msg: isolateLatin(tt('כדי להפעיל משוב AI צריך אישור של הורה או אפוטרופוס. אפשר גם להמשיך בלי AI.', 'To turn on AI feedback, a parent or guardian needs to agree. You can also go on without AI.')) };
     }
     if (step === 3 && !data.terms) return { field: 'terms', msg: tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.') };
     return null;
@@ -229,12 +234,14 @@ export default async function onboarding(el, ctx) {
   async function finish() {
     const now = new Date().toISOString();
     // 'minor' is kept for older readers; protections decide from birth_year when they are used (age.js).
-    const minor = under(ADULT_AGE);
+    const minor = minorNow();
     const guardian = guardianShown() && data.guardian;
     const ai = aiAvailable && data.ai_consent;
     // The settings first: saving the profile can start the server-profile check (session.js).
     saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, text_size: data.text_size, ai_consent: ai, ai_consent_at: ai ? now : null, ...(ai && guardian ? { ai_guardian_consent_at: now } : {}), marketing: false });
     saveProfile({ onboarded: true, created_at: now, name: data.name, birth_year: Number(data.birth_year), minor, ui_language: data.ui_language, goals: data.goals, start_choice: data.start, consent_terms_at: now, ...(guardian && signedIn ? { guardian_consent_at: now } : {}) });
+    // Signed in without the agreement: say once that the account waits (the same words as after a sign-in).
+    if (signedIn && young() && !guardian) toast(syncPausedText('guardian'));
     if (data.start === 'zero') {
       await applyPlacement(zeroResult());
       ctx.navigate('lesson/pa1-01');

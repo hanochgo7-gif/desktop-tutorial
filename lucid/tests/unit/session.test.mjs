@@ -56,7 +56,7 @@ globalThis.fetch = async (url, init = {}) => {
 const { openStore } = await import('../../js/core/store.js');
 const store = await openStore();
 const { auth } = await import('../../js/core/api.js');
-const { ownership, connectAccount, syncAllowed } = await import('../../js/core/session.js');
+const { ownership, connectAccount, syncAllowed, syncPauseReason } = await import('../../js/core/session.js');
 const fakeSync = () => { const s = { runs: 0, run: async () => { s.runs++; return { pushed: 0, pulled: 0 }; } }; return s; };
 
 beforeEach(async () => {
@@ -118,13 +118,52 @@ test('no minimum age: a 10-year-old\'s profile goes to the server only after a g
   assert.equal(sync.runs, 1);
 });
 
-test('from 16, and for adults, no guardian\'s agreement is asked or sent', async () => {
+test('turning 16 this year may still mean 15: the agreement is still needed', async () => {
   const year = new Date().getFullYear();
-  store.put('profile', { id: 'me', onboarded: true, name: 'D', birth_year: year - 16 });
+  store.put('profile', { id: 'me', onboarded: true, name: 'E', birth_year: year - 16 });
+  store.setOwner(USER.id);
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.reason, 'guardian');
+  assert.equal(syncPauseReason(), 'guardian', 'Settings can tell why sync waits');
+  assert.equal(server.posts.length, 0);
+});
+
+test('surely 16 (turning 17 this year), and adults: no guardian\'s agreement is asked or sent', async () => {
+  const year = new Date().getFullYear();
+  store.put('profile', { id: 'me', onboarded: true, name: 'D', birth_year: year - 17 });
   store.setOwner(USER.id);
   const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
   assert.equal(r.synced, true);
+  assert.equal(syncPauseReason(), null);
   assert.equal('guardian_consent_at' in server.posts[0], false);
+});
+
+test('a second device adopts the agreement and the terms consent from the server profile, and sync is not paused', async () => {
+  const year = new Date().getFullYear();
+  const at = '2026-10-01T10:00:00.000Z';
+  server.profile = { id: USER.id, display_name: 'K', birth_year: year - 12, ui_language: 'he', goals: [], consent_terms_at: at, guardian_consent_at: at };
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced, reason: r.reason }, { ok: true, synced: true, reason: null });
+  const p = store.get('profile', 'me');
+  assert.equal(p.birth_year, year - 12);
+  assert.equal(p.guardian_consent_at, at, 'the agreement comes along, so the device does not ask again');
+  assert.equal(p.consent_terms_at, at);
+  assert.equal(syncPauseReason(), null, 'nothing says sync is paused');
+  assert.equal(sync.runs, 1);
+  assert.equal(server.posts.length, 0);
+});
+
+test('a device already onboarded without the agreement takes it from the server profile that has it', async () => {
+  const year = new Date().getFullYear();
+  const at = '2026-10-01T10:00:00.000Z';
+  store.put('profile', { id: 'me', onboarded: true, name: 'K', birth_year: year - 12 });
+  store.setOwner(USER.id);
+  server.profile = { id: USER.id, display_name: 'K', birth_year: year - 12, ui_language: 'he', goals: [], guardian_consent_at: at };
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.synced, true);
+  assert.equal(store.get('profile', 'me').guardian_consent_at, at);
+  assert.equal(syncPauseReason(), null);
 });
 
 test('signing in over another account\'s data and cancelling signs out and changes nothing (S-06)', async () => {

@@ -143,7 +143,10 @@ anyone of any age can register. The decision came without details, so these were
 (the change itself is in `docs/qa/fix-log.md`, "No age limit"):
 
 - The year of birth is still asked, and only the year (data minimisation), because protections depend on age. The
-  list covers this year and the 110 years before it. Age is still the current year minus the birth year.
+  list covers this year and the 110 years before it. Only the year is known, so the real age is the current year
+  minus the birth year, or one less before the birthday. The sanity bound (at most 120) uses the older value, so
+  nobody is turned away; the protections use the younger one (first version used the older one, so a 15-year-old
+  born in December counted as 16; fixed after review), in the app and in the trigger alike.
 - Age is decided when it is used (`js/core/age.js`), not from the `minor` flag frozen at onboarding, which is still
   written for compatibility.
 - Under 18 nothing new: marketing consent stays forced off in the database, and Lucid sends no marketing anyway.
@@ -158,8 +161,22 @@ anyone of any age can register. The decision came without details, so these were
 - The browser's own speech services (recognition in Chrome and Edge, online voices) are not behind the guardian box:
   the microphone already has its own notice and is optional, and `privacy.html` describes these services for every
   age. This is left for the legal review.
-- A learner under 16 who signs up before onboarding sends only the email to the sign-in service; the profile and
-  progress are not sent until the box is ticked (onboarding asks for it when signed in).
+- A learner under 16 who signs up before onboarding sends only the email and password to the sign-in service (the
+  age is not known yet); the profile and progress are not sent until the box is ticked. Onboarding offers the box
+  when signed in but does not require it: finishing without it keeps the account's sync paused and the progress
+  on the device, and Settings takes the agreement later (a required box there would have been a hidden refusal).
+  `privacy.html` says this in both languages.
+- A second device adopts the agreement (and the terms consent) from the server profile, and Settings says sync is
+  paused only when the last profile check paused it for that reason.
+- The in-app notes for under-16s say only that content flagged as not suitable for the age is hidden; the list of
+  flags is in `privacy.html` and the docs, with the fact that no item carries one today (a unit test keeps that
+  sentence true).
+- The roleplay prompt no longer forbids asking for personal details outright, because some scenes need an
+  address or a passport number: the partner asks for invented ones and never real ones. The roleplay and tutor
+  screens say not to type real personal details. Not tested against the live model.
+- Profiles created under the old 16+ rule whose year is now treated as possibly under 16 keep syncing, because
+  `session.js` creates the server profile only once; if such a profile is updated, the trigger asks for the
+  agreement. Accounts are off on the live site, so no such profile exists there.
 - The AI prompts no longer say "16+": every prompt asks for output suitable for a child, whoever the learner is,
   because the birth year is never sent to the model. Not tested against the live model.
 - The new database rule is migration `004_lucid_no_age_limit.sql`, not `003_...` as first planned, because

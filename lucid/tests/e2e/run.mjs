@@ -228,7 +228,7 @@ try {
     await fresh.ctx.close();
   });
 
-  await check('AGE1. Under 16, expressions flagged as sensitive are not shown (one neutral note); 16 and over see them with their warning', async () => {
+  await check('AGE1. Under 16 (counting the youngest age the birth year allows), expressions flagged as sensitive are not shown (one neutral note); 16 and over see them with their warning', async () => {
     const year = new Date().getFullYear();
     const real = JSON.parse(readFileSync(join(repo, 'lucid/content/real-life/slang.json'), 'utf8'));
     // No real entry is flagged today, so the check adds one through the network, as a content author would.
@@ -247,7 +247,19 @@ try {
     const count = await kid.page.textContent('#xp-count');
     assert(count.includes(String(real.entries.length)), `every unflagged expression should stay: ${count}`);
     await kid.ctx.close();
-    for (const age of [16, 17, 30]) {
+    // Turning 15 or 16 this year: still 15 until the birthday, so still protected (only the year is stored).
+    for (const age of [15, 16]) {
+      const teen = await newPage(browser);
+      await withFlag(teen.page);
+      await learnerAt(teen.page, 'A1', { birthYear: year - age });
+      await teen.page.goto(`${BASE}#/expressions?q=Zzflagged`);
+      await teen.page.waitForSelector('#xp-list');
+      await teen.page.waitForTimeout(200);
+      assert(!(await teen.page.$('[data-entry="zz-flagged-test"]')) && await teen.page.$('[data-age-note]'), `born ${year - age} (may be 15) sees the flagged expression`);
+      await teen.ctx.close();
+    }
+    // Turning 17 this year: surely 16.
+    for (const age of [17, 30]) {
       const other = await newPage(browser);
       await withFlag(other.page);
       await learnerAt(other.page, 'A1', { birthYear: year - age });
@@ -339,16 +351,93 @@ try {
     const waitPush = async () => { const t0 = Date.now(); while (!wdb.pushes.length) { if (Date.now() - t0 > 4000) return false; await sleep(50); } return true; };
     assert(await waitPush() && wdb.profile?.guardian_consent_at, 'sync did not start after the agreement in Settings');
     await waiting.ctx.close();
-    // 16 and over: no guardian box anywhere.
+    // Turning 16 this year may still be 15: the box is there.
+    const late = await newPage(browser, { mock: true });
+    await learnerAt(late.page, 'A1', { birthYear: year - 16 });
+    await late.page.goto(`${BASE}#/account?mode=signup`);
+    await late.page.waitForSelector('[data-auth]');
+    assert(await late.page.$('[data-guardian-account] #guardian'), `no guardian box for a learner born ${year - 16}, who may be 15`);
+    await late.ctx.close();
+    // Surely 16 (turning 17 this year) and over: no guardian box anywhere.
     const teen = await newPage(browser, { mock: true });
-    await learnerAt(teen.page, 'A1', { birthYear: year - 16 });
+    await learnerAt(teen.page, 'A1', { birthYear: year - 17 });
     await teen.page.goto(`${BASE}#/account?mode=signup`);
     await teen.page.waitForSelector('[data-auth]');
-    assert(!(await teen.page.$('#guardian')), 'a guardian box for a 16-year-old');
+    assert(!(await teen.page.$('#guardian')), 'a guardian box for a learner who is surely 16');
     await teen.page.goto(`${BASE}#/settings`);
     await teen.page.waitForSelector('[data-ai]');
-    assert(!(await teen.page.$('[data-guardian-ai]')), 'a guardian AI box for a 16-year-old');
+    assert(!(await teen.page.$('[data-guardian-ai]')), 'a guardian AI box for a learner who is surely 16');
     await teen.ctx.close();
+  });
+
+  await check('AGE3. Signed in, a 12-year-old without a guardian\'s agreement still finishes onboarding and reaches Today (sync waits; nothing is stored on the server); a second device with the agreement on the server syncs and says nothing is paused (mock server)', async () => {
+    const year = new Date().getFullYear();
+    const until = async (fn, ms = 4000) => { const t0 = Date.now(); while (!fn()) { if (Date.now() - t0 > ms) return false; await sleep(50); } return true; };
+    // Sign up before onboarding (no local profile, so the age is not known yet): only the email goes to sign-in.
+    const kid = await newPage(browser, { mock: true });
+    const db = kid.page.lucidMock;
+    await kid.page.goto(`${BASE}#/account?mode=signup`);
+    await kid.page.waitForSelector('[data-auth]');
+    await kid.page.fill('#em', db.user.email); await kid.page.fill('#pw', 'correct horse 1');
+    await kid.page.click('[data-auth] button[type=submit]');
+    await kid.page.waitForFunction(() => location.hash.startsWith('#/start'), null, { timeout: 5000 }).catch(() => { throw new Error('sign-up did not lead to onboarding'); });
+    await kid.page.waitForSelector('#ob-form');
+    await kid.page.selectOption('#ob-year', String(year - 12));
+    await kid.page.click('button[type=submit]');
+    await kid.page.click('[data-goal="travel"]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.click('[data-start="zero"]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.waitForSelector('input[name=guardian]');
+    assert(!(await kid.page.$eval('input[name=guardian]', (x) => x.required)), 'the guardian box is required to finish');
+    await kid.page.check('input[name=terms]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.waitForFunction(() => !location.hash.startsWith('#/start'), null, { timeout: 5000 }).catch(() => { throw new Error('a signed-in 12-year-old without the agreement is stuck in onboarding'); });
+    const p = (await store(kid.page, 'profile'))[0];
+    assert(p?.onboarded && p.birth_year === year - 12 && !p.guardian_consent_at, `profile: ${JSON.stringify(p)}`);
+    await kid.page.goto(`${BASE}#/today`);
+    await kid.page.waitForSelector('#view section[aria-labelledby="plan-h"]', { timeout: 6000 }).catch(() => { throw new Error('a signed-in 12-year-old does not reach Today'); });
+    await sleep(400);
+    assert(!db.profile && !db.pushes.length, `data left the device without the agreement: ${JSON.stringify(db.profile)} ${db.pushes.length}`);
+    // Settings says sync is paused and takes the agreement; then the profile is created and sync starts.
+    await kid.page.goto(`${BASE}#/settings`);
+    await kid.page.waitForSelector('[data-guardian-account-box]', { timeout: 4000 }).catch(() => { throw new Error('Settings does not say sync is paused'); });
+    await kid.page.click('[data-guardian-account]');
+    assert(await until(() => db.pushes.length > 0) && db.profile?.guardian_consent_at, 'sync did not start after the agreement');
+    await sleep(300);
+    assert(!(await kid.page.$('[data-guardian-account-box]')), 'the paused box is still shown while syncing');
+    const server = { ...db.profile };
+    await kid.ctx.close();
+
+    // Second device: the server already has the profile with the agreement.
+    const two = await newPage(browser, { mock: true });
+    const db2 = two.page.lucidMock;
+    db2.profile = server;
+    await two.page.goto(`${BASE}#/account?mode=signin`);
+    await two.page.waitForSelector('[data-auth]');
+    assert(!(await two.page.$('#guardian')), 'a guardian box before the age is known');
+    await two.page.fill('#em', db2.user.email); await two.page.fill('#pw', 'correct horse 1');
+    await two.page.click('[data-auth] button[type=submit]');
+    await two.page.waitForFunction(() => !location.hash.startsWith('#/account'), null, { timeout: 5000 });
+    await sleep(500);
+    const local = (await store(two.page, 'profile'))[0];
+    assert(local?.birth_year === year - 12 && local.guardian_consent_at === server.guardian_consent_at && local.consent_terms_at === server.consent_terms_at, `the agreement was not adopted from the server: ${JSON.stringify(local)}`);
+    await two.page.goto(`${BASE}#/settings`);
+    await two.page.waitForSelector('[data-sync]');
+    await sleep(400);
+    assert(!(await two.page.$('[data-guardian-account-box]')), 'Settings says sync is paused on a device that syncs');
+    await two.page.click('[data-seg="daily_minutes"] [data-v="35"]');
+    await two.page.click('[data-sync]');
+    assert(await until(() => db2.pushes.length > 0), 'the second device does not sync');
+    assert(!(await two.page.$('[data-guardian-account-box]')), 'Settings says sync is paused while it syncs');
+    await two.page.reload();
+    await two.page.waitForSelector('[data-sync]');
+    await sleep(500);
+    assert(!(await two.page.$('[data-guardian-account-box]')), 'after a reload, Settings says sync is paused on a device that syncs');
+    await two.page.goto(`${BASE}#/account`);
+    await sleep(300);
+    assert(!(await two.page.$('#guardian')), 'the account screen asks for the agreement again');
+    await two.ctx.close();
   });
 
   await check('2. A new user can complete a placement assessment', async () => {
@@ -752,6 +841,7 @@ try {
     await m.page.waitForFunction(() => document.querySelector('#log')?.textContent.includes('Present perfect'));
     const strong = await m.page.$('#log strong');
     assert(strong, 'tutor reply formatting missing');
+    assert(/פרטים אישיים אמיתיים/.test(await m.page.textContent('[data-no-real-details]')), 'the tutor does not say to make up personal details');
     await m.ctx.close();
   });
 
@@ -1290,7 +1380,10 @@ try {
     await page.waitForSelector('[data-start-rp]');
     assert(/רק מה שחוסם הבנה|Only what blocks meaning/.test(await page.textContent('#view')), 'the roleplay does not say which correction setting applies');
     assert(await page.isChecked('[data-tips]'), 'Hebrew tips are off for an A1 scene because the course level is B1');
+    assert(/פרטים אישיים אמיתיים/.test(await page.textContent('[data-no-real-details]')), 'the roleplay does not say to make up personal details');
     await page.click('[data-start-rp]');
+    await page.waitForSelector('#rplog');
+    assert(await page.$('[data-no-real-details]'), 'the roleplay chat does not say to make up personal details');
     await page.fill('#rpin', 'um');
     await page.click('[data-rp-send] button[type=submit]');
     await page.waitForSelector('.hint-box bdi');

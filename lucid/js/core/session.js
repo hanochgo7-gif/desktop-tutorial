@@ -17,6 +17,16 @@ import { isUnder16 } from './age.js';
 import { openDialog, toast } from '../ui/components.js';
 
 let ready = false; // this account owns the device data and has a server profile
+// Why sync is not running, from the last profile check: null while it runs (or before any check), else
+// 'guardian' | 'offline' | 'profile' | 'no_profile'. Settings shows the guardian box only for 'guardian', so it
+// never says sync is paused while it is in fact running (a second device, where the agreement is on the server).
+let pauseReason = null;
+export const syncPauseReason = () => pauseReason;
+function setPause(reason) {
+  if (pauseReason === reason) return;
+  pauseReason = reason;
+  try { globalThis.dispatchEvent?.(new CustomEvent('lucid-sync-state', { detail: { reason } })); } catch { /* no DOM */ }
+}
 let checking = null;
 let activeSync = null;
 
@@ -75,7 +85,10 @@ async function ensureServerProfile() {
   const p = profile();
   const server = await db.profile();
   if (server) {
-    if (!p?.onboarded) saveProfile({ onboarded: true, name: server.display_name, birth_year: server.birth_year, ui_language: server.ui_language, goals: server.goals });
+    // The consents recorded on the server come along, so this device does not ask for them again.
+    const consents = { ...(server.consent_terms_at ? { consent_terms_at: server.consent_terms_at } : {}), ...(server.guardian_consent_at ? { guardian_consent_at: server.guardian_consent_at } : {}) };
+    if (!p?.onboarded) saveProfile({ onboarded: true, name: server.display_name, birth_year: server.birth_year, ui_language: server.ui_language, goals: server.goals, ...consents });
+    else if (server.guardian_consent_at && !p.guardian_consent_at) saveProfile({ guardian_consent_at: server.guardian_consent_at });
     return server;
   }
   if (!p?.onboarded) return null;
@@ -89,11 +102,14 @@ async function checkProfile(sync) {
   try {
     const server = await ensureServerProfile();
     ready = Boolean(server);
+    setPause(ready ? null : 'no_profile');
     if (ready) sync?.run().catch(() => {});
     return { ok: true, synced: ready, reason: ready ? null : 'no_profile' };
   } catch (error) {
     ready = false;
-    return { ok: true, synced: false, reason: error.network ? 'offline' : error.code === 'guardian' ? 'guardian' : 'profile', error };
+    const reason = error.network ? 'offline' : error.code === 'guardian' ? 'guardian' : 'profile';
+    setPause(reason);
+    return { ok: true, synced: false, reason, error };
   }
 }
 
@@ -133,6 +149,7 @@ function recheck() {
 export async function signOut({ erase = false } = {}) {
   if (erase && syncAllowed()) { try { await activeSync?.run(); } catch { /* offline: the caller warned */ } }
   ready = false;
+  setPause(null);
   await auth.signOut();
   if (erase) await eraseDevice();
 }

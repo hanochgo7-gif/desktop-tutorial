@@ -51,9 +51,9 @@ interface and explanations around English (left-to-right) learning content, fadi
 - Speech uses the browser's speech synthesis and recognition; availability varies by browser.
 - Levels are "Lucid estimates aligned to CEFR descriptors", never certified levels.
 - There is no minimum age; only the birth year is asked, because protections depend on age, worked out each time
-  from the year. Under 18 the database forces marketing consent off. Under 16, content flagged as offensive,
-  vulgar, sexual or about alcohol is not shown, and a parent or guardian confirms (one required box) before data
-  leaves the device: an account on the server, or AI feedback. Every other protection (no public profile, no
+  from the year, taking the youngest age that year allows. Under 18 the database forces marketing consent off. Under 16, content flagged as offensive,
+  vulgar, sexual or about alcohol is not shown, and a parent or guardian confirms (one box; until it is ticked,
+  nothing is kept on the server) before data leaves the device: an account on the server, or AI feedback. Every other protection (no public profile, no
   social features, AI off until consented, no tracking) applies to all learners alike. The legal basis for
   children's data must be reviewed before a public launch.
 

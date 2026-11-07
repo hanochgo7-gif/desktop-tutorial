@@ -288,15 +288,17 @@ atomic in-memory ledger instead.
   other sites. It also needs a dedicated Supabase project, because account deletion removes the `auth.users` row and
   sign-up settings are per project (`docs/setup.md` section 2).
 - **No minimum age** (owner's decision, November 2026; it replaced the 16+ gate): anyone can register. Only the
-  birth year is stored, because protections depend on age; age is computed from the year alone (someone born late
-  in the year counts as a year older from January: a deliberate trade-off for storing less), by `js/core/age.js`
+  birth year is stored, because protections depend on age; age is computed from the year alone; the protections take
+  the youngest age that year allows (someone who turns 16 this year counts as under 16 until the year ends, and
+  the same at 18; the trigger does the same), by `js/core/age.js`
   each time it is used, never from the `minor` flag that onboarding still writes. The year list runs from this
   year back 110 years. Onboarding removes the former refusal key (`lucid-age-refused`), so a browser refused
   before can register. Under 18: the database forces marketing consent off (Lucid sends no marketing to anyone).
   Under 16: scenarios and expressions flagged `sensitive` (offensive, vulgar, sexual, alcohol) are left out by
   `content.js` for every screen, with one neutral note in Real life and Expressions; and wherever data would leave
-  the device, one required box records a parent's or guardian's agreement first: on the account screen (sign-up and
-  sign-in), in onboarding when already signed in, in Settings when sync is waiting for it (stored as
+  the device, one box records a parent's or guardian's agreement first: required on the account screen (sign-up and
+  sign-in) and before AI; offered in onboarding when already signed in (finishing without it leaves the account's
+  sync paused, so nobody is stuck), and in Settings while the last profile check paused sync for it (stored as
   `profile.guardian_consent_at`, sent as `guardian_consent_at`; `session.js` creates no server profile without it
   and the trigger refuses one), and before AI feedback is turned on (`settings.ai_guardian_consent_at`). On the live
   site (device only, AI off) none of these points exist, so nothing leaves the device. The agreement is
