@@ -285,8 +285,11 @@ try {
   await check('AGE2. Under 16, where data would leave the device (an account, AI feedback) a parent or guardian confirms first; under 18 marketing stays off (mock server: accounts and AI are off on the live site)', async () => {
     const year = new Date().getFullYear();
     // The live site's configuration: no server, no AI. There the boxes never appear, because nothing leaves the device.
-    const live = readFileSync(join(repo, 'lucid/config.js'), 'utf8');
+    // The repository's config.js as written, and the served one (E2E_ROOT: minified by tools/build, `"" ` and `!1`).
+    const live = readFileSync(join(here, '..', '..', 'config.js'), 'utf8');
     assert(/supabaseUrl: ''/.test(live) && /aiEnabled: false/.test(live), 'config.js is no longer device-only; review these checks');
+    const served = readFileSync(join(repo, 'lucid/config.js'), 'utf8');
+    assert(/supabaseUrl:\s*(''|"")/.test(served) && /aiEnabled:\s*(false|!1)\b/.test(served), 'the served config.js is no longer device-only; review these checks');
     const { ctx, page } = await newPage(browser, { mock: true });
     const db = page.lucidMock;
     await learnerAt(page, 'A1', { birthYear: year - 10 });

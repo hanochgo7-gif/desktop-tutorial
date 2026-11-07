@@ -83,8 +83,24 @@
     "note": "Rows marked revision \"verify6\" were re-measured after the sixth skeptic round's fixes (the router waits at most once for a waiting release that cannot take over; activation moves saved lessons; an install with no room left still fetches the files it does not keep, and a miss takes the HTTP cache's copy first; the hand-over page's status line in both languages) on the built tree (release d6e094419e58), mobile, 3 runs each: scenario u, and scenario d for reading and lesson/a1-01. Same-window comparisons against the previous head (26290ea, release e64c1cd42486) and the base (b2b669b) are in after.md, \"Sixth skeptic round\".",
     "protocol": "h2",
     "chromium": "153.0.8010.12"
+   },
+   {
+    "date": "2026-11-07T18:28:01.093Z",
+    "note": "Rows marked revision \"integrate7\" were re-measured after the merge of main d83a500 (no age limit) and its integration fixes (compat.js age filter, age.js preloaded) on the built tree (release d9f3f0d19b33), mobile, 3 runs each alternated with d83a500 (production, served raw as main's pages.yml serves it, with this harness): scenario g. The heavy-history warm Today (light learner here, so not a row) is in after.md. From here on the comparison base is d83a500 (meta.comparisonBase).",
+    "protocol": "h2",
+    "chromium": "153.0.8010.12"
    }
-  ]
+  ],
+  "comparisonBase": {
+   "commit": "d83a500",
+   "release": "2026-11-07.1",
+   "since": "2026-11-07",
+   "previous": {
+    "commit": "b2b669b",
+    "release": "2026-11-03.1"
+   },
+   "note": "Production is now d83a500 (main with the no-age-limit change); its sw.js is byte-identical to b2b669b's apart from RELEASE. Rows of revision integrate7 compare with d83a500, earlier rows with b2b669b (after.md, 'Production base: d83a500')."
+  }
  },
  "rows": [
   {
@@ -9066,1003 +9082,82 @@
    "name": "fresh: #/today",
    "runs": [
     {
-     "view": 392,
-     "fcp": 184,
-     "lcp": 404,
-     "tbt": 10,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 1,
-     "longest": 60,
-     "script": 71.13600000000001,
-     "layout": 56.274,
-     "style": 35.762,
-     "heapMB": 2.8720932006835938,
-     "dcl": 122.80000000074506,
-     "load": 193.20000000298023,
-     "swServed": 40,
-     "n304": 1,
-     "n200": 0
-    },
-    {
-     "view": 443.8999999985099,
-     "fcp": 164,
-     "lcp": 464,
-     "tbt": 69,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 3,
-     "longest": 111,
-     "script": 85.559,
-     "layout": 82.277,
-     "style": 49.584999999999994,
-     "heapMB": 2.8808441162109375,
-     "dcl": 100.59999999776483,
-     "load": 186.30000000074506,
-     "swServed": 40,
-     "n304": 1,
-     "n200": 0
-    },
-    {
-     "view": 391.20000000298023,
-     "fcp": 136,
-     "lcp": 420,
-     "tbt": 30,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 3,
-     "longest": 73,
-     "script": 84.42,
-     "layout": 67.303,
-     "style": 43.44,
-     "heapMB": 2.8646240234375,
-     "dcl": 92.70000000298023,
-     "load": 172,
-     "swServed": 40,
-     "n304": 1,
-     "n200": 0
-    }
-   ],
-   "lcpEl": "span",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      45,
-      54,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      46,
-      55,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      47,
-      55,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      47,
-      57,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      48,
-      60,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      48,
-      62,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      48,
-      65,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      49,
-      63,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      49,
-      66,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      50,
-      69,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      50,
-      72,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      51,
-      72,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      51,
-      72,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      51,
-      72,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      51,
-      72,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      51,
-      74,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      51,
-      74,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      51,
-      75,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      51,
-      77,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      51,
-      77,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      53,
-      78,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      55,
-      78,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      56,
-      79,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      199,
-      204,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      200,
-      205,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/today.js",
-      221,
-      224,
-      54931,
-      54931,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      222,
-      226,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      223,
-      227,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      224,
-      228,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      224,
-      228,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      232,
-      235,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/scenario/rl-airport-gate-transfer.json",
-      401,
-      406,
-      8928,
-      8928,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      403,
-      411,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      403,
-      412,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      403,
-      414,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      403,
-      415,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      404,
-      416,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      404,
-      416,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      405,
-      416,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      405,
-      417,
-      76076,
-      76076,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 392,
-    "fcp": 164,
-    "lcp": 420,
-    "tbt": 30,
-    "cls": 0,
-    "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
-    "netKB": 0,
-    "netReqs": 1,
-    "longTasks": 3,
-    "longest": 73,
-    "script": 84.42,
-    "layout": 67.303,
-    "style": 43.44,
-    "heapMB": 2.872,
-    "dcl": 100.6,
-    "load": 186.3,
-    "swServed": 40,
-    "n304": 1,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "fresh: #/lesson/a1-01",
-   "runs": [
-    {
-     "view": 344.69999999925494,
-     "fcp": 140,
-     "lcp": 360,
-     "tbt": 40,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 1,
-     "longest": 90,
-     "script": 74.10300000000001,
-     "layout": 42.333999999999996,
-     "style": 22.695,
-     "heapMB": 3.183643341064453,
-     "dcl": 102.19999999925494,
-     "load": 171,
-     "swServed": 39,
-     "n304": 1,
-     "n200": 0
-    },
-    {
-     "view": 335.69999999925494,
-     "fcp": 152,
-     "lcp": 352,
-     "tbt": 34,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 1,
-     "longest": 84,
-     "script": 70.13,
-     "layout": 42.647999999999996,
-     "style": 25.372,
-     "heapMB": 3.016277313232422,
-     "dcl": 93,
-     "load": 163.79999999701977,
-     "swServed": 39,
-     "n304": 1,
-     "n200": 0
-    },
-    {
-     "view": 486.4000000022352,
-     "fcp": 196,
-     "lcp": 496,
+     "view": 520.0999999940395,
+     "fcp": 212,
+     "lcp": 548,
      "tbt": 77,
      "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 4,
+     "longest": 72,
+     "script": 109.081,
+     "layout": 76.57600000000001,
+     "style": 61.949999999999996,
+     "heapMB": 2.902545928955078,
+     "dcl": 208.09999999403954,
+     "load": 255.59999999403954,
+     "swServed": 41,
+     "n304": 1,
+     "n200": 0
+    },
+    {
+     "view": 388,
+     "fcp": 148,
+     "lcp": 396,
+     "tbt": 13,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
      "netKB": 0,
      "netReqs": 1,
      "longTasks": 2,
-     "longest": 119,
-     "script": 94.534,
-     "layout": 64.935,
-     "style": 39.766999999999996,
-     "heapMB": 3.1847686767578125,
-     "dcl": 208,
-     "load": 270.4000000022352,
-     "swServed": 39,
+     "longest": 58,
+     "script": 82.283,
+     "layout": 60.881,
+     "style": 32.991,
+     "heapMB": 2.885395050048828,
+     "dcl": 101.5,
+     "load": 181.30000000447035,
+     "swServed": 41,
+     "n304": 1,
+     "n200": 0
+    },
+    {
+     "view": 366.3999999985099,
+     "fcp": 132,
+     "lcp": 376,
+     "tbt": 8,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 1,
+     "longest": 58,
+     "script": 66.469,
+     "layout": 61.315000000000005,
+     "style": 40.065999999999995,
+     "heapMB": 2.9039535522460938,
+     "dcl": 154.60000000149012,
+     "load": 173.60000000149012,
+     "swServed": 41,
      "n304": 1,
      "n200": 0
     }
    ],
-   "lcpEl": "span.bi-he.primary",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      37,
-      44,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      39,
-      46,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      40,
-      51,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      40,
-      52,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      40,
-      59,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      41,
-      60,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      41,
-      61,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      41,
-      62,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      41,
-      62,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      42,
-      63,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      42,
-      65,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      42,
-      65,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      42,
-      66,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      42,
-      66,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      43,
-      67,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      43,
-      68,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      45,
-      69,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      45,
-      71,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      45,
-      73,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      45,
-      74,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      46,
-      74,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      46,
-      74,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      47,
-      74,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      181,
-      185,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      182,
-      186,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      201,
-      206,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      201,
-      207,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      201,
-      213,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      201,
-      213,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      202,
-      214,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      203,
-      216,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      203,
-      218,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      203,
-      221,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      204,
-      224,
-      76076,
-      76076,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      205,
-      221,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      206,
-      224,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      253,
-      255,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      254,
-      259,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-02.json",
-      254,
-      259,
-      27422,
-      27422,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 344.7,
-    "fcp": 152,
-    "lcp": 360,
-    "tbt": 40,
-    "cls": 0,
-    "reqs": 40,
-    "gzKB": 769.05,
-    "rawKB": 769.05,
-    "netKB": 0,
-    "netReqs": 1,
-    "longTasks": 1,
-    "longest": 90,
-    "script": 74.103,
-    "layout": 42.648,
-    "style": 25.372,
-    "heapMB": 3.184,
-    "dcl": 102.2,
-    "load": 171,
-    "swServed": 39,
-    "n304": 1,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "stale: #/today",
-   "runs": [
-    {
-     "view": 368.8999999985099,
-     "fcp": 148,
-     "lcp": 384,
-     "tbt": 0,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 1,
-     "longest": 50,
-     "script": 68.64099999999999,
-     "layout": 56.266,
-     "style": 38.074,
-     "heapMB": 2.8648300170898438,
-     "dcl": 107.39999999850988,
-     "load": 180.80000000074506,
-     "swServed": 40,
-     "n304": 2,
-     "n200": 0
-    },
-    {
-     "view": 348.5,
-     "fcp": 136,
-     "lcp": 360,
-     "tbt": 5,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 1,
-     "longest": 55,
-     "script": 68.905,
-     "layout": 52.909,
-     "style": 33.283,
-     "heapMB": 2.866138458251953,
-     "dcl": 101.5,
-     "load": 170.60000000149012,
-     "swServed": 40,
-     "n304": 2,
-     "n200": 0
-    },
-    {
-     "view": 428.1000000014901,
-     "fcp": 176,
-     "lcp": 444,
-     "tbt": 25,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 2,
-     "longest": 74,
-     "script": 80.163,
-     "layout": 71.447,
-     "style": 38.042,
-     "heapMB": 2.8745498657226562,
-     "dcl": 92.5,
-     "load": 193.40000000223517,
-     "swServed": 40,
-     "n304": 2,
-     "n200": 0
-    }
-   ],
    "lcpEl": "span",
    "sample": {
     "resources": [
      [
       "css/app.css",
-      37,
-      43,
+      36,
+      51,
       115509,
       115509,
       0,
@@ -10070,8 +9165,8 @@
      ],
      [
       "fonts/rubik-latin.woff2",
-      39,
-      45,
+      38,
+      52,
       35348,
       35348,
       0,
@@ -10079,8 +9174,8 @@
      ],
      [
       "fonts/rubik-hebrew.woff2",
-      39,
-      48,
+      38,
+      52,
       9348,
       9348,
       0,
@@ -10089,7 +9184,7 @@
      [
       "js/app.js",
       40,
-      49,
+      59,
       11478,
       11478,
       0,
@@ -10097,8 +9192,8 @@
      ],
      [
       "js/core/store.js",
-      40,
-      51,
+      42,
+      59,
       4815,
       4815,
       0,
@@ -10106,17 +9201,17 @@
      ],
      [
       "js/core/router.js",
-      41,
-      51,
-      9959,
-      9959,
+      42,
+      60,
+      10072,
+      10072,
       0,
       "sw"
      ],
      [
       "js/ui/components.js",
-      41,
-      53,
+      43,
+      62,
       3696,
       3696,
       0,
@@ -10124,8 +9219,8 @@
      ],
      [
       "js/core/api.js",
-      41,
-      57,
+      43,
+      63,
       6322,
       6322,
       0,
@@ -10133,8 +9228,8 @@
      ],
      [
       "js/core/sync.js",
-      42,
-      60,
+      43,
+      65,
       1479,
       1479,
       0,
@@ -10142,17 +9237,17 @@
      ],
      [
       "js/core/learner.js",
-      42,
-      61,
-      15158,
-      15158,
+      43,
+      66,
+      15233,
+      15233,
       0,
       "sw"
      ],
      [
       "js/ui/icons.js",
       43,
-      62,
+      68,
       9637,
       9637,
       0,
@@ -10161,7 +9256,7 @@
      [
       "config.js",
       43,
-      63,
+      68,
       131,
       131,
       0,
@@ -10169,473 +9264,8 @@
      ],
      [
       "js/core/util.js",
-      43,
-      63,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      43,
-      63,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
       44,
-      64,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      45,
-      65,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      45,
-      66,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      45,
-      67,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      46,
-      67,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      46,
-      68,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      46,
-      68,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      46,
-      68,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      46,
-      68,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      188,
-      192,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      188,
-      192,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/today.js",
-      205,
-      208,
-      54931,
-      54931,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      205,
-      209,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      206,
-      211,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      207,
-      212,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      207,
-      212,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      212,
-      215,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/scenario/rl-airport-gate-transfer.json",
-      378,
-      382,
-      8928,
-      8928,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      378,
-      387,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      378,
-      390,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      378,
-      393,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      379,
-      394,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      381,
-      396,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      381,
-      396,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      381,
-      396,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      382,
-      396,
-      76076,
-      76076,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 368.9,
-    "fcp": 148,
-    "lcp": 384,
-    "tbt": 5,
-    "cls": 0,
-    "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
-    "netKB": 0,
-    "netReqs": 2,
-    "longTasks": 1,
-    "longest": 55,
-    "script": 68.905,
-    "layout": 56.266,
-    "style": 38.042,
-    "heapMB": 2.866,
-    "dcl": 101.5,
-    "load": 180.8,
-    "swServed": 40,
-    "n304": 2,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "stale: #/lesson/a1-01",
-   "runs": [
-    {
-     "view": 417.8999999985099,
-     "fcp": 180,
-     "lcp": 428,
-     "tbt": 50,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 100,
-     "script": 85.494,
-     "layout": 39.832,
-     "style": 28.889000000000003,
-     "heapMB": 3.0002174377441406,
-     "dcl": 142.10000000149012,
-     "load": 214.39999999850988,
-     "swServed": 39,
-     "n304": 3,
-     "n200": 0
-    },
-    {
-     "view": 413.4000000022352,
-     "fcp": 204,
-     "lcp": 436,
-     "tbt": 41,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 91,
-     "script": 74.794,
-     "layout": 44.5,
-     "style": 33.607,
-     "heapMB": 2.9935455322265625,
-     "dcl": 203.60000000149012,
-     "load": 250.40000000223517,
-     "swServed": 39,
-     "n304": 3,
-     "n200": 0
-    },
-    {
-     "view": 446.3999999985099,
-     "fcp": 204,
-     "lcp": 464,
-     "tbt": 60,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 110,
-     "script": 90.68299999999999,
-     "layout": 44.948,
-     "style": 29.42,
-     "heapMB": 3.0206832885742188,
-     "dcl": 130.59999999776483,
-     "load": 221.79999999701977,
-     "swServed": 39,
-     "n304": 3,
-     "n200": 0
-    }
-   ],
-   "lcpEl": "span.bi-he.primary",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      50,
-      59,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      53,
-      60,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      54,
-      68,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      55,
       70,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      55,
-      78,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      55,
-      78,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      55,
-      83,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      56,
-      83,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      56,
-      83,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      56,
-      84,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      57,
-      84,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      57,
-      84,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      57,
-      85,
       3006,
       3006,
       0,
@@ -10643,472 +9273,16 @@
      ],
      [
       "js/core/content.js",
-      58,
-      85,
-      3374,
-      3374,
+      44,
+      71,
+      3933,
+      3933,
       0,
       "sw"
      ],
      [
       "js/core/adaptive.js",
-      58,
-      85,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      58,
-      89,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      58,
-      89,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      59,
-      89,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      59,
-      93,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      59,
-      95,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      59,
-      96,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      59,
-      96,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      60,
-      96,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      226,
-      234,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      227,
-      234,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      251,
-      258,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      252,
-      259,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      252,
-      265,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      253,
-      267,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      254,
-      271,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      254,
-      271,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      254,
-      274,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      255,
-      274,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      255,
-      274,
-      76076,
-      76076,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      255,
-      271,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      256,
-      274,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      334,
-      337,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      335,
-      340,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-02.json",
-      335,
-      340,
-      27422,
-      27422,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 417.9,
-    "fcp": 204,
-    "lcp": 436,
-    "tbt": 50,
-    "cls": 0,
-    "reqs": 40,
-    "gzKB": 769.05,
-    "rawKB": 769.05,
-    "netKB": 0,
-    "netReqs": 3,
-    "longTasks": 1,
-    "longest": 100,
-    "script": 85.494,
-    "layout": 44.5,
-    "style": 29.42,
-    "heapMB": 3,
-    "dcl": 142.1,
-    "load": 221.8,
-    "swServed": 39,
-    "n304": 3,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "after-push: #/today",
-   "runs": [
-    {
-     "view": 346.20000000298023,
-     "fcp": 148,
-     "lcp": 368,
-     "tbt": 23,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 19.48046875,
-     "netReqs": 2,
-     "longTasks": 2,
-     "longest": 69,
-     "script": 96.25699999999999,
-     "layout": 52.037,
-     "style": 33.342,
-     "heapMB": 2.8648643493652344,
-     "dcl": 101.70000000298023,
-     "load": 162.80000000074506,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 2
-    },
-    {
-     "view": 369.69999999925494,
-     "fcp": 144,
-     "lcp": 396,
-     "tbt": 3,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 19.48046875,
-     "netReqs": 2,
-     "longTasks": 1,
-     "longest": 53,
-     "script": 76.17,
-     "layout": 56.579,
-     "style": 36.595000000000006,
-     "heapMB": 2.8710784912109375,
-     "dcl": 97.19999999925494,
-     "load": 167.10000000149012,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 2
-    },
-    {
-     "view": 437.0999999977648,
-     "fcp": 192,
-     "lcp": 460,
-     "tbt": 45,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 19.48046875,
-     "netReqs": 2,
-     "longTasks": 3,
-     "longest": 70,
-     "script": 110.97500000000001,
-     "layout": 68.20400000000001,
-     "style": 44.128,
-     "heapMB": 2.8796653747558594,
-     "dcl": 107.09999999776483,
-     "load": 207,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 2
-    }
-   ],
-   "lcpEl": "span",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      38,
-      49,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      41,
-      51,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      42,
-      53,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      42,
-      56,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      43,
-      60,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      43,
-      60,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      43,
-      62,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
       44,
-      63,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      44,
-      63,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      44,
-      63,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      44,
-      68,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      44,
-      69,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      44,
-      69,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      45,
-      69,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      45,
       72,
       16546,
       16546,
@@ -11117,7 +9291,7 @@
      ],
      [
       "js/core/srs.js",
-      45,
+      44,
       73,
       4853,
       4853,
@@ -11126,8 +9300,8 @@
      ],
      [
       "js/core/i18n.js",
-      45,
-      73,
+      44,
+      75,
       13604,
       13604,
       0,
@@ -11135,8 +9309,8 @@
      ],
      [
       "vendor/ts-fsrs.mjs",
-      47,
-      74,
+      44,
+      76,
       22978,
       22978,
       0,
@@ -11144,35 +9318,44 @@
      ],
      [
       "js/core/session.js",
-      47,
+      44,
       77,
-      7926,
-      7926,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      44,
+      80,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      44,
+      80,
+      1075,
+      1075,
       0,
       "sw"
      ],
      [
       "js/core/route-deps.js",
       47,
-      78,
+      80,
       4258,
       4258,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      47,
-      77,
-      3524,
-      3524,
       0,
       "sw"
      ],
      [
       "content/curriculum.json",
       47,
-      78,
+      80,
       52716,
       52716,
       0,
@@ -11181,463 +9364,16 @@
      [
       "content/manifest.json",
       47,
-      78,
-      6031,
-      6031,
+      80,
+      6051,
+      6051,
       0,
       "sw"
      ],
      [
       "content/curriculum.json",
-      170,
-      175,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      171,
-      175,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/today.js",
-      187,
-      191,
-      54931,
-      54931,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      188,
       194,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      190,
-      196,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      190,
-      198,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      192,
-      201,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      197,
-      201,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/scenario/rl-airport-gate-transfer.json",
-      355,
-      360,
-      8928,
-      8928,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      356,
-      363,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      357,
-      370,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      357,
-      372,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      357,
-      372,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      358,
-      372,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      358,
-      372,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      359,
-      373,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      359,
-      374,
-      76076,
-      76076,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 369.7,
-    "fcp": 148,
-    "lcp": 396,
-    "tbt": 23,
-    "cls": 0,
-    "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
-    "netKB": 19.48,
-    "netReqs": 2,
-    "longTasks": 2,
-    "longest": 69,
-    "script": 96.257,
-    "layout": 56.579,
-    "style": 36.595,
-    "heapMB": 2.871,
-    "dcl": 101.7,
-    "load": 167.1,
-    "swServed": 40,
-    "n304": 0,
-    "n200": 2
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "after-push: #/lesson/a1-01",
-   "runs": [
-    {
-     "view": 365.69999999925494,
-     "fcp": 168,
-     "lcp": 384,
-     "tbt": 63,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 8.1533203125,
-     "netReqs": 3,
-     "longTasks": 2,
-     "longest": 113,
-     "script": 84.45,
-     "layout": 57.04,
-     "style": 47.196000000000005,
-     "heapMB": 3.1788177490234375,
-     "dcl": 91.09999999776483,
-     "load": 177.39999999850988,
-     "swServed": 39,
-     "n304": 2,
-     "n200": 1
-    },
-    {
-     "view": 336.8999999985099,
-     "fcp": 128,
-     "lcp": 348,
-     "tbt": 48,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 8.1533203125,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 98,
-     "script": 75.222,
-     "layout": 46.243,
-     "style": 27.049,
-     "heapMB": 3.183929443359375,
-     "dcl": 136.89999999850988,
-     "load": 155.69999999925494,
-     "swServed": 39,
-     "n304": 2,
-     "n200": 1
-    },
-    {
-     "view": 384.0999999977648,
-     "fcp": 168,
-     "lcp": 404,
-     "tbt": 48,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 8.1533203125,
-     "netReqs": 3,
-     "longTasks": 2,
-     "longest": 98,
-     "script": 94.197,
-     "layout": 39.829,
-     "style": 27.037,
-     "heapMB": 3.1889076232910156,
-     "dcl": 115.5,
-     "load": 193.09999999776483,
-     "swServed": 39,
-     "n304": 2,
-     "n200": 1
-    }
-   ],
-   "lcpEl": "span.bi-he.primary",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      29,
-      44,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      32,
-      44,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      32,
-      44,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      33,
-      44,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      33,
-      44,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      33,
-      45,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      33,
-      45,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      34,
-      47,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      34,
-      50,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      34,
-      50,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      34,
-      52,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      34,
-      54,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      34,
-      55,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      34,
-      57,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      35,
-      57,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      35,
-      58,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      35,
-      59,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      35,
-      60,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      35,
-      60,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      36,
-      61,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      36,
-      61,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      37,
-      62,
+      200,
       52716,
       52716,
       0,
@@ -11645,1046 +9381,35 @@
      ],
      [
       "content/manifest.json",
-      37,
-      62,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      183,
-      189,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      185,
-      190,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      199,
-      215,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
+      195,
       200,
-      216,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      200,
-      217,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      200,
-      217,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      200,
-      218,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      200,
-      221,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      200,
-      227,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      200,
-      222,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      200,
-      227,
-      76076,
-      76076,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      200,
-      215,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      200,
-      227,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      257,
-      273,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-02.json",
-      257,
-      274,
-      27422,
-      27422,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      257,
-      274,
-      8332,
-      8332,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 365.7,
-    "fcp": 168,
-    "lcp": 384,
-    "tbt": 48,
-    "cls": 0,
-    "reqs": 40,
-    "gzKB": 769.05,
-    "rawKB": 769.05,
-    "netKB": 8.153,
-    "netReqs": 3,
-    "longTasks": 2,
-    "longest": 98,
-    "script": 84.45,
-    "layout": 46.243,
-    "style": 27.049,
-    "heapMB": 3.184,
-    "dcl": 115.5,
-    "load": 177.4,
-    "swServed": 39,
-    "n304": 2,
-    "n200": 1
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "offline: #/today",
-   "runs": [
-    {
-     "view": 432.0999999977648,
-     "fcp": 184,
-     "lcp": 452,
-     "tbt": 13,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 63,
-     "script": 70.483,
-     "layout": 61.358000000000004,
-     "style": 38.403,
-     "heapMB": 2.8720321655273438,
-     "dcl": 143.39999999850988,
-     "load": 208,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 363.1000000014901,
-     "fcp": 164,
-     "lcp": 380,
-     "tbt": 2,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 52,
-     "script": 75.792,
-     "layout": 56.251000000000005,
-     "style": 40.362,
-     "heapMB": 2.8754653930664062,
-     "dcl": 110.90000000223517,
-     "load": 178.20000000298023,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 431.70000000298023,
-     "fcp": 156,
-     "lcp": 460,
-     "tbt": 54,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 3,
-     "longest": 77,
-     "script": 81.282,
-     "layout": 70.73,
-     "style": 49.375,
-     "heapMB": 2.8818359375,
-     "dcl": 94.5,
-     "load": 162.60000000149012,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    }
-   ],
-   "lcpEl": "span",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      52,
-      58,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      54,
-      62,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      55,
-      64,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      55,
-      66,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      56,
-      69,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      56,
-      72,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      57,
-      72,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      57,
-      76,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      57,
-      77,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      57,
-      78,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      58,
-      79,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      58,
-      79,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      58,
-      79,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      58,
-      79,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      58,
-      80,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      58,
-      79,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      58,
-      80,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      60,
-      81,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      61,
-      82,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      62,
-      82,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      62,
-      83,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      62,
-      84,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      62,
-      84,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      216,
-      221,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      217,
-      221,
-      6031,
-      6031,
+      6051,
+      6051,
       0,
       "sw"
      ],
      [
       "js/views/today.js",
-      243,
-      247,
-      54931,
-      54931,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      244,
-      248,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      245,
-      250,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      246,
-      252,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      246,
-      253,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      252,
-      255,
-      24483,
-      24483,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/scenario/rl-airport-gate-transfer.json",
-      442,
-      445,
-      8928,
-      8928,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      443,
-      448,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      443,
-      453,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      444,
-      455,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      444,
-      456,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      444,
-      456,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      444,
-      457,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      444,
-      458,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      444,
-      459,
-      76076,
-      76076,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 431.7,
-    "fcp": 164,
-    "lcp": 452,
-    "tbt": 13,
-    "cls": 0,
-    "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
-    "netKB": 0,
-    "netReqs": 3,
-    "longTasks": 1,
-    "longest": 63,
-    "script": 75.792,
-    "layout": 61.358,
-    "style": 40.362,
-    "heapMB": 2.875,
-    "dcl": 110.9,
-    "load": 178.2,
-    "swServed": 40,
-    "n304": 0,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "offline: #/lesson/a1-01",
-   "runs": [
-    {
-     "view": 362.69999999925494,
-     "fcp": 152,
-     "lcp": 384,
-     "tbt": 55,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 105,
-     "script": 75.754,
-     "layout": 45.469,
-     "style": 29.229000000000003,
-     "heapMB": 3.0030975341796875,
-     "dcl": 93.19999999925494,
-     "load": 171.39999999850988,
-     "swServed": 39,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 397.5,
-     "fcp": 136,
-     "lcp": 400,
-     "tbt": 87,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 2,
-     "longest": 113,
-     "script": 114.515,
-     "layout": 40.662,
-     "style": 27.566,
-     "heapMB": 3.0017929077148438,
-     "dcl": 99.60000000149012,
-     "load": 176.30000000074506,
-     "swServed": 39,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 322,
-     "fcp": 144,
-     "lcp": 344,
-     "tbt": 40,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 3,
-     "longTasks": 1,
-     "longest": 90,
-     "script": 71.092,
-     "layout": 40.497,
-     "style": 23.563000000000002,
-     "heapMB": 3.1861915588378906,
-     "dcl": 89.19999999925494,
-     "load": 160.69999999925494,
-     "swServed": 39,
-     "n304": 0,
-     "n200": 0
-    }
-   ],
-   "lcpEl": "span.bi-he.primary",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      33,
-      37,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      34,
-      41,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      35,
-      42,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      35,
-      45,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      35,
-      44,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      35,
-      51,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      35,
-      51,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      36,
-      56,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      36,
-      56,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      36,
-      56,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      38,
-      57,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      38,
-      57,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      38,
-      58,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      38,
-      58,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      39,
-      60,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      39,
-      60,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      39,
-      62,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      39,
-      63,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      40,
-      63,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      40,
-      64,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      40,
-      64,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      40,
-      64,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      40,
-      64,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      179,
-      182,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      180,
-      183,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      204,
-      208,
-      71678,
-      71678,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      204,
       210,
-      2798,
-      2798,
+      214,
+      54931,
+      54931,
       0,
       "sw"
      ],
      [
-      "js/ui/exercise.js",
-      205,
-      213,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      205,
-      213,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      206,
+      "js/core/compat.js",
+      210,
       215,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      206,
-      216,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      206,
-      217,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      206,
-      218,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      206,
-      218,
-      76076,
-      76076,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      206,
-      217,
-      24483,
-      24483,
+      3497,
+      3497,
       0,
       "sw"
      ],
      [
       "content/taxonomy.json",
-      206,
-      220,
+      210,
+      216,
       20361,
       20361,
       0,
@@ -12692,392 +9417,8 @@
      ],
      [
       "content/real-life/index.json",
-      259,
-      263,
-      18123,
-      18123,
-      0,
-      "sw"
-     ],
-     [
-      "content/writing/index.json",
-      260,
-      264,
-      8332,
-      8332,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-02.json",
-      260,
-      263,
-      27422,
-      27422,
-      0,
-      "sw"
-     ]
-    ]
-   },
-   "median": {
-    "view": 362.7,
-    "fcp": 144,
-    "lcp": 384,
-    "tbt": 55,
-    "cls": 0,
-    "reqs": 40,
-    "gzKB": 769.05,
-    "rawKB": 769.05,
-    "netKB": 0,
-    "netReqs": 3,
-    "longTasks": 1,
-    "longest": 105,
-    "script": 75.754,
-    "layout": 40.662,
-    "style": 27.566,
-    "heapMB": 3.003,
-    "dcl": 93.2,
-    "load": 171.4,
-    "swServed": 39,
-    "n304": 0,
-    "n200": 0
-   },
-   "revision": "verify5"
-  },
-  {
-   "profile": "mobile",
-   "scenario": "g",
-   "name": "lie-fi: #/today",
-   "runs": [
-    {
-     "view": 383.1000000014901,
-     "fcp": 168,
-     "lcp": 404,
-     "tbt": 14,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 2,
-     "longest": 60,
-     "script": 69.101,
-     "layout": 64.547,
-     "style": 38.246,
-     "heapMB": 2.867412567138672,
-     "dcl": 115.5,
-     "load": 182.5,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 390.19999999925494,
-     "fcp": 152,
-     "lcp": 404,
-     "tbt": 16,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 2,
-     "longest": 63,
-     "script": 73.995,
-     "layout": 67.16900000000001,
-     "style": 41.656,
-     "heapMB": 2.8648033142089844,
-     "dcl": 102.80000000074506,
-     "load": 175.19999999925494,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 382.5999999977648,
-     "fcp": 160,
-     "lcp": 408,
-     "tbt": 13,
-     "cls": 0,
-     "reqs": 41,
-     "gzKB": 804.6328125,
-     "rawKB": 804.6328125,
-     "netKB": 0,
-     "netReqs": 2,
-     "longTasks": 3,
-     "longest": 57,
-     "script": 82.871,
-     "layout": 63.163,
-     "style": 35.068000000000005,
-     "heapMB": 2.8689231872558594,
-     "dcl": 114.5,
-     "load": 185.39999999850988,
-     "swServed": 40,
-     "n304": 0,
-     "n200": 0
-    }
-   ],
-   "lcpEl": "span",
-   "sample": {
-    "resources": [
-     [
-      "css/app.css",
-      56,
-      63,
-      115509,
-      115509,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-latin.woff2",
-      57,
-      67,
-      35348,
-      35348,
-      0,
-      "sw"
-     ],
-     [
-      "fonts/rubik-hebrew.woff2",
-      58,
-      68,
-      9348,
-      9348,
-      0,
-      "sw"
-     ],
-     [
-      "js/app.js",
-      58,
-      72,
-      11478,
-      11478,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/store.js",
-      58,
-      73,
-      4815,
-      4815,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/router.js",
-      58,
-      75,
-      9959,
-      9959,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/components.js",
-      58,
-      75,
-      3696,
-      3696,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/api.js",
-      58,
-      76,
-      6322,
-      6322,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/sync.js",
-      60,
-      77,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      60,
-      78,
-      9637,
-      9637,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/learner.js",
-      60,
-      78,
-      15158,
-      15158,
-      0,
-      "sw"
-     ],
-     [
-      "config.js",
-      60,
-      78,
-      131,
-      131,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/util.js",
-      60,
-      79,
-      3006,
-      3006,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/content.js",
-      60,
-      79,
-      3374,
-      3374,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/adaptive.js",
-      60,
-      80,
-      16546,
-      16546,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/srs.js",
-      60,
-      80,
-      4853,
-      4853,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/i18n.js",
-      60,
-      82,
-      13604,
-      13604,
-      0,
-      "sw"
-     ],
-     [
-      "vendor/ts-fsrs.mjs",
-      60,
-      83,
-      22978,
-      22978,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/session.js",
-      60,
-      83,
-      7926,
-      7926,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/placement.js",
-      60,
-      84,
-      3524,
-      3524,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/route-deps.js",
-      60,
-      84,
-      4258,
-      4258,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      63,
-      84,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      63,
-      84,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "content/curriculum.json",
-      191,
-      195,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      192,
-      195,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/today.js",
-      207,
-      210,
-      54931,
-      54931,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/compat.js",
-      208,
       212,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "content/taxonomy.json",
-      209,
-      213,
-      20361,
-      20361,
-      0,
-      "sw"
-     ],
-     [
-      "content/real-life/index.json",
-      210,
-      214,
+      218,
       18123,
       18123,
       0,
@@ -13085,8 +9426,8 @@
      ],
      [
       "content/writing/index.json",
-      210,
-      214,
+      213,
+      218,
       8332,
       8332,
       0,
@@ -13094,8 +9435,8 @@
      ],
      [
       "content/lessons/a1-01.json",
-      214,
-      217,
+      218,
+      220,
       24483,
       24483,
       0,
@@ -13103,8 +9444,8 @@
      ],
      [
       "content/real-life/scenario/rl-airport-gate-transfer.json",
-      395,
-      399,
+      397,
+      401,
       8928,
       8928,
       0,
@@ -13112,8 +9453,8 @@
      ],
      [
       "js/views/lesson.js",
-      396,
-      403,
+      398,
+      404,
       71678,
       71678,
       0,
@@ -13121,8 +9462,8 @@
      ],
      [
       "js/ui/exercise.js",
-      396,
-      406,
+      399,
+      405,
       62426,
       62426,
       0,
@@ -13130,8 +9471,8 @@
      ],
      [
       "js/ui/player.js",
-      397,
-      406,
+      400,
+      407,
       9264,
       9264,
       0,
@@ -13139,8 +9480,8 @@
      ],
      [
       "js/core/speech.js",
-      398,
-      409,
+      400,
+      408,
       8358,
       8358,
       0,
@@ -13148,8 +9489,8 @@
      ],
      [
       "js/core/pool.js",
-      398,
-      412,
+      400,
+      410,
       9565,
       9565,
       0,
@@ -13157,8 +9498,8 @@
      ],
      [
       "js/core/grading.js",
-      398,
-      412,
+      400,
+      410,
       16993,
       16993,
       0,
@@ -13166,7 +9507,7 @@
      ],
      [
       "js/core/diff.js",
-      399,
+      400,
       412,
       5002,
       5002,
@@ -13175,7 +9516,7 @@
      ],
      [
       "js/core/writing-analyzer.js",
-      399,
+      401,
       413,
       76076,
       76076,
@@ -13185,102 +9526,102 @@
     ]
    },
    "median": {
-    "view": 383.1,
-    "fcp": 160,
-    "lcp": 404,
-    "tbt": 14,
+    "view": 388,
+    "fcp": 148,
+    "lcp": 396,
+    "tbt": 13,
     "cls": 0,
-    "reqs": 41,
-    "gzKB": 804.633,
-    "rawKB": 804.633,
+    "reqs": 42,
+    "gzKB": 809.014,
+    "rawKB": 809.014,
     "netKB": 0,
-    "netReqs": 2,
+    "netReqs": 1,
     "longTasks": 2,
-    "longest": 60,
-    "script": 73.995,
-    "layout": 64.547,
-    "style": 38.246,
-    "heapMB": 2.867,
-    "dcl": 114.5,
-    "load": 182.5,
-    "swServed": 40,
-    "n304": 0,
+    "longest": 58,
+    "script": 82.283,
+    "layout": 61.315,
+    "style": 40.066,
+    "heapMB": 2.903,
+    "dcl": 154.6,
+    "load": 181.3,
+    "swServed": 41,
+    "n304": 1,
     "n200": 0
    },
-   "revision": "verify5"
+   "revision": "integrate7"
   },
   {
    "profile": "mobile",
    "scenario": "g",
-   "name": "lie-fi: #/lesson/a1-01",
+   "name": "fresh: #/lesson/a1-01",
    "runs": [
     {
-     "view": 429.19999999925494,
-     "fcp": 168,
-     "lcp": 448,
-     "tbt": 72,
-     "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
-     "netKB": 0,
-     "netReqs": 1,
-     "longTasks": 1,
-     "longest": 122,
-     "script": 82.179,
-     "layout": 56.675999999999995,
-     "style": 31.931,
-     "heapMB": 3.0154685974121094,
-     "dcl": 164.39999999850988,
-     "load": 201.69999999925494,
-     "swServed": 39,
-     "n304": 0,
-     "n200": 0
-    },
-    {
-     "view": 450.19999999925494,
-     "fcp": 192,
+     "view": 441.6000000014901,
+     "fcp": 160,
      "lcp": 460,
-     "tbt": 97,
+     "tbt": 78,
      "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
      "netKB": 0,
      "netReqs": 1,
      "longTasks": 1,
-     "longest": 147,
-     "script": 89.409,
-     "layout": 54.573,
-     "style": 29.62,
-     "heapMB": 2.994342803955078,
-     "dcl": 137.80000000074506,
-     "load": 215.80000000074506,
-     "swServed": 39,
-     "n304": 0,
+     "longest": 128,
+     "script": 93.626,
+     "layout": 50.236999999999995,
+     "style": 28.496000000000002,
+     "heapMB": 3.010021209716797,
+     "dcl": 109.10000000149012,
+     "load": 189,
+     "swServed": 40,
+     "n304": 1,
      "n200": 0
     },
     {
-     "view": 488.80000000074506,
-     "fcp": 172,
-     "lcp": 504,
-     "tbt": 147,
+     "view": 384.90000000596046,
+     "fcp": 136,
+     "lcp": 404,
+     "tbt": 61,
      "cls": 0,
-     "reqs": 40,
-     "gzKB": 769.0498046875,
-     "rawKB": 769.0498046875,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
      "netKB": 0,
      "netReqs": 1,
-     "longTasks": 2,
-     "longest": 173,
-     "script": 124.758,
-     "layout": 57.082,
-     "style": 34.8,
-     "heapMB": 3.1834259033203125,
-     "dcl": 114.90000000223517,
-     "load": 194.5,
-     "swServed": 39,
-     "n304": 0,
+     "longTasks": 1,
+     "longest": 111,
+     "script": 80.152,
+     "layout": 44.918,
+     "style": 35.471999999999994,
+     "heapMB": 3.019237518310547,
+     "dcl": 101.20000000298023,
+     "load": 170.90000000596046,
+     "swServed": 40,
+     "n304": 1,
+     "n200": 0
+    },
+    {
+     "view": 352.1000000014901,
+     "fcp": 148,
+     "lcp": 364,
+     "tbt": 42,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 1,
+     "longest": 92,
+     "script": 72.74600000000001,
+     "layout": 41.105999999999995,
+     "style": 28.04,
+     "heapMB": 3.0307388305664062,
+     "dcl": 113.5,
+     "load": 173.90000000596046,
+     "swServed": 40,
+     "n304": 1,
      "n200": 0
     }
    ],
@@ -13289,8 +9630,1412 @@
     "resources": [
      [
       "css/app.css",
-      39,
+      33,
+      41,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      36,
+      46,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      36,
+      46,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      36,
+      49,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      37,
+      51,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      37,
+      54,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      38,
+      54,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      40,
+      55,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      40,
+      55,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      40,
+      55,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      41,
+      57,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      41,
+      59,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      41,
+      59,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      42,
+      60,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      42,
+      60,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      43,
+      61,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      43,
+      62,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      43,
+      62,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      44,
+      63,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      44,
+      64,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      45,
+      65,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      46,
+      66,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      46,
+      67,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      46,
+      67,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      178,
+      182,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      181,
+      183,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      203,
+      208,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      204,
+      211,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      206,
+      215,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      207,
+      218,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      207,
+      228,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      207,
+      228,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      207,
+      228,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      207,
+      228,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      207,
+      228,
+      76076,
+      76076,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      210,
+      228,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      210,
+      233,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      280,
+      283,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      281,
+      287,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-02.json",
+      281,
+      287,
+      27422,
+      27422,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 384.9,
+    "fcp": 148,
+    "lcp": 404,
+    "tbt": 61,
+    "cls": 0,
+    "reqs": 41,
+    "gzKB": 773.431,
+    "rawKB": 773.431,
+    "netKB": 0,
+    "netReqs": 1,
+    "longTasks": 1,
+    "longest": 111,
+    "script": 80.152,
+    "layout": 44.918,
+    "style": 28.496,
+    "heapMB": 3.019,
+    "dcl": 109.1,
+    "load": 173.9,
+    "swServed": 40,
+    "n304": 1,
+    "n200": 0
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "stale: #/today",
+   "runs": [
+    {
+     "view": 377.5,
+     "fcp": 152,
+     "lcp": 392,
+     "tbt": 34,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 3,
+     "longest": 73,
+     "script": 100.248,
+     "layout": 69.59899999999999,
+     "style": 34.388000000000005,
+     "heapMB": 2.9105377197265625,
+     "dcl": 112.5,
+     "load": 183.39999999850988,
+     "swServed": 41,
+     "n304": 2,
+     "n200": 0
+    },
+    {
+     "view": 392.3999999985099,
+     "fcp": 140,
+     "lcp": 408,
+     "tbt": 16,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 2,
+     "longest": 64,
+     "script": 55.723,
+     "layout": 64.706,
+     "style": 38.652,
+     "heapMB": 2.9048843383789062,
+     "dcl": 93.79999999701977,
+     "load": 177.5,
+     "swServed": 41,
+     "n304": 2,
+     "n200": 0
+    },
+    {
+     "view": 330.80000000447035,
+     "fcp": 152,
+     "lcp": 356,
+     "tbt": 23,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 2,
+     "longest": 71,
+     "script": 95.279,
+     "layout": 51.976,
+     "style": 32.095,
+     "heapMB": 2.8882293701171875,
+     "dcl": 93.40000000596046,
+     "load": 157,
+     "swServed": 41,
+     "n304": 2,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
       47,
+      52,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      49,
+      59,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      49,
+      61,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      49,
+      61,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      49,
+      66,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      50,
+      67,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      50,
+      68,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      50,
+      68,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      51,
+      71,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      52,
+      73,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      52,
+      74,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      52,
+      76,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      53,
+      77,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      53,
+      76,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      53,
+      78,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      54,
+      78,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      54,
+      78,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      54,
+      78,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      55,
+      81,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      55,
+      78,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      55,
+      79,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      55,
+      81,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      55,
+      81,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      55,
+      81,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      189,
+      193,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      190,
+      193,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/today.js",
+      205,
+      211,
+      54931,
+      54931,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      206,
+      211,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      207,
+      212,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      209,
+      215,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      209,
+      217,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      213,
+      219,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/scenario/rl-airport-gate-transfer.json",
+      390,
+      397,
+      8928,
+      8928,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      391,
+      402,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      392,
+      404,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      392,
+      407,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      392,
+      407,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      392,
+      408,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      393,
+      409,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      393,
+      410,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      394,
+      412,
+      76076,
+      76076,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 377.5,
+    "fcp": 152,
+    "lcp": 392,
+    "tbt": 23,
+    "cls": 0,
+    "reqs": 42,
+    "gzKB": 809.014,
+    "rawKB": 809.014,
+    "netKB": 0,
+    "netReqs": 2,
+    "longTasks": 2,
+    "longest": 71,
+    "script": 95.279,
+    "layout": 64.706,
+    "style": 34.388,
+    "heapMB": 2.905,
+    "dcl": 93.8,
+    "load": 177.5,
+    "swServed": 41,
+    "n304": 2,
+    "n200": 0
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "stale: #/lesson/a1-01",
+   "runs": [
+    {
+     "view": 404.70000000298023,
+     "fcp": 192,
+     "lcp": 424,
+     "tbt": 54,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 2,
+     "longest": 101,
+     "script": 89.491,
+     "layout": 37.725,
+     "style": 26.798,
+     "heapMB": 3.006671905517578,
+     "dcl": 137.10000000149012,
+     "load": 204.20000000298023,
+     "swServed": 40,
+     "n304": 3,
+     "n200": 0
+    },
+    {
+     "view": 361.79999999701977,
+     "fcp": 164,
+     "lcp": 380,
+     "tbt": 56,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 106,
+     "script": 79.065,
+     "layout": 41.480000000000004,
+     "style": 29.86,
+     "heapMB": 3.0289649963378906,
+     "dcl": 101.20000000298023,
+     "load": 173.10000000149012,
+     "swServed": 40,
+     "n304": 3,
+     "n200": 0
+    },
+    {
+     "view": 353.20000000298023,
+     "fcp": 156,
+     "lcp": 372,
+     "tbt": 31,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 81,
+     "script": 80.148,
+     "layout": 41.792,
+     "style": 25.172,
+     "heapMB": 3.030742645263672,
+     "dcl": 101.20000000298023,
+     "load": 185,
+     "swServed": 40,
+     "n304": 3,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span.bi-he.primary",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      40,
+      45,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      41,
+      47,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      42,
+      54,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      42,
+      55,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      42,
+      55,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      43,
+      57,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      43,
+      58,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      43,
+      60,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      44,
+      62,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      44,
+      62,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      44,
+      63,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      44,
+      63,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      45,
+      64,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      45,
+      65,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      45,
+      65,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      45,
+      67,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      46,
+      67,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      46,
+      70,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      46,
+      70,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      46,
+      70,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      47,
+      71,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      47,
+      72,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      47,
+      72,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      47,
+      72,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      179,
+      183,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      181,
+      184,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      198,
+      205,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      199,
+      205,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      200,
+      207,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      201,
+      208,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      201,
+      208,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      201,
+      213,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      201,
+      214,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      202,
+      215,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      202,
+      217,
+      76076,
+      76076,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      204,
+      217,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      204,
+      217,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      275,
+      279,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      276,
+      280,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-02.json",
+      276,
+      280,
+      27422,
+      27422,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 361.8,
+    "fcp": 164,
+    "lcp": 380,
+    "tbt": 54,
+    "cls": 0,
+    "reqs": 41,
+    "gzKB": 773.431,
+    "rawKB": 773.431,
+    "netKB": 0,
+    "netReqs": 3,
+    "longTasks": 1,
+    "longest": 101,
+    "script": 80.148,
+    "layout": 41.48,
+    "style": 26.798,
+    "heapMB": 3.029,
+    "dcl": 101.2,
+    "load": 185,
+    "swServed": 40,
+    "n304": 3,
+    "n200": 0
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "after-push: #/today",
+   "runs": [
+    {
+     "view": 385.29999999701977,
+     "fcp": 168,
+     "lcp": 400,
+     "tbt": 17,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 20.134765625,
+     "netReqs": 2,
+     "longTasks": 3,
+     "longest": 58,
+     "script": 88.87,
+     "layout": 61.367,
+     "style": 36.739000000000004,
+     "heapMB": 2.8924331665039062,
+     "dcl": 125.19999999552965,
+     "load": 189.19999999552965,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 2
+    },
+    {
+     "view": 395.20000000298023,
+     "fcp": 168,
+     "lcp": 420,
+     "tbt": 9,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 20.134765625,
+     "netReqs": 2,
+     "longTasks": 2,
+     "longest": 57,
+     "script": 77.674,
+     "layout": 61.102999999999994,
+     "style": 35.77,
+     "heapMB": 2.90826416015625,
+     "dcl": 127.20000000298023,
+     "load": 193.39999999850988,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 2
+    },
+    {
+     "view": 344.6000000014901,
+     "fcp": 140,
+     "lcp": 360,
+     "tbt": 11,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 20.134765625,
+     "netReqs": 2,
+     "longTasks": 1,
+     "longest": 61,
+     "script": 68.83200000000001,
+     "layout": 57.919,
+     "style": 33.352,
+     "heapMB": 2.8987808227539062,
+     "dcl": 87.69999999552965,
+     "load": 149.79999999701977,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 2
+    }
+   ],
+   "lcpEl": "span",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      38,
+      43,
       115509,
       115509,
       0,
@@ -13299,7 +11044,7 @@
      [
       "fonts/rubik-latin.woff2",
       40,
-      51,
+      48,
       35348,
       35348,
       0,
@@ -13308,7 +11053,7 @@
      [
       "fonts/rubik-hebrew.woff2",
       40,
-      51,
+      49,
       9348,
       9348,
       0,
@@ -13316,8 +11061,8 @@
      ],
      [
       "js/app.js",
-      40,
-      55,
+      41,
+      50,
       11478,
       11478,
       0,
@@ -13325,8 +11070,8 @@
      ],
      [
       "js/core/store.js",
-      41,
-      56,
+      42,
+      52,
       4815,
       4815,
       0,
@@ -13335,16 +11080,16 @@
      [
       "js/core/router.js",
       43,
-      58,
-      9959,
-      9959,
+      56,
+      10072,
+      10072,
       0,
       "sw"
      ],
      [
       "js/ui/components.js",
       43,
-      60,
+      59,
       3696,
       3696,
       0,
@@ -13362,34 +11107,34 @@
      [
       "js/core/sync.js",
       43,
-      61,
-      1479,
-      1479,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/icons.js",
-      43,
       62,
-      9637,
-      9637,
+      1479,
+      1479,
       0,
       "sw"
      ],
      [
       "js/core/learner.js",
       43,
-      62,
-      15158,
-      15158,
+      66,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      45,
+      67,
+      9637,
+      9637,
       0,
       "sw"
      ],
      [
       "config.js",
-      43,
-      64,
+      46,
+      67,
       131,
       131,
       0,
@@ -13397,8 +11142,8 @@
      ],
      [
       "js/core/util.js",
-      43,
-      64,
+      46,
+      69,
       3006,
       3006,
       0,
@@ -13406,17 +11151,17 @@
      ],
      [
       "js/core/content.js",
-      43,
-      65,
-      3374,
-      3374,
+      47,
+      70,
+      3933,
+      3933,
       0,
       "sw"
      ],
      [
       "js/core/adaptive.js",
-      50,
-      66,
+      48,
+      70,
       16546,
       16546,
       0,
@@ -13424,7 +11169,7 @@
      ],
      [
       "js/core/srs.js",
-      52,
+      48,
       73,
       4853,
       4853,
@@ -13433,7 +11178,7 @@
      ],
      [
       "js/core/i18n.js",
-      56,
+      48,
       74,
       13604,
       13604,
@@ -13442,8 +11187,8 @@
      ],
      [
       "vendor/ts-fsrs.mjs",
-      56,
-      78,
+      48,
+      75,
       22978,
       22978,
       0,
@@ -13451,26 +11196,35 @@
      ],
      [
       "js/core/session.js",
-      56,
-      78,
-      7926,
-      7926,
+      51,
+      75,
+      9802,
+      9802,
       0,
       "sw"
      ],
      [
       "js/core/placement.js",
-      57,
-      79,
+      52,
+      75,
       3524,
       3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      52,
+      76,
+      1075,
+      1075,
       0,
       "sw"
      ],
      [
       "js/core/route-deps.js",
-      57,
-      80,
+      52,
+      76,
       4258,
       4258,
       0,
@@ -13478,8 +11232,8 @@
      ],
      [
       "content/curriculum.json",
-      58,
-      80,
+      54,
+      77,
       52716,
       52716,
       0,
@@ -13487,125 +11241,53 @@
      ],
      [
       "content/manifest.json",
-      58,
-      81,
-      6031,
-      6031,
+      55,
+      77,
+      6051,
+      6051,
       0,
       "sw"
      ],
      [
       "content/curriculum.json",
-      210,
+      197,
+      201,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      198,
+      202,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/today.js",
       215,
-      52716,
-      52716,
-      0,
-      "sw"
-     ],
-     [
-      "content/manifest.json",
-      211,
-      216,
-      6031,
-      6031,
-      0,
-      "sw"
-     ],
-     [
-      "js/views/lesson.js",
-      239,
-      244,
-      71678,
-      71678,
+      219,
+      54931,
+      54931,
       0,
       "sw"
      ],
      [
       "js/core/compat.js",
-      240,
-      246,
-      2798,
-      2798,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/exercise.js",
-      240,
-      247,
-      62426,
-      62426,
-      0,
-      "sw"
-     ],
-     [
-      "js/ui/player.js",
-      240,
-      251,
-      9264,
-      9264,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/speech.js",
-      240,
-      252,
-      8358,
-      8358,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/pool.js",
-      241,
-      253,
-      9565,
-      9565,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/grading.js",
-      243,
-      254,
-      16993,
-      16993,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/diff.js",
-      244,
-      256,
-      5002,
-      5002,
-      0,
-      "sw"
-     ],
-     [
-      "js/core/writing-analyzer.js",
-      245,
-      257,
-      76076,
-      76076,
-      0,
-      "sw"
-     ],
-     [
-      "content/lessons/a1-01.json",
-      245,
-      256,
-      24483,
-      24483,
+      216,
+      222,
+      3497,
+      3497,
       0,
       "sw"
      ],
      [
       "content/taxonomy.json",
-      245,
-      258,
+      216,
+      224,
       20361,
       20361,
       0,
@@ -13613,8 +11295,8 @@
      ],
      [
       "content/real-life/index.json",
-      322,
-      326,
+      216,
+      224,
       18123,
       18123,
       0,
@@ -13622,8 +11304,554 @@
      ],
      [
       "content/writing/index.json",
-      324,
-      328,
+      216,
+      225,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      223,
+      226,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/scenario/rl-airport-gate-transfer.json",
+      399,
+      402,
+      8928,
+      8928,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      400,
+      409,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      401,
+      411,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      401,
+      415,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      402,
+      415,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      402,
+      415,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      403,
+      416,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      403,
+      417,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      404,
+      418,
+      76076,
+      76076,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 385.3,
+    "fcp": 168,
+    "lcp": 400,
+    "tbt": 11,
+    "cls": 0,
+    "reqs": 42,
+    "gzKB": 809.014,
+    "rawKB": 809.014,
+    "netKB": 20.135,
+    "netReqs": 2,
+    "longTasks": 2,
+    "longest": 58,
+    "script": 77.674,
+    "layout": 61.103,
+    "style": 35.77,
+    "heapMB": 2.899,
+    "dcl": 125.2,
+    "load": 189.2,
+    "swServed": 41,
+    "n304": 0,
+    "n200": 2
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "after-push: #/lesson/a1-01",
+   "runs": [
+    {
+     "view": 404.30000000447035,
+     "fcp": 132,
+     "lcp": 416,
+     "tbt": 81,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 8.1533203125,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 131,
+     "script": 78.587,
+     "layout": 49.451,
+     "style": 25.674,
+     "heapMB": 3.018566131591797,
+     "dcl": 92.80000000447035,
+     "load": 178.5,
+     "swServed": 40,
+     "n304": 2,
+     "n200": 1
+    },
+    {
+     "view": 332.3999999985099,
+     "fcp": 136,
+     "lcp": 352,
+     "tbt": 33,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 8.1533203125,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 83,
+     "script": 80.816,
+     "layout": 34.592999999999996,
+     "style": 23.703,
+     "heapMB": 3.0311813354492188,
+     "dcl": 99.19999999552965,
+     "load": 166.69999999552965,
+     "swServed": 40,
+     "n304": 2,
+     "n200": 1
+    },
+    {
+     "view": 362.6000000014901,
+     "fcp": 168,
+     "lcp": 384,
+     "tbt": 48,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 8.1533203125,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 98,
+     "script": 70.938,
+     "layout": 33.748,
+     "style": 21.481,
+     "heapMB": 3.012042999267578,
+     "dcl": 126.5,
+     "load": 188.80000000447035,
+     "swServed": 40,
+     "n304": 2,
+     "n200": 1
+    }
+   ],
+   "lcpEl": "span.bi-he.primary",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      45,
+      50,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      48,
+      53,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      49,
+      53,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      50,
+      55,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      50,
+      57,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      51,
+      59,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      53,
+      59,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      54,
+      62,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      55,
+      62,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      56,
+      69,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      56,
+      71,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      57,
+      72,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      58,
+      73,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      58,
+      75,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      58,
+      75,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      58,
+      76,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      60,
+      77,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      61,
+      80,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      61,
+      82,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      61,
+      82,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      61,
+      82,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      61,
+      82,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      63,
+      82,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      64,
+      82,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      195,
+      199,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      196,
+      200,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      211,
+      217,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      211,
+      214,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      212,
+      221,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      212,
+      221,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      212,
+      223,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      213,
+      224,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      213,
+      224,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      213,
+      225,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      214,
+      226,
+      76076,
+      76076,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      214,
+      225,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      214,
+      228,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      264,
+      267,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      265,
+      268,
       8332,
       8332,
       0,
@@ -13631,8 +11859,8 @@
      ],
      [
       "content/lessons/a1-02.json",
-      324,
-      327,
+      265,
+      268,
       27422,
       27422,
       0,
@@ -13641,29 +11869,1907 @@
     ]
    },
    "median": {
-    "view": 450.2,
-    "fcp": 172,
-    "lcp": 460,
-    "tbt": 97,
+    "view": 362.6,
+    "fcp": 136,
+    "lcp": 384,
+    "tbt": 48,
     "cls": 0,
-    "reqs": 40,
-    "gzKB": 769.05,
-    "rawKB": 769.05,
-    "netKB": 0,
-    "netReqs": 1,
+    "reqs": 41,
+    "gzKB": 773.431,
+    "rawKB": 773.431,
+    "netKB": 8.153,
+    "netReqs": 3,
     "longTasks": 1,
-    "longest": 147,
-    "script": 89.409,
-    "layout": 56.676,
-    "style": 31.931,
-    "heapMB": 3.015,
-    "dcl": 137.8,
-    "load": 201.7,
-    "swServed": 39,
+    "longest": 98,
+    "script": 78.587,
+    "layout": 34.593,
+    "style": 23.703,
+    "heapMB": 3.019,
+    "dcl": 99.2,
+    "load": 178.5,
+    "swServed": 40,
+    "n304": 2,
+    "n200": 1
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "offline: #/today",
+   "runs": [
+    {
+     "view": 390.8999999985099,
+     "fcp": 160,
+     "lcp": 412,
+     "tbt": 5,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 2,
+     "longest": 54,
+     "script": 72.53800000000001,
+     "layout": 61.045,
+     "style": 34.835,
+     "heapMB": 2.904266357421875,
+     "dcl": 166.20000000298023,
+     "load": 188.10000000149012,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 456.5,
+     "fcp": 180,
+     "lcp": 480,
+     "tbt": 24,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 2,
+     "longest": 71,
+     "script": 79.97500000000001,
+     "layout": 65.25699999999999,
+     "style": 49.951,
+     "heapMB": 2.884868621826172,
+     "dcl": 188,
+     "load": 230.89999999850988,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 405.3999999985099,
+     "fcp": 164,
+     "lcp": 436,
+     "tbt": 19,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 3,
+     "longest": 66,
+     "script": 81.32300000000001,
+     "layout": 63.752,
+     "style": 37.231,
+     "heapMB": 2.9073867797851562,
+     "dcl": 122.5,
+     "load": 189.20000000298023,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      38,
+      48,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      40,
+      49,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      41,
+      55,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      42,
+      56,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      42,
+      58,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      43,
+      58,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      49,
+      62,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      49,
+      66,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      50,
+      66,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      51,
+      68,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      51,
+      69,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      52,
+      69,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      52,
+      74,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      53,
+      77,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      53,
+      78,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      53,
+      79,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      54,
+      79,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      55,
+      80,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      55,
+      82,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      55,
+      82,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      55,
+      84,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      55,
+      84,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      57,
+      84,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      57,
+      85,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      197,
+      202,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      198,
+      202,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/today.js",
+      216,
+      220,
+      54931,
+      54931,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      217,
+      221,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      219,
+      222,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      221,
+      225,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      223,
+      226,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      229,
+      233,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/scenario/rl-airport-gate-transfer.json",
+      420,
+      424,
+      8928,
+      8928,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      422,
+      429,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      423,
+      432,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      423,
+      436,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      423,
+      436,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      423,
+      437,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      425,
+      438,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      425,
+      439,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      425,
+      440,
+      76076,
+      76076,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 405.4,
+    "fcp": 164,
+    "lcp": 436,
+    "tbt": 19,
+    "cls": 0,
+    "reqs": 42,
+    "gzKB": 809.014,
+    "rawKB": 809.014,
+    "netKB": 0,
+    "netReqs": 3,
+    "longTasks": 2,
+    "longest": 66,
+    "script": 79.975,
+    "layout": 63.752,
+    "style": 37.231,
+    "heapMB": 2.904,
+    "dcl": 166.2,
+    "load": 189.2,
+    "swServed": 41,
     "n304": 0,
     "n200": 0
    },
-   "revision": "verify5"
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "offline: #/lesson/a1-01",
+   "runs": [
+    {
+     "view": 333,
+     "fcp": 144,
+     "lcp": 344,
+     "tbt": 45,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 95,
+     "script": 74.604,
+     "layout": 36.497,
+     "style": 28.099,
+     "heapMB": 3.0002708435058594,
+     "dcl": 87.89999999850988,
+     "load": 157,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 370.80000000447035,
+     "fcp": 156,
+     "lcp": 392,
+     "tbt": 53,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 1,
+     "longest": 103,
+     "script": 75.14500000000001,
+     "layout": 40.257,
+     "style": 28.558,
+     "heapMB": 3.0303916931152344,
+     "dcl": 104.39999999850988,
+     "load": 178.5,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 365.79999999701977,
+     "fcp": 156,
+     "lcp": 376,
+     "tbt": 36,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 3,
+     "longTasks": 2,
+     "longest": 86,
+     "script": 84.955,
+     "layout": 36.81,
+     "style": 29.178,
+     "heapMB": 3.0091590881347656,
+     "dcl": 113,
+     "load": 187.79999999701977,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span.bi-he.primary",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      40,
+      48,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      43,
+      48,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      43,
+      53,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      44,
+      58,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      46,
+      59,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      46,
+      61,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      48,
+      64,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      48,
+      64,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      49,
+      65,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      49,
+      66,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      50,
+      67,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      51,
+      70,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      51,
+      70,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      51,
+      71,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      52,
+      71,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      53,
+      72,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      54,
+      73,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      54,
+      74,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      54,
+      75,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      54,
+      75,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      55,
+      75,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      55,
+      76,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      55,
+      76,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      56,
+      76,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      196,
+      199,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      198,
+      201,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      215,
+      220,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      215,
+      222,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      216,
+      224,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      216,
+      226,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      216,
+      227,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      217,
+      229,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      217,
+      230,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      217,
+      231,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      218,
+      232,
+      76076,
+      76076,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      218,
+      230,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      219,
+      233,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      284,
+      287,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-02.json",
+      285,
+      289,
+      27422,
+      27422,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      285,
+      289,
+      8332,
+      8332,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 365.8,
+    "fcp": 156,
+    "lcp": 376,
+    "tbt": 45,
+    "cls": 0,
+    "reqs": 41,
+    "gzKB": 773.431,
+    "rawKB": 773.431,
+    "netKB": 0,
+    "netReqs": 3,
+    "longTasks": 1,
+    "longest": 95,
+    "script": 75.145,
+    "layout": 36.81,
+    "style": 28.558,
+    "heapMB": 3.009,
+    "dcl": 104.4,
+    "load": 178.5,
+    "swServed": 40,
+    "n304": 0,
+    "n200": 0
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "lie-fi: #/today",
+   "runs": [
+    {
+     "view": 372.20000000298023,
+     "fcp": 156,
+     "lcp": 384,
+     "tbt": 6,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 2,
+     "longest": 53,
+     "script": 76.697,
+     "layout": 63.224000000000004,
+     "style": 34.433,
+     "heapMB": 2.901592254638672,
+     "dcl": 118.20000000298023,
+     "load": 182.90000000596046,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 362.29999999701977,
+     "fcp": 144,
+     "lcp": 380,
+     "tbt": 6,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 1,
+     "longest": 56,
+     "script": 75.229,
+     "layout": 55.076,
+     "style": 39.727,
+     "heapMB": 2.90521240234375,
+     "dcl": 97.89999999850988,
+     "load": 169.5,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 382.09999999403954,
+     "fcp": 172,
+     "lcp": 408,
+     "tbt": 11,
+     "cls": 0,
+     "reqs": 42,
+     "gzKB": 809.013671875,
+     "rawKB": 809.013671875,
+     "netKB": 0,
+     "netReqs": 2,
+     "longTasks": 2,
+     "longest": 59,
+     "script": 83.011,
+     "layout": 52.214999999999996,
+     "style": 35.765,
+     "heapMB": 2.8957748413085938,
+     "dcl": 127.5,
+     "load": 188.19999999552965,
+     "swServed": 41,
+     "n304": 0,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      40,
+      47,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      42,
+      48,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      43,
+      50,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      43,
+      56,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      44,
+      60,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      45,
+      60,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      45,
+      63,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      46,
+      69,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      47,
+      69,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      47,
+      70,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      47,
+      71,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      48,
+      72,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      48,
+      72,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      49,
+      73,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      49,
+      76,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      49,
+      75,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      50,
+      77,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      50,
+      78,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      51,
+      80,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      52,
+      80,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      52,
+      81,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      53,
+      81,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      53,
+      82,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      53,
+      82,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      189,
+      193,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      190,
+      193,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/today.js",
+      205,
+      210,
+      54931,
+      54931,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      205,
+      213,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      207,
+      213,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      208,
+      215,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      209,
+      219,
+      8332,
+      8332,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      211,
+      219,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/scenario/rl-airport-gate-transfer.json",
+      386,
+      391,
+      8928,
+      8928,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      389,
+      396,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      390,
+      400,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      390,
+      403,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      390,
+      403,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      390,
+      404,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      390,
+      405,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      391,
+      407,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      391,
+      408,
+      76076,
+      76076,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 372.2,
+    "fcp": 156,
+    "lcp": 384,
+    "tbt": 6,
+    "cls": 0,
+    "reqs": 42,
+    "gzKB": 809.014,
+    "rawKB": 809.014,
+    "netKB": 0,
+    "netReqs": 2,
+    "longTasks": 2,
+    "longest": 56,
+    "script": 76.697,
+    "layout": 55.076,
+    "style": 35.765,
+    "heapMB": 2.902,
+    "dcl": 118.2,
+    "load": 182.9,
+    "swServed": 41,
+    "n304": 0,
+    "n200": 0
+   },
+   "revision": "integrate7"
+  },
+  {
+   "profile": "mobile",
+   "scenario": "g",
+   "name": "lie-fi: #/lesson/a1-01",
+   "runs": [
+    {
+     "view": 347,
+     "fcp": 136,
+     "lcp": 372,
+     "tbt": 36,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 1,
+     "longest": 86,
+     "script": 78.94800000000001,
+     "layout": 37.225,
+     "style": 22.401999999999997,
+     "heapMB": 3.005847930908203,
+     "dcl": 99.39999999850988,
+     "load": 166.10000000149012,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 382.80000000447035,
+     "fcp": 144,
+     "lcp": 396,
+     "tbt": 83,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 1,
+     "longest": 133,
+     "script": 88.68299999999999,
+     "layout": 38.997,
+     "style": 27.486,
+     "heapMB": 3.01422119140625,
+     "dcl": 96.5,
+     "load": 166.60000000149012,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    },
+    {
+     "view": 350.20000000298023,
+     "fcp": 140,
+     "lcp": 372,
+     "tbt": 58,
+     "cls": 0,
+     "reqs": 41,
+     "gzKB": 773.4306640625,
+     "rawKB": 773.4306640625,
+     "netKB": 0,
+     "netReqs": 1,
+     "longTasks": 1,
+     "longest": 108,
+     "script": 83.51400000000001,
+     "layout": 40.157,
+     "style": 24.52,
+     "heapMB": 3.0146102905273438,
+     "dcl": 98.40000000596046,
+     "load": 168.70000000298023,
+     "swServed": 40,
+     "n304": 0,
+     "n200": 0
+    }
+   ],
+   "lcpEl": "span.bi-he.primary",
+   "sample": {
+    "resources": [
+     [
+      "css/app.css",
+      31,
+      41,
+      115509,
+      115509,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-latin.woff2",
+      34,
+      41,
+      35348,
+      35348,
+      0,
+      "sw"
+     ],
+     [
+      "fonts/rubik-hebrew.woff2",
+      35,
+      42,
+      9348,
+      9348,
+      0,
+      "sw"
+     ],
+     [
+      "js/app.js",
+      36,
+      48,
+      11478,
+      11478,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/store.js",
+      37,
+      48,
+      4815,
+      4815,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/router.js",
+      37,
+      50,
+      10072,
+      10072,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/components.js",
+      37,
+      57,
+      3696,
+      3696,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/api.js",
+      37,
+      62,
+      6322,
+      6322,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/sync.js",
+      38,
+      68,
+      1479,
+      1479,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/learner.js",
+      39,
+      69,
+      15233,
+      15233,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/icons.js",
+      40,
+      70,
+      9637,
+      9637,
+      0,
+      "sw"
+     ],
+     [
+      "config.js",
+      40,
+      70,
+      131,
+      131,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/util.js",
+      40,
+      71,
+      3006,
+      3006,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/content.js",
+      40,
+      72,
+      3933,
+      3933,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/adaptive.js",
+      40,
+      72,
+      16546,
+      16546,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/srs.js",
+      40,
+      72,
+      4853,
+      4853,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/i18n.js",
+      40,
+      74,
+      13604,
+      13604,
+      0,
+      "sw"
+     ],
+     [
+      "vendor/ts-fsrs.mjs",
+      40,
+      76,
+      22978,
+      22978,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/session.js",
+      43,
+      76,
+      9802,
+      9802,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/placement.js",
+      43,
+      76,
+      3524,
+      3524,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/route-deps.js",
+      43,
+      76,
+      4258,
+      4258,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/age.js",
+      43,
+      76,
+      1075,
+      1075,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      45,
+      76,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      45,
+      79,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "content/curriculum.json",
+      177,
+      181,
+      52716,
+      52716,
+      0,
+      "sw"
+     ],
+     [
+      "content/manifest.json",
+      178,
+      182,
+      6051,
+      6051,
+      0,
+      "sw"
+     ],
+     [
+      "js/views/lesson.js",
+      192,
+      196,
+      71678,
+      71678,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/compat.js",
+      193,
+      197,
+      3497,
+      3497,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/exercise.js",
+      193,
+      201,
+      62426,
+      62426,
+      0,
+      "sw"
+     ],
+     [
+      "js/ui/player.js",
+      194,
+      201,
+      9264,
+      9264,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/speech.js",
+      194,
+      202,
+      8358,
+      8358,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/pool.js",
+      194,
+      202,
+      9565,
+      9565,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/grading.js",
+      195,
+      202,
+      16993,
+      16993,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/diff.js",
+      195,
+      204,
+      5002,
+      5002,
+      0,
+      "sw"
+     ],
+     [
+      "js/core/writing-analyzer.js",
+      195,
+      204,
+      76076,
+      76076,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-01.json",
+      197,
+      205,
+      24483,
+      24483,
+      0,
+      "sw"
+     ],
+     [
+      "content/taxonomy.json",
+      201,
+      207,
+      20361,
+      20361,
+      0,
+      "sw"
+     ],
+     [
+      "content/real-life/index.json",
+      258,
+      265,
+      18123,
+      18123,
+      0,
+      "sw"
+     ],
+     [
+      "content/lessons/a1-02.json",
+      258,
+      264,
+      27422,
+      27422,
+      0,
+      "sw"
+     ],
+     [
+      "content/writing/index.json",
+      258,
+      265,
+      8332,
+      8332,
+      0,
+      "sw"
+     ]
+    ]
+   },
+   "median": {
+    "view": 350.2,
+    "fcp": 140,
+    "lcp": 372,
+    "tbt": 58,
+    "cls": 0,
+    "reqs": 41,
+    "gzKB": 773.431,
+    "rawKB": 773.431,
+    "netKB": 0,
+    "netReqs": 1,
+    "longTasks": 1,
+    "longest": 108,
+    "script": 83.514,
+    "layout": 38.997,
+    "style": 24.52,
+    "heapMB": 3.014,
+    "dcl": 98.4,
+    "load": 166.6,
+    "swServed": 40,
+    "n304": 0,
+    "n200": 0
+   },
+   "revision": "integrate7"
   },
   {
    "profile": "mobile",

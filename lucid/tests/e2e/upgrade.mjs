@@ -1,5 +1,6 @@
 // Browser acceptance checks for the one-time upgrade from the release in production before the perf programme
-// (RELEASE '2026-11-03.1', commit b2b669b). That release's worker serves code network-first and its page has no
+// (RELEASE '2026-11-07.1', commit d83a500, main with the no-age-limit change). That release's worker serves code
+// network-first and its page has no
 // release handoff, so a tab started on it keeps its core modules (content.js, util.js, ...) and imports this
 // release's screens: from the network while its own worker still runs, and from the new release cache once the new
 // worker has taken over. Each check walks every screen in such a tab and fails on a screen that does not load, on an
@@ -18,17 +19,17 @@
 //       the reload the page asks for, without closing the tab
 //   U9  with the origin's storage nearly full, the next release still installs and takes over at a reload, keeps the
 //       saved lessons, and the old release's cache is removed
-//   U10 with no room even for the next release's shell (quota = usage), from this release and from b2b669b: the update
+//   U10 with no room even for the next release's shell (quota = usage), from this release and from d83a500: the update
 //       does not install, and the old release keeps its cache and saved lessons and starts offline after a restart
 //   U11 a release that is still installing when an older one takes over keeps its cache: it takes over at the next
 //       reload with a complete cache and the saved lessons, and screens load offline
 //   U12 a reload while another tab has a request the network never answers costs one hand-over page, not five
 //       seconds of them
 // and the storage edges of the round-5 review (S-15), with the quota set by Storage.overrideQuotaForOrigin:
-//   U13 from b2b669b with the origin nearly full (1.02x to 1.1x of usage): an update that does not fit changes nothing
+//   U13 from d83a500 with the origin nearly full (1.02x to 1.1x of usage): an update that does not fit changes nothing
 //       the old worker serves or stores, one that fits takes over, and either way Lucid starts offline with the saved
 //       lessons
-//   U14 from b2b669b at 1.2x: the update takes over, the old cache's space comes back at once, and right after the
+//   U14 from d83a500 at 1.2x: the update takes over, the old cache's space comes back at once, and right after the
 //       upgrade visit Lucid starts offline with the saved lessons
 //   U15 a second install of the same release (the registration went away, the cache stayed) on a full origin keeps
 //       the cache and the saved lessons, and Lucid starts offline
@@ -38,7 +39,15 @@
 // and the sixth round (S-15):
 //   U18 while a release waits behind a request the network never answers, a change of screen waits for it at most
 //       once (3 s), not at every tap; once the request ends the release takes over and the page moves to it
-// The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
+// and the no-age-limit protections across the upgrade (release 2026-11-07.1):
+//   U19 under 16, in a tab still on 2026-11-07.1 and after the takeover, a scenario and an expression flagged in both
+//       releases are not on the Real life, Conversations and Expressions screens and the scenario's link does not
+//       open it (this release's index and per-item files carry the flag; compat.js filters them for the old page);
+//       an adult sees both
+// Until 2026-11-07 the base was b2b669b (release 2026-11-03.1). Its worker is byte-identical to d83a500's apart from
+// RELEASE, so no case is kept for it here: tests/unit/sw.test.mjs runs the legacy-cache cases for both cache names,
+// and tests/unit/compat.test.mjs checks the screens against both releases' modules (architecture.md section 7).
+// The old tree comes from `git archive d83a500`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
 // Usage: node tests/e2e/upgrade.mjs [--only <substring>]      port: UPGRADE_PORT (default 9520)
@@ -53,14 +62,15 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, resolve } from 'node:path';
 import { BROKEN, NOT_FOUND } from './screen-errors.mjs';
 import { buildManifest } from '../../tools/build-manifest.mjs';
+import { writeContentIndex } from '../../tools/build-content-index.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
 const app = join(here, '..', '..');
 const NEW = process.env.E2E_ROOT ? join(resolve(process.env.E2E_ROOT), 'lucid') : app;
-const FROM = 'b2b669b';
-const LEGACY_CACHE = 'lucid-2026-11-03.1';
+const FROM = 'd83a500';
+const LEGACY_CACHE = 'lucid-2026-11-07.1';
 const PORT = Number(process.env.UPGRADE_PORT || process.env.LANE_PORT) || 9520;
 const BASE = `http://127.0.0.1:${PORT}/lucid/`;
 const ONLY = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
@@ -212,19 +222,19 @@ const SAVED = ['a1-01', 'a1-02', 'a1-03'];
 // A learner on the old release: onboarded at A1, three lessons saved for offline use, a lesson started, an essay
 // draft, then Today. The tab is controlled by the old worker. lean: no lesson and no essay opened, only the Writing
 // list, so the walk opens this release's lesson and essay screens next to the old Writing list module.
-async function oldLearner(ctx, { lean = false } = {}) {
-  served.root = OLD;
+async function oldLearner(ctx, { lean = false, root = OLD, birthYear = 1990 } = {}) {
+  served.root = root;
   const page = await tab(ctx);
   await page.goto(`${BASE}#/welcome`);
   await page.waitForSelector('.welcome', { timeout: 30000 });
-  await page.evaluate(async () => {
+  await page.evaluate(async (year) => {
     const L = await import('./js/core/learner.js');
     const P = await import('./js/core/placement.js');
-    L.saveProfile({ onboarded: true, name: 'Test', birth_year: 1990, ui_language: 'he', goals: ['travel'], created_at: new Date().toISOString() });
+    L.saveProfile({ onboarded: true, name: 'Test', birth_year: year, ui_language: 'he', goals: ['travel'], created_at: new Date().toISOString() });
     L.saveSettings({ daily_minutes: 20, text_size: 100 });
     await L.applyPlacement(P.selfReportResult('A1'));
     await window.lucid.store.flush();
-  });
+  }, birthYear);
   await page.waitForFunction(() => navigator.serviceWorker.controller || navigator.serviceWorker.ready.then(() => false), null, { timeout: 60000 }).catch(() => {});
   await page.reload();
   await page.waitForSelector('#view .today', { timeout: 30000 });
@@ -320,7 +330,7 @@ async function onLucid(page, label) {
 
 browser = await chromium.launch();
 try {
-  await check('U1. A tab open on 2026-11-03.1 when the deploy lands: every screen it opens from the new release works (the old worker fetches them)', async () => {
+  await check('U1. A tab open on 2026-11-07.1 when the deploy lands: every screen it opens from the new release works (the old worker fetches them)', async () => {
     const ctx = await context();
     const a = await oldLearner(ctx, { lean: true });
     const loads = a.__loads;
@@ -585,7 +595,7 @@ try {
 
   // Round-4 review (blocker). At fde78c2 a write that did not fit never failed an install, release.json and the shell
   // included: with quota = usage the next release installed with an empty cache, took over at the reload (from
-  // b2b669b at once) and removed the old, complete cache; offline Lucid no longer started.
+  // b2b669b, the base then, at once) and removed the old, complete cache; offline Lucid no longer started.
   const learner = async (page) => page.evaluate(async () => {
     const L = await import('./js/core/learner.js');
     const P = await import('./js/core/placement.js');
@@ -754,10 +764,11 @@ try {
   });
 
   // The failed install's partial cache (its space still counted while its worker ran, and the install tried again at
-  // every navigation) took the room that b2b669b's own network-first writes needed: its cache ended up with files of
+  // every navigation) took the room that the old release's own network-first writes needed (b2b669b then; d83a500's
+  // worker is the same): its cache ended up with files of
   // two releases, and offline Lucid no longer started.
   for (const f of [1.02, 1.05, 1.1]) {
-    await check(`U13. From b2b669b with the origin nearly full (quota ${f}x usage): whether the update fits or not, Lucid starts offline with the saved lessons`, async () => {
+    await check(`U13. From d83a500 with the origin nearly full (quota ${f}x usage): whether the update fits or not, Lucid starts offline with the saved lessons`, async () => {
       const ctx = await context();
       const a = await oldLearner(ctx, { lean: true });
       await sleep(1500);
@@ -788,7 +799,7 @@ try {
   // Activation opened the old caches and then deleted them: Chromium keeps a deleted cache's space while a Cache object
   // for it lives, so in that worker's lifetime the saved lessons fetched again and the modules a page loaded did not
   // fit; offline, Lucid did not start and every saved lesson was lost.
-  await check('U14. From b2b669b at quota 1.2x usage: the update takes over, and right after the upgrade visit Lucid starts offline with the saved lessons', async () => {
+  await check('U14. From d83a500 at quota 1.2x usage: the update takes over, and right after the upgrade visit Lucid starts offline with the saved lessons', async () => {
     const ctx = await context();
     const a = await oldLearner(ctx, { lean: true });
     await sleep(1500);
@@ -955,6 +966,74 @@ try {
       assert(await a.evaluate(async () => (await (await fetch('js/views/progress.js')).text()).includes('the next release')), 'the page does not run the next release');
     } finally { answer(); served.stall.clear(); rmSync(fix, { recursive: true, force: true }); }
     await ctx.close();
+  });
+
+  // The no-age-limit release hides flagged items from learners under 16 in its content.js; this release's index and
+  // per-item files are read by compat.js's methods in a tab still on that release. No real item is flagged today, so
+  // both trees get the same flags, as a content author would add them.
+  const FLAG_SC = 'rl-airport-checkin-overweight';
+  const FLAG_XP = 'ex-whats-up';
+  function flagged(src, { generated }) {
+    const dir = mkdtempSync(join(tmpdir(), 'lucid-flagged-'));
+    cpSync(src, join(dir, 'lucid'), { recursive: true, filter: (f) => !/[/\\](node_modules|tests|docs|\.git)$/.test(f) });
+    const c = join(dir, 'lucid', 'content');
+    const sc = JSON.parse(readFileSync(join(c, 'real-life/scenarios.json'), 'utf8'));
+    sc.scenarios = sc.scenarios.map((x) => (x.id === FLAG_SC ? { ...x, sensitive: ['alcohol'] } : x));
+    writeFileSync(join(c, 'real-life/scenarios.json'), JSON.stringify(sc));
+    const xp = JSON.parse(readFileSync(join(c, 'real-life/slang.json'), 'utf8'));
+    xp.entries = xp.entries.map((x) => (x.id === FLAG_XP ? { ...x, sensitive: ['vulgar'], warning: x.warning || { en: 'Flagged test warning.', he: 'אזהרת בדיקה.' } } : x));
+    writeFileSync(join(c, 'real-life/slang.json'), JSON.stringify(xp));
+    if (generated) { writeContentIndex(c); buildManifest(join(dir, 'lucid')); }
+    assert(sc.scenarios.some((x) => x.sensitive) && xp.entries.some((x) => x.sensitive), 'the flags were not added');
+    return dir;
+  }
+  // What a learner sees of the flagged items: [real-life list, conversations list, expressions list, scenario link].
+  async function flaggedSeen(page, label) {
+    const seen = {};
+    for (const [route, sel, probe] of [
+      ['real-life', '.hub-row', `#view a[href^="#/scenario/${FLAG_SC}"]`],
+      ['conversations', '.hub-filters', `#view a[href^="#/scenario/${FLAG_SC}"]`],
+      [`expressions?open=${FLAG_XP}&q=What`, '.entry, .empty', `#view [data-entry="${FLAG_XP}"]`],
+    ]) {
+      const r = await openScreen(page, route, sel);
+      assert(r === 'ok', `${label}: #/${route}: ${r}`);
+      await sleep(300);
+      seen[route.split('?')[0]] = { item: Boolean(await page.$(probe)), note: Boolean(await page.$('#view [data-age-note]')) };
+    }
+    const r = await openScreen(page, `scenario/${FLAG_SC}`, '.scenario-view');
+    seen.scenario = r === 'ok' ? 'opens' : /not found|לא נמצא/i.test(r) ? 'not found' : r;
+    return seen;
+  }
+  await check('U19. Under 16, in a tab on 2026-11-07.1 and after the takeover, a flagged scenario and expression are on no list and the link does not open the scenario; an adult sees both', async () => {
+    const oldF = flagged(OLD, { generated: false });
+    const newF = flagged(NEW, { generated: true });
+    try {
+      const year = new Date().getUTCFullYear();
+      for (const [who, birthYear, hidden] of [['a 10-year-old', year - 10, true], ['born 16 years ago (may be 15)', year - 16, true], ['an adult', 1990, false]]) {
+        const ctx = await context();
+        const a = await oldLearner(ctx, { lean: true, root: join(oldF, 'lucid'), birthYear });
+        served.root = join(newF, 'lucid');
+        await (await ctx.newCDPSession(a)).send('Network.clearBrowserCache');
+        const want = hidden
+          ? { 'real-life': { item: false, note: true }, conversations: { item: false, note: false }, expressions: { item: false, note: true }, scenario: 'not found' }
+          : { 'real-life': { item: true, note: false }, conversations: { item: true, note: false }, expressions: { item: true, note: false }, scenario: 'opens' };
+        const before = await flaggedSeen(a, `${who}, old tab`);
+        assert(await running(a) === 'old', `${who}: the tab no longer runs 2026-11-07.1`);
+        assert(JSON.stringify(before) === JSON.stringify(want), `${who}, in the tab on 2026-11-07.1: ${JSON.stringify(before)}`);
+        await a.evaluate(async () => { const reg = await navigator.serviceWorker.getRegistration(); await reg.update().catch(() => {}); });
+        await takenOver(a);
+        await a.reload();
+        assert(await started(a) === 'app', `${who}: the reload did not start Lucid`);
+        assert(await running(a) === 'new', `${who}: the reload does not run this release`);
+        const after = await flaggedSeen(a, `${who}, after the takeover`);
+        assert(JSON.stringify(after) === JSON.stringify(want), `${who}, after the takeover: ${JSON.stringify(after)}`);
+        assert(!a.__errors.length, `${who}: page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
+        await ctx.close();
+      }
+    } finally {
+      rmSync(oldF, { recursive: true, force: true });
+      rmSync(newF, { recursive: true, force: true });
+    }
   });
 } finally {
   await browser.close();

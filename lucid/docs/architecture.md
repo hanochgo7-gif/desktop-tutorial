@@ -424,6 +424,24 @@ release, `lucid-<RELEASE>`.
   (the browser activates the waiting worker only once the active one has no request in hand, and a request the
   network never answers holds it), later changes of screen ask again without waiting, and the page reloads at the
   first change of screen after the takeover lands.
+- **The one-time upgrade from the hand-numbered releases.** Production before this release is 2026-11-07.1 (commit
+  `d83a500`, main with the no-age-limit change); before it, 2026-11-03.1 (`b2b669b`). The two workers are
+  byte-identical apart from `RELEASE` (network-first code, no hand-over), and this worker treats both caches alike
+  (`lucid-<date>.<n>`: `no-store` install, take-over at once, saved lessons moved). A tab open on either keeps its
+  boot modules and opens this release's screens, so the screens take every function added since from
+  `js/core/compat.js`, which on an old page builds them on the old modules and adds the C-1 methods to the old
+  `content` object. Those methods apply the age filter of 2026-11-07.1 (`age.js`: under 16, flagged scenarios and
+  expressions are left out of every list and a flagged scenario's link does not open it), decided on each call from
+  the stored profile, also on the generated index and per-item files; on a 2026-11-03.1 page, whose `scenarios()`
+  and `slang()` did not filter, compat.js wraps them with the same filter. `tests/unit/compat.test.mjs` checks the
+  screens against both releases' modules (`tests/unit/fixtures/release-<RELEASE>.json`, written by
+  `tools/release-fixture.mjs` from git), and `tests/e2e/upgrade.mjs` and `lucid-verify.yml` upgrade from
+  `d83a500`. Decision for 2026-11-03.1 tabs (open since before the 2026-11-07 deploy, two deploys crossed): they are
+  still checked for every name both releases' modules have, and compat.js still adds the age filter there, but the
+  three names 2026-11-07.1 added (`learner.js` `aiConsent`, `session.js` `recheckProfile` and `syncPauseReason`)
+  are not provided: main's own deploy of 2026-11-07.1 already loads screens that import them into such a tab (the
+  AI screens, Settings), the old session code cannot be given the new guardian rules from a screen, and a reload
+  fixes it. The worker side is tested for both cache names (`tests/unit/sw.test.mjs`).
 - **Development.** Because code is cache-first, an edit shows up under the worker only after
   `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
 

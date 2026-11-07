@@ -602,6 +602,18 @@ at this round's trees).
   a page, the hand-over page's CSP, `index.html`'s CSP byte-identical to b2b669b's; U1-U17 and every earlier sw.test
   pass.
 
+**Production base change (2026-11-07, after the sixth round).** Production is now `d83a500` (release
+`2026-11-07.1`: the same tree as `b2b669b` plus the no-age-limit change), merged into this branch as `4546346`. Its
+`sw.js` is byte-identical to `b2b669b`'s apart from the `RELEASE` line, so every worker finding above that was
+measured "from b2b669b" holds from `d83a500`: the worker's legacy pattern (`lucid-<date>.<n>`) takes
+`lucid-2026-11-07.1` exactly as `lucid-2026-11-03.1`, and `tests/unit/sw.test.mjs` now runs the one-time-upgrade
+cases over both cache names. `tests/e2e/upgrade.mjs` (U1-U19) and `lucid-verify.yml` upgrade from `d83a500`;
+`index.html`'s CSP meta is byte-identical to `d83a500`'s (and `privacy.html`'s). The merge review found one gap,
+a child-protection one, not a worker one: in a tab still on 2026-11-07.1 the screens' `scenarioIndex()` and
+`scenario(id)` came from `compat.js` and read the generated files unfiltered, so a learner under 16 saw a flagged
+scenario and could open it (no item is flagged today, so nobody was exposed). Fixed and tested (fix-log AGE-16,
+upgrade U19, which fails on `4546346`). Tabs still on 2026-11-03.1 are covered as architecture §7 states.
+
 **Status.** Re-reviewed by the delivery lane, changed by the integration and six times by the skeptic rounds as
 above. The second to sixth reviewers' conditions are met in code and tests (the sixth round's tight-origin and
 ballast items as documented limits with follow-ups); the S-15 sign-off itself is still the lead's to give before the

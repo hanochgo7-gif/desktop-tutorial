@@ -14,6 +14,9 @@ const APP = new URL('../../', import.meta.url);
 const source = readFileSync(new URL('sw.js', APP), 'utf8');
 const realRelease = JSON.parse(readFileSync(new URL('release.json', APP), 'utf8'));
 const manifest = JSON.parse(readFileSync(new URL('content/manifest.json', APP), 'utf8'));
+// The hand-numbered caches of the releases before release hashes: 2026-11-07.1 (d83a500, in production) and
+// 2026-11-03.1 (b2b669b, the one before it); the same worker apart from RELEASE, so the one-time upgrade treats both alike.
+const LEGACY_RELEASES = ['2026-11-07.1', '2026-11-03.1'];
 // The per-file hash release.json carries (a 128-bit SHA-256 prefix, as tools/build-manifest.mjs writes it).
 const hh = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 32);
 const abs = (p) => new URL(p, BASE).href;
@@ -183,9 +186,9 @@ test('with a release active, a new one waits until a page asks for it (contract 
   assert.equal(b.calls.skipWaiting, 1);
 });
 
-test('the one-time upgrade from the hand-numbered caches activates at once, as the old worker did', async () => {
+for (const legacyRel of LEGACY_RELEASES) test(`the one-time upgrade from the hand-numbered caches activates at once, as the old worker did (lucid-${legacyRel})`, async () => {
   const env = makeEnv();
-  await env.open('lucid-2026-11-03.1').put(abs('js/app.js'), netRes('old app'));
+  await env.open(`lucid-${legacyRel}`).put(abs('js/app.js'), netRes('old app'));
   const w = worker(env, { active: true });
   await w.fire('install');
   assert.equal(w.calls.skipWaiting, 1);
@@ -359,9 +362,9 @@ test('copies are checked byte for byte: a stale saved lesson or a tampered copy 
   assert.ok(env.fetches.some((f) => f.url.endsWith('/js/app.js')));
 });
 
-test('the upgrade from a hand-numbered cache keeps saved lessons whose bytes match', async () => {
+for (const legacyRel of LEGACY_RELEASES) test(`the upgrade from a hand-numbered cache keeps saved lessons whose bytes match (lucid-${legacyRel})`, async () => {
   const env = makeEnv();
-  const legacy = env.open('lucid-2026-11-03.1');
+  const legacy = env.open(`lucid-${legacyRel}`);
   await legacy.put(abs('content/lessons/b1-03.json'), netRes(file('content/lessons/b1-03.json')));
   await legacy.put(abs('content/lessons/b1-04.json'), netRes('{"outdated":true}'));
   await legacy.put(abs('js/app.js'), netRes(file('js/app.js')));
@@ -450,14 +453,16 @@ test('release.json that cannot be loaded (an error, no connection, no answer) fa
     const b = worker(env2, { release: 'bbbbbbbbbbbb', active: true, wait: 50 });
     await assert.rejects(b.fire('install'), /release\.json/, `${failure}: installed over a hashed release without hashes`);
     assert.equal(await env2.cached(a.name, 'content/lessons/a1-01.json'), file('content/lessons/a1-01.json'), 'the saved lesson stays');
-    // Over the hand-numbered cache of release 2026-11-03.1.
-    const env3 = makeEnv();
-    await env3.open('lucid-2026-11-03.1').put(abs('content/lessons/b1-03.json'), netRes(file('content/lessons/b1-03.json')));
-    env3.fail = onlyRelease;
-    const c = worker(env3, { active: true, wait: 50 });
-    await assert.rejects(c.fire('install'), /release\.json/);
-    assert.equal(c.calls.skipWaiting, 0);
-    assert.equal(await env3.cached('lucid-2026-11-03.1', 'content/lessons/b1-03.json'), file('content/lessons/b1-03.json'));
+    // Over the hand-numbered cache of release 2026-11-07.1 (production) and 2026-11-03.1 (the release before it).
+    for (const legacyRel of LEGACY_RELEASES) {
+      const env3 = makeEnv();
+      await env3.open(`lucid-${legacyRel}`).put(abs('content/lessons/b1-03.json'), netRes(file('content/lessons/b1-03.json')));
+      env3.fail = onlyRelease;
+      const c = worker(env3, { active: true, wait: 50 });
+      await assert.rejects(c.fire('install'), /release\.json/);
+      assert.equal(c.calls.skipWaiting, 0);
+      assert.equal(await env3.cached(`lucid-${legacyRel}`, 'content/lessons/b1-03.json'), file('content/lessons/b1-03.json'));
+    }
   }
 });
 
@@ -841,7 +846,7 @@ const fixed = () => {
 // The b2b669b -> this release upgrade at 1.05x usage: the failed install's partial cache used up the headroom the old
 // worker's own writes needed, and its cache ended up holding two releases' files.
 test('an install checks for room before its first write: with less free space than its shell and release.json it writes nothing, over this release and over the hand-numbered caches', async () => {
-  for (const from of ['aaaaaaaaaaaa', '2026-11-03.1']) {
+  for (const from of ['aaaaaaaaaaaa', ...LEGACY_RELEASES]) {
     for (const f of [0.3, 0.9]) {
       const env = makeEnv();
       const a = await activeRelease(env, from);
@@ -951,9 +956,9 @@ test('on a tight origin the first install, and later misses, leave room for the 
 
 // The b2b669b -> this release upgrade at 1.2x usage: activation deleted the old caches, but its Cache objects for them
 // kept their space counted for that worker's lifetime, so the saved lessons fetched again did not fit, and were lost.
-test('activation gives the old caches\' space back at once (not when its worker stops): the saved lessons the release changed are fetched again in that lifetime', async () => {
+for (const legacyRel of LEGACY_RELEASES) test(`activation gives the old caches' space back at once (not when its worker stops): the saved lessons the release changed are fetched again in that lifetime (lucid-${legacyRel})`, async () => {
   const env = makeEnv();
-  const legacy = await activeRelease(env, '2026-11-03.1');
+  const legacy = await activeRelease(env, legacyRel);
   // Production's raw bytes differ from this release's (minified) ones: every saved lesson "changed".
   for (const l of SAVED_LESSONS) await legacy.cache().put(abs(`content/lessons/${l}.json`), netRes(`${file(`content/lessons/${l}.json`)}\n`));
   env.quota = env.used() + Math.round((await shellBytes(legacy.cache())) * 1.6);
@@ -994,9 +999,9 @@ test('offline, a file the install left out is served from the HTTP cache when it
 // The b2b669b -> this release upgrade at 1.02x-1.1x usage: the install that did not fit had fetched the new shell with
 // cache 'no-cache', which put the new index.html and app.js in the HTTP cache; b2b669b's network-first worker then
 // served them next to the old modules (still fresh there) and stored that mix: offline Lucid no longer started.
-test('the one-time upgrade from the hand-numbered caches leaves the HTTP cache as it is (no-store), so a failed attempt changes nothing the old worker serves; other installs revalidate', async () => {
+for (const legacyRel of LEGACY_RELEASES) test(`the one-time upgrade from the hand-numbered caches leaves the HTTP cache as it is (no-store), so a failed attempt changes nothing the old worker serves; other installs revalidate (lucid-${legacyRel})`, async () => {
   const env = makeEnv();
-  const legacy = await activeRelease(env, '2026-11-03.1');
+  const legacy = await activeRelease(env, legacyRel);
   for (const l of SAVED_LESSONS) await legacy.cache().put(abs(`content/lessons/${l}.json`), netRes(`${file(`content/lessons/${l}.json`)}\n`));
   for (const p of ['js/app.js', 'index.html']) await legacy.cache().delete(p); // changed in the new release: fetched
   await legacy.cache().delete('./');
@@ -1031,7 +1036,7 @@ test('activation moves the saved lessons on a nearly full origin: each copy need
     const env = makeEnv();
     let old;
     if (legacy) {
-      old = env.open('lucid-2026-11-03.1');
+      old = env.open(`lucid-${LEGACY_RELEASES[0]}`);
       for (const p of [...SHELL_FILES.filter((p) => p !== 'release.json'), 'index.html', ...manifest.offline]) { const b = env.serve(abs(p)); if (b) await old.put(abs(p), netRes(b)); }
       for (const l of ALL_LESSONS) await old.put(abs(l), netRes(env.serve(abs(l))));
     } else {
@@ -1106,7 +1111,7 @@ test('an install with no room left still fetches and checks the offline files it
   assert.ok(env.quota - env.used() >= 1.25 * shell, 'the room for the next release is kept');
   // The one-time upgrade fetches nothing it does not keep (no-store: nothing would reach the HTTP cache).
   const env2 = makeEnv();
-  const legacy = env2.open('lucid-2026-11-03.1');
+  const legacy = env2.open(`lucid-${LEGACY_RELEASES[0]}`);
   for (const p of SHELL_FILES.filter((p) => p !== 'release.json')) await legacy.put(abs(p), netRes(`${env2.serve(abs(p))}\n`));
   env2.quota = env2.used() + Math.round(shell * 2.6);
   const u = worker(env2, { active: true });

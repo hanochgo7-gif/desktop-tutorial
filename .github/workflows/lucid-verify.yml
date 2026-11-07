@@ -24,8 +24,11 @@ jobs:
       run:
         working-directory: lucid
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # Pinned to the same commits as pages.yml (main pins every action to a full SHA).
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
       - name: Test dependencies
@@ -49,9 +52,10 @@ jobs:
           node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
       - name: End-to-end suite against the built site
         run: E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs
-      # The one-time upgrade from the release in production before the perf programme (2026-11-03.1, b2b669b) to
-      # the built site: that commit's tree is fetched on its own (the checkout is shallow).
-      - name: Upgrade from release 2026-11-03.1 to the built site
+      # The one-time upgrade from the release in production before the perf programme (2026-11-07.1, d83a500: main
+      # with the no-age-limit change) to the built site: that commit's tree is fetched on its own (the checkout is
+      # shallow). Until 2026-11-07 the base was b2b669b (2026-11-03.1), whose worker is the same apart from RELEASE.
+      - name: Upgrade from release 2026-11-07.1 to the built site
         run: |
-          git fetch --no-tags --depth=1 origin b2b669b66197b87701c3e2ce15eecef880670cee
+          git fetch --no-tags --depth=1 origin d83a5005b4e97883b3ae5edc31ad17c85d5af423
           E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/upgrade.mjs

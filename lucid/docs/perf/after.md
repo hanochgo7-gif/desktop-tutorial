@@ -37,6 +37,14 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 > about 1 s slower than a plain reload and than b2b669b's reload after a deploy (that second is the browser's
 > activation). Rows re-measured then carry `"revision": "verify4"`.
 
+> **Production base: d83a500 (2026-11-07).** Production is now `d83a500` (release `2026-11-07.1`, main with the
+> no-age-limit change), merged into this branch. Its `sw.js` is byte-identical to `b2b669b`'s apart from `RELEASE`,
+> so from here on the comparison base is `d83a500`; the numbers above it were measured against `b2b669b` and are kept
+> as they were. Re-measured against `d83a500` in one window (headline warm rows, mobile, 3 alternated runs, medians):
+> warm returning Today 372-405 ms in every HTTP-cache state against 460-16481 ms, and the heavy-history warm Today
+> 681 against 1084 ms (-37 %). See [Production base: d83a500](#production-base-d83a500-2026-11-07). Rows
+> re-measured then carry `"revision": "integrate7"` in after.json, and `meta.comparisonBase` names the base.
+
 - **Cold loads on the phone are 26-70 % faster.** These are the deployed (minified) tree's numbers.
   - Cold welcome: 2050 → 1511 ms, with first paint 2072 → 632 ms.
   - Cold Today: 3695 → 1701 ms.
@@ -1013,3 +1021,46 @@ All green on the source tree (release `b64765738ba5`), and on the built tree (re
 - upgrade.mjs 22/22 (source and built: U1-U17 and the new U18);
 - build, then verify: ok (63 modules, maps, hashes, paths, CSP) apart from the `node_modules` link made for the
   copy; `index.html` is unchanged, and its CSP meta is byte-identical to b2b669b's.
+
+## Production base: d83a500 (2026-11-07)
+
+Main moved to `d83a500` (release `2026-11-07.1`): `b2b669b`'s tree plus the no-age-limit change (`js/core/age.js`;
+content.js, learner.js, session.js, the views, privacy.html, migration 004, tests). Its `sw.js` is the same worker as
+`b2b669b`'s apart from the `RELEASE` line, so the worker comparisons above hold; the rows below are the headline warm
+rows re-measured against it. The merge is `4546346`; this integration fixed the age filter on the perf paths
+(compat.js for a tab on 2026-11-07.1, content.js's memo per age group), preloads `age.js`, and moves the upgrade
+tests and CI to `d83a500` (fix-log AGE-16, architecture §7, security-review 5a).
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+Built tree of this integration (release `d9f3f0d19b33`; source `8612c63a8047`; `verify: ok (64 modules, maps, hashes,
+paths, CSP)`) against `git archive d83a500` served raw, as main's pages.yml serves it, with this head's harness
+(`tools/perf.mjs`, `tools/perf/`). Alternated head/base, one run at a time, nothing else running (load about 1),
+18:19-18:27 UTC. Raw JSON and logs: scratchpad `integrate7/perf/`.
+
+| row | this head: Today / lesson | d83a500: Today / lesson | head runs (Today) | note |
+|---|---:|---:|---|---|
+| fresh (HTTP cache fresh) | 388 / 385 | 460 / 402 | 520, 388, 366 | 1 request each (the browser's sw.js check) |
+| stale (> 10 min) | 378 / 362 | 1385 / 1326 | 378, 392, 331 | 2-3 requests against 31 / 38 |
+| after a push (new ETags) | 385 / 363 | 2120 / 1813 | 385, 395, 345 | 20 / 8 KB from the server against 431 / 128 KB |
+| offline | 405 / 366 | 460 / 412 | 391, 457, 405 | |
+| lie-fi (15 s holds) | 372 / 350 | 16481 / 24454 | 372, 362, 382 | |
+| heavy-history warm #/today: view / TBT / longest task | 681 / 161 / 122 | 1084 / 229 / 231 | 662, 709, 681 | -37 % against d83a500 in this window (the sixth round: 38 % against b2b669b) |
+
+As against `b2b669b`: no network wait is left in any state, and what remains is CPU time, at or below the base's own
+fresh warm load. TBT on the warm lesson is 45-61 ms against 0 for the base, in line with the earlier g rows (40-72 ms in
+verify5). The age filter costs nothing measurable: no item is flagged, and the
+filter is one `isUnder16` per call.
+
+### Suites on this integration
+
+All green on the source tree (release `8612c63a8047`) and, where marked, on the built tree (release `d9f3f0d19b33`):
+
+- `npm test` 430/430 with `CI=true`; `npm run test:db` 13/13; validate-content (0 errors, 1 warning as before);
+  build-content-index --check; build-route-deps --check; `tools/release-fixture.mjs --check` for both fixtures;
+- run.mjs 61/61 (source and built) and a11y (0 violations);
+- every lane suite: shell-components, lesson-flow, exercises, bilingual-text, lesson-content, first-run-today,
+  practice-hubs, games, real-life-writing, r4-lesson-flow, r4-exercises, r4-today-path, r4-practice-games,
+  r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime 9/9;
+- upgrade.mjs 23/23 from `d83a500` (source and built: U1-U18 and the new U19);
+- `index.html`'s and `privacy.html`'s CSP metas are byte-identical to `d83a500`'s.

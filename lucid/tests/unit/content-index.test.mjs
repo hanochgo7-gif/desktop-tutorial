@@ -226,6 +226,47 @@ test('C-1: with nothing loadable the lists are null, as the full files were, and
   assert.deepEqual(await content.scenario(scenarios[0].id), scenarios[0]);
 });
 
+// No age limit (release 2026-11-07.1): a flagged scenario is left out for a learner under 16 on the index and per-item
+// paths too, decided on each call; the generator carries the flag into the index row.
+test('C-1: under 16, a flagged scenario is not in the index and does not open by its link, from the small files and from the full file', async () => {
+  const dir = copy();
+  try {
+    const src = JSON.parse(readFileSync(join(dir, 'real-life/scenarios.json'), 'utf8'));
+    const flagged = src.scenarios[2].id;
+    src.scenarios[2] = { ...src.scenarios[2], sensitive: ['alcohol'] };
+    writeFileSync(join(dir, 'real-life/scenarios.json'), JSON.stringify(src));
+    writeContentIndex(dir);
+    const row = JSON.parse(readFileSync(join(dir, 'real-life/index.json'), 'utf8')).scenarios.find((x) => x.id === flagged);
+    assert.deepEqual(row.sensitive, ['alcohol'], 'the index row carries the flag');
+    globalThis.addEventListener ??= () => {};
+    const { openStore } = await import('../../js/core/store.js');
+    const store = await openStore();
+    const year = new Date().getUTCFullYear();
+    const serve = (blocked) => async (url) => {
+      const path = fileURLToPath(String(url)).replace(CONTENT, dir);
+      if (blocked.some((b) => path.includes(b))) throw new TypeError('Failed to fetch');
+      if (!existsSync(path)) return new Response('', { status: 404 });
+      return new Response(readFileSync(path), { status: 200 });
+    };
+    for (const blocked of [[], ['real-life/index.json', 'real-life/scenario/']]) {
+      globalThis.fetch = serve(blocked);
+      const content = await fresh(`age-${blocked.length}`);
+      for (const [age, hidden] of [[10, true], [16, true], [17, false], [40, false]]) {
+        store.put('profile', { id: 'me', onboarded: true, birth_year: year - age });
+        const index = await content.scenarioIndex();
+        const where = `born ${year - age}${blocked.length ? ', small files unreachable' : ''}`;
+        assert.equal(index.scenarios.some((x) => x.id === flagged), !hidden, `${where}: the list`);
+        assert.equal(index.hidden_for_age, hidden ? 1 : undefined, `${where}: the count`);
+        assert.equal((await content.scenario(flagged))?.id ?? null, hidden ? null : flagged, `${where}: the link`);
+        assert.equal((await content.scenarios()).scenarios.some((x) => x.id === flagged), !hidden, `${where}: the full list`);
+      }
+    }
+    store.put('profile', { id: 'me' });
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 // ---------- C2: Today's plan from the index rows equals the plan from the full files ----------
 test('C2: the Today plan, with each block\'s minutes, is identical from the index rows for 5 seeded learners', async () => {
   globalThis.fetch = fakeFetch();
