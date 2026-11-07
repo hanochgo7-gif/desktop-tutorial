@@ -1,6 +1,7 @@
 # Hebrew microcopy: rules and glossary
 
-Lucid's Hebrew interface speaks to adults aged 16 and over. These rules keep the voice consistent across screens.
+Lucid's Hebrew interface speaks to learners of every age (there is no minimum age since November 2026), in the same
+calm, respectful voice for all of them. These rules keep the voice consistent across screens.
 They come from the round-3 panels (ux-writing-mobile and others; see `docs/qa/panels-r3/plan.json`, item BL-8).
 `tests/unit/copy.test.mjs` checks the two most common slips automatically.
 

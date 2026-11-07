@@ -97,13 +97,18 @@ correct answer is strong evidence of ability at that level (no trick questions, 
 `model_dialogue` `[{speaker: "partner" | "you", text}]`,
 `practice` `[{partner, options: [{text, verdict: "best" | "ok" | "poor", feedback: Bilingual, error_type?}], model_replies[], keywords[]}]` (`error_type` names the taxonomy error a weaker option shows, so analytics do not guess),
 `roleplay` `{persona, complication, opening_line}` (used by AI roleplay when configured),
-`culture?` (Bilingual[]), `variants?` `[{us, uk, note?}]`.
+`culture?` (Bilingual[]), `variants?` `[{us, uk, note?}]`, `sensitive?` (see below).
 
 ## Expressions (`content/real-life/slang.json`)
 
 `{ entries: [{id, term, meaning_en, meaning_he, usage (Bilingual), formality: "very informal" | "informal" |
 "neutral", region: "US" | "UK" | "both" | "AU", example_dialogue: [{speaker, text}], mistakes: Bilingual[],
-avoid_when: Bilingual, warning?: Bilingual, related?: string[], level}] }`.
+avoid_when: Bilingual, warning?: Bilingual, related?: string[], level, sensitive?}] }`.
+
+`sensitive?`: `("offensive" | "vulgar" | "sexual" | "alcohol")[]`, on a scenario or an expression whose subject
+or wording is one of these. Lucid has no minimum age, so a flagged item is not shown to learners under 16
+(`js/core/age.js`, applied in `js/core/content.js` for every screen); everyone else sees it as before, with its
+`warning`, which a flagged expression must have. No item is flagged today (November 2026).
 
 ## Writing (`content/writing/*.json`)
 

@@ -4,7 +4,7 @@ import { html, raw, render, on, $, uid } from '../core/util.js';
 import { tt, t, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex, content } from '../core/content.js';
 import { icon, toast, confirmDialog } from '../ui/components.js';
-import { model, settings, profile } from '../core/learner.js';
+import { model, settings, profile, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
@@ -30,7 +30,7 @@ function formatReply(text) {
 export default async function tutor(el, ctx) {
   ctx.setTitle(t('nav.tutor'));
   const [tx, curriculum] = await Promise.all([taxonomyIndex(), content.curriculum()]);
-  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && settings().ai_consent;
+  const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   const lastLevel = model().courseLevel;
   let mode = ctx.query.mode || (['PreA1', 'A1'].includes(lastLevel) ? 'beginner' : 'conversation');
   let session = store.all('chats').filter((c) => c.kind === 'tutor' && c.mode === mode).sort((a, b) => (a.at < b.at ? 1 : -1))[0] || null;
@@ -69,7 +69,7 @@ export default async function tutor(el, ctx) {
           <p class="banner" data-ai-notice>${icon('info', { size: 18 })}<span>${!siteAI ? isolateLatin(tt('המורה לא זמין כאן. AI לא פעיל באתר הזה. כל השאר עובד.', 'The tutor is not available here. AI is not active on this site. Everything else works.')) : !auth.signedIn ? tt('כדי לדבר עם המורה צריך להיכנס לחשבון.', 'Sign in to talk with the tutor.') : isolateLatin(tt('המורה דורש הפעלה של ״משוב AI״ בהגדרות.', 'The tutor needs "AI feedback" turned on in Settings.'))}</span></p>
           <p class="small">${tt('בלי AI עדיין יש:', 'Without AI you still have:')}</p>
           <ul class="small stack-sm" style="margin:0;padding-inline-start:1.2rem"><li><a href="#/grammar">${t('nav.grammar')}</a> ${tt('– הסברים ותרגול לכל נושא', '– explanations and practice for every topic')}</li><li><a href="#/writing">${t('nav.writing')}</a> ${tt('– בדיקות כתיבה אוטומטיות', '– automatic writing checks')}</li><li><a href="#/real-life">${t('nav.reallife')}</a> ${tt('– תרגול שיחה מובנה', '– scripted conversation practice')}</li></ul>
-          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div>${session ? html`<p class="xsmall faint row">${tt('יש שיחה שמורה במצב הזה.', 'There is a saved conversation in this mode.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקה', 'Delete')}</button></p>` : ''}${savedRow()}</div>${siteAI ? '' : pron}`
+          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !aiConsent() ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div>${session ? html`<p class="xsmall faint row">${tt('יש שיחה שמורה במצב הזה.', 'There is a saved conversation in this mode.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקה', 'Delete')}</button></p>` : ''}${savedRow()}</div>${siteAI ? '' : pron}`
       : html`<div class="chat" style="max-width:52rem">
           <div class="chat-log" id="log" aria-live="polite">${!msgs.length ? html`<p class="small faint" style="margin:auto;text-align:center">${tt('אפשר לשאול כל דבר על אנגלית, או לבקש תרגול.', 'Ask anything about English, or ask for practice.')}</p>` : ''}
             ${msgs.map((m) => html`<div class="msg ${m.role === 'user' ? 'me' : 'them'}" dir="auto">${m.role === 'assistant' ? html`<span class="who">Lucid</span>` : ''}${m.role === 'assistant' ? raw(formatReply(m.text)) : m.text}</div>`)}
@@ -77,7 +77,7 @@ export default async function tutor(el, ctx) {
           <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלכם', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
-        <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
+        <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')} <span data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</span></span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
         ${savedRow()}`}`);
     const log = $('#log', el); if (log) log.scrollTop = log.scrollHeight;
   }

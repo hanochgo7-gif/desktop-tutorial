@@ -1,6 +1,6 @@
 # Lucid
 
-An English course for Hebrew-speaking learners aged 16 and over, from the alphabet (Pre-A1) to C2 argumentative and
+An English course for Hebrew-speaking learners of any age, from the alphabet (Pre-A1) to C2 argumentative and
 research writing, with a second track of real-life English (travel, social situations, work, slang). The interface
 is in Hebrew for beginners and can switch to English as the level rises.
 
@@ -41,7 +41,7 @@ Edge function tests: `cd supabase/functions/lucid-ai && deno test --allow-env --
 |---|---|
 | `index.html`, `js/`, `css/`, `sw.js` | The app: router, views, learner model, spaced repetition, grading, offline support |
 | `content/` | Curriculum (75 lessons), placement bank, real-life scenarios and expressions, writing lab, taxonomy |
-| `supabase/` | Database migrations (RLS, age gate, quotas, export, deletion) and the `lucid-ai` edge function |
+| `supabase/` | Database migrations (RLS, age rules with no minimum age, quotas, export, deletion) and the `lucid-ai` edge function |
 | `tools/` | Content validator, manifest builder, inventory, research data collectors |
 | `tests/` | Unit, database and browser tests |
 | `docs/` | Research, specification, architecture, setup, QA |
