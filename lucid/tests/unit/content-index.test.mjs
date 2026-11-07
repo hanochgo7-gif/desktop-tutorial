@@ -151,11 +151,13 @@ test('C1: generated file sizes stay within the plan (gzip)', () => {
   for (const d of GENERATED_DIRS) assert.ok(readdirSync(join(CONTENT, d)).length > 0, d);
 });
 
-test('C3: no view loads the full scenario or writing files (only content.js, and a feature-detected router fallback)', () => {
+test('C3: no view loads the full scenario or writing files (only content.js, its copy for old pages in compat.js, and a feature-detected router fallback)', () => {
   const walk = (dir) => readdirSync(join(APP, dir), { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? walk(`${dir}/${d.name}`) : d.name.endsWith('.js') ? [`${dir}/${d.name}`] : []));
   const hits = [];
   for (const f of walk('js')) {
-    if (f === 'js/core/content.js') continue;
+    // compat.js holds content.js's C-1 methods for a page still running release 2026-11-03.1's content.js, with the
+    // same fallbacks; on any other page they are never installed (tests/unit/compat.test.mjs).
+    if (f === 'js/core/content.js' || f === 'js/core/compat.js') continue;
     readFileSync(join(APP, f), 'utf8').split('\n').forEach((line, i) => {
       if (!/content\.(scenarios|writingExercises|assignments)\(\)/.test(line)) return;
       // The router may call a new method and fall back to the old one when it is absent (contract C-1).

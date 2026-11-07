@@ -7,6 +7,7 @@
 import { html, render, on, $, debounce } from '../core/util.js';
 import { tt, t, bi, legend, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
+import { groupDigits } from '../core/compat.js';
 import { icon, levelTag, toast, emptyState, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, recordAttempt, logEvent } from '../core/learner.js';
 import { store } from '../core/store.js';
@@ -15,7 +16,7 @@ import { countWords } from '../core/grading.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { runSet } from '../ui/player.js';
-import { STAGES, groupDigits } from './writing.js';
+import { STAGES } from './writing.js';
 import { wordDiff, diffParagraphs, fixStatus, locateSpan } from '../core/diff.js';
 
 const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעט מעל היעד', 'A little above target'], ['הרבה מעל היעד', 'Well above target']];

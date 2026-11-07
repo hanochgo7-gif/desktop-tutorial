@@ -8,7 +8,8 @@
 import { html, raw, render, on, $, todayKey } from '../core/util.js';
 import * as util from '../core/util.js';
 import { t, tt, bi, legend, hebrewSupport, isolateLatin } from '../core/i18n.js';
-import { content, taxonomyIndex, withItemCount } from '../core/content.js';
+import { content, taxonomyIndex } from '../core/content.js';
+import { withItemCount } from '../core/compat.js';
 import { icon, levelTag, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { mountExercise, verdictHtml, selfJudgedHtml, answerFor } from '../ui/exercise.js';
 import { exitTarget, fitFooter, fitOnResize, retryNote } from '../ui/player.js';

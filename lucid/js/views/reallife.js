@@ -5,6 +5,7 @@
 import { html, render, on } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, mark, LEVEL_LABEL } from '../ui/components.js';
 import { store } from '../core/store.js';
 import { model, profile } from '../core/learner.js';

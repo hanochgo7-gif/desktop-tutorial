@@ -2,7 +2,8 @@
 // review) that opens to the same entry furniture each time (IPA, part of speech, Hebrew, definition, example,
 // collocations, level) and its review status from the scheduler: New (never reviewed), Learning (memory stable for
 // under 21 days), Known (21+).
-import { html, render, on, $, $$, collatorEn, relTime } from '../core/util.js';
+import { html, render, on, $, $$ } from '../core/util.js';
+import { collatorEn, relTime } from '../core/compat.js';
 import { tt, t, uiLang, isolateLatin } from '../core/i18n.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { allCards, due, settings, model } from '../core/learner.js';

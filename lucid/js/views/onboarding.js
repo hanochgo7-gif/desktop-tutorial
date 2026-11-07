@@ -16,6 +16,7 @@ import { saveProfile, saveSettings, applyPlacement } from '../core/learner.js';
 import { zeroResult } from '../core/placement.js';
 import { configured } from '../core/api.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { CONFIG } from '../../config.js';
 import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './welcome.js';
 

@@ -4,6 +4,7 @@ import { tt, t } from '../core/i18n.js';
 import { icon, toast, LEVEL_LABEL } from '../ui/components.js';
 import { profile, saveProfile, model } from '../core/learner.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 
 export default async function profileView(el, ctx) {
   ctx.setTitle(t('nav.profile'));

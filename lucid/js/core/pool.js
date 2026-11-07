@@ -1,6 +1,7 @@
 // The exercise pool: every auto-graded exercise from the available lessons, with its lesson's level
 // and topics, for targeted drills, level checks and the labs.
 import { content } from './content.js';
+import './compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { shuffle, sum } from './util.js';
 import { LEVELS, levelIndex } from './adaptive.js';
 import { findWrongFeedback, wordAccuracy } from './grading.js';

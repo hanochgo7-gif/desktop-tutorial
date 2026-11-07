@@ -3,6 +3,7 @@
 import { html, render, on, $, $$, shuffle, uid } from '../core/util.js';
 import { tt, bi, legend, hebrewSupport, isolateLatin, uiLang, SUPPORT_BY_LEVEL } from '../core/i18n.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
 import { recordAttempt, settings, logEvent, profile, model } from '../core/learner.js';

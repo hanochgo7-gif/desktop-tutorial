@@ -3,7 +3,8 @@
 // attempts, and a focused one-exercise player (same frame and keys as the lesson player).
 import { html, render, on, $ } from '../core/util.js';
 import { tt, legend } from '../core/i18n.js';
-import { content, CENTERS } from '../core/content.js';
+import { content } from '../core/content.js';
+import { CENTERS } from '../core/compat.js';
 import { icon, levelTag, LEVEL_LABEL } from './components.js';
 import { mountExercise, verdictHtml, answerFor } from './exercise.js';
 import { recordAttempt, settings, logEvent } from '../core/learner.js';

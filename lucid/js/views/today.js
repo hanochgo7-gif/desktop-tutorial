@@ -2,7 +2,8 @@
 import { html, render, on, todayKey } from '../core/util.js';
 import * as util from '../core/util.js';
 import { tt, legend, t, uiLang, isolateLatin, bi, hebrewSupport } from '../core/i18n.js';
-import { content, taxonomyIndex, withItemCount } from '../core/content.js';
+import { content, taxonomyIndex } from '../core/content.js';
+import { withItemCount } from '../core/compat.js';
 import { icon, LEVEL_LABEL, toast } from '../ui/components.js';
 import { profile, saveProfile, settings, saveSettings, model, weekActivity, due, placementDraft, selfReportLevel, applyPlacement, vocabImportLevel, importPlacedOutVocab, lessonAvailable, resumeStep, dayStatus, todayLessonIds, todayMinutes, holdTodayPart } from '../core/learner.js';
 import { zeroResult, selfReportResult } from '../core/placement.js';

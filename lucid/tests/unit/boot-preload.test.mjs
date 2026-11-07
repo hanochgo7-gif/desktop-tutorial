@@ -117,6 +117,10 @@ test('the module script does not wait for the stylesheet, which comes after the 
   assert.match(html, /<div class="boot boot-first"><span class="spinner" role="status" aria-label="Loading"><\/span><\/div>/);
   // Without JavaScript the frame never covers the page.
   assert.match(html, /<noscript><style>\.bootframe\{display:none\}\.booting \.main\{visibility:visible\}<\/style><\/noscript>/);
+  // Nor when the page is drawn by an app.js and app.css that know nothing of it (release 2026-11-03.1's, on a reload
+  // during the upgrade): the inline style hides it once the view holds a screen, and after 20 s whatever happens.
+  assert.match(html, /<style>[^<]*body:has\(#view>:not\(\.boot-first\)\) \.bootframe\{display:none\}[^<]*<\/style>/);
+  assert.match(html, /<style>[^<]*\.bootframe\{animation:bootgone 0s 20s forwards\}\n@keyframes bootgone\{to\{visibility:hidden\}\}[^<]*<\/style>/);
   // app.css: the main column is hidden only while booting and the frame goes with the class; app.js removes it when
   // it draws the shell and when the boot fails.
   assert.match(css, /\.booting \.main \{ visibility: hidden; \}/);
