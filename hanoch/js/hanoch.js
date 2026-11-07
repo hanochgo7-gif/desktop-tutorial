@@ -448,7 +448,7 @@
     // DrawSVG: כל קו נמתח מהמרכז שלו החוצה. ScrambleText: השם מתגבש מתוך אותיות מתחלפות
     if (window.DrawSVGPlugin) { gsap.set(lines, { drawSVG: '50% 50%' }); tl.to(lines, { drawSVG: '0% 100%', duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0); }
     else tl.to(lines, { strokeDashoffset: 0, duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0);
-    if (window.ScrambleTextPlugin) tl.to(out, { duration: quick ? 0.45 : 1, ease: 'none', scrambleText: { text: text, chars: 'HGSTUDIO0123456789', revealDelay: quick ? 0.1 : 0.3, speed: 0.6 } }, quick ? 0.05 : 0.3);
+    if (window.ScrambleTextPlugin) tl.to(out, { duration: quick ? 0.45 : 1, ease: 'none', scrambleText: { text: text, chars: 'BLUEPRINTLAB0123456789', revealDelay: quick ? 0.1 : 0.3, speed: 0.6 } }, quick ? 0.05 : 0.3);
     else tl.to(counter, {
         c: text.length, duration: quick ? 0.3 : 0.75, ease: 'none',
         onUpdate: function () { out.textContent = text.slice(0, Math.round(counter.c)); }

@@ -16,7 +16,7 @@
 .col .num.fix { background: var(--signal); }
 .ph { transform-origin: top left; }
 /* שער */
-.k-cover .title { position: absolute; top: 190px; right: 80px; left: 80px; font-size: 136px; }
+.k-cover .title { position: absolute; top: 190px; right: 80px; left: 80px; font-size: 112px; }
 .k-cover .col { top: 600px; width: 430px; }
 .k-cover .col .sub { font-size: 46px; }
 .swipe { font: 750 44px/1 var(--f-display); color: var(--signal); }
@@ -57,7 +57,7 @@
     F.classList.add('k-' + S.kind);
     if (S.kind !== 'end') F.appendChild(el('<div class="series"><b>רנטגן</b><span class="fict">' + E.fict + '</span></div>'));
     F.appendChild(el('<div class="pg">' + n + '/' + total + '</div>'));
-    if (S.kind !== 'end') F.appendChild(el('<div class="logo mini">HG<b>·</b>STUDIO</div>'));
+    if (S.kind !== 'end') F.appendChild(el('<div class="logo mini"><svg class="bl-mk" viewBox="0 0 200 200" aria-hidden="true"><path d="M50 30V170M50 30H116L140 54V74L118 96H104M50 96H66M104 96H126L150 120V146L126 170H50" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square"/><path d="M66 96V56" stroke="#ff5a1f" stroke-width="11"/><path d="M66 58A38 38 0 0 1 104 96" fill="none" stroke="#ff5a1f" stroke-width="6" stroke-dasharray="8 7"/></svg>BLUEPRINT<b>·</b>LAB</div>'));
 
     if (S.kind === 'cover') {
       F.appendChild(el('<h1 class="title">' + S.title + '</h1>'));
@@ -76,7 +76,7 @@
       phone(F, E, 610, 510, .58, {});
       phone(F, E, 180, 510, .58, { bar: true, area: true, head: true });
     } else if (S.kind === 'end') {
-      F.appendChild(el('<div class="col"><div class="logo">HG<b>·</b>STUDIO</div><h1 class="title">' + S.title + '</h1><p class="sub">' + S.sub + '</p><span class="fict">' + E.fict + ', להמחשה</span></div>'));
+      F.appendChild(el('<div class="col"><div class="logo"><svg class="bl-mk" viewBox="0 0 200 200" aria-hidden="true"><path d="M50 30V170M50 30H116L140 54V74L118 96H104M50 96H66M104 96H126L150 120V146L126 170H50" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square"/><path d="M66 96V56" stroke="#ff5a1f" stroke-width="11"/><path d="M66 58A38 38 0 0 1 104 96" fill="none" stroke="#ff5a1f" stroke-width="6" stroke-dasharray="8 7"/></svg>BLUEPRINT<b>·</b>LAB</div><h1 class="title">' + S.title + '</h1><p class="sub">' + S.sub + '</p><span class="fict">' + E.fict + ', להמחשה</span></div>'));
     }
     window.READY = true;
   }
