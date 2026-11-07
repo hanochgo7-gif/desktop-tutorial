@@ -171,37 +171,184 @@ const manifest = JSON.parse(readFileSync(join(repo, 'lucid/content/manifest.json
 const has = (id) => manifest.lessons.includes(id);
 
 try {
-  await check('1. A new user can register (onboarding creates a profile; under-16 is refused, on its own screen, for 24 hours across tabs; P-10, N10)', async () => {
+  // No minimum age (owner's decision, November 2026): nobody is refused; protections depend on the year of birth.
+  await check('1. A new user of any age can register: a 10-year-old registers and reaches Today; nobody is refused, and a browser refused by the former 16+ gate can register now', async () => {
+    const year = new Date().getFullYear();
     const { ctx, page } = await newPage(browser);
     await page.goto(`${BASE}#/start`);
     await page.waitForSelector('#ob-form');
-    assert(!/16/.test(await page.textContent('#ob-year-help')), 'the age threshold is shown before the answer');
-    await page.selectOption('#ob-year', String(new Date().getFullYear() - 14));
-    await page.click('button[type=submit]');
-    await page.waitForSelector('.onboard[role=alert] h1');
-    assert(!(await page.$('#ob-form')) && /16/.test(await page.textContent('.onboard')), 'no refusal screen for a 14-year-old');
-    // The refusal holds for this browser session: another year cannot simply be tried.
-    await page.goto(`${BASE}#/welcome`);
-    await page.goto(`${BASE}#/start`);
-    await page.waitForSelector('.onboard[role=alert]');
-    assert(!(await page.$('#ob-form')), 'a refused learner can try another year in the same session');
-    assert(!(await store(page, 'profile')).length, 'something was saved for a refused learner');
-    // N10: a new tab in the same browser is refused too; only the time of the refusal is kept, for 24 hours.
-    const tab2 = await ctx.newPage();
-    await tab2.goto(`${BASE}#/start`);
-    await tab2.waitForSelector('.onboard[role=alert]');
-    const kept = await tab2.evaluate(() => Object.keys(localStorage).filter((k) => k.startsWith('lucid-')).map((k) => [k, localStorage.getItem(k)]));
-    assert(kept.length === 1 && kept[0][0] === 'lucid-age-refused' && /^\d{13}$/.test(kept[0][1]) && Math.abs(Date.now() - Number(kept[0][1])) < 600_000, `refusal storage is not a bare timestamp: ${JSON.stringify(kept)}`);
-    await tab2.evaluate(() => localStorage.setItem('lucid-age-refused', String(Date.now() - 25 * 3600 * 1000)));
-    await tab2.goto(`${BASE}#/welcome`);
-    await tab2.goto(`${BASE}#/start`);
-    await tab2.waitForSelector('#ob-form');
+    const help = await page.textContent('#ob-year-help');
+    assert(!/16|גיל מינימלי|minimum/i.test(help) && /הגנות|protections/.test(help), `the year's help text: ${help}`);
+    const years = await page.$$eval('#ob-year option[value]:not([value=""])', (o) => o.map((x) => Number(x.value)));
+    assert(years[0] === year && years.at(-1) === year - 110 && years.length === 111, `year list ${years[0]}..${years.at(-1)} (${years.length})`);
     await ctx.close();
+    // A 10-year-old goes through onboarding (device only: no guardian box, nothing leaves the device) and reaches Today.
+    const kid = await newPage(browser);
+    await kid.page.goto(`${BASE}#/start`);
+    await kid.page.waitForSelector('#ob-form');
+    await kid.page.selectOption('#ob-year', String(year - 10));
+    await kid.page.click('button[type=submit]');
+    await kid.page.waitForSelector('[data-goal]');
+    assert(!(await kid.page.$('[role=alert] h1')), 'a refusal screen for a 10-year-old');
+    await kid.page.click('[data-goal="travel"]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.click('[data-start="basics"]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.waitForSelector('input[name=terms]');
+    const step = await kid.page.textContent('#ob-form');
+    assert(await kid.page.$('[data-under16]') && /מתחת לגיל 16/.test(step) && /מתחת לגיל 18/.test(step), `the privacy step does not say what differs under 16 and under 18: ${step}`);
+    assert(!(await kid.page.$('input[name=guardian]')), 'a guardian box where nothing leaves the device');
+    await kid.page.check('input[name=terms]');
+    await kid.page.click('button[type=submit]');
+    await kid.page.waitForTimeout(500);
+    const p = await store(kid.page, 'profile');
+    assert(p[0]?.onboarded && p[0].birth_year === year - 10 && p[0].minor === true, `profile not created for a 10-year-old: ${JSON.stringify(p[0])}`);
+    assert((await store(kid.page, 'settings'))[0]?.marketing === false, 'marketing is not off for a 10-year-old');
+    await kid.page.goto(`${BASE}#/today`);
+    await kid.page.waitForSelector('#view section[aria-labelledby="plan-h"]', { timeout: 6000 }).catch(() => { throw new Error('a 10-year-old does not reach Today'); });
+    await kid.ctx.close();
+    // A browser refused under the old gate (the 24-hour key is still there): the form shows and the key is removed.
+    const before = await newPage(browser);
+    await before.page.goto(`${BASE}#/welcome`);
+    await before.page.waitForSelector('.welcome');
+    await before.page.evaluate(() => localStorage.setItem('lucid-age-refused', String(Date.now() - 60_000)));
+    await before.page.goto(`${BASE}#/start`);
+    await before.page.waitForSelector('#ob-form');
+    assert(!(await before.page.$('.onboard[role=alert]')), 'the old refusal screen is still shown');
+    assert(await before.page.evaluate(() => localStorage.getItem('lucid-age-refused')) === null, 'the old refusal key was not removed');
+    await onboard(before.page, { start: 'zero', year: year - 14 });
+    const p2 = await store(before.page, 'profile');
+    assert(p2[0]?.onboarded && p2[0].birth_year === year - 14, 'a learner refused before cannot register now');
+    await before.ctx.close();
+    // Adults register as before.
     const fresh = await newPage(browser);
     await onboard(fresh.page, { start: 'zero' });
-    const p = await store(fresh.page, 'profile');
-    assert(p[0]?.onboarded && p[0].birth_year, 'profile not created');
+    const p3 = await store(fresh.page, 'profile');
+    assert(p3[0]?.onboarded && p3[0].birth_year && p3[0].minor === false, 'profile not created');
     await fresh.ctx.close();
+  });
+
+  await check('AGE1. Under 16, expressions flagged as sensitive are not shown (one neutral note); 16 and over see them with their warning', async () => {
+    const year = new Date().getFullYear();
+    const real = JSON.parse(readFileSync(join(repo, 'lucid/content/real-life/slang.json'), 'utf8'));
+    // No real entry is flagged today, so the check adds one through the network, as a content author would.
+    const flagged = { ...real.entries[0], id: 'zz-flagged-test', term: 'Zzflagged', level: 'A1', sensitive: ['vulgar'], related: [], warning: { en: 'Flagged test warning.', he: 'אזהרת בדיקה.' } };
+    const withFlag = (page) => page.route(/content\/real-life\/slang\.json$/, (route) => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ entries: [...real.entries, flagged] }) }));
+    const kid = await newPage(browser);
+    await withFlag(kid.page);
+    await learnerAt(kid.page, 'A1', { birthYear: year - 10 });
+    await kid.page.goto(`${BASE}#/expressions?q=Zzflagged`);
+    await kid.page.waitForSelector('#xp-list');
+    await kid.page.waitForTimeout(200);
+    assert(!(await kid.page.$('[data-entry="zz-flagged-test"]')), 'a 10-year-old sees the flagged expression');
+    assert(await kid.page.$('[data-age-note]'), 'no note that some expressions are not shown');
+    await kid.page.goto(`${BASE}#/expressions`);
+    await kid.page.waitForSelector('#xp-count');
+    const count = await kid.page.textContent('#xp-count');
+    assert(count.includes(String(real.entries.length)), `every unflagged expression should stay: ${count}`);
+    await kid.ctx.close();
+    for (const age of [16, 17, 30]) {
+      const other = await newPage(browser);
+      await withFlag(other.page);
+      await learnerAt(other.page, 'A1', { birthYear: year - age });
+      await other.page.goto(`${BASE}#/expressions?open=zz-flagged-test&q=Zzflagged`);
+      await other.page.waitForSelector('[data-entry="zz-flagged-test"]', { timeout: 4000 }).catch(() => { throw new Error(`a ${age}-year-old does not see the flagged expression`); });
+      assert(!(await other.page.$('[data-age-note]')), `the age note shows for a ${age}-year-old`);
+      const text = await other.page.textContent('[data-entry="zz-flagged-test"]');
+      assert(/אזהרת בדיקה|Flagged test warning/.test(text), `the warning is missing for a ${age}-year-old`);
+      await other.ctx.close();
+    }
+  });
+
+  await check('AGE2. Under 16, where data would leave the device (an account, AI feedback) a parent or guardian confirms first; under 18 marketing stays off (mock server: accounts and AI are off on the live site)', async () => {
+    const year = new Date().getFullYear();
+    // The live site's configuration: no server, no AI. There the boxes never appear, because nothing leaves the device.
+    const live = readFileSync(join(repo, 'lucid/config.js'), 'utf8');
+    assert(/supabaseUrl: ''/.test(live) && /aiEnabled: false/.test(live), 'config.js is no longer device-only; review these checks');
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await learnerAt(page, 'A1', { birthYear: year - 10 });
+    // Account: the box is required; without it nothing is sent.
+    await page.goto(`${BASE}#/account?mode=signup`);
+    await page.waitForSelector('[data-guardian-account] #guardian');
+    await page.fill('#em', db.user.email); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForSelector('#guardian-err');
+    assert(await page.evaluate(() => document.activeElement?.id) === 'guardian', 'the focus is not on the guardian box');
+    assert(await page.inputValue('#em') === db.user.email, 'the typed email was lost');
+    await sleep(300);
+    assert(!db.profile && !db.pushes.length && !(await page.evaluate(() => localStorage.getItem('lucid-session'))), 'data left the device without the guardian box');
+    await page.check('#guardian');
+    await page.click('[data-auth] button[type=submit]');
+    const until = async (fn, ms = 4000) => { const t0 = Date.now(); while (!fn()) { if (Date.now() - t0 > ms) return false; await sleep(50); } return true; };
+    assert(await until(() => db.pushes.length > 0), 'no sync after the guardian agreed');
+    const local = (await store(page, 'profile'))[0];
+    assert(local.guardian_consent_at && db.profile?.guardian_consent_at === local.guardian_consent_at, `the agreement was not stored and sent: ${JSON.stringify(db.profile)}`);
+    assert(db.profile.marketing_opt_in !== true, 'marketing consent was sent for a 10-year-old');
+    // AI feedback: the switch does not turn on until the guardian box is ticked.
+    await page.goto(`${BASE}#/settings`);
+    await page.waitForSelector('[data-guardian-ai]');
+    await page.click('[data-ai]');
+    await page.waitForSelector('#ai-guardian-err');
+    assert(!(await page.isChecked('[data-ai]')) && !(await store(page, 'settings'))[0]?.ai_consent, 'AI turned on without the guardian box');
+    await page.click('[data-guardian-ai]');
+    assert(await page.isChecked('[data-guardian-ai]') && !(await page.$('#ai-guardian-err')), 'ticking the guardian box after the error did not keep it ticked or clear the error');
+    await page.click('[data-ai]');
+    await page.waitForTimeout(300);
+    const s = (await store(page, 'settings'))[0];
+    assert(s.ai_consent && s.ai_guardian_consent_at && db.profile.consent_ai_at, `AI consent not stored with the guardian's agreement: ${JSON.stringify(s)}`);
+    // Turning it off clears both, so turning it on again asks again.
+    await page.click('[data-ai]');
+    await page.waitForTimeout(200);
+    const off = (await store(page, 'settings'))[0];
+    assert(!off.ai_consent && !off.ai_guardian_consent_at && await page.$('[data-guardian-ai]'), 'turning AI off did not clear the agreement');
+    await ctx.close();
+    // Onboarding with AI available: ticking AI without the guardian box stops at the box.
+    const ob = await newPage(browser, { mock: true });
+    await ob.page.goto(`${BASE}#/start`);
+    await ob.page.waitForSelector('#ob-form');
+    await ob.page.selectOption('#ob-year', String(year - 12));
+    await ob.page.click('button[type=submit]');
+    await ob.page.click('[data-goal="travel"]');
+    await ob.page.click('button[type=submit]');
+    await ob.page.click('[data-start="zero"]');
+    await ob.page.click('button[type=submit]');
+    await ob.page.check('input[name=ai_consent]');
+    await ob.page.check('input[name=terms]');
+    await ob.page.click('button[type=submit]');
+    await ob.page.waitForSelector('#ob-err');
+    assert(await ob.page.evaluate(() => document.activeElement?.name) === 'guardian' && !(await store(ob.page, 'profile')).length, 'onboarding went on with AI and without the guardian box');
+    await ob.page.check('input[name=guardian]');
+    await ob.page.click('button[type=submit]');
+    await ob.page.waitForTimeout(500);
+    const os = (await store(ob.page, 'settings'))[0];
+    assert(os?.ai_consent && os.ai_guardian_consent_at && os.marketing === false, `onboarding did not store AI with the guardian's agreement: ${JSON.stringify(os)}`);
+    await ob.ctx.close();
+    // A session that is already signed in (for example from before onboarding) waits for the agreement: sync is
+    // paused, Settings says so and takes the agreement, and only then is the profile created.
+    const waiting = await newPage(browser, { mock: true });
+    const wdb = waiting.page.lucidMock;
+    await learnerAt(waiting.page, 'A1', { birthYear: year - 9 });
+    await waiting.page.evaluate((u) => { localStorage.setItem('lucid-session', JSON.stringify({ access_token: `tok-${u.id}`, refresh_token: 'r', expires_at: Date.now() + 3_600_000, user: u })); window.lucid.store.setOwner(u.id); }, wdb.user);
+    await waiting.page.reload();
+    await waiting.page.goto(`${BASE}#/settings`);
+    await waiting.page.waitForSelector('[data-guardian-account]');
+    await sleep(300);
+    assert(!wdb.profile && !wdb.pushes.length, 'data left the device before the agreement');
+    await waiting.page.click('[data-guardian-account]'); // the box goes away once the agreement is saved
+    const waitPush = async () => { const t0 = Date.now(); while (!wdb.pushes.length) { if (Date.now() - t0 > 4000) return false; await sleep(50); } return true; };
+    assert(await waitPush() && wdb.profile?.guardian_consent_at, 'sync did not start after the agreement in Settings');
+    await waiting.ctx.close();
+    // 16 and over: no guardian box anywhere.
+    const teen = await newPage(browser, { mock: true });
+    await learnerAt(teen.page, 'A1', { birthYear: year - 16 });
+    await teen.page.goto(`${BASE}#/account?mode=signup`);
+    await teen.page.waitForSelector('[data-auth]');
+    assert(!(await teen.page.$('#guardian')), 'a guardian box for a 16-year-old');
+    await teen.page.goto(`${BASE}#/settings`);
+    await teen.page.waitForSelector('[data-ai]');
+    assert(!(await teen.page.$('[data-guardian-ai]')), 'a guardian AI box for a 16-year-old');
+    await teen.ctx.close();
   });
 
   await check('2. A new user can complete a placement assessment', async () => {
@@ -1254,6 +1401,8 @@ try {
     const policy = readFileSync(join(repo, 'lucid/privacy.html'), 'utf8');
     for (const must of ['Microphone and voice', 'מיקרופון וקול', 'Not sent', 'recurring mistake types', 'To be filled in before public launch', 'להשלמה לפני הפעלה ציבורית', 'refuses marketing consent']) assert(policy.includes(must), `privacy.html lacks "${must}"`);
     assert(!/strictest|מחמירות|none of this leaves the device/.test(policy), 'privacy.html still claims what the code does not do');
+    // No minimum age (November 2026): the policy says so in both languages and no longer claims a 16+ limit.
+    assert(policy.includes('אין גיל מינימלי') && policy.includes('no minimum age') && policy.includes('מתחת לגיל 16') && policy.includes('under 16') && !/16 ומעלה|aged 16 and over|16-17/.test(policy), 'privacy.html does not describe the age rules as they are');
     const { ctx, page } = await newPage(browser);
     await page.goto(`${BASE}#/start`);
     await page.waitForSelector('#ob-form');

@@ -67,7 +67,7 @@ Each feature carries one status.
 
 ### 1.1 Who Lucid is for
 
-Lucid is an English course for Hebrew speakers aged 16 and over, taught from Hebrew. It covers learners
+Lucid is an English course for Hebrew speakers of any age (no minimum age since November 2026), taught from Hebrew. It covers learners
 who cannot yet read the Latin alphabet through to learners who must write argumentative essays and
 research-based papers in English (`PRODUCT.md`, Users). The typical situations in `PRODUCT.md` (a high-school
 student preparing for the Bagrut, a university student, a working adult, a traveller) are marked there as
@@ -77,7 +77,6 @@ inferred: the owner did not confirm them, and no learner was interviewed.
 
 | Not for | Why, as built |
 |---|---|
-| Anyone under 16 | Onboarding refuses under-16s and the database rejects their profile (section 2.1). |
 | Learners who need a certificate or an exam score (IELTS, TOEFL, Bagrut, AMIRNET) | Lucid gives estimates only and has no score predictor (`docs/research/04-methodology.md`, section 2). |
 | Learners motivated mainly by streaks, points and competition | No streak, XP, league or leaderboard code exists (a code search for these terms in `js/` finds "streak" only in copy that says there is none, in `onboarding.js` and `welcome.js`, and "xp-" only as element ids in `slang.js`). |
 | Learners who want an accent score or accent reduction | Speech recognition is shown as "what was recognised", never as a score (section 5.6). |
@@ -134,33 +133,33 @@ learner benefit until the proof points in its section 5 have been measured.
 
 ## 2. Users and constraints
 
-### 2.1 Age gate (16+)
+### 2.1 No minimum age
+
+Owner's decision, November 2026: there is no age restriction. Anyone of any age can register and use Lucid. (Until
+then Lucid was for learners aged 16 and over, with a refusal screen held for 24 hours; that gate is removed.)
 
 | Feature | Behaviour | Status |
 |---|---|---|
-| Neutral birth-year question | Step 1 of onboarding asks for the year of birth from a list with an empty "Choose" option. The help text says only the year is stored and does not state the threshold (`js/views/onboarding.js`). | Built and tested: `e2e 1` asserts the threshold is not shown before the answer |
-| Refusal | An age under 16 (computed from the year alone) shows a separate refusal screen. The refusal holds for 24 hours in this browser, also in a new tab (`lucid-age-refused` in local storage holds only the time of the refusal), so another year cannot simply be tried. Nothing about the refused person is stored. | Built and tested: `e2e 1` (a new tab, the stored value, the end of the 24 hours) |
-| Server enforcement | The `lucid_profiles_guard` trigger rejects a birth year that makes the person under 16 or over 120 (`supabase/migrations/001_lucid_core.sql`). Learner records need a profile, so a refused account stores nothing. | Built and tested on PGlite: `db: "age gate, minors and RLS on profiles"`, `db: "records need a profile: a refused or missing profile stores nothing (S-05)"` |
-| Age from the year only | Someone born late in the year counts as a year older from 1 January. This is a deliberate trade-off for storing less, stated in `privacy.html`. | Built and tested as part of the age gate: `e2e 1`, `db: "age gate, minors and RLS on profiles"` |
+| Birth-year question | Step 1 of onboarding asks for the year of birth (only the year: data minimisation) from a list of this year and the 110 years before it. The help text says why it is asked (protections that depend on age), not that there is a minimum (`js/views/onboarding.js`, `js/core/age.js`). | Built and tested: `e2e 1` (the list, the help text), `unit age` |
+| Nobody is refused | No age check, no refusal screen. Onboarding removes the former refusal key (`lucid-age-refused`), so a browser refused under the old gate can register. | Built and tested: `e2e 1` (a 10-year-old registers and reaches Today; a refused-before browser registers as a 14-year-old) |
+| Server rules | `lucid_profiles_guard` (replaced in `supabase/migrations/004_lucid_no_age_limit.sql`; 001 and 002 are not edited) keeps sanity bounds only: the birth year is not in the future and the age is at most 120. Learner records need a profile, so a refused account stores nothing. | Built and tested on PGlite: `db: "no minimum age: children can have a profile ..."`, `db: "records need a profile: a refused or missing profile stores nothing (S-05)"` |
+| Age from the year only, at use time | Someone born late in the year counts as a year older from 1 January (a deliberate trade-off for storing less, stated in `privacy.html`). Age is worked out each time it is used (`age.js`), never frozen; the `minor` flag onboarding stores is kept for compatibility and read only when there is no birth year. | Built and tested: `unit age` |
 
-### 2.2 Learners aged 16 and 17
-
-What is different for them, as built:
+### 2.2 Learners under 18, and under 16
 
 | Difference | Status |
 |---|---|
-| For accounts, the database forces `marketing_opt_in` to false for anyone under 18. Lucid sends no marketing to anyone, so this has no visible effect today. | Built and tested on PGlite: `db: "age gate, minors and RLS on profiles"` |
-| Onboarding (privacy step) and Profile show an under-18 notice that says exactly this, and that every other default is the same for all ages. `privacy.html` says the same. | Built and tested in part: `e2e RL6` checks that `privacy.html` says it "refuses marketing consent", that Profile mentions marketing for a 17-year-old and that neither screen claims stricter settings. No assertion reads the onboarding notice itself. |
-| The profile record stores a `minor` flag on the device (`onboarding.js`, `finish()`). | Partial: stored, but no code reads it |
+| Under 18: for accounts, the database forces `marketing_opt_in` to false. Lucid sends no marketing to anyone, so this has no visible effect today. | Built and tested on PGlite: `db: "no minimum age: minors and RLS on profiles"`, `db: "no minimum age: children can have a profile ..."` (a 10- and a 14-year-old, also on update); `e2e AGE2` (no marketing consent is sent) |
+| Under 16: scenarios and expressions flagged `sensitive` (`offensive`, `vulgar`, `sexual`, `alcohol`; `docs/content-schema.md`) are left out for every screen (`content.js`), with one neutral note in Real life and Expressions. Everyone else sees them with their warning, as before. No item is flagged today. | Built and tested: `unit age`, `e2e AGE1` (a flagged test entry served through the network: hidden at 10, shown with its warning at 16, 17 and 30) |
+| Under 16: one required box records a parent's or guardian's agreement wherever data would leave the device: the account screen (sign-up and sign-in), onboarding when already signed in, Settings when sync waits for it (`profile.guardian_consent_at`, sent as `guardian_consent_at`; no server profile and so no sync without it, and the trigger refuses one), and before AI feedback is turned on (onboarding and Settings; `settings.ai_guardian_consent_at`, cleared when AI is turned off). | Built, tested with mocks only: `e2e AGE2`, `unit session`; the trigger on PGlite. Accounts and AI are off on the live site, so there none of these points exist and nothing leaves the device |
+| Onboarding (privacy step) and Profile show what differs under 18 and under 16. `privacy.html` says the same in both languages. | Built and tested: `e2e 1` (the onboarding notices for a 10-year-old), `e2e RL6` (`privacy.html`, Profile for a 17-year-old) |
+| The AI prompts no longer claim 16+: every prompt asks for output suitable for a child, for every learner, because the birth year is never sent to the model (`supabase/functions/lucid-ai/prompts.ts`). | Built; not tested (the edge-function tests need Deno, and no prompt is tested against the live model) |
 
-Nothing else differs by age. AI feedback is off by default for everyone; the roleplay and tutor prompts
-ask for content "appropriate for a 16-year-old" for every learner (`supabase/functions/lucid-ai/prompts.ts`).
-Extra under-18 defaults recommended by the UX research (no weekly goal by default, a break suggestion after
-45 minutes, age-specific AI explanations; `docs/research/06-ux-recommendations.md`, D53) are **Not built**.
-
-`PRODUCT.md`, the comment on `lucid_profiles` in migration 001, the code, `privacy.html`, onboarding and
-`docs/architecture.md` section 6 now agree that marketing consent is the only difference (the earlier "protective
-defaults" wording in `PRODUCT.md` and the migration comment was corrected after commit `f8a202c`).
+The agreement is a self-declared tick, like the birth year. Whether it is a sufficient legal basis for children's
+data must be reviewed before a public launch (`docs/09-roadmap.md` LB-04; `privacy.html` has a "To be filled in
+before public launch" box for it). Extra under-18 defaults recommended by the UX research (no weekly goal by
+default, a break suggestion after 45 minutes, age-specific AI explanations; `docs/research/06-ux-recommendations.md`,
+D53) are **Not built**.
 
 ### 2.3 Right-to-left and bidirectional text
 
@@ -988,7 +987,9 @@ the conversation in that mode; the new message (up to 2,000 characters). Not sen
 
 According to the system prompt: it does not write the learner's work (it offers to help them do it), does not
 rewrite the learner's whole message, keeps replies under about 180 words with no tables, stays on learning
-English, keeps content appropriate for a 16-year-old, and treats learner messages as messages, not instructions.
+English, keeps content suitable for a child (no sexual content, graphic violence, alcohol, drugs, gambling, swearing
+or slurs, no requests for personal details), warns about offensive language without teaching it, and treats learner
+messages as messages, not instructions.
 These are instructions to the model only: no code checks the tutor's replies. Replies are escaped before display,
 and only `**bold**` is rendered.
 
@@ -1045,7 +1046,7 @@ never shown as a total or a ranking. A day off does not reset anything.
 |---|---|---|
 | Sign-up, sign-in, password reset | Email and password through Supabase Auth over `fetch` (`js/core/api.js`); after signing in the learner returns to the screen they came from | Built, tested with mocks only: `e2e 18`, `e2e 20`, `unit auth` |
 | Email links | Confirmation and reset links are adopted only in the browser that asked for them, within an hour, and only for the email typed there; otherwise the tokens are stripped and ignored | Built, tested with mocks only: `e2e 18`, `unit auth` (4 tests) |
-| Server profile first | The server profile is created from the device profile before the first sync; if the server refuses it (for example the age gate), nothing syncs | Built, tested with mocks only: `unit session` |
+| Server profile first | The server profile is created from the device profile before the first sync; if the server refuses it (for example an impossible birth year), nothing syncs; under 16 it is not even sent before a parent's or guardian's agreement (section 2.2) | Built, tested with mocks only: `unit session` |
 | Shared devices | The device records which account owns its data. Signing in as a different account never merges: the learner removes the other account's data or cancels. Unowned data moves into an account only on sign-up or after the learner agrees | Built, tested with mocks only: `e2e 19`, `unit session` (5 tests) |
 | Sync | Two-way: push local changes, then pull server changes since a cursor; the server stamps `updated_at`; a record waiting to be pushed is never overwritten by an older server copy; newest write wins. Runs every 60 seconds while the tab is visible, when the tab is hidden, after sign-in and on "Sync now". Deletions are tombstones with an empty document | Built, tested with mocks only: `unit store-sync` (two devices converging through a fake server), `e2e 20` ("Sync now", tombstone on the mock server) |
 | Password change | Asks for the current password and signs in with it again before sending the new one, except within 30 minutes of a reset link used in the same tab | Built, tested with mocks only: `e2e 20`, `unit auth` |
@@ -1319,7 +1320,7 @@ since.
 
 | # | Criterion | E2E check(s) | Result | Mocks |
 |---|---|---|---|---|
-| 1 | A new user can register | `1` (device onboarding; under-16 refusal for 24 hours across tabs); `18`, `19` (server account sign-up and sign-in) | PASS | Device registration: none. Account registration: mocks only |
+| 1 | A new user can register | `1` (device onboarding at any age: a 10-year-old reaches Today, a browser refused by the former 16+ gate registers); `AGE2` (a guardian's agreement under 16); `18`, `19` (server account sign-up and sign-in) | PASS | Device registration: none. Account registration: mocks only |
 | 2 | A new user can complete a placement assessment | `2`, `L1`, `L2`, `LP3` (the path while a test is unfinished), `LP4` (the result screen and the start level) | PASS | none |
 | 3 | A learner can start at absolute beginner level | `3` | PASS | none |
 | 4 | Lessons have real content | `4-6`, `PS7`, `PL1`, `PL6` | PASS | none |
@@ -1435,7 +1436,7 @@ Remainders that round 2 records inside items it marks fixed:
 |---|---|---|
 | Accessibility testing | Closed: the audit now sets minimal and off Hebrew support explicitly and checks that they are applied (section 11.1); 0 violations | Closed |
 | Interface language | The English-interface offer on Today (from B1) has no test | Partial |
-| Minors | Only marketing consent differs for 16-17-year-olds; `PRODUCT.md` and the migration 001 comment now say so | Closed since `f8a202c` (was a documentation conflict) |
+| Minors | No minimum age since November 2026; what differs under 18 and under 16 is in section 2.2 (the migration 001 comment about 16+ is superseded by migration 004, which says so) | Changed: no age limit |
 | Help | Help now says progress never leaves the device without an account, with the browser's speech service as the one exception, as `privacy.html` does | Closed since `f8a202c` (was a copy conflict) |
 | Navigation | Profile is linked from Progress; no test follows the link or saves the profile | Partial (test) |
 | Writing | No "H0 self-check" rung (E section 9.5); any change to the mistake's sentence counts as an attempt and unlocks the correction | Partial |

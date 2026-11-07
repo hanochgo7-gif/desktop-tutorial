@@ -17,8 +17,9 @@ one edge function for AI). Rationale in `docs/architecture.md`.
 
 ## Users
 
-Hebrew-speaking learners aged 16 and over, from complete beginners who cannot read the Latin alphabet to
-advanced learners who need to write academic arguments in English. Typical situations *(inferred)*: a high-school
+Hebrew-speaking learners of any age (there is no minimum age since November 2026), from complete beginners who
+cannot read the Latin alphabet to advanced learners who need to write academic arguments in English. Typical
+situations *(inferred)*: a high-school
 student preparing for Bagrut or university English, a university student who must read and write in English, a
 working adult who needs English for their job, and a traveller who needs practical English for a trip soon.
 They study on a phone in short sessions and on a laptop for longer writing work.
@@ -49,8 +50,12 @@ interface and explanations around English (left-to-right) learning content, fadi
 - AI features (writing evaluation, roleplay, tutor) run only server-side and need an Anthropic API key.
 - Speech uses the browser's speech synthesis and recognition; availability varies by browser.
 - Levels are "Lucid estimates aligned to CEFR descriptors", never certified levels.
-- Users must be 16+. For 16-17-year-olds the database forces marketing consent off; every other protection (no
-  public profile, no social features, AI off until consented, no tracking) applies to all learners alike.
+- There is no minimum age; only the birth year is asked, because protections depend on age, worked out each time
+  from the year. Under 18 the database forces marketing consent off. Under 16, content flagged as offensive,
+  vulgar, sexual or about alcohol is not shown, and a parent or guardian confirms (one required box) before data
+  leaves the device: an account on the server, or AI feedback. Every other protection (no public profile, no
+  social features, AI off until consented, no tracking) applies to all learners alike. The legal basis for
+  children's data must be reviewed before a public launch.
 
 ## Brand Commitments
 

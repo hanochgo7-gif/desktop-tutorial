@@ -1,11 +1,15 @@
 // Account: sign up, sign in and password reset when a server is configured. In device-only mode it
 // explains that the profile on this device is the account, and how to keep a backup.
 // After signing in or up, the learner returns to the screen they came from (ctx.from, or ?next=).
-import { html, render, on, $ } from '../core/util.js';
+// An account sends the learner's progress to the server, so a learner under 16 (age.js) ticks one required box
+// first: a parent or guardian has agreed. Its time is stored on the device profile (guardian_consent_at) and
+// sent with the server profile; session.js creates no server profile without it.
+import { html, render, on, $, esc } from '../core/util.js';
 import { tt } from '../core/i18n.js';
 import { toast } from '../ui/components.js';
 import { auth, configured, safeNext } from '../core/api.js';
-import { hasProfile } from '../core/learner.js';
+import { hasProfile, profile, saveProfile } from '../core/learner.js';
+import { isUnder16 } from '../core/age.js';
 import { connectAccount, syncPausedText } from '../core/session.js';
 
 // Messages for ?notice=, set when an email link could not be used or a sign-in was cancelled.
@@ -30,6 +34,20 @@ export default async function account(el, ctx) {
     return;
   }
 
+  // Shown on sign-up and sign-in (either can upload this device's progress), only while it is still needed.
+  const needsGuardian = () => mode !== 'reset' && isUnder16(profile()) && !profile()?.guardian_consent_at;
+  const guardianBox = () => (needsGuardian() ? html`<div class="ob-check" data-guardian-account>
+      <label class="choice"><input type="checkbox" id="guardian" required aria-describedby="guardian-help"><span class="grow">${tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')}</span></label>
+      <p class="help" id="guardian-help">${tt('מתחת לגיל 16 צריך אישור של הורה או אפוטרופוס לפני שמידע יוצא מהמכשיר.', 'Under 16, a parent or guardian agrees before any data leaves this device.')}</p></div>` : '');
+  // The error sits under the box and takes the focus; the typed email and password stay (no redraw).
+  function guardianMissing() {
+    const box = $('#guardian', el);
+    box.setAttribute('aria-invalid', 'true');
+    box.setAttribute('aria-describedby', 'guardian-help guardian-err');
+    if (!$('#guardian-err', el)) box.closest('label').insertAdjacentHTML('afterend', `<p class="error-text field-error" id="guardian-err">${esc(tt('כדי לפתוח חשבון או להיכנס אליו צריך אישור של הורה או אפוטרופוס. בלי חשבון, Lucid עובד במכשיר הזה בלבד.', 'To create or sign in to an account, a parent or guardian needs to agree. Without an account, Lucid works on this device only.'))}</p>`);
+    box.focus();
+  }
+
   function draw() {
     const signup = mode === 'signup', reset = mode === 'reset';
     render(el, html`<div class="onboard stack-lg">
@@ -39,6 +57,7 @@ export default async function account(el, ctx) {
       <form class="stack" novalidate data-auth>
         <div class="field"><label for="em">${tt('אימייל', 'Email')}</label><input class="input" id="em" type="email" autocomplete="email" dir="ltr" required></div>
         ${!reset ? html`<div class="field"><label for="pw">${tt('סיסמה', 'Password')}</label><input class="input" id="pw" type="password" minlength="8" autocomplete="${signup ? 'new-password' : 'current-password'}" dir="ltr" required>${signup ? html`<span class="help">${tt('לפחות 8 תווים.', 'At least 8 characters.')}</span>` : ''}</div>` : ''}
+        ${guardianBox()}
         ${msg && !msg.notice ? html`<p class="${msg.ok ? 'banner' : 'error-text'}" role="alert">${msg.text}</p>` : ''}
         <button class="key enter" type="submit" ${busy ? html`disabled` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${signup ? tt('יצירת חשבון', 'Create account') : reset ? tt('שליחת קישור', 'Send link') : tt('כניסה', 'Sign in')}</button>
       </form>
@@ -54,6 +73,10 @@ export default async function account(el, ctx) {
       const email = $('#em', el).value.trim(), pw = $('#pw', el)?.value || '';
       if (!/^\S+@\S+\.\S+$/.test(email)) { msg = { text: tt('כתובת האימייל לא תקינה.', 'That email address does not look right.') }; draw(); return; }
       if (mode !== 'reset' && pw.length < 8) { msg = { text: tt('הסיסמה צריכה לפחות 8 תווים.', 'The password needs at least 8 characters.') }; draw(); return; }
+      if (needsGuardian()) {
+        if (!$('#guardian', el)?.checked) { guardianMissing(); return; }
+        saveProfile({ guardian_consent_at: new Date().toISOString() });
+      }
       busy = true; draw();
       try {
         if (mode === 'reset') { await auth.resetPassword(email); msg = { ok: true, text: tt('אם הכתובת רשומה, נשלח אליה קישור לאיפוס. פתחו אותו בדפדפן הזה, תוך שעה.', 'If that address has an account, a reset link is on its way. Open it in this browser within an hour.') }; }
@@ -74,7 +97,7 @@ export default async function account(el, ctx) {
     const { sync } = await import('../app.js');
     const r = await connectAccount({ kind, sync });
     if (!r.ok) { msg = { text: r.reason === 'cancelled' ? NOTICES.cancelled() : NOTICES.offline(), notice: r.reason === 'cancelled' }; return false; }
-    if (r.reason === 'profile' || r.reason === 'offline') toast(syncPausedText(r.reason));
+    if (['profile', 'offline', 'guardian'].includes(r.reason)) toast(syncPausedText(r.reason));
     else if (r.synced) toast(tt('נכנסת לחשבון. ההתקדמות מסונכרנת.', 'Signed in. Your progress is syncing.'));
     ctx.navigate(hasProfile() ? next || 'today' : 'start');
     return true;

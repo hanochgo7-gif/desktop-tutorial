@@ -1,5 +1,8 @@
 // Settings: learning support, interface, learning load, feedback, AI consent, account, and data
 // (export, import, delete). Every control takes effect immediately and is saved on the device.
+// Under 16 (age.js), turning AI feedback on needs one more box ticked first: a parent or guardian has agreed
+// (stored as ai_guardian_consent_at, cleared when AI is turned off). A signed-in learner under 16 whose sync is
+// waiting for that agreement for the account can give it here (profile.guardian_consent_at; session.js).
 import { html, render, on, download, $ } from '../core/util.js';
 import { tt, t, isolateLatin } from '../core/i18n.js';
 import { icon, confirmDialog, toast } from '../ui/components.js';
@@ -8,6 +11,7 @@ import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
 import { signOut } from '../core/session.js';
 import { CONFIG } from '../../config.js';
+import { isUnder16 } from '../core/age.js';
 import { content } from '../core/content.js';
 import { speedSwitch, toggleSpeed } from './wordgame.js';
 import { paceOf } from '../core/wordgame.js';
@@ -42,6 +46,8 @@ export default async function settingsView(el, ctx) {
   const offline = { busy: false, text: '' };
   let pwMsg = '';
   let restoreMsg = '';
+  let aiGuardian = false; // the guardian box next to AI feedback is ticked (kept across redraws)
+  let aiGuardianError = false; // AI was ticked by a learner under 16 without the guardian box
 
   // Changing the password asks for the current one, unless a reset link was just used on this device.
   // From a reset link it opens at the top of the page; from "Change password", inside the account section.
@@ -62,6 +68,7 @@ export default async function settingsView(el, ctx) {
     const signedIn = configured() && auth.signedIn;
     // Without AI on this site its settings do nothing, so they are greyed and the one AI-off sentence says why (PH-5).
     const aiOn = configured() && CONFIG.aiEnabled;
+    const young = isUnder16(p);
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
       <div class="stack-lg settings-view" style="max-width:46rem">
@@ -95,12 +102,17 @@ export default async function settingsView(el, ctx) {
             tt('קל: רק מה שחוסם הבנה. רגיל: תיקון אחד לכל היותר בכל תשובה של המורה. הרבה: עד שלושה. בשיחה עם AI רוב התיקונים מגיעים במשוב שבסוף.', 'Light: only what blocks meaning. Standard: at most one correction in each tutor reply. Intensive: up to three. In AI conversations most corrections come in the feedback at the end.'), { off: !aiOn })}
           ${field('feedback_scope', tt('משוב על כתיבה', 'Writing feedback'), seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד', 'Focused'], ['comprehensive', 'מקיף', 'Comprehensive']], { off: !aiOn, help: true }),
             tt('ממוקד: עד 3 סוגי טעויות. מקיף: עד 12 טעויות. ״לפי הרמה״: ממוקד עד B1, מקיף מ-B2.', 'Focused: up to 3 kinds of mistake. Comprehensive: up to 12 mistakes. "By level": focused up to B1, comprehensive from B2.'), { off: !aiOn })}
-          <div class="field${aiOn ? '' : ' is-off'}"><label class="choice"><input type="checkbox" data-ai ${aiOn && s.ai_consent ? html`checked` : ''} ${aiOn ? '' : html`disabled`} aria-describedby="ai-desc${aiOn ? '' : ' ai-off'}"><span class="grow"><strong>${tt('משוב AI', 'AI feedback')}</strong></span></label>
+          <div class="field${aiOn ? '' : ' is-off'}"><label class="choice"><input type="checkbox" data-ai ${aiOn && s.ai_consent ? html`checked` : ''} ${aiOn ? '' : html`disabled`} aria-describedby="ai-desc${aiOn ? '' : ' ai-off'}${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow"><strong>${tt('משוב AI', 'AI feedback')}</strong></span></label>
             <span class="help" id="ai-desc">${isolateLatin(tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.'))}</span></div>
+          ${aiOn && young && !s.ai_consent ? html`<div class="field" data-guardian-ai-box><label class="choice"><input type="checkbox" data-guardian-ai ${aiGuardian ? html`checked` : ''} ${aiGuardianError ? html`aria-invalid="true"` : ''} aria-describedby="ai-guardian-help${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow">${isolateLatin(tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
+            ${aiGuardianError ? html`<p class="error-text field-error" id="ai-guardian-err">${isolateLatin(tt('כדי להפעיל משוב AI צריך קודם אישור של הורה או אפוטרופוס.', 'To turn on AI feedback, a parent or guardian needs to agree first.'))}</p>` : ''}
+            <span class="help" id="ai-guardian-help">${isolateLatin(tt('מתחת לגיל 16 צריך אישור של הורה או אפוטרופוס לפני שמפעילים משוב AI.', 'Under 16, a parent or guardian agrees before AI feedback is turned on.'))}</span></div>` : ''}
         </section>
         <section class="panel stack" aria-labelledby="set-account"><h2 id="set-account">${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
           : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
+            ${young && !p.guardian_consent_at ? html`<div class="field banner" data-guardian-account-box><p class="small">${tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. עד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. Until then your progress stays on this device only.')}</p>
+              <label class="choice"><input type="checkbox" data-guardian-account><span class="grow">${tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')}</span></label></div>` : ''}
             <div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button>${pwOpen ? '' : html`<button type="button" class="key small ghost" data-pw>${tt('שינוי סיסמה', 'Change password')}</button>`}</div>
             <div class="row"><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button><button type="button" class="key small ghost" data-signout-erase style="white-space:normal;text-align:start">${icon('log-out', { size: 16 })} ${tt('יציאה ומחיקת המידע מהמכשיר', 'Sign out and remove my data from this device')}</button></div>
             <p class="xsmall faint">${tt('במחשב משותף, בחרו ביציאה עם מחיקה. מה שסונכרן נשאר בחשבון שלכם בשרת.', 'On a shared computer, sign out and remove your data. Whatever has synced stays in your account on the server.')}</p>
@@ -182,12 +194,24 @@ export default async function settingsView(el, ctx) {
     on(el, 'click', '[data-speed-switch]', () => { toggleSpeed(); redraw('[data-speed-switch]'); }),
     on(el, 'change', '[data-ai]', (e, c) => {
       if (!(configured() && CONFIG.aiEnabled)) { c.checked = false; return; } // no AI on this site: nothing to turn on
+      const young = isUnder16(profile());
+      if (c.checked && young && !aiGuardian) { c.checked = false; aiGuardianError = true; redraw('[data-guardian-ai]'); return; }
+      aiGuardianError = false;
+      aiGuardian = false; // turning AI on again later asks again
       const at = c.checked ? new Date().toISOString() : null;
-      saveSettings({ ai_consent: c.checked, ai_consent_at: at });
+      saveSettings({ ai_consent: c.checked, ai_consent_at: at, ...(young ? { ai_guardian_consent_at: at } : {}) });
       // The AI service checks consent on the server profile, so keep it in step.
       if (configured() && auth.signedIn) db.updateProfile({ consent_ai_at: at }).catch(() => toast(tt('לא הצלחנו לעדכן את השרת; נסו שוב.', 'Could not update the server; please try again.')));
       toast(c.checked ? tt('משוב AI הופעל', 'AI feedback is on') : tt('משוב AI כבוי', 'AI feedback is off'));
       redraw('[data-ai]');
+    }),
+    on(el, 'change', '[data-guardian-ai]', (e, c) => { aiGuardian = c.checked; if (c.checked && aiGuardianError) { aiGuardianError = false; redraw('[data-guardian-ai]'); } }),
+    // Saving the agreement lets session.js create the server profile and start syncing (it watches the profile).
+    on(el, 'change', '[data-guardian-account]', (e, c) => {
+      if (!c.checked) return;
+      saveProfile({ guardian_consent_at: new Date().toISOString() });
+      toast(tt('האישור נשמר. הסנכרון יתחיל עכשיו.', 'Saved. Sync will start now.'));
+      redraw('[data-sync]');
     }),
     on(el, 'click', '[data-export]', async () => {
       const local = store.snapshot();

@@ -3,7 +3,7 @@
 Branch `claude/lucid-english-platform`, 2026-10-31. This report says what was researched, what was built, how it was
 tested, what needs configuration, and what is still open. Every statement links to a file where it can be checked.
 
-**In one paragraph.** Lucid is a complete, working static web app that teaches English to Hebrew speakers aged 16+
+**In one paragraph.** Lucid is a complete, working static web app that teaches English to Hebrew speakers of any age
 from the alphabet to C2 research writing, with a real-life track for travel, social situations and work. All 75
 lessons, 36 real-life scenarios, 60 expressions, 20 writing exercises, 10 advanced assignments and an 84-item
 placement bank exist and pass the content validator. The learning engine (placement, learner model, spaced
@@ -45,7 +45,7 @@ Hebrew-L1 claims are framed as hypotheses where the evidence is indirect.
 | Real-Life English | 36 scenarios in 8 modules (airport, hotel, restaurant, transport, shopping, social, emergency, work) with phrases, a model dialogue, scripted practice and AI roleplay; 60 expressions with meaning, formality, region, examples, mistakes and when not to use them | `content/real-life/`, `js/views/scenario.js`, `js/views/slang.js` |
 | AI tutor | 8 modes, learner-controlled correction intensity, never writes the learner's work | `js/views/tutor.js`, `supabase/functions/lucid-ai/prompts.ts` |
 | Progress | Weekly and monthly reports, levels with their evidence, no XP, no streak pressure | `js/views/progress.js` |
-| Accounts and data | Device-only by default; optional Supabase accounts with sync, export (including the account itself) and deletion; age gate 16+, birth year only | `js/core/api.js`, `js/core/session.js`, `supabase/migrations/` |
+| Accounts and data | Device-only by default; optional Supabase accounts with sync, export (including the account itself) and deletion; no minimum age (since November 2026), birth year only, protections under 18 and under 16 | `js/core/api.js`, `js/core/session.js`, `supabase/migrations/` |
 | Interface | 21 core screens plus help, checkpoint, drill, review, account and privacy; Hebrew RTL with isolated English; light and dark; text size up to 150%; offline use | `js/views/`, `css/app.css`, `sw.js` |
 
 Stack: static ES modules with no build step (hosted with the repository's GitHub Pages workflow), IndexedDB on the
@@ -72,11 +72,12 @@ The full table with one status per feature is in `08-product-specification.md`. 
 Lucid runs without any of this; these switch on accounts and AI and make a public launch responsible. The steps are
 in `docs/setup.md`; the order and owners are in `09-roadmap.md`.
 
-1. A dedicated Supabase project with migrations 001, 002 and 003, and the auth settings in `setup.md`.
+1. A dedicated Supabase project with migrations 001, 002, 003 and 004, and the auth settings in `setup.md`.
 2. An Anthropic API key stored as an edge-function secret (never in the client), the allowed origins, the per-learner
    and project-wide AI unit limits, and a spend limit in the Anthropic console.
 3. Lucid served from its own origin before accounts are enabled (the GitHub Pages address is shared with other apps).
-4. The operator's name and contact on the privacy page (a marked placeholder now), and a legal and minors review.
+4. The operator's name and contact on the privacy page (a marked placeholder now), and a legal and minors review,
+   including the legal basis for children's data now that there is no minimum age (a marked placeholder too).
 5. CAPTCHA keys and the client change to send the token (documented, not built).
 6. A live end-to-end run against the real services, and a native Hebrew review of all Hebrew text.
 
@@ -131,10 +132,40 @@ The brief asked for no questions, so these were decided and are recorded here:
 - Static hosting with optional Supabase and Anthropic, rather than a server framework, so the core works with no
   configuration and offline (ADR-1 in `architecture.md`).
 - Default model `claude-opus-5-5`, configurable with `LUCID_MODEL`.
-- Learners must be 16 or older; only the birth year is stored; under-18s cannot opt into marketing.
+- ~~Learners must be 16 or older~~ (replaced, see below); only the birth year is stored; under-18s cannot opt into
+  marketing.
 - British spelling in explanations; US and UK variants are both taught where they differ.
 - Content is original: invented people, places and sources, labelled as invented; no real exam items.
 - Speaking is practice, never graded by speech recognition; Lucid does not claim to assess speaking level.
+
+**No age limit (owner's decision, 7 November 2026: "תעשה שאין הגבלת גיל").** There is no minimum age any more;
+anyone of any age can register. The decision came without details, so these were assumed and are recorded here
+(the change itself is in `docs/qa/fix-log.md`, "No age limit"):
+
+- The year of birth is still asked, and only the year (data minimisation), because protections depend on age. The
+  list covers this year and the 110 years before it. Age is still the current year minus the birth year.
+- Age is decided when it is used (`js/core/age.js`), not from the `minor` flag frozen at onboarding, which is still
+  written for compatibility.
+- Under 18 nothing new: marketing consent stays forced off in the database, and Lucid sends no marketing anyway.
+- Under 16 is the new group. Two protections were added: (1) content flagged `sensitive` (offensive, vulgar, sexual,
+  alcohol) is not shown; no item is flagged today, so today this hides nothing, and the mechanism is tested with a
+  test entry; (2) where data would leave the device (an account and its sync, or AI feedback), one required box
+  records that a parent or guardian agreed, with its time. It is self-declared, like the birth year.
+- The ages 16 and 18 were kept as the thresholds because the code and the docs already used them; whether 16 is
+  the right age for the guardian box, and whether a ticked box is a sufficient legal basis, must be reviewed
+  before a public launch (`privacy.html` and roadmap LB-04 say so). The live site has no accounts and no AI, so
+  there nothing leaves the device and the box never appears.
+- The browser's own speech services (recognition in Chrome and Edge, online voices) are not behind the guardian box:
+  the microphone already has its own notice and is optional, and `privacy.html` describes these services for every
+  age. This is left for the legal review.
+- A learner under 16 who signs up before onboarding sends only the email to the sign-in service; the profile and
+  progress are not sent until the box is ticked (onboarding asks for it when signed in).
+- The AI prompts no longer say "16+": every prompt asks for output suitable for a child, whoever the learner is,
+  because the birth year is never sent to the model. Not tested against the live model.
+- The new database rule is migration `004_lucid_no_age_limit.sql`, not `003_...` as first planned, because
+  `003_lucid_export_account.sql` already exists; 001 and 002 were not edited. Re-running 001 alone would bring the
+  old guard back, so `setup.md` says to run the files in order, 004 last.
+- Research, persona and panel documents are left as they were: they record past work done when the limit was 16+.
 
 ## 8. Known limitations
 

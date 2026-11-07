@@ -89,6 +89,7 @@
   "content/writing/rubric.json",
   "js/app.js",
   "js/core/adaptive.js",
+  "js/core/age.js",
   "js/core/api.js",
   "js/core/content.js",
   "js/core/diff.js",

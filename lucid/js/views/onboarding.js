@@ -1,10 +1,12 @@
-// Onboarding = registration for device-only use: language, name, age (16+), goals, starting point,
+// Onboarding = registration for device-only use: language, name, year of birth, goals, starting point,
 // daily time, privacy. Then the placement test (or straight to lesson one for complete beginners).
-// The age gate asks for the year neutrally and states the rule only after a refusal, on its own screen;
-// a refusal holds for 24 hours in this browser, across tabs, so another year cannot simply be tried (P-10,
-// persona panel N10). Only the time of the refusal is kept (local storage), never the year or anything else.
-// Age is computed from the year alone, because only the year is stored: someone born late in the year
-// counts as a year older from January (a deliberate trade-off, also in privacy.html).
+// There is no minimum age (owner's decision, November 2026): every year from this one back 110 years can be
+// chosen and nobody is refused. The year is still asked (only the year: data minimisation) because some
+// protections depend on age (age.js): under 18 no marketing; under 16 sensitive content is hidden, and where
+// this step sends data off the device (signed in, or AI feedback) a parent or guardian confirms first. The
+// 24-hour refusal of the former 16+ gate is gone; its leftover key is removed here, so a learner refused before
+// can register now. Age is computed from the year alone, because only the year is stored: someone born late in
+// the year counts as a year older from January (a deliberate trade-off, also in privacy.html).
 // Forms that keyboards and screen readers can use (TF-6): each step opens with focus on its heading; an error
 // sits under its field, is tied to it (aria-describedby, aria-invalid) and takes the focus; radio groups are
 // named by their question and move with the arrow keys; multi-choice cards carry a square check, single-choice
@@ -14,7 +16,8 @@ import { tt, setUiLang, uiLang, isolateLatin } from '../core/i18n.js';
 import { icon, brandMark } from '../ui/components.js';
 import { saveProfile, saveSettings, applyPlacement } from '../core/learner.js';
 import { zeroResult } from '../core/placement.js';
-import { configured } from '../core/api.js';
+import { configured, auth } from '../core/api.js';
+import { ageFromYear, birthYears, ADULT_AGE, GUARDIAN_AGE } from '../core/age.js';
 import { content } from '../core/content.js';
 import { CONFIG } from '../../config.js';
 import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './welcome.js';
@@ -77,27 +80,26 @@ const tabFor = (checked, i, anyChecked) => (checked || (!anyChecked && i === 0) 
 
 export default async function onboarding(el, ctx) {
   ctx.setTitle(tt('התחלה', 'Getting started'));
-  const year = new Date().getFullYear();
   const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
   // AI consent is asked only where AI can work: with accounts and the AI service switched on (TF-7).
   const aiAvailable = configured() && CONFIG.aiEnabled;
-  const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, terms: false, text_size: currentTextSize() };
+  // Signed in before onboarding (from Welcome's "I already have an account"): finishing creates the server profile.
+  const signedIn = configured() && auth.signedIn;
+  const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, guardian: false, terms: false, text_size: currentTextSize() };
   // The language and text size chosen on Welcome or earlier in this session (a reload keeps both, TF-1).
   try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l) { data.ui_language = l; setUiLang(l); } } catch { /* ignore */ }
   applyTextSize(data.text_size);
   let step = 0;
-  let error = null; // { field: 'year' | 'start' | 'terms', msg }
+  let error = null; // { field: 'year' | 'start' | 'guardian' | 'terms', msg }
   const STEPS = 4;
-  const REFUSED = 'lucid-age-refused';
-  const HOLD_MS = 24 * 60 * 60 * 1000;
-  let refused = false;
-  try {
-    const at = Number(localStorage.getItem(REFUSED));
-    refused = at > 0 && Date.now() - at < HOLD_MS && at <= Date.now() + 60_000;
-    if (!refused && localStorage.getItem(REFUSED) != null) localStorage.removeItem(REFUSED);
-  } catch { /* storage blocked: this page load only */ }
+  // Left by the former 16+ gate (a refusal held 24 hours). Nobody is refused any more.
+  try { localStorage.removeItem('lucid-age-refused'); } catch { /* storage blocked */ }
 
-  const age = () => (data.birth_year ? year - Number(data.birth_year) : null);
+  const age = () => (data.birth_year ? ageFromYear(data.birth_year) : null);
+  const under = (n) => age() != null && age() < n;
+  // Under 16, one box for a parent's or guardian's agreement wherever this step sends data off the device.
+  const guardianShown = () => under(GUARDIAN_AGE) && (signedIn || aiAvailable);
+  const guardianRequired = () => under(GUARDIAN_AGE) && (signedIn || (aiAvailable && data.ai_consent));
   const nextIcon = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
   // The message sits directly under its field and is part of the field's description.
   const errFor = (field) => (error?.field === field ? html`<p class="error-text field-error" id="ob-err">${icon('alert', { size: 16 })}<span>${error.msg}</span></p>` : '');
@@ -122,10 +124,10 @@ export default async function onboarding(el, ctx) {
         <div class="field"><label for="ob-year">${tt('שנת לידה', 'Year of birth')}</label>
           <select class="input" id="ob-year" name="birth_year" required aria-describedby="${described('year', 'ob-year-help')}" ${invalid('year')}>
             <option value="">${tt('בחירה', 'Choose')}</option>
-            ${Array.from({ length: 90 }, (_, i) => year - 10 - i).map((y) => html`<option value="${y}" ${String(y) === String(data.birth_year) ? html`selected` : ''}>${y}</option>`)}
+            ${birthYears().map((y) => html`<option value="${y}" ${String(y) === String(data.birth_year) ? html`selected` : ''}>${y}</option>`)}
           </select>
           ${errFor('year')}
-          <span class="help" id="ob-year-help">${tt('שומרים רק את השנה, לא תאריך מלא.', 'Only the year is stored, not the full date.')}</span></div>`;
+          <span class="help" id="ob-year-help">${tt('שואלים כדי להתאים הגנות לפי גיל. שומרים רק את השנה, לא תאריך מלא.', 'We ask so Lucid can apply protections that depend on age. Only the year is stored, not the full date.')}</span></div>`;
       case 1: {
         const anyMin = MINUTES.some(([m]) => m === data.daily_minutes);
         return html`
@@ -156,13 +158,23 @@ export default async function onboarding(el, ctx) {
           <p>${tt('בכל רגע אפשר להוריד את כל המידע שלכם או למחוק אותו בהגדרות.', 'You can download or delete all your data in Settings at any time.')}</p>
           <p>${isolateLatin(tt('בתרגילי דיבור אפשר להשתמש במיקרופון, אבל לא חייבים. את זיהוי הדיבור עושה הדפדפן (ב-Chrome וב-Edge, שירות מקוון של יצרן הדפדפן); Lucid מקבל רק את הטקסט ולא מקליט את הקול.', 'Speaking exercises can use the microphone, but you don\'t have to. Your browser does the speech recognition (in Chrome and Edge, the browser maker\'s online service); Lucid gets only the text and never records your voice.'))}</p>
           ${!aiAvailable ? html`<p class="ob-ai-off">${icon('info', { size: 16 })}<span>${isolateLatin(tt('AI לא פעיל באתר הזה. כל השאר עובד. אם יתווסף, נשאל קודם.', 'AI is not active on this site. Everything else works. If it is added, we will ask first.'))}</span></p>` : ''}
-          ${age() != null && age() < 18 ? html`<p class="banner">${icon('info', { size: 18 })}<span>${isolateLatin(aiAvailable
+          ${under(GUARDIAN_AGE) ? html`<p class="banner" data-under16>${icon('info', { size: 18 })}<span>${isolateLatin(signedIn || aiAvailable
+            ? tt('מתחת לגיל 16: ביטויים ותרחישים שמסומנים כגסים, כמיניים או כקשורים לאלכוהול לא מוצגים, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: expressions and scenarios flagged as rude, sexual or about alcohol are not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')
+            : tt('מתחת לגיל 16: ביטויים ותרחישים שמסומנים כגסים, כמיניים או כקשורים לאלכוהול לא מוצגים. באתר הזה ההתקדמות נשמרת רק במכשיר.', 'Under 16: expressions and scenarios flagged as rude, sexual or about alcohol are not shown. On this site your progress stays on this device.'))}</span></p>` : ''}
+          ${under(ADULT_AGE) ? html`<p class="banner">${icon('info', { size: 18 })}<span>${isolateLatin(aiAvailable
             ? tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. כל שאר ברירות המחדל זהות לכולם, למשל משוב AI כבוי עד שמפעילים אותו.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same for everyone; for example, AI feedback stays off until you turn it on.')
             : tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד. כל שאר ברירות המחדל זהות לכולם.', 'Under 18: Lucid sends no marketing to anyone. Every other default is the same for everyone.'))}</span></p>` : ''}
         </div>
         ${aiAvailable ? html`<div class="ob-check">
           <label class="choice"><input type="checkbox" name="ai_consent" aria-describedby="ob-ai-details" ${data.ai_consent ? html`checked` : ''}><span class="grow">${isolateLatin(tt('לאפשר משוב AI (אפשר לשנות בהגדרות)', 'Allow AI feedback (you can change this in Settings)'))}</span></label>
           <p class="help" id="ob-ai-details">${isolateLatin(tt('בכתיבה, בשיחות ובמורה, צריך חשבון. הטקסטים שתשלחו, עם הרמה וההגדרות שלכם, ובמורה גם המטרות והטעויות החוזרות, יישלחו לספק ה-AI (Anthropic) רק כדי ליצור את התשובה. לא נשלחים שם, דוא״ל או שנת לידה.', 'For writing, conversations and the tutor; needs an account. The texts you send, with your level and settings, and for the tutor also your goals and recurring mistakes, go to the AI provider (Anthropic) only to produce the response. Your name, email and birth year are not sent.'))}</p></div>` : ''}
+        ${guardianShown() ? html`<div class="ob-check" data-guardian>
+          <label class="choice"><input type="checkbox" name="guardian" ${signedIn ? html`required` : ''} aria-describedby="${described('guardian', 'ob-guardian-help')}" ${invalid('guardian')} ${data.guardian ? html`checked` : ''}><span class="grow">${isolateLatin(signedIn && aiAvailable
+            ? tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת ולשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server and to send my texts for AI feedback')
+            : signedIn ? tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')
+              : tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
+          ${errFor('guardian')}
+          <p class="help" id="ob-guardian-help">${signedIn ? tt('צריך את האישור כדי להמשיך, כי נכנסתם לחשבון. בלי חשבון, Lucid עובד במכשיר הזה בלבד.', 'Needed to go on, because you are signed in. Without an account, Lucid works on this device only.') : isolateLatin(tt('צריך את האישור רק אם מפעילים משוב AI.', 'Needed only if you turn on AI feedback.'))}</p></div>` : ''}
         <div class="ob-check">
           <label class="choice"><input type="checkbox" name="terms" required aria-describedby="${described('terms', 'ob-terms-help')}" ${invalid('terms')} ${data.terms ? html`checked` : ''}><span class="grow">${tt('קראתי ואני מסכים/ה לתנאים ולמדיניות הפרטיות', 'I have read and agree to the terms and privacy policy')}</span></label>
           ${errFor('terms')}
@@ -170,21 +182,8 @@ export default async function onboarding(el, ctx) {
     }
   }
 
-  // A refusal is its own screen, not an editable form.
-  function drawRefused() {
-    render(el, html`<div class="onboard stack" role="alert">
-      <a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a>
-      <h1 tabindex="-1">${tt('עדיין אי אפשר להירשם', 'You can\'t register yet')}</h1>
-      <p>${tt('תודה שרציתם ללמוד איתנו. Lucid מיועד לגילאי 16 ומעלה, ולכן עדיין אי אפשר להירשם. נשמח לראות אתכם כשתגיעו לגיל 16.', 'Thank you for wanting to learn with Lucid. Lucid is for learners aged 16 and over, so you can\'t register yet. We\'d be glad to see you when you turn 16.')}</p>
-      <p class="small muted">${tt('לא שמרנו את שנת הלידה או פרט אחר עליכם. הדפדפן הזה זוכר רק שההרשמה לא אושרה, ורק למשך 24 שעות.', 'We did not save your year of birth or anything else about you. This browser only remembers that registration was refused, for 24 hours.')}</p>
-      <div class="row"><a class="key" href="#/welcome">${tt('לדף הבית', 'Back to the home page')}</a></div>
-    </div>`);
-    el.querySelector('h1')?.focus();
-  }
-
   // focus: 'heading' (a step opens), 'error' (the first invalid field) or null (keep it where the caller puts it).
   function draw(focus = 'heading') {
-    if (refused) { drawRefused(); return; }
     render(el, html`
       <div class="onboard">
         <div class="row between" style="margin-block-end:var(--s5)"><a class="brand" href="#/welcome">${brandMark()}<span>Lucid</span></a><span class="step-count">${tt(`${step + 1} מתוך ${STEPS}`, `${step + 1} of ${STEPS}`)}</span></div>
@@ -198,7 +197,7 @@ export default async function onboarding(el, ctx) {
         </form>
       </div>`);
     if (focus === 'error') {
-      const target = { year: '#ob-year', start: '[data-start][tabindex="0"]', terms: 'input[name=terms]' }[error?.field];
+      const target = { year: '#ob-year', start: '[data-start][tabindex="0"]', guardian: 'input[name=guardian]', terms: 'input[name=terms]' }[error?.field];
       el.querySelector(target)?.focus();
     } else if (focus === 'heading') el.querySelector('#ob-h')?.focus();
   }
@@ -210,24 +209,32 @@ export default async function onboarding(el, ctx) {
     if (f.birth_year) data.birth_year = f.birth_year.value;
     if (f.weekly_goal_days) data.weekly_goal_days = Number(f.weekly_goal_days.value);
     if (f.ai_consent) data.ai_consent = f.ai_consent.checked;
+    if (f.guardian) data.guardian = f.guardian.checked;
     if (f.terms) data.terms = f.terms.checked;
   }
 
   function validate() {
     if (step === 0) {
       if (!data.birth_year) return { field: 'year', msg: tt('בחרו שנת לידה.', 'Choose your year of birth.') };
-      if (age() < 16) return 'refused';
     }
     if (step === 2 && !data.start) return { field: 'start', msg: tt('בחרו נקודת פתיחה.', 'Choose a starting point.') };
+    if (step === 3 && guardianRequired() && !data.guardian) {
+      return { field: 'guardian', msg: signedIn ? tt('כדי להמשיך צריך אישור של הורה או אפוטרופוס.', 'To continue, a parent or guardian needs to agree.')
+        : isolateLatin(tt('כדי להפעיל משוב AI צריך אישור של הורה או אפוטרופוס. אפשר גם להמשיך בלי AI.', 'To turn on AI feedback, a parent or guardian needs to agree. You can also go on without AI.')) };
+    }
     if (step === 3 && !data.terms) return { field: 'terms', msg: tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.') };
     return null;
   }
 
   async function finish() {
-    const minor = age() < 18;
-    saveProfile({ onboarded: true, created_at: new Date().toISOString(), name: data.name, birth_year: Number(data.birth_year), minor, ui_language: data.ui_language, goals: data.goals, start_choice: data.start, consent_terms_at: new Date().toISOString() });
+    const now = new Date().toISOString();
+    // 'minor' is kept for older readers; protections decide from birth_year when they are used (age.js).
+    const minor = under(ADULT_AGE);
+    const guardian = guardianShown() && data.guardian;
     const ai = aiAvailable && data.ai_consent;
-    saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, text_size: data.text_size, ai_consent: ai, ai_consent_at: ai ? new Date().toISOString() : null, marketing: false });
+    // The settings first: saving the profile can start the server-profile check (session.js).
+    saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, text_size: data.text_size, ai_consent: ai, ai_consent_at: ai ? now : null, ...(ai && guardian ? { ai_guardian_consent_at: now } : {}), marketing: false });
+    saveProfile({ onboarded: true, created_at: now, name: data.name, birth_year: Number(data.birth_year), minor, ui_language: data.ui_language, goals: data.goals, start_choice: data.start, consent_terms_at: now, ...(guardian && signedIn ? { guardian_consent_at: now } : {}) });
     if (data.start === 'zero') {
       await applyPlacement(zeroResult());
       ctx.navigate('lesson/pa1-01');
@@ -261,12 +268,12 @@ export default async function onboarding(el, ctx) {
     }),
     on(el, 'click', '[data-min]', (e, b) => { data.daily_minutes = Number(b.dataset.min); choose(b.closest('[role="radiogroup"]'), b); }),
     // A corrected field drops its error at once, without moving the focus.
-    on(el, 'change', '#ob-year, input[name=terms]', (e, f) => {
-      const field = f.id === 'ob-year' ? 'year' : 'terms';
+    on(el, 'change', '#ob-year, input[name=terms], input[name=guardian]', (e, f) => {
+      const field = f.id === 'ob-year' ? 'year' : f.name;
       if (error?.field !== field || (field === 'year' ? !f.value : !f.checked)) return;
       error = null;
       f.removeAttribute('aria-invalid');
-      f.setAttribute('aria-describedby', field === 'year' ? 'ob-year-help' : 'ob-terms-help');
+      f.setAttribute('aria-describedby', { year: 'ob-year-help', terms: 'ob-terms-help', guardian: 'ob-guardian-help' }[field]);
       el.querySelector('#ob-err')?.remove();
     }),
     on(el, 'keydown', '[role="radio"]', (e) => radioKeys(e)),
@@ -274,13 +281,7 @@ export default async function onboarding(el, ctx) {
     on(el, 'submit', '#ob-form', async (e) => {
       e.preventDefault();
       collect();
-      const v = validate();
-      if (v === 'refused') {
-        refused = true; error = null; data.birth_year = '';
-        try { localStorage.setItem(REFUSED, String(Date.now())); } catch { /* this page load only */ }
-        draw(); return;
-      }
-      error = v;
+      error = validate();
       if (error) { draw('error'); return; }
       if (step < STEPS - 1) { step++; draw(); return; }
       await finish();

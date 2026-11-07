@@ -4,7 +4,9 @@
 // a warning where one is needed, and related expressions. Sorted by level for beginners (alphabetically
 // from B1), with a "for my level" filter; search matches the start of words (persona panel P-68). Like Real
 // life, the list is grouped (by level, or by letter for A-Z) and each group is folded to its first few
-// entries; a search shows every match (persona panel D11).
+// entries; a search shows every match (persona panel D11). For learners under 16, entries flagged as sensitive
+// are not in the list at all (content.js) and one neutral line says that some are not shown; everyone else
+// sees every entry with its warning, as before.
 import { html, render, on, $, $$ } from '../core/util.js';
 import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
@@ -49,9 +51,12 @@ export default async function slang(el, ctx) {
   let scope = 'all';
   let entries = [...all].sort(sort === 'level' ? byLevel : byTerm);
   const intro = tt('מה אומרים, מתי משתמשים, ומתי עדיף לוותר.', 'What people say, when to use it, and when not to.');
+  // Under 16, expressions flagged as offensive, vulgar, sexual or about alcohol are left out (content.js, age.js).
+  const ageNote = data?.hidden_for_age ? html`<p class="small muted" data-age-note>${icon('info', { size: 16 })} ${tt('חלק מהביטויים לא מוצגים, לפי הגיל שבפרופיל.', 'Some expressions are not shown, based on the age in your profile.')}</p>` : '';
 
   if (!entries.length) {
     render(el, html`<div class="page-head"><div><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
+      ${ageNote}
       ${emptyState({
         title: data ? tt('אין עדיין ביטויים במילון', 'No expressions in the dictionary yet') : tt('רשימת הביטויים לא נטענה', 'The expressions list did not load'),
         body: data ? tt('הביטויים יופיעו כאן ברגע שיתווספו. בינתיים אפשר לתרגל תרחישים באנגלית לחיים.', 'Expressions appear here as soon as they are added. Meanwhile, you can practise real-life scenarios.') : tt('נסו לרענן את הדף. בינתיים אפשר לתרגל תרחישים באנגלית לחיים.', 'Try reloading the page. Meanwhile, you can practise real-life scenarios.'),
@@ -194,6 +199,7 @@ export default async function slang(el, ctx) {
 
   render(el, html`
     <div class="page-head xp-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.slang')}</h1><p>${intro}</p></div></div>
+    ${ageNote}
     <div class="list-tools xp-tools">
       <label class="sr-only" for="xp-q">${tt('חיפוש ביטויים', 'Search expressions')}</label>
       <input class="input" id="xp-q" type="search" autocomplete="off" spellcheck="false" value="${query}" placeholder="${tt('חיפוש ביטוי או משמעות', 'Search an expression or a meaning')}">

@@ -4,12 +4,16 @@
 // - Local data remembers its owner (store.owner()). Signing in as someone else never merges silently:
 //   the learner removes the other account's data or cancels (security review S-06).
 // - Sync waits until the data is confirmed as this account's and the server profile exists, so a refused
-//   profile (for example the age gate) also means nothing is uploaded (S-05).
+//   profile (for example an impossible birth year) also means nothing is uploaded (S-05).
+// - There is no minimum age. For a learner under 16 the server profile is created only after a parent or
+//   guardian has confirmed (profile.guardian_consent_at, asked on the account screen, in onboarding when signed
+//   in, or in Settings), so nothing leaves the device before that; the database refuses it too (migration 004).
 import { store, eraseDevice } from './store.js';
 import { auth, db, configured } from './api.js';
 import { profile, saveProfile, settings } from './learner.js';
 import { tt } from './i18n.js';
 import { esc } from './util.js';
+import { isUnder16 } from './age.js';
 import { openDialog, toast } from '../ui/components.js';
 
 let ready = false; // this account owns the device data and has a server profile
@@ -75,8 +79,9 @@ async function ensureServerProfile() {
     return server;
   }
   if (!p?.onboarded) return null;
+  if (isUnder16(p) && !p.guardian_consent_at) throw Object.assign(new Error('A parent or guardian has not confirmed yet.'), { code: 'guardian' });
   const s = settings();
-  const saved = await db.saveProfile({ display_name: p.name || null, birth_year: p.birth_year, ui_language: p.ui_language || 'he', goals: p.goals || [], consent_terms_at: p.consent_terms_at || new Date().toISOString(), consent_ai_at: s.ai_consent ? s.ai_consent_at || new Date().toISOString() : null });
+  const saved = await db.saveProfile({ display_name: p.name || null, birth_year: p.birth_year, ui_language: p.ui_language || 'he', goals: p.goals || [], consent_terms_at: p.consent_terms_at || new Date().toISOString(), consent_ai_at: s.ai_consent ? s.ai_consent_at || new Date().toISOString() : null, ...(p.guardian_consent_at ? { guardian_consent_at: p.guardian_consent_at } : {}) });
   return saved || { id: auth.user?.id };
 }
 
@@ -88,7 +93,7 @@ async function checkProfile(sync) {
     return { ok: true, synced: ready, reason: ready ? null : 'no_profile' };
   } catch (error) {
     ready = false;
-    return { ok: true, synced: false, reason: error.network ? 'offline' : 'profile', error };
+    return { ok: true, synced: false, reason: error.network ? 'offline' : error.code === 'guardian' ? 'guardian' : 'profile', error };
   }
 }
 
@@ -145,7 +150,7 @@ export async function startSession(sync) {
   if (link?.adopted) {
     const r = await connectAccount({ kind: link.kind, sync });
     if (!r.ok) history.replaceState(null, '', `${location.pathname}${location.search}#/account?mode=signin&notice=${r.reason === 'cancelled' ? 'cancelled' : 'link'}`);
-    else { toast(LINK_TOASTS[link.kind]?.() || ''); if (r.reason === 'profile' || r.reason === 'offline') toast(syncPausedText(r.reason)); }
+    else { toast(LINK_TOASTS[link.kind]?.() || ''); if (['profile', 'offline', 'guardian'].includes(r.reason)) toast(syncPausedText(r.reason)); }
   } else if (auth.signedIn) {
     connectAccount({ kind: 'resume', sync }).then((r) => {
       if (!r.ok && r.reason === 'cancelled') { toast(tt('יצאת מהחשבון. המידע במכשיר לא השתנה.', 'Signed out. The data on this device was not changed.')); location.hash = '#/account?mode=signin'; }
@@ -159,4 +164,6 @@ export async function startSession(sync) {
 
 export const syncPausedText = (reason = 'profile') => (reason === 'offline'
   ? tt('נכנסת לחשבון. אין כרגע חיבור לשרת, והסנכרון יתחיל כשהחיבור יחזור.', 'You are signed in. There is no connection to the server right now; sync will start when you are back online.')
+  : reason === 'guardian'
+    ? tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. אפשר לאשר בהגדרות, ועד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. You can confirm in Settings; until then your progress stays on this device only.')
   : tt('נכנסת לחשבון, אבל הסנכרון מושהה: השרת לא שמר את הפרופיל. ננסה שוב אוטומטית.', 'You are signed in, but sync is paused: the server did not save your profile. Lucid will try again automatically.'));

@@ -1,5 +1,6 @@
 // Runs the Supabase migrations on PGlite (Postgres in WASM) with a stub of Supabase's auth schema,
-// then checks row-level security, the age gate, quotas, AI metering, export and account deletion as real roles.
+// then checks row-level security, the age rules (no minimum age, migration 004), quotas, AI metering, export and
+// account deletion as real roles.
 // PGlite has a single connection, so these tests check the logic of the locking code paths, not real
 // concurrency (the edge-function tests cover parallel requests against an atomic ledger).
 import { test } from 'node:test';
@@ -48,9 +49,8 @@ test('migrations can be applied twice', async () => {
   }
 });
 
-test('age gate, minors and RLS on profiles', async () => {
+test('no minimum age: minors and RLS on profiles', async () => {
   const db = await setup();
-  await assert.rejects(as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [A, year - 14]), /16 and over/);
   await as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year, marketing_opt_in) values ($1, $2, true)`, [A, year - 17]);
   const p = await as(db, 'authenticated', A, `select marketing_opt_in from lucid_profiles`);
   assert.equal(p.rows[0].marketing_opt_in, false, 'a 17-year-old cannot be opted in to marketing');
@@ -62,9 +62,46 @@ test('age gate, minors and RLS on profiles', async () => {
   await as(db, 'authenticated', A, `update lucid_profiles set goals = array['work', 'travel', 'exams']`);
 });
 
+test('no minimum age: children can have a profile with a guardian\'s agreement; marketing stays off; bounds stay (004)', async () => {
+  const db = await setup();
+  const now = new Date().toISOString();
+  // A 10-year-old and a 14-year-old, both trying to opt in to marketing.
+  await as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year, marketing_opt_in, guardian_consent_at) values ($1, $2, true, $3)`, [A, year - 10, now]);
+  await as(db, 'authenticated', B, `insert into lucid_profiles (id, birth_year, marketing_opt_in, guardian_consent_at) values ($1, $2, true, $3)`, [B, year - 14, now]);
+  for (const [u, age] of [[A, 10], [B, 14]]) {
+    const r = await as(db, 'authenticated', u, `select birth_year, marketing_opt_in, guardian_consent_at from lucid_profiles`);
+    assert.equal(r.rows.length, 1, `the ${age}-year-old's profile was not stored`);
+    assert.equal(r.rows[0].birth_year, year - age);
+    assert.equal(r.rows[0].marketing_opt_in, false, `a ${age}-year-old cannot be opted in to marketing`);
+    assert.ok(r.rows[0].guardian_consent_at, 'the guardian\'s agreement is kept');
+  }
+  // Updating later cannot opt them in either, nor drop the guardian's agreement while under 16.
+  await as(db, 'authenticated', A, `update lucid_profiles set marketing_opt_in = true`);
+  assert.equal((await as(db, 'authenticated', A, `select marketing_opt_in from lucid_profiles`)).rows[0].marketing_opt_in, false);
+  await assert.rejects(as(db, 'authenticated', A, `update lucid_profiles set guardian_consent_at = null`), /parent or guardian/);
+  // Born this year (age 0) is a valid year.
+  const C = '33333333-3333-4333-8333-333333333333';
+  await db.exec(`insert into auth.users (id, email) values ('${C}', 'c@example.com');`);
+  await as(db, 'authenticated', C, `insert into lucid_profiles (id, birth_year, guardian_consent_at) values ($1, $2, $3)`, [C, year, now]);
+  // Sanity bounds: a future year, over 120, and no year are refused.
+  const D = '44444444-4444-4444-8444-444444444444';
+  await db.exec(`insert into auth.users (id, email) values ('${D}', 'd@example.com');`);
+  await assert.rejects(as(db, 'authenticated', D, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [D, year + 1]), /past year/);
+  await assert.rejects(as(db, 'authenticated', D, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [D, year - 121]), /past year/);
+  await assert.rejects(as(db, 'authenticated', D, `insert into lucid_profiles (id, birth_year) values ($1, null)`, [D]), /past year|null/);
+  // Under 16 without a guardian's agreement: refused, and so nothing else of that account can be stored (S-05).
+  await assert.rejects(as(db, 'authenticated', D, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [D, year - 12]), /parent or guardian/);
+  await assert.rejects(as(db, 'authenticated', D, `insert into lucid_records (coll, id, data) values ('progress', 'pa1-05', '{}')`), /row-level security/);
+  // From 16 the agreement is not needed; 18 and over can opt in to marketing.
+  await as(db, 'authenticated', D, `insert into lucid_profiles (id, birth_year, marketing_opt_in) values ($1, $2, true)`, [D, year - 18]);
+  assert.equal((await as(db, 'authenticated', D, `select marketing_opt_in from lucid_profiles`)).rows[0].marketing_opt_in, true);
+  await as(db, 'authenticated', D, `update lucid_profiles set birth_year = $1, marketing_opt_in = true`, [year - 16]);
+  assert.equal((await as(db, 'authenticated', D, `select marketing_opt_in from lucid_profiles`)).rows[0].marketing_opt_in, false, 'a 16-year-old is opted out');
+});
+
 test('records need a profile: a refused or missing profile stores nothing (S-05)', async () => {
   const db = await setup();
-  await assert.rejects(as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [A, year - 13]), /16 and over/);
+  await assert.rejects(as(db, 'authenticated', A, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [A, year + 3]), /past year/);
   await assert.rejects(as(db, 'authenticated', A, `insert into lucid_records (coll, id, data) values ('progress', 'pa1-05', '{}')`), /row-level security/);
   assert.equal(Number((await db.query(`select count(*) n from lucid_records`)).rows[0].n), 0);
   await addProfile(db, A);
