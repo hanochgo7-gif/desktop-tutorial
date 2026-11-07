@@ -115,8 +115,25 @@
     header?.classList.toggle("is-hidden", !menuOpen && y > 480 && y > lastY + 4);
     if (y < lastY - 4 || y < 480) header?.classList.remove("is-hidden");
     lastY = y;
+    updateSticky(y);
     const wa = $(".wa-float");
     if (wa) wa.classList.toggle("is-visible", y > window.innerHeight * 0.6 || document.body.dataset.page !== "home");
+  }
+  // mobile: a call-to-action bar after the hero, out of the way while the form or the quick check is on screen
+  const sticky = $("[data-sticky-cta]");
+  const busy = new Set();
+  if (sticky && "IntersectionObserver" in window) {
+    const watch = ["#consult", "#check", ".site-footer"].map((s) => $(s)).filter(Boolean);
+    const io2 = new IntersectionObserver((es) => { es.forEach((e) => (e.isIntersecting ? busy.add(e.target) : busy.delete(e.target))); onScroll(); }, { threshold: 0.15 });
+    watch.forEach((w) => io2.observe(w));
+  }
+  function updateSticky(y) {
+    if (!sticky) return;
+    const show = y > window.innerHeight * 0.8 && busy.size === 0;
+    if (show) sticky.hidden = false;
+    sticky.classList.toggle("is-visible", show);
+    sticky.setAttribute("aria-hidden", String(!show));
+    sticky.querySelectorAll("a").forEach((a) => (a.tabIndex = show ? 0 : -1));
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
