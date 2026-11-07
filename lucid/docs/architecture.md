@@ -344,17 +344,24 @@ release, `lucid-<RELEASE>`.
   downloads that file, `sw.js` and `release.json`.
 - **Serving.** Pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/` and `content/` (except lessons, centre and pool
   files) come from the release cache first and go to the network only on a miss, so a repeat visit makes no request
-  for them, whatever the HTTP cache or the connection. Every response from the release cache is hashed against
+  for them, whatever the HTTP cache or the connection. Every response served this way is hashed against
   `release.json` as it is served and carries the worker's own headers (status 200, the file type's content type),
   never stored ones; a miss is kept only when it matches, and a module of another release is never handed to the
-  page (docs/qa/security-review.md 5a). Lessons, centre and pool files are stale-while-revalidate. Requests for
-  `release.json` itself go to the network. Another origin's requests (Supabase, the AI function) are never touched.
+  page (docs/qa/security-review.md 5a). Lessons, centre and pool files, `assets/`, `manifest.webmanifest` and a
+  fetched (not navigated) `privacy.html` are stale-while-revalidate and served as stored, unhashed, as before the
+  performance work: data the views escape, never code. Requests for `release.json` itself go to the network.
+  Another origin's requests (Supabase, the AI function) are never touched.
+- **Full storage.** A write that does not fit (the origin's quota is shared with other apps) never fails an install:
+  what did not fit, the shell included, is fetched and checked on use once the release has taken over, and at
+  activation the old release's own files are dropped first if that is what makes room for the saved lessons.
 - **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
   20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
 - **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
   the background and waits; it takes over when the page asks for it between two screens (`{type:'lucid:activate'}`,
-  contract C-4 in `docs/perf/plan.json`) or when every Lucid tab has closed, so one page never runs modules from two
-  releases. A first install, and the one-time upgrade from the old hand-numbered caches, take over at once. Activation
+  contract C-4 in `docs/perf/plan.json`), when the app is loaded again (a reload or a new tab: the active worker
+  asks the waiting one to take over and answers that one navigation with a page of its own that reloads once it has,
+  so a release whose page cannot start is replaced at the reload it asks for), or when every Lucid tab has closed,
+  so one page never runs modules from two releases; other open tabs follow at their next change of screen. A first install, and the one-time upgrade from the old hand-numbered caches, take over at once. Activation
   deletes older `lucid-` caches and nothing else (the origin is shared with other apps).
 - **Development.** Because code is cache-first, an edit shows up under the worker only after
   `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).

@@ -21,6 +21,14 @@ The after-measurement of the integrated tree, against [baseline.md](baseline.md)
 > downloads 6 KB instead of 3 (128-bit hashes in release.json), which misses its "≤ 5 KB" allowance. Corrected
 > below: script time is up about 55-60 ms against the base, not 35-40; checkpoint and reading make 35 and 34 cold
 > requests; heavy TBT is met only in the headline windows. Rows re-measured then carry `"revision": "verify2"`.
+>
+> **Third skeptic round (2026-11-07).** The S-15 sign-off review of `40b402b` approved the integrity part and found
+> two ways a fix could fail to reach a learner where b2b669b's did: a release whose page cannot start was never
+> replaced by reloading, and with the origin's storage nearly full no update ever installed. Both are fixed in the
+> worker (a load of the app hands over to a waiting release; a full origin never fails an install), and the
+> worker's comment and security-review 5a now say which paths are hashed as served. See
+> [Third skeptic round](#third-skeptic-round-2026-11-07). Nothing measured moved beyond the noise; rows re-measured
+> then carry `"revision": "verify3"`.
 
 - **Cold loads on the phone are 26-70 % faster.** These are the deployed (minified) tree's numbers.
   - Cold welcome: 2050 → 1511 ms, with first paint 2072 → 632 ms.
@@ -343,7 +351,7 @@ measured 93 and 132 in window 2.
 
 | measure | target | measured | verdict |
 |---|---|---|---|
-| a returning learner runs the new release no later than the first path change after the new worker installs | yes | scenario u: the first change of screen reloads into the new release (phone); `tests/e2e/perf-boot.mjs` 12/12, including two tabs, no reload mid-lesson or mid-essay, the draft and resume point kept | met |
+| a returning learner runs the new release no later than the first path change, or the first load of the app, after the new worker installs (third skeptic round: also when the page cannot start) | yes | scenario u: the first change of screen reloads into the new release (phone); `tests/e2e/perf-boot.mjs` 12/12, including two tabs, no reload mid-lesson or mid-essay, the draft and resume point kept | met |
 | page loads that mix modules from two releases | 0 | 0 in scenario u (both documents), 0 in perf-boot with two tabs | met |
 
 ### 14. Guardrails (on the integrated head)
@@ -607,4 +615,92 @@ All green on the source tree, and on the built tree where marked:
   the reviewers' browser scripts ran beside it), games, real-life-writing, r4-lesson-flow, r4-exercises,
   r4-today-path, r4-practice-games, r4-real-life-writing, r4-shell-bilingual, perf-boot 13/13, perf-runtime 9/9;
 - upgrade.mjs 7/7 (source and built);
+- build, then verify: ok (63 modules), against the source.
+
+## Third skeptic round (2026-11-07)
+
+One review of `40b402b`: the S-15 security sign-off, which read `sw.js` line by line before any notes and attacked a
+fresh build of it (release `61cdec2e3120`) in Chromium against b2b669b. Its verdict, conditions and how each was met
+are in docs/qa/security-review.md 5a, "Third skeptic round". Each problem was reproduced first with the reviewer's
+own scripts (scratchpad `skeptic3-security/r2/`), then run again on a build of this round (outputs in scratchpad
+`refix3/repro/`).
+
+### What changed
+
+- **Worker (`sw.js`).**
+  - **A load of the app hands over to a waiting release (K1).** A release whose page cannot start (`boot()` throws,
+    or a module fails to evaluate) never changes screen, so it never sent `lucid:activate`, and a waiting fix took
+    over only once every tab had closed; the page itself says "Please reload the page". Now a navigation to the app
+    while a release waits makes the active worker ask the waiting one to take over, and answer that navigation with
+    a page of its own (no content, one inline script under its own nonce CSP, `no-store`) that reloads as soon as the
+    waiting worker is no longer waiting. Waiting inside the navigation deadlocks and a redirect loops (Chromium
+    activates the waiting worker only when the active one has no request in hand; both tried). If the waiting
+    worker has not taken over 5 s after the first ask, the release serves the app again. Other tabs follow at their
+    next change of screen, as when one tab switches between screens. The reviewer's `brick.mjs` on this round's
+    build (good, bad, fix; max-age 0 and 600): the first reload after the fix is deployed lets the browser find it,
+    the second runs it, in the same tab (`refix3/repro/brick-new*.txt`; on `40b402b` five reloads all said "could not
+    start"; on b2b669b, network-first, the first reload ran the fix).
+  - **A full origin never fails an install (K2).** An update writes a second copy of the release, so with the
+    origin's quota nearly used (it is shared with other apps) the writes of the shell, of `unpack()`'s items and of
+    the carry-over threw `QuotaExceededError` and failed every install: the learner stayed on the old code for good.
+    Now a write that does not fit is skipped and the install stops fetching best-effort files. What did not fit, the
+    shell included, is fetched and checked on use once the release takes over, and activation, which deletes the old
+    cache, makes room again. Saved lessons that did not fit at install are carried over at activation, after the old
+    caches' own files (served by no one by then) are dropped if storage is still full. The reviewer's `quota.mjs`
+    (quota 1.5 x usage) on this build: the fix installs, and runs from the second load on, with only its own cache
+    left (`refix3/repro/quota-new.txt`; on `40b402b` it never installed).
+  - **Wording (K3).** The head comment said every response from the release cache is hashed. The stale-while-
+    revalidate files (lessons, centre and pool files, `assets/`, `manifest.webmanifest`, a fetched `privacy.html`)
+    share that cache and are served as stored, as at b2b669b; the comment, docs/architecture.md and 5a now say so.
+    The reviewer's `swr-poison.mjs` on this build: unchanged (parity with b2b669b), by design for this round
+    (5a gives the reason).
+- **Tests.** sw.test: "a load of the app while a release waits hands over to it" and "a full origin never fails an
+  install" (two quota levels, the second leaving no room even for the shell). Both fail on `40b402b`'s worker; the
+  second also fails without the activation-time purge (mutation run). upgrade.mjs U8 (two variants: `boot()`
+  throws, a module fails to evaluate; same tab; the fix runs at the second reload; no history entry added) and U9
+  (`Storage.overrideQuotaForOrigin` at 1.5 x usage; the next release installs, takes over at a reload, keeps three
+  saved lessons, removes the old cache, screens load). All three fail on `40b402b` ("after 3 reloads the page still
+  shows could not start", "... stuck", "the next release did not install") and pass on the source and on the built
+  tree.
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+Built tree of this round (release `6a35f1a0edfa`) against the built previous head (`40b402b`, release
+`61cdec2e3120`) and `git archive b2b669b` (base), with the same harness, in sequence with nothing else running. Only
+the rows these fixes could move: the returning loads (g: the navigation now checks for a waiting release), the
+release update (u) and the first-visit precache (f: the install's writes). Raw JSON and logs: scratchpad
+`refix3/perf/`.
+
+| row | this round | previous head | base | note |
+|---|---:|---:|---:|---|
+| warm (g) #/today fresh / stale / push / offline / lie-fi, sample 1 | 467 / 447 / 450 / 427 / 440 | 528 / 497 / 512 / 459 / 527 | 540 / 1403 / 2225 / 518 / 16573 | |
+| the same, sample 2 | 558 / 440 / 468 / 440 / 456 | 425 / 475 / 448 / 429 / 454 | | fresh: runs 593, 416, 558 against 415, 425, 452 |
+| warm (g) lesson a1-01, sample 1 / sample 2 | 433 / 467 / 451 / 434 / 418; 409 / 411 / 436 / 422 / 436 | 426 / 407 / 481 / 484 / 467; 414 / 476 / 443 / 480 / 465 | 508 / 1350 / 1853 / 517 / 24589 | |
+| release update: downloads / installed after / saved lessons | 1 req, 6 KB / 1313 ms / 4 of 4 | 1 req, 6 KB / 1350 ms / 4 of 4 | 84 reqs, 884 KB / 11145 ms / 0 | 0 mixed-release pages in all three |
+| returning #/today right after the deploy / Today -> lesson (reloads into the new release) / next #/today | 468 / 1314 / 468 | 482 / 1357 / 487 | 2123 / 2485 / 1272 | |
+| precache on welcome: requests / KB / finished | 84 / 595 / 8242 | 84 / 595 / 8189 | | |
+| precache on Today: finished | 8198 | 8137 | | |
+| cold #/welcome / cold #/today (in f) | 1531 / 1797 | 1505 / 1757 | | with the worker blocked: 1511 / 1750 against 1529 / 1721 |
+
+Every difference is inside the run-to-run spread, in both directions: the worker blocked (which runs none of the
+changed code) differs by as much. The handover itself, measured separately (scratchpad `refix3/perf/handover-*.txt`,
+page CPU 4x, five runs): a reload while a release waits takes 1373 ms to Lucid's first screen on the new release,
+against 283 ms for a plain reload; the previous head's reload stays on the old release (266 ms) and pays the switch
+at the next change of screen instead (u above: 1314-1357 ms in both). The time is the browser's: the worker's own
+activate handler takes 15 ms, and Chromium marks the new worker activated about 1 s after it is asked to take over
+whatever the worker does (the same with a ten-line test worker, `refix3/exp/`). The handover moves that second from the
+first change of screen to the load; it does not add one.
+
+### Suites on this round
+
+All green on the source tree, and on the built tree where marked:
+
+- `npm test` 385/385 with `CI=true` and esbuild (0 skipped); validate-content (0 errors, 1 warning as before);
+  build-content-index --check;
+- run.mjs 57/57 (source and built) and a11y (0 violations);
+- every lane suite: shell-components 12/12, lesson-flow 25/25, exercises 12/12, bilingual-text 12/12,
+  lesson-content 7/7, first-run-today 14/14, practice-hubs 14/14, games 17/17, real-life-writing 16/16,
+  r4-lesson-flow 32/32, r4-exercises 13/13, r4-today-path 14/14, r4-practice-games 19/19, r4-real-life-writing 15/15,
+  r4-shell-bilingual 11/11, perf-boot 13/13, perf-runtime 9/9;
+- upgrade.mjs 10/10 (source and built: U1-U7 and the new U8 x 2, U9);
 - build, then verify: ok (63 modules), against the source.

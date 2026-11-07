@@ -190,15 +190,22 @@ and `tools/build/verify.mjs` fails the build if it changed.
 the release cache by same-origin script ran on every online load until the next release (b2b669b's network-first
 worker overwrote it at the next online load). The worker now checks what it serves, so the paragraph above about
 checking only on install no longer holds. As it stands after the second skeptic round below:
-- Every response served from the release cache is hashed and compared with `release.json` as it is served
-  (`servable` in `sw.js`), and is built from the bytes just hashed, so bytes rewritten after an earlier check are
-  never served. (The first follow-up hashed each entry once per worker lifetime, which left a window: see below.)
-  An entry that does not match is deleted, fetched again and checked, and never served (offline it is not served at
-  all).
-- Only bodies are trusted. Every response the release cache stores or serves is built by the worker (`entry`):
-  status 200 and one header, the content type of the file's extension. A stored status or header (a `Refresh`, a
-  `Content-Type`) never reaches a page, and an install that copies an unchanged file from an older cache copies its
-  bytes only.
+- Every response served cache-first (pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/`, and `content/`
+  except the runtime files below) is hashed and compared with `release.json` as it is served (`servable` in
+  `sw.js`), and is built from the bytes just hashed, so bytes rewritten after an earlier check are never served.
+  (The first follow-up hashed each entry once per worker lifetime, which left a window: see below.) An entry that
+  does not match is deleted, fetched again and checked, and never served (offline it is not served at all).
+- Only bodies are trusted on those paths. Every response the release cache stores or serves cache-first, and every
+  file an install writes or copies, is built by the worker (`entry`): status 200 and one header, the content type of
+  the file's extension. A stored status or header (a `Refresh`, a `Content-Type`) never reaches a page from them, and
+  an install that copies an unchanged file from an older cache copies its bytes only.
+- Not covered (corrected in the third skeptic round, K3 below): the stale-while-revalidate files, which share the
+  release cache, are served as stored, bytes and headers, unhashed, exactly as at b2b669b: lessons, centre and pool
+  files (`content/lessons/`, `content/centers/`, `content/pool/`), `assets/`, `manifest.webmanifest`, and
+  `privacy.html` when fetched by script rather than navigated to. Same-origin script can change what those return.
+  They are data, never code: lesson and content text is drawn through the escaping `html` template (`util.js`), a
+  forged header on a `fetch()` response does nothing in the page, and the navigated `privacy.html` and every module
+  go through the checked path.
 - `release.json` in the cache can no longer vouch for a forged entry: its hash list must match `LISTING`, a SHA-256
   that only `sw.js` carries (written by `tools/build-manifest.mjs`), and the browser fetches `sw.js` from the server.
   A changed or removed copy is fetched again from the server; with none to be had, nothing is served from the cache
@@ -252,9 +259,72 @@ it in Chromium on b2b669b, the source of `fe6b9af` and its built tree (release `
   is tried at the next visit; upgrade.mjs U7), and a stale edge can no longer feed a module of another release into a
   page (perf-boot B6, last check).
 
-**Status.** Re-reviewed by the delivery lane, changed by the integration and twice by the skeptic rounds as above.
-The second reviewer's two conditions are met in code and tests; the S-15 sign-off itself is still the lead's to give
-before the release ships (plan item D2).
+**Third skeptic round: S-15 sign-off review of `40b402b` (2026-11-07).** The reviewer read `sw.js` line by line
+before any notes, then re-ran the second round's proofs and new attacks in Chromium on a fresh build of `40b402b`
+(release `61cdec2e3120`) against b2b669b.
+- **Verdict: approve with conditions** for the integrity part of S-15: no remaining way was found for same-origin
+  script or a stale or mixed CDN edge to get code bytes or headers served inside Lucid that a fresh network load
+  would not serve (forged headers, `release.json` deletion, the once-per-lifetime window, installs without
+  `release.json` and mixed-release modules all closed; 128-bit hashes anchored by `LISTING`; CSP unchanged). But
+  S-15 is about fixes reaching learners, and there `40b402b` was measurably worse than b2b669b in two cases.
+  Conditions: (1) a recovery path that does not need a change of screen, with an e2e test of a boot crash followed
+  by a fix and a reload; (2) quota failures handled as best effort, or a network fallback once a newer release
+  exists, with an e2e test with a quota override; (3) the wording in `sw.js` and here corrected (K3).
+- **Condition 1 (K1), met.** Reproduced first with the reviewer's `r2/brick.mjs` (release G, then B whose `boot()`
+  throws, then the fix F; Cache-Control max-age 0): B took over at a change of screen and showed "Lucid could not
+  start. Please reload the page."; after F was deployed, five reloads all showed the same message with F waiting;
+  only closing the tab ran F. The waiting worker took over only on `lucid:activate`, which only the router sends at
+  a change of screen, and a page that cannot start never makes one (a module that fails to evaluate never even
+  reaches `boot().catch`). Fix, in the worker (so it works whatever broke in the page): a navigation to the app
+  while a release waits is a hand-over point too. The active worker posts `lucid:activate` to the waiting worker
+  and answers that navigation with a page of its own (no content, one inline script allowed by its own CSP nonce,
+  `no-store`) that reloads as soon as the waiting worker is no longer waiting; the reload is then served by the new
+  release. It cannot simply wait or redirect: the browser activates the waiting worker only when the active one has
+  no request in hand, so waiting inside the navigation deadlocks and a redirect comes straight back to the old
+  worker (both tried in Chromium: an 8 s stall, and `ERR_TOO_MANY_REDIRECTS`; a meta refresh is a same-document
+  fragment navigation on `#/...` URLs and never reloads). If the waiting worker has not taken over 5 s after the first
+  ask, the release serves the app again. The page is built by the worker, never stored, and appears only while a
+  release waits; it is not a path for other script (it carries no stored bytes and no stored header). Other open
+  tabs follow at their next change of screen, as when one tab switches at a change of screen (C-4 unchanged there).
+  Tests: sw.test "a load of the app while a release waits hands over to it" and upgrade.mjs U8 (both variants: boot
+  throws, and a module fails to evaluate; same tab, the fix runs at the second reload, the first one being what lets
+  the browser find it; no history entry added). Both fail on `40b402b` (U8: "after 3 reloads the page still shows
+  could not start" and "... stuck") and pass now. The reviewer's script on the new build: see after.md, "Third
+  skeptic round".
+- **Condition 2 (K2), met (best effort).** Reproduced first with `r2/quota.mjs` (quota 1.5 x the usage after the
+  first install): every update install failed with `QuotaExceededError`, no worker ever waited, and `today.js` was
+  the old file on every load, also after closing all tabs. Cause: an update writes a second full copy of the
+  release, and the shell write (`ensure` required), the per-item writes in `unpack()` and the carry-over in
+  `carryOver()` let a quota error fail the install. Fix: a write that does not fit never fails an install (`isFull`,
+  `store()` in `sw.js`). Once one write does not fit, the install stops fetching best-effort files, the shell
+  included in what may be left out. What did not fit is fetched and checked on use (`verifiedMiss`, unchanged: kept
+  only if it matches, never handed to the page if it does not), and activation, which removes the old release's
+  cache, makes room again. Saved lessons that did not fit at install are carried over at activation; if storage is
+  still full then, the old caches' own files (no longer served by anyone) are dropped first to make room for them.
+  The integrity rules are unchanged: nothing unchecked is stored or served, and `release.json` must still come from
+  the server (only its write is best effort; without it the worker fetches it again when it next starts, as before).
+  The partial cache the reviewer saw kept and reused came from failed installs; a quota error no longer fails one,
+  and a cache left by an install that failed for another reason (no connection, an edge on another deploy) is what
+  the retry copies from, and is removed at the next activation, as before. Tests: sw.test "a full origin never fails
+  an install" (two quota levels, the second leaving no room for the shell; saved lessons kept; fails on `40b402b`, and
+  also without the activation-time purge) and upgrade.mjs U9 (Chromium, `Storage.overrideQuotaForOrigin` at 1.5 x
+  usage: the next release installs, takes over at a reload, keeps three saved lessons, removes the old cache, and
+  screens load; on `40b402b`: "the next release did not install").
+  A network fallback for a release that cannot install at all was not added: with quota errors best effort, the
+  only installs that still fail are those whose files cannot be had or checked (no connection, `release.json`
+  missing, an edge on another deploy), which the browser retries at every navigation; serving unverified network
+  code instead would reopen the mixed-release and integrity holes the second round closed.
+- **Condition 3 (K3), met (wording).** Reproduced first with `r2/swr-poison.mjs`: a forged
+  `content/lessons/a1-01.json` (with an `x-forged` header) written into the release cache by a page outside the
+  scope was served to Lucid, online and offline, exactly as at b2b669b. The second bullet of the list above and the
+  head comment of `sw.js` now say which paths are hashed as served and which are stale-while-revalidate and served
+  as stored. Hashing those as well was considered and left out of this round: it would make a lesson saved during
+  the window between a deploy and the worker's update (the network then serves the next release's bytes) unstorable,
+  where b2b669b stored it, and the content is escaped data.
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and three times by the skeptic rounds as
+above. The second and third reviewers' conditions are met in code and tests; the S-15 sign-off itself is still the
+lead's to give before the release ships (plan item D2).
 
 ## 6. Limits of this review
 

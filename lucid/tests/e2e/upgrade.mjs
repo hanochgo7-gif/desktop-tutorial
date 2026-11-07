@@ -13,6 +13,11 @@
 //       release copies the bytes only
 //   U6  a top-level navigation to release.json leaves the cached copy: offline still starts after a worker restart
 //   U7  a first visit whose release.json cannot be loaded installs nothing; the next visit installs, and offline works
+// and that a fix reaches the learner (S-15):
+//   U8  a release whose page cannot start (boot throws, or a module fails to evaluate) is replaced by the next one at
+//       the reload the page asks for, without closing the tab
+//   U9  with the origin's storage nearly full, the next release still installs and takes over at a reload, keeps the
+//       saved lessons, and the old release's cache is removed
 // The old tree comes from `git archive b2b669b`, or from UPGRADE_FROM (a directory holding that tree's lucid/).
 // E2E_ROOT=<dir> serves <dir>/lucid as the new release (for example a tree built by tools/build/build.mjs).
 // The server behaves like GitHub Pages: Cache-Control max-age=600 and an ETag on every file.
@@ -20,7 +25,7 @@
 import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdtempSync, readFileSync, existsSync, statSync, rmSync, cpSync, appendFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, existsSync, statSync, rmSync, cpSync, appendFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import http from 'node:http';
 import { tmpdir } from 'node:os';
@@ -245,13 +250,27 @@ async function frameGone(page) {
 }
 
 // A next release on top of NEW, as a usual deploy makes it: one screen changed, index.html and app.js unchanged.
-function nextRelease() {
+// change(lucidDir) makes another release instead.
+function nextRelease(change = (d) => appendFileSync(join(d, 'js/views/progress.js'), '\n// the next release\n')) {
   const dir = mkdtempSync(join(tmpdir(), 'lucid-next-'));
   cpSync(NEW, join(dir, 'lucid'), { recursive: true, filter: (f) => !/[/\\](node_modules|tests|docs|\.git)$/.test(f) });
-  appendFileSync(join(dir, 'lucid/js/views/progress.js'), '\n// the next release\n');
+  change(join(dir, 'lucid'));
   buildManifest(join(dir, 'lucid'));
   return dir;
 }
+// Waits in the page for a worker that installed and waits (the update check runs first).
+const waitingWorker = (page) => page.evaluate(async () => {
+  const reg = await navigator.serviceWorker.getRegistration();
+  await reg.update().catch(() => {});
+  for (let i = 0; i < 150 && !reg.waiting; i++) await new Promise((r) => setTimeout(r, 200));
+  return Boolean(reg.waiting);
+});
+// What the page runs: 'app' (Lucid drew a screen), 'could not start' (boot's own message) or 'stuck' (nothing ran).
+const started = (page) => page.waitForFunction(() => {
+  if (window.lucid && document.querySelector('#view > :not(.boot-first)')) return 'app';
+  if (/could not start/i.test(document.querySelector('#view')?.innerText || '')) return 'could not start';
+  return false;
+}, null, { timeout: 8000 }).then((h) => h.jsonValue()).catch(() => 'stuck');
 const cacheNames = (page) => page.evaluate(async () => (await caches.keys()).filter((k) => k.startsWith('lucid-')));
 // A first visit of the new release, controlled by its worker, the precache done.
 async function newVisit(ctx) {
@@ -446,6 +465,99 @@ try {
       await a.goto(BASE).catch((e) => { throw new Error(`offline: ${e.message.split('\n')[0]}`); });
       await onLucid(a, 'offline after the second visit');
     } finally { served.down = false; }
+    await ctx.close();
+  });
+  // Round-3 review K1. At 40b402b the waiting release took over only at a change of screen, which a page that cannot
+  // start never makes: every reload kept the broken release, until every tab was closed.
+  for (const [kind, breakIt] of [
+    ['boot throws', (d) => {
+      const f = join(d, 'js/app.js');
+      const src = readFileSync(f, 'utf8');
+      const out = src.replace(/document\.title\s*=\s*(['"])Lucid\1/, '(() => { throw new Error("bad deploy"); })()');
+      assert(out !== src, 'no boot statement to break in app.js');
+      writeFileSync(f, out);
+    }],
+    ['a module fails to evaluate', (d) => {
+      const f = join(d, 'js/core/router.js');
+      writeFileSync(f, `throw new Error("bad deploy");\n${readFileSync(f, 'utf8')}`);
+    }],
+  ]) {
+    await check(`U8. A release whose page cannot start (${kind}) is replaced by the fix at the reload the page asks for, in the same tab`, async () => {
+      const ctx = await context();
+      const a = await newVisit(ctx);
+      const bad = nextRelease(breakIt);
+      const fix = nextRelease();
+      try {
+        served.root = join(bad, 'lucid');
+        assert(await waitingWorker(a), 'the bad release did not install');
+        await a.evaluate(() => { location.hash = '#/start'; }); // the change of screen hands over (C-4)
+        await a.waitForEvent('load', { timeout: 15000 });
+        const broken = await started(a);
+        assert(broken !== 'app', `the bad release started: ${broken}`);
+        served.root = join(fix, 'lucid');
+        const entries = await a.evaluate(() => history.length);
+        let reloads = 0;
+        let now = broken;
+        // The first reload is served by the bad release and lets the browser find the fix; the next one hands over.
+        while (now !== 'app' && reloads < 3) {
+          a.__errors.length = 0; // the bad release's own errors
+          await a.reload();
+          reloads += 1;
+          if (reloads === 1) await a.evaluate(async () => { const reg = await navigator.serviceWorker.getRegistration(); for (let i = 0; i < 150 && (reg.installing || !reg.waiting); i++) await new Promise((r) => setTimeout(r, 200)); });
+          now = await started(a);
+        }
+        assert(now === 'app', `after ${reloads} reloads the page still shows "${now}"`);
+        const names = await cacheNames(a);
+        assert(names.length === 1, `the fix did not take over: ${names}`);
+        assert(await a.evaluate(async () => (await (await fetch('js/views/progress.js')).text()).includes('the next release')), 'the page does not run the fix');
+        assert(!/bad deploy/.test(a.__errors.join(' ')), `the bad release still ran: ${a.__errors.slice(0, 2).join(' | ')}`);
+        assert(await a.evaluate(() => history.length) === entries, 'the handover added history entries');
+        assert(reloads === 2, `the fix took ${reloads} reloads (the first one finds it, the second one runs it)`);
+      } finally { rmSync(bad, { recursive: true, force: true }); rmSync(fix, { recursive: true, force: true }); }
+      await ctx.close();
+    });
+  }
+
+  // Round-3 review K2. At 40b402b an update needed room for a second copy of the release: with the origin nearly
+  // full, every install failed and the learner stayed on the old cached code for good.
+  await check('U9. With the origin\'s storage nearly full, the next release installs, takes over at a reload, keeps the saved lessons and removes the old cache', async () => {
+    const ctx = await context();
+    const a = await newVisit(ctx);
+    await a.evaluate(async (ids) => { for (const id of ids) await fetch(`content/lessons/${id}.json`); }, SAVED); // as Settings saves them
+    await sleep(1500);
+    const [old] = await cacheNames(a);
+    const usage = await a.evaluate(async () => (await navigator.storage.estimate()).usage);
+    const cdp = await ctx.newCDPSession(a);
+    await cdp.send('Storage.overrideQuotaForOrigin', { origin: new URL(BASE).origin, quotaSize: Math.round(usage * 1.5) });
+    const fix = nextRelease();
+    try {
+      served.root = join(fix, 'lucid');
+      assert(await waitingWorker(a), 'the next release did not install');
+      await a.reload();
+      assert(await started(a) === 'app', 'the next release did not start');
+      const names = await cacheNames(a);
+      assert(names.length === 1 && names[0] !== old, `the next release did not take over: ${names}`);
+      assert(await a.evaluate(async () => (await (await fetch('js/views/progress.js')).text()).includes('the next release')), 'the page does not run the next release');
+      const kept = await a.evaluate(async ({ n, ids }) => {
+        const c = await caches.open(n);
+        return (await Promise.all(ids.map((id) => c.match(`content/lessons/${id}.json`)))).filter(Boolean).length;
+      }, { n: names[0], ids: SAVED });
+      assert(kept === SAVED.length, `saved lessons kept: ${kept} of ${SAVED.length}`);
+      // The screens work: what the install could not store is fetched and checked on use.
+      await a.evaluate(async () => {
+        const L = await import('./js/core/learner.js');
+        const P = await import('./js/core/placement.js');
+        L.saveProfile({ onboarded: true, name: 'Test', birth_year: 1990, ui_language: 'he', goals: ['travel'], created_at: new Date().toISOString() });
+        L.saveSettings({ daily_minutes: 20, text_size: 100 });
+        await L.applyPlacement(P.selfReportResult('A1'));
+        await window.lucid.store.flush();
+      });
+      for (const [route, sel] of [['path', '.level-tabs'], ['progress', '.page-head + .stack-lg'], ['writing', '.stage-panel .hub-row']]) {
+        const r = await openScreen(a, route, sel);
+        assert(r === 'ok', `${route}: ${r}`);
+      }
+    } finally { rmSync(fix, { recursive: true, force: true }); }
+    assert(!a.__errors.length, `page errors: ${a.__errors.slice(0, 3).join(' | ')}`);
     await ctx.close();
   });
 } finally {

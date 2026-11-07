@@ -32,7 +32,10 @@ function netRes(body, status = 200) {
 function makeEnv() {
   // fail(url): 'network', 'hang' (no answer) or a status for a request that should fail; digests counts SHA-256 runs
   // in the workers.
-  const env = { online: true, fetches: [], overrides: new Map(), stores: new Map(), fail: () => null, digests: 0 };
+  // quota: the bytes Cache Storage may hold in all (a write past it fails with QuotaExceededError, as in a browser).
+  const env = { online: true, fetches: [], overrides: new Map(), stores: new Map(), fail: () => null, digests: 0, quota: Infinity };
+  const sizes = new Map(); // `${cache name} ${url}` -> bytes
+  env.used = () => [...sizes.values()].reduce((a, n) => a + n, 0);
   env.serve = (url) => {
     const u = new URL(url);
     if (env.overrides.has(u.pathname + u.search)) return env.overrides.get(u.pathname + u.search);
@@ -48,12 +51,21 @@ function makeEnv() {
       env.stores.set(name, {
         m,
         match: async (r) => { const v = m.get(key(r)); return v ? v.clone() : undefined; },
-        put: async (r, v) => { m.set(key(r), v); },
-        delete: async (r) => m.delete(key(r)),
+        put: async (r, v) => {
+          const size = (await v.clone().arrayBuffer()).byteLength;
+          if (env.used() - (sizes.get(`${name} ${key(r)}`) || 0) + size > env.quota) throw new DOMException('The quota has been exceeded.', 'QuotaExceededError');
+          sizes.set(`${name} ${key(r)}`, size);
+          m.set(key(r), v);
+        },
+        delete: async (r) => { sizes.delete(`${name} ${key(r)}`); return m.delete(key(r)); },
         keys: async () => [...m.keys()].map((url) => ({ url })),
       });
     }
     return env.stores.get(name);
+  };
+  env.deleteStore = (name) => {
+    for (const k of [...sizes.keys()]) if (k.startsWith(`${name} `)) sizes.delete(k);
+    return env.stores.delete(name);
   };
   env.cached = async (name, path) => { const r = await env.open(name).match(path); return r ? Buffer.from(await r.arrayBuffer()).toString() : undefined; };
   return env;
@@ -64,30 +76,35 @@ const listingOf = (hashes) => createHash('sha256').update(Object.entries(hashes)
 // One worker. release: the RELEASE it is built with (the committed one by default); release.json is served to match,
 // and the worker's LISTING matches its hashes.
 // wait: how long the install waits for release.json (RELEASE_WAIT_MS), shortened for the tests that need it.
-function worker(env, { release = realRelease.release, hashes = realRelease.hashes, active = false, wait } = {}) {
+// waiting: a fake waiting worker (its postMessage calls are logged in calls.posted); handover: HANDOVER_MS.
+function worker(env, { release = realRelease.release, hashes = realRelease.hashes, active = false, wait, waiting = null, handover } = {}) {
   let src = source.replace(/^const RELEASE = '[^']*';$/m, `const RELEASE = '${release}';`).replace(/^const LISTING = '[^']*';$/m, `const LISTING = '${listingOf(hashes)}';`);
   if (wait !== undefined) {
     assert.match(src, /^const RELEASE_WAIT_MS = \d+;$/m);
     src = src.replace(/^const RELEASE_WAIT_MS = \d+;$/m, `const RELEASE_WAIT_MS = ${wait};`);
   }
+  if (handover !== undefined) {
+    assert.match(src, /^const HANDOVER_MS = \d+;$/m);
+    src = src.replace(/^const HANDOVER_MS = \d+;$/m, `const HANDOVER_MS = ${handover};`);
+  }
   if (release !== realRelease.release || hashes !== realRelease.hashes) env.overrides.set('/lucid/release.json', JSON.stringify({ release, hashes }));
   const listeners = {};
-  const calls = { skipWaiting: 0, claim: 0 };
+  const calls = { skipWaiting: 0, claim: 0, posted: [] };
   const self = {
     location: new URL('sw.js', BASE),
-    registration: { active: active ? {} : null },
+    registration: { active: active ? {} : null, waiting },
     addEventListener: (t, fn) => { listeners[t] = fn; },
     skipWaiting: async () => { calls.skipWaiting++; },
     clients: { claim: async () => { calls.claim++; } },
   };
   const context = vm.createContext({
     self, location: self.location, URL, setTimeout, clearTimeout, Promise, Response, Headers, TextDecoder, TextEncoder, AbortController,
-    crypto: { subtle: { digest: (algo, buf) => { env.digests += 1; return webcrypto.subtle.digest(algo, buf); } } },
+    crypto: { subtle: { digest: (algo, buf) => { env.digests += 1; return webcrypto.subtle.digest(algo, buf); } }, getRandomValues: (a) => webcrypto.getRandomValues(a) },
     Request: class { constructor(u, init = {}) { this.url = new URL(typeof u === 'string' ? u : u.url, BASE).href; this.cache = init.cache; this.method = 'GET'; this.mode = 'cors'; } },
     caches: {
       open: async (n) => env.open(n),
       keys: async () => [...env.stores.keys()],
-      delete: async (n) => env.stores.delete(n),
+      delete: async (n) => env.deleteStore(n),
     },
     fetch: async (r) => {
       const url = key(r);
@@ -570,4 +587,70 @@ test('a request for release.json, a navigation included, goes to the network and
   const restarted = worker(env);
   assert.equal(await body((await restarted.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
   assert.equal(await body((await restarted.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
+});
+
+// Round-3 review K1: a release whose page cannot start never changes screen, so it never asks for the next one.
+test('a load of the app while a release waits hands over to it: the waiting worker is asked, and the page reloads into it; other pages and requests are served as before (C-4)', async () => {
+  const env = makeEnv();
+  const posted = [];
+  const waiting = { postMessage: (m) => posted.push(m) };
+  const w = worker(env, { active: true, waiting, handover: 200 });
+  await w.fire('install');
+  await w.fire('activate');
+  env.fetches = [];
+  for (const path of ['./', 'index.html', './?utm=1']) {
+    const res = (await w.fire('fetch', req(path, 'navigate'))).response;
+    const html = await body(res);
+    assert.equal(JSON.stringify(posted.pop()), '{"type":"lucid:activate"}', `${path}: the waiting worker was not asked to take over`);
+    assert.doesNotMatch(html, /<link|<img|src=/, `${path}: the handover page loads nothing`);
+    assert.match(html, /location\.reload\(\)/);
+    const nonce = html.match(/<script nonce="([0-9a-f]{32})">/)?.[1];
+    assert.ok(nonce, `${path}: no nonce on the handover script`);
+    assert.equal(res.headers.get('content-security-policy'), `default-src 'none'; script-src 'nonce-${nonce}'; base-uri 'none'; form-action 'none'`);
+    assert.equal(res.headers.get('cache-control'), 'no-store');
+  }
+  assert.deepEqual(env.fetches, [], 'the handover page is the worker\'s own');
+  assert.equal(await env.cached(w.name, './'), file('index.html'), 'the cached shell is left as it is');
+  // Only a load of the app: a module, a script fetch of the shell, and another page are served as before.
+  assert.equal(await body((await w.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
+  assert.equal(await body((await w.fire('fetch', req('./'))).response), file('index.html'));
+  assert.equal(await body((await w.fire('fetch', req('privacy.html', 'navigate'))).response), file('privacy.html'));
+  assert.equal(posted.length, 0);
+  // A waiting worker that does not take over: after HANDOVER_MS the app is served by this release again.
+  await new Promise((r) => setTimeout(r, 250));
+  assert.equal(await body((await w.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
+  // With nothing waiting, a load is served from the release cache.
+  const plain = worker(env, { active: true });
+  assert.equal(await body((await plain.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
+});
+
+// Round-3 review K2: an update needs room for a second copy of the release; a full origin must not pin the learner.
+test('a full origin never fails an install: what fits is stored, the rest is fetched and checked on use once the release takes over, and saved lessons are kept', async () => {
+  for (const room of [0.3, 0.02]) { // some files fit; hardly anything (not even the shell) fits
+    const env = makeEnv();
+    const a = worker(env, { release: 'aaaaaaaaaaaa' });
+    await a.fire('install');
+    await a.fire('activate');
+    const saved = ['a1-01', 'a1-02', 'a1-03'];
+    for (const l of saved) await a.fire('fetch', req(`content/lessons/${l}.json`));
+    env.overrides.set('/lucid/js/views/today.js', 'export default 1; // the fix');
+    const hashes = { ...realRelease.hashes, 'js/views/today.js': hh('export default 1; // the fix') };
+    env.quota = Math.round(env.used() * (1 + room));
+    const b = worker(env, { release: 'bbbbbbbbbbbb', hashes, active: true });
+    await b.fire('install'); // resolves: the install did not fail
+    assert.ok(env.used() <= env.quota);
+    assert.ok((await b.cache().keys()).length < (await a.cache().keys()).length, `${room}: everything fitted, nothing was tested`);
+    await b.fire('message', undefined, { type: 'lucid:activate' });
+    assert.equal(b.calls.skipWaiting, 1);
+    await b.fire('activate');
+    assert.deepEqual([...env.stores.keys()], [b.name], `${room}: the old release's cache is removed`);
+    for (const l of saved) assert.equal(await env.cached(b.name, `content/lessons/${l}.json`), file(`content/lessons/${l}.json`), `${room}: saved lesson ${l} lost`);
+    // The fix runs, and what the install could not store is fetched, checked and kept now that there is room.
+    env.quota = Infinity;
+    const later = worker(env, { release: 'bbbbbbbbbbbb', hashes });
+    assert.equal(await body((await later.fire('fetch', req('js/views/today.js'))).response), 'export default 1; // the fix');
+    assert.equal(await body((await later.fire('fetch', req('./', 'navigate'))).response), file('index.html'));
+    assert.equal(await env.cached(b.name, './'), file('index.html'), `${room}: the shell was not kept`);
+    assert.equal(await body((await later.fire('fetch', req('js/app.js'))).response), file('js/app.js'));
+  }
 });

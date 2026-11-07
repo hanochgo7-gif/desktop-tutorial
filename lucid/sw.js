@@ -7,20 +7,26 @@
 //   repeat visit waits on no network. Freshness comes from the release: the browser re-checks this file on
 //   navigation, and any changed byte gives a new RELEASE, so a new worker and a new cache.
 // - Integrity (docs/qa/security-review.md 5a): release.json must match LISTING, which only this file carries. Every
-//   response from the release cache is hashed as it is served and carries headers this worker chooses, never stored
-//   ones; an entry that does not match (written by other script on the shared origin) is never served: it is fetched
-//   again and checked. A file that was missed at install is checked too before it is kept, and one that still does
-//   not match is not handed to the page. Nothing installs without release.json from the server: the install fails,
-//   so the browser tries again at the next visit, and an active release keeps its cache and saved lessons.
-// - Lessons and the centre and pool files are stale-while-revalidate. Server API calls (another origin) are never
-//   cached.
-// - Activation (perf D3, contract C-4): a new release waits until the page asks for it ({type:'lucid:activate'},
-//   sent between two screens) or every Lucid tab has closed, so one page never runs modules from two releases. The
-//   first install, and the one-time upgrade from the old hand-numbered caches, activate at once.
+//   response served cache-first (pages, config.js, js/, css/, vendor/, fonts/, and content/ except the runtime files
+//   below) is hashed as it is served and carries headers this worker chooses, never stored ones; an entry that does
+//   not match (written by other script on the shared origin) is never served: it is fetched again and checked. A file
+//   that was missed at install is checked too before it is kept, and one that still does not match is not handed to
+//   the page. Nothing installs without release.json from the server: the install fails, so the browser tries again
+//   at the next visit, and an active release keeps its cache and saved lessons.
+// - Stale-while-revalidate, served as stored (bytes and headers, not hashed, as at release 2026-11-03.1): lessons and
+//   the centre and pool files, assets/, manifest.webmanifest, and privacy.html when it is fetched rather than
+//   navigated to. Other script on the origin can change these; what they hold is data that the views escape, never
+//   code. Server API calls (another origin) are never cached.
+// - Storage: a full origin (QuotaExceededError) never fails an install. What did not fit is fetched and checked on
+//   use, and the old release's cache is removed when the new one takes over, which makes room again.
+// - Activation (perf D3, contract C-4): a new release waits until a page asks for it ({type:'lucid:activate'},
+//   sent between two screens), the app is loaded again (a reload, a new tab: see handover), or every Lucid tab has
+//   closed, so one page never runs modules from two releases. The first install, and the one-time upgrade from the
+//   old hand-numbered caches, activate at once.
 // RELEASE is set by tools/build-manifest.mjs to a hash of every file listed in release.json and of this file;
 // never edit it by hand. Only caches named "lucid-…" are ever deleted, because the origin is shared with other apps.
 const LISTING = '47c0daa08bbd5c717c67eb1bc1bb8ad66a4477ef9176d9e5fe8078105c4ad837';
-const RELEASE = '3d3d4c78d1fe';
+const RELEASE = '17565f744f38';
 const CACHE = `lucid-${RELEASE}`;
 const SHELL = ['./', 'release.json', 'config.js', 'css/app.css', 'js/app.js', 'manifest.webmanifest', 'assets/favicon.svg',
   'fonts/rubik-latin.woff2', 'fonts/rubik-hebrew.woff2', 'fonts/rubik-latin-ext.woff2', 'content/taxonomy.json', 'content/curriculum.json',
@@ -60,6 +66,8 @@ const TYPES = {
 };
 const entry = (p, body) => new Response(body, { status: 200, headers: { 'content-type': TYPES[hashKey(p).split('.').pop()] || 'application/octet-stream' } });
 const mismatch = (p) => Object.assign(new Error(`${p} does not match release ${RELEASE}`), { mismatch: true });
+// The origin's storage is full (it is shared with other apps): a write that does not fit is skipped, never fatal.
+const isFull = (err) => err?.name === 'QuotaExceededError';
 
 // Fetches p, revalidating against the HTTP cache (a 304 reuses the copy the page just loaded), and checks it
 // against its hash. A mismatch (an edge still serving the previous deploy) is retried once past every cache;
@@ -119,38 +127,69 @@ async function releaseFile(cache) {
     got = await get(`release.json?r=${RELEASE}`).catch(() => null);
     if (!(await ours(got))) throw mismatch('release.json');
   }
-  await cache.put('release.json', entry('release.json', got[0]));
+  // With no room even for this, the hashes are fetched again by trustedHashes when the worker next starts.
+  await cache.put('release.json', entry('release.json', got[0])).catch((err) => { if (!isFull(err)) throw err; });
   return got[1].hashes;
 }
 
+// Writes into the new cache; a write that does not fit marks the install as full instead of failing it.
+async function store(ctx, p, res) {
+  try { await ctx.cache.put(p, res); } catch (err) {
+    if (!isFull(err)) throw err;
+    ctx.full = true;
+  }
+}
 // Puts p into the new cache: copied when an older cache holds the same bytes, fetched otherwise.
 async function ensure(ctx, p, required) {
+  if (ctx.full && !required) return; // no room: fetched and checked on first use
   try {
     const want = ctx.hashes[hashKey(p)];
     if (!want) throw new Error(`${p} is not in release ${RELEASE}`);
-    await ctx.cache.put(p, (await fromOld(ctx.olds, p, want)) || (await fetchVerified(p, want)));
+    await store(ctx, p, (await fromOld(ctx.olds, p, want)) || (await fetchVerified(p, want)));
   } catch (err) {
     // The shell must be complete and nothing may be stale; any other file is best effort, as a screen whose module
-    // is missing is fetched from the network on first use.
+    // is missing is fetched from the network on first use. Storage that is full is not a reason to fail either (an
+    // install that never succeeds would keep the learner on this release's code for good): what did not fit,
+    // shell included, is fetched and checked on use once the release has taken over and the old cache is gone.
     if (required || err.mismatch) throw err;
   }
 }
 
 // Lessons (and centre and pool files) in older caches whose bytes still match this release move to the new cache;
-// a saved lesson that changed is fetched again (best effort). Run on install and again just before activation,
-// for lessons saved while this worker waited.
-async function carryOver(cache, hashes, olds, { refetch }) {
+// a saved lesson that changed is fetched again (best effort). Run on install and again at activation, for lessons
+// saved while this worker waited, or that did not fit at install (activating: the old caches are no longer served,
+// so when storage is full their own files are dropped first to make room for the lessons).
+async function carryOver(cache, hashes, olds, { refetch, activating = false }) {
   if (!hashes) return;
   const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  let purged = !activating;
+  const put = async (old, rel) => {
+    for (;;) {
+      const res = await fromOld([old], rel, hashes[rel]).catch(() => null);
+      if (!res) return false;
+      try { await cache.put(rel, res); return true; } catch (err) {
+        if (!isFull(err) || purged) return true; // best effort
+        purged = true;
+        await purge(olds);
+      }
+    }
+  };
   for (const old of olds) {
     for (const req of await old.keys()) {
       const url = new URL(req.url);
       const rel = url.pathname.slice(SCOPE.length);
       if (url.search || !url.pathname.startsWith(SCOPE) || !isRuntime(rel) || have.has(url.pathname) || !hashes[rel]) continue;
       have.add(url.pathname);
-      const res = await fromOld([old], rel, hashes[rel]).catch(() => null);
-      if (res) await cache.put(rel, res);
-      else if (refetch && rel.startsWith('content/lessons/')) await fetchVerified(rel, hashes[rel]).then((r) => cache.put(rel, r)).catch(() => null);
+      if (await put(old, rel)) continue;
+      if (refetch && rel.startsWith('content/lessons/')) await fetchVerified(rel, hashes[rel]).then((r) => cache.put(rel, r)).catch(() => null);
+    }
+  }
+}
+// Everything but the runtime files, out of the older caches (which are deleted right after).
+async function purge(olds) {
+  for (const old of olds) {
+    for (const req of await old.keys()) {
+      if (!isRuntime(new URL(req.url).pathname.slice(SCOPE.length))) await old.delete(req).catch(() => null);
     }
   }
 }
@@ -171,12 +210,12 @@ async function unpack(ctx, items) {
   const need = new Set();
   await Promise.all(items.map(async (p) => {
     const copy = await fromOld(ctx.olds, p, ctx.hashes[p]).catch(() => null);
-    if (copy) await ctx.cache.put(p, copy); else need.add(p);
+    if (copy) await store(ctx, p, copy); else need.add(p);
   }));
   await Promise.all(PACKS.map(async ([dir, pack, field]) => {
     const mine = [...need].filter((p) => p.startsWith(dir));
     const want = ctx.hashes[pack];
-    if (!want || mine.length < 4) return; // a few changed items: fetched one by one
+    if (!want || mine.length < 4 || ctx.full) return; // a few changed items: fetched one by one
     const res = (await fromOld(ctx.olds, pack, want).catch(() => null)) || (await fetchVerified(pack, want).catch(() => null));
     let list = null;
     try { list = res && (await res.json())[field]; } catch { /* fetched one by one below */ }
@@ -185,7 +224,7 @@ async function unpack(ctx, items) {
       if (!need.has(p)) continue;
       const buf = new TextEncoder().encode(`${JSON.stringify(item)}\n`);
       if ((await digest(buf)) !== ctx.hashes[p]) continue;
-      await ctx.cache.put(p, entry(p, buf));
+      await store(ctx, p, entry(p, buf));
       need.delete(p);
     }
   }));
@@ -206,7 +245,7 @@ async function install() {
   const todo = list.filter((p) => !SHELL.includes(p));
   await Promise.all(todo.filter(code).map((p) => ensure(ctx, p, false)));
   await Promise.all([...todo.filter((p) => !code(p) && !isItem(p)).map((p) => ensure(ctx, p, false)), unpack(ctx, todo.filter(isItem))]);
-  await carryOver(cache, hashes, olds, { refetch: true });
+  if (!ctx.full) await carryOver(cache, hashes, olds, { refetch: true });
   // No release is active yet (first visit), or the active one predates release hashes: take over at once, as the
   // old worker did. Otherwise wait for the page's message or for every tab to close.
   if (!self.registration?.active || (names.length && names.every((n) => LEGACY.test(n)))) await self.skipWaiting();
@@ -224,7 +263,7 @@ self.addEventListener('activate', (e) => {
     const { names, caches: olds } = await olderCaches();
     let hashes = null;
     try { hashes = (await (await cache.match('release.json')).json()).hashes; } catch { /* no hashes: nothing to carry */ }
-    await carryOver(cache, hashes, olds, { refetch: false }).catch(() => null);
+    await carryOver(cache, hashes, olds, { refetch: false, activating: true }).catch(() => null);
     await Promise.all(names.map((k) => caches.delete(k)));
     await self.clients.claim();
   })());
@@ -252,7 +291,7 @@ function trustedHashes(cache) {
     const buf = fresh?.ok ? await fresh.arrayBuffer().catch(() => null) : null;
     let got = null;
     try { got = buf && JSON.parse(new TextDecoder().decode(buf)); } catch { /* not ours */ }
-    if (got?.release === RELEASE && (await listed(got.hashes))) { await cache.put('release.json', entry('release.json', buf)); return got.hashes; }
+    if (got?.release === RELEASE && (await listed(got.hashes))) { await cache.put('release.json', entry('release.json', buf)).catch(() => null); return got.hashes; }
     trust = null; // try again on the next request
     return UNTRUSTED;
   })();
@@ -316,6 +355,36 @@ async function staleWhileRevalidate(e, cache) {
   return cached || response;
 }
 
+// ---------- handover at a load of the app (contract C-4) ----------
+// A waiting release also takes over when the app itself is loaded again (a reload, a new tab, a link): the page about
+// to start then starts on it, and tabs still on this release follow at their next change of screen, as when a page
+// asks between two screens. This is what lets a fix replace a release whose page cannot start (it fails at boot, or
+// a module fails to load, so it never changes screen): the reload that page asks the learner for brings the fix.
+// This worker cannot hand over while it answers the navigation (the browser activates the waiting worker only when
+// this one has no request in hand: waiting would never end, and a redirect comes straight back here), so it asks
+// the waiting worker to take over and answers with a page of its own that reloads as soon as the waiting worker is
+// no longer waiting. If it is still waiting HANDOVER_MS after the first ask, this release serves the app again.
+const HANDOVER_MS = 5000;
+let handover = null; // { worker, at }: the waiting worker asked to take over, and when it was first asked
+function handingOver() {
+  const waiting = self.registration?.waiting;
+  if (!waiting) { handover = null; return false; }
+  if (handover?.worker !== waiting) handover = { worker: waiting, at: Date.now() };
+  if (Date.now() - handover.at > HANDOVER_MS) return false;
+  try { waiting.postMessage({ type: 'lucid:activate' }); } catch { return false; }
+  return true;
+}
+// The page for that moment: no content, one inline script allowed by its own policy (a nonce), never stored.
+const HANDOVER_SCRIPT = "let n=0,done=false;const sw=navigator.serviceWorker,go=()=>{if(!done){done=true;location.reload();}};"
+  + "sw.addEventListener('controllerchange',go);(function poll(){sw.getRegistration().then((r)=>(!r||!r.waiting||++n>40?go():setTimeout(poll,50)),go);})();";
+function handoverPage() {
+  const nonce = hex(crypto.getRandomValues(new Uint8Array(16)));
+  return new Response(`<!doctype html><html lang="he" dir="rtl"><meta charset="utf-8"><meta name="color-scheme" content="light dark"><title>Lucid</title><script nonce="${nonce}">${HANDOVER_SCRIPT}</script></html>`, {
+    status: 200,
+    headers: { 'content-type': TYPES.html, 'cache-control': 'no-store', 'content-security-policy': `default-src 'none'; script-src 'nonce-${nonce}'; base-uri 'none'; form-action 'none'` },
+  });
+}
+
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || !url.pathname.startsWith(SCOPE)) return;
@@ -323,5 +392,6 @@ self.addEventListener('fetch', (e) => {
   // release.json is this worker's own (read at install, and checked against LISTING): a request for it, a
   // navigation included, goes to the network and never reads, writes or deletes the cached copy.
   if (rel === 'release.json') return;
+  if (e.request.mode === 'navigate' && isShell(rel) && handingOver()) { e.respondWith(handoverPage()); return; }
   e.respondWith(caches.open(CACHE).then((cache) => (fromRelease(e.request, rel) ? cacheFirst(e, cache, rel) : staleWhileRevalidate(e, cache))));
 });
