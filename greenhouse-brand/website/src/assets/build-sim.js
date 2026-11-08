@@ -36,7 +36,7 @@
       var r = pTrack.getBoundingClientRect(), vh = window.innerHeight, s = 0;
       if (!tops.length) measure();
       phs.forEach(function (p, i) {
-        var t = tops[i] + r.top, f = i === 6 ? .12 : .25;  // into the net house (drone view -> eye level) cuts quicker, so the views don't ghost
+        var t = tops[i] + r.top, f = i >= 6 && i <= 9 ? .12 : .25;  // the cuts between the drone view and the eye-level views (planting, hail release) are quicker, so the views do not ghost
         var o = i === 0 ? 1 : Math.max(0, Math.min(1, (vh * .82 - t) / (vh * f)));  // fades in as its card's top rises from 82% of the screen
         if (o > 0 && i > 0) want(i);
         if (o >= .5) s = i;
