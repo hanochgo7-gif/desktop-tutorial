@@ -244,13 +244,13 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
 .pm-lb-x span + span { transform: rotate(-45deg); }
 
 @media (min-width: 980px) {
-  .pm-film-grid { grid-template-columns: repeat(3, 1fr); }
+  .pm-film-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .pm-film-wide { grid-column: span 2; }
   .pm-film-tall { grid-row: span 2; }
   .pm-film-tall .pm-film-btn { aspect-ratio: auto; }
 }
 @media (min-width: 640px) and (max-width: 979px) {
-  .pm-film-grid { grid-template-columns: repeat(2, 1fr); }
+  .pm-film-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pm-film-wide { grid-column: span 2; }
   .pm-film-tall { grid-row: span 2; }
   .pm-film-tall .pm-film-btn { aspect-ratio: auto; }
