@@ -652,6 +652,9 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
          ("Drip lines go in first, then the trees are planted under the net.", "קווי הטפטוף מותקנים קודם, ואחר כך שותלים את העצים מתחת לרשת.")),  # stages 5, 7
         (("What the net does", "מה הרשת עושה"), ("Hail falls between the nets, through special hail-release fittings", "הברד נופל בין הרשתות עם אביזרים מיוחדים לפריקת ברד"),
          ("The net sheds the hail, so it doesn't damage the fruit.", "הרשת פורקת את הברד כך שהוא לא פוגע בפרי.")),  # 2.3 (wind: bananas only, 2.2)
+        (("Hail release", "פורק ברד"), ("How the hail comes off the net", "איך הברד יורד מהרשת"),
+         ("Hail rolls down the net into the valley between two strips and drops through the hail-release fittings to the ground, between the tree rows.",
+          "הברד מתגלגל על הרשת אל העמק שבין שתי רצועות, ונופל דרך אביזרי פריקת הברד אל הקרקע, בין שורות העצים.")),  # Hanoch 8 Nov 2026; Merav ch08 wording; for Yiftach to confirm
         (("Autumn", "סתיו"), ("Folded, then spread again", "מתקפלת ונפרסת מחדש"),
          ("On orchards the net can fold away in winter and spread again in summer, or the other way round, as the crop needs, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ, או הפוך בהתאם לצורך הגידול, ידנית או אוטומטית.")),  # 2.3
         (("One address", "כתובת אחת"), ("From design to construction", "מהתכנון ועד ההקמה"),

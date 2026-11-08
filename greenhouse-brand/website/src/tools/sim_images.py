@@ -9,7 +9,7 @@ SRC, OUT = W / "media-src/sim-real", W / "public/assets/img"
 
 
 def main():
-    for i in range(1, 11):
+    for i in range(1, len(list(SRC.glob("ch[0-9][0-9].png"))) + 1):
         im = Image.open(SRC / f"ch{i:02d}.png").convert("RGB")
         w, h = im.size; th = round(w * 9 / 16); top = (h - th) // 2
         im = im.crop((0, top, w, top + th))
@@ -23,7 +23,7 @@ def main():
             im.crop((l, 0, l + pw, ph)).resize((720, 1280), Image.LANCZOS).save(OUT / "sim-poster-m.jpg", quality=78, optimize=True, progressive=True)
         print(f"ch{i:02d}", im.size)
     # portrait (9:16) cuts for phones: one shared window (full height, centred at 48%) for every chapter, so the fades stay aligned
-    for i in range(1, 11):
+    for i in range(1, len(list(SRC.glob("ch[0-9][0-9].png"))) + 1):
         im = Image.open(SRC / f"ch{i:02d}.png").convert("RGB"); w, h = im.size
         cw = round(h * 9 / 16); x0 = max(0, min(w - cw, round(w * .48 - cw / 2)))
         im = im.crop((x0, 0, x0 + cw, h))
