@@ -56,7 +56,7 @@ $10,000 funds one team's full journey, roughly $500 to $670 per fighter.
 
 Give through the link in bio, on Jgive:
 • Tax-deductible under 501(c)(3): gifts in USD receive a US receipt by email
-• Gifts in GBP or CAD receive a UK or Canadian receipt
+• Gifts in GBP receive a UK receipt. Choose the currency before you pay
 • One-time or monthly. Every gift funds the team journeys
 
 In the US, gifts made by December 31 count toward this tax year.
