@@ -32,7 +32,7 @@ https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/
 
 מסע חוסן צוותי מחזיר 15 עד 20 לוחמים ששירתו יחד למעגל אחד, בליווי אנשי מקצוע. 58 צוותים כבר יצאו, ו-25 צוותים נוספים משובצים ל-2027.
 
-‏13,000$ מממנים מסע מלא לצוות שלם, כ-650$ עד 870$ ללוחם. התרומה מזכה בזיכוי לפי סעיף 46.
+‏30,000 ₪ מממנים מסע מלא לצוות שלם, כ-1,500 עד 2,000 ₪ ללוחם. התרומה מזכה בזיכוי לפי סעיף 46.
 לעמותה תו מידות לאפקטיביות וניהול תקין 2026.
 
 הצעד הראשון: שיחת היכרות של 15 דקות עם המנכ"ל, סא"ל (מיל.) חזקי מלאכי.
@@ -52,7 +52,7 @@ In Sayeret Nahal, everyone is counted. Even after the war.
 
 A resilience journey brings a whole team, 15 to 20 fighters who served together, back into one circle with professional guidance. 58 teams have gone since 2025.
 
-$120 helps one veteran become career-ready. $13,000 funds a whole team's journey.
+$120 helps one veteran become career-ready. $10,000 funds a whole team's journey.
 
 Give from abroad through the link in bio:
 • Jgive: choose USD, GBP or CAD for a receipt in that country
