@@ -5,7 +5,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
@@ -196,36 +196,42 @@
   </url>
   <url>
     <loc>https://hgpro.io/blog/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://hgpro.io/blog/google-business-profile.html</loc>
+    <lastmod>2026-11-08</lastmod>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://hgpro.io/blog/img/google-business-profile.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://hgpro.io/blog/website-speed.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/website-speed.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/seo-for-small-business.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/seo-for-small-business.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-to-choose-web-designer.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-to-choose-web-designer.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/landing-page-that-converts.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/landing-page-that-converts.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-much-does-a-website-cost.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
   </url>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>פרופיל עסק בגוגל: מדריך פתיחה ושיפור | Blueprint Lab</title>
+<meta name="description" content="מדריך פשוט לפרופיל עסק בגוגל: איך פותחים ומאמתים, אילו פרטים למלא, איך מקבלים ועונים על ביקורות, ומה עוזר להופיע במפות כשמחפשים עסק כמו שלכם באזור.">
+<link rel="canonical" href="https://hgpro.io/blog/google-business-profile.html">
+<link rel="alternate" type="application/rss+xml" title="המאמרים של Blueprint Lab" href="https://hgpro.io/blog/feed.xml">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="פרופיל עסק בגוגל: מדריך פתיחה ושיפור | Blueprint Lab">
+<meta property="og:description" content="מדריך פשוט לפרופיל עסק בגוגל: איך פותחים ומאמתים, אילו פרטים למלא, איך מקבלים ועונים על ביקורות, ומה עוזר להופיע במפות כשמחפשים עסק כמו שלכם באזור.">
+<meta property="og:url" content="https://hgpro.io/blog/google-business-profile.html">
+<meta property="og:image" content="https://hgpro.io/blog/img/google-business-profile.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b1424">
+<link rel="icon" href="../images/icon-180.png" type="image/png">
+<link rel="apple-touch-icon" href="../images/icon-180.png">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../fonts/g/rubik-punct.woff2" crossorigin>
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/bl/space-grotesk.woff2" crossorigin>
+<link rel="stylesheet" href="../css/hanoch.css">
+<style>
+:root { --gutter: clamp(20px, 5vw, 64px); }
+body { background: var(--ink, #0b1424); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(11,20,36,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(243,239,230,.08); }
+.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "BL Grotesk", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: var(--fg, #f3efe6); direction: ltr; }
+.sv-mark span { color: var(--signal); }
+.bl-mk { width: 1.25em; height: 1.25em; flex: none; margin-right: .42em; overflow: visible; }
+.logo, .sv-mark, .bar-mark, .wordmark { display: inline-flex; align-items: center; font-family: "BL Grotesk", "Rubik", sans-serif; font-weight: 700; letter-spacing: .05em; direction: ltr; }
+
+.sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: var(--fg, #f3efe6); }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-mark { font-size: 1.2rem; }
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(37,211,102,.6); color: var(--fg, #f3efe6); }
+}
+.sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
+.sv .sv-early a.sv-cb { color: var(--fg, #f3efe6); }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(11,20,36,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(243,239,230,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
+.sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
+.sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
+.sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+.sv-kicker { font-family: var(--f-mono); font-size: .8125rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
+.sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
+html[lang="en"] .sv h1 { letter-spacing: .005em; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: var(--fg, #f3efe6) !important; }
+.sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
+html[lang="en"] .sv h2 { letter-spacing: .005em; }
+.sv p, .sv li { font-family: var(--f-body); font-size: 1.04rem; line-height: 1.85; color: rgba(243,239,230,.84); }
+.sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
+.sv a { color: var(--signal); }
+.sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
+.sv-steps li { counter-increment: s; border: 1px solid rgba(243,239,230,.1); border-radius: 14px; padding: 16px 18px; background: rgba(243,239,230,.025); }
+.sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8125rem; margin-bottom: .3rem; }
+.sv-steps b { display: block; color: var(--fg, #f3efe6); font-weight: 500; }
+.sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
+.sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(243,239,230,.1); background: #111; }
+.sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: var(--fg, #f3efe6); }
+.sv-card small { display: block; color: var(--fg-dim); font-size: .8125rem; margin-top: 2px; }
+.sv-cards-tall { grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); }
+.sv-cards-tall video { aspect-ratio: 9 / 16; }
+.sv-note { color: var(--fg-dim); font-size: .8125rem; margin-top: .6rem; }
+.sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
+.sv-pkg a, .sv-facts a { color: var(--fg, #f3efe6); text-underline-offset: 4px; }
+.sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
+.sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #f3efe6); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
+.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
+.sv-faq details { border-bottom: 1px solid rgba(243,239,230,.1); padding: 6px 0; }
+.sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #f3efe6); }
+.sv-faq summary h3 { display: inline; font: inherit; }
+.sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
+.sv-cta h2 { margin-top: 0; }
+.sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #111d31 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
+.sv-btn.ghost { background: transparent; color: var(--fg, #f3efe6) !important; border: 1px solid rgba(243,239,230,.3); }
+/* כפתור וואטסאפ בירוק של וואטסאפ, כמו בדף הבית */
+.sv-btn[href*="wa.me"], .sv-btn[href*="api.whatsapp.com"] { background: var(--wa, #25d366); color: var(--wa-ink, #06301a) !important; }
+@media (hover: hover) { .sv-btn[href*="wa.me"]:hover, .sv-btn[href*="api.whatsapp.com"]:hover { background: #2fe072; } }
+.sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(243,239,230,.18); color: var(--fg, #f3efe6); text-decoration: none; font-size: .92rem; }
+.sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; border-top: 1px solid rgba(243,239,230,.08); }
+.sv-foot a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+@media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
+
+.sv article > p, .sv article > ul, .sv article > ol, .sv article li { max-width: 58ch; }
+.bl-toc a { display: inline-flex; align-items: center; min-height: 32px; }
+.sv-foot a[href$="feed.xml"] { padding-inline: 6px; }
+@media (max-width: 700px) { .bl-toc a { min-height: 44px; } .bl-toc ol { gap: 0 !important; } }
+.sv article > p:not(.bl-meta), .sv article > ul, .sv article > ol { margin-bottom: 1.1rem; }
+.bl-meta { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
+.bl-meta b { color: var(--signal); font-weight: 400; }
+.bl-cover { margin: 2rem 0 0; border-radius: 18px; overflow: hidden; border: 1px solid rgba(243,239,230,.1); }
+.bl-cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.bl-sum { margin: 2rem 0 0; padding: 20px 22px; border-radius: 14px; border-inline-start: 3px solid var(--signal); background: rgba(243,239,230,.035); }
+.bl-sum p { margin: 0; }
+.bl-sum p + p { margin-top: .6rem; }
+.bl-toc { margin: 2rem 0 0; padding: 18px 22px; border-radius: 14px; border: 1px solid rgba(243,239,230,.1); }
+.bl-toc b { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); font-weight: 400; }
+.bl-toc ol { margin: .6rem 0 0; gap: .3rem !important; }
+.bl-toc a { color: #f3efe6; text-decoration: none; }
+.bl-toc a:hover { color: var(--signal); }
+.sv ol { padding-inline-start: 1.6rem; display: grid; gap: .45rem; }
+.sv h3 { font-family: var(--f-body); font-weight: 500; font-size: 1.18rem; color: #f3efe6; margin: 2rem 0 .4rem; }
+.sv strong { color: #f3efe6; font-weight: 500; }
+.bl-table { overflow-x: auto; margin: 1.2rem 0; border: 1px solid rgba(243,239,230,.1); border-radius: 14px; }
+.bl-table table { border-collapse: collapse; width: 100%; font-family: var(--f-body); font-size: .95rem; }
+.bl-table th, .bl-table td { text-align: start; padding: 12px 16px; border-bottom: 1px solid rgba(243,239,230,.08); color: rgba(243,239,230,.86); vertical-align: top; }
+.bl-table th { color: #f3efe6; font-weight: 500; background: rgba(243,239,230,.04); }
+.bl-table tr:last-child td { border-bottom: 0; }
+.bl-author { display: flex; gap: 16px; align-items: center; margin: 3rem 0 0; padding: 20px; border-radius: 16px; border: 1px solid rgba(243,239,230,.1); }
+.bl-author img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; background: #1a1a1c; }
+.bl-author p { margin: 0; font-size: .95rem !important; line-height: 1.7 !important; }
+.bl-author b { color: #f3efe6; font-weight: 500; }
+.sv-lead + .bl-list { margin-top: 2.2rem; }
+.bl-list { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px !important; }
+.bl-list a { display: block; height: 100%; text-decoration: none; border-radius: 16px; overflow: hidden; border: 1px solid rgba(243,239,230,.1); background: rgba(243,239,230,.025); }
+.bl-list img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.bl-list .tx { display: block; padding: 14px 16px 18px; }
+.bl-list time { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); }
+.bl-list b { display: block; color: #f3efe6; font-family: var(--f-display); font-weight: 400; font-size: 1.35rem; line-height: 1.25; margin: .3rem 0; }
+.bl-list .tx span { display: block; color: rgba(243,239,230,.7); font-family: var(--f-body); font-size: .92rem; line-height: 1.6; }
+</style>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-11-08">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BlogPosting", "@id": "https://hgpro.io/blog/google-business-profile.html#article", "headline": "פרופיל עסק בגוגל: איך פותחים, מאמתים ומשפרים אותו צעד אחר צעד", "description": "מדריך פשוט לפרופיל עסק בגוגל: איך פותחים ומאמתים, אילו פרטים למלא, איך מקבלים ועונים על ביקורות, ומה עוזר להופיע במפות כשמחפשים עסק כמו שלכם באזור.", "image": "https://hgpro.io/blog/img/google-business-profile.webp", "datePublished": "2026-11-08", "dateModified": "2026-11-08", "inLanguage": "he-IL", "wordCount": 1049, "keywords": "פרופיל עסק בגוגל", "author": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "חנוך גוטובסקי", "alternateName": "Hanoch Gutovski", "url": "https://hgpro.io/", "jobTitle": "מעצב ומפתח אתרים"}, "publisher": {"@type": "Organization", "@id": "https://hgpro.io/#business", "name": "Blueprint Lab", "url": "https://hgpro.io/", "logo": {"@type": "ImageObject", "url": "https://hgpro.io/images/icon-512.png"}}, "mainEntityOfPage": "https://hgpro.io/blog/google-business-profile.html", "isPartOf": {"@id": "https://hgpro.io/blog/#blog"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blueprint Lab", "item": "https://hgpro.io/"}, {"@type": "ListItem", "position": 2, "name": "מאמרים", "item": "https://hgpro.io/blog/"}, {"@type": "ListItem", "position": 3, "name": "פרופיל עסק בגוגל: איך פותחים, מאמתים ומשפרים אותו צעד אחר צעד", "item": "https://hgpro.io/blog/google-business-profile.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "כמה עולה פרופיל עסק בגוגל?", "acceptedAnswer": {"@type": "Answer", "text": "הפתיחה והניהול של הפרופיל בחינם. מה שעולה כסף הוא דברים סביבו, כמו פרסום ממומן או עזרה מקצועית בקידום, ואלה לא חובה."}}, {"@type": "Question", "name": "אפשר לפתוח פרופיל בלי כתובת של חנות?", "acceptedAnswer": {"@type": "Answer", "text": "כן. עסק שמגיע ללקוחות יכול להסתיר את הכתובת ולהגדיר אזורי שירות. הכתובת עדיין משמשת את גוגל לאימות, אבל היא לא מוצגת לגולשים."}}, {"@type": "Question", "name": "תוך כמה זמן הפרופיל מתחיל להופיע?", "acceptedAnswer": {"@type": "Answer", "text": "אחרי שהאימות עובר, הפרופיל יכול להופיע די מהר בחיפוש לפי שם העסק. ההופעה בחיפושים כלליים כמו \"שירות באזור\" תלויה בהרבה דברים, כמו המרחק של המחפש, התחרות והפעילות בפרופיל, ולכן אין לה זמן קבוע."}}, {"@type": "Question", "name": "מה עושים עם ביקורת לא הוגנת?", "acceptedAnswer": {"@type": "Answer", "text": "קודם כול עונים בנימוס ובעניינים. אם הביקורת מפרה את ההנחיות של גוגל, למשל ספאם או תוכן פוגעני, אפשר לדווח עליה מתוך ניהול הפרופיל. גוגל מחליטה אם להסיר אותה."}}, {"@type": "Question", "name": "צריך אתר אם יש לי פרופיל בגוגל?", "acceptedAnswer": {"@type": "Answer", "text": "הפרופיל מביא חשיפה, אבל מקום לספר בו מעט. אתר נותן מקום להראות עבודות, להסביר שירותים ולענות על שאלות לפני שמתקשרים. אצלנו המחיר נקבע בהצעה כתובה עם מחיר סגור, אחרי שיחת היכרות קצרה."}}]}]}</script>
+<script src="../js/consent.js" defer></script>
+<script src="../js/adcode.js" defer></script>
+<script src="../js/ga.js" defer></script>
+<script src="../js/meta.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">דלגו לתוכן</a>
+<header class="sv-bar sv-bar-cta">
+  <a class="sv-mark" href="../" aria-label="Blueprint Lab, לדף הבית"><svg class="bl-mk" viewBox="0 0 200 200" aria-hidden="true"><path d="M50 30V170M50 30H116L140 54V74L118 96H104M50 96H66M104 96H126L150 120V146L126 170H50" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square"/><path d="M66 96V56" stroke="#ff5a1f" stroke-width="11"/><path d="M66 58A38 38 0 0 1 104 96" fill="none" stroke="#ff5a1f" stroke-width="6" stroke-dasharray="8 7"/></svg>BLUEPRINT<span>·</span>LAB</a>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%9E%D7%90%D7%9E%D7%A8%D7%99%D7%9D%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A9%D7%90%D7%9C%D7%94%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a></nav>
+</header>
+<main class="sv" id="main">
+  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">Blueprint Lab</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">פרופיל עסק בגוגל: איך פותחים, מאמתים ומשפרים אותו צעד אחר צעד</span></nav>
+  <article>
+  <p class="bl-meta"><b>מדריך</b><span>חנוך גוטובסקי</span><time datetime="2026-11-08">8 בנובמבר 2026</time><span>5 דקות קריאה</span></p>
+  <h1>פרופיל עסק בגוגל: איך פותחים, מאמתים ומשפרים אותו צעד אחר צעד</h1>
+  <p class="sv-lead">כשמישהו מחפש "חשמלאי באזור" או "קפה ליד", הדבר הראשון שהוא רואה הוא לא אתר. הוא רואה מפה ושלושה עסקים. הנה איך דואגים שהעסק שלכם יופיע שם, ושמי שרואה אותו גם מתקשר.</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%90%D7%9E%D7%A8%20%22%D7%A4%D7%A8%D7%95%D7%A4%D7%99%D7%9C%20%D7%A2%D7%A1%D7%A7%20%D7%91%D7%92%D7%95%D7%92%D7%9C%3A%20%D7%9E%D7%93%D7%A8%D7%99%D7%9A%20%D7%A4%D7%AA%D7%99%D7%97%D7%94%20%D7%95%D7%A9%D7%99%D7%A4%D7%95%D7%A8%22.%20%D7%94%D7%A9%D7%90%D7%9C%D7%94%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
+  <figure class="bl-cover"><img src="../blog/img/google-business-profile.webp" alt="איור של סיכת מיקום כתומה מעל מפה משורטטת בקווים כחולים על רקע כהה" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
+  <nav class="bl-toc" aria-labelledby="toc-h"><b id="toc-h">במאמר הזה</b><ol><li><a href="#מה-זה-פרופיל-עסק-בגוגל-ולמה-הוא-חשוב">מה זה פרופיל עסק בגוגל, ולמה הוא חשוב</a></li><li><a href="#פתיחה-ואימות-צעד-אחר-צעד">פתיחה ואימות, צעד אחר צעד</a></li><li><a href="#מה-למלא-כדי-שהפרופיל-יעבוד">מה למלא כדי שהפרופיל יעבוד</a></li><li><a href="#ביקורות-איך-מקבלים-ואיך-עונים">ביקורות: איך מקבלים, ואיך עונים</a></li><li><a href="#איך-הפרופיל-והאתר-עובדים-ביחד">איך הפרופיל והאתר עובדים ביחד</a></li><li><a href="#טעויות-נפוצות-שכדאי-להימנע-מהן">טעויות נפוצות שכדאי להימנע מהן</a></li></ol></nav>
+  <div class="bl-sum"><p><strong>בקצרה:</strong> פרופיל עסק בגוגל (Google Business Profile) הוא הכרטיס של העסק בחיפוש ובמפות. הוא בחינם, ופותחים אותו דרך החשבון של גוגל, ממלאים פרטים ומאמתים שהעסק באמת שלכם.</p><p>מה שהכי משפיע הוא פרטים מלאים ומדויקים, קטגוריה נכונה, תמונות אמיתיות, וביקורות שאתם עונים עליהן. אתר טוב שמחובר לפרופיל משלים את התמונה ועוזר להפוך צפייה לפנייה.</p></div>
+<h2 id="מה-זה-פרופיל-עסק-בגוגל-ולמה-הוא-חשוב">מה זה פרופיל עסק בגוגל, ולמה הוא חשוב</h2>
+<p>פרופיל עסק בגוגל הוא הכרטיס שמופיע בצד או בראש תוצאות החיפוש כשמחפשים את שם העסק, ובמפות כשמחפשים שירות באזור. יש בו שם, כתובת או אזור שירות, שעות פתיחה, טלפון, קישור לאתר, תמונות וביקורות.</p>
+<p>לעסק מקומי זה הרבה פעמים המקום הראשון שבו לקוח פוגש אתכם. אנשים מחפשים "מספרה ברחובות" או "שיפוצניק בחולון", רואים מפה עם כמה עסקים, ומחליטים לפי מה שמופיע שם: כמה ביקורות יש, מה כתוב בהן, אם יש תמונות, ואם העסק פתוח עכשיו. חלק מהם מתקשרים ישר מהכרטיס, בלי להיכנס לאתר בכלל.</p>
+<p>לכן כדאי להתייחס לפרופיל כמו לחלון ראווה. הוא לא מחליף אתר, אבל הוא מה שגורם לאנשים להגיע אליו. ביחד הם עובדים הכי טוב: הפרופיל מביא את החשיפה במפות, והאתר עונה על השאלות ומקל על הפנייה. כתבנו על התמונה הרחבה במדריך <a href="../blog/seo-for-small-business.html">קידום אורגני לעסק קטן</a>.</p>
+<h2 id="פתיחה-ואימות-צעד-אחר-צעד">פתיחה ואימות, צעד אחר צעד</h2>
+<p>התהליך עצמו פשוט, והוא בחינם. מה שלוקח זמן הוא בעיקר האימות.</p>
+<ol><li><strong>חפשו קודם את העסק בגוגל מפות.</strong> לפעמים כבר קיים כרטיס שנוצר אוטומטית או שמישהו הוסיף. אם יש, לוחצים על "תובעים בעלות על העסק" במקום לפתוח חדש, כדי לא ליצור כפילות.</li><li><strong>היכנסו עם חשבון גוגל של העסק.</strong> עדיף חשבון שאתם שולטים בו לאורך זמן, לא חשבון של עובד או של מי שבנה לכם אתר.</li><li><strong>מלאו שם עסק אמיתי.</strong> בדיוק כמו שהוא מופיע על השלט ובחשבוניות. הוספת מילות מפתח לשם ("יוסי אינסטלציה זול ומהיר בתל אביב") נוגדת את ההנחיות של גוגל ועלולה לגרום להשעיית הפרופיל.</li><li><strong>בחרו קטגוריה ראשית.</strong> זו אחת ההחלטות החשובות. בחרו את הקטגוריה שהכי מתארת את מה שאתם עושים, ואפשר להוסיף קטגוריות משניות.</li><li><strong>כתובת או אזור שירות.</strong> אם לקוחות מגיעים אליכם, הוסיפו כתובת. אם אתם מגיעים ללקוחות (שיפוצים, הדברה, מאמן אישי בבית), אפשר להסתיר את הכתובת ולהגדיר אזורי שירות.</li><li><strong>טלפון ואתר.</strong> מספר שעונים בו, וקישור לעמוד הנכון באתר.</li><li><strong>אימות.</strong> גוגל מבקשת להוכיח שהעסק שלכם. השיטה משתנה מעסק לעסק: לפעמים שיחה או הודעה, לפעמים מייל, לפעמים סרטון קצר שמראה את העסק ואת השילוט. עקבו אחרי מה שמופיע אצלכם במסך, ואל תשנו את הפרטים בזמן שהאימות בתהליך.</li></ol>
+<h2 id="מה-למלא-כדי-שהפרופיל-יעבוד">מה למלא כדי שהפרופיל יעבוד</h2>
+<p>פרופיל שנפתח ונשאר חצי ריק לא עושה הרבה. הנה מה ששווה להשקיע בו, לפי סדר חשיבות.</p>
+<div class="bl-table"><table><thead><tr><th scope="col">מה ממלאים</th><th scope="col">למה זה חשוב</th><th scope="col">טיפ קטן</th></tr></thead><tbody><tr><td>שעות פתיחה</td><td>אנשים מסננים לפי "פתוח עכשיו"</td><td>עדכנו שעות מיוחדות בחגים</td></tr><tr><td>קטגוריות</td><td>קובעות לאילו חיפושים תופיעו</td><td>ראשית אחת מדויקת, ומשניות רק אם הן נכונות</td></tr><tr><td>שירותים או מוצרים</td><td>עוזרים להבין מה בדיוק אתם עושים</td><td>השתמשו במילים של הלקוחות, לא של המקצוע</td></tr><tr><td>תיאור העסק</td><td>הפסקה שמספרת מי אתם</td><td>כתבו מה עושים, לאן מגיעים, ומה מייחד אתכם</td></tr><tr><td>תמונות</td><td>עסק עם תמונות אמיתיות נראה אמין יותר</td><td>צלמו את המקום, הצוות והעבודה, לא תמונות מאגר</td></tr><tr><td>קישור לאתר</td><td>ממשיך את השיחה</td><td>הפנו לעמוד שמתאים לשירות, לא תמיד לדף הבית</td></tr></tbody></table></div>
+<p>שני דברים שכדאי לבדוק פעם בכמה חודשים: שהטלפון והשעות עדיין נכונים, ושאף אחד לא הציע "עריכה" לפרטים שלכם. גוגל מאפשרת לגולשים להציע שינויים, ולפעמים הם מתקבלים בלי שתשימו לב.</p>
+<h2 id="ביקורות-איך-מקבלים-ואיך-עונים">ביקורות: איך מקבלים, ואיך עונים</h2>
+<p>ביקורות הן חלק גדול ממה שאנשים בודקים לפני שהם מתקשרים. כמה הצעות פשוטות:</p>
+<ul><li><strong>בקשו.</strong> הרבה לקוחות מרוצים פשוט לא חושבים לכתוב. אחרי עבודה טובה, שלחו הודעה קצרה עם הקישור הישיר לכתיבת ביקורת, שאפשר להעתיק מתוך ניהול הפרופיל.</li><li><strong>אל תקנו ואל תציעו פרס.</strong> ביקורות קנויות או ביקורות בתמורה להנחה נוגדות את ההנחיות של גוגל, ועלולות להימחק יחד עם הביקורות האמיתיות.</li><li><strong>ענו לכולן.</strong> תודה קצרה וספציפית לביקורת טובה. לביקורת שלילית, תשובה רגועה ועניינית שמציעה לפתור. מי שקורא את התשובה הוא לא רק הכותב, אלא כל לקוח עתידי.</li><li><strong>אל תתווכחו בפומבי.</strong> אם יש מחלוקת, הציעו להמשיך בטלפון.</li></ul>
+<p>ביקורת שלילית אחת לא מפילה עסק. מה שפוגע יותר הוא שתיקה, או תשובה כועסת.</p>
+<h2 id="איך-הפרופיל-והאתר-עובדים-ביחד">איך הפרופיל והאתר עובדים ביחד</h2>
+<p>גוגל מנסה להבין אם העסק אמיתי, מה הוא עושה ואיפה. כשהפרטים בפרופיל, באתר ובמקומות אחרים ברשת זהים (אותו שם, אותה כתובת, אותו טלפון), קל לה יותר לסמוך עליהם. כשבכל מקום כתוב משהו אחר, זה מבלבל גם את גוגל וגם את הלקוחות.</p>
+<p>כדאי שבאתר יופיעו:</p>
+<ul><li>השם, הכתובת או אזור השירות והטלפון, בדיוק כמו בפרופיל.</li><li>עמוד נפרד לכל שירות מרכזי, ואם אתם עובדים בכמה ערים, עמוד שמסביר אילו אזורים אתם משרתים. על זה בדיוק אנחנו עובדים ב<a href="../services/seo.html">קידום בגוגל</a>.</li><li>כפתורי חיוג ווואטסאפ שבולטים בטלפון, כי רוב מי שמגיע מהמפה נמצא בטלפון.</li></ul>
+<p>אם אין לכם עדיין אתר, אפשר להתחיל מ<a href="../services/landing-page.html">דף נחיתה</a> אחד ברור שהפרופיל מפנה אליו, ולהרחיב בהמשך ל<a href="../services/website-building.html">אתר מלא לעסק</a>.</p>
+<h2 id="טעויות-נפוצות-שכדאי-להימנע-מהן">טעויות נפוצות שכדאי להימנע מהן</h2>
+<ol><li><strong>שני כרטיסים לאותו עסק.</strong> קורה כשפותחים חדש במקום לתבוע בעלות על קיים. זה מפצל את הביקורות ומבלבל.</li><li><strong>מילות מפתח בשם העסק.</strong> נראה כמו קיצור דרך, אבל עלול להוביל להשעיה.</li><li><strong>פרופיל שנפתח ונשכח.</strong> שעות לא מעודכנות, טלפון ישן, ותמונה אחת מלפני שנים.</li><li><strong>כתובת של בית פרטי מוצגת בלי צורך.</strong> אם הלקוחות לא מגיעים אליכם, עדיף אזור שירות.</li><li><strong>קישור לאתר שלא עובד טוב בטלפון.</strong> כל המאמץ להופיע במפה הולך לאיבוד אם העמוד שנפתח איטי או מבלבל. כתבנו על זה במדריך <a href="../blog/website-speed.html">מהירות אתר</a>.</li></ol>
+<h2 id="שאלות-נפוצות">שאלות נפוצות</h2><div class="sv-faq">
+<details><summary><h3>כמה עולה פרופיל עסק בגוגל?</h3></summary><p>הפתיחה והניהול של הפרופיל בחינם. מה שעולה כסף הוא דברים סביבו, כמו פרסום ממומן או עזרה מקצועית בקידום, ואלה לא חובה.</p></details>
+<details><summary><h3>אפשר לפתוח פרופיל בלי כתובת של חנות?</h3></summary><p>כן. עסק שמגיע ללקוחות יכול להסתיר את הכתובת ולהגדיר אזורי שירות. הכתובת עדיין משמשת את גוגל לאימות, אבל היא לא מוצגת לגולשים.</p></details>
+<details><summary><h3>תוך כמה זמן הפרופיל מתחיל להופיע?</h3></summary><p>אחרי שהאימות עובר, הפרופיל יכול להופיע די מהר בחיפוש לפי שם העסק. ההופעה בחיפושים כלליים כמו "שירות באזור" תלויה בהרבה דברים, כמו המרחק של המחפש, התחרות והפעילות בפרופיל, ולכן אין לה זמן קבוע.</p></details>
+<details><summary><h3>מה עושים עם ביקורת לא הוגנת?</h3></summary><p>קודם כול עונים בנימוס ובעניינים. אם הביקורת מפרה את ההנחיות של גוגל, למשל ספאם או תוכן פוגעני, אפשר לדווח עליה מתוך ניהול הפרופיל. גוגל מחליטה אם להסיר אותה.</p></details>
+<details><summary><h3>צריך אתר אם יש לי פרופיל בגוגל?</h3></summary><p>הפרופיל מביא חשיפה, אבל מקום לספר בו מעט. אתר נותן מקום להראות עבודות, להסביר שירותים ולענות על שאלות לפני שמתקשרים. אצלנו המחיר נקבע בהצעה כתובה עם מחיר סגור, אחרי שיחת היכרות קצרה.</p></details></div>
+  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-156.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד Blueprint Lab. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
+  </article>
+  <section class="sv-cta" aria-labelledby="cta-h">
+    <h2 id="cta-h">רוצים אתר לעסק שלכם?</h2>
+    <p>שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.</p>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%90%D7%9E%D7%A8%20%22%D7%A4%D7%A8%D7%95%D7%A4%D7%99%D7%9C%20%D7%A2%D7%A1%D7%A7%20%D7%91%D7%92%D7%95%D7%92%D7%9C%3A%20%D7%9E%D7%93%D7%A8%D7%99%D7%9A%20%D7%A4%D7%AA%D7%99%D7%97%D7%94%20%D7%95%D7%A9%D7%99%D7%A4%D7%95%D7%A8%22.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+  </section>
+  <h2>שירותים קשורים</h2><ul class="sv-rel"><li><a href="../services/seo.html">קידום אתרים אורגני</a></li><li><a href="../services/website-building.html">בניית אתרים לעסקים</a></li><li><a href="../services/landing-page.html">בניית דף נחיתה</a></li></ul>
+  <h2>עוד מאמרים</h2><ul class="bl-list"><li><a href="website-speed.html"><img src="../blog/img/website-speed.webp" srcset="../blog/img/website-speed-640.webp 640w, ../blog/img/website-speed.webp 1200w" sizes="(max-width: 700px) 100vw, 420px" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="tx"><time datetime="2026-11-01">1 בנובמבר 2026</time><b>מהירות אתר: למה אתר איטי מפסיד לקוחות, ואיך בודקים את שלכם</b><span>למה מהירות האתר חשובה לעסק, איך בודקים אותה בחינם תוך כמה דקות, מה המדדים של גוגל אומרים בשפה פשוטה, ומה בדרך כלל מאט אתר של עסק קטן ואיך מתקנים.</span></span></a></li><li><a href="seo-for-small-business.html"><img src="../blog/img/seo-for-small-business.webp" srcset="../blog/img/seo-for-small-business-640.webp 640w, ../blog/img/seo-for-small-business.webp 1200w" sizes="(max-width: 700px) 100vw, 420px" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="tx"><time datetime="2026-10-25">25 באוקטובר 2026</time><b>קידום אורגני לעסק קטן: מה עושים לבד ומה כדאי להעביר</b><span>מדריך מעשי לקידום אורגני לעסק קטן: מה אפשר לעשות לבד כבר השבוע, מה כדאי להעביר למומחה, איך מודדים התקדמות, וכמה זמן לוקח לראות תוצאות בגוגל.</span></span></a></li><li><a href="how-to-choose-web-designer.html"><img src="../blog/img/how-to-choose-web-designer.webp" srcset="../blog/img/how-to-choose-web-designer-640.webp 640w, ../blog/img/how-to-choose-web-designer.webp 1200w" sizes="(max-width: 700px) 100vw, 420px" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="tx"><time datetime="2026-10-18">18 באוקטובר 2026</time><b>איך לבחור מעצב אתרים: 10 שאלות לשאול לפני שחותמים</b><span>איך בוחרים מעצב אתרים או סטודיו לבניית אתר לעסק: 10 שאלות לשאול לפני שחותמים, מה צריך להופיע בהצעה, סימני אזהרה, ואיך לבדוק תיק עבודות באמת.</span></span></a></li></ul>
+</main>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%9E%D7%90%D7%9E%D7%A8%D7%99%D7%9D%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A9%D7%90%D7%9C%D7%94%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
+<footer class="sv-foot"><span>© 2026 Blueprint Lab · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<script src="../js/fluid.js" defer></script>
+<script src="../js/a11y.js" defer></script>
+<script src="../js/assistant.js" defer></script>
+</body>
+</html>
