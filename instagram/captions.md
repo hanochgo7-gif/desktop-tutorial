@@ -12,7 +12,7 @@ https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/
 
 כבר מעל 30 שנה, בוגרי סיירת נח"ל שומרים אחד על השני: על הבוגרים, על הפצועים ועל המשפחות השכולות.
 
-בעמותה מחכים לך מנטורינג מבוגרים ותיקים, מפגשי בוגרים, סדנת משתחררים ומסעות חוסן לצוות. 57 צוותים כבר יצאו למסע ב-2025 וב-2026.
+בעמותה מחכים לך מנטורינג מבוגרים ותיקים, מפגשי בוגרים, סדנת משתחררים ומסעות חוסן לצוות. 58 צוותים כבר יצאו למסע ב-2025 וב-2026.
 
 לא צריך לבקש עזרה כדי להצטרף. מספיק להגיד "אני פה".
 
@@ -30,7 +30,7 @@ https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/
 
 49 לוחמים מסיירת נח"ל נפלו מאז 7 באוקטובר 2023. החברים שלהם מהצוות חזרו הביתה, וחלקם נושאים את זה לבד.
 
-מסע חוסן צוותי מחזיר 15 עד 20 לוחמים ששירתו יחד למעגל אחד, בליווי אנשי מקצוע. 57 צוותים כבר יצאו, ו-25 צוותים נוספים משובצים ל-2027.
+מסע חוסן צוותי מחזיר 15 עד 20 לוחמים ששירתו יחד למעגל אחד, בליווי אנשי מקצוע. 58 צוותים כבר יצאו, ו-25 צוותים נוספים משובצים ל-2027.
 
 ‏13,000$ מממנים מסע מלא לצוות שלם, כ-650$ עד 870$ ללוחם. התרומה מזכה בזיכוי לפי סעיף 46.
 לעמותה תו מידות לאפקטיביות וניהול תקין 2026.
@@ -50,7 +50,7 @@ In Sayeret Nahal, everyone is counted. Even after the war.
 
 49 of the unit's soldiers have fallen since October 7, 2023. Their teammates came home carrying it, and some of them carry it alone.
 
-A resilience journey brings a whole team, 15 to 20 fighters who served together, back into one circle with professional guidance. 57 teams have gone since 2025.
+A resilience journey brings a whole team, 15 to 20 fighters who served together, back into one circle with professional guidance. 58 teams have gone since 2025.
 
 $120 helps one veteran become career-ready. $13,000 funds a whole team's journey.
 
