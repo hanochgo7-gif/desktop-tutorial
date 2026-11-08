@@ -59,10 +59,10 @@ STEPS = [  # OS consult (2.8), one real photo each
      ("We calculate the loads and prepare the drawings and the bill of quantities: the list of materials the quote is based on.",
       "הנדסאי בניין מחשבים עומסים ומכינים שרטוטים וכתב כמויות."),
      ("Marking out the pole lines from the design, with the local crew", "סימון קווי העמודים לפי התכנון, עם הצוות המקומי")),
-    ("p-poles", ("Manufacturing in our plant", "ייצור במפעל שלנו"),
+    ("f-poles", ("Manufacturing in our plant", "ייצור במפעל שלנו"),
      ("After the quote is approved, poles, nets, cables and fittings are made and checked in our plant.",
       "אחרי אישור הצעת המחיר, העמודים, הרשתות, הכבלים והאביזרים מיוצרים ונבדקים במפעל שלנו."),
-     ("Galvanized poles from our plant, set out on site to the design", "עמודים מגולוונים מהמפעל שלנו, מוצבים בשטח לפי התכנון")),
+     ("Round galvanized poles from our plant on concrete blocks, set out on site to the design", "עמודים מגולוונים עגולים מהמפעל שלנו על בסיסי בטון, מוצבים בשטח לפי התכנון")),
     ("p-closed", ("Installation and handover", "הקמה ומסירה"),
      ("Our crews, trained for work at height, build the structure and hand it over to you.",
       "הצוותים שלנו, בעלי הכשרה לעבודה בגובה, מקימים את המבנה ומוסרים אותו ללקוח."),
@@ -627,6 +627,12 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
     "step": ("Step", "שלב"),
     "note": ("Sizes, spacing and height are not a specification: every project is designed for its crop, the grower's needs, the soil and drainage, and the wind on site.",
              "המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צורכי המגדל, הקרקע והניקוז ומשטרי הרוחות באתר."),  # no visible illustration labels (Hanoch, 7 Nov 2026)
+    "field_h": ("From the field", "מהשטח"),
+    "field_p": ("Photos from our projects.", "צילומים מהפרויקטים שלנו."),
+    "field": [("f-poles", ("Round galvanized poles on concrete blocks, with guy cables and the lift", "עמודים מגולוונים עגולים על בסיסי בטון, עם כבלי עיגון ובמת הרמה")),
+              ("f-hailnets", ("White anti-hail net laid in strips, joined with clips", "רשת לבנה נגד ברד שנפרסת ברצועות ומחוברת בתפסים")),
+              ("f-flowers", ("Anemones under a white net, with overhead sprinklers", "כלניות תחת רשת לבנה, עם ממטרות עליות")),
+              ("f-shade", ("An arched shade-net house", "בית צל מקושת עם רשת הצללה"))],  # Hanoch's real photos, 8 Nov 2026
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [
@@ -740,7 +746,7 @@ CROPS = [  # the crop selector; every row traces to the ledger
               (("Protects", "מגינה"), ("From wind and hail, and it saves water in the hot season by reducing evaporation", "מפני רוח וברד, ובעונה החמה חוסכת מים כי היא מפחיתה התאדות")),
               (("Structure", "מבנה"), ("Wide spans: one structure can reach 10 ha (100 dunam), with trellising and support built in", "מפתחים רחבים: מבנה בודד יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות"))],
      "proj": ("Banana net house with 11% net, Western Galilee", "בית רשת לבננות עם רשת 11%, הגליל המערבי")},  # 2.2, 3.1
-    {"id": "apple", "alt": ("Illustration: apple trees under a net against hail, on galvanized poles", "הדמיה: עצי תפוח תחת רשת נגד ברד, על עמודים מגולוונים"), "label": ("Apples", "תפוחים"),
+    {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Apples", "תפוחים"),
      "say": ("A net against hail and sunburn, folded away in winter.", "רשת נגד ברד וכוויות שמש, שמתקפלת בחורף."),
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
               (("Protects", "מגינה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
@@ -764,7 +770,7 @@ CROPS = [  # the crop selector; every row traces to the ledger
               (("Net", "רשת"), ("Chosen for the site and the crop", "נבחרת לפי האתר והגידול")),
               (("Abroad", "בחו״ל"), ("We plan the work, train local crews and manage the build on site", "אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח"))],
      "proj": ("Avocado net house, Portugal", "בית רשת לאבוקדו, פורטוגל")},  # 3.1, 3.5, 3.6
-    {"id": "other", "alt": ("Illustration: persimmon trees under a net", "הדמיה: עצי אפרסמון תחת רשת"), "label": ("Other crops", "גידולים אחרים"),
+    {"id": "other", "alt": ("Anemones in bloom under a white net house, with overhead sprinklers", "כלניות בפריחה בבית רשת עם רשת לבנה וממטרות עליות"), "label": ("Other crops", "גידולים אחרים"),
      "say": ("Persimmon, tobacco and more, plus shade solutions for work areas and windbreaks.", "אפרסמון, טבק ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),
      "rows": [(("Structures", "מבנים"), ("Net houses, shade solutions for work areas with wide spans, windbreaks, trellising", "בתי רשת, פתרונות הצללה לאזורי תפעול במפתחים רחבים, שוברי רוח, הדליה")),
               (("Service", "שירות"), ("Dismantling, and preparing the material for a new structure", "פירוק והכנת החומר למבנה חדש")),

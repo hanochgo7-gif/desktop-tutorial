@@ -14,6 +14,11 @@ JOBS = {
     "p-marking": ("p-marking.jpg", (.3375, .2778, 1, .94)),  # 4:3, without the two workers at the left (one may be a minor)
     "p-poles": ("p-poles.jpg", None),
     "p-closed": ("p-closed.jpg", (0, 0, 1, .86)),  # trims the photographer's shadow at the bottom edge
+    # real field photos from Hanoch, 8 Nov 2026 (galvanized steel only; the ones with no visible harness at height or rusty pipe are not used)
+    "f-poles": ("f-poles-blocks.jpg", (0, .3125, 1, .875)),  # 4:3: round poles on concrete blocks, guys and the yellow lift
+    "f-hailnets": ("f-hailnets.jpg", None),  # white anti-hail net strips on an orchard
+    "f-flowers": ("f-flowers.jpg", None),  # anemones under a white net
+    "f-shade": ("f-shade.jpg", None),  # arched shade-net house
 }
 
 

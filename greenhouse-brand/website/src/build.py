@@ -682,6 +682,8 @@ def p_sim(L):
   </div>
   <div class="wrap sim-fallback"><p class="notice">{esc(t(S["nogl"], L))}</p>{fig}<div class="legend-wrap">{legend}</div></div>
   <p class="wrap sim-note">{esc(t(S["note"], L))}</p>
+  <section class="wrap field" aria-labelledby="field-h"><h2 id="field-h">{esc(t(S["field_h"], L))}</h2><p class="lead">{esc(t(S["field_p"], L))}</p>
+    <ul class="field-grid">{"".join(f'<li><figure>{picture(n, "", L, sizes="(max-width: 760px) 100vw, 50vw")}<figcaption>{esc(t(c, L))}</figcaption></figure></li>' for n, c in S["field"])}</ul></section>
 </div>
 {cta_band(L, "sim")}
 <script src="{r}assets/build-sim.js?v={VER["sim"]}" defer></script>

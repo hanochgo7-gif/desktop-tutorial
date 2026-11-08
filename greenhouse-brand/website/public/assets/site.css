@@ -1304,3 +1304,11 @@ body.top-dark .site-head:not(.solid) :focus-visible, .globe-frame :focus-visible
 html[lang="en"] .hero-os h1 .h1-b { white-space: normal; }
 @media (max-width: 760px) { html[lang="en"] .hero-os h1 { font-size: clamp(2rem, 9.6vw, 2.5rem); } }
 html[lang="en"] .tagline { white-space: normal; max-width: 12.5em; }  /* the English slogan now carries the company name: two short lines between the logo and the menu */
+/* real photos from the field, under the build illustration */
+.field { padding-block: 8px 72px; }
+.field h2 { margin-bottom: 8px; }
+.field-grid { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.field-grid figure { margin: 0; }
+.field-grid img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; border-radius: var(--radius); background: var(--line); }
+.field-grid figcaption { margin-top: 8px; font-size: var(--fs-small); color: var(--ink-2); }
+@media (max-width: 760px) { .field-grid { grid-template-columns: 1fr; } }
