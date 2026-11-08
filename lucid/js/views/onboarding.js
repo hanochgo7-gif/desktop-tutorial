@@ -20,6 +20,7 @@ import { zeroResult } from '../core/placement.js';
 import { configured, auth } from '../core/api.js';
 import { birthYears, isMinor, isUnder16 } from '../core/age.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { CONFIG } from '../../config.js';
 import { syncPausedText } from '../core/session.js';
 import { TEXT_SIZES, applyTextSize, chooseTextSize, currentTextSize } from './welcome.js';
@@ -82,7 +83,7 @@ const tabFor = (checked, i, anyChecked) => (checked || (!anyChecked && i === 0) 
 
 export default async function onboarding(el, ctx) {
   ctx.setTitle(tt('התחלה', 'Getting started'));
-  const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
+  const hasWork = Boolean((await content.scenarioIndex().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
   // AI consent is asked only where AI can work: with accounts and the AI service switched on (TF-7).
   const aiAvailable = configured() && CONFIG.aiEnabled;
   // Signed in before onboarding (from Welcome's "I already have an account"): finishing creates the server profile.

@@ -165,6 +165,511 @@ PGlite, migration applied with Supabase-like default privileges, statements run 
 - `lucid/supabase`, `lucid/tests`, `lucid/tools`, `node_modules` and `package*.json` are excluded from Pages.
 - The service worker handles only same-origin GETs. Supabase and edge-function calls are cross-origin and never cached.
 
+## 5a. Re-review of S-15 after the performance programme (2026-11-06, perf lane "delivery", items D1-D6)
+
+**Change.** `sw.js` now serves code (pages, `config.js`, `js/`, `css/`) and also `vendor/`, `fonts/` and non-lesson
+`content/` from the release cache first, which reverses the network-first part of the S-15 fix. Learners on a slow or
+flaky connection otherwise waited on about 30 revalidations per load (1.3 s on a mid-range phone after 10 minutes,
+16 s on lie-fi).
+
+**Why the S-15 property still holds.** S-15's concern was that a fix reached learners late because the cache never
+changed. Now the cache name is derived from the content: `tools/build-manifest.mjs` sets `RELEASE` to a hash of every
+cached file plus the worker's own code, and `tests/unit/offline-manifest.test.mjs` fails while it is stale, so any
+deployed fix changes `sw.js`. The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache (default
+`updateViaCache: 'imports'`). The new worker verifies every file it downloads against `release.json` and fails the
+install on a mismatch rather than caching a stale copy. A fix therefore runs at the first screen change after the new
+worker has installed, once the page side of contract C-4 (boot lane, B6) is merged, and otherwise when every Lucid tab
+has been closed. Before this change it ran on the next load. A learner who keeps one tab open for days without changing
+screen gets a fix later than before; B6 adds an update check when the tab becomes visible after an hour.
+
+**S-03 interaction (shared origin).** A script on a sibling site of the same origin can still write into Lucid's
+Cache Storage. With network-first code such an entry was overwritten at the next online load unless the attacker
+re-poisoned it; with cache-first code it is served until the next release. The integrity checks run only when files
+enter the cache (on install), not on every response, because hashing each response on every load would cost the
+time this change saves. This does not change S-03's conclusion: same-origin script can already read the learner's
+token and IndexedDB, and the fix remains serving Lucid from its own origin before accounts are enabled.
+`{type:'lucid:activate'}` can be posted by any same-origin page; it only makes an already-installed, already-verified
+release take over early.
+
+**Other checks.** The worker still handles only same-origin GETs under `/lucid/`; Supabase and edge-function calls are
+never cached; activation deletes only `lucid-` caches. The deploy-only minify step (D7) never touches the CSP meta,
+and `tools/build/verify.mjs` fails the build if it changed.
+
+**Integration follow-up (2026-11-07).** A skeptic review showed in a browser that a poisoned entry written into
+the release cache by same-origin script ran on every online load until the next release (b2b669b's network-first
+worker overwrote it at the next online load). The worker now checks what it serves, so the paragraph above about
+checking only on install no longer holds. As it stands after the second skeptic round below:
+- Every response served cache-first (pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/`, and `content/`
+  except the runtime files below) is hashed and compared with `release.json` as it is served (`servable` in
+  `sw.js`), and is built from the bytes just hashed, so bytes rewritten after an earlier check are never served.
+  (The first follow-up hashed each entry once per worker lifetime, which left a window: see below.) An entry that
+  does not match is deleted, fetched again and checked, and never served (offline it is not served at all).
+- Only bodies are trusted on those paths. Every response the release cache stores or serves cache-first, and every
+  file an install writes or copies, is built by the worker (`entry`): status 200 and one header, the content type of
+  the file's extension. A stored status or header (a `Refresh`, a `Content-Type`) never reaches a page from them, and
+  an install that copies an unchanged file from an older cache copies its bytes only.
+- Not covered (corrected in the third skeptic round, K3 below): the stale-while-revalidate files, which share the
+  release cache, are served as stored, bytes and headers, unhashed, exactly as at b2b669b: lessons, centre and pool
+  files (`content/lessons/`, `content/centers/`, `content/pool/`), `assets/`, `manifest.webmanifest`, and
+  `privacy.html` when fetched by script rather than navigated to. Same-origin script can change what those return.
+  They are data, never code: lesson and content text is drawn through the escaping `html` template (`util.js`), a
+  forged header on a `fetch()` response does nothing in the page, and the navigated `privacy.html` and every module
+  go through the checked path.
+- `release.json` in the cache can no longer vouch for a forged entry: its hash list must match `LISTING`, a SHA-256
+  that only `sw.js` carries (written by `tools/build-manifest.mjs`), and the browser fetches `sw.js` from the server.
+  A changed or removed copy is fetched again from the server; with none to be had, nothing is served from the cache
+  (and nothing deleted) until one can be. Requests for `release.json` (a navigation included) are not handled by
+  the worker: they go to the network and never read, write or delete the cached copy. An entry with no hash is never
+  deleted by a request.
+- A file missed at install and fetched later is kept only if it matches its hash; one that still does not match
+  past every cache (an edge on another deploy) is never handed to the page as a module, stylesheet or content file
+  (the request fails, contract C-4); a navigation still gets the page as the network gave it.
+- A `release.json` that cannot be loaded (an error status, no connection, or no answer within 20 s) fails every
+  install, a first one included (the browser tries again at the next visit), so nothing is installed that the worker
+  could not check, and an active release or the hand-numbered caches keep their files and saved lessons.
+- Per-file hashes are 128-bit SHA-256 prefixes (32 hex digits), so a second preimage is out of reach; `LISTING` is
+  a full SHA-256. Same-origin script can still read the learner's token and IndexedDB (S-03), which no worker check
+  changes.
+Covered by `tests/unit/sw.test.mjs` (the integrity tests at its end) and, in a browser, `tests/e2e/upgrade.mjs`
+U5-U7 and `tests/e2e/perf-boot.mjs` (the last B6 check).
+
+**Second skeptic round: S-15 sign-off review (2026-11-07).** The reviewer read `sw.js` line by line and attacked
+it in Chromium on b2b669b, the source of `fe6b9af` and its built tree (release `709b1a90e06c`).
+- **Verdict: reject 5a as written; approve with conditions** once (1) served and copied entries are rebuilt with
+  headers the worker chooses, or their headers are validated, with tests for the shell `Refresh` case and the
+  carry-over case; and (2) navigations never delete unhashed entries and `release.json` is excluded, with an
+  offline test. Recommended, not as ship blockers: full-length per-file hashes, and honest wording about the
+  once-per-lifetime window. CSP, source maps, pages.yml (fallback, other sites, pinning) and lucid-verify.yml passed.
+- **Condition 1, met.** Reproduced first: a page outside the scope stored the shell's genuine bytes with
+  `refresh: 0; url=/other/phish.html`; after a worker restart every online open of `/lucid/` landed on the phishing
+  page, and the next release (index.html unchanged) carried the header into its cache. Fix: `entry()` and the
+  bullets above (headers are never stored or served from the cache). Tests: sw.test "stored headers never reach a
+  page or a later release" (fails when `servable` or `fromOld` keeps the stored headers: checked by mutation);
+  upgrade.mjs U5 in Chromium (forged shell, worker restart, two loads, the next release installed and activated,
+  worker restart again: Lucid every time; on `fe6b9af` it fails, landing on the forged target). The reviewer's
+  script run again on the new built tree: Lucid at every step.
+- **Condition 2, met.** Reproduced first (max-age 0): one navigation to `/lucid/release.json` deleted the cached
+  copy, and after a worker restart offline the load failed (`net::ERR_FAILED`). Fix: the worker leaves every
+  request for `release.json` to the network, and never deletes an entry that has no hash. Tests: sw.test "a request
+  for release.json, a navigation included, goes to the network and leaves the cached copy" (fails when the worker
+  handles release.json again or deletes unhashed entries: checked by mutation); upgrade.mjs U6 (navigation to
+  release.json, HTTP cache cleared, worker restarted, server unreachable: Lucid starts; on `fe6b9af` the cached copy
+  is gone). The reviewer's script run again: the copy stays and the offline load draws the welcome screen.
+- **Hash length (recommended), done as 128 bits.** `HASH_LEN` is 32 in `sw.js` and `tools/build-manifest.mjs`.
+  A 128-bit prefix puts a second preimage at 2^128 work (2^120 against any of the 234 files): out of reach. The
+  full 64 digits would add about 4 KB gz more to every release update for no practical gain. release.json grows from
+  3.5 to 6.1 KB gz. offline-manifest.test checks every hash is 32 digits and that sw.js checks 32.
+- **The once-per-lifetime window (recommended), closed instead of documented.** Reproduced first: `js/app.js`
+  rewritten after the live worker had checked it ran on two reloads, until the worker stopped. Now every response
+  is hashed as it is served (sw.test "every response from the release cache is hashed as it is served"); the
+  reviewer's script run again: clean on every reload. Cost: see docs/perf/after.md, "Second skeptic round".
+- From the other two round-2 reviews, also in the worker: no install goes ahead without `release.json` (a first
+  visit whose `release.json` dropped installed a worker that then served nothing offline; now the install fails and
+  is tried at the next visit; upgrade.mjs U7), and a stale edge can no longer feed a module of another release into a
+  page (perf-boot B6, last check).
+
+**Third skeptic round: S-15 sign-off review of `40b402b` (2026-11-07).** The reviewer read `sw.js` line by line
+before any notes, then re-ran the second round's proofs and new attacks in Chromium on a fresh build of `40b402b`
+(release `61cdec2e3120`) against b2b669b.
+- **Verdict: approve with conditions** for the integrity part of S-15: no remaining way was found for same-origin
+  script or a stale or mixed CDN edge to get code bytes or headers served inside Lucid that a fresh network load
+  would not serve (forged headers, `release.json` deletion, the once-per-lifetime window, installs without
+  `release.json` and mixed-release modules all closed; 128-bit hashes anchored by `LISTING`; CSP unchanged). But
+  S-15 is about fixes reaching learners, and there `40b402b` was measurably worse than b2b669b in two cases.
+  Conditions: (1) a recovery path that does not need a change of screen, with an e2e test of a boot crash followed
+  by a fix and a reload; (2) quota failures handled as best effort, or a network fallback once a newer release
+  exists, with an e2e test with a quota override; (3) the wording in `sw.js` and here corrected (K3).
+- **Condition 1 (K1), met.** Reproduced first with the reviewer's `r2/brick.mjs` (release G, then B whose `boot()`
+  throws, then the fix F; Cache-Control max-age 0): B took over at a change of screen and showed "Lucid could not
+  start. Please reload the page."; after F was deployed, five reloads all showed the same message with F waiting;
+  only closing the tab ran F. The waiting worker took over only on `lucid:activate`, which only the router sends at
+  a change of screen, and a page that cannot start never makes one (a module that fails to evaluate never even
+  reaches `boot().catch`). Fix, in the worker (so it works whatever broke in the page): a navigation to the app
+  while a release waits is a hand-over point too. The active worker posts `lucid:activate` to the waiting worker
+  and answers that navigation with a page of its own (no content, one inline script allowed by its own CSP nonce,
+  `no-store`) that reloads as soon as the waiting worker is no longer waiting; the reload is then served by the new
+  release. It cannot simply wait or redirect: the browser activates the waiting worker only when the active one has
+  no request in hand, so waiting inside the navigation deadlocks and a redirect comes straight back to the old
+  worker (both tried in Chromium: an 8 s stall, and `ERR_TOO_MANY_REDIRECTS`; a meta refresh is a same-document
+  fragment navigation on `#/...` URLs and never reloads). If the waiting worker has not taken over 5 s after the first
+  ask, the release serves the app again (1 s since the fourth round, below, with one hand-over page at most). The page is built by the worker, never stored, and appears only while a
+  release waits; it is not a path for other script (it carries no stored bytes and no stored header). Other open
+  tabs follow at their next change of screen, as when one tab switches at a change of screen (C-4 unchanged there).
+  Tests: sw.test "a load of the app while a release waits hands over to it" and upgrade.mjs U8 (both variants: boot
+  throws, and a module fails to evaluate; same tab, the fix runs at the second reload, the first one being what lets
+  the browser find it; no history entry added). Both fail on `40b402b` (U8: "after 3 reloads the page still shows
+  could not start" and "... stuck") and pass now. The reviewer's script on the new build: see after.md, "Third
+  skeptic round".
+- **Condition 2 (K2), met (best effort).** Reproduced first with `r2/quota.mjs` (quota 1.5 x the usage after the
+  first install): every update install failed with `QuotaExceededError`, no worker ever waited, and `today.js` was
+  the old file on every load, also after closing all tabs. Cause: an update writes a second full copy of the
+  release, and the shell write (`ensure` required), the per-item writes in `unpack()` and the carry-over in
+  `carryOver()` let a quota error fail the install. Fix: a write that does not fit never fails an install (`isFull`,
+  `store()` in `sw.js`). Once one write does not fit, the install stops fetching best-effort files, the shell
+  included in what may be left out. What did not fit is fetched and checked on use (`verifiedMiss`, unchanged: kept
+  only if it matches, never handed to the page if it does not), and activation, which removes the old release's
+  cache, makes room again. Saved lessons that did not fit at install are carried over at activation; if storage is
+  still full then, the old caches' own files (no longer served by anyone) are dropped first to make room for them.
+  The integrity rules are unchanged: nothing unchecked is stored or served, and `release.json` must still come from
+  the server (only its write is best effort; without it the worker fetches it again when it next starts, as before).
+  *Corrected in the fourth round (below):* this made the shell and `release.json` best effort too, so at quota =
+  usage an update installed with an empty or partial cache, took over and deleted the complete old cache (offline
+  lost); and activation read the hashes only from its cache, so without `release.json` nothing was carried over.
+  The partial cache the reviewer saw kept and reused came from failed installs; a quota error no longer fails one,
+  and a cache left by an install that failed for another reason (no connection, an edge on another deploy) is what
+  the retry copies from, and is removed at the next activation, as before. Tests: sw.test "a full origin never fails
+  an install" (two quota levels, the second leaving no room for the shell; saved lessons kept; fails on `40b402b`, and
+  also without the activation-time purge) and upgrade.mjs U9 (Chromium, `Storage.overrideQuotaForOrigin` at 1.5 x
+  usage: the next release installs, takes over at a reload, keeps three saved lessons, removes the old cache, and
+  screens load; on `40b402b`: "the next release did not install").
+  A network fallback for a release that cannot install at all was not added: with quota errors best effort, the
+  only installs that still fail are those whose files cannot be had or checked (no connection, `release.json`
+  missing, an edge on another deploy), which the browser retries at every navigation; serving unverified network
+  code instead would reopen the mixed-release and integrity holes the second round closed.
+- **Condition 3 (K3), met (wording).** Reproduced first with `r2/swr-poison.mjs`: a forged
+  `content/lessons/a1-01.json` (with an `x-forged` header) written into the release cache by a page outside the
+  scope was served to Lucid, online and offline, exactly as at b2b669b. The second bullet of the list above and the
+  head comment of `sw.js` now say which paths are hashed as served and which are stale-while-revalidate and served
+  as stored. Hashing those as well was considered and left out of this round: it would make a lesson saved during
+  the window between a deploy and the worker's update (the network then serves the next release's bytes) unstorable,
+  where b2b669b stored it, and the content is escaped data.
+
+**Fourth skeptic round: S-15 sign-off review of `fde78c2` (2026-11-07).** Two reviews of the third round's two new
+mechanisms: a security and contract review of the hand-over at a load of the app and of the quota-tolerant install,
+and a review of real-learner behaviour of the hand-over on built trees (GitHub-Pages-like server, 150 ms RTT and
+1.6 Mbps shaping, CPU 4x). Each problem was reproduced first with the reviewers' own scripts (scratchpad
+`skeptic4-handover-security/x/`, `skeptic4-handover/`), then run again on a build of this round (release
+`b23362933538`, next release `b783a3b0177f`; outputs in scratchpad `refix4/x/` and `refix4/s4/`). The final
+build (`1a7cae2732c8`, where U1-U12 and run.mjs pass) differs from it only in the hand-over page giving up after 2 s of
+wall time instead of after 40 polls of 50 ms.
+- **Verdict (security and contract): REJECT as it stands.** The hand-over was approved for security (a cross-site
+  page can trigger it only through a visible top-level load of the app; nothing new for same-origin script; shell
+  URLs only; per-response 128-bit nonce; strict `no-store` CSP; `index.html`'s CSP byte-identical; its tests fail
+  when it is reverted). Rejected for the full-origin path and an activation race. Conditions: (1) never activate
+  over, or delete, a complete old cache unless the new cache holds `release.json` and the full SHELL, and fail the
+  install when required files do not fit; (2) activation must not delete the cache of a release still installing;
+  (3) tests for quota = usage with an offline restart, and for an install racing an activation; (4) plan.json C-4
+  and the 5a / architecture §7 wording corrected.
+- **Verdict (learner behaviour): no blocker; shipping OK as far as the hand-over goes.** Four minor problems, all
+  reproduced: a ~1 s blank (white in light mode) screen once per deploy, 1403 ms against 385 ms for a plain reload
+  and 565 ms for b2b669b; a 6.4 s stall of hand-over pages that ends on the old release when another tab has a
+  cache-miss request hanging; a silent, empty page for screen readers during the hand-over; and a changed saved
+  lesson dropped when storage is full. Not tested by that reviewer: a hidden or background tab (every tab reported
+  itself visible); not tested here either.
+- **Condition 1, met.** Reproduced first: `x/quota.mjs` at F = 1.0 on a build of `fde78c2` gave the next release a
+  cache of 0 entries that took over at the reload and deleted the old 150-entry cache (offline `ERR_FAILED`), and
+  b2b669b -> `fde78c2` at quota = usage deleted the legacy cache at once. Fix: `release.json` and every SHELL write
+  are required again (`store(..., required)` rethrows `QuotaExceededError`; the `release.json` put is no longer
+  caught), so such an install fails, gives its space back (`caches.delete(CACHE)` on a quota failure) and the
+  active release keeps its cache. The install also ends by opening its cache again by name and checking it with
+  `holds()` (release.json matching `LISTING`, every SHELL entry). Activation deletes older caches only when
+  `holds()` passes for its own cache, and otherwise keeps them (it does no network). Only best-effort files (modules
+  and content beyond the shell) may still be left out on a full origin, as the third round needed (K2: at 1.5 x
+  usage the update installs). On this build: `x/quota.mjs` F = 1.0 and 1.004: no update installs, the old cache
+  keeps its 150 entries and 3 lessons, and offline the app starts and the lessons return 200; F = 1.5: the update
+  installs, takes over, 3 of 3 lessons; b2b669b -> this build at F = 1.0: the legacy cache (83 entries, 3 lessons)
+  is kept and works offline. The trade-off, stated in architecture §7: with no room even for the shell, the learner
+  stays on the old release (online too) until the origin has room, where b2b669b's network-first worker would have
+  fetched new code online (and lost the offline copy: the learner reviewer's `quota.mjs` at 1.1 x: b2b669b kept 1 of
+  5 saved lessons and 1 of 31 screens offline; this build keeps 5 of 5 and 31 of 31 on the old release).
+- **Condition 2, met.** Reproduced first: `x/race.mjs` (B waiting, C installing with one file stalled, then a
+  reload): B's activation deleted C's cache; C later took over with 27 entries and no lessons. Fix: activation
+  purges and deletes nothing while `registration.installing` or `registration.waiting` is set (a newer release: its
+  cache is among the older ones, and its own activation removes the rest), and an install whose cache was removed
+  while it ran fails its final `holds()` check, so the browser tries again. On this build, `race.mjs` reload and
+  screen variants: C takes over with 150 entries and the 3 lessons; offline path, progress, writing, games and the
+  saved lesson load.
+- **Condition 3, met.** sw.test: "with no room for the next release's release.json or shell, its install fails"
+  (room 0, 0.004, 0.02; the old release starts offline after a restart; with room the next attempt installs),
+  "activation removes the older caches only when its own holds release.json and the shell", and "activation leaves
+  the cache of a newer release that is installing; an install whose cache was removed while it ran fails". Each
+  fails on `fde78c2`'s worker and on a mutation that removes its part of the fix (required shell writes, the space
+  given back, the `holds()` guard, the newer-release guard, the end-of-install check). upgrade.mjs U10 (quota =
+  usage, from this release and from b2b669b, with an offline restart) and U11 (an install racing an activation,
+  then offline screens) fail on a `fde78c2` tree ("the update installed with no room for its shell", "caches
+  [lucid-2026-11-03.1] became [lucid-17565f744f38]", "B's activation removed the cache of C") and pass on the
+  source and the built tree.
+- **Condition 4, met.** plan.json C-4 now has the third hand-over point (the active worker at a shell navigation
+  while a release waits, the nonce page, the 1 s window and the fall-back) and the install/activation rules above;
+  architecture §7 ("Full storage", "Updates") and the K2 bullet above are corrected.
+- **Learner-lens problems, all fixed.** (a) Stall: only navigations within `HANDOVER_MS` (now 1000 ms) of the first
+  ask get the hand-over page, and that page reloads after at most about 2 s, so a hand-over the browser cannot make
+  costs one page: `stall.mjs` 2408 ms and 2 documents (was 6436 ms and 4), `x/loop.mjs` 2261 ms and one hand-over
+  page (was 6335 ms and 3); it still ends on the old release, which takes over by itself once the stuck request
+  ends (the waiting worker was asked). Test: sw.test "a hand-over that does not happen costs one page" (fails at
+  5000 ms) and U12 ("4 documents" on `fde78c2`). (b) Blank screen: the page has the boot frame's ground and ink
+  for each colour scheme (sw.test compares them with `index.html`, which boot-preload.test ties to `css/app.css`);
+  `cost.mjs` frames are now 244,248,251 in light and 11,14,21 in dark mode. Its ~1 s is the browser's activation
+  and stays (after.md says so against a plain reload and b2b669b). (c) Screen readers: the page has
+  `<p role="status">מעדכנים את Lucid…</p>`; in Chromium's accessibility tree it is a status live region with that
+  text. The CSP gains `style-src 'nonce-…'` for the one style; nothing else is allowed. (d) Changed saved lessons:
+  activation returns the lessons it could not carry (changed in the release) and fetches them again (checked) once
+  the old caches are gone, kept alive by the next fetch events rather than held in activation (which would delay
+  every request): the learner reviewer's `quota.mjs` with the HTTP cache cleared, 1.5 x usage: 5 of 5 saved lessons
+  (was 4 of 5, `a1-02` missing).
+- **Unchanged.** Everything the second and third rounds established: bodies only, hashing on every served response,
+  `release.json` never read from or written to the cache by the fetch handler, installs fail without it, 128-bit
+  hashes anchored by `LISTING`; U1-U9 and every earlier sw.test pass.
+
+**Fifth skeptic round: S-15 sign-off review of `9db2cd7` (2026-11-07).** Two reviews: a line-by-line review of the
+worker's state machine (install, activation, purge, carry-over, refetch, hand-over, fetch paths), each suspicion tested
+with a fake-cache unit test or in Chromium on a GitHub-Pages-like server, on the source and a built tree; and an
+offline and upgrade matrix (61 cells, built trees against b2b669b as production serves it, quotas 1.0 to 2 x usage,
+HTTP cache fresh or cleared, a worker restart and a fresh offline tab walking 31 screens and 5 saved lessons). Every
+problem was reproduced first with the reviewers' scripts on a `9db2cd7` tree (copies in scratchpad `refix5/b5/`,
+outputs `refix5/b5/out/pre-*`; matrix cell `refix5/m5/out/recover-b2-head-1.2.txt`), then run on this round's source
+(release `25d5521d984f`, which differs from the final one only in comments and in not yet skipping the `force-cache`
+fallback in `no-store` mode;
+outputs `refix5/b5/out/srcfix-*`, `rep2-*`) and on the final build (`e64c1cd42486`, `refix5/m5/out/`).
+- **Verdict (worker state machine): REJECT 9db2cd7 as is** ("each round's fix again broke a neighbouring path, this
+  time the storage edges"). Approve once: (1) the install deletes on failure only a cache it created, and deletes it
+  on every failure; (2) the install checks for room before its first write; (3) best-effort writes leave room for
+  the next release's shell; (4) the router listens for `controllerchange` from module evaluation; (5) tests cover the
+  1.02-1.1 x legacy band, the same-release reinstall (with the harness counting a replacing put in full), the
+  failed-install orphan and the claim during boot.
+- **Verdict (offline matrix): faster, and equal or better offline in every ample-storage cell; fix P1 before
+  shipping** (b2b669b -> this release at 1.2 x usage: offline Lucid did not start and all 5 saved lessons were lost,
+  because activation kept `Cache` objects for the caches it deleted, so Chromium kept their space for that worker's
+  lifetime). P2 (offline within max-age on a nearly full origin) and P3 (the hand-over load) may ship as documented.
+- **Condition 1, met.** Reproduced: `reinstall.mjs` (registration removed, Cache Storage kept, quota = usage x 1 and
+  x 1.05): the same release's fresh install failed and deleted the complete cache with the 3 saved lessons; `orphan.mjs`:
+  B, failing on a stale file, left 73 entries (1.6 MB) that kept C out. Fix: the install records whether it found a
+  complete cache of its own release (`holds()`); only otherwise is the cache its own, and every failure (not only a
+  quota error) then empties it through the worker's `Cache` object and deletes it, so the space returns at once. A
+  same-release install over a complete cache also writes nothing: an entry already holding the release's bytes and
+  the worker's headers is left in place (`inPlace`), so at quota = usage that install succeeds. On this round:
+  `reinstall.mjs` x 1 and x 1.05: the cache (150 entries, 3 lessons) is kept and the worker active again; `orphan2.mjs`
+  (quota = A's usage + 1.3 x shell, which fits C next to A but not next to B's leftovers): B leaves no cache and C
+  installs at the first attempt (9db2cd7: B's 73 entries stay and C never installs). Tests: sw.test "a second install
+  of the same release ... writes nothing and keeps the cache and saved lessons; one that fails leaves that cache
+  alone", "an install that fails for any reason, after writing, gives its own cache back and its space at once";
+  U15, U16.
+- **Condition 2, met, by writing rather than estimating.** `navigator.storage.estimate()` cannot carry the check:
+  Chromium's DevTools quota override (which every quota test uses) is enforced on writes but not reported by
+  `estimate()`, and with the profile on a real nearly full disk (a 64 MB tmpfs filled to 98%) `estimate()` reported
+  usage + 1 GiB free while every write failed (`refix5/b5/disk.mjs`). So the install reads the shell and
+  `release.json` into memory first, then writes a probe entry of their size and deletes it; when the probe does not
+  fit, the install fails before writing anything else. The probe's key is `https://lucid.invalid/room`, another
+  origin's URL that no request the worker serves can match. That alone did not fix the 1.02-1.05 x band: with nothing
+  written (usage unchanged), offline Lucid still did not start in 2 of 3 runs, while b2b669b's worker alone (HEAD's
+  files under b2b669b's `sw.js`) started in 4 of 4. The cause was the HTTP cache, not space: the failed install had
+  fetched the new `index.html` and `app.js` with `cache: 'no-cache'`, which stores them in the HTTP cache, and
+  b2b669b's network-first worker, which reads that cache, then served them next to old modules still fresh there
+  (`router.js` without `checkForRelease`) and stored the mix (a diagnostic run classed the old cache's entries as 25
+  old and 3 new). `9db2cd7` failed at its `release.json` write at 1.0 x, before fetching the shell, which is why U10
+  passed and the band began just above it. Now the one-time upgrade (an active worker and only hand-numbered caches)
+  fetches with `cache: 'no-store'`, so an attempt never changes what the old worker serves; the upgrade's files
+  differ from the old ones, so nothing a revalidation could reuse is lost. On this round: b2b669b -> source at 1.02,
+  1.05 and 1.1 x stays on the old release and starts offline with 3 of 3 lessons and 5 of 5 screens (1.02 and 1.05 x:
+  5 runs each), at 1.2 x it takes over and does the same; a built tree, whose shell is smaller, may take over at
+  1.1 x, and U13 accepts either outcome but requires the offline start and the lessons, and, when the update did not
+  fit, that the `app.js` the old worker serves from the HTTP cache is still the old one. Tests: sw.test "an install
+  checks for room before its first write ... writes nothing", "the one-time upgrade from the hand-numbered caches
+  leaves the HTTP cache as it is (no-store)"; U13 at 1.02, 1.05 and 1.1 x.
+- **Condition 3, met.** Reproduced: `tight.mjs` (quota 1.9 MB before the first visit): the first install filled the
+  origin, no update ever installed, and online the changed `slang.json` was refused (Expressions did not load). Now
+  best-effort files are written next to a ballast entry (same key) of 1.25 x the shell, deleted afterwards: in the
+  install, in the fill-in after activation, and for every miss kept later (one at a time). They therefore stop where
+  the next release's shell would no longer fit. On this round: the first release stores 64 entries, N1 installs at
+  the first attempt, takes over at the reload, and Expressions loads online. Test: sw.test "on a tight origin the first
+  install, and later misses, leave room for the next release's shell".
+- **Condition 4, met.** Reproduced: `askboot.mjs` (4 and 6 x CPU): 4 of 4 runs mixed releases and broke `#/progress`
+  (`SyntaxError ... export named 'n1mark'`). Now `js/core/router.js` attaches its `controllerchange` listener when it
+  is evaluated (and `watchRelease` adds the registration later), the first screen also reloads when a release took
+  over during the boot, and a screen whose modules were loading when one took over reloads instead of rendering or
+  showing "did not load". On this round: 8 of 8 throttled runs clean (4 reloaded into N1 at the first change of
+  screen, 4 booted on N1 through the first-screen reload); `#/progress` loads in every run. Tests: router.test "a
+  release taking over while the page boots ... is a release switch; the first install is not"; U17 (4, 6 and 6 x).
+- **Condition 5, met.** The unit harness now counts a replacing put in full, keeps a deleted cache's bytes counted
+  while a worker that opened it runs (`worker.stop()` ends that) unless its entries are deleted, models the HTTP cache
+  for `force-cache`, and has `caches.has`. Seven new sw.test cases and one router.test case; each fails on `9db2cd7`'s
+  worker or router, and each part of the fix is needed by one of them (mutation runs: no probe, no ballast, no
+  emptying at activation, no emptying at a failed install, no fill-in, no `no-store`, no boot listener). upgrade.mjs
+  U13 x 3, U14, U15, U16 and U17 all fail on a `9db2cd7` tree (U13: "the failed update changed the app.js the old
+  worker serves", also on a tree with only the `no-store` part removed; U14: "offline path: broken"; U15: no cache
+  left; U16: the orphan; U17: the mixed screen) and pass on the source and the built tree.
+- **Matrix P1, fixed.** Chromium frees a deleted cache's space only when no `Cache` object for it is alive, but frees
+  each entry deleted through one at once, before or after `caches.delete` (`refix5/b5/handle3.mjs`: 2 MB -> 0 in both
+  orders). Activation now deletes the old caches and then empties them through the objects it holds, before it fetches
+  the changed saved lessons again and then the offline list's files the install left out (`fillIn`, next to the
+  ballast). Reviewer's `recover.mjs`, b2b669b -> build at 1.2 x: right after the upgrade visit, offline Lucid starts
+  with 31 of 31 screens and 5 of 5 saved lessons (`9db2cd7`: does not start, 0 of 31, 0 of 5). Tests: sw.test
+  "activation gives the old caches' space back at once ...", U14.
+- **Matrix P2, fixed.** Offline, a file the release cache lacks was fetched with `cache: 'no-cache'` only, which fails
+  without a connection even when the HTTP cache holds a fresh copy. Now a network error falls back to
+  `cache: 'force-cache'` (not in `no-store` mode), and the bytes are hashed as before, so a copy of another release is
+  never served. Test: sw.test "offline, a file the install left out is served from the HTTP cache when its bytes are
+  the release's ...".
+- **Matrix P3 and the worker review's minor items.** The hand-over load is unchanged (after.md re-measures it). Files
+  left out at an upgrade on a nearly full origin are now fetched again once activation has made room (the fill-in);
+  after.md's "26 of 31" note no longer applies to that path.
+- **Unchanged.** Bodies only and the worker's headers on every response, hashing on every served response,
+  `release.json` never read from or written to the cache by the fetch handler, no install without `release.json`,
+  128-bit hashes anchored by `LISTING`, the hand-over page and its CSP, `index.html`'s CSP byte-identical to
+  b2b669b's; U1-U12 and every earlier sw.test pass. New surface: the probe and ballast entry under
+  `https://lucid.invalid/` (written and deleted by the worker, never served: the fetch handler ignores other origins
+  and its cache lookups use in-scope keys), and the `force-cache` fallback, whose bytes are checked like any other.
+
+**Sixth skeptic round: S-15 sign-off review of `26290ea` (2026-11-07).** Two reviews: a fresh-eyes review (the
+worker, the router's release watch, app.js and compat.js read before any notes; each state of the worker tested with
+fake-cache unit tests and in Chromium on a GitHub-Pages-like server with the quota set by
+`Storage.overrideQuotaForOrigin`; scratchpad `skeptic6-fresh-eyes/`), and a replay of every earlier reproduction on
+fresh built trees, with the offline and upgrade matrix and perf against b2b669b (scratchpad
+`skeptic6-replay-matrix/`). Every problem was reproduced first with the reviewers' own scripts on `26290ea` (outputs
+in scratchpad `refix6/pre/`, and the reviewers' own outputs), then run on this round's source and on its build
+(release `d6e094419e58`; source `b64765738ba5`; scratchpad `refix6/post/` and `refix6/replay/`, a copy of the replay reviewer's folder pointed
+at this round's trees).
+- **Verdict (fresh eyes): APPROVE WITH CONDITIONS.** No blocker; the legacy upgrade is safe on the source and the
+  built tree. Conditions before shipping: (1) the 3.0 s freeze at every change of screen while a release waits
+  behind a request the network never answers (major); (2) saved lessons dropped silently at about 1.08-1.1 x of
+  quota on deploys after the upgrade (`sw.js:226`). The tight-origin breakage of changed screens online, the ballast
+  not covering saved lessons, and the Hebrew-only hand-over page may ship if documented in architecture §7 and here,
+  with follow-ups.
+- **Verdict (replay): safe to ship, and faster than b2b669b.** Every earlier blocker and major passes on `26290ea`.
+  Conditions: fix T1 (a first visit on a nearly full origin, then offline within max-age: 18 of 31 screens against
+  b2b669b's 26) or document it; correct the heavy-Today headline. No blocker or major.
+- **Condition 1 (the freeze), met.** Reproduced: `c2c-stall.mjs` (one unsaved lesson request never answered, the
+  next release waiting) on `26290ea`: six changes of screen took 3029, 3015, 3034, 3015, 3014 and 3037 ms, none
+  reloaded, the release still waited. The browser cannot activate the waiting worker while the active one has a
+  fetch whose response is pending, and `switchRelease()` waited its full 3 s again at every tap. Fix
+  (`js/core/router.js`): a waiting worker that did not take over within the 3 s is remembered; later changes of
+  screen post `lucid:activate` again without waiting; when the stuck request ends the worker takes over by itself
+  (it was asked), and the page reloads at its next change of screen, as after a switch by another tab. The
+  reviewer's first suggestion (never wait at a change of screen) was not taken: the reload at the asking change of
+  screen is what C-4, perf-boot B6 ("tab A asks for the new release and reloads on Today") and U8 rely on, so a
+  returning learner runs the new release at the first change of screen; without the wait the takeover lands about
+  1 s after the new screen is drawn and the page moves one change of screen later. What remains is one wait of at
+  most 3 s per waiting release and tab, in that state only (b2b669b: none; with every request hanging, b2b669b's 4 s
+  network-first timeout is worse). On this round: `c2c-stall.mjs` on the source: 3028 ms at the first change of screen, then 20, 39, 28, 30 and 38 ms, with the release still waiting behind the request; on the build 3035, then 40, 40, 13, 24 and 37 ms; the reviewer's control `c2b-stall.mjs` (a hanging revalidation) is unchanged (1160 ms once, then the reload into the new release), and b2b669b in the same setup (`c2d-stall-b2b.mjs`) 22-114 ms. Tests: router.test "a waiting worker that did not take
+  over within 3 s is asked again without waiting ..." and upgrade.mjs U18 (a stuck request, the next release
+  waiting, five changes of screen, then the request ends: at most one waits, the release takes over and the next
+  change of screen reloads into it); both fail on `26290ea` (U18: "5 changes of screen waited for the release:
+  3021, 3027, 3017, 3033, 3017 ms").
+- **Condition 2 (saved lessons), met.** Reproduced: the reviewer's harness `t1-lessons-quota.test.mjs` (all 75
+  lessons saved): 67 of 75 kept at 1.08 x, from this release and from b2b669b's cache; Chromium `c1-lessons-quota.mjs`
+  at 1.08 x: 68 of 75. A copy that did not fit even after the purge counted as carried, and the old caches were then
+  deleted. Fix (`carryOver` in `sw.js`): at activation each saved lesson is moved (its old entry deleted right after
+  the copy, which gives that space back at once, so each copy needs room for itself only), and a lesson that still
+  does not fit is returned as missed and fetched again once the old caches are emptied. On this round: the harness
+  keeps 75 of 75 at every factor from 1.0 to 2, from this release and from b2b669b; Chromium `c1-lessons-quota.mjs` keeps 75 of 75 at 1.08, 1.1 and 1.15 x (usage afterwards 5.91 MB of a 6.42 MB quota at 1.08 x; at 1.06 x the update does not install and all 75 stay), and on the build 75 of 75 at 1.08 and 1.1 x (5.07 of 5.51 MB); the legacy upgrade at 1.04-1.15 x keeps 75 of 75 as before. Tests: sw.test
+  "activation moves the saved lessons on a nearly full origin ..." (offline at activation, from this release and
+  from b2b669b; fails without the move) and "a saved lesson activation cannot place is fetched again once the old
+  caches are emptied" (fails when such a copy counts as carried).
+- **T1 (replay), fixed.** Reproduced by the reviewer on `26290ea`'s build (matrix cell at an absolute quota of
+  1484581 B, HTTP cache kept: 18 of 31 screens offline against b2b669b's 26; `edge.mjs` quota 1.5 MB: 26 of 29
+  against 29). Once an install had no room left it never requested the files it left out, so they never reached the
+  HTTP cache. Fix (`ensure`): such an install still fetches and checks the remaining offline files, without keeping
+  them, as b2b669b's precache left every file in the HTTP cache even when its writes failed; not on the one-time
+  upgrade, whose requests bypass the HTTP cache (`no-store`, fifth round). On this round: the matrix cell keeps 26 of 31 screens offline, as b2b669b (every other of the 64 matrix runs gives what it gave on `26290ea`), and `edge.mjs` quota 1.5 MB 29 of 29 (PROBLEMS 0). Test: sw.test "an
+  install with no room left still fetches and checks the offline files it does not keep (not on the one-time
+  upgrade)" (fails without it, and when the `no-store` guard is removed).
+- **Tight origin, changed screens online (fresh eyes P3), mitigated; the rest documented.** Reproduced:
+  `t2-full-origin-deploy.test.mjs` (quota 1.2-1.95 x the shell: the first install keeps its 13 shell entries, the
+  next release cannot install, its changed `progress.js` is refused) and `c3-tight-deploy.mjs` (1.3 and 1.8 x: "did
+  not load" online). Fix: a miss now takes the HTTP cache's copy first (`force-cache`, hashed like any other copy),
+  which, with T1's fetches, still holds the active release's file after the server has moved on. Test: sw.test "on
+  an origin with room for one release, a screen the next release changed still loads after the deploy from the HTTP
+  cache's copy of this release" (fails without either part; it also checks that the next release's copy is still
+  never handed to the page). `t2` itself still fails (its harness does not put fetched files in the HTTP cache), and
+  `c3` too, because it clears the browser's HTTP cache at the deploy: that is the case left, a copy the browser has
+  evicted, documented in architecture §7 ("Known limits on a full origin"). Not done: passing the network copy
+  through, as b2b669b did, would hand the page a module of another release, the hole the second round closed
+  (perf-boot B6's last check, which now clears the HTTP cache first so that only the next release's copy exists
+  anywhere, as it means to test); requiring room for the shell and the ballast before a first install would leave
+  such an origin without any offline support, where b2b669b kept its shell. Follow-up: a release that has proved it
+  cannot have its own file while no newer release can install could serve the next load of the app from the network
+  whole (the page and every request of that page), so a reload recovers.
+- **The ballast and saved lessons (fresh eyes P4), documented, not changed.** Reproduced: `t3-lessons-eat-reserve`
+  (1 MB free after a full install; 30 lessons saved Settings-style leave 4.6 KB; the next install fails with
+  `QuotaExceededError`). Not a regression: b2b669b's update needed room for a whole second copy. Writing those
+  lessons next to the ballast would keep about 11 fewer saved lessons than b2b669b on a nearly full origin (1.25 x
+  the shell is about 450 KB) and write 450 KB per newly saved lesson; the reviewer's other suggestion (a permanent
+  room entry that the next install deletes) is a new cross-cache mechanism. Stated in architecture §7 and in the
+  head comment of `sw.js`; follow-up.
+- **Hand-over page language (fresh eyes P5), fixed.** The worker does not know the interface language (it is in the
+  page's database), so the status line is in both: `<span lang="he" dir="rtl">מעדכנים את Lucid…</span><span
+  lang="en" dir="ltr">Updating Lucid…</span>`, so a screen reader speaks each part in its own voice. The page keeps
+  `lang="he" dir="rtl"` on `<html>`, as `index.html`'s boot frame does for every learner. Test: the sw.test hand-over
+  check now requires both parts with their language and direction (fails on `26290ea`).
+- **Replay minors.** A first visit whose `release.json` cannot be loaded gets no offline support until its next
+  online visit (`firstdrop`, `first503`): unchanged, accepted since the second round, stated in architecture §7. The
+  heavy-Today headline in after.md is now a range across windows (about 30-43 %), with heavy TBT no better than the
+  base app's. The hand-over load (about 0.9 s slower than b2b669b's load after a deploy, once per deploy) is
+  unchanged and re-measured in after.md.
+- **Unchanged.** Bodies only and the worker's headers on every response, hashing on every served response (the
+  HTTP cache's copies included), `release.json` never read from or written to the cache by the fetch handler, no
+  install without `release.json`, 128-bit hashes anchored by `LISTING`, a module of another release never handed to
+  a page, the hand-over page's CSP, `index.html`'s CSP byte-identical to b2b669b's; U1-U17 and every earlier sw.test
+  pass.
+
+**Production base change (2026-11-07, after the sixth round).** Production is now `d83a500` (release
+`2026-11-07.1`: the same tree as `b2b669b` plus the no-age-limit change), merged into this branch as `4546346`. Its
+`sw.js` is byte-identical to `b2b669b`'s apart from the `RELEASE` line, so every worker finding above that was
+measured "from b2b669b" holds from `d83a500`: the worker's legacy pattern (`lucid-<date>.<n>`) takes
+`lucid-2026-11-07.1` exactly as `lucid-2026-11-03.1`, and `tests/unit/sw.test.mjs` now runs the one-time-upgrade
+cases over both cache names. `tests/e2e/upgrade.mjs` (U1-U19) and `lucid-verify.yml` upgrade from `d83a500`;
+`index.html`'s CSP meta is byte-identical to `d83a500`'s (and `privacy.html`'s). The merge review found one gap,
+a child-protection one, not a worker one: in a tab still on 2026-11-07.1 the screens' `scenarioIndex()` and
+`scenario(id)` came from `compat.js` and read the generated files unfiltered, so a learner under 16 saw a flagged
+scenario and could open it (no item is flagged today, so nobody was exposed). Fixed and tested (fix-log AGE-16,
+upgrade U19, which fails on `4546346`). Tabs still on 2026-11-03.1 are covered as architecture §7 states.
+
+**Seventh skeptic round: S-15 and age sign-off review of `d2d62a2` (2026-11-07, production `d83a500`).** Two
+reviews of the integration of production's no-age-limit change: one of the age protections on the perf paths (source
+and built trees, fresh tabs and tabs that crossed the deploy, online and offline, with flagged content injected into
+throwaway `git archive` copies and the index files regenerated; scratchpad `skeptic7-age-on-perf/`), and one of the
+merged worker and the upgrade from `d83a500` to `d2d62a2` on a GitHub-Pages-like server with fault injection, source
+(`8612c63a8047`) and built (`d9f3f0d19b33`) (scratchpad `skeptic7-worker-upgrade/`). The problem was reproduced first
+with the reviewer's own script on `d2d62a2`'s build, then run on this round's build (release `87265cced809`; source
+`2aeb12fd30ca`; scratchpad `refix7/c9/`).
+- **Sign-off (age): "I could not refute it: on the age lens, d2d62a2 is safe to ship in place of d83a500."** Every age
+  behaviour tested matched production, on source and built, in fresh tabs and in tabs that crossed the deploy,
+  offline, without the index files, across an age change and across UTC New Year; no condition. This round changes
+  no age path: the files it moves are lessons, centre and pool files, none of which carries a `sensitive` flag or
+  is age-filtered (only scenarios and expressions are, in code, on every read), and the fill-in stores only files
+  checked against `release.json`.
+- **Sign-off (worker and upgrade): "approve with conditions"**, no blocker; nothing that works on `d83a500` breaks in
+  normal operation. Condition P-A (minor): fix or document that, on an origin under about 1.45 x of usage, an
+  interruption right after the one-time built upgrade can lose saved lessons and leave most screens unavailable
+  offline with no retry.
+- **Condition P-A, met by a fix.** Reproduced with the reviewer's `c9-refill.mjs` on `d2d62a2`'s build (75 lessons
+  saved on `d83a500`, quota by `Storage.overrideQuotaForOrigin`): worker stopped 1.3-1.6 s after the takeover at
+  1.15 x and 1.3 x, 49 and 12 of 75 lessons left in the new cache, 2 and 18 of 21 screens offline; server down for
+  20 s at 1.06 x, 0 lessons and 1 of 21 screens. Cause: none of production's saved lessons matches the built
+  (minified) bytes, the install had no room to carry anything over, activation deleted the old caches with the
+  lessons, and the refetch and the fill-in ran once. Fix (`sw.js`), taking the reviewer's option (a) for the
+  lessons and (b) for the screens, with no new mechanism: at activation a saved lesson (or centre or pool file) the
+  release changed is moved as stored, with the worker's headers, like a matching one (these are stale-while-
+  revalidate data, served as stored and never hashed, so production's copy is what `d83a500` itself serves; it is
+  still fetched again, and refreshed on use); and a fill-in that a lost connection or a stopped worker cut short is
+  taken up again at the next load of the app (a navigation to the shell) until every offline file is stored or no
+  room is left next to the ballast; a file that does not match (an edge on another deploy) does not count as left
+  to do. The hash check stays everywhere else: code, pages and non-runtime content are still only ever served
+  hashed. On this round's build: 75 of 75 lessons kept at the fault, 223 entries after the next load, 21 of 21
+  screens offline, in all three cases. Tests: sw.test "the upgrade on a nearly full origin keeps every saved lesson
+  when the network goes right after the takeover ..." (1.2 and 2 shells free; fails on `d2d62a2` with 75 lessons
+  lost, and with either half of the fix removed) and "a load of the app with nothing left to fill in makes no
+  request ..."; upgrade.mjs U20 (screens and lessons cut off until just after the takeover, then the worker
+  stopped; fails on `d2d62a2`'s build with 0 of 3 lessons and on its source with 19 of 30 screens).
+- **Cost.** A load of the app reads the cache's key list once per worker lifetime when the fill-in is not known to be
+  complete; on a tight origin where files never fit, each worker lifetime may write the ballast once and fetch up to
+  six files that are then not kept (as a kept miss already does). Measured: docs/perf/after.md, "Seventh skeptic
+  round".
+
+**Status.** Re-reviewed by the delivery lane, changed by the integration and seven times by the skeptic rounds as
+above. The second to seventh reviewers' conditions are met in code and tests (the sixth round's tight-origin and
+ballast items as documented limits with follow-ups; the seventh round's P-A by a fix); the seventh round's age
+review signed off without conditions.
+
+**Lead sign-off (S-15, plan item D2): approve.** Given on `a3e3af7` after reading the seventh refix's `sw.js` diff
+(`carryOver`'s activation-only move of changed runtime files, `fillIn`'s `filled` flag and the resume on a shell
+navigation) against the reviewers' reports and re-running the unit suite (433/433) and the generator checks. The
+one relaxation, runtime files moved at activation without a hash match, adds no exposure: those files were never
+hash-checked in this design (stale-while-revalidate data, as on `d83a500`), CacheStorage is origin-wide so anything
+that could plant them could already write the new cache, and code, pages and non-runtime content are still only
+served hashed. The documented limits above (tight origin, ballast, a first visit without `release.json`, the
+one-time hand-over cost) ship as known limits.
+
 ## 6. Limits of this review
 
 - **No live Supabase project.** Not verified:

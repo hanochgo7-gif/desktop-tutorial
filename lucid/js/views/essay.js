@@ -7,6 +7,7 @@
 import { html, render, on, $, debounce } from '../core/util.js';
 import { tt, t, bi, legend, hebrewSupport, isolateLatin, uiLang } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
+import { groupDigits } from '../core/compat.js';
 import { icon, levelTag, toast, emptyState, confirmDialog, LEVEL_LABEL } from '../ui/components.js';
 import { model, settings, recordAttempt, logEvent, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
@@ -108,9 +109,11 @@ function aiErrorText(e) {
 
 export default async function essay(el, ctx) {
   const id = ctx.params.id;
-  const [ex, as, tx, cur, rubric] = await Promise.all([content.writingExercises(), content.assignments(), taxonomyIndex(), content.curriculum(), content.rubric()]);
-  const assignments = as?.assignments || [];
-  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6), as?.assignments || []) : (ex?.exercises || []).find((x) => x.id === id) || assignments.find((x) => x.id === id);
+  // The task's own file and the writing index (titles and stages of the others), not every task's full text (C5).
+  const own = id === 'free' || id.startsWith('final-') ? null : content.writingTask(id);
+  const [ex, tx, cur, rubric, file] = await Promise.all([content.writingIndex(), taxonomyIndex(), content.curriculum(), content.rubric(), own]);
+  const assignments = ex?.assignments || [];
+  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6), assignments) : file;
   if (!task) { render(el, emptyState({ title: tt('התרגיל לא נמצא', 'Exercise not found'), action: html`<a class="key enter" href="#/writing">${t('nav.writing')}</a>` })); return; }
   ctx.setTitle(task.title_en);
   const m = model();
@@ -151,7 +154,16 @@ export default async function essay(el, ctx) {
   syncMin();
   // One set of options for every automatic check, so Check and Get feedback agree (persona panel P-81).
   // The task's source pack, or the pack of the chosen topic's assignment: drafts are compared with it (RW-6).
-  const packOf = () => task.source_pack || assignments.find((a) => a.id === task.topics?.[chosen]?.assignment)?.source_pack || null;
+  // A final task's topic packs are in their assignments' files, loaded when first needed: the chosen topic's before
+  // the first draw, the others after it, and a newly chosen one before its redraw (C5).
+  const packs = new Map();
+  const loadPack = (i) => {
+    const a = task.topics?.[i]?.assignment;
+    if (!a || packs.has(a)) return Promise.resolve();
+    return content.writingTask(a).then((x) => { if (x) packs.set(a, x); }).catch(() => {});
+  };
+  if (chosen != null) await loadPack(chosen);
+  const packOf = () => task.source_pack || packs.get(task.topics?.[chosen]?.assignment)?.source_pack || null;
   const analyze = () => analyzeWriting(text, { level, minWords, maxWords, mustInclude: task.must_include || [], formal: ['B2', 'C1', 'C2'].includes(level) && task.stage >= 7, kind: kindOf(), stage: task.stage || 0, sources: packOf() });
   let analysis = text ? analyze() : null;
   let busy = false; let aiError = ''; let aiNote = ''; let busySince = 0; let busyTimer = null;
@@ -347,7 +359,7 @@ export default async function essay(el, ctx) {
       ${aiFinal || done ? '' : html`<button type="button" class="key small" data-self-final ${enough ? '' : html`disabled aria-describedby="self-final-why"`}>${icon('flag', { size: 16 })} ${tt('לסמן כסופית (הערכה עצמית)', 'Mark as final (self-assessed)')}</button>`}</div>
       ${aiFinal ? html`<p class="small">${icon('check', { size: 16 })} ${tt('הטיוטה סומנה כסופית עם משוב AI.', 'This draft is marked final with AI feedback.')}</p>`
         : done ? html`<p class="small"><span class="tag ok">${icon('check', { size: 14 })} ${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span> ${tt(`גרסה ${done.n}.`, `Version ${done.n}.`)}</p>`
-        : enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${finalMin().toLocaleString('en-US')} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${finalMin().toLocaleString('en-US')} words (you have ${bodyWords()}).`)}</p>`}
+        : enough ? '' : html`<p class="xsmall faint" id="self-final-why">${tt(`אפשר לסמן כסופית מ-${groupDigits(finalMin())} מילים (כתבתם ${bodyWords()}).`, `You can mark it final from ${groupDigits(finalMin())} words (you have ${bodyWords()}).`)}</p>`}
       <p class="small" role="status" data-self-status>${selfNote}</p></div>`;
     return html`<div class="stack rubric-tab">
       <h3 class="small checks-head" tabindex="-1" data-rubric-head>${tt(`המחוון לשלב ${rubricStage()}`, `The rubric for stage ${rubricStage()}`)}</h3>
@@ -561,7 +573,7 @@ export default async function essay(el, ctx) {
   // "target 1,500-2,000 (accepted 1,400-2,200)" when the stated range differs from the checked one (RW-12).
   // Neutral until the target is reached, with the words still to go: "יעד 450-600 · עוד 288" (r4 RW-5).
   function targetLabel() {
-    const n = (x) => x.toLocaleString('en-US');
+    const n = (x) => groupDigits(x);
     const st = task.stated_range;
     const left = Math.max(0, (st?.[0] ?? minWords) - bodyWords());
     const togo = left ? tt(` · עוד ${n(left)}`, ` · ${n(left)} to go`) : '';
@@ -735,9 +747,18 @@ export default async function essay(el, ctx) {
   }
 
   draw();
+  // The other topics' packs, so a topic chosen next draws with its pack at once.
+  for (let i = 0; i < (task.topics?.length || 0); i++) loadPack(i);
+  let gone = false;
   const offs = [
     on(el, 'input', '#essay', (e) => { text = e.target.value; refreshLive(); markAttempts(); saveDraft(); }),
-    on(el, 'change', 'input[name=topic]', (e, r) => { chosen = Number(r.value); briefOpen = false; saveDraft(); draw(); $('[data-task-fold] > summary', el)?.focus(); }),
+    on(el, 'change', 'input[name=topic]', async (e, r) => {
+      chosen = Number(r.value); briefOpen = false; saveDraft();
+      const at = chosen;
+      await loadPack(at);
+      if (gone || chosen !== at) return;
+      draw(); $('[data-task-fold] > summary', el)?.focus();
+    }),
     on(el, 'toggle', 'details[data-task-fold]', (e, d) => { briefOpen = d.open; }, true),
     on(el, 'click', '[data-goto-checks]', () => revealChecks()),
     on(el, 'click', '[data-check]', () => {
@@ -785,5 +806,5 @@ export default async function essay(el, ctx) {
       timerId = setInterval(() => { const left = Math.max(0, timerEnd - Date.now()); const s = $('[data-time]', el); if (s) s.textContent = `${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, '0')}`; if (!left) { clearInterval(timerId); toast(tt('הזמן נגמר. אפשר לסיים את המשפט ולבדוק.', 'Time is up. Finish your sentence and check.')); } }, 1000);
     }),
   ];
-  return () => { offs.forEach((o) => o()); clearInterval(timerId); clearInterval(busyTimer); saveDraft.flush?.(); };
+  return () => { gone = true; offs.forEach((o) => o()); clearInterval(timerId); clearInterval(busyTimer); saveDraft.flush?.(); };
 }

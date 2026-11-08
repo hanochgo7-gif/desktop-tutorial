@@ -1,8 +1,8 @@
 // Boot: open the local store, load the curriculum, apply settings, draw the shell, start routing
 // and (when an account is connected) sync.
 import { openStore, store } from './core/store.js';
-import { router, navigate, topTitle, sectionOf } from './core/router.js';
-import { html, render } from './core/util.js';
+import { router, navigate, topTitle, sectionOf, primeRoute, watchRelease, checkForRelease, releaseOnHide } from './core/router.js';
+import * as util from './core/util.js';
 import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js';
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
 import { icon, toast, clearToasts, brandMark, segColumns } from './ui/components.js';
@@ -54,7 +54,10 @@ const labOf = (route) => MORE.find(([href]) => route?.path === href || route?.pa
 // "Offline" in the top bar on phones and in the rail on desktop, whatever the account state (persona panel M1).
 const netBadge = () => (navigator.onLine === false ? html`<span class="net-badge" role="status" title="${t('offline')}">${icon('cloud-off', { size: 14 })}${tt('אין חיבור', 'Offline')}</span>` : '');
 
+const { html, render } = util;
+
 function drawShell(route) {
+  document.documentElement.classList.remove('booting'); // the boot frame goes, the main column shows (B4, B5)
   const active = route?.extra?.nav || route?.path?.split('/')[0];
   const lab = labOf(route);
   const bare = route?.extra?.bare;
@@ -265,6 +268,11 @@ function syncLabel() {
   return t('synced');
 }
 
+// app.js runs as soon as its modules are ready (async in index.html), possibly before the page below the
+// stylesheet is parsed: the store, the learner model and the first route's downloads start at once, and the shell
+// waits for the document.
+const domReady = () => (document.readyState === 'loading' ? new Promise((resolve) => document.addEventListener('DOMContentLoaded', resolve, { once: true })) : Promise.resolve());
+
 async function boot() {
   const s = await openStore();
   await initModel();
@@ -272,6 +280,8 @@ async function boot() {
   applyTheme();
   applySupport();
   document.title = 'Lucid';
+  try { primeRoute(); } catch (e) { console.warn(e); }
+  await domReady();
 
   if (configured()) {
     // Sync runs only once session.js has confirmed the device data and the server profile belong to this account.
@@ -305,18 +315,23 @@ async function boot() {
   });
   document.addEventListener('visibilitychange', () => {
     sessionTick();
-    if (document.visibilityState === 'hidden') { store.flush(); if (auth.signedIn) sync?.run().catch(() => {}); }
+    if (document.visibilityState === 'hidden') { store.flush(); if (auth.signedIn) sync?.run().catch(() => {}); releaseOnHide().catch(() => {}); }
+    else checkForRelease();
   });
   sessionTick();
   watchTyping();
   watchSpeech();
   watchSegs();
   await router.start();
-  if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
+  // The first use of Intl loads its data: done while the learner reads the first screen (contract C-3).
+  (window.requestIdleCallback || ((fn) => setTimeout(fn, 200)))(() => { try { util.warmIntl?.(); } catch { /* optional */ } });
+  if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').then((reg) => watchRelease(reg)).catch(() => {});
   window.lucid = { store, navigate, hasProfile };
 }
 
-boot().catch((e) => {
+boot().catch(async (e) => {
   console.error(e);
+  await domReady();
+  document.documentElement.classList.remove('booting');
   document.getElementById('view').innerHTML = '<div class="empty"><h3>Lucid could not start</h3><p>Please reload the page.</p></div>';
 });

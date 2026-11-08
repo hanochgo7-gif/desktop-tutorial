@@ -71,7 +71,11 @@ export function senses(he) {
     .map((s) => normalize(s).replace(/[^֐-׿ ]/g, '').replace(/\s+/g, ' ').trim())
     .filter((s) => s.length > 1));
 }
-const shareSense = (a, b) => { for (const s of senses(a)) if (senses(b).has(s)) return true; return false; };
+// Round building compares every candidate's senses with the target's and with each pick's, so each Hebrew meaning's
+// senses are worked out once per page (a few thousand meanings at most). The sets are only read, never changed.
+const senseMemo = new Map();
+const sensesOf = (he) => { let v = senseMemo.get(he); if (!v) senseMemo.set(he, (v = senses(he))); return v; };
+const shareSense = (a, b) => { const sb = sensesOf(b); for (const s of sensesOf(a)) if (sb.has(s)) return true; return false; };
 
 // "verb (past of go)" -> "verb past", "noun (plural)" -> "noun": so past forms meet other past forms.
 export function posKey(pos) {

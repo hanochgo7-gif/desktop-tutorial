@@ -8,6 +8,7 @@
 // are not in the list at all (content.js) and one neutral line says that some are not shown; everyone else
 // sees every entry with its warning, as before.
 import { html, render, on, $, $$ } from '../core/util.js';
+import { collatorEn } from '../core/compat.js';
 import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
@@ -44,7 +45,7 @@ export default async function slang(el, ctx) {
   ctx.setTitle(t('nav.slang'));
   const data = await content.slang();
   const all = (Array.isArray(data?.entries) ? data.entries : []).filter((x) => x?.id && x.term);
-  const byTerm = (a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' });
+  const byTerm = (a, b) => collatorEn().compare(a.term, b.term); // one shared collator (util.collatorEn)
   const byLevel = (a, b) => levelIndex(a.level) - levelIndex(b.level) || byTerm(a, b);
   const courseLevel = model().courseLevel;
   let sort = levelIndex(courseLevel) <= levelIndex('A2') ? 'level' : 'az';

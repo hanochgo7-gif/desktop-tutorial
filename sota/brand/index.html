@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOTA Brand System</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="stylesheet" href="../css/sota.css">
+<style>
+  .bs-section { padding-block: 72px; border-top: 1px solid var(--line); }
+  .bs-section h2 { font-size: 28px; margin-bottom: 8px; }
+  .bs-section > .wrap > p { color: var(--muted); max-width: 62ch; margin-bottom: 32px; }
+  .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+  .logo-tile { border-radius: var(--radius-m); padding: 56px 32px; display: grid; place-items: center; gap: 16px; box-shadow: inset 0 0 0 1px var(--line); }
+  .logo-tile img { width: min(260px, 80%); }
+  .logo-tile.paper { background: var(--paper); color: var(--graphite-950); }
+  .logo-tile small { font-size: 13px; color: inherit; opacity: .7; }
+  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 32px; }
+  .anatomy div { display: grid; gap: 6px; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .sw { border-radius: var(--radius-m); overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); }
+  .sw i { display: block; height: 96px; }
+  .sw div { padding: 12px 14px; display: grid; gap: 2px; font-size: 14px; }
+  .sw code { font-size: 13px; color: var(--muted); direction: ltr; text-align: right; }
+  .type-row { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; align-items: baseline; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .type-row small { color: var(--muted); font-size: 13px; }
+  .space { display: flex; flex-wrap: wrap; align-items: end; gap: 18px; }
+  .space div { display: grid; gap: 8px; justify-items: center; font-size: 12px; color: var(--muted); }
+  .space i { display: block; background: var(--signal); }
+  .grid-demo { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .grid-demo i { height: 120px; background: rgb(197 240 60 / .12); box-shadow: inset 0 0 0 1px rgb(197 240 60 / .4); border-radius: 4px; }
+  .row-demo { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .icons { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .icon { padding: 20px; border-radius: var(--radius-m); box-shadow: inset 0 0 0 1px var(--line); display: grid; gap: 12px; justify-items: start; font-size: 14px; }
+  .icon svg { width: 48px; height: 48px; color: var(--paper); }
+  .motion-list { display: grid; gap: 14px; max-width: 70ch; }
+  .motion-list li { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; }
+  .motion-list b { font-weight: 600; }
+  .do-dont { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+  .do-dont div { padding: 20px; border-radius: var(--radius-m); box-shadow: inset 0 0 0 1px var(--line); display: grid; gap: 10px; }
+  .do-dont h3 { font-size: 17px; }
+  .do-dont ul { list-style: disc; padding-inline-start: 1.2em; color: var(--muted); display: grid; gap: 6px; }
+  @media (max-width: 760px) { .type-row, .motion-list li { grid-template-columns: minmax(0, 1fr); gap: 6px; } .grid-demo { grid-template-columns: repeat(4, 1fr); } .grid-demo i:nth-child(n+5) { display: none; } }
+</style>
+</head>
+<body data-page="brand">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <img src="../assets/logo-dark.svg" alt="SOTA" width="300" height="88" style="width:180px">
+      <h1 class="display h-xl">מערכת המותג</h1>
+      <p class="lede">הקונספט: <b style="color:var(--text)">המסלול</b>. טכנולוגיה היא סבך של קווים; SOTA משרטטת דרכה מסלול אחד ברור. השפה הגרפית לקוחה ממפות תחבורה ציבורית: קווים ישרים, פניות של 45°, פינות מעוגלות, תחנות כטבעות, ואות ירוק אחד שמסמן את הדרך.</p>
+    </div>
+  </section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>לוגו</h2>
+    <p>לוגוטייפ גיאומטרי בקו אחיד. כל אות בנויה מקווים ישרים וקשתות ברדיוס קבוע, כמו קטעי מסלול. ה-O היא תחנה, והנקודה הירוקה במרכזה היא "האות": המקום שבו הדברים מתחברים. אין להוסיף צללים, קווי מתאר או צבעים אחרים.</p>
+    <div class="logos">
+      <div class="logo-tile"><img src="../assets/logo-dark.svg" alt="SOTA, גרסה לרקע כהה"><small>Dark: assets/logo-dark.svg</small></div>
+      <div class="logo-tile paper"><img src="../assets/logo-light.svg" alt="SOTA, גרסה לרקע בהיר"><small>Light: assets/logo-light.svg</small></div>
+      <div class="logo-tile"><img src="../assets/mark.svg" alt="סמל SOTA" style="width:96px"><small>סמל: assets/mark.svg (פאביקון, אפליקציה, פרופיל)</small></div>
+    </div>
+    <div class="anatomy">
+      <div><b>מרווח בטיחות</b><span class="muted">גובה ה-O מכל צד. אין להצמיד טקסט או אלמנטים בתוך המרווח.</span></div>
+      <div><b>גודל מינימלי</b><span class="muted">96px רוחב במסך, 25 מ"מ בדפוס. מתחת לזה משתמשים בסמל.</span></div>
+      <div><b>הנקודה</b><span class="muted">ירוק אות (#C5F03C) על רקע כהה, ירוק כהה (#4D7A00) על רקע בהיר.</span></div>
+    </div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>צבעים</h2>
+    <p>גרפיט כבסיס, לבן שבור לטקסט, וצבע הדגשה אחד בלבד. הירוק שמור לפעולה ולאות: כפתור ראשי, מצב פעיל, נקודה במסלול. לא משתמשים בו לטקסט ארוך. אדום רק לשגיאות ולדחיפות.</p>
+    <div class="swatches">
+      <div class="sw"><i style="background:#131517"></i><div><b>Graphite 950</b><code>#131517 · רקע</code></div></div>
+      <div class="sw"><i style="background:#1A1D20"></i><div><b>Graphite 900</b><code>#1A1D20 · משטח</code></div></div>
+      <div class="sw"><i style="background:#23272B"></i><div><b>Graphite 800</b><code>#23272B · מוגבה</code></div></div>
+      <div class="sw"><i style="background:#33383E"></i><div><b>Graphite 700</b><code>#33383E · קווים</code></div></div>
+      <div class="sw"><i style="background:#ABB1B7"></i><div><b>Fog 300</b><code>#ABB1B7 · טקסט משני</code></div></div>
+      <div class="sw"><i style="background:#ECEAE4"></i><div><b>Paper</b><code>#ECEAE4 · טקסט / רקע בהיר</code></div></div>
+      <div class="sw"><i style="background:#C5F03C"></i><div><b>Signal</b><code>#C5F03C · הדגשה</code></div></div>
+      <div class="sw"><i style="background:#4D7A00"></i><div><b>Signal Ink</b><code>#4D7A00 · הדגשה על בהיר</code></div></div>
+      <div class="sw"><i style="background:#FF7A5C"></i><div><b>Alert</b><code>#FF7A5C · שגיאה / דחוף</code></div></div>
+    </div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>טיפוגרפיה</h2>
+    <p>כותרות: Karantina (עברית) ו-Archivo צר (אנגלית), גדולות, צפופות וחדות. טקסט רץ: IBM Plex Sans Hebrew / IBM Plex Sans, נקי וקריא. כל הגופנים מאוחסנים מקומית (תיקיית fonts).</p>
+    <div class="type-row"><small>Hero · 60–172px</small><span class="display h-l">IT שחושב קדימה.</span></div>
+    <div class="type-row"><small>Display L · 40–88px</small><span class="display" style="font-size:56px">לפני שמחליטים, מבינים.</span></div>
+    <div class="type-row"><small>Display EN · Archivo 68%</small><span class="display" lang="en" dir="ltr" style="font-family:Archivo;font-stretch:68%;font-weight:760;font-size:56px;text-align:right">Understand first. Then decide.</span></div>
+    <div class="type-row"><small>Title · 24–34px / 600</small><span class="h-m">התייעצות לפני רכישה והטמעה</span></div>
+    <div class="type-row"><small>Lede · 19–24px</small><span class="lede">אנחנו לא מוכרים מוצרים. אנחנו עוזרים לך להבין מה נכון לעסק שלך, ולמה.</span></div>
+    <div class="type-row"><small>Body · 17–18.5px / 1.65</small><span>לפני שמשלמים על ציוד, תוכנה או שירות, כדאי לשמוע דעה מקצועית. ככה נמנעים מהוצאות מיותרות ומהפתעות בהמשך.</span></div>
+    <div class="type-row"><small>Label · 13px / 600</small><span class="label is-signal"><span class="node" aria-hidden="true"></span>הגישה של SOTA</span></div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>מרווחים וגריד</h2>
+    <p>סולם מרווחים של 4px: ‏4, 8, 12, 16, 24, 32, 48, 64, 96, 144. גריד של 12 עמודות ברוחב מקסימלי 1360px, שוליים צדדיים של 16–56px לפי רוחב המסך. בין פרקים: 96–200px.</p>
+    <div class="space">
+      <div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div>
+      <div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div><div><i style="width:48px;height:48px"></i>48</div><div><i style="width:64px;height:64px"></i>64</div><div><i style="width:96px;height:96px"></i>96</div>
+    </div>
+    <div class="grid-demo" style="margin-top:32px" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>כפתורים</h2>
+    <p>כפתור ראשי אחד בכל אזור. ב-hover הרקע מתמלא מהצד שבו מתחילים לקרוא, והנקודה גדלה. בעכבר, הכפתור נמשך קלות אחרי הסמן. כל כפתור הוא לפחות 44px גובה.</p>
+    <div class="row-demo">
+      <a class="btn" href="#"><span class="dot" aria-hidden="true"></span>קבל ייעוץ ראשוני ללא עלות</a>
+      <a class="btn btn-ghost" href="#">בואו נדבר על העסק שלך</a>
+      <a class="btn btn-small" href="#"><span class="dot" aria-hidden="true"></span>שיחת ייעוץ</a>
+      <a class="btn btn-ghost btn-small" href="#">כפתור משני קטן</a>
+      <button class="btn" type="button" disabled><span class="dot" aria-hidden="true"></span>שולח…</button>
+    </div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>שדות טופס</h2>
+    <p>תווית מעל השדה תמיד (לא רק placeholder). מסגרת ירוקה בפוקוס, אדומה עם הסבר בשגיאה. אפשרויות קצרות כגלולות לבחירה מהירה.</p>
+    <div class="form-card" style="max-width:640px"><div class="form">
+      <div class="field"><label for="d1">שם מלא</label><input id="d1" value="משה לוי"></div>
+      <div class="field has-error"><label for="d2">טלפון</label><input id="d2" type="tel" value="12" aria-invalid="true" aria-describedby="d2e"><span class="err" id="d2e">מספר הטלפון לא נראה תקין. נסה בפורמט 050-1234567</span></div>
+      <fieldset class="field"><legend class="flabel">מה מתאר אותך?</legend><div class="seg"><label><input type="radio" name="d3"><span>לקוח פרטי</span></label><label><input type="radio" name="d3" checked><span>עסק קטן</span></label><label><input type="radio" name="d3"><span>עסק בינוני</span></label></div></fieldset>
+      <fieldset class="field"><legend class="flabel">רמת דחיפות</legend><div class="seg urgency"><label><input type="radio" name="d4"><span data-level="normal">רגילה</span></label><label><input type="radio" name="d4" checked><span data-level="critical">קריטית</span></label></div></fieldset>
+    </div></div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>אייקונים ואלמנטים גרפיים</h2>
+    <p>במקום אייקונים של מחשבים ועננים, משתמשים במילון של המסלול. קו בעובי 2.5–3px, קצוות מעוגלים, פניות של 45°.</p>
+    <div class="icons">
+      <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3"><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="3.5" fill="#C5F03C" stroke="none"/></svg><b>תחנה</b><span class="muted">נקודת החלטה, שלב בתהליך</span></div>
+      <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 32h14l12-12h14"/></svg><b>מסלול</b><span class="muted">התקדמות, כיוון</span></div>
+      <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 24h14l10-10h16M18 24l10 10h16"/></svg><b>הסתעפות</b><span class="muted">תחומי ייעוץ, אפשרויות</span></div>
+      <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30c6-18 12 14 18-4s10 10 18-6"/></svg><b>סבך</b><span class="muted">הבעיה: מערכת בלי תכנון</span></div>
+      <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#FF7A5C" stroke-width="3" stroke-linecap="round"><path d="M16 16l16 16M32 16L16 32"/></svg><b>חסם</b><span class="muted">רק לתיאור בעיות</span></div>
+    </div>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>תנועה</h2>
+    <p>כל אנימציה מספרת חלק מהסיפור. אם היא לא עוזרת להבין, היא לא נכנסת. במצב "הפחתת תנועה" הכול מוצג מיד, בלי תנועה.</p>
+    <ul class="motion-list">
+      <li><b>כניסה (Hero)</b><span class="muted">רגע אחד מתוזמר: הכותרת עולה שורה אחר שורה, הרשת מופיעה, המונה סופר עד 25. ‏expo.out, ‏1.3 שניות.</span></li>
+      <li><b>רשת חיה</b><span class="muted">פולסים נעים לאורך המסלולים; תחנות נדלקות ליד הסמן. נעצרת כשהיא מחוץ למסך.</span></li>
+      <li><b>הסבך שמתיישר</b><span class="muted">בפרק הבעיה הקו מתפתל, ובסוף הגלילה מתיישר והופך לירוק: המעבר מבעיה לפתרון.</span></li>
+      <li><b>מסלול מוצמד</b><span class="muted">ארבעת שלבי העבודה נבנים על קו אחד בזמן שהמסך מוצמד (בדסקטופ); במובייל הקו אנכי ומתמלא בגלילה.</span></li>
+      <li><b>פתיחת פרק</b><span class="muted">פרק "למה SOTA" נפתח כמו לוח, מהשוליים פנימה.</span></li>
+      <li><b>Hover</b><span class="muted">160–380ms, ‏cubic-bezier(.16,1,.3,1). מילוי כפתור, קו אות לאורך שורת שירות, תחנה שנדלקת.</span></li>
+    </ul>
+  </div></section>
+
+  <section class="bs-section"><div class="wrap">
+    <h2>קול וטון</h2>
+    <p>מדברים כמו איש מקצוע מנוסה שמסביר לחבר: פשוט, ישיר, בלי ז'רגון ובלי הבטחות.</p>
+    <div class="do-dont">
+      <div><h3>כן</h3><ul><li>"לפני שמחליטים, מבינים."</li><li>פעלים ברורים בכפתורים: "שליחת הפנייה", "פתיחת הקריאה".</li><li>לדבר על הבעיה של הלקוח, לא על הטכנולוגיה.</li></ul></div>
+      <div><h3>לא</h3><ul><li>"פתרונות IT מתקדמים מקצה לקצה".</li><li>מספרים, לקוחות או הסמכות שלא אומתו.</li><li>טיימרים, דחיפות מזויפת והבטחות לא מבוססות.</li></ul></div>
+    </div>
+  </div></section>
+</main>
+</body>
+</html>

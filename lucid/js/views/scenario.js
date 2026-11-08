@@ -3,6 +3,7 @@
 import { html, render, on, $, $$, shuffle, uid } from '../core/util.js';
 import { tt, bi, legend, hebrewSupport, isolateLatin, uiLang, SUPPORT_BY_LEVEL } from '../core/i18n.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, toast } from '../ui/components.js';
 import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from '../core/speech.js';
 import { recordAttempt, settings, logEvent, profile, model, aiConsent } from '../core/learner.js';
@@ -31,8 +32,9 @@ function nameSlot(phrase) {
 }
 
 export default async function scenarioView(el, ctx) {
-  const data = await content.scenarios();
-  const s = data?.scenarios?.find((x) => x.id === ctx.params.id);
+  // This scenario's own file (C3); the list, for "next scenario" at the end of the practice, loads after it.
+  const s = await content.scenario(ctx.params.id);
+  const data = { scenarios: null };
   if (!s) { render(el, emptyState({ title: tt('התרחיש לא נמצא', 'Scenario not found'), action: html`<a class="key enter" href="#/real-life">${tt('לכל התרחישים', 'All scenarios')}</a>` })); return; }
   ctx.setTitle(s.title_en);
   // A saved practice place opens the practice tab with its resume offer, unless the route names a tab (r4 RW-8).
@@ -65,7 +67,7 @@ export default async function scenarioView(el, ctx) {
   // them on or off (persona panel P-17).
   let hebrewTips = ['full', 'partial'].includes(hebrewSupport()) || ['full', 'partial'].includes(SUPPORT_BY_LEVEL[s.level]);
   const done = () => new Set(store.all('progress').filter((p) => p.id.startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
-  const after = () => nextScenario(data.scenarios, s, { courseLevel: model().courseLevel, goals: profile()?.goals || [], done: done() });
+  const after = () => (data.scenarios ? nextScenario(data.scenarios, s, { courseLevel: model().courseLevel, goals: profile()?.goals || [], done: done() }) : null);
   const noAiWhy = () => (!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.')
     : !auth.signedIn ? tt('שיחה עם AI דורשת חשבון: ההסכמה שלכם לעיבוד ב-AI נשמרת בחשבון, ולכל חשבון יש מגבלת שימוש יומית ב-AI. אין חשבון? אפשר ליצור אחד עכשיו, וההתקדמות שבמכשיר עוברת אליו.', 'AI conversations need an account: your consent to AI processing is saved in it, and each account has a daily AI limit. No account yet? You can create one now, and the progress on this device moves into it.') : tt('צריך להפעיל ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.'));
 
@@ -333,6 +335,16 @@ export default async function scenarioView(el, ctx) {
   function saveChat() { store.put('chats', { id: chat.id, kind: 'roleplay', scenario: s.id, turns: chat.turns.slice(-40), report, done: Boolean(chat.done), at: chat.at }); }
 
   draw();
+  // The list arrives after the first draw. In the rare case the practice already ended, its end screen gets the
+  // "Next scenario" link now, with focus kept on its heading.
+  let left = false;
+  content.scenarioIndex().then((d) => {
+    data.scenarios = d?.scenarios || [];
+    if (left || tab !== 'practise' || ti < turnOrder.length || !after()) return;
+    const refocus = el.contains(document.activeElement);
+    draw();
+    if (refocus) $('[data-done-head]', el)?.focus();
+  }).catch(() => {});
   const offs = [
     on(el, 'click', '[data-tab]', (e, b) => { stopSpeaking(); tab = b.dataset.tab; draw(); }),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant })),
@@ -412,5 +424,5 @@ export default async function scenarioView(el, ctx) {
     }),
     on(el, 'click', '[data-new-rp]', () => { chat = null; report = null; stuck = false; draw(); }),
   ];
-  return () => { offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); el.style.removeProperty('--rw-view-pad'); el.style.removeProperty('--rw-foot-h'); };
+  return () => { left = true; offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); el.style.removeProperty('--rw-view-pad'); el.style.removeProperty('--rw-foot-h'); };
 }

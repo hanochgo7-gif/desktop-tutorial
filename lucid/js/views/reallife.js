@@ -5,6 +5,7 @@
 import { html, render, on } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, mark, LEVEL_LABEL } from '../ui/components.js';
 import { store } from '../core/store.js';
 import { model, profile } from '../core/learner.js';
@@ -26,12 +27,12 @@ const FOLDED = 2;
 // A practice place saved part-way (scenario.js keeps it in progress rl:<id>), for the hub rows (r4 RW-8).
 export function savedPlace(s) {
   const p = store.get('progress', `rl:${s.id}`);
-  return p && p.status !== 'completed' && Number.isInteger(p.turn) && p.turn > 0 && p.turn < (s.practice?.length || 0) ? p : null;
+  return p && p.status !== 'completed' && Number.isInteger(p.turn) && p.turn > 0 && p.turn < (s.n_practice ?? s.practice?.length ?? 0) ? p : null;
 }
 // "בתהליך · תור 3 מתוך 5" on a hub row, or nothing.
 export function placeTag(s) {
   const p = savedPlace(s);
-  return p ? html`<span class="tag cobalt place-tag">${tt(`בתהליך · תור ${p.turn + 1} מתוך ${s.practice.length}`, `In progress · turn ${p.turn + 1} of ${s.practice.length}`)}</span>` : '';
+  return p ? html`<span class="tag cobalt place-tag">${tt(`בתהליך · תור ${p.turn + 1} מתוך ${s.n_practice ?? s.practice.length}`, `In progress · turn ${p.turn + 1} of ${s.n_practice ?? s.practice.length}`)}</span>` : '';
 }
 
 export const doneScenarios = () => new Set(store.all('progress').filter((p) => p.id.startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
@@ -104,7 +105,7 @@ export function hubEvents(el, state, redraw) {
 
 export default async function reallife(el, ctx) {
   ctx.setTitle(t('nav.reallife'));
-  const data = await content.scenarios();
+  const data = await content.scenarioIndex();
   const list = data?.scenarios || [];
   const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };
 

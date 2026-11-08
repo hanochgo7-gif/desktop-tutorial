@@ -3,6 +3,7 @@
 import { html, render } from '../core/util.js';
 import { tt, t, legend, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex, content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, LEVEL_LABEL } from '../ui/components.js';
 import { model, due, allCards, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
@@ -23,7 +24,7 @@ const LABS = [
 
 export default async function practice(el, ctx) {
   ctx.setTitle(t('nav.practice'));
-  const [tx, scenarioData] = await Promise.all([taxonomyIndex(), content.scenarios().catch(() => null)]);
+  const [tx, scenarioData] = await Promise.all([taxonomyIndex(), content.scenarioIndex().catch(() => null)]);
   const m = model();
   const dueList = due();
   const dueN = dueList.length;

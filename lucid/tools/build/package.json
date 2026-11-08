@@ -1,0 +1,9 @@
+{
+  "name": "lucid-deploy-build",
+  "private": true,
+  "type": "module",
+  "description": "Deploy-only minify step for Lucid (ADR-1 amendment). The repository source stays buildless; pages.yml runs build.mjs on the checked-out tree and deploys the source unchanged on any error.",
+  "dependencies": {
+    "esbuild": "0.25.10"
+  }
+}

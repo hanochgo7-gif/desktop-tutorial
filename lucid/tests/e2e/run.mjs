@@ -3,17 +3,20 @@
 // mock Supabase (auth, REST and the lucid-ai function) injected with request interception, so the real
 // UI code paths run without credentials.
 // Usage: node tests/e2e/run.mjs [--only <substring>] [--shots <dir>]
+// E2E_ROOT=<dir> serves and reads <dir>/lucid instead of this repository's copy (for example a tree built by
+// tools/build/build.mjs); the default is the repository.
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { readFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { BROKEN, NOT_FOUND } from './screen-errors.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = join(here, '..', '..', '..');
+const repo = process.env.E2E_ROOT ? resolve(process.env.E2E_ROOT) : join(here, '..', '..', '..');
 const PORT = Number(process.env.E2E_PORT) || 8771;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
@@ -30,6 +33,13 @@ async function check(name, fn) {
   catch (e) { results.push({ name, ok: false, err: e.message }); console.log(`FAIL  ${name}\n      ${e.message.split('\n')[0]}`); }
 }
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
+// The router's and the views' error screens anywhere in the view, and their not-found screens (an .empty block), in
+// both languages (screen-errors.mjs).
+// What is wrong with the screen on show, or '' when nothing is.
+async function screenProblem(page) {
+  const { all, empty } = await page.evaluate(() => ({ all: document.querySelector('#view')?.textContent || '', empty: [...document.querySelectorAll('#view .empty')].map((e) => e.textContent).join(' | ') }));
+  return BROKEN.test(all) || NOT_FOUND.test(empty) ? (empty || all).trim().replace(/\s+/g, ' ').slice(0, 100) : '';
+}
 
 // ---------- helpers ----------
 async function newPage(browser, { viewport = { width: 390, height: 844 }, mock = false, serviceWorkers = 'block' } = {}) {
@@ -275,8 +285,11 @@ try {
   await check('AGE2. Under 16, where data would leave the device (an account, AI feedback) a parent or guardian confirms first; under 18 marketing stays off (mock server: accounts and AI are off on the live site)', async () => {
     const year = new Date().getFullYear();
     // The live site's configuration: no server, no AI. There the boxes never appear, because nothing leaves the device.
-    const live = readFileSync(join(repo, 'lucid/config.js'), 'utf8');
+    // The repository's config.js as written, and the served one (E2E_ROOT: minified by tools/build, `"" ` and `!1`).
+    const live = readFileSync(join(here, '..', '..', 'config.js'), 'utf8');
     assert(/supabaseUrl: ''/.test(live) && /aiEnabled: false/.test(live), 'config.js is no longer device-only; review these checks');
+    const served = readFileSync(join(repo, 'lucid/config.js'), 'utf8');
+    assert(/supabaseUrl:\s*(''|"")/.test(served) && /aiEnabled:\s*(false|!1)\b/.test(served), 'the served config.js is no longer device-only; review these checks');
     const { ctx, page } = await newPage(browser, { mock: true });
     const db = page.lucidMock;
     await learnerAt(page, 'A1', { birthYear: year - 10 });
@@ -830,8 +843,8 @@ try {
         await page.waitForTimeout(450);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         assert(overflow <= 1, `${r} overflows horizontally by ${overflow}px at ${vp.width}`);
-        const txt = await page.textContent('#view');
-        assert(!/Something went wrong|משהו השתבש|did not load|לא נטען/.test(txt), `${r} failed to render at ${vp.width}`);
+        const problem = await screenProblem(page);
+        assert(!problem, `${r} failed to render at ${vp.width}: ${problem}`);
         if (SHOTS) await page.screenshot({ path: `${SHOTS}/${vp.width}-${r.replace(/\//g, '_')}.png`, fullPage: true });
       }
       assert(pageErrors.length === before, `page errors: ${pageErrors.slice(before).join(' | ')}`);
@@ -1621,15 +1634,40 @@ try {
     await page.waitForFunction(() => /75/.test(document.querySelector('[data-offline-status]')?.textContent || '') && !document.querySelector('[data-offline]').disabled, null, { timeout: 60000 });
     assert(/All 75|כל 75/.test(await page.textContent('[data-offline-status]')), `lessons not all saved: ${await page.textContent('[data-offline-status]')}`);
     await ctx.setOffline(true);
-    for (const r of ['review', 'conversations', 'real-life', 'expressions', 'scenario/rl-airport-checkin-overweight', 'lesson/b1-03', 'writing', 'progress']) {
+    // Each screen with what it shows when it works: an error screen fails, and so does a screen without its content.
+    for (const [r, sel] of [['review', '.review-empty, .review, #exroot'], ['conversations', '.hub-filters'], ['real-life', '.hub-row'], ['expressions', '.entry'], ['scenario/rl-airport-checkin-overweight', '.scenario-view'], ['lesson/b1-03', '.lesson-player'], ['writing', '.stage-panel .hub-row'], ['progress', '.page-head + .stack-lg']]) {
       await page.goto(`${BASE}#/${r}`);
-      await page.waitForTimeout(500);
-      const txt = await page.textContent('#view');
-      assert(!/did not load|לא נטען|Something went wrong|משהו השתבש/.test(txt), `${r} failed offline: ${txt.slice(0, 120)}`);
+      const shown = await page.waitForSelector(`#view :is(${sel})`, { timeout: 15000 }).then(() => true).catch(() => false);
+      const problem = await screenProblem(page);
+      assert(shown && !problem, `${r} failed offline: ${problem || `no ${sel}: ${(await page.textContent('#view')).trim().slice(0, 100)}`}`);
     }
     await page.reload();
-    await page.waitForSelector('#view');
-    assert(!/did not load|לא נטען/.test(await page.textContent('#view')), 'reload failed offline');
+    await page.waitForSelector('#view > :not(.boot)');
+    assert(!(await screenProblem(page)), 'reload failed offline');
+    await ctx.close();
+  });
+
+  // perf D4: the precache alone (no lesson saved) is enough for every screen that needs no lesson file.
+  await check('OF2. Offline sweep: right after the worker installs, with the network cut, 13 screens render without a lesson saved (perf D4)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 390, height: 844 }, serviceWorkers: 'allow' });
+    await learnerAt(page, 'A1');
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 30000 });
+    await ctx.setOffline(true);
+    // Each screen with what it shows when its content loaded (the scenario, the expressions, the essay box...).
+    const routes = [['today', '.today'], ['path', '.level-tabs'], ['practice', '.page-head + .stack-lg'], ['review', '.review-empty, .review, #exroot'], ['vocab', '.page-head'], ['games', '.game-section'], ['real-life', '.hub-row'], ['scenario/rl-airport-checkin-overweight', '.scenario-view'], ['expressions', '.entry'], ['writing', '.stage-panel .hub-row'], ['writing/final-B2', '#essay'], ['progress', '.page-head + .stack-lg'], ['settings', '.settings-view']];
+    const failed = [];
+    for (const [r, sel] of routes) {
+      await page.goto(`${BASE}#/${r}`);
+      const shown = await page.waitForSelector(`#view :is(${sel})`, { timeout: 15000 }).then(() => true).catch(() => false);
+      await page.waitForTimeout(300);
+      const problem = await screenProblem(page);
+      if (!shown || problem) failed.push(`${r}: ${problem || `no ${sel}: ${((await page.textContent('#view')) || '').trim().slice(0, 80)}`}`);
+    }
+    assert(!failed.length, `failed offline: ${failed.join(' | ')}`);
+    await page.reload();
+    await page.waitForSelector('#view > :not(.boot)');
+    assert(!(await screenProblem(page)), 'reload failed offline');
     await ctx.close();
   });
 
@@ -2218,6 +2256,9 @@ try {
     assert(await page.$('.lesson-intro .point .bi-he-after:not([hidden])'), 'objectives have no Hebrew at partial support');
     await page.click('[data-go="learn"]');
     await page.waitForSelector('.lesson-learn');
+    // A step drawn before its fonts arrived (the IPA font loads on demand) is measured and drawn again once they
+    // have (lesson.js remeasure): the folds are looked up after that, so the click lands on the step on screen.
+    await page.evaluate(() => document.fonts.ready);
     const folds = await page.$$('.lesson-learn .he-reveal-text');
     assert(folds.length >= 2, `long paragraphs are not folded (${folds.length})`);
     await folds[0].click();

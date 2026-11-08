@@ -1,0 +1,61 @@
+# Lucid: checks the site as it is deployed (minified by lucid/tools/build) on every push that touches lucid/.
+# It does not gate the Pages deploy (pages.yml), so a Lucid test failure never blocks the other sites; it reports.
+name: Lucid verify (built site)
+
+on:
+  push:
+    paths:
+      - 'lucid/**'
+      - '.github/workflows/lucid-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lucid-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: lucid
+    steps:
+      # Pinned to the same commits as pages.yml (main pins every action to a full SHA).
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Playwright and its Chromium (on the CI runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      # Before the unit tests: tests/unit/build.test.mjs runs the deploy build, and in CI it fails without esbuild.
+      - name: Build dependencies (esbuild, pinned)
+        run: npm ci --prefix tools/build --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: Content validation
+        run: npm run validate
+      - name: Build a copy of the site as pages.yml deploys it
+        run: |
+          mkdir -p "$RUNNER_TEMP/built/lucid"
+          rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
+          node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
+          node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
+      - name: End-to-end suite against the built site
+        run: E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs
+      # The one-time upgrade from the release in production before the perf programme (2026-11-07.1, d83a500: main
+      # with the no-age-limit change) to the built site: that commit's tree is fetched on its own (the checkout is
+      # shallow). Until 2026-11-07 the base was b2b669b (2026-11-03.1), whose worker is the same apart from RELEASE.
+      - name: Upgrade from release 2026-11-07.1 to the built site
+        run: |
+          git fetch --no-tags --depth=1 origin d83a5005b4e97883b3ae5edc31ad17c85d5af423
+          E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/upgrade.mjs

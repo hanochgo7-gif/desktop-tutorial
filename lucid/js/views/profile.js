@@ -4,6 +4,7 @@ import { tt, t } from '../core/i18n.js';
 import { icon, toast, LEVEL_LABEL } from '../ui/components.js';
 import { profile, saveProfile, model } from '../core/learner.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { isMinor, isUnder16 } from '../core/age.js';
 
 export default async function profileView(el, ctx) {
@@ -47,7 +48,7 @@ export default async function profileView(el, ctx) {
   }
   draw();
   import('./onboarding.js').then((mod) => { goalCards = mod.goalCards; drawGoals(); }).catch(() => {});
-  content.scenarios().catch(() => null).then((d) => {
+  content.scenarioIndex().catch(() => null).then((d) => {
     const work = Boolean(d?.scenarios?.some((x) => x.module === 'work'));
     if (work !== hasWork) { hasWork = work; drawGoals(); }
   });

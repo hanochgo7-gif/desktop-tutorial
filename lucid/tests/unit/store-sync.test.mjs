@@ -156,3 +156,37 @@ test('erasing the device removes only Lucid keys and caches, never other apps on
   assert.deepEqual([...names].sort(), ['hgos-v3', 'workbox-precache']);
   assert.ok(LUCID_KEY.test('lucid-owner') && !LUCID_KEY.test('lucidity') && !LUCID_KEY.test('hgos-session'));
 });
+
+// Perf plan R4: openStore's probe read is the store's load, so the database is read (and deserialised) once.
+test('openStore reads the backend exactly once, keeps its rows, and falls back to memory when it fails (R4)', async () => {
+  const { openStore } = await import('../../js/core/store.js');
+  globalThis.addEventListener ??= () => {};
+  const seeded = memoryBackend();
+  await seeded.put([{ coll: 'progress', id: 'a1-01', data: { id: 'a1-01', status: 'completed' } }, { coll: 'attempts', id: 'x', data: { id: 'x', correct: true } }]);
+  let loads = 0;
+  const counting = { ...seeded, kind: 'counting', async load() { loads++; return seeded.load(); } };
+  const s = await openStore({ persistent: () => counting });
+  assert.equal(loads, 1, 'one backend.load per openStore');
+  assert.equal(s.backendKind, 'counting');
+  assert.equal(s.get('progress', 'a1-01').status, 'completed');
+  assert.equal(s.all('attempts').length, 1);
+  // Writes still go to the backend it chose.
+  s.put('progress', { id: 'a1-02', status: 'started' });
+  await s.flush();
+  assert.ok((await seeded.load()).some((r) => r.id === 'a1-02'));
+  // An empty database is still the database: no second read either.
+  loads = 0;
+  const empty = { ...memoryBackend(), kind: 'counting', async load() { loads++; return []; } };
+  const e = await openStore({ persistent: () => empty });
+  assert.equal(loads, 1);
+  assert.equal(e.backendKind, 'counting');
+  // A probe that throws leaves the learner with a memory store, as before.
+  const warn = console.warn; console.warn = () => {};
+  try {
+    const broken = await openStore({ persistent: () => ({ kind: 'broken', async load() { throw new Error('blocked'); } }) });
+    assert.equal(broken.backendKind, 'memory');
+    assert.equal(broken.all('progress').length, 0);
+  } finally { console.warn = warn; }
+  // No IndexedDB at all: memory.
+  assert.equal((await openStore({ persistent: () => null })).backendKind, 'memory');
+});

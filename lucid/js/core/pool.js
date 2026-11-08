@@ -1,6 +1,7 @@
 // The exercise pool: every auto-graded exercise from the available lessons, with its lesson's level
 // and topics, for targeted drills, level checks and the labs.
 import { content } from './content.js';
+import './compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { shuffle, sum } from './util.js';
 import { LEVELS, levelIndex } from './adaptive.js';
 import { findWrongFeedback, wordAccuracy } from './grading.js';
@@ -59,17 +60,39 @@ export const ERROR_TOPICS = {
   spelling: ['alphabet', 'past-simple-regular'],
 };
 
-let cache = null;
-export async function exercisePool() {
-  if (cache) return cache;
-  const lessons = await content.allLessons();
-  // Each item carries its lesson's Hebrew-speaker pitfalls, for "Why?" in drills (r4 LF-10).
-  cache = lessons.flatMap((l) => l.exercises.filter((e) => AUTO_TYPES.has(e.type)).map((ex) => ({
-    ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics, pitfalls: l.hebrew_pitfalls || [],
-    errors: new Set([ex.error_type, ...Object.values(ex.option_errors || {}), ...(ex.wrong_feedback || []).map((f) => f.error_type)].filter(Boolean)),
-  })));
-  return cache;
+// One pool item. Each carries its lesson's Hebrew-speaker pitfalls, for "Why?" in drills (r4 LF-10).
+// l: a lesson file, or a lesson row of a pool file ({ id, level, topics, pitfalls }).
+const poolItem = (l, ex) => ({
+  ex, lesson: l.id, level: l.level, topic: ex.topic || l.topics[0], topics: l.topics, pitfalls: l.pitfalls || l.hebrew_pitfalls || [],
+  errors: new Set([ex.error_type, ...Object.values(ex.option_errors || {}), ...(ex.wrong_feedback || []).map((f) => f.error_type)].filter(Boolean)),
+});
+// The pool from lesson files: the way it was built before the pool files, and the fallback when a level's file
+// cannot be loaded (offline and never opened online: then only the lessons saved on this device).
+export const poolFromLessons = (lessons) => lessons.flatMap((l) => (l.exercises || []).filter((e) => AUTO_TYPES.has(e.type)).map((ex) => poolItem(l, ex)));
+// The items of one level, from content/pool/<level>.json (tools/build-content-index.mjs), kept once loaded.
+const byLevel = new Map();
+function levelItems(level) {
+  if (!byLevel.has(level)) {
+    byLevel.set(level, content.pool(level).then((file) => file.items.map(({ lesson, ex }) => poolItem(file.lessons[lesson], ex)))
+      .catch(async () => {
+        // Not kept: the next call tries the file again.
+        byLevel.delete(level);
+        return poolFromLessons((await content.allLessons()).filter((l) => l.level === level));
+      }));
+  }
+  return byLevel.get(level);
 }
+// Every auto-graded exercise of the given levels, from the lessons the manifest lists, in its order (the order
+// content.allLessons() gives, so a seeded set is the same as before the pool files).
+export async function exercisePool(levels = LEVELS) {
+  const [lists, available] = await Promise.all([Promise.all([...new Set(levels)].map(levelItems)), content.availableLessons().catch(() => new Set())]);
+  const rank = new Map([...available].map((id, i) => [id, i]));
+  const at = (p) => rank.get(p.lesson) ?? rank.size;
+  const items = lists.flat().filter((p) => !available.size || available.has(p.lesson));
+  return items.sort((a, b) => at(a) - at(b) || (a.lesson < b.lesson ? -1 : a.lesson > b.lesson ? 1 : 0));
+}
+// The levels a drill draws from: up to one above the learner's level, or every level.
+export const drillLevels = (level = null) => (level ? LEVELS.slice(0, Math.max(0, levelIndex(level)) + 2) : LEVELS);
 
 const recentlyRight = (attempts, now = Date.now()) => new Set(attempts.filter((a) => a.correct && now - new Date(a.at).getTime() < 86_400_000).map((a) => `${a.lesson}:${a.exercise}`));
 const key = (p) => `${p.lesson}:${p.ex.id}`;
@@ -77,7 +100,7 @@ const key = (p) => `${p.lesson}:${p.ex.id}`;
 // A targeted set: ~70% target items, ~30% competing items, interleaved, avoiding items the learner
 // got right in the last 24 hours when there is enough choice.
 export async function drillSet({ topic = null, error = null, level = null, size = 8, attempts = [] }) {
-  const pool = await exercisePool();
+  const pool = await exercisePool(drillLevels(level));
   const fresh = recentlyRight(attempts);
   const maxLevel = level ? levelIndex(level) + 1 : LEVELS.length - 1;
   const eligible = pool.filter((p) => levelIndex(p.level) <= maxLevel);
@@ -97,7 +120,7 @@ export async function drillSet({ topic = null, error = null, level = null, size 
 
 // A level check: one or two items from each lesson of the level, mixed (unassisted; research C2, D31).
 export async function checkpointSet(level, size = 16) {
-  const pool = (await exercisePool()).filter((p) => p.level === level);
+  const pool = (await exercisePool([level])).filter((p) => p.level === level);
   const byLesson = new Map();
   for (const p of shuffle(pool, Math.random())) { if (!byLesson.has(p.lesson)) byLesson.set(p.lesson, []); byLesson.get(p.lesson).push(p); }
   const out = [];

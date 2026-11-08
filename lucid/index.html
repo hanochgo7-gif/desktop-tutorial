@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" class="booting">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -12,9 +12,28 @@
 <meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
+<!-- The boot frame (perf plan B5) paints before the stylesheet arrives, in the app's own ground and ink (the tokens
+     in css/app.css; tests/unit/boot-preload.test.mjs keeps them equal). app.css hides it once the shell is drawn. It
+     also goes by itself once the view holds anything but its first spinner, and in any case after 20 s, so a page
+     drawn by an app.js and app.css from before the frame (a reload during the upgrade, tests/e2e/upgrade.mjs U3)
+     is never left covered. -->
+<style>
+.booting{background:oklch(0.972 0.004 250)}
+.bootframe{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;background:oklch(0.972 0.004 250);color:oklch(0.185 0.010 250);font:700 1.5rem/1 system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+.bootframe-mark{display:flex;align-items:center;gap:0.6rem}
+.bootframe-key{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:0.55rem;background:oklch(0.72 0.175 52);color:oklch(0.19 0.02 50);border-bottom:3px solid oklch(0.56 0.15 45);font-size:1.1rem}
+.bootframe-spin{width:1.6rem;height:1.6rem;border-radius:50%;border:2.5px solid oklch(0.905 0.008 250);border-top-color:oklch(0.47 0.165 263);animation:bootspin 0.8s linear infinite}
+@keyframes bootspin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){.booting,.bootframe{background:oklch(0.165 0.010 250);color-scheme:dark}.bootframe{color:oklch(0.95 0.005 250)}.bootframe-spin{border-color:oklch(0.3 0.012 250);border-top-color:oklch(0.72 0.13 263)}}
+@media (prefers-reduced-motion:reduce){.bootframe-spin{animation:none}}
+body:has(#view>:not(.boot-first)) .bootframe{display:none}
+.bootframe{animation:bootgone 0s 20s forwards}
+@keyframes bootgone{to{visibility:hidden}}
+</style>
+<noscript><style>.bootframe{display:none}.booting .main{visibility:visible}</style></noscript>
+<link rel="preload" href="css/app.css" as="style">
 <link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/app.css">
 <!-- The whole static import graph, so a first visit fetches it in one round trip instead of five. -->
 <link rel="modulepreload" href="js/app.js">
 <link rel="modulepreload" href="js/core/store.js">
@@ -31,15 +50,32 @@
 <link rel="modulepreload" href="js/core/srs.js">
 <link rel="modulepreload" href="js/core/i18n.js">
 <link rel="modulepreload" href="vendor/ts-fsrs.mjs">
+<link rel="modulepreload" href="js/core/session.js">
+<link rel="modulepreload" href="js/core/placement.js">
+<link rel="modulepreload" href="js/core/age.js">
+<link rel="modulepreload" href="js/core/route-deps.js">
+<!-- The two content files every boot reads (learner.initModel), fetched in the same round trip as the modules.
+     crossorigin matches content.js's plain fetch(), so on a first visit the preloaded response is used, not fetched
+     twice. On a page the service worker controls, Chromium does not hand a preload to fetch() ("cross-world service
+     worker resource mismatch"): both are answered from the release cache, about 10 ms in all on a phone, against
+     the 130-170 ms the preloads save a first visit (docs/perf/after.md). -->
+<link rel="preload" href="content/curriculum.json" as="fetch" crossorigin>
+<link rel="preload" href="content/manifest.json" as="fetch" crossorigin>
+<!-- async: it runs as soon as its modules are ready, without waiting for the stylesheet or the rest of the page
+     (app.js waits for the document itself before drawing). -->
+<script type="module" async src="js/app.js"></script>
 </head>
 <body>
+<div class="bootframe" aria-hidden="true"><span class="bootframe-mark"><span class="bootframe-key">L</span>Lucid</span><span class="bootframe-spin"></span></div>
+<!-- After the frame: the frame paints while the stylesheet loads, and nothing below it paints unstyled. -->
+<link rel="stylesheet" href="css/app.css">
 <a class="skip" href="#view">דילוג לתוכן · Skip to content</a>
 <div class="app">
   <aside class="deck" id="deck" hidden></aside>
   <div class="main">
     <header class="top" id="top" hidden></header>
     <main class="view" id="view" tabindex="-1">
-      <div class="boot"><span class="spinner" role="status" aria-label="Loading"></span></div>
+      <div class="boot boot-first"><span class="spinner" role="status" aria-label="Loading"></span></div>
     </main>
   </div>
 </div>
@@ -47,6 +83,5 @@
 <div id="overlay-root"></div>
 <div id="toast-root" aria-live="polite"></div>
 <noscript><p style="padding:2rem;font-family:sans-serif">Lucid needs JavaScript. · כדי להשתמש ב-Lucid יש להפעיל JavaScript.</p></noscript>
-<script type="module" src="js/app.js"></script>
 </body>
 </html>

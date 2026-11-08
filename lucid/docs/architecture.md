@@ -14,6 +14,8 @@ and Supabase over `fetch`. Lucid follows it because:
   server routes, which Lucid does not need because the only server logic is one Supabase Edge Function.
 Trade-offs accepted: no TypeScript in the client (mitigated by small modules, unit tests and `node --check`), no
 component framework (mitigated by a strict view-module contract), manual code splitting (lazy `import()` per view).
+Amended in the performance programme (2026-11): the deployed copy is minified by a deploy-only step that keeps every
+path and publishes source maps; the repository itself still has no build step (section 7, "Deploy-only build").
 Hosting with the rest of the repository shares one web origin with its other sites, so it is only suitable for
 device-only mode. Accounts need Lucid on its own origin first (section 6, `docs/setup.md` 2.1).
 
@@ -339,17 +341,133 @@ atomic in-memory ledger instead.
 
 ## 7. Offline and performance
 
-A service worker (registered in any secure context: https, or localhost in development) caches the app shell and
-fonts, then every module and the non-lesson content listed in `content/manifest.json` (`offline`, written by
-`tools/build-manifest.mjs`), so screens never opened before work offline. Lessons (about 3 MB) are cached when
-opened, or all at once from Settings, "Offline use". AI features and speech recognition need a connection. Covered by
-`tests/unit/offline-manifest.test.mjs` and the e2e check OF1, which goes offline after saving lessons. Code (pages,
-`config.js`, `js/`, `css/`) is fetched network-first, falling back to the cache when offline or after 4 seconds, so a
-fix reaches learners on their next load. Fonts, content and other files are served from the cache and refreshed in
-the background. The cache is named `lucid-<RELEASE>` (the constant at the top of `sw.js`); bumping it on a deploy
-installs a new worker, which deletes older `lucid-` caches and nothing else. Tested in `tests/unit/sw.test.mjs`.
+A service worker (`sw.js`, registered in any secure context: https, or localhost in development) keeps one cache per
+release, `lucid-<RELEASE>`.
+
+- **What it caches.** On install: the app shell and fonts, then every module and the non-lesson content listed in
+  `content/manifest.json` (`offline`), so screens never opened before work offline. Code is fetched before content.
+  Lessons (about 3 MB) are cached when opened, or all at once from Settings, "Offline use"; the centre and pool files
+  are cached on first use. AI features and speech recognition need a connection.
+- **Releases.** `tools/build-manifest.mjs` writes `content/manifest.json`, `release.json` (a 128-bit sha256 prefix of
+  every file the worker precaches, every lesson, centre, pool and font file) and the `RELEASE` line of `sw.js`: a hash of
+  all of those plus the worker's own code. Any changed byte therefore gives a new release, so a new worker and a new
+  cache; `tests/unit/offline-manifest.test.mjs` fails until the tool has been run. Nobody bumps `RELEASE` by hand.
+- **Install.** Precache requests revalidate (`cache: 'no-cache'`), so a file the page has just loaded costs a 304.
+  A file whose bytes in the previous release's cache match `release.json` is copied instead of downloaded, and every
+  downloaded file is checked against its hash: a mismatch (a CDN edge still serving the previous deploy) is retried
+  once with a cache-busting query, then fails the install, so the current release stays. Saved lessons whose bytes
+  still match are carried over to the new cache; changed ones are fetched again. A release that changes one file
+  downloads that file, `sw.js` and `release.json`.
+- **Serving.** Pages, `config.js`, `js/`, `css/`, `vendor/`, `fonts/` and `content/` (except lessons, centre and pool
+  files) come from the release cache first and go to the network only on a miss, so a repeat visit makes no request
+  for them, whatever the HTTP cache or the connection. Every response served this way is hashed against
+  `release.json` as it is served and carries the worker's own headers (status 200, the file type's content type),
+  never stored ones; a miss is kept only when it matches, and a module of another release is never handed to the
+  page (docs/qa/security-review.md 5a). Lessons, centre and pool files, `assets/`, `manifest.webmanifest` and a
+  fetched (not navigated) `privacy.html` are stale-while-revalidate and served as stored, unhashed, as before the
+  performance work: data the views escape, never code. Requests for `release.json` itself go to the network.
+  Another origin's requests (Supabase, the AI function) are never touched.
+- **Full storage.** The origin's quota is shared with other apps, and a phone's disk can be nearly full. Room is
+  measured by writing, never with `navigator.storage.estimate()`, which on a nearly full disk reports about a
+  gigabyte free while every write fails. A release installs only with its `release.json` and its whole shell in its
+  cache, so it can start offline: before its first write the install writes (and deletes) a probe of the shell's
+  size, and when that or a shell write does not fit, the install fails having written nothing it keeps, and the
+  active release keeps its cache and saved lessons (online and offline); the browser tries again at later visits,
+  so the update arrives once there is room (until then the learner stays on the old release, where b2b669b's
+  network-first worker would have fetched the new code). Modules and content beyond the shell are written next to a
+  "ballast" entry as big as 1.25 times the shell, deleted afterwards, so they always leave the next release room to
+  install; a file missed this way is fetched, checked, and kept on use under the same rule. Once an install has no
+  room left, it still fetches and checks the offline list's remaining files without keeping them, so they are in the
+  HTTP cache (as b2b669b's precache left them even when its writes failed), and a miss takes the HTTP cache's copy
+  first when its bytes are the release's: a first use offline, or a screen the next deploy changed while the next
+  release cannot install yet, then still loads. An install that fails
+  for any reason (no room, a stale file at the edge, its cache removed, no `release.json`) deletes its own cache,
+  entries first: Chromium keeps a deleted cache's space while a `Cache` object for it is alive, but frees each entry
+  at once. It never deletes a complete cache of the same release that it found (the registration went away and Cache
+  Storage stayed): that install writes nothing and keeps the saved lessons. During the one-time upgrade from the
+  hand-numbered caches the install bypasses the HTTP cache (`no-store`), because b2b669b's worker serves code from
+  it and a failed attempt must not hand that page a new `app.js` next to old modules. At activation saved lessons
+  are moved (each old entry deleted right after its copy, so each needs room for itself only; the old release's own
+  files are dropped first if even that does not fit), the old caches are deleted and emptied, so their space returns
+  at once, and then saved lessons the release changed or that still did not fit, and files the install left out,
+  are fetched again (checked, best effort). A saved lesson (or centre or pool file) whose bytes the release changed
+  is moved too, as stored: these are stale-while-revalidate data, so the old copy is what 2026-11-07.1 itself would
+  serve, until the fetch replaces it or a use online refreshes it. A fill-in that a lost connection or a stopped
+  worker cut short is taken up again at the next load of the app (a navigation to the shell), in that worker
+  lifetime or a later one, until every file of the offline list is stored or no room is left next to the ballast
+  (seventh skeptic round: on the built one-time upgrade, where none of production's saved lessons matches the
+  minified bytes, an interruption in the seconds after the takeover had lost saved lessons for good and left most
+  screens without an offline copy until the next release). Offline, a file the release cache lacks is taken from the
+  HTTP cache when its bytes are the release's.
+- **Known limits on a full origin** (sixth skeptic round). (1) With room for only one release (under about 2.25
+  times the shell free at the first install, some 800 KB), the next release cannot install; a screen it changed that
+  the active release never stored loads from the HTTP cache's copy of the active release, and, once the browser has
+  evicted that copy, shows "did not load" online until the origin has room (b2b669b's network-first worker would
+  have loaded the new screen next to old modules). (2) Lessons saved from Settings (stale-while-revalidate) are not
+  written next to the ballast, so on a nearly full origin they can take the next release's room, as they could at
+  b2b669b, whose update needed room for a whole second copy; putting the ballast on them would keep fewer saved
+  lessons than b2b669b did. (3) A first visit whose `release.json` cannot be loaded gets no offline support until
+  its next online visit (below).
+- **No install without `release.json`.** When it cannot be loaded (an error, no connection, or no answer within
+  20 s), the install fails: a first visit is tried again at the next one, and an active release keeps its cache.
+- **Updates.** The browser re-checks `sw.js` on every navigation, bypassing the HTTP cache. A new release installs in
+  the background and waits; it takes over when the page asks for it between two screens (`{type:'lucid:activate'}`,
+  contract C-4 in `docs/perf/plan.json`), when the app is loaded again (a reload or a new tab: the active worker
+  asks the waiting one to take over and answers that one navigation with a page of its own that reloads once it has,
+  so a release whose page cannot start is replaced at the reload it asks for), or when every Lucid tab has closed,
+  so one page never runs modules from two releases; other open tabs follow at their next change of screen. The
+  hand-over page has the app's ground colours and a status line in Hebrew and English ("מעדכנים את Lucid…",
+  "Updating Lucid…", each part marked with its language; the worker does not know the interface language); it costs about 1 s once per
+  deploy (Chromium activates the waiting worker about 1 s after the ask), and when the browser cannot activate it
+  (another tab still has a request in the active worker that the network does not answer) only one such page is
+  shown: its reload, after about 2 s, gets the app on the old release. A first install, and the one-time upgrade from
+  the old hand-numbered caches, take over at once. Activation deletes older `lucid-` caches and nothing else (the
+  origin is shared with other apps), and only when its own cache holds `release.json` and the shell and no newer
+  release is installing or waiting (that release's cache is among them; an install whose cache was removed while it
+  ran fails and is tried again). The page listens for a takeover from the evaluation of `js/core/router.js`, before
+  its first screen and the registration, so a release that takes over while the page boots (another tab asked) makes
+  it reload at its first or next change of screen rather than import that release's screens. A page waits at most
+  3 s at a change of screen for the takeover it asked for, and only once per waiting release: when it does not come
+  (the browser activates the waiting worker only once the active one has no request in hand, and a request the
+  network never answers holds it), later changes of screen ask again without waiting, and the page reloads at the
+  first change of screen after the takeover lands.
+- **The one-time upgrade from the hand-numbered releases.** Production before this release is 2026-11-07.1 (commit
+  `d83a500`, main with the no-age-limit change); before it, 2026-11-03.1 (`b2b669b`). The two workers are
+  byte-identical apart from `RELEASE` (network-first code, no hand-over), and this worker treats both caches alike
+  (`lucid-<date>.<n>`: `no-store` install, take-over at once, saved lessons moved). A tab open on either keeps its
+  boot modules and opens this release's screens, so the screens take every function added since from
+  `js/core/compat.js`, which on an old page builds them on the old modules and adds the C-1 methods to the old
+  `content` object. Those methods apply the age filter of 2026-11-07.1 (`age.js`: under 16, flagged scenarios and
+  expressions are left out of every list and a flagged scenario's link does not open it), decided on each call from
+  the stored profile, also on the generated index and per-item files; on a 2026-11-03.1 page, whose `scenarios()`
+  and `slang()` did not filter, compat.js wraps them with the same filter. `tests/unit/compat.test.mjs` checks the
+  screens against both releases' modules (`tests/unit/fixtures/release-<RELEASE>.json`, written by
+  `tools/release-fixture.mjs` from git), and `tests/e2e/upgrade.mjs` and `lucid-verify.yml` upgrade from
+  `d83a500`. Decision for 2026-11-03.1 tabs (open since before the 2026-11-07 deploy, two deploys crossed): they are
+  still checked for every name both releases' modules have, and compat.js still adds the age filter there, but the
+  three names 2026-11-07.1 added (`learner.js` `aiConsent`, `session.js` `recheckProfile` and `syncPauseReason`)
+  are not provided: main's own deploy of 2026-11-07.1 already loads screens that import them into such a tab (the
+  AI screens, Settings), the old session code cannot be given the new guardian rules from a screen, and a reload
+  fixes it. The worker side is tested for both cache names (`tests/unit/sw.test.mjs`).
+- **Development.** Because code is cache-first, an edit shows up under the worker only after
+  `node tools/build-manifest.mjs` and a new worker (DevTools "Update on reload" or "Bypass for network" skips this).
+
+Tested in `tests/unit/sw.test.mjs` (the worker in a vm), `tests/unit/offline-manifest.test.mjs`, and the e2e checks
+OF1 (offline after saving lessons) and OF2 (13 screens offline right after the install, no lesson saved).
 Fonts are self-hosted subsets (Rubik Hebrew and Latin, about 64 KB). Views load on demand. No third-party scripts
 or trackers.
+
+**Deploy-only build (ADR-1 amendment, perf D7).** The repository source stays buildless: every file in git is the
+file a developer runs. Only the deploy step in `.github/workflows/pages.yml` runs `tools/build/build.mjs` (esbuild,
+pinned exactly in `tools/build/package-lock.json`): it minifies `js/**`, `vendor/*.mjs`, `config.js` and
+`css/app.css` in place, compacts `content/**/*.json`, keeps every path and import, publishes a `.map` source map
+next to each minified file, and recomputes the release hashes on the built bytes. `tools/build/verify.mjs` then
+checks that every module parses, every import resolves, every map exists, every hash matches, no tracked file
+disappeared and the CSP meta is unchanged. On any error the step restores the source (`git checkout` and
+`git clean` inside `lucid/`) and the source is deployed unminified, so the other sites in the same deploy are never
+blocked. What learners run can be audited against the repository through the maps. `.github/workflows/lucid-verify.yml`
+runs the unit tests and the e2e suite against a built copy on every push that touches `lucid/`, without gating the
+deploy.
 
 ## 8. Configuration
 

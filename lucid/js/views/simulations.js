@@ -3,6 +3,7 @@
 import { html, render, on } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, confirmDialog, toast } from '../ui/components.js';
 import { configured, auth } from '../core/api.js';
 import { model, profile, aiConsent } from '../core/learner.js';
@@ -12,7 +13,7 @@ import { MODULES, fitNote, levelGuide, hubFilters, hubSections, hubEvents, place
 
 export default async function simulations(el, ctx) {
   ctx.setTitle(t('nav.simulations'));
-  const data = await content.scenarios();
+  const data = await content.scenarioIndex();
   const list = data?.scenarios || [];
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   const state = { module: MODULES.some(([id]) => id === ctx.query.m) ? ctx.query.m : 'all', scope: 'all', open: new Set(), goals: profile()?.goals || [] };

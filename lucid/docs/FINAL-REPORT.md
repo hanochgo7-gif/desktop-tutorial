@@ -53,6 +53,32 @@ device, optional Supabase (Postgres with row-level security, Auth, an Edge Funct
 Messages API from the edge function only (official TypeScript SDK, structured outputs, refusal fallback, cached
 prompts). The architecture and its decisions are in `docs/architecture.md`.
 
+## 2a. Speed (2026-11-07)
+
+A speed programme (`perf/plan.json`, results `perf/after.md`, raw numbers `perf/after.json`) measured the app on a
+throttled phone profile against the production tree, changed it, and went through seven adversarial review rounds
+before release. Numbers are medians of 3 alternated runs in one window; the full tables, the misses and the method
+are in `perf/after.md`.
+
+- **What changed.** GitHub Pages now serves a minified build (`tools/build/build.mjs`, checked by `verify.mjs`; the
+  deploy falls back to the source tree on any build error). Code is served cache-first from a per-release cache
+  checked against `release.json` (128-bit hashes anchored in `sw.js`); a release downloads only what changed and
+  keeps saved lessons; content is split into per-item files with generated indexes; modules are preloaded by route.
+  `js/core/compat.js` keeps a tab opened on the previous release working, with the age filter, until it reloads.
+- **Cold loads, phone:** welcome 2050 → 1511 ms (first paint 2072 → 632 ms), Today 3695 → 1701 ms, reading
+  7172 → 2295 ms, level check A1 7320 → 2095 ms.
+- **Returning visits, against production `d83a500`:** warm Today 372-405 ms in every HTTP-cache state, against
+  460 ms (fresh), 1385 ms (stale), 2120 ms (after a push) and 16481 ms (lie-fi); a heavy-history learner's warm
+  Today 681 vs 1084 ms (-37 %; 30-43 % across windows).
+- **Not met:** welcome 1511 against a 1450 ms target, the drill route, request counts on two routes, cold Today
+  261 KB gz against 180, first-session Today → reading 730-891 ms against 300, and a lesson's warm TBT of 45-61 ms
+  against 0 for the base.
+- **Security:** the worker was reviewed for S-15 in every round (`qa/security-review.md` 5a); the last round's
+  reviewers approved (one with a condition, met by a fix), and the lead signed off.
+- **Known limits, documented in `architecture.md` section 7:** on a nearly full origin some files are fetched
+  rather than kept offline; with no `release.json` on a first visit nothing is stored for offline use; the one load
+  that hands over to a new release is about 0.85 s slower, once per deploy.
+
 ## 3. Status of features
 
 The full table with one status per feature is in `08-product-specification.md`. In short:
@@ -87,14 +113,15 @@ Run on the final tree:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`, 24 files) | 302 of 302 pass |
-| Database (`npm run test:db`, PGlite) | 9 of 9 pass |
-| Edge function (Deno) | 20 of 20 pass |
-| Browser end-to-end (`tests/e2e/run.mjs`) | 56 of 56 checks pass, covering the brief's 17 acceptance criteria and the QA findings |
+| Unit (`npm test`) | 433 of 433 pass |
+| Database (`npm run test:db`, PGlite) | 13 of 13 pass |
+| Edge function (Deno) | 20 of 20 pass (not re-run after the no-age-limit prompt change) |
+| Browser end-to-end (`tests/e2e/run.mjs`) | 61 of 61 checks pass on the source and on the built (deployed) tree, covering the brief's 17 acceptance criteria, the QA findings and the no-age-limit checks |
+| Speed and upgrade suites (`perf-boot`, `perf-runtime`, `upgrade.mjs`) | 13, 9 and 24 of 24 pass; `upgrade.mjs` runs on the source and the built tree, from production `d83a500` |
 | UX round 3 browser suites (`tests/e2e/<lane>.mjs`, 15 files) | 226 of 226 checks pass; each final-round check was also run once against the code without its fix and failed there |
 | Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 29 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
 | Content validator | 75 lessons and every content file: 0 errors and 1 warning: 818 authored first-try notes give the answer without naming a rule, so the app holds them back before a second try (rewriting them is open content work) (the checks include the checks for split brackets and quote marks and for answer-length cues) |
-| Performance (throttled 1.6 Mbps, 150 ms, 4x CPU, no compression) | first visit to Welcome ready in about 2.9 s, 374 KB uncompressed (GitHub Pages serves it compressed); repeat visits and offline use come from the service worker |
+| Performance (phone profile, `tools/perf.mjs`) | see section 2a and `perf/after.md` |
 
 The mapping from each acceptance criterion to its checks, and which are covered only with mocks, is in section 13 of
 the specification.

@@ -83,8 +83,9 @@ export function createStore(backend = memoryBackend(), { now = () => new Date(),
 
   const store = {
     backendKind: backend.kind,
-    async load() {
-      const rows = await backend.load();
+    // preloaded: the backend's rows when the caller has just read them (openStore), so the database is read once.
+    async load(preloaded = null) {
+      const rows = preloaded || await backend.load();
       for (const r of rows) if (data.has(r.coll)) data.get(r.coll).set(r.id, r.data);
       return rows.length;
     },
@@ -209,21 +210,25 @@ export async function eraseDevice({ storages = [browserStorage(), (() => { try {
   } catch { /* caches unavailable */ }
 }
 
-// The app's singleton, created by app.js once it knows which backend works.
+// The app's singleton, created by app.js once it knows which backend works. The probe read decides between
+// IndexedDB and memory, and its rows are the store's rows: the database is read (and deserialised) once.
+// persistent: the backend factory (tests pass a counting one); null or a throw means memory only.
 export let store = null;
-export async function openStore() {
+export async function openStore({ persistent = () => (typeof indexedDB !== 'undefined' ? indexedDbBackend() : null) } = {}) {
   let backend = memoryBackend();
+  let rows = null;
   try {
-    if (typeof indexedDB !== 'undefined') {
-      const idb = indexedDbBackend();
-      await idb.load();
+    const idb = persistent();
+    if (idb) {
+      rows = await idb.load();
       backend = idb;
     }
   } catch (e) {
+    rows = null;
     console.warn('IndexedDB unavailable; progress is kept for this session only.', e);
   }
   store = createStore(backend);
-  await store.load();
+  await store.load(rows);
   addEventListener('pagehide', () => store.flush());
   return store;
 }

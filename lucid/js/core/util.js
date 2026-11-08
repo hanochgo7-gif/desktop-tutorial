@@ -61,6 +61,57 @@ export function shuffle(arr, seed = Math.random()) {
   return a;
 }
 export const todayKey = (d = new Date()) => d.toISOString().slice(0, 10);
+
+// ---------- dates as ISO strings (contract C-3) ----------
+// A canonical timestamp is exactly what Date.prototype.toISOString() writes for years 0-9999:
+// "YYYY-MM-DDTHH:mm:ss.sssZ" with a real calendar date. Such a string already starts with its UTC day, and two of
+// them order as plain strings, so the hot paths need no Date per record. Anything else (offsets, no milliseconds,
+// Date objects, numbers, impossible dates that Date would roll over) goes the old way.
+const ISO_SHAPE = /^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d\.\d{3}Z$/;
+const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+export function isCanonicalIso(x) {
+  if (typeof x !== 'string' || x.length !== 24 || !ISO_SHAPE.test(x)) return false;
+  const day = (x.charCodeAt(8) - 48) * 10 + x.charCodeAt(9) - 48;
+  if (day <= 28) return true;
+  const month = (x.charCodeAt(5) - 48) * 10 + x.charCodeAt(6) - 48;
+  if (month !== 2) return day <= MONTH_DAYS[month - 1];
+  const year = Number(x.slice(0, 4));
+  return day <= ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0 ? 29 : 28);
+}
+// The UTC day of a timestamp: todayKey(new Date(x)) without building a Date for a canonical string.
+export const dayOf = (x) => (isCanonicalIso(x) ? x.slice(0, 10) : todayKey(new Date(x)));
+
+// ---------- shared Intl objects (contract C-3) ----------
+// Building an Intl object is the expensive part (the first one of a kind also loads its ICU data), so lists
+// format and sort with one shared object per kind and language instead of one per row or per comparison. Their
+// options are the ones the call sites used, so the output is identical.
+let collator = null;
+// a.localeCompare(b, 'en', { sensitivity: 'base' }) as one object: collatorEn().compare(a, b).
+export const collatorEn = () => (collator ||= new Intl.Collator('en', { sensitivity: 'base' }));
+const relTimes = new Map();
+// new Intl.RelativeTimeFormat(lang, { numeric: 'auto' }), one per language.
+export function relTime(lang) {
+  let f = relTimes.get(lang);
+  if (!f) relTimes.set(lang, (f = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' })));
+  return f;
+}
+// n.toLocaleString('en-US') for an integer ("1,500"), without ICU; anything else is passed to toLocaleString.
+export const groupDigits = (n) => (Number.isSafeInteger(n) && !Object.is(n, -0) ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : n.toLocaleString('en-US'));
+// Builds the shared objects (and loads their ICU data) when the page is idle, so the first open of the vocabulary
+// notebook or the expressions list does not pay for it. Boot calls it once after the first route renders; later
+// calls do nothing.
+let warmed = false;
+export function warmIntl(lang = globalThis.document?.documentElement?.lang) {
+  if (warmed) return;
+  warmed = true;
+  const idle = globalThis.requestIdleCallback || ((fn) => setTimeout(fn, 1));
+  idle(() => {
+    try {
+      collatorEn().compare('a', 'b');
+      relTime(lang === 'he' ? 'he' : 'en').format(1, 'day');
+    } catch { /* no Intl: the callers build theirs */ }
+  });
+}
 export const pct = (x) => (x == null ? '—' : `${Math.round(x * 100)}%`);
 
 // Download text as a file (export).

@@ -5,7 +5,7 @@
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -28,9 +28,9 @@ async function check(name, fn) {
 }
 const assert = (c, msg) => { if (!c) throw new Error(msg); };
 
-async function newPage(browser, { width = 390, height = 844, dark = false } = {}) {
+async function newPage(browser, { width = 390, height = 844, dark = false, sw = 'block' } = {}) {
   const touch = width < 600;
-  const ctx = await browser.newContext({ viewport: { width, height }, hasTouch: touch, isMobile: touch, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers: 'block', colorScheme: dark ? 'dark' : 'light' });
+  const ctx = await browser.newContext({ viewport: { width, height }, hasTouch: touch, isMobile: touch, reducedMotion: 'reduce', locale: 'he-IL', serviceWorkers: sw, colorScheme: dark ? 'dark' : 'light' });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => pageErrors.push(`${page.url()} :: ${e.message}`));
   page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) pageErrors.push(`${page.url()} :: console ${m.text()}`); });
@@ -336,6 +336,55 @@ try {
     assert(!/wa-\d\d/.test(text) && /A minimum age for social media/.test(text), 'the C2 final still shows assignment ids');
     assert(/יעד 1,500-2,000 \(מתקבל 1,400-2,200\)/.test(await page.textContent('.editor-stats')), `ranges: ${await page.textContent('.editor-stats')}`);
     await ctx.close();
+  });
+
+  // ---------- perf lane "content" (docs/perf/plan.json): one item's file, not every scenario or task ----------
+  const requested = (page) => { const urls = []; page.on('request', (r) => urls.push(new URL(r.url()).pathname)); return urls; };
+  await check('PERF-C3. A scenario loads its own file and the small list; an unknown id says "not found" as before', async () => {
+    const { ctx, page } = await newPage(browser);
+    const urls = requested(page);
+    await learnerAt(page, 'A2');
+    for (const r of ['real-life', 'conversations', 'practice', 'scenario/rl-hotel-checkin-basics?tab=practise', 'today']) {
+      await page.goto(`${BASE}#/${r}`);
+      await page.waitForSelector('#view > :not(.boot)');
+      await page.waitForTimeout(300);
+    }
+    assert(urls.includes('/content/real-life/scenario/rl-hotel-checkin-basics.json') && urls.includes('/content/real-life/index.json'), `the small files were not used: ${urls.filter((u) => u.includes('/content/'))}`);
+    const big = urls.filter((u) => /real-life\/scenarios\.json|writing\/(exercises|assignments)\.json/.test(u));
+    assert(!big.length, `full files downloaded: ${big}`);
+    await page.goto(`${BASE}#/scenario/rl-no-such-scenario`);
+    await page.waitForSelector('#view .empty');
+    assert(/התרחיש לא נמצא|Scenario not found/.test(await page.textContent('#view')), 'no "not found" screen');
+    await ctx.close();
+  });
+  await check('PERF-C5. A final task\'s source pack loads when needed: after choosing a topic, on reopening, with the task files unreachable (from the full file), and offline through the worker', async () => {
+    const pack = JSON.parse(readFileSync(join(lucid, 'content/writing/assignments.json'), 'utf8')).assignments.find((a) => a.id === 'wa-08').source_pack;
+    for (const offline of ['online', 'task files unreachable', 'offline']) {
+      const { ctx, page } = await newPage(browser, { sw: offline === 'offline' ? 'allow' : 'block' });
+      await learnerAt(page, 'C2');
+      // The index and task files fail (a device whose cache holds only the full files): content.js falls back to the
+      // full assignments file, fetched from the server here.
+      if (offline === 'task files unreachable') await page.route(/content\/writing\/(task\/|index\.json)/, (r) => r.abort());
+      // Offline: the worker has installed (the task files are in its precache, contract C-2) and the network is cut.
+      if (offline === 'offline') {
+        await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60000 });
+        await ctx.setOffline(true);
+      }
+      await page.goto(`${BASE}#/writing/final-C2`);
+      await page.waitForSelector('#essay');
+      assert(!(await page.$('aside [data-tab="sources"]')), 'a Sources tab before any topic is chosen');
+      await page.check('input[name=topic][value="0"]');
+      await page.waitForSelector('aside [data-tab="sources"]');
+      await page.click('aside [data-tab="sources"]');
+      await page.waitForSelector('aside .passage.source');
+      assert(await page.$$eval('aside .passage.source', (p) => p.length) === pack.length, `${offline}: the pack is not shown`);
+      await page.fill('#essay', 'A first sentence about social media and age limits.');
+      await page.waitForTimeout(900);
+      await page.reload();
+      await page.waitForSelector('#essay');
+      assert(await page.$('aside [data-tab="sources"]'), `${offline}: reopened with a chosen topic, no Sources tab at the first draw`);
+      await ctx.close();
+    }
   });
 
   await check('Layout: lane screens at 390 (light and dark) and at 150% text do not scroll sideways', async () => {

@@ -512,6 +512,15 @@ async function main() {
   ];
   for (const rel of bidiFiles) if (existsSync(join(ROOT, rel))) { try { bidiBrackets(rel, read(join(ROOT, rel))); } catch { /* invalid JSON is reported above */ } }
 
+  // The generated index, per-item, centre and pool files (tools/build-content-index.mjs) must equal what their
+  // sources give now: a source edited without regenerating, or a generated file edited by hand, is an error.
+  if (!only) {
+    try {
+      const { drift } = await import('./build-content-index.mjs');
+      for (const d of drift(ROOT)) err(`content/${d.path}`, '', `generated file is ${d.problem === 'differs' ? 'stale' : d.problem}: run node tools/build-content-index.mjs`);
+    } catch (e) { err('tools/build-content-index.mjs', '', `could not build the generated files: ${e.message}`); }
+  }
+
   // r4 EX-5: one warning with the count; --rules lists every entry.
   if (leaks.length) warn('lessons', 'wrong_feedback', `${leaks.length} first-try notes give the answer and have no rule (list them with --rules)`);
   if (process.argv.includes('--rules')) for (const l of leaks) console.log('RULE ', l);

@@ -433,6 +433,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .who .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);align-items:start;margin-top:36px}
 .who .body{display:grid;gap:16px;color:var(--muted)}
 .who .body .reach{font-family:var(--display);font-size:clamp(22px,2.6vw,28px);font-weight:700;line-height:1.35;color:var(--olive-deep);border-inline-start:3px solid var(--gold);padding-inline-start:16px;margin-block:4px}
+.adopt2 .scarce{margin:0;padding:12px 16px;border-inline-start:3px solid var(--gold);background:var(--ivory);border-radius:0 12px 12px 0;font-size:16px;color:var(--ink)}
+[dir="rtl"] .adopt2 .scarce{border-radius:12px 0 0 12px}
+.figure-card .per{display:block;margin-top:4px;color:var(--gold-on-dark);font-weight:800}
+.taxback{margin:14px 0 0;padding:14px 18px;border:1px solid rgba(233,220,164,.45);border-radius:14px;background:rgba(233,220,164,.08);color:var(--on-dark);font-size:17px;max-width:46em}
+.taxback b{color:var(--gold-on-dark)}
+.taxback span{display:block;margin-top:4px;font-size:14px;color:#d6dcc6}
 .adopt2 .tagline{font-family:var(--display);font-size:clamp(20px,2.2vw,24px);font-weight:700;color:var(--olive-deep);margin:4px 0 0}
 .who .facts{margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .who .facts div{border-top:2px solid var(--olive);padding-top:12px;min-width:0}
@@ -516,6 +522,11 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .bars .fill{display:block;height:100%;border-radius:6px;background:var(--olive)}
 .bars .ops .fill{background:var(--sage)}
 .ops-note{margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--sage-soft);font-size:16px;color:var(--olive-deep)}
+.seal{display:flex;align-items:center;gap:16px;margin-bottom:22px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:var(--paper);text-decoration:none;color:var(--ink,#1f2a14)}
+.seal img{width:84px;height:auto;flex:none}
+.seal b{display:block;font-size:17px;color:var(--olive-deep)}
+.seal span span{display:block;font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.seal:hover{border-color:var(--olive)}
 .reg{margin:0;display:grid;border-top:1px solid var(--line)}
 .reg div{display:grid;grid-template-columns:minmax(0,14ch) 1fr;gap:12px;padding-block:13px;border-bottom:1px solid var(--line);font-size:16px}
 .reg dt{color:var(--muted)}
@@ -673,7 +684,7 @@ footer .legal ul{padding-inline-start:18px}
         <a class="btn btn-primary" href="#adopt-he">לחברות: אמצו צוות <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#donate-he">תרומה אישית</a>
       </div>
-      <ul class="chips" aria-label="פרטי העמותה"><li>ע"ר 580218642</li><li>ניהול תקין 2026</li><li>זיכוי מס לפי סעיף 46</li></ul>
+      <ul class="chips" aria-label="פרטי העמותה"><li>57 צוותים כבר עברו מסע חוסן</li><li>ע"ר 580218642</li><li>ניהול תקין 2026</li><li>זיכוי מס לפי סעיף 46</li><li>תו מידות לאפקטיביות</li></ul>
       <p class="abroad-hint" lang="en" dir="ltr" style="text-align:right">Donating from abroad? <button type="button" class="linkish" data-set-lang="en" data-goto="abroad">Ways to give from the US, UK or Canada →</button></p>
     </div>
     <figure class="medal"><img src="logo.webp" alt="סמל העמותה: כנפי הסיירת מעל שיירת לוחמים בהרים" width="340" height="260"></figure>
@@ -685,13 +696,13 @@ footer .legal ul{padding-inline-start:18px}
   <p class="label" id="now-h-he">למה עכשיו</p>
   <div class="grid">
     <div class="rv">
-      <p class="big41" aria-hidden="true">41</p>
-      <p class="caption"><span class="sr">41 </span>לוחמים מהיחידה נפלו מאז 7 באוקטובר 2023, ובהם מפקד היחידה, סא"ל יונתן "ברנש" צור ז"ל.</p>
+      <p class="big41" aria-hidden="true">49</p>
+      <p class="caption"><span class="sr">49 </span>לוחמים מהיחידה נפלו מאז 7 באוקטובר 2023, מצמרת הפיקוד של היחידה ועד אחרון הלוחמים.</p>
     </div>
     <dl class="rv">
       <div><dt>‎+150%‎</dt><dd>צפי לגידול בבקשות לטיפול נפשי ב-2026</dd></div>
-      <div><dt>25</dt><dd>מסעות צוות מתוכננים ל-2026. הביקוש עדיין גדול מהיכולת.</dd></div>
-      <div><dt>97</dt><dd>משפחות שכולות של היחידה. אנחנו לצדן לכל החיים.</dd></div>
+      <div><dt>25</dt><dd>צוותים נוספים כבר משובצים למסעות חוסן ב-2027.</dd></div>
+      <div><dt>108</dt><dd>חללי היחידה מאז הקמתה. אנחנו עם המשפחות שלהם לכל החיים.</dd></div>
     </dl>
   </div>
   <p class="src">מקור: נתוני העמותה, 2026.</p>
@@ -716,14 +727,15 @@ footer .legal ul{padding-inline-start:18px}
     <figure class="adopt-art"><img class="paint reveal" src="assets/team.webp" alt="צוות בוגרים במסע חוסן, עומדים חבוקים בשביל ביער, גבם למצלמה" loading="lazy" width="1200" height="900"><span class="illus">צילום ממסע חוסן צוותי</span></figure>
     <div class="adopt-body">
       <div class="head"><p class="label">לחברות ישראליות</p><h2>אמצו צוות לוחמים</h2><p class="lead">צוות של 15 עד 20 לוחמים ששירתו יחד יוצא למסע חוסן, בליווי אנשי מקצוע ובהתאמה לצרכיו. הזדמנות לתת למי שהיו שם יחד את המקום לעבד, להתחזק ולהמשיך יחד. חברה מאמצת מממנת מסע מלא, או משתתפת במימון.</p></div>
-      <div class="figure-card"><b>‎$13,000‎</b><span>מימון מלא של מסע חוסן לצוות אחד, לפי תקציב העמותה. אפשר גם לאמץ תחום אחר מתוך ארבעת עמודי התמיכה.</span></div>
+      <div class="figure-card"><b>‎$13,000‎</b><span>מימון מלא של מסע חוסן לצוות אחד, לפי תקציב העמותה. <strong class="per">כ-$650 עד $870 ללוחם.</strong> אפשר גם לאמץ תחום אחר מתוך ארבעת עמודי התמיכה.</span></div>
       <ol class="howto stagger" aria-label="איך זה עובד">
         <li><b>שיחת היכרות</b><span>15 דקות עם המנכ"ל, סא"ל (מיל.) חזקי מלאכי.</span></li>
         <li><b>בוחרים יחד</b><span>מסע מלא, השתתפות במימון, או תחום אחר.</span></li>
-        <li><b>תרומה מתועדת</b><span>קבלה לפי סעיף 46, בתוקף עד 31.12.2027.</span></li>
+        <li><b>תרומה מתועדת</b><span>קבלה לפי סעיף 46, בתוקף עד 31.12.2027. לחברה: זיכוי בשיעור מס החברות.</span></li>
         <li><b>עדכון מהשטח</b><span>העמותה מעדכנת את החברה על השימוש בתרומה.</span></li>
       </ol>
-      <ul class="assure"><li>58 מסעות צוות עד היום, יותר מ-900 משתתפים</li><li>ניהול תקין 2026</li><li>תו מידות לאפקטיביות</li><li>תקציב שקוף, 9.5% תפעול</li></ul>
+      <ul class="assure"><li>57 צוותים עברו מסע חוסן ב-2025 וב-2026</li><li>ניהול תקין 2026</li><li>תו מידות לאפקטיביות</li><li>תקציב שקוף, 9.5% תפעול</li></ul>
+      <p class="scarce">57 צוותים כבר עברו מסע חוסן משנה חיים ב-2025 וב-2026, ו-25 צוותים נוספים כבר משובצים ל-2027. כל מסע שממומן מאפשר לצוות נוסף לצאת לדרך.</p>
       <p class="tagline">אמצו צוות. היו שותפים בחלק משמעותי מהדרך שלו קדימה.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%97%D7%96%D7%A7%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%97%D7%91%D7%A8%D7%AA%20___%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%90%D7%99%D7%9E%D7%95%D7%A5%20%D7%A6%D7%95%D7%95%D7%AA." target="_blank" rel="noopener">לשיחה עם חזקי בוואטסאפ <span class="arr" aria-hidden="true">→</span></a>
@@ -741,7 +753,7 @@ footer .legal ul{padding-inline-start:18px}
     <div class="body">
       <p>אנחנו מכירים את האנשים שמאחורי השמות, את הצוותים ואת הדרך שעברו יחד. ההיכרות הזאת מאפשרת לנו לזהות גם קושי שלא נאמר בקול, להרים טלפון למי שלא יבקש עזרה, ולבנות את האמון שבלעדיו קשה להתחיל.</p>
       <p class="reach">כי לפעמים, כדי להסכים לקבל עזרה, צריך שמישהו שמכיר אותך יושיט יד.</p>
-      <p>סיירת נח"ל היא יחידת עילית בחטיבת הנח"ל. את העמותה הקים ב-1993 סא"ל אייל וייס ז"ל, לשעבר מפקד הסיירת. אחרי שסא"ל יונתן "ברנש" צור נפל ב-7 באוקטובר, עמותות הבוגרים של היחידה התאחדו לעמותה אחת.</p>
+      <p>סיירת נח"ל היא יחידת עילית בחטיבת הנח"ל. את העמותה הקים ב-1993 סא"ל אייל וייס ז"ל, לשעבר מפקד הסיירת. אחרי 7 באוקטובר, עמותות הבוגרים של היחידה התאחדו לעמותה אחת.</p>
       <p>את העמותה מנהלים 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי.</p>
     </div>
     <div>
@@ -767,13 +779,13 @@ footer .legal ul{padding-inline-start:18px}
   <ol class="trail">
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-journey.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">חוסן נפשי וטראומה קרבית</p><h3>לרפא את הפצעים שלא רואים</h3>
-      <p>צוות של 15 עד 20 לוחמים שלחמו יחד יוצא למסע עיבוד, בליווי אנשי מקצוע. ב-2025 התקיימו 17 מסעות צוות, 25 מסעות אישיים ו-5 מסעות לאמהות שכולות.</p>
+      <p>צוות של 15 עד 20 לוחמים שלחמו יחד יוצא למסע עיבוד, בליווי אנשי מקצוע.</p>
       <p class="stat"><b>‎400+‎</b><span>בוגרים ובני משפחה בליווי בכל שנה</span></p>
     </article></li>
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-family.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">רווחה ומשפחות</p><h3>לכל החיים</h3>
       <p>ליווי אישי לפצועים ולמשפחותיהם כל עוד צריך, תמיכה במשפחות של חללי היחידה, ועזרה למשפחות מילואימניקים בזמן גיוסים ארוכים.</p>
-      <p class="stat"><b>97</b><span>משפחות שכולות</span></p>
+      <p class="stat"><b>108</b><span>חללי היחידה מאז הקמתה</span></p>
     </article></li>
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-compass.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">קריירה וחיים אחרי השירות</p><h3>מנהיגי המחר</h3>
@@ -806,12 +818,14 @@ footer .legal ul{padding-inline-start:18px}
       <p class="note">מקור: מצגת העמותה, תקציב 2026.</p>
     </div>
     <div>
+      <a class="seal" href="https://midot.org.il/association/%d7%9e%d7%92%d7%99%d7%a0%d7%99-%d7%94%d7%99%d7%a0%d7%a9%d7%95%d7%a3" target="_blank" rel="noopener"><img src="assets/midot-seal.png" alt="תו מידות לאפקטיביות" width="96" height="91"><span><b>העמותה זכתה בתו מידות לאפקטיביות</b><span>בתוקף עד 03/2028 · לאימות באתר מידות</span></span></a>
       <h3>העמותה ברשם</h3>
       <dl class="reg">
         <div><dt>שם רשום</dt><dd>מגיני הינשוף (ע"ר), בתהליך שינוי שם לעמותת בוגרי סיירת נח"ל</dd></div>
         <div><dt>מספר עמותה</dt><dd>580218642</dd></div>
         <div><dt>ניהול תקין</dt><dd>2026</dd></div>
         <div><dt>סעיף 46</dt><dd>בתוקף עד 31.12.2027</dd></div>
+        <div><dt>תו מידות</dt><dd>תו מידות לאפקטיביות, בתוקף עד 03/2028</dd></div>
         <div><dt>מחזור מדווח</dt><dd>‏1,615,762 ₪ (2024)</dd></div>
         <div><dt>כתובת</dt><dd>אולפן 1, רביבים</dd></div>
       </dl>
@@ -821,7 +835,8 @@ footer .legal ul{padding-inline-start:18px}
 </div></section>
 
 <section class="dark donate" id="donate-he" data-sec="donate"><div class="wrap">
-  <div class="head"><p class="label">תרומה</p><h2>הצטרפו למשפחה</h2><p class="lead">תרומה חודשית עוזרת לעמותה לתכנן קדימה: עוד מסע, עוד משפחה, עוד בוגר. גם תרומה חד-פעמית עוזרת.</p></div>
+  <div class="head"><p class="label">תרומה</p><h2>הצטרפו למשפחה</h2><p class="lead">תרומה חודשית עוזרת לעמותה לתכנן קדימה: עוד מסע, עוד משפחה, עוד בוגר. אפשר להתחיל מסכום חודשי קטן ולהפסיק בכל עת. גם תרומה חד-פעמית עוזרת.</p>
+    <p class="taxback"><b>35% חוזרים אליכם.</b> לפי סעיף 46, יחיד מקבל זיכוי ממס של 35% מסכום התרומה: תרומה של ‎₪1,000 עולה לכם בפועל כ-‎₪650. <span>בכפוף לתנאי הסעיף. תרומה עד 31.12 נכנסת לשנת המס הנוכחית.</span></p></div>
   <div class="grid">
     <div>
       <h3>מה התרומה מאפשרת</h3>
@@ -874,7 +889,7 @@ footer .legal ul{padding-inline-start:18px}
   </div>
 </div></section>
 
-<section class="closing" id="contact-he" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="איור בצבעי מים: מדורה בוואדי במדבר, ומסביבה מעגל אבנים" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>פעם משפחה, תמיד משפחה.</h2><p class="lead">ההחלמה צריכה להתחיל עכשיו, והביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p><div class="ctas">
+<section class="closing" id="contact-he" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="איור בצבעי מים: מדורה בוואדי במדבר, ומסביבה מעגל אבנים" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>פעם משפחה, תמיד משפחה.</h2><p class="lead">הם שמרו עלינו. עכשיו תורנו לשמור עליהם. ההחלמה צריכה להתחיל עכשיו, והביקוש לטיפול גדל מהר יותר מהיכולת שלנו לתת אותו.</p><div class="ctas">
     <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בשקלים ₪</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/he/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">תרומה בדולרים $</a>
   </div></div><span class="illus">איור</span></div><div class="wrap"><div class="contacts">
@@ -931,7 +946,7 @@ footer .legal ul{padding-inline-start:18px}
         <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in USD <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#abroad-en">Ways to give from abroad</a>
       </div>
-      <ul class="chips" aria-label="About the association"><li>Registered Israeli non-profit 580218642</li><li>Tax receipts for donors abroad</li><li>Monthly giving available</li></ul>
+      <ul class="chips" aria-label="About the association"><li>57 teams have completed a resilience journey</li><li>Registered Israeli non-profit 580218642</li><li>Tax receipts for donors abroad</li><li>Midot Seal of Effectiveness</li></ul>
       <p class="abroad-hint">Israeli company? <button type="button" class="linkish" data-set-lang="he" data-goto="adopt" lang="he" dir="rtl">אמצו צוות, בעברית ←</button></p>
     </div>
     <figure class="medal"><img src="logo.webp" alt="Association emblem: the unit's wings above a line of soldiers hiking through hills" width="340" height="260"></figure>
@@ -943,13 +958,13 @@ footer .legal ul{padding-inline-start:18px}
   <p class="label" id="now-h-en">Why now</p>
   <div class="grid">
     <div class="rv">
-      <p class="big41" aria-hidden="true">41</p>
-      <p class="caption"><span class="sr">41 </span>soldiers of the unit have fallen since October 7, 2023, among them its commander, Lt. Col. Yonatan "Barnash" Tzur.</p>
+      <p class="big41" aria-hidden="true">49</p>
+      <p class="caption"><span class="sr">49 </span>soldiers of the unit have fallen since October 7, 2023, from the unit's top command to its youngest fighters.</p>
     </div>
     <dl class="rv">
       <div><dt>+150%</dt><dd>expected rise in requests for mental health care in 2026</dd></div>
-      <div><dt>25</dt><dd>team resilience journeys planned for 2026. Demand still exceeds capacity.</dd></div>
-      <div><dt>97</dt><dd>bereaved families of the unit. We stand by them for life.</dd></div>
+      <div><dt>25</dt><dd>more teams already scheduled for resilience journeys in 2027.</dd></div>
+      <div><dt>108</dt><dd>of the unit's soldiers have fallen since its founding. We stand by their families for life.</dd></div>
     </dl>
   </div>
   <p class="src">Source: association figures, 2026.</p>
@@ -989,14 +1004,15 @@ footer .legal ul{padding-inline-start:18px}
     <figure class="adopt-art"><img class="paint reveal" src="assets/team.webp" alt="An alumni team on a resilience journey, standing arm in arm on a forest path, backs to the camera" loading="lazy" width="1200" height="900"><span class="illus">Photo from a team resilience journey</span></figure>
     <div class="adopt-body">
       <div class="head"><p class="label">For companies and foundations</p><h2>Adopt a team</h2><p class="lead">A team of 15 to 20 fighters who served together goes on a resilience journey with mental health professionals, shaped around its needs: room to process, grow stronger and keep going together. A partner funds the full journey or shares its cost.</p></div>
-      <div class="figure-card"><b>$13,000</b><span>Funds one full resilience journey for one team, per the association's budget. You can also adopt another of the four pillars.</span></div>
+      <div class="figure-card"><b>$13,000</b><span>Funds one full resilience journey for one team, per the association's budget. <strong class="per">Roughly $650 to $870 per fighter.</strong> You can also adopt another of the four pillars.</span></div>
       <ol class="howto stagger" aria-label="How it works">
         <li><b>Intro call</b><span>15 minutes with our CEO, Lt. Col. (Res.) Hezki Malachi.</span></li>
         <li><b>Choose together</b><span>A full journey, a share of one, or another program.</span></li>
         <li><b>Documented gift</b><span>A tax receipt through Jgive or the AID Coalition.</span></li>
         <li><b>Report back</b><span>We update you on how your gift was used.</span></li>
       </ol>
-      <ul class="assure"><li>58 team journeys to date, 900+ participants</li><li>Proper Management Certificate 2026</li><li>Midot Seal of Effectiveness</li><li>Transparent budget, 9.5% operations</li></ul>
+      <ul class="assure"><li>57 teams completed journeys in 2025–2026</li><li>Proper Management Certificate 2026</li><li>Midot Seal of Effectiveness</li><li>Transparent budget, 9.5% operations</li></ul>
+      <p class="scarce">57 teams completed a life-changing resilience journey in 2025–2026, and 25 more teams are already scheduled for 2027. Every journey that is funded lets one more team set out.</p>
       <p class="tagline">Adopt a team. Be part of a meaningful stretch of its road ahead.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=Hello%20Hezki%2C%20I%27d%20like%20to%20hear%20about%20supporting%20the%20Sayeret%20Nahal%20Alumni%20Association." target="_blank" rel="noopener">Message Hezki on WhatsApp <span class="arr" aria-hidden="true">→</span></a>
@@ -1015,7 +1031,7 @@ footer .legal ul{padding-inline-start:18px}
       <p>We know the people behind the names, the teams and the road they walked together. That lets us notice the struggle no one says out loud, call the person who would never ask for help, and build the trust that everything else depends on.</p>
       <p class="reach">Because sometimes, to accept help, you need someone who knows you to reach out.</p>
       <p>In Israel, most young people serve in the army. A few are selected for units like Sayeret Nahal, part of the Nahal Brigade, where small teams train and fight together through the hardest missions. Those teammates stay family for life.</p>
-      <p>The association was founded in 1993 by the late Lt. Col. Eyal Weiss, a former commander of the unit. After the unit's commander, Lt. Col. Yonatan "Barnash" Tzur, fell on October 7, its alumni groups united as one. Today it is run by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p>
+      <p>The association was founded in 1993 by the late Lt. Col. Eyal Weiss, a former commander of the unit. After October 7, the unit's alumni groups united as one. Today it is run by 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi.</p>
     </div>
     <div>
       <dl class="facts">
@@ -1040,13 +1056,13 @@ footer .legal ul{padding-inline-start:18px}
   <ol class="trail">
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-journey.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">Combat trauma and mental health</p><h3>Healing the invisible wounds</h3>
-      <p>A team of 15 to 20 fighters who served together goes on a guided combat-processing journey with mental health professionals. In 2025 we ran 17 team journeys, 25 individual journeys and 5 journeys for bereaved mothers.</p>
+      <p>A team of 15 to 20 fighters who served together goes on a guided combat-processing journey with mental health professionals.</p>
       <p class="stat"><b>400+</b><span>veterans and family members supported each year</span></p>
     </article></li>
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-family.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">Welfare and families</p><h3>For life</h3>
       <p>Personal care for wounded soldiers and their families for as long as it takes, support for the families of the unit's fallen, and help for reservists' families through long call-ups.</p>
-      <p class="stat"><b>97</b><span>bereaved families</span></p>
+      <p class="stat"><b>108</b><span>fallen since the unit was founded</span></p>
     </article></li>
     <li class="rv"><span class="pin" aria-hidden="true"><img src="assets/i-compass.svg" alt="" width="34" height="34"></span><article class="card">
       <p class="tag">Careers and life after service</p><h3>Leaders of tomorrow</h3>
@@ -1079,12 +1095,14 @@ footer .legal ul{padding-inline-start:18px}
       <p class="note">Source: the association's 2026 budget, as presented to donors.</p>
     </div>
     <div>
+      <a class="seal" href="https://midot.org.il/association/%d7%9e%d7%92%d7%99%d7%a0%d7%99-%d7%94%d7%99%d7%a0%d7%a9%d7%95%d7%a3" target="_blank" rel="noopener"><img src="assets/midot-seal.png" alt="Midot Seal of Effectiveness" width="96" height="91"><span><b>Awarded the Midot Seal of Effectiveness</b><span>Valid to 03/2028 · verify on Midot's site (Hebrew)</span></span></a>
       <h3>On the public record</h3>
       <dl class="reg">
         <div><dt>Registered name</dt><dd>Meginei HaYanshuf ("Owl Protectors"), changing its name to Sayeret Nahal Alumni Association</dd></div>
         <div><dt>Non-profit no.</dt><dd>580218642</dd></div>
         <div><dt>Proper management</dt><dd>Certified 2026</dd></div>
         <div><dt>Israeli tax credit</dt><dd>Section 46, valid to 31 Dec 2027</dd></div>
+        <div><dt>Midot seal</dt><dd>Midot Seal of Effectiveness, valid to 03/2028</dd></div>
         <div><dt>Reported revenue</dt><dd>₪1,615,762 (2024)</dd></div>
         <div><dt>Address</dt><dd>Ulpan 1, Revivim, Israel</dd></div>
       </dl>
@@ -1094,7 +1112,7 @@ footer .legal ul{padding-inline-start:18px}
 </div></section>
 
 <section class="dark donate" id="donate-en" data-sec="donate"><div class="wrap">
-  <div class="head"><p class="label">Give</p><h2>Join the family</h2><p class="lead">A monthly gift helps the association plan ahead: one more journey, one more family, one more veteran. A one-time gift helps too.</p></div>
+  <div class="head"><p class="label">Give</p><h2>Join the family</h2><p class="lead">A monthly gift helps the association plan ahead: one more journey, one more family, one more veteran. You can start small and stop anytime. A one-time gift helps too.</p></div>
   <div class="grid">
     <div>
       <h3>What your gift makes possible</h3>
@@ -1144,7 +1162,7 @@ footer .legal ul{padding-inline-start:18px}
   </div>
 </div></section>
 
-<section class="closing" id="contact-en" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="Watercolor illustration: a campfire in a desert wadi, ringed by stones" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>Once a family, always a family.</h2><p class="lead">Recovery has to start now, and demand for care is rising faster than our capacity to provide it.</p><div class="ctas">
+<section class="closing" id="contact-en" data-sec="contact"><div class="fireband"><img class="paint" src="assets/fire.webp" alt="Watercolor illustration: a campfire in a desert wadi, ringed by stones" loading="lazy" width="1600" height="905"><div class="embers" aria-hidden="true"><i style="--k:0;--dx:-11px;--sx:35px;--h:199px"></i><i style="--k:1;--dx:-18px;--sx:7px;--h:207px"></i><i style="--k:2;--dx:4px;--sx:40px;--h:204px"></i><i style="--k:3;--dx:-22px;--sx:37px;--h:131px"></i><i style="--k:4;--dx:4px;--sx:-7px;--h:200px"></i><i style="--k:5;--dx:-12px;--sx:-16px;--h:190px"></i><i style="--k:6;--dx:8px;--sx:30px;--h:190px"></i><i style="--k:7;--dx:-1px;--sx:-21px;--h:159px"></i></div><div class="wrap over"><h2>Once a family, always a family.</h2><p class="lead">They stood guard for all of us. Now it is our turn. Recovery has to start now, and demand for care is rising faster than our capacity to provide it.</p><div class="ctas">
     <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in US dollars $</a>
     <a class="btn btn-onfire" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in shekels ₪</a>
   </div></div><span class="illus">Illustration</span></div><div class="wrap"><div class="contacts">
