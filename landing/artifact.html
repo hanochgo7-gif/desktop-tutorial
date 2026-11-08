@@ -243,6 +243,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .taxback{margin:14px 0 0;padding:14px 18px;border:1px solid rgba(233,220,164,.45);border-radius:14px;background:rgba(233,220,164,.08);color:var(--on-dark);font-size:17px;max-width:46em}
 .taxback b{color:var(--gold-on-dark)}
 .taxback span{display:block;margin-top:4px;font-size:14px;color:#d6dcc6}
+.gap{display:grid;gap:10px;margin:0}
+.gap > div{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;border-radius:16px}
+.g-past{padding:12px 18px;background:var(--ivory);border:1px solid var(--line)}
+.g-past b{font-family:var(--display);font-weight:900;font-size:40px;line-height:1;color:var(--olive-deep)}
+.g-past span{font-size:16px;color:var(--muted)}
+.g-next{padding:20px 22px;background:var(--night);color:var(--on-dark)}
+.g-next b{font-family:var(--display);font-weight:900;font-size:clamp(76px,9vw,104px);line-height:.9;color:var(--gold-on-dark)}
+.g-next span{font-size:17px;line-height:1.55;color:#d6dcc6}
+.g-next strong{display:block;font-size:20px;color:#fff;margin-bottom:4px}
 .adopt2 .tagline{font-family:var(--display);font-size:clamp(20px,2.2vw,24px);font-weight:700;color:var(--olive-deep);margin:4px 0 0}
 .who .facts{margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .who .facts div{border-top:2px solid var(--olive);padding-top:12px;min-width:0}
@@ -541,8 +550,8 @@ footer .legal ul{padding-inline-start:18px}
         <li><b>מעבירים ומקבלים קבלה</b><span>בהעברה בנקאית או ב-Jgive. קבלה לפי סעיף 46, ולחברה זיכוי בשיעור מס החברות.</span></li>
         <li><b>עדכון מהשטח</b><span>העמותה מעדכנת את החברה על השימוש בתרומה.</span></li>
       </ol>
-      <ul class="assure"><li>58 צוותים עברו מסע חוסן ב-2025 וב-2026</li><li>ניהול תקין 2026</li><li>תו מידות לאפקטיביות</li><li>שקיפות מלאה</li></ul>
-      <p class="scarce">58 צוותים כבר עברו מסע חוסן משנה חיים ב-2025 וב-2026, ו-25 צוותים נוספים כבר משובצים ל-2027. כל מסע שממומן מאפשר לצוות נוסף לצאת לדרך.</p>
+      <ul class="assure"><li>58 צוותים עברו</li><li>ניהול תקין 2026</li><li>תו מידות</li><li>שקיפות תקציבית</li></ul>
+      <div class="gap"><div class="g-past"><b>58</b><span>צוותים כבר עברו מסע חוסן ב-2025 וב-2026.</span></div><div class="g-next"><b>25</b><span><strong>צוותים כבר משובצים ל-2027, וממתינים למימון.</strong> כאן התרומה שלכם מכריעה: כל מסע שממומן (‎₪30,000‎) מוציא צוות נוסף לדרך.</span></div></div>
       <p class="tagline">אמצו צוות. היו שותפים בחלק משמעותי מהדרך שלו קדימה.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%97%D7%96%D7%A7%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%97%D7%91%D7%A8%D7%AA%20___%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%90%D7%99%D7%9E%D7%95%D7%A5%20%D7%A6%D7%95%D7%95%D7%AA." target="_blank" rel="noopener">לשיחה עם חזקי בוואטסאפ <span class="arr" aria-hidden="true">→</span></a>
@@ -823,8 +832,8 @@ footer .legal ul{padding-inline-start:18px}
         <li><b>Give and get a receipt</b><span>Through Jgive or the AID Coalition, with a tax receipt by email.</span></li>
         <li><b>Report back</b><span>We update you on how your gift was used.</span></li>
       </ol>
-      <ul class="assure"><li>58 teams completed journeys in 2025–2026</li><li>Proper Management Certificate 2026</li><li>Midot Seal of Effectiveness</li><li>Full transparency</li></ul>
-      <p class="scarce">58 teams completed a life-changing resilience journey in 2025–2026, and 25 more teams are already scheduled for 2027. Every journey that is funded lets one more team set out.</p>
+      <ul class="assure"><li>58 teams completed</li><li>Proper Management 2026</li><li>Midot Seal</li><li>Budget transparency</li></ul>
+      <div class="gap"><div class="g-past"><b>58</b><span>teams completed a resilience journey in 2025 and 2026.</span></div><div class="g-next"><b>25</b><span><strong>teams are already scheduled for 2027 and waiting for funding.</strong> This is where your gift decides it: every funded journey ($10,000) sends one more team out.</span></div></div>
       <p class="tagline">Adopt a team. Be part of a meaningful stretch of its road ahead.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://wa.me/972507347952?text=Hello%20Hezki%2C%20I%27d%20like%20to%20hear%20about%20supporting%20the%20Sayeret%20Nahal%20Alumni%20Association." target="_blank" rel="noopener">Message Hezki on WhatsApp <span class="arr" aria-hidden="true">→</span></a>
