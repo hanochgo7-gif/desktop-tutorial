@@ -144,13 +144,20 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 }
 .scene.near .p1{background-image:url(__A_scene1w__)}
 .scene.near .p2{background-image:url(__A_scene2w__)}
-.scene.near .p3,.scene:not(.live) .p3{background-image:url(__A_scene3w__)}
+.scene.near .p3,.scene:not(.live) .p3{background-image:url(__A_teamcircle__);background-position:50% 80%}
 @media (max-aspect-ratio:4/5){
   .scene.near .p1{background-image:url(__A_scene1t__)}
   .scene.near .p2{background-image:url(__A_scene2t__)}
-  .scene.near .p3,.scene:not(.live) .p3{background-image:url(__A_scene3t__)}
+  .scene.near .p3,.scene:not(.live) .p3{background-position:50% 50%}
 }
 .scene .illus{top:12px;z-index:2}
+.scene .il-paint{opacity:calc(1 - var(--t2))}
+.scene .il-photo{opacity:var(--t2)}
+.scene:not(.live) .il-paint{display:none}
+/* last beat is a real photo: text moves up, the circle stays visible below */
+.scene .sky::after{opacity:calc(1 - var(--t2))}
+.scene .sky .shade3{position:absolute;inset:0;opacity:var(--t2);background:linear-gradient(to bottom,rgba(14,20,9,.55) 0%,rgba(14,20,9,.82) 38%,rgba(14,20,9,.55) 58%,rgba(14,20,9,.05) 76%,rgba(14,20,9,.1) 100%)}
+.scene:not(.live) .sky .shade3{display:none}
 .scene.live .illus{top:calc(var(--hdr,70px) + 12px)}
 .scene:not(.live) .p1,.scene:not(.live) .p2{display:none}
 .scene:not(.live) .sky::after{background:rgba(14,20,9,.78)}
@@ -178,7 +185,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .scene.live{height:250vh}
 .scene.live .stage{position:sticky;top:0;height:100vh;height:100svh;padding-block:calc(var(--hdr,70px) + 16px) 40px;grid-template-rows:auto minmax(0,1fr);align-items:stretch}
 .scene.live .dots{align-self:start}
-.scene.live .beats{align-self:end}
+.scene.live .beats{align-self:stretch}
+.scene.live .b1,.scene.live .b2{align-self:end}
+.scene.live .b3{align-self:start;padding-top:8px}
 .scene.live .beat{pointer-events:none}
 .scene.live .scene-hint{display:block;position:absolute;z-index:1;bottom:22px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:.06em;color:var(--on-dark-muted);opacity:calc(1 - var(--t1))}
 .scene.live .scene-hint span{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
