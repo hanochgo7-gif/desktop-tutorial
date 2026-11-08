@@ -52,11 +52,11 @@ In Sayeret Nahal, everyone is counted. Even after the war.
 
 A resilience journey brings a whole team, 15 to 20 fighters who served together, back into one circle with professional guidance. 58 teams have gone since 2025.
 
-$120 helps one veteran become career-ready. $10,000 funds a whole team's journey.
+$10,000 funds a whole team's journey. Every gift goes to the team resilience journeys.
 
-Give from abroad through the link in bio:
-• Jgive: choose USD, GBP or CAD for a receipt in that country
-• AID Coalition: a US 501(c)(3), EIN 93-1616002, for checks, wires and DAFs
+Give from abroad through the link in bio, on Jgive:
+• Give in USD, GBP or CAD, one-time or monthly
+• According to Jgive, the receipt follows the currency: US, UK or Canadian
 
 In the US, gifts made by December 31 count toward this tax year.
 

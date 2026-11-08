@@ -530,7 +530,7 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .secure{display:flex;flex-wrap:wrap;gap:8px}
 .secure span{font-size:14px;font-weight:700;background:var(--ivory);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--olive-deep)}
 .pay .fine{font-size:14px;color:var(--muted)}
-.other{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.other{display:grid;grid-template-columns:minmax(0,640px);gap:16px;margin-top:28px}
 .other > div{background:rgba(255,253,246,.07);border:1px solid rgba(231,236,219,.22);border-radius:var(--r);padding:20px;display:grid;gap:8px;align-content:start;font-size:16px;color:var(--on-dark);min-width:0}
 .other h3{font-size:19px}
 .other a{color:var(--gold-on-dark)}
@@ -772,7 +772,7 @@ footer .legal ul{padding-inline-start:18px}
       <ol class="howto stagger" aria-label="איך זה עובד">
         <li><b>שיחת היכרות</b><span>15 דקות עם המנכ"ל, סא"ל (מיל.) חזקי מלאכי, בטלפון או בוואטסאפ.</span></li>
         <li><b>בוחרים יחד</b><span>מסע מלא לצוות (‎₪30,000‎) או השתתפות במימון.</span></li>
-        <li><b>מעבירים ומקבלים קבלה</b><span>בהעברה בנקאית או ב-Jgive. קבלה לפי סעיף 46, ולחברה זיכוי בשיעור מס החברות.</span></li>
+        <li><b>מעבירים ומקבלים קבלה</b><span>דרך Jgive. קבלה לפי סעיף 46, ולחברה זיכוי בשיעור מס החברות.</span></li>
         <li><b>עדכון מהשטח</b><span>העמותה מעדכנת את החברה על השימוש בתרומה.</span></li>
       </ol>
       <ul class="assure"><li>58 צוותים עברו</li><li>ניהול תקין 2026</li><li>תו מידות</li><li>שקיפות תקציבית</li></ul>
@@ -843,7 +843,7 @@ footer .legal ul{padding-inline-start:18px}
 </div></section>
 
 <section class="money pillars" id="trust-he" data-sec="trust"><div class="wrap">
-  <div class="head"><p class="label">שקיפות</p><h2>לאן הולך הכסף ב-2026</h2><p class="lead">תקציב 2026: כ-2.85 מיליון ₪. לכל תחום תקציב משלו. אפשר לייעד את התרומה, או להשאיר לוועד להחליט איפה הצורך הכי גדול.</p></div>
+  <div class="head"><p class="label">שקיפות</p><h2>לאן הולך הכסף ב-2026</h2><p class="lead">תקציב העמותה ל-2026: כ-2.85 מיליון ₪, לכל תחומי הפעילות. התרומות בדף הזה הולכות כולן למסעות העיבוד הצוותיים.</p></div>
   <div class="grid">
     <div>
       <ul class="bars">
@@ -881,12 +881,11 @@ footer .legal ul{padding-inline-start:18px}
   <div class="grid">
     <div>
       <h3>מה התרומה מאפשרת</h3>
-      <p class="note">הסכומים לפי תקציב העמותה. אפשר לתרום כל סכום, ואת הסכום מזינים בעמוד התשלום.</p>
+      <p class="note">כל התרומות בדף הזה הולכות למסעות העיבוד הצוותיים. את הסכום מזינים בעמוד התשלום של Jgive.</p>
       <ul class="ladder">
-        <li><span class="amt">‎₪360</span><span class="what">בוגר אחד מוכן לשוק העבודה: ליווי, היכרויות ומענקי הכשרה.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪360‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">‎₪7,500</span><span class="what">מסע חוסן להורה שכול, בליווי אנשי מקצוע.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪7,500‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">‎₪30,000</span><span class="what">צוות של 15 עד 20 לוחמים במסע חוסן מקצועי.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪30,000‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">‎₪120,000</span><span class="what">הקמת תוכנית הלוחמים הבודדים: משפחות מאמצות וחמש שנות מנטורינג.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪120,000‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">‎₪30,000</span><span class="what">מסע עיבוד מלא לצוות של 15 עד 20 לוחמים, בליווי אנשי מקצוע.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪30,000‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">‎₪2,000</span><span class="what">בערך החלק של לוחם אחד במסע הצוות.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪2,000‎ <span aria-hidden="true">←</span></a></li>
+        <li><span class="amt">כל סכום</span><span class="what">כל תרומה מצטרפת למימון המסע הבא.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה בסכום אחר <span aria-hidden="true">←</span></a></li>
       </ul>
     </div>
     <div class="pay">
@@ -897,7 +896,7 @@ footer .legal ul{padding-inline-start:18px}
       </div>
       <ol class="steps" aria-label="איך תורמים, שלב אחר שלב">
         <li><span><b>לוחצים "תרומה בשקלים".</b> עמוד התשלום המאובטח של Jgive נפתח בלשונית חדשה.</span></li>
-        <li><span><b>בוחרים סכום:</b> חד-פעמי או הוראת קבע חודשית, ולוחצים "המשך". אפשר להוסיף הערה, למשל לאיזה תחום.</span></li>
+        <li><span><b>בוחרים סכום:</b> חד-פעמי או הוראת קבע חודשית, ולוחצים "המשך". אפשר להוסיף הערה או הקדשה.</span></li>
         <li><span><b>ממלאים פרטים לקבלה:</b> שם, מייל, טלפון ותעודת זהות, לצורך הזיכוי לפי סעיף 46.</span></li>
         <li><span><b>משלמים</b> בכרטיס אשראי, ביט או Google Pay. פרטי התשלום לא עוברים אלינו.</span></li>
         <li><span><b>הקבלה נשלחת למייל,</b> על השם הרשום של העמותה: מגיני הינשוף (ע"ר).</span></li>
@@ -907,10 +906,6 @@ footer .legal ul{padding-inline-start:18px}
     </div>
   </div>
   <div class="other">
-    <div><h3>העברה בנקאית</h3>
-      <dl class="kv"><dt>בנק</dt><dd>לאומי (10)</dd><dt>סניף</dt><dd>734</dd><dt>חשבון</dt><dd><span data-sel>2014601</span><button type="button" class="copy" data-copy="2014601" aria-label="העתקת מספר החשבון">העתק</button></dd><dt>שם</dt><dd>מגיני הינשוף (ע"ר)</dd></dl>
-      <ol class="banksteps"><li>מעבירים לחשבון שלמעלה.</li><li>שולחים צילום של אישור ההעברה, עם שם מלא ות"ז (או ח"פ לחברה), למייל <span dir="ltr">sayeret.nahal@gmail.com</span> או בוואטסאפ <span dir="ltr">050-734-7952</span>.</li><li>מקבלים קבלה לפי סעיף 46 במייל.</li></ol></div>
-    <div><h3>תורמים מארה"ב</h3><p>אפשר לתרום גם דרך AID Coalition, ארגון אמריקאי בסטטוס 501(c)(3), בצ'ק, בהעברה או מקרן תרומות (DAF).</p><p><a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">לפרטי התרומה באתר שלהם</a></p></div>
     <div><h3>כבר תרמתם? תודה.</h3><p>הכי עוזר עכשיו: להעביר את הקישור לחברים מהצוות.</p><p><a href="https://wa.me/?text=%D7%AA%D7%A8%D7%9E%D7%AA%D7%99%20%D7%9C%D7%A2%D7%9E%D7%95%D7%AA%D7%AA%20%D7%91%D7%95%D7%92%D7%A8%D7%99%20%D7%A1%D7%99%D7%99%D7%A8%D7%AA%20%D7%A0%D7%97%22%D7%9C%2C%20%D7%A9%D7%9E%D7%9C%D7%95%D7%95%D7%94%20%D7%90%D7%AA%20%D7%9C%D7%95%D7%97%D7%9E%D7%99%20%D7%94%D7%99%D7%97%D7%99%D7%93%D7%94%2C%20%D7%94%D7%A4%D7%A6%D7%95%D7%A2%D7%99%D7%9D%20%D7%95%D7%94%D7%9E%D7%A9%D7%A4%D7%97%D7%95%D7%AA%20%D7%94%D7%A9%D7%9B%D7%95%D7%9C%D7%95%D7%AA.%20%D7%9E%D7%A6%D7%98%D7%A8%D7%A4%D7%99%D7%9D%3F%20https%3A%2F%2Fwww.jgive.com%2Fnew%2Fhe%2Fils%2Fcollect%2Fdonation-targets%2F163449%2Famount" target="_blank" rel="noopener">שתפו בוואטסאפ</a></p></div>
   </div>
 </div></section>
@@ -922,12 +917,12 @@ footer .legal ul{padding-inline-start:18px}
 <section id="faq-he" data-sec="faq"><div class="wrap">
   <div class="head"><p class="label">שאלות נפוצות</p><h2>לפני שתורמים</h2></div>
   <div class="faq">
-    <details><summary>לאן הולכת התרומה?</summary><p>לפעילות העמותה, לפי התקציב שלמעלה. אפשר לציין תחום בשדה ההערה בעמוד התשלום. בלי ציון, הוועד מחליט איפה הצורך הכי גדול.</p></details>
+    <details><summary>לאן הולכת התרומה?</summary><p>למסעות העיבוד הצוותיים בלבד, דרך הקמפיין "חוסן נפשי – מסעות עיבוד צוותיים" של העמותה ב-Jgive.</p></details>
     <details><summary>אפשר לתרום כל חודש?</summary><p>כן. בעמוד התשלום של Jgive בוחרים "הוראת קבע". אפשר להפסיק בכל עת מהחשבון האישי ב-Jgive.</p></details>
     <details><summary>התשלום מאובטח?</summary><p>התשלום מתבצע ב-Jgive, פלטפורמת תרומות ישראלית. פרטי הכרטיס לא עוברים לעמותה.</p></details>
     <details><summary>יש זיכוי ממס?</summary><p>כן. לעמותה אישור לפי סעיף 46, בתוקף עד 31.12.2027, והקבלה נשלחת במייל.</p></details>
-    <details><summary>חברה יכולה לתרום בהעברה בנקאית?</summary><p>כן. פרטי החשבון מופיעים באזור התרומה. אחרי ההעברה כתבו לנו, ונשלח קבלה לפי סעיף 46.</p></details>
-    <details><summary>אפשר לתרום מחו"ל?</summary><p>כן. ב-Jgive בוחרים מטבע, ולפי Jgive הקבלה נקבעת לפיו: בדולרים קבלה אמריקאית, בליש"ט קבלה בריטית ובדולר קנדי קבלה קנדית. תורמים מארה"ב יכולים לתרום גם דרך AID Coalition, ארגון אמריקאי בסטטוס 501(c)(3). הכללים משתנים ממדינה למדינה, ולכן כדאי לוודא מול יועץ המס.</p></details>
+    <details><summary>איך חברה תורמת?</summary><p>דרך Jgive. בעמוד הפרטים מסמנים "אני רוצה ששם אחר יופיע על הקבלה" ורושמים את שם החברה. לאימוץ צוות שלם, כדאי לדבר קודם עם חזקי: <span dir="ltr">050-734-7952</span>.</p></details>
+    <details><summary>אפשר לתרום מחו"ל?</summary><p>כן. ב-Jgive בוחרים מטבע, ולפי Jgive הקבלה נקבעת לפיו: בדולרים קבלה אמריקאית, בליש"ט קבלה בריטית ובדולר קנדי קבלה קנדית. הכללים משתנים ממדינה למדינה, ולכן כדאי לוודא מול יועץ המס.</p></details>
     <details><summary>מי מנהל את העמותה?</summary><p>בוגרי היחידה: 6 חברי ועד מתנדבים ומנכ"ל במשרה חלקית, סא"ל (מיל.) חזקי מלאכי. העמותה פועלת כבר מעל 30 שנה.</p></details>
   </div>
 </div></section>
@@ -945,20 +940,20 @@ footer .legal ul{padding-inline-start:18px}
   <details><summary>הצהרת נגישות</summary>
     <p>עמותת בוגרי סיירת נח"ל רואה חשיבות בהנגשת הדף לכל אדם, ובכלל זה לאנשים עם מוגבלות. הדף נבנה במטרה לעמוד בתקן הישראלי ת"י 5568 (המבוסס על WCAG 2.0) ברמה AA, לפי תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013.</p>
     <ul><li>ניווט מלא במקלדת, וקישור "דלגו לתוכן" בראש הדף.</li><li>ניגודיות צבעים לפי התקן, וטקסט שאפשר להגדיל.</li><li>טקסט חלופי לכל תמונה ואיור, וסימון שפה לקוראי מסך.</li><li>מי שהגדיר במכשיר "הפחתת תנועה" מקבל דף בלי הנפשות.</li></ul>
-    <p>הדף נבדק בכלי בדיקה אוטומטי בעברית ובאנגלית, בטלפון ובמחשב. עמודי התשלום של Jgive ו-AID Coalition, וגם וואטסאפ, הם אתרים חיצוניים שאינם בשליטת העמותה.</p>
+    <p>הדף נבדק בכלי בדיקה אוטומטי בעברית ובאנגלית, בטלפון ובמחשב. עמוד התשלום של Jgive, וגם וואטסאפ, הם אתרים חיצוניים שאינם בשליטת העמותה.</p>
     <p>נתקלתם בבעיית נגישות? נשמח לעזור ולתקן: <span dir="ltr">sayeret.nahal@gmail.com</span> · <span dir="ltr">050-734-7952</span>. עדכון אחרון: 7 בנובמבר 2026.</p>
   </details>
   <details><summary>פרטיות</summary>
     <p>הדף לא אוסף מידע אישי: אין בו טפסים, אין עוגיות (Cookies) ואין כלי מעקב או סטטיסטיקה. הדבר היחיד שנשמר, בדפדפן שלכם בלבד, הוא בחירת השפה.</p>
     <p>הדף מתארח ב-GitHub Pages, שעשוי לרשום פרטים טכניים כמו כתובת IP לצורכי אבטחה, לפי מדיניות הפרטיות של GitHub.</p>
-    <p>התרומה עצמה מתבצעת באתרים של Jgive או AID Coalition, והם מטפלים בפרטי התרומה לפי מדיניות הפרטיות שלהם. פרטי אשראי לא עוברים דרך הדף. מידע שתמסרו לנו בוואטסאפ, במייל או בטלפון ישמש רק לטיפול בפנייה ובתרומה.</p>
+    <p>התרומה עצמה מתבצעת באתר של Jgive, שמטפל בפרטי התרומה לפי מדיניות הפרטיות שלו. פרטי אשראי לא עוברים דרך הדף. מידע שתמסרו לנו בוואטסאפ, במייל או בטלפון ישמש רק לטיפול בפנייה ובתרומה.</p>
     <p>שאלות בנושא פרטיות: <span dir="ltr">sayeret.nahal@gmail.com</span></p>
   </details>
   <details><summary>תנאי שימוש</summary>
     <p>עמותת בוגרי סיירת נח"ל (מגיני הינשוף, ע"ר 580218642) היא עמותה עצמאית, ואינה חלק מצה"ל או ממשרד הביטחון.</p>
     <p>המידע בדף נמסר בתום לב ונכון למועד העדכון. הנתונים והמספרים מבוססים על נתוני העמותה.</p>
     <p>המידע אינו ייעוץ מס או ייעוץ משפטי. זיכוי לפי סעיף 46 והטבות מס בחו"ל כפופים לדין ולתנאי הגוף שמנפיק את הקבלה. לפני שמסתמכים על הטבת מס, כדאי לבדוק עם יועץ מס.</p>
-    <p>קישורים לאתרים חיצוניים (Jgive, AID Coalition, GuideStar, וואטסאפ) ניתנים לנוחות בלבד, והעמותה אינה אחראית לתוכן, לזמינות או לתנאים שלהם.</p>
+    <p>קישורים לאתרים חיצוניים (Jgive, GuideStar, וואטסאפ) ניתנים לנוחות בלבד, והעמותה אינה אחראית לתוכן, לזמינות או לתנאים שלהם.</p>
     <p>התמונות מתעדות פעילות של העמותה ומפורסמות באישורה. האיורים נוצרו בעזרת כלי בינה מלאכותית, מסומנים במילה "איור", ואינם מתעדים אדם או אירוע אמיתי.</p>
     <p>הזכויות בתוכן, בלוגו ובתמונות שמורות לעמותה. הגופנים בשימוש לפי רישיון SIL Open Font License. על הדף ועל תנאים אלה חל הדין הישראלי.</p>
   </details>
@@ -984,7 +979,7 @@ footer .legal ul{padding-inline-start:18px}
     <div>
       <p class="label">Sayeret Nahal Alumni Association</p>
       <h1>In Sayeret Nahal, everyone is counted.<span class="l2">Even after the war ends.</span></h1>
-      <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends or doesn't fit, we begin. More than 30 years of work for the unit's veterans, bereaved families, and the wounded and their families. Giving from abroad? Jgive and the AID Coalition issue tax receipts for donors outside Israel.</p>
+      <p class="lead">We are the alumni of an elite Israeli reconnaissance unit. Where official support ends or doesn't fit, we begin. More than 30 years of work for the unit's veterans, bereaved families, and the wounded and their families. Giving from abroad? Give through Jgive in USD, GBP or CAD.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Donate in USD <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#abroad-en">Ways to give from abroad</a>
@@ -1033,11 +1028,10 @@ footer .legal ul{padding-inline-start:18px}
 <section class="abroad" id="abroad-en" data-sec="abroad"><div class="wrap">
   <div class="abroad-grid">
     <div class="abroad-body">
-      <div class="head"><p class="label">Giving from abroad</p><h2>Three ways to give from outside Israel</h2><p class="lead">Choose the route that fits your country and the way you give. Every route reaches the same association and the same programs.</p></div>
+      <div class="head"><p class="label">Giving from abroad</p><h2>How to give from outside Israel</h2><p class="lead">Every gift goes through Jgive, a secure Israeli donation platform, and funds team resilience journeys.</p></div>
       <ol class="routes">
-        <li><span class="rnum" aria-hidden="true">1</span><div><h3>Online, by card</h3><p>In US dollars through Jgive, one-time or monthly. According to Jgive, the receipt follows the currency you choose on its page: USD for a US receipt, GBP for a UK receipt, CAD for a Canadian receipt. It arrives by email.</p><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give online in USD <span aria-hidden="true">→</span></a></div></li>
-        <li><span class="rnum" aria-hidden="true">2</span><div><h3>US checks, wires and DAFs</h3><p>Through the AID Coalition (America-Israel Democracy Coalition), a 501(c)(3) organization that receives gifts for Sayeret Nahal.</p><a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">Mailing and wire details <span aria-hidden="true">→</span></a></div></li>
-        <li><span class="rnum" aria-hidden="true">3</span><div><h3>Major gifts and foundations</h3><p>Fund a full resilience journey for a team of 15 to 20 fighters (about $10,000), or adopt another program. Talk directly with our CEO, Lt. Col. (Res.) Hezki Malachi.</p><a href="https://wa.me/972507347952?text=Hello%20Hezki%2C%20I%27d%20like%20to%20hear%20about%20supporting%20the%20Sayeret%20Nahal%20Alumni%20Association." target="_blank" rel="noopener">Message Hezki on WhatsApp <span aria-hidden="true">→</span></a></div></li>
+        <li><span class="rnum" aria-hidden="true">1</span><div><h3>Online through Jgive</h3><p>In USD, GBP or CAD, one-time or monthly. According to Jgive, the receipt follows the currency you choose on its page: USD for a US receipt, GBP for a UK receipt, CAD for a Canadian receipt. It arrives by email.</p><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give online in USD <span aria-hidden="true">→</span></a></div></li>
+        <li><span class="rnum" aria-hidden="true">2</span><div><h3>Funding a full journey</h3><p>A full resilience journey for a team of 15 to 20 fighters is about $10,000. Talk with our CEO, Lt. Col. (Res.) Hezki Malachi, before you give through Jgive.</p><a href="https://wa.me/972507347952?text=Hello%20Hezki%2C%20I%27d%20like%20to%20hear%20about%20supporting%20the%20Sayeret%20Nahal%20Alumni%20Association." target="_blank" rel="noopener">Message Hezki on WhatsApp <span aria-hidden="true">→</span></a></div></li>
       </ol>
       <p class="yearend">Gifts made by December 31 count toward this tax year. Rules differ by country, so please confirm with your tax advisor.</p>
     </div>
@@ -1054,7 +1048,7 @@ footer .legal ul{padding-inline-start:18px}
       <ol class="howto stagger" aria-label="How it works">
         <li><b>Intro call</b><span>15 minutes with our CEO, Lt. Col. (Res.) Hezki Malachi, by phone or WhatsApp.</span></li>
         <li><b>Choose together</b><span>A full team journey ($10,000) or a share of one.</span></li>
-        <li><b>Give and get a receipt</b><span>Through Jgive or the AID Coalition, with a tax receipt by email.</span></li>
+        <li><b>Give and get a receipt</b><span>Through Jgive, with a tax receipt by email.</span></li>
         <li><b>Report back</b><span>We update you on how your gift was used.</span></li>
       </ol>
       <ul class="assure"><li>58 teams completed</li><li>Proper Management 2026</li><li>Midot Seal</li><li>Budget transparency</li></ul>
@@ -1125,7 +1119,7 @@ footer .legal ul{padding-inline-start:18px}
 </div></section>
 
 <section class="money pillars" id="trust-en" data-sec="trust"><div class="wrap">
-  <div class="head"><p class="label">Transparency</p><h2>Where the money goes in 2026</h2><p class="lead">The 2026 budget is $950K. Every program has its own budget. You can direct your gift to one area, or let the board allocate it where the need is greatest.</p></div>
+  <div class="head"><p class="label">Transparency</p><h2>Where the money goes in 2026</h2><p class="lead">The association's 2026 budget is $950K across all its programs. Every gift on this page goes to the team resilience journeys.</p></div>
   <div class="grid">
     <div>
       <ul class="bars">
@@ -1162,12 +1156,11 @@ footer .legal ul{padding-inline-start:18px}
   <div class="grid">
     <div>
       <h3>What your gift makes possible</h3>
-      <p class="note">Amounts based on the association's budget. Give any amount; you enter it on the checkout page.</p>
+      <p class="note">Every gift on this page funds the team resilience journeys. You enter the amount on Jgive's checkout page.</p>
       <ul class="ladder">
-        <li><span class="amt">$120</span><span class="what">One veteran, career-ready: coaching, introductions and training grants.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $120 <span aria-hidden="true">→</span></a></li>
-        <li><span class="amt">$2,500</span><span class="what">A bereaved parent's resilience journey, guided by professionals.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $2,500 <span aria-hidden="true">→</span></a></li>
-        <li><span class="amt">$10,000</span><span class="what">A team of 15 to 20 fighters on a professionally guided resilience journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $10,000 <span aria-hidden="true">→</span></a></li>
-        <li><span class="amt">$40,000</span><span class="what">Launch the lone-soldier program: adoptive families and five years of mentoring.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $40,000 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">$10,000</span><span class="what">A full journey for a team of 15 to 20 fighters, with professional guidance.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $10,000 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">$670</span><span class="what">Roughly one fighter's share of the team journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $670 <span aria-hidden="true">→</span></a></li>
+        <li><span class="amt">Any amount</span><span class="what">Every gift joins the funding for the next journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give another amount <span aria-hidden="true">→</span></a></li>
       </ul>
     </div>
     <div class="pay">
@@ -1177,8 +1170,8 @@ footer .legal ul{padding-inline-start:18px}
         <a class="btn btn-ghost" href="https://www.jgive.com/new/en/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener"><span>Donate in shekels ₪</span><small>For donors in Israel</small></a>
       </div>
       <ol class="steps" aria-label="How to give, step by step">
-        <li><span><b>Click "Donate in USD".</b> Jgive's secure page opens in a new tab.</span></li>
-        <li><span><b>Choose an amount:</b> one-time or monthly, then click "Continue". You can add a note, for example a program you want to support.</span></li>
+        <li><span><b>Click "Donate in US dollars".</b> Jgive's secure page opens in a new tab.</span></li>
+        <li><span><b>Choose an amount:</b> one-time or monthly, then click "Continue". You can add a note or a dedication.</span></li>
         <li><span><b>Enter your details for the receipt:</b> name, email and phone.</span></li>
         <li><span><b>Pay</b> by card or another method offered on the page. Your payment details never reach us.</span></li>
         <li><span><b>Your receipt arrives by email,</b> under our registered name, Meginei HaYanshuf.</span></li>
@@ -1188,9 +1181,6 @@ footer .legal ul{padding-inline-start:18px}
     </div>
   </div>
   <div class="other">
-    <div><h3>US checks, wires and DAFs</h3><p>US donors can also give through the AID Coalition, a 501(c)(3) organization that receives gifts for Sayeret Nahal.</p><p><a href="https://aid-coalition.org/donate/nahal" target="_blank" rel="noopener">Mailing and wire details</a></p></div>
-    <div><h3>Bank transfer (Israel)</h3>
-      <dl class="kv"><dt>Bank</dt><dd>Leumi (10)</dd><dt>Branch</dt><dd>734</dd><dt>Account</dt><dd><span data-sel>2014601</span><button type="button" class="copy" data-copy="2014601" aria-label="Copy account number">Copy</button></dd><dt>Payee</dt><dd>Meginei HaYanshuf (registered non-profit)</dd></dl></div>
     <div><h3>Already gave? Thank you.</h3><p>The most helpful next step: pass the link to your friends.</p><p><a href="https://wa.me/?text=I%20just%20gave%20to%20the%20Sayeret%20Nahal%20Alumni%20Association%2C%20which%20supports%20the%20unit's%20veterans%2C%20wounded%20and%20bereaved%20families.%20Join%20me%3A%20https%3A%2F%2Fwww.jgive.com%2Fnew%2Fen%2Fusd%2Fcollect%2Fdonation-targets%2F163449%2Famount" target="_blank" rel="noopener">Share on WhatsApp</a></p></div>
   </div>
 </div></section>
@@ -1202,10 +1192,10 @@ footer .legal ul{padding-inline-start:18px}
 <section id="faq-en" data-sec="faq"><div class="wrap">
   <div class="head"><p class="label">Questions</p><h2>Before you give</h2></div>
   <div class="faq">
-    <details><summary>Where does my gift go?</summary><p>To the association's programs, following the budget above. You can name a program in the comment field at checkout. Without a note, the board allocates it where the need is greatest.</p></details>
+    <details><summary>Where does my gift go?</summary><p>Only to the team resilience journeys, through the association's Jgive campaign "Mental Resilience – Team Combat-Processing Journeys".</p></details>
     <details><summary>Can I give monthly?</summary><p>Yes. Choose "Recurring donation" on the Jgive checkout page. You can stop it anytime from your Jgive account.</p></details>
     <details><summary>Is the payment secure?</summary><p>Payment is handled by Jgive, an Israeli donation platform. Your card details never reach the association.</p></details>
-    <details><summary>Is my gift tax-deductible?</summary><p>According to Jgive, a gift in USD receives a US 501(c)(3) receipt, in GBP a UK receipt and in CAD a Canadian receipt; choose the currency on Jgive's page. The AID Coalition is a US 501(c)(3) organization (EIN 93-1616002) and emails a tax letter. Whether you can deduct a gift depends on your own tax situation, so please confirm with your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
+    <details><summary>Is my gift tax-deductible?</summary><p>According to Jgive, a gift in USD receives a US 501(c)(3) receipt, in GBP a UK receipt and in CAD a Canadian receipt; choose the currency on Jgive's page. Whether you can deduct a gift depends on your own tax situation, so please confirm with your tax advisor. In Israel, gifts receive a Section 46 credit, valid until 31 December 2027.</p></details>
     <details><summary>Who runs the association?</summary><p>Alumni of the unit: 6 volunteer board members and a part-time CEO, Lt. Col. (Res.) Hezki Malachi. It has been active for more than 30 years.</p></details>
   </div>
 </div></section>
@@ -1223,20 +1213,20 @@ footer .legal ul{padding-inline-start:18px}
   <details><summary>Accessibility statement</summary>
     <p>The Sayeret Nahal Alumni Association wants this page to be usable by everyone, including people with disabilities. It was built to meet Israeli Standard 5568 (based on WCAG 2.0) at level AA, under the Equal Rights for Persons with Disabilities (Service Accessibility) Regulations, 2013.</p>
     <ul><li>Full keyboard navigation and a "Skip to content" link.</li><li>Color contrast that meets the standard, and text that can be enlarged.</li><li>Alternative text for every photo and illustration, and language marking for screen readers.</li><li>Visitors who turned on "Reduce motion" get the page without animation.</li></ul>
-    <p>The page was checked with an automated testing tool in Hebrew and English, on phone and desktop. The Jgive and AID Coalition payment pages, and WhatsApp, are external sites outside the association's control.</p>
+    <p>The page was checked with an automated testing tool in Hebrew and English, on phone and desktop. The Jgive payment page, and WhatsApp, are external sites outside the association's control.</p>
     <p>Found an accessibility problem? We will gladly help and fix it: sayeret.nahal@gmail.com · +972-50-734-7952. Last updated: 7 November 2026.</p>
   </details>
   <details><summary>Privacy</summary>
     <p>This page collects no personal information: it has no forms, no cookies and no tracking or analytics. The only thing stored, in your own browser, is your language choice.</p>
     <p>The page is hosted on GitHub Pages, which may log technical details such as IP addresses for security, under GitHub's privacy policy.</p>
-    <p>Donations are made on the Jgive or AID Coalition websites, which handle your donation details under their own privacy policies. Card details never pass through this page. Anything you send us by WhatsApp, email or phone is used only to handle your message and your gift.</p>
+    <p>Donations are made on the Jgive website, which handles your donation details under its own privacy policy. Card details never pass through this page. Anything you send us by WhatsApp, email or phone is used only to handle your message and your gift.</p>
     <p>Privacy questions: sayeret.nahal@gmail.com</p>
   </details>
   <details><summary>Terms of use</summary>
     <p>The Sayeret Nahal Alumni Association (Meginei HaYanshuf, registered non-profit 580218642) is an independent non-profit. It is not part of the Israel Defense Forces or the Ministry of Defense.</p>
     <p>The information on this page is given in good faith and is correct as of the last update. Figures are based on the association's own data.</p>
     <p>Nothing here is tax or legal advice. The Israeli Section 46 credit and any tax benefit abroad depend on the law and on the terms of the organization that issues the receipt. Please check with your tax advisor before relying on a tax benefit.</p>
-    <p>Links to external sites (Jgive, AID Coalition, GuideStar, WhatsApp) are provided for convenience; the association is not responsible for their content, availability or terms.</p>
+    <p>Links to external sites (Jgive, GuideStar, WhatsApp) are provided for convenience; the association is not responsible for their content, availability or terms.</p>
     <p>Photos show the association's own activity and are published with its permission. Illustrations were created with AI tools, are marked "Illustration", and do not depict any real person or event.</p>
     <p>All rights in the content, logo and photos are reserved to the association. Fonts are used under the SIL Open Font License. This page and these terms are governed by Israeli law.</p>
   </details>
