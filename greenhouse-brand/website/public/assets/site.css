@@ -1318,3 +1318,6 @@ html[lang="en"] .tagline { white-space: normal; max-width: 12.5em; }  /* the Eng
 .gal-grid { margin-top: 14px; }
 @media (min-width: 1100px) { .gal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .gal-grid.n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Hebrew hero: "מיפתח פרויקטים" above "חקלאות שיש לה בית", both lines the same width (Hanoch, 9 Nov 2026). Measured in Heebo 900 at 390-1440 px: equal to within 0.3% */
+html[lang="he"] .hero-os h1 .h1-a { font-size: 1.222em; line-height: .95; white-space: nowrap; position: relative; }
+html[lang="he"] .hero-os h1 .h1-a .sr { inset: 0 auto auto 0; }

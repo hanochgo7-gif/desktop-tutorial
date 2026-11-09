@@ -504,7 +504,10 @@ def p_index(L):
         a, b = sl.split(" - ", 1); a += " -"
     else:
         a, b = sl.split(" feels ", 1) if " feels " in sl else (sl, ""); b = ("feels " + b) if b else ""
-    slogan_h1 = f'<span class="h1-a">{esc(a)}</span> <span class="h1-b">{esc(b)}</span>' if b else esc(sl)
+    if L == "he" and a.endswith(" -"):  # Hanoch, 9 Nov 2026: the name above the slogan, the two lines exactly the same width; the dash stays in the text, not on screen
+        slogan_h1 = f'<span class="h1-a">{esc(a[:-2])}<span class="sr"> -</span></span> <span class="h1-b">{esc(b)}</span>'
+    else:
+        slogan_h1 = f'<span class="h1-a">{esc(a)}</span> <span class="h1-b">{esc(b)}</span>' if b else esc(sl)
     items = "".join(f"<span>{esc(t(x, L))}</span>" for x in O["ticker"])
     ticker = (f'<section class="ticker" aria-label="{esc(tm(O["ticker_label"], L))}"><div class="ticker-track">{items}<span aria-hidden="true" class="dup">{items}</span></div>'
               f'<button class="ticker-btn" type="button" aria-pressed="false" data-pause="{esc(tm(O["ticker_pause"], L))}" data-play="{esc(tm(O["ticker_play"], L))}" aria-label="{esc(tm(O["ticker_pause"], L))}">'
