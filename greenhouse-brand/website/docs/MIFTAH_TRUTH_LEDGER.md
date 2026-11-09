@@ -183,6 +183,13 @@ Held back, waiting for a decision (not applied):
 - New chapter "Hail release" (פורק ברד): hail rolls down the net into the valley between two strips and drops to the ground between the tree rows. **The wording still needs Yiftach's engineering sign-off.**
 - Hanoch said he would send a separate photo of the concrete blocks; if it differs from r4, the illustration is updated to match.
 
+## 7d. Merav's project photos, 9 Nov 2026
+
+- Merav sent 19 photos from MIFTAH projects on WhatsApp (Hanoch forwarded two screen recordings). They are on the projects page, in three groups: net houses, installation in the field, shading for work areas.
+- At her request: the poles in the old photos are shown as galvanized steel ("these are old photos, from when black material was used"); one net colour on the aerial photo of the green work-area shade; the current logo on the workers' shirts (it replaced the old logo on the shirt in the hat photo). Workers at height are shown with a harness (Hanoch's rule of 8 Nov). The edits were made with an image model and checked one by one.
+- This replaces, for these photos, the earlier rule that photos with black steel are removed rather than retouched: the owner asked for the retouch.
+- Captions describe only what is visible; no places or crops were named that the photos do not show. The photos were taken from the screen recordings (1194 px wide, or 863 px from the chat, upscaled); the originals would be sharper.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

@@ -15,7 +15,7 @@
 - Slogan: Hebrew **"מיפתח פרויקטים - חקלאות שיש לה בית"**, English **"Where agriculture feels at home"**.
 - Office phone: **04-9854404**. The old number (from the previous office) is not in use anywhere.
 - WhatsApp: Merav's mobile exists but is **not** shown on the site until the owners decide.
-- Steel: only **galvanized (silver) steel** may appear in images. Never black/rusty/painted steel. Real project photos showing black steel are removed, not retouched.
+- Steel: only **galvanized (silver) steel** may appear in images. Never black/rusty/painted steel. Real project photos showing black steel are removed, not retouched, unless the owners ask for a retouch (9 Nov 2026: Merav asked to turn the poles in her old project photos into galvanized ones; ledger 7d).
 - Logo: only the original colors `#0E4239`, `#1B6E62`, `#7FC49B`. On dark backgrounds the original logo sits on a white plate; no recolored reverse version.
 - Avoid repeating the same image (especially the one drone net house) within a page or across the four design examples' openings.
 - AI images: until 7 Nov 2026 they carried a visible "הדמיה" label. On 7 Nov 2026 Hanoch asked to remove every visible "הדמיה" label from the site; they are gone. Alt text still describes them as illustrations, and the site must never claim an AI image shows a real MIFTAH project.

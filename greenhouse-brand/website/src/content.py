@@ -781,3 +781,38 @@ CROPS = [  # the crop selector; every row traces to the ledger
      "proj": None},  # 2.1, 2.4-2.6
 ]
 
+
+# Merav's photos from MIFTAH projects, sent 9 Nov 2026 (WhatsApp). At her request: poles shown as galvanized steel
+# ("these are old photos, from when black material was used"), one net colour on the aerial shade photo, the current
+# logo on the workers' shirts; workers at height shown with a harness (Hanoch, 8 Nov). Ledger 7d.
+GALLERY = {
+    "h": ("From our projects", "מהפרויקטים שלנו"),
+    "p": ("Net houses, shading and installation work, photographed on our projects.", "בתי רשת, הצללה ועבודת הקמה, מצולמים בפרויקטים שלנו."),
+    "groups": [
+        (("Net houses", "בתי רשת"), [
+            ("g-air-forest", ("A white net house between forest and orchards", "בית רשת לבן בין יער למטעים")),
+            ("g-air-valley", ("Large net houses in a valley, next to farm buildings", "בתי רשת גדולים בעמק, ליד מבני משק")),
+            ("g-air-rows", ("Net houses and crop rows, from above", "בתי רשת ושורות גידול, מבט מלמעלה")),
+            ("g-air-wide", ("A field of white net houses", "שדה של בתי רשת לבנים")),
+            ("g-tunnels", ("Arched net houses with a service building", "בתי רשת מקושתים עם מבנה שירות")),
+            ("g-tunnel-arch", ("An arched net house with an open front", "בית רשת מקושת עם חזית פתוחה")),
+            ("g-dark-house", ("A long net house with dark net side walls", "בית רשת ארוך עם דפנות רשת כהות")),
+            ("g-road", ("Net houses along a farm road", "בתי רשת לאורך דרך שדה")),
+            ("g-tunnel-colour", ("An arched structure with net and coloured covers", "מבנה מקושת עם רשת ויריעות צבעוניות")),
+        ]),
+        (("Installation in the field", "הקמה בשטח"), [
+            ("g-lift-net", ("Spreading white net from a lift over young plants", "פריסת רשת לבנה מבמת הרמה מעל שתילים צעירים")),
+            ("g-cable", ("A worker in a harness tensions a cable before the net goes on", "עובד ברתמה מותח כבל לפני פריסת הרשת")),
+            ("g-drape", ("Anti-hail net going up between the poles", "רשת נגד ברד עולה בין העמודים")),
+            ("g-lift-field", ("The lift and a field crew while the net is spread", "במת ההרמה וצוות השטח בזמן פריסת הרשת")),
+            ("g-basket", ("A worker in a harness in the lift basket, by galvanized poles", "עובד ברתמה בסל במת ההרמה, ליד עמודים מגולוונים")),
+            ("g-team", ("Our field crew", "מצוות השטח שלנו")),
+        ]),
+        (("Shading for work areas", "הצללה לאזורי תפעול"), [
+            ("g-shade-op", ("A work-area shade with green shade net", "סככת תפעול עם רשת הצללה ירוקה")),  # Merav: "סככת תפעול"
+            ("g-shade-air", ("The same shade, from above", "סככת התפעול, מבט מלמעלה")),
+            ("g-blue-shade", ("A blue shade net over a yard", "רשת הצללה כחולה מעל משטח")),
+            ("g-orchard-net", ("Blue net beside an orchard", "רשת כחולה ליד מטע")),
+        ]),
+    ],
+}

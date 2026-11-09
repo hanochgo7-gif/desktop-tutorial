@@ -757,8 +757,20 @@ def p_projects(L):
     <div>{featured(L)}</div>
   </div>
 </section>
+{gallery(L)}
 {cta_band(L, "projects")}
 </main>"""
+
+
+def gallery(L):
+    """Merav's project photos, by subject (content.GALLERY)."""
+    G = C.GALLERY
+    groups = "".join(f'<h3 class="gal-h">{esc(t(name, L))}</h3><ul class="field-grid gal-grid{" n4" if len(items) == 4 else ""}">'
+                     + "".join(f'<li><figure>{picture(n, "", L, sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw")}<figcaption>{esc(t(c, L))}</figcaption></figure></li>' for n, c in items)
+                     + "</ul>" for name, items in G["groups"])
+    return f"""<section class="section white gal" aria-labelledby="gal-h">
+  <div class="wrap"><h2 id="gal-h">{esc(t(G["h"], L))}</h2><p class="lead">{esc(t(G["p"], L))}</p>{groups}</div>
+</section>"""
 
 
 def p_about(L):

@@ -19,6 +19,10 @@ JOBS = {
     "f-hailnets": ("f-hailnets.jpg", None),  # white anti-hail net strips on an orchard
     "f-flowers": ("f-flowers.jpg", None),  # anemones under a white net
     "f-shade": ("f-shade.jpg", None),  # arched shade-net house
+    # Merav's project photos, 9 Nov 2026 (content.GALLERY; ledger 7d)
+    **{n: (f"merav/{n}.jpg", None) for n in ("g-shade-op", "g-shade-air", "g-lift-net", "g-cable", "g-drape", "g-lift-field", "g-basket", "g-team",
+                                            "g-air-forest", "g-air-valley", "g-air-wide", "g-air-rows", "g-tunnel-colour", "g-tunnels", "g-tunnel-arch",
+                                            "g-blue-shade", "g-orchard-net", "g-dark-house", "g-road")},
 }
 
 
