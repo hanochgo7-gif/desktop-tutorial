@@ -1,5 +1,5 @@
-# אתר המותג "אֶלֶף": פרויקט קונספט של Blueprint Lab (מותג בדיוני). מייצר את elef/index.html ואת elef/en.html.
-# כל התמונות והסרט מתוך פרסומת "אלף" שנוצרה בבינה מלאכותית. אין רכישה באתר: הכפתור מוביל ל-Blueprint Lab.
+# אתר המותג "אֶלֶף": פרויקט קונספט של HG Studio (מותג בדיוני). מייצר את elef/index.html ואת elef/en.html.
+# כל התמונות והסרט מתוך פרסומת "אלף" שנוצרה בבינה מלאכותית. אין רכישה באתר: הכפתור מוביל ל-HG Studio.
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -151,15 +151,15 @@ def page(lang):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{T('אֶלֶף · שמן זית מהגליל · פרויקט קונספט של Blueprint Lab', 'Elef · Olive oil from the Galilee · An Blueprint Lab concept')}</title>
-<meta name="description" content="{T('אתר מותג קונספט לשמן זית בדיוני מהגליל, שעיצב ובנה Blueprint Lab. כל התמונות והסרט נוצרו בבינה מלאכותית.', 'A concept brand site for a fictional olive oil from the Galilee, designed and built by Blueprint Lab. Every image and the film were made with AI.')}">
+<title>{T('אֶלֶף · שמן זית מהגליל · פרויקט קונספט של HG Studio', 'Elef · Olive oil from the Galilee · An HG Studio concept')}</title>
+<meta name="description" content="{T('אתר מותג קונספט לשמן זית בדיוני מהגליל, שעיצב ובנה HG Studio. כל התמונות והסרט נוצרו בבינה מלאכותית.', 'A concept brand site for a fictional olive oil from the Galilee, designed and built by HG Studio. Every image and the film were made with AI.')}">
 <link rel="canonical" href="https://hgpro.io/elef/{'' if he else 'en.html'}">
 <link rel="alternate" hreflang="he" href="https://hgpro.io/elef/">
 <link rel="alternate" hreflang="en" href="https://hgpro.io/elef/en.html">
 <link rel="alternate" hreflang="x-default" href="https://hgpro.io/elef/">
 <meta property="og:type" content="website"><meta property="og:url" content="https://hgpro.io/elef/{'' if he else 'en.html'}">
-<meta property="og:title" content="{T('אֶלֶף · מותג קונספט של Blueprint Lab', 'Elef · a concept brand by Blueprint Lab')}">
-<meta property="og:description" content="{T('אתר מותג קונספט לשמן זית בדיוני מהגליל, שעיצב ובנה Blueprint Lab. כל התמונות והסרט נוצרו בבינה מלאכותית.', 'A concept brand site for a fictional olive oil from the Galilee, designed and built by Blueprint Lab. All images and the film were made with AI.')}">
+<meta property="og:title" content="{T('אֶלֶף · מותג קונספט של HG Studio', 'Elef · a concept brand by HG Studio')}">
+<meta property="og:description" content="{T('אתר מותג קונספט לשמן זית בדיוני מהגליל, שעיצב ובנה HG Studio. כל התמונות והסרט נוצרו בבינה מלאכותית.', 'A concept brand site for a fictional olive oil from the Galilee, designed and built by HG Studio. All images and the film were made with AI.')}">
 <meta property="og:image" content="https://hgpro.io/elef/media/s8-poster.webp">
 <meta name="theme-color" content="#11150c">
 <link rel="icon" href="../images/icon-180.png">
@@ -175,7 +175,7 @@ def page(lang):
 <body data-root="../">
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
 <div class="topbar">
-<p class="concept">{T('פרויקט קונספט של <a href="../work.html">Blueprint Lab</a>. אֶלֶף הוא מותג בדיוני, וכל התמונות והסרט נוצרו בבינה מלאכותית.', 'An <a href="../en-work.html">Blueprint Lab</a> concept project. Elef is a fictional brand, and every image and the film were made with AI.')}</p>
+<p class="concept">{T('פרויקט קונספט של <a href="../work.html">HG Studio</a>. אֶלֶף הוא מותג בדיוני, וכל התמונות והסרט נוצרו בבינה מלאכותית.', 'An <a href="../en-work.html">HG Studio</a> concept project. Elef is a fictional brand, and every image and the film were made with AI.')}</p>
 <header class="top">
   <a class="mark" href="#main" aria-label="{T('אֶלֶף, לראש העמוד', 'Elef, back to top')}"><b aria-hidden="true">א</b><span>{T('אֶלֶף', 'Elef')}</span></a>
   <nav aria-label="{T('ניווט', 'Navigation')}">
@@ -284,10 +284,10 @@ def page(lang):
   <div class="wrap">
     <div class="cta">
       <h2>{T('רוצים אתר כזה לעסק שלכם?', 'Want a site like this for your business?')}</h2>
-      <a class="btn btn-gold" href="../{T('index.html', 'en.html')}#brief">{T('לדבר עם Blueprint Lab', 'Talk to Blueprint Lab')} <span aria-hidden="true">{T('←', '→')}</span></a>
+      <a class="btn btn-gold" href="../{T('index.html', 'en.html')}#brief">{T('לדבר עם HG Studio', 'Talk to HG Studio')} <span aria-hidden="true">{T('←', '→')}</span></a>
     </div>
-    <small>{T('אֶלֶף הוא מותג בדיוני. האתר הוא פרויקט קונספט שעיצב ובנה Blueprint Lab, ואין בו מכירה. כל התמונות, הסרט והקריינות נוצרו בבינה מלאכותית; המוזיקה בסרט: הסוויטה לצ׳לו מס׳ 1 של באך, בהקלטה בנחלת הכלל.', 'Elef is a fictional brand. This site is a concept project designed and built by Blueprint Lab, and nothing is sold here. Every image, the film and the voiceover were made with AI; the music in the film is Bach’s Cello Suite No. 1, in a public-domain recording.')}</small>
-    <nav aria-label="{T('מידע משפטי', 'Legal')}"><a href="../{T('privacy.html', 'en-privacy.html')}">{T('מדיניות פרטיות', 'Privacy policy')}</a><a href="../{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility statement')}</a><a href="#" data-consent-open>{T('הגדרות עוגיות', 'Cookie settings')}</a><a href="../{T('work.html', 'en-work.html')}">{T('לתיק העבודות של Blueprint Lab', 'Blueprint Lab portfolio')}</a></nav>
+    <small>{T('אֶלֶף הוא מותג בדיוני. האתר הוא פרויקט קונספט שעיצב ובנה HG Studio, ואין בו מכירה. כל התמונות, הסרט והקריינות נוצרו בבינה מלאכותית; המוזיקה בסרט: הסוויטה לצ׳לו מס׳ 1 של באך, בהקלטה בנחלת הכלל.', 'Elef is a fictional brand. This site is a concept project designed and built by HG Studio, and nothing is sold here. Every image, the film and the voiceover were made with AI; the music in the film is Bach’s Cello Suite No. 1, in a public-domain recording.')}</small>
+    <nav aria-label="{T('מידע משפטי', 'Legal')}"><a href="../{T('privacy.html', 'en-privacy.html')}">{T('מדיניות פרטיות', 'Privacy policy')}</a><a href="../{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility statement')}</a><a href="#" data-consent-open>{T('הגדרות עוגיות', 'Cookie settings')}</a><a href="../{T('work.html', 'en-work.html')}">{T('לתיק העבודות של HG Studio', 'HG Studio portfolio')}</a></nav>
   </div>
 </footer>
 <script>{JS}</script>

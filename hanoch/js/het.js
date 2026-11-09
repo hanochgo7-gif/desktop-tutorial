@@ -1,4 +1,4 @@
-/* ה-ח מזכוכית מאחורי לחיצת היד: האות של Blueprint Lab, והידיים נפגשות בתוך הקשת שלה.
+/* ה-ח מזכוכית מאחורי לחיצת היד: האות של HG Studio, והידיים נפגשות בתוך הקשת שלה.
    שכבה נפרדת מתחת לסרט (js/creation.js), שהשחור שלו שקוף. כשהרובוט מרים את האצבע, ה-ח נדלקת בכתום.
    Three.js (עותק מקומי ב-js/vendor) נטען רק אחרי שהדף נטען והדפדפן פנוי, כדי לא להאט את הפתיחה.
    בלי WebGL 2, או ב"הפחתת תנועה", לא נטען כלום. */
@@ -150,8 +150,8 @@ function start() {
     g.addColorStop(1, 'rgba(255,79,26,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     g = ctx.createRadialGradient(gx * 0.85, gy - L.ph * 0.3, 0, gx * 0.85, gy - L.ph * 0.3, gr * 0.55);
-    g.addColorStop(0, 'rgba(243,239,230,.09)');
-    g.addColorStop(1, 'rgba(243,239,230,0)');
+    g.addColorStop(0, 'rgba(237,232,222,.09)');
+    g.addColorStop(1, 'rgba(237,232,222,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     bgTex.needsUpdate = true;
     const ph = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (camera.position.z - BG_Z);

@@ -13,7 +13,7 @@ STYLE = '''<style>
   .doc { max-width: 760px; margin: 0 auto; padding: 110px var(--gutter) 60px; }
   .doc h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1; margin: 1rem 0 2rem; }
   .doc h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 2.6rem 0 .8rem; scroll-margin-top: 24px; }
-  .doc p, .doc li, .doc td, .doc th { font-family: var(--f-body); font-size: 1.02rem; line-height: 1.8; color: rgba(243, 239, 230, .85); }
+  .doc p, .doc li, .doc td, .doc th { font-family: var(--f-body); font-size: 1.02rem; line-height: 1.8; color: rgba(237, 232, 222, .85); }
   .doc ul { padding-inline-start: 1.2rem; display: grid; gap: .4rem; }
   .doc a { color: var(--signal); }
   .doc .back { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: inline-flex; min-height: 44px; align-items: center; }
@@ -21,13 +21,13 @@ STYLE = '''<style>
   .doc .table-wrap { overflow-x: auto; margin: 1rem 0; }
   .doc .table-wrap:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
   .doc table { width: 100%; border-collapse: collapse; min-width: 560px; }
-  .doc th, .doc td { text-align: start; vertical-align: top; padding: .6rem .7rem; border-bottom: 1px solid rgba(243, 239, 230, .14); font-size: .95rem; }
-  .doc th { color: #f3efe6; font-weight: 500; }
+  .doc th, .doc td { text-align: start; vertical-align: top; padding: .6rem .7rem; border-bottom: 1px solid rgba(237, 232, 222, .14); font-size: .95rem; }
+  .doc th { color: #ede8de; font-weight: 500; }
   .doc code { font-family: var(--f-mono); font-size: .85rem; }
   .doc .updated { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); margin-top: 2.6rem; }
-  .doc-foot { max-width: 760px; margin: 0 auto; padding: 24px var(--gutter) 60px; border-top: 1px solid rgba(243, 239, 230, .1); display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
+  .doc-foot { max-width: 760px; margin: 0 auto; padding: 24px var(--gutter) 60px; border-top: 1px solid rgba(237, 232, 222, .1); display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
   .doc-foot a { color: var(--fg-dim); display: inline-flex; align-items: center; min-height: 44px; }
-  .doc-foot a:hover, .doc-foot a[aria-current] { color: #f3efe6; }
+  .doc-foot a:hover, .doc-foot a[aria-current] { color: #ede8de; }
 </style>'''
 
 
@@ -60,7 +60,7 @@ def page(lang, file, other, title, desc, h1, body):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} | Blueprint Lab</title>
+<title>{title} | HG Studio</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="https://hgpro.io/{file}">
 <link rel="alternate" hreflang="he" href="https://hgpro.io/{hrefs['he']}">
@@ -98,7 +98,7 @@ CONTACT_HE = f'<a href="mailto:{MAIL}" dir="ltr">{MAIL}</a>, בוואטסאפ א
 CONTACT_EN = f'<a href="mailto:{MAIL}">{MAIL}</a>, on WhatsApp or by phone at <a href="tel:{TEL}">{TEL_EN}</a>'
 
 # ---------- מדיניות פרטיות ----------
-PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, העסק של חנוך גוטובסקי. בעמוד הזה מוסבר איזה מידע נאסף כשאתם גולשים באתר או פונים אליי, למה הוא נאסף, עם מי הוא משותף ומה הזכויות שלכם.</p>
+PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העסק של חנוך גוטובסקי. בעמוד הזה מוסבר איזה מידע נאסף כשאתם גולשים באתר או פונים אליי, למה הוא נאסף, עם מי הוא משותף ומה הזכויות שלכם.</p>
 
   <h2>בקצרה</h2>
   <ul>
@@ -109,7 +109,7 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, �
   </ul>
 
   <h2>מי אחראי על המידע</h2>
-  <p>חנוך גוטובסקי, Blueprint Lab. לכל שאלה על פרטיות אפשר לפנות במייל <a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a>, בוואטסאפ או בטלפון <a href="tel:+972545522053" dir="ltr">054-5522053</a>.</p>
+  <p>חנוך גוטובסקי, HG Studio. לכל שאלה על פרטיות אפשר לפנות במייל <a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a>, בוואטסאפ או בטלפון <a href="tel:+972545522053" dir="ltr">054-5522053</a>.</p>
 
   <h2>מידע שאתם מוסרים לי</h2>
   <p>כשאתם פונים אליי אני מקבל את מה שבחרתם לשלוח: שם, מספר טלפון או כתובת מייל (לפי הערוץ שבחרתם), ותוכן ההודעה. אם מילאתם את טופס הבריף בדף הבית, התשובות שבחרתם (סוג העסק, מה צריך ומתי, ואם רציתם גם שם וטלפון) נכנסות להודעה מוכנה בוואטסאפ, וההודעה יוצאת רק אם תשלחו אותה. אם השארתם טלפון, הוא נשמר גם במערכת הפניות שלי, כמו שמוסבר בסעיף הבא. בדף הבית באנגלית יש טופס בריף אחר: הוא לא שולח דבר לשרת, ושומר טיוטה רק בדפדפן שלכם.</p>
@@ -197,7 +197,7 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, �
   <h2>שינויים במדיניות</h2>
   <p>אם המדיניות תשתנה, הנוסח המעודכן יפורסם בעמוד הזה עם תאריך העדכון.</p>'''
 
-PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gotovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
+PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to HG Studio, the business of Hanoch Gotovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
 
   <h2>In short</h2>
   <ul>
@@ -208,7 +208,7 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the busines
   </ul>
 
   <h2>Who is responsible for the information</h2>
-  <p>Hanoch Gotovski, Blueprint Lab. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
+  <p>Hanoch Gotovski, HG Studio. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
 
   <h2>Information you give me</h2>
   <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the English home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. That form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off. The brief form on the Hebrew home page works differently: if you leave a phone number there, it is also saved in my inquiries system (see below).</p>
@@ -297,7 +297,7 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to Blueprint Lab, the busines
   <p>If this policy changes, the updated version will be published on this page with its date.</p>'''
 
 # ---------- תנאי שימוש ----------
-TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, העסק של חנוך גוטובסקי. השימוש באתר כפוף לתנאים האלה, ל<a href="privacy.html">מדיניות הפרטיות</a> ול<a href="refunds.html">מדיניות הביטול וההחזרים</a>.</p>
+TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העסק של חנוך גוטובסקי. השימוש באתר כפוף לתנאים האלה, ל<a href="privacy.html">מדיניות הפרטיות</a> ול<a href="refunds.html">מדיניות הביטול וההחזרים</a>.</p>
 
   <h2>מה יש באתר</h2>
   <p>באתר יש מידע על השירותים שלי, דוגמאות מעבודות שעשיתי ללקוחות, מאמרים והדגמות. חלק מההדגמות האינטראקטיביות והמספרים שמסומנים "לדוגמה" או "המחשה" הם המחשות בלבד. הסרטים והדמויות שנוצרו בבינה מלאכותית מסומנים ככאלה, והמותגים בהם בדיוניים כשזה מצוין.</p>
@@ -316,7 +316,7 @@ TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, ה
   <p>אי אפשר להבטיח מספר עוקבים, צפיות, פניות או מכירות, כי הם תלויים גם בפלטפורמות, בשוק ובעסק עצמו. היקף העבודה, משך ההתקשרות ותנאי הביטול נקבעים בהצעה.</p>
 
   <h2>זכויות יוצרים באתר</h2>
-  <p>העיצוב, הקוד, הטקסטים, התמונות והסרטונים באתר שייכים ל-Blueprint Lab, אלא אם צוין אחרת. הלוגואים, צילומי המסך והתכנים של לקוחות בתיק העבודות שייכים ללקוחות, ומוצגים כדוגמאות לעבודה שעשיתי עבורם. אין להעתיק או להשתמש בתכני האתר בלי אישור בכתב.</p>
+  <p>העיצוב, הקוד, הטקסטים, התמונות והסרטונים באתר שייכים ל-HG Studio, אלא אם צוין אחרת. הלוגואים, צילומי המסך והתכנים של לקוחות בתיק העבודות שייכים ללקוחות, ומוצגים כדוגמאות לעבודה שעשיתי עבורם. אין להעתיק או להשתמש בתכני האתר בלי אישור בכתב.</p>
 
   <h2>מאמרים ומידע כללי</h2>
   <p>המאמרים והמידע באתר הם מידע כללי. הם אינם ייעוץ משפטי, חשבונאי או מקצועי, והם עשויים להתיישן.</p>
@@ -344,7 +344,7 @@ TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-Blueprint Lab, ה
   <h2>יצירת קשר</h2>
   <p>שאלות על התנאים: {CONTACT_HE}.</p>'''
 
-TERMS_EN = f'''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business of Hanoch Gotovski. Using the site is subject to these terms, the <a href="en-privacy.html">privacy policy</a> and the <a href="en-refunds.html">cancellation and refund policy</a>.</p>
+TERMS_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business of Hanoch Gotovski. Using the site is subject to these terms, the <a href="en-privacy.html">privacy policy</a> and the <a href="en-refunds.html">cancellation and refund policy</a>.</p>
 
   <h2>What is on the site</h2>
   <p>The site has information about my services, examples of work I did for clients, articles and demos. Some interactive demos and numbers marked "example" or "illustration" are illustrations only. Films and characters made with AI are labeled as such, and the brands in them are fictional where stated.</p>
@@ -363,7 +363,7 @@ TERMS_EN = f'''  <p class="lead">hgpro.io belongs to Blueprint Lab, the business
   <p>No one can promise a number of followers, views, leads or sales, because they also depend on the platforms, the market and the business itself. The scope of work, the length of the engagement and the cancellation terms are set in the proposal.</p>
 
   <h2>Copyright on the site</h2>
-  <p>The design, code, text, images and videos on the site belong to Blueprint Lab unless stated otherwise. Client logos, screenshots and content in the portfolio belong to the clients and are shown as examples of work I did for them. Do not copy or use the site's content without written permission.</p>
+  <p>The design, code, text, images and videos on the site belong to HG Studio unless stated otherwise. Client logos, screenshots and content in the portfolio belong to the clients and are shown as examples of work I did for them. Do not copy or use the site's content without written permission.</p>
 
   <h2>Articles and general information</h2>
   <p>The articles and information on the site are general information. They are not legal, accounting or professional advice, and they may become outdated.</p>
@@ -411,7 +411,7 @@ REFUNDS_HE = f'''  <p class="lead">באתר לא מתבצעים רכישה ות�
   <p>שלחו לי הודעה במייל {CONTACT_HE}, עם השם שלכם, מספר הטלפון והפרויקט. אאשר שקיבלתי את ההודעה.</p>
 
   <h2>פרטי העוסק</h2>
-  <p>Blueprint Lab הוא העסק של חנוך גוטובסקי. הפרטים המלאים של העוסק מופיעים בהצעת המחיר ובמסמכי העסקה.</p>
+  <p>HG Studio הוא העסק של חנוך גוטובסקי. הפרטים המלאים של העוסק מופיעים בהצעת המחיר ובמסמכי העסקה.</p>
 
   <p>האמור בעמוד הזה כפוף לחוק הגנת הצרכן. אם יש סתירה בין העמוד לחוק, החוק גובר.</p>'''
 
@@ -434,17 +434,17 @@ REFUNDS_EN = f'''  <p class="lead">Nothing is bought or paid for on the site. Ev
   <p>Send me a message at {CONTACT_EN}, with your name, phone number and the project. I will confirm that I received it.</p>
 
   <h2>Business details</h2>
-  <p>Blueprint Lab is the business of Hanoch Gotovski. The full business details appear in the proposal and the deal documents.</p>
+  <p>HG Studio is the business of Hanoch Gotovski. The full business details appear in the proposal and the deal documents.</p>
 
   <p>This page is subject to the Israeli Consumer Protection Law. If anything here conflicts with the law, the law prevails.</p>'''
 
 PAGES = [
-    ('he', 'privacy.html', 'en-privacy.html', 'מדיניות פרטיות', 'מדיניות הפרטיות של Blueprint Lab: איזה מידע נאסף באתר hgpro.io, עוגיות, Google Analytics והזכויות שלכם.', 'מדיניות פרטיות', PRIVACY_HE),
-    ('en', 'en-privacy.html', 'privacy.html', 'Privacy policy', 'The Blueprint Lab privacy policy: what information hgpro.io collects, cookies, Google Analytics and your rights.', 'Privacy policy', PRIVACY_EN),
-    ('he', 'terms.html', 'en-terms.html', 'תנאי שימוש', 'תנאי השימוש באתר hgpro.io של Blueprint Lab: הצעות מחיר, בעלות, זכויות יוצרים וקרדיטים.', 'תנאי שימוש', TERMS_HE),
-    ('en', 'en-terms.html', 'terms.html', 'Terms of use', 'Terms of use for hgpro.io by Blueprint Lab: proposals, ownership, copyright and credits.', 'Terms of use', TERMS_EN),
-    ('he', 'refunds.html', 'en-refunds.html', 'מדיניות ביטול והחזרים', 'איך מבטלים התקשרות עם Blueprint Lab, ומה מגיע לכם לפי חוק הגנת הצרכן.', 'ביטול והחזרים', REFUNDS_HE),
-    ('en', 'en-refunds.html', 'refunds.html', 'Cancellation and refund policy', 'How to cancel an engagement with Blueprint Lab, and what you are entitled to under Israeli consumer law.', 'Cancellations and refunds', REFUNDS_EN),
+    ('he', 'privacy.html', 'en-privacy.html', 'מדיניות פרטיות', 'מדיניות הפרטיות של HG Studio: איזה מידע נאסף באתר hgpro.io, עוגיות, Google Analytics והזכויות שלכם.', 'מדיניות פרטיות', PRIVACY_HE),
+    ('en', 'en-privacy.html', 'privacy.html', 'Privacy policy', 'The HG Studio privacy policy: what information hgpro.io collects, cookies, Google Analytics and your rights.', 'Privacy policy', PRIVACY_EN),
+    ('he', 'terms.html', 'en-terms.html', 'תנאי שימוש', 'תנאי השימוש באתר hgpro.io של HG Studio: הצעות מחיר, בעלות, זכויות יוצרים וקרדיטים.', 'תנאי שימוש', TERMS_HE),
+    ('en', 'en-terms.html', 'terms.html', 'Terms of use', 'Terms of use for hgpro.io by HG Studio: proposals, ownership, copyright and credits.', 'Terms of use', TERMS_EN),
+    ('he', 'refunds.html', 'en-refunds.html', 'מדיניות ביטול והחזרים', 'איך מבטלים התקשרות עם HG Studio, ומה מגיע לכם לפי חוק הגנת הצרכן.', 'ביטול והחזרים', REFUNDS_HE),
+    ('en', 'en-refunds.html', 'refunds.html', 'Cancellation and refund policy', 'How to cancel an engagement with HG Studio, and what you are entitled to under Israeli consumer law.', 'Cancellations and refunds', REFUNDS_EN),
 ]
 
 if __name__ == '__main__':

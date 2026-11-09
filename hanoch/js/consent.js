@@ -37,16 +37,16 @@
 
   var CSS =
     '.consent{position:fixed;z-index:126;bottom:18px;inset-inline-start:18px;width:min(440px,calc(100vw - 36px));padding:1rem 1.1rem;border-radius:16px;' +
-    'background:#0e0e10;color:#f3efe6;border:1px solid rgba(243,239,230,.16);box-shadow:0 20px 50px rgba(0,0,0,.5);' +
+    'background:#0e0e10;color:#ede8de;border:1px solid rgba(237,232,222,.16);box-shadow:0 20px 50px rgba(0,0,0,.5);' +
     'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.95rem;line-height:1.6}' +
     '.consent[hidden]{display:none}' +
     '.consent__text{margin:0 0 .85rem}' +
-    '.consent__text a{color:var(--signal,#ff5a1f);text-decoration:underline;text-underline-offset:3px}' +
+    '.consent__text a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}' +
     '.consent__actions{display:flex;gap:.6rem;flex-wrap:wrap}' +
-    '.consent__btn{flex:1 1 0;min-width:9.5rem;min-height:44px;padding:.6rem 1rem;border-radius:99px;border:1px solid rgba(243,239,230,.55);' +
-    'background:transparent;color:#f3efe6;font:inherit;font-family:var(--f-mono,ui-monospace,monospace);font-size:.85rem;cursor:pointer}' +
-    '.consent__btn:hover{background:rgba(243,239,230,.1)}' +
-    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff5a1f);outline-offset:3px}' +
+    '.consent__btn{flex:1 1 0;min-width:9.5rem;min-height:44px;padding:.6rem 1rem;border-radius:99px;border:1px solid rgba(237,232,222,.55);' +
+    'background:transparent;color:#ede8de;font:inherit;font-family:var(--f-mono,ui-monospace,monospace);font-size:.85rem;cursor:pointer}' +
+    '.consent__btn:hover{background:rgba(237,232,222,.1)}' +
+    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
     '@media (max-width:600px){.consent{bottom:80px;padding:.85rem .95rem;font-size:.875rem;line-height:1.55}.consent__text{margin-bottom:.7rem}' +
     '.consent__btn{min-width:0;padding:.5rem .7rem;font-size:.8rem;white-space:nowrap}}' +
     // טלפון קטן (רוחב עד 400 או גובה עד 700): אותו נוסח בדיוק, בעימוד צפוף יותר, כדי שההודעה לא תסתיר את הכפתורים של המסך הראשון

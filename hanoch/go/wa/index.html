@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>פותחים את וואטסאפ · Blueprint Lab</title>
+<title>פותחים את וואטסאפ · HG Studio</title>
 <!-- דף מעבר לוואטסאפ: לחיצה על וואטסאפ של מבקר ממודעה בגוגל עוברת כאן לרגע (js/ga.js), כדי שגוגל אדס יספור ביקור בדף הזה כפנייה.
      מעביר רק לוואטסאפ של הסטודיו (wa.me/972545522053), כדי שאי אפשר יהיה להשתמש בו להפניה לאתר או למספר אחר -->
 <style>
-  html,body{margin:0;height:100%;background:#0e0e10;color:#f3efe6;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+  html,body{margin:0;height:100%;background:#0e0e10;color:#ede8de;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
   main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:24px}
   .dot{width:46px;height:46px;border-radius:50%;border:4px solid #25d36633;border-top-color:#25d366;animation:s 0.8s linear infinite}
   @keyframes s{to{transform:rotate(360deg)}}
@@ -26,7 +26,7 @@
   <div class="dot" aria-hidden="true"></div>
   <p id="msg">פותחים את וואטסאפ…</p>
   <a id="go" href="https://wa.me/972545522053" rel="noopener">לא נפתח? לחצו כאן</a>
-  <small id="sig">Blueprint Lab · חנוך גוטובסקי</small>
+  <small id="sig">HG Studio · חנוך גוטובסקי</small>
 </main>
 <script>
 (function () {
@@ -46,10 +46,10 @@
   try { text = new URL(u).searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
   if (q.get('hl') === 'en' || (text && !/[֐-׿]/.test(text))) {
     var d = document.documentElement; d.lang = 'en'; d.dir = 'ltr';
-    document.title = 'Opening WhatsApp · Blueprint Lab';
+    document.title = 'Opening WhatsApp · HG Studio';
     document.getElementById('msg').textContent = 'Opening WhatsApp…';
     go.textContent = 'Not opening? Tap here';
-    document.getElementById('sig').textContent = 'Blueprint Lab · Hanoch Gotovski';
+    document.getElementById('sig').textContent = 'HG Studio · Hanoch Gotovski';
   }
   var done = false;
   function open() { if (done) return; done = true; location.replace(u); }

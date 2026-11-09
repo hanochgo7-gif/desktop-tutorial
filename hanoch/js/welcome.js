@@ -1,4 +1,4 @@
-/* פתיחה: "ברוכים הבאים ל-Blueprint Lab", בנוי מאלפי נקודות אור.
+/* פתיחה: "ברוכים הבאים ל-HG Studio", בנוי מאלפי נקודות אור.
    הנקודות יוצאות מנקודה אחת, נאספות לאותיות בכיוון הקריאה, נרתעות מהעכבר (או מהאצבע) ומתפזרות כשגוללים.
    הכותרת האמיתית נשארת בדף בשביל קוראי מסך וגוגל, וגם מי שביקש פחות תנועה רואה אותה כרגיל.
    WebGL 1 בלי ספריות. התנועה מחושבת ב-JS, והכרטיס הגרפי רק מצייר. */
@@ -245,7 +245,7 @@
     burst(); onScroll(); wake();
   }
   var fam = getComputedStyle(lines[0]).fontFamily, probe = '750 100px ' + fam;
-  var ready = document.fonts && document.fonts.load ? Promise.all([document.fonts.load(probe, lines[0].textContent), document.fonts.load(probe, 'Blueprint Lab')]) : Promise.resolve();
+  var ready = document.fonts && document.fonts.load ? Promise.all([document.fonts.load(probe, lines[0].textContent), document.fonts.load(probe, 'HG Studio')]) : Promise.resolve();
   // מתחילים אחרי שהדף נטען והדפדפן פנוי, כדי שהפתיחה לא תאט את הטעינה עצמה
   var loaded = document.readyState === 'complete' ? Promise.resolve() : new Promise(function (r) { window.addEventListener('load', r, { once: true }); });
   var idle = function () { return new Promise(function (r) { (window.requestIdleCallback || function (f) { setTimeout(f, 60); })(r, { timeout: 700 }); }); };

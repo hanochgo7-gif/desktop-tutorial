@@ -334,7 +334,7 @@
       const vals = [12, 15, 11, 18, 21, 17, 24, 22, 28, 26, 31, 29, 35, 38];
       s.innerHTML = `<div class="d-wrap">
         <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">${T('הזמנות היום', 'Orders today')}</span><span class="d-num d-k1">14</span></div><div class="d-card d-kpi"><span class="d-sub">${T('הכנסות החודש', 'Revenue this month')}</span><span class="d-num d-k2">${fmt(18420)}</span></div><div class="d-card d-kpi"><span class="d-sub">${T('לקוחות חדשים', 'New customers')}</span><span class="d-num d-k3">63</span></div></div>
-        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('הזמנות · 14 ימים אחרונים', 'Orders · last 14 days')}</span><span class="d-sp d-pill ok d-trend">+24%</span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5a1f" stop-opacity=".28"/><stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/></linearGradient></defs><path class="d-area" fill="url(#dg)"/><path class="d-line" fill="none" stroke="#ff5a1f" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('הזמנות · 14 ימים אחרונים', 'Orders · last 14 days')}</span><span class="d-sp d-pill ok d-trend">+24%</span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4f1a" stop-opacity=".28"/><stop offset="1" stop-color="#ff4f1a" stop-opacity="0"/></linearGradient></defs><path class="d-area" fill="url(#dg)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
         <div class="d-orders"></div>
       </div>`;
       const draw = () => { const p = spark(vals, 300, 104); $('.d-line', s).setAttribute('d', p.line); $('.d-area', s).setAttribute('d', p.area); };
@@ -466,7 +466,7 @@
       s.innerHTML = `<div class="d-ba" role="slider" tabindex="0" aria-label="${T('לפני ואחרי', 'Before and after')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <img src="work/systems/before.webp" alt="${T('צילום טלפון רגיל של אגרטל במטבח', 'An ordinary phone photo of a vase in a kitchen')}" width="640" height="800">
         <img class="d-ba-after" src="work/systems/after.webp" alt="${T('אותו אגרטל בצילום סטודיו שהופק בבינה מלאכותית', 'The same vase in an AI-generated studio shot')}" width="640" height="800">
-        <span class="d-ba-line"></span><span class="d-ba-tag" style="left:14px">${T('לפני: צילום בטלפון', 'Before: phone photo')}</span><span class="d-ba-tag" style="right:14px;background:var(--signal);color:#111d31">${T('אחרי: הפקה ב-AI', 'After: AI studio shot')}</span></div>`;
+        <span class="d-ba-line"></span><span class="d-ba-tag" style="left:14px">${T('לפני: צילום בטלפון', 'Before: phone photo')}</span><span class="d-ba-tag" style="right:14px;background:var(--signal);color:#141416">${T('אחרי: הפקה ב-AI', 'After: AI studio shot')}</span></div>`;
       const ba = $('.d-ba', s);
       const set = (x) => { x = Math.max(0, Math.min(100, x)); ba.style.setProperty('--x', x + '%'); ba.setAttribute('aria-valuenow', Math.round(x)); };
       const at = (e) => { const r = ba.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
@@ -511,8 +511,8 @@
     url: T('gotovski.co.il · הדמיה', 'gotovski.co.il · simulation'), hint: T('ההדמיה המלאה נמצאת בתיק העבודות', 'The full simulation is in the portfolio'),
     run(s) {
       s.innerHTML = `<div style="position:absolute;inset:0;background:#0b0d10 url('work/sim-poster-960.webp') center/cover"></div>
-        <div class="d-wrap" style="justify-content:flex-end;background:linear-gradient(transparent 40%,rgba(11,20,36,.85))"><div style="color:#fff;display:grid;gap:10px;justify-items:start">
-          <span class="d-pill hot" style="background:var(--signal);color:#111d31">${T('הדמיה חיה בתלת־ממד', 'Live 3D simulation')}</span>
+        <div class="d-wrap" style="justify-content:flex-end;background:linear-gradient(transparent 40%,rgba(10,10,11,.85))"><div style="color:#fff;display:grid;gap:10px;justify-items:start">
+          <span class="d-pill hot" style="background:var(--signal);color:#141416">${T('הדמיה חיה בתלת־ממד', 'Live 3D simulation')}</span>
           <div class="d-h" style="font-size:1.5em">${T('מה קורה כשהחשמל נופל?', 'What happens when the power goes out?')}</div>
           <div style="opacity:.75;max-width:40ch">${T('לקוחות של ש. גוטובסקי לוחצים על כפתור ורואים איך הגנרטורים מתניעים. ככה מסבירים מערכת מורכבת בלי מילה אחת.', 'S. Gotovski’s customers press a button and watch the generators kick in. A complex system, explained without a single word.')}</div>
           <button class="d-btn hot d-go" type="button">${T('לנסות את ההדמיה', 'Try the simulation')}</button></div></div>`;
@@ -598,7 +598,7 @@
         ? ['How to choose a mug that lasts for years', 'Five ideas for a holiday table', 'Sandstone vs. porcelain: what’s the difference?', 'Guide: caring for your ceramics']
         : ['איך בוחרים ספל שיחזיק שנים', 'חמישה רעיונות לשולחן חג', 'מה ההבדל בין אבן חול לפורצלן', 'מדריך: לטפל בכלי קרמיקה'];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('כניסות מגוגל בחודש · 12 חודשים', 'Monthly visits from Google · 12 months')}</span><span class="d-sp d-num d-v" style="font-size:1.3em"></span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path class="d-area" fill="rgba(255,79,26,.14)"/><path class="d-line" fill="none" stroke="#ff5a1f" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
+        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('כניסות מגוגל בחודש · 12 חודשים', 'Monthly visits from Google · 12 months')}</span><span class="d-sp d-num d-v" style="font-size:1.3em"></span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path class="d-area" fill="rgba(255,79,26,.14)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
         <div class="d-grid d-posts" style="gap:8px"></div>
         <div class="d-row" style="margin-top:auto"><span class="d-sub">${T('המחשה', 'Illustration')}</span><button class="d-btn hot d-sp d-pub" type="button">${T('פרסום מאמר חדש', 'Publish a new post')}</button></div>
       </div>`;
@@ -643,7 +643,7 @@
       const B = [
         { n: T('חם', 'Warm'), bg: '#efe6d6', fg: '#3a2418', logo: '#c4552b', lc: '#fff', font: '"Frank Ruhl Libre", serif', sw: ['#c4552b', '#e9cba7', '#3a2418', '#8b9a7a'] },
         { n: T('נקי', 'Clean'), bg: '#ffffff', fg: '#111', logo: '#111', lc: '#fff', font: '"Rubik", sans-serif', sw: ['#111111', '#f2f2f2', '#9aa0a6', '#2f6bff'] },
-        { n: T('נועז', 'Bold'), bg: '#101b2e', fg: '#f3efe6', logo: '#ff5a1f', lc: '#101b2e', font: 'var(--f-display)', sw: ['#ff5a1f', '#f3efe6', '#101b2e', '#ffb59c'] }
+        { n: T('נועז', 'Bold'), bg: '#121214', fg: '#ede8de', logo: '#ff4f1a', lc: '#121214', font: 'var(--f-display)', sw: ['#ff4f1a', '#ede8de', '#121214', '#ffb59c'] }
       ];
       s.innerHTML = `<div class="d-brand"><div class="d-brand-hero"><div class="d-logo">${T('נ', 'N')}</div><div class="d-bn" style="font-size:2.2em;line-height:1.1">${T('נוי קרמיקה', 'Noy Ceramics')}</div><div class="d-bt" style="opacity:.7">${T('כלים שנוצרו ביד, לשולחן שמספר סיפור', 'Made by hand, for a table with a story')}</div><div class="d-swatches"><i></i><i></i><i></i><i></i></div></div>
         <div class="d-brand-bar">${B.map((b, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-i="${i}">${b.n}</button>`).join('')}</div></div>`;

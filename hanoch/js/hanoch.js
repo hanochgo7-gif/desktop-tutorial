@@ -60,7 +60,7 @@
         'מעבר דומיין בלי לאבד דירוג: כל כתובת ישנה שגוגל מכיר מופנית לעמוד המתאים באתר החדש.'
       ],
       metrics: [['טעינה בטלפון (LCP)', '2.9s', '1.7s'], ['משקל העמוד', '1.26MB', '0.9MB'], ['וידאו הפתיחה בטלפון', '1.3MB', '370KB']],
-      palette: ['#111111', '#1c82ad', '#4fbbea', '#f3efe6'], fonts: ['Heebo', 'Frank Ruhl Libre', 'Cousine']
+      palette: ['#111111', '#1c82ad', '#4fbbea', '#ede8de'], fonts: ['Heebo', 'Frank Ruhl Libre', 'Cousine']
     },
     ams: {
       name: 'AMS', sub: 'אביב משה שדמון · אגרוף תאילנדי ואימון אישי', kind: 'אתר מלא · תנועה אמיתית, תוכן וקידום', url: 'ams · אביב משה שדמון', color: '#d4a24c',
@@ -341,7 +341,7 @@
     if (!P) return Promise.resolve();
     var fontReady = document.fonts && document.fonts.load
       ? Promise.race([
-          Promise.all([document.fonts.load('800 100px "Fraunces"', 'Blueprint Lab'), document.fonts.ready]),
+          Promise.all([document.fonts.load('800 100px "Fraunces"', 'HG Studio'), document.fonts.ready]),
           new Promise(function (r) { setTimeout(r, 2500); })
         ])
       : Promise.resolve();
@@ -442,7 +442,7 @@
     for (var r = 1; r < rows; r++) line(0, vh * r / rows, vw, vh * r / rows, r === rows / 2);
     line(0, 0, vw, vh, false); line(vw, 0, 0, vh, false);
 
-    var text = 'Blueprint Lab', out = $('.intro-text'), pct = $('.intro-pct');
+    var text = 'HG Studio', out = $('.intro-text'), pct = $('.intro-pct');
     var counter = { n: 0, c: 0 };
     var tl = gsap.timeline();
     // DrawSVG: כל קו נמתח מהמרכז שלו החוצה. ScrambleText: השם מתגבש מתוך אותיות מתחלפות
@@ -1663,7 +1663,7 @@
     // הזכוכית: ה-ח עצמה, שעפה קדימה ומתרחבת עד שהמסך כולו בתוכה
     var glass = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     glass.setAttribute('class', 'mp-glass'); glass.setAttribute('aria-hidden', 'true'); glass.setAttribute('viewBox', '0 0 775 815');
-    glass.innerHTML = '<defs><linearGradient id="mpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#f3efe6" stop-opacity=".12"/><stop offset="1" stop-color="#ff5a1f" stop-opacity=".5"/></linearGradient></defs>' +
+    glass.innerHTML = '<defs><linearGradient id="mpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#ede8de" stop-opacity=".12"/><stop offset="1" stop-color="#ff4f1a" stop-opacity=".5"/></linearGradient></defs>' +
       '<path d="' + HET_D + '" fill="url(#mpg)" stroke="rgba(255,255,255,.7)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>';
     var dim = document.createElement('div'); dim.className = 'mp-dim'; dim.setAttribute('aria-hidden', 'true');
     document.body.appendChild(dim); document.body.appendChild(glass);

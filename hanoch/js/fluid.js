@@ -74,7 +74,7 @@
     for (var i = 0; i < n; i++) {
       var a = (i / n) * Math.PI * 2, c = Math.cos(a), s = Math.sin(a), l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       l.setAttribute('x1', 60 + c * 26); l.setAttribute('y1', 60 + s * 26); l.setAttribute('x2', 60 + c * 40); l.setAttribute('y2', 60 + s * 40);
-      l.setAttribute('stroke', '#f3efe6'); l.setAttribute('stroke-width', '2.4'); l.setAttribute('stroke-linecap', 'round');
+      l.setAttribute('stroke', '#ede8de'); l.setAttribute('stroke-width', '2.4'); l.setAttribute('stroke-linecap', 'round');
       svg.appendChild(l);
       if (l.animate) l.animate([{ transform: 'translate(0,0)', opacity: 1, strokeDasharray: '14 14', strokeDashoffset: 0 }, { transform: 'translate(' + c * 16 + 'px,' + s * 16 + 'px)', opacity: 0, strokeDasharray: '14 14', strokeDashoffset: -14 }], { duration: 520, easing: 'cubic-bezier(.2,.7,.1,1)', fill: 'forwards' });
     }
