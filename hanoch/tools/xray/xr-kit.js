@@ -81,7 +81,7 @@
 
   // לחכות לגופנים לפני שמודדים מיקומים
   function fonts() {
-    return Promise.all(['800 40px Rubik', '400 20px Rubik', '700 20px Rubik', '700 40px "BL Grotesk"'].map(function (f) { return document.fonts.load(f, 'אבג BLUEPRINT·LAB 123'); }));
+    return Promise.all(['750 40px "HG Handjet"', '400 20px Rubik', '700 20px Rubik', '800 40px "HG Mark"'].map(function (f) { return document.fonts.load(f, 'אבג HG·STUDIO 123'); }));
   }
 
   window.XR = { fonts: fonts, makePhone: makePhone, setPhone: setPhone, scrollOf: scrollOf, placeMark: placeMark, boxOf: boxOf, key: key, seek: seek, ease: ease };

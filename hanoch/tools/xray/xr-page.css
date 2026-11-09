@@ -1,13 +1,16 @@
 /* רנטגן: עיצוב משותף לרילס ולקרוסלה. אותה שפה כמו hgpro.io: דיו, נייר חם, כתום שמסמן, וכחול רק למצב רנטגן */
-@font-face { font-family: "BL Grotesk"; src: url("../../fonts/bl/space-grotesk.woff2") format("woff2"); font-weight: 300 700; }
+@font-face { font-family: "HG Mark"; src: url("../../fonts/hg-mark.woff2") format("woff2"); font-weight: 800; unicode-range: U+20, U+2E, U+44, U+47-49, U+4F-50, U+52-55, U+64, U+67-69, U+6F-70, U+72-75, U+B7; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: "HG Handjet"; src: url("../../fonts/handjet-ascii.woff2") format("woff2"); font-weight: 750; unicode-range: U+0020-007E, U+00A0, U+00AB, U+00BB, U+00D7, U+2010-2027; }
 @font-face { font-family: "Rubik"; src: url("../../fonts/g/rubik-hebrew-423ede.woff2") format("woff2"); font-weight: 300 900; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "Rubik"; src: url("../../fonts/g/rubik-latin-f673d8.woff2") format("woff2"); font-weight: 300 900; unicode-range: U+0000-00FF, U+2000-206F; }
 
 :root {
-  --ink: #0b1424; --ink-soft: #111d31; --paper: #f3efe6;
-  --fg: #f3efe6; --fg-dim: rgba(243, 239, 230, .6); --fg-faint: rgba(243, 239, 230, .14);
-  --signal: #ff5a1f; --blue: #3d7bff;
-  --f-display: "Rubik", sans-serif; --f-body: "Rubik", sans-serif;
+  --ink: #0a0a0b; --ink-soft: #141416; --paper: #ede8de;
+  --fg: #ede8de; --fg-dim: rgba(237, 232, 222, .6); --fg-faint: rgba(237, 232, 222, .14);
+  --signal: #ff4f1a; --blue: #3d7bff;
+  --f-display: "HG Handjet", "Rubik", sans-serif; --f-body: "Rubik", sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body); direction: rtl; overflow: hidden; -webkit-font-smoothing: antialiased; }
@@ -17,20 +20,19 @@ html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body
 
 /* תגית הסדרה */
 .series { position: absolute; display: flex; align-items: center; gap: 18px; font-size: 36px; color: var(--fg-dim); }
-.series b { font: 700 40px/1 var(--f-body); color: #fff; background: var(--blue); padding: 10px 24px 8px; border-radius: 99px; letter-spacing: .02em; }
-.fict { font-size: 30px; color: var(--fg-dim); border: 1px dashed rgba(243, 239, 230, .35); border-radius: 99px; padding: 6px 16px; white-space: nowrap; }
+.series b { font: 750 50px/1 var(--f-display); color: #fff; background: var(--blue); padding: 10px 24px 8px; border-radius: 99px; letter-spacing: .02em; }
+.fict { font-size: 30px; color: var(--fg-dim); border: 1px dashed rgba(237, 232, 222, .35); border-radius: 99px; padding: 6px 16px; white-space: nowrap; }
 
-.title { font: 800 100px/1.02 var(--f-display); letter-spacing: -.015em; text-wrap: balance; }
+.title { font: 750 112px/.98 var(--f-display); letter-spacing: -.005em; text-wrap: balance; }
 .title em { font-style: normal; color: var(--signal); }
 .sub { font-size: 40px; line-height: 1.38; color: var(--fg-dim); text-wrap: pretty; }
 .sub b { color: var(--fg); font-weight: 600; }
-.num { font: 700 36px/1 var(--f-body); color: var(--ink); background: var(--signal); width: 64px; height: 64px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
-.logo { display: inline-flex; align-items: center; font: 700 56px/1 "BL Grotesk", var(--f-body); letter-spacing: .05em; direction: ltr; color: var(--fg); }
-.logo .bl-mk { width: 1.2em; height: 1.2em; margin-right: .4em; }
+.num { font: 750 40px/1 var(--f-display); color: var(--ink); background: var(--signal); width: 64px; height: 64px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.logo { font: 800 64px/1 "HG Mark", var(--f-body); letter-spacing: .02em; direction: ltr; color: var(--fg); }
 .logo b { color: var(--signal); }
 
 /* הטלפון */
-.phone { position: absolute; width: 500px; height: 1000px; border-radius: 70px; background: #050506; padding: 14px; box-shadow: 0 0 0 2px #2a2a2e, 0 60px 120px -40px rgba(0, 0, 0, .95), 0 0 0 10px rgba(243, 239, 230, .03); }
+.phone { position: absolute; width: 500px; height: 1000px; border-radius: 70px; background: #050506; padding: 14px; box-shadow: 0 0 0 2px #2a2a2e, 0 60px 120px -40px rgba(0, 0, 0, .95), 0 0 0 10px rgba(237, 232, 222, .03); }
 .phone::after { content: ""; position: absolute; top: 30px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 99px; background: #050506; z-index: 9; }
 .screen { position: relative; width: 100%; height: 100%; border-radius: 56px; overflow: hidden; background: #fff; }
 .layer { position: absolute; inset: 0; }

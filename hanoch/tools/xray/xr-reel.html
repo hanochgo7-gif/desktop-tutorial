@@ -7,8 +7,8 @@
 <style>
 .frame { height: 1920px; }
 .series { top: 170px; right: 80px; }
-.title { position: absolute; top: 250px; right: 80px; left: 80px; font-size: 80px; }
-.title .num { margin-inline-end: 18px; width: 76px; height: 76px; font-size: 48px; vertical-align: 4px; }
+.title { position: absolute; top: 250px; right: 80px; left: 80px; }
+.title .num { margin-inline-end: 22px; width: 92px; height: 92px; font-size: 64px; vertical-align: 6px; }
 #pa, #pb { top: 560px; left: 290px; }
 .cap { position: absolute; top: 640px; font: 750 64px/1 var(--f-display); opacity: 0; width: 400px; text-align: center; }
 .cap.b { left: 555px; color: var(--fg-dim); }
@@ -45,7 +45,7 @@
     var pa = XR.makePhone(E.site, E); pa.id = 'pa'; G.appendChild(pa); XR.setPhone(pa, {});
     var capB = el('<div class="cap b">' + E.compare.before + '</div>'), capA = el('<div class="cap a">' + E.compare.after + '</div>');
     F.appendChild(capB); F.appendChild(capA);
-    var end = el('<div class="endbox"><div class="logo"><svg class="bl-mk" viewBox="0 0 200 200" aria-hidden="true"><path d="M50 30V170M50 30H116L140 54V74L118 96H104M50 96H66M104 96H126L150 120V146L126 170H50" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square"/><path d="M66 96V56" stroke="#ff5a1f" stroke-width="11"/><path d="M66 58A38 38 0 0 1 104 96" fill="none" stroke="#ff5a1f" stroke-width="6" stroke-dasharray="8 7"/></svg>BLUEPRINT<b>·</b>LAB</div><h1 class="title">' + E.end.title + '</h1><p class="sub">' + E.end.sub + '</p><span class="fict">' + E.fict + ', להמחשה</span></div>');
+    var end = el('<div class="endbox"><div class="logo">HG<b>·</b>STUDIO</div><h1 class="title">' + E.end.title + '</h1><p class="sub">' + E.end.sub + '</p><span class="fict">' + E.fict + ', להמחשה</span></div>');
     F.appendChild(end);
 
     var sc = pa.querySelector('.screen'), PX = 290 + 14, PY = 560 + 14;
