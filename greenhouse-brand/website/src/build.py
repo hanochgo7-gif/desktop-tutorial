@@ -1287,6 +1287,9 @@ def main():
         ]}, indent=1) + "\n")
     # the Apache config is for the final host only: Vercel never serves it (it answered at /%2ehtaccess)
     write(PUB / ".vercelignore", ".htaccess\n.vercelignore\n")
+    # the owners' editors read every text from the pages just built, so they always match the site
+    import runpy
+    runpy.run_path(str(SRC / "tools" / "text_review.py"), run_name="__main__")
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 

@@ -258,7 +258,9 @@ def main():
         m = re.search(r"הערה כללית:\n(.*?)\n\n", f.read_text(encoding="utf-8"), re.S)
         if m:
             general = m.group(1).strip()
-    data = {"site": SITE, "sentGeneral": general, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    import datetime
+    vals = {"{phone}": C.SITE["phone_display"][1], "{y}": str(datetime.date.today().year)}  # what the automatic parts show, so search finds them
+    data = {"site": SITE, "sentGeneral": general, "vals": vals, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

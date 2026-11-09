@@ -95,6 +95,27 @@ del { color: var(--danger); text-decoration: line-through; }
 .fld.ed textarea { background: var(--hi-2); border-color: var(--hi); }
 .fld .rv { background: none; border: 0; color: var(--pine); text-decoration: underline; font-size: .8rem; padding: 2px 0; }
 
+.find-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0 10px; }
+.btn.sm, .find-top .btn { padding: 8px 14px; font-size: .9rem; min-height: 38px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.fld input { width: 100%; border: 1.5px solid var(--line); border-radius: 8px; padding: 9px 10px; font-size: 1rem; }
+.fld input:focus { border-color: var(--pine); outline: none; }
+.hit { display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: start; border: 1px solid var(--line); border-radius: var(--r); padding: 9px 10px; margin-bottom: 8px; cursor: pointer; background: #fff; }
+.hit input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--pine); }
+.hit .hw { display: block; font-size: .78rem; color: var(--ink-3); }
+.hit .ht { display: block; font-size: .93rem; }
+.hit .go { background: none; border: 0; color: var(--pine); text-decoration: underline; font-size: .82rem; padding: 2px; }
+mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
+.conf { background: var(--hi-2); border: 1px solid var(--hi); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+.conf .row { margin-top: 8px; }
+.deltag { display: inline-block; background: #FBE3DE; color: var(--danger); border-radius: 99px; padding: 2px 10px; font-size: .82rem; font-weight: 700; margin-bottom: 4px; }
+.hit.auto { background: var(--sage); cursor: default; }
+.chg.add { border-color: var(--mint); background: #F4FBF7; }
+.cnt.warn .n { background: #F5B7A8; }
+.prop { position: absolute; bottom: 74px; left: 50%; transform: translateX(-50%); z-index: 4; width: min(560px, calc(100% - 24px)); background: var(--paper); border-radius: 14px; padding: 14px 16px; box-shadow: 0 16px 44px rgba(0, 0, 0, .3); border-top: 5px solid var(--mint); }
+.prop p { margin: 0 0 10px; }
+.prop .btn { padding: 9px 16px; font-size: .95rem; min-height: 40px; }
+
 /* dialogs */
 .dlg { position: fixed; inset: 0; z-index: 50; background: rgba(13, 31, 27, .55); display: grid; place-items: center; padding: 16px; }
 .dlg .box { background: var(--paper); border-radius: 16px; max-width: 640px; width: 100%; padding: 26px 26px 22px; max-height: calc(100vh - 32px); overflow: auto; box-shadow: 0 24px 60px rgba(0, 0, 0, .25); }
@@ -121,8 +142,10 @@ del { color: var(--danger); text-decoration: line-through; }
 
 /* smaller screens */
 .only-s { display: none; }
+@media (max-width: 1560px) { .brand b, .pg label { display: none; } .dev-seg button { padding: 6px 8px; } }
+@media (max-width: 1380px) { .dev-seg { display: none; } }
 @media (max-width: 1180px) { .brand b, .pg label, .seg button .t { display: none; } .seg button { padding: 6px 9px; } }
-@media (max-width: 1000px) { .dev-seg { display: none; } }
+@media (max-width: 1000px) { .dev-seg, #b-redo, .send .hide-s, .cnt .t { display: none; } .pg select { max-width: 170px; } }
 @media (max-width: 760px) {
   :root { --top: 104px; }
   .top { flex-wrap: wrap; padding: 8px 10px; row-gap: 6px; }
@@ -149,6 +172,7 @@ del { color: var(--danger); text-decoration: line-through; }
   <div class="pg"><label for="page">עמוד:</label><select id="page"></select></div>
   <div class="seg" role="group" aria-label="מצב">
     <button type="button" id="m-edit" aria-pressed="true" title="לוחצים על טקסט ומקלידים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="t">עריכה</span></button>
+    <button type="button" id="m-add" aria-pressed="false" title="להוסיף כותרת, פסקה, שורה, כפתור או מקום לתמונה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="t">הוספה</span></button>
     <button type="button" id="m-view" aria-pressed="false" title="גולשים באתר כרגיל, הקישורים עובדים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span class="t">גלישה</span></button>
   </div>
   <div class="seg dev-seg" role="group" aria-label="גודל מסך">
@@ -161,6 +185,7 @@ del { color: var(--danger); text-decoration: line-through; }
   <button class="ib hide-s" type="button" id="b-redo" title="החזרה (Ctrl+Y)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span class="sr">החזרה</span></button>
   <span class="grow"></span>
   <span class="saved" id="saved" aria-live="polite">נשמר ✓</span>
+  <button class="ib" type="button" id="b-find" title="חיפוש והחלפה בכל האתר (Ctrl+F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span class="sr">חיפוש והחלפה</span></button>
   <button class="ib" type="button" id="b-help" title="איך זה עובד?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span class="sr">עזרה</span></button>
   <button class="cnt" type="button" id="b-panel" aria-expanded="false" aria-controls="panel"><span class="t">השינויים שלי</span><span class="n" id="n">0</span></button>
   <button class="send" type="button" id="b-send">סיום ושליחה<span class="hide-s"> לחנוך</span></button>
@@ -174,11 +199,13 @@ del { color: var(--danger); text-decoration: line-through; }
       <div class="en-banner" id="en" hidden><span>זה עמוד באנגלית. העריכה כאן היא לטקסטים בעברית.</span><button type="button" id="en-go">לעמוד בעברית</button></div>
     </div>
     <div class="mode-hint" id="hint" hidden></div>
+    <div class="prop" id="prop" role="status" hidden></div>
   </div>
   <aside class="panel" id="panel" hidden aria-label="השינויים והטקסטים הנוספים">
     <div class="panel-h">
       <div class="tabs" role="tablist">
         <button type="button" role="tab" id="t-chg" aria-selected="true">השינויים שלי</button>
+        <button type="button" role="tab" id="t-find" aria-selected="false">חיפוש והחלפה</button>
         <button type="button" role="tab" id="t-more" aria-selected="false">עוד בעמוד הזה</button>
       </div>
       <button class="x" type="button" id="p-x" aria-label="סגירת החלונית">✕</button>
@@ -194,10 +221,15 @@ del { color: var(--danger); text-decoration: line-through; }
     <p class="lead">זה האתר עצמו, כמו שהוא נראה עכשיו באוויר. אפשר לתקן בו כל טקסט ישירות על העמוד, ולראות מיד איך זה ייראה.</p>
     <ul class="how">
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><div><b>לוחצים על טקסט ומקלידים</b><span>כל טקסט שאפשר לשנות מקבל מסגרת ירוקה כשעוברים עליו. לוחצים, מתקנים, ולוחצים "סיום" או Enter. מה ששונה נצבע בצהוב.</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div><b>מוסיפים כותרות ותוכן חדש</b><span>לוחצים "הוספה" למעלה, מצביעים על המקום (קו ירוק מראה בדיוק איפה), ובוחרים: כותרת, כותרת משנה, פסקה, שורה ברשימה, כפתור, ציטוט או מקום לתמונה. אפשר גם מתוך כל טקסט: "＋ להוסיף אחרי".</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span><div><b>משנים פעם אחת, מתעדכן בכל האתר</b><span>שינית מספר או ביטוי (למשל שנה או אחוז)? מופיעה הצעה לעדכן אותו בכל שאר המקומות באתר בלחיצה. ובזכוכית המגדלת אפשר לחפש כל מילה ולהחליף בכל המקומות.</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></span><div><b>מורידים מה שלא צריך</b><span>בתוך כל טקסט: "🗑 להוריד מהאתר". הטקסט נמחק בקו אדום, ולחיצה עליו מחזירה אותו.</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></span><div><b>הערה על כל דבר</b><span>גם על תמונה, או על משהו שצריך להוסיף או להוריד: לוחצים עליו ובוחרים "הערה".</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span><div><b>עוברים בין עמודים</b><span>מהרשימה "עמוד" למעלה, או במצב "גלישה", שבו הקישורים באתר עובדים כרגיל.</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span><div><b>שולחים לחנוך</b><span>בסוף לוחצים "סיום ושליחה". נפתח מייל מוכן עם כל השינויים, לפני ואחרי.</span></div></li>
     </ul>
+    <p class="wnote"><b>קיצורים:</b> Enter לסיום · Esc לביטול · Ctrl+Z לביטול פעולה · Ctrl+Y להחזרה · Ctrl+F חיפוש בכל האתר.</p>
+    <p class="wnote">כשהאתר מתעדכן, העורך מתעדכן איתו לבד: תיקונים שכבר עלו לאתר יורדים מהרשימה, ואם טקסט השתנה באתר אחרי שתיקנת אותו, תופיע בחירה מה להשאיר.</p>
     <p class="wnote">הכול נשמר לבד בדפדפן הזה. אפשר לעצור ולחזור מתי שרוצים, באותו מחשב. השינויים לא עולים לאתר עד שחנוך מכניס אותם.</p>
     <button class="btn" type="button" id="start">מתחילים</button>
   </div>
@@ -220,7 +252,7 @@ del { color: var(--danger); text-decoration: line-through; }
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
-<script src="/text-review/data.js?v=9ec1880e"></script>
-<script src="editor.js?v=9ec1880e"></script>
+<script src="/text-review/data.js?v=5281d11a"></script>
+<script src="editor.js?v=5281d11a"></script>
 </body>
 </html>
