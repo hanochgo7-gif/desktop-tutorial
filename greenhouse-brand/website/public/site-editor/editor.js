@@ -314,11 +314,19 @@
     if (v) Object.keys(v).forEach(function (k) { if (v[k] && t.indexOf(v[k]) >= 0) t = t.split(v[k]).join(k); });
     return t;
   }
+  function blockText(n) {  // two lines in two boxes read as two words, not one
+    var w = n.ownerDocument.defaultView, out = "";
+    for (var c = n.firstChild; c; c = c.nextSibling) {
+      if (c.nodeType === 3) out += c.nodeValue;
+      else if (c.nodeType === 1) { var d = w.getComputedStyle(c).display, bl = d !== "inline" && d !== "contents"; out += (bl ? " " : "") + blockText(c) + (bl ? " " : ""); }
+    }
+    return out;
+  }
   function htmlOk(id, n) {  // the edited text with the page's own styling (two-line headings and the like), when it still matches
     var s = stateOf(id); if (!s || !s.h) return false;
     var t = n.ownerDocument.createElement("div"); t.innerHTML = s.h;
     if (t.querySelector("script,iframe,object,embed,[onload],[onerror],[onclick]")) return false;
-    return norm(t.textContent) === norm(display(id, n));
+    return norm(t.textContent).replace(/\s/g, "") === norm(display(id, n)).replace(/\s/g, "");
   }
   function paintNode(n) {
     var id = +n.getAttribute("data-mfe");
@@ -385,7 +393,7 @@
     btn(r, "✓ סיום", "mfe-ok", function () { FX.finish(); });
     btn(r, "ביטול", "", function () { FX.cancel(); });
     if (edited(id)) btn(r, "↺ להחזיר למקור", "", function () { FX.editing.textContent = byId[id].he; FX.finish(); });
-    btn(r, noteOf(id).trim() ? "💬 ההערה שלך" : "💬 הערה", "", function () { var t = norm(n.textContent); FX.finish(t); noteBox(n, id); });
+    btn(r, noteOf(id).trim() ? "💬 ההערה שלך" : "💬 הערה", "", function () { var t = norm(blockText(n)); FX.finish(t); noteBox(n, id); });
     if (byId[id].en) b.appendChild(el("span", "mfe-p", "באנגלית: " + byId[id].en, FX.doc));
     place();
   }
@@ -406,7 +414,7 @@
   }
   FX.finish = function (useText) {
     var n = FX.editing; if (!n) return;
-    var id = +n.getAttribute("data-mfe"), t = useText != null ? useText : norm(n.textContent);
+    var id = +n.getAttribute("data-mfe"), t = useText != null ? useText : norm(blockText(n));
     end(n);
     if (!t) { toast("טקסט ריק לא נשמר. אם צריך להוריד אותו, כתבי לחנוך בהערה."); paintNode(n); return; }
     var st = stored(id, n, t);
