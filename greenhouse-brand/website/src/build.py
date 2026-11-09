@@ -656,15 +656,18 @@ def p_sim(L):
     # one photoreal illustration per chapter (made with AI from the 3D model's frames, 31 Oct 2026); the first two load with the page, the rest as the visitor scrolls near
     # the first picture is in the HTML; the rest are added by build-sim.js as the visitor scrolls near (phones get a 9:16 cut of each)
     def ph(i):
-        ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext} {w}w" for w in (960, 1600, 2400))
-        ms = lambda ext: f"{r}assets/img/sim-r{i + 1:02d}m-720.{ext} 720w, {r}assets/img/sim-r{i + 1:02d}m-hd.{ext} 850w"
+        # the picture's version (from its source file), so browsers that kept an older picture for a week fetch the new one at once
+        src_png = SRC.parent / "media-src" / "sim-real" / f"ch{i + 1:02d}.png"
+        v = "?v=" + hashlib.md5(src_png.read_bytes()).hexdigest()[:8] if src_png.exists() else ""
+        ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext}{v} {w}w" for w in (960, 1600, 2400))
+        ms = lambda ext: f"{r}assets/img/sim-r{i + 1:02d}m-720.{ext}{v} 720w, {r}assets/img/sim-r{i + 1:02d}m-hd.{ext}{v} 850w"
         PHQ = "(max-width: 760px) and (orientation: portrait)"
         if i == 0:
             return (f'<picture class="ph" data-i="0"><source type="image/avif" media="{PHQ}" srcset="{ms("avif")}" sizes="100vw"><source type="image/webp" media="{PHQ}" srcset="{ms("webp")}" sizes="100vw">'
                     f'<source media="{PHQ}" srcset="{ms("jpg")}" sizes="100vw"><source type="image/avif" srcset="{ss("avif")}" sizes="100vw"><source type="image/webp" srcset="{ss("webp")}" sizes="100vw">'
-                    f'<img src="{r}assets/img/sim-r01-1600.jpg" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt="" fetchpriority="high" decoding="async"></picture>')
+                    f'<img src="{r}assets/img/sim-r01-1600.jpg{v}" srcset="{ss("jpg")}" sizes="100vw" width="2400" height="1350" alt="" fetchpriority="high" decoding="async"></picture>')
         return (f'<picture class="ph" data-i="{i}" data-mavif="{ms("avif")}" data-mwebp="{ms("webp")}" data-mjpg="{ms("jpg")}" data-avif="{ss("avif")}" data-webp="{ss("webp")}">'
-                f'<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg" '
+                f'<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="{ss("jpg")}" data-src="{r}assets/img/sim-r{i + 1:02d}-1600.jpg{v}" '
                 f'sizes="100vw" width="2400" height="1350" alt="" decoding="async"></picture>')
     photos = "".join(ph(i) for i in range(n))
     return f"""
