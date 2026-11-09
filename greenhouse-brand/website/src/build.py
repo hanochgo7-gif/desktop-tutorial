@@ -541,7 +541,6 @@ def p_index(L):
   <div class="wrap hero-in">
     <h1 id="hero-h">{slogan_h1}</h1>
     <div class="hero-row">
-      <div><p class="hero-sub">{esc(t(H["h1"], L))}</p><p class="lead">{esc(t(H["lead"], L))}</p></div>
       <div class="actions">
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>

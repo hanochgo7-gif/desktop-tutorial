@@ -1321,3 +1321,6 @@ html[lang="en"] .tagline { white-space: normal; max-width: 12.5em; }  /* the Eng
 /* Hebrew hero: "מיפתח פרויקטים" above "חקלאות שיש לה בית", both lines the same width (Hanoch, 9 Nov 2026). Measured in Heebo 900 at 390-1440 px: equal to within 0.3% */
 html[lang="he"] .hero-os h1 .h1-a { font-size: 1.222em; line-height: .95; white-space: nowrap; position: relative; }
 html[lang="he"] .hero-os h1 .h1-a .sr { inset: 0 auto auto 0; }
+/* hero: the two lines under the headline were removed (Hanoch, 9 Nov 2026); the buttons keep their place at the end of the row */
+.hero-row > .actions:only-child { grid-column: 2; }
+@media (max-width: 860px) { .hero-row > .actions:only-child { grid-column: 1; } }
