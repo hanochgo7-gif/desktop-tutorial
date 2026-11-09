@@ -1,6 +1,6 @@
 # HG Studio
 
-> HG Studio (formerly HGPRO) is the web design and development studio of Hanoch Gotovski (חנוך גוטובסקי), based in Israel. It designs and builds custom websites from scratch, with no templates, and produces AI commercials. Sites are fast, accessible, bilingual (Hebrew/English) and built to bring leads. Fixed price per project, usually live within two weeks.
+> HG Studio (formerly HGPRO) is the web design and development studio of Hanoch Gutovski (חנוך גוטובסקי), based in Israel. It designs and builds custom websites from scratch, with no templates, and produces AI commercials. Sites are fast, accessible, bilingual (Hebrew/English) and built to bring leads. Fixed price per project, usually live within two weeks.
 
 ## Services
 - Website packages: Presence (landing page, usually live within a week); Business (full site, up to 8 pages, CMS, SEO); Signature (flagship site with 3D, store or custom system, two languages).

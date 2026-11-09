@@ -11,7 +11,7 @@ SRC = ROOT + '/tools/posts'
 OUT = ROOT + '/blog'
 esc = html.escape
 MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
-AUTHOR = {'@type': 'Person', '@id': D + '/#hanoch', 'name': 'חנוך גוטובסקי', 'alternateName': 'Hanoch Gotovski', 'url': D + '/', 'jobTitle': 'מעצב ומפתח אתרים'}
+AUTHOR = {'@type': 'Person', '@id': D + '/#hanoch', 'name': 'חנוך גוטובסקי', 'alternateName': 'Hanoch Gutovski', 'url': D + '/', 'jobTitle': 'מעצב ומפתח אתרים'}
 ORG = {'@type': 'Organization', '@id': D + '/#business', 'name': 'HG Studio', 'url': D + '/', 'logo': {'@type': 'ImageObject', 'url': D + '/images/icon-512.png'}}
 
 BLOG_CSS = '''
