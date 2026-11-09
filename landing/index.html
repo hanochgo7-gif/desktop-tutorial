@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-GhKWgdFVcVOVmrItkHF7wRnTE5SZc8Iiz3ZmXA7ESYM='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2K9VQIPZEQ4PSt2k7RxXlYfFWrG+9RxETb5iJNUtBCk=' 'sha256-a1DB4oO8Q2UQuJd6e1aV4fas+/M/TRIhYgAVVFhnoEw='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <script>(function(){if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location.replace(window.location.href)}catch(e){}}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sayeret Nahal Alumni</title>
@@ -512,6 +512,43 @@ figure.quote figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .donate{background:var(--olive)}
 .donate .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);margin-top:40px;align-items:start}
 @media (max-width:880px){.donate .grid{grid-template-columns:1fr}}
+/* ---- donation builder: a calm "checkout" for one fighter / half a team / a whole team ---- */
+.builder h3{color:#fff}
+.builder .note{margin:6px 0 16px}
+.freq{display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:rgba(14,20,9,.45);border:1px solid rgba(231,236,219,.25);margin-bottom:14px}
+.freq label{position:relative;cursor:pointer}
+.freq input,.opt input{position:absolute;opacity:0;pointer-events:none}
+.freq span{display:block;padding:9px 20px;border-radius:999px;font-weight:800;font-size:15px;color:var(--on-dark);transition:background .2s,color .2s}
+.freq input:checked + span{background:var(--gold-on-dark);color:var(--night)}
+.freq input:focus-visible + span,.opt:has(input:focus-visible){outline:3px solid var(--gold-on-dark);outline-offset:2px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative;display:grid;gap:4px;align-content:start;padding:14px 16px;border-radius:16px;border:1.5px solid rgba(231,236,219,.25);background:rgba(14,20,9,.35);cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+.opt:hover{border-color:rgba(233,220,164,.6)}
+.opt:has(input:checked){border-color:var(--gold-on-dark);background:rgba(233,220,164,.12)}
+.o-t{font-weight:800;font-size:17px;color:#fff;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.o-badge{font-style:normal;font-size:12px;font-weight:800;color:var(--night);background:var(--gold-on-dark);border-radius:999px;padding:2px 8px}
+.o-d{font-size:14px;line-height:1.4;color:#d6dcc6}
+.o-p{font-family:var(--display);font-weight:900;font-size:24px;color:var(--gold-on-dark);margin-top:2px;font-variant-numeric:lining-nums}
+.opt:has(input[value=other]) .o-p{font-family:var(--body);font-weight:800;font-size:15px}
+.ticket{margin-top:14px;display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;padding:18px;border-radius:20px;background:var(--paper);color:var(--ink);position:relative}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:var(--olive)}
+.ticket::before{inset-inline-start:-9px}.ticket::after{inset-inline-end:-9px}
+.t-dots{position:relative;width:120px;height:120px}
+.t-dots i{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px;border-radius:50%;border:1.5px solid #b9bfa7;background:transparent;
+  transform:rotate(calc(var(--a) * 20deg)) translateY(-50px);transition:background .35s,border-color .35s,box-shadow .35s;transition-delay:calc(var(--a) * 25ms)}
+.t-dots i.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(117,104,47,.55)}
+.t-k{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.t-v{font-family:var(--display);font-weight:900;font-size:clamp(34px,4vw,46px);line-height:1.05;color:var(--olive-deep);font-variant-numeric:lining-nums}
+.t-d{font-size:16px;color:var(--ink);margin-top:2px}
+.t-h{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5}
+.t-copy{font:700 13px var(--body);border:1px solid currentColor;background:transparent;color:var(--olive);border-radius:8px;padding:3px 10px;cursor:pointer;min-height:32px;margin-inline-start:4px}
+.t-copy[hidden]{display:none}
+.t-go{margin-top:12px;background:var(--olive);border-color:var(--olive);color:#fff}
+.t-go:hover{background:var(--olive-deep);border-color:var(--olive-deep);color:#fff}
+.t-v.pop{animation:pop .35s ease}
+@keyframes pop{40%{transform:scale(1.06)}}
+@media (max-width:520px){.opts{grid-template-columns:1fr 1fr}.ticket{grid-template-columns:1fr;justify-items:center;text-align:center}.t-dots{margin-bottom:4px}}
+@media (prefers-reduced-motion:reduce){.t-dots i{transition:none}.t-v.pop{animation:none}}
 .ladder{list-style:none;margin:0;padding:0;border-top:1px solid rgba(231,236,219,.3)}
 .ladder li{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;padding-block:18px;border-bottom:1px solid rgba(231,236,219,.3);align-items:baseline}
 .ladder .amt{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,38px);color:#fff;font-variant-numeric:lining-nums;min-width:4.6ch}
@@ -879,15 +916,23 @@ footer .legal ul{padding-inline-start:18px}
   <div class="head"><p class="label">תרומה</p><h2>הצטרפו למשפחה</h2><p class="lead">תרומה חודשית עוזרת לעמותה לתכנן קדימה: עוד מסע, עוד משפחה, עוד בוגר. אפשר להתחיל מסכום חודשי קטן ולהפסיק בכל עת. גם תרומה חד-פעמית עוזרת.</p>
     <p class="taxback"><b>התרומה מזכה בזיכוי ממס לפי סעיף 46.</b> שיעור הזיכוי שונה לתורם פרטי ולחברה, והוא כפוף לתנאים ולתקרות שבחוק. <span>ההטבה בפועל תלויה במצב המס של כל תורם, ולכן כדאי לבדוק מול רואה החשבון. תרומה עד 31.12 נכנסת לשנת המס הנוכחית.</span></p></div>
   <div class="grid">
-    <div>
-      <h3>מה התרומה מאפשרת</h3>
-      <p class="note">כל התרומות בדף הזה הולכות למסעות העיבוד הצוותיים. את הסכום מזינים בעמוד התשלום של Jgive.</p>
-      <ul class="ladder">
-        <li><span class="amt">‎₪30,000</span><span class="what">מסע עיבוד מלא לצוות של 15 עד 20 לוחמים, בליווי אנשי מקצוע.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪30,000‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">‎₪2,000</span><span class="what">בערך החלק של לוחם אחד במסע הצוות.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪2,000‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">כל סכום</span><span class="what">כל תרומה מצטרפת למימון המסע הבא.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה בסכום אחר <span aria-hidden="true">←</span></a></li>
-      </ul>
+    <div class="builder" data-lang="he" data-hint-once='בעמוד הבא: בוחרים "סכום אחר" ומזינים {n}.' data-hint-m='בעמוד הבא: בוחרים "הוראת קבע", אחר כך "סכום אחר", ומזינים {n}. אפשר להפסיק בכל עת.' data-hint-other='בעמוד הבא בוחרים סכום, חד-פעמי או הוראת קבע.' data-copied="הועתק">
+      <h3>בחרו מה לשלוח למסע</h3>
+      <p class="note">כל התרומות הולכות למסעות העיבוד הצוותיים.</p>
+      <div class="freq" role="radiogroup" aria-label="תדירות"><label><input type="radio" name="freq-he" value="once" checked><span>חד-פעמי</span></label><label><input type="radio" name="freq-he" value="monthly"><span>חודשי</span></label></div>
+      <div class="opts" role="radiogroup"><label class="opt"><input type="radio" name="opt-he" value="1" data-amt="2000" data-mamt="167" data-dots="1" data-d1="שולחים לוחם אחד למסע עם הצוות שלו." data-d2="‎₪167 בחודש: לוחם אחד יוצא למסע בכל שנה." checked><span class="o-t">לוחם אחד</span><span class="o-d">המקום של לוחם אחד במסע הצוות</span><span class="o-p" data-p1="‎₪2,000" data-p2="‎₪167 לחודש">‎₪2,000</span></label><label class="opt"><input type="radio" name="opt-he" value="half" data-amt="15000" data-mamt="1250" data-dots="9" data-d1="מממנים חצי מהמסע של צוות שלם." data-d2="‎₪1,250 בחודש: חצי מסע לצוות בכל שנה."><span class="o-t">חצי צוות</span><span class="o-d">חצי מהמסע של צוות שלם</span><span class="o-p" data-p1="‎₪15,000" data-p2="‎₪1,250 לחודש">‎₪15,000</span></label><label class="opt"><input type="radio" name="opt-he" value="team" data-amt="30000" data-mamt="2500" data-dots="18" data-d1="צוות שלם של 15 עד 20 לוחמים יוצא למסע." data-d2="‎₪2,500 בחודש: מסע מלא לצוות בכל שנה."><span class="o-t">צוות שלם<em class="o-badge">הכי משמעותי</em></span><span class="o-d">מסע מלא ל-15 עד 20 לוחמים</span><span class="o-p" data-p1="‎₪30,000" data-p2="‎₪2,500 לחודש">‎₪30,000</span></label><label class="opt"><input type="radio" name="opt-he" value="other" data-amt="0" data-mamt="0" data-dots="0" data-d1="כל סכום מצטרף למימון המסע הבא." data-d2="כל סכום חודשי מצטרף למימון המסע הבא."><span class="o-t">סכום אחר</span><span class="o-d">כל סכום מצטרף למסע הבא</span><span class="o-p" data-p1="בוחרים ב-Jgive" data-p2="בוחרים ב-Jgive">בוחרים ב-Jgive</span></label></div>
+      <div class="ticket">
+        <div class="t-dots" aria-hidden="true"><i style="--a:0"></i><i style="--a:1"></i><i style="--a:2"></i><i style="--a:3"></i><i style="--a:4"></i><i style="--a:5"></i><i style="--a:6"></i><i style="--a:7"></i><i style="--a:8"></i><i style="--a:9"></i><i style="--a:10"></i><i style="--a:11"></i><i style="--a:12"></i><i style="--a:13"></i><i style="--a:14"></i><i style="--a:15"></i><i style="--a:16"></i><i style="--a:17"></i></div>
+        <div class="t-body" aria-live="polite">
+          <p class="t-k">התרומה שלכם</p>
+          <p class="t-v">‎₪2,000</p>
+          <p class="t-d">שולחים לוחם אחד למסע עם הצוות שלו.</p>
+          <p class="t-h"><span class="t-hint">בעמוד הבא: בוחרים "סכום אחר" ומזינים 2,000.</span> <button type="button" class="t-copy" data-copyamt="2000">העתקת הסכום</button></p>
+          <a class="btn btn-light t-go" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתשלום מאובטח ב-Jgive <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
     </div>
+    
     <div class="pay">
       <h3>תרומה מאובטחת ב-Jgive</h3>
       <div class="curr">
@@ -1154,15 +1199,23 @@ footer .legal ul{padding-inline-start:18px}
 <section class="dark donate" id="donate-en" data-sec="donate"><div class="wrap">
   <div class="head"><p class="label">Give</p><h2>Join the family</h2><p class="lead">A monthly gift helps the association plan ahead: one more journey, one more family, one more veteran. You can start small and stop anytime. A one-time gift helps too.</p></div>
   <div class="grid">
-    <div>
-      <h3>What your gift makes possible</h3>
-      <p class="note">Every gift on this page funds the team resilience journeys. You enter the amount on Jgive's checkout page.</p>
-      <ul class="ladder">
-        <li><span class="amt">$10,000</span><span class="what">A full journey for a team of 15 to 20 fighters, with professional guidance.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $10,000 <span aria-hidden="true">→</span></a></li>
-        <li><span class="amt">$670</span><span class="what">Roughly one fighter's share of the team journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give $670 <span aria-hidden="true">→</span></a></li>
-        <li><span class="amt">Any amount</span><span class="what">Every gift joins the funding for the next journey.</span><a href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give another amount <span aria-hidden="true">→</span></a></li>
-      </ul>
+    <div class="builder" data-lang="en" data-hint-once='On the next page, choose "Other" and enter {n}.' data-hint-m='On the next page, choose "Recurring donation", then "Other", and enter {n}. You can stop anytime.' data-hint-other='On the next page, choose an amount, one-time or recurring.' data-copied="Copied">
+      <h3>Choose what to send on the journey</h3>
+      <p class="note">Every gift funds the team resilience journeys.</p>
+      <div class="freq" role="radiogroup" aria-label="Frequency"><label><input type="radio" name="freq-en" value="once" checked><span>One-time</span></label><label><input type="radio" name="freq-en" value="monthly"><span>Monthly</span></label></div>
+      <div class="opts" role="radiogroup"><label class="opt"><input type="radio" name="opt-en" value="1" data-amt="670" data-mamt="56" data-dots="1" data-d1="You send one fighter on the journey with his team." data-d2="$56 a month: one fighter goes on the journey every year." checked><span class="o-t">One fighter</span><span class="o-d">One fighter's place on the team journey</span><span class="o-p" data-p1="$670" data-p2="$56 a month">$670</span></label><label class="opt"><input type="radio" name="opt-en" value="half" data-amt="5000" data-mamt="417" data-dots="9" data-d1="You fund half of a whole team's journey." data-d2="$417 a month: half a team journey every year."><span class="o-t">Half a team</span><span class="o-d">Half of a whole team's journey</span><span class="o-p" data-p1="$5,000" data-p2="$417 a month">$5,000</span></label><label class="opt"><input type="radio" name="opt-en" value="team" data-amt="10000" data-mamt="834" data-dots="18" data-d1="A whole team of 15 to 20 fighters goes on its journey." data-d2="$834 a month: a full team journey every year."><span class="o-t">A whole team<em class="o-badge">Most meaningful</em></span><span class="o-d">A full journey for 15 to 20 fighters</span><span class="o-p" data-p1="$10,000" data-p2="$834 a month">$10,000</span></label><label class="opt"><input type="radio" name="opt-en" value="other" data-amt="0" data-mamt="0" data-dots="0" data-d1="Every gift joins the funding for the next journey." data-d2="Every monthly gift joins the funding for the next journey."><span class="o-t">Another amount</span><span class="o-d">Every gift joins the next journey</span><span class="o-p" data-p1="Choose on Jgive" data-p2="Choose on Jgive">Choose on Jgive</span></label></div>
+      <div class="ticket">
+        <div class="t-dots" aria-hidden="true"><i style="--a:0"></i><i style="--a:1"></i><i style="--a:2"></i><i style="--a:3"></i><i style="--a:4"></i><i style="--a:5"></i><i style="--a:6"></i><i style="--a:7"></i><i style="--a:8"></i><i style="--a:9"></i><i style="--a:10"></i><i style="--a:11"></i><i style="--a:12"></i><i style="--a:13"></i><i style="--a:14"></i><i style="--a:15"></i><i style="--a:16"></i><i style="--a:17"></i></div>
+        <div class="t-body" aria-live="polite">
+          <p class="t-k">Your gift</p>
+          <p class="t-v">$670</p>
+          <p class="t-d">You send one fighter on the journey with his team.</p>
+          <p class="t-h"><span class="t-hint">On the next page, choose "Other" and enter 670.</span> <button type="button" class="t-copy" data-copyamt="670">Copy amount</button></p>
+          <a class="btn btn-light t-go" href="https://www.jgive.com/new/en/usd/collect/donation-targets/163449/amount" target="_blank" rel="noopener">Give securely on Jgive <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
     </div>
+    
     <div class="pay">
       <h3>Give securely through Jgive</h3>
       <div class="curr">
@@ -1306,6 +1359,27 @@ footer .legal ul{padding-inline-start:18px}
   setLang(start,false);
   if(/-(he|en)$/.test(h)){var t=document.getElementById(h); if(t) setTimeout(function(){t.scrollIntoView()},0)}
   addEventListener("hashchange",function(){var x=location.hash.slice(1); if((x==="en"||x==="he")&&x!==lang) setLang(x,false)});
+})();
+/* donation builder */
+(function(){
+  [].slice.call(document.querySelectorAll(".builder")).forEach(function(b){
+    var he=b.dataset.lang==="he", out={v:b.querySelector(".t-v"),d:b.querySelector(".t-d"),h:b.querySelector(".t-hint"),c:b.querySelector(".t-copy")}, dots=[].slice.call(b.querySelectorAll(".t-dots i"));
+    function fmt(n){return (he?"‎₪":"$")+Number(n).toLocaleString("en-US")}
+    function upd(anim){
+      var m=b.querySelector('input[name^="freq-"]:checked').value==="monthly", o=b.querySelector('input[name^="opt-"]:checked');
+      [].slice.call(b.querySelectorAll(".o-p")).forEach(function(p){p.textContent=m?p.dataset.p2:p.dataset.p1});
+      var amt=+(m?o.dataset.mamt:o.dataset.amt), n=+o.dataset.dots;
+      out.v.textContent=amt?(fmt(amt)+(m?(he?" לחודש":" a month"):"")):(he?"כל סכום":"Any amount");
+      out.d.textContent=m?o.dataset.d2:o.dataset.d1;
+      out.h.textContent=amt?(m?b.dataset.hintM:b.dataset.hintOnce).replace("{n}",Number(amt).toLocaleString("en-US")):b.dataset.hintOther;
+      out.c.hidden=!amt; out.c.dataset.copyamt=amt;
+      dots.forEach(function(d,i){d.classList.toggle("on",n===0?false:i<n)});
+      if(anim){out.v.classList.remove("pop");void out.v.offsetWidth;out.v.classList.add("pop")}
+    }
+    b.addEventListener("change",function(){upd(true)});
+    out.c.addEventListener("click",function(){var t=out.c.textContent;var done=function(){out.c.textContent=b.dataset.copied;setTimeout(function(){out.c.textContent=t},1600)};try{navigator.clipboard.writeText(out.c.dataset.copyamt).then(done,function(){})}catch(e){}});
+    upd(false);
+  });
 })();
 /* scroll story: the pinned scene, the drawn trail and the photo reveal. Off for reduced motion. */
 (function(){

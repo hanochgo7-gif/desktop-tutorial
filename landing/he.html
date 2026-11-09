@@ -177,15 +177,23 @@
   <div class="head"><p class="label">תרומה</p><h2>הצטרפו למשפחה</h2><p class="lead">תרומה חודשית עוזרת לעמותה לתכנן קדימה: עוד מסע, עוד משפחה, עוד בוגר. אפשר להתחיל מסכום חודשי קטן ולהפסיק בכל עת. גם תרומה חד-פעמית עוזרת.</p>
     <p class="taxback"><b>התרומה מזכה בזיכוי ממס לפי סעיף 46.</b> שיעור הזיכוי שונה לתורם פרטי ולחברה, והוא כפוף לתנאים ולתקרות שבחוק. <span>ההטבה בפועל תלויה במצב המס של כל תורם, ולכן כדאי לבדוק מול רואה החשבון. תרומה עד 31.12 נכנסת לשנת המס הנוכחית.</span></p></div>
   <div class="grid">
-    <div>
-      <h3>מה התרומה מאפשרת</h3>
-      <p class="note">כל התרומות בדף הזה הולכות למסעות העיבוד הצוותיים. את הסכום מזינים בעמוד התשלום של Jgive.</p>
-      <ul class="ladder">
-        <li><span class="amt">‎₪30,000</span><span class="what">מסע עיבוד מלא לצוות של 15 עד 20 לוחמים, בליווי אנשי מקצוע.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪30,000‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">‎₪2,000</span><span class="what">בערך החלק של לוחם אחד במסע הצוות.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה של ‎₪2,000‎ <span aria-hidden="true">←</span></a></li>
-        <li><span class="amt">כל סכום</span><span class="what">כל תרומה מצטרפת למימון המסע הבא.</span><a href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתרומה בסכום אחר <span aria-hidden="true">←</span></a></li>
-      </ul>
+    <div class="builder" data-lang="he" data-hint-once='בעמוד הבא: בוחרים "סכום אחר" ומזינים {n}.' data-hint-m='בעמוד הבא: בוחרים "הוראת קבע", אחר כך "סכום אחר", ומזינים {n}. אפשר להפסיק בכל עת.' data-hint-other='בעמוד הבא בוחרים סכום, חד-פעמי או הוראת קבע.' data-copied="הועתק">
+      <h3>בחרו מה לשלוח למסע</h3>
+      <p class="note">כל התרומות הולכות למסעות העיבוד הצוותיים.</p>
+      <div class="freq" role="radiogroup" aria-label="תדירות"><label><input type="radio" name="freq-he" value="once" checked><span>חד-פעמי</span></label><label><input type="radio" name="freq-he" value="monthly"><span>חודשי</span></label></div>
+      <div class="opts" role="radiogroup"><label class="opt"><input type="radio" name="opt-he" value="1" data-amt="2000" data-mamt="167" data-dots="1" data-d1="שולחים לוחם אחד למסע עם הצוות שלו." data-d2="‎₪167 בחודש: לוחם אחד יוצא למסע בכל שנה." checked><span class="o-t">לוחם אחד</span><span class="o-d">המקום של לוחם אחד במסע הצוות</span><span class="o-p" data-p1="‎₪2,000" data-p2="‎₪167 לחודש">‎₪2,000</span></label><label class="opt"><input type="radio" name="opt-he" value="half" data-amt="15000" data-mamt="1250" data-dots="9" data-d1="מממנים חצי מהמסע של צוות שלם." data-d2="‎₪1,250 בחודש: חצי מסע לצוות בכל שנה."><span class="o-t">חצי צוות</span><span class="o-d">חצי מהמסע של צוות שלם</span><span class="o-p" data-p1="‎₪15,000" data-p2="‎₪1,250 לחודש">‎₪15,000</span></label><label class="opt"><input type="radio" name="opt-he" value="team" data-amt="30000" data-mamt="2500" data-dots="18" data-d1="צוות שלם של 15 עד 20 לוחמים יוצא למסע." data-d2="‎₪2,500 בחודש: מסע מלא לצוות בכל שנה."><span class="o-t">צוות שלם<em class="o-badge">הכי משמעותי</em></span><span class="o-d">מסע מלא ל-15 עד 20 לוחמים</span><span class="o-p" data-p1="‎₪30,000" data-p2="‎₪2,500 לחודש">‎₪30,000</span></label><label class="opt"><input type="radio" name="opt-he" value="other" data-amt="0" data-mamt="0" data-dots="0" data-d1="כל סכום מצטרף למימון המסע הבא." data-d2="כל סכום חודשי מצטרף למימון המסע הבא."><span class="o-t">סכום אחר</span><span class="o-d">כל סכום מצטרף למסע הבא</span><span class="o-p" data-p1="בוחרים ב-Jgive" data-p2="בוחרים ב-Jgive">בוחרים ב-Jgive</span></label></div>
+      <div class="ticket">
+        <div class="t-dots" aria-hidden="true"><i style="--a:0"></i><i style="--a:1"></i><i style="--a:2"></i><i style="--a:3"></i><i style="--a:4"></i><i style="--a:5"></i><i style="--a:6"></i><i style="--a:7"></i><i style="--a:8"></i><i style="--a:9"></i><i style="--a:10"></i><i style="--a:11"></i><i style="--a:12"></i><i style="--a:13"></i><i style="--a:14"></i><i style="--a:15"></i><i style="--a:16"></i><i style="--a:17"></i></div>
+        <div class="t-body" aria-live="polite">
+          <p class="t-k">התרומה שלכם</p>
+          <p class="t-v">‎₪2,000</p>
+          <p class="t-d">שולחים לוחם אחד למסע עם הצוות שלו.</p>
+          <p class="t-h"><span class="t-hint">בעמוד הבא: בוחרים "סכום אחר" ומזינים 2,000.</span> <button type="button" class="t-copy" data-copyamt="2000">העתקת הסכום</button></p>
+          <a class="btn btn-light t-go" href="https://www.jgive.com/new/he/ils/collect/donation-targets/163449/amount" target="_blank" rel="noopener">לתשלום מאובטח ב-Jgive <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
     </div>
+    
     <div class="pay">
       <h3>תרומה מאובטחת ב-Jgive</h3>
       <div class="curr">
