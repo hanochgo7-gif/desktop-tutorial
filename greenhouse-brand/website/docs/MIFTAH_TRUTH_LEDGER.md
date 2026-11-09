@@ -176,6 +176,13 @@ Held back, waiting for a decision (not applied):
 - **Contact form "who are you" cards** (her #406-#413): she replaced the role cards with questions (which settlement, which crop, area, net type, when, interest in farms abroad, invest or grow). These need a form redesign, not a text swap.
 - **Minimum project sizes** (her note on #435, "don't state how many dunam we do"): the 50 / 300 dunam minimums appear on several pages and in the form logic; removing them everywhere needs her confirmation.
 
+## 7c. Build illustration rules, Hanoch, 7-8 Nov 2026
+
+- Based on 7 real reference photos Hanoch sent. Poles are ROUND, hot-dip galvanized, each standing on a square precast concrete block (as in reference photo r4).
+- Anyone working at height wears a full-body harness with a lanyard clipped to an anchor (the lift basket's anchor point, or a cable on the grid), per the Israeli Work at Height Regulations 2007. Yellow articulated boom lift. White anti-hail net in strips joined with clips.
+- New chapter "Hail release" (פורק ברד): hail rolls down the net into the valley between two strips and drops to the ground between the tree rows. **The wording still needs Yiftach's engineering sign-off.**
+- Hanoch said he would send a separate photo of the concrete blocks; if it differs from r4, the illustration is updated to match.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |
