@@ -42,6 +42,8 @@ head = f"""<!doctype html>
 <meta http-equiv="Content-Security-Policy" content="{csp}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#E7EADF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11150E" media="(prefers-color-scheme: dark)">
 <title>מצטרפים למעגל | בוגרי סיירת נח״ל</title>
 <meta name="description" content="טופס הצטרפות לקהילת בוגרי סיירת נח״ל. 3 דקות.">
 <style>*,*::before,*::after{{box-sizing:border-box}}body{{margin:0}}img{{max-width:100%}}</style>
