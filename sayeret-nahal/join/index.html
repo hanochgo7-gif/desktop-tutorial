@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0MqpZj1WVng5SCdd0oJxegLGsJp+prnYSnkq+PZ5DiQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zOHWkw255/AObAAHet/s8bXoZOUiODp0XKIpEtIJnto='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src https://nahal-crm.vercel.app; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex">
 <title>מצטרפים למעגל | בוגרי סיירת נח״ל</title>
@@ -113,7 +113,7 @@ a.ghost{display:block;text-align:center;text-decoration:none;border:2px solid va
 
 <script>
 /* CONFIG: the address that receives each submission (POST, JSON as text/plain). Empty = not connected yet. */
-const ENDPOINT="";
+const ENDPOINT="https://nahal-crm.vercel.app/api/join";
 const FORM_ID="sayeret-join-2026";
 if(top!==self){try{top.location=self.location}catch(_){document.documentElement.hidden=true}}
 const REF=(new URLSearchParams(location.search).get("ref")||"").replace(/[^\w\u0590-\u05FF-]/g,"").slice(0,40);

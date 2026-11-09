@@ -6,15 +6,20 @@
 `https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/join/?ref=team-2015-nov`
 (אותיות, ספרות ומקף בלבד, עד 40 תווים). הערך נשמר בשדה `ref`.
 
-עד שמגדירים כתובת חיבור, הטופס עובד, אבל בשליחה מציג "הטופס עוד לא מחובר" ולא שולח כלום. **לא מפיצים את הקישור לפני החיבור.**
+הטופס כבר שולח אל `https://nahal-crm.vercel.app/api/join`. עד שהנתיב הזה קיים ב-CRM, השליחה נכשלת ("השליחה לא הצליחה"). **לא מפיצים את הקישור לפני שטופס בדיקה מגיע ל-CRM.**
 
-## איך מחברים
+## מה עושים בצד ה-CRM (nahal-crm)
 
-1. ב-`src.html` (בתיקייה הזו) ממלאים את הכתובת שמקבלת את הנתונים:
-   `const ENDPOINT="https://...";`
-2. מריצים `python3 sayeret-nahal-security/join-form/build.py`. הסקריפט בונה מחדש את `sayeret-nahal/join/index.html`, ופותח ב-CSP גישה רק לכתובת הזו.
-3. עושים commit ו-push ל-`main`. GitHub Pages מעלה את העדכון תוך דקה-שתיים.
-4. ממלאים טופס בדיקה ומוודאים שהשורה הגיעה ל-CRM.
+1. מעתיקים את `crm-route.ts` (בתיקייה הזו) אל `app/api/join/route.ts` בפרויקט ה-CRM.
+2. מחריגים את `/api/join` מבדיקת ההתחברות (middleware). היום הנתיב מחזיר 307, כלומר הפניה לדף הכניסה.
+3. ממשים את `saveMember` כך שתכתוב למסד הנתונים של ה-CRM: upsert לפי טלפון או מייל, ו-`ref` נשמר כמקור ההגעה.
+4. פורסים ל-Vercel, ממלאים טופס בדיקה מהקישור, ומוודאים שהרשומה הופיעה ב-CRM.
+
+## אם הכתובת משתנה
+
+1. ב-`src.html` מעדכנים `const ENDPOINT="https://...";`
+2. מריצים `python3 sayeret-nahal-security/join-form/build.py` (הסקריפט מעדכן גם את ה-CSP).
+3. עושים commit ו-push ל-`main`.
 
 ## מה הכתובת צריכה לעשות
 
