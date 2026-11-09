@@ -29,7 +29,7 @@ csp = (
     f"script-src {hashes}; "
     "style-src 'unsafe-inline' https://fonts.googleapis.com; "
     "font-src https://fonts.gstatic.com; "
-    "img-src data: blob:; "
+    "img-src 'self' data: blob:; "
     f"connect-src {connect}; "
     "base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests"
 )

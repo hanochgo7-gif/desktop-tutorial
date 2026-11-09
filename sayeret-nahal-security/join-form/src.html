@@ -72,9 +72,22 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--olive)}
 button:focus-visible,.card:focus-visible,.chip:focus-visible,a:focus-visible{outline:3px solid var(--ember);outline-offset:2px}
 .hint{font-size:13px;color:var(--muted)}
 /* cover + finish */
-.cover{justify-content:center;gap:20px}
-.cover h1{font-size:clamp(52px,15vw,84px)}
+.cover{gap:16px;padding-top:10px}
+.cover h1{font-size:clamp(50px,14.5vw,80px)}
+.hero{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/3;max-width:100%;background:var(--surface)}
+.hero img.ph{width:100%;height:100%;object-fit:cover;display:block;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.04) translateX(0)}to{transform:scale(1.1) translateX(-2%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,14,8,.62),rgba(10,14,8,0) 55%)}
+.hero .cap{position:absolute;z-index:1;inset-inline:14px;bottom:12px;color:#F2F5EC;font-size:13px;line-height:1.35;max-width:60%}
+.hero .badge{position:absolute;z-index:1;left:12px;bottom:10px;width:88px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+.perks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.perks li{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;font-weight:500;min-width:0}
+.perks li span{font-size:18px;flex:none}
 .facts{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.cover .facts{justify-content:space-between;border-top:1px dashed var(--line);padding-top:12px}
+.stick{position:sticky;bottom:0;margin-top:auto;padding-block:12px max(8px,env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--bg) 70%,transparent)}
+.stick .hint{text-align:center;margin:8px 0 0}
+@media (max-height:700px){.hero{aspect-ratio:16/9}.cover h1{font-size:clamp(44px,13vw,64px)}}
 .facts b{display:block;font:700 34px/1 var(--display);color:var(--ink)}
 .ring{width:200px;height:200px;align-self:center;position:relative}
 .ring i{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--olive);top:50%;left:50%;margin:-7px;transition:transform 1s cubic-bezier(.2,.8,.2,1),background .4s}
@@ -85,7 +98,7 @@ a.go{text-align:center;text-decoration:none;display:block}
 a.ghost{display:block;text-align:center;text-decoration:none;border:2px solid var(--olive);color:var(--ink);border-radius:16px;padding:14px;font:700 17px var(--body)}
 .center{text-align:center;align-items:center}
 .preview{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid var(--olive)}
-@media (prefers-reduced-motion:reduce){.screen{animation:none}.ring i,.trail .fill{transition:none}}
+@media (prefers-reduced-motion:reduce){.screen,.hero img.ph{animation:none}.ring i,.trail .fill{transition:none}}
 </style>
 
 <div class="app">
@@ -116,11 +129,19 @@ const MONTHS=["ינואר","פברואר","מרץ","אפריל","מאי","יונ
 /* each screen: id, station, show(), render() returns html, bind(el), ok() validation, optional */
 const SCREENS=[
  {id:"cover",st:-1,render:()=>`
-   <div class="kicker">קהילת בוגרי סיירת נח״ל</div>
-   <h1>השתחררת מהסיירת. לא מהמשפחה.</h1>
+   <div class="hero"><img class="ph" src="cover.webp" width="960" height="720" alt="צוות בוגרים יושב במעגל באחו מול הרים, במסע חוסן">
+     <img class="badge" src="logo.webp" width="240" height="183" alt="סמל עמותת בוגרי סיירת נח״ל"></div>
+   <div class="kicker">קהילת בוגרי סיירת נח״ל · מעל 30 שנה</div>
+   <h1>השתחררת מהסיירת.<br>לא מהמשפחה.</h1>
    <p class="sub">3 דקות, 5 תחנות. בסוף נדע איך להיות שם בשבילך, ואתה תדע איפה אפשר לתת.</p>
-   <div class="facts"><div><b>30+</b>שנות קהילה</div><div><b>58</b>צוותים יצאו למסע</div><div><b>3</b>דקות מילוי</div></div>
-   <div class="cta"><button class="go" data-next>יוצאים לדרך</button></div>`,cls:"cover"},
+   <ul class="perks" aria-label="מה מחכה לך בקהילה">
+     <li><span aria-hidden="true">🏔️</span>מסעות חוסן לצוות</li>
+     <li><span aria-hidden="true">🤝</span>מנטורינג וקריירה</li>
+     <li><span aria-hidden="true">🔥</span>מפגשי בוגרים</li>
+     <li><span aria-hidden="true">🕯️</span>הנצחה וזיכרון</li>
+   </ul>
+   <div class="facts"><div><b dir="ltr">30+</b>שנות קהילה</div><div><b>58</b>צוותים יצאו למסע</div><div><b>3</b>דקות מילוי</div></div>
+   <div class="stick"><button class="go" data-next style="width:100%">יוצאים לדרך</button><p class="hint">בלי ספאם. הפרטים נשמרים אצל העמותה בלבד.</p></div>`,cls:"cover"},
 
  {id:"name",st:0,render:()=>`
    <div class="kicker">תחנה 1 · יציאה</div><h2>איך קוראים לך?</h2>
