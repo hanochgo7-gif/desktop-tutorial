@@ -1247,7 +1247,7 @@ def main():
             imgs = "".join(f"<image:image><image:loc>{DOMAIN}/assets/img/{n}</image:loc></image:image>" for n in SITEMAP_IMAGES.get(slug, []))
             urls.append(f"<url><loc>{url(slug, L, True)}</loc><lastmod>{lastmod[f'{L}/{slug}']}</lastmod>{alts}{imgs}</url>")
     write(PUB / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + "\n".join(urls) + "\n</urlset>\n")
-    write(PUB / "robots.txt", f"User-agent: *\nAllow: /\nDisallow: /text-review/\n\nSitemap: {DOMAIN}/sitemap.xml\n")
+    write(PUB / "robots.txt", f"User-agent: *\nAllow: /\nDisallow: /text-review/\nDisallow: /site-editor/\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write(PUB / "site.webmanifest", json.dumps({"name": "MIFTAH Projects", "short_name": "MIFTAH", "start_url": "/", "display": "browser", "background_color": "#F2F5F3", "theme_color": "#0E4239",
                                                "icons": [{"src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
     EP = " " + "/".join(FORM_ENDPOINT.split("/")[:3]) if FORM_ENDPOINT else ""  # the form endpoint's origin, allowed by the CSP
@@ -1279,6 +1279,7 @@ def main():
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
             {"source": "/globe/globe.js", "headers": long_cache},  # versioned with ?v= like the other scripts
             {"source": "/text-review/(.*)", "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}, {"key": "Cache-Control", "value": "no-cache"}]},  # the owners' copy-review page
+            {"source": "/site-editor/(.*)", "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}, {"key": "Cache-Control", "value": "no-cache"}]},  # the owners' live editor
             {"source": "/globe/(space.jpg|fly.jpg|fly.mp4)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")
     # the Apache config is for the final host only: Vercel never serves it (it answered at /%2ehtaccess)

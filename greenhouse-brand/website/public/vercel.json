@@ -849,6 +849,19 @@
    ]
   },
   {
+   "source": "/site-editor/(.*)",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-cache"
+    }
+   ]
+  },
+  {
    "source": "/globe/(space.jpg|fly.jpg|fly.mp4)",
    "headers": [
     {

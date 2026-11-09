@@ -271,6 +271,12 @@ def main():
     logo = logo.replace('class="logo logo--compact"', 'class="logo"').replace('role="img"', 'role="img" focusable="false"')
     page = (SRC / "text-review/index.html").read_text(encoding="utf-8").replace("{LOGO}", logo).replace("{V}", v)
     (OUT / "index.html").write_text(page, encoding="utf-8")
+    # the live editor (/site-editor/): the same texts, edited on the pages themselves
+    ed_out = PUB / "site-editor"; ed_out.mkdir(exist_ok=True)
+    ed = (SRC / "site-editor/editor.js").read_text(encoding="utf-8")
+    (ed_out / "editor.js").write_text(ed, encoding="utf-8")
+    ve = hashlib.sha1((js + ed).encode()).hexdigest()[:8]
+    (ed_out / "index.html").write_text((SRC / "site-editor/index.html").read_text(encoding="utf-8").replace("{LOGO}", logo).replace("{V}", ve), encoding="utf-8")
     by = {}
     for it in items:
         by[it["g"]] = by.get(it["g"], 0) + 1
