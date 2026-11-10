@@ -231,7 +231,7 @@ PAGES = {
                      "בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח."),  # 3.2
     },
     "turnkey-farms": {
-        "title": ("Turnkey farms abroad for investors | MIFTAH Projects", "חוות מפתח בחו״ל למשקיעים | מיפתח פרויקטים"),
+        "title": ("Turnkey agricultural farms for investors | MIFTAH Projects", "חוות חקלאיות עד מפתח למשקיעים | מיפתח פרויקטים"),
         "desc": ("A complete farm on your land abroad, from soil testing and a business plan to planting, growing and marketing. Delivered with agricultural partners, from 30 ha.",
                  "חווה שלמה על הקרקע שלכם בחו״ל, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול, תחזוקה ושיווק. מיפתח מבצעת יחד עם שותפים חקלאיים, מ-300 דונם."),
         "h1": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"),
@@ -352,7 +352,7 @@ PAGES = {
         "who": ("MIFTAH Projects is a family company in Kfar Masaryk, Israel, run by its owners, Merav Eyal Hasfel and Yiftach Hasfel. We design, manufacture in our own plant and install galvanized-steel net houses and agricultural projects, in Israel and around the world, and build turnkey farms abroad together with agricultural partners.",
                 "מיפתח פרויקטים היא חברה משפחתית בכפר מסריק, בניהול הבעלים, מרב איל הספל ויפתח הספל. אנחנו מתכננים, מייצרים במפעל שלנו ומקימים בתי רשת מפלדה מגולוונת ופרויקטים חקלאיים, בישראל ובעולם, ומקימים חוות מפתח בחו״ל יחד עם שותפים חקלאיים."),
         "svc_h": ("What we build", "מה אנחנו בונים"),
-        "turn_h": ("Turnkey farms abroad (with partners)", "חוות מפתח בחו״ל (עם שותפים)"),
+        "turn_h": ("Turnkey agricultural farms (with partners)", "חוות חקלאיות עד מפתח (עם שותפים)"),
         "proc_h": ("How a project runs", "איך מתנהל פרויקט"),
         "proj_h": ("Projects abroad", "פרויקטים בחו״ל"),
         "contact_h": ("Contact", "יצירת קשר"),
