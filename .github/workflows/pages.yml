@@ -176,5 +176,8 @@ jobs:
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: .
+      # The site is large (about 390 MB), and GitHub's file sync sometimes takes longer than the default 10 minutes.
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+        with:
+          timeout: 1800000
