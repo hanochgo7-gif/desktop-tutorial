@@ -80,9 +80,10 @@ button:focus-visible,.card:focus-visible,.chip:focus-visible,a:focus-visible{out
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,14,8,.62),rgba(10,14,8,0) 55%)}
 .hero .cap{position:absolute;z-index:1;inset-inline:14px;bottom:12px;color:#F2F5EC;font-size:13px;line-height:1.35;max-width:60%}
 .hero .badge{position:absolute;z-index:1;left:12px;bottom:10px;width:88px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
-.perks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.perks li{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;font-weight:500;min-width:0}
-.perks li span{font-size:18px;flex:none}
+.perks-h{font-size:13px;color:var(--muted);margin:0 0 -6px;letter-spacing:.02em}
+.perks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px}
+.perks li{display:flex;gap:8px;align-items:center;font-size:15px;color:var(--ink);min-width:0;cursor:default}
+.perks li span{font-size:16px;flex:none}
 .facts{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px}
 .cover .facts{justify-content:space-between;border-top:1px dashed var(--line);padding-top:12px}
 .stick{position:sticky;bottom:0;margin-top:auto;padding-block:12px max(8px,env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--bg) 70%,transparent)}
@@ -129,12 +130,13 @@ const MONTHS=["ינואר","פברואר","מרץ","אפריל","מאי","יונ
 /* each screen: id, station, show(), render() returns html, bind(el), ok() validation, optional */
 const SCREENS=[
  {id:"cover",st:-1,render:()=>`
-   <div class="hero"><img class="ph" src="cover.webp" width="960" height="720" alt="צוות בוגרים יושב במעגל באחו מול הרים, במסע חוסן">
+   <div class="hero"><img class="ph" src="cover.webp" width="960" height="720" alt="כף יד בכפפה טקטית מחזיקה את כנפי סיירת נח״ל">
      <img class="badge" src="logo.webp" width="240" height="183" alt="סמל עמותת בוגרי סיירת נח״ל"></div>
    <div class="kicker">קהילת בוגרי סיירת נח״ל · מעל 30 שנה</div>
    <h1>השתחררת מהסיירת.<br>לא מהמשפחה.</h1>
    <p class="sub">3 דקות, 5 תחנות. בסוף נדע איך להיות שם בשבילך, ואתה תדע איפה אפשר לתת.</p>
-   <ul class="perks" aria-label="מה מחכה לך בקהילה">
+   <p class="perks-h" id="perks-h">מה מחכה לך בקהילה</p>
+   <ul class="perks" aria-labelledby="perks-h">
      <li><span aria-hidden="true">🏔️</span>מסעות חוסן לצוות</li>
      <li><span aria-hidden="true">🤝</span>מנטורינג וקריירה</li>
      <li><span aria-hidden="true">🔥</span>מפגשי בוגרים</li>
