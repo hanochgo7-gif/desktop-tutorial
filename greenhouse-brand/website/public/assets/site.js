@@ -216,7 +216,7 @@
   var started = false, t0 = Date.now(), busy = false;
   form.addEventListener("input", function () { if (!started) { started = true; track("form_start", {}); } }, { once: false });
   // keep what was typed if the visitor leaves and comes back in this tab (this browser only; cleared after sending)
-  var DK = "miftah-form";  // one draft for both languages: values are codes, so a switch keeps them
+  var DK = "miftah-form-3";  // new key when the questions change, so an old draft cannot fill a field with a stale code  // one draft for both languages: values are codes, so a switch keeps them
   function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "checkbox" && el.name !== "consent") { if (el.checked) (d[el.name] = d[el.name] || []).push(el.value); } else if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
   try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; var v = dr[el.name]; if (el.type === "radio" || el.type === "checkbox") el.checked = Array.isArray(v) ? v.indexOf(el.value) >= 0 : el.value === v; else if (!Array.isArray(v)) el.value = v; }); } catch (x) {}
   // arriving from a crop or a page: the link says what the visitor came for, and that wins over an older draft
@@ -228,23 +228,18 @@
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
   var sizeNote = document.getElementById("size-note");
-  var otherBox = form.elements.country_other && form.elements.country_other.closest(".field");
-  function countryVal() { var r = form.querySelector('[name="country"]:checked'); if (!r) return ""; return r.value === "XX" ? form.elements.country_other.value : r.value; }
-  function countryMode() { if (!otherBox) return; var x = (form.querySelector('[name="country"]:checked') || {}).value === "XX"; otherBox.hidden = !x; }
+  function countryVal() { return form.elements.country ? form.elements.country.value : ""; }
   function ticked(name) { return Array.prototype.map.call(form.querySelectorAll('[data-group="' + name + '"]:checked'), function (x) { return x.value; }); }
   function sizeCheck() {
     if (!sizeNote) return;
-    var c = countryVal(), s = form.size.value, msg = "";
-    if (ticked("project").indexOf("farm") >= 0 && c === "IL") msg = M.tk_il;
-    else if (s === "lt5" && c === "IL") msg = M.small_il;
-    else if ((s === "lt5" || s === "5-30") && c && c !== "IL") msg = M.small_ab;
+    var msg = ticked("project").indexOf("farm") >= 0 && countryVal() === "IL" ? M.tk_il : "";
     sizeNote.textContent = msg; sizeNote.hidden = !msg;
   }
   // the planting date only matters for new land
   var plantBox = document.getElementById("fs-planting");
   function landMode() { if (!plantBox) return; var nw = (form.querySelector('[name="land"]:checked') || {}).value === "new"; plantBox.hidden = !nw; }
-  form.addEventListener("change", function (e) { if (e.target.name === "country") countryMode(); if (e.target.dataset.group === "project" || e.target.name === "country" || e.target.name === "country_other" || e.target.name === "size") sizeCheck(); if (e.target.name === "land") landMode(); });
-  countryMode(); sizeCheck(); landMode();
+  form.addEventListener("change", function (e) { if (e.target.dataset.group === "project" || e.target.name === "country") sizeCheck(); if (e.target.name === "land") landMode(); });
+  sizeCheck(); landMode();
 
   function fieldOf(el) { return el.closest(".field, fieldset, .check"); }
   // focus the first problem and bring its question (with its message) into view
@@ -265,8 +260,8 @@
   function validate() {
     var bad = [];
     var nm = form.elements.name, nOk = !!nm.value.trim(); setErr(nm, nOk ? "" : M.req); if (!nOk) bad.push(nm);
-    var c1 = form.querySelector('[name="country"]'), other = (form.querySelector('[name="country"]:checked') || {}).value === "XX", cv = countryVal();
-    setErr(c1, cv || other ? "" : M.choose); setErr(form.elements.country_other, other && !cv ? M.choose : ""); if (!cv) bad.push(other ? form.elements.country_other : c1);
+    var c1 = form.elements.country, cv = countryVal();
+    setErr(c1, cv ? "" : M.choose); if (!cv) bad.push(c1);
     var em = form.elements.email, ph = form.elements.phone, ev = em.value.trim(), pv = ph.value.trim();
     var emOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev), phOk = /^[+()\d\s.\-]+$/.test(pv) && pv.replace(/\D/g, "").length >= 7;
     setErr(ph, !pv ? M.req : phOk ? "" : M.phone); if (!phOk) bad.push(ph);
@@ -283,12 +278,12 @@
     if (el.name === "phone") return /^[+()\d\s.\-]+$/.test(v) && v.replace(/\D/g, "").length >= 7;
     return !!v;
   }
-  ["name", "company", "phone", "email"].forEach(function (n) {
+  ["name", "company", "role", "phone", "email"].forEach(function (n) {
     var el = form.elements[n]; if (!el) return;
     el.addEventListener("blur", function () {
       var v = el.value.trim(), box = fieldOf(el);
       box.classList.toggle("ok", !!v && good(el));
-      if (v && !good(el) && n !== "company") setErr(el, M[n] || M.req);
+      if (v && !good(el) && n !== "company" && n !== "role") setErr(el, M[n] || M.req);
       if (n === "email") typo(el);
     });
     el.addEventListener("input", function () { var box = fieldOf(el); if (box.classList.contains("ok") && !good(el)) box.classList.remove("ok"); });
@@ -344,20 +339,13 @@
     return (el.value || "").trim();
   }
   function val(name) { var c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ""; }
-  // a first sort for the office: does the land size meet the usual minimum (ledger 4.2)?
-  function fit() {
-    var c = countryVal(), sz = form.size.value;
-    if (!sz || sz === "tbd" || !c || c === "SEARCH") return "unknown";
-    if (c === "IL") return sz === "lt5" ? "below_minimum" : "in_range";
-    return (sz === "lt5" || sz === "5-30") ? "below_minimum" : "in_range";
-  }
   function payload() {
     var land = (form.querySelector('[name="land"]:checked') || {}).value || "";
     return {
-      name: label("name"), company: label("company"), phone: label("phone"), email: label("email"), country: (form.querySelector('[name="country"]:checked') || {}).value === "XX" ? label("country_other") : label("country"), country_code: countryVal(),
-      project: label("project"), project_codes: ticked("project"), size: label("size"), size_code: form.size.value, stage: label("stage"), stage_code: form.stage.value,
+      name: label("name"), company: label("company"), role: label("role"), phone: label("phone"), email: label("email"), country: label("country"), country_code: countryVal(),
+      project: label("project"), project_codes: ticked("project"), size: label("size"), stage: label("stage"), stage_code: form.stage.value,
       land: label("land"), land_code: land, planting: land === "new" ? label("planting") : "", crop: label("crop"), message: label("message"),
-      lang: LANG, page: location.pathname, sent_at: new Date().toISOString(), fit: fit(), source: SRC, lead_id: leadId
+      lang: LANG, page: location.pathname, sent_at: new Date().toISOString(), source: SRC, lead_id: leadId
     };
   }
   function brief(p) {
@@ -422,7 +410,7 @@
         form.reset(); form.hidden = true;
         show("ok", M.okH, M.okP, resultBox(p, "form-success"));
         try { sessionStorage.removeItem(DK); } catch (x) {}
-        track("form_submit_success", { project: p.project_codes.join(","), size: p.size_code, country: p.country_code, fit: p.fit, lead_id: p.lead_id });
+        track("form_submit_success", { project: p.project_codes.join(","), country: p.country_code, lead_id: p.lead_id });
       })
       .catch(function () {
         show("bad", M.badH, M.badP, resultBox(p, "form-error"));

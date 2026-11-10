@@ -52,7 +52,7 @@
   .eyebrow { font-family: var(--mono); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); }
   h1 { font-size: clamp(2rem, 3.4vw, 3rem); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
   .lede { color: var(--ink-2); max-width: 44ch; margin: 0; }
-  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .stats div { padding: 12px 10px 12px 0; display: grid; gap: 2px; min-width: 0; }
   [dir="rtl"] .stats div { padding: 12px 0 12px 10px; }
   .stats b { font-family: var(--mono); font-weight: 500; font-size: clamp(1.3rem, 2vw, 1.7rem); color: #fff; line-height: 1.1; }
@@ -126,21 +126,20 @@ html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #led
     <h1 id="h1">פרויקטים בשמונה מדינות.</h1>
     <p class="lede" id="lede">מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.</p>
     <div class="stats">
-      <div><b class="num">410,000</b><span id="s1">מ״ר של בתי רשת בחו״ל, ב-5 מדינות</span></div>
       <div><b class="num">8</b><span id="s2">מדינות, כולל ישראל</span></div>
       <div><b class="num">20+</b><span id="s3">שנים בשטח</span></div>
     </div>
     <div class="card" id="card" aria-live="polite"></div>
     <div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>
     <div class="group"><h2 id="g2">מעבר לים</h2><ul class="list" id="l-ab"></ul></div>
-    <p class="note" id="note">השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.</p>
+    <p class="note" id="note">נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.</p>
   </aside>
 </div>
 
 
 <div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
 <script src="../assets/vendor/three.min.js?v=eb854986"></script>
-<script src="globe.js?v=7ca12b3d"></script>
+<script src="globe.js?v=71727228"></script>
 
 </body>
 </html>

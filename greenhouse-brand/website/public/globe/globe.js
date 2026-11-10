@@ -11,23 +11,23 @@
     { id: "wg", g: "il", lat: 33.02, lon: 35.15, prec: "region", pos: "l", he: { n: "בננות, הגליל המערבי", d: "בית רשת עם רשת 11%", w: "רשת קלה ואוורירית: הגנה מרוח וברד, וחיסכון במים בקיץ" }, en: { n: "Bananas, Western Galilee", d: "Net house with an 11% net", w: "A light, airy net: protection from wind and hail, water saved in summer" }, sub: true },
     { id: "golan", g: "il", lat: 33.05, lon: 35.77, prec: "region", pos: "t", he: { n: "תפוחים, רמת הגולן", d: "רשת שמתקפלת בחורף", w: "נפרסת בקיץ ומתקפלת בחורף" }, en: { n: "Apples, Golan Heights", d: "Nets fold away in winter", w: "Spread in summer, folded in winter" }, sub: true },
     { id: "cherry", g: "il", lat: null, lon: null, prec: "none", he: { n: "דובדבנים", d: "בית רשת למטע", w: "מיקום עוד לא צוין" }, en: { n: "Cherries", d: "Orchard net house", w: "Location not given yet" }, sub: true },
-    { id: "mx", g: "ab", lat: 23.6, lon: -102.5, m2: 150000, prec: "region", he: { n: "מקסיקו", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Mexico", d: "Net houses", w: "Design, local crew training and site management" } },
-    { id: "in", g: "ab", lat: 21.0, lon: 78.0, m2: 80000, prec: "region", he: { n: "הודו", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "India", d: "Net houses", w: "Design, local crew training and site management" } },
-    { id: "hn", g: "ab", lat: 14.8, lon: -86.8, m2: 70000, prec: "region", he: { n: "הונדורס", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Honduras", d: "Net houses", w: "Design, local crew training and site management" } },
-    { id: "es", g: "ab", lat: 40.0, lon: -3.7, m2: 60000, prec: "region", pos: "b", he: { n: "ספרד", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Spain", d: "Net houses", w: "Design, local crew training and site management" } },
-    { id: "ge", g: "ab", lat: 42.2, lon: 43.5, m2: 50000, prec: "region", he: { n: "גאורגיה", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Georgia", d: "Net houses", w: "Design, local crew training and site management" } },
+    { id: "mx", g: "ab", lat: 23.6, lon: -102.5, m2: 0, prec: "region", he: { n: "מקסיקו", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Mexico", d: "Net houses", w: "Design, local crew training and site management" } },
+    { id: "in", g: "ab", lat: 21.0, lon: 78.0, m2: 0, prec: "region", he: { n: "הודו", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "India", d: "Net houses", w: "Design, local crew training and site management" } },
+    { id: "hn", g: "ab", lat: 14.8, lon: -86.8, m2: 0, prec: "region", he: { n: "הונדורס", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Honduras", d: "Net houses", w: "Design, local crew training and site management" } },
+    { id: "es", g: "ab", lat: 40.0, lon: -3.7, m2: 0, prec: "region", pos: "b", he: { n: "ספרד", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Spain", d: "Net houses", w: "Design, local crew training and site management" } },
+    { id: "ge", g: "ab", lat: 42.2, lon: 43.5, m2: 0, prec: "region", he: { n: "גאורגיה", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Georgia", d: "Net houses", w: "Design, local crew training and site management" } },
     { id: "pt", g: "ab", lat: 39.4, lon: -8.2, prec: "region", he: { n: "פורטוגל", d: "בית רשת לאבוקדו", w: "הלקוח בפורטוגל מוכן להמליץ" }, en: { n: "Portugal", d: "Avocado net house", w: "The client in Portugal is willing to give a reference" } },
     { id: "by", g: "ab", lat: 53.7, lon: 27.9, prec: "region", he: { n: "בלארוס", d: "פרויקט מורכב לגידול דגים", w: "ייצור מקומי והתקנה בשטח, הסתיים בזמן" }, en: { n: "Belarus", d: "A complex fish-farming project", w: "Local production and installation on site, delivered on schedule" } }
   ];
   var T = {
     he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
       s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
-      note: "השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.",
+      note: "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
       hq: "מיפתח · כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "מהחלל אל צילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "", real: "צילום רחפן אמיתי" },
     en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in eight countries.", lede: "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build.",
       s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
-      note: "Areas as of 2015. A yellow point marks the country or region, not the exact site. Beam height follows the area.",
+      note: "A yellow point marks the country or region, not the exact site.",
       hq: "MIFTAH · Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "From orbit to real drone footage of a MIFTAH net house.", close: "Close", ill: "", real: "Real drone footage" }
   };
@@ -299,7 +299,7 @@
     document.documentElement.lang = L; document.documentElement.dir = t.dir;
     document.getElementById("stage").setAttribute("dir", t.dir);
     document.title = t.title; gl.setAttribute("aria-label", t.aria);
-    ["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "hint", "note"].forEach(function (k) { document.getElementById(k).textContent = t[k]; });
+    ["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "hint", "note"].forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t[k]; });
     var lb = document.getElementById("lang"); lb.textContent = t.langL; lb.lang = t.lang;
     var fc = document.getElementById("flycap"); if (fc) fc.textContent = t.flyc;
     var fx = document.getElementById("flyx"); if (fx) { fx.textContent = t.close; badge(); }

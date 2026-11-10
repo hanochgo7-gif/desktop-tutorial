@@ -190,6 +190,13 @@ Held back, waiting for a decision (not applied):
 - This replaces, for these photos, the earlier rule that photos with black steel are removed rather than retouched: the owner asked for the retouch.
 - Captions describe only what is visible; no places or crops were named that the photos do not show. The photos were taken from the screen recordings (1194 px wide, or 863 px from the chat, upscaled); the originals would be sharper.
 
+## 7e. Merav's site-editor review, 10 Nov 2026 (`docs/reviews/merav-2026-11-10.txt`)
+- Applied as written (Hebrew), with English translations: 34 text edits, among them the rename "חוות מפתח בחו״ל" → "חוות חקלאיות עד מפתח" (menu, page title, cards; the English menu keeps "Turnkey farms" for width), the crop rows, the FAQ answers and the process texts. #217: "פתרונן" corrected to "פתרון". #87 (a season text on a row that moved) was applied to the apple "Season" row.
+- Areas: "לבטל את כמויות הדונמים לכולם". Removed the per-project areas from the home list, the map, the projects table and the globe (beam heights equal, no m² total), and "השטחים נכונים ל-2015" (#137). Still on the site, waiting for a decision: the minimums (50 dunam in Israel, 300 abroad) and the structure size (up to 100 dunam in one banana structure).
+- Form: labels and hints from #405–#448; an optional role field; country = every country (ISO 3166, CLDR names, Israel, Portugal and Spain first); area and planting date are free text; "new project / existing orchard".
+- Photos: the anemone image in the "other crops" tab replaced with our aerial photo (g-air-rows); the cherry illustration redone so the net runs along the rows.
+- Needs a decision: #207 says the net house "raises the quality and quantity of the crop" (a yield claim, her wording); her note on #137 asks to show every Israeli site (kibbutzim and villages) on the globe, which needs the list from the owners.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

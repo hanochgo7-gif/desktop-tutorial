@@ -1367,3 +1367,6 @@ html[lang="he"] .hero-os h1 .h1-a .sr { inset: 0 auto auto 0; }
 .tick:focus-within { outline: 3px solid var(--canopy); outline-offset: 2px; }
 .fprog { counter-reset: none; }
 textarea::placeholder, input::placeholder { color: #7C8C88; }
+
+/* the longer menu name "חוות חקלאיות עד מפתח" (Merav, 10 Nov 2026): a little less padding on the menu links just above the phone-menu width */
+@media (min-width: 1181px) and (max-width: 1320px) { .nav > ul > li > a:not(.btn) { padding-inline: 8px; } }

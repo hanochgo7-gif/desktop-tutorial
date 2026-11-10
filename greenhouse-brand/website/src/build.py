@@ -207,8 +207,8 @@ def map_svg(L):
     marks = []
     for key, lat, lon, m2, en, hb, side in C.MARKETS:
         x, y = worldmap.px(lon, lat)
-        r = 4 + (math.sqrt(m2 / 150000) * 9 if m2 else 0)
-        val = (f"{m2 / 10000:g} ha" if not he else f"{m2 / 1000:g} דונם") if m2 else ""
+        r = 6  # one size for every country: Merav asked (10 Nov 2026) to drop the area figures
+        val = ""
         dx, dy, anchor = {"e": (r + 8, 4, "start"), "w": (-(r + 8), 4, "end"), "s": (0, r + 18, "middle"), "sw": (-(r + 6), r + 14, "end")}[side]
         an = flip[anchor] if he else anchor
         lab = f'<text class="mk-l" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{an}">{esc(en if not he else hb)}</text>'
@@ -225,11 +225,10 @@ def map_svg(L):
 
 def projects_table(L):
     P = C.PAGES["projects"]
-    rows = "".join(f'<tr><th scope="row">{esc(en if L == "en" else he)}</th><td>{esc(t(w, L))}</td><td class="n">{(f"{a / 10000:g}" if L == "en" else f"{a / 1000:g}") if a else "–"}</td></tr>' for en, he, w, a in C.PROJECT_ROWS)
-    total = sum(a for *_, a in C.PROJECT_ROWS if a)
+    # no area column: Merav asked (10 Nov 2026) to drop the dunam figures for every project
+    rows = "".join(f'<tr><th scope="row">{esc(en if L == "en" else he)}</th><td>{esc(t(w, L))}</td></tr>' for en, he, w, a in C.PROJECT_ROWS)
     return (f'<div class="tbl-scroll"><table class="tbl"><caption>{esc(t(P["tbl_cap"], L))}</caption><thead><tr><th scope="col">{esc(t(P["th_country"], L))}</th><th scope="col">{esc(t(P["th_work"], L))}</th>'
-            f'<th scope="col" class="n">{esc(t(P["th_area"], L))}</th></tr></thead><tbody>{rows}</tbody>'
-            f'<tfoot><tr><th scope="row" colspan="2">{esc(t(P["total"], L))}</th><td class="n">{f"{total / 10000:g}" if L == "en" else f"{total / 1000:g}"}</td></tr></tfoot></table></div>')
+            f'</tr></thead><tbody>{rows}</tbody></table></div>')
 
 
 # ---------------------------------------------------------------- shared page parts
@@ -463,10 +462,11 @@ def crop_selector(L, where="home"):
     # one AI illustration per crop (labelled as such); only the shown one is fetched, since the others are display: none
     r = rel(L)
     def pic(cr):
-        ss = lambda ext: ", ".join(f"{r}assets/img/crop-{cr['id']}-{w}.{ext} {w}w" for w in (640, 960, 1280))
+        v = "?v=" + ver(PUB / f"assets/img/crop-{cr['id']}-1280.jpg")  # the files keep their names when an image is replaced, so the version makes browsers fetch the new one
+        ss = lambda ext: ", ".join(f"{r}assets/img/crop-{cr['id']}-{w}.{ext}{v} {w}w" for w in (640, 960, 1280))
         sz = "(max-width: 900px) calc(100vw - 32px), 560px"
         return (f'<picture class="cp" data-crop="{cr["id"]}"><source type="image/avif" srcset="{ss("avif")}" sizes="{sz}"><source type="image/webp" srcset="{ss("webp")}" sizes="{sz}">'
-                f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
+                f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg{v}" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
     fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}</div>'
            f'<figcaption>{esc(t(H["crop_note"], L))}</figcaption></figure>')
     tabs, panels = [], []
@@ -523,11 +523,13 @@ def p_index(L):
         return (f'<a class="sol{"" if x["img"] else " sol-plain"}" href="{x["href"]}" data-track="route_click" data-label="sol-{x["img"] or "stage"}">{img}'
                 f'<div class="sol-body"><small>{esc(t(x["k"], L))}</small><h3>{esc(t(x["h"], L))}</h3><p>{esc(t(x["p"], L))}</p><div class="chips">{chips}</div></div></a>')
     sols = "".join(sol(x) for x in O["sols"])
-    rows = [(en, he, a_) for en, he, _, a_ in C.PROJECT_ROWS if a_]
-    top = max(a_ for *_, a_ in rows)
-    bars = "".join(f'<li><b>{esc(en if L == "en" else he)}</b><span class="bar"><i style="width:{a_ / top * 100:.0f}%"></i></span>'
-                   f'<span class="v">{(f"{a_ / 10000:g}" if L == "en" else f"{a_ / 1000:g}")} {esc(t(O["world_unit"], L))}</span></li>' for en, he, a_ in rows)
-    more = "".join(f'<li><b>{esc(t(c, L))}</b><span>{esc(t(w, L))}</span></li>' for c, w in O["world_more"])
+    # countries with what was built there, without areas (Merav, 10 Nov 2026)
+    told = {t(c, "en") for c, _ in O["world_more"]}
+    nets = [(en, he) for en, he, w, _ in C.PROJECT_ROWS if en not in told and t(w, "en") == "Net houses"]
+    names = [en if L == "en" else he for en, he in nets]
+    joined = (", ".join(names[:-1]) + (" and " if L == "en" else " ו") + names[-1]) if len(names) > 1 else "".join(names)
+    bars = f'<li><b>{esc(joined)}</b><span>{esc(t(("Net houses", "בתי רשת"), L))}</span></li>' if names else ""
+    more = "".join(f'<li><b>{esc(t(c, L))}</b><span>{esc(t(w, L))}</span></li>' for c, w in O["world_more"]) + bars
     # the 11 stages in their 4 phases (assess, design, build, operate), numbered across the phases
     path, n = [], 0
     for ph, items in C.STAGES:
@@ -580,7 +582,7 @@ def p_index(L):
 <section class="section dark world" aria-labelledby="proof-h">
   <div class="wrap world-grid">
     <div><p class="kicker">{esc(t(O["world_k"], L))}</p><h2 id="proof-h">{esc(t(H["proof_h"], L))}</h2><p class="lead">{esc(t(H["proof_p"], L))}</p><p class="more"><a href="projects.html">{esc(t(H["proof_go"], L))}</a></p></div>
-    <div><ul class="bars">{bars}</ul><p class="bars-cap">{esc(t(O["world_cap"], L))}</p><ul class="markets">{more}</ul></div>
+    <div><ul class="markets">{more}</ul></div>
   </div>
 </section>
 
@@ -830,13 +832,7 @@ def radios(name, items, L, legend):
     return f'<fieldset class="field"><legend>{esc(t(legend, L))}</legend><div class="ticks">{lis}</div></fieldset>'
 
 
-def select(name, label, items, L, req=False):
-    opts = "".join(f'<option value="{v}">{esc(tm(x, L))}</option>' for v, x in items)  # tm: no invisible isolates in submitted text
-    r = ' required aria-required="true"' if req else ""
-    return f'<div class="field"><label for="f-{name}">{esc(t(label, L))}</label><select id="f-{name}" name="{name}"{r}>{opts}</select></div>'
-
-
-def inp(name, label, L, typ="text", req=False, auto="", hint=None, lst="", ph=None):
+def inp(name, label, L, typ="text", req=False, auto="", hint=None, lst="", ph=None, box=""):
     a = f' autocomplete="{auto}"' if auto else ""
     a += {"tel": ' inputmode="tel"', "email": ' inputmode="email" autocapitalize="off" spellcheck="false"'}.get(typ, "")
     a += f' list="{lst}"' if lst else ""
@@ -845,7 +841,25 @@ def inp(name, label, L, typ="text", req=False, auto="", hint=None, lst="", ph=No
     h = f'<span class="hint" id="f-{name}-h">{esc(t(hint, L))}</span>' if hint else ""
     db = f' aria-describedby="f-{name}-h"' if hint else ""
     d = ' dir="ltr"' if typ in ("email", "tel") else ""
-    return f'<div class="field"><label for="f-{name}">{esc(t(label, L))}</label><input id="f-{name}" name="{name}" type="{typ}"{a}{r}{db}{d}>{h}</div>'
+    bid = f' id="{box}"' if box else ""
+    return f'<div class="field"{bid}><label for="f-{name}">{esc(t(label, L))}</label><input id="f-{name}" name="{name}" type="{typ}"{a}{r}{db}{d}>{h}</div>'
+
+
+COUNTRIES = json.loads((SRC / "data/countries.json").read_text())  # [code, English, Hebrew], every country (ISO 3166), names from the Unicode CLDR
+
+
+def country_select(L):
+    """Every country in the world, the most common first (Merav, 10 Nov 2026: "a choice of every country, Israel included")."""
+    F = C.FORM; i = 1 if L == "en" else 2
+    by = {c[0]: c for c in COUNTRIES}
+    top = [by[k] for k in F["country_top"]]
+    rest = sorted((c for c in COUNTRIES if c[0] not in F["country_top"]), key=lambda c: c[i])
+    if L == "he":  # Hebrew order: plain code-point order is close, but strip the geresh/quotes first
+        rest = sorted(rest, key=lambda c: c[i].replace("״", "").replace("׳", "").replace("'", ""))
+    o = lambda c: f'<option value="{c[0]}">{esc(c[i])}</option>'
+    opts = f'<option value="">{esc(tm(F["country_pick"], L))}</option>' + "".join(o(c) for c in top) + '<option disabled>──────────</option>' + "".join(o(c) for c in rest)
+    return (f'<div class="field"><label for="f-country">{esc(t(F["country"], L))}</label>'
+            f'<select id="f-country" name="country" autocomplete="country" required aria-required="true">{opts}</select></div>')
 
 
 def form_msg(L):
@@ -872,12 +886,12 @@ def p_contact(L):
     <p class="fstep-k">{esc(t(F["step"], L))} 1 {esc(t(F["of"], L))} 2: {esc(t(F["step1_h"], L))} <span class="ftime">· {esc(t(F["time1"], L))}</span></p>
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_t"], L))}</h3>
     <div class="ftable">
-    {inp("name", F["name"], L, req=True, auto="name")}
+    {inp("name", F["name"], L, req=True, auto="name", hint=F["name_hint"])}
     {inp("company", F["company"], L, auto="organization")}
+    {inp("role", F["role"], L, auto="organization-title", hint=F["role_hint"])}
     {inp("phone", F["phone"], L, typ="tel", req=True, auto="tel", hint=F["phone_hint"])}
-    {inp("email", F["email"], L, typ="email", req=True, auto="email")}
-    {chips("country", F["country_quick"], L, F["country"])}
-    {select("country_other", F["country_other"], F["countries"], L)}
+    {inp("email", F["email"], L, typ="email", req=True, auto="email", hint=F["email_hint"])}
+    {country_select(L)}
     </div>
     <div class="actions fnav"><button class="btn btn-primary" type="button" data-next>{esc(t(F["next"], L))}</button></div>
   </div>
@@ -887,11 +901,11 @@ def p_contact(L):
     <p class="fyou" id="f-you" hidden><span>{esc(t(F["you"], L))}: <bdi id="f-you-t"></bdi></span> <button class="lnk" type="button" data-back>{esc(t(F["edit"], L))}</button></p>
     <div class="ftable">
     {chips("project", F["projects"], L, F["project"], multi=True)}
-    {chips("size", F["sizes"], L, F["size"])}
+    {inp("size", F["size"], L, hint=F["size_hint"])}
     <p class="size-note" id="size-note" role="status" hidden></p>
     {chips("stage", F["stages"], L, F["stage"])}
     {chips("land", F["lands"], L, F["land"])}
-    {chips("planting", F["plantings"], L, F["planting"])}
+    {inp("planting", F["planting"], L, hint=F["planting_hint"], box="fs-planting")}
     {inp("crop", F["crop"], L, hint=F["crop_hint"], lst="crop-list")}
     <div class="field"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4" placeholder="{esc(tm(F["message_ph"], L))}"></textarea></div>
     </div>
@@ -1066,8 +1080,12 @@ def globe_page():
     js = js.replace('· לוחצים על נקודה" : "גוררים כדי לסובב · גלגלת', '· לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת')
     assert js.count('matchMedia("(pointer: coarse)")') == 2 and js.count('tap a point") :') == 1 and js.count('על נקודה") :') == 1
     # visitors see what the figures are, not where the team got them
-    NOTE = {"he": "השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.",
-            "en": "Areas as of 2015. A yellow point marks the country or region, not the exact site. Beam height follows the area."}
+    NOTE = {"he": "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
+            "en": "A yellow point marks the country or region, not the exact site."}
+    # no areas anywhere (Merav, 10 Nov 2026): every beam the same height, no area line in the card, no m² total
+    js, n = re.subn(r"\bm2: \d+", "m2: 0", js); assert n >= 5, n
+    js = js.replace('.forEach(function (k) { document.getElementById(k).textContent = t[k]; });', '.forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t[k]; });')
+    assert "if (e) e.textContent = t[k]" in js
     js, n = re.subn(r'note: "מקור:[^"]*"', 'note: "' + NOTE["he"] + '"', js); assert n == 1
     js, n = re.subn(r'note: "Sources:[^"]*"', 'note: "' + NOTE["en"] + '"', js); assert n == 1
     for old, new in (('region: "ברמת אזור או מדינה"', 'region: "מסומן ברמת מדינה או אזור"'), ('region: "Region or country level"', 'region: "Marked at country or region level"')):
@@ -1108,6 +1126,8 @@ def globe_page():
            ' new MutationObserver(function () { if (box.hidden) { var o = document.getElementById("flyb"); if (o) o.focus(); } }).observe(box, { attributes: true, attributeFilter: ["hidden"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
+    stat = '      <div><b class="num">410,000</b><span id="s1">מ״ר של בתי רשת בחו״ל, ב-5 מדינות</span></div>\n'
+    assert stat in page; page = page.replace(stat, "").replace(".stats { display: grid; grid-template-columns: repeat(3,", ".stats { display: grid; grid-template-columns: repeat(2,")
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
     page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית")
     page = page.replace("#flybadge.real {", "#flybadge:empty { display: none; }\n  #flybadge.real {", 1)
