@@ -90,3 +90,13 @@ html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body
 .callbar span { display: flex; align-items: center; justify-content: center; gap: 10px; height: 62px; border-radius: 14px; font-size: 22px; font-weight: 700; color: #fff; background: #1f5f9e; }
 .callbar span + span { background: #25d366; color: #06301a; }
 .callbar span::before { content: ""; width: 14px; height: 14px; border: 3px solid currentColor; border-radius: 4px; }
+
+/* תמונת פתיחה לפרק של מורה לנהיגה: כביש עם קו מקווקו ומכונית קטנה */
+.site .road { position: relative; width: 300px; height: 150px; border-radius: 16px; background: linear-gradient(180deg, #cfe6f6 0 46%, #7d8a96 46% 100%); overflow: hidden; box-shadow: 0 10px 24px rgba(31, 95, 158, .22); }
+.site .road::before { content: ""; position: absolute; left: -10px; right: -10px; top: 104px; height: 5px; background: repeating-linear-gradient(90deg, #fff 0 26px, transparent 26px 46px); }
+.site .road::after { content: ""; position: absolute; right: 70px; top: 58px; width: 104px; height: 40px; border-radius: 14px 18px 8px 8px; background: #f2b134; box-shadow: inset 0 -8px 0 rgba(0, 0, 0, .12); }
+.site .road i { position: absolute; top: 90px; width: 22px; height: 22px; border-radius: 50%; background: #22303d; border: 4px solid #cfd6dc; z-index: 1; }
+.site .road i:first-child { right: 82px; } .site .road i:last-child { right: 140px; }
+.site .lform { display: grid; gap: 8px; margin-top: 12px; }
+.site .lform span { display: block; height: 40px; border-radius: 8px; background: #2c3a48; color: #8fa0b1; font-size: 16px; line-height: 40px; padding: 0 12px; }
+.site .lform .send { background: #3d6fa3; color: #fff; text-align: center; font-weight: 600; }
