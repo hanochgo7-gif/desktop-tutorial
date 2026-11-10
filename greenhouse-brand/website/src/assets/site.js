@@ -228,20 +228,23 @@
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
   var sizeNote = document.getElementById("size-note");
+  var otherBox = form.elements.country_other && form.elements.country_other.closest(".field");
+  function countryVal() { var r = form.querySelector('[name="country"]:checked'); if (!r) return ""; return r.value === "XX" ? form.elements.country_other.value : r.value; }
+  function countryMode() { if (!otherBox) return; var x = (form.querySelector('[name="country"]:checked') || {}).value === "XX"; otherBox.hidden = !x; }
   function ticked(name) { return Array.prototype.map.call(form.querySelectorAll('[data-group="' + name + '"]:checked'), function (x) { return x.value; }); }
   function sizeCheck() {
     if (!sizeNote) return;
-    var c = form.country.value, s = form.size.value, msg = "";
+    var c = countryVal(), s = form.size.value, msg = "";
     if (ticked("project").indexOf("farm") >= 0 && c === "IL") msg = M.tk_il;
     else if (s === "lt5" && c === "IL") msg = M.small_il;
     else if ((s === "lt5" || s === "5-30") && c && c !== "IL") msg = M.small_ab;
     sizeNote.textContent = msg; sizeNote.hidden = !msg;
   }
   // the planting date only matters for new land
-  var plantBox = form.elements.planting && form.elements.planting.closest(".field");
+  var plantBox = document.getElementById("fs-planting");
   function landMode() { if (!plantBox) return; var nw = (form.querySelector('[name="land"]:checked') || {}).value === "new"; plantBox.hidden = !nw; }
-  form.addEventListener("change", function (e) { if (e.target.dataset.group === "project" || e.target.name === "country" || e.target.name === "size") sizeCheck(); if (e.target.name === "land") landMode(); });
-  sizeCheck(); landMode();
+  form.addEventListener("change", function (e) { if (e.target.name === "country") countryMode(); if (e.target.dataset.group === "project" || e.target.name === "country" || e.target.name === "country_other" || e.target.name === "size") sizeCheck(); if (e.target.name === "land") landMode(); });
+  countryMode(); sizeCheck(); landMode();
 
   function fieldOf(el) { return el.closest(".field, fieldset, .check"); }
   // focus the first problem and bring its question (with its message) into view
@@ -261,10 +264,9 @@
   }
   function validate() {
     var bad = [];
-    [["name", "req"], ["country", "choose"]].forEach(function (r) {
-      var el = form.elements[r[0]], ok = !!(el.value || "").trim();
-      setErr(el, ok ? "" : M[r[1]]); if (!ok) bad.push(el);
-    });
+    var nm = form.elements.name, nOk = !!nm.value.trim(); setErr(nm, nOk ? "" : M.req); if (!nOk) bad.push(nm);
+    var c1 = form.querySelector('[name="country"]'), other = (form.querySelector('[name="country"]:checked') || {}).value === "XX", cv = countryVal();
+    setErr(c1, cv || other ? "" : M.choose); setErr(form.elements.country_other, other && !cv ? M.choose : ""); if (!cv) bad.push(other ? form.elements.country_other : c1);
     var em = form.elements.email, ph = form.elements.phone, ev = em.value.trim(), pv = ph.value.trim();
     var emOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev), phOk = /^[+()\d\s.\-]+$/.test(pv) && pv.replace(/\D/g, "").length >= 7;
     setErr(ph, !pv ? M.req : phOk ? "" : M.phone); if (!phOk) bad.push(ph);
@@ -274,6 +276,37 @@
     setErr(form.consent, form.consent.checked ? "" : M.consent); if (!form.consent.checked) bad.push(form.consent);
     return bad;
   }
+  // a quiet check mark on a field once it is filled in correctly, and the message as soon as one is left wrong (not only at the end)
+  function good(el) {
+    var v = (el.value || "").trim();
+    if (el.name === "email") return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    if (el.name === "phone") return /^[+()\d\s.\-]+$/.test(v) && v.replace(/\D/g, "").length >= 7;
+    return !!v;
+  }
+  ["name", "company", "phone", "email"].forEach(function (n) {
+    var el = form.elements[n]; if (!el) return;
+    el.addEventListener("blur", function () {
+      var v = el.value.trim(), box = fieldOf(el);
+      box.classList.toggle("ok", !!v && good(el));
+      if (v && !good(el) && n !== "company") setErr(el, M[n] || M.req);
+      if (n === "email") typo(el);
+    });
+    el.addEventListener("input", function () { var box = fieldOf(el); if (box.classList.contains("ok") && !good(el)) box.classList.remove("ok"); });
+  });
+  // a likely typo in the email's domain: offer the fix in one tap
+  var FIX = { "gmial.com": "gmail.com", "gmal.com": "gmail.com", "gamil.com": "gmail.com", "gmail.co": "gmail.com", "gmail.con": "gmail.com", "gmail.cm": "gmail.com", "gnail.com": "gmail.com",
+    "hotmial.com": "hotmail.com", "hotmail.co": "hotmail.com", "hotmal.com": "hotmail.com", "yahooo.com": "yahoo.com", "yaho.com": "yahoo.com", "outlok.com": "outlook.com",
+    "walla.co.l": "walla.co.il", "walla.com": "walla.co.il", "wala.co.il": "walla.co.il", "netvision.net": "netvision.net.il", "bezeqint.com": "bezeqint.net" };
+  function typo(el) {
+    var old = document.getElementById("email-fix"); if (old) old.remove();
+    var v = el.value.trim(), at = v.lastIndexOf("@"); if (at < 1) return;
+    var fix = FIX[v.slice(at + 1).toLowerCase()]; if (!fix) return;
+    var sug = v.slice(0, at + 1) + fix, b = document.createElement("button");
+    b.type = "button"; b.id = "email-fix"; b.className = "lnk did-you"; b.textContent = (M.did_you || "{email}").replace("{email}", sug);
+    b.addEventListener("click", function () { el.value = sug; b.remove(); var box = fieldOf(el); box.classList.add("ok"); setErr(el, ""); saveDraft(); el.focus(); });
+    fieldOf(el).appendChild(b);
+  }
+
   // re-check a flagged field as it is typed in, so its message is gone before the next tap (a message vanishing on blur moves the Send button away from the finger)
   function recheck(e) { if (e.target.getAttribute("aria-invalid") === "true") { var bad = validate(); if (st1 && !st1.hidden) bad.forEach(function (el) { if (!st1.contains(el)) setErr(el, ""); }); } }
   form.addEventListener("input", recheck); form.addEventListener("change", recheck);
@@ -284,6 +317,7 @@
     if (!st1 || !st2) return;
     st1.hidden = n !== 1; st2.hidden = n !== 2;
     Array.prototype.forEach.call(prog, function (li, i) { li.classList.toggle("on", i === n - 1); li.classList.toggle("done", i < n - 1); });
+    if (n === 2) { var you = document.getElementById("f-you"), yt = document.getElementById("f-you-t"); if (you && yt) { yt.textContent = [form.elements.name.value.trim(), form.elements.phone.value.trim(), form.elements.email.value.trim()].filter(Boolean).join(" · "); you.hidden = !yt.textContent; } }
     if (focus) { var h = (n === 1 ? st1 : st2).querySelector(".fstep-h"); if (h) h.focus(); }
   }
   if (st1 && st2) {
@@ -296,7 +330,7 @@
       goStep(2, true); track("form_step", { step: 2 });
       try { history.pushState({ miftahStep: 2 }, ""); } catch (x) {}
     });
-    form.querySelector("[data-back]").addEventListener("click", function () { if (history.state && history.state.miftahStep === 2) history.back(); else goStep(1, true); });
+    Array.prototype.forEach.call(form.querySelectorAll("[data-back]"), function (bk) { bk.addEventListener("click", function () { if (history.state && history.state.miftahStep === 2) history.back(); else goStep(1, true); }); });
     window.addEventListener("popstate", function () { if (!st2.hidden) goStep(1, true); });
   }
 
@@ -312,7 +346,7 @@
   function val(name) { var c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ""; }
   // a first sort for the office: does the land size meet the usual minimum (ledger 4.2)?
   function fit() {
-    var c = form.country.value, sz = form.size.value;
+    var c = countryVal(), sz = form.size.value;
     if (!sz || sz === "tbd" || !c || c === "SEARCH") return "unknown";
     if (c === "IL") return sz === "lt5" ? "below_minimum" : "in_range";
     return (sz === "lt5" || sz === "5-30") ? "below_minimum" : "in_range";
@@ -320,7 +354,7 @@
   function payload() {
     var land = (form.querySelector('[name="land"]:checked') || {}).value || "";
     return {
-      name: label("name"), company: label("company"), phone: label("phone"), email: label("email"), country: label("country"), country_code: form.country.value,
+      name: label("name"), company: label("company"), phone: label("phone"), email: label("email"), country: (form.querySelector('[name="country"]:checked') || {}).value === "XX" ? label("country_other") : label("country"), country_code: countryVal(),
       project: label("project"), project_codes: ticked("project"), size: label("size"), size_code: form.size.value, stage: label("stage"), stage_code: form.stage.value,
       land: label("land"), land_code: land, planting: land === "new" ? label("planting") : "", crop: label("crop"), message: label("message"),
       lang: LANG, page: location.pathname, sent_at: new Date().toISOString(), fit: fit(), source: SRC, lead_id: leadId

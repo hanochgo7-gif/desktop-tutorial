@@ -811,6 +811,14 @@ def p_about(L):
 </main>"""
 
 
+def chips(name, items, L, legend, multi=False, cls=""):
+    """Answers as large buttons to tap (radio, or check boxes when more than one may apply)."""
+    def one(v, a):
+        nm = f'name="{name}-{v}" data-group="{name}"' if multi else f'name="{name}"'
+        return f'<label class="tick"><input type="{"checkbox" if multi else "radio"}" {nm} value="{v}"><span>{esc(t(a, L))}</span></label>'
+    return f'<fieldset class="field{(" " + cls) if cls else ""}" id="fs-{name}"><legend>{esc(t(legend, L))}</legend><div class="ticks">{"".join(one(v, a) for v, a in items)}</div></fieldset>'
+
+
 def checks(name, items, L, legend):
     """A group of check boxes (more than one may apply)."""
     lis = "".join(f'<label class="tick"><input type="checkbox" name="{name}-{v}" value="{v}" data-group="{name}"><span>{esc(t(a, L))}</span></label>' for v, a in items)
@@ -828,8 +836,11 @@ def select(name, label, items, L, req=False):
     return f'<div class="field"><label for="f-{name}">{esc(t(label, L))}</label><select id="f-{name}" name="{name}"{r}>{opts}</select></div>'
 
 
-def inp(name, label, L, typ="text", req=False, auto="", hint=None):
+def inp(name, label, L, typ="text", req=False, auto="", hint=None, lst="", ph=None):
     a = f' autocomplete="{auto}"' if auto else ""
+    a += {"tel": ' inputmode="tel"', "email": ' inputmode="email" autocapitalize="off" spellcheck="false"'}.get(typ, "")
+    a += f' list="{lst}"' if lst else ""
+    a += f' placeholder="{esc(tm(ph, L))}"' if ph else ""
     r = ' required aria-required="true"' if req else ""
     h = f'<span class="hint" id="f-{name}-h">{esc(t(hint, L))}</span>' if hint else ""
     db = f' aria-describedby="f-{name}-h"' if hint else ""
@@ -854,37 +865,41 @@ def p_contact(L):
     consent = esc(t(F["consent"], L)).replace("{privacy}", f'<a href="privacy.html">{esc(t(F["privacy_link"], L))}</a>')
     form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" data-crops="{esc(json.dumps({cr["id"]: tm(cr["label"], L) for cr in C.CROPS}, ensure_ascii=False))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
-  <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
+  <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted fintro">{esc(t(F["intro"], L))} {esc(t(F["req"], L))}</p></div>
   {offline}
   <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
   <div class="fstep" id="fstep-1">
-    <p class="fstep-k">{esc(t(F["step"], L))} 1: {esc(t(F["step1_h"], L))}</p>
+    <p class="fstep-k">{esc(t(F["step"], L))} 1 {esc(t(F["of"], L))} 2: {esc(t(F["step1_h"], L))} <span class="ftime">· {esc(t(F["time1"], L))}</span></p>
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_t"], L))}</h3>
     <div class="ftable">
     {inp("name", F["name"], L, req=True, auto="name")}
     {inp("company", F["company"], L, auto="organization")}
     {inp("phone", F["phone"], L, typ="tel", req=True, auto="tel", hint=F["phone_hint"])}
     {inp("email", F["email"], L, typ="email", req=True, auto="email")}
-    {select("country", F["country"], F["countries"], L, req=True)}
+    {chips("country", F["country_quick"], L, F["country"])}
+    {select("country_other", F["country_other"], F["countries"], L)}
     </div>
     <div class="actions fnav"><button class="btn btn-primary" type="button" data-next>{esc(t(F["next"], L))}</button></div>
   </div>
   <div class="fstep" id="fstep-2">
-    <p class="fstep-k">{esc(t(F["step"], L))} 2: {esc(t(F["step2_h"], L))}</p>
+    <p class="fstep-k">{esc(t(F["step"], L))} 2 {esc(t(F["of"], L))} 2: {esc(t(F["step2_h"], L))} <span class="ftime">· {esc(t(F["time1"], L))}</span></p>
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step2_t"], L))}</h3>
+    <p class="fyou" id="f-you" hidden><span>{esc(t(F["you"], L))}: <bdi id="f-you-t"></bdi></span> <button class="lnk" type="button" data-back>{esc(t(F["edit"], L))}</button></p>
     <div class="ftable">
-    {checks("project", F["projects"], L, F["project"])}
-    {select("size", F["size"], F["sizes"], L)}
+    {chips("project", F["projects"], L, F["project"], multi=True)}
+    {chips("size", F["sizes"], L, F["size"])}
     <p class="size-note" id="size-note" role="status" hidden></p>
-    {select("stage", F["stage"], F["stages"], L)}
-    {radios("land", F["lands"], L, F["land"])}
-    {inp("planting", F["planting"], L, hint=F["planting_hint"])}
-    {inp("crop", F["crop"], L, hint=F["crop_hint"])}
-    <div class="field"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
+    {chips("stage", F["stages"], L, F["stage"])}
+    {chips("land", F["lands"], L, F["land"])}
+    {chips("planting", F["plantings"], L, F["planting"])}
+    {inp("crop", F["crop"], L, hint=F["crop_hint"], lst="crop-list")}
+    <div class="field"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4" placeholder="{esc(tm(F["message_ph"], L))}"></textarea></div>
     </div>
+    <datalist id="crop-list">{"".join(f'<option value="{esc(tm(c, L))}"></option>' for c in F["crop_list"])}</datalist>
     <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
     <div class="check"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
     <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"] if FORM_ENDPOINT else F["send_off"], L))}</button></div>
+    <p class="small muted fprivacy">{esc(t(F["privacy_note"], L))}</p>
   </div>
 </form>
 <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>"""

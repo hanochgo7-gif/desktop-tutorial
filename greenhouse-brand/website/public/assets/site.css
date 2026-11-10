@@ -1347,3 +1347,23 @@ html[lang="he"] .hero-os h1 .h1-a .sr { inset: 0 auto auto 0; }
   .ftable > fieldset.field > legend { float: none; margin-bottom: 8px; }
   .ftable > fieldset.field > .ticks, .ftable > .field > .hint, .ftable > .field > .err { grid-column: 1; }
 }
+/* questionnaire polish (10 Nov 2026): taps instead of drop-downs, a check mark when a field is right, who we'll get back to */
+.fintro { margin-top: 6px; }
+.ftime { font-weight: 400; color: var(--ink-2); }
+.ftable > .field { position: relative; }
+.ftable > .field.ok > input { border-color: var(--canopy); padding-inline-end: 40px; }
+.ftable > .field.ok::after { content: ""; position: absolute; inset-inline-end: 12px; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%;
+  background: var(--canopy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; pointer-events: none; }
+.ftable > .field.ok:has(.hint)::after, .ftable > .field.ok:has(.err)::after { top: 34px; }
+@media (max-width: 640px) { .ftable > .field.ok::after { top: auto; bottom: 26px; margin: 0; } .ftable > .field.ok:has(.hint)::after { bottom: 50px; top: auto; } }
+.did-you { grid-column: 2; justify-self: start; font-size: .9375rem; font-weight: 600; padding: 2px 0; }
+@media (max-width: 640px) { .did-you { grid-column: 1; } }
+.fyou { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; justify-content: space-between; margin: 12px 0 0; padding: 10px 14px; background: #EEF6F1; border-radius: var(--radius); font-size: .9375rem; color: var(--forest); }
+.fyou[hidden] { display: none; }
+.fyou bdi { font-weight: 600; }
+.fyou .lnk { background: none; border: 0; color: var(--pine); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; padding: 4px 0; cursor: pointer; }
+.fprivacy { margin: 2px 0 0; }
+.ticks .tick span { font-weight: 500; }
+.tick:focus-within { outline: 3px solid var(--canopy); outline-offset: 2px; }
+.fprog { counter-reset: none; }
+textarea::placeholder, input::placeholder { color: #7C8C88; }
