@@ -260,7 +260,16 @@ def main():
             general = m.group(1).strip()
     import datetime
     vals = {"{phone}": C.SITE["phone_display"][1], "{y}": str(datetime.date.today().year)}  # what the automatic parts show, so search finds them
-    data = {"site": SITE, "sentGeneral": general, "vals": vals, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    # every earlier wording of every text (id -> version hash -> text), so a change made on an older version is never lost
+    hist_f = SRC / "data/text-review-history.json"
+    hist = json.loads(hist_f.read_text(encoding="utf-8")) if hist_f.exists() else {}
+    for it in items:
+        hist.setdefault(str(it["id"]), {}).setdefault(it["v"], {"he": it["he"], "label": it["label"], "g": it["g"]})
+    hist_f.write_text(json.dumps(hist, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
+    cur_v = {str(it["id"]): it["v"] for it in items}
+    old = {k: {v: x for v, x in vs.items() if v != cur_v.get(k)} for k, vs in hist.items()}
+    old = {k: vs for k, vs in old.items() if vs}
+    data = {"site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

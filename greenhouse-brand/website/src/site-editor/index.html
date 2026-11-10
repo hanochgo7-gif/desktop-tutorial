@@ -116,6 +116,7 @@ mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
 .prop p { margin: 0 0 10px; }
 .prop .btn { padding: 9px 16px; font-size: .95rem; min-height: 40px; }
 
+.go-all { background: none; border: 0; color: var(--pine); text-decoration: underline; text-underline-offset: 3px; padding: 4px 0; font-size: .95rem; }
 /* dialogs */
 .dlg { position: fixed; inset: 0; z-index: 50; background: rgba(13, 31, 27, .55); display: grid; place-items: center; padding: 16px; }
 .dlg .box { background: var(--paper); border-radius: 16px; max-width: 640px; width: 100%; padding: 26px 26px 22px; max-height: calc(100vh - 32px); overflow: auto; box-shadow: 0 24px 60px rgba(0, 0, 0, .25); }
@@ -249,6 +250,7 @@ mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
       <button class="btn alt" type="button" id="s-x">חזרה לעריכה</button>
     </div>
     <div class="smsg" id="smsg" role="status" hidden></div>
+    <p class="muted" style="margin-top:14px"><button class="go-all" type="button" id="s-all">שליחת כל העבודה מההתחלה, גם מה שכבר נשלח (גיבוי מלא)</button></p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>

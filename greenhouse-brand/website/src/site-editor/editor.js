@@ -895,7 +895,7 @@
   }
   document.addEventListener("keydown", function (e) {
     var t = e.target; if (t && (t.tagName === "TEXTAREA" || t.tagName === "INPUT" || t.tagName === "SELECT")) { if (e.key === "Escape" && !$("panel").hidden && window.innerWidth <= 1000) closePanel(); return; }
-    if (e.key === "Escape") { if (!$("senddlg").hidden) $("senddlg").hidden = true; else if (!$("welcome").hidden) closeW(); else if (!$("panel").hidden) closePanel(); return; }
+    if (e.key === "Escape") { if ($("recover") && !$("recover").hidden) $("recover").hidden = true; else if (!$("senddlg").hidden) $("senddlg").hidden = true; else if (!$("welcome").hidden) closeW(); else if (!$("panel").hidden) closePanel(); return; }
     keys(e);
   });
 
@@ -1096,6 +1096,7 @@
     $("senddlg").hidden = false; $("s-mail").focus();
   }
   $("b-send").addEventListener("click", openSend);
+  $("s-all").addEventListener("click", function () { $("senddlg").hidden = true; openRecover(false); });
   $("s-x").addEventListener("click", function () { $("senddlg").hidden = true; $("b-send").focus(); });
   $("general").addEventListener("input", function () { S.general = $("general").value; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} });
   function markSent() {
@@ -1125,6 +1126,99 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); toast("הקובץ נשמר בתיקיית ההורדות.");
   });
 
+  // ---- recovery: everything this browser keeps, whatever its state (sent already, made on an older wording, or on a text no longer on the site) ----
+  var HIST = D.hist || {};
+  function oldOf(id, s) { var h = HIST[id]; return h && s && s.v && h[s.v] ? h[s.v] : null; }
+  function baseOf(id, s) { var it = byId[id], o = oldOf(id, s); if (it && (!s.v || s.v === it.v)) return it.he; return o ? o.he : (it ? it.he : null); }
+  function storedWork() {
+    var out = [];
+    Object.keys(S.items).forEach(function (k) {
+      var s = S.items[k]; if (!s || typeof s !== "object") return;
+      var id = +k, it = byId[id], o = oldOf(id, s), base = baseOf(id, s);
+      var t = s.t != null ? String(s.t) : null, n = String(s.n || "").trim();
+      var isEdit = t != null && (base == null || norm(t) !== norm(base));
+      if (!isEdit && !n && !s.d) return;
+      out.push({ id: id, base: base, t: isEdit ? t : null, n: n, d: !!s.d, sent: s.sentT != null, stale: !!(it && s.v && s.v !== it.v), gone: !it,
+                 label: it && !(s.v && s.v !== it.v) ? it.label : (o ? o.label : (it ? it.label : "טקסט")), g: it && !(s.v && s.v !== it.v) ? it.g : (o ? o.g : (it ? it.g : "more")) });
+    });
+    return out;
+  }
+  function hiddenWork() { var vis = {}; changes().forEach(function (it) { vis[it.id] = 1; }); return storedWork().filter(function (w) { return !vis[w.id]; }); }
+  function fullReport() {
+    var w = storedWork(), d = new Date(), lines = [], order = {};
+    D.groups.forEach(function (g, i) { order[g.id] = i; });
+    w.sort(function (a, b) { return ((order[a.g] || 0) - (order[b.g] || 0)) || (a.id - b.id); });
+    var adds = Object.keys(S.adds).map(function (k) { return S.adds[k]; }).filter(function (a) { return a && a.text; });
+    var en = Object.keys(S.enotes).map(function (k) { return Object.assign({ key: k }, S.enotes[k]); }).filter(function (x) { return x.n && String(x.n).trim(); });
+    var pn = Object.keys(S.notes).filter(function (g) { return String(S.notes[g] || "").trim(); });
+    lines.push("גיבוי מלא של כל העבודה על אתר מיפתח, כולל מה שכבר נשלח");
+    lines.push("מאת מרב, " + d.toLocaleDateString("he-IL") + " " + d.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }));
+    lines.push(w.filter(function (x) { return x.t != null; }).length + " תיקוני נוסח, " + adds.length + " תוספות, " + w.filter(function (x) { return x.d; }).length + " הורדות, " + (w.filter(function (x) { return x.n; }).length + en.length + pn.length) + " הערות.");
+    lines.push("");
+    if (String(S.general || "").trim()) lines.push("הערה כללית:", String(S.general).trim(), "");
+    var lastG = "";
+    w.forEach(function (x) {
+      if (x.g !== lastG) { lines.push("==== " + groupName(x.g) + " ===="); lastG = x.g; }
+      var tags = [x.sent ? "נשלח כבר" : "", x.stale ? "הטקסט באתר השתנה מאז" : "", x.gone ? "הטקסט כבר לא באתר" : ""].filter(Boolean);
+      lines.push("[#" + x.id + "] " + x.label + (tags.length ? " (" + tags.join(", ") + ")" : ""));
+      if (x.base != null) lines.push("היום: " + x.base);
+      if (x.t != null) lines.push("חדש: " + x.t.trim());
+      if (x.d) lines.push("להוריד: להוריד את הטקסט הזה מהאתר");
+      if (x.n) lines.push("הערה: " + x.n);
+      lines.push("");
+    });
+    if (adds.length) {
+      lines.push("==== תוספות חדשות ====");
+      adds.sort(function (a, b) { return a.seq - b.seq; }).forEach(function (a) {
+        lines.push("[+] (" + pageName(a.page) + ") " + typeOf(a.type).name + ", " + (a.pos === "before" ? "לפני" : "אחרי") + " «" + ((a.anchor && a.anchor.snip) || "") + "»" + (a.anchor && a.anchor.id != null ? " [#" + a.anchor.id + "]" : ""));
+        lines.push("טקסט: " + a.text); if (a.n) lines.push("הערה: " + a.n); lines.push("");
+      });
+    }
+    if (en.length) { lines.push("==== הערות על תמונות ועל חלקים בעמודים ===="); en.forEach(function (x) { lines.push("(" + pageName(x.page) + ") " + (x.what || "") + ": " + (x.snip || "")); lines.push("  ↳ " + String(x.n).trim().replace(/\n/g, " ")); lines.push(""); }); }
+    if (pn.length) { lines.push("==== הערות כלליות לעמודים ===="); pn.forEach(function (g) { lines.push(groupName(g) + ": " + String(S.notes[g]).trim()); }); lines.push(""); }
+    lines.push("(גיבוי מלא מעורך האתר. המספרים בסוגריים מזהים כל טקסט.)");
+    return lines.join("\n");
+  }
+  function backupFile() {
+    var raw = "", body = fullReport();
+    try { raw = localStorage.getItem(KEY) || ""; } catch (e) { raw = JSON.stringify(S); }
+    var blob = new Blob(["﻿" + body + "\n\n----- נתונים מלאים (לחנוך) -----\n" + raw], { type: "text/plain;charset=utf-8" }), a = el("a");
+    a.href = URL.createObjectURL(blob); a.download = "גיבוי-מלא-עבודה-על-אתר-מיפתח.txt"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+  }
+  function openRecover(auto) {
+    if (FX.editing) FX.finish(); closeBar();
+    var all = storedWork(), hid = hiddenWork(), adds = Object.keys(S.adds).filter(function (k) { return S.adds[k] && S.adds[k].text; }).length;
+    var dlg = $("recover");
+    if (!dlg) {
+      dlg = el("div", "dlg"); dlg.id = "recover"; dlg.setAttribute("role", "dialog"); dlg.setAttribute("aria-modal", "true"); dlg.setAttribute("aria-labelledby", "rc-h");
+      dlg.innerHTML = '<div class="box sendbox"><h2 id="rc-h"></h2><p class="lead" id="rc-p"></p><div class="stats" id="rc-s"></div><div class="row" style="margin-top:16px">'
+        + '<button class="btn" type="button" id="rc-mail">✉ שליחת כל העבודה לחנוך</button><button class="btn alt" type="button" id="rc-copy">העתקה</button>'
+        + '<button class="btn alt" type="button" id="rc-file">שמירה כקובץ גיבוי</button><button class="btn alt" type="button" id="rc-x">סגירה</button></div>'
+        + '<div class="smsg" id="rc-msg" role="status" hidden></div></div>';
+      document.body.appendChild(dlg);
+      $("rc-x").addEventListener("click", function () { dlg.hidden = true; });
+      $("rc-copy").addEventListener("click", function () { copy(fullReport()).then(function (ok) { toast(ok ? "כל העבודה הועתקה. אפשר להדביק במייל או בוואטסאפ לחנוך." : "ההעתקה לא הצליחה. נסי \"שמירה כקובץ גיבוי\"."); }); });
+      $("rc-file").addEventListener("click", function () { backupFile(); toast("קובץ הגיבוי נשמר בתיקיית ההורדות. אפשר לשלוח אותו לחנוך במייל או בוואטסאפ.", 6000); });
+      $("rc-mail").addEventListener("click", function () {
+        var body = fullReport();
+        copy(body).then(function () {
+          var long = encodeURIComponent(body).length > 12000;
+          location.href = "mailto:" + encodeURIComponent(S.to || "") + "?subject=" + encodeURIComponent("גיבוי מלא: כל העבודה של מרב על אתר מיפתח") + "&body=" + encodeURIComponent(long ? "כל העבודה הועתקה. לוחצים כאן בתוך המייל ובוחרים \"הדבק\" (או Ctrl+V):\n\n" : body);
+          var m = $("rc-msg"); m.hidden = false; m.textContent = long ? "נפתח מייל לחנוך. העבודה ארוכה מדי לשורת המייל, ולכן היא הועתקה: לוחצים בתוך המייל, \"הדבק\", ואז \"שלח\". אם לא נפתח מייל, \"שמירה כקובץ גיבוי\" ושליחה בוואטסאפ." : "נפתח מייל לחנוך עם כל העבודה. בודקים ולוחצים \"שלח\".";
+        });
+      });
+    }
+    $("rc-h").textContent = all.length + adds ? "כל העבודה שלך שמורה כאן" : "לא מצאתי עבודה שמורה במכשיר הזה";
+    $("rc-p").textContent = all.length + adds
+      ? "במכשיר הזה שמורים " + (all.length + adds) + " תיקונים, תוספות והערות שלך. שום דבר לא נמחק." + (hid.length ? " " + hid.length + " מהם לא הופיעו ברשימה, כי נשלחו כבר או כי הטקסט באתר השתנה מאז. " : " ") + "כדי שחנוך יקבל את הכול, כולל מה שכבר נשלח, לוחצים על הכפתור:"
+      : "העבודה נשמרת בדפדפן שבו עבדת. אם עבדת בטלפון אחר, במחשב אחר או בדפדפן אחר, פותחים את הקישור שם, והכפתור הזה ימצא אותה.";
+    var st = $("rc-s"); st.textContent = "";
+    [[all.filter(function (x) { return x.t != null; }).length + adds, "תיקונים ותוספות"], [all.filter(function (x) { return x.n; }).length + Object.keys(S.enotes).length, "הערות"], [hid.length, "שלא הופיעו ברשימה"]].forEach(function (x) { var s2 = el("div", "stat"); s2.append(el("b", "", String(x[0])), el("span", "", x[1])); st.appendChild(s2); });
+    ["rc-mail", "rc-copy", "rc-file"].forEach(function (b) { $(b).hidden = !(all.length + adds); });
+    $("rc-msg").hidden = true; dlg.hidden = false; (all.length + adds ? $("rc-mail") : $("rc-x")).focus();
+  }
+
   // ---- start ----
   function topH() { document.documentElement.style.setProperty("--top", document.querySelector(".top").offsetHeight + "px"); }
   topH(); window.addEventListener("resize", topH);
@@ -1137,7 +1231,9 @@
   sel.value = first; go(first);
   var nSync = sync();
   count(); undoBtns();
-  if (!S.seenEditor) { $("welcome").hidden = false; $("start").focus(); }
+  var wantRecover = /(?:^|[#&])recover\b/.test(location.hash || ""), hiddenNow = hiddenWork().length;
+  if (wantRecover || hiddenNow) { S.seenEditor = 1; if (conflicts().length) openPanel("chg"); openRecover(true); }
+  else if (!S.seenEditor) { $("welcome").hidden = false; $("start").focus(); }
   else if (conflicts().length) { toast(conflicts().length + " טקסטים השתנו באתר אחרי שתיקנת אותם. פתחתי את הרשימה כדי לבחור מה להשאיר.", 7000); openPanel("chg"); }
   else if (nSync) toast(nSync + " מהתיקונים שלך כבר נכנסו לאתר ✓ הם ירדו מהרשימה.", 6000);
   else if (changes().length || addsList().length) toast("ממשיכים מאיפה שעצרת. השינויים שלך מסומנים בצהוב, והתוספות בירוק.");
