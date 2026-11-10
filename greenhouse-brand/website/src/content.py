@@ -742,42 +742,48 @@ HOME3 = {
     "sim_go": ("Watch one go up, step by step", "צפו בהקמה, שלב אחרי שלב"),
 }
 
-CROPS = [  # the crop selector; every row traces to the ledger
+CROPS = [  # the crop selector; every row traces to the ledger. Four rows for every crop: net, protection, structure, season (Hanoch, 10 Nov 2026)
     {"id": "banana", "alt": ("Illustration: banana plants under a light white net, on galvanized poles set wide apart", "הדמיה: צמחי בננה תחת רשת לבנה וקלה, על עמודים מגולוונים במפתחים רחבים"), "label": ("Bananas", "בננות"),
      "say": ("An 11% net, light and airy, over wide spans.", "רשת 11%, קלה ואוורירית, על פני מפתחים רחבים."),
-     "rows": [(("Net", "רשת"), ("11% shade net", "רשת צל 11%")),
-              (("Protects", "מגינה"), ("From wind and hail, and it saves water in the hot season by reducing evaporation", "מפני רוח וברד, ובעונה החמה חוסכת מים כי היא מפחיתה התאדות")),
-              (("Structure", "מבנה"), ("Wide spans: one structure can reach 10 ha (100 dunam), with trellising and support built in", "מפתחים רחבים: מבנה בודד יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות"))],
+     "rows": [(("Net", "רשת"), ("11% shade net, light and airy", "רשת צל 11%, קלה ואוורירית")),
+              (("Protection", "הגנה"), ("From wind and hail", "מפני רוח וברד")),
+              (("Structure", "מבנה"), ("Wide spans: one structure can reach 10 ha (100 dunam), with trellising and support built in", "מפתחים רחבים: מבנה בודד יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות")),
+              (("Season", "עונה"), ("In the hot season it saves water by reducing evaporation", "בעונה החמה חוסכת מים כי היא מפחיתה התאדות"))],
      "proj": ("Banana net house with 11% net, Western Galilee", "בית רשת לבננות עם רשת 11%, הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Apples", "תפוחים"),
      "say": ("A net against hail and sunburn, folded away in winter.", "רשת נגד ברד וכוויות שמש, שמתקפלת בחורף."),
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
-              (("Protects", "מגינה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
+              (("Protection", "הגנה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
+              (("Structure", "מבנה"), ("Round galvanized poles on concrete blocks; the net is laid in strips joined with clips", "עמודים מגולוונים עגולים על בסיסי בטון; הרשת נפרסת ברצועות ומחוברת בתפסים")),
               (("Season", "עונה"), ("Spread in summer, folded in winter, by hand or automatically", "נפרסת בקיץ ומתקפלת בחורף, ידנית או אוטומטית"))],
-     "proj": ("Apple net house, Golan Heights", "בית רשת לתפוחים, רמת הגולן")},  # 2.3, 3.1
+     "proj": ("Apple net house, Golan Heights", "בית רשת לתפוחים, רמת הגולן")},  # 2.3, 3.1, Hanoch 8 Nov
     {"id": "cherry", "alt": ("Illustration: cherry trees with ripe fruit under a net against hail", "הדמיה: עצי דובדבן עם פרי בשל תחת רשת נגד ברד"), "label": ("Cherries", "דובדבנים"),
      "say": ("Orchard nets against hail and sunburn.", "רשת מטע נגד ברד וכוויות שמש."),
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
-              (("Protects", "מגינה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
+              (("Protection", "הגנה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
+              (("Structure", "מבנה"), ("Round galvanized poles on concrete blocks; the net is laid in strips joined with clips", "עמודים מגולוונים עגולים על בסיסי בטון; הרשת נפרסת ברצועות ומחוברת בתפסים")),
               (("Season", "עונה"), ("The net can fold away in winter and spread again in summer", "הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ"))],
-     "proj": ("Cherry orchard net house", "בית רשת למטע דובדבנים")},  # 2.3, 3.1
+     "proj": ("Cherry orchard net house", "בית רשת למטע דובדבנים")},  # 2.3, 3.1, Hanoch 8 Nov
     {"id": "kiwi", "alt": ("Illustration: kiwi vines on a pergola trellis under the net, built as one structure", "הדמיה: צמחי קיווי על הדליית סוכה מתחת לרשת, במבנה אחד"), "label": ("Kiwi", "קיווי"),
      "say": ("Net and trellis built as one: a pergola for the kiwi vines.", "רשת והדליה כמבנה אחד: סוכה לצמחי הקיווי."),
-     "rows": [(("Trellis", "הדליה"), ("A pergola trellis, built with the structure", "הדליה בצורת סוכה, שנבנית יחד עם המבנה")),
-              (("Net", "רשת"), ("Chosen for the site and the crop", "נבחרת לפי האתר והגידול")),
-              (("Support", "תמיכה"), ("Trellising and support are part of the structure", "ההדליה והתמיכה הן חלק מהמבנה"))],
-     "proj": ("Kiwi net house with a pergola trellis, Upper Galilee", "בית רשת לקיווי עם הדליית סוכה, הגליל העליון")},  # 2.5, 3.1
+     "rows": [(("Net", "רשת"), ("10–30% shade net, chosen for the site and the crop", "רשת צל 10%–30%, לפי האתר והגידול")),
+              (("Protection", "הגנה"), ("Mainly against hail and sunburn", "בעיקר מפני ברד וכוויות שמש")),
+              (("Structure", "מבנה"), ("A pergola trellis built with the structure: trellising and support are part of it", "הדליה בצורת סוכה שנבנית יחד עם המבנה: ההדליה והתמיכה הן חלק ממנו")),
+              (("Season", "עונה"), ("The net can fold away in winter and spread again in summer", "הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ"))],
+     "proj": ("Kiwi net house with a pergola trellis, Upper Galilee", "בית רשת לקיווי עם הדליית סוכה, הגליל העליון")},  # 2.3, 2.5, 3.1 (the orchard page lists kiwi among the orchard crops)
     {"id": "avocado", "alt": ("Illustration: avocado trees in a net house", "הדמיה: עצי אבוקדו בבית רשת"), "label": ("Avocado", "אבוקדו"),
-     "say": ("Built abroad: an avocado net house in Portugal.", "נבנה בחו״ל: בית רשת לאבוקדו בפורטוגל."),
-     "rows": [(("Where", "איפה"), ("Portugal. The client came to us by referral and is willing to give a reference", "פורטוגל. הלקוח הגיע אלינו בהמלצה ומוכן להמליץ עלינו")),
-              (("Net", "רשת"), ("Chosen for the site and the crop", "נבחרת לפי האתר והגידול")),
-              (("Abroad", "בחו״ל"), ("We plan the work, train local crews and manage the build on site", "אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח"))],
-     "proj": ("Avocado net house, Portugal", "בית רשת לאבוקדו, פורטוגל")},  # 3.1, 3.5, 3.6
+     "say": ("Built abroad: an avocado net house in Portugal. The client came to us by referral and is willing to give a reference.", "נבנה בחו״ל: בית רשת לאבוקדו בפורטוגל. הלקוח הגיע אלינו בהמלצה ומוכן להמליץ עלינו."),
+     "rows": [(("Net", "רשת"), ("10–30% shade net, chosen for the site and the crop", "רשת צל 10%–30%, לפי האתר והגידול")),
+              (("Protection", "הגנה"), ("Mainly against hail and sunburn", "בעיקר מפני ברד וכוויות שמש")),
+              (("Structure", "מבנה"), ("Galvanized poles from our plant. Abroad, we plan the work, train local crews and manage the build on site", "עמודים מגולוונים מהמפעל שלנו. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח")),
+              (("Season", "עונה"), ("The net can fold away in winter and spread again in summer", "הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ"))],
+     "proj": ("Avocado net house, Portugal", "בית רשת לאבוקדו, פורטוגל")},  # 2.3, 3.1, 3.5, 3.6 (the orchard page lists avocado among the orchard crops)
     {"id": "other", "alt": ("Anemones in bloom under a white net house, with overhead sprinklers", "כלניות בפריחה בבית רשת עם רשת לבנה וממטרות עליות"), "label": ("Other crops", "גידולים אחרים"),
      "say": ("Persimmon, tobacco and more, plus shade solutions for work areas and windbreaks.", "אפרסמון, טבק ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),
-     "rows": [(("Structures", "מבנים"), ("Net houses, shade solutions for work areas with wide spans, windbreaks, trellising", "בתי רשת, פתרונות הצללה לאזורי תפעול במפתחים רחבים, שוברי רוח, הדליה")),
-              (("Service", "שירות"), ("Dismantling, and preparing the material for a new structure", "פירוק והכנת החומר למבנה חדש")),
-              (("Not listed?", "לא ברשימה?"), ("Tell us the crop and what it needs protecting from. We'll tell you honestly whether a net house fits.", "ספרו לנו מה הגידול וממה צריך להגן עליו. נגיד לכם בכנות אם בית רשת מתאים."))],
+     "rows": [(("Net", "רשת"), ("Chosen for the crop and the site", "נבחרת לפי הגידול והאתר")),
+              (("Protection", "הגנה"), ("Tell us the crop and what it needs protecting from. We'll tell you honestly whether a net house fits.", "ספרו לנו מה הגידול וממה צריך להגן עליו. נגיד לכם בכנות אם בית רשת מתאים.")),
+              (("Structure", "מבנה"), ("Net houses, shade solutions for work areas with wide spans, windbreaks, trellising; also dismantling and preparing the material for a new structure", "בתי רשת, פתרונות הצללה לאזורי תפעול במפתחים רחבים, שוברי רוח, הדליה; וגם פירוק והכנת החומר למבנה חדש")),
+              (("Season", "עונה"), ("Planned for the crop, for example a net that folds in winter and spreads in summer", "לפי הגידול, למשל רשת שמתקפלת בחורף ונפרסת בקיץ"))],
      "proj": None},  # 2.1, 2.4-2.6
 ]
 
