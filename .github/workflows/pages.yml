@@ -2,7 +2,6 @@
 # Security layout: third-party npm code (the Dira build) runs in its own job with read-only
 # permissions. Only its static output is handed to the deploy job, so it can no longer touch
 # the other sites (including the Sayeret Nahal donation page) or the Pages deploy token.
-# The Hemshech Tnua CRM is built the same way, in its own read-only job.
 # Actions are pinned to full commit SHAs.
 name: Deploy to GitHub Pages
 
@@ -83,52 +82,8 @@ jobs:
         if: steps.dira.outcome == 'success'
         run: echo "built=true" >> "$GITHUB_OUTPUT"
 
-  build-hemshech:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      built: ${{ steps.done.outputs.built }}
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: hemshech-tnua/package-lock.json
-      # Hemshech Tnua CRM (Vite app), published at /hemshech-tnua/ as a static build only
-      # (its source, docs, tests and database files are never published).
-      # By default it connects to the DEMO project (hemshech-tnua-demo, fictitious data only) and shows a
-      # "demo environment" strip on every page. To switch to production, set the repository variables
-      # HEMSHECH_SUPABASE_URL and HEMSHECH_SUPABASE_ANON_KEY (and leave HEMSHECH_ENV_LABEL empty).
-      # The anon key is public by design: every permission is enforced by RLS and SQL functions on the server.
-      # If the build fails, the other sites still deploy and /hemshech-tnua/ is simply left out.
-      - name: Build the Hemshech Tnua CRM (static)
-        id: hemshech
-        continue-on-error: true
-        working-directory: hemshech-tnua
-        env:
-          VITE_SUPABASE_URL: ${{ vars.HEMSHECH_SUPABASE_URL || 'https://bvoubfasrgumpehyxbcg.supabase.co' }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.HEMSHECH_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b3ViZmFzcmd1bXBlaHl4YmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNTMwMTEsImV4cCI6MjEwOTYyOTAxMX0.pNfgZOgR3Z0tdjGF6AvZV1G1xfVODEL39uV6UD9wtCM' }}
-          VITE_ENV_LABEL: "${{ vars.HEMSHECH_SUPABASE_URL == '' && 'סביבת הדגמה · כל השמות והנתונים כאן בדויים' || vars.HEMSHECH_ENV_LABEL }}"
-        run: |
-          npm ci --no-audit --no-fund
-          npm run build
-      - name: Hand over the built site
-        if: steps.hemshech.outcome == 'success'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: hemshech-site
-          path: hemshech-tnua/dist
-          retention-days: 1
-      - id: done
-        if: steps.hemshech.outcome == 'success'
-        run: echo "built=true" >> "$GITHUB_OUTPUT"
-
   deploy:
-    needs: [build-dira, build-hemshech]
+    needs: [build-dira]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     permissions:
@@ -155,16 +110,6 @@ jobs:
         run: |
           rm -rf dira
           if [ -f _dira_site/index.html ]; then mv _dira_site dira; else rm -rf _dira_site; fi
-      - name: Get the built CRM
-        if: needs.build-hemshech.outputs.built == 'true'
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: hemshech-site
-          path: _hemshech_site
-      - name: Publish the built CRM instead of its source
-        run: |
-          rm -rf hemshech-tnua
-          if [ -f _hemshech_site/index.html ]; then mv _hemshech_site hemshech-tnua; else rm -rf _hemshech_site; fi
       # Lucid: minify in place for the deploy only (every path kept, source maps published, release hashes
       # recomputed on the built bytes; see lucid/tools/build). On any error the Lucid source is restored and
       # deployed unminified, so this step never blocks the other sites.
