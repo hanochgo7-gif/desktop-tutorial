@@ -337,10 +337,10 @@ PAGES = {
         "aside_min_p": ("From 5 ha (50 dunam) in Israel and from 30 ha abroad.",
                         "מ-50 דונם בישראל ומ-300 דונם בחו״ל."),  # 4.2, 4.3 (small projects are the owners' first time-waster, q21)
         "aside_partner_h": ("Partners and suppliers", "שותפים וספקים"),
-        "aside_partner_p": ("Agri-tech, farm-management or supply company? Tell us what you would like to do together; choose \"A potential partner\" in the form, or call.", "חברת אגרו-טק, ניהול חוות או אספקה? ספרו לנו מה תרצו לעשות יחד: בחרו ״שותפים פוטנציאליים״ בטופס, או התקשרו."),
+        "aside_partner_p": ("Agri-tech, farm-management or supply company? Tell us in the form what you would like to do together, or call.", "חברת אגרו-טק, ניהול חוות או אספקה? ספרו לנו בטופס מה תרצו לעשות יחד, או התקשרו."),
         "aside_fair_h": ("Fruit Logistica, Berlin", "Fruit Logistica, ברלין"),
-        "aside_fair_p": ("We plan to be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form if you would like to meet there.",
-                         "אנחנו מתכננים להיות בתערוכת Fruit Logistica בברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם."),  # 4.10
+        "aside_fair_p": ("We plan to be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Write it in the form if you would like to meet there.",
+                         "אנחנו מתכננים להיות בתערוכת Fruit Logistica בברלין, 3–5 בפברואר 2027. כתבו לנו בטופס אם תרצו להיפגש שם."),  # 4.10
         "aside_office_h": ("Office", "משרד"),
     },
     "profile": {
@@ -499,59 +499,50 @@ FORM_OFFLINE = (  # shown above the form until FORM_ENDPOINT is set (truth ledge
     "This form doesn't send yet. Fill it in to get a short summary of your project, then call {phone} and read it to us.",
     "הטופס עדיין לא שולח. מלאו אותו כדי לקבל סיכום קצר של הפרויקט, והתקשרו אלינו: {phone}.")
 
-FORM = {
-    "step1_h": ("About the project", "על הפרויקט"),
-    "step2_h": ("How to reach you", "איך לחזור אליכם"),
-    "next": ("Next: how to reach you", "הלאה: איך לחזור אליכם"),
+FORM = {  # Merav's two-step "needs discovery" form, 10 Nov 2026: a very short first step to capture the lead, then the project
+    "step1_h": ("Let's get to know each other", "בואו נכיר"),
+    "step1_t": ("Tell us about your project", "ספרו לנו על הפרויקט שלכם"),
+    "step2_h": ("Your project", "אפיון הפרויקט"),
+    "step2_t": ("A few details that will help us prepare the right solution for you", "כמה פרטים שיעזרו לנו להכין עבורכם פתרון מתאים"),
+    "step": ("Step", "שלב"),
+    "next": ("Continue to the next step", "המשך לשלב הבא"),
     "back": ("Back", "חזרה"),
     "h": ("Your project", "הפרויקט שלכם"),
     "req": ("Fields marked * are required.", "שדות עם * הם חובה."),
     "name": ("Full name *", "שם מלא *"),
-    "company": ("Company or organization", "חברה או ארגון"),
-    "reach": ("Email or phone: fill in at least one *", "מייל או טלפון: לפחות אחד מהם *"),
-    "email": ("Email", "מייל"),
-    "phone": ("Phone or WhatsApp", "טלפון או וואטסאפ"),
-    "phone_hint": ("Include your country code (+…) if you are outside Israel", "עם קידומת מדינה אם מחוץ לישראל"),
-    "optional": ("optional", "לא חובה"),
-    "role": ("I am *", "מי אתם? *"),
-    "roles": [("grower", ("A grower, farm manager or farm coordinator", "מגדלים, מנהלים או רכזי משק"), ("Running an orchard or plantation", "מנהלים מטע או משק")),
-              ("coop", ("A cooperative or group of growers", "אגודה או קבוצת מגדלים"), ("Several members or plots", "כמה חברים או חלקות")),
-              ("company", ("An agricultural company", "חברה חקלאית"), ("Growing or developing at scale", "מגדלת או מפתחת בהיקף גדול")),
-              ("investor", ("A private investor", "משקיעים פרטיים"), ("Investing in a farm or land", "משקיעים בחווה או בקרקע")),
-              ("entrepreneur", ("An entrepreneur", "יזמים"), ("Starting a new farm business", "מקימים מיזם חקלאי חדש")),
-              ("partner", ("A potential partner", "שותפים פוטנציאליים"), ("A company exploring work together", "חברה שבוחנת שיתוף פעולה"))],
-    "need": ("What do you need? *", "מה צריך? *"),
-    "needs": [("nethouse", ("Net houses or agricultural projects", "בתי רשת או פרויקטים חקלאיים"), ("Orchards, bananas, windbreaks, support and trellising", "מטעים, בננות, שוברי רוח, תמיכה והדליה")),
-              ("turnkey", ("A turnkey farm abroad", "חוות מפתח בחו״ל"), ("From finding land to harvest, with partners", "מאיתור קרקע ועד קטיף, עם שותפים")),
-              ("unsure", ("Not sure yet", "עוד לא ברור"), ("Let's talk it through", "נדבר ונבין יחד"))],
-    "country": ("Where is the land? *", "איפה הקרקע? *"),
+    "company": ("Company (optional)", "חברה (אופציונלי)"),
+    "phone": ("Phone *", "טלפון *"),
+    "phone_hint": ("With the country code (+…) if you are outside Israel", "עם קידומת מדינה אם מחוץ לישראל"),
+    "email": ("Email *", "דוא״ל *"),
+    "country": ("Country *", "מדינה *"),
     "countries": [("", ("Choose a country or region", "בחירת מדינה או אזור")), ("IL", ("Israel", "ישראל")), ("PT", ("Portugal", "פורטוגל")), ("ES", ("Spain", "ספרד")),
                   ("EU", ("Another European country", "מדינה אחרת באירופה")), ("AF", ("Africa", "אפריקה")),
-                  ("LA", ("Latin America", "אמריקה הלטינית")), ("AS", ("Asia", "אסיה")), ("OC", ("Australia or New Zealand", "אוסטרליה או ניו זילנד")), ("OT", ("Somewhere else", "מקום אחר")), ("SEARCH", ("Still looking for land", "עוד מחפשים קרקע"))],
-    "region": ("Region or nearest town", "אזור או יישוב קרוב"),
-    "size": ("Land size *", "גודל השטח *"),
+                  ("LA", ("Latin America", "אמריקה הלטינית")), ("AS", ("Asia", "אסיה")), ("OC", ("Australia or New Zealand", "אוסטרליה או ניו זילנד")), ("OT", ("Somewhere else", "מקום אחר"))],
+    "project": ("Which project are you interested in? *", "איזה פרויקט מעניין אתכם? *"),
+    "projects": [("farm", ("A complete agricultural farm", "חווה חקלאית מלאה")), ("nethouse", ("A net house", "בית רשת")), ("other", ("Other", "אחר"))],
+    "size": ("What is the planned area?", "מה גודל השטח המתוכנן?"),
     "sizes": [("", ("Choose the size of the area", "בחרו את גודל השטח")), ("lt5", ("Under 5 ha (under 50 dunam)", "פחות מ-50 דונם")), ("5-30", ("5–30 ha (50–300 dunam)", "50 עד 300 דונם")),
               ("30-100", ("30–100 ha", "300 עד 1,000 דונם")), ("100+", ("Over 100 ha", "מעל 1,000 דונם")), ("tbd", ("Not decided yet", "עוד לא ידוע"))],
-    "status": ("Land status", "מצב הקרקע"),
-    "statuses": [("", ("Choose", "בחירה")), ("own", ("We own it", "בבעלותנו")), ("lease", ("We lease it", "בחכירה")), ("acquiring", ("We are acquiring it", "בתהליך רכישה")), ("search", ("Still looking", "עוד מחפשים"))],
-    "crop": ("Crop", "גידול"),
-    "crop_hint": ("Existing or planned, e.g. avocado", "קיים או מתוכנן, למשל אבוקדו"),
-    "timeline": ("When do you want to start?", "מתי רוצים להתחיל?"),
-    "timelines": [("", ("Choose", "בחירה")), ("season", ("Before the next season", "לפני העונה הבאה")), ("12m", ("Within 12 months", "תוך 12 חודשים")), ("explore", ("Just exploring", "רק בודקים"))],
-    "message": ("Anything else we should know?", "עוד משהו שכדאי שנדע?"),
-    "berlin": ("I'd like to meet at Fruit Logistica, Berlin, 3–5 February 2027", "אשמח להיפגש ב-Fruit Logistica, ברלין, 3–5 בפברואר 2027"),
+    "stage": ("What stage is the project at?", "באיזה שלב נמצא הפרויקט?"),
+    "stages": [("", ("Choose", "בחירה")), ("idea", ("A first idea", "רעיון ראשוני")), ("planning", ("Planning", "בתכנון")),
+               ("ready", ("We have the land and are ready to start", "יש קרקע ומוכנים להתחיל")), ("expand", ("An existing site: expanding or upgrading", "שטח קיים: הרחבה או שדרוג"))],
+    "land": ("Is it new land or already planted?", "האם שטח חדש או שטח נטוע?"),
+    "lands": [("new", ("New land", "שטח חדש")), ("planted", ("Already planted", "שטח נטוע"))],
+    "planting": ("When is planting planned?", "מה מועד הנטיעה המתוכנן?"),
+    "planting_hint": ("For example: spring 2027", "למשל: אביב 2027"),
+    "crop": ("What is the planned crop?", "מהו הגידול המתוכנן?"),
+    "crop_hint": ("For example: avocado, bananas", "למשל: אבוקדו, בננות"),
+    "message": ("Tell us briefly about your need", "ספרו לנו בקצרה על הצורך שלכם"),
     "consent": ("I agree that MIFTAH Projects may use these details to reply to me. See the {privacy}.", "אני מסכים/ה שמיפתח פרויקטים תשתמש בפרטים כדי לחזור אליי. פרטים נוספים ב{privacy}."),
     "privacy_link": ("privacy policy", "מדיניות הפרטיות"),
-    "send": ("Send the request", "שליחת הבקשה"),
+    "send": ("Send the enquiry", "שלח פנייה"),
     "send_off": ("Show my summary", "הצגת הסיכום"),
-    "heard": ("How did you hear about us?", "איך שמעתם עלינו?"),
-    "heard_hint": ("For example: a client's recommendation, a fair, Google", "למשל: המלצה של לקוח, תערוכה, גוגל"),  # referrals drive sales, 3.6
     "honeypot": ("Leave this field empty", "השאירו שדה זה ריק"),
 }
 
 PRIVACY = {
     "en": [
-        ("What we collect", "When you send the contact form, we receive what you fill in: your name, company, email and phone; what kind of client you are (grower, cooperative, company, investor and so on) and what you need; the country, region, size and status of the land; your crop, timeline and message; how you heard about us; and whether you want to meet at the fair. The form also records the page, the language, the time it was sent and how you reached the site (the referring site and any campaign tags in the link). With an enquiry we also note whether the land size meets our usual minimum, to sort enquiries. The site uses no cookies. Like any website, the hosting server keeps standard technical logs (such as IP addresses) for security. Your browser keeps, for that tab only, an unsent form draft and a note of how you reached the site (the first page, the referring site and campaign tags); the globe remembers your language choice. None of this is sent to us unless you send the form."),
+        ("What we collect", "When you send the contact form, we receive what you fill in: your name, company, email and phone; the country; the kind of project, the planned area, the stage, whether the land is new or planted and the planting date; the crop and your message. The form also records the page, the language, the time it was sent and how you reached the site (the referring site and any campaign tags in the link). With an enquiry we also note whether the land size meets our usual minimum, to sort enquiries. The site uses no cookies. Like any website, the hosting server keeps standard technical logs (such as IP addresses) for security. Your browser keeps, for that tab only, an unsent form draft and a note of how you reached the site (the first page, the referring site and campaign tags); the globe remembers your language choice. None of this is sent to us unless you send the form."),
         ("Why", "Only to reply to your request, arrange a conversation or a site visit, and prepare a proposal if you ask for one."),
         ("Who sees it", "MIFTAH Projects' management and office staff. We don't sell or share your details. The site is hosted by Vercel Inc. (USA), and the form's delivery service, once connected, processes the message only to deliver it to us; both may process data outside Israel."),
         ("How long", "We keep inquiries for as long as they are needed for the conversation and for our business records, and delete them on request."),
@@ -560,7 +551,7 @@ PRIVACY = {
         ("Updated", "29 October 2026."),
     ],
     "he": [
-        ("מה אנחנו אוספים", "כששולחים את טופס יצירת הקשר, אנחנו מקבלים את מה שמולא: שם, חברה, מייל וטלפון; איזה סוג לקוח אתם (מגדל, אגודה, חברה, משקיע וכו׳) ומה צריך; המדינה, האזור, הגודל והמצב של הקרקע; הגידול, לוח הזמנים וההודעה; איך שמעתם עלינו; והאם רוצים להיפגש בתערוכה. הטופס רושם גם את העמוד, השפה, מועד השליחה ואיך הגעתם לאתר (האתר המפנה ותגיות קמפיין בקישור, אם יש). עם הפנייה אנחנו גם מציינים אם גודל השטח עומד במינימום הרגיל שלנו, כדי למיין פניות. האתר לא משתמש בעוגיות. כמו בכל אתר, שרת האחסון שומר יומני גישה טכניים רגילים (כמו כתובות IP) לצורכי אבטחה. הדפדפן שלכם שומר, רק בלשונית הזאת, טיוטה של טופס שלא נשלח ורישום של איך הגעתם לאתר (העמוד הראשון, האתר המפנה ותגיות קמפיין); הגלובוס זוכר את השפה שבחרתם. שום דבר מאלה לא נשלח אלינו אלא אם שולחים את הטופס."),
+        ("מה אנחנו אוספים", "כששולחים את טופס יצירת הקשר, אנחנו מקבלים את מה שמולא: שם, חברה, טלפון ודוא״ל; המדינה; סוג הפרויקט, השטח המתוכנן, שלב הפרויקט, שטח חדש או נטוע ומועד הנטיעה; הגידול וההודעה. הטופס רושם גם את העמוד, השפה, מועד השליחה ואיך הגעתם לאתר (האתר המפנה ותגיות קמפיין בקישור, אם יש). עם הפנייה אנחנו גם מציינים אם גודל השטח עומד במינימום הרגיל שלנו, כדי למיין פניות. האתר לא משתמש בעוגיות. כמו בכל אתר, שרת האחסון שומר יומני גישה טכניים רגילים (כמו כתובות IP) לצורכי אבטחה. הדפדפן שלכם שומר, רק בלשונית הזאת, טיוטה של טופס שלא נשלח ורישום של איך הגעתם לאתר (העמוד הראשון, האתר המפנה ותגיות קמפיין); הגלובוס זוכר את השפה שבחרתם. שום דבר מאלה לא נשלח אלינו אלא אם שולחים את הטופס."),
         ("לשם מה", "רק כדי לחזור אליכם, לתאם שיחה או ביקור בשטח ולהכין הצעה אם ביקשתם."),
         ("מי רואה את הפרטים", "ההנהלה וצוות המשרד של מיפתח פרויקטים. אנחנו לא מוכרים ולא מעבירים את הפרטים. האתר מאוחסן אצל Vercel Inc. (ארה״ב), ושירות שליחת הטופס, כשיחובר, מעבד את ההודעה רק כדי להעביר אותה אלינו; שניהם עשויים לעבד מידע מחוץ לישראל."),
         ("לכמה זמן", "פניות נשמרות כל עוד הן נחוצות לשיחה ולרישומי העסק, ונמחקות לפי בקשה."),
@@ -597,8 +588,9 @@ FORM_MSG = {  # messages the form script shows; build.py writes them into the pa
     "choose": ("Please choose one.", "נא לבחור אפשרות."),
     "consent": ("Please confirm so we can use these details to reply.", "נא לאשר, כדי שנוכל להשתמש בפרטים ולחזור אליכם."),
     "sending": ("Sending…", "שולחים…"),
-    "okH": ("Thank you. Your request was sent.", "תודה. הבקשה נשלחה."),
-    "okP": ("We'll contact you to arrange a first conversation. If it's urgent, call {phone}.", "נחזור אליכם כדי לתאם שיחה ראשונה. אם זה דחוף: {phone}."),
+    "okH": ("✅ Thank you for your enquiry!", "✅ תודה על פנייתכם!"),  # Merav, 10 Nov 2026
+    "okP": ("MIFTAH's team specializes in planning and building agricultural farms, greenhouses and net houses in Israel and around the world. We'll contact you soon to look at the project's needs and offer a tailored solution.",
+            "צוות מיפתח מתמחה בתכנון והקמה של חוות חקלאיות, חממות ובתי רשת בישראל ובעולם. ניצור אתכם קשר בהקדם לבחינת צורכי הפרויקט והצעת פתרון מותאם."),
     "badH": ("The request was not sent.", "הבקשה לא נשלחה."),
     "badP": ("Something went wrong on our side. Please try again in a minute, or call {phone}.", "משהו השתבש אצלנו. אפשר לנסות שוב בעוד דקה, או להתקשר: {phone}."),
     "trapP": ("This browser filled in a hidden field, so the request was not sent. Please call {phone}.", "הדפדפן מילא שדה מוסתר, ולכן הבקשה לא נשלחה. נא להתקשר: {phone}."),
@@ -609,15 +601,14 @@ FORM_MSG = {  # messages the form script shows; build.py writes them into the pa
     "call": ("Call {phone}", "התקשרו: {phone}"),
     "small_il": ("Projects in Israel start from 5 ha (50 dunam).", "פרויקטים בישראל מתחילים מ-50 דונם."),  # 4.2
     "small_ab": ("Projects abroad start from 30 ha.", "פרויקטים בחו״ל מתחילים מ-300 דונם."),  # 4.2
-    "tk_il": ("Turnkey farms are built abroad. In Israel we design and build net houses and agricultural projects.", "חוות מפתח מוקמות בחו״ל. בישראל אנחנו מתכננים ומקימים בתי רשת ופרויקטים חקלאיים."),  # 1.4
+    "tk_il": ("Complete turnkey farms are built abroad. In Israel we design and build net houses and agricultural projects.", "חוות מלאות עד מפתח מוקמות בחו״ל. בישראל אנחנו מתכננים ומקימים בתי רשת ופרויקטים חקלאיים."),  # 1.4
     "brief": ("MIFTAH Projects: project enquiry", "מיפתח פרויקטים: פנייה על פרויקט"),
     "berlin": ("Would like to meet at Fruit Logistica 2027", "רוצים להיפגש ב-Fruit Logistica 2027"),
 }
 FORM_BRIEF_KEYS = [  # summary labels, in order
-    ("name", ("Name", "שם")), ("company", ("Company", "חברה")), ("email", ("Email", "מייל")), ("phone", ("Phone", "טלפון")),
-    ("role", ("I am", "סוג פונה")), ("need", ("Need", "מה צריך")), ("country", ("Country", "מדינה")), ("region", ("Region", "אזור")),
-    ("size", ("Land size", "שטח")), ("status", ("Land status", "מצב הקרקע")), ("crop", ("Crop", "גידול")), ("timeline", ("Timeline", "לוח זמנים")),
-    ("message", ("Message", "הודעה")), ("heard", ("Heard about us", "איך שמעו עלינו")),
+    ("name", ("Name", "שם")), ("company", ("Company", "חברה")), ("phone", ("Phone", "טלפון")), ("email", ("Email", "דוא״ל")), ("country", ("Country", "מדינה")),
+    ("project", ("Project", "פרויקט")), ("size", ("Planned area", "שטח מתוכנן")), ("stage", ("Stage", "שלב")), ("land", ("Land", "שטח")),
+    ("planting", ("Planned planting", "מועד נטיעה")), ("crop", ("Crop", "גידול")), ("message", ("Need", "הצורך")),
 ]
 
 SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)

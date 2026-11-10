@@ -1324,3 +1324,26 @@ html[lang="he"] .hero-os h1 .h1-a .sr { inset: 0 auto auto 0; }
 /* hero: the two lines under the headline were removed (Hanoch, 9 Nov 2026); the buttons keep their place at the end of the row */
 .hero-row > .actions:only-child { grid-column: 2; }
 @media (max-width: 860px) { .hero-row > .actions:only-child { grid-column: 1; } }
+/* contact form as two tables (Merav, 10 Nov 2026): the question on one side, the answer on the other; stacked on phones */
+.fstep-k { font-size: .875rem; font-weight: 700; color: var(--canopy); margin: 0; }
+.fstep-k + .fstep-h { margin-top: 4px; }
+.ftable { display: grid; margin-top: 14px; border-top: 1px solid var(--line); }
+.ftable > .field, .ftable > .size-note { display: grid; grid-template-columns: minmax(10em, 15em) minmax(0, 1fr); gap: 6px 20px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); margin: 0; }
+.ftable > .field > label, .ftable > fieldset.field > legend { margin: 0; font-weight: 600; color: var(--forest); }
+.ftable > fieldset.field { border: 0; border-bottom: 1px solid var(--line); min-inline-size: 0; }
+.ftable > fieldset.field > legend { float: inline-start; padding: 0; width: auto; max-width: 15em; }
+.ftable > fieldset.field > .ticks { grid-column: 2; }
+.ftable > .field > .hint, .ftable > .field > .err { grid-column: 2; margin: 0; }
+.ftable > .size-note { display: block; color: var(--forest); background: #EEF6F1; padding: 10px 14px; border-radius: var(--radius); border: 0; margin: 10px 0; }
+.ftable > .size-note[hidden] { display: none; }
+.ticks { display: flex; flex-wrap: wrap; gap: 10px; }
+.tick { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--radius); cursor: pointer; background: var(--white); min-height: 44px; }
+.tick:hover { border-color: var(--field); }
+.tick input { width: 20px; height: 20px; margin: 0; accent-color: var(--canopy); flex: none; }
+.tick:has(input:checked) { border-color: var(--canopy); background: #EEF6F1; }
+.ftable > .field[hidden] { display: none; }
+@media (max-width: 640px) {
+  .ftable > .field, .ftable > fieldset.field { grid-template-columns: 1fr; }
+  .ftable > fieldset.field > legend { float: none; margin-bottom: 8px; }
+  .ftable > fieldset.field > .ticks, .ftable > .field > .hint, .ftable > .field > .err { grid-column: 1; }
+}

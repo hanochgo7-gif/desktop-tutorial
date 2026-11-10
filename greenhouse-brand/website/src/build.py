@@ -811,9 +811,15 @@ def p_about(L):
 </main>"""
 
 
-def choices(name, items, L, legend):
-    lis = "".join(f'<label class="choice"><input type="radio" name="{name}" value="{v}"><span><b>{esc(t(a, L))}</b><small>{esc(t(b, L))}</small></span></label>' for v, a, b in items)
-    return f'<fieldset class="field full"><legend>{esc(t(legend, L))}</legend><div class="choices">{lis}</div></fieldset>'
+def checks(name, items, L, legend):
+    """A group of check boxes (more than one may apply)."""
+    lis = "".join(f'<label class="tick"><input type="checkbox" name="{name}-{v}" value="{v}" data-group="{name}"><span>{esc(t(a, L))}</span></label>' for v, a in items)
+    return f'<fieldset class="field"><legend>{esc(t(legend, L))}</legend><div class="ticks">{lis}</div></fieldset>'
+
+
+def radios(name, items, L, legend):
+    lis = "".join(f'<label class="tick"><input type="radio" name="{name}" value="{v}"><span>{esc(t(a, L))}</span></label>' for v, a in items)
+    return f'<fieldset class="field"><legend>{esc(t(legend, L))}</legend><div class="ticks">{lis}</div></fieldset>'
 
 
 def select(name, label, items, L, req=False):
@@ -852,34 +858,32 @@ def p_contact(L):
   {offline}
   <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
   <div class="fstep" id="fstep-1">
-    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_h"], L))}</h3>
-    <div class="fields">
-    {choices("role", F["roles"], L, F["role"])}
-    {choices("need", F["needs"], L, F["need"])}
+    <p class="fstep-k">{esc(t(F["step"], L))} 1: {esc(t(F["step1_h"], L))}</p>
+    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_t"], L))}</h3>
+    <div class="ftable">
+    {inp("name", F["name"], L, req=True, auto="name")}
+    {inp("company", F["company"], L, auto="organization")}
+    {inp("phone", F["phone"], L, typ="tel", req=True, auto="tel", hint=F["phone_hint"])}
+    {inp("email", F["email"], L, typ="email", req=True, auto="email")}
     {select("country", F["country"], F["countries"], L, req=True)}
-    {inp("region", F["region"], L, auto="address-level1")}
-    {select("size", F["size"], F["sizes"], L, req=True)}
-    {select("status", F["status"], F["statuses"], L)}
-    <p class="size-note full" id="size-note" role="status" hidden></p>
-    {inp("crop", F["crop"], L, hint=F["crop_hint"])}
-    {select("timeline", F["timeline"], F["timelines"], L)}
     </div>
     <div class="actions fnav"><button class="btn btn-primary" type="button" data-next>{esc(t(F["next"], L))}</button></div>
   </div>
   <div class="fstep" id="fstep-2">
-    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step2_h"], L))}</h3>
-    <div class="fields">
-    {inp("name", F["name"], L, req=True, auto="name")}
-    {inp("company", F["company"], L, auto="organization")}
-    <p class="full reach-note" id="f-reach">{esc(t(F["reach"], L))}</p>
-    {inp("email", F["email"], L, typ="email", auto="email")}
-    {inp("phone", F["phone"], L, typ="tel", auto="tel", hint=F["phone_hint"])}
-    {inp("heard", F["heard"], L, hint=F["heard_hint"])}
-    <div class="field full"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
-    <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
-    <label class="check full"><input type="checkbox" name="berlin" value="yes"><span>{esc(t(F["berlin"], L))}</span></label>
-    <div class="check full"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
+    <p class="fstep-k">{esc(t(F["step"], L))} 2: {esc(t(F["step2_h"], L))}</p>
+    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step2_t"], L))}</h3>
+    <div class="ftable">
+    {checks("project", F["projects"], L, F["project"])}
+    {select("size", F["size"], F["sizes"], L)}
+    <p class="size-note" id="size-note" role="status" hidden></p>
+    {select("stage", F["stage"], F["stages"], L)}
+    {radios("land", F["lands"], L, F["land"])}
+    {inp("planting", F["planting"], L, hint=F["planting_hint"])}
+    {inp("crop", F["crop"], L, hint=F["crop_hint"])}
+    <div class="field"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
     </div>
+    <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
+    <div class="check"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
     <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"] if FORM_ENDPOINT else F["send_off"], L))}</button></div>
   </div>
 </form>

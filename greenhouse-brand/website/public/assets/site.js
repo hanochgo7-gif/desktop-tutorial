@@ -217,36 +217,31 @@
   form.addEventListener("input", function () { if (!started) { started = true; track("form_start", {}); } }, { once: false });
   // keep what was typed if the visitor leaves and comes back in this tab (this browser only; cleared after sending)
   var DK = "miftah-form";  // one draft for both languages: values are codes, so a switch keeps them
-  function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
-  try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === dr[el.name]; else el.value = dr[el.name]; }); } catch (x) {}
+  function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "checkbox" && el.name !== "consent") { if (el.checked) (d[el.name] = d[el.name] || []).push(el.value); } else if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
+  try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; var v = dr[el.name]; if (el.type === "radio" || el.type === "checkbox") el.checked = Array.isArray(v) ? v.indexOf(el.value) >= 0 : el.value === v; else if (!Array.isArray(v)) el.value = v; }); } catch (x) {}
   // arriving from a crop or a page: the link says what the visitor came for, and that wins over an older draft
   try {
     var qp = new URLSearchParams(location.search), qc = qp.get("crop"), qn = qp.get("need"), cm = JSON.parse(form.dataset.crops || "{}");
     if (qc && cm[qc] && form.crop) form.crop.value = cm[qc];
-    if (qn) { var nr = form.querySelector('[name="need"][value="' + qn.replace(/[^a-z]/g, "") + '"]'); if (nr) nr.checked = true; }
+    if (qn) { var pv = { nethouse: "nethouse", turnkey: "farm" }[qn.replace(/[^a-z]/g, "")], nr = pv && form.querySelector('[data-group="project"][value="' + pv + '"]'); if (nr) nr.checked = true; }
   } catch (x) {}
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
-  ["email", "phone"].forEach(function (n) { var el = form.elements[n]; if (el) el.setAttribute("aria-describedby", ("f-reach " + (el.getAttribute("aria-describedby") || "")).trim()); });
   var sizeNote = document.getElementById("size-note");
+  function ticked(name) { return Array.prototype.map.call(form.querySelectorAll('[data-group="' + name + '"]:checked'), function (x) { return x.value; }); }
   function sizeCheck() {
     if (!sizeNote) return;
-    var c = form.country.value, s = form.size.value, n = (form.querySelector('[name="need"]:checked') || {}).value, msg = "";
-    if (n === "turnkey" && c === "IL") msg = M.tk_il;
+    var c = form.country.value, s = form.size.value, msg = "";
+    if (ticked("project").indexOf("farm") >= 0 && c === "IL") msg = M.tk_il;
     else if (s === "lt5" && c === "IL") msg = M.small_il;
-    else if ((s === "lt5" || s === "5-30") && c && c !== "IL" && c !== "SEARCH") msg = M.small_ab;
+    else if ((s === "lt5" || s === "5-30") && c && c !== "IL") msg = M.small_ab;
     sizeNote.textContent = msg; sizeNote.hidden = !msg;
   }
-  form.country.addEventListener("change", sizeCheck); form.size.addEventListener("change", sizeCheck);
-  var LAND = ["need", "country", "region", "size", "status", "crop", "timeline"];
-  function isPartner() { var r = form.querySelector('[name="role"]:checked'); return !!r && r.value === "partner"; }
-  function one(el) { return el && !el.tagName && el[0] ? el[0] : el; }  // a radio group stands for its first radio
-  function partnerMode() {
-    var on = isPartner();
-    LAND.forEach(function (n) { var el = one(form.elements[n]); if (!el) return; var box = el.closest(".field, fieldset"); if (box) box.hidden = on; if (on) setErr(el, ""); });
-  }
-  form.addEventListener("change", function (e) { if (e.target.name === "role") partnerMode(); if (e.target.name === "need" || e.target.name === "country") sizeCheck(); });
-  partnerMode(); sizeCheck();
+  // the planting date only matters for new land
+  var plantBox = form.elements.planting && form.elements.planting.closest(".field");
+  function landMode() { if (!plantBox) return; var nw = (form.querySelector('[name="land"]:checked') || {}).value === "new"; plantBox.hidden = !nw; }
+  form.addEventListener("change", function (e) { if (e.target.dataset.group === "project" || e.target.name === "country" || e.target.name === "size") sizeCheck(); if (e.target.name === "land") landMode(); });
+  sizeCheck(); landMode();
 
   function fieldOf(el) { return el.closest(".field, fieldset, .check"); }
   // focus the first problem and bring its question (with its message) into view
@@ -266,21 +261,16 @@
   }
   function validate() {
     var bad = [];
-    var partner = isPartner();
-    (partner ? [["name", "req"]] : [["name", "req"], ["country", "choose"], ["size", "choose"]]).forEach(function (r) {
+    [["name", "req"], ["country", "choose"]].forEach(function (r) {
       var el = form.elements[r[0]], ok = !!(el.value || "").trim();
-      setErr(el, ok ? "" : M[r[1]]);
-      if (!ok) bad.push(el);
+      setErr(el, ok ? "" : M[r[1]]); if (!ok) bad.push(el);
     });
-    // email or phone: at least one, and whichever is given must look right
     var em = form.elements.email, ph = form.elements.phone, ev = em.value.trim(), pv = ph.value.trim();
-    var emOk = !ev || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev), phOk = !pv || (/^[+()\d\s.\-]+$/.test(pv) && pv.replace(/\D/g, "").length >= 7);
-    setErr(em, !ev && !pv ? M.reach : emOk ? "" : M.email); if ((!ev && !pv) || !emOk) bad.push(em);
-    setErr(ph, phOk ? "" : M.phone); if (!phOk) bad.push(ph);
-    var need = form.querySelector('[name="need"]:checked'), first = form.querySelector('[name="need"]');
-    setErr(first, need || partner ? "" : M.choose); if (!need && !partner) bad.push(first);
-    var role = form.querySelector('[name="role"]:checked'), r1 = form.querySelector('[name="role"]');
-    setErr(r1, role ? "" : M.choose); if (!role) bad.push(r1);
+    var emOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev), phOk = /^[+()\d\s.\-]+$/.test(pv) && pv.replace(/\D/g, "").length >= 7;
+    setErr(ph, !pv ? M.req : phOk ? "" : M.phone); if (!phOk) bad.push(ph);
+    setErr(em, !ev ? M.req : emOk ? "" : M.email); if (!emOk) bad.push(em);
+    var first = form.querySelector('[data-group="project"]');
+    setErr(first, ticked("project").length ? "" : M.choose); if (!ticked("project").length) bad.push(first);
     setErr(form.consent, form.consent.checked ? "" : M.consent); if (!form.consent.checked) bad.push(form.consent);
     return bad;
   }
@@ -311,9 +301,11 @@
   }
 
   function label(name) {
+    var grp = form.querySelectorAll('[data-group="' + name + '"]');
+    if (grp.length) return Array.prototype.filter.call(grp, function (c) { return c.checked; }).map(function (c) { return c.closest("label").textContent.trim(); }).join(", ");
     var el = form.elements[name]; if (!el) return "";
     if (el.tagName === "SELECT") return el.value ? el.options[el.selectedIndex].text : "";
-    if (el.length && el[0] && el[0].type === "radio") { var c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.closest("label").querySelector("b").textContent : ""; }
+    if (el.length && el[0] && (el[0].type === "radio" || el[0].type === "checkbox")) return Array.prototype.map.call(form.querySelectorAll('[name="' + name + '"]:checked'), function (c) { return c.closest("label").textContent.trim(); }).join(", ");
     if (el.type === "checkbox") return el.checked ? "✓" : "";
     return (el.value || "").trim();
   }
@@ -326,20 +318,17 @@
     return (sz === "lt5" || sz === "5-30") ? "below_minimum" : "in_range";
   }
   function payload() {
-    var p = {
-      name: label("name"), company: label("company"), email: label("email"), phone: label("phone"),
-      role: label("role"), role_code: val("role"), need: label("need"), need_code: val("need"), country: label("country"), country_code: form.country.value, region: label("region"),
-      size: label("size"), size_code: form.size.value, status: label("status"), crop: label("crop"), timeline: label("timeline"),
-      message: label("message"), heard: label("heard"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString(),
-      fit: fit(), source: SRC, lead_id: leadId
+    var land = (form.querySelector('[name="land"]:checked') || {}).value || "";
+    return {
+      name: label("name"), company: label("company"), phone: label("phone"), email: label("email"), country: label("country"), country_code: form.country.value,
+      project: label("project"), project_codes: ticked("project"), size: label("size"), size_code: form.size.value, stage: label("stage"), stage_code: form.stage.value,
+      land: label("land"), land_code: land, planting: land === "new" ? label("planting") : "", crop: label("crop"), message: label("message"),
+      lang: LANG, page: location.pathname, sent_at: new Date().toISOString(), fit: fit(), source: SRC, lead_id: leadId
     };
-    if (isPartner()) { LAND.forEach(function (n) { p[n] = ""; }); p.need_code = p.country_code = p.size_code = ""; p.fit = "unknown"; }
-    return p;
   }
   function brief(p) {
     var lines = [M.brief];
     (M.keys || []).forEach(function (k) { if (p[k[1]]) lines.push(k[0] + ": " + p[k[1]]); });
-    if (p.meet_berlin) lines.push(M.berlin);
     return lines.join("\n");
   }
   var leadId = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toUpperCase();
@@ -388,7 +377,7 @@
     var endpoint = form.dataset.endpoint;
     if (!endpoint) {
       show("info", M.offH, M.offP, resultBox(p, "form-unconnected"));
-      if (!unconnectedSent) { unconnectedSent = true; track("form_submit_unconnected", { need: p.need_code }); }  // once per visit, not per tap
+      if (!unconnectedSent) { unconnectedSent = true; track("form_submit_unconnected", { project: p.project_codes.join(",") }); }  // once per visit, not per tap
       return;
     }
     busy = true; btn.disabled = true; btn.textContent = M.sending;
@@ -399,7 +388,7 @@
         form.reset(); form.hidden = true;
         show("ok", M.okH, M.okP, resultBox(p, "form-success"));
         try { sessionStorage.removeItem(DK); } catch (x) {}
-        track("form_submit_success", { need: p.need_code, size: p.size_code, country: p.country_code, fit: p.fit, lead_id: p.lead_id });
+        track("form_submit_success", { project: p.project_codes.join(","), size: p.size_code, country: p.country_code, fit: p.fit, lead_id: p.lead_id });
       })
       .catch(function () {
         show("bad", M.badH, M.badP, resultBox(p, "form-error"));
