@@ -216,8 +216,20 @@
     doc.addEventListener("mouseout", function (e) { if (!e.relatedTarget) hover(null); }, true);
     ["click", "auxclick", "dblclick"].forEach(function (ev) {
       doc.addEventListener(ev, function (e) {
-        if (MODE === "view") return;
+        if (MODE === "view" || FX.pass) return;
         if (inBar(e.target)) return;
+        // tabs and questions that open: the first click opens them as on the site, so every text behind them can be reached
+        // (Merav, 11 Nov 2026: the crop rows other than bananas could not be edited); a click on the open one edits its name
+        var tab = !FX.editing && ev === "click" && e.target.closest && e.target.closest('[role="tab"]');
+        if (tab && tab.getAttribute("aria-selected") !== "true") {
+          e.preventDefault(); e.stopPropagation(); closeBar(); FX.pass = 1; try { tab.click(); } finally { FX.pass = 0; }
+          toast("עברנו ללשונית ״" + tab.textContent.trim() + "״. אפשר לערוך את הטקסטים שלה. לחיצה נוספת על הלשונית משנה את השם שלה.", 5000); return;
+        }
+        var sm = !FX.editing && ev === "click" && e.target.closest && e.target.closest("summary");
+        if (sm && sm.parentNode && sm.parentNode.tagName === "DETAILS" && !sm.parentNode.open) {
+          e.preventDefault(); e.stopPropagation(); closeBar(); sm.parentNode.open = true;
+          toast("השאלה נפתחה. לחיצה נוספת על השאלה משנה אותה, ולחיצה על התשובה משנה את התשובה.", 5000); return;
+        }
         if (FX.editing && FX.editing.contains(e.target)) { e.stopPropagation(); if (e.target.closest && e.target.closest("a,button,summary,label")) e.preventDefault(); return; }
         e.preventDefault(); e.stopPropagation();
         if (ev !== "click") return;
@@ -275,6 +287,7 @@
       var e = list[i];
       if (e.hasAttribute("data-mfe") || e.id === "mfe-bar" || e.id === "mfe-line" || inBar(e) || e.closest("[data-mfe-add]")) continue;
       if (skipped(e)) continue;
+      if (!e.hasAttribute("data-edit-whole") && e.parentElement && e.parentElement.closest("[data-edit-whole]")) continue;  // a heading built of parts (the slogan) is one text
       var raw = textOf(e); if (!raw || raw.length > 1500) continue;
       var t = norm(raw); if (t.length < 2) continue;
       if (e.querySelector("[data-mfe]")) continue;
@@ -431,7 +444,7 @@
     n.focus({ preventScroll: true });
     caret(n, ev);
     var b = makeBar(); if (!b) return;
-    b.appendChild(el("span", "mfe-l", labelOf(id), FX.doc));
+    b.appendChild(el("span", "mfe-l", labelOf(id), FX.doc)); answer(b, id);
     var r = el("div", "mfe-r", null, FX.doc); b.appendChild(r);
     btn(r, "✓ סיום", "mfe-ok", function () { FX.finish(); });
     btn(r, "ביטול", "", function () { FX.cancel(); });
@@ -491,10 +504,16 @@
     try { FX.doc.defaultView.getSelection().removeAllRanges(); } catch (e) {}
   }
 
+  function answer(b, id) {  // Hanoch's answer on a text, or why a change waits, right where she edits it
+    var it = byId[id]; if (!it) return;
+    [[it.held, "ממתין להחלטה: "], [it.reply, "תשובה מחנוך: "]].forEach(function (x) {
+      if (!x[0]) return; var w = el("span", "mfe-was", null, FX.doc); w.style.maxHeight = "none"; w.append(el("b", "", x[1], FX.doc), FX.doc.createTextNode(x[0])); b.appendChild(w);
+    });
+  }
   function boxEdit(n, id) {  // buttons, labels and questions: a box with live preview on the page
     FX.selected = n; n.classList.add("mfe-sel"); hover(null);
     var b = makeBar(); if (!b) return;
-    b.appendChild(el("span", "mfe-l", labelOf(id), FX.doc));
+    b.appendChild(el("span", "mfe-l", labelOf(id), FX.doc)); answer(b, id);
     var ta = el("textarea", "", null, FX.doc); ta.value = display(id, n); ta.setAttribute("aria-label", "הנוסח"); b.appendChild(ta);
     ta.addEventListener("input", function () { n.textContent = ta.value; n.classList.add("mfe-chg"); });
     ta.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ok(); } else if (e.key === "Escape") { e.preventDefault(); paintNode(n); closeBar(); } e.stopPropagation(); });
@@ -848,6 +867,12 @@
         var n = String(s.n || "").trim();
         if (!n || n === String(s.sentN || "").trim() || n === sentNote(+k)) { archive(k, "live"); applied++; }
         else { s.v = it.v; s.t = it.he; }  // her text is live but her note was not sent yet: keep the note, now on the current text
+        return;
+      }
+      // a request that reached Hanoch and was handled another way (a small fix to her wording, or a reason to keep the text): archived, with the answer on the text
+      if (it.closed && it.sent != null && s.t != null && norm(s.t) === norm(it.sent) && !s.d) {
+        var n2 = String(s.n || "").trim();
+        if (!n2 || n2 === sentNote(+k) || n2 === String(s.sentN || "").trim()) { archive(k, "handled"); applied++; }
       }
     });
     Object.keys(S.adds).forEach(function (k) { var a = S.adds[k]; if (a.text && EXACT[norm(a.text)] && a.sentT != null) { S.doneAdds = S.doneAdds || {}; S.doneAdds[k] = Object.assign({}, a, { at: Date.now() }); delete S.adds[k]; applied++; } });
@@ -858,7 +883,7 @@
     return Object.keys(S.items).map(Number).filter(function (k) {
       var s = S.items[k], it = byId[k];
       // a text she wrote that we went live with (it.m) is not a conflict, unless she changed it again and did not send that yet
-      return it && s && s.v && s.v !== it.v && s.t != null && norm(s.t) !== norm(it.he) && (!it.m || s.sentT == null || norm(s.t) !== norm(s.sentT))
+      return it && s && s.v && s.v !== it.v && s.t != null && norm(s.t) !== norm(it.he) && (!it.m || norm(s.t) !== norm(it.sent || ""))
         && norm(s.t) !== norm(baseOf(k, s) || "");  // a note on a text she did not change is not a conflict
     });
   }
@@ -979,6 +1004,19 @@
         b.append(a1, a2, r); cb.appendChild(b);
       });
       pb.appendChild(cb);
+    }
+    var ans = D.items.filter(function (it) { return it.reply || it.held; });
+    if (ans.length) {
+      var ab = el("details", "answers"); ab.appendChild(el("summary", "", "תשובות מחנוך על התיקונים שלך (" + ans.length + ")"));
+      ans.forEach(function (it) {
+        var r = el("div", "chg"); r.appendChild(el("div", "wh", (it.g === "site" ? "בכל האתר" : groupName(homePage(it))) + " · " + it.label));
+        r.appendChild(el("div", "before", it.he.length > 140 ? it.he.slice(0, 140) + "…" : it.he));
+        if (it.held) r.appendChild(el("div", "after", "ממתין להחלטה: " + it.held));
+        if (it.reply) r.appendChild(el("div", "after", "תשובה: " + it.reply));
+        var j = el("button", "btn alt sm", "לראות באתר"); j.type = "button"; j.addEventListener("click", function () { jump(it); }); r.appendChild(j);
+        ab.appendChild(r);
+      });
+      pb.appendChild(ab);
     }
     if (!ch.length && !en.length && !pn.length && !ad.length) {
       if (cf.length) return;
@@ -1147,7 +1185,9 @@
       var t = s.t != null ? String(s.t) : null, n = String(s.n || "").trim();
       var isEdit = t != null && (base == null || norm(t) !== norm(base));
       if (!isEdit && !n && !s.d) return;
-      var unsent = s.sentT == null || norm(t || "") !== norm(s.sentT) || n !== String(s.sentN || "").trim() || !!s.d !== !!s.sentD;
+      // it reached Hanoch if he has it in an email from her (D.got), even when the mail button never marked it sent
+      var g = (D.got || {})[id], reached = !!g && (!isEdit || norm(t) === norm(g[0] || "")) && (!n || norm(n) === norm(g[1] || "")) && (isEdit || n || s.d);
+      var unsent = !reached && (s.sentT == null || norm(t || "") !== norm(s.sentT) || n !== String(s.sentN || "").trim() || !!s.d !== !!s.sentD);
       out.push({ id: id, base: base, t: isEdit ? t : null, n: n, d: !!s.d, sent: s.sentT != null, unsent: unsent, stale: !!(it && s.v && s.v !== it.v), gone: !it,
                  label: it && !(s.v && s.v !== it.v) ? it.label : (o ? o.label : (it ? it.label : "טקסט")), g: it && !(s.v && s.v !== it.v) ? it.g : (o ? o.g : (it ? it.g : "more")) });
     });
@@ -1191,7 +1231,7 @@
       lines.push("==== כבר באתר (נשמר כאן לגיבוי) ====");
       dn.forEach(function (k) {
         var x = S.done[k], o = oldOf(+k, x);
-        lines.push("[#" + k + "] " + (o ? o.label : (byId[k] ? byId[k].label : "טקסט")) + " (" + ({ live: "עלה לאתר", removed: "ירד מהאתר", "kept-site": "נשאר הנוסח שבאתר" }[x.why] || "באתר") + ")");
+        lines.push("[#" + k + "] " + (o ? o.label : (byId[k] ? byId[k].label : "טקסט")) + " (" + ({ live: "עלה לאתר", removed: "ירד מהאתר", "kept-site": "נשאר הנוסח שבאתר", handled: "טופל, ראו תשובה" }[x.why] || "באתר") + ")");
         if (o) lines.push("היום: " + o.he);
         if (x.t != null && !x.d) lines.push("חדש: " + String(x.t).trim());
         if (x.d) lines.push("להוריד: להוריד את הטקסט הזה מהאתר");

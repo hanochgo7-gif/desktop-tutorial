@@ -127,16 +127,79 @@ def keys(path):
 IDS = SRC / "data/text-review-ids.json"    # content.py path -> id, so an owner's saved progress and the ids in her emails stay valid
 BASE = SRC / "data/text-review-base.json"  # id -> the text the owners first saw, to show what changed since
 REVIEWS = SRC.parent / "docs/reviews"       # the owners' emails, kept as sent
-HELD = {  # changes she asked for that wait for a decision (ledger 7b)
+HELD = {  # changes she asked for that wait for a decision (ledger 7b, 7f)
+    94: "ביקשת לשנות ״הדליה״ ל״רשת״. בטבלה כבר יש שורה ״רשת״ (10% עד 30% צל), והשורה הזו מדברת על תמיכה והדליה לגידול. מה הכוונה: לשנות את השורה, או להוריד אותה?",
+    101: "ביקשת לשנות את הכותרת ״איפה״ ל״רשת״. הכותרת הזו בעמוד חוות המפתח, מעל רשימת המדינות שבהן מקימים חוות. מה הכוונה?",
+    304: "הוספת משפט שאומר שזו הדמיה שנוצרה בבינה מלאכותית. חנוך ביקש ב-7 בנובמבר להוריד מהאתר כל כיתוב גלוי של ״הדמיה״, ולכן זה ממתין להחלטה של שניכם.",
+}
+# requests that reached Hanoch and were handled another way (a small fix to the wording, or a reason to keep the text): the editor
+# files her saved request away with the answer, so it does not wait in her list (11 Nov 2026)
+CLOSED = {
+    42: "עלה, עם פסיק בסוף, כי המשפט ממשיך: ״פרויקטים חקלאיים ובתי רשת, כתובת אחת...״.",
+    46: "השארנו ״מ״ר״ עם גרשיים עבריים (״). זה הכתיב התקני בעברית; התו \" שייך לאנגלית.",
+    48: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
+    53: "הנוסח שלך זהה לקיים, חוץ מ״יצור״ ו״הכל״. השארנו ״ייצור״ ו״הכול״, הכתיב המלא שבו כתוב כל האתר.",
+    67: "הלשונית בבחירת הגידול נקראת עכשיו ״מטעים״, והדובדבנים בתוכה. ״תפוחים״ שנשאר כאן הוא שם הפרויקט ברמת הגולן בעמוד הפרויקטים.",
+    79: "עלה, עם ״באזור״ פעם אחת.",
+    130: "עלה, עם פסיק אחרי ״את השטח״.",
+    176: "עלה. שני תיקוני כתיב: ״הפנייה״ ו״ייצור״ (״יצור״ בכתיב מלא נקרא ״יְצוּר״).",
+    199: "עלה, בלי הרווח לפני הפסיק.",
+    202: "עלה כ״מתוכנן בהתאם לשטח וללקוח״ (״בהתאם השטח״ חסרה בו ל׳).",
+    217: "עלה, עם ״פתרון״ במקום ״פתרונן״.",
+    277: "עלה, עם פסיק לפני ״ואז״.",
+    297: "נראה שזו תקלה בהדמיה ולא בטקסט: התמונה עברה לפרק הבא (סתיו) כשהכרטיס של ״פורק ברד״ עוד היה על המסך. תיקנו את התזמון: עכשיו התמונה מתחלפת רק כשהכרטיס הבא מגיע לאמצע המסך. הטקסט של הפרק נשאר.",
+    299: "נראה שזו תקלה בהדמיה ולא בטקסט: התמונה עברה לפרק הבא כשהכרטיס הזה עוד היה על המסך. תיקנו את התזמון, והטקסט על פורק הברד נשאר. הנוסח שכתבת (״להיפרס באביב״) נמצא בפרק הבא, ״סתיו״.",
+    300: "נראה שזו תקלה בהדמיה ולא בטקסט: התמונה התחלפה מוקדם מדי. תיקנו את התזמון, והכרטיס ״סתיו״ נשאר. ״כתובת אחת״ הוא הפרק האחרון.",
+    320: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
+    325: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
+    340: "עלה, עם נקודה בסוף.",
+    349: "עלה כ״מערכות מתקדמות לגידול דגים״.",
+    353: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
+    371: "עלה כ״חברה משפחתית לפרויקטים חקלאיים״.",
+    378: "עלה, עם גרשיים עבריים: ״יו״ר״.",
+    381: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
+    472: "עלה, בכתיב ״אפיון״.",
+    423: "עלה כשאלה אחת יחד עם #432: ״האם מדובר בפרויקט חדש או במטע קיים?״, עם שתי תשובות לבחירה. השדה כאן היום הוא שאלת המדינה.",
+    447: "עלה ככותרת של שדה הגידול: ״מה סוג הגידול המבוקש?״. כאן נשאר הטקסט הקטן שמתחת לשדה.",
+    476: "עלה, עם ״ייצור״ ונקודתיים אחרי ״אישור ההצעה״. לפני השלב הזה נוסף שלב ״אישור ויציאה לדרך״, כמו שביקשת.",
+    477: "עלה, עם נקודה בסוף.",
+    493: "עלה, עם פסיק לפני ״והצעת המחיר״.",
+    495: "עלה, עם ״ייצור״.",
+    497: "עלה, עם ״איתור, תכנון והקמת הפרויקט...״.",
+    504: "עלה, עם פסיק ו־ו׳ החיבור לפני ״איתור ופיתוח חוות״.",
 }
 REPLY = {
-    1: "שם החברה מופיע עכשיו עם הסלוגן בשתי השפות, באותו גופן ובאותו משקל.",
+    1: "שם החברה מופיע עם הסלוגן בשתי השפות, באותו גופן ובאותו משקל.",
+    3: "הסלוגן בלי מקף. בכותרת בעמוד הבית שם החברה למעלה, והסלוגן מתחתיו בדיוק באותו רוחב, מה־מ׳ של ״מיפתח״ ועד ה־ת׳ של ״בית״.",
+    23: "מדיניות הפרטיות מסבירה מה קורה לפרטים שמשאירים בטופס: מה נאסף (רק מה שמולא), לשם מה (כדי לחזור לפונה), מי רואה (ההנהלה והמשרד; לא מוכרים ולא מעבירים), כמה זמן שומרים, ואיך מבקשים לעיין או למחוק. זו דרישה של חוק הגנת הפרטיות. כדאי לעבור עליה ולוודא שהיא נכונה אצלכם.",
+    32: "הבהרנו את הסרטון: פחות הצללה למעלה ובאמצע. בתחתית, מתחת לכותרת, ההצללה נשארה כדי שהכותרת תהיה קריאה.",
+    33: "אפשר, אבל רק בסרטון שנפתח בלחיצה: דפדפנים לא מאפשרים צליל בסרטון רקע שמתחיל לבד. צריך קטע מוזיקה עם רישיון שימוש. יש לכם קטע שאתם אוהבים?",
+    38: "שוברי הרוח עברו לחלק משלהם למטה בעמוד בתי הרשת: ״שוברי רוח במטע״.",
+    40: "השלב ״תחזוקה״ ירד מרשימת השלבים של חוות המפתח, ובראש הרשימה נוסף שלב ״איתור״.",
     47: "אין לנו עדיין צילום אמיתי של המפעל. צילום או סרטון קצר משם יחזק מאוד את השורה הזו.",
-    49: "במקום ״7״ כתוב עכשיו ״מדינות בעולם״. אם בפריקה יש מדינה מסוימת, עדיף לכתוב אותה.",
+    49: "ישראל נוספה לרשימה.",
+    86: "שורת ״מבנה״ בלשונית ״מטעים״ מכילה עכשיו את מה שכתבת: מערכות תמיכה והדליה לגידולים השונים. קיר פירותי.",
+    97: "נוספה שורת ״עונה״ מתחת ל״מבנה ותמיכה״.",
+    282: "עמודים עגולים על בסיס בטון מרובע כבר מופיעים בתמונה של הפרק הזה. אם צריך לראות את חתיכת הברזל שעליה יושב העמוד, נעשה תקריב.",
+    283: "בתמונה של פרק הכבלים העובד בסל ההרמה לובש עכשיו רתמת בטיחות מחוברת.",
+    284: "בתמונה של פרק הכבלים העובד בסל ההרמה לובש עכשיו רתמת בטיחות מחוברת.",
+    287: "תמונת הפרק הזה צוירה מחדש: הרשת נפרסת ברצועות לאורך השורות, רצועה אחרי רצועה, וכיוון המשיכה הוא לאורך התפרים.",
+    288: "תמונת הפרק הזה צוירה מחדש: הרשת נפרסת ברצועות לאורך השורות, וכיוון המשיכה הוא לאורך התפרים.",
+    295: "תמונת הברד צוירה מחדש: רצועות רשת ארוכות לכל אורך המבנה, עם עמק בין רצועה לרצועה, בלי קוביות.",
+    301: "תמונת הסתיו צוירה מחדש: כל רצועה מגולגלת על הכבל שלה כמו נקניקיה, לכל אורך השורה.",
+    341: "על הגלובוס כבר יש נקודות לספרד, פורטוגל, מקסיקו, הודו, הונדורס, גאורגיה ובלארוס. ״אפריקה״ חסרה כי לא ידוע לנו באיזו מדינה. באיזו מדינה באפריקה עבדתם?",
+    342: "כדי להוסיף קיבוצים ויישובים צריך רשימה: שם המקום, מה נבנה שם ובאיזו שנה, ואישור של הלקוח לפרסם את השם. אפשר להוסיף תמונה לכל פרויקט.",
     359: "אפשר להוסיף קישור או ציטוט, ברגע שהלקוח מאשר בכתב.",
     361: "מעולה. כשיהיו אישורים, נוסיף את השמות.",
-    435: "הורדנו את כמויות הדונמים של כל הפרויקטים (עמוד הבית, המפה, הטבלה והגלובוס). המינימום (50 דונם בארץ, 300 בחו״ל) עדיין מופיע בכמה עמודים: להוריד גם אותו?",
+    363: "מעולה. כשיגיע אישור בכתב, נוסיף את השם ותמונה של הפרויקט.",
+    364: "מעולה. כשיגיעו אישורים בכתב, נוסיף המלצות ותמונות.",
+    366: "מעולה. כשיגיעו אישורים בכתב, נוסיף המלצות ותמונות.",
+    374: "שלחי שמות, תפקידים ותמונות של שלושת בעלי התפקידים, ונוסיף אותם.",
+    475: "נוסף שלב ״אישור ויציאה לדרך״: אישור הצעת המחיר, סגירת לוחות זמנים ויציאה לתחילת הפרויקט.",
+    486: "זו פנייה לחברות שאולי ירצו לעבוד איתכם: חברות טכנולוגיה לחקלאות (״אגרו־טק״), חברות שמנהלות חוות, וספקים. אם זה לא מתאים לכם, נוריד את הקטע.",
+    575: "ישראל נוספה לרשימת המדינות.",
 }
+REPLY.update(CLOSED)
 
 
 def reviews():
@@ -170,23 +233,63 @@ def flags(items):
                 ids[p] = it["id"]
         BASE.write_text(json.dumps({it["id"]: it["he"] for it in old["items"]}, ensure_ascii=False, indent=0), encoding="utf-8")
     base = {int(k): v for k, v in json.loads(BASE.read_text(encoding="utf-8")).items()} if BASE.exists() else {}
-    taken, nxt = set(), max(list(ids.values()) + [0]) + 1
+    # A text keeps its number when the site around it changes (a tab removed, a step added), so an owner's saved work and
+    # the numbers in her emails stay on the right text. 1: the same wording as in the last build keeps its number.
+    # 2: a reworded text takes the free number whose old wording, or the wording an owner asked for, is most like it.
+    # 3: else the number of its place in content.py, if free. 4: else a new number, never one used before.
+    import difflib
+    prev = {}
+    if (OUT / "data.js").exists():
+        prev = {it["id"]: it["he"] for it in json.loads((OUT / "data.js").read_text(encoding="utf-8")[len("window.TEXTS = "):].rstrip().rstrip(";"))["items"]}
+    hist_f = SRC / "data/text-review-history.json"
+    ever = set(ids.values()) | set(prev) | ({int(k) for k in json.loads(hist_f.read_text(encoding="utf-8"))} if hist_f.exists() else set())
+    nxt = max(list(ever) + [0]) + 1
+    asked = {i: r["new"] for i, r in reviews().items() if r.get("new")}
+    by_text = {}
+    for i, h in sorted(prev.items()):
+        by_text.setdefault(h, i)
+    taken = set()
+    for it in items:
+        it.pop("id", None)  # the running count from main() is not a number yet
+    for it in items:
+        i = by_text.get(it["he"])
+        if i is not None and i not in taken:
+            it["id"] = i; taken.add(i)
+    free = [i for i in prev if i not in taken]
+    cands = []
+    for it in items:
+        if "id" in it:
+            continue
+        here = {ids.get(p) for p in it["paths"]}
+        for i in free:
+            r = max(difflib.SequenceMatcher(None, it["he"], prev[i]).ratio(), difflib.SequenceMatcher(None, it["he"], asked.get(i, "")).ratio() if i in asked else 0)
+            r += .15 if i in here else 0
+            if r >= .5:
+                cands.append((r, -i, id(it), it, i))
+    for r, _, _, it, i in sorted(cands, key=lambda x: (-x[0], x[1])):
+        if "id" not in it and i not in taken:
+            it["id"] = i; taken.add(i)
     for it in sorted(items, key=lambda x: min([ids.get(p, 10 ** 9) for p in x["paths"]])):
-        c = sorted(ids[p] for p in it["paths"] if p in ids and ids[p] not in taken)
+        if "id" in it:
+            continue
+        c = sorted(ids[p] for p in it["paths"] if p in ids and ids[p] not in taken and ids[p] not in prev)  # a number whose text was removed is never given to another text
         if c:
             it["id"] = c[0]
         else:
             it["id"] = nxt; nxt += 1
         taken.add(it["id"])
+    for it in items:
         for p in it["paths"]:
-            ids.setdefault(p, it["id"])
+            ids[p] = it["id"]
     IDS.write_text(json.dumps(ids, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
     rv = reviews()
     for it in items:
         i = it["id"]; it["v"] = hashlib.sha1(it["he"].encode()).hexdigest()[:6]
         r = rv.get(i)
-        if r and r["new"] and i not in HELD:
+        if r and r["new"] and i not in HELD and i not in CLOSED:
             it["m"] = 1              # she wrote this text; it is on the site
+        if i in CLOSED:
+            it["closed"] = 1         # handled another way; the answer says how
         if r and r["new"]:
             it["sent"] = r["new"]    # what she sent, so the same change is not sent twice
         if r and r["note"]:
@@ -265,7 +368,8 @@ def main():
     cur_v = {str(it["id"]): it["v"] for it in items}
     old = {k: {v: x for v, x in vs.items() if v != cur_v.get(k)} for k, vs in hist.items()}
     old = {k: vs for k, vs in old.items() if vs}
-    data = {"site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    got = {str(i): [r.get("new"), r.get("note")] for i, r in reviews().items()}  # what reached Hanoch from the owners' emails, also for texts no longer on the site
+    data = {"site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "got": got, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

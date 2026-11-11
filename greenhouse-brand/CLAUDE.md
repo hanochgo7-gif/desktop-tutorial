@@ -1,8 +1,8 @@
 # MIFTAH (מיפתח פרויקטים): working notes for this client
 
 ## Who decides and how to work with them
-- **מרב הספל** (co-CEO) reviews everything. She is very numeric and technical: she likes details and precision. Always give her exact numbers, specs, sources and measurable comparisons, never vague impressions. State what was checked and how.
-- **יפתח הספל** (co-CEO) handles the professional/engineering side.
+- **מרב הספל** (CEO; "מנכ״לית" since 11 Nov 2026, before that co-CEO) reviews everything. She is very numeric and technical: she likes details and precision. Always give her exact numbers, specs, sources and measurable comparisons, never vague impressions. State what was checked and how.
+- **יפתח הספל** (owner and chairman, "בעלים ויו״ר", since 11 Nov 2026) handles the professional/engineering side.
 - Do not build the real website until a design is chosen. Changes go into the design examples only.
 - 26 Oct 2026: Hanoch explicitly asked for the full site. It lives in `website/` (source of truth: `website/src/content.py` + `build.py`; facts in `website/docs/MIFTAH_TRUTH_LEDGER.md`). It is built on the scored "engineering dossier" direction; if Merav picks another example, swap tokens/sections there. The four design examples stay untouched.
 - The process photos `04-tensioning-cables.jpg` (brown ladder) and `05-spreading-net.jpg` (rusty poles) and `site-winter-orchard` (black stake) break the steel rule; do not use them.
@@ -12,7 +12,9 @@
 - Do not report how many Higgsfield credits were used.
 
 ## Facts confirmed by the client
-- Slogan: Hebrew **"מיפתח פרויקטים - חקלאות שיש לה בית"**, English **"Where agriculture feels at home"**.
+- Slogan: Hebrew **"מיפתח פרויקטים חקלאות שיש לה בית"** (no dash since Merav, 11 Nov 2026: the name above, the slogan below it at the same width), English **"MIFTAH Projects - Where agriculture feels at home"**.
+- Office: **קיבוץ כפר מסריק** (Kibbutz Kfar Masaryk).
+- No project sizes anywhere: no dunam figures per project and no minimum project size (Merav, 10-11 Nov 2026: "it can limit us").
 - Office phone: **04-9854404**. The old number (from the previous office) is not in use anywhere.
 - WhatsApp: Merav's mobile exists but is **not** shown on the site until the owners decide.
 - Steel: only **galvanized (silver) steel** may appear in images. Never black/rusty/painted steel. Real project photos showing black steel are removed, not retouched, unless the owners ask for a retouch (9 Nov 2026: Merav asked to turn the poles in her old project photos into galvanized ones; ledger 7d).

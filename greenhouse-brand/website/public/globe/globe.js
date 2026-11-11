@@ -23,12 +23,12 @@
     he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
       s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
       note: "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
-      hq: "מיפתח · כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
+      hq: "מיפתח · קיבוץ כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "מהחלל אל צילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "", real: "צילום רחפן אמיתי" },
     en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in eight countries.", lede: "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build.",
       s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
       note: "A yellow point marks the country or region, not the exact site.",
-      hq: "MIFTAH · Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
+      hq: "MIFTAH · Kibbutz Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "From orbit to real drone footage of a MIFTAH net house.", close: "Close", ill: "", real: "Real drone footage" }
   };
   var L = /^he\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";

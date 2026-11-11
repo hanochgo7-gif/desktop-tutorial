@@ -848,7 +848,8 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .hero-os .hero-media img, .hero-os .hero-media video { transform-origin: 50% 60%; }
 @media (prefers-reduced-motion: no-preference) { .hero-os .hero-media picture img { animation: os-drift 24s ease-out both; } }
 @keyframes os-drift { from { transform: scale(1.12); } to { transform: scale(1); } }
-.hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .6) 0%, rgba(8, 30, 26, .08) 30%, rgba(8, 30, 26, .28) 58%, rgba(8, 30, 26, .9) 100%) !important; }
+/* Merav, 11 Nov 2026: a brighter video. Less shade at the top and in the middle; the bottom, under the headline, stays dark enough to read */
+.hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .4) 0%, rgba(8, 30, 26, 0) 30%, rgba(8, 30, 26, .14) 58%, rgba(8, 30, 26, .88) 100%) !important; }
 .hero-os .hero-in { min-height: 0; display: block; padding-block: calc(var(--head-h) + 120px) 28px; }
 .hero-os h1 { color: var(--white); font-size: clamp(3.1rem, 10.4vw, 9.5rem); line-height: .92; letter-spacing: -.035em; font-weight: 200; max-width: none; }
 [dir="rtl"] .hero-os h1 { line-height: 1; letter-spacing: -.02em; }

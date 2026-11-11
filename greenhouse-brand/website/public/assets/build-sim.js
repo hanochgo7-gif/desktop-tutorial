@@ -17,7 +17,8 @@
     var pTrack = track, pWrap = root.querySelector(".sim-ph"), pRail = root.querySelectorAll(".sim-rail button"), pStep = document.getElementById("sim-step"), pBar = document.getElementById("sim-bar");
     var pCards = [].slice.call(root.querySelectorAll(".sim-ch")), tops = [], pCur = -1, pPend = false, loaded = document.readyState === "complete";
     var PH = "(max-width: 760px) and (orientation: portrait)";  // phones get the 9:16 cut
-    function measure() { var t0 = pTrack.getBoundingClientRect().top; tops = pCards.map(function (c) { var k = c.querySelector(".sim-card") || c; return k.getBoundingClientRect().top - t0; }); }
+    var hts = [];
+    function measure() { var t0 = pTrack.getBoundingClientRect().top; hts = []; tops = pCards.map(function (c) { var k = c.querySelector(".sim-card") || c, b = k.getBoundingClientRect(); hts.push(b.height); return b.top - t0; }); }
     function want(i) {  // load a chapter's picture just before it is needed; it shows only once decoded
       var p = phs[i]; if (!p || p.dataset.on) return; p.dataset.on = "1";
       var im = p.querySelector("img");
@@ -35,9 +36,17 @@
       pPend = false;
       var r = pTrack.getBoundingClientRect(), vh = window.innerHeight, s = 0;
       if (!tops.length) measure();
+      // A picture belongs to the card being read: the one nearest the middle of the screen. Picture i takes over exactly when
+      // card i's centre comes nearer the middle than card i-1's (11 Nov 2026: before, it changed as the next card only entered
+      // at the bottom, so on a short screen the previous card was still read against the next picture)
+      var mid = vh * .5, cen = tops.map(function (t, i) { return t + r.top + (hts[i] || 0) / 2; });
       phs.forEach(function (p, i) {
-        var t = tops[i] + r.top, f = i >= 6 && i <= 9 ? .12 : .25;  // the cuts between the drone view and the eye-level views (planting, hail release) are quicker, so the views do not ghost
-        var o = i === 0 ? 1 : Math.max(0, Math.min(1, (vh * .82 - t) / (vh * f)));  // fades in as its card's top rises from 82% of the screen
+        var f = i >= 6 && i <= 9 ? .12 : .25;  // the cuts between the drone view and the eye-level views (planting, hail release) are quicker, so the views do not ghost
+        var o = 1;
+        if (i > 0) {  // t: 0 when card i-1 is in the middle, 1 when card i is
+          var a = cen[i - 1], c = cen[i], t = (mid - a) / Math.max(1, c - a);
+          o = Math.max(0, Math.min(1, (t - .5) / f + .5));
+        }
         if (o > 0 && i > 0) want(i);
         if (o >= .5) s = i;
         p._o = o;

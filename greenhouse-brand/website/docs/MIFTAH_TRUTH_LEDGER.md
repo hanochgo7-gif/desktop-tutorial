@@ -197,6 +197,14 @@ Held back, waiting for a decision (not applied):
 - Photos: the anemone image in the "other crops" tab replaced with our aerial photo (g-air-rows); the cherry illustration redone so the net runs along the rows.
 - Needs a decision: #207 says the net house "raises the quality and quantity of the crop" (a yield claim, her wording); her note on #137 asks to show every Israeli site (kibbutzim and villages) on the globe, which needs the list from the owners.
 
+## 7f. Merav's full backup, 11 Nov 2026 (`docs/reviews/merav-2026-11-11-backup.txt`)
+- About 70 of the edits marked "sent" in it had never reached us (the editor had marked them sent when the mail window opened). All were applied as written, with English, apart from: spelling kept in full Hebrew spelling (ייצור, הכול, הפנייה, אפיון), the Hebrew gershayim kept (מ״ר, יו״ר), and "לשטח" kept where a site-wide replace for "תכנון השטח" had turned it into "השטח" (#48, #320, #325, #353, #381). Each is answered in the editor.
+- #297, #299, #300 (the hail and autumn chapters of the simulation) were not text changes: the picture changed to the next chapter while the previous card was still read. The timing was fixed (the picture follows the card nearest the middle of the screen; 0 mismatches on desktop, laptop and phone).
+- Roles: Merav "מנכ״לית", Yiftach "בעלים ויו״ר". Office: קיבוץ כפר מסריק. Slogan in Hebrew without the dash.
+- Removed: every project size and minimum (FAQ, contact block, crop tabs, turnkey pages, chips), the Fruit Logistica plans (not final), the cherry tab (cherries are under "מטעים"), the "maintenance" stage. Added: the stage "איתור" first, the step "אישור ויציאה לדרך" before manufacture. Windbreaks moved to their own section on the net-houses page.
+- Images: the AI banana tab picture replaced with Merav's aerial photo (g-air-wide); simulation chapters redrawn: harness on the worker at height (ch. 4), the net spread in strips along the rows (ch. 5), long roof strips instead of squares (ch. 8), the net rolled on its cables for winter (ch. 10).
+- Waiting for a decision: #94 ("הדליה" → "רשת"?), #101 ("איפה" → "רשת"?), #304 (a visible "AI illustration" sentence, against Hanoch's 7 Nov rule). Waiting for material: factory photos, the 3 role holders, Israeli sites and client approvals, the country in Africa, a music track, a photo for p-site.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

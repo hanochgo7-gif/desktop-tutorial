@@ -413,7 +413,7 @@ def qs(**kw):
 
 def cta_band(L, where, crop="", need=""):
     B = C.CTA_BAND; S = C.SITE
-    lines = [esc(t(B["fair"], L))] if where in ("home", "turnkey") else []
+    lines = []  # Fruit Logistica is not final yet (Merav, 11 Nov 2026)
     meta = f'<p class="meta">{"<br>".join(lines)}</p>' if lines else ""
     return f"""<section class="section dark cta-band" aria-labelledby="cta-{where}">
   <div class="wrap in">
@@ -451,7 +451,7 @@ def crop_more(crop, L):
     """From a crop tab to the page that answers that search in full."""
     if crop == "banana":
         return f'<p class="more crop-more"><a href="banana-net-houses.html">{esc(t(C.CROP_PAGE["more"], L))}</a></p>'
-    if crop in ("apple", "cherry", "kiwi", "avocado"):
+    if crop in ("apple", "kiwi", "avocado"):
         return f'<p class="more crop-more"><a href="orchard-hail-nets.html">{esc(t(C.CROP_PAGE["more_orchard"], L))}</a></p>'
     return ""
 
@@ -479,7 +479,6 @@ def crop_selector(L, where="home"):
         q = qs(need="nethouse") if cr["id"] == "other" else qs(crop=cr["id"], need="nethouse")
         panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
                       f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
-                      f'<p class="crop-min">{esc(t(H["crop_min"], L))}</p>'
                       f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a>{crop_more(cr["id"], L)}</div>')
     return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
   <div class="wrap">
@@ -500,8 +499,11 @@ def p_index(L):
               f'<img src="{r}assets/img/hero-1600.jpg" alt="" width="1600" height="900" fetchpriority="high"></picture>')
     # The slogan is the page headline: the company name, then the slogan, in one weight (Merav, 5 Nov 2026). Both languages break after the name, never before the dash.
     sl = t(S["slogan"], L)
+    nm = t(S["name"], L)
     if " - " in sl:
         a, b = sl.split(" - ", 1); a += " -"
+    elif L == "he" and sl.startswith(nm + " "):  # Merav, 11 Nov 2026: no dash; the name above, the slogan below it
+        a, b = nm, sl[len(nm) + 1:]  # no hidden dash either: the heading reads exactly as the slogan, so the editor finds it
     else:
         a, b = sl.split(" feels ", 1) if " feels " in sl else (sl, ""); b = ("feels " + b) if b else ""
     if L == "he" and a.endswith(" -"):  # Hanoch, 9 Nov 2026: the name above the slogan, the two lines exactly the same width; the dash stays in the text, not on screen
@@ -541,7 +543,7 @@ def p_index(L):
 <section class="hero hero-os" aria-labelledby="hero-h">
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
   <div class="wrap hero-in">
-    <h1 id="hero-h">{slogan_h1}</h1>
+    <h1 id="hero-h" data-edit-whole>{slogan_h1}</h1>
     <div class="hero-row">
       <div class="actions">
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
@@ -921,10 +923,8 @@ def p_contact(L):
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">
   <div class="block next-block"><h2 id="next-h">{esc(t(C.NEXT_H, L))}</h2><ol class="next-list">{nxt}</ol><p class="small muted">{esc(t(C.NEXT_ABROAD, L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
-  <div class="block"><h2>{esc(t(P["aside_min_h"], L))}</h2><p>{esc(t(P["aside_min_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_profile_h"], L))}</h2><p>{esc(t(P["aside_profile_p"], L))}</p><p><a href="profile.html" data-track="profile_open">{esc(t(P["aside_profile_go"], L))}</a></p></div>
   <div class="block"><h2>{esc(t(P["aside_partner_h"], L))}</h2><p>{esc(t(P["aside_partner_p"], L))}</p></div>
-  <div class="block" id="berlin"><h2>{esc(t(P["aside_fair_h"], L))}</h2><p>{esc(t(P["aside_fair_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p>{esc(t(S["name"], L))}<br>{esc(t(S["town"], L))}</p></div>
 </aside>"""
     return f"""
@@ -1080,6 +1080,9 @@ def globe_page():
     js = js.replace('· לוחצים על נקודה" : "גוררים כדי לסובב · גלגלת', '· לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת')
     assert js.count('matchMedia("(pointer: coarse)")') == 2 and js.count('tap a point") :') == 1 and js.count('על נקודה") :') == 1
     # visitors see what the figures are, not where the team got them
+    for old, new in (('hq: "מיפתח · כפר מסריק"', 'hq: "מיפתח · קיבוץ כפר מסריק"'), ('hq: "MIFTAH · Kfar Masaryk"', 'hq: "MIFTAH · Kibbutz Kfar Masaryk"')):
+        assert old in js, old
+        js = js.replace(old, new)  # the head office is at a kibbutz (Merav, 11 Nov 2026)
     NOTE = {"he": "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
             "en": "A yellow point marks the country or region, not the exact site."}
     # no areas anywhere (Merav, 10 Nov 2026): every beam the same height, no area line in the card, no m² total
