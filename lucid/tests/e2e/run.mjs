@@ -2661,6 +2661,7 @@ try {
       for (const [i, ex] of ['we-01', 'we-02', 'we-03'].entries()) window.lucid.store.put('writing', { id: `ess:${ex}#1`, kind: 'essay-version', exercise: ex, n: 1, final: true, at: day(i + 1), evaluation: { cefr_estimate: 'B2', cefr_low: 'B2', cefr_high: 'B2' } });
       // A summary written while scores were shown keeps its stored range; the list must not show it now.
       window.lucid.store.put('writing', { id: 'ess:we-01', kind: 'essay-summary', exercise: 'we-01', title: 'x', status: 'final', final_range: 'B2', versions: 1, updated: day(1) });
+      return window.lucid.store.flush();
     });
     await seed();
     await page.waitForTimeout(300); // the store writes to IndexedDB before the reload
@@ -2694,13 +2695,15 @@ try {
     await shown.page.evaluate(() => {
       const day = (d) => new Date(Date.now() - d * 86_400_000).toISOString();
       for (const [i, ex] of ['we-01', 'we-02', 'we-03'].entries()) window.lucid.store.put('writing', { id: `ess:${ex}#1`, kind: 'essay-version', exercise: ex, n: 1, final: true, at: day(i + 1), evaluation: { cefr_estimate: 'B2', cefr_low: 'B2', cefr_high: 'B2' } });
+      return window.lucid.store.flush();
     });
     await shown.page.waitForTimeout(300); // the store writes to IndexedDB before the reload
     await shown.page.reload();
     await shown.page.waitForSelector('#view > *');
     const shownLevel = await shown.page.evaluate(async () => (await import('./js/core/learner.js')).model().skills.writing.level);
     assert(shownLevel === 'B2', `no writing level with scores shown: ${shownLevel}`);
-    await shown.page.evaluate(() => window.lucid.store.put('writing', { id: 'ess:we-01', kind: 'essay-summary', exercise: 'we-01', title: 'x', status: 'final', final_range: 'B2', versions: 1, updated: new Date().toISOString() }));
+    // Flushed to IndexedDB before the page goes (under load the store's write could still be pending).
+    await shown.page.evaluate(async () => { window.lucid.store.put('writing', { id: 'ess:we-01', kind: 'essay-summary', exercise: 'we-01', title: 'x', status: 'final', final_range: 'B2', versions: 1, updated: new Date().toISOString() }); await window.lucid.store.flush(); });
     await shown.page.goto(`${BASE}#/writing`);
     await shown.page.waitForSelector('#view h1');
     assert(await shown.page.$('#view .tag.level[title="טווח הרמה של הטיוטה הסופית"], #view .tag.level[title="Level range of the final draft"]'), 'the writing list shows no stored range with scores shown, so the hidden check proves nothing');
@@ -2740,7 +2743,11 @@ try {
     await page.route(/\/lucid\/(index\.html)?(\?.*)?$/, async (route) => {
       const res = await route.fetch();
       const body = (await res.text()).replace(/(http-equiv="?Content-Security-Policy"? content=)"[^"]*"/, `$1"${csp}"`);
-      return route.fulfill({ response: res, body });
+      // Served as Vercel serves it (E2E_SERVE=vercel), the page also carries the CSP header; setup.md 3.1 changes it in
+      // vercel.json the same way (the policy plus frame-ancestors), so the test does too.
+      const headers = res.headers();
+      if (headers['content-security-policy']) headers['content-security-policy'] = `${csp}; frame-ancestors 'none'`;
+      return route.fulfill({ response: res, body, headers });
     });
     const stub = 'window.turnstile={n:0,render(el,p){const i=++this.n;const d=document.createElement("div");d.className="ts-stub";d.textContent="widget "+i;el.append(d);window.__ts=p;setTimeout(()=>p.callback("test-token-"+i),20);return "w"+i;},remove(){}};';
     await page.route('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', (route) => route.fulfill({ contentType: 'text/javascript', body: stub }));

@@ -349,7 +349,10 @@ try {
     // Filled in (a test-only value on a reserved domain): the address, as a mailto link with a subject.
     const { ctx, page } = await newPage(browser);
     await page.route(/js\/core\/contact\.js$/, async (r) => {
-      const src = readFileSync(join(app, 'js/core/contact.js'), 'utf8').replace("email: '',", "email: 'help@lucid.invalid',").replace("name_he: '',", "name_he: 'מפעיל לבדיקה',").replace("name_en: '',", "name_en: 'Test operator',");
+      // The served file: the source, or the built tree's minified copy (`email:""`).
+      const fill = (src, key, value) => { const out = src.replace(new RegExp(`(${key}:\\s*)(''|"")`), `$1${JSON.stringify(value)}`); if (out === src) throw new Error(`contact.js: no empty ${key}`); return out; };
+      let src = readFileSync(join(app, 'js/core/contact.js'), 'utf8');
+      src = fill(fill(fill(src, 'email', 'help@lucid.invalid'), 'name_he', 'מפעיל לבדיקה'), 'name_en', 'Test operator');
       await r.fulfill({ contentType: 'text/javascript', body: src });
     });
     await learnerAt(page, 'A1');

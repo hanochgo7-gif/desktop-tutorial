@@ -1135,3 +1135,58 @@ All green on the source tree (release `2aeb12fd30ca`) and, where marked, on the 
   machine, and passed 15/15 when run again alone; this round changes no page or style;
 - upgrade.mjs 24/24 from `d83a500` (source and built: U1-U19 and the new U20);
 - `index.html`'s and `privacy.html`'s CSP metas are byte-identical to `d83a500`'s.
+
+## Launch (2026-11-11)
+
+Production at launch is `c1dac85` (the perf release with the no-age-limit change), served by GitHub Pages as its
+build, release `87265cced809`. The launch integration merged five lanes (platform, honesty, ai-safety, content,
+hebrew; `docs/qa/fix-log.md`, "Launch audit"); its `sw.js` is the same worker apart from `RELEASE` and `LISTING`.
+
+### Re-measured (mobile, 3 runs, medians, one quiet window)
+
+The launch head's build (release `45d1c87d968f`; `verify: ok (73 modules, maps, hashes, paths, CSP)`) against
+`git archive c1dac85` built by its own `tools/build/build.mjs` (which gives `87265cced809`, the release in
+production). Same harness on both (`tools/perf.mjs` and `tools/perf/` are unchanged since `c1dac85`), head and base
+alternated one run at a time, nothing else running (load about 1), 15:44-15:51 UTC. Scenarios a and b (cold
+welcome, cold and warm Today, the first-visit precache) and g (returning learner in five HTTP-cache states). Raw
+JSON and logs: scratchpad `integrate/perf/`.
+
+| row | launch head | c1dac85 (production) | head runs | base runs |
+|---|---:|---:|---|---|
+| cold #/welcome: view / FCP | 1548 / 632 | 1497 / 632 | 1548, 1575, 1542 | 1497, 1518, 1478 |
+| cold #/welcome: requests / gz KB | 29 / 153 | 26 / 143 | | |
+| cold #/today: view / FCP | 1719 / 636 | 1682 / 636 | 1719, 1697, 1729 | 1682, 1699, 1672 |
+| cold #/today: requests / gz KB | 42 / 267 | 40 / 265 | | |
+| warm #/today: view / TBT | 432 / 47 | 434 / 19 | 432, 547, 402 | 434, 385, 439 |
+| first-visit precache: done at / requests / wire KB | 8872 ms / 95 / 609 | 8324 ms / 85 / 599 | 8872, 8902, 8837 | 8324, 8365, 8289 |
+| returning #/today, fresh / stale / after a push / offline / lie-fi | 397 / 444 / 451 / 371 / 369 | 442 / 379 / 382 / 423 / 371 | | |
+| returning lesson a1-01, same five states | 381 / 395 / 449 / 377 / 370 | 396 / 331 / 359 / 383 / 383 | | |
+
+**Regressions beyond noise (small, explained, accepted for launch):**
+
+- **Cold welcome +51 ms (+3 %)**, the run ranges do not overlap: 3 more requests and 10 KB more gzipped. Welcome now
+  counts the lessons and scenarios from the content instead of printing a fixed number (FR-09), so it loads the
+  real-life index and imports `compat.js`; the page also links the new `favicon.ico` and icons (IS-06). First paint
+  is unchanged (632 ms). The welcome target (1450 ms) was already missed at `c1dac85`.
+- **Cold Today +37 ms (+2 %)**, ranges touching (1697 against 1699): 2 more requests and 2 KB.
+- **First-visit precache finishes 548 ms later (+7 %)**, 10 more requests and 10 KB: the launch's new modules
+  (contact, site, backup, home, move, support, captcha, the restore screen and the move banner) and
+  `accessibility.html` are in the offline list. It runs after the first view and does not delay it; it is still
+  under the baseline's 9.45 s.
+
+**Within noise:** warm Today (432 against 434 ms) and every returning row. The returning medians move both ways by up
+to 65-90 ms (head lower when fresh and offline, higher when stale and after a push), with each tree's three runs
+spread over 100-180 ms, so no direction holds. Requests and bytes from the server are identical in every returning
+state (1-3 requests; 21 / 8 KB after a push). Warm TBT is 12-54 ms on the head against 4-21 on the base, in the
+range of the earlier g rows (40-72 ms in verify5).
+
+### Suites on this integration
+
+Source tree, built tree (`build.mjs` + `verify.mjs` in a throwaway worktree) and, where marked, the Vercel build
+served with its headers (`vercel-build.mjs` output through `tools/build/serve.mjs`), all green:
+`npm test` 507/507 with `CI=true`; `test:db` 13/13; validate-content 0 errors (1 warning as before); the three
+generator checks; both release fixtures `--check`; Deno 2.5.6 type check and 24/24 tests; run.mjs 64/64 (source and
+built) and 65/65 on the Vercel build; a11y 0 violations (30 routes, Welcome, onboarding, privacy.html and
+accessibility.html, 5 configurations); move 7/7 (source, built, Vercel); launch-honesty 16/16; launch-content 5/5;
+every earlier lane suite; perf-boot 13/13; perf-runtime 9/9; upgrade.mjs 25/25 from `d83a500` and `c1dac85` (U21).
+Three lane tests failed first on the built or Vercel tree and were fixed in the tests (fix-log INT-11).

@@ -444,7 +444,8 @@ release, `lucid-<RELEASE>`.
   and `slang()` did not filter, compat.js wraps them with the same filter. `tests/unit/compat.test.mjs` checks the
   screens against both releases' modules (`tests/unit/fixtures/release-<RELEASE>.json`, written by
   `tools/release-fixture.mjs` from git), and `tests/e2e/upgrade.mjs` and `lucid-verify.yml` upgrade from
-  `d83a500`. Decision for 2026-11-03.1 tabs (open since before the 2026-11-07 deploy, two deploys crossed): they are
+  `d83a500`. At launch (2026-11-11) production is `c1dac85` (this worker, served built as `87265cced809`): its
+  modules are a third fixture (`release-2aeb12fd30ca.json`) and `upgrade.mjs` U21 upgrades a tab on its build. Decision for 2026-11-03.1 tabs (open since before the 2026-11-07 deploy, two deploys crossed): they are
   still checked for every name both releases' modules have, and compat.js still adds the age filter there, but the
   three names 2026-11-07.1 added (`learner.js` `aiConsent`, `session.js` `recheckProfile` and `syncPauseReason`)
   are not provided: main's own deploy of 2026-11-07.1 already loads screens that import them into such a tab (the

@@ -167,6 +167,25 @@ person or organisation that runs Lucid), **engineering**, **content**, **legal**
 and LB-07, then LB-10. LB-02, LB-03 and LB-04 run in parallel from the start. LB-08 and LB-09 can be done at any time
 before LB-10. LB-11 and LB-12 run in parallel and are the longest items.
 
+**Status at the launch integration (2026-11-11, branch `claude/lucid-launch`).** The owner launches without accounts
+and AI, with the operator contact still to come, and moves Lucid to its own address on Vercel. A blocker is marked
+done only when its "how to verify" column holds; `docs/qa/fix-log.md` ("Launch audit") has the details.
+
+| ID | Status | What is done, and what is left |
+|---|---|---|
+| LB-01 | open (operator) | Engineering done: `vercel.json` with a CSP header that has `frame-ancestors`, the guard (`js/core/home.js`: accounts and AI never on `*.github.io`, unit-tested), and the one-click move to `NEW_HOME`. Left: create the Vercel project and set `NEW_HOME` (`setup.md` 5.1, 5.2). |
+| LB-02 | open (operator) | The Anthropic retention box is replaced by the fact that AI is off on this site (a test keeps AI off until the period is stated); Help has a Contact answer. Left: the operator's name and email in `contact.js`, `privacy.html` and `accessibility.html`, then RL6. |
+| LB-03 | open (legal) | No terms of use are claimed any more (onboarding asks only that the privacy policy was read). |
+| LB-04 | open (legal) | Done in code: the accessibility statement is published and linked (it claims no conformance; legal review pending), and the AI prompts handle a disclosure of distress with a fixed help card (not tested against a live model). Left: the DPIA, the legal basis for children's data, processor terms. |
+| LB-05 | open (operator) | Not needed while accounts are off. |
+| LB-06 | open (operator) | Not needed while AI is off. |
+| LB-07 | open (operator) | Engineering done: the client loads Turnstile or hCaptcha and sends the token when configured (unit-tested with mocks). Left: keys, the CSP change in `index.html` and `vercel.json`, the switch in Supabase. |
+| LB-08 | done | `config.js` `aiScoring: 'hidden'` (the default) hides bands, CEFR ranges and AI writing levels; e2e AIS checks with a mock server. |
+| LB-09 | open (verification) | `lucid-verify.yml` runs all six kinds of suite (every e2e suite on the source and built trees, the Vercel build, the Deno tests, the upgrade from the live release); every suite passed locally on 2026-11-11. Left: a green workflow run on the release commit. By design it does not block the Pages deploy (the shared site's other apps); Vercel's own build verifies and fails on any error. |
+| LB-10 | open | Needs LB-05 and LB-06. |
+| LB-11 | open (content) | An AI proofread led to 22 fixes (HE-03 to HE-25) and tightened the copy check; it is not the native review. |
+| LB-12 | open (content) | An AI check fixed 7 key findings ("to a certain extent" in `c1-03` is now accepted); it is not the teacher's audit. |
+
 ---
 
 ## 3. Phase 1: validation with real learners (the first 4-6 weeks after the blockers)

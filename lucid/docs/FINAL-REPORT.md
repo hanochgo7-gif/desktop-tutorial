@@ -45,11 +45,11 @@ Hebrew-L1 claims are framed as hypotheses where the evidence is indirect.
 | Real-Life English | 36 scenarios in 8 modules (airport, hotel, restaurant, transport, shopping, social, emergency, work) with phrases, a model dialogue, scripted practice and AI roleplay; 60 expressions with meaning, formality, region, examples, mistakes and when not to use them | `content/real-life/`, `js/views/scenario.js`, `js/views/slang.js` |
 | AI tutor | 8 modes, learner-controlled correction intensity, never writes the learner's work | `js/views/tutor.js`, `supabase/functions/lucid-ai/prompts.ts` |
 | Progress | Weekly and monthly reports, levels with their evidence, no XP, no streak pressure | `js/views/progress.js` |
-| Accounts and data | Device-only by default; optional Supabase accounts with sync, export (including the account itself) and deletion; no minimum age (since November 2026), birth year only, protections under 18 and under 16 | `js/core/api.js`, `js/core/session.js`, `supabase/migrations/` |
-| Interface | 21 core screens plus help, checkpoint, drill, review, account and privacy; Hebrew RTL with isolated English; light and dark; text size up to 150%; offline use | `js/views/`, `css/app.css`, `sw.js` |
+| Accounts and data | Device-only by default; optional Supabase accounts with sync, export (including the account itself and the preferences kept in the browser) and deletion; a restore screen for a backup on a new device; a one-click move of the learner's data to Lucid's own address, off until that address exists; no minimum age (since November 2026), birth year only, protections under 18 and under 16 | `js/core/api.js`, `js/core/session.js`, `js/core/backup.js`, `js/core/move.js`, `supabase/migrations/` |
+| Interface | 21 core screens plus help (with a Contact answer), checkpoint, drill, review, account, restore, privacy policy, accessibility statement and a 404 page; Hebrew RTL with isolated English; light and dark; text size up to 150%; offline use; install icons and a share preview | `js/views/`, `css/app.css`, `sw.js`, `privacy.html`, `accessibility.html`, `404.html` |
 
-Stack: static ES modules with no build step (hosted with the repository's GitHub Pages workflow), IndexedDB on the
-device, optional Supabase (Postgres with row-level security, Auth, an Edge Function in Deno), and the Anthropic
+Stack: static ES modules with no build step in the repository (hosted with the repository's GitHub Pages workflow
+today, and ready for Lucid's own address on Vercel, `vercel.json`), IndexedDB on the device, optional Supabase (Postgres with row-level security, Auth, an Edge Function in Deno), and the Anthropic
 Messages API from the edge function only (official TypeScript SDK, structured outputs, refusal fallback, cached
 prompts). The architecture and its decisions are in `docs/architecture.md`.
 
@@ -75,9 +75,51 @@ are in `perf/after.md`.
   against 0 for the base.
 - **Security:** the worker was reviewed for S-15 in every round (`qa/security-review.md` 5a); the last round's
   reviewers approved (one with a condition, met by a fix), and the lead signed off.
+- **At launch (2026-11-11), against production `c1dac85`:** cold welcome 1548 vs 1497 ms and cold Today 1719 vs
+  1682 ms (small costs of the launch changes), warm Today 432 vs 434 ms (`perf/after.md`, "Launch").
 - **Known limits, documented in `architecture.md` section 7:** on a nearly full origin some files are fetched
   rather than kept offline; with no `release.json` on a first visit nothing is stored for offline use; the one load
   that hands over to a new release is about 0.85 s slower, once per deploy.
+
+## 2b. Launch (2026-11-11)
+
+The owner asked for a finished product to launch, and decided three things: the operator's name and contact stay a
+placeholder until the owner supplies them; Lucid launches without accounts and AI (`supabaseUrl` empty, `aiEnabled`
+false); Lucid moves to its own address on Vercel, which does not exist yet. An AI audit in six lenses found 78
+problems (AI skeptics checked each); five lanes fixed them and the lead merged them (`qa/fix-log.md`, "Launch
+audit": 63 fixed, 11 partial, 2 open, 2 kept). What changed for learners and the operator:
+
+- **Honest about this site.** No terms of use are claimed (onboarding asks only that the privacy policy was read);
+  without AI no screen offers the tutor, AI conversations, AI feedback or an AI writing level; counts of lessons and
+  scenarios come from the content; the privacy page says AI is not active and nothing is sent to Anthropic; Help
+  has a Contact answer that says plainly that the address is not published yet. The profile notes for under-16s and
+  under-18s describe this site, not accounts it does not have.
+- **Published pages.** An accessibility statement (Hebrew and English, facts from the repository only, no claim of
+  conformance, legal review pending), a 404 page, and links to both policies from Welcome, Help and Settings.
+- **Learner data.** A backup can be restored on a new device from Welcome ("יש לי גיבוי"); the backup also holds the
+  browser preferences (never the sign-in session); after "Delete all data" Welcome stays in the learner's language.
+  Once `NEW_HOME` is set, the GitHub Pages copy offers a one-click move of the learner's progress to the new address
+  (exact origins, the window it opened and a one-time nonce; nothing is written before the learner confirms), with a
+  backup download as the fallback.
+- **Own address, ready.** `vercel.json` and `tools/build/vercel-build.mjs` publish only the shipped files, minified
+  and verified, with the response headers GitHub Pages cannot send (a CSP with `frame-ancestors`, no framing,
+  `nosniff`, a referrer policy and a Permissions-Policy). Accounts and AI can never be switched on at a `*.github.io`
+  origin (`js/core/home.js`). Internal docs are no longer published on Pages.
+- **Install and share.** PNG and maskable icons, a favicon, theme colours computed from the app's own ground colour,
+  a Hebrew title and description, Open Graph and Twitter tags with a share image. Pages stay `noindex` until the
+  contact is filled in.
+- **Content.** Seven answer-key fixes (among them "to a certain extent" in `c1-03`, "any advice" in `a2-11`, and a
+  short-form item that a copied long form used to pass); one final writing task per level, the lesson items renamed
+  practice; place names like "Tel-Aviv" and digits for small numbers accepted in learner rewrites up to B1; social
+  scenarios no longer coach giving a phone number or a social account to a stranger; "do not type real personal
+  details" in every writing step.
+- **Hebrew.** An AI proofread fixed 22 findings (plural address, grammar, spelling, one word per concept) and the copy
+  check now catches singular address and the fixed phrases. It is not the native review LB-11.
+- **AI, ready for later.** With AI still off: the prompts step out of role when a learner discloses distress and the
+  app shows a fixed help card with checked Israeli numbers; AI scores can be hidden and are hidden by default (LB-08);
+  the client can send a CAPTCHA token (LB-07). Not tested against a live model.
+- **CI.** `lucid-verify.yml` runs every suite on the source, built and Vercel trees, the Deno tests and the upgrade
+  from the release live at launch (`c1dac85`, served as `87265cced809`). It reports; it does not gate the Pages deploy.
 
 ## 3. Status of features
 
@@ -85,43 +127,76 @@ The full table with one status per feature is in `08-product-specification.md`. 
 
 - **Built and tested**: everything that runs in the browser, including placement, lessons, review, the daily plan,
   progress, the writing lab's automatic checks, scripted real-life practice, expressions, settings, offline use,
-  data export and wipe on the device.
+  data export, restore and wipe on the device, and the move to a new address (between three local origins).
+- **Built, waiting for the owner**: the Vercel deployment (`vercel.json`, tested with its headers locally) and the
+  move banner, which switch on when the project exists and `NEW_HOME` is set.
 - **Built, tested with mocks only** (needs configuration, see section 4): accounts, sync, server export and account
-  deletion, AI writing feedback, AI roleplay and its report, the AI tutor. The edge function's logic is covered by
-  20 Deno tests with injected fakes, the database by 9 tests on PGlite (Postgres in WebAssembly), and the browser
+  deletion, AI writing feedback, AI roleplay and its report, the AI tutor, the AI safety card, hidden AI scores and
+  CAPTCHA. The edge function's logic is covered by 24 Deno tests with injected fakes, the database by 9 tests on PGlite (Postgres in WebAssembly), and the browser
   flows by e2e checks against mocked endpoints. No call was made to a live model or a live Supabase project.
-- **Partial**: items listed in `qa/fix-log.md` (7, mostly operator actions) and section 15 of the specification.
+- **Partial**: items listed in `qa/fix-log.md` (7 from round 1, mostly operator actions; 11 from the launch audit,
+  all waiting for the owner or a review) and section 15 of the specification.
 - **Not built**: see the specification's non-goals and `09-roadmap.md`.
 
 ## 4. What needs credentials or decisions before launch
 
-Lucid runs without any of this; these switch on accounts and AI and make a public launch responsible. The steps are
-in `docs/setup.md`; the order and owners are in `09-roadmap.md`.
+Lucid runs without any of this. The steps are in `docs/setup.md` (section 5 for the launch); the order and owners
+are in `09-roadmap.md` section 2, whose status table says what is done. `node tools/launch-check.mjs` lists what the
+repository still shows as missing and exits 1 until it is done; on 2026-11-11 it lists exactly the owner's items:
+the contact (`privacy.html` has no `mailto:`, `js/core/contact.js` has no email), the placeholder boxes on
+`privacy.html` and `accessibility.html`, `noindex` on `index.html`, `privacy.html` and `accessibility.html`, and an
+empty `NEW_HOME`.
 
-1. A dedicated Supabase project with migrations 001, 002, 003 and 004, and the auth settings in `setup.md`.
-2. An Anthropic API key stored as an edge-function secret (never in the client), the allowed origins, the per-learner
-   and project-wide AI unit limits, and a spend limit in the Anthropic console.
-3. Lucid served from its own origin before accounts are enabled (the GitHub Pages address is shared with other apps).
-4. The operator's name and contact on the privacy page (a marked placeholder now), and a legal and minors review,
-   including the legal basis for children's data now that there is no minimum age (a marked placeholder too).
-5. CAPTCHA keys and the client change to send the token (documented, not built).
-6. A live end-to-end run against the real services, and a native Hebrew review of all Hebrew text.
+For the launch, by the owner:
+
+1. Create the Vercel project: import the repository, Root Directory `lucid`, nothing else (`setup.md` 5.1).
+2. Supply the operator's name and a contact email: in `js/core/contact.js` and in the boxes of `privacy.html` and
+   `accessibility.html`, in Hebrew and English (`tests/unit/contact.test.mjs` fails until they agree), then change
+   e2e RL6 to assert the real contact. Nothing was invented in their place.
+3. Set `NEW_HOME` in `config.js` to the new https address with a final `/`: the GitHub Pages copy then offers the
+   move, the Vercel build adds the canonical link and sitemap, and accounts and AI may run only there.
+4. Remove `noindex` from `index.html`, `privacy.html` and `accessibility.html`, after step 2.
+5. Optional: in Vercel, require the GitHub checks before production (CI does not gate Vercel's own build, which
+   verifies and fails on any error).
+
+Before a public launch to real learners, and before accounts or AI:
+
+6. Legal: the legal basis for children's data (the box on `privacy.html`), whether Israeli accessibility rules apply
+   and what the statement then needs, and terms of use if legal wants them (then a `terms.html` with its own field
+   and box; `consent_terms_at` now means "privacy policy acknowledged" and must not be reused).
+7. A native Hebrew review (LB-11; the new launch copy too: the banner, restore screen, 404, share text) and a
+   qualified teacher's English audit (LB-12).
+8. For accounts: a dedicated Supabase project with migrations 001 to 004 and the auth settings in `setup.md`, served
+   only from the new address. CAPTCHA keys if wanted (the client is ready; the CSP changes in `index.html` and
+   `vercel.json`).
+9. For AI: an Anthropic key as an edge-function secret (never in the client), allowed origins, unit limits and a
+   spend limit; `privacy.html` must state the provider's retention first (a unit test keeps `aiEnabled` false until
+   it does). Nobody reads the "Mark a mistake" marks yet.
+10. A live end-to-end run against the real services (LB-10).
 
 ## 5. Tests run and results
 
-Run on the final tree:
+Run on the launch integration (2026-11-11), on the source tree, on the tree GitHub Pages deploys (minified by
+`tools/build/build.mjs`, checked by `verify.mjs`) and, where marked, on the Vercel build served with `vercel.json`'s
+headers:
 
 | Suite | Result |
 |---|---|
-| Unit (`npm test`) | 433 of 433 pass |
+| Unit (`CI=true npm test`) | 507 of 507 pass |
 | Database (`npm run test:db`, PGlite) | 13 of 13 pass |
-| Edge function (Deno) | 20 of 20 pass (not re-run after the no-age-limit prompt change) |
-| Browser end-to-end (`tests/e2e/run.mjs`) | 61 of 61 checks pass on the source and on the built (deployed) tree, covering the brief's 17 acceptance criteria, the QA findings and the no-age-limit checks |
-| Speed and upgrade suites (`perf-boot`, `perf-runtime`, `upgrade.mjs`) | 13, 9 and 24 of 24 pass; `upgrade.mjs` runs on the source and the built tree, from production `d83a500` |
-| UX round 3 browser suites (`tests/e2e/<lane>.mjs`, 15 files) | 226 of 226 checks pass; each final-round check was also run once against the code without its fix and failed there |
-| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 29 routes plus Welcome and onboarding, in 5 configurations (Hebrew and English interface, light and dark, phone and desktop, Hebrew support full, minimal and off) |
-| Content validator | 75 lessons and every content file: 0 errors and 1 warning: 818 authored first-try notes give the answer without naming a rule, so the app holds them back before a second try (rewriting them is open content work) (the checks include the checks for split brackets and quote marks and for answer-length cues) |
-| Performance (phone profile, `tools/perf.mjs`) | see section 2a and `perf/after.md` |
+| Edge function (Deno 2.5.6) | type check clean; 24 of 24 pass |
+| Content validator and generated files | 0 errors and 1 warning: 817 authored first-try notes give the answer without naming a rule, so the app holds them back before a second try (rewriting them is open content work); the content index, route dependencies and manifest are current; both release fixtures are current |
+| Browser end-to-end (`tests/e2e/run.mjs`) | 64 of 64 on the source and the built tree; 65 of 65 on the Vercel build (V1, the 404 page, runs there only) |
+| Launch suites (`move`, `launch-honesty`, `launch-content`) | 7, 16 and 5 of them pass on the source and built trees; `move` also on the Vercel build (three local origins) |
+| Earlier lane suites (15 files) | all pass on the source and the built tree |
+| Speed and upgrade suites | `perf-boot` 13/13 and `perf-runtime` 9/9 on both trees; `upgrade.mjs` 25/25 on both, from `d83a500` (U1-U20) and from `c1dac85`, the release live at launch, built as production serves it (U21) |
+| Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 30 routes plus Welcome, onboarding, `privacy.html` and `accessibility.html`, in 5 configurations, on both trees |
+| Builds | `verify.mjs`: ok (73 modules); `vercel-build.mjs`: ok (265 files, nothing internal in `dist`) |
+| Launch check (`node tools/launch-check.mjs`) | exits 1 with the owner's items only (section 4) |
+| Performance (phone profile, `tools/perf.mjs`) | against production `c1dac85` in one window: cold welcome +51 ms (+3 %) and cold Today +37 ms (+2 %), from counting content on Welcome and the new icons; the first-visit precache +0.55 s (new modules in the offline list); warm and returning visits unchanged within noise (`perf/after.md`, "Launch") |
+
+Three lane tests failed first on the built or Vercel tree and were fixed in the tests (`qa/fix-log.md` INT-11);
+two timing flakes the lanes reported (RW-12, U17) did not recur in these runs.
 
 The mapping from each acceptance criterion to its checks, and which are covered only with mocks, is in section 13 of
 the specification.
@@ -219,6 +294,18 @@ anyone of any age can register. The decision came without details, so these were
 - All content was authored and reviewed by AI agents; it needs a human teacher's and a native Hebrew editor's review.
 - In the workplace scenarios the best reply is still the middle-length option in 16 of 30 turns, and one character
   name (Priya) is used for two different people in neighbouring scenarios.
+- Until the owner creates the Vercel project and sets `NEW_HOME`, Lucid runs on the GitHub Pages origin it shares with
+  other sites; accounts and AI cannot be switched on there (by design), and a learner's progress lives only in that
+  origin's browser storage until it is moved or backed up.
+- Until the owner supplies a contact, nobody can be reached from the app, the privacy policy and the accessibility
+  statement say so, and the pages stay out of search engines.
+- The accessibility statement records automated checks only (axe, text size); no assistive-technology user has
+  tested Lucid, and legal review of the statement is pending.
+- The install icons were not checked on a real iOS or Android device; the manifest has no screenshots.
+- With JavaScript off, a mistyped `/desktop-tutorial/lucid/...` address still follows the shared site's 404 redirect
+  (the root `404.html` belongs to the shared site).
+- The AI safety card, CAPTCHA and hidden AI scores are tested with mocks only; the help numbers were checked on
+  11 November 2026 and should be re-checked before AI is turned on.
 - The remaining partial items are listed in `qa/fix-log.md`, `qa/fix-log-r2.md` and section 15 of the specification.
 
 ## 9. Next phase

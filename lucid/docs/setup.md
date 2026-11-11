@@ -126,7 +126,8 @@ commit and one deploy:
 3. In `lucid/config.js` set `captchaProvider` to `'turnstile'` or `'hcaptcha'` and `captchaSiteKey` to the
    **site** key (it is public by design).
 4. Replace the CSP in `lucid/index.html` (the `Content-Security-Policy` meta tag) with the one for the provider below,
-   and the `Content-Security-Policy` header in `lucid/vercel.json` too, if the deployment sets one there. Each
+   and the `Content-Security-Policy` header in `lucid/vercel.json` with the same policy followed by
+   `; frame-ancestors 'none'` (`tests/unit/vercel.test.mjs` fails while the two differ). Each
    differs from today's policy only by the provider's hosts (Turnstile: `script-src` and a new `frame-src`;
    hCaptcha: `script-src`, `style-src`, `connect-src` and a new `frame-src`).
 
@@ -248,9 +249,12 @@ Each push to `main` deploys again. Branches get preview deployments, which are n
 The exact edits, in one commit, once the project above exists. `node tools/launch-check.mjs` (from `lucid/`) lists
 what is still missing and exits with an error until all of it is done.
 
-1. **Contact.** In `privacy.html`, replace the boxes marked "להשלמה לפני הפעלה ציבורית" / "To be filled in before
-   public launch" with the real text, in Hebrew and English: the operator's name, a contact email as a
-   `mailto:` link, and the other two items (see "Launch blocker" below). Nobody else can supply these.
+1. **Contact.** Fill in `js/core/contact.js` (`name_he`, `name_en`, `email`: Help's "יצירת קשר / Contact" answer
+   reads it). In `privacy.html` and `accessibility.html`, replace the boxes marked "להשלמה לפני הפעלה ציבורית" /
+   "To be filled in before public launch" with the real text, in Hebrew and English: the same name, the same email
+   as a `mailto:` link, and in `privacy.html` the outcome of the legal review (see "Launch blocker" below).
+   `tests/unit/contact.test.mjs` fails until the three files agree; then change e2e RL6 in `tests/e2e/run.mjs`,
+   which asserts the placeholder today, to assert the real contact. Nobody else can supply these.
 2. **New address.** In `config.js`, set `NEW_HOME` to the new address with `https://` and a final `/`, for example
    `export const NEW_HOME = 'https://lucid.example.org/';`. From then on:
    - the GitHub Pages copy shows "Lucid עבר לכתובת חדשה" with **להעביר את ההתקדמות שלי**, which opens the new
@@ -259,16 +263,18 @@ what is still missing and exits with an error until all of it is done.
    - the Vercel build adds the canonical link, `og:url`, an absolute share-image address, `sitemap.xml` and the
      sitemap line in `robots.txt`;
    - accounts and AI, if turned on later, run only at this address (`js/core/home.js`; never on `*.github.io`).
-3. **Indexing.** Remove `<meta name="robots" content="noindex, nofollow">` from `index.html` and `privacy.html`
-   (`404.html` keeps its noindex). Do this only after step 1.
+3. **Indexing.** Remove `<meta name="robots" content="noindex, nofollow">` from `index.html`, `privacy.html` and
+   `accessibility.html` (`404.html` keeps its noindex). Do this only after step 1.
 4. Commit, push to `main`, and check the new address: the app loads, Help says device-only mode, and a browser's
    developer tools show the headers above.
 
 Keep the GitHub Pages copy online with the banner for as long as learners still arrive there: their progress is only
 in that origin's browser storage until they move it. Never just delete `lucid/` from GitHub Pages.
 
-**Launch blocker.** Before inviting real learners (especially learners under 18; Lucid has no minimum age), fill in the three boxes marked "To be
-filled in before public launch" in `privacy.html`, in Hebrew and English: the operator's name and a contact address for privacy
-questions and complaints, how long Anthropic keeps API data under the terms of the workspace you use, and the
-outcome of the legal review of children's data (whether the ticked parent-or-guardian box under 16 is enough). The
-page says until then that there is no operator to contact.
+**Launch blocker.** Before inviting real learners (especially learners under 18; Lucid has no minimum age), fill in the boxes marked "To be
+filled in before public launch", in Hebrew and English: in `privacy.html` the operator's name and a contact address for privacy
+questions and complaints, and the outcome of the legal review of children's data (whether the ticked
+parent-or-guardian box under 16 is enough); in `accessibility.html` the contact for accessibility requests. The
+pages say until then that there is no operator to contact. The AI retention box was replaced at launch by a
+statement that AI is off on this site: before `aiEnabled` is set to `true`, `privacy.html` must say how long the AI
+provider keeps API data under the workspace's terms (`tests/unit/launch-honesty.test.mjs` fails otherwise).
