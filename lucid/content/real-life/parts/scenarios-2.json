@@ -530,7 +530,7 @@
           "partner": "Anyway, my friends are waving at me. It was really nice talking to you!",
           "options": [
             { "text": "OK, bye.", "verdict": "ok", "feedback": { "en": "Not wrong, but it sounds cold after a friendly chat. Return the compliment first: 'You too!'", "he": "לא שגוי, אבל נשמע קר אחרי שיחה נעימה. קודם מחזירים מחמאה: You too!" } },
-            { "text": "Wait, give me your Instagram before you go, so we can talk later.", "verdict": "poor", "feedback": { "en": "'Give me' sounds like an order, and stopping someone who is leaving can feel pushy. If you'd like to stay in touch, ask lightly ('Are you on Instagram?'), and only if you're both comfortable.", "he": "Give me נשמע כמו פקודה, ולעצור מישהו שכבר הולך עלול להרגיש לוחץ. אם רוצים להישאר בקשר, שואלים בקלילות (Are you on Instagram?), ורק אם שני הצדדים מרגישים בנוח." } },
+            { "text": "Wait, give me your Instagram before you go, so we can talk later.", "verdict": "poor", "feedback": { "en": "'Give me' sounds like an order, and stopping someone who is leaving can feel pushy. A friendly chat on holiday doesn't need contact details: a warm goodbye ('You too! Enjoy your trip!') is enough.", "he": "Give me נשמע כמו פקודה, ולעצור מישהו שכבר הולך עלול להרגיש לוחץ. שיחה נעימה בחופשה לא דורשת פרטי קשר: פרידה חמה (You too! Enjoy your trip!) מספיקה." } },
             { "text": "You too! Enjoy the rest of your trip!", "verdict": "best", "feedback": { "en": "'You too' returns the compliment, and the good wishes end the chat warmly.", "he": "You too מחזיר את המחמאה, והאיחול מסיים את השיחה בחום." } }
           ],
           "model_replies": ["You too! Enjoy the rest of your trip!", "Same here! Have a great time in Lisbon."],

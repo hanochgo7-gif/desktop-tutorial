@@ -2314,9 +2314,10 @@ try {
     const wide = await page.evaluate(() => [...document.querySelectorAll('.lesson-learn .table-wrap')].map((w) => ({ over: w.scrollWidth > w.clientWidth + 2, hint: !w.previousElementSibling.hidden, cards: w.classList.contains('tstack') })));
     assert(wide.length && wide.every((w) => !w.over && !w.hint && w.cards), `a table still scrolls sideways at 390 px: ${JSON.stringify(wide)}`);
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/pl6-wide-table.png` });
-    // Find and fix at C1: an equivalent wording can be counted.
+    // Find and fix at C1: an equivalent wording can be counted. ('To a certain extent' is a key since launch EK-06,
+    // so an equivalent the key does not list is used here.)
     await lessonAt(page, 'c1-03', 'e11');
-    await page.fill('#exroot textarea', 'To a certain extent, the results support the original hypothesis.');
+    await page.fill('#exroot textarea', 'Up to a point, the results support the original hypothesis.');
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-self-judge]');
     assert(/One model answer|תשובה אחת לדוגמה/.test(await page.textContent('#pfoot')), 'find and fix calls the key the correct answer');

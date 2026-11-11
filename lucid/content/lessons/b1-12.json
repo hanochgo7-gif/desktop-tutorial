@@ -1013,8 +1013,8 @@
       "skill": "writing",
       "topic": "essay-structure-basic",
       "prompt": {
-        "en": "Final task: write your opinion essay.",
-        "he": "משימת סיום: כתבו חיבור דעה."
+        "en": "Writing practice: write your opinion essay.",
+        "he": "תרגול כתיבה: כתבו חיבור דעה."
       },
       "task": {
         "en": "Write a 300-word opinion essay (250-350 words) with an introduction, supporting arguments and a conclusion. Choose one topic: (1) Should public transport be free for students? (2) Is social media doing more harm than good to teenagers? (3) Is it better to live in a big city or a small town when you are young? Plan for five minutes first: your opinion, two or three reasons, and an example for each. Introduction: introduce the topic and give your opinion clearly. Body paragraphs: start each one with a topic sentence, explain your reason and support it with an example. You can add a short paragraph about the other side and say why you still disagree. Conclusion: restate your opinion in new words, with no new ideas.",

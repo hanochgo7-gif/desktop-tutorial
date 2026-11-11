@@ -83,7 +83,10 @@ after answering: *why* the answer is right), `hint?` (Bilingual, offered before 
 Normalisation for typed answers: case, surrounding spaces and final punctuation are ignored; curly and
 straight apostrophes are equal; standard contractions are equivalent to their full forms (`don't` = `do not`),
 so authors list each answer once. A one-letter slip in a word of 5+ letters is accepted as "almost - check
-the spelling".
+the spelling". Israeli place names with a hyphen or another transliteration are the same place (Tel-Aviv = Tel
+Aviv, Be'er Sheva = Beersheba). In `transform` and `correct` items up to B1, the digits 2-20 equal the number
+words ("2 days" = "two days"); gaps, dictation and single words still need the word. Because contractions are
+equivalent, a typed item cannot test a contraction itself ("Write the short form of I am"): make it an `mcq`.
 
 ## Placement (`content/placement.json`)
 

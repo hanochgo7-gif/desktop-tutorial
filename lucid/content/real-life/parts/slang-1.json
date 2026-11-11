@@ -357,9 +357,9 @@
       "formality": "very informal",
       "region": "US",
       "example_dialogue": [
-        { "speaker": "Liam", "text": "It was great meeting you. Are you on Instagram?" },
-        { "speaker": "Roni", "text": "Yeah, here, I'll follow you." },
-        { "speaker": "Liam", "text": "Cool. Hit me up if you want to go to that concert on Friday." },
+        { "speaker": "Liam", "text": "A few of us from class are going to that concert on Friday. Want to come?" },
+        { "speaker": "Roni", "text": "Maybe! I'm not sure I'm free yet." },
+        { "speaker": "Liam", "text": "Cool. Hit me up on the class group chat if you can make it." },
         { "speaker": "Roni", "text": "Will do!" }
       ],
       "mistakes": [

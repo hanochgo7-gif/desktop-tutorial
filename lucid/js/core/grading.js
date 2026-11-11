@@ -56,9 +56,28 @@ export function usSpelling(w) {
 }
 const usSentence = (s) => s.replace(/[a-z]+/g, usSpelling);
 
+// Israeli place names are written with a hyphen or a space, and in more than one transliteration (launch EK-08):
+// Tel-Aviv is Tel Aviv, Be'er Sheva is Beersheba. Each is read in one spelling before answers are compared.
+const PLACES = [
+  [/\btel-aviv\b/g, 'tel aviv'], [/\bramat-gan\b/g, 'ramat gan'], [/\bbat-yam\b/g, 'bat yam'], [/\bkfar-saba\b/g, 'kfar saba'],
+  [/\b(?:be'?er[- ]?sheva|beersheba)\b/g, 'beersheba'], [/\bpet(?:a|ac)h[- ]tikv(?:a|ah)\b/g, 'petah tikva'],
+];
+export const placeNames = (s) => PLACES.reduce((t, [re, to]) => t.replace(re, to), s);
+
+// Small numbers written as digits (launch EK-08): "I called you 2 days ago." is "two days ago". Only 2-20, because
+// "one" is also a pronoun ("my old one") and a digit there is not the same word. checkTyped applies it only when
+// the caller asks ({ numbers: true }): a sentence the learner writes or corrects, never a single word, a gap or a
+// dictation, where spelling the number may be the point (pa1-02's phonics dictation of 'ten', pa1-04's number gaps).
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
+  'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+// From B2 the rewrites are formal writing, where small numbers are spelled out, so digits are read as words only
+// up to B1 (and when the level is not known).
+export const digitsAllowed = (level) => !['B2', 'C1', 'C2'].includes(level);
+export const numberWords = (s) => s.replace(/(^|[^\w.,:])([2-9]|1\d|20)(?![\w]|[.,:]\d)/g, (m, pre, n) => pre + NUMBER_WORDS[+n]);
+
 // All full-form readings of a normalised string (bounded, so pathological input stays cheap).
 export function variants(s, limit = 16) {
-  let out = new Set([usSentence(normalize(s))]);
+  let out = new Set([usSentence(placeNames(normalize(s)))]);
   for (const [re, rep] of CONTRACTIONS) {
     const options = (m, ...groups) => (typeof rep === 'function' ? rep(m, ...groups) : rep);
     const next = new Set();
@@ -184,17 +203,20 @@ function typoOnly(input, target) {
 // Returns { correct, almost, matched, typo? }. almost=true means accepted with a spelling note.
 // `known` is the exercise's wrong_feedback list: an answer that exactly matches an authored wrong answer
 // is wrong even if it is one letter away from a key (so "fourty" cannot pass as a typo of "forty").
-export function checkTyped(input, accepted, known = null) {
+// `numbers: true` also reads the digits 2-20 as words (see numberWords): the exercise player passes it for the
+// sentences a learner writes or corrects (transform, correct).
+export function checkTyped(input, accepted, known = null, { numbers = false } = {}) {
   const list = (Array.isArray(accepted) ? accepted : [accepted]).filter((x) => x != null);
   if (!normalize(input)) return { correct: false, almost: false, matched: null };
-  const inV = variants(input);
+  const V = numbers ? (s) => [...new Set(variants(s).map(numberWords))] : variants;
+  const inV = V(input);
   for (const a of list) {
-    const aV = variants(a);
+    const aV = V(a);
     if (inV.some((v) => aV.includes(v))) return { correct: true, almost: false, matched: a };
   }
-  if (Array.isArray(known) && known.some((f) => variants(f.match).some((v) => inV.includes(v)))) return { correct: false, almost: false, matched: null };
+  if (Array.isArray(known) && known.some((f) => V(f.match).some((v) => inV.includes(v)))) return { correct: false, almost: false, matched: null };
   for (const a of list) {
-    for (const v of inV) for (const t of variants(a)) {
+    for (const v of inV) for (const t of V(a)) {
       const typo = typoOnly(v, t);
       if (typo) return { correct: true, almost: true, matched: a, typo };
     }

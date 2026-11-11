@@ -49,7 +49,7 @@ export default async function checkpoint(el, ctx) {
       <p class="muted">${tt(`בדיקה קצרה של נושאי הרמה, בלי רמזים: ${items.length} שאלות, וההסברים בסוף.`, `A short check of the level's topics, with no hints: ${items.length} questions, with the explanations at the end.`)}</p></div>
     <ul class="check-rows small">
       <li>${icon('check', { size: 16 })}<span>${tt('75% ומעלה מסמנים את הרמה כ״מוכחת״.', '75% or more marks the level as demonstrated.')}</span></li>
-      <li>${icon('check', { size: 16 })}<span>${tt('משימת הכתיבה של הרמה (בשיעור האחרון) היא חלק נפרד מההוכחה:', 'The level\'s writing task (in its last lesson) is a separate part of the evidence:')} <span lang="en" dir="ltr">${lvl.final_assessment.task}</span></span></li>
+      <li>${icon('check', { size: 16 })}<span>${tt('משימת הכתיבה של הרמה, שנמצאת במסלול אחרי הבדיקה הזו, היא חלק נפרד מההוכחה:', 'The level\'s writing task, on the path after this check, is a separate part of the evidence:')} <a href="#/writing/final-${level}" lang="en" dir="ltr" data-final-task>${lvl.final_assessment.task}</a></span></li>
       <li>${icon('check', { size: 16 })}<span>${tt('אפשר לנסות שוב מתי שרוצים. אין עונש.', 'You can try again whenever you like. There is no penalty.')}</span></li>
     </ul>
     <div class="row"><button type="button" class="key enter" data-begin>${tt('להתחיל', 'Begin')}</button><a class="key ghost" href="${exitHref}">${tt('לא עכשיו', 'Not now')}</a></div></div>`);

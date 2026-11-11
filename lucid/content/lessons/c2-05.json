@@ -103,14 +103,14 @@
         ],
         [
           "References",
-          "Every cited source, in one consistent style (APA or MLA)",
+          "Every cited source, in one consistent author-year style (such as APA)",
           "not counted"
         ]
       ]
     },
     {
       "type": "p",
-      "en": "Papers that report your own data (a survey you ran, an experiment) usually follow IMRaD: Introduction, Methods, Results and Discussion. The final assessment in this lesson is an argumentative paper built on published sources, so it follows the structure above."
+      "en": "Papers that report your own data (a survey you ran, an experiment) usually follow IMRaD: Introduction, Methods, Results and Discussion. The practice paper at the end of this lesson is an argumentative paper built on published sources, so it follows the structure above."
     },
     {
       "type": "tip",
@@ -1079,7 +1079,7 @@
         "en": "Write a research proposal for your final paper."
       },
       "task": {
-        "en": "Choose the question for your final paper (one of the options in the final assessment below, or your own) and write a research proposal of 350-500 words under these headings: Working title; Research question; Rationale and gap (why the question matters and what existing sources leave unclear); Scope (two or three delimitations, each with a reason); Working thesis; Planned structure (the sections and the job of each, including where you will answer the strongest objection); Sources and checks (at least five sources or types of source, and how you checked, or will check, each one laterally: who is behind it, what others say about it, and whether its claims trace back to an original). Do not invent sources or findings: if you have not found a source yet, describe the kind of source you will look for."
+        "en": "Choose the question for your practice paper (one of the options in the practice paper below, or your own) and write a research proposal of 350-500 words under these headings: Working title; Research question; Rationale and gap (why the question matters and what existing sources leave unclear); Scope (two or three delimitations, each with a reason); Working thesis; Planned structure (the sections and the job of each, including where you will answer the strongest objection); Sources and checks (at least five sources or types of source, and how you checked, or will check, each one laterally: who is behind it, what others say about it, and whether its claims trace back to an original). Do not invent sources or findings: if you have not found a source yet, describe the kind of source you will look for."
       },
       "min_words": 350,
       "max_words": 500,
@@ -1117,10 +1117,10 @@
       "skill": "writing",
       "topic": "research-writing",
       "prompt": {
-        "en": "Final assessment: plan, research, draft and edit your research-based argumentative paper."
+        "en": "Practice paper: plan, research, draft and edit your research-based argumentative paper."
       },
       "task": {
-        "en": "Produce a 1,500-2,000-word research-based argumentative paper. Use the question from your proposal, or choose one of these: (a) Should city centres replace on-street parking with protected cycle lanes? (b) To what extent should secondary schools allow students to use generative AI tools for assessed homework? (c) Should employers be required to publish salary ranges in job advertisements? (d) Your own question, if it meets the criteria in this lesson. Argue a qualified thesis that answers your research question and respond to opposing views. Your paper needs: a title; an introduction that moves from context to gap, research question, thesis, scope and roadmap; body sections that each advance one strand of your answer and synthesise sources by idea; the strongest objection, steelmanned and answered with a concession-rebuttal chain; a short limitations section; a conclusion that answers the question, sets out implications and adds no new evidence; and a reference list at the end, which does not count towards the 1,500-2,000 words. Use at least six real, credible sources, at least two of them scholarly or official; check each one laterally before you use it; and cite them consistently in APA or MLA style. Do not invent sources or statistics. When the draft is complete, edit it in four passes: argument, paragraph, sentence and word."
+        "en": "Produce a 1,500-2,000-word research-based argumentative paper. Use the question from your proposal, or choose one of these: (a) Should city centres replace on-street parking with protected cycle lanes? (b) To what extent should secondary schools allow students to use generative AI tools for assessed homework? (c) Should employers be required to publish salary ranges in job advertisements? (d) Your own question, if it meets the criteria in this lesson. Argue a qualified thesis that answers your research question and respond to opposing views. Your paper needs: a title; an introduction that moves from context to gap, research question, thesis, scope and roadmap; body sections that each advance one strand of your answer and synthesise sources by idea; the strongest objection, steelmanned and answered with a concession-rebuttal chain; a short limitations section; a conclusion that answers the question, sets out implications and adds no new evidence; and a reference list at the end, which does not count towards the 1,500-2,000 words. Use at least six real, credible sources, at least two of them scholarly or official; check each one laterally before you use it; and cite them consistently in an author-year style such as APA. Do not invent sources or statistics. When the draft is complete, edit it in four passes: argument, paragraph, sentence and word. This is practice: the level's final writing task is the C2 writing task, a separate item at the end of C2 on the path. It offers fictional source packs as well as your own question with real sources."
       },
       "min_words": 1400,
       "max_words": 2200,
@@ -1148,7 +1148,7 @@
           "en": "Limitations and conclusion: limitations are specific and honest; the conclusion answers the research question, states implications and adds no new evidence."
         },
         {
-          "en": "Source use: no patchwriting; quotations are short, purposeful and integrated; in-text citations and the reference list follow one style consistently."
+          "en": "Source use: no patchwriting; quotations are short, purposeful and integrated; in-text citations and the reference list follow one author-year style (such as APA) consistently."
         },
         {
           "en": "Language: key terms are defined once and kept; words are precise; the register is formal; sentence structures are varied and accurate."
@@ -1158,7 +1158,7 @@
         }
       ],
       "explanation": {
-        "en": "This is the C2 final assessment. It brings together the whole level: a qualified thesis built on a focused research question, evidence evaluated and synthesised, the strongest objection steelmanned and answered, calibrated language, and a draft edited in deliberate passes. The model answer shows the moves on a different question; its sources are invented for illustration, so it cannot be used as a source."
+        "en": "This is the C2 practice paper. The level's final writing task is the separate C2 writing task on the path. The practice paper brings together the whole level: a qualified thesis built on a focused research question, evidence evaluated and synthesised, the strongest objection steelmanned and answered, calibrated language, and a draft edited in deliberate passes. The model answer shows the moves on a different question; its sources are invented for illustration, so it cannot be used as a source."
       }
     }
   ],

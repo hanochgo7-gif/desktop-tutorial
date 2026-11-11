@@ -306,7 +306,7 @@
     },
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "paragraph-basics",
-      "prompt": { "en": "Final task: write your story.", "he": "משימת סיום: כתבו את הסיפור שלכם." },
+      "prompt": { "en": "Writing practice: write your story.", "he": "תרגול כתיבה: כתבו את הסיפור שלכם." },
       "task": { "en": "Write a short story about something that happened to you (100-130 words), with a beginning, a middle and an end. Start with a topic sentence, tell the events in order with sequence words (first, then, after that, when, in the end), keep the past simple, and finish with how you felt. Ideas: a trip, a first day at work or school, a concert, an embarrassing moment.", "he": "כתבו סיפור קצר על משהו שקרה לכם (100-130 מילים), עם התחלה, אמצע וסוף. פתחו במשפט נושא, ספרו את האירועים לפי הסדר בעזרת מילות רצף (first, then, after that, when, in the end), הקפידו על עבר פשוט, וסיימו במה שהרגשתם. רעיונות: טיול, יום ראשון בעבודה או בבית ספר, הופעה, פדיחה." },
       "min_words": 100,
       "max_words": 130,
