@@ -93,10 +93,10 @@ is prefixed `lucid_`. The prefix only avoids name clashes; it does not isolate a
    - **Refresh token reuse detection** (Sessions, advanced settings): on by default; leave it on.
    - **Rate limits:** review the sign-up and email limits.
    - **CAPTCHA:** Supabase supports hCaptcha and Cloudflare Turnstile on sign-up, sign-in and password reset.
-     **Lucid's client does not send a CAPTCHA token yet, so turning this on now blocks sign-up, sign-in and password
-     reset in Lucid.** Adding it needs client work: load the widget (and allow its script in the CSP) and send the
-     token with those three requests. Until then, scripted sign-ups are limited only by email confirmation,
-     Supabase's rate limits, the project-wide AI budget (section 4) and the Anthropic spend limit.
+     Lucid's client supports both, and ships with CAPTCHA **off**. While it is off, scripted sign-ups are limited
+     only by email confirmation, Supabase's rate limits, the project-wide AI budget (section 4) and the Anthropic
+     spend limit. Turning it on is the section "CAPTCHA" below; do all of it in one change, or sign-up, sign-in and
+     password reset stop working in Lucid.
 5. Put the project URL and its **publishable (anon) key** in `lucid/config.js`:
    ```js
    export const CONFIG = { supabaseUrl: 'https://<project>.supabase.co', supabaseKey: '<publishable key>', aiEnabled: false, aiFunction: 'lucid-ai' };
@@ -105,6 +105,51 @@ is prefixed `lucid_`. The prefix only avoids name clashes; it does not isolate a
    key in the client.
 6. Turn on Supabase usage and spend alerts for the organisation. A free-plan database becomes read-only above
    500 MB, which would stop sync for every learner.
+
+### 3.1 CAPTCHA
+
+Lucid's client sends a CAPTCHA token with sign-up, sign-in, password reset and the sign-in that checks the current
+password before a password change, in the field Supabase Auth reads (`gotrue_meta_security.captcha_token`). It is
+off until `config.js` names a provider and a site key (`js/core/captcha.js`). With Turnstile the widget runs in
+"interaction-only" mode, so most people see no puzzle (decision D19); hCaptcha shows its checkbox. A trade-off to
+record with D19: the widget loads a script from the provider, which then sees the visitor's IP address and browser
+when they sign in, sign up or reset a password (nothing else in Lucid loads a third-party script). Say so in
+`privacy.html` before turning it on.
+
+The page's Content Security Policy is a `<meta>` tag in `index.html`, so it cannot change with `config.js` at
+runtime: the provider's hosts are added to it by hand, in the same change that sets the key. Steps, all in one
+commit and one deploy:
+
+1. Create the site key and secret key with the provider (Cloudflare Turnstile or hCaptcha), for Lucid's own origin.
+2. In Supabase (Authentication, Attack Protection), turn on CAPTCHA protection, choose the same provider and paste
+   the **secret** key there. The secret key never goes in the client.
+3. In `lucid/config.js` set `captchaProvider` to `'turnstile'` or `'hcaptcha'` and `captchaSiteKey` to the
+   **site** key (it is public by design).
+4. Replace the CSP in `lucid/index.html` (the `Content-Security-Policy` meta tag) with the one for the provider below,
+   and the `Content-Security-Policy` header in `lucid/vercel.json` too, if the deployment sets one there. Each
+   differs from today's policy only by the provider's hosts (Turnstile: `script-src` and a new `frame-src`;
+   hCaptcha: `script-src`, `style-src`, `connect-src` and a new `frame-src`).
+
+   Turnstile (from Cloudflare's CSP reference, developers.cloudflare.com/turnstile/reference/content-security-policy):
+   <!-- csp:turnstile -->
+   ```
+   default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src https://challenges.cloudflare.com
+   ```
+   hCaptcha:
+   <!-- csp:hcaptcha -->
+   ```
+   default-src 'self'; script-src 'self' https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://*.supabase.co https://hcaptcha.com https://*.hcaptcha.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src https://hcaptcha.com https://*.hcaptcha.com
+   ```
+5. Regenerate the release files from `lucid/` (`node tools/build-manifest.mjs`) and run the tests:
+   `tests/unit/captcha.test.mjs` fails while `config.js` and the CSP disagree, in either direction.
+6. After the deploy, sign up, sign in, reset a password and change a password once each on the live site, with a
+   keyboard and a screen reader as well. A refused token shows "We could not verify the request. Try again."
+
+To turn CAPTCHA off again, do the same in reverse: switch it off in Supabase first, then empty `captchaProvider`
+and `captchaSiteKey` and restore today's CSP:
+```
+default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'
+```
 
 **Storage limits.** Each account can keep at most **100,000 records and 50 MB** of JSON in `lucid_records`
 (migration 002). A write that would go over is refused with SQLSTATE `54000`. Deleting or shrinking records is always
@@ -140,7 +185,14 @@ and watch the usage alerts.
 
    A missing or malformed number falls back to its default. `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are
    provided by Supabase.
-3. Set `aiEnabled: true` in `lucid/config.js`.
+3. Set `aiEnabled: true` in `lucid/config.js`. Leave `aiScoring: 'hidden'` until the gold set meets the scoring
+   gate (roadmap LB-08): learners then see located mistakes, hints and comments, but no category bands, no CEFR range
+   on a final draft and no AI-based writing level. `'shown'` shows them.
+   Before real learners use AI, check the safety rule live (roadmap LB-04 and LB-10): every prompt tells the model
+   to step out of the exercise or role when a learner discloses distress, self-harm, abuse or danger, answer
+   briefly and kindly, and flag `safety_concern`; the app then shows its own help card (`js/core/support.js`, with
+   Israeli numbers checked in November 2026: 101, 100, 1201 and 105) and records no score. Have the operator or legal
+   confirm those numbers and run scripted disclosures, in Hebrew and English, against the deployed function.
 4. Learners must sign in and turn on "AI feedback" in Settings (an explicit consent, stored on their profile).
 
 **Cost control.** Writing evaluation costs 3 units per scoring run (3, 6 or 9), conversation feedback 2, and each

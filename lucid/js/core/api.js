@@ -96,27 +96,30 @@ const clearPending = () => { try { webStorage('local')?.removeItem(PENDING_KEY);
 const markRecovery = () => { try { webStorage('session')?.setItem(RECOVERY_KEY, String(Date.now())); } catch { /* ignore */ } };
 const clearRecovery = () => { try { webStorage('session')?.removeItem(RECOVERY_KEY); } catch { /* ignore */ } };
 // Only in-app routes are allowed as a place to return to.
+// A CAPTCHA token (js/core/captcha.js, on only when config.js names a provider) goes in the field Supabase Auth
+// reads. Without a token the body is exactly what it was before CAPTCHA support (audit BLK-10).
+export const withCaptcha = (body, captchaToken) => (captchaToken ? { ...body, gotrue_meta_security: { captcha_token: String(captchaToken) } } : body);
 export const safeNext = (h) => (typeof h === 'string' && /^#\/[\w\-/]*(\?[\w\-=&%.]*)?$/.test(h) && !/^#\/(account|welcome|start)\b/.test(h) ? h : '');
 
 export const auth = {
   get user() { return session?.user || null; },
   get signedIn() { return Boolean(session?.access_token); },
-  async signUp(email, password, { next = '' } = {}) {
+  async signUp(email, password, { next = '', captchaToken = '' } = {}) {
     const redirect = location.origin + location.pathname;
     markPending('signup', { email, next: safeNext(next) });
-    const r = await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/signup?redirect_to=${encodeURIComponent(redirect)}`, { email, password }, { auth: false });
+    const r = await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/signup?redirect_to=${encodeURIComponent(redirect)}`, withCaptcha({ email, password }, captchaToken), { auth: false });
     if (r?.access_token) { saveSession(withExpiry(r)); clearPending(); }
     return { needsConfirmation: !r?.access_token, user: r?.user || r };
   },
-  async signIn(email, password) {
-    const r = await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/token?grant_type=password`, { email, password }, { auth: false });
+  async signIn(email, password, { captchaToken = '' } = {}) {
+    const r = await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/token?grant_type=password`, withCaptcha({ email, password }, captchaToken), { auth: false });
     saveSession(withExpiry(r));
     return r.user;
   },
-  async resetPassword(email) {
+  async resetPassword(email, { captchaToken = '' } = {}) {
     const redirect = location.origin + location.pathname;
     markPending('recovery', { email });
-    await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/recover?redirect_to=${encodeURIComponent(redirect)}`, { email }, { auth: false });
+    await raw('POST', `${CONFIG.supabaseUrl}/auth/v1/recover?redirect_to=${encodeURIComponent(redirect)}`, withCaptcha({ email }, captchaToken), { auth: false });
   },
   // Who the current session belongs to (also refreshes the stored copy).
   async fetchUser() {
@@ -130,12 +133,13 @@ export const auth = {
     try { const at = Number(webStorage('session')?.getItem(RECOVERY_KEY)); return Boolean(at) && Date.now() - at < RECOVERY_WINDOW_MS; } catch { return false; }
   },
   // Changing the password needs the current one (S-12), except right after a reset link.
-  async updatePassword(password, { current = '' } = {}) {
+  // With CAPTCHA on, the sign-in that checks the current password needs a token too (captchaToken).
+  async updatePassword(password, { current = '', captchaToken = '' } = {}) {
     if (!this.recoveryFresh) {
       if (!current) throw new ApiError('Enter your current password.', { code: 'reauth_required' });
       const email = this.user?.email || (await this.fetchUser()).email;
-      try { await this.signIn(email, current); } catch (e) {
-        if (e.network) throw e;
+      try { await this.signIn(email, current, { captchaToken }); } catch (e) {
+        if (e.network || e.code === 'captcha_failed' || /captcha/i.test(e.message || '')) throw e;
         throw new ApiError('The current password is not correct.', { status: 400, code: 'wrong_password' });
       }
     }

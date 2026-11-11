@@ -19,6 +19,11 @@ import { CONFIG } from '../../config.js';
 import { runSet } from '../ui/player.js';
 import { STAGES } from './writing.js';
 import { wordDiff, diffParagraphs, fixStatus, locateSpan } from '../core/diff.js';
+import { supportCard } from '../core/support.js';
+
+// Uncalibrated AI scores (category bands, the CEFR range of a final draft, the AI writing level) are hidden while
+// config.js says aiScoring: 'hidden' (roadmap LB-08, audit BLK-11). Located mistakes, hints and comments stay.
+const scoresShown = () => CONFIG.aiScoring !== 'hidden';
 
 const BAND = [['אין מספיק כדי לשפוט', 'Not enough to judge'], ['כרמה אחת מתחת ליעד', 'About a level below target'], ['מתקרב ליעד', 'Approaching target'], ['עומד ביעד', 'Meets target'], ['מעט מעל היעד', 'A little above target'], ['הרבה מעל היעד', 'Well above target']];
 const CATEGORY = {
@@ -189,6 +194,8 @@ export default async function essay(el, ctx) {
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   let timerEnd = null; let timerId = null;
 
+  // The out-of-role reply when the learner disclosed distress or danger (audit BLK-09); not stored with the text.
+  let safetyReply = null;
   const latestEval = () => versions().filter((v) => v.evaluation).at(-1) || null;
   const evaluatedCount = () => versions().filter((x) => x.evaluation).length;
   const isFinal = () => Boolean(latestEval()?.final);
@@ -270,8 +277,14 @@ export default async function essay(el, ctx) {
       ${e?.verification_note ? html`<div class="ai-note"><p class="xsmall"><strong>${tt('מהמשוב של ה-AI: מה לבדוק', 'From the AI feedback: what to check')}</strong></p><p dir="auto">${e.verification_note}</p></div>` : ''}</div></div>`;
   }
 
+  function safetyPanel() {
+    const r = safetyReply;
+    return html`<div class="stack" data-safety>${r.summary_he && hebrewSupport() !== 'off' ? html`<p lang="he" dir="rtl">${isolateLatin(r.summary_he)}</p>` : html`<p dir="auto">${r.summary}</p>`}${supportCard({ level: 3 })}</div>`;
+  }
+
   function aiPanel() {
     const v = latestEval();
+    if (aiReady && safetyReply) return safetyPanel();
     if (!aiReady) {
       return html`<div class="stack-sm"><p class="banner small">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('כדי לקבל משוב AI צריך להיכנס לחשבון.', 'Sign in to get AI feedback.') : tt('הפעילו ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.')}</span></p></div>`;
     }
@@ -280,10 +293,10 @@ export default async function essay(el, ctx) {
     const done = !roundsLeft();
     return html`<div class="stack">
       ${e.task_fulfilment && e.task_fulfilment.status !== 'complete' ? html`<p class="banner warn small">${icon('alert', { size: 16 })}<span dir="auto"><strong>${e.task_fulfilment.status === 'off_topic' ? tt('הטקסט לא עונה על המשימה.', 'The text does not answer the task.') : tt('חלק מהמשימה חסר.', 'Part of the task is missing.')}</strong> ${e.task_fulfilment.note}</span></p>` : ''}
-      ${v.final ? html`<div class="row between"><span class="small">${tt('הערכת רמה של הטקסט (טווח)', 'Estimated level of this text (range)')}</span><span class="tag level">${rangeOf(e)}</span></div>`
-        : html`<div class="stack-sm final-box"><p class="small muted">${tt('בזמן תיקונים רואים דירוג לפי קטגוריות. טווח הרמה הכולל מופיע כשמסמנים טיוטה סופית.', 'While you revise you see category bands. The overall level range appears when you mark a final draft.')}</p>
+      ${v.final ? (scoresShown() ? html`<div class="row between"><span class="small">${tt('הערכת רמה של הטקסט (טווח)', 'Estimated level of this text (range)')}</span><span class="tag level">${rangeOf(e)}</span></div>` : html`<p class="small" data-final-done>${tt('זו הטיוטה הסופית של המשימה.', 'This is your final draft for this task.')}</p>`)
+        : html`<div class="stack-sm final-box"><p class="small muted">${scoresShown() ? tt('בזמן תיקונים רואים דירוג לפי קטגוריות. טווח הרמה הכולל מופיע כשמסמנים טיוטה סופית.', 'While you revise you see category bands. The overall level range appears when you mark a final draft.') : tt('בזמן תיקונים רואים הערות לפי קטגוריות.', 'While you revise you see comments by category.')}</p>
           <div class="row"><button type="button" class="key small" data-final>${icon('flag', { size: 16 })} ${tt('לסמן כטיוטה סופית', 'Mark as final draft')}</button></div>
-          <p class="xsmall faint">${tt(`זה מסיים את התיקונים במשימה: הטיוטה האחרונה שקיבלה משוב נחשבת לסופית, טווח הרמה מופיע, והמשימה נספרת כגמורה.${evaluatedCount() < MAX_EVALS ? ` אפשר גם להמשיך לתקן (${MAX_EVALS - evaluatedCount() === 1 ? 'נשאר סבב אחד' : `נשארו ${MAX_EVALS - evaluatedCount()} סבבים`}).` : ''}`, `This ends revising: your last draft with feedback becomes final, its level range appears and the task counts as done.${evaluatedCount() < MAX_EVALS ? ` You can also keep revising (${MAX_EVALS - evaluatedCount()} round${MAX_EVALS - evaluatedCount() === 1 ? '' : 's'} left).` : ''}`)}</p></div>`}
+          <p class="xsmall faint">${tt(`זה מסיים את התיקונים במשימה: הטיוטה האחרונה שקיבלה משוב נחשבת לסופית,${scoresShown() ? ' טווח הרמה מופיע,' : ''} והמשימה נספרת כגמורה.${evaluatedCount() < MAX_EVALS ? ` אפשר גם להמשיך לתקן (${MAX_EVALS - evaluatedCount() === 1 ? 'נשאר סבב אחד' : `נשארו ${MAX_EVALS - evaluatedCount()} סבבים`}).` : ''}`, `This ends revising: your last draft with feedback becomes final${scoresShown() ? ', its level range appears' : ''} and the task counts as done.${evaluatedCount() < MAX_EVALS ? ` You can also keep revising (${MAX_EVALS - evaluatedCount()} round${MAX_EVALS - evaluatedCount() === 1 ? '' : 's'} left).` : ''}`)}</p></div>`}
       <p dir="auto">${e.summary}</p>${e.summary_he && hebrewSupport() !== 'off' ? html`<p lang="he" dir="rtl" class="muted small">${e.summary_he}</p>` : ''}
       ${e.revision?.progress_since_previous ? html`<div class="banner small">${icon('compare', { size: 16 })}<span dir="auto">${e.revision.progress_since_previous}</span></div>` : ''}
       ${e.strengths?.length ? html`<div class="stack-sm"><h3 class="small">${tt('מה עובד', 'What works')}</h3>${e.strengths.map((s) => html`<p class="note-row small">${icon('check', { size: 16 })}<span dir="auto">${s}</span></p>`)}</div>` : ''}
@@ -292,10 +305,10 @@ export default async function essay(el, ctx) {
       ${e.revision?.tasks?.length ? html`<div class="stack-sm"><h3 class="small">${done ? tt('מה לקחת למשימה הבאה', 'What to carry into your next task') : tt('לטיוטה הבאה', 'For your next draft')}</h3><ol class="small stack-sm" style="margin:0;padding-inline-start:1.2rem">${e.revision.tasks.map((x) => html`<li dir="auto">${x}</li>`)}</ol></div>` : ''}
       ${!done ? selfForm({ next: true }) : ''}
       ${errorList(e)}
-      <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span><span class="band">${e.low_confidence?.includes(c.id) ? html`<span title="${tt('הערכה לא ודאית', 'Low-confidence estimate')}">~</span>` : ''}${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}${e.self?.[c.id] != null ? html` <span class="xsmall faint">(${tt('הערכה עצמית', 'you said')}: ${tt(BAND[e.self[c.id]][0], BAND[e.self[c.id]][1])})</span>` : ''}</span>
+      <div class="stack-sm"><h3 class="small">${tt('לפי קטגוריה', 'By category')}</h3><div class="rubric">${e.categories.filter((c) => c.applicable).map((c) => html`<div class="rubric-row"><span>${tt(CATEGORY[c.id]?.[0] || c.id, CATEGORY[c.id]?.[1] || c.id)}</span>${scoresShown() ? html`<span class="band">${e.low_confidence?.includes(c.id) ? html`<span title="${tt('הערכה לא ודאית', 'Low-confidence estimate')}">~</span>` : ''}${tt(BAND[c.score ?? 0][0], BAND[c.score ?? 0][1])}${e.self?.[c.id] != null ? html` <span class="xsmall faint">(${tt('הערכה עצמית', 'you said')}: ${tt(BAND[e.self[c.id]][0], BAND[e.self[c.id]][1])})</span>` : ''}</span>` : ''}
         <details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><div class="stack-sm" style="margin-top:var(--s2)"><p dir="auto">${c.explanation}</p>${c.examples.map((x) => html`<p class="small"><span class="quote" lang="en" dir="ltr">${x.quote}</span> <span class="muted" dir="auto">${x.comment}</span></p>`)}<p dir="auto"><strong>${tt('לשפר:', 'Improve:')}</strong> ${c.improvement}</p><p dir="auto" class="muted"><strong>${tt('לתרגל:', 'Practise:')}</strong> ${c.practice}</p></div></details></div>`)}</div>
-        <p class="xsmall faint">${tt(`הדירוג ביחס ליעד של רמה ${LEVEL_LABEL[level] || level}. ${t('level.estimate')}.`, `Bands are relative to the ${LEVEL_LABEL[level] || level} target. ${t('level.estimate')}.`)}</p>
-        ${rubric?.scale ? html`<details><summary class="xsmall">${tt('איך עובד הדירוג?', 'How do the bands work?')}</summary><div class="stack-sm small" style="margin-top:var(--s2)">${rubric.scale.map((b) => html`<p><span class="tag num">${b.band}</span> ${bi(b)}</p>`)}${rubric.na ? html`<p><span class="tag">N/A</span> ${bi(rubric.na)}</p>` : ''}${e.categories.filter((c) => c.applicable).map((c) => { const rc = rubric.categories?.find((x) => x.id === c.id); return rc ? html`<p><strong>${tt(rc.name_he, rc.name_en)}:</strong> ${bi({ en: rc.what_en, he: rc.what_he })}</p>` : ''; })}</div></details>` : ''}</div>
+        ${scoresShown() ? html`<p class="xsmall faint">${tt(`הדירוג ביחס ליעד של רמה ${LEVEL_LABEL[level] || level}. ${t('level.estimate')}.`, `Bands are relative to the ${LEVEL_LABEL[level] || level} target. ${t('level.estimate')}.`)}</p>` : ''}
+        ${rubric?.scale && scoresShown() ? html`<details><summary class="xsmall">${tt('איך עובד הדירוג?', 'How do the bands work?')}</summary><div class="stack-sm small" style="margin-top:var(--s2)">${rubric.scale.map((b) => html`<p><span class="tag num">${b.band}</span> ${bi(b)}</p>`)}${rubric.na ? html`<p><span class="tag">N/A</span> ${bi(rubric.na)}</p>` : ''}${e.categories.filter((c) => c.applicable).map((c) => { const rc = rubric.categories?.find((x) => x.id === c.id); return rc ? html`<p><strong>${tt(rc.name_he, rc.name_en)}:</strong> ${bi({ en: rc.what_en, he: rc.what_he })}</p>` : ''; })}</div></details>` : ''}</div>
       ${e.required_elements?.length ? html`<div class="stack-sm"><h3 class="small">${tt('רכיבי חובה', 'Required elements')}</h3>${e.required_elements.map((r) => html`<p class="note-row small">${icon(r.present ? 'check' : 'x', { size: 16 })}<span dir="auto"><strong>${r.element}</strong> · ${r.comment}</span></p>`)}</div>` : ''}
       <p class="xsmall faint row">${icon('alert', { size: 14 })} ${t('ai.label')}. <button type="button" class="key ghost small" data-report>${t('ai.report')}</button></p></div>`;
   }
@@ -400,7 +413,7 @@ export default async function essay(el, ctx) {
     const rows = SELF.map((id) => html`<label class="row small"><span class="grow">${tt(CATEGORY[id][0], CATEGORY[id][1])}</span><select class="input compact" data-self="${id}"><option value="">—</option>${[0, 1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${selfScores[id] === n ? html`selected` : ''}>${tt(BAND[n][0], BAND[n][1])}</option>`)}</select></label>`);
     if (next) {
       return html`<details class="panel flat self-rate" ${Object.keys(selfScores).length ? html`open` : ''}><summary class="small">${tt('לפני המשוב הבא: דרגו בעצמכם את הטיוטה המתוקנת (רשות)', 'Before your next feedback: rate your revised draft yourself (optional)')}</summary>
-        <div class="stack-sm" style="margin-top:var(--s2)"><p class="xsmall faint">${tt('הדירוג שלכם נשמר עם המשוב הבא ומוצג ליד הדירוג של ה-AI. הוא לא נשלח ל-AI.', 'Your rating is saved with your next feedback and shown next to the AI\'s bands. It is not sent to the AI.')}</p>${rows}</div></details>`;
+        <div class="stack-sm" style="margin-top:var(--s2)"><p class="xsmall faint">${scoresShown() ? tt('הדירוג שלכם נשמר עם המשוב הבא ומוצג ליד הדירוג של ה-AI. הוא לא נשלח ל-AI.', 'Your rating is saved with your next feedback and shown next to the AI\'s bands. It is not sent to the AI.') : tt('הדירוג שלכם נשמר עם המשוב הבא. הוא לא נשלח ל-AI.', 'Your rating is saved with your next feedback. It is not sent to the AI.')}</p>${rows}</div></details>`;
     }
     return html`<div class="panel flat stack-sm self-rate"><p class="small">${tt('לפני המשוב: איך הייתם מדרגים את הטקסט?', 'Before the feedback: how would you rate your text?')}</p>${rows}</div>`;
   }
@@ -447,7 +460,7 @@ export default async function essay(el, ctx) {
     if (!vs.length) return html`<p class="small muted">${tt('כל בדיקה או שליחה שומרת גרסה. כך אפשר לראות מה השתנה.', 'Every check or submission saves a version, so you can see what changed.')}</p>${deleteRow()}`;
     // Only a final draft shows a level, and as a range (persona panel P-71).
     return html`<div class="stack">
-      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.timed ? html`<span class="tag" title="${tt('נכתבה כשהטיימר רץ', 'Written with the timer running')}">${tt('בזמן', 'Timed')}</span>` : ''}${v.final ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}${v.self_final ? html`<span class="tag ok">${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span>` : v.self ? html`<span class="tag">${tt('דירוג עצמי', 'Self-rated')}</span>` : ''}</li>`)}</ul>
+      <ul class="stack-sm" style="list-style:none;padding:0;margin:0">${vs.map((v) => html`<li class="row small"><span class="tag num">v${v.n}</span><span class="grow">${new Date(v.at).toLocaleString(document.documentElement.lang === 'he' ? 'he-IL' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })} · ${v.words} ${tt('מילים', 'words')}</span>${v.timed ? html`<span class="tag" title="${tt('נכתבה כשהטיימר רץ', 'Written with the timer running')}">${tt('בזמן', 'Timed')}</span>` : ''}${v.final && scoresShown() ? html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${rangeOf(v.evaluation)}</span>` : v.evaluation ? html`<span class="tag">${tt('משוב AI', 'AI feedback')}</span>` : ''}${v.self_final ? html`<span class="tag ok">${tt('סופית · הערכה עצמית', 'Final · self-assessed')}</span>` : v.self ? html`<span class="tag">${tt('דירוג עצמי', 'Self-rated')}</span>` : ''}</li>`)}</ul>
       ${compareView(vs)}${deleteRow()}</div>`;
   }
 
@@ -636,8 +649,8 @@ export default async function essay(el, ctx) {
   // The last draft with feedback becomes final: the level range appears and the task counts as done.
   function markFinal(v, { auto = false } = {}) {
     store.put('writing', { ...v, final: true });
-    putSummary({ status: 'final', final_range: rangeOf(v.evaluation) });
-    logEvent({ type: 'writing-final', exercise: task.id, estimate: v.evaluation?.cefr_estimate, auto });
+    putSummary({ status: 'final', final_range: scoresShown() ? rangeOf(v.evaluation) : null });
+    logEvent({ type: 'writing-final', exercise: task.id, ...(scoresShown() ? { estimate: v.evaluation?.cefr_estimate } : {}), auto });
   }
 
   function payload(sent, prev) {
@@ -664,10 +677,17 @@ export default async function essay(el, ctx) {
     // A long paper and its previous draft may not fit in one request: then the drafts are not compared.
     if (prev && bytes(body) > AI_BODY_MAX) { body = payload(sent, null); aiNote = tt('הטיוטה ארוכה מדי כדי לשלוח אותה יחד עם הקודמת, ולכן המשוב הפעם לא משווה בין הטיוטות.', 'This draft is too long to send together with the previous one, so this time the feedback does not compare drafts.'); }
     if (bytes(body) > AI_BODY_MAX) { aiError = aiErrorText({ code: 'too_large' }); draw(); return; }
-    busy = true; aiError = ''; tab = 'ai'; busySince = Date.now(); draw(); revealPanel();
+    busy = true; aiError = ''; safetyReply = null; tab = 'ai'; busySince = Date.now(); draw(); revealPanel();
     busyTimer = setInterval(tickElapsed, 1000);
     try {
       const r = await callAI(body);
+      if (r.evaluation?.safety_concern) {
+        // The learner disclosed distress or danger (audit BLK-09): the text is kept as a plain version, and nothing is
+        // scored, recorded or counted as a feedback round. The AI's reply and Lucid's help card show instead.
+        safetyReply = { summary: r.evaluation.summary || '', summary_he: r.evaluation.summary_he || null };
+        saveVersion(null, sent);
+        throw Object.assign(new Error('safety'), { safety: true });
+      }
       const ev = { ...r.evaluation, self: Object.keys(selfScores).length ? { ...selfScores } : null };
       const v = saveVersion(ev, sent);
       selfScores = {};
@@ -675,12 +695,13 @@ export default async function essay(el, ctx) {
       // AI-confirmed errors feed the recurring-mistake tracker; one writing attempt records the overall band.
       for (const er of ev.errors || []) if (er.severity !== 'style') recordAttempt({ source: 'writing', exercise: task.id, topic, skill: 'writing', level, correct: false, error_type: er.type, response: er.quote });
       const scored = (ev.categories || []).filter((c) => c.applicable && c.score != null);
-      recordAttempt({ source: 'writing', exercise: task.id, topic, skill: 'writing', level, correct: scored.length ? scored.reduce((a, c) => a + c.score, 0) / scored.length >= 3 : true, score: scored.length ? scored.reduce((a, c) => a + c.score, 0) / scored.length / 5 : null });
+      // With AI scores hidden the attempt is practice, not evidence (score null).
+      recordAttempt({ source: 'writing', exercise: task.id, topic, skill: 'writing', level, correct: scored.length && scoresShown() ? scored.reduce((a, c) => a + c.score, 0) / scored.length >= 3 : true, score: scored.length && scoresShown() ? scored.reduce((a, c) => a + c.score, 0) / scored.length / 5 : null });
       logEvent({ type: 'writing', exercise: task.id });
       // After the last round the draft is final (persona panel P-80).
       if (evaluatedCount() >= MAX_EVALS) { markFinal(v, { auto: true }); toast(tt('זה היה סבב המשוב האחרון, ולכן הטיוטה הזו היא עכשיו הסופית.', 'That was the last feedback round, so this draft is now your final draft.')); }
     } catch (e) {
-      aiError = aiErrorText(e);
+      if (!e.safety) aiError = aiErrorText(e);
     }
     busy = false; clearInterval(busyTimer); draw(); revealPanel();
   }

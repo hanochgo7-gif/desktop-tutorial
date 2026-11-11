@@ -19,6 +19,9 @@ import { isUnder16, aiConsented } from '../core/age.js';
 import { content } from '../core/content.js';
 import { speedSwitch, toggleSpeed } from './wordgame.js';
 import { paceOf } from '../core/wordgame.js';
+// With CAPTCHA on (off by default), changing the password signs in again with the current one, and that sign-in
+// needs a token too (audit BLK-10). After a reset link no sign-in is made, so no widget is needed.
+import { captchaOn, mountCaptcha, isCaptchaError, captchaFailedText } from '../core/captcha.js';
 
 // A segmented control named by its visible label (UX r3 PH-3): the group points at the label, and at its help line
 // when there is one. off: the setting does nothing on this site (AI), so the group is greyed and inert (PH-5).
@@ -68,6 +71,7 @@ export default async function settingsView(el, ctx) {
       ${fresh ? '' : html`<div class="field"><label for="cp">${tt('הסיסמה הנוכחית', 'Current password')}</label><input class="input" id="cp" type="password" autocomplete="current-password" dir="ltr" required></div>`}
       <div class="field"><label for="np">${tt('סיסמה חדשה (לפחות 8 תווים)', 'New password (at least 8 characters)')}</label><input class="input" id="np" type="password" minlength="8" autocomplete="new-password" dir="ltr" required></div>
       ${pwMsg ? html`<p class="error-text" role="alert">${pwMsg}</p>` : ''}
+      ${!fresh && captchaOn() ? html`<div class="captcha-slot" data-captcha></div>` : ''}
       <div class="row"><button class="key enter" type="submit">${t('save')}</button>${fresh ? '' : html`<button type="button" class="key ghost" data-pw-cancel>${t('cancel')}</button>`}</div></form>`;
   }
 
@@ -146,7 +150,11 @@ export default async function settingsView(el, ctx) {
         <p class="xsmall faint settings-foot"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a> · <a href="accessibility.html" target="_blank" rel="noopener">${tt('הצהרת נגישות', 'Accessibility statement')}</a> · ${t('level.estimate')}</p>
       </div>`);
     fitSegs(el);
+    pwCaptcha?.dispose();
+    const slot = captchaOn() ? $('[data-captcha]', el) : null;
+    pwCaptcha = slot ? mountCaptcha(slot, { lang: document.documentElement.lang === 'he' ? 'he' : 'en' }) : null;
   }
+  let pwCaptcha = null;
 
   // After a redraw the keyboard stays on the control that was used (PH-3).
   const redraw = (sel) => { draw(); $(sel, el)?.focus({ preventScroll: true }); };
@@ -310,17 +318,25 @@ export default async function settingsView(el, ctx) {
       const current = $('#cp', el)?.value || '', next = $('#np', el).value;
       if (next.length < 8) { pwMsg = tt('הסיסמה החדשה צריכה לפחות 8 תווים.', 'The new password needs at least 8 characters.'); draw(); return; }
       if (!auth.recoveryFresh && !current) { pwMsg = tt('כתבו את הסיסמה הנוכחית.', 'Enter your current password.'); draw(); return; }
+      let captchaToken = '';
+      if (pwCaptcha && !auth.recoveryFresh) {
+        try { captchaToken = await pwCaptcha.token(); } catch (err) {
+          if (err.code === 'captcha_disposed') return;
+          pwMsg = captchaFailedText(); draw(); return;
+        }
+      }
       try {
-        await auth.updatePassword(next, { current });
+        await auth.updatePassword(next, { current, captchaToken });
         pwOpen = false; pwMsg = '';
         toast(tt('הסיסמה עודכנה', 'Password updated'));
         if (ctx.query.reset) ctx.navigate('settings'); else draw();
       } catch (err) {
         pwMsg = err.code === 'wrong_password' ? tt('הסיסמה הנוכחית לא נכונה.', 'The current password is not correct.')
+          : captchaToken && isCaptchaError(err) ? captchaFailedText()
           : err.network ? tt('אין חיבור לשרת. נסו שוב.', 'No connection to the server. Please try again.') : err.message;
         draw();
       }
     }),
   ];
-  return () => { sizeWatch.disconnect(); offs.forEach((o) => o()); };
+  return () => { pwCaptcha?.dispose(); sizeWatch.disconnect(); offs.forEach((o) => o()); };
 }

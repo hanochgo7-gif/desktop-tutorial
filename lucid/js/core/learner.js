@@ -9,6 +9,7 @@ import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCar
 import { setHebrewSupport } from './i18n.js';
 import { START_FOR, selfReportResult } from './placement.js';
 import { aiConsented } from './age.js';
+import { CONFIG } from '../../config.js';
 
 export const DEFAULT_SETTINGS = {
   id: 'me',
@@ -351,7 +352,8 @@ export function model() {
     attempts, progress, placement, mastery, errors,
     weak: weakTopics(mastery).map((w) => ({ ...w, ...practiceRoute(w.topic, attempts, level) })),
     recurring: errors.filter((e) => e.recurring),
-    skills: skillLevels({ attempts, placement, writing: writing.map((w) => (w.last_evaluation ? { ...w, evaluation: w.last_evaluation } : w)) }),
+    // Uncalibrated AI writing estimates are no level while config.js hides AI scores (aiScoring 'hidden', LB-08).
+    skills: skillLevels({ attempts, placement, writing: writing.map((w) => (w.last_evaluation ? { ...w, evaluation: w.last_evaluation } : w)), useAiScores: CONFIG.aiScoring !== 'hidden' }),
     next,
     skipped: curriculum ? unwrittenAhead(curriculum, progress, available, next) : [],
     courseLevel: level,

@@ -6,8 +6,8 @@
 import Anthropic from 'npm:@anthropic-ai/sdk@1.3.0';
 import { zodOutputFormat } from 'npm:@anthropic-ai/sdk@1.3.0/helpers/zod';
 import {
-  Request as RequestSchema, UNITS, WritingEvaluation, type WritingEvaluation as WritingEvaluationT, RoleplayTurn, RoleplayFeedback,
-  postProcess, clampFeedback, type Request,
+  Request as RequestSchema, UNITS, WritingEvaluation, type WritingEvaluation as WritingEvaluationT, RoleplayTurn, RoleplayFeedback, TutorTurn,
+  postProcess, clampFeedback, checkTurn, type Request,
 } from './schemas.ts';
 import { writingSystem, roleplaySystem, feedbackSystem, tutorSystem, writingUserMessage, roleplayMessages, tutorMessages, applicabilityFor } from './prompts.ts';
 
@@ -216,7 +216,7 @@ function prepare(deps: Deps, body: Request): { units: number; send(): Promise<{ 
           const msg = await claude.beta.messages.parse(params);
           check(msg, msg.usage);
           if (!msg.parsed_output) throw new Incomplete(msg.usage);
-          return { result: msg.parsed_output, usage: msg.usage };
+          return { result: checkTurn(msg.parsed_output), usage: msg.usage };
         },
       };
     }
@@ -240,18 +240,20 @@ function prepare(deps: Deps, body: Request): { units: number; send(): Promise<{ 
     case 'tutor_turn': {
       const params = {
         model, max_tokens: 6000, ...FALLBACK,
-        output_config: { effort: 'low' as const },
+        // Structured output, so a safety reply carries its flag (audit BLK-09).
+        output_config: { effort: 'low' as const, format: zodOutputFormat(TutorTurn) },
         system: [{ type: 'text' as const, text: tutorSystem(), cache_control: { type: 'ephemeral' as const } }],
         messages: tutorMessages(body),
       };
       return {
         units: UNITS.tutor_turn,
         async send() {
-          const msg = await claude.beta.messages.create(params);
+          const msg = await claude.beta.messages.parse(params);
           check(msg, msg.usage);
-          const reply = msg.content.filter((b) => b.type === 'text').map((b) => (b as { text: string }).text).join('\n').trim();
+          const out = msg.parsed_output;
+          const reply = (out?.reply || '').trim();
           if (!reply) throw new Incomplete(msg.usage);
-          return { result: { reply }, usage: msg.usage };
+          return { result: { reply, safety_concern: Boolean(out?.safety_concern) }, usage: msg.usage };
         },
       };
     }

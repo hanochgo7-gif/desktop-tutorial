@@ -8,6 +8,13 @@ export const CONFIG = {
   // Set to true after deploying the lucid-ai edge function with an ANTHROPIC_API_KEY secret.
   aiEnabled: false,
   aiFunction: 'lucid-ai',
+  // 'hidden': AI writing feedback shows located mistakes, hints and comments, but no category bands, no CEFR range
+  // and no AI-based writing level, until the gold set meets the calibration gate (roadmap LB-08). 'shown' shows them.
+  aiScoring: 'hidden',
+  // CAPTCHA on sign-up, sign-in and password reset: 'turnstile' or 'hcaptcha' with the provider's site key. Empty
+  // means off. Turning it on also needs the provider's hosts in the CSP (docs/setup.md, "CAPTCHA").
+  captchaProvider: '',
+  captchaSiteKey: '',
 };
 
 // Lucid's own address, for example 'https://lucid.example.org/' (docs/setup.md "Launch switch"). Empty until it is
