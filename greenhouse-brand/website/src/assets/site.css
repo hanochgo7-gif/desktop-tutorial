@@ -1361,3 +1361,12 @@ textarea::placeholder, input::placeholder { color: #7C8C88; }
 
 /* the longer menu name "חוות חקלאיות עד מפתח" (Merav, 10 Nov 2026): a little less padding on the menu links just above the phone-menu width */
 @media (min-width: 1181px) and (max-width: 1320px) { .nav > ul > li > a:not(.btn) { padding-inline: 8px; } }
+
+/* Hanoch, 11 Nov 2026: a lighter headline face (Assistant), and the slogan a little thinner than the company name.
+   The name is set larger so the two lines stay exactly the same width (the ratio is measured for these weights). */
+.hero-os h1 { font-family: "Assistant", "Heebo", "Heebo Fallback", Arial, sans-serif; letter-spacing: -.01em; }
+.hero-os h1 .h1-a { font-weight: 600; }
+.hero-os h1 .h1-b { font-weight: 400; }
+html[lang="he"] .hero-os h1 .h1-a { font-size: 1.1745em; }  /* measured: Assistant 600 vs 400 */
+/* Assistant is narrower than Heebo: the Hebrew headline gets a larger size for the same width (phones fill the width as before) */
+[dir="rtl"] .hero-os h1 { font-size: min(9.5rem, calc(min(100vw - 2 * var(--gutter), var(--max)) / 7.35)); }
