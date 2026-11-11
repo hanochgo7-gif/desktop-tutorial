@@ -919,11 +919,19 @@
         "To some extent, the results support the original hypothesis.",
         "To some extent the results support the original hypothesis.",
         "The results support the original hypothesis to some extent.",
-        "The results, to some extent, support the original hypothesis."
+        "The results, to some extent, support the original hypothesis.",
+        "To a certain extent, the results support the original hypothesis.",
+        "To a certain extent the results support the original hypothesis.",
+        "The results support the original hypothesis to a certain extent.",
+        "The results, to a certain extent, support the original hypothesis.",
+        "To some degree, the results support the original hypothesis.",
+        "To some degree the results support the original hypothesis.",
+        "The results support the original hypothesis to some degree.",
+        "The results, to some degree, support the original hypothesis."
       ],
       "error_type": "preposition",
       "explanation": {
-        "en": "The fixed phrase is to some extent (also to a large extent, to what extent). In some extent is not used."
+        "en": "The fixed phrase is to some extent (also to a certain extent, to a large extent, to what extent, or to some degree). In some extent is not used."
       }
     },
     {

@@ -163,7 +163,7 @@
       "id": "e7", "type": "transform", "skill": "grammar", "topic": "quantifiers",
       "prompt": { "en": "Write a question for this answer. Start with How much or How many.", "he": "כתבו שאלה שמתאימה לתשובה. התחילו ב-How much או ב-How many." },
       "source": "I have 200 shekels.",
-      "answers": ["How much money do you have?", "How much money have you got?", "How many shekels do you have?", "How many shekels have you got?", "How much do you have?"],
+      "answers": ["How much money do you have?", "How much money have you got?", "How many shekels do you have?", "How many shekels have you got?", "How much do you have?", "How much have you got?"],
       "wrong_feedback": [
         { "match": "How much money you have?", "feedback": { "en": "An English question needs do: How much money do you have?", "he": "בשאלה באנגלית צריך do: How much money do you have?" }, "error_type": "do-support" },
         { "match": "How many money do you have?", "feedback": { "en": "money is uncountable: How much money. (Shekels are countable: How many shekels.)", "he": "money אינו ספיר, ולכן How much money. עם shekels, שהם ספירים, אומרים many." }, "error_type": "countability" },
@@ -178,7 +178,8 @@
       "id": "e8", "type": "correct", "skill": "grammar", "topic": "countable-uncountable",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
       "sentence": "Can you give me an advice?",
-      "answers": ["Can you give me some advice?", "Can you give me a piece of advice?", "Can you give me advice?", "Can you give me a bit of advice?", "Can you give me a little advice?"],
+      "answers": ["Can you give me some advice?", "Can you give me a piece of advice?", "Can you give me advice?", "Can you give me a bit of advice?", "Can you give me a little advice?", "Can you give me any advice?",
+        "Could you give me some advice?", "Could you give me any advice?", "Could you give me advice?", "Could you give me a piece of advice?", "Could you give me a bit of advice?", "Could you give me a little advice?"],
       "error_type": "countability",
       "hint": { "en": "advice is uncountable.", "he": "advice אינו ספיר." },
       "explanation": { "en": "advice has no a/an and no plural. Say some advice or a piece of advice.", "he": "ל-advice אין a/an ואין רבים. אומרים some advice או a piece of advice." }
@@ -237,6 +238,8 @@
         "How much money have you got? I only have a few shekels.",
         "How much money have you got? I have only a few shekels.",
         "How much money have you got? I've only got a few shekels.",
+        "How much money have you got? I just have a few shekels.",
+        "How much money have you got? I have just a few shekels.",
         "How much money do you have? Only a few shekels.",
         "How much money have you got? Only a few shekels."
       ],

@@ -210,10 +210,13 @@
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-perfect-vs-past",
-      "prompt": { "en": "Find the mistake and write the sentence correctly.", "he": "מצאו את הטעות וכתבו את המשפט נכון." },
+      "prompt": { "en": "Find the mistake and write the sentence correctly. Keep last year.", "he": "מצאו את הטעות וכתבו את המשפט נכון. השאירו את last year." },
       "sentence": "I have seen this film last year.",
       "answers": ["I saw this film last year.", "Last year I saw this film.", "Last year, I saw this film."],
       "error_type": "tense-choice",
+      "wrong_feedback": [
+        { "match": "I have seen this film.", "feedback": { "en": "That sentence is good English, but it drops last year. Keep last year and fix the verb: which tense goes with a finished time?", "he": "זה משפט תקין באנגלית, אבל last year נעלם ממנו. השאירו את last year ותקנו את הפועל: איזה זמן מתאים לזמן שהסתיים?" }, "rule": { "en": "Keep the time expression at the end of the sentence. A finished time in the past needs a different tense.", "he": "השאירו את ציון הזמן שבסוף המשפט. זמן שהסתיים בעבר דורש זמן דקדוקי אחר." }, "error_type": "tense-choice" }
+      ],
       "hint": { "en": "Look at the time expression at the end.", "he": "הסתכלו על ביטוי הזמן בסוף המשפט." },
       "explanation": { "en": "last year is a finished time, so the past simple is the only choice: I saw this film last year. Without the time, I've seen this film is fine.", "he": "last year הוא זמן שהסתיים, ולכן רק עבר פשוט: I saw. בלי ציון הזמן, present perfect תקין." }
     },

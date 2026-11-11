@@ -213,7 +213,10 @@
         "Yesterday we ordered a pizza.",
         "Yesterday, we ordered a pizza.",
         "Yesterday we ordered pizza.",
-        "Yesterday, we ordered pizza."
+        "Yesterday, we ordered pizza.",
+        "We ordered some pizza yesterday.",
+        "Yesterday we ordered some pizza.",
+        "Yesterday, we ordered some pizza."
       ],
       "wrong_feedback": [
         { "match": "invited", "feedback": { "en": "In Hebrew one verb covers both meanings, but English has two: invite people (invited friends), order food (ordered a pizza).", "he": "בעברית 'להזמין' משמש לשני הדברים, ובאנגלית יש שני פעלים: invite לאנשים (invited friends), order לאוכל ולמוצרים (ordered a pizza)." }, "error_type": "word-choice" },

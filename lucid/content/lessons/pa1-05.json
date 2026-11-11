@@ -129,13 +129,16 @@
       "explanation": { "en": "We're is the short form of we are.", "he": "We're הוא הקיצור של we are." }
     },
     {
-      "id": "e9", "type": "transform", "skill": "grammar", "topic": "be-present",
-      "prompt": { "en": "Write the short form.", "he": "כתבו בצורה המקוצרת." },
-      "source": "I am Dana.",
-      "answers": ["I'm Dana."],
-      "wrong_feedback": [
-        { "match": "Im Dana.", "feedback": { "en": "Use an apostrophe: I'm.", "he": "צריך גרש (אפוסטרוף): I'm." }, "error_type": "spelling" }
-      ],
+      "id": "e9", "type": "mcq", "skill": "grammar", "topic": "be-present",
+      "prompt": { "en": "Choose the short form of I am.", "he": "בחרו את הצורה המקוצרת של I am." },
+      "question": "I am Dana. = ___ Dana.",
+      "options": ["Im", "I'm", "I'am"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Use an apostrophe: I'm.", "he": "צריך גרש (אפוסטרוף): I'm." },
+        "2": { "en": "The apostrophe takes the place of the a, so the a is not written: I'm.", "he": "הגרש בא במקום האות a, ולכן לא כותבים את ה-a: I'm." }
+      },
+      "option_errors": { "0": "spelling", "2": "spelling" },
       "explanation": { "en": "I am → I'm. The apostrophe replaces the letter a.", "he": "I am הופך ל-I'm. הגרש מחליף את האות a." }
     },
     {

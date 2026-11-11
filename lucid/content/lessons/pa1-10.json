@@ -230,7 +230,7 @@
     },
     {
       "id": "e15", "type": "write", "skill": "writing", "topic": "word-order-basic",
-      "prompt": { "en": "Checkpoint: introduce yourself.", "he": "משימת סיום הרמה: הציגו את עצמכם." },
+      "prompt": { "en": "Writing practice: introduce yourself.", "he": "תרגול כתיבה: הציגו את עצמכם." },
       "task": { "en": "Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).", "he": "הציגו את עצמכם ב-5-6 משפטים פשוטים: שם, גיל, מדינה, עבודה או לימודים, ודבר אחד שאתם אוהבים." },
       "min_words": 25,
       "max_words": 70,
@@ -242,7 +242,7 @@
         { "en": "One verb at a time: I live (not I'm live). For age: I'm 17.", "he": "פועל אחד בכל פעם: I live, לא I'm live. לגיל: I'm 17." },
         { "en": "I is a capital letter. Every sentence starts with a capital letter and ends with a full stop.", "he": "I באות גדולה. כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
       ],
-      "explanation": { "en": "This is your Pre-A1 checkpoint: everything from Foundations in one short text.", "he": "זו משימת הסיום של רמת Pre-A1: כל מה שלמדתם ביחידת היסודות, בטקסט קצר אחד." }
+      "explanation": { "en": "This brings together everything from Foundations in one short text.", "he": "כאן מחברים את כל מה שלמדתם ביחידת היסודות לטקסט קצר אחד." }
     }
   ],
   "review": {

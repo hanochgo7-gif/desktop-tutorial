@@ -5210,8 +5210,8 @@
        "text": "Wait, give me your Instagram before you go, so we can talk later.",
        "verdict": "poor",
        "feedback": {
-        "en": "'Give me' sounds like an order, and stopping someone who is leaving can feel pushy. If you'd like to stay in touch, ask lightly ('Are you on Instagram?'), and only if you're both comfortable.",
-        "he": "Give me נשמע כמו פקודה, ולעצור מישהו שכבר הולך עלול להרגיש לוחץ. אם רוצים להישאר בקשר, שואלים בקלילות (Are you on Instagram?), ורק אם שני הצדדים מרגישים בנוח."
+        "en": "'Give me' sounds like an order, and stopping someone who is leaving can feel pushy. A friendly chat on holiday doesn't need contact details: a warm goodbye ('You too! Enjoy your trip!') is enough.",
+        "he": "Give me נשמע כמו פקודה, ולעצור מישהו שכבר הולך עלול להרגיש לוחץ. שיחה נעימה בחופשה לא דורשת פרטי קשר: פרידה חמה (You too! Enjoy your trip!) מספיקה."
        }
       },
       {
@@ -8349,10 +8349,10 @@
      "register": "neutral"
     },
     {
-     "en": "Want to swap numbers?",
-     "he": "בא לך שנחליף מספרים?",
+     "en": "Can you tell me at breakfast?",
+     "he": "אפשר שתגיד/י לי בארוחת הבוקר?",
      "register": "casual",
-     "note": "Or: 'Are you on WhatsApp?'"
+     "note": "A plan to meet again in a public place, like the hostel's common room, is easy and safe."
     }
    ],
    "model_dialogue": [
@@ -8394,15 +8394,15 @@
     },
     {
      "speaker": "you",
-     "text": "Amazing, thanks. Want to swap numbers so you can let me know?"
+     "text": "Amazing, thanks. Can you tell me at breakfast?"
     },
     {
      "speaker": "partner",
-     "text": "Sure! Here, put your number in my phone."
+     "text": "Sure! I'll be here in the common room from eight."
     },
     {
      "speaker": "you",
-     "text": "There you go. See you at nine, then!"
+     "text": "Great. See you at breakfast, then!"
     }
    ],
    "practice": [
@@ -8570,11 +8570,11 @@
      "partner": "They pick us up here at nine. I can ask if there's still space.",
      "options": [
       {
-       "text": "Amazing, thanks! Want to swap numbers so you can let me know?",
+       "text": "Amazing, thanks! Can you tell me at breakfast?",
        "verdict": "best",
        "feedback": {
-        "en": "Natural and practical: you give a reason for asking for her number.",
-        "he": "טבעי ומעשי: נותנים סיבה לבקשת המספר."
+        "en": "Natural and practical: you agree when and where you'll find out, in the hostel's common room.",
+        "he": "טבעי ומעשי: קובעים מתי ואיפה תדעו, בחדר המשותף של ההוסטל."
        }
       },
       {
@@ -8586,30 +8586,30 @@
        }
       },
       {
-       "text": "Thank you. Give me your phone number.",
+       "text": "Thank you. Tell me tomorrow.",
        "verdict": "ok",
        "feedback": {
-        "en": "Clear, but 'Give me' sounds like an order. Ask: 'Want to swap numbers?' or 'Can I get your number?'",
-        "he": "ברור, אבל Give me נשמע כמו פקודה. עדיף לשאול: Want to swap numbers? או Can I get your number?"
+        "en": "Clear, but it sounds like an order, and it doesn't say when or where. Ask: 'Can you tell me at breakfast?'",
+        "he": "ברור, אבל זה נשמע כמו פקודה, ולא אומר מתי ואיפה. עדיף לשאול: Can you tell me at breakfast?"
        }
       }
      ],
      "model_replies": [
-      "Amazing, thanks! Want to swap numbers so you can let me know?",
-      "Great, thanks. Are you on WhatsApp?"
+      "Amazing, thanks! Can you tell me at breakfast?",
+      "Great, thanks. Shall we meet here in the common room at eight?"
      ],
      "keywords": [
-      "numbers",
-      "number",
-      "WhatsApp",
+      "breakfast",
+      "common room",
+      "meet",
       "thanks",
-      "let me know"
+      "tell me"
      ]
     }
    ],
    "roleplay": {
     "persona": "Lena, 24, a traveller from Hamburg on a gap year. Talkative and curious, she's been on the road for two months and loves giving tips.",
-    "complication": "The cooking class turns out to be full. Lena suggests an alternative: an early hike to a waterfall that leaves at 6:30. The learner has to agree on a plan, a time and a meeting place, and swap contacts.",
+    "complication": "The cooking class turns out to be full. Lena suggests an alternative: an early hike to a waterfall that leaves at 6:30. The learner has to agree on a plan, a time and a meeting place (for example, the hostel reception), without sharing contact details.",
     "opening_line": "Hey! Are you new here? I haven't seen you around before."
    },
    "culture": [
@@ -8623,7 +8623,7 @@
     },
     {
      "en": "Meeting people on the road is part of the fun, but keep basic safety in mind: meet in public places and tell someone you trust about your plans.",
-     "he": "היכרויות בדרך הן חלק מהכיף, אבל כדאי לשמור על כללי בטיחות בסיסיים: להיפגש במקומות ציבוריים ולספר למישהו שאתם סומכים עליו על התוכניות שלכם."
+     "he": "להכיר אנשים בדרך זה חלק מהכיף, אבל כדאי לשמור על כללי בטיחות בסיסיים: להיפגש במקומות ציבוריים ולספר למישהו שאתם סומכים עליו על התוכניות שלכם."
     }
    ],
    "variants": [
@@ -9396,8 +9396,8 @@
     "he": "אתם בערב חילופי שפות בבית קפה בלונדון. אנשים מתחלקים לזוגות ומתרגלים זה את השפה של זה. הערב אתם מתרגלים עם בן, שלומד עברית."
    },
    "goal": {
-    "en": "Introduce yourself, ask follow-up questions to get to know Ben, check words you don't understand, and swap contacts so you can meet again.",
-    "he": "להציג את עצמכם, לשאול שאלות המשך כדי להכיר את בן, לברר מילים שלא הבנתם ולהחליף פרטים כדי להיפגש שוב."
+    "en": "Introduce yourself, ask follow-up questions to get to know Ben, check words you don't understand, and plan to practise together again at the next exchange evening.",
+    "he": "להציג את עצמכם, לשאול שאלות המשך כדי להכיר את בן, לברר מילים שלא הבנתם ולתכנן לתרגל שוב ביחד בערב חילופי השפות הבא."
    },
    "partner_role": "a language exchange partner",
    "phrases": [
@@ -9460,10 +9460,10 @@
      "note": "UK spelling: 'practise' is the verb, 'practice' the noun. In the US, both are 'practice'."
     },
     {
-     "en": "Are you on Instagram?",
-     "he": "יש לך אינסטגרם?",
-     "register": "casual",
-     "note": "Friendlier than 'Give me your Instagram'. Adding a reason ('so we can practise again') keeps it clearly friendly."
+     "en": "Will you be here next week?",
+     "he": "תהיה/י כאן גם בשבוע הבא?",
+     "register": "neutral",
+     "note": "A friendly, safe way to meet again: at the same exchange evening, with the group around you."
     }
    ],
    "model_dialogue": [
@@ -9513,7 +9513,7 @@
     },
     {
      "speaker": "you",
-     "text": "Well, we should practise together again. Do you want to swap numbers?"
+     "text": "Well, we should practise together again. Shall we pair up here next week?"
     }
    ],
    "practice": [
@@ -9679,11 +9679,11 @@
      "partner": "Most weeks, yeah. It's my first time with a Hebrew speaker, though!",
      "options": [
       {
-       "text": "Well, we should practise together again! Do you want to swap numbers?",
+       "text": "Well, we should practise together again! Shall we pair up here next week?",
        "verdict": "best",
        "feedback": {
-        "en": "Natural and clearly friendly: the number is for a reason (practising).",
-        "he": "טבעי וברור שזה ידידותי: המספר הוא בשביל מטרה (לתרגל)."
+        "en": "Natural and clearly friendly: you suggest practising again, at the same exchange evening.",
+        "he": "טבעי וברור שזה ידידותי: מציעים לתרגל שוב, באותו ערב חילופי שפות."
        }
       },
       {
@@ -9695,30 +9695,30 @@
        }
       },
       {
-       "text": "Give me your Instagram.",
+       "text": "Come next week. We practise again.",
        "verdict": "ok",
        "feedback": {
-        "en": "Understandable, but 'Give me' sounds like an order. 'Are you on Instagram?' is friendlier.",
-        "he": "מובן, אבל Give me נשמע כמו פקודה. Are you on Instagram? ידידותי יותר."
+        "en": "Understandable, but it sounds like an order. A question is friendlier: 'Will you be here next week?'",
+        "he": "מובן, אבל זה נשמע כמו פקודה. שאלה ידידותית יותר: Will you be here next week?"
        }
       }
      ],
      "model_replies": [
-      "Well, we should practise together again! Do you want to swap numbers?",
-      "Cool! Are you on Instagram? We could meet up and practise."
+      "Well, we should practise together again! Shall we pair up here next week?",
+      "Cool! Will you be here next week? We could practise again."
      ],
      "keywords": [
       "practise",
       "practice",
       "again",
-      "number",
-      "Instagram"
+      "next week",
+      "pair up"
      ]
     }
    ],
    "roleplay": {
     "persona": "Ben, 22, a university student in London who is learning Hebrew because his grandmother grew up in Haifa. Enthusiastic, a bit nervous about his Hebrew, and very curious about life in Israel.",
-    "complication": "Ben talks quite fast and uses a couple of British expressions ('brilliant', 'I'm knackered'), so the learner has to ask him to slow down or explain. The learner should keep the conversation going with follow-up questions and suggest meeting again; Ben isn't on WhatsApp, so they need another way to stay in touch.",
+    "complication": "Ben talks quite fast and uses a couple of British expressions ('brilliant', 'I'm knackered'), so the learner has to ask him to slow down or explain. The learner should keep the conversation going with follow-up questions and suggest practising together again; Ben isn't sure he can come next week, so they need to agree on another exchange evening.",
     "opening_line": "Hi! Are you here for the language exchange? I'm Ben."
    },
    "culture": [
@@ -9727,8 +9727,8 @@
      "he": "במפגש חילופי שפות מקובל לגמרי לשאול What does that mean? או Could you say that again? כולם באו ללמוד."
     },
     {
-     "en": "Swapping numbers or social media with new friends is normal. Linking it to a plan ('so we can practise again') keeps it clearly friendly.",
-     "he": "מקובל להחליף מספרים או רשתות חברתיות עם חברים חדשים. כשקושרים את זה לתוכנית (so we can practise again) ברור שמדובר בחברות."
+     "en": "To keep practising with someone you've just met, the easiest plan is to meet again at the same event or in another public place. Only share contact details if you're comfortable, never share your address, and if you're under 18, check with a parent first.",
+     "he": "כדי להמשיך לתרגל עם מישהו שהכרתם עכשיו, התוכנית הפשוטה ביותר היא להיפגש שוב באותו מפגש או במקום ציבורי אחר. שתפו פרטי קשר רק אם נוח לכם, אל תמסרו את הכתובת שלכם, ואם אתם מתחת לגיל 18, בדקו קודם עם הורה."
     }
    ],
    "variants": [

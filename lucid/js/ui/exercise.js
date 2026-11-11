@@ -32,6 +32,10 @@ const KEYS = ['1', '2', '3', '4', '5', '6'];
 // same treatment (R1-E2). An answer that matches an authored wrong answer is wrong, never "one of many".
 export const OPEN_REWRITE_LEVELS = ['B1', 'B2', 'C1', 'C2'];
 export const isOpenRewrite = (ex, level) => ['transform', 'correct'].includes(ex?.type) && OPEN_REWRITE_LEVELS.includes(level);
+// Digits 2-20 count as number words in rewrites up to B1 (launch EK-08): grading.js digitsAllowed, repeated here and
+// not imported, because a page started on an older release keeps its grading.js, which lacks that name
+// (tests/unit/compat.test.mjs). An older checkTyped ignores the option.
+const digitsAllowed = (level) => !['B2', 'C1', 'C2'].includes(level);
 const NIQQUD = /[\u05B0-\u05BC\u05C1\u05C2\u05C7]/;
 const LETTER = /^[A-Za-z]$/;
 const firstAnswer = (a) => (Array.isArray(a) ? a[0] : a);
@@ -623,7 +627,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       ctl.ready = () => Boolean(ta.value.trim()) && (ex.type !== 'correct' || normalize(ta.value) !== normalize(source));
       ctl.check = async () => {
         ta.readOnly = true;
-        const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback);
+        const r = checkTyped(ta.value, ex.answers, ex.wrong_feedback, { numbers: digitsAllowed(level) }); // launch EK-08: '2 days' = 'two days'
         const f = !r.correct && findWrongFeedback(ta.value, ex.wrong_feedback);
         setInvalid(ta, !r.correct); ta.classList.toggle('almost', Boolean(r.correct && r.almost));
         const open = isOpenRewrite(ex, level);

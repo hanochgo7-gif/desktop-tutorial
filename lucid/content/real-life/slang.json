@@ -537,15 +537,15 @@
    "example_dialogue": [
     {
      "speaker": "Liam",
-     "text": "It was great meeting you. Are you on Instagram?"
+     "text": "A few of us from class are going to that concert on Friday. Want to come?"
     },
     {
      "speaker": "Roni",
-     "text": "Yeah, here, I'll follow you."
+     "text": "Maybe! I'm not sure I'm free yet."
     },
     {
      "speaker": "Liam",
-     "text": "Cool. Hit me up if you want to go to that concert on Friday."
+     "text": "Cool. Hit me up on the class group chat if you can make it."
     },
     {
      "speaker": "Roni",

@@ -405,7 +405,7 @@
       "sentence-basics"
      ],
      "can_do": "I can write a short text about myself and my daily life.",
-     "cover": "and/but/because/so; capital letters and full stops; avoiding run-ons; planning 3 mini-paragraphs; final assessment task.",
+     "cover": "and/but/because/so; capital letters and full stops; avoiding run-ons; planning 3 mini-paragraphs; practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לכתוב טקסט קצר על עצמי ועל חיי היום-יום שלי.",
      "level": "A1",
@@ -654,7 +654,7 @@
       "paragraph-basics"
      ],
      "can_do": "I can write a short story about a personal experience.",
-     "cover": "first, then, after that, finally, when; topic sentence; past tense consistency; final assessment task.",
+     "cover": "first, then, after that, finally, when; topic sentence; past tense consistency; practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לכתוב סיפור קצר על חוויה אישית.",
      "level": "A2",
@@ -867,7 +867,7 @@
       "essay-structure-basic"
      ],
      "can_do": "I can write a structured opinion essay.",
-     "cover": "Read a short article; introduction with clear opinion; body paragraphs (topic sentence, reason, example); conclusion; final assessment.",
+     "cover": "Read a short article; introduction with clear opinion; body paragraphs (topic sentence, reason, example); conclusion; practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לכתוב חיבור דעה מובנה.",
      "level": "B1",
@@ -1053,7 +1053,7 @@
       "argument-structure"
      ],
      "can_do": "I can build an argumentative essay with thesis, evidence, counterargument and rebuttal.",
-     "cover": "Thesis statement; PEEL/claim-evidence-reasoning paragraphs; fair counterargument; logical rebuttal; strong conclusion; final assessment.",
+     "cover": "Thesis statement; PEEL/claim-evidence-reasoning paragraphs; fair counterargument; logical rebuttal; strong conclusion; practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לבנות חיבור טיעון עם תזה, ראיות, טיעון נגדי והפרכה.",
      "level": "B2",
@@ -1218,7 +1218,7 @@
       "concision-editing"
      ],
      "can_do": "I can edit my writing for concision, precision, cohesion and coherence.",
-     "cover": "Cutting redundancy; precise verbs; paragraph unity; given-new information flow; proofreading checklist; final assessment.",
+     "cover": "Cutting redundancy; precise verbs; paragraph unity; given-new information flow; proofreading checklist; practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לערוך את הכתיבה שלי לתמציתיות, לדיוק, ללכידות ולקוהרנטיות.",
      "level": "C1",
@@ -1354,7 +1354,7 @@
       "research-writing"
      ],
      "can_do": "I can plan, draft and edit an independent research-based paper.",
-     "cover": "Research question; scope; structure of a research paper; advanced editing passes (argument, paragraph, sentence, word); final assessment.",
+     "cover": "Research question; scope; structure of a research paper; advanced editing passes (argument, paragraph, sentence, word); practice for the level's writing task.",
      "final": true,
      "can_do_he": "אני יודע/ת לתכנן, לנסח ולערוך עבודת מחקר עצמאית.",
      "level": "C2",
