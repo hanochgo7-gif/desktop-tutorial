@@ -28,8 +28,8 @@ SITE = {
            (("Projects", "פרויקטים"), ("Israel and countries around the world", "ישראל ומדינות בעולם"))],
     "video_play": ("Play video", "הפעלת הסרטון"), "video_pause": ("Pause video", "עצירת הסרטון"),
     "noscript": ("Sending this form needs JavaScript. Please call +972 4 985 4404.", "שליחת הטופס דורשת JavaScript. אפשר להתקשר ל-04-9854404."),
-    "map_label": ("Map of MIFTAH projects abroad: Mexico, Honduras, Spain, Portugal, Belarus, Georgia and India, and our office in Kfar Masaryk, Israel. The same information is in the projects table.",
-                  "מפת הפרויקטים של מיפתח בחו״ל: מקסיקו, הונדורס, ספרד, פורטוגל, בלארוס, גאורגיה והודו, בניהול מכפר מסריק. אותו מידע מופיע בטבלת הפרויקטים."),
+    "map_label": ("Map of MIFTAH projects abroad: Mexico, Honduras, Spain, Portugal, Belarus, Georgia and India, and our office at Kibbutz Kfar Masaryk, Israel. The same information is in the projects table.",
+                  "מפת הפרויקטים של מיפתח בחו״ל: מקסיקו, הונדורס, ספרד, פורטוגל, בלארוס, גאורגיה והודו, בניהול מקיבוץ כפר מסריק. אותו מידע מופיע בטבלת הפרויקטים."),
     "archive": ("MIFTAH archive", "ארכיון מיפתח"),
 }
 
@@ -292,15 +292,17 @@ PAGES = {
     },
     "about": {
         "title": ("About MIFTAH Projects: a family company in Israel", "אודות מיפתח פרויקטים: חברה משפחתית שבונה לחקלאים"),
-        "desc": ("MIFTAH Projects is a family company in Kfar Masaryk, Israel, led by co-CEOs Merav and Yiftach Hasfel, designing and building agricultural projects since 2003.",
-                 "מיפתח פרויקטים היא חברה משפחתית בכפר מסריק, בניהול משותף של מרב ויפתח הספל. החברה מתכננת, מייצרת ומקימה בתי רשת ופרויקטים חקלאיים מאז 2003."),
+        "desc": ("MIFTAH Projects is a family company at Kibbutz Kfar Masaryk, Israel, owned and run by Merav and Yiftach Hasfel, designing and building agricultural projects since 2003.",
+                 "מיפתח פרויקטים היא חברה משפחתית בקיבוץ כפר מסריק, בבעלות ובניהול של מרב ויפתח הספל. החברה מתכננת, מייצרת ומקימה בתי רשת ופרויקטים חקלאיים מאז 2003."),
         "h1": ("A family company for agricultural projects", "חברה משפחתית לפרויקטים חקלאיים"),
         "lead": ("Since 2003 we have designed, made and built agricultural projects: net houses for agricultural crops, shade solutions for work areas, windbreaks and trellising, in Israel and around the world. Our office is in Kfar Masaryk, in the north of Israel.",
-                 "מאז 2003 אנחנו מתכננים, מייצרים ומקימים פרויקטים חקלאיים: בתי רשת לגידולים חקלאיים, פתרונות הצללה לאזורי תפעול, שוברי רוח והדליה, בישראל ובעולם. המשרד שלנו בכפר מסריק שבצפון."),  # 1.6, 1.7, 1.10, 2.1-2.5
+                 "מאז 2003 אנחנו מתכננים, מייצרים ומקימים פרויקטים חקלאיים: בתי רשת לגידולים חקלאיים, פתרונות הצללה לאזורי תפעול, שוברי רוח והדליה, בישראל ובעולם. המשרד שלנו בקיבוץ כפר מסריק שבצפון."),  # 1.6, 1.7, 1.10, 2.1-2.5
         "people_h": ("The owners", "הבעלים"),
         "yiftach": ("Yiftach Hasfel", "יפתח הספל"), "yiftach_r": ("Owner and Chairman", "בעלים ויו״ר"),
         "yiftach_p": ("Building practical engineer, a Technion graduate, and head of engineering at the company. Responsible for mapping the client's needs, shaping the engineering solution, managing development, quality control, supervising manufacturing and leading the work on site. Many years of experience managing and leading complex projects in Israel and around the world, combining engineering thinking, precise design and end-to-end delivery, to the highest standards of professionalism and quality.", "הנדסאי בניין, בוגר הטכניון, ומוביל התחום ההנדסי בחברה. אחראי על מיפוי צורכי הלקוח, גיבוש הפתרון ההנדסי, ניהול הפיתוח, בקרת האיכות, הפיקוח על תהליכי הייצור והובלת הביצוע בשטח. בעל ניסיון רב שנים בניהול, תכלול והובלת פרויקטים מורכבים בארץ ובעולם, תוך שילוב בין חשיבה הנדסית, תכנון מדויק ויכולת ביצוע מקצה לקצה, בסטנדרטים הגבוהים ביותר של מקצועיות ואיכות."),  # 5.1
         "merav": ("Merav Eyal Hasfel", "מרב איל הספל"), "merav_r": ("CEO", "מנכ״לית"),
+        "mgmt_k": ("Management", "הנהלה"),
+        "mgmt": ("Merav Eyal Hasfel, CEO, and Yiftach Hasfel, owner and chairman", "מרב איל הספל, מנכ״לית, ויפתח הספל, בעלים ויו״ר"),  # the about table (Merav, 11 Nov 2026)
         "merav_p": ("BA in Business Administration. Leads the company's activity and is responsible for finance, business development, marketing and sales. The main contact for new projects, with personal support, strategic thinking and high standards of professionalism and service.", "בעלת תואר ראשון במנהל עסקים, מובילה את פעילות החברה ומופקדת על ניהול הכספים, הפיתוח העסקי, השיווק והמכירות. משמשת כאשת הקשר הראשית לפרויקטים חדשים, תוך מתן ליווי אישי, חשיבה אסטרטגית והקפדה על סטנדרטים גבוהים של מקצועיות ושירות."),  # 5.2, q40
         "how_h": ("How we work", "איך אנחנו עובדים"),
         "how_p": ("Our own plant makes the poles, nets, cables and fittings, and checks them before they ship. Our installation crews are trained for work at height and run several projects in parallel. The team brings together Israelis and agronomy students from abroad who come to study in Israel.",
@@ -557,7 +559,7 @@ A11Y = {
         ("What we did", "Semantic headings and landmarks; a skip link; keyboard use with visible focus; text contrast of at least 4.5:1 on plain backgrounds, and a darkened layer under text that sits on photos or video; form fields with labels and clear error messages; alternative text for images; pause buttons for the video and the moving list, which stay still for visitors who ask their device to reduce motion; Hebrew and English versions with the correct reading direction."),
         ("Checked with", "Automated checks (axe-core and Lighthouse), contrast sampled over the photos and video, and manual keyboard, zoom and screen-size testing in Chromium, in October 2026. Not yet tested: screen readers, Firefox and Safari."),
         ("Known limits", "The technical drawing and the map are images with full text equivalents next to them. The 3D globe is not keyboard-accessible; the projects table next to it has the same information. If you find anything that doesn't work for you, please tell us."),
-        ("Contact for accessibility", "MIFTAH Projects office, Kfar Masaryk, Israel. Phone +972 4 985 4404."),
+        ("Contact for accessibility", "MIFTAH Projects office, Kibbutz Kfar Masaryk, Israel. Phone +972 4 985 4404."),
         ("Updated", "29 October 2026."),
     ],
     "he": [
@@ -703,8 +705,8 @@ HOME3 = {
     "steps_h": ("From bare soil to a closed net house.", "מאדמה חשופה ועד בית רשת סגור."),
     "steps_p": ("The same four steps on every project, in Israel or abroad.", "אותם ארבעה שלבים בכל פרויקט, בישראל ובחו״ל."),
     "who_h": ("You deal with the owners, and we keep our word.", "אתם עובדים מול הבעלים, ומילה זו מילה."),  # 4.5
-    "who_p": ("MIFTAH is a family company in Kfar Masaryk, run by Merav Eyal Hasfel and Yiftach Hasfel. Yiftach, a practical engineer in construction, leads design, production and execution; Merav runs the company, finance, marketing and sales.",
-              "מיפתח היא חברה משפחתית בכפר מסריק, בניהול מרב איל הספל ויפתח הספל. יפתח, הנדסאי בניין, מוביל את התכנון, הייצור והביצוע; מרב מנהלת את החברה, הכספים, השיווק והמכירות."),  # 5.1, 5.2
+    "who_p": ("MIFTAH is a family company at Kibbutz Kfar Masaryk, run by Merav Eyal Hasfel and Yiftach Hasfel. Yiftach, a practical engineer in construction, leads design, production and execution; Merav runs the company, finance, marketing and sales.",
+              "מיפתח היא חברה משפחתית בקיבוץ כפר מסריק, בניהול מרב איל הספל ויפתח הספל. יפתח, הנדסאי בניין, מוביל את התכנון, הייצור והביצוע; מרב מנהלת את החברה, הכספים, השיווק והמכירות."),  # 5.1, 5.2
     "who_peace": ("What you get: peace of mind, and time to focus on your crop and your business.", "מה אתם מקבלים: שקט, וזמן להתמקד בגידול ובפיתוח העסק."),  # q25, 4.6
     "who_refs": ("Clients in Israel and Portugal are willing to give a reference. Ask, and we'll put you in touch.", "לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. בקשו, ונפגיש ביניכם."),  # 3.5
     "who_go": ("About MIFTAH", "על מיפתח"),

@@ -31,6 +31,9 @@
     var s = S.items[id], it = byId[id];
     if (!s || !it) return null;
     if (s.v ? s.v !== it.v : (it.was || it.m)) return null;
+    // a proposal that waits for a decision and already reached Hanoch: the page shows the site as it is (the link and the
+    // site stay the same), and the proposal is shown next to the text with the reason it waits
+    if (it.held && s.t != null && it.sent != null && norm(s.t) === norm(it.sent) && !s.d) return null;
     return s;
   }
   function sentNote(id) { return (byId[id].note || "").trim(); }
@@ -506,7 +509,7 @@
 
   function answer(b, id) {  // Hanoch's answer on a text, or why a change waits, right where she edits it
     var it = byId[id]; if (!it) return;
-    [[it.held, "ממתין להחלטה: "], [it.reply, "תשובה מחנוך: "]].forEach(function (x) {
+    [[it.held && it.sent ? it.sent : null, "ההצעה שלך: "], [it.held, "ממתין להחלטה: "], [it.reply, "תשובה מחנוך: "]].forEach(function (x) {
       if (!x[0]) return; var w = el("span", "mfe-was", null, FX.doc); w.style.maxHeight = "none"; w.append(el("b", "", x[1], FX.doc), FX.doc.createTextNode(x[0])); b.appendChild(w);
     });
   }
@@ -1011,6 +1014,7 @@
       ans.forEach(function (it) {
         var r = el("div", "chg"); r.appendChild(el("div", "wh", (it.g === "site" ? "בכל האתר" : groupName(homePage(it))) + " · " + it.label));
         r.appendChild(el("div", "before", it.he.length > 140 ? it.he.slice(0, 140) + "…" : it.he));
+        if (it.held && it.sent) r.appendChild(el("div", "after", "ההצעה שלך: " + it.sent));
         if (it.held) r.appendChild(el("div", "after", "ממתין להחלטה: " + it.held));
         if (it.reply) r.appendChild(el("div", "after", "תשובה: " + it.reply));
         var j = el("button", "btn alt sm", "לראות באתר"); j.type = "button"; j.addEventListener("click", function () { jump(it); }); r.appendChild(j);

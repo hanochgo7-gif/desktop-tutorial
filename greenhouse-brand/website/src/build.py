@@ -398,7 +398,7 @@ def page_head(slug, L, img=None, lead_key="lead", extra=""):
     if img:
         name, c = img
         bg = f'<div class="ph-media" aria-hidden="true">{picture(name, "", L, sizes="100vw", archive=True, eager=True)}</div>'
-        cap = f'<p class="ph-cap">{esc(t(c, L))}. {esc(t(C.SITE["archive"], L))}.</p>'
+        cap = f'<p class="ph-cap"><span>{esc(t(c, L))}</span>. <span>{esc(t(C.SITE["archive"], L))}</span>.</p>'
     return f'<section class="page-head{" has-img" if img else ""}">{bg}<div class="wrap ph-in">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}{extra}{cap}</div></section>'
 
 
@@ -435,7 +435,7 @@ def steps(L, photos=True):
     """Process steps, each with its real photo on Home; text only on Net houses, so the photos aren't shown twice."""
     lis = []
     for i, (img, h, p, cap) in enumerate(C.STEPS):
-        fig = f'<figure>{picture(img, "", L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption>{esc(t(cap, L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>' if photos else ""
+        fig = f'<figure>{picture(img, "", L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption><span>{esc(t(cap, L))}</span>. <span>{esc(t(C.SITE["archive"], L))}</span>.</figcaption></figure>' if photos else ""
         lis.append(f'<li>{fig}<span class="n">{i + 1:02d}</span><h3>{esc(t(h, L))}</h3><p>{esc(t(p, L))}</p></li>')
     return f'<ol class="steps{"" if photos else " plain"}">{"".join(lis)}</ol>'
 
@@ -630,7 +630,7 @@ def p_net(L):
     {fig}
     <div class="split" style="margin-top:28px"><div class="legend-wrap one">{legend}</div><div class="site-note"><h3>{esc(t(P["site_h"], L))}</h3><p class="muted" style="margin-top:8px">{esc(t(P["site_p"], L))}</p>
       <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p></div></div>
-    <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption>{esc(t(C.STEPS[2][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
+    <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption><span>{esc(t(C.STEPS[2][3], L))}</span>. <span>{esc(t(C.SITE["archive"], L))}</span>.</figcaption></figure>
   </div>
 </section>
 <section class="section white" aria-labelledby="nfaq-h">
@@ -783,7 +783,7 @@ def p_about(L):
     P = C.PAGES["about"]; S = C.SITE
     company = [(("Name", "שם"), t(S["name"], L) + (" (מיפתח פרויקטים)" if L == "en" else "")), (("Office", "משרד"), t(S["town"], L)),
                (("Phone", "טלפון"), None),
-               (("Management", "הנהלה"), t(P["merav"], L) + (" and " if L == "en" else " ו") + t(P["yiftach"], L) + (", co-CEOs" if L == "en" else ", מנכ״לים משותפים"))]
+               (P["mgmt_k"], t(P["mgmt"], L))]  # Merav, 11 Nov 2026: CEO, and owner and chairman
     phone = f'<a href="tel:{S["phone_tel"]}" data-where="about"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>'
     rows = "".join(f'<tr><th scope="row">{esc(t(k, L))}</th><td>{phone if v is None else esc(v)}</td></tr>' for k, v in company)
     return f"""
@@ -802,7 +802,7 @@ def p_about(L):
   <div class="wrap split">
     <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p>
       <h2 class="h-small" id="co-h" style="margin-top:32px">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
-    <figure class="ph-fig">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
+    <figure class="ph-fig">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption><span>{esc(t(C.STEPS[1][3], L))}</span>. <span>{esc(t(C.SITE["archive"], L))}</span>.</figcaption></figure>
   </div>
 </section>
 <section class="section" aria-labelledby="values-h">
@@ -883,9 +883,9 @@ def p_contact(L):
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted fintro">{esc(t(F["intro"], L))} {esc(t(F["req"], L))}</p></div>
   {offline}
-  <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
+  <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> <span>{esc(t(F["step1_h"], L))}</span></li><li><span class="num">2</span> <span>{esc(t(F["step2_h"], L))}</span></li></ol>
   <div class="fstep" id="fstep-1">
-    <p class="fstep-k">{esc(t(F["step"], L))} 1 {esc(t(F["of"], L))} 2: {esc(t(F["step1_h"], L))} <span class="ftime">· {esc(t(F["time1"], L))}</span></p>
+    <p class="fstep-k"><span>{esc(t(F["step"], L))}</span> 1 <span>{esc(t(F["of"], L))}</span> 2: <span>{esc(t(F["step1_h"], L))}</span> <span class="ftime">· <span>{esc(t(F["time1"], L))}</span></span></p>
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_t"], L))}</h3>
     <div class="ftable">
     {inp("name", F["name"], L, req=True, auto="name", hint=F["name_hint"])}
@@ -898,7 +898,7 @@ def p_contact(L):
     <div class="actions fnav"><button class="btn btn-primary" type="button" data-next>{esc(t(F["next"], L))}</button></div>
   </div>
   <div class="fstep" id="fstep-2">
-    <p class="fstep-k">{esc(t(F["step"], L))} 2 {esc(t(F["of"], L))} 2: {esc(t(F["step2_h"], L))} <span class="ftime">· {esc(t(F["time1"], L))}</span></p>
+    <p class="fstep-k"><span>{esc(t(F["step"], L))}</span> 2 <span>{esc(t(F["of"], L))}</span> 2: <span>{esc(t(F["step2_h"], L))}</span> <span class="ftime">· <span>{esc(t(F["time1"], L))}</span></span></p>
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step2_t"], L))}</h3>
     <p class="fyou" id="f-you" hidden><span>{esc(t(F["you"], L))}: <bdi id="f-you-t"></bdi></span> <button class="lnk" type="button" data-back>{esc(t(F["edit"], L))}</button></p>
     <div class="ftable">
@@ -925,7 +925,7 @@ def p_contact(L):
   <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_profile_h"], L))}</h2><p>{esc(t(P["aside_profile_p"], L))}</p><p><a href="profile.html" data-track="profile_open">{esc(t(P["aside_profile_go"], L))}</a></p></div>
   <div class="block"><h2>{esc(t(P["aside_partner_h"], L))}</h2><p>{esc(t(P["aside_partner_p"], L))}</p></div>
-  <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p>{esc(t(S["name"], L))}<br>{esc(t(S["town"], L))}</p></div>
+  <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p><span>{esc(t(S["name"], L))}</span><br><span>{esc(t(S["town"], L))}</span></p></div>
 </aside>"""
     return f"""
 <main id="main">
@@ -963,7 +963,7 @@ def p_profile(L):
       <h2>{esc(t(P["turn_h"], L))}</h2><p class="small">{esc(stg)}.</p></section>
   </div>
   <section><h2>{esc(t(P["proj_h"], L))}</h2>{projects_table(L)}</section>
-  <section class="p-contact"><div><h2>{esc(t(P["contact_h"], L))}</h2><p><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi> &nbsp;|&nbsp; {esc(t(S["town"], L))} &nbsp;|&nbsp; <span class="ltr">{esc(host)}</span></p></div>
+  <section class="p-contact"><div><h2>{esc(t(P["contact_h"], L))}</h2><p><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi> &nbsp;|&nbsp; <span>{esc(t(S["town"], L))}</span> &nbsp;|&nbsp; <span class="ltr">{esc(host)}</span></p></div>
     <img src="{rel(L)}assets/qr-site.svg" width="84" height="84" alt="{esc(qr_alt)}"></section>
 </article>
 <div class="sheet-gap"></div>
