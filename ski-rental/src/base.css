@@ -1,0 +1,102 @@
+/* Layout concept: a trail map. Cool snow ground, night-navy ink, and the three
+   European piste colours (blue / red / black) as the only system of emphasis:
+   they mark question depth everywhere. */
+:root {
+  --snow: #F1F4F8;
+  --paper: #FFFFFF;
+  --ink: #0F1D2C;
+  --ink-2: #374A5E;
+  --muted: #64768A;
+  --line: #D5DEE8;
+  --line-2: #E7ECF2;
+  --accent: #1747C9;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E5ECFF;
+  --piste-blue: #1B5ED6;
+  --piste-red: #CF3428;
+  --piste-black: #111821;
+  --ok: #1D7F55;
+  --ok-soft: #DDF2E8;
+  --warn: #9A5A00;
+  --warn-soft: #FFF1DA;
+  --flag: #B02A20;
+  --flag-soft: #FDE8E5;
+  --shadow: 0 1px 2px rgba(15, 29, 44, .06), 0 6px 24px rgba(15, 29, 44, .06);
+  --hero-bg: #0F1D2C;
+  --hero-fg: #F1F4F8;
+
+  --f-display: "Secular One", "Heebo", "Arial Hebrew", "Arial", sans-serif;
+  --f-body: "IBM Plex Sans Hebrew", "Heebo", "Arial Hebrew", "Segoe UI", "Arial", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --t-xs: .75rem;
+  --t-sm: .875rem;
+  --t-md: 1rem;
+  --t-lg: 1.125rem;
+  --t-xl: 1.5rem;
+  --t-2xl: 2.125rem;
+  --t-3xl: clamp(2.125rem, 5vw, 3.25rem);
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --snow: #0B131C; --paper: #111C28; --ink: #E6EDF5; --ink-2: #B8C5D3; --muted: #8394A8;
+    --line: #24354A; --line-2: #1A2837; --accent: #86A7FF; --accent-ink: #0B131C; --accent-soft: #19284A;
+    --piste-blue: #5C8FF2; --piste-red: #F2705F; --piste-black: #E6EDF5;
+    --ok: #5BC797; --ok-soft: #12302A; --warn: #F0B35A; --warn-soft: #33260F; --flag: #FF8A7C; --flag-soft: #3A1916;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.25);
+    --hero-bg: #050A10; --hero-fg: #E6EDF5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --snow: #0B131C; --paper: #111C28; --ink: #E6EDF5; --ink-2: #B8C5D3; --muted: #8394A8;
+  --line: #24354A; --line-2: #1A2837; --accent: #86A7FF; --accent-ink: #0B131C; --accent-soft: #19284A;
+  --piste-blue: #5C8FF2; --piste-red: #F2705F; --piste-black: #E6EDF5;
+  --ok: #5BC797; --ok-soft: #12302A; --warn: #F0B35A; --warn-soft: #33260F; --flag: #FF8A7C; --flag-soft: #3A1916;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.25);
+  --hero-bg: #050A10; --hero-fg: #E6EDF5;
+  color-scheme: dark;
+}
+
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--snow);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--paper);
+}
+.app { direction: rtl; text-align: right; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; letter-spacing: .02em; direction: ltr; unicode-bidi: isolate; }
+.wrap {
+  max-width: 1200px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow { font-size: var(--t-xs); font-weight: 600; letter-spacing: .08em; color: var(--muted); }
+
+/* piste markers: shape + colour, so the level reads without colour too */
+.piste { display: inline-flex; align-items: center; gap: .4em; font-size: var(--t-xs); font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.piste i { display: inline-block; width: .7rem; height: .7rem; flex: none; }
+.piste-1 i { background: var(--piste-blue); border-radius: 50%; }
+.piste-2 i { background: var(--piste-red); border-radius: 2px; }
+.piste-3 i { background: var(--piste-black); transform: rotate(45deg) scale(.85); border-radius: 1px; }
+
+.tag-req { font-size: var(--t-xs); font-weight: 600; color: var(--flag); background: var(--flag-soft); padding: .05rem .5rem; border-radius: 99px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
