@@ -10,22 +10,25 @@ export const BACKUP_VERSION = 1;
 export const MAX_BACKUP_BYTES = 40 * 1024 * 1024;
 
 // The preferences Lucid keeps in localStorage beside the database (TS-08): the backup holds them too, so the file
-// has everything Lucid stores on this device. Left out: the sign-in session (its tokens) and the owner mark (which
-// account the data belongs to), which only make sense on this device.
+// has everything Lucid stores on this device. Left out: the account state, which only makes sense on the device that
+// made it: the sign-in session (its tokens), the owner mark (which account the data belongs to), the sign-up or
+// sign-in link this device asked for (it holds the email address, and only the device that asked adopts the link,
+// js/core/api.js), the password-recovery mark and the sync cursors and state. A file can neither export nor write them.
 const PREF_KEY = /^lucid[-:]/;
-const NOT_EXPORTED = new Set(['lucid-session', 'lucid-owner']);
+const ACCOUNT_KEY = /^lucid-(session|owner|auth-pending|recovery-at|sync-state)$|^lucid-sync-cursor/;
+const isPreference = (k) => typeof k === 'string' && PREF_KEY.test(k) && !ACCOUNT_KEY.test(k);
 const localStore = () => { try { return globalThis.localStorage; } catch { return null; } };
 export function devicePreferences(storage = localStore()) {
   const out = {};
   try {
-    for (let i = 0; i < storage.length; i++) { const k = storage.key(i); if (k && PREF_KEY.test(k) && !NOT_EXPORTED.has(k)) out[k] = storage.getItem(k); }
+    for (let i = 0; i < storage.length; i++) { const k = storage.key(i); if (isPreference(k)) out[k] = storage.getItem(k); }
   } catch { /* storage blocked */ }
   return out;
 }
 export function restorePreferences(prefs, storage = localStore()) {
   if (!prefs || typeof prefs !== 'object' || Array.isArray(prefs)) return;
   try {
-    for (const [k, v] of Object.entries(prefs)) if (PREF_KEY.test(k) && !NOT_EXPORTED.has(k) && typeof v === 'string' && v.length <= 10_000) storage.setItem(k, v);
+    for (const [k, v] of Object.entries(prefs)) if (isPreference(k) && typeof v === 'string' && v.length <= 10_000) storage.setItem(k, v);
   } catch { /* storage blocked or full */ }
 }
 
@@ -37,18 +40,30 @@ export const backupFileName = (now = new Date()) => `lucid-data-${now.toISOStrin
 const isRecord = (r) => r && typeof r === 'object' && !Array.isArray(r) && (typeof r.id === 'string' || typeof r.id === 'number');
 const live = (rows) => rows.filter((r) => !r._deleted);
 
-// What a backup holds, for the learner to see before it replaces this device's data.
+// What a backup holds, for the learner to see before it replaces this device's data. Writing is counted as the
+// learner sees it: a text in the Writing lab is one text however many versions and drafts it has (its rows share
+// the task id), and a written answer in a lesson (source 'lesson') is counted apart, never as a Writing lab text.
 function summarise(device, exportedAt) {
   const rows = (c) => live(device[c] || []);
   const me = rows('profile').find((r) => String(r.id) === 'me') || null;
+  const writing = rows('writing');
+  const lab = writing.filter((w) => w.source !== 'lesson');
   return {
     name: typeof me?.name === 'string' ? me.name.slice(0, 60) : '',
     exportedAt: typeof exportedAt === 'string' && !Number.isNaN(Date.parse(exportedAt)) ? exportedAt : '',
     lessons: rows('progress').filter((p) => p.status === 'completed').length,
     words: rows('cards').length,
-    writing: rows('writing').length,
+    writing: new Set(lab.map((w) => (typeof w.exercise === 'string' && w.exercise ? `task:${w.exercise}` : `id:${w.id}`))).size,
+    lessonWriting: writing.length - lab.length,
     chats: rows('chats').length,
   };
+}
+
+// Whether the browser's database can store this data at all. It stores records by structured clone, so what
+// structuredClone refuses (a payload nested thousands deep, say) would fail there only after the device was cleared.
+function storable(device) {
+  if (typeof structuredClone !== 'function') return true;
+  try { structuredClone(device); return true; } catch { return false; }
 }
 
 // {ok: true, device, summary} for a usable backup, or {ok: false, reason} with reason one of 'size', 'json', 'app',
@@ -72,6 +87,7 @@ export function checkBackup(input) {
   // A backup without a finished profile would leave the learner at the welcome screen with nothing restored.
   const me = live(device.profile).find((r) => String(r.id) === 'me');
   if (!me || !me.onboarded) return { ok: false, reason: 'profile' };
+  if (!storable(device)) return { ok: false, reason: 'shape' };
   return { ok: true, device, preferences: data.preferences, summary: summarise(device, data.exported_at) };
 }
 
@@ -86,6 +102,7 @@ export function describeBackup(s) {
     tt(`שיעורים שהושלמו: ${s.lessons}`, `Lessons completed: ${s.lessons}`),
     tt(`מילים בחזרה: ${s.words}`, `Words in review: ${s.words}`),
     tt(`טקסטים במעבדת הכתיבה: ${s.writing}`, `Texts in the Writing lab: ${s.writing}`),
+    s.lessonWriting ? tt(`תרגילי כתיבה בשיעורים: ${s.lessonWriting}`, `Writing exercises in lessons: ${s.lessonWriting}`) : '',
   ].filter(Boolean);
 }
 
@@ -97,6 +114,7 @@ export function backupProblem(reason) {
 }
 
 // Replaces this device's data with the backup's (checked again) and brings its preferences back. Returns the summary.
+// If the data cannot be saved, it throws and this device keeps the data it had (store.replaceAll).
 export async function restoreBackup(store, input, { storage = localStore() } = {}) {
   const r = checkBackup(input);
   if (!r.ok) throw Object.assign(new Error(`not a usable Lucid backup (${r.reason})`), { reason: r.reason });

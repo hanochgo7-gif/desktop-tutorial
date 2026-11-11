@@ -34,5 +34,5 @@ export default {
   'progress': ['js/views/progress.js', 'js/core/site.js', 'js/views/today.js', 'js/core/compat.js'],
   'profile': ['js/views/profile.js', 'js/core/compat.js', 'js/core/site.js'],
   'settings': ['js/views/settings.js', 'js/core/backup.js', 'js/views/wordgame.js', 'js/core/wordgame.js', 'js/core/captcha.js', 'js/ui/sound.js', 'js/core/speech.js', 'js/core/picturegame.js', 'js/core/memorygame.js', 'js/views/picturegame.js', 'js/core/grading.js', 'js/ui/picture-icons.js'],
-  'help': ['js/views/help.js', 'js/core/contact.js'],
+  'help': ['js/views/help.js', 'js/core/contact.js', 'js/core/site.js'],
 };

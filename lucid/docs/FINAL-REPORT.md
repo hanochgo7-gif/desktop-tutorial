@@ -91,13 +91,15 @@ audit": 63 fixed, 11 partial, 2 open, 2 kept). What changed for learners and the
 
 - **Honest about this site.** No terms of use are claimed (onboarding asks only that the privacy policy was read);
   without AI no screen offers the tutor, AI conversations, AI feedback or an AI writing level; counts of lessons and
-  scenarios come from the content; the privacy page says AI is not active and nothing is sent to Anthropic; Help
+  scenarios come from the content; the privacy page says AI is not active and nothing is sent to Anthropic, and
+  names the web hosts (Vercel, GitHub Pages) that serve the pages and receive the visitor's IP address; Help
   has a Contact answer that says plainly that the address is not published yet. The profile notes for under-16s and
   under-18s describe this site, not accounts it does not have.
 - **Published pages.** An accessibility statement (Hebrew and English, facts from the repository only, no claim of
   conformance, legal review pending), a 404 page, and links to both policies from Welcome, Help and Settings.
 - **Learner data.** A backup can be restored on a new device from Welcome ("יש לי גיבוי"); the backup also holds the
-  browser preferences (never the sign-in session); after "Delete all data" Welcome stays in the learner's language.
+  browser preferences (never the sign-in session or other account state); a backup this device cannot save is
+  refused and leaves its data as it was; after "Delete all data" Welcome stays in the learner's language.
   Once `NEW_HOME` is set, the GitHub Pages copy offers a one-click move of the learner's progress to the new address
   (exact origins, the window it opened and a one-time nonce; nothing is written before the learner confirms), with a
   backup download as the fallback.
@@ -161,7 +163,8 @@ For the launch, by the owner:
 
 Before a public launch to real learners, and before accounts or AI:
 
-6. Legal: the legal basis for children's data (the box on `privacy.html`), whether Israeli accessibility rules apply
+6. Legal: the legal basis for children's data and the description of the hosting services (the boxes on
+   `privacy.html`), whether Israeli accessibility rules apply
    and what the statement then needs, and terms of use if legal wants them (then a `terms.html` with its own field
    and box; `consent_terms_at` now means "privacy policy acknowledged" and must not be reused).
 7. A native Hebrew review (LB-11; the new launch copy too: the banner, restore screen, 404, share text) and a
@@ -176,27 +179,28 @@ Before a public launch to real learners, and before accounts or AI:
 
 ## 5. Tests run and results
 
-Run on the launch integration (2026-11-11), on the source tree, on the tree GitHub Pages deploys (minified by
+Run on the launch integration (2026-11-11) and again after the launch-verify fixes (`qa/fix-log.md`, VER-1 to VER-6), on the source tree, on the tree GitHub Pages deploys (minified by
 `tools/build/build.mjs`, checked by `verify.mjs`) and, where marked, on the Vercel build served with `vercel.json`'s
 headers:
 
 | Suite | Result |
 |---|---|
-| Unit (`CI=true npm test`) | 507 of 507 pass |
+| Unit (`CI=true npm test`) | 512 of 512 pass |
 | Database (`npm run test:db`, PGlite) | 13 of 13 pass |
 | Edge function (Deno 2.5.6) | type check clean; 24 of 24 pass |
 | Content validator and generated files | 0 errors and 1 warning: 817 authored first-try notes give the answer without naming a rule, so the app holds them back before a second try (rewriting them is open content work); the content index, route dependencies and manifest are current; both release fixtures are current |
 | Browser end-to-end (`tests/e2e/run.mjs`) | 64 of 64 on the source and the built tree; 65 of 65 on the Vercel build (V1, the 404 page, runs there only) |
-| Launch suites (`move`, `launch-honesty`, `launch-content`) | 7, 16 and 5 of them pass on the source and built trees; `move` also on the Vercel build (three local origins) |
+| Launch suites (`move`, `launch-honesty`, `launch-content`) | 8, 16 and 5 of them pass on the source and built trees; `move` also on the Vercel build (three local origins) |
 | Earlier lane suites (15 files) | all pass on the source and the built tree |
 | Speed and upgrade suites | `perf-boot` 13/13 and `perf-runtime` 9/9 on both trees; `upgrade.mjs` 25/25 on both, from `d83a500` (U1-U20) and from `c1dac85`, the release live at launch, built as production serves it (U21) |
 | Accessibility (axe-core, WCAG 2.0-2.2 A/AA rules) | 0 violations on 30 routes plus Welcome, onboarding, `privacy.html` and `accessibility.html`, in 5 configurations, on both trees |
-| Builds | `verify.mjs`: ok (73 modules); `vercel-build.mjs`: ok (265 files, nothing internal in `dist`) |
+| Builds | `verify.mjs`: ok (73 modules); `vercel-build.mjs`: ok (265 files, nothing internal in `dist`; release `d2eaacf41760` after the launch-verify fixes) |
 | Launch check (`node tools/launch-check.mjs`) | exits 1 with the owner's items only (section 4) |
 | Performance (phone profile, `tools/perf.mjs`) | against production `c1dac85` in one window: cold welcome +51 ms (+3 %) and cold Today +37 ms (+2 %), from counting content on Welcome and the new icons; the first-visit precache +0.55 s (new modules in the offline list); warm and returning visits unchanged within noise (`perf/after.md`, "Launch") |
 
 Three lane tests failed first on the built or Vercel tree and were fixed in the tests (`qa/fix-log.md` INT-11);
-two timing flakes the lanes reported (RW-12, U17) did not recur in these runs.
+of the two timing flakes the lanes reported, RW-12 recurred once under parallel load in the launch verify and its probe
+now waits for the layout to settle (VER-6; reproduced by delaying animation frames), and U17 did not recur.
 
 The mapping from each acceptance criterion to its checks, and which are covered only with mocks, is in section 13 of
 the specification.

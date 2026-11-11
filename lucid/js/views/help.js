@@ -5,6 +5,7 @@ import { icon } from '../ui/components.js';
 import { configured } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { CONTACT, hasContact, mailtoOf } from '../core/contact.js';
+import { siteAI } from '../core/site.js';
 
 const AI_ANSWER = () => (configured() && CONFIG.aiEnabled
   ? [
@@ -13,6 +14,14 @@ const AI_ANSWER = () => (configured() && CONFIG.aiEnabled
   : [
     'AI לא פעיל באתר הזה. כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. אם יתווסף, נשאל קודם.',
     'AI is not active on this site. Everything else works: lessons, word review, scripted practice and automatic writing checks. If it is added, we will ask you first.']);
+
+const WRITING_ANSWER = () => (siteAI()
+  ? [
+    'כתבו, לחצו ״בדיקה אוטומטית״, ואם יש משוב AI, שלחו למשוב. המשוב מסמן טעויות ונותן רמז; נסו לתקן לבד ורק אז חשפו את התיקון. כל שליחה נשמרת כגרסה, ואפשר להשוות בין גרסאות.',
+    'Write, press "Check" for automatic checks, and if AI feedback is available, send it for feedback. Feedback marks mistakes with a hint; try to fix them yourself before revealing the correction. Every submission is saved as a version you can compare.']
+  : [
+    'כתבו ולחצו ״בדיקה אוטומטית״. בלשונית ״מחוון״ אפשר לדרג את הטקסט בעצמכם. כל בדיקה שומרת את הטקסט כגרסה, ואפשר להשוות בין גרסאות.',
+    'Write, then press "Check" for automatic checks. In the Rubric tab you can rate your text yourself. Each check saves your text as a version, and you can compare versions.']);
 
 const Q = [
   ['מאיפה מתחילים כל יום?', 'Where do I start each day?',
@@ -30,9 +39,8 @@ const Q = [
   ['עצרתי באמצע שיעור', 'I stopped in the middle of a lesson',
     'שום דבר לא הולך לאיבוד. במסך ״היום״ יופיע ״להמשיך מאיפה שעצרתם״.',
     'Nothing is lost. Today shows "Continue where you left off".'],
-  ['איך משתמשים במעבדת הכתיבה?', 'How do I use the Writing lab?',
-    'כתבו, לחצו ״בדיקה אוטומטית״, ואם יש משוב AI, שלחו למשוב. המשוב מסמן טעויות ונותן רמז; נסו לתקן לבד ורק אז חשפו את התיקון. כל שליחה נשמרת כגרסה, ואפשר להשוות בין גרסאות.',
-    'Write, press "Check" for automatic checks, and if AI feedback is available, send it for feedback. Feedback marks mistakes with a hint; try to fix them yourself before revealing the correction. Every submission is saved as a version you can compare.'],
+  // The AI feedback steps only where AI is on (launch FR-03); without it, what the lab offers: checks, the rubric, versions.
+  ['איך משתמשים במעבדת הכתיבה?', 'How do I use the Writing lab?', 'writing'],
   // The answer says what is true on this site (SB-10): the glossary's one sentence when AI is off.
   ['משוב AI, שיחות AI והמורה', 'AI feedback, AI conversations and the tutor', 'ai'],
   ['שימוש בלי אינטרנט', 'Using Lucid offline',
@@ -78,7 +86,7 @@ const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: 
 
 export default async function help(el, ctx) {
   ctx.setTitle(t('nav.help'));
-  const items = (touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q).map((q) => (q[2] === 'ai' ? [q[0], q[1], ...AI_ANSWER()] : q));
+  const items = (touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q).map((q) => (q[2] === 'ai' ? [q[0], q[1], ...AI_ANSWER()] : q[2] === 'writing' ? [q[0], q[1], ...WRITING_ANSWER()] : q));
   const open = (i, link) => i === 0 || (link?.[0].includes('offline') && ctx.query.q === 'offline') || (link === 'contact' && ctx.query.q === 'contact');
   const external = (href) => /^(privacy|accessibility)\.html/.test(href);
   render(el, html`

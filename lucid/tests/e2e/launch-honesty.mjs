@@ -68,6 +68,8 @@ async function go(page, hash, sel = '#view > *') {
   await page.waitForTimeout(250);
 }
 const text = (page, sel = '#view') => page.textContent(sel);
+// The text of the Help answer whose question contains `q`.
+const helpAnswer = (page, q) => page.evaluate((q) => [...document.querySelectorAll('#view details')].find((d) => d.querySelector('summary').textContent.includes(q))?.querySelector('p')?.textContent || '', q);
 const LANGS = ['he', 'en'];
 const by = (lang, he, en) => (lang === 'he' ? he : en);
 const curriculum = JSON.parse(readFileSync(join(app, 'content/curriculum.json'), 'utf8'));
@@ -110,6 +112,10 @@ try {
       assert(!(await page.$('[data-ai]')) && !(await page.$('[data-seg="corrections"]')) && !(await page.$('[data-seg="feedback_scope"]')) && !(await page.$('#view [disabled]')), `${lang}: Settings shows AI controls`);
       assert((await text(page, '#ai-off')).includes(AI_OFF[lang]), `${lang}: the Settings AI-off line`);
       assert(!/AI/.test(await text(page, '#offline')), `${lang}: Offline use talks about AI features this site does not have`);
+      // Help's Writing lab answer walks through what the lab offers here, not AI feedback (launch verify).
+      await go(page, 'help', '#view details');
+      const lab = await helpAnswer(page, lang === 'he' ? 'מעבדת הכתיבה' : 'Writing lab');
+      assert(lab && !/AI|משוב|feedback/i.test(lab) && /מחוון|Rubric/.test(lab), `${lang}: Help's Writing lab answer: ${lab}`);
       // The tutor's own route still answers an old link honestly.
       await go(page, 'tutor', '[data-ai-notice]');
       assert(!(await page.$('[data-mode]')), `${lang}: the tutor offers modes without AI`);
@@ -133,6 +139,8 @@ try {
     assert(await page.$('aside [data-tab="ai"]'), 'no AI feedback tab with AI on');
     await go(page, 'settings', '[data-ai]');
     assert(await page.$('[data-seg="corrections"]') && !(await page.$('#ai-off')), 'no AI settings with AI on');
+    await go(page, 'help', '#view details');
+    assert(/משוב AI/.test(await helpAnswer(page, 'מעבדת הכתיבה')), 'Help\'s Writing lab answer leaves out AI feedback with AI on');
     await ctx.close();
   });
 

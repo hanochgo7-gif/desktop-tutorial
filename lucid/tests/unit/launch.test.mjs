@@ -123,3 +123,32 @@ test('the root 404 page keeps a mistyped Lucid address inside Lucid, and still h
   assert.equal(root404('/desktop-tutorial/dira/x'), '/desktop-tutorial/dira/he/?x=1');
   assert.equal(root404('/somewhere/privacy'), '/privacy.html');
 });
+
+// Launch verify (learner lens): every page load goes to the web host, which receives the visitor's IP address. With
+// the move to Vercel (a new third party) the privacy page must say so, in both languages, for the learner (and the
+// guardian) who confirms having read it.
+test('privacy.html says, in Hebrew and English, which hosts serve the site and that they receive the IP address; launch-check holds it', async () => {
+  const { hostsOf, hostNamed } = await import('../../tools/launch-check.mjs');
+  assert.ok(existsSync(join(app, 'vercel.json')));
+  assert.deepEqual(hostsOf(app), ['Vercel', 'GitHub Pages']);
+  const privacy = read('privacy.html');
+  for (const host of hostsOf(app)) assert.ok(hostNamed(privacy, host), `privacy.html does not name ${host}`);
+  assert.ok(!launchItems(app).some((i) => i.id === 'hosting'));
+  // The line is marked for the owner's legal review, and it promises no retention period or legal basis.
+  const lines = [...privacy.matchAll(/<li data-hosting>([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+  assert.equal(lines.length, 2);
+  for (const l of lines) assert.doesNotMatch(l, /\d+ (days|ימים)|retain|retention|legitimate interest|GDPR/i);
+  assert.match(privacy, /בדיקה משפטית של התיאור של שירותי האחסון/);
+  assert.match(privacy, /a legal review of the description of the hosting services/);
+  // A page without the line, or with it in one language only, is a launch item while vercel.json is there.
+  const dir = mkdtempSync(join(tmpdir(), 'lucid-host-'));
+  try {
+    for (const p of ['privacy.html', 'vercel.json']) cpSync(join(app, p), join(dir, p));
+    writeFileSync(join(dir, 'privacy.html'), privacy.replace(/<li data-hosting>[\s\S]*?<\/li>/g, ''));
+    assert.deepEqual(launchItems(dir).filter((i) => i.id === 'hosting').map((i) => i.text.match(/that (.*?) serves/)[1]), ['Vercel', 'GitHub Pages']);
+    writeFileSync(join(dir, 'privacy.html'), privacy.replace(/<li data-hosting>(?=[^<]*<strong>Hosting)[\s\S]*?<\/li>/, ''));
+    assert.equal(launchItems(dir).filter((i) => i.id === 'hosting').length, 2, 'the Hebrew line alone is enough');
+    rmSync(join(dir, 'vercel.json'));
+    assert.deepEqual(hostsOf(dir), ['GitHub Pages']);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});

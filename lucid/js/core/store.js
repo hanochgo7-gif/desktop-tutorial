@@ -32,7 +32,10 @@ export function indexedDbBackend(name = 'lucid') {
     const db = await open();
     return new Promise((resolve, reject) => {
       const t = db.transaction('records', mode);
-      const out = fn(t.objectStore('records'));
+      // A request that throws (a record the database cannot store) aborts the whole transaction: none of its writes
+      // land, rather than the ones queued before it.
+      let out;
+      try { out = fn(t.objectStore('records')); } catch (e) { try { t.abort(); } catch { /* already finished */ } reject(e); return; }
       t.oncomplete = () => resolve(out?.result ?? out);
       t.onerror = () => reject(t.error);
       t.onabort = () => reject(t.error);
@@ -166,13 +169,22 @@ export function createStore(backend = memoryBackend(), { now = () => new Date(),
       for (const c of COLLECTIONS) out[c] = this.all(c);
       return out;
     },
+    // A restore. The new rows are written first and the old ones removed only once they are saved, so a backup the
+    // database cannot store throws and leaves this device's data as it was, in memory and on disk.
     async replaceAll(snapshot, { origin = 'import' } = {}) {
-      for (const c of COLLECTIONS) coll(c).clear();
-      await backend.clear();
+      const rows = [];
       for (const c of COLLECTIONS) for (const r of snapshot[c] || []) {
-        if (r && r.id != null) { coll(c).set(String(r.id), { ...r, _dirty: true }); pending.push({ coll: c, id: String(r.id), data: { ...r, _dirty: true } }); }
+        if (r && r.id != null) rows.push({ coll: c, id: String(r.id), data: { ...r, _dirty: true } });
       }
-      await this.flush();
+      // Writes still waiting are the old data's: replaced on success, kept (and retried) if the backup cannot be saved.
+      clearTimeout(flushTimer);
+      const before = pending; pending = [];
+      try { await backend.put(rows); } catch (e) { pending = before.concat(pending); schedule(); throw e; }
+      const keep = new Set(rows.map((r) => `${r.coll}\u0000${r.id}`));
+      const stale = (await backend.load()).filter((r) => !keep.has(`${r.coll}\u0000${r.id}`)).map((r) => [r.coll, r.id]);
+      if (stale.length) await backend.del(stale);
+      for (const c of COLLECTIONS) coll(c).clear();
+      for (const r of rows) coll(r.coll).set(r.id, r.data);
       emit(COLLECTIONS, origin);
     },
     async wipe() {

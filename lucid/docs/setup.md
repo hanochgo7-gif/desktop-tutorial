@@ -247,7 +247,10 @@ Each push to `main` deploys again. Branches get preview deployments, which are n
 ### 5.2 Launch switch
 
 The exact edits, in one commit, once the project above exists. `node tools/launch-check.mjs` (from `lucid/`) lists
-what is still missing and exits with an error until all of it is done.
+what is still missing and exits with an error until all of it is done. It also keeps `privacy.html`'s "Hosting" line
+honest: while `vercel.json` is in `lucid/`, the line must name Vercel (and GitHub Pages, for the earlier address)
+and say that the host receives the visitor's IP address, in Hebrew and English. If Lucid moves to another host,
+change that line in both languages.
 
 1. **Contact.** Fill in `js/core/contact.js` (`name_he`, `name_en`, `email`: Help's "יצירת קשר / Contact" answer
    reads it). In `privacy.html` and `accessibility.html`, replace the boxes marked "להשלמה לפני הפעלה ציבורית" /

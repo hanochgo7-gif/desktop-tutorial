@@ -56,6 +56,18 @@ async function learnerAt(page, level, { goals = ['travel'], text = 100 } = {}) {
 }
 const open = async (page, hash, sel) => { await page.goto(`${BASE}#/${hash}`); await page.waitForSelector(sel); await page.waitForTimeout(200); };
 const shot = async (page, name) => { if (SHOTS) await page.screenshot({ path: join(SHOTS, `${name}.png`) }); };
+// The Expressions filter sheet is laid out by app.js in an animation frame after it opens (fitSegs), and again when
+// the web fonts arrive. Under load that frame can come after the sheet is already visible, so a probe read at once saw
+// the plain row ("register options: 1 columns", 1 run in 5 beside the built-tree suites). Measure once the layout has
+// settled: fonts loaded and the same classes, grid and widths in three frames in a row.
+const settleFilters = (page) => page.evaluate(async () => {
+  await document.fonts?.ready;
+  const frame = () => new Promise((r) => requestAnimationFrame(() => r()));
+  const sig = () => [...document.querySelectorAll('#xp-filters .seg')].map((s) => `${s.className}|${getComputedStyle(s).gridTemplateColumns}|${Math.round(s.getBoundingClientRect().width)}`).join(';');
+  let last = null; let same = 0;
+  for (let i = 0; i < 180 && same < 3; i++) { await frame(); const now = sig(); same = now === last ? same + 1 : 0; last = now; }
+  return same >= 3;
+});
 const typeEssay = async (page, text) => { await page.fill('#essay', text); await page.dispatchEvent('#essay', 'input'); };
 const words = (n) => Array.from({ length: n }, (_, i) => `word${i}`).join(' ');
 
@@ -284,6 +296,7 @@ try {
     await open(page, 'expressions', '.entry');
     await tap('[data-filters]');
     await page.waitForSelector('#xp-filters:not([hidden])');
+    assert(await settleFilters(page), 'the filter sheet never settled');
     const r = await page.evaluate(() => [...document.querySelectorAll('#xp-filters .seg > button')].map((b) => { const cs = getComputedStyle(b); const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.25; const range = document.createRange(); range.selectNodeContents(b); const h = range.getBoundingClientRect().height; return { t: b.textContent.trim(), h: Math.round(h), lh: Math.round(lh), one: h <= lh * 1.3, overflow: b.scrollWidth > b.clientWidth + 1 }; }));
     const grid = await page.$eval('[aria-labelledby="xf-formality"]', (s) => getComputedStyle(s).gridTemplateColumns.split(' ').length);
     await shot(page, `rw12-filters-390-${size}`);
@@ -301,7 +314,7 @@ try {
     await open(page, 'expressions', '.entry');
     await tap('[data-filters]');
     await page.waitForSelector('#xp-filters:not([hidden])');
-    await page.waitForTimeout(150);
+    assert(await settleFilters(page), 'the filter sheet never settled');
     const r = await page.evaluate(() => ({
       keys: [...document.querySelectorAll('#xp-filters .seg > button')].map((b) => {
         const cs = getComputedStyle(b); const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.25;

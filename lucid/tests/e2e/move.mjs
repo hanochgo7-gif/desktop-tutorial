@@ -235,6 +235,44 @@ try {
     await other.close();
   });
 
+  // Launch verify (learner and security lenses).
+  await check('M8. Restore: lesson writing is not called a Writing lab text; a file the database cannot store is refused and the device keeps its data; a write the database refuses lands not at all', async () => {
+    const ctx = await browserWith({ newHome: null });
+    const page = await ctx.newPage();
+    await learner(page, NEW, { name: 'Existing' });
+    const before = await snapshot(page);
+    const profile = { id: 'me', onboarded: true, name: 'FromFile', birth_year: 2003, ui_language: 'he', goals: ['travel'] };
+    // A backup whose only writing is a lesson answer.
+    writeFileSync(join(tmp, 'lesson-writing.json'), JSON.stringify({ app: 'lucid', version: 1, exported_at: new Date().toISOString(), device: { profile: [profile], writing: [{ id: 'lesson:pa1-01:e13', source: 'lesson', lesson: 'pa1-01', exercise: 'e13', drafts: [{ text: 'I am Noa.' }] }] } }));
+    await page.goto(`${NEW}#/import`);
+    await page.waitForSelector('[data-restore-file]', { state: 'attached' });
+    await page.setInputFiles('[data-restore-file]', join(tmp, 'lesson-writing.json'));
+    await page.waitForSelector('[data-restore-summary]');
+    const sum = await page.textContent('[data-restore-summary]');
+    assert(sum.includes('טקסטים במעבדת הכתיבה: 0') && sum.includes('תרגילי כתיבה בשיעורים: 1'), `summary: ${sum}`);
+    await page.click('[data-restore-cancel]');
+    // A payload nested 20,000 deep passes JSON.parse but not the database: refused at once, nothing written.
+    const depth = 20000;
+    writeFileSync(join(tmp, 'deep.json'), `{"app":"lucid","version":1,"device":{"profile":[${JSON.stringify(profile)}],"cards":[{"id":"c1","payload":${'['.repeat(depth)}${']'.repeat(depth)}}]}}`);
+    await page.setInputFiles('[data-restore-file]', join(tmp, 'deep.json'));
+    await page.waitForFunction(() => document.querySelector('[data-restore-err]')?.textContent.length > 10);
+    assert(!(await page.$('[data-restore-summary]')), 'the summary of a file the database cannot store');
+    // The store itself, past the checks: the write fails as one, and this device keeps what it had.
+    const r = await page.evaluate(async (depth) => {
+      const { store } = await import('./js/core/store.js');
+      let deep = []; for (let i = 0; i < depth; i++) deep = [deep];
+      const snap = store.snapshot();
+      try { await store.replaceAll({ ...snap, profile: [{ ...snap.profile[0], name: 'FromFile' }], cards: [...snap.cards, { id: 'c-new', due: '2026-11-12' }, { id: 'c-deep', payload: deep }] }); return 'saved'; } catch (e) { return `refused: ${e.name}`; }
+    }, depth);
+    assert(r.startsWith('refused'), `replaceAll: ${r}`);
+    await page.reload();
+    await page.waitForSelector('#view > *');
+    const after = await snapshot(page);
+    assert(JSON.stringify(after) === JSON.stringify(before), `after a refused restore: ${JSON.stringify(after)} (was ${JSON.stringify(before)})`);
+    assert(!(await page.evaluate(async () => (await import('./js/core/store.js')).store.get('cards', 'c-new'))), 'part of the refused write landed');
+    await ctx.close();
+  });
+
   await check('M7. FR-11: after "Delete all data", an English-interface learner lands on Welcome in English', async () => {
     const ctx = await browserWith({ newHome: null });
     const page = await ctx.newPage();
