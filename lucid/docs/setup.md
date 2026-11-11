@@ -22,6 +22,9 @@ and AI metering as real roles. It has one connection, so it checks the locking l
 Edge function tests need Deno: `cd lucid/supabase/functions/lucid-ai && deno test --allow-env --allow-net --allow-read handler_test.ts`
 (the first run downloads the npm and JSR imports). `deno check index.ts` type-checks the entry point.
 Browser tests: `npm run test:e2e` (uses the pre-installed Playwright Chromium; serves the repository on port 8765).
+Each other file in `tests/e2e/` is a suite of its own (its header names its port variable); `tests/e2e/move.mjs`
+checks the move to Lucid's own address between two local origins. CI runs all of them
+(`.github/workflows/lucid-verify.yml`).
 
 ## 2. Before you turn on accounts
 
@@ -42,7 +45,10 @@ file, could:
 
 Before you set `supabaseUrl` in `config.js`, serve Lucid from an origin that hosts nothing else. For example, give it
 its own subdomain (`lucid.example.org`) on a separate repository's GitHub Pages site, or use any other static host.
-Then use that origin as the Supabase Site URL and in `LUCID_ALLOWED_ORIGINS`.
+Section 5.1 sets this up on Vercel. Then use that origin as the Supabase Site URL, in `LUCID_ALLOWED_ORIGINS` and as
+`NEW_HOME` in `config.js`: the app refuses to use a server anywhere else, and always on `*.github.io`
+(`js/core/home.js`), and the deploy check (`tools/build/verify.mjs`) fails a `config.js` with `supabaseUrl` set and no
+such `NEW_HOME`.
 Device-only mode on the shared origin has no tokens to steal, but its IndexedDB data can still be read by sibling
 pages, so the move is worth making even without accounts.
 
@@ -155,12 +161,59 @@ roleplay or tutor turn 1.
 
 ## 5. Deploy
 
-GitHub Pages deploys `main` automatically (`.github/workflows/pages.yml`); Lucid is served at `/lucid/`. The
-deploy step excludes `lucid/tools`, `lucid/tests`, `lucid/supabase`, `lucid/docs/research/data` and
-`lucid/node_modules`. With each deploy that changes Lucid's files, bump `RELEASE` at the top of `lucid/sw.js`.
-Code reaches learners on their next load either way (it is fetched network-first), but the new value makes
-browsers download a fresh app shell and drop the old cache (lessons are cached again as they are opened). That address shares its origin with the repository's other sites. It is fine for trying
-Lucid in device-only mode, but move Lucid to its own origin before turning on accounts (section 2.1).
+Lucid moves to its own address on Vercel (section 2.1, LB-01). Until the owner has made the edits in 5.2, the
+GitHub Pages copy stays the one learners use, and nothing changes for them.
+
+**GitHub Pages (today, and the old address afterwards).** `.github/workflows/pages.yml` deploys `main`; Lucid is
+served at `/desktop-tutorial/lucid/`. The deploy minifies Lucid in place (`tools/build/build.mjs`, falling back to
+the source on any error) and leaves out `lucid/tools`, `lucid/tests`, `lucid/supabase`, `lucid/docs`,
+`lucid/PRODUCT.md`, `lucid/README.md`, `lucid/node_modules` and the package files. Source maps are published on
+purpose, so the shipped code can be checked against the repository. `RELEASE` and `LISTING` in `sw.js` are generated
+(`node tools/build-manifest.mjs`); never edit them by hand.
+
+**Vercel (Lucid's own address).** `lucid/vercel.json` holds everything: Vercel installs only esbuild
+(`npm ci --prefix tools/build`), runs `node tools/build/vercel-build.mjs` and publishes `dist/`. That build copies
+only the files Lucid ships (`tools/build/shipped.mjs`), minifies them, checks them (`tools/build/verify.mjs
+--shipped`) and fails on any error, so Vercel keeps the last good deployment. `vercel.json` also sends the headers
+GitHub Pages cannot: the page's Content Security Policy plus `frame-ancestors 'none'`, `X-Frame-Options: DENY`,
+`nosniff`, the referrer policy, a Permissions-Policy that allows the microphone for Lucid only, and the same caching
+as GitHub Pages (`no-cache` for the pages, `sw.js` and `release.json`, ten minutes for the rest; the service worker
+relies on it). Do not add a `Cross-Origin-Opener-Policy` header: it would cut the link between the two windows that
+the one-click move (5.2) uses. To try the built site locally: `node tools/build/vercel-build.mjs`, then
+`node tools/build/serve.mjs --root dist --port 8090` (the same headers) and open `http://127.0.0.1:8090/`.
+
+### 5.1 Create the Vercel project
+
+1. In the Vercel dashboard: Add New, Project, import this GitHub repository.
+2. Set **Root Directory** to `lucid`. Leave everything else as it is: `vercel.json` sets the framework (none), the
+   install and build commands and the output directory. No environment variables are needed.
+3. Deploy. The address Vercel gives (or your own domain, added under Settings, Domains) is Lucid's new address.
+
+Each push to `main` deploys again. Branches get preview deployments, which are not the new address.
+
+### 5.2 Launch switch
+
+The exact edits, in one commit, once the project above exists. `node tools/launch-check.mjs` (from `lucid/`) lists
+what is still missing and exits with an error until all of it is done.
+
+1. **Contact.** In `privacy.html`, replace the boxes marked "להשלמה לפני הפעלה ציבורית" / "To be filled in before
+   public launch" with the real text, in Hebrew and English: the operator's name, a contact email as a
+   `mailto:` link, and the other two items (see "Launch blocker" below). Nobody else can supply these.
+2. **New address.** In `config.js`, set `NEW_HOME` to the new address with `https://` and a final `/`, for example
+   `export const NEW_HOME = 'https://lucid.example.org/';`. From then on:
+   - the GitHub Pages copy shows "Lucid עבר לכתובת חדשה" with **להעביר את ההתקדמות שלי**, which opens the new
+     address and hands the learner's progress over (the learner confirms there before anything is saved), and
+     **הורדת גיבוי** as the fallback (restore it at the new address with **יש לי גיבוי** on the welcome screen);
+   - the Vercel build adds the canonical link, `og:url`, an absolute share-image address, `sitemap.xml` and the
+     sitemap line in `robots.txt`;
+   - accounts and AI, if turned on later, run only at this address (`js/core/home.js`; never on `*.github.io`).
+3. **Indexing.** Remove `<meta name="robots" content="noindex, nofollow">` from `index.html` and `privacy.html`
+   (`404.html` keeps its noindex). Do this only after step 1.
+4. Commit, push to `main`, and check the new address: the app loads, Help says device-only mode, and a browser's
+   developer tools show the headers above.
+
+Keep the GitHub Pages copy online with the banner for as long as learners still arrive there: their progress is only
+in that origin's browser storage until they move it. Never just delete `lucid/` from GitHub Pages.
 
 **Launch blocker.** Before inviting real learners (especially learners under 18; Lucid has no minimum age), fill in the three boxes marked "To be
 filled in before public launch" in `privacy.html`, in Hebrew and English: the operator's name and a contact address for privacy

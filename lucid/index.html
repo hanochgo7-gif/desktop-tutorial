@@ -3,15 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lucid</title>
-<meta name="description" content="Lucid: English for Hebrew speakers, from the alphabet to academic argument. Lessons, spaced review, real-life English and a writing lab with feedback that teaches.">
+<title>Lucid · אנגלית לדוברי עברית</title>
+<meta name="description" content="שיעורים שנבנו לדוברי עברית, תרגול שמתאים את עצמו לטעויות שלכם, אנגלית לטיול הבא, ומעבדת כתיבה שמלמדת אתכם לתקן בעצמכם.">
+<!-- Kept until launch (docs/setup.md "Launch switch"; node tools/launch-check.mjs lists it): the operator's contact
+     on privacy.html is still a placeholder. -->
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="theme-color" content="#2a2f38" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f13" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<!-- Share preview (WhatsApp, Facebook, X read these without running the app). The image address becomes absolute,
+     and og:url and the canonical link appear, once NEW_HOME is set (tools/build/vercel-build.mjs). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lucid">
+<meta property="og:title" content="Lucid · אנגלית לדוברי עברית">
+<meta property="og:description" content="שיעורים שנבנו לדוברי עברית, תרגול שמתאים את עצמו לטעויות שלכם, אנגלית לטיול הבא, ומעבדת כתיבה שמלמדת אתכם לתקן בעצמכם.">
+<meta property="og:locale" content="he_IL">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucid: אנגלית, מהאות הראשונה ועד הטיעון הכי טוב שלכם.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="assets/og-image.png">
+<!-- canonical: tools/build/vercel-build.mjs puts the canonical link and og:url here once NEW_HOME is set in config.js -->
 <!-- The boot frame (perf plan B5) paints before the stylesheet arrives, in the app's own ground and ink (the tokens
      in css/app.css; tests/unit/boot-preload.test.mjs keeps them equal). app.css hides it once the shell is drawn. It
      also goes by itself once the view holds anything but its first spinner, and in any case after 20 s, so a page
@@ -40,6 +59,7 @@ body:has(#view>:not(.boot-first)) .bootframe{display:none}
 <link rel="modulepreload" href="js/core/router.js">
 <link rel="modulepreload" href="js/ui/components.js">
 <link rel="modulepreload" href="js/core/api.js">
+<link rel="modulepreload" href="js/core/home.js">
 <link rel="modulepreload" href="js/core/sync.js">
 <link rel="modulepreload" href="js/core/learner.js">
 <link rel="modulepreload" href="js/ui/icons.js">

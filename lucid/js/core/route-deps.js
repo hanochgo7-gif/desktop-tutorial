@@ -5,6 +5,7 @@ export default {
   'welcome': ['js/views/welcome.js'],
   'start': ['js/views/onboarding.js', 'js/core/compat.js', 'js/views/welcome.js'],
   'account': ['js/views/account.js'],
+  'import': ['js/views/restore.js', 'js/core/backup.js', 'js/core/move.js'],
   'placement': ['js/views/placement.js', 'js/ui/exercise.js', 'js/core/grading.js', 'js/views/today.js', 'js/core/diff.js', 'js/core/speech.js', 'js/core/writing-analyzer.js', 'js/core/compat.js'],
   'today': ['js/views/today.js', 'js/core/compat.js'],
   'path': ['js/views/path.js', 'js/views/today.js', 'js/core/compat.js'],
@@ -32,6 +33,6 @@ export default {
   'conversations': ['js/views/simulations.js', 'js/core/compat.js', 'js/views/reallife.js', 'js/core/reallife.js', 'js/core/grading.js', 'js/core/writing-analyzer.js'],
   'progress': ['js/views/progress.js', 'js/views/today.js', 'js/core/compat.js'],
   'profile': ['js/views/profile.js', 'js/core/compat.js'],
-  'settings': ['js/views/settings.js', 'js/views/wordgame.js', 'js/core/wordgame.js', 'js/ui/sound.js', 'js/core/speech.js', 'js/core/picturegame.js', 'js/core/memorygame.js', 'js/views/picturegame.js', 'js/core/grading.js', 'js/ui/picture-icons.js'],
+  'settings': ['js/views/settings.js', 'js/core/backup.js', 'js/views/wordgame.js', 'js/core/wordgame.js', 'js/ui/sound.js', 'js/core/speech.js', 'js/core/picturegame.js', 'js/core/memorygame.js', 'js/views/picturegame.js', 'js/core/grading.js', 'js/ui/picture-icons.js'],
   'help': ['js/views/help.js'],
 };

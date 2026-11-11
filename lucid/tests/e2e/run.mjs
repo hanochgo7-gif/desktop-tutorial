@@ -174,13 +174,48 @@ function installMockServer(page) {
 }
 
 // ---------- server ----------
-const server = spawn('python3', ['-m', 'http.server', String(PORT)], { cwd: repo, stdio: 'ignore' });
+// E2E_SERVE=vercel: served by tools/build/serve.mjs instead, with the response headers of vercel.json and 404.html for
+// an unknown path, as Vercel serves Lucid. Use it with E2E_ROOT pointing at a directory whose lucid/ is the output of
+// tools/build/vercel-build.mjs (see .github/workflows/lucid-verify.yml).
+const VERCEL = process.env.E2E_SERVE === 'vercel';
+const server = VERCEL
+  ? spawn(process.execPath, [join(here, '..', '..', 'tools/build/serve.mjs'), '--root', join(repo, 'lucid'), '--port', String(PORT), '--mount', '/lucid/', '--host', 'localhost'], { stdio: 'ignore' })
+  : spawn('python3', ['-m', 'http.server', String(PORT)], { cwd: repo, stdio: 'ignore' });
 await sleep(800);
 const browser = await chromium.launch();
 const manifest = JSON.parse(readFileSync(join(repo, 'lucid/content/manifest.json'), 'utf8'));
 const has = (id) => manifest.lessons.includes(id);
 
 try {
+  if (VERCEL) await check('V1. Served as on Vercel (BLK-03, BLK-05): the headers forbid framing, the app works under its CSP header, and a mistyped path gets Lucid\'s own 404 page', async () => {
+    const res = await fetch(BASE);
+    const csp = res.headers.get('content-security-policy') || '';
+    assert(/frame-ancestors 'none'/.test(csp) && res.headers.get('x-frame-options') === 'DENY' && res.headers.get('x-content-type-options') === 'nosniff', `headers: ${csp}`);
+    assert(res.headers.get('cache-control') === 'no-cache' && (await fetch(`${BASE}js/app.js`)).headers.get('cache-control') === 'public, max-age=600', 'caching as on GitHub Pages');
+    const { ctx, page } = await newPage(browser);
+    const violations = [];
+    page.on('console', (m) => { if (/Content Security Policy|Permissions-Policy|Refused to/i.test(m.text())) violations.push(m.text()); });
+    await page.goto(`${BASE}#/welcome`);
+    await page.waitForSelector('.welcome h1');
+    await page.goto(`${BASE}#/help`);
+    await page.waitForSelector('#view h1, #view h2');
+    assert(!violations.length, `console: ${violations.join(' | ')}`);
+    // Framed by another page: the browser refuses to show Lucid (its own context: the refusal is logged as an error).
+    const framer = await browser.newContext();
+    const host = await framer.newPage();
+    await host.setContent(`<iframe src="${BASE}#/welcome" style="width:400px;height:400px"></iframe>`);
+    await host.waitForTimeout(1500);
+    const framed = host.frames().find((f) => f !== host.mainFrame());
+    const inside = await framed?.evaluate(() => (document.querySelector('.welcome') ? 'lucid' : '')).catch(() => '');
+    assert(framed && inside !== 'lucid', 'Lucid rendered inside a frame');
+    await framer.close();
+    // A mistyped path: status 404 and Lucid's page with a link home.
+    const nope = await page.goto(`${BASE}no-such-page`);
+    assert(nope.status() === 404, `status ${nope.status()}`);
+    assert(/הדף הזה לא קיים/.test(await page.textContent('h1')) && await page.$('a.go[href="/"]') && /Lucid/.test(await page.textContent('.brand')), 'Lucid\'s 404 page');
+    await ctx.close();
+  });
+
   // No minimum age (owner's decision, November 2026): nobody is refused; protections depend on the year of birth.
   await check('1. A new user of any age can register: a 10-year-old registers and reaches Today; nobody is refused, and a browser refused by the former 16+ gate can register now', async () => {
     const year = new Date().getFullYear();
@@ -889,7 +924,9 @@ try {
     assert(prof === 0, 'profile still present after deletion');
     const keys = await page.evaluate(() => ({ local: Object.keys(localStorage), session: Object.keys(sessionStorage) }));
     assert(keys.local.includes('hgos-session') && keys.local.includes('hgos-outbox') && keys.session.includes('other-app'), `other apps' data was deleted: ${JSON.stringify(keys)}`);
-    assert(![...keys.local, ...keys.session].some((k) => k.startsWith('lucid-')), `Lucid keys left: ${JSON.stringify(keys)}`);
+    // The one key kept: the interface language for this browser session, not learner data (FR-11, tests/e2e/move.mjs M7).
+    assert(![...keys.local, ...keys.session.filter((k) => k !== 'lucid-ui-lang')].some((k) => k.startsWith('lucid-')), `Lucid keys left: ${JSON.stringify(keys)}`);
+    assert(['he', 'en'].includes(await page.evaluate(() => sessionStorage.getItem('lucid-ui-lang'))), 'only the language code is kept');
     // A malformed hash does not stop the app from starting (S-17).
     await page.goto('about:blank');
     await page.goto(`${BASE}#/%E0%A4%A`);

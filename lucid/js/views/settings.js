@@ -7,7 +7,8 @@
 // shows only while the last profile check really paused sync for that reason (syncPauseReason), never from the
 // local field alone: on a second device the agreement is on the server and sync runs.
 import { html, render, on, download, $ } from '../core/util.js';
-import { tt, t, isolateLatin } from '../core/i18n.js';
+import { tt, t, isolateLatin, uiLang } from '../core/i18n.js';
+import { makeBackup, backupFileName, checkBackup, restoreBackup, describeBackup, backupProblem } from '../core/backup.js';
 import { icon, confirmDialog, toast } from '../ui/components.js';
 import { settings, saveSettings, profile, saveProfile, placementPending } from '../core/learner.js';
 import { store, eraseDevice } from '../core/store.js';
@@ -42,6 +43,11 @@ export function fitSegs(root) {
 }
 // One labelled field: the visible label (the group's name), the control and an optional help line.
 const field = (name, label, control, help = '', { off = false } = {}) => html`<div class="field${off ? ' is-off' : ''}"><span class="label" id="lbl-${name}">${label}</span>${control}${help ? html`<span class="help" id="help-${name}">${isolateLatin(help)}</span>` : ''}</div>`;
+
+// After the data is erased, Welcome opens in the language the learner was using (FR-11): it reads this key.
+export function keepUiLang(lang, storage = (() => { try { return globalThis.sessionStorage; } catch { return null; } })()) {
+  try { storage?.setItem('lucid-ui-lang', lang === 'en' ? 'en' : 'he'); } catch { /* storage blocked: Hebrew */ }
+}
 
 export default async function settingsView(el, ctx) {
   ctx.setTitle(t('nav.settings'));
@@ -235,22 +241,24 @@ export default async function settingsView(el, ctx) {
       const local = store.snapshot();
       let server = null;
       if (configured() && auth.signedIn) { try { server = await db.exportAll(); } catch { toast(tt('לא הצלחנו להוריד את המידע מהשרת; הורד המידע מהמכשיר.', 'Could not fetch server data; the device copy was downloaded.')); } }
-      download(`lucid-data-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({ app: 'lucid', version: 1, exported_at: new Date().toISOString(), device: local, server }, null, 1));
+      download(backupFileName(), JSON.stringify({ ...makeBackup(store, { server }), device: local }, null, 1));
     }),
     on(el, 'change', '[data-import]', async (e, input) => {
       const f = input.files?.[0];
       if (!f) return;
       restoreMsg = '';
       try {
-        const data = JSON.parse(await f.text());
-        if (data.app !== 'lucid' || !data.device) throw new Error('not a Lucid backup');
-        if (!(await confirmDialog({ title: tt('לשחזר מהגיבוי?', 'Restore from this backup?'), body: tt('המידע הנוכחי במכשיר יוחלף במידע מהקובץ.', 'The data on this device will be replaced by the file.'), confirm: tt('שחזור', 'Restore') }))) return;
-        await store.replaceAll(data.device);
+        // Checked before anything is written; the confirmation says what the backup holds (js/core/backup.js).
+        const text = await f.text();
+        const r = checkBackup(text);
+        if (!r.ok) throw Object.assign(new Error('not a Lucid backup'), { reason: r.reason });
+        if (!(await confirmDialog({ title: tt('לשחזר מהגיבוי?', 'Restore from this backup?'), body: `${describeBackup(r.summary).join(' · ')}. ${tt('המידע הנוכחי במכשיר יוחלף במידע מהקובץ.', 'The data on this device will be replaced by the file.')}`, confirm: tt('שחזור', 'Restore') }))) return;
+        await restoreBackup(store, text);
         toast(tt('השחזור הושלם', 'Restored'));
         ctx.navigate('today');
-      } catch {
+      } catch (err) {
         // PH-10: the error stays beside the button and says what to choose instead.
-        restoreMsg = tt('הקובץ הזה לא גיבוי תקין של Lucid. בחרו את קובץ ה-JSON שהורדתם ב״הורדת כל המידע״.', 'This file is not a valid Lucid backup. Choose the JSON file you downloaded with "Download all my data".');
+        restoreMsg = backupProblem(err?.reason);
         const m = $('[data-restore-msg]', el); if (m) m.textContent = restoreMsg;
       } finally { input.value = ''; }
     }),
@@ -263,8 +271,11 @@ export default async function settingsView(el, ctx) {
       });
       if (!ok) return;
       try { if (signedIn) await db.deleteAccount(); } catch (e) { toast(tt('מחיקת החשבון בשרת נכשלה. נסו שוב.', 'Deleting the server account failed. Please try again.')); return; }
-      // Only Lucid's data: the browser origin is shared with other apps (security review S-04).
+      // Only Lucid's data: the browser origin is shared with other apps (security review S-04). The interface
+      // language is a preference of this browser session, not learner data: Welcome keeps it (FR-11).
+      const lang = uiLang();
       await eraseDevice();
+      keepUiLang(lang);
       location.hash = '#/welcome';
       location.reload();
     }),
@@ -280,7 +291,9 @@ export default async function settingsView(el, ctx) {
         confirm: tt('יציאה ומחיקה', 'Sign out and remove'), danger: pending > 0,
       });
       if (!ok) return;
+      const lang = uiLang();
       await signOut({ erase: true });
+      keepUiLang(lang);
       location.hash = '#/welcome';
       location.reload();
     }),

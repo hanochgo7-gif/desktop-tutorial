@@ -117,7 +117,7 @@ jobs:
         run: cd lucid && (npm ci --prefix tools/build --no-audit --no-fund && node tools/build/build.mjs && node tools/build/verify.mjs) || (git checkout -- . && git clean -fdq -- .)
       # קבצי הבנייה, ההערות הפנימיות והגדרות הפיתוח לא צריכים להיות באתר הציבורי
       - name: Exclude build tools and internal notes (AMS, Mizrahi, Krudo, Lucid, Sayeret Nahal security docs)
-        run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json mizrahi/tools mizrahi/docs mizrahi/content mizrahi/README.md mizrahi/.gitignore .taste-skill krudoeng/tools krudoeng/README.md krudoeng/.gitignore lucid/tools lucid/tests lucid/supabase lucid/docs/research/data lucid/node_modules lucid/package.json lucid/package-lock.json lucid/.impeccable sayeret-nahal-security
+        run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json mizrahi/tools mizrahi/docs mizrahi/content mizrahi/README.md mizrahi/.gitignore .taste-skill krudoeng/tools krudoeng/README.md krudoeng/.gitignore lucid/tools lucid/tests lucid/supabase lucid/docs lucid/PRODUCT.md lucid/README.md lucid/node_modules lucid/package.json lucid/package-lock.json lucid/.impeccable sayeret-nahal-security
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: .

@@ -1,13 +1,20 @@
 {
+  "id": "./",
   "name": "Lucid English",
   "short_name": "Lucid",
-  "description": "English for Hebrew speakers, from the alphabet to academic argument.",
+  "description": "אנגלית לדוברי עברית: שיעורים שנבנו לדוברי עברית, תרגול שמתאים את עצמו לטעויות שלכם, אנגלית לטיול הבא, ומעבדת כתיבה שמלמדת אתכם לתקן בעצמכם.",
   "start_url": "./#/today",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f5f7",
-  "theme_color": "#2a2f38",
+  "background_color": "#f4f6f8",
+  "theme_color": "#f4f6f8",
   "lang": "he",
   "dir": "rtl",
-  "icons": [{ "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "categories": ["education"],
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }

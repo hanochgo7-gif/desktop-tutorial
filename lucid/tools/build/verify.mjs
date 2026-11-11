@@ -5,14 +5,17 @@
 // - every minified file has its .map, and the sourceMappingURL comment names it;
 // - content/manifest.json, release.json and sw.js's RELEASE match the built bytes, and every hash matches;
 // - no file the repository tracks under the app root disappeared or moved, and the only new files are .map files;
-// - the CSP meta of index.html is byte-identical to the source's.
-// Usage: node tools/build/verify.mjs [appRoot] [--source <dir>]   (source default: git HEAD of the repository)
+// - the CSP meta of every page at the app root is byte-identical to the source's;
+// - a config.js that turns a server on names an https NEW_HOME that is not on *.github.io (LB-01).
+// Usage: node tools/build/verify.mjs [appRoot] [--source <dir>] [--shipped]   (source default: git HEAD of the
+// repository; --shipped: the tree holds only the shipped files, as tools/build/vercel-build.mjs makes it)
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve, relative, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { buildManifest, fileHash } from '../build-manifest.mjs';
 import { targets, loadEsbuild } from './build.mjs';
+import { isShipped } from './shipped.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -39,7 +42,24 @@ function trackedFiles(root, sourceDir) {
 }
 const untracked = (root) => execFileSync('git', ['ls-files', '-z', '--others', '--exclude-standard', '.'], { cwd: root }).toString().split('\0').filter(Boolean);
 
-export async function verify(root, { sourceDir = null } = {}) {
+// LB-01 (docs/setup.md 2.1): a served config.js that turns a server on must name Lucid's own address (NEW_HOME), and
+// that address may not be a *.github.io origin, shared with every Pages site of the account. js/core/home.js refuses
+// such an origin at run time too; this stops the deploy before it.
+export async function configProblems(code) {
+  let mod;
+  try { mod = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`); } catch (e) { return [`config.js does not load (${e.message.split('\n')[0]})`]; }
+  const url = mod.CONFIG?.supabaseUrl;
+  if (!url) return [];
+  let home = null;
+  try { home = mod.NEW_HOME ? new URL(mod.NEW_HOME) : null; } catch { home = null; }
+  if (!home || home.protocol !== 'https:') return ['config.js: supabaseUrl is set but NEW_HOME is not an https address (LB-01: accounts only at Lucid\'s own address)'];
+  if (/(^|\.)github\.io$/i.test(home.hostname)) return ['config.js: supabaseUrl is set and NEW_HOME is a *.github.io address, shared with other sites (LB-01)'];
+  return [];
+}
+
+// shipped: the tree holds only the files Lucid ships (tools/build/shipped.mjs), as vercel-build.mjs makes it, so
+// only those are required to be there.
+export async function verify(root, { sourceDir = null, shipped = false } = {}) {
   const problems = [];
   const src = sourceReader(root, sourceDir);
   const t = targets(root);
@@ -68,13 +88,14 @@ export async function verify(root, { sourceDir = null } = {}) {
   const sw = readFileSync(join(root, 'sw.js'), 'utf8');
   if (sw.match(/^const RELEASE = '([^']*)';$/m)?.[1] !== release.release) problems.push('sw.js RELEASE differs from release.json');
   // Paths: nothing tracked is gone; the build only adds .map files.
-  for (const rel of trackedFiles(root, sourceDir)) if (!existsSync(join(root, rel))) problems.push(`${rel}: missing after the build`);
+  for (const rel of trackedFiles(root, sourceDir)) if ((!shipped || isShipped(rel)) && !existsSync(join(root, rel))) problems.push(`${rel}: missing after the build`);
   if (!sourceDir) for (const rel of untracked(root)) if (!rel.endsWith('.map') && !rel.startsWith('tools/build/node_modules/')) problems.push(`${rel}: new file`);
   const csp = (html) => html?.match(/<meta http-equiv="Content-Security-Policy"[^>]*>/)?.[0];
-  for (const page of ['index.html', 'privacy.html']) {
-    if (!existsSync(join(root, page))) continue;
+  // Every page at the app root (index.html, privacy.html, 404.html and any added later).
+  for (const page of readdirSync(root).filter((f) => f.endsWith('.html')).sort()) {
     if (csp(readFileSync(join(root, page), 'utf8')) !== csp(src(page))) problems.push(`${page}: CSP meta changed`);
   }
+  if (existsSync(join(root, 'config.js'))) problems.push(...await configProblems(readFileSync(join(root, 'config.js'), 'utf8')));
   return { problems, modules: t.js.length };
 }
 
@@ -83,7 +104,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const i = args.indexOf('--source');
   const sourceDir = i < 0 ? null : resolve(args[i + 1]);
   const root = resolve(args.find((a, k) => !a.startsWith('--') && args[k - 1] !== '--source') || join(here, '..', '..'));
-  verify(root, { sourceDir }).then(({ problems, modules }) => {
+  verify(root, { sourceDir, shipped: args.includes('--shipped') }).then(({ problems, modules }) => {
     if (problems.length) { console.error(`verify: ${problems.length} problem(s)\n  ${problems.slice(0, 40).join('\n  ')}`); process.exit(1); }
     console.log(`verify: ok (${modules} modules, maps, hashes, paths, CSP)`);
   }).catch((e) => { console.error(`verify failed: ${e.message}`); process.exit(1); });

@@ -10,3 +10,6 @@ crm/.impeccable/
 # Lucid: dev dependencies (tests and research tools only)
 lucid/node_modules/
 __pycache__/
+
+# Lucid: the Vercel build output (tools/build/vercel-build.mjs)
+lucid/dist/

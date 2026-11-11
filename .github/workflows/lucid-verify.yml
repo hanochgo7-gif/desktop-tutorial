@@ -1,5 +1,8 @@
-# Lucid: checks the site as it is deployed (minified by lucid/tools/build) on every push that touches lucid/.
+# Lucid: every check on every push that touches lucid/ (LB-09): unit, database, content and generated-file checks,
+# the edge function's Deno tests, every browser suite on the source and on the built site (minified as pages.yml
+# deploys it), the Vercel build served with vercel.json's headers, and the upgrade from the release in production.
 # It does not gate the Pages deploy (pages.yml), so a Lucid test failure never blocks the other sites; it reports.
+# Vercel builds Lucid itself (lucid/vercel.json) and fails its own deploy on any build or verify error.
 name: Lucid verify (built site)
 
 on:
@@ -17,9 +20,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify:
+  checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: lucid
@@ -33,25 +36,151 @@ jobs:
           node-version: 22
       - name: Test dependencies
         run: npm ci --no-audit --no-fund
-      - name: Playwright and its Chromium (on the CI runner only)
-        run: |
-          npm install --no-save --no-audit --no-fund playwright@1.63.0
-          npx playwright install --with-deps chromium
-      # Before the unit tests: tests/unit/build.test.mjs runs the deploy build, and in CI it fails without esbuild.
+      # Before the unit tests: tests/unit/build.test.mjs and vercel.test.mjs run the deploy builds, and in CI they
+      # fail without esbuild.
       - name: Build dependencies (esbuild, pinned)
         run: npm ci --prefix tools/build --no-audit --no-fund
       - name: Unit tests
         run: npm test
+      - name: Database tests (PGlite)
+        run: npm run test:db
       - name: Content validation
-        run: npm run validate
+        run: node tools/validate-content.mjs
+      - name: Generated files are current (contract C-12)
+        run: |
+          node tools/build-content-index.mjs --check
+          node tools/build-route-deps.mjs --check
+          node tools/build-manifest.mjs
+          git diff --exit-code -- content/manifest.json release.json sw.js
+      - name: The Vercel build (dist, verified)
+        run: node tools/build/vercel-build.mjs --out "$RUNNER_TEMP/vercel-dist"
+      # Information only: lists the owner's launch items (docs/setup.md "Launch switch") until they are done.
+      - name: Launch check (information)
+        continue-on-error: true
+        run: node tools/launch-check.mjs
+
+  edge-function:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: lucid/supabase/functions/lucid-ai
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      # denoland/setup-deno v2.0.5, pinned to its commit (git ls-remote https://github.com/denoland/setup-deno).
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: 2.5.6
+      - name: Type check
+        run: deno check index.ts handler.ts
+      - name: Handler tests
+        run: deno test --allow-env --allow-net --allow-read handler_test.ts
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        tree: [source, built]
+        suite: [run, a11y, move, bilingual-text, exercises, first-run-today, games, lesson-content, lesson-flow, perf-boot, perf-runtime, practice-hubs, r4-exercises, r4-lesson-flow, r4-practice-games, r4-real-life-writing, r4-shell-bilingual, r4-today-path, real-life-writing, shell-components]
+    defaults:
+      run:
+        working-directory: lucid
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Playwright and its Chromium (on the CI runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Build dependencies (esbuild, pinned)
+        run: npm ci --prefix tools/build --no-audit --no-fund
+      # The built tree: a copy of lucid/ minified in place as pages.yml deploys it, with the suites inside it, so each
+      # suite serves and reads the built files.
+      - name: Build a copy of the site as pages.yml deploys it
+        if: matrix.tree == 'built'
+        run: |
+          mkdir -p "$RUNNER_TEMP/built/lucid"
+          rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
+          ln -s "$PWD/node_modules" "$RUNNER_TEMP/built/lucid/node_modules"
+          node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
+          node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
+      # run.mjs reads the repository's config.js as written next to the served one, so it serves the built tree with
+      # E2E_ROOT from the source checkout instead.
+      - name: Suite ${{ matrix.suite }} on the ${{ matrix.tree }} tree
+        env:
+          SUITE: ${{ matrix.suite }}
+          TREE: ${{ matrix.tree }}
+        run: |
+          if [ "$TREE" = source ]; then node "tests/e2e/$SUITE.mjs"
+          elif [ "$SUITE" = run ]; then E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs
+          else node "$RUNNER_TEMP/built/lucid/tests/e2e/$SUITE.mjs"; fi
+
+  vercel-dist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: lucid
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Playwright and its Chromium (on the CI runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Build dependencies (esbuild, pinned)
+        run: npm ci --prefix tools/build --no-audit --no-fund
+      # What Vercel publishes, served with vercel.json's headers and 404 page (tools/build/serve.mjs).
+      - name: The Vercel build
+        run: node tools/build/vercel-build.mjs --out "$RUNNER_TEMP/vercel/lucid"
+      - name: End-to-end suite against the Vercel build, with its headers
+        run: E2E_ROOT="$RUNNER_TEMP/vercel" E2E_SERVE=vercel node tests/e2e/run.mjs
+      - name: The move between two origins, against the Vercel build
+        run: E2E_ROOT="$RUNNER_TEMP/vercel" node tests/e2e/move.mjs
+
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: lucid
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Playwright and its Chromium (on the CI runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Build dependencies (esbuild, pinned)
+        run: npm ci --prefix tools/build --no-audit --no-fund
       - name: Build a copy of the site as pages.yml deploys it
         run: |
           mkdir -p "$RUNNER_TEMP/built/lucid"
           rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
           node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
           node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
-      - name: End-to-end suite against the built site
-        run: E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/run.mjs
       # The one-time upgrade from the release in production before the perf programme (2026-11-07.1, d83a500: main
       # with the no-age-limit change) to the built site: that commit's tree is fetched on its own (the checkout is
       # shallow). Until 2026-11-07 the base was b2b669b (2026-11-03.1), whose worker is the same apart from RELEASE.

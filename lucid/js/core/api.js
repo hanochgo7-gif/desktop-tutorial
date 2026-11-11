@@ -2,9 +2,20 @@
 // the lucid-ai edge function. The publishable key is public by design; every table is protected
 // by row-level security. With no URL configured, Lucid runs in device-only mode.
 import { CONFIG } from '../../config.js';
+import { originAllowed } from './home.js';
 
 const SESSION_KEY = 'lucid-session';
-export const configured = () => Boolean(CONFIG.supabaseUrl && CONFIG.supabaseKey);
+// LB-01: a server is used only at an allowed origin (js/core/home.js): never on *.github.io, which every Pages site of
+// the account shares, and otherwise only at NEW_HOME (or in local development). Elsewhere Lucid stays device-only.
+export function serverAllowed(cfg = CONFIG, origin = globalThis.location?.origin || '', allow = undefined) {
+  return Boolean(cfg.supabaseUrl && cfg.supabaseKey) && originAllowed(origin, allow);
+}
+let warned = false;
+export const configured = () => {
+  const ok = serverAllowed();
+  if (!ok && CONFIG.supabaseUrl && !warned) { warned = true; console.warn('Lucid: accounts are off on this origin (docs/setup.md 2.1)'); }
+  return ok;
+};
 
 export class ApiError extends Error {
   constructor(message, { status = 0, code = '', network = false } = {}) {
