@@ -9,6 +9,7 @@ import '../core/compat.js'; // content.js's C-1 methods also on a page that star
 import { icon, levelTag, emptyState, mark, LEVEL_LABEL } from '../ui/components.js';
 import { store } from '../core/store.js';
 import { model, profile } from '../core/learner.js';
+import { siteAI } from '../core/site.js';
 import { fitOf, FIT_LABEL, recommendScenarios, moduleOrder, byFit, modulesFor } from '../core/reallife.js';
 
 // Travel essentials first, in the order a trip needs them; then social English and work.
@@ -120,8 +121,8 @@ export default async function reallife(el, ctx) {
     const courseLevel = model().courseLevel;
     const start = recommendScenarios(list, { courseLevel, goals: profile()?.goals || [], done: doneScenarios() });
     render(el, html`
-      <div class="page-head"><div><h1>${t('nav.reallife')}</h1><p>${tt('אנגלית מעשית לטיסה, למלון, למסעדה, להיכרויות ולעבודה. פתוח בכל רמה, גם אם רק התחלתם.', 'Practical English for flights, hotels, restaurants, meeting people and work. Open at any level, even if you have just started.')}</p></div></div>
-      <div class="row" style="margin-block-end:var(--s4)"><a class="key small" href="#/expressions">${icon('slang', { size: 18 })} ${t('nav.slang')}</a><a class="key small" href="#/conversations">${icon('tutor', { size: 18 })} ${t('nav.simulations')}</a></div>
+      <div class="page-head"><div><h1>${t('nav.reallife')}</h1><p>${tt('אנגלית מעשית לטיסה, למלון, למסעדה, לשיחות עם אנשים חדשים ולעבודה. פתוח בכל רמה, גם אם רק התחלתם.', 'Practical English for flights, hotels, restaurants, meeting people and work. Open at any level, even if you have just started.')}</p></div></div>
+      <div class="row" style="margin-block-end:var(--s4)"><a class="key small" href="#/expressions">${icon('slang', { size: 18 })} ${t('nav.slang')}</a>${siteAI() ? html`<a class="key small" href="#/conversations">${icon('tutor', { size: 18 })} ${t('nav.simulations')}</a>` : ''}</div>
       <p class="small muted level-guide offline-note">${icon('cloud-off', { size: 16 })}<span>${tt('לפני נסיעה: התרחישים והתרגול המובנה עובדים גם בלי אינטרנט. כדי שגם השיעורים יעבדו בלי חיבור, ', 'Before a trip: scenarios and scripted practice work without internet. To have the lessons offline too, ')}<a href="#/settings?section=offline">${tt('שמרו אותם במכשיר', 'save them on this device')}</a>.</span></p>
       ${data?.hidden_for_age ? html`<p class="small muted" data-age-note>${icon('info', { size: 16 })} ${tt('חלק מהתרחישים לא מוצגים, לפי הגיל שבפרופיל.', 'Some scenarios are not shown, based on the age in your profile.')}</p>` : ''}
       ${!list.length ? emptyState({ title: tt('התרחישים עוד לא זמינים', 'Scenarios are not available yet'), body: tt('נסו לרענן בעוד רגע.', 'Try again in a moment.') }) : html`

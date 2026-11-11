@@ -6,6 +6,7 @@ import { content } from '../core/content.js';
 import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { icon, levelTag, emptyState, confirmDialog, toast } from '../ui/components.js';
 import { configured, auth } from '../core/api.js';
+import { siteAI } from '../core/site.js';
 import { model, profile, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { CONFIG } from '../../config.js';
@@ -34,8 +35,10 @@ export default async function simulations(el, ctx) {
     // Recent conversations say the outcome in words; the scores are in each report (P-16).
     const past = store.all('chats').filter((c) => c.kind === 'roleplay' && c.report).sort((a, b) => (a.at < b.at ? 1 : -1)).slice(0, 5);
     render(el, html`
-      <div class="page-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.simulations')}</h1><p>${tt('ה-AI משחק את הצד השני ואתם עונים באנגלית. בסוף מקבלים משוב: מה עבד, ניסוחים טבעיים יותר ומה לתרגל.', 'The AI plays the other person and you answer in English. At the end you get feedback: what worked, more natural phrasing and what to practise.')}</p></div></div>
-      ${!aiReady ? html`<div class="banner" style="margin-block-end:var(--s5)">${icon('info', { size: 18 })}<div><p>${why}</p>${accountLinks()}</div></div>` : ''}
+      <div class="page-head"><div><p class="small faint"><a href="#/real-life">${t('nav.reallife')}</a></p><h1>${t('nav.simulations')}</h1><p>${siteAI()
+        ? tt('ה-AI משחק את הצד השני ואתם עונים באנגלית. בסוף מקבלים משוב: מה עבד, ניסוחים טבעיים יותר ומה לתרגל.', 'The AI plays the other person and you answer in English. At the end you get feedback: what worked, more natural phrasing and what to practise.')
+        : tt('בכל תרחיש יש תרגול מובנה: שיחה שנכתבה מראש, שבה אתם בוחרים תשובה בכל תור ומקבלים משוב מיד.', 'Every scenario has scripted practice: a conversation written in advance, where you choose a reply at each turn and get feedback at once.')}</p>${siteAI() ? '' : html`<p class="small muted" data-ai-off>${tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.')}</p>`}</div></div>
+      ${!aiReady && siteAI() ? html`<div class="banner" style="margin-block-end:var(--s5)">${icon('info', { size: 18 })}<div><p>${why}</p>${accountLinks()}</div></div>` : ''}
       ${past.length ? html`<section class="stack-sm" style="margin-block-end:var(--s6)"><h2 class="small" style="font-size:var(--t-md)">${tt('שיחות אחרונות', 'Recent conversations')}</h2>${past.map((c) => { const s = list.find((x) => x.id === c.scenario); return html`<div class="row" style="flex-wrap:nowrap"><a class="lesson-row hub-row two grow" href="#/scenario/${c.scenario}?tab=roleplay"><span lang="en" dir="ltr">${s?.title_en || c.scenario}</span>${c.report.task_completed ? html`<span class="tag ok">${tt('המטרה הושגה', 'Goal reached')}</span>` : html`<span class="tag warn">${tt('עוד לא', 'Not yet')}</span>`}</a><button type="button" class="key ghost small" data-del-chat="${c.id}" aria-label="${tt(`מחיקת השיחה: ${s?.title_he || c.scenario}`, `Delete conversation: ${s?.title_en || c.scenario}`)}">${icon('trash', { size: 16 })}</button></div>`; })}</section>` : ''}
       ${!list.length ? emptyState({ title: tt('אין עדיין תרחישים', 'No scenarios yet') }) : html`${levelGuide(courseLevel)}${hubFilters(state)}${hubSections(list, state, courseLevel, (s) => row(s, courseLevel))}`}`);
   }

@@ -200,7 +200,7 @@ test('the precache revalidates (no-cache), stores the shell once with all three 
   await w.fire('install');
   const cache = w.cache();
   assert.ok(env.fetches.length > 50 && env.fetches.every((f) => f.cache === 'no-cache'), 'every precache request revalidates');
-  for (const f of ['js/views/review.js', 'js/views/simulations.js', 'js/views/settings.js', 'content/real-life/index.json', 'content/real-life/scenario/rl-airport-checkin-overweight.json', 'content/writing/index.json', 'content/writing/task/we-01.json', 'vendor/ts-fsrs.mjs', 'privacy.html', 'release.json', 'content/manifest.json']) {
+  for (const f of ['js/views/review.js', 'js/views/simulations.js', 'js/views/settings.js', 'content/real-life/index.json', 'content/real-life/scenario/rl-airport-checkin-overweight.json', 'content/writing/index.json', 'content/writing/task/we-01.json', 'vendor/ts-fsrs.mjs', 'privacy.html', 'accessibility.html', 'release.json', 'content/manifest.json']) {
     assert.ok(await cache.match(f), `${f} not precached`);
   }
   // Contract C-2: the sources the index files replace, and the centre and pool files, are not precached.
@@ -290,6 +290,7 @@ test('code, fonts, vendor and content are served from the release cache; a miss 
   assert.equal(await body((await w.fire('fetch', req('js/core/api.js'))).response), file('js/core/api.js'));
   assert.equal(await body((await w.fire('fetch', req('./?utm=2', 'navigate'))).response), file('index.html'), 'an offline navigation falls back to the shell');
   assert.equal(await body((await w.fire('fetch', req('privacy.html', 'navigate'))).response), file('privacy.html'));
+  assert.equal(await body((await w.fire('fetch', req('accessibility.html', 'navigate'))).response), file('accessibility.html'), 'the accessibility statement opens offline (launch BLK-07)');
   assert.equal(await body((await w.fire('fetch', req('docs/unknown.html', 'navigate'))).response), file('index.html'));
   env.online = true;
   // A page in the scope that is not part of the app is passed through and not kept.

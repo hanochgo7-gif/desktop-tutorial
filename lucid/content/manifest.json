@@ -1,5 +1,5 @@
 {
- "version": "928fe6420f89",
+ "version": "6705f2e0203c",
  "lessons": [
   "a1-01",
   "a1-02",
@@ -78,6 +78,7 @@
   "pa1-10"
  ],
  "offline": [
+  "accessibility.html",
   "content/curriculum.json",
   "content/pictures.json",
   "content/placement.json",
@@ -157,6 +158,7 @@
   "js/core/age.js",
   "js/core/api.js",
   "js/core/compat.js",
+  "js/core/contact.js",
   "js/core/content.js",
   "js/core/diff.js",
   "js/core/grading.js",
@@ -170,6 +172,7 @@
   "js/core/route-deps.js",
   "js/core/router.js",
   "js/core/session.js",
+  "js/core/site.js",
   "js/core/speech.js",
   "js/core/srs.js",
   "js/core/store.js",

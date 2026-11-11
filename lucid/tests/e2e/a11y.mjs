@@ -1,4 +1,4 @@
-// Accessibility audit: axe-core (WCAG 2.0/2.1/2.2 A and AA rules) on every route, in Hebrew and English UI,
+// Accessibility audit: axe-core (WCAG 2.0/2.1/2.2 A and AA rules) on every route and the static pages, in Hebrew and English UI,
 // light and dark themes, at Pre-A1, B1 and C1 (Hebrew support full, minimal, off). Prints violations grouped by rule. Usage: node tests/e2e/a11y.mjs [--routes a,b]
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
@@ -50,6 +50,13 @@ try {
       await page.waitForTimeout(400);
       await audit(page, r, `${lang}/${theme}/${width}/${level}`);
     }
+    // The static pages beside the app (launch BLK-07): the privacy policy and the accessibility statement, which cites
+    // this audit. They have both languages on one page, so the interface language does not change them.
+    for (const r of ['privacy.html', 'accessibility.html']) {
+      await page.goto(`${BASE}${r}`);
+      await page.waitForSelector('main h1');
+      await audit(page, r, `${lang}/${theme}/${width}/${level}`);
+    }
     await page.goto(`${BASE}#/welcome`);
     await page.waitForSelector('.welcome');
     // Create a learner directly through the app's store (onboarding itself is covered by the e2e suite).
@@ -77,5 +84,5 @@ try {
   server.kill();
 }
 for (const [k, list] of byRule) { console.log(`\n${k} (${list.length})`); list.slice(0, 6).forEach((x) => console.log(`  ${x}`)); }
-console.log(`\n${total} violations across ${ROUTES.length} routes + welcome and onboarding x ${5} configurations (Hebrew support full, minimal and off)`);
+console.log(`\n${total} violations across ${ROUTES.length} routes + welcome, onboarding, privacy.html and accessibility.html x ${5} configurations (Hebrew support full, minimal and off)`);
 process.exit(total ? 1 : 0);

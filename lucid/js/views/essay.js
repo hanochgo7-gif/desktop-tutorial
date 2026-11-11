@@ -14,6 +14,7 @@ import { store } from '../core/store.js';
 import { analyzeWriting, splitReferences, NOT_ARGUED, checkSummary } from '../core/writing-analyzer.js';
 import { countWords } from '../core/grading.js';
 import { callAI, configured, auth } from '../core/api.js';
+import { siteAI } from '../core/site.js';
 import { CONFIG } from '../../config.js';
 import { runSet } from '../ui/player.js';
 import { STAGES } from './writing.js';
@@ -93,7 +94,7 @@ const AI_ERRORS = {
   unauthenticated: ['פג תוקף הכניסה לחשבון. היכנסו שוב ונסו שוב.', 'Your session has expired. Sign in again, then try again.'],
   ai_consent_required: ['כדי לקבל משוב AI צריך להפעיל אותו בהגדרות.', 'Turn on AI feedback in Settings to use it.'],
   no_profile: ['צריך לסיים ליצור את הפרופיל בחשבון לפני משוב AI.', 'Finish creating your profile before using AI feedback.'],
-  invalid_request: ['Lucid לא הצליח לשלוח את הבקשה בצורה תקינה. רעננו את הדף ונסו שוב; אם זה חוזר, דווחו לנו.', 'Lucid could not send this request in the expected form. Reload the page and try again; if it happens again, please report it.'],
+  invalid_request: ['Lucid לא הצליח לשלוח את הבקשה בצורה תקינה. רעננו את הדף ונסו שוב; אם זה חוזר, ראו ״יצירת קשר״ בעזרה.', 'Lucid could not send this request in the expected form. Reload the page and try again; if it happens again, see "Contact" in Help.'],
   unavailable: ['שירות ה-AI לא זמין כרגע. נסו שוב בעוד כמה דקות.', 'The AI service is not available right now. Try again in a few minutes.'],
 };
 const ALIAS = { invalid_json: 'invalid_request', busy: 'unavailable', upstream_error: 'unavailable', internal_error: 'unavailable', method_not_allowed: 'invalid_request' };
@@ -531,8 +532,9 @@ export default async function essay(el, ctx) {
     const refs = splitReferences(text).references;
     const stage = STAGES.find((s) => s[0] === task.stage);
     const why = aiReady ? aiWhy() : '';
-    const tabs = [['checks', 'בדיקות', 'Checks'], ['rubric', 'מחוון', 'Rubric'], ['ai', 'משוב AI', 'AI feedback'], ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
-    if (tab === 'sources' && !hasSources()) tab = 'checks';
+    // The AI feedback tab only on a site with AI (launch FR-03): elsewhere it could only say that AI is off.
+    const tabs = [['checks', 'בדיקות', 'Checks'], ['rubric', 'מחוון', 'Rubric'], ...(siteAI() ? [['ai', 'משוב AI', 'AI feedback']] : []), ['versions', 'גרסאות', 'Versions'], ...(hasSources() ? [['sources', 'מקורות', 'Sources']] : [])];
+    if ((tab === 'sources' && !hasSources()) || (tab === 'ai' && !siteAI())) tab = 'checks';
     render(el, html`
       <div class="page-head"><div><p class="small faint essay-meta"><a href="#/writing">${t('nav.writing')}</a>${stage ? html` · ${tt(`שלב ${stage[0]}: ${stage[2]}`, `Stage ${stage[0]}: ${stage[1]}`)}` : ''}${task.level ? html` · ${levelTag(task.level)}` : ''}</p><h1>${legend(task.title_en, task.title_he)}</h1></div></div>
       <div class="editor">
@@ -547,6 +549,7 @@ export default async function essay(el, ctx) {
               <div class="row editor-keys"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>
                 ${aiReady ? html`<button type="button" class="key enter" data-ai ${busy || why ? html`disabled aria-describedby="ai-why"` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${latestEval() ? tt('שליחת טיוטה מתוקנת', 'Submit revised draft') : tt('קבלת משוב', 'Get feedback')}</button>` : ''}</div></div>
             ${aiReady ? html`<p class="xsmall faint" id="ai-why" data-ai-why>${why}</p>` : ''}
+            <p class="xsmall faint" data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</p>
             ${!aiReady ? html`<p class="xsmall faint row">${icon('info', { size: 14 })} ${!configured() || !CONFIG.aiEnabled ? tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.') : !auth.signedIn ? tt('משוב AI זמין אחרי כניסה לחשבון.', 'AI feedback is available after you sign in.') : tt('אפשר להפעיל משוב AI בהגדרות.', 'You can turn on AI feedback in Settings.')}</p>` : ''}
             ${busyStatus()}
             <p class="small row check-status"><span role="status" data-status>${busy || !checkedNote ? '' : statusLine(checkedNote)}</span>${!busy && checkedNote && tab === 'checks' ? html`<button type="button" class="key ghost small" data-goto-checks>${tt('לרשימה', 'See the list')}</button>` : ''}</p>
@@ -799,7 +802,7 @@ export default async function essay(el, ctx) {
     on(el, 'click', '[data-kind]', (e, b) => { textKind = b.dataset.kind; syncMin(); if (analysis) analysis = analyze(); saveDraft(); draw(); $(`[data-kind="${textKind}"]`, el)?.focus(); }),
     on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { markFinal(v); draw(); } }),
     on(el, 'click', '[data-delete]', () => deleteText()),
-    on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות המשוב.', 'Thanks. Your report was saved and helps us audit feedback quality.')); }),
+    on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('הסימון נשמר אצלכם, עם המשוב הזה (במכשיר, ועם חשבון גם בחשבון). כרגע אף אחד לא עובר על הסימונים האלה; כדי לפנות לאדם, ראו ״יצירת קשר״ בעזרה.', 'Your mark is saved with this feedback, on this device (and in your account if you have one). Nobody reviews these marks yet; to reach a person, see "Contact" in Help.')); }),
     on(el, 'click', '[data-timer]', () => {
       if (timerEnd) { clearInterval(timerId); timerEnd = null; draw(); return; }
       timerEnd = Date.now() + task.time_limit_min * 60_000; draw();

@@ -71,7 +71,7 @@ test('content/manifest.json keeps its shape and stays small (it is read at boot)
 test('a 1-byte edit to a precached file, a lesson or the logic of sw.js makes the release stale until rebuilt', () => {
   const dir = mkdtempSync(join(tmpdir(), 'lucid-release-'));
   try {
-    for (const p of ['js', 'vendor', 'css', 'fonts', 'content', 'assets', 'index.html', 'config.js', 'manifest.webmanifest', 'privacy.html', 'sw.js', 'release.json']) {
+    for (const p of ['js', 'vendor', 'css', 'fonts', 'content', 'assets', 'index.html', 'config.js', 'manifest.webmanifest', 'privacy.html', 'accessibility.html', 'sw.js', 'release.json']) {
       if (existsSync(join(rootDir, p))) cpSync(join(rootDir, p), join(dir, p), { recursive: true });
     }
     assert.deepEqual(buildManifest(dir, { write: false }).stale, []);

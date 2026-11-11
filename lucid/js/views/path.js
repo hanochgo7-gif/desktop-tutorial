@@ -1,4 +1,4 @@
-// The path: all 75 lessons by level. The current level is shown in full; other levels are one
+// The path: all the lessons by level. The current level is shown in full; other levels are one
 // tap away (never squeezed into an unreadable overview). Status is a mark in a fixed cell. Lessons that
 // are still being written are labelled in words and are not links; placed-out lessons are counted apart
 // from completed ones.
@@ -14,6 +14,13 @@ export default async function path(el, ctx) {
   ctx.setTitle(t('nav.path'));
   const [curriculum, tx, available] = await Promise.all([content.curriculum(), content.taxonomy(), content.availableLessons()]);
   const levelMeta = new Map(tx.levels.map((l) => [l.id, l]));
+  // Counted from the curriculum, never written in (launch FR-09); "in preparation" is mentioned only while a lesson
+  // of the curriculum has no file yet (FR-05), the same test each row uses.
+  const allLessons = curriculum.levels.flatMap((l) => l.lessons);
+  const unwritten = available.size ? allLessons.filter((l) => !available.has(l.id)).length : 0;
+  const first = LEVEL_LABEL[curriculum.levels[0]?.id] || ''; const last = LEVEL_LABEL[curriculum.levels.at(-1)?.id] || '';
+  const intro = () => isolateLatin(tt(`${allLessons.length} שיעורים מ-${first} ועד ${last}. אפשר לפתוח כל שיעור מוכן; ההמלצה מסומנת.${unwritten ? ' שיעורים שמסומנים ״בהכנה״ עוד נכתבים.' : ''}`,
+    `${allLessons.length} lessons from ${first} to ${last}. Any lesson that is ready can be opened; the recommended one is marked.${unwritten ? ' Lessons marked "In preparation" are still being written.' : ''}`));
   // What adding a skipped level's words did, shown where its button was (TF-12).
   let importNote = null;
 
@@ -46,7 +53,7 @@ export default async function path(el, ctx) {
     // way on to the next level (TP-6).
     const passed = pending ? null : passedCheck(curriculum, lvl.id);
     render(el, html`
-      <div class="page-head"><div><h1>${t('nav.path')}</h1><p>${tt('75 שיעורים מ-Pre-A1 ועד C2. אפשר לפתוח כל שיעור מוכן; ההמלצה מסומנת. שיעורים שמסומנים ״בהכנה״ עוד נכתבים.', '75 lessons from Pre-A1 to C2. Any lesson that is ready can be opened; the recommended one is marked. Lessons marked "In preparation" are still being written.')}</p></div></div>
+      <div class="page-head"><div><h1>${t('nav.path')}</h1><p data-path-intro>${intro()}</p></div></div>
       ${pending ? html`<div style="margin-block-end:var(--s5)">${placementCard()}</div>` : ''}
       <div class="level-tabs" role="tablist" aria-label="${tt('רמות', 'Levels')}">${curriculum.levels.map((l) => {
         const out = countIn(l, 'placed_out');

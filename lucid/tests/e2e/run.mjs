@@ -692,6 +692,17 @@ try {
     const sent = page.lucidMock.aiBodies.at(-1);
     assert(sent.stage === 0 && sent.draft_number === 1, `stage/draft not sent: ${JSON.stringify({ stage: sent.stage, draft: sent.draft_number })}`);
     assert(!/Correction:|תיקון:/.test(await page.textContent('aside.panel')), 'correction shown before the learner asked for it');
+    // Launch TS-06: "Mark a mistake" says where the mark is kept and that nobody reviews it yet, in both languages.
+    assert((await page.textContent('[data-report]')).trim() === 'סימון טעות במשוב', `the mark key: ${await page.textContent('[data-report]')}`);
+    await page.click('[data-report]');
+    const marked = await page.textContent('.toast');
+    assert(/כרגע אף אחד לא עובר על הסימונים האלה/.test(marked) && /יצירת קשר/.test(marked) && !/לבדוק את איכות המשוב/.test(marked), `mark toast: ${marked}`);
+    assert((await store(page, 'events')).some((e) => e.type === 'ai-report'), 'the mark was not saved');
+    await page.evaluate(async () => (await import('./js/core/i18n.js')).setUiLang('en'));
+    await page.click('[data-report]');
+    await page.waitForFunction(() => [...document.querySelectorAll('.toast')].some((t) => /Nobody reviews these marks yet/.test(t.textContent)), null, { timeout: 3000 }).catch(() => { throw new Error('the English mark note does not say nobody reviews it'); });
+    assert(!/audit feedback quality/.test(await page.textContent('body')), 'the English note promises an audit');
+    await page.evaluate(async () => (await import('./js/core/i18n.js')).setUiLang('he'));
     // P-30: a mistake can be selected in the text.
     await page.click('.error-card [data-locate="0"]');
     assert(await page.evaluate(() => { const ta = document.querySelector('#essay'); return ta.value.slice(ta.selectionStart, ta.selectionEnd); }) === 'more better', 'the quoted mistake is not selected in the text');
@@ -2493,7 +2504,8 @@ try {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'B1');
     await page.goto(`${BASE}#/settings`);
-    await page.waitForSelector('[data-seg="corrections"]');
+    // Without AI the AI groups are not shown (launch FR-03); every group that is shown is checked.
+    await page.waitForSelector('.settings-view [data-seg="retention"]');
     const alone = await page.$$eval('.settings-view [data-seg]', (segs) => segs.filter((g) => { const tops = [...g.children].map((b) => Math.round(b.getBoundingClientRect().top)); const rows = [...new Set(tops)]; return rows.length > 1 && rows.some((r) => tops.filter((t) => t === r).length === 1); }).map((g) => g.dataset.seg));
     assert(!alone.length, `an option sits alone on a line: ${alone}`);
     await page.goto(`${BASE}#/real-life`);

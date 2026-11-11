@@ -28,7 +28,10 @@ They come from the round-3 panels (ux-writing-mobile and others; see `docs/qa/pa
 | Going back to a named place | The destination: **להיום**, **למסלול**, **לרשימת הטקסטים** | חזרה להיום, חזרה למסלול |
 | Practising a lesson again | **לתרגל שוב**, **לעבור על השיעור שוב** | חזרה על השיעור |
 | The real-life section | **אנגלית לחיים** (short tab label at 130-150% text: **מהחיים**) | לחיים alone (it reads "Cheers!") |
-| One real-life situation, and the list of them | **תרחיש**, **תרחישים** (30 תרחישים, תרחיש בשדה התעופה) | מצבים אמיתיים, סימולציות, סיטואציות |
+| One real-life situation, and the list of them | **תרחיש**, **תרחישים** (36 תרחישים, תרחיש בשדה התעופה; a count is always computed from the content) | מצבים אמיתיים, סימולציות, סיטואציות |
+| Meeting new people (friends, travellers, colleagues) | **שיחות עם אנשים חדשים** | היכרויות (it reads as dating; launch TS-09) |
+| The privacy page and its box in onboarding | **מדיניות הפרטיות**, **קראתי את מדיניות הפרטיות** | תנאים, תנאי שימוש (Lucid has no terms of use; launch BLK-02) |
+| The operator's contact details while they are not published | The plain sentence that they will be published before the public launch | Any placeholder address or name |
 | The conversations hub (scripted practice conversations) | **שיחות תרגול** ("Conversations") | סימולציות שיחה, שיחות מובנות |
 | Small talk | **שיחת חולין** (שיחת חולין לפני הישיבה) | סמול טוק |
 | A word or skill the learner knows well | **בשליטה** | נלמד, מושלם, יודע/ת |

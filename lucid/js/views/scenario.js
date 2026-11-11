@@ -9,6 +9,7 @@ import { say, canSpeak, canListen, listen, stopSpeaking, speechErrorText } from 
 import { recordAttempt, settings, logEvent, profile, model, aiConsent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
+import { siteAI } from '../core/site.js';
 import { CONFIG } from '../../config.js';
 import { checkOwnReply, nextScenario, fitOf, FIT_LABEL } from '../core/reallife.js';
 
@@ -39,7 +40,9 @@ export default async function scenarioView(el, ctx) {
   ctx.setTitle(s.title_en);
   // A saved practice place opens the practice tab with its resume offer, unless the route names a tab (r4 RW-8).
   const hasPlace = () => { const p = store.get('progress', `rl:${s.id}`); return Number.isInteger(p?.turn) && p.turn > 0 && p.turn < s.practice.length; };
-  let tab = ctx.query.tab || (hasPlace() ? 'practise' : 'prepare');
+  // The AI roleplay tab exists only on a site with AI (launch FR-03); an old link to it opens the scripted practice.
+  const tabs = siteAI() ? TABS : TABS.filter(([id]) => id !== 'roleplay');
+  let tab = tabs.some(([id]) => id === ctx.query.tab) ? ctx.query.tab : ctx.query.tab === 'roleplay' ? 'practise' : (hasPlace() ? 'practise' : 'prepare');
   const variant = settings().english_variant === 'any' ? undefined : settings().english_variant;
   const aiReady = configured() && CONFIG.aiEnabled && auth.signedIn && aiConsent();
   // practise state: a tap selects a reply (picked), "Check" commits it (checked), as in lessons (RW-1).
@@ -73,7 +76,7 @@ export default async function scenarioView(el, ctx) {
 
   const head = () => html`<div class="page-head"><div><p class="small faint"><a href="#/real-life">${tt('אנגלית לחיים', 'Real life')}</a></p><h1>${legend(s.title_en, s.title_he)}</h1><div class="row" style="margin-top:var(--s2)">${levelTag(s.level)}<span class="small faint">${tt(...FIT_LABEL[fitOf(s.level, model().courseLevel)])}</span><span class="small muted">${tt('את/ה מדבר/ת עם:', 'You are talking to:')} <span lang="en" dir="ltr">${s.partner_role}</span></span></div></div></div>
     ${resume && tab !== 'practise' ? html`<p class="small resume-line" data-resume-line>${tt(`עצרתם בתור ${resume.turn + 1} מתוך ${turnOrder.length}`, `You stopped at turn ${resume.turn + 1} of ${turnOrder.length}`)} · <button type="button" class="link-key" data-resume>${tt('להמשיך', 'Continue')}</button></p>` : ''}
-    <div class="seg scenario-tabs" role="group" aria-label="${tt('חלקי התרחיש', 'Parts of the scenario')}" style="margin-block-end:var(--s5)">${TABS.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
+    <div class="seg scenario-tabs" role="group" aria-label="${tt('חלקי התרחיש', 'Parts of the scenario')}" style="margin-block-end:var(--s5)">${tabs.map(([id, he, en]) => html`<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${tt(he, en)}</button>`)}</div>`;
 
   // A phrase note in English is an English block; a Hebrew one keeps its English in order (r4 RW-9).
   const noteLine = (note) => (/[א-ת]/.test(note)

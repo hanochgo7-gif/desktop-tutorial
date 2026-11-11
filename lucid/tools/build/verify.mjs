@@ -11,7 +11,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve, relative, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { buildManifest, fileHash } from '../build-manifest.mjs';
+import { buildManifest, fileHash, STATIC_PAGES } from '../build-manifest.mjs';
 import { targets, loadEsbuild } from './build.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -71,7 +71,7 @@ export async function verify(root, { sourceDir = null } = {}) {
   for (const rel of trackedFiles(root, sourceDir)) if (!existsSync(join(root, rel))) problems.push(`${rel}: missing after the build`);
   if (!sourceDir) for (const rel of untracked(root)) if (!rel.endsWith('.map') && !rel.startsWith('tools/build/node_modules/')) problems.push(`${rel}: new file`);
   const csp = (html) => html?.match(/<meta http-equiv="Content-Security-Policy"[^>]*>/)?.[0];
-  for (const page of ['index.html', 'privacy.html']) {
+  for (const page of ['index.html', ...STATIC_PAGES]) {
     if (!existsSync(join(root, page))) continue;
     if (csp(readFileSync(join(root, page), 'utf8')) !== csp(src(page))) problems.push(`${page}: CSP meta changed`);
   }

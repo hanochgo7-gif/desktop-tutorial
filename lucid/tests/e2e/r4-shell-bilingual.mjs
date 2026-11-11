@@ -287,7 +287,7 @@ try {
   });
 
   // ---------- SB-8 ----------
-  await check('SB-8. Desktop rail at 1440x900: all 13 links are above Help and Settings; at 130% the list fades at the bottom while it scrolls', async () => {
+  await check('SB-8. Desktop rail at 1440x900: all 12 links (13 with AI: the tutor, launch FR-03) are above Help and Settings; at 130% the list fades at the bottom while it scrolls', async () => {
     const { ctx, page } = await newPage(browser, { w: 1440, h: 900 });
     await learnerAt(page, 'A1');
     await go(page, '#/today');
@@ -298,7 +298,7 @@ try {
       return { n: links.length, shown: links.filter((a) => a.getBoundingClientRect().bottom <= Math.min(foot.top, nav.getBoundingClientRect().bottom) + 0.5).length, scrolls: nav.classList.contains('scrolls'), fade: after.content !== 'none' && parseFloat(after.height) > 10 && /gradient/.test(after.backgroundImage) };
     });
     const a = await rail();
-    assert(a.n === 13 && a.shown === 13, `at 1440x900 ${a.shown} of ${a.n} links are in view`);
+    assert(a.n === 12 && a.shown === 12, `at 1440x900 ${a.shown} of ${a.n} links are in view`);
     await shot(page, 'sb8-rail-1440x900');
     await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.saveSettings({ text_size: 130 }); });
     await page.waitForTimeout(500);
@@ -376,19 +376,20 @@ try {
   });
 
   // ---------- SB-10 ----------
-  await check('SB-10. #/help on a phone: the mistakes answer mentions the second try, the AI answer matches the AI-off state, and "פרטיות ותנאים" is 44px tall', async () => {
+  await check('SB-10. #/help on a phone: the mistakes answer mentions the second try, the AI answer matches the AI-off state, and "מדיניות הפרטיות" and "הצהרת נגישות" are 44px tall (launch BLK-02, BLK-07)', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'A1');
     await go(page, '#/help');
     const r = await page.evaluate(() => {
       const ans = (q) => [...document.querySelectorAll('#view details')].find((d) => d.querySelector('summary').textContent.includes(q))?.querySelector('p')?.textContent || '';
-      const link = [...document.querySelectorAll('#view a')].find((a) => a.textContent.includes('פרטיות ותנאים'));
-      return { mistakes: ans('טעיתי'), ai: ans('משוב AI'), page: document.querySelector('#view').textContent, link: link ? link.getBoundingClientRect().height : 0 };
+      const h = (name) => { const a = [...document.querySelectorAll('#view .help-foot a')].find((x) => x.textContent.trim() === name); return a ? a.getBoundingClientRect().height : 0; };
+      return { mistakes: ans('טעיתי'), ai: ans('משוב AI'), page: document.querySelector('#view').textContent, link: h('מדיניות הפרטיות'), a11y: h('הצהרת נגישות') };
     });
     await ctx.close();
     assert(r.mistakes.includes('לנסות שוב'), `the mistakes answer: ${r.mistakes}`);
     assert(!r.page.includes('והסכמה בהגדרות') && r.ai.startsWith('AI לא פעיל באתר הזה. כל השאר עובד'), `the AI answer: ${r.ai}`);
-    assert(r.link >= 44, `"פרטיות ותנאים" is ${r.link}px tall`);
+    assert(r.link >= 44, `"מדיניות הפרטיות" is ${r.link}px tall`);
+    assert(r.a11y >= 44, `"הצהרת נגישות" is ${r.a11y}px tall`);
   });
 
   // ---------- SB-11 ----------

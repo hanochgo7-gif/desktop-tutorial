@@ -8,8 +8,7 @@ import { icon, LEVEL_LABEL } from '../ui/components.js';
 import { model, due, allCards, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { recommendScenarios } from '../core/reallife.js';
-import { configured } from '../core/api.js';
-import { CONFIG } from '../../config.js';
+import { siteAI } from '../core/site.js';
 
 const LABS = [
   ['vocab', 'vocab', 'nav.vocab', 'מילים שלמדתם, עם הגייה, דוגמאות ומתי הן חוזרות', 'Words you learned, with pronunciation, examples and when they come back'],
@@ -36,11 +35,12 @@ export default async function practice(el, ctx) {
       : tt(`${dueN} מילים לחזרה: ${newN} חדשות, ${dueN - newN} לרענון`, `${dueN} words to review: ${newN} new, ${dueN - newN} to refresh`);
   const reviewWhy = newN === dueN ? tt('מילים מהשיעורים האחרונים, בפעם הראשונה בחזרה.', 'Words from your recent lessons, in review for the first time.') : tt('מילים שהגיע הזמן לחזור עליהן.', 'Words whose time to come back has come.');
   const words = allCards().filter((c) => c.kind === 'meaning').length;
-  const aiReady = configured() && CONFIG.aiEnabled;
+  // The tutor is an AI lab: offered only where AI works on this site (launch FR-03).
+  const labs = siteAI() ? LABS : LABS.filter(([href]) => href !== 'tutor');
   // Only topics that can be practised somewhere: a drill, or a scenario for real-life topics (R2-24).
   const weak = m.weak.filter((w) => w.route !== null);
   const wordsText = words === 1 ? tt('מילה אחת', '1 word') : tt(`${words} מילים`, `${words} words`);
-  const counts = { vocab: words ? tt(`${wordsText} · ${dueN} לחזרה`, `${wordsText} · ${dueN} due`) : '', tutor: aiReady ? '' : tt('לא פעיל באתר הזה', 'Not active on this site') };
+  const counts = { vocab: words ? tt(`${wordsText} · ${dueN} לחזרה`, `${wordsText} · ${dueN} due`) : '' };
   const answers = (n) => tt(n === 1 ? 'תשובה אחת' : `${n} תשובות`, n === 1 ? '1 answer' : `${n} answers`);
   // UX r3 PH-9: before there are mistakes or weak topics to work on, the hub still has something for today: a word
   // game and a real-life scenario at the learner's level.
@@ -63,7 +63,7 @@ export default async function practice(el, ctx) {
       </section>
       <section class="stack-sm" aria-labelledby="labs-h">
         <h2 id="labs-h" class="small" style="font-size:var(--t-md)">${tt('מעבדות', 'Labs')}</h2>
-        <ul class="lesson-list practice-labs" style="list-style:none;padding:0;margin:0">${LABS.map(([href, ic, key, he, en]) => html`<li><a class="lesson-row" href="#/${href}" style="grid-template-columns:auto 1fr auto">
+        <ul class="lesson-list practice-labs" style="list-style:none;padding:0;margin:0">${labs.map(([href, ic, key, he, en]) => html`<li><a class="lesson-row" href="#/${href}" style="grid-template-columns:auto 1fr auto">
           <span class="glyph" style="color:var(--ink-2)">${icon(ic)}</span>
           <span class="grow"><span style="font-weight:500;display:block">${t(key)}</span><span class="meta">${tt(he, en)}</span></span>
           <span class="small faint">${counts[href] || ''}</span></a></li>`)}</ul>

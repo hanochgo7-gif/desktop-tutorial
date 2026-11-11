@@ -4,11 +4,12 @@ import { tt, t } from '../core/i18n.js';
 import { icon } from '../ui/components.js';
 import { configured } from '../core/api.js';
 import { CONFIG } from '../../config.js';
+import { CONTACT, hasContact, mailtoOf } from '../core/contact.js';
 
 const AI_ANSWER = () => (configured() && CONFIG.aiEnabled
   ? [
-    'באתר הזה AI פעיל. הוא עובד אחרי שמתחברים לחשבון ומאשרים אותו בהגדרות. גם בלעדיו כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. משוב AI יכול לטעות, ואפשר לדווח על כך.',
-    'AI is active on this site. It works once you sign in to an account and allow it in Settings. Everything else works without it: lessons, word review, scripted practice and automatic writing checks. AI feedback can be wrong, and you can report it.']
+    'באתר הזה AI פעיל. הוא עובד אחרי שמתחברים לחשבון ומאשרים אותו בהגדרות. גם בלעדיו כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. משוב AI יכול לטעות: בדקו אותו, ואפשר לסמן ליד המשוב שמצאתם בו טעות.',
+    'AI is active on this site. It works once you sign in to an account and allow it in Settings. Everything else works without it: lessons, word review, scripted practice and automatic writing checks. AI feedback can be wrong: check it, and you can mark next to the feedback that you found a mistake.']
   : [
     'AI לא פעיל באתר הזה. כל השאר עובד: שיעורים, חזרה על מילים, תרגול מובנה ובדיקות כתיבה אוטומטיות. אם יתווסף, נשאל קודם.',
     'AI is not active on this site. Everything else works: lessons, word review, scripted practice and automatic writing checks. If it is added, we will ask you first.']);
@@ -30,13 +31,13 @@ const Q = [
     'שום דבר לא הולך לאיבוד. במסך ״היום״ יופיע ״להמשיך מאיפה שעצרתם״.',
     'Nothing is lost. Today shows "Continue where you left off".'],
   ['איך משתמשים במעבדת הכתיבה?', 'How do I use the Writing lab?',
-    'כתבו, לחצו ״בדיקה״ לבדיקות אוטומטיות, ואם יש משוב AI, שלחו למשוב. המשוב מסמן טעויות ונותן רמז; נסו לתקן לבד ורק אז חשפו את התיקון. כל שליחה נשמרת כגרסה, ואפשר להשוות בין גרסאות.',
+    'כתבו, לחצו ״בדיקה אוטומטית״, ואם יש משוב AI, שלחו למשוב. המשוב מסמן טעויות ונותן רמז; נסו לתקן לבד ורק אז חשפו את התיקון. כל שליחה נשמרת כגרסה, ואפשר להשוות בין גרסאות.',
     'Write, press "Check" for automatic checks, and if AI feedback is available, send it for feedback. Feedback marks mistakes with a hint; try to fix them yourself before revealing the correction. Every submission is saved as a version you can compare.'],
   // The answer says what is true on this site (SB-10): the glossary's one sentence when AI is off.
   ['משוב AI, שיחות AI והמורה', 'AI feedback, AI conversations and the tutor', 'ai'],
   ['שימוש בלי אינטרנט', 'Using Lucid offline',
-    'אחרי שפתחתם את Lucid פעם אחת עם חיבור, המסכים, החזרה על מילים, התרגול המובנה בתרחישים ומעבדת הכתיבה עובדים גם בלי אינטרנט. את השיעורים (כ-3MB) שומרים מראש בהגדרות, ב״שימוש בלי אינטרנט״. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור. כשאין חיבור, בטלפון מופיע ״אין חיבור״ בראש המסך, ובמחשב בתפריט הצד.',
-    'Once you have opened Lucid with a connection, screens, word review, scripted scenario practice and the Writing lab work without internet. Save the lessons (about 3 MB) beforehand in Settings, under "Offline use". AI feedback, AI conversations and speech recognition need a connection. When you are offline, a phone shows "Offline" at the top of the screen, and a computer shows it in the side menu.',
+    'אחרי שפתחתם את Lucid פעם אחת עם חיבור, המסכים, החזרה על מילים, התרגול המובנה בתרחישים ומעבדת הכתיבה עובדים גם בלי אינטרנט. את השיעורים (כ-3MB) שומרים מראש בהגדרות, ב״שימוש בלי אינטרנט״. זיהוי דיבור דורש חיבור, וכך גם משוב AI ושיחות AI באתר שבו הם פעילים. כשאין חיבור, בטלפון מופיע ״אין חיבור״ בראש המסך, ובמחשב בתפריט הצד.',
+    'Once you have opened Lucid with a connection, screens, word review, scripted scenario practice and the Writing lab work without internet. Save the lessons (about 3 MB) beforehand in Settings, under "Offline use". Speech recognition needs a connection, and so do AI feedback and AI conversations on a site where they are active. When you are offline, a phone shows "Offline" at the top of the screen, and a computer shows it in the side menu.',
     ['#/settings?section=offline', 'לשמירת השיעורים במכשיר', 'Save the lessons on this device', 'download']],
   ['קיצורי מקלדת', 'Keyboard shortcuts',
     'Enter: בדיקה והמשך. 1-4: בחירת תשובה. Tab: מעבר בין כפתורים.',
@@ -54,9 +55,23 @@ const Q = [
     'In Settings: text size, light or dark, how much Hebrew, and speech speed. Lucid also respects your device\'s "reduce motion" setting.',
     ['#/settings', 'להגדרות', 'To Settings', 'settings']],
   ['המידע שלי', 'My data',
-    'בהגדרות אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול. בלי חשבון, ההתקדמות שלכם לא יוצאת מהמכשיר. חריג אחד: בתרגילי דיבור, הדפדפן עשוי לשלוח את הקול לשירות זיהוי הדיבור שלו (Lucid לא שומר הקלטות).',
-    'In Settings you can download everything, restore a backup, or delete it all. Without an account, your progress never leaves this device. One exception: in speaking exercises your browser may send your voice to its own speech-recognition service (Lucid stores no recordings).'],
+    'בהגדרות אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול. בלי חשבון, ההתקדמות שלכם לא יוצאת מהמכשיר. שני חריגים, של הדפדפן ולא של Lucid: בתרגילי דיבור הדפדפן עשוי לשלוח את הקול לשירות זיהוי הדיבור שלו (Lucid לא שומר הקלטות), ובחלק מהדפדפנים קול ההקראה הוא שירות מקוון שמקבל את הטקסט שמוקרא.',
+    'In Settings you can download everything, restore a backup, or delete it all. Without an account, your progress never leaves this device. Two exceptions, both the browser\'s and not Lucid\'s: in speaking exercises your browser may send your voice to its own speech-recognition service (Lucid stores no recordings), and in some browsers the reading voice is an online service that receives the text being read.',
+    ['privacy.html', 'למדיניות הפרטיות', 'The privacy policy', 'info']],
+  // The operator's contact (BLK-06), from js/core/contact.js: the address once the owner has supplied it, and until
+  // then a plain sentence that it is not published yet. No address is ever made up.
+  ['יצירת קשר', 'Contact', 'contact'],
 ];
+
+// Contact (BLK-06): the operator's address from contact.js once it is filled in; until then the answer says plainly
+// that it will be published before the public launch.
+function contactItem([qhe, qen], isOpen) {
+  const c = CONTACT;
+  const body = hasContact(c)
+    ? html`<p class="muted" style="margin-top:var(--s3)">${tt(`שאלה, תקלה, בקשה בנושא פרטיות או בעיית נגישות? כתבו למפעיל האתר${c.name_he ? ` (${c.name_he})` : ''}:`, `A question, a problem, a privacy request or an accessibility problem? Write to the site operator${c.name_en ? ` (${c.name_en})` : ''}:`)} <a href="${mailtoOf(c)}" dir="ltr" lang="en" data-contact-email>${c.email}</a>. ${tt('אל תשלחו סיסמה או מידע רגיש.', 'Do not send a password or sensitive details.')}</p>`
+    : html`<p class="muted" style="margin-top:var(--s3)" data-contact-pending>${tt('פרטי הקשר של מפעיל האתר יפורסמו כאן ובמדיניות הפרטיות לפני ההשקה הציבורית. עד אז אין כאן כתובת לפנייה.', 'The site operator\'s contact details will be published here and in the privacy policy before the public launch. Until then there is no address to write to.')}</p>`;
+  return html`<details class="panel flat" id="contact" data-contact ${isOpen ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary>${body}</details>`;
+}
 
 // A touch screen with no hover has no keyboard to speak of: its help leaves the keyboard shortcuts out (SC-2).
 const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: none) and (pointer: coarse)').matches;
@@ -64,10 +79,12 @@ const touchOnly = () => typeof matchMedia === 'function' && matchMedia('(hover: 
 export default async function help(el, ctx) {
   ctx.setTitle(t('nav.help'));
   const items = (touchOnly() ? Q.filter(([, en]) => en !== 'Keyboard shortcuts') : Q).map((q) => (q[2] === 'ai' ? [q[0], q[1], ...AI_ANSWER()] : q));
+  const open = (i, link) => i === 0 || (link?.[0].includes('offline') && ctx.query.q === 'offline') || (link === 'contact' && ctx.query.q === 'contact');
+  const external = (href) => /^(privacy|accessibility)\.html/.test(href);
   render(el, html`
     <div class="page-head"><div><h1>${t('nav.help')}</h1><p>${tt('תשובות קצרות לשאלות הנפוצות.', 'Short answers to common questions.')}</p></div></div>
     <div class="stack-sm" style="max-width:46rem">
-      ${items.map(([qhe, qen, ahe, aen, link], i) => html`<details class="panel flat" ${i === 0 || (link?.[0].includes('offline') && ctx.query.q === 'offline') ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}">${icon(link[3] || 'chevron', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)}
-      <p class="small faint row help-foot" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות ותנאים', 'Privacy and terms')}</a></p>
+      ${items.map((q, i) => (q[2] === 'contact' ? contactItem(q, open(i, 'contact')) : (([qhe, qen, ahe, aen, link]) => html`<details class="panel flat" ${open(i, link) ? html`open` : ''}><summary style="font-weight:500;cursor:pointer">${tt(qhe, qen)}</summary><p class="muted" style="margin-top:var(--s3)">${tt(ahe, aen)}</p>${link ? html`<p style="margin-top:var(--s3)"><a class="key small" href="${link[0]}" ${external(link[0]) ? html`target="_blank" rel="noopener"` : ''}>${icon(link[3] || 'chevron', { size: 16 })} ${tt(link[1], link[2])}</a></p>` : ''}</details>`)(q)))}
+      <p class="small faint row help-foot" style="margin-top:var(--s5)">${icon('info', { size: 16 })} ${configured() && CONFIG.aiEnabled ? tt('השרת הזה מוגדר עם חשבונות ו-AI.', 'This server is set up with accounts and AI.') : configured() ? tt('השרת הזה מוגדר עם חשבונות, בלי AI.', 'This server is set up with accounts, without AI.') : tt('Lucid פועל כאן במצב מכשיר בלבד.', 'Lucid runs in device-only mode here.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a> · <a href="accessibility.html" target="_blank" rel="noopener">${tt('הצהרת נגישות', 'Accessibility statement')}</a></p>
     </div>`);
 }

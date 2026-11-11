@@ -616,28 +616,21 @@ try {
     await ctx.close();
   });
   // ---------- PG-10 ----------
-  await check('PG-10. Settings without AI: each AI field is .is-off, described by #ai-off, and its selected segment is --ink-3 with no raised fill', async () => {
+  // Launch FR-03 replaced PG-10's greyed AI fields: a site without AI shows no AI control at all, only the one sentence
+  // (tests/e2e/launch-honesty.mjs checks the rest, and that the controls come back when AI is on).
+  await check('PG-10. Settings without AI: no greyed AI field is left (no .is-off, no corrections or feedback groups, no AI checkbox), only the #ai-off sentence in body ink', async () => {
     for (const dark of [false, true]) {
       const { ctx, page } = await newPage(browser, { dark });
       await learnerAt(page, 'B1');
       await go(page, 'settings', '#ai-off');
       const r = await page.evaluate(() => {
         const probe = (prop, value) => { const x = document.createElement('div'); x.style[prop] = value; document.body.append(x); const c = getComputedStyle(x)[prop]; x.remove(); return c; };
-        const ink3 = probe('color', 'var(--ink-3)'), ink2 = probe('color', 'var(--ink-2)');
-        return { ink3, ink2, fields: ['corrections', 'feedback_scope'].map((name) => {
-          const g = document.querySelector(`[data-seg="${name}"]`);
-          const sel = g.querySelector('[aria-pressed="true"]');
-          const cs = getComputedStyle(sel);
-          return { name, off: Boolean(g.closest('.is-off')), described: (g.getAttribute('aria-describedby') || '').split(/\s+/).includes('ai-off'), color: cs.color, bg: cs.backgroundColor, shadow: cs.boxShadow, label: getComputedStyle(g.closest('.field').querySelector('.label')).color };
-        }), ai: (() => { const c = document.querySelector('[data-ai]'); return { off: Boolean(c.closest('.is-off')), described: (c.getAttribute('aria-describedby') || '').split(/\s+/).includes('ai-off') }; })() };
+        const off = document.querySelector('#ai-off');
+        return { offFields: document.querySelectorAll('.settings-view .is-off').length, groups: document.querySelectorAll('[data-seg="corrections"], [data-seg="feedback_scope"], [data-ai]').length, disabled: document.querySelectorAll('.settings-view [disabled], .settings-view [aria-disabled="true"]').length, text: off.textContent.trim(), color: getComputedStyle(off).color, ink2: probe('color', 'var(--ink-2)'), section: off.closest('section')?.getAttribute('aria-labelledby') };
       });
-      for (const f of r.fields) {
-        assert(f.off && f.described, `${f.name}: not marked off or not described by #ai-off`);
-        assert(f.color === r.ink3, `${f.name}: the selected segment is ${f.color}, not --ink-3 ${r.ink3}`);
-        assert((f.bg === 'rgba(0, 0, 0, 0)' || f.bg === 'transparent') && f.shadow === 'none', `${f.name}: the selected segment still looks raised (${f.bg}, ${f.shadow})`);
-        assert(f.label === r.ink2, `${f.name}: the label is ${f.label}, not --ink-2`);
-      }
-      assert(r.ai.off && r.ai.described, 'the AI checkbox is not marked off');
+      assert(r.offFields === 0 && r.groups === 0 && r.disabled === 0, `greyed AI controls are still there: ${JSON.stringify(r)}`);
+      assert(r.text.startsWith('AI לא פעיל באתר הזה. כל השאר עובד.') && r.section === 'set-feedback', `the AI-off sentence: ${r.text}`);
+      assert(r.color === r.ink2, `the AI-off sentence is ${r.color}, not --ink-2 ${r.ink2}`);
       await page.$eval('#ai-off', (x) => x.scrollIntoView({ block: 'start' }));
       await shot(page, `pg10-settings-ai-off${dark ? '-dark' : ''}`);
       await ctx.close();

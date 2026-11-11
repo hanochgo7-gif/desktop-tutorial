@@ -401,8 +401,8 @@
    "title_en": "Six sentences about someone you know",
    "title_he": "שישה משפטים על מישהו שאתם מכירים",
    "instructions": {
-    "en": "Write 6 sentences about a person you know well: a friend or someone in your family. Use the sentence frames and the word bank below. Use because in one sentence and but in another.",
-    "he": "כתבו 6 משפטים על אדם שאתם מכירים היטב: חבר, חברה או מישהו מהמשפחה. היעזרו במסגרות המשפטים ובמחסן המילים שלמטה. השתמשו ב-because במשפט אחד וב-but במשפט אחר."
+    "en": "Write 6 sentences about a person you know well: a friend or someone in your family. You can make up the details. Use the sentence frames and the word bank below. Use because in one sentence and but in another.",
+    "he": "כתבו 6 משפטים על אדם שאתם מכירים היטב: חבר, חברה או מישהו מהמשפחה. אפשר להמציא את הפרטים. היעזרו במסגרות המשפטים ובמחסן המילים שלמטה. השתמשו ב-because במשפט אחד וב-but במשפט אחר."
    },
    "input_text": "Sentence frames\n1. My ___ is called ___ .\n2. He / She is ___ years old, and he / she lives in ___ .\n3. He / She is a / an ___ , and he / she is very ___ .\n4. He / She likes ___ because ___ .\n5. He / She doesn't like ___ , but he / she ___ .\n6. On Saturdays, he / she usually ___ .\nWord bank\nPeople: brother, sister, cousin, friend, grandmother, uncle\nJobs: a student, a soldier, a nurse, a teacher, an engineer, a cook\nAdjectives: kind, funny, quiet, clever, busy, friendly\nVerbs with -s: plays, cooks, reads, swims, works, watches, visits\nThings: football, music, films, the beach, coffee, computer games",
    "min_words": 30,

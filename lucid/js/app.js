@@ -7,6 +7,7 @@ import { t, tOther, setUiLang, uiLang, tt, hebrewSupport } from './core/i18n.js'
 import { profile, settings, initModel, applySupport, sessionTick, hasProfile } from './core/learner.js';
 import { icon, toast, clearToasts, brandMark, segColumns } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
+import { CONFIG } from '../config.js';
 import { createSync } from './core/sync.js';
 import { startSession, syncAllowed } from './core/session.js';
 
@@ -27,6 +28,10 @@ const MORE = [
   ['writing', 'nav.writing', 'writing'],
   ['tutor', 'nav.tutor', 'tutor'],
 ];
+// The labs the rail offers: the AI tutor only on a site with AI (launch FR-03). Its route stays, for old links, and
+// says that AI is not active here.
+// (The same test as js/core/site.js, which the boot graph does not load.)
+const labs = () => (configured() && CONFIG.aiEnabled ? MORE : MORE.filter(([href]) => href !== 'tutor'));
 
 export let sync = null;
 
@@ -79,7 +84,7 @@ function drawShell(route) {
     <nav aria-label="${tt('ניווט ראשי', 'Main')}">
       ${NAV.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${!lab && (active === ic || active === href) ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
       <div class="group-label">${tt('מעבדות', 'Labs')}</div>
-      ${MORE.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${lab === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
+      ${labs().map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${lab === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
     </nav>
     <div class="foot">
       <a class="nav" href="#/help" ${active === 'help' ? html`aria-current="page"` : ''}>${icon('info')}${navLegend('nav.help')}</a>

@@ -8,6 +8,7 @@ import { model, allCards, settings, weekActivity, currentSessionSeconds, due, ai
 import { store } from '../core/store.js';
 import { periodReport, levelIndex, WRITING_EVENTS } from '../core/adaptive.js';
 import { configured, auth } from '../core/api.js';
+import { siteAI } from '../core/site.js';
 import { CONFIG } from '../../config.js';
 import { RETENTION } from '../core/srs.js';
 import { levelRail, skillProfile } from './today.js';
@@ -78,7 +79,7 @@ export default async function progress(el, ctx) {
             <div class="stat"><div class="v num">${pct(r.retention)}</div><div class="k">${tt('זכירה בחזרות', 'Recall on reviews')}</div><div class="d faint">${tt(`יעד ${Math.round(target * 100)}%`, `Target ${Math.round(target * 100)}%`)}</div></div>
             <div class="stat"><div class="v num">${r.words_known}</div><div class="k">${tt('מילים יציבות (3 שבועות+)', 'Stable words (3+ weeks)')}</div><div class="d faint">${tt(`${r.words_started} חדשות בתקופה`, `${r.words_started} new this period`)}</div></div>
             <div class="stat"><div class="v num">${r.lessons_completed}</div><div class="k">${tt('שיעורים שהושלמו', 'Lessons completed')}</div></div>
-            <div class="stat" data-writing-sessions="${r.writing_sessions}"><div class="v num">${r.writing_sessions}</div><div class="k">${r.writing_sessions === 1 ? tt('פעם אחת של כתיבה', '1 writing session') : tt('פעמים של כתיבה', 'writing sessions')}</div><div class="d faint">${tt('במעבדת הכתיבה, בלי הערכת רמה', 'In the Writing lab, no level claim')}</div></div>
+            <div class="stat" data-writing-sessions="${r.writing_sessions}"><div class="v num">${r.writing_sessions}</div><div class="k">${r.writing_sessions === 1 ? tt('פעם אחת של כתיבה', '1 writing session') : tt('פעמים של כתיבה', 'writing sessions')}</div><div class="d faint">${tt('בשיעורים ובמעבדת הכתיבה, בלי הערכת רמה', 'In lessons and the Writing lab, no level claim')}</div></div>
             <div class="stat"><div class="v num">${r.retention_30d == null ? '—' : pct(r.retention_30d)}</div><div class="k">${tt('זכירה אחרי 30 יום', 'Recall after 30 days')}</div><div class="d faint">${r.retention_30d == null ? tt('מחכה למספיק נתונים', 'Waiting for enough data') : ''}</div></div>
           </div>
           <div class="panel flat"><p class="small faint" style="margin-bottom:var(--s3)">${tt('תרגילים לפי', 'Exercises by')} ${days === 7 ? tt('יום', 'day') : tt('שבוע', 'week')}</p>
@@ -89,7 +90,9 @@ export default async function progress(el, ctx) {
 
         <section class="grid-2" style="align-items:start">
           <div class="panel stack"><h2 class="small" style="font-size:var(--t-md)">${tt('רמה לפי מיומנות', 'Level by skill')}</h2>${skillProfile(m.skills)}
-            <p class="xsmall faint">${tt('כתיבה מקבלת רמה רק מטקסטים שהוערכו במשוב AI. Lucid עוד לא מעריך רמת דיבור: זיהוי דיבור לבדו אף פעם לא נותן ציון.', 'Writing gets a level only from texts assessed with AI feedback. Lucid does not assess speaking level yet: speech recognition alone never gives a grade.')}</p></div>
+            <p class="xsmall faint" data-skill-note>${siteAI()
+              ? tt('כתיבה מקבלת רמה רק מטקסטים שהוערכו במשוב AI. Lucid עוד לא מעריך רמת דיבור: זיהוי דיבור לבדו אף פעם לא נותן ציון.', 'Writing gets a level only from texts assessed with AI feedback. Lucid does not assess speaking level yet: speech recognition alone never gives a grade.')
+              : tt('באתר הזה Lucid לא מעריך רמת כתיבה: במעבדת הכתיבה יש הערכה עצמית לפי המחוון ובדיקות אוטומטיות. Lucid עוד לא מעריך רמת דיבור: זיהוי דיבור לבדו אף פעם לא נותן ציון.', 'Lucid does not assess writing level on this site: the Writing lab has a self-assessment against the rubric and automatic checks. Lucid does not assess speaking level yet: speech recognition alone never gives a grade.')}</p></div>
           <div class="panel stack"><h2 class="small" style="font-size:var(--t-md)">${tt('בדיקות רמה', 'Level checks')}</h2>
             ${levelRail(curriculum, m.progress, m.courseLevel)}
             <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${nearChecks.map(checkRow)}</ul>

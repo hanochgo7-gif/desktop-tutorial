@@ -327,7 +327,10 @@ try {
     const { ctx, page } = await newPage(browser);
     await page.goto(`${BASE}#/welcome`);
     await page.waitForSelector('.welcome');
-    assert(/30 תרחישים מהחיים/.test(await page.textContent('.welcome')), 'Welcome does not say "30 תרחישים מהחיים"');
+    // The count comes from the scenario list (launch FR-09: it said 30 while there were 36).
+    const n = JSON.parse(readFileSync(join(app, 'content/real-life/index.json'), 'utf8')).scenarios.length;
+    await page.waitForSelector('.welcome [data-count-scenarios]');
+    assert((await page.textContent('.welcome')).includes(`${n} תרחישים מהחיים`), `Welcome does not say "${n} תרחישים מהחיים"`);
     await ctx.close();
   });
 
