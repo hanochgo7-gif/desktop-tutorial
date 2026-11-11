@@ -12,6 +12,7 @@ const ROUTES = [
   ['welcome', () => import('../views/welcome.js'), { bare: true, public: true }],
   ['start', () => import('../views/onboarding.js'), { bare: true, public: true }],
   ['account', () => import('../views/account.js'), { public: true }],
+  ['import', () => import('../views/restore.js'), { bare: true, public: true }],
   ['placement', () => import('../views/placement.js'), { bare: true }],
   ['today', () => import('../views/today.js'), { nav: 'today' }],
   ['path', () => import('../views/path.js'), { nav: 'path' }],

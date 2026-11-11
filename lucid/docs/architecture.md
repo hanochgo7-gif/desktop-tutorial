@@ -287,7 +287,8 @@ atomic in-memory ledger instead.
   supported by the client yet.
 - **Isolation**: Lucid needs its own web origin before accounts are turned on, because browser storage (the session
   tokens, IndexedDB, the offline cache) is per origin, and the GitHub Pages address is shared with the repository's
-  other sites. It also needs a dedicated Supabase project, because account deletion removes the `auth.users` row and
+  other sites (the app refuses a server there: `js/core/home.js`, and the deploy check refuses such a `config.js`).
+  It also needs a dedicated Supabase project, because account deletion removes the `auth.users` row and
   sign-up settings are per project (`docs/setup.md` section 2).
 - **No minimum age** (owner's decision, November 2026; it replaced the 16+ gate): anyone can register. Only the
   birth year is stored, because protections depend on age; age is computed from the year alone; the protections take
@@ -466,8 +467,19 @@ checks that every module parses, every import resolves, every map exists, every 
 disappeared and the CSP meta is unchanged. On any error the step restores the source (`git checkout` and
 `git clean` inside `lucid/`) and the source is deployed unminified, so the other sites in the same deploy are never
 blocked. What learners run can be audited against the repository through the maps. `.github/workflows/lucid-verify.yml`
-runs the unit tests and the e2e suite against a built copy on every push that touches `lucid/`, without gating the
-deploy.
+runs every check (unit, database, content, generated files, the edge function's Deno tests, every browser suite on
+the source and on a built copy, the Vercel build with its headers, the upgrade) on every push that touches `lucid/`,
+without gating the Pages deploy.
+
+**Own origin on Vercel (LB-01, launch 2026-11).** `lucid/vercel.json` makes `lucid/` a Vercel project:
+`tools/build/vercel-build.mjs` copies only the shipped files (`tools/build/shipped.mjs`) into `dist/`, runs the same
+build and `verify.mjs --shipped`, and fails the deploy on any error (no fallback there). Vercel sends the headers
+GitHub Pages cannot (the page CSP plus `frame-ancestors 'none'`, `X-Frame-Options`, `nosniff`, a Permissions-Policy
+with the microphone for Lucid only) and the caching the worker relies on. `config.js` names the new address
+(`NEW_HOME`, empty until known) and the old one (`OLD_HOME`): accounts and AI run only at the new address
+(`js/core/home.js`, never `*.github.io`), and the old copy offers a one-click move of the learner's data by
+`postMessage` between the two windows, exact origins both ways, a nonce, and the learner's confirmation before
+anything is written (`js/core/move.js`, `js/views/restore.js`). `docs/setup.md` section 5 has the owner's steps.
 
 ## 8. Configuration
 

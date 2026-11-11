@@ -524,6 +524,10 @@ dialog.sheet > .panel { padding: var(--s5); }
 .banner { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s3) var(--s4); border-radius: var(--r-key); font-size: var(--t-sm); background: var(--cobalt-tint); }
 .banner.warn { background: var(--warn-tint); }
 .banner.bad { background: var(--bad-tint); }
+/* "Lucid moved" on the old copy (js/ui/moved.js), above the top bar of every hub and on Welcome. */
+.banner.moved { margin: var(--s3) var(--s4) 0; }
+.banner.moved p { margin: 0; }
+.banner.moved .row { flex-wrap: wrap; }
 .empty { text-align: center; padding: var(--s7) var(--s4); color: var(--ink-2); display: grid; gap: var(--s3); justify-items: center; }
 .empty h2, .empty h3 { color: var(--ink); font-size: var(--t-lg); }
 .boot { display: grid; place-items: center; min-height: 60dvh; color: var(--ink-3); }

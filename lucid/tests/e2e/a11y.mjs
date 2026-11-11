@@ -15,7 +15,7 @@ const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const PORT = Number(process.env.A11Y_PORT) || 8772;
 const BASE = `http://localhost:${PORT}/lucid/`;
 const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null);
-const ROUTES = (arg('--routes') || 'welcome,help,today,path,practice,games,games/PreA1/1,games/A1/3,games/pictures/1,games/memory/1,vocab,grammar,reading,listening,speaking,writing,writing/free,tutor,real-life,expressions,conversations,scenario/rl-airport-checkin-overweight,scenario/rl-social-party-small-talk?tab=practise,progress,profile,settings,account,lesson/pa1-05,review').split(',');
+const ROUTES = (arg('--routes') || 'welcome,help,today,path,practice,games,games/PreA1/1,games/A1/3,games/pictures/1,games/memory/1,vocab,grammar,reading,listening,speaking,writing,writing/free,tutor,real-life,expressions,conversations,scenario/rl-airport-checkin-overweight,scenario/rl-social-party-small-talk?tab=practise,progress,profile,settings,account,import,lesson/pa1-05,review').split(',');
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT)], { cwd: repo, stdio: 'ignore' });
 await sleep(800);
@@ -45,7 +45,7 @@ try {
     // bypassCSP only so the audit can inject axe; the app's CSP is checked by the e2e suite.
     const ctx = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce', colorScheme: theme, bypassCSP: true });
     const page = await ctx.newPage();
-    for (const r of ['welcome', 'start']) {
+    for (const r of ['welcome', 'start', 'import']) {
       await page.goto(`${BASE}#/${r}?a11y=${lang}${theme}${level}`);
       await page.waitForTimeout(400);
       await audit(page, r, `${lang}/${theme}/${width}/${level}`);

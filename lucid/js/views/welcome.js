@@ -65,6 +65,7 @@ export default async function welcome(el, ctx) {
           <div class="start-bar">
             <a class="key enter" href="#/start">${tt('בואו נתחיל', 'Get started')} ${icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next')}</a>
             ${configured() ? html`<a class="key ghost" href="#/account?mode=signin">${tt('כבר יש לי חשבון', 'I already have an account')}</a>` : ''}
+            <a class="key ghost" href="#/import" data-has-backup>${tt('יש לי גיבוי', 'I have a backup')}</a>
           </div>
           <ul class="check-rows small muted">
             <li>${icon('check', { size: 16 })}<span>${tt('75 שיעורים, מאפס ועד C2, עם הסברים בעברית שנעלמים בהדרגה', '75 lessons from zero to C2, with Hebrew support that fades as you grow')}</span></li>

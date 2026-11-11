@@ -9,6 +9,9 @@ import { icon, toast, clearToasts, brandMark, segColumns } from './ui/components
 import { auth, db, configured } from './core/api.js';
 import { createSync } from './core/sync.js';
 import { startSession, syncAllowed } from './core/session.js';
+import { isOldCopy } from './core/home.js';
+
+const MOVED = isOldCopy(globalThis.location?.origin || '');
 
 const NAV = [
   ['today', 'nav.today', 'today'],
@@ -72,6 +75,13 @@ function drawShell(route) {
   // The skip link speaks the interface language, with its lang and dir (SB-11).
   const skip = document.querySelector('a.skip');
   if (skip && skip.textContent !== t('skip')) { skip.textContent = t('skip'); skip.lang = uiLang(); skip.dir = uiLang() === 'he' ? 'rtl' : 'ltr'; }
+  // The old copy, once Lucid has its own address (IS-02): "Lucid moved" above every hub and on Welcome, never inside
+  // a lesson or another full-screen activity. Loaded only there.
+  if (MOVED) {
+    const show = !bare || route?.path === 'welcome';
+    if (show) import('./ui/moved.js').then((m) => m.drawMoved()).catch(() => {});
+    else { const box = document.getElementById('moved'); if (box) box.hidden = true; }
+  }
   if (bare) return;
   const p = profile();
   render(deck, html`
