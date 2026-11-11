@@ -183,7 +183,7 @@
       "answers": ["She isn't ready."],
       "error_type": "copula-omission",
       "hint": { "en": "One word is missing before not.", "he": "חסרה מילה אחת לפני not." },
-      "explanation": { "en": "English needs be in negatives too: She isn't ready / She's not ready / She is not ready.", "he": "גם בשלילה באנגלית צריך את be: ‏isn't, ‏she's not או is not – כל השלוש נכונות." }
+      "explanation": { "en": "English needs be in negatives too: She isn't ready / She's not ready / She is not ready.", "he": "גם בשלילה באנגלית צריך את be: ‏isn't, ‏she's not או is not – שלוש הצורות נכונות." }
     },
     {
       "id": "e12", "type": "read", "skill": "reading", "topic": "be-negative-questions",

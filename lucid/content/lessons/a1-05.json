@@ -61,7 +61,7 @@
   "hebrew_pitfalls": [
     { "en": "Hebrew works differently here: it has no /ð/ sound, so mother, brother and their can come out with a /d/ or /z/ ('mader', 'zeir'). In English, put the tip of your tongue between your teeth and use your voice: /ˈmʌðə(r)/, /ðeə(r)/.", "he": "מוציאים מעט את קצה הלשון בין השיניים ומשמיעים קול ב-mother, ‏brother ו-their (/ð/). בעברית אין את הצליל הזה, ולכן הוא יוצא לפעמים ד' או ז' ('מָאדֶר', 'זֵייר').", "error_type": "pron-th" },
     { "en": "Hebrew works differently: it has one 'i' vowel, while English has a short /ɪ/ and a long /iː/. So his /hɪz/ and he's /hiːz/ can sound the same. His (short) = belongs to him; he's (long) = he is.", "he": "אומרים 'אִי' קצרה ורפויה ב-his ('שלו', /ɪ/), ומותחים את השפתיים ומאריכים ב-he's ('הוא', /iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew there is no word for a/an, so 'I have brother' can sound right. English works differently: I have a brother / I've got a brother. Use one only when you count: one brother and two sisters.", "he": "בעברית אין מילה ל-a/an ('יש לי אח'), ולכן קל לשכוח אותה. באנגלית חייבים: I have a brother. את one משתמשים רק כשסופרים.", "error_type": "article" },
+    { "en": "In Hebrew there is no word for a/an, so 'I have brother' can sound right. English works differently: I have a brother / I've got a brother. Use one only when you count: one brother and two sisters.", "he": "בעברית אין מילה ל-a/an ('יש לי אח'), ולכן קל לשכוח אותה. באנגלית חייבים: I have a brother. ב-one משתמשים רק כשסופרים.", "error_type": "article" },
     { "en": "In Hebrew, 'have' works differently: one word is used for everyone (for me, for her, for them). In English the verb changes: I have, but she has (she's got), not 'she have'.", "he": "בעברית 'יש' זהה לכולם (יש לי, יש לה, יש להם). באנגלית הפועל משתנה: I have, אבל she has (או she's got), ולא she have.", "error_type": "third-person-s" }
   ],
   "exercises": [
@@ -230,7 +230,7 @@
         },
         {
           "type": "tf", "statement": "Arjun's girlfriend is from London.", "answer": true,
-          "explanation": { "en": "'His girlfriend, Sara, is from London.' His = Arjun's.", "he": "'His girlfriend, Sara, is from London' – his פירושו 'של ארג'ון'." }
+          "explanation": { "en": "'His girlfriend, Sara, is from London.' His = Arjun's.", "he": "'His girlfriend, Sara, is from London' – his פירושו 'של ארג׳ון'." }
         },
         {
           "type": "mcq", "question": "Who is a great cook?",

@@ -372,7 +372,7 @@ try {
       const a = await attemptsOn(page, 'e14');
       assert(a.length === 1 && a[0].score === null, `the ${how} dictation: ${JSON.stringify(a)}`);
       const foot = (await page.textContent('#pfoot')).replace(/\s+/g, ' ');
-      assert(/נשמע\? לא נספר/.test(foot) && !/לא בדיוק/.test(foot), `the ${how} dictation footer: ${foot}`);
+      assert(/לא נשמע קול · לא נספר/.test(foot) && !/לא בדיוק/.test(foot), `the ${how} dictation footer: ${foot}`);
       await shot(page, `pg15-dictation-${how}-390`);
       await ctx.close();
     }

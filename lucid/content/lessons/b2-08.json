@@ -359,7 +359,7 @@
       "id": "e15", "type": "speak", "skill": "speaking",
       "prompt": { "en": "Ask a manager politely to move a meeting. Say it out loud." },
       "target": "I was wondering if it would be possible to move our meeting to Tuesday afternoon.",
-      "focus": { "en": "Wondering and would start with /w/: round your lips and keep your top teeth away from your lower lip. Stress the key words: I was WONdering if it would be POSSible to MOVE our MEETing to TUESday afterNOON. 'Was' is weak: /wəz/.", "he": "wondering ו-would מתחילות ב-/w/: מעגלים את השפתיים בלי שהשיניים העליונות יגעו בשפה התחתונה. ההטעמה על המילים החשובות: WONdering, POSSible, MOVE, MEETing, TUESday. את was אומרים חלש: /wəz/." },
+      "focus": { "en": "Wondering and would start with /w/: round your lips and keep your top teeth away from your lower lip. Stress the key words: I was WONdering if it would be POSSible to MOVE our MEETing to TUESday afterNOON. 'Was' is weak: /wəz/.", "he": "wondering ו-would מתחילות ב-/w/: מעגלים את השפתיים בלי שהשיניים העליונות ייגעו בשפה התחתונה. ההטעמה על המילים החשובות: WONdering, POSSible, MOVE, MEETing, TUESday. את was אומרים חלש: /wəz/." },
       "explanation": { "en": "This request uses two softeners at once (I was wondering if + would it be possible), which suits someone senior. With a colleague you know well, 'Can we move the meeting to Tuesday?' is fine." }
     },
     {

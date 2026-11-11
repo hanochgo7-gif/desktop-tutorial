@@ -34,7 +34,7 @@ const PATTERNS = [
   // A soft comma-splice note from B2 (RW-1): a full clause with be or an auxiliary, a comma, then a second clause
   // whose subject is a noun with a relative clause ("This is a concern, a student who copies does not practise").
   // The pronoun case stays with the rule above, which is not run at C1-C2 (P-74).
-  { re: /,[ \t]+(?:a|the|this|that|every|each|my|our|their|his|her)\s+[a-z]+\s+(?:who|that|which)\s+[a-z]+\s+(?:am|is|are|was|were|has|have|had|will|can|does|do|did|should|must)\b/g, type: 'punctuation', soft: true, spliceLead: true, minLevel: 'B2', pick: (m) => m[0].replace(/^,\s*/, ''), title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'This may be two full sentences joined by a comma: check whether a full stop or a connector fits better.', he: 'ייתכן שאלה שני משפטים שלמים שמחוברים בפסיק: בדקו אם מתאימה נקודה או מילת קישור.' },
+  { re: /,[ \t]+(?:a|the|this|that|every|each|my|our|their|his|her)\s+[a-z]+\s+(?:who|that|which)\s+[a-z]+\s+(?:am|is|are|was|were|has|have|had|will|can|does|do|did|should|must)\b/g, type: 'punctuation', soft: true, spliceLead: true, minLevel: 'B2', pick: (m) => m[0].replace(/^,\s*/, ''), title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'This may be two full sentences joined by a comma: check whether a full stop or a connector fits better.', he: 'ייתכן שאלו שני משפטים שלמים שמחוברים בפסיק: בדקו אם מתאימה נקודה או מילת קישור.' },
   { re: /\s+[,.!?;:](?=\s|$)/g, type: 'punctuation', title: 'Space before punctuation', he_title: 'רווח לפני סימן פיסוק', en: 'No space before a punctuation mark.', he: 'באנגלית אין רווח לפני סימן פיסוק.' },
 ];
 

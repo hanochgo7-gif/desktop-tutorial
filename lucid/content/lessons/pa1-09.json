@@ -2,7 +2,7 @@
   "id": "pa1-09",
   "level": "PreA1",
   "title_en": "Where are you from?",
-  "title_he": "מאיפה אתה?",
+  "title_he": "מאיפה את/ה?",
   "topics": ["personal-info"],
   "minutes": 20,
   "objectives": [
@@ -246,7 +246,7 @@
       "audio_text": "What do you do? I'm an engineer.",
       "answers": ["What do you do? I'm an engineer."],
       "hint": { "en": "A question and an answer. Listen for a or an.", "he": "שאלה ותשובה. הקשיבו אם יש a או an." },
-      "explanation": { "en": "an engineer: the n joins the next word, so it sounds like 'anengineer'.", "he": "an engineer: ה-n מתחברת למילה הבאה ונשמעת כמו 'אַנֶנְגִ'ינִיר'." }
+      "explanation": { "en": "an engineer: the n joins the next word, so it sounds like 'anengineer'.", "he": "an engineer: ה-n מתחברת למילה הבאה ונשמעת כמו ״אַנֶנְגִ׳ינִיר״." }
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "personal-info",

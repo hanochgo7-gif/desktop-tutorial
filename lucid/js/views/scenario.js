@@ -13,7 +13,7 @@ import { CONFIG } from '../../config.js';
 import { checkOwnReply, nextScenario, fitOf, FIT_LABEL } from '../core/reallife.js';
 
 const TABS = [['prepare', 'הכנה', 'Prepare'], ['listen', 'שיחה לדוגמה', 'Model dialogue'], ['practise', 'תרגול', 'Practise'], ['roleplay', 'שיחה עם AI', 'AI roleplay']];
-const REGISTER = { polite: ['מנומס', 'polite', 'cobalt'], neutral: ['ניטרלי', 'neutral', ''], casual: ['יום-יומי', 'casual', 'warn'] };
+const REGISTER = { polite: ['מנומס', 'polite', 'cobalt'], neutral: ['ניטרלי', 'neutral', ''], casual: ['יומיומי', 'casual', 'warn'] };
 
 // "I'm stuck" phrases are the learner's own lines, so a name in them ("My name is Dana Cohen") becomes a slot to
 // fill, selected when the phrase is copied (persona panel R2-07). The Hebrew gloss gets the same slot.

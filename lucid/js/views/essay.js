@@ -468,7 +468,7 @@ export default async function essay(el, ctx) {
   function topicPicker() {
     if (!task.topics?.length) return '';
     return html`<fieldset class="topic-pick stack-sm"><legend class="small"><strong>${tt('בחרו נושא אחד', 'Choose one topic')}</strong></legend>
-      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="choice topic-choice note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span class="grow">${biCard('brief', tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המטלה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המטלה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
+      ${task.topics.map((tp, i) => { const wrote = tp.assignment && writtenOn(tp.assignment); return html`<label class="choice topic-choice note-row small" dir="ltr"><input type="radio" name="topic" value="${i}" ${chosen === i ? html`checked` : ''}><span class="grow">${biCard('brief', tp)}${tp.assignment ? html`<span class="tag" dir="auto">${tt('עם חומרי מקור', 'With a source pack')}</span>` : ''}${wrote ? html`<span class="tag warn" dir="auto">${wrote.final ? tt(`כתבתם את המשימה הזו ב-${wrote.date}`, `You wrote this assignment on ${wrote.date}`) : tt(`התחלתם את המשימה הזו ב-${wrote.date}`, `You started this assignment on ${wrote.date}`)}</span>` : ''}</span></label>`; })}</fieldset>`;
   }
   // The date of a text already written for an assignment, from its summary (RW-12).
   function writtenOn(id) {
@@ -541,7 +541,7 @@ export default async function essay(el, ctx) {
           ${taskExtras()}
           ${task.time_limit_min ? html`<div class="row small"><span>${icon('clock', { size: 16 })} ${tt(`כתיבה בזמן: ${task.time_limit_min} דקות (רשות)`, `Timed writing: ${task.time_limit_min} minutes (optional)`)}</span><button type="button" class="key small" data-timer>${timerEnd ? tt('עצירה', 'Stop') : tt('להתחיל טיימר', 'Start timer')}</button><span class="num" data-time aria-live="off"></span></div>` : ''}
           <div class="editor-pane stack-sm">
-            <label class="sr-only" for="essay">${tt('הטקסט שלך', 'Your text')}</label>
+            <label class="sr-only" for="essay">${tt('הטקסט שלכם', 'Your text')}</label>
             <textarea class="input" id="essay" lang="en" dir="ltr" spellcheck="false" placeholder="${tt('כתבו כאן באנגלית…', 'Write here in English…')}">${text}</textarea>
             <div class="editor-bar"><div class="editor-stats"><span class="num" data-wc>${wordLabel(words, refs)}</span>${minWords ? html`<span class="editor-target" data-target>${targetLabel()}</span>` : ''}<span class="save-word" data-saved title="${tt('הטיוטה נשמרה במכשיר', 'Draft saved on this device')}" ${draftRec || store.get('writing', `${sumId}#draft`) ? '' : html`data-off`}>${tt('נשמר', 'Saved')}</span></div>
               <div class="row editor-keys"><button type="button" class="key" data-check ${words < 3 ? html`disabled` : ''}>${tt('בדיקה אוטומטית', 'Check')}</button>

@@ -122,7 +122,7 @@ try {
     await page.waitForTimeout(300);
     await open(page, 'writing/final-C2', 'input[name=topic]');
     const tag = await page.evaluate(() => [...document.querySelectorAll('.topic-pick .tag.warn')].map((t) => t.textContent));
-    assert(tag.length === 1 && /^התחלתם את המטלה הזו ב-/.test(tag[0]), `topic tag: ${JSON.stringify(tag)}`);
+    assert(tag.length === 1 && /^התחלתם את המשימה הזו ב-/.test(tag[0]), `topic tag: ${JSON.stringify(tag)}`);
     // we-14 has a 40-minute timer: a version checked while it runs is marked "בזמן".
     await open(page, 'writing/we-14', '#essay');
     await tap('[data-timer]');

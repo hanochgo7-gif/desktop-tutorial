@@ -11,7 +11,7 @@ import { say, canSpeak, stopSpeaking } from '../core/speech.js';
 import { levelIndex } from '../core/adaptive.js';
 import { gatherExercises, groupByLevel, recommendedLevel, nextSuggestion, metLesson, orderedGroups, attemptsOn, bestScore, itemHref, findItem, runPlayer, missingPlayer } from '../ui/center.js';
 
-const RATES = [[0.8, 'איטי', 'Slower'], [0.95, 'רגיל', 'Normal'], [1.1, 'מהיר', 'Faster']];
+const RATES = [[0.8, 'איטית', 'Slower'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Faster']];
 const SAMPLE = 'This is how fast the speaker will talk.';
 
 export default async function listening(el, ctx) {
@@ -50,7 +50,7 @@ export default async function listening(el, ctx) {
   function rateControl() {
     const rate = settings().speech_rate || 0.95;
     return html`<div class="panel flat row between">
-      <div class="stack-sm"><h2 id="ls-rate" style="font-size:var(--t-md)">${tt('מהירות הדיבור', 'Speaking speed')}</h2><p class="xsmall faint">${tt('חלה על כל ההשמעות באפליקציה. כפתור ״לאט״ בכל תרגיל מאט עוד יותר.', 'Applies to all audio in the app. The Slowly button in each item slows it down further.')}</p></div>
+      <div class="stack-sm"><h2 id="ls-rate" style="font-size:var(--t-md)">${tt('מהירות הקראה', 'Speaking speed')}</h2><p class="xsmall faint">${tt('חלה על כל ההשמעות באפליקציה. כפתור ״לאט״ בכל תרגיל מאט עוד יותר.', 'Applies to all audio in the app. The Slowly button in each item slows it down further.')}</p></div>
       <div class="row">
         <div class="seg" role="group" aria-labelledby="ls-rate">${RATES.map(([r, he, en]) => html`<button type="button" data-rate="${r}" aria-pressed="${String(Math.abs(rate - r) < 0.01)}">${tt(he, en)} <span class="num" dir="ltr">${r}×</span></button>`)}</div>
         ${canSpeak() ? html`<button type="button" class="key ghost small" data-sample>${icon('volume', { size: 18 })} ${tt('לשמוע דוגמה', 'Hear a sample')}</button>` : ''}

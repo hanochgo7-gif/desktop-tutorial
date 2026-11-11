@@ -57,7 +57,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question can keep the word order of a statement, with no helper verb. In English, don't comes before we in this suggestion: Why don't we go to the beach? (not *Why we don't go to the beach?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל, בלי פועל עזר ('למה שלא נלך לים?'). באנגלית don't בא לפני we: Why don't we go?", "error_type": "word-order" },
     { "en": "In Hebrew an invitation can be a statement with a rising voice. In English, would comes before you: Would you like to come? (not *You would like to come?)", "he": "בעברית אפשר להזמין במשפט רגיל עם אינטונציה עולה ('את רוצה לבוא?'). באנגלית would בא לפני you: Would you like to come?", "error_type": "word-order" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so why, we and would can come out with a v. Round your lips as for 'oo': Why don't we...? Would you...?", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, בתחילת why, ‏we ו-would (/w/). בעברית ו' נהגית v, ולכן המילים האלה עלולות לצאת עם v.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so why, we and would can come out with a v. Round your lips as for 'oo': Why don't we...? Would you...?", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים ייגעו בשפה, בתחילת why, ‏we ו-would (/w/). בעברית ו' נהגית v, ולכן המילים האלה עלולות לצאת עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {

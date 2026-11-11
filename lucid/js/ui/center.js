@@ -179,7 +179,7 @@ export function runPlayer(el, ctx, { item, back, backLabel, source, skill, error
     render(foot, html`<div class="inner"><div class="verdict" role="status">${verdictHtml(ex, unheard ? { ...r, specific: null } : r, errors)}</div><a class="key enter" href="#/${back}" data-next>${tt('המשך', 'Continue')} <span class="kbd">Enter</span></a></div>`);
     const title = $('.verdict-title', foot);
     // Nothing was heard: the answer is shown and the item is not counted, right or wrong.
-    if (title && unheard) render(title, html`${icon('info', { size: 18 })} ${tt('נשמע? לא נספר', 'Heard? Not counted')}`);
+    if (title && unheard) render(title, html`${icon('info', { size: 18 })} ${tt('לא נשמע קול · לא נספר', 'Heard? Not counted')}`);
     else if (title && r.dontKnow) render(title, html`${icon('info', { size: 18 })} ${tt('הנה התשובה', 'Here is the answer')}`);
     if (unheard) $('.verdict-body', foot)?.insertAdjacentHTML('afterbegin', String(html`<p class="small muted" data-unheard>${tt('ההקלטה לא הושמעה, ולכן התרגיל לא נספר בתוצאות. אפשר לנסות שוב כשיש קול.', 'The audio did not play, so this item is not counted in your results. Try again when sound works.')}</p>`));
     $('[data-next]', el)?.focus();

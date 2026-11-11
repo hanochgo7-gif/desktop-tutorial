@@ -33,14 +33,14 @@ export const GOALS = [
   ['studies', 'בגרות, פסיכומטרי ולימודים אקדמיים', 'Exams and university', 'קריאה וכתיבה', 'Reading and writing'],
   ['conversation', 'ביטחון בשיחה', 'Confidence in conversation', 'שיחות מהחיים, ברמה שלכם', 'Real-life conversations at your level'],
   ['writing', 'כתיבה אקדמית וטיעונית', 'Academic and argumentative writing', 'משימות ממעבדת הכתיבה, וקריאה', 'Writing lab tasks, and reading'],
-  ['everyday', 'אנגלית ליום-יום, סדרות ורשת', 'Everyday English, shows and the internet', 'דיבור וכתיבה לסירוגין', 'Speaking and writing in turn'],
+  ['everyday', 'אנגלית ליומיום, סדרות ורשת', 'Everyday English, shows and the internet', 'דיבור וכתיבה לסירוגין', 'Speaking and writing in turn'],
 ];
 const NO_WORK = ['עוד אין ב-Lucid תוכן לעבודה, אז כרגע אין לזה השפעה על התוכנית', 'Lucid has no workplace content yet, so for now this does not change the plan'];
 const START = [
   ['zero', 'אני לא יודע/ת אנגלית בכלל', 'I don\'t know any English', 'נתחיל מהאותיות. בלי מבחן.', 'We start with the letters. No test.'],
   ['basics', 'אני מכיר/ה קצת: מילים ומשפטים פשוטים', 'I know some basics: words and simple sentences', 'מבחן קצר יתחיל מהבסיס.', 'A short test starts from the basics.'],
   ['conversations', 'אני מסתדר/ת בשיחות פשוטות', 'I can manage simple conversations', '', ''],
-  ['comfortable', 'אני די בנוח/ה: קורא/ת וכותב/ת לא רע', 'I\'m fairly comfortable reading and writing', '', ''],
+  ['comfortable', 'אני די מרגיש/ה בנוח: קורא/ת וכותב/ת לא רע', 'I\'m fairly comfortable reading and writing', '', ''],
   ['advanced', 'אני מתקדם/ת ורוצה לשפר כתיבה וטיעון', 'I\'m advanced and want better writing and argument', '', ''],
 ];
 const MINUTES = [[10, 'קצר וקל', 'Light'], [20, 'רגיל', 'Regular'], [35, 'רציני', 'Serious'], [50, 'אינטנסיבי', 'Intensive']];

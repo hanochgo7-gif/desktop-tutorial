@@ -80,7 +80,15 @@ options, passages, tables) is always primary.
 ## The check
 
 `node --test tests/unit/copy.test.mjs` also scans `js/` and `content/real-life/` for the real-life names the
-glossary retired (SB-7). It scans the Hebrew string literals in `js/` (including `tt()` calls inside
-`html` templates) for שלך, אליך, בחרת and for חזרה used as a back label (a "חזרה ל…" label, or "חזרה" paired with
-an English "Back"). The hits that existed when the check was added are in its `ALLOW` list, as counts per file, so
-only new ones fail. When you fix a string, lower its count in `ALLOW`.
+glossary retired (SB-7, and "שיחות מובנות" since the launch). It scans the Hebrew string literals in `js/` (including
+`tt()` calls inside `html` templates) for singular address (שלך, אליך, בחרת, בשבילך, לך, אתה, and the learner's own
+past actions: סיימת, עשית, השלמת את…, נכנסת לחשבון, יצאת, …) and for חזרה used as a back label (a "חזרה ל…" label,
+or "חזרה" paired with an English "Back"). Its `ALLOW` list once held the hits from the day the check was added; the
+launch proofread fixed the last of them, so it is empty and any hit fails.
+
+The launch proofread (an AI proofread, HE-03 to HE-25 in the launch audit; it is not the native-speaker review that
+LB-11 still asks for) added a list of phrases it fixed, in the UI and in the lessons, that the same file keeps from
+coming back. Words it settled: **תכתיב** (dictation, not הכתבה), **משימה** for every writing task (not מטלה),
+**דילגתם** for lessons below the starting level (not דולגו, and with no cause given), **מהירות הקראה** with
+feminine options (איטית, רגילה, מהירה), **ב-X משתמשים** (not "את X משתמשים") in explanations, the full spelling
+**ייגעו**, and **״…״** with a real geresh (ג׳) around a Hebrew sound name that has one.

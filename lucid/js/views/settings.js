@@ -88,7 +88,7 @@ export default async function settingsView(el, ctx) {
         <section class="panel stack" aria-labelledby="set-ui"><h2 id="set-ui">${tt('ממשק', 'Interface')}</h2>
           ${field('ui_language', tt('שפת הממשק', 'Interface language'), seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'עברית', 'he'], ['en', 'English', 'English', 'en']], { help: true }), tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.'))}
           ${field('theme', tt('מראה', 'Appearance'), seg('theme', s.theme, [['system', 'לפי המכשיר', 'Match device'], ['light', 'בהיר', 'Light'], ['dark', 'כהה', 'Dark']]))}
-          ${field('english_variant', tt('אנגלית בהגייה', 'English for listening and roleplay'), seg('english_variant', s.english_variant, [['any', 'בינלאומית', 'International'], ['US', 'אמריקאית', 'American'], ['UK', 'בריטית', 'British']], { help: true }),
+          ${field('english_variant', tt('אנגלית להאזנה ולשיחות', 'English for listening and roleplay'), seg('english_variant', s.english_variant, [['any', 'בינלאומית', 'International'], ['US', 'אמריקאית', 'American'], ['UK', 'בריטית', 'British']], { help: true }),
             tt('קובע גם אילו מילים מוצגות במשחקי התמונות כשיש הבדל: ״אמריקאית״ מציגה למשל flashlight, והאחרות torch.', 'Also sets the words in the picture games where they differ: "American" shows, for example, flashlight; the others show torch.'))}
         </section>
         <section class="panel stack" aria-labelledby="set-load"><h2 id="set-load">${tt('עומס לימוד', 'Learning load')}</h2>
@@ -114,7 +114,7 @@ export default async function settingsView(el, ctx) {
         </section>
         <section class="panel stack" aria-labelledby="set-account"><h2 id="set-account">${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
-          : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
+          : signedIn ? html`<p class="small">${tt('החשבון: ', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
             ${young && !p.guardian_consent_at && syncPauseReason() === 'guardian' ? html`<div class="field banner" data-guardian-account-box><p class="small">${tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. עד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. Until then your progress stays on this device only.')}</p>
               <label class="choice"><input type="checkbox" data-guardian-account><span class="grow">${tt('יש לי אישור של הורה או אפוטרופוס לשמור את ההתקדמות שלי בחשבון בשרת', 'I have a parent\'s or guardian\'s permission to save my progress in an account on the server')}</span></label></div>` : ''}
             <div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button>${pwOpen ? '' : html`<button type="button" class="key small ghost" data-pw>${tt('שינוי סיסמה', 'Change password')}</button>`}</div>
@@ -124,7 +124,7 @@ export default async function settingsView(el, ctx) {
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
         <section class="panel stack" id="offline" tabindex="-1" aria-labelledby="offline-h"><h2 id="offline-h">${tt('שימוש בלי אינטרנט', 'Offline use')}</h2>
-          <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
+          <p class="small muted">${tt('המסכים, החזרה על מילים, שיחות התרגול ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
           <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
         </section>
         <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלכם', 'Your data')}</h2>
@@ -268,7 +268,7 @@ export default async function settingsView(el, ctx) {
       location.hash = '#/welcome';
       location.reload();
     }),
-    on(el, 'click', '[data-signout]', async () => { await signOut(); toast(tt('יצאת מהחשבון. המידע נשאר במכשיר.', 'Signed out. Your data stays on this device.')); draw(); }),
+    on(el, 'click', '[data-signout]', async () => { await signOut(); toast(tt('יצאתם מהחשבון. המידע נשאר במכשיר.', 'Signed out. Your data stays on this device.')); draw(); }),
     on(el, 'click', '[data-signout-erase]', async () => {
       const { sync } = await import('../app.js');
       try { await sync?.run(); } catch { /* offline: counted below */ }

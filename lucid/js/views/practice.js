@@ -16,7 +16,7 @@ const LABS = [
   ['games', 'sparkle', 'nav.games', 'שאלון אוצר מילים, השלמת מילים, התאמת מילים לתמונות ומשחק זיכרון: תשובה מיידית, רמות וניקוד', 'Vocabulary quiz, word completion, words and pictures and a memory game: instant answers, levels and scores'],
   ['grammar', 'grammar', 'nav.grammar', 'כל נושא דקדוק, כמה הוא בשליטה, ותרגול ממוקד', 'Every grammar topic, how secure it is, and focused practice'],
   ['reading', 'reading', 'nav.reading', 'טקסטים מדורגים עם שאלות הבנה', 'Graded texts with comprehension questions'],
-  ['listening', 'listening', 'nav.listening', 'האזנה, הכתבה ושליטה במהירות', 'Listening, dictation and speed control'],
+  ['listening', 'listening', 'nav.listening', 'האזנה, תכתיב ומהירות השמעה מתכווננת', 'Listening, dictation and speed control'],
   ['speaking', 'speaking', 'nav.speaking', 'צלילים שמשנים משמעות, ומשפטים שאומרים אחרי הדובר', 'Sounds that change meaning, and shadowing'],
   ['writing', 'writing', 'nav.writing', 'מהמשפט הראשון ועד חיבור טיעוני מלא', 'From the first sentence to a full argumentative essay'],
   ['tutor', 'tutor', 'nav.tutor', 'מורה שמסביר, שואל ומתקן, בשמונה מצבים', 'A tutor who explains, asks and corrects, in eight modes'],

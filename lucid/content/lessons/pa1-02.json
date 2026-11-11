@@ -16,7 +16,7 @@
     { "type": "table", "headers": ["Letter", "Short sound", "Examples", "איך זה נשמע"], "headers_he": ["אות", "צליל קצר", "דוגמאות", ""], "rows": [
       ["a", "/æ/", "cat, bag, map", "פה פתוח לרווחה, בין 'אַ' ל'אֶ'"],
       ["e", "/e/", "bed, pen, ten", "כמו 'אֶ'"],
-      ["i", "/ɪ/", "sit, big, ship", "'אִ' קצרה ורפויה"],
+      ["i", "/ɪ/", "sit, big, ship", "'אִ' קצרה ורפויה, קצת לכיוון 'אֶ'"],
       ["o", "/ɒ/", "hot, dog, stop", "'אוֹ' קצרה, עם פה פתוח"],
       ["u", "/ʌ/", "cup, bus, sun", "'אַ' קצרה ורפויה"]
     ] },
@@ -34,7 +34,7 @@
   "examples": [
     { "en": "a hot cup of coffee", "he": "כוס קפה חמה", "note": "o = /ɒ/ in hot, u = /ʌ/ in cup", "note_he": "ב-hot ה-o נשמעת 'אוֹ' קצרה (/ɒ/), וב-cup ה-u נשמעת 'אַ' קצרה (/ʌ/)" },
     { "en": "Get on the bus at ten.", "he": "עלו על האוטובוס בעשר.", "note": "e = /e/, u = /ʌ/", "note_he": "ה-e נשמעת 'אֶ' (/e/), וה-u נשמעת 'אַ' קצרה (/ʌ/)" },
-    { "en": "Sit here, please.", "he": "שבו כאן, בבקשה.", "note": "i = /ɪ/ (short)", "note_he": "ה-i קצרה ורפויה, קרובה ל'אֶ' (/ɪ/)" },
+    { "en": "Sit here, please.", "he": "שבו כאן, בבקשה.", "note": "i = /ɪ/ (short)", "note_he": "ה-i קצרה ורפויה, קצת לכיוון 'אֶ' (/ɪ/)" },
     { "en": "Is this seat free?", "he": "המקום הזה פנוי?", "note": "ea and ee = /iː/ (long); th /ð/ in this", "note_he": "ea ו-ee נשמעות 'אִי' ארוכה, עם חיוך (/iː/); ב-this הלשון בין השיניים, עם קול (/ð/)" },
     { "en": "It's time to go home.", "he": "הגיע הזמן ללכת הביתה.", "note": "silent e: time /aɪ/, home /əʊ/", "note_he": "ה-e בסוף לא נשמעת: time נשמעת 'טַיים', ו-home נשמעת 'הוֹם'" },
     { "en": "I think so.", "he": "אני חושב/ת שכן.", "note": "th /θ/: tongue between the teeth", "note_he": "ב-th הלשון בין השיניים, בלי קול (/θ/)" },
@@ -59,7 +59,7 @@
     { "word": "home", "pos": "noun", "he": "בית", "def": "the place where you live", "example": "I'm at home.", "example_he": "אני בבית.", "ipa": "/həʊm/", "collocations": ["at home", "go home"], "level": "PreA1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "אומרים 'אִי' קצרה ורפויה, קרובה ל'אֶ', ב-ship וב-sit (/ɪ/), ומותחים את השפתיים בחיוך קטן ומאריכים ב-sheep וב-seat (/iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is only one 'i' sound, so ship and sheep, or sit and seat, can sound the same. Make /ɪ/ short and relaxed, and /iː/ long, with a small smile.", "he": "אומרים 'אִי' קצרה ורפויה, קצת לכיוון 'אֶ', ב-ship וב-sit (/ɪ/), ומותחים את השפתיים בחיוך קטן ומאריכים ב-sheep וב-seat (/iː/). בעברית יש רק 'אִי' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" },
     { "en": "In Hebrew there is no th sound, so think can come out as 'tink' or 'sink', and this as 'dis' or 'zis'. Put the tip of your tongue between your teeth.", "he": "שמים את קצה הלשון בין השיניים: ב-think בלי קול, וב-this עם קול (/θ/, /ð/). בעברית אין את הצליל th, ולכן הוא יוצא לפעמים 'טינק' או 'דיס'.", "error_type": "pron-th" },
     { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so wet and vet can sound the same. For w, round your lips; for v, put your top teeth on your bottom lip.", "he": "מעגלים את השפתיים ל-w, ונוגעים בשיניים העליונות בשפה התחתונה ל-v (/w/, /v/). בעברית ו' נהגית v, ולכן wet ו-vet עלולות להישמע אותו דבר.", "error_type": "pron-w-v" },
     { "en": "In Hebrew there is one 'a' sound and one 'e' sound, but English has /æ/ (cat), /ʌ/ (cut) and /e/ (bet). Open your mouth wide for /æ/, and keep /ʌ/ short and relaxed.", "he": "פותחים את הפה לרווחה ב-cat (/æ/), אומרים 'אַ' קצרה ורפויה ב-cut (/ʌ/) ו'אֶ' רגילה ב-bet (/e/). בעברית יש רק 'אַ' אחת ו'אֶ' אחת, ולכן קל לבלבל ביניהן.", "error_type": "pron-vowel" }

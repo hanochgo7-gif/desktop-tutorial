@@ -139,7 +139,7 @@
       "options": ["some", "many", "a few", "any"],
       "answer": 3,
       "option_feedback": {
-        "0": { "en": "This sentence is negative (isn't), so use any. some is for positive sentences: I'll buy some.", "he": "המשפט שלילי (isn't), ולכן any. את some משתמשים במשפט חיובי: I'll buy some." },
+        "0": { "en": "This sentence is negative (isn't), so use any. some is for positive sentences: I'll buy some.", "he": "המשפט שלילי (isn't), ולכן any. ב-some משתמשים במשפט חיובי: I'll buy some." },
         "1": { "en": "milk is uncountable, so not many. In a negative, use any (or much).", "he": "milk אינו ספיר, ולכן לא many. במשפט שלילי: any (או much)." },
         "2": { "en": "a few goes with countable plurals (a few eggs). milk is uncountable.", "he": "a few בא עם ספירים ברבים (a few eggs), ו-milk אינו ספיר." }
       },
@@ -244,7 +244,7 @@
         { "match": "How much money you have? I only have a few shekels.", "feedback": { "en": "The question needs do: How much money do you have?", "he": "בעברית אין כאן פועל עזר, אבל באנגלית השאלה צריכה do: How much money do you have?" }, "error_type": "do-support" },
         { "match": "How many money do you have? I only have a few shekels.", "feedback": { "en": "money is uncountable: How much money.", "he": "money אינו ספיר: How much money." }, "error_type": "countability" },
         { "match": "many", "feedback": { "en": "money is uncountable, so How much money (not How many).", "he": "money אינו ספיר, ולכן How much money ולא many." }, "error_type": "countability" },
-        { "match": "little", "feedback": { "en": "shekels are countable, so a few shekels. a little is for uncountable nouns (a little money).", "he": "שקלים הם ספירים, ולכן a few shekels. את a little משתמשים עם שמות עצם שאינם ספירים (a little money)." }, "error_type": "countability" },
+        { "match": "little", "feedback": { "en": "shekels are countable, so a few shekels. a little is for uncountable nouns (a little money).", "he": "שקלים הם ספירים, ולכן a few shekels. ב-a little משתמשים עם שמות עצם שאינם ספירים (a little money)." }, "error_type": "countability" },
         { "match": "some", "feedback": { "en": "With only, say a few: I only have a few shekels.", "he": "כאן 'כמה' פירושו 'מעט', ועם only אומרים a few: I only have a few shekels." }, "error_type": "word-choice" }
       ],
       "hint": { "en": "One Hebrew word appears twice, but it becomes two different English phrases: How much and a few.", "he": "המילה 'כמה' מופיעה פעמיים, אבל באנגלית היא מתורגמת אחרת בכל פעם: How much (שאלה על כסף) ו-a few (מספר קטן של שקלים)." },

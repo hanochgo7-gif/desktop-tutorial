@@ -22,7 +22,7 @@
       ["My name", "is", "Maya.", "קוראים לי מאיה."],
       ["My friends", "are", "students.", "החברים שלי סטודנטים."]
     ] },
-    { "type": "rule", "en": "Who + verb + the rest. Use am/is/are for your name, age, country and job: I'm 17. I'm a student. For actions and likes, use another verb. One verb is enough: I live in Haifa (not 'I'm live in Haifa').", "he": "מי + פועל + שאר המשפט. את am/is/are משתמשים לשם, לגיל, למדינה ולמקצוע. לפעולות ולדברים שאוהבים יש פועל אחר, ופועל אחד מספיק: I live in Haifa, בלי am." },
+    { "type": "rule", "en": "Who + verb + the rest. Use am/is/are for your name, age, country and job: I'm 17. I'm a student. For actions and likes, use another verb. One verb is enough: I live in Haifa (not 'I'm live in Haifa').", "he": "מי + פועל + שאר המשפט. ב-am/is/are משתמשים לשם, לגיל, למדינה ולמקצוע. לפעולות ולדברים שאוהבים יש פועל אחר, ופועל אחד מספיק: I live in Haifa, בלי am." },
     { "type": "warning", "en": "Keep the verb and the thing after it together: I like pizza very much (not 'I like very much pizza').", "he": "הפועל ומה שבא אחריו נשארים צמודים, ו-very much עובר לסוף: I like pizza very much." },
     { "type": "tip", "en": "Check before you send: I is always a capital letter. Every sentence starts with a capital letter and ends with a full stop (.): My name is Noa and I live in Holon.", "he": "בדיקה לפני שליחה: I תמיד באות גדולה, גם באמצע משפט. כל משפט מתחיל באות גדולה ומסתיים בנקודה (.): My name is Noa and I live in Holon." }
   ],
@@ -248,7 +248,7 @@
   "review": {
     "key_points": [
       { "en": "Who + verb + the rest: I live in Haifa. I like music. I have a dog.", "he": "מי + פועל + שאר המשפט: I live in Haifa." },
-      { "en": "One verb is enough: I live in Haifa, not 'I'm live'. Use am for age and jobs: I'm 17. I'm a student.", "he": "פועל אחד מספיק: I live, בלי am. את am משתמשים לגיל ולמקצוע: I'm 17." },
+      { "en": "One verb is enough: I live in Haifa, not 'I'm live'. Use am for age and jobs: I'm 17. I'm a student.", "he": "פועל אחד מספיק: I live, בלי am. ב-am משתמשים לגיל ולמקצוע: I'm 17." },
       { "en": "Very much goes at the end: I like football very much.", "he": "very much בא בסוף: I like football very much." },
       { "en": "Capital I, a capital letter at the start, a full stop at the end.", "he": "I באות גדולה, אות גדולה בתחילת המשפט ונקודה בסופו." }
     ]

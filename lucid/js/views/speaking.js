@@ -266,7 +266,7 @@ export default async function speaking(el, ctx) {
     const open = new Set([...el.querySelectorAll('#sp-shadow-list details[open]')].map((d) => d.dataset.level));
     const isOpen = (lv) => (open.size ? open.has(lv) : lv === rec);
     render($('#sp-shadow-list', el), html`
-      ${next ? html`<div class="row shadow-next"><a class="key enter" href="${itemHref('speaking', next)}" data-next-shadow>${icon('play', { size: 18 })} ${tt('המשפט הבא בשבילך', 'Next sentence for you')}</a><span class="small muted" lang="en" dir="ltr">${next.ex.target}</span></div>` : ''}
+      ${next ? html`<div class="row shadow-next"><a class="key enter" href="${itemHref('speaking', next)}" data-next-shadow>${icon('play', { size: 18 })} ${tt('המשפט הבא בשבילכם', 'Next sentence for you')}</a><span class="small muted" lang="en" dir="ltr">${next.ex.target}</span></div>` : ''}
       ${groups.map((g) => {
         const doneN = g.items.filter((x) => attemptsOn(m.attempts, x).length).length;
         const meta = ix.level.get(g.level);

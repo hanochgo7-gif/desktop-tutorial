@@ -603,7 +603,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const srcLang = langOf(source);
       render(root, html`${prompt}
         <p class="ex-text ex-source" lang="${srcLang}" dir="${srcLang === 'he' ? 'rtl' : 'ltr'}">${ex.type === 'correct' ? html`<span style="text-decoration:underline wavy var(--bad);text-underline-offset:.3em">${source}</span>` : source}</p>
-        <label class="sr-only" for="tx-${ex.id}">${tt('התשובה שלך', 'Your answer')}</label>
+        <label class="sr-only" for="tx-${ex.id}">${tt('התשובה שלכם', 'Your answer')}</label>
         <textarea class="input ex-field" id="tx-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו כאן את המשפט המלא', 'Type the full sentence here')}">${ex.type === 'correct' ? source : ''}</textarea>
         ${ex.type === 'correct' ? html`<p class="same-note small" id="same-${ex.id}" ${uiAttrs()} hidden>${tt('המשפט זהה למקור – שנו את המילים עם הטעות.', 'The sentence is the same as the original. Change the words with the mistake.')}</p>` : ''}
         <div data-reveal></div>`);
@@ -873,7 +873,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
       const need = ex.min_words ? Math.min(ex.min_words, Math.max(10, Math.ceil(ex.min_words * 0.25))) : 3;
       render(root, html`${prompt}
         <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en" dir="ltr">${w}</span> `)}</p>` : ''}</div>
-        <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלך', 'Your text')}</label>
+        <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלכם', 'Your text')}</label>
         <textarea class="input ex-write" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4)" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
         <p class="small faint num" data-wc>${wordCountLine(0, ex)}</p>`);
       const ta = $('textarea', root);
@@ -1079,7 +1079,7 @@ export function verdictHtml(ex, r, errors) {
     return html`<div class="verdict-title">${icon('check', { size: 18 })} ${title}</div><div class="verdict-body"><p class="muted">${tt('תרגול דיבור לא מקבל ציון.', 'Speaking practice is not scored.')}</p></div>`;
   }
   // An exercise may name its own result (a finished matching board: "All pairs right · one extra try").
-  const title = r.title || (r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('לא אחת מהתשובות שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite'));
+  const title = r.title || (r.correct ? (r.almost ? tt('כמעט! בדקו את הפרטים הקטנים', 'Almost! Check the small details') : tt('נכון', 'Correct')) : r.model ? tt('התשובה לא ברשימה שלנו', 'Not one of our answers') : tt('לא בדיוק', 'Not quite'));
   const ico = r.correct ? 'check' : r.model ? 'info' : 'x';
   const note = !r.correct ? errorNote(r.error_type, errors, { general: !ex.explanation && !r.specific }) : '';
   const why = note || ex.explanation;
