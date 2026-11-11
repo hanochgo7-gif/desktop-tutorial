@@ -49,6 +49,18 @@
 //       deploy until just after the takeover, and the worker then stopped: no saved lesson is lost (on the built tree,
 //       where none of production's copies matches, they are carried over as stored), and the next load of the app
 //       fetches the screens the install left out, so they open offline
+// and the launch (the release live at launch is c1dac85, the perf release, which GitHub Pages serves built as
+// 87265cced809; its worker is this release's worker apart from RELEASE and LISTING):
+//   U21 a tab on c1dac85, built by its own tools/build/build.mjs exactly as pages.yml builds it (the test checks
+//       that the build gives RELEASE 87265cced809), when the launch release lands: every screen works while the
+//       launch release waits (a change of screen hands over to it), the tab then runs the launch release, and the
+//       records, the essay draft and the saved lessons are kept, also offline after a worker restart
+// The cases above stay on d83a500: they test the one-time upgrade from its network-first worker and its
+// hand-numbered cache, which tabs and caches still on it need until they are gone. c1dac85 is checked here (U21),
+// in tests/unit/compat.test.mjs (its modules, fixture release-2aeb12fd30ca.json) and, for the worker-to-worker
+// update, by U8, U9, U11, U12 and U15 to U18, which update this release to a next one with the same worker.
+// The c1dac85 tree comes from `git archive c1dac85`, or from UPGRADE_LIVE (a directory holding that tree's lucid/,
+// unbuilt); it is built in a temporary copy with this checkout's esbuild (tools/build/node_modules).
 // Until 2026-11-07 the base was b2b669b (release 2026-11-03.1). Its worker is byte-identical to d83a500's apart from
 // RELEASE, so no case is kept for it here: tests/unit/sw.test.mjs runs the legacy-cache cases for both cache names,
 // and tests/unit/compat.test.mjs checks the screens against both releases' modules (architecture.md section 7).
@@ -76,6 +88,9 @@ const app = join(here, '..', '..');
 const NEW = process.env.E2E_ROOT ? join(resolve(process.env.E2E_ROOT), 'lucid') : app;
 const FROM = 'd83a500';
 const LEGACY_CACHE = 'lucid-2026-11-07.1';
+// The release live at launch (U21): its commit, and the RELEASE its build gives (what GitHub Pages serves).
+const LIVE_FROM = 'c1dac85c868aa073b950949f647860730076efd7';
+const LIVE_CACHE = 'lucid-87265cced809';
 const PORT = Number(process.env.UPGRADE_PORT || process.env.LANE_PORT) || 9520;
 const BASE = `http://127.0.0.1:${PORT}/lucid/`;
 const ONLY = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
@@ -227,7 +242,7 @@ const SAVED = ['a1-01', 'a1-02', 'a1-03'];
 // A learner on the old release: onboarded at A1, three lessons saved for offline use, a lesson started, an essay
 // draft, then Today. The tab is controlled by the old worker. lean: no lesson and no essay opened, only the Writing
 // list, so the walk opens this release's lesson and essay screens next to the old Writing list module.
-async function oldLearner(ctx, { lean = false, root = OLD, birthYear = 1990 } = {}) {
+async function oldLearner(ctx, { lean = false, root = OLD, birthYear = 1990, cache = LEGACY_CACHE } = {}) {
   served.root = root;
   const page = await tab(ctx);
   await page.goto(`${BASE}#/welcome`);
@@ -244,7 +259,7 @@ async function oldLearner(ctx, { lean = false, root = OLD, birthYear = 1990 } = 
   await page.reload();
   await page.waitForSelector('#view .today', { timeout: 30000 });
   await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60000 });
-  assert((await caches(page)).includes(LEGACY_CACHE), `the old worker's cache is missing: ${await caches(page)}`);
+  assert((await caches(page)).includes(cache), `the old worker's cache is missing: ${await caches(page)}`);
   await page.evaluate(async (ids) => { for (const id of ids) await fetch(`content/lessons/${id}.json`); }, SAVED); // as Settings saves them
   if (lean) {
     await page.evaluate(() => { location.hash = '#/writing'; });
@@ -260,7 +275,7 @@ async function oldLearner(ctx, { lean = false, root = OLD, birthYear = 1990 } = 
   }
   await page.evaluate(() => { location.hash = '#/today'; });
   await page.waitForSelector('#view .today', { timeout: 30000 });
-  assert(await running(page) === 'old', 'the old learner does not run the old release');
+  if (cache === LEGACY_CACHE) assert(await running(page) === 'old', 'the old learner does not run the old release');
   page.__errors.length = 0;
   return page;
 }
@@ -331,6 +346,20 @@ async function onLucid(page, label) {
   const url = page.url();
   assert(url.startsWith(BASE), `${label}: the page went to ${url}`);
   assert(await page.waitForSelector('#view .welcome', { timeout: 15000 }).then(() => true).catch(() => false), `${label}: the welcome screen is not drawn at ${url}`);
+}
+
+// c1dac85's tree, built as pages.yml builds it (U21). Made on first use.
+let liveDir = null;
+function liveTree() {
+  if (liveDir) return join(liveDir, 'lucid');
+  liveDir = mkdtempSync(join(tmpdir(), 'lucid-live-'));
+  if (process.env.UPGRADE_LIVE) cpSync(join(resolve(process.env.UPGRADE_LIVE), 'lucid'), join(liveDir, 'lucid'), { recursive: true, filter: (f) => !/[/\\](node_modules|\.git)$/.test(f) });
+  else execSync(`git -C "${join(app, '..')}" archive ${LIVE_FROM} lucid | tar -x -C "${liveDir}"`, { stdio: ['ignore', 'ignore', 'pipe'], shell: '/bin/bash' });
+  const root = join(liveDir, 'lucid');
+  if (!existsSync(join(root, 'tools/build/node_modules'))) cpSync(join(app, 'tools/build/node_modules'), join(root, 'tools/build/node_modules'), { recursive: true });
+  execSync('node tools/build/build.mjs', { cwd: root, stdio: ['ignore', 'ignore', 'pipe'] });
+  assert(readFileSync(join(root, 'sw.js'), 'utf8').includes(`const RELEASE = '${LIVE_CACHE.slice(6)}'`), `the build of ${LIVE_FROM.slice(0, 7)} is not release ${LIVE_CACHE.slice(6)}`);
+  return root;
 }
 
 browser = await chromium.launch();
@@ -1075,11 +1104,34 @@ try {
     await offlineRestart(a, 'x1.2, cut short', [['path', '.level-tabs'], ['practice', '.page-head + .stack-lg'], ['vocab', '.page-head'], ['games', '.game-section'], ['grammar', '.page-head + .stack-lg'], ['writing', '.stage-panel .hub-row']]);
     await ctx.close();
   });
+  // Launch: the release live at launch is c1dac85 (perf), served built as 87265cced809. A tab open on it crosses
+  // the launch deploy.
+  await check('U21. A tab on c1dac85 (live at launch, built: 87265cced809) when the launch release lands: every screen works while it waits and after it takes over, and the records, the essay draft and the saved lessons are kept, also offline', async () => {
+    const ctx = await context();
+    const a = await oldLearner(ctx, { root: liveTree(), cache: LIVE_CACHE });
+    const before = await records(a);
+    assert(!(await a.evaluate(() => import('./js/core/site.js').then(() => true, () => false))), 'the tab already has a launch-only module');
+    served.root = NEW;
+    assert(await waitingWorker(a), 'the launch release did not install next to c1dac85');
+    await walk(a, 'tab on c1dac85');
+    // The walk's changes of screen asked the launch release to take over: the tab now runs it.
+    const names = await cacheNames(a);
+    assert(names.length === 1 && names[0] !== LIVE_CACHE, `the launch release did not take over: ${names}`);
+    assert(await a.evaluate(() => import('./js/core/site.js').then(() => true, () => false)), 'the tab does not run the launch release');
+    const after = await records(a);
+    for (const [st, n] of Object.entries(before)) assert((after[st] ?? 0) >= n, `records lost in ${st}: ${n} -> ${after[st]}`);
+    assert(await lessonsIn(a, names[0]) === SAVED.length, `saved lessons in the launch cache: ${await lessonsIn(a, names[0])} of ${SAVED.length}`);
+    assert(await openScreen(a, 'writing/free', '#essay') === 'ok', 'the essay screen did not open');
+    assert(/production draft/.test(await a.inputValue('#essay')), `the essay draft is gone: "${await a.inputValue('#essay')}"`);
+    await offlineRestart(a, 'after the launch takeover', [['path', '.level-tabs'], ['lesson/a1-02', '.lesson-player'], ['writing', '.stage-panel .hub-row'], ['settings', '.settings-view']]);
+    await ctx.close();
+  });
 } finally {
   await browser.close();
   srv.close();
   srv.closeAllConnections?.();
   if (tmp) rmSync(tmp, { recursive: true, force: true });
+  if (liveDir) rmSync(liveDir, { recursive: true, force: true });
 }
 const failed = results.filter((r) => !r.ok).length;
 console.log(`\n${results.length - failed}/${results.length} passed`);

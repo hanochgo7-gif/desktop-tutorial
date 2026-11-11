@@ -1,3 +1,7 @@
+// Production at launch is c1dac85 (source RELEASE 2aeb12fd30ca, served as 87265cced809 after tools/build/build.mjs:
+// the same modules and exports, minified). Its tabs cross the launch deploy: its worker hands over between screens,
+// but a screen its release cache does not hold comes from the network, so this release's screens are checked
+// against its modules too (fixture release-2aeb12fd30ca.json, from tools/release-fixture.mjs c1dac85).
 // The one-time upgrade from the releases before the perf programme (js/core/compat.js, tests/e2e/upgrade.mjs):
 // 2026-11-07.1 (d83a500, in production now, no age limit) and 2026-11-03.1 (b2b669b, a tab open since before the
 // 2026-11-07.1 deploy). A tab started on either keeps its boot modules and opens this release's screens, so:
@@ -22,11 +26,13 @@ const APP = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONTENT = join(APP, 'content');
 const fixture = (release) => JSON.parse(readFileSync(join(APP, `tests/unit/fixtures/release-${release}.json`), 'utf8'));
 // The release in production (d83a500) first, then the one before it.
+// c1dac85 (live at launch), then d83a500 and b2b669b.
+const LIVE = fixture('2aeb12fd30ca');
 const PROD = fixture('2026-11-07.1');
 const PREV = fixture('2026-11-03.1');
 // The names PROD's modules added: not checked against PREV (see the top of this file).
 const ADDED = Object.fromEntries(Object.entries(PROD.exports).map(([f, names]) => [f, names.filter((n) => PREV.exports[f] && !PREV.exports[f].includes(n))]).filter(([, n]) => n.length));
-const OLDS = [{ OLD: PROD, exempt: {} }, { OLD: PREV, exempt: ADDED }];
+const OLDS = [{ OLD: LIVE, exempt: {} }, { OLD: PROD, exempt: {} }, { OLD: PREV, exempt: ADDED }];
 const readJson = (rel) => JSON.parse(readFileSync(join(CONTENT, rel), 'utf8'));
 
 // fetch over the content folder: blocked paths fail like a network error, missing files are 404.
@@ -215,6 +221,14 @@ test('the fixtures: 2026-11-07.1 is 2026-11-03.1 plus age.js and the no-age-limi
   assert.deepEqual(PREV.boot.filter((f) => !PROD.boot.includes(f)), []);
   assert.deepEqual(ADDED, { 'js/core/learner.js': ['aiConsent'], 'js/core/session.js': ['recheckProfile', 'syncPauseReason'] });
   for (const [f, names] of Object.entries(PREV.exports)) for (const n of names) assert.ok(PROD.exports[f]?.includes(n), `${f} lost ${n}`);
+});
+
+test('the fixture of the release live at launch: c1dac85, the perf release, a superset of 2026-11-07.1', () => {
+  assert.equal(LIVE.commit, 'c1dac85');
+  assert.equal(LIVE.release, '2aeb12fd30ca');
+  for (const m of PROD.contentMethods) assert.ok(LIVE.contentMethods.includes(m), `content.${m} is gone`);
+  for (const [f, names] of Object.entries(PROD.exports)) for (const n of names) assert.ok(LIVE.exports[f]?.includes(n), `${f} lost ${n}`);
+  assert.ok(LIVE.boot.includes('js/core/compat.js') || LIVE.exports['js/core/compat.js'], 'c1dac85 has compat.js');
 });
 
 for (const { OLD, exempt } of OLDS) test(`no module release ${OLD.release}'s page can load from this release imports a name that release's modules lack`, () => {

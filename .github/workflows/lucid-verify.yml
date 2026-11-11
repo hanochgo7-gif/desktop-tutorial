@@ -85,7 +85,7 @@ jobs:
       fail-fast: false
       matrix:
         tree: [source, built]
-        suite: [run, a11y, move, bilingual-text, exercises, first-run-today, games, lesson-content, lesson-flow, perf-boot, perf-runtime, practice-hubs, r4-exercises, r4-lesson-flow, r4-practice-games, r4-real-life-writing, r4-shell-bilingual, r4-today-path, real-life-writing, shell-components]
+        suite: [run, a11y, move, launch-honesty, launch-content, bilingual-text, exercises, first-run-today, games, lesson-content, lesson-flow, perf-boot, perf-runtime, practice-hubs, r4-exercises, r4-lesson-flow, r4-practice-games, r4-real-life-writing, r4-shell-bilingual, r4-today-path, real-life-writing, shell-components]
     defaults:
       run:
         working-directory: lucid
@@ -181,10 +181,12 @@ jobs:
           rsync -a --exclude '/node_modules' ./ "$RUNNER_TEMP/built/lucid/"
           node "$RUNNER_TEMP/built/lucid/tools/build/build.mjs" "$RUNNER_TEMP/built/lucid"
           node tools/build/verify.mjs "$RUNNER_TEMP/built/lucid" --source .
-      # The one-time upgrade from the release in production before the perf programme (2026-11-07.1, d83a500: main
-      # with the no-age-limit change) to the built site: that commit's tree is fetched on its own (the checkout is
-      # shallow). Until 2026-11-07 the base was b2b669b (2026-11-03.1), whose worker is the same apart from RELEASE.
-      - name: Upgrade from release 2026-11-07.1 to the built site
+      # Upgrades to the built site from the release live at launch (c1dac85, the perf release, served built as
+      # 87265cced809: U21 builds it the same way and checks that RELEASE) and from the one before the perf programme
+      # (2026-11-07.1, d83a500, main with the no-age-limit change: the one-time upgrade from its network-first worker,
+      # U1 to U20). Each commit's tree is fetched on its own (the checkout is shallow). Until 2026-11-07 the base was
+      # b2b669b (2026-11-03.1), whose worker is the same as d83a500's apart from RELEASE.
+      - name: Upgrade from c1dac85 and from release 2026-11-07.1 to the built site
         run: |
-          git fetch --no-tags --depth=1 origin d83a5005b4e97883b3ae5edc31ad17c85d5af423
+          git fetch --no-tags --depth=1 origin d83a5005b4e97883b3ae5edc31ad17c85d5af423 c1dac85c868aa073b950949f647860730076efd7
           E2E_ROOT="$RUNNER_TEMP/built" node tests/e2e/upgrade.mjs
