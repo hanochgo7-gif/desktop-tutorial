@@ -836,21 +836,30 @@
   }
 
   // ---- keeping up with the site: what already went live, and texts the site changed after she edited them ----
+  // nothing she wrote is ever deleted: what is already on the site moves to an archive (S.done), which the full backup still includes
+  function archive(k, why) { S.done = S.done || {}; S.done[k] = Object.assign({}, S.items[k], { at: Date.now(), why: why }); delete S.items[k]; }
   function sync() {
     var applied = 0, gone = 0;
     Object.keys(S.items).forEach(function (k) {
       var s = S.items[k], it = byId[k];
-      if (!it) { if (s && s.d) { delete S.items[k]; gone++; } return; }
-      if (s.v && s.v !== it.v && s.t != null && norm(s.t) === norm(it.he) && !s.d) { delete S.items[k]; applied++; }
+      if (!s || typeof s !== "object") return;
+      if (!it) { if (s.d) { archive(k, "removed"); gone++; } return; }
+      if (s.v && s.v !== it.v && s.t != null && norm(s.t) === norm(it.he) && !s.d) {
+        var n = String(s.n || "").trim();
+        if (!n || n === String(s.sentN || "").trim() || n === sentNote(+k)) { archive(k, "live"); applied++; }
+        else { s.v = it.v; s.t = it.he; }  // her text is live but her note was not sent yet: keep the note, now on the current text
+      }
     });
-    Object.keys(S.adds).forEach(function (k) { var a = S.adds[k]; if (a.text && EXACT[norm(a.text)] && a.sentT != null) { delete S.adds[k]; applied++; } });
+    Object.keys(S.adds).forEach(function (k) { var a = S.adds[k]; if (a.text && EXACT[norm(a.text)] && a.sentT != null) { S.doneAdds = S.doneAdds || {}; S.doneAdds[k] = Object.assign({}, a, { at: Date.now() }); delete S.adds[k]; applied++; } });
     if (applied + gone) { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
     return applied + gone;
   }
   function conflicts() {
     return Object.keys(S.items).map(Number).filter(function (k) {
       var s = S.items[k], it = byId[k];
-      return it && s && s.v && s.v !== it.v && s.t != null && norm(s.t) !== norm(it.he) && !it.m;
+      // a text she wrote that we went live with (it.m) is not a conflict, unless she changed it again and did not send that yet
+      return it && s && s.v && s.v !== it.v && s.t != null && norm(s.t) !== norm(it.he) && (!it.m || s.sentT == null || norm(s.t) !== norm(s.sentT))
+        && norm(s.t) !== norm(baseOf(k, s) || "");  // a note on a text she did not change is not a conflict
     });
   }
 
@@ -966,7 +975,7 @@
         var r = el("div", "row"), k1 = el("button", "btn sm", "להשאיר את התיקון שלי"), k2 = el("button", "btn alt sm", "הנוסח באתר טוב");
         k1.type = k2.type = "button"; r.append(k1, k2);
         k1.addEventListener("click", function () { S.items[id].v = it.v; delete S.items[id].sentT; save(); paintId(id); });
-        k2.addEventListener("click", function () { delete S.items[id]; save(); paintId(id); });
+        k2.addEventListener("click", function () { archive(id, "kept-site"); save(); paintId(id); });
         b.append(a1, a2, r); cb.appendChild(b);
       });
       pb.appendChild(cb);
@@ -1138,7 +1147,8 @@
       var t = s.t != null ? String(s.t) : null, n = String(s.n || "").trim();
       var isEdit = t != null && (base == null || norm(t) !== norm(base));
       if (!isEdit && !n && !s.d) return;
-      out.push({ id: id, base: base, t: isEdit ? t : null, n: n, d: !!s.d, sent: s.sentT != null, stale: !!(it && s.v && s.v !== it.v), gone: !it,
+      var unsent = s.sentT == null || norm(t || "") !== norm(s.sentT) || n !== String(s.sentN || "").trim() || !!s.d !== !!s.sentD;
+      out.push({ id: id, base: base, t: isEdit ? t : null, n: n, d: !!s.d, sent: s.sentT != null, unsent: unsent, stale: !!(it && s.v && s.v !== it.v), gone: !it,
                  label: it && !(s.v && s.v !== it.v) ? it.label : (o ? o.label : (it ? it.label : "טקסט")), g: it && !(s.v && s.v !== it.v) ? it.g : (o ? o.g : (it ? it.g : "more")) });
     });
     return out;
@@ -1176,6 +1186,19 @@
     }
     if (en.length) { lines.push("==== הערות על תמונות ועל חלקים בעמודים ===="); en.forEach(function (x) { lines.push("(" + pageName(x.page) + ") " + (x.what || "") + ": " + (x.snip || "")); lines.push("  ↳ " + String(x.n).trim().replace(/\n/g, " ")); lines.push(""); }); }
     if (pn.length) { lines.push("==== הערות כלליות לעמודים ===="); pn.forEach(function (g) { lines.push(groupName(g) + ": " + String(S.notes[g]).trim()); }); lines.push(""); }
+    var dn = Object.keys(S.done || {}).sort(function (a, b) { return a - b; });
+    if (dn.length) {
+      lines.push("==== כבר באתר (נשמר כאן לגיבוי) ====");
+      dn.forEach(function (k) {
+        var x = S.done[k], o = oldOf(+k, x);
+        lines.push("[#" + k + "] " + (o ? o.label : (byId[k] ? byId[k].label : "טקסט")) + " (" + ({ live: "עלה לאתר", removed: "ירד מהאתר", "kept-site": "נשאר הנוסח שבאתר" }[x.why] || "באתר") + ")");
+        if (o) lines.push("היום: " + o.he);
+        if (x.t != null && !x.d) lines.push("חדש: " + String(x.t).trim());
+        if (x.d) lines.push("להוריד: להוריד את הטקסט הזה מהאתר");
+        if (String(x.n || "").trim()) lines.push("הערה: " + String(x.n).trim());
+        lines.push("");
+      });
+    }
     lines.push("(גיבוי מלא מעורך האתר. המספרים בסוגריים מזהים כל טקסט.)");
     return lines.join("\n");
   }
@@ -1231,10 +1254,11 @@
   sel.value = first; go(first);
   var nSync = sync();
   count(); undoBtns();
-  var wantRecover = /(?:^|[#&])recover\b/.test(location.hash || ""), hiddenNow = hiddenWork().length;
+  // the recovery window opens by itself only for work she has not sent and cannot see (what she sent is already with Hanoch)
+  var cfNow = conflicts(), wantRecover = /(?:^|[#&])recover\b/.test(location.hash || ""), hiddenNow = hiddenWork().filter(function (w) { return w.unsent && cfNow.indexOf(w.id) < 0; }).length;
   if (wantRecover || hiddenNow) { S.seenEditor = 1; if (conflicts().length) openPanel("chg"); openRecover(true); }
   else if (!S.seenEditor) { $("welcome").hidden = false; $("start").focus(); }
   else if (conflicts().length) { toast(conflicts().length + " טקסטים השתנו באתר אחרי שתיקנת אותם. פתחתי את הרשימה כדי לבחור מה להשאיר.", 7000); openPanel("chg"); }
-  else if (nSync) toast(nSync + " מהתיקונים שלך כבר נכנסו לאתר ✓ הם ירדו מהרשימה.", 6000);
+  else if (nSync) toast(nSync + " מהתיקונים שלך כבר נכנסו לאתר ✓ הם ירדו מהרשימה, ונשמרים בגיבוי המלא.", 6000);
   else if (changes().length || addsList().length) toast("ממשיכים מאיפה שעצרת. השינויים שלך מסומנים בצהוב, והתוספות בירוק.");
 })();

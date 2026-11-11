@@ -519,7 +519,7 @@ FORM = {  # Merav's two-step "needs discovery" form, 10 Nov 2026: a very short f
     "role": ("What is your role? (optional)", "מה התפקיד שלכם? (אופציונלי)"),
     "role_hint": ("The role you hold in your organization", "מה התפקיד שממלאים בארגון?"),
     "phone": ("Phone *", "טלפון *"),
-    "phone_hint": ("Outside Israel, with the country code (+…)", "מחוץ לישראל, עם קידומת המדינה"),
+    "phone_hint": ("Your phone number; outside Israel, with the country code (+…)", "מה הטלפון שלכם? מחוץ לישראל, עם קידומת המדינה"),  # Merav, #412
     "email": ("Email *", "דואר אלקטרוני *"),
     "email_hint": ("An email address we can reply to", "כתובת דואר אלקטרוני ליצירת קשר"),
     "country": ("Which country are you contacting us from? *", "מאיזו מדינה אתם פונים אלינו? *"),
