@@ -330,7 +330,7 @@
   "hebrew_pitfalls": [
     {
       "en": "Hebrew reported speech keeps the speaker's original tense (word for word: 'Last summer Kenji asked me where I am staying'). In English, after a past reporting verb the tense usually shifts back: Last summer, Kenji asked me where I was staying.",
-      "he": "בדיבור עקיף בעברית הזמן המקורי נשמר ('בקיץ שעבר קנג'י שאל אותי איפה אני מתאכסן'). באנגלית, אחרי פועל דיווח בעבר, הזמן בדרך כלל זז אחורה: where I was staying.",
+      "he": "בדיבור עקיף בעברית הזמן המקורי נשמר ('בקיץ שעבר קנג׳י שאל אותי איפה אני מתאכסן'). באנגלית, אחרי פועל דיווח בעבר, הזמן בדרך כלל זז אחורה: where I was staying.",
       "error_type": "reported-speech"
     },
     {

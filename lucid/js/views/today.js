@@ -56,7 +56,7 @@ export function levelRail(curriculum, progress, current) {
   const count = (l, status) => l.lessons.filter((x) => progress.get(x.id)?.status === status).length;
   const summary = curriculum.levels.map((l) => {
     const out = count(l, 'placed_out');
-    return `${L(l.id)}: ${tt(`${count(l, 'completed')} מתוך ${l.lessons.length} הושלמו`, `${count(l, 'completed')} of ${l.lessons.length} completed`)}${out ? tt(`, ${out} דולגו`, `, ${out} placed out`) : ''}`;
+    return `${L(l.id)}: ${tt(`${count(l, 'completed')} מתוך ${l.lessons.length} הושלמו`, `${count(l, 'completed')} of ${l.lessons.length} completed`)}${out ? tt(`, ${out} שדילגתם עליהם`, `, ${out} placed out`) : ''}`;
   }).join('; ');
   return html`<div>
     <div class="level-rail" role="img" aria-label="${tt('ההתקדמות לאורך הרמות', 'Progress across levels')}: ${summary}">${curriculum.levels.map((l) => {
@@ -123,7 +123,7 @@ export function skillProfile(skills, { brief = false } = {}) {
     return html`<div class="skill-row ${k.provisional ? 'est' : ''}">${name}<div class="meter" aria-hidden="true"><span style="width:${((levelIndex(k.level) + 1) / LEVELS.length) * 100}%"></span></div><span class="skill-level">${label}</span>${note}</div>`;
   })}</div>${brief
     ? html`<p class="xsmall faint" style="margin-top:var(--s3)">${t('level.estimate')}. ${tt('פס מקווקו = הערכה ראשונה ממבחן המיקום.', 'A striped bar is a first estimate from placement.')}</p>`
-    : html`<p class="xsmall faint" style="margin-top:var(--s3)">${t('level.estimate')}. ${tt('רמה מופיעה רק כשיש ראיות למיומנות עצמה: 6 תשובות ומעלה בניסיון ראשון ברמה, 75% נכונות, ביומיים שונים. חזרות על תרגיל באותו יום לא נספרות. מבחן המיקום נותן רק הערכה ראשונה (פס מקווקו), לא מעל הרמה שאושרה בו, ולכל היותר', 'A level appears only with evidence for that skill: 6+ first-try answers at the level, 75% right, on 2 different days. Repeating an exercise on the same day does not count. The placement test gives only a first estimate (striped bar), never above the level it confirmed, and at most')} <bdi dir="ltr">B2+</bdi>.</p>`}`;
+    : html`<p class="xsmall faint" style="margin-top:var(--s3)">${t('level.estimate')}. ${tt('רמה מופיעה רק כשיש ראיות למיומנות עצמה: 6 תשובות ומעלה בניסיון ראשון ברמה, 75% נכונות, בשני ימים שונים. חזרות על תרגיל באותו יום לא נספרות. מבחן המיקום נותן רק הערכה ראשונה (פס מקווקו), לא מעל הרמה שאושרה בו, ולכל היותר', 'A level appears only with evidence for that skill: 6+ first-try answers at the level, 75% right, on 2 different days. Repeating an exercise on the same day does not count. The placement test gives only a first estimate (striped bar), never above the level it confirmed, and at most')} <bdi dir="ltr">B2+</bdi>.</p>`}`;
 }
 
 // One line for the folded skill panel: "Grammar A2 · Reading A2 · 4 not yet assessed". Each part is its own
@@ -167,7 +167,7 @@ export function passedCheckLine(x) {
   const date = x.at ? new Date(x.at).toLocaleDateString(uiLang() === 'he' ? 'he-IL' : 'en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) : '';
   const lv = html`<bdi dir="ltr">${L(x.level)}</bdi>`;
   const facts = html`(<bdi dir="ltr">${x.pct}%</bdi>${date ? html`, <bdi dir="ltr">${date}</bdi>` : ''})`;
-  return uiLang() === 'he' ? html`בדיקת רמה ${lv} עברה <span class="nowrap">${facts}</span>` : html`${lv} level check passed <span class="nowrap">${facts}</span>`;
+  return uiLang() === 'he' ? html`עברתם את בדיקת רמה ${lv} <span class="nowrap">${facts}</span>` : html`${lv} level check passed <span class="nowrap">${facts}</span>`;
 }
 export function nextLevelKey(x, cls = 'key small') {
   return x.first ? html`<a class="${cls}" href="#/lesson/${x.first}" data-next-level><span>${isolateLatin(tt(`להמשיך ל-${L(x.next)}`, `Continue to ${L(x.next)}`))}</span> ${arrow()}</a>` : '';
@@ -348,7 +348,7 @@ export default async function today(el, ctx) {
           // from 50% up, and below 50% the lesson is still open (TF-2; ux-research F3).
           const last = m.progress.get(m.next.id)?.last_score;
           const lead = b.next ? tt('השיעור הבא:', 'Next lesson:') : b.beyond ? tt('להמשיך את השיעור:', 'Keep going in the lesson:')
-            : b.missed ? (last != null && last < 0.5 ? tt('השיעור עוד פתוח:', 'Not complete yet:') : tt('כמעט סיימת:', 'Nearly done:'))
+            : b.missed ? (last != null && last < 0.5 ? tt('השיעור עוד פתוח:', 'Not complete yet:') : tt('כמעט סיימתם:', 'Nearly done:'))
               : b.resume ? tt('המשך:', 'Continue:') : '';
           return html`${lead ? html`<span class="small faint">${lead}</span> ` : ''}${legend(m.next.title_en, m.next.title_he)}`;
         }
@@ -529,7 +529,7 @@ export default async function today(el, ctx) {
 
     const small = compact();
     const startBar = first ? html`<div class="start-bar"><a class="key enter" href="#/${first.route}">${startLabel(first)} ${arrow()}</a>
-            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השלמת שיעור היום', 'Lesson completed today')}</span>` : ''}</div>` : '';
+            ${lessonDoneToday ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('שיעור היום הושלם', 'Lesson completed today')}</span>` : ''}</div>` : '';
     const planSection = m.placementPending
       ? html`${placementCard()}<p class="small muted">${tt('התוכנית היומית תופיע אחרי מבחן המיקום, כדי שתתחילו ברמה הנכונה.', 'Your daily plan appears after the placement test, so it starts at the right level.')}</p>`
       : html`
@@ -553,8 +553,8 @@ export default async function today(el, ctx) {
           ${uiSwitchOffer ? html`<div class="banner row ui-offer">${icon('globe', { size: 18 })}<span class="grow">${isolateLatin(tt(`הרמה שלכם היא ${L(m.courseLevel)}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${L(m.courseLevel)}. An English interface is extra daily practice, and you can switch back in Settings at any time.`))}</span>
             <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
           ${courseDone ? html`<p class="banner">${m.skipped.length
-            ? tt('עשיתם את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
-            : tt(`השלמתם את כל ${lessons.size} השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.`, `You have completed all ${lessons.size} lessons. The Writing lab and advanced assignments are waiting.`)}</p>` : ''}`;
+            ? tt('עשיתם את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמשימות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
+            : tt(`השלמתם את כל ${lessons.size} השיעורים. מעבדת הכתיבה והמשימות המתקדמות מחכות.`, `You have completed all ${lessons.size} lessons. The Writing lab and advanced assignments are waiting.`)}</p>` : ''}`;
 
     // The minutes choice waits until there is a plan to fit (TP-7): not while the placement test is unfinished.
     const minutesChoice = m.placementPending ? '' : html`<div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>

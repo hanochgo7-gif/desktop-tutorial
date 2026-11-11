@@ -8,7 +8,7 @@ export const icon = (name, opts) => raw(iconSvg(name, opts));
 // Status as a mark in a fixed cell: filled (done), half (in progress), hollow (not started), dashed (placed out).
 export function mark(status) {
   const cls = { completed: 'done', started: 'half', placed_out: 'out' }[status] || '';
-  const label = { completed: tt('הושלם', 'Completed'), started: tt('בתהליך', 'In progress'), placed_out: tt('דולג לפי מבחן המיקום', 'Placed out'), '': tt('טרם התחיל', 'Not started') }[status || ''] || tt('טרם התחיל', 'Not started');
+  const label = { completed: tt('הושלם', 'Completed'), started: tt('בתהליך', 'In progress'), placed_out: tt('דילגתם על השיעור', 'Placed out'), '': tt('טרם התחיל', 'Not started') }[status || ''] || tt('טרם התחיל', 'Not started');
   return html`<span class="mark ${cls}" role="img" aria-label="${label}">${cls === 'done' ? icon('check', { size: 12 }) : ''}</span>`;
 }
 

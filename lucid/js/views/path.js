@@ -58,7 +58,7 @@ export default async function path(el, ctx) {
       <div class="level-tabs" role="tablist" aria-label="${tt('רמות', 'Levels')}">${curriculum.levels.map((l) => {
         const out = countIn(l, 'placed_out');
         return html`<a class="level-tab" role="tab" href="#/path/${l.id}" aria-current="${l.id === lvl.id}" aria-selected="${l.id === lvl.id}">
-        <span class="lt-name">${LEVEL_LABEL[l.id]}</span><span class="lt-count num" aria-label="${tt(`${countIn(l, 'completed')} מתוך ${l.lessons.length} הושלמו`, `${countIn(l, 'completed')} of ${l.lessons.length} completed`)}">${countIn(l, 'completed')}/${l.lessons.length}</span>${out ? html`<span class="lt-out">${tt(`${out} דולגו`, `${out} placed out`)}</span>` : ''}</a>`;
+        <span class="lt-name">${LEVEL_LABEL[l.id]}</span><span class="lt-count num" aria-label="${tt(`${countIn(l, 'completed')} מתוך ${l.lessons.length} הושלמו`, `${countIn(l, 'completed')} of ${l.lessons.length} completed`)}">${countIn(l, 'completed')}/${l.lessons.length}</span>${out ? html`<span class="lt-out">${tt(`דילגתם על ${out}`, `${out} placed out`)}</span>` : ''}</a>`;
       })}</div>
       <section class="stack">
         <div class="row between">
@@ -115,7 +115,7 @@ export default async function path(el, ctx) {
     ...bindPlacementCard(el, ctx),
     on(el, 'click', '[data-move]', async (e, b) => {
       const level = b.dataset.move;
-      const ok = await confirmDialog({ title: tt(`להתחיל מרמה ${LEVEL_LABEL[level]}?`, `Start from ${LEVEL_LABEL[level]}?`), body: tt('שיעורים מתחת לרמה הזו יסומנו כ״דולגו״ ויישארו פתוחים לחזרה. שיעורים שכבר השלמתם לא ישתנו.', 'Lessons below this level are marked as placed out and stay open for review. Lessons you completed stay completed.'), confirm: tt('כן, להתחיל כאן', 'Yes, start here') });
+      const ok = await confirmDialog({ title: tt(`להתחיל מרמה ${LEVEL_LABEL[level]}?`, `Start from ${LEVEL_LABEL[level]}?`), body: tt('שיעורים מתחת לרמה הזו יסומנו כשיעורים שדילגתם עליהם ויישארו פתוחים לחזרה. שיעורים שכבר השלמתם לא ישתנו.', 'Lessons below this level are marked as placed out and stay open for review. Lessons you completed stay completed.'), confirm: tt('כן, להתחיל כאן', 'Yes, start here') });
       if (!ok) return;
       await moveToLevel(level);
       toast(tt('המסלול עודכן', 'Your path was updated'));

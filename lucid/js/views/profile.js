@@ -49,7 +49,7 @@ export default async function profileView(el, ctx) {
             ? tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: content flagged as not suitable for this age is not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')
             : tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג. באתר הזה ההתקדמות נשמרת רק במכשיר.', 'Under 16: content flagged as not suitable for this age is not shown. On this site your progress stays on this device.')}</span></p>` : ''}
           ${minor ? html`<p class="banner" data-under18>${icon('info', { size: 16 })}<span>${accounts
-            ? tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same at every age.')
+            ? tt('מתחת לגיל 18: אי אפשר להסכים לקבל דיוור שיווקי (וממילא Lucid לא שולח שיווק לאף אחד). שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same at every age.')
             : tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone. Every other default is the same at every age.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות', 'Privacy')}</a></span></p>` : ''}
         </div>
         <div class="row"><a class="key" href="#/progress">${t('nav.progress')}</a><a class="key ghost" href="#/settings">${t('nav.settings')}</a></div>

@@ -227,7 +227,7 @@
       ],
       "error_type": "false-friend",
       "hint": { "en": "In English, lights and machines don't open or close.", "he": "באנגלית אור ומכשירים לא 'נפתחים' ולא 'נסגרים'." },
-      "explanation": { "en": "In English you turn off (or switch off) a light, the TV or the air conditioning. Close is for doors, windows and books. And the opposite is turn on, not open.", "he": "באנגלית מכבים אור, טלוויזיה או מזגן עם turn off (או switch off). את close משתמשים לדלת, לחלון ולספר. וההפך הוא turn on, לא open." }
+      "explanation": { "en": "In English you turn off (or switch off) a light, the TV or the air conditioning. Close is for doors, windows and books. And the opposite is turn on, not open.", "he": "באנגלית מכבים אור, טלוויזיה או מזגן עם turn off (או switch off). ב-close משתמשים לדלת, לחלון ולספר. וההפך הוא turn on, לא open." }
     },
     {
       "id": "e11", "type": "correct", "skill": "grammar",

@@ -321,7 +321,7 @@ export const router = {
       state.cleanup = (await mod.default(root, ctx)) || null;
     } catch (e) {
       console.error(e);
-      root.innerHTML = `<div class="empty"><h3>${document.documentElement.lang === 'he' ? 'משהו השתבש' : 'Something went wrong'}</h3><p class="small faint">${String(e.message || e).replace(/[<>&]/g, '')}</p><a class="key" href="#/today">${document.documentElement.lang === 'he' ? 'חזרה להיום' : 'Back to Today'}</a></div>`;
+      root.innerHTML = `<div class="empty"><h3>${document.documentElement.lang === 'he' ? 'משהו השתבש' : 'Something went wrong'}</h3><p class="small faint">${String(e.message || e).replace(/[<>&]/g, '')}</p><a class="key" href="#/today">${document.documentElement.lang === 'he' ? 'להיום' : 'Back to Today'}</a></div>`;
     }
     if (!query.keepScroll) window.scrollTo(0, 0);
     if (state.extra.bare) root.focus({ preventScroll: true });

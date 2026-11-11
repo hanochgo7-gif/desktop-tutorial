@@ -223,7 +223,7 @@
       "audio_text": "What's that? It's an orange umbrella.",
       "answers": ["What's that? It's an orange umbrella."],
       "hint": { "en": "A question and an answer. Listen for a or an.", "he": "שאלה ותשובה. הקשיבו אם יש a או an." },
-      "explanation": { "en": "that = one thing far away. an orange: the n joins the vowel, so it sounds like 'anorange'.", "he": "that = דבר אחד רחוק. an orange: ה-n מתחברת לתנועה שאחריה ונשמעת כמו 'אנוֹרִנְג'." }
+      "explanation": { "en": "that = one thing far away. an orange: the n joins the vowel, so it sounds like 'anorange'.", "he": "that = דבר אחד רחוק. an orange: ה-n מתחברת לתנועה שאחריה ונשמעת כמו ״אֶנוֹרִנְג׳״." }
     },
     {
       "id": "e14", "type": "speak", "skill": "speaking", "topic": "demonstratives",

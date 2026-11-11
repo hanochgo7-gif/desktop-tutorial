@@ -49,7 +49,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew there are no capital letters, so they are easy to forget in a story. Use a capital for I, names of people and places, days and months: Last July I went to London with Maya.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן בסיפור. כתבו באות גדולה את I, שמות של אנשים ומקומות, ימים וחודשים: Last July I went to London with Maya.", "error_type": "capitalization" },
     { "en": "In Hebrew there is no word for a/an, so it can go missing in a story. Use a or an the first time you mention one thing: We stayed in a small hotel (not *in small hotel).", "he": "בעברית אין מילה ל-a/an, ולכן קל לשכוח אותה בסיפור. משתמשים ב-a או an כשמזכירים דבר אחד בפעם הראשונה: We stayed in a small hotel.", "error_type": "article" },
-    { "en": "Hebrew says 'arrived to' (higanu le-), so learners write *we arrived to the hotel. English uses arrive at for a building or a point (arrive at the hotel, at the station) and arrive in for a city or a country (arrive in Eilat). With home there is no preposition: we arrived home.", "he": "בעברית מגיעים ל-, ולכן קל לכתוב arrived to. באנגלית arrive at לבניין או לנקודה, arrive in לעיר או לארץ, ועם home בלי מילת יחס.", "error_type": "preposition" }
+    { "en": "Hebrew says 'arrived to' (higanu le-), so learners write *we arrived to the hotel. English uses arrive at for a building or a point (arrive at the hotel, at the station) and arrive in for a city or a country (arrive in Eilat). With home there is no preposition: we arrived home.", "he": "בעברית מגיעים ל־מקום, ולכן קל לכתוב arrived to. באנגלית arrive at לבניין או לנקודה, arrive in לעיר או לארץ, ועם home בלי מילת יחס.", "error_type": "preposition" }
   ],
   "exercises": [
     {

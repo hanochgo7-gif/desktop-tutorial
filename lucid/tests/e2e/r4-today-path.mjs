@@ -212,7 +212,7 @@ try {
   });
 
   // ---------- TP-6: the path and Today act on a passed level check ----------
-  await check('TP-6 check:B2 completed at 75%: #/path/B2 says "עברה" with a link to the first C1 lesson and no "לבדיקת רמה B2" key; Today offers the same', async () => {
+  await check('TP-6 check:B2 completed at 75%: #/path/B2 says "עברתם את בדיקת רמה" with a link to the first C1 lesson and no "לבדיקת רמה B2" key; Today offers the same', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'B2', { minutes: 20 });
     await page.evaluate(() => window.lucid.store.put('progress', { id: 'check:B2', level: 'B2', kind: 'checkpoint', status: 'completed', best_score: 0.75, last_score: 0.75, attempts: 1, completed_at: new Date().toISOString() }));
@@ -220,7 +220,7 @@ try {
     await page.waitForSelector('.lesson-row');
     await page.waitForTimeout(300);
     const text = await page.textContent('#view');
-    assert(/עברה/.test(text) && /75%/.test(text), 'the path does not say the check was passed');
+    assert(/עברתם את בדיקת רמה/.test(text) && /75%/.test(text), 'the path does not say the check was passed');
     assert(await page.$('#view a[href="#/lesson/c1-01"]'), 'no link to the first C1 lesson');
     const keys = await page.$$eval('#view a.key, #view button.key', (x) => x.map((k) => k.textContent.replace(/\s+/g, ' ').trim()));
     assert(!keys.some((k) => /לבדיקת רמה/.test(k)), `keys: ${keys.join(' | ')}`);
@@ -228,7 +228,7 @@ try {
     await shot(page, 'tp6-path-b2');
     await today(page);
     const offer = await page.$('[data-check-passed]');
-    assert(offer && /עברה/.test(await offer.textContent()) && await offer.$('a[href="#/lesson/c1-01"]'), 'Today does not show the passed check and the way on to C1');
+    assert(offer && /עברתם את בדיקת רמה/.test(await offer.textContent()) && await offer.$('a[href="#/lesson/c1-01"]'), 'Today does not show the passed check and the way on to C1');
     await offer.scrollIntoViewIfNeeded();
     await shot(page, 'tp6-today');
     // Once a C1 lesson was opened, Today no longer repeats it.

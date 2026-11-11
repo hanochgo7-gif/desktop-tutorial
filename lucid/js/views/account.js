@@ -113,7 +113,7 @@ export default async function account(el, ctx) {
     const r = await connectAccount({ kind, sync });
     if (!r.ok) { msg = { text: r.reason === 'cancelled' ? NOTICES.cancelled() : NOTICES.offline(), notice: r.reason === 'cancelled' }; return false; }
     if (['profile', 'offline', 'guardian'].includes(r.reason)) toast(syncPausedText(r.reason));
-    else if (r.synced) toast(tt('נכנסת לחשבון. ההתקדמות מסונכרנת.', 'Signed in. Your progress is syncing.'));
+    else if (r.synced) toast(tt('נכנסתם לחשבון. ההתקדמות מסונכרנת.', 'Signed in. Your progress is syncing.'));
     ctx.navigate(hasProfile() ? next || 'today' : 'start');
     return true;
   }

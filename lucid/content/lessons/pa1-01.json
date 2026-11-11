@@ -10,14 +10,14 @@
     { "en": "I can spell my name aloud and understand names that other people spell.", "he": "אני יודע/ת לאיית את השם שלי בקול ולהבין שמות שאחרים מאייתים." },
     { "en": "I can use capital letters for names, places and the word I.", "he": "אני יודע/ת לכתוב אות גדולה בשמות של אנשים ומקומות ובמילה I." }
   ],
-  "warmup": { "en": "You already know some English letters: OK, USB, PDF, DJ. Say them aloud. What you are saying are the letter names.", "he": "אתם כבר מכירים כמה אותיות באנגלית: OK, USB, PDF, DJ. אמרו אותן בקול. מה שאמרתם הם שמות האותיות – היום נלמד את כל 26." },
+  "warmup": { "en": "You already know some English letters: OK, USB, PDF, DJ. Say them aloud. What you are saying are the letter names.", "he": "אתם כבר מכירים כמה אותיות באנגלית: OK, USB, PDF, DJ. אמרו אותן בקול. מה שאמרתם הם שמות האותיות – היום נלמד את כל 26 האותיות." },
   "explanation": [
     { "type": "p", "en": "OK = 'oh-kay'. USB = 'you-ess-bee'. These are letter names. English has 26 letters, and every letter has a name. We use the names to spell words. Inside words, letters often make a different sound (lesson 2).", "he": "OK נקרא 'אוֹ-קֵיי', ו-USB נקרא 'יוּ-אֶס-בִּי' – אלה שמות האותיות. באנגלית יש 26 אותיות, ולכל אחת יש שם. בשמות האותיות משתמשים כשמאייתים. בתוך מילה האות עושה לפעמים צליל אחר – את זה נלמד בשיעור הבא." },
     { "type": "table", "headers": ["Letter", "Name (IPA)", "נשמע כמו"], "rows": [
       ["A a", "/eɪ/", "אֵיי (כמו day)"],
       ["B b", "/biː/", "בִּי"],
       ["C c", "/siː/", "סִי"],
-      ["D d", "/diː/", "דִי"],
+      ["D d", "/diː/", "דִּי"],
       ["E e", "/iː/", "אִי (כמו see)"],
       ["F f", "/ef/", "אֶף"],
       ["G g", "/dʒiː/", "ג'י"],
@@ -41,7 +41,7 @@
       ["Y y", "/waɪ/", "ווַאי"],
       ["Z z", "/zed/ (US /ziː/)", "זֶד (באמריקאית: זִי)"]
     ] },
-    { "type": "warning", "en": "Some names sound alike. E = 'ee' (like see) and I = 'eye' (like my). G = 'jee' and J = 'jay'. B, P and V all end in 'ee', so listen to the first sound.", "he": "חלק מהשמות דומים מאוד. E נקראת 'אִי' (כמו see), ו-I נקראת 'אַיי' (כמו my). G נקראת 'ג'י', ו-J נקראת 'ג'יי'. B, P ו-V נגמרות כולן ב'אִי', אז הקשיבו לצליל הראשון." },
+    { "type": "warning", "en": "Some names sound alike. E = 'ee' (like see) and I = 'eye' (like my). G = 'jee' and J = 'jay'. B, P and V all end in 'ee', so listen to the first sound.", "he": "חלק מהשמות דומים מאוד. E נקראת ״אִי״ (כמו see), ו-I נקראת ״אַיי״ (כמו my). G נקראת ״ג׳י״, ו-J נקראת ״ג׳יי״. B, P ו-V נגמרות כולן ב״אִי״, אז הקשיבו לצליל הראשון." },
     { "type": "rule", "en": "Capital letters (A, B, C) are for: the first word of a sentence, names of people and places (Noa, Haifa), and the word I. Most other words use small letters (a, b, c). A few more words take a capital, like English and Monday: you will meet them later.", "he": "אות גדולה (A, B, C) כותבים בשלושה מקרים: בתחילת משפט, בשמות של אנשים ומקומות (Noa, Haifa), ובמילה I (אני). ברוב המילים האחרות כותבים באותיות קטנות (a, b, c). יש עוד כמה מילים שמתחילות באות גדולה, כמו English ו-Monday – נפגוש אותן בהמשך. בעברית אין אותיות גדולות, אז זה הרגל חדש שכדאי לבנות מההתחלה." },
     { "type": "tip", "en": "To spell a name, say the letters one by one: Noa = N-O-A. For two of the same letter together, say 'double': Anna = A, double N, A. To ask, say: How do you spell that?", "he": "כדי לאיית שם, אומרים את שמות האותיות אחת אחרי השנייה: N-O-A. כשיש שתי אותיות זהות ברצף, אומרים double ואחריו את שם האות: double N. כדי לשאול איך מאייתים, שואלים: How do you spell that?" }
   ],
@@ -68,7 +68,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there are no capital letters, so they are easy to forget in English. Write I, Noa and Haifa with a capital, and start every sentence with one.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן באנגלית. כותבים I, Noa, Haifa באות גדולה, וכל משפט מתחיל באות גדולה.", "error_type": "capitalization" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so the letter Y ('why') can come out as 'vai'. For w, round your lips as for 'oo'.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה, כשאומרים את שם האות Y, כמו המילה why (/w/). בעברית ו' נהגית v, ולכן Y יוצאת לפעמים עם v.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so the letter Y ('why') can come out as 'vai'. For w, round your lips as for 'oo'.", "he": "מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים ייגעו בשפה, כשאומרים את שם האות Y, כמו המילה why (/w/). בעברית ו' נהגית v, ולכן Y יוצאת לפעמים עם v.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {

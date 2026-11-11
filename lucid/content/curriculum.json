@@ -150,7 +150,7 @@
     {
      "id": "pa1-09",
      "title_en": "Where are you from?",
-     "title_he": "מאיפה אתה?",
+     "title_he": "מאיפה את/ה?",
      "topics": [
       "personal-info"
      ],
@@ -465,7 +465,7 @@
     {
      "id": "a2-01",
      "title_en": "What are you doing?",
-     "title_he": "מה אתה עושה עכשיו?",
+     "title_he": "מה את/ה עושה עכשיו?",
      "topics": [
       "present-continuous"
      ],

@@ -175,7 +175,7 @@ export async function signOut({ erase = false } = {}) {
 }
 
 const LINK_TOASTS = {
-  signup: () => tt('האימייל אומת ונכנסת לחשבון.', 'Your email is confirmed and you are signed in.'),
+  signup: () => tt('האימייל אומת ונכנסתם לחשבון.', 'Your email is confirmed and you are signed in.'),
   recovery: () => tt('אפשר לבחור עכשיו סיסמה חדשה.', 'You can choose a new password now.'),
 };
 
@@ -190,7 +190,7 @@ export async function startSession(sync) {
     else { toast(LINK_TOASTS[link.kind]?.() || ''); if (['profile', 'offline', 'guardian'].includes(r.reason)) toast(syncPausedText(r.reason)); }
   } else if (auth.signedIn) {
     connectAccount({ kind: 'resume', sync }).then((r) => {
-      if (!r.ok && r.reason === 'cancelled') { toast(tt('יצאת מהחשבון. המידע במכשיר לא השתנה.', 'Signed out. The data on this device was not changed.')); location.hash = '#/account?mode=signin'; }
+      if (!r.ok && r.reason === 'cancelled') { toast(tt('יצאתם מהחשבון. המידע במכשיר לא השתנה.', 'Signed out. The data on this device was not changed.')); location.hash = '#/account?mode=signin'; }
     });
   }
   addEventListener('online', recheck);
@@ -200,7 +200,7 @@ export async function startSession(sync) {
 }
 
 export const syncPausedText = (reason = 'profile') => (reason === 'offline'
-  ? tt('נכנסת לחשבון. אין כרגע חיבור לשרת, והסנכרון יתחיל כשהחיבור יחזור.', 'You are signed in. There is no connection to the server right now; sync will start when you are back online.')
+  ? tt('נכנסתם לחשבון. אין כרגע חיבור לשרת, והסנכרון יתחיל כשהחיבור יחזור.', 'You are signed in. There is no connection to the server right now; sync will start when you are back online.')
   : reason === 'guardian'
     ? tt('הסנכרון מושהה: מתחת לגיל 16 צריך קודם אישור של הורה או אפוטרופוס. אפשר לאשר בהגדרות, ועד אז ההתקדמות נשמרת רק במכשיר הזה.', 'Sync is paused: under 16, a parent or guardian needs to agree first. You can confirm in Settings; until then your progress stays on this device only.')
-  : tt('נכנסת לחשבון, אבל הסנכרון מושהה: השרת לא שמר את הפרופיל. ננסה שוב אוטומטית.', 'You are signed in, but sync is paused: the server did not save your profile. Lucid will try again automatically.'));
+  : tt('נכנסתם לחשבון, אבל הסנכרון מושהה: השרת לא שמר את הפרופיל. ננסה שוב אוטומטית.', 'You are signed in, but sync is paused: the server did not save your profile. Lucid will try again automatically.'));

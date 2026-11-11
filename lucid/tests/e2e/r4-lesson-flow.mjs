@@ -435,7 +435,7 @@ try {
     await page.click('#exroot [data-opt="0"]');
     await page.click('[data-check]:not([disabled])');
     await page.waitForSelector('[data-next]');
-    assert(/נשמע\? לא נספר/.test(await page.textContent('#pfoot .verdict-title')), `verdict: ${await page.textContent('#pfoot .verdict-title')}`);
+    assert(/לא נשמע קול · לא נספר/.test(await page.textContent('#pfoot .verdict-title')), `verdict: ${await page.textContent('#pfoot .verdict-title')}`);
     await shot(page, 'lf5-unheard');
     // The rest of the lesson as the fixture says: jump to the end with the saved place.
     await page.evaluate((fixture) => { const p = window.lucid.store.get('progress', 'pa1-02'); window.lucid.store.put('progress', { ...p, resume: { ...p.resume, qi: p.resume.queue.length, first: Object.entries(fixture) } }); }, fixture);
@@ -462,7 +462,7 @@ try {
     await page.click('[data-dontknow]');
     await page.waitForSelector('[data-next]');
     const v = await page.textContent('#pfoot .verdict');
-    assert(/נשמע\? לא נספר/.test(v) && /sheep/.test(v), `verdict: ${v}`);
+    assert(/לא נשמע קול · לא נספר/.test(v) && /sheep/.test(v), `verdict: ${v}`);
     const p = await page.evaluate(() => window.lucid.store.get('progress', 'pa1-02').resume);
     const at = (await store(page, 'attempts')).filter((a) => a.lesson === 'pa1-02' && a.exercise === 'e1');
     assert(at.length === 1 && at[0].score === null && at[0].response === '(unheard)', `e1 attempts: ${JSON.stringify(at)}`);
@@ -480,7 +480,7 @@ try {
     await b.page.click('[data-check]:not([disabled])');
     await b.page.waitForSelector('[data-next]');
     const w = await b.page.textContent('#pfoot .verdict');
-    assert(/נשמע\? לא נספר/.test(w) && !/שמעתם|You heard/.test(w), `the unheard verdict says what was heard: ${w}`);
+    assert(/לא נשמע קול · לא נספר/.test(w) && !/שמעתם|You heard/.test(w), `the unheard verdict says what was heard: ${w}`);
     await shot(b.page, 'lf5-unheard-wrong-pick');
     await b.ctx.close();
   });
@@ -500,7 +500,7 @@ try {
     await shot(page, 'lf5-dictation-silent');
     await page.click('#exroot [data-skip-unheard]');
     await page.waitForSelector('[data-next]');
-    assert(/נשמע\? לא נספר/.test(await page.textContent('#pfoot .verdict-title')), 'the skip is not "not counted"');
+    assert(/לא נשמע קול · לא נספר/.test(await page.textContent('#pfoot .verdict-title')), 'the skip is not "not counted"');
     const at = (await store(page, 'attempts')).filter((a) => a.lesson === 'pa1-01' && a.exercise === 'e10');
     const p = await page.evaluate(() => window.lucid.store.get('progress', 'pa1-01').resume);
     assert(at.length === 1 && at[0].score === null, `e10 attempts: ${JSON.stringify(at)}`);

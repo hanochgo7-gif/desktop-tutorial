@@ -2,7 +2,7 @@
   "id": "a2-01",
   "level": "A2",
   "title_en": "What are you doing?",
-  "title_he": "מה אתה עושה עכשיו?",
+  "title_he": "מה את/ה עושה עכשיו?",
   "topics": ["present-continuous"],
   "minutes": 25,
   "objectives": [
@@ -56,7 +56,7 @@
     { "en": "In Hebrew the same present form covers habits and what is happening now, so it is easy to use the simple form for an action in progress. In English: I'm working at the moment (not 'I work at the moment').", "he": "בעברית אותה צורה משמשת גם להרגל וגם למה שקורה עכשיו, ולכן קל להשתמש בצורה הפשוטה גם לפעולה שמתרחשת עכשיו. באנגלית: I'm working at the moment.", "error_type": "tense-choice" },
     { "en": "In Hebrew the present tense has no 'be', so it is easy to drop am/is/are before -ing. In English: She is cooking, not 'She cooking'.", "he": "בעברית אין 'להיות' בהווה, ולכן קל לשכוח את am/is/are לפני ing. באנגלית: She is cooking.", "error_type": "copula-omission" },
     { "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k, as in the Hebrew word for 'English'), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: working /ˈwɜːkɪŋ/.", "he": "מסיימים את ing באף, כמו ה-נ שב'אנגלית' לפני ה-ג, בלי להשמיע g אחריו (/ŋ/): working. בעברית הצליל הזה לא עומד לבד, ולכן ing יוצא לפעמים 'אין' או 'אינג-ג'." },
-    { "en": "Hebrew waits 'to' something (mechakim le-), so learners write *waiting to the bus or drop the preposition: *waiting the bus. English uses for: I'm waiting for the bus.", "he": "בעברית מחכים ל-, ולכן קל לכתוב to אחרי wait, או לוותר על מילת היחס. באנגלית אחרי wait בא for: waiting for the bus.", "error_type": "preposition" }
+    { "en": "Hebrew waits 'to' something (mechakim le-), so learners write *waiting to the bus or drop the preposition: *waiting the bus. English uses for: I'm waiting for the bus.", "he": "בעברית מחכים ל־משהו, ולכן קל לכתוב to אחרי wait, או לוותר על מילת היחס. באנגלית אחרי wait בא for: waiting for the bus.", "error_type": "preposition" }
   ],
   "exercises": [
     {

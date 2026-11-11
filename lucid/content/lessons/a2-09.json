@@ -81,7 +81,7 @@
       "options": ["more big", "bigger", "more bigger", "biggest"],
       "answer": 1,
       "option_feedback": {
-        "0": { "en": "big is a short adjective, so add -er: bigger. Use more only with longer adjectives (more expensive).", "he": "big הוא שם תואר קצר, ולכן מוסיפים er: bigger. את more משתמשים רק עם שמות תואר ארוכים (more expensive)." },
+        "0": { "en": "big is a short adjective, so add -er: bigger. Use more only with longer adjectives (more expensive).", "he": "big הוא שם תואר קצר, ולכן מוסיפים er: bigger. ב-more משתמשים רק עם שמות תואר ארוכים (more expensive)." },
         "2": { "en": "Use -er or more, never both: bigger.", "he": "er או more – אף פעם לא שניהם יחד: bigger." },
         "3": { "en": "biggest is for one thing in a whole group (next lesson). With than, use the comparative: bigger.", "he": "biggest משמש כשמשווים דבר אחד לקבוצה שלמה (נלמד בשיעור הבא). עם than משתמשים בערך יתרון: bigger." }
       },
@@ -138,7 +138,7 @@
       "word_bank": ["as", "than", "then", "like"],
       "answers": [["as"], ["as"], ["than"]],
       "wrong_feedback": [
-        { "match": "than", "feedback": { "en": "For the same height, use as ... as. Use than only after a comparative (faster than).", "he": "כשהגובה זהה משתמשים ב-as ... as. את than משתמשים רק אחרי ערך יתרון (faster than)." }, "error_type": "comparison-form" },
+        { "match": "than", "feedback": { "en": "For the same height, use as ... as. Use than only after a comparative (faster than).", "he": "כשהגובה זהה משתמשים ב-as ... as. ב-than משתמשים רק אחרי ערך יתרון (faster than)." }, "error_type": "comparison-form" },
         { "match": "as", "feedback": { "en": "faster is a comparative, so it needs than: faster than me.", "he": "faster הוא ערך יתרון, ולכן אחריו בא than: faster than me." }, "error_type": "comparison-form" },
         { "match": "then", "feedback": { "en": "then means 'after that'. For comparisons, use than (or as ... as when things are the same).", "he": "then פירושו 'אחר כך'. בהשוואה משתמשים ב-than (או ב-as ... as כשמשהו שווה)." }, "error_type": "word-choice" },
         { "match": "like", "feedback": { "en": "With an adjective, say as tall as me, not tall like me.", "he": "עם שם תואר אומרים as tall as me, ולא tall like me." }, "error_type": "comparison-form" }

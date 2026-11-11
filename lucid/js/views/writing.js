@@ -68,15 +68,15 @@ export default async function writing(el, ctx) {
     const tooHard = levelIndex(x.level) > levelIndex(m.courseLevel) + 1;
     return html`<li><a class="lesson-row hub-row" href="#/writing/${x.id}">
       <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.n_items != null ? 'list' : 'writing')}</span>
-      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${rangeText(x)}${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${rangeText(x)}${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.n_items != null ? tt(`${x.n_items} תרגילים`, `${x.n_items} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
-      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' && s.self_assessed ? tt('בוצעה · הערכה עצמית', 'Done · self-assessed') : s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('בוצע', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
+      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · ${rangeText(x)}${x.topics ? ` · ${x.topics} נושאים לבחירה` : ''}`, `Level final task · ${rangeText(x)}${x.topics ? ` · ${x.topics} topics to choose from` : ''}`) : x._type === 'assignment' ? tt(`משימה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.n_items != null ? tt(`${x.n_items} תרגילים`, `${x.n_items} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
+      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' || s.status === 'done' ? 'ok' : ''}">${s.status === 'final' && s.self_assessed ? tt('הושלמה · הערכה עצמית', 'Done · self-assessed') : s.status === 'final' ? tt('סופית', 'Final') : s.status === 'done' ? tt('הושלמה', 'Done') : s.status === 'evaluated' ? tt('בתיקון', 'Revising') : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
   }
 
   // "4 tasks · 1 done" for a stage card (RW-12): done is a finished set of exercises or a final draft.
   function countLabel(items) {
     const done = items.filter((x) => ['done', 'final'].includes(summaries.find((w) => w.exercise === x.id)?.status)).length;
     const n = items.length;
-    return tt(`${n === 1 ? 'משימה אחת' : `${n} משימות`}${done ? ` · ${done === 1 ? 'אחת בוצעה' : `${done} בוצעו`}` : ''}`, `${n} task${n === 1 ? '' : 's'}${done ? ` · ${done} done` : ''}`);
+    return tt(`${n === 1 ? 'משימה אחת' : `${n} משימות`}${done ? ` · ${done === 1 ? 'אחת הושלמה' : `${done} הושלמו`}` : ''}`, `${n} task${n === 1 ? '' : 's'}${done ? ` · ${done} done` : ''}`);
   }
 
   // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).

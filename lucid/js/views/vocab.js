@@ -15,7 +15,7 @@ import { LEVELS, levelIndex } from '../core/adaptive.js';
 const KNOWN_DAYS = 21;
 // "מילה אחת", never "1 מילים" (UX r4 PG-9).
 const wordsN = (n) => (n === 1 ? tt('מילה אחת', '1 word') : tt(`${n} מילים`, `${n} words`));
-const FILTERS = [['all', 'הכול', 'All'], ['due', 'לחזרה עכשיו', 'Due now'], ['learning', 'בלמידה', 'Learning'], ['known', 'ידועות', 'Known']];
+const FILTERS = [['all', 'הכול', 'All'], ['due', 'לחזרה עכשיו', 'Due now'], ['learning', 'בלמידה', 'Learning'], ['known', 'בשליטה', 'Known']];
 const wordKey = (id) => String(id).replace(/:(meaning|form)$/, '');
 const fold = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-֑ͯ-ׇ]/g, '').trim();
 
@@ -44,7 +44,7 @@ export function relativeDue(iso, now = new Date(), rtf = relTime(uiLang() === 'h
 const STATUS = {
   new: { cls: '', he: 'חדשה', en: 'New' },
   learning: { cls: 'half', he: 'בלמידה', en: 'Learning' },
-  known: { cls: 'done', he: 'ידועה', en: 'Known' },
+  known: { cls: 'done', he: 'בשליטה', en: 'Known' },
 };
 
 // a.p.word.localeCompare(b.p.word, 'en', { sensitivity: 'base' }) with one shared collator, not one per comparison.

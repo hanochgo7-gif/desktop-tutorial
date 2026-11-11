@@ -60,7 +60,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no th sound, so three can sound like 'tree' or 'free', and thirty like 'tirty'. Put your tongue between your teeth: three, thirteen, thirty.", "he": "שמים את קצה הלשון בין השיניים ונושפים ב-three, ‏thirteen ו-thirty (/θ/). בעברית אין את הצליל הזה, ולכן three נשמע לפעמים 'טרי' או 'פרי'.", "error_type": "pron-th" },
-    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so twelve and twenty can come out with a v. Round your lips for w.", "he": "מעגלים את השפתיים, בלי שהשיניים יגעו בשפה, ב-w של twelve ו-twenty (/w/). בעברית ו' נהגית v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so twelve and twenty can come out with a v. Round your lips for w.", "he": "מעגלים את השפתיים, בלי שהשיניים ייגעו בשפה, ב-w של twelve ו-twenty (/w/). בעברית ו' נהגית v, ולכן קל לומר אותן עם v.", "error_type": "pron-w-v" },
     { "en": "Hebrew can say 'ben 25 shanim' (25 years), so it is easy to write 'I'm 25 years'. In English say I'm 25 or I'm 25 years old: years and old go together.", "he": "בעברית אפשר לומר 'בן 25 שנים', ולכן קל לכתוב years בלי old. באנגלית years ו-old באים יחד, או שאומרים רק את המספר: I'm 25.", "error_type": "false-friend" }
   ],
   "exercises": [
