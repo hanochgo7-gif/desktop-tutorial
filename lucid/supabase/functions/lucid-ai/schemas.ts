@@ -132,6 +132,9 @@ export const WritingEvaluation = z.object({
   // Source-based tasks: what the assessor could not check (whether sources exist, are quoted accurately and
   // support the claims), naming the learner's own sources or figures to check. null for other tasks.
   verification_note: z.string().nullable(),
+  // The learner disclosed distress, self-harm, abuse or danger (prompts.ts SAFETY): the summary is an out-of-role
+  // reply, and postProcess drops every score, level and error.
+  safety_concern: z.boolean(),
 });
 export type WritingEvaluation = z.infer<typeof WritingEvaluation>;
 
@@ -139,6 +142,13 @@ export const RoleplayTurn = z.object({
   reply: z.string(),
   scene_complete: z.boolean(),
   hint_he: z.string().nullable(),
+  safety_concern: z.boolean(),
+});
+
+// The tutor answers in structured output too, so a safety reply is flagged in the same way (audit BLK-09).
+export const TutorTurn = z.object({
+  reply: z.string(),
+  safety_concern: z.boolean(),
 });
 
 export const RoleplayFeedback = z.object({
@@ -157,6 +167,7 @@ export const RoleplayFeedback = z.object({
   practice_he: z.array(z.string()).nullable(),
   summary: z.string(),
   summary_he: z.string().nullable(),
+  safety_concern: z.boolean(),
 });
 
 const clampInt = (n: number | null, lo: number, hi: number) => (n == null ? null : Math.min(hi, Math.max(lo, Math.round(n))));
@@ -166,6 +177,19 @@ const loose = (s: string) => s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\
 const CEFR_ORDER = ['below_PreA1', ...LEVELS];
 
 export type Evaluated = WritingEvaluation & { dropped_errors: number; low_confidence: string[]; runs: number };
+// What is left of an evaluation when the learner disclosed distress or danger: the out-of-role reply and nothing
+// that scores, levels or corrects the text (audit BLK-09). The levels are null, so no client can record them.
+export type SafetyEvaluation = { safety_concern: true; summary: string; summary_he: string | null; cefr_estimate: null; cefr_low: null; cefr_high: null; categories: []; errors: []; strengths: []; priorities: []; required_elements: []; revision: { tasks: []; progress_since_previous: null }; verification_note: null; task_fulfilment: null; dropped_errors: number; low_confidence: []; runs: number };
+export function safetyOnly(runs: WritingEvaluation[]): SafetyEvaluation {
+  const e = runs.find((r) => r.safety_concern) || runs[0];
+  return {
+    safety_concern: true, summary: e.summary, summary_he: e.summary_he,
+    cefr_estimate: null, cefr_low: null, cefr_high: null,
+    categories: [], errors: [], strengths: [], priorities: [], required_elements: [],
+    revision: { tasks: [], progress_since_previous: null }, verification_note: null, task_fulfilment: null,
+    dropped_errors: e.errors?.length || 0, low_confidence: [], runs: runs.length,
+  };
+}
 
 // Deterministic post-processing (research C2 D26-D27 and E section 8). Rules that can be checked in code
 // are enforced here rather than trusted to the model:
@@ -174,7 +198,9 @@ export type Evaluated = WritingEvaluation & { dropped_errors: number; low_confid
 //  - the task-fulfilment gate caps argument categories at 2 (partial) or everything at 1 (off topic);
 //  - with several scoring runs, each category takes the median, and a spread above 1 band is low confidence;
 //  - the CEFR range always contains the estimate.
-export function postProcess(runs: WritingEvaluation[], learnerText: string, applicability: Record<string, string>): Evaluated {
+//  - when any run flags a safety concern, only the out-of-role reply is returned (safetyOnly).
+export function postProcess(runs: WritingEvaluation[], learnerText: string, applicability: Record<string, string>): Evaluated | SafetyEvaluation {
+  if (runs.some((r) => r.safety_concern)) return safetyOnly(runs);
   const e = runs[0];
   const text = loose(learnerText);
   const quoteOk = (q: string) => !text || text.includes(loose(q));
@@ -210,6 +236,7 @@ export function postProcess(runs: WritingEvaluation[], learnerText: string, appl
     dropped_errors: e.errors.length - errors.length,
     low_confidence: lowConfidence,
     runs: runs.length,
+    safety_concern: false,
   };
 }
 
@@ -223,7 +250,15 @@ type FeedbackContext = { corrections?: typeof CORRECTIONS[number]; hebrew_suppor
 // whose "you said" is not in the learner's lines is dropped, and the number kept follows the learner's
 // correction setting and level. Hebrew lists keep one item per English item, and only at full or partial
 // Hebrew support (persona panel R2-10).
+// A safety concern (prompts.ts SAFETY) keeps only the out-of-role summary: no scores, lists or task outcome.
 export function clampFeedback(f: z.infer<typeof RoleplayFeedback>, ctx: FeedbackContext = {}) {
+  if (f.safety_concern) {
+    return {
+      safety_concern: true as const, summary: f.summary, summary_he: f.summary_he, task_completed: false, conversation_score: null,
+      strengths: [], strengths_he: null, better_alternatives: [], practice: [], practice_he: null,
+      grammar: null, vocabulary: null, naturalness: null,
+    };
+  }
   const s = (n: number) => clampInt(n, 0, 100) as number;
   const learner = loose((ctx.history || []).filter((t) => t.role === 'learner').map((t) => t.text).join('\n'));
   const [low, high] = ALTERNATIVES[ctx.corrections || 'standard'];
@@ -243,7 +278,13 @@ export function clampFeedback(f: z.infer<typeof RoleplayFeedback>, ctx: Feedback
     grammar: { ...f.grammar, score: s(f.grammar.score) },
     vocabulary: { ...f.vocabulary, score: s(f.vocabulary.score) },
     naturalness: { ...f.naturalness, score: s(f.naturalness.score) },
+    safety_concern: false as const,
   };
+}
+
+// A roleplay turn that flags a safety concern ends the scene and carries no Hebrew tip.
+export function checkTurn(t: z.infer<typeof RoleplayTurn>) {
+  return t.safety_concern ? { ...t, scene_complete: true, hint_he: null, safety_concern: true } : { ...t, safety_concern: false };
 }
 
 // Weighted cost of each route for rate limiting.

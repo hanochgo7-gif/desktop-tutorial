@@ -11,6 +11,11 @@ import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { checkOwnReply, nextScenario, fitOf, FIT_LABEL } from '../core/reallife.js';
+import { supportCard } from '../core/support.js';
+
+// With config.js aiScoring 'hidden' (roadmap LB-08, audit BLK-11) the report keeps its comments but shows no
+// AI numbers, and the conversation is practice, not evidence (score null).
+const scoresShown = () => CONFIG.aiScoring !== 'hidden';
 
 const TABS = [['prepare', 'הכנה', 'Prepare'], ['listen', 'שיחה לדוגמה', 'Model dialogue'], ['practise', 'תרגול', 'Practise'], ['roleplay', 'שיחה עם AI', 'AI roleplay']];
 const REGISTER = { polite: ['מנומס', 'polite', 'cobalt'], neutral: ['ניטרלי', 'neutral', ''], casual: ['יום-יומי', 'casual', 'warn'] };
@@ -212,13 +217,15 @@ export default async function scenarioView(el, ctx) {
     }
     const learnerTurns = chat.turns.filter((t) => t.role === 'learner').length;
     return html`<div class="stack" style="max-width:46rem">
-      <div class="chat"><div class="chat-log" id="rplog">${chat.turns.map((t) => html`<div class="msg ${t.role === 'learner' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${t.role === 'learner' ? tt('את/ה', 'You') : s.roleplay.persona.split(/[,.]/)[0]}</span>${t.text}</div>${t.hint_he ? html`<p class="hint-box xsmall" lang="he" dir="rtl">${icon('hint', { size: 14 })}<span>${isolateLatin(t.hint_he)}</span></p>` : ''}`)}${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('ממתין לתשובה', 'Waiting for a reply')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
+      <div class="chat"><div class="chat-log" id="rplog">${chat.turns.map((t) => (t.safety ? html`<div class="msg them" dir="auto" data-safety-reply><span class="who">Lucid</span>${t.text}</div>` : html`<div class="msg ${t.role === 'learner' ? 'me' : 'them'}" lang="en" dir="ltr"><span class="who">${t.role === 'learner' ? tt('את/ה', 'You') : s.roleplay.persona.split(/[,.]/)[0]}</span>${t.text}</div>${t.hint_he ? html`<p class="hint-box xsmall" lang="he" dir="rtl">${icon('hint', { size: 14 })}<span>${isolateLatin(t.hint_he)}</span></p>` : ''}`))}${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('ממתין לתשובה', 'Waiting for a reply')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
         <form class="chat-input" data-rp-send><label class="sr-only" for="rpin">${tt('התשובה שלכם', 'Your reply')}</label><textarea class="input" id="rpin" rows="1" lang="en" dir="ltr" maxlength="1200" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}" ${busy || chat.done ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-rp-dictate aria-label="${tt('לומר בקול', 'Say it')}" ${busy ? html`disabled` : ''}>${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy || chat.done ? html`disabled` : ''}>${icon('send')}</button></form></div>
       <p class="xsmall faint" data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</p>
       ${rpError ? html`<p class="error-text" role="alert">${rpError}</p>` : ''}
+      ${chat.safety ? html`${supportCard()}<div class="row"><button type="button" class="key enter" data-new-rp>${tt('שיחה חדשה', 'New conversation')}</button><a class="key" href="#/real-life">${tt('לתרחישים', 'All scenarios')}</a></div></div>` : html`
       <div class="row">${chat.done ? '' : html`<button type="button" class="key small" data-stuck aria-expanded="${stuck}">${icon('hint', { size: 16 })} ${tt('נתקעתי: עזרה', 'I\'m stuck: help')}</button>`}${tipsToggle()}</div>
       ${stuck && !chat.done ? helpPanel() : ''}
-      <div class="row"><span class="grow small faint">${chat.done ? tt('השיחה הסתיימה.', 'The conversation is over.') : ''}</span><button type="button" class="key ${chat.done ? 'enter' : ''}" data-end-rp ${busy || learnerTurns < 1 ? html`disabled` : ''}>${tt('לסיים ולקבל משוב', 'Finish and get feedback')}</button></div></div>`;
+      <div class="row"><span class="grow small faint">${chat.done ? tt('השיחה הסתיימה.', 'The conversation is over.') : ''}</span><button type="button" class="key ${chat.done ? 'enter' : ''}" data-end-rp ${busy || learnerTurns < 1 ? html`disabled` : ''}>${tt('לסיים ולקבל משוב', 'Finish and get feedback')}</button></div>
+      <p class="xsmall faint row">${icon('alert', { size: 14 })} ${tt('משוב AI יכול לטעות.', 'AI feedback can be wrong.')} <button type="button" class="key ghost small" data-report-reply>${tt('דיווח על תשובה', 'Report a reply')}</button></p></div>`}`;
   };
 
   // The report leads with the outcome in words and what worked; language points follow, and the numbers sit
@@ -228,8 +235,15 @@ export default async function scenarioView(el, ctx) {
   const reportItem = (en, he) => html`<span class="report-item"><bdi lang="en" dir="ltr">${en}</bdi>${he && hebrewSupport() !== 'off' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</span>`;
   const reportView = () => {
     const f = report;
+    // The learner disclosed distress or danger (audit BLK-09): no scores, only the reply and Lucid's help card.
+    if (f.safety_concern) {
+      return html`<div class="stack-lg" style="max-width:46rem"><div class="stack-sm"><h2 tabindex="-1" data-report-head>${tt('לפני הכול', 'Before anything else')}</h2>
+        ${f.summary_he && hebrewSupport() !== 'off' ? html`<p lang="he" dir="rtl">${isolateLatin(f.summary_he)}</p>` : html`<p dir="auto">${f.summary}</p>`}</div>
+        ${supportCard()}
+        <div class="row"><button type="button" class="key enter" data-new-rp>${tt('שיחה חדשה', 'New conversation')}</button><a class="key" href="#/real-life">${tt('לתרחישים', 'All scenarios')}</a></div></div>`;
+    }
     const strengths = Array.isArray(f.strengths) ? f.strengths.filter(Boolean) : [];
-    const row = (k, he, en) => (f[k] ? html`<div class="rubric-row"><span>${tt(he, en)}</span><span class="band num">${f[k].score}/100</span>${f[k].comments?.length ? html`<details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><ul style="margin:0;padding-inline-start:1.1rem">${f[k].comments.map((c) => html`<li dir="auto">${c}</li>`)}</ul></details>` : ''}</div>` : '');
+    const row = (k, he, en) => (f[k] ? html`<div class="rubric-row"><span>${tt(he, en)}</span>${scoresShown() ? html`<span class="band num">${f[k].score}/100</span>` : ''}${f[k].comments?.length ? html`<details><summary class="xsmall">${tt('פירוט', 'Details')}</summary><ul style="margin:0;padding-inline-start:1.1rem">${f[k].comments.map((c) => html`<li dir="auto">${c}</li>`)}</ul></details>` : ''}</div>` : '');
     return html`<div class="stack-lg" style="max-width:46rem">
       <div class="stack-sm"><h2 tabindex="-1" data-report-head>${tt('המשוב שלכם', 'Your feedback')}</h2>
         <p>${f.task_completed ? html`<span class="tag ok">${icon('check', { size: 14 })} ${tt('השגתם את המטרה', 'You reached the goal')}</span>` : html`<span class="tag warn">${tt('המטרה עוד לא הושגה', 'Goal not reached yet')}</span>`}</p>
@@ -237,8 +251,8 @@ export default async function scenarioView(el, ctx) {
       ${strengths.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה עבד טוב', 'What worked')}</h3><ul class="check-rows small report-list">${strengths.map((x, i) => html`<li>${icon('check', { size: 16 })}${reportItem(x, f.strengths_he?.[i])}</li>`)}</ul></section>` : ''}
       ${f.better_alternatives?.length ? html`<section class="stack-sm"><h3 class="small">${tt('ניסוחים טבעיים יותר', 'More natural ways to say it')}</h3>${f.better_alternatives.map((a) => html`<div class="error-card style"><p class="small"><span class="quote" lang="en" dir="ltr">${a.you_said}</span></p><p lang="en" dir="ltr"><strong>${a.more_natural}</strong></p><p class="small muted" dir="auto">${a.why}</p></div>`)}</section>` : ''}
       ${f.practice?.length ? html`<section class="stack-sm"><h3 class="small">${tt('מה לתרגל', 'What to practise')}</h3><ul class="check-rows small report-list">${f.practice.map((p, i) => html`<li>${icon('arrow-next', { size: 16 })}${reportItem(p, f.practice_he?.[i])}</li>`)}</ul></section>` : ''}
-      <details class="panel flat"><summary class="small">${tt('ציונים', 'Scores')} <span class="faint num">${f.conversation_score}/100</span></summary>
-        <div class="stack-sm" style="margin-block-start:var(--s3)"><p class="xsmall faint">${tt('הערכה של AI לשיחה הזו, ביחס למה שמצופה ברמה של התרחיש. היא לא קובעת את הרמה שלכם.', 'An AI estimate for this conversation, relative to what the scenario\'s level expects. It does not set your level.')}</p>
+      <details class="panel flat">${scoresShown() ? html`<summary class="small">${tt('ציונים', 'Scores')} <span class="faint num">${f.conversation_score}/100</span></summary>` : html`<summary class="small">${tt('הערות לפי תחום', 'Comments by area')}</summary>`}
+        <div class="stack-sm" style="margin-block-start:var(--s3)">${scoresShown() ? html`<p class="xsmall faint">${tt('הערכה של AI לשיחה הזו, ביחס למה שמצופה ברמה של התרחיש. היא לא קובעת את הרמה שלכם.', 'An AI estimate for this conversation, relative to what the scenario\'s level expects. It does not set your level.')}</p>` : ''}
         <div class="rubric">${row('grammar', 'דקדוק', 'Grammar')}${row('vocabulary', 'אוצר מילים', 'Vocabulary')}${row('naturalness', 'טבעיות', 'Naturalness')}</div></div></details>
       <p class="xsmall faint">${tt('משוב AI יכול לטעות.', 'AI feedback can be wrong.')}</p>
       <div class="row"><button type="button" class="key enter" data-new-rp>${tt('שיחה חדשה', 'New conversation')}</button><a class="key" href="#/real-life">${tt('לתרחישים', 'All scenarios')}</a></div></div>`;
@@ -322,9 +336,16 @@ export default async function scenarioView(el, ctx) {
     busy = true; rpError = ''; draw();
     try {
       const r = await callAI(rpRequest('roleplay_turn'));
-      chat.turns.push({ role: 'partner', text: r.reply, hint_he: r.hint_he });
-      if (r.scene_complete) chat.done = true;
-      if (canSpeak()) say(r.reply, { variant });
+      if (r.safety_concern) {
+        // The partner stepped out of its role (audit BLK-09): the scene ends, its reply is not read aloud as English,
+        // and no feedback or score follows; the help card shows instead.
+        chat.turns.push({ role: 'partner', text: r.reply, safety: true });
+        chat.done = true; chat.safety = true; stuck = false;
+      } else {
+        chat.turns.push({ role: 'partner', text: r.reply, hint_he: r.hint_he });
+        if (r.scene_complete) chat.done = true;
+        if (canSpeak()) say(r.reply, { variant });
+      }
     } catch (e) {
       chat.turns.pop();
       rpError = rpErrorText(e);
@@ -332,7 +353,8 @@ export default async function scenarioView(el, ctx) {
     busy = false; saveChat(); draw();
     $('#rpin', el)?.focus();
   }
-  function saveChat() { store.put('chats', { id: chat.id, kind: 'roleplay', scenario: s.id, turns: chat.turns.slice(-40), report, done: Boolean(chat.done), at: chat.at }); }
+  // A safety report is not kept as a report (it has no outcome to list among recent conversations).
+  function saveChat() { store.put('chats', { id: chat.id, kind: 'roleplay', scenario: s.id, turns: chat.turns.slice(-40), report: report?.safety_concern ? null : report, done: Boolean(chat.done), at: chat.at }); }
 
   draw();
   // The list arrives after the first draw. In the rare case the practice already ended, its end screen gets the
@@ -415,14 +437,19 @@ export default async function scenarioView(el, ctx) {
       try {
         const r = await callAI(rpRequest('roleplay_feedback'));
         report = r.feedback;
-        recordAttempt({ source: 'roleplay', exercise: s.id, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: report.task_completed, score: report.conversation_score / 100 });
-        store.put('progress', { id: `rl:${s.id}`, status: 'completed', completed_at: new Date().toISOString() });
-        logEvent({ type: 'speaking', roleplay: s.id });
+        // A safety report records no attempt and does not complete the scenario.
+        if (!report.safety_concern) recordAttempt({ source: 'roleplay', exercise: s.id, topic: ['social', 'work'].includes(s.module) ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: report.task_completed, score: scoresShown() ? report.conversation_score / 100 : null });
+        if (!report.safety_concern) {
+          store.put('progress', { id: `rl:${s.id}`, status: 'completed', completed_at: new Date().toISOString() });
+          logEvent({ type: 'speaking', roleplay: s.id });
+        }
       } catch (err) { rpError = rpErrorText(err); }
       busy = false; stuck = false; saveChat(); draw();
       if (report) { window.scrollTo({ top: 0 }); reveal('[data-report-head]'); }
     }),
     on(el, 'click', '[data-new-rp]', () => { chat = null; report = null; stuck = false; draw(); }),
+    // TS-05: a roleplay reply can be reported, as writing feedback can (an ai-report event on the device).
+    on(el, 'click', '[data-report-reply]', () => { logEvent({ type: 'ai-report', area: 'roleplay', scenario: s.id, turn: chat?.turns?.length || 0 }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות התשובות.', 'Thanks. Your report was saved and helps us check the quality of replies.')); }),
   ];
   return () => { left = true; offs.forEach((o) => o()); stopSpeaking(); tabbarRO?.disconnect(); removeEventListener('resize', setTabbarH); el.style.removeProperty('--rw-tabbar-h'); el.style.removeProperty('--rw-view-pad'); el.style.removeProperty('--rw-foot-h'); };
 }

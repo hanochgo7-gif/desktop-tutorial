@@ -19,3 +19,12 @@ test('final drafts count once per task, on different days', () => {
   assert.equal(w.level, 'B2');
   assert.equal(w.evidence, 2);
 });
+
+// Audit BLK-11 (roadmap LB-08): with AI scores hidden (config.js aiScoring 'hidden'), AI estimates give no writing
+// level, however many final drafts there are, and nothing is shown as collecting towards one.
+test('with AI scores hidden, final drafts give no writing level', () => {
+  const writing = [version('a', 1, 0, 'B1', true), version('b', 1, 1, 'B2', true), version('c', 1, 2, 'B2', true), version('d', 1, 3, 'B1', true), version('e', 1, 4, 'B2', true)];
+  assert.equal(skillLevels({ writing }).writing.level, 'B2', 'shown: five finals on five days give a level');
+  const hidden = skillLevels({ writing, useAiScores: false }).writing;
+  assert.deepEqual(hidden, { level: null, source: null, evidence: 0, days: 0 });
+});

@@ -11,6 +11,9 @@ import { auth, configured, safeNext } from '../core/api.js';
 import { hasProfile, profile, saveProfile } from '../core/learner.js';
 import { isUnder16 } from '../core/age.js';
 import { connectAccount, syncPausedText } from '../core/session.js';
+// With CAPTCHA on (config.js captchaProvider and captchaSiteKey; off by default), the three forms carry the widget
+// and send its token (audit BLK-10). With it off, nothing below draws, loads or sends anything new.
+import { captchaOn, mountCaptcha, isCaptchaError, captchaFailedText as CAPTCHA_FAILED } from '../core/captcha.js';
 
 // Messages for ?notice=, set when an email link could not be used or a sign-in was cancelled.
 const NOTICES = {
@@ -59,11 +62,16 @@ export default async function account(el, ctx) {
         ${!reset ? html`<div class="field"><label for="pw">${tt('סיסמה', 'Password')}</label><input class="input" id="pw" type="password" minlength="8" autocomplete="${signup ? 'new-password' : 'current-password'}" dir="ltr" required>${signup ? html`<span class="help">${tt('לפחות 8 תווים.', 'At least 8 characters.')}</span>` : ''}</div>` : ''}
         ${guardianBox()}
         ${msg && !msg.notice ? html`<p class="${msg.ok ? 'banner' : 'error-text'}" role="alert">${msg.text}</p>` : ''}
+        ${captchaOn() ? html`<div class="captcha-slot" data-captcha></div>` : ''}
         <button class="key enter" type="submit" ${busy ? html`disabled` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${signup ? tt('יצירת חשבון', 'Create account') : reset ? tt('שליחת קישור', 'Send link') : tt('כניסה', 'Sign in')}</button>
       </form>
       <div class="row small">${mode !== 'signin' ? html`<a href="#/account?mode=signin" data-mode="signin">${tt('יש לי חשבון', 'I have an account')}</a>` : html`<a href="#/account?mode=signup" data-mode="signup">${tt('אין לי חשבון', 'I don\'t have an account')}</a><a href="#/account?mode=reset" data-mode="reset">${tt('שכחתי סיסמה', 'Forgot password')}</a>`}</div>
     </div>`);
+    // A fresh widget after every draw: a token is used once, and each request redraws the form.
+    captcha?.dispose();
+    captcha = captchaOn() ? mountCaptcha($('[data-captcha]', el), { lang: document.documentElement.lang === 'he' ? 'he' : 'en' }) : null;
   }
+  let captcha = null;
   draw();
 
   const offs = [
@@ -77,16 +85,23 @@ export default async function account(el, ctx) {
         if (!$('#guardian', el)?.checked) { guardianMissing(); return; }
         saveProfile({ guardian_consent_at: new Date().toISOString() });
       }
+      let captchaToken = '';
+      if (captcha) {
+        try { captchaToken = await captcha.token(); } catch (err) {
+          if (err.code === 'captcha_disposed') return;
+          msg = { text: CAPTCHA_FAILED() }; draw(); return;
+        }
+      }
       busy = true; draw();
       try {
-        if (mode === 'reset') { await auth.resetPassword(email); msg = { ok: true, text: tt('אם הכתובת רשומה, נשלח אליה קישור לאיפוס. פתחו אותו בדפדפן הזה, תוך שעה.', 'If that address has an account, a reset link is on its way. Open it in this browser within an hour.') }; }
+        if (mode === 'reset') { await auth.resetPassword(email, { captchaToken }); msg = { ok: true, text: tt('אם הכתובת רשומה, נשלח אליה קישור לאיפוס. פתחו אותו בדפדפן הזה, תוך שעה.', 'If that address has an account, a reset link is on its way. Open it in this browser within an hour.') }; }
         else if (mode === 'signup') {
-          const r = await auth.signUp(email, pw, { next });
+          const r = await auth.signUp(email, pw, { next, captchaToken });
           if (r.needsConfirmation) msg = { ok: true, text: tt('שלחנו אימייל לאישור. פתחו את הקישור בדפדפן הזה, תוך שעה, ותחזרו לכאן מחוברים.', 'We sent a confirmation email. Open the link in this browser within an hour and you will come back here signed in.') };
           else { if (await afterSignIn('signup')) return; }
-        } else { await auth.signIn(email, pw); if (await afterSignIn('signin')) return; }
+        } else { await auth.signIn(email, pw, { captchaToken }); if (await afterSignIn('signin')) return; }
       } catch (err) {
-        msg = { text: err.network ? tt('אין חיבור לשרת. נסו שוב.', 'No connection to the server. Please try again.') : err.status === 400 ? tt('האימייל או הסיסמה לא נכונים.', 'The email or password is not correct.') : err.message };
+        msg = { text: captchaToken && isCaptchaError(err) ? CAPTCHA_FAILED() : err.network ? tt('אין חיבור לשרת. נסו שוב.', 'No connection to the server. Please try again.') : err.status === 400 ? tt('האימייל או הסיסמה לא נכונים.', 'The email or password is not correct.') : err.message };
       }
       busy = false; draw();
     }),
@@ -102,5 +117,5 @@ export default async function account(el, ctx) {
     ctx.navigate(hasProfile() ? next || 'today' : 'start');
     return true;
   }
-  return () => offs.forEach((o) => o());
+  return () => { captcha?.dispose(); offs.forEach((o) => o()); };
 }

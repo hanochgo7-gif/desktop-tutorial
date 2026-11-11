@@ -4,11 +4,12 @@ import { html, raw, render, on, $, uid } from '../core/util.js';
 import { tt, t, hebrewSupport, isolateLatin } from '../core/i18n.js';
 import { taxonomyIndex, content } from '../core/content.js';
 import { icon, toast, confirmDialog } from '../ui/components.js';
-import { model, settings, profile, aiConsent } from '../core/learner.js';
+import { model, settings, profile, aiConsent, logEvent } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
 import { CONFIG } from '../../config.js';
 import { canListen, listen, speechErrorText } from '../core/speech.js';
+import { supportCard } from '../core/support.js';
 
 export const MODES = [
   ['beginner', 'מתחילים', 'Beginner', 'הסברים פשוטים, הרבה עברית, צעד אחד בכל פעם', 'Simple explanations, plenty of Hebrew, one step at a time'],
@@ -76,8 +77,9 @@ export default async function tutor(el, ctx) {
             ${busy ? html`<div class="msg them"><span class="spinner" aria-label="${tt('המורה כותב', 'The tutor is writing')}" style="width:1rem;height:1rem"></span></div>` : ''}</div>
           <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלכם', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
+        ${msgs.filter((m) => m.role === 'assistant').at(-1)?.safety ? html`<div style="max-width:52rem;margin-block-start:var(--s3)">${supportCard()}</div>` : ''}
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
-        <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')} <span data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</span></span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
+        <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')} <span data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</span></span>${msgs.some((m) => m.role === 'assistant') ? html`<button type="button" class="key ghost small" data-report-reply>${icon('alert', { size: 16 })} ${tt('דיווח על תשובה', 'Report a reply')}</button>` : ''}${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
         ${savedRow()}`}`);
     const log = $('#log', el); if (log) log.scrollTop = log.scrollHeight;
   }
@@ -92,7 +94,9 @@ export default async function tutor(el, ctx) {
     try {
       const s = settings();
       const r = await callAI({ task: 'tutor_turn', mode, corrections: s.corrections, level: model().courseLevel, hebrew_support: hebrewSupport(), learner: learnerContext(), history, message });
-      session.messages.push({ role: 'assistant', text: r.reply });
+      // A safety reply (the learner disclosed distress or danger) is kept with its flag, and the help card shows.
+      // No event is logged for it: that the learner disclosed something is sensitive and stays out of the event log.
+      session.messages.push({ role: 'assistant', text: r.reply, ...(r.safety_concern ? { safety: true } : {}) });
     } catch (e) {
       session.messages.pop();
       error = e.network ? tt('אין חיבור. ההודעה לא נשלחה.', 'No connection. The message was not sent.') : e.message;
@@ -111,6 +115,8 @@ export default async function tutor(el, ctx) {
     on(el, 'submit', '[data-send]', (e) => { e.preventDefault(); send($('#tin', el).value); }),
     on(el, 'keydown', '#tin', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(e.target.value); } }),
     on(el, 'click', '[data-new]', () => { session = null; draw(); }),
+    // TS-05: a tutor reply can be reported, as writing feedback can (an ai-report event on the device).
+    on(el, 'click', '[data-report-reply]', () => { logEvent({ type: 'ai-report', area: 'tutor', mode, turn: session?.messages?.length || 0 }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות התשובות.', 'Thanks. Your report was saved and helps us check the quality of replies.')); }),
     on(el, 'click', '[data-delete]', async () => {
       if (!session || busy) return;
       const ok = await confirmDialog({ title: tt('למחוק את השיחה?', 'Delete this conversation?'), body: tt('השיחה תימחק מהמכשיר, ואם יש לכם חשבון, גם מהשרת בסנכרון הבא.', 'It is removed from this device and, if you have an account, from the server at the next sync.'), confirm: tt('מחיקה', 'Delete'), danger: true });

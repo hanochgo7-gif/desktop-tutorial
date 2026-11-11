@@ -9,6 +9,7 @@ import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { model } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { levelIndex } from '../core/adaptive.js';
+import { CONFIG } from '../../config.js';
 
 // The stated word range ("1,500-2,000"), as the brief says it, with the accepted one when they differ (RW-12).
 function statedRange(text) {
@@ -80,7 +81,8 @@ export default async function writing(el, ctx) {
 
   // Only a final draft shows a level, and as a range; drafts show how many versions they have (persona panel P-71).
   function draftTag(s) {
-    if (s.status === 'final' && s.final_range) return html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${s.final_range}</span>`;
+    // A range stored while AI scores were shown stays hidden once they are hidden (config aiScoring, LB-08).
+    if (s.status === 'final' && s.final_range && CONFIG.aiScoring !== 'hidden') return html`<span class="tag level" title="${tt('טווח הרמה של הטיוטה הסופית', 'Level range of the final draft')}">${s.final_range}</span>`;
     if (s.status === 'final') return s.self_assessed ? html`<span class="tag ok" title="${tt('סופית, לפי הערכה עצמית', 'Final, self-assessed')}">${tt('הערכה עצמית', 'Self-assessed')}</span>` : html`<span class="tag ok">${tt('סופית', 'Final')}</span>`;
     const n = s.versions || 0;
     return html`<span class="tag">${n === 1 ? tt('גרסה אחת', '1 version') : tt(`${n} גרסאות`, `${n} versions`)}</span>`;

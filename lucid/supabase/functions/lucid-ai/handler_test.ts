@@ -14,7 +14,8 @@ function fakeClaude(behaviour: { parsed?: unknown; text?: string; stop?: string;
     if (behaviour.throwStatus) throw Object.assign(new Error('upstream'), { status: behaviour.throwStatus });
     return {
       stop_reason: behaviour.stop ?? 'end_turn',
-      parsed_output: behaviour.parsed ?? null,
+      // The tutor answers in structured output ({ reply, safety_concern }): a plain `text` behaviour is its reply.
+      parsed_output: behaviour.parsed ?? (behaviour.text !== undefined ? { reply: behaviour.text, safety_concern: false } : null),
       content: [{ type: 'text', text: behaviour.text ?? '' }],
       usage: { input_tokens: 100, output_tokens: 50 },
     };
@@ -378,4 +379,88 @@ Deno.test('free writing: an email or a message has no argument categories, and t
   assert(msg.includes('Text type: message') && msg.includes('argument_strength=na'));
   const pp = postProcess([base()], 'text', applicabilityFor(0, 'email'));
   assertEquals(pp.categories.find((c) => c.id === 'argument_strength')!.applicable, false);
+});
+
+// Audit BLK-09 / TS-05: a learner who discloses distress, self-harm, abuse or danger gets an out-of-role reply, and
+// the response is flagged so the app shows its own help card and records no score.
+import { SAFETY, writingSystem, roleplaySystem, feedbackSystem, tutorSystem } from './prompts.ts';
+
+Deno.test('safety: every system prompt carries the safety rule, and roleplay may leave its role for it', async () => {
+  for (const [name, sys] of [['writing', writingSystem()], ['roleplay', roleplaySystem()], ['feedback', feedbackSystem()], ['tutor', tutorSystem()]]) {
+    assert(sys.includes(SAFETY), `${name} prompt lacks the safety rule`);
+  }
+  assert(/hurt themselves/i.test(SAFETY) && /abus/i.test(SAFETY) && /danger/i.test(SAFETY) && /trust/i.test(SAFETY) && /emergency services/i.test(SAFETY));
+  assert(/step out of any role/i.test(SAFETY) && /safety_concern to true/.test(SAFETY));
+  assert(/Do not give phone numbers/.test(SAFETY), 'numbers come only from the app');
+  assert(/plural/.test(SAFETY) && /any age/.test(SAFETY), 'age-neutral, plural Hebrew address');
+  const rp = roleplaySystem();
+  assert(rp.includes('unless the safety rule below applies') && rp.includes('the one exception to staying in character'), 'roleplay still stays in character on every input');
+  // The system prompt each route sends is the one with the rule.
+  const scenario = { title: 'Hotel', partner_role: 'receptionist', persona: 'p', complication: 'c', goal: 'g', level: 'A2', variant: 'any' };
+  const bodies = [
+    writingBody,
+    { task: 'roleplay_turn', scenario, opening_line: 'Hi', history: [{ role: 'learner', text: 'Hello' }] },
+    { task: 'roleplay_feedback', scenario, opening_line: 'Hi', history: [{ role: 'learner', text: 'Hello' }] },
+    { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'Hi' },
+  ];
+  for (const b of bodies) {
+    const { d, calls } = deps({}, fakeClaude({ parsed: { reply: 'x', scene_complete: false, hint_he: null, safety_concern: false } }));
+    await createHandler(d)(post(b));
+    assert((calls[0] as { system: { text: string }[] }).system[0].text.includes(SAFETY), `${b.task} sent no safety rule`);
+  }
+});
+
+Deno.test('safety: a flagged writing evaluation keeps only the reply (no scores, level or errors), even from one run of three', async () => {
+  const flagged = { ...evaluation, task_fulfilment: { status: 'complete', note: '' }, cefr_low: 'B1', cefr_high: 'B1', verification_note: null,
+    summary: 'This matters more than the lesson.', summary_he: 'מה שכתבתם חשוב יותר מהשיעור.', safety_concern: true,
+    errors: [{ quote: 'social media is bad', type: 'unsupported-claim', severity: 'important', explanation: '', explanation_he: null, hint: '', correction: 'x' }] };
+  const { d, rows } = deps({}, fakeClaude({ parsed: flagged }));
+  const res = await createHandler(d)(post(writingBody));
+  assertEquals(res.status, 200);
+  const e = (await res.json()).evaluation;
+  assertEquals([e.safety_concern, e.summary_he, e.cefr_estimate, e.cefr_low, e.cefr_high], [true, 'מה שכתבתם חשוב יותר מהשיעור.', null, null, null]);
+  assertEquals([e.categories, e.errors, e.strengths, e.priorities, e.revision.tasks], [[], [], [], [], []]);
+  assertEquals(rows[0].outcome, 'ok', 'the call stays metered');
+  // Three runs, one flagged: the flag wins.
+  const runs = [base({ safety_concern: false }), base({ safety_concern: true, summary_he: 'ע' }), base({ safety_concern: false })];
+  const pp = postProcess(runs, 'text', applicabilityFor(6)) as unknown as { safety_concern: boolean; categories: unknown[]; cefr_estimate: unknown; summary_he: string };
+  assertEquals([pp.safety_concern, pp.categories.length, pp.cefr_estimate, pp.summary_he], [true, 0, null, 'ע']);
+  // Without a flag the evaluation is as before, and says so.
+  const plain = postProcess([base({ safety_concern: false })], 'text', applicabilityFor(6)) as unknown as { safety_concern: boolean; categories: unknown[] };
+  assertEquals([plain.safety_concern, plain.categories.length > 0], [false, true]);
+});
+
+Deno.test('safety: a flagged roleplay turn ends the scene with no tip; flagged feedback carries no scores', async () => {
+  const scenario = { title: 'Hotel', partner_role: 'receptionist', persona: 'p', complication: 'c', goal: 'g', level: 'A2', variant: 'any' };
+  const history = [{ role: 'learner', text: 'Someone at home hurts me.' }];
+  const turn = deps({}, fakeClaude({ parsed: { reply: 'מה שכתבתם חשוב יותר מהתרגול.', scene_complete: false, hint_he: 'טיפ', safety_concern: true } }));
+  const t = await (await createHandler(turn.d)(post({ task: 'roleplay_turn', hebrew_support: 'full', scenario, opening_line: 'Hi', history }))).json();
+  assertEquals([t.safety_concern, t.scene_complete, t.hint_he, t.reply], [true, true, null, 'מה שכתבתם חשוב יותר מהתרגול.']);
+  const calm = deps({}, fakeClaude({ parsed: { reply: 'Sure.', scene_complete: false, hint_he: null } }));
+  assertEquals((await (await createHandler(calm.d)(post({ task: 'roleplay_turn', scenario, opening_line: 'Hi', history: [{ role: 'learner', text: 'A room, please.' }] }))).json()).safety_concern, false);
+  const parsed = {
+    conversation_score: 80, task_completed: true, strengths: ['a'], strengths_he: null, grammar: { score: 60, comments: ['c'] }, vocabulary: { score: 60, comments: [] }, naturalness: { score: 70, comments: [] },
+    better_alternatives: [{ you_said: 'Someone at home hurts me.', more_natural: 'x', why: 'y' }], practice: ['p'], practice_he: null, summary: 'Please talk to an adult you trust.', summary_he: 'דברו עם מבוגר שאתם סומכים עליו.', safety_concern: true,
+  };
+  const fb = deps({}, fakeClaude({ parsed }));
+  const f = (await (await createHandler(fb.d)(post({ task: 'roleplay_feedback', scenario, opening_line: 'Hi', history }))).json()).feedback;
+  assertEquals([f.safety_concern, f.conversation_score, f.task_completed, f.grammar, f.vocabulary, f.naturalness], [true, null, false, null, null, null]);
+  assertEquals([f.better_alternatives, f.strengths, f.practice], [[], [], []]);
+  assertEquals(f.summary_he, 'דברו עם מבוגר שאתם סומכים עליו.');
+  // Roleplay history given back to the model carries the same shape as the structured output.
+  const msgs = roleplayMessages({ task: 'roleplay_turn', hebrew_support: 'full', corrections: 'standard', scenario: scenario as never, opening_line: 'Hi', history: [] }, 'turn');
+  assertEquals(JSON.parse(msgs[1].content), { reply: 'Hi', scene_complete: false, hint_he: null, safety_concern: false });
+});
+
+Deno.test('safety: the tutor answers in structured output and returns the flag', async () => {
+  const tutor = { task: 'tutor_turn', mode: 'conversation', level: 'A2', history: [{ role: 'user', text: 'Hi' }, { role: 'assistant', text: 'Hello!' }], message: 'I want to die' };
+  const { d, calls } = deps({}, fakeClaude({ parsed: { reply: 'מה שכתבתם חשוב יותר מהשיעור.', safety_concern: true } }));
+  const res = await createHandler(d)(post(tutor));
+  assertEquals(res.status, 200);
+  assertEquals(await res.json(), { reply: 'מה שכתבתם חשוב יותר מהשיעור.', safety_concern: true });
+  const call = calls[0] as { output_config: { format?: unknown }; messages: { role: string; content: string }[] };
+  assert(call.output_config.format, 'the tutor asks for structured output');
+  assertEquals(JSON.parse(call.messages[1].content), { reply: 'Hello!', safety_concern: false }, 'earlier tutor turns in the output shape');
+  const ok = deps({}, fakeClaude({ parsed: { reply: 'Went.', safety_concern: false } }));
+  assertEquals(await (await createHandler(ok.d)(post({ ...tutor, message: 'Past of go?' }))).json(), { reply: 'Went.', safety_concern: false });
 });

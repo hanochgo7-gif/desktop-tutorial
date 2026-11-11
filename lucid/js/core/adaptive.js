@@ -136,7 +136,10 @@ export function placementSkillEstimate(answers = [], skill, { confirmed } = {}) 
   return out;
 }
 
-function writingLevel(writing) {
+function writingLevel(writing, { useAiScores = true } = {}) {
+  // With AI scores hidden (config aiScoring 'hidden', roadmap LB-08) an AI estimate is not evidence of a level:
+  // there is no writing level and nothing is "collecting" towards one.
+  if (!useAiScores) return { level: null, source: null, evidence: 0, days: 0 };
   // One piece of evidence per task: its latest assessed version, once it is marked final (persona panel P-71).
   const byTask = new Map();
   for (const w of writing) {
@@ -156,14 +159,14 @@ function writingLevel(writing) {
   return { level: LEVELS[recent[Math.floor((recent.length - 1) / 2)]], source: 'assessed-writing', evidence: tasks.length, days };
 }
 
-export function skillLevels({ attempts = [], placement = null, writing = [] } = {}) {
+export function skillLevels({ attempts = [], placement = null, writing = [], useAiScores = true } = {}) {
   const out = {};
   // Sorted and reduced to first tries once for every skill (the same stable sort each skill used to repeat).
   const sorted = byTime(attempts);
   const first = firstTries(sorted);
   for (const skill of SKILLS) {
     if (skill === 'speaking') { out[skill] = { level: null, source: null, evidence: 0, days: 0 }; continue; }
-    if (skill === 'writing') { out[skill] = writingLevel(writing); continue; }
+    if (skill === 'writing') { out[skill] = writingLevel(writing, { useAiScores }); continue; }
     const perLevel = new Map();
     for (const a of first) {
       if (a.skill !== skill || !a.level || a.source === 'placement' || a.score === null) continue;

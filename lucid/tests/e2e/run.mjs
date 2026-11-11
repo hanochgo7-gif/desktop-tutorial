@@ -2489,6 +2489,253 @@ try {
     await ctx.close();
   });
 
+  // ---------- launch lane ai-safety (audit BLK-09, TS-05, BLK-10, BLK-11): AI and accounts are off on the live site,
+  // so these run against the mock server with the configuration the owner would set to turn them on. ----------
+  const aiLearner = async (page, { level = 'B1' } = {}) => {
+    const db = page.lucidMock;
+    await learnerAt(page, level);
+    await signInWith(page, db.user.email);
+    await page.click('[data-owner-dialog] [value="move"]', { timeout: 1500 }).catch(() => {});
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    await page.waitForTimeout(400); // let the sign-in finish its first sync before the settings change
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: new Date().toISOString() }));
+    await page.waitForTimeout(200);
+    return db;
+  };
+  const withConfig = (page, extra) => page.route(/config\.js$/, (route) => route.fulfill({ contentType: 'text/javascript', body: `export const CONFIG = { supabaseUrl: 'https://mock.supabase.co', supabaseKey: 'sb_publishable_test', aiEnabled: true, aiFunction: 'lucid-ai', ${extra} };` }));
+
+  await check('AIS1. AI safety (BLK-09, TS-05): when the AI flags a disclosure, the tutor, the roleplay and writing feedback show Lucid\'s own help card with the checked numbers, record no score, and tutor and roleplay replies can be reported (mock server)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1280, height: 860 }, mock: true });
+    const db = await aiLearner(page);
+    const SAFE = 'מה שכתבתם חשוב יותר מהשיעור.';
+    let flagFeedback = false;
+    const flagged = (b) => /hurts me/i.test(JSON.stringify([b.message, b.text, b.history?.at(-1)?.text]));
+    await page.route(/functions\/v1\/lucid-ai/, async (route) => {
+      const body = JSON.parse(route.request().postData());
+      db.aiBodies.push(body);
+      const reply = (x) => route.fulfill({ contentType: 'application/json', body: JSON.stringify(x) });
+      const f = flagged(body);
+      if (body.task === 'tutor_turn') return reply({ reply: f ? SAFE : 'Good question.', safety_concern: f });
+      if (body.task === 'roleplay_turn') return reply({ reply: f ? SAFE : 'Sure, what name is the booking under?', scene_complete: f, hint_he: null, safety_concern: f });
+      if (body.task === 'roleplay_feedback' && flagFeedback) return reply({ feedback: { safety_concern: true, summary: 'Please talk to an adult you trust.', summary_he: SAFE, task_completed: false, conversation_score: null, strengths: [], strengths_he: null, better_alternatives: [], practice: [], practice_he: null, grammar: null, vocabulary: null, naturalness: null } });
+      if (body.task === 'evaluate_writing' && f) return reply({ evaluation: { safety_concern: true, summary: 'Please talk to an adult you trust.', summary_he: SAFE, cefr_estimate: null, cefr_low: null, cefr_high: null, categories: [], errors: [], strengths: [], priorities: [], required_elements: [], revision: { tasks: [], progress_since_previous: null }, verification_note: null, task_fulfilment: null, dropped_errors: 0, low_confidence: [], runs: 1 } });
+      return route.fallback();
+    });
+    const card = async (scope) => {
+      await page.waitForSelector(`${scope} [data-help-card]`, { timeout: 4000 }).catch(() => { throw new Error(`no help card in ${scope}`); });
+      return page.$eval(`${scope} [data-help-card]`, (c) => ({ text: c.textContent, tel: [...c.querySelectorAll('a[href^="tel:"]')].map((a) => a.getAttribute('href')) }));
+    };
+    const numbersOk = (c) => JSON.stringify(c.tel) === JSON.stringify(['tel:101', 'tel:100', 'tel:1201', 'tel:105']) && /מבוגר שאתם סומכים עליו/.test(c.text) && /מחוץ לישראל/.test(c.text);
+    // Tutor: an ordinary reply has no card and can be reported; a flagged one shows the card under the conversation.
+    await page.goto(`${BASE}#/tutor?mode=conversation`);
+    await page.fill('#tin', 'How do I use the present perfect?');
+    await page.click('[data-send] button[type=submit]');
+    await page.waitForFunction(() => document.querySelector('#log')?.textContent.includes('Good question.'));
+    assert(!(await page.$('[data-help-card]')), 'a help card under an ordinary tutor reply');
+    await page.click('[data-report-reply]');
+    assert((await store(page, 'events')).some((e) => e.type === 'ai-report' && e.area === 'tutor'), 'a tutor reply cannot be reported');
+    await page.fill('#tin', 'Someone at home hurts me');
+    await page.click('[data-send] button[type=submit]');
+    const t = await card('#view');
+    assert(numbersOk(t), `tutor help card: ${JSON.stringify(t)}`);
+    assert((await page.textContent('#log')).includes(SAFE), 'the tutor\'s out-of-role reply is not shown');
+    assert(!(await store(page, 'events')).some((e) => /safety/.test(e.type)), 'a disclosure was written to the event log');
+    // Roleplay: a flagged turn ends the scene, shows the card instead of "Finish and get feedback", and scores nothing.
+    await page.goto(`${BASE}#/scenario/rl-hotel-checkin-basics?tab=roleplay`);
+    await page.waitForSelector('[data-start-rp]');
+    await page.click('[data-start-rp]');
+    await page.fill('#rpin', 'Hello, I have a booking.');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForFunction(() => document.querySelectorAll('#rplog .msg.them').length === 2);
+    await page.click('[data-report-reply]');
+    assert((await store(page, 'events')).some((e) => e.type === 'ai-report' && e.area === 'roleplay' && e.scenario === 'rl-hotel-checkin-basics'), 'a roleplay reply cannot be reported');
+    await page.fill('#rpin', 'Someone at home hurts me');
+    await page.click('[data-rp-send] button[type=submit]');
+    const r = await card('#view');
+    assert(numbersOk(r), `roleplay help card: ${JSON.stringify(r)}`);
+    assert(await page.$('#rplog [data-safety-reply]') && !(await page.$('[data-end-rp]')) && await page.$('#rpin[disabled]'), 'the scene goes on after a flagged turn');
+    assert(!(await store(page, 'attempts')).some((a) => a.source === 'roleplay'), 'a roleplay attempt was recorded');
+    // Flagged feedback (the learner finished first): the report shows the reply and the card, no scores, no completion.
+    await page.click('[data-new-rp]');
+    await page.click('[data-start-rp]');
+    await page.fill('#rpin', 'Hello, I have a booking.');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForFunction(() => !document.querySelector('#rplog .spinner') && document.querySelectorAll('#rplog .msg.them').length === 2);
+    flagFeedback = true;
+    await page.click('[data-end-rp]');
+    const f = await card('#view');
+    assert(numbersOk(f) && !/\d+\/100/.test(await page.textContent('#view')), `roleplay report after a flag: ${JSON.stringify(f)}`);
+    assert(!(await store(page, 'attempts')).some((a) => a.source === 'roleplay'), 'flagged feedback recorded an attempt');
+    assert(!(await store(page, 'progress')).some((p) => p.id === 'rl:rl-hotel-checkin-basics'), 'flagged feedback completed the scenario');
+    assert((await store(page, 'chats')).filter((c) => c.kind === 'roleplay').every((c) => !c.report), 'a flagged report was kept as a report');
+    // Writing: the card replaces the feedback; the text is kept, nothing is scored and no feedback round is used.
+    await page.goto(`${BASE}#/writing/free`);
+    await page.waitForSelector('#essay');
+    await page.fill('#essay', 'I do not want to write about transport today. Someone at home hurts me and I am scared to go home after school.');
+    await page.click('[data-ai]');
+    const w = await card('aside.panel');
+    assert(numbersOk(w), `writing help card: ${JSON.stringify(w)}`);
+    assert(!(await page.$('aside.panel .band')) && !(await page.$('aside.panel .error-card [data-rung]')), 'scores or AI mistakes shown with the help card');
+    const wr = await store(page, 'writing');
+    assert(wr.some((x) => x.kind === 'essay-version') && wr.every((x) => !x.evaluation), `the text is not kept, or kept with an evaluation: ${JSON.stringify(wr.map((x) => [x.kind, Boolean(x.evaluation)]))}`);
+    assert(!(await store(page, 'attempts')).some((a) => a.source === 'writing'), 'a writing attempt was recorded');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/ai-safety-writing-1280.png` });
+    await ctx.close();
+  });
+
+  await check('AIS2. AI scores hidden (BLK-11, LB-08): with aiScoring \'hidden\' the writing feedback keeps located mistakes and hints but shows no bands, no level range and no AI writing level; the roleplay report shows no numbers (mock server)', async () => {
+    const { ctx, page } = await newPage(browser, { viewport: { width: 1280, height: 860 }, mock: true });
+    await withConfig(page, "aiScoring: 'hidden'");
+    await aiLearner(page);
+    await page.goto(`${BASE}#/writing/free`);
+    await page.waitForSelector('#essay');
+    await page.fill('#essay', 'I think public transport is more better than cars. It is cheaper and cleaner for everyone in the city.');
+    await page.click('[data-ai]');
+    await page.waitForSelector('aside.panel .error-card .quote');
+    let aside = await page.textContent('aside.panel');
+    assert(aside.includes('more better') && await page.$('aside.panel [data-locate="0"]') && await page.$('aside.panel [data-rung="0"]'), 'located mistakes or the hint ladder are missing');
+    assert(/לפי קטגוריה|By category/.test(aside) && /Explanation for grammar/.test(aside), 'category comments are missing');
+    assert(!(await page.$('aside.panel .band')), 'category bands are shown');
+    assert(!/עומד ביעד|Meets target|מתקרב ליעד|Approaching target|How do the bands work|איך עובד הדירוג/.test(aside), `band wording is shown: ${aside.slice(0, 200)}`);
+    await page.click('[data-final]');
+    await page.waitForSelector('aside.panel [data-final-done]');
+    aside = await page.textContent('aside.panel');
+    assert(!(await page.$('aside.panel .tag.level')) && !/A2.B1|הערכת רמה של הטקסט|Estimated level of this text/.test(aside), 'a level range on the final draft');
+    await page.click('[data-tab="versions"]');
+    assert(!(await page.$('aside.panel .tag.level')), 'a level range in Versions');
+    assert(await page.evaluate(() => window.lucid.store.get('writing', 'ess:free').final_range === null), 'the range was stored for the writing list');
+    const overall = (await store(page, 'attempts')).filter((a) => a.source === 'writing' && !a.error_type);
+    assert(overall.length === 1 && overall[0].score === null, `the writing attempt counts as evidence: ${JSON.stringify(overall)}`);
+    // Three AI-assessed final drafts on three days: a writing level when scores are shown, none when hidden.
+    const seed = () => page.evaluate(() => {
+      const day = (d) => new Date(Date.now() - d * 86_400_000).toISOString();
+      for (const [i, ex] of ['we-01', 'we-02', 'we-03'].entries()) window.lucid.store.put('writing', { id: `ess:${ex}#1`, kind: 'essay-version', exercise: ex, n: 1, final: true, at: day(i + 1), evaluation: { cefr_estimate: 'B2', cefr_low: 'B2', cefr_high: 'B2' } });
+      // A summary written while scores were shown keeps its stored range; the list must not show it now.
+      window.lucid.store.put('writing', { id: 'ess:we-01', kind: 'essay-summary', exercise: 'we-01', title: 'x', status: 'final', final_range: 'B2', versions: 1, updated: day(1) });
+    });
+    await seed();
+    await page.waitForTimeout(300); // the store writes to IndexedDB before the reload
+    await page.goto(`${BASE}#/today`);
+    await page.reload();
+    await page.waitForSelector('#view > *');
+    const hiddenLevel = await page.evaluate(async () => (await import('./js/core/learner.js')).model().skills.writing);
+    assert(hiddenLevel.level === null && !hiddenLevel.source, `an AI writing level while scores are hidden: ${JSON.stringify(hiddenLevel)}`);
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('#view h1');
+    assert(!/שני טקסטים שהוערכו|two assessed texts/.test(await page.textContent('#view')), 'Progress promises a writing level from assessed texts');
+    await page.goto(`${BASE}#/writing`);
+    await page.waitForSelector('#view h1');
+    assert(!(await page.$('#view .tag.level[title="טווח הרמה של הטיוטה הסופית"], #view .tag.level[title="Level range of the final draft"]')), 'the writing list shows a final draft\'s level range');
+    // The roleplay report: comments stay, numbers go, and the attempt is practice.
+    await page.goto(`${BASE}#/scenario/rl-hotel-checkin-basics?tab=roleplay`);
+    await page.waitForSelector('[data-start-rp]');
+    await page.click('[data-start-rp]');
+    await page.fill('#rpin', 'Could I check in, please?');
+    await page.click('[data-rp-send] button[type=submit]');
+    await page.waitForFunction(() => !document.querySelector('#rplog .spinner') && document.querySelectorAll('#rplog .msg.them').length === 2);
+    await page.click('[data-end-rp]');
+    await page.waitForSelector('[data-report-head]');
+    const report = await page.textContent('#view');
+    assert(!/\d+\/100/.test(report) && /Mostly accurate/.test(report) && /More natural ways|ניסוחים טבעיים יותר/.test(report), `roleplay report with scores hidden: ${report.slice(0, 300)}`);
+    assert((await store(page, 'attempts')).filter((a) => a.source === 'roleplay').every((a) => a.score === null), 'the roleplay attempt counts as evidence');
+    await ctx.close();
+    // The same seeded drafts with scores shown (the mock's default) give a writing level, so the check above is real.
+    const shown = await newPage(browser, { mock: true });
+    await aiLearner(shown.page);
+    await shown.page.evaluate(() => {
+      const day = (d) => new Date(Date.now() - d * 86_400_000).toISOString();
+      for (const [i, ex] of ['we-01', 'we-02', 'we-03'].entries()) window.lucid.store.put('writing', { id: `ess:${ex}#1`, kind: 'essay-version', exercise: ex, n: 1, final: true, at: day(i + 1), evaluation: { cefr_estimate: 'B2', cefr_low: 'B2', cefr_high: 'B2' } });
+    });
+    await shown.page.waitForTimeout(300); // the store writes to IndexedDB before the reload
+    await shown.page.reload();
+    await shown.page.waitForSelector('#view > *');
+    const shownLevel = await shown.page.evaluate(async () => (await import('./js/core/learner.js')).model().skills.writing.level);
+    assert(shownLevel === 'B2', `no writing level with scores shown: ${shownLevel}`);
+    await shown.page.evaluate(() => window.lucid.store.put('writing', { id: 'ess:we-01', kind: 'essay-summary', exercise: 'we-01', title: 'x', status: 'final', final_range: 'B2', versions: 1, updated: new Date().toISOString() }));
+    await shown.page.goto(`${BASE}#/writing`);
+    await shown.page.waitForSelector('#view h1');
+    assert(await shown.page.$('#view .tag.level[title="טווח הרמה של הטיוטה הסופית"], #view .tag.level[title="Level range of the final draft"]'), 'the writing list shows no stored range with scores shown, so the hidden check proves nothing');
+    await shown.ctx.close();
+  });
+
+  await check('AIS3. CAPTCHA (BLK-10): off, the auth forms load nothing from a provider and send no token; on (Turnstile, with the CSP from docs/setup.md), sign-up, sign-in, reset and a password change send a fresh token each (mock server, stub widget)', async () => {
+    const authBodies = (page) => { const bodies = []; page.route(/mock\.supabase\.co\/auth\/v1\/(signup|token|recover)/, (route) => { bodies.push({ path: new URL(route.request().url()).pathname, body: JSON.parse(route.request().postData() || '{}') }); return route.fallback(); }); return bodies; };
+    // Off (the shipped setting): no widget, no provider request, the same bodies as before.
+    const off = await newPage(browser, { mock: true });
+    const provider = [];
+    off.page.on('request', (req) => { if (/challenges\.cloudflare\.com|hcaptcha\.com/.test(req.url())) provider.push(req.url()); });
+    const offBodies = authBodies(off.page);
+    await onboard(off.page, { start: 'basics' });
+    for (const mode of ['signup', 'signin', 'reset']) {
+      await off.page.goto(`${BASE}#/account?mode=${mode}`);
+      await off.page.waitForSelector('[data-auth]');
+      assert(!(await off.page.$('[data-captcha]')), `a CAPTCHA slot on ${mode} while CAPTCHA is off`);
+    }
+    await off.page.goto(`${BASE}#/account?mode=reset`);
+    await off.page.waitForSelector('[data-auth]');
+    await off.page.fill('#em', off.page.lucidMock.user.email);
+    await off.page.click('[data-auth] button[type=submit]');
+    await off.page.waitForSelector('[data-auth] [role=alert]');
+    await signInWith(off.page, off.page.lucidMock.user.email);
+    await off.page.click('[data-owner-dialog] [value="move"]', { timeout: 1500 }).catch(() => {});
+    await off.page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    assert(offBodies.length >= 2 && offBodies.every((b) => !('gotrue_meta_security' in b.body)), `a token field while CAPTCHA is off: ${JSON.stringify(offBodies)}`);
+    assert(!provider.length, `a provider request while CAPTCHA is off: ${provider}`);
+    await off.ctx.close();
+    // On: the page is served with the Turnstile CSP that docs/setup.md gives, and the provider's script is a stub.
+    const setup = readFileSync(join(here, '..', '..', 'docs', 'setup.md'), 'utf8');
+    const csp = setup.match(/<!-- csp:turnstile -->\s*```\s*([^`]+?)\s*```/)[1];
+    const on = await newPage(browser, { mock: true });
+    const page = on.page;
+    await withConfig(page, "captchaProvider: 'turnstile', captchaSiteKey: '1x00000000000000000000AA'");
+    await page.route(/\/lucid\/(index\.html)?(\?.*)?$/, async (route) => {
+      const res = await route.fetch();
+      const body = (await res.text()).replace(/(http-equiv="?Content-Security-Policy"? content=)"[^"]*"/, `$1"${csp}"`);
+      return route.fulfill({ response: res, body });
+    });
+    const stub = 'window.turnstile={n:0,render(el,p){const i=++this.n;const d=document.createElement("div");d.className="ts-stub";d.textContent="widget "+i;el.append(d);window.__ts=p;setTimeout(()=>p.callback("test-token-"+i),20);return "w"+i;},remove(){}};';
+    await page.route('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', (route) => route.fulfill({ contentType: 'text/javascript', body: stub }));
+    const bodies = authBodies(page);
+    await onboard(page, { start: 'basics' });
+    await page.goto(`${BASE}#/account?mode=signup`);
+    await page.waitForSelector('[data-auth] [data-captcha] .ts-stub', { timeout: 4000 }).catch(() => { throw new Error('the widget is not drawn on sign-up (script blocked by the documented CSP?)'); });
+    const params = await page.evaluate(() => ({ sitekey: window.__ts.sitekey, appearance: window.__ts.appearance }));
+    assert(params.sitekey === '1x00000000000000000000AA' && params.appearance === 'interaction-only', `widget parameters: ${JSON.stringify(params)}`);
+    await page.fill('#em', page.lucidMock.user.email); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.click('[data-owner-dialog] [value="move"]', { timeout: 1500 }).catch(() => {});
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    await page.goto(`${BASE}#/account?mode=reset`);
+    await page.waitForSelector('[data-auth] [data-captcha] .ts-stub');
+    await page.fill('#em', page.lucidMock.user.email);
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForSelector('[data-auth] [role=alert]');
+    await signInWith(page, page.lucidMock.user.email);
+    await page.click('[data-owner-dialog] [value="move"]', { timeout: 1500 }).catch(() => {});
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    await page.goto(`${BASE}#/settings`);
+    await page.click('[data-pw]');
+    await page.waitForSelector('[data-newpass] [data-captcha] .ts-stub');
+    await page.fill('#cp', 'correct horse 1'); await page.fill('#np', 'new password 22');
+    await page.click('[data-newpass] button[type=submit]');
+    assert(await waitFor(() => page.lucidMock.passwordChanged === 'new password 22'), 'the password was not changed with CAPTCHA on');
+    const sent = bodies.map((b) => [b.path, b.body.gotrue_meta_security?.captcha_token || null]);
+    assert(sent.length === 4 && sent.every(([, t]) => /^test-token-\d+$/.test(t)), `tokens sent: ${JSON.stringify(sent)}`);
+    assert(new Set(sent.map(([, t]) => t)).size === 4, `a token was used twice: ${JSON.stringify(sent)}`);
+    assert(JSON.stringify(sent.map(([p]) => p)) === JSON.stringify(['/auth/v1/signup', '/auth/v1/recover', '/auth/v1/token', '/auth/v1/token']), `requests: ${JSON.stringify(sent)}`);
+    // A refused token says so in words, and the form stays usable.
+    await page.unroute(/mock\.supabase\.co\/auth\/v1\/(signup|token|recover)/);
+    await page.route(/mock\.supabase\.co\/auth\/v1\/recover/, (route) => route.fulfill({ status: 400, contentType: 'application/json', body: JSON.stringify({ code: 400, error_code: 'captcha_failed', msg: 'captcha protection: request disallowed (captcha verification process failed)' }) }));
+    await page.goto(`${BASE}#/account?mode=reset`);
+    await page.waitForSelector('[data-auth] [data-captcha] .ts-stub');
+    await page.fill('#em', page.lucidMock.user.email);
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForSelector('[data-auth] [role=alert]');
+    assert(/לא הצלחנו לאמת את הבקשה|could not verify the request/.test(await page.textContent('[data-auth] [role=alert]')), 'a refused token is not explained');
+    assert(await page.$('[data-auth] [data-captcha] .ts-stub'), 'no fresh widget after a refused token');
+    await on.ctx.close();
+  });
+
   await check('RW4. Settings at 390: no option alone on a line; "Offline use" is linked from Real life and Help; a phone shows when it is offline; a toast does not follow the learner to the next screen (M10, M1, Y13)', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'B1');
