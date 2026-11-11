@@ -6,6 +6,8 @@ import { profile, saveProfile, model } from '../core/learner.js';
 import { content } from '../core/content.js';
 import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 import { isMinor, isUnder16 } from '../core/age.js';
+import { configured, auth } from '../core/api.js';
+import { siteAI } from '../core/site.js';
 
 export default async function profileView(el, ctx) {
   ctx.setTitle(t('nav.profile'));
@@ -26,6 +28,10 @@ export default async function profileView(el, ctx) {
     // real age. Lucid has no minimum age; these lines say what differs by age.
     const minor = isMinor(p);
     const young = isUnder16(p);
+    // The notes describe this site (launch FR-07), as onboarding does: data can leave the device only through an
+    // account or AI feedback, and the marketing block concerns accounts.
+    const offDevice = (configured() && auth.signedIn) || siteAI();
+    const accounts = configured();
     render(el, html`
       <div class="page-head"><div><h1>${p.name || t('nav.profile')}</h1><p>${tt(`לומד/ת ב-Lucid מאז ${p.created_at ? new Date(p.created_at).toLocaleDateString('he-IL') : '—'}`, `Learning with Lucid since ${p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB') : '—'}`)}</p></div></div>
       <div class="stack-lg" style="max-width:40rem">
@@ -39,8 +45,12 @@ export default async function profileView(el, ctx) {
           <p class="row between"><span>${tt('נקודת התחלה', 'Started at')}</span><span>${p.start_level ? LEVEL_LABEL[p.start_level] : '—'}</span></p>
           <p class="row between"><span>${tt('הרמה הנוכחית במסלול', 'Current level on the path')}</span><span>${LEVEL_LABEL[m.courseLevel]}</span></p>
           <p class="row between"><span>${tt('שנת לידה', 'Birth year')}</span><span class="num">${p.birth_year || '—'}</span></p>
-          ${young ? html`<p class="banner" data-under16>${icon('info', { size: 16 })}<span>${tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: content flagged as not suitable for this age is not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')}</span></p>` : ''}
-          ${minor ? html`<p class="banner">${icon('info', { size: 16 })}<span>${tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same at every age.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות', 'Privacy')}</a></span></p>` : ''}
+          ${young ? html`<p class="banner" data-under16>${icon('info', { size: 16 })}<span>${offDevice
+            ? tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג, ולפני שמידע יוצא מהמכשיר (חשבון בשרת או משוב AI) צריך אישור של הורה או אפוטרופוס.', 'Under 16: content flagged as not suitable for this age is not shown, and a parent or guardian agrees before any data leaves this device (an account on the server, or AI feedback).')
+            : tt('מתחת לגיל 16: תוכן שמסומן כלא מתאים לגיל לא מוצג. באתר הזה ההתקדמות נשמרת רק במכשיר.', 'Under 16: content flagged as not suitable for this age is not shown. On this site your progress stays on this device.')}</span></p>` : ''}
+          ${minor ? html`<p class="banner" data-under18>${icon('info', { size: 16 })}<span>${accounts
+            ? tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד, ובחשבון השרת חוסם הסכמה לשיווק. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone, and for accounts the server blocks marketing consent. Every other default is the same at every age.')
+            : tt('מתחת לגיל 18: Lucid לא שולח שיווק לאף אחד. שאר ברירות המחדל זהות לכל הגילאים.', 'Under 18: Lucid sends no marketing to anyone. Every other default is the same at every age.')} <a href="privacy.html" target="_blank" rel="noopener">${tt('פרטיות', 'Privacy')}</a></span></p>` : ''}
         </div>
         <div class="row"><a class="key" href="#/progress">${t('nav.progress')}</a><a class="key ghost" href="#/settings">${t('nav.settings')}</a></div>
       </div>`);

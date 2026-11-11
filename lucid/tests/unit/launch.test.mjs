@@ -19,16 +19,19 @@ const pngSize = (p) => { const b = readFileSync(join(app, p)); assert.equal(b.to
 
 test('launch-check lists every item left today and nothing once the owner\'s edits are in', () => {
   const ids = launchItems(app).map((i) => `${i.id}:${i.file}`).sort();
-  assert.deepEqual(ids, ['contact:privacy.html', 'new-home:config.js', 'noindex:index.html', 'noindex:privacy.html', 'placeholder:privacy.html']);
+  assert.deepEqual(ids, ['contact:js/core/contact.js', 'contact:privacy.html', 'new-home:config.js', 'noindex:accessibility.html', 'noindex:index.html', 'noindex:privacy.html', 'placeholder:accessibility.html', 'placeholder:privacy.html']);
   const dir = mkdtempSync(join(tmpdir(), 'lucid-launch-'));
   try {
-    for (const p of ['index.html', 'privacy.html', '404.html', 'config.js']) cpSync(join(app, p), join(dir, p));
+    for (const p of ['index.html', 'privacy.html', 'accessibility.html', '404.html', 'config.js', 'js/core/contact.js']) cpSync(join(app, p), join(dir, p));
+    writeFileSync(join(dir, 'js/core/contact.js'), read('js/core/contact.js').replace("email: '',", "email: 'privacy@example.org',"));
     // The owner's edits (docs/setup.md "Launch switch"), with made-up values for the test only.
     writeFileSync(join(dir, 'config.js'), read('config.js').replace("export const NEW_HOME = '';", "export const NEW_HOME = 'https://lucid.example.org/';"));
     writeFileSync(join(dir, 'index.html'), index.replace('<meta name="robots" content="noindex, nofollow">', ''));
     const privacy = read('privacy.html').replace('<meta name="robots" content="noindex, nofollow">', '')
       .replace(/<p class="banner warn">[\s\S]*?<\/p>/g, '<p>Filled in. <a href="mailto:privacy@example.org">privacy@example.org</a></p>');
     writeFileSync(join(dir, 'privacy.html'), privacy);
+    writeFileSync(join(dir, 'accessibility.html'), read('accessibility.html').replace('<meta name="robots" content="noindex, nofollow">', '')
+      .replace(/<p class="banner warn" data-contact-placeholder>[\s\S]*?<\/p>/g, '<p>Filled in. <a href="mailto:privacy@example.org">privacy@example.org</a></p>'));
     assert.deepEqual(launchItems(dir), [], '404.html keeps its noindex on purpose');
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

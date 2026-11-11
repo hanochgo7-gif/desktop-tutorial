@@ -41,6 +41,9 @@ const SPLIT = [
   ['writing/index.json', 'writing/task', ['writing/exercises.json', 'writing/assignments.json']],
 ];
 const RUNTIME_ONLY = ['content/centers/', 'content/pool/']; // cached on first use, never precached
+// The static pages beside the app, precached so they open offline too: the privacy policy and the accessibility
+// statement (launch BLK-07). Each has the same script-less CSP (tools/build/verify.mjs checks it after the build).
+export const STATIC_PAGES = ['accessibility.html', 'privacy.html'];
 
 export function computeManifest(root) {
   const content = join(root, 'content');
@@ -55,7 +58,7 @@ export function computeManifest(root) {
   // and pool files: every module the router can lazy-load, and the non-lesson content.
   const replaced = new Set(SPLIT.flatMap(([index, , old]) => (existsSync(join(content, index)) ? old : [])));
   const walk = (dir) => (existsSync(join(root, dir)) ? readdirSync(join(root, dir), { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? walk(`${dir}/${d.name}`) : /\.m?js$/.test(d.name) ? [`${dir}/${d.name}`] : [])) : []);
-  const offline = [...walk('js'), ...walk('vendor'), ...files.filter((f) => !f.startsWith('lessons/') && !replaced.has(f)).map((f) => `content/${f}`), 'privacy.html']
+  const offline = [...walk('js'), ...walk('vendor'), ...files.filter((f) => !f.startsWith('lessons/') && !replaced.has(f)).map((f) => `content/${f}`), ...STATIC_PAGES]
     .filter((f) => !RUNTIME_ONLY.some((p) => f.startsWith(p))).sort();
   const manifest = { version: version.digest('hex').slice(0, 12), lessons, offline };
   return { manifest, manifestText: `${JSON.stringify(manifest, null, 1)}\n` };

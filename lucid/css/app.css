@@ -165,8 +165,10 @@ input, textarea { caret-color: var(--cobalt); }
 /* BL-5: the chip is a full touch target on touch screens. */
 @media (pointer: coarse) { .he-reveal { min-height: 2.75rem; min-width: 2.75rem; } }
 .legend .l-en { color: var(--ink-en); font-weight: 500; }
-.legend .l-he { color: var(--ink-he); font-size: 0.82em; font-weight: 400; transition: opacity 0.3s var(--ease-out); }
-:root[data-support='minimal'] .legend .l-he { color: var(--ink-he-quiet); }
+/* A legend's Hebrew line is a subtitle, not a link: body grey, never the link blue (launch FR-13). --ink-2 is 7:1 or
+   more on paper and the dark ground; at minimal support it is quieter, --ink-3, still above 4.5:1. */
+.legend .l-he { color: var(--ink-2); font-size: 0.82em; font-weight: 400; transition: opacity 0.3s var(--ease-out); }
+:root[data-support='minimal'] .legend .l-he { color: var(--ink-3); }
 :root[data-support='off'] .legend .l-he { display: none; }
 .bi { display: inline; }
 /* English meta-text from bi() (instructions, can-dos, hints, explanations, task briefs) is its own left-to-right
@@ -1979,6 +1981,11 @@ table.data th .th-he { display: block; font-size: var(--t-xs); font-weight: 500;
 }
 /* SB-10: the links under Help are full touch targets. */
 .help-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+/* Welcome's footer (launch IS-09): the privacy policy and the accessibility statement before anyone signs up, as
+   44px targets, above the CEFR line. */
+.welcome-foot { display: grid; justify-items: center; gap: var(--s1); padding: var(--s4); text-align: center; }
+.welcome-links { margin: 0; }
+.welcome-links a, .settings-foot a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
 /* ---- lane r4-shell-bilingual: end ---- */
 

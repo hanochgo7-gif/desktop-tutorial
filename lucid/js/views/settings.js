@@ -75,7 +75,8 @@ export default async function settingsView(el, ctx) {
     const s = settings();
     const p = profile() || {};
     const signedIn = configured() && auth.signedIn;
-    // Without AI on this site its settings do nothing, so they are greyed and the one AI-off sentence says why (PH-5).
+    // Without AI on this site its settings do nothing, so the Feedback section is the one AI-off sentence, with no
+    // controls that cannot work (launch FR-03; it was greyed controls before, PH-5). They come back when AI is on.
     const aiOn = configured() && CONFIG.aiEnabled;
     const young = isUnder16(p);
     const aiConsent = aiConsented(s, p); // under 16, consent without the guardian's agreement does not count
@@ -107,7 +108,7 @@ export default async function settingsView(el, ctx) {
           ${field('retention', tt('יעד זכירה', 'Memory target'), seg('retention', s.retention, [['light', 'קל (85%)', 'Light (85%)'], ['standard', 'רגיל (90%)', 'Standard (90%)'], ['exam', 'גבוה (95%)', 'High (95%)']], { help: true }), tt('יעד גבוה יותר = יותר חזרות ביום.', 'A higher target means more reviews a day.'))}
         </section>
         <section class="panel stack" aria-labelledby="set-feedback"><h2 id="set-feedback">${tt('משוב', 'Feedback')}</h2>
-          ${aiOn ? '' : html`<p class="banner small" id="ai-off">${icon('info', { size: 18 })}<span>${isolateLatin(tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.'))}</span></p>`}
+          ${!aiOn ? html`<p class="small muted" id="ai-off">${isolateLatin(tt('AI לא פעיל באתר הזה. כל השאר עובד.', 'AI is not active on this site. Everything else works.'))} ${tt('לכן אין כאן הגדרות למשוב AI. הבדיקות האוטומטיות בכתיבה ובתרגילים פועלות תמיד.', 'So there are no AI feedback settings here. The automatic checks in writing and exercises always work.')}</p>` : html`
           ${field('corrections', tt('כמה תיקונים בשיחה ובמורה', 'How much correction in conversations and the tutor'), seg('corrections', s.corrections, [['off', 'בלי', 'Off'], ['light', 'קל', 'Light'], ['standard', 'רגיל', 'Standard'], ['intensive', 'הרבה', 'Intensive']], { off: !aiOn, help: true }),
             tt('קל: רק מה שחוסם הבנה. רגיל: תיקון אחד לכל היותר בכל תשובה של המורה. הרבה: עד שלושה. בשיחה עם AI רוב התיקונים מגיעים במשוב שבסוף.', 'Light: only what blocks meaning. Standard: at most one correction in each tutor reply. Intensive: up to three. In AI conversations most corrections come in the feedback at the end.'), { off: !aiOn })}
           ${field('feedback_scope', tt('משוב על כתיבה', 'Writing feedback'), seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד', 'Focused'], ['comprehensive', 'מקיף', 'Comprehensive']], { off: !aiOn, help: true }),
@@ -116,7 +117,7 @@ export default async function settingsView(el, ctx) {
             <span class="help" id="ai-desc">${isolateLatin(tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.'))}</span></div>
           ${aiOn && young && !aiConsent ? html`<div class="field" data-guardian-ai-box><label class="choice"><input type="checkbox" data-guardian-ai ${aiGuardian ? html`checked` : ''} ${aiGuardianError ? html`aria-invalid="true"` : ''} aria-describedby="ai-guardian-help${aiGuardianError ? ' ai-guardian-err' : ''}"><span class="grow">${isolateLatin(tt('יש לי אישור של הורה או אפוטרופוס לשלוח טקסטים למשוב AI', 'I have a parent\'s or guardian\'s permission to send my texts for AI feedback'))}</span></label>
             ${aiGuardianError ? html`<p class="error-text field-error" id="ai-guardian-err">${isolateLatin(tt('כדי להפעיל משוב AI צריך קודם אישור של הורה או אפוטרופוס.', 'To turn on AI feedback, a parent or guardian needs to agree first.'))}</p>` : ''}
-            <span class="help" id="ai-guardian-help">${isolateLatin(tt('מתחת לגיל 16 צריך אישור של הורה או אפוטרופוס לפני שמפעילים משוב AI.', 'Under 16, a parent or guardian agrees before AI feedback is turned on.'))}</span></div>` : ''}
+            <span class="help" id="ai-guardian-help">${isolateLatin(tt('מתחת לגיל 16 צריך אישור של הורה או אפוטרופוס לפני שמפעילים משוב AI.', 'Under 16, a parent or guardian agrees before AI feedback is turned on.'))}</span></div>` : ''}`}
         </section>
         <section class="panel stack" aria-labelledby="set-account"><h2 id="set-account">${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
@@ -130,7 +131,7 @@ export default async function settingsView(el, ctx) {
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
         <section class="panel stack" id="offline" tabindex="-1" aria-labelledby="offline-h"><h2 id="offline-h">${tt('שימוש בלי אינטרנט', 'Offline use')}</h2>
-          <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה. משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip. AI feedback, AI conversations and speech recognition need a connection.')}</p>
+          <p class="small muted">${tt('המסכים, החזרה על מילים, השיחות המובנות ומעבדת הכתיבה עובדים גם בלי חיבור. את השיעורים (כ-3MB) שומרים כאן לפני נסיעה.', 'Screens, word review, scripted conversations and the Writing lab work without a connection. Save the lessons here (about 3 MB) before a trip.')} ${aiOn ? tt('משוב AI, שיחות AI וזיהוי דיבור דורשים חיבור.', 'AI feedback, AI conversations and speech recognition need a connection.') : tt('זיהוי דיבור דורש חיבור.', 'Speech recognition needs a connection.')}</p>
           <div class="row"><button type="button" class="key small" data-offline ${offline.busy || !('caches' in window) ? html`disabled` : ''}>${icon('download', { size: 16 })} ${tt('שמירת כל השיעורים במכשיר', 'Save all lessons on this device')}</button><span class="small faint" data-offline-status aria-live="polite">${offline.text}</span></div>
         </section>
         <section class="panel stack" aria-labelledby="set-data"><h2 id="set-data">${tt('המידע שלכם', 'Your data')}</h2>
@@ -142,7 +143,7 @@ export default async function settingsView(el, ctx) {
           </div>
           <p class="error-text" id="restore-msg" role="alert" data-restore-msg>${restoreMsg}</p>
         </section>
-        <p class="xsmall faint"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות פרטיות ותנאים', 'Privacy and terms')}</a> · ${t('level.estimate')}</p>
+        <p class="xsmall faint settings-foot"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a> · <a href="accessibility.html" target="_blank" rel="noopener">${tt('הצהרת נגישות', 'Accessibility statement')}</a> · ${t('level.estimate')}</p>
       </div>`);
     fitSegs(el);
   }

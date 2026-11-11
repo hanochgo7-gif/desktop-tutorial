@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const app = fileURLToPath(new URL('../../', import.meta.url));
 const hasEsbuild = existsSync(join(app, 'tools/build/node_modules/esbuild/package.json'));
 const skip = hasEsbuild || process.env.CI === 'true' ? false : 'esbuild not installed (npm ci --prefix tools/build)';
-const SHIPPED = ['js', 'vendor', 'css', 'fonts', 'content', 'assets', 'index.html', 'privacy.html', 'config.js', 'manifest.webmanifest', 'sw.js', 'release.json'];
+const SHIPPED = ['js', 'vendor', 'css', 'fonts', 'content', 'assets', 'index.html', 'privacy.html', 'accessibility.html', 'config.js', 'manifest.webmanifest', 'sw.js', 'release.json'];
 
 function copyApp() {
   const dir = mkdtempSync(join(tmpdir(), 'lucid-build-'));

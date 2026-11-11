@@ -87,6 +87,7 @@ const center = (kind) => content.center?.(kind);
 // pool.js is not part of the boot graph.
 export const drillLevelsOf = (level = null) => (level ? LEVELS.slice(0, Math.max(0, levelIndex(level)) + 2) : LEVELS);
 export const DATA = {
+  welcome: () => [scenarioList()], // its counts (launch FR-09)
   today: () => [content.taxonomy(), scenarioList(), writingList(), model().next?.id && content.lesson(model().next.id)],
   path: () => [content.taxonomy()],
   'path/:level': () => [content.taxonomy()],

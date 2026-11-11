@@ -183,9 +183,9 @@ export default async function onboarding(el, ctx) {
           ${errFor('guardian')}
           <p class="help" id="ob-guardian-help">${signedIn ? isolateLatin(tt('בלי האישור אפשר להמשיך: הסנכרון עם החשבון יחכה, וההתקדמות תישמר רק במכשיר הזה. אפשר לאשר אחר כך בהגדרות. למשוב AI צריך את האישור.', 'You can go on without it: syncing with the account waits, and your progress stays on this device only. You can agree later in Settings. AI feedback needs it.')) : isolateLatin(tt('צריך את האישור רק אם מפעילים משוב AI.', 'Needed only if you turn on AI feedback.'))}</p></div>` : ''}
         <div class="ob-check">
-          <label class="choice"><input type="checkbox" name="terms" required aria-describedby="${described('terms', 'ob-terms-help')}" ${invalid('terms')} ${data.terms ? html`checked` : ''}><span class="grow">${tt('קראתי ואני מסכים/ה לתנאים ולמדיניות הפרטיות', 'I have read and agree to the terms and privacy policy')}</span></label>
+          <label class="choice"><input type="checkbox" name="terms" required aria-describedby="${described('terms', 'ob-terms-help')}" ${invalid('terms')} ${data.terms ? html`checked` : ''}><span class="grow">${tt('קראתי את מדיניות הפרטיות', 'I have read the privacy policy')}</span></label>
           ${errFor('terms')}
-          <p class="help" id="ob-terms-help"><a href="privacy.html" target="_blank" rel="noopener">${tt('לקריאת התנאים ומדיניות הפרטיות (בחלון חדש)', 'Read the terms and privacy policy (opens in a new window)')}</a></p></div>`;
+          <p class="help" id="ob-terms-help"><a href="privacy.html" target="_blank" rel="noopener">${tt('לקריאת מדיניות הפרטיות (בחלון חדש)', 'Read the privacy policy (opens in a new window)')}</a></p></div>`;
     }
   }
 
@@ -228,7 +228,7 @@ export default async function onboarding(el, ctx) {
     if (step === 3 && guardianRequired() && !data.guardian) {
       return { field: 'guardian', msg: isolateLatin(tt('כדי להפעיל משוב AI צריך אישור של הורה או אפוטרופוס. אפשר גם להמשיך בלי AI.', 'To turn on AI feedback, a parent or guardian needs to agree. You can also go on without AI.')) };
     }
-    if (step === 3 && !data.terms) return { field: 'terms', msg: tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.') };
+    if (step === 3 && !data.terms) return { field: 'terms', msg: tt('כדי להמשיך, סמנו שקראתם את מדיניות הפרטיות.', 'To continue, tick that you have read the privacy policy.') };
     return null;
   }
 
@@ -240,6 +240,9 @@ export default async function onboarding(el, ctx) {
     const ai = aiAvailable && data.ai_consent;
     // The settings first: saving the profile can start the server-profile check (session.js).
     saveSettings({ daily_minutes: data.daily_minutes, weekly_goal_days: data.weekly_goal_days, text_size: data.text_size, ai_consent: ai, ai_consent_at: ai ? now : null, ...(ai && guardian ? { ai_guardian_consent_at: now } : {}), marketing: false });
+    // consent_terms_at keeps its name (it is a column of the server profile and every synced profile carries it), but
+    // since November 2026 it records when the learner acknowledged the privacy policy: Lucid has no terms of use, and
+    // the box asks for nothing else (BLK-02).
     saveProfile({ onboarded: true, created_at: now, name: data.name, birth_year: Number(data.birth_year), minor, ui_language: data.ui_language, goals: data.goals, start_choice: data.start, consent_terms_at: now, ...(guardian && signedIn ? { guardian_consent_at: now } : {}) });
     // Signed in without the agreement: say once that the account waits (the same words as after a sign-in).
     if (signedIn && young() && !guardian) toast(syncPausedText('guardian'));

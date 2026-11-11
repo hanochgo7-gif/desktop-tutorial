@@ -782,7 +782,7 @@ request is tested with mocks in `e2e RW3` (an email is sent as kind `email`).
 | Automatic checks | Always available; unchanged after AI feedback | Built and tested (section 6.6) |
 | Delete this text | Removes the task's text, versions, draft and feedback from the device (and the server at the next sync), and clears quoted mistakes from its attempts; scores and mistake types stay | Built and tested: `e2e 11-12` (device), `unit store-sync` (tombstones carry no content) |
 | Length and size limits | Up to 24,000 characters per text (enough for a 2,200-word paper with references), instructions up to 4,000, body up to 64 KiB. The client checks before sending, drops the previous draft when both do not fit (and says so), and explains every refusal in words, never the server's raw message | Built, tested with mocks only: `e2e 13`, `deno: "a 2,000-word paper with references fits; ..."` |
-| Report a mistake | A button under AI feedback logs an `ai-report` event on the device (synced with an account). No review process or tool reads these reports | Partial: logging only, no test |
+| Mark a mistake (was "Report a mistake") | A button under AI feedback logs an `ai-report` event on the device (synced with an account). No review process or tool reads these marks, and since the launch audit (TS-06) the button and its note say so: the mark is saved with the feedback, nobody reviews it yet, and Help's "Contact" is the way to reach a person | Partial: logging only; e2e 11-12 checks the note |
 | Timed writing | Optional countdown on timed tasks (we-14, 40 minutes). When time is up a message says so; the editor is not locked | Partial: built, no test |
 
 ### 6.6 Automatic checks (no AI)
@@ -1065,7 +1065,11 @@ never shown as a total or a ranking. A day off does not reset anything.
 
 ### 10.4 Consent
 
-- **Terms**: onboarding requires accepting the terms and privacy policy (`consent_terms_at`).
+- **Privacy policy**: onboarding requires ticking "I have read the privacy policy". Lucid has no terms of use (none
+  may be written without the owner and legal review, launch BLK-02), so the box asks for nothing else. The time is
+  stored as `consent_terms_at`: the name is kept because it is a column of the server profile (`001_lucid_core.sql`)
+  and every synced and exported profile carries it, but its meaning is "privacy policy acknowledged". If terms of
+  use are added later, they need their own field and their own box.
 - **AI consent**: off by default for everyone. Offered in onboarding and Settings ("AI feedback"), stored with a
   timestamp in device settings and, with an account, as `consent_ai_at` on the server profile. The edge function
   refuses AI requests without server-side consent (`ai_consent_required`). Status: Built, tested with mocks only
@@ -1172,6 +1176,14 @@ legend lines at minimal support used `opacity: 0.6` (2.79-2.86:1) and now use th
 comment gives 5:1 on the light background); the active rail item's English secondary legend (4.37:1 in the Hebrew
 UI, light theme, desktop width) now uses `--n4` (`css/app.css`). The rail fix is inside the audit (Hebrew, light,
 1440 px); the legend fix is shown by the spot check above.
+
+**Static pages and the accessibility statement (launch audit BLK-07, 2026-11-11).** In each configuration the audit
+also checks `privacy.html` and `accessibility.html`. Run on the honesty lane's tree (`A11Y_PORT=13065`):
+**0 violations** on the 29 routes plus Welcome, onboarding and the two static pages, in all 5 configurations.
+`accessibility.html` (Hebrew and English, the same CSP and stylesheet as `privacy.html`, precached for offline use)
+states only this result, the features below and the limits listed here; it says that legal review is pending and
+claims no conformance. Its contact box stays a placeholder until the owner supplies the details
+(`js/core/contact.js`; `tests/unit/contact.test.mjs` keeps the pages in step with it).
 
 What it does not cover:
 

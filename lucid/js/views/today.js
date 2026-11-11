@@ -10,6 +10,7 @@ import { zeroResult, selfReportResult } from '../core/placement.js';
 import { store } from '../core/store.js';
 import { LEVELS, SKILLS, EVIDENCE, levelIndex, isLessonId, lessonOrder, introSlots, firstTries, GOAL_KINDS } from '../core/adaptive.js';
 import { router } from '../core/router.js';
+import { siteAI } from '../core/site.js';
 
 // Each block's icon names what it is (persona findings R2-22, R2-30: reading has a book, targeted practice
 // its own icon, never the placeholder circle of a missing icon).
@@ -100,7 +101,9 @@ function skillSource(s, k) {
     return tt(`${k.evidence} תשובות בניסיון ראשון ברמה, ב-${k.days} ימים`, `${k.evidence} first-try answers at this level, on ${k.days} days`);
   }
   if (s === 'speaking') return tt('Lucid עוד לא מעריך רמת דיבור', 'Lucid does not assess speaking level yet');
-  if (s === 'writing') return k?.evidence ? tt(`${k.evidence} טקסט שהוערך; צריך 2 בימים שונים`, `${k.evidence} assessed text; 2 on different days give a level`) : tt('לפי טקסטים שקיבלו משוב AI', 'From texts with AI feedback');
+  // Writing gets a level only from texts assessed by AI feedback: on a site without AI it never can, so it is worded
+  // like speaking (launch FR-04).
+  if (s === 'writing') return k?.evidence ? tt(`${k.evidence} טקסט שהוערך; צריך 2 בימים שונים`, `${k.evidence} assessed text; 2 on different days give a level`) : siteAI() ? tt('לפי טקסטים שקיבלו משוב AI', 'From texts with AI feedback') : tt('באתר הזה Lucid לא מעריך רמת כתיבה', 'Lucid does not assess writing level on this site');
   return '';
 }
 
@@ -174,10 +177,17 @@ export function nextLevelKey(x, cls = 'key small') {
 // (TF-9; ux-research F9): the letters (Pre-A1), A1, and the learner's own estimate when it is higher.
 export function noTestChoices() {
   const own = selfReportLevel();
+  // "I'm advanced" is B2, the highest start without a test (EVIDENCE.placementCap; only the placement test can start
+  // higher), so it is named as that, with one line on how C1 and C2 open (launch FR-12), not as a level the learner
+  // never named.
+  const capped = own === EVIDENCE.placementCap;
   return html`<div class="row small no-test"><span class="muted">${tt('או בלי מבחן:', 'Or without the test:')}</span>
     <button type="button" class="key ghost small" data-basics><span>${isolateLatin(tt('להתחיל מהאותיות (Pre-A1)', 'Start with the letters (Pre-A1)'))}</span></button>
     <button type="button" class="key ghost small" data-skip-level="A1"><span>${isolateLatin(tt('להתחיל ב-A1', 'Start at A1'))}</span></button>
-    ${own && levelIndex(own) > levelIndex('A1') ? html`<button type="button" class="key ghost small" data-skip-level="${own}"><span>${isolateLatin(tt(`להתחיל ב-${L(own)} (ההערכה שלכם)`, `Start at ${L(own)} (your own estimate)`))}</span></button>` : ''}</div>`;
+    ${own && levelIndex(own) > levelIndex('A1') ? html`<button type="button" class="key ghost small" data-skip-level="${own}"><span>${isolateLatin(capped
+      ? tt(`להתחיל ב-${L(own)} (ההתחלה הגבוהה ביותר בלי מבחן)`, `Start at ${L(own)} (the highest start without a test)`)
+      : tt(`להתחיל ב-${L(own)} (ההערכה שלכם)`, `Start at ${L(own)} (your own estimate)`))}</span></button>` : ''}</div>
+    ${capped ? html`<p class="xsmall faint no-test-cap" data-start-cap>${isolateLatin(tt(`בלי מבחן, ההתחלה הגבוהה ביותר היא ${L(own)}. ${L('C1')} ו-${L('C2')} נפתחים דרך מבחן המיקום או בדיקת הרמה של ${L(own)}, ואפשר גם לבחור אותם במסלול.`, `Without a test, the highest start is ${L(own)}. ${L('C1')} and ${L('C2')} open through the placement test or the ${L(own)} level check, and you can also choose them on the Path.`))}</p>` : ''}`;
 }
 export function bindPlacementCard(el, ctx) {
   return [
@@ -543,8 +553,8 @@ export default async function today(el, ctx) {
           ${uiSwitchOffer ? html`<div class="banner row ui-offer">${icon('globe', { size: 18 })}<span class="grow">${isolateLatin(tt(`הרמה שלכם היא ${L(m.courseLevel)}. ממשק באנגלית הוא עוד תרגול יומיומי, ואפשר לחזור לעברית בכל רגע בהגדרות.`, `You are at ${L(m.courseLevel)}. An English interface is extra daily practice, and you can switch back in Settings at any time.`))}</span>
             <button type="button" class="key small" data-ui-en>${tt('לעבור לאנגלית', 'Switch to English')}</button><button type="button" class="key small ghost" data-ui-later>${tt('לא עכשיו', 'Not now')}</button></div>` : ''}
           ${courseDone ? html`<p class="banner">${m.skipped.length
-            ? tt('עשית את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
-            : tt('השלמתם את כל 75 השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You have completed all 75 lessons. The Writing lab and advanced assignments are waiting.')}</p>` : ''}`;
+            ? tt('עשיתם את כל השיעורים שמוכנים כרגע. שיעורים נוספים בהכנה; בינתיים מעבדת הכתיבה והמטלות המתקדמות מחכות.', 'You\'ve done every lesson that is ready. More are being written; meanwhile the Writing lab and advanced assignments are waiting.')
+            : tt(`השלמתם את כל ${lessons.size} השיעורים. מעבדת הכתיבה והמטלות המתקדמות מחכות.`, `You have completed all ${lessons.size} lessons. The Writing lab and advanced assignments are waiting.`)}</p>` : ''}`;
 
     // The minutes choice waits until there is a plan to fit (TP-7): not while the placement test is unfinished.
     const minutesChoice = m.placementPending ? '' : html`<div class="today-minutes"><span class="label" id="today-min-l">${tt('כמה זמן יש לכם היום?', 'How much time do you have today?')}</span>

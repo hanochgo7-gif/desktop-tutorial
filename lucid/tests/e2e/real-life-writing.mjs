@@ -315,7 +315,8 @@ try {
     await big.page.goto(`${BASE}#/scenario/rl-airport-checkin-overweight`);
     await big.page.waitForSelector('.scenario-tabs');
     const tabs = await big.page.$$eval('.scenario-tabs button', (bs) => bs.map((b) => { const r = b.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth; }));
-    assert(tabs.length === 4 && tabs.every(Boolean), `switcher tabs off screen at 150%: ${tabs}`);
+    // Three parts without AI on the site; the AI roleplay tab is the fourth only where AI works (launch FR-03).
+    assert(tabs.length === 3 && tabs.every(Boolean), `switcher tabs off screen at 150%: ${tabs}`);
     const t = await big.page.$eval('.variants-wrap', (w) => ({ sw: w.scrollWidth, cw: w.clientWidth, dir: getComputedStyle(w).direction }));
     assert(t.sw <= t.cw && t.dir === 'ltr', `US/UK table: ${JSON.stringify(t)}`);
     await noOverflow(big.page, 'scenario at 150%');

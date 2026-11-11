@@ -45,7 +45,7 @@ interface and explanations around English (left-to-right) learning content, fadi
 
 ## Capabilities and Constraints
 
-- 75 lessons Pre-A1 to C2, 30 real-life scenarios, 50 expressions, writing lab with 10 stages, placement test.
+- 75 lessons Pre-A1 to C2, 36 real-life scenarios, 60 expressions, writing lab with 10 stages, placement test.
 - Works without an account or server (device-only); accounts, sync and AI features need Supabase configuration.
 - AI features (writing evaluation, roleplay, tutor) run only server-side and need an Anthropic API key.
 - Speech uses the browser's speech synthesis and recognition; availability varies by browser.

@@ -201,7 +201,9 @@ try {
     await learnerAt(page, 'B1');
     await go(page, 'settings', '[data-seg="text_size"]');
     const groups = (await page.locator('#view').ariaSnapshot()).split('\n').map((l) => l.trim()).filter((l) => l.startsWith('- group'));
-    assert(groups.length >= 13 && groups.every((l) => /^- group "[^"]+"/.test(l)), `unnamed groups: ${groups.filter((l) => !/^- group "/.test(l)).join(' | ')}`);
+    // Every group on the page (11 without AI: launch FR-03 removed the two AI groups; 13 with AI).
+    const shown = await page.$$eval('#view [role="group"]', (g) => g.length);
+    assert(shown >= 11 && groups.length === shown && groups.every((l) => /^- group "[^"]+"/.test(l)), `unnamed groups: ${groups.filter((l) => !/^- group "/.test(l)).join(' | ')} (${groups.length} of ${shown})`);
     assert(groups.some((l) => l.startsWith('- group "גודל טקסט"')), 'the text-size group is not named "גודל טקסט"');
     await page.focus('[data-seg="text_size"] [data-v="150"]');
     await page.keyboard.press('Enter');
@@ -253,22 +255,16 @@ try {
   });
 
   // ---------- PH-5 ----------
-  await check('PH-5. Without AI: the Settings checkbox is off and silent, the AI groups are greyed, the tutor shows no mode chips, Practice and the copy say so', async () => {
+  // Launch FR-03: without AI on the site, Settings shows no AI control at all (it showed greyed ones before) and
+  // Practice no tutor row; the tutor's own route still says AI is off.
+  await check('PH-5. Without AI: Settings has no AI checkbox or AI groups, only the AI-off sentence; the tutor shows no mode chips; Practice offers no tutor; the copy says so', async () => {
     const { ctx, page } = await newPage(browser);
     await learnerAt(page, 'B1');
-    await go(page, 'settings', '[data-ai]');
-    assert(await page.$eval('[data-ai]', (c) => c.disabled && !c.checked), 'the AI checkbox is enabled or ticked');
-    await page.click('[data-ai]', { force: true });
-    await page.waitForTimeout(300);
-    assert(!(await page.$('.toast')), `a toast appeared: ${await page.textContent('.toast').catch(() => '')}`);
-    assert((await page.textContent('#ai-off')).trim() === 'AI לא פעיל באתר הזה. כל השאר עובד.', 'the AI-off sentence is missing');
-    const off = await page.$$eval('[data-seg][aria-disabled="true"]', (x) => x.map((g) => g.dataset.seg).sort().join(','));
-    assert(off === 'corrections,feedback_scope', `greyed groups: ${off}`);
-    const before = await page.evaluate(async () => (await import('./js/core/learner.js')).settings().corrections);
-    await page.click('[data-seg="corrections"] [data-v="intensive"]', { force: true });
-    assert(await page.evaluate(async () => (await import('./js/core/learner.js')).settings().corrections) === before, 'a greyed group still changes the setting');
-    const opacity = await page.$eval('[data-seg="corrections"]', (g) => Number(getComputedStyle(g).opacity));
-    assert(opacity < 1, 'the AI groups are not greyed');
+    await go(page, 'settings', '#ai-off');
+    assert(!(await page.$('[data-ai]')), 'the AI checkbox is still there');
+    assert((await page.textContent('#ai-off')).trim().startsWith('AI לא פעיל באתר הזה. כל השאר עובד.'), 'the AI-off sentence is missing');
+    const off = await page.$$eval('[data-seg="corrections"], [data-seg="feedback_scope"], [data-seg][aria-disabled="true"]', (x) => x.length);
+    assert(off === 0, `${off} AI groups are still shown`);
     const text = await page.textContent('.settings-view');
     assert(/כדי שלא ייווצר עומס/.test(text) && !/עמסה/.test(text) && /גבוה \(95%\)/.test(text) && !/מבחן \(95%\)/.test(text), 'Settings copy not updated');
     assert(await page.$eval('[data-seg="hebrew_support"] [data-v="minimal"]', (b) => b.textContent.trim()) === 'בלחיצה', 'the Hebrew-support option does not match its help text');
@@ -278,8 +274,8 @@ try {
     assert(order, 'the notice is not the first thing after the heading');
     const tut = await page.textContent('#view');
     assert(/AI לא פעיל באתר הזה. כל השאר עובד./.test(tut) && !/מזויפת/.test(tut), `tutor notice: ${tut.slice(0, 200)}`);
-    await go(page, 'practice', 'a.lesson-row[href="#/tutor"]');
-    assert(/לא פעיל באתר הזה/.test(await page.textContent('a.lesson-row[href="#/tutor"]')), 'the Practice tutor row does not say AI is off');
+    await go(page, 'practice', '.practice-labs');
+    assert(!(await page.$('a.lesson-row[href="#/tutor"]')), 'Practice offers the tutor on a site without AI');
     await go(page, 'account', '#view h1');
     assert(/באתר הזה אין חשבונות\./.test(await page.textContent('#view')), 'account copy not updated');
     await ctx.close();

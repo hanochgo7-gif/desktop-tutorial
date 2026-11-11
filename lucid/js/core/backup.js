@@ -1,6 +1,6 @@
 // Backups (Settings "Download all my data", "Restore a backup", the restore screen #/import and the move from the
 // old address, js/core/move.js). One format: {app: 'lucid', version: 1, exported_at, device: <store snapshot>,
-// server}. A backup is checked before anything is written, and the learner sees what it holds first.
+// preferences, server}. A backup is checked before anything is written, and the learner sees what it holds first.
 import { COLLECTIONS } from './store.js';
 import { tt, uiLang } from './i18n.js';
 
@@ -9,8 +9,28 @@ export const BACKUP_VERSION = 1;
 // device should hold in memory twice).
 export const MAX_BACKUP_BYTES = 40 * 1024 * 1024;
 
-export function makeBackup(store, { server = null, now = new Date() } = {}) {
-  return { app: 'lucid', version: BACKUP_VERSION, exported_at: now.toISOString(), device: store.snapshot(), server };
+// The preferences Lucid keeps in localStorage beside the database (TS-08): the backup holds them too, so the file
+// has everything Lucid stores on this device. Left out: the sign-in session (its tokens) and the owner mark (which
+// account the data belongs to), which only make sense on this device.
+const PREF_KEY = /^lucid[-:]/;
+const NOT_EXPORTED = new Set(['lucid-session', 'lucid-owner']);
+const localStore = () => { try { return globalThis.localStorage; } catch { return null; } };
+export function devicePreferences(storage = localStore()) {
+  const out = {};
+  try {
+    for (let i = 0; i < storage.length; i++) { const k = storage.key(i); if (k && PREF_KEY.test(k) && !NOT_EXPORTED.has(k)) out[k] = storage.getItem(k); }
+  } catch { /* storage blocked */ }
+  return out;
+}
+export function restorePreferences(prefs, storage = localStore()) {
+  if (!prefs || typeof prefs !== 'object' || Array.isArray(prefs)) return;
+  try {
+    for (const [k, v] of Object.entries(prefs)) if (PREF_KEY.test(k) && !NOT_EXPORTED.has(k) && typeof v === 'string' && v.length <= 10_000) storage.setItem(k, v);
+  } catch { /* storage blocked or full */ }
+}
+
+export function makeBackup(store, { server = null, now = new Date(), preferences = devicePreferences() } = {}) {
+  return { app: 'lucid', version: BACKUP_VERSION, exported_at: now.toISOString(), device: store.snapshot(), preferences, server };
 }
 export const backupFileName = (now = new Date()) => `lucid-data-${now.toISOString().slice(0, 10)}.json`;
 
@@ -52,7 +72,7 @@ export function checkBackup(input) {
   // A backup without a finished profile would leave the learner at the welcome screen with nothing restored.
   const me = live(device.profile).find((r) => String(r.id) === 'me');
   if (!me || !me.onboarded) return { ok: false, reason: 'profile' };
-  return { ok: true, device, summary: summarise(device, data.exported_at) };
+  return { ok: true, device, preferences: data.preferences, summary: summarise(device, data.exported_at) };
 }
 
 // The summary as short lines in the interface language (the restore screen lists them; Settings' confirmation joins
@@ -76,10 +96,11 @@ export function backupProblem(reason) {
   return tt('הקובץ הזה לא גיבוי תקין של Lucid. בחרו את קובץ ה-JSON שהורדתם ב״הורדת כל המידע״.', 'This file is not a valid Lucid backup. Choose the JSON file you downloaded with "Download all my data".');
 }
 
-// Replaces this device's data with the backup's (checked again). Returns the summary.
-export async function restoreBackup(store, input) {
+// Replaces this device's data with the backup's (checked again) and brings its preferences back. Returns the summary.
+export async function restoreBackup(store, input, { storage = localStore() } = {}) {
   const r = checkBackup(input);
   if (!r.ok) throw Object.assign(new Error(`not a usable Lucid backup (${r.reason})`), { reason: r.reason });
   await store.replaceAll(r.device);
+  restorePreferences(r.preferences, storage);
   return r.summary;
 }

@@ -4,6 +4,8 @@ import { tt, setUiLang, uiLang } from '../core/i18n.js';
 import { icon, brandMark } from '../ui/components.js';
 import { configured } from '../core/api.js';
 import { hasProfile, settings, saveSettings } from '../core/learner.js';
+import { content } from '../core/content.js';
+import '../core/compat.js'; // content.js's C-1 methods also on a page that started on release 2026-11-03.1 (compat.js).
 
 // Text size before there is a profile (TF-1): the same 100-150% setting as Settings (:root[data-text]). Until
 // onboarding ends it is kept for this browser session, like the interface language, and onboarding saves it
@@ -41,6 +43,15 @@ export default async function welcome(el, ctx) {
   // The language and text size chosen earlier in this session (a reload keeps them).
   try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l && !hasProfile()) setUiLang(l); } catch { /* ignore */ }
   if (!hasProfile()) applyTextSize(currentTextSize());
+  // The numbers are counted from the content, never written in (launch FR-09): the curriculum is already loaded at boot
+  // and the scenario list is fetched as the route resolves (router DATA). Without the list the line has no number.
+  const [curriculum, scenarios] = await Promise.all([
+    content.curriculum().catch(() => null),
+    content.scenarioIndex().catch(() => null),
+  ]);
+  const lessonN = curriculum?.levels?.reduce((n, l) => n + (l.lessons?.length || 0), 0) || 0;
+  const lastLevel = curriculum?.levels?.at(-1)?.id || 'C2';
+  const scenarioN = scenarios?.scenarios?.length || 0;
   const draw = () => render(el, html`
     <div class="welcome">
       <div class="welcome-top">
@@ -68,8 +79,8 @@ export default async function welcome(el, ctx) {
             <a class="key ghost" href="#/import" data-has-backup>${tt('יש לי גיבוי', 'I have a backup')}</a>
           </div>
           <ul class="check-rows small muted">
-            <li>${icon('check', { size: 16 })}<span>${tt('75 שיעורים, מאפס ועד C2, עם הסברים בעברית שנעלמים בהדרגה', '75 lessons from zero to C2, with Hebrew support that fades as you grow')}</span></li>
-            <li>${icon('check', { size: 16 })}<span>${tt('30 תרחישים מהחיים: שדה תעופה, מלון, מסעדה, היכרויות וחירום', '30 real-life scenarios: airports, hotels, restaurants, meeting people, emergencies')}</span></li>
+            <li data-count-lessons="${lessonN}">${icon('check', { size: 16 })}<span>${lessonN ? tt(`${lessonN} שיעורים, מאפס ועד ${lastLevel}, עם הסברים בעברית שנעלמים בהדרגה`, `${lessonN} lessons from zero to ${lastLevel}, with Hebrew support that fades as you grow`) : tt(`שיעורים מאפס ועד ${lastLevel}, עם הסברים בעברית שנעלמים בהדרגה`, `Lessons from zero to ${lastLevel}, with Hebrew support that fades as you grow`)}</span></li>
+            <li data-count-scenarios="${scenarioN}">${icon('check', { size: 16 })}<span>${scenarioN ? tt(`${scenarioN} תרחישים מהחיים: שדה תעופה, מלון, מסעדה, שיחות עם אנשים חדשים וחירום`, `${scenarioN} real-life scenarios: airports, hotels, restaurants, meeting people, emergencies`) : tt('תרחישים מהחיים: שדה תעופה, מלון, מסעדה, שיחות עם אנשים חדשים וחירום', 'Real-life scenarios: airports, hotels, restaurants, meeting people, emergencies')}</span></li>
             <li>${icon('check', { size: 16 })}<span>${tt('בלי פרסומות, בלי לחץ של רצפים, ורמה שנמדדת לפי מה שאתם יודעים לעשות', 'No ads, no streak pressure, and a level based on what you can actually do')}</span></li>
           </ul>
         </div>
@@ -78,7 +89,10 @@ export default async function welcome(el, ctx) {
           <div class="krow"><span class="kc wide"></span></div>
         </div>
       </div>
-      <p class="xsmall faint" style="text-align:center;padding:var(--s4)">${tt('הרמות ב-Lucid הן הערכה לפי מתארי CEFR, לא תעודה רשמית.', 'Lucid levels are estimates aligned to CEFR descriptors, not official certificates.')}</p>
+      <div class="welcome-foot">
+        <p class="small welcome-links"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות הפרטיות', 'Privacy policy')}</a><span aria-hidden="true"> · </span><a href="accessibility.html" target="_blank" rel="noopener">${tt('הצהרת נגישות', 'Accessibility statement')}</a></p>
+        <p class="xsmall faint">${tt('הרמות ב-Lucid הן הערכה לפי מתארי CEFR, לא תעודה רשמית.', 'Lucid levels are estimates aligned to CEFR descriptors, not official certificates.')}</p>
+      </div>
     </div>`);
   draw();
 

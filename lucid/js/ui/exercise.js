@@ -875,7 +875,8 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         <div class="panel sunk small">${bi(ex.task)}${ex.must_include?.length ? html`<p class="xsmall" style="margin-top:var(--s2)">${tt('צריך לכלול:', 'Must include:')} ${ex.must_include.map((w) => html`<span class="tag" lang="en" dir="ltr">${w}</span> `)}</p>` : ''}</div>
         <label class="sr-only" for="wr-${ex.id}">${tt('הטקסט שלך', 'Your text')}</label>
         <textarea class="input ex-write" id="wr-${ex.id}" lang="en" dir="ltr" spellcheck="false" style="margin-top:var(--s4)" placeholder="${tt('כתבו באנגלית…', 'Write in English…')}"></textarea>
-        <p class="small faint num" data-wc>${wordCountLine(0, ex)}</p>`);
+        <p class="small faint num" data-wc>${wordCountLine(0, ex)}</p>
+        <p class="xsmall faint" data-no-real-details>${tt('אל תכתבו פרטים אישיים אמיתיים; אפשר להמציא.', 'Do not type real personal details; you can make them up.')}</p>`);
       const ta = $('textarea', root);
       const label = () => {
         const b = root.closest('.player')?.querySelector('[data-check]');

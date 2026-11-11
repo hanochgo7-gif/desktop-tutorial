@@ -63,7 +63,7 @@ const STRINGS = {
   'record': ['הקלטה', 'Record'],
   'stop': ['עצירה', 'Stop'],
   'ai.label': ['משוב AI יכול לטעות', 'AI feedback can be wrong'],
-  'ai.report': ['דיווח על טעות', 'Report a mistake'],
+  'ai.report': ['סימון טעות במשוב', 'Mark a mistake'], // logged on the device; nobody reviews these yet (launch TS-06)
   'ai.unavailable': ['תכונות ה-AI עוד לא זמינות באתר הזה. הבדיקות האוטומטיות עובדות גם בלעדיהן.', 'AI features are not available on this site yet. Automatic checks still work without them.'],
 
   // ---- lane shell-components: new keys go here ----
