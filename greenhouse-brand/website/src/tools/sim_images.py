@@ -22,10 +22,12 @@ def main():
             ph = im.height; pw = round(ph * 9 / 16); l = (im.width - pw) // 2
             im.crop((l, 0, l + pw, ph)).resize((720, 1280), Image.LANCZOS).save(OUT / "sim-poster-m.jpg", quality=78, optimize=True, progressive=True)
         print(f"ch{i:02d}", im.size)
-    # portrait (9:16) cuts for phones: one shared window (full height, centred at 48%) for every chapter, so the fades stay aligned
+    # portrait (9:16) cuts for phones: a full-height window centred at 48%, moved per chapter where the people or the work would fall
+    # outside it (series of 12 Nov 2026, built from the real stills: the eye-level and close chapters are not pixel-aligned anyway)
+    FOCUS = {1: .43, 4: .60, 5: .60, 6: .68, 7: .36, 11: .66}
     for i in range(1, len(list(SRC.glob("ch[0-9][0-9].png"))) + 1):
         im = Image.open(SRC / f"ch{i:02d}.png").convert("RGB"); w, h = im.size
-        cw = round(h * 9 / 16); x0 = max(0, min(w - cw, round(w * .48 - cw / 2)))
+        cw = round(h * 9 / 16); x0 = max(0, min(w - cw, round(w * FOCUS.get(i, .48) - cw / 2)))
         im = im.crop((x0, 0, x0 + cw, h))
         for wd in (720, cw):
             t = im.resize((wd, round(wd * 16 / 9)), Image.LANCZOS); n = OUT / f"sim-r{i:02d}m-{720 if wd == 720 else 'hd'}"
