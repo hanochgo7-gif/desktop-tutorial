@@ -1071,3 +1071,10 @@ SESSIONS = [
     {"name": "פגישה 3: מותג, אתר ושיווק", "body": "90 דקות. פרקים ח׳ עד י״ג, ובסוף פרק י״ד (מבחן מציאות) יחד. עוברים על אתרי ההשראה והמותגים שבחרו."},
     {"name": "סיכום אפיון", "body": "מסמך אחד: מה הוחלט, מה פתוח, מה נבדק במחקר ומה הסיכונים. רק אחרי אישורו מתחילים לעבוד על התוצרים."},
 ]
+
+# Icon per chapter (names from icons.py)
+CHAPTER_ICONS = {
+    "A": "users", "B": "bulb", "C": "target", "D": "award", "E": "jacket", "F": "wallet", "G": "truck",
+    "H": "palette", "I": "monitor", "J": "megaphone", "K": "binoculars", "L": "trend", "M": "handshake",
+    "N": "mountain",
+}

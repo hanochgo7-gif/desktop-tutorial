@@ -11,8 +11,8 @@
 
   var A = {};
   try { A = JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch (e) { A = {}; }
-  var level = 3;
-  try { level = parseInt(localStorage.getItem(LS_LVL), 10) || 3; } catch (e) {}
+  var level = 1;
+  try { level = parseInt(localStorage.getItem(LS_LVL), 10) || 1; } catch (e) {}
 
   var QI = {};
   CH.forEach(function (ch) { ch.qs.forEach(function (q) { q.ch = ch.id; QI[q.id] = q; }); });
@@ -52,6 +52,22 @@
     return true;
   }
   function visible(q) { return q.lvl <= level && showOK(q); }
+  var ICONS = DATA.icons;
+  function ic(name, cls) {
+    var t = document.createElement("span");
+    t.innerHTML = ICONS[name] || "";
+    var svgEl = t.firstChild;
+    if (svgEl && cls) svgEl.setAttribute("class", "ic " + cls);
+    return svgEl;
+  }
+  var TYPE = {
+    short: ["pen", "תשובה קצרה"], long: ["text", "תשובה פתוחה"], num: ["hash", "מספר או טווח"],
+    one: ["radio", "בחירה אחת"], many: ["checks", "אפשר לבחור כמה"], matrix: ["matrix", "בחירה בכל שורה"],
+    poles: ["sliders", "נקודה על כל ציר"], grid: ["table", "טבלה למילוי"], list: ["list", "רשימה"],
+    personas: ["persona", "בניית פרסונות"]
+  };
+  var MIN = { short: .5, long: 2, num: .5, one: .5, many: .75, matrix: 1.5, poles: 1, grid: 4, list: 2, personas: 8 };
+  function est(q) { return (MIN[q.t] || 1) * (q.founders ? 2 : 1) + (q.more ? 1 : 0); }
   var uid = 0;
   function nid(p) { uid += 1; return (p || "f") + "-" + uid; }
 
@@ -98,7 +114,14 @@
     error: "השמירה בענן נכשלה, התשובות שמורות במכשיר"
   };
   var saveState = "local";
-  function setSave(s) { saveState = s; if (saveEl) { saveEl.dataset.state = s; saveEl.textContent = SAVE_TXT[s]; } }
+  function setSave(s) {
+    saveState = s;
+    if (!saveEl) return;
+    saveEl.dataset.state = s;
+    saveEl.textContent = "";
+    saveEl.appendChild(ic(s === "cloud" || s === "saving" ? "cloud" : "device"));
+    saveEl.appendChild(document.createTextNode(SAVE_TXT[s]));
+  }
 
   function initCloud() {
     if (!IN_VIEWER) { setSave("local"); return; }
@@ -272,12 +295,12 @@
           cells.appendChild(inp);
         });
         var rm = i >= (q.min || 1)
-          ? el("button", { class: "rm", type: "button", "aria-label": "מחיקת שורה " + (i + 1), text: "×", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } })
+          ? el("button", { class: "rm", type: "button", "aria-label": "מחיקת שורה " + (i + 1), title: "מחיקת שורה", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }, [ic("x")])
           : el("span");
         var r = el("div", { class: "l-row", style: "--n:" + q.fields.length }, [el("span", { class: "n", text: String(i + 1) }), cells, rm]);
         box.appendChild(r);
       });
-      if (data.length < 8) box.appendChild(el("button", { class: "addrow", type: "button", text: "+ הוספת שורה", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }));
+      if (data.length < 8) box.appendChild(el("button", { class: "addrow", type: "button", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }, [ic("plus"), "הוספת שורה"]));
     }
     draw();
     return box;
@@ -302,11 +325,11 @@
           t.addEventListener("input", function () { upd(f.k, t.value); });
           fs.appendChild(el("label", {}, [f.label, t]));
         });
-        var head = el("div", { class: "persona-h" }, [el("span", { class: "pn", text: String(i + 1) }), name]);
-        if (i >= 3) head.appendChild(el("button", { class: "rm btn", type: "button", text: "הסרה", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }));
+        var head = el("div", { class: "persona-h" }, [el("span", { class: "pn" }, [ic("persona"), el("b", { text: String(i + 1) })]), name]);
+        if (i >= 3) head.appendChild(el("button", { class: "rm btn btn-sm", type: "button", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }, [ic("x"), "הסרה"]));
         box.appendChild(el("fieldset", { class: "persona", style: "margin:0" }, [head, fs]));
       });
-      if (data.length < 5) box.appendChild(el("button", { class: "addrow", type: "button", text: "+ הוספת פרסונה", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }));
+      if (data.length < 5) box.appendChild(el("button", { class: "addrow", type: "button", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }, [ic("plus"), "הוספת פרסונה"]));
     }
     draw();
     return box;
@@ -336,11 +359,11 @@
 
   function unit(q, k, label) {
     var u = el("div", { class: "unit" });
-    if (label) u.appendChild(el("div", { class: "unit-label", text: label }));
+    if (label) u.appendChild(el("div", { class: "unit-label" }, [ic("persona"), label]));
     u.appendChild(el("div", { class: "field-area" }, [fieldFor(q, k)]));
     var hasOwnUndecided = (q.opts && q.opts.indexOf(UNDECIDED) > -1) || (q.t === "matrix" && q.cols.indexOf(UNDECIDED) > -1);
     if (!hasOwnUndecided) {
-      var b = el("button", { class: "undecided", type: "button", "aria-pressed": A[k + "#u"] ? "true" : "false", text: UNDECIDED });
+      var b = el("button", { class: "undecided", type: "button", "aria-pressed": A[k + "#u"] ? "true" : "false" }, [ic("help"), UNDECIDED]);
       b.addEventListener("click", function () {
         var on = b.getAttribute("aria-pressed") !== "true";
         b.setAttribute("aria-pressed", on ? "true" : "false");
@@ -356,9 +379,11 @@
   function renderQ(q) {
     var art = el("article", { class: "q", id: "q-" + q.id, "data-q": q.id });
     var meta = el("div", { class: "q-meta" }, [
-      el("span", { class: "q-id mono", text: q.id }),
-      el("span", { class: "piste piste-" + q.lvl }, [el("i"), DATA.levels[q.lvl - 1].short]),
-      q.req ? el("span", { class: "tag-req", text: "חובה" }) : null
+      el("span", { class: "q-id mono" }, [ic("check", "ok"), q.id]),
+      el("span", { class: "piste piste-" + q.lvl, title: DATA.levels[q.lvl - 1].name }, [el("i"), DATA.levels[q.lvl - 1].short]),
+      q.req ? el("span", { class: "tag-req", text: "חובה" }) : null,
+      q.founders ? el("span", { class: "q-type split" }, [ic("split"), "כל אחד בנפרד"]) : null,
+      el("span", { class: "q-type" }, [ic(TYPE[q.t][0]), TYPE[q.t][1]])
     ]);
     art.appendChild(meta);
     art.appendChild(el("h3", { text: q.q }));
@@ -369,7 +394,7 @@
     } else body.appendChild(unit(q, q.id));
     if (q.more) {
       body.appendChild(el("div", { class: "more" }, [
-        el("label", { class: "ml", for: "in-" + docId(q.id + "#f") }, [el("em", { text: "שאלת המשך" }), q.more]),
+        el("label", { class: "ml", for: "in-" + docId(q.id + "#f") }, [el("em", {}, [ic("reply"), "שאלת המשך"]), q.more]),
         textField(q.id + "#f", true, "", true)
       ]));
     }
@@ -389,11 +414,19 @@
     CH.forEach(function (ch, idx) {
       var sec = el("section", { class: "chapter", id: "ch-" + ch.id, "aria-labelledby": "h-" + ch.id });
       sec.appendChild(el("header", { class: "ch-head" }, [
-        el("div", { class: "ch-letter", "aria-hidden": "true", text: LETTERS[ch.id] }),
-        el("span", { class: "eyebrow", text: "פרק " + LETTERS[ch.id] }),
-        el("h2", { id: "h-" + ch.id, text: ch.title })
+        el("div", { class: "ch-tile", "aria-hidden": "true" }, [ic(ch.icon, "lg"), el("span", { class: "ch-l", text: LETTERS[ch.id] })]),
+        el("div", { class: "ch-titles" }, [
+          el("span", { class: "eyebrow", text: "פרק " + LETTERS[ch.id] + " מתוך " + CH.length }),
+          el("h2", { id: "h-" + ch.id, text: ch.title }),
+          el("div", { class: "ch-facts" }, [
+            el("span", {}, [ic("list"), el("b", { class: "f-n" })]),
+            el("span", {}, [ic("flag"), el("b", { class: "f-r" })]),
+            el("span", {}, [ic("clock"), el("b", { class: "f-t" })])
+          ])
+        ]),
+        el("div", { class: "ch-prog", "aria-hidden": "true" }, [el("span")])
       ]));
-      sec.appendChild(el("p", { class: "ch-lead", text: ch.lead }));
+      sec.appendChild(el("p", { class: "ch-lead" }, [ic("info"), el("span", { text: ch.lead })]));
       var list = el("div", { class: "qs" });
       ch.qs.forEach(function (q) { var a = renderQ(q); a.hidden = !visible(q); list.appendChild(a); });
       sec.appendChild(list);
@@ -401,17 +434,30 @@
       var next = CH[idx + 1];
       sec.appendChild(el("div", { class: "ch-end" }, [
         el("p", { class: "ch-end-txt" }),
-        next ? el("a", { class: "btn", href: "#ch-" + next.id, text: "לפרק " + LETTERS[next.id] + ": " + next.title }) :
-          el("button", { class: "btn btn-primary", type: "button", text: "לסיכום ושליחה", onclick: openSheet })
+        next ? el("a", { class: "btn btn-next", href: "#ch-" + next.id }, [ic(next.icon), "לפרק " + LETTERS[next.id] + ": " + next.title, ic("arrow")]) :
+          el("button", { class: "btn btn-primary", type: "button", onclick: openSheet }, [ic("clipboard"), "לסיכום ושליחה"])
       ]));
       root.appendChild(sec);
       chapEls[ch.id] = sec;
+    });
+    var map = document.getElementById("q-map");
+    map.textContent = "";
+    CH.forEach(function (ch) {
+      map.appendChild(el("li", {}, [el("a", { href: "#ch-" + ch.id, "data-ch": ch.id }, [
+        el("span", { class: "m-ic" }, [ic(ch.icon)]),
+        el("span", { class: "m-l", text: LETTERS[ch.id] }),
+        el("span", { class: "m-t", text: ch.title }),
+        el("span", { class: "m-c mono" }),
+        el("span", { class: "mini" }, [el("span")])
+      ])]));
     });
     navList.textContent = "";
     chapSel.textContent = "";
     CH.forEach(function (ch) {
       navList.appendChild(el("li", {}, [el("a", { href: "#ch-" + ch.id, "data-ch": ch.id }, [
-        el("span", { class: "l", text: LETTERS[ch.id] }), el("span", { text: ch.title }), el("span", { class: "c mono" })
+        el("span", { class: "l" }, [ic(ch.icon)]),
+        el("span", { class: "t" }, [el("span", { text: ch.title }), el("span", { class: "mini" }, [el("span")])]),
+        el("span", { class: "c mono" })
       ])]));
       chapSel.appendChild(el("option", { value: ch.id, text: "פרק " + LETTERS[ch.id] + " · " + ch.title }));
     });
@@ -459,10 +505,10 @@
     var vis = 0, done = 0, req = 0, reqDone = 0, und = 0, missing = [];
     var per = {};
     CH.forEach(function (ch) {
-      var s = { vis: 0, done: 0 };
+      var s = { vis: 0, done: 0, req: 0, min: 0 };
       ch.qs.forEach(function (q) {
         if (!visible(q)) return;
-        s.vis++; vis++;
+        s.vis++; vis++; s.min += est(q); if (q.req) s.req++;
         var a = answered(q);
         if (a) { s.done++; done++; }
         if (keysOf(q).some(function (k) { return A[k + "#u"] === true; }) || keysOf(q).some(function (k) { return A[k] === UNDECIDED; })) und++;
@@ -481,13 +527,39 @@
     bar.style.width = (s.vis ? Math.round(100 * s.done / s.vis) : 0) + "%";
     numDone.textContent = s.done + " מתוך " + s.vis + " שאלות";
     numReq.textContent = s.req - s.reqDone ? "חסרות " + (s.req - s.reqDone) + " שאלות חובה" : "כל שאלות החובה נענו";
+    var totalMin = 0;
     CH.forEach(function (ch) {
-      var a = navList.querySelector('a[data-ch="' + ch.id + '"]');
       var p = s.per[ch.id];
-      if (a) { a.querySelector(".c").textContent = p.done + "/" + p.vis; a.classList.toggle("done", p.vis > 0 && p.done === p.vis); }
-      var t = chapEls[ch.id] && chapEls[ch.id].querySelector(".ch-end-txt");
-      if (t) t.textContent = p.vis ? "עניתם על " + p.done + " מתוך " + p.vis + " שאלות בפרק." : "";
+      var pct = p.vis ? Math.round(100 * p.done / p.vis) : 0;
+      var full = p.vis > 0 && p.done === p.vis;
+      totalMin += p.min;
+      [navList, document.getElementById("q-map")].forEach(function (list) {
+        var a = list.querySelector('a[data-ch="' + ch.id + '"]');
+        if (!a) return;
+        var c = a.querySelector(".c, .m-c");
+        c.textContent = "";
+        if (full) c.appendChild(ic("check", "ok")); else c.textContent = p.done + "/" + p.vis;
+        a.querySelector(".mini > span").style.width = pct + "%";
+        a.classList.toggle("done", full);
+        a.classList.toggle("off", p.vis === 0);
+      });
+      var sec = chapEls[ch.id];
+      if (!sec) return;
+      sec.querySelector(".f-n").textContent = p.vis + " שאלות";
+      sec.querySelector(".f-r").textContent = p.req + " חובה";
+      sec.querySelector(".f-t").textContent = "כ-" + Math.max(1, Math.round(p.min)) + " דקות";
+      sec.querySelector(".ch-prog > span").style.width = pct + "%";
+      var t = sec.querySelector(".ch-end-txt");
+      t.textContent = "";
+      if (p.vis) {
+        if (full) t.appendChild(ic("check", "ok"));
+        t.appendChild(document.createTextNode(full ? "סיימתם את הפרק." : "עניתם על " + p.done + " מתוך " + p.vis + " שאלות בפרק."));
+      }
     });
+    var rest = 0;
+    CH.forEach(function (ch) { ch.qs.forEach(function (q) { if (visible(q) && !answered(q)) rest += est(q); }); });
+    var tm = document.getElementById("q-time");
+    if (tm) tm.textContent = rest ? "כ-" + Math.max(1, Math.round(rest)) + " דקות מילוי ב" + ["מסלול הכחול", "מסלולים הכחול והאדום", "כל המסלולים"][level - 1] : "סיימתם את המסלול שבחרתם";
   }
 
   // level switcher
@@ -496,12 +568,21 @@
     Array.prototype.forEach.call(seg.querySelectorAll("button"), function (b) {
       b.setAttribute("aria-pressed", String(+b.dataset.lvl === level));
     });
+    Array.prototype.forEach.call(document.querySelectorAll(".lvl[data-lvl]"), function (b) {
+      b.setAttribute("aria-pressed", String(+b.dataset.lvl <= level));
+    });
   }
-  seg.addEventListener("click", function (e) {
-    var b = e.target.closest("button"); if (!b) return;
-    level = +b.dataset.lvl;
+  function setLevel(n) {
+    level = n;
     try { localStorage.setItem(LS_LVL, String(level)); } catch (er) {}
     drawLevel(); applyVisibility();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".lvl[data-lvl]"), function (b) {
+    b.addEventListener("click", function () { setLevel(+b.dataset.lvl); });
+  });
+  seg.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    setLevel(+b.dataset.lvl);
   });
 
   // chapter tracking
@@ -515,6 +596,9 @@
         if (!en.isIntersecting) return;
         var id = en.target.id.slice(3);
         Array.prototype.forEach.call(navList.querySelectorAll("a"), function (a) { a.classList.toggle("on", a.dataset.ch === id); });
+        var cur = document.getElementById("q-cur");
+        var chx = CH.filter(function (c) { return c.id === id; })[0];
+        if (cur && chx) { cur.textContent = ""; cur.appendChild(ic(chx.icon)); cur.appendChild(document.createTextNode("פרק " + LETTERS[id] + " · " + chx.title)); }
         chapSel.value = id;
       });
     }, { rootMargin: "-30% 0px -60% 0px" });
@@ -608,9 +692,9 @@
     var b = document.getElementById("q-sheet-body");
     b.textContent = "";
     b.appendChild(el("div", { class: "stats" }, [
-      el("div", { class: "stat" }, [el("b", { text: String(s.done) }), el("span", { text: "שאלות נענו מתוך " + s.vis })]),
-      el("div", { class: "stat" }, [el("b", { text: String(s.reqDone) + "/" + s.req }), el("span", { text: "שאלות חובה" })]),
-      el("div", { class: "stat" }, [el("b", { text: String(s.und) }), el("span", { text: "סומנו 'עדיין לא החלטנו'" })])
+      el("div", { class: "stat" }, [ic("checks"), el("b", { text: String(s.done) }), el("span", { text: "שאלות נענו מתוך " + s.vis })]),
+      el("div", { class: "stat" }, [ic("flag"), el("b", { text: String(s.reqDone) + "/" + s.req }), el("span", { text: "שאלות חובה" })]),
+      el("div", { class: "stat" }, [ic("help"), el("b", { text: String(s.und) }), el("span", { text: "סומנו 'עדיין לא החלטנו'" })])
     ]));
     if (s.missing.length) {
       var miss = el("div", { class: "missing" });
@@ -625,14 +709,14 @@
       : "התשובות שמורות רק במכשיר הזה. כשתסיימו, העתיקו את הסיכום ושלחו לנו בוואטסאפ או במייל, או הורידו קובץ ושלחו אותו." }));
     var ta = el("textarea", { class: "preview", hidden: true, readonly: true, "aria-label": "סיכום התשובות" });
     var actions = el("div", { class: "actions" }, [
-      el("button", { class: "btn btn-primary", type: "button", text: "העתקת סיכום התשובות", onclick: function () { copyText(summaryText(), ta); } }),
-      el("button", { class: "btn", type: "button", text: "הורדת קובץ טקסט", onclick: function () { saveFile("ski-questionnaire-answers.txt", summaryText(), "text/plain;charset=utf-8"); } }),
-      el("button", { class: "btn", type: "button", text: "הורדת קובץ נתונים (JSON)", onclick: function () { saveFile("ski-questionnaire-answers.json", exportJSON(), "application/json"); } }),
-      !IN_VIEWER ? el("button", { class: "btn", type: "button", text: "הדפסה או PDF", onclick: function () { closeSheet(); setTimeout(function () { window.print(); }, 100); } }) : null
+      el("button", { class: "btn btn-primary", type: "button", onclick: function () { copyText(summaryText(), ta); } }, [ic("copy"), "העתקת סיכום התשובות"]),
+      el("button", { class: "btn", type: "button", onclick: function () { saveFile("ski-questionnaire-answers.txt", summaryText(), "text/plain;charset=utf-8"); } }, [ic("download"), "קובץ טקסט"]),
+      el("button", { class: "btn", type: "button", onclick: function () { saveFile("ski-questionnaire-answers.json", exportJSON(), "application/json"); } }, [ic("download"), "קובץ נתונים (JSON)"]),
+      !IN_VIEWER ? el("button", { class: "btn", type: "button", onclick: function () { closeSheet(); setTimeout(function () { window.print(); }, 100); } }, [ic("printer"), "הדפסה או PDF"]) : null
     ]);
     b.appendChild(el("div", {}, [el("p", { class: "sh", text: "שליחה ושמירה" }), actions]));
     b.appendChild(ta);
-    var file = el("input", { type: "file", accept: "application/json,.json", id: "q-import" });
+    var file = el("input", { type: "file", accept: "application/json,.json", id: "q-import", class: "vh" });
     file.addEventListener("change", function () {
       var f = file.files && file.files[0]; if (!f) return;
       var r = new FileReader();
@@ -650,7 +734,8 @@
     b.appendChild(el("div", {}, [
       el("p", { class: "sh", text: "טעינת תשובות מקובץ" }),
       el("p", { class: "q-hint", style: "margin:0 0 8px", text: "אם מילאתם במכשיר אחר והורדתם קובץ JSON, אפשר לטעון אותו כאן. תשובות מהקובץ יחליפו תשובות קיימות לאותן שאלות." }),
-      file
+      file,
+      el("label", { class: "btn", for: "q-import" }, [ic("upload"), "בחירת קובץ"])
     ]));
     sheet.hidden = false; back.hidden = false;
     document.getElementById("q-sheet-close").focus();

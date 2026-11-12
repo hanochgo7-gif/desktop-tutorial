@@ -14,6 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import content as C  # noqa: E402
+from icons import PATHS, svg  # noqa: E402
 
 LETTERS = {"A": "א׳", "B": "ב׳", "C": "ג׳", "D": "ד׳", "E": "ה׳", "F": "ו׳", "G": "ז׳", "H": "ח׳",
            "I": "ט׳", "J": "י׳", "K": "י״א", "L": "י״ב", "M": "י״ג", "N": "י״ד"}
@@ -74,16 +75,26 @@ CLIENT_KEYS = ["id", "lvl", "t", "q", "req", "hint", "more", "opts", "rows", "co
 
 
 def client_page():
-    chapters = [{"id": ch["id"], "title": ch["title"], "lead": ch["lead"],
+    chapters = [{"id": ch["id"], "title": ch["title"], "lead": ch["lead"], "icon": C.CHAPTER_ICONS[ch["id"]],
                  "qs": [{k: q[k] for k in CLIENT_KEYS if k in q} for q in ch["qs"]]}
                 for ch in C.CHAPTERS]
-    data = {"chapters": chapters, "letters": LETTERS, "levels": LEVELS, "undecided": C.UNDECIDED, "other": C.OTHER}
+    data = {"chapters": chapters, "letters": LETTERS, "levels": LEVELS, "undecided": C.UNDECIDED, "other": C.OTHER,
+            "icons": {k: svg(k) for k in PATHS}}
     n_all = sum(len(ch["qs"]) for ch in C.CHAPTERS)
     n_blue = sum(1 for _, q in all_qs() if q["lvl"] == 1)
 
+    per_lvl = {n: sum(1 for _, q in all_qs() if q["lvl"] == n) for n in (1, 2, 3)}
     legend = "".join(
-        f'<span class="piste piste-{lv["n"]}"><i></i><b>{e(lv["name"])}</b>&nbsp;· {e(lv["desc"])}</span>'
+        f'<button type="button" class="lvl" data-lvl="{lv["n"]}" aria-pressed="false"><span class="piste piste-{lv["n"]}"><i></i></span><b>{e(lv["name"])} · {e(lv["short"])}</b>'
+        f'<span class="n">{per_lvl[lv["n"]]} שאלות</span><span class="d">{e(lv["desc"])}</span></button>'
         for lv in LEVELS)
+    how = [
+        ("bookmark", "לא חייבים לסיים בבת אחת", "התשובות נשמרות תוך כדי. אפשר לעצור ולחזור מתי שנוח."),
+        ("help", f"״{C.UNDECIDED}״ זו תשובה טובה", "היא מראה לנו איפה לעזור. אל תנחשו ואל תמציאו מספרים."),
+        ("flag", "מתחילים במסלול הכחול", f"השאלון נפתח על {n_blue} שאלות הבסיס. את האדום והשחור אפשר להוסיף אחר כך או להשאיר לפגישה."),
+        ("split", "חלק מהשאלות לכל אחד לבד", "בשאלות A-13 עד A-17 כל אחד עונה בנפרד, בלי להתייעץ קודם."),
+    ]
+    how_html = "".join(f'<li><span class="ti">{svg(i)}</span><b>{e(t)}</b><p>{e(d)}</p></li>' for i, t, d in how)
     seg = "".join(
         f'<button type="button" data-lvl="{n}" aria-pressed="false"><span class="piste piste-{n}"><i></i></span>{label}</button>'
         for n, label in [(1, "כחול"), (2, "כחול ואדום"), (3, "הכול")])
@@ -91,18 +102,26 @@ def client_page():
     body = f"""<div class="app" dir="rtl" lang="he">
 <header class="hero">
   <div class="wrap">
-    <div>
-      <p class="eyebrow">שאלון אפיון · שלב ראשון</p>
-      <h1>רואי ואומר,<br><span>בואו נכיר את העסק.</span></h1>
-      <p class="lede">השאלון הזה הוא הצעד הראשון בבניית העסק להשכרת ציוד סקי. הוא עוזר לנו להבין מה אתם רוצים להקים, בשביל מי ולמה, כדי שכל החלטה בהמשך, מהמחיר ועד הלוגו, תישען על משהו אמיתי. אתם לא צריכים לדעת הכול. בשביל זה אנחנו כאן.</p>
+    <div class="hero-top">
+      <div>
+        <p class="brandline"><span class="mark">{svg("snowflake")}</span>שאלון אפיון · שלב ראשון</p>
+        <h1>רואי ואומר,<br><span>בואו נכיר את העסק.</span></h1>
+        <p class="lede">השאלון הזה הוא הצעד הראשון בבניית העסק להשכרת ציוד סקי. הוא עוזר לנו להבין מה אתם רוצים להקים, בשביל מי ולמה, כדי שכל החלטה בהמשך, מהמחיר ועד הלוגו, תישען על משהו אמיתי. אתם לא צריכים לדעת הכול. בשביל זה אנחנו כאן.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="#ch-A">{svg("flag")}מתחילים</a>
+          <span class="meta"><span>{svg("clock")}<span id="q-time"></span></span><span>{svg("bookmark")}נשמר אוטומטית</span></span>
+        </div>
+      </div>
+      <ul class="how" aria-label="איך ממלאים">
+        <li class="how-h" style="display:block">איך ממלאים</li>
+        {how_html}
+      </ul>
     </div>
-    <div class="how">
-      <div><b>לא חייבים לסיים בבת אחת</b><p>התשובות נשמרות תוך כדי. אפשר לעצור ולחזור מתי שנוח.</p></div>
-      <div><b>״{e(C.UNDECIDED)}״ זו תשובה טובה</b><p>היא מראה לנו איפה לעזור. אל תנחשו ואל תמציאו מספרים.</p></div>
-      <div><b>מתחילים במסלול הכחול</b><p>{n_blue} שאלות בסיס, בערך שעה. את האדום והשחור אפשר להשאיר לפגישה.</p></div>
-      <div><b>חלק מהשאלות לכל אחד לבד</b><p>בשאלות A-13 עד A-17 כל אחד עונה בנפרד, בלי להתייעץ קודם.</p></div>
-    </div>
-    <div class="levels">{legend}</div>
+    <div class="levels-wrap"><p class="map-h">{svg("sliders")}בחרו כמה לעומק להציג (אפשר לשנות בכל רגע)</p><div class="levels">{legend}</div></div>
+    <nav aria-labelledby="map-h">
+      <h2 class="map-h" id="map-h">{svg("map")}מפת השאלון: {len(C.CHAPTERS)} פרקים</h2>
+      <ol class="cmap" id="q-map"></ol>
+    </nav>
   </div>
   <svg class="ridge" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true"><path fill="var(--snow)" d="M0 46V30l80-8 70 8 90-20 60 14 60-6 70 14 90-26 80 20 60-6 80 14 80-20 80 14 80-10 80 12 70-14 70 10v20z"/></svg>
 </header>
@@ -115,7 +134,7 @@ def client_page():
     </div>
     <div class="seg" id="q-level" role="group" aria-label="אילו שאלות להציג">{seg}</div>
     <span class="save" id="q-save" role="status" data-state="local"></span>
-    <button type="button" class="btn btn-primary" id="q-open-sheet">סיכום ושליחה</button>
+    <button type="button" class="btn btn-primary" id="q-open-sheet">{svg("clipboard")}סיכום ושליחה</button>
     <select class="chap-select" id="q-chap" aria-label="מעבר לפרק"></select>
   </div>
 </div>
@@ -130,7 +149,7 @@ def client_page():
 
 <div class="sheet-back" id="q-back" hidden></div>
 <section class="sheet" id="q-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="q-sheet-t">
-  <div class="sheet-h"><h2 id="q-sheet-t">סיכום ושליחה</h2><button type="button" class="btn" id="q-sheet-close">סגירה</button></div>
+  <div class="sheet-h"><h2 id="q-sheet-t">סיכום ושליחה</h2><button type="button" class="btn" id="q-sheet-close">{svg("x")}סגירה</button></div>
   <div class="sheet-b" id="q-sheet-body"></div>
 </section>
 <div class="toast" id="q-toast" role="status" hidden></div>
@@ -231,7 +250,7 @@ def guide_page():
     team_opts = "".join(f'<option value="{t["k"]}">{e(t["name"])}</option>' for t in C.TEAMS)
     bank = []
     for ch in C.CHAPTERS:
-        bank.append(f'<section class="bank-ch" id="gb-{ch["id"]}"><h3><span class="l">{LETTERS[ch["id"]]}</span>{e(ch["title"])}</h3>'
+        bank.append(f'<section class="bank-ch" id="gb-{ch["id"]}"><h3><span class="gi">{svg(C.CHAPTER_ICONS[ch["id"]])}</span><span class="l">{LETTERS[ch["id"]]}</span>{e(ch["title"])}</h3>'
                     + "".join(bank_item(q) for q in ch["qs"]) + "</section>")
 
     dl_rows = "".join(

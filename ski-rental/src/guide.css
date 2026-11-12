@@ -99,3 +99,7 @@ td.n { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: ta
   .g-layout { display: block; }
   .bq, .team, .check { break-inside: avoid; }
 }
+.ic { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.18em; }
+.bank-ch h3 { align-items: center; }
+.bank-ch .gi { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); }
+.bank-ch .gi .ic { width: 20px; height: 20px; }

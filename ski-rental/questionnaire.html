@@ -111,20 +111,64 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+/* ---------- icons ---------- */
+.ic { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.18em; }
+.ic.lg { width: 28px; height: 28px; }
+.ic.ok { color: var(--ok); }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 /* ---------- hero ---------- */
-.hero { background: var(--paper); border-bottom: 1px solid var(--line); }
-.hero .wrap { padding-block: 40px 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.hero { background: var(--paper); }
+.hero .wrap { padding-block: 40px 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; }
+.hero-top { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 28px 48px; align-items: start; }
+.brandline { display: inline-flex; align-items: center; gap: 10px; font-size: var(--t-xs); font-weight: 600; letter-spacing: .08em; color: var(--muted); margin-bottom: 16px; }
+.mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); }
+.mark .ic { width: 20px; height: 20px; }
 .hero h1 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-3xl); line-height: 1.1; letter-spacing: -.005em; }
 .hero h1 span { color: var(--accent); }
-.hero .lede { font-size: var(--t-lg); color: var(--ink-2); max-width: 62ch; margin-top: 12px; }
-.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 28px; max-width: 980px; }
-.how div { border-top: 2px solid var(--ink); padding-top: 10px; }
-.how b { display: block; font-size: var(--t-sm); margin-bottom: 2px; }
-.how p { font-size: var(--t-sm); color: var(--ink-2); }
-.levels { display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: var(--t-sm); color: var(--ink-2); }
-.levels .piste { font-size: var(--t-sm); white-space: normal; align-items: baseline; }
-.levels .piste b { color: var(--ink); }
-.ridge { display: block; width: 100%; height: 46px; color: var(--line); margin-top: 6px; }
+.hero .lede { font-size: var(--t-lg); color: var(--ink-2); max-width: 58ch; margin-top: 14px; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 22px; }
+.hero-cta .meta { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: var(--t-sm); color: var(--muted); }
+.hero-cta .meta span { display: inline-flex; align-items: center; gap: 6px; }
+.how { list-style: none; margin: 0; padding: 18px; display: grid; gap: 14px; background: var(--snow); border-radius: 16px; }
+.how-h { font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; color: var(--muted); }
+.how li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 12px; align-items: start; }
+.how .ti { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--paper); color: var(--accent); border: 1px solid var(--line); }
+.how .ti .ic { width: 20px; height: 20px; }
+.how b { font-size: var(--t-sm); }
+.how p { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.5; }
+.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.lvl { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); text-align: start; cursor: pointer; transition: border-color .15s, background .15s; }
+.lvl:hover { border-color: var(--muted); }
+.lvl[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.lvl .d { grid-column: 2 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.45; }
+.lvl .piste { font-size: var(--t-sm); }
+.lvl .piste i { width: .85rem; height: .85rem; }
+.lvl b { font-size: var(--t-sm); }
+.lvl .n { font-family: var(--f-mono); font-size: var(--t-xs); color: var(--muted); }
+.lvl p { grid-column: 2 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.45; }
+.map-h { display: flex; align-items: center; gap: 8px; font-size: var(--t-sm); font-weight: 700; margin-bottom: 12px; }
+.map-h .ic { color: var(--accent); }
+.cmap { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.cmap a {
+  display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; grid-template-rows: auto auto auto; gap: 0 10px; align-items: center;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); text-decoration: none; color: var(--ink);
+  transition: border-color .15s, transform .15s;
+}
+.cmap a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.cmap .m-ic { grid-row: 1 / 3; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); }
+.cmap .m-ic .ic { width: 20px; height: 20px; }
+.cmap .m-l { font-size: var(--t-xs); color: var(--muted); font-weight: 600; }
+.cmap .m-t { grid-column: 2 / 4; font-size: var(--t-sm); font-weight: 600; line-height: 1.3; }
+.cmap .m-c { grid-column: 3; grid-row: 1; font-size: var(--t-xs); color: var(--muted); display: inline-flex; }
+.cmap .mini { grid-column: 1 / -1; margin-top: 10px; }
+.cmap a.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.cmap a.done .m-ic { background: var(--ok-soft); color: var(--ok); }
+.cmap a.off { opacity: .45; }
+.mini { display: block; height: 4px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.mini > span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .35s ease; }
+.done .mini > span { background: var(--ok); }
+.ridge { display: block; width: 100%; height: 46px; margin-top: 10px; }
 
 /* ---------- sticky bar ---------- */
 .bar {
@@ -132,7 +176,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   background: var(--paper); border-bottom: 1px solid var(--line);
 }
 .bar .wrap { display: flex; align-items: center; gap: 12px 18px; flex-wrap: wrap; padding-block: 10px; }
-.bar-progress { flex: 1 1 220px; min-width: 0; display: grid; gap: 4px; }
+.bar-progress { flex: 1 1 220px; min-width: 0; display: grid; gap: 5px; }
 .bar-progress .nums { display: flex; justify-content: space-between; gap: 10px; font-size: var(--t-xs); color: var(--muted); }
 .bar-progress .nums b { color: var(--ink); font-weight: 600; }
 .track { height: 6px; background: var(--line-2); border-radius: 99px; overflow: hidden; }
@@ -144,64 +188,90 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 .seg button[aria-pressed="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); }
 .save { font-size: var(--t-xs); color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-.save::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
-.save[data-state="cloud"]::before { background: var(--ok); }
-.save[data-state="saving"]::before { background: var(--warn); }
-.save[data-state="error"]::before { background: var(--flag); }
+.save[data-state="cloud"] { color: var(--ok); }
+.save[data-state="saving"] { color: var(--warn); }
+.save[data-state="error"] { color: var(--flag); }
 .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5em;
   border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 99px;
-  padding: .45rem 1rem; font-size: var(--t-sm); font-weight: 600; cursor: pointer; white-space: nowrap;
+  padding: .45rem 1rem; font-size: var(--t-sm); font-weight: 600; cursor: pointer; white-space: nowrap; text-decoration: none;
 }
 .btn:hover { border-color: var(--ink-2); }
 .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn-primary:hover { filter: brightness(1.08); border-color: var(--accent); }
+.btn-lg { padding: .7rem 1.4rem; font-size: var(--t-md); }
+.btn-sm { padding: .25rem .7rem; font-size: var(--t-xs); }
 .chap-select { display: none; max-width: 100%; border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: .4rem .6rem; font-size: var(--t-sm); }
 
 /* ---------- layout ---------- */
-.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; padding-block: 32px 80px; }
-.nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); align-self: start; max-height: calc(100vh - 110px); overflow: auto; }
+.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; padding-block: 32px 80px; }
+.nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); align-self: start; max-height: calc(100vh - 110px); overflow: auto; padding: 2px; }
 .nav ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .nav a {
-  display: grid; grid-template-columns: 2.1rem minmax(0,1fr) auto; align-items: center; gap: 8px;
-  padding: .45rem .55rem; border-radius: 8px; text-decoration: none; color: var(--ink-2); font-size: var(--t-sm);
+  display: grid; grid-template-columns: 30px minmax(0,1fr) auto; align-items: center; gap: 10px;
+  padding: .45rem .55rem; border-radius: 10px; text-decoration: none; color: var(--ink-2); font-size: var(--t-sm);
 }
 .nav a:hover { background: var(--paper); color: var(--ink); }
 .nav a.on { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); }
-.nav .l { font-family: var(--f-display); font-size: var(--t-md); color: var(--muted); text-align: center; }
-.nav .c { font-size: var(--t-xs); color: var(--muted); }
-.nav a.done .c { color: var(--ok); font-weight: 600; }
+.nav .l { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; color: var(--muted); }
+.nav a.on .l { background: var(--accent-soft); color: var(--accent); }
+.nav a.done .l { color: var(--ok); }
+.nav .t { display: grid; gap: 4px; min-width: 0; line-height: 1.3; }
+.nav .mini { height: 3px; }
+.nav .c { font-size: var(--t-xs); color: var(--muted); display: inline-flex; }
+.nav a.off { opacity: .45; }
 .nav-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: var(--t-xs); color: var(--muted); }
 
 main { min-width: 0; max-width: 820px; }
 
 /* ---------- chapter ---------- */
 .chapter { scroll-margin-top: 90px; }
-.chapter + .chapter { margin-top: 64px; }
-.ch-head { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 4px 18px; align-items: end; padding-bottom: 18px; border-bottom: 2px solid var(--ink); }
-.ch-letter { font-family: var(--f-display); font-size: 3.5rem; line-height: .9; color: var(--accent); grid-row: span 2; }
+.chapter + .chapter { margin-top: 72px; }
+.ch-head { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 14px 18px; align-items: center; }
+.ch-tile { position: relative; display: grid; place-items: center; width: 68px; height: 68px; border-radius: 18px; background: var(--accent); color: var(--accent-ink); }
+.ch-tile .ic.lg { width: 32px; height: 32px; }
+.ch-l { position: absolute; inset-block-end: -8px; inset-inline-start: -8px; min-width: 28px; height: 28px; padding-inline: 4px; display: grid; place-items: center; border-radius: 99px; background: var(--paper); color: var(--accent); border: 2px solid var(--accent); font-family: var(--f-display); font-size: var(--t-sm); line-height: 1; }
+.ch-titles { display: grid; gap: 2px; min-width: 0; }
 .ch-head h2 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-2xl); line-height: 1.15; }
-.ch-head .count { font-size: var(--t-xs); color: var(--muted); }
-.ch-lead { color: var(--ink-2); max-width: 64ch; margin-top: 14px; }
+.ch-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--t-xs); color: var(--muted); margin-top: 4px; }
+.ch-facts span { display: inline-flex; align-items: center; gap: 5px; }
+.ch-facts b { font-weight: 500; }
+.ch-prog { grid-column: 1 / -1; height: 4px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.ch-prog > span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .35s ease; }
+.ch-lead { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: var(--accent-soft); }
+.ch-lead .ic { color: var(--accent); margin-top: .2em; }
+.ch-lead span { max-width: 66ch; }
 
 /* ---------- question ---------- */
-.q { padding-block: 26px; border-bottom: 1px solid var(--line); scroll-margin-top: 96px; }
-.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-bottom: 6px; }
-.q-id { font-size: var(--t-xs); color: var(--muted); }
-.q.answered .q-id { color: var(--ok); }
-.q.answered .q-id::after { content: " ✓"; }
-.q h3 { font-size: var(--t-lg); font-weight: 600; line-height: 1.45; max-width: 64ch; }
-.q-hint { font-size: var(--t-sm); color: var(--muted); margin-top: 6px; max-width: 64ch; }
+.q {
+  margin-top: 14px; padding: 22px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+  scroll-margin-top: 96px; transition: border-color .2s;
+}
+.q.answered { border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 10px; }
+.q-id { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--muted); background: var(--snow); border-radius: 6px; padding: .1rem .45rem; }
+.q-id .ic { display: none; }
+.q.answered .q-id { color: var(--ok); background: var(--ok-soft); }
+.q.answered .q-id .ic { display: inline-block; }
+.q-type { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-xs); color: var(--muted); }
+.q-type:last-child { margin-inline-start: auto; }
+.q-type.split { color: var(--accent); font-weight: 600; }
+.q h3 { font-size: 1.1875rem; font-weight: 600; line-height: 1.45; max-width: 62ch; }
+.q-hint { display: flex; gap: 8px; align-items: flex-start; font-size: var(--t-sm); color: var(--muted); margin-top: 8px; max-width: 64ch; }
 .q-body { margin-top: 14px; display: grid; gap: 16px; }
 .unit { display: grid; gap: 8px; min-width: 0; }
-.unit-label { font-size: var(--t-sm); font-weight: 600; color: var(--accent); }
+.unit-label { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-sm); font-weight: 700; color: var(--accent); }
+.founders .unit { padding: 14px; border-radius: 12px; background: var(--snow); }
 .founders { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 24px; }
 .unit.is-undecided .field-area { opacity: .45; }
 .unit-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
 .undecided {
+  display: inline-flex; align-items: center; gap: 6px;
   border: 1px dashed var(--line); background: transparent; color: var(--muted); border-radius: 99px;
-  padding: .2rem .75rem; font-size: var(--t-xs); font-weight: 500; cursor: pointer;
+  padding: .25rem .8rem; font-size: var(--t-xs); font-weight: 500; cursor: pointer;
 }
+.undecided:hover { border-color: var(--muted); color: var(--ink-2); }
 .undecided[aria-pressed="true"] { border-style: solid; border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
 
 /* text inputs */
@@ -237,7 +307,7 @@ main { min-width: 0; max-width: 820px; }
 .other { max-width: 420px; }
 
 /* matrix */
-.matrix { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); overflow: hidden; }
+.matrix { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); overflow: hidden; }
 .mx-head, .mx-row { display: grid; grid-template-columns: minmax(150px, 1.5fr) repeat(var(--n), minmax(0, 1fr)); align-items: center; }
 .mx-head { background: var(--snow); font-size: var(--t-xs); font-weight: 600; color: var(--ink-2); border-bottom: 1px solid var(--line); }
 .mx-head > div { padding: .55rem .4rem; text-align: center; line-height: 1.3; }
@@ -299,9 +369,9 @@ main { min-width: 0; max-width: 820px; }
 .listq { display: grid; gap: 8px; }
 .l-row { display: grid; grid-template-columns: 1.6rem repeat(var(--n), minmax(0, 1fr)) 2rem; gap: 8px; align-items: start; }
 .l-row .n { font-family: var(--f-mono); font-size: var(--t-xs); color: var(--muted); padding-top: .7rem; text-align: center; }
-.l-row .rm { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding-top: .45rem; border-radius: 6px; }
+.l-row .rm { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: .55rem .3rem 0; border-radius: 6px; }
 .l-row .rm:hover { color: var(--flag); }
-.addrow { justify-self: start; border: 1px dashed var(--line); background: transparent; border-radius: 8px; padding: .4rem .9rem; font-size: var(--t-sm); cursor: pointer; color: var(--accent); font-weight: 600; }
+.addrow { display: inline-flex; align-items: center; gap: 6px; justify-self: start; border: 1px dashed var(--line); background: transparent; border-radius: 8px; padding: .4rem .9rem; font-size: var(--t-sm); cursor: pointer; color: var(--accent); font-weight: 600; }
 @media (max-width: 640px) {
   .l-row { grid-template-columns: 1.4rem minmax(0,1fr) 2rem; }
   .l-row .cells { display: grid; gap: 6px; }
@@ -309,21 +379,24 @@ main { min-width: 0; max-width: 820px; }
 
 /* personas */
 .personas { display: grid; gap: 14px; }
-.persona { border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); padding: 16px; display: grid; gap: 12px; }
+.persona { border: 1px solid var(--line); border-radius: 14px; background: var(--snow); padding: 16px; display: grid; gap: 12px; }
 .persona-h { display: flex; align-items: center; gap: 10px; }
-.persona-h .pn { font-family: var(--f-display); font-size: var(--t-xl); color: var(--accent); line-height: 1; }
+.persona-h .pn { position: relative; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); }
+.persona-h .pn .ic { width: 20px; height: 20px; }
+.persona-h .pn b { position: absolute; inset-block-end: -6px; inset-inline-start: -6px; font-size: .7rem; min-width: 18px; height: 18px; display: grid; place-items: center; border-radius: 99px; background: var(--accent); color: var(--accent-ink); }
 .persona-h .inp { font-weight: 600; }
 .persona-f { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 14px; }
 .persona-f label { display: grid; gap: 3px; font-size: var(--t-xs); color: var(--muted); font-weight: 600; }
 
 /* follow up */
-.more { border-inline-start: 3px solid var(--accent-soft); padding-inline-start: 14px; display: grid; gap: 6px; }
+.more { padding: 14px; border-radius: 12px; background: var(--snow); display: grid; gap: 8px; }
 .more .ml { font-size: var(--t-sm); font-weight: 600; color: var(--ink-2); }
-.more .ml em { font-style: normal; color: var(--accent); font-weight: 600; margin-inline-end: 6px; font-size: var(--t-xs); }
+.more .ml em { display: inline-flex; align-items: center; gap: 4px; font-style: normal; color: var(--accent); font-weight: 700; margin-inline-end: 8px; font-size: var(--t-xs); }
 
 /* chapter end */
-.ch-end { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: var(--r); background: var(--paper); border: 1px solid var(--line); }
-.ch-end p { font-size: var(--t-sm); color: var(--ink-2); }
+.ch-end { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: var(--r); background: var(--paper); border: 1px solid var(--line); }
+.ch-end p { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-sm); color: var(--ink-2); }
+.btn-next { white-space: normal; text-align: start; }
 .empty-level { padding: 22px 0; color: var(--muted); font-size: var(--t-sm); }
 
 /* ---------- summary panel ---------- */
@@ -337,7 +410,8 @@ main { min-width: 0; max-width: 820px; }
 .sheet-h h2 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xl); }
 .sheet-b { overflow: auto; padding: 20px; display: grid; gap: 22px; align-content: start; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-.stat { border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+.stat { display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.stat .ic { color: var(--accent); width: 20px; height: 20px; margin-bottom: 4px; }
 .stat b { display: block; font-family: var(--f-display); font-weight: 400; font-size: var(--t-2xl); line-height: 1.1; font-variant-numeric: tabular-nums; }
 .stat span { font-size: var(--t-xs); color: var(--muted); }
 .missing { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -352,12 +426,23 @@ main { min-width: 0; max-width: 820px; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 980px) {
+  .hero-top { grid-template-columns: minmax(0, 1fr); }
+  .levels { grid-template-columns: minmax(0, 1fr); }
   .layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 20px; }
   .nav { display: none; }
   .chap-select { display: block; flex: 1 1 100%; }
 }
 @media (max-width: 640px) {
   .hero .wrap { padding-top: 28px; }
+  .chapter { scroll-margin-top: 150px; }
+  .q { scroll-margin-top: 150px; }
+  .q { padding: 18px 16px; border-radius: 14px; }
+  .q-type:last-child { margin-inline-start: 0; }
+  .cmap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .cmap a { grid-template-columns: 32px minmax(0, 1fr) auto; padding: 9px 10px; }
+  .cmap .m-ic { width: 32px; height: 32px; }
+  .ch-tile { width: 56px; height: 56px; border-radius: 15px; }
+  .ch-head h2 { font-size: var(--t-xl); }
   .mx-head { display: none; }
   .mx-row { grid-template-columns: 1fr; padding: .6rem .8rem; gap: 6px; }
   .mx-row > .rl { padding: 0; font-weight: 600; }
@@ -382,7 +467,7 @@ main { min-width: 0; max-width: 820px; }
 
 /* ---------- print (standalone file only) ---------- */
 @media print {
-  .bar, .nav, .hero .ridge, .unit-foot, .addrow, .rm, .ch-end, .sheet, .sheet-back, .toast { display: none !important; }
+  .bar, .nav, .hero .ridge, .cmap, .hero-cta, .unit-foot, .addrow, .rm, .ch-end, .sheet, .sheet-back, .toast { display: none !important; }
   body { background: #fff; }
   .layout { display: block; padding: 0; }
   .q { break-inside: avoid; }
@@ -395,18 +480,26 @@ main { min-width: 0; max-width: 820px; }
 <div class="app" dir="rtl" lang="he">
 <header class="hero">
   <div class="wrap">
-    <div>
-      <p class="eyebrow">שאלון אפיון · שלב ראשון</p>
-      <h1>רואי ואומר,<br><span>בואו נכיר את העסק.</span></h1>
-      <p class="lede">השאלון הזה הוא הצעד הראשון בבניית העסק להשכרת ציוד סקי. הוא עוזר לנו להבין מה אתם רוצים להקים, בשביל מי ולמה, כדי שכל החלטה בהמשך, מהמחיר ועד הלוגו, תישען על משהו אמיתי. אתם לא צריכים לדעת הכול. בשביל זה אנחנו כאן.</p>
+    <div class="hero-top">
+      <div>
+        <p class="brandline"><span class="mark"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m19.07 4.93-14.14 14.14"/><path d="m9 3.5 3 3 3-3"/><path d="m9 20.5 3-3 3 3"/><path d="m3.5 9 3 3-3 3"/><path d="m20.5 9-3 3 3 3"/></svg></span>שאלון אפיון · שלב ראשון</p>
+        <h1>רואי ואומר,<br><span>בואו נכיר את העסק.</span></h1>
+        <p class="lede">השאלון הזה הוא הצעד הראשון בבניית העסק להשכרת ציוד סקי. הוא עוזר לנו להבין מה אתם רוצים להקים, בשביל מי ולמה, כדי שכל החלטה בהמשך, מהמחיר ועד הלוגו, תישען על משהו אמיתי. אתם לא צריכים לדעת הכול. בשביל זה אנחנו כאן.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="#ch-A"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>מתחילים</a>
+          <span class="meta"><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="q-time"></span></span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>נשמר אוטומטית</span></span>
+        </div>
+      </div>
+      <ul class="how" aria-label="איך ממלאים">
+        <li class="how-h" style="display:block">איך ממלאים</li>
+        <li><span class="ti"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg></span><b>לא חייבים לסיים בבת אחת</b><p>התשובות נשמרות תוך כדי. אפשר לעצור ולחזור מתי שנוח.</p></li><li><span class="ti"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span><b>״עדיין לא החלטנו״ זו תשובה טובה</b><p>היא מראה לנו איפה לעזור. אל תנחשו ואל תמציאו מספרים.</p></li><li><span class="ti"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg></span><b>מתחילים במסלול הכחול</b><p>השאלון נפתח על 92 שאלות הבסיס. את האדום והשחור אפשר להוסיף אחר כך או להשאיר לפגישה.</p></li><li><span class="ti"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M2 21v-1a5 5 0 0 1 5-5h0a5 5 0 0 1 5 5v1"/><path d="M12 21v-1a5 5 0 0 1 5-5h0a5 5 0 0 1 5 5v1"/></svg></span><b>חלק מהשאלות לכל אחד לבד</b><p>בשאלות A-13 עד A-17 כל אחד עונה בנפרד, בלי להתייעץ קודם.</p></li>
+      </ul>
     </div>
-    <div class="how">
-      <div><b>לא חייבים לסיים בבת אחת</b><p>התשובות נשמרות תוך כדי. אפשר לעצור ולחזור מתי שנוח.</p></div>
-      <div><b>״עדיין לא החלטנו״ זו תשובה טובה</b><p>היא מראה לנו איפה לעזור. אל תנחשו ואל תמציאו מספרים.</p></div>
-      <div><b>מתחילים במסלול הכחול</b><p>92 שאלות בסיס, בערך שעה. את האדום והשחור אפשר להשאיר לפגישה.</p></div>
-      <div><b>חלק מהשאלות לכל אחד לבד</b><p>בשאלות A-13 עד A-17 כל אחד עונה בנפרד, בלי להתייעץ קודם.</p></div>
-    </div>
-    <div class="levels"><span class="piste piste-1"><i></i><b>מסלול כחול</b>&nbsp;· מה שחייבים לדעת כדי להבין את העסק.</span><span class="piste piste-2"><i></i><b>מסלול אדום</b>&nbsp;· החשיבה, ההעדפות והחזון שמאחורי ההחלטות.</span><span class="piste piste-3"><i></i><b>מסלול שחור</b>&nbsp;· פערים, סיכונים והזדמנויות שקל לפספס.</span></div>
+    <div class="levels-wrap"><p class="map-h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>בחרו כמה לעומק להציג (אפשר לשנות בכל רגע)</p><div class="levels"><button type="button" class="lvl" data-lvl="1" aria-pressed="false"><span class="piste piste-1"><i></i></span><b>מסלול כחול · בסיס</b><span class="n">92 שאלות</span><span class="d">מה שחייבים לדעת כדי להבין את העסק.</span></button><button type="button" class="lvl" data-lvl="2" aria-pressed="false"><span class="piste piste-2"><i></i></span><b>מסלול אדום · עומק</b><span class="n">51 שאלות</span><span class="d">החשיבה, ההעדפות והחזון שמאחורי ההחלטות.</span></button><button type="button" class="lvl" data-lvl="3" aria-pressed="false"><span class="piste piste-3"><i></i></span><b>מסלול שחור · מקצועי</b><span class="n">35 שאלות</span><span class="d">פערים, סיכונים והזדמנויות שקל לפספס.</span></button></div></div>
+    <nav aria-labelledby="map-h">
+      <h2 class="map-h" id="map-h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.1 6.1 9.9 3.9a2 2 0 0 0-1.8 0L3.6 6.1A1 1 0 0 0 3 7v13a1 1 0 0 0 1.4.9l3.7-1.8a2 2 0 0 1 1.8 0l4.2 2.1a2 2 0 0 0 1.8 0l4.5-2.2A1 1 0 0 0 21 18V5a1 1 0 0 0-1.4-.9l-3.7 1.8a2 2 0 0 1-1.8 0z"/><path d="M15 6v15"/><path d="M9 3v15"/></svg>מפת השאלון: 14 פרקים</h2>
+      <ol class="cmap" id="q-map"></ol>
+    </nav>
   </div>
   <svg class="ridge" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true"><path fill="var(--snow)" d="M0 46V30l80-8 70 8 90-20 60 14 60-6 70 14 90-26 80 20 60-6 80 14 80-20 80 14 80-10 80 12 70-14 70 10v20z"/></svg>
 </header>
@@ -419,7 +512,7 @@ main { min-width: 0; max-width: 820px; }
     </div>
     <div class="seg" id="q-level" role="group" aria-label="אילו שאלות להציג"><button type="button" data-lvl="1" aria-pressed="false"><span class="piste piste-1"><i></i></span>כחול</button><button type="button" data-lvl="2" aria-pressed="false"><span class="piste piste-2"><i></i></span>כחול ואדום</button><button type="button" data-lvl="3" aria-pressed="false"><span class="piste piste-3"><i></i></span>הכול</button></div>
     <span class="save" id="q-save" role="status" data-state="local"></span>
-    <button type="button" class="btn btn-primary" id="q-open-sheet">סיכום ושליחה</button>
+    <button type="button" class="btn btn-primary" id="q-open-sheet"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>סיכום ושליחה</button>
     <select class="chap-select" id="q-chap" aria-label="מעבר לפרק"></select>
   </div>
 </div>
@@ -434,12 +527,12 @@ main { min-width: 0; max-width: 820px; }
 
 <div class="sheet-back" id="q-back" hidden></div>
 <section class="sheet" id="q-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="q-sheet-t">
-  <div class="sheet-h"><h2 id="q-sheet-t">סיכום ושליחה</h2><button type="button" class="btn" id="q-sheet-close">סגירה</button></div>
+  <div class="sheet-h"><h2 id="q-sheet-t">סיכום ושליחה</h2><button type="button" class="btn" id="q-sheet-close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>סגירה</button></div>
   <div class="sheet-b" id="q-sheet-body"></div>
 </section>
 <div class="toast" id="q-toast" role="status" hidden></div>
 </div>
-<script>window.SKI_Q={"chapters":[{"id":"A","title":"היזמים והחזון","lead":"נתחיל מכם. לפני שמדברים על ציוד ומחירים, אנחנו רוצים להבין מאיפה זה בא, לאן אתם רוצים להגיע ואיך אתם עובדים יחד.","qs":[{"id":"A-01","lvl":1,"t":"long","q":"איך נולד הרעיון להקים את העסק? ספרו את הסיפור: מתי, איפה ומה קרה.","req":true},{"id":"A-02","lvl":1,"t":"long","q":"למה דווקא השכרת ציוד סקי? מה הקשר האישי שלכם לעולם הסקי?","req":true},{"id":"A-03","lvl":1,"t":"long","q":"איזו הזדמנות זיהיתם? מה לדעתכם חסר היום בשוק?","req":true,"more":"על מה אתם מבססים את זה: חוויה אישית, שיחות עם אנשים, נתונים או תחושה?"},{"id":"A-04","lvl":1,"t":"many","q":"מה אתם רוצים להשיג באמצעות העסק?","req":true,"hint":"אפשר לבחור כמה תשובות.","more":"מתוך מה שבחרתם, מה הכי חשוב?","opts":["הכנסה נוספת לצד עבודה","פרנסה מלאה","בניית מותג גדול לאורך שנים","עסק שאפשר למכור בעתיד","לעבוד בתחום שאנחנו אוהבים","קהילה ואורח חיים סביב סקי","אחר"]},{"id":"A-05","lvl":1,"t":"grid","q":"איך אתם מדמיינים את העסק בעוד שנה, שלוש שנים וחמש שנים?","req":true,"rows":["בעוד שנה","בעוד 3 שנים","בעוד 5 שנים"],"cols":[{"label":"איך העסק נראה","kind":"text"},{"label":"בערך כמה השכרות או לקוחות בעונה","kind":"text"},{"label":"מה אתם עושים ביום-יום","kind":"text"}]},{"id":"A-06","lvl":1,"t":"one","q":"איך אתם רואים את העסק?","req":true,"opts":["פרויקט עונתי שנבדוק בעונה אחת","עסק עונתי קבוע","עסק לטווח ארוך שפועל כל השנה","מותג שנרצה להרחיב לתחומים נוספים","עדיין לא החלטנו"]},{"id":"A-07","lvl":1,"t":"long","q":"מה ייחשב בעיניכם הצלחה בסוף העונה הראשונה? ומה ייחשב כישלון?","req":true,"more":"באיזה מצב תחליטו להפסיק, לשנות כיוון או להשקיע עוד?"},{"id":"A-08","lvl":1,"t":"grid","q":"כמה זמן כל אחד מכם מתכנן להשקיע בעסק?","req":true,"rows":["רואי","אומר"],"cols":[{"label":"שעות בשבוע בעונה","kind":"text"},{"label":"שעות בשבוע מחוץ לעונה","kind":"text"},{"label":"עבודה נוספת במקביל?","kind":"select","opts":["כן, משרה מלאה","כן, חלקית","לא","עדיין לא החלטנו"]}]},{"id":"A-09","lvl":1,"t":"grid","q":"מה הניסיון והיתרונות שכל אחד מכם מביא?","req":true,"rows":["רואי","אומר"],"cols":[{"label":"רקע מקצועי","kind":"text"},{"label":"ניסיון בסקי","kind":"text"},{"label":"כישורים שמביא לעסק","kind":"text"},{"label":"קשרים רלוונטיים","kind":"text"}]},{"id":"A-10","lvl":1,"t":"matrix","q":"איך מתחלקים התפקידים והאחריות ביניכם?","req":true,"rows":["כספים וחשבונות","שיווק ורשתות חברתיות","ציוד, מלאי ותחזוקה","שירות לקוחות","ספקים ורכש","אתר וטכנולוגיה","משלוחים ולוגיסטיקה"],"cols":["רואי","אומר","שניהם","גורם חיצוני","עדיין לא החלטנו"]},{"id":"A-11","lvl":2,"t":"long","q":"מה חשוב לכם שלא יקרה בעסק?","req":false},{"id":"A-12","lvl":1,"t":"long","q":"מה הדבר שהכי חשוב לכם שהלקוחות ירגישו כשהם פוגשים את המותג?","req":true},{"id":"A-13","lvl":2,"t":"long","q":"במשפט אחד: מה העסק הזה בשבילך?","req":false,"hint":"שאלות A-13 עד A-17 מופיעות פעמיים, אחת לכל אחד. מומלץ שכל אחד יענה לבד, לפני שאתם מדברים על זה.","founders":true},{"id":"A-14","lvl":2,"t":"num","q":"כמה כסף אישי אתה מוכן להשקיע, ולהפסיד בלי שזה יפגע בך?","req":false,"unit":"₪","founders":true},{"id":"A-15","lvl":2,"t":"one","q":"מה חשוב לך יותר בשנה הראשונה?","req":false,"opts":["צמיחה מהירה, גם במחיר הפסד","רווחיות מהירה, גם במחיר צמיחה איטית","איזון בין השניים","עדיין לא החלטנו"],"founders":true},{"id":"A-16","lvl":2,"t":"long","q":"איך היית רוצה שהעסק ייראה בעוד 3 שנים, ומה התפקיד שלך בו?","req":false,"founders":true},{"id":"A-17","lvl":3,"t":"long","q":"מה הכי מדאיג אותך בעסק או בשותפות? מה יקרה אם אחד מכם ירצה לצאת?","req":false,"founders":true},{"id":"A-18","lvl":3,"t":"one","q":"האם יש ביניכם הסכם שותפים כתוב (חלוקת בעלות, השקעות, קבלת החלטות, יציאה)?","req":false,"opts":["כן, חתום","בתהליך","לא, אבל דיברנו על זה","לא דיברנו על זה עדיין"]},{"id":"A-19","lvl":3,"t":"one","q":"מה המעמד המשפטי של העסק?","req":false,"opts":["עוסק פטור","עוסק מורשה","חברה בע״מ","שותפות רשומה","עוד לא נפתח","עדיין לא החלטנו"]}]},{"id":"B","title":"הרעיון והמודל העסקי","lead":"מה בדיוק אתם מציעים, איפה הלקוח משתמש בזה ואיך הכסף נכנס. כאן נבדוק גם מודלים חלופיים שאולי עוד לא שקלתם.","qs":[{"id":"B-01","lvl":1,"t":"long","q":"תארו בשלושה-ארבעה משפטים מה בדיוק העסק מציע ולמי.","req":true},{"id":"B-02","lvl":1,"t":"many","q":"מה אתם מתכננים להשכיר?","req":true,"opts":["מגלשי סקי","סנובורדים","נעלי סקי","נעלי סנובורד","קסדות","משקפי סקי","מקלות","ביגוד סקי (מעילים ומכנסיים)","שכבות תרמיות","כפפות, כובעים וצווארונים","ציוד לילדים","אחר"]},{"id":"B-03","lvl":1,"t":"one","q":"מה מרכז הכובד של העסק?","req":true,"opts":["ביגוד וציוד אישי (מעילים, מכנסיים, כפפות, משקפיים, קסדות)","ציוד גלישה (מגלשיים, סנובורדים, נעליים)","שילוב מלא של שניהם","עדיין לא החלטנו"]},{"id":"B-04","lvl":1,"t":"one","q":"איפה הלקוח משתמש בציוד?","req":true,"opts":["באתרי סקי בחו״ל, הלקוח לוקח את הציוד איתו","בחרמון","גם בחו״ל וגם בחרמון","משלוח ישירות ליעד בחו״ל","עדיין לא החלטנו"]},{"id":"B-05","lvl":1,"t":"one","q":"האם תשכירו פריטים בנפרד או בחבילות?","req":false,"more":"אילו חבילות אתם מדמיינים? (למשל: חבילת מתחיל, חבילת משפחה)","opts":["פריטים בודדים בלבד","חבילות בלבד","גם וגם","עדיין לא החלטנו"]},{"id":"B-06","lvl":1,"t":"many","q":"לאילו משכי זמן אפשר יהיה לשכור?","req":true,"opts":["יום","סוף שבוע","שבוע (חופשת סקי טיפוסית)","שבועיים","עונה שלמה","לפי בקשה"]},{"id":"B-07","lvl":2,"t":"one","q":"האם תהיה גם מכירה, בנוסף להשכרה?","req":false,"opts":["לא, השכרה בלבד","מכירת אביזרים קטנים (כפפות, צווארונים, שכבות תרמיות)","מכירת ציוד יד שנייה בסוף עונה","מכירת ציוד חדש","עדיין לא החלטנו"]},{"id":"B-08","lvl":2,"t":"many","q":"אילו שירותים משלימים אתם שוקלים?","req":false,"opts":["משלוח עד הבית","איסוף מהבית בסוף החופשה","מדידה בבית הלקוח","ייעוץ אישי בבחירת ציוד","ביטוח לציוד","תיק ציוד ארוז ומוכן לטיסה","השכרת תיקי סקי ומזוודות","ייעוץ על יעדי סקי","תיווך לשיעורי סקי","אחר"]},{"id":"B-09","lvl":1,"t":"one","q":"על איזה מודל מלאי העסק יתבסס?","req":true,"opts":["ציוד בבעלותנו (רכישה)","ליסינג או שכירות מספק","קונסיגנציה (ציוד של אחרים, אנחנו משכירים תמורת עמלה)","שיתוף פעולה עם חנות קיימת","שילוב","עדיין לא החלטנו"]},{"id":"B-10","lvl":1,"t":"many","q":"למי תשכירו?","req":true,"opts":["לקוחות פרטיים","משפחות","קבוצות חברים","בתי ספר ותנועות נוער","חברות (נופש עובדים)","סוכנויות נסיעות ומארגני טיולי סקי","מועדוני סקי","אחר"]},{"id":"B-11","lvl":1,"t":"long","q":"תארו את תהליך ההשכרה המלא כפי שאתם מדמיינים אותו: מהרגע שהלקוח שומע עליכם ועד שהציוד חוזר אליכם, נקי ומוכן להשכרה הבאה.","req":true,"hint":"אין תשובה נכונה. כתבו שלב אחרי שלב, גם אם חלק מהשלבים עוד לא ברורים לכם."},{"id":"B-12","lvl":3,"t":"matrix","q":"יש כמה מודלים עסקיים אפשריים בתחום. עד כמה כל אחד מעניין אתכם?","req":false,"rows":["השכרת ביגוד סקי לישראלים לפני הטיסה","השכרת ציוד מלא עם מסירה במלון ביעד, דרך שותף מקומי","מנוי עונתי או שנתי לילדים שגדלים, עם החלפת מידה","פלטפורמה שמחברת בין בעלי ציוד פרטיים לשוכרים","עמלה על הזמנת ציוד מראש בחנויות באתרי הסקי","מכירת ציוד יד שנייה בדוק, עם אחריות","חבילה משולבת עם סוכנות נסיעות"],"cols":["מעניין מאוד","אולי","לא מתאים","לא הבנתי, נדבר"]},{"id":"B-13","lvl":3,"t":"long","q":"מה תעשו אם יתברר שרוב הלקוחות מעדיפים לשכור מגלשיים ונעליים באתר הסקי עצמו, ולא מכם?","req":false,"show":{"id":"B-03","none":["ביגוד וציוד אישי (מעילים, מכנסיים, כפפות, משקפיים, קסדות)"]}},{"id":"B-14","lvl":2,"t":"long","q":"מה יקרה עם הציוד ועם העסק בחודשים שאין בהם עונת סקי?","req":false}]},{"id":"C","title":"קהל היעד והלקוח האידיאלי","lead":"זה אחד הפרקים החשובים בשאלון. 'כל מי שאוהב סקי' זו לא תשובה שאפשר לבנות עליה עסק. ככל שתהיו ספציפיים יותר, השיווק יהיה זול ומדויק יותר.","qs":[{"id":"C-01","lvl":1,"t":"many","q":"מי הלקוחות העיקריים שלכם?","req":true,"more":"אם הייתם צריכים לבחור קבוצה אחת בלבד לעונה הראשונה, מי היא ולמה?","opts":["משפחות עם ילדים","זוגות","צעירים אחרי צבא","קבוצות חברים","מתחילים שיוצאים לסקי בפעם הראשונה","גולשים מנוסים","קבוצות מאורגנות","מטיילים עצמאיים","אחר"]},{"id":"C-02","lvl":1,"t":"many","q":"באילו גילאים מדובר?","req":true,"opts":["ילדים 3–6","ילדים 7–12","נוער 13–17","18–25","26–35","36–50","50+"]},{"id":"C-03","lvl":2,"t":"one","q":"האם יש הבדל עסקי בין גברים לנשים אצל הלקוחות שלכם?","req":false,"opts":["לא רלוונטי","כן, בגזרות ובמידות","כן, במי שמזמין ומחליט במשפחה","לא יודעים"]},{"id":"C-04","lvl":1,"t":"many","q":"איפה הלקוחות גרים?","req":true,"opts":["מרכז","שרון","ירושלים והסביבה","חיפה והצפון","דרום","כל הארץ"]},{"id":"C-05","lvl":1,"t":"one","q":"מה כוח הקנייה של הלקוח שלכם?","req":true,"opts":["חסכוני, מחפש את המחיר הנמוך","באמצע, מחפש תמורה טובה למחיר","מבוסס, מוכן לשלם על נוחות ואיכות","פרימיום, רוצה את הטוב ביותר","עדיין לא החלטנו"]},{"id":"C-06","lvl":1,"t":"matrix","q":"מה רמת הניסיון בסקי של הלקוחות שלכם?","req":true,"rows":["מתחילים (פעם ראשונה)","חוזרים (2–4 חופשות)","מנוסים","מקצוענים"],"cols":["קהל מרכזי","קהל משני","לא הקהל שלנו"]},{"id":"C-07","lvl":2,"t":"one","q":"באיזו תדירות הלקוח שלכם יוצא לחופשת סקי?","req":false,"opts":["פעם בכמה שנים","פעם בשנה","יותר מפעם בעונה","לא יודעים"]},{"id":"C-08","lvl":2,"t":"many","q":"לאן הלקוחות שלכם נוסעים?","req":false,"opts":["צרפת","אוסטריה","איטליה","שווייץ","אנדורה","בולגריה","גאורגיה","החרמון","צפון אמריקה","יפן","אחר"]},{"id":"C-09","lvl":2,"t":"num","q":"לדעתכם, כמה הלקוח מוכן להוציא על ציוד לכל החופשה, לאדם?","req":false,"more":"על מה אתם מבססים את ההערכה?","unit":"₪"},{"id":"C-10","lvl":1,"t":"many","q":"איפה הלקוח מחפש היום ציוד לחופשת סקי?","req":true,"opts":["שואל מחברים ומשפחה","קבוצות פייסבוק ווואטסאפ","חיפוש בגוגל","אינסטגרם וטיקטוק","סוכן הנסיעות","חנויות ספורט","שוכר באתר הסקי ביעד","קונה ציוד זול","לא יודעים","אחר"]},{"id":"C-11","lvl":1,"t":"long","q":"מה מטריד את הלקוח בתהליך השגת הציוד?","req":true},{"id":"C-12","lvl":1,"t":"long","q":"מה יגרום ללקוח לבחור דווקא בכם?","req":true},{"id":"C-13","lvl":1,"t":"personas","q":"בנו לפחות שלוש פרסונות של לקוחות אפשריים.","req":true,"hint":"פרסונה היא דמות לקוח מייצגת. תנו לה שם, גיל ומצב משפחתי, וכתבו עליה כאילו אתם מכירים אותה. למשל: 'מיכל, 41, אמא לשלושה מרעננה, נוסעת עם המשפחה לאוסטריה בחנוכה'.","fields":[{"k":"who","label":"מי היא או הוא?"},{"k":"need","label":"מה הצורך?"},{"k":"problem","label":"איזו בעיה מנסים לפתור?"},{"k":"criteria","label":"מה חשוב בבחירת ספק?"},{"k":"buy","label":"מה יגרום להזמין?"},{"k":"block","label":"מה עלול למנוע הזמנה?"},{"k":"reach","label":"איך נכון להגיע אליה או אליו?"},{"k":"msg","label":"איזה מסר ידבר אליה או אליו?"}]},{"id":"C-14","lvl":3,"t":"one","q":"עם כמה לקוחות פוטנציאליים, שמתאימים לפרסונות, דיברתם על הרעיון?","req":false,"opts":["אף אחד עדיין","1–5","6–15","יותר מ-15"]},{"id":"C-15","lvl":3,"t":"long","q":"מה שמעתם מהם? כתבו משפט אחד שהפתיע אתכם.","req":false,"show":{"id":"C-14","none":["אף אחד עדיין"]}},{"id":"C-16","lvl":3,"t":"one","q":"מי מקבל את ההחלטה ומי משלם?","req":false,"opts":["מי שגולש","ההורה","מארגן הקבוצה","המעסיק","משתנה","לא יודעים"]}]},{"id":"D","title":"בידול ויתרון תחרותי","lead":"למה שמישהו יבחר בכם? כאן נבחין בין יתרון שכבר קיים לבין יתרון שאתם רוצים לבנות. שניהם בסדר, רק חשוב לדעת מה מהם.","qs":[{"id":"D-01","lvl":1,"t":"long","q":"למה שלקוח ישכור דווקא מכם?","req":true},{"id":"D-02","lvl":1,"t":"long","q":"מה תעשו אחרת מכל מי שקיים היום?","req":true},{"id":"D-03","lvl":1,"t":"poles","q":"איפה אתם ממקמים את עצמכם בכל אחד מהצירים?","req":true,"hint":"סמנו נקודה על כל ציר. האמצע אומר 'לא בחרנו צד'.","pairs":[["מחיר נמוך","חוויית שירות"],["נגיש ופשוט","פרימיום"],["מבחר רחב","מבחר מצומצם ונבחר"],["שירות דיגיטלי עצמאי","שירות אישי צמוד"],["ציוד בסיסי ואמין","ציוד חדש של מותגים מובילים"]]},{"id":"D-04","lvl":1,"t":"matrix","q":"באילו תחומים יש לכם היום יתרון אמיתי?","req":true,"rows":["איכות ומצב הציוד","מחיר","נוחות וזמינות","שירות אישי וייעוץ","משלוחים ואיסוף","הזמנה מראש ושריון מידות","ניקיון והיגיינה","ידע מקצועי בסקי"],"cols":["יתרון ברור","יתרון חלקי","לא יתרון","לא בטוחים"]},{"id":"D-05","lvl":2,"t":"long","q":"איזה שירות המתחרים לא נותנים היום?","req":false},{"id":"D-06","lvl":2,"t":"long","q":"מה אתם לעולם לא רוצים להיות?","req":false},{"id":"D-07","lvl":1,"t":"short","q":"במשפט אחד: למה לקוח צריך לבחור בנו ולא במתחרה?","req":true},{"id":"D-08","lvl":3,"t":"one","q":"כמה קשה למתחרה להעתיק את היתרון שלכם?","req":false,"more":"מה בדיוק קשה להעתיק?","opts":["אפשר להעתיק תוך שבוע","תוך עונה","קשה מאוד להעתיק","לא בטוחים"]},{"id":"D-09","lvl":3,"t":"long","q":"אם מתחרה גדול יוריד מחירים ב-20% בעונה הבאה, מה תעשו?","req":false}]},{"id":"E","title":"מוצרים, ציוד ושירותים","lead":"מפת המוצרים בפירוט. אם אין לכם עוד מספרים, כתבו הערכה או השאירו ריק. נשלים במחקר.","qs":[{"id":"E-01","lvl":1,"t":"grid","q":"מפו את קטגוריות הציוד.","req":true,"hint":"מלאו רק את השורות שרלוונטיות. בשורות שלא תציעו, סמנו 'לא' והמשיכו.","rows":["מגלשי סקי","סנובורדים","נעלי סקי","נעלי סנובורד","קסדות","משקפי סקי","מקלות","מעילי סקי","מכנסי סקי","שכבות תרמיות","כפפות וכובעים","ציוד לילדים","אביזרים משלימים"],"cols":[{"label":"תציעו?","kind":"select","opts":["כן","אולי","לא"]},{"label":"מותגים","kind":"text"},{"label":"רמת איכות","kind":"select","opts":["בסיסית","בינונית","גבוהה","מעורבת"]},{"label":"טווח מידות","kind":"text"},{"label":"כמות יחידות","kind":"text"},{"label":"מחיר השכרה משוער","kind":"text"}]},{"id":"E-02","lvl":1,"t":"many","q":"לאילו רמות גלישה יתאים הציוד?","req":true,"opts":["מתחילים","מתקדמים","מקצועי","ילדים"]},{"id":"E-03","lvl":1,"t":"one","q":"איך תתבצע התאמת המידות?","req":true,"more":"מה קורה אם המידה לא מתאימה?","opts":["מדידה פיזית אצלנו","טופס מידות באתר עם מדריך","שיחת וידאו","מדידה בבית הלקוח","שילוב","עדיין לא החלטנו"]},{"id":"E-04","lvl":1,"t":"one","q":"מי יתחזק ויבדוק את הציוד?","req":true,"opts":["אנחנו","בעל מקצוע חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"E-05","lvl":1,"t":"long","q":"איך יתבצעו ניקוי וחיטוי בין השכרה להשכרה?","req":true},{"id":"E-06","lvl":1,"t":"long","q":"מה קורה במקרה של נזק, בלאי חריג או אובדן?","req":true},{"id":"E-07","lvl":2,"t":"one","q":"מאיפה תקנו את הציוד?","req":false,"opts":["יבואנים בישראל","ספקים בחו״ל","יד שנייה","ציוד שכבר יש לנו","שילוב","עדיין לא החלטנו"]},{"id":"E-08","lvl":2,"t":"one","q":"ציוד חדש או משומש?","req":false,"opts":["רק חדש","רק משומש","שילוב","עדיין לא החלטנו"]},{"id":"E-09","lvl":3,"t":"num","q":"כמה עונות לדעתכם פריט ממוצע יחזיק בהשכרה?","req":false,"more":"על מה מבוססת ההערכה?","unit":"עונות"},{"id":"E-10","lvl":3,"t":"long","q":"איך תחליטו כמה יחידות מכל מידה לקנות?","req":false},{"id":"E-11","lvl":3,"t":"one","q":"מי יכוון את הקשירות של המגלשיים (התאמה למשקל, לגובה ולרמת הגולש)?","req":false,"opts":["טכנאי מוסמך","חנות באתר הסקי ביעד","אנחנו, אחרי הכשרה","לא רלוונטי, לא נשכיר מגלשיים","לא ידענו שצריך"],"show":{"id":"B-02","any":["מגלשי סקי"]}}]},{"id":"F","title":"תמחור וכלכלה","lead":"אל תמציאו מספרים. אם אין לכם תשובה, סמנו 'עדיין לא החלטנו' או כתבו הערכה ואת מה שהיא מבוססת עליו. את מה שחסר נבנה יחד כתחזית.","qs":[{"id":"F-01","lvl":1,"t":"grid","q":"מה טווח המחירים שאתם רוצים לגבות?","req":true,"rows":["חבילת ביגוד מלאה לשבוע","חבילת ציוד גלישה לשבוע","פריט בודד לשבוע","חבילה לילד לשבוע"],"cols":[{"label":"מחיר מינימום (₪)","kind":"text"},{"label":"מחיר רצוי (₪)","kind":"text"},{"label":"על מה זה מבוסס?","kind":"text"}]},{"id":"F-02","lvl":1,"t":"one","q":"איך יחושב המחיר?","req":true,"opts":["לפי יום","מחיר קבוע לחופשה (עד מספר ימים)","לפי חבילה","שילוב","עדיין לא החלטנו"]},{"id":"F-03","lvl":2,"t":"many","q":"אילו הנחות תציעו?","req":false,"opts":["השכרה ארוכה","משפחות","קבוצות","הזמנה מוקדמת","לקוחות חוזרים","חבר מביא חבר","סטודנטים וחיילים","בלי הנחות"]},{"id":"F-04","lvl":1,"t":"one","q":"האם יהיה פיקדון?","req":true,"more":"אם יש פיקדון, מה הגובה שלו?","opts":["מסגרת בכרטיס אשראי","פיקדון במזומן","בלי פיקדון, עם ביטוח או דמי נזק","עדיין לא החלטנו"]},{"id":"F-05","lvl":1,"t":"one","q":"מה תהיה מדיניות הביטולים?","req":true,"opts":["ביטול חינם עד מועד מסוים","דמי ביטול קבועים","זיכוי להזמנה עתידית","לפי החוק בלבד","עדיין לא החלטנו"]},{"id":"F-06","lvl":1,"t":"num","q":"מה התקציב הראשוני שאתם מוכנים להשקיע?","req":true,"hint":"אפשר לכתוב טווח, למשל 50,000–80,000.","unit":"₪"},{"id":"F-07","lvl":1,"t":"matrix","q":"מה אתם יודעים היום על העלויות?","req":true,"rows":["רכישת ציוד","תחזוקה, ניקוי וכביסה","משלוחים","אחסון או מחסן","אתר ומערכת הזמנות","פרסום","ביטוח","הנהלת חשבונות וסליקה","עזרה או עובדים בשיא"],"cols":["יש הצעת מחיר","הערכה גסה","אין מושג"]},{"id":"F-08","lvl":2,"t":"long","q":"כתבו את המספרים שיש לכם, גם אם הם הערכות.","req":false},{"id":"F-09","lvl":1,"t":"num","q":"איזו הכנסה חודשית אתם רוצים בחודשי העונה?","req":true,"unit":"₪"},{"id":"F-10","lvl":1,"t":"num","q":"מה יעד הרווח לעונה הראשונה?","req":false,"unit":"₪"},{"id":"F-11","lvl":1,"t":"num","q":"כמה הזמנות לדעתכם תוכלו לשרת בעונה?","req":true,"unit":"הזמנות"},{"id":"F-12","lvl":2,"t":"one","q":"איך תממנו את ההשקעה?","req":false,"opts":["הון עצמי","הלוואה","משקיע","מענק או קרן","שילוב","עדיין לא החלטנו"]},{"id":"F-13","lvl":3,"t":"num","q":"אחרי כמה השכרות פריט מחזיר את עלות הקנייה שלו?","req":false,"unit":"השכרות"},{"id":"F-14","lvl":3,"t":"one","q":"כמה חודשים העסק יכול להחזיק בלי הכנסה?","req":false,"opts":["עד 3 חודשים","3–6 חודשים","6–12 חודשים","יותר משנה","לא יודעים"]}]},{"id":"G","title":"תפעול ולוגיסטיקה","lead":"מה קורה מאחורי הקלעים: איפה הציוד, איך הוא מגיע ללקוח ומה עושים כשמשהו משתבש.","qs":[{"id":"G-01","lvl":1,"t":"short","q":"באיזו עיר או אזור העסק יפעל?","req":true},{"id":"G-02","lvl":1,"t":"many","q":"מאיפה הציוד ייצא?","req":true,"opts":["מהבית","מחסן","חנות פיזית","נקודת איסוף משותפת","שירות אחסון חיצוני","עדיין לא החלטנו"]},{"id":"G-03","lvl":1,"t":"many","q":"איך הלקוח יקבל את הציוד?","req":true,"opts":["איסוף עצמי","משלוח עד הבית","נקודות איסוף","מסירה בשדה התעופה","משלוח ליעד בחו״ל","עדיין לא החלטנו"]},{"id":"G-04","lvl":1,"t":"many","q":"איך הציוד יחזור אליכם?","req":true,"opts":["החזרה עצמית","איסוף מהבית","נקודות החזרה","בשדה התעופה","עדיין לא החלטנו"]},{"id":"G-05","lvl":2,"t":"one","q":"כמה זמן מראש צריך להזמין?","req":false,"opts":["עד יום לפני","לפחות שבוע","לפחות שבועיים","לפחות חודש","עדיין לא החלטנו"]},{"id":"G-06","lvl":1,"t":"one","q":"איך תדעו מה זמין בכל תאריך ובכל מידה?","req":true,"opts":["גיליון אקסל או גוגל שיטס","מערכת השכרה ייעודית","מערכת מובנית באתר","עדיין לא החלטנו"]},{"id":"G-07","lvl":1,"t":"one","q":"מי בודק את הציוד כשהוא חוזר?","req":false,"opts":["רואי","אומר","שניהם","עובד או גורם חיצוני","עדיין לא החלטנו"]},{"id":"G-08","lvl":2,"t":"long","q":"מה קורה כשההחזרה מתאחרת, למשל בגלל טיסה שהתעכבה?","req":false},{"id":"G-09","lvl":2,"t":"long","q":"מה עושים כשהציוד נקרע או מתקלקל כשהלקוח כבר בחו״ל?","req":false},{"id":"G-10","lvl":1,"t":"many","q":"אילו ביטוחים ומסמכים משפטיים כבר יש לכם או שאתם מתכננים?","req":true,"opts":["ביטוח לציוד","ביטוח צד ג׳ ואחריות","הסכם השכרה חתום","כתב ויתור אחריות","תקנון אתר","מדיניות פרטיות","אין עדיין, צריך לבדוק"]},{"id":"G-11","lvl":2,"t":"num","q":"כמה הזמנות ביום אתם מסוגלים להכין ולמסור ביום שיא?","req":false,"unit":"הזמנות ביום"},{"id":"G-12","lvl":3,"t":"long","q":"מי מחליף אתכם בשיא העונה, כשאחד מכם בחו״ל, אולי בעצמו בסקי?","req":false},{"id":"G-13","lvl":3,"t":"one","q":"איפה הציוד יאוחסן מחוץ לעונה?","req":false,"opts":["אותו מקום כמו בעונה","מחסן זול לחודשי הקיץ","בבית","עדיין לא החלטנו"]}]},{"id":"H","title":"מיתוג ו-Brand Book","lead":"איזה מותג אתם רוצים לבנות. אין כאן תשובות נכונות, רק העדפות. ככל שתהיו כנים יותר לגבי מה שאתם לא אוהבים, נגיע מהר יותר למשהו שמרגיש שלכם.","qs":[{"id":"H-01","lvl":1,"t":"one","q":"האם יש כבר שם לעסק?","req":true,"opts":["יש שם סופי","יש שם זמני","יש כמה אפשרויות","אין עדיין"]},{"id":"H-02","lvl":1,"t":"short","q":"מה השם, או מה האפשרויות?","req":false,"show":{"id":"H-01","none":["אין עדיין"]}},{"id":"H-03","lvl":2,"t":"long","q":"מה המשמעות מאחורי השם, ואילו שמות אתם אוהבים (גם של עסקים אחרים)?","req":false},{"id":"H-04","lvl":2,"t":"one","q":"שם בינלאומי או מקומי?","req":false,"opts":["אנגלית","עברית","מילה שעובדת בשתי השפות","לא משנה לנו"]},{"id":"H-05","lvl":3,"t":"many","q":"מה כבר בדקתם לגבי השם?","req":false,"opts":["דומיין פנוי","שם משתמש פנוי ברשתות","בדיקת סימן מסחר","לא בדקנו"],"show":{"id":"H-01","none":["אין עדיין"]}},{"id":"H-06","lvl":1,"t":"poles","q":"אישיות המותג: איפה הוא נמצא בכל ציר?","req":true,"hint":"סמנו נקודה על כל ציר. נסו להימנע מהאמצע.","pairs":[["יוקרתי","נגיש"],["צעיר","בוגר"],["מקצועי","חברי"],["הרפתקני","אלגנטי"],["מינימליסטי","צבעוני"],["טכנולוגי","מסורתי"],["רגוע","אנרגטי"]]},{"id":"H-07","lvl":2,"t":"long","q":"אם המותג היה אדם, מי הוא? איך הוא מתלבש, איך הוא מדבר, מה הוא עושה בסוף שבוע?","req":false},{"id":"H-08","lvl":1,"t":"short","q":"אילו צבעים אתם אוהבים?","req":false},{"id":"H-09","lvl":1,"t":"short","q":"אילו צבעים אתם לא רוצים?","req":false},{"id":"H-10","lvl":2,"t":"one","q":"איזה סוג לוגו מתאים לכם?","req":false,"opts":["סמל ושם","שם בלבד (לוגוטייפ)","סמל בלבד","מונוגרמה (אותיות)","פתוחים להצעות"]},{"id":"H-11","lvl":2,"t":"many","q":"איזה סגנון צילום מדבר אליכם?","req":false,"opts":["אקשן ונופים דרמטיים","אנשים ומשפחות אמיתיים","צילומי מוצר נקיים","אווירת אפרס-סקי ולייפסטייל","הומור וספונטניות"]},{"id":"H-12","lvl":2,"t":"many","q":"איזה סגנון גרפי מתאים לכם?","req":false,"more":"יש פונטים או סגנון כתב שאתם אוהבים?","opts":["מינימליסטי ונקי","צבעוני ונועז","רטרו וינטג׳ של עולם הסקי","טכני-ספורטיבי","יוקרתי ושקט"]},{"id":"H-13","lvl":1,"t":"one","q":"באיזו שפה המותג מדבר?","req":true,"opts":["עברית בלבד","עברית עם מונחים באנגלית","דו-לשוני","בעיקר אנגלית"]},{"id":"H-14","lvl":1,"t":"poles","q":"טון הדיבור של המותג","req":true,"pairs":[["רשמי","קליל"],["מקצועי-טכני","פשוט ומובן"],["רציני","עם הומור"]]},{"id":"H-15","lvl":2,"t":"long","q":"אילו מסרים חשוב לכם להעביר?","req":false},{"id":"H-16","lvl":2,"t":"long","q":"אילו מסרים לא מתאימים למותג?","req":false},{"id":"H-17","lvl":1,"t":"list","q":"צרפו 3 עד 5 מותגים שאתם אוהבים, מכל תחום, והסבירו מה אתם אוהבים בכל אחד.","req":true,"fields":[{"k":"name","label":"מותג"},{"k":"why","label":"מה אתם אוהבים בו"}],"min":3},{"id":"H-18","lvl":3,"t":"long","q":"מה אתם רוצים שהלקוח ירגיש כשהוא פותח את התיק עם הציוד?","req":false},{"id":"H-19","lvl":3,"t":"many","q":"למי ישמש ספר המותג?","req":false,"opts":["לנו בלבד","לגרפיקאים ומשווקים חיצוניים","לעובדים","לשותפים ומשפיענים"]}]},{"id":"I","title":"אתר וחוויית משתמש","lead":"לא רק אם צריך אתר, אלא מה הוא צריך לעשות עבור העסק. לפעמים גרסה ראשונה פשוטה היא בדיוק מה שנכון.","qs":[{"id":"I-01","lvl":1,"t":"many","q":"מה האתר צריך לעשות?","req":true,"opts":["השכרה ותשלום בפועל","הצגת המותג","איסוף פניות","מערכת הזמנות מלאה","תוכן ומדריכים"]},{"id":"I-02","lvl":1,"t":"one","q":"מה תהיה גרסת האתר הראשונה?","req":true,"opts":["דף נחיתה עם וואטסאפ","קטלוג עם טופס הזמנה","אתר הזמנות מלא עם תשלום","רוצים לשמוע המלצה","עדיין לא החלטנו"]},{"id":"I-03","lvl":1,"t":"many","q":"מי ייכנס לאתר?","req":true,"opts":["ישראלים בארץ","ישראלים שגרים בחו״ל","תיירים","לקוחות עסקיים","סוכנויות"]},{"id":"I-04","lvl":1,"t":"many","q":"באילו שפות האתר צריך להיות?","req":true,"opts":["עברית","אנגלית","רוסית","ערבית","צרפתית"]},{"id":"I-05","lvl":2,"t":"one","q":"מאיפה לדעתכם תגיע רוב הכניסות?","req":false,"opts":["רוב מהטלפון","חצי-חצי","רוב מהמחשב","לא יודעים"]},{"id":"I-06","lvl":1,"t":"matrix","q":"אילו פונקציות האתר צריך?","req":true,"rows":["קטלוג ציוד","בחירת תאריכי השכרה","בחירת מידות","בחירת רמת ציוד","חבילות השכרה","בדיקת זמינות במלאי","הזמנה ותשלום אונליין","סל קניות","קופונים","אזור אישי","ניהול הזמנות ללקוח","כפתור וואטסאפ","שאלות נפוצות","המלצות לקוחות","בלוג ומדריכים","חיבור למערכת ניהול לקוחות","אוטומציות ומיילים"],"cols":["חובה בגרסה הראשונה","בהמשך","לא צריך","לא בטוחים"]},{"id":"I-07","lvl":1,"t":"long","q":"איך אתם רוצים שהלקוח יעבור באתר? תארו את המסלול מהכניסה ועד אישור ההזמנה.","req":true},{"id":"I-08","lvl":1,"t":"one","q":"כמה פשוט צריך להיות תהליך ההזמנה?","req":false,"opts":["עד 3 מסכים","4–5 מסכים","לא משנה, העיקר שיהיה מדויק"]},{"id":"I-09","lvl":1,"t":"long","q":"מה הלקוח צריך לראות מיד כשהוא נכנס לאתר?","req":true},{"id":"I-10","lvl":2,"t":"long","q":"מה יגרום ללקוח לסמוך עליכם באתר?","req":false},{"id":"I-11","lvl":2,"t":"long","q":"מה עלול לגרום ללקוח לנטוש את האתר?","req":false},{"id":"I-12","lvl":1,"t":"list","q":"שלחו לפחות שלושה אתרים להשראה, גם מחוץ לעולם הסקי.","req":true,"fields":[{"k":"url","label":"כתובת האתר","dir":"ltr"},{"k":"why","label":"מה אתם אוהבים בו"}],"min":3},{"id":"I-13","lvl":2,"t":"list","q":"אתרים שאתם לא אוהבים, ולמה.","req":false,"fields":[{"k":"url","label":"כתובת האתר","dir":"ltr"},{"k":"why","label":"מה מפריע לכם"}],"min":1},{"id":"I-14","lvl":2,"t":"long","q":"מה אתם ממש לא רוצים לראות באתר שלכם?","req":false},{"id":"I-15","lvl":2,"t":"many","q":"אילו אמצעי תשלום צריך?","req":false,"opts":["כרטיס אשראי","ביט","Apple Pay / Google Pay","PayPal","תשלומים","העברה בנקאית","מזומן באיסוף"]},{"id":"I-16","lvl":3,"t":"many","q":"באילו מערכות אתם כבר משתמשים, או מתכננים, שהאתר צריך להתחבר אליהן?","req":false,"opts":["מערכת חשבוניות","מערכת ניהול לקוחות","יומן או גיליון גוגל","וואטסאפ עסקי","מערכת דיוור","מערכת השכרה ייעודית","אין"]},{"id":"I-17","lvl":3,"t":"many","q":"אילו הודעות אוטומטיות תרצו שהלקוח יקבל?","req":false,"opts":["אישור הזמנה","תזכורת לפני איסוף","רשימת בדיקה לפני הטיסה","תזכורת להחזרה","בקשה לביקורת אחרי החופשה","הצעה לעונה הבאה"]},{"id":"I-18","lvl":3,"t":"one","q":"מי יעדכן את האתר (מלאי, מחירים, תוכן)?","req":false,"opts":["אנחנו","גורם חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"I-19","lvl":3,"t":"one","q":"יש לכם העדפה לגבי הפלטפורמה?","req":false,"opts":["בונה אתרים מוכן","פיתוח ייעודי","לא משנה, תמליצו לנו"]}]},{"id":"J","title":"שיווק, פרסום וגיוס לקוחות","lead":"איך הלקוחות הראשונים יגיעו אליכם, ואיך גורמים להם לחזור ולהמליץ.","qs":[{"id":"J-01","lvl":1,"t":"long","q":"איך תשיגו את 10 הלקוחות הראשונים?","req":true},{"id":"J-02","lvl":1,"t":"matrix","q":"איזה קהל כבר יש לכם?","req":true,"rows":["אינסטגרם","טיקטוק","פייסבוק","קבוצות וואטסאפ","רשימת אנשי קשר","יוטיוב"],"cols":["קהל משמעותי","קצת","אין"]},{"id":"J-03","lvl":1,"t":"matrix","q":"אילו ערוצים מעניינים אתכם?","req":true,"rows":["פרסום ממומן ברשתות","פרסום בגוגל","תוכן אורגני","משפיענים","סוכנויות נסיעות","מדריכי סקי","קבוצות וקהילות סקי","חבר מביא חבר","שיתוף פעולה עם חנויות ספורט","ועדי עובדים","דיוור במייל"],"cols":["מעניין מאוד","אולי","לא"]},{"id":"J-04","lvl":1,"t":"num","q":"מה תקציב הפרסום החודשי בחודשי העונה?","req":true,"unit":"₪"},{"id":"J-05","lvl":2,"t":"num","q":"ומחוץ לעונה?","req":false,"unit":"₪"},{"id":"J-06","lvl":2,"t":"one","q":"מי יפיק את התוכן?","req":false,"opts":["אנחנו","גורם חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"J-07","lvl":1,"t":"grid","q":"תארו איך הלקוח הראשון עובר את כל הדרך איתכם.","req":true,"rows":["שומע עלינו","משאיר פרטים או פונה","מזמין","מקבל את הציוד","בחופשה","מחזיר","מזמין שוב או ממליץ"],"cols":[{"label":"איך זה קורה אצלכם","kind":"text"}]},{"id":"J-08","lvl":2,"t":"many","q":"איך תמדדו הצלחה שיווקית?","req":false,"opts":["מספר הזמנות","עלות להשגת לקוח","פניות","עוקבים ומעורבות","לקוחות חוזרים","המלצות וביקורות","הכנסה"]},{"id":"J-09","lvl":3,"t":"long","q":"מתי בשנה צריך להתחיל לשווק, לדעתכם?","req":false},{"id":"J-10","lvl":3,"t":"num","q":"כמה אתם מוכנים לשלם כדי להשיג לקוח אחד?","req":false,"unit":"₪"},{"id":"J-11","lvl":3,"t":"long","q":"איך תגרמו ללקוח לחזור בעונה הבאה, כשבין חופשה לחופשה עוברת שנה?","req":false}]},{"id":"K","title":"מתחרים והשראה","lead":"מה אתם כבר יודעים על המתחרים, ממי אתם רוצים ללמוד ומה אתם לא רוצים להעתיק. במחקר השוק נשלים את התמונה.","qs":[{"id":"K-01","lvl":1,"t":"list","q":"אילו מתחרים אתם מכירים?","req":true,"fields":[{"k":"name","label":"שם"},{"k":"good","label":"מה עושים טוב"},{"k":"bad","label":"מה פחות טוב"}],"min":2},{"id":"K-02","lvl":1,"t":"many","q":"מה הלקוח עושה היום במקום לשכור מכם?","req":true,"opts":["שואל מחברים","קונה ביגוד זול","שוכר באתר הסקי","קונה ציוד חדש בחנות ספורט","קונה יד שנייה","לא יודעים"]},{"id":"K-03","lvl":2,"t":"long","q":"ממי אתם רוצים ללמוד, ומה?","req":false},{"id":"K-04","lvl":2,"t":"long","q":"מה אתם לא רוצים להעתיק?","req":false},{"id":"K-05","lvl":2,"t":"list","q":"מותגים מחו״ל שהייתם רוצים להידמות להם.","req":false,"fields":[{"k":"name","label":"שם"},{"k":"why","label":"למה"}],"min":1},{"id":"K-06","lvl":2,"t":"list","q":"עסקים מתחומים אחרים שאתם אוהבים איך הם מתנהלים.","req":false,"fields":[{"k":"name","label":"שם"},{"k":"why","label":"מה אתם אוהבים"}],"min":1},{"id":"K-07","lvl":3,"t":"one","q":"האם בדקתם מתחרים כלקוחות: פניתם, שאלתם מחיר, עברתם תהליך הזמנה?","req":false,"opts":["כן, כמה","אחד","לא"]}]},{"id":"L","title":"יעדים ותוכנית צמיחה","lead":"מספרים ויעדים לעונה הראשונה, ולאן תרצו לגדול אחריה. אם אין מספר, כתבו הערכה.","qs":[{"id":"L-01","lvl":1,"t":"long","q":"מה היעד שלכם לעונה הראשונה, במילים?","req":true},{"id":"L-02","lvl":1,"t":"num","q":"כמה השכרות אתם רוצים לבצע בעונה הראשונה?","req":true,"unit":"השכרות"},{"id":"L-03","lvl":1,"t":"num","q":"מה מחזור המכירות הרצוי?","req":false,"unit":"₪"},{"id":"L-04","lvl":2,"t":"num","q":"מה הרווח הרצוי?","req":false,"unit":"₪"},{"id":"L-05","lvl":2,"t":"num","q":"איזה אחוז מהלקוחות תרצו שיחזרו בעונה הבאה?","req":false,"unit":"%"},{"id":"L-06","lvl":2,"t":"matrix","q":"לאילו כיוונים תרצו להתרחב?","req":false,"rows":["הגדלת המלאי","חנות פיזית","נקודת שירות נוספת","פעילות במדינות נוספות","ציוד מחנאות וטיולים (מחוץ לעונה)","ציוד ים או צלילה בקיץ","מכירת ציוד","זיכיון","פלטפורמה דיגיטלית"],"cols":["בתוך שנה","בתוך 3 שנים","לא בתוכנית"]},{"id":"L-07","lvl":3,"t":"long","q":"מה צריך לקרות בעונה הראשונה כדי שתשקיעו עוד כסף בעונה השנייה?","req":false},{"id":"L-08","lvl":3,"t":"many","q":"אילו רעיונות מסקרנים אתכם?","req":false,"opts":["המלצת מידה חכמה לפי גובה ומשקל","תיק ציוד ארוז ומתויג עם רשימת בדיקה לטיסה","קוד QR על כל פריט למעקב תחזוקה וניקוי","מנוי משפחתי לילדים שגדלים","קהילת גולשים ישראלים עם מדריכי יעדים","שיתוף פעולה עם ביטוח נסיעות או חברת תעופה","חנות יד שנייה בסוף כל עונה","השכרת ציוד ליום שלג בחרמון"]}]},{"id":"M","title":"תיאום ציפיות ועבודה משותפת","lead":"הפרק הזה הוא בשבילנו: איך נעבוד יחד, מה חשוב לכם לקבל ומה כבר הוחלט.","qs":[{"id":"M-01","lvl":1,"t":"long","q":"מה אתם מצפים מאיתנו?","req":true},{"id":"M-02","lvl":1,"t":"many","q":"באילו תחומים תרצו שניקח אחריות?","req":true,"opts":["אסטרטגיה","מחקר שוק","שם ומיתוג","לוגו ושפה חזותית","אתר","מערכת הזמנות","שיווק ופרסום","תוכן","מודל פיננסי","תפעול"]},{"id":"M-03","lvl":1,"t":"one","q":"כמה מעורבים תרצו להיות?","req":true,"opts":["תובילו ותציגו לנו החלטות מרכזיות","נקבל החלטות יחד בכל שלב","נרצה להיות מעורבים בכל פרט"]},{"id":"M-04","lvl":1,"t":"long","q":"מה מבחינתכם חייב להיות מושלם?","req":false},{"id":"M-05","lvl":2,"t":"long","q":"מה פחות קריטי?","req":false},{"id":"M-06","lvl":1,"t":"short","q":"מתי אתם רוצים לקבל את ההזמנה הראשונה?","req":true},{"id":"M-07","lvl":1,"t":"num","q":"מה התקציב להקמת המותג והנכסים הדיגיטליים?","req":true,"unit":"₪"},{"id":"M-08","lvl":1,"t":"many","q":"מה תרצו לקבל בסוף התהליך?","req":true,"opts":["אסטרטגיה עסקית","מודל עסקי","מחקר שוק ומתחרים","קהלי יעד ופרסונות","אסטרטגיית מיצוב","אסטרטגיית מותג","ספר מותג","תוכנית שיווק","תוכנית חדירה לשוק","אפיון אתר","אסטרטגיית חוויית משתמש ועיצוב","אסטרטגיית תוכן","מודל פיננסי ותחזיות","תוכנית תפעולית","מפת דרכים לצמיחה"]},{"id":"M-09","lvl":1,"t":"long","q":"אילו החלטות כבר קיבלתם?","req":true},{"id":"M-10","lvl":1,"t":"long","q":"מה עדיין פתוח לגמרי?","req":false},{"id":"M-11","lvl":2,"t":"one","q":"כשאתם חלוקים, מי מחליט?","req":false,"opts":["רואי","אומר","מחליטים רק בהסכמה","לפי התחום","עדיין לא החלטנו"]},{"id":"M-12","lvl":2,"t":"many","q":"איך הכי נוח לכם לעבוד איתנו?","req":false,"opts":["וואטסאפ","מייל","פגישות וידאו","פגישות פנים אל פנים"]}]},{"id":"N","title":"מבחן מציאות","lead":"השאלות כאן לא נועדו להרתיע. הן עוזרות לנו לזהות מוקדם מה צריך לבדוק לפני שמשקיעים כסף, כדי שההשקעה תהיה במקום הנכון.","qs":[{"id":"N-01","lvl":3,"t":"many","q":"מה כבר עשיתם כדי לבדוק שיש ביקוש?","req":true,"opts":["שוחחנו עם לקוחות פוטנציאליים","פרסמנו בקבוצות וקיבלנו פניות","כבר השכרנו ציוד בתשלום","קיבלנו הזמנות או הרשמה מוקדמת","בדקנו נתוני חיפוש בגוגל","עדיין לא בדקנו"]},{"id":"N-02","lvl":3,"t":"long","q":"מה ההנחה הכי מסוכנת שלכם: זו שאם היא לא נכונה, העסק לא עובד?","req":false},{"id":"N-03","lvl":3,"t":"long","q":"נניח שתגיעו לשליש מההשכרות שתכננתם בעונה הראשונה. מה יקרה?","req":false},{"id":"N-04","lvl":3,"t":"one","q":"נניח שמחר מגיעות 500 הזמנות. מה נשבר ראשון?","req":false,"opts":["המלאי","הזמן שלנו","המשלוחים","שירות הלקוחות","התזרים","שום דבר, אנחנו מוכנים"]},{"id":"N-05","lvl":3,"t":"one","q":"האם אתם מוכנים להתחיל קטן (מלאי מצומצם, אתר פשוט) כדי להוכיח ביקוש לפני השקעה גדולה?","req":false,"opts":["כן, זה הכיוון","חלקית","לא, מעדיפים להיכנס בגדול","רוצים לשמוע המלצה"]},{"id":"N-06","lvl":2,"t":"long","q":"על מה לא שאלנו? כתבו כל דבר שחשוב שנדע.","req":false}]}],"letters":{"A":"א׳","B":"ב׳","C":"ג׳","D":"ד׳","E":"ה׳","F":"ו׳","G":"ז׳","H":"ח׳","I":"ט׳","J":"י׳","K":"י״א","L":"י״ב","M":"י״ג","N":"י״ד"},"levels":[{"n":1,"name":"מסלול כחול","short":"בסיס","desc":"מה שחייבים לדעת כדי להבין את העסק."},{"n":2,"name":"מסלול אדום","short":"עומק","desc":"החשיבה, ההעדפות והחזון שמאחורי ההחלטות."},{"n":3,"name":"מסלול שחור","short":"מקצועי","desc":"פערים, סיכונים והזדמנויות שקל לפספס."}],"undecided":"עדיין לא החלטנו","other":"אחר"};</script>
+<script>window.SKI_Q={"chapters":[{"id":"A","title":"היזמים והחזון","lead":"נתחיל מכם. לפני שמדברים על ציוד ומחירים, אנחנו רוצים להבין מאיפה זה בא, לאן אתם רוצים להגיע ואיך אתם עובדים יחד.","icon":"users","qs":[{"id":"A-01","lvl":1,"t":"long","q":"איך נולד הרעיון להקים את העסק? ספרו את הסיפור: מתי, איפה ומה קרה.","req":true},{"id":"A-02","lvl":1,"t":"long","q":"למה דווקא השכרת ציוד סקי? מה הקשר האישי שלכם לעולם הסקי?","req":true},{"id":"A-03","lvl":1,"t":"long","q":"איזו הזדמנות זיהיתם? מה לדעתכם חסר היום בשוק?","req":true,"more":"על מה אתם מבססים את זה: חוויה אישית, שיחות עם אנשים, נתונים או תחושה?"},{"id":"A-04","lvl":1,"t":"many","q":"מה אתם רוצים להשיג באמצעות העסק?","req":true,"hint":"אפשר לבחור כמה תשובות.","more":"מתוך מה שבחרתם, מה הכי חשוב?","opts":["הכנסה נוספת לצד עבודה","פרנסה מלאה","בניית מותג גדול לאורך שנים","עסק שאפשר למכור בעתיד","לעבוד בתחום שאנחנו אוהבים","קהילה ואורח חיים סביב סקי","אחר"]},{"id":"A-05","lvl":1,"t":"grid","q":"איך אתם מדמיינים את העסק בעוד שנה, שלוש שנים וחמש שנים?","req":true,"rows":["בעוד שנה","בעוד 3 שנים","בעוד 5 שנים"],"cols":[{"label":"איך העסק נראה","kind":"text"},{"label":"בערך כמה השכרות או לקוחות בעונה","kind":"text"},{"label":"מה אתם עושים ביום-יום","kind":"text"}]},{"id":"A-06","lvl":1,"t":"one","q":"איך אתם רואים את העסק?","req":true,"opts":["פרויקט עונתי שנבדוק בעונה אחת","עסק עונתי קבוע","עסק לטווח ארוך שפועל כל השנה","מותג שנרצה להרחיב לתחומים נוספים","עדיין לא החלטנו"]},{"id":"A-07","lvl":1,"t":"long","q":"מה ייחשב בעיניכם הצלחה בסוף העונה הראשונה? ומה ייחשב כישלון?","req":true,"more":"באיזה מצב תחליטו להפסיק, לשנות כיוון או להשקיע עוד?"},{"id":"A-08","lvl":1,"t":"grid","q":"כמה זמן כל אחד מכם מתכנן להשקיע בעסק?","req":true,"rows":["רואי","אומר"],"cols":[{"label":"שעות בשבוע בעונה","kind":"text"},{"label":"שעות בשבוע מחוץ לעונה","kind":"text"},{"label":"עבודה נוספת במקביל?","kind":"select","opts":["כן, משרה מלאה","כן, חלקית","לא","עדיין לא החלטנו"]}]},{"id":"A-09","lvl":1,"t":"grid","q":"מה הניסיון והיתרונות שכל אחד מכם מביא?","req":true,"rows":["רואי","אומר"],"cols":[{"label":"רקע מקצועי","kind":"text"},{"label":"ניסיון בסקי","kind":"text"},{"label":"כישורים שמביא לעסק","kind":"text"},{"label":"קשרים רלוונטיים","kind":"text"}]},{"id":"A-10","lvl":1,"t":"matrix","q":"איך מתחלקים התפקידים והאחריות ביניכם?","req":true,"rows":["כספים וחשבונות","שיווק ורשתות חברתיות","ציוד, מלאי ותחזוקה","שירות לקוחות","ספקים ורכש","אתר וטכנולוגיה","משלוחים ולוגיסטיקה"],"cols":["רואי","אומר","שניהם","גורם חיצוני","עדיין לא החלטנו"]},{"id":"A-11","lvl":2,"t":"long","q":"מה חשוב לכם שלא יקרה בעסק?","req":false},{"id":"A-12","lvl":1,"t":"long","q":"מה הדבר שהכי חשוב לכם שהלקוחות ירגישו כשהם פוגשים את המותג?","req":true},{"id":"A-13","lvl":2,"t":"long","q":"במשפט אחד: מה העסק הזה בשבילך?","req":false,"hint":"שאלות A-13 עד A-17 מופיעות פעמיים, אחת לכל אחד. מומלץ שכל אחד יענה לבד, לפני שאתם מדברים על זה.","founders":true},{"id":"A-14","lvl":2,"t":"num","q":"כמה כסף אישי אתה מוכן להשקיע, ולהפסיד בלי שזה יפגע בך?","req":false,"unit":"₪","founders":true},{"id":"A-15","lvl":2,"t":"one","q":"מה חשוב לך יותר בשנה הראשונה?","req":false,"opts":["צמיחה מהירה, גם במחיר הפסד","רווחיות מהירה, גם במחיר צמיחה איטית","איזון בין השניים","עדיין לא החלטנו"],"founders":true},{"id":"A-16","lvl":2,"t":"long","q":"איך היית רוצה שהעסק ייראה בעוד 3 שנים, ומה התפקיד שלך בו?","req":false,"founders":true},{"id":"A-17","lvl":3,"t":"long","q":"מה הכי מדאיג אותך בעסק או בשותפות? מה יקרה אם אחד מכם ירצה לצאת?","req":false,"founders":true},{"id":"A-18","lvl":3,"t":"one","q":"האם יש ביניכם הסכם שותפים כתוב (חלוקת בעלות, השקעות, קבלת החלטות, יציאה)?","req":false,"opts":["כן, חתום","בתהליך","לא, אבל דיברנו על זה","לא דיברנו על זה עדיין"]},{"id":"A-19","lvl":3,"t":"one","q":"מה המעמד המשפטי של העסק?","req":false,"opts":["עוסק פטור","עוסק מורשה","חברה בע״מ","שותפות רשומה","עוד לא נפתח","עדיין לא החלטנו"]}]},{"id":"B","title":"הרעיון והמודל העסקי","lead":"מה בדיוק אתם מציעים, איפה הלקוח משתמש בזה ואיך הכסף נכנס. כאן נבדוק גם מודלים חלופיים שאולי עוד לא שקלתם.","icon":"bulb","qs":[{"id":"B-01","lvl":1,"t":"long","q":"תארו בשלושה-ארבעה משפטים מה בדיוק העסק מציע ולמי.","req":true},{"id":"B-02","lvl":1,"t":"many","q":"מה אתם מתכננים להשכיר?","req":true,"opts":["מגלשי סקי","סנובורדים","נעלי סקי","נעלי סנובורד","קסדות","משקפי סקי","מקלות","ביגוד סקי (מעילים ומכנסיים)","שכבות תרמיות","כפפות, כובעים וצווארונים","ציוד לילדים","אחר"]},{"id":"B-03","lvl":1,"t":"one","q":"מה מרכז הכובד של העסק?","req":true,"opts":["ביגוד וציוד אישי (מעילים, מכנסיים, כפפות, משקפיים, קסדות)","ציוד גלישה (מגלשיים, סנובורדים, נעליים)","שילוב מלא של שניהם","עדיין לא החלטנו"]},{"id":"B-04","lvl":1,"t":"one","q":"איפה הלקוח משתמש בציוד?","req":true,"opts":["באתרי סקי בחו״ל, הלקוח לוקח את הציוד איתו","בחרמון","גם בחו״ל וגם בחרמון","משלוח ישירות ליעד בחו״ל","עדיין לא החלטנו"]},{"id":"B-05","lvl":1,"t":"one","q":"האם תשכירו פריטים בנפרד או בחבילות?","req":false,"more":"אילו חבילות אתם מדמיינים? (למשל: חבילת מתחיל, חבילת משפחה)","opts":["פריטים בודדים בלבד","חבילות בלבד","גם וגם","עדיין לא החלטנו"]},{"id":"B-06","lvl":1,"t":"many","q":"לאילו משכי זמן אפשר יהיה לשכור?","req":true,"opts":["יום","סוף שבוע","שבוע (חופשת סקי טיפוסית)","שבועיים","עונה שלמה","לפי בקשה"]},{"id":"B-07","lvl":2,"t":"one","q":"האם תהיה גם מכירה, בנוסף להשכרה?","req":false,"opts":["לא, השכרה בלבד","מכירת אביזרים קטנים (כפפות, צווארונים, שכבות תרמיות)","מכירת ציוד יד שנייה בסוף עונה","מכירת ציוד חדש","עדיין לא החלטנו"]},{"id":"B-08","lvl":2,"t":"many","q":"אילו שירותים משלימים אתם שוקלים?","req":false,"opts":["משלוח עד הבית","איסוף מהבית בסוף החופשה","מדידה בבית הלקוח","ייעוץ אישי בבחירת ציוד","ביטוח לציוד","תיק ציוד ארוז ומוכן לטיסה","השכרת תיקי סקי ומזוודות","ייעוץ על יעדי סקי","תיווך לשיעורי סקי","אחר"]},{"id":"B-09","lvl":1,"t":"one","q":"על איזה מודל מלאי העסק יתבסס?","req":true,"opts":["ציוד בבעלותנו (רכישה)","ליסינג או שכירות מספק","קונסיגנציה (ציוד של אחרים, אנחנו משכירים תמורת עמלה)","שיתוף פעולה עם חנות קיימת","שילוב","עדיין לא החלטנו"]},{"id":"B-10","lvl":1,"t":"many","q":"למי תשכירו?","req":true,"opts":["לקוחות פרטיים","משפחות","קבוצות חברים","בתי ספר ותנועות נוער","חברות (נופש עובדים)","סוכנויות נסיעות ומארגני טיולי סקי","מועדוני סקי","אחר"]},{"id":"B-11","lvl":1,"t":"long","q":"תארו את תהליך ההשכרה המלא כפי שאתם מדמיינים אותו: מהרגע שהלקוח שומע עליכם ועד שהציוד חוזר אליכם, נקי ומוכן להשכרה הבאה.","req":true,"hint":"אין תשובה נכונה. כתבו שלב אחרי שלב, גם אם חלק מהשלבים עוד לא ברורים לכם."},{"id":"B-12","lvl":3,"t":"matrix","q":"יש כמה מודלים עסקיים אפשריים בתחום. עד כמה כל אחד מעניין אתכם?","req":false,"rows":["השכרת ביגוד סקי לישראלים לפני הטיסה","השכרת ציוד מלא עם מסירה במלון ביעד, דרך שותף מקומי","מנוי עונתי או שנתי לילדים שגדלים, עם החלפת מידה","פלטפורמה שמחברת בין בעלי ציוד פרטיים לשוכרים","עמלה על הזמנת ציוד מראש בחנויות באתרי הסקי","מכירת ציוד יד שנייה בדוק, עם אחריות","חבילה משולבת עם סוכנות נסיעות"],"cols":["מעניין מאוד","אולי","לא מתאים","לא הבנתי, נדבר"]},{"id":"B-13","lvl":3,"t":"long","q":"מה תעשו אם יתברר שרוב הלקוחות מעדיפים לשכור מגלשיים ונעליים באתר הסקי עצמו, ולא מכם?","req":false,"show":{"id":"B-03","none":["ביגוד וציוד אישי (מעילים, מכנסיים, כפפות, משקפיים, קסדות)"]}},{"id":"B-14","lvl":2,"t":"long","q":"מה יקרה עם הציוד ועם העסק בחודשים שאין בהם עונת סקי?","req":false}]},{"id":"C","title":"קהל היעד והלקוח האידיאלי","lead":"זה אחד הפרקים החשובים בשאלון. 'כל מי שאוהב סקי' זו לא תשובה שאפשר לבנות עליה עסק. ככל שתהיו ספציפיים יותר, השיווק יהיה זול ומדויק יותר.","icon":"target","qs":[{"id":"C-01","lvl":1,"t":"many","q":"מי הלקוחות העיקריים שלכם?","req":true,"more":"אם הייתם צריכים לבחור קבוצה אחת בלבד לעונה הראשונה, מי היא ולמה?","opts":["משפחות עם ילדים","זוגות","צעירים אחרי צבא","קבוצות חברים","מתחילים שיוצאים לסקי בפעם הראשונה","גולשים מנוסים","קבוצות מאורגנות","מטיילים עצמאיים","אחר"]},{"id":"C-02","lvl":1,"t":"many","q":"באילו גילאים מדובר?","req":true,"opts":["ילדים 3–6","ילדים 7–12","נוער 13–17","18–25","26–35","36–50","50+"]},{"id":"C-03","lvl":2,"t":"one","q":"האם יש הבדל עסקי בין גברים לנשים אצל הלקוחות שלכם?","req":false,"opts":["לא רלוונטי","כן, בגזרות ובמידות","כן, במי שמזמין ומחליט במשפחה","לא יודעים"]},{"id":"C-04","lvl":1,"t":"many","q":"איפה הלקוחות גרים?","req":true,"opts":["מרכז","שרון","ירושלים והסביבה","חיפה והצפון","דרום","כל הארץ"]},{"id":"C-05","lvl":1,"t":"one","q":"מה כוח הקנייה של הלקוח שלכם?","req":true,"opts":["חסכוני, מחפש את המחיר הנמוך","באמצע, מחפש תמורה טובה למחיר","מבוסס, מוכן לשלם על נוחות ואיכות","פרימיום, רוצה את הטוב ביותר","עדיין לא החלטנו"]},{"id":"C-06","lvl":1,"t":"matrix","q":"מה רמת הניסיון בסקי של הלקוחות שלכם?","req":true,"rows":["מתחילים (פעם ראשונה)","חוזרים (2–4 חופשות)","מנוסים","מקצוענים"],"cols":["קהל מרכזי","קהל משני","לא הקהל שלנו"]},{"id":"C-07","lvl":2,"t":"one","q":"באיזו תדירות הלקוח שלכם יוצא לחופשת סקי?","req":false,"opts":["פעם בכמה שנים","פעם בשנה","יותר מפעם בעונה","לא יודעים"]},{"id":"C-08","lvl":2,"t":"many","q":"לאן הלקוחות שלכם נוסעים?","req":false,"opts":["צרפת","אוסטריה","איטליה","שווייץ","אנדורה","בולגריה","גאורגיה","החרמון","צפון אמריקה","יפן","אחר"]},{"id":"C-09","lvl":2,"t":"num","q":"לדעתכם, כמה הלקוח מוכן להוציא על ציוד לכל החופשה, לאדם?","req":false,"more":"על מה אתם מבססים את ההערכה?","unit":"₪"},{"id":"C-10","lvl":1,"t":"many","q":"איפה הלקוח מחפש היום ציוד לחופשת סקי?","req":true,"opts":["שואל מחברים ומשפחה","קבוצות פייסבוק ווואטסאפ","חיפוש בגוגל","אינסטגרם וטיקטוק","סוכן הנסיעות","חנויות ספורט","שוכר באתר הסקי ביעד","קונה ציוד זול","לא יודעים","אחר"]},{"id":"C-11","lvl":1,"t":"long","q":"מה מטריד את הלקוח בתהליך השגת הציוד?","req":true},{"id":"C-12","lvl":1,"t":"long","q":"מה יגרום ללקוח לבחור דווקא בכם?","req":true},{"id":"C-13","lvl":1,"t":"personas","q":"בנו לפחות שלוש פרסונות של לקוחות אפשריים.","req":true,"hint":"פרסונה היא דמות לקוח מייצגת. תנו לה שם, גיל ומצב משפחתי, וכתבו עליה כאילו אתם מכירים אותה. למשל: 'מיכל, 41, אמא לשלושה מרעננה, נוסעת עם המשפחה לאוסטריה בחנוכה'.","fields":[{"k":"who","label":"מי היא או הוא?"},{"k":"need","label":"מה הצורך?"},{"k":"problem","label":"איזו בעיה מנסים לפתור?"},{"k":"criteria","label":"מה חשוב בבחירת ספק?"},{"k":"buy","label":"מה יגרום להזמין?"},{"k":"block","label":"מה עלול למנוע הזמנה?"},{"k":"reach","label":"איך נכון להגיע אליה או אליו?"},{"k":"msg","label":"איזה מסר ידבר אליה או אליו?"}]},{"id":"C-14","lvl":3,"t":"one","q":"עם כמה לקוחות פוטנציאליים, שמתאימים לפרסונות, דיברתם על הרעיון?","req":false,"opts":["אף אחד עדיין","1–5","6–15","יותר מ-15"]},{"id":"C-15","lvl":3,"t":"long","q":"מה שמעתם מהם? כתבו משפט אחד שהפתיע אתכם.","req":false,"show":{"id":"C-14","none":["אף אחד עדיין"]}},{"id":"C-16","lvl":3,"t":"one","q":"מי מקבל את ההחלטה ומי משלם?","req":false,"opts":["מי שגולש","ההורה","מארגן הקבוצה","המעסיק","משתנה","לא יודעים"]}]},{"id":"D","title":"בידול ויתרון תחרותי","lead":"למה שמישהו יבחר בכם? כאן נבחין בין יתרון שכבר קיים לבין יתרון שאתם רוצים לבנות. שניהם בסדר, רק חשוב לדעת מה מהם.","icon":"award","qs":[{"id":"D-01","lvl":1,"t":"long","q":"למה שלקוח ישכור דווקא מכם?","req":true},{"id":"D-02","lvl":1,"t":"long","q":"מה תעשו אחרת מכל מי שקיים היום?","req":true},{"id":"D-03","lvl":1,"t":"poles","q":"איפה אתם ממקמים את עצמכם בכל אחד מהצירים?","req":true,"hint":"סמנו נקודה על כל ציר. האמצע אומר 'לא בחרנו צד'.","pairs":[["מחיר נמוך","חוויית שירות"],["נגיש ופשוט","פרימיום"],["מבחר רחב","מבחר מצומצם ונבחר"],["שירות דיגיטלי עצמאי","שירות אישי צמוד"],["ציוד בסיסי ואמין","ציוד חדש של מותגים מובילים"]]},{"id":"D-04","lvl":1,"t":"matrix","q":"באילו תחומים יש לכם היום יתרון אמיתי?","req":true,"rows":["איכות ומצב הציוד","מחיר","נוחות וזמינות","שירות אישי וייעוץ","משלוחים ואיסוף","הזמנה מראש ושריון מידות","ניקיון והיגיינה","ידע מקצועי בסקי"],"cols":["יתרון ברור","יתרון חלקי","לא יתרון","לא בטוחים"]},{"id":"D-05","lvl":2,"t":"long","q":"איזה שירות המתחרים לא נותנים היום?","req":false},{"id":"D-06","lvl":2,"t":"long","q":"מה אתם לעולם לא רוצים להיות?","req":false},{"id":"D-07","lvl":1,"t":"short","q":"במשפט אחד: למה לקוח צריך לבחור בנו ולא במתחרה?","req":true},{"id":"D-08","lvl":3,"t":"one","q":"כמה קשה למתחרה להעתיק את היתרון שלכם?","req":false,"more":"מה בדיוק קשה להעתיק?","opts":["אפשר להעתיק תוך שבוע","תוך עונה","קשה מאוד להעתיק","לא בטוחים"]},{"id":"D-09","lvl":3,"t":"long","q":"אם מתחרה גדול יוריד מחירים ב-20% בעונה הבאה, מה תעשו?","req":false}]},{"id":"E","title":"מוצרים, ציוד ושירותים","lead":"מפת המוצרים בפירוט. אם אין לכם עוד מספרים, כתבו הערכה או השאירו ריק. נשלים במחקר.","icon":"jacket","qs":[{"id":"E-01","lvl":1,"t":"grid","q":"מפו את קטגוריות הציוד.","req":true,"hint":"מלאו רק את השורות שרלוונטיות. בשורות שלא תציעו, סמנו 'לא' והמשיכו.","rows":["מגלשי סקי","סנובורדים","נעלי סקי","נעלי סנובורד","קסדות","משקפי סקי","מקלות","מעילי סקי","מכנסי סקי","שכבות תרמיות","כפפות וכובעים","ציוד לילדים","אביזרים משלימים"],"cols":[{"label":"תציעו?","kind":"select","opts":["כן","אולי","לא"]},{"label":"מותגים","kind":"text"},{"label":"רמת איכות","kind":"select","opts":["בסיסית","בינונית","גבוהה","מעורבת"]},{"label":"טווח מידות","kind":"text"},{"label":"כמות יחידות","kind":"text"},{"label":"מחיר השכרה משוער","kind":"text"}]},{"id":"E-02","lvl":1,"t":"many","q":"לאילו רמות גלישה יתאים הציוד?","req":true,"opts":["מתחילים","מתקדמים","מקצועי","ילדים"]},{"id":"E-03","lvl":1,"t":"one","q":"איך תתבצע התאמת המידות?","req":true,"more":"מה קורה אם המידה לא מתאימה?","opts":["מדידה פיזית אצלנו","טופס מידות באתר עם מדריך","שיחת וידאו","מדידה בבית הלקוח","שילוב","עדיין לא החלטנו"]},{"id":"E-04","lvl":1,"t":"one","q":"מי יתחזק ויבדוק את הציוד?","req":true,"opts":["אנחנו","בעל מקצוע חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"E-05","lvl":1,"t":"long","q":"איך יתבצעו ניקוי וחיטוי בין השכרה להשכרה?","req":true},{"id":"E-06","lvl":1,"t":"long","q":"מה קורה במקרה של נזק, בלאי חריג או אובדן?","req":true},{"id":"E-07","lvl":2,"t":"one","q":"מאיפה תקנו את הציוד?","req":false,"opts":["יבואנים בישראל","ספקים בחו״ל","יד שנייה","ציוד שכבר יש לנו","שילוב","עדיין לא החלטנו"]},{"id":"E-08","lvl":2,"t":"one","q":"ציוד חדש או משומש?","req":false,"opts":["רק חדש","רק משומש","שילוב","עדיין לא החלטנו"]},{"id":"E-09","lvl":3,"t":"num","q":"כמה עונות לדעתכם פריט ממוצע יחזיק בהשכרה?","req":false,"more":"על מה מבוססת ההערכה?","unit":"עונות"},{"id":"E-10","lvl":3,"t":"long","q":"איך תחליטו כמה יחידות מכל מידה לקנות?","req":false},{"id":"E-11","lvl":3,"t":"one","q":"מי יכוון את הקשירות של המגלשיים (התאמה למשקל, לגובה ולרמת הגולש)?","req":false,"opts":["טכנאי מוסמך","חנות באתר הסקי ביעד","אנחנו, אחרי הכשרה","לא רלוונטי, לא נשכיר מגלשיים","לא ידענו שצריך"],"show":{"id":"B-02","any":["מגלשי סקי"]}}]},{"id":"F","title":"תמחור וכלכלה","lead":"אל תמציאו מספרים. אם אין לכם תשובה, סמנו 'עדיין לא החלטנו' או כתבו הערכה ואת מה שהיא מבוססת עליו. את מה שחסר נבנה יחד כתחזית.","icon":"wallet","qs":[{"id":"F-01","lvl":1,"t":"grid","q":"מה טווח המחירים שאתם רוצים לגבות?","req":true,"rows":["חבילת ביגוד מלאה לשבוע","חבילת ציוד גלישה לשבוע","פריט בודד לשבוע","חבילה לילד לשבוע"],"cols":[{"label":"מחיר מינימום (₪)","kind":"text"},{"label":"מחיר רצוי (₪)","kind":"text"},{"label":"על מה זה מבוסס?","kind":"text"}]},{"id":"F-02","lvl":1,"t":"one","q":"איך יחושב המחיר?","req":true,"opts":["לפי יום","מחיר קבוע לחופשה (עד מספר ימים)","לפי חבילה","שילוב","עדיין לא החלטנו"]},{"id":"F-03","lvl":2,"t":"many","q":"אילו הנחות תציעו?","req":false,"opts":["השכרה ארוכה","משפחות","קבוצות","הזמנה מוקדמת","לקוחות חוזרים","חבר מביא חבר","סטודנטים וחיילים","בלי הנחות"]},{"id":"F-04","lvl":1,"t":"one","q":"האם יהיה פיקדון?","req":true,"more":"אם יש פיקדון, מה הגובה שלו?","opts":["מסגרת בכרטיס אשראי","פיקדון במזומן","בלי פיקדון, עם ביטוח או דמי נזק","עדיין לא החלטנו"]},{"id":"F-05","lvl":1,"t":"one","q":"מה תהיה מדיניות הביטולים?","req":true,"opts":["ביטול חינם עד מועד מסוים","דמי ביטול קבועים","זיכוי להזמנה עתידית","לפי החוק בלבד","עדיין לא החלטנו"]},{"id":"F-06","lvl":1,"t":"num","q":"מה התקציב הראשוני שאתם מוכנים להשקיע?","req":true,"hint":"אפשר לכתוב טווח, למשל 50,000–80,000.","unit":"₪"},{"id":"F-07","lvl":1,"t":"matrix","q":"מה אתם יודעים היום על העלויות?","req":true,"rows":["רכישת ציוד","תחזוקה, ניקוי וכביסה","משלוחים","אחסון או מחסן","אתר ומערכת הזמנות","פרסום","ביטוח","הנהלת חשבונות וסליקה","עזרה או עובדים בשיא"],"cols":["יש הצעת מחיר","הערכה גסה","אין מושג"]},{"id":"F-08","lvl":2,"t":"long","q":"כתבו את המספרים שיש לכם, גם אם הם הערכות.","req":false},{"id":"F-09","lvl":1,"t":"num","q":"איזו הכנסה חודשית אתם רוצים בחודשי העונה?","req":true,"unit":"₪"},{"id":"F-10","lvl":1,"t":"num","q":"מה יעד הרווח לעונה הראשונה?","req":false,"unit":"₪"},{"id":"F-11","lvl":1,"t":"num","q":"כמה הזמנות לדעתכם תוכלו לשרת בעונה?","req":true,"unit":"הזמנות"},{"id":"F-12","lvl":2,"t":"one","q":"איך תממנו את ההשקעה?","req":false,"opts":["הון עצמי","הלוואה","משקיע","מענק או קרן","שילוב","עדיין לא החלטנו"]},{"id":"F-13","lvl":3,"t":"num","q":"אחרי כמה השכרות פריט מחזיר את עלות הקנייה שלו?","req":false,"unit":"השכרות"},{"id":"F-14","lvl":3,"t":"one","q":"כמה חודשים העסק יכול להחזיק בלי הכנסה?","req":false,"opts":["עד 3 חודשים","3–6 חודשים","6–12 חודשים","יותר משנה","לא יודעים"]}]},{"id":"G","title":"תפעול ולוגיסטיקה","lead":"מה קורה מאחורי הקלעים: איפה הציוד, איך הוא מגיע ללקוח ומה עושים כשמשהו משתבש.","icon":"truck","qs":[{"id":"G-01","lvl":1,"t":"short","q":"באיזו עיר או אזור העסק יפעל?","req":true},{"id":"G-02","lvl":1,"t":"many","q":"מאיפה הציוד ייצא?","req":true,"opts":["מהבית","מחסן","חנות פיזית","נקודת איסוף משותפת","שירות אחסון חיצוני","עדיין לא החלטנו"]},{"id":"G-03","lvl":1,"t":"many","q":"איך הלקוח יקבל את הציוד?","req":true,"opts":["איסוף עצמי","משלוח עד הבית","נקודות איסוף","מסירה בשדה התעופה","משלוח ליעד בחו״ל","עדיין לא החלטנו"]},{"id":"G-04","lvl":1,"t":"many","q":"איך הציוד יחזור אליכם?","req":true,"opts":["החזרה עצמית","איסוף מהבית","נקודות החזרה","בשדה התעופה","עדיין לא החלטנו"]},{"id":"G-05","lvl":2,"t":"one","q":"כמה זמן מראש צריך להזמין?","req":false,"opts":["עד יום לפני","לפחות שבוע","לפחות שבועיים","לפחות חודש","עדיין לא החלטנו"]},{"id":"G-06","lvl":1,"t":"one","q":"איך תדעו מה זמין בכל תאריך ובכל מידה?","req":true,"opts":["גיליון אקסל או גוגל שיטס","מערכת השכרה ייעודית","מערכת מובנית באתר","עדיין לא החלטנו"]},{"id":"G-07","lvl":1,"t":"one","q":"מי בודק את הציוד כשהוא חוזר?","req":false,"opts":["רואי","אומר","שניהם","עובד או גורם חיצוני","עדיין לא החלטנו"]},{"id":"G-08","lvl":2,"t":"long","q":"מה קורה כשההחזרה מתאחרת, למשל בגלל טיסה שהתעכבה?","req":false},{"id":"G-09","lvl":2,"t":"long","q":"מה עושים כשהציוד נקרע או מתקלקל כשהלקוח כבר בחו״ל?","req":false},{"id":"G-10","lvl":1,"t":"many","q":"אילו ביטוחים ומסמכים משפטיים כבר יש לכם או שאתם מתכננים?","req":true,"opts":["ביטוח לציוד","ביטוח צד ג׳ ואחריות","הסכם השכרה חתום","כתב ויתור אחריות","תקנון אתר","מדיניות פרטיות","אין עדיין, צריך לבדוק"]},{"id":"G-11","lvl":2,"t":"num","q":"כמה הזמנות ביום אתם מסוגלים להכין ולמסור ביום שיא?","req":false,"unit":"הזמנות ביום"},{"id":"G-12","lvl":3,"t":"long","q":"מי מחליף אתכם בשיא העונה, כשאחד מכם בחו״ל, אולי בעצמו בסקי?","req":false},{"id":"G-13","lvl":3,"t":"one","q":"איפה הציוד יאוחסן מחוץ לעונה?","req":false,"opts":["אותו מקום כמו בעונה","מחסן זול לחודשי הקיץ","בבית","עדיין לא החלטנו"]}]},{"id":"H","title":"מיתוג ו-Brand Book","lead":"איזה מותג אתם רוצים לבנות. אין כאן תשובות נכונות, רק העדפות. ככל שתהיו כנים יותר לגבי מה שאתם לא אוהבים, נגיע מהר יותר למשהו שמרגיש שלכם.","icon":"palette","qs":[{"id":"H-01","lvl":1,"t":"one","q":"האם יש כבר שם לעסק?","req":true,"opts":["יש שם סופי","יש שם זמני","יש כמה אפשרויות","אין עדיין"]},{"id":"H-02","lvl":1,"t":"short","q":"מה השם, או מה האפשרויות?","req":false,"show":{"id":"H-01","none":["אין עדיין"]}},{"id":"H-03","lvl":2,"t":"long","q":"מה המשמעות מאחורי השם, ואילו שמות אתם אוהבים (גם של עסקים אחרים)?","req":false},{"id":"H-04","lvl":2,"t":"one","q":"שם בינלאומי או מקומי?","req":false,"opts":["אנגלית","עברית","מילה שעובדת בשתי השפות","לא משנה לנו"]},{"id":"H-05","lvl":3,"t":"many","q":"מה כבר בדקתם לגבי השם?","req":false,"opts":["דומיין פנוי","שם משתמש פנוי ברשתות","בדיקת סימן מסחר","לא בדקנו"],"show":{"id":"H-01","none":["אין עדיין"]}},{"id":"H-06","lvl":1,"t":"poles","q":"אישיות המותג: איפה הוא נמצא בכל ציר?","req":true,"hint":"סמנו נקודה על כל ציר. נסו להימנע מהאמצע.","pairs":[["יוקרתי","נגיש"],["צעיר","בוגר"],["מקצועי","חברי"],["הרפתקני","אלגנטי"],["מינימליסטי","צבעוני"],["טכנולוגי","מסורתי"],["רגוע","אנרגטי"]]},{"id":"H-07","lvl":2,"t":"long","q":"אם המותג היה אדם, מי הוא? איך הוא מתלבש, איך הוא מדבר, מה הוא עושה בסוף שבוע?","req":false},{"id":"H-08","lvl":1,"t":"short","q":"אילו צבעים אתם אוהבים?","req":false},{"id":"H-09","lvl":1,"t":"short","q":"אילו צבעים אתם לא רוצים?","req":false},{"id":"H-10","lvl":2,"t":"one","q":"איזה סוג לוגו מתאים לכם?","req":false,"opts":["סמל ושם","שם בלבד (לוגוטייפ)","סמל בלבד","מונוגרמה (אותיות)","פתוחים להצעות"]},{"id":"H-11","lvl":2,"t":"many","q":"איזה סגנון צילום מדבר אליכם?","req":false,"opts":["אקשן ונופים דרמטיים","אנשים ומשפחות אמיתיים","צילומי מוצר נקיים","אווירת אפרס-סקי ולייפסטייל","הומור וספונטניות"]},{"id":"H-12","lvl":2,"t":"many","q":"איזה סגנון גרפי מתאים לכם?","req":false,"more":"יש פונטים או סגנון כתב שאתם אוהבים?","opts":["מינימליסטי ונקי","צבעוני ונועז","רטרו וינטג׳ של עולם הסקי","טכני-ספורטיבי","יוקרתי ושקט"]},{"id":"H-13","lvl":1,"t":"one","q":"באיזו שפה המותג מדבר?","req":true,"opts":["עברית בלבד","עברית עם מונחים באנגלית","דו-לשוני","בעיקר אנגלית"]},{"id":"H-14","lvl":1,"t":"poles","q":"טון הדיבור של המותג","req":true,"pairs":[["רשמי","קליל"],["מקצועי-טכני","פשוט ומובן"],["רציני","עם הומור"]]},{"id":"H-15","lvl":2,"t":"long","q":"אילו מסרים חשוב לכם להעביר?","req":false},{"id":"H-16","lvl":2,"t":"long","q":"אילו מסרים לא מתאימים למותג?","req":false},{"id":"H-17","lvl":1,"t":"list","q":"צרפו 3 עד 5 מותגים שאתם אוהבים, מכל תחום, והסבירו מה אתם אוהבים בכל אחד.","req":true,"fields":[{"k":"name","label":"מותג"},{"k":"why","label":"מה אתם אוהבים בו"}],"min":3},{"id":"H-18","lvl":3,"t":"long","q":"מה אתם רוצים שהלקוח ירגיש כשהוא פותח את התיק עם הציוד?","req":false},{"id":"H-19","lvl":3,"t":"many","q":"למי ישמש ספר המותג?","req":false,"opts":["לנו בלבד","לגרפיקאים ומשווקים חיצוניים","לעובדים","לשותפים ומשפיענים"]}]},{"id":"I","title":"אתר וחוויית משתמש","lead":"לא רק אם צריך אתר, אלא מה הוא צריך לעשות עבור העסק. לפעמים גרסה ראשונה פשוטה היא בדיוק מה שנכון.","icon":"monitor","qs":[{"id":"I-01","lvl":1,"t":"many","q":"מה האתר צריך לעשות?","req":true,"opts":["השכרה ותשלום בפועל","הצגת המותג","איסוף פניות","מערכת הזמנות מלאה","תוכן ומדריכים"]},{"id":"I-02","lvl":1,"t":"one","q":"מה תהיה גרסת האתר הראשונה?","req":true,"opts":["דף נחיתה עם וואטסאפ","קטלוג עם טופס הזמנה","אתר הזמנות מלא עם תשלום","רוצים לשמוע המלצה","עדיין לא החלטנו"]},{"id":"I-03","lvl":1,"t":"many","q":"מי ייכנס לאתר?","req":true,"opts":["ישראלים בארץ","ישראלים שגרים בחו״ל","תיירים","לקוחות עסקיים","סוכנויות"]},{"id":"I-04","lvl":1,"t":"many","q":"באילו שפות האתר צריך להיות?","req":true,"opts":["עברית","אנגלית","רוסית","ערבית","צרפתית"]},{"id":"I-05","lvl":2,"t":"one","q":"מאיפה לדעתכם תגיע רוב הכניסות?","req":false,"opts":["רוב מהטלפון","חצי-חצי","רוב מהמחשב","לא יודעים"]},{"id":"I-06","lvl":1,"t":"matrix","q":"אילו פונקציות האתר צריך?","req":true,"rows":["קטלוג ציוד","בחירת תאריכי השכרה","בחירת מידות","בחירת רמת ציוד","חבילות השכרה","בדיקת זמינות במלאי","הזמנה ותשלום אונליין","סל קניות","קופונים","אזור אישי","ניהול הזמנות ללקוח","כפתור וואטסאפ","שאלות נפוצות","המלצות לקוחות","בלוג ומדריכים","חיבור למערכת ניהול לקוחות","אוטומציות ומיילים"],"cols":["חובה בגרסה הראשונה","בהמשך","לא צריך","לא בטוחים"]},{"id":"I-07","lvl":1,"t":"long","q":"איך אתם רוצים שהלקוח יעבור באתר? תארו את המסלול מהכניסה ועד אישור ההזמנה.","req":true},{"id":"I-08","lvl":1,"t":"one","q":"כמה פשוט צריך להיות תהליך ההזמנה?","req":false,"opts":["עד 3 מסכים","4–5 מסכים","לא משנה, העיקר שיהיה מדויק"]},{"id":"I-09","lvl":1,"t":"long","q":"מה הלקוח צריך לראות מיד כשהוא נכנס לאתר?","req":true},{"id":"I-10","lvl":2,"t":"long","q":"מה יגרום ללקוח לסמוך עליכם באתר?","req":false},{"id":"I-11","lvl":2,"t":"long","q":"מה עלול לגרום ללקוח לנטוש את האתר?","req":false},{"id":"I-12","lvl":1,"t":"list","q":"שלחו לפחות שלושה אתרים להשראה, גם מחוץ לעולם הסקי.","req":true,"fields":[{"k":"url","label":"כתובת האתר","dir":"ltr"},{"k":"why","label":"מה אתם אוהבים בו"}],"min":3},{"id":"I-13","lvl":2,"t":"list","q":"אתרים שאתם לא אוהבים, ולמה.","req":false,"fields":[{"k":"url","label":"כתובת האתר","dir":"ltr"},{"k":"why","label":"מה מפריע לכם"}],"min":1},{"id":"I-14","lvl":2,"t":"long","q":"מה אתם ממש לא רוצים לראות באתר שלכם?","req":false},{"id":"I-15","lvl":2,"t":"many","q":"אילו אמצעי תשלום צריך?","req":false,"opts":["כרטיס אשראי","ביט","Apple Pay / Google Pay","PayPal","תשלומים","העברה בנקאית","מזומן באיסוף"]},{"id":"I-16","lvl":3,"t":"many","q":"באילו מערכות אתם כבר משתמשים, או מתכננים, שהאתר צריך להתחבר אליהן?","req":false,"opts":["מערכת חשבוניות","מערכת ניהול לקוחות","יומן או גיליון גוגל","וואטסאפ עסקי","מערכת דיוור","מערכת השכרה ייעודית","אין"]},{"id":"I-17","lvl":3,"t":"many","q":"אילו הודעות אוטומטיות תרצו שהלקוח יקבל?","req":false,"opts":["אישור הזמנה","תזכורת לפני איסוף","רשימת בדיקה לפני הטיסה","תזכורת להחזרה","בקשה לביקורת אחרי החופשה","הצעה לעונה הבאה"]},{"id":"I-18","lvl":3,"t":"one","q":"מי יעדכן את האתר (מלאי, מחירים, תוכן)?","req":false,"opts":["אנחנו","גורם חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"I-19","lvl":3,"t":"one","q":"יש לכם העדפה לגבי הפלטפורמה?","req":false,"opts":["בונה אתרים מוכן","פיתוח ייעודי","לא משנה, תמליצו לנו"]}]},{"id":"J","title":"שיווק, פרסום וגיוס לקוחות","lead":"איך הלקוחות הראשונים יגיעו אליכם, ואיך גורמים להם לחזור ולהמליץ.","icon":"megaphone","qs":[{"id":"J-01","lvl":1,"t":"long","q":"איך תשיגו את 10 הלקוחות הראשונים?","req":true},{"id":"J-02","lvl":1,"t":"matrix","q":"איזה קהל כבר יש לכם?","req":true,"rows":["אינסטגרם","טיקטוק","פייסבוק","קבוצות וואטסאפ","רשימת אנשי קשר","יוטיוב"],"cols":["קהל משמעותי","קצת","אין"]},{"id":"J-03","lvl":1,"t":"matrix","q":"אילו ערוצים מעניינים אתכם?","req":true,"rows":["פרסום ממומן ברשתות","פרסום בגוגל","תוכן אורגני","משפיענים","סוכנויות נסיעות","מדריכי סקי","קבוצות וקהילות סקי","חבר מביא חבר","שיתוף פעולה עם חנויות ספורט","ועדי עובדים","דיוור במייל"],"cols":["מעניין מאוד","אולי","לא"]},{"id":"J-04","lvl":1,"t":"num","q":"מה תקציב הפרסום החודשי בחודשי העונה?","req":true,"unit":"₪"},{"id":"J-05","lvl":2,"t":"num","q":"ומחוץ לעונה?","req":false,"unit":"₪"},{"id":"J-06","lvl":2,"t":"one","q":"מי יפיק את התוכן?","req":false,"opts":["אנחנו","גורם חיצוני","שילוב","עדיין לא החלטנו"]},{"id":"J-07","lvl":1,"t":"grid","q":"תארו איך הלקוח הראשון עובר את כל הדרך איתכם.","req":true,"rows":["שומע עלינו","משאיר פרטים או פונה","מזמין","מקבל את הציוד","בחופשה","מחזיר","מזמין שוב או ממליץ"],"cols":[{"label":"איך זה קורה אצלכם","kind":"text"}]},{"id":"J-08","lvl":2,"t":"many","q":"איך תמדדו הצלחה שיווקית?","req":false,"opts":["מספר הזמנות","עלות להשגת לקוח","פניות","עוקבים ומעורבות","לקוחות חוזרים","המלצות וביקורות","הכנסה"]},{"id":"J-09","lvl":3,"t":"long","q":"מתי בשנה צריך להתחיל לשווק, לדעתכם?","req":false},{"id":"J-10","lvl":3,"t":"num","q":"כמה אתם מוכנים לשלם כדי להשיג לקוח אחד?","req":false,"unit":"₪"},{"id":"J-11","lvl":3,"t":"long","q":"איך תגרמו ללקוח לחזור בעונה הבאה, כשבין חופשה לחופשה עוברת שנה?","req":false}]},{"id":"K","title":"מתחרים והשראה","lead":"מה אתם כבר יודעים על המתחרים, ממי אתם רוצים ללמוד ומה אתם לא רוצים להעתיק. במחקר השוק נשלים את התמונה.","icon":"binoculars","qs":[{"id":"K-01","lvl":1,"t":"list","q":"אילו מתחרים אתם מכירים?","req":true,"fields":[{"k":"name","label":"שם"},{"k":"good","label":"מה עושים טוב"},{"k":"bad","label":"מה פחות טוב"}],"min":2},{"id":"K-02","lvl":1,"t":"many","q":"מה הלקוח עושה היום במקום לשכור מכם?","req":true,"opts":["שואל מחברים","קונה ביגוד זול","שוכר באתר הסקי","קונה ציוד חדש בחנות ספורט","קונה יד שנייה","לא יודעים"]},{"id":"K-03","lvl":2,"t":"long","q":"ממי אתם רוצים ללמוד, ומה?","req":false},{"id":"K-04","lvl":2,"t":"long","q":"מה אתם לא רוצים להעתיק?","req":false},{"id":"K-05","lvl":2,"t":"list","q":"מותגים מחו״ל שהייתם רוצים להידמות להם.","req":false,"fields":[{"k":"name","label":"שם"},{"k":"why","label":"למה"}],"min":1},{"id":"K-06","lvl":2,"t":"list","q":"עסקים מתחומים אחרים שאתם אוהבים איך הם מתנהלים.","req":false,"fields":[{"k":"name","label":"שם"},{"k":"why","label":"מה אתם אוהבים"}],"min":1},{"id":"K-07","lvl":3,"t":"one","q":"האם בדקתם מתחרים כלקוחות: פניתם, שאלתם מחיר, עברתם תהליך הזמנה?","req":false,"opts":["כן, כמה","אחד","לא"]}]},{"id":"L","title":"יעדים ותוכנית צמיחה","lead":"מספרים ויעדים לעונה הראשונה, ולאן תרצו לגדול אחריה. אם אין מספר, כתבו הערכה.","icon":"trend","qs":[{"id":"L-01","lvl":1,"t":"long","q":"מה היעד שלכם לעונה הראשונה, במילים?","req":true},{"id":"L-02","lvl":1,"t":"num","q":"כמה השכרות אתם רוצים לבצע בעונה הראשונה?","req":true,"unit":"השכרות"},{"id":"L-03","lvl":1,"t":"num","q":"מה מחזור המכירות הרצוי?","req":false,"unit":"₪"},{"id":"L-04","lvl":2,"t":"num","q":"מה הרווח הרצוי?","req":false,"unit":"₪"},{"id":"L-05","lvl":2,"t":"num","q":"איזה אחוז מהלקוחות תרצו שיחזרו בעונה הבאה?","req":false,"unit":"%"},{"id":"L-06","lvl":2,"t":"matrix","q":"לאילו כיוונים תרצו להתרחב?","req":false,"rows":["הגדלת המלאי","חנות פיזית","נקודת שירות נוספת","פעילות במדינות נוספות","ציוד מחנאות וטיולים (מחוץ לעונה)","ציוד ים או צלילה בקיץ","מכירת ציוד","זיכיון","פלטפורמה דיגיטלית"],"cols":["בתוך שנה","בתוך 3 שנים","לא בתוכנית"]},{"id":"L-07","lvl":3,"t":"long","q":"מה צריך לקרות בעונה הראשונה כדי שתשקיעו עוד כסף בעונה השנייה?","req":false},{"id":"L-08","lvl":3,"t":"many","q":"אילו רעיונות מסקרנים אתכם?","req":false,"opts":["המלצת מידה חכמה לפי גובה ומשקל","תיק ציוד ארוז ומתויג עם רשימת בדיקה לטיסה","קוד QR על כל פריט למעקב תחזוקה וניקוי","מנוי משפחתי לילדים שגדלים","קהילת גולשים ישראלים עם מדריכי יעדים","שיתוף פעולה עם ביטוח נסיעות או חברת תעופה","חנות יד שנייה בסוף כל עונה","השכרת ציוד ליום שלג בחרמון"]}]},{"id":"M","title":"תיאום ציפיות ועבודה משותפת","lead":"הפרק הזה הוא בשבילנו: איך נעבוד יחד, מה חשוב לכם לקבל ומה כבר הוחלט.","icon":"handshake","qs":[{"id":"M-01","lvl":1,"t":"long","q":"מה אתם מצפים מאיתנו?","req":true},{"id":"M-02","lvl":1,"t":"many","q":"באילו תחומים תרצו שניקח אחריות?","req":true,"opts":["אסטרטגיה","מחקר שוק","שם ומיתוג","לוגו ושפה חזותית","אתר","מערכת הזמנות","שיווק ופרסום","תוכן","מודל פיננסי","תפעול"]},{"id":"M-03","lvl":1,"t":"one","q":"כמה מעורבים תרצו להיות?","req":true,"opts":["תובילו ותציגו לנו החלטות מרכזיות","נקבל החלטות יחד בכל שלב","נרצה להיות מעורבים בכל פרט"]},{"id":"M-04","lvl":1,"t":"long","q":"מה מבחינתכם חייב להיות מושלם?","req":false},{"id":"M-05","lvl":2,"t":"long","q":"מה פחות קריטי?","req":false},{"id":"M-06","lvl":1,"t":"short","q":"מתי אתם רוצים לקבל את ההזמנה הראשונה?","req":true},{"id":"M-07","lvl":1,"t":"num","q":"מה התקציב להקמת המותג והנכסים הדיגיטליים?","req":true,"unit":"₪"},{"id":"M-08","lvl":1,"t":"many","q":"מה תרצו לקבל בסוף התהליך?","req":true,"opts":["אסטרטגיה עסקית","מודל עסקי","מחקר שוק ומתחרים","קהלי יעד ופרסונות","אסטרטגיית מיצוב","אסטרטגיית מותג","ספר מותג","תוכנית שיווק","תוכנית חדירה לשוק","אפיון אתר","אסטרטגיית חוויית משתמש ועיצוב","אסטרטגיית תוכן","מודל פיננסי ותחזיות","תוכנית תפעולית","מפת דרכים לצמיחה"]},{"id":"M-09","lvl":1,"t":"long","q":"אילו החלטות כבר קיבלתם?","req":true},{"id":"M-10","lvl":1,"t":"long","q":"מה עדיין פתוח לגמרי?","req":false},{"id":"M-11","lvl":2,"t":"one","q":"כשאתם חלוקים, מי מחליט?","req":false,"opts":["רואי","אומר","מחליטים רק בהסכמה","לפי התחום","עדיין לא החלטנו"]},{"id":"M-12","lvl":2,"t":"many","q":"איך הכי נוח לכם לעבוד איתנו?","req":false,"opts":["וואטסאפ","מייל","פגישות וידאו","פגישות פנים אל פנים"]}]},{"id":"N","title":"מבחן מציאות","lead":"השאלות כאן לא נועדו להרתיע. הן עוזרות לנו לזהות מוקדם מה צריך לבדוק לפני שמשקיעים כסף, כדי שההשקעה תהיה במקום הנכון.","icon":"mountain","qs":[{"id":"N-01","lvl":3,"t":"many","q":"מה כבר עשיתם כדי לבדוק שיש ביקוש?","req":true,"opts":["שוחחנו עם לקוחות פוטנציאליים","פרסמנו בקבוצות וקיבלנו פניות","כבר השכרנו ציוד בתשלום","קיבלנו הזמנות או הרשמה מוקדמת","בדקנו נתוני חיפוש בגוגל","עדיין לא בדקנו"]},{"id":"N-02","lvl":3,"t":"long","q":"מה ההנחה הכי מסוכנת שלכם: זו שאם היא לא נכונה, העסק לא עובד?","req":false},{"id":"N-03","lvl":3,"t":"long","q":"נניח שתגיעו לשליש מההשכרות שתכננתם בעונה הראשונה. מה יקרה?","req":false},{"id":"N-04","lvl":3,"t":"one","q":"נניח שמחר מגיעות 500 הזמנות. מה נשבר ראשון?","req":false,"opts":["המלאי","הזמן שלנו","המשלוחים","שירות הלקוחות","התזרים","שום דבר, אנחנו מוכנים"]},{"id":"N-05","lvl":3,"t":"one","q":"האם אתם מוכנים להתחיל קטן (מלאי מצומצם, אתר פשוט) כדי להוכיח ביקוש לפני השקעה גדולה?","req":false,"opts":["כן, זה הכיוון","חלקית","לא, מעדיפים להיכנס בגדול","רוצים לשמוע המלצה"]},{"id":"N-06","lvl":2,"t":"long","q":"על מה לא שאלנו? כתבו כל דבר שחשוב שנדע.","req":false}]}],"letters":{"A":"א׳","B":"ב׳","C":"ג׳","D":"ד׳","E":"ה׳","F":"ו׳","G":"ז׳","H":"ח׳","I":"ט׳","J":"י׳","K":"י״א","L":"י״ב","M":"י״ג","N":"י״ד"},"levels":[{"n":1,"name":"מסלול כחול","short":"בסיס","desc":"מה שחייבים לדעת כדי להבין את העסק."},{"n":2,"name":"מסלול אדום","short":"עומק","desc":"החשיבה, ההעדפות והחזון שמאחורי ההחלטות."},{"n":3,"name":"מסלול שחור","short":"מקצועי","desc":"פערים, סיכונים והזדמנויות שקל לפספס."}],"undecided":"עדיין לא החלטנו","other":"אחר","icons":{"users":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/><\/svg>","bulb":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 18h6\"/><path d=\"M10 22h4\"/><path d=\"M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14\"/><\/svg>","target":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><\/svg>","award":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"8\" r=\"6\"/><path d=\"M15.48 12.89 17 22l-5-3-5 3 1.52-9.11\"/><\/svg>","jacket":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z\"/><\/svg>","wallet":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"/><\/svg>","truck":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62L18.3 9.38a1 1 0 0 0-.78-.38H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/><\/svg>","palette":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"13.5\" cy=\"6.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"17.5\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"8.5\" cy=\"7.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"6.5\" cy=\"12.5\" r=\"1\" fill=\"currentColor\"/><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z\"/><\/svg>","monitor":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><path d=\"M8 21h8\"/><path d=\"M12 17v4\"/><\/svg>","megaphone":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m3 11 18-5v12L3 14v-3z\"/><path d=\"M11.6 16.8a3 3 0 1 1-5.8-1.6\"/><\/svg>","binoculars":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M10 10h4\"/><path d=\"M19 7V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3\"/><path d=\"M20 21a2 2 0 0 0 2-2v-3.85c0-1.2-.47-2.35-1.3-3.2L19 10V7H5v3l-1.7 1.95A4.6 4.6 0 0 0 2 15.15V19a2 2 0 0 0 2 2z\"/><path d=\"M9 7V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3\"/><path d=\"M2 16h8v3a2 2 0 0 1-2 2H4\"/><path d=\"M22 16h-8v3a2 2 0 0 0 2 2h4\"/><\/svg>","trend":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"/><polyline points=\"16 7 22 7 22 13\"/><\/svg>","handshake":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m11 17 2 2a1 1 0 1 0 3-3\"/><path d=\"m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4\"/><path d=\"m21 3 1 11h-2\"/><path d=\"M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3\"/><path d=\"M3 4h8\"/><\/svg>","mountain":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m8 3 4 8 5-5 5 15H2L8 3z\"/><\/svg>","pen":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z\"/><\/svg>","text":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M17 6.1H3\"/><path d=\"M21 12.1H3\"/><path d=\"M15.1 18H3\"/><\/svg>","hash":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><line x1=\"4\" x2=\"20\" y1=\"9\" y2=\"9\"/><line x1=\"4\" x2=\"20\" y1=\"15\" y2=\"15\"/><line x1=\"10\" x2=\"8\" y1=\"3\" y2=\"21\"/><line x1=\"16\" x2=\"14\" y1=\"3\" y2=\"21\"/><\/svg>","radio":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"3.5\" fill=\"currentColor\"/><\/svg>","checks":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"3\"/><path d=\"m8.5 12 2.5 2.5 4.5-5\"/><\/svg>","matrix":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M3 15h18\"/><path d=\"M9 3v18\"/><path d=\"M15 3v18\"/><\/svg>","sliders":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\"/><line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\"/><line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\"/><line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\"/><line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\"/><line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\"/><line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\"/><line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\"/><\/svg>","table":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M3 15h18\"/><path d=\"M12 9v12\"/><\/svg>","list":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><line x1=\"9\" x2=\"21\" y1=\"6\" y2=\"6\"/><line x1=\"9\" x2=\"21\" y1=\"12\" y2=\"12\"/><line x1=\"9\" x2=\"21\" y1=\"18\" y2=\"18\"/><circle cx=\"4\" cy=\"6\" r=\"1\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"12\" r=\"1\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"18\" r=\"1\" fill=\"currentColor\"/><\/svg>","persona":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"M20 21a8 8 0 0 0-16 0\"/><\/svg>","snowflake":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 2v20\"/><path d=\"M2 12h20\"/><path d=\"m4.93 4.93 14.14 14.14\"/><path d=\"m19.07 4.93-14.14 14.14\"/><path d=\"m9 3.5 3 3 3-3\"/><path d=\"m9 20.5 3-3 3 3\"/><path d=\"m3.5 9 3 3-3 3\"/><path d=\"m20.5 9-3 3 3 3\"/><\/svg>","check":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M20 6 9 17l-5-5\"/><\/svg>","clock":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/><\/svg>","cloud":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z\"/><path d=\"m9.5 14 2 2 3.5-3.5\"/><\/svg>","device":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\"/><path d=\"M12 18h.01\"/><\/svg>","plus":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/><\/svg>","x":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/><\/svg>","arrow":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/><\/svg>","reply":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><polyline points=\"15 10 20 15 15 20\"/><path d=\"M4 4v7a4 4 0 0 0 4 4h12\"/><\/svg>","help":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/><\/svg>","info":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 16v-4\"/><path d=\"M12 8h.01\"/><\/svg>","copy":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/><\/svg>","download":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/><\/svg>","upload":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" x2=\"12\" y1=\"3\" y2=\"15\"/><\/svg>","printer":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><polyline points=\"6 9 6 2 18 2 18 9\"/><path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><rect width=\"12\" height=\"8\" x=\"6\" y=\"14\"/><\/svg>","clipboard":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"m9 14 2 2 4-4\"/><\/svg>","bookmark":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z\"/><\/svg>","flag":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z\"/><line x1=\"4\" x2=\"4\" y1=\"22\" y2=\"15\"/><\/svg>","split":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"7\" cy=\"7\" r=\"3\"/><circle cx=\"17\" cy=\"7\" r=\"3\"/><path d=\"M2 21v-1a5 5 0 0 1 5-5h0a5 5 0 0 1 5 5v1\"/><path d=\"M12 21v-1a5 5 0 0 1 5-5h0a5 5 0 0 1 5 5v1\"/><\/svg>","map":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M14.1 6.1 9.9 3.9a2 2 0 0 0-1.8 0L3.6 6.1A1 1 0 0 0 3 7v13a1 1 0 0 0 1.4.9l3.7-1.8a2 2 0 0 1 1.8 0l4.2 2.1a2 2 0 0 0 1.8 0l4.5-2.2A1 1 0 0 0 21 18V5a1 1 0 0 0-1.4-.9l-3.7 1.8a2 2 0 0 1-1.8 0z\"/><path d=\"M15 6v15\"/><path d=\"M9 3v15\"/><\/svg>","lock":"<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/><\/svg>"}};</script>
 <script>
 (function () {
   "use strict";
@@ -454,8 +547,8 @@ main { min-width: 0; max-width: 820px; }
 
   var A = {};
   try { A = JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch (e) { A = {}; }
-  var level = 3;
-  try { level = parseInt(localStorage.getItem(LS_LVL), 10) || 3; } catch (e) {}
+  var level = 1;
+  try { level = parseInt(localStorage.getItem(LS_LVL), 10) || 1; } catch (e) {}
 
   var QI = {};
   CH.forEach(function (ch) { ch.qs.forEach(function (q) { q.ch = ch.id; QI[q.id] = q; }); });
@@ -495,6 +588,22 @@ main { min-width: 0; max-width: 820px; }
     return true;
   }
   function visible(q) { return q.lvl <= level && showOK(q); }
+  var ICONS = DATA.icons;
+  function ic(name, cls) {
+    var t = document.createElement("span");
+    t.innerHTML = ICONS[name] || "";
+    var svgEl = t.firstChild;
+    if (svgEl && cls) svgEl.setAttribute("class", "ic " + cls);
+    return svgEl;
+  }
+  var TYPE = {
+    short: ["pen", "תשובה קצרה"], long: ["text", "תשובה פתוחה"], num: ["hash", "מספר או טווח"],
+    one: ["radio", "בחירה אחת"], many: ["checks", "אפשר לבחור כמה"], matrix: ["matrix", "בחירה בכל שורה"],
+    poles: ["sliders", "נקודה על כל ציר"], grid: ["table", "טבלה למילוי"], list: ["list", "רשימה"],
+    personas: ["persona", "בניית פרסונות"]
+  };
+  var MIN = { short: .5, long: 2, num: .5, one: .5, many: .75, matrix: 1.5, poles: 1, grid: 4, list: 2, personas: 8 };
+  function est(q) { return (MIN[q.t] || 1) * (q.founders ? 2 : 1) + (q.more ? 1 : 0); }
   var uid = 0;
   function nid(p) { uid += 1; return (p || "f") + "-" + uid; }
 
@@ -541,7 +650,14 @@ main { min-width: 0; max-width: 820px; }
     error: "השמירה בענן נכשלה, התשובות שמורות במכשיר"
   };
   var saveState = "local";
-  function setSave(s) { saveState = s; if (saveEl) { saveEl.dataset.state = s; saveEl.textContent = SAVE_TXT[s]; } }
+  function setSave(s) {
+    saveState = s;
+    if (!saveEl) return;
+    saveEl.dataset.state = s;
+    saveEl.textContent = "";
+    saveEl.appendChild(ic(s === "cloud" || s === "saving" ? "cloud" : "device"));
+    saveEl.appendChild(document.createTextNode(SAVE_TXT[s]));
+  }
 
   function initCloud() {
     if (!IN_VIEWER) { setSave("local"); return; }
@@ -715,12 +831,12 @@ main { min-width: 0; max-width: 820px; }
           cells.appendChild(inp);
         });
         var rm = i >= (q.min || 1)
-          ? el("button", { class: "rm", type: "button", "aria-label": "מחיקת שורה " + (i + 1), text: "×", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } })
+          ? el("button", { class: "rm", type: "button", "aria-label": "מחיקת שורה " + (i + 1), title: "מחיקת שורה", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }, [ic("x")])
           : el("span");
         var r = el("div", { class: "l-row", style: "--n:" + q.fields.length }, [el("span", { class: "n", text: String(i + 1) }), cells, rm]);
         box.appendChild(r);
       });
-      if (data.length < 8) box.appendChild(el("button", { class: "addrow", type: "button", text: "+ הוספת שורה", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }));
+      if (data.length < 8) box.appendChild(el("button", { class: "addrow", type: "button", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }, [ic("plus"), "הוספת שורה"]));
     }
     draw();
     return box;
@@ -745,11 +861,11 @@ main { min-width: 0; max-width: 820px; }
           t.addEventListener("input", function () { upd(f.k, t.value); });
           fs.appendChild(el("label", {}, [f.label, t]));
         });
-        var head = el("div", { class: "persona-h" }, [el("span", { class: "pn", text: String(i + 1) }), name]);
-        if (i >= 3) head.appendChild(el("button", { class: "rm btn", type: "button", text: "הסרה", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }));
+        var head = el("div", { class: "persona-h" }, [el("span", { class: "pn" }, [ic("persona"), el("b", { text: String(i + 1) })]), name]);
+        if (i >= 3) head.appendChild(el("button", { class: "rm btn btn-sm", type: "button", onclick: function () { var v = rows().slice(); v.splice(i, 1); set(k, v); draw(); } }, [ic("x"), "הסרה"]));
         box.appendChild(el("fieldset", { class: "persona", style: "margin:0" }, [head, fs]));
       });
-      if (data.length < 5) box.appendChild(el("button", { class: "addrow", type: "button", text: "+ הוספת פרסונה", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }));
+      if (data.length < 5) box.appendChild(el("button", { class: "addrow", type: "button", onclick: function () { var v = rows().slice(); while (v.length < data.length) v.push({}); v.push({}); A[k] = v; draw(); } }, [ic("plus"), "הוספת פרסונה"]));
     }
     draw();
     return box;
@@ -779,11 +895,11 @@ main { min-width: 0; max-width: 820px; }
 
   function unit(q, k, label) {
     var u = el("div", { class: "unit" });
-    if (label) u.appendChild(el("div", { class: "unit-label", text: label }));
+    if (label) u.appendChild(el("div", { class: "unit-label" }, [ic("persona"), label]));
     u.appendChild(el("div", { class: "field-area" }, [fieldFor(q, k)]));
     var hasOwnUndecided = (q.opts && q.opts.indexOf(UNDECIDED) > -1) || (q.t === "matrix" && q.cols.indexOf(UNDECIDED) > -1);
     if (!hasOwnUndecided) {
-      var b = el("button", { class: "undecided", type: "button", "aria-pressed": A[k + "#u"] ? "true" : "false", text: UNDECIDED });
+      var b = el("button", { class: "undecided", type: "button", "aria-pressed": A[k + "#u"] ? "true" : "false" }, [ic("help"), UNDECIDED]);
       b.addEventListener("click", function () {
         var on = b.getAttribute("aria-pressed") !== "true";
         b.setAttribute("aria-pressed", on ? "true" : "false");
@@ -799,9 +915,11 @@ main { min-width: 0; max-width: 820px; }
   function renderQ(q) {
     var art = el("article", { class: "q", id: "q-" + q.id, "data-q": q.id });
     var meta = el("div", { class: "q-meta" }, [
-      el("span", { class: "q-id mono", text: q.id }),
-      el("span", { class: "piste piste-" + q.lvl }, [el("i"), DATA.levels[q.lvl - 1].short]),
-      q.req ? el("span", { class: "tag-req", text: "חובה" }) : null
+      el("span", { class: "q-id mono" }, [ic("check", "ok"), q.id]),
+      el("span", { class: "piste piste-" + q.lvl, title: DATA.levels[q.lvl - 1].name }, [el("i"), DATA.levels[q.lvl - 1].short]),
+      q.req ? el("span", { class: "tag-req", text: "חובה" }) : null,
+      q.founders ? el("span", { class: "q-type split" }, [ic("split"), "כל אחד בנפרד"]) : null,
+      el("span", { class: "q-type" }, [ic(TYPE[q.t][0]), TYPE[q.t][1]])
     ]);
     art.appendChild(meta);
     art.appendChild(el("h3", { text: q.q }));
@@ -812,7 +930,7 @@ main { min-width: 0; max-width: 820px; }
     } else body.appendChild(unit(q, q.id));
     if (q.more) {
       body.appendChild(el("div", { class: "more" }, [
-        el("label", { class: "ml", for: "in-" + docId(q.id + "#f") }, [el("em", { text: "שאלת המשך" }), q.more]),
+        el("label", { class: "ml", for: "in-" + docId(q.id + "#f") }, [el("em", {}, [ic("reply"), "שאלת המשך"]), q.more]),
         textField(q.id + "#f", true, "", true)
       ]));
     }
@@ -832,11 +950,19 @@ main { min-width: 0; max-width: 820px; }
     CH.forEach(function (ch, idx) {
       var sec = el("section", { class: "chapter", id: "ch-" + ch.id, "aria-labelledby": "h-" + ch.id });
       sec.appendChild(el("header", { class: "ch-head" }, [
-        el("div", { class: "ch-letter", "aria-hidden": "true", text: LETTERS[ch.id] }),
-        el("span", { class: "eyebrow", text: "פרק " + LETTERS[ch.id] }),
-        el("h2", { id: "h-" + ch.id, text: ch.title })
+        el("div", { class: "ch-tile", "aria-hidden": "true" }, [ic(ch.icon, "lg"), el("span", { class: "ch-l", text: LETTERS[ch.id] })]),
+        el("div", { class: "ch-titles" }, [
+          el("span", { class: "eyebrow", text: "פרק " + LETTERS[ch.id] + " מתוך " + CH.length }),
+          el("h2", { id: "h-" + ch.id, text: ch.title }),
+          el("div", { class: "ch-facts" }, [
+            el("span", {}, [ic("list"), el("b", { class: "f-n" })]),
+            el("span", {}, [ic("flag"), el("b", { class: "f-r" })]),
+            el("span", {}, [ic("clock"), el("b", { class: "f-t" })])
+          ])
+        ]),
+        el("div", { class: "ch-prog", "aria-hidden": "true" }, [el("span")])
       ]));
-      sec.appendChild(el("p", { class: "ch-lead", text: ch.lead }));
+      sec.appendChild(el("p", { class: "ch-lead" }, [ic("info"), el("span", { text: ch.lead })]));
       var list = el("div", { class: "qs" });
       ch.qs.forEach(function (q) { var a = renderQ(q); a.hidden = !visible(q); list.appendChild(a); });
       sec.appendChild(list);
@@ -844,17 +970,30 @@ main { min-width: 0; max-width: 820px; }
       var next = CH[idx + 1];
       sec.appendChild(el("div", { class: "ch-end" }, [
         el("p", { class: "ch-end-txt" }),
-        next ? el("a", { class: "btn", href: "#ch-" + next.id, text: "לפרק " + LETTERS[next.id] + ": " + next.title }) :
-          el("button", { class: "btn btn-primary", type: "button", text: "לסיכום ושליחה", onclick: openSheet })
+        next ? el("a", { class: "btn btn-next", href: "#ch-" + next.id }, [ic(next.icon), "לפרק " + LETTERS[next.id] + ": " + next.title, ic("arrow")]) :
+          el("button", { class: "btn btn-primary", type: "button", onclick: openSheet }, [ic("clipboard"), "לסיכום ושליחה"])
       ]));
       root.appendChild(sec);
       chapEls[ch.id] = sec;
+    });
+    var map = document.getElementById("q-map");
+    map.textContent = "";
+    CH.forEach(function (ch) {
+      map.appendChild(el("li", {}, [el("a", { href: "#ch-" + ch.id, "data-ch": ch.id }, [
+        el("span", { class: "m-ic" }, [ic(ch.icon)]),
+        el("span", { class: "m-l", text: LETTERS[ch.id] }),
+        el("span", { class: "m-t", text: ch.title }),
+        el("span", { class: "m-c mono" }),
+        el("span", { class: "mini" }, [el("span")])
+      ])]));
     });
     navList.textContent = "";
     chapSel.textContent = "";
     CH.forEach(function (ch) {
       navList.appendChild(el("li", {}, [el("a", { href: "#ch-" + ch.id, "data-ch": ch.id }, [
-        el("span", { class: "l", text: LETTERS[ch.id] }), el("span", { text: ch.title }), el("span", { class: "c mono" })
+        el("span", { class: "l" }, [ic(ch.icon)]),
+        el("span", { class: "t" }, [el("span", { text: ch.title }), el("span", { class: "mini" }, [el("span")])]),
+        el("span", { class: "c mono" })
       ])]));
       chapSel.appendChild(el("option", { value: ch.id, text: "פרק " + LETTERS[ch.id] + " · " + ch.title }));
     });
@@ -902,10 +1041,10 @@ main { min-width: 0; max-width: 820px; }
     var vis = 0, done = 0, req = 0, reqDone = 0, und = 0, missing = [];
     var per = {};
     CH.forEach(function (ch) {
-      var s = { vis: 0, done: 0 };
+      var s = { vis: 0, done: 0, req: 0, min: 0 };
       ch.qs.forEach(function (q) {
         if (!visible(q)) return;
-        s.vis++; vis++;
+        s.vis++; vis++; s.min += est(q); if (q.req) s.req++;
         var a = answered(q);
         if (a) { s.done++; done++; }
         if (keysOf(q).some(function (k) { return A[k + "#u"] === true; }) || keysOf(q).some(function (k) { return A[k] === UNDECIDED; })) und++;
@@ -924,13 +1063,39 @@ main { min-width: 0; max-width: 820px; }
     bar.style.width = (s.vis ? Math.round(100 * s.done / s.vis) : 0) + "%";
     numDone.textContent = s.done + " מתוך " + s.vis + " שאלות";
     numReq.textContent = s.req - s.reqDone ? "חסרות " + (s.req - s.reqDone) + " שאלות חובה" : "כל שאלות החובה נענו";
+    var totalMin = 0;
     CH.forEach(function (ch) {
-      var a = navList.querySelector('a[data-ch="' + ch.id + '"]');
       var p = s.per[ch.id];
-      if (a) { a.querySelector(".c").textContent = p.done + "/" + p.vis; a.classList.toggle("done", p.vis > 0 && p.done === p.vis); }
-      var t = chapEls[ch.id] && chapEls[ch.id].querySelector(".ch-end-txt");
-      if (t) t.textContent = p.vis ? "עניתם על " + p.done + " מתוך " + p.vis + " שאלות בפרק." : "";
+      var pct = p.vis ? Math.round(100 * p.done / p.vis) : 0;
+      var full = p.vis > 0 && p.done === p.vis;
+      totalMin += p.min;
+      [navList, document.getElementById("q-map")].forEach(function (list) {
+        var a = list.querySelector('a[data-ch="' + ch.id + '"]');
+        if (!a) return;
+        var c = a.querySelector(".c, .m-c");
+        c.textContent = "";
+        if (full) c.appendChild(ic("check", "ok")); else c.textContent = p.done + "/" + p.vis;
+        a.querySelector(".mini > span").style.width = pct + "%";
+        a.classList.toggle("done", full);
+        a.classList.toggle("off", p.vis === 0);
+      });
+      var sec = chapEls[ch.id];
+      if (!sec) return;
+      sec.querySelector(".f-n").textContent = p.vis + " שאלות";
+      sec.querySelector(".f-r").textContent = p.req + " חובה";
+      sec.querySelector(".f-t").textContent = "כ-" + Math.max(1, Math.round(p.min)) + " דקות";
+      sec.querySelector(".ch-prog > span").style.width = pct + "%";
+      var t = sec.querySelector(".ch-end-txt");
+      t.textContent = "";
+      if (p.vis) {
+        if (full) t.appendChild(ic("check", "ok"));
+        t.appendChild(document.createTextNode(full ? "סיימתם את הפרק." : "עניתם על " + p.done + " מתוך " + p.vis + " שאלות בפרק."));
+      }
     });
+    var rest = 0;
+    CH.forEach(function (ch) { ch.qs.forEach(function (q) { if (visible(q) && !answered(q)) rest += est(q); }); });
+    var tm = document.getElementById("q-time");
+    if (tm) tm.textContent = rest ? "כ-" + Math.max(1, Math.round(rest)) + " דקות מילוי ב" + ["מסלול הכחול", "מסלולים הכחול והאדום", "כל המסלולים"][level - 1] : "סיימתם את המסלול שבחרתם";
   }
 
   // level switcher
@@ -939,12 +1104,21 @@ main { min-width: 0; max-width: 820px; }
     Array.prototype.forEach.call(seg.querySelectorAll("button"), function (b) {
       b.setAttribute("aria-pressed", String(+b.dataset.lvl === level));
     });
+    Array.prototype.forEach.call(document.querySelectorAll(".lvl[data-lvl]"), function (b) {
+      b.setAttribute("aria-pressed", String(+b.dataset.lvl <= level));
+    });
   }
-  seg.addEventListener("click", function (e) {
-    var b = e.target.closest("button"); if (!b) return;
-    level = +b.dataset.lvl;
+  function setLevel(n) {
+    level = n;
     try { localStorage.setItem(LS_LVL, String(level)); } catch (er) {}
     drawLevel(); applyVisibility();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".lvl[data-lvl]"), function (b) {
+    b.addEventListener("click", function () { setLevel(+b.dataset.lvl); });
+  });
+  seg.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    setLevel(+b.dataset.lvl);
   });
 
   // chapter tracking
@@ -958,6 +1132,9 @@ main { min-width: 0; max-width: 820px; }
         if (!en.isIntersecting) return;
         var id = en.target.id.slice(3);
         Array.prototype.forEach.call(navList.querySelectorAll("a"), function (a) { a.classList.toggle("on", a.dataset.ch === id); });
+        var cur = document.getElementById("q-cur");
+        var chx = CH.filter(function (c) { return c.id === id; })[0];
+        if (cur && chx) { cur.textContent = ""; cur.appendChild(ic(chx.icon)); cur.appendChild(document.createTextNode("פרק " + LETTERS[id] + " · " + chx.title)); }
         chapSel.value = id;
       });
     }, { rootMargin: "-30% 0px -60% 0px" });
@@ -1051,9 +1228,9 @@ main { min-width: 0; max-width: 820px; }
     var b = document.getElementById("q-sheet-body");
     b.textContent = "";
     b.appendChild(el("div", { class: "stats" }, [
-      el("div", { class: "stat" }, [el("b", { text: String(s.done) }), el("span", { text: "שאלות נענו מתוך " + s.vis })]),
-      el("div", { class: "stat" }, [el("b", { text: String(s.reqDone) + "/" + s.req }), el("span", { text: "שאלות חובה" })]),
-      el("div", { class: "stat" }, [el("b", { text: String(s.und) }), el("span", { text: "סומנו 'עדיין לא החלטנו'" })])
+      el("div", { class: "stat" }, [ic("checks"), el("b", { text: String(s.done) }), el("span", { text: "שאלות נענו מתוך " + s.vis })]),
+      el("div", { class: "stat" }, [ic("flag"), el("b", { text: String(s.reqDone) + "/" + s.req }), el("span", { text: "שאלות חובה" })]),
+      el("div", { class: "stat" }, [ic("help"), el("b", { text: String(s.und) }), el("span", { text: "סומנו 'עדיין לא החלטנו'" })])
     ]));
     if (s.missing.length) {
       var miss = el("div", { class: "missing" });
@@ -1068,14 +1245,14 @@ main { min-width: 0; max-width: 820px; }
       : "התשובות שמורות רק במכשיר הזה. כשתסיימו, העתיקו את הסיכום ושלחו לנו בוואטסאפ או במייל, או הורידו קובץ ושלחו אותו." }));
     var ta = el("textarea", { class: "preview", hidden: true, readonly: true, "aria-label": "סיכום התשובות" });
     var actions = el("div", { class: "actions" }, [
-      el("button", { class: "btn btn-primary", type: "button", text: "העתקת סיכום התשובות", onclick: function () { copyText(summaryText(), ta); } }),
-      el("button", { class: "btn", type: "button", text: "הורדת קובץ טקסט", onclick: function () { saveFile("ski-questionnaire-answers.txt", summaryText(), "text/plain;charset=utf-8"); } }),
-      el("button", { class: "btn", type: "button", text: "הורדת קובץ נתונים (JSON)", onclick: function () { saveFile("ski-questionnaire-answers.json", exportJSON(), "application/json"); } }),
-      !IN_VIEWER ? el("button", { class: "btn", type: "button", text: "הדפסה או PDF", onclick: function () { closeSheet(); setTimeout(function () { window.print(); }, 100); } }) : null
+      el("button", { class: "btn btn-primary", type: "button", onclick: function () { copyText(summaryText(), ta); } }, [ic("copy"), "העתקת סיכום התשובות"]),
+      el("button", { class: "btn", type: "button", onclick: function () { saveFile("ski-questionnaire-answers.txt", summaryText(), "text/plain;charset=utf-8"); } }, [ic("download"), "קובץ טקסט"]),
+      el("button", { class: "btn", type: "button", onclick: function () { saveFile("ski-questionnaire-answers.json", exportJSON(), "application/json"); } }, [ic("download"), "קובץ נתונים (JSON)"]),
+      !IN_VIEWER ? el("button", { class: "btn", type: "button", onclick: function () { closeSheet(); setTimeout(function () { window.print(); }, 100); } }, [ic("printer"), "הדפסה או PDF"]) : null
     ]);
     b.appendChild(el("div", {}, [el("p", { class: "sh", text: "שליחה ושמירה" }), actions]));
     b.appendChild(ta);
-    var file = el("input", { type: "file", accept: "application/json,.json", id: "q-import" });
+    var file = el("input", { type: "file", accept: "application/json,.json", id: "q-import", class: "vh" });
     file.addEventListener("change", function () {
       var f = file.files && file.files[0]; if (!f) return;
       var r = new FileReader();
@@ -1093,7 +1270,8 @@ main { min-width: 0; max-width: 820px; }
     b.appendChild(el("div", {}, [
       el("p", { class: "sh", text: "טעינת תשובות מקובץ" }),
       el("p", { class: "q-hint", style: "margin:0 0 8px", text: "אם מילאתם במכשיר אחר והורדתם קובץ JSON, אפשר לטעון אותו כאן. תשובות מהקובץ יחליפו תשובות קיימות לאותן שאלות." }),
-      file
+      file,
+      el("label", { class: "btn", for: "q-import" }, [ic("upload"), "בחירת קובץ"])
     ]));
     sheet.hidden = false; back.hidden = false;
     document.getElementById("q-sheet-close").focus();
