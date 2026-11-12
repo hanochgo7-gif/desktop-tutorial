@@ -1339,8 +1339,8 @@ def main():
                                             {"key": "Cross-Origin-Opener-Policy", "value": "same-origin"}]},
             # the editor may open inside another window (Hanoch, 12 Nov 2026), and so may the pages it loads (marked ?mfe=1);
             # everything else keeps frame-ancestors 'self'
-            {"source": "/site-editor/(.*)", "headers": [{"key": "Content-Security-Policy", "value": csp.replace("frame-ancestors 'self'", "frame-ancestors *")}]},
-            {"source": "/(.*)", "has": [{"type": "query", "key": "mfe"}], "headers": [{"key": "Content-Security-Policy", "value": csp.replace("frame-ancestors 'self'", "frame-ancestors *")}]},
+            {"source": "/site-editor/(.*)", "headers": [{"key": "Content-Security-Policy", "value": csp.replace("; frame-ancestors 'self'", "")}]},
+            {"source": "/(.*)", "has": [{"type": "query", "key": "mfe"}], "headers": [{"key": "Content-Security-Policy", "value": csp.replace("; frame-ancestors 'self'", "")}]},
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
             {"source": "/globe/globe.js", "headers": long_cache},  # versioned with ?v= like the other scripts
