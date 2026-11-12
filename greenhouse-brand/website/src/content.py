@@ -159,8 +159,10 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('מעוז חיים', "Ma'oz Haim", 32.493, 35.551, 'em'),
     ('ניר דוד', 'Nir David', 32.503, 35.457, 'em'),
     ('כמהין', 'Kmehin', 30.91, 34.431, 'rn'),
+    ('ניצנה', 'Nitzana', 30.885, 34.422, 'rn'),  # Hanoch, 12 Nov 2026 (written ניתנה)
     ('יד נתן', 'Yad Natan', 31.653, 34.706, 'lachish'),
     ('רמת יוחנן', 'Ramat Yohanan', 32.793, 35.121, 'zev'),
+    ('כפר המכבי', 'Kfar HaMaccabi', 32.791, 35.115, 'zev'),  # Hanoch, 12 Nov 2026 (written טפר מכבי)
     ('כברי', 'Kabri', 33.021, 35.149, 'ma'),
     ('נתיב השיירה', 'Netiv HaShayara', 32.993, 35.136, 'ma'),
     ('בן עמי', 'Ben Ami', 33.004, 35.124, 'ma'),
