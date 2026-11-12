@@ -167,6 +167,11 @@ CLOSED = {
     495: "עלה, עם ״ייצור״.",
     497: "עלה, עם ״איתור, תכנון והקמת הפרויקט...״.",
     504: "עלה, עם פסיק ו־ו׳ החיבור לפני ״איתור ופיתוח חוות״.",
+    # her edits of 12 Nov 2026 (docs/reviews/merav-2026-11-12.txt): all 26 are live; three with a small spelling fix
+    125: "עלה, עם ״בהקמת פרויקטים״ (במקום ״בהקמת בפרויקטים״).",
+    288: "עלה, עם ״ייעודיים״ בשתי יודים, כמו בפרק פורק הברד.",
+    397: "עלה, עם פסיק לפני ״פרויקט בהודו״.",
+    313: "עלה. הכותרת הזו זהה עכשיו לכותרת הראשית של העמוד (״חוות חקלאיות עד מפתח״), ולכן בעורך שתיהן מופיעות כטקסט אחד.",
 }
 REPLY = {
     1: "שם החברה מופיע עם הסלוגן בשתי השפות, באותו גופן ובאותו משקל.",
@@ -205,10 +210,14 @@ REPLY.update(CLOSED)
 ROUND = "2026-11-12"
 
 
-def reviews():
-    """{id: {"new": text or None, "note": text or None}} from the owners' emails, oldest first (a later email wins)."""
+def reviews(since=None):
+    """{id: {"new": text or None, "note": text or None}} from the owners' emails, oldest first (a later email wins).
+    since: only emails of this round on (file name dated on or after it), so a new round sees only its own emails."""
     out = {}
     for f in sorted(REVIEWS.glob("*.txt")) if REVIEWS.exists() else []:
+        d = re.search(r"(\d{4}-\d{2}-\d{2})", f.name)
+        if since and (not d or d.group(1) < since):
+            continue
         cur, key = None, None
         for line in f.read_text(encoding="utf-8").splitlines():
             m = re.match(r"\[#(\d+)\]", line)
@@ -285,7 +294,7 @@ def flags(items):
         for p in it["paths"]:
             ids[p] = it["id"]
     IDS.write_text(json.dumps(ids, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
-    rv = {} if ROUND else reviews()
+    rv = reviews(since=ROUND) if ROUND else reviews()  # in a round: only that round's emails (Merav, 12 Nov 2026)
     for it in items:
         i = it["id"]; it["v"] = hashlib.sha1(it["he"].encode()).hexdigest()[:6]
         r = rv.get(i)
@@ -298,7 +307,9 @@ def flags(items):
         if r and r["note"]:
             it["note"] = r["note"]   # her note, already sent
         if ROUND:
-            continue                 # a clean round: no waiting, answers or "changed since" marks
+            if i in CLOSED and i in rv:
+                it["reply"] = CLOSED[i]  # this round's request, handled with a small fix: she sees how
+            continue                 # a clean round: no waiting, answers or "changed since" marks from earlier rounds
         if i in HELD:
             it["held"] = HELD[i]
         if i in REPLY:

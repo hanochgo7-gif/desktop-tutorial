@@ -222,6 +222,9 @@ Hanoch asked to go over every change Merav asked for, one by one. Source: her fu
 - Greece added as a country we have worked in (globe, map, projects table as "agricultural project", country lists, FAQ). Globe heading now "nine countries".
 - Menu: "חוות חקלאיות" / "Agricultural farms"; the page heading stays "חוות חקלאיות עד מפתח".
 
+## 7j. Merav's editor email, 12 Nov 2026 17:52 (`docs/reviews/merav-2026-11-12.txt`)
+26 wording changes, all live in Hebrew with matching English. Small fixes: #125 "בהקמת פרויקטים", #288 "ייעודיים", #397 comma before "פרויקט בהודו" (answers in the editor). New facts from her: the office and the plant are both at Kibbutz Kfar Masaryk (#372); the step-02 photo is a project in India (#397); a sealed net house with insect mesh (#123). #138 drops lemons from the Israel crops line (lemons stay in the orchard crop list). #313 now repeats the page heading, so the editor lists the two as one text (#9).
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

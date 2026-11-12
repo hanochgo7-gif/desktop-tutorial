@@ -877,7 +877,7 @@
     Object.keys(S.items).forEach(function (k) {
       var s = S.items[k], it = byId[k];
       if (!s || typeof s !== "object") return;
-      if (!it) { if (s.d) { archive(k, "removed"); gone++; } return; }
+      if (!it) { if (s.d) { archive(k, "removed"); gone++; } else if (s.t != null && EXACT[norm(s.t)] && !String(s.n || "").trim()) { archive(k, "live"); applied++; } return; }  // her wording is on the site under another number (identical texts share one)
       if (s.v && s.v !== it.v && s.t != null && norm(s.t) === norm(it.he) && !s.d) {
         var n = String(s.n || "").trim();
         if (!n || n === String(s.sentN || "").trim() || n === sentNote(+k)) { archive(k, "live"); applied++; }

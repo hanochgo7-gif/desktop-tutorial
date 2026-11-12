@@ -1,7 +1,7 @@
 {
  "en/about": {
   "date": "2026-11-12",
-  "hash": "5a43f6a753488b7b"
+  "hash": "28b20be90421bf9a"
  },
  "en/accessibility": {
   "date": "2026-11-11",
@@ -9,27 +9,27 @@
  },
  "en/banana-net-houses": {
   "date": "2026-11-12",
-  "hash": "d029a16fe38a3d9a"
+  "hash": "59e935821fd9e404"
  },
  "en/contact": {
   "date": "2026-11-12",
-  "hash": "47fd8de03f7f165c"
+  "hash": "fd65250c7167199e"
  },
  "en/how-we-build": {
   "date": "2026-11-12",
-  "hash": "609b84268ee1edfb"
+  "hash": "f2b8a867a662838c"
  },
  "en/index": {
   "date": "2026-11-12",
-  "hash": "9148be9a647579b2"
+  "hash": "b4dbee8584c0e2eb"
  },
  "en/net-houses": {
   "date": "2026-11-12",
-  "hash": "b61ad7f65ecba596"
+  "hash": "82cb53bb7b40b970"
  },
  "en/orchard-hail-nets": {
   "date": "2026-11-12",
-  "hash": "9d66db711ca796d2"
+  "hash": "316b015661df7df7"
  },
  "en/privacy": {
   "date": "2026-11-10",
@@ -41,15 +41,15 @@
  },
  "en/projects": {
   "date": "2026-11-12",
-  "hash": "4caf5d47ad40a31a"
+  "hash": "0260bd70b727ec94"
  },
  "en/turnkey-farms": {
-  "date": "2026-11-11",
-  "hash": "9ef6e968faac76d5"
+  "date": "2026-11-12",
+  "hash": "1992b2ef38a5b386"
  },
  "he/about": {
   "date": "2026-11-12",
-  "hash": "5379d270326ecd1c"
+  "hash": "5ac8b40a13e05a45"
  },
  "he/accessibility": {
   "date": "2026-10-29",
@@ -57,27 +57,27 @@
  },
  "he/banana-net-houses": {
   "date": "2026-11-12",
-  "hash": "f9ab12afe6d11c87"
+  "hash": "adf0a6c42db8e4f0"
  },
  "he/contact": {
   "date": "2026-11-12",
-  "hash": "d3582577727adae7"
+  "hash": "7360e1e925a14c7b"
  },
  "he/how-we-build": {
   "date": "2026-11-12",
-  "hash": "cc0c4b94a8c604a7"
+  "hash": "10b2ab5413b06721"
  },
  "he/index": {
   "date": "2026-11-12",
-  "hash": "be2c612407acecc4"
+  "hash": "b705ab8d8ade1fc8"
  },
  "he/net-houses": {
   "date": "2026-11-12",
-  "hash": "f005bdd3018912f9"
+  "hash": "a6410bd09ddf287b"
  },
  "he/orchard-hail-nets": {
   "date": "2026-11-12",
-  "hash": "2d046ce6788e30dd"
+  "hash": "1b97c1564175d31f"
  },
  "he/privacy": {
   "date": "2026-11-10",
@@ -89,10 +89,10 @@
  },
  "he/projects": {
   "date": "2026-11-12",
-  "hash": "f77259e0e46e1d70"
+  "hash": "20d21bad6cdacb05"
  },
  "he/turnkey-farms": {
-  "date": "2026-11-11",
-  "hash": "93a89658a69852bf"
+  "date": "2026-11-12",
+  "hash": "edaa895fe3a1fe49"
  }
 }
