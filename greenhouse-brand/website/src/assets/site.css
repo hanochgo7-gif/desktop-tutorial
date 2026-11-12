@@ -1370,3 +1370,14 @@ textarea::placeholder, input::placeholder { color: #7C8C88; }
 html[lang="he"] .hero-os h1 .h1-a { font-size: 1.1745em; }  /* measured: Assistant 600 vs 400 */
 /* Assistant is narrower than Heebo: the Hebrew headline gets a larger size for the same width (phones fill the width as before) */
 [dir="rtl"] .hero-os h1 { font-size: min(9.5rem, calc(min(100vw - 2 * var(--gutter), var(--max)) / 7.35)); }
+
+/* Hanoch, 12 Nov 2026: the headline built like the logo lockup: the name large, the slogan below it small and letter-spaced
+   across exactly the name's width; the whole headline a little smaller than before. The letter-spacing is measured per language. */
+.hero-os h1 .h1-a { font-size: 1em; line-height: .95; white-space: nowrap; }
+html[lang="he"] .hero-os h1 .h1-a { font-size: 1em; }
+.hero-os h1 .h1-b { font-size: .4em; line-height: 1.2; margin-top: .3em; white-space: nowrap; font-weight: 400; letter-spacing: var(--ls, 0); }
+[dir="rtl"] .hero-os h1 { font-size: min(9.5rem, calc(min(100vw - 2 * var(--gutter), var(--max)) / 7.4)); }
+html[lang="en"] .hero-os h1 { font-size: min(8rem, calc(min(100vw - 2 * var(--gutter), var(--max)) / 8.6)); }
+html[lang="he"] .hero-os h1 { --ls: .4718em; }
+html[lang="en"] .hero-os h1 { --ls: .1243em; }
+.hero-os h1 .h1-b { margin-inline-end: calc(-1 * var(--ls)); }  /* letter-spacing also follows the last letter: the line ends where the name ends */
