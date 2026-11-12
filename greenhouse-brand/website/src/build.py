@@ -1149,7 +1149,7 @@ def globe_page():
                      ('if (p.g !== g || p.id === "il") return;', 'if (p.g !== g || p.id === "il" || p.site) return;'),
                      ('"</h3><p>" + esc(p[L].d) + ". " + esc(p[L].w) + ".</p>', '"</h3><p>" + esc(p[L].d) + (p[L].w ? ". " + esc(p[L].w) : "") + ".</p>'),
                      ('var vis = m.g.visible && f > .12', 'var vis = m.g.visible && (!m.p || !m.p.site || on) && f > .12'),
-                     ('if (p.g === "il") lookAt(32.98, 35.43,', 'if (p.site) lookAt(p.lat, p.lon, 1 + .06 / Math.max(.62, Math.min(1, camera.aspect)));\n    else if (p.g === "il") lookAt(32.98, 35.43,')):
+                     ('if (p.g === "il") lookAt(32.98, 35.43,', 'if (p.site) lookAt(p.lat, p.lon, 1 + .1 / Math.max(.62, Math.min(1, camera.aspect)));\n    else if (p.g === "il") lookAt(32.98, 35.43,')):
         assert js.count(old) == 1, old
         js = js.replace(old, new)
     # the places, as small buttons under Israel

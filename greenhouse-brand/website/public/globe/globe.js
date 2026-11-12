@@ -350,7 +350,7 @@
   function choose(id) {
     sel = id;
     var p = P.filter(function (z) { return z.id === id; })[0];
-    if (p.site) lookAt(p.lat, p.lon, 1 + .06 / Math.max(.62, Math.min(1, camera.aspect)));
+    if (p.site) lookAt(p.lat, p.lon, 1 + .1 / Math.max(.62, Math.min(1, camera.aspect)));
     else if (p.g === "il") lookAt(32.98, 35.43, 1 + .085 / Math.max(.62, Math.min(1, camera.aspect)));
     else lookAt(p.lat, p.lon, null);
     document.querySelectorAll(".item").forEach(function (bt) { bt.setAttribute("aria-pressed", bt.dataset.id === id ? "true" : "false"); });
