@@ -465,6 +465,15 @@ def crop_more(crop, L):
     return ""
 
 
+def kinds(cr, L):
+    """The crops a tab covers, as a line of names (Hanoch, 12 Nov 2026: pears, peaches, nectarines, apricots, lemons)."""
+    if not cr.get("kinds"):
+        return ""
+    names = [n.strip() for n in t(cr["kinds"], L).replace(" ועוד", "").replace(" and more", "").replace(" and ", ", ").split(",")]
+    more = "ועוד" if L == "he" else "and more"
+    return f'<ul class="crop-kinds" aria-label="{"Crops" if L == "en" else "גידולים"}">{"".join(f"<li>{esc(n)}</li>" for n in names if n)}<li class="more">{more}</li></ul>'
+
+
 def crop_selector(L, where="home"):
     """'Which net house for your crop?': tabs that switch the specs, the matching project and the drawing."""
     H = C.HOME3
@@ -487,7 +496,7 @@ def crop_selector(L, where="home"):
         proj = (f'<p class="crop-proj"><span>{esc(t(H["crop_proj"], L))}</span>{esc(t(cr["proj"], L))}</p>' if cr["proj"] else "")
         q = qs(need="nethouse") if cr["id"] == "other" else qs(crop=cr["id"], need="nethouse")
         panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
-                      f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
+                      f'<p class="crop-say">{esc(t(cr["say"], L))}</p>{kinds(cr, L)}<dl class="crop-spec">{rows}</dl>{proj}'
                       f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a>{crop_more(cr["id"], L)}</div>')
     return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
   <div class="wrap">

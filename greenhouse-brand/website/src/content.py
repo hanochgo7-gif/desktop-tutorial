@@ -351,7 +351,7 @@ PAGES = {
                  "הגנה מפני רוח, ברד ופגעי מזג האויר, ופחות מים שמתאדים בעונה החמה."),  # 2.2
     },
     "orchard-hail-nets": {
-        "title": ("Orchard hail nets: apples, cherries, kiwi | MIFTAH Projects", "רשת נגד ברד למטעים: תפוחים, דובדבנים, קיווי | מיפתח פרויקטים"),
+        "title": ("Orchard hail nets: apples, pears, cherries, stone fruit, lemons | MIFTAH Projects", "רשת נגד ברד למטעים: תפוחים, אגסים, דובדבנים, אפרסקים, לימונים | מיפתח פרויקטים"),
         "desc": ("Hail nets for apple, pear, cherry, peach, nectarine, apricot, lemon and kiwi orchards: a 10–30% shade net on a structure that folds away in winter. Designed, made and built by MIFTAH Projects.",
                  "רשת נגד ברד למטעי תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים וקיווי: רשת צל 10%–30% על מבנה שמתקפל בחורף. מתוכננים, מיוצרים ומוקמים בידי מיפתח פרויקטים."),
         "h1": ("Hail nets for orchards", "רשת נגד ברד למטעים"),
@@ -478,6 +478,7 @@ CROP_PAGES = {  # one page per search intent; every line traces to the ledger
         "crop": "apple", "prefill": "", "img": "p-poles", "cap": ("Galvanized poles from our plant, set out on site to the design", "עמודים מגולוונים מהמפעל שלנו, מוצבים בשטח לפי התכנון"),
         "spec_h": ("The net house, in short", "בית הרשת, בקצרה"),
         "rows": [(("Net", "רשת"), ("10% to 30% shade, chosen for the crop", "10% עד 30% צל, לפי הגידול")),
+                 (("Crops", "גידולים"), ("Apples, pears, cherries, peaches, nectarines, apricots, lemons, kiwi and more", "תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים, קיווי ועוד")),  # Hanoch, 12 Nov 2026
                  (("Protects", "מגינה"), ("Against hail and sun damage at every stage of growth", "מפני ברד ופגעי שמש בכל שלבי הגידול")),
                  (("Season", "עונה"), ("The net folds away in winter and spreads in spring, by hand or with an automatic system", "הרשת מתקפלת בחורף ונפרסת באביב, ידנית או במערכת אוטומטית")),
                  (("Trellising", "הדליה"), ("Support for the crop, such as a pergola trellis for kiwi", "תמיכה לגידול, כמו הדליית סוכה לקיווי")),
@@ -816,6 +817,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
      "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),
      "say": ("Nets that protect against hail and sun damage", "רשתות להגנה מפני ברד ופגעי שמש"),
+     "kinds": ("Apples, pears, cherries, peaches, nectarines, apricots, lemons and more", "תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים ועוד"),  # Hanoch, 12 Nov 2026
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
               (("Protection", "הגנה"), ("Against hail and sun damage at every stage of growth", "מפני ברד ופגעי שמש בכל שלבי הגידול")),
               (("Structure", "מבנה"), ("Support and trellising systems for the different crops. Fruit walls.", "מערכות תמיכה והדליה לגידולים השונים. קיר פירותי.")),

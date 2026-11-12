@@ -1414,3 +1414,9 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 .brand svg.logo--lockup { height: 50px; width: auto; display: block; }
 @media (max-width: 1260px) { .brand svg.logo--lockup { height: 44px; } }
 @media (max-width: 480px) { .brand svg.logo--lockup { height: 40px; } }
+
+/* the crops an orchard net house covers, under the tab's line (12 Nov 2026) */
+.crop-kinds { list-style: none; margin: 12px 0 4px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.crop-kinds li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: .9rem; font-weight: 500; color: var(--canopy, #1B6E62); background: var(--white, #fff); }
+.crop-kinds li.more { border-style: dashed; color: inherit; font-weight: 400; }
+.crop-kinds { align-items: center; } .crop-kinds li { line-height: 1.4; margin: 0; }
