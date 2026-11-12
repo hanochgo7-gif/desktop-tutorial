@@ -110,6 +110,8 @@
 .compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }
 .globe-cta { margin-inline-start: 12px; padding: 8px 16px; border-radius: 999px; background: #7FC49B; color: #0E4239; font-weight: 700; text-decoration: none; white-space: nowrap; }
 .compact .globe-cta { display: none; }
+@media (max-width: 600px) { .top { flex-wrap: wrap; row-gap: 10px; } .top .logo { width: 120px; } .globe-cta { margin-inline-start: 0; padding: 7px 12px; font-size: .85rem; } }
+.compact .globe { background: #02060a url(space.jpg) center / cover no-repeat; }
 .ill-chip { margin-inline-start: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); color: #fff; font-size: .75rem; white-space: nowrap; }
 .compact .ill-chip { display: none; }
 html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }
@@ -136,14 +138,14 @@ html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #led
     <div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>
     <div class="group"><h2 id="g3">יישובים שעבדנו בהם</h2><ul class="list chips" id="l-sites"></ul></div>
     <div class="group"><h2 id="g2">מעבר לים</h2><ul class="list" id="l-ab"></ul></div>
-    <p class="note" id="note">נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.</p>
+    <p class="note" id="note">נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. צילומי לוויין: NASA Blue Marble; מעל ישראל Sentinel-2 cloudless 2016 של EOX (נתוני Copernicus, CC BY 4.0). העננים והכוכבים: הדמיה.</p>
   </aside>
 </div>
 
 
 <div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
 <script src="../assets/vendor/three.min.js?v=eb854986"></script>
-<script src="globe.js?v=bf136276"></script>
+<script src="globe.js?v=93f87ce4"></script>
 
 </body>
 </html>

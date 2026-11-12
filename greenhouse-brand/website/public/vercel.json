@@ -886,7 +886,7 @@
    ]
   },
   {
-   "source": "/globe/(space.jpg|fly.jpg|fly.mp4)",
+   "source": "/globe/(space.jpg|fly.jpg|fly.mp4|tex/.*)",
    "headers": [
     {
      "key": "Cache-Control",

@@ -95,12 +95,12 @@
   var T = {
     he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בתשע מדינות.", lede: "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
       s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g3: "יישובים שעבדנו בהם", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
-      note: "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
+      note: "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. צילומי לוויין: NASA Blue Marble; מעל ישראל Sentinel-2 cloudless 2016 של EOX (נתוני Copernicus, CC BY 4.0). העננים והכוכבים: הדמיה.",
       hq: "מיפתח · קיבוץ כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "מהחלל אל צילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "", real: "צילום רחפן אמיתי" },
     en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in nine countries.", lede: "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build.",
       s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g3: "Places we have built", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
-      note: "A yellow point marks the country or region, not the exact site.",
+      note: "A yellow point marks the country or region, not the exact site. Satellite imagery: NASA Blue Marble; over Israel, Sentinel-2 cloudless 2016 by EOX (Copernicus data, CC BY 4.0). Clouds and stars: illustration.",
       hq: "MIFTAH · Kibbutz Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "From orbit to real drone footage of a MIFTAH net house.", close: "Close", ill: "", real: "Real drone footage" }
   };
@@ -119,19 +119,54 @@
   var world = new THREE.Group(); scene.add(world);
   var dist = 3.9, distT = 3.9;
 
-  // אוקיינוס: כדור כהה עם תאורה רכה וקצה זוהר
-  var ocean = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 96), new THREE.ShaderMaterial({
-    uniforms: {},
-    vertexShader: "varying vec3 vN; varying vec3 vW; void main(){ vN = normalize(normalMatrix * normal); vec4 w = modelViewMatrix * vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix * w; }",
-    fragmentShader: "varying vec3 vN; varying vec3 vW; void main(){ vec3 v = normalize(-vW); float f = pow(1. - max(dot(vN, v), 0.), 2.4); float l = clamp(dot(vN, normalize(vec3(-.5,.6,.7))), 0., 1.); vec3 base = mix(vec3(.016,.075,.064), vec3(.05,.2,.17), l*.7); gl_FragColor = vec4(base + vec3(.32,.66,.5)*f*.55, 1.); }"
+  // כדור הארץ האמיתי (12 בנובמבר 2026): צילום לוויין של NASA (Blue Marble, יום ולילה), ברק שמש על המים, תבליט, ובישראל צילום Sentinel-2
+  var TL = new THREE.TextureLoader(), BASEURL = "tex/";
+  function tex(n, cb) { var t = TL.load(BASEURL + n, cb); t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); return t; }
+  var LOADED = 0; function ld() { LOADED++; if (LOADED >= 6) document.documentElement.classList.add("earth-ready"); }
+  var EU = { uDay: { value: tex("earth-day.jpg", ld) }, uNight: { value: tex("earth-night.jpg", ld) }, uWater: { value: tex("earth-water.jpg", ld) }, uTopo: { value: tex("earth-topo.jpg", ld) },
+             uIL: { value: tex("israel.jpg", ld) }, uILb: { value: new THREE.Vector4(27.0, 36.5, 30.5, 40.5) }, uSun: { value: new THREE.Vector3(-.42, .38, .82).normalize() }, uZ: { value: 0 } };
+  [EU.uDay.value, EU.uNight.value, EU.uWater.value, EU.uTopo.value].forEach(function (t) { t.wrapS = THREE.RepeatWrapping; });
+  var ocean = new THREE.Mesh(new THREE.SphereGeometry(1, 192, 128), new THREE.ShaderMaterial({
+    uniforms: EU,
+    vertexShader: "varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vP; void main(){ vUv = uv; vP = position; vN = normalize(normalMatrix * normal); vec4 w = modelViewMatrix * vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix * w; }",
+    fragmentShader: [
+      "uniform sampler2D uDay; uniform sampler2D uNight; uniform sampler2D uWater; uniform sampler2D uTopo; uniform sampler2D uIL; uniform vec4 uILb; uniform vec3 uSun; uniform float uZ;",
+      "varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vP;",
+      "void main(){",
+      "  vec2 uv = vec2(vUv.x + .25, vUv.y);",
+      "  vec3 day = texture2D(uDay, uv).rgb;",
+      "  float lat = degrees(asin(clamp(vP.y, -1., 1.))), lon = degrees(atan(vP.x, vP.z));",
+      "  vec2 pu = vec2((lon - uILb.z) / (uILb.w - uILb.z), (lat - uILb.x) / (uILb.y - uILb.x));",
+      "  if (pu.x > 0. && pu.x < 1. && pu.y > 0. && pu.y < 1.) { float e = smoothstep(0., .22, min(pu.x, 1. - pu.x)) * smoothstep(0., .22, min(pu.y, 1. - pu.y)); float wt = texture2D(uWater, uv).r; vec3 s2 = texture2D(uIL, pu).rgb; day = mix(day, pow(s2, vec3(1.18)) * .9, e * mix(1., .25, wt)); }",
+      "  float t0 = texture2D(uTopo, uv).r, tx = texture2D(uTopo, uv + vec2(1. / 2048., 0.)).r, ty = texture2D(uTopo, uv + vec2(0., 1. / 1024.)).r;",
+      "  float relief = clamp(1. + (t0 - tx) * 5. - (t0 - ty) * 5., .7, 1.3);",
+      "  float water = texture2D(uWater, uv).r;",
+      "  vec3 n = normalize(vN), v = normalize(-vW), L = normalize(uSun);",
+      "  float ndl = dot(n, L), dayAmt = smoothstep(-.12, .22, ndl);",
+      "  vec3 col = day * (.05 + .96 * max(ndl, 0.)) * mix(relief, 1., water);",
+      "  vec3 h = normalize(L + v); col += vec3(1., .95, .82) * pow(max(dot(n, h), 0.), 55.) * water * .55 * dayAmt;",
+      "  col += texture2D(uNight, uv).rgb * vec3(1., .82, .55) * 1.5 * (1. - dayAmt) * (1. - water);",
+      "  float f = pow(1. - max(dot(n, v), 0.), 2.6); col = mix(col, vec3(.42, .66, 1.), f * .55 * (.25 + .75 * dayAmt));",
+      "  gl_FragColor = vec4(col, 1.);",
+      "}"].join("\n")
   }));
   world.add(ocean);
+
+  // עננים (נוצרו ב-Higgsfield): שכבה דקה שנעה לאט ונעלמת כשמתקרבים לישראל
+  var cloudU = { uC: { value: tex("clouds.jpg", ld) }, uSun: EU.uSun, uA: { value: .85 } };
+  cloudU.uC.value.wrapS = THREE.RepeatWrapping;
+  var clouds = new THREE.Mesh(new THREE.SphereGeometry(1.008, 128, 96), new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, uniforms: cloudU,
+    vertexShader: "varying vec3 vN; varying vec2 vUv; varying vec3 vW; void main(){ vUv = uv; vN = normalize(normalMatrix * normal); vec4 w = modelViewMatrix * vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix * w; }",
+    fragmentShader: "uniform sampler2D uC; uniform vec3 uSun; uniform float uA; varying vec3 vN; varying vec2 vUv; varying vec3 vW; void main(){ float c = texture2D(uC, vec2(vUv.x + .25, vUv.y)).r; float ndl = dot(normalize(vN), normalize(uSun)); float lit = .08 + .95 * max(ndl, 0.); float rim = smoothstep(0., .25, dot(normalize(vN), normalize(-vW))); gl_FragColor = vec4(vec3(lit), c * uA * rim); }"
+  }));
+  world.add(clouds);
 
   // אטמוספרה: הילה מחוץ לכדור
   var atmo = new THREE.Mesh(new THREE.SphereGeometry(1.14, 64, 64), glow(new THREE.ShaderMaterial({
     side: THREE.BackSide, uniforms: { uG: { value: 1 } },
     vertexShader: "varying vec3 vN; varying vec3 vW; void main(){ vN = normalize(normalMatrix * normal); vec4 w = modelViewMatrix * vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix * w; }",
-    fragmentShader: "uniform float uG; varying vec3 vN; varying vec3 vW; void main(){ vec3 v = normalize(-vW); float e = dot(-vN, v); float a = pow(smoothstep(0., .48, e), 2.2) * (1. - .8 * smoothstep(.48, .8, e)); gl_FragColor = vec4(vec3(.5,.86,.66), a * .55 * uG); }"
+    fragmentShader: "uniform float uG; varying vec3 vN; varying vec3 vW; void main(){ vec3 v = normalize(-vW); float e = dot(-vN, v); float a = pow(smoothstep(0., .48, e), 2.2) * (1. - .8 * smoothstep(.48, .8, e)); gl_FragColor = vec4(vec3(.38,.62,1.), a * .36 * uG); }"
   })));
   scene.add(atmo);
 
@@ -150,7 +185,7 @@
     vertexShader: "uniform float uSize; uniform float uScale; varying float vF; void main(){ vec4 w = modelViewMatrix * vec4(position,1.); vec3 n = normalize(normalMatrix * position); vF = dot(n, normalize(-w.xyz)); gl_PointSize = uSize * uScale; gl_Position = projectionMatrix * w; }",
     fragmentShader: "uniform float uA; varying float vF; void main(){ vec2 c = gl_PointCoord - .5; float d = length(c); if (d > .5) discard; float a = smoothstep(.5, .15, d) * smoothstep(-.05, .35, vF); gl_FragColor = vec4(mix(vec3(.36,.7,.53), vec3(.78,.96,.86), smoothstep(.3,1.,vF)), a * .95 * uA); }"
   });
-  world.add(new THREE.Points(lg, landMat));
+  // (the dot continents stay built for the build script, but the real map replaces them)
 
   // שכבת הפירוט: נקודות קטנות וצפופות, נמוגות מהמרכז החוצה
   var ib = atob(ILB), ip = [], ie = [];
@@ -169,7 +204,7 @@
   var sp = [];
   for (var s = 0; s < 1400; s++) { var u = Math.random() * 2 - 1, t2 = Math.random() * 6.283, rr = 30 + Math.random() * 20, q = Math.sqrt(1 - u * u); sp.push(q * Math.cos(t2) * rr, u * rr, q * Math.sin(t2) * rr); }
   var sg = new THREE.BufferGeometry(); sg.setAttribute("position", new THREE.Float32BufferAttribute(sp, 3));
-  scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ color: 0xbfe9d2, size: .06, transparent: true, opacity: .55, depthWrite: false })));
+  scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ color: 0xffffff, size: .045, transparent: true, opacity: .35, depthWrite: false })));
 
   // טקסטורת זוהר רכה (לסיכות)
   function glowTex() { var c = document.createElement("canvas"); c.width = c.height = 128; var x = c.getContext("2d"), g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(.25, "rgba(255,255,255,.55)"); g.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); }
@@ -192,7 +227,7 @@
     var ring = new THREE.Mesh(new THREE.RingGeometry(.016 * scale, .02 * scale, 48), glow(new THREE.MeshBasicMaterial({ color: col, opacity: .9, side: THREE.DoubleSide })));
     ring.rotation.x = -Math.PI / 2; g.add(ring);
     var halo = new THREE.Sprite(glow(new THREE.SpriteMaterial({ map: GT, color: col })));
-    halo.scale.set(.09 * scale, .09 * scale, 1); halo.position.y = .002; g.add(halo);
+    halo.scale.set(.09 * scale * (scale < 1 ? .55 : 1), .09 * scale * (scale < 1 ? .55 : 1), 1); halo.position.y = .002; g.add(halo);
     var core = new THREE.Mesh(new THREE.SphereGeometry(.0085 * scale, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
     g.add(core);
     var hit = new THREE.Mesh(new THREE.SphereGeometry(.05 * scale, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
@@ -295,7 +330,7 @@
     var zoomIn = dist < BASE * .62, zf = Math.max(0, Math.min(1, (1.9 - dist) / .7));
     var b = gl.getBoundingClientRect(), ms = Math.min(1, Math.max(.035, (dist - 1) / (BASE - 1) * 1.1));
     atmo.material.uniforms.uG.value = 1 - zf; landMat.uniforms.uA.value = 1 - .7 * zf;
-    ilPts.visible = zf > 0; ilMat.uniforms.uA.value = zf; ilMat.uniforms.uSize.value = renderer.getPixelRatio() * (1.2 + 2.6 * zf);
+    ilPts.visible = false; EU.uZ.value = zf; cloudU.uA.value = .85 * (1. - .92 * zf); if (!reduce) clouds.rotation.y += dt * .004; ilMat.uniforms.uA.value = zf; ilMat.uniforms.uSize.value = renderer.getPixelRatio() * (1.2 + 2.6 * zf);
     Object.keys(M).forEach(function (k) {
       var m = M[k];
       m.g.visible = m.sub ? zoomIn : (k === "il" ? !zoomIn : true); m.g.scale.setScalar(ms);

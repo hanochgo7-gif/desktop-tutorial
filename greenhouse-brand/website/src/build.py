@@ -1117,8 +1117,8 @@ def globe_page():
     for old, new in (('hq: "מיפתח · כפר מסריק"', 'hq: "מיפתח · קיבוץ כפר מסריק"'), ('hq: "MIFTAH · Kfar Masaryk"', 'hq: "MIFTAH · Kibbutz Kfar Masaryk"')):
         assert old in js, old
         js = js.replace(old, new)  # the head office is at a kibbutz (Merav, 11 Nov 2026)
-    NOTE = {"he": "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
-            "en": "A yellow point marks the country or region, not the exact site."}
+    NOTE = {"he": "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. צילומי לוויין: NASA Blue Marble; מעל ישראל Sentinel-2 cloudless 2016 של EOX (נתוני Copernicus, CC BY 4.0). העננים והכוכבים: הדמיה.",
+            "en": "A yellow point marks the country or region, not the exact site. Satellite imagery: NASA Blue Marble; over Israel, Sentinel-2 cloudless 2016 by EOX (Copernicus data, CC BY 4.0). Clouds and stars: illustration."}
     # no areas anywhere (Merav, 10 Nov 2026): every beam the same height, no area line in the card, no m² total
     js, n = re.subn(r"\bm2: \d+", "m2: 0", js); assert n >= 5, n
     js = js.replace('.forEach(function (k) { document.getElementById(k).textContent = t[k]; });', '.forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t[k]; });')
@@ -1213,13 +1213,14 @@ def globe_page():
     # in the embed: a plain deep-green field instead of the space backdrop, and vertical swipes left to the page
     page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\n"
                         ".globe-cta { margin-inline-start: 12px; padding: 8px 16px; border-radius: 999px; background: #7FC49B; color: #0E4239; font-weight: 700; text-decoration: none; white-space: nowrap; }\n"
-                        ".compact .globe-cta { display: none; }\n.ill-chip { margin-inline-start: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); color: #fff; font-size: .75rem; white-space: nowrap; }\n.compact .ill-chip { display: none; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
+                        ".compact .globe-cta { display: none; }\n@media (max-width: 600px) { .top { flex-wrap: wrap; row-gap: 10px; } .top .logo { width: 120px; } .globe-cta { margin-inline-start: 0; padding: 7px 12px; font-size: .85rem; } }\n.compact .globe { background: #02060a url(space.jpg) center / cover no-repeat; }\n.ill-chip { margin-inline-start: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); color: #fff; font-size: .75rem; white-space: nowrap; }\n.compact .ill-chip { display: none; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
     head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
             f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')
     (out / "index.html").write_text(head + page + "\n</body>\n</html>\n")
     for f in ("space.jpg", "fly.mp4", "fly.jpg"):
         shutil.copy(G / f, out / f)
+    shutil.copytree(G / "tex", out / "tex", dirs_exist_ok=True)  # the real Earth: NASA Blue Marble, Sentinel-2 over Israel, Higgsfield clouds (12 Nov 2026)
 
 
 def crumbs_for(slug, L):
@@ -1407,7 +1408,7 @@ def main():
             {"source": "/globe/globe.js", "headers": long_cache},  # versioned with ?v= like the other scripts
             {"source": "/text-review/(.*)", "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}, {"key": "Cache-Control", "value": "no-cache"}]},  # the owners' copy-review page
             {"source": "/site-editor/(.*)", "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}, {"key": "Cache-Control", "value": "no-cache"}]},  # the owners' live editor
-            {"source": "/globe/(space.jpg|fly.jpg|fly.mp4)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
+            {"source": "/globe/(space.jpg|fly.jpg|fly.mp4|tex/.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")
     # the Apache config is for the final host only: Vercel never serves it (it answered at /%2ehtaccess)
     write(PUB / ".vercelignore", ".htaccess\n.vercelignore\n")
