@@ -137,6 +137,7 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('עין זיוון', 'Ein Zivan', 33.096, 35.796, 'golan'),
     ('קדמת צבי', 'Kidmat Tzvi', 33.03, 35.697, 'golan'),
     ('קשת', 'Keshet', 32.981, 35.809, 'golan'),
+    ('יודפת', 'Yodfat', 32.837, 35.272, 'misgav'),  # Hanoch, 12 Nov 2026 (written יטפת)
     ('עין גב', 'Ein Gev', 32.781, 35.639, 'ey'),
     ('אפיקים', 'Afikim', 32.681, 35.578, 'ey'),
     ('אשדות יעקב', "Ashdot Ya'akov", 32.658, 35.581, 'ey'),
@@ -180,6 +181,7 @@ IL_REGIONS = {  # key: (en, he): regional or local council, north to south
     'metula': ('Metula Local Council', 'מועצה מקומית מטולה'),
     'golan': ('Golan Regional Council', 'מועצה אזורית גולן'),
     'katzrin': ('Katzrin Local Council', 'מועצה מקומית קצרין'),
+    'misgav': ('Misgav Regional Council', 'מועצה אזורית משגב'),
     'ey': ('Emek HaYarden Regional Council', 'מועצה אזורית עמק הירדן'),
     'em': ("Emek HaMa'ayanot Regional Council", 'מועצה אזורית עמק המעיינות'),
     'gilboa': ('Gilboa Regional Council', 'מועצה אזורית גלבוע'),
