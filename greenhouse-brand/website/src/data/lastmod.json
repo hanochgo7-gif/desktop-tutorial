@@ -1,15 +1,15 @@
 {
  "en/about": {
-  "date": "2026-11-11",
-  "hash": "7840b502dc0a2f84"
+  "date": "2026-11-12",
+  "hash": "5a43f6a753488b7b"
  },
  "en/accessibility": {
   "date": "2026-11-11",
   "hash": "524c6ea688f3f0d5"
  },
  "en/banana-net-houses": {
-  "date": "2026-11-11",
-  "hash": "dfe8eca86ffa0001"
+  "date": "2026-11-12",
+  "hash": "d029a16fe38a3d9a"
  },
  "en/contact": {
   "date": "2026-11-11",
@@ -17,15 +17,15 @@
  },
  "en/how-we-build": {
   "date": "2026-11-12",
-  "hash": "bf1c6ee51cec6213"
+  "hash": "609b84268ee1edfb"
  },
  "en/index": {
   "date": "2026-11-12",
-  "hash": "5725c7ee3b0d4c38"
+  "hash": "6a9ccc823c4582cd"
  },
  "en/net-houses": {
-  "date": "2026-11-11",
-  "hash": "9b15fa7d936bf8db"
+  "date": "2026-11-12",
+  "hash": "280150144b2f05e4"
  },
  "en/orchard-hail-nets": {
   "date": "2026-11-11",
@@ -48,16 +48,16 @@
   "hash": "9ef6e968faac76d5"
  },
  "he/about": {
-  "date": "2026-11-11",
-  "hash": "0fec01b132914c95"
+  "date": "2026-11-12",
+  "hash": "5379d270326ecd1c"
  },
  "he/accessibility": {
   "date": "2026-10-29",
   "hash": "7f08eab8ad1c0497"
  },
  "he/banana-net-houses": {
-  "date": "2026-11-11",
-  "hash": "40458f0fe549889c"
+  "date": "2026-11-12",
+  "hash": "f9ab12afe6d11c87"
  },
  "he/contact": {
   "date": "2026-11-11",
@@ -65,15 +65,15 @@
  },
  "he/how-we-build": {
   "date": "2026-11-12",
-  "hash": "949efd10723c6739"
+  "hash": "cc0c4b94a8c604a7"
  },
  "he/index": {
-  "date": "2026-11-11",
-  "hash": "8a9b564440964bbe"
+  "date": "2026-11-12",
+  "hash": "d839a7ba891ddf62"
  },
  "he/net-houses": {
-  "date": "2026-11-11",
-  "hash": "4bec36e8f6780611"
+  "date": "2026-11-12",
+  "hash": "be31ce80f9da12a8"
  },
  "he/orchard-hail-nets": {
   "date": "2026-11-11",

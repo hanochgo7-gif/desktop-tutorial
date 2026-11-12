@@ -208,6 +208,14 @@ Held back, waiting for a decision (not applied):
 ## 7g. A new editing round, 12 Nov 2026
 - Hanoch asked to reset Merav's editing link to the site as it is, with 0 changes waiting. The editor (and /text-review/) starts a new round (`ROUND` in `src/tools/text_review.py`): on her next visit everything she had in her browser moves to `rounds` in the same storage (kept, and listed in the full backup file), the list and the counter start at 0, no answers or "changed since" marks from earlier rounds are shown, and the welcome screen opens again. Earlier rounds stay in `docs/reviews/` and in 7e and 7f.
 
+## 7h. Full pass over Merav's requests, 12 Nov 2026
+Hanoch asked to go over every change Merav asked for, one by one. Source: her full backup of 11 Nov (103 wording fixes, 4 removals, 52 notes, 9 notes on photos and page parts); no newer email from her. Every item was checked against the built pages (script: new wording live / old wording gone / removal done), then the notes by hand.
+- Dunam figures: her note "לבטל את כמויות הדונמים לכולם" now covers the banana "up to 100 dunam per structure" lines too. Removed from the banana page (description, lead, spec row), the crop selector, the net-houses table and the FAQ; the FAQ "How large can one banana net house be?" is gone. Only the form's free-text size field keeps its hint ("בדונם או בהקטר"), as she asked (#433).
+- "מפני רוח וברד" -> "מפני רוח, ברד ופגעי מזג האויר" everywhere it was left (banana page lead and the net-houses table).
+- Photos: the anemones photo she asked to replace (f-flowers) is now the real still miftah-196 (apple orchard in bloom under the net); the site-visit photo (p-site) is now miftah-283 (open farmland before a net house, Hermon behind), as she asked for "שטח חקלאי פתוח לפני הקמת בית רשת". Both from the Drive folder "סטילס מצלמה"; old masters kept in media-src/old/.
+- Build illustration (#282-#284, #301): the series made from the real stills on 12 Nov had profile poles driven into the ground. Redone to her notes: every pole round, on a square concrete footing (empty footings with the rebar pin in the poles chapter); the worker in the lift wears a harness clipped to the cable (cables and net chapters); in autumn each strip is rolled on its ridge cable like a sausage, full length.
+- Still waiting on the owners: #94, #101, #304 (held), #33 music, #47 factory photo, #341 the African country, #342 list of Israeli sites, #359-#366 client approvals, #374 three role holders, #486 keep or drop the partners paragraph.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

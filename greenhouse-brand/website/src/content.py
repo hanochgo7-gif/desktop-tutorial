@@ -54,7 +54,7 @@ STEPS = [  # OS consult (2.8), one real photo each
     ("p-site", ("Site visit and needs assessment", "מיפוי צרכים בשטח"),
      ("We meet you on the land and map the crop, soil, drainage, access and wind.",
       "נפגשים בשטח וממפים את הגידול, הקרקע, הניקוז, הגישה והרוח."),
-     ("Setting up on a MIFTAH project site", "התמקמות בשטח, בפרויקט של מיפתח")),
+     ("Open farmland before a net house goes up", "שטח חקלאי פתוח, לפני הקמת בית רשת")),
     ("p-marking", ("Engineering design", "תכנון הנדסי"),
      ("We calculate the loads and prepare the drawings and the bill of quantities: the list of materials the quote is based on.",
       "הנדסאי בניין מחשבים עומסים ומכינים שרטוטים וכתב כמויות."),
@@ -144,8 +144,8 @@ TYPES = [  # Net houses page, organized by crop (market research implication 1)
      "h": ("Banana net houses", "בתי רשת לבננות"), "crops": ("Bananas", "בננות"),
      "rows": [
          (("Net", "רשת"), ("11% shade net: light and airy.", "רשת צל 11%: קלה ואוורירית.")),
-         (("Protects against", "מגן מפני"), ("Wind and hail in winter. In summer it saves water by reducing evaporation, and gives the plants better growing conditions.", "רוח וברד בחורף. בקיץ חוסך מים כי הוא מפחית התאדות, ונותן לצמחים תנאי גידול טובים יותר.")),
-         (("Structure", "מבנה"), ("Large spans between poles, so a single structure can cover up to 10 ha (100 dunam). Trellising and plant support are part of the structure.", "מפתחים גדולים בין העמודים, כך שמבנה בודד יכול להגיע ל-100 דונם. ההדליה ומערכת התמיכה לשתילים הן חלק מהמבנה.")),
+         (("Protects against", "מגן מפני"), ("Wind, hail and other weather damage in winter. In summer it saves water by reducing evaporation, and gives the plants better growing conditions.", "רוח, ברד ופגעי מזג האויר בחורף. בקיץ חוסך מים כי הוא מפחית התאדות, ונותן לצמחים תנאי גידול טובים יותר.")),
+         (("Structure", "מבנה"), ("Large spans between poles. Trellising and plant support are part of the structure.", "מפתחים גדולים בין העמודים. ההדליה ומערכת התמיכה לשתילים הן חלק מהמבנה.")),
      ], "cap": ("A large net house in the Galilee, built by MIFTAH", "בית רשת גדול בגליל, שהקימה מיפתח")},  # 2.2
     {"id": "orchard", "img": "forest",
      "h": ("Orchard net houses", "בתי רשת למטעים"), "crops": ("Apple, cherry, kiwi, avocado, persimmon", "תפוח, דובדבן, קיווי, אבוקדו, אפרסמון"),
@@ -257,11 +257,11 @@ PAGES = {
     },
     "banana-net-houses": {
         "title": ("Banana net houses: 11% net, wide spans | MIFTAH Projects", "בתי רשת לבננות: רשת 11%, מפתחים רחבים | מיפתח פרויקטים"),
-        "desc": ("Banana net houses with an 11% shade net over wide spans, up to 10 ha in one structure. Designed, made in our own plant and built by MIFTAH Projects.",
-                 "בתי רשת לבננות עם רשת צל 11% על פני מפתחים רחבים, עד 100 דונם במבנה אחד, עם הדליה מובנית. מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח, בישראל ובחו״ל."),
+        "desc": ("Banana net houses with an 11% shade net over wide spans, with trellising built in. Designed, made in our own plant and built by MIFTAH Projects.",
+                 "בתי רשת לבננות עם רשת צל 11% על פני מפתחים רחבים, עם הדליה מובנית. מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח, בישראל ובחו״ל."),
         "h1": ("Banana net houses", "בתי רשת לבננות"),
-        "lead": ("Protection from wind and hail, and less water lost to evaporation in the hot season. One structure can cover up to 10 ha (100 dunam).",
-                 "הגנה מפני רוח וברד, ופחות מים שמתאדים בעונה החמה. מבנה אחד יכול לכסות עד 100 דונם."),  # 2.2
+        "lead": ("Protection from wind, hail and other weather damage, and less water lost to evaporation in the hot season.",
+                 "הגנה מפני רוח, ברד ופגעי מזג האויר, ופחות מים שמתאדים בעונה החמה."),  # 2.2
     },
     "orchard-hail-nets": {
         "title": ("Orchard hail nets: apples, cherries, kiwi | MIFTAH Projects", "רשת נגד ברד למטעים: תפוחים, דובדבנים, קיווי | מיפתח פרויקטים"),
@@ -376,13 +376,12 @@ CROP_PAGES = {  # one page per search intent; every line traces to the ledger
         "spec_h": ("The net house, in short", "בית הרשת, בקצרה"),
         "rows": [(("Net", "רשת"), ("11% shade net, light and airy", "רשת צל 11%, קלה ואוורירית")),
                  (("Protects", "מגינה"), ("From wind, hail and other weather damage, and it saves water in the hot season by reducing evaporation. Better growing conditions for the plants.", "מפני רוח, ברד ופגעי מזג האויר, ובעונה החמה חוסכת מים כי היא מפחיתה התאדות. תנאי גידול טובים יותר לצמחים.")),
-                 (("Structure", "מבנה"), ("Large spans between poles, so one structure can cover up to 10 ha (100 dunam)", "מפתחים גדולים בין העמודים, כך שמבנה אחד יכול לכסות עד 100 דונם")),
+                 (("Structure", "מבנה"), ("Large spans between poles", "מפתחים גדולים בין העמודים")),
                  (("Structure and support", "מבנה ותמיכה"), ("Trellising and plant support are part of the structure", "ההדליה ומערכת התמיכה הן חלק מהמבנה")),
                  (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade", "כל השנה, בעונה החמה חוסך מים ונותן לצמחים את התנאים הטובים ביותר, על ידי הפחתת ההתאדות ומתן הצללה")),
                  (("Scope", "היקף"), ("We design and build the whole structure.", "אנחנו מתכננים ומקימים את כל המבנה."))],  # 2.2, 4.2, CL 28 Oct
         "proj": [(("Western Galilee area, Israel", "באזור הגליל המערבי, ישראל"), ("Banana net house with 11% net", "בית רשת לבננות עם רשת 11%"))],  # 3.1
         "faq": [(("Which net is used over bananas?", "איזו רשת שמים מעל בננות?"), ("An 11% shade net: light and airy, over wide spans.", "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים.")),
-                (("How large can one banana net house be?", "כמה גדול יכול להיות בית רשת לבננות?"), ("One structure can reach 10 ha (100 dunam), thanks to large spans between the poles.", "מבנה אחד יכול להגיע ל-100 דונם, בזכות מפתחים גדולים בין העמודים.")),
                 (("How is a banana net house linked to grants?", "איך בית רשת קשור למענקים בבננות?"), ("In the Ministry of Agriculture's 2023 development plan, grants for irrigation and trellising in bananas are approved only when the planting is under an existing or new net house. Check the current procedure before you apply.", "בתוכנית הפיתוח של משרד החקלאות לשנת 2023, מענקים למערכת השקיה ולהדליה בבננות מאושרים רק כשהנטיעה תחת בית רשת קיים או חדש. כדאי לבדוק את הנוהל העדכני לפני ההגשה.")),  # E1
                 (("Does the net save water?", "הרשת חוסכת מים?"), ("Yes. In the hot season it reduces evaporation, so the plantation needs less water.", "כן. בעונה החמה היא מפחיתה התאדות, כך שהמטע צריך פחות מים."))],  # 2.2
     },
@@ -419,8 +418,8 @@ NET_FAQ = [  # every answer is a ledger fact (numbers in comments)
      ("A structure of galvanized-steel poles and steel cables with a net over the crop. It protects orchards and crops from hail, sun, wind and other weather damage, saves water by reducing evaporation, and raises the quality and quantity of the crop grown under it.",
       "מבנה של עמודי פלדה מגולוונת וכבלי פלדה, עם רשת מעל הגידול. הוא מגן על המטע ועל הגידולים החקלאיים מפני ברד, שמש, רוח ופגעי מזג אויר נוספים, חוסך מים כי הוא מפחית התאדות ומעלה את איכות וכמות היבול שגדלה תחתיו.")),  # 2.2, 2.3, 2.8
     (("Which net is used over bananas?", "איזו רשת שמים מעל בננות?"),
-     ("An 11% shade net: light and airy, over wide spans. One banana structure can reach 10 ha (100 dunam), with trellising and support built in.",
-      "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים. מבנה בודד לבננות יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות.")),  # 2.2
+     ("An 11% shade net: light and airy, over wide spans, with trellising and support built in.",
+      "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים, עם הדליה ותמיכה מובנות.")),  # 2.2
     (("Which net protects apples and cherries from hail?", "איזו רשת מגינה על תפוחים ודובדבנים מברד?"),
      ("A 10–30% shade net, mainly against hail and sunburn at flowering and fruit set. The structure can let the net fold away in winter and spread again in spring, by hand or automatically.", "רשת צל 10%–30%, בעיקר נגד ברד וכוויות שמש בפריחה ובחנטה. המבנה יכול לאפשר לרשת להתקפל בחורף ולהיפרס שוב באביב, ידנית או אוטומטית.")),  # 2.3
     (("Who makes the poles, cables and nets?", "מי מייצר את העמודים, הכבלים והרשתות?"),
@@ -612,7 +611,7 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
     "field_p": ("Photos from our projects.", "צילומים מהפרויקטים שלנו."),
     "field": [("f-poles", ("Round galvanized poles on concrete blocks, with guy cables and the lift", "עמודים מגולוונים עגולים על בסיסי בטון, עם כבלי עיגון ובמת הרמה")),
               ("f-hailnets", ("White anti-hail net laid in strips, joined with clips", "רשת לבנה נגד ברד שנפרסת ברצועות ומחוברת בתפסים")),
-              ("f-flowers", ("Anemones under a white net, with overhead sprinklers", "כלניות תחת רשת לבנה, עם ממטרות עליות")),
+              ("f-flowers", ("An apple orchard in bloom under an anti-hail net", "מטע תפוחים בפריחה תחת רשת נגד ברד")),
               ("f-shade", ("An arched shade-net house", "בית צל מקושת עם רשת הצללה"))],  # Hanoch's real photos, 8 Nov 2026
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
@@ -723,7 +722,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
      "say": ("An 11% net, light and airy, over wide spans.", "רשת 11%, קלה ואוורירית, על פני מפתחים רחבים."),
      "rows": [(("Net", "רשת"), ("11% shade net, light and airy", "רשת צל 11%, קלה ואוורירית")),
               (("Protection", "הגנה"), ("From wind, hail and other weather damage; in the hot season it saves water by reducing evaporation", "מפני רוח, ברד, ופגעי מזג האויר ובעונה החמה חוסכת מים כי היא מפחיתה התאדות.")),
-              (("Structure", "מבנה"), ("Wide spans: one structure can reach 10 ha (100 dunam), with trellising and support built in", "מפתחים רחבים: מבנה בודד יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות")),
+              (("Structure", "מבנה"), ("Wide spans, with trellising and support built in", "מפתחים רחבים, עם הדליה ותמיכה מובנות")),
               (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade", "כל השנה, בעונה החמה חוסכת מים ונותנת תנאים מיטביים לצמח כי היא מפחיתה התאדות ונותנת צל."))],
      "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),

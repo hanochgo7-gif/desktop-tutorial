@@ -10,14 +10,14 @@ JOBS = {
     # name: (master, crop box as fractions or None)
     "valley": ("valley.jpg", None),
     "forest": ("forest.jpg", None),
-    "p-site": ("p-site.jpg", (0, .2035, .7375, 1)),  # 4:3, left of the rust-coloured steel tank (galvanized steel only in images)
+    "p-site": ("p-site.jpg", (.0625, 0, .9375, 1)),  # 4:3: open farmland before a net house, Hermon behind (still miftah-283, Drive "סטילס מצלמה"; Merav 11 Nov 2026)
     "p-marking": ("p-marking.jpg", (.3375, .2778, 1, .94)),  # 4:3, without the two workers at the left (one may be a minor)
     "p-poles": ("p-poles.jpg", None),
     "p-closed": ("p-closed.jpg", (0, 0, 1, .86)),  # trims the photographer's shadow at the bottom edge
     # real field photos from Hanoch, 8 Nov 2026 (galvanized steel only; the ones with no visible harness at height or rusty pipe are not used)
     "f-poles": ("f-poles-blocks.jpg", (0, .3125, 1, .875)),  # 4:3: round poles on concrete blocks, guys and the yellow lift
     "f-hailnets": ("f-hailnets.jpg", None),  # white anti-hail net strips on an orchard
-    "f-flowers": ("f-flowers.jpg", None),  # anemones under a white net
+    "f-flowers": ("f-flowers.jpg", None),  # apple orchard in bloom under the net (still miftah-196); replaced the anemones, Merav 11 Nov 2026
     "f-shade": ("f-shade.jpg", None),  # arched shade-net house
     # Merav's project photos, 9 Nov 2026 (content.GALLERY; ledger 7d)
     **{n: (f"merav/{n}.jpg", None) for n in ("g-shade-op", "g-shade-air", "g-lift-net", "g-cable", "g-drape", "g-lift-field", "g-basket", "g-team",
