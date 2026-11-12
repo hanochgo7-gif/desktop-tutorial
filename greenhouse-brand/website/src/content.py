@@ -865,7 +865,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
 # logo on the workers' shirts; workers at height shown with a harness (Hanoch, 8 Nov). Ledger 7d.
 GALLERY = {
     "h": ("From our projects", "מהפרויקטים שלנו"),
-    "p": ("Net houses, shading and installation work, photographed on our projects.", "בתי רשת, הצללה ועבודת הקמה, מצולמים בפרויקטים שלנו."),
+    "p": ("Net houses, shading, installation, folding and the seasons, photographed on our projects.", "בתי רשת, הצללה, הקמה, קיפול ועונות השנה, מצולמים בפרויקטים שלנו."),
     "groups": [
         (("Net houses", "בתי רשת"), [
             ("g-air-forest", ("A white net house between forest and orchards", "בית רשת לבן בין יער למטעים")),
@@ -891,6 +891,57 @@ GALLERY = {
             ("g-shade-air", ("The same shade, from above", "סככת התפעול, מבט מלמעלה")),
             ("g-blue-shade", ("A blue shade net over a yard", "רשת הצללה כחולה מעל משטח")),
             ("g-orchard-net", ("Blue net beside an orchard", "רשת כחולה ליד מטע")),
+        ]),
+        (("Under the net", "מתחת לרשת"), [  # stills from the Drive folder "סטילס מצלמה", Hanoch 12 Nov 2026
+            ("s089", ("Net strips meeting over the rows, from below", "רצועות הרשת נפגשות מעל השורות, מבט מלמטה")),
+            ("s013", ("An orchard alley under two net strips", "מעבר במטע מתחת לשתי רצועות רשת")),
+            ("s117", ("The ridge line between two strips", "קו הרכס בין שתי רצועות")),
+            ("s095", ("A young orchard under the net", "מטע צעיר מתחת לרשת")),
+            ("s001", ("A wide view under the net", "מבט רחב מתחת לרשת")),
+            ("s005", ("The net over a young orchard, with a wind turbine", "הרשת מעל מטע צעיר, וטורבינת רוח ברקע")),
+            ("s124", ("A tree seen through the net", "עץ שנראה מבעד לרשת")),
+            ("s143", ("Sunlight through the net and the clips on the ridge", "אור השמש מבעד לרשת והתפסים על הרכס")),
+            ("s110", ("Vines climbing under the net", "גפנים מטפסות מתחת לרשת")),
+        ]),
+        (("Structure and poles", "המבנה והעמודים"), [
+            ("s099", ("A galvanized ladder-frame end post", "עמוד קצה מגולוון במבנה סולם")),
+            ("s101", ("The cable bolted through a galvanized frame", "הכבל מוברג דרך מסגרת מגולוונת")),
+            ("s216", ("Perimeter poles leaning outward, with guy cables", "עמודי שוליים נוטים החוצה, עם כבלי עיגון")),
+            ("s230", ("End posts and the net rolled on the cable", "עמודי קצה והרשת מגולגלת על הכבל")),
+            ("s250", ("The edge of the structure, with a wind turbine", "שולי המבנה, וטורבינת רוח ברקע")),
+            ("s242", ("The cable grid over the rows", "רשת הכבלים מעל השורות")),
+            ("s104", ("Pole rows along an orchard alley", "שורות עמודים לאורך מעבר במטע")),
+            ("s226", ("A net house over a young orchard", "בית רשת מעל מטע צעיר")),
+        ]),
+        (("Folded for winter", "מקופלת לחורף"), [
+            ("s128", ("Nets gathered on the ridge cables", "הרשתות אסופות על כבלי הרכס")),
+            ("s130", ("Rows of folded net, from the side", "שורות של רשת מקופלת, מבט מהצד")),
+            ("s136", ("Folded nets above a blooming field", "רשתות מקופלות מעל שדה פורח")),
+            ("s131", ("Nets tied up between the poles", "רשתות קשורות בין העמודים")),
+            ("s138", ("Tied net bundles at the pole tops", "צרורות רשת קשורים בראשי העמודים")),
+        ]),
+        (("Orchards in bloom", "מטעים בפריחה"), [
+            ("s199", ("An orchard in bloom under the net", "מטע בפריחה מתחת לרשת")),
+            ("s211", ("Blossom rows and a wind turbine", "שורות בפריחה וטורבינת רוח")),
+            ("s202", ("Blossom close up, under the net", "פריחה מקרוב, מתחת לרשת")),
+            ("s259", ("A blossoming branch under the net", "ענף פורח מתחת לרשת")),
+        ]),
+        (("Trellising", "הדליה"), [
+            ("s154", ("Vines on a pergola trellis under the net", "צמחים על הדליית סוכה מתחת לרשת")),
+            ("s160", ("The pergola wires under the net", "חוטי הסוכה מתחת לרשת")),
+            ("s147", ("A trellised plot under the net", "חלקה מודלית מתחת לרשת")),
+        ]),
+        (("From the outside", "מבחוץ"), [
+            ("s271", ("Side nets sloping to the ground", "רשתות צד יורדות באלכסון אל הקרקע")),
+            ("s273", ("A long side net along a farm road", "רשת צד ארוכה לאורך דרך עפר")),
+            ("s277", ("The side of a net house, with the Hermon behind", "דופן בית רשת, והחרמון ברקע")),
+            ("s268", ("A closed net house from the side", "בית רשת סגור, מבט מהצד")),
+            ("s280", ("A net house corner and a wind turbine", "פינת בית רשת וטורבינת רוח")),
+            ("s235", ("The corner of a net house, side net closed", "פינת בית רשת עם רשת צד סגורה")),
+            ("s148", ("A net house along a dirt road", "בית רשת לאורך דרך עפר")),
+            ("s150", ("A net house gable, from the road", "חזית בית רשת, מבט מהדרך")),
+            ("s153", ("A white net house in the landscape", "בית רשת לבן בנוף")),
+            ("s189", ("A net house beside a country road", "בית רשת ליד דרך כפרית")),
         ]),
     ],
 }

@@ -23,6 +23,10 @@ JOBS = {
     **{n: (f"merav/{n}.jpg", None) for n in ("g-shade-op", "g-shade-air", "g-lift-net", "g-cable", "g-drape", "g-lift-field", "g-basket", "g-team",
                                             "g-air-forest", "g-air-valley", "g-air-wide", "g-air-rows", "g-tunnel-colour", "g-tunnels", "g-tunnel-arch",
                                             "g-blue-shade", "g-orchard-net", "g-dark-house", "g-road")},
+    # 39 stills from the Drive folder "סטילס מצלמה" for the gallery (Hanoch, 12 Nov 2026: at least 45 photos); 001 and 005 are panoramas
+    **{f"s{n:03d}": (f"gallery/s{n:03d}.jpg", None) for n in (13, 89, 95, 117, 124, 143, 99, 101, 104, 110, 216, 226, 230, 242, 250, 128, 130, 131, 136, 138,
+                                                            199, 202, 211, 259, 153, 154, 160, 147, 148, 150, 189, 235, 268, 271, 273, 277, 280)},
+    "s001": ("gallery/s001.jpg", None), "s005": ("gallery/s005.jpg", None),
 }
 
 

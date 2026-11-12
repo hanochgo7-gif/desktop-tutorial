@@ -24,7 +24,7 @@ def main():
         print(f"ch{i:02d}", im.size)
     # portrait (9:16) cuts for phones: a full-height window centred at 48%, moved per chapter where the people or the work would fall
     # outside it (series of 12 Nov 2026, built from the real stills: the eye-level and close chapters are not pixel-aligned anyway)
-    FOCUS = {1: .43, 4: .60, 5: .60, 6: .68, 7: .36, 11: .66}
+    FOCUS = {1: .33, 2: .5, 3: .87, 4: .5, 5: .5, 6: .86, 7: .3, 10: .45, 11: .82}
     for i in range(1, len(list(SRC.glob("ch[0-9][0-9].png"))) + 1):
         im = Image.open(SRC / f"ch{i:02d}.png").convert("RGB"); w, h = im.size
         cw = round(h * 9 / 16); x0 = max(0, min(w - cw, round(w * FOCUS.get(i, .48) - cw / 2)))

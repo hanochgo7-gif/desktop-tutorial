@@ -501,7 +501,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sim-track { position: relative; }
 .sim-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #E3E7D4 center / cover no-repeat; }
 /* a 0.3 KB blurred stand-in of the first picture, shown until it arrives (written by tools/sim_images.py) */
-.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAABwBQCdASogABIAPrVInUmnJCKhMAgA4BaJQBOmUI/t3AW/+A8hIIMAUeI8852/m1ujdyFYAP6OLzdIddI+0ogyjKlL73SBKsR6mzxEG1gIAyrowLxOWQGV7j/WPjycubW3iUzKQKmc27ZWyFByxu+1qmrwGive39yXNtdfFA531JIIGNBAM9tgCrz9FathAdyyVE8aLJa95olIP3JTaQKDVuiG+Xbcdc66VmJ5WrWZjh/xZKq3OKfi4uaWAAAA"); }
+.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAACwBACdASogABIAPrVOnksnJCKhsBgIAOAWiUAWINwAEVnqO7JDcnnYTvky6fvmAP6yMqXBfkewK1SLIegBAC53gfjASJSj0kpJ2KdLYiKG6iezEbLpmlV/eA1OUF0SdIQhK054+bDBc6X2076/yFsc88PL1kxU8FWyCNjNfVp3ZQ3cTChc4XSWkgnVZYzhDPoM/qDfo5E27LHJJkJ80wAnOV4AAA=="); }
 .sim-stage canvas { opacity: 0; transition: opacity .5s; }
 .sim.live .sim-stage canvas { opacity: 1; }
 .sim-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
