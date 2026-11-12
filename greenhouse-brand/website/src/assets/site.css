@@ -1381,3 +1381,9 @@ html[lang="en"] .hero-os h1 { font-size: min(8rem, calc(min(100vw - 2 * var(--gu
 html[lang="he"] .hero-os h1 { --ls: .4718em; }
 html[lang="en"] .hero-os h1 { --ls: .1243em; }
 .hero-os h1 .h1-b { margin-inline-end: calc(-1 * var(--ls)); }  /* letter-spacing also follows the last letter: the line ends where the name ends */
+
+/* places in Israel, by region (projects page, 12 Nov 2026) */
+.il-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px 32px; margin-top: 28px; }
+.il-reg h3 { font-size: 1.05rem; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line, #d9dfd6); }
+.il-reg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.il-reg li { font-size: .98rem; }

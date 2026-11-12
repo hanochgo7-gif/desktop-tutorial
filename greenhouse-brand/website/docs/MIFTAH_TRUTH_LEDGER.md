@@ -216,6 +216,12 @@ Hanoch asked to go over every change Merav asked for, one by one. Source: her fu
 - Build illustration (#282-#284, #301): the series made from the real stills on 12 Nov had profile poles driven into the ground. Redone to her notes: every pole round, on a square concrete footing (empty footings with the rebar pin in the poles chapter); the worker in the lift wears a harness clipped to the cable (cables and net chapters); in autumn each strip is rolled on its ridge cable like a sausage, full length.
 - Still waiting on the owners: #94, #101, #304 (held), #33 music, #47 factory photo, #341 the African country, #342 list of Israeli sites, #359-#366 client approvals, #374 three role holders, #486 keep or drop the partners paragraph.
 
+## 7i. Hanoch's additions, 12 Nov 2026
+- Crops: pears, peaches, nectarines, apricots and lemons added (orchard net houses list, orchard page description, the "where we have built" Israel line, the form's crop suggestions). No region claimed for the new ones.
+- Places in Israel where MIFTAH has built: 69 places, on the projects page by region and as points on the globe (zoom in on Israel; each place is also a button). Regions and coordinates are ours (OpenStreetMap), not from the owners. Names in the list that were not placed, waiting for Hanoch to confirm the spelling: "עמק", "צבר", "קמה", "ניתנה", "טפר מכבי", "יטפת", "יצור", "חוות מתיתיהו", "חוות פיכמן", "מו״פ צפון". Duplicates dropped: ברעם, בית העמק, געתון, גשר הזיו, אבן מנחם, רמת מגשימים, שמיר.
+- Greece added as a country we have worked in (globe, map, projects table as "agricultural project", country lists, FAQ). Globe heading now "nine countries".
+- Menu: "חוות חקלאיות" / "Agricultural farms"; the page heading stays "חוות חקלאיות עד מפתח".
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

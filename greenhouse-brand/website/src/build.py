@@ -754,6 +754,7 @@ def p_projects(L):
     <div class="proj-table">{projects_table(L)}</div>
   </div>
 </section>
+{il_sites(L)}
 <section class="section how-abroad" aria-labelledby="how-h">
   <div class="wrap">
     <h2 id="how-h">{esc(t(P["how_h"], L))}</h2>
@@ -769,6 +770,18 @@ def p_projects(L):
 {gallery(L)}
 {cta_band(L, "projects")}
 </main>"""
+
+
+def il_sites(L):
+    """The places in Israel where we have built, by region (Hanoch, 12 Nov 2026). The same places are points on the globe."""
+    P = C.PAGES["projects"]
+    groups = []
+    for key, reg in C.IL_REGIONS.items():
+        names = [en if L == "en" else he for he, en, lat, lon, k in C.IL_SITES if k == key]
+        if names:
+            groups.append(f'<div class="il-reg"><h3>{esc(t(reg, L))}</h3><ul>{"".join(f"<li>{esc(n)}</li>" for n in names)}</ul></div>')
+    return (f'<section class="section il-sites" aria-labelledby="il-h"><div class="wrap"><div class="sec-head"><h2 id="il-h">{esc(t(P["il_h"], L))}</h2>'
+            f'<p class="lead">{esc(t(P["il_p"], L))}</p></div><div class="il-grid">{"".join(groups)}</div></div></section>')
 
 
 def gallery(L):
@@ -1121,6 +1134,30 @@ def globe_page():
                      ('var fly = p.g === "il" && HAS_FLY ?', 'var fly = p.id === "il" && HAS_FLY ?')):
         assert old in js, old
         js = js.replace(old, new)
+    # Greece, and the places in Israel where we have built, as small points seen when zoomed in on Israel (Hanoch, 12 Nov 2026)
+    gr = ('    { id: "gr", g: "ab", lat: 39.1, lon: 21.8, prec: "region", he: { n: "יוון", d: "פרויקט חקלאי", w: "" }, en: { n: "Greece", d: "Agricultural project", w: "" } },\n')
+    sites = "".join('    { id: "s%d", g: "il", site: true, sub: true, lat: %s, lon: %s, prec: "exact", he: { n: %s, d: "פרויקט של מיפתח", w: %s }, en: { n: %s, d: "A MIFTAH project", w: %s } },\n'
+                    % (i, lat, lon, json.dumps(he, ensure_ascii=False), json.dumps(C.IL_REGIONS[k][1], ensure_ascii=False), json.dumps(en), json.dumps(C.IL_REGIONS[k][0]))
+                    for i, (he, en, lat, lon, k) in enumerate(C.IL_SITES))
+    end = "\n  ];\n  var T = {"
+    assert js.count(end) == 1
+    js = js.replace(end, ",\n" + gr + sites.rstrip(",\n") + end, 1)
+    for old, new in (('h1: "פרויקטים בשמונה מדינות."', 'h1: "פרויקטים בתשע מדינות."'), ('h1: "Projects in eight countries."', 'h1: "Projects in nine countries."'),
+                     ('g1: "ישראל", g2: "מעבר לים"', 'g1: "ישראל", g3: "יישובים שעבדנו בהם", g2: "מעבר לים"'),
+                     ('g1: "Israel", g2: "Abroad"', 'g1: "Israel", g3: "Places we have built", g2: "Abroad"'),
+                     ('["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "hint", "note"]', '["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "g3", "hint", "note"]'),
+                     ('if (p.g !== g || p.id === "il") return;', 'if (p.g !== g || p.id === "il" || p.site) return;'),
+                     ('"</h3><p>" + esc(p[L].d) + ". " + esc(p[L].w) + ".</p>', '"</h3><p>" + esc(p[L].d) + (p[L].w ? ". " + esc(p[L].w) : "") + ".</p>'),
+                     ('var vis = m.g.visible && f > .12', 'var vis = m.g.visible && (!m.p || !m.p.site || on) && f > .12'),
+                     ('if (p.g === "il") lookAt(32.98, 35.43,', 'if (p.site) lookAt(p.lat, p.lon, 1 + .06 / Math.max(.62, Math.min(1, camera.aspect)));\n    else if (p.g === "il") lookAt(32.98, 35.43,')):
+        assert js.count(old) == 1, old
+        js = js.replace(old, new)
+    # the places, as small buttons under Israel
+    li = 'li.appendChild(bt); ul.appendChild(li);\n      });\n    });'
+    assert js.count(li) == 1
+    js = js.replace(li, li + '\n    var us = document.getElementById("l-sites"); if (us) { us.innerHTML = ""; P.forEach(function (p) { if (!p.site) return; var li = document.createElement("li"), bt = document.createElement("button");'
+                    ' bt.type = "button"; bt.className = "item chip"; bt.dataset.id = p.id; bt.setAttribute("aria-pressed", sel === p.id ? "true" : "false"); bt.textContent = p[L].n;'
+                    ' bt.addEventListener("click", function () { choose(p.id); }); li.appendChild(bt); us.appendChild(li); }); }', 1)
     js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
            ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט";'
            ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת");'
@@ -1132,6 +1169,12 @@ def globe_page():
            ' new MutationObserver(function () { if (box.hidden) { var o = document.getElementById("flyb"); if (o) o.focus(); } }).observe(box, { attributes: true, attributeFilter: ["hidden"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
+    for old, new in (('<b class="num">8</b>', '<b class="num">9</b>'), ('<h1 id="h1">פרויקטים בשמונה מדינות.</h1>', '<h1 id="h1">פרויקטים בתשע מדינות.</h1>'),
+                     ('<div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>',
+                      '<div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>\n    <div class="group"><h2 id="g3">יישובים שעבדנו בהם</h2><ul class="list chips" id="l-sites"></ul></div>')):
+        assert page.count(old) == 1, old
+        page = page.replace(old, new)
+    page = page.replace("</style>", ".list.chips { display: flex; flex-wrap: wrap; gap: 6px; }\n.list.chips li { width: auto; }\n.item.chip { display: inline-block; width: auto; padding: 5px 11px; font-size: .8rem; border-radius: 999px; }\n</style>", 1)
     stat = '      <div><b class="num">410,000</b><span id="s1">מ״ר של בתי רשת בחו״ל, ב-5 מדינות</span></div>\n'
     assert stat in page; page = page.replace(stat, "").replace(".stats { display: grid; grid-template-columns: repeat(3,", ".stats { display: grid; grid-template-columns: repeat(2,")
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1

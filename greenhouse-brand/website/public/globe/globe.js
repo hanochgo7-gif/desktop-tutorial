@@ -17,16 +17,86 @@
     { id: "es", g: "ab", lat: 40.0, lon: -3.7, m2: 0, prec: "region", pos: "b", he: { n: "ספרד", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Spain", d: "Net houses", w: "Design, local crew training and site management" } },
     { id: "ge", g: "ab", lat: 42.2, lon: 43.5, m2: 0, prec: "region", he: { n: "גאורגיה", d: "בתי רשת", w: "תכנון, הדרכת צוות מקומי וניהול ביצוע" }, en: { n: "Georgia", d: "Net houses", w: "Design, local crew training and site management" } },
     { id: "pt", g: "ab", lat: 39.4, lon: -8.2, prec: "region", he: { n: "פורטוגל", d: "בית רשת לאבוקדו", w: "הלקוח בפורטוגל מוכן להמליץ" }, en: { n: "Portugal", d: "Avocado net house", w: "The client in Portugal is willing to give a reference" } },
-    { id: "by", g: "ab", lat: 53.7, lon: 27.9, prec: "region", he: { n: "בלארוס", d: "פרויקט מורכב לגידול דגים", w: "ייצור מקומי והתקנה בשטח, הסתיים בזמן" }, en: { n: "Belarus", d: "A complex fish-farming project", w: "Local production and installation on site, delivered on schedule" } }
+    { id: "by", g: "ab", lat: 53.7, lon: 27.9, prec: "region", he: { n: "בלארוס", d: "פרויקט מורכב לגידול דגים", w: "ייצור מקומי והתקנה בשטח, הסתיים בזמן" }, en: { n: "Belarus", d: "A complex fish-farming project", w: "Local production and installation on site, delivered on schedule" } },
+    { id: "gr", g: "ab", lat: 39.1, lon: 21.8, prec: "region", he: { n: "יוון", d: "פרויקט חקלאי", w: "" }, en: { n: "Greece", d: "Agricultural project", w: "" } },
+    { id: "s0", g: "il", site: true, sub: true, lat: 32.997, lon: 35.22, prec: "exact", he: { n: "יחיעם", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Yehiam", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s1", g: "il", site: true, sub: true, lat: 33.087, lon: 35.173, prec: "exact", he: { n: "חניתה", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Hanita", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s2", g: "il", site: true, sub: true, lat: 33.063, lon: 35.157, prec: "exact", he: { n: "מצובה", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Metzuba", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s3", g: "il", site: true, sub: true, lat: 33.039, lon: 35.111, prec: "exact", he: { n: "גשר הזיו", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Gesher HaZiv", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s4", g: "il", site: true, sub: true, lat: 32.97, lon: 35.146, prec: "exact", he: { n: "בית העמק", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Beit HaEmek", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s5", g: "il", site: true, sub: true, lat: 33.006, lon: 35.214, prec: "exact", he: { n: "געתון", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Ga'aton", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s6", g: "il", site: true, sub: true, lat: 32.964, lon: 35.098, prec: "exact", he: { n: "לוחמי הגטאות", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Lohamei HaGeta'ot", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s7", g: "il", site: true, sub: true, lat: 32.891, lon: 35.1, prec: "exact", he: { n: "כפר מסריק", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Kfar Masaryk", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s8", g: "il", site: true, sub: true, lat: 33.08, lon: 35.21, prec: "exact", he: { n: "אדמית", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Adamit", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s9", g: "il", site: true, sub: true, lat: 32.981, lon: 35.083, prec: "exact", he: { n: "שבי ציון", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Shavei Tzion", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s10", g: "il", site: true, sub: true, lat: 32.978, lon: 35.1, prec: "exact", he: { n: "רגבה", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Regba", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s11", g: "il", site: true, sub: true, lat: 33.029, lon: 35.109, prec: "exact", he: { n: "סער", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Sa'ar", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s12", g: "il", site: true, sub: true, lat: 33.027, lon: 35.395, prec: "exact", he: { n: "סאסא", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Sasa", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s13", g: "il", site: true, sub: true, lat: 33.059, lon: 35.434, prec: "exact", he: { n: "ברעם", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Bar'am", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s14", g: "il", site: true, sub: true, lat: 33.082, lon: 35.284, prec: "exact", he: { n: "שומרה", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Shomera", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s15", g: "il", site: true, sub: true, lat: 33.074, lon: 35.294, prec: "exact", he: { n: "אבן מנחם", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Even Menachem", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s16", g: "il", site: true, sub: true, lat: 33.078, lon: 35.456, prec: "exact", he: { n: "ירון", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Yir'on", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s17", g: "il", site: true, sub: true, lat: 33.196, lon: 35.545, prec: "exact", he: { n: "מנרה", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Manara", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s18", g: "il", site: true, sub: true, lat: 33.039, lon: 35.468, prec: "exact", he: { n: "כרם בן זמרה", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Kerem Ben Zimra", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s19", g: "il", site: true, sub: true, lat: 33.081, lon: 35.518, prec: "exact", he: { n: "דישון", d: "פרויקט של מיפתח", w: "הגליל העליון" }, en: { n: "Dishon", d: "A MIFTAH project", w: "Upper Galilee" } },
+    { id: "s20", g: "il", site: true, sub: true, lat: 33.164, lon: 35.659, prec: "exact", he: { n: "שמיר", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Shamir", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s21", g: "il", site: true, sub: true, lat: 33.23, lon: 35.639, prec: "exact", he: { n: "דפנה", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Dafna", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s22", g: "il", site: true, sub: true, lat: 33.24, lon: 35.653, prec: "exact", he: { n: "דן", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Dan", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s23", g: "il", site: true, sub: true, lat: 33.28, lon: 35.578, prec: "exact", he: { n: "מטולה", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Metula", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s24", g: "il", site: true, sub: true, lat: 33.215, lon: 35.544, prec: "exact", he: { n: "מרגליות", d: "פרויקט של מיפתח", w: "עמק החולה ואצבע הגליל" }, en: { n: "Margaliot", d: "A MIFTAH project", w: "Hula Valley" } },
+    { id: "s25", g: "il", site: true, sub: true, lat: 32.844, lon: 35.807, prec: "exact", he: { n: "רמת מגשימים", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Ramat Magshimim", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s26", g: "il", site: true, sub: true, lat: 33.085, lon: 35.759, prec: "exact", he: { n: "אורטל", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Ortal", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s27", g: "il", site: true, sub: true, lat: 33.044, lon: 35.839, prec: "exact", he: { n: "אלוני הבשן", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Alonei HaBashan", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s28", g: "il", site: true, sub: true, lat: 33.18, lon: 35.772, prec: "exact", he: { n: "אל-רום", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "El Rom", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s29", g: "il", site: true, sub: true, lat: 32.779, lon: 35.701, prec: "exact", he: { n: "אפיק", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Afik", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s30", g: "il", site: true, sub: true, lat: 32.854, lon: 35.751, prec: "exact", he: { n: "נטור", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Natur", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s31", g: "il", site: true, sub: true, lat: 32.938, lon: 35.795, prec: "exact", he: { n: "יונתן", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Yonatan", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s32", g: "il", site: true, sub: true, lat: 32.825, lon: 35.767, prec: "exact", he: { n: "אבני איתן", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Avnei Eitan", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s33", g: "il", site: true, sub: true, lat: 32.89, lon: 35.685, prec: "exact", he: { n: "מעלה גמלא", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Ma'ale Gamla", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s34", g: "il", site: true, sub: true, lat: 33.132, lon: 35.777, prec: "exact", he: { n: "מרום גולן", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Merom Golan", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s35", g: "il", site: true, sub: true, lat: 33.096, lon: 35.796, prec: "exact", he: { n: "עין זיוון", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Ein Zivan", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s36", g: "il", site: true, sub: true, lat: 33.03, lon: 35.697, prec: "exact", he: { n: "קדמת צבי", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Kidmat Tzvi", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s37", g: "il", site: true, sub: true, lat: 32.981, lon: 35.809, prec: "exact", he: { n: "קשת", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Keshet", d: "A MIFTAH project", w: "Golan Heights" } },
+    { id: "s38", g: "il", site: true, sub: true, lat: 32.781, lon: 35.639, prec: "exact", he: { n: "עין גב", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Ein Gev", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s39", g: "il", site: true, sub: true, lat: 32.681, lon: 35.578, prec: "exact", he: { n: "אפיקים", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Afikim", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s40", g: "il", site: true, sub: true, lat: 32.658, lon: 35.581, prec: "exact", he: { n: "אשדות יעקב", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Ashdot Ya'akov", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s41", g: "il", site: true, sub: true, lat: 32.688, lon: 35.573, prec: "exact", he: { n: "בית זרע", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Beit Zera", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s42", g: "il", site: true, sub: true, lat: 32.847, lon: 35.523, prec: "exact", he: { n: "גינוסר", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Ginosar", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s43", g: "il", site: true, sub: true, lat: 32.621, lon: 35.552, prec: "exact", he: { n: "גשר", d: "פרויקט של מיפתח", w: "עמק המעיינות והגלבוע" }, en: { n: "Gesher", d: "A MIFTAH project", w: "Valley of Springs and the Gilboa" } },
+    { id: "s44", g: "il", site: true, sub: true, lat: 32.705, lon: 35.618, prec: "exact", he: { n: "תל קציר", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Tel Katzir", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s45", g: "il", site: true, sub: true, lat: 32.88, lon: 35.494, prec: "exact", he: { n: "חוקוק", d: "פרויקט של מיפתח", w: "הכנרת ועמק הירדן" }, en: { n: "Hukok", d: "A MIFTAH project", w: "Sea of Galilee and the Jordan Valley" } },
+    { id: "s46", g: "il", site: true, sub: true, lat: 32.586, lon: 35.44, prec: "exact", he: { n: "מולדת", d: "פרויקט של מיפתח", w: "עמק המעיינות והגלבוע" }, en: { n: "Moledet", d: "A MIFTAH project", w: "Valley of Springs and the Gilboa" } },
+    { id: "s47", g: "il", site: true, sub: true, lat: 32.559, lon: 35.394, prec: "exact", he: { n: "עין חרוד", d: "פרויקט של מיפתח", w: "עמק המעיינות והגלבוע" }, en: { n: "Ein Harod", d: "A MIFTAH project", w: "Valley of Springs and the Gilboa" } },
+    { id: "s48", g: "il", site: true, sub: true, lat: 31.507, lon: 34.599, prec: "exact", he: { n: "גבים", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Gevim", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s49", g: "il", site: true, sub: true, lat: 31.195, lon: 34.345, prec: "exact", he: { n: "דקל", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Dekel", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s50", g: "il", site: true, sub: true, lat: 31.335, lon: 34.395, prec: "exact", he: { n: "נירים", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Nirim", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s51", g: "il", site: true, sub: true, lat: 31.351, lon: 34.401, prec: "exact", he: { n: "עין השלושה", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Ein HaShlosha", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s52", g: "il", site: true, sub: true, lat: 31.519, lon: 34.581, prec: "exact", he: { n: "ניר עם", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Nir Am", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s53", g: "il", site: true, sub: true, lat: 31.884, lon: 34.857, prec: "exact", he: { n: "נען", d: "פרויקט של מיפתח", w: "השפלה" }, en: { n: "Na'an", d: "A MIFTAH project", w: "Shfela" } },
+    { id: "s54", g: "il", site: true, sub: true, lat: 30.806, lon: 35.299, prec: "exact", he: { n: "עידן", d: "פרויקט של מיפתח", w: "הערבה ואילת" }, en: { n: "Idan", d: "A MIFTAH project", w: "Arava and Eilat" } },
+    { id: "s55", g: "il", site: true, sub: true, lat: 29.557, lon: 34.95, prec: "exact", he: { n: "אילת", d: "פרויקט של מיפתח", w: "הערבה ואילת" }, en: { n: "Eilat", d: "A MIFTAH project", w: "Arava and Eilat" } },
+    { id: "s56", g: "il", site: true, sub: true, lat: 29.896, lon: 35.06, prec: "exact", he: { n: "יטבתה", d: "פרויקט של מיפתח", w: "הערבה ואילת" }, en: { n: "Yotvata", d: "A MIFTAH project", w: "Arava and Eilat" } },
+    { id: "s57", g: "il", site: true, sub: true, lat: 32.493, lon: 35.551, prec: "exact", he: { n: "מעוז חיים", d: "פרויקט של מיפתח", w: "עמק המעיינות והגלבוע" }, en: { n: "Ma'oz Haim", d: "A MIFTAH project", w: "Valley of Springs and the Gilboa" } },
+    { id: "s58", g: "il", site: true, sub: true, lat: 32.503, lon: 35.457, prec: "exact", he: { n: "ניר דוד", d: "פרויקט של מיפתח", w: "עמק המעיינות והגלבוע" }, en: { n: "Nir David", d: "A MIFTAH project", w: "Valley of Springs and the Gilboa" } },
+    { id: "s59", g: "il", site: true, sub: true, lat: 30.91, lon: 34.431, prec: "exact", he: { n: "כמהין", d: "פרויקט של מיפתח", w: "רמת הנגב" }, en: { n: "Kmehin", d: "A MIFTAH project", w: "Ramat HaNegev" } },
+    { id: "s60", g: "il", site: true, sub: true, lat: 31.653, lon: 34.706, prec: "exact", he: { n: "יד נתן", d: "פרויקט של מיפתח", w: "הנגב המערבי ומישור החוף הדרומי" }, en: { n: "Yad Natan", d: "A MIFTAH project", w: "Western Negev and the southern coastal plain" } },
+    { id: "s61", g: "il", site: true, sub: true, lat: 32.793, lon: 35.121, prec: "exact", he: { n: "רמת יוחנן", d: "פרויקט של מיפתח", w: "עמק זבולון" }, en: { n: "Ramat Yohanan", d: "A MIFTAH project", w: "Zevulun Valley" } },
+    { id: "s62", g: "il", site: true, sub: true, lat: 33.021, lon: 35.149, prec: "exact", he: { n: "כברי", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Kabri", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s63", g: "il", site: true, sub: true, lat: 32.993, lon: 35.136, prec: "exact", he: { n: "נתיב השיירה", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Netiv HaShayara", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s64", g: "il", site: true, sub: true, lat: 33.004, lon: 35.124, prec: "exact", he: { n: "בן עמי", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Ben Ami", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s65", g: "il", site: true, sub: true, lat: 33.071, lon: 35.135, prec: "exact", he: { n: "בצת", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Betzet", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s66", g: "il", site: true, sub: true, lat: 32.904, lon: 35.096, prec: "exact", he: { n: "עין המפרץ", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Ein HaMifratz", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s67", g: "il", site: true, sub: true, lat: 32.95, lon: 35.097, prec: "exact", he: { n: "שמרת", d: "פרויקט של מיפתח", w: "הגליל המערבי" }, en: { n: "Shomrat", d: "A MIFTAH project", w: "Western Galilee" } },
+    { id: "s68", g: "il", site: true, sub: true, lat: 32.992, lon: 35.693, prec: "exact", he: { n: "יקב רמת הגולן", d: "פרויקט של מיפתח", w: "רמת הגולן" }, en: { n: "Golan Heights Winery", d: "A MIFTAH project", w: "Golan Heights" } }
   ];
   var T = {
-    he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
-      s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
+    he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בתשע מדינות.", lede: "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
+      s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g3: "יישובים שעבדנו בהם", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
       note: "נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק.",
       hq: "מיפתח · קיבוץ כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "מהחלל אל צילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "", real: "צילום רחפן אמיתי" },
-    en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in eight countries.", lede: "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build.",
-      s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
+    en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in nine countries.", lede: "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build.",
+      s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g3: "Places we have built", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
       note: "A yellow point marks the country or region, not the exact site.",
       hq: "MIFTAH · Kibbutz Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "From orbit to real drone footage of a MIFTAH net house.", close: "Close", ill: "", real: "Real drone footage" }
@@ -236,7 +306,7 @@
         var f = facing(m);
         m.g.getWorldPosition(proj); proj.project(camera);
         var x = (proj.x * .5 + .5) * b.width, y = (-proj.y * .5 + .5) * b.height;
-        var vis = m.g.visible && f > .12 && (k !== "hq" || zoomIn) && x > 8 && x < b.width - 8 && y > 8 && y < b.height - 8;
+        var vis = m.g.visible && (!m.p || !m.p.site || on) && f > .12 && (k !== "hq" || zoomIn) && x > 8 && x < b.width - 8 && y > 8 && y < b.height - 8;
         tg.style.opacity = vis ? (on ? 1 : .88) : 0;
         var ps = tg.dataset.pos, off = ps === "b" ? "translate(-50%,70%)" : ps === "l" ? "translate(calc(-100% - 14px),-50%)" : ps === "r" ? "translate(14px,-50%)" : "translate(-50%,-170%)";
         tg.style.transform = "translate(" + x + "px," + y + "px) " + off;
@@ -256,7 +326,7 @@
     ["il", "ab"].forEach(function (g) {
       var ul = document.getElementById(g === "il" ? "l-il" : "l-ab"); ul.innerHTML = "";
       P.forEach(function (p) {
-        if (p.g !== g || p.id === "il") return;
+        if (p.g !== g || p.id === "il" || p.site) return;
         var li = document.createElement("li"), bt = document.createElement("button");
         bt.type = "button"; bt.className = "item"; bt.dataset.id = p.id; bt.setAttribute("aria-pressed", sel === p.id ? "true" : "false");
         bt.innerHTML = "<b>" + esc(p[L].n) + "</b><small>" + esc(p[L].d) + "</small>" + (p.m2 ? '<span class="v">' + fmt(p.m2) + " " + T[L].m2 + '</span><span class="bar"><i style="width:' + (p.m2 / 150000 * 100).toFixed(1) + '%"></i></span>' : "");
@@ -264,6 +334,7 @@
         li.appendChild(bt); ul.appendChild(li);
       });
     });
+    var us = document.getElementById("l-sites"); if (us) { us.innerHTML = ""; P.forEach(function (p) { if (!p.site) return; var li = document.createElement("li"), bt = document.createElement("button"); bt.type = "button"; bt.className = "item chip"; bt.dataset.id = p.id; bt.setAttribute("aria-pressed", sel === p.id ? "true" : "false"); bt.textContent = p[L].n; bt.addEventListener("click", function () { choose(p.id); }); li.appendChild(bt); us.appendChild(li); }); }
   }
   function card() {
     var p = P.filter(function (z) { return z.id === sel; })[0], t = T[L], c = document.getElementById("card");
@@ -273,13 +344,14 @@
     rows += "<dt>" + t.loc + '</dt><dd><span class="prec ' + (p.prec === "exact" ? "exact" : "region") + '">' + precTxt + "</span></dd>";
     if (p.lat != null && p.g === "ab") rows += "<dt>" + t.from + '</dt><dd class="num">~' + fmt(km(p)) + " " + t.km + "</dd>";
     var fly = p.id === "il" && HAS_FLY ? '<button type="button" class="fly" id="flyb">' + t.fly + "</button>" : "";
-    c.innerHTML = '<span class="k">' + t.k + "</span><h3>" + esc(p[L].n) + "</h3><p>" + esc(p[L].d) + ". " + esc(p[L].w) + ".</p><dl>" + rows + "</dl>" + fly;
+    c.innerHTML = '<span class="k">' + t.k + "</span><h3>" + esc(p[L].n) + "</h3><p>" + esc(p[L].d) + (p[L].w ? ". " + esc(p[L].w) : "") + ".</p><dl>" + rows + "</dl>" + fly;
     var fb = document.getElementById("flyb"); if (fb) fb.addEventListener("click", openFly);
   }
   function choose(id) {
     sel = id;
     var p = P.filter(function (z) { return z.id === id; })[0];
-    if (p.g === "il") lookAt(32.98, 35.43, 1 + .085 / Math.max(.62, Math.min(1, camera.aspect)));
+    if (p.site) lookAt(p.lat, p.lon, 1 + .06 / Math.max(.62, Math.min(1, camera.aspect)));
+    else if (p.g === "il") lookAt(32.98, 35.43, 1 + .085 / Math.max(.62, Math.min(1, camera.aspect)));
     else lookAt(p.lat, p.lon, null);
     document.querySelectorAll(".item").forEach(function (bt) { bt.setAttribute("aria-pressed", bt.dataset.id === id ? "true" : "false"); });
     card();
@@ -299,7 +371,7 @@
     document.documentElement.lang = L; document.documentElement.dir = t.dir;
     document.getElementById("stage").setAttribute("dir", t.dir);
     document.title = t.title; gl.setAttribute("aria-label", t.aria);
-    ["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "hint", "note"].forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t[k]; });
+    ["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "g3", "hint", "note"].forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t[k]; });
     var lb = document.getElementById("lang"); lb.textContent = t.langL; lb.lang = t.lang;
     var fc = document.getElementById("flycap"); if (fc) fc.textContent = t.flyc;
     var fx = document.getElementById("flyx"); if (fx) { fx.textContent = t.close; badge(); }

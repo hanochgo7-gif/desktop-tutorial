@@ -28,15 +28,15 @@ SITE = {
            (("Projects", "פרויקטים"), ("Israel and countries around the world", "ישראל ומדינות בעולם"))],
     "video_play": ("Play video", "הפעלת הסרטון"), "video_pause": ("Pause video", "עצירת הסרטון"),
     "noscript": ("Sending this form needs JavaScript. Please call +972 4 985 4404.", "שליחת הטופס דורשת JavaScript. אפשר להתקשר ל-04-9854404."),
-    "map_label": ("Map of MIFTAH projects abroad: Mexico, Honduras, Spain, Portugal, Belarus, Georgia and India, and our office at Kibbutz Kfar Masaryk, Israel. The same information is in the projects table.",
-                  "מפת הפרויקטים של מיפתח בחו״ל: מקסיקו, הונדורס, ספרד, פורטוגל, בלארוס, גאורגיה והודו, בניהול מקיבוץ כפר מסריק. אותו מידע מופיע בטבלת הפרויקטים."),
+    "map_label": ("Map of MIFTAH projects abroad: Mexico, Honduras, Spain, Portugal, Belarus, Georgia, India and Greece, and our office at Kibbutz Kfar Masaryk, Israel. The same information is in the projects table.",
+                  "מפת הפרויקטים של מיפתח בחו״ל: מקסיקו, הונדורס, ספרד, פורטוגל, בלארוס, גאורגיה, הודו ויוון, בניהול מקיבוץ כפר מסריק. אותו מידע מופיע בטבלת הפרויקטים."),
     "archive": ("MIFTAH archive", "ארכיון מיפתח"),
 }
 
 NAV = [  # (slug, en, he)
     ("net-houses", "Net houses", "בתי רשת"),
     ("how-we-build", "How we build", "כך בונים"),
-    ("turnkey-farms", "Turnkey farms", "חוות חקלאיות עד מפתח"),
+    ("turnkey-farms", "Agricultural farms", "חוות חקלאיות"),
     ("projects", "Projects", "פרויקטים"),
     ("about", "About", "אודות"),
     ("contact", "Contact", "יצירת קשר"),
@@ -47,7 +47,7 @@ FACTS = [  # once, under the home hero
     (("20+", "20+"), ("designing and building agricultural projects since 2003", "מאז 2003 מתכננים ומקימים פרויקטים חקלאיים")),  # 1.6
     (("Millions of m²", "מיליוני מטרים"), ("of agricultural projects and shade solutions around the world", "מיליוני מ״ר של פרויקטים חקלאיים ופתרונות הצללה בעולם")),  # 3.2
     (("Our plant", "מפעל שלנו"), ("materials processed and made, and quality-checked before they ship", "עיבוד וייצור החומרים ובקרת איכות לפני היציאה לשטח")),  # 1.7
-    (("Countries", "מדינות בעולם"), ("Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Africa and Israel", "פורטוגל, ספרד, מקסיקו, הודו, הונדורס, גאורגיה, בלארוס, אפריקה וישראל")),  # 3.1-3.3
+    (("Countries", "מדינות בעולם"), ("Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece, Africa and Israel", "פורטוגל, ספרד, מקסיקו, הודו, הונדורס, גאורגיה, בלארוס, יוון, אפריקה וישראל")),  # 3.1-3.3
 ]
 
 STEPS = [  # OS consult (2.8), one real photo each
@@ -94,8 +94,94 @@ MARKETS = [  # 3.2, 3.3. (key, lat, lon, area m2 or None, en, he, label side)
     ("by", 53.7, 27.9, None, "Belarus", "בלארוס", "e"),
     ("ge", 42.2, 43.5, 50000, "Georgia", "גאורגיה", "e"),
     ("in", 21.0, 78.0, 80000, "India", "הודו", "s"),
+    ("gr", 39.1, 21.8, None, "Greece", "יוון", "e"),  # Hanoch, 12 Nov 2026
 ]
 HQ = (32.886, 35.103, "Kibbutz Kfar Masaryk", "קיבוץ כפר מסריק")
+
+IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026). Coordinates: OpenStreetMap (Nominatim), checked by hand
+    ('יחיעם', 'Yehiam', 32.997, 35.22, 'wg'),
+    ('חניתה', 'Hanita', 33.087, 35.173, 'wg'),
+    ('מצובה', 'Metzuba', 33.063, 35.157, 'wg'),
+    ('גשר הזיו', 'Gesher HaZiv', 33.039, 35.111, 'wg'),
+    ('בית העמק', 'Beit HaEmek', 32.97, 35.146, 'wg'),
+    ('געתון', "Ga'aton", 33.006, 35.214, 'wg'),
+    ('לוחמי הגטאות', "Lohamei HaGeta'ot", 32.964, 35.098, 'wg'),
+    ('כפר מסריק', 'Kfar Masaryk', 32.891, 35.1, 'wg'),
+    ('אדמית', 'Adamit', 33.08, 35.21, 'wg'),
+    ('שבי ציון', 'Shavei Tzion', 32.981, 35.083, 'wg'),
+    ('רגבה', 'Regba', 32.978, 35.1, 'wg'),
+    ('סער', "Sa'ar", 33.029, 35.109, 'wg'),
+    ('סאסא', 'Sasa', 33.027, 35.395, 'ug'),
+    ('ברעם', "Bar'am", 33.059, 35.434, 'ug'),
+    ('שומרה', 'Shomera', 33.082, 35.284, 'ug'),
+    ('אבן מנחם', 'Even Menachem', 33.074, 35.294, 'ug'),
+    ('ירון', "Yir'on", 33.078, 35.456, 'ug'),
+    ('מנרה', 'Manara', 33.196, 35.545, 'hula'),
+    ('כרם בן זמרה', 'Kerem Ben Zimra', 33.039, 35.468, 'ug'),
+    ('דישון', 'Dishon', 33.081, 35.518, 'ug'),
+    ('שמיר', 'Shamir', 33.164, 35.659, 'hula'),
+    ('דפנה', 'Dafna', 33.23, 35.639, 'hula'),
+    ('דן', 'Dan', 33.24, 35.653, 'hula'),
+    ('מטולה', 'Metula', 33.28, 35.578, 'hula'),
+    ('מרגליות', 'Margaliot', 33.215, 35.544, 'hula'),
+    ('רמת מגשימים', 'Ramat Magshimim', 32.844, 35.807, 'golan'),
+    ('אורטל', 'Ortal', 33.085, 35.759, 'golan'),
+    ('אלוני הבשן', 'Alonei HaBashan', 33.044, 35.839, 'golan'),
+    ('אל-רום', 'El Rom', 33.18, 35.772, 'golan'),
+    ('אפיק', 'Afik', 32.779, 35.701, 'golan'),
+    ('נטור', 'Natur', 32.854, 35.751, 'golan'),
+    ('יונתן', 'Yonatan', 32.938, 35.795, 'golan'),
+    ('אבני איתן', 'Avnei Eitan', 32.825, 35.767, 'golan'),
+    ('מעלה גמלא', "Ma'ale Gamla", 32.89, 35.685, 'golan'),
+    ('מרום גולן', 'Merom Golan', 33.132, 35.777, 'golan'),
+    ('עין זיוון', 'Ein Zivan', 33.096, 35.796, 'golan'),
+    ('קדמת צבי', 'Kidmat Tzvi', 33.03, 35.697, 'golan'),
+    ('קשת', 'Keshet', 32.981, 35.809, 'golan'),
+    ('עין גב', 'Ein Gev', 32.781, 35.639, 'jv'),
+    ('אפיקים', 'Afikim', 32.681, 35.578, 'jv'),
+    ('אשדות יעקב', "Ashdot Ya'akov", 32.658, 35.581, 'jv'),
+    ('בית זרע', 'Beit Zera', 32.688, 35.573, 'jv'),
+    ('גינוסר', 'Ginosar', 32.847, 35.523, 'jv'),
+    ('גשר', 'Gesher', 32.621, 35.552, 'sv'),
+    ('תל קציר', 'Tel Katzir', 32.705, 35.618, 'jv'),
+    ('חוקוק', 'Hukok', 32.88, 35.494, 'jv'),
+    ('מולדת', 'Moledet', 32.586, 35.44, 'sv'),
+    ('עין חרוד', 'Ein Harod', 32.559, 35.394, 'sv'),
+    ('גבים', 'Gevim', 31.507, 34.599, 'neg'),
+    ('דקל', 'Dekel', 31.195, 34.345, 'neg'),
+    ('נירים', 'Nirim', 31.335, 34.395, 'neg'),
+    ('עין השלושה', 'Ein HaShlosha', 31.351, 34.401, 'neg'),
+    ('ניר עם', 'Nir Am', 31.519, 34.581, 'neg'),
+    ('נען', "Na'an", 31.884, 34.857, 'cen'),
+    ('עידן', 'Idan', 30.806, 35.299, 'arava'),
+    ('אילת', 'Eilat', 29.557, 34.95, 'arava'),
+    ('יטבתה', 'Yotvata', 29.896, 35.06, 'arava'),
+    ('מעוז חיים', "Ma'oz Haim", 32.493, 35.551, 'sv'),
+    ('ניר דוד', 'Nir David', 32.503, 35.457, 'sv'),
+    ('כמהין', 'Kmehin', 30.91, 34.431, 'rn'),
+    ('יד נתן', 'Yad Natan', 31.653, 34.706, 'neg'),
+    ('רמת יוחנן', 'Ramat Yohanan', 32.793, 35.121, 'zev'),
+    ('כברי', 'Kabri', 33.021, 35.149, 'wg'),
+    ('נתיב השיירה', 'Netiv HaShayara', 32.993, 35.136, 'wg'),
+    ('בן עמי', 'Ben Ami', 33.004, 35.124, 'wg'),
+    ('בצת', 'Betzet', 33.071, 35.135, 'wg'),
+    ('עין המפרץ', 'Ein HaMifratz', 32.904, 35.096, 'wg'),
+    ('שמרת', 'Shomrat', 32.95, 35.097, 'wg'),
+    ('יקב רמת הגולן', 'Golan Heights Winery', 32.992, 35.693, 'golan'),
+]
+IL_REGIONS = {  # key: (en, he), in the order shown
+    'wg': ('Western Galilee', 'הגליל המערבי'),
+    'ug': ('Upper Galilee', 'הגליל העליון'),
+    'hula': ('Hula Valley', 'עמק החולה ואצבע הגליל'),
+    'golan': ('Golan Heights', 'רמת הגולן'),
+    'jv': ('Sea of Galilee and the Jordan Valley', 'הכנרת ועמק הירדן'),
+    'sv': ('Valley of Springs and the Gilboa', 'עמק המעיינות והגלבוע'),
+    'zev': ('Zevulun Valley', 'עמק זבולון'),
+    'neg': ('Western Negev and the southern coastal plain', 'הנגב המערבי ומישור החוף הדרומי'),
+    'cen': ('Shfela', 'השפלה'),
+    'arava': ('Arava and Eilat', 'הערבה ואילת'),
+    'rn': ('Ramat HaNegev', 'רמת הנגב'),
+}
 
 PROJECT_ROWS = [  # projects table
     ("Mexico", "מקסיקו", ("Net houses", "בתי רשת"), 150000),
@@ -105,6 +191,7 @@ PROJECT_ROWS = [  # projects table
     ("Georgia", "גאורגיה", ("Net houses", "בתי רשת"), 50000),
     ("Portugal", "פורטוגל", ("Avocado net house", "בית רשת לאבוקדו"), None),
     ("Belarus", "בלארוס", ("Advanced fish-farming systems", "מערכות מתקדמות לגידול דגים"), None),
+    ("Greece", "יוון", ("Agricultural project", "פרויקט חקלאי"), None),  # Hanoch, 12 Nov 2026
 ]
 
 FEATURED = [  # Q q14: the five projects the owners want shown. Regions only until approval (O2).
@@ -148,7 +235,7 @@ TYPES = [  # Net houses page, organized by crop (market research implication 1)
          (("Structure", "מבנה"), ("Large spans between poles. Trellising and plant support are part of the structure.", "מפתחים גדולים בין העמודים. ההדליה ומערכת התמיכה לשתילים הן חלק מהמבנה.")),
      ], "cap": ("A large net house in the Galilee, built by MIFTAH", "בית רשת גדול בגליל, שהקימה מיפתח")},  # 2.2
     {"id": "orchard", "img": "forest",
-     "h": ("Orchard net houses", "בתי רשת למטעים"), "crops": ("Apple, cherry, kiwi, avocado, persimmon", "תפוח, דובדבן, קיווי, אבוקדו, אפרסמון"),
+     "h": ("Orchard net houses", "בתי רשת למטעים"), "crops": ("Apple, pear, cherry, peach, nectarine, apricot, lemon, kiwi, avocado, persimmon", "תפוח, אגס, דובדבן, אפרסק, נקטרינה, משמש, לימון, קיווי, אבוקדו, אפרסמון"),
      "rows": [
          (("Net", "רשת"), ("10% to 30% shade, chosen for the crop.", "10% עד 30% צל, לפי הגידול.")),
          (("Protects against", "מגן מפני"), ("Hail and sunburn during flowering and fruit set, when trees are most sensitive and extreme weather can seriously damage the yield.", "ברד וכוויות שמש בפריחה ובחנטה, כשהעצים הכי רגישים ומזג אוויר קיצוני עלול לפגוע משמעותית ביבול.")),
@@ -201,8 +288,8 @@ PAGES = {
         "steps_h": ("From your land to a finished net house, in four steps", "מהקרקע שלכם ועד בית רשת גמור, בארבעה שלבים"),
         "steps_p": ("Four steps, the same on every project, in Israel or abroad.", "ארבעה שלבים, אותו סדר בכל פרויקט, בישראל ובחו״ל."),
         "map_h": ("Projects on three continents", "פרויקטים בשלוש יבשות"),
-        "map_p": ("Net houses in Mexico, India, Honduras, Spain and Georgia, an avocado net house in Portugal, and a complex project in Belarus.",
-                  "בתי רשת במקסיקו, בהודו, בהונדורס, בספרד ובגאורגיה, בית רשת לאבוקדו בפורטוגל ופרויקט מורכב בבלארוס."),
+        "map_p": ("Net houses in Mexico, India, Honduras, Spain and Georgia, an avocado net house in Portugal, a complex project in Belarus, and a project in Greece.",
+                  "בתי רשת במקסיקו, בהודו, בהונדורס, בספרד ובגאורגיה, בית רשת לאבוקדו בפורטוגל, פרויקט מורכב בבלארוס ופרויקט ביוון."),
         "map_go": ("All projects", "לכל הפרויקטים"),
         "why_h": ("Clients stay because a word is a word.", "לקוחות נשארים, כי מילה זו מילה."),
         "why_statement": ("You get peace of mind, and time to focus on your crop and your business.", "אתם מרוויחים שקט, וזמן להתמקד בגידול ובפיתוח העסק."),  # 4.6
@@ -265,20 +352,22 @@ PAGES = {
     },
     "orchard-hail-nets": {
         "title": ("Orchard hail nets: apples, cherries, kiwi | MIFTAH Projects", "רשת נגד ברד למטעים: תפוחים, דובדבנים, קיווי | מיפתח פרויקטים"),
-        "desc": ("Hail nets for apple, cherry and kiwi orchards: a 10–30% shade net on a structure that folds away in winter. Designed, made and built by MIFTAH Projects.",
-                 "רשת נגד ברד למטעי תפוחים, דובדבנים וקיווי: רשת צל 10%–30% על מבנה שמתקפל בחורף. מתוכננים, מיוצרים ומוקמים בידי מיפתח פרויקטים."),
+        "desc": ("Hail nets for apple, pear, cherry, peach, nectarine, apricot, lemon and kiwi orchards: a 10–30% shade net on a structure that folds away in winter. Designed, made and built by MIFTAH Projects.",
+                 "רשת נגד ברד למטעי תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים וקיווי: רשת צל 10%–30% על מבנה שמתקפל בחורף. מתוכננים, מיוצרים ומוקמים בידי מיפתח פרויקטים."),
         "h1": ("Hail nets for orchards", "רשת נגד ברד למטעים"),
         "lead": ("A 10–30% shade net over the orchard, mainly against hail and sunburn at flowering and fruit set. The structure lets the net fold away in winter and spread again in spring.",
                  "רשת צל 10%–30% מעל המטע, בעיקר נגד ברד וכוויות שמש בפריחה ובחנטה. המבנה מאפשר לרשת להתקפל בחורף ולהיפרס שוב באביב."),  # 2.3
     },
     "projects": {
         "title": ("Net house projects on three continents | MIFTAH Projects", "בתי רשת בשלוש יבשות: הפרויקטים | מיפתח פרויקטים"),
-        "desc": ("Millions of m² of agricultural projects around the world: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus and Africa, and net houses in Israel.",
-                 "מיליוני מ״ר של פרויקטים חקלאיים בעולם: בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס ובאפריקה, ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים."),
+        "desc": ("Millions of m² of agricultural projects around the world: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece and Africa, and net houses in Israel.",
+                 "מיליוני מ״ר של פרויקטים חקלאיים בעולם: בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס, ביוון ובאפריקה, ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים."),
         "h1": ("Net-house projects in Israel and around the world", "פרויקטים של בתי רשת בישראל ובעולם"),
         "lead": ("Net houses on three continents. We design the project and manage the work on site until handover to the client.", "בתי רשת בשלוש יבשות. אנחנו מתכננים את הפרויקט ומנהלים את הביצוע בשטח עד המסירה ללקוח."),  # 3.2
         "map_h": ("Abroad", "בחו״ל"),
         "tbl_cap": ("Projects around the world", "פרויקטים בעולם"),
+        "il_h": ("Where we have built in Israel", "איפה עבדנו בישראל"),
+        "il_p": ("Kibbutzim, moshavim and farms, from the Golan Heights to Eilat.", "קיבוצים, מושבים וחוות, מרמת הגולן ועד אילת."),  # Hanoch, 12 Nov 2026
         "th_country": ("Country", "מדינה"), "th_work": ("Project", "פרויקט"),
         "feat_h": ("Selected projects", "פרויקטים נבחרים"),
         "how_h": ("How we work abroad", "איך אנחנו עובדים בחו״ל"),
@@ -438,7 +527,7 @@ FAQ = [  # every answer is a ledger fact (numbers in comments)
     (("How is the price set?", "איך נקבע המחיר?"),
      ("Each project and structure is designed carefully to the needs and requirements the client presents, and the quote follows from that.", "כל פרויקט ומבנה מתוכנן בקפידה לפי הצרכים והדרישות שהוצגו על ידי הלקוח, והצעת המחיר יוצאת בהתאם לכך.")),  # 2.8, 4.3
     (("Do you work outside Israel?", "אתם עובדים מחוץ לישראל?"),
-     ("Yes. We have worked in Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus and Africa, and managed complex projects including design, manufacturing and building on site. Abroad, we design the project and manage the work on site.", "כן. עבדנו בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס ובאפריקה, וניהלנו פרויקטים מורכבים כולל תכנון, ייצור והקמה בשטח. בחו״ל אנחנו מתכננים את הפרויקט ומנהלים את הביצוע בשטח.")),  # 3.2, 3.3
+     ("Yes. We have worked in Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece and Africa, and managed complex projects including design, manufacturing and building on site. Abroad, we design the project and manage the work on site.", "כן. עבדנו בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס, ביוון ובאפריקה, וניהלנו פרויקטים מורכבים כולל תכנון, ייצור והקמה בשטח. בחו״ל אנחנו מתכננים את הפרויקט ומנהלים את הביצוע בשטח.")),  # 3.2, 3.3
     (("Who delivers a turnkey farm?", "מי מבצע חוות מפתח?"),
      ("MIFTAH, with business partners and growers. Finding, designing and building the project from start to finish, under one roof.", "מיפתח, יחד עם שותפים עסקיים וחקלאים. איתור, תכנון והקמת הפרויקט מתחילתו ועד סופו, תחת קורת גג אחת.")),  # 1.4, q3
     (("Can I talk to one of your clients?", "אפשר לדבר עם לקוח שלכם?"),
@@ -518,7 +607,7 @@ FORM = {  # Merav's two-step "needs discovery" form, 10 Nov 2026: a very short f
     "planting_hint": ("A date, a month or a season", "תאריך, חודש או עונה"),
     "crop": ("Which crop do you want to grow?", "מה סוג הגידול המבוקש?"),  # Merav, #447
     "crop_hint": ("Choose from the list or type, e.g. avocado", "בחרו מהרשימה או הקלידו, למשל אבוקדו"),
-    "crop_list": [("Bananas", "בננות"), ("Apples", "תפוחים"), ("Cherries", "דובדבנים"), ("Kiwi", "קיווי"), ("Avocado", "אבוקדו"), ("Persimmon", "אפרסמון"), ("Tobacco", "טבק")],
+    "crop_list": [("Bananas", "בננות"), ("Apples", "תפוחים"), ("Cherries", "דובדבנים"), ("Pears", "אגסים"), ("Peaches", "אפרסקים"), ("Nectarines", "נקטרינות"), ("Apricots", "משמשים"), ("Lemons", "לימונים"), ("Kiwi", "קיווי"), ("Avocado", "אבוקדו"), ("Persimmon", "אפרסמון"), ("Tobacco", "טבק")],
     "message_ph": ("For example: the size of the plot, what you grow today, what the net should protect from", "למשל: גודל החלקה, מה מגדלים היום, ממה הרשת צריכה להגן"),
     "you": ("We'll get back to", "נחזור אל"),
     "edit": ("Edit", "תיקון"),
@@ -675,7 +764,7 @@ OS = {
     ],
     "field_k": ("From the field", "מהשטח"),
     "world_k": ("Where we have built", "איפה בנינו"),
-    "world_more": [(("Israel", "ישראל"), ("Kiwi in the Upper Galilee and the Golan Heights; bananas in the Western Galilee, the Carmel coast, the Jordan Valley and the south. Apples, cherries, blueberries, raspberries, berries, peaches and nectarines in the Upper Galilee and the Golan Heights.", "קיווי בגליל העליון וברמת הגולן, בננות בגליל המערבי, בחוף הכרמל, בבקעת הירדן ובדרום הארץ. תפוחים, דובדבנים, אוכמניות, פטל, פירות יער, אפרסקים ונקטרינות בגליל העליון וברמת הגולן.")),  # 3.1
+    "world_more": [(("Israel", "ישראל"), ("Kiwi in the Upper Galilee and the Golan Heights; bananas in the Western Galilee, the Carmel coast, the Jordan Valley and the south. Apples, cherries, blueberries, raspberries, berries, peaches and nectarines in the Upper Galilee and the Golan Heights. Also pears, apricots and lemons.", "קיווי בגליל העליון וברמת הגולן, בננות בגליל המערבי, בחוף הכרמל, בבקעת הירדן ובדרום הארץ. תפוחים, דובדבנים, אוכמניות, פטל, פירות יער, אפרסקים ונקטרינות בגליל העליון וברמת הגולן. וגם אגסים, משמשים ולימונים.")),  # 3.1
                    (("Portugal", "פורטוגל"), ("A farm growing avocado with advanced methods.", "חווה לגידול אבוקדו בצורה מתקדמת.")),
                    (("Belarus", "בלארוס"), ("A complex project for intensive fish farming.", "פרויקט מורכב לגידול דגים בצורה אינטנסיבית."))],  # 3.3, 3.6
     "owners_k": ("Who you deal with", "מול מי עובדים"),
