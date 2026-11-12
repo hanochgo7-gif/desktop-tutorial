@@ -712,10 +712,10 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
              "המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צורכי המגדל, הקרקע והניקוז ומשטרי הרוחות באתר."),  # no visible illustration labels (Hanoch, 7 Nov 2026)
     "field_h": ("From the field", "מהשטח"),
     "field_p": ("Photos from our projects.", "צילומים מהפרויקטים שלנו."),
-    "field": [("f-poles", ("A steel structure going up, with cables", "קונסטרוקציית פלדה בתהליך הקמה עם כבלים")),
+    "field": [("f-poles", ("A banana net house in the Western Galilee", "בית רשת לבננות בגליל המערבי")),
               ("f-hailnets", ("Crystal net against wind and hail, being lifted and spread", "רשת קריסטלית להגנה מפגעי רוח וברד בתהליך הרמה ופריסה")),
-              ("f-flowers", ("An apple orchard in bloom under a net that protects against hail", "מטע תפוחים בפריחה תחת רשת להגנה מפגעי ברד")),
-              ("f-shade", ("A greenhouse with shade net, made to a client's special order", "חממה עם רשת הצללה לפי הזמנה מיוחדת של לקוח"))],  # Hanoch's real photos, 8 Nov 2026
+              ("f-flowers", ("A net house for anemones: a light, professionally built structure that is moved, put up and taken down with the seasons", "בית רשת לכלניות, בניה קלה לתת מקצועי. מזיזים אותו, בונים ומפרקים אותו לפי עונות")),
+              ("f-shade", ("Net houses and greenhouses", "בתי רשת וחממות"))],  # Hanoch's real photos, 8 Nov 2026; captions by Hanoch, 12 Nov 2026 (the anemones photo is back)
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [

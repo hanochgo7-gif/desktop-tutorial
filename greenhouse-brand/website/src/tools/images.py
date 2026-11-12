@@ -17,7 +17,7 @@ JOBS = {
     # real field photos from Hanoch, 8 Nov 2026 (galvanized steel only; the ones with no visible harness at height or rusty pipe are not used)
     "f-poles": ("f-poles-blocks.jpg", (0, .3125, 1, .875)),  # 4:3: round poles on concrete blocks, guys and the yellow lift
     "f-hailnets": ("f-hailnets.jpg", None),  # white anti-hail net strips on an orchard
-    "f-flowers": ("f-flowers.jpg", None),  # apple orchard in bloom under the net (still miftah-196); replaced the anemones, Merav 11 Nov 2026
+    "f-flowers": ("f-flowers.jpg", None),  # anemones under a net (back on Hanoch's request, 12 Nov 2026, with his caption)
     "f-shade": ("f-shade.jpg", None),  # arched shade-net house
     # Merav's project photos, 9 Nov 2026 (content.GALLERY; ledger 7d)
     **{n: (f"merav/{n}.jpg", None) for n in ("g-shade-op", "g-shade-air", "g-lift-net", "g-cable", "g-drape", "g-lift-field", "g-basket", "g-team",
