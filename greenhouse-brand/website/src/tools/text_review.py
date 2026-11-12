@@ -200,6 +200,9 @@ REPLY = {
     575: "ישראל נוספה לרשימת המדינות.",
 }
 REPLY.update(CLOSED)
+# A new round starts clean (Hanoch, 12 Nov 2026): the link shows the site as it is, with nothing waiting and no answers from
+# the earlier rounds (those stay in docs/reviews and the ledger). Changing ROUND starts another clean round.
+ROUND = "2026-11-12"
 
 
 def reviews():
@@ -282,7 +285,7 @@ def flags(items):
         for p in it["paths"]:
             ids[p] = it["id"]
     IDS.write_text(json.dumps(ids, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
-    rv = reviews()
+    rv = {} if ROUND else reviews()
     for it in items:
         i = it["id"]; it["v"] = hashlib.sha1(it["he"].encode()).hexdigest()[:6]
         r = rv.get(i)
@@ -294,6 +297,8 @@ def flags(items):
             it["sent"] = r["new"]    # what she sent, so the same change is not sent twice
         if r and r["note"]:
             it["note"] = r["note"]   # her note, already sent
+        if ROUND:
+            continue                 # a clean round: no waiting, answers or "changed since" marks
         if i in HELD:
             it["held"] = HELD[i]
         if i in REPLY:
@@ -368,8 +373,10 @@ def main():
     cur_v = {str(it["id"]): it["v"] for it in items}
     old = {k: {v: x for v, x in vs.items() if v != cur_v.get(k)} for k, vs in hist.items()}
     old = {k: vs for k, vs in old.items() if vs}
-    got = {str(i): [r.get("new"), r.get("note")] for i, r in reviews().items()}  # what reached Hanoch from the owners' emails, also for texts no longer on the site
-    data = {"site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "got": got, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    got = {} if ROUND else {str(i): [r.get("new"), r.get("note")] for i, r in reviews().items()}  # what reached Hanoch from the owners' emails, also for texts no longer on the site
+    if ROUND:
+        general = ""
+    data = {"round": ROUND, "site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "got": got, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

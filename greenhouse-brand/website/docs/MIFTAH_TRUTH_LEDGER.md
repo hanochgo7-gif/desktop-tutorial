@@ -205,6 +205,9 @@ Held back, waiting for a decision (not applied):
 - Images: the AI banana tab picture replaced with Merav's aerial photo (g-air-wide); simulation chapters redrawn: harness on the worker at height (ch. 4), the net spread in strips along the rows (ch. 5), long roof strips instead of squares (ch. 8), the net rolled on its cables for winter (ch. 10).
 - Waiting for a decision: #94 ("הדליה" → "רשת"?), #101 ("איפה" → "רשת"?), #304 (a visible "AI illustration" sentence, against Hanoch's 7 Nov rule). Waiting for material: factory photos, the 3 role holders, Israeli sites and client approvals, the country in Africa, a music track, a photo for p-site.
 
+## 7g. A new editing round, 12 Nov 2026
+- Hanoch asked to reset Merav's editing link to the site as it is, with 0 changes waiting. The editor (and /text-review/) starts a new round (`ROUND` in `src/tools/text_review.py`): on her next visit everything she had in her browser moves to `rounds` in the same storage (kept, and listed in the full backup file), the list and the counter start at 0, no answers or "changed since" marks from earlier rounds are shown, and the welcome screen opens again. Earlier rounds stay in `docs/reviews/` and in 7e and 7f.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

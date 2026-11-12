@@ -15,6 +15,16 @@
     var s = null;
     try { s = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
     s = s || {};
+
+    // a new round (Hanoch, 12 Nov 2026: "show her 0 changes and start from the beginning"): everything from the previous
+    // round moves to s.rounds, kept in this browser and in the full backup file, and the list starts empty on the site as it is now
+    if (D.round && s.round !== D.round) {
+      var had = Object.keys(s.items || {}).length + Object.keys(s.adds || {}).length + Object.keys(s.enotes || {}).length + Object.keys(s.notes || {}).length + (s.general ? 1 : 0) + Object.keys(s.done || {}).length;
+      if (had) { s.rounds = s.rounds || {}; s.rounds[s.round || "until-" + D.round] = { items: s.items || {}, adds: s.adds || {}, enotes: s.enotes || {}, notes: s.notes || {}, general: s.general || "", done: s.done || {}, doneAdds: s.doneAdds || {}, sentNotes: s.sentNotes || {}, at: Date.now() }; }
+      ["items", "adds", "enotes", "notes", "done", "doneAdds", "sentNotes", "ed"].forEach(function (k) { s[k] = {}; });
+      s.general = ""; s.addSeq = 0; s.round = D.round; delete s.seenEditor;
+      try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+    }
     s.items = s.items || {}; s.notes = s.notes || {}; s.general = s.general || ""; s.enotes = s.enotes || {}; s.ed = s.ed || {}; s.adds = s.adds || {}; s.addSeq = s.addSeq || 0;
     return s;
   }
@@ -1243,6 +1253,14 @@
         lines.push("");
       });
     }
+    Object.keys(S.rounds || {}).forEach(function (rk) {
+      var R = S.rounds[rk], ids = Object.keys(R.items || {}).sort(function (a, b) { return a - b; });
+      if (!ids.length && !Object.keys(R.enotes || {}).length) return;
+      lines.push("==== סבב קודם (" + rk + "), שמור לגיבוי ====");
+      ids.forEach(function (k) { var x = R.items[k]; if (!x || typeof x !== "object") return; lines.push("[#" + k + "]" + (x.t != null ? " " + String(x.t).trim() : "") + (x.d ? " (להוריד)" : "") + (String(x.n || "").trim() ? " | הערה: " + String(x.n).trim() : "")); });
+      Object.keys(R.enotes || {}).forEach(function (k) { var x = R.enotes[k]; if (x && x.n) lines.push("(" + (x.what || "") + ") " + (x.snip || "") + " | " + String(x.n).trim()); });
+      lines.push("");
+    });
     lines.push("(גיבוי מלא מעורך האתר. המספרים בסוגריים מזהים כל טקסט.)");
     return lines.join("\n");
   }

@@ -15,6 +15,16 @@
     var s = null;
     try { s = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
     s = s || {};
+
+    // a new round (Hanoch, 12 Nov 2026: "show her 0 changes and start from the beginning"): everything from the previous
+    // round moves to s.rounds, kept in this browser and in the full backup file, and the list starts empty on the site as it is now
+    if (D.round && s.round !== D.round) {
+      var had = Object.keys(s.items || {}).length + Object.keys(s.adds || {}).length + Object.keys(s.enotes || {}).length + Object.keys(s.notes || {}).length + (s.general ? 1 : 0) + Object.keys(s.done || {}).length;
+      if (had) { s.rounds = s.rounds || {}; s.rounds[s.round || "until-" + D.round] = { items: s.items || {}, adds: s.adds || {}, enotes: s.enotes || {}, notes: s.notes || {}, general: s.general || "", done: s.done || {}, doneAdds: s.doneAdds || {}, sentNotes: s.sentNotes || {}, at: Date.now() }; }
+      ["items", "adds", "enotes", "notes", "done", "doneAdds", "sentNotes", "ed"].forEach(function (k) { s[k] = {}; });
+      s.general = ""; s.addSeq = 0; s.round = D.round; delete s.seenEditor;
+      try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+    }
     s.items = s.items || {}; s.notes = s.notes || {}; s.general = s.general || ""; s.cur = s.cur || D.groups[0].id;
     return s;
   }
