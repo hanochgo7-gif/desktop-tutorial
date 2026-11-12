@@ -107,7 +107,9 @@
 
   // ---- pages ----
   var PAGES = D.groups.filter(function (g) { return ["upd", "site", "more"].indexOf(g.id) < 0; });
-  function pathOf(slug) { return slug === "index" ? "/he/" : slug === "globe" ? "/globe/?lang=he" : "/he/" + slug + ".html"; }
+  // ?mfe=1: the pages the editor loads may be shown inside another window (the editor opened in the Claude app's panel);
+  // the site itself, without it, still allows only its own pages to frame it (Hanoch, 12 Nov 2026)
+  function pathOf(slug) { return slug === "index" ? "/he/?mfe=1" : slug === "globe" ? "/globe/?lang=he&mfe=1" : "/he/" + slug + ".html?mfe=1"; }
   function slugOf(loc) {
     var p = loc.pathname;
     if (/^\/globe\//.test(p)) return "globe";
