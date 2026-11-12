@@ -88,6 +88,15 @@ def logo(L):
     return LOGO.replace('aria-label="MIFTAH"', f'aria-label="{esc(tm(C.SITE["name"], L))}"')
 
 
+# the header's home button: the full lockup Hanoch sent (12 Nov 2026), Hebrew on Hebrew pages, English on English pages
+# (src/tools/logo_lockups.py draws them; the slogan is part of the logo, so the header no longer repeats it as text)
+LOCKUP = {L: (SRC / f"assets/brand/miftah-lockup-{L}.svg").read_text(encoding="utf-8").replace(' xmlns="http://www.w3.org/2000/svg"', "") for L in ("he", "en")}
+
+
+def lockup(L):
+    return LOCKUP[L].replace('role="img" aria-label="MIFTAH"', 'aria-hidden="true"')
+
+
 # ---------------------------------------------------------------- media helpers
 def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600), eager=False):
     have = [w for w in widths if (PUB / f"assets/img/{name}-{w}.jpg").exists()]
@@ -335,7 +344,7 @@ def header(slug, L):
 <a class="skip" href="#main">{esc(t(C.SITE["skip"], L))}</a>
 <header class="site-head">
   <div class="wrap head-in">
-    <a class="brand" href="./" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{logo(L)}</a>
+    <a class="brand" href="./" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{lockup(L)}</a>
     <p class="tagline">{esc(t(C.SITE["slogan"], L))}</p>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="{esc(tm(C.SITE["menu"], L))}" data-open="{esc(tm(C.SITE["menu"], L))}" data-close="{esc(tm(C.SITE["close"], L))}"><span class="bars" aria-hidden="true"></span><span class="mb-t">{esc(t(C.SITE["menu"], L))}</span></button>
     <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}">
