@@ -28,7 +28,7 @@ https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/
 
 לחברות המובילות במשק: אמצו צוות לוחמים.
 
-העומס הגדול עוד לפנינו. 49 לוחמים מסיירת נח"ל נפלו מאז 7 באוקטובר 2023, מצמרת הפיקוד ועד אחרון הלוחמים. עשרות פצועים, חלקם עדיין בשיקום. צוותים שלמים פינו את חבריהם הפצועים, ועשרות אלפי ימי מילואים הצטברו. הביקוש לטיפול נפשי עלה ביותר מ-150%.
+העומס הגדול עוד לפנינו. 108 לוחמים מסיירת נח"ל נפלו מאז הקמתה, 49 מהם מאז 7 באוקטובר 2023, מצמרת הפיקוד ועד אחרון הלוחמים. עשרות פצועים, חלקם עדיין בשיקום. צוותים שלמים פינו את חבריהם הפצועים, ועשרות אלפי ימי מילואים הצטברו. הביקוש לטיפול נפשי עלה ביותר מ-150%.
 
 מסע עיבוד צוותי מחזיר 15 עד 20 לוחמים ששירתו יחד למעגל אחד, בליווי אנשי מקצוע. 58 צוותים כבר יצאו ב-2025 וב-2026, ו-25 צוותים נוספים כבר משובצים ל-2027 וממתינים למימון.
 
@@ -48,7 +48,7 @@ https://hanochgo7-gif.github.io/desktop-tutorial/sayeret-nahal/
 
 In Sayeret Nahal, everyone is counted. Even after the war.
 
-The hardest part is still ahead. 49 of the unit's soldiers have fallen since October 7, 2023. Dozens were wounded, some are still in rehabilitation, and whole teams evacuated their wounded friends. Demand for mental health care has risen by more than 150%.
+The hardest part is still ahead. 108 of the unit's soldiers have fallen since it was founded, 49 of them since October 7, 2023. Dozens were wounded, some are still in rehabilitation, and whole teams evacuated their wounded friends. Demand for mental health care has risen by more than 150%.
 
 A resilience journey brings a whole team, 15 to 20 fighters who served together, back into one circle with professional guidance. 58 teams went in 2025 and 2026, and 25 more teams are already scheduled for 2027 and waiting for funding.
 
