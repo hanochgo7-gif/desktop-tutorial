@@ -1387,3 +1387,10 @@ html[lang="en"] .hero-os h1 { --ls: .1243em; }
 .il-reg h3 { font-size: 1.05rem; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line, #d9dfd6); }
 .il-reg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .il-reg li { font-size: .98rem; }
+
+/* Smaller headline that lets the drone footage show (Hanoch, 12 Nov 2026): about half the width of the page, no dark patch
+   behind it; a soft shadow on the letters keeps it readable over the moving picture. Same lockup: name above, slogan at its width. */
+[dir="rtl"] .hero-os h1, html[lang="he"] .hero-os h1 { font-size: clamp(2.3rem, calc((100vw - 2 * var(--gutter)) / 12.5), 5rem); }
+html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--gutter)) / 15.5), 4.25rem); }
+.hero-os h1::before { content: none; }
+.hero-os h1 { text-shadow: 0 1px 2px rgba(6, 26, 22, .55), 0 3px 22px rgba(6, 26, 22, .5); }
