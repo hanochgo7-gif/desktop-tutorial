@@ -1,6 +1,6 @@
 // Build helper for melachot.
 //   node build.mjs bundle                 -> private/bundle.js (course meta + sources + lessons) for index.html
-//   node build.mjs artifact <out-dir>     -> <out-dir>/index.html (one self-contained page) + <out-dir>/src-img/*.jpg
+//   node build.mjs artifact <out-dir> [page.html] -> <out-dir>/<page.html> (one self-contained page) + <out-dir>/src-img/*.jpg
 // The private/ folder holds the student's own course material and is not committed to the public repo.
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const read = (p) => readFileSync(join(here, p), "utf8");
 const safe = (js) => js.replace(/<\/script/gi, "<\\/script");
-const [mode = "bundle", outArg] = process.argv.slice(2);
+const [mode = "bundle", outArg, pageName = "index.html"] = process.argv.slice(2);
 
 function sourcesJs() {
   const dir = join(here, "private/transcripts");
@@ -71,9 +71,9 @@ ${safe(read("diagrams.js"))}
 ${safe(read("app.js"))}
 </script>
 `;
-  writeFileSync(join(out, "index.html"), html);
+  writeFileSync(join(out, pageName), html);
   const imgDir = join(here, "private/src-img");
   let n = 0;
   if (existsSync(imgDir)) for (const f of readdirSync(imgDir)) { copyFileSync(join(imgDir, f), join(out, "src-img", f)); n++; }
-  console.log(`wrote ${join(out, "index.html")} (${(html.length / 1024).toFixed(0)} KB) and ${n} images`);
+  console.log(`wrote ${join(out, pageName)} (${(html.length / 1024).toFixed(0)} KB) and ${n} images`);
 }
