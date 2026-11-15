@@ -419,3 +419,32 @@
       .then(function () { if (timer) clearTimeout(timer); busy = false; btn.disabled = false; btn.textContent = M.send; });
   });
 })();
+
+/* The slogan under the company name runs exactly from the first letter of the name to its last (Merav, 15 Nov 2026):
+   measure the ink of both lines and set the slogan's letter spacing so the two widths match, on load, on resize and once fonts are in. */
+(function () {
+  var h = document.querySelector(".hero-os h1"); if (!h) return;
+  var a = h.querySelector(".h1-a"), b = h.querySelector(".h1-b"); if (!a || !b) return;
+  function ink(el) {
+    var r = document.createRange(), L = 1e9, R = -1e9, w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), t;
+    while ((t = w.nextNode())) {
+      if (t.parentElement.closest(".sr")) continue;
+      for (var i = 0; i < t.length; i++) { if (/\s/.test(t.data[i])) continue; r.setStart(t, i); r.setEnd(t, i + 1); var q = r.getBoundingClientRect(); if (q.width) { if (q.left < L) L = q.left; if (q.right > R) R = q.right; } }
+    }
+    return R > L ? [L, R] : null;
+  }
+  function fit() {
+    b.style.removeProperty("--ls"); b.style.removeProperty("margin-inline-end");
+    var A = ink(a), B = ink(b); if (!A || !B) return;
+    var n = Math.max(1, b.textContent.replace(/\s+$/, "").length - 1), fs = parseFloat(getComputedStyle(b).fontSize) || 16;
+    var ls = parseFloat(getComputedStyle(b).letterSpacing) || 0, d = (A[1] - A[0]) - (B[1] - B[0]);
+    for (var k = 0; k < 3 && Math.abs(d) > .5; k++) {
+      ls += d / n; b.style.letterSpacing = ls + "px"; b.style.marginInlineEnd = (-ls) + "px";
+      B = ink(b); d = (A[1] - A[0]) - (B[1] - B[0]);
+    }
+    var off = document.documentElement.dir === "rtl" ? A[1] - B[1] : A[0] - B[0];  // align the starting edge (right in Hebrew, left in English)
+    if (Math.abs(off) > .5) b.style.transform = "translateX(" + off + "px)"; else b.style.transform = "";
+  }
+  fit(); window.addEventListener("resize", fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();

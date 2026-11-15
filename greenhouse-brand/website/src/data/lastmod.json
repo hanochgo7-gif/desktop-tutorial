@@ -16,36 +16,36 @@
   "hash": "fd65250c7167199e"
  },
  "en/how-we-build": {
-  "date": "2026-11-12",
-  "hash": "8881d5fc443d4ce8"
+  "date": "2026-11-15",
+  "hash": "f5fbfbd4d804c2cc"
  },
  "en/index": {
   "date": "2026-11-15",
-  "hash": "3427f99474f88a57"
+  "hash": "2b2d224d4d5131a1"
  },
  "en/net-houses": {
   "date": "2026-11-15",
-  "hash": "3ffe2e6bb9c48202"
+  "hash": "c6feb9e80b52f7aa"
  },
  "en/orchard-hail-nets": {
-  "date": "2026-11-12",
-  "hash": "316b015661df7df7"
+  "date": "2026-11-15",
+  "hash": "fa9b29622632c572"
  },
  "en/privacy": {
   "date": "2026-11-10",
   "hash": "2ac4ed033d793812"
  },
  "en/profile": {
-  "date": "2026-11-12",
-  "hash": "04e3958935628623"
+  "date": "2026-11-15",
+  "hash": "8b1e899f8b53e640"
  },
  "en/projects": {
   "date": "2026-11-12",
   "hash": "215633f7b89ec54b"
  },
  "en/turnkey-farms": {
-  "date": "2026-11-12",
-  "hash": "1992b2ef38a5b386"
+  "date": "2026-11-15",
+  "hash": "9900556192302b2d"
  },
  "he/about": {
   "date": "2026-11-12",
@@ -64,35 +64,35 @@
   "hash": "7360e1e925a14c7b"
  },
  "he/how-we-build": {
-  "date": "2026-11-12",
-  "hash": "dbb5f765ecb9950a"
+  "date": "2026-11-15",
+  "hash": "4ea38bfc63b7bd78"
  },
  "he/index": {
-  "date": "2026-11-12",
-  "hash": "b705ab8d8ade1fc8"
+  "date": "2026-11-15",
+  "hash": "d43ae13210e76d7e"
  },
  "he/net-houses": {
-  "date": "2026-11-12",
-  "hash": "a6410bd09ddf287b"
+  "date": "2026-11-15",
+  "hash": "4a096ea854d4ec6a"
  },
  "he/orchard-hail-nets": {
-  "date": "2026-11-12",
-  "hash": "1b97c1564175d31f"
+  "date": "2026-11-15",
+  "hash": "3029725b1ee11ee5"
  },
  "he/privacy": {
   "date": "2026-11-10",
   "hash": "d2aee2e7af3ea946"
  },
  "he/profile": {
-  "date": "2026-11-12",
-  "hash": "2c0bcf120872dc93"
+  "date": "2026-11-15",
+  "hash": "7555f47b3221df37"
  },
  "he/projects": {
   "date": "2026-11-12",
   "hash": "2cc9f54cd8cc655c"
  },
  "he/turnkey-farms": {
-  "date": "2026-11-12",
-  "hash": "edaa895fe3a1fe49"
+  "date": "2026-11-15",
+  "hash": "ad78d37517e9e37b"
  }
 }

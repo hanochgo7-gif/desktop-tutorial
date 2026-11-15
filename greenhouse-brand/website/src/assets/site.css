@@ -501,7 +501,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sim-track { position: relative; }
 .sim-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #E3E7D4 center / cover no-repeat; }
 /* a 0.3 KB blurred stand-in of the first picture, shown until it arrives (written by tools/sim_images.py) */
-.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAACwBACdASogABIAPrVOnksnJCKhsBgIAOAWiUAWINwAEVnqO7JDcnnYTvky6fvmAP6yMqXBfkewK1SLIegBAC53gfjASJSj0kpJ2KdLYiKG6iezEbLpmlV/eA1OUF0SdIQhK054+bDBc6X2076/yFsc88PL1kxU8FWyCNjNfVp3ZQ3cTChc4XSWkgnVZYzhDPoM/qDfo5E27LHJJkJ80wAnOV4AAA=="); }
+.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAABwBQCdASogABIAPrVKn0unJCKhsBgIAOAWiUAWI9p/RM/4B85LQMujxEbheO/CHw7/rK+YAP6RqKmd8lK2H8FDDEJ/1T0dJyWTXdQQn3ruEs1W7ELgKCJYsKlHe3jy1C410eVofjkyD4hIqZciAm5d2/JtBgUlWmClY0GMrPwBte777C/lchQHUYJLpi8m9HFrHEuc/4rIZ4NX8n6KjH+SFPTnrVLU5jJQUgeIJbzptScH9GY1aFPV2T5IeEjMQAog44AA"); }
 .sim-stage canvas { opacity: 0; transition: opacity .5s; }
 .sim.live .sim-stage canvas { opacity: 1; }
 .sim-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -1406,3 +1406,16 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 .crop-kinds li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: .9rem; font-weight: 500; color: var(--canopy, #1B6E62); background: var(--white, #fff); }
 .crop-kinds li.more { border-style: dashed; color: inherit; font-weight: 400; }
 .crop-kinds { align-items: center; } .crop-kinds li { line-height: 1.4; margin: 0; }
+
+/* the turnkey process as a schematic flow (Merav, 15 Nov 2026): numbered phases joined by an arrow, left to right in English, right to left in Hebrew */
+.phases > .phase, .path-phases > .pp { position: relative; }
+.phase h3, .pp h3 { display: flex; align-items: center; gap: 10px; }
+.pn { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: .95rem; font-weight: 800; line-height: 1; }
+.phase .pn { background: var(--mint); color: #0E4239; }
+.pp .pn { background: #0E4239; color: #fff; }
+@media (min-width: 981px) {
+  .phases > .phase:not(:last-child)::after, .path-phases > .pp:not(:last-child)::after {
+    content: ""; position: absolute; top: 9px; inset-inline-end: calc(-1 * clamp(16px, 2vw, 28px) + 2px); width: 0; height: 0;
+    border-block: 6px solid transparent; border-inline-start: 9px solid var(--mint); }
+  .path-phases > .pp:not(:last-child)::after { border-inline-start-color: #0E4239; top: 20px; }
+}

@@ -228,6 +228,9 @@ Hanoch asked to go over every change Merav asked for, one by one. Source: her fu
 ## 7k. The globe as a real Earth, 12 Nov 2026
 Hanoch asked for a fully realistic globe with Higgsfield. Satellite imagery: NASA Blue Marble (public domain) worldwide, Sentinel-2 cloudless 2016 (EOX, CC BY 4.0) over Israel and its region; the clouds and the starry background are AI (Higgsfield) and the globe's note says so. Project points, places and countries unchanged.
 
+## 7l. Merav's editor email, 15 Nov 2026 19:01 (`docs/reviews/merav-2026-11-15.txt`)
+25 wording changes, 9 removals, 19 notes; all applied, Hebrew and English. The turnkey process is now 4 phases / 7 items (feasibility study, soil survey and soil quality, financial and economic analysis, design), shown as a numbered flow with arrows; planting, local team, growing and harvest removed (the home and turnkey summaries follow). New facts from her: turnkey farms in partnership with Green Arava (O5 answered); the "MIFTAH - Green group". The slogan under the name now spans exactly from the first letter of the name to its last (measured in the browser). Illustration redone again to her notes: perimeter poles lean outward on concrete footings, inner poles straight in the ground, buried anchors with only the eye showing, side net along the guy cables, no door, lift basket below the cables, net spread along the rows (full and partial), hail-release clips, net opening to both sides, net folded tight along the rows only, the handshake in the middle of the frame. Kiwi crop photo: a real still of a pergola under the net (Drive still 154); whether it is Bar'am is not confirmed. Avocado in Portugal: no real photo yet.
+
 ## 8. Open questions (must be answered before go-live)
 
 | ID | Question | Blocks |

@@ -557,7 +557,7 @@ def p_index(L):
     path, n = [], 0
     for ph, items in C.STAGES:
         lis = "".join(f'<li><span class="n">{n + i + 1:02d}</span>{esc(t(x[0], L))}</li>' for i, x in enumerate(items))
-        path.append(f'<div class="pp"><h3>{esc(t(ph, L))}</h3><ol start="{n + 1}">{lis}</ol></div>'); n += len(items)
+        path.append(f'<div class="pp"><h3><span class="pn" aria-hidden="true">{len(path) + 1}</span>{esc(t(ph, L))}</h3><ol start="{n + 1}">{lis}</ol></div>'); n += len(items)
     path = "".join(path)
     return f"""
 <main id="main">
@@ -728,7 +728,7 @@ def p_turnkey(L):
         for title, rec in items:
             n += 1
             lis.append(f'<li><b><span class="num">{n:02d}</span><span>{esc(t(title, L))}</span></b><span>{esc(t(rec, L))}</span></li>')
-        phases.append(f'<div class="phase"><h3>{esc(t(ph, L))}</h3><ol start="{n - len(items) + 1}">{"".join(lis)}</ol></div>')
+        phases.append(f'<div class="phase"><h3><span class="pn" aria-hidden="true">{len(phases) + 1}</span>{esc(t(ph, L))}</h3><ol start="{n - len(items) + 1}">{"".join(lis)}</ol></div>')
     return f"""
 <main id="main">
 {page_head("turnkey-farms", L, extra=f'<div class="actions ph-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-head">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>')}
