@@ -466,12 +466,12 @@ def crop_more(crop, L):
 
 
 def kinds(cr, L):
-    """The crops a tab covers, as a line of names (Hanoch, 12 Nov 2026: pears, peaches, nectarines, apricots, lemons)."""
+    """The crops a tab covers, one chip per crop (Hanoch, 12 Nov 2026); the last chip ("and more") is drawn dashed."""
     if not cr.get("kinds"):
         return ""
-    names = [n.strip() for n in t(cr["kinds"], L).replace(" ועוד", "").replace(" and more", "").replace(" and ", ", ").split(",")]
-    more = "ועוד" if L == "he" else "and more"
-    return f'<ul class="crop-kinds" aria-label="{"Crops" if L == "en" else "גידולים"}">{"".join(f"<li>{esc(n)}</li>" for n in names if n)}<li class="more">{more}</li></ul>'
+    *names, more = cr["kinds"]
+    return (f'<ul class="crop-kinds" aria-label="{"Crops" if L == "en" else "גידולים"}">{"".join(f"<li>{esc(t(n, L))}</li>" for n in names)}'
+            f'<li class="more">{esc(t(more, L))}</li></ul>')
 
 
 def crop_selector(L, where="home"):

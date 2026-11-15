@@ -830,7 +830,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
      "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),
      "say": ("Nets that protect against hail and sun damage", "רשתות להגנה מפני ברד ופגעי שמש"),
-     "kinds": ("Apples, pears, cherries, peaches, nectarines, apricots, lemons and more", "תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים ועוד"),  # Hanoch, 12 Nov 2026
+     "kinds": [("Apples", "תפוחים"), ("Pears", "אגסים"), ("Cherries", "דובדבנים"), ("Peaches", "אפרסקים"), ("Nectarines", "נקטרינות"), ("Apricots", "משמשים"), ("Lemons", "לימונים"), ("and more", "ועוד")],  # Hanoch, 12 Nov 2026: one text each, so each is editable on its own
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
               (("Protection", "הגנה"), ("Against hail and sun damage at every stage of growth", "מפני ברד ופגעי שמש בכל שלבי הגידול")),
               (("Structure", "מבנה"), ("Support and trellising systems for the different crops. Fruit walls.", "מערכות תמיכה והדליה לגידולים השונים. קיר פירותי.")),

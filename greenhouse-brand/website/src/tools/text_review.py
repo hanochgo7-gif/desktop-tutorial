@@ -207,7 +207,7 @@ REPLY = {
 REPLY.update(CLOSED)
 # A new round starts clean (Hanoch, 12 Nov 2026): the link shows the site as it is, with nothing waiting and no answers from
 # the earlier rounds (those stay in docs/reviews and the ledger). Changing ROUND starts another clean round.
-ROUND = "2026-11-12"
+ROUND = "2026-11-15"  # a clean round after her edits of 12 Nov (all live); Hanoch, 15 Nov 2026
 
 
 def reviews(since=None):
