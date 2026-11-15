@@ -367,7 +367,7 @@
       '<div class="stats">' +
       '<div class="stat"><span class="k">שליטה כוללת</span><span class="v">' + ov + "<small>%</small></span>" + tape(ov) + "</div>" +
       '<div class="stat"><span class="k">רצף ימי לימוד</span><span class="v">' + st + "<small>" + (st === 1 ? "יום" : "ימים") + "</small></span></div>" +
-      '<div class="stat"><span class="k">כרטיסיות לחזרה היום</span><span class="v">' + dailyQueueSize() + "</span>" + (due ? '<span class="k">מתוכן ' + due + " לחזרה חוזרת</span>" : '<span class="k">כולל כרטיסיות חדשות</span>') + "</div>" +
+      '<div class="stat"><span class="k">כרטיסיות לחזרה היום</span><span class="v">' + dailyQueueSize() + "</span>" + (due ? '<span class="k">מתוכן ' + due + " לחזרה חוזרת</span>" : readN ? '<span class="k">כולל כרטיסיות חדשות</span>' : '<span class="k">נפתחות אחרי קריאת שיעור</span>') + "</div>" +
       '<div class="stat"><span class="k">שיעורים שנקראו</span><span class="v">' + readN + "<small>/ " + LESSONS.length + "</small></span>" + tape(pct(readN / LESSONS.length), true) + "</div>" +
       "</div></section>";
 
@@ -469,7 +469,7 @@
   }
   function diagramBlock(l) {
     return '<section class="block" id="s-dg"><h2>תרשים</h2>' + l.diagrams.filter(window.Diagrams.has).map(function (id, i) {
-      return '<figure class="dg"><div class="dg-scroll">' + window.Diagrams.render(id) + '</div><figcaption><span class="mono">איור ' + l.num + "." + (i + 1) + "</span>" + esc(window.Diagrams.title(id)) + "</figcaption></figure>";
+      return '<figure class="dg"><div class="dg-scroll">' + window.Diagrams.render(id) + '</div><figcaption><b>איור ' + l.num + "." + (i + 1) + "</b><span>" + esc(window.Diagrams.title(id)) + '</span><span class="swipe">החליקו לצדדים לכל התרשים</span></figcaption></figure>';
     }).join("") + "</section>";
   }
   function applyCloze(on) {
