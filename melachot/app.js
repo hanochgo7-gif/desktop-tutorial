@@ -1155,7 +1155,7 @@
       if (gl.ch.indexOf("ch:") === 0 && t.chapter !== gl.ch.slice(3)) return false;
       if (gl.ch === "all" && t.enrich && !q) return false;
       return !q || (t.he + " " + (t.en || "") + " " + t.def + " " + (t.simple || "")).toLowerCase().indexOf(q) !== -1;
-    }).sort(function (a, b) { return a.he.localeCompare(b.he, "he"); });
+    }).sort(function (a, b) { var k = function (t) { return t.he.replace(/^[^\u05d0-\u05eaA-Za-z0-9]+/, ""); }; return k(a).localeCompare(k(b), "he"); });
     out.innerHTML = list.length ? '<div class="gl-list">' + list.map(function (t) {
       var l = L[t.lesson];
       var open = gl.open[t.id];
