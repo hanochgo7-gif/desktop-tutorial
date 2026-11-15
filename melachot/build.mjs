@@ -1,21 +1,53 @@
-// Builds a single self-contained HTML page (for publishing as a claude.ai Artifact).
-// Usage: node build.mjs <output.html>
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+// Build helper for melachot.
+//   node build.mjs bundle                 -> private/bundle.js (course meta + sources + lessons) for index.html
+//   node build.mjs artifact <out-dir>     -> <out-dir>/index.html (one self-contained page) + <out-dir>/src-img/*.jpg
+// The private/ folder holds the student's own course material and is not committed to the public repo.
+import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const out = process.argv[2] || join(here, "dist.html");
 const read = (p) => readFileSync(join(here, p), "utf8");
 const safe = (js) => js.replace(/<\/script/gi, "<\\/script");
+const [mode = "bundle", outArg] = process.argv.slice(2);
 
-const lessons = [];
-for (let i = 1; i <= 99; i++) {
-  const p = `data/lesson-${String(i).padStart(2, "0")}.js`;
-  if (existsSync(join(here, p))) lessons.push(read(p));
+function sourcesJs() {
+  const dir = join(here, "private/transcripts");
+  if (!existsSync(dir)) return "window.SOURCES = [];\n";
+  const metaTxt = existsSync(join(here, "private/course/_meta.js")) ? read("private/course/_meta.js") : "";
+  const order = (metaTxt.match(/groupOrder:\s*\[([^\]]*)\]/) || [, '"rec3","rec1","rec2"'])[1].replace(/["'\s]/g, "").split(",");
+  const items = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => JSON.parse(readFileSync(join(dir, f), "utf8")));
+  const key = (s) => { const [g, n] = s.id.split("-"); return order.indexOf(g) * 1000 + Number(n); };
+  items.sort((a, b) => key(a) - key(b));
+  const keep = ["id", "status", "kind", "title", "duplicate_of", "blocks", "tables", "english_terms", "numbers", "figures", "unclear", "notes", "footer", "no_content", "items"];
+  const slim = items.map((s) => Object.fromEntries(keep.filter((k) => s[k] !== undefined && s[k] !== null).map((k) => [k, s[k]])));
+  return "window.SOURCES = " + JSON.stringify(slim) + ";\n";
+}
+function courseJs() {
+  const dir = join(here, "private/course");
+  if (!existsSync(dir)) return "";
+  const files = readdirSync(dir).filter((f) => f.endsWith(".js")).sort();
+  const meta = files.filter((f) => f.startsWith("_"));
+  const lessons = files.filter((f) => !f.startsWith("_"));
+  return meta.concat(lessons).map((f) => readFileSync(join(dir, f), "utf8")).join("\n");
+}
+function lessonsJs() {
+  const out = [];
+  for (let i = 1; i <= 99; i++) {
+    const p = `data/lesson-${String(i).padStart(2, "0")}.js`;
+    if (existsSync(join(here, p))) out.push(read(p));
+  }
+  return out.join("\n");
 }
 
-const html = `<title>מלאכות הבנייה</title>
+if (mode === "bundle") {
+  const js = courseJs() + "\n" + sourcesJs();
+  writeFileSync(join(here, "private/bundle.js"), js);
+  console.log(`wrote private/bundle.js (${(js.length / 1024).toFixed(0)} KB)`);
+} else if (mode === "artifact") {
+  const out = outArg || join(here, "dist");
+  mkdirSync(join(out, "src-img"), { recursive: true });
+  const html = `<title>מלאכות הבנייה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,8 +56,13 @@ const html = `<title>מלאכות הבנייה</title>
 ${read("app.css")}
 </style>
 <div id="app" dir="rtl" lang="he"></div>
+<script>window.SRC_IMG_BASE = "src-img/";</script>
 <script>
-${safe(lessons.join("\n"))}
+${safe(lessonsJs())}
+</script>
+<script>
+${safe(courseJs())}
+${safe(sourcesJs())}
 </script>
 <script>
 ${safe(read("diagrams.js"))}
@@ -34,5 +71,9 @@ ${safe(read("diagrams.js"))}
 ${safe(read("app.js"))}
 </script>
 `;
-writeFileSync(out, html);
-console.log(`wrote ${out} (${lessons.length} lessons, ${(html.length / 1024).toFixed(0)} KB)`);
+  writeFileSync(join(out, "index.html"), html);
+  const imgDir = join(here, "private/src-img");
+  let n = 0;
+  if (existsSync(imgDir)) for (const f of readdirSync(imgDir)) { copyFileSync(join(imgDir, f), join(out, "src-img", f)); n++; }
+  console.log(`wrote ${join(out, "index.html")} (${(html.length / 1024).toFixed(0)} KB) and ${n} images`);
+}

@@ -75,6 +75,8 @@
     '<pattern id="p-mesh" width="8" height="8" patternUnits="userSpaceOnUse">' +
     '<path d="M0 8 L8 0 M0 0 L8 8" class="hp"/>' +
     '</pattern>' +
+    '<marker id="m-flow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">' +
+    '<path d="M0 0 L10 5 L0 10 z" class="hp-flow"/></marker>' +
     '<marker id="m-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
     '<path d="M0 1 L10 5 L0 9 z" class="hp-ink"/></marker>' +
     '</defs></svg>';
@@ -100,8 +102,21 @@
   // anchor: "r" = text's right edge at x (reads leftward), "l" = left edge at x, "m" = centered.
   function T(x, y, s, a, cls) {
     var anchor = a === "r" ? "start" : a === "l" ? "end" : "middle";
-    return '<text x="' + x + '" y="' + y + '" text-anchor="' + anchor + '"' + (cls ? ' class="' + cls + '"' : "") + ">" + s + "</text>";
+    return '<text x="' + x + '" y="' + y + '" text-anchor="' + anchor + '" class="lbl' + (cls ? " " + cls : "") + '">' + s + "</text>";
   }
+  // text that stays visible in quiz mode (dimensions, symbols)
+  function K(x, y, s, a, cls) { return T(x, y, s, a, "keep " + (cls || "")); }
+  function ARR(x1, y1, x2, y2, cls) {
+    return '<path d="M' + x1 + " " + y1 + " L" + x2 + " " + y2 + '" class="' + (cls || "thin") + '" marker-end="url(#m-arr)"/>';
+  }
+  function LOADS(x1, x2, y, step) {
+    var o = "";
+    for (var x = x1; x <= x2 + 0.1; x += step) o += ARR(x, y - 22, x, y - 3);
+    return o + P("M" + x1 + " " + (y - 22) + " H" + x2, "thin");
+  }
+  function PIN(x, y) { return P("M" + x + " " + y + " l-11 18 h22 z", "ln") + P("M" + (x - 16) + " " + (y + 20) + " h32", "ln"); }
+  function ROLLER(x, y) { return P("M" + x + " " + y + " l-11 14 h22 z", "ln") + '<circle cx="' + (x - 6) + '" cy="' + (y + 18) + '" r="3.5" class="ln"/><circle cx="' + (x + 6) + '" cy="' + (y + 18) + '" r="3.5" class="ln"/>' + P("M" + (x - 16) + " " + (y + 23) + " h32", "ln"); }
+  function FLOW(d) { return '<path d="' + d + '" class="flow" marker-end="url(#m-flow)"/>'; }
   function L(x1, y1, x2, y2) {
     return '<path class="lead" d="M' + x1 + " " + y1 + " L" + x2 + " " + y2 + '"/><circle cx="' + x1 + '" cy="' + y1 + '" r="2.2" class="dot"/>';
   }
@@ -422,12 +437,368 @@
     }
   };
 
+
+  // ================= course diagrams (teaching illustrations; labels follow the course slides)
+  D["load-path"] = {
+    title: "מסלול העברת העומסים בשלד: תקרה, קורה, עמוד, יסוד, קרקע",
+    src: ["rec3-01", "rec3-02"],
+    parts: [{ n: 1, name: "תקרה", x: 590, y: 76 }, { n: 2, name: "קורה", x: 420, y: 92 }, { n: 3, name: "עמוד", x: 500, y: 270 }, { n: 4, name: "יסוד", x: 545, y: 346 }, { n: 5, name: "קרקע", x: 630, y: 378 }],
+    draw: function () {
+      var b = "";
+      b += R(10, 330, 660, 62, "p-earth", "thin") + P("M10 330 H670", "ln2");
+      b += R(130, 330, 100, 30, "p-concrete") + R(450, 330, 100, 30, "p-concrete");
+      b += R(168, 70, 24, 260, "p-concrete") + R(488, 70, 24, 260, "p-concrete");
+      b += R(60, 70, 560, 12, "p-concrete") + R(60, 190, 560, 12, "p-concrete");
+      b += R(168, 82, 344, 20, "p-concrete") + R(168, 202, 344, 20, "p-concrete");
+      b += LOADS(80, 600, 66, 40);
+      b += FLOW("M340 70 V96") + FLOW("M330 92 H210") + FLOW("M180 110 V180") + FLOW("M180 225 V318") + FLOW("M180 342 V384");
+      b += K(28, 120, "מסלול", "l", "s") + K(28, 135, "העומס", "l", "s") + '<path d="M70 150 H30" class="flow" marker-end="url(#m-flow)"/>';
+      b += L(600, 76, 640, 56) + T(644, 52, "תקרה", "l");
+      b += L(430, 92, 455, 120) + T(459, 132, "קורה", "l");
+      b += L(512, 270, 560, 270) + T(564, 274, "עמוד", "l");
+      b += L(550, 346, 600, 346) + T(604, 350, "יסוד", "l");
+      b += T(560, 386, "קרקע", "m");
+      return svg(680, 398, b, this.title);
+    }
+  };
+
+  D["column-strabe"] = {
+    title: "עמוד שטראבה: תכנית וחזית, שיני קשר ושני צדי טפסנות",
+    src: ["rec3-04", "rec3-05"],
+    parts: [{ n: 1, name: "קיר בלוקים", x: 120, y: 175 }, { n: 2, name: "שיני קשר", x: 566, y: 154 }, { n: 3, name: "עמוד בטון יצוק", x: 600, y: 248 }, { n: 4, name: "טפסנות", x: 286, y: 178 }, { n: 5, name: "זיון (מוטות וחישוקים)", x: 246, y: 166 }],
+    draw: function () {
+      var b = "", y, row = 0, x;
+      // plan
+      b += R(60, 155, 170, 40, "p-block") + R(235, 200, 40, 130, "p-block");
+      b += R(230, 150, 50, 50, "p-concrete", "ln2");
+      b += R(230, 158, 12, 34, null, "dash") + R(238, 188, 34, 12, null, "dash");
+      b += R(222, 140, 66, 8, "p-wood") + R(282, 142, 8, 66, "p-wood");
+      b += '<rect x="238" y="158" width="34" height="34" rx="3" class="ln"/>';
+      [[241, 161], [269, 161], [241, 189], [269, 189]].forEach(function (p) { b += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" class="solid"/>'; });
+      b += L(120, 175, 120, 120) + T(120, 112, "קיר בלוקים", "m");
+      b += L(288, 175, 320, 175) + T(316, 160, "טפסנות", "l");
+      b += T(316, 192, "בשני צדדים", "l", "s");
+      b += L(255, 205, 300, 250) + T(300, 266, "הבלוקים סוגרים", "m", "s") + T(300, 281, "את שני הצדדים האחרים", "m", "s");
+      b += K(170, 360, "תכנית (מבט מלמעלה)", "m", "h");
+      // elevation
+      b += '<clipPath id="cs"><rect x="380" y="60" width="200" height="270"/></clipPath><g clip-path="url(#cs)">';
+      for (y = 310; y >= 40; y -= 20) {
+        var off = row % 2 ? -20 : 0;
+        for (x = 380 + off; x < 560; x += 40) b += '<rect x="' + x + '" y="' + y + '" width="40" height="20" class="thin" style="fill:var(--surface-2)"/>';
+        row++;
+      }
+      b += "</g>";
+      b += R(560, 60, 50, 270, "p-concrete");
+      for (y = 70, row = 0; y < 330; y += 20, row++) if (row % 2 === 0) b += '<rect x="556" y="' + y + '" width="20" height="20" class="thin" style="fill:var(--surface-2)"/>';
+      b += P("M584 60 V330 M600 60 V330", "ln2");
+      for (y = 80; y < 330; y += 40) b += P("M580 " + y + " H604", "thin");
+      b += L(566, 150, 626, 120) + T(630, 112, "שיני קשר", "l") + K(630, 128, "VERZAHNUNG /", "l", "m") + K(630, 142, "LINK TEETH", "l", "m");
+      b += L(600, 248, 626, 248) + T(630, 252, "עמוד בטון", "l");
+      b += L(470, 200, 470, 350) + T(470, 364, "קיר בלוקים", "m", "s");
+      b += K(520, 46, "חזית: בליטות ושקעים לסירוגין", "m", "h");
+      return svg(720, 372, b, this.title);
+    }
+  };
+
+  D["column-isolated"] = {
+    title: "עמוד משולב בקיר לעומת עמוד בדל (תכנית)",
+    src: ["rec3-04", "rec3-06"],
+    parts: [{ n: 1, name: "עמוד משולב בקיר", x: 175, y: 150 }, { n: 2, name: "קיר בלוקים", x: 80, y: 150 }, { n: 3, name: "עמוד בדל", x: 510, y: 150 }, { n: 4, name: "חלל פתוח", x: 590, y: 220 }],
+    draw: function () {
+      var b = "";
+      b += R(40, 130, 260, 40, "p-block") + R(150, 124, 50, 52, "p-concrete", "ln2");
+      b += L(175, 150, 175, 96) + T(175, 88, "עמוד משולב בקיר", "m");
+      b += L(80, 150, 80, 210) + T(80, 226, "קיר בלוקים", "m");
+      b += K(170, 280, "עמוד בתוך קיר", "m", "h");
+      b += R(380, 50, 260, 200, null, "ln2") + R(380, 50, 260, 200, null, "cut") + R(380, 50, 260, 200, null, "ln2");
+      b += '<circle cx="510" cy="150" r="58" class="dash"/>';
+      b += R(495, 135, 30, 30, "p-concrete", "ln2");
+      b += L(525, 140, 560, 100) + T(564, 96, "עמוד בדל", "l");
+      b += K(564, 112, "ISOLATED COLUMN /", "l", "m") + K(564, 126, "DISENGAGED COLUMN", "l", "m");
+      b += T(590, 232, "חלל פתוח", "m", "s");
+      b += K(510, 280, "עמוד עצמאי בחלל", "m", "h");
+      return svg(700, 292, b, this.title);
+    }
+  };
+
+  D["beam-positions"] = {
+    title: "חתכים: קורה יורדת, קורה עולה וקורה סמויה",
+    src: ["rec3-12", "rec3-13", "rec3-14"],
+    parts: [{ n: 1, name: "קורה יורדת", x: 570, y: 185 }, { n: 2, name: "קורה עולה", x: 350, y: 84 }, { n: 3, name: "קורה סמויה", x: 130, y: 132 }, { n: 4, name: "תקרה (פלטה)", x: 640, y: 132 }],
+    draw: function () {
+      var b = "";
+      // downstand
+      b += R(470, 120, 200, 24, "p-concrete") + R(550, 144, 40, 76, "p-concrete");
+      b += P("M550 120 V144 M590 120 V144", "dash");
+      b += DIM(604, 120, 604, 220) + K(616, 175, "h", "m", "m") + DIM(550, 234, 590, 234) + K(570, 250, "b", "m", "m");
+      b += T(570, 280, "קורה יורדת", "m", "h");
+      b += K(570, 296, "DROPPED / DOWNSTAND BEAM", "m", "m");
+      // upstand
+      b += R(250, 120, 200, 24, "p-concrete") + R(330, 50, 40, 70, "p-concrete");
+      b += P("M330 120 V144 M370 120 V144", "dash");
+      b += DIM(384, 50, 384, 144) + K(396, 100, "h", "m", "m") + DIM(330, 36, 370, 36) + K(350, 30, "b", "m", "m");
+      b += T(350, 280, "קורה עולה", "m", "h");
+      // hidden
+      b += R(30, 120, 200, 24, "p-concrete");
+      b += R(80, 120, 100, 24, null, "ln2") + P("M80 120 V144 M180 120 V144", "ln2");
+      [92, 108, 124, 140, 156, 168].forEach(function (x) { b += '<circle cx="' + x + '" cy="138" r="2.6" class="solid"/><circle cx="' + x + '" cy="126" r="2.2" class="solid"/>'; });
+      b += DIM(80, 162, 180, 162) + K(130, 178, "b רחב", "m", "m");
+      b += DIM(194, 120, 194, 144) + K(212, 136, "h", "m", "m");
+      b += T(130, 280, "קורה סמויה", "m", "h");
+      b += K(130, 296, "HIDDEN / CONCEALED BEAM", "m", "m");
+      b += L(640, 132, 650, 96) + T(650, 88, "תקרה", "m", "s");
+      return svg(680, 304, b, this.title);
+    }
+  };
+
+  D["beam-statics"] = {
+    title: "סכמות סטטיות: קורה על שני סמכים, קורה רציפה, קורה זיזית",
+    src: ["rec3-15"],
+    parts: [{ n: 1, name: "קורה על שני סמכים", x: 250, y: 72 }, { n: 2, name: "קורה רציפה", x: 145, y: 192 }, { n: 3, name: "קורה זיזית (קונסולית)", x: 250, y: 312 }, { n: 4, name: "סמך", x: 440, y: 92 }, { n: 5, name: "רתימה (קצה קבוע)", x: 50, y: 338 }],
+    draw: function () {
+      var b = "";
+      b += LOADS(60, 440, 68, 38) + P("M60 72 H440", "ln2") + '<path d="M60 72 H440" class="ln2" style="stroke-width:5"/>' + PIN(60, 74) + ROLLER(440, 74);
+      b += T(668, 66, "קורה על שני סמכים", "r", "h") + K(668, 84, "SIMPLE BEAM", "r", "m") + T(668, 102, "נשענת בשני קצותיה בלבד", "r", "s");
+      b += LOADS(40, 460, 188, 42) + '<path d="M40 192 H460" class="ln2" style="stroke-width:5"/>' + PIN(40, 194) + PIN(250, 194) + PIN(460, 194);
+      b += T(668, 186, "קורה רציפה", "r", "h") + K(668, 204, "CONTINUOUS BEAM", "r", "m") + T(668, 222, "נשענת על יותר משני סמכים", "r", "s");
+      b += R(28, 270, 22, 86, "p-concrete") + LOADS(60, 380, 308, 40) + '<path d="M50 312 H380" class="ln2" style="stroke-width:5"/>';
+      b += T(668, 306, "קורה זיזית / קונסולית", "r", "h") + K(668, 324, "CANTILEVER BEAM", "r", "m") + T(668, 342, "רתומה בקצה אחד וחופשית בשני", "r", "s");
+      b += L(380, 312, 410, 340) + T(414, 352, "קצה חופשי", "l", "s");
+      return svg(680, 366, b, this.title);
+    }
+  };
+
+  D["beam-parts"] = {
+    title: "חלקים אופייניים בקורת בטון מזוין (חזית ליד סמך, וחתך)",
+    src: ["rec3-16"],
+    parts: [{ n: 1, name: "זיון תחתון", x: 230, y: 216 }, { n: 2, name: "זיון עליון", x: 100, y: 112 }, { n: 3, name: "זיון באזורי תמיכה", x: 330, y: 112 }, { n: 4, name: "חישוקים", x: 150, y: 165 }, { n: 5, name: "טפסות תחתונות וצדדיות", x: 230, y: 240 }, { n: 6, name: "בטון", x: 520, y: 165 }],
+    draw: function () {
+      var b = "", x;
+      // elevation near an interior support (column)
+      b += R(40, 100, 400, 130, "p-concrete");
+      b += R(300, 230, 60, 100, "p-concrete");
+      b += R(40, 230, 260, 10, "p-wood") + R(360, 230, 80, 10, "p-wood");
+      b += P("M50 216 H430", "ln2") + P("M200 112 H430", "ln2");
+      b += '<path d="M200 112 H430" class="ln2" style="stroke-width:3.2"/>';
+      b += P("M50 112 H200", "dash");
+      for (x = 60; x <= 430; x += (x > 250 ? 20 : 34)) b += P("M" + x + " 108 V220", "thin");
+      b += K(240, 350, "חזית הקורה ליד סמך פנימי", "m", "h");
+      b += L(100, 112, 100, 70) + T(100, 62, "זיון עליון", "m");
+      b += L(330, 112, 330, 70) + T(330, 54, "זיון באזורי תמיכה", "m") + T(330, 70, "(מעל הסמך, למעלה)", "m", "s");
+      b += L(150, 165, 120, 290) + T(120, 304, "חישוקים", "m");
+      b += L(230, 216, 220, 270) + T(220, 286, "זיון תחתון", "m");
+      b += L(400, 240, 440, 290) + T(440, 304, "טפסות תחתונות", "m", "s") + T(440, 319, "וצדדיות", "m", "s");
+      // section
+      b += R(490, 90, 120, 180, "p-concrete", "ln2");
+      b += R(482, 90, 8, 188, "p-wood") + R(610, 90, 8, 188, "p-wood") + R(482, 270, 136, 8, "p-wood");
+      b += '<rect x="506" y="106" width="88" height="148" rx="6" class="ln2"/>';
+      [[516, 116], [584, 116]].forEach(function (p) { b += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" class="solid"/>'; });
+      [[516, 244], [550, 244], [584, 244]].forEach(function (p) { b += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="6.5" class="solid"/>'; });
+      b += DIM(474, 254, 474, 270) + K(466, 266, "c", "r", "m");
+      b += K(550, 300, "חתך", "m", "h");
+      b += L(520, 165, 640, 165) + T(644, 169, "בטון", "l");
+      return svg(680, 362, b, this.title);
+    }
+  };
+
+  D["prestress-steps"] = {
+    title: "עקרון הבטון הדרוך: קורה רגילה לעומת קורה דרוכה",
+    src: ["rec3-16", "rec3-24"],
+    draw: function () {
+      var b = "";
+      function beam(y, curve, label, sub) {
+        var o = '<path d="M60 ' + y + " Q270 " + (y + curve) + " 480 " + y + " L480 " + (y + 24) + " Q270 " + (y + 24 + curve) + " 60 " + (y + 24) + ' Z" class="ln" style="fill:url(#p-concrete)"/>';
+        return o + T(668, y + 16, label, "r", "h") + (sub ? T(270, y + 50 + Math.max(0, curve), sub, "m", "s") : "");
+      }
+      b += LOADS(90, 450, 38, 45) + beam(40, 22, "קורה רגילה", "העומס יוצר מומנט כפיפה: הקורה שוקעת באמצע");
+      b += beam(140, 0, "בטון דרוך: דריכה", "הכבלים נמתחים לפני ההעמסה");
+      b += '<path d="M70 156 Q270 168 470 156" class="ln2" style="stroke-width:3;stroke-dasharray:6 4"/>' + ARR(480, 156, 520, 156, "ln") + ARR(60, 156, 20, 156, "ln");
+      b += beam(240, -18, "שחרור", "מומנט כפיפה הפוך: הקורה מתרוממת מעט");
+      b += ARR(260, 240, 260, 220, "ln") + ARR(280, 240, 280, 220, "ln");
+      b += LOADS(90, 450, 336, 45) + beam(338, 0, "איזון", "העומס והדריכה מאזנים זה את זה");
+      return svg(680, 404, b, this.title);
+    }
+  };
+
+  D["slab-bending"] = {
+    title: "תקרה תחת עומס: לחיצה למעלה, מתיחה למטה, הזיון באזור המתיחה",
+    src: ["rec3-19"],
+    parts: [{ n: 1, name: "אזור הלחיצה", x: 340, y: 128 }, { n: 2, name: "אזור המתיחה", x: 340, y: 160 }, { n: 3, name: "זיון ראשי (במתיחה)", x: 470, y: 152 }, { n: 4, name: "סמך", x: 600, y: 160 }],
+    draw: function () {
+      var b = "";
+      b += LOADS(80, 600, 96, 40);
+      b += '<path d="M60 100 Q340 150 620 100 L620 134 Q340 184 60 134 Z" class="ln" style="fill:url(#p-concrete)"/>';
+      b += '<path d="M70 126 Q340 175 610 126" class="ln2" style="stroke-width:3.4"/>';
+      b += PIN(80, 136) + PIN(600, 136);
+      b += ARR(300, 118, 330, 122, "ln") + ARR(380, 118, 350, 122, "ln");
+      b += ARR(330, 162, 296, 158, "ln") + ARR(350, 162, 384, 158, "ln");
+      b += L(340, 124, 340, 52) + T(340, 46, "לחיצה בחלק העליון", "m");
+      b += L(340, 166, 300, 222) + T(300, 236, "מתיחה בחלק התחתון", "m");
+      b += L(470, 152, 520, 222) + T(520, 236, "פלדת הזיון באזור המתיחה", "m");
+      b += K(110, 236, "בטון: חזק בלחיצה, חלש מאוד במתיחה", "m", "s");
+      return svg(680, 250, b, this.title);
+    }
+  };
+
+  D["one-way-slab"] = {
+    title: "תקרה מתוחה בכיוון אחד: עומס בכיוון המפתח הקצר, זיון ראשי וזיון חלוקה",
+    src: ["rec3-19"],
+    parts: [{ n: 1, name: "זיון ראשי", x: 200, y: 160 }, { n: 2, name: "זיון חלוקה", x: 300, y: 200 }, { n: 3, name: "קורה תומכת", x: 470, y: 74 }, { n: 4, name: "המפתח הקצר", x: 562, y: 160 }],
+    draw: function () {
+      var b = "", x, y;
+      b += R(140, 80, 400, 160, null, "soft") + R(140, 80, 400, 160, null, "ln");
+      b += R(130, 68, 420, 12, "p-concrete") + R(130, 240, 420, 12, "p-concrete");
+      for (x = 160; x < 540; x += 20) b += P("M" + x + " 84 V236", "thin");
+      for (y = 120; y < 236; y += 40) b += P("M144 " + y + " H536", "dash");
+      [240, 440].forEach(function (x2) { b += '<path d="M' + x2 + ' 100 V220" class="flow" marker-start="url(#m-flow)" marker-end="url(#m-flow)"/>'; });
+      b += DIM(140, 48, 540, 48) + K(340, 40, "המפתח הארוך", "m", "s") + K(400, 40, "y_L", "m", "m");
+      b += DIM(562, 80, 562, 240) + K(574, 164, "x_L", "r", "m");
+      b += K(610, 150, "המפתח", "m", "s") + K(610, 166, "הקצר", "m", "s");
+      b += L(200, 160, 80, 140) + T(76, 136, "זיון ראשי", "r") + T(76, 152, "בכיוון הקצר", "r", "s");
+      b += L(300, 200, 80, 210) + T(76, 206, "זיון חלוקה", "r") + T(76, 222, "בכיוון הניצב", "r", "s");
+      b += L(470, 74, 500, 30) + T(504, 26, "קורה / קיר נושא", "l", "s");
+      b += K(340, 280, "y_L / x_L > 2", "m", "h");
+      b += K(340, 298, "(או: התקרה נשענת על שתי קורות מקבילות בלבד)", "m", "s");
+      return svg(680, 308, b, this.title);
+    }
+  };
+
+  D["ribbed-slab"] = {
+    title: "חתך תקרת צלעות: פלטה עליונה, צלעות וגופי מילוי",
+    src: ["rec3-21", "rec3-22"],
+    parts: [{ n: 1, name: "פלטת בטון עליונה", x: 600, y: 90 }, { n: 2, name: "צלע", x: 292, y: 140 }, { n: 3, name: "גוף מילוי", x: 220, y: 140 }, { n: 4, name: "זיון בצלע", x: 292, y: 162 }],
+    draw: function () {
+      var b = "", x;
+      b += R(40, 80, 560, 20, "p-concrete");
+      for (x = 40; x < 600; x += 124) {
+        b += R(x, 100, 24, 72, "p-concrete");
+        b += '<circle cx="' + (x + 12) + '" cy="162" r="4" class="solid"/>';
+        if (x + 24 < 600) b += R(x + 24, 100, Math.min(100, 576 - x), 70, "p-block");
+      }
+      b += DIM(616, 80, 616, 172) + K(624, 130, "עובי כולל", "r", "s");
+      b += DIM(616, 80, 616, 100);
+      b += L(560, 90, 560, 46) + T(560, 38, "פלטה עליונה דקה", "m");
+      b += L(292, 140, 300, 214) + T(300, 228, "צלע (קורה קטנה)", "m");
+      b += L(220, 140, 160, 214) + T(150, 228, "גוף מילוי קל", "m");
+      b += T(150, 244, "איטונג / פוליסטירן / בלוק בטון קל", "m", "s");
+      b += L(292, 162, 440, 214) + T(450, 228, "זיון בתחתית הצלע", "m");
+      return svg(680, 256, b, this.title);
+    }
+  };
+
+  D["flat-slab"] = {
+    title: "תקרה ללא קורות (פטרייה): פלטה על עמודים, כותרת וגזירת חדירה",
+    src: ["rec3-23"],
+    parts: [{ n: 1, name: "פלטה (תקרה מקשית עבה)", x: 340, y: 116 }, { n: 2, name: "עמוד", x: 520, y: 220 }, { n: 3, name: "כותרת / פטרייה", x: 160, y: 140 }, { n: 4, name: "אזור גזירת חדירה", x: 535, y: 116 }],
+    draw: function () {
+      var b = "";
+      b += LOADS(60, 620, 96, 40);
+      b += R(40, 100, 600, 32, "p-concrete");
+      b += P("M120 132 H200 V148 H120 Z", "ln", "p-concrete");
+      b += R(145, 148, 30, 120, "p-concrete") + R(505, 132, 30, 136, "p-concrete");
+      b += P("M505 132 L475 100 M535 132 L565 100", "dash");
+      b += P("M40 268 H640", "ln2");
+      b += L(340, 116, 340, 56) + T(340, 50, "תחתית תקרה חלקה, בלי קורות", "m");
+      b += L(160, 140, 100, 200) + T(100, 214, "עיבוי בראש העמוד", "m") + T(100, 230, "(כותרת / פטרייה)", "m", "s");
+      b += L(520, 220, 600, 220) + T(604, 224, "עמוד", "l");
+      b += L(568, 104, 600, 70) + T(676, 54, "גזירת חדירה", "r") + K(676, 70, "PUNCHING SHEAR", "r", "m");
+      return svg(680, 282, b, this.title);
+    }
+  };
+
+  D["post-tensioned"] = {
+    title: "תקרת דריכה: כבלים בשרוולים, מתיחה ועיגון אחרי התקשות הבטון",
+    src: ["rec3-24"],
+    parts: [{ n: 1, name: "כבל פלדה בתוך שרוול", x: 200, y: 128 }, { n: 2, name: "עוגן", x: 640, y: 120 }, { n: 3, name: "פלטת הבטון", x: 470, y: 108 }, { n: 4, name: "עמוד", x: 340, y: 200 }],
+    draw: function () {
+      var b = "";
+      b += R(40, 100, 600, 40, "p-concrete");
+      b += R(330, 140, 20, 110, "p-concrete") + R(50, 140, 20, 110, "p-concrete") + R(610, 140, 20, 110, "p-concrete");
+      b += '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln2" style="stroke-width:4"/>';
+      b += '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln" style="stroke:var(--cut);stroke-width:1.4"/>';
+      b += R(30, 110, 10, 20, null, "solid") + R(640, 110, 10, 20, null, "solid");
+      b += '<path d="M652 120 H676" class="flow" marker-end="url(#m-flow)"/>';
+      b += ARR(260, 100, 290, 100, "ln") + ARR(420, 100, 390, 100, "ln");
+      b += L(200, 128, 170, 200) + T(170, 214, "כבל פלדה בחוזק גבוה", "m") + T(170, 230, "בתוך שרוול", "m", "s");
+      b += L(645, 112, 600, 60) + T(596, 56, "עוגן ומתיחה (דריכה)", "r");
+      b += T(340, 82, "מאמצי לחיצה מוקדמים בבטון", "m", "s");
+      b += L(340, 200, 380, 200) + T(384, 204, "עמוד", "l");
+      return svg(680, 262, b, this.title);
+    }
+  };
+
+
+  D["shoring-types"] = {
+    title: "סוגי מערכות דיפון (מבט מלמעלה)",
+    src: ["rec2-30", "rec2-31", "rec2-33"],
+    parts: [{ n: 1, name: "דיפון כלונסאות", x: 505, y: 70 }, { n: 2, name: "קיר סלארי (DIAPHRAGM WALL)", x: 175, y: 70 }, { n: 3, name: "דפנות פלדה (SHEET PILES)", x: 505, y: 222 }, { n: 4, name: "שיטה ברלינאית (SOLDIER PILES AND LAGGING)", x: 175, y: 222 }],
+    draw: function () {
+      var b = "", x;
+      function panel(cx, cy, title, en) { return T(cx, cy + 62, title, "m", "h") + K(cx, cy + 78, en, "m", "m"); }
+      // piles (secant)
+      b += R(360, 40, 290, 20, "p-earth", "thin") + R(360, 80, 290, 20, null, "soft");
+      for (x = 376; x < 650; x += 26) b += '<circle cx="' + x + '" cy="70" r="15" class="ln" style="fill:url(#p-concrete)"/>';
+      b += K(372, 34, "צד הקרקע", "l", "s") + K(372, 112, "צד החפירה", "l", "s");
+      b += panel(505, 70, "דיפון כלונסאות", "Secant");
+      // d-wall panels
+      b += R(30, 40, 290, 20, "p-earth", "thin") + R(30, 80, 290, 20, null, "soft");
+      for (x = 34; x < 300; x += 70) b += R(x, 60, 66, 20, "p-concrete");
+      b += panel(175, 70, "קיר סלארי", "DIAPHRAGM WALL");
+      // sheet piles
+      b += R(360, 192, 290, 20, "p-earth", "thin") + R(360, 232, 290, 20, null, "soft");
+      var d = "M362 222"; for (x = 362; x < 640; x += 40) d += " L" + (x + 10) + " 212 L" + (x + 20) + " 212 L" + (x + 30) + " 232 L" + (x + 40) + " 232";
+      b += '<path d="' + d + '" class="ln2" style="stroke-width:3"/>';
+      b += panel(505, 222, "דפנות פלדה", "SHEET PILES");
+      // soldier piles and lagging
+      b += R(30, 192, 290, 20, "p-earth", "thin") + R(30, 238, 290, 14, null, "soft");
+      for (x = 40; x < 320; x += 70) b += P("M" + (x - 8) + " 214 H" + (x + 8) + " M" + x + " 214 V234 M" + (x - 8) + " 234 H" + (x + 8), "ln2");
+      for (x = 48; x < 300; x += 70) b += R(x, 214, 54, 8, "p-wood");
+      b += panel(175, 222, "שיטה ברלינאית", "SOLDIER PILES AND LAGGING");
+      return svg(680, 318, b, this.title);
+    }
+  };
+
+  D["dwall-steps"] = {
+    title: "שלבי ביצוע קיר סלארי (DIAPHRAGM WALL)",
+    src: ["rec2-31", "rec2-32"],
+    draw: function () {
+      var b = "", i;
+      var steps = ["קירות מנחים", "חפירת תעלה", "תעלה מיוצבת בתרחיף", "הורדת כלוב זיון", "יציקה בצינור טרמי"];
+      for (i = 0; i < 5; i++) {
+        var x0 = 548 - i * 128, cx = x0 + 52;
+        b += R(x0, 60, 104, 210, "p-earth", "thin") + P("M" + x0 + " 60 H" + (x0 + 104), "ln2");
+        b += R(cx - 22, 52, 10, 20, "p-concrete") + R(cx + 12, 52, 10, 20, "p-concrete");
+        if (i >= 1) b += R(cx - 12, 60, 24, i === 1 ? 110 : 190, null, "cut") + R(cx - 12, 60, 24, i === 1 ? 110 : 190, null, "ln");
+        if (i >= 2 && i < 4) b += R(cx - 12, 74, 24, 176, "p-sand", "thin");
+        if (i === 1) b += R(cx - 10, 150, 20, 22, null, "solid") + P("M" + cx + " 20 V150", "ln");
+        if (i === 3) b += P("M" + (cx - 7) + " 30 V244 M" + (cx + 7) + " 30 V244 M" + (cx - 7) + " 70 H" + (cx + 7) + " M" + (cx - 7) + " 120 H" + (cx + 7) + " M" + (cx - 7) + " 170 H" + (cx + 7) + " M" + (cx - 7) + " 220 H" + (cx + 7), "ln2");
+        if (i === 4) b += R(cx - 12, 150, 24, 100, "p-concrete") + R(cx - 12, 74, 24, 76, "p-sand", "thin") + P("M" + cx + " 20 V150", "ln2");
+        b += K(cx, 294, String(i + 1), "m", "h") + T(cx, 314, steps[i], "m", "s");
+      }
+      b += K(340, 344, "המחשה לימודית: הכיתובים באנגלית בשקף לא היו קריאים במלואם", "m", "s");
+      return svg(680, 354, b, this.title);
+    }
+  };
+
   window.Diagrams = {
     defs: DEFS,
     swatch: swatch,
     materialName: function (m) { return MATERIAL_NAME[m] || ""; },
     has: function (id) { return !!D[id]; },
     title: function (id) { return D[id] ? D[id].title : ""; },
-    render: function (id) { return D[id] ? D[id].draw() : ""; }
+    parts: function (id) { return D[id] && D[id].parts ? D[id].parts : null; },
+    src: function (id) { return D[id] && D[id].src ? D[id].src : null; },
+    render: function (id, opts) {
+      if (!D[id]) return "";
+      var out = D[id].draw();
+      if (opts && opts.marker && D[id].parts) {
+        var mk = D[id].parts.map(function (p) {
+          var on = p.n === opts.marker;
+          return '<g class="mk' + (on ? " on" : "") + '"><circle cx="' + p.x + '" cy="' + p.y + '" r="' + (on ? 13 : 10) + '"/><text x="' + p.x + '" y="' + (p.y + 4.5) + '" text-anchor="middle">' + p.n + "</text></g>";
+        }).join("");
+        out = out.replace('class="drawing"', 'class="drawing quiz"').replace(/<\/svg>$/, mk + "</svg>");
+      }
+      return out;
+    }
   };
 })();

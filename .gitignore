@@ -13,3 +13,6 @@ __pycache__/
 
 # Lucid: the Vercel build output (tools/build/vercel-build.mjs)
 lucid/dist/
+
+# melachot: course material from the student (lecture slides, photos, transcripts). Kept out of the public repo.
+melachot/private/
