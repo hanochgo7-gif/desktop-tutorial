@@ -517,7 +517,7 @@
   function glyph(x, short) {
     var lv = x.lv || 0, tip = lv ? "רמת ידיעה: " + pct(x.m) + " אחוז" : MTIP_NONE;
     if (short && !lv) return "";
-    return '<span class="mg mg-' + lv + '" title="' + esc(tip) + '"><span class="' + (short ? "sr-only" : "mg-k") + '">רמת ידיעה: </span>' + MLABEL[lv] + "</span>";
+    return '<span class="mg mg-' + lv + '" title="' + esc(tip) + '">' + (short ? "" : '<span class="mg-k">רמת ידיעה: </span>') + MLABEL[lv] + "</span>";
   }
   function lessonOpened(lid) { return !!(S.pos[lid] || S.lvl[lid] || (S.last && S.last.lesson === lid) || readMap()[lid]); }
   function lessonState(lid) {
@@ -732,7 +732,10 @@
     '<div class="sr-only" id="live" aria-live="polite"></div>';
   var main = document.getElementById("main");
   var topbar = document.getElementById("topbar");
-  function setTopbarH() { if (topbar && topbar.offsetHeight) document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px"); }
+  function setTopbarH() {
+    if (topbar && topbar.offsetHeight) document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px");
+    var sb = document.querySelector(".studybar"); if (sb && sb.offsetHeight) document.documentElement.style.setProperty("--sb-h", sb.offsetHeight + "px");
+  }
   var fitT = null;
   window.addEventListener("resize", function () { setTopbarH(); clearTimeout(fitT); fitT = setTimeout(function () { fitNav(); setTopbarH(); }, 120); });
   if (HCMQ && HCMQ.addEventListener) HCMQ.addEventListener("change", applySettings);
@@ -1489,7 +1492,7 @@
     if (!PLAN) { paint('<div class="empty">' + I.level + "<b>התוכנית לא נטענה</b><p>סגרו את הדף ופתחו אותו שוב.</p></div>"); return; }
     var on = planOn(), pn = planDayNow();
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><span>תוכנית הלימוד</span></nav>' +
-      '<div class="page-head"><span class="eyebrow">תוכנית לימוד</span><h1 class="display">' + esc(PLAN.title || "תוכנית 14 יום") + "</h1>" + (PLAN.intro ? '<p class="muted lead">' + esc(PLAN.intro) + "</p>" : "") + "</div>";
+      '<div class="page-head"><span class="eyebrow">תוכנית לימוד</span><h1 class="display">' + esc(PLAN.title || "תוכנית 14 יום") + "</h1>" + hereLine("plan") + (PLAN.intro ? '<p class="lead">' + esc(PLAN.intro) + "</p>" : "") + "</div>";
     if (!on) html += '<div class="panel plan-start"><p>בכל יום בתוכנית מחכות משימות: שיעורים, כרטיסיות, שאלות, סיפורים מהאתר ומבחנים.</p><p>משימה שסיימתם מסומנת מעצמה. אפשר גם לסמן אותה בעצמכם.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="ob-start" data-when="0">להתחיל את התוכנית היום</button><button type="button" class="btn" data-act="ob-start" data-when="1">להתחיל את התוכנית מחר</button></div></div>';
     else html += '<div class="panel plan-status"><b>' + (pn === 0 ? "התוכנית מתחילה ב-" + fmtDay(planDate(1)) : pn > PLAN_N ? "התוכנית הסתיימה. בהצלחה במבחן." : "התחלתם ב-" + fmtDay(S.plan.start) + " · יום " + pn + " מתוך " + PLAN_N) + "</b>" + planTicks(pn) + "</div>";
     var miss = missedYesterday();
@@ -1690,7 +1693,7 @@
     }).join("") + "</div>";
   }
   function viewSheets() {
-    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1></div>' + refTabs("sheets") +
+    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1>' + hereLine("sheets") + "</div>" + refTabs("sheets") +
       '<p class="muted">דף אחד לכל פרק, עם העובדות החשובות. ליד כל עובדה מופיע השקף שלה. טוב לחזרה לפני מבחן, ואפשר להדפיס.</p><div class="sheet-list">' +
       CH.filter(function (c) { return X(c.id) && arr(X(c.id).cheatsheet).length; }).map(function (c) {
         return '<a class="sheet-item" href="#sheet-' + c.id + '"><span class="num">' + esc(c.letter) + '</span><span class="lt"><b>' + esc(c.title) + "</b><small>" + X(c.id).cheatsheet.length + " עובדות" + (S.acts["sheet:" + c.id] ? " · קראתם" : "") + "</small></span>" + I.arrowL + "</a>";
@@ -1700,7 +1703,7 @@
   function viewSheet(c) {
     var x = X(c.id);
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#sheets">דפי סיכום</a><span aria-hidden="true">›</span><a href="#chapter-' + c.id + '">פרק ' + esc(c.letter) + "</a></nav>" +
-      '<article class="cheatsheet"><div class="page-head"><span class="eyebrow">דף סיכום · פרק ' + esc(c.letter) + '</span><h1 class="display">' + esc(c.title) + "</h1>" +
+      '<article class="cheatsheet"><div class="page-head"><span class="eyebrow">דף סיכום · פרק ' + esc(c.letter) + '</span><h1 class="display">' + esc(c.title) + "</h1>" + hereLine("sheet") +
       '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'להסתיר את העובדות</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">להדפיס</button></div></div>' +
       cheatList(arr(x.cheatsheet), false) +
       (isObj(x.compare) && arr(x.compare.head).length ? "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare) : "") +
@@ -1733,7 +1736,7 @@
       case "diagram": return figDiagram(b.id, ctx);
       case "image":
         var s = SRC[b.src];
-        return '<figure class="src-img"><span class="src-lbl">שקף מהקורס</span><a href="#source-' + esc(b.src) + '"><img loading="lazy" src="' + IMG_BASE + esc(b.src) + '.jpg" alt="' + esc(b.caption || (s && s.title) || "צילום שקף מהקורס") + '" data-act="imgfail"></a><figcaption>' + esc(b.caption || "") + " " + srcChips([b.src]) + "</figcaption></figure>";
+        return '<figure class="src-img"><span class="src-lbl">שקף מהקורס</span><a class="src-img-a" href="#source-' + esc(b.src) + '"><img loading="lazy" src="' + IMG_BASE + esc(b.src) + '.jpg" alt="' + esc(b.caption || (s && s.title) || "צילום שקף מהקורס") + '" data-act="imgfail"><span class="zoom-w">' + I.expand + 'לפתוח את השקף</span></a><figcaption>' + esc(b.caption || "") + " " + srcChips([b.src]) + "</figcaption></figure>";
       default: return b.html ? '<div class="prose">' + wrapP(b.html) + "</div>" : "";
     }
   }
@@ -2342,7 +2345,7 @@
       var from = run.mode === "pretest" ? "פרק " + CHID[run.chapter].letter + " · לא נכנס לציון" : run.mode === "case" ? "שאלה בשלב " + (run.i + 1) + (l ? " · " + l.code + " " + l.title : "") : l ? "שיעור " + l.code + " · " + l.title : "שיעור העשרה: " + (LIBID[q.lesson] ? LIBID[q.lesson].title : "");
       html += '<div class="q-card" id="qcard"><div class="from"><span>' + esc(from) + '</span><span class="qtype">' + TYPE_NAME[q.type] + (SET.simple ? "" : " · " + ["", "קל", "בינוני", "קשה"][q.difficulty || 2]) + (q.enrich ? " · העשרה" : "") + "</span></div>" +
         (canSpeak() ? '<div class="block-tools">' + speakBtn("qcard", "הקראת השאלה") + "</div>" : "") + renderQuestion(q, it, exam) + "</div>";
-      if (exam) html += '<div class="q-tools btn-row">' + (SET.simple ? "" : '<button type="button" class="btn btn-sm btn-ghost' + (it.flag ? " on" : "") + '" data-act="q-flag">' + I.flag + (it.flag ? "סימנתם לחזור לשאלה הזו" : "לסמן לחזור לשאלה הזו") + "</button>") +
+      if (exam) html += '<div class="q-tools btn-row">' + (SET.simple ? "" : '<button type="button" class="btn btn-sm btn-ghost' + (it.flag ? " on" : "") + '" data-act="q-flag" aria-pressed="' + !!it.flag + '">' + I.flag + (it.flag ? "סימנתם לחזור לשאלה הזו" : "לסמן לחזור לשאלה הזו") + "</button>") +
         '<button type="button" class="btn btn-sm btn-ghost" data-act="q-map" aria-haspopup="dialog">' + I.grid + "לראות את כל השאלות</button></div>";
       if (isOpts(q) && !(it.done && !exam)) html += '<p class="keys-hint">במקלדת: מקשים <span class="kbd">1</span> עד <span class="kbd">' + it.perm.length + "</span> לבחירת תשובה, ומקש <span class=\"kbd\">Enter</span> כדי להמשיך.</p>";
     }
@@ -2686,7 +2689,7 @@
     var html = studyBar(c.title, "בערך " + (c.est || 15) + " דקות, " + c.steps.length + " שלבים", "run-exit") + '<div class="study-wrap case-intro">' +
       (m ? aiFig(m, { cls: "lh-hero", eager: true }) : "") + '<span class="pill-story">סיפור לתרגול: הפרויקט מומצא, העובדות מהקורס</span><h1 class="display">' + esc(c.title) + "</h1>" +
       '<div class="chips">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return '<a class="chip kw" href="#lesson-' + x + '">' + esc(L[x].code + " " + L[x].title) + "</a>"; }).join("") + "</div>" +
-      '<div class="prose story">' + (c.story || "") + "</div></div>" +
+      (canSpeak() ? '<div class="block-tools">' + speakBtn("story") + "</div>" : "") + '<div class="prose story" id="story">' + (c.story || "") + "</div></div>" +
       '<div class="actionbar"><button type="button" class="btn btn-primary ab-wide" data-act="case-start">להתחיל את הסיפור' + I.arrowL + "</button></div>";
     paint(html);
   }
@@ -2880,8 +2883,8 @@
   // =============================================================== search
   var sq = "";
   function viewSearch() {
-    paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">מחפשים בשיעורים, במילון המונחים ובשקפי הקורס.</p></div>' +
-      '<div class="search-row"><label class="sr-only" for="s-search">חיפוש</label><input class="input" id="s-search" type="search" placeholder="הקלידו מילה, למשל: כלונס" value="' + esc(sq) + '" autocomplete="off"></div>' +
+    paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1>' + hereLine("search") + "</div>" +
+      '<div class="search-row"><label class="field-l" for="s-search">מה לחפש?</label><input class="input" id="s-search" type="search" placeholder="הקלידו מילה, למשל: כלונס" value="' + esc(sq) + '" autocomplete="off"></div>' +
       (ai.s ? '<form class="ai-ask panel" data-act="ai-search"><label for="ai-sq"><b>' + I.spark + ' לשאול את עוזר הלימוד</b></label><div class="row"><input class="input" id="ai-sq" placeholder="למשל: מתי משתמשים בקורה סמויה?" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">לשלוח את השאלה</button></div><div class="ai-out" id="ai-out" hidden aria-live="polite"></div></form>' : "") +
       '<p class="sr-only" id="s-status" aria-live="polite"></p><div id="s-out"></div>');
     var inp = document.getElementById("s-search");
@@ -2956,7 +2959,7 @@
     var counts = { full: 0, partial: 0, unclear: 0 }, unused = 0, dups = 0;
     SOURCES.forEach(function (s) { counts[s.status] = (counts[s.status] || 0) + 1; if (s.duplicate_of) dups++; else if (!usedIn(s.id).length && !s.no_content) unused++; });
     var list = SOURCES.filter(function (s) { return srcFilter === "all" || s.id.indexOf(srcFilter) === 0 || (srcFilter === "open" && (s.status !== "full" || (s.unclear || []).length)); });
-    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1></div>' + refTabs("sources") +
+    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1>' + hereLine("sources") + "</div>" + refTabs("sources") +
       '<p class="muted">' + SOURCES.length + " שקפים מהקורס. לכל שקף יש צילום, הטקסט שכתוב בו, ובאילו שיעורים הוא מופיע.</p>";
     // student-first: thumbnails per recording
     groups.forEach(function (g) {
@@ -2987,13 +2990,13 @@
     var st = STATUS[s.status] || ["?", "bad"], used = usedIn(s.id);
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#sources">שקפי הקורס</a><span aria-hidden="true">›</span><span>' + esc(srcLabel(s.id)) + "</span></nav>" +
       '<div class="page-head"><span class="eyebrow">' + esc(((META.groups || {})[s.id.split("-")[0]] || {}).name || "") + ' · <span class="st st-' + st[1] + '">' + st[0] + "</span></span><h1>" + esc(s.title || "(ללא כותרת)") + "</h1></div>" +
-      '<div class="src-view"><figure class="src-full"><span class="src-lbl">שקף מהקורס</span><button type="button" class="zoom" data-act="zoom" aria-label="להגדיל את התמונה"><img src="' + IMG_BASE + esc(s.id) + '.jpg" alt="' + esc(s.title || "צילום שקף מהקורס") + '" data-act="imgfail"></button><figcaption class="muted">הקישו על התמונה כדי להגדיל אותה.</figcaption></figure>' +
+      '<div class="src-view"><figure class="src-full"><span class="src-lbl">שקף מהקורס</span><button type="button" class="zoom" data-act="zoom" aria-label="להגדיל את התמונה"><img src="' + IMG_BASE + esc(s.id) + '.jpg" alt="' + esc(s.title || "צילום שקף מהקורס") + '" data-act="imgfail"><span class="zoom-w">' + I.expand + 'להגדיל</span></button><figcaption class="muted">הקישו על התמונה כדי להגדיל אותה.</figcaption></figure>' +
       '<div class="src-text"><h2>מה כתוב בשקף</h2>' + transcriptHtml(s) +
       ((s.unclear || []).length ? '<h2>מה לא ברור בשקף</h2><ul class="unclear-list">' + s.unclear.map(function (u) { return "<li><b>" + esc(u.where || "") + ":</b> " + esc(u.best_reading || "") + ((u.alternatives || []).length ? ' <span class="muted">(או: ' + esc(u.alternatives.join(" / ")) + ")</span>" : "") + "</li>"; }).join("") + "</ul>" : "") +
       (s.notes ? '<h2>הערות על הקריאה</h2><p class="muted">' + esc(s.notes) + "</p>" : "") +
       '<h2>מופיע בשיעורים</h2>' + (used.length ? '<ul class="plain">' + used.map(function (l) { return '<li><a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a></li>"; }).join("") + "</ul>" : s.duplicate_of ? '<p class="muted">זהו צילום נוסף של <a href="#source-' + s.duplicate_of + '">' + esc(srcLabel(s.duplicate_of)) + "</a>.</p>" : '<p class="muted">' + esc(s.no_content || "השקף הזה לא נכנס לאף שיעור.") + "</p>") +
       "</div></div>" +
-      '<div class="pager">' + (prev ? '<a class="btn btn-ghost" href="#source-' + prev.id + '">' + I.arrowR + esc(srcLabel(prev.id)) + "</a>" : "<span></span>") + (next ? '<a class="btn btn-ghost" href="#source-' + next.id + '">' + esc(srcLabel(next.id)) + I.arrowL + "</a>" : "<span></span>") + "</div>";
+      '<nav class="pager" aria-label="שקפים סמוכים">' + (prev ? '<a class="btn btn-ghost" href="#source-' + prev.id + '">' + I.arrowR + '<span class="pg-in"><small>השקף הקודם</small><span>' + esc(srcLabel(prev.id)) + "</span></span></a>" : "") + (next ? '<a class="btn btn-ghost" href="#source-' + next.id + '"><span class="pg-in"><small>השקף הבא</small><span>' + esc(srcLabel(next.id)) + "</span></span>" + I.arrowL + "</a>" : "") + "</nav>";
     paint(html);
   }
   function transcriptHtml(s) {
@@ -3026,10 +3029,17 @@
   // =============================================================== progress (P0-1, P2-4)
   function viewProgress() {
     var c = completion(), rd = readiness(), sk = streak();
+    if (SET.simple) {
+      var lastEx = S.exams[0];
+      paint('<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1>' + hereLine("progress") + '</div><div class="panel simple-prog">' + tape(c.p, false, "prog-done") +
+        "<p><b>" + c.d + " מתוך " + c.n + "</b> שיעורים הושלמו.</p><p><b>" + dueCards().length + "</b> כרטיסיות לחזרה היום.</p><p>" + (lastEx ? "מבחן אחרון: ציון <b>" + lastEx.score + "</b>." : "עוד לא עשיתם מבחן.") + "</p></div>" +
+        '<div class="btn-row"><a class="btn" href="#review">לחזרה של היום</a><a class="btn btn-ghost" href="#home">לחזור לדף הבית</a></div>' + footHtml());
+      return;
+    }
     var chDone = CH.filter(function (x) { return x.lessons.every(function (l) { return S.done[l.id]; }); }).length;
     var learned = CARDS.filter(function (x) { return x.scope === "course" && S.cards[x.id] && S.cards[x.id].reps > 0; }).length;
     var courseCards = CARDS.filter(function (x) { return x.scope === "course"; }).length;
-    var html = '<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1></div><div class="stats wide">' +
+    var html = '<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1>' + hereLine("progress") + '</div><div class="stats wide">' +
       '<div class="stat"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, false, "prog-done") + '<span class="k">' + chDone + " מתוך " + CH.length + " פרקים הושלמו</span></div>" +
       '<div class="stat"><span class="k">כמה אתם מוכנים למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + glyph(rd, true) + '<span class="k">לפי ' + rd.n + " תשובות שלכם</span>" : '<span class="v v-l">עוד לא ידוע</span><span class="k">יופיע אחרי שתענו על 40 שאלות, או אחרי מבחן אחד</span>') + "</div>" +
       '<div class="stat"><span class="k">ימי לימוד ברצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
@@ -3073,7 +3083,7 @@
       h += '<span class="hd" aria-hidden="true">' + days[r] + "</span>";
       cols.forEach(function (col) { var x = col[r]; var lv = x.f ? "f" : !x.n ? "" : x.n > 20 ? "l3" : x.n > 6 ? "l2" : "l1"; h += '<i class="' + lv + '" role="img" aria-label="' + fmtDay(x.k) + ": " + x.n + ' פעולות לימוד"></i>'; });
     }
-    return h + '</div><div class="heat-leg" aria-hidden="true"><span>פחות לימוד</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>יותר לימוד</span></div></div>';
+    return '<h2 class="h-sm heat-h">באילו ימים למדתם (4 שבועות אחרונים)</h2>' + h + '</div><div class="heat-leg" aria-hidden="true"><span>פחות לימוד</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>יותר לימוד</span></div></div>';
   }
 
   // =============================================================== settings (P2-3)
@@ -3240,6 +3250,9 @@
       case "reveal-cs": if (el.closest(".cheat.memo")) el.classList.toggle("shown"); break;
       case "cs-memo":
         var on = el.getAttribute("aria-pressed") !== "true"; el.setAttribute("aria-pressed", String(on));
+        el.innerHTML = I.eyeOff + (on ? "להציג את כל העובדות" : "להסתיר את העובדות");
+        var mn0 = el.closest(".cs, .cheatsheet"), nt = mn0 && mn0.querySelector(".memo-note");
+        if (nt) nt.hidden = !on; else if (on && mn0) { var np = document.createElement("p"); np.className = "memo-note"; np.textContent = "העובדות מוסתרות. הקישו על שורה כדי לראות אותה."; var ol0 = mn0.querySelector(".cheat"); if (ol0) ol0.parentNode.insertBefore(np, ol0); }
         main.querySelectorAll(".cheat").forEach(function (ol) { ol.classList.toggle("memo", on); ol.querySelectorAll(".ct").forEach(function (t) { t.classList.remove("shown"); t.setAttribute("tabindex", on ? "0" : "-1"); if (on) t.setAttribute("role", "button"); else t.removeAttribute("role"); }); });
         break;
       case "cs-more": var cl0 = main.querySelector(".cheat.clip"); if (cl0) cl0.classList.remove("clip"); el.remove(); break;
@@ -3399,7 +3412,7 @@
         img.classList.remove("failed");
         if (ga) { img.setAttribute("data-still", img.getAttribute("src")); img.setAttribute("data-srcset", img.getAttribute("srcset") || ""); img.removeAttribute("srcset"); img.src = el.getAttribute("data-gif"); }
         else { img.src = img.getAttribute("data-still"); if (img.getAttribute("data-srcset")) img.setAttribute("srcset", img.getAttribute("data-srcset")); }
-        el.setAttribute("aria-pressed", String(ga)); var ic = el.querySelector("svg"); if (ic) ic.outerHTML = ga ? I.pause : I.play;
+        el.setAttribute("aria-pressed", String(ga)); el.innerHTML = (ga ? I.pause : I.play) + "<span>" + (ga ? "לעצור" : "לראות בתנועה") + "</span>";
         break;
       case "plan-tick":
         var d0 = el.getAttribute("data-day"), ix = el.getAttribute("data-idx");
@@ -3551,6 +3564,7 @@
     if (started) return;
     started = true;
     document.documentElement.classList.remove("booting");
+    fitNav();
     render();
     booted = true;
     setTopbarH();
