@@ -75,5 +75,8 @@ ${safe(read("app.js"))}
   const imgDir = join(here, "private/src-img");
   let n = 0;
   if (existsSync(imgDir)) for (const f of readdirSync(imgDir)) { copyFileSync(join(imgDir, f), join(out, "src-img", f)); n++; }
-  console.log(`wrote ${join(out, pageName)} (${(html.length / 1024).toFixed(0)} KB) and ${n} images`);
+  const mediaDir = join(here, "private/media");
+  let m = 0;
+  if (existsSync(mediaDir)) { mkdirSync(join(out, "media"), { recursive: true }); for (const f of readdirSync(mediaDir)) { copyFileSync(join(mediaDir, f), join(out, "media", f)); m++; } }
+  console.log(`wrote ${join(out, pageName)} (${(html.length / 1024).toFixed(0)} KB), ${n} source images, ${m} media files`);
 }
