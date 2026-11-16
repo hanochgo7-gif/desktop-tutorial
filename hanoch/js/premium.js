@@ -7,8 +7,13 @@
   if ('IntersectionObserver' in window && !still) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    items.forEach(function (el) { io.observe(el); });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
+    items.forEach(function (el) {
+      // פריטים באותה קבוצה נכנסים בהפרש קטן, והרצף כולו לא עובר חצי שנייה
+      var sibs = [].filter.call(el.parentNode.children, function (x) { return x.classList.contains('pm-reveal'); });
+      var k = sibs.indexOf(el); if (k > 0) el.style.transitionDelay = Math.min(k, 5) * 60 + 'ms';
+      io.observe(el);
+    });
   } else {
     items.forEach(function (el) { el.classList.add('in'); });
   }
@@ -75,14 +80,29 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) reel.pause(); else if (!userPaused) start(); });
   }
 
-  var tiles = document.querySelectorAll('.pm-film-btn video');
+  // אריחי הסרטים: נטענים רק אחרי שהאריח נשאר על המסך רגע (לא בזמן גלילה מהירה), ולכל היותר שלושה מתנגנים יחד.
+  // כך הגלילה דרך אזור הסרטים לא נתקעת על פענוח של שמונה סרטונים בבת אחת.
+  var tiles = [].slice.call(document.querySelectorAll('.pm-film-btn video'));
   if ('IntersectionObserver' in window && !still && !saver) {
+    var live = [], wait = new Map(), MAX = innerWidth > 900 ? 3 : 2;
+    function start(v) {
+      if (!v.src) v.src = v.dataset.src;
+      live = live.filter(function (x) { return x !== v; }); live.push(v);
+      while (live.length > MAX) live.shift().pause();
+      play(v);
+    }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var v = e.target;
-        if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; play(v); } else if (v.src) v.pause();
+        if (e.intersectionRatio >= 0.5) {
+          if (!wait.has(v)) wait.set(v, setTimeout(function () { wait.delete(v); start(v); }, 160));
+        } else {
+          clearTimeout(wait.get(v)); wait.delete(v);
+          if (v.src) v.pause();
+          live = live.filter(function (x) { return x !== v; });
+        }
       });
-    }, { threshold: 0.35 });
+    }, { threshold: [0, 0.5] });
     tiles.forEach(function (v) { io.observe(v); });
   }
 

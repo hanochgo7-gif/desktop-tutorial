@@ -153,7 +153,7 @@ body.pm .top-wa:hover { background: #fff; }
 body.pm .foot { border-top-color: rgba(243, 239, 230, .1); }
 
 /* כניסה עדינה בגלילה */
-.js .pm-reveal { opacity: 0; transform: translateY(22px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.js .pm-reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out); }
 .js .pm-reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .js .pm-reveal { opacity: 1; transform: none; transition: none; }
@@ -221,13 +221,13 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
 .pm-films-head { display: grid; gap: 0; }
 .pm-film-grid { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; grid-auto-flow: dense; }
 .pm-film-btn { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 10px; overflow: hidden; background: #0e1930; color: var(--fg); cursor: pointer; text-align: start; font: inherit; aspect-ratio: 16 / 9; }
-.pm-film-btn video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease-out), filter .6s; filter: saturate(.92); }
+.pm-film-btn video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease-out); }
 .pm-film-btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5, 5, 6, .88) 0%, rgba(5, 5, 6, .2) 45%, transparent 70%); transition: opacity .5s; }
-.pm-film-btn:hover video, .pm-film-btn:focus-visible video { transform: scale(1.035); filter: saturate(1.05); }
+.pm-film-btn:hover video, .pm-film-btn:focus-visible video { transform: scale(1.035); }
 .pm-film-cap { position: absolute; z-index: 1; inset: auto 22px 20px; display: grid; gap: .35rem; }
 .pm-film-cap b { font: 400 clamp(1.5rem, 2.2vw, 2.1rem)/1.1 var(--serif); }
 .pm-film-cap > span:last-child { font-size: .88rem; color: rgba(243, 239, 230, .72); }
-.pm-play { position: absolute; z-index: 1; top: 18px; left: 18px; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(243, 239, 230, .5); background: rgba(5, 5, 6, .3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background-color .3s, transform .4s var(--ease-out); }
+.pm-play { position: absolute; z-index: 1; top: 18px; left: 18px; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(243, 239, 230, .5); background: rgba(5, 5, 6, .3); transition: background-color .3s, transform .4s var(--ease-out); }
 .pm-play svg { width: 18px; height: 18px; transform: translateX(1px); }
 .pm-film-btn:hover .pm-play { background: var(--paper); color: var(--ink); transform: scale(1.06); }
 .pm-films-fine { margin-top: 28px; }
@@ -293,7 +293,7 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
 .pm-stills-full { columns: 4; }
 .pm-still { position: relative; break-inside: avoid; margin: 0 0 12px; border-radius: 10px; overflow: hidden; background: #0d0d10; }
 .pm-still-v img { aspect-ratio: 4 / 5; }
-.pm-still-btn { all: unset; position: relative; cursor: zoom-in; display: block; }
+.pm-still-btn { all: unset; position: relative; cursor: zoom-in; display: block; width: 100%; }
 .pm-still-btn:focus-visible { outline: 2px solid var(--bp); outline-offset: 3px; border-radius: 10px; }
 .pm-still img { width: 100%; height: auto; object-fit: cover; display: block; transform: scale(1.01); transition: transform 1.2s var(--ease-out), filter .6s; filter: saturate(.92); }
 .pm-still-btn:hover img { transform: scale(1.05); filter: saturate(1.05); }
@@ -372,3 +372,18 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
 /* הכותרת העליונה ברוחב של התוכן */
 body.pm .top { padding-inline: max(20px, calc((100% - 1240px) / 2)); }
 @media (min-width: 900px) { .pm-hero-film .pm-clients { padding-inline-start: 210px; } }
+
+/* ===== גלילה ותנועה: ערכים אחידים לכל האתר ===== */
+body.pm {
+  --dur-fast: .2s;      /* שינוי מצב קטן: ריחוף, לחיצה */
+  --dur-normal: .35s;   /* כותרת שמתפנה, סרגל תחתון */
+  --dur-reveal: .8s;    /* חלק שנכנס בגלילה */
+}
+@media (prefers-reduced-motion: reduce) { body.pm { --dur-fast: 1ms; --dur-normal: 1ms; --dur-reveal: 1ms; } }
+.pm-h2, .pm-hero h1, .pm-final h2, .pm-statement, .pm-gal-head h2 { text-wrap: balance; }
+.pm-sub, .pm-lede { text-wrap: pretty; }
+.pm-lightbox, .pm-lightbox .pm-lb-in { overscroll-behavior: contain; }
+html:has(dialog[open]) { overflow: hidden; }
+main > section[id] { scroll-margin-top: 72px; }
+.pm-btn, .pm-still-btn, .pm-film-btn, .pm-chips label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+@media (pointer: fine) { html { overscroll-behavior-y: none; } }

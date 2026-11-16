@@ -13,9 +13,14 @@
   /* ---------- גלילה חלקה ---------- */
   var lenis = null;
   if (!reduce && fine && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.09, smoothWheel: true,
+    lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true,
       prevent: function (n) { return !!(n.closest && n.closest('.ht-panel, .ht-body, .a11y__panel, .cmp-wrap, .menu-sheet, [data-lenis-prevent]')); } });
     (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+    // חלון פתוח (סרט, תמונה, טופס) עוצר את הגלילה מאחוריו, וסגירה מחזירה אותה
+    addEventListener('load', function () { lenis.resize(); });
+    d.addEventListener('load', function (e) { if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') { clearTimeout(lenis._rz); lenis._rz = setTimeout(function () { lenis.resize(); }, 150); } }, true);
+    new MutationObserver(function () { if (d.querySelector('dialog[open]')) lenis.stop(); else lenis.start(); })
+      .observe(d.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
   }
   // משך הקפיצה לפי המרחק: קפיצה קצרה מגיבה מהר, מסע ארוך לא נגרר
   function travel(el) { var dist = Math.abs(el.getBoundingClientRect().top); return Math.min(1.5, Math.max(.6, .45 + .35 * Math.log2(1 + dist / innerHeight))); }
@@ -27,7 +32,8 @@
     e.preventDefault();
     var menu = d.querySelector('.menu[open]'); if (menu) menu.open = false;
     // בירידה הכותרת מתפנה, אז אין צורך להשאיר לה מקום. בעלייה היא חוזרת, ולכן משאירים מקום
-    if (lenis) lenis.scrollTo(el, { offset: el.getBoundingClientRect().top > 0 ? -24 : -headH() - 8, duration: travel(el) });
+    // הגובה של הדף משתנה כשתמונות וסרטונים נטענים, אז מודדים מחדש לפני הנסיעה כדי להגיע בדיוק ליעד
+    if (lenis) { lenis.resize(); lenis.scrollTo(el, { offset: el.getBoundingClientRect().top > 0 ? -24 : -headH() - 8, duration: travel(el) }); }
     else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
     if (history.replaceState) history.replaceState(null, '', id);
     if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');

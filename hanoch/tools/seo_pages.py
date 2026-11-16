@@ -603,6 +603,8 @@ def render(p):
 <footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gutovski')}</span>{foot_links}{lang_link}{legal(up, he)}</footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/fluid.js" defer></script>
+<script src="{up}js/vendor/lenis.min.js" defer></script>
+<script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
 <script src="{up}js/assistant.js" defer></script>
 {CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
@@ -683,6 +685,8 @@ def hub(lang):
 <footer class="sv-foot"><span>© 2026 HG Studio</span>{legal(up, he)}</footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/fluid.js" defer></script>
+<script src="{up}js/vendor/lenis.min.js" defer></script>
+<script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
 <script src="{up}js/assistant.js" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
