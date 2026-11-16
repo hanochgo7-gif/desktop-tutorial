@@ -8,7 +8,7 @@ SRC, OUT = W / "media-src", W / "public/assets/img"
 WIDTHS = (640, 1024, 1600, 2400)  # 2400 for full-width headers on high-DPI screens (16 Nov 2026); only made when the master is that wide
 JOBS = {
     # name: (master, crop box as fractions or None)
-    "valley": ("valley.jpg", None),
+    "valley": ("valley.jpg", None),  # 16 Nov 2026: Higgsfield 4k upscale of the original (media-src/v1-valley/valley.jpg), then src/tools/dehaze.py, back to 2400
     "forest": ("forest.jpg", None),
     "p-site": ("p-site.jpg", (.0625, 0, .9375, 1)),  # 4:3: open farmland before a net house, Hermon behind (still miftah-283, Drive "סטילס מצלמה"; Merav 11 Nov 2026)
     "p-marking": ("p-marking.jpg", (.3375, .2778, 1, .94)),  # 4:3, without the two workers at the left (one may be a minor)
