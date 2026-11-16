@@ -43,7 +43,13 @@ self.addEventListener("fetch", (e) => {
     // the page: network first, so a new version appears as soon as the student is online; cached copy when offline
     e.respondWith(
       fetch(req)
-        .then((r) => { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("./", copy)); return r; })
+        .then((r) => {
+          // keep only a good copy of the app page itself: a 404 or error page (a mistyped address) must never replace it
+          const scope = new URL(self.registration.scope).pathname;
+          const page = url.pathname === scope || url.pathname === scope + "index.html";
+          if (r.ok && page) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("./", copy)); }
+          return r;
+        })
         .catch(() => caches.match("./"))
     );
     return;

@@ -1,2 +1,11 @@
+# Not for search engines (every page also says noindex). Link-preview bots may read the page so a shared link shows its picture.
+User-agent: facebookexternalhit
+User-agent: Facebot
+User-agent: WhatsApp
+User-agent: Twitterbot
+User-agent: TelegramBot
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
 User-agent: *
 Disallow: /

@@ -1380,6 +1380,12 @@ html.dlg-open { overflow: hidden; }
 .dlg-actions { display: flex; flex-direction: column; gap: 8px; }
 .dlg-actions .btn { width: 100%; min-height: 48px; }
 .dlg-full .dlg { height: 100%; max-height: 100%; border-radius: 0; }
+/* exam start sheet (verifier fix): the time choice and "להתחיל את המבחן" stay on screen; only the text between them scrolls */
+.dlg-wrap.exam-start .dlg { overflow: hidden; }
+.dlg-wrap.exam-start .dlg-body { overflow-y: auto; min-height: 0; flex: 1 1 auto; overscroll-behavior: contain; }
+.dlg-wrap.exam-start .dlg-actions { flex: none; flex-direction: row; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--line-strong); }
+.dlg-wrap.exam-start .dlg-actions .btn { width: auto; flex: 1 1 auto; }
+.dlg-wrap.exam-start .dlg-actions .btn-primary { flex-grow: 2; }
 @media (min-width: 47.5625em) {
   .dlg-wrap { align-items: center; }
   .dlg { max-width: 560px; border-radius: var(--radius-sheet); padding: 16px 20px 20px; }
@@ -1527,7 +1533,7 @@ ul.plain li { align-items: center; }
 @media (max-width: 37.5em) { .thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .thumb-a { display: flex; flex-direction: column; gap: 4px; text-decoration: none; font-size: var(--fs-1); min-width: 0; color: var(--ink); }
 .thumb-a img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 2px; background: var(--surface-2); }
-.thumb-a span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; }
+.thumb-a span { display: block; line-height: 1.35; overflow-wrap: anywhere; } /* the whole slide title, never cut with "…" (verifier fix) */
 .thumb-a b { display: block; }
 .cov-d .stats { margin: 4px 0 12px; }
 .cov-d .seg { margin-bottom: 10px; }
@@ -2120,3 +2126,11 @@ img.print-thumb { flex: none; width: 96px; height: 136px; border: 1px solid var(
 .bar-row a.ch-a > span { min-width: 0; overflow-wrap: break-word; }
 /* phones: the chapter name gets the whole first line; the tape, the count and the level share the second */
 @media (max-width: 30em) { .bar-ch > a.ch-a { grid-column: 1 / -1; } .bar-ch .tape { grid-column: 1; grid-row: 2; } }
+/* verifier fix: at "גדול מאוד" / "ענק" on a phone, two-column cards left 5-8 letters per line; one column reads as sentences */
+@media (max-width: 47.5em) {
+  :root[data-text="xl"] .presets, :root[data-text="xxl"] .presets,
+  :root[data-text="xl"] .stats, :root[data-text="xxl"] .stats,
+  :root[data-text="xl"] .two-col, :root[data-text="xxl"] .two-col { grid-template-columns: minmax(0, 1fr); }
+  :root[data-text="xl"] .stats .stat, :root[data-text="xxl"] .stats .stat { border-inline-end: 0; border-bottom: 1px solid var(--line); }
+  :root[data-text="xl"] .stats .stat:last-child, :root[data-text="xxl"] .stats .stat:last-child { border-bottom: 0; }
+}

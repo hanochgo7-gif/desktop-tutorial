@@ -303,7 +303,8 @@
     if (!isObj(b.plan.done)) b.plan.done = {};
     if (typeof b.plan.start !== "string" || (b.plan.start && !/^\d{4}-\d{2}-\d{2}$/.test(b.plan.start))) b.plan.start = "";
     if (typeof b.plan.shift !== "number" || !isFinite(b.plan.shift)) b.plan.shift = 0;
-    if (!isObj(b.activeRun) || !Array.isArray(b.activeRun.items)) b.activeRun = null;
+    if (!isObj(b.activeRun) || !Array.isArray(b.activeRun.items) || !b.activeRun.items.length || !b.activeRun.items.every(isObj)) b.activeRun = null;
+    else if (typeof b.activeRun.i !== "number" || !(b.activeRun.i >= 0 && b.activeRun.i < b.activeRun.items.length)) b.activeRun.i = 0;
     if (!isObj(b.auto)) b.auto = null;
     // a damaged store (hand edits, an old bug, a partial cloud write) must never break a view: drop malformed entries
     ["cards", "qstats", "bookmarks", "pos", "cases", "pretest", "order"].forEach(function (k) {
@@ -877,20 +878,21 @@
       ' alt="" width="' + px + '" height="' + px + '"' + (big ? "" : ' loading="lazy"') + ' decoding="async">';
   }
   // printables: a worded link (not window.print) to the designed PDF, with its first page beside it on wide screens.
+  // It opens the PDF in a new tab (the browser's viewer has its own print button); no download attribute, which would
+  // save the file instead and leave an empty tab behind.
   // On http(s) each file is checked once (HEAD); a file that is not there removes its block, so no link leads to an error page.
   var PRINT_MISS = {}, PRINT_SEEN = {};
   var PRINTS = {
     planner: { file: "planner.pdf", thumb: "planner-thumb.webp", label: "להדפסת תוכנית הלימוד (PDF)", name: "תוכנית לימוד 14 יום - מלאכות הבנייה.pdf", note: "2 עמודים בגודל A4. בכל יום יש ריבוע גדול לסימון." },
     guide: { file: "install-guide.pdf", thumb: "install-guide-thumb.webp", label: "להדפסת מדריך ההתקנה והגדלת האותיות (PDF)", name: "מדריך התקנה והגדלת האותיות - מלאכות הבנייה.pdf", note: "עמוד אחד בגודל A4: איך מתקינים את האפליקציה בטלפון, ואיך מגדילים את האותיות. אפשר להדפיס ולתת למי שצריך." }
   };
-  function fileName(s) { return String(s).replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim(); }
   function printBlock(p) {
     if (!p) return "";
     var href = MEDIA_BASE + "media/" + p.file;
     if (PRINT_MISS[href]) return "";
     return '<div class="print-card no-print" data-pdf="' + esc(href) + '">' +
       (p.thumb ? '<img class="print-thumb" src="' + esc(MEDIA_BASE + "media/" + p.thumb) + '" alt="" width="96" height="136" loading="lazy" decoding="async">' : "") +
-      '<div class="pc-t"><a class="btn print-btn" href="' + esc(href) + '" target="_blank" rel="noopener" download="' + esc(fileName(p.name)) + '">' + I.print + "<span>" + esc(p.label) + "</span></a>" +
+      '<div class="pc-t"><a class="btn print-btn" href="' + esc(href) + '" target="_blank" rel="noopener">' + I.print + "<span>" + esc(p.label) + "</span></a>" +
       (p.note ? '<p class="field-note">' + esc(p.note) + "</p>" : "") + "</div></div>";
   }
   function sheetPrint(c) {
@@ -1505,14 +1507,14 @@
     var manBtn = plan && !SET.simple && (man || !t.done) ? '<button type="button" class="btn btn-sm btn-ghost tick-t" data-act="plan-tick" data-day="' + t.day + '" data-idx="' + t.idx + '" aria-label="' + (man ? "ביטול הסימון: " : "סימנתי שביצעתי: ") + esc(taskTitle(t)) + '">' + (man ? "ביטול הסימון" : "סימנתי שביצעתי") + "</button>" : "";
     return '<li class="task' + (t.done ? " done" : "") + '"><a class="task-a" ' + taskLink(t) + '><span class="ti">' + (t.done ? I.check + '<span class="ti-w">בוצע</span>' : '<span aria-hidden="true">' + (I[TASK_ICON[t.type]] || "") + "</span>") + "</span>" +
       '<span class="tt"><b>' + esc(taskTitle(t)) + "</b>" + (t.note || t.carried ? "<small>" + (t.carried ? "<b class=\"carried\">מאתמול</b>" + (t.note ? " · " : "") : "") + esc(t.note || "") + "</small>" : "") + "</span>" +
-      '<span class="tm">' + (t.min ? t.min + " דקות" : "") + "</span></a>" + manBtn + "</li>";
+      '<span class="tm">' + (t.min ? plural(t.min, "דקה אחת", "דקות") : "") + "</span></a>" + manBtn + "</li>";
   }
   function todayCard() {
     var T = todayTasks(), ts = T.tasks, k = ts.length;
     var dn = ts.filter(function (t) { return t.done; }).length, mins = ts.reduce(function (s, t) { return s + (t.min || 0); }, 0);
     var allDone = k > 0 && dn === k, first = ts.filter(function (t) { return !t.done; })[0];
     var html = '<section class="today' + (allDone ? " is-done" : "") + '" aria-labelledby="today-h">' +
-      '<div class="today-top"><h2 id="today-h">' + esc(allDone ? "סיימתם את כל המשימות של היום" : T.title) + '</h2><span class="meta">' + (k ? k + " משימות, בערך " + mins + " דקות" : "") + "</span></div>";
+      '<div class="today-top"><h2 id="today-h">' + esc(allDone ? "סיימתם את כל המשימות של היום" : T.title) + '</h2><span class="meta">' + (k ? plural(k, "משימה אחת", "משימות") + ", בערך " + plural(mins, "דקה אחת", "דקות") : "") + "</span></div>";
     if (planOn() && planDayNow() === 0) html += '<p class="muted small">התוכנית מתחילה ב-' + fmtDay(planDate(1)) + ". עד אז, אפשר ללמוד בקצב שלכם.</p>";
     if (k) html += '<div class="today-prog">' + tape(pct(dn / k), true, "today-" + today()) + '<span class="mono-n">' + dn + " מתוך " + k + "</span></div>";
     // R11: the one next step comes first, above the list
@@ -2121,17 +2123,18 @@
     // pick n questions, spreading across lessons and types
     var by = {};
     shuffle(pool).forEach(function (q) { (by[q.lesson] = by[q.lesson] || []).push(q); });
-    var keys = shuffle(Object.keys(by)), out = [], idCap = Math.max(1, Math.ceil(n * 0.15)), idN = 0;
+    var keys = shuffle(Object.keys(by)), out = [], idCap = Math.max(1, Math.ceil(n * 0.15)), idN = 0, idRest = [];
     while (out.length < n && keys.some(function (k) { return by[k].length; })) {
       keys.forEach(function (k) {
         while (out.length < n && by[k].length) {
           var q = by[k].shift();
-          if (q.type === "identify") { if (idN >= idCap) continue; idN++; }
+          if (q.type === "identify") { if (idN >= idCap) { idRest.push(q); continue; } idN++; }
           out.push(q); break;
         }
       });
     }
-    return out;
+    // the cap only keeps drawings from crowding out other types: when nothing else is left (e.g. "זיהוי בשרטוט" chosen), fill up
+    return out.concat(idRest.slice(0, Math.max(0, n - out.length)));
   }
   function startRun(mode, title, list, back, extra) {
     if (!list.length) { toast("אין שאלות שמתאימות למה שבחרתם. נסו בחירה אחרת."); return; }
@@ -2186,7 +2189,7 @@
     var tr = kind === "chapter" && !S.seen.examIntro ? arr((X(ec) || {}).traps).slice(0, 4) : [];
     var m = examMinutes(kind, ec), on = SET.examTimer === "on";
     var opt = function (v, b, sm, chk) { return '<label class="tp"><input type="radio" name="exam-time" value="' + v + '"' + (chk ? " checked" : "") + "><span><b>" + b + "</b>" + (sm ? "<small>" + sm + "</small>" : "") + "</span></label>"; };
-    openSheet({ title: kind === "full" ? "להתחיל את המבחן על כל הקורס?" : "להתחיל את מבחן פרק " + esc(CHID[ec].letter) + "?",
+    openSheet({ cls: "exam-start", title: kind === "full" ? "להתחיל את המבחן על כל הקורס?" : "להתחיל את מבחן פרק " + esc(CHID[ec].letter) + "?",
       body: "<p>ענו על כל השאלות. בסוף הקישו על ״להגיש את המבחן״. את הציון רואים רק בסוף.</p>" +
         '<fieldset class="time-pick"><legend>זמן למבחן</legend>' + opt(0, "בלי הגבלת זמן", "עונים בנחת. אין שעון.", !on) + opt(m, "כמו במבחן אמיתי: " + m + " דקות", "אפשר לעצור את השעון ולהוסיף זמן.", on) + opt(m * 2, "זמן כפול: " + m * 2 + " דקות", "", false) + "</fieldset>" +
         (tr.length ? "<p>לפני שמתחילים, שימו לב לדברים שקל להתבלבל בהם בפרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> לא להציג את המלכודות שוב</label>' : ""),
@@ -3038,7 +3041,7 @@
     groups.forEach(function (g) {
       var gs = SOURCES.filter(function (s) { return s.id.indexOf(g + "-") === 0 && !s.duplicate_of; });
       if (!gs.length) return;
-      html += '<section class="src-group"><div class="section-head"><h2>' + esc(META.groups[g].name) + '</h2><span class="count">' + gs.length + '</span></div><div class="thumbs">' +
+      html += '<section class="src-group"><div class="section-head"><h2>' + esc(META.groups[g].name) + '</h2><span class="count">' + plural(gs.length, "שקף אחד", "שקפים") + '</span></div><div class="thumbs">' +
         gs.map(function (s) { return '<a class="thumb-a" href="#source-' + s.id + '"><img loading="lazy" src="' + IMG_BASE + esc(s.id) + '-sm.jpg" data-full="' + IMG_BASE + esc(s.id) + '.jpg" alt="" data-act="imgfail"><span><b>' + esc(srcLabel(s.id)) + "</b>" + esc(s.title || "(ללא כותרת)") + "</span></a>"; }).join("") + "</div></section>";
     });
     html += '<details class="panel cov-d"' + (srcFilter !== "all" ? " open" : "") + '><summary><b>אילו שקפים נכנסו לשיעורים</b>' + I.chev + "</summary>" +
@@ -3114,7 +3117,7 @@
     var courseCards = CARDS.filter(function (x) { return x.scope === "course"; }).length;
     var html = '<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1>' + hereLine("progress") + '</div><div class="stats wide">' +
       '<div class="stat"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, false, "prog-done") + '<span class="k">' + chDone + " מתוך " + CH.length + " פרקים הושלמו</span></div>" +
-      '<div class="stat"><span class="k">כמה אתם מוכנים למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + glyph(rd, true) + '<span class="k">לפי ' + rd.n + " תשובות שלכם</span>" : '<span class="v v-l">עוד לא ידוע</span><span class="k">יופיע אחרי שתענו על 40 שאלות, או אחרי מבחן אחד</span>') + "</div>" +
+      '<div class="stat"><span class="k">כמה אתם מוכנים למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + '<span class="k">לפי ' + rd.n + " תשובות שלכם</span>" : '<span class="v v-l">עוד לא ידוע</span><span class="k">יופיע אחרי שתענו על 40 שאלות, או אחרי מבחן אחד</span>') + "</div>" +
       '<div class="stat"><span class="k">ימי לימוד ברצף</span><span class="v">' + sk + "<small> " + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
       '<div class="stat"><span class="k">כרטיסיות שעברתם</span><span class="v">' + learned + "<small> מתוך " + courseCards + "</small></span>" + tape(pct(learned / Math.max(1, courseCards)), true) + "</div></div>";
     html += heatmap();
@@ -3173,7 +3176,7 @@
       fs("תרגול ומבחנים", seg("examTimer", "שעון במבחנים", [["off", "בלי שעון"], ["on", "עם שעון"]], "אפשר לבחור מחדש לפני כל מבחן.") +
         seg("swipe", "החלקה לדירוג כרטיסיות", [["0", "כבויה"], ["1", "פעילה"]], "כשהיא פעילה, החלקה ימינה או שמאלה על כרטיסייה מדרגת אותה.")) +
       fs("מראה", seg("theme", "צבעי המסך", [["auto", "לפי המכשיר"], ["light", "רקע בהיר"], ["dark", "רקע כהה"]]) + seg("motion", "תנועה במסך", [["auto", "לפי המכשיר"], ["reduce", "מעט תנועה"]])) +
-      (cloud.on ? "" : fs("גיבוי ההתקדמות", '<p class="field-note">כדי להמשיך במכשיר אחר: שמרו קובץ גיבוי, ופתחו אותו במכשיר השני. מה שבקובץ יתווסף למה שכבר יש שם.</p><p class="field-note"><b>' + last + "</b></p>" +
+      (cloud.on ? "" : fs("גיבוי ההתקדמות", '<p class="field-note">כדי להמשיך במכשיר אחר: שמרו קובץ גיבוי, ופתחו אותו במכשיר השני. מה שבקובץ יתווסף למה שכבר יש שם.</p><p class="field-note"><b id="backup-last">' + last + "</b></p>" +
         '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="backup-save">לשמור קובץ גיבוי</button><button type="button" class="btn btn-sm" data-act="backup-load">לפתוח קובץ גיבוי</button></div>' +
         '<div id="backup-box"></div><input type="file" id="backup-file" accept="application/json,.json" hidden>')) +
       '<a class="btn btn-sm help-link" href="#help">' + I.help + "איך משתמשים באפליקציה</a>" +
@@ -3186,6 +3189,7 @@
   function backupSaved(name, file) {
     var share = !!(file && navigator.canShare && (function () { try { return navigator.canShare({ files: [file] }); } catch (e) { return false; } })());
     lastBackup = share ? file : null;
+    var bl = document.getElementById("backup-last"); if (bl) bl.textContent = "גיבוי אחרון: לפני פחות מיום";
     backupBox('<div class="note-box" role="status"><p><b>הקובץ נשמר בתיקיית ההורדות בשם ' + esc(name) + ".</b></p><p>כדי להמשיך במכשיר אחר: שלחו את הקובץ לעצמכם (בוואטסאפ או במייל), פתחו את האפליקציה שם, ובהגדרות הקישו על ״לפתוח קובץ גיבוי״.</p>" +
       '<div class="btn-row">' + (share ? '<button type="button" class="btn btn-sm" data-act="backup-share">לשלוח את הגיבוי</button>' : "") + '<button type="button" class="btn btn-sm btn-ghost" data-act="backup-box-x">הבנתי, לסגור</button></div></div>');
   }
