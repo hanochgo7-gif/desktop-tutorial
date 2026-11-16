@@ -55,6 +55,25 @@ if (mode === "bundle") {
   const fonts = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Karantina:wght@400;700&display=swap">`;
+  // link preview (WhatsApp, Facebook, Telegram...): crawlers need an absolute image URL. noindex above keeps search engines out;
+  // previews still work, because a share preview is not indexing.
+  const SITE = "https://hanochgo7-gif.github.io/desktop-tutorial/melachot/site/";
+  const og = `<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="מלאכות הבנייה">
+<meta property="og:title" content="מלאכות הבנייה">
+<meta property="og:description" content="אפליקציה ללימוד מלאכות הבנייה: שיעורים, תרגול ומבחנים, מבוסס על שקפי הקורס">
+<meta property="og:url" content="${SITE}">
+<meta property="og:image" content="${SITE}media/share-1200x630.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="מלאכות הבנייה: אפליקציה ללימוד מלאכות הבנייה. שיעורים, תרגול ומבחנים, מבוסס על שקפי הקורס">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="מלאכות הבנייה">
+<meta name="twitter:description" content="אפליקציה ללימוד מלאכות הבנייה: שיעורים, תרגול ומבחנים, מבוסס על שקפי הקורס">
+<meta name="twitter:image" content="${SITE}media/share-1200x630.jpg">
+<meta name="twitter:image:alt" content="מלאכות הבנייה: אפליקציה ללימוד מלאכות הבנייה. שיעורים, תרגול ומבחנים, מבוסס על שקפי הקורס">`;
   const head = web
     ? `<!doctype html>
 <html lang="he" dir="rtl">
@@ -68,8 +87,9 @@ if (mode === "bundle") {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="מלאכות הבנייה">
 <title>מלאכות הבנייה</title>
-<link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
-<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+${og}
+<link rel="icon" href="favicon-48.png" sizes="48x48" type="image/jpeg">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/jpeg">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 ${fonts}`

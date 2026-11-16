@@ -2075,3 +2075,48 @@ ul.plain li { flex-wrap: wrap; }
 .tbl-hint { font-size: var(--fs-1); font-weight: 700; color: var(--ink); margin-bottom: 4px; }
 .tbl-hint { font-size: var(--fs-2); }
 .dg-zoom { min-height: 48px; font-size: var(--fs-1); }
+
+/* ---- Canva brand set: chapter icons (decorative, always beside the name) and printable PDFs */
+/* the icon is ink on its own paper plate (#EBECE7); a 1px edge keeps the plate readable on dark and high-contrast pages */
+img.ch-ic { display: block; flex: none; width: 44px; height: 44px; border-radius: 6px; background: #EBECE7; box-shadow: 0 0 0 1px var(--line); object-fit: contain; }
+img.ch-ic-lg { width: 104px; height: 104px; border-radius: 10px; }
+:root[data-theme="dark"] img.ch-ic { box-shadow: 0 0 0 1px #B4BAB5; filter: brightness(.94); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) img.ch-ic { box-shadow: 0 0 0 1px #B4BAB5; filter: brightness(.94); } }
+:root[data-contrast="high"] img.ch-ic { box-shadow: 0 0 0 1.5px var(--ink); filter: none; }
+@media (forced-colors: active) { img.ch-ic, img.print-thumb { outline: 1px solid CanvasText; } }
+.ch-name { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ch-name b { min-width: 0; }
+.cc-body img.ch-ic { margin-top: 2px; }
+.chh-title { display: flex; align-items: center; gap: 16px; }
+.chh-tt { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+@media (max-width: 30em) { img.ch-ic-lg { width: 88px; height: 88px; } .chh-title { gap: 12px; } }
+.cheatsheet .chh-title { gap: 12px; }
+.sheet-item img.ch-ic { width: 40px; height: 40px; }
+.bar-row a.ch-a { gap: 10px; }
+.bar-row a.ch-a img.ch-ic { width: 40px; height: 40px; }
+.bar-ch { grid-template-columns: minmax(0, 260px) minmax(0, 1fr) auto auto; }
+.bar-ch .mono-n, .bar-cards .mono-n { white-space: nowrap; }
+@media (max-width: 30em) { .bar-ch { grid-template-columns: minmax(0, 1fr) auto auto; } }
+.pick.pick-ch { justify-content: flex-start; }
+.pick.pick-ch b { flex: 1; min-width: 0; }
+.exam-card .ec-h { display: flex; align-items: center; gap: 10px; }
+.exam-card .ec-h span { font-size: inherit; color: inherit; font-weight: inherit; }
+.exam-card[disabled] img.ch-ic { opacity: .6; }
+/* at the two largest text sizes the small icon grows a little with the text (still inside 40-48px) */
+:root[data-text="xl"] img.ch-ic:not(.ch-ic-lg), :root[data-text="xxl"] img.ch-ic:not(.ch-ic-lg) { width: 48px; height: 48px; }
+.print-card { display: flex; align-items: center; gap: 16px; margin-top: 14px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); max-width: 40em; }
+.print-card .pc-t { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; }
+.print-card .print-btn { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; white-space: normal; }
+.print-card .print-btn svg { width: 22px; height: 22px; flex: none; }
+img.print-thumb { flex: none; width: 96px; height: 136px; border: 1px solid var(--line-strong); border-radius: 2px; background: #fff; object-fit: cover; }
+@media (max-width: 40em) { img.print-thumb { display: none; } .print-card { padding: 10px; } }
+.page-head .print-card, .set-g .print-card { margin-top: 4px; }
+.help-s .print-card { margin-top: 4px; }
+:root[data-contrast="high"] .print-card { border-width: 2px; }
+.bar-cards { grid-template-columns: minmax(0, 260px) minmax(0, 1fr) auto; }
+@media (max-width: 30em) { .bar-cards { grid-template-columns: minmax(0, 1fr) auto; } }
+.cs-h + .print-card { margin: 0 0 14px; }
+.bar-row a.ch-a { min-width: 0; max-width: 100%; }
+.bar-row a.ch-a > span { min-width: 0; overflow-wrap: break-word; }
+/* phones: the chapter name gets the whole first line; the tape, the count and the level share the second */
+@media (max-width: 30em) { .bar-ch > a.ch-a { grid-column: 1 / -1; } .bar-ch .tape { grid-column: 1; grid-row: 2; } }

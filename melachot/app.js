@@ -696,6 +696,7 @@
     grid: svgI('<rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/>'),
     cards: svgI('<rect x="3" y="7" width="14" height="13" rx="1.5"/><path d="M7 4h12.5A1.5 1.5 0 0 1 21 5.5V16"/>'),
     doc: svgI('<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>'),
+    print: svgI('<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="1.5"/><path d="M7 14h10v7H7z"/>'),
     exam: svgI('<rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 4V2.5h6V4M9 10h6M9 14h6M9 18h3"/>'),
     hat: svgI('<path d="M4 17h16M6 17a6 6 0 0 1 12 0M12 8V6M9.5 9.5 9 8M14.5 9.5 15 8"/>'),
     sheetI: svgI('<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/>'),
@@ -863,6 +864,52 @@
     o = o || {};
     var m = chMedia(c);
     return '<span class="cover">' + swatchBg(c.material) + (m ? imgHtml(m, { card: true, small: true, sizes: o.sizes || "240px" }) + '<span class="ai-badge" aria-hidden="true">AI</span>' : "") + "</span>";
+  }
+  // =============================================================== Canva brand set (media/chicon-*, media/*.pdf)
+  // chapter icons: decorative (alt=""), always beside the chapter name, never its only label. Fixed size: no layout shift.
+  // Only these chapters have files; a new chapter simply shows no icon and no printable sheet.
+  var CANVA_CH = { skeleton: 1, foundations: 1, piles: 1, earthworks: 1, shoring: 1, columns: 1, beams: 1, slabs: 1 };
+  function chIcon(c, big) {
+    if (!c || !CANVA_CH[c.id]) return "";
+    var b = MEDIA_BASE + "media/chicon-" + c.id, px = big ? 104 : 44;
+    return '<img class="ch-ic' + (big ? " ch-ic-lg" : "") + '" src="' + esc(b + (big ? "-256" : "-96") + ".webp") + '"' +
+      (big ? "" : ' srcset="' + esc(b + "-96.webp 96w, " + b + "-256.webp 256w") + '" sizes="44px"') +
+      ' alt="" width="' + px + '" height="' + px + '"' + (big ? "" : ' loading="lazy"') + ' decoding="async">';
+  }
+  // printables: a worded link (not window.print) to the designed PDF, with its first page beside it on wide screens.
+  // On http(s) each file is checked once (HEAD); a file that is not there removes its block, so no link leads to an error page.
+  var PRINT_MISS = {}, PRINT_SEEN = {};
+  var PRINTS = {
+    planner: { file: "planner.pdf", thumb: "planner-thumb.webp", label: "להדפסת תוכנית הלימוד (PDF)", name: "תוכנית לימוד 14 יום - מלאכות הבנייה.pdf", note: "2 עמודים בגודל A4. בכל יום יש ריבוע גדול לסימון." },
+    guide: { file: "install-guide.pdf", thumb: "install-guide-thumb.webp", label: "להדפסת מדריך ההתקנה והגדלת האותיות (PDF)", name: "מדריך התקנה והגדלת האותיות - מלאכות הבנייה.pdf", note: "עמוד אחד בגודל A4: איך מתקינים את האפליקציה בטלפון, ואיך מגדילים את האותיות. אפשר להדפיס ולתת למי שצריך." }
+  };
+  function fileName(s) { return String(s).replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim(); }
+  function printBlock(p) {
+    if (!p) return "";
+    var href = MEDIA_BASE + "media/" + p.file;
+    if (PRINT_MISS[href]) return "";
+    return '<div class="print-card no-print" data-pdf="' + esc(href) + '">' +
+      (p.thumb ? '<img class="print-thumb" src="' + esc(MEDIA_BASE + "media/" + p.thumb) + '" alt="" width="96" height="136" loading="lazy" decoding="async">' : "") +
+      '<div class="pc-t"><a class="btn print-btn" href="' + esc(href) + '" target="_blank" rel="noopener" download="' + esc(fileName(p.name)) + '">' + I.print + "<span>" + esc(p.label) + "</span></a>" +
+      (p.note ? '<p class="field-note">' + esc(p.note) + "</p>" : "") + "</div></div>";
+  }
+  function sheetPrint(c) {
+    if (!c || !CANVA_CH[c.id]) return "";
+    return printBlock({ file: "sheet-" + c.id + ".pdf", thumb: "sheet-" + c.id + "-thumb.webp", label: "להדפסת דף הסיכום (PDF)", name: "דף סיכום - " + c.title + ".pdf", note: "3 עמודים בגודל A4. ליד כל עובדה מופיע מספר השקף." });
+  }
+  function checkPrints(root) {
+    if (!/^https?:$/.test(location.protocol) || !window.fetch) return; // file:// cannot be checked; the files ship with every build
+    (root || document).querySelectorAll(".print-card[data-pdf]").forEach(function (el) {
+      var u = el.getAttribute("data-pdf");
+      if (PRINT_MISS[u]) { el.remove(); return; }
+      if (PRINT_SEEN[u]) return;
+      PRINT_SEEN[u] = 1;
+      fetch(u, { method: "HEAD", cache: "no-cache" }).then(function (r) {
+        if (r.status !== 404 && r.status !== 410) return;
+        PRINT_MISS[u] = 1;
+        document.querySelectorAll(".print-card[data-pdf]").forEach(function (x) { if (x.getAttribute("data-pdf") === u) x.remove(); });
+      }).catch(function () { PRINT_SEEN[u] = 0; }); // offline or blocked: keep the link (the service worker answers offline)
+    });
   }
   function checkImgs() {
     main.querySelectorAll("img.ai-img").forEach(function (im) { if (im.complete) { if (im.naturalWidth) im.classList.add("loaded"); else im.classList.add("failed"); } });
@@ -1213,7 +1260,7 @@
     focusEl(main.querySelector("h1") || main);
   }
   function paint(html) { var key = focusKey(document.activeElement); main.innerHTML = html; post(); restoreFocus(key); }
-  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); tableRegions(); langParts(); }
+  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); tableRegions(); langParts(); checkPrints(main); }
   function langParts() {
     main.querySelectorAll('[dir="ltr"]:not([lang])').forEach(function (el) {
       var t = el.textContent; if (/[A-Za-z]{2,}/.test(t) && !/[\u0590-\u05FF]/.test(t)) el.setAttribute("lang", "en");
@@ -1499,7 +1546,7 @@
   function chCard(c) {
     var cp = completion(c.lessons);
     return '<a class="ch-card" href="#chapter-' + c.id + '">' + coverHtml(c) +
-      '<span class="cc-body"><span class="num">' + esc(c.letter) + '</span><span class="cc-t"><b>' + esc(c.title) + "</b><small>" + cp.d + " מתוך " + cp.n + " שיעורים</small></span></span>" +
+      '<span class="cc-body"><span class="num">' + esc(c.letter) + "</span>" + chIcon(c) + '<span class="cc-t"><b>' + esc(c.title) + "</b><small>" + cp.d + " מתוך " + cp.n + " שיעורים</small></span></span>" +
       tape(cp.p, true, "chc-" + c.id) + '<span class="cc-sw" aria-hidden="true">' + window.Diagrams.swatch(c.material || "general") + "</span></a>";
   }
   function footHtml() {
@@ -1515,6 +1562,7 @@
       '<div class="page-head"><span class="eyebrow">תוכנית לימוד</span><h1 class="display">' + esc(PLAN.title || "תוכנית 14 יום") + "</h1>" + hereLine("plan") + (PLAN.intro ? '<p class="lead">' + esc(PLAN.intro) + "</p>" : "") + "</div>";
     if (!on) html += '<div class="panel plan-start"><p>בכל יום בתוכנית מחכות משימות: שיעורים, כרטיסיות, שאלות, סיפורים מהאתר ומבחנים.</p><p>משימה שסיימתם מסומנת מעצמה. אפשר גם לסמן אותה בעצמכם.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="ob-start" data-when="0">להתחיל את התוכנית היום</button><button type="button" class="btn" data-act="ob-start" data-when="1">להתחיל את התוכנית מחר</button></div></div>';
     else html += '<div class="panel plan-status"><b>' + (pn === 0 ? "התוכנית מתחילה ב-" + fmtDay(planDate(1)) : pn > PLAN_N ? "התוכנית הסתיימה. בהצלחה במבחן." : "התחלתם ב-" + fmtDay(S.plan.start) + " · יום " + pn + " מתוך " + PLAN_N) + "</b>" + planTicks(pn) + "</div>";
+    html += printBlock(PRINTS.planner);
     var miss = missedYesterday();
     if (miss) html += missedBanner(miss);
     html += '<ol class="plan-days">' + PLAN.days.map(function (d, i) {
@@ -1555,7 +1603,7 @@
     var cp = completion(c.lessons), est = c.lessons.reduce(function (s, l) { return s + (l.est || 10); }, 0), open = !!openCh[c.id];
     return '<section class="ch-row' + (open ? " open" : "") + '" id="ch-' + c.id + '"><div class="ch-row-h">' +
       '<a class="ch-link" href="#chapter-' + c.id + '">' + (SET.simple ? "" : coverHtml(c, { sizes: "72px" })) + '<span class="ch-letter">' + esc(c.letter) + "</span>" +
-      '<span class="ch-title"><b>' + esc(c.title) + "</b><small>" + cp.d + " מתוך " + cp.n + " שיעורים" + (SET.simple ? "" : ", בערך " + est + " דקות") + "</small>" + tape(cp.p, true, "chr-" + c.id) + "</span>" + (SET.simple ? "" : glyph(chapterM(c), true)) + "</a></div>" +
+      '<span class="ch-title"><span class="ch-name">' + chIcon(c) + "<b>" + esc(c.title) + "</b></span><small>" + cp.d + " מתוך " + cp.n + " שיעורים" + (SET.simple ? "" : ", בערך " + est + " דקות") + "</small>" + tape(cp.p, true, "chr-" + c.id) + "</span>" + (SET.simple ? "" : glyph(chapterM(c), true)) + "</a></div>" +
       '<button type="button" class="ch-exp-t" data-act="toggle-ch" data-id="' + c.id + '" aria-expanded="' + open + '" aria-controls="chl-' + c.id + '">' + chExpLabel(c, open) + "</button>" +
       '<ol class="lesson-list" id="chl-' + c.id + '"' + (open ? "" : " hidden") + ">" + c.lessons.map(lessonRow).join("") + "</ol></section>";
   }
@@ -1576,7 +1624,7 @@
     function sec(id, label, h) { if (label) nav.push([id, label]); body += '<section class="cs" id="' + id + '">' + h + "</section>"; }
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#course">כל השיעורים</a><span aria-hidden="true">›</span><span>פרק ' + esc(c.letter) + "</span></nav>";
     html += '<header class="ch-head">' + (m ? aiFig(m, { cls: "ch-cover", material: c.material, eager: true, sizes: "(max-width: 760px) 100vw, 680px" }) : '<div class="ch-cover sw" aria-hidden="true">' + window.Diagrams.swatch(c.material || "general") + "</div>") +
-      '<div class="chh-main"><span class="eyebrow">פרק ' + esc(c.letter) + " · " + c.lessons.length + " שיעורים · בערך " + est + ' דקות</span><h1 class="display">' + esc(c.title) + "</h1>" + hereLine("chapter") +
+      '<div class="chh-main"><div class="chh-title">' + chIcon(c, true) + '<div class="chh-tt"><span class="eyebrow">פרק ' + esc(c.letter) + " · " + c.lessons.length + " שיעורים · בערך " + est + ' דקות</span><h1 class="display">' + esc(c.title) + "</h1></div></div>" + hereLine("chapter") +
       '<div class="chh-prog">' + tape(cp.p, false, "chp-" + c.id) + '<span class="mono-n">' + cp.d + " מתוך " + cp.n + " שיעורים</span>" + (SET.simple ? "" : glyph(cm)) + "</div></div></header>";
     // P2-3: the chapter-complete moment is an inline card, never a sheet that opens by itself
     if (c.lessons.every(function (l) { return S.done[l.id]; }) && !S.celebrated["ch:" + c.id]) html += chDoneCard(c);
@@ -1592,7 +1640,7 @@
     sec("cs-lessons", "שיעורים", '<h2>השיעורים בפרק</h2><ol class="lesson-list ch-lessons">' + c.lessons.map(function (l) { return lessonRow(l, l === next); }).join("") + "</ol>");
     if (arr(x.cheatsheet).length) {
       var cs = x.cheatsheet;
-      sec("cs-sheet", "דף סיכום", '<div class="cs-h"><h2>דף סיכום</h2><div class="btn-row"><a class="btn btn-sm btn-ghost" href="#sheet-' + c.id + '">לפתוח במסך מלא</a><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + "להסתיר את העובדות</button></div></div>" +
+      sec("cs-sheet", "דף סיכום", '<div class="cs-h"><h2>דף סיכום</h2><div class="btn-row"><a class="btn btn-sm btn-ghost" href="#sheet-' + c.id + '">לפתוח במסך מלא</a><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + "להסתיר את העובדות</button></div></div>" + (SET.simple ? "" : sheetPrint(c)) +
         cheatList(cs, cs.length > 8) + (cs.length > 8 ? '<button type="button" class="btn btn-sm btn-ghost cs-more" data-act="cs-more">להציג עוד ' + (cs.length - 8) + " עובדות</button>" : ""));
     }
     if (isObj(x.compare) && arr(x.compare.head).length) sec("cs-compare", "השוואה", "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare));
@@ -1615,6 +1663,7 @@
         if (/^ (pretest-card|cs-intro)|^" id="(cs-lessons|cs-exam)"/.test(p0)) keep += sec0; else { more += sec0; moreN++; }
       });
       if (x && arr(x.cheatsheet).length) keep += '<a class="btn" href="#sheet-' + c.id + '">לדף הסיכום של הפרק</a>';
+      keep += sheetPrint(c);
       body = keep + (moreN ? '<details class="panel more-d"><summary><b>עוד בפרק הזה (' + moreN + ")</b>" + I.chev + "</summary>" + more + "</details>" : "");
       nav = [];
     }
@@ -1716,15 +1765,15 @@
     var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1>' + hereLine("sheets") + "</div>" + refTabs("sheets") +
       '<p class="muted">דף אחד לכל פרק, עם העובדות החשובות. ליד כל עובדה מופיע השקף שלה. טוב לחזרה לפני מבחן, ואפשר להדפיס.</p><div class="sheet-list">' +
       CH.filter(function (c) { return X(c.id) && arr(X(c.id).cheatsheet).length; }).map(function (c) {
-        return '<a class="sheet-item" href="#sheet-' + c.id + '"><span class="num">' + esc(c.letter) + '</span><span class="lt"><b>' + esc(c.title) + "</b><small>" + X(c.id).cheatsheet.length + " עובדות" + (S.acts["sheet:" + c.id] ? " · קראתם" : "") + "</small></span>" + I.arrowL + "</a>";
+        return '<a class="sheet-item" href="#sheet-' + c.id + '"><span class="num">' + esc(c.letter) + "</span>" + chIcon(c) + '<span class="lt"><b>' + esc(c.title) + "</b><small>" + X(c.id).cheatsheet.length + " עובדות" + (S.acts["sheet:" + c.id] ? " · קראתם" : "") + "</small></span>" + I.arrowL + "</a>";
       }).join("") + "</div>";
     paint(html);
   }
   function viewSheet(c) {
     var x = X(c.id);
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#sheets">דפי סיכום</a><span aria-hidden="true">›</span><a href="#chapter-' + c.id + '">פרק ' + esc(c.letter) + "</a></nav>" +
-      '<article class="cheatsheet"><div class="page-head"><span class="eyebrow">דף סיכום · פרק ' + esc(c.letter) + '</span><h1 class="display">' + esc(c.title) + "</h1>" + hereLine("sheet") +
-      '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'להסתיר את העובדות</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">להדפיס</button></div></div>' +
+      '<article class="cheatsheet"><div class="page-head"><div class="chh-title">' + chIcon(c) + '<div class="chh-tt"><span class="eyebrow">דף סיכום · פרק ' + esc(c.letter) + '</span><h1 class="display">' + esc(c.title) + "</h1></div></div>" + hereLine("sheet") +
+      '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'להסתיר את העובדות</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">להדפיס</button></div>' + sheetPrint(c) + "</div>" +
       cheatList(arr(x.cheatsheet), false) +
       (isObj(x.compare) && arr(x.compare.head).length ? "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare) : "") +
       (arr(x.traps).length ? '<h2>מלכודות במבחן</h2><p class="muted">דברים שקל להתבלבל בהם בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps) : "") +
@@ -2113,7 +2162,7 @@
       '<button type="button" class="exam-card main" data-act="exam-full"><b>מבחן על כל הקורס</b><span>30 שאלות מכל הפרקים</span>' + (rd ? '<span class="rd">כמה אתם מוכנים: ' + MLABEL[rd.lv] + " (לפי " + rd.n + " תשובות שלכם)</span>" : "") + "</button>" +
       CH.map(function (c) {
         var n = Math.min(15, poolFor("ch:" + c.id, { auto: true }).length), last = lastExamOf(c.id), tr = arr((X(c.id) || {}).traps).length;
-        return '<button type="button" class="exam-card" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + "><b>פרק " + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + plural(n, "שאלה אחת", "שאלות") + "</span>" +
+        return '<button type="button" class="exam-card" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + '><b class="ec-h">' + chIcon(c) + "<span>פרק " + esc(c.letter) + ": " + esc(c.title) + "</span></b><span>" + plural(n, "שאלה אחת", "שאלות") + "</span>" +
           '<span class="ex-last">' + (last ? "ציון אחרון: " + last.score + ", בתאריך " + fmtDate(last.t) : "עוד לא נבחנתם") + (tr ? " · " + tr + " מלכודות במבחן" : "") + "</span></button>";
       }).join("") + "</div></div>";
     if (PLAN && arr(PLAN.exam_tips).length) html += '<details class="panel tips-d"><summary><b>טיפים לבחינה</b>' + I.chev + '</summary><ul class="tips-l">' + PLAN.exam_tips.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + '</ul><span class="tag-expl">הסבר משלים</span></details>';
@@ -2153,7 +2202,7 @@
       '<div class="section-head"><h2>לפי פרק</h2></div><div class="bars panel">' + CH.map(function (c) {
         var cs = CARDS.filter(function (x) { return L[x.lesson] && L[x.lesson].ch === c; });
         var learned = cs.filter(function (x) { var st = S.cards[x.id]; return st && st.reps > 0; }).length;
-        return '<div class="bar-row"><a href="#review-ch-' + c.id + '">פרק ' + esc(c.letter) + ": " + esc(c.title) + "</a>" + tape(pct(cs.length ? learned / cs.length : 0), true) + '<span class="mono-n">' + learned + " מתוך " + cs.length + "</span></div>";
+        return '<div class="bar-row bar-cards"><a class="ch-a" href="#review-ch-' + c.id + '">' + chIcon(c) + "<span>פרק " + esc(c.letter) + ": " + esc(c.title) + "</span></a>" + tape(pct(cs.length ? learned / cs.length : 0), true) + '<span class="mono-n">' + learned + " מתוך " + cs.length + "</span></div>";
       }).join("") + '</div><p class="muted">המספר מראה כמה כרטיסיות כבר עברתם לפחות פעם אחת.</p>';
   }
   function buildReview(arg) {
@@ -3072,7 +3121,7 @@
     if (planOn()) html += '<div class="section-head"><h2>התוכנית</h2><a class="link-more" href="#plan">לכל התוכנית</a></div><div class="panel">' + planTicks(planDayNow()) + "</div>";
     html += '<div class="section-head"><h2>לפי פרקים</h2></div><div class="bars panel">' + CH.map(function (x) {
       var cp = completion(x.lessons);
-      return '<div class="bar-row bar-ch"><a href="#chapter-' + x.id + '">פרק ' + esc(x.letter) + ": " + esc(x.title) + "</a>" + tape(cp.p, true) + '<span class="mono-n">' + cp.d + " מתוך " + cp.n + "</span>" + glyph(chapterM(x), true) + "</div>";
+      return '<div class="bar-row bar-ch"><a class="ch-a" href="#chapter-' + x.id + '">' + chIcon(x) + "<span>פרק " + esc(x.letter) + ": " + esc(x.title) + "</span></a>" + tape(cp.p, true) + '<span class="mono-n">' + cp.d + " מתוך " + cp.n + "</span>" + glyph(chapterM(x), true) + "</div>";
     }).join("") + "</div>";
     var all = LESSONS.map(function (l) { return { l: l, x: lessonM(l.id) }; });
     var strong = all.filter(function (o) { return o.x.lv >= 4 || (o.x.m !== null && o.x.m >= 0.85); });
@@ -3119,7 +3168,7 @@
     openSheet({ title: "הגדרות", focus: part === "text" ? '#set-g-read [aria-pressed="true"]' : null, body: '<div class="setup">' + hereLine("settings") +
       fs("נוחות קריאה", '<div class="field"><span class="lbl" id="lbl-text">גודל האותיות</span>' + sizeButtons(false) + "</div>" + comfortPreview() +
         seg("contrast", "ניגודיות", [["normal", "רגילה"], ["high", "גבוהה"], ["auto", "לפי המכשיר"]]) +
-        seg("simple", "תצוגה פשוטה", [["0", "כבויה"], ["1", "פעילה"]], "פחות כפתורים בכל מסך, צעד אחד בכל פעם."), "set-g-read") +
+        seg("simple", "תצוגה פשוטה", [["0", "כבויה"], ["1", "פעילה"]], "פחות כפתורים בכל מסך, צעד אחד בכל פעם.") + printBlock(PRINTS.guide), "set-g-read") +
       (canSpeak() ? fs("הקראה", seg("rate", "קצב הקראה", [["1", "רגיל"], ["0.85", "איטי"]])) : "") +
       fs("תרגול ומבחנים", seg("examTimer", "שעון במבחנים", [["off", "בלי שעון"], ["on", "עם שעון"]], "אפשר לבחור מחדש לפני כל מבחן.") +
         seg("swipe", "החלקה לדירוג כרטיסיות", [["0", "כבויה"], ["1", "פעילה"]], "כשהיא פעילה, החלקה ימינה או שמאלה על כרטיסייה מדרגת אותה.")) +
@@ -3129,6 +3178,7 @@
         '<div id="backup-box"></div><input type="file" id="backup-file" accept="application/json,.json" hidden>')) +
       '<a class="btn btn-sm help-link" href="#help">' + I.help + "איך משתמשים באפליקציה</a>" +
       '<div class="set-reset"><p>' + saveStatusText() + '</p><button type="button" class="btn btn-ghost btn-danger" data-act="reset-ask">למחוק את כל ההתקדמות</button></div></div>' });
+    checkPrints(document.querySelector(".dlg-wrap"));
   }
   var lastBackup = null;
   function backupBox(html) { var b = document.getElementById("backup-box"); if (b) { b.innerHTML = html; b.hidden = !html; } }
@@ -3148,7 +3198,7 @@
       sec(I.practice, "איך עונים על שאלות", "הקישו על תשובה, ואז על ״לבדוק את התשובה״. אפשר לשנות את הבחירה לפני הבדיקה. אחרי הבדיקה כתוב מה נכון ולמה.") +
       sec(I.cards, "כרטיסיות: מה זה ואיך מדרגים", "בכל כרטיסייה יש שאלה קצרה. נסו לענות בלב, הפכו אותה, ואמרו כמה טוב זכרתם. כרטיסייה שזכרתם טוב תחזור בעוד כמה ימים. אם טעיתם בדירוג, הקישו על ״ביטול הדירוג״.") +
       sec(I.exam, "מבחן בלי לחץ זמן", "לפני כל מבחן בוחרים אם להפעיל שעון. בלי שעון זה בסדר גמור. גם עם שעון אפשר לעצור אותו ולהוסיף זמן, וכשיוצאים מהמבחן השעון נעצר.") +
-      sec(I.gear, "איך מגדילים את האותיות", "הקישו על ״הגדרות״ בראש המסך. בחלק ״נוחות קריאה״ אפשר לבחור גודל אותיות, ניגודיות גבוהה ותצוגה פשוטה.") +
+      sec(I.gear, "איך מגדילים את האותיות", "הקישו על ״הגדרות״ בראש המסך. בחלק ״נוחות קריאה״ אפשר לבחור גודל אותיות, ניגודיות גבוהה ותצוגה פשוטה.") + printBlock(PRINTS.guide) +
       '<section class="help-s"><h2>' + I.help + "מה אומרים הסימונים</h2>" + legendList(true) + "</section>" +
       '<div class="btn-row"><button type="button" class="btn" data-act="settings">' + I.gear + 'לפתוח את ההגדרות</button><a class="btn btn-ghost" href="#home">לחזור לדף הבית</a></div>');
   }
@@ -3254,7 +3304,7 @@
       case "quick-practice": e.preventDefault(); startScope("quick", 10); break;
       case "start-scope": e.preventDefault(); startScope(el.getAttribute("data-scope"), el.getAttribute("data-scope") === "mistakes" ? 15 : 10); break;
       case "preset-ch":
-        openSheet({ title: "על איזה פרק לתרגל?", body: '<div class="pick-list">' + CH.map(function (c) { return '<button type="button" class="pick" data-act="start-scope" data-scope="ch:' + c.id + '"><b>פרק ' + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + poolFor("ch:" + c.id).length + " שאלות</span></button>"; }).join("") + "</div>" });
+        openSheet({ title: "על איזה פרק לתרגל?", body: '<div class="pick-list">' + CH.map(function (c) { return '<button type="button" class="pick pick-ch" data-act="start-scope" data-scope="ch:' + c.id + '">' + chIcon(c) + "<b>פרק " + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + poolFor("ch:" + c.id).length + " שאלות</span></button>"; }).join("") + "</div>" });
         break;
       case "preset-type":
         openSheet({ title: "איזה סוג שאלות לתרגל?", body: '<div class="pick-list">' + Object.keys(TYPE_NAME).map(function (t) { var n = poolFor("t:" + t).length; return '<button type="button" class="pick" data-act="start-scope" data-scope="t:' + t + '"' + (n ? "" : " disabled") + "><b>" + TYPE_NAME[t] + "</b><span>" + n + " שאלות</span></button>"; }).join("") + "</div>" });
@@ -3503,6 +3553,7 @@
   document.addEventListener("error", function (e) {
     var t = e.target;
     if (t && t.classList && t.classList.contains("ai-img")) { t.classList.add("failed"); return; }
+    if (t && t.classList && (t.classList.contains("ch-ic") || t.classList.contains("print-thumb"))) { t.style.display = "none"; return; } // decorative: the name or the worded link stays
     if (t && t.tagName === "IMG" && t.hasAttribute("data-full")) { var full = t.getAttribute("data-full"); t.removeAttribute("data-full"); t.src = full; return; }
     if (t && t.tagName === "IMG" && t.getAttribute("data-act") === "imgfail") {
       var fig = t.closest("figure");
