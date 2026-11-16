@@ -729,7 +729,8 @@
     d.el.remove();
     document.documentElement.classList.remove("dlg-open");
     if (d.onClose) d.onClose();
-    if (!silent && d.opener && d.opener.focus && document.contains(d.opener)) d.opener.focus({ preventScroll: true });
+    // focus goes back to the control that opened the sheet (also after a silent close, if it would otherwise be lost)
+    if ((!silent || focusLost()) && d.opener && d.opener.focus && document.contains(d.opener)) d.opener.focus({ preventScroll: true });
   }
   function trapFocus(e) {
     if (!dlg || e.key !== "Tab") return;
@@ -984,8 +985,50 @@
     glossary: "ref", sheets: "ref", sheet: "ref", sources: "ref", source: "ref", progress: "progress", search: "search" };
   var FOCUS = { run: 1, review: 1, pretest: 1, "case": 1 };
   var READING = { lesson: 1, lib: 1, glossary: 1, source: 1, chapter: 1, sheet: 1 };
-  function paint(html) { main.innerHTML = html; post(); }
-  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); }
+  // keyboard focus is never dropped to <body> by a re-render: the same control (or its closest equivalent) gets it back;
+  // after a route change focus goes to the page heading (or <main>) so Tab continues inside the new page
+  var booted = false, routing = false;
+  var FKEYS = ["data-k", "data-i", "data-id", "data-v", "data-t", "data-n", "data-r", "data-si", "data-pos", "data-lv", "data-target", "data-scope", "data-ch", "data-day", "data-idx", "data-z", "data-task", "data-phase"];
+  function cssq(v) { return String(v).replace(/["\\]/g, "\\$&"); }
+  function focusKey(el) {
+    if (!el || el === document.body || el === document.documentElement || el === main || !el.getAttribute) return null;
+    if (el.id) return "#" + (window.CSS && CSS.escape ? CSS.escape(el.id) : el.id);
+    var a = el.getAttribute("data-act"); if (!a) return null;
+    var s = '[data-act="' + cssq(a) + '"]';
+    FKEYS.forEach(function (k) { var v = el.getAttribute(k); if (v !== null) s += "[" + k + '="' + cssq(v) + '"]'; });
+    return [s, '[data-act="' + cssq(a) + '"]'];
+  }
+  function focusLost() { var a = document.activeElement; return !a || a === document.body || a === document.documentElement || !document.contains(a); }
+  function focusEl(el) {
+    if (!el || !el.focus) return false;
+    if (!el.matches("a[href], button, input, select, textarea, [tabindex]")) el.setAttribute("tabindex", "-1");
+    try { el.focus({ preventScroll: true }); } catch (e) { return false; }
+    return document.activeElement === el;
+  }
+  function restoreFocus(key) {
+    if (!booted || !focusLost()) return;
+    var cand = routing ? [] : (typeof key === "string" ? [key] : key || []).concat(["#ab button:not([disabled])"]);
+    for (var i = 0; i < cand.length; i++) {
+      var el = null; try { el = main.querySelector(cand[i]); } catch (e) { el = null; }
+      if (el && !el.disabled && el.getClientRects().length && focusEl(el)) return;
+    }
+    focusEl(main.querySelector("h1") || main);
+  }
+  function paint(html) { var key = focusKey(document.activeElement); main.innerHTML = html; post(); restoreFocus(key); }
+  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); tableRegions(); }
+  // a table that scrolls sideways must be reachable by keyboard (WCAG 2.1.1): a focusable, named region
+  function tableRegions() {
+    document.querySelectorAll(".tbl-scroll").forEach(function (b) {
+      var over = b.scrollWidth > b.clientWidth + 1;
+      if (over && !b.hasAttribute("tabindex")) {
+        var t = b.querySelector("caption"), sec = b.closest(".cs, section"), h = sec && sec.querySelector("h2");
+        var name = ((t && t.textContent.trim()) || (h && h.textContent.trim()) || "טבלה");
+        b.setAttribute("tabindex", "0"); b.setAttribute("role", "region"); b.setAttribute("aria-label", name + " (טבלה, אפשר לגלול לצדדים)");
+      } else if (!over && b.getAttribute("role") === "region") { b.removeAttribute("tabindex"); b.removeAttribute("role"); b.removeAttribute("aria-label"); }
+    });
+  }
+  var trTimer = null;
+  window.addEventListener("resize", function () { clearTimeout(trTimer); trTimer = setTimeout(tableRegions, 200); });
   function render() {
     var r = parts(), head = r.head, arg = r.arg;
     LV = null; SHEETV = null; CHV = null;
@@ -1032,7 +1075,8 @@
     if (h.indexOf("review") === 0 && rev && rev.i >= rev.queue.length) rev = null;
     closeSheet(true); stopPlay();
     var resumeTo = pendingResume && S.pos[pendingResume] ? S.pos[pendingResume].anchor : "";
-    render();
+    routing = true;
+    try { render(); } finally { routing = false; }
     var done = false;
     if (pendingScroll) {
       var el = document.getElementById(pendingScroll);
@@ -1298,7 +1342,7 @@
     terms.forEach(function (t, i) { var a = -Math.PI / 2 + i * 2 * Math.PI / terms.length; pos[t] = { x: cx + R * Math.cos(a), y: cy + R * 0.82 * Math.sin(a), c: Math.cos(a) }; });
     var edges = links.filter(function (e) { return e && pos[e.a] && pos[e.b]; }).map(function (e) {
       var p = pos[e.a], q = pos[e.b];
-      return '<g class="lk-e" tabindex="0"><title>' + esc(e.a + " ↔ " + e.b + ": " + (e.rel || "")) + '</title><line x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" x2="' + q.x.toFixed(1) + '" y2="' + q.y.toFixed(1) + '"/></g>';
+      return '<g class="lk-e"><title>' + esc(e.a + " ↔ " + e.b + ": " + (e.rel || "")) + '</title><line x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" x2="' + q.x.toFixed(1) + '" y2="' + q.y.toFixed(1) + '"/></g>';
     }).join("");
     var nodes = terms.map(function (t) {
       var p = pos[t], anchor = p.c > 0.3 ? "start" : p.c < -0.3 ? "end" : "middle", dx = p.c > 0.3 ? 10 : p.c < -0.3 ? -10 : 0, dy = Math.abs(p.c) <= 0.3 ? (p.y < cy ? -12 : 20) : 5;
@@ -1798,7 +1842,10 @@
       '<div class="actionbar" id="ab">' + revBar(r, c) + "</div>";
     paint(html);
     bindSwipe();
+    var ck = r.key + ":" + r.i + ":" + r.queue.length;
+    if (ck !== lastCK && booted) { lastCK = ck; focusEl(document.getElementById("flash")); }
   }
+  var lastCK = "";
   function revBar(r, c) {
     var st = S.cards[c.id];
     if (!r.flipped) return '<button type="button" class="btn btn-primary ab-wide" data-act="flip">להציג תשובה</button><p class="keys-hint">מקלדת: <span class="kbd">רווח</span> להפוך</p>';
@@ -1936,8 +1983,12 @@
     }
     run.just = null;
     if (exam) startTimer();
+    var qk = run.t0 + ":" + run.mode + ":" + run.i, newQ = qk !== lastQK; lastQK = qk;
     if (it.done && !exam) { var nb = document.getElementById("next-q"); if (nb) nb.focus({ preventScroll: true }); }
+    // a new question / step: focus its text so a screen reader reads it and Tab continues to the answers
+    else if (newQ && booted) focusEl(main.querySelector(run.mode === "case" ? ".case-step h2" : ".q-card .qq") || main.querySelector(".q-card .qq"));
   }
+  var lastQK = "";
   function runBar(it, q) {
     var last = run.i === run.items.length - 1;
     if (run.mode === "exam") return '<button type="button" class="btn btn-ghost" data-act="q-prev"' + (run.i ? "" : " disabled") + ">" + I.arrowR + "הקודמת</button>" +
@@ -2244,16 +2295,17 @@
     if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '</div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span><button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של התרשים">' + I.expand + '<span>הגדלה</span></button></figcaption></figure>';
     if (q.type === "cloze") {
       var n = 0;
-      h += '<div class="qq cloze-text">' + esc(q.text).replace(/\{\{[^}]+\}\}/g, function () {
+      h += '<div class="qq cloze-text" id="qq">' + esc(q.text).replace(/\{\{[^}]+\}\}/g, function () {
         var k = n++, w = it.fill[k], cls = "blank" + (w ? " filled" : "");
         if (show) { var ans = clozeAnswers(q)[k]; cls += w === ans ? " right" : " wrong"; }
-        return '<button type="button" class="' + cls + '" data-act="cloze-clear" data-k="' + k + '"' + (show ? " disabled" : "") + ">" + (w ? esc(w) : "&nbsp;") + "</button>";
+        var nm = w ? "מקום " + (k + 1) + ": " + w + (show ? (cls.indexOf(" right") !== -1 ? ", נכון" : ", שגוי") : ", הקישו כדי להחזיר למאגר") : "מקום ריק " + (k + 1);
+        return '<button type="button" class="' + cls + '" data-act="cloze-clear" data-k="' + k + '" aria-label="' + esc(nm) + '"' + (show ? " disabled" : "") + ">" + (w ? esc(w) : "&nbsp;") + "</button>";
       }) + "</div>";
       if (!show) h += '<div class="pool">' + it.bank.map(function (w, i) { var used = it.fill.indexOf(w) !== -1 && countIn(it.fill, w) >= countIn(it.bank.slice(0, i + 1), w); return used ? "" : '<button data-act="cloze-pick" data-i="' + i + '">' + esc(w) + "</button>"; }).join("") + "</div>";
       else h += feedback(q, it, "התשובות: " + clozeAnswers(q).join(" · "));
       return h;
     }
-    h += '<div class="qq">' + esc(q.q) + "</div>";
+    h += '<div class="qq" id="qq">' + esc(q.q) + "</div>";
     if (q.type === "mcq" || q.type === "compare" || q.type === "scenario" || q.type === "identify" || q.type === "tf") {
       var opts = q.type === "tf" ? ["נכון", "לא נכון"] : q.options;
       var right = q.type === "tf" ? (q.answer ? 0 : 1) : q.answer;
@@ -2273,12 +2325,12 @@
       h += '<div class="m-col">' + q.pairs.map(function (p, i) {
         var d = it.map[i], cls = "m-item term" + (it.sel === i ? " sel" : "") + (d !== undefined ? " paired" : "");
         if (show) cls += d === i ? " right" : " wrong";
-        return '<button class="' + cls + '" data-act="m-term" data-i="' + i + '"' + (show ? " disabled" : "") + ">" + (d !== undefined ? '<i class="pair-n">' + (i + 1) + "</i>" : "") + esc(p[0]) + "</button>";
+        return '<button type="button" class="' + cls + '" data-act="m-term" data-i="' + i + '" aria-pressed="' + (it.sel === i) + '"' + (show ? " disabled" : "") + ">" + (d !== undefined ? '<i class="pair-n" aria-hidden="true">' + (i + 1) + "</i>" : "") + esc(p[0]) + (d !== undefined ? '<span class="sr-only">, בזוג ' + (i + 1) + (show ? (d === i ? ", נכון" : ", שגוי") : "") + "</span>" : "") + "</button>";
       }).join("") + "</div>";
       h += '<div class="m-col">' + it.defs.map(function (di) {
         var owner = Object.keys(it.map).filter(function (k) { return it.map[k] === di; })[0];
         var cls = "m-item def" + (owner !== undefined ? " paired" : "");
-        return '<button class="' + cls + '" data-act="m-def" data-i="' + di + '"' + (show ? " disabled" : "") + ">" + (owner !== undefined ? '<i class="pair-n">' + (+owner + 1) + "</i>" : "") + esc(q.pairs[di][1]) + "</button>";
+        return '<button type="button" class="' + cls + '" data-act="m-def" data-i="' + di + '"' + (show ? " disabled" : "") + ">" + (owner !== undefined ? '<i class="pair-n" aria-hidden="true">' + (+owner + 1) + "</i>" : "") + esc(q.pairs[di][1]) + (owner !== undefined ? '<span class="sr-only">, בזוג ' + (+owner + 1) + "</span>" : "") + "</button>";
       }).join("") + "</div></div>";
       if (show) h += feedback(q, it, q.pairs.map(function (p) { return p[0] + " ← " + p[1]; }).join(" · "));
       return h;
@@ -2338,11 +2390,11 @@
   var gl = { q: "", ch: "all", open: {} };
   function viewGlossary() {
     var chips = [["all", "הכול"]].concat(CH.map(function (c) { return ["ch:" + c.id, "פרק " + c.letter]; })).concat([["enrich", "העשרה"]]);
-    main.innerHTML = '<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("glossary") + '<p class="eyebrow">' + TERMS.filter(function (t) { return !t.enrich; }).length + " מונחים מהקורס · " + TERMS.filter(function (t) { return t.enrich; }).length + ' מונחי העשרה</p>' +
+    paint('<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("glossary") + '<p class="eyebrow">' + TERMS.filter(function (t) { return !t.enrich; }).length + " מונחים מהקורס · " + TERMS.filter(function (t) { return t.enrich; }).length + ' מונחי העשרה</p>' +
       '<div class="search-row"><label class="sr-only" for="g-search">חיפוש מונח</label><input class="input" id="g-search" type="search" placeholder="חיפוש בעברית או באנגלית, למשל: קורה סמויה, HIDDEN BEAM" value="' + esc(gl.q) + '" autocomplete="off"></div>' +
       '<div class="seg seg-scroll" role="group" aria-label="סינון לפי פרק">' + chips.map(function (c) { return '<button data-act="g-ch" data-v="' + c[0] + '" aria-pressed="' + (gl.ch === c[0]) + '">' + esc(c[1]) + "</button>"; }).join("") + "</div>" +
-      '<div id="g-out" class="g-out"></div>';
-    renderGlossary(); post();
+      '<div id="g-out" class="g-out"></div>');
+    renderGlossary();
     var inp = document.getElementById("g-search");
     inp.addEventListener("input", function () { gl.q = inp.value; renderGlossary(); });
   }
@@ -2375,15 +2427,15 @@
   // =============================================================== search
   var sq = "";
   function viewSearch() {
-    main.innerHTML = '<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">שיעורים, מונחים ועמודי המקור.</p></div>' +
+    paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">שיעורים, מונחים ועמודי המקור.</p></div>' +
       '<div class="search-row"><label class="sr-only" for="s-search">חיפוש</label><input class="input" id="s-search" type="search" placeholder="למשל: שיני קשר, ONE-WAY, כלונס, דיפון" value="' + esc(sq) + '" autocomplete="off"></div>' +
       (ai.s ? '<form class="ai-ask panel" data-act="ai-search"><label for="ai-sq"><b>' + I.spark + ' שאלה חופשית על החומר</b></label><div class="row"><input class="input" id="ai-sq" placeholder="למשל: מתי משתמשים בקורה סמויה?" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">לשאול</button></div><div class="ai-out" id="ai-out" hidden aria-live="polite"></div></form>' : "") +
-      '<div id="s-out"></div>';
+      '<div id="s-out"></div>');
     var inp = document.getElementById("s-search");
     inp.addEventListener("input", function () { sq = inp.value; renderSearch(); });
     inp.addEventListener("change", function () { rememberSearch(sq); });
     inp.addEventListener("keydown", function (e) { if (e.key === "ArrowDown") { var f = main.querySelector("#s-out a, #s-out button"); if (f) { e.preventDefault(); f.focus(); } } else if (e.key === "Enter") rememberSearch(sq); });
-    renderSearch(); post();
+    renderSearch();
     if (!sq) inp.focus();
   }
   function snippet(txt, q) {
@@ -2897,6 +2949,7 @@
   if (RM && RM.addEventListener) RM.addEventListener("change", function () { render(); });
 
   render();
+  booted = true;
   setTopbarH();
   cloud.init();
 })();
