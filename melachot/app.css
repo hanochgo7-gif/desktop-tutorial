@@ -1762,3 +1762,9 @@ body.focus .toast { bottom: calc(var(--ab-h) + 16px + env(safe-area-inset-bottom
 :root[data-contrast="high"] :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; box-shadow: 0 0 0 6px var(--tape); }
 :root[data-contrast="high"] .tbl-scroll { background: none; }
 :root[data-contrast="high"] .ai-badge { background: var(--paper); }
+
+/* brand (Canva logo): raster emblem on paper; in dark mode a thin light edge so it reads as a plate, not a hole */
+img.brand-mark { width: 32px; height: auto; flex: none; display: block; border-radius: 2px; }
+:root[data-theme="dark"] img.brand-mark { box-shadow: 0 0 0 1px #B4BAB5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) img.brand-mark { box-shadow: 0 0 0 1px #B4BAB5; } }
+.logo-full { display: block; width: min(220px, 60vw); height: auto; margin: 0 auto 4px; border-radius: 4px; }

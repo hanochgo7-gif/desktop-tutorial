@@ -857,6 +857,13 @@
           if ((x1 - x0) * (y1 - y0) < W * H * 0.85 && x1 - x0 > W * 0.4) out = out.replace(vb[0], 'viewBox="' + x0 + " " + y0 + " " + (x1 - x0) + " " + (y1 - y0) + '"');
         }
       }
+      // legend mode (senior P0-6): every part gets a numbered marker; CSS shows them instead of the small labels on phones
+      if (opts && opts.legend && D[id].parts) {
+        var ml = D[id].parts.map(function (p) {
+          return '<g class="mk"><circle cx="' + p.x + '" cy="' + p.y + '" r="11"/><text x="' + p.x + '" y="' + (p.y + 4.5) + '" text-anchor="middle">' + p.n + "</text></g>";
+        }).join("");
+        out = out.replace('class="drawing"', 'class="drawing has-mk"').replace(/<\/svg>$/, '<g class="mk-l">' + ml + "</g></svg>");
+      }
       return out;
     }
   };

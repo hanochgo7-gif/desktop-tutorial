@@ -1,6 +1,6 @@
 // Offline support for the standalone web build (node build.mjs web). The cache name changes with every build.
 const CACHE = "melachot-__BUILD__";
-const CORE = ["./", "manifest.webmanifest", "icon.svg", "icon-192.png"];
+const CORE = ["./", "manifest.webmanifest", "favicon-48.png", "icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
