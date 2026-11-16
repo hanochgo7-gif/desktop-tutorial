@@ -7,6 +7,13 @@
 - 26 Oct 2026: Hanoch explicitly asked for the full site. It lives in `website/` (source of truth: `website/src/content.py` + `build.py`; facts in `website/docs/MIFTAH_TRUTH_LEDGER.md`). It is built on the scored "engineering dossier" direction; if Merav picks another example, swap tokens/sections there. The four design examples stay untouched.
 - The process photos `04-tensioning-cables.jpg` (brown ladder) and `05-spreading-net.jpg` (rusty poles) and `site-winter-orchard` (black stake) break the steel rule; do not use them.
 
+## Applying Merav's reviews (lessons, 16 Nov 2026; full list in `website/docs/MERAV_LESSONS.md`)
+- Before reporting a round as done run `python3 src/build.py && python3 src/tools/review_audit.py` (from `website/`) and explain every flagged line.
+- Identical texts share one editor number: a removal or edit must reach every place that text appears (we missed the sim label "שתילה").
+- Picture notes are a checklist: compare each clause with the new picture at full size; a structural rule applies to every picture in the series, not only the ones she named.
+- Net house rules for every illustration: perimeter poles lean slightly outward and stand on concrete footings (inner poles vertical, no footings shown); anchors show only the metal eye; side net lies on the anchor cables, no door; roof net in full-length strips along the rows; hail-release clips on the seams; folds only along the rows, tight; harnesses at height; lift worker below the cables; real MIFTAH logo on shirts.
+- Text never covers people or the subject of a picture; do not over-darken photos behind headings.
+
 ## Reporting to the user (Hanoch)
 - Always reply to Hanoch in Hebrew, even when the deliverable itself is in English.
 - Do not report how many Higgsfield credits were used.
