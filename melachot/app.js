@@ -2683,6 +2683,9 @@
     }
     openSheet({ title: "הגדרות", body: '<div class="setup">' + seg("theme", "ערכת צבעים", [["auto", "לפי המכשיר"], ["light", "בהיר"], ["dark", "כהה"]]) +
       seg("text", "גודל טקסט", [["m", "רגיל"], ["l", "גדול"]]) + seg("motion", "תנועה", [["auto", "לפי המכשיר"], ["reduce", "מופחתת"]]) +
+      (cloud.on ? "" : '<div class="set-reset"><span class="lbl">גיבוי התקדמות</span><p class="muted small">ההתקדמות נשמרת רק בדפדפן הזה. כדי להמשיך במכשיר אחר, שומרים קובץ גיבוי ופותחים אותו שם. הגיבוי מתמזג עם ההתקדמות שכבר קיימת.</p>' +
+        '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="backup-save">שמירת קובץ גיבוי</button><button type="button" class="btn btn-sm" data-act="backup-load">טעינת קובץ גיבוי</button></div>' +
+        '<input type="file" id="backup-file" accept="application/json,.json" hidden></div>') +
       '<div class="set-reset"><p class="muted">' + saveStatusText() + '</p><button type="button" class="btn btn-ghost btn-danger" data-act="reset-ask">איפוס התקדמות</button></div></div>' });
   }
   function moreCards() {
@@ -2729,6 +2732,17 @@
         openSheet({ title: "למחוק את כל ההתקדמות?", body: "<p>לא ניתן לבטל.</p>", actions: [{ label: "לבטל", act: "dlg-close", cls: "btn-primary" }, { label: "למחוק", act: "reset-do", cls: "btn-danger" }] });
         break;
       case "reset-do": S = blank(); run = null; rev = null; save(); obStep = 0; go("#home"); toast("ההתקדמות אופסה"); break;
+      case "backup-save":
+        try {
+          var bk = new Blob([JSON.stringify({ app: "melachot", v: 1, at: new Date().toISOString(), state: S })], { type: "application/json" });
+          var ba = document.createElement("a");
+          ba.href = URL.createObjectURL(bk); ba.download = "melachot-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+          document.body.appendChild(ba); ba.click();
+          setTimeout(function () { URL.revokeObjectURL(ba.href); ba.remove(); }, 1000);
+          toast("קובץ הגיבוי נשמר");
+        } catch (err) { toast("לא הצלחנו לשמור קובץ גיבוי בדפדפן הזה"); }
+        break;
+      case "backup-load": var bf = document.getElementById("backup-file"); if (bf) bf.click(); break;
       case "flip": e.preventDefault(); flip(); break;
       case "rate": rate(el.getAttribute("data-r")); break;
       case "rev-exit": var rb = rev && rev.back; rev = null; go(rb && !FOCUS[rb.slice(1).split("-")[0]] ? rb : "#cards"); break;
@@ -2940,6 +2954,19 @@
   });
   document.addEventListener("change", function (e) {
     var el = e.target;
+    if (el.id === "backup-file" && el.files && el.files[0]) {
+      var rd = new FileReader();
+      rd.onload = function () {
+        var o = null;
+        try { o = JSON.parse(rd.result); } catch (err) { o = null; }
+        el.value = "";
+        if (!o || o.app !== "melachot" || !o.state || typeof o.state !== "object") { toast("הקובץ הזה אינו קובץ גיבוי של האפליקציה"); return; }
+        S = merge(S, o.state); save(); closeSheet(); render(); toast("הגיבוי נטען והתמזג עם ההתקדמות");
+      };
+      rd.onerror = function () { el.value = ""; toast("לא הצלחנו לקרוא את הקובץ"); };
+      rd.readAsText(el.files[0]);
+      return;
+    }
     if (el.id === "p-scope") cfg.scope = el.value;
     else if (el.id === "p-enrich") cfg.enrich = el.checked;
   });
