@@ -1584,9 +1584,11 @@ ul.plain li { align-items: center; }
 
 /* ===== QA pass (oversight): a11y fixes */
 /* focus targets that are not controls (route change, new question): no ring on the container itself */
-main:focus, main h1[tabindex="-1"]:focus, .qq[tabindex="-1"]:focus, .case-step h2[tabindex="-1"]:focus { outline: none; }
+main:focus, main h1[tabindex="-1"]:focus, .score-card[tabindex="-1"]:focus, #flash:focus:not(:focus-visible), .qq[tabindex="-1"]:focus, .case-step h2[tabindex="-1"]:focus { outline: none; }
 /* WCAG 2.5.8: source chips and the coverage table links are at least 24px tall */
 @media screen { .src-chip { display: inline-flex; align-items: center; min-height: 24px; line-height: 1.2; } }
 .cov td a { display: inline-flex; align-items: center; justify-content: center; min-height: 24px; min-width: 24px; padding: 0 3px; }
 /* keyboard-reachable scrolling tables show their focus inside the frame */
 .tbl-scroll[tabindex="0"]:focus-visible { outline: 2.5px solid var(--ink); outline-offset: -2.5px; }
+.lesson-row .thumb .ai-badge { top: 2px; inset-inline-start: 2px; font-size: 8px; padding: 2px 3px; border-radius: 2px; }
+.tt small .carried { color: var(--ink); font-weight: 800; }

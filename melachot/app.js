@@ -141,7 +141,7 @@
       addCard({ id: l.id + ":t:" + strHash(t.he), lesson: l.id, kind: "term", front: t.he + (t.en ? " · " + t.en : ""), back: t.def, src: t.src, scope: "course" });
     });
     (l.cards || []).forEach(function (c) {
-      addCard({ id: l.id + ":c:" + strHash(c.q), lesson: l.id, kind: "q", front: c.q, back: c.a, src: c.src, scope: "course" });
+      addCard({ id: l.id + ":c:" + strHash(c.q), lesson: l.id, kind: "q", front: c.q, back: c.a, src: c.src, expl: !!c.expl && !(c.src || []).length, scope: "course" });
     });
   });
   LIB.forEach(function (l) {
@@ -263,8 +263,21 @@
     });
     b.plan = Object.assign(blankPlan(), isObj(o.plan) ? o.plan : {});
     if (!isObj(b.plan.done)) b.plan.done = {};
+    if (typeof b.plan.start !== "string" || (b.plan.start && !/^\d{4}-\d{2}-\d{2}$/.test(b.plan.start))) b.plan.start = "";
+    if (typeof b.plan.shift !== "number" || !isFinite(b.plan.shift)) b.plan.shift = 0;
     if (!isObj(b.activeRun) || !Array.isArray(b.activeRun.items)) b.activeRun = null;
     if (!isObj(b.auto)) b.auto = null;
+    // a damaged store (hand edits, an old bug, a partial cloud write) must never break a view: drop malformed entries
+    ["cards", "qstats", "bookmarks", "pos", "cases", "pretest", "order"].forEach(function (k) {
+      Object.keys(b[k]).forEach(function (id) { if (!isObj(b[k][id])) delete b[k][id]; });
+    });
+    Object.keys(b.bookmarks).forEach(function (id) { var x = b.bookmarks[id]; if (typeof x.lesson !== "string" || typeof x.anchor !== "string") delete b.bookmarks[id]; });
+    ["done", "read", "secRead", "celebrated", "seen", "mistakes", "days", "lvl", "acts"].forEach(function (k) {
+      Object.keys(b[k]).forEach(function (id) { var v = b[k][id]; if (v === null || typeof v === "object") delete b[k][id]; });
+    });
+    b.exams = b.exams.filter(function (e) { return isObj(e) && e.id; });
+    if (!isObj(b.last) || typeof b.last.lesson !== "string") b.last = null;
+    if (!isObj(b.newDay)) b.newDay = { d: "", n: 0 };
     b.v = 3;
     return b;
   }
@@ -593,7 +606,8 @@
     if (n >= 1 && n <= PLAN_N) {
       out = planDayTasks(n).map(function (t) { return Object.assign(t, { done: planTaskDone(n, t.idx, t) }); });
       var c = S.plan.carry;
-      if (c && c.d === td && c.day >= 1 && c.day < n) planDayTasks(c.day).forEach(function (t) { if (!planTaskDone(c.day, t.idx, t)) out.push(Object.assign(t, { done: false, carried: true })); });
+      var sig = function (t) { return t.type + "|" + (t.ref || "") + "|" + (t.mode || ""); }, have = out.map(sig);
+      if (c && c.d === td && c.day >= 1 && c.day < n) planDayTasks(c.day).forEach(function (t) { if (!planTaskDone(c.day, t.idx, t) && have.indexOf(sig(t)) === -1) out.push(Object.assign(t, { done: false, carried: true })); });
       if (!out.some(function (t) { return t.type === "cards" && !t.ref; })) {
         var due = dueCards().length;
         if (due) out.push({ type: "cards", n: due, min: Math.max(1, Math.ceil(due / 3)), extra: true, done: actAfter("cards:daily", td) });
@@ -1134,8 +1148,8 @@
     if (run && run.finished && run.autoSubmitted && !run.noticeSeen) {
       h += '<div class="resume"><div class="rs-t"><b>הזמן נגמר. המבחן הוגש.</b><span>' + esc(run.title) + " · " + run.scorePct + '%</span></div><a class="btn btn-resume" href="#run">לתוצאות' + I.arrowL + "</a></div>";
     }
-    var cs = CASES.map(function (c) { return { c: c, s: S.cases[c.id] }; }).filter(function (o) { return o.s && !o.s.done && o.s.step > 0; }).sort(function (a, b) { return (b.s.t || 0) - (a.s.t || 0); })[0];
-    if (cs) h += '<div class="resume"><div class="rs-t"><b>מקרה שטח בתהליך: ' + esc(cs.c.title) + "</b><span>שלב " + Math.min(cs.c.steps.length, cs.s.step + 1) + " מתוך " + cs.c.steps.length + '</span></div><a class="btn btn-resume" href="#' + esc(cs.c.id) + '">להמשיך' + I.arrowL + "</a></div>";
+    var cs = CASES.map(function (c) { return { c: c, s: S.cases[c.id] }; }).filter(function (o) { return o.s && !o.s.done && (o.s.step > 0 || Object.keys(o.s.answers || {}).length); }).sort(function (a, b) { return (b.s.t || 0) - (a.s.t || 0); })[0];
+    if (cs) h += '<div class="resume"><div class="rs-t"><b>מקרה שטח בתהליך: ' + esc(cs.c.title) + "</b><span>שלב " + (caseResumeAt(cs.c, cs.s) + 1) + " מתוך " + cs.c.steps.length + '</span></div><a class="btn btn-resume" href="#' + esc(cs.c.id) + '">להמשיך' + I.arrowL + "</a></div>";
     return h;
   }
   function missedBanner(n) {
@@ -1159,7 +1173,7 @@
   function taskRow(t) {
     var plan = t.day !== undefined, man = plan && !!(S.plan.done[t.day] && S.plan.done[t.day][t.idx]);
     return '<li class="task' + (t.done ? " done" : "") + '"><a class="task-a" ' + taskLink(t) + '><span class="ti" aria-hidden="true">' + (t.done ? I.check : I[TASK_ICON[t.type]] || "") + "</span>" +
-      '<span class="tt"><b>' + esc(taskTitle(t)) + "</b>" + (t.note ? "<small>" + esc(t.note) + "</small>" : t.carried ? "<small>מאתמול</small>" : "") + "</span>" +
+      '<span class="tt"><b>' + esc(taskTitle(t)) + "</b>" + (t.note || t.carried ? "<small>" + (t.carried ? "<b class=\"carried\">מאתמול</b>" + (t.note ? " · " : "") : "") + esc(t.note || "") + "</small>" : "") + "</span>" +
       '<span class="tm">' + (t.min ? t.min + " דק׳" : "") + "</span>" + (t.done ? '<span class="sr-only">, הושלם</span>' : "") + "</a>" +
       (plan ? '<button type="button" class="tick" data-act="plan-tick" data-day="' + t.day + '" data-idx="' + t.idx + '" aria-pressed="' + man + '" aria-label="סימון ידני: ' + esc(taskTitle(t)) + '">' + I.check + "</button>" : "") + "</li>";
   }
@@ -1260,7 +1274,7 @@
   }
   function lessonRow(l, next) {
     var m = media(l.id);
-    return '<li><a class="lesson-row' + (next === true ? " is-next" : "") + '" href="#lesson-' + l.id + '">' + (m ? '<span class="thumb">' + imgHtml(m, { card: true, small: true, sizes: "48px" }) + "</span>" : "") +
+    return '<li><a class="lesson-row' + (next === true ? " is-next" : "") + '" href="#lesson-' + l.id + '">' + (m ? '<span class="thumb">' + imgHtml(m, { card: true, small: true, sizes: "48px" }) + '<span class="ai-badge" aria-hidden="true">AI</span></span>' : "") +
       '<span class="code">' + esc(l.code) + '</span><span class="lt"><b>' + esc(l.title) + "</b><small>" + (l.est || 10) + " דק׳ · " + lessonQs(l.id).length + " שאלות" + (next === true ? ' · <span class="next-tag">הבא בתור</span>' : "") + "</small></span>" +
       '<span class="lr-end">' + stateChip(l.id) + glyph(lessonM(l.id), true) + "</span></a></li>";
   }
@@ -1402,7 +1416,7 @@
       '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'לשינון</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">הדפסה</button></div></div>' +
       cheatList(arr(x.cheatsheet), false) +
       (isObj(x.compare) && arr(x.compare.head).length ? "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare) : "") +
-      (arr(x.traps).length ? "<h2>מלכודות במבחן</h2>" + trapsHtml(x.traps) : "") +
+      (arr(x.traps).length ? '<h2>מלכודות במבחן</h2><p class="muted">בלבולים שחוזרים בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps) : "") +
       '<p class="muted print-note">כל עובדה מסומנת בעמוד המקור שלה. מה שמסומן "הסבר משלים" נוסף כדי להקל ואינו מהשקפים.</p></article>';
     paint(html);
     SHEETV = { ch: c.id, t0: Date.now() };
@@ -1513,7 +1527,7 @@
       });
       if (lv === "deep" && !(l.deep || []).length) html += '<p class="muted panel">לשיעור הזה אין רמת עומק נפרדת.</p>';
       // summary once: only when it says more than the quick "מה זה?"
-      if (l.summary && sim(l.summary, (l.quick || {}).what) < 0.8) html += '<details class="block sum-d"><summary><span>סיכום</span>' + I.chev + "</summary><p>" + esc(l.summary) + "</p></details>";
+      if (l.summary && sim(l.summary, (l.quick || {}).what) < 0.8) html += '<details class="block sum-d"><summary><span>סיכום</span>' + I.chev + "</summary><p>" + esc(l.summary) + ' <span class="tag-expl">הסבר משלים</span></p></details>';
     }
     if ((l.remember || []).length) {
       secs.push({ id: "s-rem", title: "נקודות שחובה לזכור", n: "" });
@@ -1527,7 +1541,7 @@
     if (mns.length) html += '<section class="block mn-sec"><h2>טריקים לזכירה</h2>' + mns.map(function (mn) { return '<div class="mn"><p>' + esc(mn.t) + '</p><span class="tag-expl">עזר לזכירה · הסבר משלים</span></div>'; }).join("") + "</section>";
     if ((l.mistakes || []).length) {
       secs.push({ id: "s-mis", title: "טעויות נפוצות", n: "" });
-      html += '<section class="block" id="s-mis"><h2>טעויות נפוצות ובלבולים</h2><ul class="mistake-list">' + l.mistakes.map(function (r) { return "<li>" + I.x + "<span>" + esc(r) + "</span></li>"; }).join("") + "</ul></section>";
+      html += '<section class="block" id="s-mis"><h2>טעויות נפוצות ובלבולים</h2><p class="muted small"><span class="tag-expl">הסבר משלים</span></p><ul class="mistake-list">' + l.mistakes.map(function (r) { return "<li>" + I.x + "<span>" + esc(r) + "</span></li>"; }).join("") + "</ul></section>";
     }
     if (ai.s) {
       html += '<section class="block ai-box"><h2>' + I.spark + ' עוזר לימוד</h2><p class="muted">התשובות מבוססות על חומר השיעור ומציינות את עמודי המקור.</p><div class="btn-row">' +
@@ -1789,7 +1803,7 @@
   function examIntro(ec) {
     var tr = arr((X(ec) || {}).traps).slice(0, 4);
     if (!tr.length || S.seen.examIntro) { startChapterExam(ec); return; }
-    openSheet({ title: "לפני המבחן", body: "<p>מלכודות שחוזרות בשאלות של פרק " + esc(CHID[ec].letter) + ":</p>" + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> אל תציגו שוב</label>',
+    openSheet({ title: "לפני המבחן", body: "<p>מלכודות שחוזרות בשאלות של פרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> אל תציגו שוב</label>',
       actions: [{ label: "להתחיל", act: "exam-ch-go", cls: "btn-primary", attrs: { "data-id": ec } }, { label: "לבטל", act: "dlg-close", cls: "btn-ghost" }] });
   }
 
@@ -1838,7 +1852,7 @@
       '<button type="button" class="flash' + (r.flipped ? " flipped" : "") + '" id="flash" data-act="flip" aria-pressed="' + r.flipped + '" aria-label="' + (r.flipped ? "תשובה: " + esc(c.back) : "להפוך את הכרטיסייה: " + esc(c.front)) + '"><span class="flash-in">' +
       '<span class="face front"><span class="kind"><span class="chip">' + esc(from) + "</span><span>" + (c.kind === "term" ? "מונח: מה זה?" : "שאלה") + '</span></span><span class="q">' + esc(c.front) + '</span><span class="hint">נסו לענות בראש, ואז הקישו על הכרטיסייה</span></span>' +
       '<span class="face back"><span class="kind"><span class="chip">' + esc(from) + '</span><span>תשובה</span></span><span class="a"><span class="qsmall">' + esc(c.front) + "</span>" + esc(c.back) + "</span></span>" +
-      "</span></button></div>" + (c.src ? '<div class="flash-src"' + (r.flipped ? "" : " hidden") + ">מקור: " + srcChips(c.src) + "</div>" : "") + "</div>" +
+      "</span></button></div>" + (c.src && c.src.length ? '<div class="flash-src"' + (r.flipped ? "" : " hidden") + ">מקור: " + srcChips(c.src) + "</div>" : c.expl ? '<div class="flash-src"' + (r.flipped ? "" : " hidden") + '><span class="tag-expl">הסבר משלים</span></div>' : "") + "</div>" +
       '<div class="actionbar" id="ab">' + revBar(r, c) + "</div>";
     paint(html);
     bindSwipe();
@@ -1945,6 +1959,18 @@
     return it;
   }
   function clozeAnswers(q) { var out = [], re = /\{\{([^}]+)\}\}/g, m; while ((m = re.exec(q.text))) out.push(m[1].trim()); return out; }
+  // per-blank marks. Blanks with the same answer word are interchangeable by nature (string compare); a question can also
+  // declare blanks whose order does not matter: anyOrder: true (all blanks) or anyOrder: [[0, 1], ...] (groups of blank indexes)
+  function clozeMarks(q, it) {
+    var a = clozeAnswers(q), marks = a.map(function (w, i) { return it.fill[i] === w; });
+    var groups = q.anyOrder === true ? [a.map(function (_, i) { return i; })] : arr(q.anyOrder).filter(Array.isArray);
+    groups.forEach(function (g) {
+      g = g.filter(function (i) { return i >= 0 && i < a.length; });
+      var pool = g.map(function (i) { return a[i]; });
+      g.forEach(function (i) { var k = pool.indexOf(it.fill[i]); marks[i] = k !== -1; if (k !== -1) pool.splice(k, 1); });
+    });
+    return marks;
+  }
 
   // =============================================================== question runner: focus mode (P0-5) for practice, exams, pretests, cases
   var LETTERS = ["א", "ב", "ג", "ד", "ה", "ו"];
@@ -2102,7 +2128,7 @@
       S.activeRun = null;
     } else if (run.mode === "case") saveCase(true);
     save();
-    if (!silent) { viewResult(); window.scrollTo(0, 0); }
+    if (!silent) { viewResult(); window.scrollTo(0, 0); if (booted) focusEl(main.querySelector(".score-card")); }
   }
   function checkOutcome() {
     var lid = run.lesson, n = run.items.length, k = run.items.filter(function (it) { return it.score === 1; }).length;
@@ -2247,10 +2273,14 @@
     var ans = (st && st.answers) || {};
     run.items.forEach(function (it, i) { if (it.id && ans[i] !== undefined && ans[i] !== null) { it.done = true; it.score = ans[i]; it.restored = true; } });
     if (st && st.done && !fresh) { run.finished = true; run.scorePct = st.score || 0; return; }
-    if (st && (st.step || Object.keys(ans).length)) {
-      var i = 0; while (i < run.items.length - 1 && (run.items[i].id ? ans[i] !== undefined : i < st.step)) i++;
-      run.i = i;
-    } else run.intro = true;
+    if (st && (st.step || Object.keys(ans).length)) run.i = caseResumeAt(c, st);
+    else run.intro = true;
+  }
+  // the first step that is not answered yet (steps without a question count as passed up to the saved step)
+  function caseResumeAt(c, st) {
+    var ans = (st && st.answers) || {}, n = c.steps.length, i = 0;
+    while (i < n - 1 && (Q["case:" + c.id + ":" + i] ? ans[i] !== undefined && ans[i] !== null : i < (st.step || 0))) i++;
+    return i;
   }
   function viewCase(c) {
     if (!(run && run.mode === "case" && run.caseId === c.id)) buildCaseRun(c);
@@ -2283,7 +2313,7 @@
     var c = CASEID[run.caseId], qn = run.items.filter(function (it) { return it.id; }), k = qn.filter(function (it) { return it.score === 1; }).length;
     var html = studyBar(c.title, "סיכום המקרה", "run-exit") + '<div class="study-wrap"><section class="score-card"><span class="score-big" dir="ltr">' + (run.scorePct || 0) + "%</span>" + tape(run.scorePct || 0, false, "case-" + c.id) +
       '<p class="muted">' + k + " מתוך " + qn.length + " שלבים נענו נכון</p></section>" +
-      '<section class="debrief"><h2>מה למדנו מהמקרה</h2><div class="prose">' + (c.debrief || "") + "</div></section>" +
+      '<section class="debrief"><h2>מה למדנו מהמקרה</h2><div class="prose">' + (c.debrief || "") + '</div><span class="tag-expl">הסבר משלים</span></section>' +
       '<section><h2 class="h-sm">השיעורים במקרה</h2><ol class="lesson-list">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return lessonRow(L[x]); }).join("") + "</ol></section>" +
       '<div class="btn-col"><a class="btn btn-primary" href="#cases">לחזור למקרי השטח</a><button type="button" class="btn btn-ghost" data-act="case-restart">לעבור על המקרה שוב</button></div>' +
       mistakesList(run.items.filter(function (it) { return it.id && it.score !== 1 && it.score !== null && !it.restored; }));
@@ -2294,10 +2324,10 @@
     var h = "";
     if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '</div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span><button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של התרשים">' + I.expand + '<span>הגדלה</span></button></figcaption></figure>';
     if (q.type === "cloze") {
-      var n = 0;
+      var n = 0, marks = show ? clozeMarks(q, it) : [];
       h += '<div class="qq cloze-text" id="qq">' + esc(q.text).replace(/\{\{[^}]+\}\}/g, function () {
         var k = n++, w = it.fill[k], cls = "blank" + (w ? " filled" : "");
-        if (show) { var ans = clozeAnswers(q)[k]; cls += w === ans ? " right" : " wrong"; }
+        if (show) cls += marks[k] ? " right" : " wrong";
         var nm = w ? "מקום " + (k + 1) + ": " + w + (show ? (cls.indexOf(" right") !== -1 ? ", נכון" : ", שגוי") : ", הקישו כדי להחזיר למאגר") : "מקום ריק " + (k + 1);
         return '<button type="button" class="' + cls + '" data-act="cloze-clear" data-k="' + k + '" aria-label="' + esc(nm) + '"' + (show ? " disabled" : "") + ">" + (w ? esc(w) : "&nbsp;") + "</button>";
       }) + "</div>";
@@ -2366,7 +2396,7 @@
     if (q.type === "tf") return it.perm[it.choice] === (q.answer ? 0 : 1) ? 1 : 0;
     if (q.options) return it.perm[it.choice] === q.answer ? 1 : 0;
     if (q.type === "match") return q.pairs.filter(function (_, i) { return it.map[i] === i; }).length / q.pairs.length;
-    if (q.type === "cloze") { var a = clozeAnswers(q); return a.filter(function (w, i) { return it.fill[i] === w; }).length / a.length; }
+    if (q.type === "cloze") { var cm = clozeMarks(q, it); return cm.filter(Boolean).length / cm.length; }
     if (q.type === "order") return it.picked.filter(function (si, i) { return si === i; }).length / q.steps.length;
     return it.score || 0;
   }
@@ -2462,7 +2492,7 @@
           (s.blocks || []).forEach(function (b) {
             var txt = stripTags(b.html || "") + (b.rows ? " " + b.rows.map(function (r) { return r.join(" "); }).join(" ") : "");
             var sn = snippet(txt, q);
-            if (sn) hits.push({ w: l.code + " · " + s.title + (b.k === "expl" ? " · הסבר משלים" : ""), href: "#lesson-" + l.id, lv: lv, anchor: "s-" + lv + "-" + (i + 1), lesson: l.id, t: "", s: sn });
+            if (sn) hits.push({ w: l.code + " · " + s.title + (b.k === "expl" ? " · הסבר משלים" : b.k === "verify" ? " · טעון אימות" : ""), href: "#lesson-" + l.id, lv: lv, anchor: "s-" + lv + "-" + (i + 1), lesson: l.id, t: "", s: sn });
           });
         });
       });
