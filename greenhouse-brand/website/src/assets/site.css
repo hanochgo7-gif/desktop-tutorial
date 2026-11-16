@@ -1447,3 +1447,19 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
   .sim-ch.at-center { justify-content: center; }
 }
 @media (max-width: 760px) { .sim-ch.ph-top { align-items: flex-start; padding-top: calc(var(--head-h) + 52px); } }
+
+/* Photo headers lighter (Hanoch, 16 Nov 2026: the projects header was too dark to read the picture). On wide screens only the side
+   that carries the text is shaded; the rest of the photo shows at full light. Phones keep a fuller shade, as the text spans the width. */
+@media (min-width: 761px) {
+  .page-head.has-img::after { background:
+      linear-gradient(to left, rgba(8, 30, 26, .82) 0%, rgba(8, 30, 26, .68) 40%, rgba(8, 30, 26, .3) 62%, rgba(8, 30, 26, 0) 86%),
+      linear-gradient(180deg, rgba(8, 30, 26, .5) 0%, rgba(8, 30, 26, 0) 24%, rgba(8, 30, 26, 0) 78%, rgba(8, 30, 26, .3) 100%); }
+  [dir="ltr"] .page-head.has-img::after { background:
+      linear-gradient(to right, rgba(8, 30, 26, .82) 0%, rgba(8, 30, 26, .68) 40%, rgba(8, 30, 26, .3) 62%, rgba(8, 30, 26, 0) 86%),
+      linear-gradient(180deg, rgba(8, 30, 26, .5) 0%, rgba(8, 30, 26, 0) 24%, rgba(8, 30, 26, 0) 78%, rgba(8, 30, 26, .3) 100%); }
+  .page-head .ph-media img { filter: none; }
+}
+@media (max-width: 760px) {
+  .page-head.has-img::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .3) 30%, rgba(8, 30, 26, .66) 62%, rgba(8, 30, 26, .9) 100%); }
+}
+.page-head.has-img h1, .page-head.has-img .lead, .page-head.has-img .small, .page-head.has-img p { text-shadow: 0 1px 3px rgba(4, 24, 20, .55), 0 2px 18px rgba(4, 24, 20, .45); }
