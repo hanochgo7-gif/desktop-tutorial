@@ -981,7 +981,11 @@
       st.x = cx - (cx - st.x) * ns / st.s; st.y = cy - (cy - st.y) * ns / st.s; st.s = ns; apply();
     }
     // the start scale puts the drawing's 13-unit labels at 16px or more on this screen
-    function s0() { var sv = inner.querySelector("svg"), vbw = sv && sv.viewBox && sv.viewBox.baseVal ? sv.viewBox.baseVal.width : 0; var fit = vbw ? W() / vbw : 1; return Math.max(1.6, Math.min(6, 16 / (13 * fit))); }
+    function s0() {
+      var sv = inner.querySelector("svg"), vbw = sv && sv.viewBox && sv.viewBox.baseVal ? sv.viewBox.baseVal.width : 0, fit = vbw ? W() / vbw : 1, fmin = 13;
+      if (sv) [].forEach.call(sv.querySelectorAll("text"), function (t) { if (getComputedStyle(t).display !== "none") fmin = Math.min(fmin, parseFloat(getComputedStyle(t).fontSize) || 13); });
+      return Math.max(1.6, Math.min(6, 16.5 / (fmin * fit)));
+    }
     vw._zoom = function (z, d) {
       if (z === "reset") { var k = s0(); st.s = k; st.x = (W() - W() * k) / 2; st.y = 0; apply(); }
       else if (z === "pan") { var dx = W() * 0.25, dy = H() * 0.25; if (d === "up") st.y += dy; if (d === "down") st.y -= dy; if (d === "left") st.x += dx; if (d === "right") st.x -= dx; apply(); }
@@ -1398,7 +1402,7 @@
     var h = "", ar = run && !run.finished && (run.mode === "exam" || run.mode === "pretest") ? run : (S.activeRun && !S.activeRun.finished ? S.activeRun : null);
     if (ar) {
       var ex = ar.mode === "exam", left = ex && ar.limit ? timeLeft(ar) : 0;
-      h += '<div class="resume"><div class="rs-t"><b>' + (ex ? "מבחן שלא סיימתם: " : "בדיקה שלא סיימתם: ") + esc(ar.title) + "</b><span>" + (ex && ar.limit ? (left <= 60 ? "נשארה דקה אחת · " : "נשארו " + Math.ceil(left / 60) + " דקות · ") + "השעון עצור · " : "") + "שאלה " + (ar.i + 1) + " מתוך " + ar.items.length + "</span></div>" +
+      h += '<div class="resume"><div class="rs-t"><b>' + (ex ? "מבחן שלא סיימתם: " : "בדיקה שלא סיימתם: ") + esc(ar.title) + "</b><span>" + (ex && ar.limit ? (left <= 0 ? "הזמן שקבעתם נגמר · " : left <= 60 ? "נשארה דקה אחת · " : "נשארו " + Math.ceil(left / 60) + " דקות · ") + "השעון עצור · " : "") + "שאלה " + (ar.i + 1) + " מתוך " + ar.items.length + "</span></div>" +
         '<button type="button" class="btn btn-resume" data-act="resume-run">' + (ex ? "לחזור למבחן" : "להמשיך בבדיקה") + I.arrowL + "</button></div>";
     }
     var cs = CASES.map(function (c) { return { c: c, s: S.cases[c.id] }; }).filter(function (o) { return o.s && !o.s.done && (o.s.step > 0 || Object.keys(o.s.answers || {}).length); }).sort(function (a, b) { return (b.s.t || 0) - (a.s.t || 0); })[0];
@@ -1450,11 +1454,14 @@
     var html = '<section class="today' + (allDone ? " is-done" : "") + '" aria-labelledby="today-h">' +
       '<div class="today-top"><h2 id="today-h">' + esc(allDone ? "סיימתם את כל המשימות של היום" : T.title) + '</h2><span class="meta">' + (k ? k + " משימות, בערך " + mins + " דקות" : "") + "</span></div>";
     if (planOn() && planDayNow() === 0) html += '<p class="muted small">התוכנית מתחילה ב-' + fmtDay(planDate(1)) + ". עד אז, אפשר ללמוד בקצב שלכם.</p>";
-    if (k) html += '<div class="today-prog">' + tape(pct(dn / k), true, "today-" + today()) + '<span class="mono-n">' + dn + " מתוך " + k + "</span></div>" + '<ol class="tasks">' + ts.map(taskRow).join("") + "</ol>";
+    if (k) html += '<div class="today-prog">' + tape(pct(dn / k), true, "today-" + today()) + '<span class="mono-n">' + dn + " מתוך " + k + "</span></div>";
+    // R11: the one next step comes first, above the list
+    if (!allDone && k && first) html += '<a class="btn btn-primary btn-cta" ' + taskLink(first) + ">" + (dn ? "להמשיך למשימה הבאה" : "להתחיל את המשימה הראשונה") + I.arrowL + "</a>";
+    if (k) html += '<ol class="tasks">' + ts.map(taskRow).join("") + "</ol>";
     else html += '<p class="muted">אין משימות להיום. אפשר לעבור על כרטיסיות או לענות על שאלות.</p>';
     if (allDone || !k) {
       html += (allDone ? stamp("סיימתם להיום", "day:" + today()) : "") + '<div class="btn-row"><button type="button" class="btn" data-act="more-cards">לעבור על עוד 10 כרטיסיות</button><button type="button" class="btn" data-act="quick-practice">לענות על 10 שאלות</button></div>';
-    } else if (first) html += '<a class="btn btn-primary btn-cta" ' + taskLink(first) + ">" + (dn ? "להמשיך למשימה הבאה" : "להתחיל את המשימה הראשונה") + I.arrowL + "</a>";
+    }
     if (planOn() && T.plan) html += '<a class="link-more" href="#plan">לכל התוכנית</a>';
     return html + "</section>";
   }
@@ -2118,8 +2125,8 @@
     var opt = function (v, b, sm, chk) { return '<label class="tp"><input type="radio" name="exam-time" value="' + v + '"' + (chk ? " checked" : "") + "><span><b>" + b + "</b>" + (sm ? "<small>" + sm + "</small>" : "") + "</span></label>"; };
     openSheet({ title: kind === "full" ? "להתחיל את המבחן על כל הקורס?" : "להתחיל את מבחן פרק " + esc(CHID[ec].letter) + "?",
       body: "<p>ענו על כל השאלות. בסוף הקישו על ״להגיש את המבחן״. את הציון רואים רק בסוף.</p>" +
-        (tr.length ? "<p>לפני שמתחילים, שימו לב לדברים שקל להתבלבל בהם בפרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> לא להציג את המלכודות שוב</label>' : "") +
-        '<fieldset class="time-pick"><legend>זמן למבחן</legend>' + opt(0, "בלי הגבלת זמן", "עונים בנחת. אין שעון.", !on) + opt(m, "כמו במבחן אמיתי: " + m + " דקות", "אפשר לעצור את השעון ולהוסיף זמן.", on) + opt(m * 2, "זמן כפול: " + m * 2 + " דקות", "", false) + "</fieldset>",
+        '<fieldset class="time-pick"><legend>זמן למבחן</legend>' + opt(0, "בלי הגבלת זמן", "עונים בנחת. אין שעון.", !on) + opt(m, "כמו במבחן אמיתי: " + m + " דקות", "אפשר לעצור את השעון ולהוסיף זמן.", on) + opt(m * 2, "זמן כפול: " + m * 2 + " דקות", "", false) + "</fieldset>" +
+        (tr.length ? "<p>לפני שמתחילים, שימו לב לדברים שקל להתבלבל בהם בפרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> לא להציג את המלכודות שוב</label>' : ""),
       actions: [{ label: "להתחיל את המבחן", act: "exam-go", cls: "btn-primary", attrs: { "data-kind": kind, "data-id": ec || "" } }, { label: "ביטול", act: "dlg-close", cls: "btn-ghost" }] });
   }
 

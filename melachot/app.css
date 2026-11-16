@@ -2057,3 +2057,6 @@ ul.plain li { flex-wrap: wrap; }
 .related a, ul.plain a, .bar-row a, .gl-meta a { display: inline-flex; align-items: center; min-height: 44px; }
 .related { gap: 8px 16px; }
 .pday .tasks { padding-top: 8px; }
+.src-img-a { position: relative; display: block; align-self: flex-start; max-width: 100%; }
+.src-img-a img { display: block; }
+.mn-l a { min-height: 44px; }
