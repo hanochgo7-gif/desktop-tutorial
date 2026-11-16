@@ -251,7 +251,7 @@ def jsonld(slug, L, crumbs):
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Shade solutions for work areas", "Windbreaks", "Turnkey farms"],
         "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
         "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
-        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
+        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "hoursAvailable": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "08:00", "closes": "16:00"}, "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
     }
     graph = [org, {"@type": "WebSite", "@id": f"{DOMAIN}/#site", "url": DOMAIN + "/", "name": "MIFTAH Projects", "inLanguage": ["en", "he"], "publisher": {"@id": f"{DOMAIN}/#org"}},
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
@@ -361,6 +361,13 @@ def header(slug, L):
 {mbar}"""
 
 
+def office_hours(L, where):
+    """The office hours, always shown, and a live line site.js fills in: open now until 16:00, or closed and when it opens
+    (by the clock in Israel, whatever the visitor's time zone)."""
+    return (f'<p class="office-hours" data-office="{where}"><span class="oh-live" hidden><span class="oh-dot" aria-hidden="true"></span>'
+            f'<span class="oh-now"></span></span><span class="oh-fixed">{esc(t(C.SITE["hours"], L))}</span></p>')
+
+
 def footer(L):
     S = C.SITE
     nav = "".join(f'<li><a href="{s}.html">{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
@@ -381,6 +388,7 @@ def footer(L):
         <address>
           <a href="tel:{S["phone_tel"]}" data-where="footer"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
           <span>{esc(t(S["town"], L))}</span>
+          {office_hours(L, "footer")}
         </address>
         <ul class="foot-legal"><li><a href="privacy.html">{esc(t(S["foot_legal"], L))}</a></li><li><a href="accessibility.html">{esc(t(S["foot_a11y"], L))}</a></li></ul>
       </div>
@@ -956,7 +964,7 @@ def p_contact(L):
     nxt = "".join(f'<li><b>{esc(t(h, L))}</b><span>{esc(t(d, L))}</span></li>' for h, d in C.NEXT)
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">
   <div class="block next-block"><h2 id="next-h">{esc(t(C.NEXT_H, L))}</h2><ol class="next-list">{nxt}</ol><p class="small muted">{esc(t(C.NEXT_ABROAD, L))}</p></div>
-  <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
+  <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p>{office_hours(L, "contact")}</div>
   <div class="block"><h2>{esc(t(P["aside_profile_h"], L))}</h2><p>{esc(t(P["aside_profile_p"], L))}</p><p><a href="profile.html" data-track="profile_open">{esc(t(P["aside_profile_go"], L))}</a></p></div>
   <div class="block"><h2>{esc(t(P["aside_partner_h"], L))}</h2><p>{esc(t(P["aside_partner_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p><span>{esc(t(S["name"], L))}</span><br><span>{esc(t(S["town"], L))}</span></p></div>
@@ -964,7 +972,7 @@ def p_contact(L):
     return f"""
 <main id="main">
 {page_head("contact", L, lead_key="lead" if FORM_ENDPOINT else "lead_off",
-            extra=f'<p class="ph-call"><a class="btn btn-primary" href="tel:{S["phone_tel"]}" data-where="contact-head">{esc(t(P["call_pill"], L)).replace("{phone}", "<bdi class=" + chr(34) + "ltr" + chr(34) + ">" + esc(t(S["phone_display"], L)) + "</bdi>")}</a></p>')}
+            extra=f'<p class="ph-call"><a class="btn btn-primary" href="tel:{S["phone_tel"]}" data-where="contact-head">{esc(t(P["call_pill"], L)).replace("{phone}", "<bdi class=" + chr(34) + "ltr" + chr(34) + ">" + esc(t(S["phone_display"], L)) + "</bdi>")}</a></p>' + office_hours(L, "contact-head"))}
 <section class="section"><div class="wrap form-grid"><div>{form}</div>{aside}</div></section>
 <section class="section white" aria-labelledby="faq-h">
   <div class="wrap split">

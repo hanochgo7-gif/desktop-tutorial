@@ -247,5 +247,5 @@ Hanoch asked for a fully realistic globe with Higgsfield. Satellite imagery: NAS
 | O10 | Company WhatsApp or business mobile for the site? | Second contact route |
 | O11 | Real start year and legal entity (E2); does the experience predate the 2012 company? Legal name and company number for the footer and privacy page | "20+ years", legal details |
 | O12 | Do you manage or operate farms or land in Israel for owners abroad, and do you want to offer that? | Any "management" service |
-| O13 | Office hours (Israel time) and languages you can answer in; reply time to an enquiry | Contact page, success message |
+| O13 | Office hours (Israel time) and languages you can answer in; reply time to an enquiry | Contact page, success message | **Answered 16 Nov 2026 (Hanoch): Sunday to Thursday, 8:00 to 16:00 Israel time.** Shown live (open now / when it opens) on the contact page and in the footer.
 | O14 | Do you maintain structures built by other suppliers? Warranty terms on structure and net? | "Already have net houses?" answer, switching growers |

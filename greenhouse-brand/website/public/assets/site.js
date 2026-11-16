@@ -456,3 +456,50 @@
   fit(); window.addEventListener("resize", fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
+
+/* Office hours, live (Hanoch, 16 Nov 2026): the office in Israel is open Sunday to Thursday, 8:00 to 16:00 Israel time.
+   Shows whether it is open right now and, when closed, when it opens; for a visitor in another time zone also their own time. */
+(function () {
+  var els = document.querySelectorAll("[data-office]"); if (!els.length || !window.Intl) return;
+  var he = document.documentElement.lang === "he", OPEN = 8 * 60, CLOSE = 16 * 60, WORK = [0, 1, 2, 3, 4];  // Sun..Thu
+  var DAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  var fmt; try { fmt = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jerusalem", weekday: "short", hour: "numeric", minute: "numeric", hourCycle: "h23" }); } catch (e) { return; }
+  function israelNow(d) {
+    var o = {}; fmt.formatToParts(d).forEach(function (p) { o[p.type] = p.value; });
+    return { day: DAYS[o.weekday], min: (parseInt(o.hour, 10) % 24) * 60 + parseInt(o.minute, 10) };
+  }
+  function local(ms) {  // the visitor's own clock for an instant, when their time zone differs from Israel's
+    var at = new Date(ms), il = israelNow(at), mine = at.getHours() * 60 + at.getMinutes();
+    if (il.min === mine && il.day === at.getDay()) return "";
+    return at.toLocaleTimeString(he ? "he-IL" : "en-GB", { hour: "2-digit", minute: "2-digit" });
+  }
+  function state(d) {
+    var n = israelNow(d), work = WORK.indexOf(n.day) > -1;
+    if (work && n.min >= OPEN && n.min < CLOSE) return { open: true, until: d.getTime() + (CLOSE - n.min) * 60000 };
+    var ahead = (work && n.min < OPEN) ? 0 : 1;
+    while (WORK.indexOf((n.day + ahead) % 7) < 0) ahead++;
+    return { open: false, ahead: ahead, day: (n.day + ahead) % 7, at: d.getTime() + (ahead * 1440 + OPEN - n.min) * 60000 };
+  }
+  var HE_DAY = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"], EN_DAY = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  function text(s) {
+    if (s.open) {
+      var lu = local(s.until);
+      return he ? "המשרד פתוח עכשיו, עד 16:00" + (lu ? " (" + lu + " אצלכם)" : "")
+                : "The office is open now, until 16:00 Israel time" + (lu ? " (" + lu + " your time)" : "");
+    }
+    var la = local(s.at), when = s.ahead === 0 ? (he ? "היום" : "today") : s.ahead === 1 ? (he ? "מחר" : "tomorrow") : (he ? "ביום " + HE_DAY[s.day] : "on " + EN_DAY[s.day]);
+    return he ? "המשרד סגור עכשיו. נפתח " + when + " ב-8:00" + (la ? " (" + la + " אצלכם)" : "")
+              : "The office is closed now. It opens " + when + " at 8:00 Israel time" + (la ? " (" + la + " your time)" : "");
+  }
+  function tick() {
+    var s = state(new Date()), msg = text(s);
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i], live = el.querySelector(".oh-live"), now = el.querySelector(".oh-now");
+      el.setAttribute("data-state", s.open ? "open" : "closed");
+      if (now.textContent !== msg) now.textContent = msg;
+      live.hidden = false;
+    }
+  }
+  tick(); setInterval(tick, 30000);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) tick(); });
+})();

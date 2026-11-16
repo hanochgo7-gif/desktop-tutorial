@@ -8,6 +8,8 @@ SITE = {
     "phone_display": ("+972\u00a04\u00a0985\u00a04404", "04\u20119854404"),  # 1.10
     "phone_tel": "+97249854404",
     "town": ("Kibbutz Kfar Masaryk", "קיבוץ כפר מסריק"),  # 1.10
+    # office hours (Hanoch, 16 Nov 2026: Sunday to Thursday, 8:00 to 16:00 Israel time); site.js shows whether it is open right now
+    "hours": ("Sunday to Thursday, 8:00 to 16:00 Israel time", "ראשון עד חמישי, 8:00 עד 16:00"),
     "skip": ("Skip to content", "דילוג לתוכן"),
     "close": ("Close", "סגירה"),
     "menu": ("Menu", "תפריט"),
