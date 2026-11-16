@@ -775,8 +775,10 @@
   }
   function imgHtml(m, o) {
     o = o || {};
-    var ss = (m.small ? MEDIA_BASE + m.small + " 640w, " : "") + MEDIA_BASE + m.file + " 1600w";
-    return '<img class="ai-img" src="' + esc(MEDIA_BASE + (m.small && o.small ? m.small : m.file)) + '" srcset="' + esc(ss) + '" sizes="' + (o.sizes || "(max-width: 760px) 100vw, 680px") + '" alt="' + esc((m.alt || "") + (o.card ? " (המחשה שנוצרה ב-AI)" : "")) + '"' +
+    // cards and thumbnails (≤ 320 CSS px) never need the 1600w file, even on a 3x phone: 640w only
+    var cardOnly = o.card && m.small;
+    var ss = cardOnly ? "" : (m.small ? MEDIA_BASE + m.small + " 640w, " : "") + MEDIA_BASE + m.file + " 1600w";
+    return '<img class="ai-img" src="' + esc(MEDIA_BASE + (m.small && (o.small || cardOnly) ? m.small : m.file)) + '"' + (ss ? ' srcset="' + esc(ss) + '" sizes="' + (o.sizes || "(max-width: 760px) 100vw, 680px") + '"' : "") + ' alt="' + esc((m.alt || "") + (o.card ? " (המחשה שנוצרה ב-AI)" : "")) + '"' +
       (o.eager ? ' loading="eager" fetchpriority="high"' : ' loading="lazy"') + ' decoding="async" data-act="aiimg">';
   }
   function swatchBg(material) { return '<span class="ai-sw" aria-hidden="true">' + window.Diagrams.swatch(material || "general") + "</span>"; }
@@ -2878,6 +2880,7 @@
       case "ai-anim":
         var img = el.parentNode.querySelector("img.ai-img"), ga = el.getAttribute("aria-pressed") !== "true";
         if (!img) break;
+        img.classList.remove("failed");
         if (ga) { img.setAttribute("data-still", img.getAttribute("src")); img.setAttribute("data-srcset", img.getAttribute("srcset") || ""); img.removeAttribute("srcset"); img.src = el.getAttribute("data-gif"); }
         else { img.src = img.getAttribute("data-still"); if (img.getAttribute("data-srcset")) img.setAttribute("srcset", img.getAttribute("data-srcset")); }
         el.setAttribute("aria-pressed", String(ga)); el.querySelector("span").textContent = ga ? "עצירה" : "הנפשה";
@@ -2988,8 +2991,26 @@
   document.getElementById("nav").addEventListener("focusin", function () { document.body.classList.remove("nav-hide"); });
   if (RM && RM.addEventListener) RM.addEventListener("change", function () { render(); });
 
-  render();
-  booted = true;
-  setTopbarH();
-  cloud.init();
+  // first render waits (at most 700 ms) for the Hebrew web fonts, so the page does not reflow when they swap in (CLS)
+  // and never shows a flash of fallback Hebrew; with the fonts cached (or no font API) it renders at once
+  var started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    document.documentElement.classList.remove("booting");
+    render();
+    booted = true;
+    setTopbarH();
+    cloud.init();
+  }
+  var FONT_PROBES = ['400 1em "Assistant"', '700 1em "Assistant"', '800 1em "Assistant"', '400 1em "Karantina"', '700 1em "Karantina"'];
+  var fontsReady = !document.fonts || !document.fonts.load || FONT_PROBES.every(function (f) { try { return document.fonts.check(f, "אב1"); } catch (e) { return true; } });
+  if (fontsReady) start();
+  else {
+    document.documentElement.classList.add("booting");
+    // too slow (first visit on a slow network): stay on the system fonts for this page view instead of swapping later
+    // (no reflow, no flash); the fonts are cached by the next visit
+    setTimeout(function () { if (!started) { document.documentElement.classList.add("fonts-late"); start(); } }, 700);
+    try { Promise.all(FONT_PROBES.map(function (f) { return document.fonts.load(f, "אב1"); })).then(start, start); } catch (e) { start(); }
+  }
 })();

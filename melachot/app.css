@@ -105,6 +105,10 @@
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-text="l"] { font-size: 112%; }
 
+/* the published artifact has no index.html <style>: the page contract lives here (hidden always hides, images never overflow) */
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 html { -webkit-text-size-adjust: 100%; }
 body {
   background: var(--paper);
@@ -1592,3 +1596,6 @@ main:focus, main h1[tabindex="-1"]:focus, .score-card[tabindex="-1"]:focus, #fla
 .tbl-scroll[tabindex="0"]:focus-visible { outline: 2.5px solid var(--ink); outline-offset: -2.5px; }
 .lesson-row .thumb .ai-badge { top: 2px; inset-inline-start: 2px; font-size: 8px; padding: 2px 3px; border-radius: 2px; }
 .tt small .carried { color: var(--ink); font-weight: 800; }
+/* first paint waits briefly for the web fonts (see start() in app.js) */
+html.booting #app { visibility: hidden; }
+html.fonts-late { --f-display: "Arial Narrow", "Segoe UI", "Arial Hebrew", Arial, system-ui, sans-serif; --f-body: "Segoe UI", "Arial Hebrew", Arial, system-ui, sans-serif; --f-mono: ui-monospace, "SFMono-Regular", Menlo, monospace; }
