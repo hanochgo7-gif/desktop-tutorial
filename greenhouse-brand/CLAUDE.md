@@ -32,4 +32,4 @@
 ## Media sources
 - Google Drive (folder from liorhoresh85) holds only two drone videos (`DJI_0001.MP4`, `DJI_0024.MP4`). Use only DJI_0024 (aerial). DJI_0001 (walk inside an orchard) shows dark brown poles, so it is excluded.
 - Real project photos come from the old site's media library (miftah.co.il, 2015 uploads). The usable process series is in `images/process/` with its README (source file per photo and what was excluded).
-- Never use photos with children on site (`w1.jpg`, `world.jpg`), civil shading (discontinued), or stock images.
+- Never use photos with children on site, civil shading (discontinued), or stock images. Exception: on 16 Nov 2026 Hanoch explicitly approved the old site's `world.jpg` (India, local crew with children) for the gallery as `g-india`; `w1.jpg` stays out.

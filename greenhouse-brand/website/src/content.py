@@ -896,6 +896,7 @@ GALLERY = {
             ("g-lift-field", ("The lift and a field crew while the net is spread", "במת ההרמה וצוות השטח בזמן פריסת הרשת")),
             ("g-basket", ("A worker in a harness in the lift basket, by galvanized poles", "עובד ברתמה בסל במת ההרמה, ליד עמודים מגולוונים")),
             ("g-team", ("Our field crew", "מצוות השטח שלנו")),
+            ("g-india", ("Laying out the galvanized poles with the local crew, a project in India", "פריסת העמודים המגולוונים עם צוות העובדים המקומי, פרויקט בהודו")),  # Hanoch, 16 Nov 2026
         ]),
         (("Shading for work areas", "הצללה לאזורי תפעול"), [
             ("g-shade-op", ("A work-area shade with green shade net", "סככת תפעול עם רשת הצללה ירוקה")),  # Merav: "סככת תפעול"
