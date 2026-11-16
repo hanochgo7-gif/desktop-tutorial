@@ -1419,3 +1419,7 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
     border-block: 6px solid transparent; border-inline-start: 9px solid var(--mint); }
   .path-phases > .pp:not(:last-child)::after { border-inline-start-color: #0E4239; top: 20px; }
 }
+
+/* Hanoch, 16 Nov 2026: the headline centred on the page; the slogan line runs exactly between the name's first and last letter
+   (site.js measures both lines and sets the slogan's letter spacing and offset) */
+.hero-os h1 { text-align: center; width: fit-content; max-width: 100%; margin-inline: auto; }

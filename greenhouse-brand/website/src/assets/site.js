@@ -434,7 +434,7 @@
     return R > L ? [L, R] : null;
   }
   function fit() {
-    b.style.removeProperty("--ls"); b.style.removeProperty("margin-inline-end");
+    b.style.removeProperty("--ls"); b.style.removeProperty("margin-inline-end"); b.style.transform = "";  // measure from scratch each time
     var A = ink(a), B = ink(b); if (!A || !B) return;
     var n = Math.max(1, b.textContent.replace(/\s+$/, "").length - 1), fs = parseFloat(getComputedStyle(b).fontSize) || 16;
     var ls = parseFloat(getComputedStyle(b).letterSpacing) || 0, d = (A[1] - A[0]) - (B[1] - B[0]);
