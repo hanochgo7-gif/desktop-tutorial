@@ -130,6 +130,8 @@
   function DIM(x1, y1, x2, y2) {
     return '<path d="M' + x1 + " " + y1 + " L" + x2 + " " + y2 + '" class="thin" marker-start="url(#m-arr)" marker-end="url(#m-arr)"/>';
   }
+  // part group: the diagram stepper (COURSE_ANIM) highlights every .pt-N of the listed part numbers
+  function G(n, body) { return '<g class="pt pt-' + n + '">' + body + "</g>"; }
   function svg(w, h, body, label) {
     return '<svg class="drawing" viewBox="0 0 ' + w + " " + h + '" role="img" aria-label="' + label + '" direction="rtl">' + body + "</svg>";
   }
@@ -445,19 +447,19 @@
     parts: [{ n: 1, name: "תקרה", x: 590, y: 76 }, { n: 2, name: "קורה", x: 420, y: 92 }, { n: 3, name: "עמוד", x: 500, y: 270 }, { n: 4, name: "יסוד", x: 545, y: 346 }, { n: 5, name: "קרקע", x: 630, y: 378 }],
     draw: function () {
       var b = "";
-      b += R(10, 330, 660, 62, "p-earth", "thin") + P("M10 330 H670", "ln2");
-      b += R(130, 330, 100, 30, "p-concrete") + R(450, 330, 100, 30, "p-concrete");
-      b += R(168, 70, 24, 260, "p-concrete") + R(488, 70, 24, 260, "p-concrete");
-      b += R(60, 70, 560, 12, "p-concrete") + R(60, 190, 560, 12, "p-concrete");
-      b += R(168, 82, 344, 20, "p-concrete") + R(168, 202, 344, 20, "p-concrete");
-      b += LOADS(80, 600, 66, 40);
-      b += FLOW("M340 70 V96") + FLOW("M330 92 H210") + FLOW("M180 110 V180") + FLOW("M180 225 V318") + FLOW("M180 342 V384");
+      b += G(5, R(10, 330, 660, 62, "p-earth", "thin") + P("M10 330 H670", "ln2"));
+      b += G(4, R(130, 330, 100, 30, "p-concrete") + R(450, 330, 100, 30, "p-concrete"));
+      b += G(3, R(168, 70, 24, 260, "p-concrete") + R(488, 70, 24, 260, "p-concrete"));
+      b += G(1, R(60, 70, 560, 12, "p-concrete") + R(60, 190, 560, 12, "p-concrete"));
+      b += G(2, R(168, 82, 344, 20, "p-concrete") + R(168, 202, 344, 20, "p-concrete"));
+      b += G(1, LOADS(80, 600, 66, 40));
+      b += G(1, FLOW("M340 70 V96")) + G(2, FLOW("M330 92 H210")) + G(3, FLOW("M180 110 V180") + FLOW("M180 225 V318")) + G(4, FLOW("M180 342 V384"));
       b += K(28, 120, "מסלול", "l", "s") + K(28, 135, "העומס", "l", "s") + '<path d="M70 150 H30" class="flow" marker-end="url(#m-flow)"/>';
-      b += L(600, 76, 640, 56) + T(644, 52, "תקרה", "l");
-      b += L(430, 92, 455, 120) + T(459, 132, "קורה", "l");
-      b += L(512, 270, 560, 270) + T(564, 274, "עמוד", "l");
-      b += L(550, 346, 600, 346) + T(604, 350, "יסוד", "l");
-      b += T(560, 386, "קרקע", "m");
+      b += G(1, L(600, 76, 640, 56) + T(644, 52, "תקרה", "l"));
+      b += G(2, L(430, 92, 455, 120) + T(459, 132, "קורה", "l"));
+      b += G(3, L(512, 270, 560, 270) + T(564, 274, "עמוד", "l"));
+      b += G(4, L(550, 346, 600, 346) + T(604, 350, "יסוד", "l"));
+      b += G(5, T(560, 386, "קרקע", "m"));
       return svg(680, 398, b, this.title);
     }
   };
@@ -604,18 +606,20 @@
   D["prestress-steps"] = {
     title: "עקרון הבטון הדרוך: קורה רגילה לעומת קורה דרוכה",
     src: ["rec3-16", "rec3-24"],
+    // one part per stage panel (for the stepper only; not used for "identify" questions)
+    parts: [{ n: 1, name: "קורה רגילה", x: 270, y: 52 }, { n: 2, name: "דריכה", x: 270, y: 152 }, { n: 3, name: "שחרור", x: 270, y: 246 }, { n: 4, name: "איזון", x: 270, y: 350 }],
+    noQuiz: true,
     draw: function () {
       var b = "";
       function beam(y, curve, label, sub) {
         var o = '<path d="M60 ' + y + " Q270 " + (y + curve) + " 480 " + y + " L480 " + (y + 24) + " Q270 " + (y + 24 + curve) + " 60 " + (y + 24) + ' Z" class="ln" style="fill:url(#p-concrete)"/>';
         return o + T(668, y + 16, label, "r", "h") + (sub ? T(270, y + 50 + Math.max(0, curve), sub, "m", "s") : "");
       }
-      b += LOADS(90, 450, 38, 45) + beam(40, 22, "קורה רגילה", "העומס יוצר מומנט כפיפה: הקורה שוקעת באמצע");
-      b += beam(140, 0, "בטון דרוך: דריכה", "הכבלים נמתחים לפני ההעמסה");
-      b += '<path d="M70 156 Q270 168 470 156" class="ln2" style="stroke-width:3;stroke-dasharray:6 4"/>' + ARR(480, 156, 520, 156, "ln") + ARR(60, 156, 20, 156, "ln");
-      b += beam(240, -18, "שחרור", "מומנט כפיפה הפוך: הקורה מתרוממת מעט");
-      b += ARR(260, 240, 260, 220, "ln") + ARR(280, 240, 280, 220, "ln");
-      b += LOADS(90, 450, 336, 45) + beam(338, 0, "איזון", "העומס והדריכה מאזנים זה את זה");
+      b += G(1, LOADS(90, 450, 38, 45) + beam(40, 22, "קורה רגילה", "העומס יוצר מומנט כפיפה: הקורה שוקעת באמצע"));
+      b += G(2, beam(140, 0, "בטון דרוך: דריכה", "הכבלים נמתחים לפני ההעמסה") +
+        '<path d="M70 156 Q270 168 470 156" class="ln2" style="stroke-width:3;stroke-dasharray:6 4"/>' + ARR(480, 156, 520, 156, "ln") + ARR(60, 156, 20, 156, "ln"));
+      b += G(3, beam(240, -18, "שחרור", "מומנט כפיפה הפוך: הקורה מתרוממת מעט") + ARR(260, 240, 260, 220, "ln") + ARR(280, 240, 280, 220, "ln"));
+      b += G(4, LOADS(90, 450, 336, 45) + beam(338, 0, "איזון", "העומס והדריכה מאזנים זה את זה"));
       return svg(680, 404, b, this.title);
     }
   };
@@ -712,17 +716,16 @@
     parts: [{ n: 1, name: "כבל פלדה בתוך שרוול", x: 200, y: 128 }, { n: 2, name: "עוגן", x: 640, y: 120 }, { n: 3, name: "פלטת הבטון", x: 470, y: 108 }, { n: 4, name: "עמוד", x: 340, y: 200 }],
     draw: function () {
       var b = "";
-      b += R(40, 100, 600, 40, "p-concrete");
-      b += R(330, 140, 20, 110, "p-concrete") + R(50, 140, 20, 110, "p-concrete") + R(610, 140, 20, 110, "p-concrete");
-      b += '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln2" style="stroke-width:4"/>';
-      b += '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln" style="stroke:var(--cut);stroke-width:1.4"/>';
-      b += R(30, 110, 10, 20, null, "solid") + R(640, 110, 10, 20, null, "solid");
-      b += '<path d="M652 120 H676" class="flow" marker-end="url(#m-flow)"/>';
-      b += ARR(260, 100, 290, 100, "ln") + ARR(420, 100, 390, 100, "ln");
-      b += L(200, 128, 170, 200) + T(170, 214, "כבל פלדה בחוזק גבוה", "m") + T(170, 230, "בתוך שרוול", "m", "s");
-      b += L(645, 112, 600, 60) + T(596, 56, "עוגן ומתיחה (דריכה)", "r");
-      b += T(340, 82, "מאמצי לחיצה מוקדמים בבטון", "m", "s");
-      b += L(340, 200, 380, 200) + T(384, 204, "עמוד", "l");
+      b += G(3, R(40, 100, 600, 40, "p-concrete"));
+      b += G(4, R(330, 140, 20, 110, "p-concrete") + R(50, 140, 20, 110, "p-concrete") + R(610, 140, 20, 110, "p-concrete"));
+      b += G(1, '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln2" style="stroke-width:4"/>' +
+        '<path d="M40 120 Q190 150 340 106 Q490 150 640 120" class="ln" style="stroke:var(--cut);stroke-width:1.4"/>');
+      b += G(2, R(30, 110, 10, 20, null, "solid") + R(640, 110, 10, 20, null, "solid") + '<path d="M652 120 H676" class="flow" marker-end="url(#m-flow)"/>');
+      b += G(3, ARR(260, 100, 290, 100, "ln") + ARR(420, 100, 390, 100, "ln"));
+      b += G(1, L(200, 128, 170, 200) + T(170, 214, "כבל פלדה בחוזק גבוה", "m") + T(170, 230, "בתוך שרוול", "m", "s"));
+      b += G(2, L(645, 112, 600, 60) + T(596, 56, "עוגן ומתיחה (דריכה)", "r"));
+      b += G(3, T(340, 82, "מאמצי לחיצה מוקדמים בבטון", "m", "s"));
+      b += G(4, L(340, 200, 380, 200) + T(384, 204, "עמוד", "l"));
       return svg(680, 262, b, this.title);
     }
   };
@@ -761,11 +764,15 @@
   D["dwall-steps"] = {
     title: "שלבי ביצוע קיר סלארי (DIAPHRAGM WALL)",
     src: ["rec2-31", "rec2-32"],
+    // one part per stage panel, in step order (stage 1 is the rightmost panel); stepper only, not "identify" questions
+    parts: [{ n: 1, name: "קירות מנחים", x: 600, y: 160 }, { n: 2, name: "חפירת תעלה", x: 472, y: 160 }, { n: 3, name: "תעלה מיוצבת בתרחיף", x: 344, y: 160 }, { n: 4, name: "הורדת כלוב זיון", x: 216, y: 160 }, { n: 5, name: "יציקה בצינור טרמי", x: 88, y: 160 }],
+    noQuiz: true,
     draw: function () {
       var b = "", i;
       var steps = ["קירות מנחים", "חפירת תעלה", "תעלה מיוצבת בתרחיף", "הורדת כלוב זיון", "יציקה בצינור טרמי"];
       for (i = 0; i < 5; i++) {
         var x0 = 548 - i * 128, cx = x0 + 52;
+        b += '<g class="pt pt-' + (i + 1) + '">';
         b += R(x0, 60, 104, 210, "p-earth", "thin") + P("M" + x0 + " 60 H" + (x0 + 104), "ln2");
         b += R(cx - 22, 52, 10, 20, "p-concrete") + R(cx + 12, 52, 10, 20, "p-concrete");
         if (i >= 1) b += R(cx - 12, 60, 24, i === 1 ? 110 : 190, null, "cut") + R(cx - 12, 60, 24, i === 1 ? 110 : 190, null, "ln");
@@ -774,6 +781,7 @@
         if (i === 3) b += P("M" + (cx - 7) + " 30 V244 M" + (cx + 7) + " 30 V244 M" + (cx - 7) + " 70 H" + (cx + 7) + " M" + (cx - 7) + " 120 H" + (cx + 7) + " M" + (cx - 7) + " 170 H" + (cx + 7) + " M" + (cx - 7) + " 220 H" + (cx + 7), "ln2");
         if (i === 4) b += R(cx - 12, 150, 24, 100, "p-concrete") + R(cx - 12, 74, 24, 76, "p-sand", "thin") + P("M" + cx + " 20 V150", "ln2");
         b += K(cx, 294, String(i + 1), "m", "h") + T(cx, 314, steps[i], "m", "s");
+        b += "</g>";
       }
       b += K(340, 344, "המחשה לימודית: הכיתובים באנגלית בשקף לא היו קריאים במלואם", "m", "s");
       return svg(680, 354, b, this.title);
@@ -829,6 +837,8 @@
     has: function (id) { return !!D[id]; },
     title: function (id) { return D[id] ? D[id].title : ""; },
     parts: function (id) { return D[id] && D[id].parts ? D[id].parts : null; },
+    // false for diagrams whose parts exist only to drive the stepper (no auto-generated "identify" questions)
+    quizzable: function (id) { return !!(D[id] && D[id].parts && !D[id].noQuiz); },
     src: function (id) { return D[id] && D[id].src ? D[id].src : null; },
     render: function (id, opts) {
       if (!D[id]) return "";
@@ -839,6 +849,13 @@
           return '<g class="mk' + (on ? " on" : "") + '"><circle cx="' + p.x + '" cy="' + p.y + '" r="' + (on ? 13 : 10) + '"/><text x="' + p.x + '" y="' + (p.y + 4.5) + '" text-anchor="middle">' + p.n + "</text></g>";
         }).join("");
         out = out.replace('class="drawing"', 'class="drawing quiz"').replace(/<\/svg>$/, mk + "</svg>");
+        var vb = /viewBox="0 0 (\d+) (\d+)"/.exec(out);
+        if (vb) {
+          var W = +vb[1], H = +vb[2], xs = D[id].parts.map(function (p) { return p.x; }), ys = D[id].parts.map(function (p) { return p.y; });
+          var x0 = Math.max(0, Math.min.apply(null, xs) - 40), y0 = Math.max(0, Math.min.apply(null, ys) - 40);
+          var x1 = Math.min(W, Math.max.apply(null, xs) + 40), y1 = Math.min(H, Math.max.apply(null, ys) + 40);
+          if ((x1 - x0) * (y1 - y0) < W * H * 0.85 && x1 - x0 > W * 0.4) out = out.replace(vb[0], 'viewBox="' + x0 + " " + y0 + " " + (x1 - x0) + " " + (y1 - y0) + '"');
+        }
       }
       return out;
     }
