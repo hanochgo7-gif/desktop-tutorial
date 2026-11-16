@@ -2060,3 +2060,4 @@ ul.plain li { flex-wrap: wrap; }
 .src-img-a { position: relative; display: block; align-self: flex-start; max-width: 100%; }
 .src-img-a img { display: block; }
 .mn-l a { min-height: 44px; }
+.cheat.memo .src-chips, .cheat.memo .tag-expl { width: auto; max-width: 100%; flex-wrap: wrap; }

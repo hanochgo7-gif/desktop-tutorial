@@ -3538,7 +3538,8 @@
     CHV.cur = cur;
     main.querySelectorAll(".chip-nav").forEach(function (b) {
       var on = b.getAttribute("data-target") === cur;
-      if (on) { b.setAttribute("aria-current", "true"); b.scrollIntoView({ block: "nearest", inline: "nearest" }); } else b.removeAttribute("aria-current");
+      // the jump list wraps and scrolls with the page now (P1-19): never scroll it into view (that would pull the page back up)
+      if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
     });
   }
   // WCAG 2.4.11: a control that receives focus is scrolled clear of the sticky top bars and the fixed bottom bars
