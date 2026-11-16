@@ -331,6 +331,155 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 .rs-h .ltr{font-size:.95em;white-space:nowrap}
 .rstep>div>.f.ltr{display:inline-block}
 
+/* ===== reading comfort for every age ===== */
+:root{--muted:#4a5466}
+body{font-size:19px;line-height:1.75}
+.wrap{zoom:var(--z,1)}
+p{max-width:64ch}
+h3{font-size:22px}
+.small-note,.assume{font-size:16.5px}
+.fig figcaption,.photo figcaption{font-size:16px;line-height:1.55}
+.mini figcaption{font-size:16px}
+table{font-size:17px} th{font-size:15px}
+.note,.rule{font-size:18px}
+.lead{font-size:19.5px}
+.legend{font-size:16px}
+.tip-line{font-size:17px}
+/* buttons and inputs: big and obvious */
+.btn,.tabs button{min-height:48px;font-size:17px;padding:10px 16px}
+input[type=number],input[type=text]{font-size:19px;min-height:48px;width:110px}
+input[type=range]{height:40px}
+/* "open" buttons */
+summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:12px 16px;font-size:18px;background:var(--moment-soft);border-radius:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"▾";font-size:22px;line-height:1;transition:transform .2s}
+details[open]>summary::after{transform:rotate(180deg)}
+details[open]>summary{border-radius:10px 10px 0 0}
+details>div{padding:12px 16px 14px}
+.chk>summary::before{content:none}
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--paper);border-bottom:1.5px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.topbar .in{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:10px;padding-block:8px}
+.tb-btn{font:700 17px/1 var(--sans);min-height:48px;padding:0 16px;border-radius:10px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.tb-btn.sq{min-width:52px;justify-content:center;padding:0 10px;font-size:19px}
+.tb-btn:disabled{opacity:.4;cursor:default}
+.tb-btn:hover:not(:disabled){border-color:var(--moment);color:var(--moment)}
+.tb-size{display:flex;gap:6px;margin-inline-start:auto}
+.tb-where{min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.tb-where .wn{font-size:13.5px;color:var(--muted);font-weight:600}
+.tb-where .wt{font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .prog{position:absolute;inset:auto 0 -1.5px 0;height:3px;background:var(--moment);transform-origin:right;transform:scaleX(var(--p,0))}
+@media (max-width:430px){.tb-where .wn{font-size:12.5px}.tb-where .wt{font-size:14.5px}.topbar .in{gap:6px}.tb-btn{padding:0 12px}.tb-btn.sq{min-width:46px}}
+@media (max-height:480px){.topbar{position:static}}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--moment);outline-offset:3px}
+/* help box and table of contents */
+.help{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 18px;margin:22px 0 8px}
+.help-h{font:700 20px/1.3 var(--display);margin:4px 0 6px}
+.help ul{margin:0;padding-inline-start:1.1em}
+.help li{margin:6px 0}
+.kbd{display:inline-block;border:1.5px solid var(--line-strong);border-radius:6px;padding:0 6px;background:var(--paper);font-weight:700;white-space:nowrap}
+.toc-title{font:700 22px/1.3 var(--display);margin:26px 0 8px}
+.toc-count{font:600 15px var(--sans);color:var(--ok);margin-inline-start:8px}
+.toc{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.toc a{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);text-decoration:none;font-size:18px;font-weight:600}
+.toc a:hover{border-color:var(--moment)}
+.toc .n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--moment-soft);color:var(--moment);display:inline-grid;place-items:center;font:700 15px/1 var(--mono)}
+.toc .t{flex:1;min-width:0}
+.toc .ck{visibility:hidden;color:var(--ok);font-size:20px;font-weight:700}
+.toc .is-done .ck{visibility:visible}
+.toc .is-done .n{background:var(--ok-soft);color:var(--ok)}
+/* big buttons: resume, chapter end, read aloud, to top */
+.big-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:10px 20px;border-radius:12px;font:700 18px/1.3 var(--sans);text-decoration:none;cursor:pointer;border:2px solid var(--moment);background:var(--card);color:var(--moment);text-align:center}
+.resume-btn{margin-top:18px;background:var(--moment);color:var(--on-accent);width:100%}
+.sec-end{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 6px;padding-top:20px;border-top:2px dashed var(--line)}
+.sec-end .big-btn{flex:1 1 240px}
+.next-btn{background:var(--moment);color:var(--on-accent)}
+.done-btn{border-color:var(--ok);color:var(--ok)}
+.done-btn .box{width:22px;height:22px;border:2.5px solid currentColor;border-radius:5px;flex:none}
+.done-btn[aria-pressed="true"]{background:var(--ok-soft)}
+.done-btn[aria-pressed="true"] .box{background:currentColor}
+.listen{margin:4px 0 10px;min-height:48px;font-size:17px;padding:8px 16px}
+.listen[aria-pressed="true"]{background:var(--moment-soft)}
+.totop{position:fixed;z-index:7;left:calc(max(16px,env(safe-area-inset-left,0px)));bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:0 4px 14px rgba(0,0,0,.18);min-height:52px;padding:8px 18px}
+/* chapter brief */
+.brief{font-size:19px;background:var(--note);border-radius:10px;padding:10px 16px;margin:4px 0 14px;max-width:none}
+/* enlarge */
+.fig,.photo{position:relative}
+.zbtn{position:absolute;top:8px;left:8px;z-index:2;font:700 15px/1 var(--sans);min-height:40px;padding:0 12px;border-radius:9px;border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;opacity:.92}
+.photo .zbtn{top:10px;left:10px}
+main .fig svg.dg,main .photo img{cursor:zoom-in}
+#calc svg.dg{cursor:default}
+.dlg{border:0;padding:0;border-radius:14px;background:var(--paper);color:var(--ink);width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.dlg::backdrop{background:rgba(10,14,20,.55)}
+.dlg-top{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--paper);border-bottom:1.5px solid var(--line);z-index:1}
+.dlg-top h2{margin:0;font-size:22px}
+#toc-dlg .toc{padding:12px 16px 16px}
+.zoom{width:calc(100vw - 16px);max-width:1400px}
+#zoom-body{padding:12px;background:var(--card);overflow:auto}
+#zoom-body svg,#zoom-body img{width:100%;height:auto;display:block}
+.zoom-cap{padding:4px 16px 14px;margin:0;max-width:none;font-size:17px}
+@media (prefers-reduced-motion:reduce){summary::after{transition:none}}
+[hidden]{display:none!important}
+.page a.next-btn,.page a.resume-btn{color:var(--on-accent)}
+.page a.totop{color:var(--paper)}
+.page .toc a{color:var(--ink)}
+.wrap{zoom:1}
+.wrap>header,.wrap>main{zoom:var(--z,1)}
+.tb-where .wn,.tb-where .wt{white-space:nowrap}
+.totop{display:grid;place-items:center;width:54px;height:54px;padding:0;border-radius:50%;font:700 26px/1 var(--sans);text-decoration:none;border:2px solid var(--ink)}
+
+/* ===== round 2: older-reader review ===== */
+html{scroll-behavior:auto!important}
+.kicker{font-size:15px}
+.legend-h{margin:18px 0 0;font-size:16px;color:var(--muted);font-weight:600}
+.zbtn{position:static;display:flex;margin:10px auto 2px;min-height:48px;font-size:17px;opacity:1;padding:0 16px;border-width:1.5px}
+.photo .zbtn{margin:10px auto 0}
+svg.st text{font-size:16px}
+@media (max-width:560px){svg.st text{font-size:24px}svg.st .lbl-he text,svg.st.lbl-he text{font-size:26px}}
+.kbd{font:700 17px/1.2 var(--sans);color:var(--ink);cursor:pointer;min-height:40px;padding:4px 10px}
+button.kbd:hover{border-color:var(--moment);color:var(--moment)}
+.chip{display:inline-block;border-radius:6px;padding:0 6px;background:var(--moment-soft);font-weight:700}
+.tbl[data-wide="true"]::before{content:"↔ הטבלה רחבה מהמסך: החלק אותה הצידה עם האצבע";display:block;padding:6px 12px;font-size:16px;color:var(--muted);position:sticky;right:0;left:0}
+#calc-ar{-webkit-appearance:none;appearance:none;height:44px;background:transparent;width:min(100%,320px)}
+#calc-ar::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:var(--line-strong)}
+#calc-ar::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;margin-top:-12px;border-radius:50%;background:var(--moment);border:3px solid var(--card)}
+#calc-ar::-moz-range-track{height:8px;border-radius:4px;background:var(--line-strong)}
+#calc-ar::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--moment);border:3px solid var(--card)}
+.calc-warn{color:var(--bad);font-weight:700;font-size:17px;margin:4px 0}
+.calc-warn:empty{display:none}
+input[aria-invalid="true"]{border-color:var(--bad);border-width:2.5px;background:var(--bad-soft)}
+.tabs-l{font-size:17px;color:var(--ink);flex-basis:100%}
+.tabs button[data-pv]{min-width:48px}
+.tab-note{color:var(--moment);font-weight:600;margin:4px 0}
+.tab-note:empty{display:none}
+#tr-desc{font-size:19px;color:var(--ink);font-weight:600;margin:6px 0 2px}
+#tr-score{font-size:17px}
+.tb-where .wn{font-size:15px}
+.tb-where .wt{font-size:16px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2}
+.fs-toast{position:fixed;z-index:9;top:calc(70px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font:700 17px/1.4 var(--sans);padding:10px 18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100vw - 32px);text-align:center}
+.fs-toast.show{opacity:1}
+#toc-dlg .toc,#zoom-cap{zoom:var(--z,1)}
+.toc a[aria-current]{border:2.5px solid var(--moment);background:var(--moment-soft)}
+.toc .here{flex:none;font-size:14px;font-weight:700;color:var(--on-accent);background:var(--moment);border-radius:999px;padding:2px 10px}
+.done-msg{flex-basis:100%;margin:0;color:var(--ok);font-weight:700;font-size:18px}
+.dlg{border:2px solid var(--line-strong)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dlg::backdrop{background:rgba(0,0,0,.82)}}
+:root[data-theme="dark"] .dlg::backdrop{background:rgba(0,0,0,.82)}
+.zoom{width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;border-radius:0;border:0}
+.zoom[open]{display:flex;flex-direction:column}
+#zoom-body{flex:1;min-height:0;overflow:auto}
+#zoom-body svg{width:max(100%,760px);max-width:none}
+#zoom-body img{width:100%;max-width:1100px;margin:0 auto}
+@media (orientation:landscape) and (max-height:600px){#zoom-body svg{width:auto;height:calc(100dvh - 110px);max-width:none}}
+.chk-box{background:var(--card);border:1.5px solid var(--moment);border-radius:12px;padding:12px 16px;margin:18px 0}
+.chk-h{font:700 18px/1.3 var(--display);color:var(--moment);margin-bottom:6px}
+.chk-box .q{font-weight:700;margin:10px 0 8px}
+.chk-box details.ans{margin:8px 0 12px}
+.more-hint{margin:6px 0 4px}
+.sum .tot{white-space:nowrap!important}
+@media (max-width:400px){html[data-fs="2"] .sum,html[data-fs="3"] .sum{font-size:14.5px}html[data-fs="3"] .sum .tot{font-size:16px}}
+#zoom-body{direction:ltr}
+
 </style>
 
 
@@ -349,21 +498,39 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 <a class="skip" href="#main">דלג לתוכן</a>
 <div class="wrap">
 
-<header class="top">
+<nav class="topbar" aria-label="ניווט בשיעור"><div class="in">
+  <button type="button" class="tb-btn" id="tb-menu" aria-haspopup="dialog"><span aria-hidden="true">☰</span> פרקים</button>
+  <div class="tb-where" id="tb-where"></div>
+  <div class="tb-size" role="group" aria-label="גודל הכתב"><button type="button" class="tb-btn sq" id="fs-dn" aria-label="הקטן את הכתב">א−</button><span class="fs-toast" id="fs-now" role="status"></span><button type="button" class="tb-btn sq" id="fs-up" aria-label="הגדל את הכתב">א+</button></div>
+</div><div class="prog" aria-hidden="true"></div></nav>
+<header class="top" id="top">
   <div class="kicker">חישוב סטטי · לפי החומר מהכיתה</div>
   <h1>סטטיקה מהבסיס</h1>
   <p class="lead">כוח, פירוק כוח משופע, מומנט, סכום מומנטים, עומס מפורס וחישוב תגובות בסמכים, מההתחלה ממש. לא צריך רקע בפיזיקה או במתמטיקה: כל מילה מקצועית מוסברת בפעם הראשונה שהיא מופיעה, ויש <a href="#glossary">מילון מונחים</a> בסוף. כל פרק נשען על הקודם, אז כדאי לעבור לפי הסדר. בסוף כל פרק יש "בדוק את עצמך": נסה לענות לבד לפני שאתה פותח את התשובה.</p>
+  <p class="legend-h">מקרא צבעים לשרטוטים (הכול מוסבר בהמשך):</p>
   <div class="legend" role="group" aria-label="מקרא צבעים">
     <span><i style="background:var(--force)"></i>כוח (חץ רציף)</span>
     <span><i class="dash" style="background:var(--comp)"></i>רכיבים Px, Py (חץ מקווקו, פרק 5)</span>
     <span><i style="background:var(--moment)"></i>מומנט וזרוע (פרקים 6–8)</span>
     <span><i class="react"></i>תגובות בסמכים (פרק 11)</span>
   </div>
+  <div id="resume"></div>
+  <div class="help">
+    <h2 class="help-h">איך משתמשים בשיעור</h2>
+    <ul>
+      <li><button type="button" class="kbd" data-go="tb-menu">☰ פרקים</button> (בפס העליון): רשימת כל הפרקים. לחיצה על פרק עוברת אליו.</li>
+      <li><button type="button" class="kbd" data-go="fs-up">א+</button> ו־<button type="button" class="kbd" data-go="fs-dn">א−</button> (בפס העליון): הגדלה והקטנה של הכתב. נסה עכשיו!</li>
+      <li><b class="chip">⤢ הגדל את השרטוט</b> מתחת לכל שרטוט ותמונה: מציג אותם על כל המסך.</li>
+      <li>כפתור עם <b class="chip">▾</b> פותח תשובה או הסבר. לחיצה נוספת סוגרת.</li>
+      <li hidden id="help-listen"><b class="chip">🔊 הקרא לי את ההסבר</b> בתחילת כל פרק: המכשיר מקריא את ההסבר בקול (בלי הדוגמאות והתרגילים).</li>
+      <li>בסוף כל פרק: <b class="chip">סיימתי את הפרק</b> ו־<b class="chip">לפרק הבא</b>. המכשיר זוכר איפה עצרת.</li>
+    </ul>
+  </div>
+  <h2 class="toc-title">מה בשיעור <span class="toc-count" id="toc-count"></span></h2>
+  <ol class="toc" id="toc-list"></ol>
 </header>
 
-<nav class="chapters" aria-label="פרקים"><div class="in">
-  <a href="#intro">מה זה סטטיקה</a><a href="#force">כוח</a><a href="#units">יחידות</a><a href="#dir">זווית וכיוון</a><a href="#decomp">פירוק כוח</a><a href="#moment">מומנט</a><a href="#arm">הזרוע</a><a href="#sign">סימן</a><a href="#sum">סכום מומנטים</a><a href="#practice">תרגילי מומנטים</a><a href="#supports">סמכים ותגובות</a><a href="#udl">עומס מפורס</a><a href="#rx-practice">תרגילי תגובות</a><a href="#quiz">מבחן עצמי</a><a href="#mistakes">טעויות נפוצות</a><a href="#sheet">דף נוסחאות</a><a href="#glossary">מילון</a>
-</div></nav>
+
 <main id="main" tabindex="-1">
 
 <!-- 1 -->
@@ -377,7 +544,7 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <span>תקרה</span><em aria-hidden="true">←</em><span class="sr-only">, ואז</span><span>קורה</span><em aria-hidden="true">←</em><span class="sr-only">, ואז</span><span>עמוד</span><em aria-hidden="true">←</em><span class="sr-only">, ואז</span><span>יסוד</span><em aria-hidden="true">←</em><span class="sr-only">, ואז</span><span>אדמה</span>
   </p>
   <figure class="fig">
-    <svg class="dg" viewBox="0 0 640 262" role="img" aria-label="שלד בניין: תקרה, קורה, עמודים, יסודות ואדמה, עם חיצים של עומס כלפי מטה">
+    <svg class="dg st" viewBox="0 0 640 262" role="img" aria-label="שלד בניין: תקרה, קורה, עמודים, יסודות ואדמה, עם חיצים של עומס כלפי מטה">
       <line class="ar-f" x1="150" y1="4" x2="150" y2="34"/><line class="ar-f" x1="230" y1="4" x2="230" y2="34"/><line class="ar-f" x1="310" y1="4" x2="310" y2="34"/>
       <rect class="box" x="40" y="40" width="380" height="22" rx="2"/>
       <rect class="boxl" x="58" y="62" width="344" height="20"/>
@@ -419,10 +586,10 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
   <h3>קו הפעולה</h3>
   <p>תמשיך את החץ של הכוח בקו ישר לשני הכיוונים, בלי סוף. הקו הזה נקרא <b>קו הפעולה</b> של הכוח. נצטרך אותו בפרק 7: מומנט תלוי במרחק מהנקודה <b>אל הקו הזה</b>, לא אל ראש החץ.</p>
   <figure class="fig">
-    <svg class="dg" viewBox="0 0 640 170" role="img" aria-label="חץ של כוח באלכסון, והמשך שלו בקו מקווקו לשני הכיוונים: קו הפעולה">
+    <svg class="dg st" viewBox="0 0 640 170" role="img" aria-label="חץ של כוח באלכסון, והמשך שלו בקו מקווקו לשני הכיוונים: קו הפעולה">
       <line class="loa" x1="60" y1="160" x2="580" y2="10"/>
       <line class="ar-f" x1="250" y1="105" x2="380" y2="68"/>
-      <text class="t-f" x="300" y="118" style="font-size:16px">P</text>
+      <text class="t-f" x="300" y="118">P</text>
     </svg>
     <figcaption>החץ האדום הוא הכוח. הקו האפור המקווקו הוא קו הפעולה שלו: ההמשך של החץ לשני הצדדים.</figcaption>
   </figure>
@@ -550,13 +717,13 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
       <span class="fld"><label for="calc-p">P =</label><input id="calc-p" type="number" value="10" step="0.5" min="0"><span class="f">t</span></span>
       <span class="fld"><label for="calc-a">α =</label><input id="calc-a" type="number" value="30" min="0" max="90" step="1"><span class="f">°</span></span>
     </div>
+    <p class="calc-warn" id="calc-warn" role="alert"></p>
     <div class="row"><label for="calc-ar" style="font-weight:600">או גרור:</label><input id="calc-ar" type="range" min="0" max="90" value="30" aria-valuetext="30 מעלות"></div>
     <div class="grid2" style="align-items:center">
       <figure style="margin:0"><div id="calc-fig"></div><figcaption class="small-note">הריבוע הקטן מסמן זווית ישרה (90°). P הוא היתר.</figcaption></figure>
       <div class="out" id="calc-out"></div>
       <div class="sr-only" id="calc-live" role="status"></div>
     </div>
-    <p class="small-note" id="calc-warn" role="alert"></p>
     <p style="font-size:15px">נסה: שים <span class="ltr f">α = 0</span> ואחר כך <span class="ltr f">α = 90</span>. מה קורה ל־Py? וב־45°, מה אפשר לומר על Px ו־Py?</p>
   </div>
 
@@ -602,14 +769,14 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <h3>למה כופלים כוח במרחק? הנדנדה</h3>
 <figure class="photo"><img src="img/seesaw.webp" alt="איור של נדנדה מאוזנת: ילד קטן יושב רחוק מהציר בצד אחד, ומבוגר כבד יושב קרוב לציר בצד השני." width="1024" height="688" loading="lazy" decoding="async"><figcaption>ילד קל רחוק מהציר מאזן מבוגר כבד שקרוב לציר. בשרטוט שמתחת אותו רעיון עם מספרים.</figcaption></figure>
     <figure class="fig">
-    <svg class="dg" viewBox="0 0 640 230" role="img" aria-label="נדנדה מאוזנת: 20 ק״ג במרחק 2 מטר משמאל לציר, 40 ק״ג במרחק 1 מטר מימין">
+    <svg class="dg st" viewBox="0 0 640 230" role="img" aria-label="נדנדה מאוזנת: 20 ק״ג במרחק 2 מטר משמאל לציר, 40 ק״ג במרחק 1 מטר מימין">
       <polygon class="box" points="320,150 296,192 344,192"/>
       <line class="beam" x1="80" y1="148" x2="560" y2="148"/>
-      <rect class="box" x="104" y="110" width="32" height="36" rx="3"/><text class="t-f" x="120" y="100" text-anchor="middle" style="font-size:17px">20kg</text>
-      <rect class="box" x="398" y="94" width="44" height="52" rx="3"/><text class="t-f" x="420" y="84" text-anchor="middle" style="font-size:17px">40kg</text>
+      <rect class="box" x="104" y="110" width="32" height="36" rx="3"/><text class="t-f" x="120" y="100" text-anchor="middle">20kg</text>
+      <rect class="box" x="398" y="94" width="44" height="52" rx="3"/><text class="t-f" x="420" y="84" text-anchor="middle">40kg</text>
       <line class="dim" x1="120" y1="210" x2="320" y2="210"/><line class="dim" x1="120" y1="203" x2="120" y2="217"/><line class="dim" x1="320" y1="203" x2="320" y2="217"/>
       <line class="dim" x1="320" y1="210" x2="420" y2="210"/><line class="dim" x1="420" y1="203" x2="420" y2="217"/>
-      <text class="t-d" x="220" y="204" text-anchor="middle" style="font-size:15px">2m</text><text class="t-d" x="370" y="204" text-anchor="middle" style="font-size:15px">1m</text>
+      <text class="t-d" x="220" y="204" text-anchor="middle">2m</text><text class="t-d" x="370" y="204" text-anchor="middle">1m</text>
     </svg>
     <figcaption>ילד של 20 ק"ג יושב 2 מטר מהאמצע. ילד של 40 ק"ג יושב 1 מטר מהאמצע בצד השני. הנדנדה מאוזנת, כי <span class="ltr f">20 × 2 = 40 × 1 = 40</span>.</figcaption>
   </figure>
@@ -625,13 +792,13 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
   <h3>הדוגמה של העגורן</h3>
 <figure class="photo"><img src="img/crane.webp" alt="איור של עגורן צריח בצד: תורן גבוה, זרוע ארוכה ומשקל תלוי רחוק בקצה. קו כחול מקווקו מראה את המרחק מהתורן אל הכבל." width="1024" height="688" loading="lazy" decoding="async"><figcaption>עגורן אמיתי. הקו הכחול המקווקו הוא המרחק מהתורן אל הכבל שהמשקל תלוי עליו. זו הזרוע d.</figcaption></figure>
     <figure class="fig">
-    <svg class="dg" viewBox="0 0 640 268" role="img" aria-label="עגורן. משקל של 2 טון תלוי פעם במרחק 5 מטר מהתורן ופעם במרחק 12 מטר. המרחק נמדד לרוחב מהתורן אל הקו שהמשקל תלוי עליו.">
+    <svg class="dg st" viewBox="0 0 640 268" role="img" aria-label="עגורן. משקל של 2 טון תלוי פעם במרחק 5 מטר מהתורן ופעם במרחק 12 מטר. המרחק נמדד לרוחב מהתורן אל הקו שהמשקל תלוי עליו.">
       <rect class="boxl" x="80" y="40" width="26" height="220"/>
       <line class="beam" x1="40" y1="60" x2="600" y2="60"/>
       <line class="dim" x1="40" y1="260" x2="160" y2="260"/>
       <g class="hatch"><line x1="50" y1="260" x2="38" y2="274"/><line x1="75" y1="260" x2="63" y2="274"/><line x1="100" y1="260" x2="88" y2="274"/><line x1="125" y1="260" x2="113" y2="274"/><line x1="150" y1="260" x2="138" y2="274"/></g>
       <circle class="pt" cx="93" cy="250" r="5"/><text class="pn" x="70" y="246" text-anchor="middle">A</text>
-      <text class="t-i he" x="122" y="150" text-anchor="start" style="font-size:15px">תורן</text>
+      <text class="t-i he" x="122" y="150" text-anchor="start">תורן</text>
       <line class="dash" x1="260" y1="60" x2="260" y2="120"/><rect class="box" x="243" y="120" width="34" height="28"/>
       <line class="ar-f" x1="260" y1="150" x2="260" y2="196"/><text class="t-f" x="276" y="190">2t</text>
       <line class="dash" x1="540" y1="60" x2="540" y2="120"/><rect class="box" x="523" y="120" width="34" height="28"/>
@@ -693,15 +860,15 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 
   <h3>איך מחליטים</h3>
   <figure class="fig">
-    <svg class="dg" viewBox="0 0 640 250" role="img" aria-label="שעון שהמרכז שלו על הנקודה A. קורה עוברת דרכו. כוח למטה בצד ימין, ליד המספר 3, מסובב את הקורה כמו מחוג מ־3 ל־4: עם השעון.">
+    <svg class="dg st" viewBox="0 0 640 250" role="img" aria-label="שעון שהמרכז שלו על הנקודה A. קורה עוברת דרכו. כוח למטה בצד ימין, ליד המספר 3, מסובב את הקורה כמו מחוג מ־3 ל־4: עם השעון.">
       <circle cx="320" cy="125" r="96" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
-      <text class="t-d" x="320" y="48" text-anchor="middle" style="font-size:18px">12</text><text class="t-d" x="400" y="131" text-anchor="middle" style="font-size:18px">3</text><text class="t-d" x="320" y="214" text-anchor="middle" style="font-size:18px">6</text><text class="t-d" x="240" y="131" text-anchor="middle" style="font-size:18px">9</text>
+      <text class="t-d" x="320" y="48" text-anchor="middle">12</text><text class="t-d" x="400" y="131" text-anchor="middle">3</text><text class="t-d" x="320" y="214" text-anchor="middle">6</text><text class="t-d" x="240" y="131" text-anchor="middle">9</text>
       <line class="beam" x1="150" y1="125" x2="490" y2="125"/>
-      <line class="ar-f" x1="460" y1="40" x2="460" y2="119"/><text class="t-f" x="474" y="62" style="font-size:16px">P</text>
+      <line class="ar-f" x1="460" y1="40" x2="460" y2="119"/><text class="t-f" x="474" y="62">P</text>
       <path class="ar-m" d="M447,150 A130,130 0 0 1 418,205"/>
-      <text class="t-m" x="452" y="200" style="font-size:20px">+</text>
+      <text class="t-m" x="452" y="200">+</text>
       <circle class="pvh" cx="320" cy="125" r="13"/><circle class="pvr" cx="320" cy="125" r="13"/><circle class="pt" cx="320" cy="125" r="5"/>
-      <text class="pn" x="296" y="116" text-anchor="middle" style="font-size:17px">A</text>
+      <text class="pn" x="296" y="116" text-anchor="middle">A</text>
     </svg>
     <figcaption>שים שעון כך שהמרכז שלו על המסמר בנקודה A. הכוח נמצא <b>מימין</b> ל־A ודוחף <b>למטה</b>, אז הצד הימני של הקורה יורד. זה כמו מחוג שזז מ־3 ל־4: <b>עם השעון, פלוס</b>. אם הכוח היה <b>משמאל</b> ל־A ודוחף למטה, הצד השמאלי היה יורד, כמו מחוג שזז מ־9 ל־8: <b>נגד השעון, מינוס</b>.</figcaption>
   </figure>
@@ -728,7 +895,7 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
       <button class="btn" id="tr-new" type="button">שאלה חדשה</button>
     </div>
     <div class="fb" id="tr-fb" role="status" aria-atomic="true"></div>
-    <div class="score">ניקוד: <span id="tr-score" class="ltr f">0 / 0</span></div>
+    <div class="score" id="tr-score">עוד לא ענית על שאלות.</div>
   </div>
   <details class="chk"><summary>בדוק את עצמך</summary><div>
     <p class="q">כוח של 2 t מצביע למעלה ונמצא 3 m משמאל ל־A. מה המומנט, כולל סימן?</p>
@@ -809,10 +976,10 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
   <div class="grid2">
     <div class="ex" style="margin:0"><div id="fig-hx1"></div>
       <p>כל שלושת הכוחות מצביעים שמאלה. H<sub>A</sub> צריך לאזן אותם:</p>
-      <div class="sum"><span class="tm">+H<sub>A</sub> − 2 − 4 − 10 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>16 t</b></span></div></div>
+      <div class="sum"><span class="tm">+H<sub>A</sub></span> <span class="tm">− 2</span> <span class="tm">− 4</span> <span class="tm">− 10 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>16 t</b></span></div></div>
     <div class="ex" style="margin:0"><div id="fig-hx2"></div>
       <p>הכוחות כבר מאזנים זה את זה: 18 ימינה, ו־10 + 8 = 18 שמאלה.</p>
-      <div class="sum"><span class="tm">+H<sub>A</sub> + 18 − 10 − 8 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>0</b></span></div></div>
+      <div class="sum"><span class="tm">+H<sub>A</sub></span> <span class="tm">+ 18</span> <span class="tm">− 10</span> <span class="tm">− 8 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>0</b></span></div></div>
   </div>
 
   <div class="model">
@@ -1008,6 +1175,9 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 </section>
 </main>
 </div>
+<a class="totop" id="totop" href="#top" hidden aria-label="חזרה למעלה, לתחילת השיעור"><span aria-hidden="true">↑</span></a>
+<dialog id="toc-dlg" class="dlg" aria-labelledby="toc-h"><div class="dlg-top"><h2 id="toc-h">פרקי השיעור</h2><button type="button" class="tb-btn" id="toc-close">סגור <span aria-hidden="true">✕</span></button></div><ol class="toc" id="toc-dlg-list"></ol></dialog>
+<dialog id="zoom-dlg" class="dlg zoom" aria-label="שרטוט מוגדל"><div class="dlg-top"><span class="small-note">אם השרטוט רחב מהמסך, החלק אותו הצידה עם האצבע. אפשר גם לסובב את הטלפון לרוחב.</span><button type="button" class="tb-btn" id="zoom-close">סגור <span aria-hidden="true">✕</span></button></div><div id="zoom-body"></div><p id="zoom-cap" class="zoom-cap"></p></dialog>
 </div>
 
 <script>
@@ -1047,8 +1217,12 @@ function describeCase(c){ // single force around point A (sign cards + trainer)
   const d=Math.abs(c.rx||c.ry);const mag=c.l&&c.l!=='P'?`${num(parseFloat(c.l))} טון`:'P';
   return `כוח ${mag} ${HE_DIR[c.dir]}, ${c.d!==undefined?`במרחק ${num(c.d)} מטר `:''}${side}.`+(c.arc?(momentOf(c)>0?' חץ סיבוב: עם כיוון השעון.':' חץ סיבוב: נגד כיוון השעון.'):'');}
 
+/* text scale for diagrams (follows the reader's text size) */
+const TSS=[1,1.15,1.3,1.45];let TSV=1;try{TSV=TSS[Math.max(0,Math.min(3,JSON.parse(localStorage.getItem('statics.size')||'0')))]||1;}catch(e){}
+const TS=()=>TSV;
+function scaleText(scope){(scope||document).querySelectorAll('svg.dg:not(.bm):not(.cs) text').forEach(t=>{if(!t.dataset.b)t.dataset.b=parseFloat(getComputedStyle(t).fontSize)||14;t.style.fontSize=(t.dataset.b*TSV).toFixed(1)+'px';});}
 /* keep every SVG label inside its viewBox */
-function fitText(scope){(scope||document).querySelectorAll('svg.dg').forEach(s=>{const vb=s.viewBox.baseVal;if(!vb)return;
+function fitText(scope){scaleText(scope);(scope||document).querySelectorAll('svg.dg').forEach(s=>{const vb=s.viewBox.baseVal;if(!vb)return;
   s.querySelectorAll('text').forEach(t=>{let b;try{b=t.getBBox();}catch(e){return;}if(!b.width)return;let dx=0;
     if(b.x<2)dx=2-b.x;else if(b.x+b.width>vb.width-2)dx=vb.width-2-(b.x+b.width);
     if(dx)t.setAttribute('x',(parseFloat(t.getAttribute('x'))+dx).toFixed(1));});});}
@@ -1092,7 +1266,7 @@ const NARROW=matchMedia('(max-width:560px)');
    vertical force measured FROM the pivot, stacked in lanes under the dimension line. */
 function beamSVG(o){
   const nar=NARROW.matches, W=nar?420:640;
-  const FS=nar?{f:19,p:20,d:17,m:17,b:18}:{f:15,p:16,d:13.5,m:14,b:15};
+  const FS=nar?{f:19,p:20,d:17,m:17,b:18}:{f:15,p:16,d:13.5,m:14,b:15};for(const k in FS)FS[k]*=TS();
   const AL=nar?64:78, HL=nar?56:70, IL=nar?66:82;
   const tw=(s,sz)=>String(s).length*sz*0.62;                       // mono width estimate
   const T=(x,y,s,c,a,sz,cls)=>`<text class="t-${c}${cls?' '+cls:''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${a||'middle'}" style="font-size:${sz}px">${s}</text>`;
@@ -1198,7 +1372,7 @@ function beamSVG(o){
    Tighter fixed viewBox (260x210) so the drawing fills its card; the arm d is solid-dashed blue
    with its value when c.dl is given; the rotation arc gets a +/− tag. */
 function caseSVG(c){
-  const W=260,H=210,k=c.k||30,fs=c.fs||16,cx=W/2-c.rx*k/2,cy=H/2+c.ry*k/2,fx=cx+c.rx*k,fy=cy-c.ry*k;let g='';  // centred on the arm
+  const W=260,H=210,k=c.k||30,fs=(c.fs||16)*TS(),cx=W/2-c.rx*k/2,cy=H/2+c.ry*k/2,fx=cx+c.rx*k,fy=cy-c.ry*k;let g='';  // centred on the arm
   const T=(x,y,s,cl,a)=>`<text class="t-${cl}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${a||'middle'}" style="font-size:${fs}px">${s}</text>`;
   const AL=Math.max(54,fs*2.8),hz=c.ry===0,dl=c.dl||'d';
   /* layout rule: arm label on the side opposite the rotation arc, force label on the side of its
@@ -1313,11 +1487,11 @@ const tipFor=(o,pv)=>o.tip?(o.tip[pv]||o.tip._||''):'';
 let uid=0;
 function block(o,practice){
   const id='b'+(uid++);const first=o.pivots[0];
-  const tabs=o.pivots.map((p,i)=>`<button type="button" role="tab" id="${id}-t${p}" aria-controls="${id}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-pv="${p}" aria-label="סביב ${p}">${p}</button>`).join('');
+  const tabs=o.pivots.map((p,i)=>`<button type="button" role="tab" id="${id}-t${p}" aria-controls="${id}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-pv="${p}">סביב ${p}</button>`).join('');
   const origFig=o.orig?`<div class="fig">${fig(o,null,true)}</div>`:'';
   const decFig=o.orig?`<p style="margin-bottom:0"><b>אחרי פירוק</b> (החיצים הכתומים המקווקווים הם הרכיבים):</p>`:'';
   const tip=tipFor(o,first);
-  const solve=`${o.pre?`<div class="pre">${o.pre}</div>`:''}${decFig}<div class="tabs" role="tablist" aria-label="נקודת סיבוב: ${esc(o.title)}"><span class="tabs-l" aria-hidden="true">נקודת סיבוב:</span>${tabs}</div><div role="tabpanel" id="${id}-panel" aria-labelledby="${id}-t${first}" data-panel><div class="fig" data-fig>${fig(o,first)}</div><div data-tbl>${mTable(o,first)}</div><p class="tip-line" data-tip>${tip?'<b>טיפ:</b> '+tip:''}</p></div>`;
+  const solve=`${o.pre?`<div class="pre">${o.pre}</div>`:''}${decFig}<div class="tabs" role="tablist" aria-label="נקודת סיבוב: ${esc(o.title)}"><span class="tabs-l" aria-hidden="true">סביב איזו נקודה לחשב? לחץ על כפתור:</span>${tabs}</div><p class="small-note tab-note" aria-live="polite"></p><div role="tabpanel" id="${id}-panel" aria-labelledby="${id}-t${first}" data-panel><div class="fig" data-fig>${fig(o,first)}</div><div data-tbl>${mTable(o,first)}</div><p class="tip-line" data-tip>${tip?'<b>טיפ:</b> '+tip:''}</p></div>`;
   let html;
   if(practice){
     const ans=o.pivots.map(p=>`<span class="ltr f">M<sub>${p}</sub> = ${sgn(totalOf(o,p))}</span>`).join(' &nbsp;·&nbsp; ');
@@ -1331,17 +1505,17 @@ function mount(list,host,practice){
   document.getElementById(host).innerHTML=bs.map(b=>b.html).join('');
   bs.forEach(({id,o})=>{const el=document.getElementById(id);
     const tabs=[...el.querySelectorAll('[role=tab]')],panel=el.querySelector('[data-panel]');
-    const select=(btn,focus)=>{const pv=btn.dataset.pv;
+    const select=(btn,focus,human)=>{const pv=btn.dataset.pv;const tn=el.querySelector('.tab-note');if(tn&&human)tn.textContent=`עכשיו מחשבים סביב ${pv}. השרטוט והטבלה למטה התעדכנו.`;
       tabs.forEach(b=>{const on=b===btn;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;});
       panel.setAttribute('aria-labelledby',btn.id);
       el.querySelector('[data-fig]').innerHTML=fig(o,pv);el.querySelector('[data-tbl]').innerHTML=mTable(o,pv);
       const t=tipFor(o,pv);el.querySelector('[data-tip]').innerHTML=t?'<b>טיפ:</b> '+t:'';
       fitText(panel);if(focus)btn.focus();};
-    tabs.forEach((btn,i)=>{btn.addEventListener('click',()=>select(btn,false));
+    tabs.forEach((btn,i)=>{btn.addEventListener('click',e=>select(btn,false,e.isTrusted));
       btn.addEventListener('keydown',e=>{const rtl=getComputedStyle(btn).direction==='rtl';
         const step={ArrowLeft:rtl?1:-1,ArrowRight:rtl?-1:1}[e.key];let j=null;
         if(step)j=(i+step+tabs.length)%tabs.length;else if(e.key==='Home')j=0;else if(e.key==='End')j=tabs.length-1;
-        if(j!==null){e.preventDefault();select(tabs[j],true);}});});});
+        if(j!==null){e.preventDefault();select(tabs[j],true,true);}});});});
   return bs;
 }
 let BS=[];
@@ -1385,7 +1559,7 @@ function calc(){
   let P=parseFloat(cp.value),a=parseFloat(ca.value);let warn='';
   if(!isFinite(P)||P<0){warn='הכוח P צריך להיות מספר חיובי.';P=isFinite(P)?Math.abs(P):0;cp.setAttribute('aria-invalid','true');}else cp.removeAttribute('aria-invalid');
   if(!isFinite(a)||a<0||a>90){warn+=(warn?' ':'')+'הזווית חייבת להיות בין 0 ל־90.';a=isFinite(a)?Math.max(0,Math.min(90,a)):0;ca.setAttribute('aria-invalid','true');}else ca.removeAttribute('aria-invalid');
-  cw.textContent=warn;
+  cw.textContent=warn;if(warn){document.getElementById('calc-out').innerHTML='<div style="font-family:var(--sans);direction:rtl">תקן את המספר המסומן באדום, והתוצאה תופיע כאן.</div>';return;}
   const r=a*Math.PI/180,px=P*Math.cos(r),py=P*Math.sin(r);
   const W=340,H=230,Ox=40,Oy=200,Lp=170,ex=Ox+Lp*Math.cos(r),ey=Oy-Lp*Math.sin(r);
   let g=`<line class="dash" x1="20" y1="${Oy}" x2="330" y2="${Oy}"/>`+arrow(Ox,Oy,ex,Oy,'c')+arrow(ex,Oy,ex,ey,'c')+arrow(Ox,Oy,ex,ey,'f');
@@ -1417,7 +1591,7 @@ function draw(arc){const c={rx:Q.rx,ry:Q.ry,dir:Q.dir,l:Q.P+'t',d:Q.d,arc};const
   document.getElementById('tr-desc').textContent=describeCase({...c,arc:false});fitText(document.getElementById('tr-fig'));}
 bcw.addEventListener('click',()=>setPick(1));
 bccw.addEventListener('click',()=>setPick(-1));
-document.getElementById('tr-hint').addEventListener('click',()=>{draw(true);say('fb','רמז: החץ המעוגל מראה לאן הכוח מסובב את הקורה סביב A. עכשיו בחר כיוון והכנס גודל.');});
+document.getElementById('tr-hint').addEventListener('click',()=>{draw(true);if(answered)return;say('fb','רמז: החץ המעוגל מראה לאן הכוח מסובב את הקורה סביב A. עכשיו בחר כיוון והכנס גודל.');});
 document.getElementById('tr-new').addEventListener('click',()=>{newQ();say('fb','שאלה חדשה. '+document.getElementById('tr-desc').textContent);});
 document.getElementById('tr-check').addEventListener('click',()=>{
   if(!pick){say('fb no','בחר קודם כיוון: עם השעון או נגד השעון.');bcw.focus();return;}
@@ -1425,9 +1599,9 @@ document.getElementById('tr-check').addEventListener('click',()=>{
   if(!isFinite(v)){val.setAttribute('aria-invalid','true');val.focus();say('fb no','הכנס את גודל המומנט כמספר, למשל 12 או 7.5.');return;}
   v=Math.abs(v);val.removeAttribute('aria-invalid');
   const okS=(pick>0)===(Q.M>0),okV=Math.abs(v-Math.abs(Q.M))<0.01;
-  if(!answered){tries++;if(okS&&okV)score++;answered=true;document.getElementById('tr-score').textContent=score+' / '+tries;}
+  if(!answered){tries++;if(okS&&okV)score++;answered=true;document.getElementById('tr-score').textContent=`ענית נכון על ${score} מתוך ${tries} שאלות`;}
   draw(true);
-  const exp=`M = ${Q.P} × ${Q.d} = ${Math.abs(Q.M)}, ${Q.M>0?'עם השעון, ולכן פלוס':'נגד השעון, ולכן מינוס'}. התשובה: ⁦${sg(Q.M)} t·m⁩. ניקוד: ${score} מתוך ${tries}.`;
+  const exp=`M = ${Q.P} × ${Q.d} = ${Math.abs(Q.M)}, ${Q.M>0?'עם השעון, ולכן פלוס':'נגד השעון, ולכן מינוס'}. התשובה: ⁦${sg(Q.M)} t·m⁩.`;
   if(okS&&okV)say('fb ok','✓ נכון! '+exp);
   else if(!okS&&okV)say('fb no','✗ הגודל נכון, הסימן לא. החץ המעוגל מראה לאן הכוח מסובב. '+exp);
   else if(okS)say('fb no','✗ הסימן נכון, הגודל לא. '+exp);
@@ -1443,7 +1617,7 @@ const vSub=(v,n)=>`${v}<tspan baseline-shift="sub" style="font-size:.72em">${n}<
    udl (x0,x1,l,up,faint), react (x,l,dir up|down), hreact (x,l,dir right|left) */
 function supSVG(o){
   const nar=NARROW.matches,W=nar?420:640;
-  const FS=nar?{f:18,p:19,d:16,r:17}:{f:14.5,p:15.5,d:13.5,r:14.5};
+  const FS=nar?{f:18,p:19,d:16,r:17}:{f:14.5,p:15.5,d:13.5,r:14.5};for(const k in FS)FS[k]*=TS();
   const AL=nar?62:74,UH=Math.round(AL*0.5),HL=nar?50:60,IL=nar?62:76,RL=nar?44:52;
   const tw=(s,sz)=>String(s).replace(/<[^>]+>/g,'').length*sz*0.6;
   const T=(x,y,s,c,a,sz)=>`<text class="t-${c}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${a||'middle'}" style="font-size:${sz}px">${s}</text>`;
@@ -1535,23 +1709,23 @@ function rxSteps(o,s){
   if(ud.length){h+=step(`מחליפים כל עומס מפורס בכוח שקול ${M('R = q × L')}`,ud.map(f=>{const sn=segName(o,f.udl.u[0],f.udl.u[1]);const n0=ptAt(o.pts,f.udl.u[0]);
       return `<div><span class="f ltr">${f.name} = ${fmt(Math.abs(f.udl.q))} × ${fmt(f.len)} = ${fmt(Math.abs(f.F))} t (${f.F<0?'↓':'↑'})</span> <span class="small-note">באמצע${sn?' הקטע '+M(sn):''}${n0?`, ${M(fmt(f.len/2)+' m')} מ־${n0}`:''}</span></div>`;}).join(''));nx();}
   /* sum Fx */
-  if(s.Hs.length){const terms=s.Hs.map(l=>`${l.H>0?'+':'−'} ${fmt(Math.abs(l.H))}`).join(' ');
-    h+=step(`${M('ΣF<sub>x</sub> = 0')} נותן את ${M('H<sub>'+P+'</sub>')}`,`<div class="sum"><span class="tm">+H<sub>${P}</sub> ${terms} = 0</span> <span class="tot">→ H<sub>${P}</sub> = <b>${sgn(r2(s.Hp))} t</b></span></div>${s.Hp<-1e-9?`<p class="small-note">יצא מינוס, ולכן H<sub>${P}</sub> פועל שמאלה ולא ימינה כפי שהנחנו.</p>`:''}`);}
-  else h+=step(`${M('ΣF<sub>x</sub> = 0')} נותן את ${M('H<sub>'+P+'</sub>')}`,`<p>אין כוחות אופקיים, ולכן <span class="ltr f">H<sub>${P}</sub> = 0</span>.</p>`);
+  if(s.Hs.length){const terms=s.Hs.map(l=>`<span class="tm">${l.H>0?'+':'−'} ${fmt(Math.abs(l.H))}</span>`).join(' ');
+    h+=step(`כוחות לצדדים: הסכום שלהם 0 ${M('(ΣF<sub>x</sub> = 0)')}. מכאן מוצאים את ${M('H<sub>'+P+'</sub>')}`,`<div class="sum"><span class="tm">+H<sub>${P}</sub></span> ${terms} <span class="tm">= 0</span> <span class="tot">→ H<sub>${P}</sub> = <b>${sgn(r2(s.Hp))} t</b></span></div>${s.Hp<-1e-9?`<p class="small-note">יצא מינוס, ולכן H<sub>${P}</sub> פועל שמאלה ולא ימינה כפי שהנחנו.</p>`:''}`);}
+  else h+=step(`כוחות לצדדים: הסכום שלהם 0 ${M('(ΣF<sub>x</sub> = 0)')}. מכאן מוצאים את ${M('H<sub>'+P+'</sub>')}`,`<p>אין כוחות אופקיים, ולכן <span class="ltr f">H<sub>${P}</sub> = 0</span>.</p>`);
   nx();
   /* moments */
   const mstep=(piv,other,S,cu,V)=>{const q=o.pts[piv];const ts=s.mom(q).filter(t=>t.d>1e-9).map(t=>`<span class="tm">${t.c<0?'− ':'+ '}${fmt(Math.abs(t.f.F))}×${fmt(t.d)}</span>`);
     if(ts.length)ts[0]=ts[0].replace('+ ','');
     const d=Math.abs(cu),unk=`<span class="tm">${cu>0?'+ ':'− '}V<sub>${other}</sub>×${fmt(d)}</span>`;
     const rhs=cu>0?-S:S;
-    return `<div class="sum">${ts.join(' ')} ${unk} <span class="tm">= 0</span></div><div class="sum"><span class="tm">${fmt(d)}·V<sub>${other}</sub> = ${sgn(r2(rhs))}</span> <span class="tot">→ V<sub>${other}</sub> = ${sgn(r2(rhs))} ÷ ${fmt(d)} = <b>${sgn(r2(V))} t</b></span></div>${V<-1e-9?`<p class="small-note">יצא מינוס: התגובה ב־${other} מצביעה <b>למטה</b>, לא למעלה כפי שהנחנו.</p>`:''}`;};
+    return `<div class="sum">${ts.join(' ')} ${unk} <span class="tm">= 0</span></div><div class="sum"><span class="tm">${fmt(d)}·V<sub>${other}</sub> = ${sgn(r2(rhs))}</span> <span class="tm">→ V<sub>${other}</sub> = ${sgn(r2(rhs))} ÷ ${fmt(d)}</span> <span class="tot">= <b>${sgn(r2(V))} t</b></span></div>${V<-1e-9?`<p class="small-note">יצא מינוס: התגובה ב־${other} מצביעה <b>למטה</b>, לא למעלה כפי שהנחנו.</p>`:''}`;};
   const zeroNote=piv=>{const zs=s.eq.filter(f=>Math.abs(f.x-o.pts[piv])<1e-9).length;return `<p class="small-note">סביב ${piv}: ${zs?'כוחות שנמצאים ב־'+piv+' נותנים 0. ':''}התגובות ב־${piv} עוברות דרך הנקודה ולא נכנסות.${s.Hs.length?' גם הכוחות האופקיים פועלים לאורך הקורה ולא נכנסים.':''}</p>`;};
-  h+=step(`${M('ΣM<sub>'+P+'</sub> = 0')} נותן את ${M('V<sub>'+R+'</sub>')}`,zeroNote(P)+mstep(P,R,s.Sp,s.cuP,s.Vr));nx();
-  h+=step(`${M('ΣM<sub>'+R+'</sub> = 0')} נותן את ${M('V<sub>'+P+'</sub>')}`,zeroNote(R)+mstep(R,P,s.Sr,s.cuR,s.Vp));nx();
+  h+=step(`מומנטים סביב ${P}: הסכום שלהם 0 ${M('(ΣM<sub>'+P+'</sub> = 0)')}. מכאן מוצאים את ${M('V<sub>'+R+'</sub>')}`,zeroNote(P)+mstep(P,R,s.Sp,s.cuP,s.Vr));nx();
+  h+=step(`מומנטים סביב ${R}: הסכום שלהם 0 ${M('(ΣM<sub>'+R+'</sub> = 0)')}. מכאן מוצאים את ${M('V<sub>'+P+'</sub>')}`,zeroNote(R)+mstep(R,P,s.Sr,s.cuR,s.Vp));nx();
   /* check */
   const vals=[r2(s.Vp),r2(s.Vr),...s.eq.map(f=>r2(f.F))];const pos=vals.filter(v=>v>0).reduce((a,b)=>a+b,0),neg=vals.filter(v=>v<0).reduce((a,b)=>a+b,0);
   const ok=Math.abs(pos+neg)<0.06;
-  h+=step(`בדיקה: ${M('ΣF<sub>y</sub> = 0')}`,`<div class="sum">${vals.map(v=>`<span class="tm">${v<0?'−':'+'}${fmt(Math.abs(v))}</span>`).join(' ')} <span class="tm">= 0</span> <span class="tot">→ ${fmt(r2(pos))} − ${fmt(r2(-neg))} = ${ok?'0 ✓':fmt(r2(pos+neg))}</span></div><p class="small-note">שני המספרים הראשונים הם התגובות. אם הבדיקה יוצאת 0, החישוב נכון.</p>`);
+  h+=step(`בדיקה: הכוחות למעלה והכוחות למטה מתאזנים ${M('(ΣF<sub>y</sub> = 0)')}`,`<div class="sum">${vals.map(v=>`<span class="tm">${v<0?'−':'+'}${fmt(Math.abs(v))}</span>`).join(' ')} <span class="tm">= 0</span> <span class="tm">→ ${fmt(r2(pos))} − ${fmt(r2(-neg))}</span> <span class="tot">= ${ok?'0 ✓':fmt(r2(pos+neg))}</span></div><p class="small-note">שני המספרים הראשונים הם התגובות. אם הבדיקה יוצאת 0, החישוב נכון.</p>`);
   return h;
 }
 function rxAfterDraw(o,s){
@@ -1670,22 +1844,120 @@ function renderRx(){
 }
 renderRx();
 
-/* re-render diagrams when crossing the phone breakpoint */
-NARROW.addEventListener('change',()=>{
+/* re-render diagrams (phone breakpoint or text size change) */
+function rerenderAll(){
   BS.forEach(({id})=>{const el=document.getElementById(id);const sel=el&&el.querySelector('[aria-selected="true"]');if(sel)sel.click();});
   BS.forEach(({id,o})=>{if(!o.orig)return;const el=document.getElementById(id);const f=el.querySelector('.fig:not([data-fig])');if(f)f.innerHTML=fig(o,null,true);});
-  renderStatics();renderRx();if(Q)draw(false);
-});
+  renderStatics();renderRx();if(Q)draw(false);calc();
+  document.querySelectorAll('svg.st text').forEach(t=>{t.style.fontSize='';delete t.dataset.b;});fitText();
+}
+NARROW.addEventListener('change',rerenderAll);
 
-/* chapter strip: current chapter + reading progress */
-const nav=document.querySelector('nav.chapters'),strip=nav.querySelector('.in'),links=[...strip.querySelectorAll('a')];
-const bar=document.createElement('div');bar.className='prog';bar.setAttribute('aria-hidden','true');nav.appendChild(bar);
-const secs=links.map(a=>document.querySelector(a.getAttribute('href')));let cur=-1,tick=false;
-function spy(){tick=false;const y=nav.getBoundingClientRect().bottom+32;let i=0;secs.forEach((s,k)=>{if(s&&s.getBoundingClientRect().top<=y)i=k;});
-  if(i!==cur){cur=i;links.forEach((a,k)=>k===i?a.setAttribute('aria-current','location'):a.removeAttribute('aria-current'));
-    const ar=links[i].getBoundingClientRect(),sr=strip.getBoundingClientRect();strip.scrollBy({left:(ar.left+ar.width/2)-(sr.left+sr.width/2),behavior:'smooth'});}
-  const h=document.documentElement;bar.style.setProperty('--p',Math.max(0,Math.min(1,scrollY/(h.scrollHeight-innerHeight))).toFixed(3));}
-addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(spy);}},{passive:true});spy();
+
+/* ================= reading comfort: navigation, text size, zoom, read-aloud, progress ================= */
+const store={get(k,d){try{const v=localStorage.getItem('statics.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('statics.'+k,JSON.stringify(v));}catch(e){}}};
+const BRIEF={intro:'מה זה סטטיקה, ואיך המשקל של בניין יורד עד האדמה.',force:'מה זה כוח, ואיך מציירים אותו כחץ.',units:'טון, קילוגרם וניוטון, ואיך עוברים מאחד לשני.',dir:'מה זו זווית, ולאן כוח יכול להצביע.',decomp:'איך מחלקים כוח אלכסוני לשני חלקים: אחד לצד ואחד למעלה או למטה.',moment:'מה זה מומנט: כוח שמסובב. הנוסחה M = P × d.',arm:'איך מוצאים את המרחק d שבנוסחה.',sign:'מתי מומנט הוא פלוס ומתי מינוס.',sum:'איך מחברים את המומנטים של כמה כוחות יחד.',practice:'תרגילים על מומנטים, עם רמזים ופתרונות.',supports:'על מה הקורה נשענת, ואיך מחשבים כמה כל סמך דוחף.',udl:'עומס שפרוס לאורך הקורה, ואיך מחליפים אותו בכוח אחד.','rx-practice':'תרגילים על חישוב תגובות, עם רמזים ופתרונות.',quiz:'שאלות לבדיקה עצמית על כל החומר.',mistakes:'הטעויות שהכי קל לעשות, ואיך להימנע מהן.',sheet:'כל הנוסחאות במקום אחד.',glossary:'הסבר פשוט לכל מילה מקצועית.'};
+const SECS=[...document.querySelectorAll('main > section')].map((s,i)=>({el:s,id:s.id,n:i+1,name:s.querySelector('h2').textContent.trim()}));
+let done=store.get('done',[]);let curS=-1;
+/* brief + chapter end */
+SECS.forEach((S,i)=>{
+  const h2=S.el.querySelector('h2');
+  if(BRIEF[S.id]&&!S.el.querySelector('.brief')){const b=document.createElement('p');b.className='brief';b.innerHTML=`<b>בפרק הזה:</b> ${BRIEF[S.id]}`;h2.after(b);}
+  const end=document.createElement('div');end.className='sec-end';
+  const nx=SECS[i+1];
+  end.innerHTML=`<button type="button" class="big-btn done-btn" aria-pressed="false" data-id="${S.id}"><span class="box" aria-hidden="true"></span><span>סיימתי את הפרק</span></button>`+
+    `<p class="done-msg" hidden>כל הכבוד! אפשר להמשיך לפרק הבא.</p>`+(nx?`<a class="big-btn next-btn" href="#${nx.id}">לפרק הבא: ${nx.name} <span aria-hidden="true">←</span></a>`:`<a class="big-btn next-btn" href="#top">חזרה לתחילת השיעור <span aria-hidden="true">↑</span></a>`);
+  S.el.appendChild(end);
+});
+/* table of contents (header + menu) */
+const tocHTML=()=>SECS.map((S,k)=>`<li${done.includes(S.id)?' class="is-done"':''}><a href="#${S.id}"${k===curS?' aria-current="true"':''}><span class="n">${S.n}</span><span class="t">${S.name}</span><span class="ck" aria-hidden="true">✓</span>${done.includes(S.id)?'<span class="sr-only"> (סיימת)</span>':''}${k===curS?'<span class="here">אתה כאן</span>':''}</a></li>`).join('');
+function renderToc(){['toc-list','toc-dlg-list'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML=tocHTML();});
+  document.querySelectorAll('.done-btn').forEach(b=>{const on=done.includes(b.dataset.id);b.setAttribute('aria-pressed',String(on));b.querySelector('span:last-child').textContent=on?'✓ סימנת שסיימת את הפרק (לחץ כדי לבטל)':'סיימתי את הפרק';const m=b.parentElement.querySelector('.done-msg');if(m)m.hidden=!on;});
+  const c=document.getElementById('toc-count');if(c)c.textContent=done.length?`סיימת ${done.length} מתוך ${SECS.length} פרקים`:'';}
+renderToc();
+document.addEventListener('click',e=>{const b=e.target.closest('.done-btn');if(!b)return;const id=b.dataset.id;
+  done=done.includes(id)?done.filter(x=>x!==id):[...done,id];store.set('done',done);renderToc();});
+/* menu dialog */
+const dlg=document.getElementById('toc-dlg');
+document.getElementById('tb-menu').addEventListener('click',()=>{renderToc();dlg.showModal();const c=dlg.querySelector('[aria-current]');if(c)c.scrollIntoView({block:'center'});});
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)document.getElementById(g.dataset.go).click();});
+document.getElementById('toc-close').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('a'))dlg.close();});
+/* text size */
+const SIZES=[1,1.15,1.3,1.5];let si=Math.max(0,Math.min(SIZES.length-1,store.get('size',0)));
+const wrapEl=document.querySelector('.wrap');
+function markWide(){document.querySelectorAll('.tbl').forEach(t=>{t.dataset.wide=String(t.scrollWidth>t.clientWidth+2);});}
+addEventListener('resize',markWide);
+function applySize(rerender){document.documentElement.style.setProperty('--z',SIZES[si]);document.documentElement.dataset.fs=si;
+  if(rerender){TSV=TSS[si];rerenderAll();}document.getElementById('fs-dn').disabled=si===0;document.getElementById('fs-up').disabled=si===SIZES.length-1;
+  const fn=document.getElementById('fs-now');fn.textContent=`גודל הכתב: ${['רגיל','גדול','גדול מאוד','ענק'][si]} (${si+1} מתוך ${SIZES.length})`+(si===SIZES.length-1?'. זה הגודל הכי גדול.':si===0?'. זה הגודל הכי קטן.':'');
+  if(rerender){fn.classList.add('show');clearTimeout(applySize.t);applySize.t=setTimeout(()=>fn.classList.remove('show'),2600);}
+  store.set('size',si);markWide();}
+function keepPlace(fn){const nb=document.querySelector('.topbar').getBoundingClientRect().bottom;let anchor=null,off=0;
+  for(const el of document.querySelectorAll('main h2, main h3, main p, main figure, main .ex')){const r=el.getBoundingClientRect();if(r.bottom>nb+4){anchor=el;off=r.top;break;}}
+  fn();if(anchor){const r=anchor.getBoundingClientRect();scrollBy({top:r.top-off,behavior:'instant'});}}
+document.getElementById('fs-up').addEventListener('click',()=>{if(si<SIZES.length-1)keepPlace(()=>{si++;applySize(true);});});
+document.getElementById('fs-dn').addEventListener('click',()=>{if(si>0)keepPlace(()=>{si--;applySize(true);});});
+applySize();
+/* enlarge figures */
+const zd=document.getElementById('zoom-dlg'),zb=document.getElementById('zoom-body'),zc=document.getElementById('zoom-cap');
+function openZoom(fig){const g=fig.querySelector('svg.dg,img');if(!g)return;zb.innerHTML='';const c=g.cloneNode(true);c.removeAttribute('loading');zb.appendChild(c);
+  const cap=fig.querySelector('figcaption');zc.textContent=cap?cap.textContent.trim():'';zd.showModal();}
+function decorate(){document.querySelectorAll('.fig, .photo').forEach(f=>{if(f.querySelector(':scope > .zbtn')||!f.querySelector('svg.dg,img'))return;
+  const b=document.createElement('button');b.type='button';b.className='zbtn';b.innerHTML='<span aria-hidden="true">⤢</span> הגדל את השרטוט';const cap=f.querySelector(':scope > figcaption');cap?f.insertBefore(b,cap):f.appendChild(b);});
+  enhanceHints();markWide();}
+decorate();new MutationObserver(()=>decorate()).observe(document.querySelector('main'),{childList:true,subtree:true});
+document.addEventListener('click',e=>{const b=e.target.closest('.zbtn');if(b){openZoom(b.closest('.fig, .photo'));return;}
+  const g=e.target.closest('main .fig svg.dg, main .photo img');if(g&&!e.target.closest('#calc')){openZoom(g.closest('.fig, .photo'));}});
+document.getElementById('zoom-close').addEventListener('click',()=>zd.close());
+zd.addEventListener('click',e=>{if(e.target===zd)zd.close();});
+/* where am I + progress + resume */
+const whereEl=document.getElementById('tb-where'),pbar=document.querySelector('.topbar .prog');let tk=false;
+function spy(){tk=false;const nb=document.querySelector('.topbar').getBoundingClientRect().bottom+40;let i=0;SECS.forEach((S,k)=>{if(S.el.getBoundingClientRect().top<=nb)i=k;});
+  if(i!==curS){curS=i;whereEl.innerHTML=`<span class="wn">פרק ${SECS[i].n} מתוך ${SECS.length}</span><span class="wt">${SECS[i].name}</span>`;}
+  if(scrollY>300){const marks=[...document.querySelectorAll('main h2, main h3')].filter(m=>m.getClientRects().length);let mi=-1;for(let k=0;k<marks.length;k++){if(marks[k].getBoundingClientRect().top<=nb+60)mi=k;else break;}
+    if(mi>=0){store.set('last',SECS[i].id);store.set('lastMark',{i:mi,t:marks[mi].textContent.trim().slice(0,60)});}}
+  const h=document.documentElement;pbar.style.setProperty('--p',Math.max(0,Math.min(1,scrollY/(h.scrollHeight-innerHeight))).toFixed(3));
+}
+let lastY=scrollY,totT;addEventListener('scroll',()=>{const t=document.getElementById('totop');const up=scrollY<lastY-2;lastY=scrollY;if(up&&scrollY>700){t.hidden=false;clearTimeout(totT);totT=setTimeout(()=>t.hidden=true,2500);}else if(!up)t.hidden=true;},{passive:true});
+addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(spy);}},{passive:true});spy();
+const last=store.get('last',null),LS=SECS.find(S=>S.id===last);
+const LM=store.get('lastMark',null);
+if(LS&&LS.n>1){document.getElementById('resume').innerHTML=`<a class="big-btn resume-btn" href="#${LS.id}"><span aria-hidden="true">📖</span> להמשיך מאיפה שעצרת: פרק ${LS.n}${LM&&LM.t&&LM.t!==LS.name?`, "${LM.t}"`:`, ${LS.name}`}</a>`;
+  document.querySelector('.resume-btn').addEventListener('click',e=>{const marks=[...document.querySelectorAll('main h2, main h3')].filter(m=>m.getClientRects().length);if(LM&&marks[LM.i]){e.preventDefault();marks[LM.i].scrollIntoView({block:'start'});}});}
+/* read aloud (only where the device has a Hebrew voice) */
+const SAY={'×':' כפול ','·':' כפול ','÷':' חלקי ','=':' שווה ','−':' מינוס ','Σ':' סכום ','α':' אלפא ','°':' מעלות ','→':', ','↻':'','↺':'','≈':' בערך '};
+function speakable(t){return t.replace(/t·m/g,' טון מטר ').replace(/t\/m/g,' טון למטר ').replace(/(\d)\s*t\b/g,'$1 טון').replace(/(\d)\s*m\b/g,'$1 מטר').replace(/[×·÷=−Σα°→↻↺≈]/g,c=>SAY[c]).replace(/\s+/g,' ').trim();}
+let speaking=null;
+function stopSpeak(){try{speechSynthesis.cancel();}catch(e){}if(speaking){speaking.setAttribute('aria-pressed','false');speaking.innerHTML='<span aria-hidden="true">🔊</span> הקרא לי את ההסבר';}speaking=null;}
+function readSection(sec,btn){if(speaking===btn){stopSpeak();return;}stopSpeak();
+  const parts=[];sec.querySelectorAll('h2, .brief, h3, p, li, .rule, .note, figcaption').forEach(el=>{if(el.closest('.ex, .tool, details, table, .sec-end, .gloss, .props, .chain, .howto, .quiz, .mist'))return;if(el.parentElement.closest('.rule, .note, li, figcaption, .brief'))return;
+    const c=el.cloneNode(true);c.querySelectorAll('.sr-only, [aria-hidden="true"], svg').forEach(x=>{if(x.classList.contains('sr-only')){x.replaceWith(x.textContent);}else x.remove();});
+    const t=speakable(c.textContent);if(t)parts.push(t);});
+  const voice=speechSynthesis.getVoices().find(v=>/^he|^iw/i.test(v.lang));
+  speaking=btn;btn.setAttribute('aria-pressed','true');btn.innerHTML='<span aria-hidden="true">⏹</span> עצור את ההקראה';
+  parts.forEach((t,i)=>{const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(voice)u.voice=voice;u.rate=0.9;if(i===parts.length-1)u.onend=()=>{if(speaking===btn)stopSpeak();};speechSynthesis.speak(u);});}
+function setupSpeech(){if(!('speechSynthesis' in window))return;const has=()=>speechSynthesis.getVoices().some(v=>/^he|^iw/i.test(v.lang));
+  const add=()=>{if(!has()||document.querySelector('.listen'))return;
+    SECS.forEach(S=>{const b=document.createElement('button');b.type='button';b.className='big-btn listen';b.setAttribute('aria-pressed','false');b.innerHTML='<span aria-hidden="true">🔊</span> הקרא לי את ההסבר';b.addEventListener('click',()=>readSection(S.el,b));S.el.querySelector('.brief, h2').after(b);});
+    const li=document.getElementById('help-listen');if(li)li.hidden=false;};
+  add();speechSynthesis.addEventListener&&speechSynthesis.addEventListener('voiceschanged',add);}
+setupSpeech();
+addEventListener('pagehide',stopSpeak);
+
+/* self-check: question visible, answer behind a button */
+document.querySelectorAll('details.chk').forEach(d=>{const inner=d.querySelector(':scope > div');if(!inner||!inner.querySelector('.q'))return;
+  const box=document.createElement('div');box.className='chk-box';box.innerHTML='<div class="chk-h"><span aria-hidden="true">✎</span> בדוק את עצמך</div>';
+  let cur=null;[...inner.children].forEach(ch=>{if(ch.matches('.q')){box.appendChild(ch);cur=null;}else{if(!cur){cur=document.createElement('details');cur.className='ans';cur.innerHTML='<summary>הצג את התשובה</summary><div></div>';box.appendChild(cur);}cur.querySelector('div').appendChild(ch);}});
+  d.replaceWith(box);});
+/* hints: one at a time */
+function enhanceHints(){document.querySelectorAll('ol.hint-list:not([data-on])').forEach(ol=>{ol.dataset.on='1';const lis=[...ol.children];if(lis.length<2)return;
+  const sum=ol.closest('details').querySelector('summary');if(sum.firstChild&&sum.firstChild.nodeType===3)sum.firstChild.textContent='רמזים (נפתחים אחד אחרי השני)';
+  lis.forEach((li,k)=>li.hidden=k>0);const btn=document.createElement('button');btn.type='button';btn.className='btn more-hint';
+  const upd=()=>{const left=lis.filter(l=>l.hidden).length;btn.textContent=`הראה עוד רמז (נשארו ${left})`;btn.hidden=!left;};upd();
+  btn.addEventListener('click',()=>{const n=lis.find(l=>l.hidden);if(n){n.hidden=false;upd();if(btn.hidden){const lastLi=lis[lis.length-1];lastLi.setAttribute('tabindex','-1');lastLi.focus();}}});ol.after(btn);});}
+enhanceHints();markWide();
+
 document.documentElement.lang||(document.documentElement.lang='he');
 fitText();
 document.addEventListener('toggle',e=>fitText(e.target),true);
