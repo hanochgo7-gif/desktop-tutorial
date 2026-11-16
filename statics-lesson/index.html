@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="שיעור סטטיקה מהבסיס: כוח, פירוק כוח משופע, מומנט וסכום מומנטים, עם שרטוטים, תרגילים ומבחן עצמי.">
+<meta name="description" content="שיעור סטטיקה מהבסיס: כוח, פירוק כוח משופע, מומנט, עומס מפורס וחישוב תגובות בסמכים, עם שרטוטים, תרגילים ומבחן עצמי.">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>סטטיקה מהבסיס</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -305,6 +305,32 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 .photo img{display:block;width:100%;height:auto;aspect-ratio:1024/688}
 .photo figcaption{font-size:15px;color:var(--muted);padding:9px 14px 11px;line-height:1.5}
 
+/* supports, reactions, distributed loads */
+:root{--react:#12652f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--react:#5fd08f}}
+:root[data-theme="dark"]{--react:#5fd08f}
+.mr{fill:var(--react)}
+.ar-r{stroke:var(--react);stroke-width:3;marker-end:url(#ah-r);fill:none}
+.t-r{fill:var(--react);font:700 14px var(--mono)}
+.ar-q{stroke:var(--force);stroke-width:1.5;marker-end:url(#ah-f)}
+.qline{stroke:var(--force);stroke-width:1.8}
+.faint{opacity:.28}
+.sp text{paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}
+.ex details .sp text{stroke:var(--paper)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+@media (max-width:700px){.grid3{grid-template-columns:1fr}}
+.grid3>*{min-width:0}
+.grid3 .big{font-size:clamp(20px,4vw,24px)}
+.rstep{border-inline-start:3px solid var(--line);padding-block:2px;padding-inline-start:14px;margin:14px 0}
+.rs-h{font:700 17px/1.4 var(--display);display:flex;gap:10px;align-items:center;margin-bottom:4px}
+.rs-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--moment);color:var(--on-accent);display:inline-grid;place-items:center;font:700 14px/1 var(--mono)}
+.rx-res{display:flex;flex-wrap:wrap;gap:8px 18px;background:var(--ok-soft);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:16px}
+.rx-res b{color:var(--react)}
+.legend i.react{background:var(--react)}
+@media (max-width:560px){.sum .tot{white-space:normal}}
+.rs-h .ltr{font-size:.95em;white-space:nowrap}
+.rstep>div>.f.ltr{display:inline-block}
+
 </style>
 
 
@@ -315,6 +341,7 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <marker id="ah-f" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="mf" d="M0,0 L10,5 L0,10 z"/></marker>
     <marker id="ah-c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="mc" d="M0,0 L10,5 L0,10 z"/></marker>
     <marker id="ah-m" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="mm" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="ah-r" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="mr" d="M0,0 L10,5 L0,10 z"/></marker>
   </defs>
 </svg>
 
@@ -325,16 +352,17 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 <header class="top">
   <div class="kicker">חישוב סטטי · לפי החומר מהכיתה</div>
   <h1>סטטיקה מהבסיס</h1>
-  <p class="lead">כוח, פירוק כוח משופע, מומנט וסכום מומנטים, מההתחלה ממש. לא צריך רקע בפיזיקה או במתמטיקה: כל מילה מקצועית מוסברת בפעם הראשונה שהיא מופיעה, ויש <a href="#glossary">מילון מונחים</a> בסוף. כל פרק נשען על הקודם, אז כדאי לעבור לפי הסדר. בסוף כל פרק יש "בדוק את עצמך": נסה לענות לבד לפני שאתה פותח את התשובה.</p>
+  <p class="lead">כוח, פירוק כוח משופע, מומנט, סכום מומנטים, עומס מפורס וחישוב תגובות בסמכים, מההתחלה ממש. לא צריך רקע בפיזיקה או במתמטיקה: כל מילה מקצועית מוסברת בפעם הראשונה שהיא מופיעה, ויש <a href="#glossary">מילון מונחים</a> בסוף. כל פרק נשען על הקודם, אז כדאי לעבור לפי הסדר. בסוף כל פרק יש "בדוק את עצמך": נסה לענות לבד לפני שאתה פותח את התשובה.</p>
   <div class="legend" role="group" aria-label="מקרא צבעים">
     <span><i style="background:var(--force)"></i>כוח (חץ רציף)</span>
     <span><i class="dash" style="background:var(--comp)"></i>רכיבים Px, Py (חץ מקווקו, פרק 5)</span>
     <span><i style="background:var(--moment)"></i>מומנט וזרוע (פרקים 6–8)</span>
+    <span><i class="react"></i>תגובות בסמכים (פרק 11)</span>
   </div>
 </header>
 
 <nav class="chapters" aria-label="פרקים"><div class="in">
-  <a href="#intro">מה זה סטטיקה</a><a href="#force">כוח</a><a href="#units">יחידות</a><a href="#dir">זווית וכיוון</a><a href="#decomp">פירוק כוח</a><a href="#moment">מומנט</a><a href="#arm">הזרוע</a><a href="#sign">סימן</a><a href="#sum">סכום מומנטים</a><a href="#practice">תרגילים</a><a href="#quiz">מבחן עצמי</a><a href="#mistakes">טעויות נפוצות</a><a href="#sheet">דף נוסחאות</a><a href="#glossary">מילון</a><a href="#next">מה הלאה</a>
+  <a href="#intro">מה זה סטטיקה</a><a href="#force">כוח</a><a href="#units">יחידות</a><a href="#dir">זווית וכיוון</a><a href="#decomp">פירוק כוח</a><a href="#moment">מומנט</a><a href="#arm">הזרוע</a><a href="#sign">סימן</a><a href="#sum">סכום מומנטים</a><a href="#practice">תרגילי מומנטים</a><a href="#supports">סמכים ותגובות</a><a href="#udl">עומס מפורס</a><a href="#rx-practice">תרגילי תגובות</a><a href="#quiz">מבחן עצמי</a><a href="#mistakes">טעויות נפוצות</a><a href="#sheet">דף נוסחאות</a><a href="#glossary">מילון</a>
 </div></nav>
 <main id="main" tabindex="-1">
 
@@ -645,7 +673,7 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <figcaption>כוח אופקי שפועל על קורה שוכבת הולך לאורך הקורה עצמה. קו הפעולה שלו עובר דרך כל הנקודות A, B ו־C, ולכן הזרוע שלו סביב כל אחת מהן היא 0.</figcaption></figure>
   <div class="note tip"><span class="lbl">נסה בבית:</span> שים עיפרון על השולחן ודחוף אותו בקצה, <b>לאורך</b> העיפרון. הוא רק מחליק קדימה ולא מסתובב. עכשיו דחוף אותו בקצה <b>מהצד</b>. הוא מסתובב. כוח שהולך לאורך הקורה הוא כמו הדחיפה הראשונה.</div>
   <div class="rule"><span class="lbl">מסקנה חשובה לתרגילים</span>כשמפרקים כוח משופע על קורה שוכבת, <b class="c-c">Px</b> פועל לאורך הקורה ולכן <b>לא נותן מומנט</b> סביב אף נקודה על הקורה. רק <b class="c-c">Py</b> נכנס לחישוב המומנט. בגלל זה בדוגמאות 5 ו־6 בפרק 9 כתובים בשרטוט 6.93t ו־13.86t, אבל לא משתמשים בהם בחישוב.
-    <br><span class="small-note">Px לא נעלם: בנושא הבא (קורות על סמכים) הוא נכנס לחשבון הכוחות האופקיים. ובעמוד עומד זה הפוך: Py הוא שפועל לאורך העמוד ולא נותן מומנט.</span></div>
+    <br><span class="small-note">Px לא נעלם: בפרק 11 (סמכים ותגובות) הוא נכנס לחשבון הכוחות האופקיים. ובעמוד עומד זה הפוך: Py הוא שפועל לאורך העמוד ולא נותן מומנט.</span></div>
   <details class="chk"><summary>בדוק את עצמך</summary><div>
     <p class="q">כוח אנכי של 4 t. הנקודה A נמצאת 3 m שמאלה מהכוח ו־2 m מתחתיו. מה d, ומה המומנט?</p>
     <p><b>תשובה:</b> <span class="ltr f">d = 3 m</span>, רק המרחק לרוחב, לא המרחק באלכסון. <span class="ltr f">M = 4 × 3 = 12 t·m</span>.</p>
@@ -729,7 +757,7 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <li><b>תוצאה שלילית</b>: ביחד הם מסובבים <b>נגד</b> השעון.</li>
     <li><b>תוצאה 0</b>: הכוחות שמסובבים לכל צד מאזנים זה את זה, והקורה לא מסתובבת סביב הנקודה.</li>
   </ul>
-  <p>סביב כל נקודה יוצא מספר אחר, כי כל המרחקים משתנים כשמחליפים נקודה. זה תקין. כאן מתאמנים על כל הנקודות, כי בהמשך תצטרך לבחור בעצמך את הנקודה הכי נוחה.</p>
+  <p>סביב כל נקודה יוצא מספר אחר, כי כל המרחקים משתנים כשמחליפים נקודה. זה תקין. כאן מתאמנים על כל הנקודות. בפרק 11 תראה שבחישוב תגובות בוחרים דווקא את נקודות הסמכים.</p>
   <p>בכל דוגמה אפשר לבחור את נקודת הסיבוב בכפתורים. בשרטוט הנקודה מקבלת טבעת כחולה, מתחת לכל כוח כתוב לאן הוא מסובב, ולמטה מצוירת הזרוע של כל כוח, נמדדת מהנקודה. הטבלה מראה את החישוב של כל כוח.</p>
   <div id="examples"></div>
 </section>
@@ -737,16 +765,119 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
 <!-- 10 -->
 <section id="practice">
   <div class="step">פרק 10</div>
-  <h2>תרגילים מהלוח: עכשיו תורך</h2>
+  <h2>תרגילי מומנטים: עכשיו תורך</h2>
   <p>אלה התרגילים שנשארו על הלוח בלי פתרון, מהקל לקשה. פתור כל אחד על דף לפי 5 הצעדים. אם נתקעת, פתח רמז אחד. כדי לבדוק רק את התוצאה, פתח "תשובות סופיות". הפתרון המלא נמצא בסוף.</p>
   <div id="exercises"></div>
 </section>
 
 <!-- 11 -->
-<section id="quiz">
+<section id="supports">
   <div class="step">פרק 11</div>
+  <h2>סמכים ותגובות</h2>
+  <p>עד עכשיו חישבנו מומנטים של כוחות שפועלים על קורה. אבל קורה אמיתית לא מרחפת באוויר: היא יושבת על <b>סמכים</b>. סמך הוא המקום שעליו הקורה נשענת, למשל עמוד או קיר.</p>
+  <p>הקורה דוחפת את הסמך למטה, והסמך דוחף אותה בחזרה. הכוח שהסמך מחזיר לקורה נקרא <b>תגובה</b> (או "ריאקציה"). בפרק הזה לומדים לחשב כמה כל סמך דוחף.</p>
+  <figure class="photo"><img src="img/supports.webp" alt="איור של קורת פלדה של גשר שיושבת על שני סמכים: משמאל סמך קבוע (מפרק), מימין סמך על גלילים. חיצים כחולים עולים מהסמכים אל הקורה." width="1024" height="688" loading="lazy" decoding="async"><figcaption>קורת גשר על שני סמכים. משמאל סמך קבוע, מימין סמך על גלילים שיכול לזוז לצד. החיצים הם התגובות: הכוחות שהסמכים דוחפים למעלה.</figcaption></figure>
+
+  <h3>שני סוגי סמכים</h3>
+  <div id="fig-sup-types"></div>
+  <p class="small-note">בשרטוטים מהכיתה: משולש עם קווקוו מתחת הוא סמך קבוע. משולש עם עיגולים קטנים מתחת הוא סמך נייד. התגובות מצוירות <b>בירוק</b>.</p>
+  <div class="rule"><span class="lbl">לזכור</span>סמך נייד = תגובה <b>אחת</b> (V). סמך קבוע = <b>שתי</b> תגובות (H ו־V).<br>בקורה עם סמך קבוע אחד וסמך נייד אחד יש <b>3 תגובות לא ידועות</b>: H ו־V בסמך הקבוע, ו־V בסמך הנייד.</div>
+
+  <h3>שלוש המשוואות</h3>
+  <p>הקורה עומדת במקום. היא לא זזה לצדדים, לא זזה למעלה או למטה, ולא מסתובבת. לכן, כשמכניסים לחשבון <b>גם את התגובות</b>, כל הכוחות מאזנים זה את זה:</p>
+  <div class="grid3">
+    <div class="rule" style="margin:0"><span class="lbl">לא זזה לצדדים</span><div class="big">ΣF<sub>x</sub> = 0</div>סכום הכוחות האופקיים הוא 0.</div>
+    <div class="rule" style="margin:0"><span class="lbl">לא זזה למעלה או למטה</span><div class="big">ΣF<sub>y</sub> = 0</div>סכום הכוחות האנכיים הוא 0.</div>
+    <div class="rule" style="margin:0"><span class="lbl">לא מסתובבת</span><div class="big">ΣM = 0</div>סכום המומנטים סביב כל נקודה הוא 0.</div>
+  </div>
+  <p class="small-note">Σ (האות היוונית סיגמא) פירושה "סכום של". ΣF<sub>x</sub> פירושו "סכום הכוחות בכיוון x".</p>
+  <p>זה ה־"8 − 8 = 0" שעל הלוח: מה שדוחף לצד אחד שווה בדיוק למה שדוחף לצד השני. בפרק 9 הסכומים לא יצאו 0, כי עוד לא היו סמכים. עכשיו, כשהתגובות בפנים, הם תמיד יוצאים 0.</p>
+
+  <h3>הטריק: מומנט סביב סמך</h3>
+  <p>יש לנו 3 נעלמים, ובכל משוואה רגילה כולם מופיעים יחד. הטריק הוא לחשב <b>מומנט סביב אחד הסמכים</b>. התגובות של הסמך הזה עוברות דרך הנקודה, אז הזרוע שלהן 0 והן נעלמות מהמשוואה (פרק 7). נשאר נעלם אחד בלבד: התגובה של הסמך השני.</p>
+  <ul>
+    <li>ΣM סביב הסמך הקבוע → מוצאים את V של הסמך הנייד.</li>
+    <li>ΣM סביב הסמך הנייד → מוצאים את V של הסמך הקבוע.</li>
+    <li>ΣF<sub>x</sub> → מוצאים את H של הסמך הקבוע. כאן כל הכוחות האופקיים נכנסים, כולל ה־Px שמחקנו בחישובי המומנט.</li>
+    <li>ΣF<sub>y</sub> → <b>בדיקה</b>. אם יוצא 0, החישוב נכון.</li>
+  </ul>
+
+  <h3>ומה אם יוצא מינוס?</h3>
+  <p>בהתחלה אנחנו לא יודעים לאן התגובה מצביעה, אז <b>מניחים</b>: V למעלה ו־H ימינה. אם בסוף יוצא מספר שלילי, ההנחה הייתה הפוכה: התגובה מצביעה למטה (או שמאלה). זו לא טעות בחישוב. הגודל נכון, רק הכיוון התהפך. ראה דוגמה 2.</p>
+
+  <h3>חימום: רק ΣF<sub>x</sub></h3>
+  <div class="grid2">
+    <div class="ex" style="margin:0"><div id="fig-hx1"></div>
+      <p>כל שלושת הכוחות מצביעים שמאלה. H<sub>A</sub> צריך לאזן אותם:</p>
+      <div class="sum"><span class="tm">+H<sub>A</sub> − 2 − 4 − 10 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>16 t</b></span></div></div>
+    <div class="ex" style="margin:0"><div id="fig-hx2"></div>
+      <p>הכוחות כבר מאזנים זה את זה: 18 ימינה, ו־10 + 8 = 18 שמאלה.</p>
+      <div class="sum"><span class="tm">+H<sub>A</sub> + 18 − 10 − 8 = 0</span> <span class="tot">→ H<sub>A</sub> = <b>0</b></span></div></div>
+  </div>
+
+  <div class="model">
+    <b>מתכון: חישוב תגובות בסמכים</b>
+    <ol>
+      <li>מזהים את הסמך הקבוע (H, V) ואת הסמך הנייד (V). מציירים את התגובות: V למעלה, H ימינה.</li>
+      <li>מפרקים כל כוח משופע ל־Px ול־Py.</li>
+      <li>מחליפים כל עומס מפורס בשקול R (פרק 12).</li>
+      <li><span class="ltr f">ΣF<sub>x</sub> = 0</span> → H.</li>
+      <li><span class="ltr f">ΣM = 0</span> סביב הסמך הקבוע → V של הנייד.</li>
+      <li><span class="ltr f">ΣM = 0</span> סביב הסמך הנייד → V של הקבוע.</li>
+      <li>בודקים: <span class="ltr f">ΣF<sub>y</sub> = 0</span>.</li>
+    </ol>
+  </div>
+  <div id="rx-examples"></div>
+  <details class="chk"><summary>בדוק את עצמך</summary><div>
+    <p class="q">קורה באורך 6 m. סמך קבוע ב־A (בקצה השמאלי) וסמך נייד ב־B (בקצה הימני). כוח של 12t למטה, 2 m מ־A. מה התגובות?</p>
+    <p><b>תשובה:</b> <span class="ltr f">ΣM<sub>A</sub>: +12×2 − V<sub>B</sub>×6 = 0 → V<sub>B</sub> = 4 t</span>. <span class="ltr f">ΣM<sub>B</sub>: +V<sub>A</sub>×6 − 12×4 = 0 → V<sub>A</sub> = 8 t</span>. <span class="ltr f">H<sub>A</sub> = 0</span>. בדיקה: <span class="ltr f">8 + 4 − 12 = 0</span> ✓. הסמך הקרוב יותר לכוח מקבל יותר.</p>
+  </div></details>
+</section>
+
+<!-- 12 -->
+<section id="udl">
+  <div class="step">פרק 12</div>
+  <h2>עומס מפורס אחיד</h2>
+  <p>עד עכשיו כל כוח פעל בנקודה אחת. אבל הרבה עומסים <b>פרוסים לאורך</b> הקורה: קיר שעומד עליה, תקרה שמונחת עליה, ואפילו המשקל של הקורה עצמה. עומס כזה נקרא <b>עומס מפורס</b>. כשהוא שווה בכל מקום, הוא <b>עומס מפורס אחיד</b>.</p>
+  <figure class="photo"><img src="img/wall.webp" alt="איור של קיר לבנים שעומד על קורת בטון שנשענת על שני עמודים. שורה של חיצים אדומים קטנים לאורך כל הקורה מראה שהמשקל של הקיר מתחלק באופן שווה." width="1024" height="688" loading="lazy" decoding="async"><figcaption>קיר לבנים על קורה. כל מטר של קיר שוקל אותו דבר, ולכן כל מטר של הקורה מקבל אותו עומס. אלה החיצים האדומים.</figcaption></figure>
+  <div class="rule"><span class="lbl">הגדרה</span><b>q</b> = עומס מפורס אחיד, ביחידות <span class="ltr f">t/m</span> (טון למטר): כמה טון יורדים על <b>כל מטר</b> של הקורה.<br><b>L</b> = האורך שעליו העומס פרוס, במטרים.</div>
+  <figure class="fig"><div id="fig-udl-what"></div><figcaption>כך מציירים עומס מפורס: שורה של חיצים קטנים עם קו מעליהם. <span class="ltr f">q = 2t/m</span> על <span class="ltr f">4 m</span> פירושו 2 טון על כל מטר.</figcaption></figure>
+  <p class="small-note">יש גם עומס מפורס <b>ליחידת שטח</b>, ביחידות <span class="ltr f">t/m²</span> (טון למטר מרובע), למשל עומס על רצפה. בפרק הזה עובדים רק עם עומס לאורך, <span class="ltr f">t/m</span>.</p>
+
+  <h3>הכוח השקול R</h3>
+  <p>כדי לחשב, מחליפים את כל העומס המפורס ב<b>כוח אחד</b> ששקול לו, כלומר עושה אותו דבר. הכוח הזה נקרא <b>השקול</b>, R.</p>
+  <div class="rule"><span class="lbl">שקול של עומס מפורס</span>
+    <div class="big"><span aria-hidden="true">R = q × L</span><span class="sr-only">R שווה q כפול L</span></div>
+    R ביחידות <span class="ltr f">t</span>. הוא פועל <b>באמצע</b> האורך שעליו העומס פרוס, כלומר במרחק <span class="ltr f">L/2</span> מכל קצה.</div>
+  <figure class="fig"><div id="fig-udl-r"></div><figcaption>אותו עומס כמו למעלה: <span class="ltr f">R = 2 × 4 = 8 t</span>, באמצע, 2 m מכל צד. העומס המקורי מצויר בחלש, כי עכשיו עובדים עם R.</figcaption></figure>
+  <p><b>למה באמצע?</b> תחשוב על קרש ארוך שמשקלו שווה לכל אורכו. אם תנסה לאזן אותו על אצבע אחת, הוא יתאזן בדיוק באמצע. כל המשקל שלו מתנהג כאילו הוא מרוכז שם.</p>
+  <p><b>למה כופלים?</b> אם כל מטר שוקל 2 טון, ויש 4 מטרים, ביחד זה 8 טון.</p>
+
+  <h3>כמה עומסים מפורסים</h3>
+  <p>כשיש כמה קטעים עם עומס שונה, לכל קטע יש שקול משלו, באמצע של הקטע שלו:</p>
+  <figure class="fig"><div id="fig-udl-two"></div><figcaption>מהלוח: <span class="ltr f">q₁ = 4 t/m</span> על 5 m נותן <span class="ltr f">R₁ = 20 t</span>, 2.5 m מ־A. <span class="ltr f">q₂ = 2 t/m</span> על 6 m נותן <span class="ltr f">R₂ = 12 t</span>, 3 m מ־B.</figcaption></figure>
+  <div class="note"><span class="lbl">מה עושים עם R:</span> מחשבים איתו מומנטים ותגובות בדיוק כמו עם כוח רגיל. הזרוע שלו היא המרחק מהנקודה אל <b>האמצע</b> של העומס. עומס מפורס שמצביע <b>למעלה</b> נותן שקול שמצביע למעלה (דוגמה 8).</div>
+  <div id="udl-examples"></div>
+  <details class="chk"><summary>בדוק את עצמך</summary><div>
+    <p class="q">עומס של 3 t/m פרוס על 4 m, מ־A עד B. כמה שווה השקול, ואיפה הוא פועל?</p>
+    <p><b>תשובה:</b> <span class="ltr f">R = 3 × 4 = 12 t</span>, באמצע, 2 m מ־A.</p>
+  </div></details>
+</section>
+
+<!-- 13 -->
+<section id="rx-practice">
+  <div class="step">פרק 13</div>
+  <h2>תרגילי תגובות: עכשיו תורך</h2>
+  <p>ארבעת התרגילים מסוף השיעור של 16/11. בכל אחד: חשב את התגובות בסמכים לפי המתכון מפרק 11. נתקעת? פתח רמז אחד. כדי לבדוק רק את התוצאה, פתח "תשובות סופיות".</p>
+  <p class="small-note">את כיווני הכוחות המשופעים קראתי מהשרטוט שעל הלוח. אם אצלך במחברת כוח מצביע לכיוון אחר, התשובות ישתנו.</p>
+  <div id="rx-practice-list"></div>
+</section>
+
+<!-- 14 -->
+<section id="quiz">
+  <div class="step">פרק 14</div>
   <h2>מבחן עצמי</h2>
-  <p>9 שאלות על כל החומר. כתוב תשובות על דף, ורק אז פתח את התשובות.</p>
+  <p>12 שאלות על כל החומר. כתוב תשובות על דף, ורק אז פתח את התשובות.</p>
   <div class="quiz"><ol>
     <li>המר: <span class="ltr f">2.5 t = ? kg = ? kN</span></li>
     <li>המר: <span class="ltr f">750 kg = ? t</span></li>
@@ -757,6 +888,9 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <li>קורה: A ב־0, B ב־3 m, C ב־7 m. <span class="ltr f">5 t</span> למטה ב־B, <span class="ltr f">2 t</span> למעלה ב־C. חשב M<sub>A</sub> ו־M<sub>C</sub>.</li>
     <li>כוח של <span class="ltr f">10 t</span> בזווית 30°, מצביע ימינה ולמטה, בקצה C של קורה, 4 m מ־A. חשב M<sub>A</sub>.</li>
     <li>נכון או לא נכון: (א) <span class="ltr f">Px + Py = P</span>. (ב) כוח שמצביע למעלה תמיד נותן מינוס. (ג) מומנט סביב נקודה שאין עליה כוח הוא תמיד 0.</li>
+    <li>עומס של <span class="ltr f">5 t/m</span> פרוס על <span class="ltr f">6 m</span>. כמה שווה השקול, ואיפה הוא פועל?</li>
+    <li>קורה באורך 10 m: סמך קבוע ב־A (בקצה השמאלי), סמך נייד ב־B (בקצה הימני). כוח של <span class="ltr f">20 t</span> למטה, 3 m מ־A. מצא את V<sub>A</sub> ואת V<sub>B</sub>.</li>
+    <li>בחישוב יצא <span class="ltr f">V<sub>A</sub> = −2 t</span>. מה זה אומר?</li>
   </ol></div>
   <details class="chk"><summary>תשובות</summary><div><ol>
     <li><span class="ltr f">2500 kg</span>, <span class="ltr f">25 kN</span>.</li>
@@ -768,12 +902,15 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <li><span class="ltr f">M<sub>A</sub> = +5×3 − 2×7 = +1 t·m</span>. <span class="ltr f">M<sub>C</sub> = −5×4 + 2×0 = −20 t·m</span>.</li>
     <li><span class="ltr f">Py = 10 · 0.5 = 5 t</span> למטה. Px פועל לאורך הקורה ולא נותן מומנט. <span class="ltr f">M<sub>A</sub> = +5 × 4 = +20 t·m</span>. טעות נפוצה: <span class="ltr f">10 × 4 = 40</span>.</li>
     <li>(א) לא נכון. (ב) לא נכון, זה תלוי בצד שבו הכוח נמצא. (ג) לא נכון, ראה דוגמה 4 בפרק 9.</li>
+    <li><span class="ltr f">R = 5 × 6 = 30 t</span>, באמצע, 3 m מכל קצה.</li>
+    <li><span class="ltr f">ΣM<sub>A</sub>: +20×3 − V<sub>B</sub>×10 = 0 → V<sub>B</sub> = 6 t</span>. <span class="ltr f">ΣM<sub>B</sub>: +V<sub>A</sub>×10 − 20×7 = 0 → V<sub>A</sub> = 14 t</span>. בדיקה: <span class="ltr f">14 + 6 − 20 = 0</span> ✓.</li>
+    <li>הגודל של התגובה הוא 2 t, אבל היא מצביעה <b>למטה</b> ולא למעלה כפי שהנחנו. הסמך מושך את הקורה למטה.</li>
   </ol></div></details>
 </section>
 
-<!-- 12 -->
+<!-- 15 -->
 <section id="mistakes">
-  <div class="step">פרק 12</div>
+  <div class="step">פרק 15</div>
   <h2>טעויות נפוצות</h2>
   <div class="mist">
     <div><b>שכחת לפרק כוח משופע</b>מכפילים את הכוח המלא במרחק, למשל 8t בדוגמה 5. צריך להשתמש רק ב־Py, שם 4t.</div>
@@ -783,13 +920,18 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <div><b>מרחק לא נכון</b>d נמדד מ<b>הנקודה שבחרת</b>, לא מתחילת הקורה. כשמחשבים סביב B, כל המרחקים נמדדים מ־B.</div>
     <div><b>מרחק באלכסון במקום מרחק ניצב</b>לכוח אנכי, הזרוע היא רק המרחק לרוחב, גם אם הנקודה נמצאת למטה.</div>
     <div><b>סימן הפוך</b>בכל כוח בודקים מחדש לאן הוא מסובב. כוח שמצביע למעלה לא תמיד נותן מינוס, זה תלוי באיזה צד של הנקודה הוא נמצא.</div>
+    <div><b>עומס מפורס בלי לכפול באורך</b>q הוא טון <b>למטר</b>. השקול הוא <span class="ltr f">R = q × L</span>, לא q לבד.</div>
+    <div><b>שקול בקצה במקום באמצע</b>R פועל באמצע הקטע שעליו העומס פרוס. הזרוע שלו נמדדת עד האמצע.</div>
+    <div><b>H בסמך נייד</b>לסמך נייד יש רק V. H יש רק בסמך הקבוע.</div>
+    <div><b>נבהלים מתגובה שלילית</b>מינוס אומר רק שהכיוון הפוך ממה שהנחנו. הגודל נכון.</div>
+    <div><b>לא בודקים בסוף</b>תמיד בודקים ב־<span class="ltr f">ΣF<sub>y</sub> = 0</span>. אם לא יוצא 0, יש טעות באחד המומנטים.</div>
     <div><b>שכחת יחידות</b>מומנט נכתב תמיד ב־<span class="ltr f">t·m</span>.</div>
   </div>
 </section>
 
-<!-- 13 -->
+<!-- 16 -->
 <section id="sheet">
-  <div class="step">פרק 13</div>
+  <div class="step">פרק 16</div>
   <h2>דף נוסחאות</h2>
   <div class="model">
     <b>כל תרגיל, אותה דרך:</b>
@@ -813,13 +955,17 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <dt>d</dt><dd style="direction:rtl;font-family:var(--sans)">מרחק ניצב מהנקודה אל קו הפעולה</dd>
     <dt>עם השעון / נגד</dt><dd><span aria-hidden="true">↻ +   /   ↺ −</span><span class="sr-only">עם השעון פלוס, נגד השעון מינוס</span></dd>
     <dt>הקו של הכוח עובר בנקודה</dt><dd>d = 0 → M = 0</dd>
+    <dt>שקול של עומס מפורס</dt><dd style="direction:rtl;font-family:var(--sans)"><span class="ltr f">R = q × L</span>, באמצע הקטע</dd>
+    <dt>סמך נייד / סמך קבוע</dt><dd style="direction:rtl;font-family:var(--sans)">תגובה אחת (V) / שתי תגובות (H, V)</dd>
+    <dt>שיווי משקל</dt><dd>ΣFx = 0 · ΣFy = 0 · ΣM = 0</dd>
+    <dt>תגובה שלילית</dt><dd style="direction:rtl;font-family:var(--sans)">הכיוון הפוך ממה שהנחנו</dd>
     <dt>Px על קורה שוכבת</dt><dd style="direction:rtl;font-family:var(--sans)">M = 0 סביב נקודות על הקורה</dd>
   </dl></div>
 </section>
 
-<!-- 14 -->
+<!-- 17 -->
 <section id="glossary">
-  <div class="step">פרק 14</div>
+  <div class="step">פרק 17</div>
   <h2>מילון מונחים</h2>
   <dl class="gloss">
     <dt>סטטיקה</dt><dd>חישוב של כוחות על מבנים שעומדים במקום ולא זזים.</dd>
@@ -850,36 +996,15 @@ nav.chapters .prog{position:absolute;inset:auto 0 -1px 0;height:2px;background:v
     <dt>קו מידה</dt><dd>קו דק עם קווים קטנים בקצוות ומספר עליו: המרחק בין שתי נקודות.</dd>
     <dt>עם / נגד כיוון השעון</dt><dd>סיבוב כמו מחוגי השעון (↻, פלוס) / סיבוב הפוך (↺, מינוס).</dd>
     <dt>סמך</dt><dd>המקום שעליו הקורה נשענת, למשל קיר או עמוד.</dd>
-    <dt>ריאקציה</dt><dd>כוח התגובה: הכוח שהסמך דוחף בחזרה אל הקורה.</dd>
+    <dt>סמך נייד</dt><dd>סמך על גלגלים: מחזיק רק למעלה ולמטה. תגובה אחת, V.</dd>
+    <dt>סמך קבוע (מפרק)</dt><dd>סמך שלא זז לשום כיוון. שתי תגובות, H ו־V.</dd>
+    <dt>תגובה (ריאקציה)</dt><dd>הכוח שהסמך דוחף בחזרה אל הקורה. V = התגובה האנכית, H = התגובה האופקית.</dd>
+    <dt>Σ (סיגמא)</dt><dd>"סכום של". ΣF<sub>x</sub> = סכום הכוחות האופקיים.</dd>
+    <dt>שיווי משקל</dt><dd>מצב שבו הקורה לא זזה ולא מסתובבת: ΣFx = 0, ΣFy = 0, ΣM = 0.</dd>
+    <dt>עומס מפורס אחיד (q)</dt><dd>עומס שפרוס באופן שווה לאורך הקורה, ביחידות t/m (טון למטר).</dd>
+    <dt>שקול (R)</dt><dd>כוח אחד שמחליף עומס מפורס: R = q × L, באמצע הקטע.</dd>
   </dl>
-</section>
-
-<!-- 15 -->
-<section id="next">
-  <div class="step">פרק 15</div>
-  <h2>מה הלאה: קורות על סמכים</h2>
-  <p>קורה אמיתית לא מרחפת באוויר. היא יושבת על <b>סמכים</b>, כמו בשרטוטים האחרונים מהלוח:</p>
-<figure class="photo"><img src="img/supports.webp" alt="איור של קורת פלדה של גשר שיושבת על שני סמכים: משמאל סמך קבוע (מפרק), מימין סמך על גלילים. חיצים כחולים עולים מהסמכים אל הקורה." width="1024" height="688" loading="lazy" decoding="async"><figcaption>קורת גשר על שני סמכים. משמאל סמך קבוע, מימין סמך על גלילים שיכול לזוז לצד. החיצים הכחולים הם הריאקציות: הכוחות שהסמכים דוחפים למעלה.</figcaption></figure>
-    <div class="grid2">
-    <figure class="mini"><svg class="dg" viewBox="0 0 240 130" role="img" aria-label="סמך קבוע: משולש שיושב על קו עם קווקוו מתחת">
-      <line class="beam" x1="20" y1="30" x2="220" y2="30"/><polygon class="boxl" points="120,32 92,82 148,82"/>
-      <line class="dim" x1="78" y1="84" x2="162" y2="84"/><g class="hatch"><line x1="88" y1="84" x2="78" y2="98"/><line x1="104" y1="84" x2="94" y2="98"/><line x1="120" y1="84" x2="110" y2="98"/><line x1="136" y1="84" x2="126" y2="98"/><line x1="152" y1="84" x2="142" y2="98"/></g>
-    </svg><figcaption><b>סמך קבוע</b> (מפרק): מחזיק את הקורה גם למעלה ולמטה וגם לצדדים.</figcaption></figure>
-    <figure class="mini"><svg class="dg" viewBox="0 0 240 130" role="img" aria-label="סמך נייד: משולש שיושב על גלגלים">
-      <line class="beam" x1="20" y1="30" x2="220" y2="30"/><polygon class="boxl" points="120,32 92,76 148,76"/>
-      <circle class="boxl" cx="100" cy="86" r="9"/><circle class="boxl" cx="140" cy="86" r="9"/><line class="dim" x1="78" y1="96" x2="162" y2="96"/>
-    </svg><figcaption><b>סמך נייד</b> (על גלגלים): מחזיק רק למעלה ולמטה. לצדדים הוא מתגלגל.</figcaption></figure>
-  </div>
-  <p>הכוחות שהסמכים מחזירים לקורה נקראים <b>ריאקציות</b> (כוחות תגובה).</p>
-  <p>הרעיון: אם הקורה עומדת במקום, היא לא זזה ולא מסתובבת. לכן, <b>אחרי שמוסיפים גם את הריאקציות</b>:</p>
-  <ul>
-    <li>סכום הכוחות האופקיים = 0</li>
-    <li>סכום הכוחות האנכיים = 0</li>
-    <li>סכום המומנטים סביב כל נקודה = 0</li>
-  </ul>
-  <p>זה ה־"8−8=0" שעל הלוח: מה שמסובב לצד אחד שווה למה שמסובב לצד השני. בתרגילים כאן הסכומים לא יצאו 0, כי עוד לא הוספנו את הסמכים.</p>
-  <p>כל מה שלמדת כאן ישמש אותך שם: פירוק כוחות, זרוע וסימנים. גם Px, שכאן מחקנו מחישוב המומנט, יחזור: הסמך הקבוע הוא שמקבל אותו.</p>
-  <footer>נבנה מהחומר שהועלה: צילומי הלוח, המחברת, "חישוב סטטי" ו"המומנט". כל החישובים בדוגמאות ובפתרונות מחושבים אוטומטית מאותם נתונים. כשתלמדו את הנושא הבא, אפשר להוסיף כאן פרק.</footer>
+  <footer>נבנה מהחומר שהועלה: צילומי הלוח, המחברת, "חישוב סטטי", "המומנט" ולוח השיעור מ־16/11. כל החישובים בדוגמאות ובפתרונות מחושבים אוטומטית מאותם נתונים.</footer>
 </section>
 </main>
 </div>
@@ -1310,11 +1435,246 @@ document.getElementById('tr-check').addEventListener('click',()=>{
 });
 newQ();
 
+
+/* ================= supports, reactions, distributed loads ================= */
+const SUBS='₁₂₃₄₅₆';
+const vSub=(v,n)=>`${v}<tspan baseline-shift="sub" style="font-size:.72em">${n}</tspan>`;
+/* beam with supports. draw items: down/up (x,l,c,short), left/right (x,l,c), inc (x,a,l,tail),
+   udl (x0,x1,l,up,faint), react (x,l,dir up|down), hreact (x,l,dir right|left) */
+function supSVG(o){
+  const nar=NARROW.matches,W=nar?420:640;
+  const FS=nar?{f:18,p:19,d:16,r:17}:{f:14.5,p:15.5,d:13.5,r:14.5};
+  const AL=nar?62:74,UH=Math.round(AL*0.5),HL=nar?50:60,IL=nar?62:76,RL=nar?44:52;
+  const tw=(s,sz)=>String(s).replace(/<[^>]+>/g,'').length*sz*0.6;
+  const T=(x,y,s,c,a,sz)=>`<text class="t-${c}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${a||'middle'}" style="font-size:${sz}px">${s}</text>`;
+  const items=o.draw||[];
+  const incG=f=>{const a=f.a*Math.PI/180,vx=Math.cos(a),vy=-Math.sin(a);let tx,ty,hx,hy;
+    if(f.tail){tx=5*vx;ty=5*vy;hx=IL*vx;hy=IL*vy;}else{hx=-6*vx;hy=-6*vy;tx=-IL*vx;ty=-IL*vy;}
+    const fx=f.tail?hx:tx,fy=f.tail?hy:ty,w=tw(f.l,FS.f);const anc=fx>4?'end':fx<-4?'start':'middle';
+    const lx=fx+(anc==='end'?6:anc==='start'?-6:0),ly=fy<0?fy-8:fy+FS.f+4;
+    const L0=anc==='end'?lx-w:anc==='start'?lx:lx-w/2;
+    return{tx,ty,hx,hy,lx,ly,anc,minX:Math.min(tx,hx,L0),maxX:Math.max(tx,hx,L0+w),minY:Math.min(ty,hy,ly-FS.f),maxY:Math.max(ty,hy,ly+4)};};
+  const ext=f=>{
+    if(f.k==='right'||(f.k==='hreact'&&f.dir==='right'))return[HL+14+tw(f.l,FS.f)*0.4,0];
+    if(f.k==='left'||(f.k==='hreact'&&f.dir==='left'))return[0,HL+14+tw(f.l,FS.f)*0.4];
+    if(f.k==='inc'){const G=incG(f);return[Math.max(0,-G.minX),Math.max(0,G.maxX)];}
+    if(f.k==='udl')return[0,0];
+    return[tw(f.l,FS.f)/2+2,tw(f.l,FS.f)/2+2];};
+  const xs=f=>f.k==='udl'?f.x0:f.x;
+  let PL=30,PR=30,s;
+  for(let it=0;it<3;it++){s=(W-PL-PR)/o.L;let nl=30,nr=30;
+    items.forEach(f=>{const[l,r]=ext(f);nl=Math.max(nl,l-xs(f)*s+6);nr=Math.max(nr,r-(o.L-xs(f))*s+6);});
+    PL=nl;PR=nr;}
+  s=(W-PL-PR)/o.L;const X=x=>PL+x*s;
+  let up=AL+FS.f+14,dn=0;
+  items.forEach(f=>{if(f.k==='inc'){const G=incG(f);up=Math.max(up,-G.minY+4);dn=Math.max(dn,G.maxY);}});
+  const Y=up+6;const hasR=items.some(f=>f.k==='react');
+  const yR0=Y+27,yRb=yR0+RL;
+  let yDim=hasR?yRb+FS.r+20:Y+Math.max(46,FS.p+30);yDim=Math.max(yDim,Y+dn+14);
+  let g='';
+  /* distributed loads */
+  items.filter(f=>f.k==='udl').forEach(f=>{const a=X(f.x0),b=X(f.x1),n=Math.max(3,Math.round((b-a)/26));
+    let q=`<line class="qline" x1="${a.toFixed(1)}" y1="${Y-UH}" x2="${b.toFixed(1)}" y2="${Y-UH}"/>`;
+    for(let i=0;i<=n;i++){const xi=a+(b-a)*i/n;q+=f.up?`<line class="ar-q" x1="${xi.toFixed(1)}" y1="${Y-3}" x2="${xi.toFixed(1)}" y2="${Y-UH+3}"/>`:`<line class="ar-q" x1="${xi.toFixed(1)}" y1="${Y-UH}" x2="${xi.toFixed(1)}" y2="${Y-4}"/>`;}
+    if(f.l&&!f.faint){const busy=items.some(o2=>o2.k!=='udl'&&o2.x!==undefined&&Math.abs(o2.x-f.x0)<0.9);q+=busy?T((a+b)/2,Y-UH-7,f.l,'f','middle',FS.f):T(a+3,Y-UH-7,f.l,'f','start',FS.f);}
+    g+=`<g${f.faint?' class="faint"':''}>${q}</g>`;});
+  g+=`<line class="beam" x1="${X(0).toFixed(1)}" y1="${Y}" x2="${X(o.L).toFixed(1)}" y2="${Y}"/>`;
+  /* supports */
+  Object.entries(o.sup||{}).forEach(([type,n])=>{const x=X(o.pts[n]);
+    if(type==='pin'){g+=`<polygon class="boxl" points="${x},${Y+3} ${x-11},${Y+21} ${x+11},${Y+21}"/><line class="dim" x1="${x-16}" y1="${Y+22}" x2="${x+16}" y2="${Y+22}"/><g class="hatch">${[-12,-5,2,9].map(d=>`<line x1="${x+d+6}" y1="${Y+22}" x2="${x+d}" y2="${Y+28}"/>`).join('')}</g>`;}
+    else{g+=`<polygon class="boxl" points="${x},${Y+3} ${x-10},${Y+16} ${x+10},${Y+16}"/><circle class="boxl" cx="${x-5.5}" cy="${Y+20}" r="3.6"/><circle class="boxl" cx="${x+5.5}" cy="${Y+20}" r="3.6"/><line class="dim" x1="${x-15}" y1="${Y+24.5}" x2="${x+15}" y2="${Y+24.5}"/>`;}});
+  /* loads */
+  items.forEach(f=>{if(f.k==='udl'||f.k==='react'||f.k==='hreact')return;const x=X(f.x),c=f.c||'f',len=f.short?AL*0.72:AL;
+    if(f.k==='down')g+=arrow(x,Y-len,x,Y-6,c)+T(x,Y-len-8,f.l,c,'middle',FS.f);
+    else if(f.k==='up')g+=arrow(x,Y-6,x,Y-len,c)+T(x,Y-len-8,f.l,c,'middle',FS.f);
+    else if(f.k==='right'||f.k==='left'){const d=f.k==='right'?1:-1;g+=`<line class="ar-${c} on-beam" x1="${(x-d*HL).toFixed(1)}" y1="${Y}" x2="${(x-d*7).toFixed(1)}" y2="${Y}"/>`+T(x-d*(HL/2+4),Y-9,f.l,c,'middle',FS.f);}
+    else if(f.k==='inc'){const G=incG(f);
+      const bx=f.tail?G.hx:G.tx,by=f.tail?G.hy:G.ty,th=Math.atan2(by,bx),ref=bx>=0?0:Math.PI;let dd=th-ref;while(dd>Math.PI)dd-=2*Math.PI;while(dd<-Math.PI)dd+=2*Math.PI;const ra=nar?30:26;
+      g+=`<line class="dash" x1="${x.toFixed(1)}" y1="${Y}" x2="${(x+(bx>=0?44:-44)).toFixed(1)}" y2="${Y}"/><path class="ang" d="M${(x+ra*Math.cos(ref)).toFixed(1)},${(Y+ra*Math.sin(ref)).toFixed(1)} A${ra},${ra} 0 0 ${dd>0?1:0} ${(x+ra*Math.cos(th)).toFixed(1)},${(Y+ra*Math.sin(th)).toFixed(1)}"/>`;
+      g+=arrow(x+G.tx,Y+G.ty,x+G.hx,Y+G.hy,c)+T(x+G.lx,Y+G.ly,f.l,c,G.anc,FS.f);}});
+  /* reactions */
+  items.forEach(f=>{const x=X(f.x);
+    if(f.k==='react'){g+=f.dir==='down'?arrow(x,yR0,x,yRb,'r'):arrow(x,yRb,x,yR0,'r');g+=T(x,yRb+FS.r+3,f.l,'r','middle',FS.r);}
+    if(f.k==='hreact'){const d=f.dir==='right'?1:-1;g+=`<line class="ar-r on-beam" x1="${(x-d*(HL+8)).toFixed(1)}" y1="${Y}" x2="${(x-d*9).toFixed(1)}" y2="${Y}"/>`+T(x-d*(HL/2+8),Y-9,f.l,'r','middle',FS.r);}});
+  /* dimensions */
+  (o.dims||[]).forEach(([a,b,l])=>{g+=`<line class="dim" x1="${X(a)}" y1="${yDim}" x2="${X(b)}" y2="${yDim}"/><line class="dim" x1="${X(a)}" y1="${yDim-6}" x2="${X(a)}" y2="${yDim+6}"/><line class="dim" x1="${X(b)}" y1="${yDim-6}" x2="${X(b)}" y2="${yDim+6}"/>`+T((X(a)+X(b))/2,yDim+FS.d+4,l,'d','middle',FS.d);});
+  /* points and names */
+  const supAt=Object.values(o.sup||{});
+  Object.entries(o.pts||{}).forEach(([n,x])=>{const isS=supAt.includes(n);
+    g+=`<circle class="pt" cx="${X(x)}" cy="${Y}" r="${nar?5:4.2}"/>`;
+    g+=isS?`<text class="pn" x="${(X(x)+15).toFixed(1)}" y="${Y+17}" text-anchor="start" style="font-size:${FS.p}px">${n}</text>`:`<text class="pn" x="${X(x).toFixed(1)}" y="${Y+FS.p+8}" text-anchor="middle" style="font-size:${FS.p}px">${n}</text>`;});
+  const H=Math.ceil(yDim+(o.dims&&o.dims.length?FS.d+12:8));
+  return `<svg class="dg bm sp" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label||'')}">${g}</svg>`;
+}
+
+/* ---------- solver ---------- */
+function rxSolve(o){
+  const p=o.pts[o.sup.pin],r=o.pts[o.sup.roller];let ri=0;
+  const eq=[];
+  o.loads.forEach(l=>{if(l.u){const L=l.u[1]-l.u[0];eq.push({x:(l.u[0]+l.u[1])/2,F:l.q*L,udl:l,name:'R'+SUBS[ri++],len:L});}
+    else if(l.F!==undefined)eq.push({x:l.x,F:l.F,n:l.n,comp:l.comp,tag:l.tag});});
+  const Hs=o.loads.filter(l=>l.H!==undefined);
+  const Hp=-Hs.reduce((s,l)=>s+l.H,0);
+  const mom=q=>eq.map(f=>({f,c:-(f.x-q)*f.F,d:Math.abs(f.x-q)}));
+  const Sp=mom(p).reduce((s,t)=>s+t.c,0),cuP=-(r-p),Vr=-Sp/cuP;
+  const Sr=mom(r).reduce((s,t)=>s+t.c,0),cuR=-(p-r),Vp=-Sr/cuR;
+  return{p,r,eq,Hs,Hp,Vr,Vp,Sp,Sr,cuP,cuR,mom};
+}
+const r2=v=>Math.round(v*100)/100;
+const dirV=v=>v>=0?'למעלה':'למטה',dirH=v=>v>=0?'ימינה':'שמאלה';
+function rxResult(o,s){const P=o.sup.pin,R=o.sup.roller;
+  return `<div class="rx-res"><span><b class="ltr f">H<sub>${P}</sub> = ${fmt(Math.abs(r2(s.Hp)))} t</b> ${Math.abs(r2(s.Hp))<1e-9?'':dirH(s.Hp)}</span><span><b class="ltr f">V<sub>${P}</sub> = ${fmt(Math.abs(r2(s.Vp)))} t</b> ${dirV(s.Vp)}</span><span><b class="ltr f">V<sub>${R}</sub> = ${fmt(Math.abs(r2(s.Vr)))} t</b> ${dirV(s.Vr)}</span></div>`;}
+function segName(o,a,b){const n0=ptAt(o.pts,a),n1=ptAt(o.pts,b);return n0&&n1?`${n0}–${n1}`:'';}
+function rxSteps(o,s){
+  const P=o.sup.pin,R=o.sup.roller;let k=1,h='';
+  const M=x=>`<span class="ltr f">${x}</span>`;
+  const step=(t,body)=>`<div class="rstep"><div class="rs-h"><span class="rs-n" aria-hidden="true">${k}</span><span class="sr-only">שלב ${k}: </span>${t}</div>${body}</div>`;
+  const nx=()=>k++;
+  if(o.pre){h+=step('מפרקים את הכוחות המשופעים',`<div class="pre">${o.pre}</div>`);nx();}
+  const ud=s.eq.filter(f=>f.udl);
+  if(ud.length){h+=step(`מחליפים כל עומס מפורס בכוח שקול ${M('R = q × L')}`,ud.map(f=>{const sn=segName(o,f.udl.u[0],f.udl.u[1]);const n0=ptAt(o.pts,f.udl.u[0]);
+      return `<div><span class="f ltr">${f.name} = ${fmt(Math.abs(f.udl.q))} × ${fmt(f.len)} = ${fmt(Math.abs(f.F))} t (${f.F<0?'↓':'↑'})</span> <span class="small-note">באמצע${sn?' הקטע '+M(sn):''}${n0?`, ${M(fmt(f.len/2)+' m')} מ־${n0}`:''}</span></div>`;}).join(''));nx();}
+  /* sum Fx */
+  if(s.Hs.length){const terms=s.Hs.map(l=>`${l.H>0?'+':'−'} ${fmt(Math.abs(l.H))}`).join(' ');
+    h+=step(`${M('ΣF<sub>x</sub> = 0')} נותן את ${M('H<sub>'+P+'</sub>')}`,`<div class="sum"><span class="tm">+H<sub>${P}</sub> ${terms} = 0</span> <span class="tot">→ H<sub>${P}</sub> = <b>${sgn(r2(s.Hp))} t</b></span></div>${s.Hp<-1e-9?`<p class="small-note">יצא מינוס, ולכן H<sub>${P}</sub> פועל שמאלה ולא ימינה כפי שהנחנו.</p>`:''}`);}
+  else h+=step(`${M('ΣF<sub>x</sub> = 0')} נותן את ${M('H<sub>'+P+'</sub>')}`,`<p>אין כוחות אופקיים, ולכן <span class="ltr f">H<sub>${P}</sub> = 0</span>.</p>`);
+  nx();
+  /* moments */
+  const mstep=(piv,other,S,cu,V)=>{const q=o.pts[piv];const ts=s.mom(q).filter(t=>t.d>1e-9).map(t=>`<span class="tm">${t.c<0?'− ':'+ '}${fmt(Math.abs(t.f.F))}×${fmt(t.d)}</span>`);
+    if(ts.length)ts[0]=ts[0].replace('+ ','');
+    const d=Math.abs(cu),unk=`<span class="tm">${cu>0?'+ ':'− '}V<sub>${other}</sub>×${fmt(d)}</span>`;
+    const rhs=cu>0?-S:S;
+    return `<div class="sum">${ts.join(' ')} ${unk} <span class="tm">= 0</span></div><div class="sum"><span class="tm">${fmt(d)}·V<sub>${other}</sub> = ${sgn(r2(rhs))}</span> <span class="tot">→ V<sub>${other}</sub> = ${sgn(r2(rhs))} ÷ ${fmt(d)} = <b>${sgn(r2(V))} t</b></span></div>${V<-1e-9?`<p class="small-note">יצא מינוס: התגובה ב־${other} מצביעה <b>למטה</b>, לא למעלה כפי שהנחנו.</p>`:''}`;};
+  const zeroNote=piv=>{const zs=s.eq.filter(f=>Math.abs(f.x-o.pts[piv])<1e-9).length;return `<p class="small-note">סביב ${piv}: ${zs?'כוחות שנמצאים ב־'+piv+' נותנים 0. ':''}התגובות ב־${piv} עוברות דרך הנקודה ולא נכנסות.${s.Hs.length?' גם הכוחות האופקיים פועלים לאורך הקורה ולא נכנסים.':''}</p>`;};
+  h+=step(`${M('ΣM<sub>'+P+'</sub> = 0')} נותן את ${M('V<sub>'+R+'</sub>')}`,zeroNote(P)+mstep(P,R,s.Sp,s.cuP,s.Vr));nx();
+  h+=step(`${M('ΣM<sub>'+R+'</sub> = 0')} נותן את ${M('V<sub>'+P+'</sub>')}`,zeroNote(R)+mstep(R,P,s.Sr,s.cuR,s.Vp));nx();
+  /* check */
+  const vals=[r2(s.Vp),r2(s.Vr),...s.eq.map(f=>r2(f.F))];const pos=vals.filter(v=>v>0).reduce((a,b)=>a+b,0),neg=vals.filter(v=>v<0).reduce((a,b)=>a+b,0);
+  const ok=Math.abs(pos+neg)<0.06;
+  h+=step(`בדיקה: ${M('ΣF<sub>y</sub> = 0')}`,`<div class="sum">${vals.map(v=>`<span class="tm">${v<0?'−':'+'}${fmt(Math.abs(v))}</span>`).join(' ')} <span class="tm">= 0</span> <span class="tot">→ ${fmt(r2(pos))} − ${fmt(r2(-neg))} = ${ok?'0 ✓':fmt(r2(pos+neg))}</span></div><p class="small-note">שני המספרים הראשונים הם התגובות. אם הבדיקה יוצאת 0, החישוב נכון.</p>`);
+  return h;
+}
+function rxAfterDraw(o,s){
+  const P=o.sup.pin,R=o.sup.roller;const d=[];
+  (o.orig||[]).filter(f=>f.k==='udl').forEach(f=>d.push({...f,faint:true}));
+  s.eq.forEach(f=>{if(f.udl)d.push({x:f.x,k:f.F<0?'down':'up',l:`${f.name}=${fmt(Math.abs(f.F))}t`,c:'c',short:true});
+    else d.push({x:f.x,k:f.F<0?'down':'up',l:fmt(Math.abs(f.F))+'t',c:f.comp?'c':'f'});});
+  s.Hs.forEach(l=>d.push({x:l.x,k:l.H>0?'right':'left',l:fmt(Math.abs(l.H))+'t',c:l.comp===false?'f':'c'}));
+  d.push({k:'react',x:s.p,dir:s.Vp>=0?'up':'down',l:`${vSub('V',P)} = ${fmt(Math.abs(r2(s.Vp)))}t`});
+  d.push({k:'react',x:s.r,dir:s.Vr>=0?'up':'down',l:`${vSub('V',R)} = ${fmt(Math.abs(r2(s.Vr)))}t`});
+  if(Math.abs(s.Hp)>1e-9)d.push({k:'hreact',x:s.p,dir:s.Hp>0?'right':'left',l:`${vSub('H',P)} = ${fmt(Math.abs(r2(s.Hp)))}t`});
+  return d;
+}
+function describeSup(o,s){
+  const P=o.sup.pin,R=o.sup.roller;
+  const pts=Object.entries(o.pts).map(([n,x])=>`${n} ב־${fmt(x)} מ'`).join(', ');
+  let t=`${o.title}. קורה באורך ${fmt(o.L)} מטר. נקודות משמאל לימין: ${pts}. סמך קבוע ב־${P}, סמך נייד ב־${R}. `;
+  t+=(o.orig||[]).map(f=>{if(f.k==='udl')return `עומס מפורס ${f.l}${f.up?' כלפי מעלה':''} מ־${fmt(f.x0)} עד ${fmt(f.x1)} מ'`;
+    const at=ptAt(o.pts,f.x)?`בנקודה ${ptAt(o.pts,f.x)}`:`ב־${fmt(f.x)} מ'`;
+    if(f.k==='inc')return `${at}: כוח ${f.l.split(' ')[0].replace('t',' טון')} ${incWords(f)}`;
+    return `${at}: כוח ${f.l.replace('t',' טון')} ${HE_DIR[f.k]}`;}).join('; ')+'.';
+  if(s)t+=` תוצאה: H${P} = ${fmt(r2(s.Hp))} טון, V${P} = ${fmt(r2(s.Vp))} טון, V${R} = ${fmt(r2(s.Vr))} טון.`;
+  return t;
+}
+
+/* ---------- data ---------- */
+const RX=[
+ {id:'r1',title:'דוגמה 1: כוח אנכי וכוח אופקי',src:'מהלוח',L:5,pts:{A:0,C:2,B:5},sup:{pin:'A',roller:'B'},dims:[[0,2,'2m'],[2,5,'3m']],
+  orig:[{x:2,k:'down',l:'20t'},{x:2,k:'left',l:'8t'}],
+  loads:[{n:'C',x:2,F:-20},{n:'C',x:2,H:-8,comp:false}],
+  tip:'הכוח 8t שמאלה חייב להתאזן בכוח ימינה באותו גודל. רק הסמך הקבוע A יכול לתת כוח אופקי, ולכן H<sub>A</sub> = 8t ימינה.'},
+ {id:'r2',title:'דוגמה 2: כוח משופע, ותגובה שיוצאת שלילית',src:'מהלוח',L:8,pts:{A:0,B:1,C:3,D:6,E:8},sup:{pin:'A',roller:'D'},dims:[[0,1,'1m'],[1,3,'2m'],[3,6,'3m'],[6,8,'2m']],
+  orig:[{x:1,k:'down',l:'3t'},{x:3,k:'inc',a:210,l:'8t · 30°'},{x:8,k:'down',l:'14t'}],
+  pre:'<div><b>8t ב־30° (בנקודה C):</b> <span class="f ltr">Py = 8 · sin 30° = 4 t (↓)</span> <span class="f ltr">Px = 8 · cos 30° = 6.93 t (←)</span></div>',
+  loads:[{n:'B',x:1,F:-3},{n:'C',x:3,F:-4,comp:true},{n:'C',x:3,H:-6.93},{n:'E',x:8,F:-14}],
+  tip:'הכוח 14t בקצה E, מעבר לסמך D, מנסה להרים את הקצה A כמו נדנדה. לכן הסמך A צריך למשוך את הקורה למטה, ו־V<sub>A</sub> יוצא שלילי.'},
+ {id:'r3',title:'דוגמה 3: קורה עם שני קצוות בולטים',src:'מהלוח',L:11,pts:{A:0,B:3,C:5,D:6.5,E:8,F:9,G:11},sup:{pin:'B',roller:'F'},dims:[[0,3,'3m'],[3,5,'2m'],[5,6.5,'1.5m'],[6.5,8,'1.5m'],[8,9,'1m'],[9,11,'2m']],
+  orig:[{x:0,k:'inc',a:-30,l:'10t · 30°'},{x:5,k:'down',l:'12t'},{x:6.5,k:'down',l:'15t'},{x:8,k:'down',l:'8t'},{x:11,k:'inc',a:210,l:'6t · 30°'}],
+  pre:'<div><b>10t ב־30° (בנקודה A):</b> <span class="f ltr">Py = 10 · sin 30° = 5 t (↓)</span> <span class="f ltr">Px = 10 · cos 30° = 8.66 t (→)</span></div><div><b>6t ב־30° (בנקודה G):</b> <span class="f ltr">Py = 6 · sin 30° = 3 t (↓)</span> <span class="f ltr">Px = 6 · cos 30° = 5.2 t (←)</span></div>',
+  loads:[{n:'A',x:0,F:-5,comp:true},{n:'A',x:0,H:8.66},{n:'C',x:5,F:-12},{n:'D',x:6.5,F:-15},{n:'E',x:8,F:-8},{n:'G',x:11,F:-3,comp:true},{n:'G',x:11,H:-5.2}],
+  tip:'כאן הסמך הקבוע הוא B, לא A. תמיד בודקים בשרטוט איזה סמך קבוע (משולש עם קווקוו) ואיזה נייד (משולש על גלגלים).'}
+];
+const UX=[
+ {id:'u1',title:'דוגמה 4: עומס מפורס על כל הקורה',src:'מהלוח',L:4,pts:{A:0,B:4},sup:{pin:'A',roller:'B'},dims:[[0,4,'4m']],
+  orig:[{k:'udl',x0:0,x1:4,l:'6t/m'}],loads:[{u:[0,4],q:-6}],
+  tip:'כשהעומס סימטרי, כל סמך מקבל חצי: 24 ÷ 2 = 12t. זו בדיקה מהירה וטובה.'},
+ {id:'u2',title:'דוגמה 5: שני עומסים מפורסים וכוח משופע',src:'מהלוח',L:8,pts:{A:0,C:4,B:6,D:8},sup:{pin:'B',roller:'A'},dims:[[0,4,'4m'],[4,6,'2m'],[6,8,'2m']],
+  orig:[{k:'udl',x0:0,x1:4,l:'5t/m'},{k:'udl',x0:4,x1:6,l:'2.5t/m'},{x:8,k:'inc',a:210,l:'8t · 30°'}],
+  pre:'<div><b>8t ב־30° (בנקודה D):</b> <span class="f ltr">Py = 8 · sin 30° = 4 t (↓)</span> <span class="f ltr">Px = 8 · cos 30° = 6.93 t (←)</span></div>',
+  loads:[{u:[0,4],q:-5},{u:[4,6],q:-2.5},{n:'D',x:8,F:-4,comp:true},{n:'D',x:8,H:-6.93}]},
+ {id:'u3',title:'דוגמה 6: עומס מפורס, כוחות וקצה בולט',src:'מהלוח',L:10,pts:{A:0,C:3,D:5,B:7,E:10},sup:{pin:'B',roller:'A'},dims:[[0,3,'3m'],[3,5,'2m'],[5,7,'2m'],[7,10,'3m']],
+  orig:[{k:'udl',x0:0,x1:5,l:'3t/m'},{x:3,k:'down',l:'10t'},{k:'udl',x0:7,x1:10,l:'2t/m'},{x:10,k:'down',l:'5t'}],
+  loads:[{u:[0,5],q:-3},{n:'C',x:3,F:-10},{u:[7,10],q:-2},{n:'E',x:10,F:-5}],
+  tip:'בלוח חילקו את העומס 3t/m לשני חלקים (9t ו־6t) בגלל הנקודה C באמצע. אפשר גם כך וגם כך: התוצאה זהה.'},
+ {id:'u4',title:'דוגמה 7: הקורה המלאה מהלוח',src:'מהלוח',L:11.2,pts:{C:0,A:2.4,D:3.6,E:4.8,B:8.4,F:11.2},sup:{pin:'A',roller:'B'},dims:[[0,2.4,'2.4m'],[2.4,3.6,'1.2m'],[3.6,4.8,'1.2m'],[4.8,8.4,'3.6m'],[8.4,11.2,'2.8m']],
+  orig:[{x:0,k:'inc',a:-40,l:'6t · 40°'},{k:'udl',x0:0,x1:2.4,l:'3t/m'},{x:3.6,k:'down',l:'15t'},{k:'udl',x0:4.8,x1:8.4,l:'8t/m'},{k:'udl',x0:8.4,x1:11.2,l:'2t/m'},{x:11.2,k:'inc',a:200,l:'8t · 20°'}],
+  pre:'<div><b>6t ב־40° (בנקודה C):</b> <span class="f ltr">Py = 6 · sin 40° = 3.86 t (↓)</span> <span class="f ltr">Px = 6 · cos 40° = 4.6 t (→)</span></div><div><b>8t ב־20° (בנקודה F):</b> <span class="f ltr">Py = 8 · sin 20° = 2.74 t (↓)</span> <span class="f ltr">Px = 8 · cos 20° = 7.52 t (←)</span></div>',
+  loads:[{n:'C',x:0,F:-3.86,comp:true},{n:'C',x:0,H:4.6},{u:[0,2.4],q:-3},{n:'D',x:3.6,F:-15},{u:[4.8,8.4],q:-8},{u:[8.4,11.2],q:-2},{n:'F',x:11.2,F:-2.74,comp:true},{n:'F',x:11.2,H:-7.52}]},
+ {id:'u5',title:'דוגמה 8: עומס מפורס שפועל כלפי מעלה',src:'מהלוח',L:14.4,pts:{C:0,A:4,D:7.4,E:10.4,B:12.4,F:14.4},sup:{pin:'A',roller:'B'},dims:[[0,4,'4m'],[4,7.4,'3.4m'],[7.4,10.4,'3m'],[10.4,12.4,'2m'],[12.4,14.4,'2m']],
+  orig:[{x:0,k:'inc',a:-30,l:'7t · 30°'},{k:'udl',x0:0,x1:7.4,l:'6t/m'},{k:'udl',x0:7.4,x1:10.4,l:'3t/m ↑',up:true},{x:10.4,k:'down',l:'14.5t'},{k:'udl',x0:12.4,x1:14.4,l:'1.2t/m'}],
+  pre:'<div><b>7t ב־30° (בנקודה C):</b> <span class="f ltr">Py = 7 · sin 30° = 3.5 t (↓)</span> <span class="f ltr">Px = 7 · cos 30° = 6.06 t (→)</span></div>',
+  loads:[{n:'C',x:0,F:-3.5,comp:true},{n:'C',x:0,H:6.06},{u:[0,7.4],q:-6},{u:[7.4,10.4],q:3},{n:'E',x:10.4,F:-14.5},{u:[12.4,14.4],q:-1.2}],
+  tip:'העומס 3t/m בין D ל־E מצביע למעלה, ולכן השקול שלו (9t) גם הוא למעלה, והסימנים שלו הפוכים. בלוח חילקו את 6t/m לשני חלקים (24t ו־20.4t), והתוצאה זהה.'}
+];
+const PX=[
+ {id:'x1',title:'תרגיל 1',src:'מהלוח, 16/11',L:12,pts:{C:0,A:3,D:4,B:10,E:12},sup:{pin:'B',roller:'A'},dims:[[0,3,'3m'],[3,4,'1m'],[4,10,'6m'],[10,12,'2m']],
+  orig:[{x:0,k:'down',l:'12t'},{k:'udl',x0:0,x1:10,l:'4t/m'},{x:4,k:'inc',a:225,l:'5t · 45°'},{x:12,k:'inc',a:210,l:'3t · 30°'}],
+  pre:'<div><b>5t ב־45° (בנקודה D):</b> <span class="f ltr">Py = 5 · sin 45° = 3.54 t (↓)</span> <span class="f ltr">Px = 5 · cos 45° = 3.54 t (←)</span></div><div><b>3t ב־30° (בנקודה E):</b> <span class="f ltr">Py = 3 · sin 30° = 1.5 t (↓)</span> <span class="f ltr">Px = 3 · cos 30° = 2.6 t (←)</span></div>',
+  loads:[{n:'C',x:0,F:-12},{u:[0,10],q:-4},{n:'D',x:4,F:-3.54,comp:true},{n:'D',x:4,H:-3.54},{n:'E',x:12,F:-1.5,comp:true},{n:'E',x:12,H:-2.6}],
+  hints:['כאן B הוא הסמך הקבוע (H ו־V), ו־A הוא הנייד (רק V).','פרק את שני הכוחות המשופעים: 5t ב־45° ו־3t ב־30°. שני הכוחות מצביעים שמאלה ולמטה.','העומס 4t/m פרוס מ־C עד B, לאורך 10 m. השקול: R = 4 × 10 = 40t, באמצע, 5 m מ־C.','ΣM סביב B נותן את V<sub>A</sub>. ΣM סביב A נותן את V<sub>B</sub>. בסוף בדוק ב־ΣFy.']},
+ {id:'x2',title:'תרגיל 2',src:'מהלוח, 16/11',L:11.3,pts:{C:0,A:2.7,D:8.1,B:9.7,E:11.3},sup:{pin:'A',roller:'B'},dims:[[0,2.7,'2.7m'],[2.7,8.1,'5.4m'],[8.1,9.7,'1.6m'],[9.7,11.3,'1.6m']],
+  orig:[{x:0,k:'down',l:'5t'},{k:'udl',x0:0,x1:8.1,l:'5t/m'},{x:8.1,k:'down',l:'9t'},{x:11.3,k:'inc',a:220,l:'18t · 40°'}],
+  pre:'<div><b>18t ב־40° (בנקודה E):</b> <span class="f ltr">Py = 18 · sin 40° = 11.57 t (↓)</span> <span class="f ltr">Px = 18 · cos 40° = 13.79 t (←)</span></div>',
+  loads:[{n:'C',x:0,F:-5},{u:[0,8.1],q:-5},{n:'D',x:8.1,F:-9},{n:'E',x:11.3,F:-11.57,comp:true},{n:'E',x:11.3,H:-13.79}],
+  hints:['A קבוע ו־B נייד.','פרק את 18t: הזווית 40° מהקו השוכב.','העומס 5t/m פרוס מ־C עד D: 2.7 + 5.4 = 8.1 m. השקול: R = 5 × 8.1 = 40.5t, באמצע, 4.05 m מ־C.','סביב A, השקול R נמצא 4.05 − 2.7 = 1.35 m מימין ל־A.']},
+ {id:'x3',title:'תרגיל 3',src:'מהלוח, 16/11',L:12,pts:{C:0,A:3.5,D:7,B:10,E:12},sup:{pin:'A',roller:'B'},dims:[[0,3.5,'3.5m'],[3.5,7,'3.5m'],[7,10,'3m'],[10,12,'2m']],
+  orig:[{x:0,k:'inc',a:230,l:'8t · 50°'},{k:'udl',x0:3.5,x1:7,l:'3t/m'},{k:'udl',x0:7,x1:10,l:'5t/m'},{x:12,k:'inc',a:-60,l:'10t · 60°'}],
+  pre:'<div><b>8t ב־50° (בנקודה C):</b> <span class="f ltr">Py = 8 · sin 50° = 6.13 t (↓)</span> <span class="f ltr">Px = 8 · cos 50° = 5.14 t (←)</span></div><div><b>10t ב־60° (בנקודה E):</b> <span class="f ltr">Py = 10 · sin 60° = 8.66 t (↓)</span> <span class="f ltr">Px = 10 · cos 60° = 5 t (→)</span></div>',
+  loads:[{n:'C',x:0,F:-6.13,comp:true},{n:'C',x:0,H:-5.14},{u:[3.5,7],q:-3},{u:[7,10],q:-5},{n:'E',x:12,F:-8.66,comp:true},{n:'E',x:12,H:5}],
+  hints:['A קבוע ו־B נייד.','שני כוחות משופעים: ב־C (8t, מצביע שמאלה ולמטה) וב־E (10t, מצביע ימינה ולמטה).','שני עומסים מפורסים: 3t/m מ־A עד D (3.5 m) ו־5t/m מ־D עד B (3 m). לכל אחד שקול משלו באמצע שלו.','ב־ΣFx שני ה־Px כמעט מבטלים זה את זה: 5 − 5.14. לכן H<sub>A</sub> קטן מאוד.']},
+ {id:'x4',title:'תרגיל 4',src:'מהלוח, 16/11',L:12,pts:{C:0,A:3.2,D:6,B:10.2,E:12},sup:{pin:'B',roller:'A'},dims:[[0,3.2,'3.2m'],[3.2,6,'2.8m'],[6,10.2,'4.2m'],[10.2,12,'1.8m']],
+  orig:[{x:0,k:'inc',a:-30,l:'14t · 30°'},{k:'udl',x0:0,x1:3.2,l:'2.5t/m'},{k:'udl',x0:6,x1:10.2,l:'6t/m'},{x:12,k:'down',l:'16t'}],
+  pre:'<div><b>14t ב־30° (בנקודה C):</b> <span class="f ltr">Py = 14 · sin 30° = 7 t (↓)</span> <span class="f ltr">Px = 14 · cos 30° = 12.12 t (→)</span></div>',
+  loads:[{n:'C',x:0,F:-7,comp:true},{n:'C',x:0,H:12.12},{u:[0,3.2],q:-2.5},{u:[6,10.2],q:-6},{n:'E',x:12,F:-16}],
+  hints:['כאן B קבוע ו־A נייד.','פרק את 14t. הוא מצביע ימינה ולמטה.','שני עומסים מפורסים: 2.5t/m מ־C עד A (3.2 m) ו־6t/m מ־D עד B (4.2 m).','ב־ΣFx יוצא H<sub>B</sub> שלילי. זה אומר שהוא פועל שמאלה.']}
+];
+
+let RB=[];
+function rxBlock(o,practice){
+  const id='rx-'+o.id,s=rxSolve(o);
+  const origFig=`<div class="fig">${supSVG({L:o.L,pts:o.pts,sup:o.sup,dims:o.dims,draw:o.orig,label:describeSup(o)})}</div>`;
+  const afterFig=`<p style="margin-bottom:0"><b>התוצאה בשרטוט</b> (בירוק: התגובות. בכתום מקווקו: רכיבים ושקולים):</p><div class="fig" data-after>${supSVG({L:o.L,pts:o.pts,sup:o.sup,dims:o.dims,draw:rxAfterDraw(o,s),label:describeSup(o,s)})}</div>`;
+  const solve=`${rxSteps(o,s)}${afterFig}${rxResult(o,s)}${o.tip?`<p class="tip-line"><b>טיפ:</b> ${o.tip}</p>`:''}`;
+  const supTxt=`סמך קבוע ב־${o.sup.pin}, סמך נייד ב־${o.sup.roller}.`;
+  if(practice){
+    const hints=o.hints?`<details><summary>רמזים, אחד אחרי השני<span class="sr-only">: ${o.title}</span></summary><div><ol class="hint-list">${o.hints.map(h=>`<li>${h}</li>`).join('')}</ol></div></details>`:'';
+    return {id,o,s,html:`<div class="ex" id="${id}"><h3>${o.title}</h3><div class="src">${o.src}</div>${origFig}<p>${supTxt} חשב את התגובות בסמכים.</p>${hints}<details><summary>תשובות סופיות בלבד<span class="sr-only">: ${o.title}</span></summary><div>${rxResult(o,s)}</div></details><details><summary>הצג פתרון מלא<span class="sr-only">: ${o.title}</span></summary><div>${solve}</div></details></div>`};
+  }
+  return {id,o,s,html:`<div class="ex" id="${id}"><h3>${o.title}</h3><div class="src">${o.src} · ${supTxt}</div>${origFig}${solve}</div>`};
+}
+function renderRx(){
+  const put=(host,list,pr)=>{const bs=list.map(o=>rxBlock(o,pr));const el=document.getElementById(host);if(el)el.innerHTML=bs.map(b=>b.html).join('');return bs;};
+  const open=[...document.querySelectorAll('#rx-examples details[open],#udl-examples details[open],#rx-practice-list details[open]')].map(d=>{const ex=d.closest('.ex');return ex.id+'|'+[...ex.querySelectorAll('details')].indexOf(d);});
+  RB=[...put('rx-examples',RX,false),...put('udl-examples',UX,false),...put('rx-practice-list',PX,true)];
+  open.forEach(k=>{const [id,i]=k.split('|');const ex=document.getElementById(id);if(ex){const d=ex.querySelectorAll('details')[+i];if(d)d.open=true;}});
+  /* small explanatory figures */
+  set('fig-sup-types',`<div class="grid2">
+    <figure class="mini">${supSVG({L:4,pts:{A:2},sup:{roller:'A'},draw:[{k:'react',x:2,dir:'up',l:vSub('V','A')}],label:'סמך נייד בנקודה A: תגובה אחת, V, כלפי מעלה'})}<figcaption><b>סמך נייד</b> (על גלגלים): תגובה <b>אחת</b>, V. לצדדים הוא מתגלגל, ולכן לא נותן H.</figcaption></figure>
+    <figure class="mini">${supSVG({L:4,pts:{A:2},sup:{pin:'A'},draw:[{k:'react',x:2,dir:'up',l:vSub('V','A')},{k:'hreact',x:2,dir:'right',l:vSub('H','A')}],label:'סמך קבוע בנקודה A: שתי תגובות, V כלפי מעלה ו־H אופקי'})}<figcaption><b>סמך קבוע</b> (מפרק): <b>שתי</b> תגובות, V ו־H. הוא לא נותן לקורה לזוז לשום כיוון.</figcaption></figure></div>`);
+  set('fig-hx1',supSVG({L:8,pts:{A:0,B:6},sup:{pin:'A',roller:'B'},draw:[{x:2,k:'left',l:'2t',c:'f'},{x:4,k:'left',l:'4t',c:'f'},{x:8,k:'left',l:'10t',c:'f'},{k:'hreact',x:0,dir:'right',l:`${vSub('H','A')} = ?`}],label:'קורה עם סמך קבוע A וסמך נייד B. שלושה כוחות אופקיים שמאלה: 2, 4 ו־10 טון.'}));
+  set('fig-hx2',supSVG({L:8,pts:{A:0,B:6},sup:{pin:'A',roller:'B'},draw:[{x:2,k:'right',l:'18t',c:'f'},{x:4,k:'left',l:'10t',c:'f'},{x:8,k:'left',l:'8t',c:'f'},{k:'hreact',x:0,dir:'right',l:`${vSub('H','A')} = ?`}],label:'קורה עם סמך קבוע A וסמך נייד B. 18 טון ימינה, 10 ו־8 טון שמאלה.'}));
+  set('fig-udl-what',supSVG({L:4,pts:{A:0,B:4},dims:[[0,4,'L = 4m']],draw:[{k:'udl',x0:0,x1:4,l:'q = 2t/m'}],label:'עומס מפורס של 2 טון למטר לאורך 4 מטר'}));
+  set('fig-udl-r',supSVG({L:4,pts:{A:0,M:2,B:4},dims:[[0,2,'L/2'],[2,4,'L/2']],draw:[{k:'udl',x0:0,x1:4,faint:true},{x:2,k:'down',l:'R = q × L = 8t',c:'c',short:true}],label:'אותו עומס מפורס, מוחלף בכוח שקול אחד של 8 טון באמצע'}));
+  set('fig-udl-two',supSVG({L:11,pts:{A:0,B:5,C:11},dims:[[0,5,'5m'],[5,11,'6m']],draw:[{k:'udl',x0:0,x1:5,faint:true},{k:'udl',x0:5,x1:11,faint:true},{x:2.5,k:'down',l:'R₁ = 4 × 5 = 20t',c:'c',short:true},{x:8,k:'down',l:'R₂ = 2 × 6 = 12t',c:'c',short:true}],label:'שני עומסים מפורסים: 4 טון למטר על 5 מטר, שקול 20 טון באמצע; 2 טון למטר על 6 מטר, שקול 12 טון באמצע'}));
+  fitText();
+}
+renderRx();
+
 /* re-render diagrams when crossing the phone breakpoint */
 NARROW.addEventListener('change',()=>{
   BS.forEach(({id})=>{const el=document.getElementById(id);const sel=el&&el.querySelector('[aria-selected="true"]');if(sel)sel.click();});
   BS.forEach(({id,o})=>{if(!o.orig)return;const el=document.getElementById(id);const f=el.querySelector('.fig:not([data-fig])');if(f)f.innerHTML=fig(o,null,true);});
-  renderStatics();if(Q)draw(false);
+  renderStatics();renderRx();if(Q)draw(false);
 });
 
 /* chapter strip: current chapter + reading progress */
