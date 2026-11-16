@@ -98,7 +98,7 @@ def lockup(L):
 
 
 # ---------------------------------------------------------------- media helpers
-def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600), eager=False):
+def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600, 2400), eager=False):
     have = [w for w in widths if (PUB / f"assets/img/{name}-{w}.jpg").exists()]
     if not have:
         raise SystemExit(f"missing public/assets/img/{name}-*.jpg: run python3 src/tools/images.py first")

@@ -5,7 +5,7 @@ from PIL import Image
 
 W = Path(__file__).resolve().parents[2]
 SRC, OUT = W / "media-src", W / "public/assets/img"
-WIDTHS = (640, 1024, 1600)
+WIDTHS = (640, 1024, 1600, 2400)  # 2400 for full-width headers on high-DPI screens (16 Nov 2026); only made when the master is that wide
 JOBS = {
     # name: (master, crop box as fractions or None)
     "valley": ("valley.jpg", None),
