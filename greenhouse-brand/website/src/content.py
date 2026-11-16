@@ -737,7 +737,7 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
          ("The net is unrolled over the cables and fixed with dedicated connection fittings, one bay at a time.", "הרשת נפרסת מעל הכבלים ומחוברת באמצעות אביזרי חיבור ייעודיים, מפתח אחרי מפתח.")),
         (("Closing", "סגירה"), ("Side nets", "רשתות צד"),  # Merav 15 Nov 2026 (#290): no door; the wall net lies on the anchor cables
          ("Side nets laid on the anchor cables close the structure.", "רשתות הצד נפרסות על כבלי העיגון וסוגרות את המבנה.")),
-        (("Planting", "שתילה"), ("Irrigation, then planting", "השקיה, ואז שתילה"),
+        (("", ""), ("Irrigation, then planting", "השקיה, ואז שתילה"),  # label removed by Merav in the editor, 16 Nov 2026
          ("First the drip lines are installed, then the saplings are planted under the net.", "תחילה מותקנים קווי הטפטוף, ולאחר מכן שותלים את השתילים מתחת לרשת.")),  # stages 5, 7
         (("What the net does", "מה הרשת עושה"), ("Hail falls between the nets, through special hail-release fittings", "הברד נופל בין הרשתות עם אביזרים מיוחדים לפריקת ברד"),
          ("The net sheds the hail, so it doesn't damage the fruit or load the structure.", "הרשת פורקת את הברד כך שהוא לא פוגע בפרי ולא יוצר עומס על המבנה.")),  # 2.3 (wind: bananas only, 2.2)
