@@ -172,6 +172,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
+<link rel="stylesheet" href="../css/inner.css?v=1">
 {extra}
 <script src="../js/consent.js" defer></script>
 <script src="../js/adcode.js" defer></script>
@@ -182,7 +183,7 @@ def head(title, desc, url, img, extra=''):
 <a class="skip" href="#main">דלגו לתוכן</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="{WA_BLOG}" target="_blank" rel="noopener">וואטסאפ</a></nav>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../services/">שירותים</a><a href="./" aria-current="page">מאמרים</a><a href="{WA_BLOG}" target="_blank" rel="noopener">שיחת היכרות</a></nav>
 </header>
 '''
 

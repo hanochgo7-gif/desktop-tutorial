@@ -55,6 +55,8 @@ BLOG = json.load(open(ROOT + '/blog/posts.json')) if os.path.exists(ROOT + '/blo
 paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
 for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
 PRI['/blog/'] = '0.7'
+paths.append('/gallery/'); PRI['/gallery/'] = '0.7'
+IMG['/gallery/'] = ['/work/gallery/' + n + '.webp' for n in sorted(f[:-5] for f in os.listdir(ROOT + '/work/gallery') if f.endswith('.webp') and not f.endswith('-s.webp'))]
 paths += ['/elef/', '/elef/en.html']; PRI['/elef/'] = '0.6'; PRI['/elef/en.html'] = '0.5'
 paths.append('/refer.html'); PRI['/refer.html'] = '0.3'
 paths.append('/accessibility.html'); paths.append('/en-accessibility.html')

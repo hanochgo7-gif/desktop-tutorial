@@ -28,7 +28,7 @@
   --blue: #3d7bff;
 
   /* כותרות: Handjet, גופן מודולרי שכל אות בו בנויה מיחידות קטנות, כמו הנקודות בפתיחה. טקסט: Rubik (באנגלית Geist Mono) */
-  --f-display: "HG Handjet", "Rubik", system-ui, sans-serif;
+  --f-display: "Frank Ruhl Libre", "Rubik", serif;
   --f-body: "Rubik", "Assistant", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", "Rubik", ui-monospace, monospace;
 

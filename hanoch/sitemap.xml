@@ -5,7 +5,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
@@ -25,7 +25,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/gotovski.webp</image:loc></image:image>
@@ -82,7 +82,7 @@
   </url>
   <url>
     <loc>https://hgpro.io/services/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -92,54 +92,54 @@
   </url>
   <url>
     <loc>https://hgpro.io/services/website-building.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/web-design.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/landing-page.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/online-store.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/seo.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-commercial.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 20 שניות למותג קונספט של הסטודיו, שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/social-media.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-chatbot.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/wix-migration.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/brand-identity.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -246,6 +246,55 @@
     <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/wix-vs-custom-website.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://hgpro.io/gallery/</loc>
+    <lastmod>2026-11-16</lastmod>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://hgpro.io/work/gallery/arc-facade.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/arc-living.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/arc-plan.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-catering.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-clinic.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-energy.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-gym.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-store.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-study.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/biz-window.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/bloom.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/bodymind.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/courier.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/crew.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/elef-bottle.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/elef-drop.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/fighter.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/hg-emblem.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/hg-spray.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ill-fire.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/movie.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-canapes.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-focaccia.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-magnifier.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-portfolio.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-stopwatch.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/obj-wine.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/pedi.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-bakery.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-chef.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-cosmetics.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-jewel.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-keys.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-morning.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/ppl-sofa.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/screens.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/trophy.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/vase.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-fire.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-gondola.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-patio.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-street.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-town.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/gallery/win-window.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/elef/</loc>

@@ -1,0 +1,105 @@
+/* עמודים פנימיים (שירותים ומאמרים) בשפה של דף הבית: כותרות בסריף, תוויות במונו, כפתור ראשי בצבע הנייר.
+   נטען אחרי הסגנון המוטמע בעמוד ודורס אותו. */
+@font-face { font-family: "HG Mono"; src: url("../fonts/mono/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "HG Mono"; src: url("../fonts/mono/plex-mono-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+:root {
+  --serif: "Frank Ruhl Libre", "Rubik", serif;
+  --f-display: var(--serif);
+  --f-mono: "HG Mono", "JetBrains Mono", ui-monospace, monospace;
+  --night: #050506; --paper: #ede8de; --signal: #ff4f1a;
+  --fg-dim: rgba(237, 232, 222, .68);
+  --wrapw: min(1240px, calc(100% - 40px));
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+body { background: var(--ink, #0a0a0b); }
+
+/* כותרת עליונה, כמו בדף הבית */
+.sv-bar { min-height: 64px; padding: 0 max(20px, calc((100% - 1240px) / 2)); }
+.sv-mark { font-size: 1.35rem; }
+.sv-bar nav { align-items: center; gap: .3rem 1.6rem; font: 500 .95rem/1 var(--f-body); }
+.sv-bar nav a { color: var(--fg-dim); }
+.sv-bar nav a[aria-current] { color: var(--paper); box-shadow: inset 0 -1px 0 var(--signal); }
+.sv-bar nav a[href*="wa.me"] { min-height: 40px; padding: 0 18px; border-radius: 99px; background: var(--paper); color: var(--ink, #0a0a0b); }
+.sv-bar nav a[href*="wa.me"]:hover { background: #fff; color: var(--ink, #0a0a0b); }
+@media (max-width: 560px) { .sv-bar-cta nav a:last-child { border: 0; background: var(--paper); color: var(--ink, #0a0a0b); } }
+
+/* גוף העמוד: רחב יותר, טקסט בעמודה נוחה לקריאה */
+.sv { max-width: 1240px; width: var(--wrapw); padding: clamp(40px, 6vw, 88px) 0 40px; }
+.sv > p, .sv > ul:not(.sv-rel):not(.bl-list), .sv > h2, .sv > h3, .sv-faq, .sv > .bl-sum, .sv > .bl-table, .sv > ol:not(.sv-steps), .sv > blockquote { max-width: 46rem; }
+.sv-crumbs { font: 400 .78rem/1 var(--f-mono); letter-spacing: .06em; }
+.sv-kicker { display: inline-flex; align-items: center; gap: .7rem; margin-top: 2.4rem; font: 500 .78rem/1.2 var(--f-mono); letter-spacing: .08em; color: var(--fg-dim); }
+.sv-kicker::before { content: ""; width: 7px; height: 7px; background: var(--signal); flex: none; }
+.sv h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 5.6vw, 5.4rem); line-height: 1.04; letter-spacing: -.015em; max-width: 18ch; margin: 1rem 0 1.6rem; }
+.sv h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.1; letter-spacing: -.01em; margin: clamp(3.5rem, 6vw, 5.5rem) 0 1.2rem; }
+.sv h3 { font-family: var(--serif); font-weight: 400; font-size: 1.5rem; }
+.sv-lead { max-width: 40rem; font-size: clamp(1.12rem, 1.4vw, 1.3rem) !important; color: var(--fg-dim) !important; }
+.sv p, .sv li { font-size: 1.08rem; color: rgba(237, 232, 222, .8); }
+.sv a { color: var(--paper); text-decoration-color: rgba(255, 79, 26, .7); text-underline-offset: 4px; }
+.sv a:hover { text-decoration-color: var(--signal); }
+
+/* כפתורים: ראשי בצבע הנייר, משני במסגרת דקה. ירוק רק בסמל של וואטסאפ */
+.sv-btn, .sv-btn[href*="wa.me"], .sv-btn[href*="api.whatsapp.com"] { min-height: 56px; padding: 0 1.9rem; background: var(--paper); color: var(--ink, #0a0a0b) !important; font-size: 1.02rem; transition: background-color .3s, transform .14s var(--ease-out); }
+.sv-btn:hover, .sv-btn[href*="wa.me"]:hover { background: #fff; }
+.sv-btn:active { transform: scale(.98); }
+.sv-btn.ghost { background: transparent; color: var(--paper) !important; border: 1px solid rgba(237, 232, 222, .42); }
+.sv-btn.ghost:hover { border-color: var(--paper); background: transparent; }
+.sv-early { gap: 12px 18px; margin-top: 2rem; }
+.sv-facts { max-width: 46rem; }
+
+/* שלבים: שלוש עמודות, מספר במונו וקו עליון במקום כרטיס */
+.sv-steps { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 36px 28px !important; margin-top: 1.6rem; }
+.sv-steps li { border: 0; border-top: 1px solid rgba(237, 232, 222, .14); border-radius: 0; padding: 18px 0 0; background: none; }
+.sv-steps li::before { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .08em; margin-bottom: .8rem; }
+.sv-steps b { font-family: var(--serif); font-weight: 400; font-size: 1.45rem; margin-bottom: .4rem; }
+
+/* כרטיסי דוגמאות */
+.sv-cards { gap: 20px; margin-top: 1.6rem; }
+.sv-card { border: 0; border-radius: 10px; background: #0f0f12; transition: transform .5s var(--ease-out); }
+.sv-card:hover { transform: translateY(-3px); }
+.sv-card img, .sv-card video { border-radius: 10px 10px 0 0; }
+.sv-card span { padding: 14px 16px 16px; font-size: 1rem; }
+
+/* שאלות נפוצות */
+.sv-faq details { border-bottom: 1px solid rgba(237, 232, 222, .14); padding: 10px 0; }
+.sv-faq summary { font: 400 1.25rem/1.4 var(--serif); padding-block: 12px; }
+.sv-faq details p { color: var(--fg-dim); }
+
+/* פס סיום: כמו האזור האחרון בדף הבית */
+.sv-cta { margin: clamp(4rem, 8vw, 7rem) 0 2rem; padding: clamp(36px, 6vw, 80px); border: 1px solid rgba(237, 232, 222, .1); border-radius: 18px;
+  background: radial-gradient(60% 90% at 85% 100%, rgba(255, 79, 26, .16), transparent 70%), var(--night); }
+.sv-cta h2 { font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: 1; letter-spacing: -.02em; max-width: none; }
+.sv-cta p { color: var(--fg-dim); max-width: 34rem; }
+.sv-cta .row { margin-top: 2rem; }
+
+.sv-rel a { border-color: rgba(237, 232, 222, .22); min-height: 44px; display: inline-flex; align-items: center; padding: 0 18px; }
+.sv-rel a:hover { border-color: var(--paper); }
+
+/* כותרת תחתונה */
+.sv-foot { max-width: 1240px; width: var(--wrapw); padding: 36px 0 64px; font: 400 .82rem/1.4 var(--f-body); }
+.sv-foot::before { content: "HG·STUDIO"; flex: 0 0 100%; margin-bottom: 14px; font: 800 1.8rem/1 "HG Mark", "Fraunces", Georgia, serif; letter-spacing: -.035em; color: var(--paper); direction: ltr; text-align: right; }
+
+/* סרגל תחתון בטלפון */
+.sv-dock .sv-btn { min-height: 48px; }
+
+/* מאמרים */
+.bl-meta { font-family: var(--f-mono) !important; font-size: .78rem !important; letter-spacing: .04em; }
+.bl-cover img, .bl-cover { border-radius: 10px; }
+.bl-cover { max-width: 980px; }
+.bl-toc { max-width: 46rem; }
+.bl-sum { border-radius: 14px !important; }
+.bl-list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)) !important; gap: 40px 24px !important; }
+.bl-list a { border: 0 !important; background: none !important; }
+.bl-list img { border-radius: 10px; }
+.bl-list b { font-family: var(--serif); font-weight: 400; font-size: 1.45rem; line-height: 1.2; }
+.bl-list time { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .04em; }
+
+/* כניסה עדינה של קטעים בגלילה */
+@media (prefers-reduced-motion: no-preference) {
+  .sv > h1, .sv > .sv-lead, .sv > .sv-early { animation: sv-in 1s var(--ease-out) both; }
+  .sv > .sv-lead { animation-delay: .08s; }
+  .sv > .sv-early { animation-delay: .16s; }
+}
+@keyframes sv-in { from { opacity: 0; transform: translateY(22px); } }
+@media (min-width: 900px) { .sv-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sv .sv-rel { display: flex; flex-wrap: wrap; gap: 10px; }
+.sv-cta { max-width: none; }

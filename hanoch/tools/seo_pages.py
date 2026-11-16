@@ -78,7 +78,7 @@ page(slug='website-building', lang='he', name='בניית אתרים לעסקי�
      faq=[('כמה זמן לוקחת בניית אתר?', 'בדרך כלל אתר מלא באוויר תוך שבועיים, ודף נחיתה תוך שבוע, מרגע שיש תוכן ותמונות. המועד המחייב נכתב בהצעה. אם אין עדיין תוכן ותמונות, אעזור להכין אותם.'),
           ('יהיה לי תשלום חודשי?', 'לא חובה. אחרי ההשקה נשארות העלויות הקבועות של כל אתר: דומיין, בתשלום שנתי קטן ורשום על שמכם, ואחסון, שבאתר קטן יכול להיות כמעט בחינם. תחזוקה חודשית, עם גיבויים, עדכונים ושינויים קטנים, היא אפשרות ולא חובה.'),
           ('כמה עולה לבנות אתר לעסק?', 'המחיר נקבע לפי היקף האתר ומה שהעסק צריך. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור, ומה שכתוב בהצעה זה מה שמשלמים.'),
-          ('האם אוכל לעדכן את האתר בעצמי?', 'כן. מחבילת עסק ומעלה יש מערכת ניהול פשוטה לעדכון טקסטים, תמונות ומחירים, בלי לגעת בקוד.'),
+          ('האם אוכל לעדכן את האתר בעצמי?', 'כן. כשצריך, אני מוסיף מערכת ניהול פשוטה לעדכון טקסטים, תמונות ומחירים, בלי לגעת בקוד. זה נכתב בהצעה מראש.'),
           ('האתר והדומיין שייכים לי?', 'כן. הדומיין נרשם על שמכם, והאתר והקוד שייכים לכם.')],
      related=['web-design', 'landing-page', 'online-store', 'seo'],
      service=('Website development', 'בניית אתרים'))
@@ -153,7 +153,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      title='הפקת סרטון פרסומת ב-AI לעסקים | HG Studio',
      desc='סרטון פרסומת ברמה קולנועית בלי צוות צילום: עלילה, דמויות, רכבים, קריינות ומוזיקה. 30 עד 60 שניות, כולל גרסאות 15 ו-6 שניות לרשתות.',
      h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
-     lead='פרסומת ברמת טלוויזיה דרשה פעם צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
+     lead='פרסומת ברמת טלוויזיה דרשה פעם צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בלי צוות צילום ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
                ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%93.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
                ('דוגמאות', '<p>בתיק העבודות פרסומות שהפקתי כך, ביניהן <strong>אֶלֶף</strong>, פרסומת קולנועית למותג בדיוני של שמן זית מהגליל, ו<strong>HG · Unforgettable</strong>, פרסומת בושם של 20 שניות למותג הקונספט של הסטודיו: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
@@ -172,7 +172,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
 
 page(slug='social-media', lang='he', name='הד: אינסטגרם ופייסבוק לעסקים',
      title='ניהול אינסטגרם ופייסבוק לעסקים | הד · HG Studio',
-     desc='הד מקים ומנהל לעסק שלכם את העמודים באינסטגרם ובפייסבוק: תוכן בכל שבוע, פרסומות AI, ימי צילום, פרסום ממומן ומענה ללקוחות.',
+     desc='אני מקים ומנהל לעסק שלכם את העמודים באינסטגרם ובפייסבוק: תוכן בכל שבוע, פרסומות AI, ימי צילום, פרסום ממומן ומענה ללקוחות.',
      h1='הד: ניהול אינסטגרם ופייסבוק לעסקים', kicker='שירות · רשתות',
      lead='הרבה לקוחות מכירים עסק קודם ברשתות, ורק אחר כך באתר. "הד" הוא ליווי שמקים לכם עמודים מסודרים באינסטגרם ובפייסבוק, ממלא אותם בתוכן שעוצר את הגלילה, ומביא את מי שמתעניין עד לוואטסאפ. מאותן ידיים שבונות את האתרים ומפיקות את הפרסומות.',
      sections=[('מה עושים', '<ul><li>בדיקה ותוכנית: איך העמודים שלכם נראים היום, מה עושים המתחרים, ומה הלקוחות שלכם מחפשים.</li><li>הקמה: ביו, כפתורי וואטסאפ וחיוג, היילייטס עם כריכות, ותבניות עיצוב בשפה של המותג.</li><li>תוכן בכל שבוע: רילס, פוסטים, קרוסלות וסטוריז, עם טקסטים בעברית ובאנגלית לפי הצורך.</li><li>פרסומות AI: סרטים קצרים עם עלילה, דמויות וקריינות, בלי צוות צילום.</li><li>ימי צילום בעסק: תמונות ווידאו אמיתיים של המקום, האנשים והמוצרים.</li><li>פרסום ממומן במטא: קהלים, מודעות, תקציב ומעקב אחרי כל פנייה.</li><li>מענה: תגובות, הודעות, ותשובה אוטומטית שמעבירה פניות לוואטסאפ.</li></ul>'),
@@ -215,7 +215,7 @@ page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מק�
      lead='וויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
      sections=[('איך שומרים על הדירוג', '<ul><li>ממפים את כל הכתובות באתר הישן.</li><li>מעבירים את התוכן ששווה לשמור, ומשפרים אותו.</li><li>כל קישור ישן ממשיך להוביל לעמוד הנכון באתר החדש (הפניה קבועה).</li><li>מעדכנים את גוגל על האתר החדש, ובודקים שאין שגיאות.</li></ul>'),
                ('מה מרוויחים', '<p>אתר מהיר יותר, עיצוב שנבנה במיוחד לעסק שלכם, שליטה מלאה בקוד, ובלי מנוי חודשי לבונה האתרים. הדומיין והאתר שלכם.</p>'),
-               ('שדרוג אתר קיים', '<p>לא כל אתר צריך לעבור פלטפורמה. לפעמים מספיק לשפר את מה שיש: מהירות, טקסטים, כפתורי פנייה ומבנה שגוגל מבין. שלחו לי את הכתובת, ואחזור אליכם עם 3 דברים שהייתי משפר בו, בחינם ובלי התחייבות. <a href="../#check">לבדיקה חינם של האתר</a>.</p>')],
+               ('שדרוג אתר קיים', '<p>לא כל אתר צריך לעבור פלטפורמה. לפעמים מספיק לשפר את מה שיש: מהירות, טקסטים, כפתורי פנייה ומבנה שגוגל מבין. שלחו לי את הכתובת, ואחזור אליכם עם 3 דברים שהייתי משפר בו, בחינם ובלי התחייבות. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%A9%D7%AA%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לבדיקה חינם של האתר</a>.</p>')],
      examples=['gotovski'],
      faq=[('אאבד את הדירוג בגוגל?', 'זה לא אמור לקרות, אם מגדירים הפניה מכל כתובת ישנה. זה חלק קבוע מהמעבר.'),
           ('מה יקרה לכרטיס בגוגל מפות ולביקורות?', 'הם לא תלויים באתר, ונשארים כמו שהם. בכרטיס מעדכנים רק את הכתובת של האתר החדש.'),
@@ -468,7 +468,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 def GF(up, he):
     # הגופן הראשי, ותתי־הקבוצות הקטנות (סימני פיסוק ו-ASCII) כדי שהטקסט לא יקפוץ כשהגופן מתחלף
     pre = lambda f: f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/{f}" crossorigin>\n'
-    fonts = ['g/rubik-hebrew-423ede.woff2', 'g/rubik-punct.woff2', 'handjet-ascii.woff2', 'handjet-hebrew.woff2'] if he else ['g/geist-mono-latin-b291d8.woff2', 'handjet-ascii.woff2']
+    fonts = ['g/rubik-hebrew-423ede.woff2', 'g/rubik-punct.woff2', 'g/frank-ruhl-libre-hebrew-096aa4.woff2'] if he else ['g/geist-mono-latin-b291d8.woff2', 'handjet-ascii.woff2']
     return ''.join(pre(f) for f in fonts) + f'<link rel="stylesheet" href="{up}css/fonts.css">'
 # הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
@@ -520,9 +520,9 @@ def render(p):
     rel = ''.join(f'<li><a href="{BY[r]["slug"]}.html">{esc(BY[r]["name"])}</a></li>' for r in p['related'] if r in BY)
     g = GUIDES.get(p['slug']) if he else None
     guides = (f'<h2>מדריכים שיעזרו להחליט</h2><ul class="sv-rel">' + ''.join(f'<li><a href="../blog/{s}.html">{esc(t)}</a></li>' for s, t in g) + '</ul>') if g else ''
-    pkg = f'<p class="sv-pkg">{esc(PKG_HE[p["slug"]])} <a href="../#pricing">לשלוש החבילות ←</a></p>' if he and p['slug'] in PKG_HE else ''
+    pkg = ''
     facts = ' · '.join(esc(f) for f in (FACTS_HE.get(p['slug'], FACTS_HE_DEFAULT) if he else FACTS_EN))
-    if he and p['slug'] in CHECK_HE: facts += ' · יש לכם כבר אתר? <a href="../#check">אבדוק אותו בחינם</a>'
+    if he and p['slug'] in CHECK_HE: facts += ' · יש לכם כבר אתר? <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%A9%D7%AA%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">שלחו לי אותו לבדיקה</a>'
     faq = ''.join(f'<details><summary><h3>{esc(q)}</h3></summary><p>{esc(a)}</p></details>' for q, a in p['faq'])
     secs = ''.join(f'<h2>{esc(h)}</h2>{body}' for h, body in p['sections'])
     stype, sname = p['service']
@@ -564,6 +564,7 @@ def render(p):
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
+<link rel="stylesheet" href="{up}css/inner.css?v=1">
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js" defer></script>
 <script src="{up}js/adcode.js" defer></script>
@@ -574,7 +575,7 @@ def render(p):
 <a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a>{'<a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('שיחת היכרות', 'Intro call')}</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
@@ -656,6 +657,7 @@ def hub(lang):
 .sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
+<link rel="stylesheet" href="{up}css/inner.css?v=1">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
 <script src="{up}js/consent.js" defer></script>
@@ -670,7 +672,7 @@ def hub(lang):
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים לעסקים: אתרים, חנויות, קידום ו-AI', 'Services for businesses')}</h1>
   <p class="sv-lead">{T('אתר, חנות, דף נחיתה, קידום ותוכן, אצל אדם אחד שמכיר את העסק שלכם. כל שירות מתחיל בשיחת היכרות ונסגר בהצעה כתובה, במחיר סגור.', 'A website, a store, a landing page, SEO and content, from one person who gets to know your business. Every service starts with an intro call and ends in a written proposal at a fixed price.')}</p>
-  <p>{T('רוצים לבחור מהר? התחילו מ<a href="../#pricing">שלוש החבילות</a>, וכל שירות כאן אפשר להוסיף להן.', 'Want to choose fast? Start from <a href="../../en.html#pricing">the packages</a>, and add any service here to them.')}</p>
+  <p>{T('לא בטוחים מאיפה להתחיל? <a href="https://wa.me/972545522053">ספרו לי על העסק</a>, ואמליץ מה כדאי לבנות קודם.', 'Want to choose fast? Start from <a href="../../en.html#pricing">the packages</a>, and add any service here to them.')}</p>
   <ul class="sv-list">{cards}</ul>
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">{T('לא בטוחים מה מתאים?', 'Not sure what fits?')}</h2>

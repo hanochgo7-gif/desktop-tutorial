@@ -287,3 +287,88 @@ body.pm .pm-sys .pm-h2 { font-family: var(--serif); font-weight: 400; }
   .pm-reel-row li { flex: 0 0 44%; scroll-snap-align: start; }
 }
 @media (max-width: 560px) { .pm-reel-row li { flex-basis: 62%; } }
+
+/* ===== גלריית תמונות AI ===== */
+.pm-stills { list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; columns: 3; column-gap: 12px; }
+.pm-stills-full { columns: 4; }
+.pm-still { position: relative; break-inside: avoid; margin: 0 0 12px; border-radius: 10px; overflow: hidden; background: #0d0d10; }
+.pm-still-v img { aspect-ratio: 4 / 5; }
+.pm-still-btn { all: unset; position: relative; cursor: zoom-in; display: block; }
+.pm-still-btn:focus-visible { outline: 2px solid var(--bp); outline-offset: 3px; border-radius: 10px; }
+.pm-still img { width: 100%; height: auto; object-fit: cover; display: block; transform: scale(1.01); transition: transform 1.2s var(--ease-out), filter .6s; filter: saturate(.92); }
+.pm-still-btn:hover img { transform: scale(1.05); filter: saturate(1.05); }
+.pm-still-cap { position: absolute; inset: auto 0 0; padding: 40px 14px 12px; font-size: .86rem; color: #f3efe6; background: linear-gradient(transparent, rgba(0, 0, 0, .72)); opacity: 0; transform: translateY(6px); transition: opacity .4s, transform .4s var(--ease-out); }
+.pm-still-btn:hover .pm-still-cap, .pm-still-btn:focus-visible .pm-still-cap { opacity: 1; transform: none; }
+@media (hover: none) { .pm-still-cap { opacity: 1; transform: none; } }
+.pm-stills-more { margin-top: 28px; }
+.pm-lb-img { width: min(1400px, 94vw); }
+.pm-lb-img img { display: block; max-width: 100%; max-height: 80svh; margin-inline: auto; border-radius: 10px; }
+.pm-lb-bar { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+.pm-lb-bar .pm-lb-t { margin: 0 0 0 auto; }
+.pm-lb-n { font: 400 .8rem/1 var(--mono); color: var(--fg-dim); letter-spacing: .08em; }
+.pm-lb-nav { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(243, 239, 230, .35); background: transparent; color: var(--fg); font-size: 1.1rem; cursor: pointer; }
+.pm-lb-nav:hover { border-color: var(--fg); }
+@media (max-width: 760px) {
+  .pm-stills, .pm-stills-full { columns: 2; column-gap: 8px; }
+  .pm-still { margin-bottom: 8px; }
+}
+/* עמוד הגלריה */
+.pm-gal-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2rem; }
+.pm-gal-chips button { min-height: 44px; padding: 0 18px; border-radius: 99px; border: 1px solid var(--fg-line); background: none; color: var(--fg); font: 500 .95rem/1 var(--f-body); cursor: pointer; }
+.pm-gal-chips button[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.pm-gal-sec { margin-top: clamp(56px, 7vw, 96px); }
+.pm-gal-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; border-top: 1px solid var(--fg-faint); padding-top: 20px; }
+.pm-gal-head h2 { font: 400 clamp(1.6rem, 2.6vw, 2.2rem)/1.1 var(--serif); }
+.pm-gal-head p { color: var(--fg-dim); }
+.pm-stills-full { margin-top: 24px; }
+@media (max-width: 1100px) and (min-width: 761px) { .pm-stills-full { columns: 3; } }
+.pm-gal { padding-top: clamp(48px, 6vw, 88px); }
+.pm-gal h1.pm-h2 { font-size: clamp(2.4rem, 5vw, 4.4rem); }
+.pm-gal-end { margin-top: clamp(80px, 9vw, 128px); padding-top: 40px; border-top: 1px solid var(--fg-faint); }
+.pm-gal-sec[hidden] { display: none; }
+.pm-head + .pm-stills { margin-top: 0; }
+.pm-lb-n { white-space: nowrap; }
+
+/* ===== בריף קצר באזור יצירת הקשר ===== */
+.pm-final-in { display: grid; gap: clamp(48px, 6vw, 96px); align-items: start; }
+@media (min-width: 1000px) { .pm-final-in { grid-template-columns: 1fr minmax(0, 520px); } .pm-final h2 { font-size: clamp(3rem, 5.6vw, 5.4rem); } }
+.pm-brief { display: grid; gap: 16px; padding: clamp(22px, 3vw, 36px); border-radius: 18px; background: rgba(243, 239, 230, .04); border: 1px solid var(--fg-faint); }
+.pm-brief-t { font: 400 1.5rem/1.2 var(--serif); }
+.pm-brief-row { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.pm-field { display: grid; gap: 6px; font-size: .92rem; color: var(--fg-dim); }
+.pm-field i { font-style: normal; opacity: .7; }
+.pm-field input, .pm-field textarea { width: 100%; min-height: 50px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--fg-line); background: rgba(0, 0, 0, .25); color: var(--fg); font: 400 1rem/1.4 var(--f-body); }
+.pm-field textarea { resize: vertical; }
+.pm-field input[dir="ltr"] { text-align: right; }
+.pm-field input:focus, .pm-field textarea:focus { outline: none; border-color: var(--bp); box-shadow: 0 0 0 3px rgba(255, 79, 26, .18); }
+.pm-chips { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pm-chips legend { width: 100%; margin-bottom: 8px; font-size: .92rem; color: var(--fg-dim); }
+.pm-chips label { position: relative; }
+.pm-chips input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.pm-chips span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--fg-line); font-size: .92rem; transition: background-color .2s, color .2s, border-color .2s; }
+.pm-chips input:checked + span { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.pm-chips input:focus-visible + span { outline: 2px solid var(--bp); outline-offset: 2px; }
+.pm-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.pm-brief-go { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.pm-brief-note { flex: 1 1 200px; font-size: .82rem; color: var(--fg-dim); }
+.pm-brief-note a, .pm-brief-msg a { color: var(--fg); }
+.pm-brief-msg:empty { display: none; }
+.pm-brief-msg { font-size: .95rem; }
+.pm-brief.is-bad .pm-brief-msg { color: #ff8a65; }
+.pm-brief.is-sent { border-color: rgba(255, 79, 26, .45); }
+.dock.is-off { transform: translateY(140%); opacity: 0; pointer-events: none; }
+.dock { transition: transform .35s var(--ease-out), opacity .3s; }
+.pm-links .pm-case-cta { color: #b3340b; }
+
+/* תיקוני הצוות: פתיחה בטלפון קצרה יותר כדי שהכותרת והכפתור ייכנסו למסך הראשון, ומקום לכפתור היועץ בשורה התחתונה */
+@media (max-width: 899px) {
+  .pm-hero-film { padding-top: 34svh; }
+  .pm-reel { height: 56svh; }
+  .pm-hero h1 { font-size: clamp(2.5rem, 11vw, 3.1rem); }
+  .pm-hero-film .pm-lede { margin-top: 1.1rem; font-size: 1.02rem; }
+  .pm-hero-film .pm-cta { margin-top: 1.6rem; }
+}
+@media (min-width: 900px) { body.pm .pm-hero .pm-reel-note { padding-inline-start: 210px; } }
+/* הכותרת העליונה ברוחב של התוכן */
+body.pm .top { padding-inline: max(20px, calc((100% - 1240px) / 2)); }
+@media (min-width: 900px) { .pm-hero-film .pm-clients { padding-inline-start: 210px; } }
