@@ -166,7 +166,7 @@ const MEDIA = ctx.window.COURSE_MEDIA || {};
 let nWarn = 0, nHide = 0;
 for (const [k, m] of Object.entries(MEDIA)) {
   const mw = `media ${k}`;
-  if (!(k === "dashboard" || ids.has(k) || chapterIds.has(k))) warn(mw, "key is not a lesson, chapter or 'dashboard'");
+  if (!(k === "dashboard" || ids.has(k) || chapterIds.has(k) || CASES.some((c) => c.id === k))) warn(mw, "key is not a lesson, chapter, case or 'dashboard'");
   for (const f of ["file", "small"]) {
     if (!m[f]) warn(mw, `missing ${f}`);
     else if (!existsSync(join(root, "private", m[f]))) warn(mw, `${f} not on disk: ${m[f]}`);
