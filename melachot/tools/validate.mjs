@@ -48,7 +48,14 @@ function checkQuestion(q, where) {
     if (new Set(q.options).size !== (q.options || []).length) warn(tag, "duplicate options");
     if ((q.options || []).some((o) => /כל התשובות|אף תשובה/.test(o))) warn(tag, "all/none of the above option");
   } else if (t === "tf") { if (typeof q.answer !== "boolean") warn(tag, "tf answer must be boolean"); }
-  else if (t === "cloze") { const n = (String(q.text || "").match(/\{\{[^}]+\}\}/g) || []).length; if (n < 1 || n > 3) warn(tag, `cloze needs 1-3 blanks (has ${n})`); }
+  else if (t === "cloze") {
+    const n = (String(q.text || "").match(/\{\{[^}]+\}\}/g) || []).length;
+    if (n < 1 || n > 3) warn(tag, `cloze needs 1-3 blanks (has ${n})`);
+    if (q.anyOrder !== undefined && q.anyOrder !== true) {
+      const ok = Array.isArray(q.anyOrder) && q.anyOrder.every((g) => Array.isArray(g) && g.length >= 2 && g.every((i) => Number.isInteger(i) && i >= 0 && i < n));
+      if (!ok) warn(tag, "anyOrder must be true or groups of >=2 blank indexes in range");
+    }
+  }
   else if (t === "match") { if (!Array.isArray(q.pairs) || q.pairs.length < 4) warn(tag, "match needs >= 4 pairs"); }
   else if (t === "order") { if (!Array.isArray(q.steps) || q.steps.length < 3) warn(tag, "order needs steps"); }
   else if (t === "open") { if (!q.model) warn(tag, "open needs model answer"); }

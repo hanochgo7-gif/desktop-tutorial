@@ -1001,7 +1001,7 @@ body.focus .toast { bottom: calc(var(--ab-h) + 14px + env(safe-area-inset-bottom
 .studybar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: 56px; display: flex; align-items: center; gap: 4px; background: var(--paper); margin-inline: -16px; padding-inline: 6px 10px; border-bottom: 1px solid var(--line); }
 .sb-x { flex: none; display: inline-grid; place-items: center; color: var(--ink); }
 .sb-t { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
-.sb-t b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-1); font-weight: 800; }
+.sb-t b, .sb-t .sb-h { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-1); font-weight: 800; }
 .sb-t span { font-size: var(--fs-0); color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .studybar .icon-btn { flex: none; display: inline-grid; place-items: center; color: var(--ink); border-radius: var(--r); }
 .studybar .icon-btn[aria-pressed="true"] { background: var(--tape); color: var(--tape-ink); }
@@ -1545,6 +1545,9 @@ ul.plain li { align-items: center; }
   main { padding: 0 !important; max-width: none; }
   .cheatsheet .cheat { display: block; columns: 2; column-gap: 24px; font-size: 10.5pt; }
   .cheat li { break-inside: avoid; margin-bottom: 6px; }
+  tr, .traps li, .cmp-card { break-inside: avoid; }
+  .cheatsheet h2 { break-after: avoid; }
+  .skip { display: none !important; }
   .src-chip { border: 0; padding: 0; background: none; color: #000; }
   .src-chip::before { content: "["; } .src-chip::after { content: "]"; position: static; }
   @page { size: A4; margin: 12mm; }
@@ -1591,7 +1594,7 @@ ul.plain li { align-items: center; }
 main:focus, main h1[tabindex="-1"]:focus, .score-card[tabindex="-1"]:focus, #flash:focus:not(:focus-visible), .qq[tabindex="-1"]:focus, .case-step h2[tabindex="-1"]:focus { outline: none; }
 /* WCAG 2.5.8: source chips and the coverage table links are at least 24px tall */
 @media screen { .src-chip { display: inline-flex; align-items: center; min-height: 24px; line-height: 1.2; } }
-.cov td a { display: inline-flex; align-items: center; justify-content: center; min-height: 24px; min-width: 24px; padding: 0 3px; }
+.cov td a, .cov th a { display: inline-flex; align-items: center; justify-content: center; min-height: 24px; min-width: 24px; padding: 0 3px; }
 /* keyboard-reachable scrolling tables show their focus inside the frame */
 .tbl-scroll[tabindex="0"]:focus-visible { outline: 2.5px solid var(--ink); outline-offset: -2.5px; }
 .lesson-row .thumb .ai-badge { top: 2px; inset-inline-start: 2px; font-size: 8px; padding: 2px 3px; border-radius: 2px; }
@@ -1599,3 +1602,14 @@ main:focus, main h1[tabindex="-1"]:focus, .score-card[tabindex="-1"]:focus, #fla
 /* first paint waits briefly for the web fonts (see start() in app.js) */
 html.booting #app { visibility: hidden; }
 html.fonts-late { --f-display: "Arial Narrow", "Segoe UI", "Arial Hebrew", Arial, system-ui, sans-serif; --f-body: "Segoe UI", "Arial Hebrew", Arial, system-ui, sans-serif; --f-mono: ui-monospace, "SFMono-Regular", Menlo, monospace; }
+/* non-text contrast (1.4.11): a filled tick also has an ink edge, so on/off differ by more than the yellow fill */
+.week i.on, .plan-ticks i.on, .cs-ticks i.on { box-shadow: inset 0 0 0 1.5px var(--tape-ink); }
+/* text fields and selects show the same focus ring as every other control (the border change alone is too subtle) */
+select.select:focus-visible, input.input:focus-visible, textarea.input:focus-visible { outline: 2.5px solid var(--ink); outline-offset: 1px; }
+/* targets >= 24px (2.5.8) */
+.check input { width: 24px; height: 24px; flex: none; margin: 0; }
+.crumbs a { min-width: 24px; justify-content: center; }
+.mn-l a { display: inline-flex; align-items: center; min-height: 24px; }
+.sb-h { font-family: var(--f-body); line-height: 1.25; margin: 0; }
+/* memorise mode: the hidden facts become tap targets, so their source chips move to their own row (no overlapping hit areas) */
+.cheat.memo .src-chips, .cheat.memo .tag-expl { display: flex; width: max-content; margin-top: 4px; }

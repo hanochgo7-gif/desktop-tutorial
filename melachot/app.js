@@ -464,7 +464,7 @@
     lessonCards(lid).forEach(function (c) {
       var st = S.cards[c.id]; if (!st) return;
       e.cn++;
-      if (st.reps > 0) e.cr++;
+      if ((st.ivl || 0) >= 3) e.cr++;
       if (st.first ? (st.last || 0) - st.first >= 3 * DAY : st.reps >= 3) e.spaced = true;
     });
     return e;
@@ -661,6 +661,7 @@
     eyeOff: svgI('<path d="M3 3l18 18"/><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c5.5 0 9 5.5 9 7 0 .7-.8 2.2-2.2 3.6M6.4 6.4C4.3 7.8 3 10 3 12c0 1.5 3.5 7 9 7 1.8 0 3.3-.5 4.6-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'),
     expand: svgI('<path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/>'),
     play: svgI('<path d="M7 5v14l11-7z" fill="currentColor"/>'),
+    pause: svgI('<path d="M8 5v14M16 5v14" stroke-width="3.2"/>'),
     flag: svgI('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),
     grid: svgI('<rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/>'),
     cards: svgI('<rect x="3" y="7" width="14" height="13" rx="1.5"/><path d="M7 4h12.5A1.5 1.5 0 0 1 21 5.5V16"/>'),
@@ -709,7 +710,8 @@
     if (html) t.innerHTML = esc(msg) + " " + html; else t.textContent = msg;
     t.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.hidden = true; }, html ? 4200 : 2600);
+    // after the fade the text goes too, so a screen reader never finds a stale message
+    toastTimer = setTimeout(function () { t.hidden = true; toastTimer = setTimeout(function () { if (t.hidden) t.textContent = ""; }, 300); }, html ? 4200 : 2600);
   }
   function announce(msg) { var l = document.getElementById("live"); if (!l) return; l.textContent = ""; setTimeout(function () { l.textContent = msg; }, 30); }
   function updateBadge() {
@@ -1033,7 +1035,7 @@
   }
   function restoreFocus(key) {
     if (!booted || !focusLost()) return;
-    var cand = routing ? [] : (typeof key === "string" ? [key] : key || []).concat(["#ab button:not([disabled])"]);
+    var cand = routing ? [] : (typeof key === "string" ? [key] : key || []).concat(["#ab button:not([disabled])", ".q-card [data-act]:not([disabled])"]);
     for (var i = 0; i < cand.length; i++) {
       var el = null; try { el = main.querySelector(cand[i]); } catch (e) { el = null; }
       if (el && !el.disabled && el.getClientRects().length && focusEl(el)) return;
@@ -1041,7 +1043,12 @@
     focusEl(main.querySelector("h1") || main);
   }
   function paint(html) { var key = focusKey(document.activeElement); main.innerHTML = html; post(); restoreFocus(key); }
-  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); tableRegions(); }
+  function post() { setTopbarH(); animateTapes(); fitMarkers(); checkImgs(); tableRegions(); langParts(); }
+  function langParts() {
+    main.querySelectorAll('[dir="ltr"]:not([lang])').forEach(function (el) {
+      var t = el.textContent; if (/[A-Za-z]{2,}/.test(t) && !/[\u0590-\u05FF]/.test(t)) el.setAttribute("lang", "en");
+    });
+  }
   // a table that scrolls sideways must be reachable by keyboard (WCAG 2.1.1): a focusable, named region
   function tableRegions() {
     document.querySelectorAll(".tbl-scroll").forEach(function (b) {
@@ -1208,9 +1215,10 @@
     var c = completion(), due = dueCards().length, sk = streak();
     var d = new Date(); d.setDate(d.getDate() - d.getDay());
     var ticks = "", td = today();
-    for (var i = 0; i < 7; i++) { var k = dayKey(d); ticks += '<i class="' + (S.days[k] ? "on" : "") + (k === td ? " now" : "") + '"></i>'; d.setDate(d.getDate() + 1); }
+    var wk = 0;
+    for (var i = 0; i < 7; i++) { var k = dayKey(d); if (S.days[k]) wk++; ticks += '<i class="' + (S.days[k] ? "on" : "") + (k === td ? " now" : "") + '"></i>'; d.setDate(d.getDate() + 1); }
     return '<div class="stat-strip">' +
-      '<div class="st-tile"><span class="k">רצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="ימי למידה השבוע">' + ticks + "</span></div>" +
+      '<div class="st-tile"><span class="k">רצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="ימי למידה השבוע: ' + wk + ' מתוך 7">' + ticks + "</span></div>" +
       '<div class="st-tile"><span class="k">שיעורים</span><span class="v">' + c.d + "<small>/" + c.n + "</small></span>" + tape(c.p, true, "home-done") + "</div>" +
       '<a class="st-tile" href="#review"><span class="k">כרטיסיות</span><span class="v">' + due + "<small>לחזרה</small></span></a></div>";
   }
@@ -1524,7 +1532,7 @@
     if (lv === "quick") {
       var qk = l.quick || {};
       secs.push({ id: "s-quick", title: "הבנה מהירה", n: "" });
-      html += '<section class="block quick" id="s-quick">' +
+      html += '<section class="block quick" id="s-quick" aria-labelledby="s-quick-h"><h2 class="sr-only" id="s-quick-h">הבנה מהירה</h2>' +
         quickRow("מה זה?", qk.what) + quickRow("למה משתמשים בזה?", qk.why) + quickRow("איפה רואים את זה באתר?", qk.where) +
         ((qk.exam || []).length ? '<div class="q-row q-exam"><h3>מה חשוב לזכור למבחן</h3><ul>' + qk.exam.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") + "</ul></div>" : "") +
         (qk.src ? '<div class="blk-meta">מבוסס על: ' + srcChips(qk.src) + "</div>" : "") +
@@ -1988,7 +1996,7 @@
   var LETTERS = ["א", "ב", "ג", "ד", "ה", "ו"];
   function studyBar(title, sub, exitAct, extra) {
     return '<div class="studybar"><button type="button" class="icon-btn sb-x" data-act="' + exitAct + '" aria-label="יציאה">' + I.x + "</button>" +
-      '<div class="sb-t"><b>' + esc(title) + "</b>" + (sub ? "<span>" + sub + "</span>" : "") + "</div>" + (extra || "") + "</div>";
+      '<div class="sb-t"><h1 class="sb-h">' + esc(title) + "</h1>" + (sub ? "<span>" + sub + "</span>" : "") + "</div>" + (extra || "") + "</div>";
   }
   function viewRun() {
     if (!run) restoreActive();
@@ -2435,7 +2443,7 @@
     paint('<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("glossary") + '<p class="eyebrow">' + TERMS.filter(function (t) { return !t.enrich; }).length + " מונחים מהקורס · " + TERMS.filter(function (t) { return t.enrich; }).length + ' מונחי העשרה</p>' +
       '<div class="search-row"><label class="sr-only" for="g-search">חיפוש מונח</label><input class="input" id="g-search" type="search" placeholder="חיפוש בעברית או באנגלית, למשל: קורה סמויה, HIDDEN BEAM" value="' + esc(gl.q) + '" autocomplete="off"></div>' +
       '<div class="seg seg-scroll" role="group" aria-label="סינון לפי פרק">' + chips.map(function (c) { return '<button data-act="g-ch" data-v="' + c[0] + '" aria-pressed="' + (gl.ch === c[0]) + '">' + esc(c[1]) + "</button>"; }).join("") + "</div>" +
-      '<div id="g-out" class="g-out"></div>');
+      '<p class="sr-only" id="g-status" aria-live="polite"></p><div id="g-out" class="g-out"></div>');
     renderGlossary();
     var inp = document.getElementById("g-search");
     inp.addEventListener("input", function () { gl.q = inp.value; renderGlossary(); });
@@ -2454,16 +2462,18 @@
       if (gl.ch === "all" && t.enrich && !q) return false;
       return !q || (t.he + " " + (t.en || "") + " " + t.def + " " + (t.simple || "")).toLowerCase().indexOf(q) !== -1;
     }).sort(function (a, b) { var k = function (t) { return t.he.replace(/^[^\u05d0-\u05eaA-Za-z0-9]+/, ""); }; return k(a).localeCompare(k(b), "he"); });
+    liveCount("g-status", list.length ? list.length + " מונחים" : "לא נמצאו מונחים");
     out.innerHTML = list.length ? '<div class="gl-list">' + list.map(function (t) {
       var l = L[t.lesson];
       var open = gl.open[t.id];
       return '<article class="gl-item' + (t.enrich ? " enrich" : "") + '"><div class="gl-head"><span class="t">' + hl(t.he, gl.q.trim()) + "</span>" + (t.en ? '<span class="en" dir="ltr">' + hl(t.en, gl.q.trim()) + "</span>" : "") + "</div>" +
         '<span class="d">' + hl(t.def, gl.q.trim()) + "</span>" +
-        (t.simple ? '<span class="simple"><b>בפשטות:</b> ' + esc(t.simple) + "</span>" : "") +
+        (t.simple ? '<span class="simple"><b>בפשטות:</b> ' + esc(t.simple) + ' <span class="tag-expl">הסבר משלים</span></span>' : "") +
         ((t.related || []).length ? '<button class="linkish" data-act="g-open" data-id="' + t.id + '" aria-expanded="' + !!open + '">מונחים דומים וההבדל (' + t.related.length + ")</button>" +
-          (open ? '<ul class="rel">' + t.related.map(function (r) { return "<li><b>" + esc(r.he) + ":</b> " + esc(r.diff) + "</li>"; }).join("") + "</ul>" : "") : "") +
+          (open ? '<ul class="rel">' + t.related.map(function (r) { return "<li><b>" + esc(r.he) + ":</b> " + esc(r.diff) + "</li>"; }).join("") + '</ul><span class="tag-expl">הסבר משלים</span>' : "") : "") +
         '<div class="gl-meta">' + (l ? '<a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a>" : t.lib ? '<a href="#lib-' + t.lesson + '">העשרה: ' + esc(LIBID[t.lesson].title) + "</a>" : "") + (t.src ? srcChips(t.src) : "") + (t.enrich ? '<span class="tag-expl">העשרה</span>' : "") + "</div></article>";
     }).join("") + "</div>" : '<p class="muted">לא נמצאו מונחים. נסו מילה אחרת, או חפשו בכל החומר דרך <a href="#search">החיפוש</a>.</p>';
+    langParts();
   }
 
   // =============================================================== search
@@ -2472,11 +2482,18 @@
     paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">שיעורים, מונחים ועמודי המקור.</p></div>' +
       '<div class="search-row"><label class="sr-only" for="s-search">חיפוש</label><input class="input" id="s-search" type="search" placeholder="למשל: שיני קשר, ONE-WAY, כלונס, דיפון" value="' + esc(sq) + '" autocomplete="off"></div>' +
       (ai.s ? '<form class="ai-ask panel" data-act="ai-search"><label for="ai-sq"><b>' + I.spark + ' שאלה חופשית על החומר</b></label><div class="row"><input class="input" id="ai-sq" placeholder="למשל: מתי משתמשים בקורה סמויה?" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">לשאול</button></div><div class="ai-out" id="ai-out" hidden aria-live="polite"></div></form>' : "") +
-      '<div id="s-out"></div>');
+      '<p class="sr-only" id="s-status" aria-live="polite"></p><div id="s-out"></div>');
     var inp = document.getElementById("s-search");
     inp.addEventListener("input", function () { sq = inp.value; renderSearch(); });
     inp.addEventListener("change", function () { rememberSearch(sq); });
     inp.addEventListener("keydown", function (e) { if (e.key === "ArrowDown") { var f = main.querySelector("#s-out a, #s-out button"); if (f) { e.preventDefault(); f.focus(); } } else if (e.key === "Enter") rememberSearch(sq); });
+    document.getElementById("s-out").addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      var list = [].slice.call(this.querySelectorAll("a, button")), i = list.indexOf(document.activeElement);
+      if (i === -1) return;
+      e.preventDefault();
+      if (e.key === "ArrowUp" && i === 0) inp.focus(); else { var n = list[i + (e.key === "ArrowDown" ? 1 : -1)]; if (n) n.focus(); }
+    });
     renderSearch();
     if (!sq) inp.focus();
   }
@@ -2519,8 +2536,12 @@
       (terms.length ? '<div class="gl-list">' + terms.slice(0, 24).map(function (t) { return '<div class="gl-item' + (t.enrich ? " enrich" : "") + '"><div class="gl-head"><span class="t">' + hl(t.he, q) + "</span>" + (t.en ? '<span class="en" dir="ltr">' + hl(t.en, q) + "</span>" : "") + '</div><span class="d">' + hl(t.def, q) + "</span></div>"; }).join("") + "</div>" : '<p class="muted">לא נמצאו מונחים.</p>');
     html += '<div class="section-head"><h2>בעמודי המקור</h2><span class="count">' + srcs.length + "</span></div>" +
       (srcs.length ? '<div class="hits">' + srcs.slice(0, 30).map(function (x) { return '<a class="hit" href="#source-' + x.s.id + '"><span class="w">' + esc(srcLabel(x.s.id)) + " · " + esc(x.s.title || "") + "</span><span>" + hl(x.sn, q) + "</span></a>"; }).join("") + "</div>" : '<p class="muted">לא נמצא בעמודי המקור.</p>');
+    liveCount("s-status", hits.length + " תוצאות בשיעורים, " + terms.length + " מונחים, " + srcs.length + " בעמודי המקור");
     out.innerHTML = html;
+    langParts();
   }
+  var liveT = null;
+  function liveCount(id, msg) { clearTimeout(liveT); liveT = setTimeout(function () { var el = document.getElementById(id); if (el) el.textContent = msg; }, 700); }
   function recentSearches() { try { var a = JSON.parse(lsGet("melachot-recent", "[]")); return Array.isArray(a) ? a.slice(0, 5) : []; } catch (e) { return []; } }
   function rememberSearch(q) { q = String(q || "").trim(); if (q.length < 2) return; var a = recentSearches().filter(function (x) { return x !== q; }); a.unshift(q); lsSet("melachot-recent", JSON.stringify(a.slice(0, 5))); }
   // =============================================================== sources & coverage
@@ -2541,7 +2562,7 @@
       var gs = SOURCES.filter(function (s) { return s.id.indexOf(g + "-") === 0 && !s.duplicate_of; });
       if (!gs.length) return;
       html += '<section class="src-group"><div class="section-head"><h2>' + esc(META.groups[g].name) + '</h2><span class="count">' + gs.length + '</span></div><div class="thumbs">' +
-        gs.map(function (s) { return '<a class="thumb-a" href="#source-' + s.id + '"><img loading="lazy" src="' + IMG_BASE + esc(s.id) + '.jpg" alt="" data-act="imgfail"><span><b>' + esc(srcLabel(s.id)) + "</b>" + esc(s.title || "(ללא כותרת)") + "</span></a>"; }).join("") + "</div></section>";
+        gs.map(function (s) { return '<a class="thumb-a" href="#source-' + s.id + '"><img loading="lazy" src="' + IMG_BASE + esc(s.id) + '-sm.jpg" data-full="' + IMG_BASE + esc(s.id) + '.jpg" alt="" data-act="imgfail"><span><b>' + esc(srcLabel(s.id)) + "</b>" + esc(s.title || "(ללא כותרת)") + "</span></a>"; }).join("") + "</div></section>";
     });
     html += '<details class="panel cov-d"' + (srcFilter !== "all" ? " open" : "") + '><summary><b>דוח כיסוי</b>' + I.chev + "</summary>" +
       '<div class="stats wide">' +
@@ -2883,7 +2904,7 @@
         img.classList.remove("failed");
         if (ga) { img.setAttribute("data-still", img.getAttribute("src")); img.setAttribute("data-srcset", img.getAttribute("srcset") || ""); img.removeAttribute("srcset"); img.src = el.getAttribute("data-gif"); }
         else { img.src = img.getAttribute("data-still"); if (img.getAttribute("data-srcset")) img.setAttribute("srcset", img.getAttribute("data-srcset")); }
-        el.setAttribute("aria-pressed", String(ga)); el.querySelector("span").textContent = ga ? "עצירה" : "הנפשה";
+        el.setAttribute("aria-pressed", String(ga)); var ic = el.querySelector("svg"); if (ic) ic.outerHTML = ga ? I.pause : I.play;
         break;
       case "plan-tick":
         var d0 = el.getAttribute("data-day"), ix = el.getAttribute("data-idx");
@@ -2922,12 +2943,13 @@
     if (el.id === "p-scope") cfg.scope = el.value;
     else if (el.id === "p-enrich") cfg.enrich = el.checked;
   });
-  document.addEventListener("toggle", function (e) { if (e.target && e.target.id === "custom") cfg.open = e.target.open; }, true);
+  document.addEventListener("toggle", function (e) { if (e.target && e.target.id === "custom") cfg.open = e.target.open; if (e.target && e.target.open) tableRegions(); }, true);
   document.addEventListener("input", function (e) { if (e.target.id === "open-a" && run && !run.finished) run.items[run.i].text = e.target.value; });
   document.addEventListener("load", function (e) { var t = e.target; if (t && t.classList && t.classList.contains("ai-img")) t.classList.add("loaded"); }, true);
   document.addEventListener("error", function (e) {
     var t = e.target;
     if (t && t.classList && t.classList.contains("ai-img")) { t.classList.add("failed"); return; }
+    if (t && t.tagName === "IMG" && t.hasAttribute("data-full")) { var full = t.getAttribute("data-full"); t.removeAttribute("data-full"); t.src = full; return; }
     if (t && t.tagName === "IMG" && t.getAttribute("data-act") === "imgfail") {
       var fig = t.closest("figure");
       if (fig && !fig.querySelector(".img-missing")) { t.hidden = true; var p = document.createElement("p"); p.className = "img-missing muted"; p.textContent = "תמונת המקור לא זמינה בגרסה הזו. התמלול מופיע כאן."; fig.insertBefore(p, fig.firstChild); }
@@ -2989,6 +3011,27 @@
     });
   }
   document.getElementById("nav").addEventListener("focusin", function () { document.body.classList.remove("nav-hide"); });
+  // WCAG 2.4.11: a control that receives focus is scrolled clear of the sticky top bars and the fixed bottom bars
+  var BARS_TOP = ".topbar, #level-bar, .ch-nav, .studybar, .sb-tape", BARS_BOT = ".nav, #ab";
+  function barEdge(sel, bottom) {
+    var edge = bottom ? window.innerHeight : 0;
+    document.querySelectorAll(sel).forEach(function (b) {
+      var cs = getComputedStyle(b); if (cs.display === "none" || cs.visibility === "hidden" || (cs.position !== "sticky" && cs.position !== "fixed")) return;
+      var r = b.getBoundingClientRect(); if (!r.height || r.bottom <= 0 || r.top >= window.innerHeight) return;
+      if (bottom) { if (r.top > window.innerHeight * 0.5) edge = Math.min(edge, r.top); } else if (r.top < window.innerHeight * 0.4) edge = Math.max(edge, r.bottom);
+    });
+    return edge;
+  }
+  document.addEventListener("focusin", function (e) {
+    var el = e.target;
+    if (!el || !el.getBoundingClientRect || el === main || (dlg && dlg.el.contains(el)) || (el.closest && el.closest(BARS_TOP + "," + BARS_BOT))) return;
+    var r = el.getBoundingClientRect(); if (!r.height) return;
+    // inside a sideways scroller (chips, chapter strip): bring the whole control in
+    if ((r.left < 0 || r.right > window.innerWidth) && r.width < window.innerWidth) { try { el.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (x) { /* old engines */ } r = el.getBoundingClientRect(); }
+    var top = barEdge(BARS_TOP, false), bot = barEdge(BARS_BOT, true);
+    if (r.top < top) window.scrollBy(0, r.top - top - 8);
+    else if (r.bottom > bot && r.height < bot - top) window.scrollBy(0, r.bottom - bot + 8);
+  });
   if (RM && RM.addEventListener) RM.addEventListener("change", function () { render(); });
 
   // first render waits (at most 700 ms) for the Hebrew web fonts, so the page does not reflow when they swap in (CLS)
