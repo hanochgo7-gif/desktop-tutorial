@@ -104,6 +104,7 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('יחיעם', 'Yehiam', 32.997, 35.22, 'ma'),
     ('חניתה', 'Hanita', 33.087, 35.173, 'ma'),
     ('מצובה', 'Metzuba', 33.063, 35.157, 'ma'),
+    ('ראש הנקרה', 'Rosh HaNikra', 33.086, 35.115, 'ma'),  # Hanoch, 16 Nov 2026
     ('גשר הזיו', 'Gesher HaZiv', 33.039, 35.111, 'ma'),
     ('בית העמק', 'Beit HaEmek', 32.97, 35.146, 'ma'),
     ('געתון', "Ga'aton", 33.006, 35.214, 'ma'),
@@ -173,6 +174,8 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('עין המפרץ', 'Ein HaMifratz', 32.904, 35.096, 'ma'),
     ('שמרת', 'Shomrat', 32.95, 35.097, 'ma'),
     ('יקב רמת הגולן', 'Golan Heights Winery', 32.992, 35.693, 'katzrin'),
+    ('הרדוף', 'Harduf', 32.764, 35.173, 'yizreel'),  # Hanoch, 16 Nov 2026
+    ('מעלה החמישה', "Ma'ale HaHamisha", 31.817, 35.112, 'yehuda'),  # Hanoch, 16 Nov 2026
 ]
 IL_REGIONS = {  # key: (en, he): regional or local council, north to south
     'ma': ('Mateh Asher Regional Council', 'מועצה אזורית מטה אשר'),
@@ -184,11 +187,13 @@ IL_REGIONS = {  # key: (en, he): regional or local council, north to south
     'golan': ('Golan Regional Council', 'מועצה אזורית גולן'),
     'katzrin': ('Katzrin Local Council', 'מועצה מקומית קצרין'),
     'misgav': ('Misgav Regional Council', 'מועצה אזורית משגב'),
+    'yizreel': ('Jezreel Valley Regional Council', 'מועצה אזורית עמק יזרעאל'),
     'ey': ('Emek HaYarden Regional Council', 'מועצה אזורית עמק הירדן'),
     'em': ("Emek HaMa'ayanot Regional Council", 'מועצה אזורית עמק המעיינות'),
     'gilboa': ('Gilboa Regional Council', 'מועצה אזורית גלבוע'),
     'zev': ('Zevulun Regional Council', 'מועצה אזורית זבולון'),
     'gezer': ('Gezer Regional Council', 'מועצה אזורית גזר'),
+    'yehuda': ('Mateh Yehuda Regional Council', 'מועצה אזורית מטה יהודה'),
     'lachish': ('Lakhish Regional Council', 'מועצה אזורית לכיש'),
     'sh': ("Sha'ar HaNegev Regional Council", 'מועצה אזורית שער הנגב'),
     'eshkol': ('Eshkol Regional Council', 'מועצה אזורית אשכול'),
