@@ -425,11 +425,19 @@
 (function () {
   var h = document.querySelector(".hero-os h1"); if (!h) return;
   var a = h.querySelector(".h1-a"), b = h.querySelector(".h1-b"); if (!a || !b) return;
+  var cx = document.createElement("canvas").getContext("2d");
   function ink(el) {
     var r = document.createRange(), L = 1e9, R = -1e9, w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), t;
     while ((t = w.nextNode())) {
       if (t.parentElement.closest(".sr")) continue;
-      for (var i = 0; i < t.length; i++) { if (/\s/.test(t.data[i])) continue; r.setStart(t, i); r.setEnd(t, i + 1); var q = r.getBoundingClientRect(); if (q.width) { if (q.left < L) L = q.left; if (q.right > R) R = q.right; } }
+      var cs = getComputedStyle(t.parentElement), rtl = cs.direction === "rtl";
+      cx.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+      for (var i = 0; i < t.length; i++) {
+        if (/\s/.test(t.data[i])) continue; r.setStart(t, i); r.setEnd(t, i + 1); var q = r.getBoundingClientRect(); if (!q.width) continue;
+        // the letter's ink, not its box: a glyph's box includes side bearings and the letter spacing, which Chrome and Safari put on its right in both directions
+        var m = cx.measureText(t.data[i]), o = q.left, l = o - m.actualBoundingBoxLeft, rr = o + m.actualBoundingBoxRight;
+        if (l < L) L = l; if (rr > R) R = rr;
+      }
     }
     return R > L ? [L, R] : null;
   }
