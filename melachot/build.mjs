@@ -62,7 +62,7 @@ if (mode === "bundle") {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="description" content="אפליקציית לימוד למלאכות הבנייה, מבוססת על שקפי הקורס.">
+<meta name="description" content="אפליקציה ללימוד מלאכות הבנייה, לפי שקפי הקורס.">
 <meta name="theme-color" content="#EBECE7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#131618" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">

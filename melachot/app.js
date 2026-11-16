@@ -60,16 +60,44 @@
 
   // =============================================================== settings (this device only, never synced)
   var SETKEY = "melachot-settings";
-  var SET = (function () {
-    var d = { theme: "auto", text: "m", motion: "auto" };
-    try { var o = JSON.parse(localStorage.getItem(SETKEY) || "{}"); if (isObj(o)) Object.assign(d, o); } catch (e) { /* storage blocked */ }
+  // comfort settings (senior spec §3): every value is validated, so an old or damaged store falls back to the default
+  var SET_DEF = { theme: "auto", text: "m", motion: "auto", contrast: "auto", simple: false, rate: 1, examTimer: "off", swipe: false, comfortSeen: 0, backupAt: 0 };
+  var SET_OK = { theme: ["auto", "light", "dark"], text: ["m", "l", "xl", "xxl"], motion: ["auto", "reduce"], contrast: ["auto", "normal", "high"], examTimer: ["off", "on"] };
+  function setBool(v) { return v === true || v === 1 || v === "1" || v === "true"; }
+  function setNum(v) { v = +v; return isFinite(v) && v > 0 ? v : 0; }
+  function normSet(o) {
+    var d = Object.assign({}, SET_DEF);
+    if (!isObj(o)) return d;
+    Object.keys(SET_OK).forEach(function (k) { if (SET_OK[k].indexOf(o[k]) !== -1) d[k] = o[k]; });
+    d.simple = setBool(o.simple); d.swipe = setBool(o.swipe);
+    d.rate = +o.rate === 0.85 ? 0.85 : 1;
+    d.comfortSeen = setNum(o.comfortSeen); d.backupAt = setNum(o.backupAt);
     return d;
+  }
+  var SET = (function () {
+    try { return normSet(JSON.parse(localStorage.getItem(SETKEY) || "{}")); } catch (e) { return normSet(null); /* storage blocked or bad JSON */ }
   })();
+  var HCMQ = window.matchMedia ? window.matchMedia("(prefers-contrast: more)") : null;
+  var NARROW = window.matchMedia ? window.matchMedia("(max-width: 47.5em)") : null;
+  var PICKMQ = window.matchMedia ? window.matchMedia("(max-width: 40em)") : null;
   function applySettings() {
     var r = document.documentElement;
     if (SET.theme === "light" || SET.theme === "dark") r.setAttribute("data-theme", SET.theme); else r.removeAttribute("data-theme");
-    r.setAttribute("data-text", SET.text === "l" ? "l" : "m");
-    if (SET.motion === "reduce") r.setAttribute("data-motion", "reduce"); else r.removeAttribute("data-motion");
+    r.setAttribute("data-text", SET.text);
+    if (SET.motion === "reduce" || SET.simple) r.setAttribute("data-motion", "reduce"); else r.removeAttribute("data-motion");
+    var hc = SET.contrast === "high" || (SET.contrast === "auto" && !!(HCMQ && HCMQ.matches));
+    if (hc) r.setAttribute("data-contrast", "high"); else r.removeAttribute("data-contrast");
+    if (SET.simple) r.setAttribute("data-simple", "1"); else r.removeAttribute("data-simple");
+    fitNav();
+  }
+  // the main menu sits in the top bar only when it fits there in one row; otherwise (phones, large text) it is a bottom bar.
+  // It never hides itself (senior P0-8).
+  function fitNav() {
+    var r = document.documentElement, ti = document.querySelector(".topbar-in"), nav = document.getElementById("nav");
+    var bottom = !!(NARROW && NARROW.matches) || SET.text === "xl" || SET.text === "xxl";
+    if (!bottom && ti && nav) { r.setAttribute("data-nav", "top"); bottom = ti.scrollWidth > ti.clientWidth + 2; }
+    r.setAttribute("data-nav", bottom ? "bottom" : "top");
+    if (nav) r.style.setProperty("--nav-h", (bottom ? nav.offsetHeight : 0) + "px");
   }
   function saveSettings() { try { localStorage.setItem(SETKEY, JSON.stringify(SET)); } catch (e) { /* storage blocked */ } applySettings(); }
   function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
@@ -79,7 +107,7 @@
 
   // =============================================================== motion (§9): every JS animation goes through anim()
   var RM = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
-  function motionOK() { return !(RM && RM.matches) && SET.motion !== "reduce"; }
+  function motionOK() { return !(RM && RM.matches) && SET.motion !== "reduce" && !SET.simple; }
   function anim(el, kf, opts) {
     if (!el || typeof el.animate !== "function" || !motionOK()) return null;
     try { return el.animate(kf, opts); } catch (e) { return null; }
@@ -113,13 +141,13 @@
     var m = /^rec(\d)-(\d+)$/.exec(id || "");
     if (!m) return id;
     var g = (META.groups || {})["rec" + m[1]];
-    return (g ? g.short : "הקלטה " + m[1]) + " · " + (+m[2]);
+    return (g ? g.short : "הקלטה " + m[1]) + " · שקף " + (+m[2]);
   }
   function srcChips(list) {
     list = (list || []).filter(Boolean);
     if (!list.length) return "";
     return '<span class="src-chips">' + list.map(function (id) {
-      return '<a class="src-chip" href="#source-' + esc(id) + '" title="מעבר לעמוד המקור">' + esc(srcLabel(id)) + "</a>";
+      return '<a class="src-chip" href="#source-' + esc(id) + '" title="לפתוח את השקף המקורי">' + esc(srcLabel(id)) + "</a>";
     }).join("") + "</span>";
   }
 
@@ -159,7 +187,7 @@
   });
 
   // questions
-  var TYPE_NAME = { mcq: "אמריקאית", tf: "נכון / לא נכון", open: "שאלה פתוחה", match: "התאמה", cloze: "השלמה", compare: "השוואה", scenario: "תרחיש מהשטח", order: "סדר פעולות", identify: "זיהוי בשרטוט" };
+  var TYPE_NAME = { mcq: "בחירת תשובה", tf: "נכון או לא נכון", open: "שאלה פתוחה", match: "התאמת זוגות", cloze: "השלמת מילים", compare: "השוואה", scenario: "מצב באתר", order: "סידור שלבים", identify: "זיהוי בשרטוט" };
   var AUTO_TYPES = { mcq: 1, tf: 1, match: 1, cloze: 1, compare: 1, scenario: 1, order: 1, identify: 1 };
   var QUESTIONS = [], Q = {};
   function addQ(q) { q.id = uniq(q.id, Q); Q[q.id] = q; QUESTIONS.push(q); }
@@ -203,7 +231,7 @@
   CARDS.forEach(function (c) { (CBYL[c.lesson] = CBYL[c.lesson] || []).push(c); });
   function lessonQs(lid) { return QBYL[lid] || []; }
   function lessonCards(lid) { return CBYL[lid] || []; }
-  function lessonTitle(lid) { return L[lid] ? L[lid].code + " " + L[lid].title : LIBID[lid] ? "העשרה " + LIBID[lid].num + ": " + LIBID[lid].title : ""; }
+  function lessonTitle(lid) { return L[lid] ? L[lid].code + " " + L[lid].title : LIBID[lid] ? "שיעור העשרה " + LIBID[lid].num + ": " + LIBID[lid].title : ""; }
   function lessonHref(lid) { return L[lid] ? "#lesson-" + lid : "#lib-" + lid; }
 
   // =============================================================== new content: chapter extras, cases, plan, media, steps
@@ -403,7 +431,7 @@
       }).then(function () { self.writing = false; if (self.again) { self.again = false; self.schedule(); } });
     }
   };
-  function saveStatusText() { return cloud.on ? "ההתקדמות נשמרת בחשבון שלך ועוברת בין מכשירים" : "ההתקדמות נשמרת בדפדפן הזה"; }
+  function saveStatusText() { return cloud.on ? "ההתקדמות שלכם נשמרת בחשבון. אפשר להמשיך גם ממכשיר אחר." : "ההתקדמות שלכם נשמרת רק במכשיר הזה."; }
 
   function touchDay() { var k = dayKey(); S.days[k] = (S.days[k] || 0) + 1; }
   function streak() {
@@ -434,10 +462,10 @@
   }
   function ivlLabel(st, r) {
     var n = nextState(st, r);
-    if (r === "again") return "10 דק׳";
-    if (n.ivl === 1) return "מחר";
-    if (n.ivl < 30) return n.ivl + " ימים";
-    return Math.round(n.ivl / 30) + " חוד׳";
+    if (r === "again") return "שוב בעוד 10 דקות";
+    if (n.ivl === 1) return "שוב מחר";
+    if (n.ivl < 30) return "שוב בעוד " + n.ivl + " ימים";
+    var mo = Math.round(n.ivl / 30); return mo === 1 ? "שוב בעוד חודש" : "שוב בעוד " + mo + " חודשים";
   }
   function isDue(c) { var st = S.cards[c.id]; return !!st && st.due <= Date.now(); }
   function isNew(c) { return !S.cards[c.id]; }
@@ -476,8 +504,8 @@
     return qa !== null ? qa : cr;
   }
   function mLevel(m, spaced) { return m === null || m === undefined ? 0 : m < 0.6 ? 1 : m < 0.72 ? 2 : m < 0.85 ? 3 : spaced ? 4 : 3; }
-  var MLABEL = ["טרם נבדק", "צריך חיזוק", "בדרך", "בדרך", "שולט"];
-  var MTIP_NONE = "עוד אין מספיק תשובות כדי לדעת. תרגלו 3 שאלות או 3 כרטיסיות.";
+  var MLABEL = ["עוד לא נבדק", "צריך לחזק", "כמעט שם", "כמעט שם", "יודעים היטב"];
+  var MTIP_NONE = "עוד לא ידוע. ענו על 3 שאלות או על 3 כרטיסיות בשיעור הזה.";
   function lessonM(lid) { var e = evid(lid), m = masteryOf(e); return { m: m, lv: mLevel(m, e.spaced), e: e }; }
   function chapterM(c) {
     var ms = c.lessons.map(function (l) { return lessonM(l.id); }).filter(function (x) { return x.m !== null; });
@@ -485,17 +513,16 @@
     var m = avg(ms.map(function (x) { return x.m; }));
     return { m: m, lv: mLevel(m, ms.every(function (x) { return x.lv === 4; }) && ms.length === c.lessons.length), n: ms.length };
   }
-  // ruler glyph: 4 ticks, filled from the inline start (right in RTL)
+  // knowledge level: a word chip (senior P0-7: the ruler glyph is gone). In lists (short) it shows only once there is evidence.
   function glyph(x, short) {
-    var lv = x.lv || 0, tip = lv ? "שליטה " + pct(x.m) + "%" : MTIP_NONE;
-    var ticks = "";
-    for (var i = 0; i < 4; i++) { var px = 12 - i * 3.6, h = i === 0 || i === 3 ? 12 : 8; ticks += '<rect x="' + px.toFixed(1) + '" y="' + (12 - h) + '" width="1.8" height="' + h + '" class="' + (i < lv ? "on" : "off") + '"/>'; }
-    return '<span class="mg mg-' + lv + '" title="' + esc(tip) + '"' + (short ? ' role="img" aria-label="שליטה: ' + MLABEL[lv] + '"' : "") + '><svg viewBox="0 0 14 12" aria-hidden="true">' + ticks + '</svg>' + (short ? "" : "<span>" + MLABEL[lv] + "</span>") + "</span>";
+    var lv = x.lv || 0, tip = lv ? "רמת ידיעה: " + pct(x.m) + " אחוז" : MTIP_NONE;
+    if (short && !lv) return "";
+    return '<span class="mg mg-' + lv + '" title="' + esc(tip) + '"><span class="' + (short ? "sr-only" : "mg-k") + '">רמת ידיעה: </span>' + MLABEL[lv] + "</span>";
   }
   function lessonOpened(lid) { return !!(S.pos[lid] || S.lvl[lid] || (S.last && S.last.lesson === lid) || readMap()[lid]); }
   function lessonState(lid) {
-    if (S.done[lid]) return lessonM(lid).lv === 4 ? ["master", "שולט"] : ["done", "הושלם"];
-    return lessonOpened(lid) ? ["open", "בלמידה"] : ["new", "לא התחיל"];
+    if (S.done[lid]) return lessonM(lid).lv === 4 ? ["master", "יודעים היטב"] : ["done", "הושלם"];
+    return lessonOpened(lid) ? ["open", "באמצע"] : ["new", "עוד לא התחלתם"];
   }
   function stateChip(lid) { var s = lessonState(lid); return '<span class="chip st-' + s[0] + '">' + (s[0] === "done" || s[0] === "master" ? "✓ " : "") + s[1] + "</span>"; }
   function completion(list) { list = list || LESSONS; var d = list.filter(function (l) { return S.done[l.id]; }).length; return { d: d, n: list.length, p: pct(list.length ? d / list.length : 0) }; }
@@ -536,10 +563,10 @@
   function taskTitle(t) {
     switch (t.type) {
       case "lesson": return L[t.ref] ? "לקרוא: " + L[t.ref].code + " " + L[t.ref].title : "שיעור";
-      case "cards": return "כרטיסיות: " + (t.ref ? chRefName(t.ref) : "חזרה יומית") + (t.n ? " (" + t.n + ")" : "");
-      case "practice": return "תרגול: " + (t.mode === "mistakes" ? "שאלות שטעיתי בהן" : chRefName(t.ref) || "מעורב") + " · " + (t.mode === "mistakes" ? Math.min(15, Math.max(1, t.n || openMistakes().length)) : 10) + " שאלות";
-      case "exam": return t.ref && CHID[t.ref] ? "מבחן פרק " + CHID[t.ref].letter : "מבחן כולל";
-      case "case": return "מקרה שטח: " + (CASEID[t.ref] ? CASEID[t.ref].title : "");
+      case "cards": return "כרטיסיות לזכירה: " + (t.ref ? chRefName(t.ref) : "החזרה של היום") + (t.n ? ", " + t.n + " כרטיסיות" : "");
+      case "practice": return "תרגול: " + (t.mode === "mistakes" ? "שאלות שטעיתם בהן" : chRefName(t.ref) || "שאלות מכל הקורס") + " · " + (t.mode === "mistakes" ? Math.min(15, Math.max(1, t.n || openMistakes().length)) : 10) + " שאלות";
+      case "exam": return t.ref && CHID[t.ref] ? "מבחן פרק " + CHID[t.ref].letter : "מבחן על כל הקורס";
+      case "case": return "סיפור מהאתר: " + (CASEID[t.ref] ? CASEID[t.ref].title : "");
       case "summary": return "דף סיכום: " + chRefName(t.ref);
       default: return "";
     }
@@ -625,7 +652,7 @@
       return { plan: true, n: n, title: PLAN.days[n - 1].title || "יום " + n, tasks: out };
     }
     out = autoSession().filter(taskOK).map(function (t) { return Object.assign({}, t, { done: taskAuto(t, td) }); });
-    return { plan: false, n: n, title: "המפגש של היום", tasks: out };
+    return { plan: false, n: n, title: "מה לומדים היום", tasks: out };
   }
   function missedYesterday() {
     var n = planDayNow();
@@ -683,18 +710,18 @@
   applySettings();
   app.innerHTML =
     (window.Diagrams ? window.Diagrams.defs : "") +
-    '<a class="skip" href="#main" data-act="skip">דילוג לתוכן</a>' +
+    '<a class="skip" href="#main" data-act="skip">דילוג לתוכן העמוד</a>' +
     '<header class="topbar" id="topbar"><div class="topbar-in">' +
-    '<a class="brand" href="#home">' + BRAND + '<span class="brand-name">מלאכות הבנייה</span></a>' +
-    '<nav class="nav" id="nav" aria-label="ניווט ראשי">' +
-    '<a href="#home" data-nav="home">' + I.today + "<span>היום</span></a>" +
-    '<a href="#course" data-nav="course">' + I.course + "<span>קורס</span></a>" +
+    '<a class="brand" href="#home" aria-label="מלאכות הבנייה, דף הבית">' + BRAND + '<span class="brand-name">מלאכות הבנייה</span></a>' +
+    '<nav class="nav" id="nav" aria-label="תפריט ראשי">' +
+    '<a href="#home" data-nav="home">' + I.today + "<span>דף הבית</span></a>" +
+    '<a href="#course" data-nav="course">' + I.course + "<span>שיעורים</span></a>" +
     '<a href="#practice" data-nav="practice">' + I.practice + '<span>תרגול</span><b class="badge" id="due-badge"></b></a>' +
-    '<a href="#glossary" data-nav="ref">' + I.ref + "<span>עיון</span></a>" +
+    '<a href="#glossary" data-nav="ref">' + I.ref + "<span>חומרי עזר</span></a>" +
     '<a href="#progress" data-nav="progress">' + I.progress + "<span>התקדמות</span></a>" +
     "</nav>" +
-    '<div class="top-actions"><a class="icon-btn" href="#search" aria-label="חיפוש בכל החומר" data-nav="search">' + I.search + "</a>" +
-    '<button class="icon-btn" type="button" data-act="settings" aria-label="הגדרות" aria-haspopup="dialog">' + I.gear + "</button></div>" +
+    '<div class="top-actions"><a class="tb-btn" href="#search" aria-label="חיפוש בכל החומר" data-nav="search">' + I.search + "<span>חיפוש</span></a>" +
+    '<button class="tb-btn" type="button" data-act="settings" aria-label="הגדרות: גודל אותיות, צבעים וגיבוי" aria-haspopup="dialog">' + I.gear + "<span>הגדרות</span></button></div>" +
     "</div></header>" +
     '<main id="main" tabindex="-1"></main>' +
     '<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>' +
@@ -702,23 +729,49 @@
   var main = document.getElementById("main");
   var topbar = document.getElementById("topbar");
   function setTopbarH() { if (topbar && topbar.offsetHeight) document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px"); }
-  window.addEventListener("resize", setTopbarH);
+  var fitT = null;
+  window.addEventListener("resize", function () { setTopbarH(); clearTimeout(fitT); fitT = setTimeout(function () { fitNav(); setTopbarH(); }, 120); });
+  if (HCMQ && HCMQ.addEventListener) HCMQ.addEventListener("change", applySettings);
+  fitNav();
 
-  var toastTimer = null;
-  function toast(msg, html) {
-    var t = document.getElementById("toast");
-    if (html) t.innerHTML = esc(msg) + " " + html; else t.textContent = msg;
-    t.hidden = false;
-    clearTimeout(toastTimer);
+  // toasts (senior P1-8): long enough to read (6 s and more for long text), paused while pointed at or focused,
+  // a toast with an action (a link, "ביטול") stays until it is closed or the page changes
+  var toastTimer = null, toastLeft = 0, toastT0 = 0, toastSticky = false, toastUndo = null;
+  function toastHide() {
+    var t = document.getElementById("toast"); if (!t) return;
+    clearTimeout(toastTimer); toastTimer = null; toastSticky = false; toastUndo = null;
+    t.hidden = true;
     // after the fade the text goes too, so a screen reader never finds a stale message
-    toastTimer = setTimeout(function () { t.hidden = true; toastTimer = setTimeout(function () { if (t.hidden) t.textContent = ""; }, 300); }, html ? 4200 : 2600);
+    setTimeout(function () { if (t.hidden) t.textContent = ""; }, 300);
   }
+  function toastRun(ms) { clearTimeout(toastTimer); toastLeft = ms; toastT0 = Date.now(); toastTimer = ms > 0 ? setTimeout(toastHide, ms) : null; }
+  // o: { action: label, undo: fn, ms } — an undo toast stays at least 10 s and has "סגירה"
+  function toast(msg, html, o) {
+    o = o || {};
+    var t = document.getElementById("toast");
+    toastUndo = o.undo || null;
+    toastSticky = !!html && !o.undo;
+    t.innerHTML = '<span class="toast-t">' + esc(msg) + "</span>" + (html ? " " + html : "") +
+      (o.undo ? '<button type="button" class="toast-btn" data-act="toast-undo">' + esc(o.action || "ביטול") + "</button>" : "") +
+      (html || o.undo ? '<button type="button" class="toast-btn toast-x" data-act="toast-close">סגירה</button>' : "");
+    t.hidden = false;
+    var ms = Math.max(SET.simple ? 8000 : 6000, 1500 + 70 * String(msg).length);
+    toastRun(toastSticky ? 0 : o.undo ? Math.max(10000, ms) : ms);
+  }
+  (function () {
+    var t = document.getElementById("toast");
+    function pause() { if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; toastLeft = Math.max(1500, toastLeft - (Date.now() - toastT0)); t.setAttribute("data-paused", "1"); } }
+    function resume() { if (t.getAttribute("data-paused") && !t.hidden && !toastSticky) { t.removeAttribute("data-paused"); toastRun(toastLeft); } }
+    t.addEventListener("mouseenter", pause); t.addEventListener("focusin", pause);
+    t.addEventListener("mouseleave", function () { if (!t.contains(document.activeElement)) resume(); });
+    t.addEventListener("focusout", function (e) { if (!t.contains(e.relatedTarget)) resume(); });
+  })();
   function announce(msg) { var l = document.getElementById("live"); if (!l) return; l.textContent = ""; setTimeout(function () { l.textContent = msg; }, 30); }
   function updateBadge() {
     // P2-11: the nav badge counts due reviews only; new cards are part of the daily session
     var n = dueCards().length;
     var b = document.getElementById("due-badge");
-    if (b) { b.textContent = n > 0 ? (n > 99 ? "99+" : String(n)) : ""; b.setAttribute("aria-label", n ? n + " כרטיסיות לחזרה" : ""); }
+    if (b) { b.textContent = n > 0 ? (n > 99 ? "99+" : String(n)) : ""; b.setAttribute("aria-label", n ? n + " כרטיסיות מחכות לחזרה" : ""); }
   }
 
   // =============================================================== sheets / dialogs (role=dialog, focus trap, Esc, focus returns)
@@ -734,11 +787,14 @@
     var wrap = document.createElement("div");
     var tid = "dlg-t-" + Date.now();
     wrap.className = "dlg-wrap" + (o.full ? " dlg-full" : "") + (o.cls ? " " + o.cls : "");
+    // P2-2: no drag handle (there is no swipe to close); the head and the foot both close the sheet with a visible word
+    var acts = (o.actions || []).slice();
+    if (!o.noFootClose && !acts.some(function (a) { return a.act === "dlg-close"; })) acts.push({ label: "סגירה", act: "dlg-close", cls: "btn-ghost dlg-foot-x" });
     wrap.innerHTML = '<div class="dlg-bd" data-act="dlg-close"></div><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="' + tid + '" tabindex="-1">' +
-      '<div class="dlg-grab" aria-hidden="true"></div><div class="dlg-head"><h2 id="' + tid + '">' + o.title + "</h2>" +
-      '<button type="button" class="icon-btn dlg-x" data-act="dlg-close" aria-label="סגירה">' + I.x + "</button></div>" +
+      '<div class="dlg-head"><h2 id="' + tid + '">' + o.title + "</h2>" +
+      '<button type="button" class="btn btn-sm btn-ghost dlg-x" data-act="dlg-close">' + I.x + "<span>סגירה</span></button></div>" +
       '<div class="dlg-body">' + (o.body || "") + "</div>" +
-      (o.actions && o.actions.length ? '<div class="dlg-actions">' + o.actions.map(btnHtml).join("") + "</div>" : "") + "</div>";
+      (acts.length ? '<div class="dlg-actions">' + acts.map(btnHtml).join("") + "</div>" : "") + "</div>";
     document.body.appendChild(wrap);
     document.documentElement.classList.add("dlg-open");
     dlg = { el: wrap, opener: o.opener || document.activeElement, onClose: o.onClose };
@@ -789,7 +845,7 @@
     var canAnim = m.anim && typeof m.anim === "string";
     return '<figure class="ai-fig' + (o.cls ? " " + o.cls : "") + '"><div class="ai-box">' + swatchBg(o.material) + imgHtml(m, o) +
       '<span class="ai-badge" aria-hidden="true">AI</span>' +
-      (canAnim ? '<button type="button" class="ai-anim" data-act="ai-anim" aria-pressed="false" data-gif="' + esc(MEDIA_BASE + m.anim) + '">' + I.play + "<span>הנפשה</span></button>" : "") +
+      (canAnim ? '<button type="button" class="ai-anim" data-act="ai-anim" aria-pressed="false" data-gif="' + esc(MEDIA_BASE + m.anim) + '">' + I.play + "<span>לראות בתנועה</span></button>" : "") +
       "</div><figcaption>" + AI_PREFIX + (m.caption ? " · " + esc(m.caption) : "") + (m.warn ? ' <span class="ai-warn">⚠ ' + esc(m.warn) + "</span>" : "") + "</figcaption></figure>";
   }
   function coverHtml(c, o) {
@@ -809,17 +865,17 @@
     return '<figure class="dg" data-dg="' + esc(id) + '"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(id) + "</div>" +
       (a ? stepperHtml(id, a) : "") +
       '<figcaption><b>איור ' + esc(ctx.code + "." + ctx.fig) + '</b><span class="dg-t">' + esc(window.Diagrams.title(id)) + '</span><span class="illus">המחשה לימודית, לא פרט לביצוע</span>' +
-      '<button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של איור ' + esc(ctx.code + "." + ctx.fig) + '">' + I.expand + "<span>הגדלה</span></button></figcaption></figure>";
+      '<button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="להגדיל את איור ' + esc(ctx.code + "." + ctx.fig) + '">' + I.expand + "<span>להגדיל</span></button></figcaption></figure>";
   }
   function stepperHtml(id, a) {
     var n = a.steps.length;
     return '<div class="dg-step" data-dg-step="' + esc(id) + '" data-i="0">' +
       '<div class="dg-ctl" role="group" aria-label="שלבי האיור">' +
-      '<button type="button" class="btn btn-sm dg-play" data-act="dg-play">' + I.play + "להפעיל</button>" +
-      '<button type="button" class="btn btn-sm btn-ghost" data-act="dg-prev" aria-label="שלב קודם">' + I.arrowR + '<span class="lbl-l">שלב קודם</span></button>' +
-      '<button type="button" class="btn btn-sm btn-ghost" data-act="dg-next" aria-label="שלב הבא"><span class="lbl-l">שלב הבא</span>' + I.arrowL + "</button>" +
+      '<button type="button" class="btn btn-sm dg-play" data-act="dg-play">' + I.play + "להציג את השלבים</button>" +
+      '<button type="button" class="btn btn-sm btn-ghost" data-act="dg-prev" aria-label="לשלב הקודם">' + I.arrowR + '<span class="lbl-l">לשלב הקודם</span></button>' +
+      '<button type="button" class="btn btn-sm btn-ghost" data-act="dg-next" aria-label="לשלב הבא"><span class="lbl-l">לשלב הבא</span>' + I.arrowL + "</button>" +
       '<span class="dg-n" dir="ltr">0/' + n + "</span></div>" +
-      '<p class="dg-cap" aria-live="polite">' + n + " שלבים. הקישו על ״להפעיל״ או על ״שלב הבא״.</p></div>";
+      '<p class="dg-cap" aria-live="polite">' + n + " שלבים באיור. הקישו על ״להציג את השלבים״ או על ״לשלב הבא״.</p></div>";
   }
   var dgTimer = null;
   function setStep(box, i) {
@@ -831,7 +887,7 @@
     var cap = box.querySelector(".dg-cap");
     if (!svg) return;
     svg.querySelectorAll(".pt.hl").forEach(function (g) { g.classList.remove("hl"); });
-    if (!i) { svg.classList.remove("stepping"); cap.textContent = n + " שלבים. הקישו על ״להפעיל״ או על ״שלב הבא״."; return; }
+    if (!i) { svg.classList.remove("stepping"); cap.textContent = n + " שלבים באיור. הקישו על ״להציג את השלבים״ או על ״לשלב הבא״."; return; }
     var st = a.steps[i - 1];
     svg.classList.add("stepping");
     arr(st.parts).forEach(function (p) {
@@ -876,9 +932,9 @@
   // full-screen viewer: pinch / drag / double-tap / wheel / keys
   function openViewer(svgHtml, title) {
     var box = openSheet({ title: esc(title || "תרשים"), full: true, cls: "viewer", focus: ".vw",
-      body: '<div class="vw" tabindex="0" role="img" aria-label="' + esc(title || "תרשים") + '. גררו כדי לזוז, צבטו או השתמשו בפלוס ומינוס להגדלה"><div class="vw-in">' + svgHtml + "</div></div>" +
-        '<div class="vw-bar"><button type="button" class="icon-btn" data-act="vw-z" data-z="out" aria-label="הקטנה">' + I.minus + '</button><button type="button" class="btn btn-sm btn-ghost" data-act="vw-z" data-z="reset">גודל התחלתי</button><button type="button" class="icon-btn" data-act="vw-z" data-z="in" aria-label="הגדלה">' + I.plus + "</button></div>" +
-        '<p class="vw-cap">המחשה לימודית, לא פרט לביצוע</p>' + (ssGet("melachot-vw-hint") ? "" : '<p class="vw-hint">צבטו להגדלה, גררו כדי לזוז</p>') });
+      body: '<div class="vw" tabindex="0" role="img" aria-label="' + esc(title || "תרשים") + '. אפשר להזיז את התרשים באצבע, ולהגדיל עם הכפתורים פלוס ומינוס"><div class="vw-in">' + svgHtml + "</div></div>" +
+        '<div class="vw-bar"><button type="button" class="icon-btn" data-act="vw-z" data-z="out" aria-label="להקטין">' + I.minus + '</button><button type="button" class="btn btn-sm btn-ghost" data-act="vw-z" data-z="reset">לחזור לגודל הרגיל</button><button type="button" class="icon-btn" data-act="vw-z" data-z="in" aria-label="להגדיל">' + I.plus + "</button></div>" +
+        '<p class="vw-cap">המחשה לימודית, לא פרט לביצוע</p>' + (ssGet("melachot-vw-hint") ? "" : '<p class="vw-hint">כדי להגדיל: הרחיקו שתי אצבעות זו מזו. כדי להזיז: גררו באצבע אחת.</p>') });
     ssSet("melachot-vw-hint", "1");
     var vw = box.querySelector(".vw"), inner = box.querySelector(".vw-in");
     var st = { s: 1, x: 0, y: 0 }, pts = {}, last = null, lastTap = 0, pinch = null;
@@ -935,6 +991,69 @@
     if (fresh) { S.celebrated[key] = Date.now(); }
     return '<div class="stamp' + (fresh && motionOK() ? " stamp-anim" : "") + '" role="img" aria-label="' + esc(text) + '"><span>' + esc(text) + "</span>" + (fresh && motionOK() ? '<i></i><i></i><i></i><i></i><i></i><i></i>' : "") + "</div>";
   }
+  // =============================================================== read aloud (senior §3.6): only when the device has a Hebrew voice
+  var TTS = { voice: null, el: null, btn: null, q: 0 };
+  var hasTTS = "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function";
+  function heVoice() {
+    if (!hasTTS) return null;
+    var vs = []; try { vs = window.speechSynthesis.getVoices() || []; } catch (e) { vs = []; }
+    var he = vs.filter(function (v) { return /^(he|iw)([-_]|$)/i.test(v.lang || ""); });
+    return he.filter(function (v) { return v.localService; })[0] || he[0] || null;
+  }
+  function canSpeak() { return !!TTS.voice; }
+  function speakBtn(target, label) {
+    return canSpeak() ? '<button type="button" class="btn btn-sm btn-ghost speak" data-act="speak" data-target="' + esc(target) + '">' + I.play + "<span>" + (label || "הקראה") + "</span></button>" : "";
+  }
+  function voiceCheck() {
+    var had = !!TTS.voice; TTS.voice = heVoice();
+    // a voice that arrives after the page was drawn: draw the reading pages again (the buttons appear), keeping the scroll
+    if (!had && TTS.voice && booted && !run && !dlg) { var y = window.scrollY; render(); window.scrollTo(0, y); }
+  }
+  if (hasTTS) {
+    TTS.voice = heVoice();
+    try { window.speechSynthesis.addEventListener("voiceschanged", voiceCheck); } catch (e) { window.speechSynthesis.onvoiceschanged = voiceCheck; }
+    setTimeout(voiceCheck, 1500);
+  }
+  // the words a reader sees, without source chips, hidden helper text, icons or buttons; tags are read as words
+  function speakText(el) {
+    var c = el.cloneNode(true);
+    c.querySelectorAll(".src-chips, .src-chip, .sr-only, [aria-hidden='true'], button, svg, .dg-box, .ai-box, .dg-legend, .tbl-scroll, .block-tools, .vw-bar").forEach(function (x) { x.remove(); });
+    c.querySelectorAll(".blk-tag, .co-tag, .tag-expl, .illus, .src-lbl, h2, h3, li, p").forEach(function (x) { x.appendChild(document.createTextNode(". ")); });
+    return (c.textContent || "").replace(/\s+/g, " ").replace(/(\.\s*){2,}/g, ". ").trim();
+  }
+  function chunks(t) {
+    var out = [];
+    String(t).replace(/([.!?:;])\s+/g, "$1\n").split("\n").forEach(function (sn) {
+      while (sn.length > 180) { var cut = sn.lastIndexOf(",", 180); if (cut < 60) cut = sn.lastIndexOf(" ", 180); if (cut < 60) cut = 180; out.push(sn.slice(0, cut + 1)); sn = sn.slice(cut + 1).trim(); }
+      if (sn.trim()) out.push(sn.trim());
+    });
+    return out;
+  }
+  function speakStop() {
+    TTS.q++;
+    if (hasTTS) { try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ } }
+    if (TTS.el) TTS.el.classList.remove("reading");
+    if (TTS.btn && document.contains(TTS.btn)) { TTS.btn.innerHTML = I.play + "<span>" + (TTS.btn.getAttribute("data-label") || "הקראה") + "</span>"; TTS.btn.removeAttribute("data-on"); }
+    TTS.el = null; TTS.btn = null;
+  }
+  function speak(btn, el, text) {
+    var again = TTS.btn === btn;
+    speakStop();
+    if (again || !TTS.voice || !el) return;
+    var parts = chunks(text || speakText(el)); if (!parts.length) return;
+    TTS.el = el; TTS.btn = btn; var q = TTS.q;
+    btn.setAttribute("data-label", btn.textContent.trim()); btn.setAttribute("data-on", "1");
+    btn.innerHTML = I.pause + "<span>עצירה</span>";
+    el.classList.add("reading");
+    parts.forEach(function (p, i) {
+      var u = new window.SpeechSynthesisUtterance(p);
+      u.lang = "he-IL"; u.voice = TTS.voice; u.rate = SET.rate || 1;
+      if (i === parts.length - 1) u.onend = function () { if (TTS.q === q) speakStop(); };
+      window.speechSynthesis.speak(u);
+    });
+  }
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden" && TTS.el) speakStop(); });
+
   // =============================================================== AI helper (optional: only where the viewer offers it)
   var ai = { s: null };
   if (window.claude && typeof window.claude.use === "function") {
@@ -989,15 +1108,15 @@
     if (aiAbort) { try { aiAbort.abort(); } catch (e) { /* ignore */ } }
     aiAbort = typeof AbortController !== "undefined" ? new AbortController() : null;
     out.hidden = false;
-    out.innerHTML = '<p class="muted">חושב…</p>';
+    out.innerHTML = '<p class="muted">עוזר הלימוד כותב תשובה…</p>';
     ai.s(prompt, { onText: function (u) { out.innerHTML = aiFormat(u.text); }, signal: aiAbort ? aiAbort.signal : undefined, cache: false }).then(function (r) {
-      out.innerHTML = aiFormat(r.text) + '<p class="ai-note">תשובה של עוזר הלימוד, מבוססת על חומר הקורס. בדקו מול עמודי המקור המצוינים.</p>';
+      out.innerHTML = aiFormat(r.text) + '<p class="ai-note">זו תשובה של עוזר הלימוד, לפי חומר הקורס. כדאי לבדוק אותה מול השקפים שמופיעים בה.</p>';
     }).catch(function (e) {
       var code = e && e.code;
-      if (code === "not_granted") { ai.s = null; out.innerHTML = '<p class="muted">עוזר הלימוד לא זמין כאן.</p>'; }
-      else if (code === "rate_limited") out.innerHTML = '<p class="muted">יותר מדי בקשות ברצף. נסו שוב בעוד דקה.</p>';
+      if (code === "not_granted") { ai.s = null; out.innerHTML = '<p class="muted">עוזר הלימוד לא זמין בגרסה הזו של האפליקציה.</p>'; }
+      else if (code === "rate_limited") out.innerHTML = '<p class="muted">שאלתם הרבה שאלות ברצף. חכו דקה ונסו שוב.</p>';
       else if (e && e.name === "AbortError") { /* replaced by a newer request */ }
-      else out.innerHTML = '<p class="muted">לא התקבלה תשובה. נסו שוב.</p>';
+      else out.innerHTML = '<p class="muted">עוזר הלימוד לא ענה. נסו לשאול שוב.</p>';
     });
   }
 
@@ -1056,7 +1175,7 @@
       if (over && !b.hasAttribute("tabindex")) {
         var t = b.querySelector("caption"), sec = b.closest(".cs, section"), h = sec && sec.querySelector("h2");
         var name = ((t && t.textContent.trim()) || (h && h.textContent.trim()) || "טבלה");
-        b.setAttribute("tabindex", "0"); b.setAttribute("role", "region"); b.setAttribute("aria-label", name + " (טבלה, אפשר לגלול לצדדים)");
+        b.setAttribute("tabindex", "0"); b.setAttribute("role", "region"); b.setAttribute("aria-label", name + " (טבלה רחבה. אפשר להזיז אותה ימינה ושמאלה)");
       } else if (!over && b.getAttribute("role") === "region") { b.removeAttribute("tabindex"); b.removeAttribute("role"); b.removeAttribute("aria-label"); }
     });
   }
@@ -1066,12 +1185,11 @@
     var r = parts(), head = r.head, arg = r.arg;
     LV = null; SHEETV = null; CHV = null;
     if (!LESSONS.length && !LIB.length) {
-      main.innerHTML = '<div class="empty">' + I.level + "<b>החומר לא נטען</b><p>קובצי התוכן לא נמצאו. רעננו את הדף.</p></div>";
+      main.innerHTML = '<div class="empty">' + I.level + "<b>החומר לא נטען</b><p>משהו השתבש בטעינה. סגרו את הדף ופתחו אותו שוב.</p></div>";
       return;
     }
     document.body.classList.toggle("focus", !!FOCUS[head]);
     document.body.classList.toggle("reading", !!READING[head]);
-    document.body.classList.remove("nav-hide");
     if (!FOCUS[head]) lastFree = "#" + r.h;
     switch (head) {
       case "plan": viewPlan(); break;
@@ -1124,7 +1242,7 @@
         hd.classList.add("resume-hl");
         anim(hd, [{ backgroundColor: "color-mix(in srgb, var(--tape) 35%, transparent)" }, { backgroundColor: "transparent" }], { duration: 2000, easing: "linear" });
         setTimeout(function () { hd.classList.remove("resume-hl"); }, 2000);
-        toast("ממשיכים מ: " + (hd.textContent || "").replace(/^\S+\s/, "").trim());
+        toast("ממשיכים מהמקום שעצרתם: " + (hd.textContent || "").replace(/^\S+\s/, "").trim());
       }
     }
     if (!done && h !== lastRoute) window.scrollTo(0, 0);
@@ -1139,76 +1257,159 @@
     var h = new Date().getHours();
     return h < 5 ? "לילה טוב" : h < 12 ? "בוקר טוב" : h < 17 ? "צהריים טובים" : h < 21 ? "ערב טוב" : "לילה טוב";
   }
-  var obStep = 0;
+  var carryNote = "";
+  var obStep = 0;   // first-run welcome (copy deck §3.4): 0, 1 = explanation screens, 2 = plan or own pace, 3 = when to start
+  var HELP = {
+    home: "כאן רואים מה כדאי ללמוד היום. הקישו על משימה כדי להתחיל.",
+    plan: "תוכנית של 14 ימים. בכל יום מחכות משימות מוכנות.",
+    course: "כאן כל השיעורים, לפי פרקים. הקישו על שיעור כדי לקרוא אותו.",
+    chapter: "כאן כל מה ששייך לפרק אחד: השיעורים, דף סיכום ומבחן.",
+    lesson: "קראו את השיעור מלמעלה למטה. בסוף יש בדיקה קצרה.",
+    lib: "שיעור נוסף לקריאה. הוא לא מחומר הקורס, ואין עליו שאלות במבחן.",
+    practice: "כאן עונים על שאלות, ורואים מיד אם צדקתם.",
+    cards: "כרטיסייה מציגה שאלה קצרה. נסו לענות, ואז הפכו אותה כדי לבדוק.",
+    exams: "כאן נבחנים על פרק או על כל הקורס. את הציון רואים רק בסוף.",
+    cases: "סיפור מאתר בנייה, שלב אחרי שלב. בכל שלב יש שאלה.",
+    glossary: "כאן מוצאים פירוש לכל מונח מקצועי. הקלידו מילה בתיבת החיפוש.",
+    sheets: "דף אחד לכל פרק, עם העובדות החשובות. טוב לחזרה לפני מבחן.",
+    sheet: "העובדות החשובות בפרק. אפשר להסתיר אותן ולבדוק את עצמכם.",
+    sources: "כאן צילומי השקפים מהקורס, והטקסט שכתוב בהם.",
+    source: "צילום השקף והטקסט שלו. הקישו על התמונה כדי להגדיל.",
+    search: "הקלידו מילה, ותראו איפה היא מופיעה: בשיעורים, במילון ובשקפים.",
+    progress: "כאן רואים כמה למדתם, ואילו שיעורים כדאי לחזק.",
+    review: "נסו לענות בלב, הפכו את הכרטיסייה, ואמרו כמה טוב זכרתם.",
+    result: "כאן רואים איך הלך, ומה כדאי לעשות עכשיו.",
+    help: "כאן מוסבר בקצרה איך משתמשים באפליקציה."
+  };
+  // "מה עושים כאן" (copy deck §3.1): one plain sentence under the page title
+  function hereLine(k) { return HELP[k] ? '<p class="here">' + HELP[k] + "</p>" : ""; }
   function viewHome() {
     checkExpiredRun();
     var pn = planDayNow(), act0 = hasActivity();
+    var first = !S.plan.mode && !act0, comfort = first && !SET.comfortSeen;
+    // simple mode: no decision about yesterday; its open tasks are added to today with one line saying so
+    if (SET.simple && missedYesterday()) { var mn = missedYesterday(); S.plan.carry = { d: today(), day: mn }; S.plan.t = Date.now(); carryNote = today(); save(); }
     var html = '<div class="home"><div class="home-main">' +
+      (comfort ? '<header class="home-head"><h1 class="display">לפני שמתחילים: נוח לקרוא?</h1></header>' :
       '<header class="home-head"><span class="eyebrow">' + greeting() + " · " + new Date().toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" }) + "</span>" +
-      '<h1 class="display">' + (pn >= 1 && pn <= PLAN_N ? "יום " + pn + " מתוך " + PLAN_N : "היום") + "</h1></header>";
+      '<h1 class="display">' + (pn >= 1 && pn <= PLAN_N ? "יום " + pn + " מתוך " + PLAN_N : "מה לומדים היום") + "</h1>" + (first ? "" : hereLine("home")) + "</header>");
+    if (comfort) { html += comfortCard() + "</div></div>"; paint(html); return; }
+    if (!SET.comfortSeen && !SET.simple) html += comfortNote();
     html += resumeBanners();
     var miss = missedYesterday();
     if (miss) html += missedBanner(miss);
-    html += (!S.plan.mode && !act0) ? onboardCard() : todayCard();
-    html += "</div><aside class=\"home-side\">" + (act0 ? statsStrip() : "") + (planOn() && pn <= PLAN_N ? planMini(pn) : "") + dashFig() + "</aside></div>";
-    html += '<section class="ch-strip-sec" aria-labelledby="chs-h"><div class="section-head"><h2 id="chs-h">הפרקים</h2><a class="link-more" href="#course">כל הקורס</a></div><div class="ch-strip">' + CH.map(chCard).join("") + "</div></section>";
+    if (SET.simple && carryNote === today()) html += '<p class="note-line">הוספנו להיום משימות מאתמול.</p>';
+    html += first ? onboardCard() : todayCard();
+    html += backupNote();
+    if (!SET.simple) html += "</div><aside class=\"home-side\">" + (act0 ? statsStrip() : "") + (planOn() && pn <= PLAN_N ? planMini(pn) : "") + dashFig() + "</aside></div>";
+    else html += '<a class="link-more simple-all" href="#course">לכל השיעורים</a></div></div>';
+    if (!SET.simple) html += '<section class="ch-strip-sec" aria-labelledby="chs-h"><div class="section-head"><h2 id="chs-h">הפרקים בקורס</h2><a class="link-more" href="#course">לכל השיעורים</a></div><div class="ch-strip">' + CH.map(chCard).join("") + "</div></section>";
     html += footHtml();
     var before = JSON.stringify(S.celebrated);
     paint(html);
     if (JSON.stringify(S.celebrated) !== before) save();
   }
+  // senior §3.5: the first screen on a new device asks about reading comfort, with the page itself as the live preview
+  var SIZES = [["m", "רגיל", 18], ["l", "גדול", 21.4], ["xl", "גדול מאוד", 24.75], ["xxl", "ענק", 29.25]];
+  function sizeButtons(big) {
+    return '<div class="seg seg-size' + (big ? " big" : "") + '" role="group" aria-labelledby="lbl-text">' + SIZES.map(function (z) {
+      return '<button type="button" data-act="set" data-k="text" data-v="' + z[0] + '" aria-pressed="' + (SET.text === z[0]) + '"><span class="sz-s" aria-hidden="true" style="font-size:' + z[2] + 'px">אב</span><span>' + z[1] + "</span></button>";
+    }).join("") + "</div>";
+  }
+  function comfortPreview() {
+    return '<div class="comfort-preview" aria-hidden="true"><b>דוגמה</b><p>יסוד בודד: יסוד מתחת לעמוד יחיד.</p><span class="btn btn-sm fake-btn">לשאלה הבאה</span></div>';
+  }
+  function segBtns(k, opts, lbl) {
+    return '<div class="seg" role="group" aria-labelledby="' + lbl + '">' + opts.map(function (o) {
+      var on = String(SET[k]) === String(o[0]) || (k === "simple" || k === "swipe") && (o[0] === "1") === !!SET[k];
+      return '<button type="button" data-act="set" data-k="' + k + '" data-v="' + o[0] + '" aria-pressed="' + on + '">' + o[1] + "</button>";
+    }).join("") + "</div>";
+  }
+  function comfortCard() {
+    return '<section class="today comfort" aria-label="נוחות קריאה">' +
+      '<div class="field"><span class="lbl" id="lbl-text">גודל האותיות</span>' + sizeButtons(true) + "</div>" + comfortPreview() +
+      '<div class="field"><span class="lbl" id="lbl-cf-contrast">ניגודיות גבוהה</span>' + segBtns("contrast", [["normal", "כבויה"], ["high", "פעילה"]], "lbl-cf-contrast") +
+      '<span class="hc-strip">כך נראה טקסט בניגודיות גבוהה: שחור על לבן.</span></div>' +
+      '<div class="field"><span class="lbl" id="lbl-cf-simple">תצוגה פשוטה</span>' + segBtns("simple", [["0", "כבויה"], ["1", "פעילה"]], "lbl-cf-simple") +
+      '<span class="field-note">פחות כפתורים בכל מסך, צעד אחד בכל פעם.</span></div>' +
+      '<button type="button" class="btn btn-primary btn-cta" data-act="comfort-ok">אפשר להתחיל' + I.arrowL + "</button>" +
+      '<button type="button" class="linkish" data-act="comfort-skip">דילוג (להשאיר כמו שזה)</button>' +
+      '<p class="field-note">אפשר לשנות את זה בכל רגע: בהגדרות, בחלק ״נוחות קריאה״.</p></section>';
+  }
+  function comfortNote() {
+    return '<div class="banner comfort-note"><div class="rs-t"><b>אפשר להגדיל את האותיות</b><span>וגם לבחור ניגודיות גבוהה ותצוגה פשוטה.</span></div>' +
+      '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="comfort-open">לבחור עכשיו</button><button type="button" class="btn btn-sm btn-ghost" data-act="comfort-skip">לא עכשיו</button></div></div>';
+  }
+  // P2-4: one quiet line after a week of study without a backup (only where progress is not saved in an account)
+  function backupNote() {
+    if (cloud.on || SET.simple) return "";
+    var days = Object.keys(S.days).length, last = SET.backupAt, seen = +lsGet("melachot-backup-note", "0") || 0;
+    if (days < 7 || (last && Date.now() - last < 7 * DAY) || Date.now() - seen < 7 * DAY) return "";
+    return '<div class="banner backup-note"><div class="rs-t"><b>כדאי לשמור גיבוי של ההתקדמות</b><span>' + (last ? "גיבוי אחרון: לפני " + plural(Math.floor((Date.now() - last) / DAY), "יום אחד", "ימים") : "עוד לא נשמר גיבוי") + "</span></div>" +
+      '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="settings">להגדרות</button><button type="button" class="btn btn-sm btn-ghost" data-act="backup-note-off">לא עכשיו</button></div></div>';
+  }
   function resumeBanners() {
     var h = "", ar = run && !run.finished && (run.mode === "exam" || run.mode === "pretest") ? run : (S.activeRun && !S.activeRun.finished ? S.activeRun : null);
     if (ar) {
-      var ex = ar.mode === "exam", left = ex ? ar.limit - (Date.now() - ar.t0) / 1000 : 0;
-      h += '<div class="resume"><div class="rs-t"><b>' + (ex ? "מבחן בתהליך: " : "בדיקה מקדימה בתהליך: ") + esc(ar.title) + "</b><span>" + (ex ? "נותרו " + fmtDur(left) + " · " : "") + "שאלה " + (ar.i + 1) + " מתוך " + ar.items.length + "</span></div>" +
-        '<button type="button" class="btn btn-resume" data-act="resume-run">' + (ex ? "חזרה למבחן" : "להמשיך") + I.arrowL + "</button></div>";
-    }
-    if (run && run.finished && run.autoSubmitted && !run.noticeSeen) {
-      h += '<div class="resume"><div class="rs-t"><b>הזמן נגמר. המבחן הוגש.</b><span>' + esc(run.title) + " · " + run.scorePct + '%</span></div><a class="btn btn-resume" href="#run">לתוצאות' + I.arrowL + "</a></div>";
+      var ex = ar.mode === "exam", left = ex && ar.limit ? timeLeft(ar) : 0;
+      h += '<div class="resume"><div class="rs-t"><b>' + (ex ? "מבחן שלא סיימתם: " : "בדיקה שלא סיימתם: ") + esc(ar.title) + "</b><span>" + (ex && ar.limit ? (left <= 60 ? "נשארה דקה אחת · " : "נשארו " + Math.ceil(left / 60) + " דקות · ") + "השעון עצור · " : "") + "שאלה " + (ar.i + 1) + " מתוך " + ar.items.length + "</span></div>" +
+        '<button type="button" class="btn btn-resume" data-act="resume-run">' + (ex ? "לחזור למבחן" : "להמשיך בבדיקה") + I.arrowL + "</button></div>";
     }
     var cs = CASES.map(function (c) { return { c: c, s: S.cases[c.id] }; }).filter(function (o) { return o.s && !o.s.done && (o.s.step > 0 || Object.keys(o.s.answers || {}).length); }).sort(function (a, b) { return (b.s.t || 0) - (a.s.t || 0); })[0];
-    if (cs) h += '<div class="resume"><div class="rs-t"><b>מקרה שטח בתהליך: ' + esc(cs.c.title) + "</b><span>שלב " + (caseResumeAt(cs.c, cs.s) + 1) + " מתוך " + cs.c.steps.length + '</span></div><a class="btn btn-resume" href="#' + esc(cs.c.id) + '">להמשיך' + I.arrowL + "</a></div>";
+    if (cs) h += '<div class="resume"><div class="rs-t"><b>סיפור מהאתר שלא סיימתם: ' + esc(cs.c.title) + "</b><span>שלב " + (caseResumeAt(cs.c, cs.s) + 1) + " מתוך " + cs.c.steps.length + '</span></div><a class="btn btn-resume" href="#' + esc(cs.c.id) + '">להמשיך בסיפור' + I.arrowL + "</a></div>";
     return h;
   }
   function missedBanner(n) {
     return '<div class="banner"><div class="rs-t"><b>נשארו משימות מאתמול</b><span>יום ' + n + ": " + esc(PLAN.days[n - 1].title || "") + "</span></div>" +
-      '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="plan-carry" data-day="' + n + '">להוסיף להיום</button><button type="button" class="btn btn-sm btn-ghost" data-act="plan-shift">לדחות את התוכנית ביום</button></div></div>';
+      '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="plan-carry" data-day="' + n + '">להוסיף אותן להיום</button><button type="button" class="btn btn-sm btn-ghost" data-act="plan-shift">לדחות את כל התוכנית ביום אחד</button></div></div>';
   }
   function onboardCard() {
-    if (obStep === 1 && PLAN) {
-      return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">מתי מתחילים?</h2><div class="choice-grid">' +
-        '<button type="button" class="choice" data-act="ob-start" data-when="0"><b>היום</b><span>יום 1 מתחיל עכשיו</span></button>' +
-        '<button type="button" class="choice" data-act="ob-start" data-when="1"><b>מחר</b><span>היום אפשר להציץ בחומר</span></button></div>' +
-        '<button type="button" class="linkish" data-act="ob-back">חזרה</button></section>';
+    var steps = ' <span class="ob-step">שלב ' + (Math.min(obStep, 2) + 1) + " מתוך 3</span>";
+    if (obStep === 3 && PLAN) {
+      return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">מתי להתחיל את התוכנית?</h2><div class="choice-grid">' +
+        '<button type="button" class="choice" data-act="ob-start" data-when="0"><b>להתחיל היום</b><span>היום יהיה יום 1 בתוכנית</span></button>' +
+        '<button type="button" class="choice" data-act="ob-start" data-when="1"><b>להתחיל מחר</b><span>היום אפשר רק להסתכל בחומר</span></button></div>' +
+        '<button type="button" class="linkish" data-act="ob-back">לחזור לבחירה הקודמת</button></section>';
+    }
+    if (obStep === 0) {
+      return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">ברוכים הבאים!' + steps + "</h2>" +
+        "<p>כאן לומדים מלאכות בנייה, לפי שקפי הקורס. יש " + LESSONS.length + " שיעורים ב-" + CH.length + " פרקים.</p>" +
+        '<button type="button" class="btn btn-primary btn-cta" data-act="ob-next">להמשיך' + I.arrowL + "</button>" +
+        '<button type="button" class="linkish" data-act="ob-skip">לדלג על ההסבר</button></section>';
+    }
+    if (obStep === 1) {
+      return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">איך לומדים כאן?' + steps + "</h2>" +
+        '<ol class="ob-list"><li>קוראים שיעור.</li><li>עונים על כמה שאלות.</li><li>חוזרים על כרטיסיות לזכירה.</li></ol><p>האפליקציה זוכרת איפה עצרתם.</p>' +
+        '<button type="button" class="btn btn-primary btn-cta" data-act="ob-next">להמשיך' + I.arrowL + "</button>" +
+        '<button type="button" class="linkish" data-act="settings-text">האותיות קטנות מדי? להגדיל אותן</button></section>';
     }
     var avgMin = PLAN ? Math.round(avg(PLAN.days.map(function (d) { return d.minutes || 0; }))) : 0;
-    return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">ברוכים הבאים</h2>' +
-      "<p>" + LESSONS.length + " שיעורים שנכתבו מהשקפים של הקורס, ב-" + CH.length + " פרקים, עם תרגול, כרטיסיות ומבחנים. כל עובדה מקושרת לעמוד המקור.</p>" +
-      '<h3>איך נוח לכם ללמוד?</h3><div class="choice-grid">' +
-      (PLAN ? '<button type="button" class="choice rec" data-act="ob-plan"><b>תוכנית של ' + PLAN_N + ' יום</b><i class="badge-soft">מומלץ</i><span>' + avgMin + " דק׳ ביום בממוצע, משימות מוכנות לכל יום</span></button>" : "") +
-      '<button type="button" class="choice" data-act="ob-self"><b>בקצב שלי</b><span>שיעור אחרי שיעור, וחזרה יומית אוטומטית</span></button></div></section>';
+    return '<section class="today onboard" aria-labelledby="ob-h"><h2 id="ob-h">איך נוח לכם ללמוד?' + steps + '</h2><div class="choice-grid">' +
+      (PLAN ? '<button type="button" class="choice rec" data-act="ob-plan"><b>תוכנית של ' + PLAN_N + ' ימים</b><i class="badge-soft">מומלץ</i><span>בערך ' + avgMin + " דקות ביום, ואפשר לחלק לכמה פעמים ביום. בכל יום מחכות לכם משימות מוכנות.</span></button>" : "") +
+      '<button type="button" class="choice" data-act="ob-self"><b>בקצב שלכם</b><span>שיעור אחרי שיעור. האפליקציה תזכיר לכם על מה לחזור.</span></button></div>' +
+      '<p class="field-note">אפשר לשנות את זה אחר כך.</p><button type="button" class="linkish" data-act="ob-back">לחזור לשלב הקודם</button></section>';
   }
+  // P1-5: one status per task (✓ בוצע, or the task's icon); a separate text button marks a task done by hand
   function taskRow(t) {
     var plan = t.day !== undefined, man = plan && !!(S.plan.done[t.day] && S.plan.done[t.day][t.idx]);
-    return '<li class="task' + (t.done ? " done" : "") + '"><a class="task-a" ' + taskLink(t) + '><span class="ti" aria-hidden="true">' + (t.done ? I.check : I[TASK_ICON[t.type]] || "") + "</span>" +
+    var manBtn = plan && !SET.simple && (man || !t.done) ? '<button type="button" class="btn btn-sm btn-ghost tick-t" data-act="plan-tick" data-day="' + t.day + '" data-idx="' + t.idx + '" aria-label="' + (man ? "ביטול הסימון: " : "סימנתי שביצעתי: ") + esc(taskTitle(t)) + '">' + (man ? "ביטול הסימון" : "סימנתי שביצעתי") + "</button>" : "";
+    return '<li class="task' + (t.done ? " done" : "") + '"><a class="task-a" ' + taskLink(t) + '><span class="ti">' + (t.done ? I.check + '<span class="ti-w">בוצע</span>' : '<span aria-hidden="true">' + (I[TASK_ICON[t.type]] || "") + "</span>") + "</span>" +
       '<span class="tt"><b>' + esc(taskTitle(t)) + "</b>" + (t.note || t.carried ? "<small>" + (t.carried ? "<b class=\"carried\">מאתמול</b>" + (t.note ? " · " : "") : "") + esc(t.note || "") + "</small>" : "") + "</span>" +
-      '<span class="tm">' + (t.min ? t.min + " דק׳" : "") + "</span>" + (t.done ? '<span class="sr-only">, הושלם</span>' : "") + "</a>" +
-      (plan ? '<button type="button" class="tick" data-act="plan-tick" data-day="' + t.day + '" data-idx="' + t.idx + '" aria-pressed="' + man + '" aria-label="סימון ידני: ' + esc(taskTitle(t)) + '">' + I.check + "</button>" : "") + "</li>";
+      '<span class="tm">' + (t.min ? t.min + " דקות" : "") + "</span></a>" + manBtn + "</li>";
   }
   function todayCard() {
     var T = todayTasks(), ts = T.tasks, k = ts.length;
     var dn = ts.filter(function (t) { return t.done; }).length, mins = ts.reduce(function (s, t) { return s + (t.min || 0); }, 0);
     var allDone = k > 0 && dn === k, first = ts.filter(function (t) { return !t.done; })[0];
     var html = '<section class="today' + (allDone ? " is-done" : "") + '" aria-labelledby="today-h">' +
-      '<div class="today-top"><h2 id="today-h">' + esc(allDone ? "כל המשימות של היום הושלמו" : T.title) + '</h2><span class="meta">' + (k ? k + " משימות · כ-" + mins + " דק׳" : "") + "</span></div>";
-    if (planOn() && planDayNow() === 0) html += '<p class="muted small">התוכנית מתחילה ב-' + fmtDay(planDate(1)) + ". עד אז, מפגש לפי הקצב שלכם.</p>";
-    if (k) html += '<div class="today-prog">' + tape(pct(dn / k), true, "today-" + today()) + '<span class="mono-n">' + dn + "/" + k + "</span></div>" + '<ol class="tasks">' + ts.map(taskRow).join("") + "</ol>";
-    else html += '<p class="muted">אין משימות פתוחות להיום. אפשר לחזור על כרטיסיות או לתרגל.</p>';
+      '<div class="today-top"><h2 id="today-h">' + esc(allDone ? "סיימתם את כל המשימות של היום" : T.title) + '</h2><span class="meta">' + (k ? k + " משימות, בערך " + mins + " דקות" : "") + "</span></div>";
+    if (planOn() && planDayNow() === 0) html += '<p class="muted small">התוכנית מתחילה ב-' + fmtDay(planDate(1)) + ". עד אז, אפשר ללמוד בקצב שלכם.</p>";
+    if (k) html += '<div class="today-prog">' + tape(pct(dn / k), true, "today-" + today()) + '<span class="mono-n">' + dn + " מתוך " + k + "</span></div>" + '<ol class="tasks">' + ts.map(taskRow).join("") + "</ol>";
+    else html += '<p class="muted">אין משימות להיום. אפשר לעבור על כרטיסיות או לענות על שאלות.</p>';
     if (allDone || !k) {
-      html += (allDone ? stamp("היום הושלם", "day:" + today()) : "") + '<div class="btn-row"><button type="button" class="btn" data-act="more-cards">עוד 10 כרטיסיות</button><button type="button" class="btn" data-act="quick-practice">תרגול חופשי · 10 שאלות</button></div>';
-    } else if (first) html += '<a class="btn btn-primary btn-cta" ' + taskLink(first) + ">" + (dn ? "להמשיך" : "להתחיל") + I.arrowL + "</a>";
-    if (planOn() && T.plan) html += '<a class="link-more" href="#plan">כל התוכנית</a>';
+      html += (allDone ? stamp("סיימתם להיום", "day:" + today()) : "") + '<div class="btn-row"><button type="button" class="btn" data-act="more-cards">לעבור על עוד 10 כרטיסיות</button><button type="button" class="btn" data-act="quick-practice">לענות על 10 שאלות</button></div>';
+    } else if (first) html += '<a class="btn btn-primary btn-cta" ' + taskLink(first) + ">" + (dn ? "להמשיך למשימה הבאה" : "להתחיל את המשימה הראשונה") + I.arrowL + "</a>";
+    if (planOn() && T.plan) html += '<a class="link-more" href="#plan">לכל התוכנית</a>';
     return html + "</section>";
   }
   function statsStrip() {
@@ -1218,44 +1419,44 @@
     var wk = 0;
     for (var i = 0; i < 7; i++) { var k = dayKey(d); if (S.days[k]) wk++; ticks += '<i class="' + (S.days[k] ? "on" : "") + (k === td ? " now" : "") + '"></i>'; d.setDate(d.getDate() + 1); }
     return '<div class="stat-strip">' +
-      '<div class="st-tile"><span class="k">רצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="ימי למידה השבוע: ' + wk + ' מתוך 7">' + ticks + "</span></div>" +
-      '<div class="st-tile"><span class="k">שיעורים</span><span class="v">' + c.d + "<small>/" + c.n + "</small></span>" + tape(c.p, true, "home-done") + "</div>" +
-      '<a class="st-tile" href="#review"><span class="k">כרטיסיות</span><span class="v">' + due + "<small>לחזרה</small></span></a></div>";
+      '<div class="st-tile"><span class="k">ימים ברצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="השבוע למדתם ' + wk + ' ימים מתוך 7">' + ticks + "</span></div>" +
+      '<div class="st-tile"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, true, "home-done") + "</div>" +
+      '<a class="st-tile" href="#review"><span class="k">כרטיסיות לחזרה היום</span><span class="v">' + due + "<small> מחכות</small></span></a></div>";
   }
   function planTicks(pn) {
     var h = "";
     for (var n = 1; n <= PLAN_N; n++) h += '<i class="' + (planDayDone(n) ? "on" : "") + (n === pn ? " now" : "") + '" title="יום ' + n + '"></i>';
-    return '<span class="plan-ticks" role="img" aria-label="' + PLAN_N + " ימים, " + Array.apply(null, Array(PLAN_N)).filter(function (_, i) { return planDayDone(i + 1); }).length + ' הושלמו">' + h + "</span>";
+    return '<span class="plan-ticks" role="img" aria-label="' + PLAN_N + " ימים בתוכנית, " + Array.apply(null, Array(PLAN_N)).filter(function (_, i) { return planDayDone(i + 1); }).length + ' הושלמו">' + h + "</span>";
   }
-  function planMini(pn) { return '<a class="plan-mini" href="#plan"><span class="k">תוכנית ' + PLAN_N + " יום</span>" + planTicks(pn) + "<small>" + (pn ? "יום " + pn + " מתוך " + PLAN_N : "מתחילה ב-" + fmtDay(planDate(1))) + "</small></a>"; }
+  function planMini(pn) { return '<a class="plan-mini" href="#plan"><span class="k">תוכנית של ' + PLAN_N + " ימים</span>" + planTicks(pn) + "<small>" + (pn ? "יום " + pn + " מתוך " + PLAN_N : "מתחילה ב-" + fmtDay(planDate(1))) + "</small></a>"; }
   function dashFig() { var m = media("dashboard"); return m ? aiFig(m, { cls: "dash-fig", material: "concrete", sizes: "(max-width: 980px) 100vw, 320px", small: true }) : ""; }
   function chCard(c) {
     var cp = completion(c.lessons);
     return '<a class="ch-card" href="#chapter-' + c.id + '">' + coverHtml(c) +
-      '<span class="cc-body"><span class="num">' + esc(c.letter) + '</span><span class="cc-t"><b>' + esc(c.title) + "</b><small>" + cp.d + "/" + cp.n + " שיעורים</small></span></span>" +
+      '<span class="cc-body"><span class="num">' + esc(c.letter) + '</span><span class="cc-t"><b>' + esc(c.title) + "</b><small>" + cp.d + " מתוך " + cp.n + " שיעורים</small></span></span>" +
       tape(cp.p, true, "chc-" + c.id) + '<span class="cc-sw" aria-hidden="true">' + window.Diagrams.swatch(c.material || "general") + "</span></a>";
   }
   function footHtml() {
-    return '<footer class="foot"><span>תוכן מסומן "מקור" נלקח מעמודי הקורס שסיפקת. "הסבר משלים" נוסף כדי להקל על ההבנה. המחשות ותמונות AI הן לימודיות בלבד ואינן פרט לביצוע. המחייב באתר הוא התכנון המאושר והמהנדס.</span>' +
+    return '<footer class="foot"><span>מה שמסומן ״מקור״ לקוח משקפי הקורס. מה שמסומן ״הסבר משלים״ נוסף כדי לעזור להבין. תמונות שנוצרו ב-AI הן רק להמחשה, לא לביצוע. באתר הבנייה עובדים רק לפי התוכניות המאושרות והוראות המהנדס.</span>' +
       '<span id="save-status">' + saveStatusText() + "</span></footer>";
   }
 
   // =============================================================== plan (§8.3)
   function viewPlan() {
-    if (!PLAN) { paint('<div class="empty">' + I.level + "<b>אין תוכנית לימוד</b><p>קובץ התוכנית לא נטען.</p></div>"); return; }
+    if (!PLAN) { paint('<div class="empty">' + I.level + "<b>התוכנית לא נטענה</b><p>סגרו את הדף ופתחו אותו שוב.</p></div>"); return; }
     var on = planOn(), pn = planDayNow();
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">היום</a><span aria-hidden="true">/</span><span>תוכנית</span></nav>' +
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><span>תוכנית הלימוד</span></nav>' +
       '<div class="page-head"><span class="eyebrow">תוכנית לימוד</span><h1 class="display">' + esc(PLAN.title || "תוכנית 14 יום") + "</h1>" + (PLAN.intro ? '<p class="muted lead">' + esc(PLAN.intro) + "</p>" : "") + "</div>";
-    if (!on) html += '<div class="panel plan-start"><p>התוכנית מתזמנת שיעורים, כרטיסיות, תרגול, מקרי שטח ומבחנים לכל יום. אפשר לסמן משימה גם ידנית.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="ob-start" data-when="0">להתחיל את התוכנית</button><button type="button" class="btn" data-act="ob-start" data-when="1">להתחיל מחר</button></div></div>';
+    if (!on) html += '<div class="panel plan-start"><p>בכל יום בתוכנית מחכות משימות: שיעורים, כרטיסיות, שאלות, סיפורים מהאתר ומבחנים.</p><p>משימה שסיימתם מסומנת מעצמה. אפשר גם לסמן אותה בעצמכם.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="ob-start" data-when="0">להתחיל את התוכנית היום</button><button type="button" class="btn" data-act="ob-start" data-when="1">להתחיל את התוכנית מחר</button></div></div>';
     else html += '<div class="panel plan-status"><b>' + (pn === 0 ? "התוכנית מתחילה ב-" + fmtDay(planDate(1)) : pn > PLAN_N ? "התוכנית הסתיימה. בהצלחה במבחן." : "התחלתם ב-" + fmtDay(S.plan.start) + " · יום " + pn + " מתוך " + PLAN_N) + "</b>" + planTicks(pn) + "</div>";
     var miss = missedYesterday();
     if (miss) html += missedBanner(miss);
     html += '<ol class="plan-days">' + PLAN.days.map(function (d, i) {
       var n = i + 1, ts = planDayTasks(n), done = on && planDayDone(n);
-      var st = !on ? "" : done ? ["done", "הושלם"] : n === pn ? ["today", "היום"] : n > pn ? ["later", "בהמשך"] : ["missed", "לא הושלם"];
+      var st = !on ? "" : done ? ["done", "הושלם"] : n === pn ? ["today", "היום"] : n > pn ? ["later", "עוד לא הגיע"] : ["missed", "לא הושלם"];
       var rows = ts.map(function (t) { return taskRow(Object.assign(t, { done: on && planTaskDone(n, t.idx, t) })); }).join("");
       return '<li class="pday' + (st ? " pd-" + st[0] : "") + '"><details' + (n === pn || (!on && n === 1) ? " open" : "") + "><summary>" +
-        '<span class="dn display">יום ' + n + '</span><span class="dt"><b>' + esc(d.title || "") + "</b><small>כ-" + (d.minutes || ts.reduce(function (s, t) { return s + (t.min || 0); }, 0)) + " דק׳" + (on ? " · " + fmtDay(planDate(n)) : "") + "</small></span>" +
+        '<span class="dn display">יום ' + n + '</span><span class="dt"><b>' + esc(d.title || "") + "</b><small>בערך " + (d.minutes || ts.reduce(function (s, t) { return s + (t.min || 0); }, 0)) + " דקות" + (on ? " · " + fmtDay(planDate(n)) : "") + "</small></span>" +
         (st ? '<span class="chip st-' + st[0] + '">' + st[1] + "</span>" : "") + I.chev + "</summary>" +
         '<ol class="tasks">' + rows + "</ol></details></li>";
     }).join("") + "</ol>";
@@ -1268,18 +1469,18 @@
   try { openCh = JSON.parse(localStorage.getItem("melachot-open-ch2") || "{}"); } catch (e) { openCh = {}; }
   function viewCourse() {
     var total = LESSONS.reduce(function (s, l) { return s + (l.est || 10); }, 0);
-    var html = '<div class="page-head"><span class="eyebrow">' + LESSONS.length + " שיעורים · " + CH.length + " פרקים · כ-" + Math.round(total / 6) / 10 + ' שעות לימוד</span><h1 class="display">הקורס</h1></div>';
-    if (PLAN) {
+    var html = '<div class="page-head"><span class="eyebrow">' + LESSONS.length + " שיעורים · " + CH.length + " פרקים · בערך " + Math.round(total / 6) / 10 + ' שעות לימוד</span><h1 class="display">כל השיעורים</h1>' + hereLine("course") + "</div>";
+    if (PLAN && !SET.simple) {
       var pn = planDayNow();
-      html += planOn() ? '<a class="banner banner-link" href="#plan"><span class="rs-t"><b>' + (pn >= 1 && pn <= PLAN_N ? "יום " + pn + " מתוך " + PLAN_N : "תוכנית " + PLAN_N + " יום") + "</b><span>לתוכנית המלאה</span></span>" + I.arrowL + "</a>"
-        : '<a class="banner banner-link" href="#plan"><span class="rs-t"><b>רוצים תוכנית? ' + PLAN_N + " יום עד המבחן</b><span>משימות מוכנות לכל יום, עם שיעורים, תרגול ומבחנים</span></span>" + I.arrowL + "</a>";
+      html += planOn() ? '<a class="banner banner-link" href="#plan"><span class="rs-t"><b>' + (pn >= 1 && pn <= PLAN_N ? "יום " + pn + " מתוך " + PLAN_N : "תוכנית " + PLAN_N + " יום") + "</b><span>לראות את כל התוכנית</span></span>" + I.arrowL + "</a>"
+        : '<a class="banner banner-link" href="#plan"><span class="rs-t"><b>רוצים תוכנית מסודרת? ' + PLAN_N + " יום עד המבחן</b><span>משימות מוכנות לכל יום, עם שיעורים, תרגול ומבחנים</span></span>" + I.arrowL + "</a>";
     }
     html += '<div class="ch-list">' + CH.map(chRow).join("") + "</div>";
-    if (LIB.length) {
-      html += '<section class="lib-sec"><div class="section-head"><h2>ספריית העשרה</h2><span class="badge-soft">לא מהמצגת</span></div>' +
-        '<p class="muted">' + LIB.length + " שיעורים כלליים על מלאכות בניין (טפסנות, ברזל, בטון, טיח, איטום ועוד) שנכתבו לפני שהגיע חומר הקורס. הם אינם מבוססים על עמודי המקור, ולכן מוצגים בנפרד ואינם נכללים במבחנים, אלא אם בוחרים בכך.</p>" +
+    if (LIB.length && !SET.simple) {
+      html += '<section class="lib-sec"><div class="section-head"><h2>שיעורי העשרה</h2><span class="badge-soft">לא מחומר הקורס</span></div>' +
+        '<p class="muted">' + LIB.length + " שיעורים כלליים על מלאכות בניין: טפסנות, ברזל, בטון, טיח, איטום ועוד. הם לא מבוססים על שקפי הקורס, ולכן הם מופיעים בנפרד. אין עליהם שאלות במבחנים. אפשר להוסיף אותם לתרגול.</p>" +
         '<div class="lib-grid">' + LIB.map(function (l) {
-          return '<a class="lib-item" href="#lib-' + l.id + '"><span class="num">' + pad2(l.num) + "</span><span>" + esc(l.title) + "</span>" + (S.read[l.id] ? '<span class="chip st-done">נקרא</span>' : "") + "</a>";
+          return '<a class="lib-item" href="#lib-' + l.id + '"><span class="num">' + pad2(l.num) + "</span><span>" + esc(l.title) + "</span>" + (S.read[l.id] ? '<span class="chip st-done">קראתם</span>' : "") + "</a>";
         }).join("") + "</div></section>";
     }
     paint(html);
@@ -1287,16 +1488,18 @@
   function chRow(c) {
     var cp = completion(c.lessons), est = c.lessons.reduce(function (s, l) { return s + (l.est || 10); }, 0), open = !!openCh[c.id];
     return '<section class="ch-row' + (open ? " open" : "") + '" id="ch-' + c.id + '"><div class="ch-row-h">' +
-      '<a class="ch-link" href="#chapter-' + c.id + '">' + coverHtml(c, { sizes: "72px" }) + '<span class="ch-letter">' + esc(c.letter) + "</span>" +
-      '<span class="ch-title"><b>' + esc(c.title) + "</b><small>" + cp.d + "/" + cp.n + " שיעורים · כ-" + est + " דק׳</small>" + tape(cp.p, true, "chr-" + c.id) + "</span>" + glyph(chapterM(c), true) + "</a>" +
-      '<button type="button" class="icon-btn ch-exp" data-act="toggle-ch" data-id="' + c.id + '" aria-expanded="' + open + '" aria-controls="chl-' + c.id + '" aria-label="השיעורים בפרק ' + esc(c.letter) + '">' + I.chev + "</button></div>" +
+      '<a class="ch-link" href="#chapter-' + c.id + '">' + (SET.simple ? "" : coverHtml(c, { sizes: "72px" })) + '<span class="ch-letter">' + esc(c.letter) + "</span>" +
+      '<span class="ch-title"><b>' + esc(c.title) + "</b><small>" + cp.d + " מתוך " + cp.n + " שיעורים" + (SET.simple ? "" : ", בערך " + est + " דקות") + "</small>" + tape(cp.p, true, "chr-" + c.id) + "</span>" + (SET.simple ? "" : glyph(chapterM(c), true)) + "</a></div>" +
+      '<button type="button" class="ch-exp-t" data-act="toggle-ch" data-id="' + c.id + '" aria-expanded="' + open + '" aria-controls="chl-' + c.id + '">' + chExpLabel(c, open) + "</button>" +
       '<ol class="lesson-list" id="chl-' + c.id + '"' + (open ? "" : " hidden") + ">" + c.lessons.map(lessonRow).join("") + "</ol></section>";
   }
+  function chExpLabel(c, open) { return (open ? "להסתיר את השיעורים" : "להציג את " + c.lessons.length + " השיעורים בפרק") + I.chev; }
+  // lesson rows: the title first, the code after it (P2-5); the thumbnail's AI label is a word in the meta line (P0-1)
   function lessonRow(l, next) {
-    var m = media(l.id);
-    return '<li><a class="lesson-row' + (next === true ? " is-next" : "") + '" href="#lesson-' + l.id + '">' + (m ? '<span class="thumb">' + imgHtml(m, { card: true, small: true, sizes: "48px" }) + '<span class="ai-badge" aria-hidden="true">AI</span></span>' : "") +
-      '<span class="code">' + esc(l.code) + '</span><span class="lt"><b>' + esc(l.title) + "</b><small>" + (l.est || 10) + " דק׳ · " + lessonQs(l.id).length + " שאלות" + (next === true ? ' · <span class="next-tag">הבא בתור</span>' : "") + "</small></span>" +
-      '<span class="lr-end">' + stateChip(l.id) + glyph(lessonM(l.id), true) + "</span></a></li>";
+    var m = SET.simple ? null : media(l.id);
+    return '<li><a class="lesson-row' + (next === true ? " is-next" : "") + '" href="#lesson-' + l.id + '">' + (m ? '<span class="thumb">' + imgHtml(m, { card: true, small: true, sizes: "48px" }) + "</span>" : "") +
+      '<span class="lt"><span class="lt-h"><b>' + esc(l.title) + '</b> <span class="code">' + esc(l.code) + "</span></span><small>" + (l.est || 10) + " דקות · " + lessonQs(l.id).length + " שאלות" + (m ? " · תמונה: המחשת AI" : "") + (next === true ? ' · <span class="next-tag">השיעור הבא</span>' : "") + "</small></span>" +
+      '<span class="lr-end">' + stateChip(l.id) + (SET.simple ? "" : glyph(lessonM(l.id), true)) + "</span></a></li>";
   }
 
   // =============================================================== chapter page (P1-1, §8.1)
@@ -1305,41 +1508,63 @@
     var est = c.lessons.reduce(function (s, l) { return s + (l.est || 10); }, 0);
     var nav = [], body = "";
     function sec(id, label, h) { if (label) nav.push([id, label]); body += '<section class="cs" id="' + id + '">' + h + "</section>"; }
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#course">קורס</a><span aria-hidden="true">/</span><span>פרק ' + esc(c.letter) + "</span></nav>";
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#course">כל השיעורים</a><span aria-hidden="true">›</span><span>פרק ' + esc(c.letter) + "</span></nav>";
     html += '<header class="ch-head">' + (m ? aiFig(m, { cls: "ch-cover", material: c.material, eager: true, sizes: "(max-width: 760px) 100vw, 680px" }) : '<div class="ch-cover sw" aria-hidden="true">' + window.Diagrams.swatch(c.material || "general") + "</div>") +
-      '<div class="chh-main"><span class="eyebrow">פרק ' + esc(c.letter) + " · " + c.lessons.length + " שיעורים · כ-" + est + ' דק׳</span><h1 class="display">' + esc(c.title) + "</h1>" +
-      '<div class="chh-prog">' + tape(cp.p, false, "chp-" + c.id) + '<span class="mono-n">' + cp.d + "/" + cp.n + "</span>" + glyph(cm) + "</div></div></header>";
+      '<div class="chh-main"><span class="eyebrow">פרק ' + esc(c.letter) + " · " + c.lessons.length + " שיעורים · בערך " + est + ' דקות</span><h1 class="display">' + esc(c.title) + "</h1>" + hereLine("chapter") +
+      '<div class="chh-prog">' + tape(cp.p, false, "chp-" + c.id) + '<span class="mono-n">' + cp.d + " מתוך " + cp.n + " שיעורים</span>" + (SET.simple ? "" : glyph(cm)) + "</div></div></header>";
+    // P2-3: the chapter-complete moment is an inline card, never a sheet that opens by itself
+    if (c.lessons.every(function (l) { return S.done[l.id]; }) && !S.celebrated["ch:" + c.id]) html += chDoneCard(c);
     // hook + big idea (hook is "הסבר משלים" by schema; a big idea without sources is labelled the same way)
     if (x.hook || x.big_idea) {
       body += '<section class="cs cs-intro">' +
-        (x.hook ? '<div class="hook"><h2>למה זה חשוב באתר</h2><p>' + esc(x.hook) + '</p><span class="tag-expl">הסבר משלים</span></div>' : "") +
+        (x.hook ? '<div class="hook"><h2>למה זה חשוב באתר הבנייה</h2><p>' + esc(x.hook) + '</p><span class="tag-expl">הסבר משלים</span></div>' : "") +
         (x.big_idea ? '<div class="bigidea"><h2>הרעיון המרכזי</h2><p class="bi">' + esc(typeof x.big_idea === "string" ? x.big_idea : x.big_idea.t || "") + "</p>" +
           (isObj(x.big_idea) && arr(x.big_idea.src).length ? srcChips(x.big_idea.src) : '<span class="tag-expl">הסבר משלים</span>') + "</div>" : "") + "</section>";
     }
     body += pretestCard(c);
     var next = c.lessons.filter(function (l) { return !S.done[l.id]; })[0];
-    sec("cs-lessons", "שיעורים", '<h2>השיעורים</h2><ol class="lesson-list ch-lessons">' + c.lessons.map(function (l) { return lessonRow(l, l === next); }).join("") + "</ol>");
+    sec("cs-lessons", "שיעורים", '<h2>השיעורים בפרק</h2><ol class="lesson-list ch-lessons">' + c.lessons.map(function (l) { return lessonRow(l, l === next); }).join("") + "</ol>");
     if (arr(x.cheatsheet).length) {
       var cs = x.cheatsheet;
-      sec("cs-sheet", "דף סיכום", '<div class="cs-h"><h2>דף סיכום</h2><div class="btn-row"><a class="btn btn-sm btn-ghost" href="#sheet-' + c.id + '">מסך מלא</a><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + "לשינון</button></div></div>" +
-        cheatList(cs, cs.length > 8) + (cs.length > 8 ? '<button type="button" class="btn btn-sm btn-ghost cs-more" data-act="cs-more">עוד ' + (cs.length - 8) + "</button>" : ""));
+      sec("cs-sheet", "דף סיכום", '<div class="cs-h"><h2>דף סיכום</h2><div class="btn-row"><a class="btn btn-sm btn-ghost" href="#sheet-' + c.id + '">לפתוח במסך מלא</a><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + "להסתיר את העובדות</button></div></div>" +
+        cheatList(cs, cs.length > 8) + (cs.length > 8 ? '<button type="button" class="btn btn-sm btn-ghost cs-more" data-act="cs-more">להציג עוד ' + (cs.length - 8) + " עובדות</button>" : ""));
     }
     if (isObj(x.compare) && arr(x.compare.head).length) sec("cs-compare", "השוואה", "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare));
-    if (arr(x.links).length) sec("cs-links", "קשרים", "<h2>איך הכול מתחבר</h2>" + linksHtml(x.links, c));
+    if (arr(x.links).length) sec("cs-links", "איך זה מתחבר", "<h2>איך הכול מתחבר</h2>" + linksHtml(x.links, c));
     var mns = arr(x.mnemonics).filter(function (mn) { return mn && mn.t; });
-    if (mns.length) sec("cs-mn", "לזכור", '<h2>טריקים לזכירה</h2><div class="mn-grid">' + mns.map(function (mn) {
+    if (mns.length) sec("cs-mn", "טריקים לזכירה", '<h2>טריקים לזכירה</h2><div class="mn-grid">' + mns.map(function (mn) {
       var l = L[mn["for"]];
       return '<div class="mn"><span class="mn-l">' + (l ? '<a href="#lesson-' + l.id + '">' + esc(l.code + " · " + l.title) + "</a>" : "") + '</span><p>' + esc(mn.t) + '</p><span class="tag-expl">עזר לזכירה · הסבר משלים</span></div>';
     }).join("") + "</div>");
-    if (arr(x.traps).length) sec("cs-traps", "מלכודות", '<h2>מלכודות במבחן</h2><p class="muted">בלבולים שחוזרים בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps));
+    if (arr(x.traps).length) sec("cs-traps", "מלכודות", '<h2>מלכודות במבחן</h2><p class="muted">דברים שקל להתבלבל בהם בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps));
     var cl = casesFor({ ch: c.id });
-    if (cl.length) sec("cs-cases", "מקרי שטח", '<h2>מקרי שטח</h2><div class="case-grid">' + cl.map(caseCard).join("") + "</div>");
+    if (cl.length) sec("cs-cases", "סיפורים מהאתר", '<h2>סיפורים מהאתר</h2><div class="case-grid">' + cl.map(caseCard).join("") + "</div>");
     sec("cs-exam", "מבחן", examCard(c, true));
-    html += (nav.length > 1 ? '<nav class="ch-nav" aria-label="ניווט בפרק"><div class="ch-nav-in">' + nav.map(function (n) { return '<button type="button" class="chip-nav" data-act="ch-jump" data-target="' + n[0] + '">' + n[1] + "</button>"; }).join("") + "</div></nav>" : "") + '<div class="chp-body">' + body + "</div>";
+    if (SET.simple) {
+      // simple mode: the lessons, the summary sheet and the exam stay in view; everything else goes inside one disclosure
+      var parts0 = body.split('<section class="cs'), keep = "", more = "", moreN = 0;
+      parts0.forEach(function (p0, i) {
+        if (!i) { keep += p0; return; }
+        var sec0 = '<section class="cs' + p0;
+        if (/^ (pretest-card|cs-intro)|^" id="(cs-lessons|cs-exam)"/.test(p0)) keep += sec0; else { more += sec0; moreN++; }
+      });
+      if (x && arr(x.cheatsheet).length) keep += '<a class="btn" href="#sheet-' + c.id + '">לדף הסיכום של הפרק</a>';
+      body = keep + (moreN ? '<details class="panel more-d"><summary><b>עוד בפרק הזה (' + moreN + ")</b>" + I.chev + "</summary>" + more + "</details>" : "");
+      nav = [];
+    }
+    html += (nav.length > 1 ? '<nav class="ch-nav" aria-label="קפיצה לחלק בפרק"><div class="ch-nav-in">' + nav.map(function (n) { return '<button type="button" class="chip-nav" data-act="ch-jump" data-target="' + n[0] + '">' + n[1] + "</button>"; }).join("") + "</div></nav>" : "") + '<div class="chp-body">' + body + "</div>";
+    var before = JSON.stringify(S.celebrated);
     paint(html);
-    CHV = { ids: nav.map(function (n) { return n[0]; }) };
-    // the chapter-complete moment, if it was missed on the result screen
-    if (c.lessons.every(function (l) { return S.done[l.id]; }) && !S.celebrated["ch:" + c.id]) setTimeout(function () { if (route() === "chapter-" + c.id && !dlg) maybeChapterDone(c.lessons[0].id); }, 400);
+    if (JSON.stringify(S.celebrated) !== before) save();
+    CHV = nav.length > 1 ? { ids: nav.map(function (n) { return n[0]; }) } : null;
+  }
+  function chDoneCard(c) {
+    var n = Math.min(15, poolFor("ch:" + c.id, { auto: true }).length), x = X(c.id), m = chMedia(c);
+    return '<section class="chd-card" aria-label="סיימתם את פרק ' + esc(c.letter) + '">' + (m ? aiFig(m, { cls: "chd-cover", material: c.material, small: true }) : "") +
+      stamp("פרק " + c.letter + " הושלם", "ch:" + c.id) + "<p>סיימתם " + c.lessons.length + " שיעורים. עכשיו כדאי לבדוק את עצמכם.</p>" +
+      '<div class="btn-col"><button type="button" class="btn" data-act="exam-ch" data-id="' + c.id + '">להתחיל את מבחן פרק ' + c.letter + ": " + plural(n, "שאלה אחת", "שאלות") + "</button>" +
+      (x && arr(x.cheatsheet).length ? '<a class="btn" href="#sheet-' + c.id + '">לדף הסיכום של הפרק</a>' : "") +
+      ((PRETEST[c.id] || []).length ? '<button type="button" class="btn" data-act="pretest" data-ch="' + c.id + '" data-phase="post">לבדיקה בסוף הפרק: כמה התקדמתם</button>' : "") + "</div></section>";
   }
   var CHV = null;
   function cheatList(cs, clip) {
@@ -1390,54 +1615,54 @@
     var p = S.pretest[c.id] || {}, cp = completion(c.lessons), chDone = cp.d === cp.n;
     var h = '<section class="cs pretest-card" id="cs-pre">';
     if (p.post) {
-      h += "<h2>בדיקה מקדימה ובדיקה חוזרת</h2>" + prePostBars(p);
+      h += "<h2>בדיקה לפני הפרק ובסופו</h2>" + prePostBars(p);
     } else if (chDone) {
-      h += '<h2>בדיקה חוזרת</h2><p>איפה הייתם ואיפה אתם: ' + qs.length + " שאלות · כ-2 דק׳ · לא נכנס לציון</p>" + (p.pre ? '<p class="muted">בהתחלה: ' + p.pre.score + "/" + p.pre.n + "</p>" : "") +
-        '<button type="button" class="btn btn-primary" data-act="pretest" data-ch="' + c.id + '" data-phase="post">לבדיקה החוזרת</button>';
+      h += '<h2>בדיקה בסוף הפרק</h2><p>כמה התקדמתם מאז ההתחלה: ' + qs.length + " שאלות, בערך 2 דקות. לא נכנס לציון.</p>" + (p.pre ? '<p class="muted">בבדיקה לפני הפרק: ' + p.pre.score + " נכונות מתוך " + p.pre.n + "</p>" : "") +
+        '<button type="button" class="btn" data-act="pretest" data-ch="' + c.id + '" data-phase="post">להתחיל את הבדיקה בסוף הפרק</button>';
     } else if (p.pre) {
-      h += '<h2>מה אתם כבר יודעים?</h2><p>בדיקה מקדימה: <b class="mono-n">' + p.pre.score + "/" + p.pre.n + '</b>. זו נקודת ההתחלה שלכם. בסוף הפרק נבדוק שוב.</p>';
+      h += '<h2>מה אתם כבר יודעים?</h2><p>בבדיקה לפני הפרק: <b class="mono-n">' + p.pre.score + " נכונות מתוך " + p.pre.n + '</b>. זו נקודת ההתחלה שלכם. בסוף הפרק תוכלו לבדוק שוב.</p>';
     } else {
-      h += '<h2>מה אתם כבר יודעים?</h2><p>' + qs.length + ' שאלות · כ-2 דק׳ · לא נכנס לציון</p><button type="button" class="btn btn-primary" data-act="pretest" data-ch="' + c.id + '" data-phase="pre">לבדיקה מקדימה</button>';
+      h += '<h2>מה אתם כבר יודעים?</h2><p>' + qs.length + ' שאלות, בערך 2 דקות. לא נכנס לציון.</p><button type="button" class="btn" data-act="pretest" data-ch="' + c.id + '" data-phase="pre">להתחיל את הבדיקה לפני הפרק</button>';
     }
     return h + "</section>";
   }
   function prePostBars(p) {
     var a = p.pre, b = p.post, n = (b || a).n || 1;
-    return '<div class="bars prepost">' + (a ? '<div class="bar-row"><span>לפני</span>' + tape(pct(a.score / n), true) + '<span class="mono-n">' + a.score + "/" + a.n + "</span></div>" : "") +
-      (b ? '<div class="bar-row"><span>עכשיו</span>' + tape(pct(b.score / n), true, "post-" + b.t) + '<span class="mono-n">' + b.score + "/" + b.n + "</span></div>" : "") + "</div>";
+    return '<div class="bars prepost">' + (a ? '<div class="bar-row"><span>לפני הפרק</span>' + tape(pct(a.score / n), true) + '<span class="mono-n">' + a.score + " מתוך " + a.n + "</span></div>" : "") +
+      (b ? '<div class="bar-row"><span>בסוף הפרק</span>' + tape(pct(b.score / n), true, "post-" + b.t) + '<span class="mono-n">' + b.score + " מתוך " + b.n + "</span></div>" : "") + "</div>";
   }
   function lastExamOf(chId) { return S.exams.filter(function (e) { return e.chapter === chId; })[0] || null; }
   function examCard(c, withHead) {
     var n = Math.min(15, poolFor("ch:" + c.id, { auto: true }).length), last = lastExamOf(c.id), traps = arr((X(c.id) || {}).traps).length;
-    return (withHead ? "<h2>מבחן הפרק</h2>" : "") + '<div class="exam-card-x"><div><b>מבחן פרק ' + esc(c.letter) + " · " + n + " שאלות · " + Math.ceil(n * 1.5) + " דק׳</b>" +
-      "<span>" + (last ? "ציון אחרון: " + last.score + "% · " + fmtDate(last.t) : "עוד לא נבחנתם בפרק הזה") + (traps ? " · לפני המבחן: " + traps + " מלכודות" : "") + "</span></div>" +
-      '<button type="button" class="btn btn-primary" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + ">להתחיל</button></div>";
+    return (withHead ? "<h2>מבחן הפרק</h2>" : "") + '<div class="exam-card-x"><div><b>מבחן פרק ' + esc(c.letter) + " · " + plural(n, "שאלה אחת", "שאלות") + "</b>" +
+      "<span>" + (last ? "ציון אחרון: " + last.score + ", בתאריך " + fmtDate(last.t) : "עוד לא נבחנתם בפרק הזה") + (traps ? " · " + traps + " מלכודות שכדאי להכיר" : "") + "</span></div>" +
+      '<button type="button" class="btn btn-primary" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + ">להתחיל את מבחן הפרק</button></div>";
   }
 
   // =============================================================== cheat sheets (עיון › דפי סיכום, #sheet-<id>)
   var SHEETV = null;
   function refTabs(cur) {
-    return '<div class="seg-tabs wide" role="tablist" aria-label="עיון">' + [["glossary", "מילון"], ["sheets", "דפי סיכום"], ["sources", "עמודי מקור"]].map(function (t) {
+    return '<div class="seg-tabs wide" role="tablist" aria-label="חומרי עזר">' + [["glossary", "מילון מונחים"], ["sheets", "דפי סיכום"], ["sources", "שקפי הקורס"]].map(function (t) {
       return '<a role="tab" href="#' + t[0] + '" aria-selected="' + (cur === t[0]) + '">' + t[1] + "</a>";
     }).join("") + "</div>";
   }
   function viewSheets() {
-    var html = '<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("sheets") +
-      '<p class="muted">דף אחד לכל פרק: העובדות החשובות, כל אחת עם עמוד המקור שלה. טוב לחזרה לפני מבחן ולהדפסה.</p><div class="sheet-list">' +
+    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1></div>' + refTabs("sheets") +
+      '<p class="muted">דף אחד לכל פרק, עם העובדות החשובות. ליד כל עובדה מופיע השקף שלה. טוב לחזרה לפני מבחן, ואפשר להדפיס.</p><div class="sheet-list">' +
       CH.filter(function (c) { return X(c.id) && arr(X(c.id).cheatsheet).length; }).map(function (c) {
-        return '<a class="sheet-item" href="#sheet-' + c.id + '"><span class="num">' + esc(c.letter) + '</span><span class="lt"><b>' + esc(c.title) + "</b><small>" + X(c.id).cheatsheet.length + " עובדות" + (S.acts["sheet:" + c.id] ? " · נקרא" : "") + "</small></span>" + I.arrowL + "</a>";
+        return '<a class="sheet-item" href="#sheet-' + c.id + '"><span class="num">' + esc(c.letter) + '</span><span class="lt"><b>' + esc(c.title) + "</b><small>" + X(c.id).cheatsheet.length + " עובדות" + (S.acts["sheet:" + c.id] ? " · קראתם" : "") + "</small></span>" + I.arrowL + "</a>";
       }).join("") + "</div>";
     paint(html);
   }
   function viewSheet(c) {
     var x = X(c.id);
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#sheets">דפי סיכום</a><span aria-hidden="true">/</span><a href="#chapter-' + c.id + '">פרק ' + esc(c.letter) + "</a></nav>" +
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#sheets">דפי סיכום</a><span aria-hidden="true">›</span><a href="#chapter-' + c.id + '">פרק ' + esc(c.letter) + "</a></nav>" +
       '<article class="cheatsheet"><div class="page-head"><span class="eyebrow">דף סיכום · פרק ' + esc(c.letter) + '</span><h1 class="display">' + esc(c.title) + "</h1>" +
-      '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'לשינון</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">הדפסה</button></div></div>' +
+      '<div class="btn-row no-print"><button type="button" class="btn btn-sm btn-ghost" data-act="cs-memo" aria-pressed="false">' + I.eyeOff + 'להסתיר את העובדות</button><button type="button" class="btn btn-sm btn-ghost" data-act="print">להדפיס</button></div></div>' +
       cheatList(arr(x.cheatsheet), false) +
       (isObj(x.compare) && arr(x.compare.head).length ? "<h2>השוואה: " + esc(x.compare.title || "") + "</h2>" + compareHtml(x.compare) : "") +
-      (arr(x.traps).length ? '<h2>מלכודות במבחן</h2><p class="muted">בלבולים שחוזרים בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps) : "") +
-      '<p class="muted print-note">כל עובדה מסומנת בעמוד המקור שלה. מה שמסומן "הסבר משלים" נוסף כדי להקל ואינו מהשקפים.</p></article>';
+      (arr(x.traps).length ? '<h2>מלכודות במבחן</h2><p class="muted">דברים שקל להתבלבל בהם בשאלות <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(x.traps) : "") +
+      '<p class="muted print-note">ליד כל עובדה מופיע השקף שלה. מה שמסומן ״הסבר משלים״ נוסף כדי לעזור, ולא מופיע בשקפים.</p></article>';
     paint(html);
     SHEETV = { ch: c.id, t0: Date.now() };
     setTimeout(function () { if (SHEETV && SHEETV.ch === c.id && route() === "sheet-" + c.id) { act("sheet:" + c.id); save(); } }, 30000);
@@ -1456,7 +1681,7 @@
       case "expl": return '<div class="blk blk-expl"><span class="blk-tag">הסבר משלים</span><div class="prose">' + wrapP(b.html) + "</div></div>";
       case "verify": return verifyGroup([b]);
       case "exam": case "note": case "mistake":
-        var lab = { exam: "חשוב למבחן", note: "שים לב", mistake: "טעות נפוצה" }[b.k];
+        var lab = { exam: "חשוב למבחן", note: "שימו לב", mistake: "טעות נפוצה" }[b.k];
         return '<div class="callout co-' + b.k + '"><span class="co-tag">' + lab + (b.expl ? " · הסבר משלים" : "") + '</span><div class="prose">' + wrapP(b.html) + "</div>" + blkMeta(src) + "</div>";
       case "table":
         return '<figure class="tbl"><div class="tbl-scroll"><table><caption>' + esc(b.title || "") + "</caption><thead><tr>" + (b.head || []).map(function (h) { return '<th scope="col">' + esc(h) + "</th>"; }).join("") + "</tr></thead><tbody>" +
@@ -1465,14 +1690,14 @@
       case "diagram": return figDiagram(b.id, ctx);
       case "image":
         var s = SRC[b.src];
-        return '<figure class="src-img"><span class="src-lbl">שקף מהקורס</span><a href="#source-' + esc(b.src) + '"><img loading="lazy" src="' + IMG_BASE + esc(b.src) + '.jpg" alt="' + esc(b.caption || (s && s.title) || "עמוד מקור") + '" data-act="imgfail"></a><figcaption>' + esc(b.caption || "") + " " + srcChips([b.src]) + "</figcaption></figure>";
+        return '<figure class="src-img"><span class="src-lbl">שקף מהקורס</span><a href="#source-' + esc(b.src) + '"><img loading="lazy" src="' + IMG_BASE + esc(b.src) + '.jpg" alt="' + esc(b.caption || (s && s.title) || "צילום שקף מהקורס") + '" data-act="imgfail"></a><figcaption>' + esc(b.caption || "") + " " + srcChips([b.src]) + "</figcaption></figure>";
       default: return b.html ? '<div class="prose">' + wrapP(b.html) + "</div>" : "";
     }
   }
   function verifyGroup(list) {
     var id = "vg-" + (++vgN), n = list.length;
     return '<div class="verify-group"><button type="button" class="vg-head" data-act="vg" aria-expanded="false" aria-controls="' + id + '">' +
-      '<span>טעון אימות מול המקור · ' + n + " " + (n === 1 ? "קריאה לא ודאית" : "קריאות לא ודאיות") + "</span>" + I.chev + "</button>" +
+      '<span>טעון אימות מול המקור · ' + n + " " + (n === 1 ? "מקום שלא ברור מה כתוב בו" : "מקומות שלא ברור מה כתוב בהם") + "</span>" + I.chev + "</button>" +
       '<div class="vg-body" id="' + id + '" hidden>' + list.map(function (b) {
         var src = Array.isArray(b.src) ? srcChips(b.src) : "";
         return '<div class="blk blk-verify"><div class="prose">' + wrapP(b.html) + "</div>" + (b.note ? '<p class="verify-note">' + esc(b.note) + "</p>" : "") + blkMeta(src) + "</div>";
@@ -1506,46 +1731,51 @@
     var prev = LESSONS[l.idx - 1], next = LESSONS[l.idx + 1];
     var qs = lessonQs(l.id), cs = lessonCards(l.id), lm = lessonM(l.id), x = X(l.ch.id);
     var ctx = { code: l.code }, m = media(l.id);
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#course">קורס</a><span aria-hidden="true">/</span><a href="#chapter-' + l.ch.id + '">פרק ' + esc(l.ch.letter) + ": " + esc(l.ch.title) + '</a><span aria-hidden="true">/</span><span>' + esc(l.code) + "</span></nav>";
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#course">כל השיעורים</a><span aria-hidden="true">›</span><a href="#chapter-' + l.ch.id + '">פרק ' + esc(l.ch.letter) + ": " + esc(l.ch.title) + '</a><span aria-hidden="true">›</span><span>' + esc(l.code) + "</span></nav>";
     html += '<div class="lesson-wrap"><div class="lesson-main">';
     html += '<header class="lesson-head' + (m ? " has-hero" : "") + '">' + (m ? aiFig(m, { cls: "lh-hero", material: l.ch.material, eager: true }) : '<div class="swatch" aria-hidden="true">' + window.Diagrams.swatch(l.ch.material || "general") + "</div>") +
-      '<div class="lh-main"><span class="eyebrow">שיעור ' + esc(l.code) + " · כ-" + (l.est || 10) + " דק׳ · פרק " + esc(l.ch.letter) + ": " + esc(l.ch.title) + "</span><h1>" + esc(l.title) + "</h1>" +
-      '<div class="lh-chips">' + stateChip(l.id) + '<span class="chip">' + qs.length + " שאלות</span>" + '<span class="chip">' + cs.length + " כרטיסיות</span>" + glyph(lm) +
-      ((l.sources || []).length ? '<details class="src-more"><summary class="chip">' + l.sources.length + " עמודי מקור" + I.chev + "</summary><div>" + srcChips(l.sources) + "</div></details>" : "") +
+      '<div class="lh-main"><span class="eyebrow">שיעור ' + esc(l.code) + " · בערך " + (l.est || 10) + " דקות · פרק " + esc(l.ch.letter) + ": " + esc(l.ch.title) + "</span><h1>" + esc(l.title) + "</h1>" +
+      '<div class="lh-chips">' + stateChip(l.id) + '<span class="chip">' + qs.length + " שאלות</span>" + '<span class="chip">' + cs.length + " כרטיסיות</span>" + (SET.simple ? "" : glyph(lm)) +
+      ((l.sources || []).length ? '<details class="src-more"><summary class="chip">' + l.sources.length + " שקפים מהקורס" + I.chev + "</summary><div>" + srcChips(l.sources) + "</div></details>" : "") +
       "</div></div></header>";
     var obj = l.objectives || [], kw = l.keywords || [];
     if (obj.length || kw.length) {
       html += '<details class="learn"><summary><span>מה לומדים בשיעור · ' + obj.length + " מטרות · " + kw.length + " מונחים</span>" + I.chev + "</summary><div class=\"learn-in\">" +
         (obj.length ? "<h2>מטרות הלמידה</h2><ul>" + obj.map(function (o) { return "<li>" + esc(o) + "</li>"; }).join("") + "</ul>" : "") +
         (kw.length ? '<h2>מילות מפתח</h2><div class="chips kw-chips">' + kw.map(function (k, i) { return '<a class="chip kw' + (i >= 8 ? " kw-x" : "") + '" href="#glossary" data-act="glossary-q" data-q="' + esc(k) + '">' + esc(k) + "</a>"; }).join("") +
-          (kw.length > 8 ? '<button type="button" class="chip kw kw-more" data-act="kw-more">+' + (kw.length - 8) + " נוספים</button>" : "") + "</div>" : "") + "</div></details>";
+          (kw.length > 8 ? '<button type="button" class="chip kw kw-more" data-act="kw-more">להציג עוד ' + (kw.length - 8) + " מונחים</button>" : "") + "</div>" : "") + "</div></details>";
     }
+    // level bar: the three levels only (the bar may stay on screen); the tools are worded buttons in their own row (P0-7)
     html += '<div class="level-bar" id="level-bar"><div class="seg-tabs lv-tabs" role="tablist" aria-label="רמת לימוד">' + LEVELS.map(function (z, i) {
       return '<button type="button" role="tab" id="tab-' + z[0] + '" aria-selected="' + (lv === z[0]) + '" aria-label="' + z[1] + ", רמה " + (i + 1) + '" data-act="level" data-lv="' + z[0] + '">' + z[1] + "</button>";
     }).join("") + "</div>" +
-      '<button type="button" class="icon-btn lb-btn" data-act="toc" aria-label="תוכן השיעור" aria-haspopup="dialog">' + I.list + "</button>" +
-      '<button type="button" class="icon-btn lb-btn" data-act="memo" aria-pressed="' + clozeOn() + '" aria-label="שינון: הסתרת מילות המפתח">' + I.eyeOff + "</button>" +
-      '<span class="read-line" aria-hidden="true"><i id="read-i"></i></span></div>';
+      '<span class="read-line" aria-hidden="true"><i id="read-i"></i></span></div>' +
+      '<div class="lv-tools"><p class="lv-help">הבנה מהירה: הרעיון בכמה שורות. לימוד מלא: כל השיעור. עומק הנדסי: פרטים נוספים למי שרוצה.</p><div class="btn-row">' +
+      '<button type="button" class="btn btn-sm btn-ghost" data-act="toc" aria-haspopup="dialog">' + I.list + "תוכן השיעור</button>" +
+      (SET.simple ? "" : '<button type="button" class="btn btn-sm btn-ghost" data-act="memo" aria-describedby="memo-d">' + I.eyeOff + memoLabel() + '</button><span class="sr-only" id="memo-d">כדי לבדוק את עצמכם</span>') +
+      '<button type="button" class="btn btn-sm btn-ghost" data-act="legend" aria-haspopup="dialog">' + I.help + "מה אומרים הסימונים?</button></div></div>";
+    // P2-3: the first lesson explains the three kinds of content inline (no sheet that opens by itself)
+    if (!S.seen.legend) html += '<div class="legend-box" id="legend-box"><b>שלושה סוגי תוכן בשיעור</b>' + legendList(false) + '<button type="button" class="btn btn-sm" data-act="legend-ok">הבנתי</button></div>';
 
     var secs = [];
     html += '<div class="lesson-body" role="tabpanel" aria-labelledby="tab-' + lv + '">';
     if (lv === "quick") {
       var qk = l.quick || {};
       secs.push({ id: "s-quick", title: "הבנה מהירה", n: "" });
-      html += '<section class="block quick" id="s-quick" aria-labelledby="s-quick-h"><h2 class="sr-only" id="s-quick-h">הבנה מהירה</h2>' +
+      html += '<section class="block quick" id="s-quick" aria-labelledby="s-quick-h"><h2 class="sr-only" id="s-quick-h">הבנה מהירה</h2>' + (canSpeak() ? '<div class="block-tools">' + speakBtn("s-quick") + "</div>" : "") +
         quickRow("מה זה?", qk.what) + quickRow("למה משתמשים בזה?", qk.why) + quickRow("איפה רואים את זה באתר?", qk.where) +
         ((qk.exam || []).length ? '<div class="q-row q-exam"><h3>מה חשוב לזכור למבחן</h3><ul>' + qk.exam.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") + "</ul></div>" : "") +
         (qk.src ? '<div class="blk-meta">מבוסס על: ' + srcChips(qk.src) + "</div>" : "") +
-        '<div class="btn-row"><button type="button" class="btn btn-primary" data-act="level" data-lv="full">ללימוד המלא' + I.arrowL + "</button></div></section>";
+        '<div class="btn-row"><button type="button" class="btn" data-act="level" data-lv="full">להמשיך ללימוד המלא' + I.arrowL + "</button></div></section>";
     } else {
       (l[lv] || []).forEach(function (s, i) {
         var anchor = "s-" + lv + "-" + (i + 1), bk = S.bookmarks[l.id + "|" + anchor], num = secNum(l, lv, i);
         secs.push({ id: anchor, title: s.title, n: num });
-        html += '<section class="block" id="' + anchor + '"><div class="block-head"><h2><span class="sn">' + esc(num) + "</span>" + esc(s.title) + "</h2>" +
-          '<button type="button" class="bm' + (bk ? " on" : "") + '" data-act="bookmark" data-lesson="' + l.id + '" data-anchor="' + anchor + '" data-title="' + esc(s.title) + '" aria-pressed="' + !!bk + '" aria-label="סימון לחזרה: ' + esc(s.title) + '">' + I.star + "</button></div>" +
+        html += '<section class="block" id="' + anchor + '"><div class="block-head"><h2 id="' + anchor + '-h">' + esc(s.title) + ' <span class="sn">' + esc(num) + "</span></h2>" +
+          '<div class="block-tools">' + speakBtn(anchor) + bmBtn(l.id, anchor, s.title, !!bk) + "</div></div>" +
           renderBlocks(s.blocks, ctx) + "</section>";
       });
-      if (lv === "deep" && !(l.deep || []).length) html += '<p class="muted panel">לשיעור הזה אין רמת עומק נפרדת.</p>';
+      if (lv === "deep" && !(l.deep || []).length) html += '<p class="muted panel">בשיעור הזה אין חלק נוסף להעמקה.</p>';
       // summary once: only when it says more than the quick "מה זה?"
       if (l.summary && sim(l.summary, (l.quick || {}).what) < 0.8) html += '<details class="block sum-d"><summary><span>סיכום</span>' + I.chev + "</summary><p>" + esc(l.summary) + ' <span class="tag-expl">הסבר משלים</span></p></details>';
     }
@@ -1564,43 +1794,53 @@
       html += '<section class="block" id="s-mis"><h2>טעויות נפוצות ובלבולים</h2><p class="muted small"><span class="tag-expl">הסבר משלים</span></p><ul class="mistake-list">' + l.mistakes.map(function (r) { return "<li>" + I.x + "<span>" + esc(r) + "</span></li>"; }).join("") + "</ul></section>";
     }
     if (ai.s) {
-      html += '<section class="block ai-box"><h2>' + I.spark + ' עוזר לימוד</h2><p class="muted">התשובות מבוססות על חומר השיעור ומציינות את עמודי המקור.</p><div class="btn-row">' +
-        '<button type="button" class="btn btn-sm" data-act="ai" data-task="simple">הסבר לי בפשטות</button>' +
-        '<button type="button" class="btn btn-sm" data-act="ai" data-task="example">תן לי דוגמה מהשטח</button>' +
-        '<button type="button" class="btn btn-sm" data-act="ai" data-task="diff">מה ההבדל בין המושגים?</button>' +
-        '<button type="button" class="btn btn-sm" data-act="ai" data-task="quiz">בחן אותי</button>' +
-        '<button type="button" class="btn btn-sm" data-act="ai" data-task="again">לא הבנתי, הסבר שוב</button>' +
-        '</div><form class="ai-ask" data-act="ai-ask"><label class="sr-only" for="ai-q">שאלה על השיעור</label><input class="input" id="ai-q" placeholder="או שאלו שאלה על השיעור" autocomplete="off"><button class="btn btn-sm btn-primary" type="submit">לשאול</button></form>' +
+      html += '<section class="block ai-box"><h2>' + I.spark + ' עוזר הלימוד</h2><p class="muted">בחרו מה לבקש. העוזר עונה רק לפי חומר השיעור, ומציין את השקפים.</p><div class="btn-row">' +
+        '<button type="button" class="btn btn-sm" data-act="ai" data-task="simple">להסביר בפשטות</button>' +
+        '<button type="button" class="btn btn-sm" data-act="ai" data-task="example">לתת דוגמה מאתר בנייה</button>' +
+        '<button type="button" class="btn btn-sm" data-act="ai" data-task="diff">להסביר את ההבדל בין המונחים</button>' +
+        '<button type="button" class="btn btn-sm" data-act="ai" data-task="quiz">לשאול אותי שאלות על השיעור</button>' +
+        '<button type="button" class="btn btn-sm" data-act="ai" data-task="again">להסביר שוב, לאט ובשלבים</button>' +
+        '</div><form class="ai-ask" data-act="ai-ask"><label class="sr-only" for="ai-q">שאלה על השיעור</label><input class="input" id="ai-q" placeholder="אפשר גם לכתוב כאן שאלה משלכם" autocomplete="off"><button class="btn btn-sm btn-primary" type="submit">לשלוח את השאלה</button></form>' +
         '<div class="ai-out" id="ai-out" hidden aria-live="polite"></div></section>';
     }
     // P0-3 end panel
     secs.push({ id: "s-practice", title: "סיכום ותרגול", n: "" });
     var cl = casesFor({ lesson: l.id });
     html += '<section class="endpanel" id="s-practice">' +
-      (S.done[l.id] ? '<p class="done-line">' + I.check + "<b>השיעור הושלם · " + fmtDate(S.done[l.id]) + '</b><button type="button" class="linkish" data-act="toggle-done" data-id="' + l.id + '">לבטל סימון</button></p>' : "") +
-      "<h2>" + (S.done[l.id] ? "רוצים לבדוק את עצמכם שוב?" : "סיימתם לקרוא?") + "</h2><p>בדיקה קצרה תסמן את השיעור כהושלם ותכניס את הכרטיסיות שלו לחזרה.</p>" +
-      '<button type="button" class="btn btn-primary" data-act="start-check" data-id="' + l.id + '">בדיקת הבנה · 5 שאלות · כ-3 דק׳</button>' +
-      '<div class="text-btns"><button type="button" class="tbtn" data-act="start-lesson" data-id="' + l.id + '">תרגול מלא (' + qs.length + ")</button>" +
-      '<a class="tbtn" href="#review-' + l.id + '">כרטיסיות (' + cs.length + ")</a>" +
-      (cl.length ? '<a class="tbtn" href="#' + esc(cl[0].id) + '">מקרה שטח</a>' : "") +
-      (x && arr(x.cheatsheet).length ? '<a class="tbtn" href="#sheet-' + l.ch.id + '">דף הסיכום של הפרק</a>' : "") + "</div>" +
-      (S.done[l.id] ? "" : '<button type="button" class="linkish" data-act="toggle-done" data-id="' + l.id + '">לסמן כהושלם בלי בדיקה</button>') +
-      ((l.related || []).filter(function (r) { return L[r]; }).length ? '<div class="related"><span>שיעורים קשורים:</span>' + l.related.filter(function (r) { return L[r]; }).map(function (r) { return '<a href="#lesson-' + r + '">' + esc(L[r].code + " " + L[r].title) + "</a>"; }).join("") + "</div>" : "") +
+      (S.done[l.id] ? '<p class="done-line">' + I.check + "<b>השיעור הושלם · " + fmtDate(S.done[l.id]) + '</b><button type="button" class="linkish" data-act="toggle-done" data-id="' + l.id + '">לבטל את הסימון שסיימתם</button></p>' : "") +
+      "<h2>" + (S.done[l.id] ? "רוצים לבדוק את עצמכם שוב?" : "סיימתם לקרוא?") + "</h2><p>בדיקה קצרה תסמן שסיימתם את השיעור. הכרטיסיות שלו ייכנסו לחזרה.</p>" +
+      '<button type="button" class="btn btn-primary" data-act="start-check" data-id="' + l.id + '">להתחיל בדיקת הבנה: 5 שאלות, בערך 3 דקות</button>' +
+      (SET.simple ? '<div class="text-btns">' + (next ? '<a class="tbtn" href="#lesson-' + next.id + '">לשיעור הבא</a>' : "") + '<a class="tbtn" href="#home">לחזור לדף הבית</a></div>' : "") +
+      (SET.simple ? "" : '<div class="text-btns"><button type="button" class="tbtn" data-act="start-lesson" data-id="' + l.id + '">לתרגל את כל ' + qs.length + " השאלות</button>" +
+      '<a class="tbtn" href="#review-' + l.id + '">לעבור על ' + cs.length + " כרטיסיות</a>" +
+      (cl.length ? '<a class="tbtn" href="#' + esc(cl[0].id) + '">לסיפור מהאתר</a>' : "") +
+      (x && arr(x.cheatsheet).length ? '<a class="tbtn" href="#sheet-' + l.ch.id + '">לדף הסיכום של הפרק</a>' : "") + "</div>") +
+      (S.done[l.id] || SET.simple ? "" : '<button type="button" class="linkish" data-act="toggle-done" data-id="' + l.id + '">לסמן שסיימתם, בלי בדיקה</button>') +
+      (!SET.simple && (l.related || []).filter(function (r) { return L[r]; }).length ? '<div class="related"><span>שיעורים קשורים:</span>' + l.related.filter(function (r) { return L[r]; }).map(function (r) { return '<a href="#lesson-' + r + '">' + esc(L[r].code + " " + L[r].title) + "</a>"; }).join("") + "</div>" : "") +
       "</section>";
-    html += '<div class="pager">' +
-      (prev ? '<a class="btn btn-ghost" href="#lesson-' + prev.id + '">' + I.arrowR + "<span>" + esc(prev.code + " " + prev.title) + "</span></a>" : "<span></span>") +
-      (next ? '<a class="btn btn-ghost" href="#lesson-' + next.id + '"><span>' + esc(next.code + " " + next.title) + "</span>" + I.arrowL + "</a>" : "<span></span>") +
-      "</div></div></div>";
+    if (S.done[l.id] && l.ch.lessons.every(function (x0) { return S.done[x0.id]; }) && !S.celebrated["ch:" + l.ch.id]) html += chDoneCard(l.ch);
+    // P0-3: two full-width buttons, the whole title shows (no "…")
+    html += '<nav class="pager" aria-label="שיעורים סמוכים">' +
+      (prev ? '<a class="btn btn-ghost" href="#lesson-' + prev.id + '">' + I.arrowR + '<span class="pg-in"><small>השיעור הקודם</small><span>' + esc(prev.code + " " + prev.title) + "</span></span></a>" : "") +
+      (next ? '<a class="btn btn-ghost" href="#lesson-' + next.id + '"><span class="pg-in"><small>השיעור הבא</small><span>' + esc(next.code + " " + next.title) + "</span></span>" + I.arrowL + "</a>" : "") +
+      "</nav></div></div>";
     html += '<aside class="toc-side" aria-label="תוכן השיעור"><b>תוכן השיעור</b><ol>' + secs.map(function (s) { return tocItem(l, s); }).join("") + "</ol></aside></div>";
+    var before = JSON.stringify(S.celebrated);
     paint(html);
-    if (clozeOn()) applyCloze(true);
+    if (JSON.stringify(S.celebrated) !== before) save();
+    if (clozeOn() && !SET.simple) applyCloze(true);
     LV = { lid: l.id, lv: lv, secs: secs, cur: "", saveT: 0 };
     trackReading(true);
-    if (firstVisit && !S.seen.legend) setTimeout(function () { if (LV && LV.lid === l.id && !dlg) legendSheet(); }, 450);
   }
+  function memoLabel() { return clozeOn() ? "להציג את כל המילים" : "להסתיר את המילים החשובות"; }
+  // section bookmark: a worded toggle (P0-7); the section title is its description
+  function bmBtn(lid, anchor, title, on) {
+    return '<button type="button" class="btn btn-sm btn-ghost bm' + (on ? " on" : "") + '" data-act="bookmark" data-lesson="' + lid + '" data-anchor="' + anchor + '" data-title="' + esc(title) + '" aria-describedby="' + anchor + '-h">' + bmLabel(on) + "</button>";
+  }
+  function bmLabel(on) { return on ? "★ הקטע שמור" : "☆ לשמור את הקטע"; }
   function tocItem(l, s) {
     var read = !!S.secRead[l.id + "|" + s.id];
-    return '<li class="' + (read ? "read" : "") + '" data-toc="' + s.id + '"><button type="button" data-act="toc-go" data-target="' + s.id + '"><span class="tn">' + esc(s.n) + "</span><span>" + esc(s.title) + '</span><span class="tk" aria-hidden="true">' + I.check + "</span>" + (read ? '<span class="sr-only">, נקרא</span>' : "") + "</button></li>";
+    return '<li class="' + (read ? "read" : "") + '" data-toc="' + s.id + '"><button type="button" data-act="toc-go" data-target="' + s.id + '"><span class="tn">' + esc(s.n) + "</span><span>" + esc(s.title) + '</span><span class="tk" aria-hidden="true">' + I.check + "</span>" + (read ? '<span class="sr-only">, קראתם</span>' : "") + "</button></li>";
   }
   function quickRow(h, t) { return t ? '<div class="q-row"><h3>' + h + "</h3><p>" + esc(t) + "</p></div>" : ""; }
   function applyCloze(on) {
@@ -1608,19 +1848,27 @@
     var rl = main.querySelector(".remember-list");
     if (rl) { rl.classList.toggle("hide", on); rl.querySelectorAll(".txt").forEach(function (t) { t.classList.remove("shown"); }); }
   }
+  var LABEL_HELP = [
+    ["k-src", "מקור: ביסוס ב · שקף 27", "המידע הזה כתוב בשקף של הקורס. הקישו על השבב כדי לראות את השקף."],
+    ["k-expl", "הסבר משלים", "הסבר שהוספנו כדי שיהיה קל יותר להבין. הוא לא מופיע בשקפים של הקורס."],
+    ["k-ver", "טעון אימות מול המקור", "לא היה ברור מה כתוב בשקף, אז כתבנו את מה שנראה הכי נכון. כדאי לבדוק מול השקף או לשאול את המרצה. אין על זה שאלות בתרגול ובמבחנים."],
+    ["k-ai", "המחשה שנוצרה ב-AI, לא פרט לביצוע", "את התמונה יצר מחשב (בינה מלאכותית, AI) כדי לעזור לדמיין. היא לא מדויקת, ואסור לבנות לפיה. באתר עובדים רק לפי התוכניות המאושרות."],
+    ["k-slide", "שקף מהקורס", "צילום של שקף מהשיעורים של המרצה. הקישו על התמונה כדי לראות אותה בגדול."],
+    ["k-illus", "המחשה לימודית, לא פרט לביצוע", "שרטוט פשוט שהכנו כדי להסביר. זה לא שרטוט עבודה, ואין לבנות לפיו."]
+  ];
+  function legendList(all) {
+    return '<ul class="legend-list">' + LABEL_HELP.slice(0, all ? LABEL_HELP.length : 3).map(function (x) { return '<li><span class="lg-k ' + x[0] + '">' + x[1] + "</span><span>" + x[2] + "</span></li>"; }).join("") + "</ul>";
+  }
   function legendSheet() {
-    openSheet({ title: "שלושה סוגי תוכן בשיעור", cls: "legend",
-      body: '<ul class="legend-list"><li><span class="lg-k k-src">מקור</span><span>מה שכתוב בשקף, עם מספר העמוד.</span></li>' +
-        '<li><span class="lg-k k-expl">הסבר משלים</span><span>הסבר שהוספנו כדי להקל. לא מופיע בשקפים.</span></li>' +
-        '<li><span class="lg-k k-ver">טעון אימות</span><span>קריאה לא ודאית של השקף. לא נשאל עליה בתרגול ובמבחנים.</span></li></ul>',
-      actions: [{ label: "הבנתי", act: "legend-ok", cls: "btn-primary" }], onClose: function () { if (!S.seen.legend) { S.seen.legend = Date.now(); save(); } } });
+    openSheet({ title: "מה אומרים הסימונים?", cls: "legend", body: legendList(true),
+      actions: [{ label: "הבנתי, לסגור", act: "legend-ok", cls: "btn-primary" }], onClose: function () { if (!S.seen.legend) { S.seen.legend = Date.now(); save(); } } });
   }
   function tocSheet() {
     if (!LV || !L[LV.lid]) return;
     var l = L[LV.lid];
-    openSheet({ title: "תוכן השיעור", cls: "toc-sheet", focus: ".toc-list .cur button, .toc-list button",
+    openSheet({ title: "תוכן העניינים של השיעור", cls: "toc-sheet", focus: ".toc-list .cur button, .toc-list button",
       body: '<ol class="toc-list">' + LV.secs.map(function (s) { return tocItem(l, s).replace('<li class="', '<li class="' + (LV.cur === s.id ? "cur " : "")); }).join("") + "</ol>" +
-        '<button type="button" class="linkish" data-act="legend">' + I.help + " מה אומרים הסימונים מקור, הסבר משלים וטעון אימות?</button>" });
+        '<button type="button" class="linkish" data-act="legend">' + I.help + " מה אומרים הסימונים מקור, הסבר משלים וטעון אימות?</button>", noFootClose: false });
   }
   // reading tracker: section read = its bottom edge crossed under the sticky bars (or page end); resume position; progress line
   function stickyH() { var lb = document.getElementById("level-bar"); return (topbar ? topbar.offsetHeight : 56) + (lb ? lb.offsetHeight : 52); }
@@ -1653,9 +1901,9 @@
   // enrichment lesson (old format)
   // enrichment lesson (old format)
   function viewLib(l) {
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#course">קורס</a><span aria-hidden="true">/</span><span>ספריית העשרה</span></nav>' +
-      '<div class="enrich-banner"><b>שיעור העשרה, לא מחומר הקורס.</b> נכתב לפי הסילבוס הכללי של מלאכות בניין. ייתכנו הבדלים מהמצגת של המרצה; במקרה כזה, המצגת קובעת.</div>';
-    html += '<header class="lesson-head lib-head"><div class="swatch">' + window.Diagrams.swatch(l.material) + '</div><div class="lh-main"><span class="eyebrow">העשרה ' + pad2(l.num) + "</span><h1>" + esc(l.title) + '</h1><p class="summary">' + esc(l.summary) + "</p></div></header>";
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#course">כל השיעורים</a><span aria-hidden="true">›</span><span>שיעורי העשרה</span></nav>' +
+      '<div class="enrich-banner"><b>שיעור העשרה, לא מחומר הקורס.</b> הוא נכתב לפי תוכנית הלימודים הכללית. אם יש הבדל בינו לבין השקפים של המרצה, השקפים קובעים.</div>';
+    html += '<header class="lesson-head lib-head"><div class="swatch">' + window.Diagrams.swatch(l.material) + '</div><div class="lh-main"><span class="eyebrow">שיעור העשרה ' + pad2(l.num) + "</span><h1>" + esc(l.title) + '</h1><p class="summary">' + esc(l.summary) + "</p></div></header>";
     html += '<div class="lesson-body">';
     var ctx = { code: "ה" + l.num };
     (l.sections || []).forEach(function (s, i) {
@@ -1665,16 +1913,16 @@
     html += '<section class="block"><h2>נקודות לזכור</h2><ul class="remember-list">' + (l.remember || []).map(function (r, i) { return '<li><span class="box">' + (i + 1) + '</span><span class="txt">' + esc(r) + "</span></li>"; }).join("") + "</ul></section>";
     html += '<section class="block"><h2>מונחים</h2><dl class="terms-grid">' + (l.terms || []).map(function (t) { return '<div class="term"><dt>' + esc(t.term) + "</dt><dd>" + esc(t.def) + "</dd></div>"; }).join("") + "</dl></section>";
     html += '<section class="practice"><h2>תרגול</h2><div class="btn-row">' +
-      '<button type="button" class="btn btn-primary" data-act="start-lesson" data-id="' + l.id + '">בוחן העשרה (' + lessonQs(l.id).length + ")</button>" +
-      '<a class="btn" href="#review-' + l.id + '">כרטיסיות</a>' +
-      '<button class="btn" data-act="toggle-read" data-id="' + l.id + '">' + (S.read[l.id] ? "נקרא ✓" : "סימון כנקרא") + "</button></div></section></div>";
+      '<button type="button" class="btn btn-primary" data-act="start-lesson" data-id="' + l.id + '">לענות על ' + lessonQs(l.id).length + " שאלות</button>" +
+      '<a class="btn" href="#review-' + l.id + '">לעבור על הכרטיסיות</a>' +
+      '<button class="btn" data-act="toggle-read" data-id="' + l.id + '">' + (S.read[l.id] ? "קראתם ✓ (להקיש כדי לבטל)" : "לסמן שקראתם") + "</button></div></section></div>";
     paint(html);
   }
 
   // =============================================================== practice hub (P1-10)
   var cfg = { scope: "mixed", diff: 0, types: {}, count: 15, enrich: false };
   function pracTabs(cur) {
-    var tabs = [["practice", "תרגול"], ["cards", "כרטיסיות"], ["exams", "מבחנים"]].concat(CASES.length ? [["cases", "מקרי שטח"]] : []);
+    var tabs = [["practice", "שאלות"], ["cards", "כרטיסיות"], ["exams", "מבחנים"]].concat(CASES.length ? [["cases", "סיפורים מהאתר"]] : []);
     return '<div class="seg-tabs wide" role="tablist" aria-label="תרגול">' + tabs.map(function (t) {
       var due = t[0] === "cards" ? dueCards().length : 0;
       return '<a role="tab" href="#' + t[0] + '" aria-selected="' + (cur === t[0]) + '">' + t[1] + (due ? ' <i class="badge">' + due + "</i>" : "") + "</a>";
@@ -1692,29 +1940,29 @@
   function practicePanel() {
     var mistakesN = openMistakes().length, studied = studiedLessons().length;
     var html = '<div class="presets">' +
-      '<button type="button" class="preset" data-act="quick-practice"><b>תרגול מהיר</b><span>10 שאלות מכל מה שלמדתם · כ-5 דק׳</span></button>' +
-      (mistakesN ? '<button type="button" class="preset" data-act="start-scope" data-scope="mistakes"><b>הטעויות שלי</b><span>' + plural(mistakesN, "שאלה אחת", "שאלות") + "</span></button>" : "") +
-      '<button type="button" class="preset" data-act="preset-ch"><b>לפי פרק</b><span>' + CH.length + " פרקים · 10 שאלות</span></button>" +
-      '<button type="button" class="preset" data-act="preset-type"><b>לפי סוג שאלה</b><span>' + Object.keys(TYPE_NAME).length + " סוגים</span></button>" +
-      (CASES.length ? '<a class="preset" href="#cases"><b>מקרי שטח</b><span>' + CASES.length + " סיפורים מהאתר</span></a>" : "") +
-      '<a class="preset" href="#exams"><b>מבחן</b><span>מבחן פרק או מבחן כולל</span></a></div>' +
-      (studied ? "" : '<p class="muted small">תרגול מהיר מתחיל מהפרק הראשון עד שתפתחו שיעורים.</p>');
-    var opts = '<option value="mixed"' + (cfg.scope === "mixed" ? " selected" : "") + ">תרגול מעורב מכל הקורס</option>" +
-      '<option value="weak"' + (cfg.scope === "weak" ? " selected" : "") + ">נושאים לחיזוק</option>" +
-      '<option value="mistakes"' + (cfg.scope === "mistakes" ? " selected" : "") + ">שאלות שטעיתי בהן (" + mistakesN + ")</option>" +
+      '<button type="button" class="preset" data-act="quick-practice"><b>תרגול מהיר</b><span>10 שאלות ממה שלמדתם, בערך 5 דקות</span></button>' +
+      (mistakesN ? '<button type="button" class="preset" data-act="start-scope" data-scope="mistakes"><b>השאלות שטעיתם בהן</b><span>' + plural(mistakesN, "שאלה אחת", "שאלות") + "</span></button>" : "") +
+      '<button type="button" class="preset" data-act="preset-ch"><b>שאלות מפרק אחד</b><span>' + CH.length + " פרקים לבחירה, 10 שאלות</span></button>" +
+      '<button type="button" class="preset" data-act="preset-type"><b>לפי סוג שאלה</b><span>' + Object.keys(TYPE_NAME).length + " סוגי שאלות לבחירה</span></button>" +
+      (CASES.length ? '<a class="preset" href="#cases"><b>סיפורים מהאתר</b><span>' + CASES.length + " סיפורים, שלב אחרי שלב</span></a>" : "") +
+      '<a class="preset" href="#exams"><b>מבחן</b><span>מבחן על פרק אחד או על כל הקורס</span></a></div>' +
+      (studied ? "" : '<p class="muted small">עוד לא פתחתם שיעורים, ולכן התרגול המהיר ישאל על הפרק הראשון.</p>');
+    var opts = '<option value="mixed"' + (cfg.scope === "mixed" ? " selected" : "") + ">שאלות מכל הקורס</option>" +
+      '<option value="weak"' + (cfg.scope === "weak" ? " selected" : "") + ">שיעורים שצריך לחזק</option>" +
+      '<option value="mistakes"' + (cfg.scope === "mistakes" ? " selected" : "") + ">שאלות שטעיתם בהן (" + mistakesN + ")</option>" +
       CH.map(function (c) { return '<option value="ch:' + c.id + '"' + (cfg.scope === "ch:" + c.id ? " selected" : "") + ">פרק " + esc(c.letter) + ": " + esc(c.title) + "</option>"; }).join("") +
       LESSONS.map(function (l) { return '<option value="l:' + l.id + '"' + (cfg.scope === "l:" + l.id ? " selected" : "") + ">שיעור " + esc(l.code) + ": " + esc(l.title) + "</option>"; }).join("");
-    html += '<details class="panel custom"' + (cfg.open ? " open" : "") + ' id="custom"><summary><b>התאמה אישית</b>' + I.chev + '</summary><div class="setup"><p class="muted">במצב תרגול רואים משוב והסבר מיד אחרי כל תשובה.</p>' +
+    html += '<details class="panel custom"' + (cfg.open ? " open" : "") + ' id="custom"><summary><b>לבחור בעצמכם מה לתרגל</b>' + I.chev + '</summary><div class="setup"><p class="muted">בתרגול רואים מיד אחרי כל תשובה אם צדקתם, ולמה.</p>' +
       '<div class="field"><label for="p-scope">מה לתרגל</label><select class="select" id="p-scope">' + opts + "</select></div>" +
       '<div class="field"><span class="lbl" id="p-diff-l">רמת קושי</span><div class="seg" role="group" aria-labelledby="p-diff-l">' +
-      [[0, "הכול"], [1, "קל"], [2, "בינוני"], [3, "קשה"]].map(function (d) { return '<button type="button" data-act="p-diff" data-n="' + d[0] + '" aria-pressed="' + (cfg.diff === d[0]) + '">' + d[1] + "</button>"; }).join("") + "</div></div>" +
+      [[0, "כל הרמות"], [1, "קל"], [2, "בינוני"], [3, "קשה"]].map(function (d) { return '<button type="button" data-act="p-diff" data-n="' + d[0] + '" aria-pressed="' + (cfg.diff === d[0]) + '">' + d[1] + "</button>"; }).join("") + "</div></div>" +
       '<div class="field"><span class="lbl" id="p-types-l">סוגי שאלות</span><div class="seg" role="group" aria-labelledby="p-types-l">' +
       Object.keys(TYPE_NAME).map(function (t) { return '<button type="button" data-act="p-type" data-t="' + t + '" aria-pressed="' + (!!cfg.types[t]) + '">' + TYPE_NAME[t] + "</button>"; }).join("") +
-      '</div><small class="muted">בלי בחירה, כל הסוגים נכללים.</small></div>' +
+      '</div><small class="muted">אם לא תבחרו, יופיעו כל סוגי השאלות.</small></div>' +
       '<div class="field"><span class="lbl" id="p-count-l">מספר שאלות</span><div class="seg" role="group" aria-labelledby="p-count-l">' +
-      [10, 15, 25, 0].map(function (n) { return '<button type="button" data-act="p-count" data-n="' + n + '" aria-pressed="' + (cfg.count === n) + '">' + (n || "כולן") + "</button>"; }).join("") + "</div></div>" +
-      '<label class="check"><input type="checkbox" id="p-enrich"' + (cfg.enrich ? " checked" : "") + "> לכלול גם שאלות מספריית ההעשרה (לא מחומר הקורס)</label>" +
-      '<div class="btn-row"><button type="button" class="btn btn-primary" data-act="p-start">להתחיל תרגול</button></div></div></details>';
+      [10, 15, 25, 0].map(function (n) { return '<button type="button" data-act="p-count" data-n="' + n + '" aria-pressed="' + (cfg.count === n) + '">' + (n || "כל השאלות") + "</button>"; }).join("") + "</div></div>" +
+      '<label class="check"><input type="checkbox" id="p-enrich"' + (cfg.enrich ? " checked" : "") + "> להוסיף גם שאלות משיעורי ההעשרה (לא מחומר הקורס)</label>" +
+      '<div class="btn-row"><button type="button" class="btn btn-primary" data-act="p-start">להתחיל את התרגול</button></div></div></details>';
     return html;
   }
   function poolFor(scope, opts) {
@@ -1741,7 +1989,7 @@
     return pool;
   }
   function scopeTitle(scope) {
-    var names = { mixed: "תרגול מעורב", weak: "נושאים לחיזוק", mistakes: "הטעויות שלי", quick: "תרגול מהיר", untested: "שיעורים שטרם נבדקו" };
+    var names = { mixed: "שאלות מכל הקורס", weak: "שיעורים שצריך לחזק", mistakes: "שאלות שטעיתם בהן", quick: "תרגול מהיר", untested: "שיעורים שעוד לא נבדקו" };
     if (names[scope]) return names[scope];
     if (scope.indexOf("ch:") === 0 && CHID[scope.slice(3)]) return "תרגול: פרק " + CHID[scope.slice(3)].letter;
     if (scope.indexOf("l:") === 0 && L[scope.slice(2)]) return "תרגול: " + L[scope.slice(2)].title;
@@ -1769,7 +2017,7 @@
     return out;
   }
   function startRun(mode, title, list, back, extra) {
-    if (!list.length) { toast("אין שאלות שמתאימות לבחירה הזו"); return; }
+    if (!list.length) { toast("אין שאלות שמתאימות למה שבחרתם. נסו בחירה אחרת."); return; }
     run = Object.assign({ mode: mode, title: title, back: back || "#practice", route: "#run", i: 0, t0: Date.now(), items: list.map(function (q) { return newItem(q); }) }, extra || {});
     persistRun();
     go(run.route);
@@ -1791,26 +2039,26 @@
     if (run && run.mode === "exam" && !run.finished && run.limit && run.limit - (Date.now() - run.t0) / 1000 <= 0) {
       run.autoSubmitted = true;
       submitExam(true);
-      toast("הזמן נגמר. המבחן הוגש.");
+      toast("הזמן נגמר, והמבחן הוגש מעצמו.");
     }
   }
 
   // =============================================================== exams
   function examsPanel() {
     var rd = readiness();
-    var html = '<div class="panel stack"><p>במבחן אין משוב בזמן הפתרון. רואים את הציון, ניתוח הטעויות וההמלצות בסוף. שאלות פתוחות לא נכללות במבחן, ומופיעות בתרגול.</p>' +
+    var html = '<div class="panel stack"><p>במבחן יש שעון. לא רואים אם צדקתם עד הסוף.</p><p>בסוף מקבלים ציון, ורואים את הטעויות ועל מה כדאי לחזור. שאלות פתוחות מופיעות רק בתרגול.</p>' +
       '<div class="exam-grid">' +
-      '<button type="button" class="exam-card main" data-act="exam-full"><b>מבחן כולל</b><span>30 שאלות מכל הפרקים · 45 דקות</span>' + (rd ? '<span class="rd">מוכנות למבחן: ' + MLABEL[rd.lv] + " · על סמך " + rd.n + " תשובות</span>" : "") + "</button>" +
+      '<button type="button" class="exam-card main" data-act="exam-full"><b>מבחן על כל הקורס</b><span>30 שאלות מכל הפרקים, 45 דקות</span>' + (rd ? '<span class="rd">כמה אתם מוכנים: ' + MLABEL[rd.lv] + " (לפי " + rd.n + " תשובות שלכם)</span>" : "") + "</button>" +
       CH.map(function (c) {
         var n = Math.min(15, poolFor("ch:" + c.id, { auto: true }).length), last = lastExamOf(c.id), tr = arr((X(c.id) || {}).traps).length;
-        return '<button type="button" class="exam-card" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + "><b>פרק " + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + n + " שאלות · " + Math.ceil(n * 1.5) + " דקות</span>" +
-          '<span class="ex-last">' + (last ? "אחרון: " + last.score + "% · " + fmtDate(last.t) : "עוד לא נבחנתם") + (tr ? " · " + tr + " מלכודות" : "") + "</span></button>";
+        return '<button type="button" class="exam-card" data-act="exam-ch" data-id="' + c.id + '"' + (n ? "" : " disabled") + "><b>פרק " + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + n + " שאלות, " + Math.ceil(n * 1.5) + " דקות</span>" +
+          '<span class="ex-last">' + (last ? "ציון אחרון: " + last.score + ", בתאריך " + fmtDate(last.t) : "עוד לא נבחנתם") + (tr ? " · " + tr + " מלכודות במבחן" : "") + "</span></button>";
       }).join("") + "</div></div>";
     if (PLAN && arr(PLAN.exam_tips).length) html += '<details class="panel tips-d"><summary><b>טיפים לבחינה</b>' + I.chev + '</summary><ul class="tips-l">' + PLAN.exam_tips.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + '</ul><span class="tag-expl">הסבר משלים</span></details>';
-    html += '<div class="section-head"><h2>היסטוריית מבחנים</h2></div>';
-    html += S.exams.length ? '<div class="tbl-scroll panel"><table class="hist"><thead><tr><th scope="col">תאריך</th><th scope="col">מבחן</th><th scope="col">ציון</th><th scope="col">זמן</th></tr></thead><tbody>' +
-      S.exams.slice(0, 20).map(function (e) { return "<tr><td>" + fmtDate(e.t) + "</td><td>" + esc(e.title) + '</td><td class="num" dir="ltr">' + e.score + '%</td><td class="num">' + fmtDur(e.dur) + "</td></tr>"; }).join("") + "</tbody></table></div>"
-      : '<p class="muted">עדיין אין מבחנים שמורים.</p>';
+    html += '<div class="section-head"><h2>המבחנים שעשיתם</h2></div>';
+    html += S.exams.length ? '<div class="tbl-scroll panel"><table class="hist"><thead><tr><th scope="col">תאריך</th><th scope="col">מבחן</th><th scope="col">ציון</th><th scope="col">משך</th></tr></thead><tbody>' +
+      S.exams.slice(0, 20).map(function (e) { return "<tr><td>" + fmtDate(e.t) + "</td><td>" + esc(e.title) + '</td><td class="num">' + e.score + '</td><td class="num">' + plural(Math.max(1, Math.round(e.dur / 60)), "דקה אחת", "דקות") + "</td></tr>"; }).join("") + "</tbody></table></div>"
+      : '<p class="muted">עוד לא עשיתם מבחן. מבחן שתסיימו יופיע כאן.</p>';
     return html;
   }
   function startExam(title, list, minutes, meta) {
@@ -1823,20 +2071,20 @@
   function examIntro(ec) {
     var tr = arr((X(ec) || {}).traps).slice(0, 4);
     if (!tr.length || S.seen.examIntro) { startChapterExam(ec); return; }
-    openSheet({ title: "לפני המבחן", body: "<p>מלכודות שחוזרות בשאלות של פרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> אל תציגו שוב</label>',
-      actions: [{ label: "להתחיל", act: "exam-ch-go", cls: "btn-primary", attrs: { "data-id": ec } }, { label: "לבטל", act: "dlg-close", cls: "btn-ghost" }] });
+    openSheet({ title: "להתחיל את מבחן הפרק?", body: "<p>לפני שמתחילים, שימו לב לדברים שקל להתבלבל בהם בפרק " + esc(CHID[ec].letter) + ': <span class="tag-expl">הסבר משלים</span></p>' + trapsHtml(tr) + '<label class="check"><input type="checkbox" id="intro-skip"> לא להציג את זה שוב</label>',
+      actions: [{ label: "כן, להתחיל את המבחן", act: "exam-ch-go", cls: "btn-primary", attrs: { "data-id": ec } }, { label: "לא עכשיו", act: "dlg-close", cls: "btn-ghost" }] });
   }
 
   // =============================================================== cards (P1-5)
   function cardsPanel() {
     var due = dueCards().length, nw = pickNew(newLeftToday()).length;
-    return '<div class="panel stack"><p>כרטיסיות חוזרות בדיוק כשמתחילים לשכוח אותן. הכרטיסיות של שיעור נפתחות לחזרה היומית כשקוראים לפחות קטע אחד ממנו או מסיימים אותו, עד ' + NEW_PER_DAY + " חדשות ביום.</p>" +
-      '<div class="btn-row"><a class="btn btn-primary" href="#review">חזרה יומית (' + (due + nw) + ")</a></div>" +
-      '<div class="muted">' + due + " לחזרה · " + nw + " חדשות</div></div>" +
+    return '<div class="panel stack"><p>כל כרטיסייה חוזרת אליכם בדיוק כשמתחילים לשכוח אותה.</p><p>כרטיסיות של שיעור נכנסות לחזרה אחרי שקראתם ממנו קטע אחד לפחות. בכל יום נכנסות עד ' + NEW_PER_DAY + " כרטיסיות חדשות.</p>" +
+      '<div class="btn-row"><a class="btn btn-primary" href="#review">להתחיל את החזרה של היום (' + (due + nw) + " כרטיסיות)</a></div>" +
+      '<div class="muted">' + due + " כרטיסיות לחזרה, " + nw + " חדשות</div></div>" +
       '<div class="section-head"><h2>לפי פרק</h2></div><div class="bars panel">' + CH.map(function (c) {
         var cs = CARDS.filter(function (x) { return L[x.lesson] && L[x.lesson].ch === c; });
         var learned = cs.filter(function (x) { var st = S.cards[x.id]; return st && st.reps > 0; }).length;
-        return '<div class="bar-row"><a href="#review-ch-' + c.id + '">פרק ' + esc(c.letter) + ": " + esc(c.title) + "</a>" + tape(pct(cs.length ? learned / cs.length : 0), true) + '<span class="mono-n">' + learned + "/" + cs.length + "</span></div>";
+        return '<div class="bar-row"><a href="#review-ch-' + c.id + '">פרק ' + esc(c.letter) + ": " + esc(c.title) + "</a>" + tape(pct(cs.length ? learned / cs.length : 0), true) + '<span class="mono-n">' + learned + " מתוך " + cs.length + "</span></div>";
       }).join("") + '</div><p class="muted">המספר מראה כמה כרטיסיות כבר עברתם לפחות פעם אחת.</p>';
   }
   function buildReview(arg) {
@@ -1852,12 +2100,12 @@
       title = "כרטיסיות: " + (L[arg] ? L[arg].title : LIBID[arg].title);
     } else {
       queue = shuffle(dueCards()).concat(pickNew(newLeftToday()));
-      title = "חזרה יומית";
+      title = "כרטיסיות לחזרה היום";
     }
     return { key: arg || "daily", lesson: lid, pool: pool, title: title, queue: queue.map(function (c) { return c.id; }), i: 0, flipped: false, total: queue.length, done: 0, again: 0, cram: false, back: lastFree };
   }
   function cramFrom(r, pool, n) {
-    return Object.assign({}, r, { queue: shuffle(pool).slice(0, n || pool.length).map(function (c) { return c.id; }), i: 0, flipped: false, total: Math.min(pool.length, n || pool.length), done: 0, again: 0, cram: true, title: "תרגול חופשי" });
+    return Object.assign({}, r, { queue: shuffle(pool).slice(0, n || pool.length).map(function (c) { return c.id; }), i: 0, flipped: false, total: Math.min(pool.length, n || pool.length), done: 0, again: 0, cram: true, title: "מעבר חופשי על כרטיסיות" });
   }
   function viewReview(arg) {
     var key = arg || "daily";
@@ -1866,11 +2114,11 @@
     if (!r.queue.length || r.i >= r.queue.length) { viewReviewDone(r); return; }
     var c = CARD[r.queue[r.i]], left = r.queue.length - r.i;
     var from = L[c.lesson] ? "שיעור " + L[c.lesson].code : "העשרה";
-    var html = studyBar(r.title, left + " נותרו", "rev-exit", "") + '<div class="sb-tape">' + tape(pct(r.done / Math.max(1, r.done + left)), true) + "</div>" +
-      '<div class="study-wrap"><span class="eyebrow">' + (r.cram ? "תרגול חופשי, לא משנה את לוח החזרות" : (S.cards[c.id] ? "חזרה" : "כרטיסייה חדשה")) + "</span>" +
+    var html = studyBar(r.title, left === 1 ? "נשארה כרטיסייה אחת" : "נשארו " + left + " כרטיסיות", "rev-exit", "") + '<div class="sb-tape">' + tape(pct(r.done / Math.max(1, r.done + left)), true) + "</div>" +
+      '<div class="study-wrap"><span class="eyebrow">' + (r.cram ? "מעבר חופשי: לא משנה מתי הכרטיסיות יחזרו" : (S.cards[c.id] ? "כרטיסייה לחזרה" : "כרטיסייה חדשה")) + "</span>" +
       '<div class="flash-stage"><span class="sw-lab sw-r" aria-hidden="true">זכרתי</span><span class="sw-lab sw-l" aria-hidden="true">לא זכרתי</span>' +
       '<button type="button" class="flash' + (r.flipped ? " flipped" : "") + '" id="flash" data-act="flip" aria-pressed="' + r.flipped + '" aria-label="' + (r.flipped ? "תשובה: " + esc(c.back) : "להפוך את הכרטיסייה: " + esc(c.front)) + '"><span class="flash-in">' +
-      '<span class="face front"><span class="kind"><span class="chip">' + esc(from) + "</span><span>" + (c.kind === "term" ? "מונח: מה זה?" : "שאלה") + '</span></span><span class="q">' + esc(c.front) + '</span><span class="hint">נסו לענות בראש, ואז הקישו על הכרטיסייה</span></span>' +
+      '<span class="face front"><span class="kind"><span class="chip">' + esc(from) + "</span><span>" + (c.kind === "term" ? "מונח: מה זה?" : "שאלה") + '</span></span><span class="q">' + esc(c.front) + '</span><span class="hint">נסו לענות בלב. אחר כך הקישו על הכרטיסייה כדי לראות את התשובה.</span></span>' +
       '<span class="face back"><span class="kind"><span class="chip">' + esc(from) + '</span><span>תשובה</span></span><span class="a"><span class="qsmall">' + esc(c.front) + "</span>" + esc(c.back) + "</span></span>" +
       "</span></button></div>" + (c.src && c.src.length ? '<div class="flash-src"' + (r.flipped ? "" : " hidden") + ">מקור: " + srcChips(c.src) + "</div>" : c.expl ? '<div class="flash-src"' + (r.flipped ? "" : " hidden") + '><span class="tag-expl">הסבר משלים</span></div>' : "") + "</div>" +
       '<div class="actionbar" id="ab">' + revBar(r, c) + "</div>";
@@ -1882,13 +2130,13 @@
   var lastCK = "";
   function revBar(r, c) {
     var st = S.cards[c.id];
-    if (!r.flipped) return '<button type="button" class="btn btn-primary ab-wide" data-act="flip">להציג תשובה</button><p class="keys-hint">מקלדת: <span class="kbd">רווח</span> להפוך</p>';
+    if (!r.flipped) return '<button type="button" class="btn btn-primary ab-wide" data-act="flip">להציג את התשובה</button><p class="keys-hint">במקלדת: מקש <span class="kbd">רווח</span> מציג את התשובה.</p>';
     return '<div class="rate" role="group" aria-label="כמה טוב זכרתם?">' +
-      '<button type="button" class="btn again" data-act="rate" data-r="again">לא זכרתי<small>' + (r.cram ? "שוב" : ivlLabel(st, "again")) + "</small></button>" +
-      '<button type="button" class="btn" data-act="rate" data-r="hard">בקושי<small>' + (r.cram ? "הבא" : ivlLabel(st, "hard")) + "</small></button>" +
+      '<button type="button" class="btn again" data-act="rate" data-r="again">לא זכרתי<small>' + (r.cram ? "תופיע שוב" : ivlLabel(st, "again")) + "</small></button>" +
+      '<button type="button" class="btn" data-act="rate" data-r="hard">זכרתי בקושי<small>' + (r.cram ? "הבא" : ivlLabel(st, "hard")) + "</small></button>" +
       '<button type="button" class="btn btn-primary" data-act="rate" data-r="good">זכרתי<small>' + (r.cram ? "הבא" : ivlLabel(st, "good")) + "</small></button>" +
-      '<button type="button" class="btn easy" data-act="rate" data-r="easy">קל<small>' + (r.cram ? "הבא" : ivlLabel(st, "easy")) + "</small></button></div>" +
-      '<p class="keys-hint">מקלדת: <span class="kbd">1</span>–<span class="kbd">4</span> לדירוג · אפשר גם להחליק ימינה או שמאלה</p>';
+      '<button type="button" class="btn easy" data-act="rate" data-r="easy">זכרתי בקלות<small>' + (r.cram ? "הבא" : ivlLabel(st, "easy")) + "</small></button></div>" +
+      '<p class="keys-hint">אפשר גם להחליק את הכרטיסייה: ימינה אם זכרתם, שמאלה אם לא. במקלדת: מקשים <span class="kbd">1</span> עד <span class="kbd">4</span>.</p>';
   }
   function forecast() {
     var t0 = startOfToday(), a = 0, b = 0, c = 0;
@@ -1898,19 +2146,19 @@
       if (d < t0 + 4 * DAY) b++;
       if (d < t0 + 8 * DAY) c++;
     });
-    return "מחר: " + a + " · בעוד 3 ימים: " + b + " · השבוע: " + c;
+    return "כרטיסיות שיחזרו מחר: " + a + ". בעוד 3 ימים: " + b + ". השבוע: " + c + ".";
   }
   function viewReviewDone(r) {
     var html = studyBar(r.title, "", "rev-exit", "") + '<div class="study-wrap"><div class="empty">' + I.level;
     if (r.total === 0) {
-      html += "<b>אין כרטיסיות שממתינות עכשיו</b>";
-      if (r.pool && r.pool.length) html += '<p>כל הכרטיסיות כאן מתוזמנות לימים הבאים. אפשר לעבור עליהן בתרגול חופשי, בלי לשנות את לוח החזרות.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="cram">תרגול חופשי</button><a class="btn" href="' + esc(r.back || "#cards") + '">חזרה</a></div>';
-      else html += '<p>כרטיסיות של שיעור נכנסות לחזרה היומית כשקוראים לפחות קטע אחד ממנו. פתחו שיעור כדי להתחיל.</p><div class="btn-row"><a class="btn btn-primary" href="#course">לקורס</a><a class="btn" href="#home">להיום</a></div>';
+      html += "<b>אין עכשיו כרטיסיות לחזרה</b>";
+      if (r.pool && r.pool.length) html += '<p>הכרטיסיות האלה יחזרו בימים הבאים. אפשר לעבור עליהן עכשיו, וזה לא ישנה מתי הן יחזרו.</p><div class="btn-row"><button type="button" class="btn btn-primary" data-act="cram">לעבור עליהן עכשיו</button><a class="btn" href="' + esc(r.back || "#cards") + '">לחזור לדף הקודם</a></div>';
+      else html += '<p>כרטיסיות נכנסות לחזרה אחרי שקוראים קטע בשיעור. פתחו שיעור כדי להתחיל.</p><div class="btn-row"><a class="btn btn-primary" href="#course">לרשימת השיעורים</a><a class="btn" href="#home">לדף הבית</a></div>';
     } else {
       if (!r.cram && !r.logged) { r.logged = true; act("cards:" + r.key); save(); }
-      html += "<b>סיימתם " + plural(r.done, "כרטיסייה אחת", "כרטיסיות") + "</b><p>" + (r.again ? plural(r.again, "אחת חזרה", "חזרו") + " לסבב נוסף. " : "") + "הן יחזרו בדיוק כשמתחילים לשכוח אותן.</p>" +
+      html += "<b>סיימתם " + plural(r.done, "כרטיסייה אחת", "כרטיסיות") + "</b><p>" + (r.again ? plural(r.again, "אחת חזרה", "חזרו") + " לסבב נוסף. " : "") + "הן יחזרו אליכם בדיוק כשמתחילים לשכוח אותן.</p>" +
         (r.cram ? "" : '<p class="forecast">' + forecast() + "</p>") +
-        '<div class="btn-row"><a class="btn btn-primary" href="#home">חזרה להיום</a><a class="btn" href="#practice">לתרגול שאלות</a></div>';
+        '<div class="btn-row"><a class="btn btn-primary" href="#home">לחזור לדף הבית</a><a class="btn" href="#practice">לענות על שאלות</a></div>';
     }
     paint(html + "</div></div>");
   }
@@ -1995,7 +2243,7 @@
   // =============================================================== question runner: focus mode (P0-5) for practice, exams, pretests, cases
   var LETTERS = ["א", "ב", "ג", "ד", "ה", "ו"];
   function studyBar(title, sub, exitAct, extra) {
-    return '<div class="studybar"><button type="button" class="icon-btn sb-x" data-act="' + exitAct + '" aria-label="יציאה">' + I.x + "</button>" +
+    return '<div class="studybar"><button type="button" class="icon-btn sb-x" data-act="' + exitAct + '" aria-label="לצאת">' + I.x + "</button>" +
       '<div class="sb-t"><h1 class="sb-h">' + esc(title) + "</h1>" + (sub ? "<span>" + sub + "</span>" : "") + "</div>" + (extra || "") + "</div>";
   }
   function viewRun() {
@@ -2006,17 +2254,17 @@
     var it = run.items[run.i], q = it.id ? Q[it.id] : null;
     var exam = run.mode === "exam", n = run.items.length;
     var sub = (run.mode === "case" ? "שלב " : "שאלה ") + (run.i + 1) + " מתוך " + n;
-    var extra = exam ? '<span class="timer" id="timer" dir="ltr" role="timer" aria-label="זמן שנותר">' + fmtDur(run.limit - (Date.now() - run.t0) / 1000) + "</span>" +
-      '<button type="button" class="icon-btn' + (it.flag ? " on" : "") + '" data-act="q-flag" aria-pressed="' + !!it.flag + '" aria-label="' + (it.flag ? "מסומנת לבדיקה" : "לסמן לבדיקה") + '" title="' + (it.flag ? "מסומנת לבדיקה" : "לסמן לבדיקה") + '">' + I.flag + "</button>" +
-      '<button type="button" class="icon-btn" data-act="q-map" aria-label="מפת השאלות" aria-haspopup="dialog">' + I.grid + "</button>" : "";
+    var extra = exam ? '<span class="timer" id="timer" dir="ltr" role="timer" aria-label="הזמן שנשאר למבחן">' + fmtDur(run.limit - (Date.now() - run.t0) / 1000) + "</span>" +
+      '<button type="button" class="icon-btn' + (it.flag ? " on" : "") + '" data-act="q-flag" aria-pressed="' + !!it.flag + '" aria-label="' + (it.flag ? "סימנתם לחזור לשאלה הזו" : "לסמן לחזור לשאלה הזו") + '" title="' + (it.flag ? "סימנתם לחזור לשאלה הזו" : "לסמן לחזור לשאלה הזו") + '">' + I.flag + "</button>" +
+      '<button type="button" class="icon-btn" data-act="q-map" aria-label="לראות את כל השאלות במבחן" aria-haspopup="dialog">' + I.grid + "</button>" : "";
     var html = studyBar(run.title, sub, "run-exit", extra) + '<div class="sb-tape">' + tape(pct((run.i + (it.done && !exam ? 1 : 0)) / n), true) + "</div>";
     html += '<div class="study-wrap">';
     if (run.mode === "case") html += caseStepHtml();
     if (q) {
       var l = L[q.lesson];
-      var from = run.mode === "pretest" ? "פרק " + CHID[run.chapter].letter + " · לא נכנס לציון" : run.mode === "case" ? "שאלה בשלב " + (run.i + 1) + (l ? " · " + l.code + " " + l.title : "") : l ? "שיעור " + l.code + " · " + l.title : "העשרה: " + (LIBID[q.lesson] ? LIBID[q.lesson].title : "");
+      var from = run.mode === "pretest" ? "פרק " + CHID[run.chapter].letter + " · לא נכנס לציון" : run.mode === "case" ? "שאלה בשלב " + (run.i + 1) + (l ? " · " + l.code + " " + l.title : "") : l ? "שיעור " + l.code + " · " + l.title : "שיעור העשרה: " + (LIBID[q.lesson] ? LIBID[q.lesson].title : "");
       html += '<div class="q-card"><div class="from"><span>' + esc(from) + '</span><span class="qtype">' + TYPE_NAME[q.type] + " · " + ["", "קל", "בינוני", "קשה"][q.difficulty || 2] + (q.enrich ? " · העשרה" : "") + "</span></div>" + renderQuestion(q, it, exam) + "</div>";
-      html += '<p class="keys-hint">מקלדת: <span class="kbd">1</span>–<span class="kbd">4</span> לבחירה, <span class="kbd">Enter</span> להמשך</p>';
+      html += '<p class="keys-hint">במקלדת: מקשים <span class="kbd">1</span> עד <span class="kbd">4</span> לבחירת תשובה, ומקש <span class="kbd">Enter</span> כדי להמשיך.</p>';
     }
     html += "</div>";
     html += '<div class="actionbar" id="ab">' + runBar(it, q) + "</div>";
@@ -2037,15 +2285,15 @@
   var lastQK = "";
   function runBar(it, q) {
     var last = run.i === run.items.length - 1;
-    if (run.mode === "exam") return '<button type="button" class="btn btn-ghost" data-act="q-prev"' + (run.i ? "" : " disabled") + ">" + I.arrowR + "הקודמת</button>" +
-      (last ? '<button type="button" class="btn btn-primary" data-act="exam-submit">הגשת המבחן</button>' : '<button type="button" class="btn btn-primary" data-act="q-next">הבאה' + I.arrowL + "</button>");
+    if (run.mode === "exam") return '<button type="button" class="btn btn-ghost" data-act="q-prev"' + (run.i ? "" : " disabled") + ">" + I.arrowR + "לשאלה הקודמת</button>" +
+      (last ? '<button type="button" class="btn btn-primary" data-act="exam-submit">להגיש את המבחן</button>' : '<button type="button" class="btn btn-primary" data-act="q-next">לשאלה הבאה' + I.arrowL + "</button>");
     if (!q || it.done) {
-      var lab = run.mode === "case" ? (last ? "לסיכום המקרה" : "להמשך הפרויקט") : (last ? "לסיכום" : "לשאלה הבאה");
+      var lab = run.mode === "case" ? (last ? "לסיכום הסיפור" : "לשלב הבא בסיפור") : (last ? "לסיכום התרגול" : "לשאלה הבאה");
       return '<button type="button" class="btn btn-primary ab-wide" data-act="q-next" id="next-q">' + lab + I.arrowL + "</button>";
     }
-    if (q.type === "match" || q.type === "cloze" || q.type === "order") return '<button type="button" class="btn btn-primary ab-wide" data-act="q-check"' + (answeredExam(it) ? "" : " disabled") + ">בדיקה</button>";
-    if (q.type === "open") return '<span class="ab-hint">' + (it.shown ? "סמנו איך הייתה התשובה שלכם" : "כתבו תשובה ואז הציגו תשובה לדוגמה") + "</span>";
-    return '<span class="ab-hint">בחרו תשובה</span>';
+    if (q.type === "match" || q.type === "cloze" || q.type === "order") return '<button type="button" class="btn btn-primary ab-wide" data-act="q-check"' + (answeredExam(it) ? "" : " disabled") + ">לבדוק את התשובה</button>";
+    if (q.type === "open") return '<span class="ab-hint">' + (it.shown ? "בחרו למעלה: ידעתי, ידעתי חלק, או לא ידעתי" : "כתבו תשובה, ואז הקישו על ״להציג תשובה לדוגמה״") + "</span>";
+    return '<span class="ab-hint">הקישו על התשובה שנראית לכם נכונה</span>';
   }
   var timerInt = null;
   function startTimer() {
@@ -2055,12 +2303,12 @@
       var left = run.limit - (Date.now() - run.t0) / 1000;
       var t = route() === "run" && document.getElementById("timer");
       if (t) { t.textContent = fmtDur(left); t.classList.toggle("low", left < 120); }
-      if (left <= 300 && !run.w5 && run.limit > 300) { run.w5 = 1; announce("נותרו 5 דקות"); }
-      if (left <= 60 && !run.w1) { run.w1 = 1; announce("נותרה דקה אחת"); }
+      if (left <= 300 && !run.w5 && run.limit > 300) { run.w5 = 1; announce("נשארו 5 דקות למבחן"); }
+      if (left <= 60 && !run.w1) { run.w1 = 1; announce("נשארה דקה אחת למבחן"); }
       if (left <= 0) {
         clearInterval(timerInt); closeSheet(true);
         if (route() === "run") submitExam(); else { run.autoSubmitted = true; submitExam(true); }
-        toast("הזמן נגמר. המבחן הוגש.");
+        toast("הזמן נגמר, והמבחן הוגש מעצמו.");
       }
     }, 1000);
   }
@@ -2071,14 +2319,14 @@
       run = null; go(b0); return;
     }
     if (run.mode === "exam") {
-      openSheet({ title: "לצאת מהמבחן?", body: "<p>השעון ממשיך לרוץ. אפשר לחזור מדף הבית עד שהזמן ייגמר.</p>",
-        actions: [{ label: "להמשיך במבחן", act: "dlg-close", cls: "btn-primary" }, { label: "לצאת", act: "run-leave" }, { label: "להגיש עכשיו", act: "exam-submit-force", cls: "btn-ghost" }] });
+      openSheet({ title: "לצאת מהמבחן?", body: "<p>השעון ממשיך לרוץ גם כשאתם בחוץ. אפשר לחזור למבחן מדף הבית, עד שהזמן ייגמר.</p>",
+        actions: [{ label: "לא, להישאר במבחן", act: "dlg-close", cls: "btn-primary" }, { label: "כן, לצאת מהמבחן", act: "run-leave" }, { label: "להגיש את המבחן עכשיו", act: "exam-submit-force", cls: "btn-ghost" }] });
       return;
     }
-    if (run.mode === "case") { saveCase(); var b1 = run.back; run = null; go(b1); toast("ההתקדמות במקרה נשמרה"); return; }
+    if (run.mode === "case") { saveCase(); var b1 = run.back; run = null; go(b1); toast("שמרנו את המקום שלכם בסיפור. אפשר להמשיך מדף הבית."); return; }
     if (run.items.some(function (it) { return it.done; })) {
-      openSheet({ title: run.mode === "pretest" ? "לצאת מהבדיקה?" : "לצאת מהתרגול?", body: "<p>" + (run.mode === "pretest" ? "אפשר להמשיך מאותה שאלה מדף הבית." : "התשובות שכבר עניתם נשמרו.") + "</p>",
-        actions: [{ label: "להמשיך", act: "dlg-close", cls: "btn-primary" }, { label: "לצאת", act: run.mode === "pretest" ? "run-leave" : "run-quit" }] });
+      openSheet({ title: run.mode === "pretest" ? "לצאת מהבדיקה?" : "לצאת מהתרגול?", body: "<p>" + (run.mode === "pretest" ? "אפשר להמשיך מאותה שאלה, מדף הבית." : "התשובות שכבר עניתם נשמרו.") + "</p>",
+        actions: [{ label: "לא, להמשיך לענות", act: "dlg-close", cls: "btn-primary" }, { label: "כן, לצאת", act: run.mode === "pretest" ? "run-leave" : "run-quit" }] });
     } else runQuit();
   }
   function runQuit() {
@@ -2101,8 +2349,8 @@
   function feedback(q, it, correctLine) {
     var ok = it.score === 1, part = !ok && it.score > 0;
     var ex = cleanExplain(q.explain);
-    return '<div class="explain ' + (ok ? "ok" : part ? "part" : "bad") + '" role="status"><p class="fb-h">' + (ok ? I.check + "<b>נכון</b>" : part ? "<b>חלקית · " + pct(it.score) + "%</b>" : I.x + "<b>לא נכון</b>") + "</p>" +
-      (!ok && correctLine ? '<p class="corr">' + esc(correctLine) + "</p>" : "") + (ex ? '<p class="why"><b>למה?</b> ' + esc(ex) + "</p>" : "") +
+    return '<div class="explain ' + (ok ? "ok" : part ? "part" : "bad") + '" role="status"><p class="fb-h">' + (ok ? I.check + "<b>תשובה נכונה</b>" : part ? "<b>נכון בחלקו: " + pct(it.score) + " אחוז מהתשובה</b>" : I.x + "<b>תשובה לא נכונה</b>") + "</p>" +
+      (!ok && correctLine ? '<p class="corr">' + esc(correctLine) + "</p>" : "") + (ex ? '<p class="why"><b>הסבר:</b> ' + esc(ex) + "</p>" : "") +
       (q.src ? '<div class="blk-meta">מקור: ' + srcChips(q.src) + "</div>" : q.enrich ? '<div class="blk-meta">שאלת העשרה, לא מחומר הקורס</div>' : "") + "</div>";
   }
   function record(q, score) {
@@ -2167,26 +2415,26 @@
     var byLesson = {}, byType = {};
     items.forEach(function (it) { var q = Q[it.id]; (byLesson[q.lesson] = byLesson[q.lesson] || []).push(it.score || 0); (byType[q.type] = byType[q.type] || []).push(it.score || 0); });
     var exam = run.mode === "exam";
-    var verdict = sc >= 85 ? "מצוין. החומר יושב טוב." : sc >= 65 ? "טוב. עברו על ההסברים של השאלות שטעיתם בהן." : "יש עוד מה לחזק. חזרו לשיעורים שבהמלצה, ואז נסו שוב.";
-    var html = studyBar(exam ? "תוצאות מבחן" : "סיכום תרגול", esc(run.title), "run-exit") + '<div class="study-wrap">';
-    html += '<section class="score-card"><div class="score-row"><span class="score-big" dir="ltr">' + sc + "%</span>" + (exam && sc >= 85 ? stamp("עבר בהצלחה", "exam:" + run.t0) : "") + "</div>" + tape(sc, false, "res-" + run.t0) +
-      '<p class="verdict">' + verdict + '</p><p class="muted">' + (n - wrong.length) + " נכונות מתוך " + n + " · " + fmtDur(run.dur) + "</p></section>";
+    var verdict = sc >= 85 ? "מצוין! אתם יודעים את החומר היטב." : sc >= 65 ? "טוב. עברו על ההסברים של השאלות שטעיתם בהן." : "כדאי לחזק את החומר. חזרו לשיעור שמופיע למטה, ואז נסו שוב.";
+    var html = studyBar(exam ? "תוצאות המבחן" : "סיכום התרגול", esc(run.title), "run-exit") + '<div class="study-wrap">';
+    html += '<section class="score-card"><div class="score-row"><span class="score-big">' + (exam ? "ציון " + sc : sc + " אחוז") + "</span>" + (exam && sc >= 85 ? stamp("עברתם בהצלחה", "exam:" + run.t0) : "") + "</div>" + tape(sc, false, "res-" + run.t0) +
+      '<p class="verdict">' + verdict + '</p><p class="muted">' + plural(n - wrong.length, "תשובה נכונה אחת", "תשובות נכונות") + " מתוך " + n + ". משך: " + (run.dur < 60 ? "פחות מדקה" : run.dur < 90 ? "דקה אחת" : Math.round(run.dur / 60) + " דקות") + "</p></section>";
     // next step: one primary action
-    var next = '<section class="next-card"><h2>הצעד הבא</h2><div class="btn-col">';
+    var next = '<section class="next-card"><h2>מה עושים עכשיו?</h2><div class="btn-col">';
     if (exam) {
       var weakest = Object.keys(byLesson).filter(function (k) { return L[k]; }).sort(function (a, b) { return avg(byLesson[a]) - avg(byLesson[b]); })[0];
-      next += weakest && avg(byLesson[weakest]) < 1 ? '<a class="btn btn-primary" href="#lesson-' + weakest + '">לחזור על ' + esc(L[weakest].code + " " + L[weakest].title) + I.arrowL + "</a>" : '<a class="btn btn-primary" href="#exams">למבחן נוסף' + I.arrowL + "</a>";
-      if (wrong.length) next += '<button type="button" class="btn" data-act="goto-mis">ניתוח טעויות (' + wrong.length + ")</button>";
+      next += weakest && avg(byLesson[weakest]) < 1 ? '<a class="btn btn-primary" href="#lesson-' + weakest + '">ללמוד שוב את שיעור ' + esc(L[weakest].code + " " + L[weakest].title) + I.arrowL + "</a>" : '<a class="btn btn-primary" href="#exams">לעשות מבחן נוסף' + I.arrowL + "</a>";
+      if (wrong.length) next += '<button type="button" class="btn" data-act="goto-mis">לראות את הטעויות (' + plural(wrong.length, "שאלה אחת", "שאלות") + ")</button>";
     } else {
-      next += '<button type="button" class="btn btn-primary" data-act="run-again">לשאלות הבאות' + I.arrowL + "</button>";
+      next += '<button type="button" class="btn btn-primary" data-act="run-again">לענות על עוד 10 שאלות' + I.arrowL + "</button>";
       if (wrong.length) next += '<button type="button" class="btn" data-act="retry-wrong">לתרגל שוב את ' + plural(wrong.length, "הטעות", "הטעויות") + "</button>";
     }
-    next += '<a class="btn btn-ghost" href="' + esc(run.back) + '">חזרה</a></div></section>';
+    next += '<a class="btn btn-ghost" href="' + esc(run.back) + '">לחזור לדף הקודם</a></div></section>';
     html += next;
     if (n >= 10 && (Object.keys(byLesson).length > 1 || Object.keys(byType).length > 1)) {
-      html += '<details class="panel breakdown"><summary><b>פירוט לפי שיעור וסוג שאלה</b>' + I.chev + "</summary>" +
-        '<div class="bars">' + Object.keys(byLesson).map(function (k) { var p = pct(avg(byLesson[k])); return '<div class="bar-row"><a href="' + lessonHref(k) + '">' + esc(lessonTitle(k)) + "</a>" + tape(p, true) + '<span class="mono-n" dir="ltr">' + p + "%</span></div>"; }).join("") + "</div>" +
-        '<div class="bars">' + Object.keys(byType).map(function (k) { var p = pct(avg(byType[k])); return '<div class="bar-row"><span>' + TYPE_NAME[k] + "</span>" + tape(p, true) + '<span class="mono-n" dir="ltr">' + p + "%</span></div>"; }).join("") + "</div></details>";
+      html += '<details class="panel breakdown"><summary><b>איך הלך בכל שיעור ובכל סוג שאלה</b>' + I.chev + "</summary>" +
+        '<div class="bars">' + Object.keys(byLesson).map(function (k) { var p = pct(avg(byLesson[k])); return '<div class="bar-row"><a href="' + lessonHref(k) + '">' + esc(lessonTitle(k)) + "</a>" + tape(p, true) + '<span class="mono-n">' + p + " אחוז</span></div>"; }).join("") + "</div>" +
+        '<div class="bars">' + Object.keys(byType).map(function (k) { var p = pct(avg(byType[k])); return '<div class="bar-row"><span>' + TYPE_NAME[k] + "</span>" + tape(p, true) + '<span class="mono-n">' + p + " אחוז</span></div>"; }).join("") + "</div></details>";
     }
     html += mistakesList(wrong);
     var before = JSON.stringify(S.celebrated);
@@ -2195,11 +2443,11 @@
   }
   function mistakesList(wrong) {
     if (!wrong.length) return "";
-    return '<section id="mis"><div class="section-head"><h2>ניתוח טעויות</h2></div><div class="result-list">' + wrong.map(function (it) {
+    return '<section id="mis"><div class="section-head"><h2>השאלות שטעיתם בהן</h2></div><div class="result-list">' + wrong.map(function (it) {
       var q = Q[it.id]; if (!q) return "";
       var ya = yourAnswer(q, it);
       return '<details class="result-item"><summary><span class="qtype">' + TYPE_NAME[q.type] + (q.lesson ? " · " + esc(lessonTitle(q.lesson)) : "") + '</span><span class="qq">' + esc(q.q || stripTags(q.text || "").replace(/\{\{([^}]+)\}\}/g, "___")) + "</span></summary>" +
-        (ya ? '<span class="ans-bad">ענית: ' + esc(ya) + "</span>" : "") + '<span class="ans-ok">' + esc(rightAnswer(q)) + '</span><span class="muted">' + esc(cleanExplain(q.explain)) + "</span>" + (q.src ? '<div class="blk-meta">' + srcChips(q.src) + "</div>" : "") + "</details>";
+        (ya ? '<span class="ans-bad">עניתם: ' + esc(ya) + "</span>" : "") + '<span class="ans-ok">' + esc(rightAnswer(q)) + '</span><span class="muted">' + esc(cleanExplain(q.explain)) + "</span>" + (q.src ? '<div class="blk-meta">' + srcChips(q.src) + "</div>" : "") + "</details>";
     }).join("") + "</div></section>";
   }
   function sectionsFor(l, ids) {
@@ -2219,38 +2467,27 @@
     var html = studyBar("בדיקת הבנה", esc(l.code + " " + l.title), "run-exit") + '<div class="study-wrap">';
     if (run.pass) {
       html += '<section class="score-card done-card">' + stamp("השיעור הושלם", "lesson:" + l.id) + '<h1 class="res-h">השיעור הושלם</h1>' +
-        "<p>" + run.k + " מתוך " + n + " נכונות. " + lessonCards(l.id).length + " כרטיסיות נכנסו לחזרה היומית.</p>" +
+        "<p>" + plural(run.k, "תשובה נכונה אחת", "תשובות נכונות") + " מתוך " + n + ". " + lessonCards(l.id).length + " כרטיסיות נכנסו לחזרה של כל יום.</p>" +
         '<div class="btn-col">' + (nx ? '<a class="btn btn-primary" href="#lesson-' + nx.id + '">לשיעור הבא: ' + esc(nx.code + " " + nx.title) + I.arrowL + "</a>" : '<a class="btn btn-primary" href="#chapter-' + l.ch.id + '">לדף הפרק' + I.arrowL + "</a>") +
-        '<a class="btn" href="#lesson-' + l.id + '">חזרה לשיעור</a>' + (wrong.length ? '<button type="button" class="btn btn-ghost" data-act="retry-wrong">לתרגל את הטעות</button>' : "") + "</div></section>";
+        '<a class="btn" href="#lesson-' + l.id + '">לחזור לשיעור</a>' + (wrong.length ? '<button type="button" class="btn btn-ghost" data-act="retry-wrong">לתרגל שוב את השאלות שטעיתם בהן</button>' : "") + "</div></section>";
     } else {
       var ids = []; wrong.forEach(function (it) { arr(Q[it.id].src).forEach(function (s) { if (ids.indexOf(s) === -1) ids.push(s); }); });
       var secs = sectionsFor(l, ids);
-      html += '<section class="score-card"><h1 class="res-h">כמעט שם</h1><p>' + run.k + " מתוך " + n + ". כדאי לחזור על:</p>" +
+      html += '<section class="score-card"><h1 class="res-h">כמעט הצלחתם</h1><p>' + plural(run.k, "תשובה נכונה אחת", "תשובות נכונות") + " מתוך " + n + ". כדאי לקרוא שוב את:</p>" +
         '<ul class="sec-links">' + (secs.length ? secs.map(function (s) { return '<li><a href="#lesson-' + l.id + '" data-act="goto-level" data-lesson="' + l.id + '" data-lv="' + s.lv + '" data-target="' + s.anchor + '">' + esc(s.n + " " + s.title) + "</a></li>"; }).join("") : '<li><a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a></li>") + "</ul>" +
-        '<div class="btn-col"><button type="button" class="btn btn-primary" data-act="start-check" data-id="' + l.id + '">לנסות שוב</button><a class="btn" href="#lesson-' + l.id + '">חזרה לשיעור</a>' +
-        '<button type="button" class="linkish" data-act="mark-done" data-id="' + l.id + '">לסמן כהושלם בכל זאת</button></div></section>';
+        '<div class="btn-col"><button type="button" class="btn btn-primary" data-act="start-check" data-id="' + l.id + '">לנסות שוב את הבדיקה</button><a class="btn" href="#lesson-' + l.id + '">לחזור לשיעור</a>' +
+        '<button type="button" class="linkish" data-act="mark-done" data-id="' + l.id + '">לסמן שסיימתם, בכל זאת</button></div></section>';
     }
+    if (chNow) html += chDoneCard(l.ch);   // P2-3: inline, not a sheet that opens by itself
     html += mistakesList(wrong);
     paint(html + "</div>");
-    save();
-    if (chNow) setTimeout(function () { if (route() === "run" && run && run.finished && run.lesson === l.id) maybeChapterDone(l.id); }, motionOK() ? 700 : 0);
-  }
-  function maybeChapterDone(lid) {
-    var c = L[lid] && L[lid].ch;
-    if (!c || !c.lessons.every(function (l) { return S.done[l.id]; }) || S.celebrated["ch:" + c.id]) return;
-    var n = Math.min(15, poolFor("ch:" + c.id, { auto: true }).length), x = X(c.id), m = chMedia(c);
-    var body = (m ? aiFig(m, { cls: "chd-cover", material: c.material, small: true }) : "") + stamp("פרק " + c.letter + " הושלם", "ch:" + c.id) + "<p>" + c.lessons.length + " שיעורים מאחוריכם. זה הזמן לבדוק את עצמכם.</p>";
-    var acts = [{ label: "מבחן פרק " + c.letter + " · " + n + " שאלות · " + Math.ceil(n * 1.5) + " דק׳", act: "exam-ch", cls: "btn-primary", attrs: { "data-id": c.id } }];
-    if (x && arr(x.cheatsheet).length) acts.push({ label: "דף הסיכום של הפרק", href: "#sheet-" + c.id });
-    if ((PRETEST[c.id] || []).length) acts.push({ label: "בדיקה חוזרת: איפה הייתם ואיפה אתם", act: "pretest", attrs: { "data-ch": c.id, "data-phase": "post" } });
-    openSheet({ title: "פרק " + esc(c.letter) + " הושלם", full: true, cls: "ch-done", body: body, actions: acts });
     save();
   }
 
   // =============================================================== pretest (§8.1.5)
   function startPretest(ch, phase, noNav) {
     var qs = PRETEST[ch] || []; if (!qs.length) return;
-    run = { mode: "pretest", phase: phase, chapter: ch, title: (phase === "post" ? "בדיקה חוזרת: פרק " : "בדיקה מקדימה: פרק ") + CHID[ch].letter, back: "#chapter-" + ch, route: "#pretest-" + ch, i: 0, t0: Date.now(), items: qs.map(newItem) };
+    run = { mode: "pretest", phase: phase, chapter: ch, title: (phase === "post" ? "בדיקה בסוף פרק " : "בדיקה לפני פרק ") + CHID[ch].letter, back: "#chapter-" + ch, route: "#pretest-" + ch, i: 0, t0: Date.now(), items: qs.map(newItem) };
     persistRun();
     if (!noNav) go(run.route);
   }
@@ -2267,9 +2504,9 @@
   }
   function viewPretestDone() {
     var p = S.pretest[run.chapter] || {}, n = run.items.length, k = run.items.filter(function (it) { return it.score === 1; }).length;
-    var html = studyBar(run.title, "לא נכנס לציון", "run-exit") + '<div class="study-wrap"><section class="score-card"><span class="score-big" dir="ltr">' + k + "/" + n + "</span>" +
-      (run.phase === "pre" ? "<p>זו נקודת ההתחלה שלכם. בסוף הפרק נבדוק שוב.</p>" : prePostBars(p)) +
-      '<div class="btn-col"><a class="btn btn-primary" href="#chapter-' + run.chapter + '">' + (run.phase === "pre" ? "לשיעורי הפרק" : "לדף הפרק") + I.arrowL + "</a></div></section>" +
+    var html = studyBar(run.title, "לא נכנס לציון", "run-exit") + '<div class="study-wrap"><section class="score-card"><span class="score-big">' + k + " מתוך " + n + "</span>" +
+      (run.phase === "pre" ? "<p>זו נקודת ההתחלה שלכם. בסוף הפרק תוכלו לבדוק שוב ולראות כמה התקדמתם.</p>" : prePostBars(p)) +
+      '<div class="btn-col"><a class="btn btn-primary" href="#chapter-' + run.chapter + '">' + (run.phase === "pre" ? "להתחיל את שיעורי הפרק" : "לדף הפרק") + I.arrowL + "</a></div></section>" +
       mistakesList(run.items.filter(function (it) { return it.score !== 1; }));
     paint(html + "</div>");
   }
@@ -2277,14 +2514,14 @@
   // =============================================================== field cases (§8.2)
   function caseCard(c) {
     var st = S.cases[c.id], m = media(c.id), ch0 = CHID[arr(c.chapters)[0]];
-    var state = !st ? ["new", "חדש"] : st.done ? ["done", "הושלם · " + (st.score || 0) + "%"] : ["open", "שלב " + Math.min(c.steps.length, (st.step || 0) + 1) + " מתוך " + c.steps.length];
+    var state = !st ? ["new", "עוד לא התחלתם"] : st.done ? ["done", "הושלם, ציון " + (st.score || 0)] : ["open", "שלב " + Math.min(c.steps.length, (st.step || 0) + 1) + " מתוך " + c.steps.length];
     return '<a class="case-card" href="#' + esc(c.id) + '"><span class="cover' + (m ? "" : " thin") + '">' + swatchBg(ch0 ? ch0.material : "general") + (m ? imgHtml(m, { card: true, small: true, sizes: "320px" }) + '<span class="ai-badge" aria-hidden="true">AI</span>' : "") + "</span>" +
-      '<span class="cc-b"><b>' + esc(c.title) + "</b><small>כ-" + (c.est || 15) + " דק׳ · " + c.steps.length + ' שלבים</small><span class="chips">' +
+      '<span class="cc-b"><b>' + esc(c.title) + "</b><small>בערך " + (c.est || 15) + " דקות, " + c.steps.length + ' שלבים</small><span class="chips">' +
       arr(c.chapters).filter(function (x) { return CHID[x]; }).map(function (x) { return '<span class="chip">פרק ' + CHID[x].letter + "</span>"; }).join("") +
       '<span class="chip st-' + state[0] + '">' + state[1] + "</span></span></span></a>";
   }
   function casesPanel() {
-    return '<p class="muted">סיפורים מאתר בנייה מומצא שמחברים כמה שיעורים. הסיפור בדוי; כל עובדה בשלבים מגיעה מהשקפים, עם עמוד המקור.</p><div class="case-grid">' + CASES.map(caseCard).join("") + "</div>";
+    return '<p class="muted">כל סיפור קורה באתר בנייה מומצא, ומחבר כמה שיעורים. הסיפור בדוי, אבל כל עובדה בו לקוחה משקפי הקורס.</p><div class="case-grid">' + CASES.map(caseCard).join("") + "</div>";
   }
   function buildCaseRun(c, fresh) {
     var st = !fresh && S.cases[c.id];
@@ -2316,50 +2553,50 @@
   }
   function viewCaseIntro() {
     var c = CASEID[run.caseId], m = media(c.id);
-    var html = studyBar(c.title, "כ-" + (c.est || 15) + " דק׳ · " + c.steps.length + " שלבים", "run-exit") + '<div class="study-wrap case-intro">' +
+    var html = studyBar(c.title, "בערך " + (c.est || 15) + " דקות, " + c.steps.length + " שלבים", "run-exit") + '<div class="study-wrap case-intro">' +
       (m ? aiFig(m, { cls: "lh-hero", eager: true }) : "") + '<span class="pill-story">סיפור לתרגול: הפרויקט מומצא, העובדות מהקורס</span><h1 class="display">' + esc(c.title) + "</h1>" +
       '<div class="chips">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return '<a class="chip kw" href="#lesson-' + x + '">' + esc(L[x].code + " " + L[x].title) + "</a>"; }).join("") + "</div>" +
       '<div class="prose story">' + (c.story || "") + "</div></div>" +
-      '<div class="actionbar"><button type="button" class="btn btn-primary ab-wide" data-act="case-start">להתחיל' + I.arrowL + "</button></div>";
+      '<div class="actionbar"><button type="button" class="btn btn-primary ab-wide" data-act="case-start">להתחיל את הסיפור' + I.arrowL + "</button></div>";
     paint(html);
   }
   function caseStepHtml() {
     var c = CASEID[run.caseId], s = c.steps[run.i] || {}, n = c.steps.length, l = L[s.lesson];
     return '<section class="case-step"><div class="cs-ticks" aria-hidden="true">' + c.steps.map(function (_, i) { return '<i class="' + (i < run.i ? "on" : i === run.i ? "now" : "") + '"></i>'; }).join("") + "</div>" +
       "<h2>שלב " + (run.i + 1) + " מתוך " + n + '</h2><div class="prose">' + (s.html || "") + "</div>" + (arr(s.src).length ? '<div class="blk-meta">מקור: ' + srcChips(s.src) + "</div>" : "") +
-      (l ? '<a class="back-lesson" href="#lesson-' + l.id + '">' + I.arrowR + "לשיעור: " + esc(l.code + " " + l.title) + "</a>" : "") + "</section>";
+      (l ? '<a class="back-lesson" href="#lesson-' + l.id + '">' + I.arrowR + "לקרוא את השיעור: " + esc(l.code + " " + l.title) + "</a>" : "") + "</section>";
   }
   function viewCaseDone() {
     var c = CASEID[run.caseId], qn = run.items.filter(function (it) { return it.id; }), k = qn.filter(function (it) { return it.score === 1; }).length;
-    var html = studyBar(c.title, "סיכום המקרה", "run-exit") + '<div class="study-wrap"><section class="score-card"><span class="score-big" dir="ltr">' + (run.scorePct || 0) + "%</span>" + tape(run.scorePct || 0, false, "case-" + c.id) +
-      '<p class="muted">' + k + " מתוך " + qn.length + " שלבים נענו נכון</p></section>" +
-      '<section class="debrief"><h2>מה למדנו מהמקרה</h2><div class="prose">' + (c.debrief || "") + '</div><span class="tag-expl">הסבר משלים</span></section>' +
-      '<section><h2 class="h-sm">השיעורים במקרה</h2><ol class="lesson-list">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return lessonRow(L[x]); }).join("") + "</ol></section>" +
-      '<div class="btn-col"><a class="btn btn-primary" href="#cases">לחזור למקרי השטח</a><button type="button" class="btn btn-ghost" data-act="case-restart">לעבור על המקרה שוב</button></div>' +
+    var html = studyBar(c.title, "סיכום הסיפור", "run-exit") + '<div class="study-wrap"><section class="score-card"><span class="score-big">' + (run.scorePct || 0) + " אחוז</span>" + tape(run.scorePct || 0, false, "case-" + c.id) +
+      '<p class="muted">' + k + " מתוך " + qn.length + " שלבים עניתם נכון</p></section>" +
+      '<section class="debrief"><h2>מה למדנו מהסיפור</h2><div class="prose">' + (c.debrief || "") + '</div><span class="tag-expl">הסבר משלים</span></section>' +
+      '<section><h2 class="h-sm">השיעורים שבסיפור</h2><ol class="lesson-list">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return lessonRow(L[x]); }).join("") + "</ol></section>" +
+      '<div class="btn-col"><a class="btn btn-primary" href="#cases">לחזור לכל הסיפורים</a><button type="button" class="btn btn-ghost" data-act="case-restart">לעבור על הסיפור שוב</button></div>' +
       mistakesList(run.items.filter(function (it) { return it.id && it.score !== 1 && it.score !== null && !it.restored; }));
     paint(html + "</div>");
   }
   function renderQuestion(q, it, exam) {
     var show = !exam && it.done;
     var h = "";
-    if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '</div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span><button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של התרשים">' + I.expand + '<span>הגדלה</span></button></figcaption></figure>';
+    if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '</div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span><button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="להגדיל את השרטוט">' + I.expand + '<span>להגדיל</span></button></figcaption></figure>';
     if (q.type === "cloze") {
       var n = 0, marks = show ? clozeMarks(q, it) : [];
       h += '<div class="qq cloze-text" id="qq">' + esc(q.text).replace(/\{\{[^}]+\}\}/g, function () {
         var k = n++, w = it.fill[k], cls = "blank" + (w ? " filled" : "");
         if (show) cls += marks[k] ? " right" : " wrong";
-        var nm = w ? "מקום " + (k + 1) + ": " + w + (show ? (cls.indexOf(" right") !== -1 ? ", נכון" : ", שגוי") : ", הקישו כדי להחזיר למאגר") : "מקום ריק " + (k + 1);
+        var nm = w ? "מקום " + (k + 1) + ": " + w + (show ? (cls.indexOf(" right") !== -1 ? ", נכון" : ", לא נכון") : ", הקישו כדי להוציא את המילה") : "מקום ריק " + (k + 1);
         return '<button type="button" class="' + cls + '" data-act="cloze-clear" data-k="' + k + '" aria-label="' + esc(nm) + '"' + (show ? " disabled" : "") + ">" + (w ? esc(w) : "&nbsp;") + "</button>";
       }) + "</div>";
       if (!show) h += '<div class="pool">' + it.bank.map(function (w, i) { var used = it.fill.indexOf(w) !== -1 && countIn(it.fill, w) >= countIn(it.bank.slice(0, i + 1), w); return used ? "" : '<button data-act="cloze-pick" data-i="' + i + '">' + esc(w) + "</button>"; }).join("") + "</div>";
-      else h += feedback(q, it, "התשובות: " + clozeAnswers(q).join(" · "));
+      else h += feedback(q, it, "התשובות הנכונות: " + clozeAnswers(q).join(" · "));
       return h;
     }
     h += '<div class="qq" id="qq">' + esc(q.q) + "</div>";
     if (q.type === "mcq" || q.type === "compare" || q.type === "scenario" || q.type === "identify" || q.type === "tf") {
       var opts = q.type === "tf" ? ["נכון", "לא נכון"] : q.options;
       var right = q.type === "tf" ? (q.answer ? 0 : 1) : q.answer;
-      h += '<div class="opts' + (q.type === "tf" ? " tf" : "") + '" role="group" aria-label="תשובות">';
+      h += '<div class="opts' + (q.type === "tf" ? " tf" : "") + '" role="group" aria-label="התשובות לבחירה">';
       it.perm.forEach(function (oi, k) {
         var cls = "opt";
         if (show) cls += oi === right ? " right" : k === it.choice ? " wrong" + (run && run.just === it.id ? " just" : "") : " dim";
@@ -2367,29 +2604,29 @@
         h += '<button type="button" class="' + cls + '" data-act="answer" data-k="' + k + '"' + (show ? " disabled" : "") + ' aria-pressed="' + (it.choice === k) + '"><span class="l">' + (show && oi === right ? I.check : LETTERS[k]) + '</span><span class="ot">' + esc(opts[oi]) + "</span>" + (exam && it.choice === k ? '<span class="pk" aria-hidden="true">' + I.check + "</span>" : "") + "</button>";
       });
       h += "</div>";
-      if (show) h += feedback(q, it, q.type === "tf" ? "התשובה: " + (q.answer ? "נכון" : "לא נכון") : "התשובה הנכונה: " + q.options[q.answer]);
+      if (show) h += feedback(q, it, q.type === "tf" ? "התשובה הנכונה: " + (q.answer ? "נכון" : "לא נכון") : "התשובה הנכונה: " + q.options[q.answer]);
       return h;
     }
     if (q.type === "match") {
-      h += '<p class="muted">הקישו על מונח ואז על ההגדרה שלו. הקשה על מונח מחובר מבטלת את החיבור.</p><div class="match">';
+      h += '<p class="muted">הקישו על מונח, ואז על ההגדרה שמתאימה לו. כדי לבטל זוג, הקישו שוב על המונח.</p><div class="match">';
       h += '<div class="m-col">' + q.pairs.map(function (p, i) {
         var d = it.map[i], cls = "m-item term" + (it.sel === i ? " sel" : "") + (d !== undefined ? " paired" : "");
         if (show) cls += d === i ? " right" : " wrong";
-        return '<button type="button" class="' + cls + '" data-act="m-term" data-i="' + i + '" aria-pressed="' + (it.sel === i) + '"' + (show ? " disabled" : "") + ">" + (d !== undefined ? '<i class="pair-n" aria-hidden="true">' + (i + 1) + "</i>" : "") + esc(p[0]) + (d !== undefined ? '<span class="sr-only">, בזוג ' + (i + 1) + (show ? (d === i ? ", נכון" : ", שגוי") : "") + "</span>" : "") + "</button>";
+        return '<button type="button" class="' + cls + '" data-act="m-term" data-i="' + i + '" aria-pressed="' + (it.sel === i) + '"' + (show ? " disabled" : "") + ">" + (d !== undefined ? '<i class="pair-n" aria-hidden="true">' + (i + 1) + "</i>" : "") + esc(p[0]) + (d !== undefined ? '<span class="sr-only">, בזוג מספר ' + (i + 1) + (show ? (d === i ? ", נכון" : ", לא נכון") : "") + "</span>" : "") + "</button>";
       }).join("") + "</div>";
       h += '<div class="m-col">' + it.defs.map(function (di) {
         var owner = Object.keys(it.map).filter(function (k) { return it.map[k] === di; })[0];
         var cls = "m-item def" + (owner !== undefined ? " paired" : "");
-        return '<button type="button" class="' + cls + '" data-act="m-def" data-i="' + di + '"' + (show ? " disabled" : "") + ">" + (owner !== undefined ? '<i class="pair-n" aria-hidden="true">' + (+owner + 1) + "</i>" : "") + esc(q.pairs[di][1]) + (owner !== undefined ? '<span class="sr-only">, בזוג ' + (+owner + 1) + "</span>" : "") + "</button>";
+        return '<button type="button" class="' + cls + '" data-act="m-def" data-i="' + di + '"' + (show ? " disabled" : "") + ">" + (owner !== undefined ? '<i class="pair-n" aria-hidden="true">' + (+owner + 1) + "</i>" : "") + esc(q.pairs[di][1]) + (owner !== undefined ? '<span class="sr-only">, בזוג מספר ' + (+owner + 1) + "</span>" : "") + "</button>";
       }).join("") + "</div></div>";
-      if (show) h += feedback(q, it, q.pairs.map(function (p) { return p[0] + " ← " + p[1]; }).join(" · "));
+      if (show) h += feedback(q, it, q.pairs.map(function (p) { return p[0] + ": " + p[1]; }).join(" · "));
       return h;
     }
     if (q.type === "order") {
-      h += '<p class="muted">הקישו על השלבים לפי הסדר. הקשה על שלב שנבחר מחזירה אותו.</p><ol class="slot-list">';
+      h += '<p class="muted">הקישו על השלבים לפי הסדר, מהראשון עד האחרון. כדי לבטל שלב, הקישו עליו שוב.</p><ol class="slot-list">';
       q.steps.forEach(function (s, i) {
         var pi = it.picked[i], cls = "slot", body = "";
-        if (pi !== undefined) { cls += " filled"; if (show) cls += pi === i ? " right" : " wrong"; body = esc(q.steps[pi]) + (show && pi !== i ? '<span class="fix">במקום הזה: ' + esc(q.steps[i]) + "</span>" : ""); }
+        if (pi !== undefined) { cls += " filled"; if (show) cls += pi === i ? " right" : " wrong"; body = esc(q.steps[pi]) + (show && pi !== i ? '<span class="fix">כאן צריך להיות: ' + esc(q.steps[i]) + "</span>" : ""); }
         h += '<li class="' + cls + '"' + (pi !== undefined && !show ? ' data-act="o-unpick" data-pos="' + i + '" role="button" tabindex="0"' : "") + '><span class="n">' + (i + 1) + "</span><span>" + body + "</span></li>";
       });
       h += "</ol>";
@@ -2398,14 +2635,14 @@
       return h;
     }
     if (q.type === "open") {
-      h += '<label class="sr-only" for="open-a">התשובה שלך</label><textarea class="input area" id="open-a" rows="4" placeholder="כתבו את התשובה שלכם במילים שלכם"' + (it.shown ? " readonly" : "") + ">" + esc(it.text) + "</textarea>";
+      h += '<label class="sr-only" for="open-a">התשובה שלכם</label><textarea class="input area" id="open-a" rows="4" placeholder="כתבו כאן את התשובה, במילים שלכם"' + (it.shown ? " readonly" : "") + ">" + esc(it.text) + "</textarea>";
       if (!it.shown) {
-        h += '<div class="btn-row"><button class="btn btn-primary" data-act="open-show">הצגת תשובה לדוגמה</button>' + (ai.s ? '<button class="btn" data-act="open-ai">בדיקה של עוזר הלימוד</button>' : "") + "</div>";
+        h += '<div class="btn-row"><button class="btn btn-primary" data-act="open-show">להציג תשובה לדוגמה</button>' + (ai.s ? '<button class="btn" data-act="open-ai">לבקש מעוזר הלימוד לבדוק</button>' : "") + "</div>";
       } else {
         h += '<div class="explain"><b>תשובה לדוגמה</b><span>' + esc(q.model) + "</span>" +
-          ((q.points || []).length ? '<b>נקודות שצריכות להופיע</b><ul class="pts">' + q.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "") +
+          ((q.points || []).length ? '<b>מה צריך להופיע בתשובה</b><ul class="pts">' + q.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "") +
           (q.explain ? "<span>" + esc(q.explain) + "</span>" : "") + (q.src ? '<div class="blk-meta">מקור: ' + srcChips(q.src) + "</div>" : "") + "</div>";
-        if (!it.done) h += '<div class="self"><span>איך הייתה התשובה שלכם?</span><div class="btn-row"><button class="btn again-t" data-act="open-grade" data-s="0">לא ידעתי</button><button class="btn" data-act="open-grade" data-s="0.5">חלקית</button><button class="btn btn-primary" data-act="open-grade" data-s="1">ידעתי</button></div></div>';
+        if (!it.done) h += '<div class="self"><span>השוו לתשובה לדוגמה. איך עניתם?</span><div class="btn-row"><button class="btn again-t" data-act="open-grade" data-s="0">לא ידעתי</button><button class="btn" data-act="open-grade" data-s="0.5">ידעתי חלק</button><button class="btn btn-primary" data-act="open-grade" data-s="1">ידעתי</button></div></div>';
       }
       h += '<div class="ai-out" id="ai-out" hidden aria-live="polite"></div>';
       return h;
@@ -2422,27 +2659,27 @@
   }
   function yourAnswer(q, it) {
     if (q.type === "tf") return it.choice == null ? "" : ["נכון", "לא נכון"][it.perm[it.choice]];
-    if (q.options) return it.choice == null ? "לא נענתה" : q.options[it.perm[it.choice]];
+    if (q.options) return it.choice == null ? "לא עניתם על השאלה" : q.options[it.perm[it.choice]];
     if (q.type === "cloze") return it.fill.map(function (x) { return x || "—"; }).join(" · ");
     if (q.type === "open") return it.text;
     return "";
   }
   function rightAnswer(q) {
-    if (q.type === "tf") return "נכון: " + (q.answer ? "נכון" : "לא נכון");
-    if (q.options) return "נכון: " + q.options[q.answer];
-    if (q.type === "cloze") return "נכון: " + clozeAnswers(q).join(" · ");
-    if (q.type === "match") return q.pairs.map(function (p) { return p[0] + " ← " + p[1]; }).join(" · ");
-    if (q.type === "order") return "הסדר הנכון: " + q.steps.join(" ← ");
+    if (q.type === "tf") return "התשובה הנכונה: " + (q.answer ? "נכון" : "לא נכון");
+    if (q.options) return "התשובה הנכונה: " + q.options[q.answer];
+    if (q.type === "cloze") return "התשובה הנכונה: " + clozeAnswers(q).join(" · ");
+    if (q.type === "match") return q.pairs.map(function (p) { return p[0] + ": " + p[1]; }).join(" · ");
+    if (q.type === "order") return "הסדר הנכון: " + q.steps.map(function (s, i) { return (i + 1) + ". " + s; }).join(", ");
     if (q.type === "open") return "תשובה לדוגמה: " + q.model;
     return "";
   }
   // =============================================================== glossary
   var gl = { q: "", ch: "all", open: {} };
   function viewGlossary() {
-    var chips = [["all", "הכול"]].concat(CH.map(function (c) { return ["ch:" + c.id, "פרק " + c.letter]; })).concat([["enrich", "העשרה"]]);
-    paint('<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("glossary") + '<p class="eyebrow">' + TERMS.filter(function (t) { return !t.enrich; }).length + " מונחים מהקורס · " + TERMS.filter(function (t) { return t.enrich; }).length + ' מונחי העשרה</p>' +
-      '<div class="search-row"><label class="sr-only" for="g-search">חיפוש מונח</label><input class="input" id="g-search" type="search" placeholder="חיפוש בעברית או באנגלית, למשל: קורה סמויה, HIDDEN BEAM" value="' + esc(gl.q) + '" autocomplete="off"></div>' +
-      '<div class="seg seg-scroll" role="group" aria-label="סינון לפי פרק">' + chips.map(function (c) { return '<button data-act="g-ch" data-v="' + c[0] + '" aria-pressed="' + (gl.ch === c[0]) + '">' + esc(c[1]) + "</button>"; }).join("") + "</div>" +
+    var chips = [["all", "כל המונחים"]].concat(CH.map(function (c) { return ["ch:" + c.id, "פרק " + c.letter]; })).concat([["enrich", "מונחי העשרה"]]);
+    paint('<div class="page-head"><h1 class="display">חומרי עזר</h1></div>' + refTabs("glossary") + '<p class="eyebrow">' + TERMS.filter(function (t) { return !t.enrich; }).length + " מונחים מהקורס · " + TERMS.filter(function (t) { return t.enrich; }).length + ' מונחי העשרה</p>' +
+      '<div class="search-row"><label class="sr-only" for="g-search">חיפוש מונח</label><input class="input" id="g-search" type="search" placeholder="הקלידו מונח בעברית או באנגלית, למשל: קורה סמויה" value="' + esc(gl.q) + '" autocomplete="off"></div>' +
+      '<div class="seg seg-scroll" role="group" aria-label="להציג מונחים מפרק אחד">' + chips.map(function (c) { return '<button data-act="g-ch" data-v="' + c[0] + '" aria-pressed="' + (gl.ch === c[0]) + '">' + esc(c[1]) + "</button>"; }).join("") + "</div>" +
       '<p class="sr-only" id="g-status" aria-live="polite"></p><div id="g-out" class="g-out"></div>');
     renderGlossary();
     var inp = document.getElementById("g-search");
@@ -2462,26 +2699,26 @@
       if (gl.ch === "all" && t.enrich && !q) return false;
       return !q || (t.he + " " + (t.en || "") + " " + t.def + " " + (t.simple || "")).toLowerCase().indexOf(q) !== -1;
     }).sort(function (a, b) { var k = function (t) { return t.he.replace(/^[^\u05d0-\u05eaA-Za-z0-9]+/, ""); }; return k(a).localeCompare(k(b), "he"); });
-    liveCount("g-status", list.length ? list.length + " מונחים" : "לא נמצאו מונחים");
+    liveCount("g-status", list.length ? "נמצאו " + list.length + " מונחים" : "לא נמצאו מונחים");
     out.innerHTML = list.length ? '<div class="gl-list">' + list.map(function (t) {
       var l = L[t.lesson];
       var open = gl.open[t.id];
       return '<article class="gl-item' + (t.enrich ? " enrich" : "") + '"><div class="gl-head"><span class="t">' + hl(t.he, gl.q.trim()) + "</span>" + (t.en ? '<span class="en" dir="ltr">' + hl(t.en, gl.q.trim()) + "</span>" : "") + "</div>" +
         '<span class="d">' + hl(t.def, gl.q.trim()) + "</span>" +
         (t.simple ? '<span class="simple"><b>בפשטות:</b> ' + esc(t.simple) + ' <span class="tag-expl">הסבר משלים</span></span>' : "") +
-        ((t.related || []).length ? '<button class="linkish" data-act="g-open" data-id="' + t.id + '" aria-expanded="' + !!open + '">מונחים דומים וההבדל (' + t.related.length + ")</button>" +
+        ((t.related || []).length ? '<button class="linkish" data-act="g-open" data-id="' + t.id + '" aria-expanded="' + !!open + '">להציג מונחים דומים ומה ההבדל (' + t.related.length + ")</button>" +
           (open ? '<ul class="rel">' + t.related.map(function (r) { return "<li><b>" + esc(r.he) + ":</b> " + esc(r.diff) + "</li>"; }).join("") + '</ul><span class="tag-expl">הסבר משלים</span>' : "") : "") +
-        '<div class="gl-meta">' + (l ? '<a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a>" : t.lib ? '<a href="#lib-' + t.lesson + '">העשרה: ' + esc(LIBID[t.lesson].title) + "</a>" : "") + (t.src ? srcChips(t.src) : "") + (t.enrich ? '<span class="tag-expl">העשרה</span>' : "") + "</div></article>";
-    }).join("") + "</div>" : '<p class="muted">לא נמצאו מונחים. נסו מילה אחרת, או חפשו בכל החומר דרך <a href="#search">החיפוש</a>.</p>';
+        '<div class="gl-meta">' + (l ? '<a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a>" : t.lib ? '<a href="#lib-' + t.lesson + '">שיעור העשרה: ' + esc(LIBID[t.lesson].title) + "</a>" : "") + (t.src ? srcChips(t.src) : "") + (t.enrich ? '<span class="tag-expl">העשרה</span>' : "") + "</div></article>";
+    }).join("") + "</div>" : '<p class="muted">לא נמצאו מונחים. נסו מילה אחרת, או <a href="#search">חפשו בכל החומר</a>.</p>';
     langParts();
   }
 
   // =============================================================== search
   var sq = "";
   function viewSearch() {
-    paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">שיעורים, מונחים ועמודי המקור.</p></div>' +
-      '<div class="search-row"><label class="sr-only" for="s-search">חיפוש</label><input class="input" id="s-search" type="search" placeholder="למשל: שיני קשר, ONE-WAY, כלונס, דיפון" value="' + esc(sq) + '" autocomplete="off"></div>' +
-      (ai.s ? '<form class="ai-ask panel" data-act="ai-search"><label for="ai-sq"><b>' + I.spark + ' שאלה חופשית על החומר</b></label><div class="row"><input class="input" id="ai-sq" placeholder="למשל: מתי משתמשים בקורה סמויה?" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">לשאול</button></div><div class="ai-out" id="ai-out" hidden aria-live="polite"></div></form>' : "") +
+    paint('<div class="page-head"><h1 class="display">חיפוש בכל החומר</h1><p class="muted">מחפשים בשיעורים, במילון המונחים ובשקפי הקורס.</p></div>' +
+      '<div class="search-row"><label class="sr-only" for="s-search">חיפוש</label><input class="input" id="s-search" type="search" placeholder="הקלידו מילה, למשל: כלונס" value="' + esc(sq) + '" autocomplete="off"></div>' +
+      (ai.s ? '<form class="ai-ask panel" data-act="ai-search"><label for="ai-sq"><b>' + I.spark + ' לשאול את עוזר הלימוד</b></label><div class="row"><input class="input" id="ai-sq" placeholder="למשל: מתי משתמשים בקורה סמויה?" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">לשלוח את השאלה</button></div><div class="ai-out" id="ai-out" hidden aria-live="polite"></div></form>' : "") +
       '<p class="sr-only" id="s-status" aria-live="polite"></p><div id="s-out"></div>');
     var inp = document.getElementById("s-search");
     inp.addEventListener("input", function () { sq = inp.value; renderSearch(); });
@@ -2508,9 +2745,9 @@
     if (q.length < 2) {
       var recent = recentSearches(), sugg = TERMS.filter(function (t) { return !t.enrich && t.related && t.related.length; }).slice(0, 6);
       if (sugg.length < 6) sugg = sugg.concat(TERMS.filter(function (t) { return !t.enrich && sugg.indexOf(t) === -1; }).slice(0, 6 - sugg.length));
-      out.innerHTML = '<p class="muted">הקלידו לפחות שתי אותיות.</p>' +
-        (recent.length ? '<div class="section-head"><h2>חיפושים אחרונים</h2></div><div class="chips">' + recent.map(function (r) { return '<button type="button" class="chip kw" data-act="s-try" data-q="' + esc(r) + '">' + esc(r) + "</button>"; }).join("") + "</div>" : "") +
-        '<div class="section-head"><h2>אפשר לנסות</h2></div><div class="chips">' + sugg.map(function (t) { return '<button type="button" class="chip kw" data-act="s-try" data-q="' + esc(t.he) + '">' + esc(t.he) + "</button>"; }).join("") + "</div>";
+      out.innerHTML = '<p class="muted">הקלידו לפחות שתי אותיות כדי לחפש.</p>' +
+        (recent.length ? '<div class="section-head"><h2>מה חיפשתם לאחרונה</h2></div><div class="chips">' + recent.map(function (r) { return '<button type="button" class="chip kw" data-act="s-try" data-q="' + esc(r) + '">' + esc(r) + "</button>"; }).join("") + "</div>" : "") +
+        '<div class="section-head"><h2>דוגמאות לחיפוש</h2></div><div class="chips">' + sugg.map(function (t) { return '<button type="button" class="chip kw" data-act="s-try" data-q="' + esc(t.he) + '">' + esc(t.he) + "</button>"; }).join("") + "</div>";
       return;
     }
     var hits = [];
@@ -2534,9 +2771,9 @@
       }).join("") + "</div>" : '<p class="muted">לא נמצא בשיעורים.</p>');
     html += '<div class="section-head"><h2>מונחים</h2><span class="count">' + terms.length + "</span></div>" +
       (terms.length ? '<div class="gl-list">' + terms.slice(0, 24).map(function (t) { return '<div class="gl-item' + (t.enrich ? " enrich" : "") + '"><div class="gl-head"><span class="t">' + hl(t.he, q) + "</span>" + (t.en ? '<span class="en" dir="ltr">' + hl(t.en, q) + "</span>" : "") + '</div><span class="d">' + hl(t.def, q) + "</span></div>"; }).join("") + "</div>" : '<p class="muted">לא נמצאו מונחים.</p>');
-    html += '<div class="section-head"><h2>בעמודי המקור</h2><span class="count">' + srcs.length + "</span></div>" +
-      (srcs.length ? '<div class="hits">' + srcs.slice(0, 30).map(function (x) { return '<a class="hit" href="#source-' + x.s.id + '"><span class="w">' + esc(srcLabel(x.s.id)) + " · " + esc(x.s.title || "") + "</span><span>" + hl(x.sn, q) + "</span></a>"; }).join("") + "</div>" : '<p class="muted">לא נמצא בעמודי המקור.</p>');
-    liveCount("s-status", hits.length + " תוצאות בשיעורים, " + terms.length + " מונחים, " + srcs.length + " בעמודי המקור");
+    html += '<div class="section-head"><h2>בשקפי הקורס</h2><span class="count">' + srcs.length + "</span></div>" +
+      (srcs.length ? '<div class="hits">' + srcs.slice(0, 30).map(function (x) { return '<a class="hit" href="#source-' + x.s.id + '"><span class="w">' + esc(srcLabel(x.s.id)) + " · " + esc(x.s.title || "") + "</span><span>" + hl(x.sn, q) + "</span></a>"; }).join("") + "</div>" : '<p class="muted">לא נמצא בשקפי הקורס.</p>');
+    liveCount("s-status", hits.length + " תוצאות בשיעורים, " + terms.length + " מונחים, " + srcs.length + " בשקפי הקורס");
     out.innerHTML = html;
     langParts();
   }
@@ -2545,7 +2782,7 @@
   function recentSearches() { try { var a = JSON.parse(lsGet("melachot-recent", "[]")); return Array.isArray(a) ? a.slice(0, 5) : []; } catch (e) { return []; } }
   function rememberSearch(q) { q = String(q || "").trim(); if (q.length < 2) return; var a = recentSearches().filter(function (x) { return x !== q; }); a.unshift(q); lsSet("melachot-recent", JSON.stringify(a.slice(0, 5))); }
   // =============================================================== sources & coverage
-  var STATUS = { full: ["פוענחה", "ok"], partial: ["פוענחה חלקית", "part"], unclear: ["דורשת אימות", "bad"] };
+  var STATUS = { full: ["נקרא במלואו", "ok"], partial: ["נקרא בחלקו", "part"], unclear: ["צריך לבדוק מה כתוב", "bad"] };
   function usedIn(id) {
     return LESSONS.filter(function (l) { return (l.sources || []).indexOf(id) !== -1; });
   }
@@ -2555,8 +2792,8 @@
     var counts = { full: 0, partial: 0, unclear: 0 }, unused = 0, dups = 0;
     SOURCES.forEach(function (s) { counts[s.status] = (counts[s.status] || 0) + 1; if (s.duplicate_of) dups++; else if (!usedIn(s.id).length && !s.no_content) unused++; });
     var list = SOURCES.filter(function (s) { return srcFilter === "all" || s.id.indexOf(srcFilter) === 0 || (srcFilter === "open" && (s.status !== "full" || (s.unclear || []).length)); });
-    var html = '<div class="page-head"><h1 class="display">עיון</h1></div>' + refTabs("sources") +
-      '<p class="muted">' + SOURCES.length + " עמודי מקור: כל תמונה מההקלטות ששלחת, התמלול שלה, מה לא היה קריא, ובאילו שיעורים היא מופיעה.</p>";
+    var html = '<div class="page-head"><h1 class="display">חומרי עזר</h1></div>' + refTabs("sources") +
+      '<p class="muted">' + SOURCES.length + " שקפים מהקורס. לכל שקף יש צילום, הטקסט שכתוב בו, ובאילו שיעורים הוא מופיע.</p>";
     // student-first: thumbnails per recording
     groups.forEach(function (g) {
       var gs = SOURCES.filter(function (s) { return s.id.indexOf(g + "-") === 0 && !s.duplicate_of; });
@@ -2564,33 +2801,33 @@
       html += '<section class="src-group"><div class="section-head"><h2>' + esc(META.groups[g].name) + '</h2><span class="count">' + gs.length + '</span></div><div class="thumbs">' +
         gs.map(function (s) { return '<a class="thumb-a" href="#source-' + s.id + '"><img loading="lazy" src="' + IMG_BASE + esc(s.id) + '-sm.jpg" data-full="' + IMG_BASE + esc(s.id) + '.jpg" alt="" data-act="imgfail"><span><b>' + esc(srcLabel(s.id)) + "</b>" + esc(s.title || "(ללא כותרת)") + "</span></a>"; }).join("") + "</div></section>";
     });
-    html += '<details class="panel cov-d"' + (srcFilter !== "all" ? " open" : "") + '><summary><b>דוח כיסוי</b>' + I.chev + "</summary>" +
+    html += '<details class="panel cov-d"' + (srcFilter !== "all" ? " open" : "") + '><summary><b>אילו שקפים נכנסו לשיעורים</b>' + I.chev + "</summary>" +
       '<div class="stats wide">' +
-      '<div class="stat"><span class="k">פוענחו במלואן</span><span class="v">' + counts.full + "</span></div>" +
-      '<div class="stat"><span class="k">פוענחו חלקית</span><span class="v">' + counts.partial + "</span></div>" +
-      '<div class="stat"><span class="k">דורשות אימות</span><span class="v">' + counts.unclear + "</span></div>" +
-      '<div class="stat"><span class="k">כפילויות (אותו שקף)</span><span class="v">' + dups + '</span><span class="k">' + unused + " ללא שיבוץ בשיעור</span></div></div>" +
-      '<div class="seg seg-scroll" role="group" aria-label="סינון">' + [["all", "הכול"]].concat(groups.map(function (g) { return [g, META.groups[g].short || META.groups[g].name]; })).concat([["open", "רק פערים פתוחים"]]).map(function (f) {
+      '<div class="stat"><span class="k">נקראו במלואם</span><span class="v">' + counts.full + "</span></div>" +
+      '<div class="stat"><span class="k">נקראו בחלקם</span><span class="v">' + counts.partial + "</span></div>" +
+      '<div class="stat"><span class="k">צריך לבדוק מה כתוב</span><span class="v">' + counts.unclear + "</span></div>" +
+      '<div class="stat"><span class="k">צילומים כפולים של אותו שקף</span><span class="v">' + dups + '</span><span class="k">' + unused + " לא נכנסו לשום שיעור</span></div></div>" +
+      '<div class="seg seg-scroll" role="group" aria-label="אילו שקפים להציג">' + [["all", "הכול"]].concat(groups.map(function (g) { return [g, META.groups[g].short || META.groups[g].name]; })).concat([["open", "רק שקפים שצריך לבדוק"]]).map(function (f) {
         return '<button type="button" data-act="src-filter" data-v="' + f[0] + '" aria-pressed="' + (srcFilter === f[0]) + '">' + esc(f[1]) + "</button>";
       }).join("") + "</div>" +
-      '<div class="tbl-scroll"><table class="cov"><thead><tr><th scope="col">עמוד</th><th scope="col">כותרת</th><th scope="col">סטטוס</th><th scope="col">לא ברור</th><th scope="col">מופיע בשיעורים</th></tr></thead><tbody>' +
+      '<div class="tbl-scroll"><table class="cov"><thead><tr><th scope="col">שקף</th><th scope="col">כותרת</th><th scope="col">מצב</th><th scope="col">מקומות לא ברורים</th><th scope="col">מופיע בשיעורים</th></tr></thead><tbody>' +
       list.map(function (s) {
         var st = STATUS[s.status] || ["?", "bad"], used = usedIn(s.id);
-        return '<tr><th scope="row"><a href="#source-' + s.id + '">' + esc(srcLabel(s.id)) + "</a></th><td>" + esc(s.title || "(ללא כותרת)") + (s.duplicate_of ? '<small class="muted"> · כפילות של ' + esc(srcLabel(s.duplicate_of)) + "</small>" : "") + '</td><td><span class="st st-' + st[1] + '">' + st[0] + '</span></td><td class="num">' + (s.unclear || []).length + "</td><td>" +
-          (used.length ? used.map(function (l) { return '<a href="#lesson-' + l.id + '">' + esc(l.code) + "</a>"; }).join(" ") : s.duplicate_of ? '<span class="muted">דרך ' + esc(srcLabel(s.duplicate_of)) + "</span>" : s.no_content ? '<span class="muted">' + esc(s.no_content) + "</span>" : '<span class="st st-bad">לא שובץ</span>') + "</td></tr>";
+        return '<tr><th scope="row"><a href="#source-' + s.id + '">' + esc(srcLabel(s.id)) + "</a></th><td>" + esc(s.title || "(ללא כותרת)") + (s.duplicate_of ? '<small class="muted"> · צילום נוסף של ' + esc(srcLabel(s.duplicate_of)) + "</small>" : "") + '</td><td><span class="st st-' + st[1] + '">' + st[0] + '</span></td><td class="num">' + (s.unclear || []).length + "</td><td>" +
+          (used.length ? used.map(function (l) { return '<a href="#lesson-' + l.id + '">' + esc(l.code) + "</a>"; }).join(" ") : s.duplicate_of ? '<span class="muted">דרך ' + esc(srcLabel(s.duplicate_of)) + "</span>" : s.no_content ? '<span class="muted">' + esc(s.no_content) + "</span>" : '<span class="st st-bad">לא נכנס לשיעור</span>') + "</td></tr>";
       }).join("") + "</tbody></table></div></details>";
     paint(html);
   }
   function viewSource(s) {
     var i = SOURCES.indexOf(s), prev = SOURCES[i - 1], next = SOURCES[i + 1];
     var st = STATUS[s.status] || ["?", "bad"], used = usedIn(s.id);
-    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#sources">עיון · עמודי המקור</a><span aria-hidden="true">/</span><span>' + esc(srcLabel(s.id)) + "</span></nav>" +
+    var html = '<nav class="crumbs" aria-label="מיקום"><a href="#home">דף הבית</a><span aria-hidden="true">›</span><a href="#sources">שקפי הקורס</a><span aria-hidden="true">›</span><span>' + esc(srcLabel(s.id)) + "</span></nav>" +
       '<div class="page-head"><span class="eyebrow">' + esc(((META.groups || {})[s.id.split("-")[0]] || {}).name || "") + ' · <span class="st st-' + st[1] + '">' + st[0] + "</span></span><h1>" + esc(s.title || "(ללא כותרת)") + "</h1></div>" +
-      '<div class="src-view"><figure class="src-full"><span class="src-lbl">שקף מהקורס</span><button type="button" class="zoom" data-act="zoom" aria-label="הגדלה"><img src="' + IMG_BASE + esc(s.id) + '.jpg" alt="' + esc(s.title || "עמוד מקור") + '" data-act="imgfail"></button><figcaption class="muted">הקישו על התמונה להגדלה.</figcaption></figure>' +
-      '<div class="src-text"><h2>תמלול</h2>' + transcriptHtml(s) +
-      ((s.unclear || []).length ? '<h2>מה לא קריא</h2><ul class="unclear-list">' + s.unclear.map(function (u) { return "<li><b>" + esc(u.where || "") + ":</b> " + esc(u.best_reading || "") + ((u.alternatives || []).length ? ' <span class="muted">(או: ' + esc(u.alternatives.join(" / ")) + ")</span>" : "") + "</li>"; }).join("") + "</ul>" : "") +
-      (s.notes ? '<h2>הערות התמלול</h2><p class="muted">' + esc(s.notes) + "</p>" : "") +
-      '<h2>מופיע בשיעורים</h2>' + (used.length ? '<ul class="plain">' + used.map(function (l) { return '<li><a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a></li>"; }).join("") + "</ul>" : s.duplicate_of ? '<p class="muted">זהו צילום נוסף של <a href="#source-' + s.duplicate_of + '">' + esc(srcLabel(s.duplicate_of)) + "</a>.</p>" : '<p class="muted">' + esc(s.no_content || "לא שובץ בשיעור.") + "</p>") +
+      '<div class="src-view"><figure class="src-full"><span class="src-lbl">שקף מהקורס</span><button type="button" class="zoom" data-act="zoom" aria-label="להגדיל את התמונה"><img src="' + IMG_BASE + esc(s.id) + '.jpg" alt="' + esc(s.title || "צילום שקף מהקורס") + '" data-act="imgfail"></button><figcaption class="muted">הקישו על התמונה כדי להגדיל אותה.</figcaption></figure>' +
+      '<div class="src-text"><h2>מה כתוב בשקף</h2>' + transcriptHtml(s) +
+      ((s.unclear || []).length ? '<h2>מה לא ברור בשקף</h2><ul class="unclear-list">' + s.unclear.map(function (u) { return "<li><b>" + esc(u.where || "") + ":</b> " + esc(u.best_reading || "") + ((u.alternatives || []).length ? ' <span class="muted">(או: ' + esc(u.alternatives.join(" / ")) + ")</span>" : "") + "</li>"; }).join("") + "</ul>" : "") +
+      (s.notes ? '<h2>הערות על הקריאה</h2><p class="muted">' + esc(s.notes) + "</p>" : "") +
+      '<h2>מופיע בשיעורים</h2>' + (used.length ? '<ul class="plain">' + used.map(function (l) { return '<li><a href="#lesson-' + l.id + '">' + esc(l.code + " " + l.title) + "</a></li>"; }).join("") + "</ul>" : s.duplicate_of ? '<p class="muted">זהו צילום נוסף של <a href="#source-' + s.duplicate_of + '">' + esc(srcLabel(s.duplicate_of)) + "</a>.</p>" : '<p class="muted">' + esc(s.no_content || "השקף הזה לא נכנס לאף שיעור.") + "</p>") +
       "</div></div>" +
       '<div class="pager">' + (prev ? '<a class="btn btn-ghost" href="#source-' + prev.id + '">' + I.arrowR + esc(srcLabel(prev.id)) + "</a>" : "<span></span>") + (next ? '<a class="btn btn-ghost" href="#source-' + next.id + '">' + esc(srcLabel(next.id)) + I.arrowL + "</a>" : "<span></span>") + "</div>";
     paint(html);
@@ -2616,10 +2853,10 @@
     (s.tables || []).forEach(function (t) {
       h += '<div class="tbl-scroll"><table><caption>' + esc(t.title || "") + "</caption><thead><tr>" + (t.headers || []).map(function (x) { return '<th scope="col">' + esc(x) + "</th>"; }).join("") + "</tr></thead><tbody>" + (t.rows || []).map(function (r) { return "<tr>" + r.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>"; }).join("") + "</tbody></table></div>";
     });
-    (s.figures || []).forEach(function (f) { h += '<p class="tr-fig"><b>איור/צילום:</b> ' + esc(f.description || "") + ((f.labels || []).length ? " · כיתובים: " + esc(f.labels.join(", ")) : "") + "</p>"; });
+    (s.figures || []).forEach(function (f) { h += '<p class="tr-fig"><b>איור או צילום:</b> ' + esc(f.description || "") + ((f.labels || []).length ? " · כיתובים: " + esc(f.labels.join(", ")) : "") + "</p>"; });
     if ((s.english_terms || []).length) h += '<p class="tr-en"><b>מונחים באנגלית:</b> <span dir="ltr">' + esc(s.english_terms.join(" · ")) + "</span></p>";
     if (s.footer) h += '<p class="muted">' + esc(s.footer) + "</p>";
-    return h || '<p class="muted">אין טקסט בעמוד הזה.</p>';
+    return h || '<p class="muted">אין טקסט בשקף הזה.</p>';
   }
 
   // =============================================================== progress (P0-1, P2-4)
@@ -2628,38 +2865,38 @@
     var chDone = CH.filter(function (x) { return x.lessons.every(function (l) { return S.done[l.id]; }); }).length;
     var learned = CARDS.filter(function (x) { return x.scope === "course" && S.cards[x.id] && S.cards[x.id].reps > 0; }).length;
     var courseCards = CARDS.filter(function (x) { return x.scope === "course"; }).length;
-    var html = '<div class="page-head"><h1 class="display">התקדמות</h1></div><div class="stats wide">' +
-      '<div class="stat"><span class="k">שיעורים שהושלמו</span><span class="v">' + c.d + "<small>/" + c.n + "</small></span>" + tape(c.p, false, "prog-done") + '<span class="k">' + chDone + " מתוך " + CH.length + " פרקים הושלמו</span></div>" +
-      '<div class="stat"><span class="k">מוכנות למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + glyph(rd, true) + '<span class="k">על סמך ' + rd.n + " תשובות</span>" : '<span class="v v-l">טרם נבדק</span><span class="k">תופיע אחרי 40 תשובות או מבחן אחד</span>') + "</div>" +
-      '<div class="stat"><span class="k">רצף ימי למידה</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
-      '<div class="stat"><span class="k">כרטיסיות שנלמדו</span><span class="v">' + learned + "<small>/" + courseCards + "</small></span>" + tape(pct(learned / Math.max(1, courseCards)), true) + "</div></div>";
+    var html = '<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1></div><div class="stats wide">' +
+      '<div class="stat"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, false, "prog-done") + '<span class="k">' + chDone + " מתוך " + CH.length + " פרקים הושלמו</span></div>" +
+      '<div class="stat"><span class="k">כמה אתם מוכנים למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + glyph(rd, true) + '<span class="k">לפי ' + rd.n + " תשובות שלכם</span>" : '<span class="v v-l">עוד לא ידוע</span><span class="k">יופיע אחרי שתענו על 40 שאלות, או אחרי מבחן אחד</span>') + "</div>" +
+      '<div class="stat"><span class="k">ימי לימוד ברצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
+      '<div class="stat"><span class="k">כרטיסיות שעברתם</span><span class="v">' + learned + "<small> מתוך " + courseCards + "</small></span>" + tape(pct(learned / Math.max(1, courseCards)), true) + "</div></div>";
     html += heatmap();
-    if (planOn()) html += '<div class="section-head"><h2>התוכנית</h2><a class="link-more" href="#plan">לתוכנית</a></div><div class="panel">' + planTicks(planDayNow()) + "</div>";
+    if (planOn()) html += '<div class="section-head"><h2>התוכנית</h2><a class="link-more" href="#plan">לכל התוכנית</a></div><div class="panel">' + planTicks(planDayNow()) + "</div>";
     html += '<div class="section-head"><h2>לפי פרקים</h2></div><div class="bars panel">' + CH.map(function (x) {
       var cp = completion(x.lessons);
-      return '<div class="bar-row bar-ch"><a href="#chapter-' + x.id + '">פרק ' + esc(x.letter) + ": " + esc(x.title) + "</a>" + tape(cp.p, true) + '<span class="mono-n">' + cp.d + "/" + cp.n + "</span>" + glyph(chapterM(x), true) + "</div>";
+      return '<div class="bar-row bar-ch"><a href="#chapter-' + x.id + '">פרק ' + esc(x.letter) + ": " + esc(x.title) + "</a>" + tape(cp.p, true) + '<span class="mono-n">' + cp.d + " מתוך " + cp.n + "</span>" + glyph(chapterM(x), true) + "</div>";
     }).join("") + "</div>";
     var all = LESSONS.map(function (l) { return { l: l, x: lessonM(l.id) }; });
     var strong = all.filter(function (o) { return o.x.lv >= 4 || (o.x.m !== null && o.x.m >= 0.85); });
     var weak = weakLessons(6);
     var untested = all.filter(function (o) { return o.x.m === null && (S.done[o.l.id] || lessonOpened(o.l.id)); });
     function li(o) { return '<li><a href="#lesson-' + o.l.id + '">' + esc(o.l.code + " " + o.l.title) + "</a>" + glyph(o.x) + "</li>"; }
-    html += '<div class="section-head"><h2>שליטה לפי שיעור</h2></div><div class="two-col"><div class="panel"><h3 class="h-sm">שולטים</h3>' + (strong.length ? '<ul class="plain">' + strong.map(li).join("") + "</ul>" : '<p class="muted">יופיעו כאן אחרי תרגול וחזרה מרווחת.</p>') + "</div>" +
-      '<div class="panel"><h3 class="h-sm">צריך חיזוק</h3>' + (weak.length ? '<ul class="plain">' + weak.map(li).join("") + "</ul>" : '<p class="muted">אין כרגע שיעורים שצריך לחזק.</p>') + "</div></div>" +
-      (untested.length ? '<p class="untested">טרם נבדקו: ' + plural(untested.length, "שיעור אחד", "שיעורים") + ' <button type="button" class="btn btn-sm" data-act="start-scope" data-scope="untested">תרגול של 10 שאלות מהם</button></p>' : "");
+    html += '<div class="section-head"><h2>רמת הידיעה בכל שיעור</h2></div><div class="two-col"><div class="panel"><h3 class="h-sm">שיעורים שאתם יודעים היטב</h3>' + (strong.length ? '<ul class="plain">' + strong.map(li).join("") + "</ul>" : '<p class="muted">יופיעו כאן אחרי שתענו על שאלות ותעברו על כרטיסיות.</p>') + "</div>" +
+      '<div class="panel"><h3 class="h-sm">שיעורים שצריך לחזק</h3>' + (weak.length ? '<ul class="plain">' + weak.map(li).join("") + "</ul>" : '<p class="muted">אין כרגע שיעורים שצריך לחזק.</p>') + "</div></div>" +
+      (untested.length ? '<p class="untested">שיעורים שעוד לא נבדקו: ' + plural(untested.length, "שיעור אחד", "שיעורים") + ' <button type="button" class="btn btn-sm" data-act="start-scope" data-scope="untested">לענות על 10 שאלות מהשיעורים האלה</button></p>' : "");
     var marks = Object.keys(S.bookmarks).map(function (k) { return S.bookmarks[k]; }).filter(function (b) { return L[b.lesson]; }).sort(function (a, b) { return b.t - a.t; });
-    html += '<div class="section-head" id="bm"><h2>סימנתם לחזרה (' + marks.length + ")</h2></div>" + (marks.length ? '<ul class="plain panel">' + marks.map(function (b) {
+    html += '<div class="section-head" id="bm"><h2>קטעים ששמרתם (' + marks.length + ")</h2></div>" + (marks.length ? '<ul class="plain panel">' + marks.map(function (b) {
       return '<li><a href="#lesson-' + b.lesson + '" data-act="goto-level" data-lesson="' + b.lesson + '" data-lv="' + b.anchor.split("-")[1] + '" data-target="' + esc(b.anchor) + '">' + esc(L[b.lesson].code + " · " + b.title) + '</a><span class="muted">' + fmtDate(b.t) + "</span></li>";
-    }).join("") + "</ul>" : '<p class="muted panel">סמנו קטע בשיעור בכוכב כדי לחזור אליו מכאן.</p>');
+    }).join("") + "</ul>" : '<p class="muted panel">בשיעור, הקישו על הכוכב שליד קטע כדי לשמור אותו. הקטעים השמורים יופיעו כאן.</p>');
     var byType = {}, nAns = 0;
     Object.keys(S.qstats).forEach(function (id) { var s = S.qstats[id], q = Q[id]; if (!q) return; byType[q.type] = byType[q.type] || { r: 0, n: 0 }; byType[q.type].r += s.r; byType[q.type].n += s.r + s.w; nAns += s.r + s.w; });
     if (Object.keys(byType).length) {
-      html += '<details class="panel breakdown"' + (nAns >= 20 ? " open" : "") + "><summary><b>הצלחה לפי סוג שאלה</b>" + I.chev + '</summary><div class="bars">' + Object.keys(byType).map(function (t) {
-        var p = pct(byType[t].r / Math.max(1, byType[t].n)); return '<div class="bar-row"><span>' + TYPE_NAME[t] + " (" + byType[t].n + ")</span>" + tape(p, true) + '<span class="mono-n" dir="ltr">' + p + "%</span></div>";
+      html += '<details class="panel breakdown"' + (nAns >= 20 ? " open" : "") + "><summary><b>תשובות נכונות לפי סוג שאלה</b>" + I.chev + '</summary><div class="bars">' + Object.keys(byType).map(function (t) {
+        var p = pct(byType[t].r / Math.max(1, byType[t].n)); return '<div class="bar-row"><span>' + TYPE_NAME[t] + " (" + byType[t].n + " שאלות)</span>" + tape(p, true) + '<span class="mono-n">' + p + " אחוז</span></div>";
       }).join("") + "</div></details>";
     }
-    html += '<div class="section-head"><h2>היסטוריית מבחנים</h2></div>' + (S.exams.length ? '<div class="tbl-scroll panel"><table class="hist"><thead><tr><th scope="col">תאריך</th><th scope="col">מבחן</th><th scope="col">ציון</th><th scope="col">שאלות</th><th scope="col">זמן</th></tr></thead><tbody>' +
-      S.exams.slice(0, 30).map(function (e) { return "<tr><td>" + fmtDate(e.t) + "</td><td>" + esc(e.title) + '</td><td class="num" dir="ltr">' + e.score + '%</td><td class="num">' + e.n + '</td><td class="num">' + fmtDur(e.dur) + "</td></tr>"; }).join("") + "</tbody></table></div>" : '<p class="muted panel">עדיין אין מבחנים.</p>');
+    html += '<div class="section-head"><h2>המבחנים שעשיתם</h2></div>' + (S.exams.length ? '<div class="tbl-scroll panel"><table class="hist"><thead><tr><th scope="col">תאריך</th><th scope="col">מבחן</th><th scope="col">ציון</th><th scope="col">שאלות</th><th scope="col">משך</th></tr></thead><tbody>' +
+      S.exams.slice(0, 30).map(function (e) { return "<tr><td>" + fmtDate(e.t) + "</td><td>" + esc(e.title) + '</td><td class="num">' + e.score + '</td><td class="num">' + e.n + '</td><td class="num">' + plural(Math.max(1, Math.round(e.dur / 60)), "דקה אחת", "דקות") + "</td></tr>"; }).join("") + "</tbody></table></div>" : '<p class="muted panel">עוד לא עשיתם מבחן.</p>');
     html += footHtml();
     paint(html);
   }
@@ -2667,12 +2904,12 @@
     var d = new Date(); d.setDate(d.getDate() - d.getDay() - 21);
     var cols = [], max = 1;
     for (var w = 0; w < 4; w++) { var col = []; for (var i = 0; i < 7; i++) { var k = dayKey(d), n = S.days[k] || 0; max = Math.max(max, n); col.push({ k: k, n: n, f: k > today() }); d.setDate(d.getDate() + 1); } cols.push(col); }
-    var days = ["א", "ב", "ג", "ד", "ה", "ו", "ש"], h = '<div class="heat-w"><div class="heat" role="group" aria-label="פעילות ב-4 השבועות האחרונים">';
+    var days = ["א", "ב", "ג", "ד", "ה", "ו", "ש"], h = '<div class="heat-w"><div class="heat" role="group" aria-label="באילו ימים למדתם, ב-4 השבועות האחרונים">';
     for (var r = 0; r < 7; r++) {
       h += '<span class="hd" aria-hidden="true">' + days[r] + "</span>";
-      cols.forEach(function (col) { var x = col[r]; var lv = x.f ? "f" : !x.n ? "" : x.n > 20 ? "l3" : x.n > 6 ? "l2" : "l1"; h += '<i class="' + lv + '" role="img" aria-label="' + fmtDay(x.k) + ": " + x.n + ' פעולות"></i>'; });
+      cols.forEach(function (col) { var x = col[r]; var lv = x.f ? "f" : !x.n ? "" : x.n > 20 ? "l3" : x.n > 6 ? "l2" : "l1"; h += '<i class="' + lv + '" role="img" aria-label="' + fmtDay(x.k) + ": " + x.n + ' פעולות לימוד"></i>'; });
     }
-    return h + '</div><div class="heat-leg" aria-hidden="true"><span>פחות</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>יותר</span></div></div>';
+    return h + '</div><div class="heat-leg" aria-hidden="true"><span>פחות לימוד</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>יותר לימוד</span></div></div>';
   }
 
   // =============================================================== settings (P2-3)
@@ -2681,17 +2918,17 @@
       return '<div class="field"><span class="lbl" id="set-' + k + '">' + label + '</span><div class="seg" role="group" aria-labelledby="set-' + k + '">' +
         opts.map(function (o) { return '<button type="button" data-act="set" data-k="' + k + '" data-v="' + o[0] + '" aria-pressed="' + (SET[k] === o[0]) + '">' + o[1] + "</button>"; }).join("") + "</div></div>";
     }
-    openSheet({ title: "הגדרות", body: '<div class="setup">' + seg("theme", "ערכת צבעים", [["auto", "לפי המכשיר"], ["light", "בהיר"], ["dark", "כהה"]]) +
-      seg("text", "גודל טקסט", [["m", "רגיל"], ["l", "גדול"]]) + seg("motion", "תנועה", [["auto", "לפי המכשיר"], ["reduce", "מופחתת"]]) +
-      (cloud.on ? "" : '<div class="set-reset"><span class="lbl">גיבוי התקדמות</span><p class="muted small">ההתקדמות נשמרת רק בדפדפן הזה. כדי להמשיך במכשיר אחר, שומרים קובץ גיבוי ופותחים אותו שם. הגיבוי מתמזג עם ההתקדמות שכבר קיימת.</p>' +
-        '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="backup-save">שמירת קובץ גיבוי</button><button type="button" class="btn btn-sm" data-act="backup-load">טעינת קובץ גיבוי</button></div>' +
+    openSheet({ title: "הגדרות", body: '<div class="setup">' + seg("theme", "צבעי המסך", [["auto", "לפי המכשיר"], ["light", "רקע בהיר"], ["dark", "רקע כהה"]]) +
+      seg("text", "גודל האותיות", [["m", "רגיל"], ["l", "גדול"]]) + seg("motion", "תנועה במסך", [["auto", "לפי המכשיר"], ["reduce", "מעט תנועה"]]) +
+      (cloud.on ? "" : '<div class="set-reset"><span class="lbl">גיבוי ההתקדמות</span><p class="muted small">כדי להמשיך במכשיר אחר: שמרו קובץ גיבוי, ופתחו אותו במכשיר השני. מה שבקובץ יתווסף למה שכבר יש שם.</p>' +
+        '<div class="btn-row"><button type="button" class="btn btn-sm" data-act="backup-save">לשמור קובץ גיבוי</button><button type="button" class="btn btn-sm" data-act="backup-load">לפתוח קובץ גיבוי</button></div>' +
         '<input type="file" id="backup-file" accept="application/json,.json" hidden></div>') +
-      '<div class="set-reset"><p class="muted">' + saveStatusText() + '</p><button type="button" class="btn btn-ghost btn-danger" data-act="reset-ask">איפוס התקדמות</button></div></div>' });
+      '<div class="set-reset"><p class="muted">' + saveStatusText() + '</p><button type="button" class="btn btn-ghost btn-danger" data-act="reset-ask">למחוק את כל ההתקדמות</button></div></div>' });
   }
   function moreCards() {
     if (dailyQueueSize()) { rev = null; go("#review"); return; }
     var pool = CARDS.filter(function (c) { return c.scope === "course" && S.cards[c.id]; });
-    if (!pool.length) { toast("עוד אין כרטיסיות. קראו קטע בשיעור כדי לפתוח את הכרטיסיות שלו."); return; }
+    if (!pool.length) { toast("עוד אין כרטיסיות. קראו קטע בשיעור, והכרטיסיות שלו ייפתחו."); return; }
     rev = cramFrom(buildReview(""), pool, 10); rev.key = "daily";
     go("#review");
   }
@@ -2701,12 +2938,12 @@
   }
   function mapSheet() {
     if (!run) return;
-    openSheet({ title: "מפת השאלות", cls: "map-sheet", focus: ".qmap .cur",
+    openSheet({ title: "לאיזו שאלה לעבור?", cls: "map-sheet", focus: ".qmap .cur",
       body: '<div class="qmap">' + run.items.map(function (x, k) {
         var a = answeredExam(x);
-        return '<button type="button" class="qm' + (a ? " ans" : "") + (k === run.i ? " cur" : "") + (x.flag ? " flag" : "") + '" data-act="q-jump" data-k="' + k + '" aria-label="שאלה ' + (k + 1) + (a ? ", נענתה" : ", לא נענתה") + (x.flag ? ", מסומנת" : "") + '">' + (k + 1) + "</button>";
-      }).join("") + '</div><p class="qmap-leg"><span class="qml ans"></span>נענתה · <span class="qml"></span>לא נענתה · <span class="qml flag"></span>מסומנת</p>',
-      actions: [{ label: "הגשת המבחן", act: "exam-submit", cls: "btn-primary" }] });
+        return '<button type="button" class="qm' + (a ? " ans" : "") + (k === run.i ? " cur" : "") + (x.flag ? " flag" : "") + '" data-act="q-jump" data-k="' + k + '" aria-label="שאלה ' + (k + 1) + (a ? ", עניתם" : ", עוד לא עניתם") + (x.flag ? ", סימנתם לחזור אליה" : "") + '">' + (k + 1) + "</button>";
+      }).join("") + '</div><p class="qmap-leg"><span class="qml ans"></span>עניתם · <span class="qml"></span>עוד לא עניתם · <span class="qml flag"></span>סימנתם לחזור אליה</p>',
+      actions: [{ label: "להגיש את המבחן", act: "exam-submit", cls: "btn-primary" }] });
   }
 
   // =============================================================== events
@@ -2729,9 +2966,9 @@
         el.parentNode.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === el)); });
         break;
       case "reset-ask":
-        openSheet({ title: "למחוק את כל ההתקדמות?", body: "<p>לא ניתן לבטל.</p>", actions: [{ label: "לבטל", act: "dlg-close", cls: "btn-primary" }, { label: "למחוק", act: "reset-do", cls: "btn-danger" }] });
+        openSheet({ title: "למחוק את כל ההתקדמות?", body: "<p>כל מה שלמדתם, התשובות והכרטיסיות יימחקו. אי אפשר להחזיר אותם.</p>", actions: [{ label: "לא, לא למחוק", act: "dlg-close", cls: "btn-primary" }, { label: "כן, למחוק הכול", act: "reset-do", cls: "btn-danger" }] });
         break;
-      case "reset-do": S = blank(); run = null; rev = null; save(); obStep = 0; go("#home"); toast("ההתקדמות אופסה"); break;
+      case "reset-do": S = blank(); run = null; rev = null; save(); obStep = 0; go("#home"); toast("כל ההתקדמות נמחקה"); break;
       case "backup-save":
         try {
           var bk = new Blob([JSON.stringify({ app: "melachot", v: 1, at: new Date().toISOString(), state: S })], { type: "application/json" });
@@ -2739,8 +2976,8 @@
           ba.href = URL.createObjectURL(bk); ba.download = "melachot-backup-" + new Date().toISOString().slice(0, 10) + ".json";
           document.body.appendChild(ba); ba.click();
           setTimeout(function () { URL.revokeObjectURL(ba.href); ba.remove(); }, 1000);
-          toast("קובץ הגיבוי נשמר");
-        } catch (err) { toast("לא הצלחנו לשמור קובץ גיבוי בדפדפן הזה"); }
+          toast("קובץ הגיבוי נשמר במכשיר");
+        } catch (err) { toast("לא הצלחנו לשמור את קובץ הגיבוי. נסו שוב."); }
         break;
       case "backup-load": var bf = document.getElementById("backup-file"); if (bf) bf.click(); break;
       case "flip": e.preventDefault(); flip(); break;
@@ -2751,10 +2988,10 @@
       case "quick-practice": e.preventDefault(); startScope("quick", 10); break;
       case "start-scope": e.preventDefault(); startScope(el.getAttribute("data-scope"), el.getAttribute("data-scope") === "mistakes" ? 15 : 10); break;
       case "preset-ch":
-        openSheet({ title: "תרגול לפי פרק", body: '<div class="pick-list">' + CH.map(function (c) { return '<button type="button" class="pick" data-act="start-scope" data-scope="ch:' + c.id + '"><b>פרק ' + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + poolFor("ch:" + c.id).length + " שאלות</span></button>"; }).join("") + "</div>" });
+        openSheet({ title: "על איזה פרק לתרגל?", body: '<div class="pick-list">' + CH.map(function (c) { return '<button type="button" class="pick" data-act="start-scope" data-scope="ch:' + c.id + '"><b>פרק ' + esc(c.letter) + ": " + esc(c.title) + "</b><span>" + poolFor("ch:" + c.id).length + " שאלות</span></button>"; }).join("") + "</div>" });
         break;
       case "preset-type":
-        openSheet({ title: "תרגול לפי סוג שאלה", body: '<div class="pick-list">' + Object.keys(TYPE_NAME).map(function (t) { var n = poolFor("t:" + t).length; return '<button type="button" class="pick" data-act="start-scope" data-scope="t:' + t + '"' + (n ? "" : " disabled") + "><b>" + TYPE_NAME[t] + "</b><span>" + n + " שאלות</span></button>"; }).join("") + "</div>" });
+        openSheet({ title: "איזה סוג שאלות לתרגל?", body: '<div class="pick-list">' + Object.keys(TYPE_NAME).map(function (t) { var n = poolFor("t:" + t).length; return '<button type="button" class="pick" data-act="start-scope" data-scope="t:' + t + '"' + (n ? "" : " disabled") + "><b>" + TYPE_NAME[t] + "</b><span>" + n + " שאלות</span></button>"; }).join("") + "</div>" });
         break;
       case "level":
         var lid = route().slice(7); if (!L[lid]) break;
@@ -2783,22 +3020,20 @@
       case "bookmark":
         var key = el.getAttribute("data-lesson") + "|" + el.getAttribute("data-anchor");
         if (S.bookmarks[key]) delete S.bookmarks[key]; else S.bookmarks[key] = { lesson: el.getAttribute("data-lesson"), anchor: el.getAttribute("data-anchor"), title: el.getAttribute("data-title"), t: Date.now() };
-        save(); el.classList.toggle("on", !!S.bookmarks[key]); el.setAttribute("aria-pressed", String(!!S.bookmarks[key]));
-        if (S.bookmarks[key]) toast("סומן לחזרה.", '<a href="#progress" data-act="goto" data-target="bm">לכל הסימניות</a>'); else toast("הסימון הוסר");
+        save(); el.classList.toggle("on", !!S.bookmarks[key]); el.innerHTML = bmLabel(!!S.bookmarks[key]);
+        if (S.bookmarks[key]) toast("הקטע נשמר.", '<a href="#progress" data-act="goto" data-target="bm">לכל הקטעים השמורים</a>'); else toast("הקטע הוסר מהשמורים");
         break;
       case "toggle-done":
         var did = el.getAttribute("data-id");
         if (S.done[did]) delete S.done[did]; else { S.done[did] = Date.now(); touchDay(); }
         save(); viewLesson(L[did]); updateBadge();
-        toast(S.done[did] ? "השיעור סומן כהושלם. הכרטיסיות שלו בחזרה היומית." : "הסימון בוטל");
+        toast(S.done[did] ? "סימנו שסיימתם את השיעור. הכרטיסיות שלו נכנסו לחזרה." : "ביטלנו את הסימון שסיימתם");
         var pr = document.getElementById("s-practice"); if (pr) pr.scrollIntoView({ block: "center" });
-        if (S.done[did]) maybeChapterDone(did);
         break;
       case "mark-done":
         var md = el.getAttribute("data-id");
         if (!S.done[md]) { S.done[md] = Date.now(); touchDay(); }
-        save(); run = null; toast("השיעור סומן כהושלם."); go("#lesson-" + md);
-        setTimeout(function () { if (route() === "lesson-" + md) maybeChapterDone(md); }, 300);
+        save(); run = null; toast("סימנו שסיימתם את השיעור."); go("#lesson-" + md);
         break;
       case "toggle-read":
         var rid = el.getAttribute("data-id");
@@ -2808,6 +3043,7 @@
         var cid = el.getAttribute("data-id"), lst = document.getElementById("chl-" + cid), op = !!(lst && lst.hidden);
         if (!lst) break;
         lst.hidden = !op; el.setAttribute("aria-expanded", String(op)); document.getElementById("ch-" + cid).classList.toggle("open", op);
+        if (CHID[cid]) el.innerHTML = chExpLabel(CHID[cid], op);
         openCh[cid] = op; lsSet("melachot-open-ch2", JSON.stringify(openCh));
         break;
       case "ch-jump":
@@ -2819,14 +3055,14 @@
       case "start-check": e.preventDefault(); startCheck(el.getAttribute("data-id")); break;
       case "start-lesson":
         var sl = el.getAttribute("data-id"), lq = lessonQs(sl);
-        startRun("practice", (L[sl] ? "תרגול: " + L[sl].title : "בוחן העשרה: " + LIBID[sl].title), spread(lq, lq.length), lessonHref(sl), { scope: L[sl] ? "l:" + sl : "" }); break;
+        startRun("practice", (L[sl] ? "תרגול: " + L[sl].title : "שאלות העשרה: " + LIBID[sl].title), spread(lq, lq.length), lessonHref(sl), { scope: L[sl] ? "l:" + sl : "" }); break;
       case "p-diff": cfg.diff = +el.getAttribute("data-n"); cfg.open = true; viewPracticeHub("practice"); break;
       case "p-type": var t = el.getAttribute("data-t"); cfg.types[t] = !cfg.types[t]; cfg.open = true; viewPracticeHub("practice"); break;
       case "p-count": cfg.count = +el.getAttribute("data-n"); cfg.open = true; viewPracticeHub("practice"); break;
       case "p-start":
         var list = poolFor(cfg.scope, cfg);
         startRun("practice", scopeTitle(cfg.scope), cfg.count ? spread(list, cfg.count) : shuffle(list), "#practice", { scope: cfg.diff || Object.keys(cfg.types).some(function (k) { return cfg.types[k]; }) ? "" : cfg.scope }); break;
-      case "exam-full": e.preventDefault(); startExam("מבחן כולל", spread(poolFor("mixed", { auto: true }), 30), 45, { kind: "full" }); break;
+      case "exam-full": e.preventDefault(); startExam("מבחן על כל הקורס", spread(poolFor("mixed", { auto: true }), 30), 45, { kind: "full" }); break;
       case "exam-ch": e.preventDefault(); examIntro(el.getAttribute("data-id")); break;
       case "exam-ch-go": if (introSkip) { S.seen.examIntro = Date.now(); save(); } startChapterExam(el.getAttribute("data-id")); break;
       case "pretest": e.preventDefault(); startPretest(el.getAttribute("data-ch"), el.getAttribute("data-phase") || "pre"); break;
@@ -2855,14 +3091,14 @@
       case "exam-submit":
         if (!run || run.finished) break;
         var un = run.items.filter(function (x) { return !answeredExam(x); }).length;
-        if (un) openSheet({ title: "יש " + un + " שאלות בלי תשובה", body: "<p>שאלה בלי תשובה נספרת כטעות.</p>", actions: [{ label: "לחזור לשאלות", act: "dlg-close", cls: "btn-primary" }, { label: "להגיש בכל זאת", act: "exam-submit-force" }] });
+        if (un) openSheet({ title: "להגיש עם " + plural(un, "שאלה אחת", "שאלות") + " בלי תשובה?", body: "<p>שאלה בלי תשובה נספרת כטעות.</p>", actions: [{ label: "לא, לחזור לשאלות", act: "dlg-close", cls: "btn-primary" }, { label: "כן, להגיש עכשיו", act: "exam-submit-force" }] });
         else submitExam();
         break;
       case "exam-submit-force": if (run && !run.finished) { if (route() !== "run") { submitExam(true); go("#run"); } else submitExam(); } break;
       case "retry-wrong":
         if (!run) break;
         var w = run.items.filter(function (x) { return x.id && x.score !== 1; }).map(function (x) { return Q[x.id]; });
-        startRun("practice", "תרגול חוזר: הטעויות", w, run.back); break;
+        startRun("practice", "תרגול: השאלות שטעיתם בהן", w, run.back); break;
       case "run-again": if (run) startScope(run.scope || "mixed", 10); break;
       case "goto-mis": var mis = document.getElementById("mis"); if (mis) mis.scrollIntoView({ block: "start" }); break;
       case "m-term":
@@ -2870,7 +3106,7 @@
         if (it.map[ti] !== undefined) { delete it.map[ti]; it.sel = null; } else it.sel = it.sel === ti ? null : ti;
         persistRun(); viewRun(); break;
       case "m-def":
-        if (!it || it.sel === null || it.sel === undefined) { toast("קודם בחרו מונח"); return; }
+        if (!it || it.sel === null || it.sel === undefined) { toast("קודם הקישו על מונח, ואחר כך על ההגדרה שלו."); return; }
         var di = +el.getAttribute("data-i");
         Object.keys(it.map).forEach(function (kk) { if (it.map[kk] === di) delete it.map[kk]; });
         it.map[it.sel] = di; it.sel = null; persistRun(); viewRun(); break;
@@ -2887,7 +3123,7 @@
       case "open-ai":
         if (!it) return;
         var ta2 = document.getElementById("open-a"), qq = Q[it.id]; it.text = ta2 ? ta2.value : "";
-        if (!it.text.trim()) { toast("כתבו קודם תשובה"); return; }
+        if (!it.text.trim()) { toast("קודם כתבו תשובה בתיבה."); return; }
         runAI("ai-out", aiPrompt("בדוק את תשובת הסטודנט לשאלה. כתוב מה נכון בה, מה חסר או שגוי לעומת התשובה לדוגמה ונקודות המפתח, ותן הערכה: מלאה / חלקית / חסרה.",
           L[qq.lesson], "השאלה: " + qq.q + "\nתשובה לדוגמה: " + qq.model + "\nנקודות מפתח: " + (qq.points || []).join("; ") + "\nתשובת הסטודנט: " + it.text)); break;
       case "ai": runAI("ai-out", aiPrompt(AI_TASKS[el.getAttribute("data-task")], L[route().slice(7)])); break;
@@ -2900,10 +3136,10 @@
       case "toc": tocSheet(); break;
       case "toc-go": var tgt = document.getElementById(el.getAttribute("data-target")); if (tgt) tgt.scrollIntoView({ block: "start" }); break;
       case "memo":
-        var mo = !clozeOn(); lsSet(CLOZE_KEY, mo ? "1" : "0"); el.setAttribute("aria-pressed", String(mo)); applyCloze(mo);
-        toast(mo ? "מצב שינון: הקישו על מילה מוסתרת כדי לחשוף אותה" : "מצב שינון כבוי"); break;
+        var mo = !clozeOn(); lsSet(CLOZE_KEY, mo ? "1" : "0"); el.innerHTML = I.eyeOff + memoLabel(); applyCloze(mo);
+        announce(mo ? "המילים החשובות מוסתרות. הקישו על מילה כדי לראות אותה." : "כל המילים מוצגות שוב."); break;
       case "legend": legendSheet(); break;
-      case "legend-ok": S.seen.legend = Date.now(); save(); break;
+      case "legend-ok": S.seen.legend = Date.now(); save(); var lbx = document.getElementById("legend-box"); if (lbx) { lbx.remove(); focusEl(main.querySelector("#level-bar [aria-selected=true]")); } break;
       case "dg-zoom":
         var fg = el.closest("figure"), sv = fg && fg.querySelector("svg.drawing");
         if (sv) openViewer(sv.outerHTML.replace(/ stepping/g, "").replace(/ class="pt pt-(\d+) hl"/g, ' class="pt pt-$1"'), (fg.querySelector("figcaption .dg-t") || {}).textContent || "תרשים");
@@ -2928,7 +3164,7 @@
         var tk = document.querySelector('[data-act="plan-tick"][data-day="' + d0 + '"][data-idx="' + ix + '"]'); if (tk) tk.focus({ preventScroll: true });
         break;
       case "plan-carry": S.plan.carry = { d: today(), day: +el.getAttribute("data-day") }; S.plan.t = Date.now(); save(); render(); break;
-      case "plan-shift": S.plan.shift = (S.plan.shift || 0) + 1; S.plan.carry = null; S.plan.t = Date.now(); save(); render(); toast("התוכנית נדחתה ביום אחד"); break;
+      case "plan-shift": S.plan.shift = (S.plan.shift || 0) + 1; S.plan.carry = null; S.plan.t = Date.now(); save(); render(); toast("דחינו את התוכנית ביום אחד"); break;
       case "ob-plan": obStep = 1; render(); var oc = main.querySelector(".choice"); if (oc) oc.focus(); break;
       case "ob-back": obStep = 0; render(); break;
       case "ob-self": S.plan = Object.assign(blankPlan(), { mode: "self", t: Date.now() }); S.auto = null; save(); render(); break;
@@ -2960,10 +3196,10 @@
         var o = null;
         try { o = JSON.parse(rd.result); } catch (err) { o = null; }
         el.value = "";
-        if (!o || o.app !== "melachot" || !o.state || typeof o.state !== "object") { toast("הקובץ הזה אינו קובץ גיבוי של האפליקציה"); return; }
-        S = merge(S, o.state); save(); closeSheet(); render(); toast("הגיבוי נטען והתמזג עם ההתקדמות");
+        if (!o || o.app !== "melachot" || !o.state || typeof o.state !== "object") { toast("זה לא קובץ גיבוי של האפליקציה. בחרו קובץ אחר."); return; }
+        S = merge(S, o.state); save(); closeSheet(); render(); toast("הגיבוי נפתח. מה שבקובץ נוסף להתקדמות שלכם.");
       };
-      rd.onerror = function () { el.value = ""; toast("לא הצלחנו לקרוא את הקובץ"); };
+      rd.onerror = function () { el.value = ""; toast("לא הצלחנו לפתוח את הקובץ. נסו שוב."); };
       rd.readAsText(el.files[0]);
       return;
     }
@@ -2979,7 +3215,7 @@
     if (t && t.tagName === "IMG" && t.hasAttribute("data-full")) { var full = t.getAttribute("data-full"); t.removeAttribute("data-full"); t.src = full; return; }
     if (t && t.tagName === "IMG" && t.getAttribute("data-act") === "imgfail") {
       var fig = t.closest("figure");
-      if (fig && !fig.querySelector(".img-missing")) { t.hidden = true; var p = document.createElement("p"); p.className = "img-missing muted"; p.textContent = "תמונת המקור לא זמינה בגרסה הזו. התמלול מופיע כאן."; fig.insertBefore(p, fig.firstChild); }
+      if (fig && !fig.querySelector(".img-missing")) { t.hidden = true; var p = document.createElement("p"); p.className = "img-missing muted"; p.textContent = "צילום השקף לא זמין כאן. הטקסט של השקף מופיע למטה."; fig.insertBefore(p, fig.firstChild); }
       else if (!fig) t.style.visibility = "hidden";
     }
   }, true);
@@ -3010,19 +3246,14 @@
       e.preventDefault(); e.target.click();
     }
   });
-  // one scroll loop: sticky shadow (M18), bottom-nav auto-hide on reading pages (M14), reading tracker, chapter scroll-spy, cheat-sheet end
-  var lastY = window.scrollY, acc = 0, ticking = false;
+  // one scroll loop: sticky shadow (M18), reading tracker, chapter scroll-spy, cheat-sheet end (the menu never hides: senior P0-8)
+  var ticking = false;
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   function onScroll() {
     ticking = false;
-    var y = window.scrollY, dy = y - lastY; lastY = y;
+    var y = window.scrollY;
     var atEnd = window.innerHeight + y >= document.documentElement.scrollHeight - 8;
     if (topbar) topbar.classList.toggle("scrolled", y > 2);
-    if (document.body.classList.contains("reading")) {
-      if (dy > 0) { acc += dy; if (acc > 24 && y > 120) document.body.classList.add("nav-hide"); }
-      else if (dy < 0) { acc = 0; document.body.classList.remove("nav-hide"); }
-      if (atEnd) document.body.classList.remove("nav-hide");
-    }
     if (LV) trackReading();
     if (CHV) chapterSpy();
     if (SHEETV && atEnd && !SHEETV.logged) { SHEETV.logged = true; act("sheet:" + SHEETV.ch); save(); }
@@ -3037,7 +3268,6 @@
       if (on) { b.setAttribute("aria-current", "true"); b.scrollIntoView({ block: "nearest", inline: "nearest" }); } else b.removeAttribute("aria-current");
     });
   }
-  document.getElementById("nav").addEventListener("focusin", function () { document.body.classList.remove("nav-hide"); });
   // WCAG 2.4.11: a control that receives focus is scrolled clear of the sticky top bars and the fixed bottom bars
   var BARS_TOP = ".topbar, #level-bar, .ch-nav, .studybar, .sb-tape", BARS_BOT = ".nav, #ab";
   function barEdge(sel, bottom) {
