@@ -515,7 +515,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sim-track { position: relative; }
 .sim-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #E3E7D4 center / cover no-repeat; }
 /* a 0.3 KB blurred stand-in of the first picture, shown until it arrives (written by tools/sim_images.py) */
-.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAABwBQCdASogABIAPrVKn0unJCKhsBgIAOAWiUAWI9p/RM/4B85LQMujxEbheO/CHw7/rK+YAP6RqKmd8lK2H8FDDEJ/1T0dJyWTXdQQn3ruEs1W7ELgKCJYsKlHe3jy1C410eVofjkyD4hIqZciAm5d2/JtBgUlWmClY0GMrPwBte777C/lchQHUYJLpi8m9HFrHEuc/4rIZ4NX8n6KjH+SFPTnrVLU5jJQUgeIJbzptScH9GY1aFPV2T5IeEjMQAog44AA"); }
+.sim.photo .sim-stage { background-image: url("data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAACwBQCdASogABIAPrVMn0snJCKhsBgIAOAWiUATpm6u3s4AB85JkiJT9vMIoXFWSyiEh89PPCAA/rIyLBkCffgvfTKo21hnfZmJtUusEC/iIlhws0BgqVncLNlqRlRU7VSErOvR2wmlSRHXYEmd/odQU1XGsAl72+4YXseoPGUscT6+fz2EJdbKkKOu4T9o81S1abSV5QBYNGz3mZ0aTCu8jNUltCdkZRUjnHw8PyCmLdLz1PnpW4s08tTKwJ8SKG1AAA=="); }
 .sim-stage canvas { opacity: 0; transition: opacity .5s; }
 .sim.live .sim-stage canvas { opacity: 1; }
 .sim-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -1452,3 +1452,12 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
   .office-hours[data-state="open"] .oh-dot { animation: oh-pulse 2.4s ease-in-out infinite; }
   @keyframes oh-pulse { 50% { box-shadow: 0 0 0 6px rgba(47, 158, 91, 0); } }
 }
+
+/* sim cards beside the people, not over them (Merav, 16 Nov 2026): per chapter, the card goes to the free side of the picture */
+@media (min-width: 761px) {
+  .sim-ch.at-left, .sim-ch.at-right, .sim-ch.at-center { padding-inline: max(calc(var(--gutter) + 52px), calc((100vw - 1240px) / 2)); }
+  .sim-ch.at-left { justify-content: left; }
+  .sim-ch.at-right { justify-content: right; }
+  .sim-ch.at-center { justify-content: center; }
+}
+@media (max-width: 760px) { .sim-ch.ph-top { align-items: flex-start; padding-top: calc(var(--head-h) + 52px); } }

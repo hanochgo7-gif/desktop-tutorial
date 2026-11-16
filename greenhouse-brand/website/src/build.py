@@ -672,6 +672,12 @@ def p_net(L):
 </main>"""
 
 
+# Which side of the screen each chapter's card sits on (wide screens), so it never covers the people in that picture
+# (Merav, 16 Nov 2026). Physical sides, the same in Hebrew and English; set from where the people stand in media-src/sim-real/chNN.png.
+SIM_SIDE = {1: "left", 2: "left", 3: "left", 4: "left", 5: "right", 6: "left", 7: "center", 11: "right"}  # 8-10: no people, the default side
+SIM_PHONE_TOP = {6, 7}  # phones: the card sits at the top in these chapters, where the people are low in the picture
+
+
 def p_sim(L):
     """The 3D build illustration. Cards scroll over a sticky canvas; build-sim.js maps the scroll to the scene.
     Without WebGL the page shows the section drawing instead (.nogl)."""
@@ -683,7 +689,9 @@ def p_sim(L):
         if i == n - 1:
             cta = (f'<div class="actions"><a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="sim">{esc(t(C.SITE["cta"], L))}</a>'
                    f'<a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="sim">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a></div>')
-        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}</span>'
+        side = SIM_SIDE.get(i + 1, "")
+        cls = ("sim-ch" + (" at-" + side if side else "") + (" ph-top" if i + 1 in SIM_PHONE_TOP else ""))
+        chs.append(f'<section class="{cls}" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}</span>'
                    f'<h2 id="sim-h{i}">{esc(t(h, L))}</h2><p>{esc(t(p, L))}</p>{cta}</div></section>')
     fig, legend = drawing(L, animate=False)
     r = rel(L)
