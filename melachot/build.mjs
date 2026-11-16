@@ -1,6 +1,6 @@
 // Build helper for melachot.
 //   node build.mjs bundle                 -> private/bundle.js (course meta + sources + lessons) for index.html
-//   node build.mjs artifact <out-dir> [page.html] -> <out-dir>/<page.html> (one self-contained page) + <out-dir>/src-img/*.jpg
+//   node build.mjs artifact <out-dir> [page.html] -> <out-dir>/<page.html> (one self-contained page) + <out-dir>/src-img/*.jpg + <out-dir>/media/* (AI illustrations)
 // The private/ folder holds the student's own course material and is not committed to the public repo.
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -56,7 +56,7 @@ if (mode === "bundle") {
 ${read("app.css")}
 </style>
 <div id="app" dir="rtl" lang="he"></div>
-<script>window.SRC_IMG_BASE = "src-img/";</script>
+<script>window.SRC_IMG_BASE = "src-img/"; window.MEDIA_BASE = "";</script>
 <script>
 ${safe(lessonsJs())}
 </script>

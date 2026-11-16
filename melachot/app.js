@@ -366,8 +366,7 @@
     },
     schedule: function () {
       var self = this;
-      if (!this.ref) return;
-      clearTimeout(this.timer);
+      if (!this.ref || this.timer) return;   // throttle: a write goes out at most 2.5 s after the first unsaved change
       this.timer = setTimeout(function () { self.flush(); }, 2500);
     },
     flush: function () {
@@ -778,10 +777,10 @@
     if (!window.Diagrams.has(id)) return "";
     ctx.fig = (ctx.fig || 0) + 1;
     var a = ANIM(id);
-    return '<figure class="dg" data-dg="' + esc(id) + '"><div class="dg-box">' + window.Diagrams.render(id) +
-      '<button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של איור ' + esc(ctx.code + "." + ctx.fig) + '">' + I.expand + "<span>הגדלה</span></button></div>" +
+    return '<figure class="dg" data-dg="' + esc(id) + '"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(id) + "</div>" +
       (a ? stepperHtml(id, a) : "") +
-      '<figcaption><b>איור ' + esc(ctx.code + "." + ctx.fig) + "</b><span>" + esc(window.Diagrams.title(id)) + '</span><span class="illus">המחשה לימודית, לא פרט לביצוע</span></figcaption></figure>';
+      '<figcaption><b>איור ' + esc(ctx.code + "." + ctx.fig) + '</b><span class="dg-t">' + esc(window.Diagrams.title(id)) + '</span><span class="illus">המחשה לימודית, לא פרט לביצוע</span>' +
+      '<button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של איור ' + esc(ctx.code + "." + ctx.fig) + '">' + I.expand + "<span>הגדלה</span></button></figcaption></figure>";
   }
   function stepperHtml(id, a) {
     var n = a.steps.length;
@@ -1032,6 +1031,7 @@
     var h = route();
     if (h.indexOf("review") === 0 && rev && rev.i >= rev.queue.length) rev = null;
     closeSheet(true); stopPlay();
+    var resumeTo = pendingResume && S.pos[pendingResume] ? S.pos[pendingResume].anchor : "";
     render();
     var done = false;
     if (pendingScroll) {
@@ -1040,7 +1040,7 @@
       if (el) { openAncestors(el); el.scrollIntoView({ block: "start" }); done = true; }
     } else if (pendingResume) {
       var id = pendingResume; pendingResume = null;
-      var p = S.pos[id], sec = p && p.anchor && document.getElementById(p.anchor);
+      var sec = resumeTo && document.getElementById(resumeTo);
       if (sec) {
         sec.scrollIntoView({ block: "start" }); done = true;
         var hd = sec.querySelector("h2") || sec;
@@ -1257,9 +1257,11 @@
     var cl = casesFor({ ch: c.id });
     if (cl.length) sec("cs-cases", "מקרי שטח", '<h2>מקרי שטח</h2><div class="case-grid">' + cl.map(caseCard).join("") + "</div>");
     sec("cs-exam", "מבחן", examCard(c, true));
-    html += (nav.length > 1 ? '<nav class="ch-nav" aria-label="ניווט בפרק"><div class="ch-nav-in">' + nav.map(function (n) { return '<button type="button" class="chip-nav" data-act="ch-jump" data-target="' + n[0] + '">' + n[1] + "</button>"; }).join("") + "</div></nav>" : "") + '<div class="ch-body">' + body + "</div>";
+    html += (nav.length > 1 ? '<nav class="ch-nav" aria-label="ניווט בפרק"><div class="ch-nav-in">' + nav.map(function (n) { return '<button type="button" class="chip-nav" data-act="ch-jump" data-target="' + n[0] + '">' + n[1] + "</button>"; }).join("") + "</div></nav>" : "") + '<div class="chp-body">' + body + "</div>";
     paint(html);
     CHV = { ids: nav.map(function (n) { return n[0]; }) };
+    // the chapter-complete moment, if it was missed on the result screen
+    if (c.lessons.every(function (l) { return S.done[l.id]; }) && !S.celebrated["ch:" + c.id]) setTimeout(function () { if (route() === "chapter-" + c.id && !dlg) maybeChapterDone(c.lessons[0].id); }, 400);
   }
   var CHV = null;
   function cheatList(cs, clip) {
@@ -1428,7 +1430,7 @@
     var ctx = { code: l.code }, m = media(l.id);
     var html = '<nav class="crumbs" aria-label="מיקום"><a href="#course">קורס</a><span aria-hidden="true">/</span><a href="#chapter-' + l.ch.id + '">פרק ' + esc(l.ch.letter) + ": " + esc(l.ch.title) + '</a><span aria-hidden="true">/</span><span>' + esc(l.code) + "</span></nav>";
     html += '<div class="lesson-wrap"><div class="lesson-main">';
-    html += '<header class="lesson-head' + (m ? " has-hero" : "") + '">' + (m ? aiFig(m, { cls: "hero", material: l.ch.material, eager: true }) : '<div class="swatch" aria-hidden="true">' + window.Diagrams.swatch(l.ch.material || "general") + "</div>") +
+    html += '<header class="lesson-head' + (m ? " has-hero" : "") + '">' + (m ? aiFig(m, { cls: "lh-hero", material: l.ch.material, eager: true }) : '<div class="swatch" aria-hidden="true">' + window.Diagrams.swatch(l.ch.material || "general") + "</div>") +
       '<div class="lh-main"><span class="eyebrow">שיעור ' + esc(l.code) + " · כ-" + (l.est || 10) + " דק׳ · פרק " + esc(l.ch.letter) + ": " + esc(l.ch.title) + "</span><h1>" + esc(l.title) + "</h1>" +
       '<div class="lh-chips">' + stateChip(l.id) + '<span class="chip">' + qs.length + " שאלות</span>" + '<span class="chip">' + cs.length + " כרטיסיות</span>" + glyph(lm) +
       ((l.sources || []).length ? '<details class="src-more"><summary class="chip">' + l.sources.length + " עמודי מקור" + I.chev + "</summary><div>" + srcChips(l.sources) + "</div></details>" : "") +
@@ -1515,7 +1517,7 @@
     paint(html);
     if (clozeOn()) applyCloze(true);
     LV = { lid: l.id, lv: lv, secs: secs, cur: "", saveT: 0 };
-    trackReading();
+    trackReading(true);
     if (firstVisit && !S.seen.legend) setTimeout(function () { if (LV && LV.lid === l.id && !dlg) legendSheet(); }, 450);
   }
   function tocItem(l, s) {
@@ -1544,7 +1546,7 @@
   }
   // reading tracker: section read = its bottom edge crossed under the sticky bars (or page end); resume position; progress line
   function stickyH() { var lb = document.getElementById("level-bar"); return (topbar ? topbar.offsetHeight : 56) + (lb ? lb.offsetHeight : 52); }
-  function trackReading() {
+  function trackReading(initial) {
     if (!LV) return;
     var top = stickyH(), changed = false, cur = "", atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
     LV.secs.forEach(function (s) {
@@ -1556,7 +1558,7 @@
     if (cur && cur !== LV.cur) {
       LV.cur = cur;
       document.querySelectorAll(".toc-side li").forEach(function (li) { li.classList.toggle("cur", li.getAttribute("data-toc") === cur); });
-      if (cur !== "s-practice" && cur !== "s-quick") { S.pos[LV.lid] = { level: LV.lv, anchor: cur, t: Date.now() }; changed = true; }
+      if (!initial && cur !== "s-practice" && cur !== "s-quick") { S.pos[LV.lid] = { level: LV.lv, anchor: cur, t: Date.now() }; changed = true; }
     }
     var body = main.querySelector(".lesson-body"), ri = document.getElementById("read-i");
     if (body && ri) { var br = body.getBoundingClientRect(); var p = Math.max(0, Math.min(1, (top - br.top) / Math.max(1, br.height - (window.innerHeight - top)))); ri.style.transform = "scaleX(" + p.toFixed(3) + ")"; }
@@ -2134,7 +2136,7 @@
     html += mistakesList(wrong);
     paint(html + "</div>");
     save();
-    if (chNow) setTimeout(function () { maybeChapterDone(l.id); }, motionOK() ? 700 : 0);
+    if (chNow) setTimeout(function () { if (route() === "run" && run && run.finished && run.lesson === l.id) maybeChapterDone(l.id); }, motionOK() ? 700 : 0);
   }
   function maybeChapterDone(lid) {
     var c = L[lid] && L[lid].ch;
@@ -2179,7 +2181,7 @@
   function caseCard(c) {
     var st = S.cases[c.id], m = media(c.id), ch0 = CHID[arr(c.chapters)[0]];
     var state = !st ? ["new", "חדש"] : st.done ? ["done", "הושלם · " + (st.score || 0) + "%"] : ["open", "שלב " + Math.min(c.steps.length, (st.step || 0) + 1) + " מתוך " + c.steps.length];
-    return '<a class="case-card" href="#' + esc(c.id) + '"><span class="cover">' + swatchBg(ch0 ? ch0.material : "general") + (m ? imgHtml(m, { card: true, small: true, sizes: "320px" }) + '<span class="ai-badge" aria-hidden="true">AI</span>' : "") + "</span>" +
+    return '<a class="case-card" href="#' + esc(c.id) + '"><span class="cover' + (m ? "" : " thin") + '">' + swatchBg(ch0 ? ch0.material : "general") + (m ? imgHtml(m, { card: true, small: true, sizes: "320px" }) + '<span class="ai-badge" aria-hidden="true">AI</span>' : "") + "</span>" +
       '<span class="cc-b"><b>' + esc(c.title) + "</b><small>כ-" + (c.est || 15) + " דק׳ · " + c.steps.length + ' שלבים</small><span class="chips">' +
       arr(c.chapters).filter(function (x) { return CHID[x]; }).map(function (x) { return '<span class="chip">פרק ' + CHID[x].letter + "</span>"; }).join("") +
       '<span class="chip st-' + state[0] + '">' + state[1] + "</span></span></span></a>";
@@ -2214,7 +2216,7 @@
   function viewCaseIntro() {
     var c = CASEID[run.caseId], m = media(c.id);
     var html = studyBar(c.title, "כ-" + (c.est || 15) + " דק׳ · " + c.steps.length + " שלבים", "run-exit") + '<div class="study-wrap case-intro">' +
-      (m ? aiFig(m, { cls: "hero", eager: true }) : "") + '<span class="pill-story">סיפור לתרגול: הפרויקט מומצא, העובדות מהקורס</span><h1 class="display">' + esc(c.title) + "</h1>" +
+      (m ? aiFig(m, { cls: "lh-hero", eager: true }) : "") + '<span class="pill-story">סיפור לתרגול: הפרויקט מומצא, העובדות מהקורס</span><h1 class="display">' + esc(c.title) + "</h1>" +
       '<div class="chips">' + arr(c.lessons).filter(function (x) { return L[x]; }).map(function (x) { return '<a class="chip kw" href="#lesson-' + x + '">' + esc(L[x].code + " " + L[x].title) + "</a>"; }).join("") + "</div>" +
       '<div class="prose story">' + (c.story || "") + "</div></div>" +
       '<div class="actionbar"><button type="button" class="btn btn-primary ab-wide" data-act="case-start">להתחיל' + I.arrowL + "</button></div>";
@@ -2239,7 +2241,7 @@
   function renderQuestion(q, it, exam) {
     var show = !exam && it.done;
     var h = "";
-    if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '<button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של התרשים">' + I.expand + '<span>הגדלה</span></button></div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span></figcaption></figure>';
+    if (q.type === "identify") h += '<figure class="dg dg-q"><div class="dg-box" data-act="dg-zoom">' + window.Diagrams.render(q.diagram, { marker: q.marker }) + '</div><figcaption><span class="illus">המחשה לימודית, לא פרט לביצוע</span><button type="button" class="dg-zoom" data-act="dg-zoom" aria-label="הגדלה של התרשים">' + I.expand + '<span>הגדלה</span></button></figcaption></figure>';
     if (q.type === "cloze") {
       var n = 0;
       h += '<div class="qq cloze-text">' + esc(q.text).replace(/\{\{[^}]+\}\}/g, function () {
@@ -2585,7 +2587,7 @@
       body: '<div class="qmap">' + run.items.map(function (x, k) {
         var a = answeredExam(x);
         return '<button type="button" class="qm' + (a ? " ans" : "") + (k === run.i ? " cur" : "") + (x.flag ? " flag" : "") + '" data-act="q-jump" data-k="' + k + '" aria-label="שאלה ' + (k + 1) + (a ? ", נענתה" : ", לא נענתה") + (x.flag ? ", מסומנת" : "") + '">' + (k + 1) + "</button>";
-      }).join("") + '</div><p class="qmap-leg"><span class="lg ans"></span>נענתה · <span class="lg"></span>לא נענתה · <span class="lg flag"></span>מסומנת</p>',
+      }).join("") + '</div><p class="qmap-leg"><span class="qml ans"></span>נענתה · <span class="qml"></span>לא נענתה · <span class="qml flag"></span>מסומנת</p>',
       actions: [{ label: "הגשת המבחן", act: "exam-submit", cls: "btn-primary" }] });
   }
 
@@ -2667,7 +2669,7 @@
         var md = el.getAttribute("data-id");
         if (!S.done[md]) { S.done[md] = Date.now(); touchDay(); }
         save(); run = null; toast("השיעור סומן כהושלם."); go("#lesson-" + md);
-        setTimeout(function () { maybeChapterDone(md); }, 300);
+        setTimeout(function () { if (route() === "lesson-" + md) maybeChapterDone(md); }, 300);
         break;
       case "toggle-read":
         var rid = el.getAttribute("data-id");
@@ -2775,7 +2777,7 @@
       case "legend-ok": S.seen.legend = Date.now(); save(); break;
       case "dg-zoom":
         var fg = el.closest("figure"), sv = fg && fg.querySelector("svg.drawing");
-        if (sv) openViewer(sv.outerHTML, (fg.querySelector("figcaption span:not(.illus)") || {}).textContent || "תרשים");
+        if (sv) openViewer(sv.outerHTML.replace(/ stepping/g, "").replace(/ class="pt pt-(\d+) hl"/g, ' class="pt pt-$1"'), (fg.querySelector("figcaption .dg-t") || {}).textContent || "תרשים");
         break;
       case "dg-play": playSteps(el.closest(".dg-step")); break;
       case "dg-prev": stopPlay(); var bx = el.closest(".dg-step"); setStep(bx, +bx.getAttribute("data-i") - 1); break;
