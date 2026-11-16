@@ -761,6 +761,10 @@
     t.innerHTML = '<span class="toast-t">' + esc(msg) + "</span>" + (html ? " " + html : "") +
       (o.undo ? '<button type="button" class="toast-btn" data-act="toast-undo">' + esc(o.action || "ביטול") + "</button>" : "") +
       (html || o.undo ? '<button type="button" class="toast-btn toast-x" data-act="toast-close">סגירה</button>' : "");
+    var ab = document.getElementById("ab"), nv = document.getElementById("nav"), off = 0;
+    if (document.body.classList.contains("focus")) { if (ab && getComputedStyle(ab).position === "fixed") off = ab.offsetHeight; }
+    else if (document.documentElement.getAttribute("data-nav") === "bottom" && nv) off = nv.offsetHeight;
+    t.style.bottom = off ? "calc(" + (off + 16) + "px + env(safe-area-inset-bottom, 0px))" : "";
     t.hidden = false;
     var ms = Math.max(SET.simple ? 8000 : 6000, 1500 + 70 * String(msg).length);
     toastRun(toastSticky ? 0 : o.undo ? Math.max(10000, ms) : ms);
@@ -1223,7 +1227,8 @@
         var t = b.querySelector("caption"), sec = b.closest(".cs, section"), h = sec && sec.querySelector("h2");
         var name = ((t && t.textContent.trim()) || (h && h.textContent.trim()) || "טבלה");
         b.setAttribute("tabindex", "0"); b.setAttribute("role", "region"); b.setAttribute("aria-label", name + " (טבלה רחבה. אפשר להזיז אותה ימינה ושמאלה)");
-      } else if (!over && b.getAttribute("role") === "region") { b.removeAttribute("tabindex"); b.removeAttribute("role"); b.removeAttribute("aria-label"); }
+        if (!(b.previousElementSibling && b.previousElementSibling.classList.contains("tbl-hint"))) { var hp = document.createElement("p"); hp.className = "tbl-hint"; hp.setAttribute("aria-hidden", "true"); hp.textContent = "הטבלה רחבה. אפשר להזיז אותה ימינה ושמאלה ↔"; b.parentNode.insertBefore(hp, b); }
+      } else if (!over && b.getAttribute("role") === "region") { b.removeAttribute("tabindex"); b.removeAttribute("role"); b.removeAttribute("aria-label"); if (b.previousElementSibling && b.previousElementSibling.classList.contains("tbl-hint")) b.previousElementSibling.remove(); }
     });
   }
   var trTimer = null;
@@ -1323,6 +1328,12 @@
     glossary: "כאן מוצאים פירוש לכל מונח מקצועי. הקלידו מילה בתיבת החיפוש.",
     sheets: "דף אחד לכל פרק, עם העובדות החשובות. טוב לחזרה לפני מבחן.",
     sheet: "העובדות החשובות בפרק. אפשר להסתיר אותן ולבדוק את עצמכם.",
+    "case": "קראו כל שלב בסיפור, וענו על השאלה שבסופו.",
+    settings: "כאן משנים את גודל האותיות ואת הצבעים, ושומרים גיבוי.",
+    "run-practice": "קראו את השאלה וענו. אחר כך עברו לשאלה הבאה.",
+    "run-exam": "ענו על כל השאלות. בסוף הקישו על ״להגיש את המבחן״.",
+    "run-check": "5 שאלות קצרות על השיעור. אם תצליחו, השיעור יסומן כגמור.",
+    "run-pretest": "כמה שאלות כדי לראות מה אתם כבר יודעים. זה לא נכנס לציון.",
     sources: "כאן צילומי השקפים מהקורס, והטקסט שכתוב בהם.",
     source: "צילום השקף והטקסט שלו. הקישו על התמונה כדי להגדיל.",
     search: "הקלידו מילה, ותראו איפה היא מופיעה: בשיעורים, במילון ובשקפים.",
@@ -1371,7 +1382,9 @@
   }
   function segBtns(k, opts, lbl) {
     return '<div class="seg" role="group" aria-labelledby="' + lbl + '">' + opts.map(function (o) {
-      var on = String(SET[k]) === String(o[0]) || (k === "simple" || k === "swipe") && (o[0] === "1") === !!SET[k];
+      var on = String(SET[k]) === String(o[0]) || (k === "simple" || k === "swipe") && (o[0] === "1") === !!SET[k] ||
+        // the comfort card's two-way contrast switch shows what "לפי המכשיר" resolves to on this device
+        (k === "contrast" && opts.length === 2 && SET.contrast === "auto" && (o[0] === "high") === !!(HCMQ && HCMQ.matches));
       return '<button type="button" data-act="set" data-k="' + k + '" data-v="' + o[0] + '" aria-pressed="' + on + '">' + o[1] + "</button>";
     }).join("") + "</div>";
   }
@@ -1472,7 +1485,7 @@
     var wk = 0;
     for (var i = 0; i < 7; i++) { var k = dayKey(d); if (S.days[k]) wk++; ticks += '<i class="' + (S.days[k] ? "on" : "") + (k === td ? " now" : "") + '"></i>'; d.setDate(d.getDate() + 1); }
     return '<div class="stat-strip">' +
-      '<div class="st-tile"><span class="k">ימים ברצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="השבוע למדתם ' + wk + ' ימים מתוך 7">' + ticks + "</span></div>" +
+      '<div class="st-tile"><span class="k">ימים ברצף</span><span class="v">' + sk + "<small> " + (sk === 1 ? "יום" : "ימים") + '</small></span><span class="week" role="img" aria-label="השבוע למדתם ' + wk + ' ימים מתוך 7">' + ticks + "</span></div>" +
       '<div class="st-tile"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, true, "home-done") + "</div>" +
       '<a class="st-tile" href="#review"><span class="k">כרטיסיות לחזרה היום</span><span class="v">' + due + "<small> מחכות</small></span></a></div>";
   }
@@ -1907,7 +1920,8 @@
     ["k-ver", "טעון אימות מול המקור", "לא היה ברור מה כתוב בשקף, אז כתבנו את מה שנראה הכי נכון. כדאי לבדוק מול השקף או לשאול את המרצה. אין על זה שאלות בתרגול ובמבחנים."],
     ["k-ai", "המחשה שנוצרה ב-AI, לא פרט לביצוע", "את התמונה יצר מחשב (בינה מלאכותית, AI) כדי לעזור לדמיין. היא לא מדויקת, ואסור לבנות לפיה. באתר עובדים רק לפי התוכניות המאושרות."],
     ["k-slide", "שקף מהקורס", "צילום של שקף מהשיעורים של המרצה. הקישו על התמונה כדי לראות אותה בגדול."],
-    ["k-illus", "המחשה לימודית, לא פרט לביצוע", "שרטוט פשוט שהכנו כדי להסביר. זה לא שרטוט עבודה, ואין לבנות לפיו."]
+    ["k-illus", "המחשה לימודית, לא פרט לביצוע", "שרטוט פשוט שהכנו כדי להסביר. זה לא שרטוט עבודה, ואין לבנות לפיו."],
+    ["k-ai", "AI (התג על תמונה)", "התמונה נוצרה במחשב. היא רק להמחשה."]
   ];
   function legendList(all) {
     return '<ul class="legend-list">' + LABEL_HELP.slice(0, all ? LABEL_HELP.length : 3).map(function (x) { return '<li><span class="lg-k ' + x[0] + '">' + x[1] + "</span><span>" + x[2] + "</span></li>"; }).join("") + "</ul>";
@@ -2170,7 +2184,7 @@
     var c = CARD[r.queue[r.i]], left = r.queue.length - r.i;
     var from = L[c.lesson] ? "שיעור " + L[c.lesson].code : "העשרה";
     var html = studyBar(r.title, left === 1 ? "נשארה כרטיסייה אחת" : "נשארו " + left + " כרטיסיות", "rev-exit", "") + '<div class="sb-tape">' + tape(pct(r.done / Math.max(1, r.done + left)), true) + "</div>" +
-      '<div class="study-wrap"><span class="eyebrow">' + (r.cram ? "מעבר חופשי: לא משנה מתי הכרטיסיות יחזרו" : (S.cards[c.id] ? "כרטיסייה לחזרה" : "כרטיסייה חדשה")) + "</span>" +
+      '<div class="study-wrap">' + (canSpeak() ? '<div class="block-tools">' + speakBtn("flash", "הקראת הכרטיסייה") + "</div>" : "") + '<span class="eyebrow">' + (r.cram ? "מעבר חופשי: לא משנה מתי הכרטיסיות יחזרו" : (S.cards[c.id] ? "כרטיסייה לחזרה" : "כרטיסייה חדשה")) + "</span>" +
       '<div class="flash-stage">' + (SET.swipe ? '<span class="sw-lab sw-r" aria-hidden="true">זכרתי</span><span class="sw-lab sw-l" aria-hidden="true">לא זכרתי</span>' : "") +
       '<button type="button" class="flash' + (r.flipped ? " flipped" : "") + '" id="flash" data-act="flip" aria-pressed="' + r.flipped + '" aria-label="' + (r.flipped ? "תשובה: " + esc(c.back) : "להפוך את הכרטיסייה: " + esc(c.front)) + '"><span class="flash-in">' +
       '<span class="face front"><span class="kind"><span class="chip">' + esc(from) + "</span><span>" + (c.kind === "term" ? "מונח: מה זה?" : "שאלה") + '</span></span><span class="q">' + esc(c.front) + '</span><span class="hint">נסו לענות בלב. אחר כך הקישו על הכרטיסייה כדי לראות את התשובה.</span></span>' +
@@ -2250,9 +2264,7 @@
     if (grade === "good" || grade === "easy") haptic();
     if (grade === "again") { r.again++; r.queue.splice(Math.min(r.queue.length, r.i + 4), 0, id); } else r.done++;
     r.i++; r.flipped = false;
-    save(); viewReview(r.key === "daily" ? "" : r.key); updateBadge();
-    var f = document.getElementById("flash");
-    if (f) anim(f, [{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: EASE });
+    save();
     var word = { again: "לא זכרתי", hard: "זכרתי בקושי", good: "זכרתי", easy: "זכרתי בקלות" }[grade];
     toast("דירגתם: " + word + ".", "", { action: "ביטול הדירוג", undo: function () {
       if (rev !== r) return;
@@ -2262,6 +2274,9 @@
       save(); updateBadge(); if (route().indexOf("review") === 0) viewReview(r.key === "daily" ? "" : r.key);
       announce("הדירוג בוטל");
     } });
+    viewReview(r.key === "daily" ? "" : r.key); updateBadge();
+    var f = document.getElementById("flash");
+    if (f) anim(f, [{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: EASE });
   }
   // swipe on the back face: physical right = זכרתי, left = לא זכרתי (buttons stay the accessible path)
   function bindSwipe() {
@@ -2346,7 +2361,9 @@
     var sub = (run.mode === "case" ? "שלב " : "שאלה ") + (run.i + 1) + " מתוך " + n;
     var html = studyBar(run.title, sub, "run-exit", exam ? clockBtn() : "") + '<div class="sb-tape">' + tape(pct((run.i + (it.done && !exam ? 1 : 0)) / n), true) + "</div>";
     html += '<div class="study-wrap">';
-    if (run.mode === "case") html += caseStepHtml();
+    // the first screen of a run says in one line what to do (copy deck §3.1)
+    if (run.i === 0 && !it.done && run.mode !== "case") html += hereLine(run.kind === "check" ? "run-check" : "run-" + run.mode);
+    if (run.mode === "case") html += (run.i === 0 && !it.done ? hereLine("case") : "") + caseStepHtml();
     if (q) {
       var l = L[q.lesson];
       var from = run.mode === "pretest" ? "פרק " + CHID[run.chapter].letter + " · לא נכנס לציון" : run.mode === "case" ? "שאלה בשלב " + (run.i + 1) + (l ? " · " + l.code + " " + l.title : "") : l ? "שיעור " + l.code + " · " + l.title : "שיעור העשרה: " + (LIBID[q.lesson] ? LIBID[q.lesson].title : "");
@@ -2377,7 +2394,7 @@
     if (q.type === "match") { var m = q.pairs.length - Object.keys(it.map).length; return m ? (m === 1 ? "נשאר מונח אחד בלי הגדרה" : "נשארו " + m + " מונחים בלי הגדרה") : ""; }
     if (q.type === "cloze") { var c = it.fill.filter(function (x) { return x === null; }).length; return c ? (c === 1 ? "נשאר מקום ריק אחד" : "נשארו " + c + " מקומות ריקים") : ""; }
     if (q.type === "order") { var o = q.steps.length - it.picked.length; return o ? (o === 1 ? "נשאר שלב אחד לסדר" : "נשארו " + o + " שלבים לסדר") : ""; }
-    return it.choice === undefined || it.choice === null ? "בחרו תשובה, ואז הקישו על ״לבדוק את התשובה״" : "";
+    return it.choice === undefined || it.choice === null ? "קודם בחרו תשובה" : "";
   }
   function runBar(it, q) {
     var last = run.i === run.items.length - 1;
@@ -3049,7 +3066,7 @@
     var html = '<div class="page-head"><h1 class="display">ההתקדמות שלכם</h1>' + hereLine("progress") + '</div><div class="stats wide">' +
       '<div class="stat"><span class="k">שיעורים שסיימתם</span><span class="v">' + c.d + "<small> מתוך " + c.n + "</small></span>" + tape(c.p, false, "prog-done") + '<span class="k">' + chDone + " מתוך " + CH.length + " פרקים הושלמו</span></div>" +
       '<div class="stat"><span class="k">כמה אתם מוכנים למבחן</span>' + (rd ? '<span class="v v-l">' + MLABEL[rd.lv] + "</span>" + glyph(rd, true) + '<span class="k">לפי ' + rd.n + " תשובות שלכם</span>" : '<span class="v v-l">עוד לא ידוע</span><span class="k">יופיע אחרי שתענו על 40 שאלות, או אחרי מבחן אחד</span>') + "</div>" +
-      '<div class="stat"><span class="k">ימי לימוד ברצף</span><span class="v">' + sk + "<small>" + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
+      '<div class="stat"><span class="k">ימי לימוד ברצף</span><span class="v">' + sk + "<small> " + (sk === 1 ? "יום" : "ימים") + "</small></span></div>" +
       '<div class="stat"><span class="k">כרטיסיות שעברתם</span><span class="v">' + learned + "<small> מתוך " + courseCards + "</small></span>" + tape(pct(learned / Math.max(1, courseCards)), true) + "</div></div>";
     html += heatmap();
     if (planOn()) html += '<div class="section-head"><h2>התוכנית</h2><a class="link-more" href="#plan">לכל התוכנית</a></div><div class="panel">' + planTicks(planDayNow()) + "</div>";
@@ -3099,7 +3116,7 @@
     function fs(legend, body, id) { return '<fieldset class="set-g"' + (id ? ' id="' + id + '"' : "") + "><legend>" + legend + "</legend>" + body + "</fieldset>"; }
     function seg(k, label, opts, note) { return '<div class="field"><span class="lbl" id="set-' + k + '">' + label + "</span>" + segBtns(k, opts, "set-" + k) + (note ? '<span class="field-note">' + note + "</span>" : "") + "</div>"; }
     var last = SET.backupAt ? "גיבוי אחרון: לפני " + (Date.now() - SET.backupAt < DAY ? "פחות מיום" : plural(Math.floor((Date.now() - SET.backupAt) / DAY), "יום אחד", "ימים")) : "עוד לא נשמר גיבוי במכשיר הזה";
-    openSheet({ title: "הגדרות", focus: part === "text" ? '#set-g-read [aria-pressed="true"]' : null, body: '<div class="setup">' +
+    openSheet({ title: "הגדרות", focus: part === "text" ? '#set-g-read [aria-pressed="true"]' : null, body: '<div class="setup">' + hereLine("settings") +
       fs("נוחות קריאה", '<div class="field"><span class="lbl" id="lbl-text">גודל האותיות</span>' + sizeButtons(false) + "</div>" + comfortPreview() +
         seg("contrast", "ניגודיות", [["normal", "רגילה"], ["high", "גבוהה"], ["auto", "לפי המכשיר"]]) +
         seg("simple", "תצוגה פשוטה", [["0", "כבויה"], ["1", "פעילה"]], "פחות כפתורים בכל מסך, צעד אחד בכל פעם."), "set-g-read") +
@@ -3195,7 +3212,8 @@
           var sq0 = Q[run.items[run.i].id], sit = run.items[run.i], stxt = sq0 ? (sq0.q || stripTags(sq0.text || "").replace(/\{\{[^}]+\}\}/g, "מקום ריק")) : "";
           if (sq0 && isOpts(sq0)) stxt += ". " + sit.perm.map(function (oi, k) { return "תשובה " + LETTERS[k] + ": " + (sq0.type === "tf" ? ["נכון", "לא נכון"][oi] : sq0.options[oi]); }).join(". ");
           speak(el, sel, stxt);
-        } else speak(el, sel);
+        } else if (stg === "flash" && rev && CARD[rev.queue[rev.i]]) { var fc = CARD[rev.queue[rev.i]]; speak(el, sel, fc.front + (rev.flipped ? ". תשובה: " + fc.back : "")); }
+        else speak(el, sel);
         break;
       case "clock": clockSheet(); break;
       case "clock-stop": pauseClock(false); persistRun(); viewRun(); announce("השעון עצור"); break;
@@ -3349,8 +3367,9 @@
       case "exam-submit":
         if (!run || run.finished) break;
         var un = run.items.filter(function (x) { return !answeredExam(x); }).length;
+        // R13: submitting always asks first, in plain words
         if (un) openSheet({ title: "להגיש עם " + plural(un, "שאלה אחת", "שאלות") + " בלי תשובה?", body: "<p>שאלה בלי תשובה נספרת כטעות.</p>", actions: [{ label: "לא, לחזור לשאלות", act: "dlg-close", cls: "btn-primary" }, { label: "כן, להגיש עכשיו", act: "exam-submit-force" }] });
-        else submitExam();
+        else openSheet({ title: "להגיש את המבחן?", body: "<p>עניתם על כל השאלות. אחרי ההגשה אי אפשר לשנות תשובות, ותראו את הציון.</p>", actions: [{ label: "כן, להגיש עכשיו", act: "exam-submit-force", cls: "btn-primary" }, { label: "לא, לחזור לשאלות", act: "dlg-close" }] });
         break;
       case "exam-submit-force": if (run && !run.finished) { if (route() !== "run") { submitExam(true); go("#run"); } else submitExam(); } break;
       case "retry-wrong":
@@ -3543,7 +3562,7 @@
     });
   }
   // WCAG 2.4.11: a control that receives focus is scrolled clear of the sticky top bars and the fixed bottom bars
-  var BARS_TOP = ".topbar, #level-bar, .ch-nav, .studybar, .sb-tape", BARS_BOT = ".nav, #ab";
+  var BARS_TOP = ".topbar, #level-bar, .ch-nav, .studybar, .sb-tape", BARS_BOT = ".nav, #ab, .toast:not([hidden])";
   function barEdge(sel, bottom) {
     var edge = bottom ? window.innerHeight : 0;
     document.querySelectorAll(sel).forEach(function (b) {

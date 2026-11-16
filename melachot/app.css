@@ -1353,7 +1353,7 @@ figure.dg figcaption { align-items: center; }
 .dg-ctl .btn { min-height: 44px; }
 .dg-n { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--muted); margin-inline-start: auto; }
 .dg-cap { font-size: var(--fs-1); min-height: 1.6em; }
-@media (max-width: 26.25em) { .dg-ctl .lbl-l { display: none; } }
+
 svg.drawing .pt { transition: opacity var(--dur-base) var(--ease-out); }
 svg.drawing.stepping .pt { opacity: .2; }
 svg.drawing.stepping .pt.hl { opacity: 1; }
@@ -2061,3 +2061,17 @@ ul.plain li { flex-wrap: wrap; }
 .src-img-a img { display: block; }
 .mn-l a { min-height: 44px; }
 .cheat.memo .src-chips, .cheat.memo .tag-expl { width: auto; max-width: 100%; flex-wrap: wrap; }
+.src-img-a { min-width: 180px; text-decoration: none; }
+.src-img-a .zoom-w { position: static; margin-top: 6px; }
+@media (max-width: 26em) { :root[data-nav="bottom"] .nav a span { font-size: min(var(--fs-1), 16px); } }
+/* at the two largest text sizes the action bar is part of the page (it would cover a third of a phone screen) */
+:root[data-text="xl"] .actionbar, :root[data-text="xxl"] .actionbar { position: static; margin-top: 16px; padding-inline: 0; border: 0; background: none; }
+:root[data-text="xl"] body.focus main, :root[data-text="xxl"] body.focus main { padding-bottom: 32px !important; }
+.prose, .q-row p, .story, .lead, .bigidea .bi, .face .a, .gl-item .d, .explain, .lh-main .summary, .blk-src .prose { max-width: 28em; }
+/* flashcards grow with their text (no hidden scrolling inside the card at large sizes) */
+.flash-in { display: grid; min-height: 320px; }
+.face { position: relative; inset: auto; grid-area: 1 / 1; min-height: 320px; overflow: visible; }
+:root[data-simple] .keys-hint { display: none; }
+.tbl-hint { font-size: var(--fs-1); font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.tbl-hint { font-size: var(--fs-2); }
+.dg-zoom { min-height: 48px; font-size: var(--fs-1); }

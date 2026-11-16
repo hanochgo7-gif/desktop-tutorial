@@ -3,7 +3,7 @@
 //   node build.mjs artifact <out-dir> [page.html] -> <out-dir>/<page.html> (one page for claude.ai) + src-img/ + media/
 //   node build.mjs web <out-dir>          -> <out-dir>/index.html (standalone static site: PWA, offline, noindex) + src-img/ + media/ + web/*
 // The private/ folder holds the student's own course material and is not committed to the public repo.
-import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -102,12 +102,12 @@ ${web ? `<script>if ("serviceWorker" in navigator && location.protocol === "http
   writeFileSync(join(out, page), html);
   const imgDir = join(here, "private/src-img");
   let n = 0;
-  if (existsSync(imgDir)) for (const f of readdirSync(imgDir)) { copyFileSync(join(imgDir, f), join(out, "src-img", f)); n++; }
+  if (existsSync(imgDir)) for (const f of readdirSync(imgDir)) { if (!statSync(join(imgDir, f)).isFile()) continue; copyFileSync(join(imgDir, f), join(out, "src-img", f)); n++; }
   const mediaDir = join(here, "private/media");
   let m = 0;
-  if (existsSync(mediaDir)) { mkdirSync(join(out, "media"), { recursive: true }); for (const f of readdirSync(mediaDir)) { copyFileSync(join(mediaDir, f), join(out, "media", f)); m++; } }
+  if (existsSync(mediaDir)) { mkdirSync(join(out, "media"), { recursive: true }); for (const f of readdirSync(mediaDir)) { if (!statSync(join(mediaDir, f)).isFile()) continue; copyFileSync(join(mediaDir, f), join(out, "media", f)); m++; } }
   if (web) {
-    for (const f of readdirSync(join(here, "web"))) copyFileSync(join(here, "web", f), join(out, f));
+    for (const f of readdirSync(join(here, "web"))) if (statSync(join(here, "web", f)).isFile()) copyFileSync(join(here, "web", f), join(out, f));
     // the service worker cache name changes with every build, so a new deploy replaces the old offline copy
     const sw = read("web/sw.js").replace("__BUILD__", String(Date.now()));
     writeFileSync(join(out, "sw.js"), sw);
