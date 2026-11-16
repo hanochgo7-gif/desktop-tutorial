@@ -18,6 +18,15 @@
     for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
     return a;
   }
+  // the same shuffle on every load (seeded): generated questions must keep their options, or a resumed exam's answers change meaning
+  function seededShuffle(a, seed) {
+    var h = 2166136261 >>> 0; seed = String(seed);
+    for (var k = 0; k < seed.length; k++) { h ^= seed.charCodeAt(k); h = Math.imul(h, 16777619) >>> 0; }
+    var rnd = function () { h = (h + 0x6D2B79F5) >>> 0; var t = h; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
   function dayKey(d) { d = d || new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
   function today() { return dayKey(); }
@@ -171,9 +180,10 @@
       var parts = window.Diagrams && window.Diagrams.parts(did);
       if (!parts || parts.length < 3 || (window.Diagrams.quizzable && !window.Diagrams.quizzable(did))) return;
       parts.forEach(function (p) {
-        var others = shuffle(parts.filter(function (x) { return x.name !== p.name; })).slice(0, 3).map(function (x) { return x.name; });
+        var seed = l.id + "|" + did + "|" + p.n;
+        var others = seededShuffle(parts.filter(function (x) { return x.name !== p.name; }), seed).slice(0, 3).map(function (x) { return x.name; });
         if (others.length < 3) return;
-        var opts = shuffle([p.name].concat(others));
+        var opts = seededShuffle([p.name].concat(others), seed + "|o");
         addQ({ id: l.id + ":identify:" + strHash(did + p.n), type: "identify", lesson: l.id, chapter: l.ch.id, scope: "course", difficulty: 1,
           diagram: did, marker: p.n, q: "מה מסומן במספר " + p.n + " בשרטוט?", options: opts, answer: opts.indexOf(p.name),
           explain: (p.hint || p.name + ".") , src: window.Diagrams.src(did) });
