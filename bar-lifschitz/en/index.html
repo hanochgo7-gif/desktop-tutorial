@@ -460,16 +460,18 @@
   .menu-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
   .menu-head h2 { font-size: clamp(2.4rem, 4.2vw, 3.8rem); }
   .menu-head .sub { color: var(--soft); margin: 0; }
-  .courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 30px) clamp(28px, 3.6vw, 52px); margin-top: clamp(20px, 2.6vw, 30px); }
+  .courses { columns: 2; column-gap: clamp(28px, 3.6vw, 52px); margin-top: clamp(20px, 2.6vw, 30px); }
+  .course { break-inside: avoid; margin-bottom: clamp(16px, 2vw, 24px); }
   .course { min-width: 0; }
   .course-name { font-family: var(--body); font-weight: 700; font-size: .82rem; letter-spacing: .24em; color: var(--accent); margin: 0 0 6px; }
   .menu-one .dishes { gap: 6px; }
-  .menu-one .dishes li { font-size: clamp(1.02rem, 1.22vw, 1.16rem); line-height: 1.32; padding-bottom: 6px; }
+  .menu-one .course .dishes li:first-child { padding-top: 2px; }
+  .menu-one .dishes li { font-size: clamp(1.06rem, 1.3vw, 1.22rem); line-height: 1.32; padding-bottom: 6px; }
   .menu-one .menu-note { margin-top: clamp(18px, 2.2vw, 26px); padding-bottom: 0; font-size: .95rem; }
   @media (max-width: 900px) {
     .menu-wrap { grid-template-columns: 1fr; }
     .menu-media { aspect-ratio: 16 / 10; }
-    .courses { grid-template-columns: 1fr; gap: 22px; }
+    .courses { columns: 1; }
   }
 
   /* ---------- תיאום ארוחה ---------- */
@@ -747,14 +749,12 @@
         </div>
         <div class="courses">
           <section class="course">
-            <h3 class="course-name">To begin</h3>
             <ul class="dishes">
               <li>Focaccia, olives and bishbash</li>
               <li>Brown butter, fresh hyssop and shallot jam</li>
             </ul>
           </section>
           <section class="course">
-            <h3 class="course-name">Cold</h3>
             <ul class="dishes">
               <li>Sliced cured pork neck, stracciatella, basil oil, pine nuts and seasonal fruit</li>
               <li>Shaved cucumber salad, arugula, toasted almonds and sumac onion on smoked labneh</li>
@@ -762,21 +762,18 @@
             </ul>
           </section>
           <section class="course">
-            <h3 class="course-name">From the sea</h3>
             <ul class="dishes">
               <li>Local fish sashimi, avocado, red onion consommé, chili and arugula</li>
               <li>Fish tartare, green mango, mint and arugula, with yogurt and green oil</li>
             </ul>
           </section>
           <section class="course">
-            <h3 class="course-name">Hot</h3>
             <ul class="dishes">
               <li>Tortellini in corn cream, with a caramelized onion, butter and wine sauce and flaked fish</li>
               <li>Chorizo, milk bun, pepper cream, provençal and pickled onion</li>
             </ul>
           </section>
           <section class="course">
-            <h3 class="course-name">Sweet</h3>
             <ul class="dishes">
               <li>Layali Beirut (Beirut Nights) style, za'atar crumble, raspberries and orange caramel syrup</li>
               <li>Chocolate crémeux, olive oil and Maldon salt</li>
