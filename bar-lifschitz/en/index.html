@@ -423,6 +423,13 @@
 
   /* ---------- שלוש דרכים ---------- */
   .formats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .formats-all { margin-top: clamp(48px, 6vw, 80px); padding-top: clamp(24px, 3vw, 36px); border-top: 1px solid var(--line); }
+  .formats-all-k { margin: 0 0 14px; font-size: .85rem; font-weight: 700; letter-spacing: .24em; color: var(--accent); }
+  .formats-all ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px clamp(24px, 3vw, 48px); }
+  .formats-all li { display: grid; gap: 4px; }
+  .formats-all b { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; }
+  .formats-all span { color: var(--soft); font-size: 1.02rem; line-height: 1.5; }
+  @media (max-width: 900px) { .formats-all ul { grid-template-columns: 1fr; gap: 18px; } }
   @media (max-width: 900px) { .formats-grid { grid-template-columns: 1fr; gap: 64px; } }
   .format h3 { font-size: clamp(1.8rem, 2.6vw, 2.3rem); }
   .format-text p { font-size: 1.02rem; }
@@ -445,6 +452,26 @@
   @media (min-width: 901px) { .ev-step { min-height: 66vh; } }
   @media (max-width: 900px) { .ev-clock { display: none; } }
 
+  /* ---------- התפריט: יחידה אחת, הכול מול העיניים ---------- */
+  .menu-one { padding-block: clamp(56px, 7vw, 96px); }
+  .menu-wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 4vw, 64px); align-items: stretch; }
+  .menu-media { margin: 0; overflow: hidden; }
+  .menu-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .menu-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .menu-head h2 { font-size: clamp(2.4rem, 4.2vw, 3.8rem); }
+  .menu-head .sub { color: var(--soft); margin: 0; }
+  .courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 30px) clamp(28px, 3.6vw, 52px); margin-top: clamp(20px, 2.6vw, 30px); }
+  .course { min-width: 0; }
+  .course-name { font-family: var(--body); font-weight: 700; font-size: .82rem; letter-spacing: .24em; color: var(--accent); margin: 0 0 6px; }
+  .menu-one .dishes { gap: 6px; }
+  .menu-one .dishes li { font-size: clamp(1.02rem, 1.22vw, 1.16rem); line-height: 1.32; padding-bottom: 6px; }
+  .menu-one .menu-note { margin-top: clamp(18px, 2.2vw, 26px); padding-bottom: 0; font-size: .95rem; }
+  @media (max-width: 900px) {
+    .menu-wrap { grid-template-columns: 1fr; }
+    .menu-media { aspect-ratio: 16 / 10; }
+    .courses { grid-template-columns: 1fr; gap: 22px; }
+  }
+
   /* ---------- תיאום ארוחה ---------- */
   .book { padding-block: clamp(110px, 14vw, 200px) clamp(60px, 8vw, 110px); }
   .book-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
@@ -458,6 +485,8 @@
   .tiles.serve { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles.serve .tile:last-child { grid-column: 1 / -1; }
   .tiles.serve .tile-name { font-size: 1.2rem; }
+  #addon-field { display: grid; justify-items: start; }
+  #addon-field[hidden] { display: none; }
   .book-form label.addon { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 600; min-height: 44px; }
   .addon input { width: 22px; height: 22px; accent-color: var(--rose); margin: 0; }
   @media (max-width: 640px) { .tiles.three { grid-template-columns: 1fr; } }
@@ -665,7 +694,7 @@
           <ul>
             <li>6 to 16 guests</li>
             <li>6:30 pm to 9:30 pm</li>
-            <li>Adults only</li>
+            <li>For adults</li>
           </ul>
           <p class="soon">Coming soon: a studio in Matat, for 30 to 40 guests.</p>
           <a class="btn ghost" href="#book" data-format="yard">Book the yard</a>
@@ -691,72 +720,70 @@
           <p>Wherever you choose, in my style.</p>
           <ul>
             <li>Companies, teams and launches</li>
-            <li>Plated, sharing plates, buffet or small bites</li>
             <li>Waiting staff to match the size of the event</li>
-            <li>Cocktails by Kuller, if you like</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="event">Plan an event</a>
         </div>
       </div>
     </div>
+    <div class="wrap formats-all">
+      <p class="formats-all-k">With all three</p>
+      <ul>
+        <li><b>Serving</b><span>Plated, sharing plates, buffet or small bites</span></li>
+        <li><b>Cocktails</b><span>by Kuller, if you like</span></li>
+        <li><b>Flowers</b><span>Flowers on the table, or a professional flower arrangement through me</span></li>
+      </ul>
+    </div>
     <svg class="ridge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 104 C 70 98, 120 74, 190 78 S 300 52, 360 60 S 470 30, 540 40 S 640 70, 720 58 S 820 22, 900 30 S 1010 62, 1080 54 S 1190 34, 1250 44 S 1360 76, 1440 70"/></svg>
   </section>
 
-  <section class="evening" id="menu" data-theme="dusk" aria-labelledby="menu-title">
-    <div class="ev-grid">
-      <div class="ev-steps">
-        <div class="ev-head">
+  <section class="evening menu-one" id="menu" data-theme="dusk" aria-labelledby="menu-title">
+    <div class="wrap menu-wrap">
+      <figure class="menu-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-line.webp" data-src="../media/sashimi-line" aria-label="A row of sashimi plates in red consommé on the table"></video></figure>
+      <div class="menu-card">
+        <div class="menu-head">
           <h2 id="menu-title" data-words-rise>The menu</h2>
           <p class="sub">It changes with the season and the occasion.</p>
         </div>
-        <ol class="timeline">
-          <li class="ev-step on" data-step="0" data-label="To begin">
-            <span class="ev-n">To begin</span>
+        <div class="courses">
+          <section class="course">
+            <h3 class="course-name">To begin</h3>
             <ul class="dishes">
               <li>Focaccia, olives and bishbash</li>
               <li>Brown butter, fresh hyssop and shallot jam</li>
             </ul>
-          </li>
-          <li class="ev-step" data-step="1" data-label="Cold">
-            <span class="ev-n">Cold</span>
+          </section>
+          <section class="course">
+            <h3 class="course-name">Cold</h3>
             <ul class="dishes">
               <li>Sliced cured pork neck, stracciatella, basil oil, pine nuts and seasonal fruit</li>
               <li>Shaved cucumber salad, arugula, toasted almonds and sumac onion on smoked labneh</li>
               <li>Rump steak tartare, with thyme aioli and confit garlic</li>
             </ul>
-          </li>
-          <li class="ev-step" data-step="2" data-label="From the sea">
-            <span class="ev-n">From the sea</span>
+          </section>
+          <section class="course">
+            <h3 class="course-name">From the sea</h3>
             <ul class="dishes">
               <li>Local fish sashimi, avocado, red onion consommé, chili and arugula</li>
               <li>Fish tartare, green mango, mint and arugula, with yogurt and green oil</li>
             </ul>
-          </li>
-          <li class="ev-step" data-step="3" data-label="Hot">
-            <span class="ev-n">Hot</span>
+          </section>
+          <section class="course">
+            <h3 class="course-name">Hot</h3>
             <ul class="dishes">
               <li>Tortellini in corn cream, with a caramelized onion, butter and wine sauce and flaked fish</li>
               <li>Chorizo, milk bun, pepper cream, provençal and pickled onion</li>
             </ul>
-          </li>
-          <li class="ev-step" data-step="4" data-label="Sweet">
-            <span class="ev-n">Sweet</span>
+          </section>
+          <section class="course">
+            <h3 class="course-name">Sweet</h3>
             <ul class="dishes">
               <li>Layali Beirut (Beirut Nights) style, za'atar crumble, raspberries and orange caramel syrup</li>
               <li>Chocolate crémeux, olive oil and Maldon salt</li>
             </ul>
-          </li>
-        </ol>
+          </section>
+        </div>
         <p class="menu-note">Vegetarian, gluten-free, nut-free and lactose-free are all possible. Wine from local wineries, or bring your own. And at the end of the evening, a little something to take home.</p>
-        <span class="ev-rail" aria-hidden="true"><i></i></span>
-      </div>
-      <div class="ev-media" aria-hidden="true">
-        <video class="vid on" muted loop playsinline preload="none" data-poster="../images/barrel-wine.webp" data-src="../media/barrel-wine" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" data-poster="../images/neck-plates.webp" data-src="../media/neck-plates" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-line.webp" data-src="../media/sashimi-line" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" data-poster="../images/chorizo-sauce.webp" data-src="../media/chorizo-sauce" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" data-poster="../images/plating-dark.webp" data-src="../media/plating-dark" aria-hidden="true"></video>
-        <div class="ev-clock" id="ev-clock">To begin</div>
       </div>
     </div>
   </section>
@@ -834,7 +861,8 @@
           </fieldset>
           <fieldset class="q-step" id="addon-field" hidden>
             <legend>Add-ons</legend>
-            <label class="addon"><input type="checkbox" name="kuller"><span>Add cocktails by Kuller</span></label>
+            <label class="addon"><input type="checkbox" name="kuller"><span>Cocktails by Kuller</span></label>
+            <label class="addon"><input type="checkbox" name="flowers"><span>Professional flower arrangement</span></label>
           </fieldset>
           <div class="field">
             <label for="name">Your name</label>
@@ -891,8 +919,8 @@
         <details><summary>Number of guests<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard 6 to 16. At your place 8 to 40.</p></div></details>
         <details><summary>Price<i aria-hidden="true"></i></summary><div class="ans"><p>It depends on the menu, the number of guests and the place. Tell me, and I will send a proposal.</p></div></details>
         <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>Vegetarian, gluten-free, nut-free and lactose-free are all possible. Just tell me in advance. The kitchen is not kosher.</p></div></details>
-        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>There is wine from local wineries, and you are welcome to bring your own. At events there are cocktails by Kuller too.</p></div></details>
-        <details><summary>Children<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
+        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>There is wine from local wineries, and you are welcome to bring your own. You can also add cocktails by Kuller.</p></div></details>
+        <details><summary>Children<i aria-hidden="true"></i></summary><div class="ans"><p>The dinners are meant for adults. About children, just talk to me.</p></div></details>
         <details><summary>Before you come<i aria-hidden="true"></i></summary><div class="ans"><p>Come on time, and bring something warm: evenings in Matat are cool. I send the address with the confirmation.</p></div></details>
         <details><summary>Accessibility<i aria-hidden="true"></i></summary><div class="ans"><p>There are steps at the entrance. A wheelchair can reach the house from the road.</p></div></details>
         <details><summary>In winter<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat opens soon. Until then, we plan together around the forecast.</p></div></details>
@@ -931,25 +959,25 @@
     const T = {
       he: {
         days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
-        hint: { yard: 'בחצר: 6 עד 16 אורחים, מבוגרים בלבד.', home: 'אצלכם: 8 עד 40 אורחים.', event: 'באירוע: כל גודל. ספרו לי בהערות איפה ומה חוגגים.' },
+        hint: { yard: 'בחצר: 6 עד 16 אורחים. מיועד למבוגרים.', home: 'אצלכם: 8 עד 40 אורחים.', event: 'באירוע: כל גודל. ספרו לי בהערות איפה ומה חוגגים.' },
         noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
-        tk: { flexible: 'תאריך גמיש', guests: n => `${n} אורחים`, kuller: 'קוקטיילים של קולר' },
+        tk: { flexible: 'תאריך גמיש', guests: n => `${n} אורחים`, kuller: 'קוקטיילים של קולר', flowers: 'סידור פרחים מקצועי' },
         cap: { one: n => `${n} מקומות סביב שולחן אחד`, many: (n, t) => `${n} מקומות, ${t} שולחנות ארוכים`, lots: n => `${n} אורחים, שולחנות ארוכים`, bites: n => `${n} אורחים בעמידה, מגשים מסתובבים`, buffet: ' · ועמדת בופה' },
         hello: n => `היי בר, כאן ${n}.`,
         below: m => `בחצר השולחן מתחיל מ־${m} אורחים. פחות מזה? כתבו לי בהערות ונבדוק.`,
-        serve: t => `סגנון הגשה: ${t}`, kuller: 'תוספת: קוקטיילים של קולר', sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
+        serve: t => `סגנון הגשה: ${t}`, addons: t => `תוספות: ${t}`, sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
         what: { yard: () => 'אשמח לתאם ארוחה בחצר במצפה מתת.', home: r => `אשמח לתאם ארוחת שף אצלי בבית (${r}).`, event: () => 'אשמח לתאם אירוע.' },
         date: d => `תאריך: ${d}`, flexible: 'גמיש', guests: n => `כמה אורחים: ${n}`, notes: t => `חשוב לדעת: ${t}`,
       },
       en: {
         days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        hint: { yard: 'In the yard: 6 to 16 guests, adults only.', home: 'At your place: 8 to 40 guests.', event: 'At your event: any size. Tell me in the notes where it is and what you are celebrating.' },
+        hint: { yard: 'In the yard: 6 to 16 guests. For adults.', home: 'At your place: 8 to 40 guests.', event: 'At your event: any size. Tell me in the notes where it is and what you are celebrating.' },
         noName: 'Please add your name, so I know who to reply to.',
-        tk: { flexible: 'Flexible date', guests: n => `${n} guests`, kuller: 'cocktails by Kuller' },
+        tk: { flexible: 'Flexible date', guests: n => `${n} guests`, kuller: 'cocktails by Kuller', flowers: 'professional flower arrangement' },
         cap: { one: n => `${n} seats around one table`, many: (n, t) => `${n} seats, ${t} long tables`, lots: n => `${n} guests, long tables`, bites: n => `${n} guests standing, small bites passed around`, buffet: ' · and a buffet station' },
         hello: n => `Hi Bar, this is ${n}.`,
         below: m => `In the yard the table starts at ${m} guests. Fewer? Tell me in the notes and I will see what I can do.`,
-        serve: t => `Serving style: ${t}`, kuller: 'Add-on: cocktails by Kuller', sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
+        serve: t => `Serving style: ${t}`, addons: t => `Add-ons: ${t}`, sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
         what: { yard: () => 'I would like to book a dinner in your yard in Mitzpe Matat.', home: r => `I would like to book a private chef dinner at my home (${r}).`, event: () => 'I would like to plan an event.' },
         date: d => `Date: ${d}`, flexible: 'flexible', guests: n => `Guests: ${n}`, notes: t => `Good to know: ${t}`,
       },
@@ -984,7 +1012,9 @@
       if (!ready) return;
       const n = +guests.value || 0;
       const serveEl = form.querySelector('input[name="serve"]:checked');
-      const serve = format === 'yard' ? 'yard' : (serveEl ? serveEl.value : 'unsure');
+      const sv = serveEl ? serveEl.value : 'unsure';
+      // בחצר, כשאין סגנון אחר, השולחן נראה כמו אצל בר: פרחים ונרות
+      const serve = format === 'yard' && (sv === 'unsure' || sv === 'plated') ? 'yard' : sv;
       const key = format + serve;
       const fresh = i => (key === drawnKey && i >= drawn) ? ' tv-new' : '';
       const delay = i => (key === drawnKey && i >= drawn) ? `animation-delay:${(i - drawn) * 0.06}s;` : '';
@@ -1094,18 +1124,19 @@
       return `${T.days[new Date(y, m - 1, d).getDay()]} ${d}.${m}.${y}`;
     };
     const setTk = (id, text) => { const el = $(id); if (el.textContent === text) return; el.textContent = text; el.classList.add('flash'); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('flash'))); };
+    const addons = () => [form.elements.kuller.checked && T.tk.kuller, form.elements.flowers.checked && T.tk.flowers].filter(Boolean);
     function ticket() {
       const place = form.querySelector('input[name="format"]:checked').closest('label').querySelector('.tile-name').textContent;
       setTk('tk-where', format === 'home' ? `${place}, ${$('region').value}` : place);
       setTk('tk-when', dayName());
       setTk('tk-guests', T.tk.guests(guests.value));
       const serve = form.querySelector('input[name="serve"]:checked');
-      const style = format !== 'yard' && serve && serve.value !== 'unsure' ? serve.closest('label').textContent.trim() : '';
+      const style = serve && serve.value !== 'unsure' ? serve.closest('label').textContent.trim() : '';
       $('tk-serve-row').hidden = !style;
       if (style) setTk('tk-serve', style);
-      const addon = format === 'event' && form.elements.kuller.checked;
-      $('tk-addon-row').hidden = !addon;
-      if (addon) setTk('tk-addon', T.tk.kuller);
+      const adds = addons();
+      $('tk-addon-row').hidden = !adds.length;
+      if (adds.length) setTk('tk-addon', adds.join(' · '));
     }
     form.addEventListener('input', ticket);
 
@@ -1124,8 +1155,8 @@
     function setFormat(f, reset) {
       format = f;
       $('region-field').hidden = f !== 'home';
-      $('serve-field').hidden = f === 'yard';
-      $('addon-field').hidden = f !== 'event';
+      $('serve-field').hidden = false;
+      $('addon-field').hidden = false;
       if (reset) guests.value = RULES[f].start;
       clamp();
     }
@@ -1150,8 +1181,8 @@
       const when = $('date').value ? dayName() : T.flexible;
       const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
       const serve = form.querySelector('input[name="serve"]:checked');
-      if (format !== 'yard' && serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
-      if (format === 'event' && form.elements.kuller.checked) lines.push(T.kuller);
+      if (serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
+      if (addons().length) lines.push(T.addons(addons().join(', ')));
       const notes = form.elements.notes.value.trim();
       if (notes) lines.push(T.notes(notes));
       return lines.join('\n');
@@ -1285,35 +1316,6 @@
     const overlay = document.getElementById('menu-overlay');
     const menuBtn = document.getElementById('menu-btn');
     let lenis = null;
-
-    // --- שלבי הערב: התמונה והשעה מתחלפות לפי הצעד שבמרכז המסך ---
-    const steps = [...document.querySelectorAll('.ev-step')];
-    const frames = [...document.querySelectorAll('.ev-media video')];
-    const clock = document.getElementById('ev-clock');
-    let current = 0;
-    function setStep(i) {
-      if (i === current) return;
-      current = i;
-      steps.forEach((s, k) => s.classList.toggle('on', k === i));
-      frames.forEach((f, k) => f.classList.toggle('on', k === i));
-      if (window.barVideo) window.barVideo.menuStep(i);
-      const t = steps[i].dataset.label;
-      clock.classList.add('swap');
-      setTimeout(() => {
-        clock.textContent = t;
-        clock.classList.remove('swap'); clock.classList.add('pre');
-        void clock.offsetWidth;
-        clock.classList.remove('pre');
-      }, 260);
-    }
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) setStep(+e.target.dataset.step); });
-      }, { rootMargin: window.matchMedia('(max-width: 900px)').matches ? '-60% 0px -30% 0px' : '-48% 0px -48% 0px' });
-      steps.forEach(s => io.observe(s));
-      // מי שחוזר לראש התפריט רואה שוב את הפתיחה
-      new IntersectionObserver(([e]) => { if (e.isIntersecting) setStep(0); }).observe(document.querySelector('.ev-head'));
-    }
 
     // --- תפריט בטלפון ---
     function openMenu(open) {
@@ -1475,7 +1477,6 @@
     gsap.from('.format', { y: 70, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.14, scrollTrigger: { trigger: '.formats-grid', start: 'top 82%' } });
 
     // --- פס ההתקדמות של הערב ---
-    gsap.to('.ev-rail i', { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 50%', end: 'bottom 50%', scrub: true } });
 
     // --- גלריה אופקית שנעה עם הגלילה (במסכים רחבים) ---
     const mm = gsap.matchMedia();
