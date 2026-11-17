@@ -19,6 +19,7 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 PAIRS = [
     # shorter copy (October 2026)
     # Bar's voice pass
+    ('בר מזלף שמן על שורת צלחות בדלפק המטבח, בערב, בצילום פילם', 'Bar drizzling oil over a row of plates at the kitchen counter, in the evening, shot on film'),
     ('<p>גדלתי בבית ארגנטינאי, חם, מבשל ומארח. אחרי הצבא נכנסתי למטבח מקצועי, והיום אני מארח בחצר שלי ואצלכם בבית.</p>', '<p>I grew up in a warm Argentinian home, where we cooked and hosted. After the army I went into a professional kitchen, and today I host in my own yard and at your home.</p>'),
     ('<p>הבישול שלי פשוט, מעניין וגלילי, עם חומרי גלם טובים.</p>', '<p>My cooking is simple, interesting and Galilean, with good ingredients.</p>'),
     ('<legend>תוספות</legend>', '<legend>Add-ons</legend>'),
