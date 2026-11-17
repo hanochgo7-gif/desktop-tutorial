@@ -33,7 +33,7 @@ for i, (src, it) in sorted(latest.items()):
         else: ok += 1
         continue
     if cur and norm(cur["he"]) == norm(it["new"]): ok += 1
-    elif norm(it["new"]) in pages: ok += 1
+    elif len(norm(it["new"])) >= 25 and norm(it["new"]) in pages: ok += 1  # only long texts: a short word ("רשת") is on every page (bug found 17 Nov 2026)
     else: look.append((i, src, "EDIT NOT LIVE", f"she: {it['new'][:110]} || now: {cur['he'][:110] if cur else '(gone)'}"))
 print("requests (latest per id):", len(latest), " live/done:", ok, " to look at:", len(look))
 for x in look: print(" #%s [%s] %s: %s" % x)

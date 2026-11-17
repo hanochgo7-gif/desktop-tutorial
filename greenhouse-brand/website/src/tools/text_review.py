@@ -128,13 +128,12 @@ IDS = SRC / "data/text-review-ids.json"    # content.py path -> id, so an owner'
 BASE = SRC / "data/text-review-base.json"  # id -> the text the owners first saw, to show what changed since
 REVIEWS = SRC.parent / "docs/reviews"       # the owners' emails, kept as sent
 HELD = {  # changes she asked for that wait for a decision (ledger 7b, 7f)
-    94: "ביקשת לשנות ״הדליה״ ל״רשת״. בטבלה כבר יש שורה ״רשת״ (10% עד 30% צל), והשורה הזו מדברת על תמיכה והדליה לגידול. מה הכוונה: לשנות את השורה, או להוריד אותה?",
-    101: "ביקשת לשנות את הכותרת ״איפה״ ל״רשת״. הכותרת הזו בעמוד חוות המפתח, מעל רשימת המדינות שבהן מקימים חוות. מה הכוונה?",
-    304: "הוספת משפט שאומר שזו הדמיה שנוצרה בבינה מלאכותית. חנוך ביקש ב-7 בנובמבר להוריד מהאתר כל כיתוב גלוי של ״הדמיה״, ולכן זה ממתין להחלטה של שניכם.",
 }
 # requests that reached Hanoch and were handled another way (a small fix to the wording, or a reason to keep the text): the editor
 # files her saved request away with the answer, so it does not wait in her list (11 Nov 2026)
 CLOSED = {
+    94: "שורת ״הדליה״ ירדה מהעמוד, כך שנשארה בטבלה שורת ״רשת״ אחת (החלטת חנוך, 17.11).",
+    101: "הכותרת שונתה ל״איפה אנחנו פועלים״, כי מתחתיה רשימת המדינות (החלטת חנוך, 17.11).",
     42: "עלה, עם פסיק בסוף, כי המשפט ממשיך: ״פרויקטים חקלאיים ובתי רשת, כתובת אחת...״.",
     46: "השארנו ״מ״ר״ עם גרשיים עבריים (״). זה הכתיב התקני בעברית; התו \" שייך לאנגלית.",
     48: "נראה שההחלפה של ״לשטח״ ב״השטח״ (בשביל ״תכנון השטח״) נגעה גם כאן. השארנו ״לשטח״, שזו המשמעות כאן.",
