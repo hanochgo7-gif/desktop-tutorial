@@ -19,6 +19,8 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 PAIRS = [
     # shorter copy (October 2026)
     # Bar's voice pass
+    ('<small>עוד ערבים, מנות ושולחנות</small>', '<small>More evenings, dishes and tables</small>'),
+    ('<span>הגלריה ממשיכה באינסטגרם</span><em>לכל הערבים</em>', '<span>The gallery continues on Instagram</span><em>See all the evenings</em>'),
     ('<b>אלכוהול</b>', '<b>Drinks</b>'),
     ('<span>יין חופשי מיקב שבו המקומי</span>', '<span>Free-flowing wine from the local Shvo winery</span>'),
     ('<h3 class="course-name">פתיחה</h3>', '<h3 class="course-name">To begin</h3>'),

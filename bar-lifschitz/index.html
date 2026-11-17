@@ -298,6 +298,24 @@
   .roads-pin { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
   .roads-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: clamp(32px, 4vw, 52px); width: 100%; }
   .roads-head p { margin: 0; max-width: 24em; color: var(--soft); }
+  /* אינסטגרם: כפתור בכותרת, ואריח שסוגר את הגלריה */
+  .ig { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; flex: 0 0 auto; }
+  .ig .ig-dot { fill: currentColor; stroke: none; }
+  .roads-head .ig-link, .ig-link { display: inline-flex; align-items: center; gap: 14px; padding: 10px 22px; min-height: 52px; border: 1px solid rgba(243,242,236,.42); border-radius: 999px; color: var(--linen); text-decoration: none; transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease); }
+  .ig-link > span { display: grid; line-height: 1.25; }
+  .ig-link bdi { font-weight: 700; letter-spacing: .02em; }
+  .ig-link small { font-size: .85rem; color: var(--soft); transition: color .3s var(--ease); }
+  .ig-link:hover, .ig-link:focus-visible { background: var(--linen); color: var(--fig); border-color: var(--linen); }
+  .ig-link:hover small, .ig-link:focus-visible small { color: #5d4b50; }
+  .roads-track .ig-tile { flex: 0 0 auto; height: clamp(340px, 62vh, 660px); aspect-ratio: 3 / 4; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px; color: var(--linen); text-decoration: none;
+    background: radial-gradient(90% 70% at 50% 40%, rgba(231,163,173,.16), transparent 70%), var(--wall); border: 1px solid rgba(243,242,236,.16); transition: border-color .4s var(--ease), background-color .4s var(--ease); }
+  .ig-tile .ig-big { width: 58px; height: 58px; stroke-width: 1.15; color: var(--rose); transition: transform .5s var(--ease); }
+  .ig-tile b { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 3vw, 2.6rem); line-height: 1; }
+  .ig-tile span { color: var(--soft); }
+  .ig-tile em { font-style: normal; font-weight: 600; margin-top: 10px; padding: 10px 24px; border-radius: 999px; background: var(--linen); color: var(--fig); transition: background-color .3s var(--ease); }
+  .ig-tile:hover, .ig-tile:focus-visible { border-color: rgba(231,163,173,.6); }
+  .ig-tile:hover .ig-big { transform: scale(1.08) rotate(-4deg); }
+  .ig-tile:hover em { background: var(--rose); }
   .roads-track {
     display: flex; gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter);
     overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; will-change: transform;
@@ -369,7 +387,7 @@
   .swipe-hint { display: none; }
   @media (max-width: 899px) {
     .swipe-hint { display: block; width: 100%; font-size: 1rem; letter-spacing: .08em; color: var(--soft); margin-top: -6px; }
-    .roads-track figure { height: auto; width: 78vw; }
+    .roads-track figure, .roads-track .ig-tile { height: auto; width: 78vw; }
   }
   .roads-track::after { content: ""; flex: 0 0 1px; }
   .finale-meta a, .roads-head a, .faq-head a { display: inline-block; padding-block: 8px; }
@@ -789,7 +807,7 @@
     <div class="roads-pin">
       <div class="wrap roads-head">
         <h2 id="roads-title" data-words-rise>מהשולחנות האחרונים</h2>
-        <p>עוד באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
+        <a class="ig-link" href="https://www.instagram.com/barlif/" target="_blank" rel="noopener"><svg class="ig" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.2"/><circle class="ig-dot" cx="17.3" cy="6.7" r="1.1"/></svg><span><bdi dir="ltr">@barlif</bdi><small>עוד ערבים, מנות ושולחנות</small></span></a>
         <span class="swipe-hint" aria-hidden="true">החליקו לצד ←</span>
       </div>
       <div class="roads-track" tabindex="0" aria-label="גלריית תמונות">
@@ -798,6 +816,7 @@
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/fish-hang-still-600.webp" data-src="media/fish-hang" aria-label="שני דגים שלמים תלויים ליישון"></video></figure>
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/coupes-flowers-still-600.webp" data-src="media/coupes-flowers" style="object-position:50% 60%" aria-label="שורת קוקטיילים בכוסות קופה עם קצף לבן, ועליהם פרחים למאכל"></video></figure>
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/yard-guests-still-600.webp" data-src="media/yard-guests" aria-label="השולחן הארוך בחצר מלא אורחים מתחת לעץ"></video></figure>
+        <a class="ig-tile" href="https://www.instagram.com/barlif/" target="_blank" rel="noopener"><svg class="ig ig-big" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.2"/><circle class="ig-dot" cx="17.3" cy="6.7" r="1.1"/></svg><b><bdi dir="ltr">@barlif</bdi></b><span>הגלריה ממשיכה באינסטגרם</span><em>לכל הערבים</em></a>
       </div>
     </div>
   </section>
