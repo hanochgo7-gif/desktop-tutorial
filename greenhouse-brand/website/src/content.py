@@ -14,7 +14,7 @@ SITE = {
     "close": ("Close", "סגירה"),
     "menu": ("Menu", "תפריט"),
     "lang_other": ("עברית", "English"),
-    "cta": ("Talk to us about your project", "דברו איתנו על הפרויקט"),
+    "cta": ("Discuss your project", "דברו איתנו על הפרויקט"),  # the header button: the longer wording does not fit beside the menu at 1181-1440 px,
     "call_short": ("Call", "התקשרו"),
     "call": ("Call", "התקשרו"),
     "home": ("Home", "דף הבית"),
