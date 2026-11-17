@@ -21,15 +21,15 @@
  },
  "en/index": {
   "date": "2026-11-17",
-  "hash": "7b8aedd77616ceea"
+  "hash": "dd158b5a875308da"
  },
  "en/net-houses": {
   "date": "2026-11-17",
-  "hash": "f26c1d8ce49a58e8"
+  "hash": "c49e15da73e50200"
  },
  "en/orchard-hail-nets": {
   "date": "2026-11-17",
-  "hash": "d75b59c55c186d73"
+  "hash": "c1e3e26ea9deeba5"
  },
  "en/privacy": {
   "date": "2026-11-10",
@@ -45,11 +45,11 @@
  },
  "en/turnkey-farms": {
   "date": "2026-11-17",
-  "hash": "3b3c83063ebbe8c8"
+  "hash": "734521a3bceb1a5d"
  },
  "he/about": {
-  "date": "2026-11-12",
-  "hash": "5ac8b40a13e05a45"
+  "date": "2026-11-17",
+  "hash": "945caa377868ff0c"
  },
  "he/accessibility": {
   "date": "2026-10-29",
@@ -57,27 +57,27 @@
  },
  "he/banana-net-houses": {
   "date": "2026-11-17",
-  "hash": "357e75b639ffc7e7"
+  "hash": "f27c7344f93cf4cb"
  },
  "he/contact": {
   "date": "2026-11-17",
-  "hash": "b6eee3586b696a60"
+  "hash": "7cecd8fd241a6016"
  },
  "he/how-we-build": {
   "date": "2026-11-17",
-  "hash": "e18c9ecb66d5247d"
+  "hash": "eaba1cea50c511df"
  },
  "he/index": {
   "date": "2026-11-17",
-  "hash": "cf3aeae31fb19618"
+  "hash": "9a9f665a1b7e930d"
  },
  "he/net-houses": {
   "date": "2026-11-17",
-  "hash": "0be6b8ea23b670e7"
+  "hash": "07a1671fb998a49a"
  },
  "he/orchard-hail-nets": {
   "date": "2026-11-17",
-  "hash": "929bd73b3237bb26"
+  "hash": "6195a52def9761aa"
  },
  "he/privacy": {
   "date": "2026-11-10",
@@ -85,14 +85,14 @@
  },
  "he/profile": {
   "date": "2026-11-17",
-  "hash": "b7a1947454cab424"
+  "hash": "6d9842d9ba9989b7"
  },
  "he/projects": {
   "date": "2026-11-17",
-  "hash": "32d68771614cfc05"
+  "hash": "01c59851c5dac487"
  },
  "he/turnkey-farms": {
   "date": "2026-11-17",
-  "hash": "31e3fa0e03de471f"
+  "hash": "f631250a34a964df"
  }
 }
