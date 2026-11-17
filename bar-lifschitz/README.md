@@ -4,6 +4,22 @@
 
 כתובת: https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/
 
+## העלאה לאחסון של בר (Cloudflare Pages)
+
+החבילה נבנית כך:
+
+```
+python3 bar-lifschitz/src/make_package.py --domain https://barlif.pages.dev --out /tmp/barlif-site
+```
+
+הפקודה יוצרת תיקייה וקובץ zip.
+- **מה נכנס:** העברית, האנגלית, התמונות, הסרטונים, הלוגו, ו-`robots.txt`, `sitemap.xml` ו-`404.html`.
+- **מה לא נכנס:** השאלון, `kit/`, `options/` וקובצי הפיתוח.
+- **GSAP ו-Lenis** נארזים מקומית (`vendor/`). אם הקובץ ב-CDN השתנה, הבנייה עוצרת.
+- **`_headers`** מוסיף כותרות אבטחה: CSP עם hash לסקריפטים, חסימת הטמעה במסגרת, Referrer-Policy ו-nosniff.
+
+כשמשתנה דומיין, מריצים שוב עם `--domain` החדש ומעלים את ה-zip מחדש.
+
 ## עדכון תוכן
 
 - **העמוד העברי הוא המקור.** אחרי כל שינוי בו מריצים `python3 bar-lifschitz/src/make_en.py`, והסקריפט בונה מחדש את העמוד האנגלי. אם נוסף טקסט עברי בלי תרגום, הסקריפט עוצר ומציג אותו, וצריך להוסיף זוג תרגום ב-`PAIRS`.
