@@ -100,3 +100,13 @@ html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body
 .site .lform { display: grid; gap: 8px; margin-top: 12px; }
 .site .lform span { display: block; height: 40px; border-radius: 8px; background: #2c3a48; color: #8fa0b1; font-size: 16px; line-height: 40px; padding: 0 12px; }
 .site .lform .send { background: #3d6fa3; color: #fff; text-align: center; font-weight: 600; }
+
+/* תמונת פתיחה לפרק של מספרה לכלבים: אמבטיה עם קצף וראש של כלב */
+.site .tub { position: relative; width: 280px; height: 160px; }
+.site .tub::before { content: ""; position: absolute; left: 20px; right: 20px; bottom: 0; height: 74px; border-radius: 12px 12px 60px 60px; background: #fff; box-shadow: 0 10px 24px rgba(31, 95, 158, .22); }
+.site .tub b { position: absolute; left: 96px; bottom: 52px; width: 92px; height: 82px; border-radius: 46% 46% 42% 42%; background: #d9a86c; }
+.site .tub b::before, .site .tub b::after { content: ""; position: absolute; top: 6px; width: 30px; height: 50px; border-radius: 50% 50% 40% 40%; background: #a8743f; }
+.site .tub b::before { left: -14px; transform: rotate(18deg); } .site .tub b::after { right: -14px; transform: rotate(-18deg); }
+.site .tub i { position: absolute; border-radius: 50%; background: #fff; border: 3px solid #cfe6f6; }
+.site .tub i:nth-of-type(1) { width: 34px; height: 34px; left: 40px; bottom: 60px; } .site .tub i:nth-of-type(2) { width: 24px; height: 24px; left: 200px; bottom: 70px; }
+.site .tub i:nth-of-type(3) { width: 18px; height: 18px; left: 220px; bottom: 110px; } .site .tub i:nth-of-type(4) { width: 14px; height: 14px; left: 60px; bottom: 104px; }
