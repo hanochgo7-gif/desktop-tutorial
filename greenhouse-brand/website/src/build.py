@@ -249,7 +249,7 @@ def jsonld(slug, L, crumbs):
         "address": {"@type": "PostalAddress", "addressLocality": "Kfar Masaryk", "addressCountry": "IL"},
         "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"],
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Shade solutions for work areas", "Windbreaks", "Turnkey farms"],
-        "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
+        "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "CEO"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Owner and Chairman"}],
         "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
         "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "hoursAvailable": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "08:00", "closes": "16:00"}, "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
     }
@@ -831,7 +831,7 @@ def gallery(L):
 
 def p_about(L):
     P = C.PAGES["about"]; S = C.SITE
-    company = [(("Name", "שם"), t(S["name"], L) + (" (מיפתח פרויקטים)" if L == "en" else "")), (("Office", "משרד"), t(S["town"], L)),
+    company = [(("Name", "שם"), t(S["name"], L)), (("Office", "משרד"), t(S["town"], L)),
                (("Phone", "טלפון"), None),
                (P["mgmt_k"], t(P["mgmt"], L))]  # Merav, 11 Nov 2026: CEO, and owner and chairman
     phone = f'<a href="tel:{S["phone_tel"]}" data-where="about"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>'
@@ -994,8 +994,8 @@ def p_contact(L):
 def p_profile(L):
     P = C.PAGES["profile"]; S = C.SITE
     facts = "".join(f'<div><b>{esc(t(a, L))}</b>{esc(t(b, L))}</div>' for a, b in C.FACTS)
-    svc = "".join(f'<li><b>{esc(t(ty["h"], L))}</b>: {esc(t(ty["rows"][0][1], L))}</li>' for ty in C.TYPES)
-    names = [t(x[0], L) for _, items in C.STAGES for x in items]
+    svc = "".join(f'<li><b>{esc(t(ty["h"], L))}</b>. {esc(t(ty["rows"][0][1], L))}</li>' for ty in C.TYPES)  # a full stop, as the rows themselves hold a colon
+    names = [t(x[0], L).rstrip(".") for _, items in C.STAGES for x in items]  # items end with a full stop in the lists; not inside a comma list
     stg = ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
     proc = "".join(f'<li>{esc(t(h, L))}</li>' for _, h, _, _ in C.STEPS)
     host = DOMAIN.split("//", 1)[1]

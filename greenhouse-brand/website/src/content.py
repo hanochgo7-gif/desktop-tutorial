@@ -270,7 +270,7 @@ TYPES = [  # Net houses page, organized by crop (market research implication 1)
     {"id": "sheds", "img": None,
      "h": ("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), "crops": ("Shade for work areas", "יצירת הצללה לאזורי תפעול"),
      "rows": [
-         (("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), ("Shade structures for loading, unloading and handling the produce. Wide spans leave room for trucks and carts to manoeuvre.", "סככות צל להעמסה, לפריקה ולטיפול בתוצרת החקלאית. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות.")),
+         (("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), ("Shade structures for loading, unloading and handling the produce. Wide spans leave room for trucks and carts to maneuver.", "סככות צל להעמסה, לפריקה ולטיפול בתוצרת החקלאית. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות.")),
          (("Net to order", "רשת לפי הזמנה"), ("Shade percentage and color chosen with you. An opening and closing system can be added for bad weather.", "אחוז הצל והצבע נבחרים איתכם. אפשר להוסיף מערכת פתיחה וסגירה למזג אוויר קשה.")),
      ], "cap": None},  # 2.4, 2.5
     {"id": "service", "img": None,
@@ -289,7 +289,7 @@ VALUES = [  # Q q23 (client's own words), OS credo
 # ---------------------------------------------------------------- pages
 PAGES = {
     "index": {
-        "title": ("MIFTAH Projects: Where agriculture feels at home | Orchard net houses", "מיפתח פרויקטים - חקלאות שיש לה בית | בתי רשת למטעים"),
+        "title": ("MIFTAH Projects - Where agriculture feels at home | Orchard net houses", "מיפתח פרויקטים חקלאות שיש לה בית | בתי רשת למטעים"),
         "desc": ("MIFTAH Projects designs, manufactures and builds agricultural projects and steel-structure net houses in Israel and around the world, and also builds turnkey agricultural farms abroad with business and agricultural partners.", "מיפתח פרויקטים מתכננת, מייצרת ומקימה פרויקטים חקלאיים ובתי רשת מקונסטרוקציית פלדה בישראל ובעולם, כמו כן עוסקת בהקמת חוות חקלאיות עד מפתח בחו״ל יחד עם שותפים עסקיים וחקלאיים."),
         "h1": ("We design, make and build net houses for orchards and bananas.", "אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות."),
         "lead": ("Galvanized-steel net houses against hail, wind and sun, made in our own plant, built by our crews in Israel and by local crews we train and manage abroad, for more than 20 years. For investors abroad, complete turnkey farms with agricultural partners.",
@@ -363,7 +363,7 @@ PAGES = {
         "core_p": ("The net houses, shade solutions and windbreaks of a turnkey farm are the same structures we design, make and build for growers.",
                    "בתי הרשת, פתרונות ההצללה ושוברי הרוח של חוות מפתח הם אותם מבנים שאנחנו מתכננים, מייצרים ומקימים לחקלאים."),
         "core_go": ("How we build net houses", "איך אנחנו בונים בתי רשת"),
-        "where_h": ("Net", "רשת"),  # Merav #101, word for word (Hanoch, 17 Nov 2026)
+        "where_h": ("Our network", "רשת"),  # Merav #101, word for word (Hanoch, 17 Nov 2026)
         "where_p": ("Portugal and other European countries, India, Africa and other markets.",
                     "פורטוגל ומדינות נוספות באירופה, הודו, אפריקה ושווקים נוספים."),  # 4.1, 4.2
     },
@@ -405,7 +405,7 @@ PAGES = {
                    "שמות לקוחות מופיעים רק באישורם. המלצות מלקוחות בישראל ובפורטוגל, לפי בקשה."),  # q13, O2, 3.5, D6
     },
     "about": {
-        "title": ("About MIFTAH Projects: a family company building for growers", "אודות מיפתח פרויקטים: חברה משפחתית שבונה לחקלאים"),
+        "title": ("About MIFTAH Projects: a family company building for growers", "אודות מיפתח פרויקטים: חברה משפחתית פרויקטים חקלאים"),
         "desc": ("MIFTAH Projects is a family company at Kibbutz Kfar Masaryk, Israel, owned and run by Merav and Yiftach Hasfel. The company has designed, manufactured and built net houses and agricultural projects since 2003.",
                  "מיפתח פרויקטים היא חברה משפחתית בקיבוץ כפר מסריק, בבעלות ובניהול של מרב ויפתח הספל. החברה מתכננת, מייצרת ומקימה בתי רשת ופרויקטים חקלאיים מאז 2003."),
         "h1": ("A family company for agricultural projects", "חברה משפחתית פרויקטים חקלאים"),
@@ -413,7 +413,7 @@ PAGES = {
                  "מאז 2003 אנחנו מתכננים, מייצרים ומקימים פרויקטים חקלאיים: בתי רשת לגידולים חקלאיים, פתרונות הצללה לאזורי תפעול, שוברי רוח ופתרונות תמיכה והדליה בישראל ובעולם כולו. המשרד והמפעל שלנו בקיבוץ כפר מסריק."),  # 1.6, 1.7, 1.10, 2.1-2.5
         "people_h": ("The owners", "הבעלים"),
         "yiftach": ("Yiftach Hasfel", "יפתח הספל"), "yiftach_r": ("Owner and Chairman", "בעלים ויו\"ר"),
-        "yiftach_p": ("A construction practical engineer and Technion graduate, he heads engineering at the company. Responsible for mapping the client's needs, shaping the engineering solution, managing development, quality control, supervising manufacturing and leading the work on site. Many years of experience managing, integrating and leading complex projects in Israel and around the world, combining engineering thinking, precise design and end-to-end delivery, to the highest standards of professionalism and quality.", "הנדסאי בניין, בוגר הטכניון, ומוביל התחום ההנדסי בחברה. אחראי על מיפוי צורכי הלקוח, גיבוש הפתרון ההנדסי, ניהול הפיתוח, בקרת האיכות, הפיקוח על תהליכי הייצור והובלת הביצוע בשטח. בעל ניסיון רב שנים בניהול, תכלול והובלת פרויקטים מורכבים בארץ ובעולם, תוך שילוב בין חשיבה הנדסית, תכנון מדויק ויכולת ביצוע מקצה לקצה, בסטנדרטים הגבוהים ביותר של מקצועיות ואיכות."),  # 5.1
+        "yiftach_p": ("A Technion-trained construction technician (practical engineer), he heads engineering at the company. Responsible for mapping the client's needs, shaping the engineering solution, managing development, quality control, supervising manufacturing and leading the work on site. Many years of experience managing, integrating and leading complex projects in Israel and around the world, combining engineering thinking, precise design and end-to-end delivery, to the highest standards of professionalism and quality.", "הנדסאי בניין, בוגר הטכניון, ומוביל התחום ההנדסי בחברה. אחראי על מיפוי צורכי הלקוח, גיבוש הפתרון ההנדסי, ניהול הפיתוח, בקרת האיכות, הפיקוח על תהליכי הייצור והובלת הביצוע בשטח. בעל ניסיון רב שנים בניהול, תכלול והובלת פרויקטים מורכבים בארץ ובעולם, תוך שילוב בין חשיבה הנדסית, תכנון מדויק ויכולת ביצוע מקצה לקצה, בסטנדרטים הגבוהים ביותר של מקצועיות ואיכות."),  # 5.1
         "merav": ("Merav Eyal Hasfel", "מרב איל הספל"), "merav_r": ("CEO", "מנכ״לית"),
         "mgmt_k": ("Management", "הנהלה"),
         "mgmt": ("Merav Eyal Hasfel, CEO, and Yiftach Hasfel, owner and chairman", "מרב איל הספל, מנכ״לית, ויפתח הספל, בעלים ויו\"ר"),  # the about table (Merav, 11 Nov 2026)
@@ -425,7 +425,7 @@ PAGES = {
         "company_h": ("Company details", "פרטי החברה"),
     },
     "contact": {
-        "title": ("Discuss your project | MIFTAH Projects", "דברו איתנו על הפרויקט | מיפתח פרויקטים"),
+        "title": ("Talk to us about your project | MIFTAH Projects", "דברו איתנו על הפרויקט | מיפתח פרויקטים"),
         "desc": ("Tell MIFTAH Projects where your land is, what you grow and how large it is, and we'll arrange a first conversation. Office: +972 4 985 4404, Kibbutz Kfar Masaryk.",
                  "ספרו למיפתח פרויקטים איפה הקרקע, מה מגדלים ומה גודל השטח, ונתאם שיחה ראשונה. משרד: 04-9854404, קיבוץ כפר מסריק."),
         "h1": ("Talk to us about your project", "דברו איתנו על הפרויקט"),
@@ -445,12 +445,12 @@ PAGES = {
     },
     "profile": {
         "title": ("Company profile | MIFTAH Projects", "פרופיל החברה | מיפתח פרויקטים"),
-        "desc": ("A one-page profile of MIFTAH Projects: net houses and agricultural projects, turnkey farms abroad, process, projects and contact. Printable as a PDF.",
-                 "פרופיל של מיפתח פרויקטים בעמוד אחד: בתי רשת ופרויקטים חקלאיים, חוות מפתח בחו״ל, תהליך העבודה, פרויקטים ופרטי קשר. ניתן להדפסה כ-PDF."),
+        "desc": ("A one-page profile of MIFTAH Projects: net houses and agricultural projects, turnkey agricultural farms, process, projects and contact. Printable as a PDF.",
+                 "פרופיל של מיפתח פרויקטים בעמוד אחד: בתי רשת ופרויקטים חקלאיים, חוות חקלאיות עד מפתח, תהליך העבודה, פרויקטים ופרטי קשר. ניתן להדפסה כ-PDF."),
         "h1": ("Company profile", "פרופיל החברה"),
         "print": ("Print or save as PDF", "הדפסה או שמירה כ-PDF"),
         "bar_p": ("One page to attach to a quote or hand out at a meeting.", "עמוד אחד לצרף להצעת מחיר או לחלק בפגישה."),
-        "who": ("MIFTAH Projects is a family company owned and run by Merav and Yiftach Hasfel, based at Kibbutz Kfar Masaryk. It specialises in designing, manufacturing and building advanced agricultural projects in Israel and around the world, among them net houses, support and trellising systems, and finding and developing agricultural farms worldwide. With engineering expertise, its own manufacturing and many years of complex projects, we deliver complete turnkey solutions from the idea to handover, with uncompromising quality, professionalism and personal service.", "מיפתח פרויקטים היא חברה משפחתית בבעלות ובניהול מרב ויפתח הספל, הפועלת מקיבוץ כפר מסריק. החברה מתמחה בתכנון, ייצור והקמה של פרויקטים חקלאיים מתקדמים בארץ ובעולם בהם בתי רשת, מערכות תמיכה והדליה, איתור ופיתוח חוות חקלאיות ברחבי העולם. בזכות שילוב של מומחיות הנדסית, יכולות ייצור עצמאיות וניסיון רב שנים בביצוע פרויקטים מורכבים, אנו מספקים פתרונות מפתח מלאים משלב הרעיון ועד למסירה, תוך הקפדה בלתי מתפשרת על איכות, מקצועיות ושירות אישי."),
+        "who": ("MIFTAH Projects is a family company owned and run by Merav and Yiftach Hasfel, based at Kibbutz Kfar Masaryk. It specializes in designing, manufacturing and building advanced agricultural projects in Israel and around the world, among them net houses, support and trellising systems, and finding and developing agricultural farms worldwide. With engineering expertise, its own manufacturing and many years of complex projects, we deliver complete turnkey solutions from the idea to handover, with uncompromising quality, professionalism and personal service.", "מיפתח פרויקטים היא חברה משפחתית בבעלות ובניהול מרב ויפתח הספל, הפועלת מקיבוץ כפר מסריק. החברה מתמחה בתכנון, ייצור והקמה של פרויקטים חקלאיים מתקדמים בארץ ובעולם בהם בתי רשת, מערכות תמיכה והדליה, איתור ופיתוח חוות חקלאיות ברחבי העולם. בזכות שילוב של מומחיות הנדסית, יכולות ייצור עצמאיות וניסיון רב שנים בביצוע פרויקטים מורכבים, אנו מספקים פתרונות מפתח מלאים משלב הרעיון ועד למסירה, תוך הקפדה בלתי מתפשרת על איכות, מקצועיות ושירות אישי."),
         "svc_h": ("What we build", "מה אנחנו בונים"),
         "turn_h": ("Turnkey agricultural farms (with partners)", "חוות חקלאיות עד מפתח (עם שותפים)"),
         "proc_h": ("How a project runs", "איך מתנהל פרויקט"),
@@ -467,13 +467,13 @@ PAGES = {
                  "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך סימון השטח, חפירת העוגנים, פיזור בטונים לעמודים, פריסת כבלים והעמדת העמודים, והרמת רשת ותפירה, ועד מטע מוגן."),
     },
     "privacy": {
-        "title": ("Privacy | MIFTAH Projects", "מדיניות פרטיות | מיפתח פרויקטים"),
+        "title": ("Privacy policy | MIFTAH Projects", "מדיניות פרטיות | מיפתח פרויקטים"),
         "desc": ("How MIFTAH Projects handles the details you send through this website: what is kept, why, where, and how to see, correct or delete it.", "איך מיפתח פרויקטים מטפלת בפרטים שנשלחים דרך האתר: מה נשמר, למה, איפה, ואיך לעיין בהם, לתקן או למחוק."),
         "h1": ("Privacy policy", "מדיניות פרטיות"),
     },
     "accessibility": {
         "title": ("Accessibility statement | MIFTAH Projects", "הצהרת נגישות | מיפתח פרויקטים"),
-        "desc": ("Accessibility statement for the MIFTAH Projects website: the standard it follows (IS 5568, WCAG AA), what was tested, known limits, and how to report a problem.", "הצהרת הנגישות של אתר מיפתח פרויקטים: התקן שלפיו הוא נבנה (ת״י 5568), מה נבדק, מגבלות ידועות ואיך לדווח על בעיה."),
+        "desc": ("Accessibility statement for the MIFTAH Projects website: the standard it follows (Israeli Standard 5568), what was tested, known limits, and how to report a problem.", "הצהרת הנגישות של אתר מיפתח פרויקטים: התקן שלפיו הוא נבנה (ת״י 5568), מה נבדק, מגבלות ידועות ואיך לדווח על בעיה."),
         "h1": ("Accessibility statement", "הצהרת נגישות"),
     },
     "404": {
@@ -492,7 +492,7 @@ CROP_PAGES = {  # one page per search intent; every line traces to the ledger
                  (("Protection", "הגנה"), ("From wind, hail and other weather damage, and it saves water in the hot season by reducing evaporation. Better growing conditions for the plants.", "מפני רוח, ברד ופגעי מזג האויר, ובעונה החמה חוסכת מים כי היא מפחיתה התאדות. תנאי גידול טובים יותר לצמחים.")),
                  (("Structure", "מבנה"), ("Large spans between poles", "מפתחים גדולים בין העמודים")),
                  (("Structure and support", "מבנה ותמיכה"), ("Trellising and plant support are part of the structure", "ההדליה ומערכת התמיכה הן חלק מהמבנה")),
-                 (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade", "כל השנה, בעונה החמה חוסך מים ונותן לצמחים את התנאים הטובים ביותר, על ידי הפחתת ההתאדות ומתן הצללה")),
+                 (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade.", "כל השנה, בעונה החמה חוסך מים ונותן לצמחים את התנאים הטובים ביותר, על ידי הפחתת ההתאדות ומתן הצללה")),
                  (("Scope", "היקף"), ("We design and build the whole structure.", "אנחנו מתכננים ומקימים את כל המבנה."))],  # 2.2, 4.2, CL 28 Oct
         "proj": [(("Western Galilee area, Israel", "באזור הגליל המערבי, ישראל"), ("Banana net house with 11% net", "בית רשת לבננות עם רשת 11%"))],  # 3.1
         "faq": [(("Which net is used over bananas?", "איזו רשת שמים מעל בננות?"), ("An 11% shade net: light and airy, over wide spans.", "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים.")),
@@ -650,7 +650,7 @@ PRIVACY = {
         ("What we collect", "When you send the contact form, we receive what you fill in: your name, company, role, email and phone; the country; the kind of project, the planned area, the stage, whether it is a new project or an existing orchard and the planting date; the crop and your message. The form also records the page, the language, the time it was sent and how you reached the site (the referring site and any campaign tags in the link). With an enquiry we also note whether the land size meets our usual minimum, to sort enquiries. The site uses no cookies. Like any website, the hosting server keeps standard technical logs (such as IP addresses) for security. Your browser keeps, for that tab only, an unsent form draft and a note of how you reached the site (the first page, the referring site and campaign tags); the globe remembers your language choice. None of this is sent to us unless you send the form."),
         ("Why", "Only to reply to your request, arrange a conversation or a site visit, and prepare a proposal if you ask for one."),
         ("Who sees it", "MIFTAH Projects' management and office staff. We don't sell or share your details. The site is hosted by Vercel Inc. (USA), and the form's delivery service, once connected, processes the message only to deliver it to us; both may process data outside Israel."),
-        ("How long", "We keep inquiries for as long as they are needed for the conversation and for our business records, and delete them on request."),
+        ("How long", "We keep enquiries for as long as they are needed for the conversation and for our business records, and delete them on request."),
         ("Your rights", "You can ask to see, correct or delete the details you sent, under Israel's Protection of Privacy Law, 5741-1981. Call +972 4 985 4404."),
         ("Statistics", "If we add visitor statistics, we will use a service that doesn't track you across sites, and update this page first."),
         ("Updated", "29 October 2026."),
@@ -771,7 +771,7 @@ OS = {
     "ticker": [("Banana net houses", "בתי רשת לבננות"), ("Orchard net houses", "בתי רשת למטעים"), ("Kiwi net houses", "בתי רשת לקיווי"),
                ("Avocado net houses", "בתי רשת לאבוקדו"), ("Shade solutions for work areas", "פתרונות הצללה לאזורי תפעול"), ("Windbreaks", "שוברי רוח"), ("Trellising and support", "הדליה ותמיכה"),
                ("Agricultural planning and development", "תכנון ופיתוח בחקלאות"), ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח")],  # 2.1-2.6, 1.3
-    "ticker_pause": ("Pause the scrolling list", "עצירת הרשימה הנגללת"), "ticker_play": ("Pause the scrolling list", "עצירת הרשימה הנגללת"),
+    "ticker_pause": ("Pause the scrolling list", "עצירת הרשימה הנגללת"), "ticker_play": ("Play the scrolling list", "הפעלת הרשימה הנגללת"),
     "who_k": ("Who we are", "מי אנחנו"),
     "statement_b": ("Agricultural projects and net houses,", "פרויקטים חקלאיים ובתי רשת"),
     "statement": (" one address from design to handover, in Israel and around the world.", " כתובת אחת, החל מהתכנון ועד המסירה, בישראל ובעולם כולו."),  # 1.6, 1.7, 2.1
@@ -818,7 +818,7 @@ HOME3 = {
     "steps_h": ("From bare soil to a closed net house.", "מאדמה חשופה ועד בית רשת סגור."),
     "steps_p": ("The same four steps on every project, in Israel or abroad.", "אותם ארבעה שלבים בכל פרויקט, בישראל ובחו״ל."),
     "who_h": ("You work directly with the owners, and our word is our bond.", "אתם עובדים מול הבעלים, ומילה זו מילה."),  # 4.5
-    "who_p": ("MIFTAH is a family company at Kibbutz Kfar Masaryk, run by Merav Eyal Hasfel and Yiftach Hasfel. Yiftach, a practical engineer in construction, leads design, production and execution; Merav runs the company, finance, marketing and sales.",
+    "who_p": ("MIFTAH is a family company at Kibbutz Kfar Masaryk, run by Merav Eyal Hasfel and Yiftach Hasfel. Yiftach, a Technion-trained construction technician, leads design, production and execution; Merav runs the company, finance, marketing and sales.",
               "מיפתח היא חברה משפחתית בקיבוץ כפר מסריק, בניהול מרב איל הספל ויפתח הספל. יפתח, הנדסאי בניין, מוביל את התכנון, הייצור והביצוע; מרב מנהלת את החברה, הכספים, השיווק והמכירות."),  # 5.1, 5.2
     "who_peace": ("What you get: peace of mind, and time to focus on your crop and on growing your business.", "מה אתם מקבלים: שקט, וזמן להתמקד בגידול ובפיתוח העסק."),  # q25, 4.6
     "who_refs": ("Clients in Israel and Portugal are willing to give a reference. Ask, and we'll put you in touch.", "לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. בקשו, ונפגיש ביניכם."),  # 3.5
@@ -837,7 +837,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
      "rows": [(("Net", "רשת"), ("11% shade net, light and airy", "רשת צל 11%, קלה ואוורירית")),
               (("Protection", "הגנה"), ("From wind, hail and other weather damage", "מפני רוח, ברד, ופגעי מזג האויר")),
               (("Structure", "מבנה"), ("Wide spans, with trellising and support built in", "מפתחים רחבים, עם הדליה ותמיכה מובנות")),
-              (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade", "כל השנה, בעונה החמה חוסכת מים ומאפשרת תנאים מיטביים לצמח כי היא מפחיתה התאדות ונותנת צל."))],
+              (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade.", "כל השנה, בעונה החמה חוסכת מים ומאפשרת תנאים מיטביים לצמח כי היא מפחיתה התאדות ונותנת צל."))],
      "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור באזור הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),
      "say": ("Nets that protect against hail and sun damage", "רשתות להגנה מפני ברד ופגעי שמש"),
@@ -887,7 +887,7 @@ GALLERY = {
             ("g-tunnel-arch", ("An arched net house with an open front", "בית רשת מקושת עם חזית פתוחה")),
             ("g-dark-house", ("A long net house with dark net side walls", "בית רשת ארוך עם דפנות רשת כהות")),
             ("g-road", ("Net houses along a farm road", "בתי רשת לאורך דרך שדה")),
-            ("g-tunnel-colour", ("An arched structure with net and coloured covers", "מבנה מקושת עם רשת ויריעות צבעוניות")),
+            ("g-tunnel-colour", ("An arched structure with net and colored covers", "מבנה מקושת עם רשת ויריעות צבעוניות")),
         ]),
         (("Installation in the field", "הקמה בשטח"), [
             ("g-lift-net", ("Spreading white net from a lift over young plants", "פריסת רשת לבנה מבמת הרמה מעל שתילים צעירים")),
