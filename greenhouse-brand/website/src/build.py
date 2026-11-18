@@ -262,7 +262,7 @@ def jsonld(slug, L, crumbs):
                 "banana-net-houses": "Banana net house design, manufacture and installation", "orchard-hail-nets": "Anti-hail net structures for orchards: design, manufacture and installation"}[slug]
         graph.append({"@type": "Service", "name": tm(C.PAGES[slug]["h1"], L), "provider": {"@id": f"{DOMAIN}/#org"}, "serviceType": kind})
     if slug == "index":
-        graph.append({"@type": "VideoObject", "name": tm(C.PAGES["index"]["vidcap"], L), "description": tm(C.PAGES["index"]["vidcap"], L) + (". MIFTAH Projects, Kfar Masaryk, Israel." if L == "en" else ". מיפתח פרויקטים, כפר מסריק."),
+        graph.append({"@type": "VideoObject", "name": tm(C.PAGES["index"]["vidcap"], L), "description": tm(C.PAGES["index"]["vidcap"], L) + (". MIFTAH Projects, Kibbutz Kfar Masaryk, Israel." if L == "en" else ". מיפתח פרויקטים, קיבוץ כפר מסריק."),
                       "thumbnailUrl": f"{DOMAIN}/assets/img/hero-1600.jpg", "contentUrl": f"{DOMAIN}/assets/video/hero-wide.mp4", "uploadDate": "2026-10-26", "duration": "PT12S",
                       "publisher": {"@id": f"{DOMAIN}/#org"}, "inLanguage": L})
     if slug == "how-we-build":
