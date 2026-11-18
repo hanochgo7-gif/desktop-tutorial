@@ -55,6 +55,13 @@
   document.body.appendChild(banner);
   var bk = banner.querySelector('.jr-b-k'), bt = banner.querySelector('.jr-b-t'), bTimer = 0;
   var seen = [true], quiet = -1;
+  // הכרזה שייכת לרגע שבו נכנסים לפרק. גלילה חזרה למעלה מעלימה אותה מיד, כדי ש"הגעתם ליעד" לא תופיע בראש העמוד
+  var lastY = scrollY;
+  addEventListener('scroll', function () {
+    var y = scrollY;
+    if (y < lastY - 4 && banner.classList.contains('is-on')) { clearTimeout(bTimer); banner.classList.remove('is-on'); }
+    lastY = y;
+  }, { passive: true });
   function announce(i) {
     if (!motion || seen[i]) return;
     seen[i] = true;

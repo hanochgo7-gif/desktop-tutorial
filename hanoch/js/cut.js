@@ -1,4 +1,4 @@
-/* חדר העריכה: השעון בכותרת, פתיחת התריס בפתיחה וקוד הזמן שקורא את הסרט עצמו,
+/* חדר העריכה: פתיחת התריס בפתיחה וקוד הזמן שקורא את הסרט עצמו,
    המוניטור של תוכנית הסרטים, והמחיקה של הפריים הראשי בעבודות.
    מי שביקש פחות תנועה (או "עצירת אנימציות" בתפריט הנגישות) מקבל הכול סטטי: התריס פתוח, קוד הזמן עומד, המוניטור מראה תמונה. */
 (function () {
@@ -6,31 +6,18 @@
   var d = document, root = d.documentElement;
   var still = function () { return !root.classList.contains('motion') || root.classList.contains('a11y-no-motion'); };
 
-  /* ---------- שעון ישראל בכותרת ---------- */
-  var clock = d.querySelector('[data-clock]');
-  if (clock && window.Intl && Intl.DateTimeFormat) {
-    var fmtClock;
-    try { fmtClock = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (e) { fmtClock = null; }
-    if (fmtClock) {
-      var tickClock = function () {
-        var now = new Date();
-        clock.textContent = fmtClock.format(now);
-        clock.setAttribute('datetime', now.toISOString());
-        setTimeout(tickClock, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()) + 50);
-      };
-      tickClock();
-    }
-  }
+  // השעון בכותרת: js/clock.js (אותו קובץ בכל העמודים)
 
-  /* ---------- קוד זמן בפריימים (24fps) ---------- */
+  /* ---------- קוד זמן בפריימים, לפי קצב הפריימים האמיתי של כל קובץ (ffprobe: 24, ו-Unforgettable ב-30) ---------- */
   function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function tc(t) {
-    var f = Math.floor((t || 0) * 24);
-    return pad(Math.floor(f / 86400)) + ':' + pad(Math.floor(f / 1440) % 60) + ':' + pad(Math.floor(f / 24) % 60) + ':' + pad(f % 24);
+  function tc(t, fps) {
+    fps = fps || 24;
+    var f = Math.floor((t || 0) * fps), s = Math.floor(f / fps);
+    return pad(Math.floor(s / 3600)) + ':' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60) + ':' + pad(f % fps);
   }
-  function follow(v, out, live) {
+  function follow(v, out, live, rate) {
     var step = function () {
-      if (live() && !v.paused && !still()) out.textContent = tc(v.currentTime);
+      if (live() && !v.paused && !still()) out.textContent = tc(v.currentTime, rate ? rate() : 24);
       if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(step); else requestAnimationFrame(step);
     };
     if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(step); else requestAnimationFrame(step);
@@ -94,7 +81,7 @@
           else { var p = mon.play(); if (p && p.catch) p.catch(function () {}); }
         } else if (mon.src) mon.pause();
       }, { threshold: 0.35 }).observe(prog.querySelector('.prog-monitor'));
-      if (monTc) follow(mon, monTc, function () { return monSeen; });
+      if (monTc) follow(mon, monTc, function () { return monSeen; }, function () { return current ? +current.dataset.fps || 24 : 24; });
     }
   }
 

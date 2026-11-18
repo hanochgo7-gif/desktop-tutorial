@@ -41,7 +41,7 @@
   // פס כתוביות (חדר העריכה): שורה אחת במרכז התחתית, ושני כפתורים שווים לגמרי בגודל ובמראה
   var CSS =
     '.consent{position:fixed;z-index:126;bottom:18px;left:50%;transform:translateX(-50%);width:min(980px,calc(100vw - 24px));display:flex;align-items:center;gap:.4rem 1.4rem;padding:.6rem 1.1rem;border-radius:2px;' +
-    'background:rgba(5,5,6,.94);color:#ede8de;border:0;box-shadow:none;' +
+    'background:#050506;color:#ede8de;border:0;border-top:1px solid rgba(237,232,222,.18);box-shadow:none;' +
     'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.92rem;line-height:1.5}' +
     '.consent[hidden]{display:none}' +
     '.consent__text{margin:0;flex:1 1 auto}' +

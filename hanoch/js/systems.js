@@ -761,6 +761,7 @@
   function playVideo(cat) {
     cats.forEach((c) => {
       const v = $('video', c);
+      if (!v) return; // בדף הבית האריחים הם תמונות מתוך הדוגמאות עצמן, בלי סרטון
       if (c === cat && motion && visible) {
         if (!v.src) {
           if (window.HG && HG.setVideo) HG.setVideo(v, v.dataset.src); else v.src = v.dataset.src;
@@ -821,6 +822,7 @@
     else { stop(); playVideo(null); }
   }, { rootMargin: '120px 0px' }).observe(root);
 
-  // אף קטגוריה לא נבחרה עד שלוחצים; הראשונה מקבלת את הפוקוס של המקלדת
-  cats.forEach((c, i) => { c.classList.remove('is-on'); c.setAttribute('aria-selected', 'false'); c.tabIndex = i ? -1 : 0; });
+  // הקטגוריה הראשונה פתוחה מההתחלה: ערוץ אחד תמיד חי, ולא בנק של מסכים כבויים (סבב 2 של הביקורת)
+  if (root.hasAttribute('data-open-first')) selectCat(cats[0]);
+  else cats.forEach((c, i) => { c.classList.remove('is-on'); c.setAttribute('aria-selected', 'false'); c.tabIndex = i ? -1 : 0; });
 })();

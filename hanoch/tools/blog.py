@@ -3,6 +3,7 @@
 # שאלות נפוצות: כל ### בתוך הפרק "## שאלות נפוצות" הופך לשאלה עם סימון לגוגל.
 import os, re, json, html, glob, datetime, urllib.parse
 from seo_pages import CSS, FR, WA, D, BY, SLASH
+from header import header
 # וואטסאפ בכותרת ובפס התחתון של הבלוג: הודעה שמתחילה, לא שדה ריק
 WA_BLOG = f'https://wa.me/{WA}?text=' + urllib.parse.quote('היי חנוך, הגעתי מהמאמרים באתר. השאלה שלי: ')
 
@@ -172,7 +173,8 @@ def head(title, desc, url, img, extra=''):
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
-<link rel="stylesheet" href="../css/inner.css?v=2">
+<link rel="stylesheet" href="../css/inner.css?v=3">
+<link rel="stylesheet" href="../css/head.css?v=1">
 {extra}
 <script src="../js/consent.js?v=4" defer></script>
 <script src="../js/adcode.js" defer></script>
@@ -181,10 +183,7 @@ def head(title, desc, url, img, extra=''):
 </head>
 <body>
 <a class="skip" href="#main">דלגו לתוכן</a>
-<header class="sv-bar sv-bar-cta">
-  <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../services/">שירותים</a><a href="./" aria-current="page">מאמרים</a><a href="{WA_BLOG}" target="_blank" rel="noopener">שיחת היכרות</a></nav>
-</header>
+''' + header('../', WA_BLOG, 'blog/') + '''
 '''
 
 
@@ -192,6 +191,7 @@ FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="{WA_BLOG}" tar
 <footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
+<script src="../js/clock.js?v=1" defer></script>
 <script src="../js/vendor/lenis.min.js" defer></script>
 <script src="../js/smooth.js?v=1" defer></script>
 <script src="../js/assistant.js?v=2" defer></script>

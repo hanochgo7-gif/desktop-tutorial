@@ -1,6 +1,7 @@
 # מחולל עמודי השירות (קידום אורגני). מריצים: python3 tools/seo_pages.py
 # כל עמוד: תוכן ייחודי, מחירים אמיתיים מהאתר, דוגמאות מהתיק, שאלות נפוצות עם סימון לגוגל, וקישורים פנימיים.
 import json, os, html, urllib.parse
+from header import header
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # שיחה חוזרת בשעה נוחה (js/callback.js) ופניות ל-HG OS (js/hgos.js), רק בעמודים בעברית
 CALLBACK_BTN = '<button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button>'
@@ -31,6 +32,15 @@ GUIDES = {'website-building': [('how-much-does-a-website-cost', 'כמה עולה
           'wix-migration': [('wix-vs-custom-website', 'וויקס או אתר בהתאמה אישית: מה עדיף')]}
 # כתובת בלי לוכסן בסוף (hgpro.io/services) שוברת את הקישורים היחסיים: מוסיפים אותו
 SLASH = '<script>if(!/\\/$/.test(location.pathname)&&!/\\.[a-z]+$/.test(location.pathname))location.replace(location.pathname+"/"+location.search+location.hash)</script>'
+def end_card(he, wa, title, text):
+    # כרטיס הסיום, באותה שפה כמו בדף הבית: כפתור מלא אחד (וואטסאפ), וכל השאר קישורי טקסט
+    T = (lambda a, b: a) if he else (lambda a, b: b)
+    cb = '<li><button class="sv-cb" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></li>' if he else ''
+    return (f'<section class="sv-cta sv-end" aria-labelledby="cta-h">\n    <h2 id="cta-h">{title}</h2>\n    <p>{text}</p>\n'
+            f'    <p class="sv-end-go"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T("לכתוב לי בוואטסאפ", "Message me on WhatsApp")}</a></p>\n'
+            f'    <ul class="sv-end-alt"><li><a href="tel:+972545522053">{T("חיוג", "Call")} <span dir="ltr">{T("054-5522053", "+972 54-552-2053")}</span></a></li>{cb}<li><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></li></ul>\n  </section>')
+
+
 CB_LINK = '<button class="sv-cb" type="button" data-callback hidden>או שאחזור אליכם בשעה נוחה</button>'
 # שירותים של אתרים: רק בהם הגורמים למחיר (עמודים, מערכות, טקסטים, שפה) רלוונטיים
 WEB_SLUGS = {'website-building', 'web-design', 'landing-page', 'online-store', 'wix-migration',
@@ -521,10 +531,22 @@ def render(p):
     g = GUIDES.get(p['slug']) if he else None
     guides = (f'<h2>מדריכים שיעזרו להחליט</h2><ul class="sv-rel">' + ''.join(f'<li><a href="../blog/{s}.html">{esc(t)}</a></li>' for s, t in g) + '</ul>') if g else ''
     pkg = ''
-    facts = ' · '.join(esc(f) for f in (FACTS_HE.get(p['slug'], FACTS_HE_DEFAULT) if he else FACTS_EN))
-    if he and p['slug'] in CHECK_HE: facts += ' · יש לכם כבר אתר? <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%A9%D7%AA%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">שלחו לי אותו לבדיקה</a>'
+    # משפט אחד במקום שלישיית הבטחות עם נקודות באמצע (חדר העריכה)
+    fl = [esc(f) for f in (FACTS_HE.get(p['slug'], FACTS_HE_DEFAULT) if he else FACTS_EN)]
+    if he: facts = (', '.join(fl[:-1]) + ', ו' + fl[-1] + '.') if len(fl) > 1 else fl[0] + '.'
+    else: facts = (', '.join(fl[:-1]) + ', and ' + fl[-1][0].lower() + fl[-1][1:] + '.') if len(fl) > 1 else fl[0] + '.'
+    if he and p['slug'] in CHECK_HE: facts += ' יש לכם כבר אתר? <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%A9%D7%AA%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">שלחו לי אותו לבדיקה</a>'
     faq = ''.join(f'<details><summary><h3>{esc(q)}</h3></summary><p>{esc(a)}</p></details>' for q, a in p['faq'])
-    secs = ''.join(f'<h2>{esc(h)}</h2>{body}' for h, body in p['sections'])
+    secs = ''.join(f'<h2 id="s{i + 1}">{esc(h)}</h2>{body}' for i, (h, body) in enumerate(p['sections']))
+    # רשימת הסצנות בעמוד: הכותרות של העמוד כניווט פנימי, בחצי השמאלי של המסך הרחב
+    scenes = [(f's{i + 1}', h) for i, (h, _) in enumerate(p['sections'])] + [('s-how', T('איך זה עובד', 'How it works')), ('s-price', T('איך נקבע המחיר', 'How pricing works'))]
+    if ex: scenes.append(('s-work', T('מהתיק', 'From the portfolio')))
+    scenes += [('s-faq', T('שאלות נפוצות', 'FAQ')), ('cta-h', T('ספרו לי על העסק', 'Tell me about your business'))]
+    aside = (f'<aside class="sv-aside" aria-label="{T("בעמוד הזה", "On this page")}"><div class="sv-aside-in"><p class="sv-aside-k">{T("בעמוד הזה", "On this page")}</p><ol>'
+             + ''.join(f'<li><a href="#{i}">{esc(h)}</a></li>' for i, h in scenes)
+             + f'</ol><a class="sv-aside-wa" href="{wa}" target="_blank" rel="noopener">{T("לכתוב לי בוואטסאפ", "Message me on WhatsApp")}</a></div></aside>')
+    steps_table = (f'<table class="sv-call"><caption class="sr-only">{T("שלבי העבודה", "Steps of the work")}</caption><thead><tr><th scope="col"><span class="sr-only">{T("מספר", "Number")}</span></th><th scope="col">{T("שלב", "Step")}</th><th scope="col">{T("מה קורה", "What happens")}</th></tr></thead><tbody>'
+                   + ''.join(f'<tr><td class="sv-call-n">{n + 1}</td><th scope="row">{esc(a)}</th><td>{esc(b)}</td></tr>' for n, (a, b) in enumerate(steps)) + '</tbody></table>')
     stype, sname = p['service']
     org = {'@type': 'ProfessionalService', '@id': D + '/#business', 'name': 'HG Studio', 'url': D + '/', 'telephone': '+972-54-552-2053', 'email': 'boss@hgpro.io', 'image': D + '/work/og-home.jpg', 'areaServed': 'IL'}
     graph = [
@@ -564,7 +586,8 @@ def render(p):
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=2">
+<link rel="stylesheet" href="{up}css/inner.css?v=3">
+<link rel="stylesheet" href="{up}css/head.css?v=1">
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js?v=4" defer></script>
 <script src="{up}js/adcode.js" defer></script>
@@ -573,31 +596,24 @@ def render(p):
 </head>
 <body>
 <a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
-<header class="sv-bar sv-bar-cta">
-  <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a>{'<a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('שיחת היכרות', 'Intro call')}</a></nav>
-</header>
-<main class="sv" id="main">
+{header(up, wa, 'services/' if he else 'services/en/', he)}
+<main class="sv sv-has-aside" id="main">
+  {aside}
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
-  <p class="sv-kicker">{esc(p['kicker'])}</p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{esc(p['lead'])}</p>
   {pkg}<p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a>{CB_LINK if he else ''}</p>
   <p class="sv-facts">{facts}</p>
   {secs}
-  <h2>{T('איך זה עובד', 'How it works')}</h2>
-  <ol class="sv-steps">{''.join(f'<li><b>{esc(a)}</b>{esc(b)}</li>' for a, b in steps)}</ol>
-  <h2>{T('איך נקבע המחיר', 'How pricing works')}</h2>
+  <h2 id="s-how">{T('איך זה עובד', 'How it works')}</h2>
+  {steps_table}
+  <h2 id="s-price">{T('איך נקבע המחיר', 'How pricing works')}</h2>
   <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך' + (': כמה עמודים, אילו מערכות (למשל תורים או חנות), מי כותב את הטקסטים, והאם צריך שפה שנייה' if p['slug'] in WEB_SLUGS else '') + '. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs' + (': how many pages, which systems (bookings or a store, for example), who writes the copy, and whether you need a second language' if p['slug'] in WEB_SLUGS else '') + '. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
-  {f'<h2>{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>{ex_after}' if ex else ''}
-  <h2>{T('שאלות נפוצות', 'FAQ')}</h2>
+  {f'<h2 id="s-work">{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>{ex_after}' if ex else ''}
+  <h2 id="s-faq">{T('שאלות נפוצות', 'FAQ')}</h2>
   <div class="sv-faq">{faq}</div>
   {guides}
-  <section class="sv-cta" aria-labelledby="cta-h">
-    <h2 id="cta-h">{T('בואו נדבר', "Let's talk")}</h2>
-    <p>{T('שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.', 'A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.')}</p>
-    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a>{CALLBACK_BTN if he else ''}<a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
-  </section>
+  {end_card(he, wa, T('ספרו לי על העסק.', 'Tell me about your business.'), T('שיחה קצרה, ואחריה הצעה כתובה עם לוח זמנים ומחיר. אין התחייבות.', 'A short call, then a written proposal with a schedule and a price. No commitment.'))}
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gutovski')}</span>{foot_links}{lang_link}{legal(up, he)}</footer>
@@ -606,6 +622,7 @@ def render(p):
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
+<script src="{up}js/clock.js?v=1" defer></script>
 <script src="{up}js/assistant.js?v=2" defer></script>
 {CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
 </html>
@@ -659,7 +676,8 @@ def hub(lang):
 .sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
-<link rel="stylesheet" href="{up}css/inner.css?v=2">
+<link rel="stylesheet" href="{up}css/inner.css?v=3">
+<link rel="stylesheet" href="{up}css/head.css?v=1">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
 <script src="{up}js/consent.js?v=4" defer></script>
@@ -669,18 +687,14 @@ def hub(lang):
 </head>
 <body>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a></nav></header>
+{header(up, wa, 'services/' if he else 'services/en/', he)}
 <main class="sv" id="main">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים לעסקים: אתרים, חנויות, קידום ו-AI', 'Services for businesses')}</h1>
   <p class="sv-lead">{T('אתר, חנות, דף נחיתה, קידום ותוכן, אצל אדם אחד שמכיר את העסק שלכם. כל שירות מתחיל בשיחת היכרות ונסגר בהצעה כתובה, במחיר סגור.', 'A website, a store, a landing page, SEO and content, from one person who gets to know your business. Every service starts with an intro call and ends in a written proposal at a fixed price.')}</p>
   <p>{T('לא בטוחים מאיפה להתחיל? <a href="https://wa.me/972545522053">ספרו לי על העסק</a>, ואמליץ מה כדאי לבנות קודם.', 'Want to choose fast? Start from <a href="../../en.html#pricing">the packages</a>, and add any service here to them.')}</p>
   <ul class="sv-list">{cards}</ul>
-  <section class="sv-cta" aria-labelledby="cta-h">
-    <h2 id="cta-h">{T('לא בטוחים מה מתאים?', 'Not sure what fits?')}</h2>
-    <p>{T('ספרו לי על העסק, ואמליץ מה כדאי לבנות קודם. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר סגור.', 'Tell me about your business and I will suggest what to build first. After a short call you get a written proposal at a fixed price.')}</p>
-    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a>{CALLBACK_BTN if he else ''}<a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
-  </section>
+  {end_card(he, wa, T('לא בטוחים מה מתאים?', 'Not sure what fits?'), T('ספרו לי על העסק, ואמליץ מה כדאי לבנות קודם. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר.', 'Tell me about your business and I will suggest what to build first. After a short call you get a written proposal with a price.'))}
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio</span>{legal(up, he)}</footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
@@ -688,6 +702,7 @@ def hub(lang):
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
+<script src="{up}js/clock.js?v=1" defer></script>
 <script src="{up}js/assistant.js?v=2" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
 </html>

@@ -184,7 +184,7 @@ body.pm .pm-reel-btn { min-height: 44px; padding: 0 12px; border-radius: 2px; ba
 .prog-item::after { content: none !important; }
 .prog-thumb { display: none; }
 .prog-t { font: 400 var(--t-scene)/1.04 var(--serif); letter-spacing: -.012em; }
-.prog-t:lang(en) { font: 800 calc(var(--t-scene) * .78)/1.05 "Fraunces", Georgia, serif; font-variation-settings: "opsz" 144; letter-spacing: -.01em; }
+.prog-t:lang(en) { font: 700 calc(var(--t-scene) * .86)/1.05 var(--serif); letter-spacing: -.015em; }
 .prog-g { grid-column: 1; color: var(--fg-dim); font-size: .95rem; line-height: 1.5; }
 .prog-m { grid-column: 2; grid-row: 1 / span 2; align-self: center; display: flex; gap: .9em; font: 500 .78rem/1 var(--mono); letter-spacing: .06em; color: var(--fg-dim); font-variant-numeric: tabular-nums; }
 @media (hover: hover) and (min-width: 980px) {
@@ -235,27 +235,36 @@ body.pm .pm-lb-x, body.pm .pm-lb-nav { border-radius: 2px; }
 
 /* ===== תמונות: דף מגע ===== */
 .cut-stills { padding-block: var(--beat-tight) var(--beat); }
-.cut-stills .pm-stills { columns: auto; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 6px; background: #000; list-style: none; }
-.cut-stills .pm-stills::after { content: ""; flex: 999 1 0; }
-.cut-stills .pm-still { --ar: 1.78; --rh: clamp(132px, 17vw, 260px); flex: var(--ar) 1 calc(var(--ar) * var(--rh)); margin: 0; border-radius: 0; background: #000; overflow: visible; min-width: 0; }
-.cut-stills .pm-still-v { --ar: .8; }
-.cut-stills .pm-still img { width: 100%; height: auto; aspect-ratio: var(--ar); object-fit: cover; transform: none; filter: none; transition: none; }
-.cut-stills .pm-still-btn:hover img { transform: none; filter: none; }
-.cut-stills .pm-still-cap { position: static; display: block; padding: 7px 2px 3px; background: none; opacity: 1; transform: none; font-size: .78rem; line-height: 1.3; color: rgba(237, 232, 222, .72); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color var(--f3) linear; }
-.cut-stills .pm-still-btn:hover .pm-still-cap, .cut-stills .pm-still-btn:focus-visible .pm-still-cap { color: var(--paper); }
-.cut-stills .pm-still-btn:focus-visible { outline: 3px solid var(--tally); outline-offset: 2px; border-radius: 0; }
-@media (max-width: 760px) { .cut-stills .pm-still { --rh: 30vw; } }
+.cut-stills .pm-stills, .pm-gal .pm-stills-full { columns: auto; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 6px; background: #000; list-style: none; }
+.cut-stills .pm-stills::after, .pm-gal .pm-stills-full::after { content: ""; flex: 999 1 0; }
+.cut-stills .pm-still, .pm-gal .pm-still { --ar: 1.78; --rh: clamp(132px, 17vw, 260px); flex: var(--ar) 1 calc(var(--ar) * var(--rh)); margin: 0; border-radius: 0; background: #000; overflow: visible; min-width: 0; }
+.cut-stills .pm-still-v, .pm-gal .pm-still-v { --ar: .8; }
+.cut-stills .pm-still img, .pm-gal .pm-still img { width: 100%; height: auto; aspect-ratio: var(--ar); object-fit: cover; transform: none; filter: none; transition: none; }
+.cut-stills .pm-still-btn:hover img, .pm-gal .pm-still-btn:hover img { transform: none; filter: none; }
+.cut-stills .pm-still-cap, .pm-gal .pm-still-cap { position: static; display: block; padding: 7px 2px 3px; background: none; opacity: 1; transform: none; font-size: .78rem; line-height: 1.3; color: rgba(237, 232, 222, .72); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color var(--f3) linear; }
+.cut-stills .pm-still-btn:hover .pm-still-cap, .cut-stills .pm-still-btn:focus-visible .pm-still-cap, .pm-gal .pm-still-btn:hover .pm-still-cap, .pm-gal .pm-still-btn:focus-visible .pm-still-cap { color: var(--paper); }
+.cut-stills .pm-still-btn:focus-visible, .pm-gal .pm-still-btn:focus-visible { outline: 3px solid var(--tally); outline-offset: 2px; border-radius: 0; }
+@media (max-width: 760px) { .cut-stills .pm-still, .pm-gal .pm-still { --rh: 30vw; } }
 
-/* ===== תהליך: דף הפקה, שלבים אמיתיים ולכן ממוספרים ===== */
-.cut-how { padding-block: var(--beat-long) var(--beat); }
-.call { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(237, 232, 222, .42); }
-.call li { display: grid; grid-template-columns: minmax(4rem, 1fr) minmax(0, 4fr) minmax(0, 6fr); column-gap: var(--g); align-items: baseline; padding: 26px 0 30px; border-bottom: 1px solid var(--fg-faint); }
-.call-n { font: 300 clamp(2.6rem, 4.4vw, 4.2rem)/.8 var(--serif); color: var(--fg); font-variant-numeric: lining-nums; }
-.call h3 { font: 400 clamp(1.45rem, 2vw, 1.9rem)/1.15 var(--serif); letter-spacing: -.005em; }
-.call p { max-width: 46ch; color: var(--fg-dim); line-height: 1.7; }
+/* ===== SM-6 · תהליך: דף הפקה על נייר, כטבלה אמיתית (השלבים הם רצף, ולכן ממוספרים) ===== */
+.cut-how { padding-block: var(--beat) var(--beat-tight); overflow-x: clip; }
+.call-sheet { --fg: var(--ink); --fg-dim: var(--ink-dim); color-scheme: light; margin-inline: var(--m); padding: clamp(28px, 4vw, 56px); background: var(--paper); color: var(--ink); }
+.call-sheet ::selection { background: var(--ink); color: var(--paper); }
+.call-sheet :focus-visible { outline-color: var(--tally-ink); }
+.call-sheet h2 { margin-bottom: clamp(20px, 2.4vw, 36px); }
+.call { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.call th, .call td { padding: 18px 14px 20px 0; padding-inline: 0 18px; text-align: start; vertical-align: baseline; border-top: 1px solid rgba(10, 10, 11, .3); }
+.call thead th { padding-block: 0 12px; border-top: 0; border-bottom: 2px solid var(--ink); font: 500 .8rem/1.3 var(--f-body); letter-spacing: .02em; color: var(--ink-dim); }
+.call tbody th { width: 22%; font: 400 clamp(1.3rem, 1.8vw, 1.7rem)/1.15 var(--serif); }
+.call td { line-height: 1.65; color: rgba(10, 10, 11, .82); }
+.call td:nth-child(3) { width: 38%; }
+.call .call-n { width: 3.4rem; font: 300 clamp(2.2rem, 3.4vw, 3.2rem)/.85 var(--serif); color: var(--ink); }
 @media (max-width: 760px) {
-  .call li { grid-template-columns: 3rem minmax(0, 1fr); row-gap: .5rem; }
-  .call p { grid-column: 2; }
+  .call thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .call tr { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); padding: 16px 0; border-top: 1px solid rgba(10, 10, 11, .3); }
+  .call th, .call td { width: auto !important; padding: 0 0 .35rem; border: 0; }
+  .call td:nth-child(n+3) { grid-column: 2; }
+  .call td[data-l]::before { content: attr(data-l) ": "; font-weight: 500; color: var(--ink-dim); }
 }
 
 /* ===== שירותים: אינדקס טיפוגרפי ===== */
@@ -373,3 +382,27 @@ body.pm .pm-stills-full .pm-still-btn:hover img { transform: none; }
 
 .pm-gal > .pm-wrap { width: auto; padding-inline: var(--m); }
 .call-form .pm-field i { opacity: 1; }
+
+/* ===== סבב 2 · מערכות: האריחים הם תמונות מתוך הדוגמאות החיות עצמן ===== */
+.cut-sys .sr-cat { background: var(--night); }
+.cut-sys .sr-cat::after { content: none; }
+.cut-sys .sr-media { inset: auto 0 0 0; top: auto; height: 64%; border-top: 1px solid rgba(237, 232, 222, .16); }
+.cut-sys .sr-media img { object-position: top center; }
+.cut-sys .sr-cat-name { font: 400 clamp(1.25rem, 1.7vw, 1.7rem)/1.1 var(--serif); letter-spacing: -.005em; }
+.cut-sys .sr-cat-n { font: 500 .8rem/1.3 var(--f-body); }
+@media (max-width: 900px) { .cut-sys .sr-media { height: 58%; } }
+body.pm .rv { opacity: 1; translate: none; }
+.cut-open-copy .pm-lede strong { font-weight: 500; color: var(--paper); }
+/* סבב 2 · כרטיס הסיום: כפתור מלא אחד (וואטסאפ), וכל השאר קישורי טקסט */
+.end-alt { list-style: none; margin: 1.4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.6rem; }
+.end-alt button.cut-link { padding: 0; border: 0; background: none; font: inherit; font-weight: 500; color: var(--fg); cursor: pointer; }
+.end-alt button[hidden] { display: none; }
+.end-alt li:has(> [hidden]) { display: none; }
+/* סבב 2 · כותרת אחידה (tools/header.py): כפתור אחד בלי סמל */
+body.pm .top-wa { display: inline-flex; align-items: center; min-height: 40px; padding: .45rem 1rem; border-radius: 2px; font: 600 .95rem/1.2 var(--f-body); text-decoration: none; }
+body.pm .top-wa:hover { box-shadow: inset 0 -3px 0 var(--tally); }
+body.pm .menu-sheet a[aria-current] { box-shadow: inset 2px 0 0 var(--tally); }
+@media (max-width: 899px) { body.pm .top-wa { display: none; } }
+/* סבב 2 · פחות משפחות גופנים בדף הבית: שמות המערכות בסריף (בלי Handjet בעברית), כותרות לטיניות בפרנק רוהל 700 (בלי Fraunces) */
+.cut-sys .sr-i-name { font: 400 clamp(1.2rem, 1.6vw, 1.5rem)/1.15 var(--serif); }
+.end-alt .cut-link { gap: .35em; }

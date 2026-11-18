@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/g/geist-mono-latin-b291d8.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/handjet-ascii.woff2" crossorigin>
 <link rel="stylesheet" href="css/fonts.css">
-<link rel="stylesheet" href="css/hanoch.css?v=2">
+<link rel="stylesheet" href="css/hanoch.css?v=3">
 <script>
   // Motion mode is set before the first paint, so nothing flickers
   (function () {
@@ -50,13 +50,8 @@
 <a class="skip" href="#work">Skip to the work</a>
 
 <div class="grain" aria-hidden="true"></div>
-<div class="progress" aria-hidden="true"><i></i></div>
 <div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <!-- A cinematic world behind the site, seen only through the dark parts. Night behind the packages and the work, sunset behind "Let's build." -->
-<div class="site-film" aria-hidden="true">
-  <video muted loop playsinline preload="none" data-film="dark" data-src="work/bg/dark.mp4" data-src-m="work/bg/dark-m.mp4" data-poster="work/bg/dark.webp"></video>
-  <video muted loop playsinline preload="none" data-film="light" data-src="work/bg/light.mp4" data-src-m="work/bg/light-m.mp4" data-poster="work/bg/light.webp"></video>
-</div>
 
 <header class="bar">
   <a class="bar-mark" href="en.html" aria-label="HG·STUDIO, home">HG<span>·</span>STUDIO</a>
@@ -67,7 +62,7 @@
     <a href="#contact">Contact</a>
   </nav>
   <a class="lang-switch mono" href="work.html" hreflang="he" lang="he" aria-label="עברית">עב</a>
-  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Sound – site sounds">
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Sound: site sounds">
     <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Sound</span>
   </button>
   <button class="xray-toggle" type="button" aria-pressed="false" title="Shows how this site is built (X key)">
@@ -583,8 +578,8 @@
 <script src="js/vendor/gsap-3.15.0/DrawSVGPlugin.min.js" defer></script>
 <script src="js/vendor/gsap-3.15.0/ScrambleTextPlugin.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
-<script src="js/hanoch.js" defer></script>
-<script src="js/journey.js" defer></script>
+<script src="js/hanoch.js?v=2" defer></script>
+<script src="js/journey.js?v=2" defer></script>
 <script src="js/night.js" defer></script>
 <script src="js/gallery.js" defer></script>
 <script src="js/fluid.js" defer></script>

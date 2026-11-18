@@ -145,3 +145,47 @@ body { background: var(--ink, #0a0a0b); }
 /* כפתור הנגישות: ריבוע קטן, באותה שפה של כפתור העוזר */
 .a11y__btn { border-radius: 2px !important; background: #050506 !important; color: #ede8de !important; border: 1px solid rgba(237, 232, 222, .6) !important; box-shadow: none !important; }
 .a11y__panel { border-radius: 2px !important; }
+
+/* ===== סבב 2: עמודי השירות במערכת של חדר העריכה ===== */
+/* השלבים: דף הפקה. רצף אמיתי, ולכן ממוספר */
+.sv-call { width: 100%; max-width: 46rem; margin-top: 1.4rem; border-collapse: collapse; font-size: 1rem; }
+.sv-call th, .sv-call td { padding: 16px 12px 18px 0; padding-inline: 0 14px; border-top: 1px solid rgba(237, 232, 222, .18); text-align: start; vertical-align: baseline; }
+.sv-call tbody tr:last-child > * { border-bottom: 1px solid rgba(237, 232, 222, .18); }
+.sv-call thead th { padding-block: 0 10px; border-top: 0; font: 500 .8rem/1.3 var(--f-body); letter-spacing: .02em; color: var(--fg-dim); }
+.sv-call tbody th { width: 30%; font: 400 1.35rem/1.2 var(--serif); color: var(--paper); }
+.sv-call td { color: rgba(237, 232, 222, .8); line-height: 1.65; }
+.sv-call .sv-call-n { width: 3.2rem; font: 300 2.2rem/1 var(--serif); color: var(--paper); }
+@media (max-width: 640px) {
+  .sv-call thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .sv-call tr { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); border-top: 1px solid rgba(237, 232, 222, .18); padding: 14px 0; }
+  .sv-call th, .sv-call td { border: 0 !important; padding: 0 0 .3rem; }
+  .sv-call td:last-child { grid-column: 2; }
+}
+/* כרטיס הסיום: כמו בדף הבית. כפתור מלא אחד, והשאר קישורי טקסט */
+.sv-end h2 { margin: 0 0 1rem; font-weight: 300; font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: .92; letter-spacing: -.03em; }
+.sv-end-go { margin-top: 1.8rem; }
+.sv .sv-end-alt { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0 1.6rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.sv .sv-end-alt li { margin: 0; padding: 0; }
+.sv .sv-end-alt li::before { content: none; }
+.sv-end-alt a, .sv-end-alt button { display: inline-block; padding-block: 12px !important; padding: 0; border: 0; background: none; color: var(--paper); font: 500 1rem/1.2 var(--f-body); text-decoration: underline; text-underline-offset: .3em; cursor: pointer; }
+.sv-end-alt a:hover, .sv-end-alt button:hover { text-decoration-color: var(--signal); text-decoration-thickness: 2px; }
+.sv-end-alt li:has(> [hidden]) { display: none; }
+.sv-facts { max-width: 46rem; }
+/* החצי השמאלי במסך רחב: רשימת הסצנות בעמוד, נדבקת בזמן הגלילה */
+.sv-aside { display: none; }
+@media (min-width: 1100px) {
+  .sv.sv-has-aside { position: relative; }
+  .sv.sv-has-aside > :not(.sv-aside) { max-width: min(46rem, 62%); }
+  .sv-aside { display: block; position: absolute; top: clamp(40px, 6vw, 88px); bottom: 40px; inset-inline-end: max(20px, 5vw); width: 26%; }
+  .sv-aside-in { position: sticky; top: 104px; padding-top: 18px; border-top: 1px solid rgba(237, 232, 222, .22); }
+  .sv-aside-k { margin: 0 0 .8rem; font: 500 .8rem/1.3 var(--f-body) !important; letter-spacing: .02em; color: var(--fg-dim) !important; }
+  .sv-aside ol { list-style: none; margin: 0; padding: 0; display: grid; }
+  .sv-aside li { margin: 0; }
+  .sv-aside ol a { display: flex; align-items: center; min-height: 40px; padding-inline-start: 12px; border-inline-start: 2px solid transparent; color: rgba(237, 232, 222, .72); font: 500 .95rem/1.3 var(--f-body); text-decoration: none; }
+  .sv-aside ol a:hover, .sv-aside ol a:focus-visible { color: var(--paper); border-inline-start-color: var(--signal); }
+  .sv-aside-wa { display: inline-flex; align-items: center; min-height: 44px; margin-top: 1.4rem; color: var(--paper) !important; font: 500 1rem/1.2 var(--f-body); text-decoration: underline; text-underline-offset: .3em; }
+  .sv-aside-wa:hover { text-decoration-color: var(--signal) !important; text-decoration-thickness: 2px; }
+}
+/* אותם שוליים כמו בכותרת ובדף הבית */
+.sv, .sv-foot { width: auto; max-width: none; margin-inline: 0; padding-inline: max(20px, 5vw); box-sizing: border-box; }
+.sv h2[id] { scroll-margin-top: 88px; }

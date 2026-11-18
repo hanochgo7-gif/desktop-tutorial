@@ -2341,3 +2341,34 @@ html.jr-on .jr { opacity: 1; pointer-events: auto; }
 /* כפתור הנגישות: ריבוע קטן, באותה שפה של כפתור העוזר */
 .a11y__btn { border-radius: 2px !important; background: #050506 !important; color: #ede8de !important; border: 1px solid rgba(237, 232, 222, .6) !important; box-shadow: none !important; }
 .a11y__panel { border-radius: 2px !important; }
+
+/* ===== חדר העריכה ב-/work.html (סבב 2): אותה שפה כמו בשאר האתר =====
+   מלבנים במקום גלולות, בלי הילות וזוהר, בלי שמי לילה מאחורי הדף (השכבה site-film הוסרה מהעמוד), בלי פס התקדמות כתום.
+   הכתום נשאר רק למה שנבחר, חי או בפוקוס. התוכן, הסיפורים והסרטים לא השתנו. */
+.page-work { --radius-pill: 2px; --radius-xs: 2px; --radius-s: 2px; --radius-m: 2px; --radius-l: 2px; --radius-xl: 2px; background: #050506; }
+.page-work .grain, .page-work .cols { display: none; }
+.page-work .btn, .page-work .film-play, .page-work .sound-toggle, .page-work .xray-toggle, .page-work .lang-switch, .page-work .bar-cta, .page-work .menu-btn,
+.page-work .cr-btn, .page-work .ba-tag, .page-work .night-clock, .page-work .browser, .page-work .logo-tile, .page-work .case-relic, .page-work .foot-xray { border-radius: 2px !important; }
+.page-work .btn-signal { background: #ede8de; color: #0a0a0b; box-shadow: none; }
+.page-work .btn-signal:hover { background: #fff; box-shadow: inset 0 -3px 0 #ff4f1a; }
+.page-work .night::after, .page-work .menu::before { background: none; }
+.page-work .gallery-on .p-relic, .page-work .gallery-on .p-relic::after { background: none; }
+.page-work .gallery-on .case-relic { background: #07080a; box-shadow: inset 0 0 0 1px rgba(237, 232, 222, .16); }
+.page-work .demo-facts li::before, .page-work .tier-time::before { width: 12px; height: 1px; border-radius: 0; background: rgba(237, 232, 222, .5); }
+.page-work .how li::before { display: none; }
+/* מספרי הפרקים הענקיים ברקע ומסלול הנקודות 01/08 בצד: קישוט, לא רצף שהקורא צריך. הכרזת הפרק (פס כתובית) נשארת */
+.page-work .jr-num, .page-work .jr { display: none !important; }
+.page-work .bar { background: rgba(5, 5, 6, .96); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.page-work .bar .clock { display: flex; align-items: baseline; gap: .45em; margin: 0; font: 400 .8rem/1 var(--f-body); color: var(--fg-dim); white-space: nowrap; }
+.page-work .bar .clock time { font: 500 .82rem/1 var(--f-mono); letter-spacing: .04em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.page-work .bar .clock:has(time:empty) { visibility: hidden; }
+.page-work .bar-cta { background: #ede8de; color: #0a0a0b !important; border: 0; font-family: var(--f-body); font-weight: 600; }
+@media (max-width: 760px) { .page-work .bar .clock { display: none; } }
+.page-work .jr-b-k { display: none; }
+.page-work .film-play-i, .page-work .tour-play, .page-work .demo-play { border-radius: 2px !important; }
+.page-work .foot-sv { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1.2rem; }
+.page-work .foot-sv a { display: inline-flex; align-items: center; min-height: 44px; }
+/* כרטיס הסיום: כפתור מלא אחד (וואטסאפ, בצבע הנייר), וכל השאר קישורי טקסט */
+.page-work .contact-actions .btn-line { border: 0; background: none; min-height: 44px; padding-inline: .2rem; text-decoration: underline; text-underline-offset: .3em; }
+.page-work .contact-direct a, .page-work .contact-direct button { border: 0 !important; background: none !important; min-height: 44px; padding-inline: .2rem !important; text-decoration: underline; text-underline-offset: .3em; }
+.page-work .contact-direct a[href*="wa.me"] { display: none; }

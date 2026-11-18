@@ -1,7 +1,7 @@
 {
  "/": {
   "d": "2026-11-18",
-  "h": "815de7972cbf8e9870a08feaecd6d0ca578b44f2"
+  "h": "451cf04da6852e1401bff44c0245e1b783f549eb"
  },
  "/accessibility.html": {
   "d": "2026-11-18",
@@ -85,7 +85,7 @@
  },
  "/gallery/": {
   "d": "2026-11-18",
-  "h": "a246d576205d132219ca13bfac6e9d8afd8de24c"
+  "h": "cedc2ab017882c4c34fc189752e24745168ca4d4"
  },
  "/privacy.html": {
   "d": "2026-11-18",
@@ -100,99 +100,99 @@
   "h": "eb340df4a1e766bc09eccc3f32ecd5abb1d664de"
  },
  "/services/": {
-  "d": "2026-11-16",
-  "h": "731121a573acac7df0d171a738d1ddf6727b2af4"
+  "d": "2026-11-18",
+  "h": "e90fd8d135d8cc9e769ecc68941645b59ff66130"
  },
  "/services/ai-chatbot.html": {
-  "d": "2026-11-16",
-  "h": "4698b1ce3b70fffc8228473da98ca7c14dbf2cbf"
+  "d": "2026-11-18",
+  "h": "8a13908c26fe47c0c02e74ef3263c0bf7e768ddd"
  },
  "/services/ai-commercial.html": {
-  "d": "2026-11-16",
-  "h": "392d3f1e4c1df25367634d49e7a0743720c08252"
+  "d": "2026-11-18",
+  "h": "19ce0959eb6b1cf3f720d8cda5cb895ad5cb86e9"
  },
  "/services/brand-identity.html": {
-  "d": "2026-11-16",
-  "h": "f7d8efd746aba67dfba4545aa0bd723b07bd91af"
+  "d": "2026-11-18",
+  "h": "bdcdce5a2e1d16d783fccca155c2bac906aadca5"
  },
  "/services/en/": {
-  "d": "2026-11-09",
-  "h": "2f074951055bf87511f13928884f489eb2a335e2"
+  "d": "2026-11-18",
+  "h": "5086fb5c13adb8d1d2473a328a92e851ddb9942e"
  },
  "/services/en/ai-commercial-production.html": {
-  "d": "2026-11-09",
-  "h": "cf265cf0dcc63606fe061266feacff559acdc6b3"
+  "d": "2026-11-18",
+  "h": "5ed1d3e869d388f3c22edf0cddb238ce35ab9653"
  },
  "/services/en/ai-customer-agent.html": {
-  "d": "2026-11-09",
-  "h": "4a03f7cc76529a99032d52fd6ef368952c03d5ad"
+  "d": "2026-11-18",
+  "h": "73f6436427691ee4a3d788c31ae0dc917a77696a"
  },
  "/services/en/brand-identity-design.html": {
-  "d": "2026-11-09",
-  "h": "73cd5d7bb08909afea16001d590a68a94a805c46"
+  "d": "2026-11-18",
+  "h": "d11cbcf90dc81f499bff592dff9a2c4805777f65"
  },
  "/services/en/ecommerce-store.html": {
-  "d": "2026-11-09",
-  "h": "beacbd5ab0ca19fcf37b22acd780e7324d6b1c39"
+  "d": "2026-11-18",
+  "h": "be730f66a6fa582c522f409ac145bfec64db953c"
  },
  "/services/en/landing-page-design.html": {
-  "d": "2026-11-09",
-  "h": "f86052d373d882edca2c7f25e7e89153dd5b76f6"
+  "d": "2026-11-18",
+  "h": "c5d65bf4216754dabff3ba24119c014748aed3f0"
  },
  "/services/en/seo-services.html": {
-  "d": "2026-11-09",
-  "h": "8826745232ad5068367b8fe3f6dc7b548c18741b"
+  "d": "2026-11-18",
+  "h": "7b3665ab0e72fe81ec2d332bad1884cfdfb80787"
  },
  "/services/en/social-media-for-business.html": {
-  "d": "2026-11-09",
-  "h": "0865a92206a0ea30f0e4813220caad6f2b2a97cf"
+  "d": "2026-11-18",
+  "h": "19f79395825c15c8a0e79513301628c011c4b65b"
  },
  "/services/en/web-design-studio.html": {
-  "d": "2026-11-09",
-  "h": "edf98eb73e4c94ee35b76fd10b740bd012774628"
+  "d": "2026-11-18",
+  "h": "7292ee6fade05e7d60bd8d1ef3a47276bc511ddc"
  },
  "/services/en/website-design.html": {
-  "d": "2026-11-09",
-  "h": "47fd905a1c94d8611b2d57fa73c1258911bd7030"
+  "d": "2026-11-18",
+  "h": "a02560abf036a43faf64b602566385eef5c5cf83"
  },
  "/services/en/wix-wordpress-migration.html": {
-  "d": "2026-11-09",
-  "h": "01051c1b6e9c704ca4be16451b304812ee613a59"
+  "d": "2026-11-18",
+  "h": "385ad6b5e10e021cd8f5c2294e21c4c79a554c29"
  },
  "/services/landing-page.html": {
-  "d": "2026-11-16",
-  "h": "96b1e2b8a93e79ff3df62b73dc473ca9c5cdd6aa"
+  "d": "2026-11-18",
+  "h": "2aaac12a7f218bbaf56688b616462fedd67ff456"
  },
  "/services/online-store.html": {
-  "d": "2026-11-16",
-  "h": "26e411697854ea22a22b70e10719d6a0fe4e7ac5"
+  "d": "2026-11-18",
+  "h": "c9712d51d9794bed99c66a094c5cbed05d8c798d"
  },
  "/services/seo.html": {
-  "d": "2026-11-16",
-  "h": "82669e7b603b0ae7710cbeeacb64087c864e7e8f"
+  "d": "2026-11-18",
+  "h": "a93512cf23d6390bbc171035963ae4dfed97a31e"
  },
  "/services/social-media.html": {
-  "d": "2026-11-16",
-  "h": "fd18193d24c03d0ba3ad264519eee62829f9efa9"
+  "d": "2026-11-18",
+  "h": "8718b8c2a819c246b9ca28845e82139ee25ff866"
  },
  "/services/web-design.html": {
-  "d": "2026-11-16",
-  "h": "c65bf8de775ec9a78784decdc87b739b10258bd2"
+  "d": "2026-11-18",
+  "h": "1bda87595567a81a0f240d0cdad6cc6aab91420d"
  },
  "/services/website-building.html": {
-  "d": "2026-11-16",
-  "h": "fb368e7e0ea8689588e5938058d98eca24de874d"
+  "d": "2026-11-18",
+  "h": "f4d779706df8cbe41dbfa02161ffd31220ddf6f2"
  },
  "/services/wix-migration.html": {
-  "d": "2026-11-16",
-  "h": "56533bc130c0472c3d616cdf250a36f0f57dfa12"
+  "d": "2026-11-18",
+  "h": "abc2dd3b2e9480a2253ade72792f51b868d0f0fa"
  },
  "/terms.html": {
   "d": "2026-11-18",
   "h": "7cfaf70c6a18456f081a8c381086f207bfd2e749"
  },
  "/work.html": {
-  "d": "2026-11-16",
-  "h": "3b965d6d46ba6544de96ae9a8894440c1f9f501e"
+  "d": "2026-11-18",
+  "h": "68e2cae7a302e8cc29d8b9ced03f2459821abf1d"
  }
 }

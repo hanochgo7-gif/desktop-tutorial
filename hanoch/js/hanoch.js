@@ -242,7 +242,7 @@
     if (!LIVE[id]) return;
     var a = document.createElement('a');
     a.className = 'p-live mono'; a.href = LIVE[id]; a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = T('לביקור באתר', 'Visit site') + ' <span aria-hidden="true">↗</span>';
+    a.textContent = T('לביקור באתר', 'Visit site');
     var btn = $('.project[data-id="' + id + '"] .p-open');
     btn.parentNode.insertBefore(a, btn.nextSibling);
   });
@@ -605,7 +605,7 @@
     $('.swatches').innerHTML = d.palette.map(function (c) { return '<li><i style="background:' + c + '"></i>' + c + '</li>'; }).join('');
     $('.case-fonts').innerHTML = d.fonts.map(function (f) { return '<li>' + f + '</li>'; }).join('');
     var m = $('.case-metrics');
-    m.innerHTML = d.metrics ? '<h3 class="label mono">' + T('לפני → אחרי', 'Before → after') + '</h3>' + d.metrics.map(function (r) {
+    m.innerHTML = d.metrics ? '<h3 class="label mono">' + T('לפני ואחרי', 'Before and after') + '</h3>' + d.metrics.map(function (r) {
       return '<div><span>' + r[0] + '</span><b><s>' + r[1] + '</s>' + r[2] + '</b></div>';
     }).join('') : '';
     var ph = $('.case-phone');
@@ -1611,9 +1611,10 @@
     if (!bar || !nav) return;
     var contact = $('#contact');
     var cta = document.createElement('a');
-    cta.className = 'bar-cta mono';
-    cta.href = contact ? '#contact' : T('index.html#contact', 'en.html#contact');
-    cta.textContent = T('דברו איתי', 'Talk to me');
+    // אותו כפתור אחד כמו בכותרת של שאר האתר (tools/header.py): וואטסאפ
+    cta.className = 'bar-cta';
+    cta.href = 'https://wa.me/' + CONTACT.whatsapp; cta.target = '_blank'; cta.rel = 'noopener';
+    cta.textContent = T('וואטסאפ', 'WhatsApp');
     var btn = document.createElement('button');
     btn.className = 'menu-btn'; btn.type = 'button';
     btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'menu');
