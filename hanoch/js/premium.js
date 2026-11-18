@@ -1,22 +1,10 @@
-/* דף הבית בגרסת פרימיום: חשיפה עדינה בגלילה, ותצוגת העבודות בפתיחה שמתחלפת לבד.
+/* דף הבית בגרסת פרימיום: תצוגת העבודות בפתיחה שמתחלפת לבד.
    ההחלפה עוצרת כשהעכבר על התצוגה, כשהיא מחוץ למסך, ולמי שביקש פחות תנועה. */
 (function () {
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var items = document.querySelectorAll('.pm-reveal');
-  if ('IntersectionObserver' in window && !still) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
-    items.forEach(function (el) {
-      // פריטים באותה קבוצה נכנסים בהפרש קטן, והרצף כולו לא עובר חצי שנייה
-      var sibs = [].filter.call(el.parentNode.children, function (x) { return x.classList.contains('pm-reveal'); });
-      var k = sibs.indexOf(el); if (k > 0) el.style.transitionDelay = Math.min(k, 5) * 60 + 'ms';
-      io.observe(el);
-    });
-  } else {
-    items.forEach(function (el) { el.classList.add('in'); });
-  }
+  // בלי כניסה מדורגת בגלילה: הטקסט פשוט נמצא שם (חדר העריכה). המחלקה נשארת כדי שעמודים ישנים לא יוסתרו
+  document.querySelectorAll('.pm-reveal').forEach(function (el) { el.classList.add('in'); });
 
   var show = document.querySelector('.pm-show');
   if (!show) return;

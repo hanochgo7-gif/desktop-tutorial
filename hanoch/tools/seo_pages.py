@@ -468,7 +468,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 def GF(up, he):
     # הגופן הראשי, ותתי־הקבוצות הקטנות (סימני פיסוק ו-ASCII) כדי שהטקסט לא יקפוץ כשהגופן מתחלף
     pre = lambda f: f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/{f}" crossorigin>\n'
-    fonts = ['g/rubik-hebrew-423ede.woff2', 'g/rubik-punct.woff2', 'g/frank-ruhl-libre-hebrew-096aa4.woff2'] if he else ['g/geist-mono-latin-b291d8.woff2', 'handjet-ascii.woff2']
+    fonts = ['g/rubik-hebrew-423ede.woff2', 'g/rubik-punct.woff2', 'g/frank-ruhl-libre-var-hebrew.woff2'] if he else ['g/geist-mono-latin-b291d8.woff2', 'handjet-ascii.woff2']
     return ''.join(pre(f) for f in fonts) + f'<link rel="stylesheet" href="{up}css/fonts.css">'
 # הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
@@ -564,9 +564,9 @@ def render(p):
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=1">
+<link rel="stylesheet" href="{up}css/inner.css?v=2">
 <script type="application/ld+json">{ld}</script>
-<script src="{up}js/consent.js" defer></script>
+<script src="{up}js/consent.js?v=4" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
@@ -606,7 +606,7 @@ def render(p):
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/assistant.js" defer></script>
+<script src="{up}js/assistant.js?v=2" defer></script>
 {CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
 </html>
 '''
@@ -659,10 +659,10 @@ def hub(lang):
 .sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
-<link rel="stylesheet" href="{up}css/inner.css?v=1">
+<link rel="stylesheet" href="{up}css/inner.css?v=2">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
-<script src="{up}js/consent.js" defer></script>
+<script src="{up}js/consent.js?v=4" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
@@ -688,7 +688,7 @@ def hub(lang):
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=1" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/assistant.js" defer></script>
+<script src="{up}js/assistant.js?v=2" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
 </html>
 '''

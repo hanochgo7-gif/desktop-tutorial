@@ -1,4 +1,4 @@
-/* חוויית גלילה בדף הבית: גלילה חלקה בגלגלת (Lenis, רק במחשב), פס התקדמות, כותרת שמתפנה בגלילה למטה וחוזרת למעלה,
+/* חוויית גלילה בדף הבית: גלילה חלקה בגלגלת (Lenis, רק במחשב), כותרת שמתפנה בגלילה למטה וחוזרת למעלה,
    סימון החלק הנוכחי בתפריט, חלקים שנכנסים בעדינות, סרגל וואטסאפ שמופיע אחרי הפתיחה, ונקודות ניווט לחבילות בטלפון.
    מי שביקש פחות תנועה מקבל גלילה רגילה ובלי אנימציות כניסה. */
 (function () {
@@ -40,14 +40,11 @@
     el.focus({ preventScroll: true });
   });
 
-  /* ---------- כותרת עליונה ופס התקדמות ---------- */
-  var bar = null;
-  if (top) { bar = d.createElement('div'); bar.className = 'scroll-bar'; bar.setAttribute('aria-hidden', 'true'); top.appendChild(bar); }
+  /* ---------- כותרת עליונה (פס ההתקדמות הכתום הוסר: הכתום שמור למה שחי או נבחר) ---------- */
   var lastY = scrollY, ticking = false;
   function update() {
     ticking = false;
-    var y = scrollY, max = root.scrollHeight - innerHeight;
-    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0).toFixed(4) + ')';
+    var y = scrollY;
     if (top) {
       top.classList.toggle('is-scrolled', y > 8);
       var busy = d.querySelector('.menu[open]') || top.contains(d.activeElement);

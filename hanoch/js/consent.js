@@ -38,22 +38,22 @@
     onGrant: function (fn) { if (granted) fn(); else listeners.push(fn); }
   };
 
+  // פס כתוביות (חדר העריכה): שורה אחת במרכז התחתית, ושני כפתורים שווים לגמרי בגודל ובמראה
   var CSS =
-    '.consent{position:fixed;z-index:126;bottom:18px;inset-inline-start:18px;width:min(440px,calc(100vw - 36px));padding:1rem 1.1rem;border-radius:16px;' +
-    'background:#0e0e10;color:#ede8de;border:1px solid rgba(237,232,222,.16);box-shadow:0 20px 50px rgba(0,0,0,.5);' +
-    'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.95rem;line-height:1.6}' +
+    '.consent{position:fixed;z-index:126;bottom:18px;left:50%;transform:translateX(-50%);width:min(980px,calc(100vw - 24px));display:flex;align-items:center;gap:.4rem 1.4rem;padding:.6rem 1.1rem;border-radius:2px;' +
+    'background:rgba(5,5,6,.94);color:#ede8de;border:0;box-shadow:none;' +
+    'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.92rem;line-height:1.5}' +
     '.consent[hidden]{display:none}' +
-    '.consent__text{margin:0 0 .85rem}' +
-    '.consent__text a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}' +
-    '.consent__actions{display:flex;gap:.6rem;flex-wrap:wrap}' +
-    '.consent__btn{flex:1 1 0;min-width:9.5rem;min-height:44px;padding:.6rem 1rem;border-radius:99px;border:1px solid rgba(237,232,222,.55);' +
-    'background:transparent;color:#ede8de;font:inherit;font-family:var(--f-mono,ui-monospace,monospace);font-size:.85rem;cursor:pointer}' +
-    '.consent__btn:hover{background:rgba(237,232,222,.1)}' +
-    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
-    '@media (max-width:600px){.consent{bottom:80px;padding:.85rem .95rem;font-size:.875rem;line-height:1.55}.consent__text{margin-bottom:.7rem}' +
-    '.consent__btn{min-width:0;padding:.5rem .7rem;font-size:.8rem;white-space:nowrap}}' +
-    // טלפון קטן (רוחב עד 400 או גובה עד 700): אותו נוסח בדיוק, בעימוד צפוף יותר, כדי שההודעה לא תסתיר את הכפתורים של המסך הראשון
-    '@media (max-width:400px),(max-width:600px) and (max-height:700px){.consent{padding:.7rem .8rem;font-size:.8125rem;line-height:1.45;border-radius:14px}.consent__text{margin-bottom:.55rem}.consent__actions{gap:.45rem}.consent__btn{font-size:.78rem;padding:.4rem .6rem}}' +
+    '.consent__text{margin:0;flex:1 1 auto}' +
+    '.consent__text a{color:#ede8de;text-decoration:underline;text-underline-offset:3px}' +
+    '.consent__actions{display:flex;gap:.2rem 1rem;flex:none}' +
+    '.consent__btn{flex:1 1 0;min-width:7.5rem;min-height:44px;padding:.4rem .4rem;border-radius:2px;border:0;' +
+    'background:transparent;color:#ede8de;font:inherit;font-weight:500;font-size:.92rem;text-decoration:underline;text-underline-offset:.32em;text-decoration-thickness:1px;cursor:pointer;white-space:nowrap}' +
+    '.consent__btn:hover{text-decoration-color:var(--signal,#ff4f1a);text-decoration-thickness:2px}' +
+    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:2px}' +
+    '@media (max-width:760px){.consent{flex-direction:column;align-items:stretch;gap:.2rem;padding:.7rem .9rem .3rem;font-size:.86rem;line-height:1.5;text-align:start}' +
+    '.consent__actions{gap:.6rem}.consent__btn{min-width:0;font-size:.86rem}}' +
+    '@media (max-width:400px),(max-width:600px) and (max-height:700px){.consent{padding:.55rem .75rem .2rem;font-size:.8125rem;line-height:1.45}.consent__btn{font-size:.8125rem}}' +
     '.menu-open .consent,.case-open .consent{visibility:hidden}';
 
   var box = null;

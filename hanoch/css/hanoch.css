@@ -2327,3 +2327,17 @@ html.jr-on .jr { opacity: 1; pointer-events: auto; }
 @media (max-width: 900px) { .jr-num { font-size: 34vw; } .jr-banner { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); padding: 10px 20px 12px; max-width: calc(100vw - 32px); } .jr-b-t { font-size: 1.7rem; } }
 @media (prefers-reduced-motion: reduce) { .jr-banner { display: none; } .jr-num { transform: none; } .jr-fill, .jr-spark { transition: none; } }
 .jr-ch:not(.sheet) { position: relative; isolation: isolate; }
+
+/* חדר העריכה: כרזת הפרק ב-work.html הייתה כרטיס שקוף למחצה באמצע תחתית המסך, ונחה על התוכן (למשל על הפוסטר SCENT CHECK).
+   עכשיו היא פס כתובית אטום וקטן, למעלה מתחת לכותרת, כך שהיא לא מתערבבת עם התמונות */
+.jr-banner { top: 76px; bottom: auto; padding: 8px 18px 10px; gap: 2px; border-radius: 2px; background: #050506; border-color: rgba(237, 232, 222, .22); box-shadow: none; }
+.jr-banner::before, .jr-banner::after { display: none; }
+.jr-b-k { color: rgba(237, 232, 222, .68); }
+.jr-b-t { font-size: clamp(1.3rem, 2.2vw, 1.9rem); line-height: 1.05; }
+.jr-banner.is-final.is-on { box-shadow: none; }
+@media (max-width: 900px) { .jr-banner { top: 70px; bottom: auto; padding: 6px 14px 8px; } .jr-b-t { font-size: 1.2rem; } }
+:root { font-synthesis: none; }
+
+/* כפתור הנגישות: ריבוע קטן, באותה שפה של כפתור העוזר */
+.a11y__btn { border-radius: 2px !important; background: #050506 !important; color: #ede8de !important; border: 1px solid rgba(237, 232, 222, .6) !important; box-shadow: none !important; }
+.a11y__panel { border-radius: 2px !important; }

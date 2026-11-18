@@ -34,7 +34,7 @@
     btn.disabled = false;
     if (e.detail && e.detail.ok) {
       f.classList.add('is-sent');
-      msg.innerHTML = 'תודה, הבריף אצלי. אחזור אליכם בהקדם. רוצים להמשיך כבר עכשיו? <a href="' + wa() + '" target="_blank" rel="noopener">להמשיך בוואטסאפ ←</a>';
+      msg.innerHTML = 'תודה, הבריף אצלי. אחזור אליכם בהקדם. רוצים להמשיך כבר עכשיו? <a href="' + wa() + '" target="_blank" rel="noopener">להמשיך בוואטסאפ</a>';
       if (window.gtag) gtag('event', 'generate_lead', { form: 'brief' });
     } else {
       msg.innerHTML = 'משהו לא נשלח. אפשר לכתוב לי ישירות <a href="' + wa() + '" target="_blank" rel="noopener">בוואטסאפ</a> או להתקשר ל-<a href="tel:+972545522053" dir="ltr">054-5522053</a>.';
