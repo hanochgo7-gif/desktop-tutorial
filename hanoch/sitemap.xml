@@ -61,7 +61,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/film/elef.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
@@ -323,12 +323,12 @@
   </url>
   <url>
     <loc>https://hgpro.io/accessibility.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://hgpro.io/en-accessibility.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -336,7 +336,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/privacy.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -344,7 +344,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/privacy.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -352,7 +352,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-terms.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/terms.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -360,7 +360,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-terms.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/terms.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -368,7 +368,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/refunds.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-refunds.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/refunds.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -376,7 +376,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/refunds.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-refunds.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/refunds.html"/>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.2</priority>
   </url>
 </urlset>

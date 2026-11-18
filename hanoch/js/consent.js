@@ -1,5 +1,5 @@
 /* הסכמה לעוגיות של Google Analytics, Google Ads והפיקסל של Meta, ללא תלויות.
-   ברירת המחדל: בלי עוגיות. Google מקבלת רק אותות אנונימיים (מצב הסכמה מתקדם, js/ga.js), ועוגיות נשמרות רק אחרי לחיצה על "מאשר". הבחירה נשמרת בדפדפן בלבד.
+   ברירת המחדל: בלי עוגיות. Google לא מקבלת כלום (מצב הסכמה בסיסי, js/ga.js), ועוגיות נשמרות רק אחרי לחיצה על "מאשר". הבחירה נשמרת בדפדפן בלבד.
    גרסה 2: הנוסח כולל גם מדידת פרסום, ולכן מי שאישר בגרסה 1 מתבקש לאשר שוב.
    גרסה 3: הנוסח כולל גם את Meta (פייסבוק ואינסטגרם, js/meta.js), ולכן מי שאישר קודם מתבקש לאשר שוב.
    כל קישור או כפתור עם data-consent-open פותח את ההודעה מחדש כדי לשנות את הבחירה. */
@@ -64,8 +64,8 @@
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
       '<p class="consent__text">' + T(
-        'כדי לדעת אילו עמודים ופרסומים עובדים, אני משתמש בכלים של Google ו-Meta. עוגיות נשמרות רק אם תאשרו. בלי אישור, Meta לא מקבלת כלום, Google מקבלת רק אותות אנונימיים, והאתר עובד אותו דבר.',
-        'To learn which pages and ads work, I use Google and Meta tools. Cookies are stored only if you agree. Without consent, Meta receives nothing, Google receives only anonymous signals, and the site works the same.') +
+        'כדי לדעת אילו עמודים ופרסומים עובדים, אני משתמש ב-Google Analytics וב-Google Ads. הם נטענים רק אם תאשרו. בלי אישור לא נשלח ל-Google כלום, והאתר עובד אותו דבר.',
+        'To learn which pages and ads work, I use Google Analytics and Google Ads. They load only if you agree. Without consent nothing is sent to Google, and the site works the same.') +
       ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('פרטים במדיניות הפרטיות', 'Details in the privacy policy') + '</a></p>' +
       '<div class="consent__actions">' +
         '<button type="button" class="consent__btn" data-choice="yes">' + T('לאשר עוגיות', 'Allow cookies') + '</button>' +

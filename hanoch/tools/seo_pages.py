@@ -703,3 +703,8 @@ if __name__ == '__main__':
     json.dump([{'url': url_of(p), 'lang': p['lang']} for p in P], open(ROOT + '/services/pages.json', 'w'), indent=1)
     print('pages', len(P) + 2)
 
+
+# אחרי כל בנייה: טביעות הסקריפטים המוטמעים ב-CSP (vercel.json) מתעדכנות, כדי שסקריפט שהשתנה לא ייחסם באתר
+if __name__ == "__main__":
+    import csp
+    csp.main()

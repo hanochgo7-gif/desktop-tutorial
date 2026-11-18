@@ -311,3 +311,8 @@ if __name__ == '__main__':
     open(OUT + '/feed.xml', 'w', encoding='utf8').write(feed(posts))
     json.dump([{'url': p['url'], 'cover': p['cover'], 'date': p['date'].isoformat()} for p in posts], open(OUT + '/posts.json', 'w'), indent=1)
     print('posts', len(posts))
+
+# אחרי כל בנייה: טביעות הסקריפטים המוטמעים ב-CSP (vercel.json) מתעדכנות, כדי שסקריפט שהשתנה לא ייחסם באתר
+if __name__ == "__main__":
+    import csp
+    csp.main()

@@ -72,6 +72,7 @@
 
   /* ---------- סגנון ---------- */
   var CSS =
+    '.ht-btn .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}' +
     '.ht-btn{position:fixed;z-index:124;bottom:18px;inset-inline-start:18px;display:flex;align-items:center;gap:.65rem;min-height:56px;padding:.35rem .45rem;padding-inline-end:1.15rem;border-radius:99px;' +
     'background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);border:0;box-shadow:0 12px 30px rgba(0,0,0,.45);font-family:var(--f-body,system-ui,sans-serif);text-align:start;cursor:pointer;transition:box-shadow .2s,transform .15s}' +
     '.ht-btn:hover{box-shadow:0 0 0 2px var(--signal,#ff4f1a),0 12px 30px rgba(0,0,0,.45)}.ht-btn:active{transform:scale(.98)}.ht-btn:focus-visible,.ht-dlg :focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
@@ -137,8 +138,8 @@
     btn.setAttribute('aria-haspopup', 'dialog');
     // השם הנגיש מתחיל בטקסט שרואים על הכפתור (WCAG 2.5.3), ואחריו מה הכפתור עושה
     // השם שנשמע כולל את הטקסט שרואים, באותו סדר (שליטה קולית: "לחץ על יועץ דיגיטלי")
-    btn.setAttribute('aria-label', T('יועץ דיגיטלי, אוטומטי · עונה מיד. פתיחת שיחה עם המצפן', 'Digital advisor, automated · replies instantly. Open chat with Compass'));
-    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><span class="ht-lbl" aria-hidden="true"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b><small>' + T('אוטומטי · עונה מיד', 'Automated · replies instantly') + '</small></span>';
+    // בלי aria-label: השם הנגיש הוא הטקסט שעל הכפתור עצמו, ואחריו הסבר נסתר. כך השם תמיד תואם למה שרואים (WCAG 2.5.3)
+    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><span class="ht-lbl"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b> <small>' + T('אוטומטי · עונה מיד', 'Automated · replies instantly') + '</small><span class="sr-only">' + T(', פתיחת שיחה', ', open chat') + '</span></span>';
     btn.addEventListener('click', open);
     document.body.appendChild(btn);
   }

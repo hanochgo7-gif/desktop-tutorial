@@ -124,13 +124,12 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע�
   <ul>
     <li>טופס הבריף בדף הבית: שם, טלפון או מייל (או שניהם), שם העסק אם כתבתם, מה צריך, מתי רוצים להתחיל, ומה שכתבתם בשדה החופשי.</li>
     <li>בקשה שאחזור אליכם: שם, טלפון, היום והשעה שבחרתם, ומה שכתבתם בשדה "על מה נדבר?".</li>
-    <li>טופס "חבר מביא עסק": הפרטים שמילאתם, וגם השם והטלפון של בעל העסק שאתם מפנים (ראו בסעיף הבא).</li>
   </ul>
   <p>פנייה נשמרת רק אם יש בה טלפון או מייל. יחד איתה נשמרת כתובת העמוד שממנו נשלח הטופס. אם אישרתם עוגיות, נשמר גם המקור שממנו הגעתם: פרמטרי קמפיין (UTM), מזהה קליק של מודעה (למשל gclid או fbclid), עמוד הנחיתה והאתר שהפנה אתכם. האתר שומר את המקור הזה בדפדפן שלכם עד 90 יום, ושולח אותו רק יחד עם פנייה. בלי אישור נשמרים רק הפרטים שכתבתם וכתובת העמוד, בלי הפרמטרים שבה.</p>
   <p>המערכת מאוחסנת אצל Supabase, בשרתים באיחוד האירופי (פרנקפורט, גרמניה). רק אני עובד עם המידע הזה, ואני משתמש בו כדי לחזור אליכם בנוגע לפנייה ולנהל את הקשר העסקי. אחרי שליחת הבריף אפשר להמשיך גם בוואטסאפ, בהודעה מוכנה שאתם מחליטים אם לשלוח.</p>
 
   <h2 id="referral">כשאתם מפנים אליי עסק של מישהו אחר</h2>
-  <p>בתוכנית "חבר מביא עסק" אתם מוסרים לי שם וטלפון של בעל עסק אחר, בטופס או בוואטסאפ. מסרו פרטים רק של מי שיודע על כך ומסכים שאפנה אליו. אני משתמש בפרטים רק כדי לפנות אליו בנוגע להפניה, אומר לו ממי קיבלתי אותם, ואם הוא לא מעוניין, אני מוחק אותם.</p>
+  <p>בתוכנית "חבר מביא עסק" אתם שולחים לי בוואטסאפ שם וטלפון של בעל עסק אחר (אין לכך טופס באתר). מסרו פרטים רק של מי שיודע על כך ומסכים שאפנה אליו. אני משתמש בפרטים רק כדי לפנות אליו בנוגע להפניה, אומר לו ממי קיבלתי אותם, ואם הוא לא מעוניין, אני מוחק אותם.</p>
 
   <h2 id="assistant">היועץ הדיגיטלי (המצפן)</h2>
   <p>היועץ הדיגיטלי הוא תוכנה, לא בן אדם. כשבוחרים בו תשובות מוכנות (כמו סוג העסק), שום דבר לא יוצא מהדפדפן. כשאתם כותבים לו שאלה, ההודעות בשיחה עוברות דרך השרת של האתר ב-Vercel אל Anthropic, החברה האמריקאית שמפעילה את מודל הבינה המלאכותית Claude, כדי לנסח תשובה. כדי שהתשובה תתאים לכם, האתר יכול לשלוח ליועץ גם את העמוד שבו אתם נמצאים ואת התשובות שבחרתם בבריף או במחשבון באתר (למשל סוג העסק ומה אתם צריכים).</p>
@@ -254,13 +253,12 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to HG Studio, the business of
   <ul>
     <li>The brief form on the Hebrew home page: name, phone or email (or both), business name if you gave one, what you need, when you want to start, and anything you wrote in the free-text field.</li>
     <li>A call-back request: name, phone, the day and time you picked, and anything you wrote in the "what to talk about" field.</li>
-    <li>The referral form on the Hebrew site: the details you filled in, plus the name and phone number of the business owner you are referring (see the next section).</li>
   </ul>
   <p>An inquiry is saved only if it has a phone number or an email. The address of the page the form was sent from is saved with it. If you accepted cookies, the source that brought you is saved too: campaign parameters (UTM), an ad click ID (for example gclid or fbclid), the landing page and the referring site. The site keeps this source in your browser for up to 90 days, and sends it only together with an inquiry. Without consent, only the details you typed and the page address are saved, without its parameters.</p>
   <p>The system is hosted by Supabase on servers in the European Union (Frankfurt, Germany). Only I work with this information, and I use it to get back to you about your inquiry and manage our business contact. After sending the brief you can also continue on WhatsApp, with a ready message that you decide whether to send.</p>
 
   <h2 id="referral">When you refer someone else's business</h2>
-  <p>In the referral programme on the Hebrew site you give me the name and phone number of another business owner, in the form or on WhatsApp. Only share the details of someone who knows about it and agrees that I contact them. I use the details only to contact them about the referral, I tell them who gave me their details, and if they are not interested, I delete them.</p>
+  <p>In the referral programme on the Hebrew site you send me the name and phone number of another business owner on WhatsApp (there is no form for this on the site). Only share the details of someone who knows about it and agrees that I contact them. I use the details only to contact them about the referral, I tell them who gave me their details, and if they are not interested, I delete them.</p>
 
   <h2 id="assistant">The digital advisor (Compass)</h2>
   <p>The digital advisor is software, not a person. When you pick ready-made answers (like your type of business), nothing leaves your browser. When you type a question, the messages in the conversation go through the site's server at Vercel to Anthropic, the US company that runs the Claude AI model, to write an answer. To make the answer fit you, the site may also send the advisor the page you are on and the answers you chose in the brief or the calculator on the site (for example your type of business and what you need).</p>
@@ -518,3 +516,8 @@ if __name__ == '__main__':
     for lang, file, other, title, desc, h1, body in PAGES:
         open(os.path.join(ROOT, file), 'w', encoding='utf-8').write(page(lang, file, other, title, desc, h1, body))
     print('legal pages', len(PAGES))
+
+# אחרי כל בנייה: טביעות הסקריפטים המוטמעים ב-CSP (vercel.json) מתעדכנות, כדי שסקריפט שהשתנה לא ייחסם באתר
+if __name__ == "__main__":
+    import csp
+    csp.main()

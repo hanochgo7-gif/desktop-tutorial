@@ -77,3 +77,8 @@ xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitema
        ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n' + '\n'.join(out) + '\n</urlset>\n')
 open(ROOT + '/sitemap.xml', 'w', encoding='utf8').write(xml); print('urls', len(paths))
 json.dump(LM, open(LM_FILE, 'w', encoding='utf8'), ensure_ascii=False, indent=1, sort_keys=True)
+
+# אחרי כל בנייה: טביעות הסקריפטים המוטמעים ב-CSP (vercel.json) מתעדכנות, כדי שסקריפט שהשתנה לא ייחסם באתר
+if __name__ == "__main__":
+    import csp
+    csp.main()

@@ -4,12 +4,12 @@
   "h": "6878655c9608b1e6d838c34e6389e727a5a91336"
  },
  "/accessibility.html": {
-  "d": "2026-11-09",
-  "h": "f174e0fa7fc2d110c8ea855f65c940d12e3636b3"
+  "d": "2026-11-18",
+  "h": "4de451edf78a07ce834bb3bcf1d595a9c81d8067"
  },
  "/archive/": {
-  "d": "2026-11-09",
-  "h": "1750d800a9cdf757ed36c34773b3844cce6696ed"
+  "d": "2026-11-18",
+  "h": "ffd2eb57f303a026c03c5c1cd4ae85880e6cba01"
  },
  "/archive/en.html": {
   "d": "2026-11-09",
@@ -60,20 +60,20 @@
   "h": "1a0fe7d39d03f4eaab6a11ca705d2a195b50b789"
  },
  "/en-accessibility.html": {
-  "d": "2026-11-09",
-  "h": "9a4ecfb4a6c0789895871d63cf0434eafc710a59"
+  "d": "2026-11-18",
+  "h": "ddce6f1123f2c423de951ea1dc0baa3903f6b0bb"
  },
  "/en-privacy.html": {
-  "d": "2026-11-09",
-  "h": "86d897370ab4b26e4cc5f2a599da8b4fa1847eb5"
+  "d": "2026-11-18",
+  "h": "2064216939e55d9f28e2e33e17c950cfdc831680"
  },
  "/en-refunds.html": {
-  "d": "2026-11-09",
-  "h": "15a6e9cc7a648768a72a4431d713afb97786101e"
+  "d": "2026-11-18",
+  "h": "a6c1200477601de7f6adbbd32295d9aacf0d3de9"
  },
  "/en-terms.html": {
-  "d": "2026-11-09",
-  "h": "726bfe2fc775765e2bb1b6bd013ed3a38f97bef0"
+  "d": "2026-11-18",
+  "h": "06ca545216eb7ceec7090abfb7f3131c6a9b3eab"
  },
  "/en-work.html": {
   "d": "2026-11-09",
@@ -88,16 +88,16 @@
   "h": "d10e1923ead002d6385d3966622e2ca3a1d943f5"
  },
  "/privacy.html": {
-  "d": "2026-11-09",
-  "h": "c7a878e0151c254b99041b229e73f40f9b040a22"
+  "d": "2026-11-18",
+  "h": "dd8de313c9b4866e7c86ec9695ad4b6c70a35c97"
  },
  "/refer.html": {
   "d": "2026-11-09",
   "h": "033947c8f1c341aeeb3dd960cafbd4292f63a376"
  },
  "/refunds.html": {
-  "d": "2026-11-09",
-  "h": "1d3f82d25aa5823f28e619e778523eb2b4553324"
+  "d": "2026-11-18",
+  "h": "eb340df4a1e766bc09eccc3f32ecd5abb1d664de"
  },
  "/services/": {
   "d": "2026-11-16",
@@ -188,8 +188,8 @@
   "h": "56533bc130c0472c3d616cdf250a36f0f57dfa12"
  },
  "/terms.html": {
-  "d": "2026-11-09",
-  "h": "c956b15b8ec18d1a68d071ded362846360e918c5"
+  "d": "2026-11-18",
+  "h": "7cfaf70c6a18456f081a8c381086f207bfd2e749"
  },
  "/work.html": {
   "d": "2026-11-16",
