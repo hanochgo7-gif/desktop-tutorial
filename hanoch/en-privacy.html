@@ -35,8 +35,8 @@
   .doc-foot a { color: var(--fg-dim); display: inline-flex; align-items: center; min-height: 44px; }
   .doc-foot a:hover, .doc-foot a[aria-current] { color: #ede8de; }
 </style>
-<link rel="stylesheet" href="css/head.css?v=2">
-<script src="js/consent.js?v=4" defer></script>
+<link rel="stylesheet" href="css/head.css?v=3">
+<script src="js/consent.js?v=5" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
 <script src="js/meta.js" defer></script>
@@ -45,10 +45,9 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top" id="top">
   <a class="logo" href="en.html" aria-label="HG Studio, home">HG<b>·</b>STUDIO</a>
-  <p class="clock" aria-hidden="true"><span>Israel</span> <time data-clock></time></p>
-  <nav class="nav" aria-label="Main"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a href="/" lang="he" hreflang="he">עברית</a></nav>
+  <nav class="nav" aria-label="Main"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a class="top-lang" href="/" lang="he" hreflang="he">עברית</a></nav>
   <a class="top-wa" href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a>
-  <details class="menu"><summary aria-label="Menu"><span></span><span></span><span></span></summary><div class="menu-sheet"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a href="/" lang="he" hreflang="he">עברית</a><a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a></div></details>
+  <details class="menu"><summary aria-label="Menu"><span></span><span></span></summary><div class="menu-sheet"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a class="top-lang" href="/" lang="he" hreflang="he">עברית</a><a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a></div></details>
 </header>
 <main class="doc" id="main">
   <h1>Privacy policy</h1>
@@ -73,7 +72,7 @@
   <h2 id="crm">My inquiries system</h2>
   <p>The forms on the site send your details directly from your browser to my inquiries management system (HG OS):</p>
   <ul>
-    <li>The brief form on the Hebrew home page: name, phone or email (or both), business name if you gave one, what you need, when you want to start, and anything you wrote in the free-text field.</li>
+    <li>The brief form on the site (the Hebrew brief page): name, phone or email (or both), business name if you gave one, what you need, when you want to start, and anything you wrote in the free-text field.</li>
     <li>A call-back request: name, phone, the day and time you picked, and anything you wrote in the "what to talk about" field.</li>
   </ul>
   <p>An inquiry is saved only if it has a phone number or an email. The address of the page the form was sent from is saved with it. If you accepted cookies, the source that brought you is saved too: campaign parameters (UTM), an ad click ID (for example gclid or fbclid), the landing page and the referring site. The site keeps this source in your browser for up to 90 days, and sends it only together with an inquiry. Without consent, only the details you typed and the page address are saved, without its parameters.</p>
@@ -182,10 +181,14 @@
   <p>If this policy changes, the updated version will be published on this page with its date.</p>
   <p class="updated">Last updated: November 18, 2026 · <a href="privacy.html" hreflang="he" lang="he">עברית</a></p>
 </main>
-<nav class="doc-foot" aria-label="Legal"><a href="en-privacy.html" aria-current="page">Privacy policy</a><a href="en-terms.html">Terms of use</a><a href="en-refunds.html">Cancellations & refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="en-accessibility.html">Accessibility statement</a><a href="en.html">Home</a></nav>
+<footer class="ft">
+  <a class="ft-mark" href="en.html" aria-label="HG Studio">HG<b>·</b>STUDIO</a>
+  <p class="ft-reach"><a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
+  <nav class="ft-nav" aria-label="Footer"><a href="en-accessibility.html">Accessibility</a><a href="en-privacy.html">Privacy</a><a href="en-terms.html">Terms</a><a href="#" data-consent-open>Cookies</a></nav>
+</footer>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/clock.js?v=1" defer></script>
+<script src="js/chrome.js?v=1" defer></script>
 <script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>

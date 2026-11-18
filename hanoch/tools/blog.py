@@ -3,7 +3,7 @@
 # שאלות נפוצות: כל ### בתוך הפרק "## שאלות נפוצות" הופך לשאלה עם סימון לגוגל.
 import os, re, json, html, glob, datetime, urllib.parse
 from seo_pages import CSS, FR, WA, D, BY, SLASH
-from header import header
+from header import header, footer
 # וואטסאפ בכותרת ובפס התחתון של הבלוג: הודעה שמתחילה, לא שדה ריק
 WA_BLOG = f'https://wa.me/{WA}?text=' + urllib.parse.quote('היי חנוך, הגעתי מהמאמרים באתר. השאלה שלי: ')
 
@@ -173,10 +173,10 @@ def head(title, desc, url, img, extra=''):
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
-<link rel="stylesheet" href="../css/inner.css?v=4">
-<link rel="stylesheet" href="../css/head.css?v=2">
+<link rel="stylesheet" href="../css/inner.css?v=5">
+<link rel="stylesheet" href="../css/head.css?v=3">
 {extra}
-<script src="../js/consent.js?v=4" defer></script>
+<script src="../js/consent.js?v=5" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
 <script src="../js/meta.js" defer></script>
@@ -188,10 +188,10 @@ def head(title, desc, url, img, extra=''):
 
 
 FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="{WA_BLOG}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
-<footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+''' + footer('../') + '''
 <script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
-<script src="../js/clock.js?v=1" defer></script>
+<script src="../js/chrome.js?v=1" defer></script>
 <script src="../js/vendor/lenis.min.js" defer></script>
 <script src="../js/smooth.js?v=2" defer></script>
 <script src="../js/assistant.js?v=3" defer></script>

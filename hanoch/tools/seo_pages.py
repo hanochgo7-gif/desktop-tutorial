@@ -1,7 +1,7 @@
 # מחולל עמודי השירות (קידום אורגני). מריצים: python3 tools/seo_pages.py
 # כל עמוד: תוכן ייחודי, מחירים אמיתיים מהאתר, דוגמאות מהתיק, שאלות נפוצות עם סימון לגוגל, וקישורים פנימיים.
 import json, os, html, urllib.parse
-from header import header
+from header import header, footer
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # שיחה חוזרת בשעה נוחה (js/callback.js) ופניות ל-HG OS (js/hgos.js), רק בעמודים בעברית
 CALLBACK_BTN = '<button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button>'
@@ -586,10 +586,10 @@ def render(p):
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=4">
-<link rel="stylesheet" href="{up}css/head.css?v=2">
+<link rel="stylesheet" href="{up}css/inner.css?v=5">
+<link rel="stylesheet" href="{up}css/head.css?v=3">
 <script type="application/ld+json">{ld}</script>
-<script src="{up}js/consent.js?v=4" defer></script>
+<script src="{up}js/consent.js?v=5" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
@@ -616,13 +616,13 @@ def render(p):
   {end_card(he, wa, T('ספרו לי על העסק.', 'Tell me about your business.'), T('שיחה קצרה, ואחריה הצעה כתובה עם לוח זמנים ומחיר. אין התחייבות.', 'A short call, then a written proposal with a schedule and a price. No commitment.'))}
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-<footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gutovski')}</span>{foot_links}{lang_link}{legal(up, he)}</footer>
+{footer(up, he)}
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/clock.js?v=1" defer></script>
+<script src="{up}js/chrome.js?v=1" defer></script>
 <script src="{up}js/assistant.js?v=3" defer></script>
 {CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
 </html>
@@ -676,11 +676,11 @@ def hub(lang):
 .sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
-<link rel="stylesheet" href="{up}css/inner.css?v=4">
-<link rel="stylesheet" href="{up}css/head.css?v=2">
+<link rel="stylesheet" href="{up}css/inner.css?v=5">
+<link rel="stylesheet" href="{up}css/head.css?v=3">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
-<script src="{up}js/consent.js?v=4" defer></script>
+<script src="{up}js/consent.js?v=5" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
@@ -696,13 +696,13 @@ def hub(lang):
   <ul class="sv-list">{cards}</ul>
   {end_card(he, wa, T('לא בטוחים מה מתאים?', 'Not sure what fits?'), T('ספרו לי על העסק, ואמליץ מה כדאי לבנות קודם. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר.', 'Tell me about your business and I will suggest what to build first. After a short call you get a written proposal with a price.'))}
 </main>
-<footer class="sv-foot"><span>© 2026 HG Studio</span>{legal(up, he)}</footer>
+{footer(up, he)}
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/clock.js?v=1" defer></script>
+<script src="{up}js/chrome.js?v=1" defer></script>
 <script src="{up}js/assistant.js?v=3" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
 </html>

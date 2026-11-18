@@ -2,7 +2,7 @@
 # מריצים: python3 tools/legal.py  (כותב לשורש האתר את privacy/terms/refunds + en-*)
 # לא ייעוץ משפטי. טיוטה לבדיקה של עורך דין ישראלי, לא נוסח מאושר.
 import os
-from header import header
+from header import header, footer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPDATED = {'he': '18 בנובמבר 2026', 'en': 'November 18, 2026'}
@@ -73,8 +73,8 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/hanoch.css">
 {STYLE}
-<link rel="stylesheet" href="css/head.css?v=2">
-<script src="js/consent.js?v=4" defer></script>
+<link rel="stylesheet" href="css/head.css?v=3">
+<script src="js/consent.js?v=5" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
 <script src="js/meta.js" defer></script>
@@ -87,10 +87,10 @@ def page(lang, file, other, title, desc, h1, body):
 {body}
   <p class="updated">{T('עודכן לאחרונה', 'Last updated')}: {UPDATED_FILE.get(file, UPDATED[lang])} · <a href="{other}" hreflang="{'en' if he else 'he'}" lang="{'en' if he else 'he'}">{T('English', 'עברית')}</a></p>
 </main>
-{foot(he, file)}
+{footer('', he)}
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/clock.js?v=1" defer></script>
+<script src="js/chrome.js?v=1" defer></script>
 <script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>
@@ -125,7 +125,7 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע�
   <h2 id="crm">מערכת הפניות שלי</h2>
   <p>הטפסים באתר שולחים את הפרטים ישירות מהדפדפן שלכם למערכת ניהול הפניות שלי (HG OS):</p>
   <ul>
-    <li>טופס הבריף בדף הבית: שם, טלפון או מייל (או שניהם), שם העסק אם כתבתם, מה צריך, מתי רוצים להתחיל, ומה שכתבתם בשדה החופשי.</li>
+    <li>טופס הבריף באתר (בעמוד "בריף קצר"): שם, טלפון או מייל (או שניהם), שם העסק אם כתבתם, מה צריך, מתי רוצים להתחיל, ומה שכתבתם בשדה החופשי.</li>
     <li>בקשה שאחזור אליכם: שם, טלפון, היום והשעה שבחרתם, ומה שכתבתם בשדה "על מה נדבר?".</li>
   </ul>
   <p>פנייה נשמרת רק אם יש בה טלפון או מייל. יחד איתה נשמרת כתובת העמוד שממנו נשלח הטופס. אם אישרתם עוגיות, נשמר גם המקור שממנו הגעתם: פרמטרי קמפיין (UTM), מזהה קליק של מודעה (למשל gclid או fbclid), עמוד הנחיתה והאתר שהפנה אתכם. האתר שומר את המקור הזה בדפדפן שלכם עד 90 יום, ושולח אותו רק יחד עם פנייה. בלי אישור נשמרים רק הפרטים שכתבתם וכתובת העמוד, בלי הפרמטרים שבה.</p>
@@ -254,7 +254,7 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to HG Studio, the business of
   <h2 id="crm">My inquiries system</h2>
   <p>The forms on the site send your details directly from your browser to my inquiries management system (HG OS):</p>
   <ul>
-    <li>The brief form on the Hebrew home page: name, phone or email (or both), business name if you gave one, what you need, when you want to start, and anything you wrote in the free-text field.</li>
+    <li>The brief form on the site (the Hebrew brief page): name, phone or email (or both), business name if you gave one, what you need, when you want to start, and anything you wrote in the free-text field.</li>
     <li>A call-back request: name, phone, the day and time you picked, and anything you wrote in the "what to talk about" field.</li>
   </ul>
   <p>An inquiry is saved only if it has a phone number or an email. The address of the page the form was sent from is saved with it. If you accepted cookies, the source that brought you is saved too: campaign parameters (UTM), an ad click ID (for example gclid or fbclid), the landing page and the referring site. The site keeps this source in your browser for up to 90 days, and sends it only together with an inquiry. Without consent, only the details you typed and the page address are saved, without its parameters.</p>

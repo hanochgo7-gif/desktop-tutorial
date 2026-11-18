@@ -13,9 +13,12 @@
 - [Ani Gibor](https://anigibor.com) (אני גיבור): a personalized animated birthday film platform designed and built by HG Studio. Parents send one photo, and the child becomes a 3D animated character starring in a one or two minute film with their name, age and a message from the parents. 10 worlds; site, ordering, payment and production in one place. Case story: https://hgpro.io/work.html#anigibor
 
 ## Key pages
-- [Home (Hebrew)](https://hgpro.io/): studio, packages and systems
+- [Home (Hebrew)](https://hgpro.io/): the studio in short: work, films, stills, services and contact
 - [Home (English)](https://hgpro.io/en.html)
-- [Portfolio](https://hgpro.io/work.html): five client websites with full case stories, plus concept projects that are labelled as concepts
+- [Portfolio](https://hgpro.io/work.html): five client websites, plus concept projects that are labelled as concepts
+- [FAQ (Hebrew)](https://hgpro.io/faq.html): who builds the site, how pricing works, timing, payment and ownership
+- [Business systems (Hebrew)](https://hgpro.io/systems.html): twenty live demos of business systems, each on a fictional business
+- [Brief (Hebrew)](https://hgpro.io/brief.html): a one minute brief form
 - [Archive](https://hgpro.io/archive/): websites, AI commercials, simulations and 3D
 - [Services (Hebrew)](https://hgpro.io/services/): website building, web design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses: content, shoot days and paid ads), AI chatbot, Wix migration, brand identity
 - [Services (English)](https://hgpro.io/services/en/): custom web design, website design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses), AI customer service agent, Wix and WordPress migration, brand identity

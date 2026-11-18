@@ -35,14 +35,9 @@ ELEF_HE = ('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנו�
 HG_HE = ('HG · Unforgettable', 'פרסומת בושם של 20 שניות למותג קונספט של הסטודיו, שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 20)
 NIGHT_HE = ('אתר שלא נסגר בשבע', 'פרסומת אנכית ל-HG Studio שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)
 CON = 'מותג קונספט של הסטודיו. '
-VID = {'/work.html': [ELEF_HE, HG_HE, NIGHT_HE,
-                       ('HG TRAVELS · פרסומת למותג קונספט של חופשות סקי', 'פרסומת אנכית שנוצרה בבינה מלאכותית למותג קונספט של הסטודיו.', '/work/film/hgtravels.webp', '/work/film/hgtravels.mp4', 38),
-                       ('HG Fragrance · הנפילה', CON + 'גבר בחליפה שחורה נופל מהשמיים מעל העיר, נוחת בענן אבק ליד מכונית עם הבקבוק על הגג, והולך.', '/work/film/hgr-the-fall.webp', '/work/film/hgr-the-fall.mp4', 19),
-                       ('HG Fragrance · העריכה', CON + 'עריכה מהירה: גברים בפשתן בשחור־לבן, הבקבוק באור כחול, רחוב אדום וזוג.', '/work/film/hgr-the-edit.webp', '/work/film/hgr-the-edit.mp4', 13),
-                       ('HG Fragrance · ארבע עונות', CON + 'קמפיין אופנה: גברים בפשתן על רקע בטון, בקבוק אחד בארבעה אורות.', '/work/film/hgr-four-seasons.webp', '/work/film/hgr-four-seasons.mp4', 13),
-                       ('HG Fragrance · אחרי החשכה', CON + 'רחוב אדום אחרי הגשם, הבקבוק בידיים וזוג באור חם. הלילה רק מתחיל.', '/work/film/hgr-after-dark.webp', '/work/film/hgr-after-dark.mp4', 8),
-                       ('HG Fragrance · ליד האח', CON + 'גבר במעיל שחור מחזיק את Nocturne ליד אח בהרים, ואז עומד מול חלון מעל השלג.', '/work/film/hgr-by-the-fire.webp', '/work/film/hgr-by-the-fire.mp4', 5),
-                       ('HG Fragrance · המגדל', CON + 'מתחת למגדל זכוכית ושמיים כחולים, גבר במעיל ארוך נוגע בצווארון והולך.', '/work/film/hgr-the-tower.webp', '/work/film/hgr-the-tower.mp4', 4)],
+VID = {'/work.html': [('אני גיבור · המשימה לירח העוגה', 'טריילר עם קריינות לסרט אנימציה אישי מתוך אני גיבור, מוצר שתכננתי ובניתי. הילדים בדוגמאות נוצרו בבינה מלאכותית.', '/work/anigibor/trailer.webp', '/work/anigibor/trailer.mp4', 30),
+                       ('סיור מבחוץ', 'סיור וידאו שנוצר בבינה מלאכותית לפרויקט מגורים בשלבי שיווק: הבניין, המעגנה, הבריכה והגג.', '/work/tours/ext.webp', '/work/tours/ext.mp4', 51),
+                       ('סיור מבפנים', 'סיור וידאו שנוצר בבינה מלאכותית בכל חדרי הדירה ברצף. הרהיטים והחומרים רעיוניים.', '/work/tours/int.webp', '/work/tours/int.mp4', 107)],
        '/archive/': [ELEF_HE, HG_HE, NIGHT_HE],
        '/archive/en.html': [("A website that doesn't close at seven", 'A vertical HG Studio ad made with AI, with real screens from client sites.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32)],
        '/services/ai-commercial.html': [ELEF_HE, HG_HE],
@@ -56,6 +51,7 @@ paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
 for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
 PRI['/blog/'] = '0.7'
 paths.append('/gallery/'); PRI['/gallery/'] = '0.7'
+paths += ['/faq.html', '/systems.html', '/brief.html']; PRI['/faq.html'] = '0.6'; PRI['/systems.html'] = '0.6'; PRI['/brief.html'] = '0.4'
 IMG['/gallery/'] = ['/work/gallery/' + n + '.webp' for n in sorted(f[:-5] for f in os.listdir(ROOT + '/work/gallery') if f.endswith('.webp') and not f.endswith('-s.webp'))]
 paths += ['/elef/', '/elef/en.html']; PRI['/elef/'] = '0.6'; PRI['/elef/en.html'] = '0.5'
 paths.append('/refer.html'); PRI['/refer.html'] = '0.3'

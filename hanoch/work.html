@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>תיק עבודות: בניית אתרים ועיצוב אתרים | HG Studio</title>
-<meta name="description" content="חמישה אתרים שבניתי בחמש שפות עיצוב: חברת דלק, מאמן אגרוף, חנות משלוחים, קליניקה ושף פרטי. הסיפור המלא של כל פרויקט.">
+<meta name="description" content="חמישה אתרים שבניתי לעסקים אמיתיים, כל אחד בשפה משלו: חברת דלק, מאמן אגרוף, חנות משלוחים, קליניקה ושף פרטי. ולצדם מותגים להדגמה, מוצר והדמיות.">
 <link rel="canonical" href="https://hgpro.io/work.html">
 <meta property="og:url" content="https://hgpro.io/work.html">
 <link rel="alternate" hreflang="he" href="https://hgpro.io/work.html">
 <link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html">
 <link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html">
-<meta name="theme-color" content="#0a0a0b">
+<meta name="theme-color" content="#000000">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="תיק עבודות: בניית אתרים ועיצוב אתרים | HG Studio">
@@ -20,578 +20,178 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="תיק העבודות של HG Studio">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="images/icon-180.png" type="image/png">
-<link rel="apple-touch-icon" href="images/icon-180.png">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="preload" as="font" type="font/woff2" href="fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="fonts/g/rubik-punct.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="fonts/handjet-ascii.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="fonts/handjet-hebrew.woff2" crossorigin>
-<link rel="stylesheet" href="css/fonts.css">
-<link rel="preload" as="font" type="font/woff2" href="fonts/hg-mark.woff2" crossorigin>
-<link rel="stylesheet" href="css/hanoch.css?v=4">
-<script>
-  // מצב תנועה נקבע לפני הציור הראשון, כדי שלא יהיה הבהוב
-  (function () {
-    var d = document.documentElement;
-    d.classList.add('js');
-    if (/Apple/.test(navigator.vendor || '')) d.classList.add('apple');
-    var a11y = {};
-    try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
-  })();
-</script>
-<script src="js/captions.js" defer></script>
-<script src="js/consent.js?v=4" defer></script>
-<script src="js/adcode.js" defer></script>
-<script src="js/ga.js" defer></script>
-<script src="js/meta.js" defer></script>
+<link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/images/icon-512.png" sizes="512x512">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/g/frank-ruhl-libre-var-hebrew.woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/head.css?v=3">
+<link rel="stylesheet" href="/css/atelier.css?v=1">
+<script>(function(d){d.classList.add("js");var a={};try{a=JSON.parse(localStorage.getItem("hanoch-a11y")||"{}")}catch(e){}if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!a["a11y-no-motion"])d.classList.add("motion")})(document.documentElement)</script>
+<script src="/js/consent.js?v=5" defer></script>
+<script src="/js/adcode.js" defer></script>
+<script src="/js/ga.js" defer></script>
+<script src="/js/meta.js" defer></script>
 </head>
-<body class="page-work">
-<a class="skip" href="#work">דלגו לעבודות</a>
+<body class="at">
+<a class="skip" href="#main">דילוג לתוכן</a>
 
-<div class="grain" aria-hidden="true"></div>
-<div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-
-<header class="bar">
-  <a class="bar-mark" href="/" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <p class="clock" aria-hidden="true"><span>ישראל</span> <time data-clock></time></p>
-  <nav class="bar-nav" aria-label="ראשי">
-    <a href="archive/">עבודות</a>
-    <a href="/#films">סרטים</a>
-    <a href="gallery/">תמונות</a>
-    <a href="services/">שירותים</a>
-    <a href="/#systems">מערכות</a>
-    <a href="/#faq">שאלות</a>
-    <a href="blog/">מאמרים</a>
-  </nav>
-  <a class="lang-switch mono" href="en-work.html" hreflang="en" lang="en">EN</a>
-  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="קול: צלילים באתר">
-    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span>קול</span>
-  </button>
-  <button class="xray-toggle" type="button" aria-pressed="false" title="מראה איך האתר בנוי (מקש X)">
-    <span class="xray-dot" aria-hidden="true"></span><span>רנטגן</span>
-  </button>
+<header class="top" id="top">
+  <a class="logo" href="/" aria-label="HG Studio, לדף הבית">HG<b>·</b>STUDIO</a>
+  <nav class="nav" aria-label="ראשי"><a href="/work.html" aria-current="page">עבודות</a><a href="/#films">סרטים</a><a href="/gallery/">תמונות</a><a href="/services/">שירותים</a><a href="/#contact">צור קשר</a><a class="top-lang" href="/en.html" lang="en" hreflang="en">EN</a></nav>
+  <a class="top-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%A9%D7%9C%D7%9A.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a>
+  <details class="menu"><summary aria-label="תפריט"><span></span><span></span></summary><div class="menu-sheet"><a href="/work.html" aria-current="page">עבודות</a><a href="/#films">סרטים</a><a href="/gallery/">תמונות</a><a href="/services/">שירותים</a><a href="/#contact">צור קשר</a><a class="top-lang" href="/en.html" lang="en" hreflang="en">EN</a><a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a><button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></div></details>
 </header>
 
-<main id="top">
+<main id="main" class="at-page">
+  <header class="at-page-head">
+    <h1 class="at-h1">עבודות.</h1>
+    <p class="at-line">חמישה עסקים אמיתיים, כל אחד בשפה משלו.</p>
+  </header>
 
-  <!-- 03 עבודות -->
-  <section class="sheet sheet-ink work work-page" id="work" data-bg="dark" aria-labelledby="work-title" data-chapter="חמש שפות">
-    <header class="work-head">
-      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" srcset="work/film-poster-800.webp 800w, work/film-poster.webp 1600w" sizes="100vw" alt="" width="1600" height="900" fetchpriority="high" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
-      <a class="work-back mono" href="/">לדף הבית</a>
-      <h1 class="display" id="work-title">כל עסק.<br>שפה משלו.</h1>
-      <p class="work-lead">כל אתר נבנה סביב עסק אחד, עם שפה משלו. לחצו על מסך כדי לקרוא את הסיפור המלא.</p>
-      <button class="film-play mono" type="button" data-film><span class="film-play-i" aria-hidden="true"></span>צפייה בסרט, 22 שניות</button><button class="film-play mono" type="button" data-film data-film-sound data-film-src="work/film/hg.mp4" data-film-src-m="work/film/hg-m.mp4" data-film-poster="work/film/hg.webp" data-film-label="פרסומת הבושם HG, מותג קונספט של הסטודיו"><span class="film-play-i" aria-hidden="true"></span>צפייה בפרסומת קונספט, 20 שניות</button>
-    </header>
-
-    <h2 class="sr-only">הפרויקטים</h2>
-    <ol class="projects">
-      <li class="project" data-id="gotovski" style="--p:#1c82ad">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">gotovski.co.il</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/gotovski-tall.webp" srcset="work/gotovski-tall-480.webp 480w, work/gotovski-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="דף הבית של ש. גוטובסקי, מלמעלה עד למטה" width="900" height="4632" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/gotovski-mob-300.webp" srcset="work/gotovski-mob-300.webp 300w, work/gotovski-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="gotovski" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/gotovski.svg" alt="הלוגו של ש. גוטובסקי" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">ש. גוטובסקי</h3></div>
-          <p class="p-sub">תשתיות דלק מאז 1972</p>
-          <p class="p-kind mono">עיצוב ובנייה מחדש, עברית / English</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-          <a class="p-demo mono" href="#demo">לנסות את ההדמיה החיה <span aria-hidden="true">↓</span></a>
-        </div>
-      </li>
-
-      <li class="project" data-id="ams" style="--p:#d4a24c">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">ams, אביב משה שדמון</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/ams-tall.webp" srcset="work/ams-tall-480.webp 480w, work/ams-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="דף הבית של AMS, אגרוף תאילנדי" width="900" height="7473" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/ams-mob-300.webp" srcset="work/ams-mob-300.webp 300w, work/ams-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="ams" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/ams.svg" alt="הלוגו של AMS" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">AMS</h3></div>
-          <p class="p-sub">אגרוף תאילנדי ואימון אישי</p>
-          <p class="p-kind mono">אתר מלא, תנועה אמיתית, תוכן וקידום</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-
-      <li class="project" data-id="allenbis" style="--p:#ffd84d">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">allenbis.co.il</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/allenbis-tall.webp" srcset="work/allenbis-tall-480.webp 480w, work/allenbis-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="חנות אלנביס, קטלוג המוצרים" width="900" height="4600" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/allenbis-mob-300.webp" srcset="work/allenbis-mob-300.webp 300w, work/allenbis-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="allenbis" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/allenbis.svg" alt="הלוגו של אלנביס" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">אלנביס</h3></div>
-          <p class="p-sub">שתייה, חטיפים ומה שביניהם עד הבית</p>
-          <p class="p-kind mono">שיפור חנות קיימת, פי 24 פחות JavaScript</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-
-      <li class="project" data-id="clinic" style="--p:#c98f8a">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">רותם גוטובסקי, קליניקה</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/clinic-tall.webp" srcset="work/clinic-tall-480.webp 480w, work/clinic-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר הקליניקה של רותם גוטובסקי" width="900" height="6000" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/clinic-mob-300.webp" srcset="work/clinic-mob-300.webp 300w, work/clinic-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="clinic" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/clinic.webp" alt="הלוגו של רותם גוטובסקי" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">רותם גוטובסקי</h3></div>
-          <p class="p-sub">קליניקה לקוסמטיקה טיפולית</p>
-          <p class="p-kind mono">אתר, חנות ועוזרת אישית, טיפול לפי מטרה</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-
-      <li class="project" data-id="chef" style="--p:#e7a3ad">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">בר ליפשיץ, שף פרטי</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/chef-tall.webp" srcset="work/chef-tall-480.webp 480w, work/chef-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר השף הפרטי בר ליפשיץ, מלמעלה עד למטה" width="900" height="7641" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/chef-mob-300.webp" srcset="work/chef-mob-300.webp 300w, work/chef-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="chef" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/chef.svg" alt="הלוגו של בר ליפשיץ" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">בר ליפשיץ</h3></div>
-          <p class="p-sub">שף פרטי, ארוחות בהזמנה, בחצר במצפה מתת או בבית</p>
-          <p class="p-kind mono">אתר חדש, נכנסים דרך חלון המטבח</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-      <li class="project" data-id="elef" style="--p:#c9a227">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">hgpro.io/elef</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/elef-tall.webp" srcset="work/elef-tall-480.webp 480w, work/elef-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר המותג של אֶלֶף, שמן זית מהגליל, מלמעלה עד למטה" width="900" height="4514" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/elef-mob-300.webp" srcset="work/elef-mob-300.webp 300w, work/elef-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="elef" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/elef.webp" alt="הלוגו של אֶלֶף" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">אֶלֶף</h3></div>
-          <p class="p-sub">שמן זית מהגליל, מותג בדיוני</p>
-          <p class="p-kind mono">פרויקט קונספט, אתר מותג וסרט</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-      <li class="project" data-id="fragrance" style="--p:#c8a66b">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">מותג בושם, דמו</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/fragrance-tall.webp" srcset="work/fragrance-tall-480.webp 480w, work/fragrance-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר הדגל של HG Fragrance, בית בשמים לגברים, מלמעלה עד למטה" width="900" height="6398" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/fragrance-mob-300.webp" srcset="work/fragrance-mob-300.webp 300w, work/fragrance-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="fragrance" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/fragrance.webp" alt="הלוגו של HG Fragrance" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">HG Fragrance</h3></div>
-          <p class="p-sub">בית בשמים לגברים, מותג בדיוני</p>
-          <p class="p-kind mono">פרויקט קונספט, אתר דגל וחנות</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-      <li class="project" data-id="mashkanta" style="--p:#5fd99a">
-        <div class="p-media">
-          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">משכנתא, דמו</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/mashkanta-tall.webp" srcset="work/mashkanta-tall-480.webp 480w, work/mashkanta-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר ההדגמה של יסוד, יועץ משכנתאות, מלמעלה עד למטה" width="900" height="7965" loading="lazy" decoding="async"></div>
-          </div>
-          <img class="p-phone" src="work/mashkanta-mob-300.webp" srcset="work/mashkanta-mob-300.webp 300w, work/mashkanta-mob.webp 480w" sizes="(max-width: 900px) 26vw, 14vw" alt="" width="480" height="1039" loading="lazy" decoding="async">
-        </div>
-        <div class="p-info">
-          <div class="p-relic" data-relic="mashkanta" aria-hidden="true"></div>
-          <div class="p-title"><span class="logo-tile"><img src="work/logos/mashkanta.svg" alt="הלוגו של יסוד" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">יסוד</h3></div>
-          <p class="p-sub">יועץ משכנתאות, אתר הדגמה, מותג בדיוני</p>
-          <p class="p-kind mono">אתר הדגמה ללקוח פוטנציאלי, מחשבונים חיים</p>
-          <button class="p-open mono" type="button">לסיפור המלא</button>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- אני גיבור: מוצר שלם, לא אתר תדמית -->
-  <section class="sheet sheet-ink tours ag" id="anigibor" data-bg="dark" aria-labelledby="ag-title" data-chapter="אני גיבור">
-    <div class="tours-head">
-      <h2 class="display" id="ag-title">אני גיבור.<br>הילד בתפקיד הראשי.</h2>
-      <p class="tours-lead">זה לא אתר תדמית. זה מוצר שלם שתכננתי ובניתי מאפס: ההורים בוחרים אחד מעשרה עולמות, שולחים תמונה אחת מהטלפון, והילד הופך לדמות אנימציה בתלת־ממד שנראית בדיוק כמוהו. הסרט מגיע עם השם, הגיל וברכה מההורים, מוכן להקרנה במסיבה. האתר, ההזמנה, התשלום וקו ההפקה של הסרטים עובדים יחד, ביד אחת.</p>
-      <ul class="demo-facts mono">
-        <li>תמונה אחת הופכת לדמות שנשארת זהה בכל הסרט</li>
-        <li>10 עולמות, טריילר עם קריינות ומוזיקה לכל אחד</li>
-        <li>מוכן תוך 5 ימי עסקים, או תוך 48 שעות במסירה מהירה</li>
-      </ul>
-    </div>
-    <div class="ag-stage">
-      <figure class="tour ag-trailer">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/anigibor/trailer.webp" data-src="work/anigibor/trailer.mp4" data-src-m="work/anigibor/trailer-m.mp4" aria-label="טריילר של אני גיבור: המשימה לירח העוגה"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בטריילר</span></button>
-        </div>
-        <figcaption><b class="display">המשימה לירח העוגה</b><span class="mono">טריילר עם קריינות, 0:30</span></figcaption>
-      </figure>
-      <figure class="ag-morph">
-        <div class="ag-morph-view">
-          <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/morph-boy.webp" data-src="work/anigibor/morph-boy.mp4" aria-label="תמונה של ילד הופכת לדמות אנימציה"></video>
-        </div>
-        <figcaption><b class="display">מתמונה לדמות</b><span class="mono">התלתלים, החיוך והמבט נשמרים</span></figcaption>
-      </figure>
-    </div>
-    <div class="ag-foot">
-      <a class="cr-btn" href="https://anigibor.com" target="_blank" rel="noopener">לאתר של אני גיבור</a>
-      <p class="tours-note mono">הילדים בדוגמאות נוצרו בבינה מלאכותית.</p>
-    </div>
-  </section>
-
-  <!-- 04 דוגמה חיה: ההדמיה מהאתר של ש. גוטובסקי -->
-  <section class="sheet sheet-ink demo" id="demo" data-bg="dark" aria-labelledby="demo-title" data-chapter="הפסקת חשמל">
-    <div class="demo-head">
-      <h2 class="display" id="demo-title">הפסקת חשמל.<br>בזמן אמת.</h2>
-      <p class="demo-lead">מתוך האתר של ש. גוטובסקי: חוות שרתים בתלת־ממד. לוחצים על הכפתור האדום, הרשת נופלת, והגנרטורים מתניעים על מערכת הדלק. זה לא סרטון. זו הדמיה חיה שאפשר לשחק בה.</p>
-      <ul class="demo-facts mono">
-        <li>תלת־ממד עם תאורה והצללה מתקדמות</li>
-        <li>צליל של התנעת גנרטור</li>
-        <li>עברית ואנגלית, עובד גם בטלפון</li>
-      </ul>
-    </div>
-    <div class="demo-stage">
-      <div class="browser demo-browser">
-        <div class="browser-bar"><i></i><i></i><i></i><span class="mono">gotovski.co.il, הדמיה חיה</span></div>
-        <div class="demo-view">
-          <img class="demo-poster" src="work/sim-poster.webp" srcset="work/sim-poster-960.webp 960w, work/sim-poster.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw" alt="הדמיה של חוות שרתים עם גנרטורים ומערכת דלק" width="1600" height="900" loading="lazy" decoding="async">
-          <button class="demo-play" type="button" data-cursor="הפעלה">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg>
-            <span>הפעלת ההדמיה</span>
-          </button>
-        </div>
+  <div class="at-cases" id="work">
+    <article class="at-case" id="gotovski" aria-labelledby="gotovski-h">
+      <div class="at-media" data-rv><img src="/work/cinema/gotovski.webp" srcset="/work/cinema/gotovski-640.webp 640w, /work/cinema/gotovski.webp 1200w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"></div>
+      <div class="at-case-shots" data-rv>
+        <div class="at-media"><img src="/work/gotovski-tall.webp" srcset="/work/gotovski-tall-480.webp 480w, /work/gotovski-tall.webp 900w" sizes="(min-width: 900px) 48vw, 75vw" alt="דף הבית של ש. גוטובסקי" width="900" height="4600" loading="lazy" decoding="async"></div>
+        <div class="at-media"><img src="/work/gotovski-mob.webp" srcset="/work/gotovski-mob-300.webp 300w, /work/gotovski-mob.webp 480w" sizes="(min-width: 900px) 16vw, 25vw" alt="" width="480" height="1039" loading="lazy" decoding="async"></div>
       </div>
-      <a class="demo-full mono" href="sim/data-center/index.html" target="_blank" rel="noopener">פתיחה במסך מלא</a>
-    </div>
-  </section>
-
-  <!-- סיור בהדמיה: שני סרטי בינה מלאכותית, בניין מבחוץ ודירה מבפנים -->
-  <section class="sheet sheet-ink tours" id="tours" data-bg="dark" aria-labelledby="tours-title" data-chapter="סיור בבניין">
-    <div class="tours-head">
-      <h2 class="display" id="tours-title">בניין שעוד לא נבנה.<br>כבר אפשר לסייר בו.</h2>
-      <p class="tours-lead">שני סיורי וידאו שיצרתי בבינה מלאכותית לפרויקט מגורים בשלבי שיווק, מתוך ההדמיות ותוכנית הדירה. מבחוץ: הבניין, המעגנה והגג. מבפנים: מעבר רציף בכל חדרי הדירה, מהכניסה ועד המרפסת. הקונה רואה את הבית לפני שעומד בו קיר אחד.</p>
-      <ul class="demo-facts mono">
-        <li>נבנה מתמונות סטילס ומתוכנית הדירה</li>
-        <li>בלי צילום, בלי רחפן ובלי סטודיו</li>
-        <li>מתאים לפרויקטים בשיווק, לנכסים ולמלונות</li>
-      </ul>
-    </div>
-    <div class="tours-grid">
-      <figure class="tour">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/tours/ext.webp" data-poster-m="work/tours/ext-m.webp" data-src="work/tours/ext.mp4" data-src-m="work/tours/ext-m.mp4" aria-label="סיור בהדמיה: הבניין מבחוץ"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בסיור</span></button>
-        </div>
-        <figcaption><b class="display">מבחוץ</b><span class="mono">הבניין, המעגנה, הבריכה והגג, 0:51</span></figcaption>
-      </figure>
-      <figure class="tour">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/tours/int.webp" data-poster-m="work/tours/int-m.webp" data-src="work/tours/int.mp4" data-src-m="work/tours/int-m.mp4" aria-label="סיור בהדמיה: הדירה מבפנים"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בסיור</span></button>
-        </div>
-        <figcaption><b class="display">מבפנים</b><span class="mono">כל חדרי הדירה ברצף, 1:47</span></figcaption>
-      </figure>
-    </div>
-    <p class="tours-note mono">הדמיית AI: הרהיטים, החומרים והמעברים בין החדרים רעיוניים.</p>
-  </section>
-
-  <!-- פרסומות AI: מוצגות כמו סיורי ההדמיה -->
-  <section class="sheet sheet-ink tours films" id="films" data-bg="dark" aria-labelledby="films-title" data-chapter="סרטים">
-    <div class="tours-head">
-      <h2 class="display" id="films-title">פרסומת ברמת טלוויזיה.<br>מהתסריט ועד הסאונד.</h2>
-      <p class="tours-lead">שלוש פרסומות שהפקתי מאפס בבינה מלאכותית: תסריט, דמויות קבועות, צילום, עריכה על המוזיקה וקריינות. "אלף" היא פרסומת קולנועית למותג בדיוני של שמן זית מהגליל, מהמסיק ועד טיפה על לחם חם. HG היא פרסומת בושם של 20 שניות למותג הקונספט של הסטודיו: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא. ו־Scent Check הוא ריל אנכי של 12 שניות לאותו מותג קונספט: שלושה לוקים של HG, ובוחרים אחד. ולמטה, הפרסומת של HG Studio עצמו: אנכית לרילס, עם מסכים אמיתיים מאתרי הלקוחות.</p>
-      <ul class="demo-facts mono">
-        <li>תסריט, צילום, עריכה וסאונד ביד אחת</li>
-        <li>בלי שחקנים, בלי לוקיישן ובלי צוות</li>
-        <li>גרסאות קצרות לרשתות: 15 ו־6 שניות</li>
-      </ul>
-    </div>
-    <div class="tours-grid">
-      <figure class="tour tour-wide">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/elef.webp" data-src="work/film/elef.mp4" data-src-m="work/film/elef-m.mp4" aria-label="פרסומת: אֶלֶף, שמן זית מהגליל"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בפרסומת</span></button>
-        </div>
-        <figcaption><b class="display">אֶלֶף · שמן זית מהגליל</b><span class="mono">פרסומת קולנועית למותג בדיוני, 1:00</span></figcaption>
-      </figure>
-      <figure class="tour">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hg.webp" data-src="work/film/hg.mp4" data-src-m="work/film/hg-m.mp4" aria-label="פרסומת למותג קונספט: HG Unforgettable, בושם לגברים"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בפרסומת</span></button>
-        </div>
-        <figcaption><b class="display">HG · Unforgettable</b><span class="mono">פרסומת בושם למותג קונספט, 0:20</span></figcaption>
-      </figure>
-      <figure class="tour tour-reel">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hg-scent-check.webp" data-src="work/film/hg-scent-check.mp4" data-src-m="work/film/hg-scent-check-m.mp4" aria-label="ריל למותג קונספט: HG Scent Check"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בריל</span></button>
-        </div>
-        <figcaption><b class="display">HG · Scent Check</b><span class="mono">ריל אנכי למותג קונספט, 0:12</span></figcaption>
-      </figure>
-    </div>
-    <p class="tours-note mono">הופק כולו בבינה מלאכותית, בלי צילום אמיתי.</p>
-    <h3 class="tours-sub display" id="studio-ads">והפרסומת של הסטודיו עצמו</h3>
-    <div class="tours-grid tours-grid-tall">
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/studio-night.webp" data-src="work/film/studio-night.mp4" data-src-m="work/film/studio-night-m.mp4" aria-label="פרסומת ל-HG Studio: אתר שלא נסגר בשבע"></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בפרסומת</span></button>
-        </div>
-        <figcaption><b class="display">אתר שלא נסגר בשבע</b><span class="mono">פרסומת אנכית לרילס, 0:32</span></figcaption>
-      </figure>
-    </div>
-    <p class="tours-note mono">הסצנות, הדמויות והקול נוצרו בבינה מלאכותית. מסכי האתרים שמופיעים בפרסומות אמיתיים.</p>
-    <h3 class="tours-sub display" id="hgtravels">HG TRAVELS · פרסומת קונספט לחופשות סקי</h3>
-    <div class="tours-grid tours-grid-tall">
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgtravels.webp" data-src="work/film/hgtravels.mp4" data-src-m="work/film/hgtravels-m.mp4" aria-label="HG TRAVELS: פרסומת למותג קונספט של חופשות סקי לאספן. מהאריזה בבית אל ההרים, גונדולות, סנובורד באבקת שלג והעיירה בלילה, ובסוף כרטיס הסיום של HG Studio."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה בפרסומת</span></button>
-        </div>
-        <figcaption><b class="display">HG TRAVELS</b><span class="mono">פרסומת אנכית לרילס, 0:38</span></figcaption>
-      </figure>
-    </div>
-    <p class="tours-note mono">הגולשים, ההרים והביגוד נוצרו בבינה מלאכותית. מסכי החנות הם הדגמה שעיצבתי למותג, והפסקול הופק בסטודיו.</p>
-    <h3 class="tours-sub display" id="hg-reels">HG Fragrance · סרטים מהקמפיין</h3>
-    <p class="tours-note reels-lead">אחת־עשרה פרסומות קצרות שהפקתי למותג הבושם הבדיוני, אנכיות לרילס ולסטוריז: אקשן, אופנה, ותוכן בסגנון יוצרים. הכול נוצר בבינה מלאכותית. <a href="https://hanochgo7-gif.github.io/desktop-tutorial/perfume/film/" target="_blank" rel="noopener">לעמוד הסרטים באתר של HG<span class="sr-only"> (נפתח בחלון חדש)</span> ↗</a></p>
-    <div class="tours-grid tours-grid-reels">
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-the-fall.webp" data-src="work/film/hgr-the-fall.mp4" aria-label="HG Fragrance: הנפילה. גבר בחליפה שחורה נופל מהשמיים מעל העיר, נוחת בענן אבק ליד מכונית עם הבקבוק על הגג, והולך."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: הנפילה</span></span></button>
-        </div>
-        <figcaption><b class="display">הנפילה</b><span class="mono">רילס, 0:19</span></figcaption>
-      </figure>
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-the-edit.webp" data-src="work/film/hgr-the-edit.mp4" aria-label="HG Fragrance: העריכה. עריכה מהירה: גברים בפשתן בשחור־לבן, הבקבוק באור כחול, רחוב אדום וזוג."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: העריכה</span></span></button>
-        </div>
-        <figcaption><b class="display">העריכה</b><span class="mono">רילס, עם קול, 0:13</span></figcaption>
-      </figure>
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-four-seasons.webp" data-src="work/film/hgr-four-seasons.mp4" aria-label="HG Fragrance: ארבע עונות. קמפיין אופנה: גברים בפשתן על רקע בטון, בקבוק אחד בארבעה אורות."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: ארבע עונות</span></span></button>
-        </div>
-        <figcaption><b class="display">ארבע עונות</b><span class="mono">רילס, 0:13</span></figcaption>
-      </figure>
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-after-dark.webp" data-src="work/film/hgr-after-dark.mp4" aria-label="HG Fragrance: אחרי החשכה. רחוב אדום אחרי הגשם, הבקבוק בידיים וזוג באור חם. הלילה רק מתחיל."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: אחרי החשכה</span></span></button>
-        </div>
-        <figcaption><b class="display">אחרי החשכה</b><span class="mono">רילס, 0:08</span></figcaption>
-      </figure>
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-by-the-fire.webp" data-src="work/film/hgr-by-the-fire.mp4" aria-label="HG Fragrance: ליד האח. גבר במעיל שחור מחזיק את Nocturne ליד אח בהרים, ואז עומד מול חלון מעל השלג."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: ליד האח</span></span></button>
-        </div>
-        <figcaption><b class="display">ליד האח</b><span class="mono">רילס, 0:05</span></figcaption>
-      </figure>
-      <figure class="tour tour-tall">
-        <div class="tour-view">
-          <video class="tour-video" playsinline preload="none" data-poster="work/film/hgr-the-tower.webp" data-src="work/film/hgr-the-tower.mp4" aria-label="HG Fragrance: המגדל. מתחת למגדל זכוכית ושמיים כחולים, גבר במעיל ארוך נוגע בצווארון והולך."></video>
-          <button class="tour-play" type="button" data-cursor="צפייה"><i aria-hidden="true"></i><span>צפייה<span class="sr-only">: המגדל</span></span></button>
-        </div>
-        <figcaption><b class="display">המגדל</b><span class="mono">רילס, 0:04</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- 05 לפני / אחרי -->
-  <section class="sheet sheet-ink ba" id="ba" data-bg="dark" aria-labelledby="ba-title" data-chapter="לפני ואחרי">
-    <div class="ba-copy">
-      <h2 class="display" id="ba-title">אותה חנות.<br>אתר אחר.</h2>
-      <p class="ba-lead">אלנביס כבר מכרה ברשת. מה שהיה חסר הוא אתר שלא גורם ללקוח לחכות. אותו קטלוג, אותם מחירים, מתחת למכסה הכול חדש.</p>
-      <dl class="metrics">
-        <div class="metric" data-from="480" data-to="20" data-unit="KB"><dt>JavaScript</dt><dd><s>480KB</s> <b>20KB</b></dd></div>
-        <div class="metric" data-from="950" data-to="365" data-unit="KB"><dt>נתונים בטעינה ראשונה</dt><dd><s>950KB</s> <b>365KB</b></dd></div>
-        <div class="metric" data-from="32" data-to="19" data-unit=""><dt>בקשות לשרת</dt><dd><s>32</s> <b>19</b></dd></div>
-        <div class="metric" data-from="260" data-to="75" data-unit="ms"><dt>הצגה ראשונה</dt><dd><s>260ms</s> <b>75ms</b></dd></div>
-      </dl>
-    </div>
-    <div class="ba-stage">
-      <div class="phone">
-        <div class="phone-screen">
-          <img class="ba-before" src="work/allenbis-old-mob.webp" alt="אלנביס לפני: האתר המקורי" width="480" height="1039" loading="lazy" decoding="async">
-          <img class="ba-after" src="work/allenbis-mob.webp" alt="אלנביס אחרי: האתר החדש" width="480" height="1039" loading="lazy" decoding="async">
-          <span class="ba-tag ba-tag-before mono">לפני</span>
-          <span class="ba-tag ba-tag-after mono">אחרי</span>
-          <span class="ba-handle" aria-hidden="true"><i></i></span>
-        </div>
+      <div class="at-case-txt" data-rv>
+        <h2 class="at-name" id="gotovski-h">ש. גוטובסקי</h2>
+        <p class="at-line">תשתיות דלק מאז 1972. עברית ואנגלית.</p>
+        <p class="at-case-links"><a class="at-link" href="https://hanochgo7-gif.github.io/desktop-tutorial/" target="_blank" rel="noopener">לאתר<span class="sr-only"> של ש. גוטובסקי (נפתח בחלון חדש)</span></a></p>
       </div>
-      <label class="ba-range-label mono" for="ba-range">גררו כדי להשוות</label>
-      <input class="ba-range" id="ba-range" type="range" min="0" max="100" value="50" aria-label="השוואה בין האתר הישן לחדש">
+    </article>
+    <article class="at-case" id="ams" aria-labelledby="ams-h">
+      <div class="at-media" data-rv><img src="/work/cinema/ams.webp" srcset="/work/cinema/ams-640.webp 640w, /work/cinema/ams.webp 1200w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"></div>
+      <div class="at-case-shots" data-rv>
+        <div class="at-media"><img src="/work/ams-tall.webp" srcset="/work/ams-tall-480.webp 480w, /work/ams-tall.webp 900w" sizes="(min-width: 900px) 48vw, 75vw" alt="דף הבית של AMS, אגרוף תאילנדי" width="900" height="4600" loading="lazy" decoding="async"></div>
+        <div class="at-media"><img src="/work/ams-mob.webp" srcset="/work/ams-mob-300.webp 300w, /work/ams-mob.webp 480w" sizes="(min-width: 900px) 16vw, 25vw" alt="" width="480" height="1039" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="at-case-txt" data-rv>
+        <h2 class="at-name" id="ams-h">AMS</h2>
+        <p class="at-line">אגרוף תאילנדי ואימון אישי.</p>
+        <p class="at-case-links"><a class="at-link" href="https://ams.hgpro.io/" target="_blank" rel="noopener">לאתר<span class="sr-only"> של AMS (נפתח בחלון חדש)</span></a></p>
+      </div>
+    </article>
+    <article class="at-case" id="allenbis" aria-labelledby="allenbis-h">
+      <div class="at-media" data-rv><img src="/work/cinema/allenbis.webp" srcset="/work/cinema/allenbis-640.webp 640w, /work/cinema/allenbis.webp 1200w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"></div>
+      <div class="at-case-shots" data-rv>
+        <div class="at-media"><img src="/work/allenbis-tall.webp" srcset="/work/allenbis-tall-480.webp 480w, /work/allenbis-tall.webp 900w" sizes="(min-width: 900px) 48vw, 75vw" alt="חנות אלנביס, קטלוג המוצרים" width="900" height="4600" loading="lazy" decoding="async"></div>
+        <div class="at-media"><img src="/work/allenbis-mob.webp" srcset="/work/allenbis-mob-300.webp 300w, /work/allenbis-mob.webp 480w" sizes="(min-width: 900px) 16vw, 25vw" alt="" width="480" height="1039" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="at-case-txt" data-rv>
+        <h2 class="at-name" id="allenbis-h">אלנביס</h2>
+        <p class="at-line">שתייה וחטיפים עד הבית.</p>
+        
+      </div>
+    </article>
+    <article class="at-case" id="clinic" aria-labelledby="clinic-h">
+      <div class="at-media" data-rv><img src="/work/cinema/clinic.webp" srcset="/work/cinema/clinic-640.webp 640w, /work/cinema/clinic.webp 1200w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"></div>
+      <div class="at-case-shots" data-rv>
+        <div class="at-media"><img src="/work/clinic-tall.webp" srcset="/work/clinic-tall-480.webp 480w, /work/clinic-tall.webp 900w" sizes="(min-width: 900px) 48vw, 75vw" alt="האתר של רותם גוטובסקי, קליניקה לקוסמטיקה טיפולית" width="900" height="4600" loading="lazy" decoding="async"></div>
+        <div class="at-media"><img src="/work/clinic-mob.webp" srcset="/work/clinic-mob-300.webp 300w, /work/clinic-mob.webp 480w" sizes="(min-width: 900px) 16vw, 25vw" alt="" width="480" height="1039" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="at-case-txt" data-rv>
+        <h2 class="at-name" id="clinic-h">רותם גוטובסקי</h2>
+        <p class="at-line">קליניקה לקוסמטיקה טיפולית.</p>
+        
+      </div>
+    </article>
+    <article class="at-case" id="chef" aria-labelledby="chef-h">
+      <div class="at-media" data-rv><img src="/work/cinema/chef.webp" srcset="/work/cinema/chef-640.webp 640w, /work/cinema/chef.webp 1200w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"></div>
+      <div class="at-case-shots" data-rv>
+        <div class="at-media"><img src="/work/chef-tall.webp" srcset="/work/chef-tall-480.webp 480w, /work/chef-tall.webp 900w" sizes="(min-width: 900px) 48vw, 75vw" alt="האתר של בר ליפשיץ, שף פרטי" width="900" height="4600" loading="lazy" decoding="async"></div>
+        <div class="at-media"><img src="/work/chef-mob.webp" srcset="/work/chef-mob-300.webp 300w, /work/chef-mob.webp 480w" sizes="(min-width: 900px) 16vw, 25vw" alt="" width="480" height="1039" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="at-case-txt" data-rv>
+        <h2 class="at-name" id="chef-h">בר ליפשיץ</h2>
+        <p class="at-line">שף פרטי במצפה מתת.</p>
+        <p class="at-case-links"><a class="at-link" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/" target="_blank" rel="noopener">לאתר<span class="sr-only"> של בר ליפשיץ (נפתח בחלון חדש)</span></a></p>
+      </div>
+    </article>
+  </div>
+
+  <section class="at-group" aria-labelledby="concept-h">
+    <h2 class="at-h2" id="concept-h" data-rv>מותגים להדגמה</h2>
+    <p class="at-note" data-rv>מותגים בדיוניים שבניתי מאפס, כדי להראות מה אפשר.</p>
+    <div class="at-trio">
+      <article class="at-concept" id="elef" data-rv>
+        <a href="/elef/"><div class="at-media"><img src="/work/cinema/elef.webp" srcset="/work/cinema/elef-640.webp 640w, /work/cinema/elef.webp 1200w" sizes="(min-width: 900px) 30vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><span class="at-proj-shot"><img src="/work/elef-poster.webp" alt="האתר של אֶלֶף" width="1200" height="750" loading="lazy" decoding="async"></span></div>
+        <h3 class="at-cap"><span class="at-name">אֶלֶף</span></h3></a>
+        <p class="at-line">שמן זית מהגליל. אתר מותג וסרט.</p>
+      </article>
+      <article class="at-concept" id="fragrance" data-rv>
+        <a href="https://hanochgo7-gif.github.io/desktop-tutorial/perfume/" target="_blank" rel="noopener"><div class="at-media"><img src="/work/cinema/fragrance.webp" srcset="/work/cinema/fragrance-640.webp 640w, /work/cinema/fragrance.webp 1200w" sizes="(min-width: 900px) 30vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><span class="at-proj-shot"><img src="/work/fragrance-poster.webp" alt="האתר של HG Fragrance" width="1200" height="750" loading="lazy" decoding="async"></span></div>
+        <h3 class="at-cap"><span class="at-name" lang="en">HG Fragrance</span><span class="sr-only"> (נפתח בחלון חדש)</span></h3></a>
+        <p class="at-line">בית בשמים לגברים. אתר וחנות.</p>
+      </article>
+      <article class="at-concept" id="mashkanta" data-rv>
+        <a href="https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/" target="_blank" rel="noopener"><div class="at-media"><img src="/work/cinema/mashkanta.webp" srcset="/work/cinema/mashkanta-640.webp 640w, /work/cinema/mashkanta.webp 1200w" sizes="(min-width: 900px) 30vw, 100vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><span class="at-proj-shot"><img src="/work/mashkanta-poster.webp" alt="האתר של יסוד" width="1200" height="750" loading="lazy" decoding="async"></span></div>
+        <h3 class="at-cap"><span class="at-name">יסוד</span><span class="sr-only"> (נפתח בחלון חדש)</span></h3></a>
+        <p class="at-line">יועץ משכנתאות. מחשבונים חיים.</p>
+      </article>
     </div>
   </section>
 
-  <!-- 05ב לפני / אחרי: גוטובסקי. המספרים נמדדו ב-14.10.2026 על שני האתרים החיים, באותם תנאים -->
-  <section class="sheet sheet-ink ba ba--flip" id="ba-gotovski" data-bg="dark" aria-labelledby="bag-title">
-    <div class="ba-copy">
-      <h2 class="display" id="bag-title">אותה חברה.<br>אתר של היום.</h2>
-      <p class="ba-lead">ש. גוטובסקי בונה תחנות דלק מאז 1972. האתר הקודם עדיין באוויר, אז אפשר להשוות בעצמכם: <a href="https://gotovski.co.il/" target="_blank" rel="noopener">האתר הקודם</a> מול <a href="https://hanochgo7-gif.github.io/desktop-tutorial/" target="_blank" rel="noopener">האתר החדש</a>.</p>
-      <dl class="metrics">
-        <div class="metric" data-from="5.6" data-to="15.2" data-unit="px" data-dec="1"><dt>גודל הטקסט בטלפון</dt><dd><s>5.6px</s> <b>15.2px</b></dd></div>
-        <div class="metric" data-from="23" data-to="0" data-unit=""><dt>רכיבים שנטענים בלי הצפנה</dt><dd><s>23</s> <b>0</b></dd></div>
-        <div class="metric" data-from="7" data-to="0" data-unit=""><dt>שגיאות בדפדפן</dt><dd><s>7</s> <b>0</b></dd></div>
-        <div class="metric" data-from="1" data-to="2" data-unit=""><dt>שפות</dt><dd><s>1</s> <b>2</b></dd></div>
-      </dl>
-      <ul class="ba-points">
-        <li>בגוגל הופיעה הכותרת "אתר חדש בוורדפרס בעברית", הטקסט שמגיע עם התבנית. היום: "ש.גוטובסקי בע״מ | תשתיות דלק מאז 1972".</li>
-        <li>האתר הקודם רץ על וורדפרס 3.3.2 משנת 2012 ולא הותאם לטלפון: הטלפון מציג את כל רוחב המחשב, והטקסט מתכווץ. החדש נכתב מאפס ומותאם לכל מסך.</li>
-        <li>נוספו אנגלית, הדמיה חיה של הפסקת חשמל בחוות שרתים וסיור 360° בחוות גנרטורים.</li>
-      </ul>
-      <p class="ba-note mono">נמדד ב-14.10.2026 על שני האתרים, בדפדפן Chrome במסך בגודל טלפון.</p>
-    </div>
-    <div class="ba-stage">
-      <div class="phone">
-        <div class="phone-screen">
-          <img class="ba-before" src="work/gotovski-old-mob.webp" alt="גוטובסקי לפני: האתר הקודם בטלפון, מוקטן לרוחב של מחשב" width="480" height="1039" loading="lazy" decoding="async">
-          <img class="ba-after" src="work/gotovski-mob.webp" alt="גוטובסקי אחרי: האתר החדש בטלפון" width="480" height="1039" loading="lazy" decoding="async">
-          <span class="ba-tag ba-tag-before mono">לפני</span>
-          <span class="ba-tag ba-tag-after mono">אחרי</span>
-          <span class="ba-handle" aria-hidden="true"><i></i></span>
-        </div>
-      </div>
-      <label class="ba-range-label mono" for="ba-range-g">גררו כדי להשוות</label>
-      <input class="ba-range" id="ba-range-g" type="range" min="0" max="100" value="50" aria-label="השוואה בין האתר הקודם של גוטובסקי לחדש">
+  <section class="at-group at-solo" id="anigibor" aria-labelledby="ag-h">
+    <button type="button" class="at-feature" data-rv data-film="/work/anigibor/trailer.mp4" data-title="אני גיבור · המשימה לירח העוגה" data-v="h" data-sound="1">
+      <span class="at-media"><img src="/work/anigibor/trailer.webp" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="at-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l14-8.5z" fill="currentColor"/></svg></span></span>
+      <span class="sr-only">לצפייה בטריילר של אני גיבור</span>
+    </button>
+    <div class="at-solo-txt" data-rv>
+      <h2 class="at-h2" id="ag-h">אני גיבור</h2>
+      <p class="at-line">מוצר שלם: הילד בתפקיד הראשי של סרט אנימציה.</p>
+      <p class="at-case-links"><a class="at-link" href="https://anigibor.com" target="_blank" rel="noopener">לאתר<span class="sr-only"> של אני גיבור (נפתח בחלון חדש)</span></a></p>
+      <p class="at-note">הילדים בדוגמאות נוצרו ב-AI.</p>
     </div>
   </section>
 
-  <!-- 06 תהליך: הכרטיס נבנה מול העיניים -->
-  <section class="sheet sheet-ink craft" id="craft" data-bg="dark" aria-labelledby="craft-title" data-chapter="מקו לתנועה">
-    <div class="craft-pin">
-      <div class="craft-copy">
-        <h2 class="display" id="craft-title">מקו<br>לתנועה.</h2>
-        <ol class="steps">
-          <li class="step is-on"><div><h3>שרטוט</h3><p>מבינים את העסק, את הלקוח ואת הרגע שבו הוא מחליט. קו לפני צבע.</p></div></li>
-          <li class="step"><div><h3>שלד</h3><p>היררכיה, מסלול קריאה ורשת. מה רואים ראשון, מה שני, ואיפה לוחצים.</p></div></li>
-          <li class="step"><div><h3>חומר</h3><p>טיפוגרפיה, צבע וצילום שנבחרים לעסק הזה בלבד.</p></div></li>
-          <li class="step"><div><h3>תנועה</h3><p>האתר מתעורר. כל תנועה מסבירה משהו, ושום דבר לא זז סתם.</p></div></li>
-        </ol>
-      </div>
-      <div class="specimen-wrap">
-        <div class="specimen" data-stage="0" aria-hidden="true">
-          <div class="sp-nav"><b class="sp-logo">לוגו</b><i></i><i></i><i></i><span class="sp-pill">צרו קשר</span></div>
-          <div class="sp-body">
-            <div class="sp-text">
-              <span class="sp-eyebrow">סטודיו לקרמיקה, יפו</span>
-              <span class="sp-h"><b>כלים</b> <b>שנעשו</b> <b>ביד</b></span>
-              <span class="sp-p"></span><span class="sp-p short"></span>
-              <span class="sp-btn">לסדנה הקרובה</span>
-            </div>
-            <div class="sp-img"><span class="sp-blob"></span><span class="sp-blob b2"></span></div>
-          </div>
-          <span class="sp-dim d1 mono">1280</span><span class="sp-dim d2 mono">h1, 96px</span><span class="sp-dim d3 mono">4 : 5</span>
-          <span class="sp-cursor"></span>
-        </div>
-        <p class="specimen-cap mono"><span class="cap-t">שרטוט</span></p>
-      </div>
+  <section class="at-group at-solo" id="demo" aria-labelledby="demo-h">
+    <a class="at-feature" href="/sim/data-center/index.html" target="_blank" rel="noopener" data-rv>
+      <span class="at-media"><img src="/work/sim-poster.webp" srcset="/work/sim-poster-960.webp 960w, /work/sim-poster.webp 1600w" sizes="(min-width: 900px) 64vw, 100vw" alt="" width="1600" height="900" loading="lazy" decoding="async"></span>
+      <span class="sr-only">לפתוח את ההדמיה החיה (נפתח בחלון חדש)</span>
+    </a>
+    <div class="at-solo-txt" data-rv>
+      <h2 class="at-h2" id="demo-h">הפסקת חשמל, בזמן אמת.</h2>
+      <p class="at-line">הדמיה חיה מתוך האתר של ש. גוטובסקי.</p>
+      <p class="at-case-links"><a class="at-link" href="/sim/data-center/index.html" target="_blank" rel="noopener">לפתוח את ההדמיה<span class="sr-only"> (נפתח בחלון חדש)</span></a></p>
     </div>
   </section>
 
-  <!-- קשר -->
-  <section class="contact contact-mini" id="contact" data-bg="light" aria-labelledby="contact-title" data-chapter="היעד">
-    <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
-    <p class="contact-lead">אהבתם משהו מכאן? ספרו לי על העסק שלכם, והאתר הבא בתיק יכול להיות שלכם.</p>
-    <div class="contact-actions">
-      <a class="btn btn-signal magnetic" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener"><span>ספרו לי על העסק בוואטסאפ</span></a>
-      <a class="btn btn-line magnetic" href="/#how"><span>איך זה עובד</span></a>
-    </div>
-    <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></p>
-    <footer class="foot mono">
-      <span>© 2026 HG Studio, חנוך גוטובסקי</span>
-      <span>עיצוב ופיתוח אתרים בהתאמה אישית</span>
-      <a href="accessibility.html">הצהרת נגישות</a>
-      <button class="foot-xray" type="button">לראות איך האתר הזה בנוי</button>
-    
-      <nav class="foot-sv" aria-label="שירותים"><a href="services/">כל השירותים</a>: <a href="services/website-building.html">בניית אתרים</a>   <a href="services/web-design.html">עיצוב אתרים</a>   <a href="services/landing-page.html">דפי נחיתה</a>   <a href="services/online-store.html">חנויות אינטרנטיות</a>   <a href="services/seo.html">קידום אורגני</a>   <a href="services/ai-commercial.html">פרסומות AI</a>   <a href="services/social-media.html">אינסטגרם ופייסבוק לעסקים</a>   <a href="services/ai-chatbot.html">נציג AI</a>   <a href="services/wix-migration.html">מעבר מוויקס</a>   <a href="services/brand-identity.html">זהות מותגית</a></nav>
-      <nav class="foot-sv foot-legal" aria-label="מידע משפטי"><a href="privacy.html">מדיניות פרטיות</a>   <a href="terms.html">תנאי שימוש</a>   <a href="refunds.html">ביטול והחזרים</a>   <a href="#" data-consent-open>הגדרות עוגיות</a></nav>
-    </footer>
+  <section class="at-group" id="tours" aria-labelledby="tours-h">
+    <h2 class="at-h2" id="tours-h" data-rv>בניין שעוד לא נבנה.</h2>
+    <p class="at-note" data-rv>שני סיורי וידאו לפרויקט מגורים, מתוך ההדמיות ותוכנית הדירה. הרהיטים והחומרים רעיוניים.</p>
+    <ul class="at-duo">
+      <li data-rv><button type="button" class="at-feature" data-film="/work/tours/ext.mp4" data-title="סיור מבחוץ" data-v="h"><span class="at-media"><img src="/work/tours/ext.webp" alt="" loading="lazy" decoding="async"><span class="at-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l14-8.5z" fill="currentColor"/></svg></span></span><span class="at-cap"><span class="sr-only">לצפייה בסיור </span><span class="at-name">מבחוץ</span></span></button></li>
+      <li data-rv><button type="button" class="at-feature" data-film="/work/tours/int.mp4" data-title="סיור מבפנים" data-v="h"><span class="at-media"><img src="/work/tours/int.webp" alt="" loading="lazy" decoding="async"><span class="at-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l14-8.5z" fill="currentColor"/></svg></span></span><span class="at-cap"><span class="sr-only">לצפייה בסיור </span><span class="at-name">מבפנים</span></span></button></li>
+    </ul>
   </section>
+
+  <section class="at-group at-contact" id="contact" aria-labelledby="end-h">
+    <h2 class="at-h2" id="end-h" data-rv>רוצים אתר כזה לעסק שלכם?</h2>
+    <a class="at-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%A9%D7%9C%D7%9A.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לכתוב לי בוואטסאפ</a>
+  </section>
+
+  <dialog class="pm-lightbox at-film-lb" aria-label="צפייה בסרט">
+    <div class="pm-lb-in">
+      <button type="button" class="pm-lb-x" aria-label="סגירה"><span></span><span></span></button>
+      <div><video controls playsinline muted></video><p class="pm-lb-t"></p></div>
+    </div>
+  </dialog>
 </main>
 
-<!-- סיפור פרויקט: נפתח מתוך המסך שנלחץ -->
-<div class="case" role="dialog" aria-modal="true" aria-labelledby="case-title" hidden data-lenis-prevent>
-  <div class="case-bg"></div>
-  <button class="case-close mono" type="button" aria-label="סגירה">סגירה ✕</button>
-  <div class="case-wipe" aria-hidden="true"></div>
-  <div class="case-scroll">
-    <div class="case-hero">
-      <div class="browser case-browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono case-url"></span></div>
-        <div class="browser-view"><img class="case-poster" alt="" width="1200" height="750"><video class="case-video" muted loop playsinline preload="none" aria-hidden="true"></video></div>
-      </div>
-    </div>
-    <div class="case-body">
-      <header class="case-head">
-        <div class="case-titlebar"><span class="logo-tile logo-tile-lg"><img class="case-logo" alt="" width="96" height="96"></span><h2 class="case-title display" id="case-title"></h2></div>
-        <p class="case-sub"></p>
-        <p class="case-kind mono"></p>
-        <a class="case-live mono" href="#work" target="_blank" rel="noopener" data-cursor="לאתר" hidden>לביקור באתר</a>
-      </header>
-      <div class="case-grid">
-        <div class="case-main">
-          <p class="case-story"></p>
-          <h3 class="label mono">מה בניתי</h3>
-          <ul class="case-points"></ul>
-          <div class="case-ask"><p>רוצים אתר כזה לעסק שלכם?</p><a class="btn btn-signal case-wa" href="https://wa.me/972545522053" target="_blank" rel="noopener"><span>ספרו לי על העסק בוואטסאפ</span></a><button class="case-cb" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></div>
-        </div>
-        <aside class="case-side">
-          <div class="case-relic" aria-hidden="true"></div>
-          <p class="case-relic-cap mono">הולוגרמה, גררו כדי לסובב</p>
-          <h3 class="label mono">פלטה</h3>
-          <ul class="swatches"></ul>
-          <h3 class="label mono">טיפוגרפיה</h3>
-          <ul class="case-fonts mono"></ul>
-          <div class="case-metrics"></div>
-          <img class="case-phone" alt="" width="480" height="1039">
-        </aside>
-      </div>
-      <button class="case-next" type="button" data-cursor="הבא"><span class="label mono">הפרויקט הבא</span><span class="case-next-name display"></span></button>
-    </div>
-  </div>
-</div>
-
-<!-- סרט התדמית: נפתח על כל המסך -->
-<dialog class="film-dlg" aria-label="סרט התדמית של HG Studio">
-  <button class="film-close mono" type="button" aria-label="סגירה">סגירה ✕</button>
-  <video class="film-video" controls muted playsinline preload="none" data-poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
-</dialog>
-
-<!-- רנטגן -->
-<div class="lens" aria-hidden="true"></div>
-<div class="inspect" aria-hidden="true"><span class="inspect-label mono"></span></div>
-<div class="cursor" aria-hidden="true"><span class="cursor-label mono"></span></div>
-<p class="sr-only" aria-live="polite" id="live"></p>
-
-<script src="js/vendor/gsap-3.15.0/gsap.min.js" defer></script>
-<script src="js/vendor/gsap-3.15.0/ScrollTrigger.min.js" defer></script>
-<script src="js/vendor/gsap-3.15.0/CustomEase.min.js" defer></script>
-<script src="js/vendor/gsap-3.15.0/SplitText.min.js" defer></script>
-<script src="js/vendor/gsap-3.15.0/DrawSVGPlugin.min.js" defer></script>
-<script src="js/vendor/gsap-3.15.0/ScrambleTextPlugin.min.js" defer></script>
-<script src="js/vendor/lenis.min.js" defer></script>
-<script src="js/hanoch.js?v=3" defer></script>
-<script src="js/journey.js?v=2" defer></script>
-<script src="js/night.js" defer></script>
-<script src="js/gallery.js" defer></script>
-<script src="js/fluid.js" defer></script>
-<script src="js/a11y.js" defer></script>
-<script src="js/clock.js?v=1" defer></script>
-<script src="js/assistant.js?v=3" defer></script>
-<script src="js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>
-<script src="js/callback.js" defer></script>
-<div class="hm-dock" aria-label="יצירת קשר מהירה" role="region"><a class="hm-dock-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%9A." target="_blank" rel="noopener" data-wa><span>וואטסאפ</span></a><a class="hm-dock-call" href="tel:+972545522053">חיוג</a></div>
+<footer class="ft">
+  <a class="ft-mark" href="/" aria-label="HG Studio">HG<b>·</b>STUDIO</a>
+  <p class="ft-reach"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
+  <nav class="ft-nav" aria-label="תחתון"><a href="/faq.html">שאלות</a><a href="/blog/">מאמרים</a><a href="/accessibility.html">נגישות</a><a href="/privacy.html">פרטיות</a><a href="/terms.html">תנאים</a><a href="#" data-consent-open>עוגיות</a></nav>
+</footer>
+<script src="/js/atelier.js?v=1" defer></script>
+<script src="/js/a11y.js" defer></script>
+<script src="/js/chrome.js?v=1" defer></script>
+<script src="/js/assistant.js?v=3" defer></script>
+<script src="/js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>
+<script src="/js/callback.js" defer></script>
 </body>
 </html>

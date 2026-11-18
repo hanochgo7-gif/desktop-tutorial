@@ -38,22 +38,19 @@
     onGrant: function (fn) { if (granted) fn(); else listeners.push(fn); }
   };
 
-  // פס כתוביות (חדר העריכה): שורה אחת במרכז התחתית, ושני כפתורים שווים לגמרי בגודל ובמראה
+  // כרטיס קטן בפינה התחתונה (אטלייה): שתי שורות קצרות ושני כפתורים שווים בגודל ובמראה
   var CSS =
-    '.consent{position:fixed;z-index:126;bottom:18px;left:50%;transform:translateX(-50%);width:min(980px,calc(100vw - 24px));display:flex;align-items:center;gap:.4rem 1.4rem;padding:.6rem 1.1rem;border-radius:2px;' +
-    'background:#050506;color:#ede8de;border:0;border-top:1px solid rgba(237,232,222,.18);box-shadow:none;' +
-    'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.92rem;line-height:1.5}' +
+    '.consent{position:fixed;z-index:126;bottom:16px;inset-inline-start:16px;width:min(360px,calc(100vw - 32px));box-sizing:border-box;display:grid;gap:.9rem;padding:1.1rem 1.2rem 1rem;border-radius:2px;' +
+    'background:#000;color:#ede8df;border:1px solid rgba(237,232,223,.2);box-shadow:none;' +
+    'font-family:"Rubik",system-ui,sans-serif;font-size:.86rem;font-weight:400;line-height:1.55}' +
     '.consent[hidden]{display:none}' +
-    '.consent__text{margin:0;flex:1 1 auto}' +
-    '.consent__text a{color:#ede8de;text-decoration:underline;text-underline-offset:3px}' +
-    '.consent__actions{display:flex;gap:.2rem 1rem;flex:none}' +
-    '.consent__btn{flex:1 1 0;min-width:7.5rem;min-height:44px;padding:.4rem .4rem;border-radius:2px;border:0;' +
-    'background:transparent;color:#ede8de;font:inherit;font-weight:500;font-size:.92rem;text-decoration:underline;text-underline-offset:.32em;text-decoration-thickness:1px;cursor:pointer;white-space:nowrap}' +
-    '.consent__btn:hover{text-decoration-color:var(--signal,#ff4f1a);text-decoration-thickness:2px}' +
-    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:2px}' +
-    '@media (max-width:760px){.consent{flex-direction:column;align-items:stretch;gap:.2rem;padding:.7rem .9rem .3rem;font-size:.86rem;line-height:1.5;text-align:start}' +
-    '.consent__actions{gap:.6rem}.consent__btn{min-width:0;font-size:.86rem}}' +
-    '@media (max-width:400px),(max-width:600px) and (max-height:700px){.consent{padding:.55rem .75rem .2rem;font-size:.8125rem;line-height:1.45}.consent__btn{font-size:.8125rem}}' +
+    '.consent__text{margin:0;color:#c9c4bb}' +
+    '.consent__text a{color:#ede8df;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}' +
+    '.consent__actions{display:flex;gap:.6rem}' +
+    '.consent__btn{flex:1 1 0;min-width:0;min-height:40px;padding:.4rem .8rem;border-radius:99px;border:1px solid rgba(237,232,223,.34);' +
+    'background:transparent;color:#ede8df;font:inherit;font-weight:400;font-size:.86rem;cursor:pointer;white-space:nowrap;transition:border-color .3s ease}' +
+    '.consent__btn:hover{border-color:#ede8df}' +
+    '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:1px solid #ede8df;outline-offset:3px}' +
     '.menu-open .consent,.case-open .consent{visibility:hidden}';
 
   var box = null;
@@ -64,11 +61,11 @@
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
       '<p class="consent__text">' + T(
-        'כדי לדעת אילו עמודים ופרסומים עובדים, אני משתמש ב-Google Analytics וב-Google Ads. הם נטענים רק אם תאשרו. בלי אישור לא נשלח ל-Google כלום, והאתר עובד אותו דבר.',
-        'To learn which pages and ads work, I use Google Analytics and Google Ads. They load only if you agree. Without consent nothing is sent to Google, and the site works the same.') +
-      ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('פרטים במדיניות הפרטיות', 'Details in the privacy policy') + '</a></p>' +
+        'Google Analytics ו-Google Ads נטענים רק אם תאשרו. בלי אישור לא נשלח להם כלום.',
+        'Google Analytics and Google Ads load only if you agree. Without it, nothing is sent to them.') +
+      ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('מדיניות הפרטיות', 'Privacy policy') + '</a></p>' +
       '<div class="consent__actions">' +
-        '<button type="button" class="consent__btn" data-choice="yes">' + T('לאשר עוגיות', 'Allow cookies') + '</button>' +
+        '<button type="button" class="consent__btn" data-choice="yes">' + T('לאשר', 'Allow') + '</button>' +
         '<button type="button" class="consent__btn" data-choice="no">' + T('בלי עוגיות', 'No cookies') + '</button>' +
       '</div>';
     box.addEventListener('click', function (e) {
