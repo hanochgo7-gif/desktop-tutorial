@@ -39,38 +39,49 @@
 <main class="doc" id="main">
   <a class="back" href="en.html">← Back to the site</a>
   <h1>Accessibility statement</h1>
-  <p>I want everyone to be able to use this site comfortably, including people with disabilities. The site follows WCAG 2.2 at level AA and the Israeli standard IS 5568, and I keep improving it.</p>
+  <p>I want everyone to be able to use this site comfortably, including people with disabilities. The goal is to meet the Israeli standard IS 5568, which is based on WCAG 2.0 level AA, and I also aim to meet WCAG 2.2 level AA. The site does not yet meet every requirement. What has been done and what is not perfect yet are listed here.</p>
 
-  <h2>What the site does</h2>
+  <h2>What I have done</h2>
   <ul>
-    <li>Pages have a clear heading structure, and every meaningful image has a text description.</li>
-    <li>The whole site works with a keyboard, and keyboard focus is clearly marked.</li>
-    <li>A "Skip to services" link at the top of the page jumps straight to the content.</li>
-    <li>All text is at least 13px, and every button and link on phones is at least 44px tall.</li>
-    <li>The contact form works fully with a keyboard and tells screen readers which step you are on.</li>
-    <li>If your device is set to reduce motion, you get a quiet version of the site: no animation, no 3D and no smooth scrolling.</li>
-    <li>Windows that open, such as the project stories, close with Esc, and focus returns to where it was.</li>
-    <li>Messages that change on the page are announced to screen readers.</li>
-    <li>Commercials with voiceover have captions in Hebrew and English, shown automatically when the film plays with sound.</li>
-    <li>The cookie notice works with a keyboard and screen readers, and its two buttons are equal in size and prominence.</li>
-    <li>The 3D archive also has a plain grid view you can move through with a keyboard.</li>
+    <li>Pages declare the right language and direction (Hebrew right to left, English left to right), with one main heading and an orderly heading structure.</li>
+    <li>Meaningful images have a text description.</li>
+    <li>You can navigate the site with a keyboard, and keyboard focus is clearly marked.</li>
+    <li>Every form field has a label, and optional fields are marked as optional.</li>
+    <li>Messages that change on the page, such as a form error or an answer from the digital advisor, are announced to screen readers.</li>
+    <li>Windows that open, such as the call-back request, the digital advisor, the films and the project stories, close with Esc, and focus returns to the button that opened them.</li>
+    <li>If your device is set to reduce motion, you get a quiet version of the site: no videos that play by themselves, no animation and no smooth scrolling.</li>
+    <li>The background video on the home page can be paused with a button.</li>
+    <li>On a narrow phone screen (320 pixels) the pages adapt without sideways scrolling.</li>
+    <li>The cookie notice has two buttons equal in size and prominence, and both work with a keyboard.</li>
   </ul>
 
   <h2>The accessibility menu</h2>
   <p>A button in the corner of the screen opens a menu with these options: larger text, high contrast, highlighted links, a readable font, stop animations, a large cursor and stronger keyboard focus. Your choices are saved in your browser only.</p>
 
   <h2>What is not perfect yet</h2>
-  <p>The opening animation (the hands and the glass ח) is decorative: everything it says also appears as plain text. The project videos are silent screen recordings shown for illustration. If any part is hard to use, I want to hear about it and fix it.</p>
+  <p>These are the gaps I found in the latest test. I am working on the fixes:</p>
+  <ul>
+    <li>Not every film on the site has captions. The promotional films on the home page have music only, with no speech. If you find a film with speech and no captions, please tell me.</li>
+    <li>The skip to content link does not move focus properly on some inner pages on desktop, and the 3D archive has no such link.</li>
+    <li>On phones, on the gallery page, the bottom WhatsApp button has no name a screen reader can announce.</li>
+    <li>Sometimes the cookie notice or the digital advisor button briefly hides an element that has keyboard focus, and in the archive some grid buttons are partly covered.</li>
+    <li>Some text on the site is smaller than 13 pixels, and some buttons and links on phones are less than 44 pixels tall (all are at least 24 pixels).</li>
+    <li>In the brief form, the need to fill in a name and a phone number or email is shown only in the error message, not in advance.</li>
+    <li>The background videos on the work page loop without their own pause button. You can stop them with "stop animations" in the accessibility menu.</li>
+    <li>When you enlarge only the browser's font size (without zoom), the home page and the gallery scroll sideways. Regular browser zoom works properly.</li>
+    <li>The language switch and the digital advisor button have an announced name that differs slightly from the visible text.</li>
+  </ul>
+  <p>If any part is hard to use, I want to hear about it and fix it.</p>
 
   <h2>How the site was tested</h2>
-  <p>In October 2026 the main pages in Hebrew and English were tested on desktop and phone with the automated tool axe-core against WCAG 2.2 level AA. Automated testing does not catch every issue, so I keep testing by hand as well.</p>
+  <p>In November 2026 all 49 pages in the sitemap, in Hebrew and English, were tested on desktop and phone with the automated tool axe-core against WCAG level AA. Six main pages and the windows that open on them were also tested by hand with a keyboard: navigation, focus, the skip link, motion, narrow screens and videos. The site has not yet been tested with screen readers, and automated testing does not catch every issue.</p>
 
   <h2>Another way to get the service</h2>
   <p>If any part of the site is not accessible to you, you can get all the information and the service by phone, WhatsApp or email, using the details below.</p>
 
   <h2>Accessibility contact</h2>
   <p>Accessibility coordinator: Hanoch Gutovski. Phone and WhatsApp: <a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a>. Email: <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>.</p>
-  <p>Last updated: October 9, 2026.</p>
+  <p>Last updated: November 18, 2026.</p>
 </main>
 <nav class="doc-foot" aria-label="Legal"><a href="en-privacy.html">Privacy policy</a><a href="en-terms.html">Terms of use</a><a href="en-refunds.html">Cancellations &amp; refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="en-accessibility.html" aria-current="page">Accessibility statement</a><a href="en.html">Home</a></nav>
 <script src="js/fluid.js" defer></script>
