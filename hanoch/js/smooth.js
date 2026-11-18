@@ -22,5 +22,8 @@
     var dist = Math.abs(el.getBoundingClientRect().top);
     lenis.scrollTo(el, { offset: -88, duration: Math.min(1.4, Math.max(.6, .45 + .35 * Math.log2(1 + dist / innerHeight))) });
     if (history.replaceState) history.replaceState(null, '', a.getAttribute('href'));
+    // המיקוד עובר ליעד, כמו בקישור רגיל: "דילוג לתוכן" ותוכן העניינים עובדים גם במקלדת ובקורא מסך (ממצא R-10 בביקורת)
+    if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+    el.focus({ preventScroll: true });
   });
 })();

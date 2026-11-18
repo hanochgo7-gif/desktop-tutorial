@@ -25,6 +25,9 @@
       if (!/^(_ga|_gcl_|_fbp|_fbc)/.test(name)) return;
       domains.forEach(function (d) { document.cookie = name + '=; Max-Age=0; path=/' + (d ? '; domain=' + d : ''); });
     });
+    // גם המידע שהאתר עצמו שמר אחרי האישור: מקור ההגעה לפניות (hgos_touch), קוד המודעה (hg-ad) והאתר המפנה (hg-src)
+    try { localStorage.removeItem('hgos_touch'); } catch (e) { }
+    try { sessionStorage.removeItem('hg-ad'); sessionStorage.removeItem('hg-src'); } catch (e) { }
   }
 
   var state = read();

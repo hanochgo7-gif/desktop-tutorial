@@ -15,8 +15,11 @@ const EFFORT = ['low', 'medium', 'high'].indexOf(process.env.HG_CHAT_EFFORT) >= 
 // אתרים שמותר להם להפעיל את המצפן מדפדפן. לא כל vercel.app: כל אחד יכול לפתוח שם אתר ולהפעיל את המצפן מהדפדפנים של
 // המבקרים שלו (על חשבוננו, ומכתובות IP רבות). כתובות תצוגה מקדימה מוסיפים במפורש ב-HG_EXTRA_ORIGINS (מופרדות בפסיק)
 const EXTRA = (process.env.HG_EXTRA_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
-const BASE = /^https:\/\/(www\.)?hgpro\.io$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-const ALLOWED = { test: (o) => BASE.test(o) || EXTRA.indexOf(o) >= 0 };
+const BASE = /^https:\/\/(www\.)?hgpro\.io$/;
+// localhost רק מחוץ לייצור (פיתוח ובדיקות). בייצור הוא היה מאפשר לכל אחד להריץ עמוד מקומי ולהפעיל את המצפן
+const LOCAL = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+const PROD = process.env.VERCEL_ENV === 'production';
+const ALLOWED = { test: (o) => BASE.test(o) || EXTRA.indexOf(o) >= 0 || (!PROD && LOCAL.test(o)) };
 const MAX_TURNS = 24, MAX_CHARS = 1200, MAX_TOTAL = 14000;
 const WA = '972545522053';
 
@@ -91,17 +94,25 @@ const TOOLS = [
 const hits = new Map();
 let hour = { at: 0, n: 0 };
 const GLOBAL_PER_HOUR = Number(process.env.HG_CHAT_MAX_PER_HOUR) || 400;
+// קודם המגבלה לכל IP, ורק בקשה תקינה שעברה אותה נספרת בתקרה הכוללת. כך מקור אחד לא יכול "לאכול" את התקרה של כולם
+// בבקשות שנחסמו או בבקשות זבל (ממצא R-06 בביקורת)
 function limited(ip) {
   const now = Date.now(), win = 10 * 60 * 1000, max = 30;
-  if (now - hour.at > 3600e3) hour = { at: now, n: 0 };
-  if (++hour.n > GLOBAL_PER_HOUR) return true;
   const list = (hits.get(ip) || []).filter((t) => now - t < win);
+  if (list.length >= max) { hits.set(ip, list); return true; }
   list.push(now); hits.set(ip, list);
   if (hits.size > 5000) hits.clear();
-  return list.length > max;
+  return false;
+}
+function globalFull() {
+  const now = Date.now();
+  if (now - hour.at > 3600e3) hour = { at: now, n: 0 };
+  return ++hour.n > GLOBAL_PER_HOUR;
 }
 
 const str = (v, n) => (typeof v === 'string' ? v.replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').trim().slice(0, n) : '');
+// טקסט מהדפדפן שנכנס להנחיות: בלי סוגריים משולשים, כדי שלא יוכל לסגור את <visitor_context> ולהוסיף הוראות משלו
+const ctxStr = (v, n) => str(v, n).replace(/[<>]/g, '');
 
 function clean(messages) {
   if (!Array.isArray(messages) || !messages.length) return null;
@@ -125,11 +136,11 @@ function context(ctx, page) {
   const c = ctx && typeof ctx === 'object' ? ctx : {};
   const b = c.brief && typeof c.brief === 'object' ? c.brief : {};
   const lines = ['העמוד הנוכחי: ' + (page || '/')];
-  const f = (k, label) => { const v = Array.isArray(b[k]) ? b[k].map((x) => str(x, 60)).filter(Boolean).slice(0, 7).join(', ') : str(b[k], 120); if (v) lines.push(label + v); };
+  const f = (k, label) => { const v = Array.isArray(b[k]) ? b[k].map((x) => ctxStr(x, 60)).filter(Boolean).slice(0, 7).join(', ') : ctxStr(b[k], 120); if (v) lines.push(label + v); };
   f('biz', 'בבריף באתר, סוג העסק: '); f('goal', 'בבריף, מה האתר צריך לעשות: '); f('pain', 'בבריף, על מה הולך לו זמן: '); f('now', 'בבריף, מה יש היום: ');
-  const rec = str(c.rec, 160); if (rec) lines.push('האתר כבר המליץ לו: ' + rec);
-  const calc = str(c.calc, 300); if (calc) lines.push('מחשבון הזמן באתר: ' + calc);
-  const shown = Array.isArray(c.shown) ? c.shown.map((x) => str(x, 40)).filter(Boolean).slice(0, 6) : [];
+  const rec = ctxStr(c.rec, 160); if (rec) lines.push('האתר כבר המליץ לו: ' + rec);
+  const calc = ctxStr(c.calc, 300); if (calc) lines.push('מחשבון הזמן באתר: ' + calc);
+  const shown = Array.isArray(c.shown) ? c.shown.map((x) => ctxStr(x, 40)).filter(Boolean).slice(0, 6) : [];
   if (shown.length) lines.push('כבר הוצג לו בשיחה: ' + shown.join(', '));
   return '<visitor_context>\n' + lines.join('\n') + '\n</visitor_context>';
 }
@@ -207,11 +218,13 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = null; } }
   const messages = clean(body && body.messages);
   if (!messages) return res.status(400).json({ error: 'bad_request' });
+  if (globalFull()) return res.status(429).json({ error: 'busy' });
   const page = typeof body.page === 'string' ? body.page.slice(0, 120).replace(/[^\w\/.#-]/g, '') : '';
 
-  // שני שעונים: 20 שניות בלי שום נתון מ-Claude (תקוע), או 50 שניות בסך הכול. תשובה שזורמת לא נחתכת באמצע
-  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 50000);
-  let idle = 0; const poke = () => { clearTimeout(idle); idle = setTimeout(() => ctl.abort(), 20000); }; poke();
+  // שני שעונים: 15 שניות בלי שום נתון מ-Claude (תקוע), או 27 שניות בסך הכול, מתחת למגבלת 30 השניות של הפונקציה ב-vercel.json.
+  // כך הפונקציה מסיימת בעצמה ושולחת סיום מסודר, במקום ש-Vercel יקטע אותה באמצע
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 27000);
+  let idle = 0; const poke = () => { clearTimeout(idle); idle = setTimeout(() => ctl.abort(), 15000); }; poke();
   const m = { ev: 'chat', model: MODEL, rounds: 0, in: 0, cr: 0, cw: 0, out: 0, stop: '', tools: [], stage: '', objection: '', unanswered: false, err: '' };
   const convo = messages.slice();
   let started = false, text = '';
@@ -234,7 +247,7 @@ module.exports = async (req, res) => {
       const { r, err } = await upstream(req2, ctl.signal);
       if (!r || !r.ok || !r.body) {
         m.err = err ? 'network' : 'http_' + (r ? r.status : 0);
-        if (!started) { clearTimeout(timer); clearTimeout(idle); log(m, t0); return res.status(502).json({ error: 'upstream', status: r ? r.status : 0 }); }
+        if (!started) { clearTimeout(timer); clearTimeout(idle); log(m, t0); return res.status(502).json({ error: 'upstream' }); }
         send({ t: 'err' }); break;
       }
       // קוראים את הזרימה: טקסט עובר מיד לדפדפן, בלוקים אחרים (חשיבה, כלים) נאספים בשלמותם
@@ -279,7 +292,8 @@ module.exports = async (req, res) => {
         const v = validate(u.name, input);
         m.tools.push(u.name + (v ? '' : ':rejected'));
         if (!v) continue;
-        if (u.name === 'log_signal') { m.stage = v.stage; m.objection = v.objection; m.unanswered = !!v.unanswered_topic; send({ t: 'sig', i: v }); }
+        // הנושא שלא נענה נשאר ביומן המדדים בשרת בלבד (בלי תוכן אחר מהשיחה), ולא נשלח לדפדפן, וכך גם לא ל-Google Analytics
+        if (u.name === 'log_signal') { m.stage = v.stage; m.objection = v.objection; m.unanswered = !!v.unanswered_topic; send({ t: 'sig', i: { stage: v.stage, objection: v.objection, unanswered: !!v.unanswered_topic } }); }
         else send({ t: 'ui', n: u.name, i: v });
       }
       // המודל הפעיל כלי לפני שכתב תשובה: מחזירים לו אישור, והוא ממשיך לכתוב (פעם אחת לכל היותר)

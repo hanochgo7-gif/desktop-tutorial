@@ -504,7 +504,8 @@
     if (!i) return;
     if (i.stage && i.stage !== S.stage) { S.stage = i.stage; save(); track('chat_stage', { stage: i.stage }); }
     if (i.objection && i.objection !== 'none') track('chat_objection', { type: i.objection });
-    if (i.unanswered_topic) track('chat_unanswered', { topic: i.unanswered_topic.slice(0, 60) });
+    // רק העובדה שהיתה שאלה בלי תשובה, בלי הנושא עצמו: תוכן מהשיחה לא נשלח ל-Google
+    if (i.unanswered || i.unanswered_topic) track('chat_unanswered', {});
   }
   function remember(x) { S.shown = (S.shown || []).filter(function (y) { return y !== x; }).concat([x]).slice(-6); save(); }
   // רכיבי הממשק שהשרת אישר. כל אחד עובד באמת: כפתור שולח את התשובה, קישור פותח עמוד, הבריף נפתח בוואטסאפ

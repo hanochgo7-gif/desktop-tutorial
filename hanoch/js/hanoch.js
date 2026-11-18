@@ -2037,6 +2037,9 @@
 
   /* ---------- מקור הגעה: קמפיין (utm) או אתר מפנה. נשמר רק בדפדפן, ונכנס להודעה שהגולש רואה לפני ששולח ---------- */
   (function () {
+    // נשמר רק אחרי אישור עוגיות (ממצא R-19 בביקורת). בלי אישור לא נשמר כלום
+    if (!window.hgConsent) return;
+    window.hgConsent.onGrant(function () {
     try {
       if (sessionStorage.getItem('hg-src')) return;
       var q = new URLSearchParams(location.search), src = q.get('utm_source');
@@ -2044,6 +2047,7 @@
       else if (document.referrer) { var h = new URL(document.referrer).hostname.replace(/^www\./, ''); if (h && h !== location.hostname.replace(/^www\./, '')) src = h; }
       if (src) sessionStorage.setItem('hg-src', src.slice(0, 80));
     } catch (e) { }
+    });
   })();
 
   /* ---------- הפעלה ---------- */

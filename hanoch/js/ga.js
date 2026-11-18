@@ -1,5 +1,5 @@
-/* Google Analytics 4 ו-Google Ads של HG Studio, במצב ההסכמה המתקדם של Google (Consent Mode v2).
-   לפני אישור בהודעת העוגיות (js/consent.js) לא נשמרות עוגיות: Google מקבלת רק אותות אנונימיים, כדי להעריך המרות מפרסום.
+/* Google Analytics 4 ו-Google Ads של HG Studio, במצב ההסכמה הבסיסי של Google (Consent Mode v2, Basic).
+   לפני אישור בהודעת העוגיות (js/consent.js) התג לא נטען ושום דבר לא נשלח ל-Google.
    אחרי לחיצה על "מאשר" נשמרות עוגיות והמדידה מלאה. התאמה אישית של פרסומות (רימרקטינג) כבויה תמיד.
    רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי הפעולה הראשונה של הגולש או חמש שניות אחרי שהעמוד מוצג, כדי לא להאט את האתר.
    מה נמדד:
@@ -19,7 +19,10 @@
   if (!window.hgConsent) return;
   // ההדמיה שמוטמעת בעמוד העבודות (/sim/) לא נספרת כצפייה נפרדת
   try { if (window.top !== window) return; } catch (e) { return; }
-  start();
+  // מצב הסכמה בסיסי (Basic Consent Mode): התג של Google לא נטען בכלל ושום דבר לא נשלח ל-Google עד שהגולש לוחץ "מאשר".
+  // כך פעל האתר מאז 18.11.2026, אחרי הביקורת (ממצא R-07): קודם לכן נשלחו אותות בלי עוגיות עוד לפני הבחירה.
+  // החיסרון: Google Ads לא סופר המרות של מי שלא אישר. לחזרה למצב המתקדם: start() במקום השורה הבאה
+  window.hgConsent.onGrant(start);
 
   function start() {
   window.dataLayer = window.dataLayer || [];

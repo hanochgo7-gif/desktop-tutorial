@@ -477,10 +477,13 @@ video.live.on{ opacity:1; }
 <script src="../js/meta.js" defer></script>
 </head>
 <body class="locked" data-root="../">
+<a class="skip-main" href="#main-a">דילוג לתוכן</a>
+<style>.skip-main{position:fixed;z-index:300;top:12px;right:12px;padding:.6rem 1rem;border-radius:8px;background:#ede8de;color:#0a0a0b;font:500 1rem/1.2 Rubik,system-ui,sans-serif;transform:translateY(-200%)}.skip-main:focus{transform:none;outline:2px solid #ff4f1a;outline-offset:2px}</style>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest(".skip-main");if(!a)return;var s=document.getElementById("skip");if(s&&s.offsetParent!==null)s.click();})</script>
 
 <div id="scrolltrack" aria-hidden="true"></div>
 
-<main>
+<main id="main-a" tabindex="-1">
   <div id="stage" role="region" aria-label="ארכיון העבודות: גררו כדי לסובב, לחצו על עבודה כדי לפתוח אותה">
     <div id="world">
       <div id="orb"></div>
