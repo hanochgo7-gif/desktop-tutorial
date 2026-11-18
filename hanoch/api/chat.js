@@ -18,7 +18,8 @@ const EXTRA = (process.env.HG_EXTRA_ORIGINS || '').split(',').map((s) => s.trim(
 const BASE = /^https:\/\/(www\.)?hgpro\.io$/;
 // localhost רק מחוץ לייצור (פיתוח ובדיקות). בייצור הוא היה מאפשר לכל אחד להריץ עמוד מקומי ולהפעיל את המצפן
 const LOCAL = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-const PROD = process.env.VERCEL_ENV === 'production';
+// על Vercel (ייצור או תצוגה מקדימה) אף פעם לא. רק בהרצה מקומית, בלי משתני הסביבה של Vercel
+const PROD = !!process.env.VERCEL || process.env.VERCEL_ENV === 'production';
 const ALLOWED = { test: (o) => BASE.test(o) || EXTRA.indexOf(o) >= 0 || (!PROD && LOCAL.test(o)) };
 const MAX_TURNS = 24, MAX_CHARS = 1200, MAX_TOTAL = 14000;
 const WA = '972545522053';
@@ -219,7 +220,8 @@ module.exports = async (req, res) => {
   const messages = clean(body && body.messages);
   if (!messages) return res.status(400).json({ error: 'bad_request' });
   if (globalFull()) return res.status(429).json({ error: 'busy' });
-  const page = typeof body.page === 'string' ? body.page.slice(0, 120).replace(/[^\w\/.#-]/g, '') : '';
+  // רק נתיב העמוד, בלי # ובלי פרמטרים: חלק שהגולש או קישור זדוני יכולים לקבוע לא נכנס להנחיות (ממצא R-25)
+  const page = typeof body.page === 'string' ? body.page.split(/[#?]/)[0].slice(0, 120).replace(/[^\w\/.-]/g, '') : '';
 
   // שני שעונים: 15 שניות בלי שום נתון מ-Claude (תקוע), או 27 שניות בסך הכול, מתחת למגבלת 30 השניות של הפונקציה ב-vercel.json.
   // כך הפונקציה מסיימת בעצמה ושולחת סיום מסודר, במקום ש-Vercel יקטע אותה באמצע

@@ -39,8 +39,9 @@
   var path = location.pathname;
   var group = /^\/services\//.test(path) ? 'service' : /^\/blog\//.test(path) ? 'blog' : /^\/go\//.test(path) ? 'handoff'
     : /work|archive/.test(path) ? 'work' : /^\/(index\.html|en\.html)?$/.test(path) ? 'home' : 'other';
-  gtag('config', ID, { content_group: group });
-  if (TAG2) gtag('config', TAG2, { content_group: group });
+  // העוגיות נשמרות רק על hgpro.io עצמו, ולא על תתי־דומיינים של לקוחות (כמו ams.hgpro.io). ממצא R-16 בביקורת
+  gtag('config', ID, { content_group: group, cookie_domain: location.hostname });
+  if (TAG2) gtag('config', TAG2, { content_group: group, cookie_domain: location.hostname });
 
   var loaded = false;
   function load() {

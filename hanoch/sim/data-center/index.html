@@ -1302,5 +1302,7 @@ new ResizeObserver(() => { resize(); measureHud(); }).observe(cv); resize(); mea
 requestAnimationFrame(frame);
 window.__sim = { get tier() { return tier; }, setMode, select, S, camera, controls, flyTo, V, gens, SHOTS, shot(i) { const s = SHOTS[i]; flyTo(V(...s.pos), V(...s.look)); } };
 </script>
+<button type="button" data-consent-open style="position:fixed;bottom:8px;left:8px;z-index:50;font:12px/1.4 system-ui,sans-serif;color:#9aa4b2;background:rgba(0,0,0,.35);border:0;border-radius:6px;padding:6px 10px;cursor:pointer">הגדרות עוגיות</button>
 </body>
+
 </html>

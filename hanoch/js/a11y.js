@@ -60,6 +60,12 @@
     if (mv) { if (fresh) { panel.style.transform = ''; origin(); mv.set({ p: 0 }); } mv.to({ p: 1 }, { damping: 1, response: 0.3 }); }
     panel.querySelector('[data-cls]').focus();
   }
+  // תפריט הנגישות הוא חלון קטן ולא מודאלי: כשהמיקוד יוצא ממנו (Tab מעבר לפריט האחרון), הוא נסגר, כדי שלא יישאר פתוח מעל התוכן
+  panel.addEventListener('focusout', function (e) {
+    if (panel.getAttribute('data-open') !== 'true') return;
+    var to = e.relatedTarget;
+    if (to && !panel.contains(to) && !btn.contains(to)) { panel.setAttribute('data-open', 'false'); btn.setAttribute('aria-expanded', 'false'); }
+  });
   function close() {
     panel.setAttribute('data-open', 'false'); btn.setAttribute('aria-expanded', 'false'); btn.focus();
     var hide = function () { if (panel.getAttribute('data-open') !== 'true') panel.classList.remove('is-shown'); };

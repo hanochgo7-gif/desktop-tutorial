@@ -3,7 +3,7 @@
 # --check: רק בודק שהטביעות ב-vercel.json מעודכנות (יוצא עם שגיאה אם לא). ממצא R-13 בביקורת FORTRESS.
 import re, glob, hashlib, base64, json, sys, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP = ('tools/', 'marketing/', 'node_modules/')
+SKIP = ('tools/', 'marketing/', 'node_modules/', 'home-classic.html')  # כמו .vercelignore: לא עולים לאתר
 GOOGLE_SCRIPT = ['https://www.googletagmanager.com', 'https://www.google-analytics.com', 'https://www.googleadservices.com',
                  'https://googleads.g.doubleclick.net', 'https://*.googlesyndication.com', 'https://tagmanager.google.com']
 # לאן הדפדפן מורשה לשלוח בקשות: האתר עצמו, מסד הפניות (Supabase), וכתובות המדידה של Google בלבד

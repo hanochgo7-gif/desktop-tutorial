@@ -1,0 +1,19 @@
+# בדיקות לאתר hgpro.io בכל דחיפה לענף הייצור: טביעות ה-CSP מעודכנות לסקריפטים המוטמעים, וקוד ה-JS תקין.
+# אם הבדיקה נכשלת, Vercel עדיין פורס, אבל מגיעה התראה מ-GitHub ואפשר לתקן לפני שמשהו נשבר לגולשים.
+name: Site checks (hgpro.io)
+on:
+  push:
+    branches: [claude/determined-curie-2g8rm2]
+    paths: ['hanoch/**', '.github/workflows/site-checks.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: CSP hashes are up to date
+        run: python3 hanoch/tools/csp.py --check
+      - name: JavaScript syntax
+        run: for f in hanoch/js/*.js hanoch/api/*.js; do node --check "$f"; done

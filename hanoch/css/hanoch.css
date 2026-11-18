@@ -2195,7 +2195,7 @@ html[dir="rtl"] .pf-numbers b { text-align: right; }
   .menu-open .hm-dock, .case-open .hm-dock { visibility: hidden; }
   /* כשהפס פתוח היועץ מצטמצם לעיגול, כמו בעמודי השירות, כדי שלא יהיו שלוש שורות של כפתורים */
   html.dock-on .ht-btn { gap: 0; padding: .35rem; }
-  html.dock-on .ht-btn .ht-lbl { display: none; }
+  html.dock-on .ht-btn .ht-lbl { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .hm-dock, .night, .night::after { transition: none; } }
 
