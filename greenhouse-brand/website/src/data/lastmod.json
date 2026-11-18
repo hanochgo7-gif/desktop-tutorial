@@ -13,7 +13,7 @@
  },
  "en/contact": {
   "date": "2026-11-18",
-  "hash": "195a5ef66edf606d"
+  "hash": "931627abc61045d1"
  },
  "en/how-we-build": {
   "date": "2026-11-18",
@@ -21,7 +21,7 @@
  },
  "en/index": {
   "date": "2026-11-18",
-  "hash": "a3524790ec8e5b56"
+  "hash": "4f4f5f23b92ea518"
  },
  "en/net-houses": {
   "date": "2026-11-18",
@@ -37,7 +37,7 @@
  },
  "en/profile": {
   "date": "2026-11-18",
-  "hash": "56c11c8b9f49493a"
+  "hash": "756fb07a07c91f26"
  },
  "en/projects": {
   "date": "2026-11-18",
@@ -45,7 +45,7 @@
  },
  "en/turnkey-farms": {
   "date": "2026-11-18",
-  "hash": "8456ef7941485773"
+  "hash": "a342c3b513d76b20"
  },
  "he/about": {
   "date": "2026-11-17",
@@ -61,7 +61,7 @@
  },
  "he/contact": {
   "date": "2026-11-18",
-  "hash": "ceab1adeffe4a595"
+  "hash": "ddabbef72e523bf0"
  },
  "he/how-we-build": {
   "date": "2026-11-18",
@@ -69,7 +69,7 @@
  },
  "he/index": {
   "date": "2026-11-18",
-  "hash": "00aefcc0c406f94a"
+  "hash": "4a83ac14a8e1a766"
  },
  "he/net-houses": {
   "date": "2026-11-18",
@@ -85,14 +85,14 @@
  },
  "he/profile": {
   "date": "2026-11-18",
-  "hash": "601be1df9e64499e"
+  "hash": "88c11a8c66741105"
  },
  "he/projects": {
   "date": "2026-11-18",
   "hash": "5d47fe46cb0afcec"
  },
  "he/turnkey-farms": {
-  "date": "2026-11-17",
-  "hash": "f631250a34a964df"
+  "date": "2026-11-18",
+  "hash": "30a1a6b604ae7ecc"
  }
 }

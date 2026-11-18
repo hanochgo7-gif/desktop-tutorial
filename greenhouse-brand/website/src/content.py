@@ -49,7 +49,7 @@ FACTS = [  # once, under the home hero
     (("20+", "20+"), ("designing and building agricultural projects since 2003", "מאז 2003 מתכננים ומקימים פרויקטים חקלאיים")),  # 1.6
     (("Millions of m²", "מיליוני מטרים"), ("of agricultural projects and shade solutions around the world", "מיליוני מ\"ר של פרויקטים חקלאיים ופתרונות הצללה בעולם")),  # 3.2
     (("Our plant", "מפעל שלנו"), ("materials processed and manufactured, with quality control before they go out to the field", "עיבוד וייצור החומרים ובקרת איכות לפני היציאה השטח")),  # 1.7
-    (("Countries", "מדינות בעולם"), ("Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece, Africa and Israel", "פורטוגל, ספרד, מקסיקו, הודו, הונדורס, גאורגיה, בלארוס, יוון, אפריקה וישראל")),  # 3.1-3.3
+    (("Countries", "מדינות בעולם"), ("Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece and Israel", "פורטוגל, ספרד, מקסיקו, הודו, הונדורס, גאורגיה, בלארוס, יוון וישראל")),  # 3.1-3.3
 ]
 
 STEPS = [  # OS consult (2.8), one real photo each
@@ -364,8 +364,8 @@ PAGES = {
                    "בתי הרשת, פתרונות ההצללה ושוברי הרוח של חוות מפתח הם אותם מבנים שאנחנו מתכננים, מייצרים ומקימים לחקלאים."),
         "core_go": ("How we build net houses", "איך אנחנו בונים בתי רשת"),
         "where_h": ("Our network", "רשת"),  # Merav #101, word for word (Hanoch, 17 Nov 2026)
-        "where_p": ("Portugal and other European countries, India, Africa and other markets.",
-                    "פורטוגל ומדינות נוספות באירופה, הודו, אפריקה ושווקים נוספים."),  # 4.1, 4.2
+        "where_p": ("Portugal and other European countries, India and other markets.",
+                    "פורטוגל ומדינות נוספות באירופה, הודו ושווקים נוספים."),  # 4.1, 4.2
     },
     "banana-net-houses": {
         "title": ("Banana net houses: 11% net, wide spans | MIFTAH Projects", "בתי רשת לבננות: רשת 11%, מפתחים רחבים | מיפתח פרויקטים"),
@@ -385,8 +385,8 @@ PAGES = {
     },
     "projects": {
         "title": ("Net houses on three continents: our projects | MIFTAH Projects", "בתי רשת בשלוש יבשות: הפרויקטים | מיפתח פרויקטים"),
-        "desc": ("Millions of m² of agricultural projects around the world: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece and Africa, and in Israel: net houses for kiwi, bananas, apples and cherries.",
-                 "מיליוני מ״ר של פרויקטים חקלאיים בעולם: בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס, ביוון ובאפריקה, ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים."),
+        "desc": ("Millions of m² of agricultural projects around the world: Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus and Greece, and in Israel: net houses for kiwi, bananas, apples and cherries.",
+                 "מיליוני מ״ר של פרויקטים חקלאיים בעולם: בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס וביוון, ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים."),
         "h1": ("Net-house projects in Israel and around the world", "פרויקטים של בתי רשת בישראל ובעולם"),
         "lead": ("Net houses on three continents. We design the project and manage the work on site until handover to the client.", "בתי רשת בשלוש יבשות. אנחנו מתכננים את הפרויקט, ומנהלים את הביצוע בשטח עד מסירה ללקוח"),  # 3.2
         "map_h": ("Abroad", "בחו״ל"),
@@ -552,7 +552,7 @@ FAQ = [  # every answer is a ledger fact (numbers in comments)
     (("How is the price set?", "איך נקבע המחיר?"),
      ("Each project and structure is designed carefully to the needs and requirements the client presents, and the quote follows from that.", "כל פרויקט ומבנה מתוכנן בקפידה לפי הצרכים והדרישות שהוצגו על ידי הלקוח והצעת המחיר יוצאת בהתאם לכך.")),  # 2.8, 4.3
     (("Do you work outside Israel?", "אתם עובדים מחוץ לישראל?"),
-     ("Yes. We have worked in Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus, Greece and Africa, and managed complex projects including design, manufacturing and building on site. Abroad, we design the project and manage the work on site.", "כן. עבדנו בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס, ביוון ובאפריקה, וניהלנו פרויקטים מורכבים כולל תכנון, יצור והקמה בשטח. בחו״ל אנחנו מתכננים את הפרויקט ומנהלים את הביצוע בשטח.")),  # 3.2, 3.3
+     ("Yes. We have worked in Portugal, Spain, Mexico, India, Honduras, Georgia, Belarus and Greece, and managed complex projects including design, manufacturing and building on site. Abroad, we design the project and manage the work on site.", "כן. עבדנו בפורטוגל, בספרד, במקסיקו, בהודו, בהונדורס, בגאורגיה, בבלארוס וביוון, וניהלנו פרויקטים מורכבים כולל תכנון, יצור והקמה בשטח. בחו״ל אנחנו מתכננים את הפרויקט ומנהלים את הביצוע בשטח.")),  # 3.2, 3.3
     (("Who delivers a turnkey farm?", "מי מבצע חוות מפתח?"),
      ("MIFTAH, with business partners and growers. Finding, designing and building the project from start to finish, under one roof.", "מיפתח, יחד עם שותפים עסקיים וחקלאים. איתור, תכנון , הקמת הפרויקט מתחילתו ועד סופו תחת קורת גג אחת.")),  # 1.4, q3
     (("Can I talk to one of your clients?", "אפשר לדבר עם לקוח שלכם?"),
