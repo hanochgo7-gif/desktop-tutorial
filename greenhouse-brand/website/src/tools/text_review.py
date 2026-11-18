@@ -199,7 +199,31 @@ ROUND_REPLY = {
 }
 # A new round starts clean (Hanoch, 12 Nov 2026): the link shows the site as it is, with nothing waiting and no answers from
 # the earlier rounds (those stay in docs/reviews and the ledger). Changing ROUND starts another clean round.
-ROUND = "2026-11-15"  # a clean round after her edits of 12 Nov (all live); Hanoch, 15 Nov 2026
+# What is still open and only the owners can give (Hanoch, 18 Nov 2026): the editor shows it as the tab "מה נשאר", one simple field
+# per item, and her answers go into the email she sends from the editor. Photos cannot be uploaded from the editor yet: she marks
+# that she sent them (WhatsApp or email) and says which.
+TODO = [
+    {"k": "roles", "t": "שלושה בעלי תפקידים נוספים לעמוד אודות", "why": "ביקשת להוסיף 3 בעלי תפקידים מתחת ליפתח ולך.",
+     "f": [{"k": "p1", "l": "בעל/ת תפקיד 1: שם ותפקיד"}, {"k": "p2", "l": "בעל/ת תפקיד 2: שם ותפקיד"}, {"k": "p3", "l": "בעל/ת תפקיד 3: שם ותפקיד"},
+           {"k": "ph", "l": "שלחתי תמונות שלהם לחנוך (וואטסאפ או מייל)", "y": "check"}]},
+    {"k": "places", "t": "שמות ישובים ברשימת הפרויקטים בישראל", "why": "את השמות האלה לא הצלחנו לזהות. לאיזה ישוב או מקום הכוונה?",
+     "f": [{"k": n, "l": n} for n in ("עמק", "צבר", "קמה", "יצור", "חוות מתיתיהו", "חוות פיכמן", "מו״פ צפון")]},
+    {"k": "greece", "t": "הפרויקט ביוון", "why": "יוון מופיעה ברשימת המדינות ובגלובוס בתור ״פרויקט חקלאי״. מה בדיוק נעשה שם?",
+     "f": [{"k": "what", "l": "מה עשיתם ביוון (סוג המבנה או הפרויקט, ואם אפשר האזור)", "y": "area"}]},
+    {"k": "photos", "t": "צילומים אמיתיים במקום הדמיות", "why": "שלחי לחנוך בוואטסאפ או במייל, וסמני כאן מה שלחת.",
+     "f": [{"k": "kiwi", "l": "צילום קיווי מברעם", "y": "check"}, {"k": "avocado", "l": "צילום מהפרויקט בפורטוגל (אבוקדו)", "y": "check"},
+           {"k": "plant", "l": "צילום או סרטון מהמפעל", "y": "check"}, {"k": "more", "l": "הערות על הצילומים", "y": "area"}]},
+    {"k": "clients", "t": "לקוחות שאישרו להופיע באתר", "why": "ביקשת להוסיף שמות, המלצות ותמונות מלקוחות. רק אחרי אישור בכתב מהם.",
+     "f": [{"k": "list", "l": "מי אישר, ולמה (שם / המלצה / תמונות). למשל: ברעם, מצובה, חניתה, יחיעם, גשר הזיו, כברי, בית העמק, אלרום, רמת מגשימים", "y": "area"}]},
+    {"k": "music", "t": "מוזיקת רקע לסרטון", "why": "אפשר רק בסרטון שנפתח בלחיצה, ורק עם קטע שיש עליו רישיון שימוש.",
+     "f": [{"k": "m", "l": "קישור לקטע, או ״לא צריך״"}]},
+    {"k": "group", "t": "השם הרשמי של השותפות", "why": "באתר כתוב ״קבוצת מיפתח - גרין״. זה השם הנכון? (כדאי לבדוק עם יפתח)",
+     "f": [{"k": "name", "l": "השם הנכון"}]},
+    {"k": "legal", "t": "פרטים לעמודי הפרטיות והנגישות", "why": "החוק מבקש לציין מי אחראי. בלי זה העמודים לא שלמים.",
+     "f": [{"k": "company", "l": "השם הרשמי של החברה ומספר ח.פ."}, {"k": "a11y", "l": "רכז/ת נגישות: שם, טלפון ומייל"}, {"k": "mail", "l": "מייל לפניות בנושא פרטיות"}]},
+]
+
+ROUND = "2026-11-18"  # a clean round: every request from her six emails is live (Hanoch, 18 Nov 2026); before: "2026-11-15"
 
 
 def reviews(since=None):
@@ -381,7 +405,7 @@ def main():
     got = {} if ROUND else {str(i): [r.get("new"), r.get("note")] for i, r in reviews().items()}  # what reached Hanoch from the owners' emails, also for texts no longer on the site
     if ROUND:
         general = ""
-    data = {"round": ROUND, "site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "got": got, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
+    data = {"round": ROUND, "todo": TODO, "site": SITE, "sentGeneral": general, "vals": vals, "hist": old, "got": got, "groups": [{"id": g, "name": nm, "optional": opt, "url": (f"{SITE}/he/{g}.html" if g not in ("site", "more", "globe", "index") else
                                       f"{SITE}/globe/" if g == "globe" else f"{SITE}/he/")} for g, nm, opt in groups if g in used],
             "items": items}
     OUT.mkdir(exist_ok=True)

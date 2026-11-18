@@ -25,6 +25,7 @@
       s.general = ""; s.addSeq = 0; s.round = D.round; delete s.seenEditor;
       try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
     }
+    s.todo = s.todo || {}; s.todoSent = s.todoSent || {};
     s.items = s.items || {}; s.notes = s.notes || {}; s.general = s.general || ""; s.enotes = s.enotes || {}; s.ed = s.ed || {}; s.adds = s.adds || {}; s.addSeq = s.addSeq || 0;
     return s;
   }
@@ -961,6 +962,7 @@
   $("t-chg").addEventListener("click", function () { TAB = "chg"; renderPanel(); });
   $("t-more").addEventListener("click", function () { TAB = "more"; renderPanel(); });
   $("t-find").addEventListener("click", function () { TAB = "find"; renderPanel(); });
+  $("t-todo").addEventListener("click", function () { TAB = "todo"; renderPanel(); });
   $("b-find").addEventListener("click", function () { if (!$("panel").hidden && TAB === "find") closePanel(); else openFind(""); });
 
   function words(s) { return s.split(/(\s+)/); }
@@ -981,7 +983,7 @@
   function enotes() { return Object.keys(S.enotes).map(function (k) { return Object.assign({ key: k }, S.enotes[k]); }).filter(function (x) { return x.n && x.n.trim() && x.n.trim() !== (x.sentN || ""); }); }
   function pnotes() { var sn = S.sentNotes || {}; return Object.keys(S.notes).filter(function (g) { var x = (S.notes[g] || "").trim(); return x && x !== sn[g]; }); }
   function addsList() { return Object.keys(S.adds).map(function (k) { return S.adds[k]; }).filter(function (a) { return a.text && (a.sentT !== a.text || a.sentType !== a.type || (a.n || "") !== (a.sentN || "")); }).sort(function (x, y) { return x.seq - y.seq; }); }
-  function count() { var n = changes().length + enotes().length + pnotes().length + addsList().length; $("n").textContent = n; var c = conflicts().length; $("b-panel").classList.toggle("warn", !!c); }
+  function count() { var n = changes().length + enotes().length + pnotes().length + addsList().length + todoNew().length; todoBadge(); $("n").textContent = n; var c = conflicts().length; $("b-panel").classList.toggle("warn", !!c); }
   function homePage(it) { return it.g !== "site" && it.g !== "more" && it.g !== "upd" ? it.g : (it.page || "index"); }
   function jump(it) {
     var pg = homePage(it), doit = function () {
@@ -998,8 +1000,8 @@
   }
   function renderPanel() {
     var pb = $("pb"), keep = pb.scrollTop; pb.textContent = "";
-    $("t-chg").setAttribute("aria-selected", TAB === "chg"); $("t-more").setAttribute("aria-selected", TAB === "more"); $("t-find").setAttribute("aria-selected", TAB === "find");
-    if (TAB === "chg") renderChanges(pb); else if (TAB === "find") { renderFind(pb); return; } else renderMore(pb);
+    $("t-chg").setAttribute("aria-selected", TAB === "chg"); $("t-more").setAttribute("aria-selected", TAB === "more"); $("t-find").setAttribute("aria-selected", TAB === "find"); $("t-todo").setAttribute("aria-selected", TAB === "todo");
+    if (TAB === "chg") renderChanges(pb); else if (TAB === "find") { renderFind(pb); return; } else if (TAB === "todo") renderTodo(pb); else renderMore(pb);
     pb.scrollTop = keep;
   }
   function renderChanges(pb) {
@@ -1081,6 +1083,52 @@
     if (edited(it.id)) { var rv = el("button", "rv", "↺ להחזיר לנוסח שבאתר"); rv.type = "button"; rv.addEventListener("click", function () { setItem(it.id, null, noteOf(it.id)); }); f.appendChild(rv); }
     pb.appendChild(f);
   }
+  // ---- what is still open (Hanoch, 18 Nov 2026): one field per item; the answers go into the email ----
+  var TODO = D.todo || [];
+  function tval(t, f) { return S.todo[t.k + "." + f.k]; }
+  function todoDone(t) { return t.f.some(function (f) { var v = tval(t, f); return f.y === "check" ? !!v : !!String(v || "").trim(); }); }
+  function todoOpen() { return TODO.filter(function (t) { return !todoDone(t); }).length; }
+  function todoNew() {  // answers written since the last email
+    var out = [];
+    TODO.forEach(function (t) { t.f.forEach(function (f) { var k = t.k + "." + f.k, v = S.todo[k], sv = S.todoSent[k];
+      var has = f.y === "check" ? !!v : !!String(v || "").trim();
+      if (has && String(v) !== String(sv === undefined ? "" : sv)) out.push({ t: t, f: f, v: v }); }); });
+    return out;
+  }
+  function todoBadge() { var b = $("t-todo"); if (b) b.textContent = "מה נשאר" + (TODO.length ? " (" + todoOpen() + ")" : ""); }
+  function saveQuiet() {  // saves without redrawing the panel, so the field keeps the cursor while she types
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("לא הצלחתי לשמור בדפדפן הזה. כדאי לשלוח לחנוך עכשיו, כדי שלא ילך לאיבוד."); }
+    var sv = $("saved"); sv.classList.add("on"); clearTimeout(tSaved); tSaved = setTimeout(function () { sv.classList.remove("on"); }, 1400);
+    count();
+  }
+  function renderTodo(pb) {
+    if (!TODO.length) { pb.appendChild(el("div", "empty", "אין כרגע פריטים פתוחים.")); return; }
+    var open = todoOpen();
+    pb.appendChild(el("div", "empty", open ? "כל התיקונים שלך כבר באתר ✓ נשארו " + open + " דברים שרק את יכולה לתת. ממלאים כאן, והכול נשמר לבד. בסוף לוחצים \"סיום ושליחה לחנוך\"." : "מילאת הכול ✓ נשאר רק ללחוץ \"סיום ושליחה לחנוך\"."));
+    TODO.forEach(function (t) {
+      var box = el("div", "chg todo" + (todoDone(t) ? " done" : ""));
+      box.appendChild(el("div", "wh", (todoDone(t) ? "✓ " : "") + t.t));
+      if (t.why) box.appendChild(el("p", "muted", t.why));
+      t.f.forEach(function (f) {
+        var k = t.k + "." + f.k, id = "td-" + k.replace(/[^a-z0-9]/gi, "_") + "-" + t.f.indexOf(f);
+        var w = el("div", "fld");
+        if (f.y === "check") {
+          var cb = el("input"); cb.type = "checkbox"; cb.id = id; cb.checked = !!S.todo[k];
+          var lb = el("label", "", f.l); lb.htmlFor = id; lb.style.display = "inline"; lb.style.marginInlineStart = "8px";
+          cb.addEventListener("change", function () { S.todo[k] = cb.checked; saveQuiet(); box.classList.toggle("done", todoDone(t)); });
+          w.append(cb, lb);
+        } else {
+          var l = el("label", "", f.l); l.htmlFor = id;
+          var inp = el(f.y === "area" ? "textarea" : "input"); inp.id = id; if (f.y !== "area") inp.type = "text"; inp.value = S.todo[k] || "";
+          if (f.y !== "area") { inp.style.width = "100%"; inp.style.padding = "8px 10px"; inp.style.border = "1px solid var(--line)"; inp.style.borderRadius = "8px"; inp.style.font = "inherit"; }
+          inp.addEventListener("input", function () { S.todo[k] = inp.value; saveQuiet(); box.classList.toggle("done", todoDone(t)); });
+          w.append(l, inp);
+        }
+        box.appendChild(w);
+      });
+      pb.appendChild(box);
+    });
+  }
   function renderMore(pb) {
     var slug = cur || "index";
     var gn = el("div", "fld"); var gl = el("label", "", "הערה כללית על העמוד \"" + pageName(slug) + "\""); gl.htmlFor = "pnote";
@@ -1139,6 +1187,13 @@
       en.forEach(function (x) { lines.push("(" + pageName(x.page) + ") " + x.what + ": " + x.snip); lines.push("  ↳ " + x.n.trim().replace(/\n/g, " ")); lines.push(""); });
     }
     if (pn.length) { lines.push("==== הערות כלליות לעמודים ===="); pn.forEach(function (g) { lines.push(groupName(g) + ": " + S.notes[g].trim()); }); lines.push(""); }
+    var tn = todoNew();
+    if (tn.length) {
+      lines.push("==== מה שנשאר: התשובות שלי ====");
+      var lastT = "";
+      tn.forEach(function (x) { if (x.t.k !== lastT) { lines.push("[" + x.t.t + "]"); lastT = x.t.k; } lines.push("- " + x.f.l + ": " + (x.f.y === "check" ? "כן ✓" : String(x.v).trim().replace(/\n/g, " "))); });
+      lines.push("");
+    }
     lines.push("(נוצר בעורך האתר. המספרים בסוגריים מזהים כל טקסט.)");
     return lines.join("\n");
   }
@@ -1152,7 +1207,8 @@
     var ch = changes(), st = $("stats"); st.textContent = "";
     [[ch.filter(function (it) { return edited(it.id) || deleted(it.id); }).length + addsList().length, "תיקונים ותוספות"],
      [ch.filter(function (it) { return noteOf(it.id).trim(); }).length + enotes().length + pnotes().length, "הערות"],
-     [new Set(ch.map(function (it) { return it.g; }).concat(enotes().map(function (x) { return x.page; }))).size, "עמודים"]].forEach(function (x) {
+     [new Set(ch.map(function (it) { return it.g; }).concat(enotes().map(function (x) { return x.page; }))).size, "עמודים"],
+     [todoNew().length, "תשובות ב״מה נשאר״"]].forEach(function (x) {
       var s = el("div", "stat"); s.append(el("b", "", String(x[0])), el("span", "", x[1])); st.appendChild(s);
     });
     $("general").value = S.general; $("smsg").hidden = true;
@@ -1169,6 +1225,7 @@
     Object.keys(S.enotes).forEach(function (k) { S.enotes[k].sentN = (S.enotes[k].n || "").trim(); });
     changes().forEach(function (it) { var x = S.items[it.id]; if (x) x.sentD = !!x.d; });
     Object.keys(S.adds).forEach(function (k) { var a = S.adds[k]; a.sentT = a.text; a.sentType = a.type; a.sentN = a.n || ""; });
+    Object.keys(S.todo).forEach(function (k) { S.todoSent[k] = S.todo[k]; });
     save();
   }
   $("s-mail").addEventListener("click", function () {
@@ -1309,7 +1366,7 @@
   // ---- start ----
   function topH() { document.documentElement.style.setProperty("--top", document.querySelector(".top").offsetHeight + "px"); }
   topH(); window.addEventListener("resize", topH);
-  function closeW() { $("welcome").hidden = true; S.seenEditor = 1; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} hint("לוחצים על כל טקסט באתר ומקלידים"); }
+  function closeW() { $("welcome").hidden = true; var firstTime = !S.seenEditor; S.seenEditor = 1; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} hint("לוחצים על כל טקסט באתר ומקלידים"); if (firstTime && TODO.length && todoOpen()) openPanel("todo"); }
   $("start").addEventListener("click", closeW);
   $("b-help").addEventListener("click", function () { $("welcome").hidden = false; $("start").textContent = "חזרה לעריכה"; $("start").focus(); });
   if (S.dev && S.dev !== "desk" && window.innerWidth > 1000) { var db = document.querySelector('[data-dev="' + S.dev + '"]'); if (db) db.click(); }

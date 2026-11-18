@@ -75,6 +75,8 @@ iframe { border: 0; width: 100%; height: 100%; display: block; background: #fff;
 .panel-b h3 { font-size: .95rem; margin: 18px 0 8px; color: var(--forest); }
 .panel-b h3:first-child { margin-top: 0; }
 .muted { color: var(--ink-3); font-size: .9rem; }
+.chg.todo.done { opacity: .78; }
+.chg.todo .wh { font-weight: 700; }
 .empty { background: var(--sage); border-radius: var(--r); padding: 16px; color: var(--ink-2); font-size: .95rem; }
 .chg { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; margin-bottom: 10px; background: #fff; }
 .chg .wh { display: flex; gap: 8px; align-items: center; font-size: .8rem; color: var(--ink-3); margin-bottom: 4px; }
@@ -206,6 +208,7 @@ mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
     <div class="panel-h">
       <div class="tabs" role="tablist">
         <button type="button" role="tab" id="t-chg" aria-selected="true">השינויים שלי</button>
+        <button type="button" role="tab" id="t-todo" aria-selected="false">מה נשאר</button>
         <button type="button" role="tab" id="t-find" aria-selected="false">חיפוש והחלפה</button>
         <button type="button" role="tab" id="t-more" aria-selected="false">עוד בעמוד הזה</button>
       </div>
@@ -220,6 +223,7 @@ mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
     <span class="plate" style="display:inline-flex"><svg class="logo" viewBox="345 232 1222 286" role="img" focusable="false" aria-label="מיפתח פרויקטים"><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></span>
     <h2 id="w-h">שלום מרב,</h2>
     <p class="lead">זה האתר עצמו, כמו שהוא נראה עכשיו באוויר. אפשר לתקן בו כל טקסט ישירות על העמוד, ולראות מיד איך זה ייראה.</p>
+    <p class="lead" style="background:#EAF5EE;border-radius:10px;padding:10px 12px;color:#0E4239"><b>כל התיקונים ששלחת כבר באתר ✓</b> נשארו כמה פרטים שרק את יכולה לתת (בעלי תפקידים, שמות ישובים, צילומים ועוד). הם מחכים בלשונית <b>״מה נשאר״</b>, שתיפתח אחרי שתלחצי להתחיל.</p>
     <ul class="how">
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><div><b>לוחצים על טקסט ומקלידים</b><span>כל טקסט שאפשר לשנות מקבל מסגרת ירוקה כשעוברים עליו. לוחצים, מתקנים, ולוחצים "סיום" או Enter. מה ששונה נצבע בצהוב.</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div><b>מוסיפים כותרות ותוכן חדש</b><span>לוחצים "הוספה" למעלה, מצביעים על המקום (קו ירוק מראה בדיוק איפה), ובוחרים: כותרת, כותרת משנה, פסקה, שורה ברשימה, כפתור, ציטוט או מקום לתמונה. אפשר גם מתוך כל טקסט: "＋ להוסיף אחרי".</span></div></li>
@@ -254,7 +258,7 @@ mark { background: var(--hi); border-radius: 3px; padding: 0 1px; }
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
-<script src="/text-review/data.js?v=ea12cc96"></script>
-<script src="editor.js?v=ea12cc96"></script>
+<script src="/text-review/data.js?v=4c1e3c27"></script>
+<script src="editor.js?v=4c1e3c27"></script>
 </body>
 </html>
