@@ -60,7 +60,7 @@ PROJ = {  # תמונה, שם, תיאור קצר, עוגן בתיק העבודו�
     'elef': ('work/cinema/elef-640.webp', 'אֶלֶף', 'מותג בדיוני לשמן זית: שם, סמל, סרט ואתר', 'Elef', 'A fictional olive oil brand: name, mark, film and site'),
 }
 PROCESS_HE = [('שיחת היכרות', 'מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.'),
-              ('הצעה כתובה', 'מחיר סגור ולוח זמנים. מה שכתוב בה הוא מה שמשלמים.'),
+              ('הצעה כתובה', 'מחיר ולוח זמנים בכתב. מה שכתוב בה הוא מה שמשלמים.'),
               ('עיצוב', 'כיוון עיצובי שנבנה סביב העסק שלכם, לא תבנית מוכנה.'),
               ('פיתוח', 'קוד נקי ומהיר, מותאם לטלפון, לגוגל ולנגישות.'),
               ('עלייה לאוויר', 'דומיין, אחסון מהיר, חיבור לכלים של גוגל ומדידת פניות.'),
@@ -130,7 +130,7 @@ page(slug='online-store', lang='he', name='בניית חנות אינטרנטי�
      lead='חנות אונליין טובה מרגישה כמו מדף מסודר: קל למצוא, קל להבין, וקל לשלם. אני בונה חנויות שמותאמות למוצרים שלכם ולאופן שבו הלקוחות שלכם קונים, עם סליקה ישראלית וחשבוניות אוטומטיות.',
      sections=[('מה יש בחנות', '<ul><li>קטלוג מוצרים עם סינון לפי סוג, מותג או מטרה.</li><li>עגלה, משלוחים, איסוף עצמי וקופונים.</li><li>סליקה באשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם.</li><li>קבלה או חשבונית שנשלחת אוטומטית בכל תשלום.</li><li>ניהול מלאי ומחירים בעצמכם.</li></ul>'),
                ('חנות שמוכרת', '<p>מעבר לעגלה ולתשלום, מה שמוכר הוא הדרך שבה המוצר מוצג: תמונות טובות, הסבר קצר למי זה מתאים, ושאלון קצר שעוזר ללקוח לבחור. בחנות של קליניקת רותם גוטובסקי, למשל, המוצרים עומדים על מדפים כמו בקליניקה, ואפשר לשלוח את הרשימה בוואטסאפ.</p>'),
-               ('תמונות מוצר בלי יום צילום', '<p>אפשר להפיק תמונות מוצר ואווירה ברמת סטודיו בעזרת בינה מלאכותית. ראו <a href="ai-commercial.html">הפקת פרסומת ב-AI</a>.</p>')],
+               ('תמונות מוצר בבינה מלאכותית', '<p>אפשר להפיק תמונות מוצר ואווירה ברמת סטודיו בעזרת בינה מלאכותית. ראו <a href="ai-commercial.html">הפקת פרסומת ב-AI</a>.</p>')],
      examples=['allenbis', 'clinic'],
      faq=[('איזו סליקה אפשר לחבר?', 'אשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם או ספק שנבחר יחד.'),
           ('האם אוכל לנהל את המוצרים לבד?', 'כן. מוסיפים מוצרים, משנים מחירים ומעדכנים מלאי בעצמכם.'),
@@ -187,7 +187,7 @@ page(slug='social-media', lang='he', name='הד: אינסטגרם ופייסבו
      lead='הרבה לקוחות מכירים עסק קודם ברשתות, ורק אחר כך באתר. "הד" הוא ליווי שמקים לכם עמודים מסודרים באינסטגרם ובפייסבוק, ממלא אותם בתוכן שעוצר את הגלילה, ומביא את מי שמתעניין עד לוואטסאפ. מאותן ידיים שבונות את האתרים ומפיקות את הפרסומות.',
      sections=[('מה עושים', '<ul><li>בדיקה ותוכנית: איך העמודים שלכם נראים היום, מה עושים המתחרים, ומה הלקוחות שלכם מחפשים.</li><li>הקמה: ביו, כפתורי וואטסאפ וחיוג, היילייטס עם כריכות, ותבניות עיצוב בשפה של המותג.</li><li>תוכן בכל שבוע: רילס, פוסטים, קרוסלות וסטוריז, עם טקסטים בעברית ובאנגלית לפי הצורך.</li><li>פרסומות AI: סרטים קצרים עם עלילה, דמויות וקריינות, בלי צוות צילום.</li><li>ימי צילום בעסק: תמונות ווידאו אמיתיים של המקום, האנשים והמוצרים.</li><li>פרסום ממומן במטא: קהלים, מודעות, תקציב ומעקב אחרי כל פנייה.</li><li>מענה: תגובות, הודעות, ותשובה אוטומטית שמעבירה פניות לוואטסאפ.</li></ul>'),
                ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%93.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
-               ('מה ההבדל', '<p>מי שבונה את האתר כבר מכיר את העסק, ולא צריך להסביר הכול מחדש. הפרסומות נוצרות בבינה מלאכותית ברמה קולנועית, ולכן אפשר להפיק סרט חדש בכל חודש בלי יום צילום. ובסוף כל חודש מסתכלים על פניות, הודעות ולחיצות לוואטסאפ, ולא רק על לייקים.</p>'),
+               ('מה ההבדל', '<p>מי שבונה את האתר כבר מכיר את העסק, ולא צריך להסביר הכול מחדש. הפרסומות נוצרות בבינה מלאכותית ברמה קולנועית, ולכן אפשר להפיק סרט חדש בכל חודש. ובסוף כל חודש מסתכלים על פניות, הודעות ולחיצות לוואטסאפ, ולא רק על לייקים.</p>'),
                ('חשוב לדעת', '<p>העמודים, החשבונות והתוכן שייכים לכם. כל תוכן עולה רק אחרי שאישרתם אותו. תקציב הפרסום הממומן משולם ישירות לפלטפורמה, בנפרד מהליווי. אי אפשר להבטיח מספר עוקבים, מכירות או פניות, אבל אפשר למדוד כל דבר ולשפר בכל חודש.</p>')],
      examples=[], films=True,
      faq=[('צריך להופיע מול המצלמה?', 'לא חייבים. אפשר לבנות את התוכן מפרסומות AI, מצילומים של המקום והמוצרים ומטקסטים. מי שמוכן להופיע, בונה אמון מהר יותר.'),
@@ -586,8 +586,8 @@ def render(p):
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=3">
-<link rel="stylesheet" href="{up}css/head.css?v=1">
+<link rel="stylesheet" href="{up}css/inner.css?v=4">
+<link rel="stylesheet" href="{up}css/head.css?v=2">
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js?v=4" defer></script>
 <script src="{up}js/adcode.js" defer></script>
@@ -608,7 +608,7 @@ def render(p):
   <h2 id="s-how">{T('איך זה עובד', 'How it works')}</h2>
   {steps_table}
   <h2 id="s-price">{T('איך נקבע המחיר', 'How pricing works')}</h2>
-  <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך' + (': כמה עמודים, אילו מערכות (למשל תורים או חנות), מי כותב את הטקסטים, והאם צריך שפה שנייה' if p['slug'] in WEB_SLUGS else '') + '. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs' + (': how many pages, which systems (bookings or a store, for example), who writes the copy, and whether you need a second language' if p['slug'] in WEB_SLUGS else '') + '. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
+  <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך' + (': כמה עמודים, אילו מערכות (למשל תורים או חנות), מי כותב את הטקסטים, והאם צריך שפה שנייה' if p['slug'] in WEB_SLUGS else '') + '. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs' + (': how many pages, which systems (bookings or a store, for example), who writes the copy, and whether you need a second language' if p['slug'] in WEB_SLUGS else '') + '. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
   {f'<h2 id="s-work">{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>{ex_after}' if ex else ''}
   <h2 id="s-faq">{T('שאלות נפוצות', 'FAQ')}</h2>
   <div class="sv-faq">{faq}</div>
@@ -620,10 +620,10 @@ def render(p):
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
-<script src="{up}js/smooth.js?v=1" defer></script>
+<script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
 <script src="{up}js/clock.js?v=1" defer></script>
-<script src="{up}js/assistant.js?v=2" defer></script>
+<script src="{up}js/assistant.js?v=3" defer></script>
 {CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
 </html>
 '''
@@ -676,8 +676,8 @@ def hub(lang):
 .sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
-<link rel="stylesheet" href="{up}css/inner.css?v=3">
-<link rel="stylesheet" href="{up}css/head.css?v=1">
+<link rel="stylesheet" href="{up}css/inner.css?v=4">
+<link rel="stylesheet" href="{up}css/head.css?v=2">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
 <script src="{up}js/consent.js?v=4" defer></script>
@@ -700,10 +700,10 @@ def hub(lang):
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
-<script src="{up}js/smooth.js?v=1" defer></script>
+<script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
 <script src="{up}js/clock.js?v=1" defer></script>
-<script src="{up}js/assistant.js?v=2" defer></script>
+<script src="{up}js/assistant.js?v=3" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
 </html>
 '''

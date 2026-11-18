@@ -531,34 +531,14 @@
           else pauseVideo(v);
         }, { rootMargin: '100px 0px' }).observe(view);
       }
-      var browser = $('.browser', li), phone = $('.p-phone', li), info = $$('.p-info > *', li);
-      gsap.set(browser, { clipPath: 'inset(100% 0% 0% 0% round 14px)' });
-      gsap.set(img, { scale: 1.2, transformOrigin: '50% 0%' });
-      gsap.set(phone, { autoAlpha: 0, y: 80 });
-      gsap.set(info, { autoAlpha: 0, y: 34 });
+      // חדר העריכה: רק המסך נחשף בניגוב, פעם אחת. הטקסט והטלפון פשוט נמצאים שם (בלי כניסה מדורגת ובלי פרלקסה)
+      var browser = $('.browser', li);
+      gsap.set(browser, { clipPath: 'inset(100% 0% 0% 0%)' });
       gsap.timeline({ scrollTrigger: { trigger: li, start: 'top 80%', once: true } })
-        .to(browser, { clipPath: 'inset(0% 0% 0% 0% round 14px)', duration: 1.4, ease: 'expo.out' })
-        .to(img, { scale: 1, duration: 1.8, ease: 'expo.out', clearProps: 'scale' }, 0)
-        .to(phone, { autoAlpha: 1, y: 0, duration: 1.3, ease: 'expo.out' }, 0.35)
-        .to(info, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07 }, 0.2);
-      gsap.to(phone, { yPercent: -22, ease: 'none', scrollTrigger: { trigger: li, start: 'top bottom', end: 'bottom top', scrub: true } });
+        .to(browser, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.5, ease: 'power3.inOut', clearProps: 'clipPath' });
     });
 
-    if (!motion || !$('.projects')) return;
-    // הטיה לפי מהירות הגלילה
-    var skew = { v: 0 };
-    var set = gsap.quickSetter('.p-media', 'skewY', 'deg');
-    var lim = gsap.utils.clamp(-4, 4);
-    ScrollTrigger.create({
-      trigger: '.projects', start: 'top bottom', end: 'bottom top',
-      onUpdate: function (s) {
-        var v = lim(s.getVelocity() / -380);
-        if (Math.abs(v) > Math.abs(skew.v)) {
-          skew.v = v;
-          gsap.to(skew, { v: 0, duration: 0.9, ease: 'power3', overwrite: true, onUpdate: function () { set(skew.v); } });
-        }
-      }
-    });
+    // ההטיה לפי מהירות הגלילה הוסרה (חדר העריכה: תנועה רק כשהיא עונה לפעולה של המבקר)
   }
 
   /* ---------- סיפור פרויקט ---------- */

@@ -1,11 +1,11 @@
 {
  "/": {
   "d": "2026-11-18",
-  "h": "451cf04da6852e1401bff44c0245e1b783f549eb"
+  "h": "71707103f6cf4b5e8d63d0ec4b604af7511051fd"
  },
  "/accessibility.html": {
   "d": "2026-11-18",
-  "h": "4366dbe004c4a8598139eed87ff1fd4e3a3bb54a"
+  "h": "2bc6a698cc741f3e7af89d012195df8aea737656"
  },
  "/archive/": {
   "d": "2026-11-18",
@@ -20,8 +20,8 @@
   "h": "b08954874c7b2229ec85a52b36752c0df0c94c33"
  },
  "/blog/ai-video-ad-for-business.html": {
-  "d": "2026-11-15",
-  "h": "ba9fea2d81f89058ce101389256140e04496a178"
+  "d": "2026-11-18",
+  "h": "43750a04bad4b67f33d8a4631c55c25d0a155b95"
  },
  "/blog/google-business-profile.html": {
   "d": "2026-11-09",
@@ -61,19 +61,19 @@
  },
  "/en-accessibility.html": {
   "d": "2026-11-18",
-  "h": "1f5e1227b4801930256bf9c1ee312f5cdd1244cd"
+  "h": "856aeaa0487da60ece7e17277e8f75a0e138601d"
  },
  "/en-privacy.html": {
   "d": "2026-11-18",
-  "h": "2064216939e55d9f28e2e33e17c950cfdc831680"
+  "h": "4d4f413ecd7daa602c38773ecf8f49c42a058a86"
  },
  "/en-refunds.html": {
   "d": "2026-11-18",
-  "h": "a6c1200477601de7f6adbbd32295d9aacf0d3de9"
+  "h": "ad3eb055b31b4238ac4ef489505e4aebb97b8e46"
  },
  "/en-terms.html": {
   "d": "2026-11-18",
-  "h": "06ca545216eb7ceec7090abfb7f3131c6a9b3eab"
+  "h": "d9ee7f61c831fdf701a74e47524c227d5682dd15"
  },
  "/en-work.html": {
   "d": "2026-11-09",
@@ -89,7 +89,7 @@
  },
  "/privacy.html": {
   "d": "2026-11-18",
-  "h": "dd8de313c9b4866e7c86ec9695ad4b6c70a35c97"
+  "h": "e366d7699466710da925d72f13ce744a0475a36d"
  },
  "/refer.html": {
   "d": "2026-11-09",
@@ -97,7 +97,7 @@
  },
  "/refunds.html": {
   "d": "2026-11-18",
-  "h": "eb340df4a1e766bc09eccc3f32ecd5abb1d664de"
+  "h": "aa1b1a18fbb1dd40d0f3fddcbbd9c1e35e648e7a"
  },
  "/services/": {
   "d": "2026-11-18",
@@ -105,15 +105,15 @@
  },
  "/services/ai-chatbot.html": {
   "d": "2026-11-18",
-  "h": "8a13908c26fe47c0c02e74ef3263c0bf7e768ddd"
+  "h": "703dc451c0c8a87ff3ff0c3c64dcd2e19400fb76"
  },
  "/services/ai-commercial.html": {
   "d": "2026-11-18",
-  "h": "19ce0959eb6b1cf3f720d8cda5cb895ad5cb86e9"
+  "h": "b0120bedf998a0e903a4f941690e73130fcaf06b"
  },
  "/services/brand-identity.html": {
   "d": "2026-11-18",
-  "h": "bdcdce5a2e1d16d783fccca155c2bac906aadca5"
+  "h": "cca0a654f7a46ccc2be93d495c0ee218fa318978"
  },
  "/services/en/": {
   "d": "2026-11-18",
@@ -161,38 +161,38 @@
  },
  "/services/landing-page.html": {
   "d": "2026-11-18",
-  "h": "2aaac12a7f218bbaf56688b616462fedd67ff456"
+  "h": "fbf976a03914b5717ddd9ddae62f54a5c2556416"
  },
  "/services/online-store.html": {
   "d": "2026-11-18",
-  "h": "c9712d51d9794bed99c66a094c5cbed05d8c798d"
+  "h": "62a7ff32e244cfb5c3edc7b8dc7467ef1e6c11be"
  },
  "/services/seo.html": {
   "d": "2026-11-18",
-  "h": "a93512cf23d6390bbc171035963ae4dfed97a31e"
+  "h": "1468380a6dffbb153de40656e6860b1c7cb53449"
  },
  "/services/social-media.html": {
   "d": "2026-11-18",
-  "h": "8718b8c2a819c246b9ca28845e82139ee25ff866"
+  "h": "6c14975b112d3f7357a3d7d273caa60fd2f36a25"
  },
  "/services/web-design.html": {
   "d": "2026-11-18",
-  "h": "1bda87595567a81a0f240d0cdad6cc6aab91420d"
+  "h": "8fc10aef2fe14c339deab1565a4f45f0a75b0dca"
  },
  "/services/website-building.html": {
   "d": "2026-11-18",
-  "h": "f4d779706df8cbe41dbfa02161ffd31220ddf6f2"
+  "h": "2427580c46df354e1fd2bc47f85e381151419bdf"
  },
  "/services/wix-migration.html": {
   "d": "2026-11-18",
-  "h": "abc2dd3b2e9480a2253ade72792f51b868d0f0fa"
+  "h": "dc1f77141c61ed8933f3e530e694db9d6edbff1e"
  },
  "/terms.html": {
   "d": "2026-11-18",
-  "h": "7cfaf70c6a18456f081a8c381086f207bfd2e749"
+  "h": "6059e4934ab9e00131190afcd1617145f3314e1c"
  },
  "/work.html": {
   "d": "2026-11-18",
-  "h": "68e2cae7a302e8cc29d8b9ced03f2459821abf1d"
+  "h": "f9f7908f74c8b0dfde8d6d75cfe72dbc8b89fae8"
  }
 }

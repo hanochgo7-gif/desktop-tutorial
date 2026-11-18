@@ -2359,11 +2359,11 @@ html.jr-on .jr { opacity: 1; pointer-events: auto; }
 /* מספרי הפרקים הענקיים ברקע ומסלול הנקודות 01/08 בצד: קישוט, לא רצף שהקורא צריך. הכרזת הפרק (פס כתובית) נשארת */
 .page-work .jr-num, .page-work .jr { display: none !important; }
 .page-work .bar { background: rgba(5, 5, 6, .96); backdrop-filter: none; -webkit-backdrop-filter: none; }
-.page-work .bar .clock { display: flex; align-items: baseline; gap: .45em; margin: 0; font: 400 .8rem/1 var(--f-body); color: var(--fg-dim); white-space: nowrap; }
-.page-work .bar .clock time { font: 500 .82rem/1 var(--f-mono); letter-spacing: .04em; color: var(--fg); font-variant-numeric: tabular-nums; }
-.page-work .bar .clock:has(time:empty) { visibility: hidden; }
+.bar .clock { display: flex; align-items: baseline; gap: .45em; margin: 0; font: 400 .8rem/1 var(--f-body); color: var(--fg-dim); white-space: nowrap; }
+.bar .clock time { font: 500 .82rem/1 var(--f-mono); letter-spacing: .04em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.bar .clock:has(time:empty) { visibility: hidden; }
 .page-work .bar-cta { background: #ede8de; color: #0a0a0b !important; border: 0; font-family: var(--f-body); font-weight: 600; }
-@media (max-width: 760px) { .page-work .bar .clock { display: none; } }
+@media (max-width: 760px) { .bar .clock { display: none; } }
 .page-work .jr-b-k { display: none; }
 .page-work .film-play-i, .page-work .tour-play, .page-work .demo-play { border-radius: 2px !important; }
 .page-work .foot-sv { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1.2rem; }
@@ -2372,3 +2372,11 @@ html.jr-on .jr { opacity: 1; pointer-events: auto; }
 .page-work .contact-actions .btn-line { border: 0; background: none; min-height: 44px; padding-inline: .2rem; text-decoration: underline; text-underline-offset: .3em; }
 .page-work .contact-direct a, .page-work .contact-direct button { border: 0 !important; background: none !important; min-height: 44px; padding-inline: .2rem !important; text-decoration: underline; text-underline-offset: .3em; }
 .page-work .contact-direct a[href*="wa.me"] { display: none; }
+
+html { scrollbar-gutter: stable; }
+/* סבב 3: בלי זוהר מאחורי החפצים, בלי נקודות "רמזור" בדפדפן המדומה, ובלי נקודות כתומות ברשימת לפני/אחרי */
+.page-work .p-relic, .page-work .p-relic::after, .gallery-on .page-work .p-relic, .gallery-on .page-work .p-relic::after { background: none !important; }
+.page-work .case-relic { background: #07080a !important; box-shadow: inset 0 0 0 1px rgba(237, 232, 222, .16) !important; }
+.page-work .browser-bar i { display: none; }
+.page-work .browser-bar { justify-content: center; }
+.page-work .ba-points li::before { top: .8em; width: .7rem; height: 1px; border-radius: 0; background: rgba(237, 232, 222, .5); }

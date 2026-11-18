@@ -2,6 +2,7 @@
 # מריצים: python3 tools/legal.py  (כותב לשורש האתר את privacy/terms/refunds + en-*)
 # לא ייעוץ משפטי. טיוטה לבדיקה של עורך דין ישראלי, לא נוסח מאושר.
 import os
+from header import header
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPDATED = {'he': '18 בנובמבר 2026', 'en': 'November 18, 2026'}
@@ -72,6 +73,7 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/hanoch.css">
 {STYLE}
+<link rel="stylesheet" href="css/head.css?v=2">
 <script src="js/consent.js?v=4" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
@@ -79,8 +81,8 @@ def page(lang, file, other, title, desc, h1, body):
 </head>
 <body>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
+{header('', 'https://wa.me/972545522053', '', he)}
 <main class="doc" id="main">
-  <a class="back" href="{T('./', 'en.html')}">{T('→ חזרה לאתר', '← Back to the site')}</a>
   <h1>{h1}</h1>
 {body}
   <p class="updated">{T('עודכן לאחרונה', 'Last updated')}: {UPDATED_FILE.get(file, UPDATED[lang])} · <a href="{other}" hreflang="{'en' if he else 'he'}" lang="{'en' if he else 'he'}">{T('English', 'עברית')}</a></p>
@@ -88,7 +90,8 @@ def page(lang, file, other, title, desc, h1, body):
 {foot(he, file)}
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/assistant.js?v=2" defer></script>
+<script src="js/clock.js?v=1" defer></script>
+<script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>
 '''

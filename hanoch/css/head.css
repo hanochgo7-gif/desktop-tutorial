@@ -33,3 +33,4 @@
   .top .top-wa { display: inline-flex; }
   .top .menu { display: none; }
 }
+html { scrollbar-gutter: stable; }

@@ -173,8 +173,8 @@ def head(title, desc, url, img, extra=''):
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
-<link rel="stylesheet" href="../css/inner.css?v=3">
-<link rel="stylesheet" href="../css/head.css?v=1">
+<link rel="stylesheet" href="../css/inner.css?v=4">
+<link rel="stylesheet" href="../css/head.css?v=2">
 {extra}
 <script src="../js/consent.js?v=4" defer></script>
 <script src="../js/adcode.js" defer></script>
@@ -193,8 +193,8 @@ FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="{WA_BLOG}" tar
 <script src="../js/a11y.js" defer></script>
 <script src="../js/clock.js?v=1" defer></script>
 <script src="../js/vendor/lenis.min.js" defer></script>
-<script src="../js/smooth.js?v=1" defer></script>
-<script src="../js/assistant.js?v=2" defer></script>
+<script src="../js/smooth.js?v=2" defer></script>
+<script src="../js/assistant.js?v=3" defer></script>
 </body>
 </html>
 '''

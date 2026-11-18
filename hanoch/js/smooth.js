@@ -27,3 +27,21 @@
     el.focus({ preventScroll: true });
   });
 })();
+
+/* רשימת הסצנות בעמודי השירות (.sv-aside): הסצנה שעל המסך מסומנת בפס הטאלי, עם aria-current */
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.sv-aside a[href^="#"]'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var map = new Map();
+  links.forEach(function (a) { var h = document.getElementById(a.getAttribute('href').slice(1)); if (h) map.set(h, a); });
+  var on = null;
+  function set(a) {
+    if (a === on) return;
+    if (on) on.removeAttribute('aria-current');
+    on = a; if (a) a.setAttribute('aria-current', 'true');
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) set(map.get(e.target)); });
+  }, { rootMargin: '-20% 0px -65% 0px' });
+  map.forEach(function (a, h) { io.observe(h); });
+})();

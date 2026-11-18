@@ -189,3 +189,4 @@ body { background: var(--ink, #0a0a0b); }
 /* אותם שוליים כמו בכותרת ובדף הבית */
 .sv, .sv-foot { width: auto; max-width: none; margin-inline: 0; padding-inline: max(20px, 5vw); box-sizing: border-box; }
 .sv h2[id] { scroll-margin-top: 88px; }
+@media (min-width: 1100px) { .sv-aside ol a[aria-current] { color: var(--paper); border-inline-start-color: var(--signal); } }

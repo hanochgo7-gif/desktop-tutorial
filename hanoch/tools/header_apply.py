@@ -1,14 +1,30 @@
-# מעדכן את הכותרת העליונה בדף הבית ובגלריה מ-tools/header.py (שאר העמודים נבנים ב-seo_pages.py וב-blog.py).
+# מעדכן את הכותרת העליונה מ-tools/header.py בעמודים שלא נבנים בכלים אחרים
+# (שירותים: seo_pages.py, מאמרים: blog.py, פרטיות/תנאים/ביטולים: legal.py).
+# עמוד שכבר יש בו <header class="top"> מתעדכן. עמוד בלי כותרת כזו מקבל אותה אחרי קישור הדילוג, יחד עם css/head.css ו-js/clock.js.
 # מריצים אחרי כל שינוי ב-header.py:  python3 tools/header_apply.py
 import os, re
 from header import header
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = [('index.html', '', ''), ('gallery/index.html', '/', 'gallery/')]
-for path, up, current in PAGES:
+WA = 'https://wa.me/972545522053'
+# (קובץ, קידומת לשורש, קישור מסומן, עברית?, נתיב לקבצי css/js)
+PAGES = [('index.html', '', '', True, '/'), ('gallery/index.html', '/', 'gallery/', True, '/'),
+         ('accessibility.html', '', '', True, ''), ('en-accessibility.html', '', '', False, ''), ('404.html', '/', '', True, '/')]
+for path, up, current, he, asset in PAGES:
     f = os.path.join(ROOT, path)
     s = open(f, encoding='utf-8').read()
     m = re.search(r'<header class="top" id="top">.*?\n</header>', s, re.S)
-    wa = re.search(r'class="[^"]*top-wa[^"]*" href="([^"]+)"', m.group(0)).group(1).replace('&amp;', '&')
-    s = s[:m.start()] + header(up, wa, current) + s[m.end():]
+    if m:
+        wa = re.search(r'class="[^"]*top-wa[^"]*" href="([^"]+)"', m.group(0)).group(1).replace('&amp;', '&')
+        s = s[:m.start()] + header(up, wa, current, he) + s[m.end():]
+    else:
+        # כותרת חדשה: אחרי קישור הדילוג (או בתחילת body), וקישור "חזרה לאתר" עם החץ כבר לא צריך
+        h = header(up, WA, current, he)
+        m2 = re.search(r'<a class="skip"[^>]*>[^<]*</a>\n', s) or re.search(r'<body[^>]*>\n', s)
+        s = s[:m2.end()] + h + '\n' + s[m2.end():]
+        s = re.sub(r'\n\s*<a class="back" href="[^"]*">[^<]*</a>', '', s)
+        if 'head.css' not in s:
+            s = re.sub(r'(<link rel="stylesheet" href="[^"]*hanoch\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="' + asset + 'css/head.css?v=2">', s, 1)
+        if 'clock.js' not in s:
+            s = re.sub(r'(<script src="[^"]*a11y\.js"[^>]*></script>)', r'\1\n<script src="' + asset + 'js/clock.js?v=1" defer></script>', s, 1)
     open(f, 'w', encoding='utf-8').write(s)
     print('header:', path)

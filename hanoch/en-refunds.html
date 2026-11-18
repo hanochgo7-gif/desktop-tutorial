@@ -35,6 +35,7 @@
   .doc-foot a { color: var(--fg-dim); display: inline-flex; align-items: center; min-height: 44px; }
   .doc-foot a:hover, .doc-foot a[aria-current] { color: #ede8de; }
 </style>
+<link rel="stylesheet" href="css/head.css?v=2">
 <script src="js/consent.js?v=4" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
@@ -42,8 +43,14 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<header class="top" id="top">
+  <a class="logo" href="en.html" aria-label="HG Studio, home">HG<b>·</b>STUDIO</a>
+  <p class="clock" aria-hidden="true"><span>Israel</span> <time data-clock></time></p>
+  <nav class="nav" aria-label="Main"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a href="/" lang="he" hreflang="he">עברית</a></nav>
+  <a class="top-wa" href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a>
+  <details class="menu"><summary aria-label="Menu"><span></span><span></span><span></span></summary><div class="menu-sheet"><a href="archive/en.html">Work</a><a href="services/en/">Services</a><a href="/" lang="he" hreflang="he">עברית</a><a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a></div></details>
+</header>
 <main class="doc" id="main">
-  <a class="back" href="en.html">← Back to the site</a>
   <h1>Cancellations and refunds</h1>
   <p class="lead">Nothing is bought or paid for on the site. Every project starts with a written proposal, and sometimes an agreement, and nothing is charged before you approve them. This page explains how to cancel and what you are entitled to.</p>
 
@@ -72,6 +79,7 @@
 <nav class="doc-foot" aria-label="Legal"><a href="en-privacy.html">Privacy policy</a><a href="en-terms.html">Terms of use</a><a href="en-refunds.html" aria-current="page">Cancellations & refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="en-accessibility.html">Accessibility statement</a><a href="en.html">Home</a></nav>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/assistant.js?v=2" defer></script>
+<script src="js/clock.js?v=1" defer></script>
+<script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>

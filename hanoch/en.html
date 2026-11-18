@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/g/geist-mono-latin-b291d8.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/handjet-ascii.woff2" crossorigin>
 <link rel="stylesheet" href="css/fonts.css">
-<link rel="stylesheet" href="css/hanoch.css">
+<link rel="stylesheet" href="css/hanoch.css?v=4">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ProfessionalService", "url": "https://hgpro.io/en.html", "image": "https://hgpro.io/work/og-home.jpg", "name": "HG Studio", "alternateName": ["HGPRO", "Hanoch Gutovski"], "description": "Custom website design and development: design, code and motion. Fast, accessible, mobile-first sites, live within two weeks.", "inLanguage": "en", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "areaServed": {"@type": "Country", "name": "Israel"}, "founder": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "Hanoch Gutovski", "alternateName": "חנוך גוטובסקי", "jobTitle": "Web designer and developer", "url": "https://hgpro.io/"}, "makesOffer": [{"@type": "Offer", "name": "Presence"}, {"@type": "Offer", "name": "Business"}, {"@type": "Offer", "name": "Signature"}], "@id": "https://hgpro.io/#business", "logo": "https://hgpro.io/images/icon-512.png", "knowsAbout": ["בניית אתרים", "עיצוב אתרים", "קידום אתרים", "SEO", "UX", "תלת־ממד", "בינה מלאכותית", "Web design", "Web development"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Add-on systems", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Personalized AI film platform"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "E-commerce platform", "url": "https://hgpro.io/services/en/ecommerce-store.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Secure payments"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automated invoicing"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Quote engine"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Online booking system"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Client & learning portal"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "CRM & integrations"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business dashboard"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI commercial production", "url": "https://hgpro.io/services/en/ai-commercial-production.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI customer concierge", "url": "https://hgpro.io/services/en/ai-customer-agent.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI visual studio"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "3D product showcase"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Interactive simulation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Search engine optimization", "url": "https://hgpro.io/services/en/seo-services.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tracking & campaign setup"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Content hub & blog"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Email marketing automation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brand identity", "url": "https://hgpro.io/services/en/brand-identity-design.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Marketing copywriting"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Multilingual website"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Wix / WordPress migration", "url": "https://hgpro.io/services/en/wix-wordpress-migration.html"}}]}}, {"@context": "https://schema.org", "@type": "WebSite", "@id": "https://hgpro.io/#website", "url": "https://hgpro.io/", "name": "HG Studio", "alternateName": "HGPRO", "inLanguage": ["he-IL", "en"], "publisher": {"@id": "https://hgpro.io/#business"}}]</script>
 <script type="importmap">{"imports":{"three":"./js/vendor/three-0.169.0/three.module.min.js"}}</script>
 <script>
@@ -65,6 +65,7 @@
 
 <header class="bar">
   <a class="bar-mark" href="#top" aria-label="HG·STUDIO, back to top">HG<span>·</span>STUDIO</a>
+  <p class="clock" aria-hidden="true"><span>Israel</span> <time data-clock></time></p>
   <nav class="bar-nav" aria-label="Main">
     <a href="archive/en.html">Work</a>
     <a href="#anigibor">Ani Gibor</a>
@@ -598,13 +599,14 @@
 <script src="js/vendor/gsap-3.15.0/DrawSVGPlugin.min.js" defer></script>
 <script src="js/vendor/gsap-3.15.0/ScrambleTextPlugin.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
-<script src="js/hanoch.js?v=2" defer></script>
+<script src="js/hanoch.js?v=3" defer></script>
 <script src="js/night.js" defer></script>
 <script src="js/welcome.js" defer></script>
 <script src="js/journey.js?v=2" defer></script>
 <script src="js/systems.js" defer></script>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/assistant.js?v=2" defer></script>
+<script src="js/clock.js?v=1" defer></script>
+<script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>
