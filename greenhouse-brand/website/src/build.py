@@ -247,11 +247,11 @@ def jsonld(slug, L, crumbs):
         "url": DOMAIN + "/", "logo": f"{DOMAIN}/assets/favicon-512.png", "telephone": "+972-4-985-4404",
         "slogan": tm(C.SITE["slogan"], L),
         "address": {"@type": "PostalAddress", "addressLocality": "Kfar Masaryk", "addressCountry": "IL"},
-        "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"],
+        "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY", "GR"],
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Shade solutions for work areas", "Windbreaks", "Turnkey farms"],
         "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "CEO"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Owner and Chairman"}],
         "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
-        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "hoursAvailable": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "08:00", "closes": "16:00"}, "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
+        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "hoursAvailable": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "08:00", "closes": "16:00"}, "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY", "GR"]},
     }
     graph = [org, {"@type": "WebSite", "@id": f"{DOMAIN}/#site", "url": DOMAIN + "/", "name": "MIFTAH Projects", "inLanguage": ["en", "he"], "publisher": {"@id": f"{DOMAIN}/#org"}},
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
@@ -675,7 +675,7 @@ def p_net(L):
 # Which side of the screen each chapter's card sits on (wide screens), so it never covers the people in that picture
 # (Merav, 16 Nov 2026). Physical sides, the same in Hebrew and English; set from where the people stand in media-src/sim-real/chNN.png.
 SIM_SIDE = {1: "left", 2: "left", 3: "left", 4: "left", 5: "right", 6: "left", 7: "center", 11: "right"}  # 8-10: no people, the default side
-SIM_PHONE_TOP = {6, 7}  # phones: the card sits at the top in these chapters, where the people are low in the picture
+SIM_PHONE_TOP = set()  # phones: the card sits at the top in these chapters, where the people are low in the picture
 
 
 def p_sim(L):
@@ -1151,10 +1151,10 @@ def globe_page():
                      ("A decade of work with Bar'am Orchard", "The client is willing to give a reference")):
         assert old in js, old
         js = js.replace(old, new)
-    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
+    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
                      ('d: "4 פרויקטים בגליל ובגולן"', 'd: "פרויקטים נבחרים בישראל"'), ('d: "4 projects in the Galilee and the Golan"', 'd: "Selected projects in Israel"'),
                      ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
-                      "ישראל ומדינות בעולם. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע."),
+                      "ישראל ומדינות בעולם. בחו״ל אנחנו מאתרים את השטח מתכננים את הפרויקט, ודואגים לביצוע בשטח."),
                      ("From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
                       "Israel and countries around the world. Abroad, we plan the work, train local crews and manage the build."),
                      # opened without ?lang and without a saved choice: the browser's language (Hebrew browsers get Hebrew)
@@ -1212,7 +1212,8 @@ def globe_page():
     stat = '      <div><b class="num">410,000</b><span id="s1">מ״ר של בתי רשת בחו״ל, ב-5 מדינות</span></div>\n'
     assert stat in page; page = page.replace(stat, "").replace(".stats { display: grid; grid-template-columns: repeat(3,", ".stats { display: grid; grid-template-columns: repeat(2,")
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
-    page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית")
+    page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים חקלאות שיש לה בית")
+    page = page.replace("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.", "ישראל ומדינות בעולם. בחו״ל אנחנו מאתרים את השטח מתכננים את הפרויקט, ודואגים לביצוע בשטח.")  # the text before the script runs (review team, 18 Nov 2026)
     page = page.replace("#flybadge.real {", "#flybadge:empty { display: none; }\n  #flybadge.real {", 1)
     page = page.replace('<button class="lang" id="lang" type="button" lang="en">English</button>',
                         '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a>', 1)

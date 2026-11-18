@@ -1463,3 +1463,14 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
   .page-head.has-img::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .3) 30%, rgba(8, 30, 26, .66) 62%, rgba(8, 30, 26, .9) 100%); }
 }
 .page-head.has-img h1, .page-head.has-img .lead, .page-head.has-img .small, .page-head.has-img p { text-shadow: 0 1px 3px rgba(4, 24, 20, .55), 0 2px 18px rgba(4, 24, 20, .45); }
+
+/* Phones (review team, 18 Nov 2026): the picture fills the top of the screen and the step's card sits below it, on the page colour,
+   so a card never covers the people in the picture */
+@media (max-width: 760px) and (orientation: portrait) {
+  .sim.photo .sim-stage { background: #0E4239; }
+  .sim-ph { inset: 0 0 40% 0; }
+  .sim-ph img { position: static !important; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 50% 78%; }
+  .sim-ch { align-items: flex-end; padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .sim-card { max-height: calc(40svh - 24px); overflow: auto; }
+}
+@media (max-width: 760px) and (orientation: portrait) { .sim-ph .ph:nth-child(11) img { object-position: 50% 30%; } }  /* step 11: the faces and the handshake */

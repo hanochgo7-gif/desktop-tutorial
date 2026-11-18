@@ -906,7 +906,6 @@ GALLERY = {
         ]),
         (("Under the net", "מתחת לרשת"), [  # stills from the Drive folder "סטילס מצלמה", Hanoch 12 Nov 2026
             ("s089", ("Net strips meeting over the rows, from below", "רצועות הרשת נפגשות מעל השורות, מבט מלמטה")),
-            ("s013", ("An orchard alley under two net strips", "מעבר במטע מתחת לשתי רצועות רשת")),
             ("s117", ("The ridge line between two strips", "קו הרכס בין שתי רצועות")),
             ("s095", ("A young orchard under the net", "מטע צעיר מתחת לרשת")),
             ("s001", ("A wide view under the net", "מבט רחב מתחת לרשת")),
@@ -953,7 +952,6 @@ GALLERY = {
             ("s148", ("A net house along a dirt road", "בית רשת לאורך דרך עפר")),
             ("s150", ("The front of a net house, from the road", "חזית בית רשת, מבט מהדרך")),
             ("s153", ("A white net house in the landscape", "בית רשת לבן בנוף")),
-            ("s189", ("A net house beside a country road", "בית רשת ליד דרך כפרית")),
         ]),
     ],
 }

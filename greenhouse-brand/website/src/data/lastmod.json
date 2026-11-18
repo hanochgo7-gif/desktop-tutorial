@@ -16,16 +16,16 @@
   "hash": "195a5ef66edf606d"
  },
  "en/how-we-build": {
-  "date": "2026-11-17",
-  "hash": "6ef4efe1b6cf09bb"
+  "date": "2026-11-18",
+  "hash": "47b0a63384e3754b"
  },
  "en/index": {
   "date": "2026-11-18",
-  "hash": "c203e14076cefe95"
+  "hash": "a3524790ec8e5b56"
  },
  "en/net-houses": {
   "date": "2026-11-18",
-  "hash": "148e4f766e917c0e"
+  "hash": "0eddba2bd3c1332e"
  },
  "en/orchard-hail-nets": {
   "date": "2026-11-17",
@@ -41,7 +41,7 @@
  },
  "en/projects": {
   "date": "2026-11-18",
-  "hash": "010f4e34dfcf10ea"
+  "hash": "4e9ec753ef10fa8f"
  },
  "en/turnkey-farms": {
   "date": "2026-11-18",
@@ -64,16 +64,16 @@
   "hash": "ceab1adeffe4a595"
  },
  "he/how-we-build": {
-  "date": "2026-11-17",
-  "hash": "eaba1cea50c511df"
+  "date": "2026-11-18",
+  "hash": "3f712822736c964f"
  },
  "he/index": {
   "date": "2026-11-18",
-  "hash": "05acbf22762fa189"
+  "hash": "00aefcc0c406f94a"
  },
  "he/net-houses": {
-  "date": "2026-11-17",
-  "hash": "07a1671fb998a49a"
+  "date": "2026-11-18",
+  "hash": "e08db6689d979069"
  },
  "he/orchard-hail-nets": {
   "date": "2026-11-17",
@@ -88,8 +88,8 @@
   "hash": "601be1df9e64499e"
  },
  "he/projects": {
-  "date": "2026-11-17",
-  "hash": "01c59851c5dac487"
+  "date": "2026-11-18",
+  "hash": "5d47fe46cb0afcec"
  },
  "he/turnkey-farms": {
   "date": "2026-11-17",
