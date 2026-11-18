@@ -218,7 +218,6 @@ FEATURED = [  # Q q14: the five projects the owners want shown. Regions only unt
     (("Kiwi", "קיווי"), ("Upper Galilee area", "באזור הגליל העליון"), ("Net house with a pergola trellis", "בית רשת עם הדליית סוכה")),
     (("Bananas", "בננות"), ("Western Galilee area", "באזור הגליל המערבי"), ("Banana net house with 11% net", "בית רשת לבננות עם רשת 11%")),
     (("Apples", "תפוחים"), ("Golan Heights", "רמת הגולן"), ("Net house for orchards", "בית רשת למטעים")),
-    (("Cherries", "דובדבנים"), ("Israel", "ישראל"), ("Net house for orchards", "בית רשת למטעים")),
     (("Avocado", "אבוקדו"), ("Portugal", "פורטוגל"), ("Agricultural farm and net houses", "חווה חקלאית ובתי רשת")),
 ]
 
@@ -363,7 +362,7 @@ PAGES = {
         "core_p": ("The net houses, shade solutions and windbreaks of a turnkey farm are the same structures we design, make and build for growers.",
                    "בתי הרשת, פתרונות ההצללה ושוברי הרוח של חוות מפתח הם אותם מבנים שאנחנו מתכננים, מייצרים ומקימים לחקלאים."),
         "core_go": ("How we build net houses", "איך אנחנו בונים בתי רשת"),
-        "where_h": ("Our network", "רשת"),  # Merav #101, word for word (Hanoch, 17 Nov 2026)
+        "where_h": ("Where", "איפה"),  # Merav, 18 Nov 2026 (Q5): back to "איפה"
         "where_p": ("Portugal and other European countries, India and other markets.",
                     "פורטוגל ומדינות נוספות באירופה, הודו ושווקים נוספים."),  # 4.1, 4.2
     },
@@ -506,7 +505,7 @@ CROP_PAGES = {  # one page per search intent; every line traces to the ledger
                  (("Crops", "גידולים"), ("Apples, pears, cherries, peaches, nectarines, apricots, lemons, kiwi and more", "תפוחים, אגסים, דובדבנים, אפרסקים, נקטרינות, משמשים, לימונים, קיווי ועוד")),  # Hanoch, 12 Nov 2026
                  (("Protection", "הגנה"), ("Against hail, sun and weather damage at every stage of growth", "מפני ברד ופגעי שמש ומזג האויר בכל שלבי הגידול")),
                  (("Season", "עונה"), ("The net folds away in winter and spreads in spring, by hand or with an automatic system", "הרשת מתקפלת בחורף ונפרסת באביב, ידנית או במערכת אוטומטית")),
-                 (("Net", "רשת"), ("Support for the crop: fruit walls", "תמיכה לגידול, קיר פירותי")),  # Merav #94 and #255, word for word (Hanoch, 17 Nov 2026)
+                 (("Support", "תמיכה"), ("Support for the crop: fruit walls", "תמיכה לגידול, קיר פירותי")),  # Merav, 18 Nov 2026 (Q6)  # Merav #94 and #255, word for word (Hanoch, 17 Nov 2026)
                  (("Scope", "היקף"), ("We design and build the whole structure.", "אנחנו מתכננים ומקימים את כל המבנה."))],  # 2.1, 2.3
         "proj": [(("Golan Heights, Israel", "רמת הגולן, ישראל"), ("Apple net house", "בית רשת לתפוחים")), (("Israel", "ישראל"), ("Cherry orchard net house", "בית רשת למטע דובדבנים")),
                  (("Upper Galilee area, Israel", "באזור הגליל העליון, ישראל"), ("Kiwi net house with a pergola trellis", "בית רשת לקיווי עם הדליית סוכה")), (("Portugal", "פורטוגל"), ("Agricultural farm and net houses", "חווה חקלאית ובתי רשת"))],  # 3.1
@@ -621,13 +620,13 @@ FORM = {  # Merav's two-step "needs discovery" form, 10 Nov 2026: a very short f
     "country_top": ["IL", "PT", "ES"],  # shown first; the full list (src/data/countries.json) follows in alphabetical order
     "project": ("Which project are you interested in? *", "איזה פרויקט מעניין אתכם? *"),
     "projects": [("farm", ("A complete agricultural farm", "חווה חקלאית מלאה")), ("nethouse", ("A net house", "בית רשת")), ("other", ("Other", "אחר"))],
-    "size": ("What is the planned area?", "מה גודל השטח המתוכנן?"),  # free text (Merav, #433)
+    "size": ("What is the size of the area?", "מה גודל השטח?"),  # free text (Merav #433, word for word; Hanoch 18 Nov 2026, Q3)
     "size_hint": ("In hectares or dunam", "בדונם או בהקטר"),
     "stage": ("What stage is the project at?", "באיזה שלב נמצא הפרויקט?"),
     "stages": [("idea", ("A first idea", "רעיון ראשוני")), ("planning", ("Planning", "בתכנון")),
                ("ready", ("We have the land and are ready to start", "יש קרקע ומוכנים להתחיל")), ("expand", ("An existing site: expanding or upgrading", "שטח קיים: הרחבה או שדרוג"))],
-    "land": ("A new project or an existing orchard?", "האם מדובר בפרויקט חדש או במטע קיים?"),  # Merav, #423 and #432
-    "lands": [("new", ("A new project", "פרויקט חדש")), ("planted", ("An existing orchard", "מטע קיים"))],
+    "land": ("Is the land clear, or are trees already planted on it?", "האם השטח נקי, או שכבר נטועים בו עצים?"),  # Merav's explanation via Hanoch, 18 Nov 2026 (Q4)
+    "lands": [("new", ("Clear land, a new project", "שטח נקי, פרויקט חדש")), ("planted", ("Trees already planted, an existing orchard", "נטועים בו עצים, מטע קיים"))],
     "planting": ("When is planting planned?", "מתי תאריך הנטיעה המתוכנן?"),  # free text (Merav, #448)
     "planting_hint": ("A date, a month or a season", "תאריך, חודש או עונה"),
     "crop": ("Which crop do you want to grow?", "מה סוג הגידול המבוקש?"),  # Merav, #447
@@ -784,7 +783,7 @@ OS = {
          "p": ("Net houses for every type of crop, windbreaks, support and trellising, and shade solutions for work areas. All under one roof: design, manufacturing, installation and support, in Israel and abroad.", "בתי רשת לכל סוגי הגידולים החקלאיים, שוברי רוח, פתרונות תמיכה והדליה, פתרונות הצללה לאזורי תפעול. הכל תחת קורת גג אחת: תכנון, יצור, הקמה וליווי בארץ ובחו\"ל."),
          "chips": [], "href": "net-houses.html"},  # 1.7, 2.1-2.4
         {"k": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"), "h": ("Complete farms worldwide", "חוות שלמות בעולם"), "img": None, "alt": None,  # no photo until a delivered farm can be shown (1.3; registry O1 is a banana net house)
-         "p": ("Finding and testing land, preparing a business plan, structures and irrigation, planting, a local team, growing and marketing, and project support. Finding business partners.", "איתור ובדיקת קרקע, הכנת תוכנית עסקית, מבנים והשקיה, שתילה, צוות מקומי, גידול ושיווק, ליווי של הפרויקט. מציאת שותפים עסקיים."),
+         "p": ("Finding and testing land, preparing a business plan, structures and irrigation, and project support. Finding business partners.", "איתור ובדיקת קרקע, הכנת תוכנית עסקית, מבנים והשקיה, ליווי של הפרויקט. מציאת שותפים עסקיים."),
          "chips": [("For investors", "למשקיעים")], "href": "turnkey-farms.html"},  # 1.3, 1.4, 4.2
     ],
     "field_k": ("From the field", "מהשטח"),
@@ -838,7 +837,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
               (("Protection", "הגנה"), ("From wind, hail and other weather damage", "מפני רוח, ברד, ופגעי מזג האויר")),
               (("Structure", "מבנה"), ("Wide spans, with trellising and support built in", "מפתחים רחבים, עם הדליה ותמיכה מובנות")),
               (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade.", "כל השנה, בעונה החמה חוסכת מים ומאפשרת תנאים מיטביים לצמח כי היא מפחיתה התאדות ונותנת צל."))],
-     "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור באזור הגליל המערבי")},  # 2.2, 3.1
+     "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור הגליל המערבי")},  # 2.2, 3.1
     {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),
      "say": ("Nets that protect against hail and sun damage", "רשתות להגנה מפני ברד ופגעי שמש"),
      "kinds": [("Apples", "תפוחים"), ("Pears", "אגסים"), ("Cherries", "דובדבנים"), ("Peaches", "אפרסקים"), ("Nectarines", "נקטרינות"), ("Apricots", "משמשים"), ("Lemons", "לימונים"), ("and more", "ועוד")],  # Hanoch, 12 Nov 2026: one text each, so each is editable on its own
@@ -862,7 +861,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
               (("Season", "עונה"), ("The net can fold away in winter and spread again in spring", "הרשת יכולה להתקפל בחורף ולהיפרס שוב באביב"))],
      "proj": ("Avocado net house, Portugal", "בית רשת לאבוקדו פורטוגל")},  # 2.3, 3.1, 3.5, 3.6 (the orchard page lists avocado among the orchard crops)
     {"id": "other", "alt": ("Net houses and crop rows from above, a MIFTAH project", "בתי רשת ושורות גידול ממבט מלמעלה, פרויקט של מיפתח"), "label": ("Other crops", "גידולים אחרים"),
-     "say": ("Persimmon, tobacco and more, plus shade solutions for work areas and windbreaks.", "אפרסמון, טבק ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),
+     "say": ("Persimmon and more, plus shade solutions for work areas and windbreaks.", "אפרסמון ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),
      "rows": [(("Net", "רשת"), ("Chosen for the crop and the site", "נבחרת לפי הגידול והאתר")),
               (("Protection", "הגנה"), ("Tell us the crop and what it needs protecting from. We'll tell you honestly whether a net house fits.", "ספרו לנו מה הגידול וממה צריך להגן עליו. נגיד לכם בכנות אם בית רשת מתאים.")),
               (("Structure", "מבנה"), ("Net houses, shade solutions for work areas with wide spans, windbreaks, trellising; also dismantling and preparing the material for a new structure", "בתי רשת, פתרונות הצללה לאזורי תפעול במפתחים רחבים, שוברי רוח, הדליה; וגם פירוק והכנת החומר למבנה חדש")),

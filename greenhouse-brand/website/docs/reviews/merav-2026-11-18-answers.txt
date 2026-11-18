@@ -1,0 +1,12 @@
+Merav's answers to the 18 Nov 2026 decision list (relayed by Hanoch, 18 Nov 2026)
+1 א  phone field label stays "טלפון"
+2 א  phone hint keeps the country-code note
+3 ב  "מה גודל השטח?"
+4    one question; meaning: is the land clear, or are trees already planted (an existing orchard)
+5 ב  turnkey heading back to "איפה"
+6 ב  second orchard-nets row renamed "תמיכה"
+7 א  "באזור הגליל המערבי"
+8 א  planting, local team, growing and marketing removed from the home turnkey card
+9 א  tobacco removed from "other crops"
+10 ב cherry project card removed from the projects page
+11   (Hanoch) Africa removed from the country lists
