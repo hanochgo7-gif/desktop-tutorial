@@ -19,6 +19,8 @@
   function set(k, v) { mem[k] = v; try { if (store) store.setItem(k, v); } catch (e) {} }
 
   var qty = Math.max(0, parseInt(get('ouou-cart-v1'), 10) || 0);
+  var pending = null; try { pending = JSON.parse(get('ouou-pending') || 'null'); } catch (e) {}
+  function setPending(p) { pending = p; set('ouou-pending', p ? JSON.stringify(p) : ''); }
   var pickQty = 1;
 
   /* ---------- static values from config ---------- */
@@ -26,8 +28,8 @@
   $$('[data-phone]').forEach(function (el) { el.textContent = C.phoneDisplay; });
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   $$('[data-tel]').forEach(function (a) { a.href = 'tel:' + C.phoneDisplay.replace(/\D/g, ''); });
-  var waBase = 'https://wa.me/' + C.whatsapp;
-  function wa(text) { return waBase + '?text=' + encodeURIComponent(text); }
+  var waBase = 'https://api.whatsapp.com/send?phone=' + C.whatsapp;
+  function wa(text) { return waBase + '&text=' + encodeURIComponent(text); }
   $$('[data-wa-link]').forEach(function (a) { a.href = wa('היי רויטל, יש לי שאלה על המשחק או או'); a.target = '_blank'; a.rel = 'noopener'; });
   if (C.email) { var er = $('[data-email-row]'), el = $('[data-email-link]'); er.hidden = false; el.href = 'mailto:' + C.email; el.textContent = C.email; }
   if (C.instagram) { $('[data-ig-row]').hidden = false; $('[data-ig-link]').href = C.instagram; }
@@ -119,7 +121,12 @@
     if (!store && qty > 0 && !warnedStorage) { warnedStorage = true; toast('הדפדפן חוסם שמירה: הסל נשמר רק בעמוד הזה'); }
   }
   // "להזמנה": one product, so go straight to the details form
+  function showPending() {
+    $('[data-order-id]').textContent = pending.id; $('[data-done-link]').href = pending.url;
+    openDrawer('done'); doneAt = Date.now();
+  }
   function order(n) {
+    if (pending && qty > 0 && !n) { showPending(); return; }
     if (n) setQty(n); else if (qty === 0) setQty(1);
     track('add_to_cart', { value: subtotal() });
     openDrawer('checkout');
@@ -142,8 +149,8 @@
   });
 
   /* ---------- drawer ---------- */
-  var drawer = $('[data-drawer]'), scrim = $('[data-scrim]'), lastFocus = null, closeT;
-  var titles = { cart: 'הסל שלכם', checkout: 'פרטים למשלוח', done: 'כמעט סיימנו', thanks: 'ההזמנה התקבלה' };
+  var drawer = $('[data-drawer]'), scrim = $('[data-scrim]'), lastFocus = null, closeT, openedAt = 0, doneAt = 0;
+  var titles = { cart: 'הסל שלכם', checkout: 'פרטים למשלוח', done: 'נשאר לשלוח בוואטסאפ', thanks: 'ההזמנה נשלחה' };
   function view(name) {
     $$('[data-view]', drawer).forEach(function (v) { v.hidden = v.dataset.view !== name; });
     $('[data-drawer-title]').textContent = titles[name];
@@ -152,7 +159,8 @@
   function focusHead() { setTimeout(function () { $('[data-drawer-title]').focus(); }, 30); }
   function openDrawer(name) {
     clearTimeout(closeT); drawer.classList.remove('is-closing'); scrim.classList.remove('is-closing');
-    if (drawer.hidden) lastFocus = document.activeElement;
+    if (drawer.hidden) { lastFocus = document.activeElement; if (lastFocus && lastFocus.closest && lastFocus.closest('#mnav')) lastFocus = menuBtn; }
+    openedAt = Date.now();
     view(name || 'cart');
     drawer.hidden = false; scrim.hidden = false; document.body.style.overflow = 'hidden';
     var body = $('.drawer__body:not([hidden])', drawer); if (body) body.scrollTop = 0;
@@ -170,9 +178,9 @@
     }, reduce ? 0 : 220);
     if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus();
   }
-  $$('[data-open-cart]').forEach(function (b) { on(b, 'click', function () { openDrawer(qty > 0 ? 'cart' : 'cart'); }); });
+  $$('[data-open-cart]').forEach(function (b) { on(b, 'click', function () { if (pending && qty > 0) showPending(); else openDrawer('cart'); }); });
   $$('[data-close]').forEach(function (b) { on(b, 'click', closeDrawer); });
-  on(scrim, 'click', closeDrawer);
+  on(scrim, 'click', function () { if (Date.now() - openedAt > 450) closeDrawer(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !mnav.hidden) { setMenu(false, true); return; }
     if (drawer.hidden) return;
@@ -196,7 +204,7 @@
     var l = document.createElement('label'); l.className = 'radio';
     l.innerHTML = '<input type="radio" name="ship" value="' + s.id + '"' + (i === 0 ? ' checked' : '') + '><span></span><span></span>';
     l.children[1].textContent = s.label;
-    l.children[2].textContent = s.price == null ? 'מחיר לפני תשלום' : (s.price === 0 ? 'חינם' : s.price + ' ₪');
+    l.children[2].textContent = s.price == null ? 'מחיר יאושר בוואטסאפ' : (s.price === 0 ? 'חינם' : s.price + ' ₪');
     shipBox.appendChild(l);
   });
   function currentShip() {
@@ -231,7 +239,7 @@
   /* validation: specific messages, under each field, all at once */
   function phoneOk(v) {
     var d = v.replace(/\D/g, '').replace(/^972/, '0');
-    return /^0(5\d{8}|[2-489]\d{7}|7\d{8})$/.test(d) && !/^(\d)\1+$/.test(d.slice(1));
+    return /^0(5\d{8}|[2-489]\d{7}|7\d{8})$/.test(d) && !/(\d)\1{6}$/.test(d);
   }
   var MSG = {
     name: 'נא לכתוב שם מלא', phone: 'נא לכתוב מספר טלפון', city: 'נא לכתוב עיר', addr: 'נא לכתוב רחוב ומספר בית',
@@ -252,6 +260,10 @@
     if (!box && f.name === 'agree') box = $('#c-agree-err');
     if (box) box.textContent = msg;
   }
+  function recount(form) {
+    var n = $$('[aria-invalid="true"]', form).filter(function (f) { return !f.closest('[hidden]'); }).length, err = $('[data-err]', form);
+    if (err) err.textContent = !n ? '' : n === 1 ? 'נשאר שדה אחד לתיקון' : 'נשארו ' + n + ' שדות לתיקון';
+  }
   function validate(form) {
     var bad = [];
     $$('input, select, textarea', form).forEach(function (f) {
@@ -266,12 +278,13 @@
     on(form, 'input', function (e) {
       var f = e.target; if (!form.dataset.tried || f.getAttribute('aria-invalid') !== 'true') return;
       var m = errFor(f); if (!m) showErr(f, '');
+      recount(form);
     });
     on(form, 'focusout', function (e) {
       var f = e.target; if (!form.dataset.tried || f.getAttribute('aria-invalid') !== 'true' || !f.matches('input, textarea')) return;
       var m = errFor(f); if (m) showErr(f, m);
     });
-    on(form, 'change', function (e) { if (form.dataset.tried && e.target.type === 'checkbox' && e.target.checked) showErr(e.target, ''); });
+    on(form, 'change', function (e) { if (form.dataset.tried && e.target.type === 'checkbox' && e.target.checked) { showErr(e.target, ''); recount(form); } });
   });
 
   function orderId() {
@@ -291,7 +304,7 @@
     err.textContent = '';
     var d = new FormData(checkout), s = currentShip(), sp = shipPrice(s), id = orderId(), gift = !!d.get('gift');
     var lines = [
-      'היי רויטל, הזמנה חדשה מהאתר 🎉', 'מספר הזמנה: ' + id, '',
+      'היי רויטל, הזמנה חדשה מהאתר', 'מספר הזמנה: ' + id, '',
       'או או × ' + qty + ' = ' + money(subtotal()) + ' ₪',
       'משלוח: ' + s.label + (sp == null ? ' (מחיר לאישור)' : ' – ' + (sp === 0 ? 'חינם' : sp + ' ₪'))
     ];
@@ -299,7 +312,7 @@
     lines.push('', 'שם: ' + d.get('name'), 'טלפון: ' + d.get('phone'));
     if (d.get('email')) lines.push('מייל לקבלה: ' + d.get('email'));
     if (gift) {
-      lines.push('', '🎁 מתנה – לשלוח ישר למקבל/ת', 'שם המקבל/ת: ' + d.get('rname'), 'טלפון המקבל/ת: ' + d.get('rphone'));
+      lines.push('', '*מתנה – לשלוח ישר למקבל/ת*', 'שם המקבל/ת: ' + d.get('rname'), 'טלפון המקבל/ת: ' + d.get('rphone'));
       if (d.get('note')) lines.push('ברכה: ' + d.get('note'));
     }
     lines.push((gift ? 'כתובת למשלוח (המקבל/ת): ' : 'כתובת למשלוח: ') + [s.needsAddress ? d.get('addr') : '', d.get('city')].filter(Boolean).join(', ') + (s.needsAddress ? '' : ' (נקודת איסוף)'));
@@ -307,12 +320,16 @@
     track('purchase_request', { value: subtotal() });
     if (C.paymentUrl) { window.location.href = C.paymentUrl.replace('{total}', subtotal() + (sp || 0)).replace('{order}', id); return; }
     var url = wa(lines.join('\n'));
+    setPending({ id: id, url: url });
     $('[data-order-id]').textContent = id;
     $('[data-done-link]').href = url;
     window.open(url, '_blank', 'noopener');
-    view('done'); focusHead();   // the cart stays until the customer confirms they sent it
+    view('done'); focusHead(); doneAt = Date.now();   // the cart stays until the customer confirms they sent it
   });
+  on($('[data-edit-order]'), 'click', function () { view('checkout'); focusHead(); });
   on($('[data-sent]'), 'click', function () {
+    if (Date.now() - doneAt < 900) return; // a double-tap on submit must not confirm
+    setPending(null);
     setQty(0); checkout.reset(); delete checkout.dataset.tried; giftBox.hidden = true;
     $$('.field__err', checkout).forEach(function (b) { b.textContent = ''; });
     renderShip(); view('thanks'); focusHead();
@@ -325,10 +342,10 @@
       var err = $('[data-err]', form), bad = validate(form);
       if (bad.length) { err.textContent = bad.length === 1 ? 'יש שדה אחד לתיקון' : 'יש ' + bad.length + ' שדות לתיקון'; bad[0].focus(); return; }
       err.textContent = '';
-      var msg = [form.dataset.leadForm || 'פנייה מהאתר'];
+      var msg = ['היי רויטל, ' + (form.dataset.leadForm || 'פנייה מהאתר')];
       $$('input, select, textarea', form).forEach(function (f) {
         var l = $('label[for="' + f.id + '"]');
-        if (f.value && f.value.trim()) msg.push((l ? l.textContent.replace(/\s*\(.*\)\s*/, '').trim() : f.name) + ': ' + f.value.trim());
+        if (f.value && f.value.trim()) msg.push((f.dataset.msg || (l ? l.textContent.replace(/\s*\(.*\)\s*/, '').replace(/\?$/, '').trim() : f.name)) + ': ' + f.value.trim());
       });
       track('generate_lead');
       var url = wa(msg.join('\n'));
@@ -355,8 +372,9 @@
       document.body.classList.toggle('has-buybar', show);
     };
     if (anchor) new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; update(); }).observe(anchor);
-    var buy = $('#buy, .last, #lead, .box-strip');
-    if (buy) new IntersectionObserver(function (es) { nearBuy = es.some(function (x) { return x.isIntersecting; }); update(); }).observe(buy);
+    var seen = new Map();
+    var io2 = new IntersectionObserver(function (es) { es.forEach(function (x) { seen.set(x.target, x.isIntersecting); }); nearBuy = Array.from(seen.values()).some(Boolean); update(); });
+    $$('#buy, .last, #lead, .box-strip, #business, .biz').forEach(function (el) { io2.observe(el); });
   }
 
   /* ---------- tabs ---------- */
@@ -386,7 +404,7 @@
   var vid = $('[data-howto-video]');
   if (vid) {
     var pp = $('[data-vid-toggle]');
-    var sync = function () { if (pp) { pp.setAttribute('aria-pressed', vid.paused ? 'false' : 'true'); pp.querySelector('span').textContent = vid.paused ? 'הפעלה' : 'השהיה'; } };
+    var sync = function () { if (pp) { pp.classList.toggle('is-paused', vid.paused); pp.querySelector('span').textContent = vid.paused ? 'הפעלת הסרטון' : 'השהיית הסרטון'; } };
     if (reduce) { vid.removeAttribute('autoplay'); vid.pause(); }
     on(pp, 'click', function () { if (vid.paused) vid.play(); else vid.pause(); });
     on(vid, 'play', sync); on(vid, 'pause', sync); sync();
@@ -398,7 +416,7 @@
     });
     caps.forEach(function (c) {
       c.setAttribute('role', 'button');
-      on(c, 'click', function () { vid.currentTime = parseFloat(c.dataset.cue) + .05; vid.play(); });
+      on(c, 'click', function () { vid.currentTime = parseFloat(c.dataset.cue) + .05; });
       on(c, 'keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); } });
     });
   }
@@ -434,13 +452,13 @@
         picks.forEach(function (x) { x.setAttribute('aria-pressed', x === p ? 'true' : 'false'); });
         big.classList.add('has-pick');
         status.textContent = 'נבחר. עכשיו שאלו מישהו לידכם מה הוא חושב שבחרתם. ככה נראה כל תור במשחק, ובקופסה מחכים עוד 72 קלפים.';
-        shareBtn.hidden = false;
+        shareBtn.hidden = false; var ob = $('[data-draw-order]'); if (ob) ob.hidden = false;
       });
     });
     on(shareBtn, 'click', function () {
-      var c = CARDS[cur], text = 'בחרתי בשקט: ' + c[0] + ' או ' + c[1] + '? תנחשו מה אני יותר 😉', url = location.href.split('#')[0] + '#draw';
+      var c = CARDS[cur], text = 'בחרתי בשקט: ' + c[0] + ' או ' + c[1] + '? תנחשו מה אני יותר?', url = location.href.split('#')[0] + '#draw';
       if (navigator.share) navigator.share({ text: text, url: url }).catch(function () {});
-      else window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+      else window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
     });
   }
 

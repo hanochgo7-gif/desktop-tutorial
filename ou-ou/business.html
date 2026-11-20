@@ -47,10 +47,14 @@
 <section aria-labelledby="opt-h">
   <div class="wrap">
     <h2 id="opt-h" class="h2">איך אפשר לעבוד יחד</h2>
+    <div class="single">
+      <p><b>מנחה שצריך קופסה אחת?</b> קופסה אחת מספיקה לקבוצה של עד <span dir="ltr">35</span> משתתפים.</p>
+      <button class="btn btn--main" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>
+    </div>
     <div class="opts">
       <article class="opt">
         <h3>קופסאות לצוות ההדרכה</h3>
-        <p>לרכזי הדרכה, מנחים, יועצות ומורים שרוצים כלי פתיחה וגיבוש קבוע בתיק. מחיר לכמויות לפי היקף.</p>
+        <p>לרכזי הדרכה, מנחים, יועצות ומורים שרוצים כלי פתיחה וגיבוש קבוע בתיק. מחיר מיוחד לכמויות: ספרו לנו כמה צריך.</p>
         <a class="btn btn--ghost" href="#lead" data-lead-type="רכישת כמות">בקשת הצעה</a>
       </article>
       <article class="opt">
@@ -64,6 +68,20 @@
         <a class="btn btn--main" href="#lead" data-lead-type="הפעלה או סדנה עם רויטל">תיאום הפעלה</a>
       </article>
     </div>
+  </div>
+</section>
+
+<section class="samples" aria-labelledby="smp-h">
+  <div class="wrap">
+    <h2 id="smp-h" class="h2">דוגמאות מהקלפים</h2>
+    <div class="samples__row" aria-label="חמישה קלפים לדוגמה">
+      <div class="card card--flat"><span class="card__t">לשיר</span><span class="card__or">או</span><span class="card__b">לרקוד</span><span class="card__q">?</span></div>
+      <div class="card card--flat"><span class="card__t">מציב גבולות</span><span class="card__or">או</span><span class="card__b">מאפשר</span><span class="card__q">?</span></div>
+      <div class="card card--flat"><span class="card__t">לוקח סיכונים</span><span class="card__or">או</span><span class="card__b">הולך על בטוח</span><span class="card__q">?</span></div>
+      <div class="card card--flat"><span class="card__t">לצאת חכם</span><span class="card__or">או</span><span class="card__b">לצאת צודק</span><span class="card__q">?</span></div>
+      <div class="card card--flat"><span class="card__t">אוהב להיות במרכז</span><span class="card__or">או</span><span class="card__b">מעדיף לעמוד בצד</span><span class="card__q">?</span></div>
+    </div>
+    <p class="more"><a href="index.html#draw">נסו קלף אינטראקטיבי ←</a></p>
   </div>
 </section>
 
@@ -100,20 +118,20 @@
       <p class="sub">הפרטים נשלחים לרויטל בוואטסאפ, והיא חוזרת אליכם.</p>
     </div>
     <form class="form" data-lead-form="פנייה מהאתר – עסקים, מנחים וסדנאות" novalidate>
-      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required aria-describedby="b-name-err"><p class="field__err" id="b-name-err" aria-live="polite"></p></div>
-      <div class="field"><label for="b-phone">טלפון</label><input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="b-phone-err"><p class="field__err" id="b-phone-err" aria-live="polite"></p></div>
+      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required aria-describedby="b-name-err"><p class="field__err" id="b-name-err"></p></div>
+      <div class="field"><label for="b-phone">טלפון</label><input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="b-phone-err"><p class="field__err" id="b-phone-err"></p></div>
       <div class="field"><label for="b-org">ארגון / קבוצה <small>(לא חובה)</small></label><input id="b-org" name="org" autocomplete="organization"></div>
       <div class="field"><label for="b-type">במה מדובר?</label>
-        <select id="b-type" name="type">
+        <select id="b-type" name="type" data-msg="סוג הפנייה">
           <option>רכישת כמות</option>
           <option>מתנות לעובדים או ללקוחות</option>
           <option>הפעלה או סדנה עם רויטל</option>
           <option>משהו אחר</option>
         </select>
       </div>
-      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" placeholder="למשל: 20 משתתפים, 3 קופסאות"></div>
-      <div class="field"><label for="b-date">מועד משוער <small>(לא חובה)</small></label><input id="b-date" name="date" placeholder="למשל: אמצע ינואר"></div>
-      <div class="field field--full"><label for="b-msg">עוד משהו שכדאי שנדע</label><textarea id="b-msg" name="msg" rows="3"></textarea></div>
+      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" data-msg="כמות" placeholder="למשל: 20 משתתפים, 3 קופסאות"></div>
+      <div class="field"><label for="b-date">מועד משוער <small>(לא חובה)</small></label><input id="b-date" name="date" data-msg="מועד" placeholder="למשל: אמצע ינואר"></div>
+      <div class="field field--full"><label for="b-msg">עוד משהו שכדאי שנדע</label><textarea id="b-msg" name="msg" rows="3" data-msg="הערות"></textarea></div>
       <p class="form__err" data-err role="alert"></p>
       <button class="btn btn--main" type="submit">שליחה בוואטסאפ</button>
     </form>

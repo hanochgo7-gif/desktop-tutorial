@@ -23,6 +23,7 @@
       '<button class="menubtn" type="button" data-menu aria-expanded="false" aria-controls="mnav" aria-label="תפריט"><span></span><span></span><span></span></button>' +
       '<a href="' + (home || '#top') + '" class="mark" aria-label="או או – דף הבית">' + mark + '</a>' +
       '<nav class="nav" aria-label="ניווט ראשי">' + links() + '</nav>' +
+      '<button class="btn btn--main top__cta" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>' +
       '<button class="cartbtn" type="button" data-open-cart aria-label="סל הקניות">' +
         '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>' +
         '<span class="cartbtn__n" data-cart-count hidden>0</span>' +
@@ -69,7 +70,7 @@
     return '<div class="field field--full" data-field="' + name + '"><label for="' + id + '">' + label + '</label>' +
       '<input id="' + id + '" name="' + name + '" ' + attrs + ' aria-describedby="' + id + '-err' + (hint ? ' ' + id + '-hint' : '') + '">' +
       (hint ? '<small class="hint-inline" id="' + id + '-hint">' + hint + '</small>' : '') +
-      '<p class="field__err" id="' + id + '-err" aria-live="polite"></p></div>';
+      '<p class="field__err" id="' + id + '-err"></p></div>';
   };
 
   var drawer =
@@ -108,7 +109,7 @@
           '<details class="more-notes"><summary>+ הוספת הערה להזמנה</summary><div class="field field--full"><label for="c-notes" class="sr-only">הערות להזמנה</label><input id="c-notes" name="notes" placeholder="למשל: קומה, קוד לבניין, מועד נוח"></div></details>' +
         '</fieldset>' +
         '<label class="check"><input type="checkbox" name="agree" required aria-describedby="c-agree-err"> <span>קראתי ואני מסכים/ה ל<a href="terms.html" target="_blank" rel="noopener">תקנון<span class="sr-only"> (נפתח בחלון חדש)</span></a></span></label>' +
-        '<p class="field__err" id="c-agree-err" aria-live="polite"></p>' +
+        '<p class="field__err" id="c-agree-err"></p>' +
         '<dl class="sum"><div><dt>סה"כ למוצרים</dt><dd><span data-subtotal>140</span> ₪</dd></div><div><dt>משלוח</dt><dd data-ship-sum>מאושר לפני התשלום</dd></div><div class="sum__total" data-total-row hidden><dt>סה"כ לתשלום</dt><dd><span data-total></span> ₪</dd></div></dl>' +
         '<p class="paynote" data-pay-note><b>עדיין לא משלמים.</b> בלחיצה ייפתח וואטסאפ עם הודעה מוכנה. שולחים אותה, ורויטל חוזרת אליכם לאישור המשלוח והסכום ולתשלום באשראי או בביט.</p>' +
         '<p class="form__err" data-err role="alert"></p>' +
@@ -118,12 +119,12 @@
       '</form>' +
 
       '<div class="drawer__body done" data-view="done" hidden>' + steps(3) +
-        '<div class="done__icon" aria-hidden="true">✓</div>' +
-        '<p class="done__h">עוד צעד אחד: שולחים את ההודעה בוואטסאפ</p>' +
-        '<p>פתחנו לכם וואטסאפ עם פרטי ההזמנה (מספר <bdi class="nowrap" dir="ltr" data-order-id></bdi>). ההזמנה מגיעה לרויטל רק אחרי שלוחצים <b>״שליחה״</b> שם.</p>' +
-        '<a class="btn btn--main btn--wide btn--wa" data-done-link href="#" target="_blank" rel="noopener">פתיחת וואטסאפ שוב</a>' +
-        '<button class="btn btn--ghost btn--wide" type="button" data-sent>שלחתי את ההודעה ✓</button>' +
-        '<p class="hint">רויטל חוזרת בדרך כלל באותו יום. אפשר גם להתקשר: <a data-tel href="#"><span data-phone>050-7281161</span></a></p>' +
+        '<div class="done__icon done__icon--wa" aria-hidden="true"></div>' +
+        '<p class="done__h" id="done-h">נשאר רק לשלוח את ההודעה בוואטסאפ</p>' +
+        '<p>ההודעה עם פרטי ההזמנה (מספר <bdi class="nowrap" dir="ltr" data-order-id></bdi>) מוכנה בוואטסאפ. ההזמנה מגיעה לרויטל רק אחרי שלוחצים שם <b>״שליחה״</b>.</p>' +
+        '<a class="btn btn--main btn--wide btn--wa" data-done-link href="#" target="_blank" rel="noopener">פתיחת וואטסאפ ושליחת ההזמנה</a>' +
+        '<p class="hint">אם וואטסאפ לא נפתח, לחצו על הכפתור. אפשר גם להתקשר: <a data-tel href="#"><span data-phone>050-7281161</span></a></p>' +
+        '<div class="done__after"><button class="linkbtn" type="button" data-sent>כבר שלחתי את ההודעה ✓</button><button class="linkbtn" type="button" data-edit-order>עריכת פרטי ההזמנה</button></div>' +
       '</div>' +
 
       '<div class="drawer__body done" data-view="thanks" hidden>' +
